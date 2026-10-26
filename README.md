@@ -31,7 +31,8 @@ Each project gets one record. An unchanged project, input and protocol reuses it
 record, so updating one tool re-measures only that tool; `--force` re-measures. The
 corpus is [`corpus/community-corpus.json`](corpus/community-corpus.json), frozen from
 Agentic Mermaid with its commit; `bun commands.ts corpus:import` refreshes it from an
-Agentic checkout (`TRIDENT_AGENTIC_ROOT`). Tools built from source need their
+Agentic checkout (`TRIDENT_AGENTIC_ROOT`). It runs the workload owners in Trident's
+source workspace, so both checkouts must be committed. Tools built from source need their
 toolchains (Go, Rust, Python), and browser lanes use Playwright's Chromium.
 
 `results:publish` writes [`results/`](results/README.md): the league table, a
