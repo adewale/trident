@@ -81,7 +81,7 @@ correctness first, lexicographically, with no weighted score:
 
 1. families supported, out of the 23 probed;
 2. pass rate on cases in those families;
-3. fixed-core median time, only when calibrated.
+3. first-call fixed-core time, only when calibrated.
 
 Mermaid's row is the reference: it is measured with the same checks, shown first and
 not ranked. Speed ratios are against Mermaid on the same surface and output, where
@@ -89,10 +89,18 @@ Mermaid has one.
 
 ## Speed and calibration
 
-Speed comes only from the six fixed-core inputs. A tool has a speed only if every
-required core case passes in every round. Records with fewer than five rounds show
-no speed at all; the timings exist in the record, but they are not calibrated. Feature
-cases are qualified once, in round one, and never contribute speed.
+Speed comes only from the six fixed-core inputs, and only when every required core
+case passes in every round. The ranked time is the **first-call fixed core**: for each
+input, its first call in its process, median over the rounds, summed over the inputs.
+A first call cannot be answered from a result cache. The table also shows the
+**repeated-source** time, the median of repeated calls on identical input: a tool that
+caches results by source answers those from its cache (Pele's repeats are about 12×
+faster than its first calls, Mermaid's are not), so that column is not a fair
+comparison on its own. CLI samples are fresh processes, so they are first calls.
+
+Records with fewer than five rounds show no speed at all; the timings exist in the
+record, but they are not calibrated. Feature cases are qualified once, in round one,
+and never contribute speed.
 
 ## Reference machine
 

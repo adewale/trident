@@ -13,7 +13,9 @@
       "**/*.json",
       "**/*.jsonc",
       "!node_modules/**",
-      "!corpus/**"
+      "!corpus/**",
+      "!bench-report/**",
+      "!results/**"
     ]
   },
   "linter": {
