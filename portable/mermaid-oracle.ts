@@ -103,13 +103,17 @@ export function installMermaidOracle(directory = mermaidOracleDirectory()): Merm
   return admitMermaidOracle(directory)
 }
 
-/** Ask the oracle whether each source is valid Mermaid, in one Node/jsdom process. */
-export async function mermaidVerdicts(oracle: MermaidOracle, sources: readonly string[]): Promise<MermaidVerdict[]> {
+export interface MermaidSnapshot extends MermaidVerdict {
+  snapshot?: { data: Record<string, unknown>; errors: Record<string, string> }
+}
+/** Ask the oracle about each source in one Node/jsdom process; with snapshot, also return
+ * the diagram DB's getter values, the source of authored label expectations. */
+export async function mermaidVerdicts(oracle: MermaidOracle, sources: readonly string[], options: { snapshot?: boolean } = {}): Promise<MermaidSnapshot[]> {
   if (!sources.length) return []
   const child = spawn(process.env.NODE_BIN ?? 'node', [join(here, 'mermaid-oracle-worker.mjs'), oracle.directory], { stdio: ['pipe', 'pipe', 'pipe'] })
   let stderr = ''
   child.stderr.on('data', data => (stderr = (stderr + String(data)).slice(-2000)))
-  const replies: MermaidVerdict[] = []
+  const replies: MermaidSnapshot[] = []
   const lines = createInterface({ input: child.stdout })
   const done = new Promise<void>((resolveDone, reject) => {
     lines.on('line', line => {
@@ -117,9 +121,9 @@ export async function mermaidVerdicts(oracle: MermaidOracle, sources: readonly s
       if (replies.length === sources.length) child.stdin.end()
     })
     child.once('error', reject)
-    child.once('close', code => (replies.length === sources.length ? resolveDone() : reject(Error(`Mermaid oracle stopped after ${replies.length}/${sources.length} verdicts (exit ${code}): ${stderr}`))))
+    child.once('close', code => (replies.length === sources.length ? resolveDone() : reject(Error(`Mermaid oracle stopped after ${replies.length}/${sources.length} replies (exit ${code}): ${stderr}`))))
   })
-  for (const source of sources) child.stdin.write(JSON.stringify(source).replace(/[\u2028\u2029]/g, c => `\\u${c.charCodeAt(0).toString(16)}`) + '\n')
+  for (const source of sources) child.stdin.write(JSON.stringify({ source, snapshot: options.snapshot === true }).replace(/[\u2028\u2029]/g, c => `\\u${c.charCodeAt(0).toString(16)}`) + '\n')
   await done
   return replies
 }

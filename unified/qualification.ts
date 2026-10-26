@@ -6,7 +6,8 @@ export { isRenderedSourceEcho } from './qualification-visible-source.ts'
 
 import { inspectSvgText, SVG_NAMESPACE, type SvgInspectionElement } from './svg-text-inspection.ts'
 import type { UnifiedWorkload } from './types.ts'
-import { mermaidOracleDirectory, mermaidUpstreamDirectory } from '../portable/mermaid-oracle.ts'
+import { assertMermaidOracle, mermaidVerdicts } from '../portable/mermaid-oracle.ts'
+import { censusDisplayText, referenceLabels } from './oracle-labels.ts'
 
 export const SVG_QUALIFICATION_PROTOCOL = 'svg-xml-namespaced-authored-text-v3'
 
@@ -176,44 +177,24 @@ export interface ReferenceLabelEnrichment {
   provenance?: unknown
 }
 
-/** Acquire label expectations before any performance clock starts. Reference
- * getter projections preserve their paths in the companion admission evidence.
- * Without the pinned reference this refuses, rather than passing cases unchecked. */
-export async function withReferenceLabels(workloads: readonly UnifiedWorkload[], options: { root: string; referenceDir?: string; upstreamDir?: string }): Promise<ReferenceLabelEnrichment> {
+/** Acquire label expectations before any performance clock starts, from the pinned
+ * Mermaid oracle's DB getters. Without the oracle this refuses, rather than passing
+ * cases unchecked; a source the oracle rejects or cannot project keeps a visible gap. */
+export async function withReferenceLabels(workloads: readonly UnifiedWorkload[], _options: { root?: string } = {}): Promise<ReferenceLabelEnrichment> {
+  const oracle = assertMermaidOracle()
+  const provenance = { version: oracle.version, parserVersion: oracle.parserVersion, domVersion: oracle.domVersion }
+  const replies = await mermaidVerdicts(oracle, workloads.map(workload => workload.source), { snapshot: true })
   const gaps: string[] = []
-  const { admitCurrentReference, startModernReference } = await import('../../mermaid-modern-compat/reference.ts')
-  const upstream = options.upstreamDir ?? mermaidUpstreamDirectory()
-  const referenceDir = options.referenceDir ?? mermaidOracleDirectory()
-  let provenance: unknown
-  try {
-    provenance = admitCurrentReference(upstream, referenceDir)
-  } catch (error) {
-    // Measuring without the pinned labels would pass cases unchecked; refuse instead.
-    throw Error(`Reference labels need the pinned Mermaid source checkout at ${upstream} and oracle at ${referenceDir}; run \`bun run reference:mermaid\` in the Agentic checkout. ${String(error)}`)
-  }
-  const { referenceLabels, censusDisplayText } = await import('../../mermaid-modern-compat/label-census.ts')
-  const reference = startModernReference(referenceDir)
-  const enriched: UnifiedWorkload[] = []
-  try {
-    for (const workload of workloads) {
-      try {
-        const reply = await reference.parse(workload.source)
-        const labels = referenceLabels(workload.family, reply)
-        if (!reply.ok || !labels) {
-          gaps.push(`${workload.id}: independent reference ${reply.ok ? 'has no label getter projection' : `rejected source (${reply.error})`}`)
-          enriched.push({ ...workload })
-          continue
-        }
-        const expectedLabels = [...new Set([...(workload.expectedLabels ?? []), ...labels.map(label => censusDisplayText(label.text)).filter(Boolean)])]
-        if (!expectedLabels.length) gaps.push(`${workload.id}: reference returned no nonempty authored label expectations`)
-        enriched.push({ ...workload, expectedLabels, provenance: `${workload.provenance}; independent Mermaid DB getters @${(provenance as { commit: string }).commit}` })
-      } catch (error) {
-        gaps.push(`${workload.id}: independent label acquisition failed: ${String(error)}`)
-        enriched.push({ ...workload })
-      }
+  const enriched = workloads.map((workload, index) => {
+    const reply = replies[index]!,
+      labels = referenceLabels(workload.family, reply)
+    if (!labels) {
+      gaps.push(`${workload.id}: pinned Mermaid ${reply.accepted ? 'has no label getter projection' : `rejected source (${reply.error})`}`)
+      return { ...workload }
     }
-  } finally {
-    reference.close()
-  }
+    const expectedLabels = [...new Set([...(workload.expectedLabels ?? []), ...labels.map(label => censusDisplayText(label.text)).filter(Boolean)])]
+    if (!expectedLabels.length) gaps.push(`${workload.id}: pinned Mermaid returned no nonempty authored label expectations`)
+    return { ...workload, expectedLabels, provenance: `${workload.provenance}; pinned Mermaid ${oracle.version} DB getters` }
+  })
   return { workloads: enriched, gaps, provenance }
 }

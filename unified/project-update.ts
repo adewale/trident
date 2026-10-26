@@ -14,9 +14,10 @@ import { communityProtocolIdentity } from './community-protocol-identity.ts'
 import type { CommunityNode, PreparedCommunity } from './community-types.ts'
 import { activateProjectRecord, findProjectRecord, inspectCurrentProjectRecords, type ProjectBenchmarkIdentity, type ProjectBenchmarkRecord, publishProjectRecord, stableValue } from '../portable/project-records.ts'
 import { withReferenceLabels } from './qualification.ts'
-import { parseOptions } from './run.ts'
+import { parseOptions } from './options.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult } from './types.ts'
-import { getWorkloadEvidence, unifiedWorkloads } from './workloads.ts'
+import { corpusEvidence, corpusWorkloads } from './corpus.ts'
+import { communityCatalogFile, tridentDirectory } from './trident-paths.ts'
 
 const json = readBenchmarkDocument
 const writeJson = (path: string, value: unknown) => writeFileSync(path, JSON.stringify(value, null, 2) + '\n', { flag: 'wx' })
@@ -57,9 +58,9 @@ function protocolContext(options: UnifiedRunOptions, inputs: unknown) {
   const root = options.harnessRoot ?? options.root
   // Git object IDs identify committed protocols; compare literal frozen inputs once,
   // rather than hashing our source or maintaining an invalidation version by hand.
-  const code = communityProtocolIdentity(root)
-  const require = createRequire(join(root, 'package.json'))
-  const dependencies = captureInstalledDependencyClosure(join(root, 'eval/benchmark'))
+  const code = communityProtocolIdentity()
+  const require = createRequire(join(tridentDirectory, 'package.json'))
+  const dependencies = captureInstalledDependencyClosure(tridentDirectory)
   const version = (command: string) => {
     try {
       return execFileSync(command, ['--version'], { encoding: 'utf8', timeout: 10_000, stdio: ['ignore', 'pipe', 'pipe'] }).trim()
@@ -249,7 +250,7 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
   assertBenchmarkExecutionAllowed()
   const driver = options.harnessRoot ?? options.root
   const store = options.communityRecordStore ?? join(driver, 'bench-report/project-records')
-  const catalog = json(options.communityCatalogFile ?? join(driver, 'docs/mermaid-community.json')) as { nodes: CommunityNode[] }
+  const catalog = json(options.communityCatalogFile ?? communityCatalogFile) as { nodes: CommunityNode[] }
   selectCommunityProjects(catalog.nodes, options.communityProjects) // Reject unknown IDs before acquisition.
   const startedAt = now(),
     attempt = join(options.out, 'project-attempts', randomUUID()),
@@ -258,13 +259,12 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
   let inputs: unknown
   if (options.communityInputsFile) inputs = json(options.communityInputsFile)
   else {
-    const enriched = await withReferenceLabels(unifiedWorkloads(options.profile), { root: driver })
+    const enriched = await withReferenceLabels(corpusWorkloads(options.profile), { root: driver })
     inputs = { workloads: [...communityCoreWorkloads(), ...enriched.workloads], reference: enriched.provenance ?? null, gaps: enriched.gaps }
   }
   const inputPath = join(attempt, 'community-inputs.json')
   writeJson(inputPath, inputs)
-  unifiedWorkloads(options.profile)
-  const assertions = Object.fromEntries(((inputs as any).workloads ?? []).map((workload: { id: string }) => [workload.id, getWorkloadEvidence(workload.id) ?? null]))
+  const assertions = Object.fromEntries(((inputs as any).workloads ?? []).map((workload: { id: string }) => [workload.id, corpusEvidence(workload.id) ?? null]))
   const contextValue = protocolContext(options, JSON.parse(JSON.stringify({ literal: inputs, assertions }))),
     context = retainContext(store, contextValue)
   const prepared = await prepareCommunity({ ...options, out: preparation })

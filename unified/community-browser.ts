@@ -11,6 +11,7 @@ import { extraBrowserEntry } from './community-extra-adapters.mjs'
 import type { CommunityArtifact, PreparedCommunity } from './community-types.ts'
 import { familySupportRow, familySupportWorkloads, unsupportedFamilyRow } from './family-support.ts'
 import type { BenchmarkObservation, BenchmarkStatus, UnifiedRunOptions, UnifiedSuiteResult, UnifiedWorkload } from './types.ts'
+import { tridentDirectory } from './trident-paths.ts'
 
 type BrowserKind = 'beautiful' | 'pele' | 'mermaid' | 'function' | 'ondine' | 'franken' | 'merman' | 'extra'
 export interface CommunityBrowserEngine {
@@ -116,7 +117,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
   mkdirSync(helperDirectory, { recursive: true })
   const helperBuild = await build({
     stdin: {
-      contents: `export{isRenderedSourceEcho}from ${JSON.stringify(join(harness, 'eval/benchmark/unified/qualification-visible-source.ts'))};export{inspectSvgText}from ${JSON.stringify(join(harness, 'eval/benchmark/unified/svg-text-inspection.ts'))}`,
+      contents: `export{isRenderedSourceEcho}from ${JSON.stringify(join(tridentDirectory, 'unified/qualification-visible-source.ts'))};export{inspectSvgText}from ${JSON.stringify(join(tridentDirectory, 'unified/svg-text-inspection.ts'))}`,
       resolveDir: harness,
       sourcefile: 'community-visible-output-qualification.mjs',
     },

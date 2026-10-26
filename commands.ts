@@ -17,11 +17,14 @@ build defaults to portable/dist. run requires that compiled kit and uses Node 24
 set NODE_BIN to its executable. A custom --out kit runs via node KIT/run.mjs.
 These commands need no Agentic checkout. Build accepts Node 24 or Bun 1.4+.
 
+Community projects (Bun), from Trident's catalog and frozen corpus:
+  bun commands.ts community:update --projects OWNER/TOOL[,...] --records DIR --out DIR
+
 Optional Agentic Mermaid source adapter (Bun):
   bun commands.ts agentic --list --profile full
   bun commands.ts community [options]
-  bun commands.ts community:update [options]
   bun commands.ts prs [options]
+  bun commands.ts corpus:import    (refreshes corpus/community-corpus.json)
 Set TRIDENT_AGENTIC_ROOT to an Agentic Mermaid checkout. Its owning protocols run
 there. The containing checkout is detected only when its package name is
 agentic-mermaid. AM_BENCH_REPOSITORY_ROOT remains a compatibility alias.
@@ -81,7 +84,9 @@ async function main() {
   const aliases: Record<string, string> = { 'portable:build': 'build', bench: 'agentic' }
   const selected = Object.hasOwn(aliases, command) ? aliases[command]! : command
   const neutral: Record<string, string> = { build: 'portable/build.ts', portable: 'portable/run.ts', 'fidelity:report': 'fidelity/report.ts' }
-  const source: Record<string, string> = { agentic: 'unified/run.ts', community: 'unified/community-campaign.ts', 'community:update': 'unified/project-update.ts', prs: 'unified/pr-campaign.ts' }
+  const source: Record<string, string> = { agentic: 'unified/run.ts', community: 'unified/community-campaign.ts', prs: 'unified/pr-campaign.ts' }
+  // Trident's own Bun commands: the community lanes run here, with no Agentic checkout.
+  const own: Record<string, string> = { 'community:update': 'unified/project-update.ts', 'corpus:import': 'unified/corpus-import.ts' }
   const agentic = selected === 'test' || selected === 'typecheck' ? containingCheckout() : undefined
   const checks: Record<string, string[]> = {
     test: ['test', '--timeout', '30000', '--parallel=2', ...(selected !== 'test' ? [] : agentic ? [resolve(directory, 'tests')] : standaloneTests())],
@@ -114,7 +119,7 @@ async function main() {
     console.log(JSON.stringify(installMermaidOracle(args[1] ? resolve(args[1]) : mermaidOracleDirectory()), null, 2))
     return
   }
-  if (selected !== 'run' && !Object.hasOwn(neutral, selected) && !Object.hasOwn(source, selected) && !Object.hasOwn(checks, selected)) throw Error(`Unknown Trident command ${command}; use --help`)
+  if (selected !== 'run' && !Object.hasOwn(neutral, selected) && !Object.hasOwn(own, selected) && !Object.hasOwn(source, selected) && !Object.hasOwn(checks, selected)) throw Error(`Unknown Trident command ${command}; use --help`)
   if (selected === 'build' && args.length === 1 && args[0] === '--help') {
     console.log('node commands.ts build [--out FRESH_DIRECTORY]\nDefault: portable/dist. Copy the complete generated kit and its manifest; execute run.mjs with plain Node 24.')
     return
@@ -133,6 +138,9 @@ async function main() {
     const script = resolve(cwd, 'eval/benchmark', source[selected]!)
     if (!existsSync(script)) throw Error('The selected Agentic checkout does not contain its owning protocol: ' + script)
     argv = ['run', script]
+  } else if (own[selected]) {
+    if (!process.versions.bun) throw Error(`${selected} requires Bun 1.4 or later`)
+    argv = ['run', resolve(directory, own[selected]!)]
   } else if (neutral[selected]) {
     const script = resolve(directory, neutral[selected]!)
     argv = process.versions.bun ? ['run', script] : [script]
@@ -144,7 +152,7 @@ async function main() {
     argv = checks[selected]!
   } else throw Error(`Unknown Trident command ${command}; use --help`)
   // Building, static checks and evidence reports run nothing that consults Mermaid.
-  assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !['build', 'fidelity:report', 'typecheck', 'lint'].includes(selected) })
+  assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !['build', 'fidelity:report', 'typecheck', 'lint', 'corpus:import'].includes(selected) })
   const result = spawnSync(executable, [...argv, ...args], { cwd, stdio: 'inherit' })
   if (result.error) throw result.error
   process.exitCode = result.status ?? 1

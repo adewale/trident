@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url'
 import { resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
 const job = JSON.parse(fs.readFileSync(process.argv[2], 'utf8')), { prepared, workloads, output } = job, artifact = prepared.artifact, declaredConfig = prepared.node.benchmark, config = { ...declaredConfig, adapter: ['beautiful-source','beautiful-fork'].includes(declaredConfig.sourceAdapter) ? 'beautiful' : ['mermaid-source','mermaid-fork'].includes(declaredConfig.sourceAdapter) ? 'mermaid' : declaredConfig.adapter }
-const { qualifyOutput } = await import(pathToFileURL(job.harnessRoot + '/eval/benchmark/unified/qualification.ts'))
+const { qualifyOutput } = await import(new URL('./qualification.ts', import.meta.url).href)
 let extraApi, diagnosticHelpers, diagnosticAdmission, diagnosticAdmissionFailed = false, publicApiAvailable = false, parserAdmission, parserAdmissionFailed = false
 const start = performance.now(), rows = [], cleanups = [], jsonl = job.out + '.jsonl'
 fs.writeFileSync(jsonl, '')

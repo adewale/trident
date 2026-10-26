@@ -9,8 +9,10 @@ import { communityCoreWorkloads, installedNpmIntegrity, planCommunitySourceAlias
 import { runExternalCommunity } from '../unified/community-external.ts'
 import type { PreparedCommunity } from '../unified/community-types.ts'
 import type { BenchmarkObservation, UnifiedWorkload } from '../unified/types.ts'
+import { mermaidOracleDirectory } from '../portable/mermaid-oracle.ts'
+import { harnessRepository } from '../unified/trident-paths.ts'
 
-const driver = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
+const driver = harnessRepository
 const example: UnifiedWorkload = { id: 'authored-flow', family: 'flowchart', source: 'flowchart LR\nA[Start] --> B[End]', features: [], provenance: 'independently authored admission regression', expectedLabels: ['Start', 'End'] }
 
 describe('community benchmark artifact admission', () => {
@@ -182,8 +184,8 @@ describe('negative admission survives crashed workers', () => {
   test('retains first-attempt sidecar and withholds earlier core pass after contradictory restarted admission', async () => {
     const directory = mkdtempSync(join(tmpdir(), 'am-negative-attempts-'))
     const referenceDir = process.env.MERMAID_REFERENCE_DIR
-    // This parser fixture uses our declared jsdom, not a sibling reference checkout.
-    process.env.MERMAID_REFERENCE_DIR = driver
+    // This parser fixture takes its jsdom from the pinned Mermaid oracle install.
+    process.env.MERMAID_REFERENCE_DIR = mermaidOracleDirectory()
     try {
       const module = join(directory, 'parser.mjs'),
         counter = join(directory, 'imports.txt')

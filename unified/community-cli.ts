@@ -8,6 +8,7 @@ import { communityCoreWorkloads, normalizeCommunityOutput, runCommunityCli } fro
 import { defaultTimeObserver, isGnuTime } from '../portable/time-observer.ts'
 import type { CommunityArtifact, PreparedCommunity } from './community-types.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult, UnifiedWorkload } from './types.ts'
+import { harnessRepository } from './trident-paths.ts'
 
 interface Options {
   run: string
@@ -305,7 +306,7 @@ export async function runCommunityCliCohort(options: Options) {
     if (observer.error) throw Error('Resource-only observer unavailable: ' + observer.error)
   }
   const status = git(options.target, ['status', '--porcelain=v1', '--untracked-files=all']).split('\n').filter(Boolean)
-  const harnessRoot = resolve(import.meta.dir, '../../..'),
+  const harnessRoot = harnessRepository,
     harnessStatus = git(harnessRoot, ['status', '--porcelain=v1', '--untracked-files=all']).split('\n').filter(Boolean)
   const evidence = {
     sourceRun: source,
@@ -505,7 +506,7 @@ if (import.meta.main) {
     const option = process.argv[index]!,
       value = process.argv[index + 1]
     if (!['--run', '--out', '--target', '--package-root', '--rounds', '--outputs', '--observer-executable', '--observer-provenance', '--baseline-cli'].includes(option) || !value || value.startsWith('--') || values.has(option))
-      throw Error('Usage: bun run eval/benchmark/unified/community-cli.ts --run DIR --out FRESH_DIR --target CHECKOUT --package-root INSTALLED_PACKAGE [--rounds 3]')
+      throw Error('Usage: bun run unified/community-cli.ts --run DIR --out FRESH_DIR --target CHECKOUT --package-root INSTALLED_PACKAGE [--rounds 3]')
     values.set(option, value)
   }
   for (const name of ['--run', '--out', '--target', '--package-root']) if (!values.has(name)) throw Error('Missing required ' + name)

@@ -2,8 +2,9 @@ import { expect, test } from 'bun:test'
 import { createHash } from 'node:crypto'
 import { chmodSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join, resolve } from 'node:path'
+import { join } from 'node:path'
 import { communityCoreWorkloads, runCommunitySuite } from '../unified/community.ts'
+import { harnessRepository } from '../unified/trident-paths.ts'
 
 test('a community tool that rejects a family canonical source runs none of that family, and keeps failures elsewhere', async () => {
   const directory = mkdtempSync(join(tmpdir(), 'am-family-support-'))
@@ -23,7 +24,7 @@ test('a community tool that rejects a family canonical source runs none of that 
       { id: 'feature:flowchart', family: 'flowchart', source: 'flowchart LR\nA[Alpha] --> B[Beta]', expectedLabels: ['Alpha', 'Beta'], features: [], provenance: 'authored family-support fixture' },
     ]
     writeFileSync(files.inputs, JSON.stringify({ workloads: [...communityCoreWorkloads(), ...features] }))
-    const root = resolve(import.meta.dir, '../../..')
+    const root = harnessRepository
     const result = await runCommunitySuite({ root, harnessRoot: root, out: join(directory, 'out'), profile: 'smoke', rounds: 1, communityProjects: [node.id], communityCatalogFile: files.catalog, communityPreparedFile: files.prepared, communityBrowserPreparedFile: files.browser, communityInputsFile: files.inputs })
     const rows = (caseId: string) => result.observations.filter(row => row.caseId === caseId).map(row => ({ operation: row.operation, status: row.status }))
     expect(rows('family-support:pie')).toEqual([{ operation: 'family-support', status: 'unsupported' }])
@@ -52,7 +53,7 @@ test('an error that says unsupported, inside a supported family, is a failure', 
     writeFileSync(files.browser, JSON.stringify([{ node, browserStatus: 'not-applicable', browserDetail: 'Node fixture' }]))
     const feature = { id: 'feature:invisible-link', family: 'flowchart', source: 'flowchart LR\nA[Alpha] ~~~ B[Beta]', expectedLabels: ['Alpha', 'Beta'], features: [], provenance: 'authored unsupported-message fixture' }
     writeFileSync(files.inputs, JSON.stringify({ workloads: [...communityCoreWorkloads(), feature] }))
-    const root = resolve(import.meta.dir, '../../..')
+    const root = harnessRepository
     const result = await runCommunitySuite({ root, harnessRoot: root, out: join(directory, 'out'), profile: 'smoke', rounds: 1, communityProjects: [node.id], communityCatalogFile: files.catalog, communityPreparedFile: files.prepared, communityBrowserPreparedFile: files.browser, communityInputsFile: files.inputs })
     const row = result.observations.find(row => row.caseId === feature.id)!
     expect({ status: row.status, detail: row.detail }).toEqual({ status: 'failed', detail: 'Error: unsupported graph direction' })

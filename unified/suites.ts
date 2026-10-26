@@ -3,27 +3,10 @@ import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
 import { BUILTIN_FAMILY_METADATA } from '../../../src/agent/families.ts'
 import type { UnifiedRunOptions } from './types.ts'
+import type { SuiteOptions } from './options.ts'
 import { mermaidOracleDirectory, mermaidUpstreamDirectory } from '../portable/mermaid-oracle.ts'
 
-export interface SuiteOptions extends UnifiedRunOptions {
-  harnessRoot: string
-  packageRoot?: string
-  site?: string
-  ownershipSite?: string
-  candidateTarball?: string
-  candidateSha256?: string
-  baseline?: string
-  baselineRef?: string
-  baselineNpm?: string
-  baselineTarball?: string
-  baselineSha256?: string
-  baselineLock?: string
-  bezelDir?: string
-  mermaidDir?: string
-  referenceDir?: string
-  liveProvider?: string
-  liveModel?: string
-}
+export type { SuiteOptions } from './options.ts'
 export interface SuiteDefinition {
   id: string
   title: string

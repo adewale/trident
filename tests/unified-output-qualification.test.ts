@@ -57,7 +57,15 @@ test('source code fallbacks never qualify as rendered SVG or terminal diagrams',
   expect(qualifyOutput(w, source, 'source').ok).toBe(true)
 })
 
-test('community labels refuse to load without the pinned Mermaid source, instead of passing cases unchecked', async () => {
+test('community labels refuse to load without the pinned Mermaid oracle, instead of passing cases unchecked', async () => {
   const workload = { id: 'labelled', family: 'flowchart', source: 'flowchart LR\nA[Alpha]', features: [], provenance: 'authored refusal fixture' }
-  await expect(withReferenceLabels([workload], { root: process.cwd(), upstreamDir: join(tmpdir(), 'no-mermaid-source-checkout') })).rejects.toThrow('Reference labels need the pinned Mermaid source checkout')
+  const saved = { directory: process.env.MERMAID_REFERENCE_DIR, admitted: process.env.TRIDENT_MERMAID_ORACLE }
+  process.env.MERMAID_REFERENCE_DIR = join(tmpdir(), 'no-mermaid-oracle-install')
+  delete process.env.TRIDENT_MERMAID_ORACLE
+  try {
+    await expect(withReferenceLabels([workload])).rejects.toThrow('needs the pinned Mermaid oracle')
+  } finally {
+    for (const [name, value] of [['MERMAID_REFERENCE_DIR', saved.directory], ['TRIDENT_MERMAID_ORACLE', saved.admitted]] as const) if (value === undefined) delete process.env[name]
+    else process.env[name] = value
+  }
 })

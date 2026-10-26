@@ -6,7 +6,6 @@ import { dirname, join, resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
-import { MICRO_WORKLOADS } from '../micro-bench-cases.ts'
 import { type CatalogArtifactAdmission, createCatalogEligibility } from './catalog-eligibility.ts'
 import { assertCommunityNotInterrupted, trackCommunityProcess } from './community-process.ts'
 import type { CommunityArtifact, CommunityNode, CommunityWorkerJob, PreparedCommunity } from './community-types.ts'
@@ -15,7 +14,8 @@ import { familySupportRow, familySupportWorkloads, rejectsSource, unsupportedFam
 import { assertMermaidOracle, assertOracleAgrees, MERMAID_ORACLE_PIN } from '../portable/mermaid-oracle.ts'
 import { qualifyOutput, svgQualificationProvenance, withReferenceLabels } from './qualification.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult, UnifiedWorkload } from './types.ts'
-import { getWorkloadEvidence, unifiedWorkloads } from './workloads.ts'
+import { communityCorpus, corpusEvidence, corpusWorkloads } from './corpus.ts'
+import { communityCatalogFile } from './trident-paths.ts'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const median = (xs: number[]) => {
@@ -35,24 +35,9 @@ function writePreparationCheckpoint(path: string, value: unknown) {
   }
 }
 const artifactDigest = (path: string) => createHash('sha256').update(readFileSync(path)).digest('hex')
+/** The fixed core, frozen with the corpus: six independently labelled repeat inputs. */
 export function communityCoreWorkloads(): UnifiedWorkload[] {
-  const range = (prefix: string, n: number) => Array.from({ length: n }, (_, i) => prefix + i)
-  const expectations: Record<string, { family: string; labels: string[] }> = {
-    flow5: { family: 'flowchart', labels: ['Start', 'Check', 'Do it', 'Skip', 'End'] },
-    tree50: { family: 'flowchart', labels: range('Node ', 50) },
-    seq20: { family: 'sequence', labels: range('message ', 20) },
-    class80: { family: 'class', labels: range('C', 80) },
-    er40: { family: 'er', labels: range('E', 40) },
-    state80: { family: 'state', labels: range('S', 81) },
-  }
-  return Object.entries(expectations).map(([id, expected]) => ({
-    id: `core:${id}`,
-    family: expected.family,
-    source: MICRO_WORKLOADS[id as keyof typeof MICRO_WORKLOADS],
-    features: ['core-graph-batch'],
-    provenance: 'eval/benchmark/micro-bench-cases.ts; independently declared fixture labels',
-    expectedLabels: expected.labels,
-  }))
+  return communityCorpus().core.map(workload => ({ ...workload }))
 }
 
 /** npm can write physical-prefix keys when --prefix traverses a symlink.
@@ -95,7 +80,10 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false): 
   if (!version) throw new Error(`No published version recorded for ${name}`)
   const extra = await import('./community-extra-adapters.mjs'),
     plan = extra.extraPackagePreparation(name)
-  const prefix = join(cache, `${safe(name)}@${version}`),
+  // Mermaid's row is the pinned oracle install itself, never a second copy of Mermaid.
+  const oracle = node.id === 'mermaid-js/mermaid' ? assertMermaidOracle() : undefined
+  if (oracle && version !== oracle.version) throw new Error(`Mermaid's row must be the pinned oracle ${oracle.version}; the catalog records ${version}`)
+  const prefix = oracle?.directory ?? join(cache, `${safe(name)}@${version}`),
     root = join(prefix, 'node_modules', name)
   mkdirSync(prefix, { recursive: true })
   const companions: string[] = plan.companions ?? []
@@ -105,6 +93,7 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false): 
       const name = spec.startsWith('@') ? spec.slice(0, spec.lastIndexOf('@')) : spec.split('@')[0]!
       return !existsSync(join(prefix, 'node_modules', name, 'package.json'))
     })
+  if (needed && oracle) throw new Error(`The Mermaid oracle at ${prefix} is incomplete; reinstall it with mermaid:install`)
   if (needed) {
     const install = spawnSync('npm', ['install', '--prefix', prefix, '--ignore-scripts', '--no-audit', '--no-fund', `${name}@${version}`, ...companions], {
       encoding: 'utf8',
@@ -222,7 +211,7 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
   const driver = options.harnessRoot ?? options.root,
     cache = resolve(process.env.AM_COMMUNITY_CACHE ?? join(driver, 'node_modules/.cache/unified-community'))
   mkdirSync(cache, { recursive: true })
-  const catalog = JSON.parse(readFileSync(options.communityCatalogFile ?? join(driver, 'docs/mermaid-community.json'), 'utf8')) as { nodes: CommunityNode[] }
+  const catalog = JSON.parse(readFileSync(options.communityCatalogFile ?? communityCatalogFile, 'utf8')) as { nodes: CommunityNode[] }
   catalog.nodes = selectCommunityProjects(catalog.nodes, options.communityProjects)
   if (options.communityPreparedFile) return loadFrozenCommunity(options, catalog.nodes)
   const manifestPath = options.communityArtifacts ?? process.env.AM_BENCH_COMMUNITY_ARTIFACTS
@@ -299,7 +288,8 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
         }
         const { prepareExtraCommunitySource } = await import('./community-extra-source.ts')
         artifact = await prepareExtraCommunitySource(node, process.env.AM_COMMUNITY_SOURCE_CACHE ?? cache)
-      } else if (node.benchmark.adapter === 'agentic') {
+      } else if (node.benchmark.adapter === 'agentic' && (options.packageRoot || !node.benchmark.package)) {
+        // An explicit candidate checkout; the published release is an ordinary npm row.
         const root = options.packageRoot ?? options.root,
           module = join(root, 'dist/agent.js')
         if (!existsSync(module)) throw new Error('Build/pack the candidate before community timing')
@@ -864,7 +854,7 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
   if (outputSelection && (!outputSelection.length || new Set(outputSelection).size !== outputSelection.length || outputSelection.some(output => !prepared.some(entry => entry.node.benchmark?.outputs?.some(bound => normalizeCommunityOutput(bound) === output)))))
     throw Error('Unknown, empty or duplicate community output selection')
   const outputSelected = (output: string) => !outputSelection || outputSelection.includes(normalizeCommunityOutput(output))
-  const driverWorkloads = unifiedWorkloads(options.profile) // Initializes parser-only/feature evidence without replacing frozen sources.
+  const driverWorkloads = corpusWorkloads(options.profile)
   const frozenInputs = loadCommunityInputs(options)
   const enriched = frozenInputs ? undefined : await withReferenceLabels(driverWorkloads, { root: options.harnessRoot ?? options.root })
   gaps.push(...(frozenInputs?.gaps ?? enriched!.gaps))
@@ -887,7 +877,7 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
   const browser = await import('./community-browser.ts'),
     preparedBrowsers = await communityBrowsers(prepared, options)
   const driver = options.harnessRoot ?? options.root,
-    catalog = JSON.parse(readFileSync(options.communityCatalogFile ?? join(driver, 'docs/mermaid-community.json'), 'utf8')) as { nodes: CommunityNode[] }
+    catalog = JSON.parse(readFileSync(options.communityCatalogFile ?? communityCatalogFile, 'utf8')) as { nodes: CommunityNode[] }
   const aliasPlan = sourceAliasPlan(prepared, catalog),
     aliasProofPath = join(options.out, 'community-alias-proof.json')
   writeFileSync(
@@ -953,7 +943,7 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
       console.log(`community round ${round}/${options.rounds}: ${entry.node.id} ${entry.artifact!.version}`)
       for (const output of [...new Set((entry.node.benchmark!.outputs ?? []).map(normalizeCommunityOutput))].filter(outputSelected)) {
         const roundWorkloads = ((options.communityCoverageOnce ?? true) && round > 1 ? workloads.filter(w => w.features.includes('core-graph-batch')) : workloads).filter(w => output !== 'terminal' || !w.features.includes('core-graph-batch') || ['core:flow5', 'core:tree50', 'core:seq20'].includes(w.id))
-        const selectedWorkloads = ['parse', 'diagnostics'].includes(output) ? roundWorkloads : roundWorkloads.filter(w => !getWorkloadEvidence(w.id)?.parserOnly)
+        const selectedWorkloads = ['parse', 'diagnostics'].includes(output) ? roundWorkloads : roundWorkloads.filter(w => !corpusEvidence(w.id)?.parserOnly)
         for (const workload of roundWorkloads.filter(w => !selectedWorkloads.includes(w))) observations.push({ ...envelope(entry.node, output, workload, round), status: 'not-applicable', detail: 'Owning fixture declares a parser-only assertion scope; rendering is not a promised operation for this input.' })
         if ((entry.node.benchmark!.adapter === 'mermaid' || entry.node.benchmark!.sourceAdapter === 'mermaid-source') && output === 'svg') {
           if (round === 1)
@@ -1017,11 +1007,11 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
   }
   const browserResult = await browser.runCommunityBrowserSuite(
     preparedBrowsers,
-    workloads.filter(w => !getWorkloadEvidence(w.id)?.parserOnly),
+    workloads.filter(w => !corpusEvidence(w.id)?.parserOnly),
     options,
   )
   for (const peer of preparedBrowsers.filter(peer => peer.browserStatus === 'prepared' && outputSelected(peer.browser?.output ?? 'svg')))
-    for (const workload of workloads.filter(w => getWorkloadEvidence(w.id)?.parserOnly))
+    for (const workload of workloads.filter(w => corpusEvidence(w.id)?.parserOnly))
       observations.push({ ...envelope(peer.node, 'svg', workload, 0), surface: 'browser:public-api', runtime: 'chromium', status: 'not-applicable', detail: 'Owning fixture declares a parser-only assertion scope; browser rendering is not a promised operation for this input.' })
   observations.push(...browserResult.observations)
   gaps.push(...browserResult.gaps)

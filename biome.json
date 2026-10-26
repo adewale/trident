@@ -12,7 +12,8 @@
       "**/*.tsx",
       "**/*.json",
       "**/*.jsonc",
-      "!node_modules/**"
+      "!node_modules/**",
+      "!corpus/**"
     ]
   },
   "linter": {
