@@ -1,4 +1,4 @@
-import { writeBenchmarkDocument } from '../portable/project-records.ts'
+import { readBenchmarkDocument, writeBenchmarkDocument } from '../portable/project-records.ts'
 import { execFileSync, spawn, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, realpathSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
@@ -807,7 +807,7 @@ function sourceAliasPlan(prepared: PreparedCommunity[], catalog: { nodes: Commun
 }
 function loadCommunityInputs(options: UnifiedRunOptions): { workloads: UnifiedWorkload[]; gaps: string[]; reference: unknown; source?: string } | undefined {
   if (!options.communityInputsFile) return
-  const input = JSON.parse(readFileSync(options.communityInputsFile, 'utf8')) as { workloads: UnifiedWorkload[]; reference?: unknown }
+  const input = readBenchmarkDocument(options.communityInputsFile) as { workloads: UnifiedWorkload[]; reference?: unknown }
   if (!Array.isArray(input.workloads) || new Set(input.workloads.map(workload => workload.id)).size !== input.workloads.length) throw Error('Frozen community input IDs are missing or duplicated')
   for (const core of communityCoreWorkloads()) {
     const actual = input.workloads.find(workload => workload.id === core.id)
@@ -866,18 +866,14 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
   const workloads = frozenInputs?.workloads ?? [...communityCoreWorkloads(), ...enriched!.workloads]
   // Every family probe must be valid Mermaid by the pinned oracle before any tool runs it.
   const familyProbeTypes = await assertOracleAgrees(assertMermaidOracle(), familySupportWorkloads(workloads).map(probe => ({ id: probe.id, source: probe.source, accept: true })))
-  writeFileSync(
+  writeBenchmarkDocument(
     join(options.out, 'community-inputs.json'),
-    JSON.stringify(
-      {
-        workloads,
-        reference: frozenInputs?.reference ?? enriched?.provenance,
-        source: frozenInputs?.source ?? null,
-        policy: 'Full feature qualification executes once per admitted artifact/input; fixed-core performance is calibrated across rounds. Frozen source/expectations are not regenerated. Labels are existential evidence, not complete semantic/visual fidelity.',
-      },
-      null,
-      2,
-    ),
+    {
+      workloads,
+      reference: frozenInputs?.reference ?? enriched?.provenance,
+      source: frozenInputs?.source ?? null,
+      policy: 'Full feature qualification executes once per admitted artifact/input; fixed-core performance is calibrated across rounds. Frozen source/expectations are not regenerated. Labels are existential evidence, not complete semantic/visual fidelity.',
+    },
   )
   const browser = await import('./community-browser.ts'),
     preparedBrowsers = await communityBrowsers(prepared, options)

@@ -135,7 +135,7 @@ function retainContext(store: string, context: unknown): string {
     if (stableValue(json(join(directory, name))) === wanted) return name
   }
   const name = randomUUID() + '.json'
-  writeJson(join(directory, name), context)
+  writeBenchmarkDocument(join(directory, name), context)
   return name
 }
 function packageIdentity(prepared: PreparedCommunity) {
@@ -263,7 +263,7 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
     inputs = { workloads: [...communityCoreWorkloads(), ...enriched.workloads], reference: enriched.provenance ?? null, gaps: enriched.gaps }
   }
   const inputPath = join(attempt, 'community-inputs.json')
-  writeJson(inputPath, inputs)
+  writeBenchmarkDocument(inputPath, inputs)
   const assertions = Object.fromEntries(((inputs as any).workloads ?? []).map((workload: { id: string }) => [workload.id, corpusEvidence(workload.id) ?? null]))
   const contextValue = protocolContext(options, JSON.parse(JSON.stringify({ literal: inputs, assertions }))),
     context = retainContext(store, contextValue)
@@ -311,7 +311,7 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
           directory = join(attempt, encodeURIComponent(item.entry.node.id)),
           out = join(directory, 'community')
         mkdirSync(out, { recursive: true })
-        writeJson(join(directory, 'context.json'), contextValue)
+        writeBenchmarkDocument(join(directory, 'context.json'), contextValue)
         const preparedPath = join(directory, 'prepared.json'),
           browserPath = join(directory, 'browser.json')
         writeJson(preparedPath, [item.entry])
