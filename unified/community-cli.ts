@@ -78,12 +78,18 @@ function shippedFiles(root: string, directory = join(root, 'dist')): Array<{ pat
 function candidateVariants(options: Options, prepared: PreparedCommunity[]): Variant[] {
   const base = prepared.find(entry => entry.node.benchmark?.adapter === 'agentic')
   if (!base) return []
-  // The prepared Agentic artifact: the published npm package, or an explicit candidate checkout.
-  const root = base.artifact?.root ?? options.packageRoot,
+  const unavailable = (error: string): Variant[] => [{
+    variantOf: base.node.id, variant: 'node-cli', outputs: ['svg', 'terminal'],
+    prepared: { node: { ...base.node, id: `${base.node.id}#node-cli` }, error }, error,
+  }]
+  // A failed preparation must not substitute the harness for the measured package.
+  if (!base.artifact?.root) return unavailable(base.error ?? 'Prepared Agentic Mermaid artifact has no installed package root')
+  const root = base.artifact.root,
     candidate = resolve(root) === resolve(options.packageRoot)
-  const pkg = read(join(root, 'package.json'))
+  let pkg: any
+  try { pkg = read(join(root, 'package.json')) } catch (error) { return unavailable(String(error)) }
   const cliPath = typeof pkg.bin === 'string' ? pkg.bin : (pkg.bin?.am ?? pkg.bin?.['agentic-mermaid'])
-  if (!cliPath) throw Error('Installed Agentic Mermaid package declares no CLI')
+  if (!cliPath) return unavailable('Installed Agentic Mermaid package declares no CLI')
   const cli = join(root, cliPath),
     files = shippedFiles(root)
   files.push({ path: join(root, 'package.json'), sha256: digest(join(root, 'package.json')) })
@@ -284,6 +290,7 @@ export async function runCommunityCliCohort(options: Options) {
   if (selectedOutputs) for (const variant of variants) variant.outputs = variant.outputs.filter(output => selectedOutputs.includes(output))
   for (const variant of variants) {
     try {
+      if (variant.error) continue
       variant.identity = admittedIdentity(variant.prepared.artifact!)
     } catch (error) {
       variant.error = String(error)
@@ -490,6 +497,7 @@ export function communityCliCacheIdentity(options: Pick<Options, 'target' | 'pac
     observer: resourceObserver(options.observerExecutable),
     candidates: candidateVariants(options as Options, prepared).map(variant => {
       try {
+        if (variant.error) return { variant: variant.variant, error: variant.error }
         return { variant: variant.variant, identity: admittedIdentity(variant.prepared.artifact!) }
       } catch (error) {
         return { variant: variant.variant, error: String(error) }
