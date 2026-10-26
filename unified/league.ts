@@ -3,7 +3,7 @@ import { basename, isAbsolute, join, resolve } from 'node:path'
 import { gzipSync } from 'node:zlib'
 import { MERMAID_ORACLE_PIN } from '../portable/mermaid-oracle.ts'
 import { probedFamilies } from '../portable/cohorts.ts'
-import { loadCurrentProjectRecords, readBenchmarkDocument, type ProjectBenchmarkRecord } from '../portable/project-records.ts'
+import { loadCurrentProjectRecords, readBenchmarkDocument, stableValue, type ProjectBenchmarkRecord } from '../portable/project-records.ts'
 import { rankCommunityObservations } from './community.ts'
 import { communityCorpus } from './corpus.ts'
 import type { BenchmarkObservation, UnifiedWorkload } from './types.ts'
@@ -15,7 +15,7 @@ export const CALIBRATED_ROUNDS = 5
 /** The families Trident can probe: one canonical source each in the portable family cohort. */
 export const PROBED_FAMILIES = probedFamilies()
 
-const OUTPUTS: Record<string, string> = { svg: 'SVG', terminal: 'Terminal text', png: 'PNG', parse: 'Parser' }
+const OUTPUTS: Record<string, string> = { svg: 'SVG', terminal: 'Terminal text', png: 'PNG', parse: 'Parser', diagnostics: 'Diagnostics', source: 'Formatted Mermaid source', 'react-flow': 'React Flow model' }
 const SURFACES: Record<string, string> = { 'browser:public-api': 'browser API', 'node:public-api': 'Node API', 'bun:public-api': 'Bun API', 'node:public-parse-validation': 'Node parser API', 'cli:end-to-end': 'CLI', 'python:public-api': 'Python API', 'native:in-process-api': 'native API' }
 const slug = (project: string) => project.replace(/[^a-z0-9._-]+/gi, '-').toLowerCase()
 const percent = (passed: number, total: number) => (total ? `${((100 * passed) / total).toFixed(1)}%` : '—')
@@ -113,6 +113,7 @@ function publishedRecord(record: ProjectBenchmarkRecord) {
     machine: { platform: measurement?.platform, arch: measurement?.arch, kernel: measurement?.kernel, cpu: measurement?.cpu?.[0] ?? null, cpus: measurement?.cpu?.length ?? null, node: measurement?.node?.version ?? null, bun: measurement?.bun?.version ?? null, browser: basename(String(measurement?.browser?.path ?? '')) || null, observer: measurement?.observer?.version ?? null },
     oracle: MERMAID_ORACLE_PIN,
     corpus: communityCorpus().source,
+    comparisonContext: (record.identity.protocol as { context?: unknown } | null)?.context ?? null,
     gaps: record.gaps,
     observations: portable(record.observations),
   }
@@ -160,7 +161,7 @@ function table(lanes: Lane[], reference: Lane | undefined) {
   const lines = ['| Rank | Tool | Version | Surface | Families supported | Pass rate in supported families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Record |', '|---:|---|---|---|---:|---:|---:|---:|---:|---|']
   const row = (lane: Lane, rank: string) => {
     const tool = `[${escape(lane.project)}](https://github.com/${lane.project})`,
-      ratio = lane.coreFirstMs !== null && reference?.coreFirstMs ? speedVersus(lane.coreFirstMs, reference.coreFirstMs) : '—',
+      ratio = lane.surface === reference?.surface && lane.format === reference.format && lane.coreFirstMs !== null && reference.coreFirstMs ? speedVersus(lane.coreFirstMs, reference.coreFirstMs) : '—',
       ms = (value: number | null) => (value === null ? '—' : `${value.toFixed(2)} ms`)
     return `| ${rank} | ${lane === reference ? `*${tool} (reference)*` : tool} | ${escape(lane.version)} | ${SURFACES[lane.surface] ?? lane.surface} | ${lane.supported.length}/${PROBED_FAMILIES.length} | ${percent(lane.passed, lane.passed + lane.failed)} (${lane.passed}/${lane.passed + lane.failed}) | ${ms(lane.coreFirstMs)} | ${lane === reference && lane.coreFirstMs !== null ? 'reference' : ratio} | ${ms(lane.coreMedianMs)} | [record](records/${slug(lane.project)}.json.gz) · [failures](failures/${slug(lane.project)}.md) |`
   }
@@ -177,7 +178,14 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
   rmSync(join(out, 'failures'), { recursive: true, force: true })
   rmSync(join(out, 'outputs'), { recursive: true, force: true })
   for (const directory of ['records', 'failures']) mkdirSync(join(out, directory), { recursive: true })
-  const all = records.flatMap(lanes)
+  const comparison = new Map<Lane, string>()
+  const all = records.flatMap(record => {
+    const protocol = record.identity.protocol as { context?: unknown; browserQualifier?: unknown } | null
+    return lanes(record).map(lane => {
+      comparison.set(lane, stableValue([protocol?.context ?? record.identity.protocol, record.identity.measurement, lane.surface.startsWith('browser:') ? protocol?.browserQualifier ?? null : null]))
+      return lane
+    })
+  })
   for (const record of records) {
     writeFileSync(join(out, 'records', `${slug(record.identity.project)}.json.gz`), gzipSync(JSON.stringify(publishedRecord(record)) + '\n', { level: 9 }))
     writeFileSync(join(out, 'failures', `${slug(record.identity.project)}.md`), failurePage(record, out) + '\n')
@@ -187,17 +195,29 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
   const lines = [
     '# Mermaid derivatives league table',
     '',
-    `Measured ${measured[0]!.slice(0, 10)}${measured.at(-1)!.slice(0, 10) !== measured[0]!.slice(0, 10) ? ` to ${measured.at(-1)!.slice(0, 10)}` : ''} by [Trident](../README.md) against the pinned Mermaid ${MERMAID_ORACLE_PIN.version} oracle, on the corpus frozen from Agentic Mermaid ${communityCorpus().source.commit.slice(0, 8)}. ${calibrated ? '' : `**Speeds are withheld: these records have fewer than ${CALIBRATED_ROUNDS} rounds, so no timing is calibrated.**`}`,
+    `Measured ${measured[0]!.slice(0, 10)}${measured.at(-1)!.slice(0, 10) !== measured[0]!.slice(0, 10) ? ` to ${measured.at(-1)!.slice(0, 10)}` : ''} by [Trident](../README.md) against the pinned Mermaid ${MERMAID_ORACLE_PIN.version} oracle, on the corpus frozen from Agentic Mermaid ${communityCorpus().source.commit.slice(0, 8)}. ${calibrated ? '' : `**Records with fewer than ${CALIBRATED_ROUNDS} rounds show no speed.**`}`,
     '',
-    'How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Rows are ordered by correctness first: how many of the probed families the tool supports, then the share of cases it passes in those families, then first-call fixed-core time. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so it is measured with the same checks but not ranked. An unsupported family is a coverage gap, never a failure. See the [methodology](../METHODOLOGY.md).',
+    'How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Tables group each output by public invocation surface and compatible protocol/runtime settings; costs and ranks never cross these boundaries. Rolling records are not paired same-session experiments. Rows within each group are ordered by correctness first: how many of the probed families the tool supports, then the share of cases it passes in those families, then first-call fixed-core time. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so it is measured with the same checks but not ranked. An unsupported family is a coverage gap, never a failure. See the [methodology](../METHODOLOGY.md).',
     '',
   ]
-  for (const format of ['svg', 'terminal', 'png', 'parse']) {
+  for (const format of new Set([...Object.keys(OUTPUTS), ...all.map(lane => lane.format)])) {
     const rows = all.filter(lane => lane.format === format)
     if (!rows.length) continue
-    // Each tool's primary surface per output: the browser for SVG, then the others by name.
-    const reference = rows.filter(lane => lane.project === REFERENCE_PROJECT).sort((a, b) => (a.surface === 'browser:public-api' ? -1 : 0) - (b.surface === 'browser:public-api' ? -1 : 0))[0]
-    lines.push(`## ${OUTPUTS[format] ?? format}`, '', ...table(rows.filter(lane => lane.project !== REFERENCE_PROJECT).sort(leagueOrder), reference), '')
+    lines.push(`## ${OUTPUTS[format] ?? format}`, '')
+    for (const surface of new Set(rows.map(lane => lane.surface))) {
+      const cohorts = new Map<string, Lane[]>()
+      for (const lane of rows.filter(lane => lane.surface === surface)) {
+        const key = comparison.get(lane)!
+        cohorts.set(key, [...(cohorts.get(key) ?? []), lane])
+      }
+      lines.push(`### ${SURFACES[surface] ?? surface}`, '')
+      let cohort = 0
+      for (const own of cohorts.values()) {
+        if (cohorts.size > 1) lines.push(`#### Comparable cohort ${++cohort}`, '', 'Different protocol/runtime settings are shown separately; an absent matching Mermaid baseline has no ratio.', '')
+        const reference = own.find(lane => lane.project === REFERENCE_PROJECT)
+        lines.push(...table(own.filter(lane => lane.project !== REFERENCE_PROJECT).sort(leagueOrder), reference), '')
+      }
+    }
   }
   const grid = all.filter(lane => lane.format === 'svg' || lane.format === 'terminal').sort(leagueOrder)
   lines.push('## Families', '', `Pass rate per family, for each tool's SVG and terminal surfaces. "—" means the tool does not support the family. Trident probes ${PROBED_FAMILIES.length} families; Mermaid ${MERMAID_ORACLE_PIN.version} documents more, which have no cases yet.`, '')
