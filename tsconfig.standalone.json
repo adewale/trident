@@ -51,6 +51,7 @@
     "tests/unified-pr-preparation.test.ts",
     "tests/unified-suite-target-metadata.test.ts",
     "tests/upstream-fidelity-original.test.ts",
+    "tests/upstream-source-refusal.test.ts",
     "tests/upstream-test-assertions.test.ts",
     "unified/baseline-browser.ts",
     "unified/community-campaign.ts",
