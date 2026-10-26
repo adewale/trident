@@ -3,7 +3,7 @@ import { basename, isAbsolute, join, resolve } from 'node:path'
 import { gzipSync } from 'node:zlib'
 import { MERMAID_ORACLE_PIN } from '../portable/mermaid-oracle.ts'
 import { probedFamilies } from '../portable/cohorts.ts'
-import { loadCurrentProjectRecords, readBenchmarkDocument, type ProjectBenchmarkRecord } from '../portable/project-records.ts'
+import { loadCurrentProjectRecords, readBenchmarkDocument, stableValue, type ProjectBenchmarkRecord } from '../portable/project-records.ts'
 import { rankCommunityObservations } from './community.ts'
 import { communityCorpus } from './corpus.ts'
 import type { BenchmarkObservation, UnifiedWorkload } from './types.ts'
@@ -113,6 +113,7 @@ function publishedRecord(record: ProjectBenchmarkRecord) {
     machine: { platform: measurement?.platform, arch: measurement?.arch, kernel: measurement?.kernel, cpu: measurement?.cpu?.[0] ?? null, cpus: measurement?.cpu?.length ?? null, node: measurement?.node?.version ?? null, bun: measurement?.bun?.version ?? null, browser: basename(String(measurement?.browser?.path ?? '')) || null, observer: measurement?.observer?.version ?? null },
     oracle: MERMAID_ORACLE_PIN,
     corpus: communityCorpus().source,
+    comparisonContext: (record.identity.protocol as { context?: unknown } | null)?.context ?? null,
     gaps: record.gaps,
     observations: portable(record.observations),
   }
@@ -177,7 +178,14 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
   rmSync(join(out, 'failures'), { recursive: true, force: true })
   rmSync(join(out, 'outputs'), { recursive: true, force: true })
   for (const directory of ['records', 'failures']) mkdirSync(join(out, directory), { recursive: true })
-  const all = records.flatMap(lanes)
+  const comparison = new Map<Lane, string>()
+  const all = records.flatMap(record => {
+    const protocol = record.identity.protocol as { context?: unknown; browserQualifier?: unknown } | null
+    return lanes(record).map(lane => {
+      comparison.set(lane, stableValue([protocol?.context ?? record.identity.protocol, record.identity.measurement, lane.surface.startsWith('browser:') ? protocol?.browserQualifier ?? null : null]))
+      return lane
+    })
+  })
   for (const record of records) {
     writeFileSync(join(out, 'records', `${slug(record.identity.project)}.json.gz`), gzipSync(JSON.stringify(publishedRecord(record)) + '\n', { level: 9 }))
     writeFileSync(join(out, 'failures', `${slug(record.identity.project)}.md`), failurePage(record, out) + '\n')
@@ -187,9 +195,9 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
   const lines = [
     '# Mermaid derivatives league table',
     '',
-    `Measured ${measured[0]!.slice(0, 10)}${measured.at(-1)!.slice(0, 10) !== measured[0]!.slice(0, 10) ? ` to ${measured.at(-1)!.slice(0, 10)}` : ''} by [Trident](../README.md) against the pinned Mermaid ${MERMAID_ORACLE_PIN.version} oracle, on the corpus frozen from Agentic Mermaid ${communityCorpus().source.commit.slice(0, 8)}. ${calibrated ? '' : `**Speeds are withheld: these records have fewer than ${CALIBRATED_ROUNDS} rounds, so no timing is calibrated.**`}`,
+    `Measured ${measured[0]!.slice(0, 10)}${measured.at(-1)!.slice(0, 10) !== measured[0]!.slice(0, 10) ? ` to ${measured.at(-1)!.slice(0, 10)}` : ''} by [Trident](../README.md) against the pinned Mermaid ${MERMAID_ORACLE_PIN.version} oracle, on the corpus frozen from Agentic Mermaid ${communityCorpus().source.commit.slice(0, 8)}. ${calibrated ? '' : `**Records with fewer than ${CALIBRATED_ROUNDS} rounds show no speed.**`}`,
     '',
-    'How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Tables group each output by public invocation surface; costs and ranks never cross these boundaries. Rows within each group are ordered by correctness first: how many of the probed families the tool supports, then the share of cases it passes in those families, then first-call fixed-core time. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so it is measured with the same checks but not ranked. An unsupported family is a coverage gap, never a failure. See the [methodology](../METHODOLOGY.md).',
+    'How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Tables group each output by public invocation surface and compatible protocol/runtime settings; costs and ranks never cross these boundaries. Rolling records are not paired same-session experiments. Rows within each group are ordered by correctness first: how many of the probed families the tool supports, then the share of cases it passes in those families, then first-call fixed-core time. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so it is measured with the same checks but not ranked. An unsupported family is a coverage gap, never a failure. See the [methodology](../METHODOLOGY.md).',
     '',
   ]
   for (const format of new Set([...Object.keys(OUTPUTS), ...all.map(lane => lane.format)])) {
@@ -197,9 +205,18 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
     if (!rows.length) continue
     lines.push(`## ${OUTPUTS[format] ?? format}`, '')
     for (const surface of new Set(rows.map(lane => lane.surface))) {
-      const own = rows.filter(lane => lane.surface === surface),
-        reference = own.find(lane => lane.project === REFERENCE_PROJECT)
-      lines.push(`### ${SURFACES[surface] ?? surface}`, '', ...table(own.filter(lane => lane.project !== REFERENCE_PROJECT).sort(leagueOrder), reference), '')
+      const cohorts = new Map<string, Lane[]>()
+      for (const lane of rows.filter(lane => lane.surface === surface)) {
+        const key = comparison.get(lane)!
+        cohorts.set(key, [...(cohorts.get(key) ?? []), lane])
+      }
+      lines.push(`### ${SURFACES[surface] ?? surface}`, '')
+      let cohort = 0
+      for (const own of cohorts.values()) {
+        if (cohorts.size > 1) lines.push(`#### Comparable cohort ${++cohort}`, '', 'Different protocol/runtime settings are shown separately; an absent matching Mermaid baseline has no ratio.', '')
+        const reference = own.find(lane => lane.project === REFERENCE_PROJECT)
+        lines.push(...table(own.filter(lane => lane.project !== REFERENCE_PROJECT).sort(leagueOrder), reference), '')
+      }
     }
   }
   const grid = all.filter(lane => lane.format === 'svg' || lane.format === 'terminal').sort(leagueOrder)

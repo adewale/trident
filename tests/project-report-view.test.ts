@@ -97,6 +97,7 @@ test('community league costs compare and rank within each invocation surface', (
       ['fixture/browser', 'browser:public-api', 5, 'svg'],
       ['fixture/node', 'node:public-api', 1, 'svg'],
       ['fixture/formatter', 'node:public-api', 1, 'source'],
+      ['fixture/remote', 'browser:public-api', 1, 'svg'],
     ] as const) {
       const evidenceDirectory = join(directory, project.replaceAll('/', '-'))
       mkdirSync(evidenceDirectory)
@@ -105,7 +106,7 @@ test('community league costs compare and rank within each invocation surface', (
       const record: ProjectBenchmarkRecord = {
         schemaVersion: 1,
         id: project,
-        identity: { project, protocol: { context: 'same' }, artifact: {}, measurement: { rounds: 5 } },
+        identity: { project, protocol: { context: project === 'fixture/remote' ? 'different-runtime-protocol' : 'same' }, artifact: {}, measurement: { rounds: 5 } },
         startedAt: '2026-10-26T00:00:00Z',
         finishedAt: '2026-10-26T00:01:00Z',
         status: 'passed',
@@ -123,6 +124,12 @@ test('community league costs compare and rank within each invocation surface', (
       browser = rows.find(line => line.includes('[fixture/browser]'))!.split('|')
     expect(node[8]!.trim()).toBe('—')
     expect(browser[8]!.trim()).toBe('2.0× faster')
+    expect(
+      rows
+        .find(line => line.includes('[fixture/remote]'))!
+        .split('|')[8]!
+        .trim(),
+    ).toBe('—')
     expect(node[1]!.trim()).toBe('1')
     expect(browser[1]!.trim()).toBe('1')
     expect(markdown).toContain('## Formatted Mermaid source')
