@@ -4,6 +4,8 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { build } from 'esbuild'
 import { prepareCommunityBrowsers, runCommunityBrowserSuite } from '../unified/community-browser.ts'
+import { assertMermaidOracle, mermaidZenumlAddon } from '../portable/mermaid-oracle.ts'
+import { requiredExternalFamilyCases } from '../portable/cohorts.ts'
 import { qualifyOutput } from '../unified/qualification.ts'
 
 const svg = (body: string) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">${body}</svg>`
@@ -60,3 +62,21 @@ browserTest(
   },
   30_000,
 )
+
+browserTest('pinned Mermaid loads its sealed ZenUML addon and draws authored required labels', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'am-zenuml-community-'))
+  try {
+    const reference = assertMermaidOracle(), addon = mermaidZenumlAddon(reference.directory)
+    const root = resolve(import.meta.dir, '..')
+    const options = { root, harnessRoot: root, out: directory, rounds: 1, profile: 'smoke' as const, referenceDir: reference.directory, fidelityZenumlRoot: addon.root, ...(process.env.AM_CHROMIUM_EXECUTABLE ? { executable: process.env.AM_CHROMIUM_EXECUTABLE } : {}) }
+    const packageRoot = join(reference.directory, 'node_modules/mermaid')
+    const prepared = await prepareCommunityBrowsers([{ node: { id: 'mermaid-js/mermaid', roles: [], outputs: ['svg'], benchmark: { adapter: 'mermaid', outputs: ['svg'] } }, artifact: { kind: 'node', root: packageRoot, module: join(packageRoot, 'dist/mermaid.core.mjs'), version: reference.version } }], options)
+    expect(prepared[0]!.browserStatus).toBe('prepared')
+    expect(prepared[0]!.browser!.zenuml!.version).toBe('1.0.1')
+    expect(prepared[0]!.browser!.files!.some(file => file.path === join(addon.root, addon.entry))).toBe(true)
+    const workloads = requiredExternalFamilyCases().map(testCase => ({ id: testCase.id, family: testCase.family, source: testCase.source, expectedLabels: testCase.expected.labels, features: ['authored-required-external-family'], provenance: 'Independent authored external diagram representative' }))
+    const result = await runCommunityBrowserSuite(prepared, workloads, options)
+    expect(result.observations.find(row => row.caseId === 'family:zenuml')?.status).toBe('passed')
+    expect(result.observations.find(row => row.operation === 'delivery')?.status).toBe('passed')
+  } finally { rmSync(directory, { recursive: true, force: true }) }
+}, 30_000)

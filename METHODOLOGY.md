@@ -37,7 +37,7 @@ Benchmarking another project uses the oracle without benchmarking Mermaid.
 
 ## Inputs and checks
 
-The corpus has 1086 workloads: 6 fixed-core inputs used for speed, 962 feature inputs
+The corpus has 1087 workloads: 6 fixed-core inputs used for speed, 962 feature inputs
 for the original 23-family cohort, drawn from Mermaid's documentation, Mermaid's own test
 suites, the Agentic family registry and generated scaling cases, and 118 inputs for the
 newer families, which are every example on their Mermaid 12.2.0 syntax pages. A case passes when the tool returns
@@ -84,11 +84,10 @@ unsupported, naming the probe, and are not run. If the tool returns output, the 
 counts as supported, and every later failure in it is a failure, even when the probe's
 own output fails a check. A case's error message never makes it unsupported.
 
-The current mark covers 24 built-in families: the historical 23 plus Event Modeling.
+The current mark covers 25 families: the historical 23, Event Modeling and ZenUML.
 The pinned docs do not label Event Modeling beta or experimental; its recent addition
 is no reason to exclude it. The legacy 23-family column retains the original support
-count and pass rate for historical comparisons. Old records that did not probe Event
-Modeling do not receive support credit for it.
+count and pass rate for historical comparisons. Old records that did not probe the additional families do not receive support credit for them.
 
 Eight other recent additions (venn, treeview, wardley, cynefin, railroad, swimlane,
 agentflow and usecase) are measured from every example on their syntax pages at the
@@ -103,9 +102,15 @@ checked by this label census. Mermaid's railroad renderer stores a title but nev
 draws it, so a railroad title is not an expected label.
 
 ZenUML's diagram is not labelled experimental in the pinned docs: the warning concerns
-its loading API. It is a required external-plugin coverage gap in the community mark;
-the separate fidelity suite accepts the pinned 1.0.1 plugin through `--zenuml-root`.
-The community mark therefore still does not establish complete stable Mermaid coverage.
+its loading API. The community corpus includes one independently authored representative
+with four explicit expected labels. Mermaid's browser baseline loads the first-party
+`@mermaid-js/mermaid-zenuml` 1.0.1 addon; its actual files and version are bound in the
+prepared browser identity, and observed delivery includes those files. `mermaid:install`
+installs the pin, or `MERMAID_ZENUML_BENCHMARK_ROOT` can select an existing package.
+The plugin's parser is a no-op and its DB exposes no authored model; admission does not
+prove syntax validation. Arbitrary plugin examples do not receive invented expectations.
+The separate fidelity suite retains native-model and painted-route gaps explicitly.
+This mark establishes bounded family/label admission, not complete Mermaid functionality.
 
 ## Statuses
 
@@ -123,7 +128,7 @@ There is one table per kind of output (SVG, terminal text, PNG, parser), because
 are different products, and one row per tool and public surface. Rows are ordered by
 correctness first, lexicographically, with no weighted score:
 
-1. families supported, out of the 24 currently scored;
+1. families supported, out of the 25 currently scored;
 2. pass rate on cases in those families;
 3. first-call fixed-core time, only when calibrated.
 

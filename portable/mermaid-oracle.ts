@@ -98,7 +98,7 @@ export function assertMermaidOracle(environment: NodeJS.ProcessEnv = process.env
 /** Install the pin with npm, as Agentic's setup-mermaid-reference.sh does. */
 export function installMermaidOracle(directory = mermaidOracleDirectory()): MermaidOracle {
   const pin = MERMAID_ORACLE_PIN
-  const result = spawnSync('npm', ['install', '--prefix', directory, '--save-exact', '--no-audit', '--no-fund', '--ignore-scripts', `mermaid@${pin.version}`, `@mermaid-js/parser@${pin.parser}`, `jsdom@${pin.dom}`], { stdio: 'inherit' })
+  const result = spawnSync('npm', ['install', '--prefix', directory, '--save-exact', '--no-audit', '--no-fund', '--ignore-scripts', `mermaid@${pin.version}`, `@mermaid-js/parser@${pin.parser}`, `jsdom@${pin.dom}`, `@mermaid-js/mermaid-zenuml@${pins.tools['@mermaid-js/mermaid-zenuml'].version}`], { stdio: 'inherit' })
   if (result.status !== 0) throw Error(`npm could not install the Mermaid oracle into ${directory}`)
   return admitMermaidOracle(directory)
 }
@@ -106,11 +106,22 @@ export function installMermaidOracle(directory = mermaidOracleDirectory()): Merm
 export interface MermaidSnapshot extends MermaidVerdict {
   snapshot?: { data: Record<string, unknown>; errors: Record<string, string> }
 }
+/** ZenUML is an independently versioned first-party addon, never an unpinned CDN. */
+export function mermaidZenumlAddon(directory = mermaidOracleDirectory(), configured = process.env.MERMAID_ZENUML_BENCHMARK_ROOT): { root: string; entry: string; version: string } {
+  const root = resolve(configured ?? join(directory, 'node_modules/@mermaid-js/mermaid-zenuml'))
+  const version = pins.tools['@mermaid-js/mermaid-zenuml'].version
+  let manifest: { name?: string; version?: string }
+  try { manifest = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')) } catch { throw Error(`ZenUML needs the pinned @mermaid-js/mermaid-zenuml ${version}; rerun mermaid:install or set MERMAID_ZENUML_BENCHMARK_ROOT`) }
+  const entry = 'dist/mermaid-zenuml.esm.min.mjs'
+  if (manifest.name !== '@mermaid-js/mermaid-zenuml' || manifest.version !== version || !existsSync(join(root, entry))) throw Error(`ZenUML addon must be @mermaid-js/mermaid-zenuml ${version} with its public browser distribution: ${root}`)
+  return { root, entry, version }
+}
 /** Ask the oracle about each source in one Node/jsdom process; with snapshot, also return
  * the diagram DB's getter values, the source of authored label expectations. */
 export async function mermaidVerdicts(oracle: MermaidOracle, sources: readonly string[], options: { snapshot?: boolean } = {}): Promise<MermaidSnapshot[]> {
   if (!sources.length) return []
-  const child = spawn(process.env.NODE_BIN ?? 'node', [join(here, 'mermaid-oracle-worker.mjs'), oracle.directory], { stdio: ['pipe', 'pipe', 'pipe'] })
+  const addon = sources.some(source => /^\s*zenuml\b/m.test(source)) ? mermaidZenumlAddon(oracle.directory) : undefined
+  const child = spawn(process.env.NODE_BIN ?? 'node', [join(here, 'mermaid-oracle-worker.mjs'), oracle.directory, ...(addon ? [join(addon.root, addon.entry)] : [])], { stdio: ['pipe', 'pipe', 'pipe'] })
   let stderr = ''
   child.stderr.on('data', data => (stderr = (stderr + String(data)).slice(-2000)))
   const replies: MermaidSnapshot[] = []

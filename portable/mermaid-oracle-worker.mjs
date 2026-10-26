@@ -9,8 +9,8 @@ import { pathToFileURL } from 'node:url'
 const write = process.stdout.write.bind(process.stdout)
 const require = createRequire(resolve(process.argv[2], 'package.json'))
 const { JSDOM } = require('jsdom')
-const dom = new JSDOM('<!doctype html><html><body></body></html>')
-for (const key of ['window', 'document', 'navigator', 'HTMLElement', 'SVGElement', 'Element', 'Node', 'Option']) Object.defineProperty(globalThis, key, { configurable: true, value: dom.window[key] })
+const dom = new JSDOM('<!doctype html><html><body></body></html>', { url: 'http://localhost' })
+for (const key of ['window', 'document', 'location', 'localStorage', 'sessionStorage', 'navigator', 'HTMLElement', 'SVGElement', 'Element', 'Node', 'Option']) Object.defineProperty(globalThis, key, { configurable: true, value: dom.window[key] })
 // Diagram DBs log diagnostics; only verdict lines reach stdout.
 console.log = console.info = console.debug = console.warn = console.error = () => {}
 const { default: mermaid } = await import(pathToFileURL(require.resolve('mermaid')).href)
@@ -21,6 +21,10 @@ const parserManifest = mermaidRequire.resolve.paths('@mermaid-js/parser').map(ro
 const parserEntry = JSON.parse(readFileSync(parserManifest, 'utf8')).exports['.'].import
 const { parse: parseAst } = await import(pathToFileURL(resolve(dirname(parserManifest), parserEntry)).href)
 mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', logLevel: 'fatal' })
+if (process.argv[3]) {
+  const { default: plugin } = await import(pathToFileURL(process.argv[3]).href)
+  await mermaid.registerExternalDiagrams([plugin])
+}
 // Ported verbatim from Agentic's eval/mermaid-modern-compat/reference-worker.mjs: plain-data DB getters.
 const omittedKeys = new Set(['domId', 'config', 'look', 'themeVariables']);
 function plain(value, seen = new Map(), path = '$') {

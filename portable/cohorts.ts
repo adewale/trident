@@ -406,14 +406,19 @@ const newerFamilyCases: PortableCase[] = [
   { id: 'family:agentflow', family: 'agentflow', cohort: 'family', source: 'agentflow-beta TB\n  flow alpha["Alpha"]\n    b["Beta"]@{ shape: task }\n    c["Gamma"]@{ shape: tool }\n    b --> c\n  end', expected: { accept: true, labels: ['Alpha', 'Beta', 'Gamma'] } },
   { id: 'family:usecase', family: 'usecase', cohort: 'family', source: 'usecase-beta\nactor Alpha("Alpha")\nsystemBoundary "Beta"\n  Gamma("Gamma")\nend\nAlpha --> Gamma', expected: { accept: true, labels: ['Alpha', 'Beta', 'Gamma'] } },
 ]
+/** First-party external diagrams remain required even when the core bundle omits them. */
+export const requiredExternalFamilyCases = (): PortableCase[] => [
+  { id: 'family:zenuml', family: 'zenuml', cohort: 'family', source: 'zenuml\ntitle Demo\nAlice->John: Hello John, how are you?\nJohn->Alice: Great!', expected: { accept: true, labels: ['Alice', 'John', 'Hello John, how are you?', 'Great!'] } },
+]
 /** The original 23-family mark, retained for historical comparisons. */
 export const legacyScoredFamilies = (): string[] => [...new Set(familyCases.map(testCase => testCase.family))]
 /** The current mark also includes Event Modeling, whose pinned syntax docs do not
- * label the diagram beta or experimental. A family's age is not a maturity rule. */
-export const scoredFamilies = (): string[] => [...legacyScoredFamilies(), 'eventmodeling']
+ * label the diagram beta or experimental. Required first-party external diagrams
+ * also belong in the mark. A family's age is not a maturity rule. */
+export const scoredFamilies = (): string[] => [...legacyScoredFamilies(), 'eventmodeling', ...requiredExternalFamilyCases().map(testCase => testCase.family)]
 /** Additional documented families imported beside the original portable cohorts. */
 export const newerFamilies = (): string[] => newerFamilyCases.map(testCase => testCase.family)
 export function familySupportProbe(family: string): PortableCase | undefined {
-  const canonical = familyCases.find(testCase => testCase.family === family) ?? newerFamilyCases.find(testCase => testCase.family === family)
+  const canonical = familyCases.find(testCase => testCase.family === family) ?? newerFamilyCases.find(testCase => testCase.family === family) ?? requiredExternalFamilyCases().find(testCase => testCase.family === family)
   return canonical && { ...canonical, id: `family-support:${family}` }
 }

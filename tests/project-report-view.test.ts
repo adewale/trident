@@ -181,7 +181,7 @@ test('stable Event Modeling changes the current mark while beta additions leave 
     publishResults(store, out)
     const markdown = readFileSync(join(out, 'README.md'), 'utf8')
     const cells = markdown.split('\n').find(line => line.includes('[fixture/newer]'))!.split('|').map(cell => cell.trim())
-    expect(cells[5]).toBe('2/24')
+    expect(cells[5]).toBe('2/25')
     expect(cells[6]).toBe('50.0% (1/2)')
     expect(cells[7]).toBe('1/8, 50.0%')
     expect(cells[11]).toBe('1/23, 100.0% (1/1)')

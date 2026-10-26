@@ -856,7 +856,7 @@ export function verifyFrozenBrowserEngine(peer: import('./community-browser.ts')
   const files = (engine as typeof engine & { files?: { path: string; sha256: string }[] }).files
   if (!files?.length || !files.some(file => realpathSync(file.path) === realpathSync(entry))) throw Error('Frozen browser engine has no admitted entry/resource file manifest')
   for (const file of files) if (!existsSync(file.path) || artifactDigest(file.path) !== file.sha256) throw Error('Prepared browser resource digest mismatch: ' + file.path)
-  for (const resource of [engine.wasm ? resolve(engine.root, engine.wasm) : undefined, engine.qualificationHelper].filter((path): path is string => !!path)) if (!files.some(file => realpathSync(file.path) === realpathSync(resource))) throw Error('Browser WASM/qualification helper is not bound by its resource manifest')
+  for (const resource of [engine.wasm ? resolve(engine.root, engine.wasm) : undefined, engine.qualificationHelper, engine.zenuml ? resolve(engine.zenuml.root, engine.zenuml.entry) : undefined].filter((path): path is string => !!path)) if (!files.some(file => realpathSync(file.path) === realpathSync(resource))) throw Error('Browser WASM/qualification helper/addon is not bound by its resource manifest')
 }
 async function communityBrowsers(prepared: PreparedCommunity[], options: UnifiedRunOptions) {
   const browser = await import('./community-browser.ts')
