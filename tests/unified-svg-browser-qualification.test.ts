@@ -19,6 +19,9 @@ const authored: { id: string; labels: string[]; output: string; accepted: boolea
   { id: 'aligned-first-tspans', labels: ['Read Write'], output: svg('<text x="100" y="10"><tspan x="10">Read</tspan></text><text x="200" y="28"><tspan x="10">Write</tspan></text>'), accepted: true },
   { id: 'separated-transforms', labels: ['Read Write'], output: svg('<text x="10" y="10" transform="translate(0 0)">Read</text><text x="10" y="28" transform="translate(200 0)">Write</text>'), accepted: false },
   { id: 'separated-offsets', labels: ['Read Write'], output: svg('<text x="10" y="10" dx="0">Read</text><text x="10" y="28" dx="200">Write</text>'), accepted: false },
+  { id: 'inherited-distant-rows', labels: ['Read Write'], output: svg('<g font-size="16"><text x="10" y="10">Read</text><text x="10" y="1000">Write</text></g>'), accepted: false },
+  { id: 'nested-positioned-spans', labels: ['Read Write'], output: svg('<text x="10" y="10"><tspan><tspan x="100">Read</tspan></tspan></text><text x="10" y="28"><tspan><tspan x="200">Write</tspan></tspan></text>'), accepted: false },
+  { id: 'small-first-spans', labels: ['Read Write'], output: svg('<text x="10" y="10" font-size="16"><tspan font-size="1">Read</tspan></text><text x="10" y="28" font-size="16"><tspan font-size="1">Write</tspan></text>'), accepted: false },
   { id: 'html-break', labels: ['First Second'], output: svg('<foreignObject><div xmlns="http://www.w3.org/1999/xhtml">First<br/>Second</div></foreignObject>'), accepted: true },
   // Mermaid's own serialization: HTML inside foreignObject, so the <br> is not closed and the string is not XML.
   { id: 'html-serialized-break', labels: ['First Second'], output: svg('<foreignObject><div xmlns="http://www.w3.org/1999/xhtml"><p>First<br>Second</p></div></foreignObject>'), accepted: true },

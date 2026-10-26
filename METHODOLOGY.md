@@ -58,10 +58,12 @@ Two rules read a label the way a renderer draws it. Both apply to every tool:
   Mermaid also draws a wrapped sequence message or actor as separate `<text>` rows, so
   adjacent sibling `<text>` elements are joined in document order when they have the
   same effective x, transform, class, style, anchor and font attributes, each row is below the previous one,
-  and, where a font size is declared, no more than two font sizes below it. Anything
+  and no more than two effective font sizes below it. Inline/presentation font sizes
+  inherit through ancestors and the first `tspan`; absent a declared size, the SVG
+  initial size of 16px is used. External stylesheet sizing remains unmeasured. Anything
   between two rows (another element, or text) ends the label. Scalar `dx`/`dy` offsets
   and the first `tspan`'s positioning are applied before grouping; unresolved position
-  lists, units, or per-span transforms are not joined. Terminal output is not
+  lists, units, nested spans, or per-span transforms are not joined. Terminal output is not
   joined across lines.
 
 The whole label must still appear in one place: matching is by whole tokens, never a

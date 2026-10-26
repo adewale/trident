@@ -68,6 +68,19 @@ test('rows that are not one wrapped label stay separate', () => {
   expect(accepts(['Hello Bob, how are you today?'], '<text x="10" y="10">Hello Bob, how</text><text x="10" y="28">are you</text>')).toBe(false)
 })
 
+test.each([
+  ['inherited font size', '<g font-size="16"><text x="10" y="10">Read</text><text x="10" y="1000">Write</text></g>'],
+  ['nested positioned spans', '<text x="10" y="10"><tspan><tspan x="100">Read</tspan></tspan></text><text x="10" y="28"><tspan><tspan x="200">Write</tspan></tspan></text>'],
+  ['first span font size', '<text x="10" y="10" font-size="16"><tspan font-size="1">Read</tspan></text><text x="10" y="28" font-size="16"><tspan font-size="1">Write</tspan></text>'],
+])('wrapped rows do not ignore %s', (_rule, body) => {
+  expect(accepts(['Read Write'], body!)).toBe(false)
+})
+
+test('inherited and first-span font sizes allow adjacent rows at their own scale', () => {
+  expect(accepts(['Read Write'], '<g font-size="16"><text x="10" y="10">Read</text><text x="10" y="28">Write</text></g>')).toBe(true)
+  expect(accepts(['Read Write'], '<text x="10" y="10" font-size="16"><tspan font-size="1">Read</tspan></text><text x="10" y="11.5" font-size="16"><tspan font-size="1">Write</tspan></text>')).toBe(true)
+})
+
 test('a source echo stacked as rows is still not a diagram', () => {
   const source = 'flowchart LR\n A[Start] --> B[End]'
   const result = qualifyOutput(workload(['Start', 'End'], source), svg('<text x="0" y="10">flowchart LR</text><text x="0" y="26">A[Start] --&gt; B[End]</text>'), 'svg')
