@@ -122,12 +122,12 @@ test('community league costs compare and rank within each invocation surface', (
       rows = markdown.split('\n')
     const node = rows.find(line => line.includes('[fixture/node]'))!.split('|'),
       browser = rows.find(line => line.includes('[fixture/browser]'))!.split('|')
-    expect(node[8]!.trim()).toBe('—')
-    expect(browser[8]!.trim()).toBe('2.0× faster')
+    expect(node[9]!.trim()).toBe('—')
+    expect(browser[9]!.trim()).toBe('2.0× faster')
     expect(
       rows
         .find(line => line.includes('[fixture/remote]'))!
-        .split('|')[8]!
+        .split('|')[9]!
         .trim(),
     ).toBe('—')
     expect(node[1]!.trim()).toBe('1')
@@ -136,11 +136,55 @@ test('community league costs compare and rank within each invocation surface', (
     expect(
       rows
         .find(line => line.includes('[fixture/formatter]'))!
-        .split('|')[8]!
+        .split('|')[9]!
         .trim(),
     ).toBe('—')
     expect(markdown).toContain('### Node API')
     expect(markdown).toContain('### browser API')
+  } finally {
+    rmSync(directory, { recursive: true, force: true })
+  }
+})
+
+test('newer families sit beside the 23-family mark and change no rank, count or pass rate', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'community-league-newer-')),
+    store = join(directory, 'store'),
+    out = join(directory, 'published')
+  try {
+    const project = 'fixture/newer'
+    const evidenceDirectory = join(directory, 'evidence')
+    mkdirSync(evidenceDirectory)
+    writeFileSync(join(evidenceDirectory, 'result.json'), '{}')
+    const row = (family: string, caseId: string, status: 'passed' | 'failed' | 'unsupported', operation = 'render') => ({ suite: 'community', surface: 'node:public-api', runtime: 'fixture', family, caseId, operation, format: 'svg', mode: 'core-api-repeat', status, samplesMs: [1], metrics: { implementation: project, version: 'fixture', round: 1, firstMs: 1 } })
+    publishProjectRecord(store, {
+      schemaVersion: 1,
+      id: project,
+      identity: { project, protocol: { context: 'same' }, artifact: {}, measurement: { rounds: 1 } },
+      startedAt: '2026-10-26T00:00:00Z',
+      finishedAt: '2026-10-26T00:01:00Z',
+      status: 'failed',
+      evidenceDirectory,
+      evidenceFiles: ['result.json'],
+      gaps: [],
+      observations: [
+        row('flowchart', 'family-support:flowchart', 'passed', 'family-support'),
+        row('flowchart', 'authored-flowchart', 'passed'),
+        row('venn', 'family-support:venn', 'passed', 'family-support'),
+        row('venn', 'docs:venn:0', 'passed'),
+        row('venn', 'docs:venn:1', 'failed'),
+        row('wardley', 'family-support:wardley', 'unsupported', 'family-support'),
+      ],
+    })
+    publishResults(store, out)
+    const markdown = readFileSync(join(out, 'README.md'), 'utf8')
+    const cells = markdown.split('\n').find(line => line.includes('[fixture/newer]'))!.split('|').map(cell => cell.trim())
+    expect(cells[5]).toBe('1/23')
+    expect(cells[6]).toBe('100.0% (1/1)')
+    expect(cells[7]).toBe('1/9, 50.0%')
+    const newer = markdown.slice(markdown.indexOf('### Newer families'))
+    expect(newer).toContain('| venn | 50.0% |')
+    expect(newer).toContain('| wardley | — |')
+    expect(markdown.slice(markdown.indexOf('## Families'), markdown.indexOf('### Newer families'))).not.toContain('| venn |')
   } finally {
     rmSync(directory, { recursive: true, force: true })
   }

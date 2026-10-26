@@ -32,14 +32,18 @@ export function referenceLabels(family: string, reply: MermaidSnapshot): Referen
     add(`${path}.${key}`, item[key])
     list(item.children).forEach((child, index) => tree(`${path}.children[${index}]`, child, key))
   }
-  add('getDiagramTitle', db.getDiagramTitle)
+  // Mermaid 12.2.0's railroad renderer stores a title but never draws it.
+  if (family !== 'railroad') add('getDiagramTitle', db.getDiagramTitle)
   switch (family) {
     case 'flowchart':
     case 'state':
     case 'class':
     case 'er':
     case 'mindmap':
-    case 'kanban': {
+    case 'kanban':
+    case 'swimlane':
+    case 'agentflow':
+    case 'usecase': {
       const data = row(db.getData)
       rows(data.nodes).filter(node => !['stateStart', 'stateEnd', 'fork', 'join', 'choice', 'divider'].includes(text(node.shape))).forEach((node, index) => add(`getData.nodes[${index}].label`, family === 'er' && node.alias ? node.alias : node.label))
       fields('getData.edges', rows(data.edges), 'label')
@@ -121,6 +125,44 @@ export function referenceLabels(family: string, reply: MermaidSnapshot): Referen
       fields('getBlocksFlat', rows(db.getBlocksFlat).filter(node => node.type !== 'space' && node.type !== 'composite'), 'label')
       fields('getEdges', rows(db.getEdges), 'label')
       break
+    case 'venn':
+      // A single set without a display label is drawn with its own name.
+      rows(db.getSubsetData).forEach((subset, index) => add(`getSubsetData[${index}].label`, subset.label ?? (list(subset.sets).length === 1 ? list(subset.sets)[0] : undefined)))
+      fields('getTextData', rows(db.getTextData), 'label')
+      break
+    case 'treeview':
+      // The root is the implicit container, not an authored entry.
+      list(row(db.getRoot).children).forEach((child, index) => tree(`getRoot.children[${index}]`, child, 'name'))
+      break
+    case 'wardley': {
+      const data = row(db.getWardleyData)
+      fields('getWardleyData.nodes', rows(data.nodes), 'label')
+      fields('getWardleyData.notes', rows(data.notes), 'text')
+      fields('getWardleyData.annotations', rows(data.annotations), 'text')
+      break
+    }
+    case 'cynefin':
+      pairs(db.getDomains).forEach((domain, index) => fields(`getDomains[${index}].items`, rows(domain.items), 'label'))
+      fields('getTransitions', rows(db.getTransitions), 'label')
+      break
+    case 'railroad': {
+      const visit = (path: string, value: unknown): void => {
+        const item = row(value)
+        if (item.type === 'terminal') add(`${path}.value`, item.value)
+        if (item.type === 'nonterminal') add(`${path}.name`, item.name)
+        for (const key of ['element', 'elements', 'alternatives']) {
+          const child = item[key]
+          if (Array.isArray(child)) child.forEach((part, index) => visit(`${path}.${key}[${index}]`, part))
+          else if (child) visit(`${path}.${key}`, child)
+        }
+      }
+      rows(db.getRules).forEach((rule, index) => {
+        add(`getRules[${index}].name`, rule.name)
+        visit(`getRules[${index}].definition`, rule.definition)
+      })
+      break
+    }
+    // eventmodeling exposes no element getter, so its cases keep a visible label gap.
     default: return undefined
   }
   return out
