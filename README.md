@@ -128,6 +128,35 @@ The [included retained-report example](examples/fidelity-2026-10-26/README.md)
 regenerates charts and exports without Agentic, a browser, tool installations or
 session-local records. Its raw rendered witnesses are not bundled.
 
+## Maintainer checks
+
+Trident checks itself with Bun 1.4 or later and Python 3:
+
+```sh
+bun install
+bun commands.ts test
+bun commands.ts typecheck
+bun commands.ts lint
+python3 -m unittest discover -s visualizations -p '*_test.py'
+```
+
+Standalone, `test` and `typecheck` cover every file whose imports stay in this
+package. `tsconfig.standalone.json` excludes the Agentic adapter files: those whose
+import closure reaches Agentic source. `tests/standalone-scope.test.ts` fails when
+that list and the actual imports disagree. Tests that exercise the Agentic checkout
+layout report as skipped. Set `TRIDENT_AGENTIC_ROOT=/path/to/agentic-mermaid`
+when running `test` or `typecheck` to cover every file through the prepared source
+workspace. A physical `eval/benchmark` layout is also detected. The Agentic
+checkout's `bun run bench:test`, `bench:typecheck` and `bench:lint` use its pinned
+Trident revision. Browser tests use
+`AM_CHROMIUM_EXECUTABLE`, then `/usr/bin/chromium`, then Playwright's Chromium.
+
+The local temporary-directory and child-process test support belongs to Trident.
+Product runtime code does not import benchmark code. Copying this directory does
+not make the optional source adapters, external corpora, product tests or built
+website available. Their remaining dependencies are explicit rather than
+silently substituted with public-artifact results.
+
 ## Retention and extraction contract
 
 An unchanged project reuses its exact completed attempt, including failures and

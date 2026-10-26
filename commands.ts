@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process'
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import sourceScripts from './integration/agentic-scripts.json' with { type: 'json' }
@@ -29,8 +29,9 @@ agentic-mermaid. AM_BENCH_REPOSITORY_ROOT remains a compatibility alias.
 
 Aliases: bench=agentic, portable:build=build. portable keeps legacy source-mode
 execution with its committed-source identity; run uses compiled measurement bytes.
-Maintainer checks: test, typecheck, lint. Full tests/typechecking include optional
-Agentic source adapters; run them in the Agentic checkout.
+Maintainer checks: test, typecheck, lint (Bun). Test/typecheck run standalone by
+default. Set TRIDENT_AGENTIC_ROOT for the full suite including source adapters;
+the physical eval/benchmark layout is also detected.
 All measurement commands reject CI. --help does not start a benchmark.
 `
 
@@ -43,6 +44,28 @@ function sourceCheckout(): string {
   } catch {}
   if (!agentic) throw Error('Optional Agentic source adapter unavailable. Set TRIDENT_AGENTIC_ROOT to an Agentic Mermaid checkout; standalone run/build/fidelity:report do not require it.')
   return candidate
+}
+
+function containingCheckout(): string | undefined {
+  const candidate = resolve(directory, '../..')
+  try {
+    return JSON.parse(readFileSync(resolve(candidate, 'package.json'), 'utf8')).name === 'agentic-mermaid' ? candidate : undefined
+  } catch {
+    return undefined
+  }
+}
+
+function adapterFiles(): Set<string> {
+  const exclude: string[] = JSON.parse(readFileSync(resolve(directory, 'tsconfig.standalone.json'), 'utf8')).exclude
+  return new Set(exclude.filter(entry => !['node_modules', 'dist', '.cache'].includes(entry)))
+}
+
+function standaloneTests(): string[] {
+  const adapter = adapterFiles()
+  return readdirSync(resolve(directory, 'tests'))
+    .filter(name => name.endsWith('.test.ts') && !adapter.has('tests/' + name))
+    .sort()
+    .map(name => resolve(directory, 'tests', name))
 }
 
 function sourceEnvironment(root: string, workspace: string): NodeJS.ProcessEnv {
@@ -82,9 +105,10 @@ async function main() {
   const selected = Object.hasOwn(aliases, command) ? aliases[command]! : command
   const neutral: Record<string, string> = { build: 'portable/build.ts', portable: 'portable/run.ts', 'fidelity:report': 'fidelity/report.ts' }
   const source: Record<string, string> = { agentic: 'unified/run.ts', community: 'unified/community-campaign.ts', 'community:update': 'unified/project-update.ts', prs: 'unified/pr-campaign.ts' }
+  const fullChecks = (selected === 'test' || selected === 'typecheck') && Boolean(process.env.TRIDENT_AGENTIC_ROOT ?? process.env.AM_BENCH_REPOSITORY_ROOT ?? containingCheckout())
   const checks: Record<string, string[]> = {
-    test: ['test', '--timeout', '30000', '--parallel=2', resolve(directory, 'tests')],
-    typecheck: ['x', '--no-install', 'tsc', '--noEmit', '-p', resolve(directory, 'tsconfig.json')],
+    test: ['test', '--timeout', '30000', '--parallel=2', ...(selected === 'test' && !fullChecks ? standaloneTests() : [resolve(directory, 'tests')])],
+    typecheck: ['x', '--no-install', 'tsc', '--noEmit', '-p', resolve(directory, 'tsconfig.standalone.json')],
     lint: ['x', '--no-install', 'biome', 'lint', '--config-path', resolve(directory, 'biome.json'), directory],
   }
   if (selected === 'export') {
@@ -120,11 +144,12 @@ async function main() {
     if (!existsSync(compiled) || !existsSync(resolve(directory, 'portable/dist/harness-artifact.json'))) throw Error('Trident compiled kit is missing. Run node commands.ts build first; a custom --out kit runs via node KIT/run.mjs.')
     executable = process.env.NODE_BIN ?? (process.versions.bun ? 'node' : process.execPath)
     argv = [compiled]
-  } else if (source[selected] || selected === 'test' || selected === 'typecheck') {
+  } else if (source[selected] || fullChecks) {
     cwd = sourceCheckout()
     if (!process.versions.bun) throw Error('The optional Agentic source adapter and maintainer tests require Bun 1.4 or later. Neutral build/run/fidelity:report accept Node 24.')
     assertBenchmarkExecutionAllowed()
     const selectedRoot = cwd
+    if (fullChecks) console.error(`Trident ${selected}: every file, including Agentic adapters from ${selectedRoot}`)
     const forwarded = externalPaths(args)
     if (source[selected] && selected !== 'prs') {
       if (process.env.AM_CHROMIUM_EXECUTABLE && !forwarded.includes('--executable')) forwarded.push('--executable', process.env.AM_CHROMIUM_EXECUTABLE)
@@ -145,6 +170,7 @@ async function main() {
     argv = process.versions.bun ? ['run', script] : [script]
   } else if (checks[selected]) {
     if (!process.versions.bun) throw Error('Maintainer checks require Bun 1.4 or later')
+    if (selected === 'test' || selected === 'typecheck') console.error(`Trident ${selected}: standalone files; ${adapterFiles().size} Agentic adapter files require TRIDENT_AGENTIC_ROOT`)
     argv = checks[selected]!
   } else throw Error(`Unknown Trident command ${command}; use --help`)
   assertBenchmarkExecutionAllowed()

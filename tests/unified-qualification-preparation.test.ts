@@ -5,9 +5,11 @@ import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { prepareQualificationRepair } from '../unified/prepare-community-qualification-repair.ts'
+import { testWithAgentic } from './helpers/environment.ts'
 
 const driver = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
-test('qualification preparation preserves admitted old bytes and gives every frozen peer a fresh helper proof', async () => {
+// The repair resolves its helpers under <Agentic>/eval/benchmark, as the community campaign does.
+testWithAgentic('qualification preparation preserves admitted old bytes and gives every frozen peer a fresh helper proof', async () => {
   const directory = mkdtempSync(join(tmpdir(), 'am-qualification-asset-'))
   try {
     const base = join(directory, 'base'), out = join(directory, 'fresh'), helper = join(directory, 'qualification.js'), entry = join(directory, 'engine.js')
