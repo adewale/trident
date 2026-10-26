@@ -197,7 +197,7 @@ export function communityCandidate(values: { tarball?: string; sha256?: string; 
     if (values.tarball || values.sha256) throw Error('Use --candidate-dir, or --candidate-tarball with --candidate-sha256, not both')
     const destination = join(options.out, 'candidate-packs', randomUUID())
     mkdirSync(destination, { recursive: true })
-    const packed = JSON.parse(execFileSync('npm', ['pack', resolve(values.directory), '--ignore-scripts', '--json', '--pack-destination', destination], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }))
+    const packed = JSON.parse(execFileSync('npm', ['pack', resolve(values.directory), '--ignore-scripts', '--json', '--pack-destination', destination], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, npm_config_cache: process.env.npm_config_cache ?? join(options.out, 'npm-cache') } }))
     const tarball = join(destination, packed[0].filename)
     return { project, tarball, sha256: byteDigest(tarball), packedFrom: resolve(values.directory) }
   }

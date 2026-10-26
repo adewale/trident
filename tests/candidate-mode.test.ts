@@ -22,7 +22,7 @@ function pack(name: string, version: string): string {
     destination = temp.dir()
   writeFileSync(join(source, 'package.json'), JSON.stringify({ name, version, type: 'module', main: 'index.js', exports: './index.js' }))
   writeFileSync(join(source, 'index.js'), "export const render = source => '<svg xmlns=\"http://www.w3.org/2000/svg\"><text>' + source.length + '</text></svg>'\n")
-  const [packed] = JSON.parse(execFileSync('npm', ['pack', source, '--ignore-scripts', '--json', '--pack-destination', destination], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }))
+  const [packed] = JSON.parse(execFileSync('npm', ['pack', source, '--ignore-scripts', '--json', '--pack-destination', destination], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, npm_config_cache: join(destination, 'npm-cache') } }))
   return join(destination, packed.filename)
 }
 function preparation() {
