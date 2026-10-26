@@ -47,6 +47,7 @@
     "tests/unified-community-admission.test.ts",
     "tests/unified-empty-family-svg.test.ts",
     "tests/unified-entry-startup.test.ts",
+    "tests/unified-family-support.test.ts",
     "tests/unified-invocation-qualification-dependency.test.ts",
     "tests/unified-invocation-watch-cleanup.test.ts",
     "tests/unified-native-invocation-rounds.test.ts",
