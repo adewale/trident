@@ -1,0 +1,206 @@
+[
+  {
+    "project": "mermaid-js/mermaid",
+    "rule": "markdown",
+    "file": "mermaid--flowchart-markdown-nodes-and-labels.svg",
+    "workload": {
+      "id": "corpus:mermaid-upstream-suite-bench:flowchart-upstream-markdown-formatting-in-nodes-and-labels",
+      "family": "flowchart",
+      "source": "flowchart\nA[\"`The cat in **the** hat`\"]-- \"`The *bat* in the chat`\" -->B[\"The dog in the hog\"] -- \"The rat in the mat\" -->C;",
+      "features": [
+        "harvested-family-feature",
+        "flowchart-upstream-markdown-formatting-in-nodes-and-labels",
+        "asserted:expectStructured",
+        "asserted:nodeCount",
+        "asserted:edgeCount",
+        "asserted:groupCount",
+        "asserted:minNodes",
+        "asserted:minEdges",
+        "asserted:labelsContain"
+      ],
+      "provenance": "eval/mermaid-upstream-suite-bench/cases.json#flowchart-upstream-markdown-formatting-in-nodes-and-labels; pinned Mermaid 12.2.0 DB getters",
+      "expectedLabels": [
+        "The cat in **the** hat",
+        "The dog in the hog",
+        "C",
+        "The *bat* in the chat",
+        "The rat in the mat"
+      ]
+    },
+    "missingBefore": [
+      "The cat in **the** hat",
+      "The *bat* in the chat"
+    ]
+  },
+  {
+    "project": "mermaid-js/mermaid",
+    "rule": "markdown",
+    "file": "mermaid--requirement-docs-4.svg",
+    "workload": {
+      "id": "corpus:mermaid-requirement-bench:requirement-docs-4",
+      "family": "requirement",
+      "source": "requirementDiagram\n\nrequirement \"__test_req__\" {\n    id: 1\n    text: \"*italicized text* **bold text**\"\n    risk: high\n    verifymethod: test\n}\n",
+      "features": [
+        "harvested-family-feature",
+        "requirement-docs-4",
+        "expected:direction",
+        "expected:requirements",
+        "expected:elements",
+        "expected:relations"
+      ],
+      "provenance": "eval/mermaid-requirement-bench/cases.json#requirement-docs-4; pinned Mermaid 12.2.0 DB getters",
+      "expectedLabels": [
+        "__test_req__",
+        "*italicized text* **bold text**"
+      ]
+    },
+    "missingBefore": [
+      "__test_req__",
+      "*italicized text* **bold text**"
+    ]
+  },
+  {
+    "project": "mermaid-js/mermaid",
+    "rule": "markdown",
+    "file": "mermaid--mindmap.svg",
+    "workload": {
+      "id": "editor:mindmap",
+      "family": "mindmap",
+      "source": "mindmap\n  root((Agent-native release))\n    discovery[Discovery]\n      ::icon(fa fa-book)\n      :::urgent large\n      evidence[\"`**Evidence** across\ninterviews, benchmarks, and Unicode naïve café`\"]\n      constraints{{Constraints}}\n        Security\n        Determinism\n    delivery(Delivery)\n      beta))Beta signal((\n      launch)Launch cloud(\n      quality[Quality gates]\n        Parser round-trip\n        SVG identity\n        Terminal width\n    Ecosystem\n      Mermaid parity\n      Terminal tools",
+      "features": [
+        "representative-editor-features",
+        "mindmap-basic"
+      ],
+      "provenance": "src/agent/families.ts#mindmap-basic; pinned Mermaid 12.2.0 DB getters",
+      "expectedLabels": [
+        "Agent-native release",
+        "Discovery",
+        "**Evidence** across interviews, benchmarks, and Unicode naïve café",
+        "Constraints",
+        "Security",
+        "Determinism",
+        "Delivery",
+        "Beta signal",
+        "Launch cloud",
+        "Quality gates",
+        "Parser round-trip",
+        "SVG identity",
+        "Terminal width",
+        "Ecosystem",
+        "Mermaid parity",
+        "Terminal tools"
+      ]
+    },
+    "missingBefore": [
+      "**Evidence** across interviews, benchmarks, and Unicode naïve café"
+    ]
+  },
+  {
+    "project": "mermaid-js/mermaid",
+    "rule": "wrapped",
+    "file": "mermaid--sequence-text-wrapped-inline.svg",
+    "workload": {
+      "id": "corpus:mermaid-upstream-suite-bench:sequence-upstream-should-draw-two-actors-notes-to-the-left-with-text-wrapped-inline",
+      "family": "sequence",
+      "source": "sequenceDiagram\nAlice->>Bob:wrap: Hello Bob, how are you? If you are not available right now, I can leave you a message. Please get back to me as soon as you can!\nNote left of Alice: Bob thinks\nBob->>Alice: Fine!",
+      "features": [
+        "harvested-family-feature",
+        "sequence-upstream-should-draw-two-actors-notes-to-the-left-with-text-wrapped-inline",
+        "asserted:expectStructured",
+        "asserted:nodeCount",
+        "asserted:edgeCount",
+        "asserted:groupCount",
+        "asserted:minNodes",
+        "asserted:minEdges",
+        "asserted:labelsContain"
+      ],
+      "provenance": "eval/mermaid-upstream-suite-bench/cases.json#sequence-upstream-should-draw-two-actors-notes-to-the-left-with-text-wrapped-inline; pinned Mermaid 12.2.0 DB getters",
+      "expectedLabels": [
+        "Alice",
+        "Bob",
+        "Hello Bob, how are you? If you are not available right now, I can leave you a message. Please get back to me as soon as you can!",
+        "Fine!"
+      ]
+    },
+    "missingBefore": [
+      "Hello Bob, how are you? If you are not available right now, I can leave you a message. Please get back to me as soon as you can!"
+    ]
+  },
+  {
+    "project": "mermaid-js/mermaid",
+    "rule": "wrapped",
+    "file": "mermaid--sequence-different-line-breaks.svg",
+    "workload": {
+      "id": "corpus:mermaid-upstream-suite-bench:sequence-upstream-should-handle-different-line-breaks",
+      "family": "sequence",
+      "source": "sequenceDiagram\nparticipant 1 as multiline<br>text\nparticipant 2 as multiline<br/>text\nparticipant 3 as multiline<br />text\nparticipant 4 as multiline<br \t/>text\n1->>2: multiline<br>text\nnote right of 2: multiline<br>text\n2->>3: multiline<br/>text\nnote right of 3: multiline<br/>text\n3->>4: multiline<br />text\nnote right of 4: multiline<br />text\n4->>1: multiline<br \t/>text\nnote right of 1: multiline<br \t/>text",
+      "features": [
+        "harvested-family-feature",
+        "sequence-upstream-should-handle-different-line-breaks",
+        "asserted:expectStructured",
+        "asserted:nodeCount",
+        "asserted:edgeCount",
+        "asserted:groupCount",
+        "asserted:minNodes",
+        "asserted:minEdges",
+        "asserted:labelsContain"
+      ],
+      "provenance": "eval/mermaid-upstream-suite-bench/cases.json#sequence-upstream-should-handle-different-line-breaks; pinned Mermaid 12.2.0 DB getters",
+      "expectedLabels": [
+        "multiline text"
+      ]
+    },
+    "missingBefore": [
+      "multiline text"
+    ]
+  },
+  {
+    "project": "obsidianmd/pele",
+    "rule": "wrapped",
+    "file": "pele--kanban-render-2.svg",
+    "workload": {
+      "id": "corpus:mermaid-kanban-bench:kanban-render-2",
+      "family": "kanban",
+      "source": "---\ndescription: >-\n  Baseline kanban fixture with three items (Todo, Create Documentation,\n  Create Blog about the new diagram) at the same indentation level. Since\n  the kanban grammar treats same-indent siblings as new sections rather\n  than child cards, all three render as separate top-level columns.\n---\nkanban\n  id1[Todo]\n  docs[Create Documentation]\n  docs[Create Blog about the new diagram]\n",
+      "features": [
+        "harvested-family-feature",
+        "kanban-render-2"
+      ],
+      "provenance": "eval/mermaid-kanban-bench/cases.json#kanban-render-2; pinned Mermaid 12.2.0 DB getters",
+      "expectedLabels": [
+        "Todo",
+        "Create Documentation",
+        "Create Blog about the new diagram"
+      ]
+    },
+    "missingBefore": [
+      "Create Documentation",
+      "Create Blog about the new diagram"
+    ]
+  },
+  {
+    "project": "adewale/agentic-mermaid",
+    "rule": "wrapped",
+    "file": "agentic-mermaid--db-end-on-31st.svg",
+    "workload": {
+      "id": "corpus:mermaid-gantt-bench:db-end-on-31st",
+      "family": "gantt",
+      "source": "gantt\ndateFormat YYYY-MM-DD\nsection Task endTime is on the 31st day of the month\ntest1 :id1,2019-09-30,11d\ntest2 :id2,after id1,20d",
+      "features": [
+        "harvested-family-feature",
+        "db-end-on-31st",
+        "expected:kind",
+        "expected:tasks"
+      ],
+      "provenance": "eval/mermaid-gantt-bench/cases.json#db-end-on-31st; pinned Mermaid 12.2.0 DB getters",
+      "expectedLabels": [
+        "Task endTime is on the 31st day of the month",
+        "test1",
+        "test2"
+      ]
+    },
+    "missingBefore": [
+      "Task endTime is on the 31st day of the month"
+    ]
+  }
+]

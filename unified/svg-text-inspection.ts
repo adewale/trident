@@ -30,11 +30,28 @@ const excluded = (node: SvgInspectionElement): boolean => inert.has(node.localNa
  * Free matches Free(60), while C1 does not match C10. No case transformation,
  * arbitrary substring, source parsing, or output-derived expectations occur. */
 export function containsAuthoredLabel(run: string, authoredLabel: string): boolean {
-  const label = normalizeAuthoredText(authoredLabel)
-  if (!label) return true
-  const literal = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  return new RegExp(`(?<![\\p{L}\\p{N}_])${literal}(?![\\p{L}\\p{N}_])`, 'u').test(normalizeAuthoredText(run))
+  const text = normalizeAuthoredText(run)
+  return authoredLabelForms(authoredLabel).some(label => !label || new RegExp(`(?<![\\p{L}\\p{N}_])${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}_])`, 'u').test(text))
 }
+
+/** Markdown strings draw strong/emphasis as formatting, not marker characters. Only
+ * delimiter pairs around non-space text are removed (underscores never inside a word);
+ * every other character, including code-span backticks, is kept. */
+function markdownDisplayText(label: string): string {
+  let text = label,
+    previous: string
+  do {
+    previous = text
+    text = text
+      .replace(/\*\*(?=\S)(.+?)(?<=\S)\*\*/gu, '$1')
+      .replace(/(?<![\p{L}\p{N}_])__(?=\S)(.+?)(?<=\S)__(?![\p{L}\p{N}_])/gu, '$1')
+      .replace(/(?<!\*)\*(?=[^\s*])(.+?)(?<=[^\s*])\*(?!\*)/gu, '$1')
+      .replace(/(?<![\p{L}\p{N}_])_(?=[^\s_])(.+?)(?<=[^\s_])_(?![\p{L}\p{N}_])/gu, '$1')
+  } while (text !== previous)
+  return text
+}
+/** The authored label, and its markdown display when that differs; either is the label. */
+export const authoredLabelForms = (label: string): string[] => [...new Set([normalizeAuthoredText(label), normalizeAuthoredText(markdownDisplayText(label))])]
 
 function content(node: SvgInspectionNode, insideForeignObject: boolean, positionedLines: boolean): string {
   if (node.kind === 'text') return node.value
@@ -59,6 +76,48 @@ function content(node: SvgInspectionNode, insideForeignObject: boolean, position
       return boundary + content(child, foreign, positionedLines)
     })
     .join('')
+}
+
+const coordinate = (value: string | undefined): number | undefined => (/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?(?:px)?$/i.test(value?.trim() ?? '') ? Number.parseFloat(value!) : undefined)
+const lineStyle = ['class', 'style', 'text-anchor', 'font-family', 'font-size', 'font-weight'] as const
+/** Where a <text> row starts: its own x/y, or its first tspan's, offset by that tspan's dy. */
+function lineOrigin(node: SvgInspectionElement): { x: number; y: number; size?: number } | undefined {
+  const first = node.children.find((child): child is SvgInspectionElement => child.kind === 'element'),
+    tspan = first?.namespaceURI === SVG_NAMESPACE && first.localName === 'tspan' ? first : undefined
+  const x = coordinate(node.attributes.x) ?? coordinate(tspan?.attributes.x),
+    y = coordinate(tspan?.attributes.y) ?? (coordinate(node.attributes.y) ?? NaN) + (coordinate(tspan?.attributes.dy) ?? 0),
+    size = coordinate(node.attributes['font-size']) ?? coordinate(/(?:^|;)\s*font-size:\s*([^;]+)/.exec(node.attributes.style ?? '')?.[1])
+  return x === undefined || !Number.isFinite(y) ? undefined : { x, y, size }
+}
+/** One label wrapped into sibling <text> rows: adjacent (nothing but whitespace between),
+ * the same x and text styling, each row below the last and, when the font size is
+ * declared, within two font sizes of it. Other siblings stay separate. */
+function wrappedLines(parent: SvgInspectionElement): SvgInspectionElement[][] {
+  const blocks: SvgInspectionElement[][] = []
+  let block: SvgInspectionElement[] = [],
+    last: { x: number; y: number } | undefined
+  const close = () => {
+    if (block.length > 1) blocks.push(block)
+    block = []
+    last = undefined
+  }
+  for (const child of parent.children) {
+    if (child.kind === 'text') {
+      if (child.value.trim()) close()
+      continue
+    }
+    const origin = child.namespaceURI === SVG_NAMESPACE && child.localName === 'text' ? lineOrigin(child) : undefined
+    if (!origin) {
+      close()
+      continue
+    }
+    const previous = block.at(-1)
+    if (!previous || !last || origin.x !== last.x || origin.y <= last.y || (origin.size !== undefined && origin.y - last.y > 2 * origin.size) || lineStyle.some(name => previous.attributes[name] !== child.attributes[name])) close()
+    block.push(child)
+    last = origin
+  }
+  close()
+  return blocks
 }
 
 export interface SvgTextInspection {
@@ -95,6 +154,7 @@ export function inspectSvgText(root: SvgInspectionElement, expectedLabels: reado
       add(positioned)
       if (!insideTextContainer) primaryRuns.push(normalizeAuthoredText(positioned))
     }
+    if (!container) for (const block of wrappedLines(node)) add(block.map(line => content(line, foreign, true)).join(' '))
     for (const child of node.children) visit(child, foreign, insideTextContainer || container)
   }
   visit(root, false, false)

@@ -44,6 +44,26 @@ output in the requested format that contains the case's authored labels as visib
 text, on a positive canvas, and is not an echo of the source. Label presence is
 existence evidence, not a full visual or semantic fidelity check.
 
+Two rules read a label the way a renderer draws it. Both apply to every tool:
+
+- Markdown markers are optional. A markdown string such as ``"`The **cat** in the hat`"``
+  is drawn with bold or italic text, not asterisks, so `The cat in the hat` satisfies the
+  label, as does the literal `The cat in **the** hat`. Only the strong and emphasis
+  delimiters Mermaid renders (`**`, `__`, `*`, `_`, in pairs around non-space text, with
+  underscores never inside a word) are dropped; every word, and any other character such
+  as a code-span backtick, is still required. This applies to SVG and terminal output.
+- A wrapped label is read across its lines. Inside one `<text>`, line-positioned
+  `<tspan>`s are joined with a space, and inside one `foreignObject` a `<br>` is a space.
+  Mermaid also draws a wrapped sequence message or actor as separate `<text>` rows, so
+  adjacent sibling `<text>` elements are joined in document order when they have the
+  same x, class, style, anchor and font attributes, each row is below the previous one,
+  and, where a font size is declared, no more than two font sizes below it. Anything
+  between two rows (another element, or text) ends the label. Terminal output is not
+  joined across lines.
+
+The whole label must still appear in one place: matching is by whole tokens, never a
+partial label, and the source-echo check reads each text element on its own.
+
 SVG output must be well-formed XML in the SVG namespace, with one exception: HTML's
 void elements written unclosed (Mermaid serializes its `foreignObject` labels as HTML,
 so a line break is `<br>`). Those are closed before parsing, and the observation records
