@@ -1,7 +1,7 @@
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { loadCurrentProjectRecords, type ProjectBenchmarkRecord, stableValue } from '../portable/project-records.ts'
-import { comparisonKey, escape, featureRow, isCandidateRecord, type Lane, lanes, OUTPUTS, PROBED_FAMILIES, percent, SURFACES } from './league.ts'
+import { comparisonKey, escape, featureRow, isCandidateRecord, type Lane, lanes, OUTPUTS, SCORED_FAMILIES, percent, SURFACES } from './league.ts'
 
 const version = (record: ProjectBenchmarkRecord) => lanes(record)[0]?.version ?? String((record.identity.artifact as any)?.package?.artifact?.version ?? 'unknown')
 const rounds = (record: ProjectBenchmarkRecord) => Number((record.identity.measurement as { rounds?: number } | undefined)?.rounds ?? 0)
@@ -44,7 +44,7 @@ export function renderCandidateComparison(candidate: ProjectBenchmarkRecord, rel
     after = lanes(candidate),
     keys = [...new Set([...before, ...after].map(lane => `${lane.surface}\n${lane.format}`))]
   const find = (list: Lane[], key: string) => list.find(lane => `${lane.surface}\n${lane.format}` === key)
-  const families = (lane?: Lane) => (lane ? `${lane.supported.length}/${PROBED_FAMILIES.length}` : '—'),
+  const families = (lane?: Lane) => (lane ? `${lane.supported.length}/${SCORED_FAMILIES.length}` : '—'),
     rate = (lane?: Lane) => (lane ? `${percent(lane.passed, lane.passed + lane.failed)} (${lane.passed}/${lane.passed + lane.failed})` : '—'),
     speed = (lane: Lane | undefined, field: 'coreFirstMs' | 'coreMedianMs') => (!release || (lane && comparable(lane.surface)) ? ms(lane?.[field]) : '—')
   const pair = (left: string, right: string) => (release ? `${left} → ${right}` : right)
