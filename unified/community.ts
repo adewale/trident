@@ -16,6 +16,7 @@ import { qualifyOutput, svgQualificationProvenance, withReferenceLabels } from '
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult, UnifiedWorkload } from './types.ts'
 import { communityCorpus, corpusEvidence, corpusWorkloads } from './corpus.ts'
 import { communityCatalogFile } from './trident-paths.ts'
+import { retainFailedOutput } from './failure-outputs.ts'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const median = (xs: number[]) => {
@@ -240,6 +241,8 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
       continue
     }
     try {
+      if (node.benchmark.adapter === 'declared')
+        for (const output of new Set((node.benchmark.outputs ?? []).map(normalizeCommunityOutput))) if (typeof node.benchmark.api?.[output]?.export !== 'string') throw new Error(`Declared adapter has no api.${output}.export binding for its declared ${output} output`)
       let artifact = provided[node.id]
       if (artifact) {
         verifyProvidedCommunityArtifact(artifact)
@@ -398,7 +401,7 @@ function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWo
   row.status = qualification.ok ? 'passed' : 'failed'
   row.bytes = value.byteLength
   row.findings = qualification.findings
-  row.metrics = { ...row.metrics, qualification: qualification.scope, version: artifact.version, boundary: 'spawn through drained stdout/file artifact; process startup included' }
+  row.metrics = { ...row.metrics, qualification: qualification.scope, version: artifact.version, boundary: 'spawn through drained stdout/file artifact; process startup included', ...(qualification.ok ? {} : { outputFile: retainFailedOutput(out, prepared.node.id, workload.id, output === 'png' ? 'png' : output === 'svg' ? 'svg' : 'txt', value) }) }
   return row
 }
 
@@ -432,6 +435,7 @@ async function nodeRound(prepared: PreparedCommunity, output: string, workloads:
     qualification?: string
     diagnosticsCount?: number
     rejected?: boolean
+    outputFile?: string
   }
   type DiagnosticControl = { id: string; source: string; expectedAccepted: false; actualAccepted: boolean | null; status: 'passed' | 'failed'; detail?: string; qualificationError?: string }
   type Raw = {
@@ -642,6 +646,7 @@ async function nodeRound(prepared: PreparedCommunity, output: string, workloads:
       qualification: result.qualification ?? 'unavailable',
       diagnosticsCount: result.diagnosticsCount ?? null,
       rejected: result.rejected ?? null,
+      outputFile: result.outputFile ?? null,
       accepted: result.diagnosticAccepted ?? null,
       diagnosticAdmissionFailed: result.diagnosticAdmissionFailed ?? raw?.diagnosticAdmissionFailed ?? null,
       parserAdmissionFailed: result.parserAdmissionFailed ?? raw?.parserAdmissionFailed ?? null,

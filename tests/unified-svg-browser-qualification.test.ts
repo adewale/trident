@@ -17,6 +17,8 @@ const authored: { id: string; labels: string[]; output: string; accepted: boolea
   { id: 'foreign-namespace', labels: ['Hello'], output: svg('<f:text xmlns:f="urn:unrelated">Hello</f:text>'), accepted: false },
   { id: 'positioned-lines', labels: ['First Second'], output: svg('<text><tspan x="0" y="10">First</tspan><tspan x="0" y="20">Second</tspan></text>'), accepted: true },
   { id: 'html-break', labels: ['First Second'], output: svg('<foreignObject><div xmlns="http://www.w3.org/1999/xhtml">First<br/>Second</div></foreignObject>'), accepted: true },
+  // Mermaid's own serialization: HTML inside foreignObject, so the <br> is not closed and the string is not XML.
+  { id: 'html-serialized-break', labels: ['First Second'], output: svg('<foreignObject><div xmlns="http://www.w3.org/1999/xhtml"><p>First<br>Second</p></div></foreignObject>'), accepted: true },
   { id: 'prefixed-source-echo', source: 'flowchart LR\n A[Start] --> B[End]', labels: ['Start', 'End'], output: '<s:svg xmlns:s="http://www.w3.org/2000/svg" viewBox="0 0 200 100"><s:text>flowchart LR</s:text><s:text>A[Start] --&gt; B[End]</s:text></s:svg>', accepted: false },
 ]
 

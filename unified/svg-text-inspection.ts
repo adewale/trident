@@ -17,6 +17,11 @@ export interface SvgInspectionElement {
 }
 export type SvgInspectionNode = SvgInspectionElement | SvgInspectionText
 
+/** HTML's void elements, which HTML serializes without a closing slash. */
+const HTML_VOID = /<(area|base|br|col|embed|hr|img|input|link|meta|source|track|wbr)\b([^<>]*?)\/?>/gi
+/** Close HTML void elements, so HTML-serialized markup is otherwise judged as strict XML. */
+export const closeHtmlVoidElements = (markup: string): string => markup.replace(HTML_VOID, '<$1$2/>')
+
 export const normalizeAuthoredText = (value: string): string => value.replace(/\s+/gu, ' ').trim()
 const inert = new Set(['defs', 'metadata', 'title', 'desc', 'style', 'script'])
 const excluded = (node: SvgInspectionElement): boolean => inert.has(node.localName.toLowerCase())

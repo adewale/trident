@@ -4,7 +4,7 @@ import { isRenderedSourceEcho } from './qualification-visible-source.ts'
 
 export { isRenderedSourceEcho } from './qualification-visible-source.ts'
 
-import { inspectSvgText, SVG_NAMESPACE, type SvgInspectionElement } from './svg-text-inspection.ts'
+import { closeHtmlVoidElements, inspectSvgText, SVG_NAMESPACE, type SvgInspectionElement } from './svg-text-inspection.ts'
 import type { UnifiedWorkload } from './types.ts'
 import { assertMermaidOracle, mermaidVerdicts } from '../portable/mermaid-oracle.ts'
 import { censusDisplayText, referenceLabels } from './oracle-labels.ts'
@@ -63,7 +63,16 @@ function explicitSvgLength(value: string | undefined): number {
 }
 /** Independent XML syntax/namespace/canvas admission. The light parser loads
  * lazily here, after the caller has stopped its public API clock. */
-function svgXmlInspection(output: string): { findings: string[]; root?: SvgInspectionElement } {
+function svgXmlInspection(output: string): { findings: string[]; root?: SvgInspectionElement; xmlWellFormed?: boolean } {
+  const strict = svgXmlDocument(output)
+  if (!strict.findings.length) return { ...strict, xmlWellFormed: true }
+  // HTML serializes void elements unclosed (Mermaid's foreignObject <br>); that alone is admitted.
+  const closed = closeHtmlVoidElements(output)
+  if (closed === output) return strict
+  const relaxed = svgXmlDocument(closed)
+  return relaxed.findings.length ? strict : { ...relaxed, xmlWellFormed: false }
+}
+function svgXmlDocument(output: string): { findings: string[]; root?: SvgInspectionElement } {
   const parser = svgXmlParser(),
     errors: string[] = [],
     stack: SvgInspectionElement[] = []

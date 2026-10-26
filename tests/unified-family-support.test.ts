@@ -33,6 +33,8 @@ test('a community tool that rejects a family canonical source runs none of that 
     // An accepted probe keeps the family supported: its unqualified output is a failure, not unsupported.
     expect(rows('family-support:flowchart')).toEqual([{ operation: 'family-support', status: 'failed' }])
     expect(rows('feature:flowchart')).toEqual([{ operation: 'render', status: 'failed' }])
+    // The failure keeps the tool's actual output, for its failure report.
+    expect(readFileSync(String(result.observations.find(row => row.caseId === 'feature:flowchart')!.metrics!.outputFile), 'utf8')).toBe('[box]\n')
     // The only pie source the tool saw was its probe.
     expect(readFileSync(calls, 'utf8').split('\n').filter(line => line.startsWith('pie'))).toHaveLength(1)
   } finally {
