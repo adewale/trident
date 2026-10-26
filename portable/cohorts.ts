@@ -393,7 +393,7 @@ export function portableCases(selection?: readonly PortableCohort[]): PortableCa
  * accepted probe keeps every later failure in that family a failure. */
 export const FAMILY_SUPPORT_PROTOCOL = 'family-cohort-source-acceptance-v1'
 /** Mermaid's nine newest families (11.12.3 to 12.0.0), all but eventmodeling declared with a
- * `-beta` keyword. They are probed and reported apart from the 23-family mark, and stay out of
+ * `-beta` keyword. They are probed beyond the historical 23-family mark, and stay out of
  * portableCases so the portable cohort protocol is unchanged. */
 const newerFamilyCases: PortableCase[] = [
   { id: 'family:venn', family: 'venn', cohort: 'family', source: 'venn-beta\n  set Alpha\n  set Beta\n  union Alpha,Beta["Both"]', expected: { accept: true, labels: ['Alpha', 'Beta', 'Both'] } },
@@ -406,9 +406,12 @@ const newerFamilyCases: PortableCase[] = [
   { id: 'family:agentflow', family: 'agentflow', cohort: 'family', source: 'agentflow-beta TB\n  flow alpha["Alpha"]\n    b["Beta"]@{ shape: task }\n    c["Gamma"]@{ shape: tool }\n    b --> c\n  end', expected: { accept: true, labels: ['Alpha', 'Beta', 'Gamma'] } },
   { id: 'family:usecase', family: 'usecase', cohort: 'family', source: 'usecase-beta\nactor Alpha("Alpha")\nsystemBoundary "Beta"\n  Gamma("Gamma")\nend\nAlpha --> Gamma', expected: { accept: true, labels: ['Alpha', 'Beta', 'Gamma'] } },
 ]
-/** The 23 families of the mark, in cohort order. */
-export const scoredFamilies = (): string[] => [...new Set(familyCases.map(testCase => testCase.family))]
-/** The newer families, reported beside the mark and never counted in it. */
+/** The original 23-family mark, retained for historical comparisons. */
+export const legacyScoredFamilies = (): string[] => [...new Set(familyCases.map(testCase => testCase.family))]
+/** The current mark also includes Event Modeling, whose pinned syntax docs do not
+ * label the diagram beta or experimental. A family's age is not a maturity rule. */
+export const scoredFamilies = (): string[] => [...legacyScoredFamilies(), 'eventmodeling']
+/** Additional documented families imported beside the original portable cohorts. */
 export const newerFamilies = (): string[] => newerFamilyCases.map(testCase => testCase.family)
 export function familySupportProbe(family: string): PortableCase | undefined {
   const canonical = familyCases.find(testCase => testCase.family === family) ?? newerFamilyCases.find(testCase => testCase.family === family)

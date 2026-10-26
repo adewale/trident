@@ -33,7 +33,7 @@ export function referenceLabels(family: string, reply: MermaidSnapshot): Referen
     list(item.children).forEach((child, index) => tree(`${path}.children[${index}]`, child, key))
   }
   // Mermaid 12.2.0's railroad renderer stores a title but never draws it.
-  if (family !== 'railroad') add('getDiagramTitle', db.getDiagramTitle)
+  if (family !== 'railroad' && family !== 'eventmodeling') add('getDiagramTitle', db.getDiagramTitle)
   switch (family) {
     case 'flowchart':
     case 'state':
@@ -162,7 +162,16 @@ export function referenceLabels(family: string, reply: MermaidSnapshot): Referen
       })
       break
     }
-    // eventmodeling exposes no element getter, so its cases keep a visible label gap.
+    case 'eventmodeling': {
+      const ast = row(db.eventModelAst)
+      if (!Array.isArray(ast.frames)) return undefined
+      rows(ast.frames).forEach((frame, index) => {
+        const parts = text(frame.entityIdentifier).split('.')
+        add(`eventModelAst.frames[${index}].entityIdentifier`, parts.at(-1))
+        if (parts.length === 2) add(`eventModelAst.frames[${index}].namespace`, parts[0])
+      })
+      break
+    }
     default: return undefined
   }
   return out

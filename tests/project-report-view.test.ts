@@ -146,7 +146,7 @@ test('community league costs compare and rank within each invocation surface', (
   }
 })
 
-test('newer families sit beside the 23-family mark and change no rank, count or pass rate', () => {
+test('stable Event Modeling changes the current mark while beta additions leave the historical mark intact', () => {
   const directory = mkdtempSync(join(tmpdir(), 'community-league-newer-')),
     store = join(directory, 'store'),
     out = join(directory, 'published')
@@ -155,7 +155,7 @@ test('newer families sit beside the 23-family mark and change no rank, count or 
     const evidenceDirectory = join(directory, 'evidence')
     mkdirSync(evidenceDirectory)
     writeFileSync(join(evidenceDirectory, 'result.json'), '{}')
-    const row = (family: string, caseId: string, status: 'passed' | 'failed' | 'unsupported', operation = 'render') => ({ suite: 'community', surface: 'node:public-api', runtime: 'fixture', family, caseId, operation, format: 'svg', mode: 'core-api-repeat', status, samplesMs: [1], metrics: { implementation: project, version: 'fixture', round: 1, firstMs: 1 } })
+    const row = (family: string, caseId: string, status: 'passed' | 'failed' | 'unsupported' | 'blocked', operation = 'render') => ({ suite: 'community', surface: 'node:public-api', runtime: 'fixture', family, caseId, operation, format: 'svg', mode: 'core-api-repeat', status, samplesMs: [1], metrics: { implementation: project, version: 'fixture', round: 1, firstMs: 1 } })
     publishProjectRecord(store, {
       schemaVersion: 1,
       id: project,
@@ -168,7 +168,10 @@ test('newer families sit beside the 23-family mark and change no rank, count or 
       gaps: [],
       observations: [
         row('flowchart', 'family-support:flowchart', 'passed', 'family-support'),
+        row('class', 'family-support:class', 'blocked', 'family-support'),
         row('flowchart', 'authored-flowchart', 'passed'),
+        row('eventmodeling', 'family-support:eventmodeling', 'passed', 'family-support'),
+        row('eventmodeling', 'docs:eventmodeling:0', 'failed'),
         row('venn', 'family-support:venn', 'passed', 'family-support'),
         row('venn', 'docs:venn:0', 'passed'),
         row('venn', 'docs:venn:1', 'failed'),
@@ -178,9 +181,10 @@ test('newer families sit beside the 23-family mark and change no rank, count or 
     publishResults(store, out)
     const markdown = readFileSync(join(out, 'README.md'), 'utf8')
     const cells = markdown.split('\n').find(line => line.includes('[fixture/newer]'))!.split('|').map(cell => cell.trim())
-    expect(cells[5]).toBe('1/23')
-    expect(cells[6]).toBe('100.0% (1/1)')
-    expect(cells[7]).toBe('1/9, 50.0%')
+    expect(cells[5]).toBe('2/24')
+    expect(cells[6]).toBe('50.0% (1/2)')
+    expect(cells[7]).toBe('1/8, 50.0%')
+    expect(cells[11]).toBe('1/23, 100.0% (1/1)')
     const newer = markdown.slice(markdown.indexOf('### Newer families'))
     expect(newer).toContain('| venn | 50.0% |')
     expect(newer).toContain('| wardley | — |')

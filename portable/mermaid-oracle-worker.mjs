@@ -1,7 +1,8 @@
 // The pinned Mermaid oracle: one JSON request per stdin line, one reply per stdout line.
 // Runs in Node against the installed reference, separate from any measured artifact.
 import { createRequire } from 'node:module'
-import { resolve } from 'node:path'
+import { existsSync, readFileSync } from 'node:fs'
+import { dirname, join, resolve } from 'node:path'
 import { createInterface } from 'node:readline'
 import { pathToFileURL } from 'node:url'
 
@@ -13,6 +14,12 @@ for (const key of ['window', 'document', 'navigator', 'HTMLElement', 'SVGElement
 // Diagram DBs log diagnostics; only verdict lines reach stdout.
 console.log = console.info = console.debug = console.warn = console.error = () => {}
 const { default: mermaid } = await import(pathToFileURL(require.resolve('mermaid')).href)
+// The parser package exports ESM only. Resolve its reviewed import entry from the
+// same dependency root as Mermaid, rather than accidentally using Trident's deps.
+const mermaidRequire = createRequire(require.resolve('mermaid'))
+const parserManifest = mermaidRequire.resolve.paths('@mermaid-js/parser').map(root => join(root, '@mermaid-js/parser/package.json')).find(existsSync)
+const parserEntry = JSON.parse(readFileSync(parserManifest, 'utf8')).exports['.'].import
+const { parse: parseAst } = await import(pathToFileURL(resolve(dirname(parserManifest), parserEntry)).href)
 mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', logLevel: 'fatal' })
 // Ported verbatim from Agentic's eval/mermaid-modern-compat/reference-worker.mjs: plain-data DB getters.
 const omittedKeys = new Set(['domId', 'config', 'look', 'themeVariables']);
@@ -83,6 +90,9 @@ for await (const line of createInterface({ input: process.stdin })) {
     if (request.snapshot) {
       const diagram = await mermaid.mermaidAPI.getDiagramFromText(request.source)
       reply.snapshot = snapshot(diagram.db, diagram.type === 'gantt')
+      // Event Modeling's getState computes SVG dimensions and fails in jsdom.
+      // Its independent, pinned parser still exposes authored frame identities.
+      if (diagram.type === 'eventmodeling') reply.snapshot.data.eventModelAst = plain(await parseAst('eventmodeling', diagram.text))
     }
   } catch (error) {
     reply = { accepted: false, diagramType: null, error: String(error?.message ?? error).split('\n')[0] }

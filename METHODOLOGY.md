@@ -38,7 +38,7 @@ Benchmarking another project uses the oracle without benchmarking Mermaid.
 ## Inputs and checks
 
 The corpus has 1086 workloads: 6 fixed-core inputs used for speed, 962 feature inputs
-for the 23 scored families, drawn from Mermaid's documentation, Mermaid's own test
+for the original 23-family cohort, drawn from Mermaid's documentation, Mermaid's own test
 suites, the Agentic family registry and generated scaling cases, and 118 inputs for the
 newer families, which are every example on their Mermaid 12.2.0 syntax pages. A case passes when the tool returns
 output in the requested format that contains the case's authored labels as visible
@@ -76,28 +76,34 @@ that the output was not well-formed XML, which matters if you save it as a stand
 ## Family support
 
 Before a tool's corpus runs, each family is probed once, untimed, with one canonical
-source from the portable family cohort. If the tool rejects that source (an error, a
+source from the portable family cohort or the additional pinned-docs probes. If the tool rejects that source (an error, a
 nonzero exit or no output), the family is unsupported: its cases are recorded as
 unsupported, naming the probe, and are not run. If the tool returns output, the family
 counts as supported, and every later failure in it is a failure, even when the probe's
 own output fails a check. A case's error message never makes it unsupported.
 
-The mark is 23 families: "families supported", the pass rate and every rank count only
-these. Mermaid 12.2.0 documents ten more. Nine are recent additions (venn, treeview,
-wardley, eventmodeling, cynefin, railroad, swimlane, agentflow and usecase, added from
-11.12.3 to 12.0.0), all but eventmodeling declared with a `-beta` keyword. Trident probes
-and measures them the same way, from their syntax pages read at the `mermaid@12.2.0` Git
-tag, and reports them in a separate "Newer families" column and table that never change
-a rank. Two limits apply:
+The current mark covers 24 built-in families: the historical 23 plus Event Modeling.
+The pinned docs do not label Event Modeling beta or experimental; its recent addition
+is no reason to exclude it. The legacy 23-family column retains the original support
+count and pass rate for historical comparisons. Old records that did not probe Event
+Modeling do not receive support credit for it.
 
-- Eventmodeling's diagram DB exposes no element getters, so the oracle cannot say which
-  labels its cases should draw. Its cases check output format only; its probe checks the
-  probe's own authored labels.
-- Mermaid's railroad renderer stores a title but never draws it, so a railroad title is
-  not an expected label.
+Eight other recent additions (venn, treeview, wardley, cynefin, railroad, swimlane,
+agentflow and usecase) are measured from every example on their syntax pages at the
+`mermaid@12.2.0` Git tag and reported separately. The historical mark itself includes
+some diagrams whose syntax uses a `-beta` token; that token alone is not a maturity
+classification. The current mark is not a claim that all its families are stable.
 
-The tenth, zenuml, is an external plugin that the pinned oracle does not load, so it is
-not covered.
+Event Modeling's `getState` getter needs SVG text dimensions and cannot execute in
+jsdom. The independently pinned Mermaid parser supplies its authored frame names and
+namespace labels instead. Inline data values, relationships and geometry are not
+checked by this label census. Mermaid's railroad renderer stores a title but never
+draws it, so a railroad title is not an expected label.
+
+ZenUML's diagram is not labelled experimental in the pinned docs: the warning concerns
+its loading API. It is a required external-plugin coverage gap in the community mark;
+the separate fidelity suite accepts the pinned 1.0.1 plugin through `--zenuml-root`.
+The community mark therefore still does not establish complete stable Mermaid coverage.
 
 ## Statuses
 
@@ -115,7 +121,7 @@ There is one table per kind of output (SVG, terminal text, PNG, parser), because
 are different products, and one row per tool and public surface. Rows are ordered by
 correctness first, lexicographically, with no weighted score:
 
-1. families supported, out of the 23 probed;
+1. families supported, out of the 24 currently scored;
 2. pass rate on cases in those families;
 3. first-call fixed-core time, only when calibrated.
 

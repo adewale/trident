@@ -1,5 +1,7 @@
 # Mermaid derivatives league table
 
+This historical snapshot predates the current stable-family expansion. Its original 23-family mark is retained; it does not measure the newer Event Modeling or ZenUML lanes. Re-run the affected projects before using this snapshot to claim complete current Mermaid coverage.
+
 Measured 2026-10-26 by [Trident](../README.md) against the pinned Mermaid 12.2.0 oracle, on the corpus frozen from Agentic Mermaid de612cc0. 
 
 How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Tables group each output by public invocation surface and compatible protocol/runtime settings; costs and ranks never cross these boundaries. Rolling records are not paired same-session experiments. Rows within each group are ordered by correctness first: how many of the probed families the tool supports, then the share of cases it passes in those families, then first-call fixed-core time. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so it is measured with the same checks but not ranked. An unsupported family is a coverage gap, never a failure. See the [methodology](../METHODOLOGY.md).
