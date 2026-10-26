@@ -1,6 +1,6 @@
 import { publishProjectRecord, type ProjectBenchmarkRecord, readBenchmarkDocument } from '../portable/project-records.ts'
 import { expect, test } from 'bun:test'
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { publishResults } from '../unified/league.ts'
@@ -189,6 +189,37 @@ test('stable Event Modeling changes the current mark while beta additions leave 
     expect(newer).toContain('| venn | 50.0% |')
     expect(newer).toContain('| wardley | — |')
     expect(markdown.slice(markdown.indexOf('## Families'), markdown.indexOf('### Newer families'))).not.toContain('| venn |')
+  } finally {
+    rmSync(directory, { recursive: true, force: true })
+  }
+})
+
+test('portable reports retain every failure without duplicating oversized rendered evidence', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'community-report-budget-')),
+    evidenceDirectory = join(directory, 'evidence'),
+    out = join(directory, 'published'),
+    project = 'fixture/budget'
+  try {
+    mkdirSync(evidenceDirectory)
+    writeFileSync(join(evidenceDirectory, 'result.json'), '{}')
+    const sizes = [128, 256 * 1024, ...Array(9).fill(120 * 1024)]
+    const observations = sizes.map((bytes, index) => {
+      const outputFile = join(evidenceDirectory, `failure-${index}.svg`)
+      writeFileSync(outputFile, 'x'.repeat(bytes))
+      return { suite: 'community', surface: 'browser:public-api', runtime: 'fixture', family: 'flowchart', caseId: `failure-${index}`, operation: 'render', format: 'svg', mode: 'feature', status: 'failed' as const, metrics: { implementation: project, version: 'fixture', round: 1, outputFile } }
+    })
+    publishProjectRecord(join(directory, 'store'), { schemaVersion: 1, id: project, identity: { project, protocol: {}, artifact: {}, measurement: { rounds: 1 } }, startedAt: '2026-10-26T00:00:00Z', finishedAt: '2026-10-26T00:01:00Z', status: 'failed', evidenceDirectory, evidenceFiles: ['result.json'], gaps: [], observations })
+    publishResults(join(directory, 'store'), out)
+    const markdown = readFileSync(join(out, 'failures/fixture-budget.md'), 'utf8'),
+      outputDirectory = join(out, 'outputs/fixture-budget'),
+      copied = readdirSync(outputDirectory).map(name => ({ name, bytes: statSync(join(outputDirectory, name)).size }))
+    for (let index = 0; index < sizes.length; index++) expect(markdown).toContain(`### failure-${index}`)
+    expect(copied.some(file => file.name.startsWith('failure-0-'))).toBe(true)
+    expect(copied.some(file => file.name.startsWith('failure-1-'))).toBe(false)
+    expect(copied.every(file => file.bytes <= 128 * 1024)).toBe(true)
+    expect(copied.reduce((sum, file) => sum + file.bytes, 0)).toBeLessThanOrEqual(1024 * 1024)
+    expect(markdown).toContain('omitted from this portable report')
+    expect(statSync(join(evidenceDirectory, 'failure-1.svg')).size).toBe(256 * 1024)
   } finally {
     rmSync(directory, { recursive: true, force: true })
   }

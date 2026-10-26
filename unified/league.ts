@@ -1,4 +1,4 @@
-import { copyFileSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { basename, isAbsolute, join, resolve } from 'node:path'
 import { gzipSync } from 'node:zlib'
 import { MERMAID_ORACLE_PIN } from '../portable/mermaid-oracle.ts'
@@ -148,6 +148,7 @@ function inputs(record: ProjectBenchmarkRecord): Map<string, UnifiedWorkload> {
 
 /** Every failure, with the source, what was expected and the tool's own output when retained. */
 function failurePage(record: ProjectBenchmarkRecord, out: string): string {
+  let copiedBytes = 0
   const workloads = inputs(record),
     project = record.identity.project
   const failures = record.observations.filter(row => row.status === 'failed' && featureRow(row) && row.metrics?.implementation === project)
@@ -162,9 +163,15 @@ function failurePage(record: ProjectBenchmarkRecord, out: string): string {
       const output = row.metrics?.outputFile,
         retained = typeof output === 'string' ? (isAbsolute(output) ? output : join(record.evidenceDirectory, output)) : undefined
       if (retained && existsSync(retained)) {
+        const bytes = statSync(retained).size
+        if (bytes > 128 * 1024 || copiedBytes + bytes > 1024 * 1024) {
+          lines.push(`Tool output (${bytes} bytes) remains in the local owning evidence; omitted from this portable report's 128 KiB per-file / 1 MiB per-project output budget. The failure and its original measurement remain recorded.`, '')
+          continue
+        }
         const name = `${slug(row.caseId)}-${slug(row.surface)}${retained.slice(retained.lastIndexOf('.'))}`
         mkdirSync(join(out, 'outputs', slug(project)), { recursive: true })
         copyFileSync(retained, join(out, 'outputs', slug(project), name))
+        copiedBytes += bytes
         lines.push(`Tool output: [${name}](../outputs/${slug(project)}/${name})`, '')
       }
     }
