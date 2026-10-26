@@ -19,6 +19,7 @@ These commands need no Agentic checkout. Build accepts Node 24 or Bun 1.4+.
 
 Community projects (Bun), from Trident's catalog and frozen corpus:
   bun commands.ts community:update --projects OWNER/TOOL[,...] --records DIR --out DIR
+  bun commands.ts results:publish --records DIR [--out results]   (league table)
 
 Optional Agentic Mermaid source adapter (Bun):
   bun commands.ts agentic --list --profile full
@@ -86,7 +87,7 @@ async function main() {
   const neutral: Record<string, string> = { build: 'portable/build.ts', portable: 'portable/run.ts', 'fidelity:report': 'fidelity/report.ts' }
   const source: Record<string, string> = { agentic: 'unified/run.ts', community: 'unified/community-campaign.ts', prs: 'unified/pr-campaign.ts' }
   // Trident's own Bun commands: the community lanes run here, with no Agentic checkout.
-  const own: Record<string, string> = { 'community:update': 'unified/project-update.ts', 'corpus:import': 'unified/corpus-import.ts' }
+  const own: Record<string, string> = { 'community:update': 'unified/project-update.ts', 'corpus:import': 'unified/corpus-import.ts', 'results:publish': 'unified/league.ts' }
   const agentic = selected === 'test' || selected === 'typecheck' ? containingCheckout() : undefined
   const checks: Record<string, string[]> = {
     test: ['test', '--timeout', '30000', '--parallel=2', ...(selected !== 'test' ? [] : agentic ? [resolve(directory, 'tests')] : standaloneTests())],
@@ -152,7 +153,7 @@ async function main() {
     argv = checks[selected]!
   } else throw Error(`Unknown Trident command ${command}; use --help`)
   // Building, static checks and evidence reports run nothing that consults Mermaid.
-  assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !['build', 'fidelity:report', 'typecheck', 'lint', 'corpus:import'].includes(selected) })
+  assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !['build', 'fidelity:report', 'typecheck', 'lint', 'corpus:import', 'results:publish'].includes(selected) })
   const result = spawnSync(executable, [...argv, ...args], { cwd, stdio: 'inherit' })
   if (result.error) throw result.error
   process.exitCode = result.status ?? 1

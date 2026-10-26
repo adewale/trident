@@ -392,6 +392,8 @@ export function portableCases(selection?: readonly PortableCohort[]): PortableCa
  * Rejecting this probe marks the family unsupported before any of its cases run; an
  * accepted probe keeps every later failure in that family a failure. */
 export const FAMILY_SUPPORT_PROTOCOL = 'family-cohort-source-acceptance-v1'
+/** Every family Trident can probe, in cohort order. */
+export const probedFamilies = (): string[] => [...new Set(familyCases.map(testCase => testCase.family))]
 export function familySupportProbe(family: string): PortableCase | undefined {
   const canonical = familyCases.find(testCase => testCase.family === family)
   return canonical && { ...canonical, id: `family-support:${family}` }
