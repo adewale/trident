@@ -23,5 +23,6 @@
   "bench:lint": "bun run eval/benchmark/commands.ts lint",
   "bench:community:update": "bun run eval/benchmark/unified/project-update.ts",
   "bench:portable": "bun run eval/benchmark/portable/run.ts",
-  "bench:portable:build": "bun run eval/benchmark/portable/build.ts"
+  "bench:portable:build": "bun run eval/benchmark/portable/build.ts",
+  "bench:profile:qualify": "bun run eval/benchmark/qualify-performance-profile.ts"
 }
