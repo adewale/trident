@@ -2,6 +2,7 @@ import { expect, test } from 'bun:test'
 import { spawnSync } from 'node:child_process'
 import { resolve } from 'node:path'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
+import { testWithAgentic } from './helpers/environment.ts'
 
 test('CI execution is rejected even when the generic indicator is explicitly false', () => {
   expect(() => assertBenchmarkExecutionAllowed({ CI: 'true' })).toThrow('excluded from CI')
@@ -11,7 +12,8 @@ test('CI execution is rejected even when the generic indicator is explicitly fal
   expect(() => assertBenchmarkExecutionAllowed({})).not.toThrow()
 })
 
-test('a directly invoked legacy benchmark refuses CI before doing work', () => {
+// sample-bench.ts imports Agentic source, so it can only start inside that checkout.
+testWithAgentic('a directly invoked legacy benchmark refuses CI before doing work', () => {
   const result = spawnSync(process.execPath, [resolve(import.meta.dir, '../sample-bench.ts')], {
     encoding: 'utf8', timeout: 10_000, env: { ...process.env, CI: 'true' },
   })

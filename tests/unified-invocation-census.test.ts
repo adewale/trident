@@ -22,7 +22,7 @@ for name in ('node-first-1.job.json','node-second-1.job.json'):(root/'invocation
 try:module.invocation_attempt_census(root,result,inputs,package);rejected=False
 except ValueError as error:rejected='Duplicate actual invocation library job slot'in str(error)
 print(json.dumps({'census':census,'duplicateRejected':rejected}))`
-    const evidence = JSON.parse(execFileSync('python3', ['-B', '-c', script, resolve('eval/benchmark/unified/charts.py'), directory], { encoding: 'utf8' }))
+    const evidence = JSON.parse(execFileSync('python3', ['-B', '-c', script, resolve(import.meta.dir, '../unified/charts.py'), directory], { encoding: 'utf8' }))
     expect(evidence.census.completeAttempts).toBe(false)
     expect(evidence.census.libraryImportCohort).toHaveLength(9)
     expect(evidence.census.libraryImportCohort.every((slot: { actualJob: boolean }) => !slot.actualJob)).toBe(true)

@@ -95,14 +95,26 @@ The containing checkout is detected only when its root package is named
 remains a legacy alias for `agentic`. Existing root `bench:*` shortcuts retain
 their suite IDs and options.
 
-Full source-adapter tests and typechecking still require the Agentic checkout;
-they are not a standalone-package promise:
+## Maintainer checks
+
+Trident checks itself with Bun 1.4 or later and Python 3:
 
 ```sh
-bun run bench:test
-bun run bench:typecheck
-bun run bench:lint
+bun install
+bun commands.ts test
+bun commands.ts typecheck
+bun commands.ts lint
+python3 -m unittest discover -s visualizations -p '*_test.py'
 ```
+
+Standalone, `test` and `typecheck` cover every file whose imports stay in this
+package. `tsconfig.standalone.json` excludes the Agentic adapter files: those whose
+import closure reaches Agentic source. `tests/standalone-scope.test.ts` fails when
+that list and the actual imports disagree. Tests that exercise the Agentic checkout
+layout report as skipped. When this package is `eval/benchmark` of an Agentic
+checkout, the same commands (or that checkout's `bun run bench:test`,
+`bench:typecheck` and `bench:lint`) cover every file. Browser tests use
+`AM_CHROMIUM_EXECUTABLE`, then `/usr/bin/chromium`, then Playwright's Chromium.
 
 The local temporary-directory and child-process test support belongs to Trident.
 Product runtime code does not import benchmark code. Copying this directory does

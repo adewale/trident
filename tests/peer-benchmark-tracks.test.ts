@@ -5,6 +5,7 @@ import { join, resolve } from 'node:path'
 import { consumePeerOutput, finalizeTrackObservation, emptyTrackObservation, inspectPeerSemantics, parsePeerTracks, peerTrackVariant, peerRuntimeDependencyGraph, percentile, peerExecutionEnvironment } from '../peer-tracks.ts'
 import * as protocol from '../peer-tracks.ts'
 import { measurePeerTrack } from '../peer-track-worker.ts'
+import { testWithAgentic } from './helpers/environment.ts'
 import { useTestChildren } from './helpers/test-child.ts'
 
 const runChild = useTestChildren(10_000)
@@ -263,7 +264,8 @@ describe('maintained consumed peer protocol', () => {
     expect(result.diagnostics.complete).toBe(false)
     expect(result.diagnostics.detail).toBe('replay failed')
   })
-  test('bundled worker resolves harness XML parser and retains raw individual calls', async () => {
+  // peer-bench.ts is an Agentic adapter; bundling it needs that checkout's source.
+  testWithAgentic('bundled worker resolves harness XML parser and retains raw individual calls', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'peer-track-owner-'))
     const root = resolve(import.meta.dir, '../../..')
     try {
