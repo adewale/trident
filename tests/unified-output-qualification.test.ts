@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'bun:test'
+import { spawnSync } from 'node:child_process'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { qualifyOutput, withReferenceLabels } from '../unified/qualification.ts'
@@ -65,7 +66,27 @@ test('community labels refuse to load without the pinned Mermaid oracle, instead
   try {
     await expect(withReferenceLabels([workload])).rejects.toThrow('needs the pinned Mermaid oracle')
   } finally {
-    for (const [name, value] of [['MERMAID_REFERENCE_DIR', saved.directory], ['TRIDENT_MERMAID_ORACLE', saved.admitted]] as const) if (value === undefined) delete process.env[name]
-    else process.env[name] = value
+    for (const [name, value] of [
+      ['MERMAID_REFERENCE_DIR', saved.directory],
+      ['TRIDENT_MERMAID_ORACLE', saved.admitted],
+    ] as const)
+      if (value === undefined) delete process.env[name]
+      else process.env[name] = value
   }
+})
+
+test('wide terminal gutters cannot stall source-echo admission', () => {
+  // A real renderer produced 393,651-column lines. Keep the regression bounded
+  // outside this process so a quadratic classifier cannot stall the test runner.
+  const module = new URL('../unified/qualification-visible-source.ts', import.meta.url).href
+  const script = `import {isRenderedSourceEcho} from ${JSON.stringify(module)};
+const source='flowchart LR\\nA-->B', gap=' '.repeat(400000);
+console.log(JSON.stringify([
+ isRenderedSourceEcho(source,'flowchart LR\\n'+gap+'A-->B','terminal'),
+ isRenderedSourceEcho(source,'│'+gap+'A → B','terminal'),
+ isRenderedSourceEcho(source,'│ flowchart LR │\\n│ A-->B │','terminal')
+]));`
+  const child = spawnSync(process.execPath, ['--eval', script], { encoding: 'utf8', timeout: 2000, killSignal: 'SIGKILL' })
+  expect({ status: child.status, error: child.error?.message }).toEqual({ status: 0, error: undefined })
+  expect(JSON.parse(child.stdout)).toEqual([true, false, true])
 })
