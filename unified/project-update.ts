@@ -147,7 +147,8 @@ export function projectPackageIdentity(prepared: PreparedCommunity) {
   // Source recipes seal their actual runtime closure separately from build-only
   // declarations in the upstream source manifest. Reuse that admitted closure.
   if (artifact.runtimeDependencyRoots) {
-    if (!artifact.reviewed || !artifact.sourceRevision || !artifact.buildRecipeId?.startsWith('extra-source-v1:mermaid-source:')) throw Error('Runtime dependency roots require a reviewed Mermaid source recipe')
+    const source = prepared.node.benchmark
+    if (source?.adapter !== 'extra-source' || !source.sourceAdapter || !/^[a-f0-9]{40}$/.test(source.sourcePin ?? '') || !artifact.reviewed || artifact.sourceRevision !== source.sourcePin || !artifact.buildRecipeId?.startsWith(`extra-source-v1:${source.sourceAdapter}:`)) throw Error('Runtime dependency roots require a matching reviewed source recipe')
     const sealed = new Set(artifact.files?.map(file => resolve(file.path)))
     for (const dependency of artifact.runtimeDependencyRoots) {
       if (!sealed.has(resolve(dependency, 'package.json'))) throw Error('Runtime package manifest is absent from the verified artifact closure: ' + dependency)

@@ -138,7 +138,7 @@ test('an API-only project has no CLI resource prerequisite or latency measuremen
   expect(result.ranks).toEqual([])
 })
 
-test('source-built runtime identity uses admitted runtime bytes, while npm still requires its declared installation', () => {
+test.each(['mermaid-source', 'beautiful-source'] as const)('source-built %s identity uses admitted runtime bytes, while npm still requires its declared installation', adapter => {
   const f = fixture(),
     root = join(f.directory, 'source'),
     runtime = join(f.directory, 'runtime')
@@ -153,7 +153,7 @@ test('source-built runtime identity uses admitted runtime bytes, while npm still
   writeFileSync(dependency, 'export const value = 1')
   const seal = (path: string) => ({ path, sha256: createHash('sha256').update(readFileSync(path)).digest('hex') })
   const prepared: PreparedCommunity = {
-    node: { id: 'fixture/source', roles: ['renderer'], outputs: ['svg'] },
+    node: { id: 'fixture/source', roles: ['renderer'], outputs: ['svg'], benchmark: { adapter: 'extra-source', sourceAdapter: adapter, sourcePin: 'a'.repeat(40), outputs: ['svg'] } },
     artifact: {
       kind: 'node',
       root,
@@ -161,7 +161,7 @@ test('source-built runtime identity uses admitted runtime bytes, while npm still
       version: '1.0.0',
       reviewed: true,
       sourceRevision: 'a'.repeat(40),
-      buildRecipeId: 'extra-source-v1:mermaid-source:fixture',
+      buildRecipeId: `extra-source-v1:${adapter}:fixture`,
       runtimeDependencyRoots: [runtime],
       files: [seal(module), seal(manifest), seal(dependency)],
     },
