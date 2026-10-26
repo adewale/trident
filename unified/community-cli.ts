@@ -78,16 +78,20 @@ function shippedFiles(root: string, directory = join(root, 'dist')): Array<{ pat
 function candidateVariants(options: Options, prepared: PreparedCommunity[]): Variant[] {
   const base = prepared.find(entry => entry.node.benchmark?.adapter === 'agentic')
   if (!base) return []
-  const pkg = read(join(options.packageRoot, 'package.json'))
+  // The prepared Agentic artifact: the published npm package, or an explicit candidate checkout.
+  const root = base.artifact?.root ?? options.packageRoot,
+    candidate = resolve(root) === resolve(options.packageRoot)
+  const pkg = read(join(root, 'package.json'))
   const cliPath = typeof pkg.bin === 'string' ? pkg.bin : (pkg.bin?.am ?? pkg.bin?.['agentic-mermaid'])
   if (!cliPath) throw Error('Installed Agentic Mermaid package declares no CLI')
-  const cli = join(options.packageRoot, cliPath),
-    files = shippedFiles(options.packageRoot)
-  files.push({ path: join(options.packageRoot, 'package.json'), sha256: digest(join(options.packageRoot, 'package.json')) })
+  const cli = join(root, cliPath),
+    files = shippedFiles(root)
+  files.push({ path: join(root, 'package.json'), sha256: digest(join(root, 'package.json')) })
   const nodeRuntime = JSON.parse(execFileSync(process.env.NODE_BIN ?? 'node', ['-p', 'JSON.stringify({executable:process.execPath,version:process.versions.node})'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })) as { executable: string; version: string }
   const definitions = [
     { variant: 'node-cli', executable: nodeRuntime.executable, args: [cli, 'render', '-', '--format', '{format}'], runtime: `node:${nodeRuntime.version} installed public CLI`, files },
-    { variant: 'native-cli', executable: join(options.target, 'dist/am'), args: ['render', '-', '--format', '{format}'], runtime: 'bun-compiled:embedded-runtime (version unreported)', files: [] },
+    // The compiled native CLI exists only in a candidate checkout; npm ships the Node CLI.
+    ...(candidate ? [{ variant: 'native-cli', executable: join(options.target, 'dist/am'), args: ['render', '-', '--format', '{format}'], runtime: 'bun-compiled:embedded-runtime (version unreported)', files: [] }] : []),
   ]
   return definitions.map(definition => ({
     variantOf: base.node.id,
