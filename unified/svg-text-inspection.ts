@@ -79,15 +79,30 @@ function content(node: SvgInspectionNode, insideForeignObject: boolean, position
 }
 
 const coordinate = (value: string | undefined): number | undefined => (/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?(?:px)?$/i.test(value?.trim() ?? '') ? Number.parseFloat(value!) : undefined)
-const lineStyle = ['class', 'style', 'text-anchor', 'font-family', 'font-size', 'font-weight'] as const
-/** Where a <text> row starts: its own x/y, or its first tspan's, offset by that tspan's dy. */
+const lineStyle = ['class', 'style', 'transform', 'text-anchor', 'font-family', 'font-size', 'font-weight', 'writing-mode', 'direction', 'dominant-baseline', 'alignment-baseline'] as const
+/** Scalar positioning of the first glyph. A first tspan's positioning overrides
+ * its text parent's values. Unsupported lists/units and per-span transforms do
+ * not provide enough evidence to join independently positioned text rows. */
 function lineOrigin(node: SvgInspectionElement): { x: number; y: number; size?: number } | undefined {
-  const first = node.children.find((child): child is SvgInspectionElement => child.kind === 'element'),
-    tspan = first?.namespaceURI === SVG_NAMESPACE && first.localName === 'tspan' ? first : undefined
-  const x = coordinate(node.attributes.x) ?? coordinate(tspan?.attributes.x),
-    y = coordinate(tspan?.attributes.y) ?? (coordinate(node.attributes.y) ?? NaN) + (coordinate(tspan?.attributes.dy) ?? 0),
-    size = coordinate(node.attributes['font-size']) ?? coordinate(/(?:^|;)\s*font-size:\s*([^;]+)/.exec(node.attributes.style ?? '')?.[1])
-  return x === undefined || !Number.isFinite(y) ? undefined : { x, y, size }
+  const first = node.children.find(child => child.kind === 'element' || child.value.trim()),
+    tspan = first?.kind === 'element' && first.namespaceURI === SVG_NAMESPACE && first.localName === 'tspan' ? first : undefined,
+    size = coordinate(node.attributes['font-size']) ?? coordinate(/(?:^|;)\s*font-size:\s*([^;]+)/.exec(node.attributes.style ?? '')?.[1]),
+    spanSize = tspan ? coordinate(tspan.attributes['font-size']) ?? coordinate(/(?:^|;)\s*font-size:\s*([^;]+)/.exec(tspan.attributes.style ?? '')?.[1]) ?? size : size
+  const position = (element: SvgInspectionElement | undefined, name: string): number | undefined => {
+    const value = element?.attributes[name],
+      fontSize = element === tspan ? spanSize : size
+    return coordinate(value) ?? (fontSize !== undefined && /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)em$/i.test(value?.trim() ?? '') ? Number.parseFloat(value!) * fontSize : undefined)
+  }
+  for (const element of [node, tspan]) {
+    if (!element) continue
+    if (element.attributes.rotate !== undefined || (element === tspan && element.attributes.transform !== undefined)) return undefined
+    for (const name of ['x', 'y', 'dx', 'dy']) if (element.attributes[name] !== undefined && position(element, name) === undefined) return undefined
+  }
+  const x = position(tspan, 'x') ?? position(node, 'x'),
+    y = position(tspan, 'y') ?? position(node, 'y'),
+    dx = position(tspan, 'dx') ?? position(node, 'dx') ?? 0,
+    dy = position(tspan, 'dy') ?? position(node, 'dy') ?? 0
+  return x === undefined || y === undefined || !Number.isFinite(x + dx) || !Number.isFinite(y + dy) ? undefined : { x: x + dx, y: y + dy, size }
 }
 /** One label wrapped into sibling <text> rows: adjacent (nothing but whitespace between),
  * the same x and text styling, each row below the last and, when the font size is

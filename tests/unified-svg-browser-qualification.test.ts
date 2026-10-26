@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test'
 import { mkdirSync, mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join, resolve } from 'node:path'
+import { join } from 'node:path'
 import { build } from 'esbuild'
 import { prepareCommunityBrowsers, runCommunityBrowserSuite } from '../unified/community-browser.ts'
 import { qualifyOutput } from '../unified/qualification.ts'
@@ -16,6 +16,9 @@ const authored: { id: string; labels: string[]; output: string; accepted: boolea
   { id: 'prefixed', labels: ['Hello'], output: '<s:svg xmlns:s="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><s:text>Hello</s:text></s:svg>', accepted: true },
   { id: 'foreign-namespace', labels: ['Hello'], output: svg('<f:text xmlns:f="urn:unrelated">Hello</f:text>'), accepted: false },
   { id: 'positioned-lines', labels: ['First Second'], output: svg('<text><tspan x="0" y="10">First</tspan><tspan x="0" y="20">Second</tspan></text>'), accepted: true },
+  { id: 'aligned-first-tspans', labels: ['Read Write'], output: svg('<text x="100" y="10"><tspan x="10">Read</tspan></text><text x="200" y="28"><tspan x="10">Write</tspan></text>'), accepted: true },
+  { id: 'separated-transforms', labels: ['Read Write'], output: svg('<text x="10" y="10" transform="translate(0 0)">Read</text><text x="10" y="28" transform="translate(200 0)">Write</text>'), accepted: false },
+  { id: 'separated-offsets', labels: ['Read Write'], output: svg('<text x="10" y="10" dx="0">Read</text><text x="10" y="28" dx="200">Write</text>'), accepted: false },
   { id: 'html-break', labels: ['First Second'], output: svg('<foreignObject><div xmlns="http://www.w3.org/1999/xhtml">First<br/>Second</div></foreignObject>'), accepted: true },
   // Mermaid's own serialization: HTML inside foreignObject, so the <br> is not closed and the string is not XML.
   { id: 'html-serialized-break', labels: ['First Second'], output: svg('<foreignObject><div xmlns="http://www.w3.org/1999/xhtml"><p>First<br>Second</p></div></foreignObject>'), accepted: true },
@@ -35,7 +38,7 @@ browserTest(
       await build({ stdin: { contents: `const cases=${JSON.stringify(cases)};globalThis.fixtureRender=source=>cases.find(entry=>entry.source===source)?.output??'<svg xmlns="http://www.w3.org/2000/svg"/>'`, sourcefile: 'authored-qualification-fixture.js' }, outfile: module, bundle: true, format: 'iife', platform: 'browser', minify: true, logLevel: 'silent' })
       const out = join(directory, 'results')
       mkdirSync(out)
-      const root = resolve(import.meta.dir, '../../..')
+      const root = directory
       const options = { root, harnessRoot: root, out, rounds: 1, profile: 'smoke' as const, communityCoverageOnce: true, communityQualificationAssetDir: join(directory, 'versioned-helper'), ...(process.env.AM_CHROMIUM_EXECUTABLE ? { executable: process.env.AM_CHROMIUM_EXECUTABLE } : {}) }
       const prepared = await prepareCommunityBrowsers([{ node: { id: 'authored-reader-fixture', roles: [], outputs: ['svg'], benchmark: { adapter: 'dart', outputs: ['svg'] } }, artifact: { kind: 'global', root: directory, module, global: 'fixtureRender', version: 'authored-fixture' } }], options)
       const result = await runCommunityBrowserSuite(prepared, workloads, options)

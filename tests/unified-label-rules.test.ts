@@ -47,6 +47,7 @@ test('stacked <text> rows of one wrapped label join in reading order', () => {
   expect(accepts([label], '<text x="10" y="10" class="m">Hello Bob, how</text><text x="10" y="28" class="m">are you today?</text>')).toBe(true)
   expect(accepts([label], '<g><text x="10" y="40" class="m"><tspan x="10" dy="-8">Hello Bob, how</tspan></text><text x="10" y="40" class="m"><tspan x="10" dy="8">are you today?</tspan></text></g>')).toBe(true)
   expect(accepts([label], '<text x="10" y="10" style="font-size: 16px">Hello Bob, how</text>\n  <text x="10" y="28" style="font-size: 16px">are you today?</text>')).toBe(true)
+  expect(accepts([label], '<text x="100" y="10"><tspan x="10">Hello Bob, how</tspan></text><text x="200" y="28"><tspan x="10">are you today?</tspan></text>')).toBe(true)
 })
 
 test('rows that are not one wrapped label stay separate', () => {
@@ -57,6 +58,11 @@ test('rows that are not one wrapped label stay separate', () => {
   expect(accepts([label], '<text x="10" y="10">Read</text><text x="60" y="28">Write</text>')).toBe(false)
   expect(accepts([label], '<text x="10" y="10">Read</text><line x1="0" y1="20" x2="100" y2="20"/><text x="10" y="28">Write</text>')).toBe(false)
   expect(accepts([label], '<text x="10" y="10" class="title">Read</text><text x="10" y="28" class="member">Write</text>')).toBe(false)
+  expect(accepts([label], '<text x="10" y="10" transform="translate(0 0)">Read</text><text x="10" y="28" transform="translate(200 0)">Write</text>')).toBe(false)
+  expect(accepts([label], '<text x="10" y="10" dx="0">Read</text><text x="10" y="28" dx="200">Write</text>')).toBe(false)
+  expect(accepts([label], '<text x="10" y="10" dy="100">Read</text><text x="10" y="28">Write</text>')).toBe(false)
+  expect(accepts([label], '<text x="10" y="10"><tspan x="100">Read</tspan></text><text x="10" y="28"><tspan x="200">Write</tspan></text>')).toBe(false)
+  expect(accepts([label], '<text x="10" y="10"><tspan dx="100">Read</tspan></text><text x="10" y="28"><tspan dx="200">Write</tspan></text>')).toBe(false)
   expect(accepts([label], '<text x="10" y="10" font-size="13">Read</text><text x="10" y="40" font-size="13">Write</text>')).toBe(false)
   expect(accepts([label], '<g><text x="10" y="10">Read</text></g><g><text x="10" y="28">Write</text></g>')).toBe(false)
   expect(accepts(['Hello Bob, how are you today?'], '<text x="10" y="10">Hello Bob, how</text><text x="10" y="28">are you</text>')).toBe(false)
