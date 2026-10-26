@@ -443,8 +443,8 @@ export function benchmarkSuites(options: SuiteOptions): SuiteDefinition[] {
     title: 'Palette generation cost and deterministic operation counts',
     kind: 'script',
     smoke: false,
-    source: 'eval/palette-performance/run.ts',
-    command: ['bun', 'run', 'eval/palette-performance/run.ts', '--record'],
+    source: 'eval/benchmark/palette-performance.ts',
+    command: ['bun', 'run', 'eval/benchmark/palette-performance.ts', '--record'],
     prerequisites: [],
     policy: 'Owning deterministic fixture matrix and shuffled warm samples; output goes to the campaign directory. No renderer speed claim.',
   })
