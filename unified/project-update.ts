@@ -138,14 +138,44 @@ function retainContext(store: string, context: unknown): string {
   writeBenchmarkDocument(join(directory, name), context)
   return name
 }
-function packageIdentity(prepared: PreparedCommunity) {
+export function projectPackageIdentity(prepared: PreparedCommunity) {
   if (!prepared.artifact) return { error: prepared.error ?? null, selectors: { benchmark: prepared.node.benchmark ?? null, head: prepared.node.head ?? null, release: prepared.node.release ?? null, distribution: prepared.node.distribution ?? null } }
   verifyProvidedCommunityArtifact(prepared.artifact)
   const artifact = { ...prepared.artifact }
   delete artifact.detail
   const root = artifact.root
+  // Source recipes seal their actual runtime closure separately from build-only
+  // declarations in the upstream source manifest. Reuse that admitted closure.
+  if (artifact.runtimeDependencyRoots) {
+    if (!artifact.reviewed || !artifact.sourceRevision || !artifact.buildRecipeId?.startsWith('extra-source-v1:mermaid-source:')) throw Error('Runtime dependency roots require a reviewed Mermaid source recipe')
+    const sealed = new Set(artifact.files?.map(file => resolve(file.path)))
+    for (const dependency of artifact.runtimeDependencyRoots) {
+      if (!sealed.has(resolve(dependency, 'package.json'))) throw Error('Runtime package manifest is absent from the verified artifact closure: ' + dependency)
+    }
+    return { artifact, files: null, dependencies: { runtimeDependencyRoots: artifact.runtimeDependencyRoots } }
+  }
   const files = root && existsSync(join(root, 'package.json')) ? (json(join(root, 'package.json')).name === 'agentic-mermaid' ? [{ path: 'package.json', sha256: byteDigest(join(root, 'package.json')) }, ...fetchedFiles(root, join(root, 'dist'))] : fetchedFiles(root)) : null
   return { artifact, files, dependencies: root && existsSync(join(root, 'package.json')) ? captureInstalledDependencyClosure(root) : null }
+}
+/** Admit each project's runtime independently before any measurement starts. */
+export function admitProjectArtifacts(preparedEntry: PreparedCommunity, preparedBrowser: PreparedCommunityBrowser, options: UnifiedRunOptions) {
+  let entry = preparedEntry,
+    browser = preparedBrowser
+  const cliIdentity = () => communityCliCacheIdentity({ target: options.root, packageRoot: options.packageRoot ?? options.root, observerExecutable: communityObserver(options) }, [entry])
+  let packageArtifact: ReturnType<typeof projectPackageIdentity>, cli: ReturnType<typeof cliIdentity>
+  try {
+    verifyFrozenBrowserEngine(browser)
+    packageArtifact = projectPackageIdentity(entry)
+    cli = cliIdentity()
+  } catch (error) {
+    // One rejected installation must not prevent other projects from running.
+    // Keep its explicit admission failure, with no artifact eligible for clocks.
+    entry = { node: entry.node, error: 'Project artifact admission failed: ' + (error instanceof Error ? error.message : String(error)) }
+    browser = { ...entry, browserStatus: 'blocked', browserDetail: entry.error }
+    packageArtifact = projectPackageIdentity(entry)
+    cli = cliIdentity()
+  }
+  return { entry, browser, packageArtifact, cli }
 }
 function inventoryFiles(directory: string, current = directory): string[] {
   return readdirSync(current, { withFileTypes: true })
@@ -277,14 +307,13 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
       return browser
     })
   } else browsers = await prepareCommunityBrowsers(prepared, { ...options, out: preparation })
-  const plans = prepared.map(entry => {
-    const browser = browsers.find(peer => peer.node.id === entry.node.id)!
-    verifyFrozenBrowserEngine(browser)
+  const plans = prepared.map(preparedEntry => {
+    const { entry, browser, packageArtifact, cli } = admitProjectArtifacts(preparedEntry, browsers.find(peer => peer.node.id === preparedEntry.node.id)!, options)
     const identity: ProjectBenchmarkIdentity = JSON.parse(
       JSON.stringify({
         project: entry.node.id,
         protocol: { context, adapter: entry.node.benchmark ?? null, outputs: entry.node.outputs, browserQualifier: browser.browser?.files?.find(file => file.path === browser.browser?.qualificationHelper)?.sha256 ?? null },
-        artifact: { package: packageIdentity(entry), browser: browser.browser ?? null, browserStatus: browser.browserStatus, cli: communityCliCacheIdentity({ target: options.root, packageRoot: options.packageRoot ?? options.root, observerExecutable: communityObserver(options) }, [entry]) },
+        artifact: { package: packageArtifact, browser: browser.browser ?? null, browserStatus: browser.browserStatus, cli },
         measurement: contextValue.measurement,
       }),
     )
@@ -323,7 +352,7 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
         if (!existsSync(join(directory, 'community-cli'))) mkdirSync(join(directory, 'community-cli'))
         if (!existsSync(join(directory, 'community-cli/community-cli-suite.json'))) writeJson(join(directory, 'community-cli/community-cli-suite.json'), cli)
         // Recheck the admitted artifact after clocks, before publishing a reusable record.
-        if (stableValue(packageIdentity(item.entry)) !== stableValue((item.identity.artifact as any).package)) throw Error('Project artifact changed during measurement')
+        if (stableValue(projectPackageIdentity(item.entry)) !== stableValue((item.identity.artifact as any).package)) throw Error('Project artifact changed during measurement')
         verifyFrozenBrowserEngine(item.browser)
         if (stableValue(communityCliCacheIdentity({ target: options.root, packageRoot: options.packageRoot ?? options.root, observerExecutable: communityObserver(options) }, [item.entry])) !== stableValue((item.identity.artifact as any).cli)) throw Error('Project CLI artifact changed during measurement')
         const observations = [...community.observations, ...cli.observations]
