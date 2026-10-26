@@ -167,7 +167,9 @@ export function referenceLabels(family: string, reply: MermaidSnapshot): Referen
       if (!Array.isArray(ast.frames)) return undefined
       rows(ast.frames).forEach((frame, index) => {
         const parts = text(frame.entityIdentifier).split('.')
-        add(`eventModelAst.frames[${index}].entityIdentifier`, parts.at(-1))
+        // The pinned renderer treats exactly two components as namespace/name;
+        // three or more remain one visible identifier rather than losing prefixes.
+        add(`eventModelAst.frames[${index}].entityIdentifier`, parts.length === 2 ? parts[1] : frame.entityIdentifier)
         if (parts.length === 2) add(`eventModelAst.frames[${index}].namespace`, parts[0])
       })
       break

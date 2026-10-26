@@ -59,9 +59,9 @@ test.skipIf(!upstreamTagged)('a re-import from the tagged Mermaid checkout repro
 // The independent parser supplies Event Modeling identities even when jsdom cannot
 // execute Mermaid's layout-dependent getState getter. Missing those labels must fail.
 test('Event Modeling label expectations survive the oracle layout getter failing', async () => {
-  const [reply] = await mermaidVerdicts(assertMermaidOracle(), ['eventmodeling\ntf 01 ui Cart.Screen\ntf 02 cmd AddItem { description: string }\ntf 03 evt ItemAdded'], { snapshot: true })
+  const [reply] = await mermaidVerdicts(assertMermaidOracle(), ['eventmodeling\ntf 01 ui Cart.Screen\ntf 02 cmd AddItem { description: string }\ntf 03 evt ItemAdded\ntf 04 evt Account.Cart.CheckedOut'], { snapshot: true })
   expect(reply!.accepted).toBe(true)
-  expect(referenceLabels('eventmodeling', reply!)?.map(label => label.text)).toEqual(['Screen', 'Cart', 'AddItem', 'ItemAdded'])
+  expect(referenceLabels('eventmodeling', reply!)?.map(label => label.text)).toEqual(['Screen', 'Cart', 'AddItem', 'ItemAdded', 'Account.Cart.CheckedOut'])
 })
 
 test('the pinned Mermaid baseline accepts every imported documented example before benchmarking', async () => {
