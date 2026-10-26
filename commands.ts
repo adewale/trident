@@ -50,7 +50,7 @@ function sourceEnvironment(root: string, workspace: string): NodeJS.ProcessEnv {
 }
 
 function externalPaths(args: string[]): string[] {
-  const paths = new Set(['--out', '--records', '--benchmark-records', '--community-records', '--json', '--markdown', '--target', '--package-root', '--site', '--ownership-site', '--candidate-tarball', '--baseline-tarball', '--baseline-lock', '--mermaid-dir', '--reference-dir', '--zenuml-root', '--upstream-runner-root', '--community-artifacts', '--community-prepared', '--community-inputs', '--community-browser-prepared', '--community-catalog', '--community-qualification-assets', '--portable-artifact-root', '--benchmark-resume-attempt'])
+  const paths = new Set(['--out', '--output', '--records', '--benchmark-records', '--community-records', '--json', '--markdown', '--target', '--package-root', '--site', '--ownership-site', '--candidate-tarball', '--baseline-tarball', '--baseline-lock', '--mermaid-dir', '--reference-dir', '--zenuml-root', '--upstream-runner-root', '--community-artifacts', '--community-prepared', '--community-inputs', '--community-browser-prepared', '--community-catalog', '--community-qualification-assets', '--portable-artifact-root', '--benchmark-resume-attempt'])
   return args.map((value, index) => index > 0 && paths.has(args[index - 1]!) && !value.startsWith('--') ? resolve(value) : value)
 }
 
@@ -61,8 +61,14 @@ async function main() {
     if (!id || !Object.hasOwn(sourceScripts, id)) throw Error('Choose a declared source diagnostic: ' + Object.keys(sourceScripts).join(', '))
     assertBenchmarkExecutionAllowed()
     const root = sourceCheckout()
+    const forwarded = externalPaths(args)
+    if (id === 'bench:scorecard') {
+      if (!forwarded.includes('--output')) forwarded.push('--output', resolve(root, 'bench-report/community-benchmark-ranking.md'))
+      const input = forwarded.indexOf('--run')
+      if (input >= 0 && forwarded[input + 1] && !forwarded[input + 1]!.startsWith('--')) forwarded[input + 1] = resolve(forwarded[input + 1]!)
+    }
     withAgenticWorkspace(root, false, workspace => {
-      const result = spawnSync(process.execPath, ['run', id, ...externalPaths(args)], { cwd: workspace, stdio: 'inherit', env: sourceEnvironment(root, workspace) })
+      const result = spawnSync(process.execPath, ['run', id, ...forwarded], { cwd: workspace, stdio: 'inherit', env: sourceEnvironment(root, workspace) })
       if (result.error) throw result.error
       process.exitCode = result.status ?? 1
     })

@@ -114,7 +114,9 @@ cannot erase those records.
 The complete source suite still needs explicitly prepared reference/tool/site
 artifacts for the lanes that use them. Missing prerequisites remain blocked;
 listing a suite does not claim it ran. `source SCRIPT` executes a declared
-legacy diagnostic through the prepared layout. The Agentic launcher pins a
+legacy diagnostic through the prepared layout. The scorecard defaults to the
+selected source checkout's `bench-report/community-benchmark-ranking.md`; pass an
+explicit `--output` to update a maintained Markdown file outside the workspace. The Agentic launcher pins a
 Trident Git revision and forwards the actual checkout and original arguments.
 `AM_BENCH_REPOSITORY_ROOT` remains an alias for `TRIDENT_AGENTIC_ROOT`.
 
