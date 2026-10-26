@@ -1,8 +1,10 @@
-import { readBenchmarkDocument } from '../portable/project-records.ts'
+import { publishProjectRecord, type ProjectBenchmarkRecord, readBenchmarkDocument } from '../portable/project-records.ts'
 import { expect, test } from 'bun:test'
-import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { publishResults } from '../unified/league.ts'
+import { communityCoreWorkloads } from '../unified/community.ts'
 import { projectReportView } from '../unified/project-report-view.ts'
 import { coverageRows, type UnifiedReport, writeUnifiedReport } from '../unified/report.ts'
 import type { UnifiedSuiteResult } from '../unified/types.ts'
@@ -82,5 +84,57 @@ test('legacy project metadata is attributed consistently in coverage and exporte
     expect(readFileSync(join(out, 'observations.csv'), 'utf8')).not.toContain('"agentic-mermaid"')
   } finally {
     rmSync(out, { recursive: true, force: true })
+  }
+})
+
+test('community league costs compare and rank within each invocation surface', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'community-league-boundaries-')),
+    store = join(directory, 'store'),
+    out = join(directory, 'published')
+  try {
+    for (const [project, surface, ms, format] of [
+      ['mermaid-js/mermaid', 'browser:public-api', 10, 'svg'],
+      ['fixture/browser', 'browser:public-api', 5, 'svg'],
+      ['fixture/node', 'node:public-api', 1, 'svg'],
+      ['fixture/formatter', 'node:public-api', 1, 'source'],
+    ] as const) {
+      const evidenceDirectory = join(directory, project.replaceAll('/', '-'))
+      mkdirSync(evidenceDirectory)
+      writeFileSync(join(evidenceDirectory, 'result.json'), '{}')
+      const row = (caseId: string, round: number) => ({ suite: 'community', surface, runtime: 'fixture', family: 'flowchart', caseId, operation: 'render', format, mode: 'core-api-repeat', status: 'passed' as const, samplesMs: [ms], metrics: { implementation: project, version: 'fixture', round, firstMs: ms } })
+      const record: ProjectBenchmarkRecord = {
+        schemaVersion: 1,
+        id: project,
+        identity: { project, protocol: { context: 'same' }, artifact: {}, measurement: { rounds: 5 } },
+        startedAt: '2026-10-26T00:00:00Z',
+        finishedAt: '2026-10-26T00:01:00Z',
+        status: 'passed',
+        evidenceDirectory,
+        evidenceFiles: ['result.json'],
+        gaps: [],
+        observations: [...Array.from({ length: 5 }, (_, i) => communityCoreWorkloads().map(w => row(w.id, i + 1))).flat(), row('authored-feature', 1)],
+      }
+      publishProjectRecord(store, record)
+    }
+    publishResults(store, out)
+    const markdown = readFileSync(join(out, 'README.md'), 'utf8'),
+      rows = markdown.split('\n')
+    const node = rows.find(line => line.includes('[fixture/node]'))!.split('|'),
+      browser = rows.find(line => line.includes('[fixture/browser]'))!.split('|')
+    expect(node[8]!.trim()).toBe('—')
+    expect(browser[8]!.trim()).toBe('2.0× faster')
+    expect(node[1]!.trim()).toBe('1')
+    expect(browser[1]!.trim()).toBe('1')
+    expect(markdown).toContain('## Formatted Mermaid source')
+    expect(
+      rows
+        .find(line => line.includes('[fixture/formatter]'))!
+        .split('|')[8]!
+        .trim(),
+    ).toBe('—')
+    expect(markdown).toContain('### Node API')
+    expect(markdown).toContain('### browser API')
+  } finally {
+    rmSync(directory, { recursive: true, force: true })
   }
 })
