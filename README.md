@@ -1,16 +1,82 @@
 # Trident
 
-Trident benchmarks Mermaid tool artifacts and reads retained evidence. Its portable
-runner, qualification, records and reports live in this private package. Agentic
-Mermaid's source diagnostics remain an optional adapter. The package is excluded
-from product distribution, product test discovery and CI.
+Trident benchmarks tools that read Mermaid's diagram language: SVG renderers, terminal
+renderers and parsers. It is for the maintainers of those tools, who need failures they
+can act on, and for people choosing one, who need to know what each tool draws
+correctly and how fast.
+
+- **[League table](results/README.md)**: what each tool supports, how often it is
+  right, and calibrated speed, from published records.
+- **[Methodology](METHODOLOGY.md)**: the pinned Mermaid oracle, the corpus, family
+  support, statuses, ordering, calibration, the reference machine and a disclosure.
 
 Trident was extracted from Agentic Mermaid's `eval/benchmark` directory
-([adewale/agentic-mermaid#492](https://github.com/adewale/agentic-mermaid/pull/492),
-commit `e81f405c`). That checkout keeps the owning source-adapter protocols; see
-[Optional Agentic source adapter](#optional-agentic-source-adapter).
+([adewale/agentic-mermaid#492](https://github.com/adewale/agentic-mermaid/pull/492)).
+Agentic Mermaid is measured here as an ordinary row; its own source-level lanes are an
+[optional adapter](#optional-agentic-source-adapter). Measurements never run in CI.
 
-## Run without an Agentic checkout
+## Benchmark community projects
+
+Install the dependencies (`bun install`) and the pinned Mermaid oracle, then measure
+any project in [the catalog](catalog/mermaid-community.json) and publish the table:
+
+```sh
+node commands.ts mermaid:install
+bun commands.ts community:update --projects obsidianmd/pele,mermaid-js/mermaid \
+  --profile full --rounds 5 --records /evidence/records --out /evidence/community
+bun commands.ts results:publish --records /evidence/records --out results
+```
+
+Each project gets one record. An unchanged project, input and protocol reuses its
+record, so updating one tool re-measures only that tool; `--force` re-measures. The
+corpus is [`corpus/community-corpus.json`](corpus/community-corpus.json), frozen from
+Agentic Mermaid with its commit; `bun commands.ts corpus:import` refreshes it from an
+Agentic checkout (`TRIDENT_AGENTIC_ROOT`). Tools built from source need their
+toolchains (Go, Rust, Python), and browser lanes use Playwright's Chromium.
+
+`results:publish` writes [`results/`](results/README.md): the league table, a
+per-family grid, one compact record per project with no machine paths, and a failure
+page per project showing each failing input, what the oracle expects and the tool's
+actual output.
+
+## Adding a tool
+
+A tool is one entry in [`catalog/mermaid-community.json`](catalog/mermaid-community.json).
+If it is an npm package whose public API renders a Mermaid source string, declare its
+exports; no harness code is needed:
+
+```json
+{
+  "id": "owner/tool",
+  "roles": ["renderer"],
+  "outputs": ["svg", "terminal"],
+  "benchmark": {
+    "adapter": "declared",
+    "package": "tool-package",
+    "version": "1.2.3",
+    "outputs": ["svg", "terminal"],
+    "api": {
+      "svg": { "export": "render", "result": "svg" },
+      "terminal": { "export": "default.toText", "options": { "unicode": true } }
+    }
+  }
+}
+```
+
+For each output, `export` is the dotted path to a function called with the source,
+`options` is an optional JSON second argument, and `result` names the returned field
+that holds the output, when the function does not return it directly. Promises are
+awaited. A declared output without a binding is refused before anything is installed.
+The SVG binding also runs in a browser, from a bundle of the published package. CLIs,
+WASM builds and tools that need a build step use the existing adapters in
+`unified/community*.ts`; open an issue if yours fits none of them.
+
+## Benchmarking an unreleased version
+
+Agentic Mermaid's lanes take a local candidate (`--package-root`, `--candidate-tarball`).
+For other projects see [Candidates](METHODOLOGY.md#candidates).
+
+## Run the portable kit without an Agentic checkout
 
 Install this package's declared dependencies. Build and report commands accept
 Node 24 or Bun 1.4 or later. Relative output paths resolve in this package:
@@ -95,16 +161,13 @@ not rewrite or migrate the input evidence.
 
 ## Optional Agentic source adapter
 
-The complete Agentic orchestrator still owns Dave, pinned Mermaid original tests,
-entry startup, source-stage, website, CLI/MCP and other maintained lanes. Supply
-its checkout when using these commands from a copied Trident package:
+Agentic Mermaid's own orchestrator owns the lanes that measure its source and
+build: Dave, pinned Mermaid original tests, entry startup, source-stage, website,
+CLI/MCP and candidate campaigns. Supply its checkout to run them:
 
 ```sh
 TRIDENT_AGENTIC_ROOT=/checkouts/agentic-mermaid \
   bun commands.ts agentic --list --profile full
-TRIDENT_AGENTIC_ROOT=/checkouts/agentic-mermaid \
-  bun commands.ts community:update --projects obsidianmd/pele \
-    --records /evidence/records --out /evidence/community-updates
 ```
 
 These commands execute that checkout's owning protocol files in that checkout.
