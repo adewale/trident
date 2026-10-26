@@ -1,4 +1,4 @@
-// bun eval/trident/run.ts source bench:endpoint-marker:compare BASE_CHECKOUT HEAD_CHECKOUT OUT_DIR
+// bun eval/trident/run.ts source bench:endpoint-marker BASE_CHECKOUT HEAD_CHECKOUT OUT_DIR
 // Both checkouts must be immutable revisions with built Node packages.
 import { execFileSync } from 'node:child_process'
 import { mkdirSync, writeFileSync } from 'node:fs'

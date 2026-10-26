@@ -305,5 +305,5 @@ See the [overview](OVERVIEW.md), [inventory](INVENTORY.md),
 The community discovery checks are owned by Trident and run with its standalone
 maintainer tests. Agentic retains product corpora and compatibility policy; its
 old benchmark implementation and community discovery copy can be removed.
-`source bench:profile:qualify` runs the experimental profile qualifier through the
+`source bench:performance-profile` runs the experimental profile qualifier through the
 prepared source layout, including its `--features` selection.

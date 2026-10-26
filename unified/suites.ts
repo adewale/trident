@@ -168,6 +168,7 @@ export function benchmarkSuites(options: SuiteOptions): SuiteDefinition[] {
   }
   standalone('render-stages', 'Official-corpus SVG receipt stage costs', 'eval/benchmark/render-stage-bench.ts', [String(options.rounds), join(out('render-stages'), 'report.json')])
   standalone('performance-profile', 'Experimental profile correctness qualification', 'eval/benchmark/qualify-performance-profile.ts', ['--out', join(out('performance-profile'), 'report.json')])
+  standalone('endpoint-marker', 'Endpoint marker geometry across immutable built checkouts', 'eval/benchmark/endpoint-marker-compare.ts', [options.baseline ?? '', options.packageRoot ?? root, out('endpoint-marker')], options.baseline ? [] : ['Provide --baseline with an immutable built Agentic checkout; --package-root selects the other built checkout.'])
   standalone(
     'output-identity',
     'Cross-revision output identity across styles and formats',
