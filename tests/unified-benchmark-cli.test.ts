@@ -172,6 +172,17 @@ test('Trident lists its own suites against a public source checkout without any 
       expect(receipt.root).toBe(source)
       expect(receipt.revision).toBe(execFileSync('git', ['rev-parse','HEAD'], { cwd: source, encoding: 'utf8' }).trim())
     }
+    const observer = join(directory, 'scorecard-observer.mjs')
+    writeFileSync(observer, 'if(process.argv[1]?.endsWith("unified/update-scorecard.ts")){console.log(JSON.stringify(process.argv.slice(2)));process.exit(0)}')
+    const scorecardEnv: NodeJS.ProcessEnv = { ...process.env, TRIDENT_AGENTIC_ROOT: source, TRIDENT_CACHE_DIR: join(directory, 'scorecard-cache'), BUN_OPTIONS: '--preload=' + observer }
+    for (const output of [undefined, 'maintained.md']) {
+      const args = ['source', 'bench:scorecard', '--run', 'retained-run', ...(output ? ['--output', output] : [])]
+      const result = spawnSync(process.execPath, [command, ...args], { cwd: directory, env: scorecardEnv, encoding: 'utf8', timeout: 20_000 })
+      expect(result.status).toBe(0)
+      const forwarded = JSON.parse(result.stdout)
+      expect(forwarded[forwarded.indexOf('--run') + 1]).toBe(join(directory, 'retained-run'))
+      expect(forwarded[forwarded.indexOf('--output') + 1]).toBe(output ? join(directory, output) : join(source, 'bench-report/community-benchmark-ranking.md'))
+    }
     const occupied = join(directory, 'unowned/agentic-workspace')
     mkdirSync(occupied, { recursive: true }); writeFileSync(join(occupied, 'notes.txt'), 'keep unrelated files')
     const rejected = spawnSync(process.execPath, [command, 'agentic', '--list'], { cwd: directory, env: { ...process.env, TRIDENT_AGENTIC_ROOT: source, TRIDENT_CACHE_DIR: dirname(occupied) }, encoding: 'utf8', timeout: 20_000 })
