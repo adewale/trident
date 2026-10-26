@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="572.9519999999999" height="473.8" viewBox="0 0 572.9519999999999 473.8" style="--bg:#FFFFFF;--fg:#27272A;--font:Inter;background:#FFFFFF">
+<style>
+  text { font-family: var(--font, 'Inter'), system-ui, sans-serif; }
+  .mono { font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          #27272A;
+    --_text-sec:      #575759;
+    --_text-muted:    #707072;
+    --_text-faint:    #8a8a8c;
+    --_line:          #939395;
+    --_arrow:         #47474a;
+    --_node-fill:     #f9f9f9;
+    --_node-stroke:   #d4d4d4;
+    --_group-fill:    #FFFFFF;
+    --_group-hdr:     #f4f4f4;
+    --_inner-stroke:  #e5e5e5;
+    --_key-badge:     #e9e9ea;
+  }
+</style>
+<defs>
+  <marker id="cls-inherit" markerWidth="12" markerHeight="10" refX="12" refY="5" orient="auto-start-reverse" overflow="visible">
+    <polygon points="0 0, 12 5, 0 10" fill="#FFFFFF" stroke="#47474a" stroke-width="1.5" />
+  </marker>
+  <marker id="cls-composition" markerWidth="14" markerHeight="12" refX="13" refY="6" orient="auto-start-reverse" viewBox="0 0 14 12" overflow="hidden">
+    <polygon points="7 1, 13 6, 7 11, 1 6" fill="#47474a" stroke="#47474a" stroke-width="1" />
+  </marker>
+  <marker id="cls-aggregation" markerWidth="14" markerHeight="12" refX="13" refY="6" orient="auto-start-reverse" viewBox="0 0 14 12" overflow="hidden">
+    <polygon points="7 1, 13 6, 7 11, 1 6" fill="#FFFFFF" stroke="#47474a" stroke-width="1.5" />
+  </marker>
+  <marker id="cls-arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto-start-reverse" overflow="visible">
+    <polyline points="0 0, 8 3, 0 6" fill="none" stroke="#47474a" stroke-width="1.5" />
+  </marker>
+  <marker id="cls-lollipop" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto-start-reverse" viewBox="0 0 14 14" overflow="hidden">
+    <circle cx="7" cy="7" r="5" fill="#FFFFFF" stroke="#47474a" stroke-width="1.5" />
+  </marker>
+</defs>
+<polyline class="class-relationship" data-from="Animal" data-to="Duck" data-type="inheritance" data-relation-type="inheritance" data-marker-at="from" points="415.09999999999997,168.9 415.09999999999997,188.9 270.69999999999993,188.9 270.69999999999993,228.9" fill="none" stroke="#939395" stroke-width="1" marker-start="url(#cls-inherit)" data-relationship="inheritance" data-direction="reverse" data-id="rel:Animal-&gt;Duck#0" data-role="relationship" role="graphics-symbol" aria-roledescription="relation" aria-label="Animal to Duck" />
+<polyline class="class-relationship" data-from="Animal" data-to="Fish" data-type="inheritance" data-relation-type="inheritance" data-marker-at="from" points="445.49999999999994,168.9 445.5,228.9" fill="none" stroke="#939395" stroke-width="1" marker-start="url(#cls-inherit)" data-relationship="inheritance" data-direction="reverse" data-id="rel:Animal-&gt;Fish#0" data-role="relationship" role="graphics-symbol" aria-roledescription="relation" aria-label="Animal to Fish" />
+<polyline class="class-relationship" data-from="Animal" data-to="Zebra" data-type="inheritance" data-relation-type="inheritance" data-marker-at="from" points="384.69999999999993,168.9 384.69999999999993,178.9 100,178.9 100,228.9" fill="none" stroke="#939395" stroke-width="1" marker-start="url(#cls-inherit)" data-relationship="inheritance" data-direction="reverse" data-id="rel:Animal-&gt;Zebra#0" data-role="relationship" role="graphics-symbol" aria-roledescription="relation" aria-label="Animal to Zebra" />
+<g class="class-node" data-id="Animal" data-label="Animal" data-role="class-box">
+  <rect x="354.29999999999995" y="40" width="121.6" height="128.9" rx="0" ry="0" fill="#f9f9f9" stroke="#d4d4d4" stroke-width="1" data-id="class:Animal:box" data-role="class-box" />
+  <path d="M354.29999999999995,40 H475.9 V72.9 H354.29999999999995 Z" fill="#f4f4f4" stroke="#d4d4d4" stroke-width="1" />
+  <text x="415.09999999999997" y="56.45" text-anchor="middle" font-size="13" font-weight="700" fill="#27272A" dy="4.55" textLength="42.51" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Animal</text>
+  <line x1="354.29999999999995" y1="72.9" x2="475.9" y2="72.9" stroke="#d4d4d4" stroke-width="0.75" />
+  <text x="362.29999999999995" y="86.9" class="mono" dy="0.35em" font-size="11" font-weight="400" data-id="member:Animal:age" data-role="member" textLength="66" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit"><tspan fill="#8a8a8c">+ </tspan><tspan fill="#575759">age</tspan><tspan fill="#8a8a8c">: </tspan><tspan fill="#707072">int</tspan></text>
+  <text x="362.29999999999995" y="106.9" class="mono" dy="0.35em" font-size="11" font-weight="400" data-id="member:Animal:gender" data-role="member" textLength="105.6" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit"><tspan fill="#8a8a8c">+ </tspan><tspan fill="#575759">gender</tspan><tspan fill="#8a8a8c">: </tspan><tspan fill="#707072">String</tspan></text>
+  <line x1="354.29999999999995" y1="120.9" x2="475.9" y2="120.9" stroke="#d4d4d4" stroke-width="0.75" />
+  <text x="362.29999999999995" y="134.9" class="mono" dy="0.35em" font-size="11" font-weight="400" data-id="member:Animal:isMammal" data-role="member" textLength="79.2" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit"><tspan fill="#8a8a8c">+ </tspan><tspan fill="#575759">isMammal()</tspan></text>
+  <text x="362.29999999999995" y="154.9" class="mono" dy="0.35em" font-size="11" font-weight="400" data-id="member:Animal:mate" data-role="member" textLength="52.8" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit"><tspan fill="#8a8a8c">+ </tspan><tspan fill="#575759">mate()</tspan></text>
+</g>
+<g class="class-node" data-id="Duck" data-label="Duck" data-role="class-box">
+  <rect x="199.99999999999997" y="228.9" width="141.39999999999998" height="108.9" rx="0" ry="0" fill="#f9f9f9" stroke="#d4d4d4" stroke-width="1" data-id="class:Duck:box" data-role="class-box" />
+  <path d="M199.99999999999997,228.9 H341.4 V261.8 H199.99999999999997 Z" fill="#f4f4f4" stroke="#d4d4d4" stroke-width="1" />
+  <text x="270.69999999999993" y="245.35000000000002" text-anchor="middle" font-size="13" font-weight="700" fill="#27272A" dy="4.55" textLength="34.71" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Duck</text>
+  <line x1="199.99999999999997" y1="261.8" x2="341.4" y2="261.8" stroke="#d4d4d4" stroke-width="0.75" />
+  <text x="207.99999999999997" y="275.8" class="mono" dy="0.35em" font-size="11" font-weight="400" data-id="member:Duck:beakColor" data-role="member" textLength="125.4" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit"><tspan fill="#8a8a8c">+ </tspan><tspan fill="#575759">beakColor</tspan><tspan fill="#8a8a8c">: </tspan><tspan fill="#707072">String</tspan></text>
+  <line x1="199.99999999999997" y1="289.8" x2="341.4" y2="289.8" stroke="#d4d4d4" stroke-width="0.75" />
+  <text x="207.99999999999997" y="303.8" class="mono" dy="0.35em" font-size="11" font-weight="400" data-id="member:Duck:swim" data-role="member" textLength="52.8" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit"><tspan fill="#8a8a8c">+ </tspan><tspan fill="#575759">swim()</tspan></text>
+  <text x="207.99999999999997" y="323.8" class="mono" dy="0.35em" font-size="11" font-weight="400" data-id="member:Duck:quack" data-role="member" textLength="59.4" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit"><tspan fill="#8a8a8c">+ </tspan><tspan fill="#575759">quack()</tspan></text>
+</g>
+<g class="class-node" data-id="Fish" data-label="Fish" data-role="class-box">
+  <rect x="381.4" y="228.9" width="128.2" height="88.9" rx="0" ry="0" fill="#f9f9f9" stroke="#d4d4d4" stroke-width="1" data-id="class:Fish:box" data-role="class-box" />
+  <path d="M381.4,228.9 H509.59999999999997 V261.8 H381.4 Z" fill="#f4f4f4" stroke="#d4d4d4" stroke-width="1" />
+  <text x="445.5" y="245.35000000000002" text-anchor="middle" font-size="13" font-weight="700" fill="#27272A" dy="4.55" textLength="30.03" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Fish</text>
+  <line x1="381.4" y1="261.8" x2="509.59999999999997" y2="261.8" stroke="#d4d4d4" stroke-width="0.75" />
+  <text x="389.4" y="275.8" class="mono" dy="0.35em" font-size="11" font-weight="400" data-id="member:Fish:sizeInFeet" data-role="member" textLength="112.2" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit"><tspan fill="#8a8a8c">- </tspan><tspan fill="#575759">sizeInFeet</tspan><tspan fill="#8a8a8c">: </tspan><tspan fill="#707072">int</tspan></text>
+  <line x1="381.4" y1="289.8" x2="509.59999999999997" y2="289.8" stroke="#d4d4d4" stroke-width="0.75" />
+  <text x="389.4" y="303.8" class="mono" dy="0.35em" font-size="11" font-weight="400" data-id="member:Fish:canEat" data-role="member" textLength="66" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit"><tspan fill="#8a8a8c">- </tspan><tspan fill="#575759">canEat()</tspan></text>
+</g>
+<g class="class-node" data-id="Zebra" data-label="Zebra" data-role="class-box">
+  <rect x="40" y="228.9" width="120" height="88.9" rx="0" ry="0" fill="#f9f9f9" stroke="#d4d4d4" stroke-width="1" data-id="class:Zebra:box" data-role="class-box" />
+  <path d="M40,228.9 H160 V261.8 H40 Z" fill="#f4f4f4" stroke="#d4d4d4" stroke-width="1" />
+  <text x="100" y="245.35000000000002" text-anchor="middle" font-size="13" font-weight="700" fill="#27272A" dy="4.55" textLength="40.95" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Zebra</text>
+  <line x1="40" y1="261.8" x2="160" y2="261.8" stroke="#d4d4d4" stroke-width="0.75" />
+  <text x="48" y="275.8" class="mono" dy="0.35em" font-size="11" font-weight="400" data-id="member:Zebra:is_wild" data-role="member" textLength="99" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit"><tspan fill="#8a8a8c">+ </tspan><tspan fill="#575759">is_wild</tspan><tspan fill="#8a8a8c">: </tspan><tspan fill="#707072">bool</tspan></text>
+  <line x1="40" y1="289.8" x2="160" y2="289.8" stroke="#d4d4d4" stroke-width="0.75" />
+  <text x="48" y="303.8" class="mono" dy="0.35em" font-size="11" font-weight="400" data-id="member:Zebra:run" data-role="member" textLength="46.2" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit"><tspan fill="#8a8a8c">+ </tspan><tspan fill="#575759">run()</tspan></text>
+</g>
+<polyline class="class-marker-overlay" points="415.09999999999997,168.9 415.09999999999997,188.9 270.69999999999993,188.9 270.69999999999993,228.9" fill="none" stroke="#939395" stroke-width="1" stroke-opacity="0" marker-start="url(#cls-inherit)" pointer-events="none" aria-hidden="true" />
+<polyline class="class-marker-overlay" points="445.49999999999994,168.9 445.5,228.9" fill="none" stroke="#939395" stroke-width="1" stroke-opacity="0" marker-start="url(#cls-inherit)" pointer-events="none" aria-hidden="true" />
+<polyline class="class-marker-overlay" points="384.69999999999993,168.9 384.69999999999993,178.9 100,178.9 100,228.9" fill="none" stroke="#939395" stroke-width="1" stroke-opacity="0" marker-start="url(#cls-inherit)" pointer-events="none" aria-hidden="true" />
+<g class="class-note" data-note-index="0" data-id="class-note:0" data-role="note">
+  <rect x="40" y="393.8" width="128.832" height="40" rx="2" fill="#f4f4f4" stroke="#d4d4d4" data-id="class-note:0:box" data-role="note" />
+  <text x="104.416" y="413.8" text-anchor="middle" fill="#27272A" dy="4.199999999999999">From Duck till Zebra</text>
+</g>
+<g class="class-note" data-note-index="1" data-for="Duck" data-id="class-note:1" data-role="note">
+  <line class="class-note-connector" x1="270.69999999999993" y1="337.8" x2="366.47599999999994" y2="361.8" stroke="#d4d4d4" stroke-width="1" stroke-dasharray="4 3" data-relationship="relationship" data-direction="undirected" data-id="class-note:1:connector" data-role="relationship" />
+  <rect x="199.99999999999997" y="361.8" width="332.95199999999994" height="40" rx="2" fill="#f4f4f4" stroke="#d4d4d4" data-id="class-note:1:box" data-role="note" />
+  <text x="366.47599999999994" y="381.8" text-anchor="middle" fill="#27272A" dy="4.199999999999999">can fly&lt;br&gt;can swim&lt;br&gt;can dive&lt;br&gt;can help in debugging</text>
+</g>
+
+
+
+</svg>

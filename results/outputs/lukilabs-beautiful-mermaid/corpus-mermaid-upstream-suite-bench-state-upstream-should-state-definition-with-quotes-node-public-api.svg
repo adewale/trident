@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 449.60925000000003 932.8" width="449.60925000000003" height="932.8" style="--bg:#FFFFFF;--fg:#27272A;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<g class="subgraph" data-id="State3" data-label="State3">
+  <rect x="91.37" y="422.40000000000003" width="207.875" height="326.1" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="91.37" y="422.40000000000003" width="207.875" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="103.37" y="436.40000000000003" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">State3</text>
+</g>
+<polyline class="edge" data-from="_start" data-to="State1" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="309.02625,68 309.02625,116" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="State1" data-to="State2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Succeeded" points="296.60058333333336,152.9 296.60058333333336,188.9 268.27625,188.9 268.27625,273.6500000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="State1" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Aborted" points="321.4519166666667,152.9 321.4519166666667,197.80000000000007 349.77625,197.80000000000007 349.77625,273.6500000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="State2" data-to="State3" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Succeeded" points="255.10958333333335,310.55000000000007 255.10958333333335,342.1 195.3075,342.1 195.3075,422.40000000000003" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="State2" data-to="_end2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Aborted" points="281.44291666666663,310.55000000000007 281.44291666666663,342.1000000000001 341.24500000000006,342.1000000000001 341.24500000000006,422.4000000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="State3" data-to="State3" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Failed" points="91.37,531.1 81.37,531.1000000000001 81.37,639.8000000000002 91.37,639.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="State3" data-to="_end3" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Succeeded / Save Result" points="160.66166666666666,748.5 160.66166666666666,784.5 145.67649999999998,784.5 145.67649999999998,864.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="State3" data-to="_end4" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Aborted" points="229.95333333333332,748.5 229.95333333333332,784.5 244.93849999999998,784.5 244.93849999999998,864.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="_start2" data-to="long1" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="222.997,494.40000000000003 222.997,542.4000000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="long1" data-to="long1" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="New Data" points="172.382,554.7 162.382,554.7 162.382,567 172.382,567" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="long1" data-to="ProcessData" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Enough Data" points="222.997,579.3000000000001 222.997,695.6000000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="State1" data-to="State2" data-label="Succeeded">
+  <rect x="231.77625" y="195.9" width="72.298" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="267.92525" y="211.05" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Succeeded</text>
+</g>
+<g class="edge-label" data-from="State1" data-to="_end" data-label="Aborted">
+  <rect x="321.77625" y="204.80000000000007" width="55.666000000000004" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="349.60925000000003" y="219.95000000000007" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Aborted</text>
+</g>
+<g class="edge-label" data-from="State2" data-to="State3" data-label="Succeeded">
+  <rect x="158.8075" y="349.1" width="72.298" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="194.9565" y="364.25" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Succeeded</text>
+</g>
+<g class="edge-label" data-from="State2" data-to="_end2" data-label="Aborted">
+  <rect x="313.245" y="349.1000000000001" width="55.666000000000004" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="341.07800000000003" y="364.25000000000006" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Aborted</text>
+</g>
+<g class="edge-label" data-from="State3" data-to="State3" data-label="Failed">
+  <rect x="36.02000000000001" y="570.3" width="47.35" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="59.69500000000001" y="585.4499999999999" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Failed</text>
+</g>
+<g class="edge-label" data-from="State3" data-to="_end3" data-label="Succeeded / Save Result">
+  <rect x="77.6765" y="791.5" width="135.262" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="145.3075" y="806.65" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Succeeded / Save Result</text>
+</g>
+<g class="edge-label" data-from="State3" data-to="_end4" data-label="Aborted">
+  <rect x="216.93849999999998" y="791.5" width="55.666000000000004" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="244.77149999999997" y="806.65" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Aborted</text>
+</g>
+<g class="edge-label" data-from="long1" data-to="long1" data-label="New Data">
+  <rect x="103.37" y="545.7" width="61.01200000000001" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="133.876" y="560.85" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">New Data</text>
+</g>
+<g class="edge-label" data-from="long1" data-to="ProcessData" data-label="Enough Data">
+  <rect x="183.997" y="622.3000000000001" width="77.644" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="222.81900000000002" y="637.45" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Enough Data</text>
+</g>
+<g class="node" data-id="_start" data-label="" data-shape="state-start">
+  <circle cx="309.02625" cy="54" r="12" fill="var(--_text)" stroke="none" />
+</g>
+<g class="node" data-id="State1" data-label="State1" data-shape="rounded">
+  <rect x="271.74925" y="116" width="74.554" height="36.900000000000006" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="309.02625" y="134.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">State1</text>
+</g>
+<g class="node" data-id="State2" data-label="State2" data-shape="rounded">
+  <rect x="228.77625" y="273.6500000000001" width="79" height="36.900000000000006" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="268.27625" y="292.1000000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">State2</text>
+</g>
+<g class="node" data-id="_end" data-label="" data-shape="state-end">
+  <circle cx="349.77625" cy="287.6500000000001" r="12" fill="none" stroke="var(--_text)" stroke-width="1.5" />
+  <circle cx="349.77625" cy="287.6500000000001" r="8" fill="var(--_text)" stroke="none" />
+</g>
+<g class="node" data-id="_end2" data-label="" data-shape="state-end">
+  <circle cx="341.245" cy="436.4000000000001" r="12" fill="none" stroke="var(--_text)" stroke-width="1.5" />
+  <circle cx="341.245" cy="436.4000000000001" r="8" fill="var(--_text)" stroke="none" />
+</g>
+<g class="node" data-id="_end3" data-label="" data-shape="state-end">
+  <circle cx="145.67649999999998" cy="878.8" r="12" fill="none" stroke="var(--_text)" stroke-width="1.5" />
+  <circle cx="145.67649999999998" cy="878.8" r="8" fill="var(--_text)" stroke="none" />
+</g>
+<g class="node" data-id="_end4" data-label="" data-shape="state-end">
+  <circle cx="244.93849999999998" cy="878.8" r="12" fill="none" stroke="var(--_text)" stroke-width="1.5" />
+  <circle cx="244.93849999999998" cy="878.8" r="8" fill="var(--_text)" stroke="none" />
+</g>
+<g class="node" data-id="long1" data-label="Just a test" data-shape="rounded">
+  <rect x="172.382" y="542.4000000000001" width="101.22999999999999" height="36.900000000000006" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="222.997" y="560.8500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Just a test</text>
+</g>
+<g class="node" data-id="_start2" data-label="" data-shape="state-start">
+  <circle cx="222.997" cy="480.40000000000003" r="12" fill="var(--_text)" stroke="none" />
+</g>
+<g class="node" data-id="ProcessData" data-label="ProcessData" data-shape="rounded">
+  <rect x="162.74900000000002" y="695.6000000000001" width="120.49599999999998" height="36.900000000000006" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="222.997" y="714.0500000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">ProcessData</text>
+</g>
+</svg>
