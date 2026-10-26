@@ -83,7 +83,7 @@ export function benchmarkSuites(options: SuiteOptions): SuiteDefinition[] {
     policy: 'Requires the completed sibling community artifacts; fresh-process CLI variants use matched fixed inputs. Child RSS/CPU are a separate post-latency diagnostic pass; source aliases are not additional independent engines.',
   })
   for (const [script, command] of Object.entries(pkg.scripts)) {
-    if (!script.startsWith('bench:') || script === 'bench:charts' || script === 'bench:peers:qualify' || /eval\/benchmark\/(?:commands|portable\/(?:run|build)|unified\/(?:run|pr-campaign|project-update|update-scorecard)|suite)\.ts/.test(command)) continue
+    if (!script.startsWith('bench:') || script === 'bench:charts' || script === 'bench:peers:qualify' || script === 'bench:performance-profile' || script === 'bench:endpoint-marker' || /eval\/benchmark\/(?:commands|portable\/(?:run|build)|unified\/(?:run|pr-campaign|project-update|update-scorecard)|suite)\.ts/.test(command)) continue
     const id = script.slice('bench:'.length),
       args = ['bun', 'run', script],
       prerequisites: string[] = []
@@ -168,6 +168,7 @@ export function benchmarkSuites(options: SuiteOptions): SuiteDefinition[] {
   }
   standalone('render-stages', 'Official-corpus SVG receipt stage costs', 'eval/benchmark/render-stage-bench.ts', [String(options.rounds), join(out('render-stages'), 'report.json')])
   standalone('performance-profile', 'Experimental profile correctness qualification', 'eval/benchmark/qualify-performance-profile.ts', ['--out', join(out('performance-profile'), 'report.json')])
+  standalone('endpoint-marker', 'Endpoint marker geometry across immutable built checkouts', 'eval/benchmark/endpoint-marker-compare.ts', [options.baseline ?? '', options.packageRoot ?? root, out('endpoint-marker')], options.baseline ? [] : ['Provide --baseline with an immutable built Agentic checkout; --package-root selects the other built checkout.'])
   standalone(
     'output-identity',
     'Cross-revision output identity across styles and formats',
@@ -443,8 +444,8 @@ export function benchmarkSuites(options: SuiteOptions): SuiteDefinition[] {
     title: 'Palette generation cost and deterministic operation counts',
     kind: 'script',
     smoke: false,
-    source: 'eval/palette-performance/run.ts',
-    command: ['bun', 'run', 'eval/palette-performance/run.ts', '--record'],
+    source: 'eval/benchmark/palette-performance.ts',
+    command: ['bun', 'run', 'eval/benchmark/palette-performance.ts', '--record'],
     prerequisites: [],
     policy: 'Owning deterministic fixture matrix and shuffled warm samples; output goes to the campaign directory. No renderer speed claim.',
   })

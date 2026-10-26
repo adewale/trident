@@ -301,3 +301,9 @@ never zero-cost results.
 See the [overview](OVERVIEW.md), [inventory](INVENTORY.md),
 [measurement rules](MEASUREMENT.md), [assessment](ASSESSMENT.md) and
 [optional unified runner](unified/README.md) for suite scope and remaining gaps.
+
+The community discovery checks are owned by Trident and run with its standalone
+maintainer tests. Agentic retains product corpora and compatibility policy; its
+old benchmark implementation and community discovery copy can be removed.
+`source bench:performance-profile` runs the experimental profile qualifier through the
+prepared source layout, including its `--features` selection.

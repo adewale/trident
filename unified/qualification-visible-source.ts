@@ -23,7 +23,13 @@ export function isRenderedSourceEcho(source: string, output: string, format: 'sv
     ink = output
       .replace(/\u001b\[[0-9;]*m/g, '')
       .split('\n')
-      .map(line => line.replace(/^\s*[│┃|]\s?/, '').replace(/\s*[│┃|]\s*$/, ''))
+      .map(line => {
+        const content = line.replace(/^\s*[│┃|]\s?/, '')
+        const end = content.trimEnd(),
+          edge = end.at(-1)
+        // An unanchored whitespace regex rescans every suffix of wide gutters.
+        return edge === '│' || edge === '┃' || edge === '|' ? end.slice(0, -1).trimEnd() : content
+      })
       .filter(line => !/^[\s┌┐└┘├┤┬┴┼─━┏┓┗┛╭╮╰╯+|=-]*$/.test(line))
       .join(' ')
   }

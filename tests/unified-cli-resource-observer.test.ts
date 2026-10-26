@@ -58,3 +58,13 @@ test('a configured observer is the one community updates bind and run, not the h
     rmSync(directory, { recursive: true, force: true })
   }
 })
+
+test('an unavailable Agentic artifact retains its preparation error without aborting other project identities', () => {
+  const result = communityCliCacheIdentity({ target: process.cwd(), packageRoot: process.cwd() }, [{
+    node: { id: 'adewale/agentic-mermaid', roles: ['renderer'], outputs: ['svg'], benchmark: { adapter: 'agentic', outputs: ['svg'] } },
+    error: 'frozen package installation unavailable',
+  }])
+  expect(result.candidates).toHaveLength(1)
+  expect(result.candidates[0]?.error).toContain('frozen package installation unavailable')
+  expect(result.candidates[0]).not.toHaveProperty('identity')
+})

@@ -60,6 +60,8 @@ export interface CommunityArtifact {
   runtimeCommandId?: string
   runtimeVersion?: string
   sourceRevision?: string
+  runtimeDependencyRoots?: string[]
+  buildDependencyPrefix?: string
   sourceFiles?: { root: string; revision: string; gitPath: string; blob: string }[]
   dependencyPatches?: { root: string; revision: string; gitPath: string; blob: string }[]
   sourceProgramClass?: string

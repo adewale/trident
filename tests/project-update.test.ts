@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { afterEach, expect, test } from 'bun:test'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -5,8 +6,8 @@ import { join } from 'node:path'
 import { communityCoreWorkloads, selectCommunityProjects } from '../unified/community.ts'
 import { runCommunityCliCohort } from '../unified/community-cli.ts'
 import { findProjectRecord, loadCurrentProjectRecords, type ProjectBenchmarkIdentity, type ProjectBenchmarkRecord } from '../portable/project-records.ts'
-import { renderProjectRecords, runRetainedCommunityCliSuite, updateProjectMarkdown, updateProjectRecords } from '../unified/project-update.ts'
-import type { CommunityNode } from '../unified/community-types.ts'
+import { admitProjectArtifacts, projectPackageIdentity, renderProjectRecords, runRetainedCommunityCliSuite, updateProjectMarkdown, updateProjectRecords } from '../unified/project-update.ts'
+import type { CommunityNode, PreparedCommunity } from '../unified/community-types.ts'
 
 const directories: string[] = []
 afterEach(() => {
@@ -135,4 +136,51 @@ test('an API-only project has no CLI resource prerequisite or latency measuremen
   expect(result.observations).toEqual([])
   expect(result.diagnostics.map(row => row.status)).toEqual(['not-applicable'])
   expect(result.ranks).toEqual([])
+})
+
+test.each(['mermaid-source', 'beautiful-source'] as const)('source-built %s identity uses admitted runtime bytes, while npm still requires its declared installation', adapter => {
+  const f = fixture(),
+    root = join(f.directory, 'source'),
+    runtime = join(f.directory, 'runtime')
+  mkdirSync(root)
+  mkdirSync(runtime)
+  const module = join(root, 'compiled.mjs'),
+    manifest = join(runtime, 'package.json'),
+    dependency = join(runtime, 'index.js')
+  writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'source-package', dependencies: { '@types/missing': '*' } }))
+  writeFileSync(module, 'export const render = () => "<svg/>"')
+  writeFileSync(manifest, JSON.stringify({ name: 'runtime', version: '1.0.0' }))
+  writeFileSync(dependency, 'export const value = 1')
+  const seal = (path: string) => ({ path, sha256: createHash('sha256').update(readFileSync(path)).digest('hex') })
+  const prepared: PreparedCommunity = {
+    node: { id: 'fixture/source', roles: ['renderer'], outputs: ['svg'], benchmark: { adapter: 'extra-source', sourceAdapter: adapter, sourcePin: 'a'.repeat(40), outputs: ['svg'] } },
+    artifact: {
+      kind: 'node',
+      root,
+      module,
+      version: '1.0.0',
+      reviewed: true,
+      sourceRevision: 'a'.repeat(40),
+      buildRecipeId: `extra-source-v1:${adapter}:fixture`,
+      runtimeDependencyRoots: [runtime],
+      files: [seal(module), seal(manifest), seal(dependency)],
+    },
+  }
+  const first = projectPackageIdentity(prepared)
+  expect(first.dependencies).toMatchObject({ runtimeDependencyRoots: [runtime] })
+  expect(first.files).toBeNull()
+  writeFileSync(dependency, 'export const value = 2')
+  expect(() => projectPackageIdentity(prepared)).toThrow('Artifact digest mismatch')
+  prepared.artifact!.files = [seal(module), seal(dependency)]
+  expect(() => projectPackageIdentity(prepared)).toThrow('Runtime package manifest is absent')
+  prepared.artifact!.files.push(seal(manifest))
+  expect(projectPackageIdentity(prepared)).not.toEqual(first)
+  const healthy = admitProjectArtifacts(prepared, { ...prepared, browserStatus: 'not-applicable' }, { root: process.cwd(), out: f.directory, profile: 'smoke', rounds: 1 })
+  expect(healthy.entry.artifact).toBeDefined()
+  delete prepared.artifact!.runtimeDependencyRoots
+  const rejected = admitProjectArtifacts(prepared, { ...prepared, browserStatus: 'not-applicable' }, { root: process.cwd(), out: f.directory, profile: 'smoke', rounds: 1 })
+  expect(rejected.entry.artifact).toBeUndefined()
+  expect(rejected.browser.browserStatus).toBe('blocked')
+  expect(rejected.entry.error).toContain('Missing required installed dependency @types/missing')
+  expect(() => projectPackageIdentity(prepared)).toThrow('Missing required installed dependency @types/missing')
 })

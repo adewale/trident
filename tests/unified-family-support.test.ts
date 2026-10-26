@@ -4,6 +4,7 @@ import { chmodSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { communityCoreWorkloads, runCommunitySuite } from '../unified/community.ts'
+import { writeBenchmarkDocument } from '../portable/project-records.ts'
 import { harnessRepository } from '../unified/trident-paths.ts'
 
 test('a community tool that rejects a family canonical source runs none of that family, and keeps failures elsewhere', async () => {
@@ -23,7 +24,7 @@ test('a community tool that rejects a family canonical source runs none of that 
       { id: 'feature:pie', family: 'pie', source: 'pie\n"Alpha" : 1', expectedLabels: ['Alpha'], features: [], provenance: 'authored family-support fixture' },
       { id: 'feature:flowchart', family: 'flowchart', source: 'flowchart LR\nA[Alpha] --> B[Beta]', expectedLabels: ['Alpha', 'Beta'], features: [], provenance: 'authored family-support fixture' },
     ]
-    writeFileSync(files.inputs, JSON.stringify({ workloads: [...communityCoreWorkloads(), ...features] }))
+    writeBenchmarkDocument(files.inputs, { workloads: [...communityCoreWorkloads(), ...features] })
     const root = harnessRepository
     const result = await runCommunitySuite({ root, harnessRoot: root, out: join(directory, 'out'), profile: 'smoke', rounds: 1, communityProjects: [node.id], communityCatalogFile: files.catalog, communityPreparedFile: files.prepared, communityBrowserPreparedFile: files.browser, communityInputsFile: files.inputs })
     const rows = (caseId: string) => result.observations.filter(row => row.caseId === caseId).map(row => ({ operation: row.operation, status: row.status }))
