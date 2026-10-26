@@ -193,3 +193,32 @@ test('a Merman Node candidate cannot silently acquire the released browser SDK',
   expect(prepared!.browserDetail).toContain('candidate')
   expect(prepared!.browser).toBeUndefined()
 })
+
+test('same-project candidates need the same API binding and declared outputs before comparing', () => {
+  const protocol = { context: 'same', adapter: { adapter: 'declared', api: { svg: { export: 'render' } } }, outputs: ['svg'] }
+  const release = record('release', { ...base(), protocol, measurement: { rounds: 5 } }, '1.0.0', { a: 'passed' })
+  release.observations.push(...communityCoreWorkloads().flatMap(workload => Array.from({ length: 5 }, (_, index) => ({ ...row(workload.id, 'passed', '1.0.0'), mode: 'core-api-repeat', samplesMs: [5], metrics: { implementation: project, round: index + 1, firstMs: 5 } }))))
+  for (const changed of [
+    { ...protocol, adapter: { adapter: 'declared', api: { svg: { export: 'renderFast' } } } },
+    { ...protocol, outputs: ['svg', 'png'] },
+  ]) {
+    const candidate = record('candidate', candidateOf({ ...base(), protocol: changed, measurement: { rounds: 5 } }, 'c'.repeat(64)), '1.1.0-rc', { a: 'failed' })
+    candidate.observations.push(...communityCoreWorkloads().flatMap(workload => Array.from({ length: 5 }, (_, index) => ({ ...row(workload.id, 'passed', '1.1.0-rc'), mode: 'core-api-repeat', samplesMs: [2], metrics: { implementation: project, round: index + 1, firstMs: 2 } }))))
+    const markdown = renderCandidateComparison(candidate, release)
+    expect(markdown).toContain('times are withheld')
+    expect(markdown.split('\n').find(line => line.startsWith('| Node API |'))).not.toContain('ms')
+    expect(markdown).not.toContain('Now failing')
+  }
+})
+
+test('candidate case changes retain blocked, unsupported, missing and newly measured outcomes', () => {
+  const release = record('release', base(), '1.0.0', { a: 'passed', b: 'passed', c: 'passed', d: 'passed', e: 'passed', f: 'passed' })
+  const candidate = record('candidate', candidateOf(base(), 'c'.repeat(64)), '1.1.0-rc', { a: 'passed', b: 'passed', c: 'passed', d: 'passed', f: 'passed', g: 'failed' })
+  const statuses = { a: 'blocked', b: 'unsupported', c: 'skipped', d: 'not-applicable' } as const
+  for (const observation of candidate.observations) {
+    if (Object.hasOwn(statuses, observation.caseId)) observation.status = statuses[observation.caseId as keyof typeof statuses]
+  }
+  const markdown = renderCandidateComparison(candidate, release)
+  expect(markdown).not.toContain('No case or family changed')
+  for (const transition of ['`a`: passed → blocked', '`b`: passed → unsupported', '`c`: passed → skipped', '`d`: passed → not-applicable', '`e`: passed → not measured', '`g`: not measured → failed']) expect(markdown).toContain(transition)
+})

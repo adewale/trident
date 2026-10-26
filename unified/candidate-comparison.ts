@@ -1,6 +1,6 @@
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { loadCurrentProjectRecords, type ProjectBenchmarkRecord } from '../portable/project-records.ts'
+import { loadCurrentProjectRecords, type ProjectBenchmarkRecord, stableValue } from '../portable/project-records.ts'
 import { comparisonKey, escape, featureRow, isCandidateRecord, type Lane, lanes, OUTPUTS, PROBED_FAMILIES, percent, SURFACES } from './league.ts'
 
 const version = (record: ProjectBenchmarkRecord) => lanes(record)[0]?.version ?? String((record.identity.artifact as any)?.package?.artifact?.version ?? 'unknown')
@@ -9,7 +9,7 @@ const ms = (value: number | null | undefined) => (value === null || value === un
 const label = (lane: Pick<Lane, 'surface' | 'format'>) => `${SURFACES[lane.surface] ?? lane.surface}, ${OUTPUTS[lane.format] ?? lane.format}`
 /** Each feature case's round-1 verdict per surface and output, under the same rules as the league. */
 function verdicts(record: ProjectBenchmarkRecord): Map<string, string> {
-  const rows = record.observations.filter(row => row.suite !== 'community-cli' && row.metrics?.implementation === record.identity.project && featureRow(row) && (row.metrics?.round === undefined || row.metrics.round === 1) && ['passed', 'failed'].includes(row.status))
+  const rows = record.observations.filter(row => row.suite !== 'community-cli' && row.metrics?.implementation === record.identity.project && featureRow(row) && (row.metrics?.round === undefined || row.metrics.round === 1))
   return new Map(rows.map(row => [`${row.surface}\n${row.format}\n${row.caseId}`, row.status]))
 }
 
@@ -19,7 +19,13 @@ export function renderCandidateComparison(candidate: ProjectBenchmarkRecord, rel
   if (release && (isCandidateRecord(release) || release.identity.project !== candidate.identity.project)) throw Error('The release record must be the same project’s release')
   const project = candidate.identity.project,
     identity = (candidate.identity.artifact as { candidate?: { source?: string; sha256?: string } }).candidate
-  const comparable = (surface: string) => !!release && comparisonKey(release, surface) === comparisonKey(candidate, surface)
+  const configuration = (record: ProjectBenchmarkRecord) => {
+    const protocol = record.identity.protocol as { adapter?: unknown; outputs?: unknown } | null
+    return stableValue([protocol?.adapter ?? null, protocol?.outputs ?? null])
+  }
+  // Cross-tool league cohorts allow different APIs. Before/after comparisons of
+  // one tool additionally require the same adapter, defaults and output selection.
+  const comparable = (surface: string) => !!release && comparisonKey(release, surface) === comparisonKey(candidate, surface) && configuration(release) === configuration(candidate)
   const summary = (record: ProjectBenchmarkRecord) => `${escape(version(record))}, measured ${record.finishedAt}, status ${record.status}, ${rounds(record)} rounds, record \`${escape(record.id)}\``
   const lines = [
     `# ${project}: candidate against release`,
@@ -60,7 +66,10 @@ export function renderCandidateComparison(candidate: ProjectBenchmarkRecord, rel
     const lost = old && now ? old.supported.filter(family => !now.supported.includes(family)) : [],
       gained = old && now ? now.supported.filter(family => !old.supported.includes(family)) : []
     const failing = changed('passed', 'failed'),
-      passing = changed('failed', 'passed')
+      passing = changed('failed', 'passed'),
+      otherChanges = [...new Set([...was.keys(), ...is.keys()])]
+        .filter(id => id.startsWith(key + '\n') && was.get(id) !== is.get(id) && !(was.get(id) === 'passed' && is.get(id) === 'failed') && !(was.get(id) === 'failed' && is.get(id) === 'passed'))
+        .map(id => `\`${escape(id.split('\n')[2])}\`: ${was.get(id) ?? 'not measured'} → ${is.get(id) ?? 'not measured'}`)
     lines.push(`### ${label({ surface, format })}`, '')
     if (!comparable(surface)) {
       lines.push('Case-level changes are withheld because the protocol, runtime settings or visible-output checks differ.', '')
@@ -69,9 +78,10 @@ export function renderCandidateComparison(candidate: ProjectBenchmarkRecord, rel
     if (!old || !now) lines.push(old ? 'The candidate measured nothing on this surface.' : 'The release measured nothing on this surface.', '')
     if (failing.length) lines.push(`Now failing (${failing.length}): ${failing.join(', ')}.`, '')
     if (passing.length) lines.push(`Now passing (${passing.length}): ${passing.join(', ')}.`, '')
+    if (otherChanges.length) lines.push(`Other case outcomes changed (${otherChanges.length}): ${otherChanges.join(', ')}.`, '')
     if (lost.length) lines.push(`Families no longer supported: ${lost.join(', ')}.`, '')
     if (gained.length) lines.push(`Families newly supported: ${gained.join(', ')}.`, '')
-    if (old && now && !failing.length && !passing.length && !lost.length && !gained.length) lines.push('No case or family changed.', '')
+    if (old && now && !failing.length && !passing.length && !otherChanges.length && !lost.length && !gained.length) lines.push('No case or family changed.', '')
   }
   return lines.join('\n')
 }

@@ -207,7 +207,9 @@ lane only, leaves candidate records out, and refuses to run if a candidate recor
 ever found in the release lane. `results:compare` prints the store's current candidate
 beside the same project's current release: families supported, pass rate, fixed-core
 times, and the cases and families that changed. Times appear only when both records
-share protocol, inputs, machine and measurement settings. Browser times and
+share protocol, inputs, machine, measurement settings, API binding/defaults and
+declared outputs. Blocked, unsupported, skipped and missing case outcomes remain
+visible in the change report. Browser times and
 case-level changes also require the same visible-output checks. Changes are withheld
 for surfaces with incompatible protocol/runtime cohorts. The two records are
 measured one after the other, not interleaved, so a small speed difference is within
