@@ -7,7 +7,7 @@ from product distribution, product test discovery and CI.
 
 Trident was extracted from Agentic Mermaid's `eval/benchmark` directory
 ([adewale/agentic-mermaid#492](https://github.com/adewale/agentic-mermaid/pull/492),
-commit `e81f405c`). That checkout keeps the owning source-adapter protocols; see
+commit `e81f405c`). Source diagnostics require a public Agentic source checkout; see
 [Optional Agentic source adapter](#optional-agentic-source-adapter).
 
 ## Run without an Agentic checkout
@@ -95,7 +95,9 @@ The containing checkout is detected only when its root package is named
 remains a legacy alias for `agentic`. Existing root `bench:*` shortcuts retain
 their suite IDs and options.
 
-Full source-adapter tests and typechecking still require the Agentic checkout;
+Full source-adapter tests and typechecking require a public Agentic checkout;
+local evidence archives and previously generated benchmark files are not prerequisites.
+
 they are not a standalone-package promise:
 
 ```sh
