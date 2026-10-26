@@ -31,7 +31,7 @@ const excluded = (node: SvgInspectionElement): boolean => inert.has(node.localNa
  * arbitrary substring, source parsing, or output-derived expectations occur. */
 export function containsAuthoredLabel(run: string, authoredLabel: string): boolean {
   const text = normalizeAuthoredText(run)
-  return authoredLabelForms(authoredLabel).some(label => !label || new RegExp(`(?<![\\p{L}\\p{N}_])${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}_])`, 'u').test(text))
+  return authoredLabelForms(authoredLabel).some(label => !label || new RegExp(`(?<![\\p{L}\\p{N}\\p{M}_])${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}\\p{M}_])`, 'u').test(text))
 }
 
 /** Markdown strings draw strong/emphasis as formatting, not marker characters. Only
@@ -44,9 +44,9 @@ function markdownDisplayText(label: string): string {
     previous = text
     text = text
       .replace(/\*\*(?=\S)(.+?)(?<=\S)\*\*/gu, '$1')
-      .replace(/(?<![\p{L}\p{N}_])__(?=\S)(.+?)(?<=\S)__(?![\p{L}\p{N}_])/gu, '$1')
+      .replace(/(?<![\p{L}\p{N}\p{M}_])__(?=\S)(.+?)(?<=\S)__(?![\p{L}\p{N}\p{M}_])/gu, '$1')
       .replace(/(?<!\*)\*(?=[^\s*])(.+?)(?<=[^\s*])\*(?!\*)/gu, '$1')
-      .replace(/(?<![\p{L}\p{N}_])_(?=[^\s_])(.+?)(?<=[^\s_])_(?![\p{L}\p{N}_])/gu, '$1')
+      .replace(/(?<![\p{L}\p{N}\p{M}_])_(?=[^\s_])(.+?)(?<=[^\s_])_(?![\p{L}\p{N}\p{M}_])/gu, '$1')
   } while (text !== previous)
   return text
 }

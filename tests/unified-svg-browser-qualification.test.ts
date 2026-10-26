@@ -11,6 +11,7 @@ const authored: { id: string; labels: string[]; output: string; accepted: boolea
   { id: 'decorated', labels: ['Free'], output: svg('<text>Free (60.0%)</text>'), accepted: true },
   { id: 'inert', labels: ['Cache'], output: svg('<defs><text>Cache</text></defs><metadata><text>Cache</text></metadata><text>Database</text>'), accepted: false },
   { id: 'prefix-collision', labels: ['C1'], output: svg('<text>C10</text>'), accepted: false },
+  { id: 'combining-mark-suffix', labels: ['Cafe'], output: svg('<text>Cafe\u0301</text>'), accepted: false },
   { id: 'angle-text', labels: ['<Customer>'], output: svg('<text>&lt;Customer&gt;</text>'), accepted: true },
   { id: 'decode-once', labels: ['&lt;Customer&gt;'], output: svg('<text>&amp;lt;Customer&amp;gt;</text>'), accepted: true },
   { id: 'prefixed', labels: ['Hello'], output: '<s:svg xmlns:s="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><s:text>Hello</s:text></s:svg>', accepted: true },

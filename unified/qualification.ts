@@ -111,7 +111,7 @@ function svgXmlDocument(output: string): { findings: string[]; root?: SvgInspect
   return { findings: [], root }
 }
 
-const wholeTerminalLabel = (label: string): RegExp => new RegExp(`(?<![\\p{L}\\p{N}_])${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}_])`, 'u')
+const wholeTerminalLabel = (label: string): RegExp => new RegExp(`(?<![\\p{L}\\p{N}\\p{M}_])${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}\\p{M}_])`, 'u')
 
 /** Inspect rendered text nodes, never metadata, comments, ids or JSON sidecars.
  * Separate line positions may insert whitespace; sibling text elements are joined

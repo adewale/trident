@@ -35,6 +35,16 @@ test('marker syntax that markdown leaves alone is still required literally', () 
   expect(accepts(['`code` span'], '<text>code span</text>')).toBe(false)
 })
 
+test('combining marks remain part of a complete authored token', () => {
+  expect(accepts(['Cafe'], '<text>Cafe\u0301</text>')).toBe(false)
+  expect(accepts(['Cafe\u0301'], '<text>Cafe\u0301</text>')).toBe(true)
+  expect(accepts(['name'], '<text>\u0301name</text>')).toBe(false)
+  expect(accepts(['A\u0301_name_'], '<text>A\u0301name</text>')).toBe(false)
+  const terminal = (label: string, text: string) => qualifyOutput(workload([label]), `┌──────────┐\n│ ${text} │\n└──────────┘`, 'terminal').ok
+  expect(terminal('Cafe', 'Cafe\u0301')).toBe(false)
+  expect(terminal('Cafe\u0301', 'Cafe\u0301')).toBe(true)
+})
+
 test('terminal output reads markdown labels the same way', () => {
   const terminal = (output: string) => qualifyOutput(workload(['The cat in **the** hat']), output, 'terminal').ok
   expect(terminal('┌────────────────────┐\n│ The cat in the hat │\n└────────────────────┘')).toBe(true)
