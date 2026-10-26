@@ -11,7 +11,7 @@ import { assertCommunityNotInterrupted, trackCommunityProcess } from './communit
 import type { CommunityArtifact, CommunityNode, CommunityWorkerJob, PreparedCommunity } from './community-types.ts'
 import { readWorkerRows } from './community-worker-evidence.ts'
 import { familySupportRow, familySupportWorkloads, rejectsSource, unsupportedFamilyRow } from './family-support.ts'
-import { assertMermaidOracle, assertOracleAgrees, MERMAID_ORACLE_PIN } from '../portable/mermaid-oracle.ts'
+import { assertMermaidOracle, assertOracleAgrees, MERMAID_ORACLE_PIN, mermaidZenumlAddon } from '../portable/mermaid-oracle.ts'
 import { qualifyOutput, svgQualificationProvenance, withReferenceLabels } from './qualification.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult, UnifiedWorkload } from './types.ts'
 import { communityCorpus, corpusEvidence, corpusWorkloads } from './corpus.ts'
@@ -852,6 +852,11 @@ export function verifyFrozenBrowserEngine(peer: import('./community-browser.ts')
   if (peer.browserStatus !== 'prepared') return
   const engine = peer.browser!,
     entry = resolve(engine.root, engine.entry)
+  if (peer.node.id === 'mermaid-js/mermaid' && !engine.zenuml) throw Error('Frozen Mermaid browser needs its pinned ZenUML addon; prepare a fresh browser snapshot')
+  if (engine.zenuml) {
+    const admitted = mermaidZenumlAddon(undefined, engine.zenuml.root)
+    if (engine.zenuml.version !== admitted.version || engine.zenuml.entry !== admitted.entry) throw Error('Frozen ZenUML addon pin/public entry differs from the actual admitted package')
+  }
   if (!engine || !entry.startsWith(resolve(engine.root) + '/') || !existsSync(entry) || artifactDigest(entry) !== engine.artifactSha256) throw Error('Prepared browser entry digest/root is mismatched')
   const files = (engine as typeof engine & { files?: { path: string; sha256: string }[] }).files
   if (!files?.length || !files.some(file => realpathSync(file.path) === realpathSync(entry))) throw Error('Frozen browser engine has no admitted entry/resource file manifest')

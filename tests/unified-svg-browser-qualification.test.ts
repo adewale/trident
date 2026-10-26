@@ -5,6 +5,7 @@ import { join } from 'node:path'
 import { build } from 'esbuild'
 import { prepareCommunityBrowsers, runCommunityBrowserSuite } from '../unified/community-browser.ts'
 import { assertMermaidOracle, mermaidZenumlAddon } from '../portable/mermaid-oracle.ts'
+import { verifyFrozenBrowserEngine } from '../unified/community.ts'
 import { requiredExternalFamilyCases } from '../portable/cohorts.ts'
 import { qualifyOutput } from '../unified/qualification.ts'
 
@@ -74,6 +75,13 @@ browserTest('pinned Mermaid loads its sealed ZenUML addon and draws authored req
     expect(prepared[0]!.browserStatus).toBe('prepared')
     expect(prepared[0]!.browser!.zenuml!.version).toBe('1.0.1')
     expect(prepared[0]!.browser!.files!.some(file => file.path === join(addon.root, addon.entry))).toBe(true)
+    expect(() => verifyFrozenBrowserEngine(prepared[0]!)).not.toThrow()
+    const original = prepared[0]!.browser!.zenuml!
+    prepared[0]!.browser!.zenuml = { ...original, version: '1.0.0' }
+    expect(() => verifyFrozenBrowserEngine(prepared[0]!)).toThrow('ZenUML')
+    delete prepared[0]!.browser!.zenuml
+    expect(() => verifyFrozenBrowserEngine(prepared[0]!)).toThrow('ZenUML')
+    prepared[0]!.browser!.zenuml = original
     const workloads = requiredExternalFamilyCases().map(testCase => ({ id: testCase.id, family: testCase.family, source: testCase.source, expectedLabels: testCase.expected.labels, features: ['authored-required-external-family'], provenance: 'Independent authored external diagram representative' }))
     const result = await runCommunityBrowserSuite(prepared, workloads, options)
     expect(result.observations.find(row => row.caseId === 'family:zenuml')?.status).toBe('passed')
