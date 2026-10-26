@@ -4,12 +4,12 @@ import { isRenderedSourceEcho } from './qualification-visible-source.ts'
 
 export { isRenderedSourceEcho } from './qualification-visible-source.ts'
 
-import { closeHtmlVoidElements, inspectSvgText, SVG_NAMESPACE, type SvgInspectionElement } from './svg-text-inspection.ts'
+import { authoredLabelForms, closeHtmlVoidElements, inspectSvgText, SVG_NAMESPACE, type SvgInspectionElement } from './svg-text-inspection.ts'
 import type { UnifiedWorkload } from './types.ts'
 import { assertMermaidOracle, mermaidVerdicts } from '../portable/mermaid-oracle.ts'
 import { censusDisplayText, referenceLabels } from './oracle-labels.ts'
 
-export const SVG_QUALIFICATION_PROTOCOL = 'svg-xml-namespaced-authored-text-v3'
+export const SVG_QUALIFICATION_PROTOCOL = 'svg-xml-namespaced-authored-text-v4'
 
 export interface Qualification {
   ok: boolean
@@ -54,7 +54,7 @@ export function svgQualificationProvenance() {
     nodeXmlParser: observedSvgXmlParser!,
     browserXmlParser: 'native DOMParser',
     canvasPolicy: 'SVG namespace/root and positive finite viewBox or explicit finite width/height; percentage-only dimensions need a positive viewBox',
-    textPolicy: 'namespace-aware authored text retention excluding inert containers; CSS/paint visibility, referenced use/text paths and owned-label correspondence unmeasured',
+    textPolicy: 'namespace-aware authored text retention excluding inert containers; sibling <text> rows of one wrapped label joined; markdown strong/emphasis markers optional; CSS/paint visibility, referenced use/text paths and owned-label correspondence unmeasured',
   }
 }
 function explicitSvgLength(value: string | undefined): number {
@@ -114,8 +114,8 @@ function svgXmlDocument(output: string): { findings: string[]; root?: SvgInspect
 const wholeTerminalLabel = (label: string): RegExp => new RegExp(`(?<![\\p{L}\\p{N}_])${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}_])`, 'u')
 
 /** Inspect rendered text nodes, never metadata, comments, ids or JSON sidecars.
- * Separate line positions may insert whitespace; sibling text elements are
- * never joined to invent a label that no individual reader-facing run held. */
+ * Separate line positions may insert whitespace; sibling text elements are joined
+ * only as the stacked rows of one wrapped label (see svg-text-inspection.ts). */
 export function missingAuthoredSvgLabels(svg: string, expected: readonly string[] = []): string[] {
   const parsed = svgXmlInspection(svg)
   return parsed.root ? inspectSvgText(parsed.root, expected).missingLabels : [...expected]
@@ -171,10 +171,7 @@ export function qualifyOutput(workload: UnifiedWorkload, output: unknown, format
     const plain = output.replace(/\u001b\[[0-9;]*m/g, '').replace(/\s+/g, ' ')
     // Terminal wrapping is geometry-dependent. A contiguous single-line label
     // can be asserted; wrapped labels require the terminal owner/region oracle.
-    for (const label of workload.expectedLabels ?? []) {
-      const normalized = label.replace(/\s+/g, ' ').trim()
-      if (normalized && !wholeTerminalLabel(normalized).test(plain)) findings.push(`Missing authored label: ${label}`)
-    }
+    for (const label of workload.expectedLabels ?? []) if (!authoredLabelForms(label).some(form => !form || wholeTerminalLabel(form).test(plain))) findings.push(`Missing authored label: ${label}`)
     return { ok: !findings.length, findings, scope: workload.expectedLabels?.length ? 'format-and-authored-labels' : 'format-only' }
   }
   return { ok: true, findings, scope: 'source-envelope' }
