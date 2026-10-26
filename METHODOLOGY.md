@@ -59,9 +59,10 @@ unsupported, naming the probe, and are not run. If the tool returns output, the 
 counts as supported, and every later failure in it is a failure, even when the probe's
 own output fails a check. A case's error message never makes it unsupported.
 
-Trident probes 23 families. Mermaid 12.2.0 also documents venn, wardley, cynefin,
-treeview, railroad, agentflow, usecase, eventmodeling, swimlane and zenuml, which have
-no Trident cases yet, so no tool is scored on them.
+The mark is 23 families. Mermaid 12.2.0 also documents ten more, which no tool is scored
+on: zenuml, an external plugin, and nine recent additions (venn, treeview, wardley,
+eventmodeling, cynefin, railroad, swimlane, agentflow and usecase, added from 11.12.3 to
+12.0.0), all but eventmodeling declared with a `-beta` keyword.
 
 ## Statuses
 

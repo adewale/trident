@@ -39,7 +39,7 @@ How to read it: one table per kind of output, because SVG, terminal and parser t
 
 ## Families
 
-Pass rate per family, for each tool's SVG and terminal surfaces. "—" means the tool does not support the family. Trident probes 23 families; Mermaid 12.2.0 documents more, which have no cases yet.
+Pass rate per family, for each tool's SVG and terminal surfaces. "—" means the tool does not support the family. Trident probes 23 families; Mermaid 12.2.0 documents ten more, mostly recent beta families, which are not scored.
 
 | Family | pele (Node API, SVG) | pele (browser API, SVG) | mermaid (browser API, SVG) | agentic-mermaid (browser API, SVG) | agentic-mermaid (Node API, SVG) | agentic-mermaid (Node API, Terminal text) | beautiful-mermaid (browser API, SVG) | beautiful-mermaid (Node API, SVG) | beautiful-mermaid (Node API, Terminal text) | mermaid-ascii (CLI, Terminal text) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
