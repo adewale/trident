@@ -63,6 +63,8 @@ function browserFiles(engine: CommunityBrowserEngine): { path: string; sha256: s
   visit(scope)
   return [...paths].sort().map(path => ({ path, sha256: digest(readFileSync(path)) }))
 }
+// A candidate's bundle never shares a directory with the release of the same version.
+const bundleDirectory = (cache: string, id: string, artifact: CommunityArtifact) => join(cache, safe(id), artifact.candidate ? `${artifact.version}-candidate-${artifact.candidate.sha256}` : artifact.version)
 function packageRoot(artifact: CommunityArtifact): string | undefined {
   if (artifact.root && existsSync(join(artifact.root, 'package.json'))) return artifact.root
   if (!artifact.module) return undefined
@@ -235,7 +237,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
           const publicBundle = ['dist/mermaid.min.js', 'dist/mermaid.js'].find(path => existsSync(join(root, path)))
           if (publicBundle) engine = make(root, publicBundle, 'mermaid', 'mermaid')
           else {
-            const output = join(cache, safe(peer.node.id), artifact.version)
+            const output = bundleDirectory(cache, peer.node.id, artifact)
             mkdirSync(output, { recursive: true })
             const entry = join(output, 'entry.mjs')
             writeFileSync(entry, `import api from ${JSON.stringify(artifact.module)};globalThis.unifiedMermaid=api;`)
@@ -251,7 +253,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
             results.push({ ...peer, browserStatus: 'not-applicable', browserDetail: 'Reviewed published API is terminal/native/diagnostic/source/IR; no browser SVG API is declared by that entry.' })
             continue
           }
-          const output = join(cache, safe(peer.node.id), artifact.version)
+          const output = bundleDirectory(cache, peer.node.id, artifact)
           mkdirSync(output, { recursive: true })
           const entry = join(output, 'entry.mjs')
           writeFileSync(entry, spec.source)
@@ -265,7 +267,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
           engine.surface = spec.surface
           if (spec.outputs?.includes('png') && supported.includes('png')) engine.additionalOutputs = ['png']
         } else if (['beautiful', 'zombie', 'pele', 'ondine'].includes(adapter ?? '') || (adapter === 'declared' && !!peer.node.benchmark?.api?.svg)) {
-          const output = join(cache, safe(peer.node.id), artifact.version)
+          const output = bundleDirectory(cache, peer.node.id, artifact)
           mkdirSync(output, { recursive: true })
           const entry = join(output, 'entry.mjs'),
             source = artifact.module && existsSync(artifact.module) ? artifact.module : join(root, typeof pkg.main === 'string' ? pkg.main : 'dist/index.js')

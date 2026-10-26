@@ -7,7 +7,7 @@ import { cpus, hostname, release } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { captureInstalledDependencyClosure } from '../portable/artifact-dependencies.ts'
-import { communityCoreWorkloads, prepareCommunity, rankCommunityObservations, runCommunitySuite, selectCommunityProjects, verifyFrozenBrowserEngine, verifyProvidedCommunityArtifact } from './community.ts'
+import { assertCommunityCandidate, communityCoreWorkloads, prepareCommunity, rankCommunityObservations, runCommunitySuite, selectCommunityProjects, verifyFrozenBrowserEngine, verifyProvidedCommunityArtifact } from './community.ts'
 import { type PreparedCommunityBrowser, prepareCommunityBrowsers } from './community-browser.ts'
 import { communityCliCacheIdentity, communityObserver, runCommunityCliSuite } from './community-cli.ts'
 import { communityProtocolIdentity } from './community-protocol-identity.ts'
@@ -178,6 +178,35 @@ export function admitProjectArtifacts(preparedEntry: PreparedCommunity, prepared
   }
   return { entry, browser, packageArtifact, cli }
 }
+/** An unreleased build says so in its record and is keyed by its bytes: it lives in the
+ * candidate lane, so it never reuses, replaces or ranks as the release. */
+export function candidateIdentity(entry: PreparedCommunity, options: Pick<UnifiedRunOptions, 'communityCandidate' | 'packageRoot'>, files: unknown): { source: 'tarball' | 'package-root'; sha256: string } | undefined {
+  if (options.communityCandidate?.project === entry.node.id) return { source: 'tarball', sha256: options.communityCandidate.sha256 }
+  if (entry.artifact?.candidate) throw Error('A candidate artifact reached a release record: ' + entry.node.id)
+  // Agentic's local checkout is unreleased too, whatever its package version says.
+  if (entry.node.benchmark?.adapter === 'agentic' && options.packageRoot) return { source: 'package-root', sha256: createHash('sha256').update(stableValue(files)).digest('hex') }
+  return undefined
+}
+/** --candidate-tarball with its --candidate-sha256, or --candidate-dir, which npm packs here without running scripts. */
+export function communityCandidate(values: { tarball?: string; sha256?: string; directory?: string }, options: Pick<UnifiedRunOptions, 'communityProjects' | 'communityArtifacts' | 'communityPreparedFile' | 'communityBrowserPreparedFile' | 'out'>): UnifiedRunOptions['communityCandidate'] {
+  if (!values.tarball && !values.sha256 && !values.directory) return undefined
+  const project = options.communityProjects?.length === 1 ? options.communityProjects[0]! : undefined
+  if (!project) throw Error('A candidate needs exactly one --projects OWNER/TOOL')
+  if (options.communityArtifacts || options.communityPreparedFile || options.communityBrowserPreparedFile) throw Error('A candidate is acquired from its own tarball; drop --community-artifacts, --community-prepared and --community-browser-prepared')
+  if (values.directory) {
+    if (values.tarball || values.sha256) throw Error('Use --candidate-dir, or --candidate-tarball with --candidate-sha256, not both')
+    const destination = join(options.out, 'candidate-packs', randomUUID())
+    mkdirSync(destination, { recursive: true })
+    const packed = JSON.parse(execFileSync('npm', ['pack', resolve(values.directory), '--ignore-scripts', '--json', '--pack-destination', destination], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }))
+    const tarball = join(destination, packed[0].filename)
+    return { project, tarball, sha256: byteDigest(tarball), packedFrom: resolve(values.directory) }
+  }
+  if (!values.tarball || !values.sha256) throw Error('--candidate-tarball and --candidate-sha256 go together')
+  if (!/^[a-f0-9]{64}$/.test(values.sha256)) throw Error('--candidate-sha256 must be a lowercase SHA-256 digest')
+  const tarball = resolve(values.tarball)
+  if (!existsSync(tarball) || byteDigest(tarball) !== values.sha256) throw Error(`Candidate tarball ${tarball} differs from --candidate-sha256`)
+  return { project, tarball, sha256: values.sha256 }
+}
 function inventoryFiles(directory: string, current = directory): string[] {
   return readdirSync(current, { withFileTypes: true })
     .flatMap(entry => {
@@ -283,6 +312,11 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
   const store = options.communityRecordStore ?? join(driver, 'bench-report/project-records')
   const catalog = json(options.communityCatalogFile ?? communityCatalogFile) as { nodes: CommunityNode[] }
   selectCommunityProjects(catalog.nodes, options.communityProjects) // Reject unknown IDs before acquisition.
+  const candidate = options.communityCandidate
+  if (candidate) {
+    assertCommunityCandidate(catalog.nodes, candidate)
+    if (options.communityProjects?.length !== 1 || options.communityProjects[0] !== candidate.project) throw Error('A candidate run selects exactly its own project')
+  }
   const startedAt = now(),
     attempt = join(options.out, 'project-attempts', randomUUID()),
     preparation = join(attempt, 'preparation')
@@ -310,17 +344,19 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
   } else browsers = await prepareCommunityBrowsers(prepared, { ...options, out: preparation })
   const plans = prepared.map(preparedEntry => {
     const { entry, browser, packageArtifact, cli } = admitProjectArtifacts(preparedEntry, browsers.find(peer => peer.node.id === preparedEntry.node.id)!, options)
+    const unreleased = candidateIdentity(entry, options, packageArtifact.files)
     const identity: ProjectBenchmarkIdentity = JSON.parse(
       JSON.stringify({
         project: entry.node.id,
+        ...(unreleased ? { lane: 'candidate' } : {}),
         protocol: { context, adapter: entry.node.benchmark ?? null, outputs: entry.node.outputs, browserQualifier: browser.browser?.files?.find(file => file.path === browser.browser?.qualificationHelper)?.sha256 ?? null },
-        artifact: { package: packageArtifact, browser: browser.browser ?? null, browserStatus: browser.browserStatus, cli },
+        artifact: { ...(unreleased ? { candidate: unreleased } : {}), package: packageArtifact, browser: browser.browser ?? null, browserStatus: browser.browserStatus, cli },
         measurement: contextValue.measurement,
       }),
     )
     return { entry, browser, identity, retained: options.communityForce ? undefined : findProjectRecord(store, identity) }
   })
-  const plan = plans.map(item => ({ project: item.entry.node.id, action: item.retained ? 'reuse' : 'measure', record: item.retained?.id ?? null }))
+  const plan = plans.map(item => ({ project: item.entry.node.id, lane: item.identity.lane ?? 'community', action: item.retained ? 'reuse' : 'measure', record: item.retained?.id ?? null }))
   writeJson(join(attempt, 'plan.json'), { startedAt, context, projects: plan })
   if (settings.plan)
     return {
@@ -369,7 +405,7 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
           evidenceFiles: inventoryFiles(directory),
           observations,
           gaps: [...community.gaps, ...cli.gaps],
-          provenance: { protocol: 'community-project-update-v1', suiteStatus: { community: community.status, 'community-cli': cli.status }, driverRevision: git(driver, 'rev-parse', 'HEAD'), targetRevision: git(options.root, 'rev-parse', 'HEAD'), contextFile: join(store, 'contexts', context) },
+          provenance: { protocol: 'community-project-update-v1', suiteStatus: { community: community.status, 'community-cli': cli.status }, driverRevision: git(driver, 'rev-parse', 'HEAD'), targetRevision: git(options.root, 'rev-parse', 'HEAD'), contextFile: join(store, 'contexts', context), ...(candidate?.project === item.entry.node.id ? { candidate } : {}) },
         }
       },
     })),
@@ -438,12 +474,13 @@ export async function runRetainedCommunityCliSuite(options: UnifiedRunOptions): 
 export async function main(argv = process.argv.slice(2)) {
   if (argv.length === 1 && argv[0] === '--help') {
     console.log(
-      'bun run bench:community:update -- --projects owner/project[,owner/other] --records DIRECTORY --out DIRECTORY [--markdown FILE] [--profile smoke|full] [--rounds N] [--plan] [--force]\nOther unified flags, including --community-inputs, --community-prepared, --community-browser-prepared and --community-catalog, are accepted. Default selection is the full catalog. Preparation resolves selected artifacts; unchanged matching records skip every timing lane. --plan performs preparation but no timing. --force retains a new attempt. CI execution is refused.',
+      'bun run bench:community:update -- --projects owner/project[,owner/other] --records DIRECTORY --out DIRECTORY [--markdown FILE] [--profile smoke|full] [--rounds N] [--plan] [--force] [--candidate-tarball FILE --candidate-sha256 HEX | --candidate-dir DIRECTORY]\nA candidate is an unreleased build of one selected npm-backed project; its record stays in the candidate lane and never enters the league. Other unified flags, including --community-inputs, --community-prepared, --community-browser-prepared and --community-catalog, are accepted. Default selection is the full catalog. Preparation resolves selected artifacts; unchanged matching records skip every timing lane. --plan performs preparation but no timing. --force retains a new attempt. CI execution is refused.',
     )
     return
   }
   const forwarded: string[] = [],
-    settings: { plan?: boolean; markdown?: string } = {}
+    settings: { plan?: boolean; markdown?: string } = {},
+    candidateValues: { tarball?: string; sha256?: string; directory?: string } = {}
   const aliases: Record<string, string> = { '--projects': '--community-projects', '--records': '--community-records', '--catalog': '--community-catalog' }
   const seen = new Set<string>()
   for (let index = 0; index < argv.length; index++) {
@@ -458,6 +495,12 @@ export async function main(argv = process.argv.slice(2)) {
       forwarded.push('--community-force')
       continue
     }
+    if (['--candidate-tarball', '--candidate-sha256', '--candidate-dir'].includes(flag)) {
+      const value = argv[++index]
+      if (!value || value.startsWith('--')) throw Error(flag + ' requires a value')
+      candidateValues[({ '--candidate-tarball': 'tarball', '--candidate-sha256': 'sha256', '--candidate-dir': 'directory' } as const)[flag as '--candidate-dir']] = value
+      continue
+    }
     if (flag === '--markdown') {
       const value = argv[++index]
       if (!value || value.startsWith('--')) throw Error('--markdown requires a file')
@@ -468,8 +511,10 @@ export async function main(argv = process.argv.slice(2)) {
     if (!['--community-force', '--allow-incomplete'].includes(flag)) forwarded.push(argv[++index] ?? '')
   }
   const options = parseOptions(forwarded)
+  options.communityCandidate = communityCandidate(candidateValues, options)
   const result = await runProjectUpdates(options, settings)
-  console.log(JSON.stringify({ attempt: result.attempt, plan: result.plan, updates: result.updates.map(update => ({ project: update.project, action: update.action, id: update.record.id })) }, null, 2))
+  console.log(JSON.stringify({ attempt: result.attempt, plan: result.plan, updates: result.updates.map(update => ({ project: update.project, lane: update.record.identity.lane ?? 'community', action: update.action, id: update.record.id })) }, null, 2))
+  if (options.communityCandidate && !settings.plan) console.log(`Candidate record kept apart from the league. Compare it with the release: bun commands.ts results:compare --records ${'store' in result ? result.store : 'RECORDS'} --project ${options.communityCandidate.project}`)
   if (!settings.plan && result.updates.some(update => update.record.status === 'failed')) process.exitCode = 1
   else if (!settings.plan && !options.allowIncomplete && result.updates.some(update => update.record.status === 'blocked')) process.exitCode = 2
 }

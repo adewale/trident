@@ -19,6 +19,8 @@ export interface UnifiedRunOptions {
   observerExecutable?: string
   nativeExecutable?: string
   communityArtifacts?: string
+  /** An unreleased npm-pack tarball standing in for one catalog project's release. */
+  communityCandidate?: { project: string; tarball: string; sha256: string; packedFrom?: string }
   /** Limit acquisition and execution before preparing any unrelated project. */
   communityProjects?: string[]
   communityCatalogFile?: string
