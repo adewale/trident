@@ -5,8 +5,10 @@ import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { communityCoreWorkloads, normalizeCommunityOutput, runCommunityCli } from './community.ts'
+import { defaultTimeObserver, isGnuTime } from '../portable/time-observer.ts'
 import type { CommunityArtifact, PreparedCommunity } from './community-types.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult, UnifiedWorkload } from './types.ts'
+import { harnessRepository } from './trident-paths.ts'
 
 interface Options {
   run: string
@@ -76,16 +78,20 @@ function shippedFiles(root: string, directory = join(root, 'dist')): Array<{ pat
 function candidateVariants(options: Options, prepared: PreparedCommunity[]): Variant[] {
   const base = prepared.find(entry => entry.node.benchmark?.adapter === 'agentic')
   if (!base) return []
-  const pkg = read(join(options.packageRoot, 'package.json'))
+  // The prepared Agentic artifact: the published npm package, or an explicit candidate checkout.
+  const root = base.artifact?.root ?? options.packageRoot,
+    candidate = resolve(root) === resolve(options.packageRoot)
+  const pkg = read(join(root, 'package.json'))
   const cliPath = typeof pkg.bin === 'string' ? pkg.bin : (pkg.bin?.am ?? pkg.bin?.['agentic-mermaid'])
   if (!cliPath) throw Error('Installed Agentic Mermaid package declares no CLI')
-  const cli = join(options.packageRoot, cliPath),
-    files = shippedFiles(options.packageRoot)
-  files.push({ path: join(options.packageRoot, 'package.json'), sha256: digest(join(options.packageRoot, 'package.json')) })
+  const cli = join(root, cliPath),
+    files = shippedFiles(root)
+  files.push({ path: join(root, 'package.json'), sha256: digest(join(root, 'package.json')) })
   const nodeRuntime = JSON.parse(execFileSync(process.env.NODE_BIN ?? 'node', ['-p', 'JSON.stringify({executable:process.execPath,version:process.versions.node})'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })) as { executable: string; version: string }
   const definitions = [
     { variant: 'node-cli', executable: nodeRuntime.executable, args: [cli, 'render', '-', '--format', '{format}'], runtime: `node:${nodeRuntime.version} installed public CLI`, files },
-    { variant: 'native-cli', executable: join(options.target, 'dist/am'), args: ['render', '-', '--format', '{format}'], runtime: 'bun-compiled:embedded-runtime (version unreported)', files: [] },
+    // The compiled native CLI exists only in a candidate checkout; npm ships the Node CLI.
+    ...(candidate ? [{ variant: 'native-cli', executable: join(options.target, 'dist/am'), args: ['render', '-', '--format', '{format}'], runtime: 'bun-compiled:embedded-runtime (version unreported)', files: [] }] : []),
   ]
   return definitions.map(definition => ({
     variantOf: base.node.id,
@@ -141,11 +147,11 @@ interface ResourceObserver {
   provenance?: unknown
 }
 function resourceObserver(configured?: string, provenance?: string): ResourceObserver {
-  const path = resolve(configured ?? '/usr/bin/time')
+  const path = configured ? resolve(configured) : (defaultTimeObserver() ?? '/usr/bin/time')
   try {
-    if (!existsSync(path)) throw Error('GNU /usr/bin/time is unavailable')
+    if (!existsSync(path)) throw Error(configured ? 'Configured GNU time observer does not exist' : 'GNU /usr/bin/time is unavailable and no GNU gtime is on PATH')
+    if (!isGnuTime(path)) throw Error(`External time observer is not GNU time: ${path}; install GNU time (gtime on macOS) or pass --startup-observer`)
     const version = execFileSync(path, ['--version'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim()
-    if (!/GNU\s+Time/i.test(version)) throw Error('External time observer is not GNU time')
     return { path: realpathSync(path), version, sha256: digest(path), bytes: statSync(path).size, locale: { LC_ALL: process.env.LC_ALL ?? null, LC_NUMERIC: process.env.LC_NUMERIC ?? null, LANG: process.env.LANG ?? null }, ...(provenance ? { provenance: { file: resolve(provenance), value: read(provenance) } } : {}) }
   } catch (error) {
     return { path, version: null, error: String(error) }
@@ -304,7 +310,7 @@ export async function runCommunityCliCohort(options: Options) {
     if (observer.error) throw Error('Resource-only observer unavailable: ' + observer.error)
   }
   const status = git(options.target, ['status', '--porcelain=v1', '--untracked-files=all']).split('\n').filter(Boolean)
-  const harnessRoot = resolve(import.meta.dir, '../../..'),
+  const harnessRoot = harnessRepository,
     harnessStatus = git(harnessRoot, ['status', '--porcelain=v1', '--untracked-files=all']).split('\n').filter(Boolean)
   const evidence = {
     sourceRun: source,
@@ -449,7 +455,7 @@ export async function runCommunityCliSuite(options: UnifiedRunOptions): Promise<
     for (const file of ['community-prepared.json', 'community-inputs.json', 'community-result.json']) if (!existsSync(join(source, file))) throw Error(`Completed community prerequisite is absent: ${join(source, file)}`)
     const prerequisite = read(join(source, 'community-result.json'))
     if (prerequisite.id !== 'community' || typeof prerequisite.finishedAt !== 'string' || !Array.isArray(prerequisite.observations)) throw Error('Community prerequisite has no completed suite envelope')
-    const result = await runCommunityCliCohort({ run: source, out: options.out, target: options.root, packageRoot: options.packageRoot ?? options.root, rounds: options.rounds, outputs: options.communityOutputs })
+    const result = await runCommunityCliCohort({ run: source, out: options.out, target: options.root, packageRoot: options.packageRoot ?? options.root, rounds: options.rounds, outputs: options.communityOutputs, observerExecutable: communityObserver(options) })
     envelope = {
       id: 'community-cli',
       status: result.status as UnifiedSuiteResult['status'],
@@ -475,10 +481,13 @@ export async function runCommunityCliSuite(options: UnifiedRunOptions): Promise<
 }
 export { ranksFor as rankCommunityCliObservations, resourceDiagnostic as runCommunityResourceDiagnostic, resourceObserver as observeCommunityResourceTool, resourceRanksFor as rankCommunityCliResources }
 
+/** The GNU time a community update configured for whole-process resources. */
+export const communityObserver = (options: Pick<UnifiedRunOptions, 'observerExecutable' | 'portableObserver'>) => options.observerExecutable ?? options.portableObserver
+
 /** The cache binds the same public CLI variants and observer as timed execution. */
-export function communityCliCacheIdentity(options: Pick<Options, 'target' | 'packageRoot'>, prepared: PreparedCommunity[]) {
+export function communityCliCacheIdentity(options: Pick<Options, 'target' | 'packageRoot' | 'observerExecutable'>, prepared: PreparedCommunity[]) {
   return {
-    observer: resourceObserver(),
+    observer: resourceObserver(options.observerExecutable),
     candidates: candidateVariants(options as Options, prepared).map(variant => {
       try {
         return { variant: variant.variant, identity: admittedIdentity(variant.prepared.artifact!) }
@@ -501,7 +510,7 @@ if (import.meta.main) {
     const option = process.argv[index]!,
       value = process.argv[index + 1]
     if (!['--run', '--out', '--target', '--package-root', '--rounds', '--outputs', '--observer-executable', '--observer-provenance', '--baseline-cli'].includes(option) || !value || value.startsWith('--') || values.has(option))
-      throw Error('Usage: bun run eval/benchmark/unified/community-cli.ts --run DIR --out FRESH_DIR --target CHECKOUT --package-root INSTALLED_PACKAGE [--rounds 3]')
+      throw Error('Usage: bun run unified/community-cli.ts --run DIR --out FRESH_DIR --target CHECKOUT --package-root INSTALLED_PACKAGE [--rounds 3]')
     values.set(option, value)
   }
   for (const name of ['--run', '--out', '--target', '--package-root']) if (!values.has(name)) throw Error('Missing required ' + name)

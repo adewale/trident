@@ -9,7 +9,10 @@ import { build } from 'esbuild'
 import { chromium } from 'playwright'
 import { extraBrowserEntry } from './community-extra-adapters.mjs'
 import type { CommunityArtifact, PreparedCommunity } from './community-types.ts'
+import { familySupportRow, familySupportWorkloads, unsupportedFamilyRow } from './family-support.ts'
 import type { BenchmarkObservation, BenchmarkStatus, UnifiedRunOptions, UnifiedSuiteResult, UnifiedWorkload } from './types.ts'
+import { tridentDirectory } from './trident-paths.ts'
+import { retainFailedOutput } from './failure-outputs.ts'
 
 type BrowserKind = 'beautiful' | 'pele' | 'mermaid' | 'function' | 'ondine' | 'franken' | 'merman' | 'extra'
 export interface CommunityBrowserEngine {
@@ -39,7 +42,6 @@ export interface PreparedCommunityBrowser extends PreparedCommunity {
 }
 const digest = (bytes: Uint8Array): string => createHash('sha256').update(bytes).digest('hex')
 const safe = (id: string): string => encodeURIComponent(id)
-const unsupported = /unsupported (?:diagram|family)|diagram (?:type|family).*(?:not supported|unsupported)|unknown diagram|unrecognized mermaid header|no diagram type detected|invalid mermaid header|not implemented.*(?:family|diagram)/i
 /** Seal executable/browser assets, not source-tree inputs or node_modules.
  * Delivery totals still use only observed requests, never this overapproximation. */
 function browserFiles(engine: CommunityBrowserEngine): { path: string; sha256: string }[] {
@@ -105,6 +107,22 @@ async function installWebMerman(prepared: PreparedCommunity, cache: string): Pro
   return root
 }
 
+/** One browser workload's result, returned from inside the page. */
+interface BrowserMeasurement {
+  status: string
+  error?: string
+  firstMs?: number
+  samples?: number[]
+  iterations?: number
+  bytes?: number
+  findings?: string[]
+  hasLabelOracle?: boolean
+  coverageOnly?: boolean
+  /** False when the SVG string parsed only as HTML (for example, HTML-serialized foreignObject labels). */
+  xmlWellFormed?: boolean | null
+  /** The failing output, retained outside clocks for the failure report. */
+  failedOutput?: string
+}
 /** Preparation is deliberately separate from all API clocks. It may bundle
  * actual published JS entries or acquire the separately published browser SDK. */
 export async function prepareCommunityBrowsers(prepared: readonly PreparedCommunity[], options: UnifiedRunOptions): Promise<PreparedCommunityBrowser[]> {
@@ -116,7 +134,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
   mkdirSync(helperDirectory, { recursive: true })
   const helperBuild = await build({
     stdin: {
-      contents: `export{isRenderedSourceEcho}from ${JSON.stringify(join(harness, 'eval/benchmark/unified/qualification-visible-source.ts'))};export{inspectSvgText}from ${JSON.stringify(join(harness, 'eval/benchmark/unified/svg-text-inspection.ts'))}`,
+      contents: `export{isRenderedSourceEcho}from ${JSON.stringify(join(tridentDirectory, 'unified/qualification-visible-source.ts'))};export{closeHtmlVoidElements,inspectSvgText}from ${JSON.stringify(join(tridentDirectory, 'unified/svg-text-inspection.ts'))}`,
       resolveDir: harness,
       sourcefile: 'community-visible-output-qualification.mjs',
     },
@@ -246,7 +264,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
           engine.apiBoundary = spec.qualification
           engine.surface = spec.surface
           if (spec.outputs?.includes('png') && supported.includes('png')) engine.additionalOutputs = ['png']
-        } else if (['beautiful', 'zombie', 'pele', 'ondine'].includes(adapter ?? '')) {
+        } else if (['beautiful', 'zombie', 'pele', 'ondine'].includes(adapter ?? '') || (adapter === 'declared' && !!peer.node.benchmark?.api?.svg)) {
           const output = join(cache, safe(peer.node.id), artifact.version)
           mkdirSync(output, { recursive: true })
           const entry = join(output, 'entry.mjs'),
@@ -261,7 +279,8 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
             const require = createRequire(join(root, 'package.json')),
               elk = require.resolve('elkjs/lib/elk.bundled.js')
             writeFileSync(entry, `import{registerElk}from ${JSON.stringify(source)};import ELK from ${JSON.stringify(elk)};registerElk(ELK);export*from ${JSON.stringify(source)};`)
-          } else writeFileSync(entry, `export*from ${JSON.stringify(source)};`)
+          } else if (adapter === 'declared') writeFileSync(entry, `import*as api from ${JSON.stringify(source)};import{declaredRenderer}from ${JSON.stringify(join(tridentDirectory, 'unified/declared-adapter.mjs'))};export const renderMermaidSVG=declaredRenderer(api,${JSON.stringify(peer.node.benchmark!.api!.svg)},'svg');`)
+          else writeFileSync(entry, `export*from ${JSON.stringify(source)};`)
           await build({ entryPoints: [entry], outfile: join(output, 'bundle.js'), bundle: true, platform: 'browser', format: 'iife', globalName: 'unifiedPeer', minify: true, target: 'es2022', logLevel: 'silent' })
           engine = make(output, 'bundle.js', adapter === 'ondine' ? 'ondine' : adapter === 'pele' ? 'pele' : 'beautiful', adapter === 'ondine' ? 'unifiedLoadOndine' : 'unifiedPeer')
         } else {
@@ -318,6 +337,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
     })
     if (peer.browserStatus === 'blocked') gaps.push(`${peer.node.id}: ${peer.browserDetail ?? 'Browser preparation required'} (${workloads.length} corpus cases unmeasured)`)
   }
+  const familyProbes = new Map<string, Map<string, BenchmarkObservation>>()
   const engines = prepared
     .filter(peer => peer.browserStatus === 'prepared' && peer.browser)
     .flatMap(peer => [peer, ...(peer.browser!.additionalOutputs ?? []).map(output => ({ ...peer, browser: { ...peer.browser!, output, additionalOutputs: undefined } }))])
@@ -451,10 +471,20 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
           samplesMs: [performance.now() - importStart],
           metrics: { implementation: peer.node.id, browser: browser.version(), version: engine.version, artifactSha256: engine.artifactSha256, cache: 'public-default-repeats' },
         })
-        for (const workload of roundWorkloads) {
+        // Probe each family once, before its corpus; a rejected canonical source skips that family.
+        const supportKey = `${peer.node.id}\n${engine.output ?? 'svg'}`,
+          probes = familyProbes.has(supportKey) ? [] : familySupportWorkloads(roundWorkloads),
+          rejected = familyProbes.get(supportKey) ?? new Map<string, BenchmarkObservation>()
+        familyProbes.set(supportKey, rejected)
+        for (const workload of [...probes, ...roundWorkloads]) {
+          const probe = probes.includes(workload)
+          if (!probe && rejected.has(workload.family)) {
+            record.samples.push(unsupportedFamilyRow(row(peer, workload, workload.features.includes('core-graph-batch') ? 'core-api-repeat' : (options.communityCoverageOnce ?? true) ? 'feature-corpus-qualification' : 'feature-corpus-attempt', 'unsupported', { metrics: { round } }), rejected.get(workload.family)!))
+            continue
+          }
           try {
             const pending = page.evaluate(
-              async ({ source, expected, id, core, output, coverageOnly }) => {
+              async ({ source, expected, id, core, output, coverageOnly }): Promise<BrowserMeasurement> => {
                 const call = async (suffix: string) => {
                   const start = performance.now()
                   let value: any, error: string | undefined
@@ -470,6 +500,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                   for (const node of document.querySelectorAll('body > div:not([data-community-host])')) node.remove()
                   return { ms, svg, error }
                 }
+                let xmlWellFormed: boolean | null = null
                 const validate = (svg: unknown): string[] => {
                   if (output === 'png') {
                     if (!(svg instanceof Uint8Array) || svg.length < 33 || [137, 80, 78, 71, 13, 10, 26, 10].some((byte, index) => svg[index] !== byte)) return ['Invalid PNG signature or truncated PNG']
@@ -477,8 +508,16 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                     return String.fromCharCode(...svg.subarray(12, 16)) === 'IHDR' && header.getUint32(16) > 0 && header.getUint32(20) > 0 ? [] : ['PNG has invalid IHDR or empty dimensions']
                   }
                   if (typeof svg !== 'string') return ['No SVG string returned']
-                  const doc = new DOMParser().parseFromString(svg, 'image/svg+xml'),
-                    element = doc.documentElement
+                  // Strict XML, except that HTML-serialized void elements (Mermaid's foreignObject
+                  // <br>) are closed and recorded as not well-formed XML; nothing else is relaxed.
+                  const helper = (globalThis as any).unifiedCommunityQualification
+                  let doc = new DOMParser().parseFromString(svg, 'image/svg+xml')
+                  xmlWellFormed = !doc.querySelector('parsererror')
+                  if (!xmlWellFormed) {
+                    const closed = helper.closeHtmlVoidElements(svg)
+                    if (closed !== svg) doc = new DOMParser().parseFromString(closed, 'image/svg+xml')
+                  }
+                  const element = doc.documentElement
                   if (doc.querySelector('parsererror') || element.localName !== 'svg' || element.namespaceURI !== 'http://www.w3.org/2000/svg') return ['Malformed SVG document or missing SVG namespace']
                   const length = (value: string | null): number => (/^\+?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?(?:px|pt|pc|cm|mm|in|q)?$/i.test(value?.trim() ?? '') ? Number.parseFloat(value!) : NaN)
                   const viewBox = element
@@ -494,7 +533,6 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                     if (!(node instanceof Element)) return undefined
                     return { kind: 'element', localName: node.localName, namespaceURI: node.namespaceURI ?? '', attributes: Object.fromEntries([...node.attributes].map(attribute => [attribute.name, attribute.value])), children: [...node.childNodes].map(tree).filter(Boolean) }
                   }
-                  const helper = (globalThis as any).unifiedCommunityQualification
                   if (typeof helper.inspectSvgText !== 'function') return ['Prepared qualification helper has no namespace-aware SVG text inspector']
                   const inspected = helper.inspectSvgText(tree(element), expected)
                   if (helper.isRenderedSourceEcho(source, svg, 'svg', inspected.primaryRuns)) return ['Visible SVG source-echo fallback is not diagram ink']
@@ -503,9 +541,9 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                 const first = await call('_first')
                 if (first.error) return { status: 'error', error: first.error, firstMs: first.ms }
                 const firstFindings = validate(first.svg)
-                if (firstFindings.length) return { status: 'qualification-failed', findings: firstFindings, firstMs: first.ms }
+                if (firstFindings.length) return { status: 'qualification-failed', findings: firstFindings, firstMs: first.ms, xmlWellFormed, failedOutput: typeof first.svg === 'string' ? first.svg : undefined }
                 const bytes = first.svg instanceof Uint8Array ? first.svg.byteLength : new TextEncoder().encode(first.svg).length
-                if (!core && coverageOnly) return { status: 'ok', firstMs: first.ms, bytes, findings: [], hasLabelOracle: output !== 'png' && expected.length > 0, coverageOnly: true }
+                if (!core && coverageOnly) return { status: 'ok', firstMs: first.ms, bytes, findings: [], hasLabelOracle: output !== 'png' && expected.length > 0, coverageOnly: true, xmlWellFormed }
                 let iterations = 1
                 if (!core) {
                   const warm = await call('_warm')
@@ -534,7 +572,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                   samples.push(elapsed / iterations)
                 }
                 const findings = validate(last.svg)
-                return { status: findings.length ? 'qualification-failed' : 'ok', samples, iterations, firstMs: first.ms, bytes, findings, hasLabelOracle: output !== 'png' && expected.length > 0 }
+                return { status: findings.length ? 'qualification-failed' : 'ok', samples, iterations, firstMs: first.ms, bytes, findings, hasLabelOracle: output !== 'png' && expected.length > 0, xmlWellFormed, ...(findings.length && typeof last.svg === 'string' ? { failedOutput: last.svg } : {}) }
               },
               { source: workload.source, expected: [...(workload.expectedLabels ?? [])], id: `unified_${round}_${record.samples.length}`, core: workload.features.includes('core-graph-batch'), output: engine.output ?? 'svg', coverageOnly: options.communityCoverageOnce ?? true },
             )
@@ -545,7 +583,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                 timer = setTimeout(() => reject(new Error('Browser API workload exceeded 30s')), 30_000)
               }),
             ]).finally(() => clearTimeout(timer))
-            const status = measured.status === 'ok' ? 'passed' : measured.status === 'error' && unsupported.test(measured.error ?? '') ? 'unsupported' : 'failed'
+            const status = measured.status === 'ok' ? 'passed' : 'failed'
             const observation = row(peer, workload, workload.features.includes('core-graph-batch') ? 'core-api-repeat' : (options.communityCoverageOnce ?? true) ? 'feature-corpus-qualification' : 'feature-corpus-attempt', status, {
               ...(measured.samples ? { samplesMs: measured.samples } : {}),
               ...(measured.bytes === undefined ? {} : { bytes: measured.bytes }),
@@ -553,6 +591,9 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
               detail: measured.error,
               metrics: {
                 round,
+                rejected: measured.status === 'error',
+                xmlWellFormed: measured.xmlWellFormed ?? null,
+                outputFile: retainFailedOutput(options.out, peer.node.id, workload.id, 'svg', measured.failedOutput),
                 firstMs: measured.firstMs ?? null,
                 iterations: measured.iterations ?? null,
                 version: engine.version,
@@ -561,7 +602,11 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                 cache: 'public-default-repeats',
               },
             })
-            record.samples.push(observation)
+            if (!probe) record.samples.push(observation)
+            else {
+              record.samples.push(familySupportRow(observation))
+              if (familySupportRow(observation).status === 'unsupported') rejected.set(workload.family, observation)
+            }
           } catch (error) {
             record.samples.push(row(peer, workload, workload.features.includes('core-graph-batch') ? 'core-api-repeat' : (options.communityCoverageOnce ?? true) ? 'feature-corpus-qualification' : 'feature-corpus-attempt', 'failed', { detail: String(error), metrics: { round } }))
             throw error

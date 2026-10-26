@@ -6,14 +6,17 @@ import { dirname, join, resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
-import { MICRO_WORKLOADS } from '../micro-bench-cases.ts'
 import { type CatalogArtifactAdmission, createCatalogEligibility } from './catalog-eligibility.ts'
 import { assertCommunityNotInterrupted, trackCommunityProcess } from './community-process.ts'
 import type { CommunityArtifact, CommunityNode, CommunityWorkerJob, PreparedCommunity } from './community-types.ts'
 import { readWorkerRows } from './community-worker-evidence.ts'
+import { familySupportRow, familySupportWorkloads, rejectsSource, unsupportedFamilyRow } from './family-support.ts'
+import { assertMermaidOracle, assertOracleAgrees, MERMAID_ORACLE_PIN } from '../portable/mermaid-oracle.ts'
 import { qualifyOutput, svgQualificationProvenance, withReferenceLabels } from './qualification.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult, UnifiedWorkload } from './types.ts'
-import { getWorkloadEvidence, unifiedWorkloads } from './workloads.ts'
+import { communityCorpus, corpusEvidence, corpusWorkloads } from './corpus.ts'
+import { communityCatalogFile } from './trident-paths.ts'
+import { retainFailedOutput } from './failure-outputs.ts'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const median = (xs: number[]) => {
@@ -33,24 +36,9 @@ function writePreparationCheckpoint(path: string, value: unknown) {
   }
 }
 const artifactDigest = (path: string) => createHash('sha256').update(readFileSync(path)).digest('hex')
+/** The fixed core, frozen with the corpus: six independently labelled repeat inputs. */
 export function communityCoreWorkloads(): UnifiedWorkload[] {
-  const range = (prefix: string, n: number) => Array.from({ length: n }, (_, i) => prefix + i)
-  const expectations: Record<string, { family: string; labels: string[] }> = {
-    flow5: { family: 'flowchart', labels: ['Start', 'Check', 'Do it', 'Skip', 'End'] },
-    tree50: { family: 'flowchart', labels: range('Node ', 50) },
-    seq20: { family: 'sequence', labels: range('message ', 20) },
-    class80: { family: 'class', labels: range('C', 80) },
-    er40: { family: 'er', labels: range('E', 40) },
-    state80: { family: 'state', labels: range('S', 81) },
-  }
-  return Object.entries(expectations).map(([id, expected]) => ({
-    id: `core:${id}`,
-    family: expected.family,
-    source: MICRO_WORKLOADS[id as keyof typeof MICRO_WORKLOADS],
-    features: ['core-graph-batch'],
-    provenance: 'eval/benchmark/micro-bench-cases.ts; independently declared fixture labels',
-    expectedLabels: expected.labels,
-  }))
+  return communityCorpus().core.map(workload => ({ ...workload }))
 }
 
 /** npm can write physical-prefix keys when --prefix traverses a symlink.
@@ -93,7 +81,10 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false): 
   if (!version) throw new Error(`No published version recorded for ${name}`)
   const extra = await import('./community-extra-adapters.mjs'),
     plan = extra.extraPackagePreparation(name)
-  const prefix = join(cache, `${safe(name)}@${version}`),
+  // Mermaid's row is the pinned oracle install itself, never a second copy of Mermaid.
+  const oracle = node.id === 'mermaid-js/mermaid' ? assertMermaidOracle() : undefined
+  if (oracle && version !== oracle.version) throw new Error(`Mermaid's row must be the pinned oracle ${oracle.version}; the catalog records ${version}`)
+  const prefix = oracle?.directory ?? join(cache, `${safe(name)}@${version}`),
     root = join(prefix, 'node_modules', name)
   mkdirSync(prefix, { recursive: true })
   const companions: string[] = plan.companions ?? []
@@ -103,6 +94,7 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false): 
       const name = spec.startsWith('@') ? spec.slice(0, spec.lastIndexOf('@')) : spec.split('@')[0]!
       return !existsSync(join(prefix, 'node_modules', name, 'package.json'))
     })
+  if (needed && oracle) throw new Error(`The Mermaid oracle at ${prefix} is incomplete; reinstall it with mermaid:install`)
   if (needed) {
     const install = spawnSync('npm', ['install', '--prefix', prefix, '--ignore-scripts', '--no-audit', '--no-fund', `${name}@${version}`, ...companions], {
       encoding: 'utf8',
@@ -220,7 +212,7 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
   const driver = options.harnessRoot ?? options.root,
     cache = resolve(process.env.AM_COMMUNITY_CACHE ?? join(driver, 'node_modules/.cache/unified-community'))
   mkdirSync(cache, { recursive: true })
-  const catalog = JSON.parse(readFileSync(options.communityCatalogFile ?? join(driver, 'docs/mermaid-community.json'), 'utf8')) as { nodes: CommunityNode[] }
+  const catalog = JSON.parse(readFileSync(options.communityCatalogFile ?? communityCatalogFile, 'utf8')) as { nodes: CommunityNode[] }
   catalog.nodes = selectCommunityProjects(catalog.nodes, options.communityProjects)
   if (options.communityPreparedFile) return loadFrozenCommunity(options, catalog.nodes)
   const manifestPath = options.communityArtifacts ?? process.env.AM_BENCH_COMMUNITY_ARTIFACTS
@@ -249,6 +241,8 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
       continue
     }
     try {
+      if (node.benchmark.adapter === 'declared')
+        for (const output of new Set((node.benchmark.outputs ?? []).map(normalizeCommunityOutput))) if (typeof node.benchmark.api?.[output]?.export !== 'string') throw new Error(`Declared adapter has no api.${output}.export binding for its declared ${output} output`)
       let artifact = provided[node.id]
       if (artifact) {
         verifyProvidedCommunityArtifact(artifact)
@@ -297,7 +291,8 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
         }
         const { prepareExtraCommunitySource } = await import('./community-extra-source.ts')
         artifact = await prepareExtraCommunitySource(node, process.env.AM_COMMUNITY_SOURCE_CACHE ?? cache)
-      } else if (node.benchmark.adapter === 'agentic') {
+      } else if (node.benchmark.adapter === 'agentic' && (options.packageRoot || !node.benchmark.package)) {
+        // An explicit candidate checkout; the published release is an ordinary npm row.
         const root = options.packageRoot ?? options.root,
           module = join(root, 'dist/agent.js')
         if (!existsSync(module)) throw new Error('Build/pack the candidate before community timing')
@@ -378,12 +373,14 @@ function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWo
   if (child.status !== 0) {
     row.status = 'failed'
     row.detail = child.error?.message ?? child.stderr?.toString().slice(0, 1500)
+    row.metrics = { ...row.metrics, rejected: true }
     return row
   }
   const fileOutput = (binding?.args ?? artifact.args)?.some(arg => arg.includes('{output}'))
   if (fileOutput && !existsSync(destination)) {
     row.status = 'failed'
     row.detail = 'CLI exited successfully without producing its declared output file'
+    row.metrics = { ...row.metrics, rejected: true }
     return row
   }
   const value = fileOutput ? readFileSync(destination) : child.stdout
@@ -404,7 +401,7 @@ function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWo
   row.status = qualification.ok ? 'passed' : 'failed'
   row.bytes = value.byteLength
   row.findings = qualification.findings
-  row.metrics = { ...row.metrics, qualification: qualification.scope, version: artifact.version, boundary: 'spawn through drained stdout/file artifact; process startup included' }
+  row.metrics = { ...row.metrics, qualification: qualification.scope, version: artifact.version, boundary: 'spawn through drained stdout/file artifact; process startup included', ...(qualification.ok ? {} : { outputFile: retainFailedOutput(out, prepared.node.id, workload.id, output === 'png' ? 'png' : output === 'svg' ? 'svg' : 'txt', value) }) }
   return row
 }
 
@@ -437,6 +434,8 @@ async function nodeRound(prepared: PreparedCommunity, output: string, workloads:
     bytes?: number
     qualification?: string
     diagnosticsCount?: number
+    rejected?: boolean
+    outputFile?: string
   }
   type DiagnosticControl = { id: string; source: string; expectedAccepted: false; actualAccepted: boolean | null; status: 'passed' | 'failed'; detail?: string; qualificationError?: string }
   type Raw = {
@@ -646,6 +645,8 @@ async function nodeRound(prepared: PreparedCommunity, output: string, workloads:
       peakProcessRssBytes: raw?.peakRssBytes ?? null,
       qualification: result.qualification ?? 'unavailable',
       diagnosticsCount: result.diagnosticsCount ?? null,
+      rejected: result.rejected ?? null,
+      outputFile: result.outputFile ?? null,
       accepted: result.diagnosticAccepted ?? null,
       diagnosticAdmissionFailed: result.diagnosticAdmissionFailed ?? raw?.diagnosticAdmissionFailed ?? null,
       parserAdmissionFailed: result.parserAdmissionFailed ?? raw?.parserAdmissionFailed ?? null,
@@ -858,11 +859,13 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
   if (outputSelection && (!outputSelection.length || new Set(outputSelection).size !== outputSelection.length || outputSelection.some(output => !prepared.some(entry => entry.node.benchmark?.outputs?.some(bound => normalizeCommunityOutput(bound) === output)))))
     throw Error('Unknown, empty or duplicate community output selection')
   const outputSelected = (output: string) => !outputSelection || outputSelection.includes(normalizeCommunityOutput(output))
-  const driverWorkloads = unifiedWorkloads(options.profile) // Initializes parser-only/feature evidence without replacing frozen sources.
+  const driverWorkloads = corpusWorkloads(options.profile)
   const frozenInputs = loadCommunityInputs(options)
   const enriched = frozenInputs ? undefined : await withReferenceLabels(driverWorkloads, { root: options.harnessRoot ?? options.root })
   gaps.push(...(frozenInputs?.gaps ?? enriched!.gaps))
   const workloads = frozenInputs?.workloads ?? [...communityCoreWorkloads(), ...enriched!.workloads]
+  // Every family probe must be valid Mermaid by the pinned oracle before any tool runs it.
+  const familyProbeTypes = await assertOracleAgrees(assertMermaidOracle(), familySupportWorkloads(workloads).map(probe => ({ id: probe.id, source: probe.source, accept: true })))
   writeFileSync(
     join(options.out, 'community-inputs.json'),
     JSON.stringify(
@@ -879,7 +882,7 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
   const browser = await import('./community-browser.ts'),
     preparedBrowsers = await communityBrowsers(prepared, options)
   const driver = options.harnessRoot ?? options.root,
-    catalog = JSON.parse(readFileSync(options.communityCatalogFile ?? join(driver, 'docs/mermaid-community.json'), 'utf8')) as { nodes: CommunityNode[] }
+    catalog = JSON.parse(readFileSync(options.communityCatalogFile ?? communityCatalogFile, 'utf8')) as { nodes: CommunityNode[] }
   const aliasPlan = sourceAliasPlan(prepared, catalog),
     aliasProofPath = join(options.out, 'community-alias-proof.json')
   writeFileSync(
@@ -938,13 +941,14 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
     }
   }
   const runnable = prepared.filter(p => p.artifact && !aliasPlan.aliases.has(p.node.id))
+  const familyProbes = new Map<string, Map<string, BenchmarkObservation>>()
   for (let round = 1; round <= options.rounds; round++)
     for (const entry of round % 2 ? runnable : [...runnable].reverse()) {
       assertCommunityNotInterrupted()
       console.log(`community round ${round}/${options.rounds}: ${entry.node.id} ${entry.artifact!.version}`)
       for (const output of [...new Set((entry.node.benchmark!.outputs ?? []).map(normalizeCommunityOutput))].filter(outputSelected)) {
         const roundWorkloads = ((options.communityCoverageOnce ?? true) && round > 1 ? workloads.filter(w => w.features.includes('core-graph-batch')) : workloads).filter(w => output !== 'terminal' || !w.features.includes('core-graph-batch') || ['core:flow5', 'core:tree50', 'core:seq20'].includes(w.id))
-        const selectedWorkloads = ['parse', 'diagnostics'].includes(output) ? roundWorkloads : roundWorkloads.filter(w => !getWorkloadEvidence(w.id)?.parserOnly)
+        const selectedWorkloads = ['parse', 'diagnostics'].includes(output) ? roundWorkloads : roundWorkloads.filter(w => !corpusEvidence(w.id)?.parserOnly)
         for (const workload of roundWorkloads.filter(w => !selectedWorkloads.includes(w))) observations.push({ ...envelope(entry.node, output, workload, round), status: 'not-applicable', detail: 'Owning fixture declares a parser-only assertion scope; rendering is not a promised operation for this input.' })
         if ((entry.node.benchmark!.adapter === 'mermaid' || entry.node.benchmark!.sourceAdapter === 'mermaid-source') && output === 'svg') {
           if (round === 1)
@@ -958,19 +962,37 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
             })
           continue
         }
-        if (entry.artifact!.kind === 'cli') {
-          // CLI image format support must be declared by the prepared command; no stale-file success.
-          if (entry.artifact!.format && entry.artifact!.format !== output && !entry.artifact!.outputBindings?.[output]) {
-            const detail = `Prepared CLI supports ${entry.artifact!.format}; declared ${output} output has no command binding`
-            gaps.push(`${entry.node.id}: ${detail}`)
-            for (const workload of selectedWorkloads) observations.push({ ...envelope(entry.node, output, workload, round), surface: 'cli:end-to-end', runtime: entry.artifact!.runtime ?? 'native', status: 'blocked', detail })
-            continue
-          }
-          for (const workload of selectedWorkloads) observations.push(runCli(entry, output, workload, round, options.out))
-        } else if (entry.artifact!.kind === 'jsonl-worker' || entry.artifact!.kind === 'python') {
-          const { runExternalCommunity } = await import('./community-external.ts')
-          observations.push(...(await runExternalCommunity(entry, selectedWorkloads, output, round, options)))
-        } else observations.push(...(await nodeRound(entry, output, selectedWorkloads, round, options)))
+        // CLI image format support must be declared by the prepared command; no stale-file success.
+        if (entry.artifact!.kind === 'cli' && entry.artifact!.format && entry.artifact!.format !== output && !entry.artifact!.outputBindings?.[output]) {
+          const detail = `Prepared CLI supports ${entry.artifact!.format}; declared ${output} output has no command binding`
+          gaps.push(`${entry.node.id}: ${detail}`)
+          for (const workload of selectedWorkloads) observations.push({ ...envelope(entry.node, output, workload, round), surface: 'cli:end-to-end', runtime: entry.artifact!.runtime ?? 'native', status: 'blocked', detail })
+          continue
+        }
+        const measure = async (list: UnifiedWorkload[], measureOptions = options): Promise<BenchmarkObservation[]> =>
+          entry.artifact!.kind === 'cli'
+            ? list.map(workload => runCli(entry, output, workload, round, measureOptions.out))
+            : entry.artifact!.kind === 'jsonl-worker' || entry.artifact!.kind === 'python'
+              ? (await import('./community-external.ts')).runExternalCommunity(entry, list, output, round, measureOptions)
+              : nodeRound(entry, output, list, round, measureOptions)
+        // Probe each family once, before its corpus; a rejected canonical source skips that family.
+        const supportKey = `${entry.node.id}\n${output}`
+        if (!familyProbes.has(supportKey)) {
+          const probes = familySupportWorkloads(selectedWorkloads),
+            ids = new Set(probes.map(probe => probe.id)),
+            probeOut = join(options.out, 'family-support')
+          mkdirSync(probeOut, { recursive: true })
+          const rows = probes.length ? (await measure(probes, { ...options, out: probeOut })).filter(row => ids.has(row.caseId)) : []
+          observations.push(...rows.map(familySupportRow))
+          familyProbes.set(supportKey, new Map(rows.filter(rejectsSource).map(row => [row.family, row])))
+        }
+        const rejected = familyProbes.get(supportKey)!
+        for (const workload of selectedWorkloads.filter(workload => rejected.has(workload.family))) {
+          const core = workload.features.includes('core-graph-batch'),
+            base = envelope(entry.node, output, workload, round)
+          observations.push(unsupportedFamilyRow({ ...base, mode: core ? (entry.artifact!.kind === 'cli' ? 'fresh-process' : base.mode) : 'feature-corpus-qualification' }, rejected.get(workload.family)!))
+        }
+        observations.push(...(await measure(selectedWorkloads.filter(workload => !rejected.has(workload.family)))))
       }
     }
   for (const [implementation, alias] of aliasPlan.aliases) {
@@ -990,11 +1012,11 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
   }
   const browserResult = await browser.runCommunityBrowserSuite(
     preparedBrowsers,
-    workloads.filter(w => !getWorkloadEvidence(w.id)?.parserOnly),
+    workloads.filter(w => !corpusEvidence(w.id)?.parserOnly),
     options,
   )
   for (const peer of preparedBrowsers.filter(peer => peer.browserStatus === 'prepared' && outputSelected(peer.browser?.output ?? 'svg')))
-    for (const workload of workloads.filter(w => getWorkloadEvidence(w.id)?.parserOnly))
+    for (const workload of workloads.filter(w => corpusEvidence(w.id)?.parserOnly))
       observations.push({ ...envelope(peer.node, 'svg', workload, 0), surface: 'browser:public-api', runtime: 'chromium', status: 'not-applicable', detail: 'Owning fixture declares a parser-only assertion scope; browser rendering is not a promised operation for this input.' })
   observations.push(...browserResult.observations)
   gaps.push(...browserResult.gaps)
@@ -1041,6 +1063,7 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
     scope: outputSelection ? 'partial-output-lane; omitted output observations were not executed' : 'all-bound-outputs',
     qualificationProtocol: options.communityQualificationProtocol ?? null,
     svgQualification: svgQualificationProvenance(),
+    mermaidOracle: { pin: MERMAID_ORACLE_PIN, familyProbeTypes },
     profile: options.profile,
     rounds: options.rounds,
     coverageOnce: options.communityCoverageOnce ?? true,

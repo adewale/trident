@@ -726,7 +726,10 @@
           "terminal",
           "png",
           "parse"
-        ]
+        ],
+        "package": "agentic-mermaid",
+        "subpath": "agent",
+        "version": "0.4.1"
       },
       "benchmarkEligibility": {
         "classification": "diverged-fork",

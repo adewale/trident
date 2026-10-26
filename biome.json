@@ -14,7 +14,10 @@
       "**/*.jsonc",
       "!node_modules/**",
       "!.cache/**",
-      "!portable/dist/**"
+      "!portable/dist/**",
+      "!corpus/**",
+      "!bench-report/**",
+      "!results/**"
     ]
   },
   "linter": {

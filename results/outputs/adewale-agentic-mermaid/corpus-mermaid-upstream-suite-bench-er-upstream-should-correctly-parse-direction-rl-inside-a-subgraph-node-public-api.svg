@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="288" viewBox="0 0 220 288" style="--bg:#FFFFFF;--fg:#27272A;--font:Inter;background:#FFFFFF">
+<style>
+  text { font-family: var(--font, 'Inter'), system-ui, sans-serif; }
+  .mono { font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          #27272A;
+    --_text-sec:      #575759;
+    --_text-muted:    #707072;
+    --_text-faint:    #8a8a8c;
+    --_line:          #939395;
+    --_arrow:         #47474a;
+    --_node-fill:     #f9f9f9;
+    --_node-stroke:   #d4d4d4;
+    --_group-fill:    #FFFFFF;
+    --_group-hdr:     #f4f4f4;
+    --_inner-stroke:  #e5e5e5;
+    --_key-badge:     #e9e9ea;
+  }
+</style>
+<defs>
+</defs>
+<g class="entity" data-id="A" data-label="A" data-role="entity">
+  <rect x="40" y="40" width="140" height="56" rx="0" ry="0" fill="#f9f9f9" stroke="#d4d4d4" stroke-width="1" data-id="entity-rect:A" data-role="entity" />
+  <path d="M40,40 H180 V74 H40 Z" fill="#f4f4f4" stroke="#d4d4d4" stroke-width="1" />
+  <text x="110" y="57" text-anchor="middle" font-size="13" font-weight="700" fill="#27272A" dy="4.55" textLength="11.31" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">A</text>
+  <line x1="40" y1="74" x2="180" y2="74" stroke="#d4d4d4" stroke-width="0.75" />
+  <text x="110" y="85" text-anchor="middle" dy="0.35em" font-size="11" fill="#8a8a8c" font-style="italic" data-id="entity-empty:A" data-role="attribute" textLength="65.208" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">(no attributes)</text>
+</g>
+<g class="entity" data-id="B" data-label="B" data-role="entity">
+  <rect x="40" y="116" width="140" height="56" rx="0" ry="0" fill="#f9f9f9" stroke="#d4d4d4" stroke-width="1" data-id="entity-rect:B" data-role="entity" />
+  <path d="M40,116 H180 V150 H40 Z" fill="#f4f4f4" stroke="#d4d4d4" stroke-width="1" />
+  <text x="110" y="133" text-anchor="middle" font-size="13" font-weight="700" fill="#27272A" dy="4.55" textLength="11.31" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">B</text>
+  <line x1="40" y1="150" x2="180" y2="150" stroke="#d4d4d4" stroke-width="0.75" />
+  <text x="110" y="161" text-anchor="middle" dy="0.35em" font-size="11" fill="#8a8a8c" font-style="italic" data-id="entity-empty:B" data-role="attribute" textLength="65.208" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">(no attributes)</text>
+</g>
+<g class="entity" data-id="end" data-label="end" data-role="entity">
+  <rect x="40" y="192" width="140" height="56" rx="0" ry="0" fill="#f9f9f9" stroke="#d4d4d4" stroke-width="1" data-id="entity-rect:end" data-role="entity" />
+  <path d="M40,192 H180 V226 H40 Z" fill="#f4f4f4" stroke="#d4d4d4" stroke-width="1" />
+  <text x="110" y="209" text-anchor="middle" font-size="13" font-weight="700" fill="#27272A" dy="4.55" textLength="25.35" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">end</text>
+  <line x1="40" y1="226" x2="180" y2="226" stroke="#d4d4d4" stroke-width="0.75" />
+  <text x="110" y="237" text-anchor="middle" dy="0.35em" font-size="11" fill="#8a8a8c" font-style="italic" data-id="entity-empty:end" data-role="attribute" textLength="65.208" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">(no attributes)</text>
+</g>
+</svg>

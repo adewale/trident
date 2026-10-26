@@ -13,16 +13,21 @@ node commands.ts build [--out FRESH_DIRECTORY]
 node commands.ts run --project OWNER/TOOL --artifact-root INSTALLED_PACKAGE [options]
 node commands.ts fidelity:report --core REPORT [--community REPORT] --out DIRECTORY
 node commands.ts export --input FILE [--out FRESH_FILE]
+node commands.ts mermaid:install [--dir DIRECTORY]
 
 build defaults to portable/dist. run requires that compiled kit and uses Node 24;
 set NODE_BIN to its executable. A custom --out kit runs via node KIT/run.mjs.
 These commands need no Agentic checkout. Build accepts Node 24 or Bun 1.4+.
 
+Community projects (Bun), from Trident's catalog and frozen corpus:
+  bun commands.ts community:update --projects OWNER/TOOL[,...] --records DIR --out DIR
+  bun commands.ts results:publish --records DIR [--out results]   (league table)
+
 Optional Agentic Mermaid source adapter (Bun):
   bun commands.ts agentic --list --profile full
   bun commands.ts community [options]
-  bun commands.ts community:update [options]
   bun commands.ts prs [options]
+  bun commands.ts corpus:import    (refreshes corpus/community-corpus.json)
 Set TRIDENT_AGENTIC_ROOT to an Agentic Mermaid checkout. Trident assembles its owning protocols beside that public source in a disposable
 workspace. No old Agentic benchmark package or session files are required. The containing checkout is detected only when its package name is
 agentic-mermaid. AM_BENCH_REPOSITORY_ROOT remains a compatibility alias.
@@ -32,7 +37,8 @@ execution with its committed-source identity; run uses compiled measurement byte
 Maintainer checks: test, typecheck, lint (Bun). Test/typecheck run standalone by
 default. Set TRIDENT_AGENTIC_ROOT for the full suite including source adapters;
 the physical eval/benchmark layout is also detected.
-All measurement commands reject CI. --help does not start a benchmark.
+All measurement commands reject CI. Benchmark runs and test require the pinned Mermaid
+oracle; use mermaid:install or MERMAID_REFERENCE_DIR. --help starts no benchmark.
 `
 
 function sourceCheckout(): string {
@@ -104,7 +110,9 @@ async function main() {
   const aliases: Record<string, string> = { 'portable:build': 'build', bench: 'agentic' }
   const selected = Object.hasOwn(aliases, command) ? aliases[command]! : command
   const neutral: Record<string, string> = { build: 'portable/build.ts', portable: 'portable/run.ts', 'fidelity:report': 'fidelity/report.ts' }
-  const source: Record<string, string> = { agentic: 'unified/run.ts', community: 'unified/community-campaign.ts', 'community:update': 'unified/project-update.ts', prs: 'unified/pr-campaign.ts' }
+  const source: Record<string, string> = { agentic: 'unified/run.ts', community: 'unified/community-campaign.ts', prs: 'unified/pr-campaign.ts' }
+  // Trident's own Bun commands: the community lanes run here, with no Agentic checkout.
+  const own: Record<string, string> = { 'community:update': 'unified/project-update.ts', 'corpus:import': 'unified/corpus-import.ts', 'results:publish': 'unified/league.ts' }
   const fullChecks = (selected === 'test' || selected === 'typecheck') && Boolean(process.env.TRIDENT_AGENTIC_ROOT ?? process.env.AM_BENCH_REPOSITORY_ROOT ?? containingCheckout())
   const checks: Record<string, string[]> = {
     test: ['test', '--timeout', '30000', '--parallel=2', ...(selected === 'test' && !fullChecks ? standaloneTests() : [resolve(directory, 'tests')])],
@@ -131,7 +139,13 @@ async function main() {
     else process.stdout.write(output)
     return
   }
-  if (selected !== 'run' && !Object.hasOwn(neutral, selected) && !Object.hasOwn(source, selected) && !Object.hasOwn(checks, selected)) throw Error(`Unknown Trident command ${command}; use --help`)
+  if (selected === 'mermaid:install') {
+    if (args.length && (args.length !== 2 || args[0] !== '--dir')) throw Error('Use mermaid:install [--dir DIRECTORY]')
+    const { installMermaidOracle, mermaidOracleDirectory } = await import('./portable/mermaid-oracle.ts')
+    console.log(JSON.stringify(installMermaidOracle(args[1] ? resolve(args[1]) : mermaidOracleDirectory()), null, 2))
+    return
+  }
+  if (selected !== 'run' && !Object.hasOwn(neutral, selected) && !Object.hasOwn(own, selected) && !Object.hasOwn(source, selected) && !Object.hasOwn(checks, selected)) throw Error(`Unknown Trident command ${command}; use --help`)
   if (selected === 'build' && args.length === 1 && args[0] === '--help') {
     console.log('node commands.ts build [--out FRESH_DIRECTORY]\nDefault: portable/dist. Copy the complete generated kit and its manifest; execute run.mjs with plain Node 24.')
     return
@@ -147,7 +161,7 @@ async function main() {
   } else if (source[selected] || fullChecks) {
     cwd = sourceCheckout()
     if (!process.versions.bun) throw Error('The optional Agentic source adapter and maintainer tests require Bun 1.4 or later. Neutral build/run/fidelity:report accept Node 24.')
-    assertBenchmarkExecutionAllowed()
+    assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: selected !== 'typecheck' })
     const selectedRoot = cwd
     if (fullChecks) console.error(`Trident ${selected}: every file, including Agentic adapters from ${selectedRoot}`)
     const forwarded = externalPaths(args)
@@ -165,6 +179,9 @@ async function main() {
       process.exitCode = result.status ?? 1
     })
     return
+  } else if (own[selected]) {
+    if (!process.versions.bun) throw Error(`${selected} requires Bun 1.4 or later`)
+    argv = ['run', resolve(directory, own[selected]!)]
   } else if (neutral[selected]) {
     const script = resolve(directory, neutral[selected]!)
     argv = process.versions.bun ? ['run', script] : [script]
@@ -173,7 +190,8 @@ async function main() {
     if (selected === 'test' || selected === 'typecheck') console.error(`Trident ${selected}: standalone files; ${adapterFiles().size} Agentic adapter files require TRIDENT_AGENTIC_ROOT`)
     argv = checks[selected]!
   } else throw Error(`Unknown Trident command ${command}; use --help`)
-  assertBenchmarkExecutionAllowed()
+  // Building, static checks and evidence reports run nothing that consults Mermaid.
+  assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !['build', 'fidelity:report', 'typecheck', 'lint', 'corpus:import', 'results:publish'].includes(selected) })
   const result = spawnSync(executable, [...argv, ...args], { cwd, stdio: 'inherit' })
   if (result.error) throw result.error
   process.exitCode = result.status ?? 1

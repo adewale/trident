@@ -17,6 +17,8 @@ const authored: { id: string; labels: string[]; output: string; accepted: boolea
   { id: 'foreign-namespace', labels: ['Hello'], output: svg('<f:text xmlns:f="urn:unrelated">Hello</f:text>'), accepted: false },
   { id: 'positioned-lines', labels: ['First Second'], output: svg('<text><tspan x="0" y="10">First</tspan><tspan x="0" y="20">Second</tspan></text>'), accepted: true },
   { id: 'html-break', labels: ['First Second'], output: svg('<foreignObject><div xmlns="http://www.w3.org/1999/xhtml">First<br/>Second</div></foreignObject>'), accepted: true },
+  // Mermaid's own serialization: HTML inside foreignObject, so the <br> is not closed and the string is not XML.
+  { id: 'html-serialized-break', labels: ['First Second'], output: svg('<foreignObject><div xmlns="http://www.w3.org/1999/xhtml"><p>First<br>Second</p></div></foreignObject>'), accepted: true },
   { id: 'prefixed-source-echo', source: 'flowchart LR\n A[Start] --> B[End]', labels: ['Start', 'End'], output: '<s:svg xmlns:s="http://www.w3.org/2000/svg" viewBox="0 0 200 100"><s:text>flowchart LR</s:text><s:text>A[Start] --&gt; B[End]</s:text></s:svg>', accepted: false },
 ]
 
@@ -29,7 +31,8 @@ browserTest(
       const cases = authored.map(entry => ({ ...entry, source: entry.source ?? `flowchart LR\n %% ${entry.id}\n A[Fixture]` }))
       const workloads = cases.map(entry => ({ id: entry.id, family: 'flowchart', source: entry.source, expectedLabels: entry.labels, features: ['qualification-reader-fixture'], provenance: 'independently authored XML reader expectations; not a renderer benchmark' }))
       const module = join(directory, 'fixture.js')
-      await build({ stdin: { contents: `const cases=${JSON.stringify(cases)};globalThis.fixtureRender=source=>cases.find(entry=>entry.source===source).output`, sourcefile: 'authored-qualification-fixture.js' }, outfile: module, bundle: true, format: 'iife', platform: 'browser', minify: true, logLevel: 'silent' })
+      // Any other source (the family-support probe) gets an empty drawing, so the family stays supported.
+      await build({ stdin: { contents: `const cases=${JSON.stringify(cases)};globalThis.fixtureRender=source=>cases.find(entry=>entry.source===source)?.output??'<svg xmlns="http://www.w3.org/2000/svg"/>'`, sourcefile: 'authored-qualification-fixture.js' }, outfile: module, bundle: true, format: 'iife', platform: 'browser', minify: true, logLevel: 'silent' })
       const out = join(directory, 'results')
       mkdirSync(out)
       const root = resolve(import.meta.dir, '../../..')

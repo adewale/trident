@@ -6,27 +6,8 @@ import { reviewedUpstreamCases } from '../../mermaid-upstream-suite-bench/cases.
 import { releaseBenchCases } from '../release-bench-cases.ts'
 import type { UnifiedWorkload } from './types.ts'
 
-export interface WorkloadAssertions {
-  expectStructured?: boolean
-  renderError?: string
-  nodeCount?: number
-  edgeCount?: number
-  groupCount?: number
-  minNodes?: number
-  minEdges?: number
-  minGroups?: number
-  labelsContain?: readonly string[]
-}
-export interface WorkloadEvidence {
-  assertions?: WorkloadAssertions
-  reference?: Record<string, unknown>
-  expected?: Record<string, unknown>
-  diagnosticOnly?: boolean
-  parserOnly?: boolean
-  emptyDiagramExpected?: boolean
-  labelsContainScope?: 'layout'
-  origins: string[]
-}
+export type { WorkloadAssertions, WorkloadEvidence } from './workload-evidence.ts'
+import type { WorkloadAssertions, WorkloadEvidence } from './workload-evidence.ts'
 
 const ROOT = resolve(import.meta.dir, '../../..')
 const evidence = new Map<string, WorkloadEvidence>()

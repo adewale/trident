@@ -11,7 +11,7 @@ import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { assertBenchmarkSetVersions, benchmarkToolPins } from '../tool-versions.ts'
 import { baselineBrowserAction } from '../unified/baseline-browser-worker.mjs'
 import { baselineMeasurementContext } from '../unified/baseline-measurement-context.ts'
-import { deliveredArtifactIdentity, executableIdentity } from '../unified/benchmark-context.ts'
+import { defaultChromium, deliveredArtifactIdentity, executableIdentity } from '../unified/benchmark-context.ts'
 import { runRetainedSuite } from '../unified/retained-suite.ts'
 import { qualifyOutput } from '../unified/qualification.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult } from '../unified/types.ts'
@@ -23,6 +23,7 @@ import { planFidelityCriteria, completeCriterionLedger, compareFidelityCriteria 
 import { inspectQuantitativePaint } from './paint-values.ts'
 import { assessMeaning, type AuthoredFidelityCase } from './meaning.ts'
 import { inspectFidelityPaint } from './paint.ts'
+import { mermaidOracleDirectory, mermaidUpstreamDirectory } from '../portable/mermaid-oracle.ts'
 
 export interface FidelityRunOptions extends UnifiedRunOptions { fidelityDiagnostic?: boolean; fidelityCaseIds?: string[] }
 const write = (path: string, value: unknown) => writeFileSync(path, JSON.stringify(value, null, 2) + '\n')
@@ -34,7 +35,7 @@ export async function runFidelityCampaign(options: FidelityRunOptions): Promise<
   const startedAt = new Date().toISOString(), root = options.harnessRoot ?? options.root, out = options.out
   if (!selectsCoreFidelity(options.communityProjects)) return { id: 'mermaid-fidelity', startedAt, finishedAt: startedAt, status: 'not-applicable', observations: [], artifacts: [], gaps: ['No core public-model project was selected; no source, reference, runtime, browser or output directory was prepared.'] }
   mkdirSync(out, { recursive: true })
-  const reference = options.referenceDir ?? resolve(root, '../mermaid-reference'), upstream = options.mermaidDir ?? resolve(root, '../mermaid')
+  const reference = options.referenceDir ?? mermaidOracleDirectory(), upstream = options.mermaidDir ?? mermaidUpstreamDirectory()
   const sourcePin = admitCurrentReference(upstream, reference)
   const targets: Array<{ tool: MeaningTool; project: string; packageRoot: string; entry: string; version: string }> = []
   for (const tool of ['mermaid', 'agentic', 'pele'] as const) {
@@ -61,7 +62,7 @@ export async function runFidelityCampaign(options: FidelityRunOptions): Promise<
   if (!selectedCases.length) throw Error('No authored fidelity cases selected')
   const planned = planFidelityCriteria(selectedCases)
   const request = createRequire(join(root, 'eval/benchmark/package.json')), { chromium } = request('playwright')
-  const browserExecutable = options.executable ?? '/usr/bin/chromium', node = options.nodeExecutable ?? process.execPath
+  const browserExecutable = options.executable ?? defaultChromium(chromium), node = options.nodeExecutable ?? process.execPath
   let browser: any
   const getBrowser = async () => browser ??= await chromium.launch({ headless: true, executablePath: browserExecutable })
   const server = createServer((request, response) => {

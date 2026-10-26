@@ -9,14 +9,15 @@ import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { captureInstalledDependencyClosure } from '../portable/artifact-dependencies.ts'
 import { communityCoreWorkloads, prepareCommunity, rankCommunityObservations, runCommunitySuite, selectCommunityProjects, verifyFrozenBrowserEngine, verifyProvidedCommunityArtifact } from './community.ts'
 import { type PreparedCommunityBrowser, prepareCommunityBrowsers } from './community-browser.ts'
-import { communityCliCacheIdentity, runCommunityCliSuite } from './community-cli.ts'
+import { communityCliCacheIdentity, communityObserver, runCommunityCliSuite } from './community-cli.ts'
 import { communityProtocolIdentity } from './community-protocol-identity.ts'
 import type { CommunityNode, PreparedCommunity } from './community-types.ts'
 import { activateProjectRecord, findProjectRecord, inspectCurrentProjectRecords, type ProjectBenchmarkIdentity, type ProjectBenchmarkRecord, publishProjectRecord, stableValue } from '../portable/project-records.ts'
 import { withReferenceLabels } from './qualification.ts'
-import { parseOptions } from './run.ts'
+import { parseOptions } from './options.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult } from './types.ts'
-import { getWorkloadEvidence, unifiedWorkloads } from './workloads.ts'
+import { corpusEvidence, corpusWorkloads } from './corpus.ts'
+import { communityCatalogFile, tridentDirectory } from './trident-paths.ts'
 
 const json = readBenchmarkDocument
 const writeJson = (path: string, value: unknown) => writeFileSync(path, JSON.stringify(value, null, 2) + '\n', { flag: 'wx' })
@@ -57,9 +58,9 @@ function protocolContext(options: UnifiedRunOptions, inputs: unknown) {
   const root = options.harnessRoot ?? options.root
   // Git object IDs identify committed protocols; compare literal frozen inputs once,
   // rather than hashing our source or maintaining an invalidation version by hand.
-  const code = communityProtocolIdentity(root)
-  const require = createRequire(join(root, 'package.json'))
-  const dependencies = captureInstalledDependencyClosure(join(root, 'eval/benchmark'))
+  const code = communityProtocolIdentity()
+  const require = createRequire(join(tridentDirectory, 'package.json'))
+  const dependencies = captureInstalledDependencyClosure(tridentDirectory)
   const version = (command: string) => {
     try {
       return execFileSync(command, ['--version'], { encoding: 'utf8', timeout: 10_000, stdio: ['ignore', 'pipe', 'pipe'] }).trim()
@@ -97,7 +98,7 @@ function protocolContext(options: UnifiedRunOptions, inputs: unknown) {
       python: binary('python3'),
       driver: process.versions,
       browser: binary(browserPath),
-      observer: communityCliCacheIdentity({ target: options.root, packageRoot: options.packageRoot ?? options.root }, []).observer,
+      observer: communityCliCacheIdentity({ target: options.root, packageRoot: options.packageRoot ?? options.root, observerExecutable: communityObserver(options) }, []).observer,
       environment: Object.fromEntries(['NODE_OPTIONS', 'BUN_OPTIONS', 'NODE_ENV', 'TZ', 'LANG', 'LC_ALL', 'LC_NUMERIC', 'AGENTIC_MERMAID_EXPERIMENTS'].map(name => [name, process.env[name] ?? null])),
       cpuLimit: existsSync('/sys/fs/cgroup/cpu.max') ? readFileSync('/sys/fs/cgroup/cpu.max', 'utf8').trim() : null,
       memoryLimit: existsSync('/sys/fs/cgroup/memory.max') ? readFileSync('/sys/fs/cgroup/memory.max', 'utf8').trim() : null,
@@ -249,7 +250,7 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
   assertBenchmarkExecutionAllowed()
   const driver = options.harnessRoot ?? options.root
   const store = options.communityRecordStore ?? join(driver, 'bench-report/project-records')
-  const catalog = json(options.communityCatalogFile ?? join(driver, 'docs/mermaid-community.json')) as { nodes: CommunityNode[] }
+  const catalog = json(options.communityCatalogFile ?? communityCatalogFile) as { nodes: CommunityNode[] }
   selectCommunityProjects(catalog.nodes, options.communityProjects) // Reject unknown IDs before acquisition.
   const startedAt = now(),
     attempt = join(options.out, 'project-attempts', randomUUID()),
@@ -258,13 +259,12 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
   let inputs: unknown
   if (options.communityInputsFile) inputs = json(options.communityInputsFile)
   else {
-    const enriched = await withReferenceLabels(unifiedWorkloads(options.profile), { root: driver })
+    const enriched = await withReferenceLabels(corpusWorkloads(options.profile), { root: driver })
     inputs = { workloads: [...communityCoreWorkloads(), ...enriched.workloads], reference: enriched.provenance ?? null, gaps: enriched.gaps }
   }
   const inputPath = join(attempt, 'community-inputs.json')
   writeJson(inputPath, inputs)
-  unifiedWorkloads(options.profile)
-  const assertions = Object.fromEntries(((inputs as any).workloads ?? []).map((workload: { id: string }) => [workload.id, getWorkloadEvidence(workload.id) ?? null]))
+  const assertions = Object.fromEntries(((inputs as any).workloads ?? []).map((workload: { id: string }) => [workload.id, corpusEvidence(workload.id) ?? null]))
   const contextValue = protocolContext(options, JSON.parse(JSON.stringify({ literal: inputs, assertions }))),
     context = retainContext(store, contextValue)
   const prepared = await prepareCommunity({ ...options, out: preparation })
@@ -284,7 +284,7 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
       JSON.stringify({
         project: entry.node.id,
         protocol: { context, adapter: entry.node.benchmark ?? null, outputs: entry.node.outputs, browserQualifier: browser.browser?.files?.find(file => file.path === browser.browser?.qualificationHelper)?.sha256 ?? null },
-        artifact: { package: packageIdentity(entry), browser: browser.browser ?? null, browserStatus: browser.browserStatus, cli: communityCliCacheIdentity({ target: options.root, packageRoot: options.packageRoot ?? options.root }, [entry]) },
+        artifact: { package: packageIdentity(entry), browser: browser.browser ?? null, browserStatus: browser.browserStatus, cli: communityCliCacheIdentity({ target: options.root, packageRoot: options.packageRoot ?? options.root, observerExecutable: communityObserver(options) }, [entry]) },
         measurement: contextValue.measurement,
       }),
     )
@@ -325,7 +325,7 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
         // Recheck the admitted artifact after clocks, before publishing a reusable record.
         if (stableValue(packageIdentity(item.entry)) !== stableValue((item.identity.artifact as any).package)) throw Error('Project artifact changed during measurement')
         verifyFrozenBrowserEngine(item.browser)
-        if (stableValue(communityCliCacheIdentity({ target: options.root, packageRoot: options.packageRoot ?? options.root }, [item.entry])) !== stableValue((item.identity.artifact as any).cli)) throw Error('Project CLI artifact changed during measurement')
+        if (stableValue(communityCliCacheIdentity({ target: options.root, packageRoot: options.packageRoot ?? options.root, observerExecutable: communityObserver(options) }, [item.entry])) !== stableValue((item.identity.artifact as any).cli)) throw Error('Project CLI artifact changed during measurement')
         const observations = [...community.observations, ...cli.observations]
         const resultStatus = [community.status, cli.status].includes('failed') ? 'failed' : [community.status, cli.status].includes('blocked') ? 'blocked' : status(observations)
         return {

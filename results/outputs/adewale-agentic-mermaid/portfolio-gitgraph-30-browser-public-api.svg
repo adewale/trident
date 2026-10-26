@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1463.623" height="646.902" viewBox="0 0 1463.623 646.902" style="--bg:#FFFFFF;--fg:#27272A;--font:Inter;background:#FFFFFF" aria-describedby="gitgraph-desc" aria-labelledby="gitgraph-title" aria-roledescription="git graph" role="img">
+<style>
+  text { font-family: var(--font, 'Inter'), system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          #27272A;
+    --_text-sec:      #575759;
+    --_text-muted:    #707072;
+    --_text-faint:    #8a8a8c;
+    --_line:          #939395;
+    --_arrow:         #47474a;
+    --_node-fill:     #f9f9f9;
+    --_node-stroke:   #d4d4d4;
+    --_group-fill:    #FFFFFF;
+    --_group-hdr:     #f4f4f4;
+    --_inner-stroke:  #e5e5e5;
+    --_key-badge:     #e9e9ea;
+  }
+</style>
+<title id="gitgraph-title">Gitflow release history</title>
+<desc id="gitgraph-desc">Develop, feature, release, and hotfix branches merge into main</desc>
+<text class="gitgraph-title" data-id="gitgraph-title" x="731.812" y="24" text-anchor="middle" font-size="16" font-weight="600" fill="#27272A" data-role="title" textLength="276.96" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Gitflow release and emergency hotfix</text>
+<g class="git-branch" data-id="branch:main" data-branch="main" data-role="group">
+  <rect class="git-branch-label-background" x="109.44" y="131.902" width="37.72" height="18" rx="4" fill="#edf4fe" stroke="#3b82f6" stroke-width="1" />
+  <line class="git-branch-line" data-branch="main" x1="157.16" y1="144.902" x2="1284.364" y2="144.902" stroke="#3b82f6" stroke-width="3" opacity="0.86" />
+  <text class="git-branch-label" data-branch="main" x="147.16" y="144.902" text-anchor="end" font-size="12" font-weight="600" fill="#366dc8" textLength="27.72" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">main</text>
+</g>
+<g class="git-branch" data-id="branch:hotfix/security" data-branch="hotfix/security" data-role="group">
+  <rect class="git-branch-label-background" x="54" y="213.902" width="93.16" height="18" rx="4" fill="#e9f0f7" stroke="#0d5ba5" stroke-width="1" />
+  <line class="git-branch-line" data-branch="hotfix/security" x1="157.16" y1="226.902" x2="958.833" y2="226.902" stroke="#0d5ba5" stroke-width="3" opacity="0.86" />
+  <text class="git-branch-label" data-branch="hotfix/security" x="147.16" y="226.902" text-anchor="end" font-size="12" font-weight="600" fill="#0d5ba5" textLength="83.16" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">hotfix/security</text>
+</g>
+<g class="git-branch" data-id="branch:develop" data-branch="develop" data-role="group">
+  <rect class="git-branch-label-background" x="89.28" y="295.902" width="57.88" height="18" rx="4" fill="#f1f3fe" stroke="#5f79f2" stroke-width="1" />
+  <line class="git-branch-line" data-branch="develop" x1="157.16" y1="308.902" x2="669.497" y2="308.902" stroke="#5f79f2" stroke-width="3" opacity="0.86" />
+  <text class="git-branch-label" data-branch="develop" x="147.16" y="308.902" text-anchor="end" font-size="12" font-weight="600" fill="#5468ca" textLength="47.88" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">develop</text>
+</g>
+<g class="git-branch" data-id="branch:feature/login" data-branch="feature/login" data-role="group">
+  <rect class="git-branch-label-background" x="64.08" y="377.902" width="83.08" height="18" rx="4" fill="#e9eff3" stroke="#0a5076" stroke-width="1" />
+  <line class="git-branch-line" data-branch="feature/login" x1="157.16" y1="390.902" x2="525.796" y2="390.902" stroke="#0a5076" stroke-width="3" opacity="0.86" />
+  <text class="git-branch-label" data-branch="feature/login" x="147.16" y="390.902" text-anchor="end" font-size="12" font-weight="600" fill="#0a5076" textLength="73.08" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">feature/login</text>
+</g>
+<g class="git-branch" data-id="branch:release/2.0" data-branch="release/2.0" data-role="group">
+  <rect class="git-branch-label-background" x="69.84" y="459.902" width="77.32" height="18" rx="4" fill="#f5f5fe" stroke="#9592f6" stroke-width="1" />
+  <line class="git-branch-line" data-branch="release/2.0" x1="157.16" y1="472.902" x2="828.695" y2="472.902" stroke="#9592f6" stroke-width="3" opacity="0.86" />
+  <text class="git-branch-label" data-branch="release/2.0" x="147.16" y="472.902" text-anchor="end" font-size="12" font-weight="600" fill="#6c6aab" textLength="67.32" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">release/2.0</text>
+</g>
+<polyline class="git-edge git-edge-parent" data-from="v1" data-to="develop-base" points="219.718,144.902 275.386,144.902 275.386,308.902 331.054,308.902" fill="none" stroke="#5f79f2" stroke-width="2" data-relationship="parent" data-direction="forward" data-id="v1-&gt;develop-base" data-role="edge" role="graphics-symbol" aria-roledescription="relation" aria-label="v1 to develop-base" />
+<polyline class="git-edge git-edge-parent" data-from="develop-base" data-to="login-api" points="331.054,308.902 380.626,308.902 380.626,390.902 430.198,390.902" fill="none" stroke="#0a5076" stroke-width="2" data-relationship="parent" data-direction="forward" data-id="develop-base-&gt;login-api" data-role="edge" role="graphics-symbol" aria-roledescription="relation" aria-label="develop-base to login-api" />
+<polyline class="git-edge git-edge-parent" data-from="login-api" data-to="login-ui" points="430.198,390.902 477.997,390.902 477.997,390.902 525.796,390.902" fill="none" stroke="#0a5076" stroke-width="2" data-relationship="parent" data-direction="forward" data-id="login-api-&gt;login-ui" data-role="edge" role="graphics-symbol" aria-roledescription="relation" aria-label="login-api to login-ui" />
+<polyline class="git-edge git-edge-parent" data-from="develop-base" data-to="merge-login" points="331.054,308.902 500.276,308.902 500.276,308.902 669.497,308.902" fill="none" stroke="#5f79f2" stroke-width="2" data-relationship="parent" data-direction="forward" data-id="develop-base-&gt;merge-login" data-role="edge" role="graphics-symbol" aria-roledescription="relation" aria-label="develop-base to merge-login" />
+<polyline class="git-edge git-edge-merge" data-from="login-ui" data-to="merge-login" points="525.796,390.902 597.646,390.902 597.646,308.902 669.497,308.902" fill="none" stroke="#5f79f2" stroke-width="2.5" data-relationship="merge" data-direction="forward" data-id="login-ui-&gt;merge-login" data-role="edge" role="graphics-symbol" aria-roledescription="relation" aria-label="login-ui to merge-login" />
+<polyline class="git-edge git-edge-parent" data-from="merge-login" data-to="rc" points="669.497,308.902 749.096,308.902 749.096,472.902 828.695,472.902" fill="none" stroke="#9592f6" stroke-width="2" data-relationship="parent" data-direction="forward" data-id="merge-login-&gt;rc" data-role="edge" role="graphics-symbol" aria-roledescription="relation" aria-label="merge-login to rc" />
+<polyline class="git-edge git-edge-parent" data-from="v1" data-to="security-fix" points="219.718,144.902 589.275,144.902 589.275,226.902 958.833,226.902" fill="none" stroke="#0d5ba5" stroke-width="2" data-relationship="parent" data-direction="forward" data-id="v1-&gt;security-fix" data-role="edge" role="graphics-symbol" aria-roledescription="relation" aria-label="v1 to security-fix" />
+<polyline class="git-edge git-edge-parent" data-from="v1" data-to="hotfix-merge" points="219.718,144.902 662.345,144.902 662.345,144.902 1104.972,144.902" fill="none" stroke="#3b82f6" stroke-width="2" data-relationship="parent" data-direction="forward" data-id="v1-&gt;hotfix-merge" data-role="edge" role="graphics-symbol" aria-roledescription="relation" aria-label="v1 to hotfix-merge" />
+<polyline class="git-edge git-edge-merge" data-from="security-fix" data-to="hotfix-merge" points="958.833,226.902 1031.903,226.902 1031.903,144.902 1104.972,144.902" fill="none" stroke="#3b82f6" stroke-width="2.5" data-relationship="merge" data-direction="forward" data-id="security-fix-&gt;hotfix-merge" data-role="edge" role="graphics-symbol" aria-roledescription="relation" aria-label="security-fix to hotfix-merge" />
+<polyline class="git-edge git-edge-parent" data-from="hotfix-merge" data-to="release-merge" points="1104.972,144.902 1194.668,144.902 1194.668,144.902 1284.364,144.902" fill="none" stroke="#3b82f6" stroke-width="2" data-relationship="parent" data-direction="forward" data-id="hotfix-merge-&gt;release-merge" data-role="edge" role="graphics-symbol" aria-roledescription="relation" aria-label="hotfix-merge to release-merge" />
+<polyline class="git-edge git-edge-merge" data-from="rc" data-to="release-merge" points="828.695,472.902 1056.529,472.902 1056.529,144.902 1284.364,144.902" fill="none" stroke="#3b82f6" stroke-width="2.5" data-relationship="merge" data-direction="forward" data-id="rc-&gt;release-merge" data-role="edge" role="graphics-symbol" aria-roledescription="relation" aria-label="rc to release-merge" />
+<g class="git-commit type-normal" data-id="v1" data-branch="main" data-commit-type="NORMAL" data-role="node">
+  <circle cx="219.718" cy="144.902" r="8" fill="#dce9fd" stroke="#3b82f6" stroke-width="2" />
+  <rect class="git-commit-label-background" x="157.046" y="157.902" width="125.343" height="17" rx="3" fill="#FFFFFF" fill-opacity="0.94" stroke="#3b82f6" stroke-width="0.75" transform="rotate(45 219.718 168.902)" />
+  <text class="git-commit-label" x="219.718" y="168.902" text-anchor="middle" font-size="11" fill="#575759" transform="rotate(45 219.718 168.902)" textLength="96.096" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Production baseline</text>
+  <rect class="git-tag-background" x="229.718" y="117.902" width="36.7" height="15" rx="4" fill="#edf4fe" stroke="#3b82f6" stroke-width="0.75" />
+  <text class="git-tag" x="233.718" y="128.902" text-anchor="start" font-size="10" font-weight="600" fill="#366dc8" textLength="26.7" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">v1.0.0</text>
+</g>
+<g class="git-commit type-normal" data-id="develop-base" data-branch="develop" data-commit-type="NORMAL" data-role="node">
+  <circle cx="331.054" cy="308.902" r="8" fill="#e2e7fd" stroke="#5f79f2" stroke-width="2" />
+  <rect class="git-commit-label-background" x="278.728" y="321.902" width="104.652" height="17" rx="3" fill="#FFFFFF" fill-opacity="0.94" stroke="#5f79f2" stroke-width="0.75" transform="rotate(45 331.054 332.902)" />
+  <text class="git-commit-label" x="331.054" y="332.902" text-anchor="middle" font-size="11" fill="#575759" transform="rotate(45 331.054 332.902)" textLength="76.494" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Open next cycle</text>
+</g>
+<g class="git-commit type-normal" data-id="login-api" data-branch="feature/login" data-commit-type="NORMAL" data-role="node">
+  <circle cx="430.198" cy="390.902" r="8" fill="#d3e0e6" stroke="#0a5076" stroke-width="2" />
+  <rect class="git-commit-label-background" x="384.769" y="403.902" width="90.858" height="17" rx="3" fill="#FFFFFF" fill-opacity="0.94" stroke="#0a5076" stroke-width="0.75" transform="rotate(45 430.198 414.902)" />
+  <text class="git-commit-label" x="430.198" y="414.902" text-anchor="middle" font-size="11" fill="#575759" transform="rotate(45 430.198 414.902)" textLength="63.426" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Add login API</text>
+</g>
+<g class="git-commit type-highlight" data-id="login-ui" data-branch="feature/login" data-commit-type="HIGHLIGHT" data-role="node">
+  <rect x="516.796" y="381.902" width="18" height="18" rx="2" ry="2" fill="#0a5076" stroke="#0a5076" stroke-width="2" />
+  <rect class="git-commit-label-background" x="478.486" y="403.902" width="94.62" height="17" rx="3" fill="#FFFFFF" fill-opacity="0.94" stroke="#0a5076" stroke-width="0.75" transform="rotate(45 525.796 414.902)" />
+  <text class="git-commit-label" x="525.796" y="414.902" text-anchor="middle" font-size="11" fill="#575759" transform="rotate(45 525.796 414.902)" textLength="66.99" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Finish login UI</text>
+</g>
+<g class="git-commit type-merge" data-id="merge-login" data-branch="develop" data-commit-type="MERGE" data-role="node">
+  <circle cx="669.497" cy="308.902" r="10" fill="#5f79f2" stroke="#5f79f2" stroke-width="2" />
+  <circle cx="669.497" cy="308.902" r="5" fill="none" stroke="#FFFFFF" stroke-width="1.5" />
+  <rect class="git-commit-label-background" x="556.039" y="321.902" width="226.917" height="17" rx="3" fill="#FFFFFF" fill-opacity="0.94" stroke="#5f79f2" stroke-width="0.75" transform="rotate(45 669.497 332.902)" />
+  <text class="git-commit-label" x="669.497" y="332.902" text-anchor="middle" font-size="11" fill="#575759" transform="rotate(45 669.497 332.902)" textLength="192.324" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">merged branch feature/login into develop</text>
+  <rect class="git-tag-background" x="679.497" y="281.902" width="85.3" height="15" rx="4" fill="#f1f3fe" stroke="#5f79f2" stroke-width="0.75" />
+  <text class="git-tag" x="683.497" y="292.902" text-anchor="start" font-size="10" font-weight="600" fill="#5468ca" textLength="75.3" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">login-integrated</text>
+</g>
+<g class="git-commit type-reverse" data-id="rc" data-branch="release/2.0" data-commit-type="REVERSE" data-role="node">
+  <circle cx="828.695" cy="472.902" r="8" fill="#ecebfd" stroke="#9592f6" stroke-width="2" />
+  <line x1="822.695" y1="466.902" x2="834.695" y2="478.902" stroke="#47474a" stroke-width="2" />
+  <line x1="822.695" y1="478.902" x2="834.695" y2="466.902" stroke="#47474a" stroke-width="2" />
+  <rect class="git-commit-label-background" x="769.786" y="485.902" width="117.819" height="17" rx="3" fill="#FFFFFF" fill-opacity="0.94" stroke="#9592f6" stroke-width="0.75" transform="rotate(45 828.695 496.902)" />
+  <text class="git-commit-label" x="828.695" y="496.902" text-anchor="middle" font-size="11" fill="#575759" transform="rotate(45 828.695 496.902)" textLength="88.968" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Release candidate</text>
+  <rect class="git-tag-background" x="838.695" y="445.902" width="58.9" height="15" rx="4" fill="#f5f5fe" stroke="#9592f6" stroke-width="0.75" />
+  <text class="git-tag" x="842.695" y="456.902" text-anchor="start" font-size="10" font-weight="600" fill="#6c6aab" textLength="48.9" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">v2.0.0-rc.1</text>
+</g>
+<g class="git-commit type-highlight" data-id="security-fix" data-branch="hotfix/security" data-commit-type="HIGHLIGHT" data-role="node">
+  <rect x="949.833" y="217.902" width="18" height="18" rx="2" ry="2" fill="#0d5ba5" stroke="#0d5ba5" stroke-width="2" />
+  <rect class="git-commit-label-background" x="903.685" y="239.902" width="110.295" height="17" rx="3" fill="#FFFFFF" fill-opacity="0.94" stroke="#0d5ba5" stroke-width="0.75" transform="rotate(45 958.833 250.902)" />
+  <text class="git-commit-label" x="958.833" y="250.902" text-anchor="middle" font-size="11" fill="#575759" transform="rotate(45 958.833 250.902)" textLength="81.84" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Patch production</text>
+</g>
+<g class="git-commit type-merge" data-id="hotfix-merge" data-branch="main" data-commit-type="MERGE" data-role="node">
+  <circle cx="1104.972" cy="144.902" r="10" fill="#3b82f6" stroke="#3b82f6" stroke-width="2" />
+  <circle cx="1104.972" cy="144.902" r="5" fill="none" stroke="#FFFFFF" stroke-width="1.5" />
+  <rect class="git-commit-label-background" x="995.902" y="157.902" width="218.139" height="17" rx="3" fill="#FFFFFF" fill-opacity="0.94" stroke="#3b82f6" stroke-width="0.75" transform="rotate(45 1104.972 168.902)" />
+  <text class="git-commit-label" x="1104.972" y="168.902" text-anchor="middle" font-size="11" fill="#575759" transform="rotate(45 1104.972 168.902)" textLength="184.008" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">merged branch hotfix/security into main</text>
+  <rect class="git-tag-background" x="1114.972" y="117.902" width="33.1" height="15" rx="4" fill="#edf4fe" stroke="#3b82f6" stroke-width="0.75" />
+  <text class="git-tag" x="1118.972" y="128.902" text-anchor="start" font-size="10" font-weight="600" fill="#366dc8" textLength="23.1" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">v1.0.1</text>
+</g>
+<g class="git-commit type-merge" data-id="release-merge" data-branch="main" data-commit-type="MERGE" data-role="node">
+  <circle cx="1284.364" cy="144.902" r="10" fill="#3b82f6" stroke="#3b82f6" stroke-width="2" />
+  <circle cx="1284.364" cy="144.902" r="5" fill="none" stroke="#FFFFFF" stroke-width="1.5" />
+  <rect class="git-commit-label-background" x="1182.192" y="157.902" width="204.345" height="17" rx="3" fill="#FFFFFF" fill-opacity="0.94" stroke="#3b82f6" stroke-width="0.75" transform="rotate(45 1284.364 168.902)" />
+  <text class="git-commit-label" x="1284.364" y="168.902" text-anchor="middle" font-size="11" fill="#575759" transform="rotate(45 1284.364 168.902)" textLength="170.94" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">merged branch release/2.0 into main</text>
+  <rect class="git-tag-background" x="1294.364" y="117.902" width="40.3" height="15" rx="4" fill="#edf4fe" stroke="#3b82f6" stroke-width="0.75" />
+  <text class="git-tag" x="1298.364" y="128.902" text-anchor="start" font-size="10" font-weight="600" fill="#366dc8" textLength="30.3" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">v2.0.0</text>
+</g>
+</svg>

@@ -3,26 +3,10 @@ import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
 import { BUILTIN_FAMILY_METADATA } from '../../../src/agent/families.ts'
 import type { UnifiedRunOptions } from './types.ts'
+import type { SuiteOptions } from './options.ts'
+import { mermaidOracleDirectory, mermaidUpstreamDirectory } from '../portable/mermaid-oracle.ts'
 
-export interface SuiteOptions extends UnifiedRunOptions {
-  harnessRoot: string
-  packageRoot?: string
-  site?: string
-  ownershipSite?: string
-  candidateTarball?: string
-  candidateSha256?: string
-  baseline?: string
-  baselineRef?: string
-  baselineNpm?: string
-  baselineTarball?: string
-  baselineSha256?: string
-  baselineLock?: string
-  bezelDir?: string
-  mermaidDir?: string
-  referenceDir?: string
-  liveProvider?: string
-  liveModel?: string
-}
+export type { SuiteOptions } from './options.ts'
 export interface SuiteDefinition {
   id: string
   title: string
@@ -51,8 +35,8 @@ export function benchmarkSuites(options: SuiteOptions): SuiteDefinition[] {
     out = (id: string) => join(options.out, id.replaceAll(':', '-'))
   const pkg = json(join(root, 'package.json')) as { scripts: Record<string, string> }
   const built = existsSync(join(options.packageRoot ?? options.root, 'dist/index.js'))
-  const upstream = options.mermaidDir ?? process.env.MERMAID_UPSTREAM_DIR ?? resolve(root, '../mermaid')
-  const reference = options.referenceDir ?? process.env.MERMAID_REFERENCE_DIR ?? resolve(root, '../mermaid-reference')
+  const upstream = options.mermaidDir ?? mermaidUpstreamDirectory()
+  const reference = options.referenceDir ?? mermaidOracleDirectory()
   const referenceMissing = [!existsSync(join(upstream, 'packages/mermaid/package.json')) && `Pinned Mermaid source missing: ${upstream}`, !existsSync(join(reference, 'node_modules/mermaid/package.json')) && `Independent Mermaid installation missing: ${reference}`].filter((x): x is string => Boolean(x))
   const site = options.site ?? join(root, 'website/public')
   const siteMissing = existsSync(join(site, 'editor/index.html')) ? [] : [`Built editor missing: ${site}; run bun run website`]

@@ -4,7 +4,7 @@ import { randomUUID } from 'node:crypto'
 import { appendFileSync, existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, rmSync, writeFileSync, openSync, closeSync, unlinkSync } from 'node:fs'
 import { join, resolve, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { portableCases, PORTABLE_COHORT_PROTOCOL, type PortableCohort } from './cohorts.ts'
+import { FAMILY_SUPPORT_PROTOCOL, familySupportProbe, portableCases, PORTABLE_COHORT_PROTOCOL, type PortableCase, type PortableCohort } from './cohorts.ts'
 import { environmentIdentity } from './environment.ts'
 import { artifactIdentity, byteDigest, harnessIdentity, portableDirectory, readJson, resolveArtifact } from './artifacts.ts'
 import { activateProjectRecord, findProjectRecord, inspectCurrentProjectRecords, publishProjectRecord, writeProjectBenchmarkRecord, stableValue, type ProjectBenchmarkIdentity, type ProjectBenchmarkRecord } from './project-records.ts'
@@ -14,6 +14,8 @@ import { portableMarkdown, portableSummary } from './report.ts'
 import type { BenchmarkObservation } from './observation.ts'
 import type { UsageEvidence } from './costs.ts'
 import { assertBenchmarkToolVersion } from '../tool-versions.ts'
+import { defaultTimeObserver } from './time-observer.ts'
+import { assertMermaidOracle, assertOracleAgrees, MERMAID_ORACLE_PIN } from './mermaid-oracle.ts'
 
 export interface PortableOptions {
   project: string
@@ -31,6 +33,7 @@ export interface PortableOptions {
   maximumControlSpread: number
   cohorts?: PortableCohort[]
   observer?: string
+  mermaidReference?: string
   usage?: string
   cpuHourUsd?: number
   force: boolean
@@ -42,7 +45,7 @@ import { assertBenchmarkExecutionAllowed as assertPortableLocal } from './ci-pol
 export function parsePortableOptions(argv: string[]): PortableOptions {
   const flags = new Set(['--force', '--plan', '--allow-partial']),
     values = new Map<string, string>()
-  const allowed = new Set(['project', 'artifact-root', 'adapter', 'entry', 'node', 'out', 'records', 'rounds', 'samples', 'cold-samples', 'min-sample-ms', 'preparation-concurrency', 'maximum-control-spread', 'cohort', 'observer', 'usage', 'cpu-hour-usd'])
+  const allowed = new Set(['project', 'artifact-root', 'adapter', 'entry', 'node', 'out', 'records', 'rounds', 'samples', 'cold-samples', 'min-sample-ms', 'preparation-concurrency', 'maximum-control-spread', 'cohort', 'observer', 'mermaid-reference', 'usage', 'cpu-hour-usd'])
   for (let index = 0; index < argv.length; index++) {
     const flag = argv[index]!
     if (values.has(flag)) throw Error('Duplicate option ' + flag)
@@ -84,7 +87,8 @@ export function parsePortableOptions(argv: string[]): PortableOptions {
     preparationConcurrency: integer('--preparation-concurrency', 8),
     maximumControlSpread: decimal('--maximum-control-spread', 0.25),
     cohorts,
-    observer: values.has('--observer') ? resolve(values.get('--observer')!) : defaultObserver(),
+    observer: values.has('--observer') ? resolve(values.get('--observer')!) : defaultTimeObserver(),
+    mermaidReference: values.has('--mermaid-reference') ? resolve(values.get('--mermaid-reference')!) : undefined,
     usage: values.has('--usage') ? resolve(values.get('--usage')!) : undefined,
     cpuHourUsd: values.has('--cpu-hour-usd') ? decimal('--cpu-hour-usd', 0) : undefined,
     force: values.has('--force'),
@@ -95,18 +99,8 @@ export function parsePortableOptions(argv: string[]): PortableOptions {
 const now = () => new Date().toISOString()
 const writeJson = (file: string, value: unknown) => writeFileSync(file, JSON.stringify(value, null, 2) + '\n', { flag: 'wx' })
 const jsonValue = <T>(value: T): T => JSON.parse(JSON.stringify(value))
-// BSD /usr/bin/time (macOS) is not GNU time; only an explicit --observer must be GNU.
-function defaultObserver() {
-  if (!existsSync('/usr/bin/time')) return undefined
-  try {
-    return /GNU\s*Time/i.test(execFileSync('/usr/bin/time', ['--version'], { encoding: 'utf8', timeout: 10_000, stdio: ['ignore', 'pipe', 'ignore'] })) ? '/usr/bin/time' : undefined
-  } catch {
-    return undefined
-  }
-}
-
 function observerIdentity(path?: string) {
-  if (!path) return { status: 'unavailable', path: null, detail: 'GNU time not configured; current API snapshots still execute' }
+  if (!path) return { status: 'unavailable', path: null, detail: 'No GNU time configured or found (/usr/bin/time, gtime on PATH); current API snapshots still execute' }
   const version = execFileSync(path, ['--version'], { encoding: 'utf8', timeout: 10_000 }).trim()
   if (!/GNU\s*Time/i.test(version)) throw Error('Resource observer must be GNU time')
   return { status: 'available', path, version, sha256: byteDigest(path) }
@@ -117,22 +111,40 @@ function listFiles(directory: string, root = directory): string[] {
     .flatMap(entry => (entry.isDirectory() ? listFiles(join(directory, entry.name), root) : entry.isFile() ? [relative(root, join(directory, entry.name))] : []))
     .sort()
 }
-function observations(project: string, results: PortableWorkerResult[]): BenchmarkObservation[] {
-  return results.flatMap<BenchmarkObservation>(result => {
+function observations(project: string, cases: PortableCase[], results: PortableWorkerResult[]): BenchmarkObservation[] {
+  const rejected = new Map(results.filter(result => result.mode === 'probe' && result.status === 'unsupported').map(result => [result.family, result]))
+  // Cases of a rejected family were never run; each keeps one unsupported row naming the probe.
+  const unrun = cases.flatMap<BenchmarkObservation>(testCase => {
+    const probe = rejected.get(testCase.family)
+    return probe ? [{ suite: 'portable-community', surface: 'node:public-svg', runtime: `node:${probe.runtime.node}`, family: testCase.family, caseId: testCase.id, format: 'svg', operation: 'render', mode: 'family-unsupported', status: 'unsupported', detail: `Not run: the renderer rejected ${probe.caseId}: ${probe.error}`, metrics: { implementation: project } }] : []
+  })
+  return [...results.flatMap<BenchmarkObservation>(result => {
     const status = result.status === 'partial' ? ('blocked' as const) : result.status
     const metrics = { implementation: project, round: result.round, replica: result.replica, sample: result.sample, accepted: result.qualification?.accepted ?? null, semanticComplete: result.qualification?.semanticComplete ?? false }
     const base = { suite: 'portable-community', surface: 'node:public-svg', runtime: `node:${result.runtime.node}`, family: result.family, caseId: result.caseId, format: 'svg', status, detail: result.qualification?.scope ?? result.error }
+    if (result.mode === 'probe') return [{ ...base, operation: 'family-support', mode: 'probe', detail: result.error, metrics: { ...metrics, metricId: `probe:${result.family}` } }]
     if (result.mode === 'baseline' || result.mode === 'memory' || result.mode === 'retention') return [{ ...base, operation: 'resource-diagnostic', mode: result.mode, metrics: { ...metrics, metricId: `${result.mode}:${result.round}:${result.replica}:${result.sample}` } }]
     return Object.entries(result.tracks).map(([track, samples]) => ({ ...base, operation: 'render', mode: `${result.replica}:${track}`, samplesMs: samples, metrics: { ...metrics, metricId: `${track}:${result.round}:${result.replica}:${result.sample}` } }))
-  })
+  }), ...unrun]
 }
 export async function runPortable(options: PortableOptions) {
+  if (options.mermaidReference) process.env.MERMAID_REFERENCE_DIR = options.mermaidReference
   assertPortableLocal()
   resetPortableCancellation()
   const testCases = portableCases(options.cohorts),
     artifact = resolveArtifact(options.project, options.artifactRoot, options.adapter, options.node, options.entry)
   assertBenchmarkToolVersion(options.project, artifact.version, 'portable SVG artifact')
   if (!testCases.length) throw Error('No selected cases')
+  // The pinned Mermaid must agree with every authored source and family probe before any clock.
+  const probes = [...new Set(testCases.map(testCase => testCase.family))].flatMap(family => familySupportProbe(family) ?? [])
+  const diagramTypes = await assertOracleAgrees(
+    assertMermaidOracle(),
+    [...testCases, ...probes].flatMap(testCase => [
+      { id: testCase.id, source: testCase.source, accept: testCase.expected.accept },
+      ...(testCase.prelude ?? []).map((prelude, index) => ({ id: `${testCase.id}#prelude${index}`, source: prelude.source, accept: prelude.accept })),
+      ...(testCase.edit ? [{ id: `${testCase.id}#edit`, source: testCase.edit.source, accept: testCase.edit.expected.accept }] : []),
+    ]),
+  )
   const sampling = {
     rounds: options.rounds,
     samples: options.samples,
@@ -151,7 +163,7 @@ export async function runPortable(options: PortableOptions) {
   const identity: ProjectBenchmarkIdentity = jsonValue({
     project: options.project,
     lane: 'portable-svg',
-    protocol: { measurement: PORTABLE_MEASUREMENT_PROTOCOL, cohort: PORTABLE_COHORT_PROTOCOL, harness: harnessIdentity(), cases: testCases },
+    protocol: { measurement: PORTABLE_MEASUREMENT_PROTOCOL, cohort: PORTABLE_COHORT_PROTOCOL, harness: harnessIdentity(), cases: testCases, familySupport: { protocol: FAMILY_SUPPORT_PROTOCOL, probes, oracle: { pin: MERMAID_ORACLE_PIN, diagramTypes: Object.fromEntries(probes.map(probe => [probe.family, diagramTypes[probe.id] ?? null])) } } },
     artifact: artifactIdentity(artifact),
     measurement: { sampling: Object.fromEntries(Object.entries(sampling).filter(([key]) => key !== 'maximumControlSpread')), environment: environmentIdentity(options.node), observer: observerIdentity(options.observer) },
   })
@@ -195,7 +207,7 @@ export async function runPortable(options: PortableOptions) {
       }
       await measurePortableProject(artifact, testCases, options, directory, retain)
       assertIdentityStable()
-      const actualObservations = observations(options.project, results)
+      const actualObservations = observations(options.project, testCases, results)
       const finishedAt = now()
       record = {
         schemaVersion: 1,
@@ -262,7 +274,7 @@ export async function runPortable(options: PortableOptions) {
 export async function main(argv = process.argv.slice(2)) {
   if (argv.length === 1 && argv[0] === '--help') {
     console.log(
-      'node portable/run.ts --project obsidianmd/pele --artifact-root INSTALLED_PACKAGE [--adapter pele|agentic|beautiful|ondine] [--out DIR] [--records DIR] [--rounds 5 --samples 31 --cold-samples 20] [--cohort family,scaling,adversarial,invalid] [--observer GNU_TIME] [--usage OBSERVED_USAGE_JSON] [--cpu-hour-usd RATE] [--plan] [--force] [--allow-partial]\nDefaults: five rounds,31 warm sample means,20 fresh processes per replica/round/case. Imported cold workers prepare concurrently then API calls execute serially behind a barrier. No CI execution and no paid/provider calls. Compiled run.mjs works without a source checkout or Git.',
+      'node portable/run.ts --project obsidianmd/pele --artifact-root INSTALLED_PACKAGE [--adapter pele|agentic|beautiful|ondine] [--out DIR] [--records DIR] [--rounds 5 --samples 31 --cold-samples 20] [--cohort family,scaling,adversarial,invalid] [--observer GNU_TIME] [--mermaid-reference PINNED_MERMAID_INSTALL] [--usage OBSERVED_USAGE_JSON] [--cpu-hour-usd RATE] [--plan] [--force] [--allow-partial]\nDefaults: five rounds,31 warm sample means,20 fresh processes per replica/round/case. Imported cold workers prepare concurrently then API calls execute serially behind a barrier. No CI execution and no paid/provider calls. Compiled run.mjs works without a source checkout or Git, and refuses to run without the pinned Mermaid oracle (MERMAID_REFERENCE_DIR, default ../mermaid-reference).',
     )
     return
   }

@@ -57,14 +57,15 @@ export function withAgenticWorkspace<T>(source: string, checks: boolean, use: (w
     mkdirSync(packageDirectory, { recursive: true })
     const files = git(tridentRoot, ['ls-files', '-z', '--cached', '--others', '--exclude-standard']).split('\0').filter(Boolean)
     for (const file of files) {
-      if (!existsSync(join(tridentRoot, file))) continue
+      // Published measurement outputs remain in Trident, outside the source driver.
+      if (file.startsWith('results/') || !existsSync(join(tridentRoot, file))) continue
       const destination = join(packageDirectory, file)
       mkdirSync(dirname(destination), { recursive: true })
       cpSync(join(tridentRoot, file), destination)
     }
     // Generic catalog ownership moved to Trident; the product policy stays in Agentic.
     mkdirSync(join(workspace, 'docs'), { recursive: true })
-    cpSync(join(tridentRoot, 'data/mermaid-community.json'), join(workspace, 'docs/mermaid-community.json'))
+    cpSync(join(tridentRoot, 'catalog/mermaid-community.json'), join(workspace, 'docs/mermaid-community.json'))
     const pkg = read(join(workspace, 'package.json'))
     for (const key of Object.keys(pkg.scripts)) if (key === 'bench' || key.startsWith('bench:') || key === 'check:output-identity') delete pkg.scripts[key]
     Object.assign(pkg.scripts, sourceScripts)

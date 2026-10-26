@@ -10,7 +10,7 @@ import { gzipSync } from 'node:zlib'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { assertBenchmarkSetVersions } from '../tool-versions.ts'
 import { baselineMeasurementContext } from '../unified/baseline-measurement-context.ts'
-import { executableIdentity } from '../unified/benchmark-context.ts'
+import { defaultChromium, executableIdentity } from '../unified/benchmark-context.ts'
 import type { PreparedCommunityBrowser, CommunityBrowserEngine } from '../unified/community-browser.ts'
 import { qualifyOutput } from '../unified/qualification.ts'
 import { runRetainedSuite } from '../unified/retained-suite.ts'
@@ -22,6 +22,7 @@ import { inspectFidelityPaint } from './paint.ts'
 import { inspectQuantitativePaint } from './paint-values.ts'
 import { expandedFidelityCases } from './cases.ts'
 import type { FidelityRunOptions } from './run.ts'
+import { communityCatalogFile } from '../unified/trident-paths.ts'
 
 export interface CommunityFidelityOptions extends FidelityRunOptions { communityFidelityPng?: 'basic-families' | 'none' }
 const core = new Set(['adewale/agentic-mermaid', 'obsidianmd/pele', 'mermaid-js/mermaid'])
@@ -53,7 +54,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
   const startedAt = new Date().toISOString(), root = resolve(options.harnessRoot ?? options.root), out = resolve(options.out)
   if (!options.communityBrowserPreparedFile) throw Error('Community fidelity requires an explicit existing frozen browser-prepared manifest')
   const preparedFile = resolve(options.communityBrowserPreparedFile), prepared = JSON.parse(readFileSync(preparedFile, 'utf8')) as PreparedCommunityBrowser[]
-  const catalogFile = resolve(options.communityCatalogFile ?? join(root, 'docs/mermaid-community.json')), catalog = JSON.parse(readFileSync(catalogFile, 'utf8'))
+  const catalogFile = resolve(options.communityCatalogFile ?? communityCatalogFile), catalog = JSON.parse(readFileSync(catalogFile, 'utf8'))
   const nodes = catalog.nodes as PreparedCommunityBrowser['node'][]
   if (!Array.isArray(prepared) || !Array.isArray(nodes) || new Set(nodes.map(node => node.id)).size !== nodes.length || new Set(prepared.map(peer => peer.node.id)).size !== prepared.length) throw Error('Community catalog/prepared identities must be unique arrays')
   const unknown = options.communityProjects?.filter(id => !nodes.some(node => node.id === id)); if (unknown?.length) throw Error('Unknown community projects: ' + unknown.join(', '))
@@ -75,7 +76,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
     boundaries.push({ project: node.id, selected, catalogOutputs: node.outputs, status, reason, ...(peer?.browser ? { kind: peer.browser.kind, version: peer.browser.version, artifactSha256: peer.browser.artifactSha256 } : {}) })
   }
   const toolVersions = assertBenchmarkSetVersions(targets.map(({ peer, admission }) => ({ tool: peer.node.id, version: admission.version, source: admission.entry })))
-  const require = createRequire(join(root, 'eval/benchmark/package.json')), { chromium } = require('playwright'), executable = options.executable ?? '/usr/bin/chromium'
+  const require = createRequire(join(root, 'eval/benchmark/package.json')), { chromium } = require('playwright'), executable = options.executable ?? defaultChromium(chromium)
   let browser: any
   const getBrowser = async () => browser ??= await chromium.launch({ headless: true, executablePath: executable })
   const results: UnifiedSuiteResult[] = [], aliases = new Map<string, { project: string; result: UnifiedSuiteResult }>()

@@ -1,5 +1,7 @@
 import { describe, expect, test } from 'bun:test'
-import { qualifyOutput } from '../unified/qualification.ts'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { qualifyOutput, withReferenceLabels } from '../unified/qualification.ts'
 import type { UnifiedWorkload } from '../unified/types.ts'
 
 const workload = (labels: string[]): UnifiedWorkload => ({ id: 'authored-output-admission', family: 'flowchart', source: 'flowchart LR', features: [], provenance: 'independently authored qualification examples', expectedLabels: labels })
@@ -53,4 +55,17 @@ test('source code fallbacks never qualify as rendered SVG or terminal diagrams',
   expect(qualifyOutput(w, svgDocument('<text>flowchart LR</text><text>A[Start] --&gt; B[End]</text>'), 'svg').ok).toBe(false)
   expect(qualifyOutput(w, svgDocument('<metadata>flowchart LR A[Start] --&gt; B[End]</metadata><text>Start</text><text>End</text>'), 'svg').ok).toBe(true)
   expect(qualifyOutput(w, source, 'source').ok).toBe(true)
+})
+
+test('community labels refuse to load without the pinned Mermaid oracle, instead of passing cases unchecked', async () => {
+  const workload = { id: 'labelled', family: 'flowchart', source: 'flowchart LR\nA[Alpha]', features: [], provenance: 'authored refusal fixture' }
+  const saved = { directory: process.env.MERMAID_REFERENCE_DIR, admitted: process.env.TRIDENT_MERMAID_ORACLE }
+  process.env.MERMAID_REFERENCE_DIR = join(tmpdir(), 'no-mermaid-oracle-install')
+  delete process.env.TRIDENT_MERMAID_ORACLE
+  try {
+    await expect(withReferenceLabels([workload])).rejects.toThrow('needs the pinned Mermaid oracle')
+  } finally {
+    for (const [name, value] of [['MERMAID_REFERENCE_DIR', saved.directory], ['TRIDENT_MERMAID_ORACLE', saved.admitted]] as const) if (value === undefined) delete process.env[name]
+    else process.env[name] = value
+  }
 })

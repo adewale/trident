@@ -11,7 +11,18 @@ export interface CommunityBenchmarkConfig {
   sourcePin?: string
   entry?: string
   runtime?: string
+  /** The declared adapter's binding per output: no harness code for that tool. */
+  api?: Record<string, DeclaredBinding>
   [key: string]: unknown
+}
+/** One public export that renders a Mermaid source string. */
+export interface DeclaredBinding {
+  /** Dotted path to the function, for example `render` or `default.renderSvg`. */
+  export: string
+  /** A JSON second argument, passed unchanged on every call. */
+  options?: unknown
+  /** The field of the returned object that holds the output, when the return is not the output. */
+  result?: string
 }
 export interface CommunityNode {
   id: string

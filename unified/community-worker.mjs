@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url'
 import { resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
 const job = JSON.parse(fs.readFileSync(process.argv[2], 'utf8')), { prepared, workloads, output } = job, artifact = prepared.artifact, declaredConfig = prepared.node.benchmark, config = { ...declaredConfig, adapter: ['beautiful-source','beautiful-fork'].includes(declaredConfig.sourceAdapter) ? 'beautiful' : ['mermaid-source','mermaid-fork'].includes(declaredConfig.sourceAdapter) ? 'mermaid' : declaredConfig.adapter }
-const { qualifyOutput } = await import(pathToFileURL(job.harnessRoot + '/eval/benchmark/unified/qualification.ts'))
+const { qualifyOutput } = await import(new URL('./qualification.ts', import.meta.url).href), { retainFailedOutput } = await import(new URL('./failure-outputs.ts', import.meta.url).href)
 let extraApi, diagnosticHelpers, diagnosticAdmission, diagnosticAdmissionFailed = false, publicApiAvailable = false, parserAdmission, parserAdmissionFailed = false
 const start = performance.now(), rows = [], cleanups = [], jsonl = job.out + '.jsonl'
 fs.writeFileSync(jsonl, '')
@@ -24,7 +24,10 @@ async function renderer() {
   }
   if (artifact.kind === 'global') { globalThis.self ??= globalThis; await import(pathToFileURL(artifact.module)); if (typeof globalThis[artifact.global] !== 'function') throw Error('Public global API absent: ' + artifact.global); return source => globalThis[artifact.global](source) }
   if (config.adapter === 'mermaid') {
-    const domRequire = createRequire(resolve(process.env.MERMAID_REFERENCE_DIR ?? resolve(job.harnessRoot, '../mermaid-reference'), 'package.json')), { JSDOM } = domRequire('jsdom'), dom = new JSDOM('<!doctype html><body>')
+    const reference = process.env.MERMAID_REFERENCE_DIR ?? resolve(job.harnessRoot, '../mermaid-reference'), domRequire = createRequire(resolve(reference, 'package.json'))
+    let JSDOM
+    try { ({ JSDOM } = domRequire('jsdom')) } catch (error) { throw Error(`Mermaid's Node adapter needs jsdom from the pinned Mermaid reference at ${reference}; run \`bun run reference:mermaid\` in the Agentic checkout or set MERMAID_REFERENCE_DIR (${String(error).split('\n')[0]})`) }
+    const dom = new JSDOM('<!doctype html><body>')
     for (const key of ['window', 'document', 'navigator', 'HTMLElement', 'SVGElement', 'Element', 'Node', 'Option']) Object.defineProperty(globalThis, key, { configurable: true, value: dom.window[key] })
     cleanups.push(() => dom.window.close())
   }
@@ -49,6 +52,7 @@ async function renderer() {
       return output === 'svg' ? source => valueAt(api, ['renderMermaidSVG','renderMermaidSync','renderMermaid'])(source) : source => valueAt(terminal, ['renderMermaidASCII','renderMermaidAscii'])(source, { useAscii: false, colorMode: 'none' })
     }
     case 'pele': return source => api.render(source).svg
+    case 'declared': return (await import(new URL('./declared-adapter.mjs', import.meta.url).href)).declaredRenderer(api, config.api?.[output], output)
     case 'ondine': return source => api.render(source).svg
     case 'mermaid-rs-wasm': return valueAt(module, ['renderSvg', 'default.renderSvg'])
     case 'merman': {
@@ -180,10 +184,10 @@ try {
   progress({ phase: 'ready', importMs })
   for (const workload of workloads) {
     progress({ phase: 'case', id: workload.id })
-    let firstMs
+    let firstMs, sink
     const firstStart = performance.now()
     try {
-      let tick = performance.now(), sink = render(workload.source); if (thenable(sink)) sink = await sink
+      let tick = performance.now(); sink = render(workload.source); if (thenable(sink)) sink = await sink
       firstMs = performance.now() - tick
       const qualification = qualify(sink, workload), bytes = consume(sink), core = workload.features.includes('core-graph-batch')
       if (core && diagnosticAdmissionFailed) {
@@ -205,7 +209,7 @@ try {
       }
       qualify(sink, workload); globalThis.__communitySink = sink
       emit({ runtime: process.versions.bun ? 'Bun ' + process.versions.bun : 'Node ' + process.versions.node, surface: extraApi?.surface, apiBoundary: extraApi?.boundary, id: workload.id, family: workload.family, status: 'passed', samplesMs: samples, medianMs: median(samples), firstMs, bytes, iterations, qualification, ...parserReturn(sink), ...(output === 'diagnostics' ? { diagnosticsCount: diagnosticHelpers.diagnosticSummary(sink).errorCount, diagnosticAccepted: diagnosticHelpers.diagnosticSummary(sink).accepted, diagnosticStatusScope: core ? 'independently-valid-core-admission' : 'operation-completion-without-positive-feature-oracle' } : {}) })
-    } catch (error) { emit({ runtime: process.versions.bun ? 'Bun ' + process.versions.bun : 'Node ' + process.versions.node, surface: extraApi?.surface, apiBoundary: extraApi?.boundary, id: workload.id, family: workload.family, status: !error.qualification && /unsupported|unknown.*diagram|invalid.*header|not.*supported|MERMAN_UNSUPPORTED/i.test(String(error)) ? 'unsupported' : 'failed', firstMs: firstMs ?? performance.now() - firstStart, detail: String(error) }) }
+    } catch (error) { emit({ runtime: process.versions.bun ? 'Bun ' + process.versions.bun : 'Node ' + process.versions.node, surface: extraApi?.surface, apiBoundary: extraApi?.boundary, id: workload.id, family: workload.family, status: 'failed', rejected: !error.qualification, ...(error.qualification ? { outputFile: retainFailedOutput(job.out + '.outputs', prepared.node.id, workload.id, output === 'png' ? 'png' : output === 'svg' ? 'svg' : 'txt', typeof sink === 'string' || sink instanceof Uint8Array ? sink : typeof sink?.svg === 'string' ? sink.svg : undefined) } : {}), firstMs: firstMs ?? performance.now() - firstStart, detail: String(error) }) }
   }
   const memory = { rssBytes: process.memoryUsage().rss, peakRssBytes: process.resourceUsage().maxRSS * 1024 }
   for (const close of cleanups.reverse()) await close()

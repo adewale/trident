@@ -84,7 +84,7 @@ if (import.meta.main) {
     || args.some((arg, index) => index % 2 === 0 && !['--out', '--pages', '--per-page'].includes(arg))) {
     throw new Error('Usage: bun scripts/research/discover-mermaid-community.ts --out <file> [--pages 1..3] [--per-page 1..100]')
   }
-  const graph = JSON.parse(readFileSync(new URL('../data/mermaid-community.json', import.meta.url), 'utf8')) as {
+  const graph = JSON.parse(readFileSync(new URL('../catalog/mermaid-community.json', import.meta.url), 'utf8')) as {
     nodes: Member[]
     method: { discovery: { githubQueries: string[]; npmQueries: string[] } }
   }
@@ -92,7 +92,7 @@ if (import.meta.main) {
   const searches: { service: string; query: string; page: number; total: number; returned: number; incomplete: boolean }[] = []
   const errors: { service: string; query: string; page: number; message: string }[] = []
   const destination = resolve(out)
-  if (destination === resolve(new URL('../data/mermaid-community.json', import.meta.url).pathname)) throw new Error('Discovery cannot overwrite the curated community inventory')
+  if (destination === resolve(new URL('../catalog/mermaid-community.json', import.meta.url).pathname)) throw new Error('Discovery cannot overwrite the curated community inventory')
   for (const query of graph.method.discovery.githubQueries) {
     for (let page = 1; page <= pages; page++) {
       try {

@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'bun:test'
 import { resolve } from 'node:path'
 import { createRequire } from 'node:module'
-import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, relative, sep } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -145,7 +145,7 @@ test('a copied Trident package builds relative outputs and runs its compiled wor
 }, 45_000)
 
 test('Trident lists its own suites against a public source checkout without any Agentic benchmark package', () => {
-  const directory = mkdtempSync(join(tmpdir(), 'trident-agentic-adapter-')),
+  const directory = realpathSync(mkdtempSync(join(tmpdir(), 'trident-agentic-adapter-'))),
     source = join(directory, 'source'),
     command = resolve(dirname(fileURLToPath(import.meta.url)), '../commands.ts')
   try {
@@ -168,6 +168,7 @@ test('Trident lists its own suites against a public source checkout without any 
       expect(suites.filter((item: any) => item.selected).map((item: any) => item.id)).toEqual(['family'])
       expect(suites.some((item: any) => item.id === 'community')).toBe(true)
       expect(existsSync(join(source, 'eval/benchmark'))).toBe(false)
+      expect(existsSync(join(directory, 'cache/agentic-workspace/eval/benchmark/results'))).toBe(false)
       const receipt = JSON.parse(readFileSync(join(directory, 'cache/agentic-workspace/.trident-workspace.json'), 'utf8'))
       expect(receipt.root).toBe(source)
       expect(receipt.revision).toBe(execFileSync('git', ['rev-parse','HEAD'], { cwd: source, encoding: 'utf8' }).trim())

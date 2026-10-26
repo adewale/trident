@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 700 500" style="--bg:#FFFFFF;--fg:#27272A;--font:Inter;background:#FFFFFF;max-width:700px" aria-roledescription="xychart" class="xychart" data-xychart-colors="0" id="mermaid-1xdy24m">
+<style>
+  text { font-family: var(--font, 'Inter'), system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          #27272A;
+    --_text-sec:      #575759;
+    --_text-muted:    #707072;
+    --_text-faint:    #8a8a8c;
+    --_line:          #939395;
+    --_arrow:         #47474a;
+    --_node-fill:     #f9f9f9;
+    --_node-stroke:   #d4d4d4;
+    --_group-fill:    #FFFFFF;
+    --_group-hdr:     #f4f4f4;
+    --_inner-stroke:  #e5e5e5;
+    --_key-badge:     #e9e9ea;
+  }
+</style>
+<style>
+  .xychart-grid { stroke: #e1e1e1; stroke-width: 1; }
+  .xychart-axis-line { fill: none; }
+  .xychart-tick { fill: none; }
+  .xychart-x-axis-line { stroke: #575759; }
+  .xychart-y-axis-line { stroke: #575759; }
+  .xychart-x-tick { stroke: #575759; }
+  .xychart-y-tick { stroke: #575759; }
+  .xychart-bar { stroke: none; }
+  .xychart-line { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .xychart-dot { stroke: #FFFFFF; stroke-width: 2; }
+  .xychart-label { fill: #27272A; }
+  .xychart-x-label { fill: #27272A; }
+  .xychart-y-label { fill: #27272A; }
+  .xychart-axis-title { fill: #27272A; }
+  .xychart-x-axis-title { fill: #27272A; }
+  .xychart-y-axis-title { fill: #27272A; }
+  .xychart-title { fill: #27272A; }
+  .xychart-data-label { fill: #27272A; pointer-events: none; }
+  svg {
+    --xychart-color-0: #3b82f6;
+  }
+  .xychart-bar.xychart-color-0 { fill: #3b82f6; }
+  path.xychart-color-0, line.xychart-color-0 { stroke: #3b82f6; }
+  circle.xychart-color-0 { fill: #3b82f6; }
+</style>
+<line x1="41.78" y1="408.7" x2="700" y2="408.7" class="xychart-grid"/>
+<line x1="41.78" y1="374.28" x2="700" y2="374.28" class="xychart-grid"/>
+<line x1="41.78" y1="339.85" x2="700" y2="339.85" class="xychart-grid"/>
+<line x1="41.78" y1="305.43" x2="700" y2="305.43" class="xychart-grid"/>
+<line x1="41.78" y1="271" x2="700" y2="271" class="xychart-grid"/>
+<line x1="41.78" y1="236.58" x2="700" y2="236.58" class="xychart-grid"/>
+<line x1="41.78" y1="202.15" x2="700" y2="202.15" class="xychart-grid"/>
+<line x1="41.78" y1="167.73" x2="700" y2="167.73" class="xychart-grid"/>
+<line x1="41.78" y1="133.3" x2="700" y2="133.3" class="xychart-grid"/>
+<line x1="41.78" y1="98.88" x2="700" y2="98.88" class="xychart-grid"/>
+<line x1="41.78" y1="64.46" x2="700" y2="64.46" class="xychart-grid"/>
+<line x1="41.78" y1="30.03" x2="700" y2="30.03" class="xychart-grid"/>
+<line x1="41.78" y1="444" x2="700" y2="444" class="xychart-axis-line xychart-x-axis-line" stroke-width="2"/>
+<line x1="151.48" y1="445" x2="151.48" y2="450" class="xychart-tick xychart-x-tick" stroke-width="2"/>
+<line x1="370.89" y1="445" x2="370.89" y2="450" class="xychart-tick xychart-x-tick" stroke-width="2"/>
+<line x1="590.3" y1="445" x2="590.3" y2="450" class="xychart-tick xychart-x-tick" stroke-width="2"/>
+<line x1="40.78" y1="0" x2="40.78" y2="443" class="xychart-axis-line xychart-y-axis-line" stroke-width="2"/>
+<line x1="39.78" y1="408.7" x2="34.78" y2="408.7" class="xychart-tick xychart-y-tick" stroke-width="2"/>
+<line x1="39.78" y1="374.28" x2="34.78" y2="374.28" class="xychart-tick xychart-y-tick" stroke-width="2"/>
+<line x1="39.78" y1="339.85" x2="34.78" y2="339.85" class="xychart-tick xychart-y-tick" stroke-width="2"/>
+<line x1="39.78" y1="305.43" x2="34.78" y2="305.43" class="xychart-tick xychart-y-tick" stroke-width="2"/>
+<line x1="39.78" y1="271" x2="34.78" y2="271" class="xychart-tick xychart-y-tick" stroke-width="2"/>
+<line x1="39.78" y1="236.58" x2="34.78" y2="236.58" class="xychart-tick xychart-y-tick" stroke-width="2"/>
+<line x1="39.78" y1="202.15" x2="34.78" y2="202.15" class="xychart-tick xychart-y-tick" stroke-width="2"/>
+<line x1="39.78" y1="167.73" x2="34.78" y2="167.73" class="xychart-tick xychart-y-tick" stroke-width="2"/>
+<line x1="39.78" y1="133.3" x2="34.78" y2="133.3" class="xychart-tick xychart-y-tick" stroke-width="2"/>
+<line x1="39.78" y1="98.88" x2="34.78" y2="98.88" class="xychart-tick xychart-y-tick" stroke-width="2"/>
+<line x1="39.78" y1="64.46" x2="34.78" y2="64.46" class="xychart-tick xychart-y-tick" stroke-width="2"/>
+<line x1="39.78" y1="30.03" x2="34.78" y2="30.03" class="xychart-tick xychart-y-tick" stroke-width="2"/>
+<path d="M151.48,406.08 L370.89,403.88 L590.3,36.92" class="xychart-line xychart-color-0" data-relationship="series" data-direction="undirected" data-id="series:line-0" data-role="series" />
+<circle cx="151.48" cy="406.08" r="4" class="xychart-dot xychart-color-0" data-value="3.8" data-id="point-label-dot:0:0" data-role="point" />
+<text class="xychart-point-label xychart-color-0" data-label-position="above" x="151.48" y="398.08" text-anchor="middle" font-size="12" fill="#3b82f6" textLength="28.368" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Phi-3</text>
+<circle cx="370.89" cy="403.88" r="4" class="xychart-dot xychart-color-0" data-value="7" data-id="point-label-dot:0:1" data-role="point" />
+<text class="xychart-point-label xychart-color-0" data-label-position="above" x="370.89" y="395.88" text-anchor="middle" font-size="12" fill="#3b82f6" textLength="37.44" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Mistral</text>
+<circle cx="590.3" cy="36.92" r="4" class="xychart-dot xychart-color-0" data-value="540" data-id="point-label-dot:0:2" data-role="point" />
+<text class="xychart-point-label xychart-color-0" data-label-position="above" x="590.3" y="28.92" text-anchor="middle" font-size="12" fill="#3b82f6" textLength="33.552" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">PaLM</text>
+<text x="151.4833333333333" y="460.6" text-anchor="middle" font-size="14" font-weight="400" dy="0.35em" class="xychart-label xychart-x-label" textLength="5.124" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">1</text>
+<text x="370.89" y="460.6" text-anchor="middle" font-size="14" font-weight="400" dy="0.35em" class="xychart-label xychart-x-label" textLength="9.66" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">2</text>
+<text x="590.2966666666666" y="460.6" text-anchor="middle" font-size="14" font-weight="400" dy="0.35em" class="xychart-label xychart-x-label" textLength="9.66" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">3</text>
+<text x="29.779999999999973" y="408.699583488748" text-anchor="end" dominant-baseline="middle" font-size="14" font-weight="400" class="xychart-label xychart-y-label" textLength="9.66" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">0</text>
+<text x="29.779999999999973" y="374.27523933855525" text-anchor="end" dominant-baseline="middle" font-size="14" font-weight="400" class="xychart-label xychart-y-label" textLength="17.22" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">50</text>
+<text x="29.779999999999973" y="339.8508951883626" text-anchor="end" dominant-baseline="middle" font-size="14" font-weight="400" class="xychart-label xychart-y-label" textLength="20.244" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">100</text>
+<text x="29.779999999999973" y="305.4265510381698" text-anchor="end" dominant-baseline="middle" font-size="14" font-weight="400" class="xychart-label xychart-y-label" textLength="20.244" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">150</text>
+<text x="29.779999999999973" y="271.00220688797714" text-anchor="end" dominant-baseline="middle" font-size="14" font-weight="400" class="xychart-label xychart-y-label" textLength="24.78" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">200</text>
+<text x="29.779999999999973" y="236.57786273778441" text-anchor="end" dominant-baseline="middle" font-size="14" font-weight="400" class="xychart-label xychart-y-label" textLength="24.78" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">250</text>
+<text x="29.779999999999973" y="202.1535185875917" text-anchor="end" dominant-baseline="middle" font-size="14" font-weight="400" class="xychart-label xychart-y-label" textLength="24.78" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">300</text>
+<text x="29.779999999999973" y="167.72917443739902" text-anchor="end" dominant-baseline="middle" font-size="14" font-weight="400" class="xychart-label xychart-y-label" textLength="24.78" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">350</text>
+<text x="29.779999999999973" y="133.3048302872063" text-anchor="end" dominant-baseline="middle" font-size="14" font-weight="400" class="xychart-label xychart-y-label" textLength="24.78" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">400</text>
+<text x="29.779999999999973" y="98.88048613701358" text-anchor="end" dominant-baseline="middle" font-size="14" font-weight="400" class="xychart-label xychart-y-label" textLength="24.78" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">450</text>
+<text x="29.779999999999973" y="64.4561419868208" text-anchor="end" dominant-baseline="middle" font-size="14" font-weight="400" class="xychart-label xychart-y-label" textLength="24.78" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">500</text>
+<text x="29.779999999999973" y="30.03179783662813" text-anchor="end" dominant-baseline="middle" font-size="14" font-weight="400" class="xychart-label xychart-y-label" textLength="24.78" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">550</text>
+<text x="370.89" y="495" text-anchor="middle" font-size="16" font-weight="400" dy="0.35em" class="xychart-axis-title xychart-x-axis-title" textLength="80.16" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">xAxisName</text>
+</svg>

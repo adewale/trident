@@ -10,6 +10,7 @@ import { captureInstalledDependencyClosure } from '../portable/artifact-dependen
 import { byteDigest } from '../portable/artifacts.ts'
 import { portableCases } from '../portable/cohorts.ts'
 import { median, quantile } from '../portable/statistics.ts'
+import { defaultTimeObserver } from '../portable/time-observer.ts'
 import { assertBenchmarkToolVersion } from '../tool-versions.ts'
 import { deliveredArtifactIdentity, executableIdentity } from './benchmark-context.ts'
 import { baselineMeasurementContext } from './baseline-measurement-context.ts'
@@ -22,6 +23,7 @@ import { runRetainedSuite } from './retained-suite.ts'
 import { readStableSupportPolicy } from './stable-support.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult } from './types.ts'
 import { inventoryUpstreamTests } from './upstream-test-inventory.ts'
+import { mermaidOracleDirectory, mermaidUpstreamDirectory } from '../portable/mermaid-oracle.ts'
 
 export interface MermaidBaselineCompatibilityOptions extends UnifiedRunOptions {
   parserStartupSamples?: number
@@ -157,8 +159,8 @@ export async function runMermaidBaselineCompatibility(options: MermaidBaselineCo
     harness = options.harnessRoot ?? options.root
   const node = execFileSync(options.nodeExecutable ?? 'node', ['-p', 'process.execPath'], { encoding: 'utf8' }).trim()
   if (!node) throw Error('Node runtime admission returned no executable; check driver/sandbox access before benchmarking')
-  const upstream = options.mermaidDir ?? resolve(harness, '../mermaid'),
-    reference = options.referenceDir ?? resolve(harness, '../mermaid-reference')
+  const upstream = options.mermaidDir ?? mermaidUpstreamDirectory(),
+    reference = options.referenceDir ?? mermaidOracleDirectory()
   const pin = admitCurrentReference(upstream, reference)
   const policy = readStableSupportPolicy(join(harness, 'docs/project/upstream-mermaid-policy.json')) as any
   const expectedTypes = (family: string) => [...new Set<string>([family, ...(policy.families.find((row: any) => row.id === family)?.upstreamDetectorIds ?? [])])].sort()
@@ -199,7 +201,7 @@ export async function runMermaidBaselineCompatibility(options: MermaidBaselineCo
   }
   const out = options.out
   mkdirSync(out, { recursive: true })
-  const observer = options.observerExecutable ?? options.portableObserver ?? '/usr/bin/time'
+  const observer = options.observerExecutable ?? options.portableObserver ?? defaultTimeObserver() ?? '/usr/bin/time'
   const observerIdentity = executableIdentity(observer)
   const plan = { schemaVersion: 1, protocol, pin, settings, bindings: bindings.length, uniqueInputs: cases.length, cases, targets: targetList, unavailableTargets, retainedOriginalAssertions: original }
   if (options.parserPlan) {
