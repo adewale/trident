@@ -1,5 +1,12 @@
 # Trident benchmark suite
 
+Source commands with a `bench:*` prefix below run through Agentic's pinned
+Trident launcher. In Trident itself, use `commands.ts` with an explicit
+`TRIDENT_AGENTIC_ROOT`; see [setup](README.md#optional-agentic-source-adapter).
+Historical workspace paths describe original evidence locations, not setup
+prerequisites. The [included example](examples/fidelity-2026-10-26/README.md)
+can regenerate dated fidelity charts without those locations.
+
 Trident is being prepared for extraction into its own project. Its compiled
 artifact runner and report readers work without Agentic source; repository
 diagnostics remain an explicit optional adapter.

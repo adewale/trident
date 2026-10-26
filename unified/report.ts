@@ -33,6 +33,7 @@ export interface UnifiedReport {
   driverRoot: string
   targetRoot: string
   packageRoot?: string
+  sourceWorkspace?: Record<string, unknown>
   driverRevision?: string
   targetRevision?: string
   driverDirty: boolean | null

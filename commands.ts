@@ -2,6 +2,8 @@ import { spawnSync } from 'node:child_process'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import sourceScripts from './integration/agentic-scripts.json' with { type: 'json' }
+import { withAgenticWorkspace } from './integration/workspace.ts'
 import { assertBenchmarkExecutionAllowed } from './ci-policy.ts'
 
 const directory = dirname(fileURLToPath(import.meta.url))
@@ -21,8 +23,8 @@ Optional Agentic Mermaid source adapter (Bun):
   bun commands.ts community [options]
   bun commands.ts community:update [options]
   bun commands.ts prs [options]
-Set TRIDENT_AGENTIC_ROOT to an Agentic Mermaid checkout. Its owning protocols run
-there. The containing checkout is detected only when its package name is
+Set TRIDENT_AGENTIC_ROOT to an Agentic Mermaid checkout. Trident assembles its owning protocols beside that public source in a disposable
+workspace. No old Agentic benchmark package or session files are required. The containing checkout is detected only when its package name is
 agentic-mermaid. AM_BENCH_REPOSITORY_ROOT remains a compatibility alias.
 
 Aliases: bench=agentic, portable:build=build. portable keeps legacy source-mode
@@ -43,8 +45,29 @@ function sourceCheckout(): string {
   return candidate
 }
 
+function sourceEnvironment(root: string, workspace: string): NodeJS.ProcessEnv {
+  return { ...process.env, TRIDENT_AGENTIC_ROOT: workspace, MERMAID_UPSTREAM_DIR: process.env.MERMAID_UPSTREAM_DIR ?? resolve(root, '../mermaid'), MERMAID_REFERENCE_DIR: process.env.MERMAID_REFERENCE_DIR ?? resolve(root, '../mermaid-reference') }
+}
+
+function externalPaths(args: string[]): string[] {
+  const paths = new Set(['--out', '--records', '--benchmark-records', '--community-records', '--json', '--markdown', '--target', '--package-root', '--site', '--ownership-site', '--candidate-tarball', '--baseline-tarball', '--baseline-lock', '--mermaid-dir', '--reference-dir', '--zenuml-root', '--upstream-runner-root', '--community-artifacts', '--community-prepared', '--community-inputs', '--community-browser-prepared', '--community-catalog', '--community-qualification-assets', '--portable-artifact-root', '--benchmark-resume-attempt'])
+  return args.map((value, index) => index > 0 && paths.has(args[index - 1]!) && !value.startsWith('--') ? resolve(value) : value)
+}
+
 async function main() {
   const [command, ...args] = process.argv.slice(2)
+  if (command === 'source') {
+    const id = args.shift()
+    if (!id || !Object.hasOwn(sourceScripts, id)) throw Error('Choose a declared source diagnostic: ' + Object.keys(sourceScripts).join(', '))
+    assertBenchmarkExecutionAllowed()
+    const root = sourceCheckout()
+    withAgenticWorkspace(root, false, workspace => {
+      const result = spawnSync(process.execPath, ['run', id, ...externalPaths(args)], { cwd: workspace, stdio: 'inherit', env: sourceEnvironment(root, workspace) })
+      if (result.error) throw result.error
+      process.exitCode = result.status ?? 1
+    })
+    return
+  }
   if (!command || command === '--help' || command === 'help') {
     console.log(help)
     return
@@ -91,12 +114,26 @@ async function main() {
     if (!existsSync(compiled) || !existsSync(resolve(directory, 'portable/dist/harness-artifact.json'))) throw Error('Trident compiled kit is missing. Run node commands.ts build first; a custom --out kit runs via node KIT/run.mjs.')
     executable = process.env.NODE_BIN ?? (process.versions.bun ? 'node' : process.execPath)
     argv = [compiled]
-  } else if (source[selected] || selected === 'test') {
+  } else if (source[selected] || selected === 'test' || selected === 'typecheck') {
     cwd = sourceCheckout()
     if (!process.versions.bun) throw Error('The optional Agentic source adapter and maintainer tests require Bun 1.4 or later. Neutral build/run/fidelity:report accept Node 24.')
-    const script = source[selected] && resolve(cwd, 'eval/benchmark', source[selected]!)
-    if (script && !existsSync(script)) throw Error('The selected Agentic checkout does not contain its owning protocol: ' + script)
-    argv = script ? ['run', script] : checks.test!
+    assertBenchmarkExecutionAllowed()
+    const selectedRoot = cwd
+    const forwarded = externalPaths(args)
+    if (source[selected] && selected !== 'prs') {
+      if (process.env.AM_CHROMIUM_EXECUTABLE && !forwarded.includes('--executable')) forwarded.push('--executable', process.env.AM_CHROMIUM_EXECUTABLE)
+      for (const [flag, value] of [['--target', selectedRoot], ['--mermaid-dir', process.env.MERMAID_UPSTREAM_DIR ?? resolve(selectedRoot, '../mermaid')], ['--reference-dir', process.env.MERMAID_REFERENCE_DIR ?? resolve(selectedRoot, '../mermaid-reference')]]) if (!forwarded.includes(flag!)) forwarded.push(flag!, value!)
+    }
+    if (source[selected] && !forwarded.includes('--out') && !forwarded.includes('--help')) forwarded.push('--out', resolve(selectedRoot, 'bench-report/trident', selected))
+    withAgenticWorkspace(selectedRoot, selected === 'test' || selected === 'typecheck' || args.includes('--list') || args.includes('--help'), workspace => {
+      const packageRoot = resolve(workspace, 'eval/benchmark')
+      const target = source[selected]
+      const command = target ? ['run', resolve(packageRoot, target)] : selected === 'test' ? ['test', '--timeout', '30000', '--parallel=2', resolve(packageRoot, 'tests')] : ['x', '--no-install', 'tsc', '--noEmit', '-p', resolve(packageRoot, 'tsconfig.json')]
+      const result = spawnSync(process.execPath, [...command, ...forwarded], { cwd: workspace, stdio: 'inherit', env: sourceEnvironment(selectedRoot, workspace) })
+      if (result.error) throw result.error
+      process.exitCode = result.status ?? 1
+    })
+    return
   } else if (neutral[selected]) {
     const script = resolve(directory, neutral[selected]!)
     argv = process.versions.bun ? ['run', script] : [script]

@@ -161,8 +161,6 @@ export async function prepareCommunitySource(node: CommunitySourceNode, cacheRoo
     }
   }
   const env: NodeJS.ProcessEnv = { ...process.env, NO_COLOR: '1', TERM: 'dumb' }
-  if (existsSync('/workspace/tooling/cargo')) env.CARGO_HOME ??= '/workspace/tooling/cargo'
-  if (existsSync('/workspace/tooling/rustup')) env.RUSTUP_HOME ??= '/workspace/tooling/rustup'
   env.CARGO_BUILD_JOBS ??= '2'
   env.CARGO_TARGET_DIR = resolve(cache, '.cargo-target')
   env.GOCACHE ??= resolve(cache, '.go-build')
@@ -177,11 +175,11 @@ export async function prepareCommunitySource(node: CommunitySourceNode, cacheRoo
   const executable = resolve(bin, adapter.binary)
   let buildCommand: string[]
   if (adapter.runtime === 'go') {
-    const go = process.env.AM_BENCH_GO ?? (existsSync('/workspace/tooling/go-community/go/bin/go') ? '/workspace/tooling/go-community/go/bin/go' : 'go')
+    const go = process.env.AM_BENCH_GO ?? 'go'
     buildCommand = [go, 'build', '-trimpath', '-o', executable, '.']
     await run(buildCommand, sourceRoot, env, log)
   } else {
-    const cargo = process.env.AM_BENCH_CARGO ?? (existsSync('/workspace/tooling/cargo/bin/cargo') ? '/workspace/tooling/cargo/bin/cargo' : 'cargo')
+    const cargo = process.env.AM_BENCH_CARGO ?? 'cargo'
     buildCommand = [cargo, 'build', '--release', ...(existsSync(resolve(sourceRoot, 'Cargo.lock')) ? ['--locked'] : []), ...(adapter.package ? ['--package', adapter.package] : []), '--bin', adapter.binary]
     await run(buildCommand, sourceRoot, env, log)
     const bytes = readFileSync(resolve(env.CARGO_TARGET_DIR!, 'release', adapter.binary))

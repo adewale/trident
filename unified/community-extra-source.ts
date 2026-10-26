@@ -408,7 +408,7 @@ export async function prepareExtraCommunitySource(node: ExtraSourceNode, cacheRo
   const binary = join(directory, 'bin')
   mkdirSync(binary, { recursive: true })
   if (adapter === 'fork-go-cli' || adapter === 'mermaidtext-go') {
-    const go = executable(process.env.AM_BENCH_GO ?? (existsSync('/workspace/tooling/go-community/go/bin/go') ? '/workspace/tooling/go-community/go/bin/go' : 'go')),
+    const go = executable(process.env.AM_BENCH_GO ?? 'go'),
       output = join(binary, adapter === 'mermaidtext-go' ? 'mermaidtext' : 'mermaid-ascii')
     env.GOCACHE ??= join(resolve(cacheRoot), '.go-build')
     env.GOPATH ??= join(resolve(cacheRoot), '.go')
@@ -457,13 +457,11 @@ export async function prepareExtraCommunitySource(node: ExtraSourceNode, cacheRo
       detail: `Public createMermaidCodeBlockRenderer using a real @opentui/core@${coreVersion} testing renderer. Exact source catalog dependencies; direct private prepareDiagram is never extracted. Requires Bun for source .js-to-.ts resolution and OpenTUI runtime.`,
     }
   } else if (adapter === 'grok-source') {
-    const cargo = executable(process.env.AM_BENCH_CARGO ?? (existsSync('/workspace/tooling/cargo/bin/cargo') ? '/workspace/tooling/cargo/bin/cargo' : 'cargo')),
-      rustc = executable(process.env.AM_BENCH_RUSTC ?? (existsSync('/workspace/tooling/cargo/bin/rustc') ? '/workspace/tooling/cargo/bin/rustc' : 'rustc')),
+    const cargo = executable(process.env.AM_BENCH_CARGO ?? 'cargo'),
+      rustc = executable(process.env.AM_BENCH_RUSTC ?? 'rustc'),
       scratch = join(directory, 'public-markdown-shim'),
       targetParent = env.AM_BENCH_CARGO_TARGET_ROOT ? resolve(env.AM_BENCH_CARGO_TARGET_ROOT, pin) : directory,
       output = join(binary, 'grok-markdown-mermaid')
-    if (existsSync('/workspace/tooling/cargo')) env.CARGO_HOME ??= '/workspace/tooling/cargo'
-    if (existsSync('/workspace/tooling/rustup')) env.RUSTUP_HOME ??= '/workspace/tooling/rustup'
     // Bind the installed default toolchain rather than letting a source-tree
     // rust-toolchain file download another compiler into this bounded cache.
     env.RUSTUP_TOOLCHAIN ??= 'stable'

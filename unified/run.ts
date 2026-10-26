@@ -384,6 +384,7 @@ export async function runUnified(options: RunnerOptions): Promise<UnifiedReport>
     profile: options.profile,
     rounds: options.rounds,
     driverRoot: options.harnessRoot,
+    ...(existsSync(join(options.harnessRoot, '.trident-workspace.json')) ? { sourceWorkspace: readJson(join(options.harnessRoot, '.trident-workspace.json')) } : {}),
     targetRoot: options.root,
     packageRoot: options.packageRoot,
     driverRevision: git(options.harnessRoot, ['rev-parse', 'HEAD']),
