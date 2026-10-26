@@ -1,7 +1,7 @@
 import { readBenchmarkDocument, writeBenchmarkDocument } from '../portable/project-records.ts'
 import { execFileSync, spawn, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { existsSync, mkdirSync, readFileSync, realpathSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, readFileSync, realpathSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -68,12 +68,33 @@ export function installedNpmIntegrity(prefix: string, root: string, name: string
   return integrity
 }
 
-async function npmArtifact(node: CommunityNode, cache: string, pinned = false): Promise<CommunityArtifact> {
+/** A candidate stands in for one npm-backed row; Mermaid is the oracle and source builds have no tarball. */
+export function assertCommunityCandidate(nodes: CommunityNode[], candidate: { project: string }): CommunityNode {
+  const node = nodes.find(node => node.id === candidate.project)
+  if (!node) throw Error(`Candidate project ${candidate.project} is not in the catalog`)
+  if (node.id === 'mermaid-js/mermaid') throw Error('Mermaid is the pinned oracle; it takes no candidate')
+  if (!node.benchmark?.package || node.benchmark.adapter === 'extra-source') throw Error(`${node.id} is not benchmarked from an npm package, so it takes no candidate tarball`)
+  return node
+}
+/** The package a tarball holds, read without installing it. */
+export function candidatePackage(tarball: string): { name: string; version: string } {
+  const pkg = JSON.parse(execFileSync('tar', ['-xOzf', tarball, 'package/package.json'], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }))
+  if (typeof pkg.name !== 'string' || typeof pkg.version !== 'string') throw new Error('Candidate tarball has no package name and version')
+  return pkg
+}
+
+async function npmArtifact(node: CommunityNode, cache: string, pinned = false, candidate?: { tarball: string; sha256: string }): Promise<CommunityArtifact> {
   const config = node.benchmark!,
     name = config.package!
   const recorded = config.version ?? node.packages?.find(p => p.registry === 'npm' && p.name === name)?.version
   let version = recorded
-  if (!config.version && config.versionPolicy !== 'recorded' && !pinned && process.env.AM_COMMUNITY_VERSION_POLICY !== 'recorded') {
+  if (candidate) {
+    if (node.id === 'mermaid-js/mermaid') throw new Error('Mermaid is the pinned oracle; it takes no candidate')
+    if (artifactDigest(candidate.tarball) !== candidate.sha256) throw new Error('Candidate tarball differs from its supplied SHA-256')
+    const pkg = candidatePackage(candidate.tarball)
+    if (pkg.name !== name) throw new Error(`Candidate tarball holds ${pkg.name}; ${node.id} benchmarks ${name}`)
+    version = pkg.version
+  } else if (!config.version && config.versionPolicy !== 'recorded' && !pinned && process.env.AM_COMMUNITY_VERSION_POLICY !== 'recorded') {
     const response = await fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}/latest`)
     if (!response.ok) throw new Error(`${name} registry HTTP ${response.status}`)
     version = ((await response.json()) as { version: string }).version
@@ -84,9 +105,13 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false): 
   // Mermaid's row is the pinned oracle install itself, never a second copy of Mermaid.
   const oracle = node.id === 'mermaid-js/mermaid' ? assertMermaidOracle() : undefined
   if (oracle && version !== oracle.version) throw new Error(`Mermaid's row must be the pinned oracle ${oracle.version}; the catalog records ${version}`)
-  const prefix = oracle?.directory ?? join(cache, `${safe(name)}@${version}`),
-    root = join(prefix, 'node_modules', name)
+  // A candidate installs into its own prefix, keyed by its bytes, from Trident's verified copy.
+  const prefix = oracle?.directory ?? (candidate ? join(cache, 'candidates', `${safe(name)}@${candidate.sha256}`) : join(cache, `${safe(name)}@${version}`)),
+    root = join(prefix, 'node_modules', name),
+    copy = join(prefix, 'candidate.tgz')
   mkdirSync(prefix, { recursive: true })
+  if (candidate && !existsSync(copy)) copyFileSync(candidate.tarball, copy)
+  if (candidate && artifactDigest(copy) !== candidate.sha256) throw new Error(`Retained candidate copy differs from its SHA-256: ${copy}`)
   const companions: string[] = plan.companions ?? []
   const needed =
     !existsSync(join(root, 'package.json')) ||
@@ -96,7 +121,7 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false): 
     })
   if (needed && oracle) throw new Error(`The Mermaid oracle at ${prefix} is incomplete; reinstall it with mermaid:install`)
   if (needed) {
-    const install = spawnSync('npm', ['install', '--prefix', prefix, '--ignore-scripts', '--no-audit', '--no-fund', `${name}@${version}`, ...companions], {
+    const install = spawnSync('npm', ['install', '--prefix', prefix, '--ignore-scripts', '--no-audit', '--no-fund', candidate ? copy : `${name}@${version}`, ...companions], {
       encoding: 'utf8',
       timeout: 300_000,
       env: { ...process.env, npm_config_cache: process.env.npm_config_cache ?? process.env.NPM_CONFIG_CACHE ?? join(cache, '.npm-cache') },
@@ -107,6 +132,7 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false): 
   const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')) as { name: string; version: string }
   if (pkg.name !== name || pkg.version !== version) throw new Error('Installed npm identity differs from resolved pin')
   const integrity = installedNpmIntegrity(prefix, root, name, version)
+  if (candidate && integrity !== 'sha512-' + createHash('sha512').update(readFileSync(copy)).digest('base64')) throw new Error('Installed candidate differs from its tarball')
   const bunRuntime = /bun/i.test(config.runtime ?? plan.runtime ?? ''),
     runtime = bunRuntime ? (plan.runtime ?? 'Bun') : 'Node'
   let module: string
@@ -127,7 +153,7 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false): 
   }
   addFile(module)
   for (const relative of [plan.wasmRelativePath, 'pkg/affine_mermaid_renderer_wasm_bg.wasm', 'grok-mermaid.wasm', 'src/grok-mermaid.wasm', 'dist/xmermaid_bg.wasm'].filter((value): value is string => typeof value === 'string')) addFile(join(root, relative))
-  const prepared: CommunityArtifact = { kind: 'node', root, module, version, integrity, runtime, sha256: artifactDigest(module), files: wasmFiles, ...(plan.wasmRelativePath ? { wasm: join(root, plan.wasmRelativePath) } : {}), apiBoundary: plan.boundary }
+  const prepared: CommunityArtifact = { kind: 'node', root, module, version, integrity, runtime, sha256: artifactDigest(module), files: wasmFiles, ...(plan.wasmRelativePath ? { wasm: join(root, plan.wasmRelativePath) } : {}), apiBoundary: plan.boundary, ...(candidate ? { candidate: { sha256: candidate.sha256, tarball: copy } } : {}) }
   return extra.prepareExtraPublishedArtifact(prepared, { installedIntegrity: (nativeRoot: string, packageName: string, packageVersion: string) => installedNpmIntegrity(prefix, nativeRoot, packageName, packageVersion) })
 }
 
@@ -177,10 +203,13 @@ function validateFrozenCommunityEntry(entry: PreparedCommunity, node: CommunityN
     if (node.benchmark?.adapter === 'extra-source' && (artifact.reviewed !== true || artifact.sourceRevision !== node.benchmark.sourcePin || !artifact.buildRecipeId || !artifact.runtimeCommandId)) throw Error('Source artifact has no exact reviewed Git/protocol binding')
     if (node.benchmark?.adapter === 'source-cli' && artifact.revision !== (node.release?.commit ?? node.head)) throw Error('Native artifact revision differs from recorded source pin')
     if (node.benchmark?.adapter === 'franken' && artifact.revision !== node.distribution?.revision) throw Error('WASM artifact revision differs from frozen distribution')
+    const candidate = options.communityCandidate?.project === node.id ? options.communityCandidate : undefined
+    if (!!artifact.candidate !== !!candidate || (candidate && artifact.candidate?.sha256 !== candidate.sha256)) throw Error('Frozen artifact and the requested candidate differ')
+    if (artifact.candidate && (!existsSync(artifact.candidate.tarball) || artifactDigest(artifact.candidate.tarball) !== artifact.candidate.sha256)) throw Error('Frozen candidate tarball differs from its SHA-256')
     if (node.benchmark?.package) {
       if (!artifact.root) throw Error('Frozen npm artifact has no installed package root')
       const pkg = JSON.parse(readFileSync(join(artifact.root, 'package.json'), 'utf8'))
-      if (pkg.name !== node.benchmark.package || pkg.version !== artifact.version || (node.benchmark.version && pkg.version !== node.benchmark.version)) throw Error('Frozen installed npm package identity differs')
+      if (pkg.name !== node.benchmark.package || pkg.version !== artifact.version || (node.benchmark.version && !artifact.candidate && pkg.version !== node.benchmark.version)) throw Error('Frozen installed npm package identity differs')
       const levels = pkg.name.startsWith('@') ? '../../..' : '../..',
         prefix = resolve(artifact.root, levels)
       if (installedNpmIntegrity(prefix, artifact.root, pkg.name, pkg.version) !== artifact.integrity) throw Error('Frozen npm lock integrity differs')
@@ -243,8 +272,12 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
     try {
       if (node.benchmark.adapter === 'declared')
         for (const output of new Set((node.benchmark.outputs ?? []).map(normalizeCommunityOutput))) if (typeof node.benchmark.api?.[output]?.export !== 'string') throw new Error(`Declared adapter has no api.${output}.export binding for its declared ${output} output`)
-      let artifact = provided[node.id]
-      if (artifact) {
+      const candidate = options.communityCandidate?.project === node.id ? options.communityCandidate : undefined
+      let artifact = candidate ? undefined : provided[node.id]
+      if (candidate) {
+        assertCommunityCandidate([node], candidate)
+        artifact = await npmArtifact(node, cache, true, candidate)
+      } else if (artifact) {
         verifyProvidedCommunityArtifact(artifact)
         if (['dart', 'bezel', 'franken', 'termaid'].includes(node.benchmark.adapter)) {
           const { prepareCommunityArtifact } = await import('./community-artifact-prepare.ts')
@@ -308,7 +341,7 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
       }
       if (!artifact) throw new Error('Preparation returned no actual artifact')
       if (node.id === '1jehuang/mermaid-rs-renderer' && artifact.kind === 'cli') artifact.outputBindings = { ...(artifact.outputBindings ?? {}), png: { args: ['-i', '-', '-e', 'png', '-o', '{output}'], input: 'stdin' } }
-      artifact.detail = `${artifact.detail ?? ''}${artifact.detail ? '; ' : ''}Version policy: ${provided[node.id] && options.communityArtifactPolicy === 'frozen' ? 'provided actual artifact version/bytes frozen; no latest lookup' : node.benchmark.adapter === 'agentic' ? 'local candidate source/package' : node.id === 'mermaid-js/mermaid' ? 'pinned current Mermaid' : node.benchmark.adapter === 'source-cli' || node.benchmark.adapter === 'extra-source' || node.benchmark.adapter === 'franken' ? 'recorded immutable source/distribution' : node.benchmark.version || node.benchmark.versionPolicy === 'recorded' || process.env.AM_COMMUNITY_VERSION_POLICY === 'recorded' ? 'recorded registry release' : 'resolved latest registry release'}. Recorded catalog versions remain separately available on the node.`
+      artifact.detail = `${artifact.detail ?? ''}${artifact.detail ? '; ' : ''}Version policy: ${artifact.candidate ? 'unreleased candidate tarball; the catalog version pin does not apply' : provided[node.id] && options.communityArtifactPolicy === 'frozen' ? 'provided actual artifact version/bytes frozen; no latest lookup' : node.benchmark.adapter === 'agentic' ? 'local candidate source/package' : node.id === 'mermaid-js/mermaid' ? 'pinned current Mermaid' : node.benchmark.adapter === 'source-cli' || node.benchmark.adapter === 'extra-source' || node.benchmark.adapter === 'franken' ? 'recorded immutable source/distribution' : node.benchmark.version || node.benchmark.versionPolicy === 'recorded' || process.env.AM_COMMUNITY_VERSION_POLICY === 'recorded' ? 'recorded registry release' : 'resolved latest registry release'}. Recorded catalog versions remain separately available on the node.`
       prepared.push({ node, artifact })
     } catch (error) {
       prepared.push({ node, error: String(error) })

@@ -15,11 +15,11 @@ export const CALIBRATED_ROUNDS = 5
 /** The families Trident can probe: one canonical source each in the portable family cohort. */
 export const PROBED_FAMILIES = probedFamilies()
 
-const OUTPUTS: Record<string, string> = { svg: 'SVG', terminal: 'Terminal text', png: 'PNG', parse: 'Parser', diagnostics: 'Diagnostics', source: 'Formatted Mermaid source', 'react-flow': 'React Flow model' }
-const SURFACES: Record<string, string> = { 'browser:public-api': 'browser API', 'node:public-api': 'Node API', 'bun:public-api': 'Bun API', 'node:public-parse-validation': 'Node parser API', 'cli:end-to-end': 'CLI', 'python:public-api': 'Python API', 'native:in-process-api': 'native API' }
+export const OUTPUTS: Record<string, string> = { svg: 'SVG', terminal: 'Terminal text', png: 'PNG', parse: 'Parser', diagnostics: 'Diagnostics', source: 'Formatted Mermaid source', 'react-flow': 'React Flow model' }
+export const SURFACES: Record<string, string> = { 'browser:public-api': 'browser API', 'node:public-api': 'Node API', 'bun:public-api': 'Bun API', 'node:public-parse-validation': 'Node parser API', 'cli:end-to-end': 'CLI', 'python:public-api': 'Python API', 'native:in-process-api': 'native API' }
 const slug = (project: string) => project.replace(/[^a-z0-9._-]+/gi, '-').toLowerCase()
-const percent = (passed: number, total: number) => (total ? `${((100 * passed) / total).toFixed(1)}%` : '—')
-const escape = (value: unknown) => String(value).replaceAll('|', '\\|').replaceAll('\n', ' ')
+export const percent = (passed: number, total: number) => (total ? `${((100 * passed) / total).toFixed(1)}%` : '—')
+export const escape = (value: unknown) => String(value).replaceAll('|', '\\|').replaceAll('\n', ' ')
 
 export interface Lane {
   project: string
@@ -41,7 +41,7 @@ export interface Lane {
 
 const rounds = (record: ProjectBenchmarkRecord) => Number((record.identity.measurement as { rounds?: number } | undefined)?.rounds ?? 0)
 const versionOf = (record: ProjectBenchmarkRecord) => String(record.observations.find(row => row.metrics?.version)?.metrics?.version ?? (record.identity.artifact as any)?.package?.artifact?.version ?? 'unknown')
-const featureRow = (row: BenchmarkObservation) => !row.caseId.startsWith('core:') && !['family-support', 'capability', 'delivery', 'memory', 'load-and-initialize', 'worker-lifecycle', 'enroll', 'resource-diagnostic'].includes(row.operation) && !row.operation.endsWith('negative-admission')
+export const featureRow = (row: BenchmarkObservation) => !row.caseId.startsWith('core:') && !['family-support', 'capability', 'delivery', 'memory', 'load-and-initialize', 'worker-lifecycle', 'enroll', 'resource-diagnostic'].includes(row.operation) && !row.operation.endsWith('negative-admission')
 
 /** One row per tool and public surface/output, from one retained project record. */
 export function lanes(record: ProjectBenchmarkRecord): Lane[] {
@@ -170,9 +170,19 @@ function table(lanes: Lane[], reference: Lane | undefined) {
   return lines
 }
 
-/** Render the league table and its evidence from the current records into a portable directory. */
-export function publishResults(store: string, out: string): { lanes: Lane[]; files: string[] } {
-  const records = loadCurrentProjectRecords(store).filter(record => (record.identity.lane ?? 'community') === 'community')
+/** An unreleased build: the candidate lane, or a candidate artifact wherever it was written. */
+export const isCandidateRecord = (record: ProjectBenchmarkRecord) => {
+  const artifact = record.identity.artifact as { candidate?: unknown; package?: { artifact?: { candidate?: unknown } } } | undefined
+  return record.identity.lane === 'candidate' || !!artifact?.candidate || !!artifact?.package?.artifact?.candidate
+}
+
+/** Render the league table and its evidence from the current records into a portable directory.
+ * The table ranks releases only: candidate-lane records are left out, and a candidate in the release lane is refused. */
+export function publishResults(store: string, out: string): { lanes: Lane[]; files: string[]; candidates: string[] } {
+  const current = loadCurrentProjectRecords(store),
+    records = current.filter(record => (record.identity.lane ?? 'community') === 'community')
+  const misfiled = records.filter(isCandidateRecord)
+  if (misfiled.length) throw Error(`results:publish ranks releases only; the release lane of ${store} holds candidate records for ${misfiled.map(record => record.identity.project).join(', ')}`)
   if (!records.length) throw Error('No current community records in ' + store)
   rmSync(join(out, 'records'), { recursive: true, force: true })
   rmSync(join(out, 'failures'), { recursive: true, force: true })
@@ -225,7 +235,7 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
   for (const family of PROBED_FAMILIES) lines.push(`| ${family} | ${grid.map(lane => (lane.families[family]!.unsupported ? '—' : percent(lane.families[family]!.passed, lane.families[family]!.passed + lane.families[family]!.failed))).join(' | ')} |`)
   lines.push('', '## Reproduce a row', '', 'Every row is one project record. With the pinned Mermaid oracle installed (`node commands.ts mermaid:install`), this re-measures one project; unchanged projects are reused:', '', '```sh', 'bun commands.ts community:update --projects OWNER/TOOL --profile full --rounds 5 --records RECORDS --out EVIDENCE', 'bun commands.ts results:publish --records RECORDS --out results', '```', '', 'Each record (gzipped JSON) names its machine, runtimes, oracle pin, corpus commit and the tool version measured, and holds every observation.', '')
   writeFileSync(join(out, 'README.md'), lines.join('\n'))
-  return { lanes: all, files: records.map(record => slug(record.identity.project)) }
+  return { lanes: all, files: records.map(record => slug(record.identity.project)), candidates: current.filter(record => record.identity.lane === 'candidate').map(record => record.identity.project) }
 }
 
 if (import.meta.main) {
@@ -234,5 +244,5 @@ if (import.meta.main) {
   if (!values.has('--records') || [...values.keys()].some(key => !['--records', '--out'].includes(key))) throw Error('Use results:publish --records STORE [--out results]')
   const out = resolve(values.get('--out') ?? join(import.meta.dirname, '../results'))
   const result = publishResults(resolve(values.get('--records')!), out)
-  console.log(JSON.stringify({ out, projects: result.files, lanes: result.lanes.length }))
+  console.log(JSON.stringify({ out, projects: result.files, lanes: result.lanes.length, candidatesLeftOut: result.candidates }))
 }

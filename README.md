@@ -73,8 +73,25 @@ WASM builds and tools that need a build step use the existing adapters in
 
 ## Benchmarking an unreleased version
 
-Agentic Mermaid's lanes take a local candidate (`--package-root`, `--candidate-tarball`).
-For other projects see [Candidates](METHODOLOGY.md#candidates).
+Any catalog tool that Trident installs from npm can be measured from an unreleased
+build: pack it, then pass the tarball and its SHA-256 for that one project, or pass
+the built package directory and let Trident pack it:
+
+```sh
+bun commands.ts community:update --projects OWNER/TOOL \
+  --candidate-tarball /builds/tool-1.3.0.tgz --candidate-sha256 SHA256 \
+  --profile full --rounds 5 --records /evidence/records --out /evidence/community
+bun commands.ts community:update --projects OWNER/TOOL --candidate-dir /checkouts/tool \
+  --profile full --rounds 5 --records /evidence/records --out /evidence/community
+bun commands.ts results:compare --records /evidence/records --project OWNER/TOOL
+```
+
+The candidate runs through the release's lanes, corpus, oracle and checks. Its record
+is kept in a separate candidate lane, so `results:publish` never ranks it.
+`results:compare` prints it beside the release record in the same store; measure the
+release first with the same settings if the store lacks it. Agentic Mermaid's
+source-adapter lanes also take a local checkout (`--package-root`). See
+[Candidates](METHODOLOGY.md#candidates) for what is checked and what is refused.
 
 ## Run the portable kit without an Agentic checkout
 

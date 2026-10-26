@@ -72,6 +72,8 @@ export interface CommunityArtifact {
   acquisitionOrigin?: string
   supportedFamilies?: readonly string[]
   sourceFallback?: 'framed-source'
+  /** Installed from an unreleased tarball (its SHA-256 and Trident's verified copy), not the catalog's release. */
+  candidate?: { sha256: string; tarball: string }
 }
 export interface PreparedCommunity {
   node: CommunityNode
