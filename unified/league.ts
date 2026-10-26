@@ -2,7 +2,7 @@ import { copyFileSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'node
 import { basename, isAbsolute, join, resolve } from 'node:path'
 import { gzipSync } from 'node:zlib'
 import { MERMAID_ORACLE_PIN } from '../portable/mermaid-oracle.ts'
-import { probedFamilies } from '../portable/cohorts.ts'
+import { newerFamilies, scoredFamilies } from '../portable/cohorts.ts'
 import { loadCurrentProjectRecords, readBenchmarkDocument, stableValue, type ProjectBenchmarkRecord } from '../portable/project-records.ts'
 import { rankCommunityObservations } from './community.ts'
 import { communityCorpus } from './corpus.ts'
@@ -13,7 +13,10 @@ export const REFERENCE_PROJECT = 'mermaid-js/mermaid'
 /** Fewer rounds than this cannot calibrate a speed; such rows show no speed at all. */
 export const CALIBRATED_ROUNDS = 5
 /** The families Trident can probe: one canonical source each in the portable family cohort. */
-export const PROBED_FAMILIES = probedFamilies()
+/** The mark: ranks, "families supported" and the pass rate count these families only. */
+export const SCORED_FAMILIES = scoredFamilies()
+/** Mermaid's newest families, reported beside the mark and never ranked. */
+export const NEWER_FAMILIES = newerFamilies()
 
 export const OUTPUTS: Record<string, string> = { svg: 'SVG', terminal: 'Terminal text', png: 'PNG', parse: 'Parser', diagnostics: 'Diagnostics', source: 'Formatted Mermaid source', 'react-flow': 'React Flow model' }
 export const SURFACES: Record<string, string> = { 'browser:public-api': 'browser API', 'node:public-api': 'Node API', 'bun:public-api': 'Bun API', 'node:public-parse-validation': 'Node parser API', 'cli:end-to-end': 'CLI', 'python:public-api': 'Python API', 'native:in-process-api': 'native API' }
@@ -32,6 +35,8 @@ export interface Lane {
   passed: number
   failed: number
   blocked: number
+  /** The newer families, kept out of every number above; null when the record probed none of them. */
+  newer: { supported: string[]; passed: number; failed: number } | null
   /** Fixed core, each input's first call in its process: median over rounds, summed. Cache-proof. */
   coreFirstMs: number | null
   /** Fixed core, repeated identical source: what a tool that caches by source reports. */
@@ -57,10 +62,14 @@ export function lanes(record: ProjectBenchmarkRecord): Lane[] {
     const features = rows.filter(featureRow).filter(row => row.status !== 'not-applicable' && (row.metrics?.round === undefined || row.metrics.round === 1))
     // A surface that measured nothing (for example Mermaid's SVG in Node, which needs a browser) has no row.
     if (!features.length) return []
-    const probes = rows.filter(row => row.operation === 'family-support')
-    const unsupported = probes.filter(row => row.status === 'unsupported').map(row => row.family)
+    const allProbes = rows.filter(row => row.operation === 'family-support')
+    const probes = allProbes.filter(row => !NEWER_FAMILIES.includes(row.family)),
+      newerProbes = allProbes.filter(row => NEWER_FAMILIES.includes(row.family))
+    const unsupported = allProbes.filter(row => row.status === 'unsupported').map(row => row.family)
+    const scored = features.filter(row => !NEWER_FAMILIES.includes(row.family)),
+      newer = features.filter(row => NEWER_FAMILIES.includes(row.family))
     const families: Lane['families'] = {}
-    for (const family of PROBED_FAMILIES) {
+    for (const family of [...SCORED_FAMILIES, ...NEWER_FAMILIES]) {
       const own = features.filter(row => row.family === family)
       families[family] = { passed: own.filter(row => row.status === 'passed').length, failed: own.filter(row => row.status === 'failed').length, unsupported: unsupported.includes(family) }
     }
@@ -78,10 +87,11 @@ export function lanes(record: ProjectBenchmarkRecord): Lane[] {
         format,
         rounds: rounds(record),
         supported: probes.filter(row => row.status !== 'unsupported').map(row => row.family),
-        unsupported,
-        passed: features.filter(row => row.status === 'passed').length,
-        failed: features.filter(row => row.status === 'failed').length,
-        blocked: features.filter(row => row.status === 'blocked').length,
+        unsupported: unsupported.filter(family => !NEWER_FAMILIES.includes(family)),
+        passed: scored.filter(row => row.status === 'passed').length,
+        failed: scored.filter(row => row.status === 'failed').length,
+        blocked: scored.filter(row => row.status === 'blocked').length,
+        newer: newerProbes.length ? { supported: newerProbes.filter(row => row.status !== 'unsupported').map(row => row.family), passed: newer.filter(row => row.status === 'passed').length, failed: newer.filter(row => row.status === 'failed').length } : null,
         coreFirstMs: rounds(record) >= CALIBRATED_ROUNDS && firstCalls.length && firstCalls.every(Number.isFinite) ? firstCalls.reduce((sum, value) => sum + value, 0) : null,
         coreMedianMs: rounds(record) >= CALIBRATED_ROUNDS && rank?.qualified ? rank.medianMs : null,
         families,
@@ -118,7 +128,7 @@ function publishedRecord(record: ProjectBenchmarkRecord) {
     profile: measurement?.profile ?? null,
     machine: { platform: measurement?.platform, arch: measurement?.arch, kernel: measurement?.kernel, cpu: measurement?.cpu?.[0] ?? null, cpus: measurement?.cpu?.length ?? null, node: measurement?.node?.version ?? null, bun: measurement?.bun?.version ?? null, browser: basename(String(measurement?.browser?.path ?? '')) || null, observer: measurement?.observer?.version ?? null },
     oracle: MERMAID_ORACLE_PIN,
-    corpus: communityCorpus().source,
+    corpus: { ...communityCorpus().source, ...(communityCorpus().upstream ? { upstream: communityCorpus().upstream } : {}) },
     comparisonContext: (record.identity.protocol as { context?: unknown } | null)?.context ?? null,
     gaps: record.gaps,
     observations: portable(record.observations),
@@ -164,12 +174,13 @@ const speedVersus = (ms: number, reference: number) => {
   return ratio >= 1 ? `${multiple(ratio)}× faster` : `${multiple(1 / ratio)}× slower`
 }
 function table(lanes: Lane[], reference: Lane | undefined) {
-  const lines = ['| Rank | Tool | Version | Surface | Families supported | Pass rate in supported families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Record |', '|---:|---|---|---|---:|---:|---:|---:|---:|---|']
+  const lines = ['| Rank | Tool | Version | Surface | Families supported | Pass rate in supported families | Newer families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Record |', '|---:|---|---|---|---:|---:|---:|---:|---:|---:|---|']
   const row = (lane: Lane, rank: string) => {
     const tool = `[${escape(lane.project)}](https://github.com/${lane.project})`,
       ratio = lane.surface === reference?.surface && lane.format === reference.format && lane.coreFirstMs !== null && reference.coreFirstMs ? speedVersus(lane.coreFirstMs, reference.coreFirstMs) : '—',
-      ms = (value: number | null) => (value === null ? '—' : `${value.toFixed(2)} ms`)
-    return `| ${rank} | ${lane === reference ? `*${tool} (reference)*` : tool} | ${escape(lane.version)} | ${SURFACES[lane.surface] ?? lane.surface} | ${lane.supported.length}/${PROBED_FAMILIES.length} | ${percent(lane.passed, lane.passed + lane.failed)} (${lane.passed}/${lane.passed + lane.failed}) | ${ms(lane.coreFirstMs)} | ${lane === reference && lane.coreFirstMs !== null ? 'reference' : ratio} | ${ms(lane.coreMedianMs)} | [record](records/${slug(lane.project)}.json.gz) · [failures](failures/${slug(lane.project)}.md) |`
+      ms = (value: number | null) => (value === null ? '—' : `${value.toFixed(2)} ms`),
+      newer = !lane.newer ? '—' : lane.newer.supported.length ? `${lane.newer.supported.length}/${NEWER_FAMILIES.length}, ${percent(lane.newer.passed, lane.newer.passed + lane.newer.failed)}` : `0/${NEWER_FAMILIES.length}`
+    return `| ${rank} | ${lane === reference ? `*${tool} (reference)*` : tool} | ${escape(lane.version)} | ${SURFACES[lane.surface] ?? lane.surface} | ${lane.supported.length}/${SCORED_FAMILIES.length} | ${percent(lane.passed, lane.passed + lane.failed)} (${lane.passed}/${lane.passed + lane.failed}) | ${newer} | ${ms(lane.coreFirstMs)} | ${lane === reference && lane.coreFirstMs !== null ? 'reference' : ratio} | ${ms(lane.coreMedianMs)} | [record](records/${slug(lane.project)}.json.gz) · [failures](failures/${slug(lane.project)}.md) |`
   }
   if (reference) lines.push(row(reference, '—'))
   lanes.forEach((lane, index) => lines.push(row(lane, String(index + 1))))
@@ -210,9 +221,9 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
   const lines = [
     '# Mermaid derivatives league table',
     '',
-    `Measured ${measured[0]!.slice(0, 10)}${measured.at(-1)!.slice(0, 10) !== measured[0]!.slice(0, 10) ? ` to ${measured.at(-1)!.slice(0, 10)}` : ''} by [Trident](../README.md) against the pinned Mermaid ${MERMAID_ORACLE_PIN.version} oracle, on the corpus frozen from Agentic Mermaid ${communityCorpus().source.commit.slice(0, 8)}. ${calibrated ? '' : `**Records with fewer than ${CALIBRATED_ROUNDS} rounds show no speed.**`}`,
+    `Measured ${measured[0]!.slice(0, 10)}${measured.at(-1)!.slice(0, 10) !== measured[0]!.slice(0, 10) ? ` to ${measured.at(-1)!.slice(0, 10)}` : ''} by [Trident](../README.md) against the pinned Mermaid ${MERMAID_ORACLE_PIN.version} oracle, on the corpus frozen from Agentic Mermaid ${communityCorpus().source.commit.slice(0, 8)}${communityCorpus().upstream ? `, with the newer families' examples from Mermaid's ${communityCorpus().upstream!.tag} syntax docs` : ''}. ${calibrated ? '' : `**Records with fewer than ${CALIBRATED_ROUNDS} rounds show no speed.**`}`,
     '',
-    'How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Tables group each output by public invocation surface and compatible protocol/runtime settings; costs and ranks never cross these boundaries. Rolling records are not paired same-session experiments. Rows within each group are ordered by correctness first: how many of the probed families the tool supports, then the share of cases it passes in those families, then first-call fixed-core time. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so it is measured with the same checks but not ranked. An unsupported family is a coverage gap, never a failure. See the [methodology](../METHODOLOGY.md).',
+    `How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Tables group each output by public invocation surface and compatible protocol/runtime settings; costs and ranks never cross these boundaries. Rolling records are not paired same-session experiments. Rows within each group are ordered by correctness first: how many of the ${SCORED_FAMILIES.length} scored families the tool supports, then the share of cases it passes in those families, then first-call fixed-core time. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so it is measured with the same checks but not ranked. An unsupported family is a coverage gap, never a failure. "Newer families" counts how many of Mermaid's ${NEWER_FAMILIES.length} newest families the tool supports, with its pass rate in them; it never changes a rank or the other columns. See the [methodology](../METHODOLOGY.md).`,
     '',
   ]
   for (const format of new Set([...Object.keys(OUTPUTS), ...all.map(lane => lane.format)])) {
@@ -235,9 +246,17 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
     }
   }
   const grid = all.filter(lane => lane.format === 'svg' || lane.format === 'terminal').sort(leagueOrder)
-  lines.push('## Families', '', `Pass rate per family, for each tool's SVG and terminal surfaces. "—" means the tool does not support the family. Trident probes ${PROBED_FAMILIES.length} families; Mermaid ${MERMAID_ORACLE_PIN.version} documents more, which have no cases yet.`, '')
-  lines.push(`| Family | ${grid.map(lane => `${escape(lane.project.split('/')[1])} (${SURFACES[lane.surface] ?? lane.surface}, ${OUTPUTS[lane.format]})`).join(' | ')} |`, `|---|${grid.map(() => '---:').join('|')}|`)
-  for (const family of PROBED_FAMILIES) lines.push(`| ${family} | ${grid.map(lane => (lane.families[family]!.unsupported ? '—' : percent(lane.families[family]!.passed, lane.families[family]!.passed + lane.families[family]!.failed))).join(' | ')} |`)
+  const header = [`| Family | ${grid.map(lane => `${escape(lane.project.split('/')[1])} (${SURFACES[lane.surface] ?? lane.surface}, ${OUTPUTS[lane.format]})`).join(' | ')} |`, `|---|${grid.map(() => '---:').join('|')}|`]
+  const cell = (lane: Lane, family: string) => (lane.families[family]!.unsupported ? '—' : percent(lane.families[family]!.passed, lane.families[family]!.passed + lane.families[family]!.failed))
+  lines.push('## Families', '', `Pass rate per family, for each tool's SVG and terminal surfaces. "—" means the tool does not support the family. These are the ${SCORED_FAMILIES.length} scored families.`, '', ...header)
+  for (const family of SCORED_FAMILIES) lines.push(`| ${family} | ${grid.map(lane => cell(lane, family)).join(' | ')} |`)
+  const newer = grid.filter(lane => lane.newer)
+  lines.push('', '### Newer families', '')
+  if (newer.length) {
+    lines.push(`Mermaid's ${NEWER_FAMILIES.length} newest families, added from 11.12.3 to 12.0.0; all but eventmodeling still use a \`-beta\` keyword. They are reported here and never scored. Eventmodeling exposes no labels to the oracle, so its cases check output format only. ZenUML, an external plugin, is not covered.`, '')
+    lines.push(`| Family | ${newer.map(lane => `${escape(lane.project.split('/')[1])} (${SURFACES[lane.surface] ?? lane.surface}, ${OUTPUTS[lane.format]})`).join(' | ')} |`, `|---|${newer.map(() => '---:').join('|')}|`)
+    for (const family of NEWER_FAMILIES) lines.push(`| ${family} | ${newer.map(lane => cell(lane, family)).join(' | ')} |`)
+  } else lines.push(`No record measured Mermaid's ${NEWER_FAMILIES.length} newest families yet.`)
   lines.push('', '## Reproduce a row', '', 'Every row is one project record. With the pinned Mermaid oracle installed (`node commands.ts mermaid:install`), this re-measures one project; unchanged projects are reused:', '', '```sh', 'bun commands.ts community:update --projects OWNER/TOOL --profile full --rounds 5 --records RECORDS --out EVIDENCE', 'bun commands.ts results:publish --records RECORDS --out results', '```', '', 'Each record (gzipped JSON) names its machine, runtimes, oracle pin, corpus commit and the tool version measured, and holds every observation.', '')
   writeFileSync(join(out, 'README.md'), lines.join('\n'))
   return { lanes: all, files: records.map(record => slug(record.identity.project)), candidates: current.filter(record => record.identity.lane === 'candidate').map(record => record.identity.project) }

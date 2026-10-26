@@ -37,9 +37,10 @@ Benchmarking another project uses the oracle without benchmarking Mermaid.
 
 ## Inputs and checks
 
-The corpus has 968 workloads: 6 fixed-core inputs used for speed, and 962 feature
-inputs drawn from Mermaid's documentation, Mermaid's own test suites, the Agentic
-family registry and generated scaling cases. A case passes when the tool returns
+The corpus has 1086 workloads: 6 fixed-core inputs used for speed, 962 feature inputs
+for the 23 scored families, drawn from Mermaid's documentation, Mermaid's own test
+suites, the Agentic family registry and generated scaling cases, and 118 inputs for the
+newer families, which are every example on their Mermaid 12.2.0 syntax pages. A case passes when the tool returns
 output in the requested format that contains the case's authored labels as visible
 text, on a positive canvas, and is not an echo of the source. Label presence is
 existence evidence, not a full visual or semantic fidelity check.
@@ -81,9 +82,22 @@ unsupported, naming the probe, and are not run. If the tool returns output, the 
 counts as supported, and every later failure in it is a failure, even when the probe's
 own output fails a check. A case's error message never makes it unsupported.
 
-Trident probes 23 families. Mermaid 12.2.0 also documents venn, wardley, cynefin,
-treeview, railroad, agentflow, usecase, eventmodeling, swimlane and zenuml, which have
-no Trident cases yet, so no tool is scored on them.
+The mark is 23 families: "families supported", the pass rate and every rank count only
+these. Mermaid 12.2.0 documents ten more. Nine are recent additions (venn, treeview,
+wardley, eventmodeling, cynefin, railroad, swimlane, agentflow and usecase, added from
+11.12.3 to 12.0.0), all but eventmodeling declared with a `-beta` keyword. Trident probes
+and measures them the same way, from their syntax pages read at the `mermaid@12.2.0` Git
+tag, and reports them in a separate "Newer families" column and table that never change
+a rank. Two limits apply:
+
+- Eventmodeling's diagram DB exposes no element getters, so the oracle cannot say which
+  labels its cases should draw. Its cases check output format only; its probe checks the
+  probe's own authored labels.
+- Mermaid's railroad renderer stores a title but never draws it, so a railroad title is
+  not an expected label.
+
+The tenth, zenuml, is an external plugin that the pinned oracle does not load, so it is
+not covered.
 
 ## Statuses
 

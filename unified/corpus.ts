@@ -8,6 +8,8 @@ import type { WorkloadEvidence } from './workload-evidence.ts'
 export interface CommunityCorpus {
   schemaVersion: 1
   source: { repository: string; commit: string; dirty: boolean }
+  /** Examples for families Agentic does not register, from Mermaid's syntax docs at the oracle's release. */
+  upstream?: { repository: string; tag: string; commit: string; files: Record<string, string> }
   core: UnifiedWorkload[]
   profiles: { smoke: string[]; full: string[] }
   workloads: (UnifiedWorkload & { evidence: WorkloadEvidence | null })[]

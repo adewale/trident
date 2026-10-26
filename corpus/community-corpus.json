@@ -5,6 +5,22 @@
   "commit": "de612cc08009cf8abbeae2d3795dac3baa0b5e36",
   "dirty": false
  },
+ "upstream": {
+  "repository": "mermaid-js/mermaid",
+  "tag": "mermaid@12.2.0",
+  "commit": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "files": {
+   "venn": "packages/mermaid/src/docs/syntax/venn.md",
+   "treeview": "packages/mermaid/src/docs/syntax/treeView.md",
+   "wardley": "packages/mermaid/src/docs/syntax/wardley.md",
+   "eventmodeling": "packages/mermaid/src/docs/syntax/eventmodeling.md",
+   "cynefin": "packages/mermaid/src/docs/syntax/cynefin.md",
+   "railroad": "packages/mermaid/src/docs/syntax/railroad.md",
+   "swimlane": "packages/mermaid/src/docs/syntax/swimlanes.md",
+   "agentflow": "packages/mermaid/src/docs/syntax/agentflow.md",
+   "usecase": "packages/mermaid/src/docs/syntax/usecase.md"
+  }
+ },
  "core": [
   {
    "id": "core:flow5",
@@ -373,7 +389,16 @@
    "registry:requirement",
    "registry:treemap",
    "registry:ishikawa",
-   "registry:block"
+   "registry:block",
+   "docs:venn:0",
+   "docs:treeview:0",
+   "docs:wardley:0",
+   "docs:eventmodeling:0",
+   "docs:cynefin:0",
+   "docs:railroad:0",
+   "docs:swimlane:0",
+   "docs:agentflow:0",
+   "docs:usecase:0"
   ],
   "full": [
    "registry:flowchart",
@@ -1337,7 +1362,125 @@
    "authored:sequence-spaced-ids",
    "authored:architecture-text-icon",
    "authored:architecture-edge-no-spaces",
-   "authored:architecture-inline-title"
+   "authored:architecture-inline-title",
+   "docs:venn:0",
+   "docs:venn:1",
+   "docs:venn:2",
+   "docs:venn:3",
+   "docs:venn:4",
+   "docs:venn:5",
+   "docs:venn:6",
+   "docs:venn:7",
+   "docs:treeview:0",
+   "docs:treeview:1",
+   "docs:treeview:2",
+   "docs:treeview:3",
+   "docs:treeview:4",
+   "docs:treeview:5",
+   "docs:treeview:6",
+   "docs:treeview:7",
+   "docs:treeview:8",
+   "docs:treeview:9",
+   "docs:treeview:10",
+   "docs:treeview:11",
+   "docs:treeview:12",
+   "docs:wardley:0",
+   "docs:wardley:1",
+   "docs:wardley:2",
+   "docs:wardley:3",
+   "docs:wardley:4",
+   "docs:wardley:5",
+   "docs:wardley:6",
+   "docs:wardley:7",
+   "docs:wardley:8",
+   "docs:wardley:9",
+   "docs:wardley:10",
+   "docs:wardley:11",
+   "docs:wardley:12",
+   "docs:wardley:13",
+   "docs:wardley:14",
+   "docs:wardley:15",
+   "docs:wardley:16",
+   "docs:wardley:17",
+   "docs:wardley:18",
+   "docs:eventmodeling:0",
+   "docs:eventmodeling:1",
+   "docs:eventmodeling:2",
+   "docs:eventmodeling:3",
+   "docs:eventmodeling:4",
+   "docs:eventmodeling:5",
+   "docs:eventmodeling:6",
+   "docs:eventmodeling:7",
+   "docs:eventmodeling:8",
+   "docs:eventmodeling:10",
+   "docs:eventmodeling:11",
+   "docs:eventmodeling:12",
+   "docs:cynefin:0",
+   "docs:cynefin:1",
+   "docs:cynefin:2",
+   "docs:railroad:0",
+   "docs:railroad:1",
+   "docs:railroad:2",
+   "docs:railroad:3",
+   "docs:railroad:4",
+   "docs:railroad:5",
+   "docs:railroad:6",
+   "docs:railroad:7",
+   "docs:railroad:8",
+   "docs:railroad:9",
+   "docs:railroad:10",
+   "docs:railroad:11",
+   "docs:railroad:12",
+   "docs:railroad:13",
+   "docs:swimlane:0",
+   "docs:swimlane:1",
+   "docs:swimlane:2",
+   "docs:swimlane:3",
+   "docs:swimlane:4",
+   "docs:swimlane:5",
+   "docs:swimlane:6",
+   "docs:swimlane:7",
+   "docs:swimlane:8",
+   "docs:swimlane:9",
+   "docs:swimlane:10",
+   "docs:swimlane:11",
+   "docs:swimlane:12",
+   "docs:agentflow:0",
+   "docs:agentflow:1",
+   "docs:agentflow:2",
+   "docs:agentflow:3",
+   "docs:agentflow:4",
+   "docs:agentflow:5",
+   "docs:agentflow:6",
+   "docs:agentflow:7",
+   "docs:agentflow:8",
+   "docs:agentflow:9",
+   "docs:agentflow:10",
+   "docs:agentflow:11",
+   "docs:usecase:0",
+   "docs:usecase:1",
+   "docs:usecase:2",
+   "docs:usecase:3",
+   "docs:usecase:4",
+   "docs:usecase:5",
+   "docs:usecase:6",
+   "docs:usecase:7",
+   "docs:usecase:8",
+   "docs:usecase:9",
+   "docs:usecase:10",
+   "docs:usecase:11",
+   "docs:usecase:12",
+   "docs:usecase:13",
+   "docs:usecase:14",
+   "docs:usecase:15",
+   "docs:usecase:16",
+   "docs:usecase:17",
+   "docs:usecase:18",
+   "docs:usecase:19",
+   "docs:usecase:20",
+   "docs:usecase:21",
+   "docs:usecase:22",
+   "docs:usecase:23"
   ]
  },
  "workloads": [
@@ -39927,6 +40070,1186 @@
      "eval/mermaid-modern-compat/authored-probes.json#architecture-inline-title"
     ]
    }
+  },
+  {
+   "id": "docs:venn:0",
+   "family": "venn",
+   "source": "venn-beta\n  title What makes a good feature\n  set Desirable\n  set Feasible\n  set Viable\n  union Desirable,Feasible[\"Buildable\"]\n  union Feasible,Viable[\"Sustainable\"]\n  union Desirable,Viable[\"Marketable\"]\n  union Desirable,Feasible,Viable[\"Ship it\"]\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/venn.md#0",
+   "evidence": null
+  },
+  {
+   "id": "docs:venn:1",
+   "family": "venn",
+   "source": "---\nconfig:\n  theme: default\n  look: classic\n---\nvenn-beta\n  title What makes a good feature\n  set Desirable\n  set Feasible\n  set Viable\n  union Desirable,Feasible[\"Buildable\"]\n  union Feasible,Viable[\"Sustainable\"]\n  union Desirable,Viable[\"Marketable\"]\n  union Desirable,Feasible,Viable[\"Ship it\"]\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/venn.md#1",
+   "evidence": null
+  },
+  {
+   "id": "docs:venn:2",
+   "family": "venn",
+   "source": "venn-beta\n  title \"Team overlap\"\n  set Frontend\n  set Backend\n  union Frontend,Backend[\"APIs\"]\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/venn.md#2",
+   "evidence": null
+  },
+  {
+   "id": "docs:venn:3",
+   "family": "venn",
+   "source": "venn-beta\n  set A[\"Alpha\"]\n  set B[\"Beta\"]\n  union A,B[\"AB\"]\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/venn.md#3",
+   "evidence": null
+  },
+  {
+   "id": "docs:venn:4",
+   "family": "venn",
+   "source": "venn-beta\n  set Desirable\n  set Feasible\n  set Viable\n  union Desirable,Feasible,Viable[\"Innovation\"]\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/venn.md#4",
+   "evidence": null
+  },
+  {
+   "id": "docs:venn:5",
+   "family": "venn",
+   "source": "venn-beta\n  set A[\"Alpha\"]:20\n  set B[\"Beta\"]:12\n  union A,B[\"AB\"]:3\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/venn.md#5",
+   "evidence": null
+  },
+  {
+   "id": "docs:venn:6",
+   "family": "venn",
+   "source": "venn-beta\n  set A[\"Frontend\"]\n    text A1[\"React\"]\n    text A2[\"Design Systems\"]\n  set B[\"Backend\"]\n    text B1[\"API\"]\n  union A,B[\"Shared\"]\n    text AB1[\"OpenAPI\"]\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/venn.md#6",
+   "evidence": null
+  },
+  {
+   "id": "docs:venn:7",
+   "family": "venn",
+   "source": "venn-beta\n  set A[\"Alpha\"]:20\n    text A1[\"React\"]\n    text A2[\"Design Systems\"]\n  set B[\"Beta\"]:12\n  union A,B[\"AB\"]:3\n  style A fill:#ff6b6b\n  style A,B color:#333\n  style A1 color:red\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/venn.md#7",
+   "evidence": null
+  },
+  {
+   "id": "docs:treeview:0",
+   "family": "treeview",
+   "source": "treeView-beta\n├── src/\n│   ├── index.ts\n│   └── utils.ts\n├── package.json\n└── README.md\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/treeView.md#0",
+   "evidence": null
+  },
+  {
+   "id": "docs:treeview:1",
+   "family": "treeview",
+   "source": "treeView-beta\n├── src/\n│   ├── App.tsx :::highlight icon(logos:react) ## main component\n│   └── index.ts ## entry point\n├── .env ## environment variables\n├── Dockerfile\n└── package.json\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/treeView.md#1",
+   "evidence": null
+  },
+  {
+   "id": "docs:treeview:2",
+   "family": "treeview",
+   "source": "treeView-beta\n├── packages/\n│   ├── mermaid/\n│   │   ├── src/\n│   │   │   ├── parser.ts\n│   │   │   └── renderer.ts\n│   │   └── package.json\n│   └── parser/\n│       └── src/\n└── README.md\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/treeView.md#2",
+   "evidence": null
+  },
+  {
+   "id": "docs:treeview:3",
+   "family": "treeview",
+   "source": "treeView-beta\n    src/\n        App.tsx :::highlight\n        index.js\n    package.json\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/treeView.md#3",
+   "evidence": null
+  },
+  {
+   "id": "docs:treeview:4",
+   "family": "treeview",
+   "source": "treeView-beta\n    src/\n        index.js ## app entry point\n        config.ts ## runtime configuration\n    package.json ## project manifest\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/treeView.md#4",
+   "evidence": null
+  },
+  {
+   "id": "docs:treeview:5",
+   "family": "treeview",
+   "source": "---\nconfig:\n  treeView:\n    showIcons: true\n---\ntreeView-beta\n    src/\n        index.js\n    package.json\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/treeView.md#5",
+   "evidence": null
+  },
+  {
+   "id": "docs:treeview:6",
+   "family": "treeview",
+   "source": "---\nconfig:\n  treeView:\n    showIcons: true\n    defaultIconPack: material-icon-theme\n    filenameIcons:\n      Dockerfile: docker\n    extensionIcons:\n      .ts: typescript\n      .tsx: react-ts\n      .txt: none\n---\ntreeView-beta\n    src/\n        App.tsx\n        utils.ts\n    Dockerfile\n    notes.txt\n    README.md\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/treeView.md#6",
+   "evidence": null
+  },
+  {
+   "id": "docs:treeview:7",
+   "family": "treeview",
+   "source": "treeView-beta\n    src/\n        App.tsx icon(logos:react)\n        index.js\n    package.json\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/treeView.md#7",
+   "evidence": null
+  },
+  {
+   "id": "docs:treeview:8",
+   "family": "treeview",
+   "source": "---\nconfig:\n  treeView:\n    showIcons: true\n---\ntreeView-beta\n    src/\n        index.js icon(none)\n    package.json\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/treeView.md#8",
+   "evidence": null
+  },
+  {
+   "id": "docs:treeview:9",
+   "family": "treeview",
+   "source": "treeView-beta\n    my-project/\n        src/\n            App.tsx :::highlight icon(logos:react) ## main component\n            index.js ## entry point\n        .env ## environment variables\n        Dockerfile\n        package.json\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/treeView.md#9",
+   "evidence": null
+  },
+  {
+   "id": "docs:treeview:10",
+   "family": "treeview",
+   "source": "treeView-beta\n    \"packages\"\n        \"mermaid\"\n            \"src\"\n        \"parser\"\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/treeView.md#10",
+   "evidence": null
+  },
+  {
+   "id": "docs:treeview:11",
+   "family": "treeview",
+   "source": "treeView-beta\n    🚀 rocket-app/\n        📦 packages/\n            🎨 ui/\n            🛠️ utils/\n        🧪 tests/\n        📝 README.md\n        ⚙️ config.yaml\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/treeView.md#11",
+   "evidence": null
+  },
+  {
+   "id": "docs:treeview:12",
+   "family": "treeview",
+   "source": "---\nconfig:\n    treeView:\n        rowIndent: 80\n        lineThickness: 3\n    themeVariables:\n        treeView:\n            labelFontSize: '20px'\n            labelColor: '#FF0000'\n            lineColor: '#00FF00'\n---\ntreeView-beta\n    \"packages\"\n        \"mermaid\"\n            \"src\"\n        \"parser\"\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/treeView.md#12",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:0",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Tea Shop Value Chain\n\nanchor Business [0.95, 0.63]\ncomponent Cup of Tea [0.79, 0.61]\ncomponent Tea [0.63, 0.81]\ncomponent Hot Water [0.52, 0.80]\ncomponent Kettle [0.43, 0.35]\ncomponent Power [0.10, 0.70]\n\nBusiness -> Cup of Tea\nCup of Tea -> Tea\nCup of Tea -> Hot Water\nHot Water -> Kettle\nKettle -> Power\n\nevolve Kettle 0.62\nevolve Power 0.89\n\nnote \"Standardising power allows Kettles to evolve faster\" [0.30, 0.49]\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#0",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:1",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Your Map Title\nsize [1100, 600]\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#1",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:2",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Coordinate Examples\n\ncomponent Infrastructure [0.30, 0.20]        %% Low visibility, low evolution\ncomponent Product [0.70, 0.60]               %% High visibility, mid evolution\ncomponent User Need [0.90, 0.95]             %% High visibility, high evolution\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#2",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:3",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Components\n\ncomponent API [0.60, 0.70]\ncomponent Database [0.40, 0.85] label [-50, 10]\ncomponent \"Custom Service\" [0.55, 0.35]\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#3",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:4",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Hyphenated Names\n\ncomponent real-time processing [0.55, 0.40]\ncomponent end-user [0.90, 0.95]\n\nend-user -> real-time processing\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#4",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:5",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Anchors\n\nanchor Customer [0.90, 0.95]\nanchor Business [0.85, 0.90]\n\ncomponent Service [0.70, 0.75]\n\nCustomer -> Service\nBusiness -> Service\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#5",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:6",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Inertia\n\ncomponent Legacy System [0.45, 0.40] (inertia)\ncomponent New Platform [0.65, 0.45]\n\nLegacy System -> New Platform\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#6",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:7",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Sourcing Strategy\n\nanchor Customer [0.80, 0.95]\ncomponent Custom App [0.45, 0.85] (build)\ncomponent Off-the-shelf Tool [0.85, 0.65] (buy)\ncomponent Managed Service [0.60, 0.40] (outsource)\ncomponent Cloud Platform [0.95, 0.25] (market)\n\nCustomer -> Custom App\nCustom App -> Off-the-shelf Tool\nCustom App -> Managed Service\nOff-the-shelf Tool -> Cloud Platform\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#7",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:8",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Link Types\n\ncomponent User [0.90, 0.95]\ncomponent App [0.75, 0.75]\ncomponent API [0.60, 0.60]\ncomponent Cache [0.65, 0.45]\ncomponent Database [0.15, 0.80]\n\nUser -> App\nApp +> API\nAPI -> Database\nAPI +<> Cache\nCache +'backup'> Database\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#8",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:9",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Evolution\n\ncomponent Database [0.40, 0.50]\ncomponent API [0.55, 0.60]\n\nDatabase -> API\n\nevolve Database 0.75\nevolve API 0.80\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#9",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:10",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Pipeline Evolution\n\ncomponent Database [0.40, 0.60]\n\npipeline Database {\n  component \"File System\" [0.25]\n  component \"SQL DB\" [0.50]\n  component \"NoSQL\" [0.70]\n  component \"Cloud DB\" [0.85]\n}\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#10",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:11",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Custom Stages\n\nevolution Unmodelled -> Divergent -> Convergent -> Modelled\n\ncomponent Raw Data [0.15, 0.20]\ncomponent Analysis [0.45, 0.50]\ncomponent Reports [0.75, 0.70]\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#11",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:12",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Dual Label Stages\n\nevolution Genesis / Concept -> Custom / Emerging -> Product / Converging -> Commodity / Accepted\n\ncomponent Novel Idea [0.05, 0.20]\ncomponent Custom Solution [0.35, 0.50]\ncomponent Product [0.65, 0.70]\ncomponent Utility [0.95, 0.90]\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#12",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:13",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Custom Widths\n\nevolution Genesis@0.2 -> Custom@0.4 -> Product@0.75 -> Commodity@1.0\n\ncomponent Novel [0.75, 0.15]\ncomponent Bespoke [0.70, 0.35]\ncomponent Product [0.65, 0.65]\ncomponent Utility [0.60, 0.90]\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#13",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:14",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Notes\n\ncomponent API [0.60, 0.70]\ncomponent Database [0.40, 0.50]\n\nAPI -> Database\n\nnote \"Critical decision point\" [0.65, 0.55]\nnote \"High risk area\" [0.40, 0.35]\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#14",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:15",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Annotations\n\ncomponent API [0.60, 0.70]\ncomponent Cache [0.50, 0.55]\ncomponent Database [0.40, 0.40]\n\nAPI -> Cache\nCache -> Database\n\nannotations [0.10, 0.90]\nannotation 1,[0.60, 0.65] \"Critical component\"\nannotation 2,[0.50, 0.50] \"Performance layer\"\nannotation 3,[0.40, 0.35] \"Data persistence\"\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#15",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:16",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Forces\n\ncomponent Legacy [0.20, 0.85]\ncomponent Modern [0.55, 0.60]\ncomponent AI [0.70, 0.35]\n\nLegacy -> Modern\nModern -> AI\n\naccelerator \"AI Adoption\" [0.55, 0.25]\ndeaccelerator \"Legacy Constraints\" [0.15, 0.75]\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#16",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:17",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Custom Size\nsize [800, 1000]\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#17",
+   "evidence": null
+  },
+  {
+   "id": "docs:wardley:18",
+   "family": "wardley",
+   "source": "wardley-beta\ntitle Software Platform Strategy\nsize [1100, 800]\n\nevolution Genesis@0.25 -> Custom@0.5 -> Product@0.75 -> Commodity@1.0\n\nanchor Customer [0.90, 0.95]\n\ncomponent \"Mobile App\" [0.80, 0.85] (build)\ncomponent \"Web App\" [0.75, 0.80] label [-60, 10] (build)\ncomponent \"API Gateway\" [0.70, 0.65] (buy)\ncomponent \"Auth Service\" [0.60, 0.55] (outsource)\ncomponent \"Database\" [0.50, 0.45] (buy) (inertia)\ncomponent \"Cloud Platform\" [0.30, 0.95] (market)\n\nCustomer -> \"Mobile App\"\nCustomer -> \"Web App\"\n\"Mobile App\" -> \"API Gateway\"\n\"Web App\" -> \"API Gateway\"\n\"API Gateway\" -> \"Auth Service\"\n\"API Gateway\" -> \"Database\"\n\"Database\" -> \"Cloud Platform\"\n\nevolve \"API Gateway\" 0.85\nevolve \"Database\" 0.75\n\naccelerator \"Cloud Native\" [0.20, 0.85]\ndeaccelerator \"Legacy Data\" [0.45, 0.35]\n\nannotations [0.10, 0.20]\nannotation 1,[0.78, 0.82] \"User touchpoints\"\nannotation 2,[0.70, 0.60] \"Integration layer\"\nannotation 3,[0.50, 0.40] \"Data persistence\"\n\nnote \"Build mobile-first experience\" [0.85, 0.90]\nnote \"Migrate to cloud-native database\" [0.60, 0.50]\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/wardley.md#18",
+   "evidence": null
+  },
+  {
+   "id": "docs:eventmodeling:0",
+   "family": "eventmodeling",
+   "source": "eventmodeling\n\ntf 01 ui CartUI\ntf 02 cmd AddItem\ntf 03 evt ItemAdded\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/eventmodeling.md#0",
+   "evidence": null
+  },
+  {
+   "id": "docs:eventmodeling:1",
+   "family": "eventmodeling",
+   "source": "eventmodeling\n\ntf 01 ui CartUI\ntf 02 cmd AddItem { description: string }\ntf 03 evt ItemAdded { description: string }\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/eventmodeling.md#1",
+   "evidence": null
+  },
+  {
+   "id": "docs:eventmodeling:2",
+   "family": "eventmodeling",
+   "source": "eventmodeling\n\ntimeframe 01 ui CartUI\ntimeframe 02 command AddItem { description: string }\ntimeframe 03 event ItemAdded { description: string }\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/eventmodeling.md#2",
+   "evidence": null
+  },
+  {
+   "id": "docs:eventmodeling:3",
+   "family": "eventmodeling",
+   "source": "eventmodeling\n\ntf 01 ui CartUI\ntf 02 cmd AddItem [[AddItem01]]\ntf 03 evt ItemAdded [[ItemAdded]]\ntf 04 cmd AddItem [[AddItem02]]\ntf 05 evt ItemAdded [[ItemAdded]]\n\ndata AddItem01 {\n  description: 'john'\n  image: 'avatar_john'\n  price: 20.4\n}\n\ndata AddItem02 {\n  description: 'jack'\n  image: 'avatar_jack'\n  price: 12.5\n}\n\ndata ItemAdded {\n  description: string\n  image: string\n  price: number\n}\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/eventmodeling.md#3",
+   "evidence": null
+  },
+  {
+   "id": "docs:eventmodeling:4",
+   "family": "eventmodeling",
+   "source": "eventmodeling\n\ntimeframe 01 ui CartUI\ntimeframe 02 command AddItem [[AddItem01]]\ntimeframe 03 event ItemAdded [[ItemAdded]]\ntimeframe 04 command AddItem [[AddItem02]]\ntimeframe 05 event ItemAdded [[ItemAdded]]\n\ndata AddItem01 {\n  description: 'john'\n  image: 'avatar_john'\n  price: 20.4\n}\n\ndata AddItem02 {\n  description: 'jack'\n  image: 'avatar_jack'\n  price: 12.5\n}\n\ndata ItemAdded {\n  description: string\n  image: string\n  price: number\n}\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/eventmodeling.md#4",
+   "evidence": null
+  },
+  {
+   "id": "docs:eventmodeling:5",
+   "family": "eventmodeling",
+   "source": "eventmodeling\n\ntf 01 ui CartUI\ntf 02 cmd AddItem\ntf 03 evt ItemAdded\n\nrf 04 evt External.InventoryChanged\ntf 05 pcr InventoryProcessor\ntf 06 cmd ChangeInventory\ntf 07 evt Cart.InventoryChanged\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/eventmodeling.md#5",
+   "evidence": null
+  },
+  {
+   "id": "docs:eventmodeling:6",
+   "family": "eventmodeling",
+   "source": "eventmodeling\n\ntimeframe 01 ui CartUI\ntimeframe 02 command AddItem\ntimeframe 03 event ItemAdded\n\nresetframe 04 event External.InventoryChanged\ntimeframe 05 processor InventoryProcessor\ntimeframe 06 command ChangeInventory\ntimeframe 07 event Cart.InventoryChanged\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/eventmodeling.md#6",
+   "evidence": null
+  },
+  {
+   "id": "docs:eventmodeling:7",
+   "family": "eventmodeling",
+   "source": "eventmodeling\n\ntf 01 evt ItemAdded\ntf 02 ui OtherUI\nrf 03 rmo CartItems ->> 01\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/eventmodeling.md#7",
+   "evidence": null
+  },
+  {
+   "id": "docs:eventmodeling:8",
+   "family": "eventmodeling",
+   "source": "eventmodeling\n\nrf 02 evt CartCreated\nrf 03 evt ItemAdded\nrf 04 evt ItemRemoved\nrf 05 evt CartCleared\ntf 01 rmo CartUI ->> 02 ->> 03 ->> 04 ->> 05\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/eventmodeling.md#8",
+   "evidence": null
+  },
+  {
+   "id": "docs:eventmodeling:10",
+   "family": "eventmodeling",
+   "source": "eventmodeling\n\ntf 03 evt ItemAdded\ntf 02 rmo CartItems\ntf 04 ui CartUI\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/eventmodeling.md#10",
+   "evidence": null
+  },
+  {
+   "id": "docs:eventmodeling:11",
+   "family": "eventmodeling",
+   "source": "eventmodeling\n\ntf 03 evt External.InventoryChanged\ntf 02 pcr InventoryProcessor\ntf 04 cmd ChangeInventory\ntf 05 evt Cart.InventoryChanged\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/eventmodeling.md#11",
+   "evidence": null
+  },
+  {
+   "id": "docs:eventmodeling:12",
+   "family": "eventmodeling",
+   "source": "eventmodeling\n\nrf 01 evt Inventory.InventoryChanged\nrf 02 evt External.InventoryChanged\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/eventmodeling.md#12",
+   "evidence": null
+  },
+  {
+   "id": "docs:cynefin:0",
+   "family": "cynefin",
+   "source": "cynefin-beta\n  title Incident Response\n\n  complex\n    \"Investigate root cause\"\n    \"Run chaos experiment\"\n\n  complicated\n    \"Analyze performance data\"\n    \"Expert review needed\"\n\n  clear\n    \"Restart service\"\n    \"Apply known fix\"\n\n  chaotic\n    \"Page on-call immediately\"\n\n  confusion\n    \"Unknown failure mode\"\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/cynefin.md#0",
+   "evidence": null
+  },
+  {
+   "id": "docs:cynefin:1",
+   "family": "cynefin",
+   "source": "cynefin-beta\n  title Strategy Categorization\n\n  complex\n    \"Market research\"\n\n  complicated\n    \"Competitive analysis\"\n\n  clear\n    \"Standard pricing\"\n\n  chaotic\n    \"Crisis management\"\n\n  complex --> complicated : \"Pattern identified\"\n  complicated --> clear : \"Best practice codified\"\n  clear --> chaotic : \"Complacency\"\n  chaotic --> complex : \"Stabilized\"\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/cynefin.md#1",
+   "evidence": null
+  },
+  {
+   "id": "docs:cynefin:2",
+   "family": "cynefin",
+   "source": "cynefin-beta\n  title Cynefin Framework\n\n  complex\n  complicated\n  clear\n  chaotic\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/cynefin.md#2",
+   "evidence": null
+  },
+  {
+   "id": "docs:railroad:0",
+   "family": "railroad",
+   "source": "railroad-ebnf-beta\ntitle \"Digit Definition\"\n\ndigit = \"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"7\" | \"8\" | \"9\" ;\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/railroad.md#0",
+   "evidence": null
+  },
+  {
+   "id": "docs:railroad:1",
+   "family": "railroad",
+   "source": "railroad-ebnf-beta\nletter = \"a\" | \"b\" | \"c\" ;\nidentifier = letter ;\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/railroad.md#1",
+   "evidence": null
+  },
+  {
+   "id": "docs:railroad:2",
+   "family": "railroad",
+   "source": "railroad-ebnf-beta\ngreeting = \"Hello\" \" \" \"World\" ;\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/railroad.md#2",
+   "evidence": null
+  },
+  {
+   "id": "docs:railroad:3",
+   "family": "railroad",
+   "source": "railroad-ebnf-beta\nsign = \"+\" | \"-\" ;\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/railroad.md#3",
+   "evidence": null
+  },
+  {
+   "id": "docs:railroad:4",
+   "family": "railroad",
+   "source": "railroad-ebnf-beta\ntitle \"Optional Sign\"\n\nsign = \"+\" | \"-\" ;\nnumber = sign? digit+ ;\ndigit = \"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"7\" | \"8\" | \"9\" ;\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/railroad.md#4",
+   "evidence": null
+  },
+  {
+   "id": "docs:railroad:5",
+   "family": "railroad",
+   "source": "railroad-ebnf-beta\ntitle \"Identifier with Repetition\"\n\nidentifier = letter ( letter | digit | \"_\" )* ;\nletter = \"a\" | \"b\" | \"c\" | \"d\" | \"e\" ;\ndigit = \"0\" | \"1\" | \"2\" ;\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/railroad.md#5",
+   "evidence": null
+  },
+  {
+   "id": "docs:railroad:6",
+   "family": "railroad",
+   "source": "railroad-ebnf-beta\nexpression = term ( ( \"+\" | \"-\" ) term )* ;\nterm = \"number\" ;\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/railroad.md#6",
+   "evidence": null
+  },
+  {
+   "id": "docs:railroad:7",
+   "family": "railroad",
+   "source": "railroad-ebnf-beta\ntitle \"Arithmetic Expression Grammar\"\n\nexpression = term ( ( \"+\" | \"-\" ) term )* ;\nterm = factor ( ( \"*\" | \"/\" ) factor )* ;\nfactor = number | \"(\" expression \")\" ;\nnumber = digit+ ;\ndigit = \"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"7\" | \"8\" | \"9\" ;\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/railroad.md#7",
+   "evidence": null
+  },
+  {
+   "id": "docs:railroad:8",
+   "family": "railroad",
+   "source": "railroad-ebnf-beta\ntitle \"JSON Grammar\"\n\njson = element ;\nelement = object | array | string | number | \"true\" | \"false\" | \"null\" ;\nobject = \"{\" [ member ( \",\" member )* ] \"}\" ;\narray = \"[\" [ element ( \",\" element )* ] \"]\" ;\nmember = string \":\" element ;\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/railroad.md#8",
+   "evidence": null
+  },
+  {
+   "id": "docs:railroad:9",
+   "family": "railroad",
+   "source": "railroad-abnf-beta\ntitle \"Email Address\"\n\naddress = local-part \"@\" domain ;\nlocal-part = 1*( ALPHA / DIGIT / \".\" / \"-\" ) ;\ndomain = label *( \".\" label ) ;\nlabel = 1*( ALPHA / DIGIT / \"-\" ) ;\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/railroad.md#9",
+   "evidence": null
+  },
+  {
+   "id": "docs:railroad:10",
+   "family": "railroad",
+   "source": "railroad-abnf-beta\ntitle \"Phone Number\"\n\nphone = [ \"+\" country-code ] subscriber ;\ncountry-code = 1*DIGIT ;\nsubscriber = 1*( DIGIT / \"-\" / \" \" ) ;\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/railroad.md#10",
+   "evidence": null
+  },
+  {
+   "id": "docs:railroad:11",
+   "family": "railroad",
+   "source": "railroad-peg-beta\ntitle \"Calculator Grammar\"\n\nExpression <- Term ((\"+\" / \"-\") Term)* ;\nTerm <- Factor ((\"*\" / \"/\") Factor)* ;\nFactor <- Number / \"(\" Expression \")\" ;\nNumber <- Digit+ ;\nDigit <- \"0\" / \"1\" / \"2\" / \"3\" / \"4\" / \"5\" / \"6\" / \"7\" / \"8\" / \"9\" ;\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/railroad.md#11",
+   "evidence": null
+  },
+  {
+   "id": "docs:railroad:12",
+   "family": "railroad",
+   "source": "railroad-peg-beta\ntitle \"Identifiers (keywords excluded)\"\n\nIdentifier <- !Keyword Letter Letter* ;\nKeyword <- \"if\" / \"else\" / \"while\" ;\nLetter <- \"a\" / \"b\" / \"c\" / \"_\" ;\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/railroad.md#12",
+   "evidence": null
+  },
+  {
+   "id": "docs:railroad:13",
+   "family": "railroad",
+   "source": "railroad-beta\ntitle Expression Grammar\n\nexpression = sequence(\n    nonterminal(\"term\"),\n    zeroOrMore(sequence(\n        choice(terminal(\"+\"), terminal(\"-\")),\n        nonterminal(\"term\")\n    ))\n) ;\nterm = sequence(\n    nonterminal(\"factor\"),\n    zeroOrMore(sequence(\n        choice(terminal(\"*\"), terminal(\"/\")),\n        nonterminal(\"factor\")\n    ))\n) ;\nfactor = choice(\n    nonterminal(\"number\"),\n    sequence(terminal(\"(\"), nonterminal(\"expression\"), terminal(\")\"))\n) ;\nnumber = oneOrMore(nonterminal(\"digit\")) ;\ndigit = choice(terminal(\"0\"), terminal(\"1\"), terminal(\"2\"), terminal(\"3\"), terminal(\"4\"), terminal(\"5\"), terminal(\"6\"), terminal(\"7\"), terminal(\"8\"), terminal(\"9\")) ;\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/railroad.md#13",
+   "evidence": null
+  },
+  {
+   "id": "docs:swimlane:0",
+   "family": "swimlane",
+   "source": "swimlane-beta LR\n  subgraph Customer\n    Browse[Browse catalogue]\n    Pay[Pay]\n  end\n  subgraph Warehouse\n    Pick[Pick items]\n    Ship[Ship order]\n  end\n  subgraph Finance\n    Invoice[Raise invoice]\n  end\n  Browse --> Pay\n  Pay --> Pick\n  Pick --> Ship\n  Pay --> Invoice\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/swimlanes.md#0",
+   "evidence": null
+  },
+  {
+   "id": "docs:swimlane:1",
+   "family": "swimlane",
+   "source": "---\nconfig:\n  theme: default\n  look: classic\n---\nswimlane-beta LR\n  subgraph Customer\n    Browse[Browse catalogue]\n    Pay[Pay]\n  end\n  subgraph Warehouse\n    Pick[Pick items]\n    Ship[Ship order]\n  end\n  subgraph Finance\n    Invoice[Raise invoice]\n  end\n  Browse --> Pay\n  Pay --> Pick\n  Pick --> Ship\n  Pay --> Invoice\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/swimlanes.md#1",
+   "evidence": null
+  },
+  {
+   "id": "docs:swimlane:2",
+   "family": "swimlane",
+   "source": "swimlane-beta LR\n  subgraph Customer\n    request[Request service]\n    receive[Receive update]\n  end\n\n  subgraph Support\n    triage[Triage request]\n    answer[Send answer]\n  end\n\n  subgraph Engineering\n    investigate[Investigate issue]\n    fix[Prepare fix]\n  end\n\n  request --> triage\n  triage -->|Known issue| answer\n  triage -->|Needs code change| investigate\n  investigate --> fix --> answer\n  answer --> receive\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/swimlanes.md#2",
+   "evidence": null
+  },
+  {
+   "id": "docs:swimlane:3",
+   "family": "swimlane",
+   "source": "swimlane-beta\n  subgraph Sales\n    lead[Qualify lead]\n    quote[Prepare quote]\n  end\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/swimlanes.md#3",
+   "evidence": null
+  },
+  {
+   "id": "docs:swimlane:4",
+   "family": "swimlane",
+   "source": "swimlane-beta LR\n  subgraph sales [Sales team]\n    lead[Qualify lead]\n    quote[Prepare quote]\n  end\n\n  subgraph finance [Finance team]\n    review[Review terms]\n    approve[Approve quote]\n  end\n\n  lead --> quote --> review --> approve\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/swimlanes.md#4",
+   "evidence": null
+  },
+  {
+   "id": "docs:swimlane:5",
+   "family": "swimlane",
+   "source": "swimlane-beta LR\n  subgraph Intake\n    start([Start])\n    task[Do work]\n    fix[Fix issues]\n  end\n\n  subgraph Review\n    decision{Ready?}\n  end\n\n  subgraph Complete\n    done((Done))\n  end\n\n  start --> task --> decision\n  decision -->|Yes| done\n  decision -->|No| fix\n  fix --> task\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/swimlanes.md#5",
+   "evidence": null
+  },
+  {
+   "id": "docs:swimlane:6",
+   "family": "swimlane",
+   "source": "swimlane-beta LR\n  subgraph Buyer\n    choose[Choose product]\n    pay[Pay invoice]\n  end\n\n  subgraph Store\n    reserve[Reserve stock]\n    ship[Ship product]\n  end\n\n  choose --> reserve\n  reserve -->|Invoice ready| pay\n  pay --> ship\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/swimlanes.md#6",
+   "evidence": null
+  },
+  {
+   "id": "docs:swimlane:7",
+   "family": "swimlane",
+   "source": "swimlane-beta LR\n  accTitle: Support escalation\n  accDescr: A request starts with the customer, is triaged by support, and may be escalated to engineering.\n\n  subgraph Customer\n    request[Open request]\n  end\n\n  subgraph Support\n    triage[Triage]\n  end\n\n  subgraph Engineering\n    resolve[Resolve]\n  end\n\n  request --> triage --> resolve\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/swimlanes.md#7",
+   "evidence": null
+  },
+  {
+   "id": "docs:swimlane:8",
+   "family": "swimlane",
+   "source": "swimlane-beta LR\n  subgraph Customer\n    submit[Submit order]\n    confirm[Confirm delivery]\n  end\n\n  subgraph Store\n    check[Check order]\n    pack[Pack items]\n  end\n\n  subgraph Carrier\n    collect[Collect package]\n    deliver[Deliver package]\n  end\n\n  submit --> check --> pack --> collect --> deliver --> confirm\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/swimlanes.md#8",
+   "evidence": null
+  },
+  {
+   "id": "docs:swimlane:9",
+   "family": "swimlane",
+   "source": "swimlane-beta LR\n  subgraph Applicant\n    apply[Submit application]\n    sign[Sign agreement]\n  end\n\n  subgraph Reviewer\n    screen[Screen application]\n    decide{Approved?}\n  end\n\n  subgraph System\n    create[Create account]\n    notify[Send welcome email]\n  end\n\n  apply -->|Application received| screen\n  screen --> decide\n  decide -->|Approved| create --> notify --> sign\n  decide -->|Needs changes| apply\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/swimlanes.md#9",
+   "evidence": null
+  },
+  {
+   "id": "docs:swimlane:10",
+   "family": "swimlane",
+   "source": "swimlane-beta TB\n  subgraph Intake\n    collect[Collect request]\n    validate[Validate details]\n  end\n\n  subgraph Review\n    review[Review request]\n    decide{Ready?}\n  end\n\n  subgraph Delivery\n    schedule[Schedule work]\n    complete[Complete work]\n  end\n\n  collect --> validate --> review --> decide\n  decide -->|Yes| schedule --> complete\n  decide -->|No| collect\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/swimlanes.md#10",
+   "evidence": null
+  },
+  {
+   "id": "docs:swimlane:11",
+   "family": "swimlane",
+   "source": "swimlane-beta LR\n  subgraph ops [Operations]\n    intake[Receive request]\n    plan[Plan work]\n  end\n\n  subgraph legal [Legal]\n    review[Review contract]\n  end\n\n  intake --> plan --> review\n\n  classDef attention fill:#fff2cc,stroke:#d6a500,color:#111;\n  class review attention;\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/swimlanes.md#11",
+   "evidence": null
+  },
+  {
+   "id": "docs:swimlane:12",
+   "family": "swimlane",
+   "source": "swimlane-beta LR\n  subgraph Support\n    classify{Can support solve it?}\n    respond[Respond to customer]\n  end\n\n  subgraph Product\n    prioritize[Prioritize fix]\n  end\n\n  subgraph Engineering\n    implement[Implement fix]\n  end\n\n  classify -->|Yes| respond\n  classify -->|No| prioritize --> implement --> respond\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/swimlanes.md#12",
+   "evidence": null
+  },
+  {
+   "id": "docs:agentflow:0",
+   "family": "agentflow",
+   "source": "agentflow-beta TB\n  flow reviewer[\"Review Agent\"]\n    changes[\"Gather changes\"]@{ shape: input }\n    analyse[\"Analyse diff\"]@{ shape: task }\n    lint[\"run_linter\"]@{ shape: tool }\n    ok[\"Clean?\"]@{ shape: decision }\n\n    changes --> analyse --> lint --> ok\n  end\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/agentflow.md#0",
+   "evidence": null
+  },
+  {
+   "id": "docs:agentflow:1",
+   "family": "agentflow",
+   "source": "agentflow-beta TB\n  brief[\"Release brief\"]@{ shape: input }\n  flow writer[\"Drafting Agent\"]\n    draft[\"Draft the notes\"]@{ shape: task }\n    lookup[\"changelog_search\"]@{ shape: tool }\n    guide[\"Tone of voice\"]@{ shape: refdoc }\n    draft --> lookup\n    draft -.- guide\n  end\n  flow reviewer[\"Review Agent\"]\n    check[\"Check the claims\"]@{ shape: task }\n    ok[\"Accurate?\"]@{ shape: decision }\n    check --> ok\n  end\n  publish[\"Publish\"]@{ shape: action }\n  brief --> writer\n  writer --> reviewer\n  ok --> publish\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/agentflow.md#1",
+   "evidence": null
+  },
+  {
+   "id": "docs:agentflow:2",
+   "family": "agentflow",
+   "source": "---\nconfig:\n  theme: default\n  look: classic\n  layout: dagre\n---\nagentflow-beta TB\n  brief[\"Release brief\"]@{ shape: input }\n  flow writer[\"Drafting Agent\"]\n    draft[\"Draft the notes\"]@{ shape: task }\n    lookup[\"changelog_search\"]@{ shape: tool }\n    guide[\"Tone of voice\"]@{ shape: refdoc }\n    draft --> lookup\n    draft -.- guide\n  end\n  flow reviewer[\"Review Agent\"]\n    check[\"Check the claims\"]@{ shape: task }\n    ok[\"Accurate?\"]@{ shape: decision }\n    check --> ok\n  end\n  publish[\"Publish\"]@{ shape: action }\n  brief --> writer\n  writer --> reviewer\n  ok --> publish\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/agentflow.md#2",
+   "evidence": null
+  },
+  {
+   "id": "docs:agentflow:3",
+   "family": "agentflow",
+   "source": "agentflow-beta LR\n  brief[\"Brief\"]@{ shape: input }\n  draft[\"Draft copy\"]@{ shape: task }\n  spellcheck[\"spell_check\"]@{ shape: tool }\n  guide[\"Style guide\"]@{ shape: refdoc }\n  publish[\"Publish\"]@{ shape: action }\n\n  brief --> draft --> spellcheck --> publish\n  draft -.- guide\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/agentflow.md#3",
+   "evidence": null
+  },
+  {
+   "id": "docs:agentflow:4",
+   "family": "agentflow",
+   "source": "agentflow-beta TB\n  check[\"Tests pass?\"]@{ shape: decision }\n  ship[\"Ship it\"]@{ shape: action }\n  fix[\"Fix the build\"]@{ shape: task }\n  logs[\"Build logs\"]@{ shape: refdoc }\n\n  check -- yes --> ship\n  check -- no --> fix\n  fix --x check\n  fix -.- logs\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/agentflow.md#4",
+   "evidence": null
+  },
+  {
+   "id": "docs:agentflow:5",
+   "family": "agentflow",
+   "source": "agentflow-beta TB\n  flow team[\"Content Team\"]\n    flow researcher[\"Researcher\"]\n      gather[\"Gather sources\"]@{ shape: task }\n    end\n\n    flow writer[\"Writer\"]\n      compose[\"Compose draft\"]@{ shape: task }\n    end\n\n    researcher --> writer\n  end\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/agentflow.md#5",
+   "evidence": null
+  },
+  {
+   "id": "docs:agentflow:6",
+   "family": "agentflow",
+   "source": "agentflow-beta TB\n  global\n    corpus[\"Shared corpus\"]@{ shape: refdoc }\n  end\n\n  flow summariser[\"Summariser\"]\n    summarise[\"Summarise\"]@{ shape: task }\n    summarise -.- corpus\n  end\n\n  flow indexer[\"Indexer\"]\n    index[\"Build index\"]@{ shape: task }\n    index -.- corpus\n  end\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/agentflow.md#6",
+   "evidence": null
+  },
+  {
+   "id": "docs:agentflow:7",
+   "family": "agentflow",
+   "source": "agentflow-beta TB\n  flow intake[\"Intake\"]\n    receive[\"Receive request\"]@{ shape: input }\n  end\n\n  flow processing[\"Processing\"]\n    validate[\"Validate\"]@{ shape: task }\n    enrich[\"Enrich\"]@{ shape: task }\n    validate --> enrich\n  end\n  processing@{ view: \"collapsed\" }\n\n  flow output[\"Output\"]\n    publish[\"Publish\"]@{ shape: action }\n  end\n\n  receive --> validate\n  enrich --> publish\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/agentflow.md#7",
+   "evidence": null
+  },
+  {
+   "id": "docs:agentflow:8",
+   "family": "agentflow",
+   "source": "agentflow-beta LR\n  connector github[\"GitHub API\"]\n  github@{ protocol: \"http\", endpoint: \"https://api.github.com\" }\n\n  title[\"Issue title\"]@{ shape: input }\n  create[\"create_issue\"]@{ shape: tool, connectorRef: \"github.create_issue\" }\n\n  title --> create\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/agentflow.md#8",
+   "evidence": null
+  },
+  {
+   "id": "docs:agentflow:9",
+   "family": "agentflow",
+   "source": "agentflow-beta TB\n  connector llm[\"LLM API\"]\n  llm@{ protocol: \"http\", endpoint: \"https://api.example.com/chat\" }\n\n  flow coffee_team[\"Coffee Team\"]\n    city[\"city\"]@{ shape: input, value: \"Stockholm\" }\n\n    flow researcher[\"Researcher\"]\n      research[\"research_location\"]@{ shape: tool, params: \"city :: String\", returns: \"Report\" }\n      write[\"write_copy\"]@{ shape: tool, connectorRef: \"llm.chat\", returns: \"CoffeeCopy\" }\n      city --> research --> write\n    end\n    researcher@{ instruction: \"Research the city and draft English coffee copy citing sources.\" }\n\n    flow designer[\"Designer\"]\n      render[\"generate_html\"]@{ shape: tool, connectorRef: \"llm.chat\", returns: \"String\" }\n      brand[\"Nordic Brand Guide\"]@{ shape: refdoc }\n      render -.- brand\n    end\n\n    researcher --> designer\n  end\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/agentflow.md#9",
+   "evidence": null
+  },
+  {
+   "id": "docs:agentflow:10",
+   "family": "agentflow",
+   "source": "---\nconfig:\n  agentflow:\n    nodeSpacing: 70\n    rankSpacing: 70\n---\nagentflow-beta TB\n  a[\"A\"] --> b[\"B\"]\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/agentflow.md#10",
+   "evidence": null
+  },
+  {
+   "id": "docs:agentflow:11",
+   "family": "agentflow",
+   "source": "---\nconfig:\n  layout: elk\n---\nagentflow-beta TB\n  flow tools[\"Tools\"]\n    a[\"a\"]@{ shape: tool }\n    b[\"b\"]@{ shape: tool }\n  end\n  tools@{ algorithm: \"elk.rectpacking\" }\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/agentflow.md#11",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:0",
+   "family": "usecase",
+   "source": "usecase-beta\ndirection LR\nactor Customer(\"Customer\")\nsystemBoundary \"Order system\"\n  Checkout(\"Place order\")\nend\nCustomer --> Checkout\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#0",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:1",
+   "family": "usecase",
+   "source": "usecase-beta\ndirection LR\nactor Customer\nactor Support\nsystemBoundary Storefront\n  Browse(\"Browse catalogue\")\n  Checkout(\"Checkout\")\nend\nsystemBoundary Fulfilment\n  Track(\"Track delivery\")\nend\nCustomer --> Browse\nCustomer --> Checkout\nCustomer --> Track\nSupport --> Track\nCheckout ..> : include Browse\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#1",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:2",
+   "family": "usecase",
+   "source": "---\nconfig:\n  theme: default\n  look: classic\n  layout: dagre\n---\nusecase-beta\ndirection LR\nactor Customer\nactor Support\nsystemBoundary Storefront\n  Browse(\"Browse catalogue\")\n  Checkout(\"Checkout\")\nend\nsystemBoundary Fulfilment\n  Track(\"Track delivery\")\nend\nCustomer --> Browse\nCustomer --> Checkout\nCustomer --> Track\nSupport --> Track\nCheckout ..> : include Browse\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#2",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:3",
+   "family": "usecase",
+   "source": "usecase-beta\nCustomer --> Login\nactor Customer\nactor Admin(\"Main administrator\")\nLogin(\"Sign in\")\nReport[Generate report]\n\"Reset password\"\nAdmin --> Report\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#3",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:4",
+   "family": "usecase",
+   "source": "usecase-beta\nactor Normal(\"Normal actor\")\nactor Hollow(\"Hollow actor\")@{ type: hollow }\nactor Awesome(\"Awesome actor\")@{ type: awesome }\nactor Icon(\"Registered icon\")@{ icon: \"fa:user\" }\nactor Fallback(\"Missing icon fallback\")@{ icon: \"not-registered:user\" }\nNormal --> Manage\nHollow --> Manage\nAwesome --> Manage\nIcon --> Manage\nFallback --> Manage\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#4",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:5",
+   "family": "usecase",
+   "source": "usecase-beta\nactor SalesAgent(\"Sales agent\")@{ business: true } <<Employee>>\nactor Broker@{ type: hollow, business: true }\nQuote(\"Prepare quote\")@{ business: true } <<Core>>\nArchive[Archive quote] <<Record>>\nSalesAgent --> Quote\nBroker --> Quote\nQuote --> Archive\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#5",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:6",
+   "family": "usecase",
+   "source": "usecase-beta\nactor Analyst(*Analyst*)\nLiteral(**Literal markers**)\nPriced[Costs 19.95 EUR — VAT included!]\nAnalyst -- files R&D report --> Literal\nAnalyst --> Priced\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#6",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:7",
+   "family": "usecase",
+   "source": "usecase-beta\nactor Reviewer(\"`*Reviewer*`\")\nLiteral(\"**Literal markers**\")\nFormatted(\"`**Formatted label**\nwith a physical line break`\")\nQuoted(\"Show #quot;quoted#quot; text\")\nReviewer -- \"`opens **form**`\" --> Formatted\nReviewer --> Literal\nReviewer --> Quoted\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#7",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:8",
+   "family": "usecase",
+   "source": "usecase-beta\n%% Actors are declared explicitly.\nactor User\n\n%% Each relationship is a separate statement.\nUser --> Login\nLogin --> Dashboard\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#8",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:9",
+   "family": "usecase",
+   "source": "usecase-beta\nsystemBoundary sb1[\"Payment service\"]@{ type: package }:::system\n  actor Clerk(\"Payment clerk\")\n  Authorize(\"Authorize payment\")\n  Receipt[Create receipt]\nend\nClerk --> Authorize\nAuthorize --> Receipt\nclassDef system stroke:#4b4b7a\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#9",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:10",
+   "family": "usecase",
+   "source": "usecase-beta\nsystemBoundary \"Payment service\"\n  actor Clerk(\"Payment clerk\")\n  Authorize(\"Authorize payment\")\nend\nPayment_service@{ type: package }\nClerk --> Authorize\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#10",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:11",
+   "family": "usecase",
+   "source": "usecase-beta\nactor User\nactor Support\nStart\nFinish\nUser --> Start\nStart <-- Support\nStart -- Finish\nUser --o Start\nStart o-- Support\nUser --x Finish\nFinish x-- Support\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#11",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:12",
+   "family": "usecase",
+   "source": "usecase-beta\nactor User\nLogin\nUser -- \"include account details\" --> Login\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#12",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:13",
+   "family": "usecase",
+   "source": "usecase-beta\nactor Admin\nactor Person\nCheckout\nPayment\nApplyCoupon\nAdmin --|> Person\nCheckout ..> : include Payment\nApplyCoupon ..> : extend Checkout\nApplyCoupon --|> Checkout\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#13",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:14",
+   "family": "usecase",
+   "source": "usecase-beta\nactor Customer\nCheckout\nPayment\nCustomer opens@-- \"starts checkout\" ---> Checkout\nCheckout payment@..> : include Payment\nclassDef emphasized stroke:#d33,stroke-width:3px\nclass opens,payment emphasized\nstyle opens stroke:#06c,stroke-width:4px\nopens@{ animation: fast }\npayment@{ animate: false }\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#14",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:15",
+   "family": "usecase",
+   "source": "usecase-beta\nnote for Login \"`Requires an **active session**`\"\nnote for User \"Starts the workflow\"\nactor User\nLogin(\"Sign in\")\nUser --> Login\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#15",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:16",
+   "family": "usecase",
+   "source": "usecase-beta\nInspect(\"Inspect payload\")\njson Payload@{\n  \"2\": \"second in source\",\n  \"1\": \"first after 2\",\n  \"enabled\": true,\n  \"count\": 3,\n  \"missing\": null,\n  \"colors\": [\"Red\", \"Green\"],\n  \"address\": { \"city\": \"Oslo\" },\n  \"items\": [{ \"name\": \"Book\" }],\n  \"emptyObject\": {},\n  \"emptyArray\": []\n}:::data\nInspect --> Payload\nclassDef data stroke:#3572a5\nstyle Payload stroke-width:2px\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#16",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:17",
+   "family": "usecase",
+   "source": "usecase-beta\nactor Customer:::external\nCheckout(\"Checkout\"):::critical\nsystemBoundary Account\n  Profile[Edit profile]\nend\njson Session@{ \"active\": true }:::data\nCustomer --> Checkout\nCheckout --> Profile\nProfile --> Session\nclassDef default stroke:#7f8ea3\nclassDef external,critical stroke-width:3px\nclass Customer,Checkout external,critical\nclass Account,Session data\nstyle Checkout stroke:#c33,stroke-width:4px\nstyle Account stroke:#536878\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#17",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:18",
+   "family": "usecase",
+   "source": "---\nconfig:\n  theme: redux-color\n---\nusecase-beta\ndirection LR\nactor Customer\nsystemBoundary Catalogue\n  Browse(\"Browse catalogue\")\nend\nsystemBoundary Payment\n  Checkout(\"Checkout\")\nend\nCustomer --> Browse\nBrowse --> Checkout\nCheckout ..> : include Browse\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#18",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:19",
+   "family": "usecase",
+   "source": "---\nconfig:\n  theme: redux-color\n  usecase:\n    colorScheme: rotate\n---\nusecase-beta\ndirection LR\nactor Customer\nactor Auditor\nBrowse(\"Browse catalogue\")\nCheckout(\"Checkout\")\nCustomer --> Browse\nBrowse --> Checkout\nAuditor --> Checkout\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#19",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:20",
+   "family": "usecase",
+   "source": "---\nconfig:\n  usecase:\n    actorFontSize: 16\n    actorFontFamily: Arial\n    actorFontWeight: bold\n    usecaseFontSize: 14\n    usecaseFontFamily: Georgia\n    usecaseFontWeight: normal\n    nodeSpacing: 60\n    rankSpacing: 70\n    diagramPadding: 24\n    colorScheme: role\n    useMaxWidth: false\n---\nusecase-beta\ndirection LR\nactor Customer\nBrowse(\"Browse catalog\")\nCustomer --> Browse\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#20",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:21",
+   "family": "usecase",
+   "source": "usecase-beta\naccTitle: Account access use cases\naccDescr {\n  A customer signs in and can reset a password.\n  The diagram names the actor, use cases, and associations.\n}\nactor Customer\nSignIn(\"Sign in\")\nReset(\"Reset password\")\nCustomer --> SignIn\nCustomer --> Reset\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#21",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:22",
+   "family": "usecase",
+   "source": "usecase-beta\ndirection LR\naccTitle: Online ordering use cases\naccDescr {\n  A customer places an order through the storefront.\n  Staff review the order and inspect its data.\n}\nactor Customer(\"Customer\")\nactor Staff(\"Order staff\")@{ type: hollow, business: true } <<Employee>>\nsystemBoundary ordering[\"Ordering System\"]@{ type: package }:::system\n  Browse(\"Browse products\")\n  Checkout(\"Checkout\") <<Core>>:::critical\n  Payment(\"Process payment\")\n  Review[Review order]\nend\njson OrderData@{\n  \"status\": \"pending\",\n  \"items\": [{ \"name\": \"Book\", \"quantity\": 1 }],\n  \"total\": 29.95\n}:::data\nnote for Checkout \"`Validates the **cart** before payment`\"\nCustomer starts@-- \"places order\" ---> Checkout\nCustomer --> Browse\nCheckout pays@..> : include Payment\nStaff --> Review\nReview --> OrderData\nclassDef system stroke:#c8a02a,stroke-width:2px\nclassDef critical stroke:#c33,stroke-width:3px\nclassDef data stroke:#3572a5\nstarts@{ animation: fast }\nstyle pays stroke:#6b46c1,stroke-width:2px\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#22",
+   "evidence": null
+  },
+  {
+   "id": "docs:usecase:23",
+   "family": "usecase",
+   "source": "usecase-beta\nactor Customer\nReset(\"`Reset\npassword`\")\nRefund(\"Refund #40;partial#41;\")\nCustomer --> Reset\nCustomer --> Refund\n",
+   "features": [
+    "mermaid-syntax-docs-example"
+   ],
+   "provenance": "mermaid@12.2.0:packages/mermaid/src/docs/syntax/usecase.md#23",
+   "evidence": null
   }
  ]
 }

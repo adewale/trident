@@ -392,9 +392,25 @@ export function portableCases(selection?: readonly PortableCohort[]): PortableCa
  * Rejecting this probe marks the family unsupported before any of its cases run; an
  * accepted probe keeps every later failure in that family a failure. */
 export const FAMILY_SUPPORT_PROTOCOL = 'family-cohort-source-acceptance-v1'
-/** Every family Trident can probe, in cohort order. */
-export const probedFamilies = (): string[] => [...new Set(familyCases.map(testCase => testCase.family))]
+/** Mermaid's nine newest families (11.12.3 to 12.0.0), all but eventmodeling declared with a
+ * `-beta` keyword. They are probed and reported apart from the 23-family mark, and stay out of
+ * portableCases so the portable cohort protocol is unchanged. */
+const newerFamilyCases: PortableCase[] = [
+  { id: 'family:venn', family: 'venn', cohort: 'family', source: 'venn-beta\n  set Alpha\n  set Beta\n  union Alpha,Beta["Both"]', expected: { accept: true, labels: ['Alpha', 'Beta', 'Both'] } },
+  { id: 'family:treeview', family: 'treeview', cohort: 'family', source: 'treeView-beta\n├── Alpha\n│   └── Beta.txt\n└── Gamma.txt', expected: { accept: true, labels: ['Alpha', 'Beta.txt', 'Gamma.txt'] } },
+  { id: 'family:wardley', family: 'wardley', cohort: 'family', source: 'wardley-beta\ntitle Value\ncomponent Alpha [0.80, 0.30]\ncomponent Beta [0.40, 0.60]\nAlpha -> Beta', expected: { accept: true, labels: ['Value', 'Alpha', 'Beta'] } },
+  { id: 'family:eventmodeling', family: 'eventmodeling', cohort: 'family', source: 'eventmodeling\n\ntf 01 ui AlphaScreen\ntf 02 cmd BetaCommand\ntf 03 evt GammaEvent', expected: { accept: true, labels: ['AlphaScreen', 'BetaCommand', 'GammaEvent'] } },
+  { id: 'family:cynefin', family: 'cynefin', cohort: 'family', source: 'cynefin-beta\n  title Alpha\n  complex\n    "Beta"\n  clear\n    "Gamma"\n  complex --> clear : "Delta"', expected: { accept: true, labels: ['Alpha', 'Beta', 'Gamma', 'Delta'] } },
+  { id: 'family:railroad', family: 'railroad', cohort: 'family', source: 'railroad-ebnf-beta\nalpha = "beta" | gamma ;\ngamma = "delta" ;', expected: { accept: true, labels: ['alpha', 'beta', 'gamma', 'delta'] } },
+  { id: 'family:swimlane', family: 'swimlane', cohort: 'family', source: 'swimlane-beta LR\n  subgraph Alpha\n    A[Beta]\n  end\n  subgraph Gamma\n    B[Delta]\n  end\n  A --> B', expected: { accept: true, labels: ['Alpha', 'Beta', 'Gamma', 'Delta'] } },
+  { id: 'family:agentflow', family: 'agentflow', cohort: 'family', source: 'agentflow-beta TB\n  flow alpha["Alpha"]\n    b["Beta"]@{ shape: task }\n    c["Gamma"]@{ shape: tool }\n    b --> c\n  end', expected: { accept: true, labels: ['Alpha', 'Beta', 'Gamma'] } },
+  { id: 'family:usecase', family: 'usecase', cohort: 'family', source: 'usecase-beta\nactor Alpha("Alpha")\nsystemBoundary "Beta"\n  Gamma("Gamma")\nend\nAlpha --> Gamma', expected: { accept: true, labels: ['Alpha', 'Beta', 'Gamma'] } },
+]
+/** The 23 families of the mark, in cohort order. */
+export const scoredFamilies = (): string[] => [...new Set(familyCases.map(testCase => testCase.family))]
+/** The newer families, reported beside the mark and never counted in it. */
+export const newerFamilies = (): string[] => newerFamilyCases.map(testCase => testCase.family)
 export function familySupportProbe(family: string): PortableCase | undefined {
-  const canonical = familyCases.find(testCase => testCase.family === family)
+  const canonical = familyCases.find(testCase => testCase.family === family) ?? newerFamilyCases.find(testCase => testCase.family === family)
   return canonical && { ...canonical, id: `family-support:${family}` }
 }
