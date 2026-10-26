@@ -1,11 +1,12 @@
 import { expect, test } from 'bun:test'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { loadCurrentProjectRecords, type ProjectBenchmarkIdentity, type ProjectBenchmarkRecord, publishProjectRecord } from '../portable/project-records.ts'
 import { renderCandidateComparison } from '../unified/candidate-comparison.ts'
-import { assertCommunityCandidate, prepareCommunity } from '../unified/community.ts'
+import { assertCommunityCandidate, communityCoreWorkloads, prepareCommunity } from '../unified/community.ts'
+import { prepareCommunityBrowsers } from '../unified/community-browser.ts'
 import type { CommunityNode } from '../unified/community-types.ts'
 import { publishResults } from '../unified/league.ts'
 import { candidateIdentity, communityCandidate, updateProjectRecords } from '../unified/project-update.ts'
@@ -88,8 +89,8 @@ const evidence = () => {
   writeFileSync(join(directory, 'result.json'), '{}')
   return directory
 }
-const row = (caseId: string, status: string, version: string, extra: Record<string, unknown> = {}) => ({ suite: 'community', surface: 'node:public-api', runtime: 'Node', family: 'flowchart', caseId, operation: 'render', format: 'svg', mode: 'feature-corpus-qualification', status, ...extra, metrics: { implementation: project, round: 1, version } })
-function record(id: string, identity: ProjectBenchmarkIdentity, version: string, statuses: Record<string, string>): ProjectBenchmarkRecord {
+const row = (caseId: string, status: 'passed' | 'failed', version: string, extra: Record<string, unknown> = {}) => ({ suite: 'community', surface: 'node:public-api', runtime: 'Node', family: 'flowchart', caseId, operation: 'render', format: 'svg', mode: 'feature-corpus-qualification', status, ...extra, metrics: { implementation: project, round: 1, version } })
+function record(id: string, identity: ProjectBenchmarkIdentity, version: string, statuses: Record<string, 'passed' | 'failed'>): ProjectBenchmarkRecord {
   const observations = [row('family:flowchart', 'passed', version, { operation: 'family-support' }), ...Object.entries(statuses).map(([caseId, status]) => row(caseId, status, version))] as ProjectBenchmarkRecord['observations']
   return { schemaVersion: 1, id, identity, startedAt: '2026-10-26T00:00:00Z', finishedAt: '2026-10-26T00:01:00Z', status: observations.some(row => row.status === 'failed') ? 'failed' : 'passed', evidenceDirectory: evidence(), evidenceFiles: ['result.json'], observations, gaps: [] }
 }
@@ -107,7 +108,7 @@ test('a candidate record is keyed by its bytes in its own lane, so it never reus
   const store = temp.dir(),
     release = base(),
     measured: string[] = []
-  const request = (identity: ProjectBenchmarkIdentity, id: string, statuses: Record<string, string>) => ({ identity, measure: async () => (measured.push(id), record(id, identity, '1.0.0', statuses)) })
+  const request = (identity: ProjectBenchmarkIdentity, id: string, statuses: Record<string, 'passed' | 'failed'>) => ({ identity, measure: async () => (measured.push(id), record(id, identity, '1.0.0', statuses)) })
   await updateProjectRecords(store, [request(release, 'release', { a: 'passed' })])
   const first = candidateOf(release, 'c'.repeat(64))
   expect(first.lane).toBe('candidate')
@@ -157,4 +158,38 @@ test('a candidate comparison keeps failures as failures and withholds times that
   expect(renderCandidateComparison(record('candidate', candidateOf(base('other.json'), 'c'.repeat(64)), '1.1.0-rc', { a: 'failed' }), release)).toContain('times are withheld')
   expect(renderCandidateComparison(candidate, undefined)).toContain('no release record')
   expect(() => renderCandidateComparison(release, candidate)).toThrow('Not a candidate')
+})
+
+
+test('candidate comparisons withhold browser times and case changes under different visible-output checks', () => {
+  const release = record('release', { ...base(), protocol: { context: 'same', browserQualifier: 'old-checks' }, measurement: { rounds: 5 } }, '1.0.0', { a: 'passed' })
+  const candidate = record('candidate', candidateOf({ ...base(), protocol: { context: 'same', browserQualifier: 'new-checks' }, measurement: { rounds: 5 } }, 'c'.repeat(64)), '1.1.0-rc', { a: 'failed' })
+  for (const [item, ms] of [[release, 5], [candidate, 2]] as const) {
+    const features = item.observations
+    item.observations = ['node:public-api', 'browser:public-api'].flatMap(surface => [
+      ...features.map(row => ({ ...row, surface })),
+      ...communityCoreWorkloads().flatMap(workload => Array.from({ length: 5 }, (_, index) => ({ ...row(workload.id, 'passed', '1.0.0'), surface, mode: 'core-api-repeat', samplesMs: [ms], metrics: { implementation: project, round: index + 1, firstMs: ms } }))),
+    ])
+  }
+  const markdown = renderCandidateComparison(candidate, release)
+  const browser = markdown.split('\n').find(line => line.startsWith('| browser API |'))!
+  const node = markdown.split('\n').find(line => line.startsWith('| Node API |'))!
+  expect(node).toContain('30.00 ms → 12.00 ms')
+  expect(browser).not.toContain('ms')
+  expect(markdown.split('### browser API, SVG')[1]).toContain('Case-level changes are withheld')
+  expect(markdown.split('### Node API, SVG')[1]!.split('### browser API')[0]).toContain('Now failing (1): `a`')
+})
+
+test('a Merman Node candidate cannot silently acquire the released browser SDK', async () => {
+  const root = temp.dir(),
+    cache = join(root, 'node_modules/.cache/unified-community-browser'),
+    web = join(cache, 'merman-web/1.0.0/node_modules/@mermanjs/web')
+  mkdirSync(web, { recursive: true })
+  writeFileSync(join(web, 'package.json'), JSON.stringify({ name: '@mermanjs/web', version: '1.0.0', main: 'web.js' }))
+  writeFileSync(join(web, 'web.js'), 'globalThis.webMerman = {}')
+  writeFileSync(join(web, '../../..', 'package-lock.json'), JSON.stringify({ packages: { 'node_modules/@mermanjs/web': { integrity: 'release-only' } } }))
+  const [prepared] = await prepareCommunityBrowsers([{ node: { id: 'fixture/merman', roles: [], outputs: ['svg'], benchmark: { adapter: 'merman', package: '@mermanjs/node' }, packages: [{ registry: 'npm', name: '@mermanjs/web', version: '1.0.0' }] }, artifact: { kind: 'node', version: '1.0.0', candidate: { sha256: 'c'.repeat(64), tarball: 'candidate.tgz' } } }], { root, harnessRoot: root, out: join(root, 'out'), rounds: 5, profile: 'full' })
+  expect(prepared!.browserStatus).toBe('blocked')
+  expect(prepared!.browserDetail).toContain('candidate')
+  expect(prepared!.browser).toBeUndefined()
 })

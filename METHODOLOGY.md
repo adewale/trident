@@ -172,9 +172,11 @@ The candidate replaces only the tool's package. Trident checks the tarball again
 SHA-256 and checks that it holds the catalog's package name. It then installs its own
 copy into a prefix named by that digest, and checks that the installed package's npm
 integrity is the tarball's. The catalog's version pin does not apply, so the candidate
-can carry any version, including the release's own. Everything after acquisition is
-the release's path: the same corpus, oracle, family probes, checks, surfaces and
-calibration rule, so a failure in a candidate stays a failure.
+can carry any version, including the release's own. Everything after acquisition uses
+the same corpus, oracle, family probes, checks and calibration rule, so a failure in a
+candidate stays a failure. A separately published browser SDK cannot represent a
+Node candidate: Merman's browser lane is blocked until a matching browser candidate
+can be supplied; it never substitutes the released `@mermanjs/web` package.
 
 A record of an unreleased build is never a league row. Its identity carries the
 tarball's digest and it lives in the record store's `candidate` lane, so it never
@@ -183,7 +185,9 @@ lane only, leaves candidate records out, and refuses to run if a candidate recor
 ever found in the release lane. `results:compare` prints the store's current candidate
 beside the same project's current release: families supported, pass rate, fixed-core
 times, and the cases and families that changed. Times appear only when both records
-share protocol, inputs, machine and measurement settings. The two records are
+share protocol, inputs, machine and measurement settings. Browser times and
+case-level changes also require the same visible-output checks. Changes are withheld
+for surfaces with incompatible protocol/runtime cohorts. The two records are
 measured one after the other, not interleaved, so a small speed difference is within
 machine noise. The comparison is written to standard output or `--out FILE`, never
 into `results/`.

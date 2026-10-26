@@ -96,6 +96,12 @@ export function leagueOrder(left: Lane, right: Lane): number {
   return right.supported.length - left.supported.length || rate(right) - rate(left) || (left.coreFirstMs ?? Infinity) - (right.coreFirstMs ?? Infinity) || left.project.localeCompare(right.project)
 }
 
+/** Protocol/runtime cohort for one public surface; browser checks are part of its meaning. */
+export function comparisonKey(record: ProjectBenchmarkRecord, surface: string): string {
+  const protocol = record.identity.protocol as { context?: unknown; browserQualifier?: unknown } | null
+  return stableValue([protocol?.context ?? record.identity.protocol, record.identity.measurement, surface.startsWith('browser:') ? protocol?.browserQualifier ?? null : null])
+}
+
 /** Published records carry no machine paths, so the results directory can be copied anywhere. */
 function publishedRecord(record: ProjectBenchmarkRecord) {
   const portable = (value: unknown): unknown => (typeof value === 'string' && isAbsolute(value) ? basename(value) : Array.isArray(value) ? value.map(portable) : value && typeof value === 'object' ? Object.fromEntries(Object.entries(value).map(([key, item]) => [key, portable(item)])) : value)
@@ -190,9 +196,8 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
   for (const directory of ['records', 'failures']) mkdirSync(join(out, directory), { recursive: true })
   const comparison = new Map<Lane, string>()
   const all = records.flatMap(record => {
-    const protocol = record.identity.protocol as { context?: unknown; browserQualifier?: unknown } | null
     return lanes(record).map(lane => {
-      comparison.set(lane, stableValue([protocol?.context ?? record.identity.protocol, record.identity.measurement, lane.surface.startsWith('browser:') ? protocol?.browserQualifier ?? null : null]))
+      comparison.set(lane, comparisonKey(record, lane.surface))
       return lane
     })
   })

@@ -1,7 +1,7 @@
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { loadCurrentProjectRecords, type ProjectBenchmarkRecord, stableValue } from '../portable/project-records.ts'
-import { escape, featureRow, isCandidateRecord, type Lane, lanes, OUTPUTS, PROBED_FAMILIES, percent, SURFACES } from './league.ts'
+import { loadCurrentProjectRecords, type ProjectBenchmarkRecord } from '../portable/project-records.ts'
+import { comparisonKey, escape, featureRow, isCandidateRecord, type Lane, lanes, OUTPUTS, PROBED_FAMILIES, percent, SURFACES } from './league.ts'
 
 const version = (record: ProjectBenchmarkRecord) => lanes(record)[0]?.version ?? String((record.identity.artifact as any)?.package?.artifact?.version ?? 'unknown')
 const rounds = (record: ProjectBenchmarkRecord) => Number((record.identity.measurement as { rounds?: number } | undefined)?.rounds ?? 0)
@@ -19,7 +19,7 @@ export function renderCandidateComparison(candidate: ProjectBenchmarkRecord, rel
   if (release && (isCandidateRecord(release) || release.identity.project !== candidate.identity.project)) throw Error('The release record must be the same project’s release')
   const project = candidate.identity.project,
     identity = (candidate.identity.artifact as { candidate?: { source?: string; sha256?: string } }).candidate
-  const comparable = !!release && stableValue((release.identity.protocol as { context?: unknown }).context) === stableValue((candidate.identity.protocol as { context?: unknown }).context) && stableValue(release.identity.measurement) === stableValue(candidate.identity.measurement)
+  const comparable = (surface: string) => !!release && comparisonKey(release, surface) === comparisonKey(candidate, surface)
   const summary = (record: ProjectBenchmarkRecord) => `${escape(version(record))}, measured ${record.finishedAt}, status ${record.status}, ${rounds(record)} rounds, record \`${escape(record.id)}\``
   const lines = [
     `# ${project}: candidate against release`,
@@ -28,8 +28,8 @@ export function renderCandidateComparison(candidate: ProjectBenchmarkRecord, rel
     '',
     release ? `Release: ${summary(release)}.` : `Release: no release record for ${project} in this store. Measure it into the same store with \`community:update --projects ${project}\` and the same settings, then compare again.`,
     '',
-    'Both rows use the same corpus, pinned Mermaid oracle, family probes and checks as the league. This comparison is unranked; `results:publish` never puts a candidate in the league table.',
-    release ? (comparable ? 'The two records share protocol, inputs, machine and measurement settings, so their times compare. They were measured one after the other, not interleaved.' : 'The two records differ in protocol, inputs, machine or measurement settings, so times are withheld.') : '',
+    'Each row uses its recorded corpus, pinned Mermaid oracle, family probes and checks. This comparison is unranked; `results:publish` never puts a candidate in the league table.',
+    release ? (comparable('node:public-api') ? 'The two records share protocol, inputs, machine and measurement settings, so their times compare on matching surfaces. Browser times and case-level changes additionally require identical visible-output checks. They were measured one after the other, not interleaved.' : 'The two records differ in protocol, inputs, machine or measurement settings, so times are withheld.') : '',
     '',
     '| Surface | Output | Families supported | Pass rate in supported families | First-call fixed core | Repeated-source fixed core |',
     '|---|---|---:|---:|---:|---:|',
@@ -40,7 +40,7 @@ export function renderCandidateComparison(candidate: ProjectBenchmarkRecord, rel
   const find = (list: Lane[], key: string) => list.find(lane => `${lane.surface}\n${lane.format}` === key)
   const families = (lane?: Lane) => (lane ? `${lane.supported.length}/${PROBED_FAMILIES.length}` : '—'),
     rate = (lane?: Lane) => (lane ? `${percent(lane.passed, lane.passed + lane.failed)} (${lane.passed}/${lane.passed + lane.failed})` : '—'),
-    speed = (lane: Lane | undefined, field: 'coreFirstMs' | 'coreMedianMs') => (comparable || !release ? ms(lane?.[field]) : '—')
+    speed = (lane: Lane | undefined, field: 'coreFirstMs' | 'coreMedianMs') => (!release || (lane && comparable(lane.surface)) ? ms(lane?.[field]) : '—')
   const pair = (left: string, right: string) => (release ? `${left} → ${right}` : right)
   for (const key of keys) {
     const old = find(before, key),
@@ -62,6 +62,10 @@ export function renderCandidateComparison(candidate: ProjectBenchmarkRecord, rel
     const failing = changed('passed', 'failed'),
       passing = changed('failed', 'passed')
     lines.push(`### ${label({ surface, format })}`, '')
+    if (!comparable(surface)) {
+      lines.push('Case-level changes are withheld because the protocol, runtime settings or visible-output checks differ.', '')
+      continue
+    }
     if (!old || !now) lines.push(old ? 'The candidate measured nothing on this surface.' : 'The release measured nothing on this surface.', '')
     if (failing.length) lines.push(`Now failing (${failing.length}): ${failing.join(', ')}.`, '')
     if (passing.length) lines.push(`Now passing (${passing.length}): ${passing.join(', ')}.`, '')

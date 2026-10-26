@@ -191,6 +191,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
       }
       let engine: CommunityBrowserEngine | undefined
       if (adapter === 'merman') {
+        if (artifact?.candidate) throw new Error('The Merman Node candidate has no matching candidate browser SDK; a released @mermanjs/web cannot represent it')
         const root = await installWebMerman(peer, cache),
           pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
         engine = make(root, pkg.main, 'merman')
