@@ -1,7 +1,7 @@
 import { gzipSync } from 'node:zlib'
 import { execFileSync } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
-import { appendFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync, openSync, closeSync, unlinkSync } from 'node:fs'
+import { appendFileSync, existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, rmSync, writeFileSync, openSync, closeSync, unlinkSync } from 'node:fs'
 import { join, resolve, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { portableCases, PORTABLE_COHORT_PROTOCOL, type PortableCohort } from './cohorts.ts'
@@ -287,4 +287,5 @@ export async function main(argv = process.argv.slice(2)) {
     process.off('SIGTERM', cleanup)
   }
 }
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await main()
+// Compare real paths: a kit reached through a symlink (macOS /tmp, /var) must still run.
+if (process.argv[1] && realpathSync(resolve(process.argv[1])) === realpathSync(fileURLToPath(import.meta.url))) await main()
