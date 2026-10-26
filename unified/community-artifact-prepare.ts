@@ -35,10 +35,8 @@ function verified(artifact: CommunityArtifact): boolean {
 }
 function environment(cache: string): NodeJS.ProcessEnv {
   const env: NodeJS.ProcessEnv = { ...process.env, XDG_CONFIG_HOME: join(cache, '.config'), XDG_CACHE_HOME: join(cache, '.cache'), PUB_CACHE: join(cache, 'pub-cache') }
-  if (existsSync('/workspace/tooling/cargo')) env.CARGO_HOME ??= '/workspace/tooling/cargo'
-  if (existsSync('/workspace/tooling/rustup')) env.RUSTUP_HOME ??= '/workspace/tooling/rustup'
   env.CARGO_BUILD_JOBS ??= '2'
-  env.PATH = [process.env.AM_BENCH_TOOL_BIN, existsSync('/workspace/tooling/bin') ? '/workspace/tooling/bin' : undefined, existsSync('/workspace/tooling/cargo/bin') ? '/workspace/tooling/cargo/bin' : undefined, process.env.PATH].filter(Boolean).join(':')
+  env.PATH = [process.env.AM_BENCH_TOOL_BIN, process.env.PATH].filter(Boolean).join(':')
   return env
 }
 

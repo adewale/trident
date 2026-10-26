@@ -8,7 +8,7 @@ const root = resolve(import.meta.dir, '..')
 
 function sources(directory = root): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
-    if (['node_modules', 'dist', '.git'].includes(entry.name)) return []
+    if (['node_modules', 'dist', '.git', '.cache', 'bench-report'].includes(entry.name)) return []
     const path = join(directory, entry.name)
     if (entry.isDirectory()) return sources(path)
     return /\.(ts|mts|mjs)$/.test(entry.name) && !entry.name.endsWith('.d.ts') && !entry.name.endsWith('.d.mts') ? [path] : []
@@ -35,5 +35,5 @@ function adapterSet(): string[] {
 
 test('the standalone exclude list is exactly the files that import Agentic source', () => {
   const exclude: string[] = JSON.parse(readFileSync(join(root, 'tsconfig.standalone.json'), 'utf8')).exclude
-  expect(exclude.filter(entry => entry !== 'node_modules' && entry !== 'dist')).toEqual(adapterSet())
+  expect(exclude.filter(entry => !['node_modules', 'dist', '.cache'].includes(entry))).toEqual(adapterSet())
 })

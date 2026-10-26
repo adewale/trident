@@ -30,12 +30,13 @@ It required no Agentic Mermaid source, Git, Bun or harness node_modules. The
 preceding functional smoke used deliberately insufficient sampling and correctly
 reported uncalibrated results; it is not included in the full run's totals.
 
-The complete report and four PNG/SVG/PDF charts are retained at
-`/workspace/mermaid-unified-2026-10-25/pele/`. The verified compressed raw-evidence
-archive is `/workspace/mermaid-unified-2026-10-25/pele-evidence.tar.zst`, with its
-adjacent SHA256 receipt. These are generated workspace evidence, not library
-package contents. Record reuse still reads and validates retained evidence; it
-avoids measurement rather than promising zero I/O.
+This is a historical result summary. Its raw record, report and charts were
+retained in the original measurement workspace and are not distributed with this
+repository. Those paths are not prerequisites for running Trident. Reproduce new
+Pele measurements with a public Pele 1.9.0 installation and the portable runner;
+the new run receives its own dates and protocol identity. See the
+[portable retained-report example](examples/fidelity-2026-10-26/README.md) for
+charts that can be regenerated from files included in a clean checkout.
 
 ## What this changed and taught us
 
@@ -82,8 +83,8 @@ Timeline/Journey section-order controls exposed silent Timeline reparenting;
 [#497](https://github.com/adewale/agentic-mermaid/pull/497) fixes that runtime bug.
 The packed fixed candidate passed 920 rows, all 284 positive witnesses and all
 284 rejection witnesses. Its archive is explicitly pinned to `a2a6ee69`; rebasing
-that runtime change onto `835b5663` changed only the test command. Main retains
-the diagnosed Timeline failure until that separate fix lands. These witnesses
+that runtime change onto `835b5663` changed only the test command. At that measurement window, main retained
+the diagnosed Timeline failure pending that separate fix. These witnesses
 still do not cover every operand combination, snapshot or family feature.
 
 The [overview](OVERVIEW.md) explains how this lane fits the full suite. The

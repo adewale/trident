@@ -1,4 +1,4 @@
-import policy from '../../../docs/project/upstream-mermaid-policy.json' with { type: 'json' }
+import policy from '../data/upstream-mermaid-policy.json' with { type: 'json' }
 import { portableCases } from '../portable/cohorts.ts'
 import type { AuthoredFidelityCase, MeaningExpectation, MeaningEdge } from './meaning.ts'
 

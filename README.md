@@ -161,22 +161,59 @@ not rewrite or migrate the input evidence.
 
 ## Optional Agentic source adapter
 
-Agentic Mermaid's own orchestrator owns the lanes that measure its source and
-build: Dave, pinned Mermaid original tests, entry startup, source-stage, website,
-CLI/MCP and candidate campaigns. Supply its checkout to run them:
+Source diagnostics, Dave orchestration, original-test comparisons and full
+controller tests (including Chromium paint controls) need a public Agentic source checkout with its declared
+repository dependencies installed. Git and tar must be on PATH. They do not
+require Agentic's old `eval/benchmark` package or local measurement archives:
 
 ```sh
-TRIDENT_AGENTIC_ROOT=/checkouts/agentic-mermaid \
-  bun commands.ts agentic --list --profile full
+git clone https://github.com/adewale/agentic-mermaid.git /checkouts/agentic-mermaid
+cd /checkouts/agentic-mermaid
+bun install --frozen-lockfile
+cd /checkouts/trident
+bun install --frozen-lockfile
+bunx playwright install chromium
+export AM_CHROMIUM_EXECUTABLE="$(node --input-type=module -e 'import {chromium} from "playwright"; process.stdout.write(chromium.executablePath())')"
+TRIDENT_AGENTIC_ROOT=/checkouts/agentic-mermaid bun commands.ts agentic --list --profile full
+TRIDENT_AGENTIC_ROOT=/checkouts/agentic-mermaid bun commands.ts test
+TRIDENT_AGENTIC_ROOT=/checkouts/agentic-mermaid bun commands.ts typecheck
+bun commands.ts lint
 ```
 
-These commands execute that checkout's owning protocol files in that checkout.
-An unavailable source adapter produces an explicit error before importing it.
-The containing checkout is detected only when its root package is named
-`agentic-mermaid`; arbitrary parent directories are not repository defaults.
-`AM_BENCH_REPOSITORY_ROOT` remains an alias for `TRIDENT_AGENTIC_ROOT`. `bench`
-remains a legacy alias for `agentic`. Existing root `bench:*` shortcuts retain
-their suite IDs and options.
+Trident assembles a disposable source workspace under `.cache`, or
+`TRIDENT_CACHE_DIR`. It combines the Agentic tracked source and corpus with this
+Trident checkout's protocols, records both original revisions, and commits the
+combined driver snapshot for source-protocol admission. Installed dependencies,
+built distributions and sites remain explicit inputs. No source checkout is
+rewritten. Published `results/` stays in Trident and is not copied into this
+source workspace. An unowned cache directory is never replaced. Concurrent preparation
+is refused; an interrupted lock requires checking that its processes stopped
+before removing it.
+
+Measurements require clean committed source and harness revisions. Tests,
+typechecking and read-only listing can exercise working changes and record that
+fact. Keep the source checkout while using its workspace: Git objects and installed
+dependencies are referenced there. Default evidence lives in the selected source
+checkout's `bench-report`, outside the disposable workspace. Relative output and
+record-store options resolve before entering it, so changing harness versions
+cannot erase those records.
+
+The complete source suite still needs explicitly prepared reference/tool/site
+artifacts for the lanes that use them. Missing prerequisites remain blocked;
+listing a suite does not claim it ran. `source SCRIPT` executes a declared
+legacy diagnostic through the prepared layout. The scorecard defaults to the
+selected source checkout's `bench-report/community-benchmark-ranking.md`; pass an
+explicit `--output` to update a maintained Markdown file outside the workspace. The Agentic launcher pins a
+Trident Git revision and forwards the actual checkout and original arguments.
+`AM_BENCH_REPOSITORY_ROOT` remains an alias for `TRIDENT_AGENTIC_ROOT`.
+
+The generic community catalog belongs to `catalog/mermaid-community.json`.
+`data/upstream-mermaid-policy.json` is this benchmark cohort's pinned Mermaid
+policy; Agentic's product compatibility policy remains authoritative for its
+source diagnostics. Historical scores live in [COMMUNITY-RANKING.md](COMMUNITY-RANKING.md).
+The [included retained-report example](examples/fidelity-2026-10-26/README.md)
+regenerates charts and exports without Agentic, a browser, tool installations or
+session-local records. Its raw rendered witnesses are not bundled.
 
 Lanes that read Mermaid's upstream tests also need the pinned source checkout
 (`MERMAID_UPSTREAM_DIR`, default `../mermaid`); `bun run reference:mermaid`
@@ -199,9 +236,11 @@ Standalone, `test` and `typecheck` cover every file whose imports stay in this
 package. `tsconfig.standalone.json` excludes the Agentic adapter files: those whose
 import closure reaches Agentic source. `tests/standalone-scope.test.ts` fails when
 that list and the actual imports disagree. Tests that exercise the Agentic checkout
-layout report as skipped. When this package is `eval/benchmark` of an Agentic
-checkout, the same commands (or that checkout's `bun run bench:test`,
-`bench:typecheck` and `bench:lint`) cover every file. Browser tests use
+layout report as skipped. Set `TRIDENT_AGENTIC_ROOT=/path/to/agentic-mermaid`
+when running `test` or `typecheck` to cover every file through the prepared source
+workspace. A physical `eval/benchmark` layout is also detected. The Agentic
+checkout's `bun run bench:test`, `bench:typecheck` and `bench:lint` use its pinned
+Trident revision. Browser tests use
 `AM_CHROMIUM_EXECUTABLE`, then `/usr/bin/chromium`, then Playwright's Chromium.
 
 The local temporary-directory and child-process test support belongs to Trident.

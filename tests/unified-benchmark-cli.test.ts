@@ -7,6 +7,7 @@ import { dirname, join, relative, sep } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
+import { withAgenticWorkspace } from '../integration/workspace.ts'
 import { writeBenchmarkDocument } from '../portable/project-records.ts'
 import { parseOptions, testCounts } from '../unified/run.ts'
 import { benchmarkSuites } from '../unified/suites.ts'
@@ -143,27 +144,67 @@ test('a copied Trident package builds relative outputs and runs its compiled wor
   }
 }, 45_000)
 
-test('an explicit Agentic adapter runs its own checkout protocol with the original arguments', () => {
+test('Trident lists its own suites against a public source checkout without any Agentic benchmark package', () => {
   const directory = realpathSync(mkdtempSync(join(tmpdir(), 'trident-agentic-adapter-'))),
     source = join(directory, 'source'),
     command = resolve(dirname(fileURLToPath(import.meta.url)), '../commands.ts')
   try {
-    mkdirSync(join(source, 'eval/benchmark/unified'), { recursive: true })
-    writeFileSync(join(source, 'package.json'), '{"name":"agentic-mermaid"}')
-    writeFileSync(join(source, 'eval/benchmark/unified/run.ts'), 'console.log(JSON.stringify({cwd:process.cwd(),args:process.argv.slice(2)}))')
+    for (const path of ['src/agent', 'src/__tests__', 'docs/project', 'eval/mermaid-upstream-suite-bench']) mkdirSync(join(source, path), { recursive: true })
+    writeFileSync(join(source, 'package.json'), '{"name":"agentic-mermaid","scripts":{}}')
+    writeFileSync(join(source, 'src/__tests__/fixture.test.ts'), '// Public source fixture; no benchmark protocol\n')
+    writeFileSync(join(source, 'src/agent/families.ts'), 'export const BUILTIN_FAMILY_METADATA=[]')
+    writeFileSync(join(source, 'docs/project/upstream-mermaid-policy.json'), '{"pin":{"version":"12.2.0","commit":"source-fixture"},"families":[]}')
+    writeFileSync(join(source, 'eval/mermaid-upstream-suite-bench/manifest.json'), '{"upstream":{"version":"fixture"}}')
+    const git = (args: string[]) => execFileSync('git', args, { cwd: source, stdio: 'pipe' })
+    git(['init', '-q']); git(['add', '.']); git(['-c','user.name=fixture','-c','user.email=fixture@localhost','-c','commit.gpgsign=false','commit','-qm','public source fixture']); git(['remote','add','origin','https://github.com/adewale/agentic-mermaid.git'])
     for (const variable of ['TRIDENT_AGENTIC_ROOT', 'AM_BENCH_REPOSITORY_ROOT']) {
-      const env = { ...process.env }
+      const env: NodeJS.ProcessEnv = { ...process.env, TRIDENT_CACHE_DIR: join(directory, 'cache') }
       delete env.TRIDENT_AGENTIC_ROOT
       delete env.AM_BENCH_REPOSITORY_ROOT
       env[variable] = source
-      const result = spawnSync(process.execPath, [command, 'bench', '--list', '--profile', 'full'], { cwd: directory, env, encoding: 'utf8', timeout: 10_000 })
+      const result = spawnSync(process.execPath, [command, 'bench', '--list', '--profile', 'full', '--suites', 'family'], { cwd: directory, env, encoding: 'utf8', timeout: 20_000 })
+      expect({ status: result.status, stderr: result.stderr }).toEqual({ status: 0, stderr: '' })
+      const suites = JSON.parse(result.stdout)
+      expect(suites.filter((item: any) => item.selected).map((item: any) => item.id)).toEqual(['family'])
+      expect(suites.some((item: any) => item.id === 'community')).toBe(true)
+      expect(existsSync(join(source, 'eval/benchmark'))).toBe(false)
+      expect(existsSync(join(directory, 'cache/agentic-workspace/eval/benchmark/results'))).toBe(false)
+      const receipt = JSON.parse(readFileSync(join(directory, 'cache/agentic-workspace/.trident-workspace.json'), 'utf8'))
+      expect(receipt.root).toBe(source)
+      expect(receipt.revision).toBe(execFileSync('git', ['rev-parse','HEAD'], { cwd: source, encoding: 'utf8' }).trim())
+    }
+    const observer = join(directory, 'scorecard-observer.mjs')
+    writeFileSync(observer, 'if(process.argv[1]?.endsWith("unified/update-scorecard.ts")){console.log(JSON.stringify(process.argv.slice(2)));process.exit(0)}')
+    const scorecardEnv: NodeJS.ProcessEnv = { ...process.env, TRIDENT_AGENTIC_ROOT: source, TRIDENT_CACHE_DIR: join(directory, 'scorecard-cache'), BUN_OPTIONS: '--preload=' + observer }
+    for (const output of [undefined, 'maintained.md']) {
+      const args = ['source', 'bench:scorecard', '--run', 'retained-run', ...(output ? ['--output', output] : [])]
+      const result = spawnSync(process.execPath, [command, ...args], { cwd: directory, env: scorecardEnv, encoding: 'utf8', timeout: 20_000 })
       expect(result.status).toBe(0)
-      expect(JSON.parse(result.stdout)).toEqual({ cwd: source, args: ['--list', '--profile', 'full'] })
+      const forwarded = JSON.parse(result.stdout)
+      expect(forwarded[forwarded.indexOf('--run') + 1]).toBe(join(directory, 'retained-run'))
+      expect(forwarded[forwarded.indexOf('--output') + 1]).toBe(output ? join(directory, output) : join(source, 'bench-report/community-benchmark-ranking.md'))
+    }
+    const occupied = join(directory, 'unowned/agentic-workspace')
+    mkdirSync(occupied, { recursive: true }); writeFileSync(join(occupied, 'notes.txt'), 'keep unrelated files')
+    const rejected = spawnSync(process.execPath, [command, 'agentic', '--list'], { cwd: directory, env: { ...process.env, TRIDENT_AGENTIC_ROOT: source, TRIDENT_CACHE_DIR: dirname(occupied) }, encoding: 'utf8', timeout: 20_000 })
+    expect(rejected.status).not.toBe(0)
+    expect(rejected.stderr).toContain('Refusing to replace an unowned source workspace')
+    expect(readFileSync(join(occupied, 'notes.txt'), 'utf8')).toBe('keep unrelated files')
+    const priorCache = process.env.TRIDENT_CACHE_DIR
+    try {
+      process.env.TRIDENT_CACHE_DIR = join(directory, 'admitted-cache')
+      let prepared = ''
+      withAgenticWorkspace(source, false, workspace => { prepared = workspace })
+      writeFileSync(join(prepared, 'untracked-producer.ts'), 'throw Error("Unadmitted producer")')
+      expect(() => withAgenticWorkspace(source, false, () => { throw Error('Must not activate a changed driver') })).toThrow('Prepared source workspace changed')
+    } finally {
+      if (priorCache === undefined) delete process.env.TRIDENT_CACHE_DIR
+      else process.env.TRIDENT_CACHE_DIR = priorCache
     }
   } finally {
     rmSync(directory, { recursive: true, force: true })
   }
-})
+}, 45_000)
 
 describe('unified benchmark CLI preflight', () => {
   test('advance-from admits a recorded target from both plain and compressed reports before checking the new candidate', async () => {

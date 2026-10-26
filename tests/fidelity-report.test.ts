@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test'
-import { mkdtempSync, writeFileSync, rmSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { reviewFidelityCapabilities, writeFidelityComparison } from '../fidelity/report.ts'
@@ -20,6 +20,7 @@ test('report restores jointly omitted criteria and an entirely omitted admitted 
     const core=join(root,'core.json')
     writeFileSync(core,JSON.stringify({
       criteriaProtocol:{producers:['recorded-authored-contract']},
+      artifacts:[join(root,'not-shipped/fidelity-cases.json')],
       cases:[{id:'single-node',family:'flowchart',required:true,source:'flowchart TD\nA[Alpha]',features:[],provenance:'authored control',expected:{labels:['Alpha'],nodes:[{id:'A',label:'Alpha'}],edges:[]}}],
       targets:[{project:'mermaid-js/mermaid'},{project:'Peer/Renderer'}],
       toolVersions:[{tool:'mermaid-js/mermaid',version:'12.2.0',source:'reference-manifest'},{tool:'Peer/Renderer',version:'1.0.0',source:'peer-manifest'}],
@@ -28,6 +29,8 @@ test('report restores jointly omitted criteria and an entirely omitted admitted 
     const result=writeFidelityComparison({core,out:join(root,'report')})
     expect(result.comparison.reviewRequired.some(value=>value.caseId==='single-node'&&value.criterion==='browser-owned-ink:unclipped-authored-labels')).toBe(true)
     expect(result.comparison.results.find(value=>value.project==='Peer/Renderer')).toMatchObject({passed:0,unavailable:1,calibratedPopulation:1})
+    expect(result.measurementWindows[0]!.measurements).toEqual([])
+    expect(result.measurementWindows[0]!.unavailableEvidenceDirectories).toEqual([join(root,'not-shipped')])
     expect(result.rows.find(value=>value.project==='Peer/Renderer')?.declaredCases).toBe(1)
     expect(result.rows.find(value=>value.project==='Peer/Renderer')?.version).toBe('1.0.0')
     const peerCell=result.rows.find(value=>value.project==='Peer/Renderer')!.cells[2]!
@@ -35,6 +38,8 @@ test('report restores jointly omitted criteria and an entirely omitted admitted 
     expect(peerCell.rawRecorded).toBe(0)
     expect(peerCell.rawMissing).toBe(peerCell.rawDenominator)
     expect(result.comparison.results.find(value=>value.project==='Peer/Renderer')?.cases[0]?.recordedCriteria).toBe(0)
+    mkdirSync(join(root,'not-shipped'));writeFileSync(join(root,'not-shipped/result.json'),'{broken')
+    expect(()=>writeFidelityComparison({core,out:join(root,'corrupt-report')})).toThrow()
   } finally {rmSync(root,{recursive:true,force:true})}
 })
 

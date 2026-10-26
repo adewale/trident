@@ -1,5 +1,12 @@
 # Benchmark assessment
 
+Source commands with a `bench:*` prefix below run through Agentic's pinned
+Trident launcher. In Trident itself, use `commands.ts` with an explicit
+`TRIDENT_AGENTIC_ROOT`; see [setup](README.md#optional-agentic-source-adapter).
+Historical workspace paths describe original evidence locations, not setup
+prerequisites. The [included example](examples/fidelity-2026-10-26/README.md)
+can regenerate dated fidelity charts without those locations.
+
 The suite is useful for finding compatibility defects, locating execution cost
 and comparing tools at an explicitly named API or CLI boundary. It is not yet a
 complete measure of Mermaid correctness, perceptual quality, production memory
