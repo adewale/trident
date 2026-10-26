@@ -8,7 +8,7 @@
 
 ### corpus:mermaid-upstream-suite-bench:er-upstream-should-correctly-parse-direction-rl-inside-a-subgraph
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse er diagram: line 5: er subgraphs are not supported" 
+CLI, Terminal text. time="2026-10-26T23:32:12Z" level=fatal msg="failed to parse er diagram: line 5: er subgraphs are not supported" 
 
 ```mermaid
 erDiagram subgraph WithRL
@@ -22,7 +22,7 @@ Expected labels: `WithRL`, `A`, `B`
 
 ### corpus:mermaid-upstream-suite-bench:er-upstream-should-handle-empty-lines-inside-subgraph
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
+CLI, Terminal text. time="2026-10-26T23:32:12Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
 
 ```mermaid
 erDiagram
@@ -39,7 +39,7 @@ Expected labels: `Group`, `A`, `B`
 
 ### corpus:mermaid-upstream-suite-bench:er-upstream-should-handle-empty-subgraph
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
+CLI, Terminal text. time="2026-10-26T23:32:12Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
 
 ```mermaid
 erDiagram
@@ -51,7 +51,7 @@ Expected labels: `empty`
 
 ### corpus:mermaid-upstream-suite-bench:er-upstream-should-handle-relationship-between-entity-and-subgraph
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
+CLI, Terminal text. time="2026-10-26T23:32:12Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
 
 ```mermaid
 erDiagram
@@ -65,7 +65,7 @@ Expected labels: `Group`, `A`, `B`, `relates to`
 
 ### corpus:mermaid-upstream-suite-bench:er-upstream-should-handle-relationship-between-subgraph-entity-and-external-entity
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
+CLI, Terminal text. time="2026-10-26T23:32:12Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
 
 ```mermaid
 erDiagram
@@ -79,7 +79,7 @@ Expected labels: `Group`, `A`, `B`, `relates to`
 
 ### corpus:mermaid-upstream-suite-bench:er-upstream-should-handle-special-characters-in-subgraph-title
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
+CLI, Terminal text. time="2026-10-26T23:32:12Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
 
 ```mermaid
 erDiagram
@@ -92,7 +92,7 @@ Expected labels: `Group 1.5`, `A`
 
 ### corpus:mermaid-upstream-suite-bench:er-upstream-should-handle-subgraph-with-id-and-title-notation
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
+CLI, Terminal text. time="2026-10-26T23:32:12Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
 
 ```mermaid
 erDiagram
@@ -106,7 +106,7 @@ Expected labels: `Title`, `A`, `B`
 
 ### corpus:mermaid-upstream-suite-bench:er-upstream-should-ignore-redundant-whitespace-around-end
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
+CLI, Terminal text. time="2026-10-26T23:32:12Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
 
 ```mermaid
 erDiagram
@@ -119,7 +119,7 @@ Expected labels: `Group`, `A`
 
 ### corpus:mermaid-upstream-suite-bench:er-upstream-should-include-both-endpoints-of-a-relationship-inside-a-subgraph
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
+CLI, Terminal text. time="2026-10-26T23:32:12Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
 
 ```mermaid
 erDiagram
@@ -132,7 +132,7 @@ Expected labels: `Group`, `A`, `B`, `relates to`
 
 ### corpus:mermaid-upstream-suite-bench:er-upstream-should-represent-parent-child-relationship-correctly
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse er diagram: line 2: invalid syntax: \"PROJECT u--o{ TEAM_MEMBER : \\\"parent\\\"\"" 
+CLI, Terminal text. time="2026-10-26T23:32:12Z" level=fatal msg="failed to parse er diagram: line 2: invalid syntax: \"PROJECT u--o{ TEAM_MEMBER : \\\"parent\\\"\"" 
 
 ```mermaid
 erDiagram
@@ -143,7 +143,7 @@ Expected labels: `PROJECT`, `TEAM_MEMBER`, `parent`
 
 ### corpus:mermaid-upstream-suite-bench:er-upstream-title
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
+CLI, Terminal text. time="2026-10-26T23:32:12Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
 
 ```mermaid
 erDiagram
@@ -157,7 +157,7 @@ Expected labels: `Group`, `A`, `B`
 
 ### corpus:mermaid-upstream-suite-bench:er-upstream-title-2
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
+CLI, Terminal text. time="2026-10-26T23:32:12Z" level=fatal msg="failed to parse er diagram: line 2: er subgraphs are not supported" 
 
 ```mermaid
 erDiagram
@@ -364,7 +364,7 @@ Tool output: [corpus-mermaid-upstream-suite-bench-flowchart-upstream-markdown-fo
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-accept-swimlane-as-a-graph-keyword
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse graph diagram: unsupported graph type 'swimlane LR;A-->B;'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)" 
+CLI, Terminal text. time="2026-10-26T23:32:12Z" level=fatal msg="failed to parse graph diagram: unsupported graph type 'swimlane LR;A-->B;'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)" 
 
 ```mermaid
 swimlane LR;A-->B;
@@ -374,7 +374,7 @@ Expected labels: none declared
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-allow-back-slashes-in-lean-left-vertices
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"node has a \\\\ as text\\\\]\"" 
+CLI, Terminal text. time="2026-10-26T23:32:12Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"node has a \\\\ as text\\\\]\"" 
 
 ```mermaid
 graph TD;A_node-->B[\This node has a \ as text\];
@@ -384,7 +384,7 @@ Expected labels: `A_node`, `This node has a \ as text`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-allow-forward-slashes-in-lean-right-vertices
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"node has a / as text/]\"" 
+CLI, Terminal text. time="2026-10-26T23:32:12Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"node has a / as text/]\"" 
 
 ```mermaid
 graph TD;A_node-->B[/This node has a / as text/];
@@ -407,7 +407,7 @@ Tool output: [corpus-mermaid-upstream-suite-bench-flowchart-upstream-should-be-f
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-be-possible-to-use-numbers-as-labels
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"\\\"number as labels\\\";1;end\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"\\\"number as labels\\\";1;end\"" 
 
 ```mermaid
 graph TB;subgraph "number as labels";1;end;
@@ -417,7 +417,7 @@ Expected labels: `number as labels`, `1`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"including `\|B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"including `\|B\"" 
 
 ```mermaid
 graph TD;A--x|text including `|B;
@@ -427,7 +427,7 @@ Expected labels: `A`, `B`, `text including '`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-nodes-and-edges-and-a-space-between-link-and-node
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"--> B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"--> B\"" 
 
 ```mermaid
 graph TD;A --> B;
@@ -437,7 +437,7 @@ Expected labels: `A`, `B`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-circle-node
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a((A))'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a((A))'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;a((A));
@@ -447,7 +447,7 @@ Expected labels: `A`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-diamond-node
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a{A}'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a{A}'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;a{A};
@@ -457,7 +457,7 @@ Expected labels: `A`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-diamond-node-with-html-in-it-sn3
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"<br> end}\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"<br> end}\"" 
 
 ```mermaid
 graph TD;a{A <br> end};
@@ -467,7 +467,7 @@ Expected labels: `A end`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-diamond-node-with-whitespace-after-it
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a{A}'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a{A}'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;a{A}   ;
@@ -477,7 +477,7 @@ Expected labels: `A`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-double-circle-node
 
-CLI, Terminal text. time="2026-10-26T14:16:30Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a(((A)))'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a(((A)))'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;a(((A)));
@@ -487,7 +487,7 @@ Expected labels: `A`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-double-circle-node-with-html-in-it-sn3
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"<br> end)))\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"<br> end)))\"" 
 
 ```mermaid
 graph TD;a(((A <br> end)));
@@ -497,7 +497,7 @@ Expected labels: `A end`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-double-circle-node-with-whitespace-after-it
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a(((A)))'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a(((A)))'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;a(((A)))   ;
@@ -507,7 +507,7 @@ Expected labels: `A`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-hexagon-node
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a{{A}}'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a{{A}}'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;a{{A}};
@@ -517,7 +517,7 @@ Expected labels: `A`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-hexagon-node-with-html-in-it
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"<br> end}}\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"<br> end}}\"" 
 
 ```mermaid
 graph TD;a{{A <br> end}};
@@ -527,7 +527,7 @@ Expected labels: `A end`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-node
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;A;
@@ -537,7 +537,7 @@ Expected labels: `A`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-node-with-a-single-digit
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;1'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;1'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;1;
@@ -547,7 +547,7 @@ Expected labels: `1`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-node-with-a-single-digit-in-a-subgraph
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"\\\"hello\\\";1;end\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"\\\"hello\\\";1;end\"" 
 
 ```mermaid
 graph TD;subgraph "hello";1;end;
@@ -557,7 +557,7 @@ Expected labels: `hello`, `1`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-node-with-alphanumerics-containing-a-minus-sign
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;i-d'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;i-d'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;i-d;
@@ -567,7 +567,7 @@ Expected labels: `i-d`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-node-with-alphanumerics-containing-a-underscore-sign
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;i_d'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;i_d'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;i_d;
@@ -577,7 +577,7 @@ Expected labels: `i_d`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-node-with-alphanumerics-starting-on-a-char
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;id1'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;id1'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;id1;
@@ -587,7 +587,7 @@ Expected labels: `id1`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-node-with-alphanumerics-starting-on-a-num
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;1id'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;1id'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;1id;
@@ -597,7 +597,7 @@ Expected labels: `1id`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-node-with-white-space-after-it-sn1
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;A ;
@@ -607,7 +607,7 @@ Expected labels: `A`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-odd-node
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a>A]'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a>A]'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;a>A];
@@ -617,7 +617,7 @@ Expected labels: `A`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-round-node
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a(A)'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a(A)'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;a(A);
@@ -627,7 +627,7 @@ Expected labels: `A`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-round-node-with-html-in-it
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"<br> end)\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"<br> end)\"" 
 
 ```mermaid
 graph TD;a(A <br> end);
@@ -637,7 +637,7 @@ Expected labels: `A end`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-a-single-square-node
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a[A]'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;a[A]'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;a[A];
@@ -647,7 +647,7 @@ Expected labels: `A`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-and-minus
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"hoppar åäö-ÅÄÖ}\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"hoppar åäö-ÅÄÖ}\"" 
 
 ```mermaid
 graph TD;A-->C{Chimpansen hoppar åäö-ÅÄÖ};
@@ -657,7 +657,7 @@ Expected labels: `A`, `Chimpansen hoppar åäö-ÅÄÖ`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-angle-bracket-as-direction-lr
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction '>;A-->B'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction '>;A-->B'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph >;A-->B;
@@ -667,7 +667,7 @@ Expected labels: `A`, `B`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-angle-bracket-as-direction-rl
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction '<;A-->B'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction '<;A-->B'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph <;A-->B;
@@ -677,7 +677,7 @@ Expected labels: `A`, `B`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-backslash
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A-->C(c:\\windows)'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A-->C(c:\\windows)'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;A-->C(c:\windows);
@@ -791,7 +791,7 @@ Tool output: [corpus-mermaid-upstream-suite-bench-flowchart-upstream-should-hand
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-caps
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"CAPS)\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"CAPS)\"" 
 
 ```mermaid
 graph TD;A-->C(some CAPS);
@@ -801,7 +801,7 @@ Expected labels: `A`, `some CAPS`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-caret-as-direction-bt
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction '^;A-->B'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction '^;A-->B'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph ^;A-->B;
@@ -811,7 +811,7 @@ Expected labels: `A`, `B`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-chaining-and-multiple-nodes-in-link-statement-with-extra-info-in-statements
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: Could not parse line: classDef exClass background:#bbb,border:1px solid red;" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: Could not parse line: classDef exClass background:#bbb,border:1px solid red;" 
 
 ```mermaid
 graph TD
@@ -823,7 +823,7 @@ Expected labels: `h`, `test`, `C`, `D`, `hello`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-cross-ended-edges
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A--xB'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A--xB'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;A--xB;
@@ -833,7 +833,7 @@ Expected labels: `A`, `B`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-directions
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"URL)\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"URL)\"" 
 
 ```mermaid
 graph TD;A-->C(some URL);
@@ -843,7 +843,7 @@ Expected labels: `A`, `some URL`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-dotted-lines
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A-.->B'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A-.->B'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;A-.->B;
@@ -853,7 +853,7 @@ Expected labels: `A`, `B`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-dotted-lines-2
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A==>B'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A==>B'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;A==>B;
@@ -863,7 +863,7 @@ Expected labels: `A`, `B`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-dotted-text-on-lines-td3
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"test text with == .->B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"test text with == .->B\"" 
 
 ```mermaid
 graph TD;A-. test text with == .->B;
@@ -873,7 +873,7 @@ Expected labels: `A`, `B`, `test text with ==`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-edge-case-for-odd-vertex-with-node-id-ending-with-minus
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"Text]\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"Text]\"" 
 
 ```mermaid
 graph TD;A_node-->odd->Vertex Text];
@@ -883,7 +883,7 @@ Expected labels: `A_node`, `Vertex Text`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-keywords
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"including graph space\|B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"including graph space\|B\"" 
 
 ```mermaid
 graph TD;A--x|text including graph space|B;
@@ -893,7 +893,7 @@ Expected labels: `A`, `B`, `text including graph space`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-keywords-2
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;V-->a[v]'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;V-->a[v]'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;V-->a[v]
@@ -903,7 +903,7 @@ Expected labels: `V`, `v`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-keywords-3
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text including graph space and v --xB\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text including graph space and v --xB\"" 
 
 ```mermaid
 graph TD;A-- text including graph space and v --xB;
@@ -913,7 +913,7 @@ Expected labels: `A`, `B`, `text including graph space and v`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-keywords-4
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text including graph space and v --xB[blav]\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text including graph space and v --xB[blav]\"" 
 
 ```mermaid
 graph TD;A-- text including graph space and v --xB[blav]
@@ -923,7 +923,7 @@ Expected labels: `A`, `blav`, `text including graph space and v`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-lower-case-v-as-direction-tb
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'v;A-->B'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'v;A-->B'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph v;A-->B;
@@ -933,7 +933,7 @@ Expected labels: `A`, `B`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-multi-line-text
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"space\|B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"space\|B\"" 
 
 ```mermaid
 graph TD;A--o|text space|B;
@@ -944,7 +944,7 @@ Expected labels: `A`, `B`, `C`, `text space`, `more text with space`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-multiple-edges
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"is the 123 s text\|B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:13Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"is the 123 s text\|B\"" 
 
 ```mermaid
 graph TD;A---|This is the 123 s text|B;
@@ -977,7 +977,7 @@ Tool output: [corpus-mermaid-upstream-suite-bench-flowchart-upstream-should-hand
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-normal-text-on-lines
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"test text with == -->B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"test text with == -->B\"" 
 
 ```mermaid
 graph TD;A-- test text with == -->B;
@@ -987,7 +987,7 @@ Expected labels: `A`, `B`, `test text with ==`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-open-ended-edges
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A---B'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A---B'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;A---B;
@@ -997,7 +997,7 @@ Expected labels: `A`, `B`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-open-ended-edges-2
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A--oB'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A--oB'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;A--oB;
@@ -1007,7 +1007,7 @@ Expected labels: `A`, `B`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-quoted-text
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"\\\"test string()\\\" -->a[v]\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"\\\"test string()\\\" -->a[v]\"" 
 
 ```mermaid
 graph TD;V-- "test string()" -->a[v]
@@ -1017,7 +1017,7 @@ Expected labels: `V`, `v`, `test string()`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-quoted-text-in-vertices
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"hoppar ()[]\\\"] --> C\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"hoppar ()[]\\\"] --> C\"" 
 
 ```mermaid
 graph TD;A["chimpansen hoppar ()[]"] --> C;
@@ -1027,7 +1027,7 @@ Expected labels: `chimpansen hoppar ()[]`, `C`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-regular-lines
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A-->B'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A-->B'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;A-->B;
@@ -1050,7 +1050,7 @@ Tool output: [corpus-mermaid-upstream-suite-bench-flowchart-upstream-should-hand
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-space
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"hoppar)\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"hoppar)\"" 
 
 ```mermaid
 graph TD;A-->C(Chimpansen hoppar);
@@ -1060,7 +1060,7 @@ Expected labels: `A`, `Chimpansen hoppar`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-space-and-caps
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"including CAPS space\|B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"including CAPS space\|B\"" 
 
 ```mermaid
 graph TD;A--x|text including CAPS space|B;
@@ -1070,7 +1070,7 @@ Expected labels: `A`, `B`, `text including CAPS space`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-space-and-caps-2
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text including CAPS space --xB\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text including CAPS space --xB\"" 
 
 ```mermaid
 graph TD;A-- text including CAPS space --xB;
@@ -1080,7 +1080,7 @@ Expected labels: `A`, `B`, `text including CAPS space`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-space-and-dir
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"including URL space\|B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"including URL space\|B\"" 
 
 ```mermaid
 graph TD;A--x|text including URL space|B;
@@ -1090,7 +1090,7 @@ Expected labels: `A`, `B`, `text including URL space`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-space-and-dir-2
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text including URL space --xB\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text including URL space --xB\"" 
 
 ```mermaid
 graph TD;A-- text including URL space --xB;
@@ -1100,7 +1100,7 @@ Expected labels: `A`, `B`, `text including URL space`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-space-and-dir-td
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"including R TD space\|B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"including R TD space\|B\"" 
 
 ```mermaid
 graph TD;A--x|text including R TD space|B;
@@ -1110,7 +1110,7 @@ Expected labels: `A`, `B`, `text including R TD space`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-space-and-dir-td2
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text including R TD space --xB\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text including R TD space --xB\"" 
 
 ```mermaid
 graph TD;A-- text including R TD space --xB;
@@ -1120,7 +1120,7 @@ Expected labels: `A`, `B`, `text including R TD space`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-space-and-send
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"including URL space and send-->B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"including URL space and send-->B\"" 
 
 ```mermaid
 graph TD;A--text including URL space and send-->B;
@@ -1130,7 +1130,7 @@ Expected labels: `A`, `B`, `text including URL space and send`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-space-and-send-2
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text including URL space and send -->B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text including URL space and send -->B\"" 
 
 ```mermaid
 graph TD;A-- text including URL space and send -->B;
@@ -1140,7 +1140,7 @@ Expected labels: `A`, `B`, `text including URL space and send`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-space-and-space-between-vertices-and-link
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"--x\|textNoSpace\| B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"--x\|textNoSpace\| B\"" 
 
 ```mermaid
 graph TD;A --x|textNoSpace| B;
@@ -1150,7 +1150,7 @@ Expected labels: `A`, `B`, `textNoSpace`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-space-and-space-between-vertices-and-link-2
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"-- textNoSpace --x B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"-- textNoSpace --x B\"" 
 
 ```mermaid
 graph TD;A -- textNoSpace --x B;
@@ -1160,7 +1160,7 @@ Expected labels: `A`, `B`, `textNoSpace`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-styles-and-graph-definitions-in-a-graph
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;S-->T'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;S-->T'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;S-->T;
@@ -1188,7 +1188,7 @@ Tool output: [corpus-mermaid-upstream-suite-bench-flowchart-upstream-should-hand
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-subgraphs-in-old-style-that-was-broken
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"old style that is broken;c-->d;end\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"old style that is broken;c-->d;end\"" 
 
 ```mermaid
 graph TD;A-->B;subgraph old style that is broken;c-->d;end;
@@ -1198,7 +1198,7 @@ Expected labels: `old style that is broken`, `A`, `B`, `c`, `d`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-subgraphs-with-dashes-in-the-title
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"a-b-c;c-->d;end\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"a-b-c;c-->d;end\"" 
 
 ```mermaid
 graph TD;A-->B;subgraph a-b-c;c-->d;end;
@@ -1208,7 +1208,7 @@ Expected labels: `a-b-c`, `A`, `B`, `c`, `d`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-subgraphs-with-id-and-title-in-brackets
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"uid1[text of doom];c-->d;end\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"uid1[text of doom];c-->d;end\"" 
 
 ```mermaid
 graph TD;A-->B;subgraph uid1[text of doom];c-->d;end;
@@ -1218,7 +1218,7 @@ Expected labels: `text of doom`, `A`, `B`, `c`, `d`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-subgraphs-with-id-and-title-in-brackets-and-quotes
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"uid2[\\\"text of doom\\\"];c-->d;end\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"uid2[\\\"text of doom\\\"];c-->d;end\"" 
 
 ```mermaid
 graph TD;A-->B;subgraph uid2["text of doom"];c-->d;end;
@@ -1228,7 +1228,7 @@ Expected labels: `text of doom`, `A`, `B`, `c`, `d`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-subgraphs-with-id-and-title-in-brackets-without-spaces
 
-CLI, Terminal text. time="2026-10-26T14:16:31Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"uid2[textofdoom];c-->d;end\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"uid2[textofdoom];c-->d;end\"" 
 
 ```mermaid
 graph TD;A-->B;subgraph uid2[textofdoom];c-->d;end;
@@ -1238,7 +1238,7 @@ Expected labels: `textofdoom`, `A`, `B`, `c`, `d`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-subgraphs-with-title-in-quotes
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"\\\"title in quotes\\\";c-->d;end\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"\\\"title in quotes\\\";c-->d;end\"" 
 
 ```mermaid
 graph TD;A-->B;subgraph "title in quotes";c-->d;end;
@@ -1248,7 +1248,7 @@ Expected labels: `title in quotes`, `A`, `B`, `c`, `d`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-subgraphs1
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"myTitle;c-->d;end\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"myTitle;c-->d;end\"" 
 
 ```mermaid
 graph TD;A-->B;subgraph myTitle;c-->d;end;
@@ -1258,7 +1258,7 @@ Expected labels: `myTitle`, `A`, `B`, `c`, `d`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-text-in-circle-vertices-with-space
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"hoppar))-->C\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"hoppar))-->C\"" 
 
 ```mermaid
 graph TD;A((chimpansen hoppar))-->C;
@@ -1268,7 +1268,7 @@ Expected labels: `chimpansen hoppar`, `C`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-text-in-diamond-vertices-with-space
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"hoppar)-->C\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"hoppar)-->C\"" 
 
 ```mermaid
 graph TD;A(chimpansen hoppar)-->C;
@@ -1278,7 +1278,7 @@ Expected labels: `chimpansen hoppar`, `C`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-text-in-vertices-with-space
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"hoppar]-->C\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"hoppar]-->C\"" 
 
 ```mermaid
 graph TD;A[chimpansen hoppar]-->C;
@@ -1288,7 +1288,7 @@ Expected labels: `chimpansen hoppar`, `C`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-text-in-vertices-with-space-with-spaces-between-vertices-and-link
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"hoppar] --> C\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"hoppar] --> C\"" 
 
 ```mermaid
 graph TD;A[chimpansen hoppar] --> C;
@@ -1298,7 +1298,7 @@ Expected labels: `chimpansen hoppar`, `C`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-text-in-with
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A(?)-->\|?\|C'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A(?)-->\|?\|C'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;A(?)-->|?|C;
@@ -1308,7 +1308,7 @@ Expected labels: `?`, `C`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-text-in-with-2
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A(éèêàçô)-->\|éèêàçô\|C'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A(éèêàçô)-->\|éèêàçô\|C'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;A(éèêàçô)-->|éèêàçô|C;
@@ -1318,7 +1318,7 @@ Expected labels: `éèêàçô`, `C`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-text-in-with-3
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A(,.?!+-*)-->\|,.?!+-*\|C'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A(,.?!+-*)-->\|,.?!+-*\|C'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;A(,.?!+-*)-->|,.?!+-*|C;
@@ -1328,7 +1328,7 @@ Expected labels: `,.?!+-*`, `C`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-text-including-in-vertices
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"--> C\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"--> C\"" 
 
 ```mermaid
 graph TD;A[chimpansen_hoppar] --> C;
@@ -1338,7 +1338,7 @@ Expected labels: `chimpansen_hoppar`, `C`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-text-with
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"with / should work\|B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"with / should work\|B\"" 
 
 ```mermaid
 graph TD;A--x|text with / should work|B;
@@ -1348,7 +1348,7 @@ Expected labels: `A`, `B`, `text with / should work`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-text-with-2
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"-- text with / should work --x B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"-- text with / should work --x B\"" 
 
 ```mermaid
 graph TD;A -- text with / should work --x B;
@@ -1358,7 +1358,7 @@ Expected labels: `A`, `B`, `text with / should work`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-text-with-multiple-leading-space
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"textNoSpace --xB\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"textNoSpace --xB\"" 
 
 ```mermaid
 graph TD;A--    textNoSpace --xB;
@@ -1368,7 +1368,7 @@ Expected labels: `A`, `B`, `textNoSpace`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-text-without-space
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A--x\|textNoSpace\|B'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A--x\|textNoSpace\|B'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;A--x|textNoSpace|B;
@@ -1378,7 +1378,7 @@ Expected labels: `A`, `B`, `textNoSpace`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-text-without-space-2
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"textNoSpace --xB\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"textNoSpace --xB\"" 
 
 ```mermaid
 graph TD;A-- textNoSpace --xB;
@@ -1388,7 +1388,7 @@ Expected labels: `A`, `B`, `textNoSpace`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-thick-text-on-lines
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"test text with - ==>B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"test text with - ==>B\"" 
 
 ```mermaid
 graph TD;A== test text with - ==>B;
@@ -1398,7 +1398,7 @@ Expected labels: `A`, `B`, `test text with -`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-unicode-chars
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A-->C(Начало)'. Supported directions: TD, TB, BT, LR, RL" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unsupported graph direction 'TD;A-->C(Начало)'. Supported directions: TD, TB, BT, LR, RL" 
 
 ```mermaid
 graph TD;A-->C(Начало);
@@ -1408,7 +1408,7 @@ Expected labels: `A`, `Начало`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-v-in-node-ids-only-v
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text)\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text)\"" 
 
 ```mermaid
 graph TD;A--xv(my text);
@@ -1418,7 +1418,7 @@ Expected labels: `A`, `my text`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-v-in-node-ids-v-at-end
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text)\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text)\"" 
 
 ```mermaid
 graph TD;A--xcsv(my text);
@@ -1428,7 +1428,7 @@ Expected labels: `A`, `my text`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-v-in-node-ids-v-at-start
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text)\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text)\"" 
 
 ```mermaid
 graph TD;A--xva(my text);
@@ -1438,7 +1438,7 @@ Expected labels: `A`, `my text`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-v-in-node-ids-v-in-middle
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text)\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text)\"" 
 
 ```mermaid
 graph TD;A--xava(my text);
@@ -1448,7 +1448,7 @@ Expected labels: `A`, `my text`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-with-minus-and-space-and-br
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"hoppar åäö <br> - ÅÄÖ)\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"hoppar åäö <br> - ÅÄÖ)\"" 
 
 ```mermaid
 graph TD;A-->C(Chimpansen hoppar åäö  <br> -  ÅÄÖ);
@@ -1458,7 +1458,7 @@ Expected labels: `A`, `Chimpansen hoppar åäö - ÅÄÖ`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-with-space
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"including space\|B\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"including space\|B\"" 
 
 ```mermaid
 graph TD;A--x|text including space|B;
@@ -1468,7 +1468,7 @@ Expected labels: `A`, `B`, `text including space`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-handle-with-space-2
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text including space --xB\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"text including space --xB\"" 
 
 ```mermaid
 graph TD;A-- text including space --xB;
@@ -1478,7 +1478,7 @@ Expected labels: `A`, `B`, `text including space`
 
 ### corpus:mermaid-upstream-suite-bench:flowchart-upstream-should-keep-node-label-text-if-already-defined-when-a-style-is-applied
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"));B((Test));C;style A background:#fff;style D border:1px solid red\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse graph diagram: unexpected tokens after graph direction: \"));B((Test));C;style A background:#fff;style D border:1px solid red\"" 
 
 ```mermaid
 graph TD;A(( ));B((Test));C;style A background:#fff;style D border:1px solid red;
@@ -1516,7 +1516,7 @@ Tool output: [corpus-mermaid-upstream-suite-bench-flowchart-upstream-should-no-m
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-1-should-parse
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse sequence diagram: line 4: invalid syntax: \"Bob -\|\\\\ Alice: Hello Alice, how are you?\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse sequence diagram: line 4: invalid syntax: \"Bob -\|\\\\ Alice: Hello Alice, how are you?\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1537,7 +1537,7 @@ Expected labels: `Alice`, `Bob`, `Hello Alice, how are you?`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-it-should-handle-par-over-statements
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"par_over Parallel overlap\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"par_over Parallel overlap\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1552,7 +1552,7 @@ Expected labels: `Alice`, `Bob`, `Message`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-allow-sequence-numbers-to-have-decimals-up-to-the-hundredths-place
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"autonumber 10.1 .01\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"autonumber 10.1 .01\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1566,7 +1566,7 @@ Expected labels: `Alice`, `Bob`, `Hello Bob, how are you?`, `I am good thanks!`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-handle-a-sequencediagram-definition-with-a-accessibility-title-and-description-accd
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"title: Diagram Title\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"title: Diagram Title\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1580,7 +1580,7 @@ Expected labels: `Diagram Title`, `Alice`, `Bob`, `Hello Bob, how are you?`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-handle-a-sequencediagram-definition-with-a-accessibility-title-and-multiline-descri
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"accTitle: This is the title\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"accTitle: This is the title\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1596,7 +1596,7 @@ Expected labels: `Alice`, `Bob`, `Hello Bob, how are you?`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-handle-a-sequencediagram-definition-with-a-title
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"title: Diagram Title\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"title: Diagram Title\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1610,7 +1610,7 @@ Expected labels: `Diagram Title`, `Alice`, `Bob`, `Hello Bob, how are you?`, `I 
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-handle-a-sequencediagram-definition-with-a-title-without-a
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"title Diagram Title\"" 
+CLI, Terminal text. time="2026-10-26T23:32:14Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"title Diagram Title\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1624,7 +1624,7 @@ Expected labels: `Diagram Title`, `Alice`, `Bob`, `Hello Bob, how are you?`, `I 
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-handle-box
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse sequence diagram: line 7: invalid syntax: \"links a: { \\\"Repo\\\": \\\"https://repo.contoso.com/\\\", \\\"Dashboard\\\": \\\"https://dashboard.contoso.com/\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 7: invalid syntax: \"links a: { \\\"Repo\\\": \\\"https://repo.contoso.com/\\\", \\\"Dashboard\\\": \\\"https://dashboard.contoso.com/\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1645,7 +1645,7 @@ Expected labels: `Alice`, `Bob`, `Charlie`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-handle-box-without-color
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse sequence diagram: line 7: invalid syntax: \"links a: { \\\"Repo\\\": \\\"https://repo.contoso.com/\\\", \\\"Dashboard\\\": \\\"https://dashboard.contoso.com/\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 7: invalid syntax: \"links a: { \\\"Repo\\\": \\\"https://repo.contoso.com/\\\", \\\"Dashboard\\\": \\\"https://dashboard.contoso.com/\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1666,7 +1666,7 @@ Expected labels: `Alice`, `Bob`, `Charlie`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-handle-box-without-description
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse sequence diagram: line 7: invalid syntax: \"links a: { \\\"Repo\\\": \\\"https://repo.contoso.com/\\\", \\\"Dashboard\\\": \\\"https://dashboard.contoso.com/\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 7: invalid syntax: \"links a: { \\\"Repo\\\": \\\"https://repo.contoso.com/\\\", \\\"Dashboard\\\": \\\"https://dashboard.contoso.com/\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1687,7 +1687,7 @@ Expected labels: `Alice`, `Bob`, `Charlie`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-handle-links
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse sequence diagram: line 5: invalid syntax: \"links a: { \\\"Repo\\\": \\\"https://repo.contoso.com/\\\", \\\"Dashboard\\\": \\\"https://dashboard.contoso.com/\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 5: invalid syntax: \"links a: { \\\"Repo\\\": \\\"https://repo.contoso.com/\\\", \\\"Dashboard\\\": \\\"https://dashboard.contoso.com/\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1706,7 +1706,7 @@ Expected labels: `Alice`, `Bob`, `Charlie`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-handle-mixed-inline-and-external-alias-syntax
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"A@{ \\\"type\\\" : \\\"boundary\\\", \\\"alias\\\": \\\"Service A\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"A@{ \\\"type\\\" : \\\"boundary\\\", \\\"alias\\\": \\\"Service A\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1721,7 +1721,7 @@ Expected labels: `Service A`, `Service B`, `C`, `Request`, `Query`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-handle-participant-with-only-inline-alias-no-type
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"API@{ \\\"alias\\\": \\\"Public API\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"API@{ \\\"alias\\\": \\\"Public API\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1733,7 +1733,7 @@ Expected labels: `Public API`, `test`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-handle-properties-experimental-use-with-caution
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse sequence diagram: line 5: invalid syntax: \"properties a: {\\\"class\\\": \\\"internal-service-actor\\\", \\\"icon\\\": \\\"@clock\\\"}\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 5: invalid syntax: \"properties a: {\\\"class\\\": \\\"internal-service-actor\\\", \\\"icon\\\": \\\"@clock\\\"}\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1748,7 +1748,7 @@ Expected labels: `Alice`, `Bob`, `Charlie`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-handle-same-actor-with-different-whitespace-properly
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse sequence diagram: line 3: duplicate participant \"Alice\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 3: duplicate participant \"Alice\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1761,7 +1761,7 @@ Expected labels: `Alice`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-handle-semicolons
 
-CLI, Terminal text. time="2026-10-26T14:16:32Z" level=fatal msg="failed to parse graph diagram: unsupported graph type 'sequenceDiagram;Alice->Bob: Hello Bob, how are you?;Note right of Bob: Bob thinks;Bob-->Alice: I am good thanks!;'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse graph diagram: unsupported graph type 'sequenceDiagram;Alice->Bob: Hello Bob, how are you?;Note right of Bob: Bob thinks;Bob-->Alice: I am good thanks!;'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)" 
 
 ```mermaid
 sequenceDiagram;Alice->Bob: Hello Bob, how are you?;Note right of Bob: Bob thinks;Bob-->Alice: I am good thanks!;
@@ -1771,7 +1771,7 @@ Expected labels: `Alice`, `Bob`, `Hello Bob, how are you?`, `I am good thanks!`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-increment-the-sequence-number-with-a-decimal-in-the-hundredths-place
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"autonumber 10.01 .01\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"autonumber 10.01 .01\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1785,7 +1785,7 @@ Expected labels: `Alice`, `Bob`, `Hello Bob, how are you?`, `I am good thanks!`,
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-increment-the-sequence-number-with-a-decimal-in-the-tenths-place
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"autonumber 10.1 .1\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"autonumber 10.1 .1\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1799,7 +1799,7 @@ Expected labels: `Alice`, `Bob`, `Hello Bob, how are you?`, `I am good thanks!`,
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-not-hang-when-as-is-used-without-a-space-before-the-alias-text
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"X_AutoPublishable asAAAAAAAAAAAAA:AAAAAAAAAAAAA\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"X_AutoPublishable asAAAAAAAAAAAAA:AAAAAAAAAAAAA\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1810,7 +1810,7 @@ Expected labels: none declared
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-parse-actor-participant
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"A@{ \\\"type\\\" : \\\"queue\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"A@{ \\\"type\\\" : \\\"queue\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1822,7 +1822,7 @@ Expected labels: `A`, `test`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-parse-actor-with-inline-alias-in-config-object
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"U@{ \\\"type\\\" : \\\"actor\\\", \\\"alias\\\": \\\"End User\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"U@{ \\\"type\\\" : \\\"actor\\\", \\\"alias\\\": \\\"End User\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1836,7 +1836,7 @@ Expected labels: `User Database`, `End User`, `Query`, `Result`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-parse-actor-with-stereotype-and-alias
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"A@{ \\\"type\\\" : \\\"database\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"A@{ \\\"type\\\" : \\\"database\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1849,7 +1849,7 @@ Expected labels: `Database Server`, `Message Queue`, `Send message`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-parse-boundary-participant
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"boundary@{ \\\"type\\\" : \\\"boundary\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"boundary@{ \\\"type\\\" : \\\"boundary\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1861,7 +1861,7 @@ Expected labels: `boundary`, `test`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-parse-boundary-using-actor-keyword
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"Alice@{ \\\"type\\\" : \\\"collections\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"Alice@{ \\\"type\\\" : \\\"collections\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1874,7 +1874,7 @@ Expected labels: `Alice`, `Bob`, `Hello Bob, how are you?`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-parse-collections-participant
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"L@{ \\\"type\\\" : \\\"collections\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"L@{ \\\"type\\\" : \\\"collections\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1886,7 +1886,7 @@ Expected labels: `L`, `test`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-parse-control-participant
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"C@{ \\\"type\\\" : \\\"control\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"C@{ \\\"type\\\" : \\\"control\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1898,7 +1898,7 @@ Expected labels: `C`, `test`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-parse-control-using-participant-keyword
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"C@{ \\\"type\\\" : \\\"control\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"C@{ \\\"type\\\" : \\\"control\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1910,7 +1910,7 @@ Expected labels: `C`, `test`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-parse-database-participant
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"D@{ \\\"type\\\" : \\\"database\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"D@{ \\\"type\\\" : \\\"database\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1922,7 +1922,7 @@ Expected labels: `D`, `test`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-parse-entity-participant
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"E@{ \\\"type\\\" : \\\"entity\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"E@{ \\\"type\\\" : \\\"entity\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1934,7 +1934,7 @@ Expected labels: `E`, `test`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-parse-mixed-participant-types-with-extended-syntax
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 3: invalid participant name \"dsa@{ \\\"type\\\" : \\\"queue\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 3: invalid participant name \"dsa@{ \\\"type\\\" : \\\"queue\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1949,7 +1949,7 @@ Expected labels: `API`, `Database`, `dsa`, `lead`, `getUserb`, `userb`, `hello`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-parse-participant-participant
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"P@{ \\\"type\\\" : \\\"database\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"P@{ \\\"type\\\" : \\\"database\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1961,7 +1961,7 @@ Expected labels: `P`, `test`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-parse-participant-with-inline-alias-in-config-object
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"API@{ \\\"type\\\" : \\\"boundary\\\", \\\"alias\\\": \\\"Public API\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"API@{ \\\"type\\\" : \\\"boundary\\\", \\\"alias\\\": \\\"Public API\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1975,7 +1975,7 @@ Expected labels: `Public API`, `Auth Controller`, `Request`, `Response`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-parse-participant-with-stereotype-and-alias
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"Alice@{ \\\"type\\\" : \\\"boundary\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"Alice@{ \\\"type\\\" : \\\"boundary\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -1989,7 +1989,7 @@ Expected labels: `Public API`, `Controller`, `Request`, `Response`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-parse-participant-with-stereotype-and-simple-alias
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"API@{ \\\"type\\\" : \\\"boundary\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"API@{ \\\"type\\\" : \\\"boundary\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -2001,7 +2001,7 @@ Expected labels: `Public API`, `test`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-parse-participants-with-different-quote-styles-and-whitespace
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"Alice@{ \\\"type\\\" : \\\"database\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"Alice@{ \\\"type\\\" : \\\"database\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -2019,7 +2019,7 @@ Expected labels: `Alice`, `Bob`, `Carl`, `David`, `Eve`, `Favela`, `Hi Alice`, `
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-parse-queue-participant
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"Q@{ \\\"type\\\" : \\\"queue\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"Q@{ \\\"type\\\" : \\\"queue\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -2031,7 +2031,7 @@ Expected labels: `Q`, `test`
 
 ### corpus:mermaid-upstream-suite-bench:sequence-upstream-should-prioritize-external-alias-over-inline-alias
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"API@{ \\\"type\\\" : \\\"boundary\\\", \\\"alias\\\": \\\"Internal Name\\\" }\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid participant name \"API@{ \\\"type\\\" : \\\"boundary\\\", \\\"alias\\\": \\\"Internal Name\\\" }\"" 
 
 ```mermaid
 sequenceDiagram
@@ -2043,7 +2043,7 @@ Expected labels: `External Name`, `test`
 
 ### authored:sequence-par-over-and
 
-CLI, Terminal text. time="2026-10-26T14:16:33Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"par_over Safe overlay\"" 
+CLI, Terminal text. time="2026-10-26T23:32:15Z" level=fatal msg="failed to parse sequence diagram: line 2: invalid syntax: \"par_over Safe overlay\"" 
 
 ```mermaid
 sequenceDiagram
