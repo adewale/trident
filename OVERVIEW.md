@@ -1,5 +1,7 @@
 # Trident benchmark suite
 
+[All benchmark scorecards](results/SCORECARDS.md) · [Benchmark guides](BENCHMARKS.md) · [Davebench](docs/davebench.md)
+
 Source commands with a `bench:*` prefix below run through Agentic's pinned
 Trident launcher. In Trident itself, use `commands.ts` with an explicit
 `TRIDENT_AGENTIC_ROOT`; see [setup](README.md#optional-agentic-source-adapter).

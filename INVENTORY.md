@@ -1,5 +1,7 @@
 # Benchmark and evaluation inventory
 
+[All scorecards](results/SCORECARDS.md) · [Run and interpret every entry](BENCHMARKS.md) · [Davebench](docs/davebench.md)
+
 Source commands with a `bench:*` prefix below run through Agentic's pinned
 Trident launcher. In Trident itself, use `commands.ts` with an explicit
 `TRIDENT_AGENTIC_ROOT`; see [setup](README.md#optional-agentic-source-adapter).
@@ -86,6 +88,7 @@ orchestrator is a separate activity.
 | `family` | [unified/family-suite.ts](unified/family-suite.ts) | All-family source lifecycle, rendering, independently declared fixture assertions and direct operation witnesses. |
 | `pinned-reference-score` | [unified/reference-score.ts](unified/reference-score.ts) | Same positive fixtures and criteria against pinned public Mermaid, plus separate portable parser timing. Reviewed diagnostics are unscored. |
 | `performance-profile` | [qualify-performance-profile.ts](qualify-performance-profile.ts) | Correctness qualification of the experimental performance profile. |
+| `endpoint-marker` | [endpoint-marker-compare.ts](endpoint-marker-compare.ts) | Geometry across two immutable built checkouts; `metrics.json` retains actual endpoint/marker measurements. Requires `--baseline` and a built `--package-root`; no latency rank. |
 | `output-identity` | [output-identity.ts](output-identity.ts) | Cross-revision output byte identity across styles/formats; equality does not establish independent correctness. |
 | `browser-contracts` | `../../e2e/run-browser-contracts.ts` | Canonical managed-browser editor/security contracts. Driver-owned, including website setup. |
 | `distribution-cli` | `../../e2e/{cli-smoke,cli,fresh-checkout}.e2e.test.ts` | CLI and offline fresh-checkout behavior. |
@@ -117,6 +120,7 @@ orchestrator is a separate activity.
 | Suite ID | Entry | Scope |
 | --- | --- | --- |
 | `family-portfolio` | [unified/portfolio.ts](unified/portfolio.ts) | Builds registry-derived balanced inputs outside the checkout; preparation, not a speed result. |
+| `modern-summary` | [modern-editor/summarize.mjs](modern-editor/summarize.mjs) | Reader for a completed Modern Mermaid report/inventory. Produces summary JSON without new renderers or clocks; currently discovered from its source shortcut, not an independent measurement. |
 | `modern-editor` | `modern-editor/run.mjs` | Explicit external application/dependency-engine comparison with its own frozen resume identity; requires its separately supplied checkout. |
 | `agent-live` | `../agent-usage/live.ts` | Actual provider/model task behavior and observed token usage. Explicit model and credentials required. |
 | `agent-subagent` | `../agent-usage/capture-subagent-prompt-eval.ts` | External prompt dispatch and transcript evaluation. Templates alone are not a completed model evaluation. |

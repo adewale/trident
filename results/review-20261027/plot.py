@@ -14,12 +14,13 @@ reference = next(r for r in records if r['project'] == 'mermaid-js/mermaid')
 plt.rcParams.update({'svg.fonttype': 'none', 'svg.hashsalt': 'review-20261027', 'font.size': 10, 'axes.spines.top': False,
                      'axes.spines.right': False, 'figure.facecolor': 'white'})
 names = {'mermaid-js/mermaid': 'Mermaid', 'obsidianmd/pele': 'Pele',
-         'adewale/agentic-mermaid': 'Agentic', 'orestesgaolin/mermaid': 'Mermaid Dart',
+         'adewale/agentic-mermaid': 'Agentic Mermaid', 'orestesgaolin/mermaid': 'Mermaid Dart',
          'AlexanderGrooff/mermaid-ascii': 'Mermaid ASCII'}
 
 def name(r):
     if r.get('label'):
-        return r['label'] + ' ' + r['version']
+        label, separator, qualifier = r['label'].partition(' (')
+        return label + ' ' + r['version'] + (separator + qualifier if separator else '')
     text = names[r['project']] + ' ' + r['version']
     if r['project'] == 'adewale/agentic-mermaid':
         text += ' (candidate)' if r['lane'] == 'candidate' else ' (release)'
@@ -143,7 +144,8 @@ def ratio(r):
 releases = [reference] + sorted([r for r in browser if r['lane'] == 'community' and r != reference], key=order)
 candidates = sorted([r for r in browser if r['lane'] == 'candidate'], key=order)
 lines = ['# Community and open-PR benchmark snapshot', '',
-         f"Measured {min(r['startedAt'] for r in records)} through {max(r['finishedAt'] for r in records)}. Five rounds, 1,087 fixed inputs across 33 families; 25 in the current mark and eight supplementary. Pinned Mermaid **12.2.0** is the reference; Pele is uniformly **1.9.0**. This snapshot covers five community projects, current Agentic and the five open Agentic PR heads captured in `runs.json`. It is the community suite, not a rerun of all 62 source suites or the full 88-project catalog.", '',
+         '[All benchmark scorecards](../SCORECARDS.md) · [All measured surfaces](lanes.md) · [Beautiful Mermaid, Zombie Mermaid and Frankenmermaid additions](additions/README.md). The additions use a separate host cohort with fresh Mermaid/Pele controls; timings are not pooled.', '',
+         f"Measured {min(r['startedAt'] for r in records)} through {max(r['finishedAt'] for r in records)}. Five rounds, 1,087 fixed inputs across 33 families; 25 in the current mark and eight supplementary. Pinned Mermaid **12.2.0** is the reference; Pele is uniformly **1.9.0**. This snapshot covers five community projects, Agentic Mermaid main and the five Agentic Mermaid PR heads captured in `runs.json`. It is the community suite, not a rerun of all 62 source suites or the full 88-project catalog.", '',
          'These are matched protocols on one Linux machine. The other community records retain their earlier protocols and dates; they are not silently mixed into these ranks. Candidate builds stay outside the release league. Every raw record has retained failures; collection completed successfully, but these runs do not pass a complete-fidelity gate.', '',
          '## Released tools: browser SVG', '',
          'Order: supported families, then raw admission rate, then qualified fixed-core API time. Mermaid defines the reference and is unranked. `vs Mermaid` is reference time / tool time; values above one cost less API time.', '',
@@ -182,14 +184,14 @@ cur, old = browser_lane(current), browser_lane(released)
 lines += ['', '## Evidence retention', '',
           'Local cleanup removed 640,114 obsolete historical files and archives (28.5 GB logical bytes), plus five reproducible source-build dependency trees (5.8 GB). Compact historical summaries (73.7 MB), original source edits, current owning records, measured runtime closures and exact candidate artifacts remain. The committed snapshot is about 2 MB; no large archives or raw render directories were uploaded. [Cleanup summary](cleanup-summary.json).', '',
           '## What improved and what became more expensive', '',
-          f"Current Agentic uses **{100 * (1 - cur['coreFirstMs'] / old['coreFirstMs']):.1f}% less first-call browser API time** than published 0.4.1 in this portfolio ({ms(old['coreFirstMs'])} → {ms(cur['coreFirstMs'])}). Measured family support rises from {len(old['supported'])} to {len(cur['supported'])} of 25. Coverage and raw denominators differ, so the pass-rate change is not a paired all-functionality score.", '',
+          f"Agentic Mermaid uses **{100 * (1 - cur['coreFirstMs'] / old['coreFirstMs']):.1f}% less first-call browser API time** than published 0.4.1 in this portfolio ({ms(old['coreFirstMs'])} → {ms(cur['coreFirstMs'])}). Measured family support rises from {len(old['supported'])} to {len(cur['supported'])} of 25. Coverage and raw denominators differ, so the pass-rate change is not a paired all-functionality score.", '',
           f"The core browser payload is **{100 * (current['browserResources']['coreGzipBytes'] / released['browserResources']['coreGzipBytes'] - 1):.1f}% larger**, and retained V8 heap is **{100 * (current['browserResources']['coreJsHeapUsedBytes'] / released['browserResources']['coreJsHeapUsedBytes'] - 1):.1f}% higher**. Node parser cost also rises in the candidate report. These tradeoffs matter: the benchmark does not collapse speed, memory, coverage and delivery into one score. Many source/dependency changes separate these artifacts; these measurements do not assign causal credit to one optimization.", '',
           '## Remaining limits', '',
           '- The pinned Mermaid control has 67 raw failed observations: 18 rejection observations from nine legacy inputs, 24 renderer exceptions, 19 standalone-XML portability failures and six label-retention failures. Twenty-two exceptions are axis/title-only XY parser fixtures without drawable series. This is evidence about different boundaries, not 67 equivalent fidelity bugs.',
           '- Forty-two preparation caveats are retained in each record’s input ledger: nine rejected sources, 32 without nonempty getter-derived label expectations and ZenUML without a public model getter. Independent authored ZenUML labels remain checked. Parser-only and renderable feature cases still need a stronger distinction at corpus import.',
           '- Label admission does not establish identities, multiplicity, connectivity, painted routes, styling or perceptual fidelity. Event Modeling inline data/relationships and ZenUML native models remain gaps. Required family representatives are not exhaustive feature coverage.',
           '- PNG admission checks signature and dimensions, not rendered text, semantic correspondence or perceptual quality.',
-          '- This run does not exercise every Agentic entry point or API-option combination. Dave, original pinned-Mermaid assertions, complete invocation, family-functionality and other source suites remain separate; see the overview and inventory.',
+          '- This run does not exercise every Agentic Mermaid entry point or API-option combination. Dave, original pinned-Mermaid assertions, complete invocation, family-functionality and other source suites remain separate; see the overview and inventory.',
           '- Total browser/native/WASM/GPU memory, statistically tight performance differences, production workloads and model-provider dollar prices remain outside this comparison.', '',
           '## Reproduce and update', '',
           'The figures and Markdown can be rebuilt from the committed aggregate data alone with Python, Matplotlib and NumPy:', '',
@@ -201,3 +203,31 @@ lines += ['', '## Evidence retention', '',
           'The cache dry run returned reuse for all 11 exact records with zero timing lanes under the frozen producer identity. [Reuse proof](reuse-proof.json). Subsequent source-candidate code changes are a new measurement protocol; these historical timings retain their recorded producer set rather than being silently upgraded.', '',
           '[Benchmark overview](../../OVERVIEW.md) · [Inventory](../../INVENTORY.md) · [Methodology](../../METHODOLOGY.md) · [Exact records and source heads](runs.json) · [Data](comparison.json)', '']
 (root / 'README.md').write_text('\n'.join(lines))
+
+# Keep every measured output readable, including Node SVG, PNG and parser lanes.
+lane_lines = ['# All community surface scorecards', '',
+              '[Campaign and qualifications](README.md) · [All benchmark scorecards](../SCORECARDS.md)', '',
+              'These are the 42 recorded surface/output rows from the original 27 October host cohort. '
+              'Each section retains a different public boundary; costs are never ranked across sections. '
+              'Candidate builds retain their qualifiers and are not additional independent projects. '
+              'The separate [addition cohort](additions/README.md) has its own full surface tables and fresh controls.', '',
+              'Raw admission is passed / (passed + failed) in supported families. Blocked observations are shown separately; '
+              'unsupported families are coverage gaps. Accepted-input format/label checks apply only to SVG and terminal output. '
+              'Parser and PNG admission do not certify native models, rendered text or painted fidelity. '
+              'First-call and repeated-source costs are sums of per-input medians on the six fixed-core inputs, '
+              'only when that complete portfolio qualifies; a dash is unavailable, never zero.', '']
+for surface, output in sorted({(lane['surface'], lane['format']) for r in records for lane in r['lanes']}):
+    lane_lines += [f'## {surface} / {output}', '',
+                   '| Build | Families | Raw admission | Blocked | Accepted-input format + labels | First-call core | Repeated-source core |',
+                   '|---|---:|---:|---:|---:|---:|---:|']
+    for record in records:
+        for lane in record['lanes']:
+            if (lane['surface'], lane['format']) != (surface, output):
+                continue
+            label_score = labels(lane) if output in ('svg', 'terminal') else 'not applicable'
+            lane_lines.append(f"| {name(record)} | {len(lane['supported'])}/25 | {raw(lane)} | {lane['blocked']} | {label_score} | {ms(lane['coreFirstMs'])} | {ms(lane['coreMedianMs'])} |")
+    lane_lines.append('')
+lane_lines += ['Exact record IDs, artifact/source identities, original dates, oracle caveats and per-family results remain in '
+               '[comparison.json](comparison.json) and [runs.json](runs.json). '
+               'Regenerate with `python3 results/review-20261027/plot.py`; this reader starts no benchmark workers.', '']
+(root / 'lanes.md').write_text('\n'.join(lane_lines))

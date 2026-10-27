@@ -1,5 +1,7 @@
 # Trident
 
+[All benchmark scorecards](results/SCORECARDS.md) · [Benchmark guides](BENCHMARKS.md) · [Davebench](docs/davebench.md)
+
 Trident benchmarks tools that read Mermaid's diagram language: SVG renderers, terminal
 renderers and parsers. It is for the maintainers of those tools, who need failures they
 can act on, and for people choosing one, who need to know what each tool draws

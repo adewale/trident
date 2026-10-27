@@ -1,5 +1,7 @@
 # Mermaid derivatives league table
 
+[All benchmark scorecards, including Davebench](SCORECARDS.md) · [Benchmark guides](../BENCHMARKS.md)
+
 The [Beautiful/Zombie/Frankenmermaid additions](review-20261027/additions/README.md) use a separate matched host cohort with their own fresh controls.
 
 For the current 25-family comparison, charts, exact PR snapshots and limitations, see the [2026-10-27 review snapshot](review-20261027/README.md). The tables below retain the earlier measurements without mixing protocols.
