@@ -171,7 +171,7 @@ function publishedRecord(record: ProjectBenchmarkRecord, evidence: ReportInputs)
   }
 }
 
-function reportInputs(record: ProjectBenchmarkRecord): ReportInputs {
+export function reportInputs(record: ProjectBenchmarkRecord): ReportInputs {
   const read = (file: string): any => existsSync(file) || existsSync(file + '.gz') ? readBenchmarkDocument(file) : undefined
   const context = read(join(record.evidenceDirectory, 'context.json'))?.inputs?.literal,
     local = context && Array.isArray(context.workloads) ? undefined : read(join(record.evidenceDirectory, 'community/community-inputs.json')),
