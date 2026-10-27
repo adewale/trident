@@ -54,11 +54,13 @@ const implementationOf = (row: BenchmarkObservation): string => (typeof row.metr
 
 /** Rows are enrollment/execution evidence, not a guessed feature percentage. */
 export function coverageRows(observations: readonly BenchmarkObservation[]) {
-  const groups = new Map<string, { suite: string; implementation: string; surface: string; runtime: string; family: string; operation: string; format: string; mode: string; statuses: Partial<Record<BenchmarkStatus, number>>; cases: Set<string> }>()
+  const groups = new Map<string, { suite: string; implementation: string; variant: string; surface: string; runtime: string; family: string; operation: string; format: string; mode: string; statuses: Partial<Record<BenchmarkStatus, number>>; cases: Set<string> }>()
   for (const row of observations) {
     const implementation = implementationOf(row)
-    const key = JSON.stringify([row.suite, implementation, row.surface, row.runtime, row.family, row.operation, row.format, row.mode])
-    const group = groups.get(key) ?? { suite: row.suite, implementation, surface: row.surface, runtime: row.runtime, family: row.family, operation: row.operation, format: row.format, mode: row.mode, statuses: {}, cases: new Set<string>() }
+    const rawVariant = row.metrics?.variant
+    const variant = typeof rawVariant === 'string' && rawVariant && rawVariant !== 'candidate' && rawVariant !== 'default' ? rawVariant : 'default'
+    const key = JSON.stringify([row.suite, implementation, variant, row.surface, row.runtime, row.family, row.operation, row.format, row.mode])
+    const group = groups.get(key) ?? { suite: row.suite, implementation, variant, surface: row.surface, runtime: row.runtime, family: row.family, operation: row.operation, format: row.format, mode: row.mode, statuses: {}, cases: new Set<string>() }
     group.statuses[row.status] = (group.statuses[row.status] ?? 0) + 1
     group.cases.add(row.caseId)
     groups.set(key, group)
@@ -89,15 +91,15 @@ export function writeUnifiedReport(out: string, report: UnifiedReport): void {
       claims.push({ tool, version: typeof row.metrics?.version === 'string' ? row.metrics.version : receipt?.version ?? '', source: `${row.suite}/${row.surface}`, ...(variant ? { variant } : {}) })
     }
   }
-  assertBenchmarkSetVersions(claims)
+  const admittedVersions = assertBenchmarkSetVersions(claims)
   const coverage = coverageRows(observations)
   writeBenchmarkDocument(join(out, 'report.json'), report)
   if (report.exports?.tables) {
     writeFileSync(join(out, 'coverage.json'), JSON.stringify({ scope: 'Executed observations only; a missing cell is unmeasured, never an inferred pass.', rows: coverage }, null, 2) + '\n')
     const csv = (values: unknown[]) => values.map(value => `"${String(value ?? '').replaceAll('"', '""')}"`).join(',')
     const coverageCsv = [
-      ['suite', 'implementation', 'surface', 'runtime', 'family', 'operation', 'format', 'mode', 'cases', 'passed', 'failed', 'unsupported', 'blocked', 'not_applicable', 'skipped'],
-      ...coverage.map(row => [row.suite, row.implementation, row.surface, row.runtime, row.family, row.operation, row.format, row.mode, row.cases, row.statuses.passed ?? 0, row.statuses.failed ?? 0, row.statuses.unsupported ?? 0, row.statuses.blocked ?? 0, row.statuses['not-applicable'] ?? 0, row.statuses.skipped ?? 0]),
+      ['suite', 'implementation', 'surface', 'runtime', 'family', 'operation', 'format', 'mode', 'cases', 'passed', 'failed', 'unsupported', 'blocked', 'not_applicable', 'skipped', 'variant'],
+      ...coverage.map(row => [row.suite, row.implementation, row.surface, row.runtime, row.family, row.operation, row.format, row.mode, row.cases, row.statuses.passed ?? 0, row.statuses.failed ?? 0, row.statuses.unsupported ?? 0, row.statuses.blocked ?? 0, row.statuses['not-applicable'] ?? 0, row.statuses.skipped ?? 0, row.variant]),
     ]
     writeFileSync(join(out, 'coverage.csv'), coverageCsv.map(csv).join('\n') + '\n')
     const observationCsv = [
@@ -109,13 +111,21 @@ export function writeUnifiedReport(out: string, report: UnifiedReport): void {
     for (const file of ['coverage.json', 'coverage.csv', 'observations.csv']) rmSync(join(out, file), { force: true })
   }
   const lines = [
-    '# Trident benchmark campaign',
+    '# Benchmark campaign',
     '',
     `Status: **${report.status}**. Profile: **${report.profile}**; rounds requested: ${report.rounds}.`,
     '',
     `Driver: \`${report.driverRevision ?? 'unavailable'}\` (${report.driverDirty ? 'uncommitted changes present' : 'clean or unavailable'}). Target: \`${report.targetRevision ?? 'unavailable'}\`.`,
     '',
     report.policy,
+    '',
+    '## Artifact versions',
+    '',
+    '| Tool | Variant | Version | Receipt |',
+    '|---|---|---|---|',
+    ...admittedVersions.map(claim => `| ${escape(claim.tool)} | ${escape(claim.variant ?? 'default')} | ${escape(claim.version)} | ${escape(claim.source)} |`),
+    '',
+    '## Suites',
     '',
     '| Suite | Target | Status | Wall ms | Tests pass/fail/skip | Evidence / reason |',
     '|---|---|---|---:|---|---|',
@@ -129,10 +139,10 @@ export function writeUnifiedReport(out: string, report: UnifiedReport): void {
   const gaps = report.suites.flatMap(suite => [...suite.prerequisites, ...(suite.result?.gaps ?? [])].map(detail => ({ suite: suite.id, detail })))
   lines.push('', '## Remaining scope and blocked work', '', ...gaps.map(gap => `- **${gap.suite}:** ${gap.detail}`))
   if (!gaps.length) lines.push('No runner-reported gaps. This is not a proof of exhaustive language functionality; inspect each suite’s declared feature and oracle scope.')
-  lines.push('', '## Executed coverage', '', '| Suite | Implementation | Surface | Family | Operation | Format | Mode | Cases | Passed | Failed | Unsupported | Blocked | N/A |', '|---|---|---|---|---|---|---|---:|---:|---:|---:|---:|---:|')
+  lines.push('', '## Executed coverage', '', '| Suite | Implementation | Variant | Surface | Family | Operation | Format | Mode | Cases | Passed | Failed | Unsupported | Blocked | N/A |', '|---|---|---|---|---|---|---|---|---:|---:|---:|---:|---:|---:|')
   for (const row of coverage)
     lines.push(
-      `| ${escape(row.suite)} | ${escape(row.implementation)} | ${escape(row.surface)} | ${escape(row.family)} | ${escape(row.operation)} | ${escape(row.format)} | ${escape(row.mode)} | ${row.cases} | ${row.statuses.passed ?? 0} | ${row.statuses.failed ?? 0} | ${row.statuses.unsupported ?? 0} | ${row.statuses.blocked ?? 0} | ${row.statuses['not-applicable'] ?? 0} |`,
+      `| ${escape(row.suite)} | ${escape(row.implementation)} | ${escape(row.variant)} | ${escape(row.surface)} | ${escape(row.family)} | ${escape(row.operation)} | ${escape(row.format)} | ${escape(row.mode)} | ${row.cases} | ${row.statuses.passed ?? 0} | ${row.statuses.failed ?? 0} | ${row.statuses.unsupported ?? 0} | ${row.statuses.blocked ?? 0} | ${row.statuses['not-applicable'] ?? 0} |`,
     )
   lines.push(
     '',

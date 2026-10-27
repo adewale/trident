@@ -50,6 +50,9 @@ observer code through an explicit pinned library dependency.
 - Check actual package/version/bytes, public interface and completed work before
   comparing calls. A cached SVG return, rich model and DOM-hosted parse are
   different tasks. See [methodology](METHODOLOGY.md).
+- Keep explicit artifact variants separate, including repeated suite and case
+  names. Reports show each admitted version and its owning receipt; source
+  candidates and catalog releases are different comparisons.
 - Inspect literal case and criterion denominators. Missing adapters, failures,
   unavailable counters, partial rounds and reference failures stay visible.
 - A p95 of batch means is not a single-call tail. Document heap, process RSS,
