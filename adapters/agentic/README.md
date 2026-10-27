@@ -24,6 +24,26 @@ Paths passed to the adapter are resolved before entering that workspace. Site, i
 
 ## Scope and migration limits
 
+The source family's balanced portfolio is owned by Trident's
+`unified/family-portfolio.ts`; the assembled workspace supplies its explicit
+product registry and historical source inputs. Event Modeling and ZenUML each
+have four independently authored feature witnesses with expected drawn labels.
+This producer and its public-SVG admission test belong to the source adapter,
+outside standalone checks. Event Modeling also uses the pinned grammar oracle.
+ZenUML's upstream Node parser is a no-op: it cannot establish DSL validity.
+The four ZenUML inputs follow the pinned documentation, but require actual
+published-addon browser rendering before baseline admission can be claimed.
+Other families retain the historical
+selection priority and exact-source deduplication. A four-input quota provides
+balanced workload coverage, not exhaustive language or painted fidelity.
+
+Native blank builds exercise three connected Event Modeling frames and two
+ZenUML participants with a call and reply. The operation matrix reads nested
+ZenUML AST messages and Event Modeling frame/data/note fields, rather than
+looking for messages in a nonexistent flat collection. Each advertised
+operation without an authored positive recipe remains blocked; the separate
+single metadata mutation witness does not certify all operations.
+
 Dave and some meaning/startup/release runners still have fixed engines or Agentic-derived fixtures/imports. Source-only files remain in their inherited modules while their entry, workspace and launcher definitions live here. Moving those files alone would not make their workloads neutral. [The benchmark guide](../../BENCHMARKS.md) states which experiments have general value and which are local diagnostics.
 
 Only the public `community:update --projects OWNER/TOOL` path supplies ordinary community rows. All npm candidates use `--candidate-dir` or verified tarballs, and all supported source candidates use the same explicit revision mechanism. Local `--package-root` selection, local native executable discovery and product compatibility policy cannot privilege this project in those rows.

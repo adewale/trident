@@ -3,7 +3,7 @@ import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { classifyMeaningFailure, createMeaningAdapter, normalizeMeaning } from '../fidelity/adapters.ts'
-import { assessMeaning, type AuthoredFidelityCase, type NormalizedMeaning } from '../fidelity/meaning.ts'
+import { assessMeaning, assessPrelude, type AuthoredFidelityCase, type NormalizedMeaning } from '../fidelity/meaning.ts'
 
 const witness: AuthoredFidelityCase = {
   id: 'owned-relationships', family: 'flowchart', required: true, source: 'flowchart LR\nA[Alpha]-->B[Beta]\nA-->B\nB-->A', features: ['parallel-reciprocal'], provenance: 'Independent authored expectation',
@@ -136,4 +136,36 @@ test('only reviewed source rejection earns negative credit; backend/resource fau
   for (const error of [new PublicPeleError('resource-limit', 'Parser source budget exceeded'), new Error('Parser backend failed'), new TypeError('Cannot read parser'), Object.assign(new Error('Parse error on line 2: backend was unavailable'), { name: 'TimeoutError' })]) expect(classifyMeaningFailure('pele', error, PublicPeleError)).toMatchObject({ status: 'unavailable', publicAccepted: null })
   expect(classifyMeaningFailure('mermaid', new Error('"dogs" has invalid value: -60.67. Negative values are not allowed in pie charts. All slice values must be >= 0.'))).toMatchObject({ status: 'rejected', publicAccepted: false })
   expect(classifyMeaningFailure('mermaid', new Error('Backend reports invalid value: -60.67. Negative values are not allowed'))).toMatchObject({ status: 'unavailable', publicAccepted: null })
+  const unsupported = classifyMeaningFailure('pele', new PublicPeleError('unsupported-diagram', 'Unknown header'), PublicPeleError)
+  expect(assessPrelude(true, unsupported.status)).toBe('unsupported')
+  expect(assessPrelude(false, unsupported.status)).toBe('unsupported')
+  const unavailable = classifyMeaningFailure('pele', new TypeError('Host unavailable'), PublicPeleError)
+  expect(assessPrelude(true, unavailable.status)).toBe('unavailable')
+  expect(assessPrelude(false, unavailable.status)).toBe('unavailable')
+})
+
+test('native Mermaid registers the declared addon without inventing its missing public semantic model', async () => {
+  const root = mkdtempSync(join(tmpdir(), 'fidelity-mermaid-addon-')), addon = join(root, 'addon')
+  const globals = ['window', 'document', 'navigator', 'HTMLElement', 'SVGElement', 'Element', 'Node', 'Option']
+  const before = globals.map(name => [name, Object.getOwnPropertyDescriptor(globalThis, name)] as const)
+  try {
+    for (const folder of ['node_modules/mermaid', 'node_modules/jsdom', 'addon/dist']) mkdirSync(join(root, folder), { recursive: true })
+    writeFileSync(join(root, 'package.json'), JSON.stringify({ type: 'module' }))
+    writeFileSync(join(root, 'node_modules/jsdom/package.json'), JSON.stringify({ type: 'module', exports: './index.mjs' }))
+    writeFileSync(join(root, 'node_modules/jsdom/index.mjs'), 'export class JSDOM { constructor(){this.window={document:{}};this.window.window=this.window} }')
+    writeFileSync(join(root, 'node_modules/mermaid/package.json'), JSON.stringify({ name: 'mermaid', version: '12.2.0', type: 'module', exports: { '.': './index.mjs', './package.json': './package.json' } }))
+    writeFileSync(join(root, 'node_modules/mermaid/index.mjs'), `const plugins=[];export default {initialize(){},async registerExternalDiagrams(items){plugins.push(...items)},mermaidAPI:{async getDiagramFromText(source){const plugin=plugins.find(item=>item.detector(source));if(!plugin)throw Object.assign(Error('No diagram type detected matching given configuration for text:'+source),{name:'UnknownDiagramError'});const {diagram}=await plugin.loader();return {type:plugin.id,db:diagram.db}}}}`)
+    writeFileSync(join(addon, 'package.json'), JSON.stringify({ name: '@mermaid-js/mermaid-zenuml', version: '1.0.1', type: 'module' }))
+    writeFileSync(join(addon, 'dist/mermaid-zenuml.esm.min.mjs'), `export default {id:'zenuml',detector:source=>source.startsWith('zenuml'),loader:async()=>({diagram:{db:{getDiagramTitle:()=> 'Loaded declared addon'}}})}`)
+    const bare = await createMeaningAdapter({ tool: 'mermaid', packageRoot: join(root, 'node_modules/mermaid'), referenceRoot: root })
+    expect((await bare.acquireRaw('zenuml\nA.call()', 'zenuml')).status).toBe('unsupported')
+    const registered = await createMeaningAdapter({ tool: 'mermaid', packageRoot: join(root, 'node_modules/mermaid'), referenceRoot: root, zenumlRoot: addon })
+    const result = await registered.parse('zenuml\nA.call()', 'zenuml')
+    expect(result).toMatchObject({ status: 'accepted', family: 'zenuml', meaning: { family: 'zenuml', facts: { title: 'Loaded declared addon' } } })
+    expect(result.meaning?.nodes).toBeUndefined()
+    expect(result.meaning?.unavailable.identities).toContain('No reviewed native public ZenUML model')
+  } finally {
+    for (const [name, descriptor] of before) if (descriptor) Object.defineProperty(globalThis, name, descriptor); else Reflect.deleteProperty(globalThis, name)
+    rmSync(root, { recursive: true, force: true })
+  }
 })

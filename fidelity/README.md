@@ -4,7 +4,7 @@ These optional source-adapter campaigns collect meaning and painted-output evide
 
 | Lane | Observable boundary | Main limits |
 | --- | --- | --- |
-| `mermaid-fidelity` | Actual public Node models and browser SVG for pinned Mermaid, Agentic and Pele; 70 authored cases plus 21 edits, across 25 families | Finite feature combinations; ambiguous native/paint projections stay unavailable. |
+| `mermaid-fidelity` | Actual public Node models and browser SVG for pinned Mermaid, Agentic and Pele; 100 expanded authored cases across 25 families | Finite feature combinations; ambiguous native/paint projections stay unavailable. |
 | `community-fidelity` | The same authored cases and actual Chromium paint checks on frozen prepared community SVG artifacts | No acquisition, old timing reruns or inferred native-model passes. Terminal/parser/editor tools retain their separate boundaries. |
 | `upstream-original` | Genuine Mermaid 12.2.0 source core Vite/Vitest project, unchanged expectations and read-only snapshots | Excludes the docs-site and browser/e2e workspaces. Expanded callbacks are not individual assertions. |
 | `upstream-fidelity` | Original source callbacks/expectations through reviewed actual public parser/models | Private helpers, imports, state and matchers are unavailable; diagnostic/representation mismatches do not automatically establish a drawing defect. |
@@ -16,8 +16,11 @@ conservatively required pending maturity-policy review; issues
 [#502](https://github.com/adewale/agentic-mermaid/issues/502) retain missing-product
 evidence. Optional/beta supplements retain their explicit required flags. The
 first-party ZenUML reference addon is separately pinned to 1.0.1 and explicitly
-registered in the browser; it does not make core Mermaid's Node parser expose
-ZenUML models. Pele is uniformly 1.9.0. A set rejects mixed tool versions.
+registered through both browser and native public APIs when supplied. Its native
+admission does not expose a public ZenUML semantic model. Missing projections
+remain unavailable; an unsupported prelude cannot earn syntax-rejection credit
+or become a positive rendering failure. Pele is uniformly 1.9.0. A set rejects
+mixed tool versions.
 
 ## Run and update
 
@@ -124,6 +127,13 @@ value geometry. Styles/gradients/masks without a reviewed projection remain
 unavailable. PNGs and lossless community SVGs belong to retained attempts;
 identical artifact aliases reference their real source experiment rather than
 adding independent votes.
+
+Reviewed arrow projections include open paths with a repeated shared vertex,
+nested SVG arrowheads and activation bodies. Inline glyphs must touch their
+actual route. External node labels require a distinct SVG body, matching public
+identity and nearby text; a common cluster cannot stand in for several nodes.
+Unrecognized glyph geometry stays unavailable rather than being declared an
+undirected relationship. These checks do not establish pixel equivalence.
 
 Public docs and tests are external workloads, not a hidden holdout. Dave's
 full occurrence acceptance and common-success time remain valuable separate

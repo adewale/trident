@@ -4,7 +4,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, 
 import { tmpdir } from 'node:os'
 import { gunzipSync } from 'node:zlib'
 import { join } from 'node:path'
-import { publishResults } from '../unified/league.ts'
+import { lanes, positiveRenderScore, publishResults } from '../unified/league.ts'
 import { communityCoreWorkloads } from '../unified/community.ts'
 import { projectReportView } from '../unified/project-report-view.ts'
 import { coverageRows, type UnifiedReport, writeUnifiedReport } from '../unified/report.ts'
@@ -103,6 +103,10 @@ test('community league costs compare and rank within each invocation surface', (
       const evidenceDirectory = join(directory, project.replaceAll('/', '-'))
       mkdirSync(evidenceDirectory)
       writeFileSync(join(evidenceDirectory, 'result.json'), '{}')
+      writeBenchmarkDocument(join(evidenceDirectory, 'context.json'), { inputs: { literal: {
+        reference: { version: '12.2.0', parserVersion: '2.0.1', domVersion: '26.1.0' }, gaps: [],
+        workloads: [{ id: 'authored-feature', family: 'flowchart', source: 'flowchart LR\n A[Fixture]', intent: 'render', referenceAdmission: { accepted: true }, features: [], provenance: 'Independently authored report fixture' }],
+      } } })
       const row = (caseId: string, round: number) => ({ suite: 'community', surface, runtime: 'fixture', family: 'flowchart', caseId, operation: 'render', format, mode: 'core-api-repeat', status: 'passed' as const, samplesMs: [ms], metrics: { implementation: project, version: 'fixture', round, firstMs: ms } })
       const record: ProjectBenchmarkRecord = {
         schemaVersion: 1,
@@ -273,4 +277,79 @@ test('portable reports preserve oracle caveats and separate pinned-accepted auth
   } finally {
     rmSync(directory, { recursive: true, force: true })
   }
+})
+
+
+test('first-call core reports use the arithmetic median for six rounds', () => {
+  const firstCalls = [101, 1, 101, 1, 101, 1],
+    project = 'fixture/even-rounds'
+  const row = (caseId: string, round: number, firstMs: number) => ({ suite: 'community', surface: 'browser:public-api', runtime: 'fixture', family: 'flowchart', caseId, operation: 'render', format: 'svg', mode: 'core-api-repeat', status: 'passed' as const, samplesMs: [5], metrics: { implementation: project, version: 'fixture', round, firstMs } })
+  const record: ProjectBenchmarkRecord = {
+    schemaVersion: 1, id: 'six-rounds', identity: { project, protocol: {}, artifact: {}, measurement: { rounds: 6 } },
+    startedAt: '2026-10-27T00:00:00Z', finishedAt: '2026-10-27T00:01:00Z', status: 'passed',
+    evidenceDirectory: '/unused', evidenceFiles: [], gaps: [],
+    observations: [...firstCalls.flatMap((ms, index) => communityCoreWorkloads().map(workload => row(workload.id, index + 1, ms))), row('authored-feature', 1, 5)],
+  }
+  const before = JSON.stringify(record)
+  expect(lanes(record)[0]!.coreFirstMs).toBe(306)
+  expect(lanes(record)[0]!.coreMedianMs).toBe(30)
+  // The ordinary five-round median stays unchanged, and reports never rewrite clocks.
+  expect(lanes({ ...record, identity: { ...record.identity, measurement: { rounds: 5 } }, observations: record.observations.filter(row => row.metrics?.round !== 6) })[0]!.coreFirstMs).toBe(606)
+  expect(JSON.stringify(record)).toBe(before)
+})
+
+
+test('current rendering ranks count the fixed positive population and leave unknown historical scores unranked', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'community-positive-rank-')),
+    store = join(directory, 'store'), out = join(directory, 'published')
+  const workloads = ['A', 'B', 'C', 'D', 'parser', 'diagnostic'].map(id => ({ id, family: 'flowchart', source: `flowchart LR\n A[${id}]`, intent: id === 'parser' ? 'parse-only' : id === 'diagnostic' ? 'diagnostic' : 'render', referenceAdmission: { accepted: true }, features: [], provenance: 'Independent fixed-population report counterexample' }))
+  try {
+    for (const kind of ['whole', 'partial', 'stopped', 'stopped-failed', 'unsupported-families', 'inapplicable', 'unbound', 'legacy', 'unknown-intent', 'unknown-reference', 'conflicting-reference', 'duplicate-id', 'missing-pin'] as const) {
+      const project = `fixture/${kind === 'whole' ? 'z-whole' : kind === 'partial' ? 'a-partial' : kind}`,
+        evidenceDirectory = join(directory, kind)
+      mkdirSync(evidenceDirectory)
+      writeFileSync(join(evidenceDirectory, 'result.json'), '{}')
+      const inputs = workloads.map(workload => {
+        if (kind === 'legacy') { const { intent: _intent, ...old } = workload; return old }
+        if (kind === 'unknown-intent' && workload.id === 'A') return { ...workload, intent: 'render-v2' }
+        if (kind === 'unknown-reference' && workload.id === 'A') { const { referenceAdmission: _reference, ...old } = workload; return old }
+        return workload
+      })
+      writeBenchmarkDocument(join(evidenceDirectory, 'context.json'), { inputs: { literal: { workloads: kind === 'duplicate-id' ? [...inputs, inputs[0]] : inputs, gaps: kind === 'conflicting-reference' ? ['A: pinned Mermaid rejected source (independent contradiction fixture)'] : [], reference: { version: kind === 'missing-pin' ? '11.16.1' : '12.2.0', parserVersion: '2.0.1', domVersion: '26.1.0' } } } })
+      const observation = (caseId: string, status: 'passed' | 'failed' | 'blocked' | 'unsupported' | 'not-applicable', operation = 'render') => ({ suite: 'community', surface: 'browser:public-api', runtime: 'fixture', family: 'flowchart', caseId, operation, format: 'svg', mode: 'feature', status, metrics: { implementation: project, version: 'fixture', round: 1 } })
+      const observations = kind === 'unsupported-families' ? [observation('browser-capability', 'passed', 'capability'), observation('family-support:flowchart', 'unsupported', 'family-support')] : ['stopped', 'stopped-failed', 'inapplicable', 'unbound'].includes(kind) ? [observation('browser-capability', kind === 'stopped' ? 'blocked' : kind === 'stopped-failed' ? 'failed' : kind === 'inapplicable' ? 'not-applicable' : 'unsupported', 'capability')] : [observation('family-support:flowchart', 'passed', 'family-support'), ...workloads.filter(workload => kind !== 'partial' || workload.id !== 'D').map(workload => observation(workload.id, kind === 'whole' && !['A', 'B'].includes(workload.id) ? 'failed' : kind === 'partial' && workload.id === 'B' ? 'blocked' : kind === 'partial' && workload.id === 'C' ? 'unsupported' : 'passed'))]
+      publishProjectRecord(store, { schemaVersion: 1, id: kind, identity: { project, protocol: { context: 'same' }, artifact: {}, measurement: { rounds: 1 } }, startedAt: '2026-10-27T00:00:00Z', finishedAt: '2026-10-27T00:01:00Z', status: kind === 'whole' || kind === 'stopped-failed' ? 'failed' : kind === 'partial' || kind === 'stopped' ? 'blocked' : 'passed', evidenceDirectory, evidenceFiles: ['result.json'], observations, gaps: [] })
+    }
+    const result = publishResults(store, out),
+      whole = result.lanes.find(lane => lane.project === 'fixture/z-whole')!,
+      partial = result.lanes.find(lane => lane.project === 'fixture/a-partial')!,
+      markdown = readFileSync(join(out, 'README.md'), 'utf8'),
+      cells = (project: string) => markdown.split('\n').find(line => line.includes(`[${project}]`))!.split('|').map(cell => cell.trim())
+    expect([whole.passed, whole.failed]).toEqual([2, 4])
+    expect([partial.passed, partial.failed, partial.blocked]).toEqual([3, 0, 1])
+    expect(positiveRenderScore(whole)).toEqual({ passed: 2, total: 4, rate: 0.5 })
+    expect(positiveRenderScore(partial)).toEqual({ passed: 1, total: 4, rate: 0.25 })
+    expect(cells('fixture/z-whole')[1]).toBe('1')
+    expect(cells('fixture/z-whole')[12]).toBe('50.0% (2/4)')
+    expect(cells('fixture/a-partial')[1]).toBe('2')
+    expect(cells('fixture/a-partial')[12]).toBe('25.0% (1/4)')
+    expect(cells('fixture/stopped')[1]).toBe('3')
+    expect(cells('fixture/stopped')[12]).toBe('0.0% (0/4)')
+    expect(cells('fixture/stopped-failed')[1]).toBe('4')
+    expect(cells('fixture/stopped-failed')[12]).toBe('0.0% (0/4)')
+    expect(cells('fixture/unsupported-families')[1]).toBe('5')
+    expect(cells('fixture/unsupported-families')[12]).toBe('0.0% (0/4)')
+    expect(result.lanes.some(lane => ['fixture/inapplicable', 'fixture/unbound'].includes(lane.project))).toBe(false)
+    for (const kind of ['legacy', 'unknown-intent', 'unknown-reference', 'conflicting-reference', 'duplicate-id', 'missing-pin']) {
+      expect(cells(`fixture/${kind}`)[1]).toBe('—')
+      expect(cells(`fixture/${kind}`)[6]).toBe('100.0% (6/6)')
+      expect(positiveRenderScore(result.lanes.find(lane => lane.project === `fixture/${kind}`)!)).toBeNull()
+    }
+    for (const [kind, message] of [['conflicting-reference', 'Contradictory pinned reference admission'], ['duplicate-id', 'Duplicate workload ID']] as const) {
+      const portable = JSON.parse(gunzipSync(readFileSync(join(out, `records/fixture-${kind}.json.gz`))).toString())
+      expect(portable.inputEvidence.oracleLedgerComplete).toBe(false)
+      expect(portable.inputEvidence.gaps.some((gap: string) => gap.includes(message))).toBe(true)
+      expect(portable.observations.filter((row: any) => row.operation === 'render').every((row: any) => row.status === 'passed')).toBe(true)
+    }
+  } finally { rmSync(directory, { recursive: true, force: true }) }
 })

@@ -123,7 +123,20 @@ export function structuralBuildWitnessForFamily(api: Pick<AgentApi, 'hasOpSchema
     return api.validateOp(family, operation) === null ? (operation as AnyMutationOp) : undefined
   }
   let stimuli: Record<string, unknown>[]
-  if (menu.set_effect && menu.add_cause)
+  if (menu.add_frame)
+    stimuli = [
+      { kind: 'add_frame', id: '901', entityType: 'ui', entity: 'UnifiedBenchmarkWitness', reset: true },
+      { kind: 'add_frame', id: '902', entityType: 'command', entity: 'UnifiedCommand', reset: true, sources: ['901'] },
+      { kind: 'add_frame', id: '903', entityType: 'event', entity: 'UnifiedEvent', reset: true, sources: ['902'] },
+    ]
+  else if (menu.add_call && menu.add_participant)
+    stimuli = [
+      { kind: 'add_participant', id: 'UnifiedBenchmarkWitness' },
+      { kind: 'add_participant', id: 'UnifiedService' },
+      { kind: 'add_call', from: 'UnifiedBenchmarkWitness', to: 'UnifiedService', method: 'run()' },
+      { kind: 'add_message', from: 'UnifiedService', to: 'UnifiedBenchmarkWitness', text: 'Unified response', mode: 'reply' },
+    ]
+  else if (menu.set_effect && menu.add_cause)
     stimuli = [
       { kind: 'set_effect', label: 'UnifiedBenchmarkWitness' },
       { kind: 'add_cause', label: 'Unified cause' },

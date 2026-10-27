@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { buildBalancedPortfolio, portfolioProvenance } from '../../mermaid-family-portfolio/build.ts'
+import { buildBalancedPortfolio, portfolioProvenance } from './family-portfolio.ts'
 
 const args = process.argv.slice(2)
 if (args.length !== 2 || args[0] !== '--out' || !args[1]) throw new Error('Usage: portfolio.ts --out DIRECTORY')

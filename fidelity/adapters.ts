@@ -48,6 +48,7 @@ function publicModel(tool: MeaningTool, family: string, raw: any): any {
     case 'ishikawa': return { ...common(), root: value(raw, 'getRoot') }
     case 'c4': return { title: value(raw, 'getTitle'), shapes: value(raw, 'getC4ShapeArray'), boundaries: value(raw, 'getBoundaries'), rels: value(raw, 'getRels') }
     case 'eventmodeling': return { ...common(), ...value(raw, 'getState') }
+    case 'zenuml': return common()
     default: throw Error(`No reviewed public-model projection for ${family}`)
   }
 }
@@ -330,7 +331,7 @@ export function normalizeMeaning(tool: MeaningTool, family: string, raw: any, pu
   return out
 }
 
-export async function createMeaningAdapter(options: { tool: MeaningTool; packageRoot: string; referenceRoot?: string }): Promise<MeaningAdapter> {
+export async function createMeaningAdapter(options: { tool: MeaningTool; packageRoot: string; referenceRoot?: string; zenumlRoot?: string }): Promise<MeaningAdapter> {
   assertBenchmarkExecutionAllowed()
   const tool = options.tool, root = resolve(options.packageRoot), require = createRequire(join(options.referenceRoot ?? root, 'package.json'))
   const entry = tool === 'mermaid' ? require.resolve('mermaid') : resolve(root, tool === 'agentic' ? 'dist/agent-core.js' : 'dist/pele.js')
@@ -345,6 +346,16 @@ export async function createMeaningAdapter(options: { tool: MeaningTool; package
   }
   const imported: any = await import(pathToFileURL(entry).href), api = tool === 'mermaid' ? imported.default : imported
   if (tool === 'mermaid') api.initialize({ startOnLoad: false, securityLevel: 'strict', logLevel: 'fatal' })
+  if (tool === 'mermaid' && options.zenumlRoot) {
+    const addon = resolve(options.zenumlRoot), manifestFile = join(addon, 'package.json'), manifest = JSON.parse(readFileSync(manifestFile, 'utf8'))
+    if (manifest.name !== '@mermaid-js/mermaid-zenuml') throw Error('Native Mermaid host requires the declared first-party ZenUML addon')
+    assertBenchmarkToolVersion(manifest.name, manifest.version, manifestFile)
+    const plugin = await import(pathToFileURL(join(addon, 'dist/mermaid-zenuml.esm.min.mjs')).href)
+    if (plugin.default?.id !== 'zenuml' || typeof api.registerExternalDiagrams !== 'function') throw Error('Declared ZenUML addon has no public Mermaid registration contract')
+    // Use the same shipped addon bytes as the browser baseline. Lazy loading
+    // keeps an addon-specific DOM limitation from disabling unrelated parsers.
+    await api.registerExternalDiagrams([plugin.default], { lazyLoad: true })
+  }
   const parsedAgentic = new WeakMap<object, any>()
   const acquireRaw = async (source: string, _family: string): Promise<MeaningAcquisition> => {
     let raw: any, actualFamily: string

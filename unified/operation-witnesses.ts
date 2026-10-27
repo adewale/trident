@@ -30,6 +30,9 @@ const errorText = (error: unknown) => (error instanceof Error ? error.message : 
 const snapshot = (value: unknown): string => JSON.stringify(value, (_key, item) => (item instanceof Map ? [...item] : item instanceof Set ? [...item] : item))
 const rows = (value: any): any[] => (value instanceof Map ? [...value.values()] : Array.isArray(value) ? value : [])
 const flatten = (value: any, child = 'children'): any[] => rows(value).flatMap(item => [item, ...flatten(item?.[child], child)])
+// ZenUML statements are a typed recursive AST, not the source sidecars used by
+// other families. Inspect only its owned message nodes and actual branch tree.
+const zenStatements = (value: any): any[] => rows(value).flatMap(item => [item, ...zenStatements(item?.children), ...rows(item?.branches).flatMap(branch => zenStatements(branch.statements))])
 export function typedBodyContains(body: unknown, witness: string): boolean {
   if (!body || typeof body !== 'object' || ['opaque', 'preserved'].includes((body as { kind?: string }).kind ?? '')) return false
   const seen = new Set<unknown>()
@@ -65,7 +68,9 @@ function collection(diagram: Diagram, noun: string): any[] {
     case 'participant':
       return rows(body.participants)
     case 'message':
-      return rows(body.messages)
+      return body.kind === 'zenuml' ? zenStatements(body.statements).filter(statement => statement.kind === 'message') : rows(body.messages)
+    case 'frame':
+      return rows(body.frames)
     case 'section':
       return rows(body.sections)
     case 'period':
@@ -150,7 +155,7 @@ function itemMeaning(noun: string, item: any): unknown {
     case 'field':
       return { label: item.label, bits: item.end - item.start + 1 }
     case 'message':
-      return { from: item.from, to: item.to, text: item.text, style: item.style, wrap: nullable(item.wrap) }
+      return { from: item.from, to: item.to, text: item.text, style: item.style, wrap: nullable(item.wrap), mode: nullable(item.mode), assignment: nullable(item.assignment), assignmentType: nullable(item.assignmentType) }
     case 'event':
       return { text: item.text }
     case 'period':
@@ -180,14 +185,14 @@ function endpointPairs(diagram: Diagram): [string | undefined, string | undefine
   const body = diagram.body
   const stateTransitions = (states: any[]): any[] => states.flatMap(state => [...rows(state.transitions), ...stateTransitions(rows(state.states))])
   const fragmentMessages = (fragment: any): any[] => rows(fragment.branches).flatMap(branch => [...rows(branch.messages), ...rows(branch.fragments).flatMap(fragmentMessages)])
-  return [...rows(body.graph?.edges ?? body.edges), ...rows(body.relations), ...rows(body.transitions), ...rows(body.messages), ...rows(body.links), ...rows(body.relationships), ...stateTransitions(rows(body.states)), ...collection(diagram, 'fragment').flatMap(fragmentMessages)].map(endpoints)
+  return [...rows(body.graph?.edges ?? body.edges), ...rows(body.relations), ...rows(body.transitions), ...collection(diagram, 'message'), ...rows(body.links), ...rows(body.relationships), ...stateTransitions(rows(body.states)), ...collection(diagram, 'fragment').flatMap(fragmentMessages), ...rows(body.frames).flatMap(frame => rows(frame.sources).map(source => ({ from: source, to: frame.id })))].map(endpoints)
 }
 function endpointPreservation(before: Diagram, after: Diagram, operation: Operation): string[] {
   let expected = endpointPairs(before)
   const pairKey = (pairs: [string | undefined, string | undefined][]) => snapshot(pairs.map(pair => snapshot(pair)).sort())
   if (operation.kind.startsWith('rename_') && typeof operation.from === 'string' && typeof operation.to === 'string') {
     expected = expected.map(pair => pair.map(id => (id === operation.from ? operation.to : id)) as [string, string])
-  } else if (!/^(?:set_|move_|reparent_|reorder_|update_)/.test(operation.kind) && !(operation.kind.startsWith('add_') && !['add_edge', 'add_transition', 'add_message', 'add_relation', 'add_relationship', 'add_fragment_message', 'add_interface', 'add_link'].includes(operation.kind))) return []
+  } else if (!/^(?:set_|move_|reparent_|reorder_|update_)/.test(operation.kind) && !(operation.kind.startsWith('add_') && !['add_edge', 'add_transition', 'add_message', 'add_call', 'add_creation', 'add_relation', 'add_relationship', 'add_fragment_message', 'add_interface', 'add_link'].includes(operation.kind))) return []
   return pairKey(endpointPairs(after)) === pairKey(expected) ? [] : ['Operation changed unrelated endpoint identities or relation multiplicity']
 }
 function selectors(row: any): Record<string, unknown> {
@@ -204,6 +209,34 @@ export function operationRecipe(api: Pick<OperationWitnessApi, 'validateOp' | 'd
     return api.validateOp(family, operation) === null ? { operation, expected, detail } : undefined
   }
   const property = (key: string, value: unknown, payload: Record<string, unknown> = { [key]: value }) => admit(payload, after => fieldEquals(after.body[key], value), `Independent authored ${key} value in the typed body`)
+  if (family === 'eventmodeling') {
+    const frames = collection(diagram, 'frame'), frame = frames[0]
+    const unusedFrameId = () => Array.from({ length: 1000 }, (_, index) => String(index)).find(id => !frames.some(frame => frame.id === id))
+    if (kind === 'add_frame') {
+      const id = unusedFrameId()
+      if (id === undefined) return
+      return admit({ id, entityType: 'event', entity: ADDED, reset: true, sources: [] }, after => collection(after, 'frame').length === frames.length + 1 && collection(after, 'frame').some(frame => frame.id === id && frame.entity === ADDED && frame.entityType === 'event' && frame.reset === true && frame.sources.length === 0) && frames.every(prior => collection(after, 'frame').some(actual => fieldEquals(actual, prior))), 'An authored reset frame is added while all existing frame content and explicit source identities remain intact')
+    }
+    if (kind === 'rename_frame' && frame) {
+      const to = unusedFrameId()
+      if (to === undefined) return
+      return admit({ from: frame.id, to }, after => collection(after, 'frame').length === frames.length && collection(after, 'frame').some(item => item.id === to && item.entity === frame.entity) && !collection(after, 'frame').some(item => item.id === frame.id), 'A legal authored numeric frame identity replaces its prior ID; explicit source endpoint multiplicities are checked separately')
+    }
+    if (kind === 'add_entity') return admit({ entity: ADDED }, after => rows(after.body.entities).includes(ADDED) && rows(after.body.entities).length === rows(diagram.body.entities).length + 1, 'The authored model entity is added to the typed declaration list')
+    if (kind === 'set_data') return admit({ id: ADDED, text: CHANGED, dataType: 'text' }, after => rows(after.body.data).some(item => item.id === ADDED && item.value?.text === CHANGED && item.value?.type === 'text'), 'Named typed data retains its authored identity, payload and format')
+    if (kind === 'set_frame_data' && frame) return admit({ id: frame.id, text: CHANGED, dataType: 'text' }, after => collection(after, 'frame').some(item => item.id === frame.id && item.data?.text === CHANGED && item.data?.type === 'text'), 'The selected frame retains its identity and receives the authored typed payload')
+    if (kind === 'add_note' && frame) return admit({ frame: frame.id, text: ADDED, dataType: 'md' }, after => rows(after.body.notes).length === rows(diagram.body.notes).length + 1 && rows(after.body.notes).some(note => note.frame === frame.id && note.text === ADDED && note.type === 'md'), 'The typed note retains its authored frame ownership, payload and format')
+  }
+  if (family === 'zenuml' && (kind === 'add_call' || kind === 'add_creation')) {
+    const participants = collection(diagram, 'participant'), before = collection(diagram, 'message')
+    const from = idOf(participants[0]), to = kind === 'add_creation' ? ADDED : idOf(participants[1])
+    if (!to || (kind === 'add_call' && !from)) return
+    const text = kind === 'add_creation' ? `new ${ADDED}()` : `${ADDED}()`
+    return admit(kind === 'add_creation' ? { to, arguments: '' } : { from, to, method: text }, after => {
+      const messages = collection(after, 'message'), added = messages.filter(message => message.to === to && message.text === text && message.mode === (kind === 'add_creation' ? 'create' : 'sync') && (kind === 'add_creation' ? message.from === undefined : message.from === from))
+      return messages.length === before.length + 1 && added.length === 1 && before.every(prior => messages.filter(message => fieldEquals(itemMeaning('message', message), itemMeaning('message', prior))).length >= before.filter(message => fieldEquals(itemMeaning('message', message), itemMeaning('message', prior))).length)
+    }, 'One authored native AST message is added with its requested mode, text and endpoints while retaining existing message multiplicities')
+  }
   if (kind === 'set_title') return property('title', CHANGED)
   if (kind === 'set_accessibility_title') return property('accessibilityTitle', CHANGED, { title: CHANGED })
   if (kind === 'set_accessibility_description') return property('accessibilityDescription', CHANGED, { description: CHANGED })
@@ -641,6 +674,10 @@ function prepareOperation(api: OperationWitnessApi, family: string, kind: string
     if (!next.ok) throw Error(`Positive fixture precondition ${operation.kind} failed: ${JSON.stringify(next.error)}`)
     diagram = next.value
   }
+  // Creation requires a declared target in the public mutation contract. This
+  // is fixture setup, outside the operation under test; its message effect is
+  // still measured against the prepared AST and must survive readback.
+  if (family === 'zenuml' && kind === 'add_creation' && !collection(diagram, 'participant').some(participant => participant.id === ADDED)) apply({ kind: 'add_participant', id: ADDED })
   if (kind.includes('fragment') && kind !== 'add_fragment' && !collection(diagram, 'fragment').length) apply({ kind: 'add_fragment', fragmentKind: 'alt', label: 'prepared_fragment' })
   if (kind.includes('fragment_message') && kind !== 'add_fragment_message' && !collection(diagram, 'fragment_message').length) {
     const participants = collection(diagram, 'participant')
@@ -648,7 +685,7 @@ function prepareOperation(api: OperationWitnessApi, family: string, kind: string
   }
   if (['remove_note', 'set_note_text'].includes(kind) && !collection(diagram, 'note').length) {
     const target = idOf(collection(diagram, 'state')[0] ?? collection(diagram, 'class')[0])
-    apply({ kind: 'add_note', target, for: target, text: 'prepared_note' })
+    apply({ kind: 'add_note', target, for: target, frame: collection(diagram, 'frame')[0]?.id, text: 'prepared_note' })
   }
   if (['remove_floating_note', 'set_floating_note_text'].includes(kind) && !collection(diagram, 'floating_note').length) apply({ kind: 'add_floating_note', id: 'prepared_note', text: 'prepared_note' })
   if (['remove_subgraph', 'move_node'].includes(kind) && menu.add_subgraph && !collection(diagram, 'subgraph').length) apply({ kind: 'add_subgraph', id: 'prepared_group', label: 'prepared_group' })

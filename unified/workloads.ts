@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { BUILTIN_FAMILY_METADATA } from '../../../src/agent/families.ts'
-import { buildBalancedPortfolio } from '../../mermaid-family-portfolio/build.ts'
+import { buildBalancedPortfolio } from './family-portfolio.ts'
 import { reviewedUpstreamCases } from '../../mermaid-upstream-suite-bench/cases.ts'
 import { releaseBenchCases } from '../release-bench-cases.ts'
 import type { UnifiedWorkload } from './types.ts'
@@ -54,6 +54,7 @@ function collect(profile: 'smoke' | 'full', includeDiagnostics: boolean): Unifie
         source: entry.source,
         features: ['balanced-family-portfolio', entry.sourceClass],
         provenance: entry.origin,
+        ...(entry.expectedLabels ? { expectedLabels: [...entry.expectedLabels] } : {}),
       }),
     )
     for (const entry of releaseBenchCases())

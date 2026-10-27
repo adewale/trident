@@ -39,6 +39,13 @@ export interface MeaningCheck {
   actual: unknown
   scope: string
 }
+
+/** Missing capability/host evidence cannot become a failed positive prelude
+ * or earn successful source-rejection credit for a negative prelude. */
+export function assessPrelude(accepted: boolean, actual: 'accepted' | 'rejected' | 'unsupported' | 'unavailable'): 'passed' | 'failed' | 'unsupported' | 'unavailable' {
+  if (actual === 'unsupported' || actual === 'unavailable') return actual
+  return (actual === 'accepted') === accepted ? 'passed' : 'failed'
+}
 const display = (value: string) => value.normalize('NFC').replace(/\s+/g, ' ').trim()
 const normalize = (value: unknown): unknown => Array.isArray(value) ? value.map(normalize) : value && typeof value === 'object' ? Object.fromEntries(Object.entries(value).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0).map(([key, item]) => [key, normalize(item)])) : value
 const stable = (value: unknown) => JSON.stringify(normalize(value))

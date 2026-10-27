@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, expect, test } from 'bun:test'
 import { createRequire } from 'node:module'
 import { join } from 'node:path'
+import { readFileSync } from 'node:fs'
 import { inspectFidelityPaint, type PaintEvidence, type PaintInput } from '../fidelity/paint.ts'
 import type { MeaningExpectation } from '../fidelity/meaning.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
@@ -13,6 +14,7 @@ beforeAll(async () => {
 afterAll(async () => { await browser?.close() })
 const expected = { labels: ['Alpha', 'Beta'], nodes: [{ id: 'A', label: 'Alpha' }, { id: 'B', label: 'Beta' }], edges: [{ source: 'A', target: 'B', directed: true }] }
 const fixture = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="80" viewBox="0 0 240 80"><defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z"/></marker></defs><g class="node"><rect x="10" y="10" width="60" height="30" fill="white" stroke="black"/><text x="14" y="30">Alpha</text></g><g class="node"><rect x="150" y="10" width="60" height="30" fill="white" stroke="black"/><text x="154" y="30">Beta</text></g><g class="edge"><path d="M70 25 L150 25" fill="none" stroke="black" marker-end="url(#arrow)"/></g></svg>`
+const retainedSvg = (name: string) => readFileSync(join(import.meta.dir, 'fixtures/fidelity', name), 'utf8')
 async function inspect(svg: string, expectation: MeaningExpectation = expected, options: Pick<PaintInput, 'paint'> & { family?: string } = {}): Promise<PaintEvidence> {
   const page = await browser.newPage()
   try { await page.setContent(svg); return await page.evaluate(inspectFidelityPaint, { family: options.family ?? 'flowchart', expected: expectation, paint: options.paint }) as PaintEvidence }
@@ -36,6 +38,25 @@ test('actual painted endpoints and multiplicity are independent of correct label
   expect(detached.checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('failed')
   const invented = await inspect(fixture, { ...expected, edges: [] })
   expect(invented.checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('failed')
+})
+
+test('an extra explicitly identified but unbound route cannot earn exact multiplicity credit', async () => {
+  const extra = fixture.replace('</svg>', '<g class="edge"><path d="M20 70 L220 70" fill="none" stroke="black" marker-end="url(#arrow)"/></g></svg>')
+  expect((await inspect(extra)).checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('unavailable')
+})
+
+test('one missing node body cannot borrow a surrounding cluster while another body remains distinct', async () => {
+  const missing = fixture.replace('<rect x="10" y="10" width="60" height="30" fill="white" stroke="black"/>', '')
+    .replace('<g class="node">', '<g class="cluster"><rect x="0" y="0" width="230" height="70" fill="white" stroke="black"/><g class="node">')
+    .replace('M70 25 L150 25', 'M0 25 L150 25').replace('</svg>', '</g></svg>')
+  const observed = await inspect(missing)
+  expect(observed.checks.find(item => item.criterion === 'painted-node-ownership')?.status).toBe('unavailable')
+  expect(observed.checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('unavailable')
+})
+
+test.each(['L0 0 L6 3 L0 6 Z', 'M0 0 L6 3 M0 6', 'M0 0 L6,,3 L0 6 Z'])('unprojected marker grammar cannot invent an arrow: %s', async path => {
+  const broken = fixture.replace('M0 0 L6 3 L0 6 Z', path)
+  expect((await inspect(broken)).checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('unavailable')
 })
 
 test('browser paint rejects hidden and clipped authored labels, not just missing SVG text', async () => {
@@ -141,4 +162,52 @@ test('C4 person relationships can attach to the actual compound head rather than
   const compound = '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="110"><defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z"/></marker></defs><g class="node c4-person"><g class="basic label-container"><rect x="10" y="50" width="60" height="30"/><circle cx="40" cy="35" r="20"/></g><text x="14" y="70" fill="white">Alpha</text></g><g class="node"><rect x="150" y="10" width="60" height="30"/><text x="154" y="30" fill="white">Beta</text></g><g class="edge"><path d="M60 35 L150 25" fill="none" stroke="black" marker-end="url(#arrow)"/></g></svg>'
   expect((await inspect(compound, expected, { family: 'c4' })).checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('passed')
   expect((await inspect(compound.replace('<circle cx="40" cy="35" r="20"/>', ''), expected, { family: 'c4' })).checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('failed')
+})
+
+test('actual Mermaid open-arrow legs retain direction across a repeated moveto apex', async () => {
+  const svg = retainedSvg('mermaid-requirement-open-arrow.svg')
+  const authored = { labels: ['reliable', 'suite', 'Requests retain meaning'], nodes: [{ id: 'reliable', label: 'reliable' }, { id: 'suite', label: 'suite' }], edges: [{ source: 'suite', target: 'reliable', directed: true, label: 'verifies' }] }
+  const observed = await inspect(svg, authored, { family: 'requirement' })
+  expect(observed.checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('passed')
+  expect(observed.checks.find(check => check.criterion === 'painted-relationship-label-ownership')?.status).toBe('passed')
+  const reversed = svg.replace('M0,0\n      L20,10\n      M20,10\n      L0,20', 'M20,0 L0,10 M0,10 L20,20')
+  expect((await inspect(reversed, authored, { family: 'requirement' })).checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('failed')
+  const unprojected = fixture.replace('<path d="M0 0 L6 3 L0 6 Z"/>', '<path d="M0 0 L6 3 M0 6 L6 3" fill="none" stroke="black"/>')
+  expect((await inspect(unprojected)).checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('unavailable')
+  const malformed = fixture.replace('M0 0 L6 3 L0 6 Z', 'M0 0 L6 3 @ L0 6 Z')
+  expect((await inspect(malformed)).checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('unavailable')
+})
+
+test('actual ZenUML inline SVG heads and reflected arrows determine reciprocal physical direction', async () => {
+  const svg = retainedSvg('mermaid-zenuml-inline-arrows.svg')
+  const authored = { labels: ['Alice', 'John', 'Hello John, how are you?', 'Great!'], nodes: [{ id: 'Alice', label: 'Alice' }, { id: 'John', label: 'John' }], edges: [{ source: 'Alice', target: 'John', directed: true, label: 'Hello John, how are you?' }, { source: 'John', target: 'Alice', directed: true, label: 'Great!' }] }
+  const observed = await inspect(svg, authored, { family: 'zenuml' })
+  expect(observed.checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('passed')
+  expect(observed.checks.find(check => check.criterion === 'painted-relationship-label-ownership')?.status).toBe('passed')
+  const reversed = svg.replace('transform="scale(-1, 1) translate(-7, 0)"', '')
+  expect((await inspect(reversed, authored, { family: 'zenuml' })).checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('failed')
+})
+
+test('actual ZenUML activations, self calls, and return polylines stay owned by their drawn actors', async () => {
+  const svg = retainedSvg('mermaid-zenuml-activations.svg')
+  const authored = { labels: ['Client', 'API', 'Stock', 'checkout()', 'reserve()', 'ticket', 'fail()', 'receipt', 'available'], nodes: [{ id: 'Client', label: 'Client' }, { id: 'API', label: 'API' }, { id: 'Stock', label: 'Stock' }], edges: [{ source: 'Client', target: 'API', label: 'checkout()', directed: true }, { source: 'API', target: 'Stock', label: 'reserve()', directed: true }, { source: 'Stock', target: 'API', label: 'ticket', directed: true }, { source: 'API', target: 'API', label: 'fail()', directed: true }, { source: 'API', target: 'Client', label: 'receipt', directed: true }] }
+  const observed = await inspect(svg, authored, { family: 'zenuml' })
+  expect(observed.checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('passed')
+  expect(observed.checks.find(check => check.criterion === 'painted-relationship-label-ownership')?.status).toBe('passed')
+  const identityViewport = svg.replace('x="158" y="291" width="30" height="24"', 'x="158" y="291" width="30" height="24" viewBox="0 0 30 24"')
+  expect((await inspect(identityViewport, authored, { family: 'zenuml' })).checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('passed')
+  const detached = svg.replace('x1="243" y1="214" x2="158"', 'x1="243" y1="214" x2="178"')
+  expect((await inspect(detached, authored, { family: 'zenuml' })).checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('failed')
+})
+
+test('actual Pele external labels bind distinct service bodies without borrowing their common cluster', async () => {
+  const svg = retainedSvg('pele-architecture-external-labels.svg')
+  const authored = { labels: ['App', 'API', 'Data'], nodes: [{ id: 'api', label: 'API' }, { id: 'db', label: 'Data' }], edges: [{ source: 'api', target: 'db', directed: true }] }
+  const observed = await inspect(svg, authored, { family: 'architecture' })
+  expect(observed.checks.find(check => check.criterion === 'painted-node-ownership')?.status).toBe('passed')
+  expect(observed.checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('passed')
+  const absentBodies = svg.replaceAll(/<rect x="-24" width="48" height="48"[^>]*\/>/g, '')
+  expect((await inspect(absentBodies, authored, { family: 'architecture' })).checks.find(check => check.criterion === 'painted-node-ownership')?.status).toBe('unavailable')
+  const unprojected = svg.replace('d="M108,60L100,63.36L100,56.64Z" fill="var(--_l)" stroke="none"', 'd="M100,56.64L108,60M100,63.36L108,60" fill="none" stroke="var(--_l)"')
+  expect((await inspect(unprojected, authored, { family: 'architecture' })).checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('unavailable')
 })

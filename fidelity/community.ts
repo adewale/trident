@@ -21,6 +21,7 @@ import { planFidelityCriteria, completeCriterionLedger } from './ledger.ts'
 import { inspectFidelityPaint } from './paint.ts'
 import { inspectQuantitativePaint } from './paint-values.ts'
 import { expandedFidelityCases } from './cases.ts'
+import { assessPrelude } from './meaning.ts'
 import type { FidelityRunOptions } from './run.ts'
 import { communityCatalogFile } from '../unified/trident-paths.ts'
 
@@ -131,8 +132,8 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
             const preludes: any[] = []
             for (const [number, prelude] of (testCase.prelude ?? []).entries()) {
               const result = await render({ type: 'render', source: prelude.source, id: `community-prelude-${index}-${number}`, options: (prelude as any).renderOptions })
-              const passed = prelude.accept ? result.kind === 'returned' : result.kind === 'exception' && /^(?:Error: Parse error on line|UnknownDiagramError: No diagram type)/.test(result.error ?? '')
-              add(testCase, 'browser-public-api', 'prelude-' + number, passed ? 'passed' : classify(result) === 'unavailable' ? 'unavailable' : 'failed', { kind: result.kind, error: result.error }, prelude.accept, 'Actual public configured-source prelude; unknown runtime errors earn no rejection credit'); preludes.push({ kind: result.kind, error: result.error })
+              const classification = classify(result), admission = result.kind === 'returned' ? 'accepted' : classification === 'unsupported' ? 'unsupported' : result.kind === 'exception' && classification === 'failed' ? 'rejected' : 'unavailable'
+              add(testCase, 'browser-public-api', 'prelude-' + number, result.kind === 'invalid-return' && prelude.accept ? 'failed' : assessPrelude(prelude.accept, admission), { kind: result.kind, error: result.error }, prelude.accept, 'Actual public configured-source prelude; unsupported capabilities and unknown runtime errors earn no rejection credit'); preludes.push({ kind: result.kind, error: result.error })
             }
             const result = await render({ type: 'render', source: testCase.source, id: `community-fidelity-${index}`, options: testCase.renderOptions })
             add(testCase, 'browser-public-api', 'public-svg-admission', classify(result), result.error ?? result.kind, 'actual public SVG string', 'Actual frozen public browser API invocation; generic exceptions/timeouts remain unavailable, not grammar rejection')

@@ -20,7 +20,7 @@ The community corpus is frozen in `corpus/community-corpus.json`: six fixed timi
 
 Some imported fixtures are parser-only, oracle-rejected, or lack usable authored-label expectations. These gaps remain in the record. Do not reinterpret a parser fixture's rendering failure as a faithful-rendering defect. Unsupported families remain coverage gaps instead of free successful renders.
 
-Input intent is independent of acceptance. Render inputs, parser-only fixtures and negative/diagnostic sources retain separate counts and unchanged source strings. Only declared render inputs accepted by pinned Mermaid enter the positive-render table. Missing observations remain unavailable against their declared denominator. A new classifier does not rewrite historical records or their original dates.
+Input intent is independent of acceptance. Render inputs, parser-only fixtures and negative/diagnostic sources retain separate counts and unchanged source strings. Only declared render inputs accepted by pinned Mermaid enter the positive-render population. Current rendering ranks use passed / (passed + failed + blocked + unavailable) over that fixed population, then family coverage and qualified timing. Unsupported or missing outputs remain unavailable against their planned denominator. Unknown intent, reference admission or unmapped inputs leave a rendering row unranked. Raw admission and the legacy 23-family mark retain their historical definitions and do not decide current rendering ranks. A new classifier does not rewrite historical records or their original dates.
 
 ## What community admission checks
 
@@ -34,7 +34,7 @@ Terminal admission checks actual text and source echoes with its own output boun
 
 Preparation, acquisition, oracle expectations and qualification happen outside public API clocks. Consume the requested result before stopping its clock. Separate fresh use, imports/initialization, new-source calls and repeated-source/cache-hit work. Identical-input repetition is a cache workload, not proof of fast uncached layout. A timeout, crash, unsupported source or failed correctness check cannot become a cheap successful render.
 
-The community fixed-core cost sums per-input medians on the complete six-input cohort. Conditional family admission rates use each tool's supported cases, so differing denominators are not a paired fidelity comparison. Reports retain blocked, unsupported and unavailable counts. Any ordinal display order is an admission ordering, not an overall quality or performance winner.
+The community fixed-core cost sums per-input medians on the complete six-input cohort. Even round counts average the two middle samples; six rounds do not select the upper middle value. Conditional family admission rates use each tool's supported cases, so differing denominators are not a paired fidelity comparison. Reports retain blocked, unsupported and unavailable counts. Any ordinal display order is an admission ordering, not an overall quality or performance winner.
 
 Portable comparisons use balanced family, scaling, interacting-feature and invalid-input cohorts, paired controls and explicit calibration. Five rounds alone do not establish a small improvement. Too few fresh observations cannot establish tail latency. Whole-child RSS/CPU, document V8 heap, retained output and delivered bytes have different scopes; native, worker, WASM and GPU memory may be missing. Zero observed CPU at coarse resolution is censored, not free work. Dollar cost requires actual usage or a declared rate.
 

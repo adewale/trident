@@ -37,3 +37,13 @@ test('positive rendering scores preserve every excluded or unavailable populatio
   expect(positiveRenderAdmission(observations, { workloads: new Map(missing.map(input => [input.id, input])) })?.unavailable).toBe(1)
   expect(() => positiveRenderAdmission([row('positive', 'passed'), row('positive', 'failed')], { workloads: new Map(missing.map(input => [input.id, input])) })).toThrow('Duplicate positive-render observation')
 })
+
+
+test('unknown serialized intent values cannot shrink the positive denominator as diagnostics', () => {
+  for (const intent of ['render-v2', '', null, false, {}]) {
+    const input = { ...workload('unknown-intent', undefined, true), intent } as unknown as UnifiedWorkload
+    const result = positiveRenderAdmission([row(input.id, 'passed')], { workloads: new Map([[input.id, input]]) })!
+    expect(result.unknownIntent).toBe(1)
+    expect(result.excludedDiagnostic).toBe(0)
+  }
+})

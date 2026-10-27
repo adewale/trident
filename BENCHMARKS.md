@@ -27,7 +27,7 @@ Add the actual prerequisites for that workload. `--list --profile full` resolves
 
 Run `bun commands.ts community:update --projects OWNER/TOOL --profile full --rounds 5 --records /evidence/records --out /evidence/run`. SVG, terminal, PNG and parser lanes stay separate. Inspect the per-case record, family grid and failure pages produced by `results:publish`.
 
-The score is passed/failed/blocked/unsupported input evidence, with family coverage and the actual denominator. XML and label existence do not establish identities, relationships, visibility or good layout. PNG checks only its binary envelope. A parser-only fixture must not be called a render defect. Different supported subsets cannot be read as equivalent fidelity percentages.
+The score is passed/failed/blocked/unsupported input evidence, with family coverage and the actual denominator. XML and label existence do not establish identities, relationships, visibility or good layout. PNG admission validates the complete encoding, decodes bounded pixels and rejects blank content; readable labels and diagram meaning need separate evidence. A parser-only fixture must not be called a render defect. Different supported subsets cannot be read as equivalent fidelity percentages.
 
 ## Community API and CLI costs
 

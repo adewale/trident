@@ -7,6 +7,38 @@ function parsed(source: string) {
   if (!result.ok) throw Error(JSON.stringify(result.error))
   return result.value
 }
+test('native operation witnesses read real frames and recursive messages through serialize/reparse', () => {
+  for (const [family, source, kinds] of [
+    ['eventmodeling', 'eventmodeling\nrf 01 ui Screen\nrf 02 evt Submitted ->> 01', ['add_frame', 'rename_frame', 'add_entity', 'set_data', 'set_frame_data', 'add_note']],
+    ['zenuml', 'zenuml\nClient->API.run() {\n if(ready) {\n Store.save()\n }\n}', ['add_message', 'add_call', 'add_creation']],
+  ] as const) {
+    const diagram = parsed(source), before = JSON.stringify(diagram.body)
+    const results = runOperationWitnesses(api, family, diagram)
+    for (const kind of kinds) {
+      const result = results.find(row => row.kind === kind)
+      expect(result?.positive.status, `${family}/${kind}: ${JSON.stringify(result?.positive)}`).toBe('passed')
+      expect(result?.rejection.status, `${family}/${kind}: ${JSON.stringify(result?.rejection)}`).toBe('passed')
+    }
+    expect(JSON.stringify(diagram.body)).toBe(before)
+  }
+})
+test('a newly added ZenUML call cannot hide deletion of an existing nested message', () => {
+  const diagram = parsed('zenuml\nClient->API.run() {\n if(ready) {\n Store.save()\n }\n}')
+  const broken: OperationWitnessApi = {
+    ...api,
+    mutate(value, operation) {
+      const result = api.mutate(value as Parameters<typeof api.mutate>[0], operation)
+      if (result.ok && operation.kind === 'add_call' && result.value.body.kind === 'zenuml') {
+        const call = result.value.body.statements.find(statement => statement.kind === 'message')
+        if (call?.kind === 'message') call.children = []
+      }
+      return result
+    },
+  }
+  const result = runOperationWitnesses(broken, 'zenuml', diagram).find(row => row.kind === 'add_call')!
+  expect(result.positive.status).toBe('failed')
+  expect(result.positive.findings).toContain('Typed mutation result does not contain the independently requested effect')
+})
 test('a requested metadata update is checked in the typed body and serialized reading', () => {
   const diagram = parsed('pie\n"Original": 5\n')
   const result = runOperationWitnesses(api, 'pie', diagram).find(row => row.kind === 'set_title')!
