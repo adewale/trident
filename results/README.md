@@ -1,70 +1,70 @@
 # Mermaid derivatives league table
 
-This historical snapshot predates the current stable-family expansion. Its original 23-family mark is retained; it does not measure the newer Event Modeling or ZenUML lanes. Re-run the affected projects before using this snapshot to claim complete current Mermaid coverage.
+This historical snapshot predates the current 25-family mark and corrected label checks. Its original observations are retained; newer rows do not prove complete Event Modeling or ZenUML functionality. Re-run affected projects before making current coverage or performance claims.
 
-Measured 2026-10-26 by [Trident](../README.md) against the pinned Mermaid 12.2.0 oracle, on the corpus frozen from Agentic Mermaid de612cc0. 
+Measured 2026-10-26 by [Trident](../README.md) against the pinned Mermaid 12.2.0 oracle, on the corpus frozen from Agentic Mermaid de612cc0, with the newer families' examples from Mermaid's mermaid@12.2.0 syntax docs. 
 
-How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Tables group each output by public invocation surface and compatible protocol/runtime settings; costs and ranks never cross these boundaries. Rolling records are not paired same-session experiments. Rows within each group are ordered by correctness first: how many of the probed families the tool supports, then the share of cases it passes in those families, then first-call fixed-core time. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so it is measured with the same checks but not ranked. An unsupported family is a coverage gap, never a failure. See the [methodology](../METHODOLOGY.md).
+How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Tables group each output by public invocation surface and compatible protocol/runtime settings; costs and ranks never cross these boundaries. Rolling records are not paired same-session experiments. Rows within each group are ordered by correctness first: how many of the 23 scored families the tool supports, then the share of cases it passes in those families, then first-call fixed-core time. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so it is measured with the same checks but not ranked. An unsupported family is a coverage gap, never a failure. "Newer families" counts how many of Mermaid's 9 newest families the tool supports, with its pass rate in them; it never changes a rank or the other columns. See the [methodology](../METHODOLOGY.md).
 
 ## SVG
 
 ### Node API
 
-| Rank | Tool | Version | Surface | Families supported | Pass rate in supported families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Record |
-|---:|---|---|---|---:|---:|---:|---:|---:|---|
-| 1 | [obsidianmd/pele](https://github.com/obsidianmd/pele) | 1.9.0 | Node API | 23/23 | 94.2% (878/932) | 21.23 ms | — | 1.81 ms | [record](records/obsidianmd-pele.json.gz) · [failures](failures/obsidianmd-pele.md) |
-| 2 | [adewale/agentic-mermaid](https://github.com/adewale/agentic-mermaid) | 0.4.1 | Node API | 15/23 | 85.8% (628/732) | 712.52 ms | — | 554.98 ms | [record](records/adewale-agentic-mermaid.json.gz) · [failures](failures/adewale-agentic-mermaid.md) |
-| 3 | [lukilabs/beautiful-mermaid](https://github.com/lukilabs/beautiful-mermaid) | 1.1.3 | Node API | 6/23 | 43.0% (243/565) | 167.12 ms | — | 76.57 ms | [record](records/lukilabs-beautiful-mermaid.json.gz) · [failures](failures/lukilabs-beautiful-mermaid.md) |
+| Rank | Tool | Version | Surface | Families supported | Pass rate in supported families | Newer families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Record |
+|---:|---|---|---|---:|---:|---:|---:|---:|---:|---|
+| 1 | [obsidianmd/pele](https://github.com/obsidianmd/pele) | 1.9.0 | Node API | 23/23 | 94.2% (878/932) | 9/9, 96.6% | 21.69 ms | — | 1.90 ms | [record](records/obsidianmd-pele.json.gz) · [failures](failures/obsidianmd-pele.md) |
+| 2 | [adewale/agentic-mermaid](https://github.com/adewale/agentic-mermaid) | 0.4.1 | Node API | 15/23 | 85.8% (628/732) | 0/9 | 699.78 ms | — | 546.69 ms | [record](records/adewale-agentic-mermaid.json.gz) · [failures](failures/adewale-agentic-mermaid.md) |
+| 3 | [lukilabs/beautiful-mermaid](https://github.com/lukilabs/beautiful-mermaid) | 1.1.3 | Node API | 6/23 | 43.0% (243/565) | 0/9 | 175.02 ms | — | 75.85 ms | [record](records/lukilabs-beautiful-mermaid.json.gz) · [failures](failures/lukilabs-beautiful-mermaid.md) |
 
 ### browser API
 
-| Rank | Tool | Version | Surface | Families supported | Pass rate in supported families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Record |
-|---:|---|---|---|---:|---:|---:|---:|---:|---|
-| — | *[mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) (reference)* | 12.2.0 | browser API | 23/23 | 93.0% (867/932) | 1324.70 ms | reference | 1176.10 ms | [record](records/mermaid-js-mermaid.json.gz) · [failures](failures/mermaid-js-mermaid.md) |
-| 1 | [obsidianmd/pele](https://github.com/obsidianmd/pele) | 1.9.0 | browser API | 23/23 | 94.2% (878/932) | 25.70 ms | 52× faster | 1.71 ms | [record](records/obsidianmd-pele.json.gz) · [failures](failures/obsidianmd-pele.md) |
-| 2 | [adewale/agentic-mermaid](https://github.com/adewale/agentic-mermaid) | 0.4.1 | browser API | 15/23 | 85.8% (628/732) | 668.50 ms | 2.0× faster | 543.25 ms | [record](records/adewale-agentic-mermaid.json.gz) · [failures](failures/adewale-agentic-mermaid.md) |
-| 3 | [lukilabs/beautiful-mermaid](https://github.com/lukilabs/beautiful-mermaid) | 1.1.3 | browser API | 6/23 | 43.0% (243/565) | 146.20 ms | 9.1× faster | 72.03 ms | [record](records/lukilabs-beautiful-mermaid.json.gz) · [failures](failures/lukilabs-beautiful-mermaid.md) |
+| Rank | Tool | Version | Surface | Families supported | Pass rate in supported families | Newer families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Record |
+|---:|---|---|---|---:|---:|---:|---:|---:|---:|---|
+| — | *[mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) (reference)* | 12.2.0 | browser API | 23/23 | 93.0% (867/932) | 9/9, 94.1% | 1313.20 ms | reference | 1163.10 ms | [record](records/mermaid-js-mermaid.json.gz) · [failures](failures/mermaid-js-mermaid.md) |
+| 1 | [obsidianmd/pele](https://github.com/obsidianmd/pele) | 1.9.0 | browser API | 23/23 | 94.2% (878/932) | 9/9, 96.6% | 25.70 ms | 51× faster | 1.74 ms | [record](records/obsidianmd-pele.json.gz) · [failures](failures/obsidianmd-pele.md) |
+| 2 | [adewale/agentic-mermaid](https://github.com/adewale/agentic-mermaid) | 0.4.1 | browser API | 15/23 | 85.8% (628/732) | 0/9 | 665.20 ms | 2.0× faster | 540.05 ms | [record](records/adewale-agentic-mermaid.json.gz) · [failures](failures/adewale-agentic-mermaid.md) |
+| 3 | [lukilabs/beautiful-mermaid](https://github.com/lukilabs/beautiful-mermaid) | 1.1.3 | browser API | 6/23 | 43.0% (243/565) | 0/9 | 153.50 ms | 8.6× faster | 78.21 ms | [record](records/lukilabs-beautiful-mermaid.json.gz) · [failures](failures/lukilabs-beautiful-mermaid.md) |
 
 ## Terminal text
 
 ### Node API
 
-| Rank | Tool | Version | Surface | Families supported | Pass rate in supported families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Record |
-|---:|---|---|---|---:|---:|---:|---:|---:|---|
-| 1 | [adewale/agentic-mermaid](https://github.com/adewale/agentic-mermaid) | 0.4.1 | Node API | 15/23 | 77.9% (570/732) | 274.22 ms | — | 159.27 ms | [record](records/adewale-agentic-mermaid.json.gz) · [failures](failures/adewale-agentic-mermaid.md) |
-| 2 | [lukilabs/beautiful-mermaid](https://github.com/lukilabs/beautiful-mermaid) | 1.1.3 | Node API | 6/23 | 37.7% (213/565) | 108.67 ms | — | 87.92 ms | [record](records/lukilabs-beautiful-mermaid.json.gz) · [failures](failures/lukilabs-beautiful-mermaid.md) |
+| Rank | Tool | Version | Surface | Families supported | Pass rate in supported families | Newer families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Record |
+|---:|---|---|---|---:|---:|---:|---:|---:|---:|---|
+| 1 | [adewale/agentic-mermaid](https://github.com/adewale/agentic-mermaid) | 0.4.1 | Node API | 15/23 | 77.9% (570/732) | 0/9 | 270.14 ms | — | 161.66 ms | [record](records/adewale-agentic-mermaid.json.gz) · [failures](failures/adewale-agentic-mermaid.md) |
+| 2 | [lukilabs/beautiful-mermaid](https://github.com/lukilabs/beautiful-mermaid) | 1.1.3 | Node API | 6/23 | 37.7% (213/565) | 0/9 | 107.54 ms | — | 88.32 ms | [record](records/lukilabs-beautiful-mermaid.json.gz) · [failures](failures/lukilabs-beautiful-mermaid.md) |
 
 ### CLI
 
-| Rank | Tool | Version | Surface | Families supported | Pass rate in supported families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Record |
-|---:|---|---|---|---:|---:|---:|---:|---:|---|
-| 1 | [AlexanderGrooff/mermaid-ascii](https://github.com/AlexanderGrooff/mermaid-ascii) | 1.6.1 | CLI | 3/23 | 59.2% (234/395) | 84.67 ms | — | 85.12 ms | [record](records/alexandergrooff-mermaid-ascii.json.gz) · [failures](failures/alexandergrooff-mermaid-ascii.md) |
+| Rank | Tool | Version | Surface | Families supported | Pass rate in supported families | Newer families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Record |
+|---:|---|---|---|---:|---:|---:|---:|---:|---:|---|
+| 1 | [AlexanderGrooff/mermaid-ascii](https://github.com/AlexanderGrooff/mermaid-ascii) | 1.6.1 | CLI | 3/23 | 59.2% (234/395) | 0/9 | 94.04 ms | — | 94.36 ms | [record](records/alexandergrooff-mermaid-ascii.json.gz) · [failures](failures/alexandergrooff-mermaid-ascii.md) |
 
 ## PNG
 
 ### Node API
 
-| Rank | Tool | Version | Surface | Families supported | Pass rate in supported families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Record |
-|---:|---|---|---|---:|---:|---:|---:|---:|---|
-| 1 | [adewale/agentic-mermaid](https://github.com/adewale/agentic-mermaid) | 0.4.1 | Node API | 15/23 | 93.6% (685/732) | — | — | — | [record](records/adewale-agentic-mermaid.json.gz) · [failures](failures/adewale-agentic-mermaid.md) |
+| Rank | Tool | Version | Surface | Families supported | Pass rate in supported families | Newer families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Record |
+|---:|---|---|---|---:|---:|---:|---:|---:|---:|---|
+| 1 | [adewale/agentic-mermaid](https://github.com/adewale/agentic-mermaid) | 0.4.1 | Node API | 15/23 | 93.6% (685/732) | 0/9 | — | — | — | [record](records/adewale-agentic-mermaid.json.gz) · [failures](failures/adewale-agentic-mermaid.md) |
 
 ## Parser
 
 ### Node API
 
-| Rank | Tool | Version | Surface | Families supported | Pass rate in supported families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Record |
-|---:|---|---|---|---:|---:|---:|---:|---:|---|
-| 1 | [adewale/agentic-mermaid](https://github.com/adewale/agentic-mermaid) | 0.4.1 | Node API | 15/23 | 80.8% (616/762) | 19.59 ms | — | 2.84 ms | [record](records/adewale-agentic-mermaid.json.gz) · [failures](failures/adewale-agentic-mermaid.md) |
+| Rank | Tool | Version | Surface | Families supported | Pass rate in supported families | Newer families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Record |
+|---:|---|---|---|---:|---:|---:|---:|---:|---:|---|
+| 1 | [adewale/agentic-mermaid](https://github.com/adewale/agentic-mermaid) | 0.4.1 | Node API | 15/23 | 80.8% (616/762) | 0/9 | 19.62 ms | — | 2.80 ms | [record](records/adewale-agentic-mermaid.json.gz) · [failures](failures/adewale-agentic-mermaid.md) |
 
 ### Node parser API
 
-| Rank | Tool | Version | Surface | Families supported | Pass rate in supported families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Record |
-|---:|---|---|---|---:|---:|---:|---:|---:|---|
-| — | *[mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) (reference)* | 12.2.0 | Node parser API | 23/23 | 99.1% (953/962) | 578.40 ms | reference | 548.99 ms | [record](records/mermaid-js-mermaid.json.gz) · [failures](failures/mermaid-js-mermaid.md) |
+| Rank | Tool | Version | Surface | Families supported | Pass rate in supported families | Newer families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Record |
+|---:|---|---|---|---:|---:|---:|---:|---:|---:|---|
+| — | *[mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) (reference)* | 12.2.0 | Node parser API | 23/23 | 99.1% (953/962) | 9/9, 100.0% | 563.66 ms | reference | 535.93 ms | [record](records/mermaid-js-mermaid.json.gz) · [failures](failures/mermaid-js-mermaid.md) |
 
 ## Families
 
-Pass rate per family, for each tool's SVG and terminal surfaces. "—" means the tool does not support the family. Trident probes 23 families; Mermaid 12.2.0 documents more, which have no cases yet.
+Pass rate per family, for each tool's SVG and terminal surfaces. "—" means the tool does not support the family. These are the 23 scored families.
 
 | Family | pele (Node API, SVG) | pele (browser API, SVG) | mermaid (browser API, SVG) | agentic-mermaid (browser API, SVG) | agentic-mermaid (Node API, SVG) | agentic-mermaid (Node API, Terminal text) | beautiful-mermaid (browser API, SVG) | beautiful-mermaid (Node API, SVG) | beautiful-mermaid (Node API, Terminal text) | mermaid-ascii (CLI, Terminal text) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -91,6 +91,22 @@ Pass rate per family, for each tool's SVG and terminal surfaces. "—" means the
 | treemap | 87.2% | 87.2% | 94.9% | — | — | — | — | — | — | — |
 | ishikawa | 100.0% | 100.0% | 100.0% | — | — | — | — | — | — | — |
 | block | 100.0% | 100.0% | 94.3% | — | — | — | — | — | — | — |
+
+### Newer families
+
+Mermaid's 9 newest families, added from 11.12.3 to 12.0.0; all but eventmodeling still use a `-beta` keyword. They are reported here and never scored. Eventmodeling exposes no labels to the oracle, so its cases check output format only. ZenUML, an external plugin, is not covered.
+
+| Family | pele (Node API, SVG) | pele (browser API, SVG) | mermaid (browser API, SVG) | agentic-mermaid (browser API, SVG) | agentic-mermaid (Node API, SVG) | agentic-mermaid (Node API, Terminal text) | beautiful-mermaid (browser API, SVG) | beautiful-mermaid (Node API, SVG) | beautiful-mermaid (Node API, Terminal text) | mermaid-ascii (CLI, Terminal text) |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| venn | 87.5% | 87.5% | 100.0% | — | — | — | — | — | — | — |
+| treeview | 100.0% | 100.0% | 100.0% | — | — | — | — | — | — | — |
+| wardley | 100.0% | 100.0% | 100.0% | — | — | — | — | — | — | — |
+| eventmodeling | 100.0% | 100.0% | 66.7% | — | — | — | — | — | — | — |
+| cynefin | 100.0% | 100.0% | 100.0% | — | — | — | — | — | — | — |
+| railroad | 100.0% | 100.0% | 100.0% | — | — | — | — | — | — | — |
+| swimlane | 100.0% | 100.0% | 100.0% | — | — | — | — | — | — | — |
+| agentflow | 100.0% | 100.0% | 100.0% | — | — | — | — | — | — | — |
+| usecase | 87.5% | 87.5% | 87.5% | — | — | — | — | — | — | — |
 
 ## Reproduce a row
 

@@ -1,6 +1,6 @@
 # obsidianmd/pele 1.9.0: failures
 
-108 failed observations in families the tool supports. Each shows the input, what the pinned Mermaid 12.2.0 oracle expects, and what the tool did.
+116 failed observations in families the tool supports. Each shows the input, what the pinned Mermaid 12.2.0 oracle expects, and what the tool did.
 
 [Back to the league table](../README.md)
 
@@ -2005,6 +2005,208 @@ treemap-beta
 Expected labels: `🔴 High Activity (Top 50%)`, `packages/app (1115)`, `packages/app/src (844)`, `packages/app/src/lib (707)`, `packages/app/src/routes (353)`, `packages/app/tests (277)`, `packages/app/tests/e2e (245)`, `packages/app/tests/common (48)`, `packages/llm-prompts (29)`, `packages/emails (26)`, `packages/app/tests/api (23)`, `packages/emails/src (18)`, `packages/emails/src/emails (17)`, `packages/app/static (15)`, `packages/llm-prompts/diagram-chat (15)`, `packages/app/prisma (11)`, `packages/app/prisma/migrations (11)`, `packages/llm-prompts/shared (9)`, `packages/app/static/icons (8)`, `packages/emails/src/components (8)`, `packages/app-observability (8)`, `packages/mermaid-pre-render-server (8)`, `🟠 Medium Activity (35%)`, `packages/app/tests/mobile (6)`, `packages/llm-prompts/diagram-chat/tests (6)`, `packages/eslint-plugin (6)`, `packages/eslint-plugin/src (5)`, `packages/eslint-plugin/src/rules (5)`, `packages/app/static/img (4)`, `packages/llm-prompts/tests (4)`, `packages/llm-prompts/common (3)`, `packages/mermaid-pre-render-server/tests (3)`, `packages/mermaid-pre-render-server/tests/e2e (3)`, `packages/app/tests/seed (2)`, `packages/llm-prompts/shared/patches (2)`, `packages/mermaid-pre-render-server/src (2)`, `packages/app/scripts (1)`, `🟡 Low Activity (15%)`, `packages/llm-prompts/regenerate-diagram (1)`, `packages/llm-prompts/repair-diagram (1)`, `packages/app-buildship (1)`, `packages/app-buildship/src (1)`, `packages/app-buildship/src/cleanupAssets (1)`, `packages/icons (1)`
 
 Tool output: [corpus-mermaid-treemap-bench-treemap-e2e-19-should-render-labels-in-complex-treemap-with-many-nested-blocks-browser-public-api.svg](../outputs/obsidianmd-pele/corpus-mermaid-treemap-bench-treemap-e2e-19-should-render-labels-in-complex-treemap-with-many-nested-blocks-browser-public-api.svg)
+
+## usecase
+
+### docs:usecase:7
+
+Node API, SVG. Error: Missing authored label: *Reviewer*; Missing authored label: **Formatted label** with a physical line break; Missing authored label: opens **form**
+
+```mermaid
+usecase-beta
+actor Reviewer("`*Reviewer*`")
+Literal("**Literal markers**")
+Formatted("`**Formatted label**
+with a physical line break`")
+Quoted("Show #quot;quoted#quot; text")
+Reviewer -- "`opens **form**`" --> Formatted
+Reviewer --> Literal
+Reviewer --> Quoted
+
+```
+
+Expected labels: `*Reviewer*`, `**Literal markers**`, `**Formatted label** with a physical line break`, `Show "quoted" text`, `opens **form**`
+
+Tool output: [docs-usecase-7-node-public-api.svg](../outputs/obsidianmd-pele/docs-usecase-7-node-public-api.svg)
+
+### docs:usecase:15
+
+Node API, SVG. Error: Missing authored label: Requires an **active session**
+
+```mermaid
+usecase-beta
+note for Login "`Requires an **active session**`"
+note for User "Starts the workflow"
+actor User
+Login("Sign in")
+User --> Login
+
+```
+
+Expected labels: `User`, `Sign in`, `Requires an **active session**`, `Starts the workflow`
+
+Tool output: [docs-usecase-15-node-public-api.svg](../outputs/obsidianmd-pele/docs-usecase-15-node-public-api.svg)
+
+### docs:usecase:22
+
+Node API, SVG. Error: Missing authored label: Validates the **cart** before payment
+
+```mermaid
+usecase-beta
+direction LR
+accTitle: Online ordering use cases
+accDescr {
+  A customer places an order through the storefront.
+  Staff review the order and inspect its data.
+}
+actor Customer("Customer")
+actor Staff("Order staff")@{ type: hollow, business: true } <<Employee>>
+systemBoundary ordering["Ordering System"]@{ type: package }:::system
+  Browse("Browse products")
+  Checkout("Checkout") <<Core>>:::critical
+  Payment("Process payment")
+  Review[Review order]
+end
+json OrderData@{
+  "status": "pending",
+  "items": [{ "name": "Book", "quantity": 1 }],
+  "total": 29.95
+}:::data
+note for Checkout "`Validates the **cart** before payment`"
+Customer starts@-- "places order" ---> Checkout
+Customer --> Browse
+Checkout pays@..> : include Payment
+Staff --> Review
+Review --> OrderData
+classDef system stroke:#c8a02a,stroke-width:2px
+classDef critical stroke:#c33,stroke-width:3px
+classDef data stroke:#3572a5
+starts@{ animation: fast }
+style pays stroke:#6b46c1,stroke-width:2px
+
+```
+
+Expected labels: `Customer`, `Order staff`, `Browse products`, `Checkout`, `Process payment`, `Review order`, `Validates the **cart** before payment`, `OrderData`, `Ordering System`, `places order`, `include`
+
+Tool output: [docs-usecase-22-node-public-api.svg](../outputs/obsidianmd-pele/docs-usecase-22-node-public-api.svg)
+
+### docs:usecase:7
+
+browser API, SVG. Missing authored label: *Reviewer*; Missing authored label: **Formatted label** with a physical line break; Missing authored label: opens **form**
+
+```mermaid
+usecase-beta
+actor Reviewer("`*Reviewer*`")
+Literal("**Literal markers**")
+Formatted("`**Formatted label**
+with a physical line break`")
+Quoted("Show #quot;quoted#quot; text")
+Reviewer -- "`opens **form**`" --> Formatted
+Reviewer --> Literal
+Reviewer --> Quoted
+
+```
+
+Expected labels: `*Reviewer*`, `**Literal markers**`, `**Formatted label** with a physical line break`, `Show "quoted" text`, `opens **form**`
+
+Tool output: [docs-usecase-7-browser-public-api.svg](../outputs/obsidianmd-pele/docs-usecase-7-browser-public-api.svg)
+
+### docs:usecase:15
+
+browser API, SVG. Missing authored label: Requires an **active session**
+
+```mermaid
+usecase-beta
+note for Login "`Requires an **active session**`"
+note for User "Starts the workflow"
+actor User
+Login("Sign in")
+User --> Login
+
+```
+
+Expected labels: `User`, `Sign in`, `Requires an **active session**`, `Starts the workflow`
+
+Tool output: [docs-usecase-15-browser-public-api.svg](../outputs/obsidianmd-pele/docs-usecase-15-browser-public-api.svg)
+
+### docs:usecase:22
+
+browser API, SVG. Missing authored label: Validates the **cart** before payment
+
+```mermaid
+usecase-beta
+direction LR
+accTitle: Online ordering use cases
+accDescr {
+  A customer places an order through the storefront.
+  Staff review the order and inspect its data.
+}
+actor Customer("Customer")
+actor Staff("Order staff")@{ type: hollow, business: true } <<Employee>>
+systemBoundary ordering["Ordering System"]@{ type: package }:::system
+  Browse("Browse products")
+  Checkout("Checkout") <<Core>>:::critical
+  Payment("Process payment")
+  Review[Review order]
+end
+json OrderData@{
+  "status": "pending",
+  "items": [{ "name": "Book", "quantity": 1 }],
+  "total": 29.95
+}:::data
+note for Checkout "`Validates the **cart** before payment`"
+Customer starts@-- "places order" ---> Checkout
+Customer --> Browse
+Checkout pays@..> : include Payment
+Staff --> Review
+Review --> OrderData
+classDef system stroke:#c8a02a,stroke-width:2px
+classDef critical stroke:#c33,stroke-width:3px
+classDef data stroke:#3572a5
+starts@{ animation: fast }
+style pays stroke:#6b46c1,stroke-width:2px
+
+```
+
+Expected labels: `Customer`, `Order staff`, `Browse products`, `Checkout`, `Process payment`, `Review order`, `Validates the **cart** before payment`, `OrderData`, `Ordering System`, `places order`, `include`
+
+Tool output: [docs-usecase-22-browser-public-api.svg](../outputs/obsidianmd-pele/docs-usecase-22-browser-public-api.svg)
+
+## venn
+
+### docs:venn:2
+
+Node API, SVG. Error: Missing authored label: "Team overlap"
+
+```mermaid
+venn-beta
+  title "Team overlap"
+  set Frontend
+  set Backend
+  union Frontend,Backend["APIs"]
+
+```
+
+Expected labels: `"Team overlap"`, `Frontend`, `Backend`, `APIs`
+
+Tool output: [docs-venn-2-node-public-api.svg](../outputs/obsidianmd-pele/docs-venn-2-node-public-api.svg)
+
+### docs:venn:2
+
+browser API, SVG. Missing authored label: "Team overlap"
+
+```mermaid
+venn-beta
+  title "Team overlap"
+  set Frontend
+  set Backend
+  union Frontend,Backend["APIs"]
+
+```
+
+Expected labels: `"Team overlap"`, `Frontend`, `Backend`, `APIs`
+
+Tool output: [docs-venn-2-browser-public-api.svg](../outputs/obsidianmd-pele/docs-venn-2-browser-public-api.svg)
 
 ## xychart
 
