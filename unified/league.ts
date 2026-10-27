@@ -25,6 +25,24 @@ const slug = (project: string) => project.replace(/[^a-z0-9._-]+/gi, '-').toLowe
 export const percent = (passed: number, total: number) => (total ? `${((100 * passed) / total).toFixed(1)}%` : '—')
 export const escape = (value: unknown) => String(value).replaceAll('|', '\\|').replaceAll('\n', ' ')
 
+interface ReportInputs {
+  source: 'context' | 'community-inputs' | 'unavailable'
+  workloads: Map<string, UnifiedWorkload>
+  gaps: string[]
+  reference: { version?: string; parserVersion?: string; domVersion?: string } | null
+  oracleLedgerComplete: boolean
+  rejectedCaseIds: Set<string>
+}
+interface AuthoredLabelAdmission {
+  passed: number
+  failed: number
+  blocked: number
+  unavailable: number
+  excludedRejected: number
+  excludedUnlabeled: number
+  unmapped: number
+}
+
 export interface Lane {
   project: string
   version: string
@@ -36,6 +54,8 @@ export interface Lane {
   passed: number
   failed: number
   blocked: number
+  /** Report-only subset; null when retained oracle caveats cannot establish its denominator. */
+  authoredLabels?: AuthoredLabelAdmission | null
   legacy: { supported: number; passed: number; failed: number }
   /** The newer families, kept out of every number above; null when the record probed none of them. */
   newer: { supported: string[]; passed: number; failed: number } | null
@@ -51,7 +71,7 @@ const versionOf = (record: ProjectBenchmarkRecord) => String(record.observations
 export const featureRow = (row: BenchmarkObservation) => !row.caseId.startsWith('core:') && !['family-support', 'capability', 'delivery', 'memory', 'load-and-initialize', 'worker-lifecycle', 'enroll', 'resource-diagnostic'].includes(row.operation) && !row.operation.endsWith('negative-admission')
 
 /** One row per tool and public surface/output, from one retained project record. */
-export function lanes(record: ProjectBenchmarkRecord): Lane[] {
+export function lanes(record: ProjectBenchmarkRecord, evidence?: ReportInputs): Lane[] {
   const groups = new Map<string, BenchmarkObservation[]>()
   for (const row of record.observations.filter(row => row.suite !== 'community-cli' && row.metrics?.implementation === record.identity.project)) {
     const key = `${row.surface}\n${row.format}`
@@ -95,6 +115,7 @@ export function lanes(record: ProjectBenchmarkRecord): Lane[] {
         passed: scored.filter(row => row.status === 'passed').length,
         failed: scored.filter(row => row.status === 'failed').length,
         blocked: scored.filter(row => row.status === 'blocked').length,
+        ...(evidence && ['svg', 'terminal'].includes(format) ? { authoredLabels: authoredLabelAdmission(scored, evidence) } : {}),
         legacy: { supported: new Set(probes.filter(probe => LEGACY_FAMILIES.includes(probe.family) && supported(probe)).map(probe => probe.family)).size, passed: legacy.filter(row => row.status === 'passed').length, failed: legacy.filter(row => row.status === 'failed').length },
         newer: newerProbes.length ? { supported: [...new Set(newerProbes.filter(supported).map(row => row.family))], passed: newer.filter(row => row.status === 'passed').length, failed: newer.filter(row => row.status === 'failed').length } : null,
         coreFirstMs: rounds(record) >= CALIBRATED_ROUNDS && firstCalls.length && firstCalls.every(Number.isFinite) ? firstCalls.reduce((sum, value) => sum + value, 0) : null,
@@ -118,7 +139,7 @@ export function comparisonKey(record: ProjectBenchmarkRecord, surface: string): 
 }
 
 /** Published records carry no machine paths, so the results directory can be copied anywhere. */
-function publishedRecord(record: ProjectBenchmarkRecord) {
+function publishedRecord(record: ProjectBenchmarkRecord, evidence: ReportInputs) {
   const portable = (value: unknown): unknown => (typeof value === 'string' && isAbsolute(value) ? basename(value) : Array.isArray(value) ? value.map(portable) : value && typeof value === 'object' ? Object.fromEntries(Object.entries(value).map(([key, item]) => [key, portable(item)])) : value)
   const measurement = record.identity.measurement as Record<string, any>
   return {
@@ -135,30 +156,72 @@ function publishedRecord(record: ProjectBenchmarkRecord) {
     oracle: MERMAID_ORACLE_PIN,
     corpus: { ...communityCorpus().source, ...(communityCorpus().upstream ? { upstream: communityCorpus().upstream } : {}) },
     comparisonContext: (record.identity.protocol as { context?: unknown } | null)?.context ?? null,
-    gaps: record.gaps,
+    gaps: [...new Set([...record.gaps, ...evidence.gaps])],
+    inputEvidence: {
+      source: evidence.source,
+      oracleLedgerComplete: evidence.oracleLedgerComplete,
+      reference: evidence.reference,
+      workloads: evidence.workloads.size,
+      gaps: evidence.gaps,
+      rejectedCaseIds: [...evidence.rejectedCaseIds].sort(),
+      unlabeledCaseIds: [...evidence.workloads.values()].filter(workload => !workload.expectedLabels?.some(label => label.trim())).map(workload => workload.id).sort(),
+    },
+    authoredLabelAdmission: lanes(record, evidence).filter(lane => ['svg', 'terminal'].includes(lane.format)).map(lane => ({ surface: lane.surface, format: lane.format, counts: lane.authoredLabels })),
     observations: portable(record.observations),
   }
 }
 
-function inputs(record: ProjectBenchmarkRecord): Map<string, UnifiedWorkload> {
-  const file = join(record.evidenceDirectory, 'community/community-inputs.json')
-  if (!existsSync(file)) return new Map()
-  return new Map((readBenchmarkDocument(file).workloads as UnifiedWorkload[]).map(workload => [workload.id, workload]))
+function reportInputs(record: ProjectBenchmarkRecord): ReportInputs {
+  const read = (file: string): any => existsSync(file) || existsSync(file + '.gz') ? readBenchmarkDocument(file) : undefined
+  const context = read(join(record.evidenceDirectory, 'context.json'))?.inputs?.literal,
+    local = context && Array.isArray(context.workloads) ? undefined : read(join(record.evidenceDirectory, 'community/community-inputs.json')),
+    document = context && Array.isArray(context.workloads) ? context : local,
+    workloads = new Map<string, UnifiedWorkload>((Array.isArray(document?.workloads) ? document.workloads : []).map((workload: UnifiedWorkload) => [workload.id, workload])),
+    gaps: string[] = Array.isArray(document?.gaps) ? document.gaps.filter((gap: unknown): gap is string => typeof gap === 'string') : [],
+    reference = document?.reference ?? null,
+    rejected = ': pinned Mermaid rejected source ('
+  return {
+    source: document ? document === context ? 'context' : 'community-inputs' : 'unavailable',
+    workloads,
+    gaps,
+    reference,
+    oracleLedgerComplete: Array.isArray(document?.gaps) && document.gaps.length === gaps.length && reference?.version === MERMAID_ORACLE_PIN.version && reference?.parserVersion === MERMAID_ORACLE_PIN.parser && reference?.domVersion === MERMAID_ORACLE_PIN.dom,
+    rejectedCaseIds: new Set(gaps.filter(gap => gap.includes(rejected)).map(gap => gap.slice(0, gap.indexOf(rejected))).filter(id => workloads.has(id))),
+  }
+}
+
+function authoredLabelAdmission(rows: BenchmarkObservation[], evidence: ReportInputs): AuthoredLabelAdmission | null {
+  if (!evidence.oracleLedgerComplete) return null
+  const result: AuthoredLabelAdmission = { passed: 0, failed: 0, blocked: 0, unavailable: 0, excludedRejected: 0, excludedUnlabeled: 0, unmapped: 0 }
+  for (const row of rows) {
+    const workload = evidence.workloads.get(row.caseId)
+    if (!workload) result.unmapped++
+    else if (evidence.rejectedCaseIds.has(row.caseId)) result.excludedRejected++
+    else if (!workload.expectedLabels?.some(label => label.trim())) result.excludedUnlabeled++
+    else if (row.status === 'passed' || row.status === 'failed' || row.status === 'blocked') result[row.status]++
+    else result.unavailable++
+  }
+  return result
 }
 
 /** Every failure, with the source, what was expected and the tool's own output when retained. */
-function failurePage(record: ProjectBenchmarkRecord, out: string): string {
+function failurePage(record: ProjectBenchmarkRecord, out: string, evidence: ReportInputs): string {
   let copiedBytes = 0
-  const workloads = inputs(record),
+  const workloads = evidence.workloads,
     project = record.identity.project
   const failures = record.observations.filter(row => row.status === 'failed' && featureRow(row) && row.metrics?.implementation === project)
-  const lines = [`# ${project} ${versionOf(record)}: failures`, '', `${failures.length} failed observations in families the tool supports. Each shows the input, what the pinned Mermaid ${MERMAID_ORACLE_PIN.version} oracle expects, and what the tool did.`, '', `[Back to the league table](../README.md)`, '']
+  const lines = [`# ${project} ${versionOf(record)}: failures`, '', `${failures.length} raw failed observations. These include parser rejections and output admission failures; they are not all fidelity defects. Each retained input and oracle caveat remains visible.`, '', `[Back to the league table](../README.md)`, '']
   const families = [...new Set(failures.map(row => row.family))].sort()
   for (const family of families) {
     lines.push(`## ${family}`, '')
     for (const row of failures.filter(row => row.family === family)) {
       const workload = workloads.get(row.caseId)
       lines.push(`### ${escape(row.caseId)}`, '', `${SURFACES[row.surface] ?? row.surface}, ${OUTPUTS[row.format] ?? row.format}. ${escape(row.detail ?? (row.findings ?? []).join('; ') ?? 'failed')}`, '')
+      if (evidence.rejectedCaseIds.has(row.caseId)) lines.push('Pinned Mermaid rejected this source. This is a retained legacy/invalid-input outcome, excluded from the secondary positive authored-label admission score.', '')
+      else if (workload && !workload.expectedLabels?.some(label => label.trim())) lines.push('No nonempty authored-label expectation was recorded; a passing render can establish format admission only.', '')
+      else if (workload && evidence.oracleLedgerComplete) lines.push('Pinned Mermaid accepted this source; authored labels are declared. Passing these checks does not establish full fidelity or native-model support.', '')
+      else lines.push('Retained input caveats are unavailable; positive-input admission cannot be established from this record.', '')
+      for (const gap of evidence.gaps.filter(gap => gap.startsWith(row.caseId + ': '))) lines.push(`Oracle caveat: ${escape(gap)}`, '')
       if (workload) lines.push('```mermaid', workload.source, '```', '', `Expected labels: ${workload.expectedLabels?.length ? workload.expectedLabels.map(label => '`' + label.replaceAll('`', "'") + '`').join(', ') : 'none declared'}`, '')
       const output = row.metrics?.outputFile,
         retained = typeof output === 'string' ? (isAbsolute(output) ? output : join(record.evidenceDirectory, output)) : undefined
@@ -217,16 +280,17 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
   rmSync(join(out, 'failures'), { recursive: true, force: true })
   rmSync(join(out, 'outputs'), { recursive: true, force: true })
   for (const directory of ['records', 'failures']) mkdirSync(join(out, directory), { recursive: true })
+  const inputEvidence = new Map(records.map(record => [record, reportInputs(record)]))
   const comparison = new Map<Lane, string>()
   const all = records.flatMap(record => {
-    return lanes(record).map(lane => {
+    return lanes(record, inputEvidence.get(record)).map(lane => {
       comparison.set(lane, comparisonKey(record, lane.surface))
       return lane
     })
   })
   for (const record of records) {
-    writeFileSync(join(out, 'records', `${slug(record.identity.project)}.json.gz`), gzipSync(JSON.stringify(publishedRecord(record)) + '\n', { level: 9 }))
-    writeFileSync(join(out, 'failures', `${slug(record.identity.project)}.md`), failurePage(record, out) + '\n')
+    writeFileSync(join(out, 'records', `${slug(record.identity.project)}.json.gz`), gzipSync(JSON.stringify(publishedRecord(record, inputEvidence.get(record)!)) + '\n', { level: 9 }))
+    writeFileSync(join(out, 'failures', `${slug(record.identity.project)}.md`), failurePage(record, out, inputEvidence.get(record)!) + '\n')
   }
   const measured = records.map(record => record.finishedAt).sort()
   const calibrated = records.every(record => rounds(record) >= CALIBRATED_ROUNDS)
@@ -257,6 +321,18 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
       }
     }
   }
+  lines.push('## Input oracle caveats', '', 'Raw current and legacy marks and ranks above remain unchanged. They include retained legacy/parser fixtures and unlabeled format-only checks; their pass rates are not a complete Mermaid-fidelity score. Caveats come from each record’s frozen input context, never from a peer’s output. Counts below describe the input ledger, not executed cases; rejected and unlabeled sets may overlap.', '', '| Tool | Retained oracle warnings | Pinned-rejected inputs | Inputs without authored labels |', '|---|---:|---:|---:|')
+  for (const record of records) {
+    const evidence = inputEvidence.get(record)!
+    lines.push(`| ${escape(record.identity.project)} | ${evidence.oracleLedgerComplete ? evidence.gaps.length : 'unavailable'} | ${evidence.oracleLedgerComplete ? evidence.rejectedCaseIds.size : '—'} | ${evidence.source === 'unavailable' ? '—' : [...evidence.workloads.values()].filter(workload => !workload.expectedLabels?.some(label => label.trim())).length} |`)
+  }
+  if ([...inputEvidence.values()].some(evidence => !evidence.oracleLedgerComplete)) lines.push('', 'Retained input caveats are unavailable for some records. Their original observations remain visible; no secondary positive-input score is inferred.')
+  lines.push('', 'All input warnings are retained in each portable record’s `inputEvidence.gaps` and merged into its published `gaps`. SVG XML portability is distinct from browser drawing behavior: an unbound namespace prefix or HTML named entity can fail standalone XML admission even when an HTML page can display the drawing.', '', '## Pinned-accepted authored-label admission', '', `Secondary SVG/terminal view for the ${SCORED_FAMILIES.length} current families, restricted to cases with nonempty recorded labels and no pinned-oracle rejection. This does not replace the raw mark or affect ranks. The label check does not establish topology, multiplicity, painted visibility, native-model coverage or complete fidelity. Explicit authored labels remain checkable when a DB getter is unavailable; a no-op parser such as ZenUML’s does not prove syntax validation. Parser-only fixtures may still fail rendering, so this is not a ledger of independently certified complete diagrams.`, '', '| Tool | Surface | Output | Passed / checked | Blocked / unavailable | Excluded rejected / unlabeled | Unmapped inputs |', '|---|---|---|---:|---:|---:|---:|')
+  for (const lane of all.filter(lane => ['svg', 'terminal'].includes(lane.format))) {
+    const score = lane.authoredLabels
+    lines.push(`| ${escape(lane.project)} | ${SURFACES[lane.surface] ?? lane.surface} | ${OUTPUTS[lane.format]} | ${score ? `${percent(score.passed, score.passed + score.failed)} (${score.passed}/${score.passed + score.failed})` : 'unavailable'} | ${score ? `${score.blocked} / ${score.unavailable}` : '—'} | ${score ? `${score.excludedRejected} / ${score.excludedUnlabeled}` : '—'} | ${score?.unmapped ?? '—'} |`)
+  }
+  lines.push('')
   const grid = all.filter(lane => lane.format === 'svg' || lane.format === 'terminal').sort(leagueOrder)
   const header = [`| Family | ${grid.map(lane => `${escape(lane.project.split('/')[1])} (${SURFACES[lane.surface] ?? lane.surface}, ${OUTPUTS[lane.format]})`).join(' | ')} |`, `|---|${grid.map(() => '---:').join('|')}|`]
   const cell = (lane: Lane, family: string) => (lane.families[family]!.unsupported ? '—' : percent(lane.families[family]!.passed, lane.families[family]!.passed + lane.families[family]!.failed))

@@ -32,6 +32,33 @@ and differences from Mermaid's observed result. Missing APIs, missing evidence
 and unresolved noise do not become zero-cost wins. A single overall score would
 hide these distinctions.
 
+## Community admission and its remaining limits
+
+The community league's raw pass rates combine several kinds of evidence. Frozen
+input warnings now travel with portable reports: pinned-rejected legacy inputs,
+cases without nonempty authored-label expectations, and missing getter projections
+remain visible. Their counts describe the input ledger, not a count of executed
+positive rendering tests. Failure pages distinguish known rejected inputs from
+positive cases with label expectations. Publishing these caveats reuses existing
+clocks and leaves raw current/historical marks and ranks unchanged.
+
+A separate pinned-accepted authored-label table restricts SVG/terminal observations
+to cases with recorded labels and no pinned rejection. It explicitly accounts for
+excluded, blocked, unavailable and unmapped inputs. Reports with incomplete legacy
+oracle metadata receive no inferred secondary score. This remains text/format
+admission, not complete fidelity or native-model coverage.
+
+The 26–27 October control audit illustrates why the distinction matters: 22 XY
+renderer exceptions came from axis/title parser fixtures without data series.
+Standalone XML checks separately rejected HTML named entities and undeclared
+`xlink` prefixes; this is a portability limitation, not proof that an HTML page
+cannot display the drawing. Retained SVGs also show default treemap truncation,
+omitted architecture titles, an undrawn empty journey section, and a state-label
+mismatch between literal `\n` display and normalized oracle text. These outcomes
+need interpretation before they can support a claim about matching Mermaid's
+behavior. The current corpus still needs explicit parser-only versus complete
+rendering intent; no report reducer can invent that missing declaration.
+
 ## Primary questions
 
 | Question | Owning benchmark | What the result can establish |

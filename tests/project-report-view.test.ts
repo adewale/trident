@@ -1,7 +1,8 @@
-import { publishProjectRecord, type ProjectBenchmarkRecord, readBenchmarkDocument } from '../portable/project-records.ts'
+import { publishProjectRecord, type ProjectBenchmarkRecord, readBenchmarkDocument, writeBenchmarkDocument } from '../portable/project-records.ts'
 import { expect, test } from 'bun:test'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
+import { gunzipSync } from 'node:zlib'
 import { join } from 'node:path'
 import { publishResults } from '../unified/league.ts'
 import { communityCoreWorkloads } from '../unified/community.ts'
@@ -220,6 +221,55 @@ test('portable reports retain every failure without duplicating oversized render
     expect(copied.reduce((sum, file) => sum + file.bytes, 0)).toBeLessThanOrEqual(1024 * 1024)
     expect(markdown).toContain('omitted from this portable report')
     expect(statSync(join(evidenceDirectory, 'failure-1.svg')).size).toBe(256 * 1024)
+  } finally {
+    rmSync(directory, { recursive: true, force: true })
+  }
+})
+
+
+test('portable reports preserve oracle caveats and separate pinned-accepted authored-label checks from raw results', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'community-report-oracle-')),
+    store = join(directory, 'store'),
+    out = join(directory, 'published')
+  try {
+    const warnings = ['rejected: pinned Mermaid rejected source (legacy syntax)', 'unlabeled: pinned Mermaid returned no nonempty authored label expectations', 'external: pinned Mermaid has no label getter projection']
+    const literal = { reference: { version: '12.2.0', parserVersion: '2.0.1', domVersion: '26.1.0' }, gaps: warnings, workloads: ['good', 'lost', 'rejected', 'unlabeled', 'external'].map(id => ({ id, family: 'flowchart', source: `flowchart LR\n A[${id}]`, features: [], provenance: 'independently authored report fixture', expectedLabels: id === 'unlabeled' ? [] : [id] })) }
+    for (const source of ['context', 'fallback', 'legacy'] as const) {
+      const project = `fixture/${source}`,
+        evidenceDirectory = join(directory, source)
+      mkdirSync(join(evidenceDirectory, 'community'), { recursive: true })
+      writeFileSync(join(evidenceDirectory, 'result.json'), '{}')
+      if (source === 'context') {
+        writeBenchmarkDocument(join(evidenceDirectory, 'context.json'), { inputs: { literal } })
+        // The per-project consumer copy lost the gaps; the preserved context remains authoritative.
+        writeBenchmarkDocument(join(evidenceDirectory, 'community/community-inputs.json'), { workloads: literal.workloads })
+      } else writeBenchmarkDocument(join(evidenceDirectory, 'community/community-inputs.json'), source === 'legacy' ? { workloads: literal.workloads } : literal)
+      const observations = ['good', 'lost', 'rejected', 'unlabeled', 'external', 'unmapped'].map(caseId => ({ suite: 'community', surface: 'browser:public-api', runtime: 'fixture', family: 'flowchart', caseId, operation: 'render', format: 'svg', mode: 'feature-corpus-qualification', status: caseId === 'lost' || (source === 'fallback' && caseId === 'rejected') ? 'failed' as const : 'passed' as const, metrics: { implementation: project, version: 'fixture', round: 1 } }))
+      publishProjectRecord(store, { schemaVersion: 1, id: project, identity: { project, protocol: {}, artifact: {}, measurement: { rounds: 1 } }, startedAt: '2026-10-26T00:00:00Z', finishedAt: '2026-10-26T00:01:00Z', status: 'failed', evidenceDirectory, evidenceFiles: ['result.json'], gaps: ['original scope caveat'], observations })
+    }
+    const result = publishResults(store, out)
+    const markdown = readFileSync(join(out, 'README.md'), 'utf8')
+    expect(markdown).toContain('## Input oracle caveats')
+    expect(markdown).toContain('## Pinned-accepted authored-label admission')
+    for (const source of ['context', 'fallback'] as const) {
+      const portable = JSON.parse(gunzipSync(readFileSync(join(out, `records/fixture-${source}.json.gz`))).toString())
+      expect(portable.inputEvidence.source).toBe(source === 'context' ? 'context' : 'community-inputs')
+      expect(portable.inputEvidence.gaps).toEqual(warnings)
+      expect(portable.gaps).toEqual(['original scope caveat', ...warnings])
+      expect(portable.inputEvidence.rejectedCaseIds).toEqual(['rejected'])
+      expect(portable.inputEvidence.unlabeledCaseIds).toEqual(['unlabeled'])
+      expect(portable.observations.map((row: any) => row.status)).toEqual(['passed', 'failed', source === 'fallback' ? 'failed' : 'passed', 'passed', 'passed', 'passed'])
+      const lane = result.lanes.find(lane => lane.project === `fixture/${source}`)!
+      expect([lane.passed, lane.failed]).toEqual(source === 'fallback' ? [4, 2] : [5, 1])
+      expect((lane as any).authoredLabels).toEqual({ passed: 2, failed: 1, blocked: 0, unavailable: 0, excludedRejected: 1, excludedUnlabeled: 1, unmapped: 1 })
+    }
+    const legacy = result.lanes.find(lane => lane.project === 'fixture/legacy')!
+    expect((legacy as any).authoredLabels).toBeNull()
+    expect(markdown).toContain('Retained input caveats are unavailable')
+    const failures = readFileSync(join(out, 'failures/fixture-context.md'), 'utf8')
+    expect(failures).toContain('Pinned Mermaid accepted this source; authored labels are declared')
+    expect(failures).toContain('flowchart LR')
+    expect(readFileSync(join(out, 'failures/fixture-fallback.md'), 'utf8')).toContain('Pinned Mermaid rejected this source')
   } finally {
     rmSync(directory, { recursive: true, force: true })
   }
