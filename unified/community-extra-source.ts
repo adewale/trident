@@ -127,7 +127,7 @@ async function capture(command: string[], cwd: string, env: NodeJS.ProcessEnv, i
     child.stdin.end(input ?? '')
   })
 }
-async function checkout(node: ExtraSourceNode, pin: string, source: string, env: NodeJS.ProcessEnv, log: string): Promise<void> {
+async function checkout(node: ExtraSourceNode, pin: string, source: string, env: NodeJS.ProcessEnv, log: string, remote?: string): Promise<void> {
   mkdirSync(source, { recursive: true })
   if (!existsSync(join(source, '.git'))) {
     await run(['git', 'init', '--quiet'], source, env, log)
@@ -137,10 +137,12 @@ async function checkout(node: ExtraSourceNode, pin: string, source: string, env:
     await run(['git', 'sparse-checkout', 'init', '--no-cone'], source, env, log)
     writeFileSync(join(source, '.git/info/sparse-checkout'), '/*\n!/.github/\n!/docs/\n!/demos/\n!/cypress/\n!/packages/*/src/docs/\n!/packages/*/cypress/\n')
   }
+  if (remote) await run(['git', 'remote', 'set-url', 'origin', remote], source, env, log)
   try {
     await run(['git', 'fetch', '--depth', '1', '--filter=blob:none', 'origin', pin], source, env, log)
   } catch (error) {
-    if (!node.parent || !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(node.parent)) throw error
+    // A named candidate remote is the only source for its commit.
+    if (remote || !node.parent || !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(node.parent)) throw error
     await run(['git', 'remote', 'set-url', 'origin', `https://github.com/${node.parent}.git`], source, env, log)
     await run(['git', 'fetch', '--depth', '1', '--filter=blob:none', 'origin', pin], source, env, log)
   }
@@ -373,7 +375,8 @@ async function mermaidBuild(source: string, root: string, cache: string, env: No
 /** Source pins are distinct population cells. Equal Git HEAD is only a cache
  * candidate: a physical artifact is reused after its bytes and reviewed public
  * runtime protocol were admitted, never across divergent revisions/recipes. */
-export async function prepareExtraCommunitySource(node: ExtraSourceNode, cacheRoot: string): Promise<ExtraSourceArtifact> {
+/** remote replaces the project's GitHub URL for a candidate commit that lives in a fork or a local clone. */
+export async function prepareExtraCommunitySource(node: ExtraSourceNode, cacheRoot: string, remote?: string): Promise<ExtraSourceArtifact> {
   const adapter = node.benchmark?.sourceAdapter,
     pin = node.benchmark?.sourcePin ?? node.head
   if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(node.id) || !pin || !/^[a-f0-9]{40}$/.test(pin)) throw Error('Extra source preparation requires a safe GitHub identity and full immutable sourcePin')
@@ -399,7 +402,7 @@ export async function prepareExtraCommunitySource(node: ExtraSourceNode, cacheRo
       return { ...previous, detail: `${previous.detail ?? ''}; exact physical admitted artifact reused for ${node.id} at identical Git revision/build/runtime protocol` }
   }
   storageAvailable(directory, adapter)
-  await checkout(node, pin, source, env, log)
+  await checkout(node, pin, source, env, log, remote)
   let artifact: CommunityArtifact & { sourceFiles?: GitSourceFile[] },
     dependencyRuntime: SourceRuntimeClosure | undefined,
     buildRecipeId = `extra-source-v1:${variant}:`,

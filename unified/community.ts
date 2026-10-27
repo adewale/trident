@@ -68,13 +68,28 @@ export function installedNpmIntegrity(prefix: string, root: string, name: string
   return integrity
 }
 
-/** A candidate stands in for one npm-backed row; Mermaid is the oracle and source builds have no tarball. */
-export function assertCommunityCandidate(nodes: CommunityNode[], candidate: { project: string }): CommunityNode {
+/** A candidate stands in for one row: a tarball for an npm-backed tool, a Git revision for a tool
+ * Trident builds from source. Mermaid is the oracle and takes neither. */
+export function assertCommunityCandidate(nodes: CommunityNode[], candidate: { project: string } & ({ tarball: string } | { revision: string })): CommunityNode {
   const node = nodes.find(node => node.id === candidate.project)
   if (!node) throw Error(`Candidate project ${candidate.project} is not in the catalog`)
   if (node.id === 'mermaid-js/mermaid') throw Error('Mermaid is the pinned oracle; it takes no candidate')
-  if (!node.benchmark?.package || node.benchmark.adapter === 'extra-source') throw Error(`${node.id} is not benchmarked from an npm package, so it takes no candidate tarball`)
+  const source = node.benchmark?.adapter === 'source-cli' || node.benchmark?.adapter === 'extra-source'
+  if ('revision' in candidate) {
+    if (!source) throw Error(`${node.id} is not built from source, so it takes no candidate revision; use --candidate-tarball or --candidate-dir`)
+  } else if (!node.benchmark?.package || source) throw Error(`${node.id} is not benchmarked from an npm package, so it takes no candidate tarball${source ? '; use --candidate-revision' : ''}`)
   return node
+}
+/** A candidate's identity: its tarball's digest, or its Git revision. */
+const candidateKey = (candidate: { sha256: string } | { revision: string }) => ('revision' in candidate ? candidate.revision : candidate.sha256)
+/** Build a candidate revision with the project's own reviewed recipe, exactly as its release is built. */
+async function sourceCandidateArtifact(node: CommunityNode, cache: string, candidate: { revision: string; remote: string }): Promise<CommunityArtifact> {
+  const root = process.env.AM_COMMUNITY_SOURCE_CACHE ?? cache
+  const artifact: CommunityArtifact =
+    node.benchmark?.adapter === 'source-cli'
+      ? await (await import('./community-source-prepare.ts')).prepareCommunitySource({ ...node, head: candidate.revision, release: { commit: candidate.revision } }, root, candidate.remote)
+      : await (await import('./community-extra-source.ts')).prepareExtraCommunitySource({ ...node, head: candidate.revision, benchmark: { ...node.benchmark!, sourcePin: candidate.revision } }, root, candidate.remote)
+  return { ...artifact, candidate: { revision: candidate.revision, remote: candidate.remote } }
 }
 /** The package a tarball holds, read without installing it. */
 export function candidatePackage(tarball: string): { name: string; version: string } {
@@ -200,12 +215,13 @@ function validateFrozenCommunityEntry(entry: PreparedCommunity, node: CommunityN
   try {
     const artifact = entry.artifact
     verifyProvidedCommunityArtifact(artifact)
-    if (node.benchmark?.adapter === 'extra-source' && (artifact.reviewed !== true || artifact.sourceRevision !== node.benchmark.sourcePin || !artifact.buildRecipeId || !artifact.runtimeCommandId)) throw Error('Source artifact has no exact reviewed Git/protocol binding')
-    if (node.benchmark?.adapter === 'source-cli' && artifact.revision !== (node.release?.commit ?? node.head)) throw Error('Native artifact revision differs from recorded source pin')
-    if (node.benchmark?.adapter === 'franken' && artifact.revision !== node.distribution?.revision) throw Error('WASM artifact revision differs from frozen distribution')
     const candidate = options.communityCandidate?.project === node.id ? options.communityCandidate : undefined
-    if (!!artifact.candidate !== !!candidate || (candidate && artifact.candidate?.sha256 !== candidate.sha256)) throw Error('Frozen artifact and the requested candidate differ')
-    if (artifact.candidate && (!existsSync(artifact.candidate.tarball) || artifactDigest(artifact.candidate.tarball) !== artifact.candidate.sha256)) throw Error('Frozen candidate tarball differs from its SHA-256')
+    const revision = candidate && 'revision' in candidate ? candidate.revision : undefined
+    if (node.benchmark?.adapter === 'extra-source' && (artifact.reviewed !== true || artifact.sourceRevision !== (revision ?? node.benchmark.sourcePin) || !artifact.buildRecipeId || !artifact.runtimeCommandId)) throw Error('Source artifact has no exact reviewed Git/protocol binding')
+    if (node.benchmark?.adapter === 'source-cli' && artifact.revision !== (revision ?? node.release?.commit ?? node.head)) throw Error('Native artifact revision differs from recorded source pin')
+    if (node.benchmark?.adapter === 'franken' && artifact.revision !== node.distribution?.revision) throw Error('WASM artifact revision differs from frozen distribution')
+    if (!!artifact.candidate !== !!candidate || (candidate && artifact.candidate && candidateKey(artifact.candidate) !== candidateKey(candidate))) throw Error('Frozen artifact and the requested candidate differ')
+    if (artifact.candidate && 'tarball' in artifact.candidate && (!existsSync(artifact.candidate.tarball) || artifactDigest(artifact.candidate.tarball) !== artifact.candidate.sha256)) throw Error('Frozen candidate tarball differs from its SHA-256')
     if (node.benchmark?.package) {
       if (!artifact.root) throw Error('Frozen npm artifact has no installed package root')
       const pkg = JSON.parse(readFileSync(join(artifact.root, 'package.json'), 'utf8'))
@@ -276,7 +292,7 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
       let artifact = candidate ? undefined : provided[node.id]
       if (candidate) {
         assertCommunityCandidate([node], candidate)
-        artifact = await npmArtifact(node, cache, true, candidate)
+        artifact = 'revision' in candidate ? await sourceCandidateArtifact(node, cache, candidate) : await npmArtifact(node, cache, true, candidate)
       } else if (artifact) {
         verifyProvidedCommunityArtifact(artifact)
         if (['dart', 'bezel', 'franken', 'termaid'].includes(node.benchmark.adapter)) {
@@ -341,7 +357,7 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
       }
       if (!artifact) throw new Error('Preparation returned no actual artifact')
       if (node.id === '1jehuang/mermaid-rs-renderer' && artifact.kind === 'cli') artifact.outputBindings = { ...(artifact.outputBindings ?? {}), png: { args: ['-i', '-', '-e', 'png', '-o', '{output}'], input: 'stdin' } }
-      artifact.detail = `${artifact.detail ?? ''}${artifact.detail ? '; ' : ''}Version policy: ${artifact.candidate ? 'unreleased candidate tarball; the catalog version pin does not apply' : provided[node.id] && options.communityArtifactPolicy === 'frozen' ? 'provided actual artifact version/bytes frozen; no latest lookup' : node.benchmark.adapter === 'agentic' ? 'local candidate source/package' : node.id === 'mermaid-js/mermaid' ? 'pinned current Mermaid' : node.benchmark.adapter === 'source-cli' || node.benchmark.adapter === 'extra-source' || node.benchmark.adapter === 'franken' ? 'recorded immutable source/distribution' : node.benchmark.version || node.benchmark.versionPolicy === 'recorded' || process.env.AM_COMMUNITY_VERSION_POLICY === 'recorded' ? 'recorded registry release' : 'resolved latest registry release'}. Recorded catalog versions remain separately available on the node.`
+      artifact.detail = `${artifact.detail ?? ''}${artifact.detail ? '; ' : ''}Version policy: ${artifact.candidate ? ('revision' in artifact.candidate ? `unreleased candidate revision ${artifact.candidate.revision}, built with the reviewed source recipe; the catalog source pin does not apply` : 'unreleased candidate tarball; the catalog version pin does not apply') : provided[node.id] && options.communityArtifactPolicy === 'frozen' ? 'provided actual artifact version/bytes frozen; no latest lookup' : node.benchmark.adapter === 'agentic' ? 'local candidate source/package' : node.id === 'mermaid-js/mermaid' ? 'pinned current Mermaid' : node.benchmark.adapter === 'source-cli' || node.benchmark.adapter === 'extra-source' || node.benchmark.adapter === 'franken' ? 'recorded immutable source/distribution' : node.benchmark.version || node.benchmark.versionPolicy === 'recorded' || process.env.AM_COMMUNITY_VERSION_POLICY === 'recorded' ? 'recorded registry release' : 'resolved latest registry release'}. Recorded catalog versions remain separately available on the node.`
       prepared.push({ node, artifact })
     } catch (error) {
       prepared.push({ node, error: String(error) })

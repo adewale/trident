@@ -143,12 +143,18 @@ export function projectPackageIdentity(prepared: PreparedCommunity) {
   verifyProvidedCommunityArtifact(prepared.artifact)
   const artifact = { ...prepared.artifact }
   delete artifact.detail
+  // A source candidate is its commit wherever it was fetched from, so the remote is not identity.
+  const revision = artifact.candidate && 'revision' in artifact.candidate ? artifact.candidate.revision : undefined
+  if (revision) {
+    artifact.candidate = { revision } as typeof artifact.candidate
+    delete artifact.acquisitionOrigin
+  }
   const root = artifact.root
   // Source recipes seal their actual runtime closure separately from build-only
   // declarations in the upstream source manifest. Reuse that admitted closure.
   if (artifact.runtimeDependencyRoots) {
     const source = prepared.node.benchmark
-    if (source?.adapter !== 'extra-source' || !source.sourceAdapter || !/^[a-f0-9]{40}$/.test(source.sourcePin ?? '') || !artifact.reviewed || artifact.sourceRevision !== source.sourcePin || !artifact.buildRecipeId?.startsWith(`extra-source-v1:${source.sourceAdapter}:`)) throw Error('Runtime dependency roots require a matching reviewed source recipe')
+    if (source?.adapter !== 'extra-source' || !source.sourceAdapter || !/^[a-f0-9]{40}$/.test(revision ?? source.sourcePin ?? '') || !artifact.reviewed || artifact.sourceRevision !== (revision ?? source.sourcePin) || !artifact.buildRecipeId?.startsWith(`extra-source-v1:${source.sourceAdapter}:`)) throw Error('Runtime dependency roots require a matching reviewed source recipe')
     const sealed = new Set(artifact.files?.map(file => resolve(file.path)))
     for (const dependency of artifact.runtimeDependencyRoots) {
       if (!sealed.has(resolve(dependency, 'package.json'))) throw Error('Runtime package manifest is absent from the verified artifact closure: ' + dependency)
@@ -180,19 +186,45 @@ export function admitProjectArtifacts(preparedEntry: PreparedCommunity, prepared
 }
 /** An unreleased build says so in its record and is keyed by its bytes: it lives in the
  * candidate lane, so it never reuses, replaces or ranks as the release. */
-export function candidateIdentity(entry: PreparedCommunity, options: Pick<UnifiedRunOptions, 'communityCandidate' | 'packageRoot'>, files: unknown): { source: 'tarball' | 'package-root'; sha256: string } | undefined {
-  if (options.communityCandidate?.project === entry.node.id) return { source: 'tarball', sha256: options.communityCandidate.sha256 }
+export function candidateIdentity(entry: PreparedCommunity, options: Pick<UnifiedRunOptions, 'communityCandidate' | 'packageRoot'>, files: unknown): { source: 'tarball' | 'package-root'; sha256: string } | { source: 'revision'; revision: string } | undefined {
+  const candidate = options.communityCandidate
+  // A revision is the whole identity: where it was fetched from cannot change its bytes.
+  if (candidate?.project === entry.node.id) return 'revision' in candidate ? { source: 'revision', revision: candidate.revision } : { source: 'tarball', sha256: candidate.sha256 }
   if (entry.artifact?.candidate) throw Error('A candidate artifact reached a release record: ' + entry.node.id)
   // Agentic's local checkout is unreleased too, whatever its package version says.
   if (entry.node.benchmark?.adapter === 'agentic' && options.packageRoot) return { source: 'package-root', sha256: createHash('sha256').update(stableValue(files)).digest('hex') }
   return undefined
 }
-/** --candidate-tarball with its --candidate-sha256, or --candidate-dir, which npm packs here without running scripts. */
-export function communityCandidate(values: { tarball?: string; sha256?: string; directory?: string }, options: Pick<UnifiedRunOptions, 'communityProjects' | 'communityArtifacts' | 'communityPreparedFile' | 'communityBrowserPreparedFile' | 'out'>): UnifiedRunOptions['communityCandidate'] {
-  if (!values.tarball && !values.sha256 && !values.directory) return undefined
+/** A source candidate is one Git commit, fetched from the project's GitHub repository unless
+ * --candidate-remote names another Git URL or a local clone. A clean local clone needs no
+ * revision: its HEAD is the candidate. */
+function sourceCandidate(project: string, revision: string | undefined, remote: string | undefined): { revision: string; remote: string } {
+  const local = remote && !/^(?:[a-z][a-z0-9+.-]*:\/\/|[^/@:]+@[^:]+:)/i.test(remote) ? resolve(remote) : undefined
+  if (local) {
+    if (!existsSync(local)) throw Error(`--candidate-remote ${local} does not exist`)
+    const git = (...args: string[]) => execFileSync('git', args, { cwd: local, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim()
+    if (!revision && git('status', '--porcelain', '--untracked-files=no')) throw Error(`${local} has uncommitted changes; commit them or name a --candidate-revision, because a candidate is a Git commit`)
+    try {
+      revision = git('rev-parse', '--verify', `${revision ?? 'HEAD'}^{commit}`)
+    } catch {
+      throw Error(`${local} has no commit ${revision ?? 'HEAD'}`)
+    }
+  }
+  if (!revision) throw Error('--candidate-revision is required unless --candidate-remote is a local clone')
+  if (!/^[a-f0-9]{40}$/.test(revision)) throw Error('--candidate-revision must be a full 40-character lowercase Git commit when the remote is not a local clone')
+  return { revision, remote: local ?? remote ?? `https://github.com/${project}.git` }
+}
+/** --candidate-tarball with its --candidate-sha256, or --candidate-dir, which npm packs here without running scripts,
+ * for an npm-backed tool; --candidate-revision and/or --candidate-remote for a tool Trident builds from source. */
+export function communityCandidate(values: { tarball?: string; sha256?: string; directory?: string; revision?: string; remote?: string }, options: Pick<UnifiedRunOptions, 'communityProjects' | 'communityArtifacts' | 'communityPreparedFile' | 'communityBrowserPreparedFile' | 'out'>): UnifiedRunOptions['communityCandidate'] {
+  if (!values.tarball && !values.sha256 && !values.directory && !values.revision && !values.remote) return undefined
   const project = options.communityProjects?.length === 1 ? options.communityProjects[0]! : undefined
   if (!project) throw Error('A candidate needs exactly one --projects OWNER/TOOL')
-  if (options.communityArtifacts || options.communityPreparedFile || options.communityBrowserPreparedFile) throw Error('A candidate is acquired from its own tarball; drop --community-artifacts, --community-prepared and --community-browser-prepared')
+  if (options.communityArtifacts || options.communityPreparedFile || options.communityBrowserPreparedFile) throw Error('A candidate is acquired from its own tarball or revision; drop --community-artifacts, --community-prepared and --community-browser-prepared')
+  if (values.revision || values.remote) {
+    if (values.tarball || values.sha256 || values.directory) throw Error('Use --candidate-revision or --candidate-remote for a source build, or a tarball or --candidate-dir for an npm package, not both')
+    return { project, ...sourceCandidate(project, values.revision, values.remote) }
+  }
   if (values.directory) {
     if (values.tarball || values.sha256) throw Error('Use --candidate-dir, or --candidate-tarball with --candidate-sha256, not both')
     const destination = join(options.out, 'candidate-packs', randomUUID())
@@ -474,13 +506,13 @@ export async function runRetainedCommunityCliSuite(options: UnifiedRunOptions): 
 export async function main(argv = process.argv.slice(2)) {
   if (argv.length === 1 && argv[0] === '--help') {
     console.log(
-      'bun run bench:community:update -- --projects owner/project[,owner/other] --records DIRECTORY --out DIRECTORY [--markdown FILE] [--profile smoke|full] [--rounds N] [--plan] [--force] [--candidate-tarball FILE --candidate-sha256 HEX | --candidate-dir DIRECTORY]\nA candidate is an unreleased build of one selected npm-backed project; its record stays in the candidate lane and never enters the league. Other unified flags, including --community-inputs, --community-prepared, --community-browser-prepared and --community-catalog, are accepted. Default selection is the full catalog. Preparation resolves selected artifacts; unchanged matching records skip every timing lane. --plan performs preparation but no timing. --force retains a new attempt. CI execution is refused.',
+      'bun run bench:community:update -- --projects owner/project[,owner/other] --records DIRECTORY --out DIRECTORY [--markdown FILE] [--profile smoke|full] [--rounds N] [--plan] [--force] [--candidate-tarball FILE --candidate-sha256 HEX | --candidate-dir DIRECTORY | --candidate-revision SHA [--candidate-remote URL|CLONE] | --candidate-remote CLONE]\nA candidate is an unreleased build of one selected project: a tarball for an npm-backed tool, a Git commit for one Trident builds from source; its record stays in the candidate lane and never enters the league. Other unified flags, including --community-inputs, --community-prepared, --community-browser-prepared and --community-catalog, are accepted. Default selection is the full catalog. Preparation resolves selected artifacts; unchanged matching records skip every timing lane. --plan performs preparation but no timing. --force retains a new attempt. CI execution is refused.',
     )
     return
   }
   const forwarded: string[] = [],
     settings: { plan?: boolean; markdown?: string } = {},
-    candidateValues: { tarball?: string; sha256?: string; directory?: string } = {}
+    candidateValues: { tarball?: string; sha256?: string; directory?: string; revision?: string; remote?: string } = {}
   const aliases: Record<string, string> = { '--projects': '--community-projects', '--records': '--community-records', '--catalog': '--community-catalog' }
   const seen = new Set<string>()
   for (let index = 0; index < argv.length; index++) {
@@ -495,10 +527,10 @@ export async function main(argv = process.argv.slice(2)) {
       forwarded.push('--community-force')
       continue
     }
-    if (['--candidate-tarball', '--candidate-sha256', '--candidate-dir'].includes(flag)) {
+    if (['--candidate-tarball', '--candidate-sha256', '--candidate-dir', '--candidate-revision', '--candidate-remote'].includes(flag)) {
       const value = argv[++index]
       if (!value || value.startsWith('--')) throw Error(flag + ' requires a value')
-      candidateValues[({ '--candidate-tarball': 'tarball', '--candidate-sha256': 'sha256', '--candidate-dir': 'directory' } as const)[flag as '--candidate-dir']] = value
+      candidateValues[({ '--candidate-tarball': 'tarball', '--candidate-sha256': 'sha256', '--candidate-dir': 'directory', '--candidate-revision': 'revision', '--candidate-remote': 'remote' } as const)[flag as '--candidate-dir']] = value
       continue
     }
     if (flag === '--markdown') {

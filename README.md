@@ -74,15 +74,20 @@ WASM builds and tools that need a build step use the existing adapters in
 
 ## Benchmarking an unreleased version
 
-Any catalog tool that Trident installs from npm can be measured from an unreleased
-build: pack it, then pass the tarball and its SHA-256 for that one project, or pass
-the built package directory and let Trident pack it:
+Any catalog tool except Mermaid, the oracle, can be measured from an unreleased build.
+For a tool Trident installs from npm, pass a packed tarball and its SHA-256, or the
+built package directory and let Trident pack it. For a tool Trident builds from source,
+pass a Git commit, or a local clone whose committed HEAD is the candidate:
 
 ```sh
 bun commands.ts community:update --projects OWNER/TOOL \
   --candidate-tarball /builds/tool-1.3.0.tgz --candidate-sha256 SHA256 \
   --profile full --rounds 5 --records /evidence/records --out /evidence/community
 bun commands.ts community:update --projects OWNER/TOOL --candidate-dir /checkouts/tool \
+  --profile full --rounds 5 --records /evidence/records --out /evidence/community
+bun commands.ts community:update --projects AlexanderGrooff/mermaid-ascii --candidate-revision FULL_SHA \
+  --profile full --rounds 5 --records /evidence/records --out /evidence/community
+bun commands.ts community:update --projects AlexanderGrooff/mermaid-ascii --candidate-remote /checkouts/mermaid-ascii \
   --profile full --rounds 5 --records /evidence/records --out /evidence/community
 bun commands.ts results:compare --records /evidence/records --project OWNER/TOOL
 ```
