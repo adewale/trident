@@ -1,0 +1,285 @@
+{
+  "sourceRevision": "fdcce0207ae89e7e98654caf2843496587814778",
+  "scope": "Five full-profile rounds; 1081 features plus six fixed-core inputs. New machine cohort; do not pool timings with the parent snapshot.",
+  "checks": {
+    "expectedProjects": true,
+    "owningEvidenceRetained": true,
+    "fiveRounds": true,
+    "compatibleBrowserCohort": true,
+    "publishedOutcomesUnchanged": true,
+    "oracleCaveatsPreserved": true
+  },
+  "projects": [
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "record": "1cee81a1-6b1b-4037-a108-cf5272c64985",
+      "status": "failed",
+      "startedAt": "2026-10-27T02:08:28.779Z",
+      "finishedAt": "2026-10-27T02:10:08.729Z",
+      "host": "f0f2c4ddc890",
+      "observationCount": 3451,
+      "lanes": [
+        {
+          "surface": "node:public-api",
+          "format": "svg",
+          "version": "0.4.0",
+          "supportedFamilies": 25,
+          "passed": 837,
+          "failed": 108,
+          "authoredLabels": {
+            "passed": 807,
+            "failed": 108,
+            "blocked": 0,
+            "unavailable": 0,
+            "excludedRejected": 9,
+            "excludedUnlabeled": 21,
+            "unmapped": 0
+          },
+          "firstCallCoreMs": 69.1624359999997
+        },
+        {
+          "surface": "node:public-api",
+          "format": "parse",
+          "version": "0.4.0",
+          "supportedFamilies": 25,
+          "passed": 825,
+          "failed": 150,
+          "firstCallCoreMs": 39.675713000000115
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "version": "0.4.0",
+          "supportedFamilies": 25,
+          "passed": 837,
+          "failed": 108,
+          "authoredLabels": {
+            "passed": 807,
+            "failed": 108,
+            "blocked": 0,
+            "unavailable": 0,
+            "excludedRejected": 9,
+            "excludedUnlabeled": 21,
+            "unmapped": 0
+          },
+          "firstCallCoreMs": 95.79999999701977
+        }
+      ]
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "record": "af4021d5-eb0e-446e-ae8d-edfcdbf6c6c6",
+      "status": "failed",
+      "startedAt": "2026-10-27T02:10:08.954Z",
+      "finishedAt": "2026-10-27T02:11:58.342Z",
+      "host": "f0f2c4ddc890",
+      "observationCount": 3433,
+      "lanes": [
+        {
+          "surface": "node:public-api",
+          "format": "svg",
+          "version": "5.10.2",
+          "supportedFamilies": 9,
+          "passed": 485,
+          "failed": 125,
+          "authoredLabels": {
+            "passed": 481,
+            "failed": 111,
+            "blocked": 0,
+            "unavailable": 323,
+            "excludedRejected": 9,
+            "excludedUnlabeled": 21,
+            "unmapped": 0
+          },
+          "firstCallCoreMs": 517.7204409999999
+        },
+        {
+          "surface": "node:public-api",
+          "format": "terminal",
+          "version": "5.10.2",
+          "supportedFamilies": 9,
+          "passed": 459,
+          "failed": 151,
+          "authoredLabels": {
+            "passed": 457,
+            "failed": 135,
+            "blocked": 0,
+            "unavailable": 323,
+            "excludedRejected": 9,
+            "excludedUnlabeled": 21,
+            "unmapped": 0
+          },
+          "firstCallCoreMs": 73.48981599999999
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "version": "5.10.2",
+          "supportedFamilies": 9,
+          "passed": 485,
+          "failed": 125,
+          "authoredLabels": {
+            "passed": 481,
+            "failed": 111,
+            "blocked": 0,
+            "unavailable": 323,
+            "excludedRejected": 9,
+            "excludedUnlabeled": 21,
+            "unmapped": 0
+          },
+          "firstCallCoreMs": 451.6000000089407
+        }
+      ]
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "record": "a4214c62-c696-42ba-8bb4-b00fe8f5cf0e",
+      "status": "failed",
+      "startedAt": "2026-10-27T02:11:59.024Z",
+      "finishedAt": "2026-10-27T02:14:13.994Z",
+      "host": "f0f2c4ddc890",
+      "observationCount": 3433,
+      "lanes": [
+        {
+          "surface": "node:public-api",
+          "format": "svg",
+          "version": "1.1.3",
+          "supportedFamilies": 6,
+          "passed": 243,
+          "failed": 322,
+          "authoredLabels": {
+            "passed": 239,
+            "failed": 315,
+            "blocked": 0,
+            "unavailable": 361,
+            "excludedRejected": 9,
+            "excludedUnlabeled": 21,
+            "unmapped": 0
+          },
+          "firstCallCoreMs": 584.1055829999998
+        },
+        {
+          "surface": "node:public-api",
+          "format": "terminal",
+          "version": "1.1.3",
+          "supportedFamilies": 6,
+          "passed": 213,
+          "failed": 352,
+          "authoredLabels": {
+            "passed": 211,
+            "failed": 343,
+            "blocked": 0,
+            "unavailable": 361,
+            "excludedRejected": 9,
+            "excludedUnlabeled": 21,
+            "unmapped": 0
+          },
+          "firstCallCoreMs": 307.48274500000014
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "version": "1.1.3",
+          "supportedFamilies": 6,
+          "passed": 243,
+          "failed": 322,
+          "authoredLabels": {
+            "passed": 239,
+            "failed": 315,
+            "blocked": 0,
+            "unavailable": 361,
+            "excludedRejected": 9,
+            "excludedUnlabeled": 21,
+            "unmapped": 0
+          },
+          "firstCallCoreMs": 548.6000000089407
+        }
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "record": "9476d483-cfd6-4cfb-b911-7f75a85516d0",
+      "status": "failed",
+      "startedAt": "2026-10-27T02:14:14.346Z",
+      "finishedAt": "2026-10-27T02:15:14.296Z",
+      "host": "f0f2c4ddc890",
+      "observationCount": 2304,
+      "lanes": [
+        {
+          "surface": "node:public-api",
+          "format": "svg",
+          "version": "1.9.0",
+          "supportedFamilies": 24,
+          "passed": 906,
+          "failed": 38,
+          "authoredLabels": {
+            "passed": 887,
+            "failed": 27,
+            "blocked": 0,
+            "unavailable": 1,
+            "excludedRejected": 9,
+            "excludedUnlabeled": 21,
+            "unmapped": 0
+          },
+          "firstCallCoreMs": 62.00020999999998
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "version": "1.9.0",
+          "supportedFamilies": 24,
+          "passed": 906,
+          "failed": 38,
+          "authoredLabels": {
+            "passed": 887,
+            "failed": 27,
+            "blocked": 0,
+            "unavailable": 1,
+            "excludedRejected": 9,
+            "excludedUnlabeled": 21,
+            "unmapped": 0
+          },
+          "firstCallCoreMs": 107.60000001639128
+        }
+      ]
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "record": "3d7b5810-a6e3-444b-9738-10579ac70be3",
+      "status": "failed",
+      "startedAt": "2026-10-27T02:15:14.662Z",
+      "finishedAt": "2026-10-27T02:20:51.802Z",
+      "host": "f0f2c4ddc890",
+      "observationCount": 2345,
+      "lanes": [
+        {
+          "surface": "node:public-parse-validation",
+          "format": "parse",
+          "version": "12.2.0",
+          "supportedFamilies": 24,
+          "passed": 965,
+          "failed": 9,
+          "firstCallCoreMs": 1786.0767010000015
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "version": "12.2.0",
+          "supportedFamilies": 25,
+          "passed": 887,
+          "failed": 58,
+          "authoredLabels": {
+            "passed": 868,
+            "failed": 47,
+            "blocked": 0,
+            "unavailable": 0,
+            "excludedRejected": 9,
+            "excludedUnlabeled": 21,
+            "unmapped": 0
+          },
+          "firstCallCoreMs": 4734.000000014901
+        }
+      ]
+    }
+  ]
+}

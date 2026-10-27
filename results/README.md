@@ -1,5 +1,7 @@
 # Mermaid derivatives league table
 
+The [Beautiful/Zombie/Frankenmermaid additions](review-20261027/additions/README.md) use a separate matched host cohort with their own fresh controls.
+
 For the current 25-family comparison, charts, exact PR snapshots and limitations, see the [2026-10-27 review snapshot](review-20261027/README.md). The tables below retain the earlier measurements without mixing protocols.
 
 This historical snapshot predates the current 25-family mark and corrected label checks. Its original observations are retained; newer rows do not prove complete Event Modeling or ZenUML functionality. Re-run affected projects before making current coverage or performance claims.

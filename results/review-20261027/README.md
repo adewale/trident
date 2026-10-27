@@ -1,5 +1,7 @@
 # Community and open-PR benchmark snapshot
 
+[Beautiful Mermaid, Zombie Mermaid and Frankenmermaid additions](additions/README.md) are now available in a separate five-project host cohort with fresh Mermaid/Pele controls. Their timings are not pooled with the original campaign below.
+
 Measured 2026-10-27T00:02:06.678Z through 2026-10-27T00:59:02.379Z. Five rounds, 1,087 fixed inputs across 33 families; 25 in the current mark and eight supplementary. Pinned Mermaid **12.2.0** is the reference; Pele is uniformly **1.9.0**. This snapshot covers five community projects, current Agentic and the five open Agentic PR heads captured in `runs.json`. It is the community suite, not a rerun of all 62 source suites or the full 88-project catalog.
 
 These are matched protocols on one Linux machine. The other community records retain their earlier protocols and dates; they are not silently mixed into these ranks. Candidate builds stay outside the release league. Every raw record has retained failures; collection completed successfully, but these runs do not pass a complete-fidelity gate.
