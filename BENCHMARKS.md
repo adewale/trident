@@ -1,157 +1,158 @@
-# Benchmark guides
+# Benchmarks: what they measure and whether they are useful
 
-[All scorecards](results/SCORECARDS.md) · [Inventory](INVENTORY.md) · [Measurement rules](MEASUREMENT.md)
+A benchmark is useful when it answers a decision you actually face. Trident keeps capability, correctness, latency, resources and delivery separate. There is no overall score and no current published result set: the old snapshots have been removed.
 
-This index covers the 63 entries resolved on 27 October 2026 plus the conditional `distribution-dist-fuzz` entry: 64 entries in total. `modern-summary` is a report reader, not another benchmark. Enrollment depends on the selected source checkout; `--list` is authoritative for a new run. Documentation coverage does not imply measurement coverage or a passing result.
+**Start here:** use community admission to find unsupported or broken inputs; use authored meaning/paint checks to investigate fidelity; use first-result/scaling experiments for performance decisions. The six-input community speed core is a narrow repeat workload, not evidence of general rendering speed.
 
-## Run and retain evidence
+## Where workloads run
 
-Community collection runs directly in Trident; source diagnostics require the explicit Agentic Mermaid adapter. Install Trident dependencies with `bun install`; install the pinned oracle/addon with `node commands.ts mermaid:install`. Follow [source setup](README.md#optional-agentic-source-adapter) to install/build the selected Agentic Mermaid checkout. For source suites, set `TRIDENT_AGENTIC_ROOT` once in the shell:
+| Boundary | Commands | Requirement |
+|---|---|---|
+| Public artifact benchmarks | `community:update`, compiled `run` | Catalog/installed project artifact, pinned oracle and required runtime/browser |
+| Existing source experiments | `adapter agentic run --suites ID` or `adapter agentic source SCRIPT` | Explicit source checkout; some runners also have fixed comparator sets |
+| Reports and preparation | `results:publish`, `results:compare`, `export`, `fidelity:report`, corpus import | Existing evidence or input preparation; these do not create another benchmark score |
+
+Use [public setup](README.md#benchmark-a-project) or [source-adapter setup](adapters/agentic/README.md). For any source ID below, the common command is:
 
 ```sh
-export TRIDENT_AGENTIC_ROOT=/checkouts/agentic-mermaid
-bun commands.ts agentic --list --profile full
-bun commands.ts agentic --profile full --suites ID --out /evidence/ID --rounds 5
+TRIDENT_AGENTIC_ROOT=/checkouts/agentic-mermaid bun commands.ts adapter agentic run \
+  --profile full --suites ID --rounds 5 --out /evidence/ID
 ```
 
-Replace `ID` with the exact entry below and supply its additional inputs. `--list` resolves prerequisites without collecting measurements. A selected test or source diagnostic uses its declared driver; `--target` alone does not redirect static imports. Keep the campaign `report.json` pointer **and** `report.json.gz`, each suite directory and its `run.log`, owning artifacts and any retained record store. The Markdown alone cannot validate original samples or drawings. Internal suites can embed observations in the campaign document; script suites retain their own files/logs.
+Add the actual prerequisites for that workload. `--list --profile full` resolves the current inventory without running measurements. Product test groups remain product checks; a large count of test groups does not mean a large collection of independent benchmarks.
 
-Every row below links its owning implementation and the applicable setup/interpretation guide. The scope states what is scored. Read the owning result for actual case counts, unavailable criteria, samples and qualification. Process wall time includes preparation and is never substituted for renderer latency. Missing scores stay unavailable.
+## Community output admission
 
-## Meaning and reference
+**Question:** which of my Mermaid inputs can this tool return in the requested format, retaining expected labels? **Value: high for compatibility triage; limited for fidelity.**
 
-Use [fidelity methods and commands](fidelity/README.md), the [original-test scope](OVERVIEW.md#fidelity-and-original-tests) and [unified runner reference](unified/README.md). Supply `--mermaid-dir /checkouts/mermaid --reference-dir /evidence/mermaid-reference` when these are outside the default sibling locations. `community-fidelity` additionally requires `--community-browser-prepared FILE`, the real frozen browser manifest; it does not acquire missing tools. Its owning identity and artifact versions must match the prepared tools.
+Run `bun commands.ts community:update --projects OWNER/TOOL --profile full --rounds 5 --records /evidence/records --out /evidence/run`. SVG, terminal, PNG and parser lanes stay separate. Inspect the per-case record, family grid and failure pages produced by `results:publish`.
 
-Scores count declared criteria or original callbacks, as named, with failed/unavailable/skipped outcomes. A callback is not an individual assertion; label acceptance is not paint or native-model correctness. The original core Vitest runner is separate from public-model projections and historical imported tests. Retained records preserve the original source and package pin.
+The score is passed/failed/blocked/unsupported input evidence, with family coverage and the actual denominator. XML and label existence do not establish identities, relationships, visibility or good layout. PNG checks only its binary envelope. A parser-only fixture must not be called a render defect. Different supported subsets cannot be read as equivalent fidelity percentages.
 
-## Public APIs and resources
+## Community API and CLI costs
 
-Community: `bun commands.ts community:update --projects OWNER/TOOL --profile full --rounds 5 --records /evidence/records --out /evidence/community`, followed by `bun commands.ts results:publish --records /evidence/records --out /evidence/results`. See [community methods](METHODOLOGY.md), [entry startup](visualizations/README.md) and [pinned browser/Node baseline](visualizations/MERMAID-BASELINE.md). `community-cli` requires the completed sibling community preparation. Browser runs accept `--executable /path/to/chromium`; canonical product browser tests use their own managed engines.
+**Question:** what does a named public call or CLI process cost on the same inputs? **Value: useful as a narrow diagnostic; weak as a general performance ranking.**
 
-`entry-startup` uses `--rounds 5 --startup-samples 5` for 25 fresh samples per interface. Invocation needs a built installed package; independent Node 22 requires `NODE22_EXECUTABLE`. Hosted transports and native executables require their actual services/artifacts. Resource probes are separate from latency; document V8 heap is not whole-browser/native/GPU memory.
+The community update also measures a fixed six-input API core, browser loading/delivery/heap scopes and admitted CLI processes. `community-cli` is the source controller ID for its separate CLI supplement. An npm CLI must be declared in the catalog; no project gets an automatic local binary. Resources are collected separately from latency.
 
-Portable: `node commands.ts run --project obsidianmd/pele --artifact-root /artifacts/pele --records /evidence/records --out /evidence/portable --rounds 5 --samples 31 --cold-samples 20 --allow-partial`. See [portable setup](README.md#run-the-portable-kit-without-an-agentic-checkout). Partial or uncalibrated reports do not pass a release performance gate. Dave uses the separate [Davebench guide](docs/davebench.md), with the full docs occurrence denominator.
+Read first-call versus repeated-source costs by surface. Only a complete qualified core can receive a portfolio time. Those six inputs are development-exposed and too narrow to represent all families or production. A cached identical source answers a real cache workload; it is not evidence of uncached layout speed. The report's admission ordering is not an overall winner. See [methodology](METHODOLOGY.md).
 
-## Performance diagnostics
+## Portable family and scaling
 
-Use the common single-ID command above and [runner argument reference](unified/README.md). Built source/package artifacts are required. Release and `peers:qualify` comparisons need exact candidate/baseline tarballs and their verified SHA-256 digests, or the explicitly supported baseline lock/directory. `renderer-profile` additionally needs the verified `--bezel-dir`; it is not an optional empty placeholder. `palette-performance` requires a clean committed source checkout.
+**Question:** does performance remain acceptable across families, increasing sizes and interacting features while preserving declared correctness? **Value: high for controlled regression work; still not a production forecast.**
 
-`micro`, `samples`, `pipeline`, `render-stages`, experiments and profiling retain their own workload/sample protocols and outputs. Inspect the per-input distributions and owning gates rather than comparing whole process wall times. Paired controls, qualification, cold/warm/cache-hit work and separately instrumented resource passes remain distinct. `performance-profile` is a correctness qualifier, not a speed score.
+Build the kit with `node commands.ts build --out /artifacts/trident-kit`; run `node /artifacts/trident-kit/run.mjs --project OWNER/TOOL --artifact-root /artifacts/package --adapter ADAPTER --out /evidence/portable --records /evidence/records --rounds 5 --samples 31 --cold-samples 20 --allow-partial`. See `run --help` for supported artifact bindings. It needs the real artifact and independent oracle, not product source. Browser/observer capabilities depend on the adapter and platform.
 
-## Editor applications
+The authored cohorts include family representatives, scaling, interacting features and invalid inputs. Reports separate correctness, warm sample means, fresh processes, resources and calibration. Inspect `report.md`, its full JSON/records and owning samples. A partial run or failed A/A control is not performance-qualified. A p95 of batch means is not a single-call tail. More input shapes and independently chosen real workloads are needed before generalizing.
 
-Build the selected site before collecting; pass `--site /artifacts/site` and, where supported, `--executable /path/to/chromium`. Preview, session and delivery retain distinct DOM/request/interaction clocks. Ownership additionally needs `--ownership-site /artifacts/frozen-pair` containing reviewed real `original.html` and `candidate.html` plus assets; copying one page twice is not a comparison. See [editor measurement rules](MEASUREMENT.md) and [runner inputs](unified/README.md).
+## Davebench: official documentation
 
-Modern Mermaid requires `--modern-editor-root /checkouts/modern-mermaid` and an output directory outside the source repository. Its application, themes, exports and dependency-engine probes are separate. Summarize completed evidence with `bun commands.ts source bench:modern-summary /evidence/modern/modern-editor`; the reader validates completion and writes `summary.json` and prints JSON without new clocks. Do not treat a reader exit as a second measurement.
+**Question:** how often does the tool return SVG for Mermaid's official docs, and how much render-call time does it use on shared successful examples? **Value: high as an external compatibility workload; moderate as a performance workload.**
 
-## Correctness and output quality
+Use source ID `dave` or `adapter agentic source bench:dave`. Exact archives can be supplied through the controller's candidate tarball/digest options. The current runner is still a fixed-engine comparison around an Agentic candidate, Pele and pinned Mermaid, with optional verified peers. It does **not** yet benchmark an arbitrary catalog project. This restriction is a migration gap, not special admission or a current score.
 
-Use the common single-ID command and [inventory scopes](INVENTORY.md#functionality-and-correctness-suites). Build the source/package/site required by the owning tests. Canonical browser contracts need all managed Playwright engines; the benchmark Chromium override does not replace them. Native distribution checks need the compiled executable; the independent Node 22 consumer needs `NODE22_EXECUTABLE`. Some test owners are only enrolled when their files exist in the driver checkout.
+Every official fence occurrence remains in the acceptance denominator, including repeats and failures. Time only the same shared-success occurrences within each candidate/comparator pair; that subset cannot erase missing docs examples. SVG return is weaker than faithful rendering, and docs are public development inputs. See [Dave methods, prerequisites and outputs](docs/davebench.md).
 
-`endpoint-marker` requires `--baseline /checkouts/base --package-root /checkouts/head`, both immutable committed built checkouts; it writes geometry `metrics.json`. `output-identity` instead uses `--baseline-ref GIT_REF`; byte equality is not proof of fidelity. Geometry, styles, routing, visual heuristics and snapshot quality have their own rules and are not a weighted perceptual ranking. Owning-test pass/fail/skip counts certify only executed tests.
+## Authored meaning and painted fidelity
 
-## Preparation and agent campaigns
+**Question:** did identities, endpoints, values and operations survive, and does the actual output draw the required things? **Value: high; stronger evidence of correctness than format/label admission.**
 
-`family-portfolio` builds corpus/provenance evidence; it does not time a renderer. Agent replay executes stored/scripted tasks. Live/subagent evaluations require the named provider/model, configured credentials and actual task/transcript evidence; blocked work earns neither success nor a zero token/dollar score. MCP conformance tests wire behavior. `prs` is an explicit campaign: freeze heads/artifacts and supply its real baseline/controls; it is excluded from automatic nesting. See [campaign reference](unified/README.md) and [additional external evaluations](INVENTORY.md#direct-entry-points-report-tools-and-external-evaluations). Callable judges, corpus research and report reducers listed there are not additional completed benchmark runs.
+Source IDs `mermaid-fidelity` and `community-fidelity` execute an independently declared criterion universe. The latter uses an actual frozen browser preparation manifest (`--community-browser-prepared FILE`); it does not acquire missing tools. Core model adapters remain fixed to reviewed engines. See [the fidelity guide](fidelity/README.md).
 
-## Entry reference
+Scores separate public operations, native meaning, paint, unavailable projections and baseline-qualified criteria. Failed renders cannot shrink a peer's denominator. A reference-qualified percentage must retain the reference's own failures. Paint ownership is useful structural evidence, not complete typography, aesthetics, accessibility or perceptual judgment. Keep the actual SVG/PNG witnesses.
 
-The common command uses each exact ID below. Additional prerequisites are described in the linked guide and resolved by `--list`. Trident owns paths inside this repository; product tests and source corpora remain in the explicitly selected Agentic Mermaid checkout.
+## Original upstream tests
 
-### Meaning and reference entries
+**Question:** does the implementation satisfy specific unchanged Mermaid expectations? **Value: medium for cross-project compatibility; high for validating the reference setup.**
 
-| ID | What is scored or retained | Owner | Guide |
-|---|---|---|---|
-| `mermaid-fidelity` | 91 authored cases/edits, native public-model meaning, actual workflows and owned visible/quantitative SVG criteria. Per-project records, isolated observer and raw/reference-qualified ledgers; no performance clocks. | [run.ts](fidelity/run.ts) | [Run and interpret](#meaning-and-reference) |
-| `community-fidelity` | Same authored universe on frozen prepared public SVG artifacts; all catalog boundaries, independent alias attribution, lossless SVG/PNG evidence, explicit missing native projections. | [community.ts](fidelity/community.ts) | [Run and interpret](#meaning-and-reference) |
-| `upstream-fidelity` | Expanded original callbacks through actual peer public parser/models; private and helper-only assertions remain unavailable. Distinct from genuine Mermaid's own runner. | [upstream-fidelity.ts](unified/upstream-fidelity.ts) | [Run and interpret](#meaning-and-reference) |
-| `upstream-original` | Genuine pinned Mermaid source core Vitest/Vite execution, unchanged expectations, read-only snapshots, declaration/callback accounting and actual dependency admission. | [upstream-fidelity-original.ts](unified/upstream-fidelity-original.ts) | [Run and interpret](#meaning-and-reference) |
-| `stable-support` | Runtime required-family SVG/label admission, policy maturity review and separate supplements; per-project retained results. | [stable-support-run.ts](unified/stable-support-run.ts) | [Run and interpret](#meaning-and-reference) |
-| `upstream-test-assertions` | Original current-pinned Mindmap/GitGraph assertions, full monorepo declaration census, separate unscored literal replay; per-project retained results. | [upstream-test-score.ts](unified/upstream-test-score.ts) | [Run and interpret](#meaning-and-reference) |
-| `pinned-reference-score` | Same positive fixtures and criteria against pinned public Mermaid, plus separate portable parser timing. Reviewed diagnostics are unscored. | [reference-score.ts](unified/reference-score.ts) | [Run and interpret](#meaning-and-reference) |
-| `pinned-semantic-tests` | Current-reference semantic and label assertions. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/eval/mermaid-modern-compat/semantic.test.ts) | [Run and interpret](#meaning-and-reference) |
-| `pinned-operation-tests` | Current-reference ordered native writes. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/eval/mermaid-modern-compat/native-operations.test.ts) | [Run and interpret](#meaning-and-reference) |
-| `pinned-grammar-tests` | Current-reference grammar regressions. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/eval/mermaid-modern-compat/grammar-regressions.test.ts) | [Run and interpret](#meaning-and-reference) |
-| `pinned-semantic-corpus` | Independent reference corpus, authored labels and deterministic fuzz. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/eval/mermaid-modern-compat/run.ts) | [Run and interpret](#meaning-and-reference) |
-| `pinned-grammar-corpus` | Independent current-reference grammar/native observations and deterministic fuzz. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/eval/mermaid-modern-compat/grammar-run.ts) | [Run and interpret](#meaning-and-reference) |
-| `upstream-imported` | Historical Mermaid parser/DB cases and family companions, retaining their individual pins. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/src/__tests__/agent-mermaidseqbench.test.ts) | [Run and interpret](#meaning-and-reference) |
+`upstream-original` executes genuine pinned Mermaid core Vitest with its real dependencies and read-only snapshots. `upstream-fidelity` projects original callbacks through reviewed peer public models. `upstream-test-assertions` is the narrower original Mindmap/GitGraph callback lane. They require the pinned source and appropriate adapters; they are not interchangeable.
 
-### Public APIs and resources entries
+Report discovered declarations, expanded callbacks, passes, failures, pending/todo and unavailable tests separately. Private database representation and diagnostic wording can fail even when drawings are correct. These are compatibility findings, not automatically missing features. Callback workflow time includes setup and assertions; it is not renderer latency. See [original-test methods](fidelity/README.md).
 
-| ID | What is scored or retained | Owner | Guide |
-|---|---|---|---|
-| `invocation` | Installed library entries across runtimes; browser, worker and editor paths; Node/native CLI; MCP transports. Output/functionality qualification accompanies invocation clocks. | [invocation.ts](unified/invocation.ts) | [Run and interpret](#public-apis-and-resources) |
-| `entry-startup` | Manifest-derived public entries and real operations; fresh first-result latency plus separate paired memory/CPU diagnostics; per-project retained results. | [entry-startup.ts](unified/entry-startup.ts) | [Run and interpret](#public-apis-and-resources) |
-| `mermaid-baseline-browser` | Pinned Mermaid browser SVG reference, five renderer rounds with A/A controls, 25 fresh startups and five separate document-heap passes; same authored cases across tools. | [baseline-browser.ts](unified/baseline-browser.ts) | [Run and interpret](#public-apis-and-resources) |
-| `mermaid-baseline-compatibility` | Public parser admission, explicit required DOM host for Mermaid, 25 first-result processes and five child resource passes; existing original-assertion records retained. | [mermaid-baseline-compatibility.ts](unified/mermaid-baseline-compatibility.ts) | [Run and interpret](#public-apis-and-resources) |
-| `community` | Catalog-driven API/browser comparisons, fixed core timing, broader feature qualification, shipped payloads and scoped memory diagnostics. | [community.ts](unified/community.ts) | [Run and interpret](#public-apis-and-resources) |
-| `community-cli` | Matched fresh CLI latency; a separate GNU time pass measures child CPU and peak RSS. Requires prepared community artifacts. | [community-cli.ts](unified/community-cli.ts) | [Run and interpret](#public-apis-and-resources) |
-| `portable-community` | Explicit project-artifact campaign with authored family/scaling/adversarial cases, scoped semantic/paint checks, repeated controls, fresh-process first-use samples and separate resource probes. Requires `--portable-project` and `--portable-artifact-root`; excluded from automatic nesting. | [run.ts](portable/run.ts) | [Run and interpret](#public-apis-and-resources) |
-| `dave` | Original Dave-style browser comparison on pinned Mermaid source cases. Exact candidate-archive mode uses the release-browser runner. Acceptance and shared-success timing are separate. | [dave-bench.ts](dave-bench.ts) | [Run and interpret](docs/davebench.md) |
+## Selected pinned-reference inputs
 
-### Performance diagnostics entries
+**Question:** what does a fixed selected historical corpus preserve through parsing? **Value: low as independent conformance evidence; useful for legacy regression diagnosis.**
 
-| ID | What is scored or retained | Owner | Guide |
-|---|---|---|---|
-| `samples` | Small local source-render timing sample; useful for smoke diagnosis, not broad competitive ranking. | [sample-bench.ts](sample-bench.ts) | [Run and interpret](#performance-diagnostics) |
-| `micro` | Fixed small-to-large graph API microbenchmarks. | [micro-bench.ts](micro-bench.ts) | [Run and interpret](#performance-diagnostics) |
-| `experiments` | Paired experimental configuration matrix, including optional broad/PNG workloads. | [experiment-matrix.ts](experiment-matrix.ts) | [Run and interpret](#performance-diagnostics) |
-| `pipeline` | Instrumented stages and attribution; its clocks are not the uninstrumented community API metric. | [pipeline-audit.ts](pipeline-audit.ts) | [Run and interpret](#performance-diagnostics) |
-| `peers` | Legacy warmed peer comparison or explicit first-use/new-source/repeat/label-edit tracks with consumed SVG and receipt boundaries. | [peer-bench.ts](peer-bench.ts) | [Run and interpret](#performance-diagnostics) |
-| `peers:qualify` | Two A/A controls followed by candidate comparison, semantic completeness, per-case latency/allocation/scaling gates and calibration. Uses the selected target's protocol. | [qualify-peer-performance.ts](qualify-peer-performance.ts) | [Run and interpret](#performance-diagnostics) |
-| `release` | Candidate versus admitted release baseline: correctness, timing, memory and distribution budgets. Dependency policy is part of the comparison. | [release-bench.ts](release-bench.ts) | [Run and interpret](#performance-diagnostics) |
-| `release:browser` | Exact archived browser candidates/baselines, pinned corpus acceptance and time, delivery and scoped browser diagnostics. | [release-browser-bench.ts](release-browser-bench.ts) | [Run and interpret](#performance-diagnostics) |
-| `render-stages` | Official-corpus SVG receipt stage costs. | [render-stage-bench.ts](render-stage-bench.ts) | [Run and interpret](#performance-diagnostics) |
-| `renderer-profile` | Packaged/browser attribution and CPU profiles; requires the verified Bezel wrapper. | [renderer-profile.ts](renderer-profile.ts) | [Run and interpret](#performance-diagnostics) |
-| `palette-performance` | Warm palette-generation timing by built-in theme/category count. Requires a clean committed checkout and retains its own recorded work scope. | [palette-performance.ts](palette-performance.ts) | [Run and interpret](#performance-diagnostics) |
-| `performance-profile` | Correctness qualification of the experimental performance profile. | [qualify-performance-profile.ts](qualify-performance-profile.ts) | [Run and interpret](#performance-diagnostics) |
+Source ID `pinned-reference-score` scores selected portable criteria and measures parser calls separately. The input harvest includes Agentic-derived fields and selection effects. Keep its eligible, diagnostic and reference-failing cases distinct. Do not present it as “all Mermaid tests” or favor its score over stronger authored/original evidence.
 
-### Editor applications entries
+The `pinned-semantic-*`, `pinned-operation-tests`, `pinned-grammar-*` and `upstream-imported` suites are additional owning correctness checks/corpora. They help find specific regressions; their test totals and process wall times are not competitive benchmark scores.
 
-| ID | What is scored or retained | Owner | Guide |
-|---|---|---|---|
-| `editor-preview` | Actual editor preview lifecycle and request/DOM boundaries. | [editor-preview-bench.ts](editor-preview-bench.ts) | [Run and interpret](#editor-applications) |
-| `editor-session` | Cold editor sessions and subsequent interactions. | [editor-session-bench.ts](editor-session-bench.ts) | [Run and interpret](#editor-applications) |
-| `editor-ownership` | Frozen original/candidate ownership pages; requires both real variants and their assets. | [editor-ownership-bench.ts](editor-ownership-bench.ts) | [Run and interpret](#editor-applications) |
-| `editor-delivery` | Per-interaction requested graph, worker work, compressed delivered bytes and official-corpus editor behavior. Requires the selected built site. | [editor-delivery-bench.ts](editor-delivery-bench.ts) | [Run and interpret](#editor-applications) |
-| `modern-editor` | Explicit external application/dependency-engine comparison with its own frozen resume identity; requires its separately supplied checkout. | [run.mjs](modern-editor/run.mjs) | [Run and interpret](#editor-applications) |
-| `modern-summary` | Read existing completed Modern Mermaid application evidence; no renderer executions or new clocks. | [summarize.mjs](modern-editor/summarize.mjs) | [Run and interpret](#editor-applications) |
+## Required-family admission
 
-### Correctness and output quality entries
+**Question:** can each required family pass a real representative public-render/label probe? **Value: high as a capability gate; low as exhaustive feature coverage.**
 
-| ID | What is scored or retained | Owner | Guide |
-|---|---|---|---|
-| `family` | All-family source lifecycle, rendering, independently declared fixture assertions and direct operation witnesses. | [family-suite.ts](unified/family-suite.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `family-contracts` | Family capability and Scene/mutation contracts. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/src/__tests__/section-a-family-descriptor-conformance.test.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `family-functionality` | Scoped owning behavior selected by family IDs and filename conventions. This selection is not a direct operation-coverage map. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/src/__tests__/agent-analysis.test.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `endpoint-marker` | Endpoint marker geometry across two immutable built checkouts; geometric metrics, not a latency rank. | [endpoint-marker-compare.ts](endpoint-marker-compare.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `output-identity` | Cross-revision output byte identity across styles/formats; equality does not establish independent correctness. | [output-identity.ts](output-identity.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `browser-contracts` | Canonical managed-browser editor/security contracts. Driver-owned, including website setup. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/e2e/run-browser-contracts.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `distribution-cli` | CLI and offline fresh-checkout behavior. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/e2e/cli-smoke.e2e.test.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `distribution-native` | Compiled single-binary contracts. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/e2e/single-binary.e2e.test.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `distribution-dist-fuzz` | Plain-Node built artifact differential fuzzing. | [conditional selector](unified/suites.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `distribution-tarball` | Installed archive library, CLI, MCP and getting-started contracts. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/e2e/tarball-consumer-fuzz.e2e.test.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `distribution-tarball-node22` | Distinct runtime evidence; requires `NODE22_EXECUTABLE`. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/e2e/tarball-consumer-fuzz.e2e.test.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `browser-lazy-delivery` | Actual built module/request closures, compression and delivery budgets. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/scripts/build/browser-lazy-report.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `style-audit` | Public style behavior. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/src/__tests__/style-options.test.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `sketch-check` | Sketch behavior and own contrast criteria. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/scripts/sketch-prototype/styles.test.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `layout-compare` | Own-quality snapshot; comparison requires a separately admitted baseline. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/eval/layout-compare/run.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `route-enumeration` | Degenerate-route structure and certificate enumeration. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/eval/degenerate-etn/enumerate.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `visual-rubric` | Own layout/rendering invariants, independent of Mermaid pixel equality. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/eval/visual-rubric/run.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `heuristic-tracker` | Per-fixture own layout-quality diagnostics; no baseline reset implied. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/eval/heuristic-tracker/run.ts) | [Run and interpret](#correctness-and-output-quality) |
-| `ugly-audit` | Own aesthetic/layout diagnostics. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/eval/ugly-detector/audit.ts) | [Run and interpret](#correctness-and-output-quality) |
+Source ID `stable-support` uses actual built artifacts and the pinned family policy. Required families, unresolved maturity exclusions and supplements remain separate. Count actual probe outcomes, not registry declarations. One representative cannot certify every nested feature, option, edit or painted relationship.
 
-### Preparation and agent campaigns entries
+## Family functionality and operations
 
-| ID | What is scored or retained | Owner | Guide |
-|---|---|---|---|
-| `family-portfolio` | Builds registry-derived balanced inputs outside the checkout; preparation, not a speed result. | [portfolio.ts](unified/portfolio.ts) | [Run and interpret](#preparation-and-agent-campaigns) |
-| `agent-replay` | Stored/scripted safe mutation and agent usage paths. No new model calls. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/src/__tests__/agent-usage.test.ts) | [Run and interpret](#preparation-and-agent-campaigns) |
-| `agent-live` | Actual provider/model task behavior and observed token usage. Explicit model and credentials required. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/eval/agent-usage/live.ts) | [Run and interpret](#preparation-and-agent-campaigns) |
-| `agent-subagent` | External prompt dispatch and transcript evaluation. Templates alone are not a completed model evaluation. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/eval/agent-usage/capture-subagent-prompt-eval.ts) | [Run and interpret](#preparation-and-agent-campaigns) |
-| `mcp-conformance` | Official pinned MCP wire conformance, independent of diagram fidelity. | [product owner](https://github.com/adewale/agentic-mermaid/blob/9d341c568d8462e1ae8aaf22b7d3b66e39673c86/scripts/ci/mcp-conformance.ts) | [Run and interpret](#preparation-and-agent-campaigns) |
-| `prs` | Explicit frozen-head main/PR campaign, paired controls and optional functionality/invocation evidence. Excluded from automatic nesting to avoid repeating campaigns. | [pr-campaign.ts](unified/pr-campaign.ts) | [Run and interpret](#preparation-and-agent-campaigns) |
+**Question:** do parse, edit, serialize, layout and output operations satisfy their declared contracts? **Value: high for the project's own regressions; limited as a peer comparison.**
 
-The conditional `distribution-dist-fuzz` owner is absent in the audited product checkout, so it is documented here but not in that checkout’s 63-entry list. `modern-summary` is currently discovered from its source launcher shortcut; it is listed for transparency, with no independent score.
+Source ID `family` records executable lifecycle/operation witnesses. `family-contracts` and `family-functionality` run project-owned tests. Advertised operation kinds without a direct witness remain unmeasured. An owning-test pass is not automatically credited to every export, transport or operation. These source-coupled Agentic checks cannot be presented as neutral scores for other tools.
 
-Documentation provides scope and a run path for every entry. Raw historical samples and witness files are not all bundled; see the scorecards for evidence availability. New tools or changed source checkout shortcuts can change this list, so inspect `--list` before claiming a full run.
+## Invocation coverage
+
+**Question:** can a real caller obtain the expected result through the shipped interface? **Value: high for distribution reliability; not a language-fidelity or speed ranking.**
+
+Source ID `invocation` exercises installed library entries/runtimes, browser/worker/editor paths, CLI and MCP transports. Build the actual artifacts; an independent Node 22 run requires its real executable. Inspect per-attempt output consumption, failures and blocked interfaces. Complete attempted coverage does not mean every function, feature or option was tested. Current transport orchestration is project-specific.
+
+## Entry startup and resources
+
+**Question:** how long until a fresh caller can consume its first result, and what resources are used? **Value: high for CLI, cold library and interactive use.**
+
+Source ID `entry-startup`, with `--rounds 5 --startup-samples 5`, uses fresh processes and separate resource passes. `mermaid-baseline-browser` and `mermaid-baseline-compatibility` provide paired reference/browser and Node parser comparisons. Supply the built entries, browser and any actual native/hosted artifacts.
+
+Read import, readiness, API call, first consumed result, CPU, whole-child RSS, document heap and delivered bytes in their own units. Different return models or DOM hosts are different stacks. Twenty-five samples do not establish a robust extreme tail, and these memory domains cannot be added. See [startup methods](visualizations/README.md) and [baseline methods](visualizations/MERMAID-BASELINE.md).
+
+## Release and peer comparisons
+
+**Question:** did this exact candidate improve or regress relative to a real baseline under the same conditions? **Value: high only with equivalent work, correctness admission and calibrated controls.**
+
+Source IDs `release`, `release:browser`, `peers` and `peers:qualify` use their own maintained protocols. Supply exact candidate/baseline tarballs with digests, or the explicitly supported lock/directory. Current release/semantic peer runners are source-coupled and contain project-specific assumptions. For other projects, the public candidate/release comparison is available, but it is descriptive rather than that full paired qualification.
+
+Read correctness and coverage first, then per-case timing, memory/delivery and A/A calibration. Missing rounds or a noisy baseline do not become a pass. Changes in dependencies/configuration or public interfaces are compound comparisons, not isolated PR gains. A frozen-head PR campaign (`prs`) orchestrates these experiments; it is not a separate benchmark.
+
+## Microbenchmarks and experimental configurations
+
+**Question:** which small operation or source/configuration change deserves investigation? **Value: medium for local optimization; low for public product claims.**
+
+Source IDs `micro`, `samples` and `experiments` run fixed small/large API cases or paired experimental configurations. Inspect per-case distributions and correct consumed output. These workloads are easy to overfit by size, shape or cache behavior even without hard-coding input IDs. Verify a proposed improvement with other shapes and an actual workflow before publishing it.
+
+## Pipeline, render stages and renderer profiles
+
+**Question:** where does execution time go? **Value: medium to high for diagnosis; low as a comparison of user-visible latency.**
+
+Source IDs `pipeline`, `render-stages` and `renderer-profile` instrument stages or collect profiles. The profile runner additionally needs its verified external wrapper. Instrumentation, receipts, initialization and cleanup alter the measured boundary; stage times must not be relabelled or summed into a public API result. Use the profile to choose a change, then remeasure the real public operation. `performance-profile` is a correctness qualifier for an experimental configuration, not a speed benchmark.
+
+## Editor workflows
+
+**Question:** what does a user wait for and download when opening or editing a diagram? **Value: high when the completion boundary matches the user task.**
+
+Source IDs `editor-preview`, `editor-session`, `editor-delivery` and `editor-ownership` require an actual built site (`--site DIR`). Ownership also requires real reviewed `original.html` and `candidate.html` variants via `--ownership-site DIR`. These currently exercise Agentic's editor, not an arbitrary project UI.
+
+Inspect verified preview/DOM completion, request closures, export behavior and failures. An eight-edit burst completing its latest preview is not eight completed renders or a single-keystroke latency measurement. Localhost delivery is not deployed network performance. See [measurement boundaries](MEASUREMENT.md).
+
+## Modern Mermaid application comparison
+
+**Question:** how does a particular external application and its dependency engines behave on examples, themes, editing and exports? **Value: medium for that application; low as a general renderer league.**
+
+Source ID `modern-editor` needs the explicit external checkout (`--modern-editor-root DIR`) and output outside the source checkout. Freeze real variants/dependencies and retain its resume identity. Application setup, engine rendering, theme state and exports are separate results. `source bench:modern-summary DIR` only validates and summarizes completed evidence; it is not another benchmark or current score.
+
+## Palette generation
+
+**Question:** does a palette change create a local hotspot or deterministic-work regression? **Value: low as a public benchmark; useful while changing that subsystem.**
+
+Source ID `palette-performance` requires a clean committed source checkout and writes its own report. Compare equivalent themes/category counts; do not generalize warm palette timings to rendering or editor performance. See [palette diagnostic](PALETTE-PERFORMANCE.md).
+
+## Geometry and layout-quality diagnostics
+
+**Question:** did a change break routes, marker attachment, spacing, visibility or an internal visual rule? **Value: high for narrow regression checks; limited for human-perceived quality.**
+
+`endpoint-marker` compares two immutable built checkouts (`--baseline DIR --package-root DIR`) and writes geometry metrics. `layout-compare`, `route-enumeration`, `visual-rubric`, `heuristic-tracker` and `ugly-audit` test their own structural or heuristic criteria. `output-identity` instead checks bytes across `--baseline-ref`; unchanged bytes do not establish correctness.
+
+Inspect representative actual drawings, including interacting failures. A heuristic score is not an independent human preference or complete aesthetic judgment. Style/sketch tests and distribution/browser contracts are owning product checks; they protect behavior but do not add independent comparison votes.
+
+## Agent evaluations, preparation and reports
+
+Agent replay, live-model/subagent tasks and MCP conformance have value for their **own workflow correctness**, not general renderer performance. Replay is not a new provider run. Live quality/token/cost claims need actual named models, transcripts and observed usage; a blocked provider earns no score. Callable judges need independent real judgments.
+
+Corpus building (`family-portfolio`, corpus import), artifact acquisition, report reducers, chart generators and campaign controllers prepare or explain experiments. They are necessary infrastructure, not additional benchmark outcomes. The [source inventory](adapters/agentic/INVENTORY.md) lists their executable boundaries.

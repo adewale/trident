@@ -4,3 +4,7 @@ bench-report/
 __pycache__/
 *.py[cod]
 .cache/
+
+# Generated scores and evidence are not source files.
+results/*
+!results/README.md

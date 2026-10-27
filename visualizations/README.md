@@ -1,5 +1,7 @@
 # Entry startup visualizations
 
+These readers consume explicit source-adapter evidence; see [setup](../adapters/agentic/README.md). They collect no benchmark scores by themselves.
+
 `entry-startup.py` reads completed JSON and exports a local HTML gallery, CSV
 tables, a JSON summary, Markdown methods, and PNG/SVG/PDF figures. It uses no
 renderer APIs, benchmark execution, Git queries, or external web assets.

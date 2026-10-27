@@ -1,5 +1,0 @@
-                                                                                              Long release labels in top-to-bottom history
-
-                 main ──*─[Establish a stable production foundation]────────────────────────────────────────────────────────────X─[Document compatibility and rollback policy]──────#─[merged branch feature/observability into main]───
-                                                                            │                                                                                                       │
-feature/observability ──────────────────────────────────────────────────────*─[Add traces, logs, metrics, and structured events]────────────────────────────────────────────────────┘───────────────────────────────────────────────────

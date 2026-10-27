@@ -1,292 +1,43 @@
 # Methodology
 
-Trident compares Mermaid renderers, terminal renderers and parsers: tools that read
-Mermaid's diagram language. It is for two audiences: maintainers of those tools, who
-need failures they can act on, and people choosing one, who need to know what each
-tool draws correctly and how fast. The [league table](results/README.md) is built
-from the records described here.
+[Choose a benchmark](BENCHMARKS.md) · [Measurement rules](MEASUREMENT.md)
 
-## Disclosure
+Trident reports capability, correctness, time, memory and delivered bytes separately. It does not produce an overall “best renderer” score. A useful result names its workload, public interface, configuration, artifact, machine, date and failures.
 
-Trident was extracted from [Agentic Mermaid](https://github.com/adewale/agentic-mermaid)'s
-benchmark harness, and its author maintains Agentic Mermaid. To keep that from
-shaping the results:
+## Equal treatment
 
-- Agentic Mermaid is an ordinary row. It is measured from its published npm package,
-  through the same lanes, checks and corpus as every other tool.
-- Mermaid, not Agentic Mermaid, is the reference: it defines valid input.
-- Every record is published with its inputs, checks, versions and machine, and every
-  row can be reproduced with one command (below).
-- The workload corpus was written for Agentic Mermaid's own testing. It is frozen in
-  [`corpus/community-corpus.json`](corpus/community-corpus.json) with its source
-  commit, and it mostly consists of Mermaid's own documentation and test inputs.
+Projects come from `catalog/mermaid-community.json`. Each community row uses the actual catalog release, acquired and pinned before timing. Every project's unreleased npm package uses the same candidate tarball/directory options; source candidates use the project's reviewed build recipe. A source checkout or `--package-root` cannot silently substitute a local Agentic Mermaid build. An npm CLI requires an explicit catalog binding; local compiled executables are not automatically added for one project.
 
-## The pinned Mermaid oracle
+Project adapters translate different public APIs; they do not justify doing less work. Compare SVG-return calls with SVG-return calls, parser results with parser results, and whole CLI processes with whole CLI processes. Return shapes, host setup, native/WASM loading and optional plugins matter. The pinned Mermaid oracle has a distinct reference role, not a free pass on its own output checks.
 
-One installed Mermaid release is the oracle for everything: `mermaid` 12.2.0 with
-`@mermaid-js/parser` 2.0.1 and `jsdom` 26.1.0, pinned in
-[`tool-versions.json`](tool-versions.json). Every benchmark run and test run refuses
-to start without exactly that install (`node commands.ts mermaid:install`). The oracle:
+The optional Agentic source adapter exists for source-stage, product-contract and editor diagnostics. Those are project-specific experiments, not an advantage in the community league. Some other inherited comparison runners are also fixed-engine/source-coupled; the benchmark guide identifies them.
 
-- validates explicit accept/reject assertions before their measurement lanes; legacy
-  harvested community fixtures can disagree with the current pin and remain recorded
-  with an oracle warning instead of being silently treated as certified positive inputs;
-- supplies expected labels from its diagram databases where getters are available;
-  independently authored external-family labels retain their explicit provenance;
-- is Mermaid's row in the comparison, and Dave's Mermaid comparator.
+## Oracle and inputs
 
-Benchmarking another project uses the oracle without benchmarking Mermaid.
+The reference is Mermaid **12.2.0**, `@mermaid-js/parser` **2.0.1**, `jsdom` **26.1.0**, and the first-party ZenUML addon **1.0.1**, from `tool-versions.json`. Install with `node commands.ts mermaid:install`. The install is independent of any product checkout or product compatibility policy.
 
-## Inputs and checks
+The community corpus is frozen in `corpus/community-corpus.json`: six fixed timing inputs plus a wider feature portfolio, including examples from Mermaid's syntax pages. Its source commit and provenance remain visible. It came from Agentic Mermaid testing and is biased toward those inputs. The six timing cases cover too little to support a general speed claim. Public docs and tests are external inputs but, once used in development, are not holdouts.
 
-The corpus has 1087 workloads: 6 fixed-core inputs used for speed, 962 feature inputs
-for the original 23-family cohort, drawn from Mermaid's documentation, Mermaid's own test
-suites, the Agentic family registry and generated scaling cases, and 118 inputs for the
-newer families, which are every example on their Mermaid 12.2.0 syntax pages. A case passes when the tool returns
-output in the requested format that contains the case's authored labels as visible
-text, on a positive canvas, and is not an echo of the source. Label presence is
-existence evidence, not a full visual or semantic fidelity check.
+Some imported fixtures are parser-only, oracle-rejected, or lack usable authored-label expectations. These gaps remain in the record. Do not reinterpret a parser fixture's rendering failure as a faithful-rendering defect. Unsupported families remain coverage gaps instead of free successful renders.
 
-Two rules read a label the way a renderer draws it. Both apply to every tool:
+## What community admission checks
 
-- Markdown markers are optional. A markdown string such as ``"`The **cat** in the hat`"``
-  is drawn with bold or italic text, not asterisks, so `The cat in the hat` satisfies the
-  label, as does the literal `The cat in **the** hat`. Only the strong and emphasis
-  delimiters Mermaid renders (`**`, `__`, `*`, `_`, in pairs around non-space text, with
-  underscores never inside a word) are dropped; every word, and any other character such
-  as a code-span backtick, is still required. This applies to SVG and terminal output.
-- A wrapped label is read across its lines. Inside one `<text>`, line-positioned
-  `<tspan>`s are joined with a space, and inside one `foreignObject` a `<br>` is a space.
-  Mermaid also draws a wrapped sequence message or actor as separate `<text>` rows, so
-  adjacent sibling `<text>` elements are joined in document order when they have the
-  same effective x, transform, class, style, anchor and font attributes, each row is below the previous one,
-  and no more than two effective font sizes below it. Inline/presentation font sizes
-  inherit through ancestors and the first `tspan`; absent a declared size, the SVG
-  initial size of 16px is used. External stylesheet sizing remains unmeasured. Anything
-  between two rows (another element, or text) ends the label. Scalar `dx`/`dy` offsets
-  and the first `tspan`'s positioning are applied before grouping; unresolved position
-  lists, units, nested spans, or per-span transforms are not joined. Terminal output is not
-  joined across lines.
+SVG admission checks its namespace, XML syntax, positive finite canvas and expected text in admitted text containers. HTML-serialized void elements inside `foreignObject` may be closed for inspection; the XML portability exception remains recorded. Attributes, metadata, hidden definition containers and a visible source-code echo cannot substitute for drawn labels. This is text/format admission, not full visibility or correspondence proof.
 
-The whole label must still appear in one place: matching is by whole tokens, never a
-partial label, and the source-echo check reads each text element on its own.
+Literal labels keep their punctuation. Only a fixture or the pinned oracle's label type may declare Markdown. In those declared labels, supported emphasis delimiters may be displayed as formatting; in a pie label such as `__proto__`, the underscores are required. The qualifier never guesses the label type from punctuation. Node and browser inspectors use the same rule. Whitespace/wrapped-row matching preserves word boundaries and does not join unrelated drawing objects. A qualifier change invalidates record reuse; old scores must not be relabelled as current.
 
-SVG output must be well-formed XML in the SVG namespace, with one exception: HTML's
-void elements written unclosed (Mermaid serializes its `foreignObject` labels as HTML,
-so a line break is `<br>`). Those are closed before parsing, and the observation records
-that the output was not well-formed XML, which matters if you save it as a standalone
-`.svg` file. Nothing else is relaxed.
+Terminal admission checks actual text and source echoes with its own output boundary. PNG admission checks the signature, leading IHDR and nonempty dimensions; it does not verify painted text or diagram meaning. Parser admission/semantic checks have different return contracts. Authored native-model and painted-output fidelity are separate, stronger benchmarks with explicitly unavailable criteria.
 
-## Family support
+## Timing and resources
 
-Before a tool's corpus runs, each family is probed once, untimed, with one canonical
-source from the portable family cohort or the additional pinned-docs probes. If the tool rejects that source (an error, a
-nonzero exit or no output), the family is unsupported: its cases are recorded as
-unsupported, naming the probe, and are not run. If the tool returns output, the family
-counts as supported, and every later failure in it is a failure, even when the probe's
-own output fails a check. A case's error message never makes it unsupported.
+Preparation, acquisition, oracle expectations and qualification happen outside public API clocks. Consume the requested result before stopping its clock. Separate fresh use, imports/initialization, new-source calls and repeated-source/cache-hit work. Identical-input repetition is a cache workload, not proof of fast uncached layout. A timeout, crash, unsupported source or failed correctness check cannot become a cheap successful render.
 
-The current mark covers 25 families: the historical 23, Event Modeling and ZenUML.
-The pinned docs do not label Event Modeling beta or experimental; its recent addition
-is no reason to exclude it. The legacy 23-family column retains the original support
-count and pass rate for historical comparisons. Old records that did not probe the additional families do not receive support credit for them.
+The community fixed-core cost sums per-input medians on the complete six-input cohort. Conditional family admission rates use each tool's supported cases, so differing denominators are not a paired fidelity comparison. Reports retain blocked, unsupported and unavailable counts. Any ordinal display order is an admission ordering, not an overall quality or performance winner.
 
-Eight other recent additions (venn, treeview, wardley, cynefin, railroad, swimlane,
-agentflow and usecase) are measured from every example on their syntax pages at the
-`mermaid@12.2.0` Git tag and reported separately. The historical mark itself includes
-some diagrams whose syntax uses a `-beta` token; that token alone is not a maturity
-classification. The current mark is not a claim that all its families are stable.
+Portable comparisons use balanced family, scaling, interacting-feature and invalid-input cohorts, paired controls and explicit calibration. Five rounds alone do not establish a small improvement. Too few fresh observations cannot establish tail latency. Whole-child RSS/CPU, document V8 heap, retained output and delivered bytes have different scopes; native, worker, WASM and GPU memory may be missing. Zero observed CPU at coarse resolution is censored, not free work. Dollar cost requires actual usage or a declared rate.
 
-Event Modeling's `getState` getter needs SVG text dimensions and cannot execute in
-jsdom. The independently pinned Mermaid parser supplies its authored frame names and
-namespace labels instead. Inline data values, relationships and geometry are not
-checked by this label census. Mermaid's railroad renderer stores a title but never
-draws it, so a railroad title is not an expected label.
+## Publication
 
-ZenUML's diagram is not labelled experimental in the pinned docs: the warning concerns
-its loading API. The community corpus includes one independently authored representative
-with four explicit expected labels. Mermaid's browser baseline loads the first-party
-`@mermaid-js/mermaid-zenuml` 1.0.1 addon; its actual files and version are bound in the
-prepared browser identity, and observed delivery includes those files. `mermaid:install`
-installs the pin, or `MERMAID_ZENUML_BENCHMARK_ROOT` can select an existing package.
-The plugin's parser is a no-op and its DB exposes no authored model; admission does not
-prove syntax validation. Arbitrary plugin examples do not receive invented expectations.
-The separate fidelity suite retains native-model and painted-route gaps explicitly.
-This mark establishes bounded family/label admission, not complete Mermaid functionality.
+Keep raw samples, failed outputs, package/dependency identities, protocol, input provenance and original dates. Reuse exact matching records without inventing fresh dates. New artifact, workload, qualifier, runtime or sampling settings require new evidence. Cross-machine records are separate cohorts. A completed collection can contain failures or uncalibrated timings.
 
-## Statuses
-
-| Status | Meaning |
-|---|---|
-| passed | The tool's output met every declared check. |
-| failed | The tool supports the family but rejected the input or its output failed a check. |
-| unsupported | The tool rejected the family's canonical source, so the case was not run. A coverage gap, not a failure. |
-| blocked | Trident could not measure: a prerequisite was missing or a worker crashed. Never a pass. |
-| not-applicable | The case or output does not apply to this tool or surface. |
-
-## The league table
-
-There is one table per kind of output (SVG, terminal text, PNG, parser), because those
-are different products, and one row per tool and public surface. Rows are ordered by
-correctness first, lexicographically, with no weighted score:
-
-1. families supported, out of the 25 currently scored;
-2. pass rate on cases in those families;
-3. first-call fixed-core time, only when calibrated.
-
-Mermaid's row is the reference: it is measured with the same checks, shown first and
-not ranked. Speed ratios are against Mermaid on the same surface and output, where
-Mermaid has one.
-
-## Input caveats and the secondary label view
-
-`results:publish` reads the frozen literal input ledger in each record's own
-`context.json`, including its compressed reference when present. Older evidence
-can fall back to its local `community/community-inputs.json`. The portable
-record retains all input warnings in `inputEvidence.gaps` and merges them into
-published `gaps`; failure pages identify sources the pinned oracle rejected.
-These warnings are report metadata. Publication does not change a raw verdict,
-measurement, current mark, historical mark or rank.
-
-The **pinned-accepted authored-label admission** table is a separate SVG/terminal
-view of current-family cases with nonempty recorded labels and no pinned-oracle
-rejection. It excludes rejected and unlabeled inputs explicitly, reports blocked
-and unavailable outcomes, and shows unmapped observations. Its checked denominator
-is passed plus failed observations within that subset, not all Mermaid features.
-The subset requires a retained complete warning ledger and the exact pinned
-Mermaid/parser/DOM reference versions. Missing legacy metadata leaves it unavailable;
-absence of a warning file never establishes that every input was accepted.
-
-An explicit authored label remains a visible-text check when an external diagram's
-DB getter is absent. ZenUML's no-op parser still provides no syntax-validation or
-native-model proof. Conversely, a nonempty label ledger does not certify a complete
-renderable diagram: parser-only axis/title fixtures can lack the data series a
-renderer needs. That limitation remains in both raw outcomes and this subset.
-
-Strict standalone SVG XML admission is also distinct from browser drawing behavior.
-HTML named entities and undeclared `xlink` prefixes can fail XML admission even when
-an HTML page displays the output. Default truncation, omitted titles and literal
-escape display can disagree with DB-derived labels. Neither the raw marks nor the
-secondary table is a complete Mermaid-fidelity score; native meaning, painted
-correspondence and interaction require their dedicated suites.
-
-## Speed and calibration
-
-Speed comes only from the six fixed-core inputs, and only when every required core
-case passes in every round. The ranked time is the **first-call fixed core**: for each
-input, its first call in its process, median over the rounds, summed over the inputs.
-A first call cannot be answered from a result cache. The table also shows the
-**repeated-source** time, the median of repeated calls on identical input: a tool that
-caches results by source answers those from its cache (Pele's repeats are about 12×
-faster than its first calls, Mermaid's are not), so that column is not a fair
-comparison on its own. CLI samples are fresh processes, so they are first calls.
-
-Records with fewer than five rounds show no speed at all; the timings exist in the
-record, but they are not calibrated. Feature cases are qualified once, in round one,
-and never contribute speed.
-
-## Reference machine
-
-Published numbers come from one machine, recorded in every record: an Apple M2 Ultra
-(24 cores), macOS 27.0.1 (Darwin 27.0.0), Node 26.12.1, Bun 1.4.4, Playwright's
-Chromium and GNU time 1.10. Numbers from other machines are valid records, but are
-not comparable with these. Measurements never run in CI, where shared runners make
-timings unreliable.
-
-## Reproduce a row
-
-```sh
-node commands.ts mermaid:install
-bun commands.ts community:update --projects OWNER/TOOL --profile full --rounds 5 \
-  --records RECORDS --out EVIDENCE
-bun commands.ts results:publish --records RECORDS --out results
-```
-
-An unchanged project, input and protocol reuses its record; `--force` re-measures it.
-
-## Adding a tool
-
-A tool is one entry in [`catalog/mermaid-community.json`](catalog/mermaid-community.json).
-An npm package whose public API renders a Mermaid source string can be declared without
-any code; see [Adding a tool](README.md#adding-a-tool).
-
-## Candidates
-
-A maintainer can measure an unreleased build of a catalog tool, such as a branch about
-to be released, and compare it with the release. For a tool Trident installs from npm,
-the candidate is a tarball:
-
-```sh
-npm pack                                  # in the tool's checkout, after building it
-bun commands.ts community:update --projects OWNER/TOOL \
-  --candidate-tarball tool-1.3.0.tgz --candidate-sha256 "$(shasum -a 256 tool-1.3.0.tgz | cut -d' ' -f1)" \
-  --profile full --rounds 5 --records RECORDS --out EVIDENCE
-bun commands.ts results:compare --records RECORDS --project OWNER/TOOL
-```
-
-`--candidate-dir DIRECTORY` replaces the tarball and digest: Trident runs
-`npm pack --ignore-scripts` on the directory, so it must already be built, and records
-the digest of what it packed.
-
-For a tool Trident builds from source (the `source-cli` and `extra-source` adapters,
-such as mermaid-ascii, mermaid-rs-renderer and the Go, Python and Mermaid forks), the
-candidate is a Git commit:
-
-```sh
-bun commands.ts community:update --projects AlexanderGrooff/mermaid-ascii \
-  --candidate-revision 5a9df1560871e1ef8037c052b3b5d87de503bc9e \
-  --profile full --rounds 5 --records RECORDS --out EVIDENCE
-```
-
-Trident fetches that commit from the project's GitHub repository, or from
-`--candidate-remote`, which takes another Git URL or a local clone. Given a local clone
-and no revision, it uses the clone's HEAD and refuses uncommitted changes, so a branch
-that was never pushed can still be measured; a short revision is resolved in the
-clone. The commit is built by the release's own reviewed recipe into that recipe's
-revision-keyed cache, and its record is keyed by the revision alone, since the remote
-cannot change a commit's bytes.
-
-A candidate needs exactly one `--projects` entry. Trident refuses candidates for
-Mermaid, which is the oracle; a tarball for a source-built tool or a revision for an
-npm one; and any candidate for tools it acquires another way (distributions, WASM
-builds), which have neither.
-
-A tarball candidate replaces only the tool's package. Trident checks the tarball against its
-SHA-256 and checks that it holds the catalog's package name. It then installs its own
-copy into a prefix named by that digest, and checks that the installed package's npm
-integrity is the tarball's. The catalog's version pin does not apply, so the candidate
-can carry any version, including the release's own. Everything after acquisition uses
-the same corpus, oracle, family probes, checks and calibration rule, so a failure in a
-candidate stays a failure. A separately published browser SDK cannot represent a
-Node candidate: Merman's browser lane is blocked until a matching browser candidate
-can be supplied; it never substitutes the released `@mermanjs/web` package.
-
-A source candidate replaces only the commit: the same build recipe, toolchain and
-public CLI presentation apply, and the catalog's source pin does not.
-
-A record of an unreleased build is never a league row. Its identity carries the
-tarball's digest or the commit and it lives in the record store's `candidate` lane, so it never
-reuses, replaces or becomes the release's record. `results:publish` ranks the release
-lane only, leaves candidate records out, and refuses to run if a candidate record is
-ever found in the release lane. `results:compare` prints the store's current candidate
-beside the same project's current release: families supported, pass rate, fixed-core
-times, and the cases and families that changed. Times appear only when both records
-share protocol, inputs, machine, measurement settings, API binding/defaults and
-declared outputs. Blocked, unsupported, skipped and missing case outcomes remain
-visible in the change report. Browser times and
-case-level changes also require the same visible-output checks. Changes are withheld
-for surfaces with incompatible protocol/runtime cohorts. The two records are
-measured one after the other, not interleaved, so a small speed difference is within
-machine noise. The comparison is written to standard output or `--out FILE`, never
-into `results/`.
-
-Agentic Mermaid's local checkout (`--package-root`) is a candidate in the same sense.
-In `community:update` its record also goes to the `candidate` lane, keyed by the
-digests of its built files. Agentic's source-adapter lanes keep their own candidate
-options (`--package-root`, `--candidate-tarball` with `--candidate-sha256`).
-
-## What is not measured
-
-Layout quality, visual fidelity beyond label presence, interactivity, accessibility
-output, theming and memory beyond the recorded scopes. The detailed rules for each lane
-are in [MEASUREMENT.md](MEASUREMENT.md) and [OVERVIEW.md](OVERVIEW.md).
+Old checked-in snapshots have been removed. Generate reports outside the source tree. Publish a claim only after checking the work at the public boundary, reviewing failure classifications and inspecting representative outputs. The [measurement rules](MEASUREMENT.md) explain why honest scope matters more than a league-table win.

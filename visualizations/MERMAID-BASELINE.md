@@ -1,11 +1,11 @@
 # Compare with the pinned Mermaid
 
-Collect the current public browser and Node parser baselines with the unified
+This optional source-adapter protocol has fixed reviewed core engine roles. See [setup](../adapters/agentic/README.md). Collect public browser and Node parser baselines with the unified
 controller. Supply installed, frozen package roots; the reference prefix must
 contain the pinned Mermaid package and its dependencies.
 
 ```sh
-bun run bench --profile full \
+bun commands.ts adapter agentic run --profile full \
   --suites mermaid-baseline-browser,mermaid-baseline-compatibility \
   --projects adewale/agentic-mermaid,obsidianmd/pele,mermaid-js/mermaid \
   --package-root /artifacts/agentic-mermaid \

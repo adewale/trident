@@ -1,6 +1,6 @@
 # Davebench: official Mermaid documentation
 
-[Retained scores](../results/SCORECARDS.md#davebench-official-mermaid-docs) · [All benchmark guides](../BENCHMARKS.md) · [Owning runner](../release-browser-bench.ts)
+[Results policy](../results/README.md) · [All benchmark guides](../BENCHMARKS.md) · [Owning runner](../release-browser-bench.ts)
 
 Davebench asks how often an implementation returns SVG for Mermaid's official syntax examples, and how much public render-call time it spends on the same successfully rendered occurrences as a comparator. It is an independent docs workload, separate from the six-input community speed core, native-model assertions and painted-output fidelity.
 
@@ -14,7 +14,7 @@ Timing uses public render invocation through SVG return, excluding inspection, c
 
 ## Prerequisites
 
-Install Trident and the explicit [Agentic Mermaid source adapter](../README.md#optional-agentic-source-adapter), including the selected source dependencies. Bun, Node, npm, Git, tar and Chromium are required. Install the exact Mermaid oracle and first-party addon with `node commands.ts mermaid:install`. If using nondefault locations, set `MERMAID_UPSTREAM_DIR` and `MERMAID_REFERENCE_DIR` to the pinned source checkout and independent installed oracle. Keep package acquisition and artifact preparation outside timing.
+Install Trident and the explicit [Agentic Mermaid source adapter](../adapters/agentic/README.md), including the selected source dependencies. Bun, Node, npm, Git, tar and Chromium are required. Install the exact Mermaid oracle and first-party addon with `node commands.ts mermaid:install`. If using nondefault locations, set `MERMAID_UPSTREAM_DIR` and `MERMAID_REFERENCE_DIR` to the pinned source checkout and independent installed oracle. Keep package acquisition and artifact preparation outside timing.
 
 Set `TRIDENT_AGENTIC_ROOT` to the selected source checkout. Dave's convenience wrapper builds and packs that driver source. For a different or prebuilt candidate, use the exact-archive command below; a source path alone does not identify the bytes measured.
 
@@ -23,7 +23,7 @@ Set `TRIDENT_AGENTIC_ROOT` to the selected source checkout. Dave's convenience w
 From the Trident root, with the environment above configured:
 
 ```sh
-bun commands.ts source bench:dave \
+bun commands.ts adapter agentic source bench:dave \
   --out /evidence/dave --rounds 3 --executable /path/to/chromium
 ```
 
@@ -32,7 +32,7 @@ This wrapper builds the selected checkout, packs one npm archive, verifies its S
 To measure a frozen candidate archive without building another renderer:
 
 ```sh
-bun commands.ts source bench:release:browser \
+bun commands.ts adapter agentic source bench:release:browser \
   --candidate-tarball /artifacts/agentic-mermaid.tgz \
   --candidate-sha256 VERIFIED_64_CHARACTER_LOWERCASE_HEX \
   --out /evidence/dave-exact --rounds 3 --warmup 30 --elk-cache off \
@@ -42,7 +42,7 @@ bun commands.ts source bench:release:browser \
 The direct runner accepts an optional verified baseline tarball/digest or baseline lock; it does not need a baseline merely to compare the candidate with Pele/Mermaid. The controller's `release:browser` entry adds a baseline prerequisite because that entry represents a release comparison. The controller's `dave` entry can instead receive the candidate tarball/digest with its normal 30-attempt warm-up protocol:
 
 ```sh
-bun commands.ts agentic --profile full --suites dave \
+bun commands.ts adapter agentic run --profile full --suites dave \
   --candidate-tarball /artifacts/agentic-mermaid.tgz \
   --candidate-sha256 VERIFIED_64_CHARACTER_LOWERCASE_HEX \
   --out /evidence/dave-campaign --rounds 3 --executable /path/to/chromium
@@ -65,6 +65,6 @@ The unified controller additionally retains `report.json`, `report.json.gz` and 
 
 Complete monolithic bundle gzip, focused consumer builds, lazy initial entry and delivered closure through first render have different scopes. Optional memory diagnostics require the direct runner's `--memory-passes N`; they execute separately after timing and cover V8 JS heap/sampled allocation, not total process/native/WASM/GPU memory. Three timing rounds are advisory and do not establish calibrated regression thresholds, tail latency or a causal PR improvement.
 
-## Published evidence
+## Results and scope
 
-The [scorecards](../results/SCORECARDS.md) show the uniform Pele 1.9.0 campaign measured on **25 October 2026**, including its exact Agentic Mermaid source and archive. Its 823/1,095 Agentic Mermaid acceptance is historical; the 27 October community candidate has not thereby earned a new Dave score. Beautiful Mermaid, Zombie Mermaid and Frankenmermaid have separate community records, with no published Dave scores. Extending this fixed-engine browser runner to those projects would require adapter work and a fresh matched campaign; their community admission percentages cannot be substituted.
+Old result bundles have been removed. A fresh run must retain its own corpus, exact artifact identities, samples and failures. This inherited runner currently uses an Agentic candidate and fixed comparators. It is not a catalog-wide docs benchmark, and a community admission percentage cannot substitute for a Dave score. Extending it to other projects requires real public API bindings and a fresh matched campaign.
