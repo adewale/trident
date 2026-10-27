@@ -31,7 +31,7 @@ test('every additional declared diagram entry reaches first consumed render with
       const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect x="10" y="10" width="380" height="180" fill="white" stroke="black"/>${text}</svg>`
       writeFileSync(join(root, 'diagrams', type + '.js'), `export default ${JSON.stringify({ type, expectedHeader: header, svg })}`)
     }
-    const options = { root, out: join(root, 'out'), profile: 'smoke' as const, rounds: 1, surfaces: ['library'] as const, adapter: 'pele' as const, nodeExecutable: 'node', bunExecutable: join(root, 'no-bun'), observerExecutable: join(root, 'no-observer'), nativeExecutable: process.execPath }
+    const options = { root, out: join(root, 'out'), profile: 'smoke' as const, rounds: 1, surfaces: ['library'] as const, adapter: 'pele' as const, nodeExecutable: 'node', bunExecutable: join(root, 'no-bun'), startupPasses: 'latency' as const, observerExecutable: join(root, 'no-observer'), nativeExecutable: process.execPath }
     const prepared = await prepareEntryStartup(options)
     expect(prepared.inventory.some(entry => entry.kind === 'native')).toBe(false)
     // ./core registers flowchart as its companion dependency. It is a distinct

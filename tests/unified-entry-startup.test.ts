@@ -27,7 +27,7 @@ test('inventory expands actual wildcard files and retains aliases, browser/data 
     for (const name of assets) expect(inventory.find(value => value.publicName === name)?.kind).toBe('data')
     expect(inventory.find(value => value.publicName === './public.js')?.kind).toBe('module')
     expect(inventory.find(value => value.publicName === './unknown.asset')?.kind).toBe('module')
-    const options = { root, out: join(root, 'out'), rounds: 1, profile: 'smoke' as const, surfaces: ['library'] as const, nodeExecutable: 'node', bunExecutable: join(root, 'no-bun'), observerExecutable: join(root, 'no-observer') }
+    const options = { root, out: join(root, 'out'), rounds: 1, profile: 'smoke' as const, surfaces: ['library'] as const, nodeExecutable: 'node', bunExecutable: join(root, 'no-bun'), startupPasses: 'latency' as const, observerExecutable: join(root, 'no-observer') }
     const prepared = await prepareEntryStartup(options)
     expect(prepared.jobs.some(job => job.entry.publicName === './public.js')).toBe(true)
     expect(prepared.gaps.some(gap => assets.some(name => gap.startsWith(name + '/')))).toBe(false)
@@ -47,7 +47,7 @@ test('fresh public self-import uses the candidate, includes delayed initializati
     writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'agentic-mermaid', type: 'module', exports: { '.': './candidate.js' } }))
     const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>Start End</text></svg>'
     writeFileSync(join(root, 'candidate.js'), `await new Promise(r=>setTimeout(r,35));export async function renderMermaidSVGWithReceiptAsync(){await new Promise(r=>setTimeout(r,25));return {svg:${JSON.stringify(svg)},receipt:{version:1,output:'svg',requestDigest:'authored-fixture'},metadata:{candidateOnly:'candidate-artifact',payload:'x'.repeat(8192)}}}`)
-    const options = { root, packageRoot: root, out: join(root, 'out'), rounds: 1, profile: 'smoke' as const, surfaces: ['library'] as const, nodeExecutable: 'node', bunExecutable: join(root, 'missing-bun'), observerExecutable: join(root, 'missing-observer') }
+    const options = { root, packageRoot: root, out: join(root, 'out'), rounds: 1, profile: 'smoke' as const, surfaces: ['library'] as const, nodeExecutable: 'node', bunExecutable: join(root, 'missing-bun'), startupPasses: 'latency' as const, observerExecutable: join(root, 'missing-observer') }
     const prepared = await prepareEntryStartup(options)
     expect(prepared.jobs).toHaveLength(1)
     expect(prepared.jobs[0]!.operation.id).toBe('renderMermaidSVGWithReceiptAsync:svg')
@@ -70,7 +70,7 @@ test('resolved Scene startup consumes the public JSON sidecars and refuses a mis
     const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>Start End</text></svg>'
     const script = `export function renderResolvedScene(){return {version:1,family:'flowchart',width:100,height:40,svg:${JSON.stringify(svg)},colors:{bg:'#fff',fg:'#111'},frame:[],parts:[],payload:'x'.repeat(8192)}}`
     writeFileSync(join(root, 'candidate.js'), script)
-    const options = { root, packageRoot: root, out: join(root, 'good'), rounds: 1, profile: 'smoke' as const, surfaces: ['library'] as const, nodeExecutable: 'node', bunExecutable: join(root, 'missing-bun'), observerExecutable: join(root, 'missing-observer') }
+    const options = { root, packageRoot: root, out: join(root, 'good'), rounds: 1, profile: 'smoke' as const, surfaces: ['library'] as const, nodeExecutable: 'node', bunExecutable: join(root, 'missing-bun'), startupPasses: 'latency' as const, observerExecutable: join(root, 'missing-observer') }
     const prepared = await prepareEntryStartup(options)
     expect(prepared.jobs.map(job => job.operation.id)).toEqual(['renderResolvedScene:svg'])
     const good = await runEntryStartupSuite(options, prepared)
@@ -134,7 +134,7 @@ test('a fully consumed first SVG cannot hide a later failing process lifecycle',
   try {
     writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'fixture-late-exit', type: 'module', exports: { '.': './index.js' } }))
     writeFileSync(join(root, 'index.js'), `export function renderMermaidSVG(){setImmediate(()=>{process.exitCode=1});return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>Start End</text></svg>'}`)
-    const result = await runEntryStartupSuite({ root, out: join(root, 'out'), rounds: 1, profile: 'smoke', surfaces: ['library'], bunExecutable: join(root, 'missing'), observerExecutable: join(root, 'missing') })
+    const result = await runEntryStartupSuite({ root, out: join(root, 'out'), rounds: 1, profile: 'smoke', surfaces: ['library'], bunExecutable: join(root, 'missing'), startupPasses: 'latency' as const, observerExecutable: join(root, 'missing') })
     const row = result.observations.find(value => value.mode === 'process-to-first-consumed')!
     expect(row.status).toBe('failed')
     expect(row.metrics!.lifecycleExitCode).toBe(1)
@@ -178,7 +178,7 @@ test('MCP startup sends exactly one first real format call per fresh initialized
     writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'fixture', bin: { 'fixture-mcp': 'mcp.cjs' } }))
     writeFileSync(server, `const fs=require('node:fs');const alive=setInterval(()=>{},1000);process.stdin.on('end',()=>clearInterval(alive));let pending='';process.stdin.setEncoding('utf8');process.stdin.on('data',chunk=>{pending+=chunk;let nl;while((nl=pending.indexOf('\\n'))>=0){const line=pending.slice(0,nl);pending=pending.slice(nl+1);if(!line.trim())continue;const r=JSON.parse(line);if(r.id===undefined)continue;let result;if(r.method==='initialize')result={protocolVersion:r.params.protocolVersion,capabilities:{tools:{}},serverInfo:{name:'fixture',version:'1'}};else if(r.method==='tools/list')result={tools:['render_svg','render_ascii','render_png'].map(name=>({name,inputSchema:{type:'object',properties:{source:{type:'string'}}}}))};else if(r.method==='tools/call'){fs.appendFileSync(${JSON.stringify(calls)},JSON.stringify({pid:process.pid,name:r.params.name,args:r.params.arguments})+'\\n');const format=r.params.name==='render_svg'?'svg':r.params.name==='render_png'?'png':r.params.arguments.useAscii?'ascii':'unicode';const value=format==='svg'?{svg:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>Start End</text></svg>'}:format==='png'?{png_base64:'iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAADklEQVR4nGNgYGD4DwIADvoE/EWwHYsAAAAASUVORK5CYII='}:{text:'Start --> End'};value.receipt={version:1,output:format,requestDigest:'fixture'};result={content:[{type:'text',text:JSON.stringify(value)}]}}else result={};fs.writeSync(1,JSON.stringify({jsonrpc:'2.0',id:r.id,result})+'\\n')}});`)
     const workload = { id: 'mcp-first', family: 'flowchart', source: 'flowchart LR\nA[Start] --> B[End]', expectedLabels: ['Start', 'End'], features: [], provenance: 'authored first-request regression' }
-    const result = await runInvocationMcpStartup({ root, harnessRoot: process.cwd(), out: join(root, 'out'), rounds: 1, profile: 'smoke', startupOnly: true, startupSamplesPerRound: 1, startupRuntimes: [{ name: 'node', executable: 'node', version: 'test' }], startupMcpTransports: ['stdio'] }, [workload])
+    const result = await runInvocationMcpStartup({ root, harnessRoot: process.cwd(), out: join(root, 'out'), rounds: 1, profile: 'smoke', startupOnly: true, startupPasses: 'latency', startupSamplesPerRound: 1, startupRuntimes: [{ name: 'node', executable: 'node', version: 'test' }], startupMcpTransports: ['stdio'] }, [workload])
     const rows = result.rows.filter(value => value.mode === 'process-initialize-first-fully-consumed-tool')
     expect(rows).toHaveLength(4)
     expect(rows.map(value => ({ status: value.status, detail: value.detail, findings: value.findings }))).toEqual(rows.map(() => ({ status: 'passed', detail: undefined, findings: [] })))
@@ -191,7 +191,7 @@ test('MCP startup sends exactly one first real format call per fresh initialized
     // Local published MCP exposes code execution for SVG/terminal, while the
     // hosted tool set can expose direct render tools. Exercise both contracts.
     writeFileSync(server, readFileSync(server, 'utf8').replace("['render_svg','render_ascii','render_png']", "['execute','render_png']").replace("const format=", "const code=r.params.arguments.code??'';if(r.params.name==='execute'){r.params.name=code.includes('renderMermaidSVGWithReceipt')?'render_svg':'render_ascii';r.params.arguments.useAscii=code.includes('\"useAscii\":true')}const format="))
-    const codeWorkflow = await runInvocationMcpStartup({ root, harnessRoot: process.cwd(), out: join(root, 'code-out'), rounds: 1, profile: 'smoke', startupOnly: true, startupSamplesPerRound: 1, startupRuntimes: [{ name: 'node', executable: 'node', version: 'test' }], startupMcpTransports: ['stdio'] }, [workload])
+    const codeWorkflow = await runInvocationMcpStartup({ root, harnessRoot: process.cwd(), out: join(root, 'code-out'), rounds: 1, profile: 'smoke', startupOnly: true, startupPasses: 'latency', startupSamplesPerRound: 1, startupRuntimes: [{ name: 'node', executable: 'node', version: 'test' }], startupMcpTransports: ['stdio'] }, [workload])
     const codeRows = codeWorkflow.rows.filter(value => value.mode === 'process-initialize-first-fully-consumed-tool')
     expect(codeRows.every(value => value.status === 'passed')).toBe(true)
     expect(codeRows.map(value => value.operation)).toEqual(['execute', 'execute', 'execute', 'render_png'])
@@ -202,11 +202,95 @@ test('MCP startup sends exactly one first real format call per fresh initialized
     const observer = join(root, 'observe.cjs')
     writeFileSync(observer, `#!/usr/bin/env node\nconst fs=require('node:fs'),cp=require('node:child_process'),a=process.argv.slice(2),file=a[a.indexOf('-o')+1],start=a.indexOf('--')+1;const child=cp.spawn(a[start],a.slice(start+1),{stdio:'inherit'});child.on('close',code=>{fs.writeFileSync(file,'user_seconds=0.01\\nsystem_seconds=0.02\\npeak_rss_kib=1234\\nexit_code='+code+'\\n');process.exitCode=code??1})`)
     chmodSync(observer, 0o755)
-    const late = await runInvocationMcpStartup({ root, harnessRoot: process.cwd(), out: join(root, 'late-out'), rounds: 1, profile: 'smoke', startupOnly: true, startupSamplesPerRound: 1, startupRuntimes: [{ name: 'node', executable: 'node', version: 'test' }], startupMcpTransports: ['stdio'], startupObserverExecutable: observer }, [workload])
+    const late = await runInvocationMcpStartup({ root, harnessRoot: process.cwd(), out: join(root, 'late-out'), rounds: 1, profile: 'smoke', startupOnly: true, startupPasses: 'resources', startupSamplesPerRound: 5, startupRuntimes: [{ name: 'node', executable: 'node', version: 'test' }], startupMcpTransports: ['stdio'], startupObserverExecutable: observer }, [workload])
     const resources = late.rows.filter(value => value.mode === 'fresh-mcp-server-resource')
     expect(resources).toHaveLength(4)
+    expect(late.rows.every(row => row.samplesMs === undefined)).toBe(true)
+    expect(readFileSync(calls, 'utf8').trim().split('\n')).toHaveLength(12)
     expect(resources.every(value => value.status === 'failed' && value.metrics!.serverExitCode === 1)).toBe(true)
     expect(resources.every(value => value.metrics!.peakRssBytes === 1234 * 1024)).toBe(true)
     expect(resources.every(value => value.detail!.includes('lifecycle'))).toBe(true)
+  } finally { rmSync(root, { recursive: true, force: true }) }
+}, 20_000)
+
+test('resource-only library recovery qualifies one fresh actual result per round without rerunning latency samples', async () => {
+  const root = mkdtempSync(join(tmpdir(), 'entry-resource-only-'))
+  try {
+    const calls = join(root, 'calls.jsonl'), observer = join(root, 'observe.cjs')
+    writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'fixture-resource-only', type: 'module', exports: { '.': './index.js' } }))
+    writeFileSync(join(root, 'index.js'), `import{appendFileSync}from'node:fs';export function renderMermaidSVG(){appendFileSync(${JSON.stringify(calls)},JSON.stringify({gc:typeof globalThis.gc==='function'})+String.fromCharCode(10));return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>Start End</text></svg>'}`)
+    // A process-observer fixture, not measured product resource evidence.
+    writeFileSync(observer, `#!/usr/bin/env node
+const fs=require('node:fs'),cp=require('node:child_process');if(process.argv.includes('--version')){console.log('fixture GNU Time');process.exit(0)}const a=process.argv.slice(2),file=a[a.indexOf('-o')+1],start=a.indexOf('--')+1;const child=cp.spawnSync(a[start],a.slice(start+1),{stdio:'inherit'});fs.writeFileSync(file,['user_seconds=0.01','system_seconds=0.02','peak_rss_kib=1234',''].join(String.fromCharCode(10)));process.exit(child.status??1)`)
+    chmodSync(observer, 0o755)
+    const options = { root, out: join(root, 'resources'), rounds: 2, samplesPerRound: 5, profile: 'full' as const, startupPasses: 'resources' as const, surfaces: ['library'] as const, bunExecutable: join(root, 'missing-bun'), observerExecutable: observer }
+    const result = await runEntryStartupSuite(options)
+    const rows = result.observations.filter(row => row.mode === 'fresh-process-resource-paired-control')
+    expect(rows).toHaveLength(2)
+    expect(rows.every(row => row.status === 'passed' && row.samplesMs === undefined)).toBe(true)
+    expect(result.observations.every(row => row.samplesMs === undefined)).toBe(true)
+    const recorded = readFileSync(calls, 'utf8').trim().split('\n').map(line => JSON.parse(line))
+    expect(recorded).toEqual([{ gc: true }, { gc: true }])
+    writeFileSync(join(root, 'index.js'), `export function renderMermaidSVG(){return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>Wrong</text></svg>'}`)
+    const invalid = await runEntryStartupSuite({ ...options, out: join(root, 'invalid'), rounds: 1 })
+    expect(invalid.observations.find(row => row.mode === 'fresh-process-resource-paired-control')!.status).toBe('failed')
+    expect(invalid.observations.every(row => row.samplesMs === undefined)).toBe(true)
+  } finally { rmSync(root, { recursive: true, force: true }) }
+}, 20_000)
+
+test('missing GNU time stops all/resources before target discovery while explicit latency remains available', async () => {
+  const root = mkdtempSync(join(tmpdir(), 'entry-observer-preflight-'))
+  try {
+    const imported = join(root, 'imported')
+    writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'fixture-observer-gate', type: 'module', exports: { '.': './index.js' } }))
+    writeFileSync(join(root, 'index.js'), `import{writeFileSync}from'node:fs';writeFileSync(${JSON.stringify(imported)},'actual import');export function renderMermaidSVG(){return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>Start End</text></svg>'}`)
+    const options = { root, out: join(root, 'out'), rounds: 1, profile: 'smoke' as const, surfaces: ['library'] as const, bunExecutable: join(root, 'missing-bun'), observerExecutable: join(root, 'missing-observer') }
+    for (const startupPasses of ['all', 'resources'] as const) await expect(prepareEntryStartup({ ...options, startupPasses })).rejects.toThrow('No target samples were collected')
+    expect(() => readFileSync(imported)).toThrow()
+    const prepared = await prepareEntryStartup({ ...options, startupPasses: 'latency' })
+    expect(prepared.settings.startupPasses).toBe('latency')
+    const result = await runEntryStartupSuite({ ...options, startupPasses: 'latency' }, prepared)
+    expect(result.observations.find(row => row.mode === 'process-to-first-consumed')!.status).toBe('passed')
+    expect(result.observations.some(row => row.mode.includes('resource'))).toBe(false)
+  } finally { rmSync(root, { recursive: true, force: true }) }
+}, 20_000)
+
+test('focused browser resource recovery invokes only the selected API and never repeats latency passes', async () => {
+  const root = mkdtempSync(join(tmpdir(), 'entry-browser-resources-only-'))
+  try {
+    writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'fixture', exports: { './browser': './global.js' } }))
+    writeFileSync(join(root, 'global.js'), `let calls=0;var agenticMermaid={renderMermaidSVG(){throw Error('Unselected SVG operation ran')},renderResolvedScene(){if(++calls!==1)throw Error('Warmup or repeated first call');return{version:1,family:'flowchart',width:100,height:40,svg:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>Start End</text></svg>',colors:{bg:'#fff',fg:'#111'},parts:[],frame:[]}}}`)
+    const common = { root, harnessRoot: process.cwd(), rounds: 1, profile: 'smoke' as const, startupOnly: true, startupSamplesPerRound: 5, startupOperations: ['resolved-scene'], executable: chromiumExecutable }
+    const workload = { id: 'only-resolved', family: 'flowchart', source: 'flowchart LR\nA[Start] --> B[End]', expectedLabels: ['Start', 'End'], features: [], provenance: 'Independent focused startup recovery contract' }
+    const resource = await runInvocationBrowser({ ...common, out: join(root, 'resources'), startupPasses: 'resources' }, [workload])
+    expect(resource.rows.every(row => row.samplesMs === undefined)).toBe(true)
+    expect(resource.rows.filter(row => row.operation === 'resolved-scene' && row.mode === 'fresh-browser-resource').map(row => row.status)).toEqual(['passed'])
+    expect(resource.rows.every(row => row.surface === 'browser:global')).toBe(true)
+    expect(resource.rows.some(row => row.operation === 'process-memory')).toBe(true)
+    const latency = await runInvocationBrowser({ ...common, out: join(root, 'latency'), startupPasses: 'latency', startupSamplesPerRound: 2 }, [workload])
+    expect(latency.rows.filter(row => row.operation === 'resolved-scene' && row.mode === 'browser-launch-to-first-consumed').map(row => row.status)).toEqual(['passed', 'passed'])
+    expect(latency.rows.some(row => ['process-memory', 'heap-checkpoint'].includes(row.operation))).toBe(false)
+    await expect(runInvocationBrowser({ ...common, out: join(root, 'unknown'), startupOperations: ['unknown-api'] }, [workload])).rejects.toThrow('startupOperations')
+  } finally { rmSync(root, { recursive: true, force: true }) }
+}, 30_000)
+
+test('resource-only CLI recovery executes and qualifies both input modes without latency launches', async () => {
+  const root = mkdtempSync(join(tmpdir(), 'entry-cli-resource-only-'))
+  try {
+    const calls = join(root, 'calls.jsonl'), observer = join(root, 'observer.cjs')
+    writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'fixture-cli-resource-only', bin: { am: './cli.cjs' } }))
+    writeFileSync(join(root, 'cli.cjs'), `const fs=require('node:fs'),a=process.argv.slice(2);if(a.includes('--help')){console.log('  --format svg     SVG output');process.exit(0)}const source=fs.readFileSync(a[1]==='-'?0:a[1],'utf8');fs.appendFileSync(${JSON.stringify(calls)},JSON.stringify({input:a[1]==='-'?'stdin':'file',source})+String.fromCharCode(10));fs.writeFileSync(a[a.indexOf('--output')+1],'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>Start End</text></svg>')`)
+    // Explicit observer fixture: test routing and units, never product costs.
+    writeFileSync(observer, `#!/usr/bin/env node
+const fs=require('node:fs'),cp=require('node:child_process');if(process.argv.includes('--version')){console.log('fixture GNU Time');process.exit(0)}const a=process.argv.slice(2),file=a[a.indexOf('-o')+1],start=a.indexOf('--')+1;const child=cp.spawnSync(a[start],a.slice(start+1),{stdio:'inherit'});fs.writeFileSync(file,['user_seconds=0.01','system_seconds=0.02','peak_rss_kib=1234',''].join(String.fromCharCode(10)));process.exit(child.status??1)`)
+    chmodSync(observer, 0o755)
+    const result = await runEntryStartupSuite({ root, out: join(root, 'out'), rounds: 2, samplesPerRound: 5, profile: 'full', startupPasses: 'resources', surfaces: ['cli'], bunExecutable: join(root, 'missing-bun'), observerExecutable: observer })
+    const resources = result.observations.filter(row => row.mode === 'fresh-cli-process-resource')
+    expect(resources).toHaveLength(4)
+    expect(resources.every(row => row.status === 'passed' && row.samplesMs === undefined)).toBe(true)
+    expect(result.observations.every(row => row.samplesMs === undefined)).toBe(true)
+    const actual = readFileSync(calls, 'utf8').trim().split('\n').map(line => JSON.parse(line))
+    expect(actual.map(value => value.input)).toEqual(['stdin', 'stdin', 'file', 'file'])
+    expect(actual.every(value => value.source === 'flowchart LR\nA[Start] --> B[End]')).toBe(true)
   } finally { rmSync(root, { recursive: true, force: true }) }
 }, 20_000)

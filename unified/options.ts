@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { assertBenchmarkToolVersion } from '../tool-versions.ts'
 import { communityCatalogFile, harnessRepository } from './trident-paths.ts'
+import { startupPasses } from './startup-passes.ts'
 import type { UnifiedRunOptions } from './types.ts'
 
 // Shared by the unified runner and community:update, without importing the suites.
@@ -91,6 +92,7 @@ export function parseOptions(argv: string[]): RunnerOptions {
     'projects',
     'benchmark-records',
     'benchmark-resume-attempt',
+    'startup-passes',
     'startup-samples',
     'startup-surfaces',
     'node-executable',
@@ -199,6 +201,7 @@ export function parseOptions(argv: string[]): RunnerOptions {
     benchmarkRecordStore: path('benchmark-records'),
     benchmarkForce: options.has('benchmark-force'),
     benchmarkResumeAttempt: path('benchmark-resume-attempt'),
+    startupPasses: startupPasses(options.get('startup-passes')),
     startupSamples: options.has('startup-samples') ? positive('startup-samples', 5) : undefined,
     startupSurfaces,
     nodeExecutable: path('node-executable'),

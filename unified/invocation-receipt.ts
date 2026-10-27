@@ -40,7 +40,10 @@ export function assertResolvedSceneEnvelope(value: unknown): void {
       || value.lengthAdjust !== undefined && !oneOf(value.lengthAdjust, ['spacing', 'spacingAndGlyphs'])
       || ['textLength', 'letterSpacing'].some(key => value[key] !== undefined && !finite(value[key]))) throw Error('Resolved Scene has malformed public text geometry')
   }
-  if (!record(value) || value.version !== 1 || !nonempty(value.family) || typeof value.svg !== 'string') throw Error('Resolved Scene has no supported version/family/SVG envelope')
+  // v2 reports the registered input family rather than a shared lowering family.
+  // Both versions have this public transport shape; this guard admits the
+  // envelope, while independent family/geometry witnesses check correspondence.
+  if (!record(value) || (value.version !== 1 && value.version !== 2) || !nonempty(value.family) || typeof value.svg !== 'string') throw Error('Resolved Scene has no supported version/family/SVG envelope')
   if (![value.width, value.height].every(number => finite(number) && number >= 0)) throw Error('Resolved Scene has no finite nonnegative canvas')
   if (!Array.isArray(value.parts) || !Array.isArray(value.frame) || !record(value.colors)
     || !nonempty(value.colors.bg) || !nonempty(value.colors.fg)) throw Error('Resolved Scene has no consumed parts/frame/colors')

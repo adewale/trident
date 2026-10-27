@@ -9,6 +9,7 @@ import { defaultTimeObserver } from '../portable/time-observer.ts'
 import { benchmarkContext, defaultChromium, deliveredArtifactIdentity, executableIdentity } from './benchmark-context.ts'
 import { baselineMeasurementContext } from './baseline-measurement-context.ts'
 import { committedDataIdentity } from './committed-data-identity.ts'
+import { startupPasses } from './startup-passes.ts'
 import { ENTRY_STARTUP_PRODUCERS, type EntryStartupOptions, prepareEntryStartup, runEntryStartupSuite } from './entry-startup.ts'
 import { projectReportView } from './project-report-view.ts'
 import { runRetainedSuite } from './retained-suite.ts'
@@ -86,7 +87,7 @@ export async function runRetainedEntryStartupSuite(options: RetainedCampaignOpti
     }
     const artifact = project.adapter === 'mermaid' ? { project: project.id, root: realpathSync(project.root), version: JSON.parse(readFileSync(join(project.root, 'package.json'), 'utf8')).version } : resolveArtifact(project.id, project.root, project.adapter, node)
     assertBenchmarkToolVersion(project.id, artifact.version, 'entry startup artifact')
-    const settings = { profile: options.profile, rounds: options.rounds, samplesPerRound: options.startupSamples ?? (options.profile === 'full' ? 5 : 1), resourceSamplesPerRound: 1, surfaces: options.startupSurfaces ?? ['library', 'cli', 'mcp', 'browser'], timeoutMs: 60_000 }
+    const settings = { profile: options.profile, startupPasses: startupPasses(options.startupPasses), rounds: options.rounds, samplesPerRound: options.startupSamples ?? (options.profile === 'full' ? 5 : 1), resourceSamplesPerRound: 1, surfaces: options.startupSurfaces ?? ['library', 'cli', 'mcp', 'browser'], timeoutMs: 60_000 }
     const actual: EntryStartupOptions = {
       ...options,
       ...settings,

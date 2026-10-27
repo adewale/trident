@@ -247,6 +247,7 @@ export function benchmarkSuites(options: SuiteOptions): SuiteDefinition[] {
   for (const [id, title, files, timeout] of [
     ['distribution-cli', 'CLI and offline fresh-checkout contracts', ['cli-smoke.e2e.test.ts', 'cli.e2e.test.ts', 'fresh-checkout.e2e.test.ts'], 120000],
     ['distribution-native', 'Compiled single-binary distribution contracts', ['single-binary.e2e.test.ts'], 180000],
+    ['distribution-dist-artifact', 'Built artifact browser/Node bundling and deferred ELK contracts', ['dist-artifact.e2e.test.ts'], 400000],
     ['distribution-dist-fuzz', 'Built artifact differential fuzz under plain Node', ['dist-artifact-fuzz.e2e.test.ts'], 400000],
     ['distribution-tarball', 'Installed tarball library, CLI, MCP and getting-started contracts', ['tarball-consumer-fuzz.e2e.test.ts'], 600000],
   ] as const)

@@ -7,6 +7,7 @@ import { mutationWitnessForFamily, structuralBuildWitnessForFamily } from './fam
 import { decodeToolPayload, type InvocationOptions, invocationHarnessRoot, invocationRow } from './invocation.ts'
 import { qualifyOutput } from './qualification.ts'
 import type { BenchmarkObservation, UnifiedWorkload } from './types.ts'
+import { startupPasses, startupPassFlags } from './startup-passes.ts'
 import type { StartupInvocationOptions } from './entry-startup.ts'
 
 async function ready(command: string, args: string[], cwd: string, processGroup = false): Promise<{ child: ChildProcess; url: string; log: () => string }> {
@@ -261,7 +262,7 @@ export async function runInvocationMcp(options: InvocationOptions & StartupInvoc
 /** The first real call follows initialize/list immediately. It never inherits
  * the ordinary invocation suite's concurrent probes or warmup portfolio. */
 export async function runInvocationMcpStartup(options: InvocationOptions & StartupInvocationOptions, workloads: UnifiedWorkload[]): Promise<{ rows: BenchmarkObservation[]; gaps: string[]; artifacts: string[] }> {
-  const root = options.packageRoot ?? options.root, out = join(options.out, 'mcp-startup')
+  const root = options.packageRoot ?? options.root, out = join(options.out, 'mcp-startup'), passes = startupPasses(options.startupPasses)
   mkdirSync(out, { recursive: true })
   const harness = options.harnessRoot ?? invocationHarnessRoot
   const require = createRequire(join(harness, existsSync(join(harness, 'eval/benchmark/package.json')) ? 'eval/benchmark/package.json' : 'package.json'))
@@ -270,6 +271,7 @@ export async function runInvocationMcpStartup(options: InvocationOptions & Start
   const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')), rows: BenchmarkObservation[] = [], gaps: string[] = [], artifacts: string[] = []
   const bins = Object.entries(pkg.bin ?? {}).filter(([name]) => name.includes('mcp')) as [string, string][]
   if (!bins.length) return { rows: [{ ...invocationRow('mcp', workloads[0]!, 'entry-inventory', 'rpc', 'declaration'), status: 'not-applicable', detail: 'Package declares no MCP executable.' }], gaps, artifacts }
+  if (passes !== 'latency' && !options.startupObserverExecutable) throw Error('MCP startup resources require a qualified GNU time observer; select --startup-passes latency explicitly to collect only latency.')
   const runtimes = options.startupRuntimes ?? [{ name: 'node', executable: options.nodeExecutable ?? 'node', version: 'unobserved' }]
   const definitions = [
     { name: 'render_svg', format: 'svg', options: {} },
@@ -277,10 +279,10 @@ export async function runInvocationMcpStartup(options: InvocationOptions & Start
     { name: 'render_ascii', format: 'unicode', options: { useAscii: false } },
     { name: 'render_png', format: 'png', options: {} },
   ]
-  for (const [alias, relative] of bins) for (const runtime of runtimes) for (const transportName of options.startupMcpTransports ?? ['stdio', 'http-sse'] as const) for (const def of definitions) for (let round = 1; round <= options.rounds; round++) for (let sample = 1; sample <= (options.startupSamplesPerRound ?? 1); sample++) for (const resourcePass of options.startupObserverExecutable && sample === 1 ? [false, true] : [false]) {
+  for (const [alias, relative] of bins) for (const runtime of runtimes) for (const transportName of options.startupMcpTransports ?? ['stdio', 'http-sse'] as const) for (const def of definitions) for (let round = 1; round <= options.rounds; round++) for (let sample = 1; sample <= (options.startupSamplesPerRound ?? 1); sample++) for (const resourcePass of startupPassFlags(passes, sample)) {
     const w = workloads[0]!, row = invocationRow(`mcp:${alias}:${transportName}`, w, def.name, def.format, 'process-initialize-first-fully-consumed-tool')
     row.runtime = runtime.name
-    row.metrics = { round, sample, runtimeVersion: runtime.version, independentFreshServer: true, executionHost: 'published MCP executable', clock: resourcePass ? 'separate whole-server GNU time diagnostic; not a latency sample' : 'before SDK transport/server creation through initialize, tools/list, first public call, decode and full response serialization; qualification after clock', lifecycleScope: resourcePass ? 'actual GNU time wait4 exit status; owned HTTP group SIGINT requests server graceful shutdown with exit0 while GNU time ignores interactive signal; stdio EOF drains naturally; signal termination/nonzero rejected' : 'first complete tool response qualified; SDK close has no public server exit-status field, so later server lifecycle unmeasured, not a full-process certificate', memoryScope: resourcePass ? 'GNU time peak of actual server process lifetime through initialization/first consumed tool and graceful teardown; parent SDK excluded; server JS heap snapshots unavailable' : 'server resources collected in separate fresh pass; parent SDK memory is not server memory' }
+    row.metrics = { startupPasses: passes, round, sample, runtimeVersion: runtime.version, independentFreshServer: true, executionHost: 'published MCP executable', clock: resourcePass ? 'separate whole-server GNU time diagnostic; not a latency sample' : 'before SDK transport/server creation through initialize, tools/list, first public call, decode and full response serialization; qualification after clock', lifecycleScope: resourcePass ? 'actual GNU time wait4 exit status; owned HTTP group SIGINT requests server graceful shutdown with exit0 while GNU time ignores interactive signal; stdio EOF drains naturally; signal termination/nonzero rejected' : 'first complete tool response qualified; SDK close has no public server exit-status field, so later server lifecycle unmeasured, not a full-process certificate', memoryScope: resourcePass ? 'GNU time peak of actual server process lifetime through initialization/first consumed tool and graceful teardown; parent SDK excluded; server JS heap snapshots unavailable' : 'server resources collected in separate fresh pass; parent SDK memory is not server memory' }
     if (resourcePass) row.mode = 'fresh-mcp-server-resource'
     let server: Awaited<ReturnType<typeof ready>> | undefined, client: any, serverStderr = ''
     const resourceFile = join(out, `${alias}-${runtime.name}-${transportName}-${def.format}-${round}-${sample}.time`)
@@ -313,7 +315,7 @@ export async function runInvocationMcpStartup(options: InvocationOptions & Start
       const callStart = performance.now(), response = await client.callTool({ name: tool, arguments: requestArgs }), payload = decodeToolPayload(response), serialized = JSON.stringify(response)
       const firstCallMs = performance.now() - callStart, firstResultMs = performance.now() - started
       row.samplesMs = resourcePass ? undefined : [firstResultMs]; row.bytes = Buffer.byteLength(serialized)
-      row.metrics = { ...row.metrics, initializeMs, initializedAndToolsConsumedMs: readyMs, discoveryBytes: Buffer.byteLength(listedJson), firstCallAndConsumptionMs: firstCallMs }
+      row.metrics = { ...row.metrics, initializeMs: resourcePass ? null : initializeMs, initializedAndToolsConsumedMs: resourcePass ? null : readyMs, discoveryBytes: Buffer.byteLength(listedJson), firstCallAndConsumptionMs: resourcePass ? null : firstCallMs }
       const artifact = payload?.svg ?? payload?.text ?? (payload?.png_base64 ? new Uint8Array(Buffer.from(payload.png_base64, 'base64')) : payload?.png ? new Uint8Array(payload.png) : undefined) ?? payload
       const q = qualifyOutput(w, artifact, def.format)
       // Receipt-bearing tool envelopes must be retained and qualified after the

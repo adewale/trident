@@ -89,3 +89,59 @@ testWithAgentic('Kanban keyword-safe encoding preserves independently authored l
   delete columnAfter.body.columns[0]!.metadata.custom
   expect(sameFacts(api, columnBefore, columnAfter, columnSource)).not.toEqual([])
 })
+
+
+testWithAgentic('Kanban effective icons survive equivalent metadata encoding without hiding authored changes', async () => {
+  const api = await import('../../../src/agent/core.ts')
+  const { sameFacts } = await import('../unified/family-suite.ts')
+  const parse = (source: string) => {
+    const result = api.parseRegisteredMermaid(source)
+    if (!result.ok) throw Error(JSON.stringify(result.error))
+    return result.value
+  }
+  for (const decorations of ['::icon(bomb)', ':::m-4 p-8\n    ::icon(bomb)', '::icon(bomb)\n    :::m-4 p-8']) {
+    const source = `kanban\n    root[The root]\n    ${decorations}\n    `
+    const original = parse(source), again = parse(api.serializeMermaid(original))
+    expect(sameFacts(api, original, again, source), decorations).toEqual([])
+  }
+  const source = 'kanban\n  root[The root]@{ custom: "root-retained" }\n  ::icon(bomb)\n  :::column\n    task[Work]@{ assigned: "Alex", custom: "task-retained" }\n    ::icon(star)\n    :::card\n    next[Next]'
+  const original = parse(source), again = parse(api.serializeMermaid(original))
+  const body = (diagram: typeof original) => {
+    if (diagram.body.kind !== 'kanban') throw Error('Expected Kanban')
+    return diagram.body
+  }
+  const item = (diagram: typeof original, scope: 'column' | 'task') => scope === 'column' ? body(diagram).columns[0]! : body(diagram).columns[0]!.tasks[0]!
+  expect(sameFacts(api, original, again, source)).toEqual([])
+  for (const scope of ['column', 'task'] as const) {
+    const redundant = structuredClone(original)
+    item(redundant, scope).metadata.icon = item(redundant, scope).icon
+    // Matching reserved metadata is redundant in either direction, including
+    // task metadata facts; neither direction may discard the explicit icon.
+    expect(sameFacts(api, original, redundant, source), scope).toEqual([])
+    expect(sameFacts(api, redundant, original, source), scope).toEqual([])
+    for (const change of ['changed-icon', 'dropped-icon', 'label', 'sourceId', 'id', 'class', 'custom'] as const) {
+      const changed = structuredClone(again), target = item(changed, scope)
+      if (change === 'changed-icon') target.icon = 'changed-icon'
+      if (change === 'dropped-icon') delete target.icon
+      if (change === 'label') target.label = 'changed label'
+      if (change === 'sourceId') target.sourceId = 'changed-source-id'
+      if (change === 'id') target.id = 'changed-public-id'
+      if (change === 'class') target.className = 'changed-class'
+      if (change === 'custom') delete target.metadata.custom
+      expect(sameFacts(api, original, changed, source), `${scope}:${change}`).not.toEqual([])
+    }
+  }
+  const reordered = structuredClone(again)
+  body(reordered).columns[0]!.tasks.reverse()
+  expect(sameFacts(api, original, reordered, source)).not.toEqual([])
+  const conflictingSource = source.replace('custom: "root-retained"', 'icon: "authored-column", custom: "root-retained"').replace('assigned: "Alex"', 'icon: "authored-task", assigned: "Alex"')
+  const conflicting = parse(conflictingSource)
+  for (const scope of ['column', 'task'] as const) {
+    for (const change of ['lost', 'overwritten'] as const) {
+      const changed = structuredClone(conflicting), target = item(changed, scope)
+      if (change === 'lost') delete target.metadata.icon
+      else target.metadata.icon = target.icon
+      expect(sameFacts(api, conflicting, changed, conflictingSource), `${scope}:${change}`).not.toEqual([])
+    }
+  }
+})

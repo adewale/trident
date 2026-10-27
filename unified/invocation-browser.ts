@@ -3,6 +3,7 @@ import { createServer } from 'node:http'
 import { createRequire } from 'node:module'
 import { extname, join, resolve } from 'node:path'
 import { gzipSync } from 'node:zlib'
+import { startupPasses, startupPassFlags } from './startup-passes.ts'
 import { assertBenchmarkToolVersion } from '../tool-versions.ts'
 import { entryImport, type InvocationOptions, invocationHarnessRoot, invocationRow } from './invocation.ts'
 import { qualifyOutput } from './qualification.ts'
@@ -23,6 +24,10 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
     require = createRequire(join(options.harnessRoot ?? invocationHarnessRoot, options.startupOnly && existsSync(join(options.harnessRoot ?? invocationHarnessRoot, 'eval/benchmark/package.json')) ? 'eval/benchmark/package.json' : 'package.json')),
     { chromium } = require('playwright')
   if (options.startupAdapter === 'mermaid') assertBenchmarkToolVersion('mermaid-js/mermaid', pkg.version, 'public browser startup baseline package')
+  const passes = startupPasses(options.startupPasses)
+  const selectedOperations = options.startupOperations
+  if (selectedOperations && (!options.startupOnly || !selectedOperations.length || new Set(selectedOperations).size !== selectedOperations.length || selectedOperations.some(operation => !['svg', 'svg-async', 'svg-receipt', 'ascii', 'unicode', 'png', 'resolved-scene', 'preview', 'input-preview'].includes(operation)))) throw Error('startupOperations requires unique known public operations in a fresh-browser startup campaign')
+  if (selectedOperations) { const file = join(out, 'startup-selection.json'); writeFileSync(file, JSON.stringify({ startupPasses: passes, startupOperations: selectedOperations, scope: 'Only selected public browser operations; unselected surfaces are not invoked' }, null, 2)); artifacts.push(file) }
   const checker = join(out, 'receipt-checker.js')
   if (!options.startupOnly) await require('esbuild').build({ entryPoints: [join(import.meta.dir, 'invocation-receipt.ts')], outfile: checker, bundle: true, platform: 'browser', format: 'iife', globalName: '__unifiedReceipt', target: 'es2022', logLevel: 'silent' })
   const mapFile = (pathname: string) => {
@@ -68,6 +73,8 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
   let actualBrowser = 'chromium:unavailable'
   try {
     for (const surface of (mermaid ? ['global'] : peer ? ['global', 'lazy'] : ['global', 'lazy', 'worker', 'editor']) as readonly ('global' | 'lazy' | 'worker' | 'editor')[]) {
+      const candidateOperations = mermaid ? ['svg'] : peer ? [surface === 'lazy' ? 'svg-async' : 'svg'] : surface === 'editor' ? ['input-preview'] : surface === 'lazy' ? ['svg', 'svg-receipt'] : surface === 'worker' ? ['preview', 'ascii', 'unicode', 'png'] : ['svg', 'svg-async', 'svg-receipt', 'ascii', 'unicode', 'png', 'resolved-scene']
+      if (selectedOperations && !candidateOperations.some(operation => selectedOperations.includes(operation))) continue
       const resource = surface === 'global' ? mermaid ? mermaidEntry && join(root, mermaidEntry) : iife && join(root, iife) : surface === 'lazy' ? lazy && join(root, lazy) : surface === 'worker' ? worker && join(site, worker) : join(site, 'editor/index.html')
       if (!resource || !existsSync(resource)) {
         rows.push({
@@ -91,7 +98,13 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
           if (await page.evaluate(() => typeof (globalThis as any).agenticMermaid?.renderResolvedScene === 'function')) supportedOperations.push('resolved-scene')
         } finally { await probe.close() }
       }
-      const iterations = Array.from({ length: options.rounds }, (_, index) => index + 1).flatMap<{ round: number; sample: number; requestedOperation: string | undefined; resourcePass: boolean }>(round => options.startupOnly ? Array.from({ length: options.startupSamplesPerRound ?? 1 }, (_, index) => index + 1).flatMap(sample => supportedOperations.flatMap(requestedOperation => (sample === 1 ? [false, true] : [false]).map(resourcePass => ({ round, sample, requestedOperation, resourcePass })))) : [{ round, sample: 1, requestedOperation: undefined, resourcePass: false }])
+      if (selectedOperations) {
+        const available = supportedOperations.filter(operation => selectedOperations.includes(operation))
+        for (const operation of selectedOperations.filter(operation => candidateOperations.includes(operation) && !supportedOperations.includes(operation))) rows.push({ ...invocationRow(`browser:${surface}`, workloads[0]!, operation, 'module', 'declaration'), status: 'blocked', detail: 'Requested public startup operation is not exported by this artifact: ' + operation })
+        if (!available.length) continue
+        supportedOperations.splice(0, supportedOperations.length, ...available)
+      }
+      const iterations = Array.from({ length: options.rounds }, (_, index) => index + 1).flatMap<{ round: number; sample: number; requestedOperation: string | undefined; resourcePass: boolean }>(round => options.startupOnly ? Array.from({ length: options.startupSamplesPerRound ?? 1 }, (_, index) => index + 1).flatMap(sample => supportedOperations.flatMap(requestedOperation => startupPassFlags(passes, sample).map(resourcePass => ({ round, sample, requestedOperation, resourcePass })))) : [{ round, sample: 1, requestedOperation: undefined, resourcePass: false }])
       for (const { round, sample, requestedOperation, resourcePass } of iterations) {
         const launchStart = performance.now()
         const browser = await chromium.launch({ headless: true, executablePath: options.executable ?? (existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : undefined) }),
@@ -204,7 +217,7 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
             family: '*',
             caseId: 'surface-load',
             samplesMs: resourcePass ? undefined : [pageToReadyMs],
-            metrics: { round, sample, resourcePass, requestedOperation: requestedOperation ?? null, browser: browser.version(), launchToReadyMs: resourcePass ? null : launchToReadyMs, clock: resourcePass ? 'separate resource diagnostic; CDP checkpoints excluded from latency samples' : 'navigation and supported API availability; worker first handshake belongs to first artifact; browser launch reported separately', cachePolicy: 'artifact defaults' },
+            metrics: { startupPasses: options.startupOnly ? passes : null, round, sample, resourcePass, requestedOperation: requestedOperation ?? null, browser: browser.version(), launchToReadyMs: resourcePass ? null : launchToReadyMs, clock: resourcePass ? 'separate resource diagnostic; CDP checkpoints excluded from latency samples' : 'navigation and supported API availability; worker first handshake belongs to first artifact; browser launch reported separately', cachePolicy: 'artifact defaults' },
           })
           if (!options.startupOnly) await page.addScriptTag({ url: origin + '/__unified/receipt-checker.js' })
           const initial = [...fetched]
@@ -364,7 +377,7 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
                 row.findings = [...new Set([...checks.flatMap((q: { findings: string[] }) => q.findings), ...resolvedFindings])] as string[]
                 row.samplesMs = resourcePass ? undefined : options.startupOnly ? [launchToFirstResultMs] : result.samples
                 row.bytes = result.bytes
-                row.metrics = { ...row.metrics, firstInputMs: result.firstMs, transferredSidecarBytes: options.startupOnly ? Buffer.byteLength(result.sidecarJson ?? '') : null, receiptOutput: result.receiptOutput ?? null, ...(options.startupOnly ? { independentFreshBrowser: true, launchToReadyMs, pageToReadyMs, clock: 'browser launch through navigation/module/API readiness and first complete artifact/all enumerable sidecars, including transfer to controller; prepared fixture HTTP server and subsequent qualification excluded' } : {}) }
+                row.metrics = { ...row.metrics, firstInputMs: resourcePass ? null : result.firstMs, transferredSidecarBytes: options.startupOnly ? Buffer.byteLength(result.sidecarJson ?? '') : null, receiptOutput: result.receiptOutput ?? null, ...(options.startupOnly ? { independentFreshBrowser: true, launchToReadyMs: resourcePass ? null : launchToReadyMs, pageToReadyMs: resourcePass ? null : pageToReadyMs, clock: resourcePass ? 'separate fresh CDP heap/RSS/PSS diagnostic; actual complete output is independently qualified; no latency sample' : 'browser launch through navigation/module/API readiness and first complete artifact/all enumerable sidecars, including transfer to controller; prepared fixture HTTP server and subsequent qualification excluded' } : {}) }
               } catch (e) {
                 row.status = 'failed'
                 row.detail = String(e)
@@ -374,6 +387,7 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
           }
           if (resourcePass) await heapSnapshot('afterConsumed')
           if (resourcePass) await page.evaluate(() => { (globalThis as any).__unifiedInvocationSink = undefined })
+          if (!options.startupOnly || passes !== 'latency') {
           const session = await context.newCDPSession(page)
           await session.send('HeapProfiler.collectGarbage')
           const heap = await session.send('Runtime.getHeapUsage')
@@ -386,7 +400,8 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
             rows.push({ ...invocationRow(`browser:${surface}`, workloads[0]!, 'process-memory', 'memory', resourcePass ? 'fresh-browser-resource-processes' : 'after-portfolio-processes'), family: '*', caseId: 'browser-process-memory', status: memory.status === 'measured' ? 'passed' : 'blocked', metrics: { round, sample, requestedOperation: requestedOperation ?? null, resourcePass, checkpoint: name, rssBytes: memory.rssBytes, pssBytes: memory.pssBytes, processCount: memory.processes.length, memoryStatus: memory.status, scope: memory.scope }, ...(memory.detail ? { detail: memory.detail } : {}) })
           }
           rows.push({ ...invocationRow(`browser:${surface}`, workloads[0]!, 'heap-checkpoint', 'memory', options.startupOnly ? resourcePass ? 'fresh-browser-resource-heap' : 'post-first-output-held-heap' : 'after-portfolio'), family: '*', caseId: 'browser-memory', metrics: { round, sample, requestedOperation: requestedOperation ?? null, resourcePass, checkpoint: options.startupOnly ? resourcePass ? 'after-consumer-sink-release-and-GC' : 'output-held-after-GC' : 'after-portfolio-and-GC', usedSize: heap.usedSize, totalSize: heap.totalSize, scope: 'main document V8 heap only; worker/native/GPU/whole-process peak excluded; module/renderer state remains' + (surface === 'editor' ? '; editor preview DOM continues to own rendered SVG' : '') } })
-          const report = { surface, round, sample, resourcePass, heapSnapshots, processMemorySnapshots, initial: payload(new Set(initial)), allFamilies: payload(fetched), browser: browser.version(), errors }
+          }
+          const report = { startupPasses: options.startupOnly ? passes : null, startupOperations: selectedOperations ?? null, surface, round, sample, resourcePass, heapSnapshots, processMemorySnapshots, initial: payload(new Set(initial)), allFamilies: payload(fetched), browser: browser.version(), errors }
           const path = join(out, `${surface}-${round}-${sample}-${requestedOperation ?? 'portfolio'}-${resourcePass ? 'resource' : 'latency'}-payload.json`)
           writeFileSync(path, JSON.stringify(report, null, 2))
           artifacts.push(path)
@@ -415,7 +430,7 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
     'Actual worker and editor artifacts come from the target website build, distinct from package-only delivery.',
     'Full editor profile exercises an eight-input burst and verifies latest artifact/receipt authority; explicit worker cancellation and scheduler race interleavings require owning preview-session tests. Structural growth/revisit is bounded to flowchart/state persistent library sessions; cache-capacity eviction is not proved.',
   )
-  for (const row of rows) row.runtime = actualBrowser
+  for (const row of rows) { row.runtime = actualBrowser; if (options.startupOnly) row.metrics = { ...row.metrics, startupPasses: passes, startupOperations: selectedOperations ? JSON.stringify(selectedOperations) : null } }
   if (mermaid) for (const row of rows) if (row.surface === 'browser:global') row.surface = 'browser:module'
   return { rows, gaps, artifacts }
 }

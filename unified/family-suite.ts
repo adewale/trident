@@ -211,6 +211,7 @@ export function sameFacts(api: Pick<AgentApi, 'describeMermaidFacts'>, before: P
     right = api.describeMermaidFacts(after)
   const findings: string[] = []
   const encodedFacts = new Set<string>()
+  const redundantIconFacts = new Set<string>()
   if (before.body.kind === 'kanban' && after.body.kind === 'kanban') {
     const original = before.body, reparsed = after.body
     type Item = typeof original.columns[number]
@@ -224,6 +225,12 @@ export function sameFacts(api: Pick<AgentApi, 'describeMermaidFacts'>, before: P
     const canonical = (item: Item | Item['tasks'][number], previous?: typeof item, factPrefix?: string): unknown => {
       const { implicitId: _implicitId, ...record } = item
       const metadata = { ...item.metadata }
+      // Decorations and @{ icon } encode the same explicit effective icon.
+      // Keep conflicting metadata and the effective icon itself in the model.
+      if (item.icon !== undefined && Object.hasOwn(metadata, 'icon') && metadata.icon === item.icon) {
+        delete metadata.icon
+        if (factPrefix) redundantIconFacts.add(`${factPrefix} metadata "icon" ${JSON.stringify(item.icon)}`)
+      }
       if (previous && previous.implicitId !== true && item.implicitId === true && /^kanban\b/i.test(previous.sourceId) && previous.sourceId !== previous.label
         && item.sourceId === previous.sourceId && item.label === previous.label && !Object.hasOwn(previous.metadata, 'label') && metadata.label === previous.label
         && literalDeclaration(previous.sourceId, previous.label)) {
@@ -237,11 +244,11 @@ export function sameFacts(api: Pick<AgentApi, 'describeMermaidFacts'>, before: P
       tasks: column.tasks.map((task, order) => canonical(task, previous?.columns[index]?.tasks[order], `task#${index}.${order}`)),
     })) })
     // Every sourceId, label, arbitrary metadata field, order, style and envelope
-    // remains checked. Only the proven writer-introduced encoding is equivalent.
+    // remains checked. Only the reviewed equivalent encodings are normalized.
     if (!isDeepStrictEqual(project(original), project(reparsed, original))) findings.push('Round trip changed Kanban authored identities, effective labels, metadata, order or declared content')
   }
-  for (const fact of left) if (!right.includes(fact)) findings.push(`Round trip dropped semantic fact: ${fact}`)
-  for (const fact of right) if (!left.includes(fact) && !encodedFacts.has(fact)) findings.push(`Round trip introduced semantic fact: ${fact}`)
+  for (const fact of left) if (!right.includes(fact) && !redundantIconFacts.has(fact)) findings.push(`Round trip dropped semantic fact: ${fact}`)
+  for (const fact of right) if (!left.includes(fact) && !encodedFacts.has(fact) && !redundantIconFacts.has(fact)) findings.push(`Round trip introduced semantic fact: ${fact}`)
   return findings
 }
 

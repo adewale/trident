@@ -42,7 +42,7 @@ test('Mermaid Node import readiness is retained while unprovisioned SVG and unde
   const root = mkdtempSync(join(tmpdir(), 'trident-mermaid-node-startup-'))
   try {
     fixture(root)
-    const options = { root, out: join(root, 'out'), profile: 'smoke' as const, rounds: 1, adapter: 'mermaid' as const, surfaces: ['library', 'cli', 'mcp'] as const, nodeExecutable: 'node', bunExecutable: join(root, 'no-bun'), observerExecutable: join(root, 'no-observer'), nativeExecutable: process.execPath }
+    const options = { root, out: join(root, 'out'), profile: 'smoke' as const, rounds: 1, adapter: 'mermaid' as const, surfaces: ['library', 'cli', 'mcp'] as const, nodeExecutable: 'node', bunExecutable: join(root, 'no-bun'), startupPasses: 'latency' as const, observerExecutable: join(root, 'no-observer'), nativeExecutable: process.execPath }
     const prepared = await prepareEntryStartup(options)
     expect(prepared.jobs.map(job => job.operation.id)).toEqual(['module-ready:json'])
     expect(prepared.inventory.some(entry => entry.kind === 'native')).toBe(false)

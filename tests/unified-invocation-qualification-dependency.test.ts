@@ -73,22 +73,25 @@ test('resolved Scene admission rejects malformed paint, identities, and numeric 
   const paint = { fill: '#fff', fillOpacity: 1, stroke: '#111', strokeOpacity: 1, strokeWidth: 1, opacity: 1, lineCap: 'butt', lineJoin: 'miter', miterLimit: 4, fillRule: 'nonzero', paintOrder: 'normal' }
   const primitive = { kind: 'text', text: 'Start', x: 10, y: 20, fontSize: 12, fontFamily: ['Inter'], fontWeight: 400, fontStyle: 'normal', anchor: 'start', matrix: [1, 0, 0, 1, 0, 0], paint }
   const part = { id: 'A', role: 'node', kind: 'text', node: { id: 'A', role: 'node', kind: 'text' }, primitives: [primitive] }
-  const scene = { version: 1, family: 'flowchart', width: 100, height: 40, svg: '<svg/>', colors: { bg: '#fff', fg: '#111' }, parts: [part], frame: [] }
-  expect(() => assertResolvedSceneEnvelope(scene)).not.toThrow()
-  expect(() => assertResolvedSceneEnvelope({ ...scene, parts: [], frame: [{ kind: 'path', d: '', matrix: primitive.matrix, paint }] })).not.toThrow()
-  for (const bad of [
-    { ...scene, colors: [] },
-    { ...scene, colors: { bg: '#fff' } },
-    { ...scene, frame: [null] },
-    { ...scene, frame: Array(1) },
-    { ...scene, parts: [{ ...part, primitives: Array(1) }] },
-    { ...scene, parts: [{ ...part, primitives: [{ ...primitive, matrix: Array(6) }] }] },
-    { ...scene, parts: [{ id: 'A', primitives: [] }] },
-    { ...scene, parts: [{ ...part, node: { ...part.node, id: 'other' } }] },
-    { ...scene, parts: [{ ...part, primitives: [null] }] },
-    { ...scene, parts: [{ ...part, primitives: [{ ...primitive, matrix: [1, 0, 0, 1, NaN, 0] }] }] },
-    { ...scene, parts: [{ ...part, primitives: [{ ...primitive, paint: { ...paint, strokeWidth: Infinity } }] }] },
-    { ...scene, parts: [{ ...part, primitives: [{ ...primitive, fontFamily: 'Inter' }] }] },
-    { ...scene, frame: [{ kind: 'unsupported', matrix: primitive.matrix, paint }] },
-  ]) expect(() => assertResolvedSceneEnvelope(bad)).toThrow()
+  for (const version of [1, 2]) {
+    const scene = { version, family: 'flowchart', width: 100, height: 40, svg: '<svg/>', colors: { bg: '#fff', fg: '#111' }, parts: [part], frame: [] }
+    expect(() => assertResolvedSceneEnvelope(scene)).not.toThrow()
+    expect(() => assertResolvedSceneEnvelope({ ...scene, parts: [], frame: [{ kind: 'path', d: '', matrix: primitive.matrix, paint }] })).not.toThrow()
+    for (const bad of [
+      { ...scene, colors: [] },
+      { ...scene, colors: { bg: '#fff' } },
+      { ...scene, frame: [null] },
+      { ...scene, frame: Array(1) },
+      { ...scene, parts: [{ ...part, primitives: Array(1) }] },
+      { ...scene, parts: [{ ...part, primitives: [{ ...primitive, matrix: Array(6) }] }] },
+      { ...scene, parts: [{ id: 'A', primitives: [] }] },
+      { ...scene, parts: [{ ...part, node: { ...part.node, id: 'other' } }] },
+      { ...scene, parts: [{ ...part, primitives: [null] }] },
+      { ...scene, parts: [{ ...part, primitives: [{ ...primitive, matrix: [1, 0, 0, 1, NaN, 0] }] }] },
+      { ...scene, parts: [{ ...part, primitives: [{ ...primitive, paint: { ...paint, strokeWidth: Infinity } }] }] },
+      { ...scene, parts: [{ ...part, primitives: [{ ...primitive, fontFamily: 'Inter' }] }] },
+      { ...scene, frame: [{ kind: 'unsupported', matrix: primitive.matrix, paint }] },
+    ]) expect(() => assertResolvedSceneEnvelope(bad)).toThrow()
+    for (const unsupported of [0, -1, 3, 1.5, '2', undefined]) expect(() => assertResolvedSceneEnvelope({ ...scene, version: unsupported })).toThrow()
+  }
 })
