@@ -1,8 +1,8 @@
 # Community and open-PR benchmark snapshot
 
-[Beautiful Mermaid, Zombie Mermaid and Frankenmermaid additions](additions/README.md) are now available in a separate five-project host cohort with fresh Mermaid/Pele controls. Their timings are not pooled with the original campaign below.
+[All benchmark scorecards](../SCORECARDS.md) · [All measured surfaces](lanes.md) · [Beautiful Mermaid, Zombie Mermaid and Frankenmermaid additions](additions/README.md). The additions use a separate host cohort with fresh Mermaid/Pele controls; timings are not pooled.
 
-Measured 2026-10-27T00:02:06.678Z through 2026-10-27T00:59:02.379Z. Five rounds, 1,087 fixed inputs across 33 families; 25 in the current mark and eight supplementary. Pinned Mermaid **12.2.0** is the reference; Pele is uniformly **1.9.0**. This snapshot covers five community projects, current Agentic and the five open Agentic PR heads captured in `runs.json`. It is the community suite, not a rerun of all 62 source suites or the full 88-project catalog.
+Measured 2026-10-27T00:02:06.678Z through 2026-10-27T00:59:02.379Z. Five rounds, 1,087 fixed inputs across 33 families; 25 in the current mark and eight supplementary. Pinned Mermaid **12.2.0** is the reference; Pele is uniformly **1.9.0**. This snapshot covers five community projects, Agentic Mermaid main and the five Agentic Mermaid PR heads captured in `runs.json`. It is the community suite, not a rerun of all 62 source suites or the full 88-project catalog.
 
 These are matched protocols on one Linux machine. The other community records retain their earlier protocols and dates; they are not silently mixed into these ranks. Candidate builds stay outside the release league. Every raw record has retained failures; collection completed successfully, but these runs do not pass a complete-fidelity gate.
 
@@ -15,7 +15,7 @@ Order: supported families, then raw admission rate, then qualified fixed-core AP
 | reference | Mermaid reference 12.2.0 | 25/25 | 887/945 (93.9%) | 868/915 (94.9%) | 2,983.5 ms | reference |
 | 1 | Pele 1.9.0 | 24/25 | 906/944 (96.0%) | 887/914 (97.0%) | 58.5 ms | 51.00× |
 | 2 | Mermaid Dart 0.3.2 | 24/25 | 806/944 (85.4%) | 793/914 (86.8%) | 82.1 ms | 36.34× |
-| 3 | Agentic release 0.4.1 | 15/25 | 632/732 (86.3%) | 624/711 (87.8%) | 1,312.9 ms | 2.27× |
+| 3 | Agentic Mermaid 0.4.1 | 15/25 | 632/732 (86.3%) | 624/711 (87.8%) | 1,312.9 ms | 2.27× |
 
 ## Captured PR heads and main snapshots: browser SVG
 
@@ -23,12 +23,12 @@ This separate candidate rank uses the same ordering and protocol. It compares ex
 
 | Rank | Candidate | Source head | Families | Raw admission | Accepted-input format + labels | First-call core | vs Mermaid |
 |---:|---|---|---:|---:|---:|---:|---:|
-| 1 | [Agentic latest / #532 0.4.2](candidate-pr-532.md) | `d3dd8adf` | 23/25 | 912/932 (97.9%) | 888/902 (98.4%) | 711.5 ms | 4.19× |
-| 2 | [Agentic earlier main 0.4.2](candidate-current.md) | `aae75393` | 23/25 | 912/932 (97.9%) | 888/902 (98.4%) | 739.9 ms | 4.03× |
-| 3 | [Agentic PR #449 0.4.2](candidate-pr-449.md) | `8f321774` | 23/25 | 912/932 (97.9%) | 888/902 (98.4%) | 769.0 ms | 3.88× |
-| 4 | [Agentic PR #487 0.4.2](candidate-pr-487.md) | `18fd5292` | 23/25 | 911/932 (97.7%) | 887/902 (98.3%) | 758.1 ms | 3.94× |
-| 5 | [Agentic PR #374 0.4.2](candidate-pr-374.md) | `2ed20a17` | 17/25 | 716/750 (95.5%) | 707/729 (97.0%) | 905.3 ms | 3.30× |
-| 6 | [Agentic PR #393 0.4.2](candidate-pr-393.md) | `7c891e18` | 16/25 | 709/745 (95.2%) | 700/724 (96.7%) | 1,323.0 ms | 2.26× |
+| 1 | [Agentic Mermaid 0.4.2 (main / #532)](candidate-pr-532.md) | `d3dd8adf` | 23/25 | 912/932 (97.9%) | 888/902 (98.4%) | 711.5 ms | 4.19× |
+| 2 | [Agentic Mermaid 0.4.2 (earlier main)](candidate-current.md) | `aae75393` | 23/25 | 912/932 (97.9%) | 888/902 (98.4%) | 739.9 ms | 4.03× |
+| 3 | [Agentic Mermaid 0.4.2 (PR #449)](candidate-pr-449.md) | `8f321774` | 23/25 | 912/932 (97.9%) | 888/902 (98.4%) | 769.0 ms | 3.88× |
+| 4 | [Agentic Mermaid 0.4.2 (PR #487)](candidate-pr-487.md) | `18fd5292` | 23/25 | 911/932 (97.7%) | 887/902 (98.3%) | 758.1 ms | 3.94× |
+| 5 | [Agentic Mermaid 0.4.2 (PR #374)](candidate-pr-374.md) | `2ed20a17` | 17/25 | 716/750 (95.5%) | 707/729 (97.0%) | 905.3 ms | 3.30× |
+| 6 | [Agentic Mermaid 0.4.2 (PR #393)](candidate-pr-393.md) | `7c891e18` | 16/25 | 709/745 (95.2%) | 700/724 (96.7%) | 1,323.0 ms | 2.26× |
 
 The earlier-main row is the initial local 0.4.2 capture at renderer base `b33e9efc5e3a6ade516148cc45d138af3dcfaa02`. The latest-main row retains the actual #532 measurement at `d3dd8adf`; #532 subsequently merged. A fresh build of public main `e8cb92ec` plus the launcher-only pin has **all 99 executable assets byte-identical**, each verified against the measured record, with equal exports and runtime declarations. [Equivalence proof](execution-equivalence.json). No new clocks or rewritten record claim that docs, tarballs or arbitrary dependency resolution are identical. The recorded npm consumer closure still applies. Exact source heads, archive digests and dates remain in `runs.json`.
 
@@ -55,13 +55,13 @@ Mermaid ASCII is a terminal CLI and does not enter a browser-SVG speed rank. The
 | Build | Surface | Output | Families | Raw admission | Accepted-input format + labels |
 |---|---|---|---:|---:|---:|
 | Mermaid ASCII 1.6.1 | cli:end-to-end | terminal | 3/25 | 234/395 (59.2%) | 234/392 (59.7%) |
-| Agentic release 0.4.1 | node:public-api | terminal | 15/25 | 570/732 (77.9%) | 564/711 (79.3%) |
-| Agentic earlier main 0.4.2 | node:public-api | terminal | 23/25 | 869/932 (93.2%) | 853/902 (94.6%) |
-| Agentic PR #487 0.4.2 | node:public-api | terminal | 23/25 | 869/932 (93.2%) | 853/902 (94.6%) |
-| Agentic PR #449 0.4.2 | node:public-api | terminal | 23/25 | 869/932 (93.2%) | 853/902 (94.6%) |
-| Agentic PR #393 0.4.2 | node:public-api | terminal | 16/25 | 624/745 (83.8%) | 617/724 (85.2%) |
-| Agentic PR #374 0.4.2 | node:public-api | terminal | 17/25 | 693/750 (92.4%) | 684/729 (93.8%) |
-| Agentic latest / #532 0.4.2 | node:public-api | terminal | 23/25 | 869/932 (93.2%) | 853/902 (94.6%) |
+| Agentic Mermaid 0.4.1 | node:public-api | terminal | 15/25 | 570/732 (77.9%) | 564/711 (79.3%) |
+| Agentic Mermaid 0.4.2 (earlier main) | node:public-api | terminal | 23/25 | 869/932 (93.2%) | 853/902 (94.6%) |
+| Agentic Mermaid 0.4.2 (PR #487) | node:public-api | terminal | 23/25 | 869/932 (93.2%) | 853/902 (94.6%) |
+| Agentic Mermaid 0.4.2 (PR #449) | node:public-api | terminal | 23/25 | 869/932 (93.2%) | 853/902 (94.6%) |
+| Agentic Mermaid 0.4.2 (PR #393) | node:public-api | terminal | 16/25 | 624/745 (83.8%) | 617/724 (85.2%) |
+| Agentic Mermaid 0.4.2 (PR #374) | node:public-api | terminal | 17/25 | 693/750 (92.4%) | 684/729 (93.8%) |
+| Agentic Mermaid 0.4.2 (main / #532) | node:public-api | terminal | 23/25 | 869/932 (93.2%) | 853/902 (94.6%) |
 
 ## Evidence retention
 
@@ -69,7 +69,7 @@ Local cleanup removed 640,114 obsolete historical files and archives (28.5 GB lo
 
 ## What improved and what became more expensive
 
-Current Agentic uses **45.8% less first-call browser API time** than published 0.4.1 in this portfolio (1,312.9 ms → 711.5 ms). Measured family support rises from 15 to 23 of 25. Coverage and raw denominators differ, so the pass-rate change is not a paired all-functionality score.
+Agentic Mermaid uses **45.8% less first-call browser API time** than published 0.4.1 in this portfolio (1,312.9 ms → 711.5 ms). Measured family support rises from 15 to 23 of 25. Coverage and raw denominators differ, so the pass-rate change is not a paired all-functionality score.
 
 The core browser payload is **39.0% larger**, and retained V8 heap is **18.7% higher**. Node parser cost also rises in the candidate report. These tradeoffs matter: the benchmark does not collapse speed, memory, coverage and delivery into one score. Many source/dependency changes separate these artifacts; these measurements do not assign causal credit to one optimization.
 
@@ -79,7 +79,7 @@ The core browser payload is **39.0% larger**, and retained V8 heap is **18.7% hi
 - Forty-two preparation caveats are retained in each record’s input ledger: nine rejected sources, 32 without nonempty getter-derived label expectations and ZenUML without a public model getter. Independent authored ZenUML labels remain checked. Parser-only and renderable feature cases still need a stronger distinction at corpus import.
 - Label admission does not establish identities, multiplicity, connectivity, painted routes, styling or perceptual fidelity. Event Modeling inline data/relationships and ZenUML native models remain gaps. Required family representatives are not exhaustive feature coverage.
 - PNG admission checks signature and dimensions, not rendered text, semantic correspondence or perceptual quality.
-- This run does not exercise every Agentic entry point or API-option combination. Dave, original pinned-Mermaid assertions, complete invocation, family-functionality and other source suites remain separate; see the overview and inventory.
+- This run does not exercise every Agentic Mermaid entry point or API-option combination. Dave, original pinned-Mermaid assertions, complete invocation, family-functionality and other source suites remain separate; see the overview and inventory.
 - Total browser/native/WASM/GPU memory, statistically tight performance differences, production workloads and model-provider dollar prices remain outside this comparison.
 
 ## Reproduce and update
