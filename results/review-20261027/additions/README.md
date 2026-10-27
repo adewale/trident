@@ -12,11 +12,15 @@ All five owning records were collected successfully and retain failures. The col
 | Zombie Mermaid | 5.10.2 | 9/25 | 485/610 (79.5%) | 481/592 (81.2%) |
 | Beautiful Mermaid | 1.1.3 | 6/25 | 243/565 (43.0%) | 239/554 (43.1%) |
 
+Zombie Mermaid hit Node's heap limit on two recursive-State terminal fixtures. Those failed worker outcomes and recovery attempts remain in its record and failure summary; this is not a claim that its browser SVG lane failed for the same reason.
+
+Failure summaries preserve the original authored source blocks, including significant whitespace. Compressed records preserve the original observation text and statuses.
+
 Frankenmermaid is the reviewed 0.4.0 checked-in JS/WASM distribution, not a build of current Rust source or the live website. Its expected WASM SHA-256 was verified during acquisition. Beautiful Mermaid and Zombie Mermaid were acquired from their actual npm packages and retain installed artifact identities.
 
 The [run summary](run-summary.json) binds the exact record IDs, measurement dates, source revision, project versions, observations and checks. The audit verified one compatible browser comparison key for all five records, five rounds, 1,087 frozen input IDs, preserved raw statuses and all retained oracle caveats. Original full evidence remains in the local record store; the compressed records and complete failure summaries below are portable review evidence. Raw SVG/text outputs remain in the local owning evidence and are omitted from this compact Git snapshot; no raw observation or failure entry was removed.
 
-Measured 2026-10-27 by [Trident](../../../README.md) against the pinned Mermaid 12.2.0 oracle, on the corpus frozen from Agentic Mermaid de612cc0, with the newer families' examples from Mermaid's mermaid@12.2.0 syntax docs. 
+Measured 2026-10-27 by [Trident](../../../README.md) against the pinned Mermaid 12.2.0 oracle, on the corpus frozen from Agentic Mermaid de612cc0, with the newer families' examples from Mermaid's mermaid@12.2.0 syntax docs.
 
 How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Tables group each output by public invocation surface and compatible protocol/runtime settings; costs and ranks never cross these boundaries. Rolling records are not paired same-session experiments. Rows within each group are ordered by correctness first: how many of the 25 currently scored families the tool supports, then the share of cases it passes in those families, then first-call fixed-core time. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so it is measured with the same checks but not ranked. An unsupported family is a coverage gap, never a failure. The legacy 23-family column preserves the original mark; the current mark also includes stable Event Modeling and required first-party ZenUML. "Newer families" counts how many of Mermaid's 8 newest families the tool supports, with its pass rate in them; it never changes a rank or the other columns. See the [methodology](../../../METHODOLOGY.md).
 
