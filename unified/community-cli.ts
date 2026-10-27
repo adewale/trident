@@ -3,7 +3,7 @@ import { readBenchmarkDocument, writeBenchmarkDocument } from '../portable/proje
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, rmSync, statSync, writeFileSync } from 'node:fs'
-import { dirname, join, resolve } from 'node:path'
+import { dirname, join, relative, resolve, sep } from 'node:path'
 import { communityCoreWorkloads, normalizeCommunityOutput, runCommunityCli } from './community.ts'
 import { defaultTimeObserver, isGnuTime } from '../portable/time-observer.ts'
 import type { CommunityArtifact, PreparedCommunity } from './community-types.ts'
@@ -67,47 +67,36 @@ function admittedIdentity(artifact: CommunityArtifact) {
   const delivery = artifact.runtime?.startsWith('node:') ? { executableBytes: executable.bytes, scope: 'external Node runtime executable; not npm package or dependency closure' } : { executableBytes: executable.bytes, scope: 'compiled CLI executable only; dynamic libraries and other external resources excluded' }
   return { executable, delivery, files, version: artifact.version, revision: artifact.revision ?? null, integrity: artifact.integrity ?? null, args: artifact.args ?? [], input: artifact.input ?? 'stdin', runtime: artifact.runtime ?? 'native:compiled-public-cli (embedded runtime version unreported)' }
 }
-function shippedFiles(root: string, directory = join(root, 'dist')): Array<{ path: string; sha256: string }> {
-  if (!existsSync(directory)) return []
+function shippedFiles(root: string, directory = root): Array<{ path: string; sha256: string }> {
   return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+    if (['node_modules', '.git'].includes(entry.name)) return []
     const path = join(directory, entry.name)
     if (entry.isDirectory()) return shippedFiles(root, path)
     return entry.isFile() ? [{ path, sha256: digest(path) }] : []
   })
 }
-function candidateVariants(options: Options, prepared: PreparedCommunity[]): Variant[] {
-  const base = prepared.find(entry => entry.node.benchmark?.adapter === 'agentic')
-  if (!base) return []
-  const unavailable = (error: string): Variant[] => [{
-    variantOf: base.node.id, variant: 'node-cli', outputs: ['svg', 'terminal'],
-    prepared: { node: { ...base.node, id: `${base.node.id}#node-cli` }, error }, error,
-  }]
-  // A failed preparation must not substitute the harness for the measured package.
-  if (!base.artifact?.root) return unavailable(base.error ?? 'Prepared Agentic Mermaid artifact has no installed package root')
-  const root = base.artifact.root,
-    candidate = resolve(root) === resolve(options.packageRoot)
-  let pkg: any
-  try { pkg = read(join(root, 'package.json')) } catch (error) { return unavailable(String(error)) }
-  const cliPath = typeof pkg.bin === 'string' ? pkg.bin : (pkg.bin?.am ?? pkg.bin?.['agentic-mermaid'])
-  if (!cliPath) return unavailable('Installed Agentic Mermaid package declares no CLI')
-  const cli = join(root, cliPath),
-    files = shippedFiles(root)
-  files.push({ path: join(root, 'package.json'), sha256: digest(join(root, 'package.json')) })
-  const nodeRuntime = JSON.parse(execFileSync(process.env.NODE_BIN ?? 'node', ['-p', 'JSON.stringify({executable:process.execPath,version:process.versions.node})'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })) as { executable: string; version: string }
-  const definitions = [
-    { variant: 'node-cli', executable: nodeRuntime.executable, args: [cli, 'render', '-', '--format', '{format}'], runtime: `node:${nodeRuntime.version} installed public CLI`, files },
-    // The compiled native CLI exists only in a candidate checkout; npm ships the Node CLI.
-    ...(candidate ? [{ variant: 'native-cli', executable: join(options.target, 'dist/am'), args: ['render', '-', '--format', '{format}'], runtime: 'bun-compiled:embedded-runtime (version unreported)', files: [] }] : []),
-  ]
-  return definitions.map(definition => ({
-    variantOf: base.node.id,
-    variant: definition.variant,
-    outputs: ['svg', 'terminal'],
-    prepared: {
-      node: { ...base.node, id: `${base.node.id}#${definition.variant}`, benchmark: { ...base.node.benchmark!, outputs: ['svg', 'unicode'] } },
-      artifact: { kind: 'cli', executable: definition.executable, args: definition.args, input: 'stdin', version: pkg.version, runtime: definition.runtime, files: definition.files },
-    },
-  }))
+/** A catalog binding selects the installed package's declared Node CLI, for any project. */
+function packageCliVariants(prepared: PreparedCommunity[]): Variant[] {
+  return prepared.filter(base => base.node.benchmark?.cli).map(base => {
+    const binding = base.node.benchmark!.cli!, variant = 'node-cli'
+    const unavailable = (error: string): Variant => ({ variantOf: base.node.id, variant, outputs: binding.outputs,
+      prepared: { node: { ...base.node, id: `${base.node.id}#${variant}` }, error }, error })
+    try {
+      if (!base.artifact?.root) return unavailable(base.error ?? 'Prepared package has no installed root')
+      const root = base.artifact.root, pkg = read(join(root, 'package.json'))
+      const bin = typeof pkg.bin === 'string' ? pkg.bin : pkg.bin?.[binding.bin]
+      if (typeof bin !== 'string') return unavailable('Installed package does not declare the requested bin: ' + binding.bin)
+      const cli = resolve(root, bin)
+      if (!existsSync(cli)) return unavailable('Declared package CLI is missing')
+      const subpath = relative(realpathSync(root), realpathSync(cli))
+      if (subpath === '..' || subpath.startsWith('..' + sep)) return unavailable('Declared package CLI is outside its artifact')
+      if (!binding.outputs.length || binding.outputs.some(output => !['svg', 'terminal', 'png'].includes(output))) return unavailable('CLI binding requires declared SVG, terminal or PNG outputs')
+      const node = JSON.parse(execFileSync(process.env.NODE_BIN ?? 'node', ['-p', 'JSON.stringify({executable:process.execPath,version:process.versions.node})'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }))
+      return { variantOf: base.node.id, variant, outputs: binding.outputs,
+        prepared: { node: { ...base.node, id: `${base.node.id}#${variant}`, benchmark: { ...base.node.benchmark!, outputs: binding.outputs } },
+          artifact: { kind: 'cli', executable: node.executable, args: [cli, ...binding.args], input: 'stdin', version: pkg.version, runtime: `node:${node.version} installed public CLI`, files: shippedFiles(root) } } }
+    } catch (error) { return unavailable(String(error)) }
+  })
 }
 function ranksFor(variants: Variant[], observations: BenchmarkObservation[], workloads: UnifiedWorkload[], rounds: number) {
   return variants
@@ -286,7 +275,7 @@ export async function runCommunityCliCohort(options: Options) {
   const variants: Variant[] = prepared
     .filter(entry => entry.artifact?.kind === 'cli')
     .map(entry => ({ prepared: entry, variantOf: entry.node.id, variant: 'public-cli', outputs: [...new Set((entry.node.benchmark?.outputs ?? entry.node.outputs).map(normalizeCommunityOutput))].filter(output => output === 'svg' || output === 'terminal') }))
-  variants.push(...candidateVariants(options, prepared))
+  variants.push(...packageCliVariants(prepared))
   if (selectedOutputs) for (const variant of variants) variant.outputs = variant.outputs.filter(output => selectedOutputs.includes(output))
   for (const variant of variants) {
     try {
@@ -495,7 +484,7 @@ export const communityObserver = (options: Pick<UnifiedRunOptions, 'observerExec
 export function communityCliCacheIdentity(options: Pick<Options, 'target' | 'packageRoot' | 'observerExecutable'>, prepared: PreparedCommunity[]) {
   return {
     observer: resourceObserver(options.observerExecutable),
-    candidates: candidateVariants(options as Options, prepared).map(variant => {
+    candidates: packageCliVariants(prepared).map(variant => {
       try {
         if (variant.error) return { variant: variant.variant, error: variant.error }
         return { variant: variant.variant, identity: admittedIdentity(variant.prepared.artifact!) }

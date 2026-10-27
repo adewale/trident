@@ -13,6 +13,8 @@ export interface CommunityBenchmarkConfig {
   runtime?: string
   /** The declared adapter's binding per output: no harness code for that tool. */
   api?: Record<string, DeclaredBinding>
+  /** Installed npm bin binding; the same contract applies to every project. */
+  cli?: { bin: string; args: string[]; outputs: string[] }
   [key: string]: unknown
 }
 /** One public export that renders a Mermaid source string. */

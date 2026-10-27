@@ -4,7 +4,7 @@ import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import sourceScripts from './agentic-scripts.json' with { type: 'json' }
 
-export const tridentRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+export const tridentRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const git = (root: string, args: string[]) => execFileSync('git', args, { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim()
 const read = (file: string): any => JSON.parse(readFileSync(file, 'utf8'))
 const write = (file: string, value: unknown) => writeFileSync(file, JSON.stringify(value, null, 2) + '\n')

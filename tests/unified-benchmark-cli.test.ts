@@ -7,7 +7,7 @@ import { dirname, join, relative, sep } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { withAgenticWorkspace } from '../integration/workspace.ts'
+import { withAgenticWorkspace } from '../adapters/agentic/workspace.ts'
 import { writeBenchmarkDocument } from '../portable/project-records.ts'
 import { parseOptions, testCounts } from '../unified/run.ts'
 import { benchmarkSuites } from '../unified/suites.ts'
@@ -42,7 +42,7 @@ test('a copied Trident package builds relative outputs and runs its compiled wor
     delete env.TRIDENT_AGENTIC_ROOT
     delete env.AM_BENCH_REPOSITORY_ROOT
     const node = execFileSync(process.env.NODE_BIN ?? 'node', ['-p', 'process.execPath'], { encoding: 'utf8' }).trim()
-    const missingKit = spawnSync(node, [join(copied, 'commands.ts'), 'run', '--help'], { cwd: empty, env, encoding: 'utf8', timeout: 10_000 })
+    const missingKit = spawnSync(node, [join(copied, 'commands.ts'), 'run', '--project', 'fixture/tool'], { cwd: empty, env, encoding: 'utf8', timeout: 10_000 })
     expect(missingKit.status).not.toBe(0)
     expect(missingKit.stderr).toContain('compiled kit is missing')
     const built = spawnSync(node, [join(copied, 'commands.ts'), 'build', '--out', 'portable/dist'], { cwd: empty, env, encoding: 'utf8', timeout: 30_000 })
@@ -138,7 +138,7 @@ test('a copied Trident package builds relative outputs and runs its compiled wor
     expect(readFileSync(document, 'utf8')).toBe(original)
     const missing = spawnSync(process.execPath, [join(copied, 'commands.ts'), 'agentic', '--list'], { cwd: empty, env, encoding: 'utf8', timeout: 10_000 })
     expect(missing.status).not.toBe(0)
-    expect(missing.stderr).toContain('Optional Agentic source adapter unavailable')
+    expect(missing.stderr).toContain('TRIDENT_AGENTIC_ROOT')
   } finally {
     rmSync(directory, { recursive: true, force: true })
   }

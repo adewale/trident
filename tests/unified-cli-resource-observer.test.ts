@@ -59,9 +59,9 @@ test('a configured observer is the one community updates bind and run, not the h
   }
 })
 
-test('an unavailable Agentic artifact retains its preparation error without aborting other project identities', () => {
+test('an unavailable declared package CLI retains its preparation error without aborting other project identities', () => {
   const result = communityCliCacheIdentity({ target: process.cwd(), packageRoot: process.cwd() }, [{
-    node: { id: 'adewale/agentic-mermaid', roles: ['renderer'], outputs: ['svg'], benchmark: { adapter: 'agentic', outputs: ['svg'] } },
+    node: { id: 'owner/renderer', roles: ['renderer'], outputs: ['svg'], benchmark: { adapter: 'declared', outputs: ['svg'], cli: { bin: 'draw', args: ['--format', '{format}'], outputs: ['svg'] } } },
     error: 'frozen package installation unavailable',
   }])
   expect(result.candidates).toHaveLength(1)

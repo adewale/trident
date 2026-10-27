@@ -729,7 +729,20 @@
         ],
         "package": "agentic-mermaid",
         "subpath": "agent",
-        "version": "0.4.1"
+        "version": "0.4.1",
+        "cli": {
+          "bin": "am",
+          "args": [
+            "render",
+            "-",
+            "--format",
+            "{format}"
+          ],
+          "outputs": [
+            "svg",
+            "terminal"
+          ]
+        }
       },
       "benchmarkEligibility": {
         "classification": "diverged-fork",

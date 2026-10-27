@@ -230,7 +230,6 @@ function validateFrozenCommunityEntry(entry: PreparedCommunity, node: CommunityN
         prefix = resolve(artifact.root, levels)
       if (installedNpmIntegrity(prefix, artifact.root, pkg.name, pkg.version) !== artifact.integrity) throw Error('Frozen npm lock integrity differs')
     }
-    if (node.benchmark?.adapter === 'agentic' && options.packageRoot && (!artifact.root || realpathSync(artifact.root) !== realpathSync(options.packageRoot))) throw Error('Frozen local candidate root differs from requested actual package')
     return { node, artifact }
   } catch (error) {
     return { node, error: `Frozen artifact validation failed (not reacquired): ${String(error)}` }
@@ -305,7 +304,7 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
         } else if (node.benchmark.package || artifact.kind === 'node') {
           if (!artifact.root) throw new Error('Provided Node artifact requires an actual package root')
           const pkg = JSON.parse(readFileSync(join(artifact.root, 'package.json'), 'utf8')) as { name: string; version: string },
-            expectedName = node.benchmark.package ?? (node.benchmark.adapter === 'agentic' ? 'agentic-mermaid' : undefined)
+            expectedName = node.benchmark.package
           if (!expectedName || pkg.name !== expectedName || pkg.version !== artifact.version) throw new Error('Provided Node artifact package name/version does not match its installed metadata')
           if (node.benchmark.package) {
             const recorded = node.benchmark.version ?? node.packages?.find(pkg => pkg.registry === 'npm' && pkg.name === expectedName)?.version
@@ -340,13 +339,6 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
         }
         const { prepareExtraCommunitySource } = await import('./community-extra-source.ts')
         artifact = await prepareExtraCommunitySource(node, process.env.AM_COMMUNITY_SOURCE_CACHE ?? cache)
-      } else if (node.benchmark.adapter === 'agentic' && (options.packageRoot || !node.benchmark.package)) {
-        // An explicit candidate checkout; the published release is an ordinary npm row.
-        const root = options.packageRoot ?? options.root,
-          module = join(root, 'dist/agent.js')
-        if (!existsSync(module)) throw new Error('Build/pack the candidate before community timing')
-        const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')) as { version: string }
-        artifact = { kind: 'node', root, module, version: pkg.version, sha256: artifactDigest(module), runtime: 'Node' }
       } else if (node.benchmark.package) artifact = await npmArtifact(node, cache, node.id === 'mermaid-js/mermaid')
       else if (node.benchmark.adapter === 'source-cli') {
         const { prepareCommunitySource } = await import('./community-source-prepare.ts')
@@ -357,7 +349,7 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
       }
       if (!artifact) throw new Error('Preparation returned no actual artifact')
       if (node.id === '1jehuang/mermaid-rs-renderer' && artifact.kind === 'cli') artifact.outputBindings = { ...(artifact.outputBindings ?? {}), png: { args: ['-i', '-', '-e', 'png', '-o', '{output}'], input: 'stdin' } }
-      artifact.detail = `${artifact.detail ?? ''}${artifact.detail ? '; ' : ''}Version policy: ${artifact.candidate ? ('revision' in artifact.candidate ? `unreleased candidate revision ${artifact.candidate.revision}, built with the reviewed source recipe; the catalog source pin does not apply` : 'unreleased candidate tarball; the catalog version pin does not apply') : provided[node.id] && options.communityArtifactPolicy === 'frozen' ? 'provided actual artifact version/bytes frozen; no latest lookup' : node.benchmark.adapter === 'agentic' ? 'local candidate source/package' : node.id === 'mermaid-js/mermaid' ? 'pinned current Mermaid' : node.benchmark.adapter === 'source-cli' || node.benchmark.adapter === 'extra-source' || node.benchmark.adapter === 'franken' ? 'recorded immutable source/distribution' : node.benchmark.version || node.benchmark.versionPolicy === 'recorded' || process.env.AM_COMMUNITY_VERSION_POLICY === 'recorded' ? 'recorded registry release' : 'resolved latest registry release'}. Recorded catalog versions remain separately available on the node.`
+      artifact.detail = `${artifact.detail ?? ''}${artifact.detail ? '; ' : ''}Version policy: ${artifact.candidate ? ('revision' in artifact.candidate ? `unreleased candidate revision ${artifact.candidate.revision}, built with the reviewed source recipe; the catalog source pin does not apply` : 'unreleased candidate tarball; the catalog version pin does not apply') : provided[node.id] && options.communityArtifactPolicy === 'frozen' ? 'provided actual artifact version/bytes frozen; no latest lookup' : node.id === 'mermaid-js/mermaid' ? 'pinned current Mermaid' : node.benchmark.adapter === 'source-cli' || node.benchmark.adapter === 'extra-source' || node.benchmark.adapter === 'franken' ? 'recorded immutable source/distribution' : node.benchmark.version || node.benchmark.versionPolicy === 'recorded' || process.env.AM_COMMUNITY_VERSION_POLICY === 'recorded' ? 'recorded registry release' : 'resolved latest registry release'}. Recorded catalog versions remain separately available on the node.`
       prepared.push({ node, artifact })
     } catch (error) {
       prepared.push({ node, error: String(error) })
@@ -1106,7 +1098,7 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
   const candidate = options as UnifiedRunOptions & { candidateTarball?: string; candidateSha256?: string }
   const targetRevision = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: options.root, encoding: 'utf8' }).trim()
   if (candidate.candidateTarball && candidate.candidateSha256 && artifactDigest(candidate.candidateTarball) !== candidate.candidateSha256) throw Error('Measured candidate tarball differs from supplied immutable artifact identity')
-  const candidateArtifact = prepared.find(entry => entry.node.benchmark?.adapter === 'agentic')?.artifact
+  const candidateArtifact = prepared.find(entry => entry.node.id === options.communityCandidate?.project)?.artifact
   const evidence = {
     protocol: 'community-fixed-core-feature-once-v2',
     outputSelection: outputSelection ?? null,
