@@ -250,7 +250,7 @@ test('portable reports preserve oracle caveats and separate pinned-accepted auth
     const result = publishResults(store, out)
     const markdown = readFileSync(join(out, 'README.md'), 'utf8')
     expect(markdown).toContain('## Input oracle caveats')
-    expect(markdown).toContain('## Pinned-accepted authored-label admission')
+    expect(markdown).toContain('## Pinned-accepted format-and-label admission')
     for (const source of ['context', 'fallback'] as const) {
       const portable = JSON.parse(gunzipSync(readFileSync(join(out, `records/fixture-${source}.json.gz`))).toString())
       expect(portable.inputEvidence.source).toBe(source === 'context' ? 'context' : 'community-inputs')
