@@ -5,13 +5,15 @@ import { StringDecoder } from 'node:string_decoder'
 import { fileURLToPath } from 'node:url'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { defaultTimeObserver } from '../portable/time-observer.ts'
+import { familySupportProbe } from '../portable/cohorts.ts'
+import { assertBenchmarkToolVersion } from '../tool-versions.ts'
 import { assertInvocationReceipt, assertResolvedSceneEnvelope } from './invocation-receipt.ts'
 import { qualifyOutput } from './qualification.ts'
 import { requiredFamilyWorkloads } from './required-family-cases.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult, UnifiedWorkload } from './types.ts'
 
-export const ENTRY_STARTUP_PROTOCOL = 'public-entry-startup-consumed-v1'
-export const ENTRY_STARTUP_PRODUCERS = [fileURLToPath(import.meta.url), fileURLToPath(new URL('./entry-startup-worker.mjs', import.meta.url)), fileURLToPath(new URL('./invocation-mcp.ts', import.meta.url)), fileURLToPath(new URL('./invocation-browser.ts', import.meta.url))]
+export const ENTRY_STARTUP_PROTOCOL = 'public-entry-startup-consumed-v3-pinned-browser-baseline'
+export const ENTRY_STARTUP_PRODUCERS = [fileURLToPath(import.meta.url), fileURLToPath(new URL('./entry-startup-worker.mjs', import.meta.url)), fileURLToPath(new URL('./invocation-mcp.ts', import.meta.url)), fileURLToPath(new URL('./invocation-browser.ts', import.meta.url)), fileURLToPath(new URL('./retained-campaigns.ts', import.meta.url))]
 const worker = ENTRY_STARTUP_PRODUCERS[1]!
 const marker = '\u0001entry-startup\u0001'
 export interface EntryStartupOptions extends UnifiedRunOptions {
@@ -20,7 +22,7 @@ export interface EntryStartupOptions extends UnifiedRunOptions {
   bunExecutable?: string
   observerExecutable?: string
   nativeExecutable?: string
-  adapter?: 'agentic' | 'pele'
+  adapter?: 'agentic' | 'pele' | 'mermaid'
   project?: string
   surfaces?: readonly ('library' | 'cli' | 'mcp' | 'browser')[]
   timeoutMs?: number
@@ -30,7 +32,7 @@ export interface StartupInvocationOptions {
   startupSamplesPerRound?: number
   startupRuntimes?: { name: string; executable: string; version: string }[]
   startupObserverExecutable?: string
-  startupAdapter?: 'agentic' | 'pele'
+  startupAdapter?: 'agentic' | 'pele' | 'mermaid'
   startupMcpTransports?: readonly ('stdio' | 'http-sse')[]
 }
 export interface EntryInventory {
@@ -53,7 +55,7 @@ export interface EntryStartupJob {
 }
 export interface PreparedEntryStartup {
   project: string
-  adapter: 'agentic' | 'pele'
+  adapter: 'agentic' | 'pele' | 'mermaid'
   packageRoot: string
   inventory: EntryInventory[]
   jobs: EntryStartupJob[]
@@ -74,7 +76,9 @@ export function discoverStartupInventory(root: string): EntryInventory[] {
   const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
   const inventory: EntryInventory[] = []
   const add = (publicName: string, path: string, conditions: unknown) => {
-    const kind = path.endsWith('.json') ? 'data' : /(?:\.global\.|\.iife\.)/.test(path) || publicName === './global' ? 'browser-global' : publicName.startsWith('./browser') ? 'browser-module' : 'module'
+    const filename = path.split('/').at(-1) ?? path
+    const data = /\.(?:json|md|markdown|txt|css|map|d\.ts)$/i.test(filename) || /^(?:readme|licen[cs]e|copying|notice|authors|changelog|changes|copyright)$/i.test(filename)
+    const kind = data ? 'data' : /(?:\.global\.|\.iife\.)/.test(path) || publicName === './global' ? 'browser-global' : publicName.startsWith('./browser') ? 'browser-module' : 'module'
     inventory.push({ publicName, path, kind, exists: existsSync(resolve(root, path)), conditions })
   }
   const exports = pkg.exports && (typeof pkg.exports === 'string' || 'import' in pkg.exports || 'default' in pkg.exports) ? { '.': pkg.exports } : pkg.exports ?? { '.': pkg.module ?? pkg.main }
@@ -125,18 +129,32 @@ export async function runStartupChild(command: string, args: string[], options: 
   })
 }
 const common: UnifiedWorkload = { id: 'entry-startup:two-node', family: 'flowchart', source: 'flowchart LR\nA[Start] --> B[End]', expectedLabels: ['Start', 'End'], features: ['labelled-nodes', 'directed-edge'], provenance: 'authored stable public-entry workload; qualification outside clocks' }
-function workloadFor(type: string | null | undefined): UnifiedWorkload | undefined {
+export function startupWorkloadFor(type: string | null | undefined): UnifiedWorkload | undefined {
   if (!type || type === 'flowchart') return common
-  const normalized = type === 'gitGraph' ? 'gitgraph' : type === 'quadrantChart' ? 'quadrant' : type
-  return requiredFamilyWorkloads().find(value => value.family === normalized)
+  const normalized = type === 'gitGraph' ? 'gitgraph' : type === 'quadrantChart' ? 'quadrant' : type === 'treeView' ? 'treeview' : type
+  const required = requiredFamilyWorkloads().find(value => value.family === normalized)
+  if (required) return required
+  const reviewed = familySupportProbe(normalized)
+  if (reviewed) return { id: `entry-startup:${normalized}`, family: normalized, source: reviewed.source, expectedLabels: [...reviewed.expected.labels], features: ['reviewed-public-family-startup'], provenance: 'Independent authored portable family-support stimulus; startup qualification does not certify full family fidelity' }
+  // This is Pele's public Info/title entry contract, not a shared Mermaid
+  // fidelity stimulus. Pinned Mermaid Info draws only its own version. Never
+  // pair this title-extension case with a canonical Mermaid Info ratio.
+  if (normalized === 'info') return { id: 'entry-startup:pele-info-title', family: 'info', source: 'info\ntitle StartupInfo', expectedLabels: ['StartupInfo'], features: ['pele-info-title-extension', 'implementation-specific-startup'], provenance: 'Independently authored title against published Pele 1.9 Info parse/render contract; canonical Mermaid info ignores titles, so this is entry readiness only and not shared fidelity' }
+
+  return undefined
 }
+
 function runtimeArgs(runtime: string, resource = false): string[] { return [...(runtime === 'node' ? ['--experimental-import-meta-resolve'] : []), ...(resource ? ['--expose-gc'] : [])] }
 export async function prepareEntryStartup(options: EntryStartupOptions): Promise<PreparedEntryStartup> {
   assertBenchmarkExecutionAllowed()
-  const packageRoot = resolve(options.portableArtifactRoot ?? options.packageRoot ?? options.root), adapter = options.adapter ?? (options.portableAdapter === 'pele' ? 'pele' : 'agentic'), project = options.project ?? options.portableProject ?? (adapter === 'pele' ? 'pele' : 'agentic-mermaid')
+  const packageRoot = resolve(options.portableArtifactRoot ?? options.packageRoot ?? options.root), adapter = options.adapter ?? (options.portableAdapter === 'pele' ? 'pele' : 'agentic'), project = options.project ?? options.portableProject ?? (adapter === 'pele' ? 'pele' : adapter === 'mermaid' ? 'mermaid-js/mermaid' : 'agentic-mermaid')
   const out = join(options.out, 'entry-startup-preparation'); mkdirSync(out, { recursive: true })
-  const inventory = discoverStartupInventory(packageRoot), jobs: EntryStartupJob[] = [], cliJobs: PreparedEntryStartup['cliJobs'] = [], gaps: string[] = [], runtimes: PreparedEntryStartup['settings']['runtimes'] = []
-  if (options.nativeExecutable) {
+  const pkg = JSON.parse(readFileSync(join(packageRoot, 'package.json'), 'utf8'))
+  if (adapter === 'mermaid') assertBenchmarkToolVersion('mermaid-js/mermaid', pkg.version, 'public startup baseline package')
+  const rootEntry = startupImportTarget(pkg.exports?.['.'] ?? pkg.module ?? pkg.main)
+  const staticInventory = adapter === 'mermaid' ? [...new Map(discoverStartupInventory(packageRoot).filter(entry => entry.kind === 'data').map(entry => [entry.publicName, entry])).values()] : []
+  const inventory: EntryInventory[] = adapter === 'mermaid' ? [...staticInventory, { publicName: '.', path: rootEntry ?? '', kind: 'module', exists: !!rootEntry && existsSync(resolve(packageRoot, rootEntry)), conditions: pkg.exports?.['.'] }, { publicName: 'browser:./dist/mermaid.esm.min.mjs', path: 'dist/mermaid.esm.min.mjs', kind: 'browser-module', exists: existsSync(join(packageRoot, 'dist/mermaid.esm.min.mjs')), conditions: 'Selected documented public browser ESM distribution covered by the wildcard export; this baseline does not recursively inventory or time every deep wildcard subpath/internal chunk' }] : discoverStartupInventory(packageRoot), jobs: EntryStartupJob[] = [], cliJobs: PreparedEntryStartup['cliJobs'] = [], gaps: string[] = [], runtimes: PreparedEntryStartup['settings']['runtimes'] = []
+  if (options.nativeExecutable && adapter === 'agentic') {
     const declared = inventory.find(value => value.kind === 'native')
     if (declared) { declared.conditions = { declaredPath: declared.path, explicitExecutable: resolve(options.nativeExecutable) }; declared.path = resolve(options.nativeExecutable); declared.exists = existsSync(declared.path) }
     else inventory.push({ publicName: 'explicit-native-executable', path: resolve(options.nativeExecutable), kind: 'native', exists: existsSync(resolve(options.nativeExecutable)) })
@@ -148,6 +166,7 @@ export async function prepareEntryStartup(options: EntryStartupOptions): Promise
   let observer = { executable: observerExecutable, available: false, version: '' }
   try { const result = await runStartupChild(observerExecutable, ['--version'], { cwd: packageRoot }); observer = { executable: observerExecutable, available: result.code === 0 && /GNU [Tt]ime/.test(result.stdout + result.stderr), version: (result.stdout + result.stderr).trim() } } catch {}
   const surfaces = options.surfaces ?? ['library', 'cli', 'mcp', 'browser']
+  if (adapter === 'mermaid' && surfaces.includes('library')) gaps.push('Pinned Mermaid Node/Bun root import readiness is measured without DOM shims. SVG rendering requires a genuine SVG geometry environment, not supplied by the sealed Canvas/jsdom raster preflight; native-browser SVG startup is the applicable rendering baseline. No fake getBBox or cross-environment render ratio is used.')
   if (surfaces.includes('library')) for (const entry of inventory.filter(value => value.kind === 'module')) {
     if (!entry.exists) { gaps.push(`Declared entry missing or unresolved: ${entry.publicName}`); continue }
     for (const runtime of runtimes) {
@@ -156,7 +175,7 @@ export async function prepareEntryStartup(options: EntryStartupOptions): Promise
       const discovery = await runStartupChild(runtime.executable, [...runtimeArgs(runtime.name), worker, file], { cwd: packageRoot, timeoutMs: options.timeoutMs })
       const result = discovery.phases.find(value => value.phase === 'discovery')
       if (discovery.code !== 0 || !result) { gaps.push(`${entry.publicName}/${runtime.name} discovery failed: ${discovery.stderr || discovery.phases.find(value => value.phase === 'failed')?.error || discovery.stdout}`); continue }
-      const workload = workloadFor(result.diagramType as string | null)
+      const workload = startupWorkloadFor(result.diagramType as string | null)
       if (!workload) { gaps.push(`${entry.publicName}/${runtime.name}: no independently authored startup render fixture for diagram type ${String(result.diagramType)}; import-ready discovery measured; render unmeasured`); jobs.push({ id: `${entry.publicName}/${runtime.name}/module-ready:json`, entry, runtime: runtime.name, executable: runtime.executable, operation: { id: 'module-ready:json', name: null, format: 'json', factory: null, receipt: false, discovery: true }, workload: common }); continue }
       const discovered = result.operations as StartupOperation[]
       const operations = discovered.length ? discovered : [{ id: 'module-ready:json', name: null, format: 'json', factory: null, receipt: false, discovery: true }]
@@ -200,6 +219,7 @@ export async function runEntryStartupSuite(options: EntryStartupOptions, prepare
   const inventoryFile = join(out, 'inventory.json'); writeFileSync(inventoryFile, JSON.stringify(p, null, 2)); artifacts.push(inventoryFile)
   if (p.settings.rounds * p.settings.samplesPerRound < 20) gaps.push('Fewer than 20 independent fresh samples per interface: smoke only; p95 unavailable and no reliable tail claim.')
   for (const entry of p.inventory.filter(value => value.kind === 'data' || !value.exists)) observations.push({ suite: 'entry-startup', surface: entry.publicName, runtime: 'inventory', family: '*', caseId: entry.publicName, operation: 'entry-inventory', format: entry.kind, mode: 'declaration', status: entry.exists ? 'not-applicable' : 'blocked', detail: entry.exists ? 'Public data export; no executable startup/API result.' : 'Declared artifact absent or conditional target unsupported; no sample manufactured.' })
+  if (p.adapter === 'mermaid' && p.settings.surfaces.includes('library')) for (const runtime of p.settings.runtimes) observations.push({ suite: 'entry-startup', surface: 'library:.', runtime: runtime.name, family: common.family, caseId: 'entry-startup:two-node', operation: 'render:svg', format: 'svg', mode: 'process-to-first-consumed', status: 'blocked', metrics: { project: p.project }, detail: 'No genuine Node/Bun SVG geometry adapter is admitted. The native-browser render baseline is measured separately; import readiness is not render readiness.' })
   let sequence = 0
   for (const job of p.jobs) for (let round = 1; round <= p.settings.rounds; round++) for (let sample = 1; sample <= p.settings.samplesPerRound; sample++) {
     const prefix = join(out, `sample-${++sequence}`), jobFile = prefix + '.job.json', resultFile = prefix + '.result.json'

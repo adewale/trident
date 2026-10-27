@@ -1,4 +1,5 @@
 import './ci-policy-enforce.ts'
+import { median } from './portable/statistics.ts'
 // One release-benchmark measurement in a fresh Node process, against one built
 // package. Run by release-bench.ts; Node strips the types.
 //
@@ -54,11 +55,6 @@ function fingerprint(outcome: Outcome): OutputFingerprint {
 }
 
 const same = (a: OutputFingerprint, b: OutputFingerprint) => a.ok === b.ok && a.sha256 === b.sha256 && a.bytes === b.bytes
-
-function median(values: number[]): number {
-  const sorted = [...values].sort((a, b) => a - b)
-  return sorted[sorted.length >> 1]!
-}
 
 const importStart = performance.now()
 const mod = (await import(pathToFileURL(job.entry).href)) as Renderer

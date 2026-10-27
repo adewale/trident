@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
+import { median as sampleMedian } from '../portable/statistics.ts'
 import { ENGINES as engines, validateEngineEvidence } from './evidence.mjs'
 
 const out = resolve(process.argv[2] ?? '.')
@@ -14,7 +15,7 @@ for (const [name, rows] of [['themes', report.themes], ['themeSharing', report.t
 }
 if (report.themes.some(row => row.ok && row.activeTheme !== row.theme)) throw new Error('Theme success requires the requested active theme')
 if (report.themeSharing.some(row => row.ok && (row.sharedTheme !== row.theme || row.restoredTheme !== row.theme))) throw new Error('Theme sharing success requires preserved and restored theme identity')
-const median = values => [...values].sort((a, b) => a - b)[values.length >> 1]
+const median = values => values.length ? sampleMedian(values) : undefined
 const accepted = Object.fromEntries(engines.map(engine => {
   const rows = report.engines.filter(row => row.engine === engine)
   return [engine, new Set(inventory.occurrences.filter(input => rows.filter(row => row.id === input.id && row.ok).length === 3).map(input => input.id))]

@@ -1,4 +1,5 @@
 import './ci-policy-enforce.ts'
+import { median as sampleMedian } from './portable/statistics.ts'
 // Advisory real-editor workloads. Does not replace Dave's raw SVG scorecard.
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
@@ -7,6 +8,7 @@ import { benchmarkHost, benchmarkOptions, driverRevision, percentile, positiveOp
 import { realmMemory } from './browser-realm-memory.ts'
 import { editorSessionCases } from './editor-session-cases.ts'
 
+const median = (values: number[]) => values.length ? sampleMedian(values) : null
 const options = benchmarkOptions(['--site', '--entry', '--out', '--executable', '--cold-runs', '--warm-edits', '--session-edits', '--burst-edits', '--memory-every', '--case'], ['--site', '--out'])
 const site = resolve(options.get('--site')!), out = resolve(options.get('--out')!), entry = options.get('--entry') ?? '/editor/'
 const coldRuns = positiveOption(options, '--cold-runs', 5), warmEdits = positiveOption(options, '--warm-edits', 20)
@@ -76,9 +78,9 @@ try {
   if (errors.length || telemetry.some(t => t.staleAuthority || t.maxInFlight > 1)) throw new Error(`Editor integrity failure: ${JSON.stringify({ errors, telemetry })}`)
   const summary = cases.flatMap(input => ['cold', 'warm', 'session', 'burst'].map(phase => {
     const rows = samples.filter(s => s.id === input.id && s.phase === phase)
-    return { id: input.id, family: input.family, phase, count: rows.length, medianMs: percentile(rows.map(r => r.elapsedMs), .5), p95Ms: percentile(rows.map(r => r.elapsedMs), .95),
-      medianTimerGapMs: percentile(rows.map(r => r.maxTimerGapMs), .5), p95TimerGapMs: percentile(rows.map(r => r.maxTimerGapMs), .95),
-      medianNavigationToVerifiedMs: phase === 'cold' ? percentile(rows.map(r => r.navigationToVerifiedMs), .5) : undefined }
+    return { id: input.id, family: input.family, phase, count: rows.length, medianMs: median(rows.map(r => r.elapsedMs)), p95Ms: percentile(rows.map(r => r.elapsedMs), .95),
+      medianTimerGapMs: median(rows.map(r => r.maxTimerGapMs)), p95TimerGapMs: percentile(rows.map(r => r.maxTimerGapMs), .95),
+      medianNavigationToVerifiedMs: phase === 'cold' ? median(rows.map(r => r.navigationToVerifiedMs)) : undefined }
   }))
   const builtProvenance = JSON.parse(readFileSync(join(site, 'capabilities.json'), 'utf8')).generatedFrom
   writeFileSync(reportPath, JSON.stringify({ status: 'completed', advisory: true, driverRevision: driverRevision(), builtProvenance, browser: browser.version(),

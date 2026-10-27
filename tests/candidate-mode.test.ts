@@ -218,6 +218,8 @@ const evidence = () => {
 }
 const row = (caseId: string, status: 'passed' | 'failed', version: string, extra: Record<string, unknown> = {}) => ({ suite: 'community', surface: 'node:public-api', runtime: 'Node', family: 'flowchart', caseId, operation: 'render', format: 'svg', mode: 'feature-corpus-qualification', status, ...extra, metrics: { implementation: project, round: 1, version } })
 function record(id: string, identity: ProjectBenchmarkIdentity, version: string, statuses: Record<string, 'passed' | 'failed'>): ProjectBenchmarkRecord {
+  identity = JSON.parse(JSON.stringify(identity))
+  ;(identity.artifact as any).package.artifact.version = version
   const observations = [row('family:flowchart', 'passed', version, { operation: 'family-support' }), ...Object.entries(statuses).map(([caseId, status]) => row(caseId, status, version))] as ProjectBenchmarkRecord['observations']
   return { schemaVersion: 1, id, identity, startedAt: '2026-10-26T00:00:00Z', finishedAt: '2026-10-26T00:01:00Z', status: observations.some(row => row.status === 'failed') ? 'failed' : 'passed', evidenceDirectory: evidence(), evidenceFiles: ['result.json'], observations, gaps: [] }
 }

@@ -7,7 +7,7 @@ tables, a JSON summary, Markdown methods, and PNG/SVG/PDF figures. It uses no
 renderer APIs, benchmark execution, Git queries, or external web assets.
 
 ```sh
-python3 eval/benchmark/visualizations/entry-startup.py \
+python3 visualizations/entry-startup.py \
   --startup adewale/agentic-mermaid=/path/to/agentic/raw-result.json \
   --startup obsidianmd/pele=/path/to/pele/result.json \
   --required-family /path/to/stable-support/result.json \

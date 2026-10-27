@@ -46,3 +46,46 @@ testWithAgentic('native blank-build witnesses exercise connectivity rather than 
     expect(qualifyOutput({ id: `build:${family}`, family, source: built.source, features: ['typed-build'], provenance: 'authored structural operations', expectedLabels: ['UnifiedBenchmarkWitness'] }, api.renderMermaidSVG(parsed.value), 'svg').ok).toBe(true)
   }
 })
+
+testWithAgentic('Kanban keyword-safe encoding preserves independently authored labels, identities and arbitrary metadata', async () => {
+  const api = await import('../../../src/agent/core.ts')
+  const { sameFacts } = await import('../unified/family-suite.ts')
+  const source = 'kanban\n  doing[In progress]\n    kanban[Kanban family]@{ assigned: "Alex", ticket: "AM-409", custom: "retained" }'
+  const parse = (text: string) => {
+    const result = api.parseRegisteredMermaid(text)
+    if (!result.ok) throw Error(JSON.stringify(result.error))
+    return result.value
+  }
+  const before = parse(source), serialized = api.serializeMermaid(before), after = parse(serialized)
+  if (after.body.kind !== 'kanban' || before.body.kind !== 'kanban') throw Error('Expected native Kanban models')
+  const task = after.body.columns[0]!.tasks[0]!
+  expect(task.sourceId).toBe('kanban')
+  expect(task.label).toBe('Kanban family')
+  expect(task.metadata).toMatchObject({ assigned: 'Alex', ticket: 'AM-409', custom: 'retained', label: 'Kanban family' })
+  expect(sameFacts(api, before, after, source)).toEqual([])
+  // Missing source ownership cannot authorize a normalization inferred solely
+  // from candidate output, even when its observed metadata happens to agree.
+  expect(sameFacts(api, before, after)).not.toEqual([])
+  for (const change of ['label', 'sourceId', 'ticket', 'nested-metadata', 'column-metadata'] as const) {
+    const changed = structuredClone(after)
+    if (changed.body.kind !== 'kanban') throw Error('Expected Kanban')
+    const target = changed.body.columns[0]!.tasks[0]!
+    if (change === 'label') { target.label = 'Changed label'; target.metadata.label = target.label }
+    if (change === 'sourceId') target.sourceId = 'other'
+    if (change === 'ticket') delete target.metadata.ticket
+    if (change === 'nested-metadata') target.metadata.custom = { retained: false }
+    if (change === 'column-metadata') changed.body.columns[0]!.metadata.extra = 'invented'
+    expect(sameFacts(api, before, changed, source), change).not.toEqual([])
+  }
+  const authoredLabel = source.replace('ticket: "AM-409",', 'ticket: "AM-409", label: "Kanban family",')
+  const original = parse(authoredLabel), lost = structuredClone(original)
+  if (lost.body.kind !== 'kanban') throw Error('Expected Kanban')
+  delete lost.body.columns[0]!.tasks[0]!.metadata.label
+  expect(sameFacts(api, original, lost, authoredLabel)).not.toEqual([])
+  const columnSource = 'kanban\n  kanban[Kanban column]@{ custom: "retained" }\n    task[Work]'
+  const columnBefore = parse(columnSource), columnAfter = parse(api.serializeMermaid(columnBefore))
+  expect(sameFacts(api, columnBefore, columnAfter, columnSource)).toEqual([])
+  if (columnAfter.body.kind !== 'kanban') throw Error('Expected Kanban')
+  delete columnAfter.body.columns[0]!.metadata.custom
+  expect(sameFacts(api, columnBefore, columnAfter, columnSource)).not.toEqual([])
+})

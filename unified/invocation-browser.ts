@@ -3,6 +3,7 @@ import { createServer } from 'node:http'
 import { createRequire } from 'node:module'
 import { extname, join, resolve } from 'node:path'
 import { gzipSync } from 'node:zlib'
+import { assertBenchmarkToolVersion } from '../tool-versions.ts'
 import { entryImport, type InvocationOptions, invocationHarnessRoot, invocationRow } from './invocation.ts'
 import { qualifyOutput } from './qualification.ts'
 import type { BenchmarkObservation, UnifiedWorkload } from './types.ts'
@@ -21,6 +22,7 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
     pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')),
     require = createRequire(join(options.harnessRoot ?? invocationHarnessRoot, options.startupOnly && existsSync(join(options.harnessRoot ?? invocationHarnessRoot, 'eval/benchmark/package.json')) ? 'eval/benchmark/package.json' : 'package.json')),
     { chromium } = require('playwright')
+  if (options.startupAdapter === 'mermaid') assertBenchmarkToolVersion('mermaid-js/mermaid', pkg.version, 'public browser startup baseline package')
   const checker = join(out, 'receipt-checker.js')
   if (!options.startupOnly) await require('esbuild').build({ entryPoints: [join(import.meta.dir, 'invocation-receipt.ts')], outfile: checker, bundle: true, platform: 'browser', format: 'iife', globalName: '__unifiedReceipt', target: 'es2022', logLevel: 'silent' })
   const mapFile = (pathname: string) => {
@@ -56,16 +58,17 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
     })
     return { files, bytes: files.reduce((n, f) => n + f.bytes, 0), gzip: files.reduce((n, f) => n + f.gzip, 0) }
   }
-  const peer = options.startupAdapter === 'pele'
+  const peer = options.startupAdapter === 'pele', mermaid = options.startupAdapter === 'mermaid'
   const iife = entryImport(pkg.exports?.[peer ? './global' : './browser']),
+    mermaidEntry = mermaid ? 'dist/mermaid.esm.min.mjs' : undefined,
     lazy = entryImport(pkg.exports?.[peer ? './lazy' : './browser/lazy']),
     runtime = join(site, 'editor/runtime'),
     workerCandidates = existsSync(runtime) ? readdirSync(runtime).filter(name => /^browser-preview-worker-.*\.js$/.test(name)) : [],
     worker = workerCandidates.length === 1 ? '/editor/runtime/' + workerCandidates[0] : undefined
   let actualBrowser = 'chromium:unavailable'
   try {
-    for (const surface of (peer ? ['global', 'lazy'] : ['global', 'lazy', 'worker', 'editor']) as readonly ('global' | 'lazy' | 'worker' | 'editor')[]) {
-      const resource = surface === 'global' ? iife && join(root, iife) : surface === 'lazy' ? lazy && join(root, lazy) : surface === 'worker' ? worker && join(site, worker) : join(site, 'editor/index.html')
+    for (const surface of (mermaid ? ['global'] : peer ? ['global', 'lazy'] : ['global', 'lazy', 'worker', 'editor']) as readonly ('global' | 'lazy' | 'worker' | 'editor')[]) {
+      const resource = surface === 'global' ? mermaid ? mermaidEntry && join(root, mermaidEntry) : iife && join(root, iife) : surface === 'lazy' ? lazy && join(root, lazy) : surface === 'worker' ? worker && join(site, worker) : join(site, 'editor/index.html')
       if (!resource || !existsSync(resource)) {
         rows.push({
           ...invocationRow(`browser:${surface}`, workloads[0]!, 'load', 'module', 'fresh-browser'),
@@ -76,8 +79,8 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
         })
         continue
       }
-      const supportedOperations = peer ? [surface === 'lazy' ? 'svg-async' : 'svg'] : surface === 'editor' ? ['input-preview'] : surface === 'lazy' ? ['svg', 'svg-receipt'] : surface === 'worker' ? ['preview', 'ascii', 'unicode', 'png'] : ['svg', 'svg-async', 'svg-receipt', 'ascii', 'unicode', 'png']
-      if (!peer && surface === 'global') {
+      const supportedOperations = mermaid ? ['svg'] : peer ? [surface === 'lazy' ? 'svg-async' : 'svg'] : surface === 'editor' ? ['input-preview'] : surface === 'lazy' ? ['svg', 'svg-receipt'] : surface === 'worker' ? ['preview', 'ascii', 'unicode', 'png'] : ['svg', 'svg-async', 'svg-receipt', 'ascii', 'unicode', 'png']
+      if (!peer && !mermaid && surface === 'global') {
         // Capability discovery is outside fresh-browser clocks, like library
         // namespace discovery. It never calls the rendering operation.
         const probe = await chromium.launch({ headless: true, executablePath: options.executable ?? (existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : undefined) })
@@ -115,7 +118,13 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
           if (resourcePass) { await page.goto(origin + '/blank'); await heapSnapshot('beforeTargetLoad') }
           const loadStart = performance.now()
           await page.goto(origin + (surface === 'editor' ? '/editor/?empty=1' : '/blank'))
-          if (surface === 'global') await page.addScriptTag({ url: origin + '/pkg/' + iife!.replace(/^\.\//, '') })
+          if (mermaid) await page.evaluate(async (url: string) => {
+            const api = (await import(url)).default
+            if (typeof api?.initialize !== 'function' || typeof api?.render !== 'function') throw Error('Pinned Mermaid public initialize/render unavailable')
+            await api.initialize({ startOnLoad: false, securityLevel: 'strict', logLevel: 'fatal' })
+            ;(globalThis as any).__invocationMermaid = api
+          }, origin + '/pkg/' + mermaidEntry!.replace(/^\.\//, ''))
+          if (surface === 'global' && !mermaid) await page.addScriptTag({ url: origin + '/pkg/' + iife!.replace(/^\.\//, '') })
           if (surface === 'lazy')
             await page.evaluate(
               async (url: string) => {
@@ -272,12 +281,12 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
             for (const operation of operations) {
               const format = operation === 'preview' || operation === 'resolved-scene' || operation.startsWith('svg') ? 'svg' : operation,
                 row = invocationRow(`browser:${surface}`, w, operation, format, options.startupOnly ? resourcePass ? 'fresh-browser-resource' : 'browser-launch-to-first-consumed' : 'first-and-warm-consumed')
-              row.metrics = { round, sample, clock: surface === 'worker' ? 'main thread request through message clone/worker reply and consumed artifact' : 'public API through consumed UTF8/receipt or PNG; subsequent validation excluded' }
+              row.metrics = { round, sample, ...(mermaid ? { adapter: 'mermaid', publicEntry: './dist/mermaid.esm.min.mjs', environment: 'real Chromium DOM/SVG geometry; no synthetic BBox', setup: 'public ESM import and initialize included before first render; browser launch included in startup result', consumptionScope: 'SVG UTF8 and JSON-serializable enumerable sidecars; bindFunctions callback retained but not invoked or assigned a byte cost' } : {}), clock: surface === 'worker' ? 'main thread request through message clone/worker reply and consumed artifact' : 'public API through consumed UTF8/receipt or PNG; subsequent validation excluded' }
               try {
                 const result = await page.evaluate(
-                  async ({ source, surface, operation, startupOnly, peer }: { source: string; surface: string; operation: string; startupOnly: boolean; peer: boolean }) => {
+                  async ({ source, surface, operation, startupOnly, peer, mermaid }: { source: string; surface: string; operation: string; startupOnly: boolean; peer: boolean; mermaid: boolean }) => {
                     const g = globalThis as any,
-                      api = surface === 'global' ? peer ? g.pele : g.agenticMermaid : g.__invocationApi
+                      api = mermaid ? g.__invocationMermaid : surface === 'global' ? peer ? g.pele : g.agenticMermaid : g.__invocationApi
                     const raster = async (svg: string, context: any) => {
                       const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }))
                       try {
@@ -298,7 +307,7 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
                       }
                     }
                     const call = () =>
-                      peer ? operation === 'svg-async' ? api.renderAsync(source) : api.render(source) : surface === 'worker'
+                      mermaid ? api.render('entryStartupDiagram', source) : peer ? operation === 'svg-async' ? api.renderAsync(source) : api.render(source) : surface === 'worker'
                         ? g.__invocationCall(operation, source)
                         : operation === 'resolved-scene' ? api.renderResolvedScene(source) : operation === 'svg'
                           ? api.renderMermaidSVG
@@ -321,12 +330,13 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
                         artifact = artifactKey ? value[artifactKey] : value,
                         bytes = artifact instanceof Uint8Array ? new Uint8Array(artifact) : new TextEncoder().encode(typeof artifact === 'string' ? artifact : JSON.stringify(artifact)),
                         sidecars = artifactKey ? Object.fromEntries(Object.entries(value).filter(([key]) => key !== artifactKey)) : undefined,
-                        metadata = sidecars ? new TextEncoder().encode(JSON.stringify(sidecars)) : undefined
+                        sidecarJson = sidecars ? JSON.stringify(sidecars) : undefined,
+                        metadata = sidecarJson ? new TextEncoder().encode(sidecarJson) : undefined
                       g.__unifiedInvocationSink = [value, bytes, metadata]
-                      return { ms: performance.now() - started, artifact, bytes: bytes.length + (metadata?.length ?? 0), receipt: value?.receipt, receiptOutput: value?.receipt?.output, resolved: operation === 'resolved-scene' ? sidecars : undefined }
+                      return { ms: performance.now() - started, artifact, sidecarJson, bytes: bytes.length + (metadata?.length ?? 0), receipt: value?.receipt, receiptOutput: value?.receipt?.output, resolved: operation === 'resolved-scene' ? sidecars : undefined }
                     }
                     const first = await invoke()
-                    if (startupOnly) return { firstMs: first.ms, samples: [] as number[], bytes: first.bytes, artifacts: [first.artifact instanceof Uint8Array ? Array.from(first.artifact) : first.artifact], receipt: first.receipt, receiptOutput: first.receiptOutput, resolved: [first.resolved] }
+                    if (startupOnly) return { sidecarJson: first.sidecarJson, firstMs: first.ms, samples: [] as number[], bytes: first.bytes, artifacts: [first.artifact instanceof Uint8Array ? Array.from(first.artifact) : first.artifact], receipt: first.receipt, receiptOutput: first.receiptOutput, resolved: [first.resolved] }
                     await invoke()
                     const samples = [],
                       artifacts = [first.artifact], resolved = [first.resolved]
@@ -338,7 +348,7 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
                     }
                     return { firstMs: first.ms, samples, bytes: first.bytes, artifacts: artifacts.map(artifact => (artifact instanceof Uint8Array ? Array.from(artifact) : artifact)), receipt: first.receipt, receiptOutput: first.receiptOutput, resolved }
                   },
-                  { source: w.source, surface, operation, startupOnly: !!options.startupOnly, peer },
+                  { source: w.source, surface, operation, startupOnly: !!options.startupOnly, peer, mermaid },
                 )
                 // Consume the complete Playwright-transferred envelope before
                 // stopping the process-to-result clock. Validation follows it.
@@ -354,7 +364,7 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
                 row.findings = [...new Set([...checks.flatMap((q: { findings: string[] }) => q.findings), ...resolvedFindings])] as string[]
                 row.samplesMs = resourcePass ? undefined : options.startupOnly ? [launchToFirstResultMs] : result.samples
                 row.bytes = result.bytes
-                row.metrics = { ...row.metrics, firstInputMs: result.firstMs, receiptOutput: result.receiptOutput ?? null, ...(options.startupOnly ? { independentFreshBrowser: true, launchToReadyMs, pageToReadyMs, clock: 'browser launch through navigation/module/API readiness and first complete artifact/all enumerable sidecars, including transfer to controller; prepared fixture HTTP server and subsequent qualification excluded' } : {}) }
+                row.metrics = { ...row.metrics, firstInputMs: result.firstMs, transferredSidecarBytes: options.startupOnly ? Buffer.byteLength(result.sidecarJson ?? '') : null, receiptOutput: result.receiptOutput ?? null, ...(options.startupOnly ? { independentFreshBrowser: true, launchToReadyMs, pageToReadyMs, clock: 'browser launch through navigation/module/API readiness and first complete artifact/all enumerable sidecars, including transfer to controller; prepared fixture HTTP server and subsequent qualification excluded' } : {}) }
               } catch (e) {
                 row.status = 'failed'
                 row.detail = String(e)
@@ -406,5 +416,6 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
     'Full editor profile exercises an eight-input burst and verifies latest artifact/receipt authority; explicit worker cancellation and scheduler race interleavings require owning preview-session tests. Structural growth/revisit is bounded to flowchart/state persistent library sessions; cache-capacity eviction is not proved.',
   )
   for (const row of rows) row.runtime = actualBrowser
+  if (mermaid) for (const row of rows) if (row.surface === 'browser:global') row.surface = 'browser:module'
   return { rows, gaps, artifacts }
 }

@@ -28,7 +28,7 @@ starts a browser, fetches dependencies, or reruns a benchmark. Its outputs are
 library. Keep generated outputs outside the repository.
 
 ```sh
-python -B eval/benchmark/visualizations/mermaid_baseline.py \
+python -B visualizations/mermaid_baseline.py \
   --dave /evidence/current/dave/browser-report.json \
   --upstream /evidence/agentic/upstream-test-assertions-report.json \
   --upstream /evidence/pele/upstream-test-assertions-report.json \
@@ -87,7 +87,7 @@ facade/preparation/assertion time does not become an engine speed ranking.
 Historical community evidence is a separate invocation:
 
 ```sh
-python -B eval/benchmark/visualizations/mermaid_baseline.py \
+python -B visualizations/mermaid_baseline.py \
   --community /evidence/historical/community \
   --out /evidence/historical/normalized
 ```
@@ -105,7 +105,7 @@ not establish higher semantic fidelity.
 Run the reducer's owning controls without running any tools:
 
 ```sh
-python -B -m unittest discover -s eval/benchmark/visualizations \
+python -B -m unittest discover -s visualizations \
   -p mermaid_baseline_test.py
 ```
 

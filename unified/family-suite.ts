@@ -1,4 +1,6 @@
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { createHash } from 'node:crypto'
+import { isDeepStrictEqual } from 'node:util'
 import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
@@ -202,15 +204,68 @@ function blockRoundTripProjection(body: BlockBody): unknown {
   }
 }
 
-function sameFacts(api: AgentApi, before: ParsedDiagram, after: ParsedDiagram): string[] {
+export function sameFacts(api: Pick<AgentApi, 'describeMermaidFacts'>, before: ParsedDiagram, after: ParsedDiagram, authoredSource = ''): string[] {
   if (before.body.kind === 'block' && after.body.kind === 'block')
     return JSON.stringify(blockRoundTripProjection(before.body)) === JSON.stringify(blockRoundTripProjection(after.body)) && JSON.stringify(before.meta.accessibility) === JSON.stringify(after.meta.accessibility) ? [] : ['Round trip changed block tree order, span, authored identity, endpoint or declared content']
   const left = api.describeMermaidFacts(before),
     right = api.describeMermaidFacts(after)
   const findings: string[] = []
+  const encodedFacts = new Set<string>()
+  if (before.body.kind === 'kanban' && after.body.kind === 'kanban') {
+    const original = before.body, reparsed = after.body
+    type Item = typeof original.columns[number]
+    const literalDeclaration = (sourceId: string, label: string): boolean => {
+      // Deliberately narrow independent source witness. Rich/escaped declarations
+      // stay exact unless their owner supplies a separately reviewed projection.
+      if (/[\[\]"\r\n]/.test(label)) return false
+      const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      return new RegExp(`^[ \\t]*${escape(sourceId)}\\[${escape(label)}\\](?:[ \\t]*@\\{|[ \\t]*(?:%%.*)?$)`, 'm').test(authoredSource)
+    }
+    const canonical = (item: Item | Item['tasks'][number], previous?: typeof item, factPrefix?: string): unknown => {
+      const { implicitId: _implicitId, ...record } = item
+      const metadata = { ...item.metadata }
+      if (previous && previous.implicitId !== true && item.implicitId === true && /^kanban\b/i.test(previous.sourceId) && previous.sourceId !== previous.label
+        && item.sourceId === previous.sourceId && item.label === previous.label && !Object.hasOwn(previous.metadata, 'label') && metadata.label === previous.label
+        && literalDeclaration(previous.sourceId, previous.label)) {
+        delete metadata.label
+        if (factPrefix) encodedFacts.add(`${factPrefix} metadata "label" ${JSON.stringify(previous.label)}`)
+      }
+      return { ...record, metadata }
+    }
+    const project = (body: typeof original, previous?: typeof original) => ({ ...body, columns: body.columns.map((column, index) => ({
+      ...(canonical(column, previous?.columns[index]) as Record<string, unknown>),
+      tasks: column.tasks.map((task, order) => canonical(task, previous?.columns[index]?.tasks[order], `task#${index}.${order}`)),
+    })) })
+    // Every sourceId, label, arbitrary metadata field, order, style and envelope
+    // remains checked. Only the proven writer-introduced encoding is equivalent.
+    if (!isDeepStrictEqual(project(original), project(reparsed, original))) findings.push('Round trip changed Kanban authored identities, effective labels, metadata, order or declared content')
+  }
   for (const fact of left) if (!right.includes(fact)) findings.push(`Round trip dropped semantic fact: ${fact}`)
-  for (const fact of right) if (!left.includes(fact)) findings.push(`Round trip introduced semantic fact: ${fact}`)
+  for (const fact of right) if (!left.includes(fact) && !encodedFacts.has(fact)) findings.push(`Round trip introduced semantic fact: ${fact}`)
   return findings
+}
+
+type TerminalEvidenceBudget = { files: number; bytes: number }
+/** Failed output only: 256KiB each, at most16 outputs and2MiB per invocation. */
+export function retainTerminalFailure(out: string, workload: UnifiedWorkload, output: string, budget: TerminalEvidenceBudget): ProbeResult {
+  const actual = Buffer.from(output), sha256 = createHash('sha256').update(actual).digest('hex')
+  const capacity = Math.min(256 * 1024, 2 * 1024 * 1024 - budget.bytes)
+  if (budget.files >= 16 || capacity <= 0) return { metrics: { terminalOutputSha256: sha256, terminalOutputBytes: actual.length, terminalEvidenceScope: 'not-retained: invocation failure-artifact budget exhausted' } }
+  const retained = actual.subarray(0, capacity), retainedSha256 = createHash('sha256').update(retained).digest('hex')
+  const directory = resolve(out, 'failed-terminal')
+  mkdirSync(directory, { recursive: true })
+  const artifact = resolve(directory, `${sha256}-${retainedSha256}.txt`)
+  try { writeFileSync(artifact, retained, { flag: 'wx' }) } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'EEXIST' || !readFileSync(artifact).equals(retained)) throw error
+  }
+  budget.files++; budget.bytes += retained.length
+  return { metrics: {
+    terminalOutputSha256: sha256, terminalOutputBytes: actual.length,
+    terminalArtifact: artifact, terminalArtifactSha256: retainedSha256, terminalArtifactBytes: retained.length,
+    terminalArtifactTruncated: retained.length !== actual.length,
+    terminalSourceSha256: createHash('sha256').update(workload.source).digest('hex'),
+    terminalEvidenceScope: retained.length === actual.length ? 'complete failed terminal output; immutable content-addressed bytes' : 'leading-byte excerpt only; complete-output SHA retained, later ink is unobserved',
+  } }
 }
 
 function independentAssertions(workload: UnifiedWorkload, diagram: ParsedDiagram, layout?: ReturnType<AgentApi['layoutMermaid']>): string[] {
@@ -272,6 +327,8 @@ export async function runFamilySuite(options: UnifiedRunOptions): Promise<Unifie
   const operationEvidence: { family: string; witnesses: OperationWitnessResult[] }[] = []
   const operationDiagnostics: { family: string; diagnostics: ReturnType<typeof runOperationDiagnostics> }[] = []
   const featureEvidence: Array<Record<string, unknown>> = []
+  const terminalEvidenceBudget: TerminalEvidenceBudget = { files: 0, bytes: 0 }
+  const terminalArtifacts = new Set<string>()
   const observedFamilies = new Set<string>()
   const record = (workload: UnifiedWorkload, operation: string, format: string, work: () => ProbeResult): void => {
     const begin = performance.now()
@@ -356,7 +413,7 @@ export async function runFamilySuite(options: UnifiedRunOptions): Promise<Unifie
       const source = api.serializeMermaid(diagram),
         again = api.parseRegisteredMermaid(source)
       if (!again.ok) throw new Error(`Serialized Mermaid failed to parse: ${JSON.stringify(again.error)}`)
-      const findings = sameFacts(api, diagram, again.value)
+      const findings = sameFacts(api, diagram, again.value, workload.source)
       if (api.serializeMermaid(again.value) !== source) findings.push('Serialization is not stable after reparse')
       return { findings, bytes: Buffer.byteLength(source), detail: 'Metamorphic preservation of observed facts; independent source-acceptance/grammar gates run separately.' }
     })
@@ -380,7 +437,9 @@ export async function runFamilySuite(options: UnifiedRunOptions): Promise<Unifie
         if (format === 'unicode' && !result.trim() && evidence?.emptyDiagramExpected) return { status: 'not-applicable', bytes: 0, metrics: { emptyOutput: true, declaredEmpty: true }, detail: 'Owner declares an empty model; nonempty terminal ink is not promised.' }
         if (format === 'svg') return qualifyFamilySvg(workload, result, evidence, observedLayout)
         const qualification = qualifyOutput(workload, result, format)
-        return { findings: qualification.findings, bytes: Buffer.byteLength(result), metrics: { qualificationScope: qualification.scope, explicitLabelExpectations: workload.expectedLabels?.length ?? 0 } }
+        const retained = qualification.findings.length ? retainTerminalFailure(out, workload, result, terminalEvidenceBudget) : undefined
+        if (typeof retained?.metrics?.terminalArtifact === 'string') terminalArtifacts.add(retained.metrics.terminalArtifact)
+        return { findings: qualification.findings, bytes: Buffer.byteLength(result), metrics: { qualificationScope: qualification.scope, explicitLabelExpectations: workload.expectedLabels?.length ?? 0, ...retained?.metrics } }
       })
     if (evidence?.labelsContainScope === 'layout')
       record(workload, 'rendered-label-correspondence', 'svg/unicode', () => ({
@@ -568,5 +627,5 @@ export async function runFamilySuite(options: UnifiedRunOptions): Promise<Unifie
       2,
     ) + '\n',
   )
-  return { id: 'families', status: observations.some(row => row.status === 'failed') ? 'failed' : observations.some(row => row.status === 'blocked') ? 'blocked' : 'passed', startedAt, finishedAt: new Date().toISOString(), observations, gaps, artifacts: [artifact] }
+  return { id: 'families', status: observations.some(row => row.status === 'failed') ? 'failed' : observations.some(row => row.status === 'blocked') ? 'blocked' : 'passed', startedAt, finishedAt: new Date().toISOString(), observations, gaps, artifacts: [artifact, ...terminalArtifacts] }
 }

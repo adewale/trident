@@ -1,4 +1,5 @@
 import './ci-policy-enforce.ts'
+import { median as sampleMedian } from './portable/statistics.ts'
 // Compare built packages in alternating fresh Node processes. Publication runs
 // use --candidate-tarball: the measured bytes are the bytes queued for npm.
 // Reports are generated evidence, never committed baselines.
@@ -116,7 +117,7 @@ const fingerprint = (outcome: Outcome): OutputFingerprint => {
   return { ok: outcome.ok, sha256: createHash('sha256').update(text).digest('hex'), bytes: Buffer.byteLength(text) }
 }
 const same = (a: OutputFingerprint, b: OutputFingerprint) => a.ok === b.ok && a.sha256 === b.sha256 && a.bytes === b.bytes
-const median = (values: number[]) => [...values].sort((a, b) => a - b)[values.length >> 1]
+const median = (values: number[]) => values.length ? sampleMedian(values) : undefined
 const sum = (values: number[]) => values.reduce((total, value) => total + value, 0)
 const ratio = (a: number | undefined, b: number | undefined) => (a !== undefined && b !== undefined && b > 0 ? a / b : undefined)
 const ms = (n: number | undefined) => (n === undefined ? '—' : `${n.toFixed(n < 10 ? 2 : 0)} ms`)

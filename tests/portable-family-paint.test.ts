@@ -1,4 +1,6 @@
 import { expect, test } from 'bun:test'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import type { PortableCase } from '../portable/cohorts.ts'
 import { qualifyPortable } from '../portable/fidelity.ts'
 
@@ -59,6 +61,40 @@ const edge = (family: Family, index: number, from: number, to: number, marker = 
 const svg = (family: Family, edges = edge(family, 0, 30, 110) + edge(family, 1, 130, 210)) =>
   `<svg xmlns="http://www.w3.org/2000/svg" class="pele pele-${family}" viewBox="0 0 250 50"><g class="pele-edges" fill="none" stroke="black">${edges}</g>${node(family, 'A', 10)}${node(family, 'B', 110)}${node(family, 'C', 210)}</svg>`
 const finding = (result: ReturnType<typeof qualifyPortable>, name: string) => result.checks.find(check => check.name === name)
+
+test('published Pele ER cardinality bars remain separate painted strokes, not a connecting relation', () => {
+  const actualSvg = readFileSync(join(import.meta.dir, 'fixtures/fidelity/pele-er-cardinality-bars.svg'), 'utf8')
+  const authored: PortableCase = {
+    id: 'published-pele-er-bars', family: 'er', cohort: 'adversarial',
+    source: 'erDiagram\nALPHA ||--o{ BETA : owns',
+    expected: { accept: true, labels: ['ALPHA', 'BETA'], topology: { nodes: ['ALPHA', 'BETA'], edges: [{ source: 'ALPHA', target: 'BETA' }] } },
+  }
+  const nativeModel = { type: 'er', entities: new Map(['ALPHA', 'BETA'].map(id => [id, { id: 'entity-' + id, label: id }])), relationships: [{ entityA: 'entity-ALPHA', entityB: 'entity-BETA' }] }
+  const observe = (ink: string) => qualifyPortable(authored, { svg: ink, model: nativeModel })
+  expect(finding(observe(actualSvg), 'svg-edge-end-markers:0')?.status).toBe('passed')
+  expect(observe(actualSvg).semanticComplete).toBe(true)
+  // A shared SVG translation changes no physical attachment relationship.
+  const translated = actualSvg.replace(/viewBox="[^"]+"/, 'viewBox="0 0 180 250"').replace(/(<svg[^>]*>)/, '$1<g transform="translate(20,10)">').replace('</svg>', '</g></svg>')
+  expect(observe(translated).semanticComplete).toBe(true)
+  const bars = 'M51,62L61,62M51,66L61,66'
+  for (const path of [
+    'M151,62L161,62M151,66L161,66', // Both legitimate bars detached from either entity.
+    'M51,62L61,62M51,66L61,66L70,70', // Extra unreviewed stroke.
+    'M51,62L51,62M51,66L51,66', // Zero-length ink.
+    'M51,62L61,62M51,66L60,68', // Nonparallel strokes.
+    'M51,62L61,62M55,66L65,66', // Offset along the stroke: no reviewed aligned bar pair.
+    'L51,62L61,62M51,66L61,66', // Illegal initial drawing command.
+  ]) {
+    const result = observe(actualSvg.replace(bars, path))
+    expect(finding(result, 'svg-edge-end-markers:0')?.status, path).not.toBe('passed')
+    expect(result.semanticComplete, path).toBe(false)
+  }
+  const disconnectedRoute = observe(actualSvg.replace('M56,56L56,145', 'M56,56L56,90M56,100L56,145'))
+  expect(finding(disconnectedRoute, 'svg-edge-attachment:0')?.status).toBe('unmeasured')
+  expect(disconnectedRoute.semanticComplete).toBe(false)
+  expect(finding(observe(actualSvg.replace('cy="131"', 'cy="90"')), 'svg-edge-end-markers:0')?.status).toBe('failed')
+  expect(finding(observe(actualSvg.replace('r="3.5"', 'r="0"')), 'svg-edge-end-markers:0')?.status).toBe('unmeasured')
+})
 
 for (const family of ['class', 'state', 'er'] as const) {
   test(`${family}: owned geometry binds authored relations without guessing generated IDs`, () => {

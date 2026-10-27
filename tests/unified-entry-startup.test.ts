@@ -8,22 +8,38 @@ import { spawn } from 'node:child_process'
 import { runInvocationBrowser } from '../unified/invocation-browser.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
 
-test('inventory expands actual wildcard files and retains aliases, browser/data and missing native declarations', () => {
+test('inventory expands actual wildcard files and retains aliases, browser/data and missing native declarations', async () => {
   const root = mkdtempSync(join(tmpdir(), 'entry-inventory-'))
   try {
     mkdirSync(join(root, 'dist/diagrams'), { recursive: true })
     writeFileSync(join(root, 'dist/diagrams/flowchart.js'), 'export{}')
     writeFileSync(join(root, 'dist/diagrams/state.js'), 'export{}')
     writeFileSync(join(root, 'dist/diagrams/README.md'), 'not a public JavaScript match')
-    writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'fixture', exports: { './diagrams/*': './dist/diagrams/*.js', './global': './dist/fixture.global.js', './package.json': './package.json' }, bin: { am: 'dist/am.js', alias: 'dist/am.js', 'fixture-mcp': 'dist/mcp.js' }, scripts: { 'build:binary': 'bun build bin.ts --compile --outfile dist/am' } }))
+    for (const [name, content] of Object.entries({ 'README.md': '# Public documentation', LICENSE: 'Copyright holder: all rights reserved', 'theme.global.css': 'body{color:black}', 'api.d.ts': 'export declare const value: string', 'unknown.asset': 'unknown format remains unresolved', 'public.js': 'export const publicEntry = true' })) writeFileSync(join(root, name), content)
+    writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'fixture', exports: { './diagrams/*': './dist/diagrams/*.js', './*': './*', './global': './dist/fixture.global.js', './package.json': './package.json' }, bin: { am: 'dist/am.js', alias: 'dist/am.js', 'fixture-mcp': 'dist/mcp.js' }, scripts: { 'build:binary': 'bun build bin.ts --compile --outfile dist/am' } }))
     const inventory = discoverStartupInventory(root)
     expect(inventory.filter(value => value.publicName.startsWith('./diagrams/')).map(value => value.publicName)).toEqual(['./diagrams/flowchart', './diagrams/state'])
     expect(inventory.find(value => value.publicName === 'am')?.aliases).toEqual(['am', 'alias'])
     expect(inventory.find(value => value.publicName === './global')?.kind).toBe('browser-global')
     expect(inventory.find(value => value.publicName === './package.json')?.kind).toBe('data')
     expect(inventory.find(value => value.kind === 'native')).toMatchObject({ path: 'dist/am', exists: false })
+    const assets = ['./README.md', './LICENSE', './theme.global.css', './api.d.ts', './package.json']
+    for (const name of assets) expect(inventory.find(value => value.publicName === name)?.kind).toBe('data')
+    expect(inventory.find(value => value.publicName === './public.js')?.kind).toBe('module')
+    expect(inventory.find(value => value.publicName === './unknown.asset')?.kind).toBe('module')
+    const options = { root, out: join(root, 'out'), rounds: 1, profile: 'smoke' as const, surfaces: ['library'] as const, nodeExecutable: 'node', bunExecutable: join(root, 'no-bun'), observerExecutable: join(root, 'no-observer') }
+    const prepared = await prepareEntryStartup(options)
+    expect(prepared.jobs.some(job => job.entry.publicName === './public.js')).toBe(true)
+    expect(prepared.gaps.some(gap => assets.some(name => gap.startsWith(name + '/')))).toBe(false)
+    expect(prepared.gaps.some(gap => gap.startsWith('./unknown.asset/'))).toBe(true)
+    const result = await runEntryStartupSuite(options, prepared)
+    for (const name of assets) {
+      const rows = result.observations.filter(row => row.surface === name)
+      expect(rows.length).toBeGreaterThan(0)
+      expect(rows.every(row => row.status === 'not-applicable' && row.samplesMs === undefined)).toBe(true)
+    }
   } finally { rmSync(root, { recursive: true, force: true }) }
-})
+}, 20_000)
 
 test('fresh public self-import uses the candidate, includes delayed initialization, first async result and every metadata byte', async () => {
   const root = realpathSync(mkdtempSync(join(tmpdir(), 'entry-candidate-')))

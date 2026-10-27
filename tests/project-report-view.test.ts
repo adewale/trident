@@ -107,11 +107,11 @@ test('community league costs compare and rank within each invocation surface', (
         reference: { version: '12.2.0', parserVersion: '2.0.1', domVersion: '26.1.0' }, gaps: [],
         workloads: [{ id: 'authored-feature', family: 'flowchart', source: 'flowchart LR\n A[Fixture]', intent: 'render', referenceAdmission: { accepted: true }, features: [], provenance: 'Independently authored report fixture' }],
       } } })
-      const row = (caseId: string, round: number) => ({ suite: 'community', surface, runtime: 'fixture', family: 'flowchart', caseId, operation: 'render', format, mode: 'core-api-repeat', status: 'passed' as const, samplesMs: [ms], metrics: { implementation: project, version: 'fixture', round, firstMs: ms } })
+      const row = (caseId: string, round: number) => ({ suite: 'community', surface, runtime: 'fixture', family: 'flowchart', caseId, operation: 'render', format, mode: 'core-api-repeat', status: 'passed' as const, samplesMs: [ms], metrics: { implementation: project, version: project === 'mermaid-js/mermaid' ? '12.2.0' : 'fixture', round, firstMs: ms } })
       const record: ProjectBenchmarkRecord = {
         schemaVersion: 1,
         id: project,
-        identity: { project, protocol: { context: project === 'fixture/remote' ? 'different-runtime-protocol' : 'same' }, artifact: {}, measurement: { rounds: 5 } },
+        identity: { project, protocol: { context: project === 'fixture/remote' ? 'different-runtime-protocol' : 'same' }, artifact: { package: { artifact: { version: project === 'mermaid-js/mermaid' ? '12.2.0' : 'fixture' } } }, measurement: { rounds: 5 } },
         startedAt: '2026-10-26T00:00:00Z',
         finishedAt: '2026-10-26T00:01:00Z',
         status: 'passed',
@@ -164,7 +164,7 @@ test('stable Event Modeling changes the current mark while beta additions leave 
     publishProjectRecord(store, {
       schemaVersion: 1,
       id: project,
-      identity: { project, protocol: { context: 'same' }, artifact: {}, measurement: { rounds: 1 } },
+      identity: { project, protocol: { context: 'same' }, artifact: { package: { artifact: { version: 'fixture' } } }, measurement: { rounds: 1 } },
       startedAt: '2026-10-26T00:00:00Z',
       finishedAt: '2026-10-26T00:01:00Z',
       status: 'failed',
@@ -213,7 +213,7 @@ test('portable reports retain every failure without duplicating oversized render
       writeFileSync(outputFile, 'x'.repeat(bytes))
       return { suite: 'community', surface: 'browser:public-api', runtime: 'fixture', family: 'flowchart', caseId: `failure-${index}`, operation: 'render', format: 'svg', mode: 'feature', status: 'failed' as const, metrics: { implementation: project, version: 'fixture', round: 1, outputFile } }
     })
-    publishProjectRecord(join(directory, 'store'), { schemaVersion: 1, id: project, identity: { project, protocol: {}, artifact: {}, measurement: { rounds: 1 } }, startedAt: '2026-10-26T00:00:00Z', finishedAt: '2026-10-26T00:01:00Z', status: 'failed', evidenceDirectory, evidenceFiles: ['result.json'], gaps: [], observations })
+    publishProjectRecord(join(directory, 'store'), { schemaVersion: 1, id: project, identity: { project, protocol: {}, artifact: { package: { artifact: { version: 'fixture' } } }, measurement: { rounds: 1 } }, startedAt: '2026-10-26T00:00:00Z', finishedAt: '2026-10-26T00:01:00Z', status: 'failed', evidenceDirectory, evidenceFiles: ['result.json'], gaps: [], observations })
     publishResults(join(directory, 'store'), out)
     const markdown = readFileSync(join(out, 'failures/fixture-budget.md'), 'utf8'),
       outputDirectory = join(out, 'outputs/fixture-budget'),
@@ -249,7 +249,7 @@ test('portable reports preserve oracle caveats and separate pinned-accepted auth
         writeBenchmarkDocument(join(evidenceDirectory, 'community/community-inputs.json'), { workloads: literal.workloads })
       } else writeBenchmarkDocument(join(evidenceDirectory, 'community/community-inputs.json'), source === 'legacy' ? { workloads: literal.workloads } : literal)
       const observations = ['good', 'lost', 'rejected', 'unlabeled', 'external', 'unmapped'].map(caseId => ({ suite: 'community', surface: 'browser:public-api', runtime: 'fixture', family: 'flowchart', caseId, operation: 'render', format: 'svg', mode: 'feature-corpus-qualification', status: caseId === 'lost' || (source === 'fallback' && caseId === 'rejected') ? 'failed' as const : 'passed' as const, metrics: { implementation: project, version: 'fixture', round: 1 } }))
-      publishProjectRecord(store, { schemaVersion: 1, id: project, identity: { project, protocol: {}, artifact: {}, measurement: { rounds: 1 } }, startedAt: '2026-10-26T00:00:00Z', finishedAt: '2026-10-26T00:01:00Z', status: 'failed', evidenceDirectory, evidenceFiles: ['result.json'], gaps: ['original scope caveat'], observations })
+      publishProjectRecord(store, { schemaVersion: 1, id: project, identity: { project, protocol: {}, artifact: { package: { artifact: { version: 'fixture' } } }, measurement: { rounds: 1 } }, startedAt: '2026-10-26T00:00:00Z', finishedAt: '2026-10-26T00:01:00Z', status: 'failed', evidenceDirectory, evidenceFiles: ['result.json'], gaps: ['original scope caveat'], observations })
     }
     const result = publishResults(store, out)
     const markdown = readFileSync(join(out, 'README.md'), 'utf8')
@@ -285,7 +285,7 @@ test('first-call core reports use the arithmetic median for six rounds', () => {
     project = 'fixture/even-rounds'
   const row = (caseId: string, round: number, firstMs: number) => ({ suite: 'community', surface: 'browser:public-api', runtime: 'fixture', family: 'flowchart', caseId, operation: 'render', format: 'svg', mode: 'core-api-repeat', status: 'passed' as const, samplesMs: [5], metrics: { implementation: project, version: 'fixture', round, firstMs } })
   const record: ProjectBenchmarkRecord = {
-    schemaVersion: 1, id: 'six-rounds', identity: { project, protocol: {}, artifact: {}, measurement: { rounds: 6 } },
+    schemaVersion: 1, id: 'six-rounds', identity: { project, protocol: {}, artifact: { package: { artifact: { version: 'fixture' } } }, measurement: { rounds: 6 } },
     startedAt: '2026-10-27T00:00:00Z', finishedAt: '2026-10-27T00:01:00Z', status: 'passed',
     evidenceDirectory: '/unused', evidenceFiles: [], gaps: [],
     observations: [...firstCalls.flatMap((ms, index) => communityCoreWorkloads().map(workload => row(workload.id, index + 1, ms))), row('authored-feature', 1, 5)],
@@ -318,7 +318,7 @@ test('current rendering ranks count the fixed positive population and leave unkn
       writeBenchmarkDocument(join(evidenceDirectory, 'context.json'), { inputs: { literal: { workloads: kind === 'duplicate-id' ? [...inputs, inputs[0]] : inputs, gaps: kind === 'conflicting-reference' ? ['A: pinned Mermaid rejected source (independent contradiction fixture)'] : [], reference: { version: kind === 'missing-pin' ? '11.16.1' : '12.2.0', parserVersion: '2.0.1', domVersion: '26.1.0' } } } })
       const observation = (caseId: string, status: 'passed' | 'failed' | 'blocked' | 'unsupported' | 'not-applicable', operation = 'render') => ({ suite: 'community', surface: 'browser:public-api', runtime: 'fixture', family: 'flowchart', caseId, operation, format: 'svg', mode: 'feature', status, metrics: { implementation: project, version: 'fixture', round: 1 } })
       const observations = kind === 'unsupported-families' ? [observation('browser-capability', 'passed', 'capability'), observation('family-support:flowchart', 'unsupported', 'family-support')] : ['stopped', 'stopped-failed', 'inapplicable', 'unbound'].includes(kind) ? [observation('browser-capability', kind === 'stopped' ? 'blocked' : kind === 'stopped-failed' ? 'failed' : kind === 'inapplicable' ? 'not-applicable' : 'unsupported', 'capability')] : [observation('family-support:flowchart', 'passed', 'family-support'), ...workloads.filter(workload => kind !== 'partial' || workload.id !== 'D').map(workload => observation(workload.id, kind === 'whole' && !['A', 'B'].includes(workload.id) ? 'failed' : kind === 'partial' && workload.id === 'B' ? 'blocked' : kind === 'partial' && workload.id === 'C' ? 'unsupported' : 'passed'))]
-      publishProjectRecord(store, { schemaVersion: 1, id: kind, identity: { project, protocol: { context: 'same' }, artifact: {}, measurement: { rounds: 1 } }, startedAt: '2026-10-27T00:00:00Z', finishedAt: '2026-10-27T00:01:00Z', status: kind === 'whole' || kind === 'stopped-failed' ? 'failed' : kind === 'partial' || kind === 'stopped' ? 'blocked' : 'passed', evidenceDirectory, evidenceFiles: ['result.json'], observations, gaps: [] })
+      publishProjectRecord(store, { schemaVersion: 1, id: kind, identity: { project, protocol: { context: 'same' }, artifact: { package: { artifact: { version: 'fixture' } } }, measurement: { rounds: 1 } }, startedAt: '2026-10-27T00:00:00Z', finishedAt: '2026-10-27T00:01:00Z', status: kind === 'whole' || kind === 'stopped-failed' ? 'failed' : kind === 'partial' || kind === 'stopped' ? 'blocked' : 'passed', evidenceDirectory, evidenceFiles: ['result.json'], observations, gaps: [] })
     }
     const result = publishResults(store, out),
       whole = result.lanes.find(lane => lane.project === 'fixture/z-whole')!,

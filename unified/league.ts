@@ -9,6 +9,7 @@ import { communityCorpus } from './corpus.ts'
 import type { BenchmarkObservation, UnifiedWorkload } from './types.ts'
 import { positiveRenderInput } from './workload-intent.ts'
 import { median } from '../portable/statistics.ts'
+import { assertCurrentReportSetVersions, currentReportVersion } from './current-report-versions.ts'
 
 /** Mermaid defines valid input, so its row is the reference, not a contestant. */
 export const REFERENCE_PROJECT = 'mermaid-js/mermaid'
@@ -84,11 +85,12 @@ export interface Lane {
 }
 
 const rounds = (record: ProjectBenchmarkRecord) => Number((record.identity.measurement as { rounds?: number } | undefined)?.rounds ?? 0)
-const versionOf = (record: ProjectBenchmarkRecord) => String(record.observations.find(row => row.metrics?.version)?.metrics?.version ?? (record.identity.artifact as any)?.package?.artifact?.version ?? 'unknown')
+const versionOf = (record: ProjectBenchmarkRecord) => currentReportVersion(record) ?? 'unavailable'
 export const featureRow = (row: BenchmarkObservation) => !row.caseId.startsWith('core:') && !['family-support', 'capability', 'delivery', 'memory', 'process-memory', 'load-and-initialize', 'worker-lifecycle', 'enroll', 'resource-diagnostic'].includes(row.operation) && !row.operation.endsWith('negative-admission')
 
 /** One row per tool and public surface/output, from one retained project record. */
 export function lanes(record: ProjectBenchmarkRecord, evidence?: ReportInputs): Lane[] {
+  const admittedVersion = currentReportVersion(record)
   const groups = new Map<string, BenchmarkObservation[]>()
   for (const row of record.observations.filter(row => row.suite !== 'community-cli' && row.metrics?.implementation === record.identity.project)) {
     const key = `${row.surface}\n${row.format}`
@@ -144,8 +146,8 @@ export function lanes(record: ProjectBenchmarkRecord, evidence?: ReportInputs): 
         ...(evidence && ['svg', 'terminal', 'png'].includes(format) ? { positiveRendering: positive } : {}),
         legacy: { supported: new Set(probes.filter(probe => LEGACY_FAMILIES.includes(probe.family) && supported(probe)).map(probe => probe.family)).size, passed: legacy.filter(row => row.status === 'passed').length, failed: legacy.filter(row => row.status === 'failed').length },
         newer: newerProbes.length ? { supported: [...new Set(newerProbes.filter(supported).map(row => row.family))], passed: newer.filter(row => row.status === 'passed').length, failed: newer.filter(row => row.status === 'failed').length } : null,
-        coreFirstMs: rounds(record) >= CALIBRATED_ROUNDS && firstCalls.length && firstCalls.every(Number.isFinite) ? firstCalls.reduce((sum, value) => sum + value, 0) : null,
-        coreMedianMs: rounds(record) >= CALIBRATED_ROUNDS && rank?.qualified ? rank.medianMs : null,
+        coreFirstMs: admittedVersion !== null && rounds(record) >= CALIBRATED_ROUNDS && firstCalls.length && firstCalls.every(Number.isFinite) ? firstCalls.reduce((sum, value) => sum + value, 0) : null,
+        coreMedianMs: admittedVersion !== null && rounds(record) >= CALIBRATED_ROUNDS && rank?.qualified ? rank.medianMs : null,
         families,
       },
     ]
@@ -157,7 +159,7 @@ const renderingOutput = (format: string) => ['svg', 'terminal', 'png'].includes(
  * Unknown input intent/reference cannot establish a current rendering rank. */
 export function positiveRenderScore(lane: Lane): { passed: number; total: number; rate: number } | null {
   const score = lane.positiveRendering
-  if (!score || score.unknownIntent || score.unknownReference || score.unmapped) return null
+  if (lane.version === 'unavailable' || !score || score.unknownIntent || score.unknownReference || score.unmapped) return null
   const total = score.passed + score.failed + score.blocked + score.unavailable
   return total ? { passed: score.passed, total, rate: score.passed / total } : null
 }
@@ -340,7 +342,7 @@ function table(lanes: Lane[], reference: Lane | undefined) {
   }
   if (reference) lines.push(row(reference, '—'))
   let rank = 0
-  lanes.forEach(lane => lines.push(row(lane, renderingOutput(lane.format) && !positiveRenderScore(lane) ? '—' : String(++rank))))
+  lanes.forEach(lane => lines.push(row(lane, lane.version === 'unavailable' || (renderingOutput(lane.format) && !positiveRenderScore(lane)) ? '—' : String(++rank))))
   return lines
 }
 
@@ -358,6 +360,8 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
   const misfiled = records.filter(isCandidateRecord)
   if (misfiled.length) throw Error(`results:publish ranks releases only; the release lane of ${store} holds candidate records for ${misfiled.map(record => record.identity.project).join(', ')}`)
   if (!records.length) throw Error('No current community records in ' + store)
+  // Validate every included artifact/observed release before replacing output.
+  assertCurrentReportSetVersions(records)
   rmSync(join(out, 'records'), { recursive: true, force: true })
   rmSync(join(out, 'failures'), { recursive: true, force: true })
   rmSync(join(out, 'outputs'), { recursive: true, force: true })
@@ -381,7 +385,7 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
     '',
     `Measured ${measured[0]!.slice(0, 10)}${measured.at(-1)!.slice(0, 10) !== measured[0]!.slice(0, 10) ? ` to ${measured.at(-1)!.slice(0, 10)}` : ''} by [Trident](../README.md) against the pinned Mermaid ${MERMAID_ORACLE_PIN.version} oracle, on the corpus frozen from Agentic Mermaid ${communityCorpus().source.commit.slice(0, 8)}${communityCorpus().upstream ? `, with the newer families' examples from Mermaid's ${communityCorpus().upstream!.tag} syntax docs` : ''}. ${calibrated ? '' : `**Records with fewer than ${CALIBRATED_ROUNDS} rounds show no speed.**`}`,
     '',
-    `How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Tables group each output by public invocation surface and compatible protocol/runtime settings; costs and ranks never cross these boundaries. Rolling records are not paired same-session experiments. Rendering ranks use the share of the fixed, pinned-admitted positive-render population that passes qualification, including blocked, unsupported and missing outputs in its denominator. Ties use family coverage, then first-call fixed-core time. Unknown intent, reference admission or unmapped inputs leave rendering records unranked; non-render outputs retain their separate raw admission ordering. Raw admission and the legacy 23-family mark remain visible with their historical definitions. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so it is measured with the same checks but not ranked. An unsupported family is a coverage gap: its positive inputs remain unavailable in the planned denominator, without rewriting them as failures. The legacy 23-family column preserves the original mark; the current mark also includes stable Event Modeling and required first-party ZenUML. "Newer families" counts how many of Mermaid's ${NEWER_FAMILIES.length} newest families the tool supports, with its pass rate in them; it never changes a rank or the other columns. See the [methodology](../METHODOLOGY.md).`,
+    `How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Tables group each output by public invocation surface and compatible protocol/runtime settings; costs and ranks never cross these boundaries. Rolling records are not paired same-session experiments. Rendering ranks use the share of the fixed, pinned-admitted positive-render population that passes qualification, including blocked, unsupported and missing outputs in its denominator. Ties use family coverage, then first-call fixed-core time. Unknown intent, reference admission or unmapped inputs leave rendering records unranked; non-render outputs retain their separate raw admission ordering. Records without an owning artifact version stay unranked and have no cost. Raw admission and the legacy 23-family mark remain visible with their historical definitions. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so it is measured with the same checks but not ranked. An unsupported family is a coverage gap: its positive inputs remain unavailable in the planned denominator, without rewriting them as failures. The legacy 23-family column preserves the original mark; the current mark also includes stable Event Modeling and required first-party ZenUML. "Newer families" counts how many of Mermaid's ${NEWER_FAMILIES.length} newest families the tool supports, with its pass rate in them; it never changes a rank or the other columns. See the [methodology](../METHODOLOGY.md).`,
     '',
   ]
   for (const format of new Set([...Object.keys(OUTPUTS), ...all.map(lane => lane.format)])) {

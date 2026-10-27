@@ -56,7 +56,7 @@ def community(path):
     inputs = load(root / "community-inputs.json")
     observations = result["observations"]
     tools = {a["node"]["id"]: a for a in ranks["artifacts"]}
-    catalog_path = Path(__file__).resolve().parents[3] / "docs" / "mermaid-community.json"
+    catalog_path = Path(__file__).resolve().parents[1] / "catalog" / "mermaid-community.json"
     catalog = load(catalog_path)
     measured_catalog_count = len(tools)
     for node in catalog["nodes"]:

@@ -1,12 +1,13 @@
 import { spawn } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { existsSync, mkdirSync, readFileSync, realpathSync, rmSync, watch, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, rmSync, watch, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { mutationWitnessForFamily } from './family-suite.ts'
 import { runInvocationBrowser } from './invocation-browser.ts'
 import { runInvocationMcp } from './invocation-mcp.ts'
+import { admitNativeInvocationArtifact } from './native-invocation-artifact.ts'
 import { qualifyOutput, withReferenceLabels } from './qualification.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult, UnifiedWorkload } from './types.ts'
 import { unifiedWorkloads } from './workloads.ts'
@@ -202,14 +203,16 @@ function changedAuthoredTitle(source: string, title: string): string {
   lines.splice(header + 1, 0, `accTitle: ${title}`)
   return lines.join('\n')
 }
-export async function awaitInvocationArtifact(file: string, marker: string, timeoutMs = 30_000, signal?: AbortSignal): Promise<string> {
+export async function awaitInvocationArtifact(file: string, marker: string, timeoutMs = 30_000, signal?: AbortSignal, watchDirectory: typeof watch = watch): Promise<string> {
   return await new Promise((resolve, reject) => {
     let observer: ReturnType<typeof watch> | undefined,
       timer: ReturnType<typeof setTimeout> | undefined,
+      poll: ReturnType<typeof setInterval> | undefined,
       settled = false
     const cleanup = () => {
       observer?.close()
       clearTimeout(timer)
+      clearInterval(poll)
       signal?.removeEventListener('abort', abort)
     }
     const fail = (error: unknown) => {
@@ -238,9 +241,15 @@ export async function awaitInvocationArtifact(file: string, marker: string, time
       return
     }
     try {
-      observer = watch(dirname(file), check)
+      observer = watchDirectory(dirname(file), check)
       observer.on('error', fail)
       timer = setTimeout(() => fail(Error('Watch did not emit current authored artifact')), timeoutMs)
+      // Directory events can coalesce truncate/write or arrive while the SVG is
+      // partial. A later complete write is not guaranteed a second event. Keep
+      // the same deadline and stop as soon as complete current bytes are read;
+      // the fallback's <=10ms observation cadence is consumer overhead, not a
+      // sleep before declaring success or a manufactured renderer API time.
+      poll = setInterval(check, 10)
       check()
     } catch (error) {
       fail(error)
@@ -302,8 +311,8 @@ export async function runInvocationCliProgram(options: InvocationOptions, worklo
     pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')),
     bins = pkg.bin ?? {}
   const commandEntry = bins.am ?? bins['agentic-mermaid']
-  if (!commandEntry || !existsSync(join(root, commandEntry))) return { rows: [{ ...invocationRow(executor ? 'cli:native-binary' : 'cli', workloads[0]!, 'spawn', 'module', 'process-to-output'), status: 'blocked', detail: 'Installed CLI entry is absent' }], gaps: ['CLI artifacts absent'], artifacts }
-  const entry = join(root, commandEntry),
+  if (!executor && (!commandEntry || !existsSync(join(root, commandEntry)))) return { rows: [{ ...invocationRow(executor ? 'cli:native-binary' : 'cli', workloads[0]!, 'spawn', 'module', 'process-to-output'), status: 'blocked', detail: 'Installed CLI entry is absent' }], gaps: ['CLI artifacts absent'], artifacts }
+  const entry = commandEntry ? join(root, commandEntry) : '',
     core = await import(pathToFileURL(join(root, 'dist/agent-core.js')).href)
   const executable = executor?.command ?? 'node',
     argvPrefix = executor?.prefix ?? [entry],
@@ -416,7 +425,7 @@ export async function runInvocationCliProgram(options: InvocationOptions, worklo
       const row = programRow('cli:watch', w, 'render', 'svg', 'long-lived-metadata-changed-input')
       row.samplesMs = []
       const watchRounds: { round: number; status: string; wallMs: number; detail?: string }[] = []
-      row.metrics = { clock: 'metadata file write through observed complete changed SVG after watcher announces readiness; startup checkpoint includes initial artifact and watcher readiness' }
+      row.metrics = { clock: 'metadata file write through observed complete changed SVG after watcher announces readiness; startup checkpoint includes initial artifact and watcher readiness', artifactObserver: 'directory events plus10ms bounded readback fallback through actual complete current SVG; qualification follows observation, original30s deadline unchanged' }
       try {
         for (let round = 1; round <= options.rounds; round++) {
           const roundStart = performance.now()
@@ -596,39 +605,49 @@ export async function runInvocationCliProgram(options: InvocationOptions, worklo
   artifacts.push(manifest)
   return { rows, gaps, artifacts }
 }
-async function cli(options: InvocationOptions, workloads: UnifiedWorkload[]): Promise<{ rows: BenchmarkObservation[]; gaps: string[]; artifacts: string[] }> {
-  const result = await runInvocationCliProgram(options, workloads),
-    native = join(options.root, 'dist/am'),
-    root = options.packageRoot ?? options.root
-  if (existsSync(native)) {
-    if (options.profile === 'full') {
-      const nativeResult = await runInvocationCliProgram(options, workloads, { command: realpathSync(native), prefix: [], out: join(options.out, 'cli/native'), runtime: 'bun-compiled:embedded-runtime' })
-      result.rows.push(...nativeResult.rows)
-      result.gaps.push(...nativeResult.gaps)
-      result.artifacts.push(...nativeResult.artifacts)
-    } else
-      for (const w of workloads) {
-        const row = invocationRow('cli:native-binary', w, 'render', 'svg', 'process-to-output')
-        row.runtime = 'bun-compiled:embedded-runtime'
-        try {
-          const r = await childCommand(native, ['render', '-', '--format', 'svg'], { cwd: root, input: w.source })
-          row.samplesMs = [r.wallMs]
-          row.bytes = r.stdout.length
-          const q = qualifyOutput(w, r.stdout.toString(), 'svg')
-          row.status = r.code === 0 && q.ok ? 'passed' : 'failed'
-          row.findings = q.findings
-          row.detail = r.code === 0 ? undefined : r.stderr
-        } catch (error) {
-          row.status = 'failed'
-          row.detail = String(error)
-        }
-        result.rows.push(row)
-      }
-  } else {
-    result.gaps.push('Compiled Bun CLI binary was not present: run bun run build:binary to enroll native startup. Installed Node CLI aliases were measured.')
-    result.rows.push({ ...invocationRow('cli:native-binary', workloads[0]!, 'spawn', 'svg', 'process-to-output'), family: '*', caseId: 'native-build', status: 'blocked', detail: 'Compiled dist/am artifact is absent; installed Node CLI does not substitute for native startup.' })
+export async function runInvocationNativeCli(options: InvocationOptions, workloads: UnifiedWorkload[]): Promise<{ rows: BenchmarkObservation[]; gaps: string[]; artifacts: string[] }> {
+  const admitted = admitNativeInvocationArtifact(options), result: { rows: BenchmarkObservation[]; gaps: string[]; artifacts: string[] } = { rows: [], gaps: [], artifacts: [] }, root = options.packageRoot ?? options.root
+  if (admitted.status !== 'available') {
+    result.gaps.push(admitted.detail)
+    result.rows.push({ ...invocationRow('cli:native-binary', workloads[0]!, 'spawn', 'svg', 'process-to-output'), family: '*', caseId: 'native-build', status: 'blocked', detail: admitted.detail })
+    return result
   }
+  const native = admitted.artifact.path, runtime = 'native-executable:embedded-runtime-unreported', manifest = join(options.out, 'native-executable.json')
+  mkdirSync(options.out, { recursive: true })
+  writeFileSync(manifest, JSON.stringify(admitted.artifact, null, 2) + '\n')
+  result.artifacts.push(manifest)
+  if (options.profile === 'full') {
+    const nativeResult = await runInvocationCliProgram(options, workloads, { command: native, prefix: [], out: join(options.out, 'cli/native'), runtime })
+    result.rows.push(...nativeResult.rows)
+    result.gaps.push(...nativeResult.gaps)
+    result.artifacts.push(...nativeResult.artifacts)
+  } else for (const w of workloads) {
+    const row = invocationRow('cli:native-binary', w, 'render', 'svg', 'process-to-output')
+    row.runtime = runtime
+    try {
+      const r = await childCommand(native, ['render', '-', '--format', 'svg'], { cwd: root, input: w.source })
+      row.bytes = r.stdout.length
+      const q = qualifyOutput(w, r.stdout.toString(), 'svg')
+      row.status = r.code === 0 && q.ok ? 'passed' : 'failed'
+      row.samplesMs = row.status === 'passed' ? [r.wallMs] : []
+      row.findings = q.findings
+      row.detail = r.code === 0 ? undefined : r.stderr
+    } catch (error) { row.status = 'failed'; row.detail = String(error) }
+    result.rows.push(row)
+  }
+  // Recheck after invocation so replacement during the campaign cannot silently
+  // attach the admission digest to results produced by different bytes.
+  const after = admitNativeInvocationArtifact(options), stable = after.status === 'available' && after.artifact.path === native && after.artifact.sha256 === admitted.artifact.sha256
+  for (const row of result.rows) {
+    row.metrics = { ...row.metrics, nativeExecutablePath: native, nativeExecutableSha256: admitted.artifact.sha256, nativeExecutableBytes: admitted.artifact.bytes, nativeExecutableSelection: admitted.artifact.selection, nativeArtifactManifest: manifest, nativeArtifactOwnership: admitted.artifact.ownership, nativeArtifactStable: stable }
+    if (!stable) { row.status = 'failed'; row.samplesMs = []; row.detail = 'Native executable bytes changed or became unavailable during invocation; no sample is admitted under the initial digest.' }
+  }
+  if (!stable) result.gaps.push('Native executable identity changed during invocation; rerun from an immutable prepared artifact.')
   return result
+}
+async function cli(options: InvocationOptions, workloads: UnifiedWorkload[]): Promise<{ rows: BenchmarkObservation[]; gaps: string[]; artifacts: string[] }> {
+  const installed = await runInvocationCliProgram(options, workloads), native = await runInvocationNativeCli(options, workloads)
+  return { rows: [...installed.rows, ...native.rows], gaps: [...installed.gaps, ...native.gaps], artifacts: [...installed.artifacts, ...native.artifacts] }
 }
 export async function runInvocationSuite(options: InvocationOptions): Promise<UnifiedSuiteResult> {
   const startedAt = new Date().toISOString()
@@ -676,6 +695,7 @@ if (import.meta.main) {
     rounds: Number(values.get('rounds') ?? 3),
     profile: values.get('profile') === 'full' ? 'full' : 'smoke',
     executable: values.get('executable'),
+    nativeExecutable: values.get('native-executable'),
     surfaces: values.get('surfaces')?.split(',') as InvocationOptions['surfaces'],
     libraryExports: values.get('library-exports')?.split(','),
   })

@@ -1,5 +1,11 @@
 # Methodology
 
+Portable protocol `portable-svg-processes-v5` recognizes reviewed ER cardinality
+bars and circles independently from continuous relation routes. Earlier sealed
+kits and their records retain their original protocol; a corrected observer
+requires a fresh kit and fresh owning qualification. Exact cardinality semantics
+remain outside this bounded ink-and-topology projection.
+
 [Choose a benchmark](BENCHMARKS.md) · [Measurement rules](MEASUREMENT.md)
 
 Trident reports capability, correctness, time, memory and delivered bytes separately. It does not produce an overall “best renderer” score. A useful result names its workload, public interface, configuration, artifact, machine, date and failures.
@@ -35,6 +41,8 @@ Terminal admission checks actual text and source echoes with its own output boun
 Preparation, acquisition, oracle expectations and qualification happen outside public API clocks. Consume the requested result before stopping its clock. Separate fresh use, imports/initialization, new-source calls and repeated-source/cache-hit work. Identical-input repetition is a cache workload, not proof of fast uncached layout. A timeout, crash, unsupported source or failed correctness check cannot become a cheap successful render.
 
 The community fixed-core first-call cost sums per-input medians on the complete six-input cohort. Repeated warm cost instead takes the median of each round’s sum of per-input warm medians. Even round counts average the two middle samples; six rounds do not select the upper middle value. Conditional family admission rates use each tool's supported cases, so differing denominators are not a paired fidelity comparison. Reports retain blocked, unsupported and unavailable counts. Any ordinal display order is an admission ordering, not an overall quality or performance winner.
+
+Reports named median average the two middle observations for even sample counts. Explicit percentiles retain their order-statistic convention. Older upper-middle or lower-middle summaries can be regenerated from retained raw observations; correcting the reduction is not a renderer speed improvement and requires no new timing run.
 
 Portable comparisons use balanced family, scaling, interacting-feature and invalid-input cohorts, paired controls and explicit calibration. Portable process protocol v4 checks complete owned path/marker token streams and rejects disconnected move boundaries as connecting-route evidence. Projected number lists must preserve valid separators; reviewed triangular arrowheads must overlap their stem endpoint within1px and aim into their target box. Unsupported projections stay unavailable. Older method records retain their original qualification; representative SVGs cannot certify every historical return under the new method. Five rounds alone do not establish a small improvement. Too few fresh observations cannot establish tail latency. Whole-child RSS/CPU, document V8 heap, retained output and delivered bytes have different scopes; native, worker, WASM and GPU memory may be missing. Zero observed CPU at coarse resolution is censored, not free work. Dollar cost requires actual usage or a declared rate.
 

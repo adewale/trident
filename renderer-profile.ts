@@ -1,4 +1,5 @@
 import './ci-policy-enforce.ts'
+import { median } from './portable/statistics.ts'
 // Advisory: packaged timing/coverage, source-only stage attribution, and sampled
 // CPU profiles are separate passes. Never compare instrumented calls to Bezel.
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
@@ -6,7 +7,7 @@ import { join, resolve } from 'node:path'
 import { chromium, type Page } from 'playwright'
 import { officialCorpusInventory } from '../shared/official-fences.ts'
 import { bezelEngine } from './bezel.ts'
-import { benchmarkHost, benchmarkOptions, driverRevision, percentile, positiveOption, sha256 } from './browser-bench-host.ts'
+import { benchmarkHost, benchmarkOptions, driverRevision, positiveOption, sha256 } from './browser-bench-host.ts'
 import { configureBrowserPage } from './browser-config.ts'
 import { browserScorecard, renderPass, type BrowserSample, type Engine } from './release-browser-bench.ts'
 
@@ -76,13 +77,13 @@ try {
     const rows = stages.filter(s => s.family === family && s.consumedReceipt === consumedReceipt && !s.error)
     const totalMs = rows.reduce((n, r) => n + r.totalMs, 0), byStage: Record<string, number> = {}
     for (const row of rows) for (const s of row.stages) byStage[s.stage] = (byStage[s.stage] ?? 0) + s.ms
-    return { family, consumedReceipt, successfulDistinct: new Set(rows.map(r => r.id)).size, calls: rows.length, totalMs, byStage, medianMs: percentile(rows.map(r => r.totalMs), .5) }
+    return { family, consumedReceipt, successfulDistinct: new Set(rows.map(r => r.id)).size, calls: rows.length, totalMs, byStage, medianMs: rows.length ? median(rows.map(r => r.totalMs)) : null }
   }))
   const profiles = []
   for (const family of ['flowchart', 'sequence', 'class', 'er', 'state', 'gantt', 'mindmap', 'pie']) {
     // Pick the slowest shared-success input by median packaged AM cost.
     const candidates = distinct.filter(i => i.family === family && samples.filter(s => s.id === i.id && s.ok).length === rounds * 2)
-    candidates.sort((a, b) => (percentile(samples.filter(s => s.id === b.id && s.engine === 'candidate').map(s => s.ms), .5) ?? 0) - (percentile(samples.filter(s => s.id === a.id && s.engine === 'candidate').map(s => s.ms), .5) ?? 0))
+    candidates.sort((a, b) => (median(samples.filter(s => s.id === b.id && s.engine === 'candidate').map(s => s.ms)) ?? 0) - (median(samples.filter(s => s.id === a.id && s.engine === 'candidate').map(s => s.ms)) ?? 0))
     const input = candidates[0]
     if (!input) continue
     for (const engine of [agentic, bezel]) profiles.push(await cpuProfile(page, engine, input))

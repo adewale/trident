@@ -154,6 +154,35 @@ describe('release publication decisions', () => {
   })
 })
 
+test('six-round public browser and release scorecards average both middle observations', () => {
+  const values = [60, 10, 50, 20, 40, 30]
+  const samples: BrowserSample[] = values.flatMap((ms, index) => [{ engine: 'candidate', round: index + 1, id: 'flow', ok: true, ms }, { engine: 'pele', round: index + 1, id: 'flow', ok: true, ms: 1 }])
+  const browser = browserScorecard(samples, ['candidate', 'pele'], 6, 1)
+  expect(browser.matched[0]!.medianRatio).toBe(35)
+  expect(browser.matched[0]!.candidateMs).toEqual(values)
+  expect(browserScorecard(samples.filter(row => row.round <= 5), ['candidate', 'pele'], 5, 1).matched[0]!.medianRatio).toBe(40)
+  const inputs = [input('flow')], before = run('baseline', inputs), after = run('candidate', inputs)
+  before.results.get('flow')!.mediansMs = values.map(() => 1)
+  before.results.get('flow')!.samplesMs = values.map(() => [1])
+  after.results.get('flow')!.mediansMs = [...values]
+  after.results.get('flow')!.samplesMs = values.map(value => [value])
+  const release = report(inputs, [{ name: 'corpus', inputs, budgetMs: 1000 }], [before, after], 6)
+  expect(release.summary.pairedCorpus.candidateOverBaseline).toBe(35)
+  expect(release.summary.largestContributors[0]!.medianMs).toBe(35)
+  expect(release.summary.pairedCorpus.candidateMs).toEqual(values)
+})
+
+test('release worker reports the arithmetic median of six retained timing observations', async () => {
+  const dir = temp.dir(), entry = join(dir, 'renderer.mjs'), job = join(dir, 'job.json'), out = join(dir, 'timing.json')
+  writeFileSync(entry, `let clock=0,calls=0;Object.defineProperty(globalThis,'performance',{value:{now:()=>clock},configurable:true});export function renderMermaidSVG(){if(++calls>3)clock+=(calls-3)*10;return '<svg xmlns="http://www.w3.org/2000/svg"/>'}export function renderMermaidASCII(){return 'fixture'}`)
+  writeFileSync(job, JSON.stringify({ entry, mode: 'time', reps: 6, inputs: [input('fixture')] }))
+  const child = await runChild('node', [join(import.meta.dir, '../release-bench-worker.ts'), job, out])
+  expect({ status: child.status, stderr: child.stderr }).toEqual({ status: 0, stderr: '' })
+  const result = JSON.parse(readFileSync(out, 'utf8')).results[0]
+  expect(result.samplesMs).toEqual([10, 20, 30, 40, 50, 60])
+  expect(result.ms).toBe(35)
+})
+
 test('browser rejection changes coverage but never improves the shared-success speed ratio', () => {
   const samples: BrowserSample[] = [
     { engine: 'candidate', round: 1, id: 'a', ok: true, ms: 10 },

@@ -32,6 +32,23 @@ describe('focused PR protocol', () => {
     expect(() => parsePrCampaignOptions(['--core-metrics', 'fiction'])).toThrow()
     expect(() => parsePrCampaignOptions(['--extra-core-cases', 'flow5'])).toThrow()
   })
+  test('explicit broad invocation time budget preserves full rounds and is recorded', async () => {
+    const options = parsePrCampaignOptions(['--profile', 'full', '--rounds', '3', '--invocation-profile', 'full', '--invocation-rounds', '3', '--invocation-timeout-ms', '10800000'])
+    const { prCampaignMeasurementConfig, prCampaignWorkerJob } = await import('../unified/pr-campaign.ts')
+    const config = prCampaignMeasurementConfig(options)
+    expect(options.invocationTimeoutMs).toBe(180 * 60_000)
+    expect(config.core.rounds).toBe(3)
+    expect(config.family.rounds).toBe(3)
+    expect(config.invocation).toEqual({ profile: 'full', rounds: 3, timeoutMs: 180 * 60_000, status: 'selected' })
+    const target = { root: '/canonical-worktree', packageRoot: '/packed-npm-library' }
+    const invocation = prCampaignWorkerJob(options, target, 'invocation', '/attempt', '/attempt/result.json')
+    expect(invocation).toMatchObject({ packageRoot: target.packageRoot, nativeExecutable: '/canonical-worktree/dist/am', profile: 'full', rounds: 3, timeoutMs: 180 * 60_000 })
+    const nativeStorage = { file: '/restored-native/am', archive: '/sealed-native/am.gz', sha256: 'a'.repeat(64), bytes: 1, mode: 0o755, archiveBytes: 1, format: 'gzip-compiled-native-v1' as const }
+    expect(prCampaignWorkerJob(options, { ...target, nativeStorage }, 'invocation', '/attempt', '/attempt/result.json').nativeExecutable).toBe(nativeStorage.file)
+    expect(prCampaignWorkerJob(options, target, 'family', '/attempt', '/attempt/result.json').nativeExecutable).toBeUndefined()
+    expect(parsePrCampaignOptions([]).invocationTimeoutMs).toBe(90 * 60_000)
+    for (const value of ['0', '-1', 'NaN', '1.5', 'Infinity', '2147483648']) expect(() => parsePrCampaignOptions(['--invocation-timeout-ms', value])).toThrow()
+  })
   test('supplemental case cannot change the fixed six portfolio or conceal its failure', () => {
     const rows = [...CORE_CASE_IDS, 'gitGraph20'].map(id => ({ id, family: 'fixture', metric: 'svg', status: 'passed', samplesMs: [id === 'gitGraph20' ? 99 : 2] }))
     const result = { rows, runtime: 'test', memory: {}, extraCases: ['gitGraph20'] }

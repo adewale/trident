@@ -9,3 +9,12 @@ that correct text and metadata cannot supply missing paint evidence. Sources
 are the `meaning:family:requirement`, `meaning:family:zenuml`,
 `features:zenuml:nested-alternate-return`, and `meaning:family:architecture`
 cases in the committed fidelity corpus.
+
+`pele-er-cardinality-bars.svg` is the 1,863-byte public Pele1.9.0 output for
+`erDiagram\nALPHA ||--o{ BETA : owns`, retained from the owning functional
+requalification's `meaning:family:er` case. Its two one-cardinality bars are
+legitimate disconnected strokes inside one marker owner. The relation path
+remains continuous. Portable tests independently declare ALPHA→BETA, retain
+the real glyphs, and perturb their attachment and individual stroke grammar.
+This is endpoint marker-ink evidence; it does not certify exact ER cardinality
+meaning or prove complete curve geometry.

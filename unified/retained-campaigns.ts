@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process'
-import { readFileSync, realpathSync } from 'node:fs'
+import { existsSync, readFileSync, realpathSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { join, relative, resolve } from 'node:path'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
@@ -7,6 +7,7 @@ import { artifactIdentity, resolveArtifact } from '../portable/artifacts.ts'
 import { captureInstalledDependencyClosure } from '../portable/artifact-dependencies.ts'
 import { defaultTimeObserver } from '../portable/time-observer.ts'
 import { benchmarkContext, defaultChromium, deliveredArtifactIdentity, executableIdentity } from './benchmark-context.ts'
+import { baselineMeasurementContext } from './baseline-measurement-context.ts'
 import { committedDataIdentity } from './committed-data-identity.ts'
 import { ENTRY_STARTUP_PRODUCERS, type EntryStartupOptions, prepareEntryStartup, runEntryStartupSuite } from './entry-startup.ts'
 import { projectReportView } from './project-report-view.ts'
@@ -72,14 +73,18 @@ export async function runRetainedEntryStartupSuite(options: RetainedCampaignOpti
   const node = nodePath(options)
   const require = createRequire(join(harness, 'eval/benchmark/package.json'))
   const browser = options.executable ?? defaultChromium(require('playwright').chromium)
-  const projects = targets(options)
+  const projects = [...targets(options), ...(!options.communityProjects || options.communityProjects.includes('mermaid-js/mermaid') ? [{ id: 'mermaid-js/mermaid', root: join(options.referenceDir ?? mermaidOracleDirectory(), 'node_modules/mermaid'), adapter: 'mermaid' as const }] : [])]
   const results: UnifiedSuiteResult[] = missingProjects(
     options,
     projects.map(project => project.id),
     'entry-startup',
   )
   for (const project of projects) {
-    const artifact = resolveArtifact(project.id, project.root, project.adapter, node)
+    if (!existsSync(join(project.root, 'package.json'))) {
+      results.push({ id: 'entry-startup', status: 'blocked', startedAt, finishedAt: new Date().toISOString(), observations: [{ suite: 'entry-startup', surface: 'project-admission', runtime: 'unavailable', family: '*', caseId: project.id, operation: 'artifact-admission', format: 'report', mode: 'not-executed', status: 'blocked', metrics: { implementation: project.id, runtimeExecuted: false }, detail: 'Configured pinned startup package is absent: ' + project.root }], gaps: ['No startup baseline artifact was substituted for ' + project.id] })
+      continue
+    }
+    const artifact = project.adapter === 'mermaid' ? { project: project.id, root: realpathSync(project.root), version: JSON.parse(readFileSync(join(project.root, 'package.json'), 'utf8')).version } : resolveArtifact(project.id, project.root, project.adapter, node)
     assertBenchmarkToolVersion(project.id, artifact.version, 'entry startup artifact')
     const settings = { profile: options.profile, rounds: options.rounds, samplesPerRound: options.startupSamples ?? (options.profile === 'full' ? 5 : 1), resourceSamplesPerRound: 1, surfaces: options.startupSurfaces ?? ['library', 'cli', 'mcp', 'browser'], timeoutMs: 60_000 }
     const actual: EntryStartupOptions = {
@@ -107,7 +112,7 @@ export async function runRetainedEntryStartupSuite(options: RetainedCampaignOpti
           project: project.id,
           lane: 'entry-startup',
           protocol: {
-            context: benchmarkContext(
+            context: baselineMeasurementContext(
               harness,
               node,
               ENTRY_STARTUP_PRODUCERS.map(path => relative(harness, path)),
@@ -115,7 +120,7 @@ export async function runRetainedEntryStartupSuite(options: RetainedCampaignOpti
             ),
             settings,
           },
-          artifact: { package: artifactIdentity(artifact), website: project.adapter === 'agentic' && settings.surfaces.includes('browser') ? deliveredArtifactIdentity(options.site ?? join(options.root, 'website/public')) : null },
+          artifact: { package: 'entry' in artifact ? artifactIdentity(artifact) : { publicPackage: deliveredArtifactIdentity(project.root, true), installed: captureInstalledDependencyClosure(project.root) }, website: project.adapter === 'agentic' && settings.surfaces.includes('browser') ? deliveredArtifactIdentity(options.site ?? join(options.root, 'website/public')) : null },
           measurement: {
             node: executableIdentity(node),
             bun: executableIdentity(actual.bunExecutable),

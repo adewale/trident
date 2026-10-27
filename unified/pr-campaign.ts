@@ -30,6 +30,7 @@ interface Options {
   profile: 'smoke' | 'full'
   invocationProfile: 'smoke' | 'full'
   invocationRounds: number
+  invocationTimeoutMs: number
   prs?: number[]
   prepareOnly: boolean
   compactNative: boolean
@@ -72,7 +73,7 @@ interface Campaign {
   measurementConfig?: {
     core: { profile: 'smoke' | 'full'; rounds: number; metrics?: string[]; extraCases?: string[]; receiptValidation?: string }
     family: { profile: 'smoke' | 'full'; rounds: number; requestedRounds?: number }
-    invocation: { profile: 'smoke' | 'full'; rounds: number; status?: string }
+    invocation: { profile: 'smoke' | 'full'; rounds: number; status?: string; timeoutMs?: number }
     policy: string
   }
   installationComplete?: boolean
@@ -106,7 +107,7 @@ const stamp = () => new Date().toISOString()
 export function parsePrCampaignOptions(argv: string[]): Options {
   const values = new Map<string, string>()
   const flags = new Set(['prepare-only', 'run', 'compact-native', 'api-only'])
-  const allowed = new Set(['root', 'repo', 'out', 'rounds', 'profile', 'invocation-profile', 'invocation-rounds', 'prs', 'dependency-policy', 'core-metrics', 'extra-core-cases', 'snapshot-file'])
+  const allowed = new Set(['root', 'repo', 'out', 'rounds', 'profile', 'invocation-profile', 'invocation-rounds', 'invocation-timeout-ms', 'prs', 'dependency-policy', 'core-metrics', 'extra-core-cases', 'snapshot-file'])
   let prepareOnly = false,
     compactNative = false,
     apiOnly = false
@@ -127,10 +128,11 @@ export function parsePrCampaignOptions(argv: string[]): Options {
     profile = values.get('profile') ?? 'smoke',
     invocationProfile = values.get('invocation-profile') ?? profile,
     invocationRounds = Number(values.get('invocation-rounds') ?? rounds),
+    invocationTimeoutMs = Number(values.get('invocation-timeout-ms') ?? 90 * 60_000),
     dependencyPolicy = values.get('dependency-policy') ?? 'strict',
     prs = values.get('prs')?.split(',').map(Number)
-  if (!Number.isSafeInteger(rounds) || rounds < 1 || !['smoke', 'full'].includes(profile) || !['smoke', 'full'].includes(invocationProfile) || !Number.isSafeInteger(invocationRounds) || invocationRounds < 1 || !['strict', 'main-overrides'].includes(dependencyPolicy) || prs?.some(n => !Number.isSafeInteger(n) || n < 1))
-    throw Error('Invalid rounds/profile/dependency-policy/PR selection')
+  if (!Number.isSafeInteger(rounds) || rounds < 1 || !['smoke', 'full'].includes(profile) || !['smoke', 'full'].includes(invocationProfile) || !Number.isSafeInteger(invocationRounds) || invocationRounds < 1 || !Number.isSafeInteger(invocationTimeoutMs) || invocationTimeoutMs < 1 || invocationTimeoutMs > 2_147_483_647 || !['strict', 'main-overrides'].includes(dependencyPolicy) || prs?.some(n => !Number.isSafeInteger(n) || n < 1))
+    throw Error('Invalid rounds/profile/invocation-timeout/dependency-policy/PR selection')
   const coreMetrics = values.get('core-metrics')?.split(',')
   if (coreMetrics && (!coreMetrics.length || new Set(coreMetrics).size !== coreMetrics.length || coreMetrics.some(metric => ![...CORE_DEFAULT_METRICS, ...CORE_FULL_METRICS].includes(metric as any)))) throw Error('Invalid --core-metrics selection')
   const extraCoreCases = values.get('extra-core-cases')?.split(',')
@@ -147,6 +149,7 @@ export function parsePrCampaignOptions(argv: string[]): Options {
     profile: profile as Options['profile'],
     invocationProfile: invocationProfile as Options['invocationProfile'],
     invocationRounds,
+    invocationTimeoutMs,
     prs,
     prepareOnly,
     compactNative,
@@ -718,17 +721,35 @@ export function revalidatePrCampaign(options: Pick<Options, 'out'>, campaign: Ca
   }
   writeFileSync(join(options.out, 'campaign.json'), JSON.stringify(campaign, null, 2))
 }
-export async function runPrCampaign(options: Options, campaign: Campaign) {
-  const driverStatus = git(options.root, ['status', '--porcelain=v1', '--untracked-files=all']).split('\n').filter(Boolean)
-  campaign.measurementDriver = { capturedAt: stamp(), head: git(options.root, ['rev-parse', 'HEAD']), dirty: driverStatus.length > 0, status: driverStatus, xdgCacheHome: process.env.XDG_CACHE_HOME ?? null }
-  campaign.measurementConfig = {
+export function prCampaignMeasurementConfig(options: Options): NonNullable<Campaign['measurementConfig']> {
+  return {
     core: { profile: options.profile, rounds: options.rounds, metrics: selectedCoreMetrics(options), extraCases: options.extraCoreCases ?? [], receiptValidation: options.apiOnly ? 'pre-post-outside-clocks' : 'includes-external-receipt-validation' },
     family: { profile: options.profile, rounds: options.apiOnly ? 1 : options.rounds, ...(options.apiOnly ? { requestedRounds: options.rounds } : {}) },
-    invocation: { profile: options.invocationProfile, rounds: options.apiOnly ? 0 : options.invocationRounds, status: options.apiOnly ? 'not-selected' : 'selected' },
+    invocation: { profile: options.invocationProfile, rounds: options.apiOnly ? 0 : options.invocationRounds, timeoutMs: options.invocationTimeoutMs, status: options.apiOnly ? 'not-selected' : 'selected' },
     policy: options.apiOnly
       ? 'Explicit API-only: invocation/site/native not selected. Family functionality executes one pass at the declared profile; core performance preserves the requested rounds and selected metrics. Requested family rounds are retained separately from actual pass count.'
       : 'Core/family preserve campaign profile and rounds; only broad invocation uses explicit independent overrides. All admitted family representatives and actual runtimes/transports remain enrolled according to the selected invocation profile.',
   }
+}
+/** Packed npm libraries exclude the optional native executable. Its separate
+ * canonical build/storage proof must be selected explicitly for invocation. */
+export function prCampaignWorkerJob(options: Options, target: Pick<Target, 'root' | 'packageRoot' | 'nativeStorage'>, suite: string, out: string, resultPath: string) {
+  return {
+    root: target.root,
+    harnessRoot: options.root,
+    packageRoot: target.packageRoot,
+    ...(suite === 'invocation' ? { nativeExecutable: target.nativeStorage?.file ?? join(target.root, 'dist/am') } : {}),
+    out,
+    rounds: suite === 'invocation' ? options.invocationRounds : options.apiOnly ? 1 : options.rounds,
+    profile: suite === 'invocation' ? options.invocationProfile : options.profile,
+    timeoutMs: suite === 'invocation' ? options.invocationTimeoutMs : 60 * 60_000,
+    resultPath,
+  }
+}
+export async function runPrCampaign(options: Options, campaign: Campaign) {
+  const driverStatus = git(options.root, ['status', '--porcelain=v1', '--untracked-files=all']).split('\n').filter(Boolean)
+  campaign.measurementDriver = { capturedAt: stamp(), head: git(options.root, ['rev-parse', 'HEAD']), dirty: driverStatus.length > 0, status: driverStatus, xdgCacheHome: process.env.XDG_CACHE_HOME ?? null }
+  campaign.measurementConfig = prCampaignMeasurementConfig(options)
   revalidatePrCampaign(options, campaign)
   const main = campaign.targets.find(target => target.id === 'main')!,
     qualified = [main, ...campaign.targets.filter(target => target.buildStatus === 'passed' && !target.equivalentTo && target.id !== 'main' && target.integration !== 'branch-base')],
@@ -768,19 +789,18 @@ export async function runPrCampaign(options: Options, campaign: Campaign) {
         attempt = join(out, `attempt-${Date.now()}`),
         resultPath = join(attempt, 'result.json')
       mkdirSync(attempt, { recursive: true })
-      const job = join(attempt, 'job.json'),
-        profile = suite === 'invocation' ? options.invocationProfile : options.profile,
-        rounds = suite === 'invocation' ? options.invocationRounds : options.apiOnly ? 1 : options.rounds
-      writeFileSync(job, JSON.stringify({ root: target.root, harnessRoot: options.root, packageRoot: target.packageRoot, out: attempt, rounds, profile, resultPath }))
+      const job = join(attempt, 'job.json'), payload = prCampaignWorkerJob(options, target, suite, attempt, resultPath),
+        { profile, rounds, timeoutMs } = payload
+      writeFileSync(job, JSON.stringify(payload))
       try {
         if (suite === 'invocation' && target.nativeStorage) restoreNativeArtifact(target.nativeStorage)
-        await command(process.env.BUN_BIN ?? (process.versions.bun ? process.execPath : 'bun'), ['run', join(options.root, 'eval/benchmark/unified/run.ts'), '--worker-suite', suite, '--worker-job', job], options.root, join(attempt, 'run.log'), suite === 'invocation' ? 90 * 60_000 : 60 * 60_000)
+        await command(process.env.BUN_BIN ?? (process.versions.bun ? process.execPath : 'bun'), ['run', join(options.root, 'eval/benchmark/unified/run.ts'), '--worker-suite', suite, '--worker-job', job], options.root, join(attempt, 'run.log'), timeoutMs)
       } catch (error) {
         if (!existsSync(resultPath)) writeFileSync(resultPath, JSON.stringify({ status: 'failed', observations: [], gaps: [String(error)] }))
       }
       writeFileSync(join(out, 'latest.json'), JSON.stringify({ resultPath, measuredAt: stamp(), policy: 'Fresh attempt; no automatic evidence reuse' }, null, 2))
       const result = read(resultPath)
-      coverage.push({ target: target.id, suite, profile, rounds, status: result.status, passed: result.observations.filter((row: any) => row.status === 'passed').length, total: result.observations.length, gaps: result.gaps, resultPath })
+      coverage.push({ target: target.id, suite, profile, rounds, timeoutMs, status: result.status, passed: result.observations.filter((row: any) => row.status === 'passed').length, total: result.observations.length, gaps: result.gaps, resultPath })
       reportCampaign(options, campaign, jobs, coverage)
     }
     if (target.nativeStorage) releaseNativeArtifact(target.nativeStorage)
@@ -810,7 +830,7 @@ export async function runPrCampaign(options: Options, campaign: Campaign) {
 export async function main(argv = process.argv.slice(2)) {
   if (argv.includes('--help')) {
     console.log(
-      'bun run eval/benchmark/unified/pr-campaign.ts --out DIR [--prepare-only|--run] [--compact-native] [--api-only] [--core-metrics svg,svgReceipt,firstSvg,import] [--extra-core-cases gitGraph20] [--snapshot-file FILE] [--prs N,N] [--rounds N] [--profile smoke|full] [--invocation-profile smoke|full] [--invocation-rounds N] [--repo owner/name] [--root DRIVER] [--dependency-policy strict|main-overrides]\nPreparation freezes main and all selected open PR heads, builds canonical artifacts and actual npm packs. --compact-native stores candidate executables losslessly and verifies/restores their original bytes and paths before each invocation subprocess, outside clocks; main remains materialized. --api-only skips site/native builds and broad invocation while preserving selected core and declared-profile family coverage; --core-metrics chooses actual measured APIs; --extra-core-cases adds separately reported SVG cases without changing the fixed six aggregate; --snapshot-file freezes supplied exact main/open heads without rediscovery. --run reuses the frozen prepared artifacts but always reruns all measurements in new attempt directories; existing timing/coverage results are never automatically reused. Invocation profile/rounds default to the campaign settings; explicit overrides affect only broad invocation coverage and are recorded in evidence. Package-only conflicts are resolved only under explicit main-overrides policy; source conflicts remain exploratory.',
+      'bun run eval/benchmark/unified/pr-campaign.ts --out DIR [--prepare-only|--run] [--compact-native] [--api-only] [--core-metrics svg,svgReceipt,firstSvg,import] [--extra-core-cases gitGraph20] [--snapshot-file FILE] [--prs N,N] [--rounds N] [--profile smoke|full] [--invocation-profile smoke|full] [--invocation-rounds N] [--invocation-timeout-ms N] [--repo owner/name] [--root DRIVER] [--dependency-policy strict|main-overrides]\nPreparation freezes main and all selected open PR heads, builds canonical artifacts and actual npm packs. --compact-native stores candidate executables losslessly and verifies/restores their original bytes and paths before each invocation subprocess, outside clocks; main remains materialized. --api-only skips site/native builds and broad invocation while preserving selected core and declared-profile family coverage; --core-metrics chooses actual measured APIs; --extra-core-cases adds separately reported SVG cases without changing the fixed six aggregate; --snapshot-file freezes supplied exact main/open heads without rediscovery. --run reuses the frozen prepared artifacts but always reruns all measurements in new attempt directories; existing timing/coverage results are never automatically reused. Invocation profile/rounds default to the campaign settings; explicit overrides affect only broad invocation coverage and are recorded in evidence. Invocation timeout defaults to90minutes; --invocation-timeout-ms changes the recorded per-target budget without reducing scope or rounds. Package-only conflicts are resolved only under explicit main-overrides policy; source conflicts remain exploratory.',
     )
     return
   }

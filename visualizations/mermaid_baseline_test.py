@@ -6,6 +6,7 @@ import json
 import gzip
 import os
 import subprocess
+import sys
 import shutil
 from pathlib import Path
 import tempfile
@@ -43,6 +44,57 @@ class BaselineControls(unittest.TestCase):
         (copied / 'summary.json.gz').write_bytes(gzip.compress(json.dumps({'title': 'Trident λ漢', 'rows': [{'samplesMs': [0.001]}]}).encode()))
         with self.assertRaisesRegex(ValueError, 'immutable reference'):
             read_document(copied / 'summary.json')
+
+    def test_community_cli_uses_catalog_inside_relocated_trident_package(self):
+        # No Agentic checkout, repository cwd or session-only docs path exists.
+        package = Path(__file__).resolve().parents[1]
+        detached = self.root / 'detached-trident'
+        (detached / 'visualizations').mkdir(parents=True)
+        (detached / 'catalog').mkdir()
+        for relative in ['evidence.py', 'tool_versions.py', 'tool-versions.json',
+                         'visualizations/mermaid_baseline.py',
+                         'visualizations/mermaid_baseline_charts.py']:
+            shutil.copy2(package / relative, detached / relative)
+        (detached / 'catalog/mermaid-community.json').write_text(json.dumps({'nodes': [
+            {'id': baseline.MERMAID, 'relation': 'original'},
+            {'id': 'example/unmeasured', 'relation': 'unverified'},
+        ]}))
+        evidence = self.root / 'community'
+        evidence.mkdir()
+        case_ids = ['core:flow5', 'core:tree50', 'core:seq20', 'core:class80', 'core:er40', 'core:state80']
+        observations = []
+        for surface, output, operation, runtime in [
+            ('browser:public-api', 'svg', 'render', 'Chromium fixture'),
+            ('node:public-parse-validation', 'parse', 'parse', 'Node fixture'),
+        ]:
+            for round_id in [1, 2, 3]:
+                for case in case_ids:
+                    observations.append({'surface': surface, 'format': output, 'operation': operation,
+                        'runtime': runtime, 'caseId': case, 'status': 'passed', 'samplesMs': [3],
+                        'metrics': {'implementation': baseline.MERMAID, 'version': '12.2.0', 'round': round_id}})
+        documents = {
+            'community-result.json': {'startedAt': 'start', 'finishedAt': 'end', 'observations': observations},
+            'community-ranks.json': {'rounds': 3, 'protocol': 'fixture-protocol', 'artifacts': [
+                {'node': {'id': baseline.MERMAID, 'relation': 'original'},
+                 'artifact': {'version': '12.2.0'}}]},
+            'community-inputs.json': {'workloads': [{'id': case, 'features': ['core-graph-batch']} for case in case_ids]},
+        }
+        for name, value in documents.items():
+            (evidence / name).write_text(json.dumps(value))
+        output = self.root / 'report'
+        completed = subprocess.run([sys.executable, '-B', str(detached / 'visualizations/mermaid_baseline.py'),
+            '--community', str(evidence), '--out', str(output)], cwd=self.root,
+            capture_output=True, text=True)
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        report = json.loads((output / 'summary.json').read_text())
+        dataset = report['datasets'][0]
+        self.assertEqual(dataset['settings']['currentCatalogCount'], 2)
+        self.assertEqual(Path(dataset['settings']['currentCatalogSource']), detached / 'catalog/mermaid-community.json')
+        for lane in dataset['lanes']:
+            cells = {row['tool']: row for row in lane['cells']}
+            self.assertEqual(cells[baseline.MERMAID]['ratio'], 1)
+            self.assertIsNone(cells['example/unmeasured']['ratio'])
+            self.assertEqual(cells['example/unmeasured']['status'], 'unranked')
 
     def dave(self):
         report = {"status": "completed", "startedAt": "start", "finishedAt": "end", "browser": "same-browser", "environment": {},

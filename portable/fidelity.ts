@@ -230,6 +230,31 @@ function pathEndpoints(path: Element): { start: Point; end: Point } | undefined 
   const projected = { start: { x: start.x + shift.x, y: start.y + shift.y }, end: { x: current.x + shift.x, y: current.y + shift.y } }
   return [...Object.values(projected.start), ...Object.values(projected.end)].every(Number.isFinite) ? projected : undefined
 }
+
+/** Pele ER's two cardinality bars are disconnected glyph strokes. They must
+ * never authorize a disconnected relation route. This reviewed profile only
+ * witnesses visible finite marker ink; exact cardinality meaning is unmeasured. */
+function erMarkerPoints(path: Element): Point[] | undefined {
+  if (path.tag === 'circle') {
+    const shift = translation(path), radius = finiteLength(path.attributes.r), x = finiteLength(path.attributes.cx ?? '0'), y = finiteLength(path.attributes.cy ?? '0')
+    if (!shift || radius === undefined || radius <= 0 || radius > 12 || x === undefined || y === undefined) return undefined
+    const points = [{ x: x - radius, y }, { x: x + radius, y }, { x, y: y - radius }, { x, y: y + radius }].map(point => ({ x: point.x + shift.x, y: point.y + shift.y }))
+    return points.every(point => Number.isFinite(point.x) && Number.isFinite(point.y)) ? points : undefined
+  }
+  if (path.tag !== 'path') return undefined
+  const connected = pathEndpoints(path)
+  if (connected) return [connected.start, connected.end]
+  const tokens = pathTokens(path.attributes.d), shift = translation(path)
+  if (!tokens || !shift || tokens.length !== 12 || tokens[0] !== 'M' || tokens[3] !== 'L' || tokens[6] !== 'M' || tokens[9] !== 'L') return undefined
+  const values = [tokens[1], tokens[2], tokens[4], tokens[5], tokens[7], tokens[8], tokens[10], tokens[11]].map(Number)
+  if (!values.every(Number.isFinite)) return undefined
+  const [ax, ay, bx, by, cx, cy, dx, dy] = values as [number, number, number, number, number, number, number, number]
+  const first = { x: bx - ax, y: by - ay }, second = { x: dx - cx, y: dy - cy }, separation = { x: cx - ax, y: cy - ay }
+  const length = Math.hypot(first.x, first.y), spacing = Math.hypot(separation.x, separation.y)
+  if (length < 1 || length > 16 || spacing < 1 || spacing > 12 || Math.abs(first.x - second.x) > 1e-6 || Math.abs(first.y - second.y) > 1e-6 || Math.abs(first.x * separation.x + first.y * separation.y) > 1e-6) return undefined
+  const points = [{ x: ax, y: ay }, { x: bx, y: by }, { x: cx, y: cy }, { x: dx, y: dy }].map(point => ({ x: point.x + shift.x, y: point.y + shift.y }))
+  return points.every(point => Number.isFinite(point.x) && Number.isFinite(point.y)) ? points : undefined
+}
 /** The reviewed Pele arrow head is a filled three-point path, with its tip first. */
 interface Triangle { tip: Point; base: Point; corners: [Point, Point] }
 function markerTriangle(path: Element): Triangle | undefined {
@@ -456,13 +481,13 @@ function qualifyPortableUnchecked(testCase: PortableCase, output: PortableOutput
       )
       const markers = owner.children.filter(element => element.uri === namespace && hasClass(element, 'pele-marker') && visible(element))
       if (model!.type === 'er') {
-        const projectedMarkers = markers.map(marker => marker.tag === 'path' ? pathEndpoints(marker) : undefined),
-          ends = projectedMarkers.filter((points): points is { start: Point; end: Point } => !!points)
+        const projectedMarkers = markers.map(erMarkerPoints),
+          ends = projectedMarkers.flatMap(points => points ?? [])
         check(
           `svg-edge-end-markers:${index}`,
           true,
-          source && target ? ends.some(points => Math.min(distance(points.start, source), distance(points.end, source)) <= 12) && ends.some(points => Math.min(distance(points.start, target), distance(points.end, target)) <= 12) : null,
-          'Visible cardinality path ink is attached to both entity ends. Exact cardinality glyph meaning is not independently asserted by this topology projection.',
+          source && target ? ends.some(point => distance(point, source) <= 12) && ends.some(point => distance(point, target) <= 12) && projectedMarkers.every(points => points?.some(point => Math.min(distance(point, source), distance(point, target)) <= 12)) : null,
+          'Visible cardinality ink is attached to both entity ends and each observed marker attaches to an entity. Reviewed glyphs include finite positive-radius circles and two aligned parallel strokes. Relation routes remain continuous. Exact cardinality glyph meaning is not independently asserted by this topology projection.',
           !!source && !!target && projectedMarkers.every(Boolean),
         )
       } else {

@@ -1,4 +1,5 @@
 import './ci-policy-enforce.ts'
+import { median } from './portable/statistics.ts'
 // Advisory competitiveness scorecard. All renderers consume the same complete
 // upstream inventory in one Chromium tab. Candidate JS comes from the verified
 // publication tarball, never a separately rebuilt source bundle.
@@ -38,7 +39,6 @@ export interface BrowserSample {
   ok: boolean
   error?: string
 }
-const median = (values: number[]) => [...values].sort((a, b) => a - b)[values.length >> 1]!
 const sum = (values: number[]) => values.reduce((a, b) => a + b, 0)
 
 /** Validate optional diagnostics before installing packages or starting a server. */

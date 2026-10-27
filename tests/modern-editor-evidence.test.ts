@@ -1,4 +1,8 @@
 import { expect, test } from 'bun:test'
+import { execFileSync } from 'node:child_process'
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { resumeEngineEvidence, validateEngineEvidence } from '../modern-editor/evidence.mjs'
 
 function evidence() {
@@ -51,4 +55,17 @@ test.each(['foreign ID', 'duplicate', 'extra round', 'wrong family', 'missing at
   if (change === 'wrong family') report.engines[0]!.family = 'sequence'
   if (change === 'missing attempt') report.engines.pop()
   expect(() => validateEngineEvidence(report, inventory)).toThrow()
+})
+
+
+test('modern editor CLI summary averages the middle pair of six editor observations', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'trident-modern-summary-'))
+  try {
+    const { inventory, report } = evidence()
+    const complete = { ...report, status: 'completed', catalog: { themes: ['neutral'] }, themes: [{ theme: 'neutral', activeTheme: 'neutral', ok: true }], themeSharing: [{ theme: 'neutral', sharedTheme: 'neutral', restoredTheme: 'neutral', ok: true }], editor: [5, 50, 150].flatMap(nodes => [10, 20, 30, 40, 50, 60].map((ms, index) => ({ nodes, rep: index + 1, ms, maxTimerGapMs: 1, ok: true }))), startupPayload: [], examples: [], themeFamilyMatrix: [], exports: [], probes: [] }
+    writeFileSync(join(directory, 'report.json'), JSON.stringify(complete))
+    writeFileSync(join(directory, 'inventory.json'), JSON.stringify(inventory))
+    execFileSync('node', [join(import.meta.dir, '../modern-editor/summarize.mjs'), directory], { stdio: 'pipe' })
+    expect(JSON.parse(readFileSync(join(directory, 'summary.json'), 'utf8')).editor.map((row: any) => row.medianMs)).toEqual([35, 35, 35])
+  } finally { rmSync(directory, { recursive: true, force: true }) }
 })
