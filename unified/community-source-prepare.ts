@@ -145,6 +145,8 @@ export async function prepareCommunitySource(node: CommunitySourceNode, cacheRoo
   if (!adapter) throw new Error(`No reviewed source CLI adapter for ${node.id}`)
   const revision = node.release?.commit ?? node.head
   if (!revision || !/^[a-f0-9]{40}$/.test(revision)) throw new Error(`${node.id}: a full immutable Git revision is required`)
+  const sourceVersion = `git-${revision.slice(0, 12)}`,
+    requestedVersion = node.release?.tag ?? sourceVersion
   if (node.repo && node.repo !== `https://github.com/${node.id}`) throw new Error(`${node.id}: source URL does not match reviewed GitHub identity`)
   const cache = resolve(cacheRoot),
     directory = resolve(cache, node.id.replaceAll('/', '--') + '@' + revision),
@@ -156,9 +158,11 @@ export async function prepareCommunitySource(node: CommunitySourceNode, cacheRoo
   if (existsSync(manifest)) {
     const previous = JSON.parse(readFileSync(manifest, 'utf8')) as CommunitySourceArtifact
     if (previous.revision === revision && existsSync(previous.executable) && createHash('sha256').update(readFileSync(previous.executable)).digest('hex') === previous.sha256) {
-      const current = { ...previous, ...reviewedCommunitySourcePresentation(node) }
+      // Tags only label the request: this recipe builds the same commit with
+      // the same flags. Keep shared physical metadata independent of call order.
+      const current = { ...previous, ...reviewedCommunitySourcePresentation(node), version: sourceVersion }
       writeFileSync(manifest, JSON.stringify(current, null, 2) + '\n')
-      return current
+      return { ...current, version: requestedVersion }
     }
   }
   const env: NodeJS.ProcessEnv = { ...process.env, NO_COLOR: '1', TERM: 'dumb' }
@@ -191,7 +195,7 @@ export async function prepareCommunitySource(node: CommunitySourceNode, cacheRoo
     kind: 'cli',
     executable,
     ...reviewedCommunitySourcePresentation(node),
-    version: node.release?.tag ?? `git-${revision.slice(0, 12)}`,
+    version: sourceVersion,
     revision,
     sha256: createHash('sha256').update(readFileSync(executable)).digest('hex'),
     sourceRoot,
@@ -199,7 +203,7 @@ export async function prepareCommunitySource(node: CommunitySourceNode, cacheRoo
     boundary: 'cold-public-cli',
   }
   writeFileSync(manifest, JSON.stringify(artifact, null, 2) + '\n')
-  return artifact
+  return { ...artifact, version: requestedVersion }
 }
 
 /** Shared acquisition subprocess helper; never used as a render timing clock. */

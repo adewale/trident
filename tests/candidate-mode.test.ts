@@ -164,6 +164,53 @@ test('a source candidate is built with the release recipe from its own commit, a
   }
 }, 60_000)
 
+
+test.each(['candidate-first', 'release-first'] as const)('source cache keeps release and candidate labels separate in %s order', async order => {
+  const { clone, candidate } = sourceClone(),
+    original = (JSON.parse(readFileSync(communityCatalogFile, 'utf8')).nodes as CommunityNode[]).find(node => node.id === 'AlexanderGrooff/mermaid-ascii')!,
+    tool = { ...original, head: candidate, release: { commit: candidate, tag: '1.6.1' } },
+    root = temp.dir(),
+    catalog = join(root, 'catalog.json'),
+    go = join(root, 'go')
+  writeFileSync(catalog, JSON.stringify({ nodes: [tool] }))
+  writeFileSync(go, '#!/bin/sh\nprintf "#!/bin/sh\\necho %s\\n" "$(git rev-parse HEAD)" > "$4"\nprintf build >> "$4.count"\nchmod +x "$4"\n', { mode: 0o755 })
+  const saved = { go: process.env.AM_BENCH_GO, cache: process.env.AM_COMMUNITY_SOURCE_CACHE }
+  process.env.AM_BENCH_GO = go
+  process.env.AM_COMMUNITY_SOURCE_CACHE = join(root, 'source-cache')
+  // The fixture's recorded release lives in this local clone too. Seed only
+  // acquisition, not a compiled artifact or manifest, before either ordering.
+  const checkout = join(root, 'source-cache', tool.id.replaceAll('/', '--') + '@' + candidate, 'source')
+  mkdirSync(checkout, { recursive: true })
+  git(checkout, 'init', '-q')
+  git(checkout, 'remote', 'add', 'origin', clone)
+  try {
+    const options = { root, harnessRoot: root, rounds: 1, profile: 'smoke' as const, communityCatalogFile: catalog, communityProjects: [tool.id] },
+      request = { project: tool.id, revision: candidate, remote: clone },
+      prepare = async (kind: 'candidate' | 'release', attempt: string) => (await prepareCommunity({ ...options, out: join(root, attempt), ...(kind === 'candidate' ? { communityCandidate: request } : {}) }))[0]!
+    // Both calls use the exact same physical compiled commit, in either order.
+    const first = await prepare(order === 'candidate-first' ? 'candidate' : 'release', 'first'),
+      second = await prepare(order === 'candidate-first' ? 'release' : 'candidate', 'second'),
+      unreleased = order === 'candidate-first' ? first : second,
+      release = order === 'candidate-first' ? second : first
+    expect(first.error).toBeUndefined()
+    expect(second.error).toBeUndefined()
+    expect(unreleased.artifact!.version).toBe(`git-${candidate.slice(0, 12)}`)
+    expect(release.artifact!.version).toBe('1.6.1')
+    expect(release.artifact!.candidate).toBeUndefined()
+    expect(candidateIdentity(unreleased, { communityCandidate: request }, null)).toEqual({ source: 'revision', revision: candidate })
+    expect(candidateIdentity(release, {}, null)).toBeUndefined()
+    expect(unreleased.artifact!.sha256).toBe(release.artifact!.sha256)
+    expect((await prepare('candidate', 'candidate-again')).artifact!.version).toBe(`git-${candidate.slice(0, 12)}`)
+    expect((await prepare('release', 'release-again')).artifact!.version).toBe('1.6.1')
+    expect(readFileSync(release.artifact!.executable! + '.count', 'utf8')).toBe('build')
+  } finally {
+    for (const [key, value] of [['AM_BENCH_GO', saved.go], ['AM_COMMUNITY_SOURCE_CACHE', saved.cache]] as const) {
+      if (value === undefined) delete process.env[key]
+      else process.env[key] = value
+    }
+  }
+}, 60_000)
+
 const evidence = () => {
   const directory = temp.dir()
   writeFileSync(join(directory, 'result.json'), '{}')
