@@ -28,9 +28,11 @@ One installed Mermaid release is the oracle for everything: `mermaid` 12.2.0 wit
 [`tool-versions.json`](tool-versions.json). Every benchmark run and test run refuses
 to start without exactly that install (`node commands.ts mermaid:install`). The oracle:
 
-- confirms that every authored source and family probe has the accept/reject outcome
-  its case claims, before any clock starts; a disagreement stops the run;
-- supplies each case's expected labels, read from its own diagram databases;
+- validates explicit accept/reject assertions before their measurement lanes; legacy
+  harvested community fixtures can disagree with the current pin and remain recorded
+  with an oracle warning instead of being silently treated as certified positive inputs;
+- supplies expected labels from its diagram databases where getters are available;
+  independently authored external-family labels retain their explicit provenance;
 - is Mermaid's row in the comparison, and Dave's Mermaid comparator.
 
 Benchmarking another project uses the oracle without benchmarking Mermaid.
@@ -135,6 +137,38 @@ correctness first, lexicographically, with no weighted score:
 Mermaid's row is the reference: it is measured with the same checks, shown first and
 not ranked. Speed ratios are against Mermaid on the same surface and output, where
 Mermaid has one.
+
+## Input caveats and the secondary label view
+
+`results:publish` reads the frozen literal input ledger in each record's own
+`context.json`, including its compressed reference when present. Older evidence
+can fall back to its local `community/community-inputs.json`. The portable
+record retains all input warnings in `inputEvidence.gaps` and merges them into
+published `gaps`; failure pages identify sources the pinned oracle rejected.
+These warnings are report metadata. Publication does not change a raw verdict,
+measurement, current mark, historical mark or rank.
+
+The **pinned-accepted authored-label admission** table is a separate SVG/terminal
+view of current-family cases with nonempty recorded labels and no pinned-oracle
+rejection. It excludes rejected and unlabeled inputs explicitly, reports blocked
+and unavailable outcomes, and shows unmapped observations. Its checked denominator
+is passed plus failed observations within that subset, not all Mermaid features.
+The subset requires a retained complete warning ledger and the exact pinned
+Mermaid/parser/DOM reference versions. Missing legacy metadata leaves it unavailable;
+absence of a warning file never establishes that every input was accepted.
+
+An explicit authored label remains a visible-text check when an external diagram's
+DB getter is absent. ZenUML's no-op parser still provides no syntax-validation or
+native-model proof. Conversely, a nonempty label ledger does not certify a complete
+renderable diagram: parser-only axis/title fixtures can lack the data series a
+renderer needs. That limitation remains in both raw outcomes and this subset.
+
+Strict standalone SVG XML admission is also distinct from browser drawing behavior.
+HTML named entities and undeclared `xlink` prefixes can fail XML admission even when
+an HTML page displays the output. Default truncation, omitted titles and literal
+escape display can disagree with DB-derived labels. Neither the raw marks nor the
+secondary table is a complete Mermaid-fidelity score; native meaning, painted
+correspondence and interaction require their dedicated suites.
 
 ## Speed and calibration
 
