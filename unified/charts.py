@@ -83,7 +83,7 @@ def community_composition(directory,result,scores,inputs,evidence):
             raise ValueError('Community composition misstates source measurement windows: '+phase)
         phases[phase]=(source,raw,ranks,proof)
     old_source,base,old_ranks,old_proof=phases['original'];new_source,repair,new_ranks,new_proof=phases['repair']
-    if new_proof.get('outputSelection')!=['svg','react-flow']or new_proof.get('svgQualification',{}).get('protocol')!='svg-xml-namespaced-authored-text-v3':raise ValueError('Repair is not the declared namespaced authored-text SVG/IR protocol')
+    if new_proof.get('outputSelection')!=['svg','react-flow']or new_proof.get('svgQualification',{}).get('protocol')not in ('svg-xml-namespaced-authored-text-v3','svg-xml-namespaced-authored-text-v4'):raise ValueError('Repair is not the declared namespaced authored-text SVG/IR protocol')
     for field in ('artifacts','aliases'):
         if old_ranks.get(field)!=new_ranks.get(field)or scores.get(field)!=old_ranks.get(field):
             # Artifact preparation may append verification detail, never change bytes/protocol.
@@ -262,7 +262,7 @@ def community_overlay(report, original_inputs, directory, original_directory, al
     composition=community_composition(directory,result,scores,inputs,evidence)if scores['protocol']=='community-qualification-composition-v3'else None
     svg_qualification=evidence.get('svgQualification',{})
     parser=svg_qualification.get('nodeXmlParser',{})
-    if svg_qualification.get('protocol')not in ('svg-xml-namespace-positive-canvas-v2','svg-xml-namespaced-authored-text-v3')or parser.get('name')!='saxes'or not parser.get('version')or not parser.get('module')or svg_qualification.get('browserXmlParser')!='native DOMParser':
+    if svg_qualification.get('protocol')not in ('svg-xml-namespace-positive-canvas-v2','svg-xml-namespaced-authored-text-v3','svg-xml-namespaced-authored-text-v4')or parser.get('name')!='saxes'or not parser.get('version')or not parser.get('module')or svg_qualification.get('browserXmlParser')!='native DOMParser':
         raise ValueError('Expanded community replay lacks actual strict XML/namespace/canvas qualification provenance')
     if scores.get('finishedAt')!=result['finishedAt']or evidence.get('finishedAt')!=result['finishedAt']or evidence.get('profile')!='full'or evidence.get('rounds')!=3 or evidence.get('coverageOnce')is not True:
         raise ValueError('Expanded community evidence protocol/timestamps differ from its actual result')

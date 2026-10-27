@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { withAgenticWorkspace } from '../integration/workspace.ts'
-import { newerFamilies } from '../portable/cohorts.ts'
+import { newerFamilies, requiredExternalFamilyCases } from '../portable/cohorts.ts'
 import { MERMAID_ORACLE_PIN, mermaidUpstreamDirectory } from '../portable/mermaid-oracle.ts'
 import { corpusFile, type CommunityCorpus } from './corpus.ts'
 import type { UnifiedWorkload } from './types.ts'
@@ -76,13 +76,14 @@ export function importCommunityCorpus(agentic: string, out = corpusFile, upstrea
     return JSON.parse(result.stdout) as AgenticWorkloads
   })
   const docs = mermaidDocsWorkloads(upstream)
+  const external = requiredExternalFamilyCases().map(testCase => ({ id: testCase.id, family: testCase.family, source: testCase.source, expectedLabels: testCase.expected.labels, features: ['authored-required-external-family'], provenance: 'Independent authored required external family representative; full semantics remain in the dedicated fidelity suite', evidence: null }))
   const corpus: CommunityCorpus = {
     schemaVersion: 1,
     source: { repository: 'adewale/agentic-mermaid', commit, dirty: false },
     upstream: docs.upstream,
     core: workloads.core,
-    profiles: { smoke: [...workloads.profiles.smoke, ...docs.smoke], full: [...workloads.profiles.full, ...docs.workloads.map(workload => workload.id)] },
-    workloads: [...workloads.workloads, ...docs.workloads],
+    profiles: { smoke: [...workloads.profiles.smoke, ...docs.smoke, ...external.map(workload => workload.id)], full: [...workloads.profiles.full, ...docs.workloads.map(workload => workload.id), ...external.map(workload => workload.id)] },
+    workloads: [...workloads.workloads, ...docs.workloads, ...external],
   }
   writeFileSync(out, JSON.stringify(corpus, null, 1) + '\n')
   return corpus

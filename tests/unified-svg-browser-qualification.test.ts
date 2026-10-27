@@ -4,6 +4,9 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { build } from 'esbuild'
 import { prepareCommunityBrowsers, runCommunityBrowserSuite } from '../unified/community-browser.ts'
+import { assertMermaidOracle, mermaidZenumlAddon } from '../portable/mermaid-oracle.ts'
+import { verifyFrozenBrowserEngine } from '../unified/community.ts'
+import { requiredExternalFamilyCases } from '../portable/cohorts.ts'
 import { qualifyOutput } from '../unified/qualification.ts'
 
 const svg = (body: string) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">${body}</svg>`
@@ -11,11 +14,18 @@ const authored: { id: string; labels: string[]; output: string; accepted: boolea
   { id: 'decorated', labels: ['Free'], output: svg('<text>Free (60.0%)</text>'), accepted: true },
   { id: 'inert', labels: ['Cache'], output: svg('<defs><text>Cache</text></defs><metadata><text>Cache</text></metadata><text>Database</text>'), accepted: false },
   { id: 'prefix-collision', labels: ['C1'], output: svg('<text>C10</text>'), accepted: false },
+  { id: 'combining-mark-suffix', labels: ['Cafe'], output: svg('<text>Cafe\u0301</text>'), accepted: false },
   { id: 'angle-text', labels: ['<Customer>'], output: svg('<text>&lt;Customer&gt;</text>'), accepted: true },
   { id: 'decode-once', labels: ['&lt;Customer&gt;'], output: svg('<text>&amp;lt;Customer&amp;gt;</text>'), accepted: true },
   { id: 'prefixed', labels: ['Hello'], output: '<s:svg xmlns:s="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><s:text>Hello</s:text></s:svg>', accepted: true },
   { id: 'foreign-namespace', labels: ['Hello'], output: svg('<f:text xmlns:f="urn:unrelated">Hello</f:text>'), accepted: false },
   { id: 'positioned-lines', labels: ['First Second'], output: svg('<text><tspan x="0" y="10">First</tspan><tspan x="0" y="20">Second</tspan></text>'), accepted: true },
+  { id: 'aligned-first-tspans', labels: ['Read Write'], output: svg('<text x="100" y="10"><tspan x="10">Read</tspan></text><text x="200" y="28"><tspan x="10">Write</tspan></text>'), accepted: true },
+  { id: 'separated-transforms', labels: ['Read Write'], output: svg('<text x="10" y="10" transform="translate(0 0)">Read</text><text x="10" y="28" transform="translate(200 0)">Write</text>'), accepted: false },
+  { id: 'separated-offsets', labels: ['Read Write'], output: svg('<text x="10" y="10" dx="0">Read</text><text x="10" y="28" dx="200">Write</text>'), accepted: false },
+  { id: 'inherited-distant-rows', labels: ['Read Write'], output: svg('<g font-size="16"><text x="10" y="10">Read</text><text x="10" y="1000">Write</text></g>'), accepted: false },
+  { id: 'nested-positioned-spans', labels: ['Read Write'], output: svg('<text x="10" y="10"><tspan><tspan x="100">Read</tspan></tspan></text><text x="10" y="28"><tspan><tspan x="200">Write</tspan></tspan></text>'), accepted: false },
+  { id: 'small-first-spans', labels: ['Read Write'], output: svg('<text x="10" y="10" font-size="16"><tspan font-size="1">Read</tspan></text><text x="10" y="28" font-size="16"><tspan font-size="1">Write</tspan></text>'), accepted: false },
   { id: 'html-break', labels: ['First Second'], output: svg('<foreignObject><div xmlns="http://www.w3.org/1999/xhtml">First<br/>Second</div></foreignObject>'), accepted: true },
   // Mermaid's own serialization: HTML inside foreignObject, so the <br> is not closed and the string is not XML.
   { id: 'html-serialized-break', labels: ['First Second'], output: svg('<foreignObject><div xmlns="http://www.w3.org/1999/xhtml"><p>First<br>Second</p></div></foreignObject>'), accepted: true },
@@ -35,7 +45,7 @@ browserTest(
       await build({ stdin: { contents: `const cases=${JSON.stringify(cases)};globalThis.fixtureRender=source=>cases.find(entry=>entry.source===source)?.output??'<svg xmlns="http://www.w3.org/2000/svg"/>'`, sourcefile: 'authored-qualification-fixture.js' }, outfile: module, bundle: true, format: 'iife', platform: 'browser', minify: true, logLevel: 'silent' })
       const out = join(directory, 'results')
       mkdirSync(out)
-      const root = resolve(import.meta.dir, '../../..')
+      const root = directory
       const options = { root, harnessRoot: root, out, rounds: 1, profile: 'smoke' as const, communityCoverageOnce: true, communityQualificationAssetDir: join(directory, 'versioned-helper'), ...(process.env.AM_CHROMIUM_EXECUTABLE ? { executable: process.env.AM_CHROMIUM_EXECUTABLE } : {}) }
       const prepared = await prepareCommunityBrowsers([{ node: { id: 'authored-reader-fixture', roles: [], outputs: ['svg'], benchmark: { adapter: 'dart', outputs: ['svg'] } }, artifact: { kind: 'global', root: directory, module, global: 'fixtureRender', version: 'authored-fixture' } }], options)
       const result = await runCommunityBrowserSuite(prepared, workloads, options)
@@ -53,3 +63,28 @@ browserTest(
   },
   30_000,
 )
+
+browserTest('pinned Mermaid loads its sealed ZenUML addon and draws authored required labels', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'am-zenuml-community-'))
+  try {
+    const reference = assertMermaidOracle(), addon = mermaidZenumlAddon(reference.directory)
+    const root = resolve(import.meta.dir, '..')
+    const options = { root, harnessRoot: root, out: directory, rounds: 1, profile: 'smoke' as const, referenceDir: reference.directory, fidelityZenumlRoot: addon.root, ...(process.env.AM_CHROMIUM_EXECUTABLE ? { executable: process.env.AM_CHROMIUM_EXECUTABLE } : {}) }
+    const packageRoot = join(reference.directory, 'node_modules/mermaid')
+    const prepared = await prepareCommunityBrowsers([{ node: { id: 'mermaid-js/mermaid', roles: [], outputs: ['svg'], benchmark: { adapter: 'mermaid', outputs: ['svg'] } }, artifact: { kind: 'node', root: packageRoot, module: join(packageRoot, 'dist/mermaid.core.mjs'), version: reference.version } }], options)
+    expect(prepared[0]!.browserStatus).toBe('prepared')
+    expect(prepared[0]!.browser!.zenuml!.version).toBe('1.0.1')
+    expect(prepared[0]!.browser!.files!.some(file => file.path === join(addon.root, addon.entry))).toBe(true)
+    expect(() => verifyFrozenBrowserEngine(prepared[0]!)).not.toThrow()
+    const original = prepared[0]!.browser!.zenuml!
+    prepared[0]!.browser!.zenuml = { ...original, version: '1.0.0' }
+    expect(() => verifyFrozenBrowserEngine(prepared[0]!)).toThrow('ZenUML')
+    delete prepared[0]!.browser!.zenuml
+    expect(() => verifyFrozenBrowserEngine(prepared[0]!)).toThrow('ZenUML')
+    prepared[0]!.browser!.zenuml = original
+    const workloads = requiredExternalFamilyCases().map(testCase => ({ id: testCase.id, family: testCase.family, source: testCase.source, expectedLabels: testCase.expected.labels, features: ['authored-required-external-family'], provenance: 'Independent authored external diagram representative' }))
+    const result = await runCommunityBrowserSuite(prepared, workloads, options)
+    expect(result.observations.find(row => row.caseId === 'family:zenuml')?.status).toBe('passed')
+    expect(result.observations.find(row => row.operation === 'delivery')?.status).toBe('passed')
+  } finally { rmSync(directory, { recursive: true, force: true }) }
+}, 30_000)

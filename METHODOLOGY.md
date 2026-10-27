@@ -37,13 +37,37 @@ Benchmarking another project uses the oracle without benchmarking Mermaid.
 
 ## Inputs and checks
 
-The corpus has 1086 workloads: 6 fixed-core inputs used for speed, 962 feature inputs
-for the 23 scored families, drawn from Mermaid's documentation, Mermaid's own test
+The corpus has 1087 workloads: 6 fixed-core inputs used for speed, 962 feature inputs
+for the original 23-family cohort, drawn from Mermaid's documentation, Mermaid's own test
 suites, the Agentic family registry and generated scaling cases, and 118 inputs for the
 newer families, which are every example on their Mermaid 12.2.0 syntax pages. A case passes when the tool returns
 output in the requested format that contains the case's authored labels as visible
 text, on a positive canvas, and is not an echo of the source. Label presence is
 existence evidence, not a full visual or semantic fidelity check.
+
+Two rules read a label the way a renderer draws it. Both apply to every tool:
+
+- Markdown markers are optional. A markdown string such as ``"`The **cat** in the hat`"``
+  is drawn with bold or italic text, not asterisks, so `The cat in the hat` satisfies the
+  label, as does the literal `The cat in **the** hat`. Only the strong and emphasis
+  delimiters Mermaid renders (`**`, `__`, `*`, `_`, in pairs around non-space text, with
+  underscores never inside a word) are dropped; every word, and any other character such
+  as a code-span backtick, is still required. This applies to SVG and terminal output.
+- A wrapped label is read across its lines. Inside one `<text>`, line-positioned
+  `<tspan>`s are joined with a space, and inside one `foreignObject` a `<br>` is a space.
+  Mermaid also draws a wrapped sequence message or actor as separate `<text>` rows, so
+  adjacent sibling `<text>` elements are joined in document order when they have the
+  same effective x, transform, class, style, anchor and font attributes, each row is below the previous one,
+  and no more than two effective font sizes below it. Inline/presentation font sizes
+  inherit through ancestors and the first `tspan`; absent a declared size, the SVG
+  initial size of 16px is used. External stylesheet sizing remains unmeasured. Anything
+  between two rows (another element, or text) ends the label. Scalar `dx`/`dy` offsets
+  and the first `tspan`'s positioning are applied before grouping; unresolved position
+  lists, units, nested spans, or per-span transforms are not joined. Terminal output is not
+  joined across lines.
+
+The whole label must still appear in one place: matching is by whole tokens, never a
+partial label, and the source-echo check reads each text element on its own.
 
 SVG output must be well-formed XML in the SVG namespace, with one exception: HTML's
 void elements written unclosed (Mermaid serializes its `foreignObject` labels as HTML,
@@ -54,28 +78,39 @@ that the output was not well-formed XML, which matters if you save it as a stand
 ## Family support
 
 Before a tool's corpus runs, each family is probed once, untimed, with one canonical
-source from the portable family cohort. If the tool rejects that source (an error, a
+source from the portable family cohort or the additional pinned-docs probes. If the tool rejects that source (an error, a
 nonzero exit or no output), the family is unsupported: its cases are recorded as
 unsupported, naming the probe, and are not run. If the tool returns output, the family
 counts as supported, and every later failure in it is a failure, even when the probe's
 own output fails a check. A case's error message never makes it unsupported.
 
-The mark is 23 families: "families supported", the pass rate and every rank count only
-these. Mermaid 12.2.0 documents ten more. Nine are recent additions (venn, treeview,
-wardley, eventmodeling, cynefin, railroad, swimlane, agentflow and usecase, added from
-11.12.3 to 12.0.0), all but eventmodeling declared with a `-beta` keyword. Trident probes
-and measures them the same way, from their syntax pages read at the `mermaid@12.2.0` Git
-tag, and reports them in a separate "Newer families" column and table that never change
-a rank. Two limits apply:
+The current mark covers 25 families: the historical 23, Event Modeling and ZenUML.
+The pinned docs do not label Event Modeling beta or experimental; its recent addition
+is no reason to exclude it. The legacy 23-family column retains the original support
+count and pass rate for historical comparisons. Old records that did not probe the additional families do not receive support credit for them.
 
-- Eventmodeling's diagram DB exposes no element getters, so the oracle cannot say which
-  labels its cases should draw. Its cases check output format only; its probe checks the
-  probe's own authored labels.
-- Mermaid's railroad renderer stores a title but never draws it, so a railroad title is
-  not an expected label.
+Eight other recent additions (venn, treeview, wardley, cynefin, railroad, swimlane,
+agentflow and usecase) are measured from every example on their syntax pages at the
+`mermaid@12.2.0` Git tag and reported separately. The historical mark itself includes
+some diagrams whose syntax uses a `-beta` token; that token alone is not a maturity
+classification. The current mark is not a claim that all its families are stable.
 
-The tenth, zenuml, is an external plugin that the pinned oracle does not load, so it is
-not covered.
+Event Modeling's `getState` getter needs SVG text dimensions and cannot execute in
+jsdom. The independently pinned Mermaid parser supplies its authored frame names and
+namespace labels instead. Inline data values, relationships and geometry are not
+checked by this label census. Mermaid's railroad renderer stores a title but never
+draws it, so a railroad title is not an expected label.
+
+ZenUML's diagram is not labelled experimental in the pinned docs: the warning concerns
+its loading API. The community corpus includes one independently authored representative
+with four explicit expected labels. Mermaid's browser baseline loads the first-party
+`@mermaid-js/mermaid-zenuml` 1.0.1 addon; its actual files and version are bound in the
+prepared browser identity, and observed delivery includes those files. `mermaid:install`
+installs the pin, or `MERMAID_ZENUML_BENCHMARK_ROOT` can select an existing package.
+The plugin's parser is a no-op and its DB exposes no authored model; admission does not
+prove syntax validation. Arbitrary plugin examples do not receive invented expectations.
+The separate fidelity suite retains native-model and painted-route gaps explicitly.
+This mark establishes bounded family/label admission, not complete Mermaid functionality.
 
 ## Statuses
 
@@ -93,7 +128,7 @@ There is one table per kind of output (SVG, terminal text, PNG, parser), because
 are different products, and one row per tool and public surface. Rows are ordered by
 correctness first, lexicographically, with no weighted score:
 
-1. families supported, out of the 23 probed;
+1. families supported, out of the 25 currently scored;
 2. pass rate on cases in those families;
 3. first-call fixed-core time, only when calibrated.
 
@@ -143,11 +178,53 @@ any code; see [Adding a tool](README.md#adding-a-tool).
 
 ## Candidates
 
-A record of an unreleased build is never a league row: the table shows published
-releases only. Today, only Agentic Mermaid's lanes accept an unreleased candidate
-(a checkout with `--package-root`, or a packed tarball with its SHA-256). For every
-other tool, the catalog's version pin refuses an artifact that differs from the pinned
-release, so a maintainer cannot yet benchmark a branch through Trident.
+A maintainer can measure an unreleased build of any catalog tool that Trident installs
+from npm, such as a branch about to be released, and compare it with the release:
+
+```sh
+npm pack                                  # in the tool's checkout, after building it
+bun commands.ts community:update --projects OWNER/TOOL \
+  --candidate-tarball tool-1.3.0.tgz --candidate-sha256 "$(shasum -a 256 tool-1.3.0.tgz | cut -d' ' -f1)" \
+  --profile full --rounds 5 --records RECORDS --out EVIDENCE
+bun commands.ts results:compare --records RECORDS --project OWNER/TOOL
+```
+
+`--candidate-dir DIRECTORY` replaces the tarball and digest: Trident runs
+`npm pack --ignore-scripts` on the directory, so it must already be built, and records
+the digest of what it packed. A candidate needs exactly one `--projects` entry. Trident
+refuses candidates for Mermaid, which is the oracle, and for tools it builds from
+source or acquires another way, which have no npm tarball to stand in for.
+
+The candidate replaces only the tool's package. Trident checks the tarball against its
+SHA-256 and checks that it holds the catalog's package name. It then installs its own
+copy into a prefix named by that digest, and checks that the installed package's npm
+integrity is the tarball's. The catalog's version pin does not apply, so the candidate
+can carry any version, including the release's own. Everything after acquisition uses
+the same corpus, oracle, family probes, checks and calibration rule, so a failure in a
+candidate stays a failure. A separately published browser SDK cannot represent a
+Node candidate: Merman's browser lane is blocked until a matching browser candidate
+can be supplied; it never substitutes the released `@mermanjs/web` package.
+
+A record of an unreleased build is never a league row. Its identity carries the
+tarball's digest and it lives in the record store's `candidate` lane, so it never
+reuses, replaces or becomes the release's record. `results:publish` ranks the release
+lane only, leaves candidate records out, and refuses to run if a candidate record is
+ever found in the release lane. `results:compare` prints the store's current candidate
+beside the same project's current release: families supported, pass rate, fixed-core
+times, and the cases and families that changed. Times appear only when both records
+share protocol, inputs, machine, measurement settings, API binding/defaults and
+declared outputs. Blocked, unsupported, skipped and missing case outcomes remain
+visible in the change report. Browser times and
+case-level changes also require the same visible-output checks. Changes are withheld
+for surfaces with incompatible protocol/runtime cohorts. The two records are
+measured one after the other, not interleaved, so a small speed difference is within
+machine noise. The comparison is written to standard output or `--out FILE`, never
+into `results/`.
+
+Agentic Mermaid's local checkout (`--package-root`) is a candidate in the same sense.
+In `community:update` its record also goes to the `candidate` lane, keyed by the
+digests of its built files. Agentic's source-adapter lanes keep their own candidate
+options (`--package-root`, `--candidate-tarball` with `--candidate-sha256`).
 
 ## What is not measured
 

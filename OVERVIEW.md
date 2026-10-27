@@ -279,6 +279,18 @@ document.
 
 ## Reading costs and confidence
 
+Keep full owning evidence in an ignored local record store. Publish compact
+reports and charts; do not commit or upload historical raw runs, installed
+dependencies, source checkouts or preservation archives as part of a code PR.
+The portable publisher retains every failure row but copies rendered failure
+outputs only up to 128 KiB per file and 1 MiB per project. Larger outputs remain
+in their original local evidence and the report says they were omitted.
+After retaining the latest usable records and any summaries worth keeping,
+obsolete attempts and reproducible caches can be removed. Removing an attempt's
+owning evidence makes that record unavailable for reuse; do not describe a
+retained summary as a reproducible complete run. Check dependency symlink
+targets before removing old directories.
+
 API `maxRSS` inherited from a parent process is excluded from comparative ranks.
 An end-of-loop RSS snapshot includes its runtime, harness and adaptive workload;
 it is not attributable peak memory per render. Browser V8 heap excludes native,

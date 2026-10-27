@@ -13,6 +13,7 @@ import { familySupportRow, familySupportWorkloads, unsupportedFamilyRow } from '
 import type { BenchmarkObservation, BenchmarkStatus, UnifiedRunOptions, UnifiedSuiteResult, UnifiedWorkload } from './types.ts'
 import { tridentDirectory } from './trident-paths.ts'
 import { retainFailedOutput } from './failure-outputs.ts'
+import { mermaidOracleDirectory, mermaidZenumlAddon } from '../portable/mermaid-oracle.ts'
 
 type BrowserKind = 'beautiful' | 'pele' | 'mermaid' | 'function' | 'ondine' | 'franken' | 'merman' | 'extra'
 export interface CommunityBrowserEngine {
@@ -34,6 +35,7 @@ export interface CommunityBrowserEngine {
   scriptType?: 'module'
   synchronousLegacyRender?: boolean
   additionalOutputs?: 'png'[]
+  zenuml?: { root: string; entry: string; version: string }
 }
 export interface PreparedCommunityBrowser extends PreparedCommunity {
   browser?: CommunityBrowserEngine
@@ -61,8 +63,11 @@ function browserFiles(engine: CommunityBrowserEngine): { path: string; sha256: s
     }
   }
   visit(scope)
+  if (engine.zenuml) visit(join(engine.zenuml.root, 'dist'))
   return [...paths].sort().map(path => ({ path, sha256: digest(readFileSync(path)) }))
 }
+// A candidate's bundle never shares a directory with the release of the same version.
+const bundleDirectory = (cache: string, id: string, artifact: CommunityArtifact) => join(cache, safe(id), artifact.candidate ? `${artifact.version}-candidate-${artifact.candidate.sha256}` : artifact.version)
 function packageRoot(artifact: CommunityArtifact): string | undefined {
   if (artifact.root && existsSync(join(artifact.root, 'package.json'))) return artifact.root
   if (!artifact.module) return undefined
@@ -189,6 +194,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
       }
       let engine: CommunityBrowserEngine | undefined
       if (adapter === 'merman') {
+        if (artifact?.candidate) throw new Error('The Merman Node candidate has no matching candidate browser SDK; a released @mermanjs/web cannot represent it')
         const root = await installWebMerman(peer, cache),
           pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
         engine = make(root, pkg.main, 'merman')
@@ -235,7 +241,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
           const publicBundle = ['dist/mermaid.min.js', 'dist/mermaid.js'].find(path => existsSync(join(root, path)))
           if (publicBundle) engine = make(root, publicBundle, 'mermaid', 'mermaid')
           else {
-            const output = join(cache, safe(peer.node.id), artifact.version)
+            const output = bundleDirectory(cache, peer.node.id, artifact)
             mkdirSync(output, { recursive: true })
             const entry = join(output, 'entry.mjs')
             writeFileSync(entry, `import api from ${JSON.stringify(artifact.module)};globalThis.unifiedMermaid=api;`)
@@ -251,7 +257,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
             results.push({ ...peer, browserStatus: 'not-applicable', browserDetail: 'Reviewed published API is terminal/native/diagnostic/source/IR; no browser SVG API is declared by that entry.' })
             continue
           }
-          const output = join(cache, safe(peer.node.id), artifact.version)
+          const output = bundleDirectory(cache, peer.node.id, artifact)
           mkdirSync(output, { recursive: true })
           const entry = join(output, 'entry.mjs')
           writeFileSync(entry, spec.source)
@@ -265,7 +271,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
           engine.surface = spec.surface
           if (spec.outputs?.includes('png') && supported.includes('png')) engine.additionalOutputs = ['png']
         } else if (['beautiful', 'zombie', 'pele', 'ondine'].includes(adapter ?? '') || (adapter === 'declared' && !!peer.node.benchmark?.api?.svg)) {
-          const output = join(cache, safe(peer.node.id), artifact.version)
+          const output = bundleDirectory(cache, peer.node.id, artifact)
           mkdirSync(output, { recursive: true })
           const entry = join(output, 'entry.mjs'),
             source = artifact.module && existsSync(artifact.module) ? artifact.module : join(root, typeof pkg.main === 'string' ? pkg.main : 'dist/index.js')
@@ -292,6 +298,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
         continue
       }
       if (!engine) throw new Error('Browser preparation produced no executable engine')
+      if (peer.node.id === 'mermaid-js/mermaid') engine.zenuml = mermaidZenumlAddon(options.referenceDir ?? mermaidOracleDirectory(), options.fidelityZenumlRoot ?? process.env.MERMAID_ZENUML_BENCHMARK_ROOT)
       engine.files = browserFiles(engine)
       result = { ...result, browser: engine, browserStatus: 'prepared' }
     } catch (error) {
@@ -327,7 +334,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
     mode,
     status,
     ...extra,
-    metrics: { implementation: peer.node.id, apiBoundary: peer.browser?.apiBoundary ?? 'prepared public browser API', ...extra.metrics },
+    metrics: { implementation: peer.node.id, apiBoundary: peer.browser?.apiBoundary ?? 'prepared public browser API', ...(peer.browser?.zenuml ? { zenumlAddonVersion: peer.browser.zenuml.version } : {}), ...extra.metrics },
   })
   for (const peer of prepared.filter(peer => peer.browserStatus !== 'prepared' && selected(peer.browser?.output ?? 'svg'))) {
     const unavailable: UnifiedWorkload = { id: 'browser-capability', family: '*', source: '', features: [], provenance: 'community browser capability admission' }
@@ -348,6 +355,13 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
         roundWorkloads = (options.communityCoverageOnce ?? true) && round > 1 ? workloads.filter(workload => workload.features.includes('core-graph-batch')) : workloads,
         fetched = new Set<string>(),
         remote = new Set<string>()
+      const resource = (pathname: string): string | undefined => {
+        const addon = engine.zenuml && pathname.startsWith('/trident-zenuml/')
+        const root = addon ? engine.zenuml!.root : engine.root
+        const suffix = addon ? pathname.slice('/trident-zenuml'.length) : pathname
+        const file = resolve(root, '.' + decodeURIComponent(suffix))
+        return file.startsWith(resolve(root) + sep) && existsSync(file) ? file : undefined
+      }
       const server = createServer((request, response) => {
         const pathname = new URL(request.url ?? '/', 'http://localhost').pathname
         if (pathname === '/blank') {
@@ -355,14 +369,14 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
           response.end('<!doctype html><meta charset="utf-8"><body>')
           return
         }
-        let file: string
+        let file: string | undefined
         try {
-          file = resolve(engine.root, '.' + decodeURIComponent(pathname))
+          file = resource(pathname)
         } catch {
           response.writeHead(400).end()
           return
         }
-        if (!file.startsWith(engine.root + sep) || !existsSync(file)) {
+        if (!file) {
           response.writeHead(404).end()
           return
         }
@@ -457,6 +471,10 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
               ;(globalThis as any).__communityRender = (source: string) => render.call(api, source)
             }
           }, engine)
+          if (engine.zenuml) await page.evaluate(async ({ url, global }) => {
+            const plugin = await import(url)
+            await (globalThis as any)[global!].registerExternalDiagrams([plugin.default])
+          }, { url: origin + '/trident-zenuml/' + engine.zenuml.entry, global: engine.global })
         }
         record.samples.push({
           suite: 'community-browser',
@@ -667,8 +685,8 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
         await new Promise<void>(done => server.close(() => done()))
       }
       const files = [...fetched].map(url => {
-        const file = resolve(engine.root, '.' + decodeURIComponent(url))
-        if (!file.startsWith(engine.root + sep) || !existsSync(file)) return { url, error: 'Fetched file unavailable after timing' }
+        const file = resource(url)
+        if (!file) return { url, error: 'Fetched file unavailable after timing' }
         const bytes = readFileSync(file)
         return { url, bytes: bytes.length, gzip: gzipSync(bytes, { level: 9 }).length, sha256: digest(bytes) }
       })

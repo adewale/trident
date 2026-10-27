@@ -1,7 +1,10 @@
 import { expect, test } from 'bun:test'
 import { execFileSync } from 'node:child_process'
-import { familySupportProbe, newerFamilies, portableCases, scoredFamilies } from '../portable/cohorts.ts'
-import { assertMermaidOracle, assertOracleAgrees, MERMAID_ORACLE_PIN, mermaidUpstreamDirectory, mermaidVerdicts } from '../portable/mermaid-oracle.ts'
+import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { familySupportProbe, legacyScoredFamilies, newerFamilies, portableCases, scoredFamilies } from '../portable/cohorts.ts'
+import { assertMermaidOracle, assertOracleAgrees, MERMAID_ORACLE_PIN, mermaidUpstreamDirectory, mermaidVerdicts, mermaidZenumlAddon, mermaidOracleDirectory } from '../portable/mermaid-oracle.ts'
 import { communityCorpus } from '../unified/corpus.ts'
 import { mermaidDocsWorkloads } from '../unified/corpus-import.ts'
 import { censusDisplayText, referenceLabels } from '../unified/oracle-labels.ts'
@@ -16,10 +19,11 @@ const upstreamTagged = (() => {
   }
 })()
 
-test('the mark stays 23 families and the newer families stay out of the portable cohorts', () => {
-  expect(scoredFamilies()).toHaveLength(23)
+test('the historical portable cohort stays fixed while the current mark includes stable Event Modeling', () => {
+  expect(legacyScoredFamilies()).toHaveLength(23)
+  expect(scoredFamilies()).toHaveLength(25)
   expect(newerFamilies()).toEqual(['venn', 'treeview', 'wardley', 'eventmodeling', 'cynefin', 'railroad', 'swimlane', 'agentflow', 'usecase'])
-  expect(newerFamilies().filter(family => scoredFamilies().includes(family))).toEqual([])
+  expect(newerFamilies().filter(family => scoredFamilies().includes(family))).toEqual(['eventmodeling'])
   expect(portableCases().filter(testCase => newerFamilies().includes(testCase.family))).toEqual([])
 })
 
@@ -30,8 +34,6 @@ test('the pinned oracle accepts every newer probe and reads back exactly its lab
   const replies = await mermaidVerdicts(oracle, probes.map(probe => probe.source), { snapshot: true })
   probes.forEach((probe, index) => {
     const labels = referenceLabels(probe.family, replies[index]!)
-    // Eventmodeling has no element getter; its probe's own labels are the only expectation.
-    if (probe.family === 'eventmodeling') return expect(labels).toBeUndefined()
     expect([...new Set(labels!.map(label => censusDisplayText(label.text)))].sort()).toEqual([...probe.expected.labels].sort())
   })
 })
@@ -52,4 +54,37 @@ test.skipIf(!upstreamTagged)('a re-import from the tagged Mermaid checkout repro
   const docs = mermaidDocsWorkloads(mermaidUpstreamDirectory())
   expect(docs.upstream).toEqual(communityCorpus().upstream!)
   expect(docs.workloads).toEqual(communityCorpus().workloads.filter(workload => newerFamilies().includes(workload.family)))
+})
+
+// The independent parser supplies Event Modeling identities even when jsdom cannot
+// execute Mermaid's layout-dependent getState getter. Missing those labels must fail.
+test('Event Modeling label expectations survive the oracle layout getter failing', async () => {
+  const [reply] = await mermaidVerdicts(assertMermaidOracle(), ['eventmodeling\ntf 01 ui Cart.Screen\ntf 02 cmd AddItem { description: string }\ntf 03 evt ItemAdded\ntf 04 evt Account.Cart.CheckedOut'], { snapshot: true })
+  expect(reply!.accepted).toBe(true)
+  expect(referenceLabels('eventmodeling', reply!)?.map(label => label.text)).toEqual(['Screen', 'Cart', 'AddItem', 'ItemAdded', 'Account.Cart.CheckedOut'])
+})
+
+test('the pinned Mermaid baseline accepts every imported documented example before benchmarking', async () => {
+  const imported = communityCorpus().workloads.filter(workload => newerFamilies().includes(workload.family))
+  await assertOracleAgrees(assertMermaidOracle(), imported.map(workload => ({ id: workload.id, source: workload.source, accept: true })))
+})
+
+test('ZenUML refuses an addon version outside this benchmark set before loading it', () => {
+  const root = mkdtempSync(join(tmpdir(), 'trident-zenuml-pin-'))
+  try {
+    mkdirSync(join(root, 'dist'))
+    writeFileSync(join(root, 'dist/mermaid-zenuml.esm.min.mjs'), 'throw Error("must not import")')
+    writeFileSync(join(root, 'package.json'), JSON.stringify({ name: '@mermaid-js/mermaid-zenuml', version: '1.0.0' }))
+    expect(() => mermaidZenumlAddon(mermaidOracleDirectory(), root)).toThrow('1.0.1')
+  } finally { rmSync(root, { recursive: true, force: true }) }
+})
+
+const addonAvailable = existsSync(join(process.env.MERMAID_ZENUML_BENCHMARK_ROOT ?? join(mermaidOracleDirectory(), 'node_modules/@mermaid-js/mermaid-zenuml'), 'package.json'))
+test.skipIf(!addonAvailable)('the pinned first-party addon admits the authored required ZenUML source', async () => {
+  const probe = familySupportProbe('zenuml')!
+  const [reply] = await mermaidVerdicts(assertMermaidOracle(), [probe.source], { snapshot: true })
+  expect(reply!.accepted).toBe(true)
+  expect(reply!.diagramType).toBe('zenuml')
+  // Its public DB contains only clear(): authored fixture labels remain the oracle.
+  expect(referenceLabels('zenuml', reply!)).toBeUndefined()
 })
