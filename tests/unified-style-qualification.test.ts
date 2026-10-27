@@ -41,3 +41,10 @@ describe('registered style display admission', () => {
     expect(admitted(['Ready'], '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100"><text>Ready</text></svg>', [uniform('reverse')]).ok).toBe(false)
   })
 })
+
+test('style projection carries an explicit Markdown label type without weakening literal punctuation', () => {
+  const plan = styleDisplayTransforms([{ roles: { label: { textTransform: 'uppercase' } } }])
+  const markdown = { ...workload(['**bold**']), markdownLabels: ['**bold**'] }
+  expect(qualifyStyleOutput(markdown, '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>BOLD</text></svg>', 'svg', plan, qualifyOutput).ok).toBe(true)
+  expect(qualifyStyleOutput(workload(['__proto__']), '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>PROTO</text></svg>', 'svg', plan, qualifyOutput).ok).toBe(false)
+})

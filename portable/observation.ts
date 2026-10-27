@@ -7,6 +7,8 @@ export interface UnifiedWorkload {
   features: readonly string[]
   provenance: string
   expectedLabels?: readonly string[]
+  /** Only independently declared Markdown labels may lose emphasis delimiters. */
+  markdownLabels?: readonly string[]
 }
 export interface BenchmarkObservation {
   suite: string

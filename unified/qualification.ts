@@ -9,7 +9,7 @@ import type { UnifiedWorkload } from './types.ts'
 import { assertMermaidOracle, mermaidVerdicts } from '../portable/mermaid-oracle.ts'
 import { censusDisplayText, referenceLabels } from './oracle-labels.ts'
 
-export const SVG_QUALIFICATION_PROTOCOL = 'svg-xml-namespaced-authored-text-v4'
+export const SVG_QUALIFICATION_PROTOCOL = 'svg-xml-namespaced-authored-text-v5'
 
 export interface Qualification {
   ok: boolean
@@ -54,7 +54,7 @@ export function svgQualificationProvenance() {
     nodeXmlParser: observedSvgXmlParser!,
     browserXmlParser: 'native DOMParser',
     canvasPolicy: 'SVG namespace/root and positive finite viewBox or explicit finite width/height; percentage-only dimensions need a positive viewBox',
-    textPolicy: 'namespace-aware authored text retention excluding inert containers; sibling <text> rows of one wrapped label joined; markdown strong/emphasis markers optional; CSS/paint visibility, referenced use/text paths and owned-label correspondence unmeasured',
+    textPolicy: 'namespace-aware authored text retention excluding inert containers; sibling <text> rows of one wrapped label joined; markdown delimiters optional only for oracle/fixture-declared Markdown labels; CSS/paint visibility, referenced use/text paths and owned-label correspondence unmeasured',
   }
 }
 function explicitSvgLength(value: string | undefined): number {
@@ -161,7 +161,7 @@ export function qualifyOutput(workload: UnifiedWorkload, output: unknown, format
   if (format === 'svg') {
     const xml = svgXmlInspection(output)
     if (xml.findings.length || !xml.root) return { ok: false, findings: xml.findings, scope: 'format-only' }
-    const inspected = inspectSvgText(xml.root, workload.expectedLabels)
+    const inspected = inspectSvgText(xml.root, workload.expectedLabels, workload.markdownLabels)
     if (isRenderedSourceEcho(workload.source, output, 'svg', inspected.primaryRuns)) findings.push('Visible output echoes Mermaid source instead of an admitted diagram')
     findings.push(...inspected.missingLabels.map(label => `Missing authored label: ${label}`))
     return { ok: !findings.length, findings, scope: workload.expectedLabels?.length ? 'format-and-authored-labels' : 'format-only' }
@@ -171,7 +171,7 @@ export function qualifyOutput(workload: UnifiedWorkload, output: unknown, format
     const plain = output.replace(/\u001b\[[0-9;]*m/g, '').replace(/\s+/g, ' ')
     // Terminal wrapping is geometry-dependent. A contiguous single-line label
     // can be asserted; wrapped labels require the terminal owner/region oracle.
-    for (const label of workload.expectedLabels ?? []) if (!authoredLabelForms(label).some(form => !form || wholeTerminalLabel(form).test(plain))) findings.push(`Missing authored label: ${label}`)
+    for (const label of workload.expectedLabels ?? []) if (!authoredLabelForms(label, workload.markdownLabels?.includes(label)).some(form => !form || wholeTerminalLabel(form).test(plain))) findings.push(`Missing authored label: ${label}`)
     return { ok: !findings.length, findings, scope: workload.expectedLabels?.length ? 'format-and-authored-labels' : 'format-only' }
   }
   return { ok: true, findings, scope: 'source-envelope' }
@@ -199,8 +199,9 @@ export async function withReferenceLabels(workloads: readonly UnifiedWorkload[],
       return { ...workload }
     }
     const expectedLabels = [...new Set([...(workload.expectedLabels ?? []), ...labels.map(label => censusDisplayText(label.text)).filter(Boolean)])]
+    const markdownLabels = [...new Set([...(workload.markdownLabels ?? []), ...labels.filter(label => label.markdown).map(label => censusDisplayText(label.text)).filter(Boolean)])]
     if (!expectedLabels.length) gaps.push(`${workload.id}: pinned Mermaid returned no nonempty authored label expectations`)
-    return { ...workload, expectedLabels, provenance: `${workload.provenance}; pinned Mermaid ${oracle.version} DB getters` }
+    return { ...workload, expectedLabels, markdownLabels, provenance: `${workload.provenance}; pinned Mermaid ${oracle.version} DB getters` }
   })
   return { workloads: enriched, gaps, provenance }
 }

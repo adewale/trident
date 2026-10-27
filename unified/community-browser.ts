@@ -502,7 +502,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
           }
           try {
             const pending = page.evaluate(
-              async ({ source, expected, id, core, output, coverageOnly }): Promise<BrowserMeasurement> => {
+              async ({ source, expected, markdownLabels, id, core, output, coverageOnly }): Promise<BrowserMeasurement> => {
                 const call = async (suffix: string) => {
                   const start = performance.now()
                   let value: any, error: string | undefined
@@ -552,7 +552,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                     return { kind: 'element', localName: node.localName, namespaceURI: node.namespaceURI ?? '', attributes: Object.fromEntries([...node.attributes].map(attribute => [attribute.name, attribute.value])), children: [...node.childNodes].map(tree).filter(Boolean) }
                   }
                   if (typeof helper.inspectSvgText !== 'function') return ['Prepared qualification helper has no namespace-aware SVG text inspector']
-                  const inspected = helper.inspectSvgText(tree(element), expected)
+                  const inspected = helper.inspectSvgText(tree(element), expected, markdownLabels)
                   if (helper.isRenderedSourceEcho(source, svg, 'svg', inspected.primaryRuns)) return ['Visible SVG source-echo fallback is not diagram ink']
                   return inspected.missingLabels.map((label: string) => `Missing authored label: ${label}`)
                 }
@@ -592,7 +592,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                 const findings = validate(last.svg)
                 return { status: findings.length ? 'qualification-failed' : 'ok', samples, iterations, firstMs: first.ms, bytes, findings, hasLabelOracle: output !== 'png' && expected.length > 0, xmlWellFormed, ...(findings.length && typeof last.svg === 'string' ? { failedOutput: last.svg } : {}) }
               },
-              { source: workload.source, expected: [...(workload.expectedLabels ?? [])], id: `unified_${round}_${record.samples.length}`, core: workload.features.includes('core-graph-batch'), output: engine.output ?? 'svg', coverageOnly: options.communityCoverageOnce ?? true },
+              { source: workload.source, expected: [...(workload.expectedLabels ?? [])], markdownLabels: [...(workload.markdownLabels ?? [])], id: `unified_${round}_${record.samples.length}`, core: workload.features.includes('core-graph-batch'), output: engine.output ?? 'svg', coverageOnly: options.communityCoverageOnce ?? true },
             )
             let timer: ReturnType<typeof setTimeout> | undefined
             const measured = await Promise.race([

@@ -12,7 +12,7 @@ const list = (value: unknown): unknown[] => Array.isArray(value) ? value : []
 const pairs = (value: unknown): Row[] => list(value).map(item => row(list(item)[1]))
 const text = (value: unknown): string => typeof value === 'string' ? value : ''
 
-export interface ReferenceLabel { path: string; text: string }
+export interface ReferenceLabel { path: string; text: string; markdown?: boolean }
 
 /** Read authored label fields from independent DB getters. No Agentic parser,
  * renderer, label helper or harvested local expectation participates here. */
@@ -20,9 +20,9 @@ export function referenceLabels(family: string, reply: MermaidSnapshot): Referen
   if (!reply.accepted || !reply.snapshot) return undefined
   const db = reply.snapshot.data
   const out: ReferenceLabel[] = []
-  const add = (path: string, value: unknown): void => {
-    if (typeof value === 'string' && value.trim()) out.push({ path, text: value })
-    else if (Array.isArray(value)) value.forEach((part, index) => add(`${path}[${index}]`, part))
+  const add = (path: string, value: unknown, markdown = false): void => {
+    if (typeof value === 'string' && value.trim()) out.push({ path, text: value, ...(markdown ? { markdown: true } : {}) })
+    else if (Array.isArray(value)) value.forEach((part, index) => add(`${path}[${index}]`, part, markdown))
   }
   const fields = (path: string, values: Row[], ...keys: string[]): void => {
     values.forEach((value, index) => keys.forEach(key => add(`${path}[${index}].${key}`, value[key])))
@@ -45,8 +45,8 @@ export function referenceLabels(family: string, reply: MermaidSnapshot): Referen
     case 'agentflow':
     case 'usecase': {
       const data = row(db.getData)
-      rows(data.nodes).filter(node => !['stateStart', 'stateEnd', 'fork', 'join', 'choice', 'divider'].includes(text(node.shape))).forEach((node, index) => add(`getData.nodes[${index}].label`, family === 'er' && node.alias ? node.alias : node.label))
-      fields('getData.edges', rows(data.edges), 'label')
+      rows(data.nodes).filter(node => !['stateStart', 'stateEnd', 'fork', 'join', 'choice', 'divider'].includes(text(node.shape))).forEach((node, index) => add(`getData.nodes[${index}].label`, family === 'er' && node.alias ? node.alias : node.label, node.labelType === 'markdown'))
+      rows(data.edges).forEach((edge, index) => add(`getData.edges[${index}].label`, edge.label, edge.labelType === 'markdown'))
       if (!Array.isArray(data.nodes)) return undefined
       break
     }
@@ -115,8 +115,9 @@ export function referenceLabels(family: string, reply: MermaidSnapshot): Referen
       list(db.getPacket).forEach((word, index) => fields(`getPacket[${index}]`, rows(word), 'label'))
       break
     case 'requirement':
-      fields('getRequirements', pairs(db.getRequirements), 'name', 'text')
-      fields('getElements', pairs(db.getElements), 'name')
+      // Requirement's pinned renderer always renders these fields as Markdown.
+      for (const [name, values] of [['getRequirements', pairs(db.getRequirements)], ['getElements', pairs(db.getElements)]] as const)
+        values.forEach((value, index) => { for (const key of name === 'getRequirements' ? ['name', 'text'] : ['name']) add(`${name}[${index}].${key}`, value[key], true) })
       fields('getRelationships', rows(db.getRelationships), 'type')
       break
     case 'treemap': tree('getRoot', db.getRoot, 'name'); break

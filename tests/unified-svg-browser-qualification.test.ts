@@ -10,7 +10,11 @@ import { requiredExternalFamilyCases } from '../portable/cohorts.ts'
 import { qualifyOutput } from '../unified/qualification.ts'
 
 const svg = (body: string) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">${body}</svg>`
-const authored: { id: string; labels: string[]; output: string; accepted: boolean; source?: string }[] = [
+const authored: { id: string; labels: string[]; output: string; accepted: boolean; source?: string; markdownLabels?: string[] }[] = [
+  { id: 'literal-proto-lost', labels: ['__proto__'], output: svg('<text>proto</text>'), accepted: false },
+  { id: 'literal-proto-kept', labels: ['__proto__'], output: svg('<text>__proto__</text>'), accepted: true },
+  { id: 'declared-markdown', labels: ['**Bold**'], markdownLabels: ['**Bold**'], output: svg('<text>Bold</text>'), accepted: true },
+  { id: 'literal-bold-lost', labels: ['**Bold**'], output: svg('<text>Bold</text>'), accepted: false },
   { id: 'decorated', labels: ['Free'], output: svg('<text>Free (60.0%)</text>'), accepted: true },
   { id: 'inert', labels: ['Cache'], output: svg('<defs><text>Cache</text></defs><metadata><text>Cache</text></metadata><text>Database</text>'), accepted: false },
   { id: 'prefix-collision', labels: ['C1'], output: svg('<text>C10</text>'), accepted: false },
@@ -39,7 +43,7 @@ browserTest(
     const directory = mkdtempSync(join(tmpdir(), 'am-svg-host-qualification-'))
     try {
       const cases = authored.map(entry => ({ ...entry, source: entry.source ?? `flowchart LR\n %% ${entry.id}\n A[Fixture]` }))
-      const workloads = cases.map(entry => ({ id: entry.id, family: 'flowchart', source: entry.source, expectedLabels: entry.labels, features: ['qualification-reader-fixture'], provenance: 'independently authored XML reader expectations; not a renderer benchmark' }))
+      const workloads = cases.map(entry => ({ id: entry.id, family: 'flowchart', source: entry.source, expectedLabels: entry.labels, markdownLabels: entry.markdownLabels, features: ['qualification-reader-fixture'], provenance: 'independently authored XML reader expectations; not a renderer benchmark' }))
       const module = join(directory, 'fixture.js')
       // Any other source (the family-support probe) gets an empty drawing, so the family stays supported.
       await build({ stdin: { contents: `const cases=${JSON.stringify(cases)};globalThis.fixtureRender=source=>cases.find(entry=>entry.source===source)?.output??'<svg xmlns="http://www.w3.org/2000/svg"/>'`, sourcefile: 'authored-qualification-fixture.js' }, outfile: module, bundle: true, format: 'iife', platform: 'browser', minify: true, logLevel: 'silent' })

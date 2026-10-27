@@ -50,7 +50,7 @@ export function qualifyStyleOutput(workload: UnifiedWorkload, output: unknown, f
   if (!envelope.ok) return { ...envelope, scope: plan.scope }
   const findings = (workload.expectedLabels ?? []).flatMap(label => {
     const variants = [...new Set(plan.transforms.map(transform => project(label, transform)))]
-    return variants.some(expected => qualify({ ...workload, expectedLabels: [expected] }, output, format).ok) ? [] : [`Missing style-admitted authored label: ${JSON.stringify(label)}; allowed displays: ${variants.map(value => JSON.stringify(value)).join(', ')}`]
+    return variants.some(expected => qualify({ ...workload, expectedLabels: [expected], markdownLabels: workload.markdownLabels?.includes(label) ? [expected] : [] }, output, format).ok) ? [] : [`Missing style-admitted authored label: ${JSON.stringify(label)}; allowed displays: ${variants.map(value => JSON.stringify(value)).join(', ')}`]
   })
   return { ok: !findings.length, findings, scope: workload.expectedLabels?.length ? plan.scope : 'style output envelope only; no authored label expectations' }
 }
