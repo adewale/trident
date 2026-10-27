@@ -83,7 +83,7 @@ export function benchmarkSuites(options: SuiteOptions): SuiteDefinition[] {
     policy: 'Requires the completed sibling community artifacts; fresh-process CLI variants use matched fixed inputs. Child RSS/CPU are a separate post-latency diagnostic pass; source aliases are not additional independent engines.',
   })
   for (const [script, command] of Object.entries(pkg.scripts)) {
-    if (!script.startsWith('bench:') || script === 'bench:charts' || script === 'bench:modern-summary' || script === 'bench:peers:qualify' || script === 'bench:performance-profile' || script === 'bench:endpoint-marker' || /eval\/benchmark\/(?:commands|portable\/(?:run|build)|unified\/(?:run|pr-campaign|project-update|update-scorecard)|suite)\.ts/.test(command)) continue
+    if (!script.startsWith('bench:') || ['bench:test', 'bench:typecheck', 'bench:lint', 'bench:charts', 'bench:modern-summary', 'bench:peers:qualify', 'bench:performance-profile', 'bench:endpoint-marker'].includes(script) || /eval\/benchmark\/(?:commands|portable\/(?:run|build)|unified\/(?:run|pr-campaign|project-update|update-scorecard)|suite)\.ts/.test(command)) continue
     const id = script.slice('bench:'.length),
       args = ['bun', 'run', script],
       prerequisites: string[] = []

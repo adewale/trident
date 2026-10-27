@@ -289,13 +289,13 @@ describe('unified suite execution lifecycle', () => {
       for (const path of ['src/__tests__', 'docs/project', 'eval/mermaid-upstream-suite-bench', 'eval/benchmark', 'candidate']) mkdirSync(join(directory, path), { recursive: true })
       writeFileSync(join(directory, 'docs/project/upstream-mermaid-policy.json'), JSON.stringify({ pin: { version: 'fixture', commit: 'fixture' } }))
       writeFileSync(join(directory, 'eval/mermaid-upstream-suite-bench/manifest.json'), JSON.stringify({ upstream: { revision: 'fixture' } }))
-      writeFileSync(join(directory, 'package.json'), JSON.stringify({ scripts: { 'bench:modern-summary': 'bun run missing-summary.mjs' } }))
+      writeFileSync(join(directory, 'package.json'), JSON.stringify({ scripts: { 'bench:modern-summary': 'bun run missing-summary.mjs', 'bench:test': 'bun test missing.test.ts', 'bench:typecheck': 'bun x tsc --noEmit' } }))
       writeFileSync(join(directory, 'eval/benchmark/qualify-peer-performance.ts'), `import {writeFileSync} from 'node:fs';writeFileSync(process.env.AM_BENCH_SUITE_OUT+'/report.json',JSON.stringify({status:'passed',runtimeSource:process.argv[process.argv.indexOf('--runtime-source')+1]}))`)
       const options = { ...parseOptions(['--out', join(directory, 'out'), '--suites', 'peers:qualify', '--candidate-tarball', '/candidate.tgz', '--candidate-sha256', 'a'.repeat(64), '--baseline-tarball', '/baseline.tgz', '--baseline-sha256', 'b'.repeat(64)]), harnessRoot: directory, root: join(directory, 'candidate') }
       const result = await runUnified(options)
       expect(result.status).toBe('passed')
       expect(JSON.parse(readFileSync(join(options.out, 'peers-qualify/report.json'), 'utf8')).runtimeSource).toBe(options.root)
-      await expect(runUnified({ ...options, out: join(directory, 'reports-only'), selected: ['modern-summary'] })).rejects.toThrow('Unknown suites: modern-summary')
+      for (const id of ['modern-summary', 'test', 'typecheck']) await expect(runUnified({ ...options, out: join(directory, 'not-benchmarks'), selected: [id] })).rejects.toThrow('Unknown suites: ' + id)
     } finally { rmSync(directory, { recursive: true, force: true }) }
   })
   test('continues after a timeout and retains both failures and later evidence', async () => {
