@@ -25,5 +25,6 @@
   "bench:portable": "bun run eval/benchmark/portable/run.ts",
   "bench:portable:build": "bun run eval/benchmark/portable/build.ts",
   "bench:performance-profile": "bun run eval/benchmark/qualify-performance-profile.ts",
-  "bench:endpoint-marker": "bun run eval/benchmark/endpoint-marker-compare.ts"
+  "bench:endpoint-marker": "bun run eval/benchmark/endpoint-marker-compare.ts",
+  "bench:modern-summary": "bun eval/benchmark/modern-editor/summarize.mjs"
 }

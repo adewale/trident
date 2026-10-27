@@ -95,6 +95,7 @@ async function main() {
     assertBenchmarkExecutionAllowed()
     const root = sourceCheckout()
     const forwarded = externalPaths(args)
+    if (id === 'bench:modern-summary' && forwarded[0]) forwarded[0] = resolve(forwarded[0])
     if (id === 'bench:endpoint-marker') for (let index = 0; index < Math.min(3, forwarded.length); index++) forwarded[index] = resolve(forwarded[index]!)
     if (id === 'bench:scorecard') {
       if (!forwarded.includes('--output')) forwarded.push('--output', resolve(root, 'bench-report/community-benchmark-ranking.md'))
