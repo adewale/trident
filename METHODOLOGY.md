@@ -178,8 +178,9 @@ any code; see [Adding a tool](README.md#adding-a-tool).
 
 ## Candidates
 
-A maintainer can measure an unreleased build of any catalog tool that Trident installs
-from npm, such as a branch about to be released, and compare it with the release:
+A maintainer can measure an unreleased build of a catalog tool, such as a branch about
+to be released, and compare it with the release. For a tool Trident installs from npm,
+the candidate is a tarball:
 
 ```sh
 npm pack                                  # in the tool's checkout, after building it
@@ -191,11 +192,32 @@ bun commands.ts results:compare --records RECORDS --project OWNER/TOOL
 
 `--candidate-dir DIRECTORY` replaces the tarball and digest: Trident runs
 `npm pack --ignore-scripts` on the directory, so it must already be built, and records
-the digest of what it packed. A candidate needs exactly one `--projects` entry. Trident
-refuses candidates for Mermaid, which is the oracle, and for tools it builds from
-source or acquires another way, which have no npm tarball to stand in for.
+the digest of what it packed.
 
-The candidate replaces only the tool's package. Trident checks the tarball against its
+For a tool Trident builds from source (the `source-cli` and `extra-source` adapters,
+such as mermaid-ascii, mermaid-rs-renderer and the Go, Python and Mermaid forks), the
+candidate is a Git commit:
+
+```sh
+bun commands.ts community:update --projects AlexanderGrooff/mermaid-ascii \
+  --candidate-revision 5a9df1560871e1ef8037c052b3b5d87de503bc9e \
+  --profile full --rounds 5 --records RECORDS --out EVIDENCE
+```
+
+Trident fetches that commit from the project's GitHub repository, or from
+`--candidate-remote`, which takes another Git URL or a local clone. Given a local clone
+and no revision, it uses the clone's HEAD and refuses uncommitted changes, so a branch
+that was never pushed can still be measured; a short revision is resolved in the
+clone. The commit is built by the release's own reviewed recipe into that recipe's
+revision-keyed cache, and its record is keyed by the revision alone, since the remote
+cannot change a commit's bytes.
+
+A candidate needs exactly one `--projects` entry. Trident refuses candidates for
+Mermaid, which is the oracle; a tarball for a source-built tool or a revision for an
+npm one; and any candidate for tools it acquires another way (distributions, WASM
+builds), which have neither.
+
+A tarball candidate replaces only the tool's package. Trident checks the tarball against its
 SHA-256 and checks that it holds the catalog's package name. It then installs its own
 copy into a prefix named by that digest, and checks that the installed package's npm
 integrity is the tarball's. The catalog's version pin does not apply, so the candidate
@@ -205,8 +227,11 @@ candidate stays a failure. A separately published browser SDK cannot represent a
 Node candidate: Merman's browser lane is blocked until a matching browser candidate
 can be supplied; it never substitutes the released `@mermanjs/web` package.
 
+A source candidate replaces only the commit: the same build recipe, toolchain and
+public CLI presentation apply, and the catalog's source pin does not.
+
 A record of an unreleased build is never a league row. Its identity carries the
-tarball's digest and it lives in the record store's `candidate` lane, so it never
+tarball's digest or the commit and it lives in the record store's `candidate` lane, so it never
 reuses, replaces or becomes the release's record. `results:publish` ranks the release
 lane only, leaves candidate records out, and refuses to run if a candidate record is
 ever found in the release lane. `results:compare` prints the store's current candidate

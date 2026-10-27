@@ -139,7 +139,8 @@ function run(command: readonly string[], cwd: string, env: NodeJS.ProcessEnv, lo
 /** Build an exact reviewed source revision before any timing campaign. The
  * returned boundary is deliberately CLI: process startup must not be compared
  * as though it were an in-process Rust/Go API measurement. */
-export async function prepareCommunitySource(node: CommunitySourceNode, cacheRoot: string): Promise<CommunitySourceArtifact> {
+/** remote replaces the project's GitHub URL for a candidate commit that lives in a fork or a local clone. */
+export async function prepareCommunitySource(node: CommunitySourceNode, cacheRoot: string, remote?: string): Promise<CommunitySourceArtifact> {
   const adapter = adapters[node.id]
   if (!adapter) throw new Error(`No reviewed source CLI adapter for ${node.id}`)
   const revision = node.release?.commit ?? node.head
@@ -170,6 +171,7 @@ export async function prepareCommunitySource(node: CommunitySourceNode, cacheRoo
     await run(['git', 'init', '--quiet'], sourceRoot, env, log)
     await run(['git', 'remote', 'add', 'origin', `https://github.com/${node.id}.git`], sourceRoot, env, log)
   }
+  if (remote) await run(['git', 'remote', 'set-url', 'origin', remote], sourceRoot, env, log)
   await run(['git', 'fetch', '--depth', '1', 'origin', revision], sourceRoot, env, log)
   await run(['git', 'checkout', '--detach', '--force', revision], sourceRoot, env, log)
   const executable = resolve(bin, adapter.binary)

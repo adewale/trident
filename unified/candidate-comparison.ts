@@ -18,7 +18,7 @@ export function renderCandidateComparison(candidate: ProjectBenchmarkRecord, rel
   if (!isCandidateRecord(candidate)) throw Error('Not a candidate record: ' + candidate.id)
   if (release && (isCandidateRecord(release) || release.identity.project !== candidate.identity.project)) throw Error('The release record must be the same project’s release')
   const project = candidate.identity.project,
-    identity = (candidate.identity.artifact as { candidate?: { source?: string; sha256?: string } }).candidate
+    identity = (candidate.identity.artifact as { candidate?: { source?: string; sha256?: string; revision?: string } }).candidate
   const configuration = (record: ProjectBenchmarkRecord) => {
     const protocol = record.identity.protocol as { adapter?: unknown; outputs?: unknown } | null
     return stableValue([protocol?.adapter ?? null, protocol?.outputs ?? null])
@@ -30,7 +30,7 @@ export function renderCandidateComparison(candidate: ProjectBenchmarkRecord, rel
   const lines = [
     `# ${project}: candidate against release`,
     '',
-    `Candidate: ${summary(candidate)}. ${identity?.source === 'package-root' ? 'Local package root' : 'Tarball'} SHA-256 \`${escape(identity?.sha256 ?? 'unknown')}\`.`,
+    `Candidate: ${summary(candidate)}. ${identity?.source === 'revision' ? `Git revision \`${escape(identity.revision ?? 'unknown')}\`, built with the release's source recipe` : `${identity?.source === 'package-root' ? 'Local package root' : 'Tarball'} SHA-256 \`${escape(identity?.sha256 ?? 'unknown')}\``}.`,
     '',
     release ? `Release: ${summary(release)}.` : `Release: no release record for ${project} in this store. Measure it into the same store with \`community:update --projects ${project}\` and the same settings, then compare again.`,
     '',
@@ -90,7 +90,7 @@ export function renderCandidateComparison(candidate: ProjectBenchmarkRecord, rel
 export function compareCandidate(store: string, project: string): string {
   const current = loadCurrentProjectRecords(store).filter(record => record.identity.project === project)
   const candidate = current.find(record => record.identity.lane === 'candidate')
-  if (!candidate) throw Error(`No candidate record for ${project} in ${store}; measure one with community:update --candidate-tarball or --candidate-dir`)
+  if (!candidate) throw Error(`No candidate record for ${project} in ${store}; measure one with community:update --candidate-tarball, --candidate-dir or --candidate-revision`)
   return renderCandidateComparison(
     candidate,
     current.find(record => (record.identity.lane ?? 'community') === 'community'),

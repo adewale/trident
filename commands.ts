@@ -25,6 +25,7 @@ Community projects (Bun), from Trident's catalog and frozen corpus:
 An unreleased build of one npm-backed project is a candidate, never a league row:
   bun commands.ts community:update --projects OWNER/TOOL --candidate-tarball FILE.tgz --candidate-sha256 HEX --records DIR --out DIR
   bun commands.ts community:update --projects OWNER/TOOL --candidate-dir PACKAGE_DIRECTORY --records DIR --out DIR
+  bun commands.ts community:update --projects OWNER/TOOL --candidate-revision SHA [--candidate-remote URL|CLONE] --records DIR --out DIR
   bun commands.ts results:compare --records DIR --project OWNER/TOOL [--out FILE]   (candidate against release)
 
 Optional Agentic Mermaid source adapter (Bun):

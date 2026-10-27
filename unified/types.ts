@@ -19,8 +19,9 @@ export interface UnifiedRunOptions {
   observerExecutable?: string
   nativeExecutable?: string
   communityArtifacts?: string
-  /** An unreleased npm-pack tarball standing in for one catalog project's release. */
-  communityCandidate?: { project: string; tarball: string; sha256: string; packedFrom?: string }
+  /** An unreleased build standing in for one catalog project's release: an npm-pack tarball,
+   * or a Git commit that Trident builds with the project's reviewed source recipe. */
+  communityCandidate?: { project: string; tarball: string; sha256: string; packedFrom?: string } | { project: string; revision: string; remote: string }
   /** Limit acquisition and execution before preparing any unrelated project. */
   communityProjects?: string[]
   communityCatalogFile?: string

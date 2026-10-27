@@ -9,7 +9,7 @@ import { assertCommunityCandidate, communityCoreWorkloads, prepareCommunity } fr
 import { prepareCommunityBrowsers } from '../unified/community-browser.ts'
 import type { CommunityNode } from '../unified/community-types.ts'
 import { publishResults } from '../unified/league.ts'
-import { candidateIdentity, communityCandidate, updateProjectRecords } from '../unified/project-update.ts'
+import { candidateIdentity, communityCandidate, projectPackageIdentity, updateProjectRecords } from '../unified/project-update.ts'
 import { communityCatalogFile } from '../unified/trident-paths.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 
@@ -39,8 +39,9 @@ test('a candidate tarball stands in for the pinned release, verified by its SHA-
   const [entry] = await prepareCommunity({ ...f.options, communityCandidate: { project, tarball, sha256: digest } })
   expect(entry!.error).toBeUndefined()
   expect(entry!.artifact!.version).toBe('2.0.0-rc.1')
-  expect(entry!.artifact!.candidate!.sha256).toBe(digest)
-  expect(sha256(entry!.artifact!.candidate!.tarball)).toBe(digest)
+  const installed = entry!.artifact!.candidate as { sha256: string; tarball: string }
+  expect(installed.sha256).toBe(digest)
+  expect(sha256(installed.tarball)).toBe(digest)
   expect(entry!.artifact!.integrity).toBe('sha512-' + createHash('sha512').update(readFileSync(tarball)).digest('base64'))
   expect(entry!.artifact!.root).toContain(digest)
   expect(entry!.artifact!.detail).toContain('unreleased candidate tarball')
@@ -59,12 +60,18 @@ test('a candidate tarball stands in for the pinned release, verified by its SHA-
   expect(inside!.artifact!.version).toBe('2.0.0-rc.1')
 }, 60_000)
 
-test('candidate mode takes one npm-backed project and checks the digest before acquisition', () => {
-  const catalog = JSON.parse(readFileSync(communityCatalogFile, 'utf8')).nodes as CommunityNode[]
-  expect(assertCommunityCandidate(catalog, { project: 'lukilabs/beautiful-mermaid' }).benchmark!.package).toBe('beautiful-mermaid')
-  expect(() => assertCommunityCandidate(catalog, { project: 'mermaid-js/mermaid' })).toThrow('pinned oracle')
-  expect(() => assertCommunityCandidate(catalog, { project: 'rohitg00/beautiful-mermaid' })).toThrow('not benchmarked from an npm package')
-  expect(() => assertCommunityCandidate(catalog, { project: 'pgavlin/mermaid-ascii' })).toThrow('not benchmarked from an npm package')
+test('candidate mode takes one project, a tarball for npm and a revision for a source build, and checks it before acquisition', () => {
+  const catalog = JSON.parse(readFileSync(communityCatalogFile, 'utf8')).nodes as CommunityNode[],
+    tarballOf = (project: string) => ({ project, tarball: 'candidate.tgz' }),
+    revisionOf = (project: string) => ({ project, revision: 'a'.repeat(40) })
+  expect(assertCommunityCandidate(catalog, tarballOf('lukilabs/beautiful-mermaid')).benchmark!.package).toBe('beautiful-mermaid')
+  expect(() => assertCommunityCandidate(catalog, tarballOf('mermaid-js/mermaid'))).toThrow('pinned oracle')
+  expect(() => assertCommunityCandidate(catalog, revisionOf('mermaid-js/mermaid'))).toThrow('pinned oracle')
+  expect(() => assertCommunityCandidate(catalog, tarballOf('rohitg00/beautiful-mermaid'))).toThrow('use --candidate-revision')
+  expect(() => assertCommunityCandidate(catalog, tarballOf('pgavlin/mermaid-ascii'))).toThrow('use --candidate-revision')
+  expect(assertCommunityCandidate(catalog, revisionOf('pgavlin/mermaid-ascii')).benchmark!.adapter).toBe('source-cli')
+  expect(assertCommunityCandidate(catalog, revisionOf('rohitg00/beautiful-mermaid')).benchmark!.adapter).toBe('extra-source')
+  expect(() => assertCommunityCandidate(catalog, revisionOf('lukilabs/beautiful-mermaid'))).toThrow('not built from source')
   const tarball = pack('trident-fixture-renderer', '2.0.0'),
     out = temp.dir(),
     options = { out, communityProjects: [project] }
@@ -78,11 +85,84 @@ test('candidate mode takes one npm-backed project and checks the digest before a
   const directory = temp.dir()
   writeFileSync(join(directory, 'package.json'), JSON.stringify({ name: 'trident-fixture-renderer', version: '3.0.0-dev', scripts: { prepack: 'exit 1' } }))
   expect(() => communityCandidate({ directory, tarball }, options)).toThrow('not both')
-  const packed = communityCandidate({ directory }, options)!
+  const packed = communityCandidate({ directory }, options) as { tarball: string; sha256: string; packedFrom?: string }
   expect(packed.packedFrom).toBe(directory)
   expect(packed.tarball.startsWith(join(out, 'candidate-packs'))).toBe(true)
   expect(packed.sha256).toBe(sha256(packed.tarball))
 })
+
+const git = (cwd: string, ...args: string[]) => execFileSync('git', ['-c', 'user.name=Trident', '-c', 'user.email=trident@localhost', '-c', 'commit.gpgsign=false', ...args], { cwd, encoding: 'utf8' }).trim()
+function sourceClone(): { clone: string; release: string; candidate: string } {
+  const clone = temp.dir()
+  git(clone, 'init', '-q')
+  writeFileSync(join(clone, 'main.go'), 'package main\n')
+  git(clone, 'add', '.')
+  git(clone, 'commit', '-qm', 'release')
+  const release = git(clone, 'rev-parse', 'HEAD')
+  writeFileSync(join(clone, 'main.go'), 'package main\n// unreleased\n')
+  git(clone, 'commit', '-qam', 'unreleased')
+  return { clone, release, candidate: git(clone, 'rev-parse', 'HEAD') }
+}
+
+test('a source candidate is one Git commit, from GitHub by default or from a named remote or clean clone', () => {
+  const { clone, release, candidate } = sourceClone(),
+    tool = 'AlexanderGrooff/mermaid-ascii',
+    options = { out: temp.dir(), communityProjects: [tool] }
+  expect(communityCandidate({ revision: 'b'.repeat(40) }, options)).toEqual({ project: tool, revision: 'b'.repeat(40), remote: `https://github.com/${tool}.git` })
+  expect(communityCandidate({ revision: 'b'.repeat(40), remote: 'https://example.com/fork.git' }, options)).toEqual({ project: tool, revision: 'b'.repeat(40), remote: 'https://example.com/fork.git' })
+  expect(() => communityCandidate({ revision: release.slice(0, 8) }, options)).toThrow('full 40-character')
+  // A local clone resolves HEAD or a short revision itself.
+  expect(communityCandidate({ remote: clone }, options)).toEqual({ project: tool, revision: candidate, remote: clone })
+  expect(communityCandidate({ remote: clone, revision: release.slice(0, 8) }, options)).toEqual({ project: tool, revision: release, remote: clone })
+  expect(() => communityCandidate({ remote: clone, revision: 'c'.repeat(40) }, options)).toThrow('has no commit')
+  expect(() => communityCandidate({ remote: join(clone, 'missing') }, options)).toThrow('does not exist')
+  expect(() => communityCandidate({ revision: candidate, tarball: 'x.tgz' }, options)).toThrow('not both')
+  writeFileSync(join(clone, 'main.go'), 'package main\n// uncommitted\n')
+  expect(() => communityCandidate({ remote: clone }, options)).toThrow('uncommitted changes')
+  expect(communityCandidate({ remote: clone, revision: candidate }, options)).toEqual({ project: tool, revision: candidate, remote: clone })
+})
+
+test('a source candidate is built with the release recipe from its own commit, and frozen preparation keeps it', async () => {
+  const { clone, candidate } = sourceClone(),
+    catalogNodes = JSON.parse(readFileSync(communityCatalogFile, 'utf8')).nodes as CommunityNode[],
+    tool = catalogNodes.find(node => node.id === 'AlexanderGrooff/mermaid-ascii')!,
+    root = temp.dir(),
+    catalog = join(root, 'catalog.json'),
+    go = join(root, 'go')
+  writeFileSync(catalog, JSON.stringify({ nodes: [tool] }))
+  // Stands in for `go build -trimpath -o EXECUTABLE .`: records the commit it built.
+  writeFileSync(go, '#!/bin/sh\nprintf "#!/bin/sh\\necho %s\\n" "$(git rev-parse HEAD)" > "$4"\nchmod +x "$4"\n', { mode: 0o755 })
+  const saved = { go: process.env.AM_BENCH_GO, cache: process.env.AM_COMMUNITY_SOURCE_CACHE }
+  process.env.AM_BENCH_GO = go
+  process.env.AM_COMMUNITY_SOURCE_CACHE = join(root, 'source-cache')
+  try {
+    const options = { out: join(root, 'out'), root, harnessRoot: root, rounds: 1, profile: 'smoke' as const, communityCatalogFile: catalog, communityProjects: [tool.id] },
+      request = { project: tool.id, revision: candidate, remote: clone }
+    const [entry] = await prepareCommunity({ ...options, communityCandidate: request })
+    expect(entry!.error).toBeUndefined()
+    expect(entry!.artifact!.revision).toBe(candidate)
+    expect(entry!.artifact!.version).toBe(`git-${candidate.slice(0, 12)}`)
+    expect(entry!.artifact!.candidate).toEqual({ revision: candidate, remote: clone })
+    expect(entry!.artifact!.detail).toContain(`unreleased candidate revision ${candidate}`)
+    expect(execFileSync(entry!.artifact!.executable!, { encoding: 'utf8' }).trim()).toBe(candidate)
+    expect(candidateIdentity(entry!, { communityCandidate: request }, null)).toEqual({ source: 'revision', revision: candidate })
+    // The same commit fetched elsewhere reuses the record: the remote is not identity.
+    const keyed = projectPackageIdentity(entry!)
+    expect((keyed as { artifact: { candidate?: unknown } }).artifact.candidate).toEqual({ revision: candidate })
+    expect(projectPackageIdentity({ ...entry!, artifact: { ...entry!.artifact!, candidate: { revision: candidate, remote: 'https://example.com/fork.git' } } })).toEqual(keyed)
+    const frozen = join(root, 'frozen.json')
+    writeFileSync(frozen, JSON.stringify([entry]))
+    const [inside] = await prepareCommunity({ ...options, out: join(root, 'inside'), communityPreparedFile: frozen, communityCandidate: request })
+    expect(inside!.error).toBeUndefined()
+    const [outside] = await prepareCommunity({ ...options, out: join(root, 'outside'), communityPreparedFile: frozen })
+    expect(outside!.error).toContain('differs from recorded source pin')
+  } finally {
+    for (const [key, value] of [['AM_BENCH_GO', saved.go], ['AM_COMMUNITY_SOURCE_CACHE', saved.cache]] as const) {
+      if (value === undefined) delete process.env[key]
+      else process.env[key] = value
+    }
+  }
+}, 60_000)
 
 const evidence = () => {
   const directory = temp.dir()
