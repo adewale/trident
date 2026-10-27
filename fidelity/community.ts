@@ -1,3 +1,4 @@
+import { harnessFile } from '../unified/harness-paths.ts'
 import { writeBenchmarkDocument } from '../portable/project-records.ts'
 import { fidelityCriteriaProtocol } from './protocol.ts'
 import { createHash } from 'node:crypto'
@@ -16,7 +17,7 @@ import { qualifyOutput } from '../unified/qualification.ts'
 import { runRetainedSuite } from '../unified/retained-suite.ts'
 import { stableValue } from '../portable/project-records.ts'
 import type { BenchmarkObservation, UnifiedSuiteResult } from '../unified/types.ts'
-import { communityFidelityBrowserAction } from './community-browser-helper.ts'
+import { publicSvgBrowserAction } from '../unified/public-svg-browser.ts'
 import { planFidelityCriteria, completeCriterionLedger } from './ledger.ts'
 import { inspectFidelityPaint } from './paint.ts'
 import { inspectQuantitativePaint } from './paint-values.ts'
@@ -25,7 +26,6 @@ import type { FidelityRunOptions } from './run.ts'
 import { communityCatalogFile } from '../unified/trident-paths.ts'
 
 export interface CommunityFidelityOptions extends FidelityRunOptions { communityFidelityPng?: 'basic-families' | 'none' }
-const core = new Set(['adewale/agentic-mermaid', 'obsidianmd/pele', 'mermaid-js/mermaid'])
 const write = (path: string, value: unknown) => writeFileSync(path, JSON.stringify(value) + '\n')
 const digest = (path: string) => createHash('sha256').update(readFileSync(path)).digest('hex')
 async function bounded<T>(operation: Promise<T>, cancel: () => void, milliseconds = 20_000): Promise<T> { let timer: ReturnType<typeof setTimeout> | undefined; try { return await Promise.race([operation, new Promise<never>((_, reject) => { timer = setTimeout(() => { cancel(); const error = Error('Browser transport exceeded its declared20s deadline'); error.name = 'TimeoutError'; reject(error) }, milliseconds) })]) } finally { if (timer) clearTimeout(timer) } }
@@ -66,8 +66,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
   for (const node of nodes) {
     const peer = prepared.find(peer => peer.node.id === node.id), selected = !options.communityProjects || options.communityProjects.includes(node.id)
     let status = 'blocked', reason = peer?.browserDetail ?? peer?.error ?? 'No frozen prepared public SVG browser artifact; no acquisition attempted'
-    if (core.has(node.id)) { status = 'delegated'; reason = 'Fresh core3 fidelity lane owns this project; community collector does not duplicate its calls' }
-    else if (!selected) { status = 'not-selected'; reason = 'Project selection limits execution before loading any peer code' }
+    if (!selected) { status = 'not-selected'; reason = 'Project selection limits execution before loading any peer code' }
     else if (!node.outputs.includes('svg')) { status = 'not-applicable'; reason = 'Catalog boundary exposes terminal/parser/text/other outputs, not a public SVG engine' }
     else if (peer?.browserStatus === 'not-applicable') { status = 'not-applicable'; reason = peer.browserDetail ?? reason }
     else if (peer?.browserStatus === 'prepared') {
@@ -76,7 +75,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
     boundaries.push({ project: node.id, selected, catalogOutputs: node.outputs, status, reason, ...(peer?.browser ? { kind: peer.browser.kind, version: peer.browser.version, artifactSha256: peer.browser.artifactSha256 } : {}) })
   }
   const toolVersions = assertBenchmarkSetVersions(targets.map(({ peer, admission }) => ({ tool: peer.node.id, version: admission.version, source: admission.entry })))
-  const require = createRequire(join(root, 'eval/benchmark/package.json')), { chromium } = require('playwright'), executable = options.executable ?? defaultChromium(chromium)
+  const require = createRequire(harnessFile(root, 'eval/benchmark/package.json')), { chromium } = require('playwright'), executable = options.executable ?? defaultChromium(chromium)
   let browser: any
   const getBrowser = async () => browser ??= await chromium.launch({ headless: true, executablePath: executable })
   const results: UnifiedSuiteResult[] = [], aliases = new Map<string, { project: string; result: UnifiedSuiteResult }>()
@@ -117,17 +116,17 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
         const initialize = async () => {
           if (page.isClosed() || !healthy && initialized) { void page.close().catch(() => {}); page = await context.newPage() }
           await page.goto(origin + '/blank')
-          if (engine.kind === 'franken' || engine.kind === 'merman') capabilities = await bounded(page.evaluate(communityFidelityBrowserAction, { type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: engine.wasm ? origin + '/' + engine.wasm : undefined }), () => { void page.close().catch(() => {}) })
-          else { await page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) }); capabilities = await bounded(page.evaluate(communityFidelityBrowserAction, { type: 'initialize-global', engine }), () => { void page.close().catch(() => {}) }) }
+          if (engine.kind === 'franken' || engine.kind === 'merman') capabilities = await bounded(page.evaluate(publicSvgBrowserAction, { type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: engine.wasm ? origin + '/' + engine.wasm : undefined }), () => { void page.close().catch(() => {}) })
+          else { await page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) }); capabilities = await bounded(page.evaluate(publicSvgBrowserAction, { type: 'initialize-global', engine }), () => { void page.close().catch(() => {}) }) }
           initialized = healthy = true
         }
-        const render = async (input: any): Promise<any> => { try { if (!healthy || page.isClosed()) await initialize(); return await bounded<any>(page.evaluate(communityFidelityBrowserAction, input), () => { healthy = false; void page.close().catch(() => {}) }) } catch (error: any) { return { kind: 'exception', error: String(error), errorName: error?.name ?? 'Error' } } }
+        const render = async (input: any): Promise<any> => { try { if (!healthy || page.isClosed()) await initialize(); return await bounded<any>(page.evaluate(publicSvgBrowserAction, input), () => { healthy = false; void page.close().catch(() => {}) }) } catch (error: any) { return { kind: 'exception', error: String(error), errorName: error?.name ?? 'Error' } } }
         try {
           await initialize(); await observer.goto(origin + '/observer')
           for (const [index, testCase] of selectedCases.entries()) {
             try {
             if (!healthy || page.isClosed()) await initialize()
-            await bounded(page.evaluate(communityFidelityBrowserAction, { type: 'configure' }), () => { healthy = false; void page.close().catch(() => {}) })
+            await bounded(page.evaluate(publicSvgBrowserAction, { type: 'configure' }), () => { healthy = false; void page.close().catch(() => {}) })
             const preludes: any[] = []
             for (const [number, prelude] of (testCase.prelude ?? []).entries()) {
               const result = await render({ type: 'render', source: prelude.source, id: `community-prelude-${index}-${number}`, options: (prelude as any).renderOptions })

@@ -10,7 +10,7 @@ Projects come from `catalog/mermaid-community.json`. Each community row uses the
 
 Project adapters translate different public APIs; they do not justify doing less work. Compare SVG-return calls with SVG-return calls, parser results with parser results, and whole CLI processes with whole CLI processes. Return shapes, host setup, native/WASM loading and optional plugins matter. The pinned Mermaid oracle has a distinct reference role, not a free pass on its own output checks.
 
-The optional Agentic source adapter exists for source-stage, product-contract and editor diagnostics. Those are project-specific experiments, not an advantage in the community league. Some other inherited comparison runners are also fixed-engine/source-coupled; the benchmark guide identifies them.
+Product source, editor and release-policy experiments live in their owning project. Trident accepts explicit public artifacts and reviewed adapter capabilities; it never creates an Agentic source workspace or infers a local candidate.
 
 ## Oracle and inputs
 

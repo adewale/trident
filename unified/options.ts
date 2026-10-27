@@ -1,227 +1,45 @@
-import { existsSync, readFileSync } from 'node:fs'
-import { join, resolve } from 'node:path'
-import { assertBenchmarkToolVersion } from '../tool-versions.ts'
-import { communityCatalogFile, harnessRepository } from './trident-paths.ts'
+import { resolve } from 'node:path'
+import { harnessRepository } from './trident-paths.ts'
+import { admitSelectedArtifacts } from './artifact-admission.ts'
 import type { UnifiedRunOptions } from './types.ts'
 
-// Shared by the unified runner and community:update, without importing the suites.
-const DRIVER = harnessRepository
-const readJson = (file: string): any => JSON.parse(readFileSync(file, 'utf8'))
-
-/** Every selected artifact must be the benchmark set's pinned version before acquisition. */
-export function admitSelectedArtifacts(options: Partial<RunnerOptions>): void {
-  const selected = (project: string) => !options.communityProjects || options.communityProjects.includes(project)
-  if (options.portableArtifactRoot) {
-    const manifest = join(options.portableArtifactRoot, 'package.json')
-    if (existsSync(manifest)) {
-      const pkg = readJson(manifest)
-      const project = options.portableProject ?? (pkg.name === 'pele' ? 'obsidianmd/pele' : pkg.name)
-      if (selected(project)) assertBenchmarkToolVersion(project, pkg.version, manifest)
-    }
+/** Public-artifact settings only. Product release/editor/provider options live
+ * in the product repository and are not accepted as community benchmark flags. */
+export function parseOptions(argv: string[]): UnifiedRunOptions & { allowIncomplete: boolean } {
+  const flags = new Set(['--community-force', '--allow-incomplete'])
+  const paths: Record<string, keyof UnifiedRunOptions> = {
+    out: 'out', executable: 'executable', 'node-executable': 'nodeExecutable',
+    'community-artifacts': 'communityArtifacts', 'community-catalog': 'communityCatalogFile',
+    'community-records': 'communityRecordStore', 'community-prepared': 'communityPreparedFile',
+    'community-inputs': 'communityInputsFile', 'community-browser-prepared': 'communityBrowserPreparedFile',
+    'community-qualification-assets': 'communityQualificationAssetDir',
   }
-  const catalog = options.communityCatalogFile ?? communityCatalogFile
-  if (existsSync(catalog)) for (const node of readJson(catalog).nodes ?? []) {
-    if (node.id === 'obsidianmd/pele' && selected(node.id)) assertBenchmarkToolVersion(node.id, node.benchmark?.version ?? '', `${catalog} explicit acquisition pin`)
+  const values = new Map<string, string>()
+  const allowed = new Set([...Object.keys(paths), 'profile', 'rounds', 'community-projects', 'projects', 'community-artifact-policy', 'community-coverage', 'community-outputs', 'community-qualification-protocol'])
+  for (let index = 0; index < argv.length; index++) {
+    const flag = argv[index]!, key = flag.slice(2)
+    if (values.has(key)) throw Error('Duplicate option ' + flag)
+    if (flags.has(flag)) { values.set(key, 'true'); continue }
+    const value = argv[++index]
+    if (!flag.startsWith('--') || !allowed.has(key) || !value || value.startsWith('--')) throw Error('Invalid option ' + flag + '; use --help')
+    values.set(key, value)
   }
-  if (options.communityArtifacts && existsSync(options.communityArtifacts)) for (const [project, artifact] of Object.entries(readJson(options.communityArtifacts)) as [string, { version?: string }][]) {
-    if (selected(project)) assertBenchmarkToolVersion(project, artifact.version ?? '', options.communityArtifacts)
+  const profile = values.get('profile') ?? 'smoke'
+  if (profile !== 'smoke' && profile !== 'full') throw Error('--profile must be smoke or full')
+  const rounds = Number(values.get('rounds') ?? (profile === 'full' ? 5 : 1))
+  if (!Number.isSafeInteger(rounds) || rounds < 1) throw Error('--rounds must be a positive integer')
+  if (values.has('projects') && values.has('community-projects')) throw Error('Use --projects or --community-projects, not both')
+  const communityProjects = (values.get('projects') ?? values.get('community-projects'))?.split(',')
+  if (communityProjects && (communityProjects.some(value => !value) || new Set(communityProjects).size !== communityProjects.length)) throw Error('--projects needs unique nonempty project IDs')
+  const policy = values.get('community-artifact-policy') ?? 'latest', coverage = values.get('community-coverage') ?? 'once'
+  if (!['frozen', 'latest'].includes(policy) || !['once', 'repeated'].includes(coverage)) throw Error('Invalid community artifact or coverage policy')
+  const options: UnifiedRunOptions & { allowIncomplete: boolean } = {
+    root: harnessRepository, harnessRoot: harnessRepository, out: resolve('bench-report/community'), profile, rounds,
+    communityProjects, communityForce: values.has('community-force'), allowIncomplete: values.has('allow-incomplete'),
+    communityArtifactPolicy: policy as 'latest' | 'frozen', communityCoverageOnce: coverage === 'once',
+    communityOutputs: values.get('community-outputs')?.split(','), communityQualificationProtocol: values.get('community-qualification-protocol'),
   }
-  if (options.communityPreparedFile && existsSync(options.communityPreparedFile)) for (const entry of readJson(options.communityPreparedFile)) {
-    if (entry.artifact && selected(entry.node.id)) assertBenchmarkToolVersion(entry.node.id, entry.artifact.version ?? '', options.communityPreparedFile)
-  }
-}
-
-export interface SuiteOptions extends UnifiedRunOptions {
-  harnessRoot: string
-  packageRoot?: string
-  site?: string
-  ownershipSite?: string
-  candidateTarball?: string
-  candidateSha256?: string
-  baseline?: string
-  baselineRef?: string
-  baselineNpm?: string
-  baselineTarball?: string
-  baselineSha256?: string
-  baselineLock?: string
-  bezelDir?: string
-  mermaidDir?: string
-  referenceDir?: string
-  liveProvider?: string
-  liveModel?: string
-}
-
-export interface RunnerOptions extends SuiteOptions {
-  selected?: string[]
-  timeoutMs: number
-  list: boolean
-  allowIncomplete: boolean
-  exportTables?: boolean
-}
-export function parseOptions(argv: string[]): RunnerOptions {
-  const flags = new Set(['--list', '--allow-incomplete', '--community-force', '--benchmark-force', '--export-tables'])
-  const allowed = new Set([
-    'profile',
-    'suites',
-    'out',
-    'rounds',
-    'timeout-ms',
-    'target',
-    'package-root',
-    'site',
-    'ownership-site',
-    'executable',
-    'candidate-tarball',
-    'candidate-sha256',
-    'baseline',
-    'baseline-ref',
-    'baseline-npm',
-    'baseline-tarball',
-    'baseline-sha256',
-    'baseline-lock',
-    'bezel-dir',
-    'mermaid-dir',
-    'reference-dir',
-    'zenuml-root',
-    'upstream-runner-root',
-    'live-provider',
-    'live-model',
-    'community-artifacts',
-    'community-projects',
-    'projects',
-    'benchmark-records',
-    'benchmark-resume-attempt',
-    'startup-samples',
-    'startup-surfaces',
-    'node-executable',
-    'bun-executable',
-    'startup-observer',
-    'native-executable',
-    'community-catalog',
-    'community-records',
-    'portable-project',
-    'portable-artifact-root',
-    'portable-adapter',
-    'portable-observer',
-    'modern-editor-root',
-    'community-prepared',
-    'community-inputs',
-    'community-browser-prepared',
-    'community-artifact-policy',
-    'community-coverage',
-    'community-outputs',
-    'community-qualification-assets',
-    'community-qualification-protocol',
-  ])
-  const options = new Map<string, string>()
-  const seen = new Set<string>()
-  for (let i = 0; i < argv.length; i++) {
-    const flag = argv[i]!
-    if (seen.has(flag)) throw new Error(`Duplicate option ${flag}`)
-    seen.add(flag)
-    if (flags.has(flag)) {
-      options.set(flag.slice(2), 'true')
-      continue
-    }
-    const key = flag.slice(2),
-      value = argv[++i]
-    if (!flag.startsWith('--') || !allowed.has(key) || !value || value.startsWith('--')) throw new Error(`Invalid option ${flag}; use --help`)
-    options.set(key, value)
-  }
-  const profile = options.get('profile') ?? 'smoke'
-  if (profile !== 'smoke' && profile !== 'full') throw new Error('--profile must be smoke or full')
-  const positive = (key: string, fallback: number) => {
-    const value = Number(options.get(key) ?? fallback)
-    if (!Number.isSafeInteger(value) || value < 1) throw new Error(`--${key} must be a positive integer`)
-    return value
-  }
-  const path = (key: string) => (options.has(key) ? resolve(options.get(key)!) : undefined)
-  const selected = options.get('suites')?.split(',')
-  if (selected?.some(id => !id) || (selected && new Set(selected).size !== selected.length)) throw new Error('--suites needs unique nonempty comma-separated IDs')
-  for (const name of ['candidate-sha256', 'baseline-sha256']) {
-    const digest = options.get(name)
-    if (digest !== undefined && !/^[a-f0-9]{64}$/.test(digest)) throw new Error(`--${name} must be a lowercase SHA-256 artifact digest`)
-    if (digest !== undefined && !options.has(name.replace('sha256', 'tarball'))) throw new Error(`--${name} requires its tarball path`)
-  }
-  if (options.has('baseline') && options.has('baseline-npm')) throw new Error('Use --baseline directory or --baseline-npm selector, not both')
-  if (options.has('baseline-lock') && options.has('baseline-tarball')) throw new Error('Use --baseline-lock or --baseline-tarball, not both')
-  const communityPolicy = options.get('community-artifact-policy') ?? 'latest',
-    communityCoverage = options.get('community-coverage') ?? 'once'
-  if (!['frozen', 'latest'].includes(communityPolicy) || !['once', 'repeated'].includes(communityCoverage)) throw Error('Invalid community artifact or coverage policy')
-  const liveProvider = options.get('live-provider')
-  if (options.has('projects') && options.has('community-projects')) throw Error('Use --projects or --community-projects, not both')
-  const projects = (options.get('projects') ?? options.get('community-projects'))?.split(',')
-  if (projects?.some(project => !project) || (projects && new Set(projects).size !== projects.length)) throw Error('--projects needs unique nonempty project IDs')
-  if (options.has('benchmark-resume-attempt') && (projects?.length !== 1 || selected?.length !== 1 || !['entry-startup', 'upstream-test-assertions'].includes(selected[0]!) || options.has('benchmark-force'))) throw Error('--benchmark-resume-attempt requires one selected project, one retained suite, and no --benchmark-force')
-  const startupSurfaces = options.get('startup-surfaces')?.split(',') as RunnerOptions['startupSurfaces']
-  if (startupSurfaces && (!startupSurfaces.length || new Set(startupSurfaces).size !== startupSurfaces.length || startupSurfaces.some(surface => !['library', 'cli', 'mcp', 'browser'].includes(surface)))) throw Error('--startup-surfaces needs unique library,cli,mcp,browser values')
-  if (liveProvider && !['anthropic', 'openai-compatible'].includes(liveProvider)) throw new Error('--live-provider must be anthropic or openai-compatible')
-  if (!options.has('list')) admitSelectedArtifacts({
-    portableArtifactRoot: path('portable-artifact-root'), portableProject: options.get('portable-project'),
-    communityArtifacts: path('community-artifacts'), communityPreparedFile: path('community-prepared'),
-    communityCatalogFile: path('community-catalog'), communityProjects: projects, harnessRoot: DRIVER,
-  })
-  return {
-    root: path('target') ?? DRIVER,
-    harnessRoot: DRIVER,
-    packageRoot: path('package-root'),
-    out: path('out') ?? resolve('bench-report/unified'),
-    profile,
-    rounds: positive('rounds', profile === 'smoke' ? 1 : 3),
-    timeoutMs: positive('timeout-ms', profile === 'full' ? 4 * 60 * 60_000 : 30 * 60_000),
-    selected,
-    list: options.has('list'),
-    allowIncomplete: options.has('allow-incomplete'),
-    exportTables: options.has('export-tables'),
-    executable: path('executable'),
-    site: path('site'),
-    ownershipSite: path('ownership-site'),
-    candidateTarball: path('candidate-tarball'),
-    candidateSha256: options.get('candidate-sha256'),
-    baseline: path('baseline'),
-    baselineRef: options.get('baseline-ref'),
-    baselineNpm: options.get('baseline-npm'),
-    baselineTarball: path('baseline-tarball'),
-    baselineSha256: options.get('baseline-sha256'),
-    baselineLock: path('baseline-lock'),
-    bezelDir: path('bezel-dir'),
-    mermaidDir: path('mermaid-dir'),
-    referenceDir: path('reference-dir'),
-    fidelityZenumlRoot: path('zenuml-root'),
-    upstreamRunnerRoot: path('upstream-runner-root'),
-    liveProvider,
-    liveModel: options.get('live-model'),
-    communityArtifacts: path('community-artifacts'),
-    communityProjects: projects,
-    benchmarkRecordStore: path('benchmark-records'),
-    benchmarkForce: options.has('benchmark-force'),
-    benchmarkResumeAttempt: path('benchmark-resume-attempt'),
-    startupSamples: options.has('startup-samples') ? positive('startup-samples', 5) : undefined,
-    startupSurfaces,
-    nodeExecutable: path('node-executable'),
-    bunExecutable: path('bun-executable'),
-    observerExecutable: path('startup-observer'),
-    nativeExecutable: path('native-executable'),
-    communityCatalogFile: path('community-catalog'),
-    communityRecordStore: path('community-records'),
-    communityForce: options.has('community-force'),
-    portableProject: options.get('portable-project'),
-    portableArtifactRoot: path('portable-artifact-root'),
-    portableAdapter: options.get('portable-adapter'),
-    portableObserver: path('portable-observer'),
-    modernEditorRoot: path('modern-editor-root'),
-    communityPreparedFile: path('community-prepared'),
-    communityInputsFile: path('community-inputs'),
-    communityBrowserPreparedFile: path('community-browser-prepared'),
-    communityArtifactPolicy: communityPolicy as 'frozen' | 'latest',
-    communityCoverageOnce: communityCoverage === 'once',
-    communityOutputs: options.has('community-outputs')
-      ? options
-          .get('community-outputs')!
-          .split(',')
-          .map(value => value.trim())
-      : undefined,
-    communityQualificationAssetDir: path('community-qualification-assets'),
-    communityQualificationProtocol: options.get('community-qualification-protocol'),
-  }
+  for (const [flag, property] of Object.entries(paths)) if (values.has(flag)) Object.assign(options, { [property]: resolve(values.get(flag)!) })
+  admitSelectedArtifacts(options)
+  return options
 }

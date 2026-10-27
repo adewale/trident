@@ -33,8 +33,7 @@ export interface StableSupportRequirement {
   requireNativeSemantic?: boolean
   requirePaintedSemantic?: boolean
 }
-/** Adapt actual owning-suite observations at the caller. Neither a descriptor's
- * agenticStatus nor a native-case metadata flag establishes these observations.
+/** Adapt actual owning-suite observations at the caller. Neither a capability descriptor nor a native-case metadata flag establishes these observations.
  * Semantic flags describe the executed declared criteria, not full fidelity.
  */
 export interface StableSupportObservation extends Pick<BenchmarkObservation, 'family' | 'caseId' | 'surface' | 'operation' | 'format' | 'status'> {

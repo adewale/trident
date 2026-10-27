@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import ts from 'typescript'
-import { canonical, harvestModernCorpus } from '../../mermaid-modern-compat/corpus.ts'
+import { canonical, harvestModernCorpus } from '../reference/corpus.ts'
 
 /** Declarations are counted, not guessed expanded test cases. Source candidates
  * reuse the existing upstream collector without running either implementation. */

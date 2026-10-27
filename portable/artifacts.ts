@@ -44,9 +44,15 @@ export function artifactIdentity(artifact: PortableArtifact) {
         const bytes = readFileSync(path)
         return [{ path: relative(artifact.root, path), sha256: byteDigest(path), bytes: bytes.byteLength, gzipBytes: gzipSync(bytes, { level: 9 }).byteLength }]
       })
-  // A source checkout of our library is not a fetched package. Only its compiled
-  // distribution and shipped metadata may be hashed at this boundary.
-  const files = pkg.name === 'agentic-mermaid' ? walk(join(artifact.root, 'dist')) : walk(artifact.root)
+  // Source checkouts of any project contribute only their delivered compiled
+  // directory. Installed release packages contribute their complete payload.
+  let payload = artifact.root
+  if (existsSync(join(artifact.root, '.git'))) {
+    const directory = relative(artifact.root, artifact.entry).split('/')[0]!
+    if (!['dist', 'build', 'pkg'].includes(directory)) throw Error('Use an installed package or a compiled dist/build/pkg artifact, not source files')
+    payload = join(artifact.root, directory)
+  }
+  const files = walk(payload)
   return { artifact, packageName: pkg.name, packageMetadata: pkg, entrySha256: byteDigest(artifact.entry), files, dependencies: captureInstalledDependencyClosure(artifact.root), deliveryScope: 'Per-file package gzip sizes are inventory, not observed network transfer or an npm tarball total.' }
 }
 export function harnessIdentity(directory = portableDirectory) {

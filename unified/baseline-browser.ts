@@ -1,3 +1,4 @@
+import { harnessFile } from './harness-paths.ts'
 import { writeBenchmarkDocument } from '../portable/project-records.ts'
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { createServer } from 'node:http'
@@ -6,7 +7,7 @@ import { dirname, extname, join, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
 import { randomUUID } from 'node:crypto'
-import { admitCurrentReference } from '../../mermaid-modern-compat/reference.ts'
+import { admitCurrentReference } from '../reference/source.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { assertBenchmarkToolVersion } from '../tool-versions.ts'
 import { portableCases, type Json } from '../portable/cohorts.ts'
@@ -189,7 +190,7 @@ export async function runBaselineBrowserSuite(options: BaselineBrowserOptions): 
     write(join(options.out, 'plan.json'), result)
     return result
   }
-  const require = createRequire(join(options.root, 'eval/benchmark/package.json')), { chromium } = require('playwright')
+  const require = createRequire(harnessFile(options.root, 'eval/benchmark/package.json')), { chromium } = require('playwright')
   const executable = options.browserExecutable ?? defaultChromium(chromium)
   const node = options.nodeExecutable ?? 'node'
   const collectors = new Map<string, Collector>(), tickets: Promise<UnifiedSuiteResult>[] = [], cached: string[] = []
