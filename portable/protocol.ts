@@ -24,6 +24,8 @@ export interface PortableJob {
   svgFile?: string
   fullEvidence?: boolean
   minSampleMs?: number
+  /** Complete worker lifecycle budget, including all requested samples and qualification. */
+  workerTimeoutMs?: number
 }
 export interface MemorySnapshot {
   rss: number

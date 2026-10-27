@@ -30,6 +30,7 @@ export interface PortableOptions {
   samples: number
   coldSamples: number
   minSampleMs: number
+  workerTimeoutMs?: number
   preparationConcurrency: number
   maximumControlSpread: number
   cohorts?: PortableCohort[]
@@ -46,7 +47,7 @@ import { assertBenchmarkExecutionAllowed as assertPortableLocal } from './ci-pol
 export function parsePortableOptions(argv: string[]): PortableOptions {
   const flags = new Set(['--force', '--plan', '--allow-partial']),
     values = new Map<string, string>()
-  const allowed = new Set(['project', 'artifact-root', 'adapter', 'entry', 'node', 'out', 'records', 'rounds', 'samples', 'cold-samples', 'min-sample-ms', 'preparation-concurrency', 'maximum-control-spread', 'cohort', 'observer', 'mermaid-reference', 'usage', 'cpu-hour-usd'])
+  const allowed = new Set(['project', 'artifact-root', 'adapter', 'entry', 'node', 'out', 'records', 'rounds', 'samples', 'cold-samples', 'min-sample-ms', 'worker-timeout-ms', 'preparation-concurrency', 'maximum-control-spread', 'cohort', 'observer', 'mermaid-reference', 'usage', 'cpu-hour-usd'])
   for (let index = 0; index < argv.length; index++) {
     const flag = argv[index]!
     if (values.has(flag)) throw Error('Duplicate option ' + flag)
@@ -85,6 +86,7 @@ export function parsePortableOptions(argv: string[]): PortableOptions {
     samples: integer('--samples', 31),
     coldSamples: integer('--cold-samples', 20),
     minSampleMs: decimal('--min-sample-ms', 2),
+    workerTimeoutMs: integer('--worker-timeout-ms', 300_000),
     preparationConcurrency: integer('--preparation-concurrency', 8),
     maximumControlSpread: decimal('--maximum-control-spread', 0.25),
     cohorts,
@@ -151,6 +153,7 @@ export async function runPortable(options: PortableOptions) {
     samples: options.samples,
     coldSamples: options.coldSamples,
     minSampleMs: options.minSampleMs,
+    workerTimeoutMs: options.workerTimeoutMs ?? 300_000,
     preparationConcurrency: options.preparationConcurrency,
     maximumControlSpread: options.maximumControlSpread,
     order: 'rotate A0/A1/B by round and case; all warm jobs, then all cold jobs, then serial memory/baseline jobs',

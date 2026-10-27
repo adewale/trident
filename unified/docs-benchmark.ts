@@ -13,6 +13,24 @@ import { protocolIdentity } from './protocol-identity.ts'
 import type { UnifiedRunOptions, UnifiedSuiteResult, BenchmarkObservation } from './types.ts'
 import { mermaidOracleDirectory, mermaidUpstreamDirectory } from '../portable/mermaid-oracle.ts'
 
+/** Serve the actual distribution with declared UTF-8. Classic scripts inherit
+ * the document encoding: omitting it can turn Unicode regex ranges into syntax
+ * errors before the package's public global is assigned. */
+export function docsArtifactServer(root: string, addon?: { root: string }) {
+  root = resolve(root)
+  return createServer((request, response) => {
+    const url = new URL(request.url ?? '/', 'http://localhost')
+    if (url.pathname === '/blank') { response.setHeader('content-type', 'text/html; charset=utf-8'); response.end('<!doctype html><meta charset="utf-8"><body>'); return }
+    const backend = addon && url.pathname.startsWith('/__addon/')
+    const base = backend ? resolve(addon.root) : root
+    let file: string
+    try { file = resolve(base, decodeURIComponent(url.pathname.slice(backend ? '/__addon/'.length : 1))) } catch { response.writeHead(400).end(); return }
+    if (!file.startsWith(base + sep) || !existsSync(file)) { response.writeHead(404).end(); return }
+    response.setHeader('content-type', ({ '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.wasm': 'application/wasm', '.json': 'application/json', '.css': 'text/css; charset=utf-8', '.woff2': 'font/woff2', '.ttf': 'font/ttf' } as Record<string, string>)[extname(file)] ?? 'application/octet-stream')
+    try { response.end(readFileSync(file)) } catch { response.writeHead(404).end() }
+  })
+}
+
 /** Every occurrence from every syntax page of the pinned upstream release.
  * Duplicates remain in the acceptance denominator; no product registry chooses it. */
 export function docsInventory(upstream = mermaidUpstreamDirectory()) {
@@ -71,15 +89,7 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
       for (const peer of order) {
         const engine = peer.browser!, root = resolve(engine.root)
         console.log(`docs round ${round}/${options.rounds}: ${peer.node.id} (${inventory.occurrences} occurrences)`)
-        const server = createServer((request, response) => {
-          const url = new URL(request.url ?? '/', 'http://localhost')
-          if (url.pathname === '/blank') { response.setHeader('content-type', 'text/html'); response.end('<!doctype html><body>'); return }
-          let file: string
-          try { file = resolve(root, decodeURIComponent(url.pathname.slice(1))) } catch { response.writeHead(400).end(); return }
-          if (!file.startsWith(root + sep) || !existsSync(file)) { response.writeHead(404).end(); return }
-          response.setHeader('content-type', extname(file) === '.wasm' ? 'application/wasm' : 'text/javascript')
-          response.end(readFileSync(file))
-        })
+        const server = docsArtifactServer(root, engine.zenuml)
         await new Promise<void>(done => server.listen(0, '127.0.0.1', done))
         const origin = 'http://127.0.0.1:' + (server.address() as { port: number }).port
         const context = await browser!.newContext(), page = await context.newPage()
@@ -95,7 +105,7 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
           if (engine.kind === 'franken' || engine.kind === 'merman') await invoke({ type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: origin + '/' + engine.wasm })
           else {
             await page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) })
-            await invoke({ type: 'initialize-global', engine })
+            await invoke({ type: 'initialize-global', engine, addonUrl: engine.zenuml ? origin + '/__addon/' + engine.zenuml.entry : undefined })
           }
           let warmupPassed = 0
           for (let index = 0; index < 30; index++) {

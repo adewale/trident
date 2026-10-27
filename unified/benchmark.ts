@@ -78,7 +78,7 @@ export async function main(argv = process.argv.slice(2)) {
   const browsers = options.communityBrowserPreparedFile ? read(options.communityBrowserPreparedFile) : await prepareCommunityBrowsers(prepared, { ...options, out: preparation })
   const preparedFile = join(preparation, 'community-prepared.json'), browserFile = join(preparation, 'community-browser-prepared.json')
   writeFileSync(preparedFile, JSON.stringify(prepared, null, 2)); writeFileSync(browserFile, JSON.stringify(browsers, null, 2))
-  const base = { ...options, communityPreparedFile: preparedFile, communityBrowserPreparedFile: browserFile, benchmarkRecordStore: join(options.out, 'records'), upstreamRunnerRoot }
+  const base = { ...options, communityPreparedFile: preparedFile, communityBrowserPreparedFile: browserFile, benchmarkRecordStore: join(options.out, 'records'), fidelityZenumlRoot: browsers.find((peer: any) => peer.node.id === 'mermaid-js/mermaid')?.browser?.zenuml?.root, upstreamRunnerRoot }
   const resultSummary = (result: UnifiedSuiteResult, out: string) => ({ status: result.status, out, observations: result.observations.length, counts: Object.fromEntries([...new Set(result.observations.map(row => row.status))].map(status => [status, result.observations.filter(row => row.status === status).length])), gaps: result.gaps })
   for (const suite of chosen) {
     const out = join(options.out, suite)

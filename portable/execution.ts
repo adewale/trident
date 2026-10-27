@@ -54,6 +54,7 @@ function assertExit(result: PortableWorkerResult, code: number | null, signal: N
 export async function runSerialJob(job: PortableJob, node: string, observer?: string): Promise<PortableWorkerResult> {
   assertPortableRunning()
   const input = JSON.stringify(job)
+  const budget = job.workerTimeoutMs ?? 300_000
   const args = ['--expose-gc', join(portableDirectory, 'worker.mjs'), '--stdio']
   // GNU time writes its counters after the child exits. Frame that final stderr
   // suffix rather than reopening a Node socket through /dev/fd (which fails on
@@ -70,9 +71,10 @@ export async function runSerialJob(job: PortableJob, node: string, observer?: st
   let result: PortableWorkerResult | undefined
   try {
     const exit = await new Promise<{ code: number | null; signal: NodeJS.Signals | null }>((resolve, reject) => {
-      const timeout = setTimeout(() => { kill(child); reject(Error('Fresh worker exceeded60seconds')) }, 60_000)
+      let deadline: Error | undefined
+      const timeout = setTimeout(() => { deadline = Error(`Fresh worker exceeded ${budget} ms`); kill(child) }, budget)
       child.once('error', error => { clearTimeout(timeout); active.delete(child); reject(error) })
-      child.once('close', (code, signal) => { clearTimeout(timeout); active.delete(child); resolve({ code, signal }) })
+      child.once('close', (code, signal) => { clearTimeout(timeout); active.delete(child); if (deadline) reject(deadline); else resolve({ code, signal }) })
     })
     assertPortableRunning()
     if (transportError) throw transportError
@@ -107,7 +109,7 @@ export async function runFirstUseBatch(jobs: PortableJob[], node: string, concur
       let resolveReady!: () => void, rejectReady!: (error: Error) => void
       const readiness = new Promise<void>((resolve, reject) => { resolveReady = resolve; rejectReady = reject })
       void readiness.catch(() => {})
-      let timeout = setTimeout(() => { kill(child); rejectReady(Error('First-use import barrier timed out')) }, 60_000)
+      let timeout = setTimeout(() => { kill(child); rejectReady(Error('First-use import barrier timed out')) }, job.workerTimeoutMs ?? 300_000)
       child.on('message', message => {
         const value = message as { phase?: string; result?: PortableWorkerResult }
         try {
@@ -133,7 +135,7 @@ export async function runFirstUseBatch(jobs: PortableJob[], node: string, concur
       })
       void completion.catch(() => {})
       try { child.send({ phase: 'job', job }, error => { if (error) { transportError = error; rejectReady(error); kill(child) } }) } catch (error) { transportError = error as Error; rejectReady(transportError); kill(child) }
-      return { child, job, readiness, completion, get result() { return result }, get exit() { return exit }, get diagnostics() { return diagnostics }, get started() { return started }, start() { started = true; timeout = setTimeout(() => kill(child), 60_000); child.send({ phase: 'start' }) } }
+      return { child, job, readiness, completion, get result() { return result }, get exit() { return exit }, get diagnostics() { return diagnostics }, get started() { return started }, start() { started = true; timeout = setTimeout(() => { transportError = Error(`First-use worker exceeded ${job.workerTimeoutMs ?? 300_000} ms`); kill(child) }, job.workerTimeoutMs ?? 300_000); child.send({ phase: 'start' }) } }
     }
     let prepared: ReturnType<typeof prepare>[]
     try { prepared = wireJobs.slice(start, start + concurrency).map(prepare) }
@@ -170,6 +172,7 @@ export async function measurePortableProject(artifact: PortableArtifact, testCas
       mode,
       samples: options.samples,
       minSampleMs: options.minSampleMs,
+      workerTimeoutMs: options.workerTimeoutMs ?? 300_000,
       round,
       replica,
       sample,

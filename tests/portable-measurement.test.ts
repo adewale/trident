@@ -47,6 +47,8 @@ test('portable CLI keeps insufficient sampling explicit and rejects ambiguous se
   const options = parsePortableOptions(['--project', 'owner/tool', '--artifact-root', '/tmp/tool', '--rounds', '1'])
   expect(options.rounds).toBe(1)
   expect(options.samples).toBe(31)
+  expect(options.workerTimeoutMs).toBe(300_000)
+  expect(() => parsePortableOptions(['--project', 'owner/tool', '--artifact-root', '/tmp/tool', '--worker-timeout-ms', '0'])).toThrow('positive integer')
   expect(() => parsePortableOptions(['--project', 'owner/tool', '--project', 'other/tool', '--artifact-root', '/tmp/tool'])).toThrow('Duplicate')
   expect(() => parsePortableOptions(['--project', 'owner/tool', '--artifact-root', '/tmp/tool', '--cohort', 'family,family'])).toThrow('repeated')
 })
@@ -114,6 +116,16 @@ test('retention captures intermediate faults and warm timing rejects transient b
   const warm = workerFixture('export function render(){return {svg:++calls===2?good.replace("Visible","Wrong"):good}}')
   expect((await runSerialJob(warm.job('warm'), warm.node)).status).toBe('failed')
 })
+test('a worker deadline reaps the child before another launch', async () => {
+  const f = workerFixture('export function render(){return {svg:good}}')
+  const timed = { ...f.job('warm'), workerTimeoutMs: 1 }
+  await expect(runSerialJob(timed, f.node)).rejects.toThrow('exceeded 1 ms')
+  expect(() => resetPortableCancellation()).not.toThrow()
+  const next = await runSerialJob(f.job('warm', 'next-project'), f.node)
+  expect(next.status).not.toBe('blocked')
+  expect(next.tracks['warm-repeat']?.length).toBeGreaterThan(0)
+})
+
 test('a valid result followed by failed worker cleanup never qualifies', async () => {
   const f = workerFixture('export function render(){setImmediate(()=>{process.exitCode=1});return {svg:good}}')
   await expect(runSerialJob(f.job('warm'), f.node)).rejects.toThrow('lifecycle')

@@ -15,6 +15,11 @@ export async function publicSvgBrowserAction(input: any): Promise<any> {
     let render: (source: string, id: string, options?: any) => any, fontOptions = false
     if (kind === 'mermaid') {
       api.initialize({ startOnLoad: false, securityLevel: 'strict', logLevel: 'fatal' })
+      if (input.addonUrl) {
+        if (typeof api.registerExternalDiagrams !== 'function') throw Error('Prepared addon requires the public registerExternalDiagrams API')
+        const plugin = await import(input.addonUrl)
+        await api.registerExternalDiagrams([plugin.default])
+      }
       const owner = typeof api.render === 'function' ? api : api.mermaidAPI
       if (!owner || typeof owner.render !== 'function') throw Error('Published Mermaid render API unavailable')
       fontOptions = !input.engine.legacyMermaid
