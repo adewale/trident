@@ -40,7 +40,7 @@
           "https://github.com/gotoailab/modern_mermaid/blob/a021cbce37fc0b07a9f4791c28e983101ea06f2d/pnpm-lock.yaml",
           "https://github.com/gotoailab/modern_mermaid/blob/a021cbce37fc0b07a9f4791c28e983101ea06f2d/src/components/Preview.tsx"
         ],
-        "notes": "Source-checked editor/integration member. The earlier renderer-only discovery rule was replaced on 2026-10-23; membership is separate from renderer benchmark eligibility. Full source checkout, locked production build, dependency-engine inventory and browser application probes; see docs/comparisons/modern-mermaid.md and eval/modern-mermaid/run.mjs. Existing observations and renderer peer rankings retain their dates and scope."
+        "notes": "Source-checked editor/integration member. The earlier renderer-only discovery rule was replaced on 2026-10-23; membership is separate from renderer benchmark eligibility. Full source checkout, locked production build, dependency-engine inventory and browser application probes; see docs/comparisons/modern-mermaid.md and eval/benchmark/modern-editor/run.mjs. Existing observations and renderer peer rankings retain their dates and scope."
       },
       {
         "checkedAt": "2026-10-20",

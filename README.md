@@ -325,3 +325,20 @@ maintainer tests. Agentic retains product corpora and compatibility policy; its
 old benchmark implementation and community discovery copy can be removed.
 `source bench:performance-profile` runs the experimental profile qualifier through the
 prepared source layout, including its `--features` selection.
+
+### Source-specific diagnostics
+
+Trident owns the palette and endpoint comparison runners, community discovery
+and catalog, and Modern Mermaid comparison/evidence tools. Agentic supplies its
+product fixtures, geometry metrics and semantic DB projection.
+
+```sh
+TRIDENT_AGENTIC_ROOT=/path/to/agentic-mermaid bun commands.ts agentic --suites palette-performance
+TRIDENT_AGENTIC_ROOT=/path/to/agentic-mermaid bun commands.ts agentic --suites modern-editor --modern-editor-root /path/to/modern-mermaid --out /evidence/modern
+TRIDENT_AGENTIC_ROOT=/path/to/agentic-mermaid bun commands.ts source bench:modern-summary /evidence/modern/modern-editor
+bun research/discover-mermaid-community.ts --out /tmp/mermaid-candidates.json
+```
+
+Parser sampling is owned by Trident; the correctness-only DB projection remains
+in Agentic. Source adapters retain compatibility with older Agentic revisions
+whose oracle worker still embeds the sampling protocol.
