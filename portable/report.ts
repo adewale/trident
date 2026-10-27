@@ -30,6 +30,7 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
           caseId: testCase.id,
           family: testCase.family,
           cohort: testCase.cohort,
+          layoutBackend: testCase.layoutBackend ?? null,
           scale: testCase.scale ?? null,
           expectedAccepted: testCase.expected.accept,
           track,
@@ -56,6 +57,7 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
       id: testCase.id,
       family: testCase.family,
       cohort: testCase.cohort,
+      layoutBackend: testCase.layoutBackend ?? null,
       expectedAccepted: testCase.expected.accept,
       unsupported: unsupported.get(testCase.family) ?? null,
       checkedWorkers: calls.length,
@@ -78,6 +80,7 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
           caseId: testCase.id,
           family: testCase.family,
           cohort: testCase.cohort,
+          layoutBackend: testCase.layoutBackend ?? null,
           round: index + 1,
           qualified: active.status !== 'failed' && active.status !== 'blocked' && baseline.status === 'passed',
           before: active.memory.before,
@@ -95,10 +98,10 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
     }).flat(),
   )
   const representativeFamilies = [...new Set(cases.filter(testCase => testCase.cohort === 'family').map(testCase => testCase.family))]
-  const familyTimings = representativeFamilies.map(family => {
-    const row = rows.find(row => row.family === family && row.cohort === 'family' && row.track === 'warm-repeat')
-    return { family, supported: !unsupported.has(family), medianMs: row?.medianMs ?? null, calibrated: row?.calibration.status === 'calibrated', semanticComplete: row?.semanticComplete ?? false }
-  })
+  const familyTimings = representativeFamilies.flatMap(family => [...new Set(cases.filter(testCase => testCase.cohort === 'family' && testCase.family === family).map(testCase => testCase.layoutBackend ?? null))].map(layoutBackend => {
+    const row = rows.find(row => row.family === family && row.layoutBackend === layoutBackend && row.cohort === 'family' && row.track === 'warm-repeat')
+    return { family, layoutBackend, supported: !unsupported.has(family), medianMs: row?.medianMs ?? null, calibrated: row?.calibration.status === 'calibrated', semanticComplete: row?.semanticComplete ?? false }
+  }))
   return {
     status: results.some(result => result.status === 'failed') ? 'failed' : results.some(result => result.status === 'blocked') ? 'blocked' : !measured.length ? 'unsupported' : rows.some(row => row.calibration.status !== 'calibrated') ? 'uncalibrated' : 'measured',
     cases: coverage,
@@ -147,12 +150,14 @@ export function portableMarkdown(report: { project: string; version: string; sta
     '',
     'A0, A1 and B use the same admitted artifact. Their differences diagnose measurement variation; they cannot establish a product speedup. Cold imports may prepare in batches, but first API calls execute one at a time after the complete idle barrier. Timings exclude import and qualification. Cases with a prelude report first-final-source timing after that prelude.',
     '',
+    'Calibration reports a descriptive A/A envelope separately from an exact median round-ratio uncertainty interval. Thousands of calls within five rounds are still only five independent rounds: a finite two-sided 95% sign interval needs at least six. Intervals require independent representative rounds and do not remove systematic host/workload differences. Repeated-source p95 values describe batch means, not individual tail latency.',
+    '',
     ...(summary.counts.unsupportedFamilies.length ? [`Unsupported families: ${summary.counts.unsupportedFamilies.join(', ')}. The renderer rejected each family's canonical source, so their ${summary.counts.unsupportedCases} cases were not run; they are coverage gaps, not failures.`, ''] : []),
     '## Family representatives',
     '',
     '| Family | Warm repeated API median (ms) | Calibrated | Native + painted criteria |',
     '|---|---:|---|---|',
-    ...summary.familyTimings.map(row => `| ${row.family} | ${row.supported ? (row.medianMs?.toFixed(4) ?? 'unavailable') : 'unsupported'} | ${row.calibrated} | ${row.semanticComplete ? 'declared criteria complete' : 'partial; see case scopes'} |`),
+    ...summary.familyTimings.map(row => `| ${row.family}${row.layoutBackend ? ` / ${row.layoutBackend}` : ''} | ${row.supported ? (row.medianMs?.toFixed(4) ?? 'unavailable') : 'unsupported'} | ${row.calibrated} | ${row.semanticComplete ? 'declared criteria complete' : 'partial; see case scopes'} |`),
     '',
     '## Scaling',
     '',
@@ -160,7 +165,7 @@ export function portableMarkdown(report: { project: string; version: string; sta
     '|---|---:|---:|---|---:|---|',
     ...summary.timing.filter(row => row.cohort === 'scaling' && row.track === 'warm-repeat').map(row => {
       const cold = summary.timing.find(candidate => candidate.caseId === row.caseId && candidate.track === 'first-use')
-      return `| ${row.family} | ${row.scale} | ${row.medianMs?.toFixed(4) ?? 'unavailable'} | ${row.calibration.status === 'calibrated'} | ${cold?.p95Ms?.toFixed(4) ?? 'unavailable'} | ${cold?.calibration.status === 'calibrated'} |`
+      return `| ${row.family}${row.layoutBackend ? ` / ${row.layoutBackend}` : ''} | ${row.scale} | ${row.medianMs?.toFixed(4) ?? 'unavailable'} | ${row.calibration.status === 'calibrated'} | ${cold?.p95Ms?.toFixed(4) ?? 'unavailable'} | ${cold?.calibration.status === 'calibrated'} |`
     }),
     '',
     '## Individual cases and fidelity',
@@ -184,7 +189,7 @@ export function portableMarkdown(report: { project: string; version: string; sta
         const rss = resource.map(resource => resource.apiReturnDelta.rss as number),
           heap = resource.map(resource => resource.retainedDelta.heapUsed as number),
           peaks = resource.flatMap(resource => (resource.wholeWorker ? [resource.wholeWorker.peakRssBytes] : []))
-        return `| ${row.family} | ${rss.length ? (median(rss) / 1048576).toFixed(3) : 'unavailable'} | ${heap.length ? (median(heap) / 1024).toFixed(3) : 'unavailable'} | ${peaks.length ? (median(peaks) / 1048576).toFixed(3) : 'unavailable'} |`
+        return `| ${row.family}${row.layoutBackend ? ` / ${row.layoutBackend}` : ''} | ${rss.length ? (median(rss) / 1048576).toFixed(3) : 'unavailable'} | ${heap.length ? (median(heap) / 1024).toFixed(3) : 'unavailable'} | ${peaks.length ? (median(peaks) / 1048576).toFixed(3) : 'unavailable'} |`
       }),
     '',
     `Live model cost: ${summary.modelCost.status}. No provider call is made by this runner. CPU cost needs an explicit rate; zero coarse CPU counters are censored, not free. Retention checkpoints at 0/10/100/1000 comment-varied calls of the same semantic graph are available for the declared small flowchart case, not all families or a leak proof.`,

@@ -9,6 +9,11 @@ export interface UnifiedWorkload {
   expectedLabels?: readonly string[]
   /** Only independently declared Markdown labels may lose emphasis delimiters. */
   markdownLabels?: readonly string[]
+  /** Declared by the stimulus owner, independently of a renderer's outcome. */
+  intent?: 'render' | 'parse-only' | 'negative-admission' | 'diagnostic'
+  intentReason?: string
+  /** Observed pinned-parser admission is distinct from the fixture's intent. */
+  referenceAdmission?: { accepted: boolean; error?: string }
 }
 export interface BenchmarkObservation {
   suite: string

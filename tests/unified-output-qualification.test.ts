@@ -2,6 +2,7 @@ import { describe, expect, test } from 'bun:test'
 import { spawnSync } from 'node:child_process'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { crc32, deflateSync } from 'node:zlib'
 import { qualifyOutput, withReferenceLabels } from '../unified/qualification.ts'
 import type { UnifiedWorkload } from '../unified/types.ts'
 
@@ -89,4 +90,37 @@ console.log(JSON.stringify([
   const child = spawnSync(process.execPath, ['--eval', script], { encoding: 'utf8', timeout: 2000, killSignal: 'SIGKILL' })
   expect({ status: child.status, error: child.error?.message }).toEqual({ status: 0, error: undefined })
   expect(JSON.parse(child.stdout)).toEqual([true, false, true])
+})
+
+test('PNG admission requires complete decodable pixels and content, not an invented IHDR envelope', () => {
+  const chunk = (type: string, data: Uint8Array) => {
+    const bytes = Buffer.alloc(data.length + 12); bytes.writeUInt32BE(data.length); bytes.write(type, 4); bytes.set(data, 8); bytes.writeUInt32BE(crc32(bytes.subarray(4, -4)), bytes.length - 4); return bytes
+  }
+  const image = (scanline: Uint8Array, { depth = 8, color = 6, interlace = 0 } = {}) => {
+    const header = Buffer.alloc(13); header.writeUInt32BE(2); header.writeUInt32BE(1, 4); header[8] = depth; header[9] = color; header[12] = interlace
+    return Buffer.concat([Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), chunk('IHDR', header), chunk('IDAT', deflateSync(scanline)), chunk('IEND', new Uint8Array())])
+  }
+  const painted = image(new Uint8Array([0, 0, 0, 0, 255, 255, 255, 255, 255]))
+  expect(qualifyOutput(workload(['Alpha']), painted, 'png')).toMatchObject({ ok: true, scope: 'decoded-raster-content' })
+  expect(qualifyOutput(workload(['Alpha']), painted.subarray(0, 33), 'png').ok).toBe(false)
+  const corrupt = Buffer.from(painted); corrupt[corrupt.length - 1]! ^= 1
+  expect(qualifyOutput(workload(['Alpha']), corrupt, 'png').findings.join(' ')).toContain('CRC')
+  const blank = image(new Uint8Array([0, 255, 255, 255, 255, 255, 255, 255, 255]))
+  expect(qualifyOutput(workload(['Alpha']), blank, 'png').ok).toBe(false)
+  expect(qualifyOutput(workload([]), blank, 'png').ok).toBe(true)
+  const transparent = image(new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0]))
+  expect(qualifyOutput(workload(['Alpha']), transparent, 'png').ok).toBe(false)
+  expect(qualifyOutput(workload([]), image(new Uint8Array([0, 0])), 'png').ok).toBe(false)
+  expect(qualifyOutput(workload([]), image(new Uint8Array([7, 0, 0, 0, 255, 255, 255, 255, 255])), 'png').ok).toBe(false)
+  for (const filter of [1, 2, 3, 4]) {
+    const filtered = new Uint8Array([filter, 0, 0, 0, 255, 255, 255, 255, filter === 3 ? 128 : filter === 2 ? 255 : 0])
+    expect(qualifyOutput(workload(['Alpha']), image(filtered), 'png').ok).toBe(true)
+  }
+  expect(qualifyOutput(workload(['Alpha']), image(new Uint8Array([0, 0x40]), { depth: 1, color: 0 }), 'png').scope).toBe('decoded-raster-content')
+  expect(qualifyOutput(workload(['Alpha']), image(new Uint8Array([0, 0xc0]), { depth: 1, color: 0 }), 'png').ok).toBe(false)
+  const interlaced = new Uint8Array([0, 0, 0, 0, 255, 0, 255, 255, 255, 255])
+  expect(qualifyOutput(workload(['Alpha']), image(interlaced, { interlace: 1 }), 'png').ok).toBe(true)
+  expect(qualifyOutput(workload(['Alpha']), image(new Uint8Array([0, 255, 255, 255, 255, 0, 255, 255, 255, 255]), { interlace: 1 }), 'png').ok).toBe(false)
+  const sixteenBit = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255])
+  expect(qualifyOutput(workload(['Alpha']), image(sixteenBit, { depth: 16 }), 'png').ok).toBe(true)
 })

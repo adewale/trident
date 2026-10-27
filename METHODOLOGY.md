@@ -20,13 +20,15 @@ The community corpus is frozen in `corpus/community-corpus.json`: six fixed timi
 
 Some imported fixtures are parser-only, oracle-rejected, or lack usable authored-label expectations. These gaps remain in the record. Do not reinterpret a parser fixture's rendering failure as a faithful-rendering defect. Unsupported families remain coverage gaps instead of free successful renders.
 
+Input intent is independent of acceptance. Render inputs, parser-only fixtures and negative/diagnostic sources retain separate counts and unchanged source strings. Only declared render inputs accepted by pinned Mermaid enter the positive-render table. Missing observations remain unavailable against their declared denominator. A new classifier does not rewrite historical records or their original dates.
+
 ## What community admission checks
 
 SVG admission checks its namespace, XML syntax, positive finite canvas and expected text in admitted text containers. HTML-serialized void elements inside `foreignObject` may be closed for inspection; the XML portability exception remains recorded. Attributes, metadata, hidden definition containers and a visible source-code echo cannot substitute for drawn labels. This is text/format admission, not full visibility or correspondence proof.
 
 Literal labels keep their punctuation. Only a fixture or the pinned oracle's label type may declare Markdown. In those declared labels, supported emphasis delimiters may be displayed as formatting; in a pie label such as `__proto__`, the underscores are required. The qualifier never guesses the label type from punctuation. Node and browser inspectors use the same rule. Whitespace/wrapped-row matching preserves word boundaries and does not join unrelated drawing objects. A qualifier change invalidates record reuse; old scores must not be relabelled as current.
 
-Terminal admission checks actual text and source echoes with its own output boundary. PNG admission checks the signature, leading IHDR and nonempty dimensions; it does not verify painted text or diagram meaning. Parser admission/semantic checks have different return contracts. Authored native-model and painted-output fidelity are separate, stronger benchmarks with explicitly unavailable criteria.
+Terminal admission checks actual text and source echoes with its own output boundary. PNG admission validates the complete encoding, decodes actual pixels under explicit memory/pixel budgets and checks nonblank content. It does not establish readable labels, correct relationships or perceptual quality. Parser admission/semantic checks have different return contracts. Authored native-model and painted-output fidelity are separate, stronger benchmarks with explicitly unavailable criteria.
 
 ## Timing and resources
 
@@ -35,6 +37,12 @@ Preparation, acquisition, oracle expectations and qualification happen outside p
 The community fixed-core cost sums per-input medians on the complete six-input cohort. Conditional family admission rates use each tool's supported cases, so differing denominators are not a paired fidelity comparison. Reports retain blocked, unsupported and unavailable counts. Any ordinal display order is an admission ordering, not an overall quality or performance winner.
 
 Portable comparisons use balanced family, scaling, interacting-feature and invalid-input cohorts, paired controls and explicit calibration. Five rounds alone do not establish a small improvement. Too few fresh observations cannot establish tail latency. Whole-child RSS/CPU, document V8 heap, retained output and delivered bytes have different scopes; native, worker, WASM and GPU memory may be missing. Zero observed CPU at coarse resolution is censored, not free work. Dollar cost requires actual usage or a declared rate.
+
+Linux browser resource passes record actual Chromium-process RSS/PSS alongside document V8 heap. Missing mappings invalidate the process total. The process observations are serial instantaneous samples, not peaks or GPU device-memory measurements. Whole-child resource passes remain separate from latency clocks.
+
+Invocation discovery must execute newly exposed operations against the installed artifact. A combined result such as SVG plus a resolved-scene sidecar requires both outputs to be consumed and checked; a present export or successful import alone is not successful rendering. Different result models and optional backends are different cohorts.
+
+Source-runner preparation derives the ZenUML engine from the pinned source lockfile rather than the minimum of its semver range. Keep existing prepared/measured runtimes intact and create a new runtime for a changed dependency manifest. Source-runner and published-addon observations retain their actual artifact/dependency identities.
 
 ## Publication
 

@@ -19,12 +19,15 @@ const upstreamTagged = (() => {
   }
 })()
 
-test('the historical portable cohort stays fixed while the current mark includes stable Event Modeling', () => {
+test('the historical family mark stays fixed while the current portable cohort exercises both required additions', () => {
   expect(legacyScoredFamilies()).toHaveLength(23)
   expect(scoredFamilies()).toHaveLength(25)
   expect(newerFamilies()).toEqual(['venn', 'treeview', 'wardley', 'eventmodeling', 'cynefin', 'railroad', 'swimlane', 'agentflow', 'usecase'])
   expect(newerFamilies().filter(family => scoredFamilies().includes(family))).toEqual(['eventmodeling'])
-  expect(portableCases().filter(testCase => newerFamilies().includes(testCase.family))).toEqual([])
+  expect(legacyScoredFamilies()).not.toContain('eventmodeling')
+  expect(legacyScoredFamilies()).not.toContain('zenuml')
+  expect(portableCases(['family']).filter(testCase => ['eventmodeling', 'zenuml'].includes(testCase.family)).map(testCase => [testCase.family, testCase.source])).toEqual(['eventmodeling', 'zenuml'].map(family => [family, familySupportProbe(family)!.source]))
+  expect(portableCases().filter(testCase => newerFamilies().includes(testCase.family)).map(testCase => testCase.family)).toEqual(['eventmodeling'])
 })
 
 test('the pinned oracle accepts every newer probe and reads back exactly its labels', async () => {

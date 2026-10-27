@@ -4,6 +4,8 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { runCliRenderInvocation } from '../unified/invocation.ts'
 
+// Independently encoded two-pixel black/white RGBA PNG: transport/content
+// admission, not a claim that the image contains the authored text.
 test('shared installed/native CLI protocol consumes genuine PNG/file artifacts in every round and rejects stale success', async () => {
   const directory = mkdtempSync(join(tmpdir(), 'am-native-rounds-'))
   try {
@@ -15,7 +17,7 @@ test('shared installed/native CLI protocol consumes genuine PNG/file artifacts i
     writeFileSync(source, 'flowchart LR\nA[Start]')
     writeFileSync(
       script,
-      `const fs=require('node:fs'),args=process.argv.slice(2),input=args[1],format=args[args.indexOf('--format')+1],output=args[args.indexOf('--output')+1];const source=fs.readFileSync(input==='-'?0:input,'utf8');fs.appendFileSync(${JSON.stringify(log)},JSON.stringify({input,format,source,output})+'\\n');if(source.includes('MISSING'))process.exit(0);fs.writeFileSync(output,format==='png'?Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl6gM0AAAAASUVORK5CYII=','base64'):'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>Start</text></svg>');`,
+      `const fs=require('node:fs'),args=process.argv.slice(2),input=args[1],format=args[args.indexOf('--format')+1],output=args[args.indexOf('--output')+1];const source=fs.readFileSync(input==='-'?0:input,'utf8');fs.appendFileSync(${JSON.stringify(log)},JSON.stringify({input,format,source,output})+'\\n');if(source.includes('MISSING'))process.exit(0);fs.writeFileSync(output,format==='png'?Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAADklEQVR4nGNgYGD4DwIADvoE/EWwHYsAAAAASUVORK5CYII=','base64'):'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>Start</text></svg>');`,
     )
     const workload = { id: 'fixture', family: 'flowchart', source: readFileSync(source, 'utf8'), features: [], provenance: 'authored process/artifact contract regression', expectedLabels: ['Start'] }
     const common = { command: process.execPath, prefix: [script], cwd: directory, out, sourceFile: source, workload, rounds: 3, surface: 'fixture:cli', runtime: 'fixture-runtime' }

@@ -85,7 +85,7 @@ export function classifyMeaningFailure(tool: MeaningTool, error: any, PeleError?
   return { ...receipt, status: 'unavailable', scope: 'Unclassified backend/driver/domain exception; source rejection is not established' }
 }
 
-export function normalizeMeaning(tool: MeaningTool, family: string, raw: any): NormalizedMeaning {
+export function normalizeMeaning(tool: MeaningTool, family: string, raw: any, publicLayout?: any): NormalizedMeaning {
   const out: NormalizedMeaning = { family, facts: {}, unavailable: {} }
   const m = publicModel(tool, family, raw), am = tool === 'agentic'
   const fact = (key: string, observed: any) => { if (observed === undefined) out.unavailable['fact:' + key] = 'Public model does not expose this reviewed field'; else out.facts[key] = json(observed) }
@@ -266,12 +266,63 @@ export function normalizeMeaning(tool: MeaningTool, family: string, raw: any): N
       out.nodes = elements.map(item => node(item.id ?? item.alias, item.label)); out.edges = (am ? array(m.relationships) : array(m.rels)).map(item => edge(item.from, item.to, true, item.label)); fact('descriptions', elements.map(item => ({ id: item.id ?? item.alias, text: text(item.description ?? item.descr) }))); break
     }
     case 'eventmodeling': {
+      if (am) {
+        const frames = array(m.frames)
+        out.nodes = frames.map(item => node(item.id, String(item.entity).split('.').at(-1)))
+        fact('frame-order', out.nodes.map(item => item.label))
+        fact('frame-content', frames.map(item => ({ id: item.id, entityType: item.entityType, entity: item.entity, reset: item.reset, sources: item.sources, data: item.data ?? null, dataReference: item.dataReference ?? null })))
+        fact('named-data', m.data); fact('notes', m.notes); fact('specifications', m.specifications)
+        if (publicLayout && Array.isArray(publicLayout.edges)) out.edges = publicLayout.edges.map((item: any) => edge(item.from, item.to, true))
+        else if (frames.every(item => item.reset || array(item.sources).length > 0)) out.edges = frames.flatMap(item => array(item.sources).map(from => edge(from, item.id, true)))
+        else out.unavailable.relationships = 'Implicit Event Modeling edges require the actual public layout projection; frame order alone cannot invent an observed relationship'
+        break
+      }
       const boxes = array(m.boxes)
       const frameId = (item: any) => item.frame?.name ?? item.id
       const frameLabel = (item: any) => item.frame?.entityIdentifier?.split('.').at(-1) ?? item.name ?? item.entity
       out.nodes = boxes.map(item => node(frameId(item), frameLabel(item)))
       out.edges = array(m.relations).map(item => edge(item.sourceBox ? frameId(item.sourceBox) : item.source?.id ?? item.source, item.targetBox ? frameId(item.targetBox) : item.target?.id ?? item.target, true))
       fact('frame-order', boxes.map(item => text(frameLabel(item))))
+      break
+    }
+    case 'zenuml': {
+      if (!am) { out.unavailable.identities = 'No reviewed native public ZenUML model projection from this implementation'; break }
+      out.nodes = array(m.participants).map(item => node(item.id, item.label))
+      const messages: { from: string; to: string; text: string; mode: string }[] = []
+      const regions: { kind: string; labels: string[] }[] = []
+      const assignments: { to: string; name: string; type: string | null }[] = []
+      let missingCaller = false
+      const visit = (statements: any[], receiver?: string, caller?: string) => {
+        for (const statement of statements) {
+          if (statement.kind === 'message') {
+            if (statement.assignment) assignments.push({ to: statement.to, name: statement.assignment, type: statement.assignmentType ?? null })
+            const from = statement.from ?? receiver
+            if (typeof from !== 'string') missingCaller = true
+            else messages.push({ from, to: statement.to, text: text(statement.text), mode: statement.mode })
+            visit(array(statement.children), statement.to, from)
+          } else if (statement.kind === 'return') {
+            if (receiver && caller) messages.push({ from: receiver, to: caller, text: text(statement.text), mode: 'reply' })
+            else missingCaller = true
+          } else if (statement.kind === 'region') {
+            regions.push({ kind: statement.type, labels: array(statement.branches).map(branch => text(branch.label)) })
+            for (const branch of array(statement.branches)) visit(array(branch.statements), receiver, caller)
+          }
+        }
+      }
+      visit(array(m.statements))
+      if (missingCaller) out.unavailable.relationships = 'Root implicit-caller messages need the actual generated caller identity from a public positioned model'
+      else if (assignments.length) {
+        // Assignment/return labels are a public projection policy. Do not
+        // duplicate that policy here and invent a second reply after an
+        // explicit return. Observe actual positioned relationships instead.
+        if (publicLayout && Array.isArray(publicLayout.edges)) {
+          const observed = publicLayout.edges.map((item: any) => ({ from: String(item.from), to: String(item.to), text: text(typeof item.label === 'string' ? item.label : item.label?.text) }))
+          out.edges = observed.map((item: any) => edge(item.from, item.to, true, item.text)); fact('message-order', observed)
+        } else out.unavailable.relationships = 'Assignment/return message projection requires actual public layout output; no reply is inferred from a binding alone'
+        out.unavailable['fact:message-modes'] = 'Public positioned output does not expose each assignment/return message mode; original typed bindings remain independently available'
+      } else { out.edges = messages.map(item => edge(item.from, item.to, true, item.text)); fact('message-order', messages.map(({ mode: _, ...item }) => item)); fact('message-modes', messages.map(item => item.mode)) }
+      fact('assignment-bindings', assignments)
+      fact('regions', regions)
       break
     }
     default: out.unavailable.identities = `No reviewed public projection for ${family}`
@@ -294,6 +345,7 @@ export async function createMeaningAdapter(options: { tool: MeaningTool; package
   }
   const imported: any = await import(pathToFileURL(entry).href), api = tool === 'mermaid' ? imported.default : imported
   if (tool === 'mermaid') api.initialize({ startOnLoad: false, securityLevel: 'strict', logLevel: 'fatal' })
+  const parsedAgentic = new WeakMap<object, any>()
   const acquireRaw = async (source: string, _family: string): Promise<MeaningAcquisition> => {
     let raw: any, actualFamily: string
     try {
@@ -306,6 +358,7 @@ export async function createMeaningAdapter(options: { tool: MeaningTool; package
         }
         if (['preserved', 'opaque'].includes(result.value.body.kind)) return { status: 'unsupported', publicAccepted: true, raw: result.value.body, scope: 'Opaque source preservation is not native semantic support or public rejection' }
         raw = result.value.body
+        if (raw && typeof raw === 'object') parsedAgentic.set(raw, result.value)
         actualFamily = familyName(raw.kind)
       } else { raw = await api.parse(source); actualFamily = familyName(raw.mermaidType ?? raw.type) }
     } catch (error: any) { return classifyMeaningFailure(tool, error, api.PeleError) }
@@ -315,7 +368,14 @@ export async function createMeaningAdapter(options: { tool: MeaningTool; package
     const acquired = await acquireRaw(source, family)
     if (acquired.status !== 'accepted') return acquired
     const actualFamily = acquired.family!
-    try { return { ...acquired, meaning: normalizeMeaning(tool, actualFamily, acquired.raw), scope: 'Canonical projection of actual public parser return/getDiagramFromText DB; authored expectations are independent' } }
+    try {
+      let positioned: any, positioningError: string | undefined
+      if (tool === 'agentic' && ['eventmodeling', 'zenuml'].includes(actualFamily) && typeof api.layoutMermaid === 'function') {
+        try { positioned = await api.layoutMermaid(parsedAgentic.get(acquired.raw)) }
+        catch (error) { positioningError = String(error) }
+      }
+      return { ...acquired, meaning: normalizeMeaning(tool, actualFamily, acquired.raw, positioned), scope: 'Canonical projection of actual public parser return/getDiagramFromText DB; Event Modeling inferred endpoints and ZenUML assignment messages use actual public layoutMermaid output when available. Native parsed fields survive unavailable positioning. Authored expectations are independent' + (positioningError ? '; positioned projection unavailable: ' + positioningError : '') }
+    }
     catch (error) { return { ...acquired, meaning: { family: actualFamily, facts: {}, unavailable: { projection: String(error) } }, error: String(error), scope: 'Public parse accepted; reviewed semantic projection unavailable, no semantic pass' } }
   }
   const adapter: MeaningAdapter = { tool, version: manifest.version, entry, acquireRaw, parse }

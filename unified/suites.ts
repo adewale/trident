@@ -136,15 +136,14 @@ export function benchmarkSuites(options: SuiteOptions): SuiteDefinition[] {
     }
     suites.push({ id, title: script, kind: 'script', smoke: id === 'samples', source: command, command: args, prerequisites, policy, ...(['release', 'release:browser'].includes(id) || (id === 'dave' && options.candidateTarball) ? { target: 'candidate' as const } : {}) })
   }
-  const qualificationRoot = options.root
+  const qualificationRoot = root
   const qualificationSource = join(qualificationRoot, 'eval/benchmark/qualify-peer-performance.ts')
   if ((existsSync(qualificationSource) || existsSync(join(root, 'eval/benchmark/qualify-peer-performance.ts'))) && !suites.some(suite => suite.id === 'peers:qualify')) {
     const prerequisites = [
-      ...(!existsSync(qualificationSource) ? ['Selected target checkout lacks eval/benchmark/qualify-peer-performance.ts; the driver protocol is not substituted'] : []),
       ...(!options.candidateTarball || !options.candidateSha256 ? ['Peer qualification needs the exact candidate tarball and digest'] : []),
       ...(!options.baselineTarball || !options.baselineSha256 ? ['Peer qualification needs the exact baseline tarball and digest'] : []),
     ]
-    const args = ['bun', 'run', qualificationSource, '--out', out('peers:qualify'), '--rounds', String(options.rounds), '--runtime-source', qualificationRoot, '--elk-cache', 'off']
+    const args = ['bun', 'run', qualificationSource, '--out', out('peers:qualify'), '--rounds', String(options.rounds), '--runtime-source', options.root, '--elk-cache', 'off']
     add(args, '--candidate-tarball', options.candidateTarball)
     add(args, '--candidate-sha256', options.candidateSha256)
     add(args, '--baseline-tarball', options.baselineTarball)
@@ -157,10 +156,10 @@ export function benchmarkSuites(options: SuiteOptions): SuiteDefinition[] {
       source: qualificationSource,
       command: args,
       cwd: qualificationRoot,
-      target: 'candidate',
+      target: 'driver',
       prerequisites,
       policy:
-        'Uses the selected checkout’s maintained semantic peer protocol: two independent A/A controls, then candidate comparison. Exact archives, actual runtime dependency policy and all semantic tracks are retained. Insufficient cold-tail rounds and unsupported endpoint contracts remain explicit qualification gaps.',
+        'Uses Trident’s maintained semantic peer protocol with the selected checkout’s explicit runtime dependency policy: two independent A/A controls, then candidate comparison. Exact archives and all semantic tracks are retained. Insufficient cold-tail rounds and unsupported endpoint contracts remain explicit qualification gaps.',
     })
   }
   const standalone = (id: string, title: string, file: string, args: string[], prerequisites: string[] = [], policy = 'Diagnostic owning entry; instrumented timings are not cross-engine API latency.'): void => {
@@ -417,6 +416,7 @@ export function benchmarkSuites(options: SuiteOptions): SuiteDefinition[] {
     '--allow-partial',
   ]
   if (options.portableObserver) portableArgs.push('--observer', options.portableObserver)
+  if (options.portableLayoutBackends) portableArgs.push('--layout-backends', options.portableLayoutBackends.join(','))
   if (options.communityForce) portableArgs.push('--force')
   suites.push({
     id: 'portable-community',

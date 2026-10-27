@@ -2,7 +2,7 @@ export type MeaningJson = null | boolean | number | string | MeaningJson[] | { [
 export interface MeaningNode { id: string; label: string }
 export interface MeaningEdge { source: string; target: string; directed: boolean; label?: string; startMarker?: string; endMarker?: string }
 export interface MeaningGroup { id: string; label: string; members: string[] }
-export interface PaintExpectation { fontSize?: number; images?: { href: string; count: number }[] }
+export interface PaintExpectation { fontSize?: number; nodeFill?: string; edgeStroke?: string; edgeStrokeWidth?: number; images?: { href: string; count: number }[] }
 export interface MeaningExpectation {
   labels: string[]
   nodes?: MeaningNode[]

@@ -8,6 +8,7 @@ import type { UnifiedWorkload } from './types.ts'
 
 export type { WorkloadAssertions, WorkloadEvidence } from './workload-evidence.ts'
 import type { WorkloadAssertions, WorkloadEvidence } from './workload-evidence.ts'
+import { declaredWorkloadIntent } from './workload-intent.ts'
 
 const ROOT = resolve(import.meta.dir, '../../..')
 const evidence = new Map<string, WorkloadEvidence>()
@@ -26,6 +27,7 @@ function collect(profile: 'smoke' | 'full', includeDiagnostics: boolean): Unifie
   const add = (workload: UnifiedWorkload, details: Omit<WorkloadEvidence, 'origins'> = {}): void => {
     if (!familyIds.has(workload.family)) return
     evidence.set(workload.id, { ...details, origins: [workload.provenance] })
+    if (!workload.intent) Object.assign(workload, declaredWorkloadIntent(details))
     if (!details.diagnosticOnly || includeDiagnostics) workloads.push(workload)
   }
   for (const family of BUILTIN_FAMILY_METADATA)
@@ -84,6 +86,8 @@ function collect(profile: 'smoke' | 'full', includeDiagnostics: boolean): Unifie
         const data = object(snapshot.data)
         const emptyDiagramExpected = (assertions?.nodeCount === 0 && assertions.edgeCount === 0 && assertions.groupCount === 0) || (Array.isArray(data.getPacket) && data.getPacket.length === 0) || (expected.kind === 'schedule' && Array.isArray(expected.tasks) && expected.tasks.length === 0)
         const parserOnly = expected.kind === 'parse'
+        const upstreamFiles = object(entry.upstream).files
+        const intent = declaredWorkloadIntent({ reference, expected, assertions, diagnosticOnly, parserOnly }, Array.isArray(upstreamFiles) ? upstreamFiles.filter((file): file is string => typeof file === 'string') : [])
         const id = typeof entry.id === 'string' ? entry.id : String(index)
         add(
           {
@@ -92,6 +96,7 @@ function collect(profile: 'smoke' | 'full', includeDiagnostics: boolean): Unifie
             source: entry.source,
             features: ['harvested-family-feature', id, ...Object.keys(expected).map(field => `expected:${field}`), ...Object.keys(declared).map(field => `asserted:${field}`)],
             provenance: `eval/${name}/cases.json#${id}`,
+            ...intent,
           },
           { ...(assertions ? { assertions } : {}), ...(Object.keys(reference).length ? { reference } : {}), ...(Object.keys(expected).length ? { expected } : {}), diagnosticOnly, parserOnly, emptyDiagramExpected, ...(assertions?.labelsContain ? { labelsContainScope: 'layout' as const } : {}) },
         )
@@ -128,6 +133,9 @@ function collect(profile: 'smoke' | 'full', includeDiagnostics: boolean): Unifie
       continue
     }
     prior.features = [...new Set([...prior.features, ...workload.features])]
+    // A shared source has a rendering promise when at least one owner supplied
+    // it as a complete positive diagram. A parser-only owner cannot remove it.
+    if (workload.intent === 'render') { prior.intent = workload.intent; prior.intentReason = workload.intentReason }
     prior.provenance += `; ${workload.provenance}`
     if (workload.expectedLabels) prior.expectedLabels = [...new Set([...(prior.expectedLabels ?? []), ...workload.expectedLabels])]
   }

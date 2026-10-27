@@ -349,3 +349,13 @@ test('candidate case changes retain blocked, unsupported, missing and newly meas
   expect(markdown).not.toContain('No case or family changed')
   for (const transition of ['`a`: passed → blocked', '`b`: passed → unsupported', '`c`: passed → skipped', '`d`: passed → not-applicable', '`e`: passed → not measured', '`g`: not measured → failed']) expect(markdown).toContain(transition)
 })
+
+test('resource diagnostics never become newly measured diagram cases in a candidate comparison', () => {
+  const release = record('release', base(), '1.0.0', { a: 'passed' })
+  const candidate = record('candidate', candidateOf(base(), 'c'.repeat(64)), '1.1.0-rc', { a: 'passed' })
+  candidate.observations.push({ ...row('renderer-process-tree', 'failed', '1.1.0-rc'), operation: 'process-memory', detail: 'Process tree snapshot unavailable' })
+  const markdown = renderCandidateComparison(candidate, release)
+  expect(markdown).toContain('No case or family changed')
+  expect(markdown).not.toContain('renderer-process-tree')
+  expect(markdown).toContain('100.0% (1/1) → 100.0% (1/1)')
+})

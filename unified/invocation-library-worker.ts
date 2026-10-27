@@ -2,7 +2,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { assertInvocationReceipt } from './invocation-receipt.ts'
+import { assertInvocationReceipt, assertResolvedSceneEnvelope } from './invocation-receipt.ts'
 import { qualifyStyleOutput, type StyleDisplayPlan, styleDisplayTransforms } from './style-qualification.ts'
 import type { BenchmarkObservation, UnifiedWorkload } from './types.ts'
 
@@ -26,6 +26,7 @@ interface Call {
   sourceOnly?: boolean
   meta?: boolean
   actions?: boolean
+  resolvedScene?: boolean
   displayTransforms?: StyleDisplayPlan
 }
 const job = JSON.parse(readFileSync(process.argv[2]!, 'utf8')) as Job,
@@ -62,9 +63,11 @@ function consumed(value: any, call?: Call) {
 function jsonSafe(_key: string, value: any) {
   return value instanceof Map ? [...value.entries()] : value instanceof Set ? [...value] : value
 }
-function qualify(w: UnifiedWorkload, artifact: unknown, format: string, call?: Call) {
+function qualify(w: UnifiedWorkload, artifact: unknown, format: string, call?: Call, value?: unknown) {
   if (!outputQualifier) throw Error('Independent qualifier unavailable')
-  return call?.displayTransforms ? qualifyStyleOutput(w, artifact, format, call.displayTransforms, outputQualifier).findings : outputQualifier(w, artifact, format).findings
+  const findings = call?.displayTransforms ? qualifyStyleOutput(w, artifact, format, call.displayTransforms, outputQualifier).findings : outputQualifier(w, artifact, format).findings
+  if (call?.resolvedScene) try { assertResolvedSceneEnvelope(value) } catch (error) { findings.push(String(error)) }
+  return findings
 }
 function changedSource(source: string, n: number) {
   const title = `accTitle: Invocation metadata ${n}`
@@ -96,6 +99,7 @@ try {
   if (typeof api.renderMermaidSVG === 'function') add('renderMermaidSVG', 'svg', s => api.renderMermaidSVG(s))
   if (typeof api.renderMermaidSVGAsync === 'function') add('renderMermaidSVGAsync', 'svg', s => api.renderMermaidSVGAsync(s))
   if (typeof api.renderMermaidSVGWithReceipt === 'function') add('renderMermaidSVGWithReceipt', 'svg', s => api.renderMermaidSVGWithReceipt(s), { receipt: true })
+  if (typeof api.renderResolvedScene === 'function') add('renderResolvedScene', 'svg', s => api.renderResolvedScene(s), { resolvedScene: true })
   if (typeof api.renderMermaidASCII === 'function') for (const useAscii of [true, false]) add(`renderMermaidASCII:${useAscii ? 'ascii' : 'unicode'}`, useAscii ? 'ascii' : 'unicode', s => api.renderMermaidASCII(s, { useAscii, colorMode: 'none' }))
   if (typeof api.renderMermaidASCIIWithReceipt === 'function') for (const useAscii of [true, false]) add(`renderMermaidASCIIWithReceipt:${useAscii ? 'ascii' : 'unicode'}`, useAscii ? 'ascii' : 'unicode', s => api.renderMermaidASCIIWithReceipt(s, { useAscii, colorMode: 'none' }), { receipt: true })
   if (typeof api.renderMermaidASCIIWithMeta === 'function') for (const useAscii of [true, false]) add(`renderMermaidASCIIWithMeta:${useAscii ? 'ascii' : 'unicode'}`, useAscii ? 'ascii' : 'unicode', s => api.renderMermaidASCIIWithMeta(s, { useAscii, colorMode: 'none' }), { meta: true })
@@ -152,7 +156,7 @@ try {
         start = performance.now(),
         initial = consumed(await call.run(input), call),
         initialMs = performance.now() - start,
-        findings = qualify(w, initial.artifact, call.format, call)
+        findings = qualify(w, initial.artifact, call.format, call, initial.value)
       if (firstArtifact) {
         row.metrics = { ...row.metrics, workerStartupThroughHelperAndFirstArtifactMs: performance.now(), startupScope: 'worker uptime includes job decoding, qualifier import and adapter discovery; not a pristine package-only cold metric' }
         firstArtifact = false
@@ -174,7 +178,7 @@ try {
           let last: any
           for (let i = 0; i < iterations; i++) last = consumed(await call.run(changed?.[sample * iterations + i] ?? input), call)
           row.samplesMs.push((performance.now() - begin) / iterations)
-          findings.push(...qualify(w, last.artifact, call.format, call))
+          findings.push(...qualify(w, last.artifact, call.format, call, last.value))
         }
         row.metrics = { ...row.metrics, iterations, sampleKind: 'per-call means; output validation after sample', changedInputScope: changed ? 'accessibility-title metadata; structural mutation is measured by family suite' : null }
       }

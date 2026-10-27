@@ -58,7 +58,7 @@ export function harnessIdentity(directory = portableDirectory) {
     return { kind: 'compiled-measurement-artifacts', files: data.files.filter(file => ['worker.mjs', 'execution.mjs'].includes(file.path)) }
   }
   const root = execFileSync('git', ['rev-parse', '--show-toplevel'], { cwd: directory, encoding: 'utf8' }).trim()
-  const paths = ['worker.mjs', 'execution.ts', 'cohorts.ts', 'fidelity.ts', 'protocol.ts', 'ci-policy.ts', 'mermaid-oracle.ts'].map(name => relative(root, join(directory, name)))
+  const paths = ['worker.mjs', 'execution.ts', 'cohorts.ts', 'fidelity.ts', 'layout-backend.ts', 'protocol.ts', 'ci-policy.ts', 'mermaid-oracle.ts'].map(name => relative(root, join(directory, name)))
   if (execFileSync('git', ['status', '--porcelain', '--', ...paths], { cwd: root, encoding: 'utf8' }).trim()) throw Error('Commit measured protocol files before collecting or reusing timings; use the compiled harness outside Git')
   const objects = execFileSync('git', ['ls-tree', '-r', 'HEAD', '--', ...paths], { cwd: root, encoding: 'utf8' })
     .trim()

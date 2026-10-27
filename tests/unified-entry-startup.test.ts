@@ -47,23 +47,55 @@ test('fresh public self-import uses the candidate, includes delayed initializati
   } finally { rmSync(root, { recursive: true, force: true }) }
 }, 20_000)
 
+test('resolved Scene startup consumes the public JSON sidecars and refuses a missing parts projection', async () => {
+  const root = mkdtempSync(join(tmpdir(), 'entry-resolved-scene-'))
+  try {
+    writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'agentic-mermaid', type: 'module', exports: { '.': './candidate.js' } }))
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>Start End</text></svg>'
+    const script = `export function renderResolvedScene(){return {version:1,family:'flowchart',width:100,height:40,svg:${JSON.stringify(svg)},colors:{bg:'#fff',fg:'#111'},frame:[],parts:[],payload:'x'.repeat(8192)}}`
+    writeFileSync(join(root, 'candidate.js'), script)
+    const options = { root, packageRoot: root, out: join(root, 'good'), rounds: 1, profile: 'smoke' as const, surfaces: ['library'] as const, nodeExecutable: 'node', bunExecutable: join(root, 'missing-bun'), observerExecutable: join(root, 'missing-observer') }
+    const prepared = await prepareEntryStartup(options)
+    expect(prepared.jobs.map(job => job.operation.id)).toEqual(['renderResolvedScene:svg'])
+    const good = await runEntryStartupSuite(options, prepared)
+    const first = good.observations.find(row => row.mode === 'process-to-first-consumed')!
+    expect(first.status).toBe('passed')
+    expect(first.bytes).toBeGreaterThan(svg.length + 8192)
+    writeFileSync(join(root, 'candidate.js'), script.replace('parts:[],', ''))
+    const bad = await runEntryStartupSuite({ ...options, out: join(root, 'bad') }, prepared)
+    expect(bad.observations.find(row => row.mode === 'process-to-first-consumed')?.status).toBe('failed')
+  } finally { rmSync(root, { recursive: true, force: true }) }
+}, 20_000)
+
+// The PNG fixture encodes opaque black/white RGBA pixels with valid chunks and
+// CRCs. It witnesses transport/content admission, not rendered label fidelity.
 test('browser startup consumes one first result in each fresh browser and keeps heap diagnostics in separate passes', async () => {
   const root = mkdtempSync(join(tmpdir(), 'entry-browser-'))
   try {
     writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'fixture', exports: { './browser': './global.js' } }))
-    writeFileSync(join(root, 'global.js'), `let calls=0;const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>Start End</text></svg>';function first(){if(++calls!==1)throw Error('Startup made a warmup call before the recorded result')}const receipt=output=>({version:1,output,requestDigest:'fixture'});var agenticMermaid={renderMermaidSVG(){first();return svg},async renderMermaidSVGAsync(){first();await new Promise(r=>setTimeout(r,25));return svg},renderMermaidSVGWithReceipt(){first();return{svg,receipt:receipt('svg'),metadata:{owner:'fixture'}}},renderMermaidASCIIWithReceipt(source,options){first();return{text:'Start --> End',receipt:receipt(options.useAscii?'ascii':'unicode')}},renderMermaidPNGInBrowserWithReceipt(){first();return{png:Uint8Array.from(atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl6gM0AAAAASUVORK5CYII='),c=>c.charCodeAt(0)),receipt:receipt('png')}}}`)
+    writeFileSync(join(root, 'global.js'), `let calls=0;const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>Start End</text></svg>';function first(){if(++calls!==1)throw Error('Startup made a warmup call before the recorded result')}const receipt=output=>({version:1,output,requestDigest:'fixture'});var agenticMermaid={renderResolvedScene(){first();return{version:1,family:'flowchart',width:100,height:40,svg,colors:{bg:'#fff',fg:'#111'},parts:[],frame:[]}},renderMermaidSVG(){first();return svg},async renderMermaidSVGAsync(){first();await new Promise(r=>setTimeout(r,25));return svg},renderMermaidSVGWithReceipt(){first();return{svg,receipt:receipt('svg'),metadata:{owner:'fixture'}}},renderMermaidASCIIWithReceipt(source,options){first();return{text:'Start --> End',receipt:receipt(options.useAscii?'ascii':'unicode')}},renderMermaidPNGInBrowserWithReceipt(){first();return{png:Uint8Array.from(atob('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAADklEQVR4nGNgYGD4DwIADvoE/EWwHYsAAAAASUVORK5CYII='),c=>c.charCodeAt(0)),receipt:receipt('png')}}}`)
     const workload = { id: 'browser-first', family: 'flowchart', source: 'flowchart LR\nA[Start] --> B[End]', expectedLabels: ['Start', 'End'], features: [], provenance: 'authored first-browser-call regression' }
     const result = await runInvocationBrowser({ root, harnessRoot: process.cwd(), out: join(root, 'out'), rounds: 1, profile: 'smoke', startupOnly: true, startupSamplesPerRound: 1, executable: chromiumExecutable }, [workload])
     const rows = result.rows.filter(value => value.mode === 'browser-launch-to-first-consumed')
-    expect(rows).toHaveLength(6)
+    expect(rows).toHaveLength(7)
     expect(rows.map(value => ({ status: value.status, detail: value.detail, findings: value.findings }))).toEqual(rows.map(() => ({ status: 'passed', detail: undefined, findings: [] })))
     expect(rows.every(value => value.samplesMs!.length === 1 && value.samplesMs![0]! >= Number(value.metrics!.firstInputMs))).toBe(true)
     expect(rows.every(value => Number(value.metrics!.launchToReadyMs) >= Number(value.metrics!.pageToReadyMs))).toBe(true)
     const diagnostic = result.rows.filter(value => value.mode === 'fresh-browser-resource')
-    expect(diagnostic).toHaveLength(6)
+    expect(diagnostic).toHaveLength(7)
     expect(diagnostic.every(value => value.samplesMs === undefined && value.status === 'passed')).toBe(true)
     const resource = result.artifacts.find(value => value.endsWith('svg-resource-payload.json'))!
-    expect(Object.keys(JSON.parse(readFileSync(resource, 'utf8')).heapSnapshots)).toEqual(['beforeTargetLoad', 'apiReady', 'afterConsumed', 'afterReleaseAfterGc'])
+    const diagnostics = JSON.parse(readFileSync(resource, 'utf8'))
+    expect(Object.keys(diagnostics.heapSnapshots)).toEqual(['beforeTargetLoad', 'apiReady', 'afterConsumed', 'afterReleaseAfterGc'])
+    expect(Object.keys(diagnostics.processMemorySnapshots)).toEqual(['beforeTargetLoad', 'apiReady', 'afterConsumed', 'afterReleaseAfterGc'])
+    const processRows = result.rows.filter(value => value.operation === 'process-memory')
+    expect(processRows).toHaveLength(7)
+    expect(processRows.every(value => value.samplesMs === undefined && value.metrics!.resourcePass === true)).toBe(true)
+    if (process.platform === 'linux') {
+      expect(diagnostics.processMemorySnapshots.afterReleaseAfterGc.status).toBe('measured')
+      expect(diagnostics.processMemorySnapshots.afterReleaseAfterGc.rssBytes).toBeGreaterThan(0)
+      expect(diagnostics.processMemorySnapshots.afterReleaseAfterGc.pssBytes).toBeGreaterThan(0)
+    }
     expect(Number(rows.find(value => value.operation === 'svg-async')!.metrics!.firstInputMs)).toBeGreaterThanOrEqual(15)
   } finally { rmSync(root, { recursive: true, force: true }) }
 }, 45_000)
@@ -128,7 +160,7 @@ test('MCP startup sends exactly one first real format call per fresh initialized
   try {
     const calls = join(root, 'calls.jsonl'), server = join(root, 'mcp.cjs')
     writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'fixture', bin: { 'fixture-mcp': 'mcp.cjs' } }))
-    writeFileSync(server, `const fs=require('node:fs');const alive=setInterval(()=>{},1000);process.stdin.on('end',()=>clearInterval(alive));let pending='';process.stdin.setEncoding('utf8');process.stdin.on('data',chunk=>{pending+=chunk;let nl;while((nl=pending.indexOf('\\n'))>=0){const line=pending.slice(0,nl);pending=pending.slice(nl+1);if(!line.trim())continue;const r=JSON.parse(line);if(r.id===undefined)continue;let result;if(r.method==='initialize')result={protocolVersion:r.params.protocolVersion,capabilities:{tools:{}},serverInfo:{name:'fixture',version:'1'}};else if(r.method==='tools/list')result={tools:['render_svg','render_ascii','render_png'].map(name=>({name,inputSchema:{type:'object',properties:{source:{type:'string'}}}}))};else if(r.method==='tools/call'){fs.appendFileSync(${JSON.stringify(calls)},JSON.stringify({pid:process.pid,name:r.params.name,args:r.params.arguments})+'\\n');const format=r.params.name==='render_svg'?'svg':r.params.name==='render_png'?'png':r.params.arguments.useAscii?'ascii':'unicode';const value=format==='svg'?{svg:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>Start End</text></svg>'}:format==='png'?{png_base64:'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl6gM0AAAAASUVORK5CYII='}:{text:'Start --> End'};value.receipt={version:1,output:format,requestDigest:'fixture'};result={content:[{type:'text',text:JSON.stringify(value)}]}}else result={};fs.writeSync(1,JSON.stringify({jsonrpc:'2.0',id:r.id,result})+'\\n')}});`)
+    writeFileSync(server, `const fs=require('node:fs');const alive=setInterval(()=>{},1000);process.stdin.on('end',()=>clearInterval(alive));let pending='';process.stdin.setEncoding('utf8');process.stdin.on('data',chunk=>{pending+=chunk;let nl;while((nl=pending.indexOf('\\n'))>=0){const line=pending.slice(0,nl);pending=pending.slice(nl+1);if(!line.trim())continue;const r=JSON.parse(line);if(r.id===undefined)continue;let result;if(r.method==='initialize')result={protocolVersion:r.params.protocolVersion,capabilities:{tools:{}},serverInfo:{name:'fixture',version:'1'}};else if(r.method==='tools/list')result={tools:['render_svg','render_ascii','render_png'].map(name=>({name,inputSchema:{type:'object',properties:{source:{type:'string'}}}}))};else if(r.method==='tools/call'){fs.appendFileSync(${JSON.stringify(calls)},JSON.stringify({pid:process.pid,name:r.params.name,args:r.params.arguments})+'\\n');const format=r.params.name==='render_svg'?'svg':r.params.name==='render_png'?'png':r.params.arguments.useAscii?'ascii':'unicode';const value=format==='svg'?{svg:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text>Start End</text></svg>'}:format==='png'?{png_base64:'iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAADklEQVR4nGNgYGD4DwIADvoE/EWwHYsAAAAASUVORK5CYII='}:{text:'Start --> End'};value.receipt={version:1,output:format,requestDigest:'fixture'};result={content:[{type:'text',text:JSON.stringify(value)}]}}else result={};fs.writeSync(1,JSON.stringify({jsonrpc:'2.0',id:r.id,result})+'\\n')}});`)
     const workload = { id: 'mcp-first', family: 'flowchart', source: 'flowchart LR\nA[Start] --> B[End]', expectedLabels: ['Start', 'End'], features: [], provenance: 'authored first-request regression' }
     const result = await runInvocationMcpStartup({ root, harnessRoot: process.cwd(), out: join(root, 'out'), rounds: 1, profile: 'smoke', startupOnly: true, startupSamplesPerRound: 1, startupRuntimes: [{ name: 'node', executable: 'node', version: 'test' }], startupMcpTransports: ['stdio'] }, [workload])
     const rows = result.rows.filter(value => value.mode === 'process-initialize-first-fully-consumed-tool')

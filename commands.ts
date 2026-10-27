@@ -19,6 +19,7 @@ Benchmark an installed artifact (Node 24):
 
 Setup and read evidence:
   node commands.ts mermaid:install [--dir DIRECTORY]
+  bun commands.ts upstream:prepare --runtime DIRECTORY [--source PINNED_SOURCE] [--reference ORACLE]
   node commands.ts fidelity:report --core REPORT [--community REPORT] --out DIRECTORY
   node commands.ts export --input FILE [--out FRESH_FILE]
 
@@ -64,7 +65,7 @@ async function main() {
   const aliases: Record<string, string> = { 'portable:build': 'build', community: 'community:update' }
   const selected = Object.hasOwn(aliases, command) ? aliases[command]! : command
   const neutral: Record<string, string> = { build: 'portable/build.ts', portable: 'portable/run.ts', 'fidelity:report': 'fidelity/report.ts' }
-  const own: Record<string, string> = { 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
+  const own: Record<string, string> = { 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts', 'upstream:prepare': 'unified/prepare-upstream.ts' }
   const checks: Record<string, string[]> = {
     test: ['test', '--timeout', '30000', '--parallel=2', ...standaloneTests()],
     typecheck: ['x', '--no-install', 'tsc', '--noEmit', '-p', resolve(directory, 'tsconfig.standalone.json')],
@@ -123,7 +124,7 @@ async function main() {
     if (!process.versions.bun) throw Error('Maintainer checks require Bun 1.4 or later')
     argv = checks[selected]!
   } else throw Error(`Unknown Trident command ${command}; use --help`)
-  assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !args.includes('--help') && !['build', 'fidelity:report', 'typecheck', 'lint', 'results:publish', 'results:compare'].includes(selected) })
+  assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !args.includes('--help') && !['build', 'fidelity:report', 'typecheck', 'lint', 'upstream:prepare', 'results:publish', 'results:compare'].includes(selected) })
   const result = spawnSync(executable, [...argv, ...args], { cwd, stdio: 'inherit' })
   if (result.error) throw result.error
   process.exitCode = result.status ?? 1

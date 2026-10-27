@@ -66,9 +66,23 @@ node /artifacts/trident-kit/run.mjs --project obsidianmd/pele \
 
 Copy the whole generated directory, including its manifest. It requires Node 24, the actual renderer artifact and the pinned oracle install; no Bun, Git or Trident `node_modules` is needed at runtime. Set `MERMAID_REFERENCE_DIR` for a nondefault install. `--allow-partial` permits incomplete diagnostics to produce a report; it does not turn them into a calibrated pass. See [portable methods](BENCHMARKS.md#portable-family-and-scaling).
 
+## Qualification and comparison
+
+Render inputs, parser-only fixtures and invalid/diagnostic sources retain their declared intent and actual pinned-Mermaid admission. Failed, blocked, unsupported and unavailable outcomes remain visible. PNG admission decodes the complete bounded image and checks nonblank pixels; readable labels and preserved relationships require separate authored meaning and owned-paint evidence.
+
+Compare the same public operation, requested result and runtime cohort. Fresh import/readiness, first consumed result, repeated-source work, process resources and delivered bytes are different measurements. A new export such as `renderResolvedScene` needs an actual installed-entry observation that consumes both its SVG and structured sidecar; finding its name in a package is insufficient. Source-adapter invocation/startup experiments keep their project-specific scope.
+
 ## Development and source adapters
 
 `bun commands.ts test`, `typecheck` and `lint` always check standalone Trident. Tests need the pinned oracle. To exercise optional real-browser tests, set `AM_BROWSER_TESTS=1` and, if needed, `AM_CHROMIUM_EXECUTABLE=/path/to/chromium`.
+
+The original pinned Mermaid runner has independent preparation:
+
+```sh
+bun commands.ts upstream:prepare --source /sources/mermaid --runtime /evidence/upstream-runtime --reference /evidence/mermaid-reference
+```
+
+Use a clean pinned Mermaid checkout and a dedicated runtime directory. Preparation installs declared dependencies and builds generated upstream pieces before measurements. It refuses to replace an existing different runtime; keep dependency changes in a fresh preparation and cohort.
 
 Some inherited diagnostics still import Agentic Mermaid source or exercise its product/editor contracts. They are isolated behind [the explicit source adapter](adapters/agentic/README.md); `bun commands.ts adapter --help` lists adapters. They are not prerequisites for community benchmarks and their scores cannot be credited to other projects. Legacy product launcher commands remain compatibility aliases, outside the public help.
 

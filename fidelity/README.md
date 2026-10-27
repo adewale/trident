@@ -137,3 +137,30 @@ browser/e2e source tests, complete custom paint/ownership, accessibility and
 perceptual/typographic review. Memory/startup belong to the existing separate
 resource protocols: document V8 heap is not whole-browser/native/GPU memory;
 leak slopes, concurrency and deployed/provider dollar costs remain incomplete.
+
+## Corpus intent and raster admission
+
+Community inputs now carry an owner-declared `intent` separately from observed
+pinned-parser acceptance. Imported parser tests remain parser workloads even
+when an adapter generated layout assertions for them. Explicit negative and
+diagnostic fixtures do not enter positive rendering counts. A historical
+reference failure alone never declares an intentionally invalid input.
+The positive-render ledger includes missing observations as unavailable and
+retains unknown historical declarations rather than inventing corrected scores.
+
+Owned paint checks include independently requested fill on every authored node
+and stroke color/width on every actual relation, alongside identities,
+multiplicity, routing, label ownership, clipping and font configuration.
+Agentic Event Modeling endpoints come from actual public `layoutMermaid` output;
+explicit frame sources, payloads and qualified names remain native facts. ZenUML
+call/return order is projected from its public typed statement tree. Missing
+public model projections remain unavailable for peers.
+
+Public PNG qualification checks complete chunks, CRCs, zlib scanlines and decoded
+paint, including legal low-bit-depth, sixteen-bit and Adam7 encodings. A blank
+or transparent image cannot satisfy a nonempty authored-label workload merely
+by returning a valid header. Qualification budgets are 64 MiB encoded, 16
+megapixels and 256 MiB inflated scanlines; exceeding a budget is an explicit
+admission limitation. Nonuniform raster content is neither OCR nor a topology,
+styling or perceptual-fidelity certificate. The dedicated SVG fidelity observer
+and native criteria remain separate from this PNG content witness.

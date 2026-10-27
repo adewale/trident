@@ -6,7 +6,7 @@ const required = (family: string) => policy.families.some(item => item.id === fa
 const relation = (source: string, target: string, label = '', directed = true): MeaningEdge => ({ source, target, label, directed })
 const nodes = (...ids: string[]) => ids.map(id => ({ id, label: id }))
 const authoredEdit: Record<string, [string, string]> = {
-  flowchart: ['Alpha', 'Alpha edited'], sequence: ['Alpha', 'Alpha edited'], class: ['Alpha', 'Renamed'], state: ['Alpha', 'Alpha edited'], er: ['ALPHA', 'RENAMED'], journey: ['Review', 'Inspect'], gantt: ['Design', 'Inspect'], pie: ['Alpha', 'Renamed'], quadrant: ['Alpha', 'Renamed'], requirement: ['Requests retain meaning', 'Requests stay intact'], gitgraph: ['Alpha', 'Renamed'], mindmap: ['Root', 'RevisedRoot'], sankey: ['Alpha', 'Renamed'], xychart: ['One', 'First'], block: ['Alpha', 'Renamed'], packet: ['Header', 'RevisedHeader'], kanban: ['Build', 'Inspect'], architecture: ['API', 'Gateway'], treemap: ['Alpha', 'Renamed'], ishikawa: ['Review', 'Inspect'],
+  flowchart: ['Alpha', 'Alpha edited'], sequence: ['Alpha', 'Alpha edited'], class: ['Alpha', 'Renamed'], state: ['Alpha', 'Alpha edited'], er: ['ALPHA', 'RENAMED'], journey: ['Review', 'Inspect'], gantt: ['Design', 'Inspect'], pie: ['Alpha', 'Renamed'], quadrant: ['Alpha', 'Renamed'], requirement: ['Requests retain meaning', 'Requests stay intact'], gitgraph: ['Alpha', 'Renamed'], mindmap: ['Root', 'RevisedRoot'], sankey: ['Alpha', 'Renamed'], xychart: ['One', 'First'], block: ['Alpha', 'Renamed'], packet: ['Header', 'RevisedHeader'], kanban: ['Build', 'Inspect'], architecture: ['API', 'Gateway'], treemap: ['Alpha', 'Renamed'], ishikawa: ['Review', 'Inspect'], eventmodeling: ['AlphaScreen', 'RevisedScreen'], zenuml: ['Alice', 'RenamedAlice'],
 }
 function replaceAuthored<T>(value: T, from: string, to: string): T {
   if (typeof value === 'string') return value.replaceAll(from, to) as T
@@ -15,6 +15,8 @@ function replaceAuthored<T>(value: T, from: string, to: string): T {
   return value
 }
 const basicFacts: Record<string, MeaningExpectation> = {
+  eventmodeling: { labels: [], nodes: [{ id: '01', label: 'AlphaScreen' }, { id: '02', label: 'BetaCommand' }, { id: '03', label: 'GammaEvent' }], edges: [relation('01', '02'), relation('02', '03')], facts: { 'frame-order': ['AlphaScreen', 'BetaCommand', 'GammaEvent'] } },
+  zenuml: { labels: [], nodes: nodes('Alice', 'John'), edges: [relation('Alice', 'John', 'Hello John, how are you?'), relation('John', 'Alice', 'Great!')], facts: { 'message-order': [{ from: 'Alice', to: 'John', text: 'Hello John, how are you?' }, { from: 'John', to: 'Alice', text: 'Great!' }] } },
   timeline: { labels: [], facts: { title: 'Delivery', periods: [{ section: '', label: '2026', events: ['Launch', 'Review'] }] } },
   journey: { labels: [], facts: { title: 'Delivery', tasks: [{ section: 'Plan', label: 'Review', score: 4, actors: ['Builder'] }] } },
   xychart: { labels: [], facts: { title: 'Series', 'x-categories': ['One', 'Two', 'Three'], 'y-range': [0, 10], series: [{ kind: 'bar', values: [3, 7, 5] }, { kind: 'line', values: [2, 6, 4] }] } },
@@ -33,6 +35,33 @@ const basicFacts: Record<string, MeaningExpectation> = {
 }
 
 const authored: Array<Omit<AuthoredFidelityCase, 'required' | 'provenance'>> = [
+  {
+    id: 'features:flowchart:owned-style-effect', family: 'flowchart', features: ['authored-node-fill', 'authored-edge-stroke', 'owned-style-effect'],
+    source: 'flowchart LR\nA[Alpha] --> B[Beta]\nstyle A fill:#ffcc00\nstyle B fill:#ffcc00\nlinkStyle default stroke:#225588,stroke-width:3px',
+    expected: { labels: ['Alpha', 'Beta'], nodes: [{ id: 'A', label: 'Alpha' }, { id: 'B', label: 'Beta' }], edges: [relation('A', 'B')] },
+    paint: { nodeFill: '#ffcc00', edgeStroke: '#225588', edgeStrokeWidth: 3 },
+  },
+  {
+    id: 'features:eventmodeling:explicit-sources-data', family: 'eventmodeling', features: ['qualified-entity-identities', 'explicit-source-ownership', 'reset-frames', 'inline-data-retention'],
+    source: 'eventmodeling\nrf 01 ui Cart.UI\nrf 02 cmd Cart.Add { productId: 7 }\nrf 03 evt Cart.Added ->> 02 { productId: 7 }\nrf 04 rmo Cart.Summary ->> 03',
+    expected: { labels: ['UI', 'Add', 'Added', 'Summary'], nodes: [{ id: '01', label: 'UI' }, { id: '02', label: 'Add' }, { id: '03', label: 'Added' }, { id: '04', label: 'Summary' }], edges: [relation('02', '03'), relation('03', '04')], facts: {
+      'frame-order': ['UI', 'Add', 'Added', 'Summary'],
+      'frame-content': [
+        { id: '01', entityType: 'ui', entity: 'Cart.UI', reset: true, sources: [], data: null, dataReference: null },
+        { id: '02', entityType: 'command', entity: 'Cart.Add', reset: true, sources: [], data: { text: ' productId: 7 ' }, dataReference: null },
+        { id: '03', entityType: 'event', entity: 'Cart.Added', reset: true, sources: ['02'], data: { text: ' productId: 7 ' }, dataReference: null },
+        { id: '04', entityType: 'readmodel', entity: 'Cart.Summary', reset: true, sources: ['03'], data: null, dataReference: null },
+      ],
+    } },
+  },
+  {
+    id: 'features:zenuml:nested-alternate-return', family: 'zenuml', features: ['nested-call-ownership', 'alternate-branches', 'return-endpoints', 'self-call', 'message-order'],
+    source: 'zenuml\nClient->API.checkout() {\n  if(available) {\n    Stock.reserve() {\n      return ticket\n    }\n  } else {\n    API.fail()\n  }\n  return receipt\n}',
+    expected: { labels: ['Client', 'API', 'Stock', 'checkout()', 'reserve()', 'ticket', 'fail()', 'receipt', 'available'], nodes: nodes('Client', 'API', 'Stock'), edges: [relation('Client', 'API', 'checkout()'), relation('API', 'Stock', 'reserve()'), relation('Stock', 'API', 'ticket'), relation('API', 'API', 'fail()'), relation('API', 'Client', 'receipt')], facts: {
+      'message-order': [{ from: 'Client', to: 'API', text: 'checkout()' }, { from: 'API', to: 'Stock', text: 'reserve()' }, { from: 'Stock', to: 'API', text: 'ticket' }, { from: 'API', to: 'API', text: 'fail()' }, { from: 'API', to: 'Client', text: 'receipt' }],
+      'message-modes': ['sync', 'sync', 'reply', 'sync', 'reply'], regions: [{ kind: 'alt', labels: ['available', 'else'] }],
+    } },
+  },
   {
     id: 'features:flowchart:nesting-parallel-unicode', family: 'flowchart', features: ['nested-groups', 'parallel-edges', 'reciprocal-edges', 'unicode-labels', 'relationship-labels'],
     source: 'flowchart TB\nsubgraph Outer[Outer group]\nsubgraph Inner[Inner group]\nA["工程"]\nB[Beta]\nend\nC[Gamma]\nend\nA -->|send| B\nA -->|again| B\nB -->|reply| A\nB -->|finish| C',

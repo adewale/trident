@@ -96,18 +96,20 @@ test('upstream census retains disabled/table/dynamic declarations without credit
     mkdirSync(join(root, 'packages/mermaid/src/docs/syntax'), { recursive: true })
     mkdirSync(join(root, 'packages/mermaid/src/diagrams/flowchart'), { recursive: true })
     mkdirSync(join(root, 'packages/parser/src'), { recursive: true })
+    mkdirSync(join(root, 'packages/mermaid-zenuml/src'), { recursive: true })
     writeFileSync(
       join(root, 'packages/mermaid/src/diagrams/flowchart/source.spec.ts'),
       "test.describe('group', () => { test('public', () => parse('flowchart LR\\nA-->B')); test.skip('disabled', () => parse('flowchart LR\\nC-->D')); test.each([1,2])('table', () => parse('flowchart LR\\nE-->F')); test('dynamic', () => parse(`flowchart ${direction}`)); test.step('helper', () => {}); });",
     )
     writeFileSync(join(root, 'packages/parser/src/parser.test.ts'), "it('parser helper', () => {});")
+    writeFileSync(join(root, 'packages/mermaid-zenuml/src/parser.spec.ts'), "it('plugin source', () => parse('zenuml\\nA->B: hello'));")
     execFileSync('git', ['init', '--quiet', root])
     execFileSync('git', ['-C', root, 'add', '.'])
     const result = inventoryUpstreamTests(root)
-    expect(result.counts.files).toBe(2)
-    expect(result.counts.declarations).toBe(5)
+    expect(result.counts.files).toBe(3)
+    expect(result.counts.declarations).toBe(6)
     expect(result.counts.disabledOrTodoDeclarations).toBe(1)
-    expect(result.counts.literalSources).toBe(3)
+    expect(result.counts.literalSources).toBe(4)
     expect(result.files.flatMap(file => file.declarations).map(row => row.name)).not.toContain('helper')
     expect(result.files.flatMap(file => file.declarations).map(row => row.name)).not.toContain('group')
   } finally {

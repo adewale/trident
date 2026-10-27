@@ -103,6 +103,7 @@ export function parseOptions(argv: string[]): RunnerOptions {
     'portable-artifact-root',
     'portable-adapter',
     'portable-observer',
+    'portable-layout-backends',
     'modern-editor-root',
     'community-prepared',
     'community-inputs',
@@ -137,6 +138,8 @@ export function parseOptions(argv: string[]): RunnerOptions {
   }
   const path = (key: string) => (options.has(key) ? resolve(options.get(key)!) : undefined)
   const selected = options.get('suites')?.split(',')
+  const portableLayoutBackends = options.get('portable-layout-backends')?.split(',') as RunnerOptions['portableLayoutBackends']
+  if (portableLayoutBackends && (new Set(portableLayoutBackends).size !== portableLayoutBackends.length || portableLayoutBackends.some(value => !['elk', 'agentic'].includes(value)))) throw Error('--portable-layout-backends needs unique elk,agentic selections')
   if (selected?.some(id => !id) || (selected && new Set(selected).size !== selected.length)) throw new Error('--suites needs unique nonempty comma-separated IDs')
   for (const name of ['candidate-sha256', 'baseline-sha256']) {
     const digest = options.get(name)
@@ -209,6 +212,7 @@ export function parseOptions(argv: string[]): RunnerOptions {
     portableArtifactRoot: path('portable-artifact-root'),
     portableAdapter: options.get('portable-adapter'),
     portableObserver: path('portable-observer'),
+    portableLayoutBackends,
     modernEditorRoot: path('modern-editor-root'),
     communityPreparedFile: path('community-prepared'),
     communityInputsFile: path('community-inputs'),

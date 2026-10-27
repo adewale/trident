@@ -7,7 +7,8 @@ import { entryImport, type InvocationOptions, invocationHarnessRoot, invocationR
 import { qualifyOutput } from './qualification.ts'
 import type { BenchmarkObservation, UnifiedWorkload } from './types.ts'
 import type { StartupInvocationOptions } from './entry-startup.ts'
-import { assertInvocationReceipt } from './invocation-receipt.ts'
+import { assertInvocationReceipt, assertResolvedSceneEnvelope } from './invocation-receipt.ts'
+import { browserProcessMemory, type BrowserProcessMemory } from './browser-process-memory.ts'
 
 export async function runInvocationBrowser(options: InvocationOptions & StartupInvocationOptions, workloads: UnifiedWorkload[]): Promise<{ rows: BenchmarkObservation[]; gaps: string[]; artifacts: string[] }> {
   const root = options.packageRoot ?? options.root,
@@ -76,6 +77,17 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
         continue
       }
       const supportedOperations = peer ? [surface === 'lazy' ? 'svg-async' : 'svg'] : surface === 'editor' ? ['input-preview'] : surface === 'lazy' ? ['svg', 'svg-receipt'] : surface === 'worker' ? ['preview', 'ascii', 'unicode', 'png'] : ['svg', 'svg-async', 'svg-receipt', 'ascii', 'unicode', 'png']
+      if (!peer && surface === 'global') {
+        // Capability discovery is outside fresh-browser clocks, like library
+        // namespace discovery. It never calls the rendering operation.
+        const probe = await chromium.launch({ headless: true, executablePath: options.executable ?? (existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : undefined) })
+        try {
+          const page = await probe.newPage()
+          await page.goto(origin + '/blank')
+          await page.addScriptTag({ url: origin + '/pkg/' + iife })
+          if (await page.evaluate(() => typeof (globalThis as any).agenticMermaid?.renderResolvedScene === 'function')) supportedOperations.push('resolved-scene')
+        } finally { await probe.close() }
+      }
       const iterations = Array.from({ length: options.rounds }, (_, index) => index + 1).flatMap<{ round: number; sample: number; requestedOperation: string | undefined; resourcePass: boolean }>(round => options.startupOnly ? Array.from({ length: options.startupSamplesPerRound ?? 1 }, (_, index) => index + 1).flatMap(sample => supportedOperations.flatMap(requestedOperation => (sample === 1 ? [false, true] : [false]).map(resourcePass => ({ round, sample, requestedOperation, resourcePass })))) : [{ round, sample: 1, requestedOperation: undefined, resourcePass: false }])
       for (const { round, sample, requestedOperation, resourcePass } of iterations) {
         const launchStart = performance.now()
@@ -85,10 +97,12 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
           page = await context.newPage(),
           errors: string[] = []
         const heapSnapshots: Record<string, unknown> = {}
+        const processMemorySnapshots: Record<string, BrowserProcessMemory> = {}
         const heapSnapshot = async (name: string) => {
           const session = await context.newCDPSession(page)
           heapSnapshots[name] = await session.send('Runtime.getHeapUsage')
           await session.detach()
+          processMemorySnapshots[name] = await browserProcessMemory(browser)
         }
         actualBrowser = `chromium:${browser.version()}`
         context.on('request', (request: any) => {
@@ -254,9 +268,9 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
               rows.push(row)
               continue
             }
-            const operations = requestedOperation ? [requestedOperation] : surface === 'lazy' ? ['svg', 'svg-receipt'] : surface === 'worker' ? ['preview', 'ascii', 'unicode', ...(options.profile === 'full' ? ['png'] : [])] : ['svg', 'svg-async', 'svg-receipt', 'ascii', 'unicode', ...(options.profile === 'full' ? ['png'] : [])]
+            const operations = requestedOperation ? [requestedOperation] : supportedOperations.filter(operation => operation !== 'png' || options.profile === 'full')
             for (const operation of operations) {
-              const format = operation === 'preview' || operation.startsWith('svg') ? 'svg' : operation,
+              const format = operation === 'preview' || operation === 'resolved-scene' || operation.startsWith('svg') ? 'svg' : operation,
                 row = invocationRow(`browser:${surface}`, w, operation, format, options.startupOnly ? resourcePass ? 'fresh-browser-resource' : 'browser-launch-to-first-consumed' : 'first-and-warm-consumed')
               row.metrics = { round, sample, clock: surface === 'worker' ? 'main thread request through message clone/worker reply and consumed artifact' : 'public API through consumed UTF8/receipt or PNG; subsequent validation excluded' }
               try {
@@ -286,7 +300,7 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
                     const call = () =>
                       peer ? operation === 'svg-async' ? api.renderAsync(source) : api.render(source) : surface === 'worker'
                         ? g.__invocationCall(operation, source)
-                        : operation === 'svg'
+                        : operation === 'resolved-scene' ? api.renderResolvedScene(source) : operation === 'svg'
                           ? api.renderMermaidSVG
                             ? api.renderMermaidSVG(source)
                             : api.renderMermaidSVGAsync(source)
@@ -309,19 +323,20 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
                         sidecars = artifactKey ? Object.fromEntries(Object.entries(value).filter(([key]) => key !== artifactKey)) : undefined,
                         metadata = sidecars ? new TextEncoder().encode(JSON.stringify(sidecars)) : undefined
                       g.__unifiedInvocationSink = [value, bytes, metadata]
-                      return { ms: performance.now() - started, artifact, bytes: bytes.length + (metadata?.length ?? 0), receipt: value?.receipt, receiptOutput: value?.receipt?.output }
+                      return { ms: performance.now() - started, artifact, bytes: bytes.length + (metadata?.length ?? 0), receipt: value?.receipt, receiptOutput: value?.receipt?.output, resolved: operation === 'resolved-scene' ? sidecars : undefined }
                     }
                     const first = await invoke()
-                    if (startupOnly) return { firstMs: first.ms, samples: [] as number[], bytes: first.bytes, artifacts: [first.artifact instanceof Uint8Array ? Array.from(first.artifact) : first.artifact], receipt: first.receipt, receiptOutput: first.receiptOutput }
+                    if (startupOnly) return { firstMs: first.ms, samples: [] as number[], bytes: first.bytes, artifacts: [first.artifact instanceof Uint8Array ? Array.from(first.artifact) : first.artifact], receipt: first.receipt, receiptOutput: first.receiptOutput, resolved: [first.resolved] }
                     await invoke()
                     const samples = [],
-                      artifacts = [first.artifact]
+                      artifacts = [first.artifact], resolved = [first.resolved]
                     for (let i = 0; i < 3; i++) {
                       const sample = await invoke()
                       samples.push(sample.ms)
                       artifacts.push(sample.artifact)
+                      resolved.push(sample.resolved)
                     }
-                    return { firstMs: first.ms, samples, bytes: first.bytes, artifacts: artifacts.map(artifact => (artifact instanceof Uint8Array ? Array.from(artifact) : artifact)), receipt: first.receipt, receiptOutput: first.receiptOutput }
+                    return { firstMs: first.ms, samples, bytes: first.bytes, artifacts: artifacts.map(artifact => (artifact instanceof Uint8Array ? Array.from(artifact) : artifact)), receipt: first.receipt, receiptOutput: first.receiptOutput, resolved }
                   },
                   { source: w.source, surface, operation, startupOnly: !!options.startupOnly, peer },
                 )
@@ -330,9 +345,13 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
                 if (options.startupOnly) Buffer.from(JSON.stringify(result))
                 const launchToFirstResultMs = performance.now() - launchStart
                 const checks = result.artifacts.map((artifact: unknown) => qualifyOutput(w, format === 'png' ? new Uint8Array(artifact as number[]) : artifact, format))
+                const resolvedFindings: string[] = []
+                if (operation === 'resolved-scene') for (let index = 0; index < result.artifacts.length; index++) {
+                  try { assertResolvedSceneEnvelope({ ...result.resolved[index], svg: result.artifacts[index] }) } catch (error) { resolvedFindings.push(String(error)) }
+                }
                 if (options.startupOnly && !peer && (surface === 'worker' || operation === 'svg-receipt' || operation === 'ascii' || operation === 'unicode' || operation === 'png')) assertInvocationReceipt(result.receipt, format)
-                row.status = checks.every((q: { ok: boolean }) => q.ok) ? 'passed' : 'failed'
-                row.findings = [...new Set(checks.flatMap((q: { findings: string[] }) => q.findings))] as string[]
+                row.status = checks.every((q: { ok: boolean }) => q.ok) && !resolvedFindings.length ? 'passed' : 'failed'
+                row.findings = [...new Set([...checks.flatMap((q: { findings: string[] }) => q.findings), ...resolvedFindings])] as string[]
                 row.samplesMs = resourcePass ? undefined : options.startupOnly ? [launchToFirstResultMs] : result.samples
                 row.bytes = result.bytes
                 row.metrics = { ...row.metrics, firstInputMs: result.firstMs, receiptOutput: result.receiptOutput ?? null, ...(options.startupOnly ? { independentFreshBrowser: true, launchToReadyMs, pageToReadyMs, clock: 'browser launch through navigation/module/API readiness and first complete artifact/all enumerable sidecars, including transfer to controller; prepared fixture HTTP server and subsequent qualification excluded' } : {}) }
@@ -350,8 +369,14 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
           const heap = await session.send('Runtime.getHeapUsage')
           await session.detach()
           if (resourcePass) heapSnapshots.afterReleaseAfterGc = heap
+          if (resourcePass || !options.startupOnly) {
+            const name = resourcePass ? 'afterReleaseAfterGc' : 'afterPortfolioAfterGc'
+            const memory = await browserProcessMemory(browser)
+            processMemorySnapshots[name] = memory
+            rows.push({ ...invocationRow(`browser:${surface}`, workloads[0]!, 'process-memory', 'memory', resourcePass ? 'fresh-browser-resource-processes' : 'after-portfolio-processes'), family: '*', caseId: 'browser-process-memory', status: memory.status === 'measured' ? 'passed' : 'blocked', metrics: { round, sample, requestedOperation: requestedOperation ?? null, resourcePass, checkpoint: name, rssBytes: memory.rssBytes, pssBytes: memory.pssBytes, processCount: memory.processes.length, memoryStatus: memory.status, scope: memory.scope }, ...(memory.detail ? { detail: memory.detail } : {}) })
+          }
           rows.push({ ...invocationRow(`browser:${surface}`, workloads[0]!, 'heap-checkpoint', 'memory', options.startupOnly ? resourcePass ? 'fresh-browser-resource-heap' : 'post-first-output-held-heap' : 'after-portfolio'), family: '*', caseId: 'browser-memory', metrics: { round, sample, requestedOperation: requestedOperation ?? null, resourcePass, checkpoint: options.startupOnly ? resourcePass ? 'after-consumer-sink-release-and-GC' : 'output-held-after-GC' : 'after-portfolio-and-GC', usedSize: heap.usedSize, totalSize: heap.totalSize, scope: 'main document V8 heap only; worker/native/GPU/whole-process peak excluded; module/renderer state remains' + (surface === 'editor' ? '; editor preview DOM continues to own rendered SVG' : '') } })
-          const report = { surface, round, sample, resourcePass, heapSnapshots, initial: payload(new Set(initial)), allFamilies: payload(fetched), browser: browser.version(), errors }
+          const report = { surface, round, sample, resourcePass, heapSnapshots, processMemorySnapshots, initial: payload(new Set(initial)), allFamilies: payload(fetched), browser: browser.version(), errors }
           const path = join(out, `${surface}-${round}-${sample}-${requestedOperation ?? 'portfolio'}-${resourcePass ? 'resource' : 'latency'}-payload.json`)
           writeFileSync(path, JSON.stringify(report, null, 2))
           artifacts.push(path)
@@ -374,8 +399,8 @@ export async function runInvocationBrowser(options: InvocationOptions & StartupI
     await new Promise<void>(resolve => server.close(() => resolve()))
   }
   gaps.push(
-    'Browser Canvas PNG checks binary dimensions/encoding; text legibility, correspondence and geometry are qualified by owning family/rendering suites, not PNG signature alone.',
-    'Browser memory checkpoint covers document V8 heap only; worker/native/GPU/process peak memory is not claimed.',
+    'PNG qualification validates chunks/scanlines and decodes supported raster content; blank content with declared labels is rejected. This is not OCR, text legibility, semantic topology or perceptual equality; those remain owning family/rendering criteria.',
+    'Document V8 heap and Linux Chromium process RSS/PSS are separate checkpoints. Process totals include resident native/WASM/worker allocations where Chromium reports the process; device GPU memory, API-only attribution and process peaks remain unavailable. Missing process mappings invalidate the aggregate rather than becoming zero.',
     'Browser API timings exclude subsequent SVG insertion/paint; editor timings include current preview DOM and two animation frames, which are not a pixel-paint proof.',
     'Actual worker and editor artifacts come from the target website build, distinct from package-only delivery.',
     'Full editor profile exercises an eight-input burst and verifies latest artifact/receipt authority; explicit worker cancellation and scheduler race interleavings require owning preview-session tests. Structural growth/revisit is bounded to flowchart/state persistent library sessions; cache-capacity eviction is not proved.',

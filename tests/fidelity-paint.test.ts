@@ -104,6 +104,19 @@ test('requested font size is checked on every authored text run rather than one 
   expect(wrong.checks.find(item => item.criterion === 'computed-authored-font-size')?.status).toBe('failed')
 })
 
+test('owned node fill and edge stroke effects cannot be satisfied by unrelated matching decorations', async () => {
+  const styled = fixture.replaceAll('fill="white" stroke="black"', 'fill="#ffcc00" stroke="black"').replace('fill="none" stroke="black" marker-end', 'fill="none" stroke="#225588" stroke-width="3" marker-end')
+  const paint = { nodeFill: '#ffcc00', edgeStroke: '#225588', edgeStrokeWidth: 3 }
+  expect((await inspect(styled, expected, { paint })).passed).toBe(true)
+  const omittedFill = await inspect(styled.replace('fill="#ffcc00"', 'fill="white"') + '<svg><rect fill="#ffcc00"/></svg>', expected, { paint })
+  expect(omittedFill.checks.find(item => item.criterion === 'computed-owned-node-fill')?.status).toBe('failed')
+  const transparentFill = await inspect(styled.replace('fill="#ffcc00"', 'fill="#ffcc00" fill-opacity="0"'), expected, { paint })
+  expect(transparentFill.checks.find(item => item.criterion === 'computed-owned-node-fill')?.status).toBe('failed')
+  const omittedStroke = await inspect(styled.replace('stroke-width="3"', 'stroke-width="1"'), expected, { paint })
+  expect(omittedStroke.checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('passed')
+  expect(omittedStroke.checks.find(item => item.criterion === 'computed-owned-edge-style')?.status).toBe('failed')
+})
+
 test('barbed four-vertex arrows are concave directional heads rather than convex cardinality diamonds', async () => {
   const barb = fixture.replace('M0 0 L6 3 L0 6 Z', 'M6 3 L0 6 L2 3 L0 0 Z')
   expect((await inspect(barb, expected, { family: 'state' })).checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('passed')
@@ -112,7 +125,7 @@ test('barbed four-vertex arrows are concave directional heads rather than convex
 
 test('actual sequence messages exclude painted actor lifelines and nested outlines retain node ownership', async () => {
   const sequence = fixture.replace('height="80" viewBox="0 0 240 80"', 'height="100" viewBox="0 0 240 100"').replace('<g class="edge"><path d="M70 25 L150 25" fill="none" stroke="black" marker-end="url(#arrow)"/></g>', '<line class="lifeline" x1="40" y1="40" x2="40" y2="95" stroke="black"/><line class="lifeline" x1="180" y1="40" x2="180" y2="95" stroke="black"/><g class="message"><line x1="40" y1="60" x2="180" y2="60" stroke="black" marker-end="url(#arrow)"/></g>')
-  expect((await inspect(sequence, expected, { family: 'sequence' })).checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('passed')
+  for (const family of ['sequence', 'zenuml']) expect((await inspect(sequence, expected, { family })).checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('passed')
   const nested = fixture.replace(/(<rect\b[^>]*\/>)/g, '<g class="outer-path">$1</g>')
   expect((await inspect(nested, expected, { family: 'class' })).checks.find(item => item.criterion === 'painted-node-ownership')?.status).toBe('passed')
 })

@@ -11,6 +11,16 @@ import { withAgenticWorkspace } from '../adapters/agentic/workspace.ts'
 import { writeBenchmarkDocument } from '../portable/project-records.ts'
 import { parseOptions, testCounts } from '../unified/run.ts'
 import { benchmarkSuites } from '../unified/suites.ts'
+import { prepareUpstream } from '../unified/prepare-upstream.ts'
+
+test('original-runner preparation refuses a different source before installing or writing a runtime', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'trident-prepare-admission-'))
+  try {
+    const runtime = join(directory, 'runtime')
+    expect(() => prepareUpstream(resolve(import.meta.dir, '..'), runtime, '/reference-must-not-be-read')).toThrow('clean pinned Mermaid source')
+    expect(existsSync(runtime)).toBe(false)
+  } finally { rmSync(directory, { recursive: true, force: true }) }
+})
 
 test('a copied Trident package builds relative outputs and runs its compiled worker without Agentic source, docs or Git', () => {
   const directory = mkdtempSync(join(tmpdir(), 'trident-copied-package-')),
@@ -240,6 +250,9 @@ describe('unified benchmark CLI preflight', () => {
     expect(() => parseOptions(['--out'])).toThrow('Invalid option')
     expect(() => parseOptions(['--baseline', '/tmp/base', '--baseline-npm', 'latest'])).toThrow('not both')
     expect(() => parseOptions(['--baseline-lock', '/tmp/lock.json', '--baseline-tarball', '/tmp/base.tgz'])).toThrow('not both')
+    expect(() => parseOptions(['--portable-layout-backends', 'elk,elk'])).toThrow('unique elk,agentic')
+    expect(() => parseOptions(['--portable-layout-backends', 'automatic'])).toThrow('unique elk,agentic')
+    expect(parseOptions(['--portable-layout-backends', 'elk,agentic']).portableLayoutBackends).toEqual(['elk', 'agentic'])
   })
   test('retains different target, installed artifact and output roots', () => {
     const options = parseOptions(['--target', '/tmp/source candidate', '--package-root', '/tmp/installed package', '--out', '/tmp/evidence', '--ownership-site', '/tmp/frozen ownership pair', '--profile', 'full', '--suites', 'family,invocation'])
@@ -269,6 +282,22 @@ describe('unified benchmark CLI preflight', () => {
 })
 
 describe('unified suite execution lifecycle', () => {
+  test('the extracted peer qualifier executes from Trident with explicit candidate runtime policy', async () => {
+    const { runUnified } = await import('../unified/run.ts')
+    const directory = mkdtempSync(join(tmpdir(), 'trident-extracted-qualifier-'))
+    try {
+      for (const path of ['src/__tests__', 'docs/project', 'eval/mermaid-upstream-suite-bench', 'eval/benchmark', 'candidate']) mkdirSync(join(directory, path), { recursive: true })
+      writeFileSync(join(directory, 'docs/project/upstream-mermaid-policy.json'), JSON.stringify({ pin: { version: 'fixture', commit: 'fixture' } }))
+      writeFileSync(join(directory, 'eval/mermaid-upstream-suite-bench/manifest.json'), JSON.stringify({ upstream: { revision: 'fixture' } }))
+      writeFileSync(join(directory, 'package.json'), JSON.stringify({ scripts: { 'bench:modern-summary': 'bun run missing-summary.mjs' } }))
+      writeFileSync(join(directory, 'eval/benchmark/qualify-peer-performance.ts'), `import {writeFileSync} from 'node:fs';writeFileSync(process.env.AM_BENCH_SUITE_OUT+'/report.json',JSON.stringify({status:'passed',runtimeSource:process.argv[process.argv.indexOf('--runtime-source')+1]}))`)
+      const options = { ...parseOptions(['--out', join(directory, 'out'), '--suites', 'peers:qualify', '--candidate-tarball', '/candidate.tgz', '--candidate-sha256', 'a'.repeat(64), '--baseline-tarball', '/baseline.tgz', '--baseline-sha256', 'b'.repeat(64)]), harnessRoot: directory, root: join(directory, 'candidate') }
+      const result = await runUnified(options)
+      expect(result.status).toBe('passed')
+      expect(JSON.parse(readFileSync(join(options.out, 'peers-qualify/report.json'), 'utf8')).runtimeSource).toBe(options.root)
+      await expect(runUnified({ ...options, out: join(directory, 'reports-only'), selected: ['modern-summary'] })).rejects.toThrow('Unknown suites: modern-summary')
+    } finally { rmSync(directory, { recursive: true, force: true }) }
+  })
   test('continues after a timeout and retains both failures and later evidence', async () => {
     const { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync, existsSync } = await import('node:fs')
     const { tmpdir } = await import('node:os')

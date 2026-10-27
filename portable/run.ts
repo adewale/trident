@@ -5,7 +5,7 @@ import { randomUUID } from 'node:crypto'
 import { appendFileSync, existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, rmSync, writeFileSync, openSync, closeSync, unlinkSync } from 'node:fs'
 import { join, resolve, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { FAMILY_SUPPORT_PROTOCOL, familySupportProbe, portableCases, PORTABLE_COHORT_PROTOCOL, type PortableCase, type PortableCohort } from './cohorts.ts'
+import { FAMILY_SUPPORT_PROTOCOL, familySupportProbe, layoutBackendCases, portableCases, PORTABLE_COHORT_PROTOCOL, type PortableCase, type PortableCohort } from './cohorts.ts'
 import { environmentIdentity } from './environment.ts'
 import { artifactIdentity, byteDigest, harnessIdentity, portableDirectory, readJson, resolveArtifact } from './artifacts.ts'
 import { activateProjectRecord, findProjectRecord, inspectCurrentProjectRecords, publishProjectRecord, writeProjectBenchmarkRecord, stableValue, type ProjectBenchmarkIdentity, type ProjectBenchmarkRecord } from './project-records.ts'
@@ -33,6 +33,7 @@ export interface PortableOptions {
   preparationConcurrency: number
   maximumControlSpread: number
   cohorts?: PortableCohort[]
+  layoutBackends?: ('elk' | 'agentic')[]
   observer?: string
   mermaidReference?: string
   usage?: string
@@ -46,7 +47,7 @@ import { assertBenchmarkExecutionAllowed as assertPortableLocal } from './ci-pol
 export function parsePortableOptions(argv: string[]): PortableOptions {
   const flags = new Set(['--force', '--plan', '--allow-partial']),
     values = new Map<string, string>()
-  const allowed = new Set(['project', 'artifact-root', 'adapter', 'entry', 'node', 'out', 'records', 'rounds', 'samples', 'cold-samples', 'min-sample-ms', 'preparation-concurrency', 'maximum-control-spread', 'cohort', 'observer', 'mermaid-reference', 'usage', 'cpu-hour-usd'])
+  const allowed = new Set(['project', 'artifact-root', 'adapter', 'entry', 'node', 'out', 'records', 'rounds', 'samples', 'cold-samples', 'min-sample-ms', 'preparation-concurrency', 'maximum-control-spread', 'cohort', 'layout-backends', 'observer', 'mermaid-reference', 'usage', 'cpu-hour-usd'])
   for (let index = 0; index < argv.length; index++) {
     const flag = argv[index]!
     if (values.has(flag)) throw Error('Duplicate option ' + flag)
@@ -73,6 +74,8 @@ export function parsePortableOptions(argv: string[]): PortableOptions {
   if (!['pele', 'agentic', 'beautiful', 'ondine'].includes(adapter)) throw Error('Unsupported public Node SVG adapter')
   const cohorts = values.has('--cohort') ? (values.get('--cohort')!.split(',') as PortableCohort[]) : undefined
   if (cohorts?.some(cohort => !['family', 'scaling', 'adversarial', 'invalid'].includes(cohort)) || (cohorts && new Set(cohorts).size !== cohorts.length)) throw Error('Unknown or repeated cohort')
+  const layoutBackends = values.has('--layout-backends') ? values.get('--layout-backends')!.split(',') as ('elk' | 'agentic')[] : undefined
+  if (layoutBackends && (adapter !== 'agentic' || !layoutBackends.length || new Set(layoutBackends).size !== layoutBackends.length || layoutBackends.some(backend => !['elk', 'agentic'].includes(backend)))) throw Error('--layout-backends requires the agentic adapter and unique elk,agentic selections')
   return {
     project: values.get('--project')!,
     artifactRoot: resolve(values.get('--artifact-root')!),
@@ -88,6 +91,7 @@ export function parsePortableOptions(argv: string[]): PortableOptions {
     preparationConcurrency: integer('--preparation-concurrency', 8),
     maximumControlSpread: decimal('--maximum-control-spread', 0.25),
     cohorts,
+    layoutBackends,
     observer: values.has('--observer') ? resolve(values.get('--observer')!) : defaultTimeObserver(),
     mermaidReference: values.has('--mermaid-reference') ? resolve(values.get('--mermaid-reference')!) : undefined,
     usage: values.has('--usage') ? resolve(values.get('--usage')!) : undefined,
@@ -132,7 +136,8 @@ export async function runPortable(options: PortableOptions) {
   if (options.mermaidReference) process.env.MERMAID_REFERENCE_DIR = options.mermaidReference
   assertPortableLocal()
   resetPortableCancellation()
-  const testCases = portableCases(options.cohorts),
+  if (options.layoutBackends && options.adapter !== 'agentic') throw Error('Explicit layout-backend cases require the Agentic public receipt API')
+  const selectedCases = portableCases(options.cohorts), testCases = options.layoutBackends ? layoutBackendCases(selectedCases, options.layoutBackends) : selectedCases,
     artifact = resolveArtifact(options.project, options.artifactRoot, options.adapter, options.node, options.entry)
   assertBenchmarkToolVersion(options.project, artifact.version, 'portable SVG artifact')
   if (!testCases.length) throw Error('No selected cases')
@@ -160,6 +165,7 @@ export async function runPortable(options: PortableOptions) {
     coldScope: 'Concurrent import preparation behind an idle barrier; one measured API call at a time and complete child exit before the next',
     memoryScope: 'Separate serial fresh processes; API snapshots precede qualification, GNU time describes the whole worker',
     retentionCalls: [0, 10, 100, 1000],
+    ...(options.layoutBackends ? { layoutBackends: options.layoutBackends, backendScope: 'Agentic graph families only, identical authored source per engine, fallback:none; public SVG-with-receipt API and complete enumerable sidecars consumed inside timing; every emitted decision checked outside timing. Missing decisions/ignored options do not earn backend-specific timing credit.' } : {}),
   }
   const identity: ProjectBenchmarkIdentity = jsonValue({
     project: options.project,

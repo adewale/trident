@@ -50,7 +50,7 @@ export function mermaidDocsWorkloads(upstream: string): { upstream: NonNullable<
       seen.add(source)
       const id = `docs:${family}:${index}`
       if (!smoke.some(entry => entry.startsWith(`docs:${family}:`))) smoke.push(id)
-      workloads.push({ id, family, source, features: ['mermaid-syntax-docs-example'], provenance: `${tag}:${file}#${index}`, evidence: null })
+      workloads.push({ id, family, source, features: ['mermaid-syntax-docs-example'], provenance: `${tag}:${file}#${index}`, intent: 'render', intentReason: 'Complete example from the pinned Mermaid syntax documentation', evidence: null })
     })
     if (!seen.size) throw Error(`${tag}:${file} has no Mermaid examples`)
   }
@@ -76,7 +76,7 @@ export function importCommunityCorpus(agentic: string, out = corpusFile, upstrea
     return JSON.parse(result.stdout) as AgenticWorkloads
   })
   const docs = mermaidDocsWorkloads(upstream)
-  const external = requiredExternalFamilyCases().map(testCase => ({ id: testCase.id, family: testCase.family, source: testCase.source, expectedLabels: testCase.expected.labels, features: ['authored-required-external-family'], provenance: 'Independent authored required external family representative; full semantics remain in the dedicated fidelity suite', evidence: null }))
+  const external = requiredExternalFamilyCases().map(testCase => ({ id: testCase.id, family: testCase.family, source: testCase.source, expectedLabels: testCase.expected.labels, features: ['authored-required-external-family'], provenance: 'Independent authored required external family representative; full semantics remain in the dedicated fidelity suite', intent: 'render' as const, intentReason: 'Independently authored complete required-family representative', evidence: null }))
   const corpus: CommunityCorpus = {
     schemaVersion: 1,
     source: { repository: 'adewale/agentic-mermaid', commit, dirty: false },

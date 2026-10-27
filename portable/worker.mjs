@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
 import { qualifyPortable } from './fidelity.ts'
+import { layoutBackendCheck } from './layout-backend.ts'
 import { assertBenchmarkExecutionAllowed } from './ci-policy.ts'
 
 assertBenchmarkExecutionAllowed()
@@ -18,7 +19,7 @@ function collect() { if (global.gc) { global.gc(); global.gc() } }
 try {
   const module = await import(pathToFileURL(job.artifact.entry).href)
   const api = module.default && typeof module.default === 'object' ? { ...module.default, ...module } : module
-  const rendering = job.artifact.adapter === 'agentic' ? api.renderMermaidSVG : job.artifact.adapter === 'beautiful' ? api.renderMermaidSVG ?? api.renderMermaidSync ?? api.renderMermaid : api.render
+  const rendering = job.testCase.layoutBackend ? api.renderMermaidSVGWithReceipt : job.artifact.adapter === 'agentic' ? api.renderMermaidSVG : job.artifact.adapter === 'beautiful' ? api.renderMermaidSVG ?? api.renderMermaidSync ?? api.renderMermaid : api.render
   if (typeof rendering !== 'function') throw Error('Declared public SVG renderer is unavailable')
   result.importMs = Number(process.hrtime.bigint() - started) / 1e6
   // Parent starts first-use calls only after every prepared process is idle.
@@ -38,24 +39,39 @@ try {
       const svg = typeof value === 'string' ? value : value?.svg
       if (typeof svg !== 'string') throw Error('Public renderer did not return SVG text')
       bytes = Buffer.byteLength(svg, 'utf8')
+      if (job.testCase.layoutBackend) {
+        const { svg: _svg, ...sidecars } = value
+        bytes += Buffer.byteLength(JSON.stringify(sidecars), 'utf8')
+      }
     } catch (caught) { error = errorText(caught) }
     const elapsedMs = clock() - begin
     if (recordWindow) result.apiWindow = { startNs, endNs: process.hrtime.bigint().toString() }
     return { value, error, bytes, elapsedMs }
   }
   const testCase = job.testCase
+  const qualify = (expectedCase, rendered, model) => {
+    const svg = typeof rendered.value === 'string' ? rendered.value : rendered.value?.svg
+    const qualification = qualifyPortable(expectedCase, { svg, model, error: rendered.error, adapter: job.artifact.adapter })
+    if (expectedCase.layoutBackend) {
+      const selection = layoutBackendCheck(rendered.value?.receipt, expectedCase.layoutBackend)
+      qualification.checks.push(selection)
+      if (selection.status !== 'passed') { qualification.passed = false; qualification.semanticComplete = false }
+    }
+    return qualification
+  }
   const admitted = []
   const inspect = async (rendered, expectedCase, source) => {
     const svg = typeof rendered.value === 'string' ? rendered.value : rendered.value?.svg
-    const previous = typeof svg === 'string' && admitted.find(item => item.expected === expectedCase.expected && item.svg === svg)
+    const decisions = expectedCase.layoutBackend ? JSON.stringify(rendered.value?.receipt?.layoutDecisions ?? null) : undefined
+    const previous = typeof svg === 'string' && admitted.find(item => item.expected === expectedCase.expected && item.svg === svg && item.decisions === decisions)
     if (previous) return previous.qualification
     let model
     if (!rendered.error && typeof api.parse === 'function') { try { model = api.parse(source); if (thenable(model)) model = await model } catch {} }
-    const qualification = qualifyPortable(expectedCase, { svg, model, error: rendered.error, adapter: job.artifact.adapter })
+    const qualification = qualify(expectedCase, rendered, model)
     if (qualification.checks.some(check => check.status === 'failed')) {
       result.status = 'failed'; result.error ??= 'A consumed SVG return failed its declared checks'; result.qualification = qualification
     } else if (typeof svg === 'string') {
-      admitted.push({ expected: expectedCase.expected, svg, qualification })
+      admitted.push({ expected: expectedCase.expected, svg, qualification, decisions })
       if (admitted.length > 4) admitted.shift()
     }
     return qualification
@@ -145,7 +161,7 @@ try {
       const rendered = await invoke(testCase.edit.source, testCase.edit.renderOptions ?? testCase.renderOptions)
       let model
       if (!rendered.error && typeof api.parse === 'function') { try { model = api.parse(testCase.edit.source); if (thenable(model)) model = await model } catch {} }
-      const checked = qualifyPortable({ ...testCase, source: testCase.edit.source, expected: testCase.edit.expected, renderOptions: testCase.edit.renderOptions ?? testCase.renderOptions }, { svg: typeof rendered.value === 'string' ? rendered.value : rendered.value?.svg, model, error: rendered.error, adapter: job.artifact.adapter })
+      const checked = qualify({ ...testCase, source: testCase.edit.source, expected: testCase.edit.expected, renderOptions: testCase.edit.renderOptions ?? testCase.renderOptions }, rendered, model)
       if (checked.checks.some(check => check.status === 'failed')) { result.status = 'failed'; result.error = 'Edited output failed declared checks'; result.qualification = checked }
     }
     retained = await invoke(testCase.source, testCase.renderOptions)
@@ -156,7 +172,7 @@ try {
     let model
     if (!retained.error && typeof api.parse === 'function') { try { model = api.parse(testCase.source); if (thenable(model)) model = await model } catch {} }
     const svg = typeof retained.value === 'string' ? retained.value : retained.value?.svg
-    const qualification = qualifyPortable(testCase, { svg, model, error: retained.error, adapter: job.artifact.adapter })
+    const qualification = qualify(testCase, retained, model)
     result.qualification ??= qualification
     if (result.status !== 'failed') result.status = qualification.checks.some(check => check.status === 'failed') || !result.prelude.every(item => item.passed) ? 'failed' : qualification.passed ? 'passed' : 'partial'
     if (job.svgFile && typeof svg === 'string') writeFileSync(job.svgFile, svg, { flag: 'wx' })

@@ -38,6 +38,7 @@ function availableOperations(api) {
   collect(api)
   for (const name of ['createMermaidRenderer', 'createMermaidPNGRenderer']) if (typeof api[name] === 'function') collect(api[name](), name)
   if (typeof api.layoutMermaidWithReceipt === 'function') operations.push({ id: 'layoutMermaidWithReceipt:layout', name: 'layoutMermaidWithReceipt', format: 'layout', factory: null, receipt: true })
+  if (typeof api.renderResolvedScene === 'function') operations.push({ id: 'renderResolvedScene:svg', name: 'renderResolvedScene', format: 'svg', factory: null, receipt: false, resolvedScene: true })
   if (job.adapter === 'pele') {
     if (typeof api.render === 'function') operations.push({ id: 'render:svg', name: 'render', format: 'svg', factory: null, receipt: false })
     if (typeof api.renderAsync === 'function') operations.push({ id: 'renderAsync:svg', name: 'renderAsync', format: 'svg', factory: null, receipt: false })

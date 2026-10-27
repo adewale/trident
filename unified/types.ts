@@ -33,6 +33,7 @@ export interface UnifiedRunOptions {
   portableArtifactRoot?: string
   portableAdapter?: string
   portableObserver?: string
+  portableLayoutBackends?: ('elk' | 'agentic')[]
   modernEditorRoot?: string
   communityCoverageOnce?: boolean
   /** Explicit partial output lane; absent means every bound output. */

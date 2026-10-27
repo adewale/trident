@@ -43,6 +43,12 @@ function flowchartSubgraphs(groups: number, perGroup: number): string {
 // A new native family must supply a real scaling workload at this owning
 // boundary. The type closes enrollment without a second family inventory.
 const WORKLOADS = {
+  eventmodeling: [{ id: '120-linked-frames', source: lines('eventmodeling', 120, i => {
+    const types = ['ui', 'cmd', 'evt', 'rmo']
+    const id = String(i + 1).padStart(3, '0')
+    return `rf ${id} ${types[i % 4]} Shop.Step${i}${i ? ` ->> ${String(i).padStart(3, '0')}` : ''}`
+  }), expectedSvgLabels: Array.from({ length: 120 }, (_, i) => `Step${i}`) }],
+  zenuml: [{ id: '120-calls-and-returns', source: lines('zenuml\n@Actor Client\nAPI', 120, i => `Client->API.work${i}() { return receipt${i} }`), expectedSvgLabels: Array.from({ length: 120 }, (_, i) => `receipt${i}`) }],
   // Scale variable-width bit encoding with complete field names; narrow flag
   // wrapping has separate family tests. Authored bitWidth keeps one-bit names
   // readable without changing the encoded inclusive ranges or label oracle.

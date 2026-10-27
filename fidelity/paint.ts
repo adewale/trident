@@ -9,6 +9,8 @@ export function plannedPaintCriteria(input: PaintInput): string[] {
   return ['svg-root', 'svg-unique-ids', 'canvas', 'visible-authored-labels', 'labels-within-canvas', 'unclipped-authored-labels', 'visible-ink', 'paint-opacity-and-color',
     ...(input.paint?.images?.length ? ['embedded-images'] : []),
     ...(input.paint?.fontSize !== undefined ? ['computed-authored-font-size'] : []),
+    ...(input.paint?.nodeFill !== undefined ? ['computed-owned-node-fill'] : []),
+    ...(input.paint?.edgeStroke !== undefined || input.paint?.edgeStrokeWidth !== undefined ? ['computed-owned-edge-style'] : []),
     ...(input.expected.nodes?.length ? ['painted-node-ownership'] : []),
     ...(input.expected.edges !== undefined ? ['painted-relationships'] : []),
     ...(input.expected.edges?.some(edge => edge.label) ? ['painted-relationship-label-counts', 'painted-relationship-label-ownership'] : []),
@@ -160,13 +162,22 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   for (const node of input.expected.nodes ?? []) {
     if (!node.label) { missingNodes.push(node.id); continue }
     let elements = visibleMatches(node.label)
-    if (input.family === 'sequence') elements = elements.sort((a, b) => rect(a).y - rect(b).y).slice(0, 1)
+    if (['sequence', 'zenuml'].includes(input.family)) elements = elements.sort((a, b) => rect(a).y - rect(b).y).slice(0, 1)
     const owners = new Map<Element, { owner: Element; shape: Element; box: Box }>()
     for (const element of elements) { const owned = ownedBox(element); if (owned) owners.set(owned.owner, owned) }
     if (owners.size === 1) { const owned = [...owners.values()][0]!; anchors.set(node.id, { ...node, ...owned }); elements.forEach(element => nodeLabelElements.add(element)) }
     else missingNodes.push(node.id)
   }
   if (input.expected.nodes?.length) check('painted-node-ownership', input.expected.nodes.map(node => node.id), [...anchors.keys()], missingNodes.length ? null : true, missingNodes.length ? 'Ambiguous or absent label-to-shape ownership: ' + missingNodes.join(', ') : 'Unique actual label-to-shape ownership, independently of native model identity')
+  const rgba = (color: string): number[] | null => {
+    if (!CSS.supports('color', color)) return null
+    colorCanvas.clearRect(0, 0, 1, 1); colorCanvas.fillStyle = color; colorCanvas.fillRect(0, 0, 1, 1)
+    return [...colorCanvas.getImageData(0, 0, 1, 1).data]
+  }
+  if (input.paint?.nodeFill !== undefined) {
+    const expected = rgba(input.paint.nodeFill), actual = [...anchors.values()].map(node => { const style = getComputedStyle(node.shape); return { id: node.id, color: rgba(style.fill), opacity: Number(style.fillOpacity) } })
+    check('computed-owned-node-fill', input.paint.nodeFill, actual, !expected || missingNodes.length || !actual.length ? null : actual.every(item => JSON.stringify(item.color) === JSON.stringify(expected) && (!expected[3] || item.opacity > 0)), 'Requested node fill is checked on each uniquely owned authored node outline; an invisible fill or unrelated matching decoration/text earns no credit')
+  }
   const distanceToBox = (point: { x: number; y: number }, box: Box) => {
     const dx = Math.max(box.x - point.x, 0, point.x - box.x - box.width), dy = Math.max(box.y - point.y, 0, point.y - box.y - box.height)
     const inside = dx === 0 && dy === 0
@@ -198,7 +209,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   let ambiguousEndpoints = false
   const bind = (point: Point, clearance = 2) => {
     const candidates = [...anchors.values()].map(node => {
-      if (input.family !== 'sequence') return { id: node.id, distance: distanceToNode(point, node) }
+      if (!['sequence', 'zenuml'].includes(input.family)) return { id: node.id, distance: distanceToNode(point, node) }
       const lifelines = geometry.filter(element => {
         const start = pointFor(element, false), end = pointFor(element, true)
         return start && end && Math.abs(start.x - end.x) <= 1 && Math.abs(start.x - center(node.box).x) <= 2 && Math.min(start.y, end.y) <= node.box.y + node.box.height + 2 && Math.max(start.y, end.y) >= point.y && Math.min(start.y, end.y) <= point.y
@@ -328,6 +339,11 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     connections.push({ source, target, directed: [first.kind, last.kind].some(kind => ['arrow', 'triangle'].includes(kind)), startMarker: first.kind, endMarker: last.kind, element })
   }
   unresolvedProjection ||= ambiguousEndpoints
+  if (input.paint?.edgeStroke !== undefined || input.paint?.edgeStrokeWidth !== undefined) {
+    const expected = input.paint.edgeStroke === undefined ? undefined : rgba(input.paint.edgeStroke), width = input.paint.edgeStrokeWidth
+    const actual = connections.map(edge => { const style = getComputedStyle(edge.element); return { source: edge.source, target: edge.target, color: rgba(style.stroke), width: Number.parseFloat(style.strokeWidth), opacity: Number(style.strokeOpacity) } })
+    check('computed-owned-edge-style', { stroke: input.paint.edgeStroke, width }, actual, expected === null || !actual.length || missingNodes.length || unresolvedProjection ? null : actual.every(item => (expected === undefined || JSON.stringify(item.color) === JSON.stringify(expected) && (!expected[3] || item.opacity > 0 && item.width > 0)) && (width === undefined || Number.isFinite(item.width) && Math.abs(item.width - width) <= .1)), 'Computed stroke color/width on every actual owned relation path, with .1 CSS-pixel width tolerance; parser/config acceptance alone supplies no style credit')
+  }
   const markerDirected = (kind: string) => ['arrow', 'triangle'].includes(kind)
   const pair = (source: string, target: string, directed: boolean, startMarker = 'none', endMarker = directed ? 'arrow' : 'none', decorations = false) => {
     const first = markerDirected(startMarker), last = markerDirected(endMarker)
@@ -338,7 +354,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const decorationExpected = input.expected.edges?.some(edge => edge.startMarker !== undefined || edge.endMarker !== undefined) ?? false
   const keyFor = (edge: { source: string; target: string; directed: boolean; startMarker?: string; endMarker?: string }, decorations = decorationExpected) => pair(edge.source, edge.target, edge.directed, edge.startMarker ?? 'none', edge.endMarker ?? (edge.directed ? 'arrow' : 'none'), decorations)
   if (input.expected.edges !== undefined) {
-    const graphFamilies = ['flowchart', 'class', 'state', 'er', 'sequence', 'block', 'requirement', 'architecture', 'c4', 'eventmodeling']
+    const graphFamilies = ['flowchart', 'class', 'state', 'er', 'sequence', 'zenuml', 'block', 'requirement', 'architecture', 'c4', 'eventmodeling']
     if (missingNodes.length || unresolvedProjection || !graphFamilies.includes(input.family)) check('painted-relationships', input.expected.edges, connections.map(({ element: _, ...edge }) => edge), null, 'This representation needs a reviewed endpoint/marker projection; no semantic paint credit from labels alone')
     else {
       const actual = connections.map(edge => keyFor(edge, false)).sort(), expected = input.expected.edges.map(edge => keyFor(edge, false)).sort()

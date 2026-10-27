@@ -5,7 +5,7 @@ import { StringDecoder } from 'node:string_decoder'
 import { fileURLToPath } from 'node:url'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { defaultTimeObserver } from '../portable/time-observer.ts'
-import { assertInvocationReceipt } from './invocation-receipt.ts'
+import { assertInvocationReceipt, assertResolvedSceneEnvelope } from './invocation-receipt.ts'
 import { qualifyOutput } from './qualification.ts'
 import { requiredFamilyWorkloads } from './required-family-cases.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult, UnifiedWorkload } from './types.ts'
@@ -41,7 +41,7 @@ export interface EntryInventory {
   conditions?: unknown
   aliases?: string[]
 }
-export interface StartupOperation { id: string; name: string | null; format: string; factory: string | null; receipt: boolean; meta?: boolean; discovery?: boolean }
+export interface StartupOperation { id: string; name: string | null; format: string; factory: string | null; receipt: boolean; meta?: boolean; discovery?: boolean; resolvedScene?: boolean }
 export interface EntryStartupJob {
   id: string
   entry: EntryInventory
@@ -189,6 +189,7 @@ function validateResult(job: EntryStartupJob, result: any): string[] {
   const sidecar = result.sidecarJson ? JSON.parse(result.sidecarJson) : undefined
   if (job.operation.receipt) { try { assertInvocationReceipt(sidecar?.receipt, job.operation.format) } catch (error) { findings.push(String(error)) } }
   if (job.operation.meta && (!sidecar || typeof sidecar !== 'object' || !Object.keys(sidecar).length)) findings.push('Metadata-bearing operation returned no consumed metadata')
+  if (job.operation.resolvedScene) try { assertResolvedSceneEnvelope({ ...sidecar, svg: artifact }) } catch (error) { findings.push(String(error)) }
   return findings
 }
 export async function runEntryStartupSuite(options: EntryStartupOptions, prepared?: PreparedEntryStartup): Promise<UnifiedSuiteResult> {
