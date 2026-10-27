@@ -1,0 +1,110 @@
+{
+  "capturedAt": "2026-10-27",
+  "benchmarkCode": "https://github.com/adewale/trident/pull/13",
+  "reportingCode": "https://github.com/adewale/trident/pull/15",
+  "corpus": {
+    "inputs": 1087,
+    "features": 1081,
+    "core": 6,
+    "families": 33
+  },
+  "runs": [
+    {
+      "project": "mermaid-js/mermaid",
+      "record": "454c16f1-e5c0-48f9-995c-fe5abf62f0cf",
+      "key": "mermaid",
+      "label": "Mermaid reference"
+    },
+    {
+      "project": "obsidianmd/pele",
+      "record": "6ef88b8f-471b-498d-aacc-87ac81c44409",
+      "key": "pele",
+      "label": "Pele"
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "record": "c7a8377e-bd16-4a6d-86c8-d7dfc2a24969",
+      "key": "dart",
+      "label": "Mermaid Dart"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "record": "da8fe256-ead4-4667-bf44-bbb3f1ad3154",
+      "key": "ascii",
+      "label": "Mermaid ASCII"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "record": "6d3278df-9e0d-4fbb-9ba4-2c734e07d6f2",
+      "key": "release",
+      "label": "Agentic release"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "record": "84f35f85-e025-4c51-ab06-31946e09c0c0",
+      "key": "current",
+      "label": "Agentic earlier main",
+      "head": "aae753935324fa284d888470b15ddedfd8d1c29c",
+      "rendererBase": "b33e9efc5e3a6ade516148cc45d138af3dcfaa02",
+      "sha256": "4ceb281471ea3e92c661e8dd82d65371e60fd8961f6bbdd826cd767ffcb3ac9d"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "record": "7d8317f2-b837-4daf-93a7-e7a502523043",
+      "key": "pr-487",
+      "label": "Agentic PR #487",
+      "head": "18fd5292d0a2f1f3c07cfd1314a0fd285242f067",
+      "sha256": "80ac8b77997988ba6137483c49af88270b01cf6e684ddab1cba1c29bdba10060"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "record": "89f68f3f-8ccb-4a15-a597-22eef55976f8",
+      "key": "pr-449",
+      "label": "Agentic PR #449",
+      "head": "8f3217745dffef5ccb4dbe98f429397a04d94179",
+      "sha256": "217e0221d1eaea822c63c8eed8f429f4fb424ff012f9fc4f23612012313593ce"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "record": "bbd7f32c-5334-4640-ba62-11747b1ec622",
+      "key": "pr-393",
+      "label": "Agentic PR #393",
+      "head": "7c891e1857633cbb9de0c5768ed233e148a1bf1b",
+      "sha256": "2d9ff4e7297cc083741e0d042f0c792e283543bc60211bdedff10cc8da6748d2"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "record": "d11df8f6-2a50-4286-8d6e-2f3805ecdf17",
+      "key": "pr-374",
+      "label": "Agentic PR #374",
+      "head": "2ed20a17e3234f77bb82f15d1291638c6f5fff6e",
+      "sha256": "16fd68324c6fc9b3c2efbb267998f2c7b528142067f385f060131cafec4df44b"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "record": "2ad5f1b2-d383-4415-a59d-22185740937f",
+      "key": "pr-532",
+      "label": "Agentic latest / #532",
+      "head": "d3dd8adfb952d6066497a95490a082ca2c02ce1f",
+      "sha256": "b81dfd86dd460c208fe85f103e46e41781c1dfbd8656410165e1d66f3ea33dfe"
+    }
+  ],
+  "notRetimed": [
+    {
+      "pr": 533,
+      "head": "2d4e9e5f39d91858ccb2d794dc5ab1a1a9244844",
+      "reason": "One documentation line changes the stated Pele pin; renderer inputs are unchanged."
+    }
+  ],
+  "measurementProducerCommit": "de4596f7970b3eb8866ca08d8c51c3d1f4d7243d",
+  "notes": "All measured records share the same community producer Git objects. PR16 source-candidate support landed after this frozen producer set; its cache-label correction does not rewrite these measurements.",
+  "currentRendererKey": "pr-532",
+  "latestRendererEquivalence": {
+    "measuredRecord": "2ad5f1b2-d383-4415-a59d-22185740937f",
+    "publicMain": "e8cb92ecb1c164a19696b931a425a855109aac53",
+    "pinCommit": "ff86c5581274c30d932a437fcbbcb43fc068527e",
+    "executableAssets": 99,
+    "proof": "execution-equivalence.json",
+    "scope": "Built executable assets and public runtime declarations match. Retain the original measured archive, source revision, dates and installed consumer dependency closure; this is not a newly timed record."
+  }
+}

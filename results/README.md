@@ -1,5 +1,7 @@
 # Mermaid derivatives league table
 
+For the current 25-family comparison, charts, exact PR snapshots and limitations, see the [2026-10-27 review snapshot](review-20261027/README.md). The tables below retain the earlier measurements without mixing protocols.
+
 This historical snapshot predates the current 25-family mark and corrected label checks. Its original observations are retained; newer rows do not prove complete Event Modeling or ZenUML functionality. Re-run affected projects before making current coverage or performance claims.
 
 Measured 2026-10-26 by [Trident](../README.md) against the pinned Mermaid 12.2.0 oracle, on the corpus frozen from Agentic Mermaid de612cc0, with the newer families' examples from Mermaid's mermaid@12.2.0 syntax docs. 
