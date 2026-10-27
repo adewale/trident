@@ -456,8 +456,8 @@ export function benchmarkSuites(options: SuiteOptions): SuiteDefinition[] {
     kind: 'script',
     smoke: false,
     automatic: false,
-    source: 'eval/modern-mermaid/run.mjs',
-    command: ['bun', 'eval/modern-mermaid/run.mjs', options.modernEditorRoot ?? 'unconfigured', out('modern-editor')],
+    source: 'eval/benchmark/modern-editor/run.mjs',
+    command: ['bun', 'eval/benchmark/modern-editor/run.mjs', options.modernEditorRoot ?? 'unconfigured', out('modern-editor')],
     prerequisites: [(!options.modernEditorRoot || !existsSync(join(options.modernEditorRoot, 'package.json'))) && 'Provide --modern-editor-root checkout', !modernOutside && 'Modern Mermaid outputs require --out outside the source repository'].filter((value): value is string => !!value),
     policy: 'Explicit external application comparison with its own frozen resume protocol; engine, app, themes and exports stay separate.',
   })

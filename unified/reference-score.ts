@@ -198,11 +198,15 @@ export async function runReferenceScoreSuite(options: UnifiedRunOptions): Promis
       assignments: selected.map(input => ({ caseId: input.id, family: input.family, ...assignments.get(input.id)! })),
     }
   writeFileSync(join(options.out, 'reference-score-eligibility.json'), JSON.stringify({ protocol: REFERENCE_ELIGIBILITY_PROTOCOL, evidence }, null, 2))
+  // Older Agentic checkouts still embed sampling in their oracle worker.
+  const mermaidWorker = existsSync(join(driver, 'eval/mermaid-modern-compat/reference-snapshot.mjs'))
+    ? join(dirname(fileURLToPath(import.meta.url)), 'reference-mermaid-worker.mjs')
+    : join(driver, 'eval/mermaid-modern-compat/reference-worker.mjs')
   for (let round = 1; round <= options.rounds; round++) {
     const engines = round % 2 ? (['agentic', 'mermaid'] as const) : (['mermaid', 'agentic'] as const),
       replies = new Map<'agentic' | 'mermaid', Map<string, Reply>>()
     for (const engine of engines) {
-      const parser = worker(engine === 'mermaid' ? ['node', join(driver, 'eval/mermaid-modern-compat/reference-worker.mjs'), referenceDir] : ['node', join(dirname(fileURLToPath(import.meta.url)), 'reference-agent-worker.mjs'), target, driver], driver),
+      const parser = worker(engine === 'mermaid' ? ['node', mermaidWorker, referenceDir] : ['node', join(dirname(fileURLToPath(import.meta.url)), 'reference-agent-worker.mjs'), target, driver], driver),
         values = new Map<string, Reply>()
       replies.set(engine, values)
       try {

@@ -72,7 +72,7 @@ commands; each owning protocol controls the meaning of its measurements.
 | `editor-session` | [editor-session-bench.ts](editor-session-bench.ts) | Cold editor sessions and subsequent interactions. |
 | `editor-ownership` | [editor-ownership-bench.ts](editor-ownership-bench.ts) | Frozen original/candidate ownership pages; requires both real variants and their assets. |
 | `renderer-profile` | [renderer-profile.ts](renderer-profile.ts) | Packaged/browser attribution and CPU profiles; requires the verified Bezel wrapper. |
-| `palette-performance` | `../palette-performance/run.ts --record` | Warm palette-generation timing by built-in theme/category count. Requires a clean committed checkout and retains its own recorded work scope. |
+| `palette-performance` | `palette-performance.ts --record` | Warm palette-generation timing by built-in theme/category count. Requires a clean committed checkout and retains its own recorded work scope. |
 
 ## Functionality and correctness suites
 
@@ -117,7 +117,7 @@ orchestrator is a separate activity.
 | Suite ID | Entry | Scope |
 | --- | --- | --- |
 | `family-portfolio` | [unified/portfolio.ts](unified/portfolio.ts) | Builds registry-derived balanced inputs outside the checkout; preparation, not a speed result. |
-| `modern-editor` | `../modern-mermaid/run.mjs` | Explicit external application/dependency-engine comparison with its own frozen resume identity; requires its separately supplied checkout. |
+| `modern-editor` | `modern-editor/run.mjs` | Explicit external application/dependency-engine comparison with its own frozen resume identity; requires its separately supplied checkout. |
 | `agent-live` | `../agent-usage/live.ts` | Actual provider/model task behavior and observed token usage. Explicit model and credentials required. |
 | `agent-subagent` | `../agent-usage/capture-subagent-prompt-eval.ts` | External prompt dispatch and transcript evaluation. Templates alone are not a completed model evaluation. |
 | `prs` | [unified/pr-campaign.ts](unified/pr-campaign.ts) | Explicit frozen-head main/PR campaign, paired controls and optional functionality/invocation evidence. Excluded from automatic nesting to avoid repeating campaigns. |
@@ -133,9 +133,9 @@ Listing a direct command here does not add an automatic controller suite.
 | --- | --- | --- |
 | [editor-delivery-bench.ts](editor-delivery-bench.ts) `--site DIR --out DIR [--rounds N] [--corpus official]` | Direct invocation of the enrolled editor-delivery diagnostic. | The `editor-delivery` controller entry supplies the selected built site. |
 | `../../scripts/site/website-payload-report.ts` | Built website payload/compression report. | Build-artifact diagnostic; distinct from observed navigation/first-render request closure. |
-| `bun run ../palette-performance/run.ts --record` from this directory | Direct invocation of palette-generation timing; deterministic work-count tests remain separate. | Enrolled as `palette-performance`; requires a clean committed checkout. |
-| `bun ../modern-mermaid/run.mjs CHECKOUT OUTPUT_DIRECTORY` from this directory | Direct external Modern Mermaid editor, dependency-engine, theme/example/export and request comparison. | Enrolled as explicit `modern-editor`; retains its own resume protocol. |
-| `bun ../modern-mermaid/summarize.mjs OUTPUT_DIRECTORY` from this directory | Summarizes that existing evidence. | Reporting only. |
+| `bun run palette-performance.ts --record` from this directory | Direct invocation of palette-generation timing; deterministic work-count tests remain separate. | Enrolled as `palette-performance`; requires a clean committed checkout. |
+| `bun modern-editor/run.mjs CHECKOUT OUTPUT_DIRECTORY` from this directory | Direct external Modern Mermaid editor, dependency-engine, theme/example/export and request comparison. | Enrolled as explicit `modern-editor`; retains its own resume protocol. |
+| `bun modern-editor/summarize.mjs OUTPUT_DIRECTORY` from this directory | Summarizes that existing evidence. | Reporting only. |
 | `bun ../mermaidseqbench/runner.ts` from this directory | IBM MermaidSeqBench parse/verify/structured/roundtrip counts. | Its corpus also has an enrolled imported-test owner; not an independent second performance vote. |
 | `bun ../agent-usage/run.ts` from this directory | Stored Code Mode task replay, trace linting and task oracles. | Agent replay owning tests cover related behavior; this is not live model efficiency. |
 | `../agent-usage/render-quality.ts` | Render/safety/bounds/label evaluator over actual scripted agent outputs. | Callable evaluator, not its own standalone executable or complete visual oracle. |
