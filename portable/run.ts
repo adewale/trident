@@ -1,3 +1,4 @@
+import { PORTABLE_HELP } from './help.ts'
 import { gzipSync } from 'node:zlib'
 import { execFileSync } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
@@ -274,7 +275,7 @@ export async function runPortable(options: PortableOptions) {
 export async function main(argv = process.argv.slice(2)) {
   if (argv.length === 1 && argv[0] === '--help') {
     console.log(
-      'node portable/run.ts --project obsidianmd/pele --artifact-root INSTALLED_PACKAGE [--adapter pele|agentic|beautiful|ondine] [--out DIR] [--records DIR] [--rounds 5 --samples 31 --cold-samples 20] [--cohort family,scaling,adversarial,invalid] [--observer GNU_TIME] [--mermaid-reference PINNED_MERMAID_INSTALL] [--usage OBSERVED_USAGE_JSON] [--cpu-hour-usd RATE] [--plan] [--force] [--allow-partial]\nDefaults: five rounds,31 warm sample means,20 fresh processes per replica/round/case. Imported cold workers prepare concurrently then API calls execute serially behind a barrier. No CI execution and no paid/provider calls. Compiled run.mjs works without a source checkout or Git, and refuses to run without the pinned Mermaid oracle (MERMAID_REFERENCE_DIR, default ../mermaid-reference).',
+      PORTABLE_HELP,
     )
     return
   }

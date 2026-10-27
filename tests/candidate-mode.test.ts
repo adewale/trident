@@ -231,7 +231,7 @@ test('a candidate record is keyed by its bytes in its own lane, so it never reus
   expect(candidateIdentity({ node, artifact: { kind: 'node', version: '1.0.0' } }, {}, null)).toBeUndefined()
   expect(() => candidateIdentity({ node, artifact: { kind: 'node', version: '1.0.0', candidate: { sha256: 'a'.repeat(64), tarball: 'x.tgz' } } }, {}, null)).toThrow('reached a release record')
   const agentic: CommunityNode = { id: 'adewale/agentic-mermaid', roles: [], outputs: ['svg'], benchmark: { adapter: 'agentic', package: 'agentic-mermaid' } }
-  expect(candidateIdentity({ node: agentic }, { packageRoot: '/checkout' }, [{ path: 'dist/agent.js', sha256: 'b'.repeat(64) }])!.source).toBe('package-root')
+  expect(candidateIdentity({ node: agentic }, { packageRoot: '/checkout' }, [{ path: 'dist/agent.js', sha256: 'b'.repeat(64) }])).toBeUndefined()
   const store = temp.dir(),
     release = base(),
     measured: string[] = []

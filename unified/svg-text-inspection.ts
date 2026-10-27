@@ -29,9 +29,9 @@ const excluded = (node: SvgInspectionElement): boolean => inert.has(node.localNa
 /** Decorations are admitted only around a complete authored token. Thus
  * Free matches Free(60), while C1 does not match C10. No case transformation,
  * arbitrary substring, source parsing, or output-derived expectations occur. */
-export function containsAuthoredLabel(run: string, authoredLabel: string): boolean {
+export function containsAuthoredLabel(run: string, authoredLabel: string, markdown = false): boolean {
   const text = normalizeAuthoredText(run)
-  return authoredLabelForms(authoredLabel).some(label => !label || new RegExp(`(?<![\\p{L}\\p{N}\\p{M}_])${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}\\p{M}_])`, 'u').test(text))
+  return authoredLabelForms(authoredLabel, markdown).some(label => !label || new RegExp(`(?<![\\p{L}\\p{N}\\p{M}_])${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}\\p{M}_])`, 'u').test(text))
 }
 
 /** Markdown strings draw strong/emphasis as formatting, not marker characters. Only
@@ -50,8 +50,8 @@ function markdownDisplayText(label: string): string {
   } while (text !== previous)
   return text
 }
-/** The authored label, and its markdown display when that differs; either is the label. */
-export const authoredLabelForms = (label: string): string[] => [...new Set([normalizeAuthoredText(label), normalizeAuthoredText(markdownDisplayText(label))])]
+/** Literal by default: punctuation is authored content unless its oracle/fixture declares Markdown. */
+export const authoredLabelForms = (label: string, markdown = false): string[] => [...new Set([normalizeAuthoredText(label), ...(markdown ? [normalizeAuthoredText(markdownDisplayText(label))] : [])])]
 
 function content(node: SvgInspectionNode, insideForeignObject: boolean, positionedLines: boolean): string {
   if (node.kind === 'text') return node.value
@@ -152,7 +152,7 @@ export interface SvgTextInspection {
   scope: 'namespace-aware-authored-text-retention; CSS-and-paint-visibility-unmeasured'
 }
 
-export function inspectSvgText(root: SvgInspectionElement, expectedLabels: readonly string[] = []): SvgTextInspection {
+export function inspectSvgText(root: SvgInspectionElement, expectedLabels: readonly string[] = [], markdownLabels: readonly string[] = []): SvgTextInspection {
   const runs = new Set<string>(),
     primaryRuns: string[] = []
   const add = (text: string): void => {
@@ -185,7 +185,7 @@ export function inspectSvgText(root: SvgInspectionElement, expectedLabels: reado
   return {
     runs: [...runs],
     primaryRuns,
-    missingLabels: expectedLabels.filter(label => ![...runs].some(run => containsAuthoredLabel(run, label))),
+    missingLabels: expectedLabels.filter(label => ![...runs].some(run => containsAuthoredLabel(run, label, markdownLabels.includes(label)))),
     scope: 'namespace-aware-authored-text-retention; CSS-and-paint-visibility-unmeasured',
   }
 }

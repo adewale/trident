@@ -184,3 +184,60 @@ test.each(['mermaid-source', 'beautiful-source'] as const)('source-built %s iden
   expect(rejected.entry.error).toContain('Missing required installed dependency @types/missing')
   expect(() => projectPackageIdentity(prepared)).toThrow('Missing required installed dependency @types/missing')
 })
+
+test('installed CLI bindings apply equally to every project and never discover a local native binary', async () => {
+  const f = fixture(), prepared: PreparedCommunity[] = []
+  for (const [id, adapter] of [['adewale/agentic-mermaid', 'agentic'], ['owner/another-renderer', 'declared']]) {
+    const root = join(f.directory, adapter!)
+    mkdirSync(join(root, 'bin'), { recursive: true })
+    mkdirSync(join(root, 'dist'))
+    writeFileSync(join(root, 'package.json'), JSON.stringify({ name: id, version: '1.0.0', bin: { draw: 'bin/draw.mjs' } }))
+    writeFileSync(join(root, 'bin/draw.mjs'), 'console.log("SVG fixture")')
+    writeFileSync(join(root, 'dist/am'), 'must not be discovered')
+    prepared.push({ node: { id: id!, roles: ['renderer'], outputs: ['svg'], benchmark: { adapter: adapter!, cli: { bin: 'draw', args: ['--format', '{format}'], outputs: ['svg'] } } }, artifact: { kind: 'node', root, version: '1.0.0' } })
+  }
+  const { communityCliCacheIdentity } = await import('../unified/community-cli.ts')
+  const options = { target: f.directory, packageRoot: prepared[0]!.artifact!.root! }
+  const actual = communityCliCacheIdentity(options, prepared).candidates
+  expect(actual).toHaveLength(2)
+  expect(actual.every(row => row.variant === 'node-cli' && !row.error)).toBe(true)
+  expect(communityCliCacheIdentity({ ...options, packageRoot: prepared[1]!.artifact!.root! }, prepared)).toEqual(communityCliCacheIdentity(options, prepared))
+  const undeclared = prepared.map(entry => ({ ...entry, node: { ...entry.node, benchmark: { adapter: entry.node.benchmark!.adapter } } }))
+  expect(communityCliCacheIdentity(options, undeclared).candidates).toEqual([])
+  writeFileSync(join(f.directory, 'outside.mjs'), 'must not be a package CLI')
+  writeFileSync(join(prepared[0]!.artifact!.root!, 'package.json'), JSON.stringify({ name: 'fixture', version: '1.0.0', bin: { draw: '../outside.mjs' } }))
+  expect(communityCliCacheIdentity(options, prepared).candidates[0]!.error).toContain('outside its artifact')
+})
+
+test('community acquisition never substitutes a local checkout for a catalog release, including Agentic Mermaid', async () => {
+  const f = fixture(), cache = join(f.directory, 'cache'), local = join(f.directory, 'local'), catalog = join(f.directory, 'catalog.json')
+  mkdirSync(join(local, 'dist'), { recursive: true })
+  writeFileSync(join(local, 'package.json'), JSON.stringify({ name: 'agentic-mermaid', version: '99.0.0-local' }))
+  writeFileSync(join(local, 'dist/agent.js'), 'export const local = true')
+  const nodes: CommunityNode[] = []
+  for (const [id, adapter, name] of [['adewale/agentic-mermaid', 'agentic', 'agentic-mermaid'], ['owner/another-renderer', 'declared', 'another-renderer']]) {
+    const prefix = join(cache, `${name}@1.0.0`), root = join(prefix, 'node_modules', name!)
+    mkdirSync(root, { recursive: true })
+    writeFileSync(join(root, 'package.json'), JSON.stringify({ name, version: '1.0.0' }))
+    writeFileSync(join(root, 'render.mjs'), 'export const release = true')
+    writeFileSync(join(prefix, 'package-lock.json'), JSON.stringify({ packages: { [`node_modules/${name}`]: { version: '1.0.0', integrity: 'sha512-' + Buffer.alloc(64, 7).toString('base64') } } }))
+    nodes.push({ id: id!, roles: ['renderer'], outputs: ['svg'], benchmark: { adapter: adapter!, package: name, version: '1.0.0', entry: 'render.mjs', outputs: ['svg'], api: { svg: { export: 'render' } } } })
+  }
+  writeFileSync(catalog, JSON.stringify({ nodes }))
+  const saved = process.env.AM_COMMUNITY_CACHE
+  process.env.AM_COMMUNITY_CACHE = cache
+  try {
+    const { prepareCommunity } = await import('../unified/community.ts')
+    const prepared = await prepareCommunity({ root: f.directory, harnessRoot: f.directory, packageRoot: local, out: join(f.directory, 'prepared'), communityCatalogFile: catalog, rounds: 1, profile: 'smoke' })
+    expect(prepared).toHaveLength(2)
+    expect(prepared.map(entry => entry.error)).toEqual([undefined, undefined])
+    for (const entry of prepared) {
+      expect(entry.artifact!.version).toBe('1.0.0')
+      expect(entry.artifact!.root).not.toBe(local)
+      expect(entry.artifact!.candidate).toBeUndefined()
+    }
+  } finally {
+    if (saved === undefined) delete process.env.AM_COMMUNITY_CACHE
+    else process.env.AM_COMMUNITY_CACHE = saved
+  }
+})

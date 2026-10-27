@@ -1,8 +1,6 @@
 # Mermaid fidelity campaigns
 
-These local-only campaigns preserve the Dave docs benchmark and earlier speed,
-startup, delivery and memory measurements. They add stronger functional evidence;
-they do not create a new overall tool score or silently retime unchanged tools.
+These optional source-adapter campaigns collect meaning and painted-output evidence. They do not create an overall tool score or retime unrelated workloads. Old published result bundles have been removed. See [adapter setup](../adapters/agentic/README.md) and [benchmark value judgments](../BENCHMARKS.md).
 
 | Lane | Observable boundary | Main limits |
 | --- | --- | --- |
@@ -29,13 +27,13 @@ and the genuine upstream test runner dependencies. Nothing is installed by the
 fidelity collectors. Start by inspecting available suites:
 
 ```sh
-bun run bench --list --profile full
+bun commands.ts adapter agentic run --list --profile full
 ```
 
 Collect core functional evidence with the selected native Node runtime:
 
 ```sh
-bun run bench --profile full --suites mermaid-fidelity --out /tmp/fidelity-core \
+bun commands.ts adapter agentic run --profile full --suites mermaid-fidelity --out /tmp/fidelity-core \
   --package-root /path/to/built-agentic \
   --portable-artifact-root /path/to/pele-1.9.0 \
   --reference-dir /path/to/mermaid-reference --mermaid-dir /path/to/pinned-mermaid \
@@ -48,7 +46,7 @@ Collect the community SVG boundary on existing prepared artifacts, without
 repeating old clocks or acquiring tools:
 
 ```sh
-bun run bench --profile full --suites community-fidelity --out /tmp/fidelity-community \
+bun commands.ts adapter agentic run --profile full --suites community-fidelity --out /tmp/fidelity-community \
   --community-browser-prepared /path/to/community-browser-prepared.json \
   --executable /path/to/chromium --benchmark-records /path/to/records
 ```
@@ -63,7 +61,7 @@ failures retain incomplete attempts rather than publishing false passing records
 Run original tests separately:
 
 ```sh
-bun run bench --profile full --suites upstream-original,upstream-fidelity \
+bun commands.ts adapter agentic run --profile full --suites upstream-original,upstream-fidelity \
   --out /tmp/fidelity-upstream --mermaid-dir /path/to/pinned-mermaid \
   --reference-dir /path/to/mermaid-reference \
   --upstream-runner-root /path/to/genuine-vitest-kit \

@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { qualifyOutput } from '../unified/qualification.ts'
+import { qualifyOutput, withReferenceLabels } from '../unified/qualification.ts'
 import type { UnifiedWorkload } from '../unified/types.ts'
 
 // Retained failing outputs from the published campaign: the tool drew the label, the check missed it.
@@ -10,22 +10,23 @@ const cases: { project: string; rule: string; file: string; workload: UnifiedWor
 const workload = (labels: string[], source = 'flowchart LR\n %% authored label-rule counterexample\n A[Fixture]'): UnifiedWorkload => ({ id: 'authored-label-rules', family: 'flowchart', source, features: [], provenance: 'independently authored label-rule counterexamples', expectedLabels: labels })
 const svg = (body: string) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200">${body}</svg>`
 const accepts = (labels: string[], body: string) => qualifyOutput(workload(labels), svg(body), 'svg').ok
+const acceptsMarkdown = (labels: string[], body: string) => qualifyOutput({ ...workload(labels), markdownLabels: labels }, svg(body), 'svg').ok
 
 for (const entry of cases)
   test(`retained ${entry.project} output passes once ${entry.rule} labels are read as drawn: ${entry.workload.id}`, () => {
     expect(entry.missingBefore.length).toBeGreaterThan(0)
-    expect(qualifyOutput(entry.workload, readFileSync(join(fixtures, entry.file), 'utf8'), 'svg')).toEqual({ ok: true, findings: [], scope: 'format-and-authored-labels' })
+    expect(qualifyOutput({ ...entry.workload, markdownLabels: entry.rule === 'markdown' ? entry.workload.expectedLabels : [] }, readFileSync(join(fixtures, entry.file), 'utf8'), 'svg')).toEqual({ ok: true, findings: [], scope: 'format-and-authored-labels' })
   })
 
 test('markdown strong and emphasis markers are optional, never the words they wrap', () => {
   const label = 'The cat in **the** hat'
-  expect(accepts([label], '<text>The cat in the hat</text>')).toBe(true)
-  expect(accepts([label], '<text>The cat in **the** hat</text>')).toBe(true)
-  expect(accepts([label], '<text>The cat in hat</text>')).toBe(false)
-  expect(accepts(['*italicized text* **bold text**'], '<text>italicized text bold text</text>')).toBe(true)
-  expect(accepts(['__test_req__'], '<text>test_req</text>')).toBe(true)
-  expect(accepts(['__test_req__'], '<text>test</text>')).toBe(false)
-  expect(accepts(['***both***'], '<text>both</text>')).toBe(true)
+  expect(acceptsMarkdown([label], '<text>The cat in the hat</text>')).toBe(true)
+  expect(acceptsMarkdown([label], '<text>The cat in **the** hat</text>')).toBe(true)
+  expect(acceptsMarkdown([label], '<text>The cat in hat</text>')).toBe(false)
+  expect(acceptsMarkdown(['*italicized text* **bold text**'], '<text>italicized text bold text</text>')).toBe(true)
+  expect(acceptsMarkdown(['__test_req__'], '<text>test_req</text>')).toBe(true)
+  expect(acceptsMarkdown(['__test_req__'], '<text>test</text>')).toBe(false)
+  expect(acceptsMarkdown(['***both***'], '<text>both</text>')).toBe(true)
 })
 
 test('marker syntax that markdown leaves alone is still required literally', () => {
@@ -46,7 +47,7 @@ test('combining marks remain part of a complete authored token', () => {
 })
 
 test('terminal output reads markdown labels the same way', () => {
-  const terminal = (output: string) => qualifyOutput(workload(['The cat in **the** hat']), output, 'terminal').ok
+  const terminal = (output: string) => qualifyOutput({ ...workload(['The cat in **the** hat']), markdownLabels: ['The cat in **the** hat'] }, output, 'terminal').ok
   expect(terminal('┌────────────────────┐\n│ The cat in the hat │\n└────────────────────┘')).toBe(true)
   expect(terminal('┌────────────────────────┐\n│ The cat in **the** hat │\n└────────────────────────┘')).toBe(true)
   expect(terminal('┌────────────────┐\n│ The cat in hat │\n└────────────────┘')).toBe(false)
@@ -96,4 +97,30 @@ test('a source echo stacked as rows is still not a diagram', () => {
   const result = qualifyOutput(workload(['Start', 'End'], source), svg('<text x="0" y="10">flowchart LR</text><text x="0" y="26">A[Start] --&gt; B[End]</text>'), 'svg')
   expect(result.ok).toBe(false)
   expect(result.findings.some(finding => /source/i.test(finding))).toBe(true)
+})
+
+
+test('literal punctuation is required in SVG and terminal labels, including pie __proto__', () => {
+  for (const label of ['__proto__', '__value__', '**literal**', 'a * b * c', 'snake_case']) {
+    const stripped = label.replace(/[*_]/g, '')
+    const input = { ...workload([label]), family: 'pie', source: `pie\n"${label}" : 1` }
+    expect(qualifyOutput(input, svg(`<text>${label}</text>`), 'svg').ok).toBe(true)
+    expect(qualifyOutput(input, svg(`<text>${stripped}</text>`), 'svg').ok).toBe(false)
+    expect(qualifyOutput(input, `│ ${label} │`, 'terminal').ok).toBe(true)
+    expect(qualifyOutput(input, `│ ${stripped} │`, 'terminal').ok).toBe(false)
+  }
+})
+
+test('the pinned oracle distinguishes literal labels from actual Markdown before measurement', async () => {
+  const sources = [
+    { ...workload([]), id: 'pie-literal', family: 'pie', source: 'pie\n"__proto__" : 1' },
+    { ...workload([]), id: 'flow-label-types', source: 'flowchart LR\nA["`**Bold**`"] -->|"`*Edge*`"| B["__proto__"]' },
+  ]
+  const { workloads } = await withReferenceLabels(sources)
+  expect(workloads[0]!.expectedLabels).toContain('__proto__')
+  expect(workloads[0]!.markdownLabels).toEqual([])
+  expect(qualifyOutput(workloads[0]!, svg('<text>proto</text>'), 'svg').ok).toBe(false)
+  expect(workloads[1]!.markdownLabels).toEqual(['**Bold**', '*Edge*'])
+  expect(qualifyOutput(workloads[1]!, svg('<text>Bold</text><text>Edge</text><text>__proto__</text>'), 'svg').ok).toBe(true)
+  expect(qualifyOutput(workloads[1]!, svg('<text>Bold</text><text>Edge</text><text>proto</text>'), 'svg').ok).toBe(false)
 })

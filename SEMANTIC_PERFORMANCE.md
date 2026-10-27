@@ -1,3 +1,5 @@
+> Optional project-specific source protocol. See [adapter setup](adapters/agentic/README.md); historical result snapshots have been removed.
+
 # Maintained semantic performance qualification
 
 Run the source commands below through Agentic's pinned Trident launcher, or use
@@ -196,60 +198,7 @@ Allocation is a V8 GC-boundary estimate, excluding native/WASM memory. Zero
 observations are retained, but never discarded to manufacture a finite favorable
 ratio. Short operations may be too noisy to qualify.
 
-The repaired consumer and larger population improve calibration without
-changing numerical ceilings. They do not establish steady-state execution:
-ordered-window drift and fresh-process uncertainty remain visible. A local
-two-control preflight calibrated all four allocation cells and 11/12 total
-cells; Sequence p95 remained uncalibrated. Longer priming alone, forced-GC
-boundaries, a different allocation estimator and a separate validation heap
-did not close that remaining problem and are excluded. No GC policy, affinity
-or validation-heap change is selected. Method effects are not renderer gains;
-fresh complete controls must qualify any candidate under this new fingerprint.
-
-## Immutable historical anchors
-
-The local previous-npm-release comparison explicitly selects
-`normalized-npm-compound` in both the Node and advisory browser commands. The
-original exact-version npm archive is retained and its locked SHA-512 integrity,
-installed name and version are checked before reading its declared roots/ranges.
-Its roots must be a subset of the current frozen source roots, and every range
-must admit the current pin. This narrow mode supports stable exact, caret,
-tilde and equal version ranges; other syntax is rejected, not treated as a
-wildcard. The current frozen closure is projected onto those verified roots,
-while the temporary consumer's actual full-current overrides and locks remain
-retained. All installed versions/SRI and shared dependency edges still match;
-extra closures must be attributable to exclusive declared roots.
-
-This policy is labeled **normalized from current source**, not the published
-baseline's original frozen dependency environment. Receipts explicitly mark
-`isolatedProductionGain:false`; original archives/manifests remain unchanged.
-No coverage or numeric gate is waived. Browser IIFE/lazy code stays exactly as
-published: normalizing the external consumer graph does not rebuild or prove
-equality of embedded dependency versions. Its scorecard remains advisory and
-compound. This mode requires a locked npm baseline; Git/tarball current-main
-comparisons and all semantic calibration retain strict full-graph equality.
-
-The local fixed historical campaign explicitly uses `historical-compound` runtime
-comparison. Baseline and candidate each install under their own frozen source
-policy; the shared dependency versions, SHA-512 integrities and dependency
-edges must still match exactly. Only package closures reachable from declared
-roots exclusive to one side may differ. Both policies, installed locks, root
-differences and closure differences accompany a comparison receipt marked
-`isolatedProductionGain:false`. The resulting ratios describe a compound
-historical comparison, never an isolated gain from this PR. Current-main and
-default commands retain exact full-graph equality; this exception cannot
-qualify the calibrated semantic controls. Historical A/A remains baseline-only,
-and unsupported inputs and existing numeric/coverage gates remain failures.
-Original shipped archive bytes and package manifests remain immutable; install
-overrides belong only to temporary consumers. Default validation and timing
-behavior remain unchanged.
-
-A local campaign restricted to the fixed historical baseline retains candidate
-build, pack and provenance, then runs the original five-round fixed A/A,
-comparisons, peers and profiles. Record any skipped current-baseline Node
-comparisons, browser scorecard or semantic matrix explicitly; such a run cannot
-claim full qualification. Prior reports keep their original harness and archive
-identities; controls are never reused across harness revisions.
+Instrumented consumer changes, priming and allocation estimators alter the experiment. Fresh complete controls must qualify each candidate; method effects are not renderer gains.
 
 ## Actual cache hits and fallbacks
 
