@@ -117,11 +117,16 @@ const textIn = (element: Element) =>
       .join(' '),
   )
 const finiteLength = (value: string | undefined): number | undefined => (value !== undefined && /^[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?(?:px)?$/i.test(value.trim()) && Number.isFinite(Number.parseFloat(value)) ? Number.parseFloat(value) : undefined)
+/** Bounded SVG number-list grammar; unsupported syntax is not geometry evidence. */
+function numberList(data: string | undefined): number[] | undefined {
+  if (data === undefined) return undefined
+  const tokens = data.replace(/^[ \t\r\n]+|[ \t\r\n]+$/g, '').split(/[ \t\r\n]*,[ \t\r\n]*|[ \t\r\n]+/)
+  if (!tokens.every(token => /^[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:e[-+]?\d+)?$/i.test(token))) return undefined
+  const values = tokens.map(Number)
+  return values.every(Number.isFinite) ? values : undefined
+}
 function canvas(root: Element): boolean {
-  const box = root.attributes.viewBox
-    ?.trim()
-    .split(/[\s,]+/)
-    .map(Number)
+  const box = numberList(root.attributes.viewBox)
   if (box?.length === 4 && box.every(Number.isFinite) && box[2]! > 0 && box[3]! > 0) return true
   return (finiteLength(root.attributes.width) ?? 0) > 0 && (finiteLength(root.attributes.height) ?? 0) > 0
 }
@@ -130,13 +135,11 @@ function translation(element: Element): Point | undefined {
   for (let current: Element | undefined = element; current; current = current.parent) {
     const transform = current.attributes.transform
     if (!transform) continue
-    const match = /^translate\(\s*([-+\d.eE]+)(?:[\s,]+([-+\d.eE]+))?\s*\)$/.exec(transform)
-    if (!match) return undefined
-    const x = Number(match[1]),
-      y = Number(match[2] ?? 0)
-    if (!Number.isFinite(x) || !Number.isFinite(y)) return undefined
-    point.x += x
-    point.y += y
+    const match = /^translate\(([^()]*)\)$/.exec(transform), values = match ? numberList(match[1]) : undefined
+    if (!values || ![1, 2].includes(values.length)) return undefined
+    point.x += values[0]!
+    point.y += values[1] ?? 0
+    if (!Number.isFinite(point.x) || !Number.isFinite(point.y)) return undefined
   }
   return point
 }
@@ -154,20 +157,35 @@ function shapeBounds(owner: Element): Bounds | undefined {
       ry = n(shape.tag === 'circle' ? 'r' : 'ry')
     box = { x: n('cx') - rx, y: n('cy') - ry, width: 2 * rx, height: 2 * ry }
   } else {
-    const values = (a.points ?? '')
-      .trim()
-      .split(/[\s,]+/)
-      .map(Number)
-    if (values.length < 6 || values.length % 2 || !values.every(Number.isFinite)) return undefined
+    const values = numberList(a.points)
+    if (!values || values.length < 6 || values.length % 2) return undefined
     const xs = values.filter((_value, index) => index % 2 === 0),
       ys = values.filter((_value, index) => index % 2 === 1)
     box = { x: Math.min(...xs), y: Math.min(...ys), width: Math.max(...xs) - Math.min(...xs), height: Math.max(...ys) - Math.min(...ys) }
   }
-  return box.width > 0 && box.height > 0 ? { ...box, x: box.x + position.x, y: box.y + position.y } : undefined
+  const projected = { ...box, x: box.x + position.x, y: box.y + position.y }
+  return projected.width > 0 && projected.height > 0 && [...Object.values(projected), projected.x + projected.width, projected.y + projected.height].every(Number.isFinite) ? projected : undefined
 }
+/** Every character must belong to a command, finite-number token or SVG
+ * separator. A comma can only separate operands, never commands or empty values. */
+function pathTokens(data: string | undefined): string[] | undefined {
+  if (!data) return undefined
+  const tokens: string[] = [],
+    pattern = /[a-zA-Z]|[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:e[-+]?\d+)?/gi
+  let end = 0
+  for (const match of data.matchAll(pattern)) {
+    const gap = data.slice(end, match.index), token = match[0], previous = tokens.at(-1)
+    if (!/^[ \t\r\n]*(?:,[ \t\r\n]*)?$/.test(gap)) return undefined
+    if (gap.includes(',') && (!previous || /^[a-z]$/i.test(previous) || /^[a-z]$/i.test(token))) return undefined
+    tokens.push(token)
+    end = match.index + token.length
+  }
+  return tokens.length && /^[ \t\r\n]*$/.test(data.slice(end)) ? tokens : undefined
+}
+
 /** Endpoint projection only. Curve interiors and crossings need a separate oracle. */
 function pathEndpoints(path: Element): { start: Point; end: Point } | undefined {
-  const tokens = path.attributes.d?.match(/[a-zA-Z]|[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?/g)
+  const tokens = pathTokens(path.attributes.d)
   const shift = translation(path)
   if (!tokens?.length || !shift) return undefined
   let cursor = 0,
@@ -181,6 +199,7 @@ function pathEndpoints(path: Element): { start: Point; end: Point } | undefined 
     if (/^[a-z]$/i.test(tokens[cursor]!)) command = tokens[cursor++]!
     const upper = command.toUpperCase(),
       relative = command !== upper
+    if (!start && upper !== 'M') return undefined
     if (upper === 'Z') {
       current = { ...subpath }
       command = ''
@@ -188,34 +207,68 @@ function pathEndpoints(path: Element): { start: Point; end: Point } | undefined 
     }
     const count = arity[upper]
     if (!count || cursor + count > tokens.length) return undefined
-    const values = tokens.slice(cursor, cursor + count).map(Number)
+    const operands = tokens.slice(cursor, cursor + count), values = operands.map(Number)
     if (!values.every(Number.isFinite)) return undefined
+    if (upper === 'A' && (values[0]! < 0 || values[1]! < 0 || !['0', '1'].includes(operands[3]!) || !['0', '1'].includes(operands[4]!))) return undefined
     cursor += count
     const previous = { ...current },
       origin = relative ? current : { x: 0, y: 0 }
     if (upper === 'H') current = { x: origin.x + values[0]!, y: current.y }
     else if (upper === 'V') current = { x: current.x, y: origin.y + values[0]! }
     else current = { x: origin.x + values[count - 2]!, y: origin.y + values[count - 1]! }
+    if (!Number.isFinite(current.x) || !Number.isFinite(current.y)) return undefined
     if (upper === 'M') {
+      // A second move may continue at the previous endpoint, but cannot make
+      // disconnected subpaths look like one connecting authored relation.
+      if (start && (current.x !== previous.x || current.y !== previous.y)) return undefined
       start ??= { ...current }
       subpath = { ...current }
       command = relative ? 'l' : 'L'
     } else hasSegment ||= current.x !== previous.x || current.y !== previous.y || (['C', 'S', 'Q'].includes(upper) && values.slice(0, -2).some((value, index) => value + (index % 2 ? origin.y : origin.x) !== (index % 2 ? previous.y : previous.x)))
   }
-  return start && hasSegment ? { start: { x: start.x + shift.x, y: start.y + shift.y }, end: { x: current.x + shift.x, y: current.y + shift.y } } : undefined
+  if (!start || !hasSegment) return undefined
+  const projected = { start: { x: start.x + shift.x, y: start.y + shift.y }, end: { x: current.x + shift.x, y: current.y + shift.y } }
+  return [...Object.values(projected.start), ...Object.values(projected.end)].every(Number.isFinite) ? projected : undefined
 }
 /** The reviewed Pele arrow head is a filled three-point path, with its tip first. */
-function markerTriangle(path: Element): { tip: Point; base: Point } | undefined {
-  const values = path.attributes.d?.match(/[a-zA-Z]|[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?/g),
+interface Triangle { tip: Point; base: Point; corners: [Point, Point] }
+function markerTriangle(path: Element): Triangle | undefined {
+  const values = pathTokens(path.attributes.d),
     shift = translation(path)
-  if (!values || !shift || values.length !== 10 || values[0] !== 'M' || values[3] !== 'L' || values[6] !== 'L' || values[9] !== 'Z') return undefined
+  if (!values || !shift || values.length !== 10 || values[0] !== 'M' || values[3] !== 'L' || values[6] !== 'L' || values[9]!.toUpperCase() !== 'Z') return undefined
   const [x, y, ax, ay, bx, by] = [values[1], values[2], values[4], values[5], values[7], values[8]].map(Number)
-  if (![x, y, ax, ay, bx, by].every(Number.isFinite) || Math.abs((ax! - x!) * (by! - y!) - (ay! - y!) * (bx! - x!)) < 1e-6) return undefined
-  return { tip: { x: x! + shift.x, y: y! + shift.y }, base: { x: (ax! + bx!) / 2 + shift.x, y: (ay! + by!) / 2 + shift.y } }
+  const triangle: Triangle = { tip: { x: x! + shift.x, y: y! + shift.y }, base: { x: (ax! + bx!) / 2 + shift.x, y: (ay! + by!) / 2 + shift.y }, corners: [{ x: ax! + shift.x, y: ay! + shift.y }, { x: bx! + shift.x, y: by! + shift.y }] },
+    [a, b] = triangle.corners, area = (a.x - triangle.tip.x) * (b.y - triangle.tip.y) - (a.y - triangle.tip.y) * (b.x - triangle.tip.x)
+  if (![area, ...[triangle.tip, triangle.base, a, b].flatMap(Object.values), triangle.tip.x - triangle.base.x, triangle.tip.y - triangle.base.y].every(Number.isFinite) || Math.abs(area) < 1e-6) return undefined
+  return triangle
 }
-function arrowPointsInto(marker: { tip: Point; base: Point }, box: Bounds): boolean {
-  const toward = { x: box.x + box.width / 2 - marker.tip.x, y: box.y + box.height / 2 - marker.tip.y }
-  return distance(marker.tip, box) <= 12 && (marker.tip.x - marker.base.x) * toward.x + (marker.tip.y - marker.base.y) * toward.y > 0
+function markerAttached(marker: Triangle, endpoint: Point): boolean {
+  const vertices = [marker.tip, ...marker.corners], sides = vertices.map((a, index) => {
+    const b = vertices[(index + 1) % 3]!, dx = b.x - a.x, dy = b.y - a.y,
+      fraction = Math.max(0, Math.min(1, ((endpoint.x - a.x) * dx + (endpoint.y - a.y) * dy) / (dx * dx + dy * dy)))
+    return { cross: dx * (endpoint.y - a.y) - dy * (endpoint.x - a.x), distance: Math.hypot(endpoint.x - a.x - fraction * dx, endpoint.y - a.y - fraction * dy) }
+  })
+  // One pixel accounts for serialized coordinate rounding and stem stroke.
+  return sides.every(side => Number.isFinite(side.cross) && Number.isFinite(side.distance)) && (sides.every(side => side.cross >= 0) || sides.every(side => side.cross <= 0) || sides.some(side => side.distance <= 1))
+}
+function arrowPointsInto(marker: Triangle, box: Bounds, endpoint: Point): boolean {
+  const direction = { x: marker.tip.x - marker.base.x, y: marker.tip.y - marker.base.y },
+    toward = { x: box.x + box.width / 2 - marker.tip.x, y: box.y + box.height / 2 - marker.tip.y },
+    alignment = direction.x * toward.x + direction.y * toward.y
+  if (!Number.isFinite(alignment) || !markerAttached(marker, endpoint) || distance(marker.tip, box) > 12 || alignment <= 0) return false
+  let near = 0, far = Infinity
+  for (const axis of ['x', 'y'] as const) {
+    const minimum = box[axis], maximum = minimum + (axis === 'x' ? box.width : box.height)
+    if (direction[axis] === 0) {
+      if (marker.tip[axis] < minimum || marker.tip[axis] > maximum) return false
+    } else {
+      const a = (minimum - marker.tip[axis]) / direction[axis], b = (maximum - marker.tip[axis]) / direction[axis]
+      if (!Number.isFinite(a) || !Number.isFinite(b)) return false
+      near = Math.max(near, Math.min(a, b))
+      far = Math.min(far, Math.max(a, b))
+    }
+  }
+  return far >= near
 }
 function distance(point: Point, box: Bounds): number {
   const dx = Math.max(box.x - point.x, 0, point.x - box.x - box.width),
@@ -403,29 +456,25 @@ function qualifyPortableUnchecked(testCase: PortableCase, output: PortableOutput
       )
       const markers = owner.children.filter(element => element.uri === namespace && hasClass(element, 'pele-marker') && visible(element))
       if (model!.type === 'er') {
-        const ends = markers
-          .filter(marker => marker.tag === 'path')
-          .map(pathEndpoints)
-          .filter((points): points is { start: Point; end: Point } => !!points)
+        const projectedMarkers = markers.map(marker => marker.tag === 'path' ? pathEndpoints(marker) : undefined),
+          ends = projectedMarkers.filter((points): points is { start: Point; end: Point } => !!points)
         check(
           `svg-edge-end-markers:${index}`,
           true,
           source && target ? ends.some(points => Math.min(distance(points.start, source), distance(points.end, source)) <= 12) && ends.some(points => Math.min(distance(points.start, target), distance(points.end, target)) <= 12) : null,
           'Visible cardinality path ink is attached to both entity ends. Exact cardinality glyph meaning is not independently asserted by this topology projection.',
-          !!source && !!target,
+          !!source && !!target && projectedMarkers.every(Boolean),
         )
       } else {
-        const triangles = markers
-          .filter(marker => marker.tag === 'path')
-          .map(markerTriangle)
-          .filter((triangle): triangle is { tip: Point; base: Point } => !!triangle)
+        const projectedMarkers = markers.map(marker => marker.tag === 'path' ? markerTriangle(marker) : undefined),
+          triangles = projectedMarkers.filter((triangle): triangle is Triangle => !!triangle)
         const classProfile = model!.type !== 'class' || array(model!.relations).every(relation => relation.relation?.type1 === 'none' && relation.relation?.type2 === 3)
         check(
           `svg-edge-target-marker:${index}`,
           true,
-          target ? triangles.some(triangle => arrowPointsInto(triangle, target)) : null,
-          'The reviewed ordinary directed relation has a nondegenerate triangular arrowhead pointing into its logical target within12px. Other class relation marker profiles are unmeasured.',
-          !!target && classProfile,
+          target && endpoints ? triangles.some(triangle => arrowPointsInto(triangle, target, endpoints.end)) : null,
+          'The reviewed triangular arrowhead overlaps its stem endpoint within1px, and its forward ray reaches the target box within12px of the tip. Other marker encodings and class relation profiles are unmeasured.',
+          !!target && !!endpoints && classProfile && projectedMarkers.every(Boolean),
         )
       }
     }
@@ -507,16 +556,16 @@ function qualifyPortableUnchecked(testCase: PortableCase, output: PortableOutput
       } else endpointsMeasured = false
       const sourceLine = from ? lines.get(from) : undefined,
         targetLine = to ? lines.get(to) : undefined
-      const triangles = item.owner.children
-        .filter(element => element.uri === namespace && visible(element) && hasClass(element, 'pele-marker') && element.tag === 'path')
-        .map(markerTriangle)
-        .filter((triangle): triangle is { tip: Point; base: Point } => !!triangle)
+      const projectedMarkers = item.owner.children
+        .filter(element => element.uri === namespace && visible(element) && hasClass(element, 'pele-marker'))
+        .map(element => element.tag === 'path' ? markerTriangle(element) : undefined),
+        triangles = projectedMarkers.filter((triangle): triangle is Triangle => !!triangle)
       check(
         'svg-sequence-target-marker:' + index,
         true,
-        sourceLine && targetLine && points ? triangles.some(marker => Math.abs(marker.tip.x - targetLine.x) <= 12 && Math.abs(marker.tip.y - points.end.y) <= 1 && (marker.tip.x - marker.base.x) * (targetLine.x - sourceLine.x) > 0) : null,
+        sourceLine && targetLine && points ? triangles.some(marker => markerAttached(marker, points.end) && Math.abs(marker.tip.x - targetLine.x) <= 12 && Math.abs(marker.tip.y - points.end.y) <= 1 && (marker.tip.x - marker.base.x) * (targetLine.x - sourceLine.x) > 0) : null,
         'The nondegenerate message arrowhead points from its observed source toward the target lifeline.',
-        !!sourceLine && !!targetLine && !!points && profile,
+        !!sourceLine && !!targetLine && !!points && profile && projectedMarkers.every(Boolean),
       )
       const labels = nodes.filter(element => element.uri === namespace && visible(element) && hasClass(element, 'pele-edge-label') && element.attributes['data-id'] === item.owner.attributes['data-id'])
       check(

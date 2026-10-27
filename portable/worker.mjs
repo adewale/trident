@@ -12,7 +12,7 @@ const job = transport === '--ipc' ? await new Promise(resolve => process.once('m
 const started = process.hrtime.bigint()
 const clock = () => Number(process.hrtime.bigint()) / 1e6
 const runtime = { executable: process.execPath, node: process.versions.node, platform: process.platform, arch: process.arch }
-const result = { protocol: 'portable-svg-processes-v3', caseId: job.testCase.id, family: job.testCase.family, mode: job.mode, round: job.round, replica: job.replica, sample: job.sample, status: 'blocked', importMs: 0, tracks: {}, iterations: {}, outputBytes: 0, qualification: null, prelude: [], runtime }
+const result = { protocol: 'portable-svg-processes-v4', caseId: job.testCase.id, family: job.testCase.family, mode: job.mode, round: job.round, replica: job.replica, sample: job.sample, status: 'blocked', importMs: 0, tracks: {}, iterations: {}, outputBytes: 0, qualification: null, prelude: [], runtime }
 const errorText = error => error instanceof Error ? String(error.stack ?? error) : String(error)
 const thenable = value => value && typeof value.then === 'function'
 function collect() { if (global.gc) { global.gc(); global.gc() } }
