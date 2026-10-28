@@ -1,8 +1,8 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { assertBenchmarkToolVersion } from '../tool-versions.ts'
-import { communityCatalogFile, harnessRepository } from './trident-paths.ts'
 import { startupPasses } from './startup-passes.ts'
+import { communityCatalogFile, harnessRepository } from './trident-paths.ts'
 import type { UnifiedRunOptions } from './types.ts'
 
 // Shared by the unified runner and community:update, without importing the suites.
@@ -21,15 +21,18 @@ export function admitSelectedArtifacts(options: Partial<RunnerOptions>): void {
     }
   }
   const catalog = options.communityCatalogFile ?? communityCatalogFile
-  if (existsSync(catalog)) for (const node of readJson(catalog).nodes ?? []) {
-    if (node.id === 'obsidianmd/pele' && selected(node.id)) assertBenchmarkToolVersion(node.id, node.benchmark?.version ?? '', `${catalog} explicit acquisition pin`)
-  }
-  if (options.communityArtifacts && existsSync(options.communityArtifacts)) for (const [project, artifact] of Object.entries(readJson(options.communityArtifacts)) as [string, { version?: string }][]) {
-    if (selected(project)) assertBenchmarkToolVersion(project, artifact.version ?? '', options.communityArtifacts)
-  }
-  if (options.communityPreparedFile && existsSync(options.communityPreparedFile)) for (const entry of readJson(options.communityPreparedFile)) {
-    if (entry.artifact && selected(entry.node.id)) assertBenchmarkToolVersion(entry.node.id, entry.artifact.version ?? '', options.communityPreparedFile)
-  }
+  if (existsSync(catalog))
+    for (const node of readJson(catalog).nodes ?? []) {
+      if (node.id === 'obsidianmd/pele' && selected(node.id)) assertBenchmarkToolVersion(node.id, node.benchmark?.version ?? '', `${catalog} explicit acquisition pin`)
+    }
+  if (options.communityArtifacts && existsSync(options.communityArtifacts))
+    for (const [project, artifact] of Object.entries(readJson(options.communityArtifacts)) as [string, { version?: string }][]) {
+      if (selected(project)) assertBenchmarkToolVersion(project, artifact.version ?? '', options.communityArtifacts)
+    }
+  if (options.communityPreparedFile && existsSync(options.communityPreparedFile))
+    for (const entry of readJson(options.communityPreparedFile)) {
+      if (entry.artifact && selected(entry.node.id)) assertBenchmarkToolVersion(entry.node.id, entry.artifact.version ?? '', options.communityPreparedFile)
+    }
 }
 
 export interface SuiteOptions extends UnifiedRunOptions {
@@ -40,6 +43,8 @@ export interface SuiteOptions extends UnifiedRunOptions {
   candidateTarball?: string
   candidateSha256?: string
   baseline?: string
+  baselineCheckout?: string
+  candidateCheckout?: string
   baselineRef?: string
   baselineNpm?: string
   baselineTarball?: string
@@ -75,6 +80,8 @@ export function parseOptions(argv: string[]): RunnerOptions {
     'candidate-tarball',
     'candidate-sha256',
     'baseline',
+    'baseline-checkout',
+    'candidate-checkout',
     'baseline-ref',
     'baseline-npm',
     'baseline-tarball',
@@ -157,15 +164,21 @@ export function parseOptions(argv: string[]): RunnerOptions {
   if (options.has('projects') && options.has('community-projects')) throw Error('Use --projects or --community-projects, not both')
   const projects = (options.get('projects') ?? options.get('community-projects'))?.split(',')
   if (projects?.some(project => !project) || (projects && new Set(projects).size !== projects.length)) throw Error('--projects needs unique nonempty project IDs')
-  if (options.has('benchmark-resume-attempt') && (projects?.length !== 1 || selected?.length !== 1 || !['entry-startup', 'upstream-test-assertions'].includes(selected[0]!) || options.has('benchmark-force'))) throw Error('--benchmark-resume-attempt requires one selected project, one retained suite, and no --benchmark-force')
+  if (options.has('benchmark-resume-attempt') && (projects?.length !== 1 || selected?.length !== 1 || !['entry-startup', 'upstream-test-assertions'].includes(selected[0]!) || options.has('benchmark-force')))
+    throw Error('--benchmark-resume-attempt requires one selected project, one retained suite, and no --benchmark-force')
   const startupSurfaces = options.get('startup-surfaces')?.split(',') as RunnerOptions['startupSurfaces']
   if (startupSurfaces && (!startupSurfaces.length || new Set(startupSurfaces).size !== startupSurfaces.length || startupSurfaces.some(surface => !['library', 'cli', 'mcp', 'browser'].includes(surface)))) throw Error('--startup-surfaces needs unique library,cli,mcp,browser values')
   if (liveProvider && !['anthropic', 'openai-compatible'].includes(liveProvider)) throw new Error('--live-provider must be anthropic or openai-compatible')
-  if (!options.has('list')) admitSelectedArtifacts({
-    portableArtifactRoot: path('portable-artifact-root'), portableProject: options.get('portable-project'),
-    communityArtifacts: path('community-artifacts'), communityPreparedFile: path('community-prepared'),
-    communityCatalogFile: path('community-catalog'), communityProjects: projects, harnessRoot: DRIVER,
-  })
+  if (!options.has('list'))
+    admitSelectedArtifacts({
+      portableArtifactRoot: path('portable-artifact-root'),
+      portableProject: options.get('portable-project'),
+      communityArtifacts: path('community-artifacts'),
+      communityPreparedFile: path('community-prepared'),
+      communityCatalogFile: path('community-catalog'),
+      communityProjects: projects,
+      harnessRoot: DRIVER,
+    })
   return {
     root: path('target') ?? DRIVER,
     harnessRoot: DRIVER,
@@ -184,6 +197,8 @@ export function parseOptions(argv: string[]): RunnerOptions {
     candidateTarball: path('candidate-tarball'),
     candidateSha256: options.get('candidate-sha256'),
     baseline: path('baseline'),
+    baselineCheckout: path('baseline-checkout'),
+    candidateCheckout: path('candidate-checkout'),
     baselineRef: options.get('baseline-ref'),
     baselineNpm: options.get('baseline-npm'),
     baselineTarball: path('baseline-tarball'),

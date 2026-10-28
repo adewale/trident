@@ -12,13 +12,29 @@ test('artifact release scope and extracted peer protocols retain distinct driver
       target = join(directory, 'target')
     for (const path of ['src/__tests__', 'docs/project', 'eval/benchmark', 'eval/mermaid-upstream-suite-bench', 'e2e']) mkdirSync(join(driver, path), { recursive: true })
     mkdirSync(target)
-    writeFileSync(join(driver, 'package.json'), JSON.stringify({ scripts: { 'bench:release:browser': 'bun run eval/benchmark/release-browser-bench.ts', 'bench:endpoint-marker': 'bun run eval/benchmark/endpoint-marker-compare.ts', 'bench:performance-profile': 'bun run eval/benchmark/qualify-performance-profile.ts' } }))
+    writeFileSync(
+      join(driver, 'package.json'),
+      JSON.stringify({
+        scripts: { 'bench:release': 'bun run eval/benchmark/release-bench.ts', 'bench:release:browser': 'bun run eval/benchmark/release-browser-bench.ts', 'bench:endpoint-marker': 'bun run eval/benchmark/endpoint-marker-compare.ts', 'bench:performance-profile': 'bun run eval/benchmark/qualify-performance-profile.ts' },
+      }),
+    )
     writeFileSync(join(driver, 'docs/project/upstream-mermaid-policy.json'), JSON.stringify({ pin: { version: 'fixture', commit: 'fixture' } }))
     writeFileSync(join(driver, 'eval/mermaid-upstream-suite-bench/manifest.json'), JSON.stringify({ upstream: { revision: 'fixture' } }))
     writeFileSync(join(driver, 'eval/benchmark/qualify-peer-performance.ts'), 'throw new Error("Qualification requires exact artifacts before execution")')
     for (const file of ['endpoint-marker-compare.ts', 'qualify-performance-profile.ts']) writeFileSync(join(driver, 'eval/benchmark', file), 'throw new Error("Diagnostic must not run without its declared inputs")')
     writeFileSync(join(driver, 'e2e/dist-artifact.e2e.test.ts'), 'throw new Error("Discovery must not execute an owning product test")')
     const options = { ...parseOptions([]), harnessRoot: driver, root: target }
+    const exactRelease = benchmarkSuites({ ...options, baseline: target, baselineTarball: '/fixture/reference.tgz', baselineSha256: 'a'.repeat(64) }).find(suite => suite.id === 'release')
+    // A bare directory used by diagnostics must never override an admitted tarball.
+    expect(exactRelease).toBeDefined()
+    if (exactRelease) {
+      expect(exactRelease.command).toContain('--baseline-tarball')
+      expect(exactRelease.command).toContain('/fixture/reference.tgz')
+      expect(exactRelease.command).not.toContain('--baseline')
+    }
+    const selected = parseOptions(['--baseline-checkout', directory, '--candidate-checkout', target])
+    expect(selected.baselineCheckout).toBe(directory)
+    expect(selected.candidateCheckout).toBe(target)
     const suites = benchmarkSuites(options)
     const distribution = suites.find(suite => suite.id === 'distribution-dist-artifact')!
     expect(distribution).toBeDefined()

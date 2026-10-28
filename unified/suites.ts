@@ -2,9 +2,10 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
 import { BUILTIN_FAMILY_METADATA } from '../../../src/agent/families.ts'
-import type { UnifiedRunOptions } from './types.ts'
-import type { SuiteOptions } from './options.ts'
 import { mermaidOracleDirectory, mermaidUpstreamDirectory } from '../portable/mermaid-oracle.ts'
+import { inspectBuiltCheckout } from '../source-checkout.ts'
+import type { SuiteOptions } from './options.ts'
+import type { UnifiedRunOptions } from './types.ts'
 
 export type { SuiteOptions } from './options.ts'
 export interface SuiteDefinition {
@@ -42,16 +43,99 @@ export function benchmarkSuites(options: SuiteOptions): SuiteDefinition[] {
   const siteMissing = existsSync(join(site, 'editor/index.html')) ? [] : [`Built editor missing: ${site}; run bun run website`]
   const browserMissing = options.executable && !existsSync(options.executable) ? [`Browser executable missing: ${options.executable}`] : []
   const suites: SuiteDefinition[] = [
-    { id: 'mermaid-fidelity', title: 'Independent family meaning, feature workflows and actual painted output', kind: 'internal', smoke: true, source: 'eval/benchmark/fidelity/run.ts', prerequisites: [...referenceMissing, ...browserMissing, ...(!built ? ['Built selected Agentic package missing'] : [])], policy: 'One independently authored criterion universe for every required stable family and interacting features. Native identities/relations/values, real source/configuration/edit workflows, computed visibility/owned ink/quantitative geometry and actual PNG evidence stay distinct. Reference failures and missing peer evidence never shrink the denominator. Optional ZenUML uses its actual pinned first-party addon. Per-project records; no new performance clocks.' },
-    { id: 'community-fidelity', title: 'Independent painted functionality on frozen community SVG artifacts', kind: 'internal', smoke: false, source: 'eval/benchmark/fidelity/community.ts', prerequisites: [...browserMissing, ...(!options.communityBrowserPreparedFile ? ['Explicit existing frozen browser-prepared manifest required; no acquisition or old clocks are repeated'] : [])], policy: 'Use the same authored cases and planned criteria as core fidelity. Verify actual artifact/version bytes; retain per-project records and all catalog boundaries. Native APIs without reviewed adapters remain unavailable. Lossless SVGs, basic family PNG witnesses and alias attribution; separate from historical speed/memory costs.' },
-    { id: 'upstream-fidelity', title: 'Expanded original upstream assertions across required families', kind: 'internal', smoke: false, source: 'eval/benchmark/unified/upstream-fidelity.ts', prerequisites: referenceMissing, policy: 'Original callbacks and expectations through reviewed actual public-model capabilities; every tracked declaration receives a disposition. Private API, unsupported imports/matchers and pure helper tests never manufacture engine passes. Exact diagnostic and internal representation compatibility remain separate from drawing meaning.' },
-    { id: 'upstream-original', title: 'Actual pinned Mermaid original core Vitest runner', kind: 'internal', smoke: false, source: 'eval/benchmark/unified/upstream-fidelity-original.ts', prerequisites: referenceMissing, policy: 'Genuine pinned source and original Vite test configuration, one worker, real declared runtimes and read-only snapshots. Complete callback/declaration accounting; source/ref/dependency identity checked before and after. Browser/e2e and docs-site workspace exclusions stay explicit. Local-only; an unselected Mermaid project does not launch a reference worker.' },
-    { id: 'mermaid-baseline-browser', title: 'Pinned Mermaid browser SVG baseline, startup and resources', kind: 'internal', smoke: false, source: 'eval/benchmark/unified/baseline-browser.ts', prerequisites: [...referenceMissing, ...browserMissing], pin: json(join(root, 'docs/project/upstream-mermaid-policy.json')).pin, policy: 'Common authored SVG work against actual pinned Mermaid with same-artifact A/A controls; full protocol uses five counterbalanced renderer rounds, 25 fresh startups and five separate document-heap passes per role. Requested round overrides, rolling records, missing capability, independent SVG/label admission and unmeasured paint/native/GPU memory remain explicit. No overall weighted score.' },
-    { id: 'mermaid-baseline-compatibility', title: 'Pinned Mermaid public parser baseline and original assertion coverage', kind: 'internal', smoke: false, source: 'eval/benchmark/unified/mermaid-baseline-compatibility.ts', prerequisites: referenceMissing, pin: json(join(root, 'docs/project/upstream-mermaid-policy.json')).pin, policy: 'Native Node public parser results, with required DOM host setup explicitly included for Mermaid. Full mode measures 25 first-result processes and five separate resources per project; syntax acceptance, rich versus validation-only output, original callback subset and unavailable core-Mermaid operations remain distinct. Existing original-assertion records are verified and retained, not re-executed.' },
+    {
+      id: 'mermaid-fidelity',
+      title: 'Independent family meaning, feature workflows and actual painted output',
+      kind: 'internal',
+      smoke: true,
+      source: 'eval/benchmark/fidelity/run.ts',
+      prerequisites: [...referenceMissing, ...browserMissing, ...(!built ? ['Built selected Agentic package missing'] : [])],
+      policy:
+        'One independently authored criterion universe for every required stable family and interacting features. Native identities/relations/values, real source/configuration/edit workflows, computed visibility/owned ink/quantitative geometry and actual PNG evidence stay distinct. Reference failures and missing peer evidence never shrink the denominator. Optional ZenUML uses its actual pinned first-party addon. Per-project records; no new performance clocks.',
+    },
+    {
+      id: 'community-fidelity',
+      title: 'Independent painted functionality on frozen community SVG artifacts',
+      kind: 'internal',
+      smoke: false,
+      source: 'eval/benchmark/fidelity/community.ts',
+      prerequisites: [...browserMissing, ...(!options.communityBrowserPreparedFile ? ['Explicit existing frozen browser-prepared manifest required; no acquisition or old clocks are repeated'] : [])],
+      policy:
+        'Use the same authored cases and planned criteria as core fidelity. Verify actual artifact/version bytes; retain per-project records and all catalog boundaries. Native APIs without reviewed adapters remain unavailable. Lossless SVGs, basic family PNG witnesses and alias attribution; separate from historical speed/memory costs.',
+    },
+    {
+      id: 'upstream-fidelity',
+      title: 'Expanded original upstream assertions across required families',
+      kind: 'internal',
+      smoke: false,
+      source: 'eval/benchmark/unified/upstream-fidelity.ts',
+      prerequisites: referenceMissing,
+      policy:
+        'Original callbacks and expectations through reviewed actual public-model capabilities; every tracked declaration receives a disposition. Private API, unsupported imports/matchers and pure helper tests never manufacture engine passes. Exact diagnostic and internal representation compatibility remain separate from drawing meaning.',
+    },
+    {
+      id: 'upstream-original',
+      title: 'Actual pinned Mermaid original core Vitest runner',
+      kind: 'internal',
+      smoke: false,
+      source: 'eval/benchmark/unified/upstream-fidelity-original.ts',
+      prerequisites: referenceMissing,
+      policy:
+        'Genuine pinned source and original Vite test configuration, one worker, real declared runtimes and read-only snapshots. Complete callback/declaration accounting; source/ref/dependency identity checked before and after. Browser/e2e and docs-site workspace exclusions stay explicit. Local-only; an unselected Mermaid project does not launch a reference worker.',
+    },
+    {
+      id: 'mermaid-baseline-browser',
+      title: 'Pinned Mermaid browser SVG baseline, startup and resources',
+      kind: 'internal',
+      smoke: false,
+      source: 'eval/benchmark/unified/baseline-browser.ts',
+      prerequisites: [...referenceMissing, ...browserMissing],
+      pin: json(join(root, 'docs/project/upstream-mermaid-policy.json')).pin,
+      policy:
+        'Common authored SVG work against actual pinned Mermaid with same-artifact A/A controls; full protocol uses five counterbalanced renderer rounds, 25 fresh startups and five separate document-heap passes per role. Requested round overrides, rolling records, missing capability, independent SVG/label admission and unmeasured paint/native/GPU memory remain explicit. No overall weighted score.',
+    },
+    {
+      id: 'mermaid-baseline-compatibility',
+      title: 'Pinned Mermaid public parser baseline and original assertion coverage',
+      kind: 'internal',
+      smoke: false,
+      source: 'eval/benchmark/unified/mermaid-baseline-compatibility.ts',
+      prerequisites: referenceMissing,
+      pin: json(join(root, 'docs/project/upstream-mermaid-policy.json')).pin,
+      policy:
+        'Native Node public parser results, with required DOM host setup explicitly included for Mermaid. Full mode measures 25 first-result processes and five separate resources per project; syntax acceptance, rich versus validation-only output, original callback subset and unavailable core-Mermaid operations remain distinct. Existing original-assertion records are verified and retained, not re-executed.',
+    },
     { id: 'family', title: 'All-family functionality and feature evidence', kind: 'internal', smoke: true, source: 'eval/benchmark/unified/family-suite.ts', prerequisites: [], policy: 'Fresh executable evidence; stored descriptor witness declarations are not new passes.' },
-    { id: 'stable-support', title: 'Required Mermaid family admission', kind: 'internal', smoke: true, source: 'eval/benchmark/unified/stable-support-run.ts', prerequisites: built ? (existsSync(join(upstream, 'packages/mermaid/package.json')) ? [] : ['Pinned Mermaid source missing']) : ['Built target package missing'], pin: json(join(root, 'docs/project/upstream-mermaid-policy.json')).pin, policy: 'All policy-stable families plus conservatively required unresolved exclusions. Actual public SVG/label admission is a hard complete-comparison gate; beta/experimental supplements and incomplete fidelity stay distinct. Per-project retained records.' },
-    { id: 'entry-startup', title: 'Fresh public entry startup and paired memory diagnostics', kind: 'internal', smoke: false, source: 'eval/benchmark/unified/entry-startup.ts', prerequisites: built ? (!options.startupSurfaces || options.startupSurfaces.includes('browser') ? browserMissing : []) : ['Built target package missing'], policy: 'Derive shipped entries and actual public operations; measure fresh process through complete first consumption, readiness/import separately, then fresh paired resource passes. Use --rounds 5 --startup-samples 5 for 25 samples per interface; incomplete tails and unavailable native/hosted/worker memory stay explicit. Per-project reuse precedes operation discovery.' },
-    { id: 'upstream-test-assertions', title: 'Original pinned Mermaid assertions and full test census', kind: 'internal', smoke: false, source: 'eval/benchmark/unified/upstream-test-score.ts', prerequisites: referenceMissing, pin: json(join(root, 'docs/project/upstream-mermaid-policy.json')).pin, policy: 'Execute current original Mindmap/GitGraph assertions through reviewed public-model adapters. Retain all other test declarations, skips/private assertions and diagnostic source replay without pass credit; workflow time is not an equivalent original-runner speed score. Per-project retained records.' },
+    {
+      id: 'stable-support',
+      title: 'Required Mermaid family admission',
+      kind: 'internal',
+      smoke: true,
+      source: 'eval/benchmark/unified/stable-support-run.ts',
+      prerequisites: built ? (existsSync(join(upstream, 'packages/mermaid/package.json')) ? [] : ['Pinned Mermaid source missing']) : ['Built target package missing'],
+      pin: json(join(root, 'docs/project/upstream-mermaid-policy.json')).pin,
+      policy: 'All policy-stable families plus conservatively required unresolved exclusions. Actual public SVG/label admission is a hard complete-comparison gate; beta/experimental supplements and incomplete fidelity stay distinct. Per-project retained records.',
+    },
+    {
+      id: 'entry-startup',
+      title: 'Fresh public entry startup and paired memory diagnostics',
+      kind: 'internal',
+      smoke: false,
+      source: 'eval/benchmark/unified/entry-startup.ts',
+      prerequisites: built ? (!options.startupSurfaces || options.startupSurfaces.includes('browser') ? browserMissing : []) : ['Built target package missing'],
+      policy:
+        'Derive shipped entries and actual public operations; measure fresh process through complete first consumption, readiness/import separately, then fresh paired resource passes. Use --rounds 5 --startup-samples 5 for 25 samples per interface; incomplete tails and unavailable native/hosted/worker memory stay explicit. Per-project reuse precedes operation discovery.',
+    },
+    {
+      id: 'upstream-test-assertions',
+      title: 'Original pinned Mermaid assertions and full test census',
+      kind: 'internal',
+      smoke: false,
+      source: 'eval/benchmark/unified/upstream-test-score.ts',
+      prerequisites: referenceMissing,
+      pin: json(join(root, 'docs/project/upstream-mermaid-policy.json')).pin,
+      policy: 'Execute current original Mindmap/GitGraph assertions through reviewed public-model adapters. Retain all other test declarations, skips/private assertions and diagnostic source replay without pass credit; workflow time is not an equivalent original-runner speed score. Per-project retained records.',
+    },
     {
       id: 'invocation',
       title: 'Public invocation matrix',
@@ -83,7 +167,12 @@ export function benchmarkSuites(options: SuiteOptions): SuiteDefinition[] {
     policy: 'Requires the completed sibling community artifacts; fresh-process CLI variants use matched fixed inputs. Child RSS/CPU are a separate post-latency diagnostic pass; source aliases are not additional independent engines.',
   })
   for (const [script, command] of Object.entries(pkg.scripts)) {
-    if (!script.startsWith('bench:') || ['bench:test', 'bench:typecheck', 'bench:lint', 'bench:charts', 'bench:modern-summary', 'bench:peers:qualify', 'bench:performance-profile', 'bench:endpoint-marker'].includes(script) || /eval\/benchmark\/(?:commands|portable\/(?:run|build)|unified\/(?:run|pr-campaign|project-update|update-scorecard)|suite)\.ts/.test(command)) continue
+    if (
+      !script.startsWith('bench:') ||
+      ['bench:test', 'bench:typecheck', 'bench:lint', 'bench:charts', 'bench:modern-summary', 'bench:peers:qualify', 'bench:performance-profile', 'bench:endpoint-marker'].includes(script) ||
+      /eval\/benchmark\/(?:commands|portable\/(?:run|build)|unified\/(?:run|pr-campaign|project-update|update-scorecard)|suite)\.ts/.test(command)
+    )
+      continue
     const id = script.slice('bench:'.length),
       args = ['bun', 'run', script],
       prerequisites: string[] = []
@@ -113,9 +202,14 @@ export function benchmarkSuites(options: SuiteOptions): SuiteDefinition[] {
         add(args, '--candidate', options.packageRoot ?? options.root)
         if (!built) prerequisites.push('Built candidate missing; provide --candidate-tarball or build the package')
       }
-      if (options.baseline) {
+      if (options.baselineTarball) {
+        add(args, '--baseline-tarball', options.baselineTarball)
+        add(args, '--baseline-sha256', options.baselineSha256)
+        if (!options.baselineSha256) prerequisites.push('An exact --baseline-tarball requires --baseline-sha256')
+      } else if (options.baseline) {
         add(args, '--baseline', options.baseline)
         if (!existsSync(join(options.baseline, 'package.json'))) prerequisites.push('--baseline must name a built package directory; use --baseline-ref for output identity or --baseline-npm for a published release')
+        if (!existsSync(join(options.baseline, 'bun.lock')) && !existsSync(join(options.baseline, 'package-lock.json'))) prerequisites.push('Baseline directory needs its own frozen runtime lock; use an admitted checkout or an exact baseline tarball')
       } else {
         const selector = options.baselineNpm ?? (options.baselineLock && existsSync(options.baselineLock) ? json(options.baselineLock).requested : 'latest')
         args.push('--baseline-npm', selector)
@@ -139,10 +233,7 @@ export function benchmarkSuites(options: SuiteOptions): SuiteDefinition[] {
   const qualificationRoot = root
   const qualificationSource = join(qualificationRoot, 'eval/benchmark/qualify-peer-performance.ts')
   if ((existsSync(qualificationSource) || existsSync(join(root, 'eval/benchmark/qualify-peer-performance.ts'))) && !suites.some(suite => suite.id === 'peers:qualify')) {
-    const prerequisites = [
-      ...(!options.candidateTarball || !options.candidateSha256 ? ['Peer qualification needs the exact candidate tarball and digest'] : []),
-      ...(!options.baselineTarball || !options.baselineSha256 ? ['Peer qualification needs the exact baseline tarball and digest'] : []),
-    ]
+    const prerequisites = [...(!options.candidateTarball || !options.candidateSha256 ? ['Peer qualification needs the exact candidate tarball and digest'] : []), ...(!options.baselineTarball || !options.baselineSha256 ? ['Peer qualification needs the exact baseline tarball and digest'] : [])]
     const args = ['bun', 'run', qualificationSource, '--out', out('peers:qualify'), '--rounds', String(options.rounds), '--runtime-source', options.root, '--elk-cache', 'off']
     add(args, '--candidate-tarball', options.candidateTarball)
     add(args, '--candidate-sha256', options.candidateSha256)
@@ -167,7 +258,21 @@ export function benchmarkSuites(options: SuiteOptions): SuiteDefinition[] {
   }
   standalone('render-stages', 'Official-corpus SVG receipt stage costs', 'eval/benchmark/render-stage-bench.ts', [String(options.rounds), join(out('render-stages'), 'report.json')])
   standalone('performance-profile', 'Experimental profile correctness qualification', 'eval/benchmark/qualify-performance-profile.ts', ['--out', join(out('performance-profile'), 'report.json')])
-  standalone('endpoint-marker', 'Endpoint marker geometry across immutable built checkouts', 'eval/benchmark/endpoint-marker-compare.ts', [options.baseline ?? '', options.packageRoot ?? root, out('endpoint-marker')], options.baseline ? [] : ['Provide --baseline with an immutable built Agentic checkout; --package-root selects the other built checkout.'])
+  const baselineCheckout = options.baselineCheckout ?? options.baseline
+  const candidateCheckout = options.candidateCheckout ?? options.root
+  const checkoutGaps: string[] = []
+  for (const [role, directory] of [
+    ['baseline', baselineCheckout],
+    ['candidate', candidateCheckout],
+  ] as const) {
+    try {
+      if (!directory) throw Error('No checkout was selected')
+      inspectBuiltCheckout(directory)
+    } catch (error) {
+      checkoutGaps.push(`Provide --${role}-checkout with an immutable built Agentic checkout: ${String(error)}`)
+    }
+  }
+  standalone('endpoint-marker', 'Endpoint marker geometry across immutable built checkouts', 'eval/benchmark/endpoint-marker-compare.ts', [baselineCheckout ?? '', candidateCheckout, out('endpoint-marker')], checkoutGaps)
   standalone(
     'output-identity',
     'Cross-revision output identity across styles and formats',

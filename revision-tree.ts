@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url'
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 
 export function git(args: string[], cwd = ROOT): string {
-  return execFileSync('git', args, { cwd, encoding: 'utf8' }).trim()
+  return execFileSync('git', ['-c', 'core.preloadIndex=false', '-c', 'index.threads=1', ...args], { cwd, encoding: 'utf8' }).trim()
 }
 
 /** A revision for display: 12 hex digits, keeping any `+dirty-src` marker. */
@@ -41,6 +41,9 @@ export function extractRevisionTree(ref: string, scratch: string, label: string,
   const untar = spawnSync('tar', ['-x', '-C', root], { input: archive.stdout })
   if (untar.status !== 0) throw new Error('tar extraction failed')
   cpSync(join(ROOT, 'eval/benchmark'), join(root, 'eval/benchmark'), { recursive: true })
+  // Current benchmark fixtures are part of the same harness closure on both
+  // revisions; copying only benchmark/ leaves its ../shared imports unresolved.
+  cpSync(join(ROOT, 'eval/shared'), join(root, 'eval/shared'), { recursive: true })
   symlinkSync(join(ROOT, 'node_modules'), join(root, 'node_modules'), 'dir')
   if (stubImportsOf) {
     const importer = readFileSync(join(root, stubImportsOf), 'utf8')
