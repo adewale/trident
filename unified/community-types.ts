@@ -64,6 +64,8 @@ export interface CommunityArtifact {
   files?: { path: string; sha256: string }[]
   detail?: string
   apiBoundary?: string
+  adapterCompanions?: { root: string; name: string; version: string; integrity: string; closureSha256: string }[]
+  dependencyOverrides?: Record<string, unknown>
   reviewed?: boolean
   buildRecipeId?: string
   runtimeCommandId?: string

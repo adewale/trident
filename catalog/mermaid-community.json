@@ -244,7 +244,17 @@
       "evidence": [
         "https://github.com/excalidraw/mermaid-to-excalidraw/blob/a3c40ca952d56f1d192611dc67c6c224c71f752f/package.json"
       ],
-      "notes": "Source-checked community member, not an independent renderer benchmark peer. Dependency and manifest inspection only; no local runtime benchmark or Git root ancestry check. Categories describe responsibility; relation remains unverified."
+      "notes": "Source-checked community member, not an independent renderer benchmark peer. Dependency and manifest inspection only; no local runtime benchmark or Git root ancestry check. Categories describe responsibility; relation remains unverified.",
+      "benchmark": {
+        "adapter": "published-extra",
+        "package": "@excalidraw/mermaid-to-excalidraw",
+        "version": "2.3.0",
+        "versionPolicy": "recorded",
+        "outputs": [
+          "excalidraw"
+        ],
+        "moduleOutputs": []
+      }
     },
     {
       "id": "gotoailab/modern_mermaid",
@@ -3208,7 +3218,8 @@
         "versionPolicy": "recorded",
         "outputs": [
           "svg",
-          "parse"
+          "parse",
+          "terminal"
         ],
         "operationPackages": [
           {
@@ -3225,6 +3236,11 @@
             "package": "@crafter/mermaid-renderer",
             "version": "0.0.3",
             "operation": "render"
+          },
+          {
+            "package": "@crafter/mermaid-cli",
+            "version": "0.0.4",
+            "operation": "terminal"
           }
         ],
         "portable": {

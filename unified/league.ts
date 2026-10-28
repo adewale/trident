@@ -23,7 +23,7 @@ const LEGACY_FAMILIES = legacyScoredFamilies()
 /** Other documented additions, reported beside the current mark. */
 export const NEWER_FAMILIES = newerFamilies().filter(family => !SCORED_FAMILIES.includes(family))
 
-export const OUTPUTS: Record<string, string> = { svg: 'SVG', terminal: 'Terminal text', png: 'PNG', parse: 'Parser', diagnostics: 'Diagnostics', source: 'Formatted Mermaid source', 'react-flow': 'React Flow model' }
+export const OUTPUTS: Record<string, string> = { svg: 'SVG', terminal: 'Terminal text', png: 'PNG', parse: 'Parser', diagnostics: 'Diagnostics', source: 'Formatted Mermaid source', 'react-flow': 'React Flow model', excalidraw: 'Editable Excalidraw model' }
 export const SURFACES: Record<string, string> = { 'browser:public-api': 'browser API', 'node:public-api': 'Node API', 'bun:public-api': 'Bun API', 'node:public-parse-validation': 'Node parser API', 'cli:end-to-end': 'CLI', 'python:public-api': 'Python API', 'native:in-process-api': 'native API' }
 const slug = (project: string) => project.replace(/[^a-z0-9._-]+/gi, '-').toLowerCase()
 export const percent = (passed: number, total: number) => (total ? `${((100 * passed) / total).toFixed(1)}%` : '—')

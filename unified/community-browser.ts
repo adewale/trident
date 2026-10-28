@@ -27,7 +27,7 @@ export interface CommunityBrowserEngine {
   revision?: string
   artifactSha256: string
   integrity?: string
-  output?: 'svg' | 'png'
+  output?: 'svg' | 'png' | 'excalidraw'
   legacyMermaid?: boolean
   qualificationHelper?: string
   apiBoundary?: string
@@ -122,6 +122,7 @@ interface BrowserMeasurement {
   iterations?: number
   bytes?: number
   findings?: string[]
+  accepted?: boolean
   hasLabelOracle?: boolean
   coverageOnly?: boolean
   /** False when the SVG string parsed only as HTML (for example, HTML-serialized foreignObject labels). */
@@ -140,7 +141,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
   mkdirSync(helperDirectory, { recursive: true })
   const helperBuild = await build({
     stdin: {
-      contents: `export{isRenderedSourceEcho}from ${JSON.stringify(join(tridentDirectory, 'unified/qualification-visible-source.ts'))};export{closeHtmlVoidElements,inspectSvgText}from ${JSON.stringify(join(tridentDirectory, 'unified/svg-text-inspection.ts'))};export{inspectBrowserPng}from ${JSON.stringify(join(tridentDirectory, 'unified/browser-png-inspection.ts'))}`,
+      contents: `export{isRenderedSourceEcho}from ${JSON.stringify(join(tridentDirectory, 'unified/qualification-visible-source.ts'))};export{closeHtmlVoidElements,inspectSvgText}from ${JSON.stringify(join(tridentDirectory, 'unified/svg-text-inspection.ts'))};export{inspectBrowserPng}from ${JSON.stringify(join(tridentDirectory, 'unified/browser-png-inspection.ts'))};export{inspectExcalidraw}from ${JSON.stringify(join(tridentDirectory, 'unified/excalidraw-inspection.ts'))}`,
       resolveDir: harness,
       sourcefile: 'community-visible-output-qualification.mjs',
     },
@@ -173,7 +174,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
       const adapter = ['beautiful-source', 'beautiful-fork'].includes(sourceAdapter ?? '') ? 'beautiful' : ['mermaid-source', 'mermaid-fork'].includes(sourceAdapter ?? '') ? 'mermaid' : peer.node.benchmark?.adapter,
         artifact = peer.artifact
       const supported = peer.node.benchmark?.outputs ?? peer.node.outputs
-      if (!supported.includes('svg')) {
+      if (!supported.includes('svg') && !supported.includes('excalidraw')) {
         results.push({ ...peer, browserStatus: 'not-applicable', browserDetail: 'This community capability does not expose SVG rendering.' })
         continue
       }
@@ -268,6 +269,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
           }
           await build({ entryPoints: [entry], outfile: join(output, 'bundle.js'), bundle: true, platform: 'browser', format: 'iife', globalName: 'unifiedExtra', minify: true, external: ['node:*'], target: 'es2022', logLevel: 'silent' })
           engine = make(output, 'bundle.js', 'extra', 'unifiedExtra')
+          if (spec.outputs?.includes('excalidraw') && supported.includes('excalidraw')) engine.output = 'excalidraw'
           engine.apiBoundary = spec.qualification
           engine.surface = spec.surface
           if (spec.outputs?.includes('png') && supported.includes('png')) engine.additionalOutputs = ['png']
@@ -330,7 +332,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
     runtime: 'chromium',
     family: workload.family,
     caseId: workload.id,
-    operation: 'render',
+    operation: peer.browser?.output === 'excalidraw' ? 'convert' : 'render',
     format: peer.browser?.output ?? 'svg',
     mode,
     status,
@@ -503,7 +505,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
           }
           try {
             const pending = page.evaluate(
-              async ({ source, expected, markdownLabels, id, core, output, coverageOnly }): Promise<BrowserMeasurement> => {
+              async ({ source, expected, relationships, negative, markdownLabels, id, core, output, coverageOnly }): Promise<BrowserMeasurement> => {
                 const call = async (suffix: string) => {
                   const start = performance.now()
                   let value: any, error: string | undefined
@@ -514,7 +516,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                     error = String(cause)
                   }
                   const ms = performance.now() - start
-                  const svg = output === 'png' ? (value instanceof Blob ? new Uint8Array(await value.arrayBuffer()) : value instanceof Uint8Array ? value : undefined) : typeof value === 'string' ? value : value?.svg
+                  const svg = output === 'excalidraw' ? JSON.stringify(value) : output === 'png' ? (value instanceof Blob ? new Uint8Array(await value.arrayBuffer()) : value instanceof Uint8Array ? value : undefined) : typeof value === 'string' ? value : value?.svg
                   ;(globalThis as any).__communityAfterCall?.()
                   for (const node of document.querySelectorAll('body > div:not([data-community-host])')) node.remove()
                   return { ms, svg, error }
@@ -522,6 +524,11 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                 let xmlWellFormed: boolean | null = null
                 const validate = async (svg: unknown): Promise<string[]> => {
                   const helper = (globalThis as any).unifiedCommunityQualification
+                  if (output === 'excalidraw') {
+                    if (typeof svg !== 'string') return ['No Excalidraw conversion returned']
+                    if (typeof helper.inspectExcalidraw !== 'function') return ['Conversion qualification unavailable: prepared helper has no editable-model inspector']
+                    try { return helper.inspectExcalidraw(JSON.parse(svg), expected, relationships) } catch (error) { return ['Malformed conversion output: ' + String(error)] }
+                  }
                   if (output === 'png') {
                     if (!(svg instanceof Uint8Array)) return ['No PNG binary bytes returned']
                     if (typeof helper.inspectBrowserPng !== 'function') return ['PNG qualification unavailable: prepared helper has no browser PNG decoder/content inspector']
@@ -558,9 +565,10 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                   return inspected.missingLabels.map((label: string) => `Missing authored label: ${label}`)
                 }
                 const first = await call('_first')
+                if (negative) return { status: first.error ? 'ok' : 'qualification-failed', accepted: !first.error, firstMs: first.ms, bytes: 0, findings: first.error ? [] : ['Converter accepted independently invalid source'], error: first.error }
                 if (first.error) return { status: 'error', error: first.error, firstMs: first.ms }
                 const firstFindings = await validate(first.svg)
-                if (firstFindings.length) return { status: firstFindings.some(finding => finding.startsWith('PNG qualification unavailable:')) ? 'qualification-unavailable' : 'qualification-failed', findings: firstFindings, firstMs: first.ms, xmlWellFormed, failedOutput: typeof first.svg === 'string' ? first.svg : undefined }
+                if (firstFindings.length) return { status: firstFindings.some(finding => /^(?:PNG|Conversion) qualification unavailable:/.test(finding)) ? 'qualification-unavailable' : 'qualification-failed', findings: firstFindings, firstMs: first.ms, xmlWellFormed, failedOutput: typeof first.svg === 'string' ? first.svg : undefined }
                 const bytes = first.svg instanceof Uint8Array ? first.svg.byteLength : new TextEncoder().encode(first.svg).length
                 if (!core && coverageOnly) return { status: 'ok', firstMs: first.ms, bytes, findings: [], hasLabelOracle: output !== 'png' && expected.length > 0, coverageOnly: true, xmlWellFormed }
                 let iterations = 1
@@ -591,9 +599,9 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                   samples.push(elapsed / iterations)
                 }
                 const findings = await validate(last.svg)
-                return { status: findings.some(finding => finding.startsWith('PNG qualification unavailable:')) ? 'qualification-unavailable' : findings.length ? 'qualification-failed' : 'ok', samples, iterations, firstMs: first.ms, bytes, findings, hasLabelOracle: output !== 'png' && expected.length > 0, xmlWellFormed, ...(findings.length && typeof last.svg === 'string' ? { failedOutput: last.svg } : {}) }
+                return { status: findings.some(finding => /^(?:PNG|Conversion) qualification unavailable:/.test(finding)) ? 'qualification-unavailable' : findings.length ? 'qualification-failed' : 'ok', samples, iterations, firstMs: first.ms, bytes, findings, hasLabelOracle: output !== 'png' && expected.length > 0, xmlWellFormed, ...(findings.length && typeof last.svg === 'string' ? { failedOutput: last.svg } : {}) }
               },
-              { source: workload.source, expected: [...(workload.expectedLabels ?? [])], markdownLabels: [...(workload.markdownLabels ?? [])], id: `unified_${round}_${record.samples.length}`, core: workload.features.includes('core-graph-batch'), output: engine.output ?? 'svg', coverageOnly: options.communityCoverageOnce ?? true },
+              { source: workload.source, negative: workload.intent === 'negative-admission', relationships: workload.expectedRelationships, expected: [...(workload.expectedLabels ?? [])], markdownLabels: [...(workload.markdownLabels ?? [])], id: `unified_${round}_${record.samples.length}`, core: workload.features.includes('core-graph-batch'), output: engine.output ?? 'svg', coverageOnly: options.communityCoverageOnce ?? true },
             )
             let timer: ReturnType<typeof setTimeout> | undefined
             const measured = await Promise.race([
@@ -610,13 +618,14 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
               detail: measured.error,
               metrics: {
                 round,
-                rejected: measured.status === 'error',
+                rejected: measured.accepted === false || measured.status === 'error',
+                expectedAccepted: workload.intent !== 'negative-admission',
                 xmlWellFormed: measured.xmlWellFormed ?? null,
-                outputFile: retainFailedOutput(options.out, peer.node.id, workload.id, 'svg', measured.failedOutput),
+                outputFile: retainFailedOutput(options.out, peer.node.id, workload.id, engine.output === 'excalidraw' ? 'json' : 'svg', measured.failedOutput),
                 firstMs: measured.firstMs ?? null,
                 iterations: measured.iterations ?? null,
                 version: engine.version,
-                qualification: engine.output === 'png' ? 'Native-browser-PNG-decode-and-bounded-raster-content; no OCR/topology/perceptual-fidelity assertion' : measured.hasLabelOracle ? 'XML-canvas-and-authored-labels' : 'XML-and-canvas',
+                qualification: engine.output === 'excalidraw' ? 'Editable-model geometry, authored labels and declared relationships; final canvas unmeasured' : engine.output === 'png' ? 'Native-browser-PNG-decode-and-bounded-raster-content; no OCR/topology/perceptual-fidelity assertion' : measured.hasLabelOracle ? 'XML-canvas-and-authored-labels' : 'XML-and-canvas',
                 apiBoundary: engine.apiBoundary ?? 'public browser API',
                 cache: 'public-default-repeats',
               },

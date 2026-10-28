@@ -12,6 +12,7 @@ const entryPoints = [
   'unified/community-cli.ts',
   'unified/community-browser.ts',
   'unified/browser-png-inspection.ts',
+  'unified/excalidraw-inspection.ts',
   'unified/community-worker.mjs',
   'unified/community-python-worker.py',
   'unified/qualification.ts',
