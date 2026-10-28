@@ -27,10 +27,11 @@ There are 84 declared transport adapters: 20 retain existing-adapter labels and
 64 retain candidate labels from the catalog snapshot. Those historical labels
 are separate from the [0.1 verification](SUPPORT-QUALITY.md), which exercised
 37 release artifacts among 42 eligible entries and retained five blockers.
-Four entities have
-no benchmark adapter: Mermaid Live Editor, the VS Code Mermaid Editor,
-Mermaid-to-Excalidraw and Modern Mermaid. Their editor/conversion roles are not
-missing SVG-renderer scores.
+The current core selection has 39 entries. The original receipt keeps its dated
+42-entry scope; three full editors are now discovery-only applications: Mermaid
+Live Editor, VS Code Mermaid Editor and Modern Mermaid. They have no core driver
+requirement and are not missing renderer scores. Mermaid-to-Excalidraw retains
+an applicable public conversion binding gap. See [scope](SCOPE.md).
 
 Of the 45 forks, 25 were recorded with zero commits ahead of their parent; four
 were also zero behind. A fork name therefore cannot establish another distinct
@@ -75,6 +76,7 @@ beside available SVG evidence. Family support always requires an actual probe.
   that the project lacks the capability.
 - `project-unsupported`: the catalog does not declare the requested output.
 - `reference-only`: the suite validates the pinned reference's own runner.
+- `out-of-scope`: the catalog entry is a whole application, outside core benchmarks.
 
 Campaign preflight also reports missing local prerequisites. Those are
 environment blockers, not renderer defects. Completed records retain their
@@ -84,7 +86,7 @@ original statuses and dates; a new vocabulary never rewrites old results.
 
 [The complete lineage tree](LINEAGE.md) labels forks, ports and bindings, with
 dependencies kept separate. Generate a fresh view with `bun commands.ts support
---lineage`. Unbranded descendants, zero-ahead forks and bindings are excluded from normal comparisons; scores still
+--lineage`. Whole-application workflows, unbranded descendants, zero-ahead forks and bindings are excluded from normal comparisons; scores still
 require artifact/protocol proof before reuse. [The dated support stack rank](SUPPORT-QUALITY.md)
 shows integration evidence and gaps for all 88 entries. [Report reading](REPORTING.md)
 explains how to interpret the resulting scorecards.

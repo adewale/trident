@@ -5,6 +5,9 @@ portable Node kit. The repository package is private; this is not an npm publish
 Support claims describe the tested public interface and actual artifact version.
 A renderer failure is a benchmark finding; a wrong invocation is a harness defect.
 
+[Scope](SCOPE.md) keeps editor/IDE drivers, product-specific campaigns, missing
+upstream features, a Pages site and version alerts outside release prerequisites.
+
 Before tagging:
 
 1. Check the exact intended source head with the complete harness tests,

@@ -11,6 +11,7 @@ import { positiveRenderInput } from './workload-intent.ts'
 import { median } from '../portable/statistics.ts'
 import { assertCurrentReportSetVersions, currentReportVersion } from './current-report-versions.ts'
 import { copyPublicationMethods } from './publication-methods.ts'
+import { rankResults } from './result-ranking.ts'
 
 /** Mermaid defines valid input, so its row is the reference, not a contestant. */
 export const REFERENCE_PROJECT = 'mermaid-js/mermaid'
@@ -333,8 +334,9 @@ function table(lanes: Lane[], reference: Lane | undefined) {
       newer = !lane.newer ? '—' : lane.newer.supported.length ? `${lane.newer.supported.length}/${NEWER_FAMILIES.length}, ${percent(lane.newer.passed, lane.newer.passed + lane.newer.failed)}` : `0/${NEWER_FAMILIES.length}`
     return `| ${lane === reference ? `*${tool} (reference)*` : tool} | ${escape(lane.version)} | ${SURFACES[lane.surface] ?? lane.surface} | ${lane.supported.length}/${SCORED_FAMILIES.length} | ${percent(lane.passed, lane.passed + lane.failed)} (${lane.passed}/${lane.passed + lane.failed}) | ${newer} | ${ms(lane.coreFirstMs)} | ${lane === reference && lane.coreFirstMs !== null ? 'reference' : ratio} | ${ms(lane.coreMedianMs)} | ${lane.legacy.supported}/${LEGACY_FAMILIES.length}, ${percent(lane.legacy.passed, lane.legacy.passed + lane.legacy.failed)} (${lane.legacy.passed}/${lane.legacy.passed + lane.legacy.failed}) | [record](records/${slug(lane.project)}.json.gz) · [failures](failures/${slug(lane.project)}.md) |`
   }
-  if (reference) lines.push(row(reference))
-  lanes.forEach(lane => lines.push(row(lane)))
+  const ordered = rankResults([...lanes, ...(reference ? [reference] : [])], { direction: 'descending', name: lane => lane.project,
+    score: lane => lane.passed + lane.failed === 0 && lane.blocked > 0 ? null : lane.passed })
+  ordered.forEach(entry => lines.push(row(entry.row)))
   return lines
 }
 
@@ -377,7 +379,7 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
     '',
     `Measured ${measured[0]!.slice(0, 10)}${measured.at(-1)!.slice(0, 10) !== measured[0]!.slice(0, 10) ? ` to ${measured.at(-1)!.slice(0, 10)}` : ''} by [Trident](../README.md) against the pinned Mermaid ${MERMAID_ORACLE_PIN.version} oracle, on the corpus frozen from Agentic Mermaid ${communityCorpus().source.commit.slice(0, 8)}${communityCorpus().upstream ? `, with the newer families' examples from Mermaid's ${communityCorpus().upstream!.tag} syntax docs` : ''}. ${calibrated ? '' : `**Records with fewer than ${CALIBRATED_ROUNDS} rounds show no speed.**`}`,
     '',
-    `How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Tables group each output by public invocation surface and compatible protocol/runtime settings; costs never cross these boundaries. Rolling records are not paired same-session experiments. Rows are alphabetical within each group. Coverage, conditional pass rate and fixed-core timing are separate diagnostics; none determines a rank or overall winner. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so it is measured with the same checks but not ranked. An unsupported family is a coverage gap, never a failure. The legacy 23-family column preserves the original mark; the current mark also includes stable Event Modeling and required first-party ZenUML. "Newer families" counts how many of Mermaid's ${NEWER_FAMILIES.length} newest families the tool supports, with its pass rate in them; it never changes the other columns. See the [methodology](METHODOLOGY.md).`,
+    `How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Tables group each output by public invocation surface and compatible protocol/runtime settings; costs never cross these boundaries. Rolling records are not paired same-session experiments. Rows are stack-ranked by passed current-mark inputs within each comparable group, highest first; names order ties. The passed count appears beside the conditional pass rate. Coverage, conditional pass rate and fixed-core timing remain separate measures; there is no combined score. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so its row uses the same checks and ordering and remains labelled as the reference. An unsupported family is a coverage gap, never a failure. The legacy 23-family column preserves the original mark; the current mark also includes stable Event Modeling and required first-party ZenUML. "Newer families" counts how many of Mermaid's ${NEWER_FAMILIES.length} newest families the tool supports, with its pass rate in them; it never changes the other columns. See the [methodology](METHODOLOGY.md).`,
     '',
   ]
   for (const format of new Set([...Object.keys(OUTPUTS), ...all.map(lane => lane.format)])) {
