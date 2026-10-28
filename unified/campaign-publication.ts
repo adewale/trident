@@ -52,7 +52,9 @@ export function publishCampaigns(directories: string[], out: string, settings: {
   const inputs = sources.map(directory => {
     const original = readCampaign(directory), selectedSuites = settings.suiteSelection?.[directory]
     if (selectedSuites && (!selectedSuites.length || new Set(selectedSuites).size !== selectedSuites.length || selectedSuites.some(suite => !PUBLIC_SUITES.includes(suite as any)))) throw Error('Publication suite selection must name unique public suites')
-    return { directory, selectedSuites, report: { ...original, results: selectedSuites ? original.results.filter(row => selectedSuites.includes(row.suite)) : original.results } }
+    const results = selectedSuites ? original.results.filter(row => selectedSuites.includes(row.suite)) : original.results
+    if (settings.copyEvidence && results.some(row => row.out && relative(directory, resolve(row.out)).startsWith('..'))) throw Error('A selected suite owns evidence outside its campaign; supply the original owning campaign for a portable bundle')
+    return { directory, selectedSuites, report: { ...original, results } }
   })
   mkdirSync(out, { recursive: true })
   const lines = ['# Trident benchmark evidence', '', `Published ${new Date().toISOString()}. Measurement dates below belong to the original campaigns.`, '',
