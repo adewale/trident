@@ -401,6 +401,43 @@ function qualifyPortableUnchecked(testCase: PortableCase, output: PortableOutput
   }
   const nodes = root ? all(root) : [],
     visibleText = root ? textIn(root) : ''
+  if (testCase.renderIntent) {
+    const expectedSize = testCase.renderIntent.nodeLabelFontSize
+    const supportedProfile = output.adapter === 'pele' || output.adapter === 'agentic'
+    const matchesOwner = (element: Element, id: string) => element.uri === namespace && visible(element) && element.attributes['data-id'] === id && hasClass(element, output.adapter === 'pele' ? 'pele-node' : 'node')
+    const declaredFontSize = (element: Element): number | undefined => {
+      for (let current: Element | undefined = element; current; current = current.parent) {
+        const style = current.attributes.style ?? ''
+        const sizes = [...style.matchAll(/(?:^|;)\s*font-size\s*:\s*([^;]*)/gi)]
+        const shorthands = [...style.matchAll(/(?:^|;)\s*font\s*:\s*([^;]*)/gi)]
+        // Unsupported or competing local declarations do not inherit a valid
+        // ancestor and manufacture a pass. This is a bounded inline profile.
+        if (sizes.length > 1 || shorthands.length > 1 || (sizes.length && shorthands.length)) return undefined
+        if (sizes.length) {
+          const value = sizes[0]![1]!.replace(/\s*!important\s*$/i, '').trim()
+          const match = /^([\d.]+)(?:px)?$/.exec(value)
+          return match ? Number(match[1]) : undefined
+        }
+        if (shorthands.length) {
+          const match = /^\s*([\d.]+)px(?=\s|\/)/.exec(shorthands[0]![1]!)
+          return match ? Number(match[1]) : undefined
+        }
+        if (Object.hasOwn(current.attributes, 'font-size')) {
+          const match = /^([\d.]+)(?:px)?$/.exec(current.attributes['font-size']!.trim())
+          return match ? Number(match[1]) : undefined
+        }
+      }
+      return undefined
+    }
+    const ids = testCase.expected.topology?.nodes ?? []
+    check('svg-node-label-font-intent-population', true, ids.length > 0, 'A font intent requires independently authored node identities.', supportedProfile)
+    for (const id of ids) {
+      const owners = nodes.filter(element => matchesOwner(element, id))
+      const texts = owners.length === 1 ? all(owners[0]!).filter(element => element.uri === namespace && element.tag === 'text' && visible(element) && textIn(element).trim()) : []
+      const sizes = texts.map(declaredFontSize)
+      check('svg-node-label-font-size:' + id, true, owners.length === 1 && sizes.length > 0 && sizes.every(size => size === expectedSize), 'Actual owned node text font declarations, using inline/presentation inheritance. Computed stylesheet CSS, glyph metrics and clipping remain unmeasured.', supportedProfile)
+    }
+  }
   for (const label of testCase.expected.labels) check('label:' + label, true, visibleText.includes(normalizedText(label)), 'Authored rendered text, excluding hidden/metadata/defs text; computed CSS and clipping remain unmeasured.')
   const ids = nodes.map(element => element.attributes.id).filter((id): id is string => !!id)
   check('svg-unique-ids', ids.length, new Set(ids).size, 'Document IDs must be unique; repeated data-id values are renderer-specific.')

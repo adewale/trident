@@ -33,6 +33,7 @@ export interface PortableOptions {
   preparationConcurrency: number
   maximumControlSpread: number
   cohorts?: PortableCohort[]
+  caseIds?: string[]
   layoutBackends?: ('elk' | 'agentic')[]
   observer?: string
   mermaidReference?: string
@@ -47,7 +48,7 @@ import { assertBenchmarkExecutionAllowed as assertPortableLocal } from './ci-pol
 export function parsePortableOptions(argv: string[]): PortableOptions {
   const flags = new Set(['--force', '--plan', '--allow-partial']),
     values = new Map<string, string>()
-  const allowed = new Set(['project', 'artifact-root', 'adapter', 'entry', 'node', 'out', 'records', 'rounds', 'samples', 'cold-samples', 'min-sample-ms', 'preparation-concurrency', 'maximum-control-spread', 'cohort', 'layout-backends', 'observer', 'mermaid-reference', 'usage', 'cpu-hour-usd'])
+  const allowed = new Set(['project', 'artifact-root', 'adapter', 'entry', 'node', 'out', 'records', 'rounds', 'samples', 'cold-samples', 'min-sample-ms', 'preparation-concurrency', 'maximum-control-spread', 'cohort', 'cases', 'layout-backends', 'observer', 'mermaid-reference', 'usage', 'cpu-hour-usd'])
   for (let index = 0; index < argv.length; index++) {
     const flag = argv[index]!
     if (values.has(flag)) throw Error('Duplicate option ' + flag)
@@ -74,6 +75,8 @@ export function parsePortableOptions(argv: string[]): PortableOptions {
   if (!['pele', 'agentic', 'beautiful', 'ondine'].includes(adapter)) throw Error('Unsupported public Node SVG adapter')
   const cohorts = values.has('--cohort') ? (values.get('--cohort')!.split(',') as PortableCohort[]) : undefined
   if (cohorts?.some(cohort => !['family', 'scaling', 'adversarial', 'invalid'].includes(cohort)) || (cohorts && new Set(cohorts).size !== cohorts.length)) throw Error('Unknown or repeated cohort')
+  const caseIds = values.has('--cases') ? values.get('--cases')!.split(',') : undefined
+  if (caseIds && (caseIds.some(id => !id || id !== id.trim()) || new Set(caseIds).size !== caseIds.length)) throw Error('--cases requires unique nonempty exact case IDs')
   const layoutBackends = values.has('--layout-backends') ? values.get('--layout-backends')!.split(',') as ('elk' | 'agentic')[] : undefined
   if (layoutBackends && (adapter !== 'agentic' || !layoutBackends.length || new Set(layoutBackends).size !== layoutBackends.length || layoutBackends.some(backend => !['elk', 'agentic'].includes(backend)))) throw Error('--layout-backends requires the agentic adapter and unique elk,agentic selections')
   return {
@@ -91,6 +94,7 @@ export function parsePortableOptions(argv: string[]): PortableOptions {
     preparationConcurrency: integer('--preparation-concurrency', 8),
     maximumControlSpread: decimal('--maximum-control-spread', 0.25),
     cohorts,
+    caseIds,
     layoutBackends,
     observer: values.has('--observer') ? resolve(values.get('--observer')!) : defaultTimeObserver(),
     mermaidReference: values.has('--mermaid-reference') ? resolve(values.get('--mermaid-reference')!) : undefined,
@@ -100,6 +104,12 @@ export function parsePortableOptions(argv: string[]): PortableOptions {
     plan: values.has('--plan'),
     allowPartial: values.has('--allow-partial'),
   }
+}
+/** Explicit subsets retain original corpus order and reject typos before any clock. */
+export function selectPortableCases(cases: PortableCase[], ids?: string[]): PortableCase[] {
+  if (!ids) return cases
+  if (!ids.length || ids.some(id => !id || !cases.some(testCase => testCase.id === id)) || new Set(ids).size !== ids.length) throw Error('--cases includes an unknown, empty or repeated case ID')
+  return cases.filter(testCase => ids.includes(testCase.id))
 }
 const now = () => new Date().toISOString()
 const writeJson = (file: string, value: unknown) => writeFileSync(file, JSON.stringify(value, null, 2) + '\n', { flag: 'wx' })
@@ -137,7 +147,7 @@ export async function runPortable(options: PortableOptions) {
   assertPortableLocal()
   resetPortableCancellation()
   if (options.layoutBackends && options.adapter !== 'agentic') throw Error('Explicit layout-backend cases require the Agentic public receipt API')
-  const selectedCases = portableCases(options.cohorts), testCases = options.layoutBackends ? layoutBackendCases(selectedCases, options.layoutBackends) : selectedCases,
+  const selectedCases = selectPortableCases(portableCases(options.cohorts), options.caseIds), testCases = options.layoutBackends ? layoutBackendCases(selectedCases, options.layoutBackends) : selectedCases,
     artifact = resolveArtifact(options.project, options.artifactRoot, options.adapter, options.node, options.entry)
   assertBenchmarkToolVersion(options.project, artifact.version, 'portable SVG artifact')
   if (!testCases.length) throw Error('No selected cases')
@@ -153,6 +163,7 @@ export async function runPortable(options: PortableOptions) {
   )
   const sampling = {
     rounds: options.rounds,
+    ...(options.caseIds ? { caseSelection: { requestedIds: options.caseIds, actualIds: testCases.map(testCase => testCase.id), scope: 'Explicit case subset; this record is not a complete portfolio or project replacement.' } } : {}),
     samples: options.samples,
     coldSamples: options.coldSamples,
     minSampleMs: options.minSampleMs,
@@ -169,7 +180,7 @@ export async function runPortable(options: PortableOptions) {
   }
   const identity: ProjectBenchmarkIdentity = jsonValue({
     project: options.project,
-    lane: 'portable-svg',
+    lane: options.caseIds ? 'portable-svg-backend-subset' : 'portable-svg',
     protocol: { measurement: PORTABLE_MEASUREMENT_PROTOCOL, cohort: PORTABLE_COHORT_PROTOCOL, harness: harnessIdentity(), cases: testCases, familySupport: { protocol: FAMILY_SUPPORT_PROTOCOL, probes, oracle: { pin: MERMAID_ORACLE_PIN, diagramTypes: Object.fromEntries(probes.map(probe => [probe.family, diagramTypes[probe.id] ?? null])) } } },
     artifact: artifactIdentity(artifact),
     measurement: { sampling: Object.fromEntries(Object.entries(sampling).filter(([key]) => key !== 'maximumControlSpread')), environment: environmentIdentity(options.node), observer: observerIdentity(options.observer) },
@@ -249,6 +260,13 @@ export async function runPortable(options: PortableOptions) {
       project: options.project,
       version: artifact.version,
       artifact: identity.artifact,
+      observerCapabilities: {
+        attemptedPublicModelReadback: 'parse',
+        reviewedNativeModelSchemaAdapters: ['pele'],
+        selectedAdapter: artifact.adapter,
+        reviewedPaintProjectionFamilies: artifact.adapter === 'pele' ? ['flowchart', 'class', 'state', 'er', 'sequence'] : [],
+        scope: 'Declared semantic completion requires an implemented native/owned-paint observer. Missing adapter projections are unmeasured observer coverage, not zero product fidelity.',
+      },
       sampling,
       startedAt: record.startedAt,
       finishedAt: record.finishedAt,

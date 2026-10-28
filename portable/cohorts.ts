@@ -1,5 +1,5 @@
 /** Additive cohorts. Dave and the historical six-core comparison stay unchanged. */
-export const PORTABLE_COHORT_PROTOCOL = 'portable-authored-family-scaling-v2'
+export const PORTABLE_COHORT_PROTOCOL = 'portable-authored-family-scaling-v3'
 export type PortableCohort = 'family' | 'scaling' | 'adversarial' | 'invalid'
 export type Json = null | boolean | number | string | Json[] | { [key: string]: Json }
 export interface PortableEdge {
@@ -19,10 +19,12 @@ export interface PortableCase {
     topology?: { nodes: string[]; edges: PortableEdge[]; nodeLabels?: Record<string, string>; groups?: { id: string; members: string[] }[] }
   }
   renderOptions?: Record<string, Json>
+  /** Cross-tool semantic intent; mapped only through reviewed public API options. */
+  renderIntent?: { nodeLabelFontSize: number }
   /** Explicit API/backend experiment; never inferred from an ignored option. */
   layoutBackend?: 'elk' | 'agentic'
   prelude?: { source: string; accept: boolean }[]
-  edit?: { source: string; expected: PortableCase['expected']; renderOptions?: Record<string, Json> }
+  edit?: { source: string; expected: PortableCase['expected']; renderOptions?: Record<string, Json>; renderIntent?: { nodeLabelFontSize: number } }
 }
 
 const edge = (source: string, target: string): PortableEdge => ({ source, target })
@@ -380,9 +382,9 @@ const adversarialCases: PortableCase[] = [
     cohort: 'adversarial',
     prelude: [{ source: '%%{init: {"flowchart": {"nodeSpacing": 100}}}%%\nflowchart LR\nA[Previous] --> B[Configuration]', accept: true }],
     source: 'flowchart TB\nA[Current] --> B[Configuration]',
-    renderOptions: { fontSize: 14 },
+    renderIntent: { nodeLabelFontSize: 14 },
     expected: { accept: true, labels: ['Current', 'Configuration'], topology: { nodes: ['A', 'B'], edges: [edge('A', 'B')] }, model: [{ path: ['direction'], value: 'TB' }] },
-    edit: { source: 'flowchart TB\nA[Current] --> B[Configuration]', renderOptions: { fontSize: 24 }, expected: { accept: true, labels: ['Current', 'Configuration'], topology: { nodes: ['A', 'B'], edges: [edge('A', 'B')] }, model: [{ path: ['direction'], value: 'TB' }] } },
+    edit: { source: 'flowchart TB\nA[Current] --> B[Configuration]', renderIntent: { nodeLabelFontSize: 24 }, expected: { accept: true, labels: ['Current', 'Configuration'], topology: { nodes: ['A', 'B'], edges: [edge('A', 'B')] }, model: [{ path: ['direction'], value: 'TB' }] } },
   },
 ]
 const invalidCases: PortableCase[] = [

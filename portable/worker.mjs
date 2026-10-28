@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
 import { qualifyPortable } from './fidelity.ts'
+import { portableCaseForAdapter } from './render-intent.ts'
 import { layoutBackendCheck } from './layout-backend.ts'
 import { assertBenchmarkExecutionAllowed } from './ci-policy.ts'
 
@@ -12,7 +13,7 @@ const job = transport === '--ipc' ? await new Promise(resolve => process.once('m
 const started = process.hrtime.bigint()
 const clock = () => Number(process.hrtime.bigint()) / 1e6
 const runtime = { executable: process.execPath, node: process.versions.node, platform: process.platform, arch: process.arch }
-const result = { protocol: 'portable-svg-processes-v5', caseId: job.testCase.id, family: job.testCase.family, mode: job.mode, round: job.round, replica: job.replica, sample: job.sample, status: 'blocked', importMs: 0, tracks: {}, iterations: {}, outputBytes: 0, qualification: null, prelude: [], runtime }
+const result = { protocol: 'portable-svg-processes-v6', caseId: job.testCase.id, family: job.testCase.family, mode: job.mode, round: job.round, replica: job.replica, sample: job.sample, status: 'blocked', importMs: 0, tracks: {}, iterations: {}, outputBytes: 0, qualification: null, prelude: [], runtime }
 const errorText = error => error instanceof Error ? String(error.stack ?? error) : String(error)
 const thenable = value => value && typeof value.then === 'function'
 function collect() { if (global.gc) { global.gc(); global.gc() } }
@@ -48,7 +49,7 @@ try {
     if (recordWindow) result.apiWindow = { startNs, endNs: process.hrtime.bigint().toString() }
     return { value, error, bytes, elapsedMs }
   }
-  const testCase = job.testCase
+  const testCase = portableCaseForAdapter(job.artifact.adapter, job.testCase)
   const qualify = (expectedCase, rendered, model) => {
     const svg = typeof rendered.value === 'string' ? rendered.value : rendered.value?.svg
     const qualification = qualifyPortable(expectedCase, { svg, model, error: rendered.error, adapter: job.artifact.adapter })
@@ -138,7 +139,7 @@ try {
           const options = edited ? testCase.edit.renderOptions ?? testCase.renderOptions : testCase.renderOptions
           const current = await invoke(source, options)
           if ((!current.error) !== testCase.expected.accept) { result.status = 'failed'; result.error = 'Acceptance changed during the measured track' }
-          const expectedCase = edited ? { ...testCase, source, expected: testCase.edit.expected, renderOptions: testCase.edit.renderOptions ?? testCase.renderOptions } : { ...testCase, source }
+          const expectedCase = edited ? { ...testCase, source, expected: testCase.edit.expected, renderIntent: testCase.edit.renderIntent ?? testCase.renderIntent, renderOptions: testCase.edit.renderOptions ?? testCase.renderOptions } : { ...testCase, source }
           await inspect(current, expectedCase, source)
           lastSource = source
           elapsed += current.elapsedMs
@@ -152,7 +153,7 @@ try {
       result.iterations[track] = iterations
       // Validate the actual last return from each track, outside its clock.
       const edited = track === 'warm-label-edit' && (invocation - 1) % 2 === 1
-      const expectedCase = edited ? { ...testCase, source: lastSource, expected: testCase.edit.expected, renderOptions: testCase.edit.renderOptions ?? testCase.renderOptions } : { ...testCase, source: lastSource }
+      const expectedCase = edited ? { ...testCase, source: lastSource, expected: testCase.edit.expected, renderIntent: testCase.edit.renderIntent ?? testCase.renderIntent, renderOptions: testCase.edit.renderOptions ?? testCase.renderOptions } : { ...testCase, source: lastSource }
       const checked = await inspect(retained, expectedCase, expectedCase.source)
       if (checked.checks.some(check => check.status === 'failed')) { result.status = 'failed'; result.error = `${track}: declared output checks failed`; result.qualification = checked }
     }
@@ -161,7 +162,7 @@ try {
       const rendered = await invoke(testCase.edit.source, testCase.edit.renderOptions ?? testCase.renderOptions)
       let model
       if (!rendered.error && typeof api.parse === 'function') { try { model = api.parse(testCase.edit.source); if (thenable(model)) model = await model } catch {} }
-      const checked = qualify({ ...testCase, source: testCase.edit.source, expected: testCase.edit.expected, renderOptions: testCase.edit.renderOptions ?? testCase.renderOptions }, rendered, model)
+      const checked = qualify({ ...testCase, source: testCase.edit.source, expected: testCase.edit.expected, renderIntent: testCase.edit.renderIntent ?? testCase.renderIntent, renderOptions: testCase.edit.renderOptions ?? testCase.renderOptions }, rendered, model)
       if (checked.checks.some(check => check.status === 'failed')) { result.status = 'failed'; result.error = 'Edited output failed declared checks'; result.qualification = checked }
     }
     retained = await invoke(testCase.source, testCase.renderOptions)
