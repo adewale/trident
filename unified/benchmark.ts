@@ -16,6 +16,7 @@ import { parseOptions } from './options.ts'
 import { communityCatalogFile } from './trident-paths.ts'
 import type { UnifiedSuiteResult } from './types.ts'
 import { PUBLIC_SUITES, nativeAdapter, portableAdapter, projectSupport, type CatalogMember, type PublicSuite } from './support.ts'
+import { comparisonProjects } from './lineage.ts'
 import { campaignPlan } from './campaign-plan.ts'
 
 const suites = PUBLIC_SUITES
@@ -36,17 +37,18 @@ export function publicPackageRoot(peer: PreparedCommunity | undefined): string |
  * in their own repository and never enter this project comparison. */
 export async function main(argv = process.argv.slice(2)) {
   if (argv.includes('--help')) {
-    console.log('bun commands.ts bench --projects OWNER/TOOL,... --profile full --rounds 5 --out DIRECTORY [--records DIRECTORY] [--suites ' + suites.join(',') + '] [--executable CHROMIUM] [--upstream-runner-root INSTALLED_VITEST_KIT] [--list] [--plan] [--all-projects] [--budget-minutes N]\nRuns applicable public-artifact suites serially; full portable sampling uses31 warm means and20 fresh processes per replica/round/case. Missing capabilities and dependencies remain blocked or unsupported. No source checkout of any candidate is inferred. AM product diagnostics run in AM. Failed/blocked suites do not stop subsequent collection; report.json preserves their status.')
+    console.log('bun commands.ts bench --projects OWNER/TOOL,... --profile full --rounds 5 --out DIRECTORY [--records DIRECTORY] [--suites ' + suites.join(',') + '] [--executable CHROMIUM] [--upstream-runner-root INSTALLED_VITEST_KIT] [--list] [--plan] [--all-projects] [--include-excluded-descendants] [--budget-minutes N]\nRuns applicable public-artifact suites serially; full portable sampling uses31 warm means and20 fresh processes per replica/round/case. Missing capabilities and dependencies remain blocked or unsupported. Lineage exclusions apply before acquisition: unbranded descendants, zero-ahead versions and shared-engine bindings are skipped; --include-excluded-descendants is for explicit fork/version/runtime investigations. No source checkout of any candidate is inferred. AM product diagnostics run in AM. Failed/blocked suites do not stop subsequent collection; report.json preserves their status.')
     return
   }
   const forwarded: string[] = [], selected: string[] = [], seen = new Set<string>()
-  let list = false, planOnly = false, allProjects = false, budgetMinutes: number | undefined, upstreamRunnerRoot: string | undefined
+  let list = false, planOnly = false, allProjects = false, includeExcluded = false, budgetMinutes: number | undefined, upstreamRunnerRoot: string | undefined
   for (let index = 0; index < argv.length; index++) {
     const flag = argv[index]!
     if (seen.has(flag)) throw Error('Duplicate option ' + flag)
     seen.add(flag)
     if (flag === '--list') { list = true; continue }
     if (flag === '--plan') { planOnly = true; continue }
+    if (flag === '--include-excluded-descendants') { includeExcluded = true; continue }
     if (flag === '--all-projects') { allProjects = true; continue }
     if (flag === '--budget-minutes') { budgetMinutes = Number(argv[++index]); if (!Number.isFinite(budgetMinutes) || budgetMinutes <= 0) throw Error('--budget-minutes requires a positive number'); continue }
     if (flag === '--suites') { selected.push(...(argv[++index] ?? '').split(',')); continue }
@@ -60,9 +62,13 @@ export async function main(argv = process.argv.slice(2)) {
   if (allProjects && options.communityProjects) throw Error('Use --projects or --all-projects, not both')
   if (!list && !options.communityProjects && !allProjects) throw Error('Choose --projects OWNER/TOOL,... or explicitly --all-projects; use --list or --plan with a selection before starting')
   const catalog = read(options.communityCatalogFile ?? communityCatalogFile)
-  const projects = selectCommunityProjects(catalog.nodes, options.communityProjects).map(peer => peer.id)
+  let projects = selectCommunityProjects(catalog.nodes, options.communityProjects).map(peer => peer.id)
   if (list) { console.log(JSON.stringify({ suites: chosen, projects, profile: options.profile, rounds: options.rounds, selectionRequiredToRun: !options.communityProjects && !allProjects, support: selectCommunityProjects(catalog.nodes, options.communityProjects).map(node => projectSupport(node as CatalogMember)) }, null, 2)); return }
-  const plan = campaignPlan({ projects: selectCommunityProjects(catalog.nodes, options.communityProjects) as CatalogMember[], suites: chosen as PublicSuite[], profile: options.profile, rounds: options.rounds, executable: options.executable, upstreamRunnerRoot, budgetMinutes })
+  const comparisonSelection = comparisonProjects(catalog, projects, includeExcluded)
+  projects = comparisonSelection.included
+  options.communityProjects = projects
+  if (!projects.length && !planOnly) throw Error('No projects remain after lineage/branding exclusions; inspect support --lineage or use --include-excluded-descendants for a version/runtime investigation')
+  const plan = { ...campaignPlan({ catalog, projects: catalog.nodes.filter((node: CatalogMember) => projects.includes(node.id)) as CatalogMember[], suites: chosen as PublicSuite[], profile: options.profile, rounds: options.rounds, executable: options.executable, upstreamRunnerRoot, budgetMinutes }), comparisonSelection }
   if (planOnly) { console.log(JSON.stringify(plan, null, 2)); return }
   assertBenchmarkExecutionAllowed()
   if (existsSync(join(options.out, 'report.json'))) throw Error('Choose a fresh campaign output directory; retained project records are reused separately')

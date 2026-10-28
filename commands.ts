@@ -8,7 +8,7 @@ const directory = dirname(fileURLToPath(import.meta.url))
 const help = `Trident — benchmarks for Mermaid renderers, terminal tools and parsers
 
 Benchmark catalog projects (Bun):
-  bun commands.ts support [--out FILE.md|json]
+  bun commands.ts support [--lineage] [--out FILE.md|json]
   bun commands.ts bench --projects OWNER/TOOL[,...] --plan
   bun commands.ts bench --projects OWNER/TOOL[,...] --profile full --rounds 5 --out DIR
   bun commands.ts bench --list
@@ -31,6 +31,9 @@ Setup and read evidence:
 Maintainer checks (Bun): test, typecheck, lint
 
 See BENCHMARKS.md for questions, usefulness, limitations and prerequisites.
+Normal comparisons exclude descendants without distinct recorded branding,
+zero-ahead versions and shared-engine bindings. See support --lineage; override
+with --include-excluded-descendants only for a fork/version/runtime investigation.
 Public commands need no source checkout of a benchmarked project. Every tool uses
 its catalog release, or the same explicit --candidate-* options. Build defaults
 to portable/dist; custom kits run via node KIT/run.mjs. Measurements reject CI.

@@ -3,11 +3,13 @@
 // the output when it is not the return value itself. Shared by the Node worker and browser bundle.
 export function declaredRenderer(api, binding, output) {
   if (!binding || typeof binding.export !== 'string') throw Error(`Declared adapter has no API binding for ${output}`)
-  const render = binding.export.split('.').reduce((value, key) => value?.[key], api)
+  const path = binding.export.split('.')
+  const receiver = path.slice(0, -1).reduce((value, key) => value?.[key], api)
+  const render = receiver?.[path.at(-1)]
   if (typeof render !== 'function') throw Error(`Declared public export is not a function: ${binding.export}`)
   const pick = value => (binding.result ? value?.[binding.result] : value)
   return source => {
-    const value = binding.options === undefined ? render(source) : render(source, structuredClone(binding.options))
+    const value = binding.options === undefined ? render.call(receiver, source) : render.call(receiver, source, structuredClone(binding.options))
     return value && typeof value.then === 'function' ? value.then(pick) : pick(value)
   }
 }

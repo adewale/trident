@@ -72,3 +72,12 @@ beside available SVG evidence. Family support always requires an actual probe.
 Campaign preflight also reports missing local prerequisites. Those are
 environment blockers, not renderer defects. Completed records retain their
 original statuses and dates; a new vocabulary never rewrites old results.
+
+## Lineage and support assessment
+
+[The complete lineage tree](LINEAGE.md) labels forks, ports and bindings, with
+dependencies kept separate. Generate a fresh view with `bun commands.ts support
+--lineage`. Unbranded descendants, zero-ahead forks and bindings are excluded from normal comparisons; scores still
+require artifact/protocol proof before reuse. [The dated support stack rank](SUPPORT-QUALITY.md)
+shows integration evidence and gaps for all 88 entries. [Report reading](REPORTING.md)
+explains how to interpret the resulting scorecards.

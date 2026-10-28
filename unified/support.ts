@@ -7,6 +7,7 @@ export const PUBLIC_SUITES = ['community', 'docs', 'fidelity', 'native-fidelity'
 export type PublicSuite = typeof PUBLIC_SUITES[number]
 export type SupportState = 'configured' | 'conditional' | 'adapter-missing' | 'project-unsupported' | 'reference-only'
 export interface CatalogMember extends CommunityNode {
+  comparisonBranding?: { distinct: boolean; name?: string | null; evidence: string }
   relation?: string
   parent?: string
   categories?: string[]

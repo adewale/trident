@@ -23,7 +23,7 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
         })
         const calibration = calibrate(rounds, track === 'first-use' ? Math.max(20, settings.coldSamples) : Math.max(31, settings.samples), settings.maximumControlSpread)
         const outputCalibration = structuredClone(calibration)
-        const outputAdmissionComplete = completeWorkers && relevant.every(result => result.qualification?.evidence?.outputAdmission === 'passed')
+        const outputAdmissionComplete = completeWorkers && relevant.every(result => result.status !== 'blocked' && result.prelude.every(item => item.passed) && result.qualification?.evidence?.outputAdmission === 'passed')
         if (!outputAdmissionComplete) { outputCalibration.status = 'uncalibrated'; outputCalibration.gaps.push('Format/text output admission is incomplete or unavailable in this protocol') }
         if (!completeWorkers || relevant.some(result => result.status === 'failed' || result.status === 'blocked')) {
           calibration.status = 'uncalibrated'

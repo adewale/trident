@@ -33,6 +33,7 @@ test('campaign planning never installs a target or runs a renderer and execution
     expect({ status: result.status, stderr: result.stderr }).toEqual({ status: 0, stderr: '' })
     const plan = JSON.parse(result.stdout)
     expect(plan.selection).toEqual(['fixture/not-installed'])
+    expect(plan.comparisonSelection.projects[0].selection).toBe('distinct-or-unresolved')
     expect(plan.rows.every((row: any) => row.acquisition === 'not attempted')).toBe(true)
     expect(plan.tools.oracle).toBeNull()
     expect(plan.budgetExceededByEstimate).toBe(true)
@@ -60,12 +61,15 @@ test('identical SVG receives identical output admission regardless of tool name 
   expect(wrong.semanticComplete).toBe(false)
 })
 
-test('a declared public SVG adapter awaits and consumes its actual returned field in a plain Node worker', () => {
+test('a declared public SVG adapter preserves its receiver and awaits its returned field in both transports', async () => {
   const directory = mkdtempSync(join(tmpdir(), 'trident-declared-portable-'))
   try {
     const entry = join(directory, 'renderer.mjs'), result = join(directory, 'result.json'), called = join(directory, 'called.json')
-    writeFileSync(entry, `import{writeFileSync}from'node:fs';export async function draw(source,options){writeFileSync(${JSON.stringify(called)},JSON.stringify({source,options}));return{image:${JSON.stringify(svg)}}}`)
-    const job = { artifact: { project: 'other/renderer', root: directory, entry, version: '1.0.0', adapter: 'declared', binding: { export: 'draw', result: 'image', options: { color: 'blue' } } }, testCase: graph, mode: 'cold', samples: 1, round: 1, replica: 'B', sample: 0, resultFile: result }
+    writeFileSync(entry, `import{writeFileSync}from'node:fs';export const renderer={image:${JSON.stringify(svg)},async draw(source,options){writeFileSync(${JSON.stringify(called)},JSON.stringify({source,options}));return{image:this.image}}}`)
+    const { declaredRenderer } = await import('../unified/declared-adapter.mjs')
+    const api = await import(entry)
+    expect(await declaredRenderer(api, { export: 'renderer.draw', result: 'image' }, 'svg')(graph.source)).toBe(svg)
+    const job = { artifact: { project: 'other/renderer', root: directory, entry, version: '1.0.0', adapter: 'declared', binding: { export: 'renderer.draw', result: 'image', options: { color: 'blue' } } }, testCase: graph, mode: 'cold', samples: 1, round: 1, replica: 'B', sample: 0, resultFile: result }
     const input = join(directory, 'job.json'); writeFileSync(input, JSON.stringify(job))
     const child = spawnSync(process.env.NODE_BIN ?? 'node', [resolve(import.meta.dir, '../portable/worker.mjs'), input], { encoding: 'utf8', timeout: 10000 })
     expect({ status: child.status, stderr: child.stderr }).toEqual({ status: 0, stderr: '' })
@@ -90,6 +94,12 @@ test('optional model failures do not erase a qualified SVG-only timing while ful
   expect(row.calibration.status).toBe('uncalibrated')
   expect(row.semanticComplete).toBe(false)
   expect(report.status).toBe('failed')
+  results[0]!.prelude = [{ source: 'prior input', expectedAccepted: true, actualAccepted: false, passed: false }]
+  expect(portableSummary([graph], results, { rounds: 5, samples: 31, coldSamples: 20, maximumControlSpread: .25 }).timing.find(row => row.track === 'warm-repeat')!.outputCalibration.status).toBe('uncalibrated')
+  results[0]!.prelude = []
+  results[0]!.status = 'blocked'
+  expect(portableSummary([graph], results, { rounds: 5, samples: 31, coldSamples: 20, maximumControlSpread: .25 }).timing.find(row => row.track === 'warm-repeat')!.outputCalibration.status).toBe('uncalibrated')
+  results[0]!.status = 'failed'
   results[0]!.qualification!.evidence!.outputAdmission = 'failed'
   expect(portableSummary([graph], results, { rounds: 5, samples: 31, coldSamples: 20, maximumControlSpread: .25 }).timing.find(row => row.track === 'warm-repeat')!.outputCalibration.status).toBe('uncalibrated')
 })
@@ -141,5 +151,20 @@ test('campaign publication preserves dates, failed criteria and raw samples in a
     const escaped = join(directory, 'escaped-publication')
     expect(() => publishCampaigns([source], escaped, { copyEvidence: true })).toThrow('outside its campaign')
     expect(existsSync(escaped)).toBe(false)
+  } finally { rmSync(directory, { recursive: true, force: true }) }
+})
+
+test('a later model-only failure cannot erase an earlier bad SVG return in a warm worker', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'trident-output-failure-'))
+  try {
+    const entry = join(directory, 'renderer.mjs'), result = join(directory, 'result.json'), input = join(directory, 'job.json')
+    writeFileSync(entry, `let calls=0;export function draw(){return ++calls===1?${JSON.stringify(svg.replace('<text>Beta</text>', ''))}:${JSON.stringify(svg)}};export function parse(){return{type:'flowchart',nodes:{},edges:[]}}`)
+    writeFileSync(input, JSON.stringify({ artifact: { project: 'fixture/flaky', root: directory, entry, version: '1.0.0', adapter: 'declared', binding: { export: 'draw' } }, testCase: graph, mode: 'warm', samples: 1, minSampleMs: 0, round: 1, replica: 'B', sample: 0, resultFile: result }))
+    const child = spawnSync(process.env.NODE_BIN ?? 'node', [resolve(import.meta.dir, '../portable/worker.mjs'), input], { encoding: 'utf8', timeout: 10000 })
+    expect({ status: child.status, stderr: child.stderr }).toEqual({ status: 0, stderr: '' })
+    const observed = JSON.parse(readFileSync(result, 'utf8'))
+    expect(observed.status).toBe('failed')
+    expect(observed.qualification.evidence.outputAdmission).toBe('failed')
+    expect(observed.qualification.checks.some((check: any) => check.status === 'failed' && check.name.includes('label'))).toBe(true)
   } finally { rmSync(directory, { recursive: true, force: true }) }
 })

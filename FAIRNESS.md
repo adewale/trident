@@ -117,3 +117,22 @@ exercise an async declared API through a real Node worker. These protect specifi
 failure modes; they do not certify absence of selection or observer bias.
 
 When combining corrected attempts, a `--suites ID,...` option after each `--campaign` selects that campaign's suites for the report view. The selected scope is printed; raw campaign evidence is never edited or silently superseded.
+
+## Descendant selection
+
+Normal public campaigns exclude descendants without an established distinct
+product brand, including changed forks. An owner prefix, npm scope, runtime
+suffix or branch rename alone does not establish a brand. Decisions and their
+evidence are explicit `comparisonBranding` catalog metadata; unreviewed brands
+stay excluded. This applies to ports as well as source forks. Zero-ahead fork
+versions and shared-engine runtime bindings are also excluded.
+
+`support --lineage` shows all entries and the reasons. `bench --plan` retains
+requested exclusions and the actual included selection. Both public collection
+CLIs apply the rule before preparation. `--include-excluded-descendants` is an
+explicit override for a named fork, version or runtime investigation. Existing
+results and support assessments remain attached to their original entities.
+Exclusion supplies no inherited score or claim of behavioral equivalence.
+
+Beautiful Mermaid ports only Mermaid ASCII's ASCII component; its SVG renderer
+is independently implemented. The lineage tree retains that component scope.

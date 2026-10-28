@@ -71,4 +71,6 @@ These restrictions follow the failure modes discussed in
 shape overfitting and misleading aggregates matter more than the apparent
 precision of a single chart.
 
+See [report reading](REPORTING.md) for scorecard units and reading order.
+
 See [comparison contracts](FAIRNESS.md) for explicit selection, runtime budgets, optional model evidence, frozen external inputs and unranked publication. [Catalog support](CATALOG.md) distinguishes configuration from actual execution.
