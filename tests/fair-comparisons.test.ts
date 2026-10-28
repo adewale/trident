@@ -99,6 +99,7 @@ test('external corpus selection reads pinned source, retains duplicates and empt
   try {
     const sources = ['one', 'two'].map(name => {
       const root = join(directory, name); mkdirSync(root); mkdirSync(join(root, 'docs'))
+      writeFileSync(join(root, 'LICENSE'), 'MIT fixture copyright notice must survive publication\n')
       writeFileSync(join(root, 'README.md'), name === 'one' ? '```mermaid\nflowchart LR\nA-->B\n```\n```mermaid\nflowchart LR\nA-->B\n```\n```ts\nthrow new Error("example must never execute"); const source = "flowchart LR\\nC-->D";\n```\n' : 'No diagram examples\n')
       writeFileSync(join(root, 'docs', 'example.mmd'), 'flowchart LR\nB-->C')
       execFileSync('git', ['init', '-q'], { cwd: root }); execFileSync('git', ['add', '.'], { cwd: root })
@@ -114,6 +115,7 @@ test('external corpus selection reads pinned source, retains duplicates and empt
     expect(corpus.sources[1]!.occurrences).toBe(0)
     expect(corpus.sources.every(source => source.filesOmittedByCap === 1)).toBe(true)
     expect(corpus.workloads[0]!.provenance).toContain(sources[0]!.commit)
+    expect(corpus.sources[0]!.licenseFiles[0]!.text).toContain('copyright notice must survive')
   } finally { rmSync(directory, { recursive: true, force: true }) }
 })
 

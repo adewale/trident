@@ -41,6 +41,7 @@ export function collectExternalCorpus(policy: ExternalPolicy) {
     const checkout = source.checkout ?? resolve('.cache/corpus-sources', source.repository.replaceAll('/', '--'))
     const git = (...args: string[]) => execFileSync('git', args, { cwd: checkout, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] })
     const tracked = git('ls-tree', '-r', '--name-only', source.commit).trim().split('\n')
+    const licenseFiles = tracked.filter(file => /^(?:licen[cs]e|copying|notice)(?:[._-].*)?$/i.test(file)).map(file => ({ file, text: git('show', `${source.commit}:${file}`) }))
     const priority = (file: string) => /^readme[^/]*\.md$/i.test(file) ? 0 : file.endsWith('.mmd') ? 1 : 2
     const eligible = tracked.filter(file => /\.mmd$/i.test(file) || /(?:^|\/)(?:readme[^/]*\.md)$/i.test(file) || /^(?:docs|examples)\/.*\.md$/i.test(file)).sort((a, b) => priority(a) - priority(b) || a.localeCompare(b))
     const files = eligible.slice(0, policy.maxFilesPerProject)
@@ -49,7 +50,7 @@ export function collectExternalCorpus(policy: ExternalPolicy) {
       const inputs = file.endsWith('.mmd') ? [{ source: text, line: 1, fragment: 0 }] : markdownInputs(text)
       return inputs.map(input => ({ id: `external:${source.repository}:${file}:${input.line}:${input.fragment}`, source: input.source, family: 'unclassified', features: ['external-project-example'], provenance: `${source.repository}@${source.commit}:${file}:${input.line}; license ${source.license}` }))
     })
-    return { ...source, files, eligibleFiles: eligible.length, filesOmittedByCap: Math.max(0, eligible.length - files.length), occurrences: workloads.length, workloads }
+    return { ...source, licenseFiles, files, eligibleFiles: eligible.length, filesOmittedByCap: Math.max(0, eligible.length - files.length), occurrences: workloads.length, workloads }
   })
   return { protocol: policy.protocol, policy: { ...policy, sources: policy.sources.map(({ checkout: _checkout, ...source }) => source) },
     sources, workloads: sources.flatMap(source => source.workloads),
