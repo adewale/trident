@@ -18,6 +18,7 @@ Benchmark catalog projects (Bun):
   bun commands.ts community:update --help
   bun commands.ts results:publish --records DIR --out DIR
   bun commands.ts results:compare --records DIR --project OWNER/TOOL [--out FILE]
+  bun commands.ts docs:png --out FRESH_DIR [--rounds 5] [--native-bundle DIR]
   bun commands.ts results:campaign --campaign DIR --out FRESH_DIR [--copy-evidence]
   bun commands.ts corpus:freeze --policy FILE --out FRESH_FILE
 
@@ -51,7 +52,7 @@ async function main() {
   const aliases: Record<string, string> = { 'portable:build': 'build', community: 'community:update' }
   const selected = Object.hasOwn(aliases, command) ? aliases[command]! : command
   const neutral: Record<string, string> = { build: 'portable/build.ts', portable: 'portable/run.ts', 'fidelity:report': 'fidelity/report.ts' }
-  const own: Record<string, string> = { 'upstream:prepare': 'unified/prepare-upstream.ts', 'support:verify': 'unified/support-verification.ts', support: 'unified/support-command.ts', bench: 'unified/benchmark.ts', 'corpus:freeze': 'unified/external-corpus.ts', 'results:campaign': 'unified/campaign-publication.ts', 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
+  const own: Record<string, string> = { 'docs:png': 'unified/docs-png-benchmark.ts', 'upstream:prepare': 'unified/prepare-upstream.ts', 'support:verify': 'unified/support-verification.ts', support: 'unified/support-command.ts', bench: 'unified/benchmark.ts', 'corpus:freeze': 'unified/external-corpus.ts', 'results:campaign': 'unified/campaign-publication.ts', 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
   const checks: Record<string, string[]> = {
     test: ['test', '--timeout', '30000', '--parallel=2', resolve(directory, 'tests')],
     typecheck: ['x', '--no-install', 'tsc', '--noEmit', '-p', resolve(directory, 'tsconfig.json')],

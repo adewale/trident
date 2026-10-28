@@ -1,0 +1,11 @@
+{
+  "name": "trident-davebench-png",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "agentic-mermaid": "0.4.1",
+    "mermaid": "12.2.0",
+    "pele": "1.9.0",
+    "@mermaid-js/mermaid-zenuml": "1.0.1"
+  }
+}
