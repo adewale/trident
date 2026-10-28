@@ -28,7 +28,8 @@ def write_csv(path, rows):
 
 
 def main():
-    run, out = map(Path, sys.argv[1:])
+    run, out = map(Path, sys.argv[1:3])
+    other = Path(sys.argv[3]) if len(sys.argv) == 4 else run
     out.mkdir(parents=True, exist_ok=False)
     workloads = read(run / 'community/community-inputs.json')['workloads']
     inputs = {row['id']: row for row in workloads}
@@ -55,15 +56,15 @@ def main():
                 costs.append(dict(project=project, output=output, case=case, firstMedianMs=median(first), firstMinMs=min(first), firstMaxMs=max(first), firstN=len(first), repeatBatchMeanMedianMs=median(repeated), repeatMinMs=min(repeated), repeatMaxMs=max(repeated), repeatN=len(repeated)))
         counts = Counter(row['status'] for row in dispositions if row['project'] == project)
         coverage.append(dict(project=project, output=output, inventory=len(inputs), eligible=len(inputs)-counts['not-applicable'], counts=dict(counts)))
-    docs = read(run / 'docs/result.json')['observations']
+    docs = read(other / 'docs/result.json')['observations']
     docs_rounds = []
     for round_number in range(1, 6):
         rows = [r for r in docs if r.get('metrics', {}).get('project') == 'obsidianmd/pele' and r['metrics'].get('round') == round_number]
         docs_rounds.append(dict(round=round_number, counts=dict(Counter(r['status'] for r in rows)), occurrences=len(rows)))
-    meaning = read(run / 'fidelity/result.json')['observations']
+    meaning = read(other / 'fidelity/result.json')['observations']
     surfaces = sorted({r['surface'] for r in meaning})
-    summary = dict(measured=read(run / 'report.json'), compatibility=coverage,
-                   docs=dict(inventory={k: v for k, v in read(run / 'docs/inventory.json').items() if k in ('pin', 'pages', 'occurrences', 'distinct', 'protocol')}, rounds=docs_rounds,
+    summary = dict(measured=read(run / 'report.json'), otherSuitesMeasured=read(other / 'report.json'), compatibility=coverage,
+                   docs=dict(inventory={k: v for k, v in read(other / 'docs/inventory.json').items() if k in ('pin', 'pages', 'occurrences', 'distinct', 'protocol')}, rounds=docs_rounds,
                              failures=[r for r in docs if r['status'] == 'failed']),
                    meaning={surface: dict(Counter(r['status'] for r in meaning if r['surface'] == surface)) for surface in surfaces},
                    meaningFailures=[r for r in meaning if r['status'] == 'failed'],

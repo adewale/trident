@@ -21,15 +21,17 @@ function collect(){
  const lines=fs.readFileSync(raw,'utf8').split('\n');lines.pop();
  for(;emitted<lines.length;emitted++){
   const r=JSON.parse(lines[emitted]);const w=job.workloads.find(w=>w.id===r.workload);
-  if(!w||r.release!==true)throw Error('Unowned workload or non-release output');
+  if(!w||r.release!==true||r.sequence!==emitted)throw Error('Unowned workload or non-release output');
   if(r.status==='ok'){
    const png=fs.readFileSync(r.png);const q=qualifyOutput({id:w.id,source:w.source,expectedLabels:w.expected},png,'png');
    const first=qualifyOutput({id:w.id,source:w.source,expectedLabels:w.expected},fs.readFileSync(r.firstPng),'png');
    r.firstQualification=first;
-   r.status=q.ok&&first.ok?'ok':q.unavailable||first.unavailable?'blocked':'error';r.qualificationScope=q.scope;r.qualification=q;
+   const failed=[first,q].some(value=>!value.ok&&!value.unavailable);
+   r.status=failed?'error':q.ok&&first.ok?'ok':'blocked';r.qualificationScope=q.scope;r.qualification=q;
    if(!q.ok||!first.ok){r.rejected=false;r.detail=[...first.findings,...q.findings].join('; ');}
   }
   fs.writeSync(fd,JSON.stringify(r)+'\n');fs.fsyncSync(fd);
+  fs.writeFileSync(path.join(dir,`ack-${r.sequence}`),'qualified\n',{flag:'wx'});
  }
 }
 const monitor=setInterval(collect,100);

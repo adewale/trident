@@ -31,9 +31,10 @@ Future<void> runJob() async {
     'pixelRatio': 1, 'startupExcludedFromApiClocks': true,
   }));
   var outputIndex = 0;
+  var sequence = 0;
   for (final workload in job['workloads']) {
     final source = workload['source'] as String;
-    final row = <String, dynamic>{'workload': workload['id'], 'release': kReleaseMode};
+    final row = <String, dynamic>{'workload': workload['id'], 'release': kReleaseMode, 'sequence': sequence};
     final errors = <String>[];
     final previous = FlutterError.onError;
     FlutterError.onError = (details) { errors.add(details.exceptionAsString()); previous?.call(details); };
@@ -78,12 +79,20 @@ Future<void> runJob() async {
       file.writeAsBytesSync(bytes);
       final firstFile = File('${file.path}.first.png');
       firstFile.writeAsBytesSync(firstBytes);
-      row.addAll({'status': 'ok', 'png': file.path, 'firstPng': firstFile.path, 'outputBytes': bytes.length, 'firstOutputBytes': byteCount, 'samplesMs': samples, 'sampleIterations': sampleIterations, 'timingProtocol': 'native-png-api-5-batch-means-min10ms-max256-v1', 'qualifiedOutputs': 'first and final; intermediate repeated outputs are consumed but not individually qualified'});
+      row.addAll({'status': 'ok', 'png': file.path, 'firstPng': firstFile.path, 'outputBytes': bytes.length, 'firstOutputBytes': byteCount, 'samplesMs': samples, 'sampleIterations': sampleIterations, 'timingProtocol': coverage ? 'native-png-api-one-call-qualification-v1' : 'native-png-api-5-batch-means-min10ms-max256-v1', 'qualifiedOutputs': 'first and final; intermediate repeated outputs are consumed but not individually qualified'});
     } catch (error, stack) {
       row.addAll({'status': 'error', 'rejected': stage == 'public-api' && (error is UnsupportedError || error.runtimeType.toString() == 'MermaidParseException'), 'failureStage': stage, 'detail': error.toString(), 'stack': stack.toString(), 'frameworkErrors': errors});
     } finally { FlutterError.onError = previous; }
     sink.writeln(jsonEncode(row)); await sink.flush();
     stdout.writeln('completed ${row['workload']} ${row['status']}');
+    // Parent qualification must finish before the next API clock starts.
+    final acknowledgement = File('${directory.path}/ack-$sequence');
+    final waiting = Stopwatch()..start();
+    while (!acknowledgement.existsSync()) {
+      if (waiting.elapsedMilliseconds > 120000) throw StateError('PNG qualification acknowledgement timed out');
+      await Future<void>.delayed(const Duration(milliseconds: 5));
+    }
+    sequence++;
   }
   await sink.close();
 }
