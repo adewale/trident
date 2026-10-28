@@ -28,6 +28,15 @@ Node kit independently. See [setup](README.md).
 | Mermaid Reference Tests (`upstream-original`) | Does the pinned Mermaid source pass its own genuine original core Vitest runner? Original JSON plus complete declaration/callback accounting. | **High for reference setup; limited as a peer score.** Requires the actual runner/dependencies, one worker and read-only snapshots. This is Mermaid's own runner, so it does not execute another project's private tests. Browser/e2e and docs-site workspace exclusions stay explicit. |
 | Render Cost and Scaling (`portable`) | How do family, scaling, interacting-feature and invalid-input cases behave under fresh and warm public Node SVG calls? Reports separate fidelity, first result, batch means, CPU, RSS, heap and A/A calibration. | **High for controlled regressions; not a production forecast.** Full sampling uses5 rounds,31 warm sample means and20 fresh processes per replica/round/case. The complete worker budget defaults to300000ms and is configurable in the portable CLI; it includes all samples and qualification, not one API call. Current bindings include Pele, Agentic, Beautiful-compatible, Ondine, mdv, the VitePress plugin, the DSH engine, Merman, Crafter and Merslim. Public factory setup is recorded with import preparation; rendering and complete-process resource costs retain their own scopes. Configuration intent is translated through reviewed public option paths; unknown mappings block that case. Font changes are checked on authored label text, including inherited declarations, rather than requiring a particular root style. Missing browser/terminal/WASM bindings remain unsupported, not zero-cost. Incomplete semantics or noisy A/A controls cannot qualify performance. |
 
+The standalone [DaveBench PNG extension](davebench-png/README.md),
+`bun commands.ts docs:png --out FRESH_DIR`, reuses the same inventory and sampling
+with protocol `public-docs-png-export-v1`. It measures completed PNG bytes through
+the published native Flutter, Node and Chromium export paths, then decodes and
+checks nonblank content outside the clocks. It preserves full coverage and shows
+costs on common qualified occurrences, with runtime and output pixels visible.
+The [dated four-library results](docs/davebench-png-results.md) describe its quality,
+geometry, network and timing limits. This is distinct from the SVG-return protocol.
+
 ## DaveBench provenance and product diagnostics
 
 `docs` preserves the useful official-document workload as a public-artifact

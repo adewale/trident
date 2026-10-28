@@ -211,7 +211,9 @@ async function worker(peer: (typeof participants)[number], round: number) {
   for (const c of cases) retain(peer, round, byId.get(c.id) ?? { workload: c.id, status: 'blocked', detail: `No completed row: worker exit ${code}; timeout=${timedOut}; ${spawnError ?? ''}` }, warmupPassed)
   writeFileSync(stem + '.attempt.json', JSON.stringify({ code, timedOut, spawnError, completed, expected: job.workloads.length, warmupPassed }, null, 2))
   if (native) {
-    const launched = JSON.parse(readFileSync(resultPath + '.native/launch.json', 'utf8'))
+    const launchFile = resultPath + '.native/launch.json'
+    if (!existsSync(launchFile) && !values.length) return // Startup never produced an attested row; the blocked attempt above is retained.
+    const launched = JSON.parse(readFileSync(launchFile, 'utf8'))
     if (launched.executable !== executable || launched.sha256 !== hash(executable) || launched.libappSha256 !== hash(join(bundle, 'lib/libapp.so'))) throw Error('Native launch differs from sealed bundle')
     if (values.some(v => v.release !== true)) throw Error('Non-release native observation')
   }

@@ -9,10 +9,12 @@ from statistics import median
 import sys
 
 run, out = map(Path, sys.argv[1:])
-out.mkdir(parents=True, exist_ok=False)
 result = json.loads((run / 'result.json').read_text())
 context = json.loads((run / 'context.json').read_text())
 inventory = json.loads((run / 'inventory.json').read_text())
+if inventory.get('preflight'):
+    raise SystemExit('Preflight evidence cannot be published as a full DaveBench result')
+out.mkdir(parents=True, exist_ok=False)
 rows = result['observations']
 participants = sorted(context['participants'], key=lambda p: p['id'])
 expected = len(inventory['cases'])
@@ -51,22 +53,23 @@ for p in participants:
         widths = [r['metrics']['width'] for r in group]
         heights = [r['metrics']['height'] for r in group]
         timing_rows.append(dict(project=project, case=case, medianMs=median(times), minMs=min(times), maxMs=max(times), calls=len(times), medianPixels=median(w*h for w,h in zip(widths, heights)), medianBytes=median(r['metrics']['outputBytes'] for r in group)))
-lines += ['', '## Costs on common qualified occurrences', '', f"All four qualify the same {len(common)} occurrences in every round. Each input contributes its median across {rounds} calls. The table reports the median/p95 across these input medians and their sum. This p95 is a workload distribution, not single-call tail latency.", '', '| Project / version | Common occurrences | Median input median (ms) | P95 input median (ms) | Sum of input medians (ms) | Median output pixels | Median encoded bytes |', '|---|---:|---:|---:|---:|---:|---:|']
+lines += ['', '## Costs on common qualified occurrences', '', f"All four qualify the same {len(common)} occurrences in every round. Each input contributes its median across {rounds} calls. The table reports the median/p95 across these input medians and their sum. This p95 is a workload distribution, not single-call tail latency.", '', '| Project / version / runtime | Common occurrences | Median input median (ms) | P95 input median (ms) | Sum of input medians (ms) | Median output pixels | Median encoded bytes |', '|---|---:|---:|---:|---:|---:|---:|']
 summary_cost = []
 for p in participants:
     data = [r for r in timing_rows if r['project'] == p['id']]
     if not data: continue
     times = sorted(r['medianMs'] for r in data)
-    item = dict(project=p['id'], version=p['version'], commonOccurrences=len(data), medianMs=median(times), p95InputMedianMs=times[math.ceil(.95*len(times))-1], sumInputMedianMs=sum(times), medianPixels=median(r['medianPixels'] for r in data), medianBytes=median(r['medianBytes'] for r in data))
+    item = dict(project=p['id'], version=p['version'], runtime=p['runtime'], commonOccurrences=len(data), medianMs=median(times), p95InputMedianMs=times[math.ceil(.95*len(times))-1], sumInputMedianMs=sum(times), medianPixels=median(r['medianPixels'] for r in data), medianBytes=median(r['medianBytes'] for r in data))
     summary_cost.append(item)
-    lines.append(f"| {p['id']} {p['version']} | {len(data)} | {item['medianMs']:.3f} | {item['p95InputMedianMs']:.3f} | {item['sumInputMedianMs']:.3f} | {item['medianPixels']:.0f} | {item['medianBytes']:.0f} |")
-lines += ['', 'Intrinsic bounds, themes/fonts, backgrounds, output pixels and runtime backends differ. These are practical public PNG export costs, not equal-pixel throughput or a calibrated renderer speed ranking. Native/Agentic API stages are opaque; the browser raw rows keep SVG return, preparation/decode, canvas draw and PNG production separate. No A/A calibration, cold-start or source-update claim.', '', '## Failures and evidence', '', '[Every nonpass with source](nonpasses.json), [per-input dispositions](input-dispositions.csv), [raw per-input timings](common-timings.csv), [per-round outcomes](outcomes.csv) and [machine-readable summary](summary.json). Owning raw samples, PNGs, SVGs, warmups, exact artifacts and environment remain in the adjacent retained run.', '', f"Collection status: {result['status']}; completion never implies qualification passed. Public documentation is development-exposed, not a production holdout."]
+    lines.append(f"| {p['id']} {p['version']} / {p['runtime']} | {len(data)} | {item['medianMs']:.3f} | {item['p95InputMedianMs']:.3f} | {item['sumInputMedianMs']:.3f} | {item['medianPixels']:.0f} | {item['medianBytes']:.0f} |")
+lines += ['', 'Intrinsic bounds, themes/fonts, backgrounds, output pixels and runtime backends differ. These are practical public PNG export costs, not equal-pixel throughput or a calibrated renderer speed ranking. Native/Agentic API stages are opaque; the browser raw rows keep SVG return, preparation/decode, canvas draw and PNG production separate. No A/A calibration, cold-start or source-update claim.', '', '## Failures and evidence', '', '[All per-call observations](observations.csv), [every nonpass with source](nonpasses.json), [per-input dispositions](input-dispositions.csv), [per-occurrence timing summaries](common-timings.csv), [per-round outcomes](outcomes.csv) and [machine-readable summary](summary.json). Owning raw samples, PNGs, SVGs, warmups, exact artifacts and environment remain in the adjacent retained run.', '', f"Collection status: {result['status']}; completion never implies qualification passed. Public documentation is development-exposed, not a production holdout."]
 
 def write_csv(name, data):
     if not data: return
     with (out/name).open('w', newline='') as stream:
         writer = csv.DictWriter(stream, fieldnames=list(data[0]))
         writer.writeheader(); writer.writerows(data)
+write_csv('observations.csv', [dict(project=r['metrics']['project'],version=r['metrics']['version'],runtime=r['runtime'],round=r['metrics']['round'],case=r['caseId'],family=r['family'],status=r['status'],qualifiedExportMs=r.get('samplesMs',[None])[0],pngReturned=r['metrics']['pngReturned'],width=r['metrics']['width'],height=r['metrics']['height'],outputBytes=r['metrics']['outputBytes'],failureStage=r['metrics']['failureStage']) for r in rows])
 write_csv('outcomes.csv', round_rows)
 write_csv('input-dispositions.csv', dispositions)
 write_csv('common-timings.csv', timing_rows)

@@ -1,5 +1,9 @@
 # Native Flutter and Pele: standard benchmarks, 28 October 2026
 
+The later [four-library PNG DaveBench extension](davebench-png-results.md) measures
+completed exports through native Flutter, Node and Chromium. Its corpus and costs
+remain separate from the standard observations below.
+
 Trident ran the standard Mermaid Compatibility collector through native Flutter
 `renderToPng()` and Pele's Chromium SVG API on the same cloud machine. It also ran
 the official-docs SVG-return collector and Diagram Meaning for Pele. These give

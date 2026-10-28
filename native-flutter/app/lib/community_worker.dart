@@ -68,6 +68,14 @@ Future<void> runJob() async {
           sampleIterations.add(count);
         }
       }
+      // Preserve returned bytes before any observer or file operation can fail.
+      row['pngReturned'] = true;
+      stage = 'evidence';
+      final file = File('${directory.path}/case-${outputIndex++}.png');
+      final firstFile = File('${file.path}.first.png');
+      row.addAll({'png': file.path, 'firstPng': firstFile.path, 'outputBytes': bytes.length, 'firstOutputBytes': byteCount, 'samplesMs': samples, 'sampleIterations': sampleIterations, 'timingProtocol': coverage ? 'native-png-api-one-call-qualification-v1' : 'native-png-api-5-batch-means-min10ms-max256-v1', 'qualifiedOutputs': 'first and final; intermediate repeated outputs are consumed but not individually qualified'});
+      file.writeAsBytesSync(bytes);
+      firstFile.writeAsBytesSync(firstBytes);
       // Raw pixels are qualification only, outside all reported API clocks.
       stage = 'qualification';
       final codec = await ui.instantiateImageCodec(bytes);
@@ -75,13 +83,9 @@ Future<void> runJob() async {
       row['width'] = image.width; row['height'] = image.height;
       image.dispose(); codec.dispose();
       if (errors.isNotEmpty) throw StateError(errors.join('\n'));
-      final file = File('${directory.path}/case-${outputIndex++}.png');
-      file.writeAsBytesSync(bytes);
-      final firstFile = File('${file.path}.first.png');
-      firstFile.writeAsBytesSync(firstBytes);
-      row.addAll({'status': 'ok', 'png': file.path, 'firstPng': firstFile.path, 'outputBytes': bytes.length, 'firstOutputBytes': byteCount, 'samplesMs': samples, 'sampleIterations': sampleIterations, 'timingProtocol': coverage ? 'native-png-api-one-call-qualification-v1' : 'native-png-api-5-batch-means-min10ms-max256-v1', 'qualifiedOutputs': 'first and final; intermediate repeated outputs are consumed but not individually qualified'});
+      row['status'] = 'ok';
     } catch (error, stack) {
-      row.addAll({'status': 'error', 'rejected': stage == 'public-api' && (error is UnsupportedError || error.runtimeType.toString() == 'MermaidParseException'), 'failureStage': stage, 'detail': error.toString(), 'stack': stack.toString(), 'frameworkErrors': errors});
+      row.addAll({'status': stage == 'public-api' ? 'error' : 'blocked', 'rejected': stage == 'public-api' && (error is UnsupportedError || error.runtimeType.toString() == 'MermaidParseException'), 'failureStage': stage, 'detail': error.toString(), 'stack': stack.toString(), 'frameworkErrors': errors});
     } finally { FlutterError.onError = previous; }
     sink.writeln(jsonEncode(row)); await sink.flush();
     stdout.writeln('completed ${row['workload']} ${row['status']}');

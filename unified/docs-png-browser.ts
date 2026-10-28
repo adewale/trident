@@ -27,7 +27,10 @@ export async function publicDocsPngAction(input: { source: string; id: string })
     const width = Math.ceil(box?.length === 4 ? box[2]! : Number.parseFloat(root.getAttribute('width') ?? ''))
     const height = Math.ceil(box?.length === 4 ? box[3]! : Number.parseFloat(root.getAttribute('height') ?? ''))
     if (!Number.isFinite(width) || !Number.isFinite(height) || width < 1 || height < 1) throw Error('SVG has no finite intrinsic canvas')
-    if (width > 16384 || height > 16384 || width * height > 64 * 1024 * 1024) throw Error(`PNG raster budget exceeded: ${width}x${height}`)
+    if (width > 16384 || height > 16384 || width * height > 64 * 1024 * 1024) {
+      stage = 'raster-budget'
+      throw Error(`PNG raster budget exceeded: ${width}x${height}`)
+    }
     root.setAttribute('width', String(width))
     root.setAttribute('height', String(height))
     root.style.maxWidth = 'none'
@@ -61,7 +64,7 @@ export async function publicDocsPngAction(input: { source: string; id: string })
     const totalMs = performance.now() - started
     return { status: 'ok', totalMs, stages, width, height, outputBytes, png: Array.from(bytes), svg }
   } catch (error) {
-    return { status: 'error', stage, detail: String(error), stages, svg }
+    return { status: stage === 'raster-budget' ? 'blocked' : 'error', stage, detail: String(error), stages, svg }
   } finally {
     ;(globalThis as any).__communityAfterCall?.()
     for (const node of document.querySelectorAll('body > div:not([data-community-host])')) node.remove()
