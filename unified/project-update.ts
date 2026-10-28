@@ -17,6 +17,7 @@ import { withReferenceLabels } from './qualification.ts'
 import { parseOptions } from './options.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult } from './types.ts'
 import { corpusEvidence, corpusWorkloads } from './corpus.ts'
+import { comparisonProjects } from './lineage.ts'
 import { communityCatalogFile, tridentDirectory } from './trident-paths.ts'
 
 const json = readBenchmarkDocument
@@ -504,7 +505,7 @@ export async function runRetainedCommunityCliSuite(options: UnifiedRunOptions): 
 export async function main(argv = process.argv.slice(2)) {
   if (argv.length === 1 && argv[0] === '--help') {
     console.log(
-      'bun commands.ts community:update --projects owner/project[,owner/other] --records DIRECTORY --out DIRECTORY [--markdown FILE] [--profile smoke|full] [--rounds N] [--plan] [--force] [--candidate-tarball FILE --candidate-sha256 HEX | --candidate-dir DIRECTORY | --candidate-revision SHA [--candidate-remote URL|CLONE] | --candidate-remote CLONE]\nA candidate is an unreleased build of one selected project: a tarball for an npm-backed tool, a Git commit for one Trident builds from source; its record stays in the candidate lane and never enters the league. Additional artifact options, including --community-inputs, --community-prepared, --community-browser-prepared and --community-catalog, are accepted. Default selection is the full catalog. Preparation resolves selected artifacts; unchanged matching records skip every timing lane. --plan performs preparation but no timing. --force retains a new attempt. CI execution is refused.',
+      'bun commands.ts community:update --projects owner/project[,owner/other] --records DIRECTORY --out DIRECTORY [--markdown FILE] [--profile smoke|full] [--rounds N] [--include-excluded-descendants] [--plan] [--force] [--candidate-tarball FILE --candidate-sha256 HEX | --candidate-dir DIRECTORY | --candidate-revision SHA [--candidate-remote URL|CLONE] | --candidate-remote CLONE]\nA candidate is an unreleased build of one selected project: a tarball for an npm-backed tool, a Git commit for one Trident builds from source; its record stays in the candidate lane and never enters the league. Additional artifact options, including --community-inputs, --community-prepared, --community-browser-prepared and --community-catalog, are accepted. Select --projects explicitly or use --all-projects. Unbranded descendants, zero-ahead versions and runtime bindings are excluded before preparation; --include-excluded-descendants enables deliberate fork/version/runtime investigations. Preparation resolves selected artifacts; unchanged matching records skip every timing lane. --plan performs preparation but no timing. --force retains a new attempt. CI execution is refused.',
     )
     return
   }
@@ -513,10 +514,13 @@ export async function main(argv = process.argv.slice(2)) {
     candidateValues: { tarball?: string; sha256?: string; directory?: string; revision?: string; remote?: string } = {}
   const aliases: Record<string, string> = { '--projects': '--community-projects', '--records': '--community-records', '--catalog': '--community-catalog' }
   const seen = new Set<string>()
+  let allProjects = false, includeExcluded = false
   for (let index = 0; index < argv.length; index++) {
     const flag = argv[index]!
     if (seen.has(flag)) throw Error('Duplicate option ' + flag)
     seen.add(flag)
+    if (flag === '--include-excluded-descendants') { includeExcluded = true; continue }
+    if (flag === '--all-projects') { allProjects = true; continue }
     if (flag === '--plan') {
       settings.plan = true
       continue
@@ -542,9 +546,17 @@ export async function main(argv = process.argv.slice(2)) {
     if (!['--community-force', '--allow-incomplete'].includes(flag)) forwarded.push(argv[++index] ?? '')
   }
   const options = parseOptions(forwarded)
+  if (allProjects && options.communityProjects) throw Error('Use --projects or --all-projects, not both')
+  if (!options.communityProjects && !allProjects) throw Error('Choose --projects OWNER/TOOL,... or explicitly --all-projects before preparation')
+  const catalog = json(options.communityCatalogFile ?? communityCatalogFile) as import('./lineage.ts').LineageCatalog
+  const requested = selectCommunityProjects(catalog.nodes, options.communityProjects).map(node => node.id)
+  const comparisonSelection = comparisonProjects(catalog, requested, includeExcluded)
+  options.communityProjects = comparisonSelection.included
+  if (!options.communityProjects.length) throw Error('No projects remain after lineage/branding exclusions; inspect support --lineage or use --include-excluded-descendants for a version/runtime investigation')
+  if (comparisonSelection.excluded.length) console.error('Lineage/branding exclusions: ' + comparisonSelection.excluded.map(node => node.project).join(', '))
   options.communityCandidate = communityCandidate(candidateValues, options)
   const result = await runProjectUpdates(options, settings)
-  console.log(JSON.stringify({ attempt: result.attempt, plan: result.plan, updates: result.updates.map(update => ({ project: update.project, lane: update.record.identity.lane ?? 'community', action: update.action, id: update.record.id })) }, null, 2))
+  console.log(JSON.stringify({ comparisonSelection, attempt: result.attempt, plan: result.plan, updates: result.updates.map(update => ({ project: update.project, lane: update.record.identity.lane ?? 'community', action: update.action, id: update.record.id })) }, null, 2))
   if (options.communityCandidate && !settings.plan) console.log(`Candidate record kept apart from the league. Compare it with the release: bun commands.ts results:compare --records ${'store' in result ? result.store : 'RECORDS'} --project ${options.communityCandidate.project}`)
   if (!settings.plan && result.updates.some(update => update.record.status === 'failed')) process.exitCode = 1
   else if (!settings.plan && !options.allowIncomplete && result.updates.some(update => update.record.status === 'blocked')) process.exitCode = 2

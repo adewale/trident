@@ -22,6 +22,9 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
           return { round: index + 1, A0: perReplica('A0'), A1: perReplica('A1'), B: perReplica('B') }
         })
         const calibration = calibrate(rounds, track === 'first-use' ? Math.max(20, settings.coldSamples) : Math.max(31, settings.samples), settings.maximumControlSpread)
+        const outputCalibration = structuredClone(calibration)
+        const outputAdmissionComplete = completeWorkers && relevant.every(result => result.status !== 'blocked' && result.prelude.every(item => item.passed) && result.qualification?.evidence?.outputAdmission === 'passed')
+        if (!outputAdmissionComplete) { outputCalibration.status = 'uncalibrated'; outputCalibration.gaps.push('Format/text output admission is incomplete or unavailable in this protocol') }
         if (!completeWorkers || relevant.some(result => result.status === 'failed' || result.status === 'blocked')) {
           calibration.status = 'uncalibrated'
           calibration.gaps.push(completeWorkers ? 'A worker failed or its declared output checks failed' : 'Expected worker identities are missing or duplicated')
@@ -36,6 +39,7 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
           ...summarize(rounds.flatMap(round => round.B)),
           rounds: rounds.map(round => ({ round: round.round, ...summarize(round.B) })),
           calibration,
+          outputCalibration,
           scope:
             track === 'first-use'
               ? testCase.prelude?.length
@@ -43,6 +47,8 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
                 : 'First API call in each fresh process; import excluded.'
               : (track === 'warm-new-source' ? 'Comment-varied source bytes with the same semantic graph; cache-key diagnostic, not proof of uncached layout. ' : '') + 'Distribution of per-call means from bounded adaptive batches; p95 of sample means is not a single-call tail latency.',
           semanticComplete: completeWorkers && relevant.every(result => result.qualification?.semanticComplete === true),
+          outputAdmissionComplete,
+          nativeModelComplete: completeWorkers && relevant.every(result => result.qualification?.evidence?.nativeModel === 'passed'),
           nativeAndPaintScopes: [...new Set(relevant.flatMap(result => result.qualification?.unmeasuredScopes.filter(scope => !scope.startsWith('Repeated passing')) ?? []))],
         }
       }),
@@ -63,6 +69,7 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
       failedWorkers: failed.length,
       blockedWorkers: blocked.length,
       semanticComplete: timingComplete && testCase.expected.accept && calls.length > 0 && calls.every(result => result.qualification?.semanticComplete),
+      outputAdmission: !calls.some(result => result.qualification?.evidence) ? 'unavailable in retained protocol' : calls.some(result => result.qualification?.evidence?.outputAdmission === 'failed') ? 'failed' : timingComplete && calls.length > 0 && calls.every(result => result.qualification?.evidence?.outputAdmission === 'passed') ? 'passed' : 'incomplete',
       unmeasuredScopes: [...new Set(calls.flatMap(result => result.qualification?.unmeasuredScopes.filter(scope => !scope.startsWith('Repeated passing')) ?? []))],
       failures: failed.slice(0, 3).map(result => ({ mode: result.mode, round: result.round, replica: result.replica, error: result.error ?? null, checks: result.qualification?.checks.filter(check => check.status === 'failed') ?? [] })),
     }
@@ -97,7 +104,7 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
   const representativeFamilies = [...new Set(cases.filter(testCase => testCase.cohort === 'family').map(testCase => testCase.family))]
   const familyTimings = representativeFamilies.map(family => {
     const row = rows.find(row => row.family === family && row.cohort === 'family' && row.track === 'warm-repeat')
-    return { family, supported: !unsupported.has(family), medianMs: row?.medianMs ?? null, calibrated: row?.calibration.status === 'calibrated', semanticComplete: row?.semanticComplete ?? false }
+    return { family, supported: !unsupported.has(family), medianMs: row?.medianMs ?? null, calibrated: row?.calibration.status === 'calibrated', outputCalibrated: row?.outputCalibration.status === 'calibrated', semanticComplete: row?.semanticComplete ?? false }
   })
   return {
     status: results.some(result => result.status === 'failed') ? 'failed' : results.some(result => result.status === 'blocked') ? 'blocked' : !measured.length ? 'unsupported' : rows.some(row => row.calibration.status !== 'calibrated') ? 'uncalibrated' : 'measured',
@@ -118,6 +125,8 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
       failedWorkers: results.filter(result => result.status === 'failed').length,
       blockedWorkers: results.filter(result => result.status === 'blocked').length,
       completeSemanticCases: coverage.filter(row => row.semanticComplete).length,
+      outputAdmissionCases: coverage.filter(row => row.outputAdmission === 'passed').length,
+      outputCalibratedTimingRows: rows.filter(row => row.outputCalibration.status === 'calibrated').length,
       calibratedTimingRows: rows.filter(row => row.calibration.status === 'calibrated').length,
       totalTimingRows: rows.length,
       actualTimedCalls: results.reduce(
@@ -143,16 +152,16 @@ export function portableMarkdown(report: { project: string; version: string; sta
     '',
     `Cases: ${summary.counts.cases}; families: ${summary.counts.families}; positive: ${summary.counts.positiveCases}; negative: ${summary.counts.negativeCases}. Failed workers: ${summary.counts.failedWorkers}; blocked workers: ${summary.counts.blockedWorkers}.`,
     '',
-    `Timing calibration: ${summary.counts.calibratedTimingRows}/${summary.counts.totalTimingRows} rows calibrated. Declared native-plus-painted correspondence: ${summary.counts.completeSemanticCases}/${summary.counts.positiveCases} positive cases. Acceptance, semantic evidence and timing calibration are separate observations.`,
+    `Timing calibration: ${summary.counts.calibratedTimingRows}/${summary.counts.totalTimingRows} rows calibrated. Format/text output admission: ${summary.counts.outputAdmissionCases}/${summary.counts.positiveCases} positive cases; missing legacy evidence is not a failure. Declared native-plus-painted correspondence: ${summary.counts.completeSemanticCases}/${summary.counts.positiveCases} positive cases. Output admission, optional model APIs, painted correspondence and timing calibration are separate observations. No full-semantic performance claim is admitted without all its evidence.`,
     '',
     'A0, A1 and B use the same admitted artifact. Their differences diagnose measurement variation; they cannot establish a product speedup. Cold imports may prepare in batches, but first API calls execute one at a time after the complete idle barrier. Timings exclude import and qualification. Cases with a prelude report first-final-source timing after that prelude.',
     '',
     ...(summary.counts.unsupportedFamilies.length ? [`Unsupported families: ${summary.counts.unsupportedFamilies.join(', ')}. The renderer rejected each family's canonical source, so their ${summary.counts.unsupportedCases} cases were not run; they are coverage gaps, not failures.`, ''] : []),
     '## Family representatives',
     '',
-    '| Family | Warm repeated API median (ms) | Calibrated | Native + painted criteria |',
-    '|---|---:|---|---|',
-    ...summary.familyTimings.map(row => `| ${row.family} | ${row.supported ? (row.medianMs?.toFixed(4) ?? 'unavailable') : 'unsupported'} | ${row.calibrated} | ${row.semanticComplete ? 'declared criteria complete' : 'partial; see case scopes'} |`),
+    '| Family | Warm repeated API median (ms) | Format/text-only calibrated | Full-check calibrated | Native + painted criteria |',
+    '|---|---:|---|---|---|',
+    ...summary.familyTimings.map(row => `| ${row.family} | ${row.supported ? (row.medianMs?.toFixed(4) ?? 'unavailable') : 'unsupported'} | ${row.outputCalibrated} | ${row.calibrated} | ${row.semanticComplete ? 'declared criteria complete' : 'partial; see case scopes'} |`),
     '',
     '## Scaling',
     '',
@@ -165,10 +174,10 @@ export function portableMarkdown(report: { project: string; version: string; sta
     '',
     '## Individual cases and fidelity',
     '',
-    '| Case | Acceptance matches | Failed / blocked workers | Semantic scope |',
-    '|---|---|---:|---|',
+    '| Case | Acceptance matches | Format/text admission | Failed / blocked workers | Semantic scope |',
+    '|---|---|---|---:|---|',
     ...summary.cases.map(
-      row => `| ${escape(row.id)} | ${row.acceptanceMatches} | ${row.failedWorkers} / ${row.blockedWorkers} | ${row.unsupported ? 'Family unsupported; not run' : row.semanticComplete ? 'Declared native + painted checks complete' : row.expectedAccepted ? 'Paint/native projection incomplete; never a full fidelity pass' : 'Negative-source rejection only'} |`,
+      row => `| ${escape(row.id)} | ${row.acceptanceMatches} | ${row.outputAdmission} | ${row.failedWorkers} / ${row.blockedWorkers} | ${row.unsupported ? 'Family unsupported; not run' : row.semanticComplete ? 'Declared native + painted checks complete' : row.expectedAccepted ? 'Paint/native projection incomplete; never a full fidelity pass' : 'Negative-source rejection only'} |`,
     ),
     '',
     '## Memory and cost',

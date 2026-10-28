@@ -5,6 +5,8 @@ Trident benchmarks tools that read Mermaid: SVG renderers, terminal renderers an
 - [Benchmarks and their value](BENCHMARKS.md): what each workload measures, how to run it, and when to trust it.
 - [Methodology](METHODOLOGY.md): corpus, correctness checks, sampling and fair comparisons.
 - [Measurement rules](MEASUREMENT.md): interfaces, cache state, overfitting and claims.
+- [Catalog and support](CATALOG.md): what the entries mean and which suites have bindings.
+- [Comparison contracts](FAIRNESS.md): planning, independent inputs and unranked publication.
 - [Results](results/README.md): old snapshots have been removed; no current scores are claimed.
 
 ## Benchmark a project
@@ -20,7 +22,7 @@ bun commands.ts community:update --projects obsidianmd/pele,mermaid-js/mermaid \
 bun commands.ts results:publish --records /evidence/records --out /evidence/report
 ```
 
-Choose any project in [the catalog](catalog/mermaid-community.json). Use `--executable /path/to/chromium` for an existing browser. Exact matching records are reused with their original dates; `--force` collects a new attempt. `--plan` performs preparation and reports reuse decisions without timing. Measurements are local and reject CI.
+Inspect `bun commands.ts support` and `bun commands.ts bench --projects OWNER/TOOL --plan` before collecting. Execution requires a project selection or explicit `--all-projects`. Choose any project in [the catalog](catalog/mermaid-community.json). Use `--executable /path/to/chromium` for an existing browser. Exact matching records are reused with their original dates; `--force` collects a new attempt. `--plan` performs preparation and reports reuse decisions without timing. Measurements are local and reject CI.
 
 Every tool uses its catalog release. To measure an unreleased npm package, select one project and add `--candidate-dir /path/to/built/package`, or `--candidate-tarball FILE --candidate-sha256 HEX`. Source-built projects accept `--candidate-revision COMMIT [--candidate-remote URL_OR_CLONE]`. Candidates stay separate from release rows:
 
@@ -64,7 +66,7 @@ node /artifacts/trident-kit/run.mjs --project obsidianmd/pele \
   --rounds 5 --samples 31 --cold-samples 20 --allow-partial
 ```
 
-Copy the whole generated directory, including its manifest. It requires Node 24, the actual renderer artifact and the pinned oracle install; no Bun, Git or Trident `node_modules` is needed at runtime. Set `MERMAID_REFERENCE_DIR` for a nondefault install. `--allow-partial` permits incomplete diagnostics to produce a report; it does not turn them into a calibrated pass. See [portable methods](BENCHMARKS.md#portable-family-and-scaling).
+Copy the whole generated directory, including its manifest. It requires Node 24, the actual renderer artifact and the pinned oracle install; no Bun, Git or Trident `node_modules` is needed at runtime. Set `MERMAID_REFERENCE_DIR` for a nondefault install. `--allow-partial` permits incomplete diagnostics to produce a report; it does not turn them into a calibrated pass. See [portable methods](BENCHMARKS.md) and [comparison contracts](FAIRNESS.md).
 
 ## Development and ownership
 

@@ -41,3 +41,7 @@ Portable comparisons use balanced family, scaling, interacting-feature and inval
 Keep raw samples, failed outputs, package/dependency identities, protocol, input provenance and original dates. Reuse exact matching records without inventing fresh dates. New artifact, workload, qualifier, runtime or sampling settings require new evidence. Cross-machine records are separate cohorts. A completed collection can contain failures or uncalibrated timings.
 
 Old checked-in snapshots have been removed. Generate reports outside the source tree. Publish a claim only after checking the work at the public boundary, reviewing failure classifications and inspecting representative outputs. The [measurement rules](MEASUREMENT.md) explain why honest scope matters more than a league-table win.
+
+## External cohorts and observation scopes
+
+[Comparison contracts](FAIRNESS.md) define the external repository-example selection policy, retained provenance and limitations. The AM-derived corpus remains a named legacy regression input. Optional model APIs and output admission are separate dimensions; neither is a substitute for painted correspondence. Published scorecards are alphabetical within compatible groups and retain all actual dispositions.
