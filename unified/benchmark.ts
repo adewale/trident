@@ -15,7 +15,7 @@ import { runProjectUpdates } from './project-update.ts'
 import { parseOptions } from './options.ts'
 import { communityCatalogFile } from './trident-paths.ts'
 import type { UnifiedSuiteResult } from './types.ts'
-import { PUBLIC_SUITES, nativeAdapter, portableAdapter, projectSupport, type CatalogMember, type PublicSuite } from './support.ts'
+import { PUBLIC_SUITES, nativeAdapter, portableAdapter, portableBinding, projectSupport, type CatalogMember, type PublicSuite } from './support.ts'
 import { comparisonProjects } from './lineage.ts'
 import { campaignPlan } from './campaign-plan.ts'
 
@@ -118,12 +118,12 @@ export async function main(argv = process.argv.slice(2)) {
       return resultSummary(await (suite === 'native-fidelity' ? runMermaidFidelitySuite(target) : runUpstreamFidelitySuite(target)), target.out)
     })
     else if (suite === 'portable') for (const peer of prepared) await collect(suite, peer.node.id, async () => {
-      const adapter = peer.node.benchmark?.adapter
+      const adapter = portableAdapter(peer.node)
       if (!portableAdapter(peer.node)) return { status: peer.node.outputs.some(value => value === 'svg') ? 'blocked' : 'unsupported', disposition: peer.node.outputs.includes('svg') ? 'adapter-missing' : 'project-unsupported', detail: 'No reviewed portable Node SVG binding in Trident. Other output capabilities and actual failures remain separate.' }
       const packageRoot = publicPackageRoot(peer)
       if (!packageRoot || !peer.artifact?.module) throw Error(peer.error ?? 'No actual installed public Node entry')
       const targetOut = join(out, encodeURIComponent(peer.node.id))
-      const portableOptions = parsePortableOptions(['--project', peer.node.id, '--artifact-root', packageRoot, '--entry', peer.artifact.module, '--adapter', adapter!, ...(adapter === 'declared' ? ['--binding', JSON.stringify(peer.node.benchmark!.api!.svg)] : []), '--out', targetOut, '--records', join(base.benchmarkRecordStore, 'portable'), '--rounds', String(options.rounds), '--samples', options.profile === 'full' ? '31' : '1', '--cold-samples', options.profile === 'full' ? '20' : '1', '--allow-partial'])
+      const portableOptions = parsePortableOptions(['--project', peer.node.id, '--artifact-root', packageRoot, '--entry', peer.artifact.module, '--adapter', adapter!, ...(adapter === 'declared' ? ['--binding', JSON.stringify(portableBinding(peer.node))] : []), ...(adapter === 'public-package' ? ['--public-config', JSON.stringify(peer.node.benchmark)] : []), '--out', targetOut, '--records', join(base.benchmarkRecordStore, 'portable'), '--rounds', String(options.rounds), '--samples', options.profile === 'full' ? '31' : '1', '--cold-samples', options.profile === 'full' ? '20' : '1', '--allow-partial'])
       const result = await runPortable(portableOptions)
       if (!('summary' in result)) throw Error('Portable measurement produced only a plan')
       return { status: result.summary.status === 'failed' ? 'failed' : result.summary.status !== 'measured' || result.summary.counts.completeSemanticCases !== result.summary.counts.positiveCases ? 'blocked' : 'passed', detail: `Portable qualification: ${result.summary.status}`, out: targetOut, counts: result.summary.counts }

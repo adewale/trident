@@ -49,10 +49,13 @@ reason for each suite cell. It is configuration evidence, not a fresh runtime
 validation of 88 projects.
 
 The reviewed native-model integrations currently belong to Agentic Mermaid,
-Pele and the pinned Mermaid reference. Nine catalog entries have configured
+Pele and the pinned Mermaid reference. Fifteen catalog entries have configured
 portable Node SVG bindings: Agentic Mermaid, Pele, Ondine and six
 Beautiful-compatible entries (Beautiful Mermaid, Zombie Mermaid, ktrysmt,
-theletterf, thepanax and vercel-labs). A new project can instead declare its
+theletterf, thepanax and vercel-labs). Additional bindings cover mdv, the VitePress plugin, the DSH engine, Merman,
+Crafter and Merslim through declared exports, a public factory or the same
+reviewed package pipeline used by community collection.
+A new project can instead declare its
 public SVG export and returned field; it does not need a project-specific
 portable runner. Historical Mermaid forks do not inherit the pinned reference's
 model evidence merely by sharing its transport adapter.

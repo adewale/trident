@@ -78,6 +78,10 @@ Declare the project and its public bindings in `catalog/mermaid-community.json`.
 }
 ```
 
+A reviewed `benchmark.portable` binding can additionally name a public factory
+and disposal method; registered package pipelines reuse the community binding
+inside the portable Node worker. See [comparison contracts](FAIRNESS.md).
+
 Bindings accept dotted public export paths, an optional JSON `options` argument and an optional returned field. Promises are awaited. Other outputs, source builds, WASM and native tools use their declared adapters. An installed Node CLI can additionally declare `benchmark.cli`: its npm `bin` name, arguments with `{format}`, and outputs. No project gets an implicit local native executable.
 
 ## Run the portable kit

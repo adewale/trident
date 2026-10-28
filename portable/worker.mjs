@@ -1,3 +1,6 @@
+import { createRequire } from 'node:module'
+import { join } from 'node:path'
+import { createExtraCommunityApi } from '../unified/community-extra-adapters.mjs'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
 import { portableRenderOptions } from './configuration.ts'
@@ -16,7 +19,8 @@ const runtime = { executable: process.execPath, node: process.versions.node, pla
 const result = { protocol: PORTABLE_MEASUREMENT_PROTOCOL, caseId: job.testCase.id, family: job.testCase.family, mode: job.mode, round: job.round, replica: job.replica, sample: job.sample, status: 'blocked', importMs: 0, tracks: {}, iterations: {}, outputBytes: 0, qualification: null, prelude: [], runtime }
 const errorText = error => error instanceof Error ? String(error.stack ?? error) : String(error)
 const thenable = value => value && typeof value.then === 'function'
-let outputFailure, outputFailureSvg
+let outputFailure, outputFailureSvg, disposePublicFactory
+const publicCleanups = []
 const rememberOutputFailure = (qualification, expectedCase, svg) => {
   if (!outputFailure && expectedCase.expected.accept && qualification.evidence?.outputAdmission !== 'passed') { outputFailure = qualification; outputFailureSvg = typeof svg === 'string' ? svg : undefined }
 }
@@ -24,10 +28,27 @@ function collect() { if (global.gc) { global.gc(); global.gc() } }
 try {
   const module = await import(pathToFileURL(job.artifact.entry).href)
   const api = module.default && typeof module.default === 'object' ? { ...module.default, ...module } : module
+  let publicRenderer
+  if (job.artifact.adapter === 'public-package') {
+    const config = job.artifact.publicConfig
+    if (!config || JSON.parse(readFileSync(join(job.artifact.root, 'package.json'), 'utf8')).name !== config.package) throw Error('Public adapter package differs from the actual installed artifact')
+    const prepared = { ...job.artifact, module: job.artifact.entry, kind: 'node' }
+    const renderer = await createExtraCommunityApi({ artifact: prepared, node: { id: job.artifact.project, benchmark: config }, config, output: 'svg', require: createRequire(join(job.artifact.root, 'package.json')), cleanups: publicCleanups })
+    publicRenderer = renderer.invoke
+    result.apiBoundary = renderer.boundary
+  }
   const binding = job.artifact.binding
-  const declaredPath = job.artifact.adapter === 'declared' ? binding?.export.split('.') : undefined
-  const receiver = declaredPath?.slice(0, -1).reduce((value, key) => value?.[key], api)
-  const rendering = declaredPath ? receiver?.[declaredPath.at(-1)] : job.artifact.adapter === 'agentic' ? api.renderMermaidSVG : job.artifact.adapter === 'beautiful' ? api.renderMermaidSVG ?? api.renderMermaidSync ?? api.renderMermaid : api.render
+  const at = (root, path) => { const keys = path.split('.'); const receiver = keys.slice(0, -1).reduce((value, key) => value?.[key], root); return { receiver, value: receiver?.[keys.at(-1)] } }
+  let targetApi = api
+  if (binding?.factory) {
+    const factory = at(api, binding.factory)
+    if (typeof factory.value !== 'function') throw Error('Declared public factory is unavailable')
+    targetApi = await factory.value.call(factory.receiver)
+    if (binding.dispose) { const cleanup = at(targetApi, binding.dispose); if (typeof cleanup.value !== 'function') throw Error('Declared public disposal method is unavailable'); disposePublicFactory = () => cleanup.value.call(cleanup.receiver) }
+  }
+  const declared = job.artifact.adapter === 'declared' ? at(targetApi, binding.export) : undefined
+  const receiver = declared?.receiver
+  const rendering = publicRenderer ?? (declared ? declared.value : job.artifact.adapter === 'agentic' ? api.renderMermaidSVG : job.artifact.adapter === 'beautiful' ? api.renderMermaidSVG ?? api.renderMermaidSync ?? api.renderMermaid : api.render)
   if (typeof rendering !== 'function') throw Error('Declared public SVG renderer is unavailable')
   result.importMs = Number(process.hrtime.bigint() - started) / 1e6
   // Parent starts first-use calls only after every prepared process is idle.
@@ -179,6 +200,7 @@ try {
   result.status = 'blocked'
   result.error = errorText(error)
 }
+try { if (disposePublicFactory) await disposePublicFactory(); for (const cleanup of publicCleanups.reverse()) await cleanup() } catch (error) { result.status = 'blocked'; result.error = errorText(error) }
 // Retain an earlier output failure even if a later model-only failure overwrote
 // the general qualification witness. Output-only timing must inspect every return.
 if (outputFailure) { result.qualification = outputFailure; if (result.status !== 'blocked') result.status = 'failed' }

@@ -139,3 +139,26 @@ Exclusion supplies no inherited score or claim of behavioral equivalence.
 Beautiful Mermaid is a derivative of Mermaid, not a Git fork. It ports only
 Mermaid ASCII's ASCII component; its SVG renderer is independently implemented.
 Mermaid Dart has a distinctive brand and remains eligible. The lineage tree retains that component scope.
+
+## Public Node bindings and lifecycle
+
+Community and portable bindings are separate declarations. A project can declare
+`benchmark.portable` with a public SVG export, an optional zero-argument public
+factory and its disposal method. The worker preserves method receivers, awaits
+factory initialization before the first-call barrier and disposes the instance
+after its measured work. Import/factory preparation is excluded from render-call
+latency and remains included in complete-worker costs.
+
+A `public-package` portable adapter reuses the reviewed community pipeline for
+packages that need several public calls, such as parsing, layout and SVG output.
+The installed package name must match the binding. Separate companion packages
+are pinned and their actual payload/dependency bytes join the artifact identity;
+a changed parser cannot reuse a previous renderer timing record. This does not
+permit Node substitution for a browser-only API.
+
+`support:verify --prepared FILE --browser-prepared FILE --out FRESH_DIRECTORY`
+checks six authored inputs against supplied admitted output transports. It makes
+no acquisition or timing-comparison claim. Input observations, parser controls
+and other evidence have separate counts, and duplicate input rows receive no
+pass credit. Successful calls establish narrow invocation evidence, not complete
+family, model, paint or highest-level support. Product failures remain failures.

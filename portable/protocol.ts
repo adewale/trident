@@ -1,16 +1,18 @@
 import type { PortableCase } from './cohorts.ts'
 
 export const PORTABLE_MEASUREMENT_PROTOCOL = 'portable-svg-processes-v5'
-export const PORTABLE_ADAPTER_IDS = ['pele', 'agentic', 'beautiful', 'ondine', 'declared'] as const
+export const PORTABLE_ADAPTER_IDS = ['pele', 'agentic', 'beautiful', 'ondine', 'declared', 'public-package'] as const
 export type Replica = 'A0' | 'A1' | 'B'
 export type Track = 'first-use' | 'warm-repeat' | 'warm-new-source' | 'warm-label-edit'
+export interface PortableBinding { export: string; result?: string; options?: unknown; fontSizePath?: string[]; factory?: string; dispose?: string }
 export interface PortableArtifact {
   project: string
   root: string
   entry: string
   version: string
   adapter: typeof PORTABLE_ADAPTER_IDS[number]
-  binding?: { export: string; result?: string; options?: unknown; fontSizePath?: string[] }
+  publicConfig?: Record<string, unknown>
+  binding?: PortableBinding
 }
 export interface PortableJob {
   artifact: PortableArtifact

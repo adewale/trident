@@ -2912,7 +2912,13 @@
         "outputs": [
           "svg",
           "terminal"
-        ]
+        ],
+        "portable": {
+          "adapter": "declared",
+          "binding": {
+            "export": "renderMermaidSVG"
+          }
+        }
       },
       "benchmarkEligibility": {
         "classification": "diverged-fork",
@@ -3206,7 +3212,10 @@
             "version": "0.0.3",
             "operation": "render"
           }
-        ]
+        ],
+        "portable": {
+          "adapter": "public-package"
+        }
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -3257,7 +3266,10 @@
           "svg",
           "png",
           "terminal"
-        ]
+        ],
+        "portable": {
+          "adapter": "public-package"
+        }
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -3582,7 +3594,13 @@
         "versionPolicy": "recorded",
         "outputs": [
           "svg"
-        ]
+        ],
+        "portable": {
+          "adapter": "declared",
+          "binding": {
+            "export": "render"
+          }
+        }
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -3652,7 +3670,15 @@
         "outputs": [
           "svg",
           "png"
-        ]
+        ],
+        "portable": {
+          "adapter": "declared",
+          "binding": {
+            "factory": "createNodeEngine",
+            "export": "renderSvgSync",
+            "dispose": "dispose"
+          }
+        }
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -3934,7 +3960,10 @@
         "versionPolicy": "recorded",
         "outputs": [
           "svg"
-        ]
+        ],
+        "portable": {
+          "adapter": "public-package"
+        }
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
