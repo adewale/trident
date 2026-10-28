@@ -947,6 +947,16 @@
           "Returned SVG",
           "No SVG return"
         ]
+      },
+      "ranking": {
+        "column": "Returned SVG",
+        "direction": "descending",
+        "denominator": "Planned"
+      },
+      "overview": {
+        "numerator": "Returned SVG",
+        "denominator": "Planned",
+        "suffix": "returned SVG"
       }
     },
     {
@@ -1406,6 +1416,16 @@
           "Failed",
           "Unavailable"
         ]
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending",
+        "denominator": "Planned"
+      },
+      "overview": {
+        "numerator": "Passed",
+        "denominator": "Planned",
+        "suffix": "paint criteria"
       }
     },
     {
@@ -1451,6 +1471,10 @@
         "title": "Complete shipped browser-global JavaScript",
         "axis": "bytes, gzip level 9",
         "maximum": 1700000
+      },
+      "ranking": {
+        "column": "Gzip bytes",
+        "direction": "ascending"
       }
     },
     {
@@ -1459,7 +1483,7 @@
       "measuredAt": "2026-10-27T18:14:39.209Z",
       "historical": true,
       "unit": "call cost / Mermaid",
-      "caption": "847 identical successful occurrences across all tools and all six rounds; public SVG return clock excludes validation and paint. Descriptive; no A/A qualification. Full 1,095-occurrence outcomes appear separately.",
+      "caption": "847 identical successful occurrences across all tools and all six rounds; public SVG return clock excludes validation and paint. Descriptive; no A/A qualification. Full 1,095-occurrence outcomes appear separately. This is a descriptive ordering of retained samples, not a calibrated winner.",
       "columns": [
         "Version",
         "Call cost / Mermaid"
@@ -1490,6 +1514,10 @@
       "receipt": {
         "url": "docs/evidence/campaign-2026-10-28/dave.json",
         "sha256": "192620a55e341cd62b37569ce53b46f75017cb1ab34c35af0571f459c5313364"
+      },
+      "ranking": {
+        "column": "Call cost / Mermaid",
+        "direction": "ascending"
       }
     }
   ],
@@ -1503,5 +1531,5 @@
     "obsidianmd/pele": "Pele",
     "dfadler/zombie-mermaid": "Zombie Mermaid"
   },
-  "overviewRanking": "docs-coverage"
+  "overviewRanking": "cfd-dave-1095"
 }

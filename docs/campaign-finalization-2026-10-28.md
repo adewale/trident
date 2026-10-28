@@ -2,7 +2,7 @@
 
 Status: the environment is restored. The [dated results](campaign-results-2026-10-28.md) now publish the triage, selected generic font-case requalification, Mermaid comparisons and [per-metric PR ordering](pr-performance-2026-10-28.md). Strict-backend requalification and three legacy suite preparations remain outstanding; no complete-suite pass or current-main performance claim is made.
 
-The working branch was first rebased onto Trident main `a4b3984b284f3ee819c2c4d304d95b4ffc83ad33`, then rebased onto `8d5e76d70d1a6ae5e7b0f56d7378c58ff6ddf72d` after #39 landed. That change publishes ecosystem tables and charts from a different, explicitly historical snapshot; reuse its reporting infrastructure without relabelling it as this frozen campaign. Original measurements remain attached to Trident producer `7d6f89ddfe64b1cf3978ff1cb5cd31528cf3d36f` and Agentic source `cfd58df8ab8c21ce76eb46556296a7439f231bbf`. Agentic main was `700da836a418277225e2f058a77c48dc010b050b` when work resumed.
+The working branch was first rebased onto Trident main `a4b3984b284f3ee819c2c4d304d95b4ffc83ad33`, then rebased onto `8d5e76d70d1a6ae5e7b0f56d7378c58ff6ddf72d` after #39 landed, and then onto `7b080f456a57321db4c1a70529748494baa14e71` after #42 landed. That change publishes ecosystem tables and charts from a different, explicitly historical snapshot; reuse its reporting infrastructure without relabelling it as this frozen campaign. Original measurements remain attached to Trident producer `7d6f89ddfe64b1cf3978ff1cb5cd31528cf3d36f` and Agentic source `cfd58df8ab8c21ce76eb46556296a7439f231bbf`. Agentic main was `700da836a418277225e2f058a77c48dc010b050b` when work resumed.
 
 ## Verified collection and triage
 

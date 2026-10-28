@@ -1,6 +1,6 @@
 # Campaign results — 28 October 2026
 
-The failed-suite triage, isolated font-case reruns and dated PR ordering are available here. This is a report of several named experiments, not a new complete ecosystem run. Original collection dates and producer commits remain attached to each view. Trident was rebased onto `8d5e76d70d1a6ae5e7b0f56d7378c58ff6ddf72d`; the selected-case measurement kit was built from `4036abeed0f0772dd63f62c15ba242252cdd7d98`.
+The failed-suite triage, isolated font-case reruns and dated PR ordering are available here. This is a report of several named experiments, not a new complete ecosystem run. Original collection dates and producer commits remain attached to each view. Trident was rebased onto `7b080f456a57321db4c1a70529748494baa14e71` after the reporting update in #42 landed; the selected-case measurement kit was built from `4036abeed0f0772dd63f62c15ba242252cdd7d98`.
 
 The reference is Mermaid **12.2.0**; Pele is **1.9.0** throughout this campaign set. Agentic **0.4.2** has explicit frozen-main and CFD candidate artifact roles. The CFD source is `cfd58df8ab8c21ce76eb46556296a7439f231bbf`; it is not the current main `700da836a418277225e2f058a77c48dc010b050b`. Earlier rolling tables in RESULTS.md retain their own dates and versions.
 
@@ -44,53 +44,53 @@ Agentic returns SVG for 180 fewer documentation occurrences than the pinned refe
 
 ![Selected implementations on the fixed 920 Mermaid-qualified paint criteria](evidence/campaign-2026-10-28/paint-fidelity.svg)
 
-The following table retains all 43 measured implementation rows. Unavailable observations stay in the fixed denominator. Terminal-only outputs such as Mermaid ASCII have a different boundary and are not assigned an invented SVG-fidelity score. The evidence also retains dispositions for all 88 historical catalog entries.
+The following table retains all 43 measured implementation rows; the maintained ecosystem page orders this fixed paint metric best first. Unavailable observations stay in the fixed denominator. Terminal-only outputs such as Mermaid ASCII have a different boundary and are not assigned an invented SVG-fidelity score. The evidence also retains dispositions for all 88 historical catalog entries.
 
-| Project | Version | Paint passed / 920 | Paint failed | Paint unavailable | Browser passed / 268 | Native passed / 589 |
-| --- | --- | --- | --- | --- | --- | --- |
-| 01colyncelestine-stack/beautiful-mermaid | 0.1.3 | 116 | 11 | 793 | 38 | 0 |
-| 2233admin/beautiful-mermaid | 1.1.3 | 165 | 12 | 743 | 43 | 0 |
-| adewale/agentic-mermaid | 0.4.2 | 902 | 1 | 17 | 268 | 582 |
-| blackst0ne/mermaid | 7.1.0-fixed | 460 | 274 | 186 | 166 | 0 |
-| crabtalk/bezel | 0.2.20 | 806 | 43 | 71 | 257 | 0 |
-| crafter-station/mermaid | 0.0.3 | 169 | 25 | 726 | 33 | 0 |
-| dfadler/zombie-mermaid | 5.9.1 | 217 | 7 | 696 | 59 | 0 |
-| Dicklesworthstone/frankenmermaid | 0.4.0 | 891 | 14 | 15 | 267 | 0 |
-| emtyty/merslim | 0.2.3 | 243 | 29 | 648 | 70 | 0 |
-| enrimr/mermaid | 1.0.0 | 62 | 9 | 849 | 17 | 0 |
-| evangwt/xmermaid | 0.4.2 | 699 | 57 | 164 | 229 | 0 |
-| fdotu/beautiful-mermaid (alias) | 0.1.3 | 116 | 11 | 793 | 38 | 0 |
-| gmh5225/beautiful-mermaid (alias) | 0.1.3 | 116 | 11 | 793 | 38 | 0 |
-| HealthSamurai/beautiful-mermaid (alias) | 1.1.3 | 165 | 12 | 743 | 43 | 0 |
-| ioggstream/d3fend-mermaid | 11.11.637 | 776 | 2 | 142 | 237 | 0 |
-| jacob-lcs/mermaid | 11.9.0 | 776 | 2 | 142 | 237 | 0 |
-| jgraph/mermaid | 11.14.0 | 213 | 1 | 706 | 60 | 0 |
-| KlangHaus/vitepress-plugin-diagram | 0.3.2 | 71 | 16 | 833 | 20 | 0 |
-| ktrysmt/beautiful-mermaid | 1.5.2 | 167 | 10 | 743 | 44 | 0 |
-| Latias94/merman | 0.9.2 | 889 | 29 | 2 | 268 | 0 |
-| lishid/mermaid | 8.10.2 | 223 | 10 | 687 | 60 | 0 |
-| lukilabs/beautiful-mermaid (alias) | 1.1.3 | 165 | 12 | 743 | 43 | 0 |
-| lyngai/mermaid | 8.4.8 | 63 | 9 | 848 | 17 | 0 |
-| mbostock/mermaid | 9.0.0 | 220 | 0 | 700 | 58 | 0 |
-| Mermaid-Chart/mermaid-develop | 10.6.1 | 487 | 52 | 381 | 170 | 0 |
-| mermaid-js/mermaid | 12.2.0 | 920 | 0 | 0 | 268 | 589 |
-| NicolasNewman/mermaid | 11.4.1 | 654 | 1 | 265 | 208 | 0 |
-| obsidianmd/pele | 1.9.0 | 852 | 1 | 67 | 257 | 589 |
-| orestesgaolin/mermaid | 0.3.2 | 780 | 39 | 101 | 256 | 0 |
-| rohitg00/beautiful-mermaid (alias) | 0.1.3 | 116 | 11 | 793 | 38 | 0 |
-| sandyyst/dsh-plugin-mermaid-gb-svg | 0.1.4 | 633 | 195 | 92 | 188 | 0 |
-| songshaodong/mermaid | 0.5.8 | 39 | 0 | 881 | 7 | 0 |
-| Stars1233/beautiful-mermaid (alias) | 1.1.3 | 165 | 12 | 743 | 43 | 0 |
-| theletterf/beautiful-mermaid | 0.1.5 | 116 | 11 | 793 | 38 | 0 |
-| thepanax/beautiful-mermaid (alias) | 1.1.3 | 165 | 12 | 743 | 43 | 0 |
-| toeverything/mermaid-rs-renderer | 0.1.2 | 777 | 34 | 109 | 261 | 0 |
-| vercel-labs/beautiful-mermaid | 0.1.5 | 116 | 11 | 793 | 38 | 0 |
-| wevm/ondine | 0.0.3 | 806 | 43 | 71 | 257 | 0 |
-| xen3r0/mermaid | 8.0.0-rc.9 | 49 | 6 | 865 | 12 | 0 |
-| xeolabs/mermaid | 10.0.2 | 471 | 1 | 448 | 159 | 0 |
-| ysknsid25/beautiful-mermaid | 1.0.2 | 150 | 11 | 759 | 39 | 0 |
-| zakaria-forks/mermaid | 11.0.0-alpha.7 | 487 | 52 | 381 | 170 | 0 |
-| zhenhuaa/mdv | 0.1.2 | 165 | 12 | 743 | 43 | 0 |
+| Paint rank | Project | Version | Paint passed / 920 | Paint failed | Paint unavailable | Browser passed / 268 | Native passed / 589 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | mermaid-js/mermaid | 12.2.0 | 920 | 0 | 0 | 268 | 589 |
+| 2 | adewale/agentic-mermaid | 0.4.2 | 902 | 1 | 17 | 268 | 582 |
+| 3 | Dicklesworthstone/frankenmermaid | 0.4.0 | 891 | 14 | 15 | 267 | 0 |
+| 4 | Latias94/merman | 0.9.2 | 889 | 29 | 2 | 268 | 0 |
+| 5 | obsidianmd/pele | 1.9.0 | 852 | 1 | 67 | 257 | 589 |
+| 6 | crabtalk/bezel | 0.2.20 | 806 | 43 | 71 | 257 | 0 |
+| 6 | wevm/ondine | 0.0.3 | 806 | 43 | 71 | 257 | 0 |
+| 8 | orestesgaolin/mermaid | 0.3.2 | 780 | 39 | 101 | 256 | 0 |
+| 9 | toeverything/mermaid-rs-renderer | 0.1.2 | 777 | 34 | 109 | 261 | 0 |
+| 10 | ioggstream/d3fend-mermaid | 11.11.637 | 776 | 2 | 142 | 237 | 0 |
+| 10 | jacob-lcs/mermaid | 11.9.0 | 776 | 2 | 142 | 237 | 0 |
+| 12 | evangwt/xmermaid | 0.4.2 | 699 | 57 | 164 | 229 | 0 |
+| 13 | NicolasNewman/mermaid | 11.4.1 | 654 | 1 | 265 | 208 | 0 |
+| 14 | sandyyst/dsh-plugin-mermaid-gb-svg | 0.1.4 | 633 | 195 | 92 | 188 | 0 |
+| 15 | Mermaid-Chart/mermaid-develop | 10.6.1 | 487 | 52 | 381 | 170 | 0 |
+| 15 | zakaria-forks/mermaid | 11.0.0-alpha.7 | 487 | 52 | 381 | 170 | 0 |
+| 17 | xeolabs/mermaid | 10.0.2 | 471 | 1 | 448 | 159 | 0 |
+| 18 | blackst0ne/mermaid | 7.1.0-fixed | 460 | 274 | 186 | 166 | 0 |
+| 19 | emtyty/merslim | 0.2.3 | 243 | 29 | 648 | 70 | 0 |
+| 20 | lishid/mermaid | 8.10.2 | 223 | 10 | 687 | 60 | 0 |
+| 21 | mbostock/mermaid | 9.0.0 | 220 | 0 | 700 | 58 | 0 |
+| 22 | dfadler/zombie-mermaid | 5.9.1 | 217 | 7 | 696 | 59 | 0 |
+| 23 | jgraph/mermaid | 11.14.0 | 213 | 1 | 706 | 60 | 0 |
+| 24 | crafter-station/mermaid | 0.0.3 | 169 | 25 | 726 | 33 | 0 |
+| 25 | ktrysmt/beautiful-mermaid | 1.5.2 | 167 | 10 | 743 | 44 | 0 |
+| 26 | 2233admin/beautiful-mermaid | 1.1.3 | 165 | 12 | 743 | 43 | 0 |
+| 26 | HealthSamurai/beautiful-mermaid (alias) | 1.1.3 | 165 | 12 | 743 | 43 | 0 |
+| 26 | lukilabs/beautiful-mermaid (alias) | 1.1.3 | 165 | 12 | 743 | 43 | 0 |
+| 26 | Stars1233/beautiful-mermaid (alias) | 1.1.3 | 165 | 12 | 743 | 43 | 0 |
+| 26 | thepanax/beautiful-mermaid (alias) | 1.1.3 | 165 | 12 | 743 | 43 | 0 |
+| 26 | zhenhuaa/mdv | 0.1.2 | 165 | 12 | 743 | 43 | 0 |
+| 32 | ysknsid25/beautiful-mermaid | 1.0.2 | 150 | 11 | 759 | 39 | 0 |
+| 33 | 01colyncelestine-stack/beautiful-mermaid | 0.1.3 | 116 | 11 | 793 | 38 | 0 |
+| 33 | fdotu/beautiful-mermaid (alias) | 0.1.3 | 116 | 11 | 793 | 38 | 0 |
+| 33 | gmh5225/beautiful-mermaid (alias) | 0.1.3 | 116 | 11 | 793 | 38 | 0 |
+| 33 | rohitg00/beautiful-mermaid (alias) | 0.1.3 | 116 | 11 | 793 | 38 | 0 |
+| 33 | theletterf/beautiful-mermaid | 0.1.5 | 116 | 11 | 793 | 38 | 0 |
+| 33 | vercel-labs/beautiful-mermaid | 0.1.5 | 116 | 11 | 793 | 38 | 0 |
+| 39 | KlangHaus/vitepress-plugin-diagram | 0.3.2 | 71 | 16 | 833 | 20 | 0 |
+| 40 | lyngai/mermaid | 8.4.8 | 63 | 9 | 848 | 17 | 0 |
+| 41 | enrimr/mermaid | 1.0.0 | 62 | 9 | 849 | 17 | 0 |
+| 42 | xen3r0/mermaid | 8.0.0-rc.9 | 49 | 6 | 865 | 12 | 0 |
+| 43 | songshaodong/mermaid | 0.5.8 | 39 | 0 | 881 | 7 | 0 |
 
 ## Entry startup, memory and CPU
 

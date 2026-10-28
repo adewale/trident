@@ -12,52 +12,52 @@ Last recorded measurement/update: **2026-10-28**. 0 imported project/benchmark a
 
 Each cell links its latest recorded attempt, or a dated retained table. New failed, blocked and partial attempts take precedence over earlier tables. Different suites have different units; there is no combined score. “Unmeasured” is missing evidence; “N/A” follows the declared output or reference scope, not a measured failure.
 
-Overview order: DaveBench: Documentation Examples, highest SVG returned / Planned occurrences first (2026-10-27). Ties share a rank. Projects with no result for this measure, or a newer superseding attempt, remain unranked below. Each benchmark has its own ranking.
+Overview order: DaveBench: Documentation Examples, highest Returned SVG / Planned first (2026-10-27). Ties share a rank. Projects with no result for this measure, or a newer superseding attempt, remain unranked below. Each benchmark has its own ranking.
 
 | Project | Overview rank | Compatibility | DaveBench | Meaning | Models / editing | Assertion replay | Reference tests | Render cost |
 |---|---|---|---|---|---|---|---|---|
-| Frankenmermaid | 1 | Unmeasured | [548/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [1112/1180 criteria · historical · 2026-10-27](#svg-meaning) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
-| Mermaid.js | 2 | [33/33 SVG inputs · historical · 2026-10-28](#community-browser-public-api) | [547/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [1068/1180 criteria · historical · 2026-10-27](#svg-meaning) | [555/561 shared checks · historical · 2026-10-27](#shared-model) | [477/3995 declarations · historical · 2026-10-27](#replay-declarations) | [6677/6695 callbacks · historical · 2026-10-28](#original-runner) | Unmeasured: binding gap |
-| Pele | 3 | [32/33 SVG inputs · historical · 2026-10-28](#community-browser-public-api) | [532/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [1118/1180 criteria · historical · 2026-10-27](#svg-meaning) | [555/561 shared checks · historical · 2026-10-27](#shared-model) | [381/3995 declarations · historical · 2026-10-27](#replay-declarations) | N/A | [Uncalibrated · historical · 2026-10-27](#portable-times) |
-| Mermaid Dart | 4 | Unmeasured | [449/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [1025/1180 criteria · historical · 2026-10-27](#svg-meaning) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
-| Agentic Mermaid | 5 | [14/33 SVG inputs · historical · 2026-10-28](#community-browser-public-api) | [340/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [716/1180 criteria · historical · 2026-10-27](#svg-meaning) | [374/561 shared checks · historical · 2026-10-27](#shared-model) | [160/3995 declarations · historical · 2026-10-27](#replay-declarations) | N/A | [Failed · historical · 2026-10-27](#portable-times) |
-| Zombie Mermaid | 6 | Unmeasured | [245/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [477/1180 criteria · historical · 2026-10-27](#svg-meaning) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | [Failed · historical · 2026-10-27](#portable-times) |
-| Beautiful Mermaid | 7 | Unmeasured | [231/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [356/1180 criteria · historical · 2026-10-27](#svg-meaning) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | [Failed · historical · 2026-10-27](#portable-times) |
+| Pele | 1 | [32/33 SVG inputs · historical · 2026-10-28](#community-browser-public-api) | [1063/1095 returned SVG · historical · 2026-10-27](#cfd-dave-1095) | [852/920 paint criteria · historical · 2026-10-27](#cfd-painted-920) | [555/561 shared checks · historical · 2026-10-27](#shared-model) | [381/3995 declarations · historical · 2026-10-27](#replay-declarations) | N/A | [Uncalibrated · historical · 2026-10-27](#portable-times) |
+| Mermaid.js | 2 | [33/33 SVG inputs · historical · 2026-10-28](#community-browser-public-api) | [1061/1095 returned SVG · historical · 2026-10-27](#cfd-dave-1095) | [920/920 paint criteria · historical · 2026-10-27](#cfd-painted-920) | [555/561 shared checks · historical · 2026-10-27](#shared-model) | [477/3995 declarations · historical · 2026-10-27](#replay-declarations) | [6677/6695 callbacks · historical · 2026-10-28](#original-runner) | Unmeasured: binding gap |
+| Agentic Mermaid | 3 | [14/33 SVG inputs · historical · 2026-10-28](#community-browser-public-api) | [881/1095 returned SVG · historical · 2026-10-27](#cfd-dave-1095) | [902/920 paint criteria · historical · 2026-10-27](#cfd-painted-920) | [374/561 shared checks · historical · 2026-10-27](#shared-model) | [160/3995 declarations · historical · 2026-10-27](#replay-declarations) | N/A | [Failed · historical · 2026-10-27](#portable-times) |
 | 1jehuang/mermaid-rs-renderer | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
 | aj-archipelago/merval | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | AlexanderGrooff/mermaid-ascii | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | anomalyco/opencode | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | ASCII Mermaid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| Bezel | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
+| Beautiful Mermaid | — | Unmeasured | [231/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [165/920 paint criteria · historical · 2026-10-27](#cfd-painted-920) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | [Failed · historical · 2026-10-27](#portable-times) |
+| Bezel | — | Unmeasured | Unmeasured | [806/920 paint criteria · historical · 2026-10-27](#cfd-painted-920) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
 | chenyanchen/mermaid-formatter | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| crafter-station/mermaid | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
-| emtyty/merslim | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
-| evangwt/xmermaid | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
+| crafter-station/mermaid | — | Unmeasured | Unmeasured | [169/920 paint criteria · historical · 2026-10-27](#cfd-painted-920) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
+| emtyty/merslim | — | Unmeasured | Unmeasured | [243/920 paint criteria · historical · 2026-10-27](#cfd-painted-920) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
+| evangwt/xmermaid | — | Unmeasured | Unmeasured | [699/920 paint criteria · historical · 2026-10-27](#cfd-painted-920) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
 | excalidraw/mermaid-to-excalidraw | — | Unmeasured: binding gap | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | fasouto/termaid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| Frankenmermaid | — | Unmeasured | [548/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [891/920 paint criteria · historical · 2026-10-27](#cfd-painted-920) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
 | gotoailab/modern_mermaid | — | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
 | inkeep/visimer | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | justsml/rusty-mermaid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | kingsword09/mermansi | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | kitlangton/merman | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| KlangHaus/vitepress-plugin-diagram | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
-| Latias94/merman | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
+| KlangHaus/vitepress-plugin-diagram | — | Unmeasured | Unmeasured | [71/920 paint criteria · historical · 2026-10-27](#cfd-painted-920) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
+| Latias94/merman | — | Unmeasured | Unmeasured | [889/920 paint criteria · historical · 2026-10-27](#cfd-painted-920) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
 | Lovely Mermaid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| mdv | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
+| mdv | — | Unmeasured | Unmeasured | [165/920 paint criteria · historical · 2026-10-27](#cfd-painted-920) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
+| Mermaid Dart | — | Unmeasured | [449/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [780/920 paint criteria · historical · 2026-10-27](#cfd-painted-920) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
 | mermaid-js/mermaid-live-editor | — | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
 | MermaidText | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | Mootikins/figurehead-rs | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | neongreen/mermaid-ast | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| Ondine | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
+| Ondine | — | Unmeasured | Unmeasured | [806/920 paint criteria · historical · 2026-10-27](#cfd-painted-920) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
 | OpenCode Merman | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | probelabs/maid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| sandyyst/dsh-plugin-mermaid-gb-svg | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
+| sandyyst/dsh-plugin-mermaid-gb-svg | — | Unmeasured | Unmeasured | [633/920 paint criteria · historical · 2026-10-27](#cfd-painted-920) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
 | taoche/mermaid-reactflow-render | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | tariqshams/mermaidtui | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | tomoyukim/vscode-mermaid-editor | — | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
 | TUI Mermaid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | xai-org/grok-build | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | Yassimba/loom | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| Zombie Mermaid | — | Unmeasured | [245/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [217/920 paint criteria · historical · 2026-10-27](#cfd-painted-920) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | [Failed · historical · 2026-10-27](#portable-times) |
 
 ## Results by benchmark
 
@@ -144,18 +144,20 @@ Ranked by **Median call time (ms)**, lowest first. Equal values share a rank; un
 
 Six rounds, 1,095 occurrences. Full inventory; acceptance does not establish meaning. CFD Agentic 0.4.2, Pele 1.9.0, Mermaid 12.2.0. 27 October 2026.
 
-| Project | Version | Returned SVG | No SVG return | Planned | % of 1,095 occurrences |
-| --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 0.4.2 | 881 | 214 | 1095 | 80.5% |
-| Mermaid.js | 12.2.0 | 1061 | 34 | 1095 | 96.9% |
-| Pele | 1.9.0 | 1063 | 32 | 1095 | 97.1% |
+Ranked by **Returned SVG / Planned**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Returned SVG | No SVG return | Planned | % of 1,095 occurrences |
+| --- | --- | --- | --- | --- | --- | --- |
+| Pele | 1 | 1.9.0 | 1063 | 32 | 1095 | 97.1% |
+| Mermaid.js | 2 | 12.2.0 | 1061 | 34 | 1095 | 96.9% |
+| Agentic Mermaid | 3 | 0.4.2 | 881 | 214 | 1095 | 80.5% |
 
 ```mermaid
 xychart-beta horizontal
     title "Historical: Full documentation inventory: returned SVG — 2026-10-27"
-    x-axis ["Agentic Mermaid 0.4.2", "Mermaid.js 12.2.0", "Pele 1.9.0"]
+    x-axis ["Pele 1.9.0", "Mermaid.js 12.2.0", "Agentic Mermaid 0.4.2"]
     y-axis "% of 1,095 occurrences" 0 --> 100
-    bar [80.5, 96.9, 97.1]
+    bar [97.1, 96.9, 80.5]
 ```
 
 <a id="cfd-dave-global-gzip"></a>
@@ -164,31 +166,35 @@ xychart-beta horizontal
 
 Complete shipped browser globals, level-9 gzip. Excludes focused/lazy entries, fonts and wire overhead; not startup memory.
 
-| Project | Version | Gzip bytes |
-| --- | --- | --- |
-| Agentic Mermaid | 0.4.2 | 1264968 |
-| Mermaid.js | 12.2.0 | 1570966 |
-| Pele | 1.9.0 | 263250 |
+Ranked by **Gzip bytes**, lowest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Gzip bytes |
+| --- | --- | --- | --- |
+| Pele | 1 | 1.9.0 | 263250 |
+| Agentic Mermaid | 2 | 0.4.2 | 1264968 |
+| Mermaid.js | 3 | 12.2.0 | 1570966 |
 
 ```mermaid
 xychart-beta horizontal
     title "Historical: Complete shipped browser-global JavaScript — 2026-10-27"
-    x-axis ["Agentic Mermaid 0.4.2", "Mermaid.js 12.2.0", "Pele 1.9.0"]
+    x-axis ["Pele 1.9.0", "Agentic Mermaid 0.4.2", "Mermaid.js 12.2.0"]
     y-axis "bytes, gzip level 9" 0 --> 1700000
-    bar [1264968, 1570966, 263250]
+    bar [263250, 1264968, 1570966]
 ```
 
 <a id="cfd-dave-common-cost"></a>
 
 **cfd-dave-common-cost** · 2026-10-27 · Historical · unit: call cost / Mermaid · [evidence](docs/evidence/campaign-2026-10-28/dave.json)
 
-847 identical successful occurrences across all tools and all six rounds; public SVG return clock excludes validation and paint. Descriptive; no A/A qualification. Full 1,095-occurrence outcomes appear separately.
+847 identical successful occurrences across all tools and all six rounds; public SVG return clock excludes validation and paint. Descriptive; no A/A qualification. Full 1,095-occurrence outcomes appear separately. This is a descriptive ordering of retained samples, not a calibrated winner.
 
-| Project | Version | Call cost / Mermaid |
-| --- | --- | --- |
-| Agentic Mermaid | 0.4.2 | 0.1386222404620205 |
-| Mermaid.js | 12.2.0 | 1 |
-| Pele | 1.9.0 | 0.007979263124530539 |
+Ranked by **Call cost / Mermaid**, lowest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Call cost / Mermaid |
+| --- | --- | --- | --- |
+| Pele | 1 | 1.9.0 | 0.007979263124530539 |
+| Agentic Mermaid | 2 | 0.4.2 | 0.1386222404620205 |
+| Mermaid.js | 3 | 12.2.0 | 1 |
 
 ### Diagram Meaning
 
@@ -224,51 +230,53 @@ xychart-beta horizontal
 
 100 cases across 25 families; fixed 920 reference-passed paint criteria. Another 150 authored criteria are reference-unqualified across all surfaces. Alias rows do not create independent wins. Historical CFD candidate, not current main.
 
-| Project | Version | Passed | Failed | Unavailable | Planned |
-| --- | --- | --- | --- | --- | --- |
-| 01colyncelestine-stack/beautiful-mermaid | 0.1.3 | 116 | 11 | 793 | 920 |
-| 2233admin/beautiful-mermaid | 1.1.3 | 165 | 12 | 743 | 920 |
-| Agentic Mermaid | 0.4.2 | 902 | 1 | 17 | 920 |
-| Beautiful Mermaid | 1.1.3 | 165 | 12 | 743 | 920 |
-| Bezel | 0.2.20 | 806 | 43 | 71 | 920 |
-| blackst0ne/mermaid | 7.1.0-fixed | 460 | 274 | 186 | 920 |
-| crafter-station/mermaid | 0.0.3 | 169 | 25 | 726 | 920 |
-| D3FEND Mermaid | 11.11.637 | 776 | 2 | 142 | 920 |
-| emtyty/merslim | 0.2.3 | 243 | 29 | 648 | 920 |
-| evangwt/xmermaid | 0.4.2 | 699 | 57 | 164 | 920 |
-| fdotu/beautiful-mermaid | 0.1.3 | 116 | 11 | 793 | 920 |
-| Frankenmermaid | 0.4.0 | 891 | 14 | 15 | 920 |
-| gmh5225/beautiful-mermaid | 0.1.3 | 116 | 11 | 793 | 920 |
-| HealthSamurai/beautiful-mermaid | 1.1.3 | 165 | 12 | 743 | 920 |
-| jacob-lcs/mermaid | 11.9.0 | 776 | 2 | 142 | 920 |
-| jgraph/mermaid | 11.14.0 | 213 | 1 | 706 | 920 |
-| KlangHaus/vitepress-plugin-diagram | 0.3.2 | 71 | 16 | 833 | 920 |
-| ktrysmt/beautiful-mermaid | 1.5.2 | 167 | 10 | 743 | 920 |
-| Latias94/merman | 0.9.2 | 889 | 29 | 2 | 920 |
-| lishid/mermaid | 8.10.2 | 223 | 10 | 687 | 920 |
-| lyngai/mermaid | 8.4.8 | 63 | 9 | 848 | 920 |
-| mbostock/mermaid | 9.0.0 | 220 | 0 | 700 | 920 |
-| mdv | 0.1.2 | 165 | 12 | 743 | 920 |
-| Mermaid Dart | 0.3.2 | 780 | 39 | 101 | 920 |
-| Mermaid-Chart/mermaid-develop | 10.6.1 | 487 | 52 | 381 | 920 |
-| Mermaid.js | 12.2.0 | 920 | 0 | 0 | 920 |
-| Merman | 1.0.0 | 62 | 9 | 849 | 920 |
-| NicolasNewman/mermaid | 11.4.1 | 654 | 1 | 265 | 920 |
-| Ondine | 0.0.3 | 806 | 43 | 71 | 920 |
-| Pele | 1.9.0 | 852 | 1 | 67 | 920 |
-| rohitg00/beautiful-mermaid | 0.1.3 | 116 | 11 | 793 | 920 |
-| sandyyst/dsh-plugin-mermaid-gb-svg | 0.1.4 | 633 | 195 | 92 | 920 |
-| songshaodong/mermaid | 0.5.8 | 39 | 0 | 881 | 920 |
-| Stars1233/beautiful-mermaid | 1.1.3 | 165 | 12 | 743 | 920 |
-| theletterf/beautiful-mermaid | 0.1.5 | 116 | 11 | 793 | 920 |
-| thepanax/beautiful-mermaid | 1.1.3 | 165 | 12 | 743 | 920 |
-| toeverything/mermaid-rs-renderer | 0.1.2 | 777 | 34 | 109 | 920 |
-| vercel-labs/beautiful-mermaid | 0.1.5 | 116 | 11 | 793 | 920 |
-| xen3r0/mermaid | 8.0.0-rc.9 | 49 | 6 | 865 | 920 |
-| xeolabs/mermaid | 10.0.2 | 471 | 1 | 448 | 920 |
-| ysknsid25/beautiful-mermaid | 1.0.2 | 150 | 11 | 759 | 920 |
-| zakaria-forks/mermaid | 11.0.0-alpha.7 | 487 | 52 | 381 | 920 |
-| Zombie Mermaid | 5.9.1 | 217 | 7 | 696 | 920 |
+Ranked by **Passed / Planned**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Passed | Failed | Unavailable | Planned |
+| --- | --- | --- | --- | --- | --- | --- |
+| Mermaid.js | 1 | 12.2.0 | 920 | 0 | 0 | 920 |
+| Agentic Mermaid | 2 | 0.4.2 | 902 | 1 | 17 | 920 |
+| Frankenmermaid | 3 | 0.4.0 | 891 | 14 | 15 | 920 |
+| Latias94/merman | 4 | 0.9.2 | 889 | 29 | 2 | 920 |
+| Pele | 5 | 1.9.0 | 852 | 1 | 67 | 920 |
+| Bezel | 6 | 0.2.20 | 806 | 43 | 71 | 920 |
+| Ondine | 6 | 0.0.3 | 806 | 43 | 71 | 920 |
+| Mermaid Dart | 8 | 0.3.2 | 780 | 39 | 101 | 920 |
+| toeverything/mermaid-rs-renderer | 9 | 0.1.2 | 777 | 34 | 109 | 920 |
+| D3FEND Mermaid | 10 | 11.11.637 | 776 | 2 | 142 | 920 |
+| jacob-lcs/mermaid | 10 | 11.9.0 | 776 | 2 | 142 | 920 |
+| evangwt/xmermaid | 12 | 0.4.2 | 699 | 57 | 164 | 920 |
+| NicolasNewman/mermaid | 13 | 11.4.1 | 654 | 1 | 265 | 920 |
+| sandyyst/dsh-plugin-mermaid-gb-svg | 14 | 0.1.4 | 633 | 195 | 92 | 920 |
+| Mermaid-Chart/mermaid-develop | 15 | 10.6.1 | 487 | 52 | 381 | 920 |
+| zakaria-forks/mermaid | 15 | 11.0.0-alpha.7 | 487 | 52 | 381 | 920 |
+| xeolabs/mermaid | 17 | 10.0.2 | 471 | 1 | 448 | 920 |
+| blackst0ne/mermaid | 18 | 7.1.0-fixed | 460 | 274 | 186 | 920 |
+| emtyty/merslim | 19 | 0.2.3 | 243 | 29 | 648 | 920 |
+| lishid/mermaid | 20 | 8.10.2 | 223 | 10 | 687 | 920 |
+| mbostock/mermaid | 21 | 9.0.0 | 220 | 0 | 700 | 920 |
+| Zombie Mermaid | 22 | 5.9.1 | 217 | 7 | 696 | 920 |
+| jgraph/mermaid | 23 | 11.14.0 | 213 | 1 | 706 | 920 |
+| crafter-station/mermaid | 24 | 0.0.3 | 169 | 25 | 726 | 920 |
+| ktrysmt/beautiful-mermaid | 25 | 1.5.2 | 167 | 10 | 743 | 920 |
+| 2233admin/beautiful-mermaid | 26 | 1.1.3 | 165 | 12 | 743 | 920 |
+| Beautiful Mermaid | 26 | 1.1.3 | 165 | 12 | 743 | 920 |
+| HealthSamurai/beautiful-mermaid | 26 | 1.1.3 | 165 | 12 | 743 | 920 |
+| mdv | 26 | 0.1.2 | 165 | 12 | 743 | 920 |
+| Stars1233/beautiful-mermaid | 26 | 1.1.3 | 165 | 12 | 743 | 920 |
+| thepanax/beautiful-mermaid | 26 | 1.1.3 | 165 | 12 | 743 | 920 |
+| ysknsid25/beautiful-mermaid | 32 | 1.0.2 | 150 | 11 | 759 | 920 |
+| 01colyncelestine-stack/beautiful-mermaid | 33 | 0.1.3 | 116 | 11 | 793 | 920 |
+| fdotu/beautiful-mermaid | 33 | 0.1.3 | 116 | 11 | 793 | 920 |
+| gmh5225/beautiful-mermaid | 33 | 0.1.3 | 116 | 11 | 793 | 920 |
+| rohitg00/beautiful-mermaid | 33 | 0.1.3 | 116 | 11 | 793 | 920 |
+| theletterf/beautiful-mermaid | 33 | 0.1.5 | 116 | 11 | 793 | 920 |
+| vercel-labs/beautiful-mermaid | 33 | 0.1.5 | 116 | 11 | 793 | 920 |
+| KlangHaus/vitepress-plugin-diagram | 39 | 0.3.2 | 71 | 16 | 833 | 920 |
+| lyngai/mermaid | 40 | 8.4.8 | 63 | 9 | 848 | 920 |
+| Merman | 41 | 1.0.0 | 62 | 9 | 849 | 920 |
+| xen3r0/mermaid | 42 | 8.0.0-rc.9 | 49 | 6 | 865 | 920 |
+| songshaodong/mermaid | 43 | 0.5.8 | 39 | 0 | 881 | 920 |
 
 ### Model and Editing Contracts
 
