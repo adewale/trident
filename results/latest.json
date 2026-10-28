@@ -52,6 +52,11 @@
           "Unsupported",
           "Blocked"
         ]
+      },
+      "ranking": {
+        "column": "Passed inputs",
+        "direction": "descending",
+        "denominator": "Planned inputs"
       }
     },
     {
@@ -121,6 +126,11 @@
           "Unsupported",
           "Blocked"
         ]
+      },
+      "ranking": {
+        "column": "Passed inputs",
+        "direction": "descending",
+        "denominator": "Planned inputs"
       }
     },
     {
@@ -223,6 +233,11 @@
           "SVG returned",
           "Failed"
         ]
+      },
+      "ranking": {
+        "column": "SVG returned",
+        "direction": "descending",
+        "denominator": "Planned occurrences"
       }
     },
     {
@@ -306,6 +321,10 @@
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
         "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+      },
+      "ranking": {
+        "column": "Median call time (ms)",
+        "direction": "ascending"
       }
     },
     {
@@ -425,6 +444,11 @@
           "Unsupported",
           "Blocked"
         ]
+      },
+      "ranking": {
+        "column": "Passed criteria",
+        "direction": "descending",
+        "denominator": "Planned criteria"
       }
     },
     {
@@ -494,6 +518,11 @@
           "Unsupported",
           "Blocked"
         ]
+      },
+      "ranking": {
+        "column": "Passed criteria",
+        "direction": "descending",
+        "denominator": "Planned shared criteria"
       }
     },
     {
@@ -536,6 +565,11 @@
           "Unsupported",
           "Blocked"
         ]
+      },
+      "ranking": {
+        "column": "Passed criteria",
+        "direction": "descending",
+        "denominator": "API-specific criteria"
       }
     },
     {
@@ -615,6 +649,11 @@
           "Skipped",
           "Unregistered"
         ]
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending",
+        "denominator": "Planned declarations"
       }
     },
     {
@@ -679,6 +718,11 @@
           "Unavailable",
           "Skipped"
         ]
+      },
+      "ranking": {
+        "column": "Passed callbacks",
+        "direction": "descending",
+        "denominator": "Recorded callbacks"
       }
     },
     {
@@ -728,6 +772,11 @@
           "Pending",
           "Todo"
         ]
+      },
+      "ranking": {
+        "column": "Passed callbacks",
+        "direction": "descending",
+        "denominator": "Total callbacks"
       }
     },
     {
@@ -798,6 +847,10 @@
       "overview": {
         "numerator": "Campaign qualification",
         "suffix": ""
+      },
+      "ranking": {
+        "column": "Repeat median (ms)",
+        "direction": "ascending"
       }
     },
     {
@@ -829,6 +882,10 @@
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
         "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+      },
+      "ranking": {
+        "column": "Process RSS (MiB)",
+        "direction": "ascending"
       }
     }
   ],
@@ -841,5 +898,6 @@
     "mermaid-js/mermaid": "Mermaid.js",
     "obsidianmd/pele": "Pele",
     "dfadler/zombie-mermaid": "Zombie Mermaid"
-  }
+  },
+  "overviewRanking": "docs-coverage"
 }

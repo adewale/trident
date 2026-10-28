@@ -4,7 +4,7 @@ import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
-import { importCampaign, renderSnapshot, validateSnapshot, writeSnapshot, type ResultsSnapshot } from '../unified/results-snapshot.ts'
+import { importCampaign, rankedRows, renderSnapshot, validateSnapshot, writeSnapshot, type ResultsSnapshot } from '../unified/results-snapshot.ts'
 import type { LineageCatalog } from '../unified/lineage.ts'
 
 const receipt = { url: 'https://example.org/evidence/report.json', sha256: 'a'.repeat(64) }
@@ -19,6 +19,7 @@ const snapshot = (): ResultsSnapshot => ({ schema: 'trident-results-snapshot-v1'
   overview: { numerator: 'Returned', denominator: 'Planned', suffix: 'SVG returned' },
   population: { total: 'Planned', outcomes: ['Returned', 'Failed'] },
   chart: { numerator: 'Returned', denominator: 'Planned', title: 'Docs', axis: 'Returned (%)', maximum: 100 },
+  ranking: { column: 'Returned', denominator: 'Planned', direction: 'descending' },
 }] })
 function campaign(root: string, projects: string[], results: unknown[], updatedAt = '2026-02-02T00:00:00Z', requestedSuites = ['docs']) {
   mkdirSync(root, { recursive: true })
@@ -31,7 +32,7 @@ function temporary(run: (root: string) => void) {
 
 test('one numeric source supplies both the visible table rate and Mermaid bar; missing observations stay missing', () => {
   const output = renderSnapshot(snapshot(), catalog)
-  expect(output).toContain('| fixture/zebra | 1.0 | 1 | 1 | 2 | 50.0% |')
+  expect(output).toContain('| fixture/zebra | 1 | 1.0 | 1 | 1 | 2 | 50.0% |')
   expect(output).toContain('bar [50]')
   expect(output).toContain('Historical: Docs')
   expect(output).toContain('2 eligible projects')
@@ -139,3 +140,43 @@ test('tracked historical tables reproduce the existing receipt values with their
 })
 
 type Cell = string | number
+
+test('result ranks use the named metric, share ties, put missing values last and reverse direction for cost', () => {
+  const entry = snapshot().tables[0]!
+  entry.rows = [
+    { project: 'z-best', values: ['1', 10, 0, 10] },
+    { project: 'a-worse', values: ['1', 9, 1, 10] },
+    { project: 'b-tied', values: ['1', 10, 0, 10] },
+    { project: 'missing', values: ['1', 'Withheld', 0, 10] },
+    { project: 'zero', values: ['1', 0, 10, 10] },
+  ]
+  expect(rankedRows(entry, id => id).map(row => [row.project, row.rank])).toEqual([['b-tied', 1], ['z-best', 1], ['a-worse', 3], ['zero', 4], ['missing', null]])
+  entry.ranking = { column: 'Returned', direction: 'ascending' }
+  expect(rankedRows(entry, id => id).map(row => [row.project, row.rank])).toEqual([['zero', 1], ['a-worse', 2], ['b-tied', 3], ['z-best', 3], ['missing', null]])
+  entry.rows[0]!.values[1] = '0.125'
+  expect(rankedRows(entry, id => id)[1]!.score).toBe(0.125)
+  entry.rows[0]!.values[1] = '0.125 ms not a number'
+  expect(rankedRows(entry, id => id).at(-1)?.rank).toBeNull()
+})
+
+test('table and Mermaid chart use the same best-first project order', () => {
+  const data = snapshot()
+  data.tables[0]!.rows.unshift({ project: 'fixture/alpha', values: ['1.0', 2, 0, 2] })
+  const output = renderSnapshot(data, catalog)
+  const section = output.slice(output.indexOf('**docs-coverage**'))
+  expect(section.indexOf('| fixture/alpha | 1 |')).toBeLessThan(section.indexOf('| fixture/zebra | 2 |'))
+  expect(section).toContain('x-axis ["fixture/alpha 1.0", "fixture/zebra 1.0"]')
+  expect(section).toContain('bar [100, 50]')
+  expect(output.indexOf('| fixture/alpha | 1 |')).toBeLessThan(output.indexOf('| fixture/zebra | 2 |'))
+  data.attempts.push({ id: 'new-failure', project: 'fixture/alpha', suite: 'docs', measuredFrom: '2026-02-01', updatedAt: '2026-02-02', status: 'failed', detail: 'Newer failure', receipt, groups: [] })
+  const updated = renderSnapshot(data, catalog)
+  expect(updated.split('\n').find(row => row.startsWith('| fixture/alpha |'))).toContain('| fixture/alpha | — |')
+})
+
+test('an entirely blocked population is unranked while an observed zero retains its rank', () => {
+  const entry = snapshot().tables[0]!
+  entry.columns.push('Blocked')
+  entry.population!.outcomes.push('Blocked')
+  entry.rows = [{ project: 'blocked', values: ['1', 0, 0, 2, 2] }, { project: 'observed-zero', values: ['1', 0, 2, 2, 0] }]
+  expect(rankedRows(entry, id => id).map(row => [row.project, row.rank])).toEqual([['observed-zero', 1], ['blocked', null]])
+})

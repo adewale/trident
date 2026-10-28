@@ -92,7 +92,7 @@ representative production traffic nor a validated holdout. Additional independen
 workload contributors and review are still needed. Observers and adapters also
 need independent review before any claim of complete neutrality.
 
-## Publish evidence without ranking projects
+## Publish evidence and rank comparable results
 
 ```sh
 bun commands.ts results:publish --records RECORDS --out /evidence/community-report
@@ -100,9 +100,12 @@ bun commands.ts results:campaign --campaign /evidence/run \
   --out /evidence/publication --copy-evidence
 ```
 
-Community scorecards sort projects alphabetically within compatible public
-surface/runtime groups. Coverage, conditional acceptance, legacy first-call
-costs and repeated-source costs stay separate; there is no rank column.
+Result comparisons stack-rank projects by an explicitly named measure within
+compatible workload, public surface and runtime groups. Rates sort highest first;
+time and memory sort lowest first. Ties share a rank; missing measurements stay
+unranked. Coverage, conditional acceptance, first-call costs and repeated-source
+costs remain separate measures. A rank orders the stated measurement and does
+not establish an overall winner or qualify descriptive historical timing.
 
 The campaign index shows original measurement windows, selected artifacts,
 suite dispositions and per-project/surface/mode/round observation counts. It

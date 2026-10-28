@@ -97,7 +97,18 @@ comparison. Descriptive historical samples may be shown with that status in the
 table, but are not relabelled as current qualified results. Use sensible numeric
 precision; exact samples remain in the evidence.
 
-Tables are alphabetical inside comparable groups. There is no cross-suite league
+Stack-rank results within each comparable group, best first, by the named metric.
+Coverage and passed-check rates sort highest first; time and resource costs sort
+lowest first. State the sorting metric above the table and keep charts in the
+same order. Equal values share a rank (1, 1, 3); names only order tied rows.
+Missing, blocked and withheld measurements stay visible below measured rows
+without a numeric rank. Historical timing ranks describe the retained samples
+and keep their qualification limits visible. Optional API checks have their own
+ranking and cannot improve a project's shared-check rank.
+
+The ecosystem overview uses its named DaveBench measure for ordering; other
+benchmarks have independent ranks. A newer superseding attempt removes the old
+overview rank until a comparable result is published. There is no cross-suite league
 score combining coverage, correctness and cost. The [support assessment](SUPPORT-QUALITY.md)
 measures Trident's integration evidence, not renderer speed.
 

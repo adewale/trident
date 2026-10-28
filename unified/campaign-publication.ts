@@ -60,7 +60,7 @@ export function publishCampaigns(directories: string[], out: string, settings: {
   mkdirSync(out, { recursive: true })
   copyPublicationMethods(out)
   const lines = ['# Trident benchmark evidence', '', `Published ${new Date().toISOString()}. Measurement dates below belong to the original campaigns.`, '',
-    'Unranked scorecards. Coverage, output correctness, optional model evidence, time and resources have different units. Missing adapters and unavailable observers receive no pass credit. No global winner or validated production holdout is claimed.', '',
+    'Suite evidence index. Comparative result tables stack-rank their named measure within compatible cohorts. Coverage, output correctness, optional model evidence, time and resources have different units. Missing adapters and unavailable observers receive no pass credit. No global winner or validated production holdout is claimed.', '',
     settings.copyEvidence ? 'Evidence is copied below. Original absolute paths inside raw records remain provenance; the links here point to the copied files.' : 'This local index links the original evidence in place. It is not a self-contained web publication; use --copy-evidence to create a portable evidence bundle.', '',
     '| Campaign | Measured from | Last recorded update | Profile / rounds | Projects | Completion |', '|---|---|---|---|---:|---|']
   const manifest: unknown[] = []

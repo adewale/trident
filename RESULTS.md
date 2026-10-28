@@ -12,50 +12,52 @@ Last recorded measurement/update: **2026-10-28**. 0 imported project/benchmark a
 
 Each cell links its latest recorded attempt, or a dated retained table. New failed, blocked and partial attempts take precedence over earlier tables. Different suites have different units; there is no combined score. “Unmeasured” is missing evidence; “N/A” follows the declared output or reference scope, not a measured failure.
 
-| Project | Compatibility | DaveBench | Meaning | Models / editing | Assertion replay | Reference tests | Render cost |
-|---|---|---|---|---|---|---|---|
-| 1jehuang/mermaid-rs-renderer | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
-| Agentic Mermaid | [14/33 SVG inputs · historical · 2026-10-28](#community-browser-public-api) | [340/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [716/1180 criteria · historical · 2026-10-27](#svg-meaning) | [374/561 shared checks · historical · 2026-10-27](#shared-model) | [160/3995 declarations · historical · 2026-10-27](#replay-declarations) | N/A | [Failed · historical · 2026-10-27](#portable-times) |
-| aj-archipelago/merval | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| AlexanderGrooff/mermaid-ascii | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| anomalyco/opencode | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| ASCII Mermaid | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| Beautiful Mermaid | Unmeasured | [231/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [356/1180 criteria · historical · 2026-10-27](#svg-meaning) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | [Failed · historical · 2026-10-27](#portable-times) |
-| Bezel | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
-| chenyanchen/mermaid-formatter | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| crafter-station/mermaid | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
-| emtyty/merslim | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
-| evangwt/xmermaid | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
-| excalidraw/mermaid-to-excalidraw | Unmeasured: binding gap | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| fasouto/termaid | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| Frankenmermaid | Unmeasured | [548/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [1112/1180 criteria · historical · 2026-10-27](#svg-meaning) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
-| gotoailab/modern_mermaid | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
-| inkeep/visimer | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| justsml/rusty-mermaid | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| kingsword09/mermansi | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| kitlangton/merman | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| KlangHaus/vitepress-plugin-diagram | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
-| Latias94/merman | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
-| Lovely Mermaid | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| mdv | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
-| Mermaid Dart | Unmeasured | [449/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [1025/1180 criteria · historical · 2026-10-27](#svg-meaning) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
-| mermaid-js/mermaid-live-editor | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
-| Mermaid.js | [33/33 SVG inputs · historical · 2026-10-28](#community-browser-public-api) | [547/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [1068/1180 criteria · historical · 2026-10-27](#svg-meaning) | [555/561 shared checks · historical · 2026-10-27](#shared-model) | [477/3995 declarations · historical · 2026-10-27](#replay-declarations) | [6677/6695 callbacks · historical · 2026-10-28](#original-runner) | Unmeasured: binding gap |
-| MermaidText | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| Mootikins/figurehead-rs | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| neongreen/mermaid-ast | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| Ondine | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
-| OpenCode Merman | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| Pele | [32/33 SVG inputs · historical · 2026-10-28](#community-browser-public-api) | [532/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [1118/1180 criteria · historical · 2026-10-27](#svg-meaning) | [555/561 shared checks · historical · 2026-10-27](#shared-model) | [381/3995 declarations · historical · 2026-10-27](#replay-declarations) | N/A | [Uncalibrated · historical · 2026-10-27](#portable-times) |
-| probelabs/maid | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| sandyyst/dsh-plugin-mermaid-gb-svg | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
-| taoche/mermaid-reactflow-render | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| tariqshams/mermaidtui | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| tomoyukim/vscode-mermaid-editor | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
-| TUI Mermaid | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| xai-org/grok-build | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| Yassimba/loom | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| Zombie Mermaid | Unmeasured | [245/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [477/1180 criteria · historical · 2026-10-27](#svg-meaning) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | [Failed · historical · 2026-10-27](#portable-times) |
+Overview order: DaveBench: Documentation Examples, highest SVG returned / Planned occurrences first (2026-10-27). Ties share a rank. Projects with no result for this measure, or a newer superseding attempt, remain unranked below. Each benchmark has its own ranking.
+
+| Project | Overview rank | Compatibility | DaveBench | Meaning | Models / editing | Assertion replay | Reference tests | Render cost |
+|---|---|---|---|---|---|---|---|---|
+| Frankenmermaid | 1 | Unmeasured | [548/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [1112/1180 criteria · historical · 2026-10-27](#svg-meaning) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
+| Mermaid.js | 2 | [33/33 SVG inputs · historical · 2026-10-28](#community-browser-public-api) | [547/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [1068/1180 criteria · historical · 2026-10-27](#svg-meaning) | [555/561 shared checks · historical · 2026-10-27](#shared-model) | [477/3995 declarations · historical · 2026-10-27](#replay-declarations) | [6677/6695 callbacks · historical · 2026-10-28](#original-runner) | Unmeasured: binding gap |
+| Pele | 3 | [32/33 SVG inputs · historical · 2026-10-28](#community-browser-public-api) | [532/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [1118/1180 criteria · historical · 2026-10-27](#svg-meaning) | [555/561 shared checks · historical · 2026-10-27](#shared-model) | [381/3995 declarations · historical · 2026-10-27](#replay-declarations) | N/A | [Uncalibrated · historical · 2026-10-27](#portable-times) |
+| Mermaid Dart | 4 | Unmeasured | [449/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [1025/1180 criteria · historical · 2026-10-27](#svg-meaning) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
+| Agentic Mermaid | 5 | [14/33 SVG inputs · historical · 2026-10-28](#community-browser-public-api) | [340/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [716/1180 criteria · historical · 2026-10-27](#svg-meaning) | [374/561 shared checks · historical · 2026-10-27](#shared-model) | [160/3995 declarations · historical · 2026-10-27](#replay-declarations) | N/A | [Failed · historical · 2026-10-27](#portable-times) |
+| Zombie Mermaid | 6 | Unmeasured | [245/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [477/1180 criteria · historical · 2026-10-27](#svg-meaning) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | [Failed · historical · 2026-10-27](#portable-times) |
+| Beautiful Mermaid | 7 | Unmeasured | [231/548 SVG returned · historical · 2026-10-27](#docs-coverage) | [356/1180 criteria · historical · 2026-10-27](#svg-meaning) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | [Failed · historical · 2026-10-27](#portable-times) |
+| 1jehuang/mermaid-rs-renderer | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
+| aj-archipelago/merval | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| AlexanderGrooff/mermaid-ascii | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| anomalyco/opencode | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| ASCII Mermaid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| Bezel | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
+| chenyanchen/mermaid-formatter | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| crafter-station/mermaid | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
+| emtyty/merslim | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
+| evangwt/xmermaid | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
+| excalidraw/mermaid-to-excalidraw | — | Unmeasured: binding gap | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| fasouto/termaid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| gotoailab/modern_mermaid | — | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
+| inkeep/visimer | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| justsml/rusty-mermaid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| kingsword09/mermansi | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| kitlangton/merman | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| KlangHaus/vitepress-plugin-diagram | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
+| Latias94/merman | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
+| Lovely Mermaid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| mdv | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
+| mermaid-js/mermaid-live-editor | — | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
+| MermaidText | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| Mootikins/figurehead-rs | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| neongreen/mermaid-ast | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| Ondine | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
+| OpenCode Merman | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| probelabs/maid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| sandyyst/dsh-plugin-mermaid-gb-svg | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
+| taoche/mermaid-reactflow-render | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| tariqshams/mermaidtui | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| tomoyukim/vscode-mermaid-editor | — | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
+| TUI Mermaid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| xai-org/grok-build | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| Yassimba/loom | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 
 ## Results by benchmark
 
@@ -69,10 +71,12 @@ Tables retain the full recorded populations. Charts show one named measure from 
 
 Selected smoke campaign; public Node SVG API; one round; 33 feature inputs. Six core inputs are separate. Output admission does not establish diagram meaning.
 
-| Project | Version | Passed inputs | Failed | Unsupported | Blocked | Planned inputs |
-| --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 0.4.1 | 14 | 1 | 18 | 0 | 33 |
-| Pele | 1.9.0 | 32 | 0 | 1 | 0 | 33 |
+Ranked by **Passed inputs / Planned inputs**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Passed inputs | Failed | Unsupported | Blocked | Planned inputs |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Pele | 1 | 1.9.0 | 32 | 0 | 1 | 0 | 33 |
+| Agentic Mermaid | 2 | 0.4.1 | 14 | 1 | 18 | 0 | 33 |
 
 <a id="community-browser-public-api"></a>
 
@@ -80,11 +84,13 @@ Selected smoke campaign; public Node SVG API; one round; 33 feature inputs. Six 
 
 Selected smoke campaign; browser SVG API; one round; 33 feature inputs. Six core inputs are separate. Mermaid.js is the language reference.
 
-| Project | Version | Passed inputs | Failed | Unsupported | Blocked | Planned inputs |
-| --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 0.4.1 | 14 | 1 | 18 | 0 | 33 |
-| Mermaid.js | 12.2.0 | 33 | 0 | 0 | 0 | 33 |
-| Pele | 1.9.0 | 32 | 0 | 1 | 0 | 33 |
+Ranked by **Passed inputs / Planned inputs**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Passed inputs | Failed | Unsupported | Blocked | Planned inputs |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Mermaid.js | 1 | 12.2.0 | 33 | 0 | 0 | 0 | 33 |
+| Pele | 2 | 1.9.0 | 32 | 0 | 1 | 0 | 33 |
+| Agentic Mermaid | 3 | 0.4.1 | 14 | 1 | 18 | 0 | 33 |
 
 ### DaveBench: Documentation Examples
 
@@ -94,22 +100,24 @@ Selected smoke campaign; browser SVG API; one round; 33 feature inputs. Six core
 
 Browser SVG; 548 documentation occurrences, 546 distinct sources, 34 pages; five rounds with identical per-round coverage. A returned SVG does not establish correct paint. Mermaid.js is the reference.
 
-| Project | Version | SVG returned | Failed | Planned occurrences | SVG returned (%) |
-| --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 0.4.1 | 340 | 208 | 548 | 62.0% |
-| Beautiful Mermaid | 1.1.3 | 231 | 317 | 548 | 42.2% |
-| Frankenmermaid | 0.4.0 | 548 | 0 | 548 | 100.0% |
-| Mermaid Dart | 0.3.2 | 449 | 99 | 548 | 81.9% |
-| Mermaid.js | 12.2.0 | 547 | 1 | 548 | 99.8% |
-| Pele | 1.9.0 | 532 | 16 | 548 | 97.1% |
-| Zombie Mermaid | 5.10.2 | 245 | 303 | 548 | 44.7% |
+Ranked by **SVG returned / Planned occurrences**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | SVG returned | Failed | Planned occurrences | SVG returned (%) |
+| --- | --- | --- | --- | --- | --- | --- |
+| Frankenmermaid | 1 | 0.4.0 | 548 | 0 | 548 | 100.0% |
+| Mermaid.js | 2 | 12.2.0 | 547 | 1 | 548 | 99.8% |
+| Pele | 3 | 1.9.0 | 532 | 16 | 548 | 97.1% |
+| Mermaid Dart | 4 | 0.3.2 | 449 | 99 | 548 | 81.9% |
+| Agentic Mermaid | 5 | 0.4.1 | 340 | 208 | 548 | 62.0% |
+| Zombie Mermaid | 6 | 5.10.2 | 245 | 303 | 548 | 44.7% |
+| Beautiful Mermaid | 7 | 1.1.3 | 231 | 317 | 548 | 42.2% |
 
 ```mermaid
 xychart-beta horizontal
     title "Historical: DaveBench SVG returns — 2026-10-27"
-    x-axis ["Agentic Mermaid 0.4.1", "Beautiful Mermaid 1.1.3", "Frankenmermaid 0.4.0", "Mermaid Dart 0.3.2", "Mermaid.js 12.2.0", "Pele 1.9.0", "Zombie Mermaid 5.10.2"]
+    x-axis ["Frankenmermaid 0.4.0", "Mermaid.js 12.2.0", "Pele 1.9.0", "Mermaid Dart 0.3.2", "Agentic Mermaid 0.4.1", "Zombie Mermaid 5.10.2", "Beautiful Mermaid 1.1.3"]
     y-axis "SVG returned (%)" 0 --> 100
-    bar [62, 42.2, 100, 81.9, 99.8, 97.1, 44.7]
+    bar [100, 99.8, 97.1, 81.9, 62, 44.7, 42.2]
 ```
 
 <a id="docs-one-input-time"></a>
@@ -118,15 +126,17 @@ xychart-beta horizontal
 
 Browser SVG; one shared input: packages/mermaid/src/docs/syntax/flowchart.md:23. Median of five calls after warmup. Not calibrated; failed output withholds timing. This is not a whole-docs speed comparison.
 
-| Project | Version | Median call time (ms) | Successful calls | Comparison qualification |
-| --- | --- | --- | --- | --- |
-| Agentic Mermaid | 0.4.1 | 20.2 | 5/5 | Not calibrated |
-| Beautiful Mermaid | 1.1.3 | Withheld | 0/5 | SVG return failed |
-| Frankenmermaid | 0.4.0 | 0.4 | 5/5 | Not calibrated |
-| Mermaid Dart | 0.3.2 | 3 | 5/5 | Not calibrated |
-| Mermaid.js | 12.2.0 | 78.3 | 5/5 | Not calibrated |
-| Pele | 1.9.0 | 0.6 | 5/5 | Not calibrated |
-| Zombie Mermaid | 5.10.2 | Withheld | 0/5 | SVG return failed |
+Ranked by **Median call time (ms)**, lowest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Median call time (ms) | Successful calls | Comparison qualification |
+| --- | --- | --- | --- | --- | --- |
+| Frankenmermaid | 1 | 0.4.0 | 0.4 | 5/5 | Not calibrated |
+| Pele | 2 | 1.9.0 | 0.6 | 5/5 | Not calibrated |
+| Mermaid Dart | 3 | 0.3.2 | 3 | 5/5 | Not calibrated |
+| Agentic Mermaid | 4 | 0.4.1 | 20.2 | 5/5 | Not calibrated |
+| Mermaid.js | 5 | 12.2.0 | 78.3 | 5/5 | Not calibrated |
+| Beautiful Mermaid | — | 1.1.3 | Withheld | 0/5 | SVG return failed |
+| Zombie Mermaid | — | 5.10.2 | Withheld | 0/5 | SVG return failed |
 
 ### Diagram Meaning
 
@@ -136,22 +146,24 @@ Browser SVG; one shared input: packages/mermaid/src/docs/syntax/flowchart.md:23.
 
 Browser SVG; the same 1,180 SVG criterion identities per project. Native-model checks are excluded. The older observer needs fresh qualification; these counts are not current bug findings or an overall visual-quality score.
 
-| Project | Version | Passed criteria | Failed | Unsupported | Blocked | Planned criteria |
-| --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 0.4.1 | 716 | 13 | 0 | 451 | 1180 |
-| Beautiful Mermaid | 1.1.3 | 356 | 18 | 0 | 806 | 1180 |
-| Frankenmermaid | 0.4.0 | 1112 | 6 | 0 | 62 | 1180 |
-| Mermaid Dart | 0.3.2 | 1025 | 45 | 0 | 110 | 1180 |
-| Mermaid.js | 12.2.0 | 1068 | 16 | 0 | 96 | 1180 |
-| Pele | 1.9.0 | 1118 | 5 | 14 | 43 | 1180 |
-| Zombie Mermaid | 5.10.2 | 477 | 13 | 0 | 690 | 1180 |
+Ranked by **Passed criteria / Planned criteria**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Passed criteria | Failed | Unsupported | Blocked | Planned criteria |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Pele | 1 | 1.9.0 | 1118 | 5 | 14 | 43 | 1180 |
+| Frankenmermaid | 2 | 0.4.0 | 1112 | 6 | 0 | 62 | 1180 |
+| Mermaid.js | 3 | 12.2.0 | 1068 | 16 | 0 | 96 | 1180 |
+| Mermaid Dart | 4 | 0.3.2 | 1025 | 45 | 0 | 110 | 1180 |
+| Agentic Mermaid | 5 | 0.4.1 | 716 | 13 | 0 | 451 | 1180 |
+| Zombie Mermaid | 6 | 5.10.2 | 477 | 13 | 0 | 690 | 1180 |
+| Beautiful Mermaid | 7 | 1.1.3 | 356 | 18 | 0 | 806 | 1180 |
 
 ```mermaid
 xychart-beta horizontal
     title "Historical: Diagram Meaning checks passed — 2026-10-27"
-    x-axis ["Agentic Mermaid 0.4.1", "Beautiful Mermaid 1.1.3", "Frankenmermaid 0.4.0", "Mermaid Dart 0.3.2", "Mermaid.js 12.2.0", "Pele 1.9.0", "Zombie Mermaid 5.10.2"]
+    x-axis ["Pele 1.9.0", "Frankenmermaid 0.4.0", "Mermaid.js 12.2.0", "Mermaid Dart 0.3.2", "Agentic Mermaid 0.4.1", "Zombie Mermaid 5.10.2", "Beautiful Mermaid 1.1.3"]
     y-axis "Passed criteria out of 1180" 0 --> 1180
-    bar [716, 356, 1112, 1025, 1068, 1118, 477]
+    bar [1118, 1112, 1068, 1025, 716, 477, 356]
 ```
 
 ### Model and Editing Contracts
@@ -162,11 +174,13 @@ xychart-beta horizontal
 
 Reviewed public models; the same 561 criterion identities for each bound project. Shared identity digest: c959c18ab2dd3a76b2f4a0f4be5744ff60a3a44d7e0e80722785694df0cf01e6. A missing Trident projection does not prove a missing project API.
 
-| Project | Version | Passed criteria | Failed | Unsupported | Blocked | Planned shared criteria |
-| --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 0.4.1 | 374 | 7 | 179 | 1 | 561 |
-| Mermaid.js | 12.2.0 | 555 | 0 | 6 | 0 | 561 |
-| Pele | 1.9.0 | 555 | 0 | 6 | 0 | 561 |
+Ranked by **Passed criteria / Planned shared criteria**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Passed criteria | Failed | Unsupported | Blocked | Planned shared criteria |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Mermaid.js | 1 | 12.2.0 | 555 | 0 | 6 | 0 | 561 |
+| Pele | 1 | 1.9.0 | 555 | 0 | 6 | 0 | 561 |
+| Agentic Mermaid | 3 | 0.4.1 | 374 | 7 | 179 | 1 | 561 |
 
 <a id="additional-model"></a>
 
@@ -174,9 +188,11 @@ Reviewed public models; the same 561 criterion identities for each bound project
 
 Additional serializer/readback checks on the public API that exposes them. Separate from the shared-model comparison; these checks confer no comparison bonus.
 
-| Project | Version | Passed criteria | Failed | Unsupported | Blocked | API-specific criteria |
-| --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 0.4.1 | 117 | 0 | 0 | 1 | 118 |
+Ranked by **Passed criteria / API-specific criteria**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Passed criteria | Failed | Unsupported | Blocked | API-specific criteria |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Agentic Mermaid | 1 | 0.4.1 | 117 | 0 | 0 | 1 | 118 |
 
 ### Mermaid Assertion Replay
 
@@ -186,11 +202,13 @@ Additional serializer/readback checks on the public API that exposes them. Separ
 
 Pinned Mermaid source; 3,995 inventoried declarations across 368 files; 85 files selected for public-parser projection. Declaration dispositions are separate from expanded callbacks and raw matcher counts.
 
-| Project | Version | Passed | Failed | Unavailable | Outside projection | Skipped | Unregistered | Planned declarations |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 0.4.1 | 160 | 151 | 1213 | 2453 | 15 | 3 | 3995 |
-| Mermaid.js | 12.2.0 | 477 | 0 | 1047 | 2453 | 15 | 3 | 3995 |
-| Pele | 1.9.0 | 381 | 16 | 1127 | 2453 | 15 | 3 | 3995 |
+Ranked by **Passed / Planned declarations**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Passed | Failed | Unavailable | Outside projection | Skipped | Unregistered | Planned declarations |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Mermaid.js | 1 | 12.2.0 | 477 | 0 | 1047 | 2453 | 15 | 3 | 3995 |
+| Pele | 2 | 1.9.0 | 381 | 16 | 1127 | 2453 | 15 | 3 | 3995 |
+| Agentic Mermaid | 3 | 0.4.1 | 160 | 151 | 1213 | 2453 | 15 | 3 | 3995 |
 
 <a id="replay-callbacks"></a>
 
@@ -198,11 +216,13 @@ Pinned Mermaid source; 3,995 inventoried declarations across 368 files; 85 files
 
 Expanded callbacks from the same replay inventory. Parameterization expands declarations into callbacks. Raw matcher counters include unavailable callbacks and are not a headline pass rate.
 
-| Project | Version | Passed callbacks | Failed | Unavailable | Skipped | Recorded callbacks |
-| --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 0.4.1 | 694 | 586 | 1408 | 12 | 2700 |
-| Mermaid.js | 12.2.0 | 1555 | 0 | 1133 | 12 | 2700 |
-| Pele | 1.9.0 | 1452 | 16 | 1220 | 12 | 2700 |
+Ranked by **Passed callbacks / Recorded callbacks**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Passed callbacks | Failed | Unavailable | Skipped | Recorded callbacks |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Mermaid.js | 1 | 12.2.0 | 1555 | 0 | 1133 | 12 | 2700 |
+| Pele | 2 | 1.9.0 | 1452 | 16 | 1220 | 12 | 2700 |
+| Agentic Mermaid | 3 | 0.4.1 | 694 | 586 | 1408 | 12 | 2700 |
 
 ### Mermaid Reference Tests
 
@@ -212,9 +232,11 @@ Expanded callbacks from the same replay inventory. Parameterization expands decl
 
 Mermaid reference only; 331 files through the genuine original core Vitest runner in a sealed npm environment. Docs-site and browser/e2e tests are outside this table.
 
-| Project | Version | Files | Passed callbacks | Failed | Pending | Todo | Total callbacks |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Mermaid.js | 12.2.0 | 331 | 6677 | 0 | 16 | 2 | 6695 |
+Ranked by **Passed callbacks / Total callbacks**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Files | Passed callbacks | Failed | Pending | Todo | Total callbacks |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Mermaid.js | 1 | 12.2.0 | 331 | 6677 | 0 | 16 | 2 | 6695 |
 
 ### Render Cost and Scaling
 
@@ -224,12 +246,14 @@ Mermaid reference only; 331 files through the genuine original core Vitest runne
 
 Public Node SVG; authored family:flowchart; protocol portable-svg-processes-v3; five rounds. First calls exclude import (100 samples); repeat and new-source medians use 155 batch means each. Failed or uncalibrated campaigns: no qualified speed comparison or ratios.
 
-| Project | Version | First call median (ms) | Repeat median (ms) | New-source median (ms) | Declared flowchart checks | Campaign qualification |
-| --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 0.4.1 | 330 | 30.5 | 20.3 | Incomplete | Failed |
-| Beautiful Mermaid | 1.1.3 | 206 | 7.46 | 4.78 | Incomplete | Failed |
-| Pele | 1.9.0 | 17.1 | 0.35 | 0.11 | Complete | Uncalibrated |
-| Zombie Mermaid | 5.10.2 | 326 | 8.96 | 5.72 | Incomplete | Failed |
+Ranked by **Repeat median (ms)**, lowest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | First call median (ms) | Repeat median (ms) | New-source median (ms) | Declared flowchart checks | Campaign qualification |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Pele | 1 | 1.9.0 | 17.1 | 0.35 | 0.11 | Complete | Uncalibrated |
+| Beautiful Mermaid | 2 | 1.1.3 | 206 | 7.46 | 4.78 | Incomplete | Failed |
+| Zombie Mermaid | 3 | 5.10.2 | 326 | 8.96 | 5.72 | Incomplete | Failed |
+| Agentic Mermaid | 4 | 0.4.1 | 330 | 30.5 | 20.3 | Incomplete | Failed |
 
 <a id="portable-resources"></a>
 
@@ -237,9 +261,11 @@ Public Node SVG; authored family:flowchart; protocol portable-svg-processes-v3; 
 
 Same historical Pele flowchart; round 1; API-return checkpoint. Process RSS and JS heap have different scopes. CPU was unavailable; it is not zero.
 
-| Project | Version | Checkpoint | Process RSS (MiB) | JS heap used (MiB) | CPU (ms) |
-| --- | --- | --- | --- | --- | --- |
-| Pele | 1.9.0 | At API return | 67.61 | 11.48 | Unavailable |
+Ranked by **Process RSS (MiB)**, lowest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Checkpoint | Process RSS (MiB) | JS heap used (MiB) | CPU (ms) |
+| --- | --- | --- | --- | --- | --- | --- |
+| Pele | 1 | 1.9.0 | At API return | 67.61 | 11.48 | Unavailable |
 
 ## Campaign attempts
 
