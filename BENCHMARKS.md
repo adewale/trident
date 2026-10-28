@@ -28,7 +28,7 @@ Node kit independently. See [setup](README.md).
 | Mermaid Reference Tests (`upstream-original`) | The pinned Mermaid source running its own original core tests. | Original files and callbacks: passed, failed, pending and todo. | High for checking the reference environment; not a peer-project score. |
 | Render Cost and Scaling (`portable`) | Public Node SVG calls across families, sizes, edits and cache states. | Latency, CPU and memory by case/mode; output and calibration status. | High for controlled regressions; not a production forecast. |
 
-See the [worked comparison tables](docs/benchmark-examples.md) for recorded examples
+See the [comparison tables](RESULTS.md#results-by-benchmark) for recorded examples
 and [table conventions](REPORTING.md) for units, populations and missing values.
 
 ## Methods behind the tables
@@ -120,4 +120,4 @@ precision of a single chart.
 
 See [report reading](REPORTING.md) for scorecard units and reading order.
 
-See [comparison contracts](FAIRNESS.md) for explicit selection, runtime budgets, optional model evidence, frozen external inputs and unranked publication. [Catalog support](CATALOG.md) distinguishes configuration from actual execution.
+See [comparison contracts](FAIRNESS.md) for explicit selection, runtime budgets, optional model evidence, frozen external inputs and comparable result rankings. [Catalog support](CATALOG.md) distinguishes configuration from actual execution.

@@ -3,7 +3,7 @@
 Start with a comparison table for the question you want answered. Put projects
 and versions in rows, measurements in columns, and units in the column headings.
 Link each row's failures and receipt so readers can inspect what happened.
-The [worked tables](docs/benchmark-examples.md) cover all seven benchmarks;
+The [comparison tables](RESULTS.md#results-by-benchmark) cover all seven benchmarks;
 [the research notes](docs/reporting-research.md) explain the examples we learned from.
 
 The repository's [ecosystem results](RESULTS.md) provide a single entry point.

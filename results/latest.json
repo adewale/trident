@@ -42,7 +42,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "population": {
         "total": "Planned inputs",
@@ -111,7 +111,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "overview": {
         "numerator": "Passed inputs",
@@ -213,7 +213,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "overview": {
         "numerator": "SVG returned",
@@ -320,7 +320,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "ranking": {
         "column": "Median call time (ms)",
@@ -423,7 +423,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "overview": {
         "numerator": "Passed criteria",
@@ -503,7 +503,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "overview": {
         "numerator": "Passed criteria",
@@ -555,7 +555,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "population": {
         "total": "API-specific criteria",
@@ -632,7 +632,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "overview": {
         "numerator": "Passed",
@@ -708,7 +708,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "population": {
         "total": "Recorded callbacks",
@@ -757,7 +757,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "overview": {
         "numerator": "Passed callbacks",
@@ -842,7 +842,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "overview": {
         "numerator": "Campaign qualification",
@@ -881,7 +881,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "ranking": {
         "column": "Process RSS (MiB)",

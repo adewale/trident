@@ -11,6 +11,7 @@ import { positiveRenderInput } from './workload-intent.ts'
 import { median } from '../portable/statistics.ts'
 import { assertCurrentReportSetVersions, currentReportVersion } from './current-report-versions.ts'
 import { copyPublicationMethods } from './publication-methods.ts'
+import { rankResults } from './result-ranking.ts'
 
 /** Mermaid defines valid input, so its row is the reference, not a contestant. */
 export const REFERENCE_PROJECT = 'mermaid-js/mermaid'
@@ -333,8 +334,9 @@ function table(lanes: Lane[], reference: Lane | undefined) {
       newer = !lane.newer ? '—' : lane.newer.supported.length ? `${lane.newer.supported.length}/${NEWER_FAMILIES.length}, ${percent(lane.newer.passed, lane.newer.passed + lane.newer.failed)}` : `0/${NEWER_FAMILIES.length}`
     return `| ${lane === reference ? `*${tool} (reference)*` : tool} | ${escape(lane.version)} | ${SURFACES[lane.surface] ?? lane.surface} | ${lane.supported.length}/${SCORED_FAMILIES.length} | ${percent(lane.passed, lane.passed + lane.failed)} (${lane.passed}/${lane.passed + lane.failed}) | ${newer} | ${ms(lane.coreFirstMs)} | ${lane === reference && lane.coreFirstMs !== null ? 'reference' : ratio} | ${ms(lane.coreMedianMs)} | ${lane.legacy.supported}/${LEGACY_FAMILIES.length}, ${percent(lane.legacy.passed, lane.legacy.passed + lane.legacy.failed)} (${lane.legacy.passed}/${lane.legacy.passed + lane.legacy.failed}) | [record](records/${slug(lane.project)}.json.gz) · [failures](failures/${slug(lane.project)}.md) |`
   }
-  const ordered = [...lanes, ...(reference ? [reference] : [])].sort((a, b) => b.passed - a.passed || a.project.localeCompare(b.project))
-  ordered.forEach(lane => lines.push(row(lane)))
+  const ordered = rankResults([...lanes, ...(reference ? [reference] : [])], { direction: 'descending', name: lane => lane.project,
+    score: lane => lane.passed + lane.failed === 0 && lane.blocked > 0 ? null : lane.passed })
+  ordered.forEach(entry => lines.push(row(entry.row)))
   return lines
 }
 

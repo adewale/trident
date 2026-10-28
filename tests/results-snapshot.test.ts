@@ -4,7 +4,7 @@ import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
-import { importCampaign, rankedRows, renderSnapshot, validateSnapshot, writeSnapshot, type ResultsSnapshot } from '../unified/results-snapshot.ts'
+import { importCampaign, rankedRows, renderSnapshot, retainedTableValues, validateSnapshot, validateSnapshotReceipts, writeSnapshot, type ResultsSnapshot } from '../unified/results-snapshot.ts'
 import type { LineageCatalog } from '../unified/lineage.ts'
 
 const receipt = { url: 'https://example.org/evidence/report.json', sha256: 'a'.repeat(64) }
@@ -119,27 +119,31 @@ test('snapshot check detects stale Markdown without rewriting it; reads need no 
   expect({ status: result.status, stderr: result.stderr }).toEqual({ status: 0, stderr: '' })
 }))
 
-test('tracked historical tables reproduce the existing receipt values with their original dates', () => {
+test('canonical historical values match their provenance digest without a second copy of the rows', () => {
   const root = resolve(import.meta.dir, '..')
   const data = JSON.parse(readFileSync(join(root, 'results/latest.json'), 'utf8')) as ResultsSnapshot
   const bytes = readFileSync(join(root, 'docs/evidence/benchmark-examples.json'))
-  const examples = JSON.parse(bytes.toString()) as { tables: { id: string; date: string; rows: Cell[][] }[] }
+  const examples = JSON.parse(bytes.toString()) as { tables?: unknown; tableData: { ids: string[]; valuesSha256: string }; originalTableReceipt: { url: string; sha256: string } }
   const digest = createHash('sha256').update(bytes).digest('hex')
-  expect(data.tables.filter(row => row.historical).map(row => row.id).sort()).toEqual(examples.tables.map(row => row.id).sort())
+  expect(examples.tables).toBeUndefined()
+  expect(examples.originalTableReceipt.url).toMatch(/\/blob\/[a-f0-9]{40}\//)
+  expect(examples.originalTableReceipt.sha256).toMatch(/^[a-f0-9]{64}$/)
+  expect(data.tables.filter(row => row.historical).map(row => row.id).sort()).toEqual([...examples.tableData.ids].sort())
+  expect(createHash('sha256').update(JSON.stringify(retainedTableValues(data, examples.tableData.ids))).digest('hex')).toBe(examples.tableData.valuesSha256)
   for (const entry of data.tables.filter(row => row.historical)) {
-    const original = examples.tables.find(row => row.id === entry.id)!
-    expect(entry.rows).toHaveLength(original.rows.length)
-    expect(entry.measuredAt).toBe(original.date)
     expect(entry.receipt.sha256).toBe(digest)
-    for (const row of entry.rows) {
-      const values = original.rows.find(values => values[0] === data.projectNames?.[row.project])!.slice(1)
-      expect(row.values).toEqual(entry.id === 'docs-coverage' ? values.slice(0, -1) : values)
-    }
   }
+  validateSnapshotReceipts(data, root)
   writeSnapshot(data, JSON.parse(readFileSync(join(root, 'catalog/mermaid-community.json'), 'utf8')), root, true)
+  const docs = data.tables.find(entry => entry.id === 'docs-coverage')!
+  docs.rows[0]!.values[1] = Number(docs.rows[0]!.values[1]) + 1
+  docs.rows[0]!.values[2] = Number(docs.rows[0]!.values[2]) - 1
+  // The population still reconciles; the provenance check must catch changed observations.
+  validateSnapshot(data, JSON.parse(readFileSync(join(root, 'catalog/mermaid-community.json'), 'utf8')))
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('Retained table values changed')
+  data.tables = data.tables.filter(entry => entry.id !== 'docs-coverage')
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('Retained table population changed')
 })
-
-type Cell = string | number
 
 test('result ranks use the named metric, share ties, put missing values last and reverse direction for cost', () => {
   const entry = snapshot().tables[0]!
@@ -179,4 +183,19 @@ test('an entirely blocked population is unranked while an observed zero retains 
   entry.population!.outcomes.push('Blocked')
   entry.rows = [{ project: 'blocked', values: ['1', 0, 0, 2, 2] }, { project: 'observed-zero', values: ['1', 0, 2, 2, 0] }]
   expect(rankedRows(entry, id => id).map(row => [row.project, row.rank])).toEqual([['observed-zero', 1], ['blocked', null]])
+})
+
+test('charts and ranking share numeric parsing without coercing unavailable strings to zero', () => {
+  const data = snapshot(), entry = data.tables[0]!
+  delete entry.population
+  entry.rows[0]!.values[1] = '1'
+  entry.rows[0]!.values[3] = '2'
+  expect(rankedRows(entry, id => id)[0]!.score).toBe(0.5)
+  expect(renderSnapshot(data, catalog)).toContain('bar [50]')
+  entry.rows[0]!.values[1] = 'Unavailable'
+  expect(rankedRows(entry, id => id)[0]!.rank).toBeNull()
+  expect(() => renderSnapshot(data, catalog)).toThrow('Chart needs observed numeric values')
+  entry.rows[0]!.values[1] = 1
+  delete entry.ranking
+  expect(() => renderSnapshot(data, catalog)).toThrow('Overview ranking table needs a named metric')
 })
