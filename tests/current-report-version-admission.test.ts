@@ -75,7 +75,7 @@ test('missing owning artifact evidence remains visible and unranked instead of i
   expect(lane.coreFirstMs).toBeNull()
   expect(lane.coreMedianMs).toBeNull()
   expect(positiveRenderScore(lane)).toBeNull()
-  expect(readFileSync(join(out, 'README.md'), 'utf8').split('\n').find(line => line.includes('[obsidianmd/pele]'))).toStartWith('| — |')
+  expect(readFileSync(join(out, 'README.md'), 'utf8').split('\n').find(line => line.includes('[obsidianmd/pele]'))).toContain('| unavailable |')
 })
 
 test('explicit candidate versions are checked against their owning artifact for every project', () => {
@@ -106,7 +106,7 @@ test('results:compare CLI rejects a hidden mismatched observation before replaci
   writeFileSync(out, 'previous comparison')
   const result = spawnSync(process.execPath, ['commands.ts', 'results:compare', '--records', store, '--project', 'obsidianmd/pele', '--out', out], { cwd: join(import.meta.dir, '..'), encoding: 'utf8' })
   expect(result.status).not.toBe(0)
-  expect(result.stderr).toContain('requires obsidianmd/pele 1.9.0')
+  expect(result.stderr).toContain('Mixed tool versions')
   expect(readFileSync(out, 'utf8')).toBe('previous comparison')
 })
 

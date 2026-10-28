@@ -104,7 +104,6 @@ Public PNG qualification checks complete chunks, CRCs, zlib scanlines and decode
 paint, including legal low-bit-depth, sixteen-bit and Adam7 encodings. A blank
 or transparent image cannot satisfy a nonempty authored-label workload merely
 by returning a valid header. Qualification budgets are 64 MiB encoded, 16
-megapixels and 256 MiB inflated scanlines; exceeding a budget is an explicit
-admission limitation. Nonuniform raster content is neither OCR nor a topology,
+megapixels and 256 MiB inflated scanlines; exceeding a budget blocks the observer instead of failing the renderer. Nonuniform raster content is neither OCR nor a topology,
 styling or perceptual-fidelity certificate. The dedicated SVG fidelity observer
 and native criteria remain separate from this PNG content witness.

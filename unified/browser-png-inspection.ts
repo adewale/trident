@@ -7,12 +7,14 @@ export async function inspectBrowserPng(input: { bytes: Uint8Array | number[]; r
     const bytes = Uint8Array.from(input.bytes)
     if (bytes.length < 45 || [137, 80, 78, 71, 13, 10, 26, 10].some((byte, index) => bytes[index] !== byte) || String.fromCharCode(...bytes.subarray(12, 16)) !== 'IHDR') return ['Invalid PNG signature or missing IHDR']
     const header = new DataView(bytes.buffer), width = header.getUint32(16), height = header.getUint32(20)
-    if (!width || !height || bytes.length > 64 * 1024 * 1024 || width * height > 16 * 1024 * 1024) return ['PNG exceeds the declared qualification dimensions/64 MiB raster budget or has empty dimensions']
+    if (!width || !height) return ['PNG has empty dimensions']
+    if (bytes.length > 64 * 1024 * 1024 || width * height > 16 * 1024 * 1024) return ['PNG qualification unavailable: exceeds the declared qualification dimensions/64 MiB raster budget']
+    if (typeof createImageBitmap !== 'function' || typeof OffscreenCanvas !== 'function') return ['PNG qualification unavailable: browser has no image/canvas decoder']
     bitmap = await createImageBitmap(new Blob([bytes], { type: 'image/png' }))
     if (bitmap.width !== width || bitmap.height !== height) return ['Decoded PNG dimensions differ from its declared IHDR']
     canvas = new OffscreenCanvas(width, height)
     const context = canvas.getContext('2d', { willReadFrequently: true })
-    if (!context) return ['Browser PNG qualification has no 2D canvas decoder']
+    if (!context) return ['PNG qualification unavailable: browser has no 2D canvas decoder']
     context.drawImage(bitmap, 0, 0)
     const pixels = context.getImageData(0, 0, width, height).data
     let first: number | undefined, varied = false

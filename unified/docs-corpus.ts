@@ -28,7 +28,7 @@ export function mermaidDocsWorkloads(upstream: string): { upstream: NonNullable<
       seen.add(source)
       const id = `docs:${family}:${index}`
       if (!smoke.some(entry => entry.startsWith(`docs:${family}:`))) smoke.push(id)
-      workloads.push({ id, family, source, features: ['mermaid-syntax-docs-example'], provenance: `${tag}:${file}#${index}`, evidence: null })
+      workloads.push({ id, family, source, features: ['mermaid-syntax-docs-example'], provenance: `${tag}:${file}#${index}`, evidence: null, intent: 'render', intentReason: 'Complete example from the pinned Mermaid syntax documentation' })
     })
     if (!seen.size) throw Error(`${tag}:${file} has no Mermaid examples`)
   }

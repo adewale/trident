@@ -30,6 +30,6 @@ test('native browser PNG admission decodes real content and rejects blank/transp
     expect((await inspect(transparent)).join(' ')).toContain('no nonuniform visible diagram content')
     expect((await inspect(content.subarray(0, 45))).join(' ')).toContain('decode/content qualification failed')
     const huge = Buffer.from(content); huge.writeUInt32BE(100000, 16); huge.writeUInt32BE(100000, 20)
-    expect((await inspect(huge)).join(' ')).toContain('qualification dimensions/64 MiB raster budget')
+    expect((await inspect(huge))[0]).toStartWith('PNG qualification unavailable:')
   } finally { await browser.close() }
 }, 20_000)

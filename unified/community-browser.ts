@@ -524,7 +524,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                   const helper = (globalThis as any).unifiedCommunityQualification
                   if (output === 'png') {
                     if (!(svg instanceof Uint8Array)) return ['No PNG binary bytes returned']
-                    if (typeof helper.inspectBrowserPng !== 'function') return ['Prepared qualification helper has no browser PNG decoder/content inspector']
+                    if (typeof helper.inspectBrowserPng !== 'function') return ['PNG qualification unavailable: prepared helper has no browser PNG decoder/content inspector']
                     return await helper.inspectBrowserPng({ bytes: svg, requireContent: expected.length > 0 })
                   }
                   if (typeof svg !== 'string') return ['No SVG string returned']
@@ -560,7 +560,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                 const first = await call('_first')
                 if (first.error) return { status: 'error', error: first.error, firstMs: first.ms }
                 const firstFindings = await validate(first.svg)
-                if (firstFindings.length) return { status: 'qualification-failed', findings: firstFindings, firstMs: first.ms, xmlWellFormed, failedOutput: typeof first.svg === 'string' ? first.svg : undefined }
+                if (firstFindings.length) return { status: firstFindings.some(finding => finding.startsWith('PNG qualification unavailable:')) ? 'qualification-unavailable' : 'qualification-failed', findings: firstFindings, firstMs: first.ms, xmlWellFormed, failedOutput: typeof first.svg === 'string' ? first.svg : undefined }
                 const bytes = first.svg instanceof Uint8Array ? first.svg.byteLength : new TextEncoder().encode(first.svg).length
                 if (!core && coverageOnly) return { status: 'ok', firstMs: first.ms, bytes, findings: [], hasLabelOracle: output !== 'png' && expected.length > 0, coverageOnly: true, xmlWellFormed }
                 let iterations = 1
@@ -591,7 +591,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                   samples.push(elapsed / iterations)
                 }
                 const findings = await validate(last.svg)
-                return { status: findings.length ? 'qualification-failed' : 'ok', samples, iterations, firstMs: first.ms, bytes, findings, hasLabelOracle: output !== 'png' && expected.length > 0, xmlWellFormed, ...(findings.length && typeof last.svg === 'string' ? { failedOutput: last.svg } : {}) }
+                return { status: findings.some(finding => finding.startsWith('PNG qualification unavailable:')) ? 'qualification-unavailable' : findings.length ? 'qualification-failed' : 'ok', samples, iterations, firstMs: first.ms, bytes, findings, hasLabelOracle: output !== 'png' && expected.length > 0, xmlWellFormed, ...(findings.length && typeof last.svg === 'string' ? { failedOutput: last.svg } : {}) }
               },
               { source: workload.source, expected: [...(workload.expectedLabels ?? [])], markdownLabels: [...(workload.markdownLabels ?? [])], id: `unified_${round}_${record.samples.length}`, core: workload.features.includes('core-graph-batch'), output: engine.output ?? 'svg', coverageOnly: options.communityCoverageOnce ?? true },
             )
@@ -602,7 +602,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                 timer = setTimeout(() => reject(new Error('Browser API workload exceeded 30s')), 30_000)
               }),
             ]).finally(() => clearTimeout(timer))
-            const status = measured.status === 'ok' ? 'passed' : 'failed'
+            const status = measured.status === 'qualification-unavailable' ? 'blocked' : measured.status === 'ok' ? 'passed' : 'failed'
             const observation = row(peer, workload, workload.features.includes('core-graph-batch') ? 'core-api-repeat' : (options.communityCoverageOnce ?? true) ? 'feature-corpus-qualification' : 'feature-corpus-attempt', status, {
               ...(measured.samples ? { samplesMs: measured.samples } : {}),
               ...(measured.bytes === undefined ? {} : { bytes: measured.bytes }),

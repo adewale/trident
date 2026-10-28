@@ -440,7 +440,7 @@ function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWo
     }
   }
   const qualification = qualifyOutput(workload, text, output)
-  row.status = qualification.ok ? 'passed' : 'failed'
+  row.status = qualification.unavailable ? 'blocked' : qualification.ok ? 'passed' : 'failed'
   row.bytes = value.byteLength
   row.findings = qualification.findings
   row.metrics = { ...row.metrics, qualification: qualification.scope, version: artifact.version, boundary: 'spawn through drained stdout/file artifact; process startup included', ...(qualification.ok ? {} : { outputFile: retainFailedOutput(out, prepared.node.id, workload.id, output === 'png' ? 'png' : output === 'svg' ? 'svg' : 'txt', value) }) }

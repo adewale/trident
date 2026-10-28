@@ -22,6 +22,9 @@ test('public help and artifact help require no product checkout, oracle or compi
   const community = help(['community:update', '--help'])
   expect(community.status).toBe(0)
   expect(community.stdout).toContain('--candidate-dir')
+  const upstream = help(['upstream:prepare', '--help'])
+  expect(upstream.status).toBe(0)
+  expect(upstream.stdout).toContain('--runtime')
 })
 
 test('project-specific source commands are rejected by the public CLI', () => {

@@ -13,6 +13,7 @@ import { inspectPng } from './png-inspection.ts'
 export const SVG_QUALIFICATION_PROTOCOL = 'svg-xml-namespaced-authored-text-v5'
 
 export interface Qualification {
+  unavailable?: boolean
   ok: boolean
   findings: string[]
   scope: 'format-and-authored-labels' | 'format-only' | 'binary-envelope' | 'decoded-raster-content' | 'source-envelope' | 'structured-envelope'
@@ -149,7 +150,7 @@ export function qualifyOutput(workload: UnifiedWorkload, output: unknown, format
   }
   if (format === 'png') {
     const inspected = inspectPng(output, !!workload.expectedLabels?.some(label => label.trim()))
-    return { ok: !inspected.findings.length, findings: inspected.findings, scope: inspected.scope }
+    return { ok: !inspected.findings.length, findings: inspected.findings, scope: inspected.scope, ...(inspected.unavailable ? { unavailable: true } : {}) }
   }
   if (typeof output !== 'string' || !output.trim()) return { ok: false, findings: ['Expected a nonempty output string'], scope: 'format-only' }
   if (format === 'svg') {

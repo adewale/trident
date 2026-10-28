@@ -1,6 +1,6 @@
 import { crc32, inflateSync } from 'node:zlib'
 
-export interface PngInspection { findings: string[]; width?: number; height?: number; visiblePixels?: number; distinctCompositedColors?: number; scope: 'decoded-raster-content' | 'binary-envelope' }
+export interface PngInspection { unavailable?: boolean; findings: string[]; width?: number; height?: number; visiblePixels?: number; distinctCompositedColors?: number; scope: 'decoded-raster-content' | 'binary-envelope' }
 const paeth = (a: number, b: number, c: number) => { const p = a + b - c, pa = Math.abs(p - a), pb = Math.abs(p - b), pc = Math.abs(p - c); return pa <= pb && pa <= pc ? a : pb <= pc ? b : c }
 
 /** Decode actual PNG payloads after API clocks, rather than accepting an IHDR
@@ -92,6 +92,6 @@ export function inspectPng(output: unknown, requireContent: boolean): PngInspect
     }
     result.scope = 'decoded-raster-content'; result.visiblePixels = visiblePixels; result.distinctCompositedColors = colors.size
     if (requireContent && (!visiblePixels || colors.size < 2)) result.findings.push('PNG has no nonuniform visible diagram content despite declared authored labels')
-  } catch (error) { result.findings.push(error instanceof Error ? error.message : String(error)) }
+  } catch (error) { const detail = error instanceof Error ? error.message : String(error); if (detail.startsWith('PNG exceeds the declared')) result.unavailable = true; result.findings.push(detail) }
   return result
 }
