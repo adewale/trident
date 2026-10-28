@@ -1,8 +1,9 @@
+import { execFileSync } from 'node:child_process'
 import { expect, test } from 'bun:test'
-import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { prepareUpstream, upstreamZenCoreVersion } from '../unified/prepare-upstream.ts'
+import { ignoreUpstreamRuntimeLink, prepareUpstream, upstreamZenCoreVersion } from '../unified/prepare-upstream.ts'
 import { lockedImporterDependency, lockedJsdomCanvas, lockedRegistryVersion, UPSTREAM_RUNTIME_PROTOCOL, upstreamFileDigest, upstreamInstalledClosureDigest, upstreamRunnerVersion, verifySealedUpstreamRuntime, verifyUpstreamInstalledClosure, verifyUpstreamInstalledSelections } from '../unified/upstream-runtime-qualification.ts'
 import { currentReferencePin as REVIEWED_REFERENCE } from '../reference/source.ts'
 
@@ -132,4 +133,28 @@ test('renaming a runtime never bypasses the sealed original baseline dependency 
     writeFileSync(join(runtime, 'package.json'), manifest('renamed-runtime'))
     expect(() => verifySealedUpstreamRuntime(source, runtime, plan)).toThrow('package bytes changed')
   } finally { rmSync(directory, { recursive: true, force: true }) }
+})
+
+
+test('the external runtime link stays outside source changes without hiding new or modified source', () => {
+  const root = mkdtempSync(join(tmpdir(), 'trident-source-runtime-link-'))
+  try {
+    const source = join(root, 'source'), runtime = join(root, 'runtime'); mkdirSync(source); mkdirSync(runtime)
+    const git = (...args: string[]) => execFileSync('git', args, { cwd: source, encoding: 'utf8' }).trim()
+    git('init', '--quiet'); writeFileSync(join(source, 'source.ts'), 'export const value = 1\n'); git('add', 'source.ts')
+    git('-c', 'user.name=Trident fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '--quiet', '-m', 'fixture')
+    symlinkSync(runtime, join(source, 'node_modules'), 'dir')
+    expect(git('status', '--porcelain')).toContain('node_modules')
+    ignoreUpstreamRuntimeLink(source, runtime)
+    expect(git('status', '--porcelain')).toBe('')
+    const exclude = join(source, '.git/info/exclude'), before = readFileSync(exclude, 'utf8')
+    ignoreUpstreamRuntimeLink(source, runtime)
+    expect(readFileSync(exclude, 'utf8')).toBe(before)
+    writeFileSync(join(source, 'source.ts'), 'export const value = 2\n')
+    writeFileSync(join(source, 'new-case.ts'), 'export const other = 1\n')
+    const status = git('status', '--porcelain')
+    expect(status).toContain('source.ts'); expect(status).toContain('new-case.ts')
+    const wrong = join(root, 'wrong'); mkdirSync(wrong)
+    expect(() => ignoreUpstreamRuntimeLink(source, wrong)).toThrow('differs from the selected runtime')
+  } finally { rmSync(root, { recursive: true, force: true }) }
 })

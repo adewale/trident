@@ -6,6 +6,10 @@ patch operand and the source manifest specifier in its receipt. This matters
 when a range's minimum differs from its selected version: the reviewed source
 selects uuid 14.0.0, KaTeX 0.18.11 and AJV 8.18.0.
 
+The generated source `node_modules` symlink is excluded through local Git metadata,
+without editing upstream source or its `.gitignore`. The selected runtime and
+installed bytes are verified separately; other source changes remain visible.
+
 The prepared runtime uses npm with those exact direct selections. Its npm lock,
 direct tarball integrities, applied upstream patches and generated prerequisites
 are recorded. npm still resolves the remaining transitive and peer graph;

@@ -1,6 +1,6 @@
 /** Prepare the actual pinned source runner without depending on a session-only kit. */
 import { execFileSync, spawnSync } from 'node:child_process'
-import { closeSync, existsSync, lstatSync, mkdirSync, openSync, readFileSync, realpathSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs'
+import { appendFileSync, closeSync, existsSync, lstatSync, mkdirSync, openSync, readFileSync, realpathSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { basename, delimiter, dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { parse } from 'yaml'
@@ -17,6 +17,18 @@ export function upstreamZenCoreVersion(source: string): string {
 export function upstreamRuntimeDependencies(source: string): Record<string, string> {
   return upstreamRuntimePlan(source).dependencies
 }
+/** Ignore only the generated dependency link; source files retain normal Git admission. */
+export function ignoreUpstreamRuntimeLink(source: string, runtimeModules: string): void {
+  const runtimeLink = join(source, 'node_modules')
+  const git = (...args: string[]) => execFileSync('git', args, { cwd: source, encoding: 'utf8' }).trim()
+  if (!lstatSync(runtimeLink).isSymbolicLink() || realpathSync(runtimeLink) !== realpathSync(runtimeModules)) throw Error('Source dependency link differs from the selected runtime')
+  const exclude = resolve(source, git('rev-parse', '--git-path', 'info/exclude'))
+  const existing = existsSync(exclude) ? readFileSync(exclude, 'utf8') : ''
+  if (!existing.split(/\r?\n/).includes('/node_modules')) {
+    mkdirSync(dirname(exclude), { recursive: true })
+    appendFileSync(exclude, '\n# Generated dependency link; runtime bytes are sealed separately.\n/node_modules\n')
+  }
+}
 export function prepareUpstream(source: string, runtime: string, reference: string, node = process.env.NODE_BIN ?? 'node'): void {
   source = realpathSync(source)
   // Resolve existing symlink ancestors before the containment guard, including
@@ -28,7 +40,11 @@ export function prepareUpstream(source: string, runtime: string, reference: stri
   const inside = (parent: string, child: string) => { const path = relative(parent, child); return !path || (!isAbsolute(path) && path !== '..' && !path.startsWith('..' + sep)) }
   if (inside(source, runtime) || inside(runtime, source)) throw Error('Use a dedicated runtime directory outside the pinned source tree')
   const git = (...args: string[]) => execFileSync('git', args, { cwd: source, encoding: 'utf8' }).trim()
-  if (git('rev-parse', 'HEAD') !== REVIEWED_REFERENCE.commit || git('status', '--porcelain')) throw Error('Prepare only the clean pinned Mermaid source ' + REVIEWED_REFERENCE.commit)
+  const runtimeLink = join(source, 'node_modules'), runtimeModules = join(runtime, 'node_modules')
+  const ignoreRuntimeLink = () => ignoreUpstreamRuntimeLink(source, runtimeModules)
+  if (git('rev-parse', 'HEAD') !== REVIEWED_REFERENCE.commit) throw Error('Prepare only the pinned Mermaid source ' + REVIEWED_REFERENCE.commit)
+  if (existsSync(runtimeLink) && lstatSync(runtimeLink).isSymbolicLink() && existsSync(runtimeModules) && realpathSync(runtimeLink) === realpathSync(runtimeModules)) ignoreRuntimeLink()
+  if (git('status', '--porcelain')) throw Error('Prepare only clean pinned Mermaid source files')
   admitMermaidOracle(reference)
   mkdirSync(runtime, { recursive: true })
   const lock = join(runtime, '.preparation.lock')
@@ -70,6 +86,7 @@ export function prepareUpstream(source: string, runtime: string, reference: stri
       unlinkSync(modules)
     }
     symlinkSync(destination, modules, 'dir')
+    ignoreRuntimeLink()
     const patches = []
     for (const [name, patch] of Object.entries(read(join(source, 'package.json')).pnpm?.patchedDependencies ?? {}) as [string, string][]) {
       const cwd = join(destination, name), file = join(source, patch)
