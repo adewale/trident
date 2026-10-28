@@ -1,0 +1,102 @@
+{
+  "producer": "two explicitly selected owning campaigns",
+  "launchReceiptsChecked": 7,
+  "rawNativeRows": {
+    "ok": 679,
+    "error": 39
+  },
+  "allReferencedPngsPresentAndLengthsMatch": true,
+  "sealedBundleLaunchesMatch": true,
+  "releaseOnly": true,
+  "sampleIterationVectorsMatch": true,
+  "representativeSources": {
+    "native-flow5.png": {
+      "workload": "core:flow5",
+      "release": true,
+      "sequence": 0,
+      "firstMs": 135.098,
+      "width": 254,
+      "height": 427,
+      "status": "ok",
+      "png": "/workspace/standard-benchmarks/community-run/community/community-raw/orestesgaolin_mermaid-png-r2-core-a1.jsonl.native/case-0.png",
+      "firstPng": "/workspace/standard-benchmarks/community-run/community/community-raw/orestesgaolin_mermaid-png-r2-core-a1.jsonl.native/case-0.png.first.png",
+      "outputBytes": 9336,
+      "firstOutputBytes": 9336,
+      "samplesMs": [
+        11.999,
+        12.307,
+        14.039,
+        11.314,
+        11.244
+      ],
+      "sampleIterations": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "timingProtocol": "native-png-api-5-batch-means-min10ms-max256-v1",
+      "qualifiedOutputs": "first and final; intermediate repeated outputs are consumed but not individually qualified",
+      "firstQualification": {
+        "ok": true,
+        "findings": [],
+        "scope": "decoded-raster-content"
+      },
+      "qualificationScope": "decoded-raster-content",
+      "qualification": {
+        "ok": true,
+        "findings": [],
+        "scope": "decoded-raster-content"
+      }
+    },
+    "native-content-failure.png": {
+      "workload": "corpus:mermaid-gantt-bench:pg-no-tasks-error",
+      "release": true,
+      "sequence": 207,
+      "firstMs": 5.417,
+      "width": 200,
+      "height": 60,
+      "status": "error",
+      "png": "/workspace/standard-benchmarks/community-run/community/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-201.png",
+      "firstPng": "/workspace/standard-benchmarks/community-run/community/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-201.png.first.png",
+      "outputBytes": 256,
+      "firstOutputBytes": 256,
+      "samplesMs": [],
+      "sampleIterations": [],
+      "timingProtocol": "native-png-api-one-call-qualification-v1",
+      "qualifiedOutputs": "first and final; intermediate repeated outputs are consumed but not individually qualified",
+      "firstQualification": {
+        "ok": false,
+        "findings": [
+          "PNG has no nonuniform visible diagram content despite declared authored labels"
+        ],
+        "scope": "decoded-raster-content"
+      },
+      "qualificationScope": "decoded-raster-content",
+      "qualification": {
+        "ok": false,
+        "findings": [
+          "PNG has no nonuniform visible diagram content despite declared authored labels"
+        ],
+        "scope": "decoded-raster-content"
+      },
+      "rejected": false,
+      "detail": "PNG has no nonuniform visible diagram content despite declared authored labels; PNG has no nonuniform visible diagram content despite declared authored labels"
+    },
+    "pele-meaning-flowchart.png": "/workspace/standard-benchmarks/measured-run/fidelity/b2JzaWRpYW5tZC9wZWxl/attempts/0e208569-42af-4cfc-8f95-f6093bec7194/0-meaning_family_flowchart.png"
+  },
+  "tests": {
+    "targeted": "23passed,0failed; see targeted-tests-verified.log",
+    "typecheck": "passed",
+    "dartAnalysis": "passed",
+    "nativeReleaseBuild": "passed",
+    "fullSuite": "stalled after388 reportedpasses; terminated; no fullsuitepass claimed"
+  },
+  "compatibilityProducer": "2a3d439ecafdaab20bd7fd1d71abe35e4a7bb6ce",
+  "docsMeaningProducer": "7efe6f816c6a8f115e5208f2eb6185b72abf7826",
+  "allSequenceAcknowledgementsPresent": true,
+  "coverageAndRepeatProtocolMetadataMatch": true,
+  "nativeAttemptsAllExitZeroWithoutTimeout": true,
+  "postmeasurementFix": "Without a completed JSONL row, unexpected transport exits are blocked rather than attributed to a renderer failure. That branch never executed in the measured run."
+}
