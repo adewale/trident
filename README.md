@@ -10,6 +10,99 @@ Trident benchmarks tools that read Mermaid: SVG renderers, terminal renderers an
 - [Comparison contracts](FAIRNESS.md): planning, independent inputs and unranked publication.
 - [Results](results/README.md): old snapshots have been removed; no current scores are claimed.
 
+## Benchmarks
+
+Choose the question before collecting results. These seven benchmarks have
+different inputs and units; Trident does not combine them into an overall score.
+The command IDs stay short so existing scripts continue to work.
+
+| Benchmark | Command ID | What it measures and why to use it |
+|---|---|---|
+| **Mermaid Compatibility** | `community` | Which frozen examples produce SVG, terminal text, PNG or a parser result? Use it to find unsupported syntax, broken interfaces and output failures. Format and label checks do not prove a faithful drawing. |
+| **DaveBench: Documentation Examples** | `docs` | Which examples in the pinned Mermaid syntax documentation return SVG? Reports coverage and public render-call time on each pair's common successful examples. Use it for a broad documentation workload; returning SVG does not prove correct paint. |
+| **Diagram Meaning** | `fidelity` | Does the actual SVG preserve authored relationships, labels, values and visible geometry? Use it to find wrong or missing drawn meaning. It covers declared criteria, not every aesthetic or accessibility concern. |
+| **Model and Editing Contracts** | `native-fidelity` | Do reviewed public model APIs preserve identities, relationships and edit/configuration behavior? Use it for deeper diagnostics where a model projection exists. A missing projection is a Trident support gap, not evidence of a bad renderer. |
+| **Mermaid Assertion Replay** | `upstream-fidelity` | Which original Mermaid test assertions work through another project's public model/parser API? Use it to examine compatibility. Private API and diagnostic-wording differences can fail without proving a wrong drawing. |
+| **Mermaid Reference Tests** | `upstream-original` | Does pinned Mermaid pass its own original core test runner? Use it to validate the reference environment. It runs Mermaid's tests against Mermaid, so it is not a peer-project score. |
+| **Render Cost and Scaling** | `portable` | What do fresh calls, repeated calls, edits and larger diagrams cost through a public Node SVG API? Reports latency, CPU and memory separately, with output checks and A/A noise controls. Use it for controlled regressions; it is not a production-traffic forecast. |
+
+### Where the benchmarks come from
+
+**DaveBench** entered Trident through [Agentic Mermaid's documentation benchmark](https://github.com/adewale/agentic-mermaid/blob/main/eval/benchmark/docs/davebench.md).
+That historical runner used 1,095 occurrences from AM's vendored Mermaid docs,
+with 546 distinct examples across 34 pages, and built an AM candidate beside fixed
+comparators. Trident's `docs` benchmark reads the raw syntax pages at the pinned
+[Mermaid source commit](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b/packages/mermaid/src/docs/syntax)
+and accepts prepared public project artifacts. Its recorded inventory and protocol
+define each run; its counts and timings are not interchangeable with historical
+DaveBench results. The linked inherited method is the provenance we can document;
+we do not claim to reproduce an unpublished original implementation.
+
+**Mermaid Assertion Replay** and **Mermaid Reference Tests** reuse Mermaid's
+original tests at that same pin. Replay translates reviewed public API boundaries;
+the reference benchmark executes the genuine original core runner. Their scopes
+and exclusions are documented in [the fidelity guide](fidelity/README.md).
+
+**Mermaid Compatibility** uses an [AM-origin frozen corpus](corpus/community-corpus.json)
+and can run explicitly selected inputs, including [examples from pinned external projects](corpus/external-sources.json).
+Input provenance and licenses travel with the frozen inventory. **Diagram Meaning**,
+**Model and Editing Contracts**, and **Render Cost and Scaling** use authored cases
+developed in AM and Trident; they are not external benchmark standards or production
+traffic. Public examples and development fixtures are not a validated holdout.
+
+See [methods, commands and limitations](BENCHMARKS.md) for each benchmark. The
+six-input `support:verify` check tests invocation readiness; it is not an eighth
+benchmark or a substitute for a complete campaign.
+
+## Supported projects
+
+The 0.1 support check exercised public output interfaces for **37 projects**.
+The list below records at least one successful authored input per listed output;
+it does not certify every family or every benchmark. [Verified versions, transports,
+failures and missing formats](SUPPORT-QUALITY.md) remain explicit.
+
+| SVG-rendering project | Outputs exercised successfully |
+|---|---|
+| [Agentic Mermaid](https://github.com/adewale/agentic-mermaid) | SVG, terminal, PNG, parser |
+| [Beautiful Mermaid](https://github.com/lukilabs/beautiful-mermaid) | SVG, terminal |
+| [Bezel](https://github.com/crabtalk/bezel) | SVG |
+| [Crafter Mermaid](https://github.com/crafter-station/mermaid) | Browser DOM SVG, parser; raw Node SVG has a retained XML failure |
+| [DSH Mermaid GB SVG](https://github.com/sandyyst/dsh-plugin-mermaid-gb-svg) | SVG |
+| [Frankenmermaid](https://github.com/Dicklesworthstone/frankenmermaid) | SVG, parser, diagnostics |
+| [Latias Merman](https://github.com/Latias94/merman) | SVG |
+| [MDV](https://github.com/zhenhuaa/mdv) | SVG, terminal |
+| [Mermaid Dart](https://github.com/orestesgaolin/mermaid) | SVG |
+| [Mermaid.js](https://github.com/mermaid-js/mermaid) | Browser SVG, parser |
+| [Mermaid RS Renderer](https://github.com/1jehuang/mermaid-rs-renderer) | SVG, PNG |
+| [Merslim](https://github.com/emtyty/merslim) | SVG, terminal, parser, browser PNG |
+| [Ondine](https://github.com/wevm/ondine) | SVG, public CLI terminal output |
+| [Pele](https://github.com/obsidianmd/pele) | SVG |
+| [VitePress Plugin Diagram](https://github.com/KlangHaus/vitepress-plugin-diagram) | SVG |
+| [XMermaid](https://github.com/evangwt/xmermaid) | Browser SVG |
+| [Zombie Mermaid](https://github.com/dfadler/zombie-mermaid) | SVG, terminal |
+
+Terminal-only interfaces are exercised for [ASCII Mermaid](https://github.com/kais-radwan/ascii-mermaid),
+[Figurehead](https://github.com/Mootikins/figurehead-rs), [Grok Build](https://github.com/xai-org/grok-build),
+[Kitlangton Merman](https://github.com/kitlangton/merman), [Loom](https://github.com/Yassimba/loom),
+[Lovely Mermaid](https://github.com/xl0/lovely-mermaid), [Mermaid ASCII](https://github.com/AlexanderGrooff/mermaid-ascii),
+[Mermaidtext](https://github.com/spacedock-dev/mermaidtext), [MermaidTUI](https://github.com/tariqshams/mermaidtui),
+[Mermansi](https://github.com/kingsword09/mermansi), [OpenCode](https://github.com/anomalyco/opencode),
+[OpenCode Merman](https://github.com/4nkitd/opencode-merman), [Termaid](https://github.com/fasouto/termaid)
+and [TUI Mermaid](https://www.npmjs.com/package/tui-mermaid).
+
+Other exercised interfaces are [Maid](https://github.com/probelabs/maid) and
+[Merval](https://github.com/aj-archipelago/merval) diagnostics,
+[Mermaid AST](https://github.com/neongreen/mermaid-ast) and [Visimer](https://github.com/inkeep/visimer) parsing,
+[Mermaid Formatter](https://github.com/chenyanchen/mermaid-formatter) source formatting,
+and [Mermaid ReactFlow Render](https://github.com/taoche/mermaid-reactflow-render) graph conversion.
+
+Five eligible entries are **blocked**: Rusty Mermaid's published package omits its
+runtime, while Mermaid Live Editor, VS Code Mermaid Editor, Mermaid to Excalidraw
+and Modern Mermaid need application/conversion benchmark contracts. They are not
+counted as supported above. The [catalog](CATALOG.md) retains all 88 entries;
+46 descendants or shared-engine bindings are excluded from normal comparisons.
+[Issue #30](https://github.com/adewale/trident/issues/30) tracks the remaining support work.
+
 ## Project lineage
 
 ![Project lineage rendered by Agentic Mermaid: Beautiful is a derivative of Mermaid.js; Mermaid Dart is a distinct Dart port; Agentic and Zombie fork Beautiful; Pele has Ondine and Bezel ports; Frankenmermaid has an independent root.](docs/images/lineage.svg)
@@ -23,10 +116,11 @@ and [generation receipt](docs/images/lineage.json).
 
 ## Install 0.1
 
-Use the `v0.1.0` GitHub source release with Bun 1.4+ and Node 24+, or download
-its portable Node kit. The repository package is private; no npm publication is
-required. The portable kit ships its runtime files and manifest, while target
-artifacts and the pinned Mermaid oracle are installed separately.
+Use the `v0.1.0` GitHub source tag with Bun 1.4+ and Node 24+. Build a portable
+Node kit with the command below; published archives, when available, appear on
+the [GitHub releases page](https://github.com/adewale/trident/releases).
+The repository package is private. The kit ships its runtime files and manifest,
+while target artifacts and the pinned Mermaid oracle are installed separately.
 
 ```sh
 node commands.ts --version
