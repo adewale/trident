@@ -26,6 +26,7 @@ test('support admission retains its narrow scope, strips timing claims and rejec
     expect(report.projects[0].outputs.find((output: any) => output.transport === 'public-package-cli')).toMatchObject({ plannedInputs: 6, recordedInputObservations: 6, state: 'invocation-verified' })
     expect(report.projects[0].outputs[0].observations.every((row: any) => !row.samplesMs && !row.metrics.firstMs)).toBe(true)
     expect(report.limits).toContain('No timing comparisons, full family support')
+    for (const producer of ['community-worker.mjs', 'community-python-worker.py', 'mermaid-oracle-worker.mjs', 'declared-adapter.mjs']) expect(report.producers.some((row: string) => row.endsWith('/' + producer))).toBe(true)
     writeFileSync(module, bytes + '\nthrow Error("changed artifact must not execute")')
     const rejected = join(root, 'rejected')
     await verifySupport(prepared, rejected, { catalog })

@@ -8,6 +8,7 @@ import { runExternalCommunity } from './community-external.ts'
 import { outputName, readCatalog } from './support.ts'
 import { packageCliVariants } from './community-cli.ts'
 import { protocolIdentity } from './protocol-identity.ts'
+import { communityProtocolIdentity } from './community-protocol-identity.ts'
 import { harnessRepository } from './trident-paths.ts'
 import { communityCatalogFile } from './trident-paths.ts'
 import type { PreparedCommunity } from './community-types.ts'
@@ -43,7 +44,7 @@ export async function verifySupport(preparedFile: string, out: string, settings:
   mkdirSync(out, { recursive: true })
   const browserPrepared = settings.browserPrepared ? JSON.parse(readFileSync(settings.browserPrepared, 'utf8')) as PreparedCommunityBrowser[] : []
   if (!Array.isArray(browserPrepared) || new Set(browserPrepared.map(peer => peer.node.id)).size !== browserPrepared.length) throw Error('Prepared browser projects must be unique')
-  const producers = protocolIdentity(harnessRepository, ['unified/support-verification.ts'])
+  const producers = [...new Set([...communityProtocolIdentity(), ...protocolIdentity(harnessRepository, ['unified/support-verification.ts', 'unified/declared-adapter.mjs', 'unified/failure-outputs.ts'])])].sort()
   const projects: any[] = []
   const selected = catalog.nodes.filter(node => !settings.projects || settings.projects.includes(node.id))
   const preparation = join(out, 'preparation'); mkdirSync(preparation)
