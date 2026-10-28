@@ -8,7 +8,7 @@ Trident compares Mermaid tools on input compatibility, diagram meaning and rende
 - [Catalog and support](CATALOG.md): what the entries mean and which suites have bindings.
 - [Verified support](SUPPORT-QUALITY.md): executed public interfaces and remaining gaps for every catalog entry.
 - [Comparison contracts](FAIRNESS.md): planning, independent inputs and unranked publication.
-- [Results](results/README.md): old snapshots have been removed; no current scores are claimed.
+- [Ecosystem results](RESULTS.md): benchmark tables and charts, measurement dates and missing results for every eligible project.
 
 ## Benchmarks
 

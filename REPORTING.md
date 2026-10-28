@@ -6,6 +6,12 @@ Link each row's failures and receipt so readers can inspect what happened.
 The [worked tables](docs/benchmark-examples.md) cover all seven benchmarks;
 [the research notes](docs/reporting-research.md) explain the examples we learned from.
 
+The repository's [ecosystem results](RESULTS.md) provide a single entry point.
+They are generated from [results/latest.json](results/latest.json), including
+the Mermaid chart values. Historical evidence keeps its original dates and
+protocols; the overview retains missing projects and newer failed attempts.
+See [publication instructions](results/README.md) to update or check the page.
+
 ## What belongs above a table
 
 State the benchmark and protocol, collection date, input inventory, runtime,
