@@ -4,16 +4,16 @@
     "package": "mermaid",
     "version": "12.2.0"
   },
-  "inputMarkdownSha256": "091531cab04b9d2bae648843b5753e20b515433dbdedec0b6341093584dc4460",
+  "inputMarkdownSha256": "2137f20de56993c521747888de0a68f2b966190c32dc17f300b6b94718fa01ea",
   "charts": [
     {
-      "source": "xychart-beta horizontal\n    title \"Historical: DaveBench SVG returns — 2026-10-27\"\n    x-axis [\"Agentic Mermaid 0.4.1\", \"Beautiful Mermaid 1.1.3\", \"Frankenmermaid 0.4.0\", \"Mermaid Dart 0.3.2\", \"Mermaid.js 12.2.0\", \"Pele 1.9.0\", \"Zombie Mermaid 5.10.2\"]\n    y-axis \"SVG returned (%)\" 0 --> 100\n    bar [62, 42.2, 100, 81.9, 99.8, 97.1, 44.7]\n",
-      "svgSha256": "273d7a1e339366e28d9ff7aaad7e05cf3885b044d844de8846079d49c79eea6c"
+      "source": "xychart-beta horizontal\n    title \"Historical: DaveBench SVG returns — 2026-10-27\"\n    x-axis [\"Frankenmermaid 0.4.0\", \"Mermaid.js 12.2.0\", \"Pele 1.9.0\", \"Mermaid Dart 0.3.2\", \"Agentic Mermaid 0.4.1\", \"Zombie Mermaid 5.10.2\", \"Beautiful Mermaid 1.1.3\"]\n    y-axis \"SVG returned (%)\" 0 --> 100\n    bar [100, 99.8, 97.1, 81.9, 62, 44.7, 42.2]\n",
+      "svgSha256": "f537fce221e37093e2b0adf0d9247b776cf8d55db733fd0054af383c0da568ac"
     },
     {
-      "source": "xychart-beta horizontal\n    title \"Historical: Diagram Meaning checks passed — 2026-10-27\"\n    x-axis [\"Agentic Mermaid 0.4.1\", \"Beautiful Mermaid 1.1.3\", \"Frankenmermaid 0.4.0\", \"Mermaid Dart 0.3.2\", \"Mermaid.js 12.2.0\", \"Pele 1.9.0\", \"Zombie Mermaid 5.10.2\"]\n    y-axis \"Passed criteria out of 1180\" 0 --> 1180\n    bar [716, 356, 1112, 1025, 1068, 1118, 477]\n",
-      "svgSha256": "e5a5012ae5446ea9dd43ea7b27ff11e86439558d86971d2a317121fad5c16ada"
+      "source": "xychart-beta horizontal\n    title \"Historical: Diagram Meaning checks passed — 2026-10-27\"\n    x-axis [\"Pele 1.9.0\", \"Frankenmermaid 0.4.0\", \"Mermaid.js 12.2.0\", \"Mermaid Dart 0.3.2\", \"Agentic Mermaid 0.4.1\", \"Zombie Mermaid 5.10.2\", \"Beautiful Mermaid 1.1.3\"]\n    y-axis \"Passed criteria out of 1180\" 0 --> 1180\n    bar [1118, 1112, 1068, 1025, 716, 477, 356]\n",
+      "svgSha256": "330a0836f564a9b98fece67ed02f2d64e68be76419f2dbfb109770d904897d32"
     }
   ],
-  "previewSha256": "64c64d34f5595f30da4eb17611d128bc84fecf90ef5a7d3d9b49dc917924718f"
+  "previewSha256": "844fb5cefd66fe5f5fe546f7eefc65051d21887be8cd0ae72ea036942f94cf65"
 }
