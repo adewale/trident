@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { createHash } from 'node:crypto'
 import { parseOptions } from './options.ts'
-import { prepareCommunity, runCommunityNodeRound, runCommunityCli, verifyProvidedCommunityArtifact, verifyFrozenBrowserEngine } from './community.ts'
+import { communityModuleOutputSupported, prepareCommunity, runCommunityNodeRound, runCommunityCli, verifyProvidedCommunityArtifact, verifyFrozenBrowserEngine } from './community.ts'
 import { runCommunityBrowserSuite, type PreparedCommunityBrowser } from './community-browser.ts'
 import { runExternalCommunity } from './community-external.ts'
 import { outputName, readCatalog } from './support.ts'
@@ -68,10 +68,10 @@ export async function verifySupport(preparedFile: string, out: string, settings:
           }
           rows = supportWorkloads.map(workload => runCommunityCli(entry, output, workload, 1, target))
         } else if (['jsonl-worker', 'python'].includes(entry.artifact.kind)) rows = await runExternalCommunity(entry, supportWorkloads, output, 1, options)
-        else if (node.benchmark?.adapter === 'mermaid' && output === 'svg') { project.outputs.push({ output, state: 'browser-required', reason: 'Public SVG requires browser geometry; Node/jsdom is not substituted' }); continue }
+        else if (!communityModuleOutputSupported(node, output)) { project.outputs.push({ output, state: 'other-transport-required', reason: 'The reviewed module transport does not expose this output; no unsupported invocation is attempted' }); continue }
         else rows = await runCommunityNodeRound(entry, output, supportWorkloads, 1, options)
         const facts = partitionVerificationRows(rows)
-        project.outputs.push({ output, state: facts.passed ? 'invocation-verified' : 'no-positive-witness', ...facts })
+        project.outputs.push({ output, state: facts.passed ? 'invocation-verified' : facts.observations.every(row => row.status === 'blocked') ? 'blocked' : 'no-positive-witness', ...facts })
       }
       const browser = browserPrepared.find(peer => peer.node.id === node.id)
       if (browser?.browserStatus === 'prepared') {
@@ -82,7 +82,7 @@ export async function verifySupport(preparedFile: string, out: string, settings:
         const formats = [...new Set(browserResult.observations.filter(row => supportWorkloads.some(workload => workload.id === row.caseId)).map(row => row.format))]
         for (const output of formats) {
           const facts = partitionVerificationRows(browserResult.observations.filter(row => row.format === output))
-          project.outputs.push({ output, transport: 'browser', state: facts.passed ? 'invocation-verified' : 'no-positive-witness', ...facts })
+          project.outputs.push({ output, transport: 'browser', state: facts.passed ? 'invocation-verified' : facts.observations.every(row => row.status === 'blocked') ? 'blocked' : 'no-positive-witness', ...facts })
         }
         verifyFrozenBrowserEngine(browser)
       } else if (browser?.browserStatus === 'blocked') project.gaps.push('Browser preparation: ' + browser.browserDetail)

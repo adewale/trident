@@ -57,8 +57,8 @@ async function renderer() {
     case 'mermaid-rs-wasm': return valueAt(module, ['renderSvg', 'default.renderSvg'])
     case 'merman': {
       const engine = await api.createNodeEngine(); cleanups.push(() => engine.dispose())
+      if (output === 'png' && !engine.runtimeCatalog.capabilities.operation_ids.includes('png')) throw Error('Selected native target does not expose the public PNG operation')
       if (output === 'png') return source => {
-        if (!engine.runtimeCatalog.capabilities.operation_ids.includes('png')) throw Error('Unsupported PNG capability: not exposed by this native target')
         const result = engine.executeOperationSync({ operationId: 'png', source })
         if (result.media_type !== 'image/png') throw Error('PNG operation returned a different media type')
         const bytes = Buffer.from(result.data, 'base64')

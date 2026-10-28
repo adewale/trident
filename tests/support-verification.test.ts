@@ -3,6 +3,8 @@ import { createHash } from 'node:crypto'
 import { mkdtempSync, writeFileSync, readFileSync, rmSync, existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { runCommunityNodeRound, communityModuleOutputSupported } from '../unified/community.ts'
+import { parseOptions } from '../unified/options.ts'
 import { verifySupport, partitionVerificationRows } from '../unified/support-verification.ts'
 
 test('support admission retains its narrow scope, strips timing claims and rejects changed artifact bytes', async () => {
@@ -39,4 +41,19 @@ test('support denominators keep controls separate and withhold duplicate input c
   expect(result.controls).toHaveLength(2)
   expect('samplesMs' in result.observations[0]!).toBe(false)
   expect(partitionVerificationRows([row, row])).toMatchObject({ passed: 0, duplicateCaseIds: ['support:flowchart'] })
+})
+
+test('a browser-only output never executes a guessed module API', async () => {
+  const root = mkdtempSync(join(tmpdir(), 'trident-module-boundary-'))
+  try {
+    const module = join(root, 'browser-only.mjs'), loaded = join(root, 'must-not-load')
+    writeFileSync(module, `import{writeFileSync}from'node:fs';writeFileSync(${JSON.stringify(loaded)},'wrong host');throw Error('browser host required')`)
+    const node = { id: 'fixture/browser-only', outputs: ['svg'], roles: ['renderer'], benchmark: { adapter: 'declared', moduleOutputs: [], outputs: ['svg'], api: { svg: { export: 'draw' } } } }
+    expect(communityModuleOutputSupported(node, 'svg')).toBe(false)
+    const options = parseOptions(['--out', root, '--profile', 'smoke'])
+    const rows = await runCommunityNodeRound({ node, artifact: { kind: 'node', root, module, version: '1.0.0' } }, 'svg', [{ id: 'authored-input', family: 'flowchart', source: 'flowchart LR\nA-->B', features: [], provenance: 'authored host boundary' }], 1, options)
+    expect(rows).toHaveLength(1)
+    expect(rows[0]?.status).toBe('not-applicable')
+    expect(existsSync(loaded)).toBe(false)
+  } finally { rmSync(root, { recursive: true, force: true }) }
 })

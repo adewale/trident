@@ -3243,7 +3243,8 @@
       "outputs": [
         "svg",
         "png",
-        "ascii-unicode"
+        "ascii-unicode",
+        "ast"
       ],
       "packages": [
         {
@@ -3266,11 +3267,17 @@
         "outputs": [
           "svg",
           "png",
-          "terminal"
+          "terminal",
+          "parse"
         ],
         "portable": {
           "adapter": "public-package"
-        }
+        },
+        "moduleOutputs": [
+          "svg",
+          "terminal",
+          "parse"
+        ]
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -3318,7 +3325,8 @@
         "versionPolicy": "recorded",
         "outputs": [
           "svg"
-        ]
+        ],
+        "moduleOutputs": []
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",

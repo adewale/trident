@@ -6,6 +6,8 @@ export interface CommunityBenchmarkConfig {
   subpath?: string
   terminalSubpath?: string
   outputs?: string[]
+  /** Outputs available in the non-DOM module host; other outputs use their declared transport. */
+  moduleOutputs?: string[]
   version?: string
   versionPolicy?: string
   sourceAdapter?: string
