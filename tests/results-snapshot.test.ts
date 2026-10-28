@@ -125,8 +125,9 @@ test('tracked historical tables reproduce the existing receipt values with their
   const bytes = readFileSync(join(root, 'docs/evidence/benchmark-examples.json'))
   const examples = JSON.parse(bytes.toString()) as { tables: { id: string; date: string; rows: Cell[][] }[] }
   const digest = createHash('sha256').update(bytes).digest('hex')
-  expect(data.tables.filter(row => row.historical).map(row => row.id).sort()).toEqual(examples.tables.map(row => row.id).sort())
-  for (const entry of data.tables.filter(row => row.historical)) {
+  const exampleTables = data.tables.filter(row => row.historical && row.receipt.url === 'docs/evidence/benchmark-examples.json')
+  expect(exampleTables.map(row => row.id).sort()).toEqual(examples.tables.map(row => row.id).sort())
+  for (const entry of exampleTables) {
     const original = examples.tables.find(row => row.id === entry.id)!
     expect(entry.rows).toHaveLength(original.rows.length)
     expect(entry.measuredAt).toBe(original.date)
@@ -135,6 +136,12 @@ test('tracked historical tables reproduce the existing receipt values with their
       const values = original.rows.find(values => values[0] === data.projectNames?.[row.project])!.slice(1)
       expect(row.values).toEqual(entry.id === 'docs-coverage' ? values.slice(0, -1) : values)
     }
+  }
+  // Later historical campaigns have their own dates and receipts. They must not
+  // be mistaken for the original worked examples or silently accept stale evidence.
+  for (const entry of data.tables.filter(row => !row.receipt.url.startsWith('https://'))) {
+    const owningBytes = readFileSync(join(root, entry.receipt.url.split('#')[0]!))
+    expect(createHash('sha256').update(owningBytes).digest('hex')).toBe(entry.receipt.sha256)
   }
   writeSnapshot(data, JSON.parse(readFileSync(join(root, 'catalog/mermaid-community.json'), 'utf8')), root, true)
 })

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1170" height="212" viewBox="0 0 1170 212" role="img" aria-label="dave-docs-browser / dave-monolithic-browser-gzip — 2026-10-27">
+<rect width="100%" height="100%" fill="#fff"/>
+<style>text{font:13px system-ui,sans-serif;fill:#17212b}.title{font-size:18px;font-weight:650}.note{font-size:11px;fill:#465866}</style>
+<text class="title" x="20" y="27">dave-docs-browser / dave-monolithic-browser-gzip — 2026-10-27</text>
+<text class="note" x="20" y="47">Cost / Mermaid, lower is cheaper; linear axis. Mermaid=1.</text>
+<text class="note" x="20" y="64">Observed artifact bytes; no engine speed claim or invented uncertainty band.</text>
+<line x1="450.00" y1="88" x2="450.00" y2="198" stroke="#e4e9ed"/>
+<text class="note" text-anchor="middle" x="450.00" y="82">0</text>
+<line x1="558.26" y1="88" x2="558.26" y2="198" stroke="#e4e9ed"/>
+<text class="note" text-anchor="middle" x="558.26" y="82">0.25</text>
+<line x1="666.52" y1="88" x2="666.52" y2="198" stroke="#e4e9ed"/>
+<text class="note" text-anchor="middle" x="666.52" y="82">0.5</text>
+<line x1="774.78" y1="88" x2="774.78" y2="198" stroke="#e4e9ed"/>
+<text class="note" text-anchor="middle" x="774.78" y="82">0.75</text>
+<line x1="883.04" y1="88" x2="883.04" y2="198" stroke="#8d596c" stroke-dasharray="4 3"/>
+<text class="note" text-anchor="middle" x="883.04" y="82">1</text>
+<text x="20" y="110">obsidianmd/pele</text>
+<circle cx="522.56" cy="105" r="4.5" fill="#167c80" stroke="#167c80" stroke-width="2"/>
+<text x="953" y="110">0.1676×</text>
+<text x="20" y="139">adewale/agentic-mermaid</text>
+<circle cx="798.69" cy="134" r="4.5" fill="#167c80" stroke="#167c80" stroke-width="2"/>
+<text x="953" y="139">0.8052×</text>
+<text x="20" y="168">mermaid-js/mermaid</text>
+<circle cx="883.04" cy="163" r="4.5" fill="#485ea8" stroke="#485ea8" stroke-width="2"/>
+<text x="953" y="168">1×</text>
+</svg>

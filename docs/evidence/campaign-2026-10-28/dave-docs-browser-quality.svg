@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1170" height="182" viewBox="0 0 1170 182" role="img" aria-label="dave-docs-browser — absolute admission/assertions">
+<rect width="100%" height="100%" fill="#fff"/>
+<style>text{font:13px system-ui,sans-serif;fill:#17212b}.title{font-size:18px;font-weight:650}.note{font-size:11px;fill:#465866}</style>
+<text class="title" x="20" y="28">dave-docs-browser — absolute admission/assertions</text>
+<text class="note" x="20" y="49">Absolute passed counts; unavailable and unsuccessful cases remain in the denominator.</text>
+<text x="20" y="81">obsidianmd/pele</text>
+<rect x="450" y="66" width="485.00" height="19" fill="#167c80"/>
+<text x="942.00" y="81">1063/1095 (+2)</text>
+<text x="20" y="110">mermaid-js/mermaid</text>
+<rect x="450" y="95" width="484.09" height="19" fill="#485ea8"/>
+<text x="941.09" y="110">1061/1095 (+0)</text>
+<text x="20" y="139">adewale/agentic-mermaid</text>
+<rect x="450" y="124" width="401.96" height="19" fill="#167c80"/>
+<text x="858.96" y="139">881/1095 (-180)</text>
+</svg>

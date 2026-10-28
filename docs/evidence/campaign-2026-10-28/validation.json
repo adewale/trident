@@ -1,0 +1,14 @@
+{
+  "measuredKitCommit": "4036abeed0f0772dd63f62c15ba242252cdd7d98",
+  "runtime": "Node 24.19.0; Bun 1.4.2",
+  "checks": [
+    { "check": "portable configuration and measurement unit tests", "passed": 23, "failed": 0, "filtered": 1, "detail": "Nested compiled-kit test excluded after its builder hit the host OS-thread limit; actual record behavior verified separately below." },
+    { "check": "compiled Node kit full/subset record isolation", "passedAssertions": 6, "status": "passed", "fullRecordId": "5f159fe5-36c4-4c0f-ba25-ae8650ea04f7", "subsetRecordId": "d83c92fb-d12d-452b-bdf8-ca600bcc5c8f" },
+    { "check": "retained snapshot data tests", "passed": 6, "failed": 0, "filtered": 1, "detail": "Nested Bun CLI test encounters host thread exhaustion; direct snapshot regeneration and CI-mode --check passed." },
+    { "check": "typecheck", "status": "passed" },
+    { "check": "full single-thread Biome lint", "status": "passed" },
+    { "check": "evidence hashes, SVG XML, fixed denominators, all 390 PR cells and missing PNG dispositions", "status": "passed" },
+    { "check": "actual SVG rasterization and visual review", "status": "passed", "detail": "All seven SVGs rendered with resvg; corrected clipped fidelity annotations and separated startup p95 markers from sample counts. This is local rendering review, not a GitHub-browser screenshot." }
+  ],
+  "limits": "The complete test suite is not claimed passing on the damaged host. Benchmark runs were sequential and finished before plotting and validation. No repaired clock was spliced into a historical distribution."
+}

@@ -887,6 +887,610 @@
         "column": "Process RSS (MiB)",
         "direction": "ascending"
       }
+    },
+    {
+      "id": "cfd-dave-1095",
+      "suite": "docs",
+      "measuredAt": "2026-10-27T18:14:39.209Z",
+      "historical": true,
+      "unit": "documentation occurrences",
+      "caption": "Six rounds, 1,095 occurrences. Full inventory; acceptance does not establish meaning. CFD Agentic 0.4.2, Pele 1.9.0, Mermaid 12.2.0. 27 October 2026.",
+      "columns": [
+        "Version",
+        "Returned SVG",
+        "No SVG return",
+        "Planned"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.4.2",
+            881,
+            214,
+            1095
+          ]
+        },
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.9.0",
+            1063,
+            32,
+            1095
+          ]
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "values": [
+            "12.2.0",
+            1061,
+            34,
+            1095
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/campaign-2026-10-28/dave.json",
+        "sha256": "192620a55e341cd62b37569ce53b46f75017cb1ab34c35af0571f459c5313364"
+      },
+      "chart": {
+        "numerator": "Returned SVG",
+        "denominator": "Planned",
+        "title": "Full documentation inventory: returned SVG",
+        "axis": "% of 1,095 occurrences",
+        "maximum": 100
+      },
+      "population": {
+        "total": "Planned",
+        "outcomes": [
+          "Returned SVG",
+          "No SVG return"
+        ]
+      }
+    },
+    {
+      "id": "cfd-painted-920",
+      "suite": "fidelity",
+      "measuredAt": "2026-10-27T17:55:53.920Z",
+      "historical": true,
+      "unit": "Mermaid-qualified paint criteria",
+      "caption": "100 cases across 25 families; fixed 920 reference-passed paint criteria. Another 150 authored criteria are reference-unqualified across all surfaces. Alias rows do not create independent wins. Historical CFD candidate, not current main.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unavailable",
+        "Planned"
+      ],
+      "rows": [
+        {
+          "project": "mermaid-js/mermaid",
+          "values": [
+            "12.2.0",
+            920,
+            0,
+            0,
+            920
+          ]
+        },
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.4.2",
+            902,
+            1,
+            17,
+            920
+          ]
+        },
+        {
+          "project": "Dicklesworthstone/frankenmermaid",
+          "values": [
+            "0.4.0",
+            891,
+            14,
+            15,
+            920
+          ]
+        },
+        {
+          "project": "Latias94/merman",
+          "values": [
+            "0.9.2",
+            889,
+            29,
+            2,
+            920
+          ]
+        },
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.9.0",
+            852,
+            1,
+            67,
+            920
+          ]
+        },
+        {
+          "project": "crabtalk/bezel",
+          "values": [
+            "0.2.20",
+            806,
+            43,
+            71,
+            920
+          ]
+        },
+        {
+          "project": "wevm/ondine",
+          "values": [
+            "0.0.3",
+            806,
+            43,
+            71,
+            920
+          ]
+        },
+        {
+          "project": "orestesgaolin/mermaid",
+          "values": [
+            "0.3.2",
+            780,
+            39,
+            101,
+            920
+          ]
+        },
+        {
+          "project": "toeverything/mermaid-rs-renderer",
+          "values": [
+            "0.1.2",
+            777,
+            34,
+            109,
+            920
+          ]
+        },
+        {
+          "project": "ioggstream/d3fend-mermaid",
+          "values": [
+            "11.11.637",
+            776,
+            2,
+            142,
+            920
+          ]
+        },
+        {
+          "project": "jacob-lcs/mermaid",
+          "values": [
+            "11.9.0",
+            776,
+            2,
+            142,
+            920
+          ]
+        },
+        {
+          "project": "evangwt/xmermaid",
+          "values": [
+            "0.4.2",
+            699,
+            57,
+            164,
+            920
+          ]
+        },
+        {
+          "project": "NicolasNewman/mermaid",
+          "values": [
+            "11.4.1",
+            654,
+            1,
+            265,
+            920
+          ]
+        },
+        {
+          "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+          "values": [
+            "0.1.4",
+            633,
+            195,
+            92,
+            920
+          ]
+        },
+        {
+          "project": "Mermaid-Chart/mermaid-develop",
+          "values": [
+            "10.6.1",
+            487,
+            52,
+            381,
+            920
+          ]
+        },
+        {
+          "project": "zakaria-forks/mermaid",
+          "values": [
+            "11.0.0-alpha.7",
+            487,
+            52,
+            381,
+            920
+          ]
+        },
+        {
+          "project": "xeolabs/mermaid",
+          "values": [
+            "10.0.2",
+            471,
+            1,
+            448,
+            920
+          ]
+        },
+        {
+          "project": "blackst0ne/mermaid",
+          "values": [
+            "7.1.0-fixed",
+            460,
+            274,
+            186,
+            920
+          ]
+        },
+        {
+          "project": "emtyty/merslim",
+          "values": [
+            "0.2.3",
+            243,
+            29,
+            648,
+            920
+          ]
+        },
+        {
+          "project": "lishid/mermaid",
+          "values": [
+            "8.10.2",
+            223,
+            10,
+            687,
+            920
+          ]
+        },
+        {
+          "project": "mbostock/mermaid",
+          "values": [
+            "9.0.0",
+            220,
+            0,
+            700,
+            920
+          ]
+        },
+        {
+          "project": "dfadler/zombie-mermaid",
+          "values": [
+            "5.9.1",
+            217,
+            7,
+            696,
+            920
+          ]
+        },
+        {
+          "project": "jgraph/mermaid",
+          "values": [
+            "11.14.0",
+            213,
+            1,
+            706,
+            920
+          ]
+        },
+        {
+          "project": "crafter-station/mermaid",
+          "values": [
+            "0.0.3",
+            169,
+            25,
+            726,
+            920
+          ]
+        },
+        {
+          "project": "ktrysmt/beautiful-mermaid",
+          "values": [
+            "1.5.2",
+            167,
+            10,
+            743,
+            920
+          ]
+        },
+        {
+          "project": "2233admin/beautiful-mermaid",
+          "values": [
+            "1.1.3",
+            165,
+            12,
+            743,
+            920
+          ]
+        },
+        {
+          "project": "HealthSamurai/beautiful-mermaid",
+          "values": [
+            "1.1.3",
+            165,
+            12,
+            743,
+            920
+          ]
+        },
+        {
+          "project": "lukilabs/beautiful-mermaid",
+          "values": [
+            "1.1.3",
+            165,
+            12,
+            743,
+            920
+          ]
+        },
+        {
+          "project": "Stars1233/beautiful-mermaid",
+          "values": [
+            "1.1.3",
+            165,
+            12,
+            743,
+            920
+          ]
+        },
+        {
+          "project": "thepanax/beautiful-mermaid",
+          "values": [
+            "1.1.3",
+            165,
+            12,
+            743,
+            920
+          ]
+        },
+        {
+          "project": "zhenhuaa/mdv",
+          "values": [
+            "0.1.2",
+            165,
+            12,
+            743,
+            920
+          ]
+        },
+        {
+          "project": "ysknsid25/beautiful-mermaid",
+          "values": [
+            "1.0.2",
+            150,
+            11,
+            759,
+            920
+          ]
+        },
+        {
+          "project": "01colyncelestine-stack/beautiful-mermaid",
+          "values": [
+            "0.1.3",
+            116,
+            11,
+            793,
+            920
+          ]
+        },
+        {
+          "project": "fdotu/beautiful-mermaid",
+          "values": [
+            "0.1.3",
+            116,
+            11,
+            793,
+            920
+          ]
+        },
+        {
+          "project": "gmh5225/beautiful-mermaid",
+          "values": [
+            "0.1.3",
+            116,
+            11,
+            793,
+            920
+          ]
+        },
+        {
+          "project": "rohitg00/beautiful-mermaid",
+          "values": [
+            "0.1.3",
+            116,
+            11,
+            793,
+            920
+          ]
+        },
+        {
+          "project": "theletterf/beautiful-mermaid",
+          "values": [
+            "0.1.5",
+            116,
+            11,
+            793,
+            920
+          ]
+        },
+        {
+          "project": "vercel-labs/beautiful-mermaid",
+          "values": [
+            "0.1.5",
+            116,
+            11,
+            793,
+            920
+          ]
+        },
+        {
+          "project": "KlangHaus/vitepress-plugin-diagram",
+          "values": [
+            "0.3.2",
+            71,
+            16,
+            833,
+            920
+          ]
+        },
+        {
+          "project": "lyngai/mermaid",
+          "values": [
+            "8.4.8",
+            63,
+            9,
+            848,
+            920
+          ]
+        },
+        {
+          "project": "enrimr/mermaid",
+          "values": [
+            "1.0.0",
+            62,
+            9,
+            849,
+            920
+          ]
+        },
+        {
+          "project": "xen3r0/mermaid",
+          "values": [
+            "8.0.0-rc.9",
+            49,
+            6,
+            865,
+            920
+          ]
+        },
+        {
+          "project": "songshaodong/mermaid",
+          "values": [
+            "0.5.8",
+            39,
+            0,
+            881,
+            920
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/campaign-2026-10-28/fidelity.json",
+        "sha256": "8de234305cc7f0421e3fa7fb2bfa13c44ef8bc62c706af362b59014a0d81e476"
+      },
+      "population": {
+        "total": "Planned",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unavailable"
+        ]
+      }
+    },
+    {
+      "id": "cfd-dave-global-gzip",
+      "suite": "docs",
+      "measuredAt": "2026-10-27T18:14:39.209Z",
+      "historical": true,
+      "unit": "gzip bytes",
+      "caption": "Complete shipped browser globals, level-9 gzip. Excludes focused/lazy entries, fonts and wire overhead; not startup memory.",
+      "columns": [
+        "Version",
+        "Gzip bytes"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.4.2",
+            1264968
+          ]
+        },
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.9.0",
+            263250
+          ]
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "values": [
+            "12.2.0",
+            1570966
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/campaign-2026-10-28/dave.json",
+        "sha256": "192620a55e341cd62b37569ce53b46f75017cb1ab34c35af0571f459c5313364"
+      },
+      "chart": {
+        "numerator": "Gzip bytes",
+        "title": "Complete shipped browser-global JavaScript",
+        "axis": "bytes, gzip level 9",
+        "maximum": 1700000
+      }
+    },
+    {
+      "id": "cfd-dave-common-cost",
+      "suite": "docs",
+      "measuredAt": "2026-10-27T18:14:39.209Z",
+      "historical": true,
+      "unit": "call cost / Mermaid",
+      "caption": "847 identical successful occurrences across all tools and all six rounds; public SVG return clock excludes validation and paint. Descriptive; no A/A qualification. Full 1,095-occurrence outcomes appear separately.",
+      "columns": [
+        "Version",
+        "Call cost / Mermaid"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.4.2",
+            0.1386222404620205
+          ]
+        },
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.9.0",
+            0.007979263124530539
+          ]
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "values": [
+            "12.2.0",
+            1
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/campaign-2026-10-28/dave.json",
+        "sha256": "192620a55e341cd62b37569ce53b46f75017cb1ab34c35af0571f459c5313364"
+      }
     }
   ],
   "attempts": [],

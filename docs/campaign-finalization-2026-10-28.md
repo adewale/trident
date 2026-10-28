@@ -1,6 +1,6 @@
 # Campaign finalization: 28 October 2026
 
-Status: incomplete. The execution environment became unavailable during validation. No repaired timing, final chart or final PR ranking is claimed by this checkpoint.
+Status: the environment is restored. The [dated results](campaign-results-2026-10-28.md) now publish the triage, selected generic font-case requalification, Mermaid comparisons and [per-metric PR ordering](pr-performance-2026-10-28.md). Strict-backend requalification and three legacy suite preparations remain outstanding; no complete-suite pass or current-main performance claim is made.
 
 The working branch was first rebased onto Trident main `a4b3984b284f3ee819c2c4d304d95b4ffc83ad33`, then rebased onto `8d5e76d70d1a6ae5e7b0f56d7378c58ff6ddf72d` after #39 landed. That change publishes ecosystem tables and charts from a different, explicitly historical snapshot; reuse its reporting infrastructure without relabelling it as this frozen campaign. Original measurements remain attached to Trident producer `7d6f89ddfe64b1cf3978ff1cb5cd31528cf3d36f` and Agentic source `cfd58df8ab8c21ce76eb46556296a7439f231bbf`. Agentic main was `700da836a418277225e2f058a77c48dc010b050b` when work resumed.
 
@@ -45,7 +45,7 @@ Finish per-metric dated ordering from the original paired core/control portfolio
 
 ## Resume and publication
 
-The retained campaign evidence is still workspace-local and has not been uploaded by this change. Restore the original environment before attempting final reductions or reruns. Original evidence roots:
+The retained campaign evidence is still workspace-local and has not been uploaded by this change. The restored environment retained the originals. Bounded derived evidence is now published under `docs/evidence/campaign-2026-10-28/`; it is not a raw campaign backup. Original evidence roots:
 
 - `/workspace/trident-current-source-continuation-cfd58df8/suite`
 - `/workspace/trident-completion-pr-refresh-20261027T140705Z/campaign`
@@ -54,4 +54,4 @@ The retained campaign evidence is still workspace-local and has not been uploade
 
 Publish a bounded dated report with pinned Mermaid as the reference and separate fidelity, documentation acceptance, latency, startup, delivered-size and memory views. Preserve incompatible boundaries and missing observations. No composite cross-suite winner, current-version relabelling, invented monetary cost or automatic complete-project rerun.
 
-The source repair's two new behavioral tests were observed failing before the change and passing afterward. A broader local check passed 23 tests, while its compiled-kit integration test failed during builder/setup and remains unqualified. Local single-thread Biome passed. The environment then disconnected; targeted real-artifact requalification and the final report remain outstanding.
+The source repair's two new behavioral tests were observed failing before the change and passing afterward. The initial unsandboxed recovery check passed all 24 targeted tests. Later checks on the rebased checkout passed 23/24; the nested builder still hit the host OS-thread limit. Typecheck and full single-thread Biome passed. The compiled kit built successfully from clean commit4036 and completed all three selected real-artifact runs. Initial eight-slot preparation hit spawn EAGAIN; the completed runs use one slot, preserving all rounds/sample counts in a separate cohort. Original full-portfolios remain untouched. Most warm timing rows are uncalibrated, and no old/new speedup is claimed.
