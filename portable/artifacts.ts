@@ -66,10 +66,10 @@ export function artifactIdentity(artifact: PortableArtifact): PortableArtifactId
   }
   const files = walk(payload)
   const companionSpecs = artifact.adapter === 'public-package' ? extraPackagePreparation(String(artifact.publicConfig?.package)).companions ?? [] : []
-  const req = createRequire(join(artifact.root, 'package.json'))
+  const req = companionSpecs.length ? createRequire(join(artifact.root, 'package.json')) : undefined
   const adapterCompanions = companionSpecs.map((spec: string) => {
     const split = spec.lastIndexOf('@'), name = spec.slice(0, split), version = spec.slice(split + 1)
-    const root = req.resolve.paths(name)?.map(directory => join(directory, name)).find(directory => existsSync(join(directory, 'package.json')))
+    const root = req!.resolve.paths(name)?.map(directory => join(directory, name)).find(directory => existsSync(join(directory, 'package.json')))
     if (!root) throw Error('Public adapter companion is missing: ' + spec)
     const manifest = readJson(join(root, 'package.json'))
     if (manifest.name !== name || manifest.version !== version) throw Error('Public adapter companion version differs: ' + spec)
