@@ -148,7 +148,7 @@ export function importCampaign(snapshot: ResultsSnapshot, directory: string, evi
   for (const project of report.projects) for (const suite of suites) if (!touched.has(project + ':' + suite)) {
     const node = catalog.nodes.find(node => node.id === project)
     if (!node || !PUBLIC_SUITES.includes(suite as PublicSuite)) throw Error('Unknown project or suite in campaign inventory')
-    if (['reference-only', 'project-unsupported'].includes(projectSupport(node).suites[suite as PublicSuite].state)) continue
+    if (['reference-only', 'project-unsupported', 'out-of-scope'].includes(projectSupport(node).suites[suite as PublicSuite].state)) continue
     attempts.push({
       id: 'attempt-' + sha256(digest + project + suite).slice(0, 24), project, suite: suite as PublicSuite,
       measuredFrom: report.startedAt, updatedAt: report.updatedAt, status: 'unavailable', detail: 'Requested boundary has no recorded result in this partial campaign.',
@@ -179,7 +179,7 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
     '**Historical** marks retained measurements collected before the current reporting work. This page is a rolling view across dated runs, not one matched ecosystem experiment. No fresh benchmark was run to create this page. Dates, versions, interfaces and qualification belong to each table.', '',
     '[Machine-readable results](results/latest.json) · [Benchmark methods](BENCHMARKS.md) · [Reading the tables](REPORTING.md) · [Update this page](results/README.md)', '',
     '## Ecosystem overview', '',
-    `${lineage.nodes.filter(node => !node.excludedFromComparison).length} eligible projects are listed below. ${lineage.excludedProjects.length} catalog descendants/bindings are listed separately. Results are never inherited through lineage.`, '',
+    `${lineage.nodes.filter(node => !node.excludedFromComparison).length} eligible projects are listed below. ${lineage.excludedProjects.length} catalog entries outside core comparison scope are listed separately. Results are never inherited through lineage.`, '',
     'Each cell links its latest recorded attempt, or a dated retained table. New failed, blocked and partial attempts take precedence over earlier tables. Different suites have different units; there is no combined score. “Unmeasured” is missing evidence; “N/A” follows the declared output or reference scope, not a measured failure.', '',
     `Overview order: ${primary ? benchmarkNames[primary.suite] + ', ' + (primary.ranking?.direction === 'ascending' ? 'lowest' : 'highest') + ' ' + primary.ranking?.column + (primary.ranking?.denominator ? ' / ' + primary.ranking.denominator : '') + ' first (' + date(primary.measuredAt) + ').' : 'No comparable ranking measure is available.'} Ties share a rank. Projects with no result for this measure, or a newer superseding attempt, remain unranked below. Each benchmark has its own ranking.`, '',
     '| Project | Overview rank | Compatibility | DaveBench | Meaning | Models / editing | Assertion replay | Reference tests | Render cost |',

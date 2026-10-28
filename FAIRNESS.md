@@ -1,5 +1,8 @@
 # Comparison contracts
 
+See [scope](SCOPE.md) for the boundary between public-API benchmarks and optional
+application studies. Whole-editor workflows do not enter core project counts.
+
 Trident compares named public work. SVG return, terminal output, parsing,
 optional model APIs and original upstream tests answer different questions.
 The required evidence is chosen before measuring any candidate.
