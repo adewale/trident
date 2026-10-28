@@ -11,6 +11,7 @@ const help = `Trident — benchmarks for Mermaid renderers, terminal tools and p
 Benchmark catalog projects (Bun):
   bun commands.ts support [--lineage] [--out FILE.md|json]
   bun commands.ts support:verify --prepared FILE --out FRESH_DIRECTORY
+  bun commands.ts editor:verify --project ID --source PINNED_CHECKOUT --dist BUILT_APP --out DIR
   bun commands.ts bench --projects OWNER/TOOL[,...] --plan
   bun commands.ts bench --projects OWNER/TOOL[,...] --profile full --rounds 5 --out DIR
   bun commands.ts bench --list
@@ -51,7 +52,7 @@ async function main() {
   const aliases: Record<string, string> = { 'portable:build': 'build', community: 'community:update' }
   const selected = Object.hasOwn(aliases, command) ? aliases[command]! : command
   const neutral: Record<string, string> = { build: 'portable/build.ts', portable: 'portable/run.ts', 'fidelity:report': 'fidelity/report.ts' }
-  const own: Record<string, string> = { 'upstream:prepare': 'unified/prepare-upstream.ts', 'support:verify': 'unified/support-verification.ts', support: 'unified/support-command.ts', bench: 'unified/benchmark.ts', 'corpus:freeze': 'unified/external-corpus.ts', 'results:campaign': 'unified/campaign-publication.ts', 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
+  const own: Record<string, string> = { 'editor:verify': 'unified/editor-verification.ts', 'upstream:prepare': 'unified/prepare-upstream.ts', 'support:verify': 'unified/support-verification.ts', support: 'unified/support-command.ts', bench: 'unified/benchmark.ts', 'corpus:freeze': 'unified/external-corpus.ts', 'results:campaign': 'unified/campaign-publication.ts', 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
   const checks: Record<string, string[]> = {
     test: ['test', '--timeout', '30000', '--parallel=2', resolve(directory, 'tests')],
     typecheck: ['x', '--no-install', 'tsc', '--noEmit', '-p', resolve(directory, 'tsconfig.json')],
@@ -110,7 +111,7 @@ async function main() {
     if (!process.versions.bun) throw Error('Maintainer checks require Bun 1.4 or later')
     argv = checks[selected]!
   } else throw Error(`Unknown Trident command ${command}; use --help`)
-  assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !args.includes('--help') && !args.includes('--list') && !args.includes('--plan') && !['upstream:prepare', 'support', 'results:campaign', 'build', 'fidelity:report', 'typecheck', 'lint', 'results:publish', 'results:compare'].includes(selected) })
+  assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !args.includes('--help') && !args.includes('--list') && !args.includes('--plan') && !['editor:verify', 'upstream:prepare', 'support', 'results:campaign', 'build', 'fidelity:report', 'typecheck', 'lint', 'results:publish', 'results:compare'].includes(selected) })
   const result = spawnSync(executable, [...argv, ...args], { cwd, stdio: 'inherit' })
   if (result.error) throw result.error
   process.exitCode = result.status ?? 1

@@ -7,6 +7,7 @@ export const PUBLIC_SUITES = ['community', 'docs', 'fidelity', 'native-fidelity'
 export type PublicSuite = typeof PUBLIC_SUITES[number]
 export type SupportState = 'configured' | 'conditional' | 'adapter-missing' | 'project-unsupported' | 'reference-only'
 export interface CatalogMember extends CommunityNode {
+  applicationContract?: { kind: 'browser-editor' | 'vscode-webview'; path: string; editor: string; input: 'textarea' | 'keyboard'; preview: string; error: string; dismiss?: string; generatedPaths?: string[] }
   comparisonBranding?: { distinct: boolean; name?: string | null; evidence: string }
   relation?: string
   parent?: string
@@ -58,6 +59,7 @@ export function projectSupport(node: CatalogMember) {
         : cell('adapter-missing', 'No reviewed portable Node SVG invocation is bound; browser/WASM/CLI capability is not a Node binding.'),
   }
   return {
+    application: node.applicationContract ? { state: node.applicationContract.kind === 'browser-editor' ? 'conditional' : 'adapter-missing', contract: node.applicationContract, reason: 'Separate application workflow; no dependency renderer score is inherited.' } : null,
     project: node.id, relation: node.relation ?? 'unverified', parent: node.parent ?? null,
     categories: node.categories ?? [], runtime: node.runtime ?? 'not recorded', adapter: adapter ?? null,
     adapterReview: node.benchmarkEligibility?.adapterReview ?? 'not independently reviewed',
