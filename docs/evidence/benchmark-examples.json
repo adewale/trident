@@ -1,0 +1,755 @@
+{
+  "purpose": "Historical comparative table examples; no new measurements or current leaderboard",
+  "examples": {
+    "community": {
+      "scope": "Selected 28 October community smoke inventory: 33 feature inputs, separate Node/browser SVG tables.",
+      "source": "/workspace/trident-release/0.1/final-smoke-campaign/community/project-attempts/9de7d00b-e43c-49a7-8324-c9ef7c53ed42/obsidianmd%2Fpele/community/community-result.json.gz",
+      "sha256": "c91630f58b39642f0fff13fc553ff88b8b55248a292de12981ee5068bb80f8d6"
+    },
+    "docs": {
+      "scope": "27 October docs run: full 548-occurrence coverage and matched named-input call times.",
+      "source": "/workspace/benchmark-verification/2026-10-27/trident-corrected/docs/result.json",
+      "sha256": "bb5c88d4f4e009c2d0e809e8682656fc0f48a022bea67c9dab696095dbd2d24c"
+    },
+    "fidelity": {
+      "scope": "27 October SVG-only planned criterion ledger: 1180 checks per project; older observer.",
+      "source": "/workspace/benchmark-verification/2026-10-27/trident-corrected/fidelity/community-fidelity-report.json.gz",
+      "sha256": "43599a5fbda395f402647c20eb89807c889307a4a4aaede837398318e0757420"
+    },
+    "native-fidelity": {
+      "scope": "27 October common 561 model criteria plus 118 separate API-specific checks.",
+      "source": "/workspace/benchmark-verification/2026-10-27/trident-corrected/native-fidelity/obsidianmd%2Fpele/fidelity-report.json.gz",
+      "sha256": "f723583600d8f004e40b9dfbcecfc66528dc67eb911c9e9417d6603f6c9de33d"
+    },
+    "upstream-fidelity": {
+      "scope": "27 October replay declaration and callback outcomes; raw matcher counters are diagnostic.",
+      "source": "/workspace/benchmark-verification/2026-10-27/trident-verified/upstream-fidelity/obsidianmd%2Fpele/upstream-fidelity-report.json",
+      "sha256": "37857b8d473db6e5466831bbdac1f8fbf66653dab6e30c64711f8aaeebfe3317"
+    },
+    "upstream-original": {
+      "scope": "28 October original reference runner: original files and callback outcomes.",
+      "source": "/workspace/trident-pr21-review/original-campaign/upstream-original/attempts/9674739d-6c73-4408-bfe9-8016ac3ed9b0/upstream-original-summary.json",
+      "sha256": "e635e3d2acf4a5dee1d6aa43c23dceb576b9b87e1fae98ad463247714c3c76c6"
+    },
+    "portable": {
+      "scope": "27 October portable protocol v3 flowchart timings and resource checkpoint; no current qualified comparison.",
+      "source": "/workspace/benchmark-verification/2026-10-27/trident-corrected/portable/obsidianmd%2Fpele/report.json",
+      "sha256": "adf16e69cb48e46b134fb2723afd8e64abefeed304d6de597544152bc1bb4a9f"
+    }
+  },
+  "tables": [
+    {
+      "id": "community-node:public-api",
+      "columns": [
+        "Project",
+        "Version",
+        "Passed inputs",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Planned inputs"
+      ],
+      "rows": [
+        [
+          "Agentic Mermaid",
+          "0.4.1",
+          14,
+          1,
+          18,
+          0,
+          33
+        ],
+        [
+          "Pele",
+          "1.9.0",
+          32,
+          0,
+          1,
+          0,
+          33
+        ]
+      ],
+      "suite": "community",
+      "surface": "node:public-api",
+      "date": "2026-10-28",
+      "unit": "inputs"
+    },
+    {
+      "id": "community-browser:public-api",
+      "columns": [
+        "Project",
+        "Version",
+        "Passed inputs",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Planned inputs"
+      ],
+      "rows": [
+        [
+          "Agentic Mermaid",
+          "0.4.1",
+          14,
+          1,
+          18,
+          0,
+          33
+        ],
+        [
+          "Mermaid.js",
+          "12.2.0",
+          33,
+          0,
+          0,
+          0,
+          33
+        ],
+        [
+          "Pele",
+          "1.9.0",
+          32,
+          0,
+          1,
+          0,
+          33
+        ]
+      ],
+      "suite": "community",
+      "surface": "browser:public-api",
+      "date": "2026-10-28",
+      "unit": "inputs"
+    },
+    {
+      "id": "docs-coverage",
+      "columns": [
+        "Project",
+        "Version",
+        "SVG returned",
+        "Failed",
+        "Planned occurrences",
+        "SVG return rate (%)"
+      ],
+      "rows": [
+        [
+          "Agentic Mermaid",
+          "0.4.1",
+          340,
+          208,
+          548,
+          "62.0%"
+        ],
+        [
+          "Beautiful Mermaid",
+          "1.1.3",
+          231,
+          317,
+          548,
+          "42.2%"
+        ],
+        [
+          "Frankenmermaid",
+          "0.4.0",
+          548,
+          0,
+          548,
+          "100.0%"
+        ],
+        [
+          "Mermaid Dart",
+          "0.3.2",
+          449,
+          99,
+          548,
+          "81.9%"
+        ],
+        [
+          "Mermaid.js",
+          "12.2.0",
+          547,
+          1,
+          548,
+          "99.8%"
+        ],
+        [
+          "Pele",
+          "1.9.0",
+          532,
+          16,
+          548,
+          "97.1%"
+        ],
+        [
+          "Zombie Mermaid",
+          "5.10.2",
+          245,
+          303,
+          548,
+          "44.7%"
+        ]
+      ],
+      "suite": "docs",
+      "unit": "documentation occurrences",
+      "date": "2026-10-27"
+    },
+    {
+      "id": "docs-one-input-time",
+      "columns": [
+        "Project",
+        "Version",
+        "Median call time (ms)",
+        "Successful calls",
+        "Comparison qualification"
+      ],
+      "rows": [
+        [
+          "Agentic Mermaid",
+          "0.4.1",
+          "20.2",
+          "5/5",
+          "Not calibrated"
+        ],
+        [
+          "Beautiful Mermaid",
+          "1.1.3",
+          "Withheld",
+          "0/5",
+          "SVG return failed"
+        ],
+        [
+          "Frankenmermaid",
+          "0.4.0",
+          "0.4",
+          "5/5",
+          "Not calibrated"
+        ],
+        [
+          "Mermaid Dart",
+          "0.3.2",
+          "3",
+          "5/5",
+          "Not calibrated"
+        ],
+        [
+          "Mermaid.js",
+          "12.2.0",
+          "78.3",
+          "5/5",
+          "Not calibrated"
+        ],
+        [
+          "Pele",
+          "1.9.0",
+          "0.6",
+          "5/5",
+          "Not calibrated"
+        ],
+        [
+          "Zombie Mermaid",
+          "5.10.2",
+          "Withheld",
+          "0/5",
+          "SVG return failed"
+        ]
+      ],
+      "suite": "docs",
+      "unit": "milliseconds",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:23",
+      "date": "2026-10-27"
+    },
+    {
+      "id": "svg-meaning",
+      "columns": [
+        "Project",
+        "Version",
+        "Passed criteria",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Planned criteria"
+      ],
+      "rows": [
+        [
+          "Agentic Mermaid",
+          "0.4.1",
+          716,
+          13,
+          0,
+          451,
+          1180
+        ],
+        [
+          "Beautiful Mermaid",
+          "1.1.3",
+          356,
+          18,
+          0,
+          806,
+          1180
+        ],
+        [
+          "Frankenmermaid",
+          "0.4.0",
+          1112,
+          6,
+          0,
+          62,
+          1180
+        ],
+        [
+          "Mermaid Dart",
+          "0.3.2",
+          1025,
+          45,
+          0,
+          110,
+          1180
+        ],
+        [
+          "Mermaid.js",
+          "12.2.0",
+          1068,
+          16,
+          0,
+          96,
+          1180
+        ],
+        [
+          "Pele",
+          "1.9.0",
+          1118,
+          5,
+          14,
+          43,
+          1180
+        ],
+        [
+          "Zombie Mermaid",
+          "5.10.2",
+          477,
+          13,
+          0,
+          690,
+          1180
+        ]
+      ],
+      "suite": "fidelity",
+      "unit": "SVG criteria",
+      "date": "2026-10-27",
+      "observerProducers": [
+        "100644 blob 05a5d4f8bf54c048e2b313b5b4b55f68028ef155\tdata/upstream-mermaid-policy.json",
+        "100644 blob 32d08be9ff8ec866461fff96b0213fc085ce38f3\tfidelity/cases.ts",
+        "100644 blob 5a05968bd6842ed99d079d946c5221d4b0f88a5f\tfidelity/ledger.ts",
+        "100644 blob c20389135ba0cd8e76684e0df7ae9750e905363f\tfidelity/meaning.ts",
+        "100644 blob 3ce9c7dfbc444dbb811933508aff8aa2c22b553d\tfidelity/paint-values.ts",
+        "100644 blob 9f85182d05aae5169027c214740a9c84db94b6c5\tfidelity/paint.ts",
+        "100644 blob c81659e30c133dfc6b65edc4470b0f06e9d3e8fa\tfidelity/protocol.ts",
+        "100644 blob a865874cfc792441448bca480dc66e30de228524\tportable/artifact-dependencies.ts",
+        "100644 blob 9bfcbefac9459474c1aabbffe31c7cb64402c7c7\tportable/artifacts.ts",
+        "100644 blob a257ee26a5bb31463da24e0d5bc2a11552c70df6\tportable/cohorts.ts",
+        "100644 blob d808f7ec9e356de70b8b33d0805755cc577e62d1\tportable/environment.ts",
+        "100644 blob 4201a44529c5858c4b2296fe77baa92b94da4061\tunified/benchmark-context.ts",
+        "100644 blob 6fdca45d96e84f46735cd8fe8926fe34e2889f1b\tunified/harness-paths.ts",
+        "100644 blob 2f89b53ee3c54994dad9f7cecb0a5959ff96e5b7\tunified/protocol-identity.ts",
+        "100644 blob 6a0b61c7dd23cd9ad0a6b408278b18e38b89521d\tunified/trident-paths.ts"
+      ]
+    },
+    {
+      "id": "shared-model",
+      "columns": [
+        "Project",
+        "Version",
+        "Passed criteria",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Planned shared criteria"
+      ],
+      "rows": [
+        [
+          "Agentic Mermaid",
+          "0.4.1",
+          374,
+          7,
+          179,
+          1,
+          561
+        ],
+        [
+          "Mermaid.js",
+          "12.2.0",
+          555,
+          0,
+          6,
+          0,
+          561
+        ],
+        [
+          "Pele",
+          "1.9.0",
+          555,
+          0,
+          6,
+          0,
+          561
+        ]
+      ],
+      "suite": "native-fidelity",
+      "unit": "shared model criteria",
+      "date": "2026-10-27",
+      "sharedCriteriaSha256": "c959c18ab2dd3a76b2f4a0f4be5744ff60a3a44d7e0e80722785694df0cf01e6"
+    },
+    {
+      "id": "additional-model",
+      "columns": [
+        "Project",
+        "Version",
+        "Passed criteria",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "API-specific criteria"
+      ],
+      "rows": [
+        [
+          "Agentic Mermaid",
+          "0.4.1",
+          117,
+          0,
+          0,
+          1,
+          118
+        ]
+      ],
+      "suite": "native-fidelity",
+      "unit": "additional API criteria",
+      "date": "2026-10-27"
+    },
+    {
+      "id": "replay-declarations",
+      "columns": [
+        "Project",
+        "Version",
+        "Passed",
+        "Failed",
+        "Unavailable",
+        "Outside projection",
+        "Skipped",
+        "Unregistered",
+        "Planned declarations"
+      ],
+      "rows": [
+        [
+          "Agentic Mermaid",
+          "0.4.1",
+          160,
+          151,
+          1213,
+          2453,
+          15,
+          3,
+          3995
+        ],
+        [
+          "Mermaid.js",
+          "12.2.0",
+          477,
+          0,
+          1047,
+          2453,
+          15,
+          3,
+          3995
+        ],
+        [
+          "Pele",
+          "1.9.0",
+          381,
+          16,
+          1127,
+          2453,
+          15,
+          3,
+          3995
+        ]
+      ],
+      "suite": "upstream-fidelity",
+      "unit": "source declarations",
+      "date": "2026-10-27"
+    },
+    {
+      "id": "replay-callbacks",
+      "columns": [
+        "Project",
+        "Version",
+        "Passed callbacks",
+        "Failed",
+        "Unavailable",
+        "Skipped",
+        "Recorded callbacks"
+      ],
+      "rows": [
+        [
+          "Agentic Mermaid",
+          "0.4.1",
+          694,
+          586,
+          1408,
+          12,
+          2700
+        ],
+        [
+          "Mermaid.js",
+          "12.2.0",
+          1555,
+          0,
+          1133,
+          12,
+          2700
+        ],
+        [
+          "Pele",
+          "1.9.0",
+          1452,
+          16,
+          1220,
+          12,
+          2700
+        ]
+      ],
+      "suite": "upstream-fidelity",
+      "unit": "expanded callbacks",
+      "date": "2026-10-27"
+    },
+    {
+      "id": "original-runner",
+      "columns": [
+        "Reference",
+        "Version",
+        "Files",
+        "Passed callbacks",
+        "Failed",
+        "Pending",
+        "Todo",
+        "Total callbacks"
+      ],
+      "rows": [
+        [
+          "Mermaid.js",
+          "12.2.0",
+          331,
+          6677,
+          0,
+          16,
+          2,
+          6695
+        ]
+      ],
+      "suite": "upstream-original",
+      "unit": "original callbacks",
+      "date": "2026-10-28"
+    },
+    {
+      "id": "portable-times",
+      "columns": [
+        "Project",
+        "Version",
+        "First call median (ms)",
+        "Repeat median (ms)",
+        "New-source median (ms)",
+        "Declared flowchart checks",
+        "Campaign qualification"
+      ],
+      "rows": [
+        [
+          "Agentic Mermaid",
+          "0.4.1",
+          "330",
+          "30.5",
+          "20.3",
+          "Incomplete",
+          "Failed"
+        ],
+        [
+          "Beautiful Mermaid",
+          "1.1.3",
+          "206",
+          "7.46",
+          "4.78",
+          "Incomplete",
+          "Failed"
+        ],
+        [
+          "Pele",
+          "1.9.0",
+          "17.1",
+          "0.35",
+          "0.11",
+          "Complete",
+          "Uncalibrated"
+        ],
+        [
+          "Zombie Mermaid",
+          "5.10.2",
+          "326",
+          "8.96",
+          "5.72",
+          "Incomplete",
+          "Failed"
+        ]
+      ],
+      "suite": "portable",
+      "unit": "milliseconds",
+      "date": "2026-10-27",
+      "protocol": "portable-svg-processes-v3",
+      "samples": {
+        "first-use": 100,
+        "warm-repeat": 155,
+        "warm-new-source": 155
+      }
+    },
+    {
+      "id": "portable-resources",
+      "columns": [
+        "Project",
+        "Version",
+        "Checkpoint",
+        "Process RSS (MiB)",
+        "JS heap used (MiB)",
+        "CPU (ms)"
+      ],
+      "rows": [
+        [
+          "Pele",
+          "1.9.0",
+          "At API return",
+          "67.61",
+          "11.48",
+          "Unavailable"
+        ]
+      ],
+      "suite": "portable",
+      "unit": "MiB; CPU unavailable",
+      "date": "2026-10-27",
+      "protocol": "portable-svg-processes-v3"
+    }
+  ],
+  "sources": [
+    {
+      "path": "/workspace/trident-release/0.1/final-smoke-campaign/community/project-attempts/9de7d00b-e43c-49a7-8324-c9ef7c53ed42/AlexanderGrooff%2Fmermaid-ascii/community/community-result.json.gz",
+      "sha256": "43ee7ae786cf15b5ebb9b8df8cc948646271091fdae58e7e51f0596986d00e8b"
+    },
+    {
+      "path": "/workspace/trident-release/0.1/final-smoke-campaign/community/project-attempts/9de7d00b-e43c-49a7-8324-c9ef7c53ed42/adewale%2Fagentic-mermaid/community/community-result.json.gz",
+      "sha256": "75601063484a137a5c54cd7276ac98e6b18ee5174fda7a983da39d930a01fe13"
+    },
+    {
+      "path": "/workspace/trident-release/0.1/final-smoke-campaign/community/project-attempts/9de7d00b-e43c-49a7-8324-c9ef7c53ed42/mermaid-js%2Fmermaid/community/community-result.json.gz",
+      "sha256": "648c7b2996ba8aeed7c9cc2ff5a0a4c3cd45fd6bde1cf90ffc899ed9cb09fe92"
+    },
+    {
+      "path": "/workspace/trident-release/0.1/final-smoke-campaign/community/project-attempts/9de7d00b-e43c-49a7-8324-c9ef7c53ed42/obsidianmd%2Fpele/community/community-result.json.gz",
+      "sha256": "c91630f58b39642f0fff13fc553ff88b8b55248a292de12981ee5068bb80f8d6"
+    },
+    {
+      "path": "/workspace/benchmark-verification/2026-10-27/trident-corrected/docs/result.json",
+      "sha256": "bb5c88d4f4e009c2d0e809e8682656fc0f48a022bea67c9dab696095dbd2d24c"
+    },
+    {
+      "path": "/workspace/benchmark-verification/2026-10-27/trident-corrected/fidelity/community-fidelity-report.json",
+      "sha256": "6a4d3e8a5e47855bcd6d6056d58634a784b2890ff75783230f183c9dc28200bc"
+    },
+    {
+      "path": "/workspace/benchmark-verification/2026-10-27/trident-corrected/fidelity/community-fidelity-report.json.gz",
+      "sha256": "43599a5fbda395f402647c20eb89807c889307a4a4aaede837398318e0757420"
+    },
+    {
+      "path": "/workspace/benchmark-verification/2026-10-27/trident-corrected/native-fidelity/adewale%2Fagentic-mermaid/fidelity-report.json",
+      "sha256": "04165ecc7396a9c4e470bc2d2752fd2611e7ad70ac3173812d6aba90845eae18"
+    },
+    {
+      "path": "/workspace/benchmark-verification/2026-10-27/trident-corrected/native-fidelity/adewale%2Fagentic-mermaid/fidelity-report.json.gz",
+      "sha256": "dca115b9556ed07ca089a576eae49c1a985383f695aa878a6d86b1f7bda80583"
+    },
+    {
+      "path": "/workspace/benchmark-verification/2026-10-27/trident-corrected/native-fidelity/mermaid-js%2Fmermaid/fidelity-report.json",
+      "sha256": "a3bdd649083df86a8e6975251820ee9e5f05afffdaec95badf6493c95f21a922"
+    },
+    {
+      "path": "/workspace/benchmark-verification/2026-10-27/trident-corrected/native-fidelity/mermaid-js%2Fmermaid/fidelity-report.json.gz",
+      "sha256": "c54513266b9c145cfc3c6bc83a62c063c56072f021449e46f9c54f011923aaf4"
+    },
+    {
+      "path": "/workspace/benchmark-verification/2026-10-27/trident-corrected/native-fidelity/obsidianmd%2Fpele/fidelity-report.json",
+      "sha256": "403d445c00502755815ad2ff7f96d3c0ec3070cdafc56a50a19726543ae5789b"
+    },
+    {
+      "path": "/workspace/benchmark-verification/2026-10-27/trident-corrected/native-fidelity/obsidianmd%2Fpele/fidelity-report.json.gz",
+      "sha256": "f723583600d8f004e40b9dfbcecfc66528dc67eb911c9e9417d6603f6c9de33d"
+    },
+    {
+      "path": "/workspace/benchmark-verification/2026-10-27/trident-verified/upstream-fidelity/adewale%2Fagentic-mermaid/upstream-fidelity-report.json",
+      "sha256": "0b8bdb7ea223303401f973e55d99d1ba4909de4d7afa09a0134f0694d6667c7b"
+    },
+    {
+      "path": "/workspace/benchmark-verification/2026-10-27/trident-verified/upstream-fidelity/mermaid-js%2Fmermaid/upstream-fidelity-report.json",
+      "sha256": "b301fe423fd8cfa3d9fece6ed3cf2ce7c6b028d2986680461d7a28679f4188d3"
+    },
+    {
+      "path": "/workspace/benchmark-verification/2026-10-27/trident-verified/upstream-fidelity/obsidianmd%2Fpele/upstream-fidelity-report.json",
+      "sha256": "37857b8d473db6e5466831bbdac1f8fbf66653dab6e30c64711f8aaeebfe3317"
+    },
+    {
+      "path": "/workspace/trident-pr21-review/original-campaign/upstream-original/attempts/9674739d-6c73-4408-bfe9-8016ac3ed9b0/upstream-original-summary.json",
+      "sha256": "e635e3d2acf4a5dee1d6aa43c23dceb576b9b87e1fae98ad463247714c3c76c6"
+    },
+    {
+      "path": "/workspace/benchmark-verification/2026-10-27/trident-corrected/portable/adewale%2Fagentic-mermaid/report.json",
+      "sha256": "82f48d4b307b9eb12301696bf9995682ac7b0f87bc759e4a76258fa5d1464ac4"
+    },
+    {
+      "path": "/workspace/benchmark-verification/2026-10-27/trident-corrected/portable/dfadler%2Fzombie-mermaid/report.json",
+      "sha256": "89c3e9ae3dbcb419c877c16254e8ec175a7c6c52955f04f69f61cc4c1c1164f7"
+    },
+    {
+      "path": "/workspace/benchmark-verification/2026-10-27/trident-corrected/portable/lukilabs%2Fbeautiful-mermaid/report.json",
+      "sha256": "05f021e46a329609b35090ded60d72b52f9988bf625efd3b11013c35e8209eb8"
+    },
+    {
+      "path": "/workspace/benchmark-verification/2026-10-27/trident-corrected/portable/obsidianmd%2Fpele/report.json",
+      "sha256": "adf16e69cb48e46b134fb2723afd8e64abefeed304d6de597544152bc1bb4a9f"
+    },
+    {
+      "path": "/workspace/benchmark-verification/2026-10-27/trident-verified/upstream-fidelity/mermaid-js%2Fmermaid/bWVybWFpZC1qcy9tZXJtYWlk/attempts/a0d8332d-4daa-4b67-a178-ee4dc120c51b/upstream-fidelity-worker.json",
+      "sha256": "93314f2d472ac575c04482bec27d22667b2ff762d5348b12124d3885ebff2dec"
+    }
+  ],
+  "derivation": {
+    "counts": "Count recorded statuses within each named population; no success credit from missing rows.",
+    "model": "Select the 561 structured criterion identities in the reference record, verify both other bound models contain each identity, and display additional identities separately.",
+    "docsTime": "Median of the five recorded call samples for the same named flowchart occurrence; not an aggregate over differing successful subsets.",
+    "replay": "Use declared and expanded-callback dispositions; raw assertion counters include unavailable callbacks and are not a qualified success rate.",
+    "portable": "Copy retained protocol-v3 per-track medians and qualification; do not manufacture ratios, intervals or current qualification."
+  },
+  "replayMatcherCounterCheck": {
+    "project": "mermaid-js/mermaid",
+    "failedCallbacks": 0,
+    "observationsByCallbackDisposition": {
+      "passed": {
+        "recordedMatchers": 5130,
+        "passedMatchers": 5130,
+        "failedMatchers": 0
+      },
+      "skipped-upstream": {
+        "recordedMatchers": 0,
+        "passedMatchers": 0,
+        "failedMatchers": 0
+      },
+      "unavailable": {
+        "recordedMatchers": 297,
+        "passedMatchers": 99,
+        "failedMatchers": 198
+      }
+    },
+    "meaning": "Raw matcher failures in unavailable callbacks are not failed target callbacks."
+  }
+}
