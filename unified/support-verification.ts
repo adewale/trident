@@ -19,9 +19,9 @@ export const SUPPORT_VERIFICATION_PROTOCOL = 'public-output-contract-verificatio
 export const supportWorkloads: UnifiedWorkload[] = [
   { id: 'support:flowchart', expectedRelationships: [{ from: 'Alpha', to: 'Beta' }], family: 'flowchart', source: 'flowchart LR\nA[Alpha] --> B[Beta]', expectedLabels: ['Alpha', 'Beta'], features: [], provenance: 'Independent authored two-node output admission' },
   { id: 'support:sequence', expectedRelationships: [{ from: 'Alpha', to: 'Beta', label: 'Request' }], family: 'sequence', source: 'sequenceDiagram\nparticipant A as Alpha\nparticipant B as Beta\nA->>B: Request', expectedLabels: ['Alpha', 'Beta', 'Request'], features: [], provenance: 'Independent authored message output admission' },
-  { id: 'support:class', family: 'class', source: 'classDiagram\nclass Alpha\nclass Beta\nAlpha --> Beta: uses', expectedLabels: ['Alpha', 'Beta', 'uses'], features: [], provenance: 'Independent authored class output admission' },
+  { id: 'support:class', expectedRelationships: [{ from: 'Alpha', to: 'Beta', label: 'uses' }], family: 'class', source: 'classDiagram\nclass Alpha\nclass Beta\nAlpha --> Beta: uses', expectedLabels: ['Alpha', 'Beta', 'uses'], features: [], provenance: 'Independent authored class output admission' },
   { id: 'support:state', family: 'state', source: 'stateDiagram-v2\nstate "Alpha" as A\nstate "Beta" as B\nA --> B: advance', expectedLabels: ['Alpha', 'Beta', 'advance'], features: [], provenance: 'Independent authored state output admission' },
-  { id: 'support:er', family: 'er', source: 'erDiagram\nALPHA ||--o{ BETA : owns', expectedLabels: ['ALPHA', 'BETA', 'owns'], features: [], provenance: 'Independent authored relationship output admission' },
+  { id: 'support:er', expectedRelationships: [{ from: 'ALPHA', to: 'BETA', label: 'owns' }], family: 'er', source: 'erDiagram\nALPHA ||--o{ BETA : owns', expectedLabels: ['ALPHA', 'BETA', 'owns'], features: [], provenance: 'Independent authored relationship output admission' },
   { id: 'support:pie', family: 'pie', source: 'pie\n"Alpha":7\n"Beta":3', expectedLabels: ['Alpha', 'Beta'], features: [], provenance: 'Independent authored numeric output admission' },
 ]
 export function partitionVerificationRows(rows: BenchmarkObservation[]) {
@@ -90,7 +90,7 @@ export async function verifySupport(preparedFile: string, out: string, settings:
         if (JSON.stringify(browser.node.benchmark) !== JSON.stringify(node.benchmark) || ['version', 'revision', 'module', 'sha256', 'integrity'].some(key => (browser.artifact as any)?.[key] !== (entry.artifact as any)?.[key])) throw Error('Browser and source artifact identities differ')
         verifyFrozenBrowserEngine(browser)
         const target = join(dir, 'browser'); mkdirSync(target)
-        const controls: UnifiedWorkload[] = browser.browser.output === 'excalidraw' ? ['This is deliberately not a Mermaid diagram. @@@ {{{', 'flowchart LR\n --> -->'].map((source, index) => ({ id: 'conversion-negative-' + (index + 1), family: 'invalid-source', source, features: [], provenance: 'Independently authored invalid conversion input', intent: 'negative-admission' })) : []
+        const controls: UnifiedWorkload[] = browser.browser?.output === 'excalidraw' ? ['This is deliberately not a Mermaid diagram. @@@ {{{', 'flowchart LR\n --> -->'].map((source, index) => ({ id: 'conversion-negative-' + (index + 1), family: 'invalid-source', source, features: [], provenance: 'Independently authored invalid conversion input', intent: 'negative-admission' })) : []
         const browserResult = await runCommunityBrowserSuite([browser], [...supportWorkloads, ...controls], { ...parseOptions(['--out', target, '--profile', 'smoke', '--rounds', '1']), executable: settings.executable })
         const formats = [...new Set(browserResult.observations.filter(row => supportWorkloads.some(workload => workload.id === row.caseId)).map(row => row.format))]
         for (const output of formats) {
