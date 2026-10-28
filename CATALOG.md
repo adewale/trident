@@ -11,7 +11,8 @@ classifications:
 | Relation | Entities | Meaning |
 |---|---:|---|
 | Fork | 45 | Shares source ancestry with its recorded parent. Some have changes; others preserve an older parent revision. |
-| Independent | 27 | Recorded as independently rooted. This does not prove independent implementation of every component. |
+| Independent | 26 | Recorded as independently rooted. This does not prove independent implementation of every component. |
+| Derivative | 1 | Beautiful Mermaid derives from Mermaid without a Git-fork claim. |
 | Port | 9 | Reimplements a project in another language or runtime. |
 | Binding | 3 | Exposes another engine through a different runtime/package boundary. |
 | Unverified | 3 | Ancestry has not been established. |

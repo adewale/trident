@@ -1,3 +1,4 @@
+import { TRIDENT_VERSION } from '../version.ts'
 import { PORTABLE_HELP } from './help.ts'
 import { gzipSync } from 'node:zlib'
 import { execFileSync } from 'node:child_process'
@@ -282,6 +283,7 @@ export async function runPortable(options: PortableOptions) {
   }
 }
 export async function main(argv = process.argv.slice(2)) {
+  if (argv.length === 1 && argv[0] === '--version') { console.log('Trident ' + TRIDENT_VERSION); return }
   if (argv.length === 1 && argv[0] === '--help') {
     console.log(
       PORTABLE_HELP,

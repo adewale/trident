@@ -1,5 +1,6 @@
 {
   "name": "trident",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "description": "Trident: local Mermaid artifact benchmarks and retained evidence",

@@ -1,3 +1,4 @@
+import { TRIDENT_VERSION } from './version.ts'
 import { spawnSync } from 'node:child_process'
 import { existsSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
@@ -28,6 +29,8 @@ Setup and read evidence:
   node commands.ts fidelity:report --core REPORT [--community REPORT] --out DIRECTORY
   node commands.ts export --input FILE [--out FRESH_FILE]
 
+Version: node commands.ts --version
+
 Maintainer checks (Bun): test, typecheck, lint
 
 See BENCHMARKS.md for questions, usefulness, limitations and prerequisites.
@@ -41,6 +44,7 @@ to portable/dist; custom kits run via node KIT/run.mjs. Measurements reject CI.
 `
 async function main() {
   const [command, ...args] = process.argv.slice(2)
+  if (['--version', 'version'].includes(command ?? '') && args.length === 0) { console.log('Trident ' + TRIDENT_VERSION); return }
   if (!command || command === '--help' || command === 'help') { console.log(help); return }
   const aliases: Record<string, string> = { 'portable:build': 'build', community: 'community:update' }
   const selected = Object.hasOwn(aliases, command) ? aliases[command]! : command

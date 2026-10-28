@@ -20,7 +20,7 @@ Native model APIs add diagnostic depth where available. Their absence is not a f
 | 25= | 60 entities; expanded below | Public API/build/artifact admission remains to be attempted; no inherited scores. |
 | 85= | excalidraw/mermaid-to-excalidraw, gotoailab/modern_mermaid, mermaid-js/mermaid-live-editor, tomoyukim/vscode-mermaid-editor | Metadata/integration entries only; applicability needs review. |
 
-Support evidence survives selection changes. Normal comparisons now exclude unbranded descendants, including Mermaid Dart where a separate brand is not established in this snapshot. The four same-name Beautiful forks above are also excluded. Use the explicit investigation override for those entities; their old results are not deleted or transferred.
+Support evidence survives selection changes. Normal comparisons exclude unbranded descendants. Mermaid Dart is a distinct brand and remains eligible. The four same-name Beautiful forks above are also excluded. Use the explicit investigation override for those entities; their old results are not deleted or transferred.
 
 ## Every catalog entity
 
@@ -32,7 +32,7 @@ Support evidence survives selection changes. Normal comparisons now exclude unbr
 | 4= | dfadler/zombie-mermaid | Campaign-covered SVG + portable + terminal | none recorded | eligible |
 | 4= | lukilabs/beautiful-mermaid | Campaign-covered SVG + portable + terminal | none recorded | eligible |
 | 6= | Dicklesworthstone/frankenmermaid | Campaign-covered browser SVG / other transports | diagnostics, source, terminal | eligible |
-| 6= | orestesgaolin/mermaid | Campaign-covered browser SVG / other transports | png | skip: no-distinct-branding |
+| 6= | orestesgaolin/mermaid | Campaign-covered browser SVG / other transports | png | eligible |
 | 8= | AlexanderGrooff/mermaid-ascii | Campaign-covered terminal transport | none recorded | eligible |
 | 9= | ktrysmt/beautiful-mermaid | Configured portable SVG; outside reviewed campaign | none recorded | skip: no-distinct-branding |
 | 9= | theletterf/beautiful-mermaid | Configured portable SVG; outside reviewed campaign | none recorded | skip: no-distinct-branding |

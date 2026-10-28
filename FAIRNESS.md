@@ -136,5 +136,6 @@ explicit override for a named fork, version or runtime investigation. Existing
 results and support assessments remain attached to their original entities.
 Exclusion supplies no inherited score or claim of behavioral equivalence.
 
-Beautiful Mermaid ports only Mermaid ASCII's ASCII component; its SVG renderer
-is independently implemented. The lineage tree retains that component scope.
+Beautiful Mermaid is a derivative of Mermaid, not a Git fork. It ports only
+Mermaid ASCII's ASCII component; its SVG renderer is independently implemented.
+Mermaid Dart has a distinctive brand and remains eligible. The lineage tree retains that component scope.

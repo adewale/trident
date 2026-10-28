@@ -1,3 +1,4 @@
+import { TRIDENT_VERSION } from '../version.ts'
 import { build } from 'esbuild'
 import { execFileSync } from 'node:child_process'
 import { copyFileSync, existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs'
@@ -33,7 +34,7 @@ await build({
 })
 // The oracle worker runs the installed reference Mermaid; it is copied, never bundled.
 copyFileSync(join(portableDirectory, 'mermaid-oracle-worker.mjs'), join(out, 'mermaid-oracle-worker.mjs'))
-writeFileSync(join(out, 'package.json'), JSON.stringify({ name: 'trident-benchmark-kit', version: '0.1.0', private: true, type: 'module', engines: { node: '>=24' }, dependencies: {} }, null, 2) + '\n', { flag: 'wx' })
+writeFileSync(join(out, 'package.json'), JSON.stringify({ name: 'trident-benchmark-kit', version: TRIDENT_VERSION, private: true, type: 'module', engines: { node: '>=24' }, dependencies: {} }, null, 2) + '\n', { flag: 'wx' })
 let sourceRevision: string | null = null
 let sourceDirty: boolean | null = null
 try {

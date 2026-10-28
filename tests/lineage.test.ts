@@ -64,3 +64,11 @@ test('both public CLIs enforce exclusions before preparation and the plan record
     }
   } finally { rmSync(directory, { recursive: true, force: true }) }
 })
+
+test('maintainer lineage corrections preserve a derivative relationship and the Mermaid Dart brand', () => {
+  const catalog = JSON.parse(readFileSync(new URL('../catalog/mermaid-community.json', import.meta.url), 'utf8')) as LineageCatalog
+  const result = lineageInventory(catalog)
+  expect(result.nodes.find(node => node.project === 'lukilabs/beautiful-mermaid')).toMatchObject({ parent: 'mermaid-js/mermaid', relation: 'derivative', excludedFromComparison: false })
+  expect(result.relationships.find(edge => edge.from === 'lukilabs/beautiful-mermaid' && edge.to === 'AlexanderGrooff/mermaid-ascii')?.relation).toBe('component-port')
+  expect(result.nodes.find(node => node.project === 'orestesgaolin/mermaid')).toMatchObject({ branding: { distinct: true, name: 'Mermaid Dart' }, excludedFromComparison: false })
+})
