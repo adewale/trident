@@ -43,8 +43,7 @@ DaveBench uses `public-docs-svg-return-v1`: the inventory records pages, repeate
 occurrences and distinct sources, with 30 warmup attempts, rotated/reversed project
 order and five rounds in the full profile. Public docs are development-exposed.
 Returning SVG does not prove faithful paint. Show full output coverage alongside
-timing on the same successful inputs. Raw matcher observations are not another
-kind of rendering latency or success rate.
+timing on the same successful inputs.
 
 Diagram Meaning uses one observer and a shared planned criterion ledger for
 prepared SVG projects. Public-model facts and SVG paint remain separate; terminal
@@ -52,7 +51,8 @@ meaning has a different boundary. Reviewed model/replay bindings currently exist
 for Mermaid, Pele and Agentic Mermaid. Other bindings remain missing, without
 withholding otherwise valid SVG evidence. Replay leaves unsupported imports,
 matchers, private representation and exact diagnostic wording visible as their
-own compatibility limits.
+own compatibility limits. Callback workflow time is not render latency; raw
+matcher counters are diagnostic details rather than a headline success rate.
 
 The original reference tests require the actual runner and dependencies, one
 worker and read-only snapshots. Original JSON supplies callbacks rather than

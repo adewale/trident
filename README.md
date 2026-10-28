@@ -1,6 +1,6 @@
 # Trident
 
-Trident benchmarks tools that read Mermaid: SVG renderers, terminal renderers and parsers. Start with a question, choose the benchmark that answers it, and keep its failures alongside its measurements.
+Trident compares Mermaid tools on input compatibility, diagram meaning and rendering cost. It tests SVG renderers, terminal tools and parsers through their public interfaces.
 
 - [Benchmarks and their value](BENCHMARKS.md): what each workload measures, how to run it, and when to trust it.
 - [Methodology](METHODOLOGY.md): corpus, correctness checks, sampling and fair comparisons.
