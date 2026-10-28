@@ -18,6 +18,7 @@ export interface PortableQualification {
   accepted: boolean
   passed: boolean
   semanticComplete: boolean
+  evidence?: { outputAdmission: 'passed' | 'failed'; nativeModel: 'passed' | 'failed' | 'unmeasured'; paintedMeaning: 'passed' | 'failed' | 'unmeasured' }
   checks: FidelityCheck[]
   unmeasuredScopes: string[]
   scope: string
@@ -330,6 +331,7 @@ function qualifyPortableUnchecked(testCase: PortableCase, output: PortableOutput
     topology = model ? nativeTopology(model) : undefined,
     expected = testCase.expected.topology
   const modelChecks = checks.length
+  const outputAdmission = checks.every(item => item.status === 'passed') ? 'passed' as const : 'failed' as const
   for (const assertion of testCase.expected.model ?? []) {
     const value = modelPath(output.model, assertion.path),
       display = assertion.comparison === 'display-text'
@@ -543,10 +545,12 @@ function qualifyPortableUnchecked(testCase: PortableCase, output: PortableOutput
     check('painted-semantic-correspondence', 'native semantic facts correspond to owned visible geometry', null, 'No reviewed renderer/family paint projection is available; label retention alone does not establish it.', false)
   }
   const complete = nativeComplete && paintComplete && checks.every(item => item.status === 'passed')
+  const dimension = (rows: FidelityCheck[]) => rows.some(row => row.status === 'failed') ? 'failed' as const : rows.length && rows.every(row => row.status === 'passed') ? 'passed' as const : 'unmeasured' as const
   return {
     accepted,
     passed: checks.every(item => item.status === 'passed'),
     semanticComplete: complete,
+    evidence: { outputAdmission, nativeModel: dimension(nativeChecks), paintedMeaning: dimension(checks.slice(modelChecks + nativeChecks.length)) },
     checks,
     unmeasuredScopes,
     scope: complete

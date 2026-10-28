@@ -1,6 +1,6 @@
 import type { PortableCase } from './cohorts.ts'
 
-export const PORTABLE_MEASUREMENT_PROTOCOL = 'portable-svg-processes-v3'
+export const PORTABLE_MEASUREMENT_PROTOCOL = 'portable-svg-processes-v4'
 export type Replica = 'A0' | 'A1' | 'B'
 export type Track = 'first-use' | 'warm-repeat' | 'warm-new-source' | 'warm-label-edit'
 export interface PortableArtifact {
@@ -8,7 +8,8 @@ export interface PortableArtifact {
   root: string
   entry: string
   version: string
-  adapter: 'pele' | 'agentic' | 'beautiful' | 'ondine'
+  adapter: 'pele' | 'agentic' | 'beautiful' | 'ondine' | 'declared'
+  binding?: { export: string; result?: string; options?: unknown }
 }
 export interface PortableJob {
   artifact: PortableArtifact
@@ -35,7 +36,7 @@ export interface MemorySnapshot {
   arrayBuffers: number
 }
 export interface PortableWorkerResult {
-  protocol: typeof PORTABLE_MEASUREMENT_PROTOCOL | 'portable-svg-processes-v2' | 'portable-svg-processes-v1'
+  protocol: typeof PORTABLE_MEASUREMENT_PROTOCOL | 'portable-svg-processes-v3' | 'portable-svg-processes-v2' | 'portable-svg-processes-v1'
   caseId: string
   family: string
   mode: PortableJob['mode']
@@ -47,7 +48,7 @@ export interface PortableWorkerResult {
   importMs: number
   tracks: Partial<Record<Track, number[]>>
   outputBytes: number
-  qualification: { accepted: boolean; passed: boolean; semanticComplete: boolean; checks: { name: string; status: string; expected: unknown; actual: unknown; scope: string }[]; unmeasuredScopes: string[]; scope: string } | null
+  qualification: { accepted: boolean; passed: boolean; semanticComplete: boolean; evidence?: { outputAdmission: string; nativeModel: string; paintedMeaning: string }; checks: { name: string; status: string; expected: unknown; actual: unknown; scope: string }[]; unmeasuredScopes: string[]; scope: string } | null
   prelude: { source: string; expectedAccepted: boolean; actualAccepted: boolean; passed: boolean }[]
   memory?: { before: MemorySnapshot; atReturn: MemorySnapshot; afterGc: MemorySnapshot; gcAvailable: boolean }
   retention?: { calls: number; snapshot: MemorySnapshot }[]

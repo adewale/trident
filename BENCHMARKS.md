@@ -8,6 +8,8 @@ tracked source files.
 ```sh
 bun commands.ts bench --projects OWNER/TOOL,... --profile full --rounds 5 --out /evidence/full
 bun commands.ts bench --list
+bun commands.ts support
+bun commands.ts bench --projects OWNER/TOOL,... --profile full --plan
 ```
 
 The campaign runs the following suites serially and records unsupported adapters,
@@ -68,3 +70,5 @@ These restrictions follow the failure modes discussed in
 [Benchpocalypse](https://danluu.com/benchpocalypse/): equivalent interfaces, easy
 shape overfitting and misleading aggregates matter more than the apparent
 precision of a single chart.
+
+See [comparison contracts](FAIRNESS.md) for explicit selection, runtime budgets, optional model evidence, frozen external inputs and unranked publication. [Catalog support](CATALOG.md) distinguishes configuration from actual execution.

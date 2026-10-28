@@ -504,7 +504,7 @@ export async function runRetainedCommunityCliSuite(options: UnifiedRunOptions): 
 export async function main(argv = process.argv.slice(2)) {
   if (argv.length === 1 && argv[0] === '--help') {
     console.log(
-      'bun commands.ts community:update --projects owner/project[,owner/other] --records DIRECTORY --out DIRECTORY [--markdown FILE] [--profile smoke|full] [--rounds N] [--plan] [--force] [--candidate-tarball FILE --candidate-sha256 HEX | --candidate-dir DIRECTORY | --candidate-revision SHA [--candidate-remote URL|CLONE] | --candidate-remote CLONE]\nA candidate is an unreleased build of one selected project: a tarball for an npm-backed tool, a Git commit for one Trident builds from source; its record stays in the candidate lane and never enters the league. Additional artifact options, including --community-inputs, --community-prepared, --community-browser-prepared and --community-catalog, are accepted. Default selection is the full catalog. Preparation resolves selected artifacts; unchanged matching records skip every timing lane. --plan performs preparation but no timing. --force retains a new attempt. CI execution is refused.',
+      'bun commands.ts community:update --projects owner/project[,owner/other] --records DIRECTORY --out DIRECTORY [--markdown FILE] [--profile smoke|full] [--rounds N] [--plan] [--force] [--candidate-tarball FILE --candidate-sha256 HEX | --candidate-dir DIRECTORY | --candidate-revision SHA [--candidate-remote URL|CLONE] | --candidate-remote CLONE]\nA candidate is an unreleased build of one selected project: a tarball for an npm-backed tool, a Git commit for one Trident builds from source; its record stays in the candidate lane and never enters the league. Additional artifact options, including --community-inputs, --community-prepared, --community-browser-prepared and --community-catalog, are accepted. Select --projects explicitly or use --all-projects. Preparation resolves selected artifacts; unchanged matching records skip every timing lane. --plan performs preparation but no timing. --force retains a new attempt. CI execution is refused.',
     )
     return
   }
@@ -513,10 +513,12 @@ export async function main(argv = process.argv.slice(2)) {
     candidateValues: { tarball?: string; sha256?: string; directory?: string; revision?: string; remote?: string } = {}
   const aliases: Record<string, string> = { '--projects': '--community-projects', '--records': '--community-records', '--catalog': '--community-catalog' }
   const seen = new Set<string>()
+  let allProjects = false
   for (let index = 0; index < argv.length; index++) {
     const flag = argv[index]!
     if (seen.has(flag)) throw Error('Duplicate option ' + flag)
     seen.add(flag)
+    if (flag === '--all-projects') { allProjects = true; continue }
     if (flag === '--plan') {
       settings.plan = true
       continue
@@ -542,6 +544,8 @@ export async function main(argv = process.argv.slice(2)) {
     if (!['--community-force', '--allow-incomplete'].includes(flag)) forwarded.push(argv[++index] ?? '')
   }
   const options = parseOptions(forwarded)
+  if (allProjects && options.communityProjects) throw Error('Use --projects or --all-projects, not both')
+  if (!options.communityProjects && !allProjects) throw Error('Choose --projects OWNER/TOOL,... or explicitly --all-projects before preparation')
   options.communityCandidate = communityCandidate(candidateValues, options)
   const result = await runProjectUpdates(options, settings)
   console.log(JSON.stringify({ attempt: result.attempt, plan: result.plan, updates: result.updates.map(update => ({ project: update.project, lane: update.record.identity.lane ?? 'community', action: update.action, id: update.record.id })) }, null, 2))

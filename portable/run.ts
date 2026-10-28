@@ -22,6 +22,7 @@ export interface PortableOptions {
   project: string
   artifactRoot: string
   adapter: PortableArtifact['adapter']
+  binding?: PortableArtifact['binding']
   entry?: string
   node: string
   out: string
@@ -47,7 +48,7 @@ import { assertBenchmarkExecutionAllowed as assertPortableLocal } from './ci-pol
 export function parsePortableOptions(argv: string[]): PortableOptions {
   const flags = new Set(['--force', '--plan', '--allow-partial']),
     values = new Map<string, string>()
-  const allowed = new Set(['project', 'artifact-root', 'adapter', 'entry', 'node', 'out', 'records', 'rounds', 'samples', 'cold-samples', 'min-sample-ms', 'worker-timeout-ms', 'preparation-concurrency', 'maximum-control-spread', 'cohort', 'observer', 'mermaid-reference', 'usage', 'cpu-hour-usd'])
+  const allowed = new Set(['project', 'artifact-root', 'adapter', 'binding', 'entry', 'node', 'out', 'records', 'rounds', 'samples', 'cold-samples', 'min-sample-ms', 'worker-timeout-ms', 'preparation-concurrency', 'maximum-control-spread', 'cohort', 'observer', 'mermaid-reference', 'usage', 'cpu-hour-usd'])
   for (let index = 0; index < argv.length; index++) {
     const flag = argv[index]!
     if (values.has(flag)) throw Error('Duplicate option ' + flag)
@@ -71,13 +72,18 @@ export function parsePortableOptions(argv: string[]): PortableOptions {
     return value
   }
   const adapter = values.get('--adapter') ?? 'pele'
-  if (!['pele', 'agentic', 'beautiful', 'ondine'].includes(adapter)) throw Error('Unsupported public Node SVG adapter')
+  if (!['pele', 'agentic', 'beautiful', 'ondine', 'declared'].includes(adapter)) throw Error('Unsupported public Node SVG adapter')
+  const binding = values.has('--binding') ? JSON.parse(values.get('--binding')!) as PortableArtifact['binding'] : undefined
+  if (binding && (typeof binding.export !== 'string' || !binding.export.trim() || (binding.result !== undefined && typeof binding.result !== 'string'))) throw Error('--binding needs a public export and optional result field')
+  if (adapter === 'declared' && !binding) throw Error('The declared adapter requires --binding JSON')
+  if (binding && adapter !== 'declared') throw Error('--binding is only valid for the declared adapter')
   const cohorts = values.has('--cohort') ? (values.get('--cohort')!.split(',') as PortableCohort[]) : undefined
   if (cohorts?.some(cohort => !['family', 'scaling', 'adversarial', 'invalid'].includes(cohort)) || (cohorts && new Set(cohorts).size !== cohorts.length)) throw Error('Unknown or repeated cohort')
   return {
     project: values.get('--project')!,
     artifactRoot: resolve(values.get('--artifact-root')!),
     adapter: adapter as PortableArtifact['adapter'],
+    binding,
     entry: values.get('--entry'),
     node: values.get('--node') ?? process.env.NODE_BIN ?? 'node',
     out: resolve(values.get('--out') ?? 'bench-report/portable'),
@@ -135,7 +141,7 @@ export async function runPortable(options: PortableOptions) {
   assertPortableLocal()
   resetPortableCancellation()
   const testCases = portableCases(options.cohorts),
-    artifact = resolveArtifact(options.project, options.artifactRoot, options.adapter, options.node, options.entry)
+    artifact = { ...resolveArtifact(options.project, options.artifactRoot, options.adapter, options.node, options.entry), ...(options.binding ? { binding: options.binding } : {}) }
   assertBenchmarkToolVersion(options.project, artifact.version, 'portable SVG artifact')
   if (!testCases.length) throw Error('No selected cases')
   // The pinned Mermaid must agree with every authored source and family probe before any clock.

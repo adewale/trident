@@ -88,7 +88,7 @@ test('legacy project metadata is attributed consistently in coverage and exporte
   }
 })
 
-test('community league costs compare and rank within each invocation surface', () => {
+test('unranked scorecards compare costs only within each invocation surface', () => {
   const directory = mkdtempSync(join(tmpdir(), 'community-league-boundaries-')),
     store = join(directory, 'store'),
     out = join(directory, 'published')
@@ -123,21 +123,22 @@ test('community league costs compare and rank within each invocation surface', (
       rows = markdown.split('\n')
     const node = rows.find(line => line.includes('[fixture/node]'))!.split('|'),
       browser = rows.find(line => line.includes('[fixture/browser]'))!.split('|')
-    expect(node[9]!.trim()).toBe('—')
-    expect(browser[9]!.trim()).toBe('2.0× faster')
+    expect(node[8]!.trim()).toBe('—')
+    expect(browser[8]!.trim()).toBe('2.0× faster')
     expect(
       rows
         .find(line => line.includes('[fixture/remote]'))!
-        .split('|')[9]!
+        .split('|')[8]!
         .trim(),
     ).toBe('—')
-    expect(node[1]!.trim()).toBe('1')
-    expect(browser[1]!.trim()).toBe('1')
+    expect(node[1]!.trim()).toContain('[fixture/node]')
+    expect(markdown).not.toContain('| Rank |')
+    expect(browser[1]!.trim()).toContain('[fixture/browser]')
     expect(markdown).toContain('## Formatted Mermaid source')
     expect(
       rows
         .find(line => line.includes('[fixture/formatter]'))!
-        .split('|')[9]!
+        .split('|')[8]!
         .trim(),
     ).toBe('—')
     expect(markdown).toContain('### Node API')
@@ -182,10 +183,10 @@ test('stable Event Modeling changes the current mark while beta additions leave 
     publishResults(store, out)
     const markdown = readFileSync(join(out, 'README.md'), 'utf8')
     const cells = markdown.split('\n').find(line => line.includes('[fixture/newer]'))!.split('|').map(cell => cell.trim())
-    expect(cells[5]).toBe('2/25')
-    expect(cells[6]).toBe('50.0% (1/2)')
-    expect(cells[7]).toBe('1/8, 50.0%')
-    expect(cells[11]).toBe('1/23, 100.0% (1/1)')
+    expect(cells[4]).toBe('2/25')
+    expect(cells[5]).toBe('50.0% (1/2)')
+    expect(cells[6]).toBe('1/8, 50.0%')
+    expect(cells[10]).toBe('1/23, 100.0% (1/1)')
     const newer = markdown.slice(markdown.indexOf('### Newer families'))
     expect(newer).toContain('| venn | 50.0% |')
     expect(newer).toContain('| wardley | — |')

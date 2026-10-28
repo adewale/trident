@@ -72,7 +72,7 @@ export function catalogNodeEligibility(node: CatalogNode) {
     })),
     acquisition: node.benchmark?.package
       ? { kind: 'npm', package: node.benchmark.package, version: node.benchmark.version ?? node.packages?.find(pkg => pkg.name === node.benchmark!.package)?.version ?? null, versionPolicy: node.benchmark.versionPolicy ?? 'runner-policy-explicit-in-run' }
-      : { kind: node.benchmark?.adapter === 'agentic' ? 'local-candidate' : 'pinned-source-or-distribution', repo: node.repo ?? null, sourcePin: node.benchmark?.sourcePin ?? node.head ?? null },
+      : { kind: 'pinned-source-or-distribution', repo: node.repo ?? null, sourcePin: node.benchmark?.sourcePin ?? node.head ?? null },
     benchmark: node.benchmark ?? null,
   }
 }
