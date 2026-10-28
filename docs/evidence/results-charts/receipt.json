@@ -1,0 +1,19 @@
+{
+  "purpose": "Review preview of the two actual Mermaid blocks in RESULTS.md. Local pinned Mermaid rendering; not a screenshot of GitHub and not a renderer benchmark.",
+  "renderer": {
+    "package": "mermaid",
+    "version": "12.2.0"
+  },
+  "inputMarkdownSha256": "091531cab04b9d2bae648843b5753e20b515433dbdedec0b6341093584dc4460",
+  "charts": [
+    {
+      "source": "xychart-beta horizontal\n    title \"Historical: DaveBench SVG returns — 2026-10-27\"\n    x-axis [\"Agentic Mermaid 0.4.1\", \"Beautiful Mermaid 1.1.3\", \"Frankenmermaid 0.4.0\", \"Mermaid Dart 0.3.2\", \"Mermaid.js 12.2.0\", \"Pele 1.9.0\", \"Zombie Mermaid 5.10.2\"]\n    y-axis \"SVG returned (%)\" 0 --> 100\n    bar [62, 42.2, 100, 81.9, 99.8, 97.1, 44.7]\n",
+      "svgSha256": "273d7a1e339366e28d9ff7aaad7e05cf3885b044d844de8846079d49c79eea6c"
+    },
+    {
+      "source": "xychart-beta horizontal\n    title \"Historical: Diagram Meaning checks passed — 2026-10-27\"\n    x-axis [\"Agentic Mermaid 0.4.1\", \"Beautiful Mermaid 1.1.3\", \"Frankenmermaid 0.4.0\", \"Mermaid Dart 0.3.2\", \"Mermaid.js 12.2.0\", \"Pele 1.9.0\", \"Zombie Mermaid 5.10.2\"]\n    y-axis \"Passed criteria out of 1180\" 0 --> 1180\n    bar [716, 356, 1112, 1025, 1068, 1118, 477]\n",
+      "svgSha256": "e5a5012ae5446ea9dd43ea7b27ff11e86439558d86971d2a317121fad5c16ada"
+    }
+  ],
+  "previewSha256": "64c64d34f5595f30da4eb17611d128bc84fecf90ef5a7d3d9b49dc917924718f"
+}

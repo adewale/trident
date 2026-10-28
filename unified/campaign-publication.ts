@@ -29,12 +29,12 @@ export function campaignScorecards(row: CampaignEnvelope['results'][number]) {
     if (Array.isArray(candidate.observations)) { result = candidate; break }
   }
   if (!result) return []
-  const groups = new Map<string, { project: string; version: string; variant: string; surface: string; runtime: string; mode: string; round: number | string; observations: BenchmarkObservation[] }>()
+  const groups = new Map<string, { project: string; version: string; variant: string; surface: string; runtime: string; format: string; operation: string; mode: string; round: number | string; observations: BenchmarkObservation[] }>()
   for (const observation of result.observations) {
     const raw = observation.metrics?.project ?? observation.metrics?.implementation ?? row.project ?? 'unattributed'
     const project = canonicalBenchmarkTool(String(raw)), variant = String(observation.metrics?.variant ?? 'default')
     const version = String(observation.metrics?.version ?? result.toolVersions?.find(receipt => canonicalBenchmarkTool(receipt.tool) === project && (receipt.variant ?? 'default') === variant)?.version ?? 'see frozen artifact receipt')
-    const group = { project, version, variant, surface: observation.surface, runtime: observation.runtime, mode: observation.mode, round: String(observation.metrics?.round ?? 'not round-based') }
+    const group = { project, version, variant, surface: observation.surface, runtime: observation.runtime, format: observation.format ?? 'not recorded', operation: observation.operation ?? 'not recorded', mode: observation.mode, round: String(observation.metrics?.round ?? 'not round-based') }
     const key = JSON.stringify(group)
     const own = groups.get(key) ?? { ...group, observations: [] as BenchmarkObservation[] }
     own.observations.push(observation); groups.set(key, own)
@@ -89,8 +89,8 @@ export function publishCampaigns(directories: string[], out: string, settings: {
       const cards = campaignScorecards(row)
       if (!cards.length) continue
       lines.push('', `### ${row.suite}${row.project ? ': ' + row.project : ''} observations`, '', 'Counts are recorded observations within each public surface/mode/round. Unexecuted inputs and planned denominators remain in the owning inventory; no acceptance percentage is inferred.', '',
-        '| Project | Version / artifact role | Surface / runtime | Mode / round | Distinct case IDs | Recorded observations | Dispositions |', '|---|---|---|---|---:|---:|---|')
-      for (const card of cards) lines.push('| ' + [card.project, `${card.version} / ${card.variant}`, `${card.surface} / ${card.runtime}`, `${card.mode} / ${card.round}`, card.caseIds, card.recordedObservations, JSON.stringify(card.dispositions)].map(cell).join(' | ') + ' |')
+        '| Project | Version / artifact role | Surface / runtime | Format / operation | Mode / round | Distinct case IDs | Recorded observations | Dispositions |', '|---|---|---|---|---|---:|---:|---|')
+      for (const card of cards) lines.push('| ' + [card.project, `${card.version} / ${card.variant}`, `${card.surface} / ${card.runtime}`, `${card.format} / ${card.operation}`, `${card.mode} / ${card.round}`, card.caseIds, card.recordedObservations, JSON.stringify(card.dispositions)].map(cell).join(' | ') + ' |')
     }
     lines.push('', 'Raw samples, input inventories, versions and failure outputs remain in the owning evidence; no denominator or speed comparison is reconstructed from process completion.')
   }

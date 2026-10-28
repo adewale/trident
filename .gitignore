@@ -8,3 +8,4 @@ __pycache__/
 # Generated scores and evidence are not source files.
 results/*
 !results/README.md
+!results/latest.json

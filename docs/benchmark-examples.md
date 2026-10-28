@@ -2,6 +2,9 @@
 
 **Historical examples, not a current leaderboard.** These tables use recorded 27–28 October 2026 runs. The 27 October observers and portable protocol v3 predate PR #21. Versions, inputs and units stay attached to each table; the values are not relabelled as current-protocol results. No benchmarks were rerun to make these tables.
 
+The [ecosystem results](../RESULTS.md) collect these retained tables alongside
+every eligible project and subsequently imported campaign attempts.
+
 Rows are alphabetical. `0` means an observed zero. `Blocked` means a recorded check could not be completed; missing rows remain unavailable, not zero. Each table links to the [source receipt](evidence/benchmark-examples.json). The [reporting guide](../REPORTING.md) defines the columns used for future campaigns.
 
 ## Mermaid Compatibility
@@ -142,6 +145,6 @@ Same Pele flowchart · round 1 · actual return checkpoint. Process RSS and Java
 
 ## Evidence and methods
 
-The [receipt](evidence/benchmark-examples.json) contains the numeric table data, exact raw-file digests and the shared-model criterion-set digest. Raw artifacts remain outside the source repository; the current results directory remains empty.
+The [receipt](evidence/benchmark-examples.json) contains the numeric table data, exact raw-file digests and the shared-model criterion-set digest. Raw artifacts remain outside the source repository; the [results snapshot](../results/latest.json) retains the small comparative tables.
 
 [Benchmark methods](../BENCHMARKS.md) · [table conventions](../REPORTING.md) · [description edits](benchmark-description-review.md) · [comparative benchmark research](reporting-research.md).
