@@ -124,8 +124,10 @@ test('tracked historical tables reproduce the existing receipt values with their
   const bytes = readFileSync(join(root, 'docs/evidence/benchmark-examples.json'))
   const examples = JSON.parse(bytes.toString()) as { tables: { id: string; date: string; rows: Cell[][] }[] }
   const digest = createHash('sha256').update(bytes).digest('hex')
+  expect(data.tables.filter(row => row.historical).map(row => row.id).sort()).toEqual(examples.tables.map(row => row.id).sort())
   for (const entry of data.tables.filter(row => row.historical)) {
     const original = examples.tables.find(row => row.id === entry.id)!
+    expect(entry.rows).toHaveLength(original.rows.length)
     expect(entry.measuredAt).toBe(original.date)
     expect(entry.receipt.sha256).toBe(digest)
     for (const row of entry.rows) {
