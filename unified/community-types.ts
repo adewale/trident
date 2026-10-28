@@ -1,3 +1,4 @@
+import type { ReleaseCli } from './release-cli.ts'
 import type { PortableBinding } from '../portable/protocol.ts'
 import type { UnifiedWorkload } from './types.ts'
 export interface CommunityBenchmarkConfig {
@@ -19,6 +20,7 @@ export interface CommunityBenchmarkConfig {
   /** Installed npm bin binding; the same contract applies to every project. */
   /** Reviewed public Node SVG binding, independent of community transport. */
   portable?: { adapter: 'declared'; binding: PortableBinding } | { adapter: 'public-package' }
+  cliRelease?: ReleaseCli
   cli?: { bin: string; args: string[]; outputs: string[] }
   [key: string]: unknown
 }
@@ -64,6 +66,7 @@ export interface CommunityArtifact {
   files?: { path: string; sha256: string }[]
   detail?: string
   apiBoundary?: string
+  additionalCli?: { id: string; outputs: string[]; artifact?: CommunityArtifact; error?: string }[]
   adapterCompanions?: { root: string; name: string; version: string; integrity: string; closureSha256: string }[]
   dependencyOverrides?: Record<string, unknown>
   reviewed?: boolean

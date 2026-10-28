@@ -1,3 +1,4 @@
+import { verifyReleaseCli } from './release-cli.ts'
 import { captureInstalledDependencyClosure } from '../portable/artifact-dependencies.ts'
 import { readBenchmarkDocument, writeBenchmarkDocument } from '../portable/project-records.ts'
 import { execFileSync, spawn, spawnSync } from 'node:child_process'
@@ -181,6 +182,7 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false, c
 }
 
 export function verifyProvidedCommunityArtifact(artifact: CommunityArtifact): void {
+  for (const variant of artifact.additionalCli ?? []) if (variant.artifact) verifyProvidedCommunityArtifact(variant.artifact)
   const entry = artifact.kind === 'cli' || artifact.kind === 'jsonl-worker' ? artifact.executable : artifact.kind === 'python' ? (artifact.python ?? artifact.executable) : (artifact.module ?? artifact.executable)
   if (!entry || !existsSync(entry)) throw new Error('Provided artifact entry does not exist')
   for (const companion of artifact.adapterCompanions ?? []) {
@@ -227,6 +229,7 @@ function validateFrozenCommunityEntry(entry: PreparedCommunity, node: CommunityN
   try {
     const artifact = entry.artifact
     verifyProvidedCommunityArtifact(artifact)
+    verifyReleaseCli(node, artifact)
     const candidate = options.communityCandidate?.project === node.id ? options.communityCandidate : undefined
     const revision = candidate && 'revision' in candidate ? candidate.revision : undefined
     if (node.benchmark?.adapter === 'extra-source' && (artifact.reviewed !== true || artifact.sourceRevision !== (revision ?? node.benchmark.sourcePin) || !artifact.buildRecipeId || !artifact.runtimeCommandId)) throw Error('Source artifact has no exact reviewed Git/protocol binding')
@@ -360,6 +363,7 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
         artifact = await prepareCommunityArtifact(node, cache)
       }
       if (!artifact) throw new Error('Preparation returned no actual artifact')
+      if (node.benchmark.cliRelease && !(provided[node.id] && options.communityArtifactPolicy === 'frozen')) artifact = { ...artifact, additionalCli: [await (await import('./release-cli.ts')).prepareReleaseCli(node, cache)] }
       if (node.id === '1jehuang/mermaid-rs-renderer' && artifact.kind === 'cli') artifact.outputBindings = { ...(artifact.outputBindings ?? {}), png: { args: ['-i', '-', '-e', 'png', '-o', '{output}'], input: 'stdin' } }
       artifact.detail = `${artifact.detail ?? ''}${artifact.detail ? '; ' : ''}Version policy: ${artifact.candidate ? ('revision' in artifact.candidate ? `unreleased candidate revision ${artifact.candidate.revision}, built with the reviewed source recipe; the catalog source pin does not apply` : 'unreleased candidate tarball; the catalog version pin does not apply') : provided[node.id] && options.communityArtifactPolicy === 'frozen' ? 'provided actual artifact version/bytes frozen; no latest lookup' : node.id === 'mermaid-js/mermaid' ? 'pinned current Mermaid' : node.benchmark.adapter === 'source-cli' || node.benchmark.adapter === 'extra-source' || node.benchmark.adapter === 'franken' ? 'recorded immutable source/distribution' : node.benchmark.version || node.benchmark.versionPolicy === 'recorded' || process.env.AM_COMMUNITY_VERSION_POLICY === 'recorded' ? 'recorded registry release' : 'resolved latest registry release'}. Recorded catalog versions remain separately available on the node.`
       prepared.push({ node, artifact })

@@ -81,7 +81,7 @@ export async function verifySupport(preparedFile: string, out: string, settings:
         for (const output of variant.outputs) {
           const target = join(dir, 'cli-' + output); mkdirSync(target)
           const facts = partitionVerificationRows(supportWorkloads.map(workload => runCommunityCli(variant.prepared, output, workload, 1, target)))
-          project.outputs.push({ output, transport: 'public-package-cli', state: facts.passed ? 'invocation-verified' : 'no-positive-witness', ...facts })
+          project.outputs.push({ output, transport: variant.variant === 'node-cli' ? 'public-package-cli' : 'public-release-cli', artifact: { version: variant.prepared.artifact!.version, revision: variant.prepared.artifact!.revision, sha256: variant.prepared.artifact!.sha256 }, state: facts.passed ? 'invocation-verified' : 'no-positive-witness', ...facts })
         }
         verifyProvidedCommunityArtifact(variant.prepared.artifact!)
       }
