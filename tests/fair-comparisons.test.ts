@@ -159,12 +159,13 @@ test('a later model-only failure cannot erase an earlier bad SVG return in a war
   try {
     const entry = join(directory, 'renderer.mjs'), result = join(directory, 'result.json'), input = join(directory, 'job.json')
     writeFileSync(entry, `let calls=0;export function draw(){return ++calls===1?${JSON.stringify(svg.replace('<text>Beta</text>', ''))}:${JSON.stringify(svg)}};export function parse(){return{type:'flowchart',nodes:{},edges:[]}}`)
-    writeFileSync(input, JSON.stringify({ artifact: { project: 'fixture/flaky', root: directory, entry, version: '1.0.0', adapter: 'declared', binding: { export: 'draw' } }, testCase: graph, mode: 'warm', samples: 1, minSampleMs: 0, round: 1, replica: 'B', sample: 0, resultFile: result }))
+    writeFileSync(input, JSON.stringify({ artifact: { project: 'fixture/flaky', root: directory, entry, version: '1.0.0', adapter: 'declared', binding: { export: 'draw' } }, testCase: graph, mode: 'warm', samples: 1, minSampleMs: 0, round: 1, replica: 'B', sample: 0, resultFile: result, svgFile: join(directory, 'failure.svg') }))
     const child = spawnSync(process.env.NODE_BIN ?? 'node', [resolve(import.meta.dir, '../portable/worker.mjs'), input], { encoding: 'utf8', timeout: 10000 })
     expect({ status: child.status, stderr: child.stderr }).toEqual({ status: 0, stderr: '' })
     const observed = JSON.parse(readFileSync(result, 'utf8'))
     expect(observed.status).toBe('failed')
     expect(observed.qualification.evidence.outputAdmission).toBe('failed')
+    expect(readFileSync(join(directory, 'failure.svg'), 'utf8')).toBe(svg.replace('<text>Beta</text>', ''))
     expect(observed.qualification.checks.some((check: any) => check.status === 'failed' && check.name.includes('label'))).toBe(true)
   } finally { rmSync(directory, { recursive: true, force: true }) }
 })
