@@ -1,3 +1,4 @@
+import { TRIDENT_VERSION } from '../version.ts'
 import { PORTABLE_HELP } from './help.ts'
 import { gzipSync } from 'node:zlib'
 import { execFileSync } from 'node:child_process'
@@ -5,12 +6,12 @@ import { randomUUID } from 'node:crypto'
 import { appendFileSync, existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, rmSync, writeFileSync, openSync, closeSync, unlinkSync } from 'node:fs'
 import { join, resolve, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { FAMILY_SUPPORT_PROTOCOL, familySupportProbe, layoutBackendCases, portableCases, PORTABLE_COHORT_PROTOCOL, type PortableCase, type PortableCohort } from './cohorts.ts'
+import { FAMILY_SUPPORT_PROTOCOL, familySupportProbe, portableCases, PORTABLE_COHORT_PROTOCOL, type PortableCase, type PortableCohort } from './cohorts.ts'
 import { environmentIdentity } from './environment.ts'
 import { artifactIdentity, byteDigest, harnessIdentity, portableDirectory, readJson, resolveArtifact } from './artifacts.ts'
 import { activateProjectRecord, findProjectRecord, inspectCurrentProjectRecords, publishProjectRecord, writeProjectBenchmarkRecord, stableValue, type ProjectBenchmarkIdentity, type ProjectBenchmarkRecord } from './project-records.ts'
 import { assertPortableRunning, PortableCancelled, resetPortableCancellation, measurePortableProject, terminatePortableWorkers } from './execution.ts'
-import { PORTABLE_MEASUREMENT_PROTOCOL, type PortableArtifact, type PortableJob, type PortableWorkerResult, type Replica } from './protocol.ts'
+import { PORTABLE_ADAPTER_IDS, PORTABLE_MEASUREMENT_PROTOCOL, type PortableArtifact, type PortableJob, type PortableWorkerResult, type Replica } from './protocol.ts'
 import { portableMarkdown, portableSummary } from './report.ts'
 import type { BenchmarkObservation } from './observation.ts'
 import type { UsageEvidence } from './costs.ts'
@@ -22,6 +23,8 @@ export interface PortableOptions {
   project: string
   artifactRoot: string
   adapter: PortableArtifact['adapter']
+  binding?: PortableArtifact['binding']
+  publicConfig?: PortableArtifact['publicConfig']
   entry?: string
   node: string
   out: string
@@ -30,10 +33,10 @@ export interface PortableOptions {
   samples: number
   coldSamples: number
   minSampleMs: number
+  workerTimeoutMs?: number
   preparationConcurrency: number
   maximumControlSpread: number
   cohorts?: PortableCohort[]
-  layoutBackends?: ('elk' | 'agentic')[]
   observer?: string
   mermaidReference?: string
   usage?: string
@@ -47,7 +50,7 @@ import { assertBenchmarkExecutionAllowed as assertPortableLocal } from './ci-pol
 export function parsePortableOptions(argv: string[]): PortableOptions {
   const flags = new Set(['--force', '--plan', '--allow-partial']),
     values = new Map<string, string>()
-  const allowed = new Set(['project', 'artifact-root', 'adapter', 'entry', 'node', 'out', 'records', 'rounds', 'samples', 'cold-samples', 'min-sample-ms', 'preparation-concurrency', 'maximum-control-spread', 'cohort', 'layout-backends', 'observer', 'mermaid-reference', 'usage', 'cpu-hour-usd'])
+  const allowed = new Set(['project', 'artifact-root', 'adapter', 'binding', 'public-config', 'entry', 'node', 'out', 'records', 'rounds', 'samples', 'cold-samples', 'min-sample-ms', 'worker-timeout-ms', 'preparation-concurrency', 'maximum-control-spread', 'cohort', 'observer', 'mermaid-reference', 'usage', 'cpu-hour-usd'])
   for (let index = 0; index < argv.length; index++) {
     const flag = argv[index]!
     if (values.has(flag)) throw Error('Duplicate option ' + flag)
@@ -71,15 +74,23 @@ export function parsePortableOptions(argv: string[]): PortableOptions {
     return value
   }
   const adapter = values.get('--adapter') ?? 'pele'
-  if (!['pele', 'agentic', 'beautiful', 'ondine'].includes(adapter)) throw Error('Unsupported public Node SVG adapter')
+  if (!PORTABLE_ADAPTER_IDS.includes(adapter as PortableArtifact['adapter'])) throw Error('Unsupported public Node SVG adapter')
+  const binding = values.has('--binding') ? JSON.parse(values.get('--binding')!) as PortableArtifact['binding'] : undefined
+  if (binding && (typeof binding.export !== 'string' || !binding.export.trim() || (binding.result !== undefined && typeof binding.result !== 'string') || ['factory', 'dispose'].some(key => (binding as any)[key] !== undefined && (typeof (binding as any)[key] !== 'string' || !(binding as any)[key].trim())))) throw Error('--binding needs a public export and optional result field')
+  if (binding?.dispose && !binding.factory) throw Error('A disposal method requires a declared factory')
+  if (adapter === 'declared' && !binding) throw Error('The declared adapter requires --binding JSON')
+  if (binding && adapter !== 'declared') throw Error('--binding is only valid for the declared adapter')
+  const publicConfig = values.has('--public-config') ? JSON.parse(values.get('--public-config')!) : undefined
+  if (adapter === 'public-package' && (!publicConfig || typeof publicConfig !== 'object' || Array.isArray(publicConfig) || typeof publicConfig.package !== 'string' || !Array.isArray(publicConfig.outputs) || !publicConfig.outputs.includes('svg'))) throw Error('The public-package adapter requires --public-config with its package and SVG output')
+  if (publicConfig && adapter !== 'public-package') throw Error('--public-config is only valid for public-package')
   const cohorts = values.has('--cohort') ? (values.get('--cohort')!.split(',') as PortableCohort[]) : undefined
   if (cohorts?.some(cohort => !['family', 'scaling', 'adversarial', 'invalid'].includes(cohort)) || (cohorts && new Set(cohorts).size !== cohorts.length)) throw Error('Unknown or repeated cohort')
-  const layoutBackends = values.has('--layout-backends') ? values.get('--layout-backends')!.split(',') as ('elk' | 'agentic')[] : undefined
-  if (layoutBackends && (adapter !== 'agentic' || !layoutBackends.length || new Set(layoutBackends).size !== layoutBackends.length || layoutBackends.some(backend => !['elk', 'agentic'].includes(backend)))) throw Error('--layout-backends requires the agentic adapter and unique elk,agentic selections')
   return {
     project: values.get('--project')!,
     artifactRoot: resolve(values.get('--artifact-root')!),
     adapter: adapter as PortableArtifact['adapter'],
+    binding,
+    publicConfig,
     entry: values.get('--entry'),
     node: values.get('--node') ?? process.env.NODE_BIN ?? 'node',
     out: resolve(values.get('--out') ?? 'bench-report/portable'),
@@ -88,10 +99,10 @@ export function parsePortableOptions(argv: string[]): PortableOptions {
     samples: integer('--samples', 31),
     coldSamples: integer('--cold-samples', 20),
     minSampleMs: decimal('--min-sample-ms', 2),
+    workerTimeoutMs: integer('--worker-timeout-ms', 300_000),
     preparationConcurrency: integer('--preparation-concurrency', 8),
     maximumControlSpread: decimal('--maximum-control-spread', 0.25),
     cohorts,
-    layoutBackends,
     observer: values.has('--observer') ? resolve(values.get('--observer')!) : defaultTimeObserver(),
     mermaidReference: values.has('--mermaid-reference') ? resolve(values.get('--mermaid-reference')!) : undefined,
     usage: values.has('--usage') ? resolve(values.get('--usage')!) : undefined,
@@ -136,9 +147,9 @@ export async function runPortable(options: PortableOptions) {
   if (options.mermaidReference) process.env.MERMAID_REFERENCE_DIR = options.mermaidReference
   assertPortableLocal()
   resetPortableCancellation()
-  if (options.layoutBackends && options.adapter !== 'agentic') throw Error('Explicit layout-backend cases require the Agentic public receipt API')
-  const selectedCases = portableCases(options.cohorts), testCases = options.layoutBackends ? layoutBackendCases(selectedCases, options.layoutBackends) : selectedCases,
-    artifact = resolveArtifact(options.project, options.artifactRoot, options.adapter, options.node, options.entry)
+  const testCases = portableCases(options.cohorts),
+    artifact = { ...resolveArtifact(options.project, options.artifactRoot, options.adapter, options.node, options.entry), ...(options.binding ? { binding: options.binding } : {}), ...(options.publicConfig ? { publicConfig: options.publicConfig } : {}) }
+  if (artifact.publicConfig && readJson(join(artifact.root, 'package.json')).name !== artifact.publicConfig.package) throw Error('Public adapter package differs from the actual installed artifact')
   assertBenchmarkToolVersion(options.project, artifact.version, 'portable SVG artifact')
   if (!testCases.length) throw Error('No selected cases')
   // The pinned Mermaid must agree with every authored source and family probe before any clock.
@@ -156,6 +167,7 @@ export async function runPortable(options: PortableOptions) {
     samples: options.samples,
     coldSamples: options.coldSamples,
     minSampleMs: options.minSampleMs,
+    workerTimeoutMs: options.workerTimeoutMs ?? 300_000,
     preparationConcurrency: options.preparationConcurrency,
     maximumControlSpread: options.maximumControlSpread,
     order: 'rotate A0/A1/B by round and case; all warm jobs, then all cold jobs, then serial memory/baseline jobs',
@@ -165,7 +177,6 @@ export async function runPortable(options: PortableOptions) {
     coldScope: 'Concurrent import preparation behind an idle barrier; one measured API call at a time and complete child exit before the next',
     memoryScope: 'Separate serial fresh processes; API snapshots precede qualification, GNU time describes the whole worker',
     retentionCalls: [0, 10, 100, 1000],
-    ...(options.layoutBackends ? { layoutBackends: options.layoutBackends, backendScope: 'Agentic graph families only, identical authored source per engine, fallback:none; public SVG-with-receipt API and complete enumerable sidecars consumed inside timing; every emitted decision checked outside timing. Missing decisions/ignored options do not earn backend-specific timing credit.' } : {}),
   }
   const identity: ProjectBenchmarkIdentity = jsonValue({
     project: options.project,
@@ -279,6 +290,7 @@ export async function runPortable(options: PortableOptions) {
   }
 }
 export async function main(argv = process.argv.slice(2)) {
+  if (argv.length === 1 && argv[0] === '--version') { console.log('Trident ' + TRIDENT_VERSION); return }
   if (argv.length === 1 && argv[0] === '--help') {
     console.log(
       PORTABLE_HELP,

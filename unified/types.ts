@@ -12,7 +12,6 @@ export interface UnifiedRunOptions {
   benchmarkRecordStore?: string
   benchmarkForce?: boolean
   benchmarkResumeAttempt?: string
-  startupPasses?: import('./startup-passes.ts').StartupPasses
   startupSamples?: number
   startupSurfaces?: readonly ('library' | 'cli' | 'mcp' | 'browser')[]
   nodeExecutable?: string
@@ -34,7 +33,6 @@ export interface UnifiedRunOptions {
   portableArtifactRoot?: string
   portableAdapter?: string
   portableObserver?: string
-  portableLayoutBackends?: ('elk' | 'agentic')[]
   modernEditorRoot?: string
   communityCoverageOnce?: boolean
   /** Explicit partial output lane; absent means every bound output. */

@@ -26,7 +26,7 @@ async function renderer() {
   if (config.adapter === 'mermaid') {
     const reference = process.env.MERMAID_REFERENCE_DIR ?? resolve(job.harnessRoot, '../mermaid-reference'), domRequire = createRequire(resolve(reference, 'package.json'))
     let JSDOM
-    try { ({ JSDOM } = domRequire('jsdom')) } catch (error) { throw Error(`Mermaid's Node adapter needs jsdom from the pinned Mermaid reference at ${reference}; run \`bun run reference:mermaid\` in the Agentic checkout or set MERMAID_REFERENCE_DIR (${String(error).split('\n')[0]})`) }
+    try { ({ JSDOM } = domRequire('jsdom')) } catch (error) { throw Error(`Mermaid's Node adapter needs jsdom from the pinned Mermaid reference at ${reference}; run \`bun commands.ts mermaid:install\` or set MERMAID_REFERENCE_DIR (${String(error).split('\n')[0]})`) }
     const dom = new JSDOM('<!doctype html><body>')
     for (const key of ['window', 'document', 'navigator', 'HTMLElement', 'SVGElement', 'Element', 'Node', 'Option']) Object.defineProperty(globalThis, key, { configurable: true, value: dom.window[key] })
     cleanups.push(() => dom.window.close())
@@ -57,8 +57,8 @@ async function renderer() {
     case 'mermaid-rs-wasm': return valueAt(module, ['renderSvg', 'default.renderSvg'])
     case 'merman': {
       const engine = await api.createNodeEngine(); cleanups.push(() => engine.dispose())
+      if (output === 'png' && !engine.runtimeCatalog.capabilities.operation_ids.includes('png')) throw Error('Selected native target does not expose the public PNG operation')
       if (output === 'png') return source => {
-        if (!engine.runtimeCatalog.capabilities.operation_ids.includes('png')) throw Error('Unsupported PNG capability: not exposed by this native target')
         const result = engine.executeOperationSync({ operationId: 'png', source })
         if (result.media_type !== 'image/png') throw Error('PNG operation returned a different media type')
         const bytes = Buffer.from(result.data, 'base64')
@@ -67,7 +67,16 @@ async function renderer() {
       }
       return source => engine.renderSvgSync(source)
     }
-    case 'franken': await module.default({ module_or_path: fs.readFileSync(artifact.wasm) }); return output === 'parse' ? valueAt(module, ['parse', 'parseDiagram']) : source => module.renderSvg(source)
+    case 'franken': {
+      await module.default({ module_or_path: fs.readFileSync(artifact.wasm) })
+      const parse = valueAt(module, ['parse', 'parseDiagram'])
+      if (output === 'diagnostics') return source => {
+        const parsed = parse(source)
+        if (!parsed?.ir || !Array.isArray(parsed.ir.diagnostics) || !Array.isArray(parsed.warnings)) throw Error('Public Franken parse returned no diagnostic envelope')
+        return { diagramType: parsed.ir.diagram_type, diagnostics: [...parsed.ir.diagnostics, ...parsed.warnings.map(message => ({ severity: 'warning', message }))], confidence: parsed.confidence }
+      }
+      return output === 'parse' ? parse : source => module.renderSvg(source)
+    }
     case 'mermaid': api.initialize({ startOnLoad: false, securityLevel: 'strict', logLevel: 'fatal' }); if (output !== 'parse') throw Error('Node SVG needs browser geometry; the browser adapter owns this output'); return source => api.parse(source)
     // parseAsync is the published complete interface for pie/GitGraph as well.
     case 'mermaid-ast': return valueAt(module, ['parseAsync', 'parse', 'default.parseAsync', 'default.parse'])

@@ -454,7 +454,14 @@ function workerPreparedEntry(prepared: PreparedCommunity): PreparedCommunity {
   Object.assign(artifact, { files: undefined, sourceFiles: undefined, dependencyPatches: undefined, runtimeDependencyRoots: undefined })
   return { node: prepared.node, artifact }
 }
+export function communityModuleOutputSupported(node: CommunityNode, output: string): boolean {
+  const declared = node.benchmark?.moduleOutputs
+  if (declared) return declared.map(normalizeCommunityOutput).includes(normalizeCommunityOutput(output))
+  const mermaid = node.benchmark?.adapter === 'mermaid' || ['mermaid-source', 'mermaid-fork'].includes(node.benchmark?.sourceAdapter ?? '')
+  return !mermaid || normalizeCommunityOutput(output) === 'parse'
+}
 async function nodeRound(prepared: PreparedCommunity, output: string, workloads: UnifiedWorkload[], round: number, options: UnifiedRunOptions): Promise<BenchmarkObservation[]> {
+  if (!communityModuleOutputSupported(prepared.node, output)) return workloads.map(workload => ({ ...envelope(prepared.node, output, workload, round), mode: 'capability', status: 'not-applicable', detail: 'This output requires another declared transport; no non-DOM module invocation is admitted.' }))
   const directory = join(options.out, 'community-raw')
   mkdirSync(directory, { recursive: true })
   type RawRow = {
@@ -994,14 +1001,14 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
         const roundWorkloads = ((options.communityCoverageOnce ?? true) && round > 1 ? workloads.filter(w => w.features.includes('core-graph-batch')) : workloads).filter(w => output !== 'terminal' || !w.features.includes('core-graph-batch') || ['core:flow5', 'core:tree50', 'core:seq20'].includes(w.id))
         const selectedWorkloads = roundWorkloads.filter(w => workloadAppliesToOutput(w, output) && (['parse', 'diagnostics', 'source'].includes(output) || w.intent !== undefined || !corpusEvidence(w.id)?.parserOnly))
         for (const workload of roundWorkloads.filter(w => !selectedWorkloads.includes(w))) observations.push({ ...envelope(entry.node, output, workload, round), status: 'not-applicable', detail: `Rendering is outside this input's declared positive scope: ${workload.intentReason ?? 'legacy parser-only owner'}${workload.referenceAdmission?.accepted === false ? '; pinned parser rejected this source' : ''}. Parser/admission evidence remains separate.` })
-        if ((entry.node.benchmark!.adapter === 'mermaid' || entry.node.benchmark!.sourceAdapter === 'mermaid-source') && output === 'svg') {
+        if (['node', 'global', 'franken'].includes(entry.artifact!.kind) && !communityModuleOutputSupported(entry.node, output)) {
           if (round === 1)
             observations.push({
               ...envelope(entry.node, output, { id: 'node-svg-capability', family: '*', source: '', features: [], provenance: 'public API runtime requirement' }, round),
               operation: 'capability',
               mode: 'capability',
               status: 'not-applicable',
-              detail: 'Public SVG rendering needs browser geometry; measured in browser:public-api, not a Node/jsdom speed claim',
+              detail: 'This output requires its other declared transport; no non-DOM module invocation is admitted',
               metrics: { implementation: entry.node.id, unmeasuredCases: workloads.length },
             })
           continue

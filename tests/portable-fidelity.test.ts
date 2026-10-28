@@ -176,9 +176,9 @@ test('invalid-source rejection requires a public exception, rather than an empty
 test('font configuration must be emitted, rather than merely accepted as an unused option', () => {
   const configured = { ...graph, renderOptions: { fontSize: 24 } }
   const ignored = qualifyPortable(configured, { svg: svg().replace('class="pele pele-flowchart"', 'class="pele pele-flowchart" style="font:14px sans-serif"'), model: model() })
-  expect(check(ignored, 'svg-root-font-size')?.status).toBe('failed')
+  expect(check(ignored, 'svg-label-font-size:Alpha')?.status).toBe('failed')
   const consumed = qualifyPortable(configured, { svg: svg().replace('class="pele pele-flowchart"', 'class="pele pele-flowchart" style="font:24px sans-serif"'), model: model() })
-  expect(check(consumed, 'svg-root-font-size')?.status).toBe('passed')
+  expect(check(consumed, 'svg-label-font-size:Alpha')?.status).toBe('passed')
 })
 test('namespace, duplicate document IDs and hidden source text are independent admission failures', () => {
   expect(check(qualifyPortable(graph, { svg: svg().replace('http://www.w3.org/2000/svg', 'urn:wrong'), model: model() }), 'svg-format')?.status).toBe('failed')

@@ -1,6 +1,6 @@
 # Methodology
 
-Portable protocol `portable-svg-processes-v5` recognizes reviewed ER cardinality
+Portable protocol `portable-svg-processes-v6` recognizes reviewed ER cardinality
 bars and circles independently from continuous relation routes. Earlier sealed
 kits and their records retain their original protocol; a corrected observer
 requires a fresh kit and fresh owning qualification. Exact cardinality semantics
@@ -16,7 +16,7 @@ Projects come from `catalog/mermaid-community.json`. Each community row uses the
 
 Project adapters translate different public APIs; they do not justify doing less work. Compare SVG-return calls with SVG-return calls, parser results with parser results, and whole CLI processes with whole CLI processes. Return shapes, host setup, native/WASM loading and optional plugins matter. The pinned Mermaid oracle has a distinct reference role, not a free pass on its own output checks.
 
-The optional Agentic source adapter exists for source-stage, product-contract and editor diagnostics. Those are project-specific experiments, not an advantage in the community league. Some other inherited comparison runners are also fixed-engine/source-coupled; the benchmark guide identifies them.
+Product source, editor and release-policy experiments live in their owning project. Trident accepts explicit public artifacts and reviewed adapter capabilities; it never creates an Agentic source workspace or infers a local candidate.
 
 ## Oracle and inputs
 
@@ -26,7 +26,7 @@ The community corpus is frozen in `corpus/community-corpus.json`: six fixed timi
 
 Some imported fixtures are parser-only, oracle-rejected, or lack usable authored-label expectations. These gaps remain in the record. Do not reinterpret a parser fixture's rendering failure as a faithful-rendering defect. Unsupported families remain coverage gaps instead of free successful renders.
 
-Input intent is independent of acceptance. Render inputs, parser-only fixtures and negative/diagnostic sources retain separate counts and unchanged source strings. Only declared render inputs accepted by pinned Mermaid enter the positive-render population. Current rendering ranks use passed / (passed + failed + blocked + unavailable) over that fixed population, then family coverage and qualified timing. Unsupported or missing outputs remain unavailable against their planned denominator. Unknown intent, reference admission or unmapped inputs leave a rendering row unranked. Raw admission and the legacy 23-family mark retain their historical definitions and do not decide current rendering ranks. A new classifier does not rewrite historical records or their original dates.
+Input intent is independent of acceptance. Render inputs, parser-only fixtures and negative/diagnostic sources retain separate counts and unchanged source strings. Only declared render inputs accepted by pinned Mermaid enter the positive-render population. The positive-render diagnostic uses passed / (passed + failed + blocked + unavailable) over that fixed population. Unsupported or missing outputs remain unavailable against their planned denominator. Unknown intent, reference admission or unmapped inputs withhold a complete ratio. Raw admission and the legacy 23-family mark retain their historical definitions. Publication remains alphabetical and unranked. A new classifier does not rewrite historical records or their original dates.
 
 ## What community admission checks
 
@@ -57,3 +57,7 @@ Source-runner preparation derives the ZenUML engine from the pinned source lockf
 Keep raw samples, failed outputs, package/dependency identities, protocol, input provenance and original dates. Reuse exact matching records without inventing fresh dates. New artifact, workload, qualifier, runtime or sampling settings require new evidence. Cross-machine records are separate cohorts. A completed collection can contain failures or uncalibrated timings.
 
 Old checked-in snapshots have been removed. Generate reports outside the source tree. Publish a claim only after checking the work at the public boundary, reviewing failure classifications and inspecting representative outputs. The [measurement rules](MEASUREMENT.md) explain why honest scope matters more than a league-table win.
+
+## External cohorts and observation scopes
+
+[Comparison contracts](FAIRNESS.md) define the external repository-example selection policy, retained provenance and limitations. The AM-derived corpus remains a named legacy regression input. Optional model APIs and output admission are separate dimensions; neither is a substitute for painted correspondence. Published scorecards are alphabetical within compatible groups and retain all actual dispositions.

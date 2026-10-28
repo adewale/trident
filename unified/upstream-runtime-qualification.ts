@@ -6,7 +6,7 @@ import { join } from 'node:path'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import { parse } from 'yaml'
-import { REVIEWED_REFERENCE } from './reference-eligibility.ts'
+import { currentReferencePin as REVIEWED_REFERENCE } from '../reference/source.ts'
 import { captureInstalledDependencyClosure, type InstalledDependencyClosure } from '../portable/artifact-dependencies.ts'
 
 type Section = 'dependencies' | 'devDependencies' | 'optionalDependencies'

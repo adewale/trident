@@ -12,7 +12,7 @@ import { parsePortableOptions } from '../portable/run.ts'
 import { readProjectBenchmarkRecord } from '../portable/project-records.ts'
 import { pathToFileURL } from 'node:url'
 import type { PortableJob, PortableWorkerResult } from '../portable/protocol.ts'
-import { layoutBackendCases, portableCases } from '../portable/cohorts.ts'
+import { portableCases } from '../portable/cohorts.ts'
 
 const directories: string[] = []
 afterEach(() => {
@@ -55,13 +55,12 @@ test('portable CLI keeps insufficient sampling explicit and rejects ambiguous se
   const options = parsePortableOptions(['--project', 'owner/tool', '--artifact-root', '/tmp/tool', '--rounds', '1'])
   expect(options.rounds).toBe(1)
   expect(options.samples).toBe(31)
+  expect(options.workerTimeoutMs).toBe(300_000)
+  expect(() => parsePortableOptions(['--project', 'owner/tool', '--artifact-root', '/tmp/tool', '--worker-timeout-ms', '0'])).toThrow('positive integer')
   expect(() => parsePortableOptions(['--project', 'owner/tool', '--project', 'other/tool', '--artifact-root', '/tmp/tool'])).toThrow('Duplicate')
   expect(() => parsePortableOptions(['--project', 'owner/tool', '--artifact-root', '/tmp/tool', '--cohort', 'family,family'])).toThrow('repeated')
-  expect(parsePortableOptions(['--project', 'owner/tool', '--artifact-root', '/tmp/tool', '--adapter', 'agentic', '--layout-backends', 'elk,agentic']).layoutBackends).toEqual(['elk', 'agentic'])
-  expect(() => parsePortableOptions(['--project', 'owner/tool', '--artifact-root', '/tmp/tool', '--layout-backends', 'agentic'])).toThrow('agentic adapter')
-  expect(() => parsePortableOptions(['--project', 'owner/tool', '--artifact-root', '/tmp/tool', '--adapter', 'agentic', '--layout-backends', 'elk,elk'])).toThrow('unique')
 })
-test('architecture scale preserves authored group membership and backend variants keep identical sources', () => {
+test('architecture scale preserves authored group membership', () => {
   const cases = portableCases(['scaling']).filter(testCase => testCase.family === 'architecture')
   expect(cases.map(testCase => testCase.scale)).toEqual([8, 32, 128])
   const large = cases[2]!
@@ -69,10 +68,7 @@ test('architecture scale preserves authored group membership and backend variant
   expect(large.expected.topology?.edges).toHaveLength(127)
   expect(large.expected.topology?.groups).toHaveLength(16)
   expect(large.expected.topology?.groups?.[15]).toEqual({ id: 'G15', members: Array.from({ length: 8 }, (_, index) => `N${120 + index}`) })
-  const variants = layoutBackendCases([large], ['elk', 'agentic'])
-  expect(variants.map(testCase => testCase.source)).toEqual([large.source, large.source])
-  expect(variants.map(testCase => testCase.renderOptions)).toEqual([{ graphLayout: { backend: 'elk', fallback: 'none' } }, { graphLayout: { backend: 'agentic', fallback: 'none' } }])
-  expect(variants.map(testCase => testCase.id)).toEqual([large.id + ':backend:elk', large.id + ':backend:agentic'])
+
 })
 test('prepared fresh processes execute first-use API windows serially', async () => {
   const directory = mkdtempSync(join(tmpdir(), 'portable-api-barrier-'))
@@ -123,22 +119,6 @@ function workerFixture(body: string) {
   })
   return { node, job, directory }
 }
-test('backend timing consumes receipt sidecars and rejects ignored selections even when SVG is unchanged', async () => {
-  const f = workerFixture(`export function renderMermaidSVG(){return good};export function renderMermaidSVGWithReceipt(source,options){const backend=options.graphLayout.backend;return {svg:good,metadata:{consumed:'x'.repeat(8192)},receipt:{layoutDecisions:[{requested:backend,selected:++calls===2?'elk':backend,fallback:'none',attempts:[{backend,outcome:'selected'}],implementation:'fixture-backend'}]}}}`)
-  const raw = f.job('warm'), job: PortableJob = { ...raw, artifact: { ...raw.artifact, adapter: 'agentic' }, testCase: { ...raw.testCase, layoutBackend: 'agentic', renderOptions: { graphLayout: { backend: 'agentic', fallback: 'none' } } } }
-  const result = await runSerialJob(job, f.node)
-  expect(result.status).toBe('failed')
-  expect(result.qualification?.checks.find(check => check.name === 'layout-backend-selection')).toMatchObject({ status: 'failed', actual: [{ requested: 'agentic', selected: 'elk', fallback: 'none', attempts: [{ backend: 'agentic', outcome: 'selected' }], implementation: 'fixture-backend' }] })
-  expect(result.outputBytes).toBeGreaterThan(8192)
-  writeFileSync(join(f.directory, 'index.mjs'), `const good='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><text>Visible</text></svg>';export function renderMermaidSVGWithReceipt(){return {svg:good}}`)
-  const ignored = await runSerialJob({ ...job, mode: 'cold' }, f.node)
-  expect(ignored.status).toBe('failed')
-  expect(ignored.qualification?.checks.find(check => check.name === 'layout-backend-selection')).toMatchObject({ status: 'failed', actual: null })
-  writeFileSync(join(f.directory, 'index.mjs'), `const good='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><text>Visible</text></svg>';export function renderMermaidSVGWithReceipt(source,options){const backend=options.graphLayout.backend;return{svg:good,receipt:{layoutDecisions:[{requested:backend,selected:backend,fallback:'none',attempts:[{backend,outcome:'selected'}],implementation:'fixture-engine'}]}}}`)
-  const selected = await runSerialJob({ ...job, mode: 'cold' }, f.node)
-  expect(selected.qualification?.checks.find(check => check.name === 'layout-backend-selection')?.status).toBe('passed')
-  expect(selected.status).not.toBe('failed')
-})
 test('a failed memory-measured call is not hidden by later successful qualification', async () => {
   const f = workerFixture('export function render(){if(++calls===1)throw Error("first-call fault");return {svg:good}}')
   const result = await runSerialJob(f.job('memory'), f.node)
@@ -154,6 +134,16 @@ test('retention captures intermediate faults and warm timing rejects transient b
   const warm = workerFixture('export function render(){return {svg:++calls===2?good.replace("Visible","Wrong"):good}}')
   expect((await runSerialJob(warm.job('warm'), warm.node)).status).toBe('failed')
 })
+test('a worker deadline reaps the child before another launch', async () => {
+  const f = workerFixture('export function render(){return {svg:good}}')
+  const timed = { ...f.job('warm'), workerTimeoutMs: 1 }
+  await expect(runSerialJob(timed, f.node)).rejects.toThrow('exceeded 1 ms')
+  expect(() => resetPortableCancellation()).not.toThrow()
+  const next = await runSerialJob(f.job('warm', 'next-project'), f.node)
+  expect(next.status).not.toBe('blocked')
+  expect(next.tracks['warm-repeat']?.length).toBeGreaterThan(0)
+})
+
 test('a valid result followed by failed worker cleanup never qualifies', async () => {
   const f = workerFixture('export function render(){setImmediate(()=>{process.exitCode=1});return {svg:good}}')
   await expect(runSerialJob(f.job('warm'), f.node)).rejects.toThrow('lifecycle')

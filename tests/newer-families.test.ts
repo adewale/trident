@@ -6,7 +6,7 @@ import { join } from 'node:path'
 import { familySupportProbe, legacyScoredFamilies, newerFamilies, portableCases, scoredFamilies } from '../portable/cohorts.ts'
 import { assertMermaidOracle, assertOracleAgrees, MERMAID_ORACLE_PIN, mermaidUpstreamDirectory, mermaidVerdicts, mermaidZenumlAddon, mermaidOracleDirectory } from '../portable/mermaid-oracle.ts'
 import { communityCorpus } from '../unified/corpus.ts'
-import { mermaidDocsWorkloads } from '../unified/corpus-import.ts'
+import { mermaidDocsWorkloads } from '../unified/docs-corpus.ts'
 import { censusDisplayText, referenceLabels } from '../unified/oracle-labels.ts'
 
 const tag = `mermaid@${MERMAID_ORACLE_PIN.version}`

@@ -5,7 +5,7 @@ import { createRequire } from 'node:module'
 import { basename, delimiter, dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { parse } from 'yaml'
 import { mermaidOracleDirectory, mermaidUpstreamDirectory, admitMermaidOracle } from '../portable/mermaid-oracle.ts'
-import { REVIEWED_REFERENCE } from './reference-eligibility.ts'
+import { currentReferencePin as REVIEWED_REFERENCE } from '../reference/source.ts'
 import { lockedImporterDependency, NPM_CLOSURE_SCOPE, preflightUpstreamCanvas, qualifyOriginalRuntime, UPSTREAM_RUNTIME_PROTOCOL, upstreamFileDigest, upstreamInstalledClosureDigest, upstreamRuntimePlan, verifyUpstreamInstalledSelections } from './upstream-runtime-qualification.ts'
 
 const read = (file: string): any => JSON.parse(readFileSync(file, 'utf8'))

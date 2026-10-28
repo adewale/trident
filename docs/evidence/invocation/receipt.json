@@ -1,0 +1,340 @@
+{
+  "base": "f85f7e7d26bcb4bc4dcf60aed3261cda1b3c8e31",
+  "producer": "40de65eb21905aee2cd3791109d3218c4834a5aa",
+  "input": "flowchart TB\nA[Current] --> B[Configuration]",
+  "records": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1",
+      "adapter": "agentic",
+      "entrySha256": "ea798905f3e444816f78dd1b2b2ccaea893e2e53d4d661f2a3bcbb68454ee920",
+      "size": 14,
+      "variant": "base",
+      "protocol": "portable-svg-processes-v4",
+      "workerExitCode": 0,
+      "status": "failed",
+      "outputAdmission": null,
+      "fontChecks": [],
+      "error": "TypeError: Invalid RenderOptions: unknown render option \"fontSize\"\n    at resolveRenderRequestForExecution (file:///workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-LCGBT32P.js:54344:11)\n    at executeGraphicalRequest (file:///workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-LCGBT32P.js:60164:19)\n    at renderMermaidSVGWithReceipt (file:///workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-LCGBT32P.js:61719:10)\n    at renderMermaidSVG (file:///workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-LCGBT32P.js:61701:10)\n    at renderMermaidSVG2 (file:///workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-RWMZRUIC.js:4519:10)\n    at invoke (file:///workspace/trident-release/0.1/base/portable/worker.mjs:44:25)\n    at file:///workspace/trident-release/0.1/base/portable/worker.mjs:116:22"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1",
+      "adapter": "agentic",
+      "entrySha256": "ea798905f3e444816f78dd1b2b2ccaea893e2e53d4d661f2a3bcbb68454ee920",
+      "size": 14,
+      "variant": "head",
+      "protocol": "portable-svg-processes-v5",
+      "workerExitCode": 0,
+      "status": "partial",
+      "outputAdmission": "passed",
+      "fontChecks": [
+        {
+          "name": "svg-label-font-size:Current",
+          "status": "passed",
+          "expected": null,
+          "actual": null,
+          "scope": "Font size on visible authored SVG labels, including inherited presentation and inline declarations. Stylesheet overrides, relative units, glyph metrics and clipping remain unmeasured."
+        },
+        {
+          "name": "svg-label-font-size:Configuration",
+          "status": "passed",
+          "expected": null,
+          "actual": null,
+          "scope": "Font size on visible authored SVG labels, including inherited presentation and inline declarations. Stylesheet overrides, relative units, glyph metrics and clipping remain unmeasured."
+        }
+      ],
+      "error": null
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1",
+      "adapter": "agentic",
+      "entrySha256": "ea798905f3e444816f78dd1b2b2ccaea893e2e53d4d661f2a3bcbb68454ee920",
+      "size": 24,
+      "variant": "base",
+      "protocol": "portable-svg-processes-v4",
+      "workerExitCode": 0,
+      "status": "failed",
+      "outputAdmission": null,
+      "fontChecks": [],
+      "error": "TypeError: Invalid RenderOptions: unknown render option \"fontSize\"\n    at resolveRenderRequestForExecution (file:///workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-LCGBT32P.js:54344:11)\n    at executeGraphicalRequest (file:///workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-LCGBT32P.js:60164:19)\n    at renderMermaidSVGWithReceipt (file:///workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-LCGBT32P.js:61719:10)\n    at renderMermaidSVG (file:///workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-LCGBT32P.js:61701:10)\n    at renderMermaidSVG2 (file:///workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-RWMZRUIC.js:4519:10)\n    at invoke (file:///workspace/trident-release/0.1/base/portable/worker.mjs:44:25)\n    at file:///workspace/trident-release/0.1/base/portable/worker.mjs:116:22"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1",
+      "adapter": "agentic",
+      "entrySha256": "ea798905f3e444816f78dd1b2b2ccaea893e2e53d4d661f2a3bcbb68454ee920",
+      "size": 24,
+      "variant": "head",
+      "protocol": "portable-svg-processes-v5",
+      "workerExitCode": 0,
+      "status": "partial",
+      "outputAdmission": "passed",
+      "fontChecks": [
+        {
+          "name": "svg-label-font-size:Current",
+          "status": "passed",
+          "expected": null,
+          "actual": null,
+          "scope": "Font size on visible authored SVG labels, including inherited presentation and inline declarations. Stylesheet overrides, relative units, glyph metrics and clipping remain unmeasured."
+        },
+        {
+          "name": "svg-label-font-size:Configuration",
+          "status": "passed",
+          "expected": null,
+          "actual": null,
+          "scope": "Font size on visible authored SVG labels, including inherited presentation and inline declarations. Stylesheet overrides, relative units, glyph metrics and clipping remain unmeasured."
+        }
+      ],
+      "error": null
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.9.0",
+      "adapter": "pele",
+      "entrySha256": "7c40a25eeaf4370fb56c03d9d8f6780051c9c39b6c6ca36d53239075117097f5",
+      "size": 14,
+      "variant": "base",
+      "protocol": "portable-svg-processes-v4",
+      "workerExitCode": 0,
+      "status": "partial",
+      "outputAdmission": "passed",
+      "fontChecks": [
+        {
+          "name": "svg-root-font-size",
+          "status": "passed",
+          "expected": null,
+          "actual": null,
+          "scope": "Authored fontSize is emitted as an SVG root font declaration. Computed CSS, glyph metrics and clipping remain unmeasured."
+        }
+      ],
+      "error": null
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.9.0",
+      "adapter": "pele",
+      "entrySha256": "7c40a25eeaf4370fb56c03d9d8f6780051c9c39b6c6ca36d53239075117097f5",
+      "size": 14,
+      "variant": "head",
+      "protocol": "portable-svg-processes-v5",
+      "workerExitCode": 0,
+      "status": "partial",
+      "outputAdmission": "passed",
+      "fontChecks": [
+        {
+          "name": "svg-label-font-size:Current",
+          "status": "passed",
+          "expected": null,
+          "actual": null,
+          "scope": "Font size on visible authored SVG labels, including inherited presentation and inline declarations. Stylesheet overrides, relative units, glyph metrics and clipping remain unmeasured."
+        },
+        {
+          "name": "svg-label-font-size:Configuration",
+          "status": "passed",
+          "expected": null,
+          "actual": null,
+          "scope": "Font size on visible authored SVG labels, including inherited presentation and inline declarations. Stylesheet overrides, relative units, glyph metrics and clipping remain unmeasured."
+        }
+      ],
+      "error": null
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.9.0",
+      "adapter": "pele",
+      "entrySha256": "7c40a25eeaf4370fb56c03d9d8f6780051c9c39b6c6ca36d53239075117097f5",
+      "size": 24,
+      "variant": "base",
+      "protocol": "portable-svg-processes-v4",
+      "workerExitCode": 0,
+      "status": "partial",
+      "outputAdmission": "passed",
+      "fontChecks": [
+        {
+          "name": "svg-root-font-size",
+          "status": "passed",
+          "expected": null,
+          "actual": null,
+          "scope": "Authored fontSize is emitted as an SVG root font declaration. Computed CSS, glyph metrics and clipping remain unmeasured."
+        }
+      ],
+      "error": null
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.9.0",
+      "adapter": "pele",
+      "entrySha256": "7c40a25eeaf4370fb56c03d9d8f6780051c9c39b6c6ca36d53239075117097f5",
+      "size": 24,
+      "variant": "head",
+      "protocol": "portable-svg-processes-v5",
+      "workerExitCode": 0,
+      "status": "partial",
+      "outputAdmission": "passed",
+      "fontChecks": [
+        {
+          "name": "svg-label-font-size:Current",
+          "status": "passed",
+          "expected": null,
+          "actual": null,
+          "scope": "Font size on visible authored SVG labels, including inherited presentation and inline declarations. Stylesheet overrides, relative units, glyph metrics and clipping remain unmeasured."
+        },
+        {
+          "name": "svg-label-font-size:Configuration",
+          "status": "passed",
+          "expected": null,
+          "actual": null,
+          "scope": "Font size on visible authored SVG labels, including inherited presentation and inline declarations. Stylesheet overrides, relative units, glyph metrics and clipping remain unmeasured."
+        }
+      ],
+      "error": null
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "adapter": "beautiful",
+      "entrySha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39",
+      "size": 14,
+      "variant": "base",
+      "protocol": "portable-svg-processes-v4",
+      "workerExitCode": 0,
+      "status": "failed",
+      "outputAdmission": "failed",
+      "fontChecks": [
+        {
+          "name": "svg-root-font-size",
+          "status": "failed",
+          "expected": 14,
+          "actual": null,
+          "scope": "Authored fontSize is emitted as an SVG root font declaration. Computed CSS, glyph metrics and clipping remain unmeasured."
+        }
+      ],
+      "error": null
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "adapter": "beautiful",
+      "entrySha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39",
+      "size": 14,
+      "variant": "head",
+      "protocol": "portable-svg-processes-v5",
+      "workerExitCode": 2,
+      "status": "blocked",
+      "outputAdmission": null,
+      "fontChecks": [],
+      "error": "Error: Adapter gap: no reviewed public font-size configuration binding for beautiful\n    at portableRenderOptions (file:///workspace/trident/portable/configuration.ts:12:163)\n    at invoke (file:///workspace/trident/portable/worker.mjs:41:31)\n    at file:///workspace/trident/portable/worker.mjs:117:22"
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "adapter": "beautiful",
+      "entrySha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39",
+      "size": 24,
+      "variant": "base",
+      "protocol": "portable-svg-processes-v4",
+      "workerExitCode": 0,
+      "status": "failed",
+      "outputAdmission": "failed",
+      "fontChecks": [
+        {
+          "name": "svg-root-font-size",
+          "status": "failed",
+          "expected": 24,
+          "actual": null,
+          "scope": "Authored fontSize is emitted as an SVG root font declaration. Computed CSS, glyph metrics and clipping remain unmeasured."
+        }
+      ],
+      "error": null
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "adapter": "beautiful",
+      "entrySha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39",
+      "size": 24,
+      "variant": "head",
+      "protocol": "portable-svg-processes-v5",
+      "workerExitCode": 2,
+      "status": "blocked",
+      "outputAdmission": null,
+      "fontChecks": [],
+      "error": "Error: Adapter gap: no reviewed public font-size configuration binding for beautiful\n    at portableRenderOptions (file:///workspace/trident/portable/configuration.ts:12:163)\n    at invoke (file:///workspace/trident/portable/worker.mjs:41:31)\n    at file:///workspace/trident/portable/worker.mjs:117:22"
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.10.2",
+      "adapter": "beautiful",
+      "entrySha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
+      "size": 14,
+      "variant": "base",
+      "protocol": "portable-svg-processes-v4",
+      "workerExitCode": 0,
+      "status": "failed",
+      "outputAdmission": "failed",
+      "fontChecks": [
+        {
+          "name": "svg-root-font-size",
+          "status": "failed",
+          "expected": 14,
+          "actual": null,
+          "scope": "Authored fontSize is emitted as an SVG root font declaration. Computed CSS, glyph metrics and clipping remain unmeasured."
+        }
+      ],
+      "error": null
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.10.2",
+      "adapter": "beautiful",
+      "entrySha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
+      "size": 14,
+      "variant": "head",
+      "protocol": "portable-svg-processes-v5",
+      "workerExitCode": 2,
+      "status": "blocked",
+      "outputAdmission": null,
+      "fontChecks": [],
+      "error": "Error: Adapter gap: no reviewed public font-size configuration binding for beautiful\n    at portableRenderOptions (file:///workspace/trident/portable/configuration.ts:12:163)\n    at invoke (file:///workspace/trident/portable/worker.mjs:41:31)\n    at file:///workspace/trident/portable/worker.mjs:117:22"
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.10.2",
+      "adapter": "beautiful",
+      "entrySha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
+      "size": 24,
+      "variant": "base",
+      "protocol": "portable-svg-processes-v4",
+      "workerExitCode": 0,
+      "status": "failed",
+      "outputAdmission": "failed",
+      "fontChecks": [
+        {
+          "name": "svg-root-font-size",
+          "status": "failed",
+          "expected": 24,
+          "actual": null,
+          "scope": "Authored fontSize is emitted as an SVG root font declaration. Computed CSS, glyph metrics and clipping remain unmeasured."
+        }
+      ],
+      "error": null
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.10.2",
+      "adapter": "beautiful",
+      "entrySha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
+      "size": 24,
+      "variant": "head",
+      "protocol": "portable-svg-processes-v5",
+      "workerExitCode": 2,
+      "status": "blocked",
+      "outputAdmission": null,
+      "fontChecks": [],
+      "error": "Error: Adapter gap: no reviewed public font-size configuration binding for beautiful\n    at portableRenderOptions (file:///workspace/trident/portable/configuration.ts:12:163)\n    at invoke (file:///workspace/trident/portable/worker.mjs:41:31)\n    at file:///workspace/trident/portable/worker.mjs:117:22"
+    }
+  ],
+  "limitation": "Single configuration case at two requested sizes against four exact installed public artifacts. Untimed correctness smoke; full semantic/paint and timing calibration are not established."
+}

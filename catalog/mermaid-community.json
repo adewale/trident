@@ -335,7 +335,8 @@
         "adapter": "franken",
         "outputs": [
           "svg",
-          "parse"
+          "parse",
+          "diagnostics"
         ]
       },
       "benchmarkEligibility": {
@@ -386,14 +387,32 @@
         "package": "ondine",
         "subpath": "compiler",
         "outputs": [
+          "svg",
+          "terminal"
+        ],
+        "moduleOutputs": [
           "svg"
-        ]
+        ],
+        "cli": {
+          "bin": "ondine",
+          "args": [
+            "--ascii"
+          ],
+          "outputs": [
+            "terminal"
+          ]
+        }
       },
       "benchmarkEligibility": {
         "classification": "port-implementation",
         "engineScope": "derived-code-independent-runtime-implementation",
         "adapterReview": "existing-adapter; outcomes remain independent",
         "reason": "Catalog declares svg, terminal operations with adapter ondine. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+      },
+      "comparisonBranding": {
+        "distinct": true,
+        "name": "Ondine",
+        "evidence": "Catalog records published ondine package and explicit Pele port attribution."
       }
     },
     {
@@ -443,6 +462,11 @@
         "engineScope": "derived-code-independent-runtime-implementation",
         "adapterReview": "existing-adapter; outcomes remain independent",
         "reason": "Catalog declares svg, png operations with adapter dart. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+      },
+      "comparisonBranding": {
+        "distinct": true,
+        "name": "Mermaid Dart",
+        "evidence": "Maintainer confirms Mermaid Dart is a distinctive brand (2026-10-28). Public identity includes its Dart/Flutter products and https://roszkowski.dev/mermaid/."
       }
     },
     {
@@ -488,6 +512,11 @@
         "engineScope": "shared-engine-runtime-variant",
         "adapterReview": "existing-adapter; outcomes remain independent",
         "reason": "Catalog declares svg operations with adapter mermaid-rs-wasm. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -535,6 +564,11 @@
         "engineScope": "shared-engine-runtime-variant",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Published @ramtinj95/pi-mermaid-tui@0.2.4 packages a Grok-derived WASM renderer. Catalog edge cites THIRD_PARTY.md and pinned WASM origin. Same engine lineage does not remove WASM/Node/host invocation cost. Need expose public render boundary or declare concrete plugin-host prerequisite."
+      },
+      "comparisonBranding": {
+        "distinct": true,
+        "name": "Pi Mermaid TUI",
+        "evidence": "Catalog identifies pi-mermaid-tui binding of the grok-build engine."
       }
     },
     {
@@ -583,6 +617,11 @@
         "engineScope": "shared-engine-runtime-variant",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Published @woxqaq/mermaid-rs-renderer-js@0.1.4 is a Rust N-API Node binding. Catalog README evidence names mermaid-rs-renderer. Direct Node/native API is a distinct invocation path from the enrolled Rust CLI, even if engine lineage is shared."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -627,6 +666,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of lukilabs/beautiful-mermaid: 0 commits ahead/23 behind; exact head 3fcbb97eac0b76cc4657119c4a0c09dc16e02b59. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -671,6 +715,11 @@
         "engineScope": "same-recorded-Git-head-not-artifact-alias",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of lukilabs/beautiful-mermaid: 0 commits ahead/0 behind; exact head 2ac8bbbb060ca0a65a6a21f3200bd99b1587b488. At the same recorded parent Git head; packaging, build, dependencies and runtime commands still require byte/protocol admission before evidence reuse."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -749,6 +798,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "existing-adapter; outcomes remain independent",
         "reason": "Recorded fork of lukilabs/beautiful-mermaid: 1223 commits ahead/0 behind; exact head d18c718d0253f45d279a9c12e60a96ee8cc9283c. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence."
+      },
+      "comparisonBranding": {
+        "distinct": true,
+        "name": "Agentic Mermaid",
+        "evidence": "Published npm package agentic-mermaid; catalog package/provenance receipt."
       }
     },
     {
@@ -791,6 +845,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 0 commits ahead/128 behind; exact head 2955c2e36e05e15ab3264a3896ae027de3aba1db. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -833,6 +892,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 0 commits ahead/128 behind; exact head 2955c2e36e05e15ab3264a3896ae027de3aba1db. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -884,6 +948,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of mermaid-js/mermaid: 4 commits ahead/15471 behind; exact head 4b2fe8421ca2d05334cecb12e732e8fae8a928a3. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. Fork that publishes its own npm package."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -925,6 +994,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 12 commits ahead/114 behind; exact head edffbe69fcbfc90ca0fbdf8b04d5036313e98d26. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -967,6 +1041,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 0 commits ahead/128 behind; exact head 2955c2e36e05e15ab3264a3896ae027de3aba1db. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1009,6 +1088,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of pgavlin/mermaid-ascii: 6 commits ahead/0 behind; exact head a903e2a57055b6a19e50d8fec4b7ea86ed41fef2. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. Sub-fork: pgavlin head is an ancestor of this head; go.mod keeps module github.com/pgavlin/mermaid-ascii."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1051,6 +1135,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 0 commits ahead/126 behind; exact head b5d02c35decfab219bd6cc79094b117d8079bd63. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1106,6 +1195,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "existing-adapter; outcomes remain independent",
         "reason": "Recorded fork of lukilabs/beautiful-mermaid: 4042 commits ahead/0 behind; exact head 8cc982128bed11d976fb38164c4cdb47be7bd34d. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. README: \"A maintained fork of beautiful-mermaid\". Also publishes @zombie-mermaid/{core,mermaid-parser,svg-renderer,ascii-renderer,mcp}. Main moved past the 631b1b4c pin in docs/comparison.md."
+      },
+      "comparisonBranding": {
+        "distinct": true,
+        "name": "Zombie Mermaid",
+        "evidence": "README calls this a maintained Beautiful fork; published zombie-mermaid packages."
       }
     },
     {
@@ -1148,6 +1242,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 19 commits ahead/128 behind; exact head 3b13f4557d40f996953abb84d96b2daed7a2419b. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1190,6 +1289,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 0 commits ahead/128 behind; exact head 2955c2e36e05e15ab3264a3896ae027de3aba1db. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1243,6 +1347,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/15015 behind; exact head 046b83582d719df89a51a08c9edf3529949cde00. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent. Fork that publishes its own npm package."
+      },
+      "comparisonBranding": {
+        "distinct": true,
+        "name": "Merman",
+        "evidence": "Catalog records published package merman; brand does not remove historical-version exclusion."
       }
     },
     {
@@ -1287,6 +1396,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of lukilabs/beautiful-mermaid: 0 commits ahead/23 behind; exact head 3fcbb97eac0b76cc4657119c4a0c09dc16e02b59. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1331,6 +1445,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of lukilabs/beautiful-mermaid: 0 commits ahead/23 behind; exact head 3fcbb97eac0b76cc4657119c4a0c09dc16e02b59. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1375,6 +1494,11 @@
         "engineScope": "same-recorded-Git-head-not-artifact-alias",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of lukilabs/beautiful-mermaid: 0 commits ahead/0 behind; exact head 2ac8bbbb060ca0a65a6a21f3200bd99b1587b488. At the same recorded parent Git head; packaging, build, dependencies and runtime commands still require byte/protocol admission before evidence reuse. Default branch equals upstream main; the C4 work cited at 5f17f630 is on another branch (not fetched)."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1426,6 +1550,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/780 behind; exact head 158e26cc9a7bd0965d1afb39fa50ba0f44562ba6. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent. Fork that publishes its own npm package."
+      },
+      "comparisonBranding": {
+        "distinct": true,
+        "name": "D3FEND Mermaid",
+        "evidence": "Catalog records separately named d3fend-mermaid package."
       }
     },
     {
@@ -1468,6 +1597,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of mermaid-js/mermaid: 3 commits ahead/3092 behind; exact head 5924ea599c373428386624e6ab7da7e3ff7a9c20. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1510,6 +1644,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 0 commits ahead/128 behind; exact head 2955c2e36e05e15ab3264a3896ae027de3aba1db. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1552,6 +1691,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of mermaid-js/mermaid: 27 commits ahead/1940 behind; exact head 60119753b147a3d00c887030ffedc19412c68dc5. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1607,6 +1751,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of lukilabs/beautiful-mermaid: 26 commits ahead/12 behind; exact head 2d76eedb08ba953d8554f4659fb74e181ae41de2. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. npm 1.5.2 gitHead is not in the default-branch history; package.json at head says 1.5.1."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1649,6 +1798,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 1 commits ahead/128 behind; exact head 7fd22bc0a0ef28d2ec8dc464565a9d259f14db43. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1691,6 +1845,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 0 commits ahead/128 behind; exact head 2955c2e36e05e15ab3264a3896ae027de3aba1db. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1733,6 +1892,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/12752 behind; exact head e0652539fba9789da3bb07c49a321ab8c2983cdc. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1786,6 +1950,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/13476 behind; exact head 571b8bbd882b5e240ac9bbf73eea4a2d4dd726b9. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent. Fork that publishes its own npm package."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1828,6 +1997,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/11787 behind; exact head 37f6a42de84f1f32e95ad76e682f14c6c8cddc6b. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1870,6 +2044,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/7450 behind; exact head aa5d586bd64c3aa8e42f6ea60bcd22109b8b4083. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1923,6 +2102,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of fasouto/termaid: 0 commits ahead/15 behind; exact head 18f42d8e9cac3b6cae124def6418f9af84087b21. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -1965,6 +2149,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of mermaid-js/mermaid: 17 commits ahead/4341 behind; exact head ac069c434a40dd372f1d61eeaf6bc93e73e92f96. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -2008,6 +2197,11 @@
         "engineScope": "Python-runtime-port",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of lukilabs/beautiful-mermaid: 10 commits ahead/23 behind; exact head d5daa97c8e3f146a50e9eb93e7d666ead5b3debb. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. README: single-file Python port of Beautiful src/ascii, kept in a GitHub fork."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -2048,6 +2242,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "existing-adapter; outcomes remain independent",
         "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 31 commits ahead/126 behind; exact head ab8074a98bef86a951c3443910363a8d1415135b. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. README: 22 diagram types. No release tags."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -2092,6 +2291,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of lukilabs/beautiful-mermaid: 2 commits ahead/23 behind; exact head 31f495f27bc5ff3ef59de17de69e47bb89658697. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -2134,6 +2338,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 0 commits ahead/128 behind; exact head 2955c2e36e05e15ab3264a3896ae027de3aba1db. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -2176,6 +2385,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/15918 behind; exact head 803916c99b532d2b49ba35dba6ec7c7b061b8162. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -2220,6 +2434,11 @@
         "engineScope": "same-recorded-Git-head-not-artifact-alias",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of lukilabs/beautiful-mermaid: 0 commits ahead/0 behind; exact head 2ac8bbbb060ca0a65a6a21f3200bd99b1587b488. At the same recorded parent Git head; packaging, build, dependencies and runtime commands still require byte/protocol admission before evidence reuse."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -2275,6 +2494,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of lukilabs/beautiful-mermaid: 14 commits ahead/23 behind; exact head c2d3ae70d9f106431d57669de80f0de3c894fc88. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -2331,6 +2555,11 @@
         "engineScope": "same-recorded-Git-head-not-artifact-alias",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of lukilabs/beautiful-mermaid: 0 commits ahead/0 behind; exact head 2ac8bbbb060ca0a65a6a21f3200bd99b1587b488. At the same recorded parent Git head; packaging, build, dependencies and runtime commands still require byte/protocol admission before evidence reuse. Republishes upstream main 2ac8bbbb unchanged."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -2383,6 +2612,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of 1jehuang/mermaid-rs-renderer: 6 commits ahead/179 behind; exact head fba9097574e424de0497a91c9dc1beeb0e27e4e0. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -2439,6 +2673,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of lukilabs/beautiful-mermaid: 16 commits ahead/23 behind; exact head 92118d7ba1c53654c3fa0933957b79f8c64b3297. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. package.json at head says 0.1.6; npm latest is 0.1.5."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -2490,6 +2729,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of mermaid-js/mermaid: 2 commits ahead/15335 behind; exact head 0afc3c4fd235a3414ca15cec4d1a6497cb44f9cd. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. Fork that publishes its own npm package."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -2532,6 +2776,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/9209 behind; exact head e4d2118d4bfa023628a020b7ab1f8c491e6dc523. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -2576,6 +2825,11 @@
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of lukilabs/beautiful-mermaid: 6 commits ahead/19 behind; exact head 99d2a5e01cf62d4b84d7df4cda0c50a2f573b850. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -2618,6 +2872,11 @@
         "engineScope": "historical-version-not-current-equivalence",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/6092 behind; exact head e68125eb6a8d0b6a642bd9a1e050bf010c2aab44. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -2667,13 +2926,24 @@
         "outputs": [
           "svg",
           "terminal"
-        ]
+        ],
+        "portable": {
+          "adapter": "declared",
+          "binding": {
+            "export": "renderMermaidSVG"
+          }
+        }
       },
       "benchmarkEligibility": {
         "classification": "diverged-fork",
         "engineScope": "unreviewed-fork-delta",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Recorded fork of lukilabs/beautiful-mermaid: 5 commits ahead/12 behind; exact head 165310f5ad0e506b59c388bd54df4d060e44697a. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. Terminal Markdown viewer built on the Beautiful engine."
+      },
+      "comparisonBranding": {
+        "distinct": true,
+        "name": "mdv",
+        "evidence": "Catalog identifies a terminal Markdown viewer and @zhenhuaa/mdv package."
       }
     },
     {
@@ -2956,7 +3226,10 @@
             "version": "0.0.3",
             "operation": "render"
           }
-        ]
+        ],
+        "portable": {
+          "adapter": "public-package"
+        }
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -2983,7 +3256,8 @@
       "outputs": [
         "svg",
         "png",
-        "ascii-unicode"
+        "ascii-unicode",
+        "ast"
       ],
       "packages": [
         {
@@ -3006,7 +3280,16 @@
         "outputs": [
           "svg",
           "png",
-          "terminal"
+          "terminal",
+          "parse"
+        ],
+        "portable": {
+          "adapter": "public-package"
+        },
+        "moduleOutputs": [
+          "svg",
+          "terminal",
+          "parse"
         ]
       },
       "benchmarkEligibility": {
@@ -3055,7 +3338,8 @@
         "versionPolicy": "recorded",
         "outputs": [
           "svg"
-        ]
+        ],
+        "moduleOutputs": []
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -3332,7 +3616,13 @@
         "versionPolicy": "recorded",
         "outputs": [
           "svg"
-        ]
+        ],
+        "portable": {
+          "adapter": "declared",
+          "binding": {
+            "export": "render"
+          }
+        }
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -3402,7 +3692,15 @@
         "outputs": [
           "svg",
           "png"
-        ]
+        ],
+        "portable": {
+          "adapter": "declared",
+          "binding": {
+            "factory": "createNodeEngine",
+            "export": "renderSvgSync",
+            "dispose": "dispose"
+          }
+        }
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -3416,7 +3714,7 @@
       "categories": [
         "renderer"
       ],
-      "relation": "independent",
+      "relation": "derivative",
       "repo": "https://github.com/lukilabs/beautiful-mermaid",
       "branch": "main",
       "head": "2ac8bbbb060ca0a65a6a21f3200bd99b1587b488",
@@ -3454,11 +3752,17 @@
         ]
       },
       "benchmarkEligibility": {
-        "classification": "independently-rooted-implementation",
-        "engineScope": "independent-engine-candidate",
+        "classification": "derivative-implementation",
+        "engineScope": "independently-rooted-derivative",
         "adapterReview": "existing-adapter; outcomes remain independent",
-        "reason": "Catalog declares svg, terminal operations with adapter beautiful. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
-      }
+        "reason": "Maintainer correction 2026-10-28: Beautiful Mermaid is a derivative of Mermaid, not a Git fork. Its ASCII component separately ports Mermaid ASCII; SVG implementation and source root remain distinct."
+      },
+      "comparisonBranding": {
+        "distinct": true,
+        "name": "Beautiful Mermaid",
+        "evidence": "Catalog records beautiful-mermaid package; only its ASCII component is a port of Mermaid ASCII."
+      },
+      "parent": "mermaid-js/mermaid"
     },
     {
       "id": "Mootikins/figurehead-rs",
@@ -3678,7 +3982,10 @@
         "versionPolicy": "recorded",
         "outputs": [
           "svg"
-        ]
+        ],
+        "portable": {
+          "adapter": "public-package"
+        }
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -3911,6 +4218,11 @@
         "engineScope": "derived-code-independent-runtime-implementation",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Published opencode-merman@0.1.1 is derived from a specific anomalyco/opencode renderer revision per UPSTREAM.md. A port is executable implementation lineage, not necessarily delegation to an enrolled engine. Measure pinned package API/terminal output."
+      },
+      "comparisonBranding": {
+        "distinct": true,
+        "name": "OpenCode Merman",
+        "evidence": "Catalog records separately named opencode-merman port."
       }
     },
     {
@@ -3948,6 +4260,11 @@
         "engineScope": "derived-code-independent-runtime-implementation",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Catalog says TypeScript engine+Lua integration, based on Beautiful with no shared root. Inspect separable TS engine, otherwise explicit Neovim boundary. razor-ai/ascii-mermaid is the same repository/head and must not become another tool."
+      },
+      "comparisonBranding": {
+        "distinct": true,
+        "name": "ASCII Mermaid",
+        "evidence": "Catalog records separately named ascii-mermaid port of Beautiful Mermaid."
       }
     },
     {
@@ -3996,6 +4313,11 @@
         "engineScope": "derived-code-independent-runtime-implementation",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Published @tayomi/termaid-ts@0.8.3 is a TypeScript port of termaid, with claimed byte parity. Runtime/layout/cost still need measurement; parity is a claim, not qualification evidence. Distinct from Python termaid and binary-distribution fork."
+      },
+      "comparisonBranding": {
+        "distinct": false,
+        "name": null,
+        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
       }
     },
     {
@@ -4036,6 +4358,11 @@
         "engineScope": "derived-code-independent-runtime-implementation",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Published tui-mermaid@0.1.0 declares TypeScript terminal engine, Grok derivation and vendored Mermaidtext fixtures. Missing repository field limits source lineage, not package API eligibility. Pin actual npm integrity and independently qualify output."
+      },
+      "comparisonBranding": {
+        "distinct": true,
+        "name": "TUI Mermaid",
+        "evidence": "Catalog records published tui-mermaid package, derived from grok-build."
       }
     },
     {
@@ -4072,6 +4399,11 @@
         "engineScope": "derived-code-independent-runtime-implementation",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Public repository/head, Go runtime and README describes faithful Grok port. Not delegation to a CLI merely because lineage is shared. Review public package/command and build deterministically before timing."
+      },
+      "comparisonBranding": {
+        "distinct": true,
+        "name": "MermaidText",
+        "evidence": "Catalog records separately named mermaidtext port of grok-build."
       }
     },
     {
@@ -4137,6 +4469,11 @@
         "engineScope": "derived-code-independent-runtime-implementation",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Published lovely-mermaid@0.3.3 and earlier grok-mermaid@0.2.3 share repository lineage with explicit TypeScript Grok port origin. Benchmark one selected actual version/variant; do not count names as two engines or assume package heads equal default branch."
+      },
+      "comparisonBranding": {
+        "distinct": true,
+        "name": "Lovely Mermaid",
+        "evidence": "Catalog records separately named lovely-mermaid port of grok-build."
       }
     },
     {
@@ -4225,6 +4562,11 @@
         "engineScope": "derived-code-independent-runtime-implementation",
         "adapterReview": "existing-adapter; outcomes remain independent",
         "reason": "Catalog declares svg operations with adapter bezel. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+      },
+      "comparisonBranding": {
+        "distinct": true,
+        "name": "Bezel",
+        "evidence": "Catalog repository/package identity is Bezel, separately named from Pele."
       }
     }
   ],
@@ -4610,8 +4952,9 @@
     {
       "from": "lukilabs/beautiful-mermaid",
       "to": "AlexanderGrooff/mermaid-ascii",
-      "relation": "port",
-      "evidence": "README.md:36 and :563: ASCII engine \"ported from Go to TypeScript\""
+      "relation": "component-port",
+      "evidence": "README.md:36 and :563: ASCII engine \"ported from Go to TypeScript\"",
+      "scope": "ASCII engine only; SVG renderer independently implemented"
     },
     {
       "from": "mopi1402/termaid-ts",
@@ -4642,6 +4985,12 @@
       "to": "obsidianmd/pele",
       "relation": "port",
       "evidence": "crates.io bezel-mermaid 0.2.19 description: Mermaid source drawn as SVG, a port of Pele. Published .cargo_vcs_info.json identifies 25b1da54115d3253d457d6c1fb3f62c05261dd13; Rust source files directly match that checkout. Classification follows the explicit port description; shared Git-root ancestry was not inferred."
+    },
+    {
+      "from": "lukilabs/beautiful-mermaid",
+      "to": "mermaid-js/mermaid",
+      "relation": "derivative",
+      "evidence": "Maintainer correction 2026-10-28: derivative relationship, not a Git fork. Independent source root and separately recorded Mermaid ASCII component port are preserved."
     }
   ],
   "rendererBenchmarkExclusions": [

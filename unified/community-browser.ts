@@ -233,7 +233,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
           readFileSync(join(root, declaredBrowser), 'utf8').includes('window.__mermaid')
             ? declaredBrowser
             : undefined
-        if (peer.node.id === 'adewale/agentic-mermaid' || adapter === 'agentic') engine = make(root, 'dist/browser.global.js', 'beautiful', 'agenticMermaid')
+        if (adapter === 'agentic') engine = make(root, 'dist/browser.global.js', 'beautiful', 'agenticMermaid')
         else if (publicBeautifulBundle) {
           engine = make(root, publicBeautifulBundle, 'beautiful', '__mermaid')
           engine.scriptType = 'module'

@@ -27,7 +27,11 @@ export function currentReportVersion(record: ProjectBenchmarkRecord): string | n
   }
   // One record is one project artifact. Candidate and release records are
   // admitted independently, so their explicitly compared versions may differ.
-  assertBenchmarkSetVersions(claims)
+  const candidate = record.identity.lane === 'candidate' || !!(record.identity.artifact as any)?.candidate || !!(record.identity.artifact as any)?.package?.artifact?.candidate
+  if (candidate) {
+    for (const { version } of claims) if (!version.trim() || version !== version.trim()) throw Error('Missing artifact version in candidate record ' + record.id)
+    if (new Set(claims.map(claim => claim.version)).size > 1) throw Error('Mixed tool versions in candidate record ' + record.id)
+  } else assertBenchmarkSetVersions(claims)
   const owning = owners.find(([, version]) => typeof version === 'string')?.[1]
   return typeof owning === 'string' ? owning : null
 }

@@ -10,12 +10,13 @@ import type { BenchmarkObservation, UnifiedWorkload } from './types.ts'
 import { positiveRenderInput } from './workload-intent.ts'
 import { median } from '../portable/statistics.ts'
 import { assertCurrentReportSetVersions, currentReportVersion } from './current-report-versions.ts'
+import { copyPublicationMethods } from './publication-methods.ts'
 
 /** Mermaid defines valid input, so its row is the reference, not a contestant. */
 export const REFERENCE_PROJECT = 'mermaid-js/mermaid'
 /** Fewer rounds than this cannot calibrate a speed; such rows show no speed at all. */
 export const CALIBRATED_ROUNDS = 5
-/** Current rendering population; legacy raw counts use the same family selection. */
+/** The mark: ranks, "families supported" and the pass rate count these families only. */
 export const SCORED_FAMILIES = scoredFamilies()
 /** Preserve the old mark without excluding a stable family from today's score. */
 const LEGACY_FAMILIES = legacyScoredFamilies()
@@ -45,6 +46,7 @@ interface AuthoredLabelAdmission {
   excludedUnlabeled: number
   unmapped: number
 }
+
 export interface PositiveRenderAdmission {
   passed: number
   failed: number
@@ -71,8 +73,6 @@ export interface Lane {
   blocked: number
   /** Report-only subset; null when retained oracle caveats cannot establish its denominator. */
   authoredLabels?: AuthoredLabelAdmission | null
-  /** Explicit owner intent and observed pinned acceptance, never inferred from failures.
-   * Null when the retained input ledger cannot establish the pinned reference. */
   positiveRendering?: PositiveRenderAdmission | null
   legacy: { supported: number; passed: number; failed: number }
   /** The newer families, kept out of every number above; null when the record probed none of them. */
@@ -156,7 +156,7 @@ export function lanes(record: ProjectBenchmarkRecord, evidence?: ReportInputs): 
 
 const renderingOutput = (format: string) => ['svg', 'terminal', 'png'].includes(format)
 /** A stopped worker or unsupported family cannot shrink the positive denominator.
- * Unknown input intent/reference cannot establish a current rendering rank. */
+ * Unknown input intent/reference cannot establish a scoped positive rendering ratio. */
 export function positiveRenderScore(lane: Lane): { passed: number; total: number; rate: number } | null {
   const score = lane.positiveRendering
   if (lane.version === 'unavailable' || !score || score.unknownIntent || score.unknownReference || score.unmapped) return null
@@ -164,14 +164,8 @@ export function positiveRenderScore(lane: Lane): { passed: number; total: number
   return total ? { passed: score.passed, total, rate: score.passed / total } : null
 }
 
-/** Rendering: positive planned-population admission, family coverage, then speed.
- * Other outputs keep their own raw admission ordering; historical counts stay intact. */
+/** Correctness first: families supported, then pass rate in them, then calibrated speed. */
 export function leagueOrder(left: Lane, right: Lane): number {
-  if (renderingOutput(left.format) || renderingOutput(right.format)) {
-    const a = positiveRenderScore(left), b = positiveRenderScore(right)
-    if (!a || !b) return a ? -1 : b ? 1 : left.project.localeCompare(right.project)
-    return b.rate - a.rate || right.supported.length - left.supported.length || (left.coreFirstMs ?? Infinity) - (right.coreFirstMs ?? Infinity) || left.project.localeCompare(right.project)
-  }
   const rate = (lane: Lane) => (lane.passed + lane.failed ? lane.passed / (lane.passed + lane.failed) : 0)
   return right.supported.length - left.supported.length || rate(right) - rate(left) || (left.coreFirstMs ?? Infinity) - (right.coreFirstMs ?? Infinity) || left.project.localeCompare(right.project)
 }
@@ -228,12 +222,12 @@ export function reportInputs(record: ProjectBenchmarkRecord): ReportInputs {
     reference = document?.reference ?? null,
     rejected = ': pinned Mermaid rejected source ('
   for (const [index, workload] of declared.entries()) {
-    if (typeof workload?.id !== 'string' || !workload.id) { ledgerErrors.add(`Malformed retained workload identity at index ${index}; current rendering rank unavailable`); continue }
-    if (workloads.has(workload.id)) ledgerErrors.add(`Duplicate workload ID in retained input ledger: ${workload.id}; current rendering rank unavailable`)
+    if (typeof workload?.id !== 'string' || !workload.id) { ledgerErrors.add(`Malformed retained workload identity at index ${index}; positive rendering ratio unavailable`); continue }
+    if (workloads.has(workload.id)) ledgerErrors.add(`Duplicate workload ID in retained input ledger: ${workload.id}; positive rendering ratio unavailable`)
     workloads.set(workload.id, workload)
   }
   const rejectedCaseIds = new Set([...gaps.filter(gap => gap.includes(rejected)).map(gap => gap.slice(0, gap.indexOf(rejected))).filter(id => workloads.has(id)), ...[...workloads.values()].filter(workload => workload.referenceAdmission?.accepted === false).map(workload => workload.id)])
-  for (const workload of workloads.values()) if (workload.referenceAdmission?.accepted === true && rejectedCaseIds.has(workload.id)) ledgerErrors.add(`Contradictory pinned reference admission in retained input ledger: ${workload.id}; current rendering rank unavailable`)
+  for (const workload of workloads.values()) if (workload.referenceAdmission?.accepted === true && rejectedCaseIds.has(workload.id)) ledgerErrors.add(`Contradictory pinned reference admission in retained input ledger: ${workload.id}; positive rendering ratio unavailable`)
   gaps.push(...ledgerErrors)
   return {
     source: document ? document === context ? 'context' : 'community-inputs' : 'unavailable',
@@ -331,18 +325,16 @@ const speedVersus = (ms: number, reference: number) => {
   return ratio >= 1 ? `${multiple(ratio)}× faster` : `${multiple(1 / ratio)}× slower`
 }
 function table(lanes: Lane[], reference: Lane | undefined) {
-  const lines = ['| Rank | Tool | Version | Surface | Families supported | Raw admission (historical definition) | Newer families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Legacy 23-family mark | Positive render / planned | Record |', '|---:|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|']
-  const row = (lane: Lane, rank: string) => {
+  const lines = ['| Tool | Version | Surface | Families supported | Pass rate in supported families | Newer families | First-call fixed core | vs Mermaid | Repeated-source fixed core | Legacy 23-family mark | Record |', '|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|']
+  const row = (lane: Lane) => {
     const tool = `[${escape(lane.project)}](https://github.com/${lane.project})`,
       ratio = lane.surface === reference?.surface && lane.format === reference.format && lane.coreFirstMs !== null && reference.coreFirstMs ? speedVersus(lane.coreFirstMs, reference.coreFirstMs) : '—',
       ms = (value: number | null) => (value === null ? '—' : `${value.toFixed(2)} ms`),
-      positive = positiveRenderScore(lane),
       newer = !lane.newer ? '—' : lane.newer.supported.length ? `${lane.newer.supported.length}/${NEWER_FAMILIES.length}, ${percent(lane.newer.passed, lane.newer.passed + lane.newer.failed)}` : `0/${NEWER_FAMILIES.length}`
-    return `| ${rank} | ${lane === reference ? `*${tool} (reference)*` : tool} | ${escape(lane.version)} | ${SURFACES[lane.surface] ?? lane.surface} | ${lane.supported.length}/${SCORED_FAMILIES.length} | ${percent(lane.passed, lane.passed + lane.failed)} (${lane.passed}/${lane.passed + lane.failed}) | ${newer} | ${ms(lane.coreFirstMs)} | ${lane === reference && lane.coreFirstMs !== null ? 'reference' : ratio} | ${ms(lane.coreMedianMs)} | ${lane.legacy.supported}/${LEGACY_FAMILIES.length}, ${percent(lane.legacy.passed, lane.legacy.passed + lane.legacy.failed)} (${lane.legacy.passed}/${lane.legacy.passed + lane.legacy.failed}) | ${positive ? `${percent(positive.passed, positive.total)} (${positive.passed}/${positive.total})` : 'unavailable'} | [record](records/${slug(lane.project)}.json.gz) · [failures](failures/${slug(lane.project)}.md) |`
+    return `| ${lane === reference ? `*${tool} (reference)*` : tool} | ${escape(lane.version)} | ${SURFACES[lane.surface] ?? lane.surface} | ${lane.supported.length}/${SCORED_FAMILIES.length} | ${percent(lane.passed, lane.passed + lane.failed)} (${lane.passed}/${lane.passed + lane.failed}) | ${newer} | ${ms(lane.coreFirstMs)} | ${lane === reference && lane.coreFirstMs !== null ? 'reference' : ratio} | ${ms(lane.coreMedianMs)} | ${lane.legacy.supported}/${LEGACY_FAMILIES.length}, ${percent(lane.legacy.passed, lane.legacy.passed + lane.legacy.failed)} (${lane.legacy.passed}/${lane.legacy.passed + lane.legacy.failed}) | [record](records/${slug(lane.project)}.json.gz) · [failures](failures/${slug(lane.project)}.md) |`
   }
-  if (reference) lines.push(row(reference, '—'))
-  let rank = 0
-  lanes.forEach(lane => lines.push(row(lane, lane.version === 'unavailable' || (renderingOutput(lane.format) && !positiveRenderScore(lane)) ? '—' : String(++rank))))
+  if (reference) lines.push(row(reference))
+  lanes.forEach(lane => lines.push(row(lane)))
   return lines
 }
 
@@ -357,15 +349,15 @@ export const isCandidateRecord = (record: ProjectBenchmarkRecord) => {
 export function publishResults(store: string, out: string): { lanes: Lane[]; files: string[]; candidates: string[] } {
   const current = loadCurrentProjectRecords(store),
     records = current.filter(record => (record.identity.lane ?? 'community') === 'community')
+  assertCurrentReportSetVersions(records)
   const misfiled = records.filter(isCandidateRecord)
   if (misfiled.length) throw Error(`results:publish ranks releases only; the release lane of ${store} holds candidate records for ${misfiled.map(record => record.identity.project).join(', ')}`)
   if (!records.length) throw Error('No current community records in ' + store)
-  // Validate every included artifact/observed release before replacing output.
-  assertCurrentReportSetVersions(records)
   rmSync(join(out, 'records'), { recursive: true, force: true })
   rmSync(join(out, 'failures'), { recursive: true, force: true })
   rmSync(join(out, 'outputs'), { recursive: true, force: true })
   for (const directory of ['records', 'failures']) mkdirSync(join(out, directory), { recursive: true })
+  copyPublicationMethods(out)
   const inputEvidence = new Map(records.map(record => [record, reportInputs(record)]))
   const comparison = new Map<Lane, string>()
   const all = records.flatMap(record => {
@@ -381,11 +373,11 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
   const measured = records.map(record => record.finishedAt).sort()
   const calibrated = records.every(record => rounds(record) >= CALIBRATED_ROUNDS)
   const lines = [
-    '# Mermaid derivatives league table',
+    '# Mermaid public-artifact scorecards',
     '',
     `Measured ${measured[0]!.slice(0, 10)}${measured.at(-1)!.slice(0, 10) !== measured[0]!.slice(0, 10) ? ` to ${measured.at(-1)!.slice(0, 10)}` : ''} by [Trident](../README.md) against the pinned Mermaid ${MERMAID_ORACLE_PIN.version} oracle, on the corpus frozen from Agentic Mermaid ${communityCorpus().source.commit.slice(0, 8)}${communityCorpus().upstream ? `, with the newer families' examples from Mermaid's ${communityCorpus().upstream!.tag} syntax docs` : ''}. ${calibrated ? '' : `**Records with fewer than ${CALIBRATED_ROUNDS} rounds show no speed.**`}`,
     '',
-    `How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Tables group each output by public invocation surface and compatible protocol/runtime settings; costs and ranks never cross these boundaries. Rolling records are not paired same-session experiments. Rendering ranks use the share of the fixed, pinned-admitted positive-render population that passes qualification, including blocked, unsupported and missing outputs in its denominator. Ties use family coverage, then first-call fixed-core time. Unknown intent, reference admission or unmapped inputs leave rendering records unranked; non-render outputs retain their separate raw admission ordering. Records without an owning artifact version stay unranked and have no cost. Raw admission and the legacy 23-family mark remain visible with their historical definitions. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so it is measured with the same checks but not ranked. An unsupported family is a coverage gap: its positive inputs remain unavailable in the planned denominator, without rewriting them as failures. The legacy 23-family column preserves the original mark; the current mark also includes stable Event Modeling and required first-party ZenUML. "Newer families" counts how many of Mermaid's ${NEWER_FAMILIES.length} newest families the tool supports, with its pass rate in them; it never changes a rank or the other columns. See the [methodology](../METHODOLOGY.md).`,
+    `How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Tables group each output by public invocation surface and compatible protocol/runtime settings; costs never cross these boundaries. Rolling records are not paired same-session experiments. Rows are alphabetical within each group. Coverage, conditional pass rate and fixed-core timing are separate diagnostics; none determines a rank or overall winner. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so it is measured with the same checks but not ranked. An unsupported family is a coverage gap, never a failure. The legacy 23-family column preserves the original mark; the current mark also includes stable Event Modeling and required first-party ZenUML. "Newer families" counts how many of Mermaid's ${NEWER_FAMILIES.length} newest families the tool supports, with its pass rate in them; it never changes the other columns. See the [methodology](METHODOLOGY.md).`,
     '',
   ]
   for (const format of new Set([...Object.keys(OUTPUTS), ...all.map(lane => lane.format)])) {
@@ -403,28 +395,28 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
       for (const own of cohorts.values()) {
         if (cohorts.size > 1) lines.push(`#### Comparable cohort ${++cohort}`, '', 'Different protocol/runtime settings are shown separately; an absent matching Mermaid baseline has no ratio.', '')
         const reference = own.find(lane => lane.project === REFERENCE_PROJECT)
-        lines.push(...table(own.filter(lane => lane.project !== REFERENCE_PROJECT).sort(leagueOrder), reference), '')
+        lines.push(...table(own.filter(lane => lane.project !== REFERENCE_PROJECT).sort((a, b) => a.project.localeCompare(b.project) || a.surface.localeCompare(b.surface)), reference), '')
       }
     }
   }
-  lines.push('## Input oracle caveats', '', 'Raw current and legacy marks and ranks above remain unchanged. They include retained legacy/parser fixtures and unlabeled format-only checks; their pass rates are not a complete Mermaid-fidelity score. Caveats come from each record’s frozen input context, never from a peer’s output. Counts below describe the input ledger, not executed cases; rejected and unlabeled sets may overlap.', '', '| Tool | Retained oracle warnings | Pinned-rejected inputs | Inputs without authored labels |', '|---|---:|---:|---:|')
+  lines.push('## Input oracle caveats', '', 'Raw current and legacy observations above remain unchanged. They include retained legacy/parser fixtures and unlabeled format-only checks; their pass rates are not a complete Mermaid-fidelity score. Caveats come from each record’s frozen input context, never from a peer’s output. Counts below describe the input ledger, not executed cases; rejected and unlabeled sets may overlap.', '', '| Tool | Retained oracle warnings | Pinned-rejected inputs | Inputs without authored labels |', '|---|---:|---:|---:|')
   for (const record of records) {
     const evidence = inputEvidence.get(record)!
     lines.push(`| ${escape(record.identity.project)} | ${evidence.oracleLedgerComplete ? evidence.gaps.length : 'unavailable'} | ${evidence.oracleLedgerComplete ? evidence.rejectedCaseIds.size : '—'} | ${evidence.source === 'unavailable' ? '—' : [...evidence.workloads.values()].filter(workload => !workload.expectedLabels?.some(label => label.trim())).length} |`)
   }
   if ([...inputEvidence.values()].some(evidence => !evidence.oracleLedgerComplete)) lines.push('', 'Retained input caveats are unavailable for some records. Their original observations remain visible; no secondary positive-input score is inferred.')
-  lines.push('', 'All input warnings are retained in each portable record’s `inputEvidence.gaps` and merged into its published `gaps`. SVG XML portability is distinct from browser drawing behavior: an unbound namespace prefix or HTML named entity can fail standalone XML admission even when an HTML page can display the drawing.', '', '## Pinned-accepted format-and-label admission', '', `Secondary SVG/terminal view for the ${SCORED_FAMILIES.length} current families, restricted to cases with nonempty recorded labels and no pinned-oracle rejection. This does not replace the raw mark or affect ranks. This view still retains runtime and standalone-XML failures, even when a browser can display readable labels; it is format-and-label admission, not a count of label defects. It does not establish topology, multiplicity, painted visibility, native-model coverage or complete fidelity. Explicit authored labels remain checkable when a DB getter is unavailable; a no-op parser such as ZenUML’s does not prove syntax validation. Parser-only fixtures may still fail rendering, so this is not a ledger of independently certified complete diagrams.`, '', '| Tool | Surface | Output | Passed / checked | Blocked / unavailable | Excluded rejected / unlabeled | Unmapped inputs |', '|---|---|---|---:|---:|---:|---:|')
+  lines.push('', 'All input warnings are retained in each portable record’s `inputEvidence.gaps` and merged into its published `gaps`. SVG XML portability is distinct from browser drawing behavior: an unbound namespace prefix or HTML named entity can fail standalone XML admission even when an HTML page can display the drawing.', '', '## Pinned-accepted format-and-label admission', '', `Secondary SVG/terminal view for the ${SCORED_FAMILIES.length} current families, restricted to cases with nonempty recorded labels and no pinned-oracle rejection. This does not replace the raw observations. This view still retains runtime and standalone-XML failures, even when a browser can display readable labels; it is format-and-label admission, not a count of label defects. It does not establish topology, multiplicity, painted visibility, native-model coverage or complete fidelity. Explicit authored labels remain checkable when a DB getter is unavailable; a no-op parser such as ZenUML’s does not prove syntax validation. Parser-only fixtures may still fail rendering, so this is not a ledger of independently certified complete diagrams.`, '', '| Tool | Surface | Output | Passed / checked | Blocked / unavailable | Excluded rejected / unlabeled | Unmapped inputs |', '|---|---|---|---:|---:|---:|---:|')
   for (const lane of all.filter(lane => ['svg', 'terminal'].includes(lane.format))) {
     const score = lane.authoredLabels
     lines.push(`| ${escape(lane.project)} | ${SURFACES[lane.surface] ?? lane.surface} | ${OUTPUTS[lane.format]} | ${score ? `${percent(score.passed, score.passed + score.failed)} (${score.passed}/${score.passed + score.failed})` : 'unavailable'} | ${score ? `${score.blocked} / ${score.unavailable}` : '—'} | ${score ? `${score.excludedRejected} / ${score.excludedUnlabeled}` : '—'} | ${score?.unmapped ?? '—'} |`)
   }
-  lines.push('', '## Declared positive rendering', '', 'Only inputs explicitly declared renderable by their owner and actually accepted by the pinned parser enter this fixed denominator; blocked, unsupported and missing outputs remain included. The current rendering rank requires complete known intent/reference declarations. Counts for partial known populations remain visible below without earning a rank. Parser-only fixtures, intentional negative/diagnostic cases and observed reference rejection remain separate. Unknown historical intent/admission is unavailable, never inferred from a tool’s output or failure. This is admission under the output qualifier, not full semantic or perceptual fidelity; PNG decoded-content checks do not establish text/topology.', '', '| Tool | Surface | Output | Passed / known planned | Blocked / unavailable | Excluded parser / diagnostic / rejected | Unknown intent / reference / unmapped |', '|---|---|---|---:|---:|---:|---:|')
+  lines.push('', '## Declared positive rendering', '', 'Only inputs explicitly declared renderable by their owner and actually accepted by the pinned parser enter this fixed denominator; blocked, unsupported and missing outputs remain included. A scoped positive-render ratio requires complete known intent/reference declarations. Counts for partial known populations remain visible below without implying a complete ratio. Parser-only fixtures, intentional negative/diagnostic cases and observed reference rejection remain separate. Unknown historical intent/admission is unavailable, never inferred from a tool’s output or failure. This is admission under the output qualifier, not full semantic or perceptual fidelity; PNG decoded-content checks do not establish text/topology.', '', '| Tool | Surface | Output | Passed / known planned | Blocked / unavailable | Excluded parser / diagnostic / rejected | Unknown intent / reference / unmapped |', '|---|---|---|---:|---:|---:|---:|')
   for (const lane of all.filter(lane => ['svg', 'terminal', 'png'].includes(lane.format))) {
     const score = lane.positiveRendering
     lines.push(`| ${escape(lane.project)} | ${SURFACES[lane.surface] ?? lane.surface} | ${OUTPUTS[lane.format]} | ${score ? `${percent(score.passed, score.passed + score.failed + score.blocked + score.unavailable)} (${score.passed}/${score.passed + score.failed + score.blocked + score.unavailable})` : 'unavailable'} | ${score ? `${score.blocked} / ${score.unavailable}` : '—'} | ${score ? `${score.excludedParserOnly} / ${score.excludedDiagnostic} / ${score.excludedReferenceRejected}` : '—'} | ${score ? `${score.unknownIntent} / ${score.unknownReference} / ${score.unmapped}` : '—'} |`)
   }
   lines.push('')
-  const grid = all.filter(lane => lane.format === 'svg' || lane.format === 'terminal').sort(leagueOrder)
+  const grid = all.filter(lane => lane.format === 'svg' || lane.format === 'terminal').sort((a, b) => a.project.localeCompare(b.project) || a.surface.localeCompare(b.surface))
   const header = [`| Family | ${grid.map(lane => `${escape(lane.project.split('/')[1])} (${SURFACES[lane.surface] ?? lane.surface}, ${OUTPUTS[lane.format]})`).join(' | ')} |`, `|---|${grid.map(() => '---:').join('|')}|`]
   const cell = (lane: Lane, family: string) => (lane.families[family]!.unsupported ? '—' : percent(lane.families[family]!.passed, lane.families[family]!.passed + lane.families[family]!.failed))
   lines.push('## Families', '', `Pass rate per family, for each tool's SVG and terminal surfaces. "—" means the tool does not support the family. These are the ${SCORED_FAMILIES.length} scored families.`, '', ...header)

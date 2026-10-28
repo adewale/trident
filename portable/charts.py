@@ -49,11 +49,7 @@ def criteria(case):
 
 
 def family_cases(summary):
-    return sorted((case for case in summary["cases"] if case["cohort"] == "family"), key=lambda case: (case["family"], case.get("layoutBackend") or ""))
-
-
-def case_label(case):
-    return case["family"] + (" / " + case["layoutBackend"] if case.get("layoutBackend") else "")
+    return sorted((case for case in summary["cases"] if case["cohort"] == "family"), key=lambda case: case["family"])
 
 
 def timing(summary, case_id, track):
@@ -66,7 +62,7 @@ def positive_value(row, key):
 
 
 def decorate_y(axis, cases):
-    axis.set_yticks(range(len(cases)), [case_label(case) for case in cases])
+    axis.set_yticks(range(len(cases)), [case["family"] for case in cases])
     axis.invert_yaxis()
     for label, case in zip(axis.get_yticklabels(), cases):
         label.set_color(COLORS[criteria(case)])
@@ -114,15 +110,15 @@ def family_latency(summary, plt, line_type):
 
 def scaling(summary, plt):
     rows = [row for row in summary["timing"] if row["cohort"] == "scaling"]
-    families = sorted({(row["family"], row.get("layoutBackend") or "") for row in rows})
+    families = sorted({row["family"] for row in rows})
     figure, axes = plt.subplots(1, 2, figsize=(13, 6), sharex=True)
     case_by_id = {case["id"]: case for case in summary["cases"]}
     palette = plt.get_cmap("tab10")
     omitted = 0
     incomplete = 0
-    for family_index, (family, backend) in enumerate(families):
+    for family_index, family in enumerate(families):
         for axis, track, key in ((axes[0], "warm-repeat", "medianMs"), (axes[1], "first-use", "p95Ms")):
-            selected = sorted((row for row in rows if row["family"] == family and (row.get("layoutBackend") or "") == backend and row["track"] == track and finite(row.get("scale")) and row["scale"] > 0), key=lambda row: row["scale"])
+            selected = sorted((row for row in rows if row["family"] == family and row["track"] == track and finite(row.get("scale")) and row["scale"] > 0), key=lambda row: row["scale"])
             # Missing sizes break the curve rather than suggesting an observed interpolation.
             xs, ys = [], []
             for row in selected:
@@ -136,7 +132,7 @@ def scaling(summary, plt):
                     incomplete += not complete
                     axis.scatter(row["scale"], value, marker="o" if calibrated else "x", color=palette(family_index % 10), s=38, zorder=3)
             if xs:
-                axis.plot(xs, ys, color=palette(family_index % 10), label=family + (" / " + backend if backend else ""), linewidth=1.3)
+                axis.plot(xs, ys, color=palette(family_index % 10), label=family, linewidth=1.3)
     for axis, title in zip(axes, ("Warm repeated API median", "Fresh-process first-use p95")):
         axis.set_xscale("log")
         axis.set_yscale("log")

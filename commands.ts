@@ -1,5 +1,6 @@
+import { TRIDENT_VERSION } from './version.ts'
 import { spawnSync } from 'node:child_process'
-import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
+import { existsSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { assertBenchmarkExecutionAllowed } from './ci-policy.ts'
@@ -8,10 +9,17 @@ const directory = dirname(fileURLToPath(import.meta.url))
 const help = `Trident — benchmarks for Mermaid renderers, terminal tools and parsers
 
 Benchmark catalog projects (Bun):
+  bun commands.ts support [--lineage] [--out FILE.md|json]
+  bun commands.ts support:verify --prepared FILE --out FRESH_DIRECTORY
+  bun commands.ts bench --projects OWNER/TOOL[,...] --plan
+  bun commands.ts bench --projects OWNER/TOOL[,...] --profile full --rounds 5 --out DIR
+  bun commands.ts bench --list
   bun commands.ts community:update --projects OWNER/TOOL[,...] --records DIR --out DIR
   bun commands.ts community:update --help
   bun commands.ts results:publish --records DIR --out DIR
   bun commands.ts results:compare --records DIR --project OWNER/TOOL [--out FILE]
+  bun commands.ts results:campaign --campaign DIR --out FRESH_DIR [--copy-evidence]
+  bun commands.ts corpus:freeze --policy FILE --out FRESH_FILE
 
 Benchmark an installed artifact (Node 24):
   node commands.ts build [--out FRESH_DIRECTORY]
@@ -19,56 +27,33 @@ Benchmark an installed artifact (Node 24):
 
 Setup and read evidence:
   node commands.ts mermaid:install [--dir DIRECTORY]
-  bun commands.ts upstream:prepare --runtime DIRECTORY [--source PINNED_SOURCE] [--reference ORACLE]
   node commands.ts fidelity:report --core REPORT [--community REPORT] --out DIRECTORY
   node commands.ts export --input FILE [--out FRESH_FILE]
 
+Version: node commands.ts --version
+
 Maintainer checks (Bun): test, typecheck, lint
-Optional project-specific source tools: adapter --help
 
 See BENCHMARKS.md for questions, usefulness, limitations and prerequisites.
+Normal comparisons exclude descendants without distinct recorded branding,
+zero-ahead versions and shared-engine bindings. See support --lineage; override
+with --include-excluded-descendants only for a fork/version/runtime investigation.
 Public commands need no source checkout of a benchmarked project. Every tool uses
 its catalog release, or the same explicit --candidate-* options. Build defaults
 to portable/dist; custom kits run via node KIT/run.mjs. Measurements reject CI.
 --help starts no benchmark and needs no oracle. Use COMMAND --help for options.
 `
-function adapterFiles(): Set<string> {
-  const exclude: string[] = JSON.parse(readFileSync(resolve(directory, 'tsconfig.standalone.json'), 'utf8')).exclude
-  return new Set(exclude.filter(entry => !['node_modules', 'dist', '.cache'].includes(entry)))
-}
-
-function standaloneTests(): string[] {
-  const adapter = adapterFiles()
-  return readdirSync(resolve(directory, 'tests'))
-    .filter(name => name.endsWith('.test.ts') && !adapter.has('tests/' + name))
-    .sort()
-    .map(name => resolve(directory, 'tests', name))
-}
-
 async function main() {
   const [command, ...args] = process.argv.slice(2)
+  if (['--version', 'version'].includes(command ?? '') && args.length === 0) { console.log('Trident ' + TRIDENT_VERSION); return }
   if (!command || command === '--help' || command === 'help') { console.log(help); return }
-  if (command === 'adapter') {
-    const name = args.shift()
-    if (!name || name === '--help') { console.log('Optional source adapters: agentic\nUse bun commands.ts adapter NAME --help. Source diagnostics are separate from public artifact benchmarks.'); return }
-    if (name !== 'agentic') throw Error('Unknown source adapter ' + name)
-    const { runAgentic } = await import('./adapters/agentic/cli.ts')
-    await runAgentic(args)
-    return
-  }
-  // Existing product launchers remain callable; never infer these from the checkout or environment.
-  if (['agentic', 'bench', 'source', 'prs', 'corpus:import'].includes(command)) {
-    const { runAgentic } = await import('./adapters/agentic/cli.ts')
-    await runAgentic([command === 'agentic' || command === 'bench' ? 'run' : command, ...args])
-    return
-  }
   const aliases: Record<string, string> = { 'portable:build': 'build', community: 'community:update' }
   const selected = Object.hasOwn(aliases, command) ? aliases[command]! : command
   const neutral: Record<string, string> = { build: 'portable/build.ts', portable: 'portable/run.ts', 'fidelity:report': 'fidelity/report.ts' }
-  const own: Record<string, string> = { 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts', 'upstream:prepare': 'unified/prepare-upstream.ts' }
+  const own: Record<string, string> = { 'support:verify': 'unified/support-verification.ts', support: 'unified/support-command.ts', bench: 'unified/benchmark.ts', 'corpus:freeze': 'unified/external-corpus.ts', 'results:campaign': 'unified/campaign-publication.ts', 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
   const checks: Record<string, string[]> = {
-    test: ['test', '--timeout', '30000', '--parallel=2', ...standaloneTests()],
-    typecheck: ['x', '--no-install', 'tsc', '--noEmit', '-p', resolve(directory, 'tsconfig.standalone.json')],
+    test: ['test', '--timeout', '30000', '--parallel=2', resolve(directory, 'tests')],
+    typecheck: ['x', '--no-install', 'tsc', '--noEmit', '-p', resolve(directory, 'tsconfig.json')],
     lint: ['x', '--no-install', 'biome', 'lint', '--config-path', resolve(directory, 'biome.json'), directory],
   }
   if (selected === 'export') {
@@ -124,7 +109,7 @@ async function main() {
     if (!process.versions.bun) throw Error('Maintainer checks require Bun 1.4 or later')
     argv = checks[selected]!
   } else throw Error(`Unknown Trident command ${command}; use --help`)
-  assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !args.includes('--help') && !['build', 'fidelity:report', 'typecheck', 'lint', 'upstream:prepare', 'results:publish', 'results:compare'].includes(selected) })
+  assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !args.includes('--help') && !args.includes('--list') && !args.includes('--plan') && !['support', 'results:campaign', 'build', 'fidelity:report', 'typecheck', 'lint', 'results:publish', 'results:compare'].includes(selected) })
   const result = spawnSync(executable, [...argv, ...args], { cwd, stdio: 'inherit' })
   if (result.error) throw result.error
   process.exitCode = result.status ?? 1

@@ -1,5 +1,5 @@
 /** Additive cohorts. Dave and the historical six-core comparison stay unchanged. */
-export const PORTABLE_COHORT_PROTOCOL = 'portable-authored-family-scaling-v2'
+export const PORTABLE_COHORT_PROTOCOL = 'portable-authored-family-scaling-v3'
 export type PortableCohort = 'family' | 'scaling' | 'adversarial' | 'invalid'
 export type Json = null | boolean | number | string | Json[] | { [key: string]: Json }
 export interface PortableEdge {
@@ -18,9 +18,8 @@ export interface PortableCase {
     model?: { path: (string | number | { map: string })[]; value: Json; comparison?: 'display-text' }[]
     topology?: { nodes: string[]; edges: PortableEdge[]; nodeLabels?: Record<string, string>; groups?: { id: string; members: string[] }[] }
   }
+  /** Semantic configuration intent translated through a reviewed public API. */
   renderOptions?: Record<string, Json>
-  /** Explicit API/backend experiment; never inferred from an ignored option. */
-  layoutBackend?: 'elk' | 'agentic'
   prelude?: { source: string; accept: boolean }[]
   edit?: { source: string; expected: PortableCase['expected']; renderOptions?: Record<string, Json> }
 }
@@ -396,18 +395,6 @@ export function portableCases(selection?: readonly PortableCohort[]): PortableCa
   const required = [newerFamilyCases.find(testCase => testCase.family === 'eventmodeling')!, ...requiredExternalFamilyCases()]
   const cases = [...familyCases, ...required, ...['flowchart', 'sequence', 'class', 'state', 'er', 'architecture'].flatMap(family => [8, 32, 128].map(size => scalingCase(family, size))), ...adversarialCases, ...invalidCases]
   return selection ? cases.filter(testCase => selection.includes(testCase.cohort)) : cases
-}
-
-/** The optional graph engine experiment uses the same authored positive cases
- * per backend and requires public receipt evidence; no peer silently ignoring
- * Agentic options receives backend-specific speed credit. */
-export function layoutBackendCases(cases: readonly PortableCase[], backends: readonly ('elk' | 'agentic')[]): PortableCase[] {
-  if (!backends.length || new Set(backends).size !== backends.length || backends.some(backend => !['elk', 'agentic'].includes(backend))) throw Error('Select unique layout backends: elk,agentic')
-  return cases.filter(testCase => testCase.expected.accept && ['flowchart', 'state', 'class', 'er', 'architecture', 'requirement'].includes(testCase.family)).flatMap(testCase => backends.map(layoutBackend => ({
-    ...testCase, id: `${testCase.id}:backend:${layoutBackend}`, layoutBackend,
-    renderOptions: { ...testCase.renderOptions, graphLayout: { backend: layoutBackend, fallback: 'none' } },
-    ...(testCase.edit ? { edit: { ...testCase.edit, renderOptions: { ...(testCase.edit.renderOptions ?? testCase.renderOptions), graphLayout: { backend: layoutBackend, fallback: 'none' } } } } : {}),
-  })))
 }
 
 /** A family is supported when the renderer accepts its canonical family-cohort source.

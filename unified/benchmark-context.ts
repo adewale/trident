@@ -1,3 +1,4 @@
+import { harnessFile } from './harness-paths.ts'
 import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync, readdirSync, realpathSync, statSync } from 'node:fs'
 import { createRequire } from 'node:module'
@@ -5,6 +6,7 @@ import { dirname, join } from 'node:path'
 import { byteDigest } from '../portable/artifacts.ts'
 import { environmentIdentity } from '../portable/environment.ts'
 import { captureInstalledDependencyClosure } from '../portable/artifact-dependencies.ts'
+import { tridentDirectory } from './trident-paths.ts'
 import { protocolIdentity } from './protocol-identity.ts'
 
 /** The Chromium a browser lane runs when none is configured: the system browser
@@ -45,7 +47,7 @@ export function deliveredArtifactIdentity(directory: string, omitNestedDependenc
 /** Bind actual fetched dependency bytes as well as our committed producer
  * closure. A qualifier update must invalidate qualification, not just clocks. */
 export function benchmarkContext(harnessRoot: string, node: string, producers: readonly string[], optionalTools: readonly string[] = []) {
-  const require = createRequire(join(harnessRoot, 'eval/benchmark/package.json'))
+  const require = createRequire(harnessFile(harnessRoot, 'eval/benchmark/package.json'))
   const typescript = require.resolve('typescript')
   const tools = optionalTools.map(specifier => {
     const entry = require.resolve(specifier)
@@ -61,7 +63,7 @@ export function benchmarkContext(harnessRoot: string, node: string, producers: r
   })
   return {
     producers: protocolIdentity(harnessRoot, producers),
-    dependencies: captureInstalledDependencyClosure(join(harnessRoot, 'eval/benchmark')),
+    dependencies: captureInstalledDependencyClosure(tridentDirectory),
     typescript: { path: typescript, sha256: byteDigest(typescript) },
     driver: { executable: process.execPath, sha256: byteDigest(process.execPath), versions: process.versions },
     executionEnvironment: Object.fromEntries(['NODE_COMPILE_CACHE', 'NODE_DISABLE_COMPILE_CACHE', 'BUN_OPTIONS', 'BUN_RUNTIME_TRANSPILER_CACHE_PATH', 'UV_THREADPOOL_SIZE'].map(name => [name, process.env[name] ?? null])),

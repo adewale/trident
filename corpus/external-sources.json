@@ -1,0 +1,46 @@
+{
+  "protocol": "external-repository-examples-v1",
+  "maxFilesPerProject": 20,
+  "sources": [
+    {
+      "repository": "AlexanderGrooff/mermaid-ascii",
+      "commit": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+      "license": "MIT"
+    },
+    {
+      "repository": "Dicklesworthstone/frankenmermaid",
+      "commit": "29536a1308acd1bae4da8b72b4cebffb39709ae0",
+      "license": "MIT License (with OpenAI/Anthropic Rider)"
+    },
+    {
+      "repository": "adewale/agentic-mermaid",
+      "commit": "d18c718d0253f45d279a9c12e60a96ee8cc9283c",
+      "license": "MIT"
+    },
+    {
+      "repository": "dfadler/zombie-mermaid",
+      "commit": "8cc982128bed11d976fb38164c4cdb47be7bd34d",
+      "license": "MIT"
+    },
+    {
+      "repository": "lukilabs/beautiful-mermaid",
+      "commit": "2ac8bbbb060ca0a65a6a21f3200bd99b1587b488",
+      "license": "MIT"
+    },
+    {
+      "repository": "mermaid-js/mermaid",
+      "commit": "e28fbd9ded0a07ba9569e51be4764c1ad4daa8f6",
+      "license": "MIT"
+    },
+    {
+      "repository": "obsidianmd/pele",
+      "commit": "44da152bbb79b91f03e68016f42499bb25bf6e82",
+      "license": "MIT"
+    },
+    {
+      "repository": "orestesgaolin/mermaid",
+      "commit": "3e92b91bcbad0b883ce6a4c8826015b5fa1c10f7",
+      "license": "MIT"
+    }
+  ]
+}

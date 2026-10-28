@@ -1,8 +1,11 @@
-# Benchmark inventory
+# Executable inventory
 
-Use [BENCHMARKS.md](BENCHMARKS.md) for descriptions, value judgments and run paths. The inventory has two boundaries:
+`bun commands.ts bench --list` lists the public-artifact suites and selected catalog
+projects. [BENCHMARKS.md](BENCHMARKS.md) explains their questions and limits.
 
-- **Public artifact benchmarks:** `community:update`, compiled `run`, and the records/reports they produce. They need actual project artifacts and the independent Mermaid oracle, not an Agentic source checkout.
-- **Optional source experiments:** explicit source-adapter suites, owning product tests, preparation, orchestration and report readers. List their exact current IDs with `bun commands.ts adapter agentic run --list --profile full` after source setup. See [adapter inventory](adapters/agentic/INVENTORY.md).
+`community:update`, portable `run`, `results:publish`, `results:compare`,
+`fidelity:report` and `export` remain independent public entry points. Preparation
+and report readers do not create additional benchmark scores.
 
-A test file, record reducer, corpus builder or campaign controller is not an additional independent benchmark. A callable runner is not evidence that all prerequisites exist, all tools are supported, or a completed score has been published. Old snapshots have been removed.
+Product source/editor/release orchestration lives in its owning repository.
+Agentic Mermaid lists its local diagnostics with `bun run bench --list --profile full`.

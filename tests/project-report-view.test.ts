@@ -88,7 +88,7 @@ test('legacy project metadata is attributed consistently in coverage and exporte
   }
 })
 
-test('community league costs compare and rank within each invocation surface', () => {
+test('unranked scorecards compare costs only within each invocation surface', () => {
   const directory = mkdtempSync(join(tmpdir(), 'community-league-boundaries-')),
     store = join(directory, 'store'),
     out = join(directory, 'published')
@@ -127,21 +127,22 @@ test('community league costs compare and rank within each invocation surface', (
       rows = markdown.split('\n')
     const node = rows.find(line => line.includes('[fixture/node]'))!.split('|'),
       browser = rows.find(line => line.includes('[fixture/browser]'))!.split('|')
-    expect(node[9]!.trim()).toBe('—')
-    expect(browser[9]!.trim()).toBe('2.0× faster')
+    expect(node[8]!.trim()).toBe('—')
+    expect(browser[8]!.trim()).toBe('2.0× faster')
     expect(
       rows
         .find(line => line.includes('[fixture/remote]'))!
-        .split('|')[9]!
+        .split('|')[8]!
         .trim(),
     ).toBe('—')
-    expect(node[1]!.trim()).toBe('1')
-    expect(browser[1]!.trim()).toBe('1')
+    expect(node[1]!.trim()).toContain('[fixture/node]')
+    expect(markdown).not.toContain('| Rank |')
+    expect(browser[1]!.trim()).toContain('[fixture/browser]')
     expect(markdown).toContain('## Formatted Mermaid source')
     expect(
       rows
         .find(line => line.includes('[fixture/formatter]'))!
-        .split('|')[9]!
+        .split('|')[8]!
         .trim(),
     ).toBe('—')
     expect(markdown).toContain('### Node API')
@@ -186,10 +187,10 @@ test('stable Event Modeling changes the current mark while beta additions leave 
     publishResults(store, out)
     const markdown = readFileSync(join(out, 'README.md'), 'utf8')
     const cells = markdown.split('\n').find(line => line.includes('[fixture/newer]'))!.split('|').map(cell => cell.trim())
-    expect(cells[5]).toBe('2/25')
-    expect(cells[6]).toBe('50.0% (1/2)')
-    expect(cells[7]).toBe('1/8, 50.0%')
-    expect(cells[11]).toBe('1/23, 100.0% (1/1)')
+    expect(cells[4]).toBe('2/25')
+    expect(cells[5]).toBe('50.0% (1/2)')
+    expect(cells[6]).toBe('1/8, 50.0%')
+    expect(cells[10]).toBe('1/23, 100.0% (1/1)')
     const newer = markdown.slice(markdown.indexOf('### Newer families'))
     expect(newer).toContain('| venn | 50.0% |')
     expect(newer).toContain('| wardley | — |')
@@ -299,7 +300,7 @@ test('first-call core reports use the arithmetic median for six rounds', () => {
 })
 
 
-test('current rendering ranks count the fixed positive population and leave unknown historical scores unranked', () => {
+test('positive-render diagnostics retain their planned population without ranking projects', () => {
   const directory = mkdtempSync(join(tmpdir(), 'community-positive-rank-')),
     store = join(directory, 'store'), out = join(directory, 'published')
   const workloads = ['A', 'B', 'C', 'D', 'parser', 'diagnostic'].map(id => ({ id, family: 'flowchart', source: `flowchart LR\n A[${id}]`, intent: id === 'parser' ? 'parse-only' : id === 'diagnostic' ? 'diagnostic' : 'render', referenceAdmission: { accepted: true }, features: [], provenance: 'Independent fixed-population report counterexample' }))
@@ -329,20 +330,15 @@ test('current rendering ranks count the fixed positive population and leave unkn
     expect([partial.passed, partial.failed, partial.blocked]).toEqual([3, 0, 1])
     expect(positiveRenderScore(whole)).toEqual({ passed: 2, total: 4, rate: 0.5 })
     expect(positiveRenderScore(partial)).toEqual({ passed: 1, total: 4, rate: 0.25 })
-    expect(cells('fixture/z-whole')[1]).toBe('1')
-    expect(cells('fixture/z-whole')[12]).toBe('50.0% (2/4)')
-    expect(cells('fixture/a-partial')[1]).toBe('2')
-    expect(cells('fixture/a-partial')[12]).toBe('25.0% (1/4)')
-    expect(cells('fixture/stopped')[1]).toBe('3')
-    expect(cells('fixture/stopped')[12]).toBe('0.0% (0/4)')
-    expect(cells('fixture/stopped-failed')[1]).toBe('4')
-    expect(cells('fixture/stopped-failed')[12]).toBe('0.0% (0/4)')
-    expect(cells('fixture/unsupported-families')[1]).toBe('5')
-    expect(cells('fixture/unsupported-families')[12]).toBe('0.0% (0/4)')
+    expect(markdown).not.toContain('| Rank |')
+    expect(markdown.indexOf('[fixture/a-partial]')).toBeLessThan(markdown.indexOf('[fixture/z-whole]'))
+    const positiveTable = markdown.slice(markdown.indexOf('## Declared positive rendering'))
+    for (const [project, fraction] of [['z-whole','50.0% (2/4)'], ['a-partial','25.0% (1/4)'], ['stopped','0.0% (0/4)'], ['stopped-failed','0.0% (0/4)'], ['unsupported-families','0.0% (0/4)']]) {
+      expect(positiveTable.split('\n').find(line => line.startsWith('| fixture/' + project + ' |'))).toContain(fraction!)
+    }
     expect(result.lanes.some(lane => ['fixture/inapplicable', 'fixture/unbound'].includes(lane.project))).toBe(false)
     for (const kind of ['legacy', 'unknown-intent', 'unknown-reference', 'conflicting-reference', 'duplicate-id', 'missing-pin']) {
-      expect(cells(`fixture/${kind}`)[1]).toBe('—')
-      expect(cells(`fixture/${kind}`)[6]).toBe('100.0% (6/6)')
+      expect(cells(`fixture/${kind}`).join('|')).toContain('100.0% (6/6)')
       expect(positiveRenderScore(result.lanes.find(lane => lane.project === `fixture/${kind}`)!)).toBeNull()
     }
     for (const [kind, message] of [['conflicting-reference', 'Contradictory pinned reference admission'], ['duplicate-id', 'Duplicate workload ID']] as const) {

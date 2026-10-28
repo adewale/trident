@@ -1,158 +1,76 @@
-# Benchmarks: what they measure and whether they are useful
+# Benchmarks: questions, results and value
 
-A benchmark is useful when it answers a decision you actually face. Trident keeps capability, correctness, latency, resources and delivery separate. There is no overall score and no current published result set: the old snapshots have been removed.
-
-**Start here:** use community admission to find unsupported or broken inputs; use authored meaning/paint checks to investigate fidelity; use first-result/scaling experiments for performance decisions. The six-input community speed core is a narrow repeat workload, not evidence of general rendering speed.
-
-## Where workloads run
-
-| Boundary | Commands | Requirement |
-|---|---|---|
-| Public artifact benchmarks | `community:update`, compiled `run` | Catalog/installed project artifact, pinned oracle and required runtime/browser |
-| Existing source experiments | `adapter agentic run --suites ID` or `adapter agentic source SCRIPT` | Explicit source checkout; some runners also have fixed comparator sets |
-| Reports and preparation | `results:publish`, `results:compare`, `export`, `fidelity:report`, corpus import | Existing evidence or input preparation; these do not create another benchmark score |
-
-Use [public setup](README.md#benchmark-a-project) or [source-adapter setup](adapters/agentic/README.md). For any source ID below, the common command is:
+Trident compares public artifacts. No project source tree, editor or release
+policy is treated as the harness. There is no overall winner or validated holdout.
+The old published snapshots have been removed; new evidence is generated outside
+tracked source files.
 
 ```sh
-TRIDENT_AGENTIC_ROOT=/checkouts/agentic-mermaid bun commands.ts adapter agentic run \
-  --profile full --suites ID --rounds 5 --out /evidence/ID
+bun commands.ts bench --projects OWNER/TOOL,... --profile full --rounds 5 --out /evidence/full
+bun commands.ts bench --list
+bun commands.ts support
+bun commands.ts bench --projects OWNER/TOOL,... --profile full --plan
 ```
 
-Add the actual prerequisites for that workload. `--list --profile full` resolves the current inventory without running measurements. Product test groups remain product checks; a large count of test groups does not mean a large collection of independent benchmarks.
-
-## Community output admission
-
-**Question:** which of my Mermaid inputs can this tool return in the requested format, retaining expected labels? **Value: high for compatibility triage; limited for fidelity.**
-
-Run `bun commands.ts community:update --projects OWNER/TOOL --profile full --rounds 5 --records /evidence/records --out /evidence/run`. SVG, terminal, PNG and parser lanes stay separate. Inspect the per-case record, family grid and failure pages produced by `results:publish`.
-
-The score is passed/failed/blocked/unsupported input evidence, with family coverage and the actual denominator. XML and label existence do not establish identities, relationships, visibility or good layout. PNG admission validates the complete encoding, decodes bounded pixels and rejects blank content; readable labels and diagram meaning need separate evidence. A parser-only fixture must not be called a render defect. Different supported subsets cannot be read as equivalent fidelity percentages.
-
-## Community API and CLI costs
-
-**Question:** what does a named public call or CLI process cost on the same inputs? **Value: useful as a narrow diagnostic; weak as a general performance ranking.**
-
-The community update also measures a fixed six-input API core, browser loading/delivery/heap scopes and admitted CLI processes. `community-cli` is the source controller ID for its separate CLI supplement. An npm CLI must be declared in the catalog; no project gets an automatic local binary. Resources are collected separately from latency.
-
-Read first-call versus repeated-source costs by surface. Only a complete qualified core can receive a portfolio time. Those six inputs are development-exposed and too narrow to represent all families or production. A cached identical source answers a real cache workload; it is not evidence of uncached layout speed. The report's admission ordering is not an overall winner. See [methodology](METHODOLOGY.md).
-
-## Portable family and scaling
-
-**Question:** does performance remain acceptable across families, increasing sizes and interacting features while preserving declared correctness? **Value: high for controlled regression work; still not a production forecast.**
-
-Build the kit with `node commands.ts build --out /artifacts/trident-kit`; run `node /artifacts/trident-kit/run.mjs --project OWNER/TOOL --artifact-root /artifacts/package --adapter ADAPTER --out /evidence/portable --records /evidence/records --rounds 5 --samples 31 --cold-samples 20 --allow-partial`. See `run --help` for supported artifact bindings. It needs the real artifact and independent oracle, not product source. Browser/observer capabilities depend on the adapter and platform.
-
-The authored cohorts include family representatives, scaling, interacting features and invalid inputs. Reports separate correctness, warm sample means, fresh processes, resources and calibration. Inspect `report.md`, its full JSON/records and owning samples. A partial run or failed A/A control is not performance-qualified. A p95 of batch means is not a single-call tail. More input shapes and independently chosen real workloads are needed before generalizing.
-
-## Davebench: official documentation
-
-**Question:** how often does the tool return SVG for Mermaid's official docs, and how much render-call time does it use on shared successful examples? **Value: high as an external compatibility workload; moderate as a performance workload.**
-
-Use source ID `dave` or `adapter agentic source bench:dave`. Exact archives can be supplied through the controller's candidate tarball/digest options. The current runner is still a fixed-engine comparison around an Agentic candidate, Pele and pinned Mermaid, with optional verified peers. It does **not** yet benchmark an arbitrary catalog project. This restriction is a migration gap, not special admission or a current score.
-
-Every official fence occurrence remains in the acceptance denominator, including repeats and failures. Time only the same shared-success occurrences within each candidate/comparator pair; that subset cannot erase missing docs examples. SVG return is weaker than faithful rendering, and docs are public development inputs. See [Dave methods, prerequisites and outputs](docs/davebench.md).
-
-## Authored meaning and painted fidelity
-
-**Question:** did identities, endpoints, values and operations survive, and does the actual output draw the required things? **Value: high; stronger evidence of correctness than format/label admission.**
-
-Source IDs `mermaid-fidelity` and `community-fidelity` execute an independently declared criterion universe. The latter uses an actual frozen browser preparation manifest (`--community-browser-prepared FILE`); it does not acquire missing tools. Core model adapters remain fixed to reviewed engines. See [the fidelity guide](fidelity/README.md).
-
-Scores separate public operations, native meaning, paint, unavailable projections and baseline-qualified criteria. Failed renders cannot shrink a peer's denominator. A reference-qualified percentage must retain the reference's own failures. Paint ownership is useful structural evidence, not complete typography, aesthetics, accessibility or perceptual judgment. Keep the actual SVG/PNG witnesses.
-
-## Original upstream tests
-
-**Question:** does the implementation satisfy specific unchanged Mermaid expectations? **Value: medium for cross-project compatibility; high for validating the reference setup.**
-
-`upstream-original` executes genuine pinned Mermaid core Vitest with its real dependencies and read-only snapshots. `upstream-fidelity` projects original callbacks through reviewed peer public models. `upstream-test-assertions` is the narrower original Mindmap/GitGraph callback lane. They require the pinned source and appropriate adapters; they are not interchangeable.
-
-Report discovered declarations, expanded callbacks, passes, failures, pending/todo and unavailable tests separately. Private database representation and diagnostic wording can fail even when drawings are correct. These are compatibility findings, not automatically missing features. Callback workflow time includes setup and assertions; it is not renderer latency. See [original-test methods](fidelity/README.md).
-
-## Selected pinned-reference inputs
-
-**Question:** what does a fixed selected historical corpus preserve through parsing? **Value: low as independent conformance evidence; useful for legacy regression diagnosis.**
-
-Source ID `pinned-reference-score` scores selected portable criteria and measures parser calls separately. The input harvest includes Agentic-derived fields and selection effects. Keep its eligible, diagnostic and reference-failing cases distinct. Do not present it as “all Mermaid tests” or favor its score over stronger authored/original evidence.
-
-The `pinned-semantic-*`, `pinned-operation-tests`, `pinned-grammar-*` and `upstream-imported` suites are additional owning correctness checks/corpora. They help find specific regressions; their test totals and process wall times are not competitive benchmark scores.
-
-## Required-family admission
-
-**Question:** can each required family pass a real representative public-render/label probe? **Value: high as a capability gate; low as exhaustive feature coverage.**
-
-Source ID `stable-support` uses actual built artifacts and the pinned family policy. Required families, unresolved maturity exclusions and supplements remain separate. Count actual probe outcomes, not registry declarations. One representative cannot certify every nested feature, option, edit or painted relationship.
-
-## Family functionality and operations
-
-**Question:** do parse, edit, serialize, layout and output operations satisfy their declared contracts? **Value: high for the project's own regressions; limited as a peer comparison.**
-
-Source ID `family` records executable lifecycle/operation witnesses. `family-contracts` and `family-functionality` run project-owned tests. Advertised operation kinds without a direct witness remain unmeasured. An owning-test pass is not automatically credited to every export, transport or operation. These source-coupled Agentic checks cannot be presented as neutral scores for other tools.
-
-## Invocation coverage
-
-**Question:** can a real caller obtain the expected result through the shipped interface? **Value: high for distribution reliability; not a language-fidelity or speed ranking.**
-
-Source ID `invocation` exercises installed library entries/runtimes, browser/worker/editor paths, CLI and MCP transports. Build the actual artifacts; an independent Node 22 run requires its real executable. Inspect per-attempt output consumption, failures and blocked interfaces. Complete attempted coverage does not mean every function, feature or option was tested. Current transport orchestration is project-specific.
-
-## Entry startup and resources
-
-**Question:** how long until a fresh caller can consume its first result, and what resources are used? **Value: high for CLI, cold library and interactive use.**
-
-Source ID `entry-startup`, with `--rounds 5 --startup-samples 5`, uses fresh processes and separate resource passes. `mermaid-baseline-browser` and `mermaid-baseline-compatibility` provide paired reference/browser and Node parser comparisons. Supply the built entries, browser and any actual native/hosted artifacts.
-
-Read import, readiness, API call, first consumed result, CPU, whole-child RSS, document heap and delivered bytes in their own units. Different return models or DOM hosts are different stacks. Twenty-five samples do not establish a robust extreme tail, and these memory domains cannot be added. See [startup methods](visualizations/README.md) and [baseline methods](visualizations/MERMAID-BASELINE.md).
-
-## Release and peer comparisons
-
-**Question:** did this exact candidate improve or regress relative to a real baseline under the same conditions? **Value: high only with equivalent work, correctness admission and calibrated controls.**
-
-Source IDs `release`, `release:browser`, `peers` and `peers:qualify` use their own maintained protocols. Supply exact candidate/baseline tarballs with digests, or the explicitly supported lock/directory. Current release/semantic peer runners are source-coupled and contain project-specific assumptions. For other projects, the public candidate/release comparison is available, but it is descriptive rather than that full paired qualification.
-
-Read correctness and coverage first, then per-case timing, memory/delivery and A/A calibration. Missing rounds or a noisy baseline do not become a pass. Changes in dependencies/configuration or public interfaces are compound comparisons, not isolated PR gains. A frozen-head PR campaign (`prs`) orchestrates these experiments; it is not a separate benchmark.
-
-## Microbenchmarks and experimental configurations
-
-**Question:** which small operation or source/configuration change deserves investigation? **Value: medium for local optimization; low for public product claims.**
-
-Source IDs `micro`, `samples` and `experiments` run fixed small/large API cases or paired experimental configurations. Inspect per-case distributions and correct consumed output. These workloads are easy to overfit by size, shape or cache behavior even without hard-coding input IDs. Verify a proposed improvement with other shapes and an actual workflow before publishing it.
-
-## Pipeline, render stages and renderer profiles
-
-**Question:** where does execution time go? **Value: medium to high for diagnosis; low as a comparison of user-visible latency.**
-
-Source IDs `pipeline`, `render-stages` and `renderer-profile` instrument stages or collect profiles. The profile runner additionally needs its verified external wrapper. Instrumentation, receipts, initialization and cleanup alter the measured boundary; stage times must not be relabelled or summed into a public API result. Use the profile to choose a change, then remeasure the real public operation. `performance-profile` is a correctness qualifier for an experimental configuration, not a speed benchmark.
-
-## Editor workflows
-
-**Question:** what does a user wait for and download when opening or editing a diagram? **Value: high when the completion boundary matches the user task.**
-
-Source IDs `editor-preview`, `editor-session`, `editor-delivery` and `editor-ownership` require an actual built site (`--site DIR`). Ownership also requires real reviewed `original.html` and `candidate.html` variants via `--ownership-site DIR`. These currently exercise Agentic's editor, not an arbitrary project UI.
-
-Inspect verified preview/DOM completion, request closures, export behavior and failures. An eight-edit burst completing its latest preview is not eight completed renders or a single-keystroke latency measurement. Localhost delivery is not deployed network performance. See [measurement boundaries](MEASUREMENT.md).
-
-## Modern Mermaid application comparison
-
-**Question:** how does a particular external application and its dependency engines behave on examples, themes, editing and exports? **Value: medium for that application; low as a general renderer league.**
-
-Source ID `modern-editor` needs the explicit external checkout (`--modern-editor-root DIR`) and output outside the source checkout. Freeze real variants/dependencies and retain its resume identity. Application setup, engine rendering, theme state and exports are separate results. `source bench:modern-summary DIR` only validates and summarizes completed evidence; it is not another benchmark or current score.
-
-## Palette generation
-
-**Question:** does a palette change create a local hotspot or deterministic-work regression? **Value: low as a public benchmark; useful while changing that subsystem.**
-
-Source ID `palette-performance` requires a clean committed source checkout and writes its own report. Compare equivalent themes/category counts; do not generalize warm palette timings to rendering or editor performance. See [palette diagnostic](PALETTE-PERFORMANCE.md).
-
-## Geometry and layout-quality diagnostics
-
-**Question:** did a change break routes, marker attachment, spacing, visibility or an internal visual rule? **Value: high for narrow regression checks; limited for human-perceived quality.**
-
-`endpoint-marker` compares two immutable built checkouts (`--baseline DIR --package-root DIR`) and writes geometry metrics. `layout-compare`, `route-enumeration`, `visual-rubric`, `heuristic-tracker` and `ugly-audit` test their own structural or heuristic criteria. `output-identity` instead checks bytes across `--baseline-ref`; unchanged bytes do not establish correctness.
-
-Inspect representative actual drawings, including interacting failures. A heuristic score is not an independent human preference or complete aesthetic judgment. Style/sketch tests and distribution/browser contracts are owning product checks; they protect behavior but do not add independent comparison votes.
-
-## Agent evaluations, preparation and reports
-
-Agent replay, live-model/subagent tasks and MCP conformance have value for their **own workflow correctness**, not general renderer performance. Replay is not a new provider run. Live quality/token/cost claims need actual named models, transcripts and observed usage; a blocked provider earns no score. Callable judges need independent real judgments.
-
-Corpus building (`family-portfolio`, corpus import), artifact acquisition, report reducers, chart generators and campaign controllers prepare or explain experiments. They are necessary infrastructure, not additional benchmark outcomes. The [source inventory](adapters/agentic/INVENTORY.md) lists their executable boundaries.
+The campaign runs the following suites serially and records unsupported adapters,
+blocked setup and observed failures. Full means all applicable suites and their
+full sampling protocols; it does not mean every project has every capability.
+`community:update` runs only the community/CLI portion. `run` executes the portable
+Node kit independently. See [setup](README.md).
+
+| Benchmark / command ID | Question and output | Value and limits |
+|---|---|---|
+| Mermaid Compatibility (`community`) | Which frozen inputs return the requested SVG, terminal, PNG or parser result? Per-case dispositions, family coverage, six-input API costs, browser delivery/heap and CLI process costs. | **High for compatibility triage; narrow for speed.** XML/labels are weak fidelity evidence. PNG checks only the binary envelope. Different supported subsets are not comparable percentages. |
+| DaveBench: Documentation Examples (`docs`) | Does a public browser artifact return SVG for **every occurrence in every syntax page at the pinned Mermaid commit**? `inventory.json` records the exact pages, repeated occurrences and distinct source count; observations retain round, acceptance and public call time. | **High as an external workload; moderate for speed.** Protocol `public-docs-svg-return-v1`,30 warm-up attempts, rotated/reversed project order, full profile5 rounds. SVG return does not prove correct paint. Compare time only on pairwise common successful occurrences, retaining the complete acceptance denominator. Public docs are development-exposed. |
+| Diagram Meaning (`fidelity`) | Does the actual frozen public SVG draw independently authored identities, relationships, values, visibility and geometry? Shared planned criterion ledger and SVG/PNG witnesses. | **High for meaning and paint.** Same observer for every prepared SVG project. Missing model APIs remain unavailable; paint is not an aesthetic or accessibility judgment. Terminal-only tools have an explicit boundary. |
+| Model and Editing Contracts (`native-fidelity`) | Do reviewed public model/operation APIs preserve the same authored meaning and real edit/configuration workflows? Criterion-level facts and owned-ink evidence stay separate. | **High within a reviewed adapter's scope.** Current model bindings are Mermaid, Pele and Agentic; all other bindings are explicitly unsupported here, while SVG paint still runs. A reviewed adapter is a capability boundary, not a preferred project. |
+| Mermaid Assertion Replay (`upstream-fidelity`) | Which unchanged original Mermaid callbacks can be executed through reviewed public parser/model projections? Declaration, callback and individual assertion counts remain distinct. | **Medium for cross-project compatibility.** Private database/API and diagnostic wording differences can fail without proving wrong drawings. Unsupported imports/matchers remain unavailable. Callback workflow time is not rendering latency. |
+| Mermaid Reference Tests (`upstream-original`) | Does the pinned Mermaid source pass its own genuine original core Vitest runner? Original JSON plus complete declaration/callback accounting. | **High for reference setup; limited as a peer score.** Requires the actual runner/dependencies, one worker and read-only snapshots. This is Mermaid's own runner, so it does not execute another project's private tests. Browser/e2e and docs-site workspace exclusions stay explicit. |
+| Render Cost and Scaling (`portable`) | How do family, scaling, interacting-feature and invalid-input cases behave under fresh and warm public Node SVG calls? Reports separate fidelity, first result, batch means, CPU, RSS, heap and A/A calibration. | **High for controlled regressions; not a production forecast.** Full sampling uses5 rounds,31 warm sample means and20 fresh processes per replica/round/case. The complete worker budget defaults to300000ms and is configurable in the portable CLI; it includes all samples and qualification, not one API call. Current bindings include Pele, Agentic, Beautiful-compatible, Ondine, mdv, the VitePress plugin, the DSH engine, Merman, Crafter and Merslim. Public factory setup is recorded with import preparation; rendering and complete-process resource costs retain their own scopes. Configuration intent is translated through reviewed public option paths; unknown mappings block that case. Font changes are checked on authored label text, including inherited declarations, rather than requiring a particular root style. Missing browser/terminal/WASM bindings remain unsupported, not zero-cost. Incomplete semantics or noisy A/A controls cannot qualify performance. |
+
+## DaveBench provenance and product diagnostics
+
+`docs` preserves the useful official-document workload as a public-artifact
+experiment. It has a new explicit protocol and inventories the pinned upstream
+syntax directory directly. Historical AM DaveBench used AM's vendored page set
+and a build/pack wrapper around fixed comparators; its input count and timing
+boundary must not be silently substituted for this runner's. The AM wrapper and
+its detailed original methods now live in
+[Agentic Mermaid](https://github.com/adewale/agentic-mermaid/tree/main/eval/benchmark).
+
+AM also owns its family/operation test orchestration, invocation and MCP matrix,
+editor/session/ownership/delivery probes, stage/profile/micro experiments, release
+budgets, semantic peer tracks, PR campaigns, palette diagnostics, private corpus
+export and Modern Mermaid application experiment. Product test counts are not
+additional neutral benchmark scores. Trident supplies shared measurement and
+observer code through an explicit pinned library dependency.
+
+## Read evidence before comparing
+
+- Keep acceptance, native meaning, painted criteria, latency, resources and
+  delivery in their own units. No equal-weight aggregate across unrelated axes.
+- Check actual package/version/bytes, public interface and completed work before
+  comparing calls. A cached SVG return, rich model and DOM-hosted parse are
+  different tasks. See [methodology](METHODOLOGY.md).
+- Keep explicit artifact variants separate, including repeated suite and case
+  names. Reports show each admitted version and its owning receipt; source
+  candidates and catalog releases are different comparisons.
+- Catalog-only declarations remain coverage gaps, without claiming a measured
+  artifact version. Execution rows and owning receipts supply versions for the
+  same tool and artifact role; missing receipts and conflicting versions fail
+  report admission. Rejections and memory checkpoints keep their actual status.
+- Inspect literal case and criterion denominators. Missing adapters, failures,
+  unavailable counters, partial rounds and reference failures stay visible.
+- A p95 of batch means is not a single-call tail. Document heap, process RSS,
+  retained JS objects, native/WASM memory and network bytes cannot be added.
+- A/A controls detect some measurement noise. They do not detect shape overfitting
+  or establish representative production workloads. No hidden holdout exists.
+
+These restrictions follow the failure modes discussed in
+[Benchpocalypse](https://danluu.com/benchpocalypse/): equivalent interfaces, easy
+shape overfitting and misleading aggregates matter more than the apparent
+precision of a single chart.
+
+See [report reading](REPORTING.md) for scorecard units and reading order.
+
+See [comparison contracts](FAIRNESS.md) for explicit selection, runtime budgets, optional model evidence, frozen external inputs and unranked publication. [Catalog support](CATALOG.md) distinguishes configuration from actual execution.

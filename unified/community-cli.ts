@@ -76,7 +76,7 @@ function shippedFiles(root: string, directory = root): Array<{ path: string; sha
   })
 }
 /** A catalog binding selects the installed package's declared Node CLI, for any project. */
-function packageCliVariants(prepared: PreparedCommunity[]): Variant[] {
+export function packageCliVariants(prepared: PreparedCommunity[]): Variant[] {
   return prepared.filter(base => base.node.benchmark?.cli).map(base => {
     const binding = base.node.benchmark!.cli!, variant = 'node-cli'
     const unavailable = (error: string): Variant => ({ variantOf: base.node.id, variant, outputs: binding.outputs,
@@ -94,7 +94,7 @@ function packageCliVariants(prepared: PreparedCommunity[]): Variant[] {
       const node = JSON.parse(execFileSync(process.env.NODE_BIN ?? 'node', ['-p', 'JSON.stringify({executable:process.execPath,version:process.versions.node})'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }))
       return { variantOf: base.node.id, variant, outputs: binding.outputs,
         prepared: { node: { ...base.node, id: `${base.node.id}#${variant}`, benchmark: { ...base.node.benchmark!, outputs: binding.outputs } },
-          artifact: { kind: 'cli', executable: node.executable, args: [cli, ...binding.args], input: 'stdin', version: pkg.version, runtime: `node:${node.version} installed public CLI`, files: shippedFiles(root) } } }
+          artifact: { kind: 'cli', executable: node.executable, sha256: digest(node.executable), args: [cli, ...binding.args], input: 'stdin', version: pkg.version, runtime: `node:${node.version} installed public CLI`, files: shippedFiles(root) } } }
     } catch (error) { return unavailable(String(error)) }
   })
 }

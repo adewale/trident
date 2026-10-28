@@ -1,6 +1,6 @@
 # Mermaid fidelity campaigns
 
-These optional source-adapter campaigns collect meaning and painted-output evidence. They do not create an overall tool score or retime unrelated workloads. Old published result bundles have been removed. See [adapter setup](../adapters/agentic/README.md) and [benchmark value judgments](../BENCHMARKS.md).
+These public-artifact campaigns collect meaning and painted-output evidence. They do not create an overall tool score or retime unrelated workloads. Old published result bundles have been removed. See [setup](../README.md) and [benchmark value judgments](../BENCHMARKS.md).
 
 | Lane | Observable boundary | Main limits |
 | --- | --- | --- |
@@ -30,79 +30,13 @@ and the genuine upstream test runner dependencies. Nothing is installed by the
 fidelity collectors. Start by inspecting available suites:
 
 ```sh
-bun commands.ts adapter agentic run --list --profile full
+bun commands.ts bench --projects OWNER/TOOL,... --profile full --rounds 5 \
+  --suites fidelity,native-fidelity,upstream-fidelity,upstream-original --out /evidence/fidelity
 ```
 
-Collect core functional evidence with the selected native Node runtime:
-
-```sh
-bun commands.ts adapter agentic run --profile full --suites mermaid-fidelity --out /tmp/fidelity-core \
-  --package-root /path/to/built-agentic \
-  --portable-artifact-root /path/to/pele-1.9.0 \
-  --reference-dir /path/to/mermaid-reference --mermaid-dir /path/to/pinned-mermaid \
-  --zenuml-root /path/to/mermaid-zenuml-1.0.1 \
-  --node-executable /path/to/node --executable /path/to/chromium \
-  --benchmark-records /path/to/records
-```
-
-Collect the community SVG boundary on existing prepared artifacts, without
-repeating old clocks or acquiring tools:
-
-```sh
-bun commands.ts adapter agentic run --profile full --suites community-fidelity --out /tmp/fidelity-community \
-  --community-browser-prepared /path/to/community-browser-prepared.json \
-  --executable /path/to/chromium --benchmark-records /path/to/records
-```
-
-Add `--projects obsidianmd/pele` to update only Pele. Selection occurs before
-loading unselected engines. Exact artifact, dependency and protocol identities
-reuse immutable records and original measurement dates. A changed qualification
-protocol legitimately requires new affected functional evidence; changing a
-report does not. `--benchmark-force` explicitly bypasses reuse. Collection
-failures retain incomplete attempts rather than publishing false passing records.
-
-Run original tests separately:
-
-```sh
-bun commands.ts adapter agentic run --profile full --suites upstream-original,upstream-fidelity \
-  --out /tmp/fidelity-upstream --mermaid-dir /path/to/pinned-mermaid \
-  --reference-dir /path/to/mermaid-reference \
-  --upstream-runner-root /path/to/genuine-vitest-kit \
-  --package-root /path/to/built-agentic --portable-artifact-root /path/to/pele-1.9.0 \
-  --node-executable /path/to/node --benchmark-records /path/to/records
-```
-
-A selected peer without a core adapter does not start the core reference worker.
-The native Mermaid source run still accounts for declarations outside core
-discovery and unmapped locations. It never edits snapshots or source tests.
-
-Compose matching functional reports into a searchable HTML dashboard, per-family
-paint heatmap, scoped Markdown table and complete JSON ledger:
-
-```sh
-bun run eval/benchmark/fidelity/report.ts \
-  --core /tmp/fidelity-core/mermaid-fidelity/fidelity-report.json \
-  --community /tmp/fidelity-community/community-fidelity/community-fidelity-report.json \
-  --out /tmp/fidelity-report
-```
-
-Export standalone charts using standard Matplotlib plotting:
-
-```sh
-python3 eval/benchmark/fidelity/charts.py --report /tmp/fidelity-report/comparison.json \
-  --out /tmp/fidelity-report/charts
-```
-
-The separate-dimension bars, full family heatmap and reference-qualification
-chart retain unavailable evidence. A radar score would hide missing axes and
-unjustified weighting, so it is not used for these bounded fidelity counts.
-
-Font-option reviews preserve raw computed-size statuses and available values but withhold configuration
-credit when an adapter's public API has no reviewed all-label mapping. Beautiful
-base APIs lack the global option; Vercel separates node and edge sizes. Merely
-finding a render export cannot establish option support. The report's capability
-review ledger records the original status, any actually recorded values and why comparison credit is withheld.
-This requalification does not rerender unchanged tools.
+The campaign prepares actual catalog artifacts and applies reviewed public
+bindings. Other model projections remain unsupported; all prepared SVG projects
+use the same painted observer. No Agentic source checkout is inferred.
 
 ## Read the evidence
 

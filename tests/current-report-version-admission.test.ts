@@ -78,15 +78,18 @@ test('missing owning artifact evidence remains visible and unranked instead of i
   expect(readFileSync(join(out, 'README.md'), 'utf8').split('\n').find(line => line.includes('[obsidianmd/pele]'))).toStartWith('| — |')
 })
 
-test('explicit Agentic candidate/release versions remain separate while pinned Pele cannot use an old baseline', () => {
-  const release = retained('adewale/agentic-mermaid', '0.4.1'), candidate = retained('adewale/agentic-mermaid', '0.4.2')
-  candidate.id += '-candidate'
-  candidate.identity.lane = 'candidate'
-  ;(candidate.identity.artifact as any).candidate = { source: 'tarball', sha256: 'c'.repeat(64) }
-  const markdown = renderCandidateComparison(candidate, release)
-  expect(markdown).toContain('Candidate: 0.4.2')
-  expect(markdown).toContain('Release: 0.4.1')
-  expect(markdown).toContain('their times compare')
+test('explicit candidate versions are checked against their owning artifact for every project', () => {
+  for (const [project, releaseVersion, candidateVersion] of [['adewale/agentic-mermaid','0.4.1','0.4.2'], ['obsidianmd/pele','1.9.0','1.9.1'], ['mermaid-js/mermaid','12.2.0','12.2.1']] as const) {
+    const release = retained(project, releaseVersion), candidate = retained(project, candidateVersion)
+    candidate.id += '-candidate'; candidate.identity.lane = 'candidate'
+    ;(candidate.identity.artifact as any).candidate = { source: 'tarball', sha256: 'c'.repeat(64) }
+    const markdown = renderCandidateComparison(candidate, release)
+    expect(markdown).toContain('Candidate: ' + candidateVersion)
+    expect(markdown).toContain('Release: ' + releaseVersion)
+    expect(markdown).toContain('their times compare')
+    candidate.observations.at(-1)!.metrics!.version = releaseVersion
+    expect(() => renderCandidateComparison(candidate, release)).toThrow('Mixed tool versions')
+  }
   const pele = retained(); pele.identity.lane = 'candidate'
   expect(() => renderCandidateComparison(pele, retained('obsidianmd/pele', '1.8.0'))).toThrow('requires obsidianmd/pele 1.9.0')
 })

@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { prepareUpstream, upstreamZenCoreVersion } from '../unified/prepare-upstream.ts'
 import { lockedImporterDependency, lockedJsdomCanvas, lockedRegistryVersion, UPSTREAM_RUNTIME_PROTOCOL, upstreamFileDigest, upstreamInstalledClosureDigest, upstreamRunnerVersion, verifySealedUpstreamRuntime, verifyUpstreamInstalledClosure, verifyUpstreamInstalledSelections } from '../unified/upstream-runtime-qualification.ts'
-import { REVIEWED_REFERENCE } from '../unified/reference-eligibility.ts'
+import { currentReferencePin as REVIEWED_REFERENCE } from '../reference/source.ts'
 
 test('the original runner uses the locked ZenUML engine rather than its semver minimum', () => {
   const source = mkdtempSync(join(tmpdir(), 'trident-source-lock-'))
