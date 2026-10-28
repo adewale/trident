@@ -68,7 +68,7 @@ export function diagnosticSummary(value) {
   const errors = resultErrors(typed).filter(item => !['warning', 'info', 'hint'].includes(String(item?.severity ?? item?.level ?? '').toLowerCase()))
   const kind = typed.diagramType ?? typed.diagram_type ?? typed.type
   const unknown = typeof kind === 'string' && ['unknown', 'unsupported', 'none'].includes(kind.toLowerCase())
-  const rejected = typed.valid === false || typed.isValid === false || typed.ok === false || typed.success === false || errors.length > 0 || unknown
+  const rejected = typed.valid === false || typed.isValid === false || typed.is_valid === false || typed.ok === false || typed.success === false || errors.length > 0 || unknown
   return { errorCount: errors.length, findingCount: resultErrors(typed).length, accepted: !rejected && !unknown, unknownKind: unknown, kind: typeof kind === 'string' ? kind : null }
 }
 export function diagnosticQualification(value, workload) {
@@ -231,7 +231,7 @@ export function extraBrowserEntry(name, artifact) {
   }
   if (name === '@crafter/mermaid-renderer') {
     const parser = JSON.stringify(publishedEntry(root, '@crafter/mermaid-parser')), layout = JSON.stringify(publishedEntry(root, '@crafter/mermaid-layout'))
-    return { source: `import{parse}from ${parser};import{layout}from ${layout};import{renderToString}from ${from};export async function createRenderer(){return source=>{const parsed=parse(source);if(!parsed.ast||parsed.diagnostics.some(d=>d.severity==='error'))throw Error('Parser rejected source: '+JSON.stringify(parsed.diagnostics));return renderToString(layout(parsed.ast))}}`, qualification: 'published parse/layout/renderToString browser pipeline' }
+    return { source: `import{parse}from ${parser};import{layout}from ${layout};import{renderToDOM}from ${from};export async function createRenderer(){return source=>{const parsed=parse(source);if(!parsed.ast||parsed.diagnostics.some(d=>d.severity==='error'))throw Error('Parser rejected source: '+JSON.stringify(parsed.diagnostics));return renderToDOM(layout(parsed.ast)).outerHTML}}`, surface: 'browser:dom-svg-serialization', qualification: 'public parse/layout/renderToDOM and DOM serialization; raw renderToString is a separate Node surface' }
   }
   if (name === '@zhenhuaa/mdv') return { source: `import{renderMermaidSVG}from ${from};export async function createRenderer(){return source=>renderMermaidSVG(source)}`, qualification: 'published renderer library, terminal markdown browser host excluded' }
   if (name === 'vitepress-plugin-mermaid-diagram') return { source: `import{render}from ${from};export async function createRenderer(){return source=>{const svg=render(source);if(svg===null)throw Error('Unsupported diagram');return svg}}`, qualification: 'published standalone render, Vite/Markdown hooks excluded' }

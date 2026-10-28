@@ -4,7 +4,7 @@ Catalog checked: 2026-10-18. 88 entities. Regenerate with `bun commands.ts suppo
 
 Descendants without established distinct branding are excluded from normal comparisons, even with code changes. Owner/package scopes and runtime suffixes alone do not establish branding. Bindings and zero-ahead versions are also excluded. An explicit inclusion override retains these for version/runtime investigations. Selection guidance uses the recorded catalog snapshot, not a fresh upstream audit. Ports and changed forks remain separate. Zero-ahead descendants can be omitted from a current-engine comparison, but historical/build studies retain them. Measurement aliases require verified artifact, build, runtime and invocation equivalence through catalog-eligibility; lineage alone never supplies a score.
 
-Arrows in the tree mean source fork, port or runtime binding as labelled. Independently rooted code can still be a documented port. Dependencies, vendoring and inspiration are listed separately below.
+Arrows in the tree mean source fork, derivative, port or runtime binding as labelled. Independently rooted code can still be a documented port. Dependencies, vendoring and inspiration are listed separately below.
 
 ```text
 ├── 1jehuang/mermaid-rs-renderer [independent; distinct-or-unresolved]
@@ -23,24 +23,6 @@ Arrows in the tree mean source fork, port or runtime binding as labelled. Indepe
 │   ├── jeis4wpi/mermaid-ascii [fork; +0/−128; SKIP: no-distinct-branding, zero-ahead-version]
 │   ├── ktrysmt/mermaid-ascii [fork; +1/−128; SKIP: no-distinct-branding]
 │   ├── leonj1/mermaid-ascii [fork; +0/−128; SKIP: no-distinct-branding, zero-ahead-version]
-│   ├── lukilabs/beautiful-mermaid [port; ASCII engine only; SVG renderer independently implemented; distinct-or-unresolved]
-│   │   ├── 01colyncelestine-stack/beautiful-mermaid [fork; +0/−23; SKIP: no-distinct-branding, zero-ahead-version]
-│   │   ├── 2233admin/beautiful-mermaid [fork; +0/−0; SKIP: no-distinct-branding, zero-ahead-version]
-│   │   ├── adewale/agentic-mermaid [fork; +1223/−0; distinct-or-unresolved]
-│   │   ├── dfadler/zombie-mermaid [fork; +4042/−0; distinct-or-unresolved]
-│   │   ├── fdotu/beautiful-mermaid [fork; +0/−23; SKIP: no-distinct-branding, zero-ahead-version]
-│   │   ├── gmh5225/beautiful-mermaid [fork; +0/−23; SKIP: no-distinct-branding, zero-ahead-version]
-│   │   ├── HealthSamurai/beautiful-mermaid [fork; +0/−0; SKIP: no-distinct-branding, zero-ahead-version]
-│   │   ├── kais-radwan/ascii-mermaid [port; distinct-or-unresolved]
-│   │   ├── ktrysmt/beautiful-mermaid [fork; +26/−12; SKIP: no-distinct-branding]
-│   │   ├── Orbiter/beautiful-mermaid-py [fork; +10/−23; SKIP: no-distinct-branding]
-│   │   ├── rohitg00/beautiful-mermaid [fork; +2/−23; SKIP: no-distinct-branding]
-│   │   ├── Stars1233/beautiful-mermaid [fork; +0/−0; SKIP: no-distinct-branding, zero-ahead-version]
-│   │   ├── theletterf/beautiful-mermaid [fork; +14/−23; SKIP: no-distinct-branding]
-│   │   ├── thepanax/beautiful-mermaid [fork; +0/−0; SKIP: no-distinct-branding, zero-ahead-version]
-│   │   ├── vercel-labs/beautiful-mermaid [fork; +16/−23; SKIP: no-distinct-branding]
-│   │   ├── ysknsid25/beautiful-mermaid [fork; +6/−19; SKIP: no-distinct-branding]
-│   │   └── zhenhuaa/mdv [fork; +5/−12; distinct-or-unresolved]
 │   ├── pgavlin/mermaid-ascii [fork; +31/−126; SKIP: no-distinct-branding]
 │   │   └── Chronostasys/mermaid-ascii [fork; +6/−0; SKIP: no-distinct-branding]
 │   └── sgryjp/mermaid-ascii [fork; +0/−128; SKIP: no-distinct-branding, zero-ahead-version]
@@ -69,11 +51,29 @@ Arrows in the tree mean source fork, port or runtime binding as labelled. Indepe
 │   ├── jacob-lcs/mermaid [fork; +3/−3092; SKIP: no-distinct-branding]
 │   ├── jgraph/mermaid [fork; +27/−1940; SKIP: no-distinct-branding]
 │   ├── lishid/mermaid [fork; +0/−12752; SKIP: no-distinct-branding, zero-ahead-version]
+│   ├── lukilabs/beautiful-mermaid [derivative; distinct-or-unresolved]
+│   │   ├── 01colyncelestine-stack/beautiful-mermaid [fork; +0/−23; SKIP: no-distinct-branding, zero-ahead-version]
+│   │   ├── 2233admin/beautiful-mermaid [fork; +0/−0; SKIP: no-distinct-branding, zero-ahead-version]
+│   │   ├── adewale/agentic-mermaid [fork; +1223/−0; distinct-or-unresolved]
+│   │   ├── dfadler/zombie-mermaid [fork; +4042/−0; distinct-or-unresolved]
+│   │   ├── fdotu/beautiful-mermaid [fork; +0/−23; SKIP: no-distinct-branding, zero-ahead-version]
+│   │   ├── gmh5225/beautiful-mermaid [fork; +0/−23; SKIP: no-distinct-branding, zero-ahead-version]
+│   │   ├── HealthSamurai/beautiful-mermaid [fork; +0/−0; SKIP: no-distinct-branding, zero-ahead-version]
+│   │   ├── kais-radwan/ascii-mermaid [port; distinct-or-unresolved]
+│   │   ├── ktrysmt/beautiful-mermaid [fork; +26/−12; SKIP: no-distinct-branding]
+│   │   ├── Orbiter/beautiful-mermaid-py [fork; +10/−23; SKIP: no-distinct-branding]
+│   │   ├── rohitg00/beautiful-mermaid [fork; +2/−23; SKIP: no-distinct-branding]
+│   │   ├── Stars1233/beautiful-mermaid [fork; +0/−0; SKIP: no-distinct-branding, zero-ahead-version]
+│   │   ├── theletterf/beautiful-mermaid [fork; +14/−23; SKIP: no-distinct-branding]
+│   │   ├── thepanax/beautiful-mermaid [fork; +0/−0; SKIP: no-distinct-branding, zero-ahead-version]
+│   │   ├── vercel-labs/beautiful-mermaid [fork; +16/−23; SKIP: no-distinct-branding]
+│   │   ├── ysknsid25/beautiful-mermaid [fork; +6/−19; SKIP: no-distinct-branding]
+│   │   └── zhenhuaa/mdv [fork; +5/−12; distinct-or-unresolved]
 │   ├── lyngai/mermaid [fork; +0/−13476; SKIP: no-distinct-branding, zero-ahead-version]
 │   ├── mbostock/mermaid [fork; +0/−11787; SKIP: no-distinct-branding, zero-ahead-version]
 │   ├── Mermaid-Chart/mermaid-develop [fork; +0/−7450; SKIP: no-distinct-branding, zero-ahead-version]
 │   ├── NicolasNewman/mermaid [fork; +17/−4341; SKIP: no-distinct-branding]
-│   ├── orestesgaolin/mermaid [port; SKIP: no-distinct-branding]
+│   ├── orestesgaolin/mermaid [port; distinct-or-unresolved]
 │   ├── songshaodong/mermaid [fork; +0/−15918; SKIP: no-distinct-branding, zero-ahead-version]
 │   ├── xen3r0/mermaid [fork; +2/−15335; SKIP: no-distinct-branding]
 │   ├── xeolabs/mermaid [fork; +0/−9209; SKIP: no-distinct-branding, zero-ahead-version]
@@ -110,13 +110,14 @@ Arrows in the tree mean source fork, port or runtime binding as labelled. Indepe
 - fasouto/termaid → AlexanderGrooff/mermaid-ascii: inspired-by (evidence recorded in catalog)
 - fasouto/termaid → lukilabs/beautiful-mermaid: inspired-by (evidence recorded in catalog)
 - Mootikins/figurehead-rs → AlexanderGrooff/mermaid-ascii: inspired-by (evidence recorded in catalog)
+- lukilabs/beautiful-mermaid → AlexanderGrooff/mermaid-ascii: component-port (evidence recorded in catalog)
 
 ## Comparison selection
 
 25 zero-ahead forks are candidates to omit from current-engine comparisons. This saves work by narrowing the question; it does not assert that a newer parent score describes a historical descendant. 4 same-parent-head candidates also need artifact verification before any result reuse.
 
-47 entries are excluded from normal comparisons by branding, version or binding policy. Changed forks still need distinct branding. Independently implemented ports also need an established separate brand under this selection rule. This is a comparison-scope choice, not a claim about code quality or behavior. Mermaid Dart retains its support evidence but has no separate brand established here.
+46 entries are excluded from normal comparisons by branding, version or binding policy. Changed forks still need distinct branding. Independently implemented ports also need an established separate brand under this selection rule. This is a comparison-scope choice, not a claim about code quality or behavior. Mermaid Dart is a distinct brand and remains eligible. Beautiful Mermaid is a derivative of Mermaid, not a Git fork; its ASCII component port is recorded separately.
 
-Keep branded differentiated projects such as Agentic Mermaid, Zombie Mermaid, Beautiful Mermaid and Ondine. Frankenmermaid has an independent root. Review unverified lineages before counting independent engines. Never silently transfer results between projects.
+Keep branded differentiated projects such as Agentic Mermaid, Zombie Mermaid, Beautiful Mermaid, Mermaid Dart and Ondine. Frankenmermaid has an independent root. Review unverified lineages before counting independent engines. Never silently transfer results between projects.
 
 Use an explicit `bench --projects ... --plan` selection. `--include-excluded-descendants` is reserved for a named version/fork/runtime investigation. Community collection already measures verified physical-artifact aliases once and keeps per-entity evidence-reuse receipts; candidates without that proof run independently when explicitly selected.

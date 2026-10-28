@@ -1,3 +1,4 @@
+import type { PortableBinding } from '../portable/protocol.ts'
 import type { UnifiedWorkload } from './types.ts'
 export interface CommunityBenchmarkConfig {
   adapter: string
@@ -5,6 +6,8 @@ export interface CommunityBenchmarkConfig {
   subpath?: string
   terminalSubpath?: string
   outputs?: string[]
+  /** Outputs available in the non-DOM module host; other outputs use their declared transport. */
+  moduleOutputs?: string[]
   version?: string
   versionPolicy?: string
   sourceAdapter?: string
@@ -14,6 +17,8 @@ export interface CommunityBenchmarkConfig {
   /** The declared adapter's binding per output: no harness code for that tool. */
   api?: Record<string, DeclaredBinding>
   /** Installed npm bin binding; the same contract applies to every project. */
+  /** Reviewed public Node SVG binding, independent of community transport. */
+  portable?: { adapter: 'declared'; binding: PortableBinding } | { adapter: 'public-package' }
   cli?: { bin: string; args: string[]; outputs: string[] }
   [key: string]: unknown
 }

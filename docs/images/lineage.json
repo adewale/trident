@@ -1,0 +1,37 @@
+{
+  "generator": "Agentic Mermaid",
+  "entrySha256": "ea798905f3e444816f78dd1b2b2ccaea893e2e53d4d661f2a3bcbb68454ee920",
+  "source": "docs/lineage-overview.mmd",
+  "sourceSha256": "207e63bafa1643f7803b993752b0956b0ce2e7c6a90ca073e73b4b3d0fb3de96",
+  "options": {
+    "style": [
+      "publication-figure",
+      "nord-light",
+      {
+        "font": "Inter",
+        "roles": {
+          "node": {
+            "fontSize": 18,
+            "fontWeight": 600,
+            "fillColor": "#fffdf8",
+            "borderColor": "#7891a6",
+            "textColor": "#233448"
+          },
+          "edge": {
+            "fontSize": 14,
+            "strokeColor": "#5e81ac",
+            "textColor": "#456079"
+          },
+          "group": {
+            "fontSize": 15,
+            "fontWeight": 700,
+            "borderColor": "#a3b4c3"
+          }
+        }
+      }
+    ]
+  },
+  "svgSha256": "3416a8e2e7f88cfbdb12ca364073956424f10a58d26dea1bb8459041abd55a6c",
+  "pngSha256": "4b30fc6e13c7d9d6631a3c9d5ca24f2e3905bd1c8b617c4fbd3e3a68d099e701",
+  "scope": "Selected lineage overview; all 88 entities and selection reasons are in LINEAGE.md. Derivative, fork, component port and runtime binding have distinct meanings. Diagram appearance implies no benchmark rank."
+}

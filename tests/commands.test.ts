@@ -40,3 +40,9 @@ test('a product source environment cannot relocate Trident oracle defaults', () 
   expect(mermaidOracleDirectory(product)).toBe(mermaidOracleDirectory(ordinary))
   expect(mermaidUpstreamDirectory(product)).toBe(mermaidUpstreamDirectory(ordinary))
 })
+
+test('release version needs no renderer, oracle or compiled kit', () => {
+  const result = help(['--version'])
+  expect(result.status).toBe(0)
+  expect(result.stdout.trim()).toBe('Trident 0.1.0')
+})

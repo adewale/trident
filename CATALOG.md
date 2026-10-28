@@ -11,7 +11,8 @@ classifications:
 | Relation | Entities | Meaning |
 |---|---:|---|
 | Fork | 45 | Shares source ancestry with its recorded parent. Some have changes; others preserve an older parent revision. |
-| Independent | 27 | Recorded as independently rooted. This does not prove independent implementation of every component. |
+| Independent | 26 | Recorded as independently rooted. This does not prove independent implementation of every component. |
+| Derivative | 1 | Beautiful Mermaid derives from Mermaid without a Git-fork claim. |
 | Port | 9 | Reimplements a project in another language or runtime. |
 | Binding | 3 | Exposes another engine through a different runtime/package boundary. |
 | Unverified | 3 | Ancestry has not been established. |
@@ -22,8 +23,11 @@ responsibilities, so their counts should not be added to infer a project total.
 The snapshot also records unresolved discoveries and exclusions separately;
 those are not additional measured entries.
 
-There are 84 declared transport adapters: 20 are labelled existing adapters and
-64 remain candidates awaiting public API/artifact attempts. Four entities have
+There are 84 declared transport adapters: 20 retain existing-adapter labels and
+64 retain candidate labels from the catalog snapshot. Those historical labels
+are separate from the [0.1 verification](SUPPORT-QUALITY.md), which exercised
+37 release artifacts among 42 eligible entries and retained five blockers.
+Four entities have
 no benchmark adapter: Mermaid Live Editor, the VS Code Mermaid Editor,
 Mermaid-to-Excalidraw and Modern Mermaid. Their editor/conversion roles are not
 missing SVG-renderer scores.
@@ -48,10 +52,13 @@ reason for each suite cell. It is configuration evidence, not a fresh runtime
 validation of 88 projects.
 
 The reviewed native-model integrations currently belong to Agentic Mermaid,
-Pele and the pinned Mermaid reference. Nine catalog entries have configured
+Pele and the pinned Mermaid reference. Fifteen catalog entries have configured
 portable Node SVG bindings: Agentic Mermaid, Pele, Ondine and six
 Beautiful-compatible entries (Beautiful Mermaid, Zombie Mermaid, ktrysmt,
-theletterf, thepanax and vercel-labs). A new project can instead declare its
+theletterf, thepanax and vercel-labs). Additional bindings cover mdv, the VitePress plugin, the DSH engine, Merman,
+Crafter and Merslim through declared exports, a public factory or the same
+reviewed package pipeline used by community collection.
+A new project can instead declare its
 public SVG export and returned field; it does not need a project-specific
 portable runner. Historical Mermaid forks do not inherit the pinned reference's
 model evidence merely by sharing its transport adapter.

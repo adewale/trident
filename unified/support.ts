@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import type { CommunityNode } from './community-types.ts'
 import { fidelityCoreProjects } from '../fidelity/selection.ts'
-import { PORTABLE_ADAPTER_IDS } from '../portable/protocol.ts'
+import { PORTABLE_ADAPTER_IDS, type PortableBinding } from '../portable/protocol.ts'
 
 export const PUBLIC_SUITES = ['community', 'docs', 'fidelity', 'native-fidelity', 'upstream-fidelity', 'upstream-original', 'portable'] as const
 export type PublicSuite = typeof PUBLIC_SUITES[number]
@@ -25,10 +25,13 @@ export function nativeAdapter(node: CommunityNode): string | undefined {
 }
 export const PORTABLE_ADAPTERS = new Set<string>(PORTABLE_ADAPTER_IDS)
 export function portableAdapter(node: CommunityNode): string | undefined {
+  if (node.benchmark?.portable?.adapter === 'public-package') return 'public-package'
+  if (node.benchmark?.portable?.adapter === 'declared' && node.benchmark.portable.binding.export) return 'declared'
   const adapter = node.benchmark?.adapter
   if (adapter === 'declared' && !node.benchmark?.api?.svg) return undefined
   return adapter && PORTABLE_ADAPTERS.has(adapter) ? adapter : undefined
 }
+export const portableBinding = (node: CommunityNode): PortableBinding | undefined => (node.benchmark?.portable?.adapter === 'declared' ? node.benchmark.portable.binding : undefined) ?? node.benchmark?.api?.svg
 export function projectSupport(node: CatalogMember) {
   const declared = [...new Set(node.outputs.map(outputName))].sort()
   const bound = [...new Set((node.benchmark?.outputs ?? []).map(outputName))].sort()

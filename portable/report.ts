@@ -43,8 +43,8 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
           scope:
             track === 'first-use'
               ? testCase.prelude?.length
-                ? 'First final-source API call after the declared prelude in each fresh process; import excluded.'
-                : 'First API call in each fresh process; import excluded.'
+                ? 'First final-source API call after the declared prelude in each fresh process; module import and declared factory setup excluded.'
+                : 'First API call in each fresh process; module import and declared factory setup excluded.'
               : (track === 'warm-new-source' ? 'Comment-varied source bytes with the same semantic graph; cache-key diagnostic, not proof of uncached layout. ' : '') + 'Distribution of per-call means from bounded adaptive batches; p95 of sample means is not a single-call tail latency.',
           semanticComplete: completeWorkers && relevant.every(result => result.qualification?.semanticComplete === true),
           outputAdmissionComplete,

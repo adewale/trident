@@ -1,3 +1,4 @@
+import { TRIDENT_VERSION } from './version.ts'
 import { spawnSync } from 'node:child_process'
 import { existsSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
@@ -9,6 +10,7 @@ const help = `Trident — benchmarks for Mermaid renderers, terminal tools and p
 
 Benchmark catalog projects (Bun):
   bun commands.ts support [--lineage] [--out FILE.md|json]
+  bun commands.ts support:verify --prepared FILE --out FRESH_DIRECTORY
   bun commands.ts bench --projects OWNER/TOOL[,...] --plan
   bun commands.ts bench --projects OWNER/TOOL[,...] --profile full --rounds 5 --out DIR
   bun commands.ts bench --list
@@ -28,6 +30,8 @@ Setup and read evidence:
   node commands.ts fidelity:report --core REPORT [--community REPORT] --out DIRECTORY
   node commands.ts export --input FILE [--out FRESH_FILE]
 
+Version: node commands.ts --version
+
 Maintainer checks (Bun): test, typecheck, lint
 
 See BENCHMARKS.md for questions, usefulness, limitations and prerequisites.
@@ -41,11 +45,12 @@ to portable/dist; custom kits run via node KIT/run.mjs. Measurements reject CI.
 `
 async function main() {
   const [command, ...args] = process.argv.slice(2)
+  if (['--version', 'version'].includes(command ?? '') && args.length === 0) { console.log('Trident ' + TRIDENT_VERSION); return }
   if (!command || command === '--help' || command === 'help') { console.log(help); return }
   const aliases: Record<string, string> = { 'portable:build': 'build', community: 'community:update' }
   const selected = Object.hasOwn(aliases, command) ? aliases[command]! : command
   const neutral: Record<string, string> = { build: 'portable/build.ts', portable: 'portable/run.ts', 'fidelity:report': 'fidelity/report.ts' }
-  const own: Record<string, string> = { support: 'unified/support-command.ts', bench: 'unified/benchmark.ts', 'corpus:freeze': 'unified/external-corpus.ts', 'results:campaign': 'unified/campaign-publication.ts', 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
+  const own: Record<string, string> = { 'support:verify': 'unified/support-verification.ts', support: 'unified/support-command.ts', bench: 'unified/benchmark.ts', 'corpus:freeze': 'unified/external-corpus.ts', 'results:campaign': 'unified/campaign-publication.ts', 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
   const checks: Record<string, string[]> = {
     test: ['test', '--timeout', '30000', '--parallel=2', resolve(directory, 'tests')],
     typecheck: ['x', '--no-install', 'tsc', '--noEmit', '-p', resolve(directory, 'tsconfig.json')],

@@ -335,7 +335,8 @@
         "adapter": "franken",
         "outputs": [
           "svg",
-          "parse"
+          "parse",
+          "diagnostics"
         ]
       },
       "benchmarkEligibility": {
@@ -386,8 +387,21 @@
         "package": "ondine",
         "subpath": "compiler",
         "outputs": [
+          "svg",
+          "terminal"
+        ],
+        "moduleOutputs": [
           "svg"
-        ]
+        ],
+        "cli": {
+          "bin": "ondine",
+          "args": [
+            "--ascii"
+          ],
+          "outputs": [
+            "terminal"
+          ]
+        }
       },
       "benchmarkEligibility": {
         "classification": "port-implementation",
@@ -450,9 +464,9 @@
         "reason": "Catalog declares svg, png operations with adapter dart. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
       },
       "comparisonBranding": {
-        "distinct": false,
-        "name": null,
-        "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        "distinct": true,
+        "name": "Mermaid Dart",
+        "evidence": "Maintainer confirms Mermaid Dart is a distinctive brand (2026-10-28). Public identity includes its Dart/Flutter products and https://roszkowski.dev/mermaid/."
       }
     },
     {
@@ -2912,7 +2926,13 @@
         "outputs": [
           "svg",
           "terminal"
-        ]
+        ],
+        "portable": {
+          "adapter": "declared",
+          "binding": {
+            "export": "renderMermaidSVG"
+          }
+        }
       },
       "benchmarkEligibility": {
         "classification": "diverged-fork",
@@ -3206,7 +3226,10 @@
             "version": "0.0.3",
             "operation": "render"
           }
-        ]
+        ],
+        "portable": {
+          "adapter": "public-package"
+        }
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -3233,7 +3256,8 @@
       "outputs": [
         "svg",
         "png",
-        "ascii-unicode"
+        "ascii-unicode",
+        "ast"
       ],
       "packages": [
         {
@@ -3256,7 +3280,16 @@
         "outputs": [
           "svg",
           "png",
-          "terminal"
+          "terminal",
+          "parse"
+        ],
+        "portable": {
+          "adapter": "public-package"
+        },
+        "moduleOutputs": [
+          "svg",
+          "terminal",
+          "parse"
         ]
       },
       "benchmarkEligibility": {
@@ -3305,7 +3338,8 @@
         "versionPolicy": "recorded",
         "outputs": [
           "svg"
-        ]
+        ],
+        "moduleOutputs": []
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -3582,7 +3616,13 @@
         "versionPolicy": "recorded",
         "outputs": [
           "svg"
-        ]
+        ],
+        "portable": {
+          "adapter": "declared",
+          "binding": {
+            "export": "render"
+          }
+        }
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -3652,7 +3692,15 @@
         "outputs": [
           "svg",
           "png"
-        ]
+        ],
+        "portable": {
+          "adapter": "declared",
+          "binding": {
+            "factory": "createNodeEngine",
+            "export": "renderSvgSync",
+            "dispose": "dispose"
+          }
+        }
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -3666,7 +3714,7 @@
       "categories": [
         "renderer"
       ],
-      "relation": "independent",
+      "relation": "derivative",
       "repo": "https://github.com/lukilabs/beautiful-mermaid",
       "branch": "main",
       "head": "2ac8bbbb060ca0a65a6a21f3200bd99b1587b488",
@@ -3704,16 +3752,17 @@
         ]
       },
       "benchmarkEligibility": {
-        "classification": "independently-rooted-implementation",
-        "engineScope": "independent-engine-candidate",
+        "classification": "derivative-implementation",
+        "engineScope": "independently-rooted-derivative",
         "adapterReview": "existing-adapter; outcomes remain independent",
-        "reason": "Catalog declares svg, terminal operations with adapter beautiful. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+        "reason": "Maintainer correction 2026-10-28: Beautiful Mermaid is a derivative of Mermaid, not a Git fork. Its ASCII component separately ports Mermaid ASCII; SVG implementation and source root remain distinct."
       },
       "comparisonBranding": {
         "distinct": true,
         "name": "Beautiful Mermaid",
         "evidence": "Catalog records beautiful-mermaid package; only its ASCII component is a port of Mermaid ASCII."
-      }
+      },
+      "parent": "mermaid-js/mermaid"
     },
     {
       "id": "Mootikins/figurehead-rs",
@@ -3933,7 +3982,10 @@
         "versionPolicy": "recorded",
         "outputs": [
           "svg"
-        ]
+        ],
+        "portable": {
+          "adapter": "public-package"
+        }
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -4900,7 +4952,7 @@
     {
       "from": "lukilabs/beautiful-mermaid",
       "to": "AlexanderGrooff/mermaid-ascii",
-      "relation": "port",
+      "relation": "component-port",
       "evidence": "README.md:36 and :563: ASCII engine \"ported from Go to TypeScript\"",
       "scope": "ASCII engine only; SVG renderer independently implemented"
     },
@@ -4933,6 +4985,12 @@
       "to": "obsidianmd/pele",
       "relation": "port",
       "evidence": "crates.io bezel-mermaid 0.2.19 description: Mermaid source drawn as SVG, a port of Pele. Published .cargo_vcs_info.json identifies 25b1da54115d3253d457d6c1fb3f62c05261dd13; Rust source files directly match that checkout. Classification follows the explicit port description; shared Git-root ancestry was not inferred."
+    },
+    {
+      "from": "lukilabs/beautiful-mermaid",
+      "to": "mermaid-js/mermaid",
+      "relation": "derivative",
+      "evidence": "Maintainer correction 2026-10-28: derivative relationship, not a Git fork. Independent source root and separately recorded Mermaid ASCII component port are preserved."
     }
   ],
   "rendererBenchmarkExclusions": [

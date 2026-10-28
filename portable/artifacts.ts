@@ -1,10 +1,12 @@
+import { createRequire } from 'node:module'
+import { extraPackagePreparation } from '../unified/community-extra-adapters.mjs'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { closeSync, existsSync, openSync, readFileSync, readSync, readdirSync, realpathSync } from 'node:fs'
 import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { gzipSync } from 'node:zlib'
-import { captureInstalledDependencyClosure } from './artifact-dependencies.ts'
+import { captureInstalledDependencyClosure, type InstalledDependencyClosure } from './artifact-dependencies.ts'
 import type { PortableArtifact } from './protocol.ts'
 
 export const portableDirectory = dirname(fileURLToPath(import.meta.url))
@@ -30,7 +32,17 @@ export function resolveArtifact(project: string, root: string, adapter: Portable
   if (!existsSync(actualEntry) || typeof pkg.version !== 'string') throw Error('A real installed package and public module entry are required')
   return { project, root: packageRoot, entry: realpathSync(actualEntry), version: pkg.version, adapter }
 }
-export function artifactIdentity(artifact: PortableArtifact) {
+export interface PortableArtifactIdentity {
+  artifact: PortableArtifact
+  packageName: string
+  packageMetadata: Record<string, unknown>
+  entrySha256: string
+  files: Array<{ path: string; sha256: string; bytes: number; gzipBytes: number }>
+  dependencies: InstalledDependencyClosure
+  adapterCompanions?: PortableArtifactIdentity[]
+  deliveryScope: string
+}
+export function artifactIdentity(artifact: PortableArtifact): PortableArtifactIdentity {
   const pkg = readJson(join(artifact.root, 'package.json'))
   const walk = (directory: string): { path: string; sha256: string; bytes: number; gzipBytes: number }[] =>
     readdirSync(directory, { withFileTypes: true })
@@ -53,7 +65,17 @@ export function artifactIdentity(artifact: PortableArtifact) {
     payload = join(artifact.root, directory)
   }
   const files = walk(payload)
-  return { artifact, packageName: pkg.name, packageMetadata: pkg, entrySha256: byteDigest(artifact.entry), files, dependencies: captureInstalledDependencyClosure(artifact.root), deliveryScope: 'Per-file package gzip sizes are inventory, not observed network transfer or an npm tarball total.' }
+  const companionSpecs = artifact.adapter === 'public-package' ? extraPackagePreparation(String(artifact.publicConfig?.package)).companions ?? [] : []
+  const req = companionSpecs.length ? createRequire(join(artifact.root, 'package.json')) : undefined
+  const adapterCompanions = companionSpecs.map((spec: string) => {
+    const split = spec.lastIndexOf('@'), name = spec.slice(0, split), version = spec.slice(split + 1)
+    const root = req!.resolve.paths(name)?.map(directory => join(directory, name)).find(directory => existsSync(join(directory, 'package.json')))
+    if (!root) throw Error('Public adapter companion is missing: ' + spec)
+    const manifest = readJson(join(root, 'package.json'))
+    if (manifest.name !== name || manifest.version !== version) throw Error('Public adapter companion version differs: ' + spec)
+    return artifactIdentity({ project: name, root: realpathSync(root), entry: join(realpathSync(root), 'package.json'), version, adapter: 'declared' })
+  })
+  return { artifact, packageName: pkg.name, packageMetadata: pkg, entrySha256: byteDigest(artifact.entry), files, dependencies: captureInstalledDependencyClosure(artifact.root), ...(adapterCompanions.length ? { adapterCompanions } : {}), deliveryScope: 'Per-file package gzip sizes are inventory, not observed network transfer or an npm tarball total.' }
 }
 export function harnessIdentity(directory = portableDirectory) {
   const manifest = join(directory, 'harness-artifact.json')
@@ -64,7 +86,7 @@ export function harnessIdentity(directory = portableDirectory) {
     return { kind: 'compiled-measurement-artifacts', files: data.files.filter(file => ['worker.mjs', 'execution.mjs'].includes(file.path)) }
   }
   const root = execFileSync('git', ['rev-parse', '--show-toplevel'], { cwd: directory, encoding: 'utf8' }).trim()
-  const paths = ['worker.mjs', 'configuration.ts', 'execution.ts', 'cohorts.ts', 'fidelity.ts', 'protocol.ts', 'ci-policy.ts', 'mermaid-oracle.ts'].map(name => relative(root, join(directory, name)))
+  const paths = ['../unified/community-extra-adapters.mjs', 'worker.mjs', 'configuration.ts', 'execution.ts', 'cohorts.ts', 'fidelity.ts', 'protocol.ts', 'ci-policy.ts', 'mermaid-oracle.ts'].map(name => relative(root, join(directory, name)))
   if (execFileSync('git', ['status', '--porcelain', '--', ...paths], { cwd: root, encoding: 'utf8' }).trim()) throw Error('Commit measured protocol files before collecting or reusing timings; use the compiled harness outside Git')
   const objects = execFileSync('git', ['ls-tree', '-r', 'HEAD', '--', ...paths], { cwd: root, encoding: 'utf8' })
     .trim()
