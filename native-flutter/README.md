@@ -21,7 +21,7 @@ use its environment receipt and font hashes when reproducing those exact pixels.
 cd native-flutter
 npm ci
 # Use an existing desktop display, or start a private Xvfb display:
-Xvfb :99 -screen 0 1000x700x24 -ac -nolisten unix -listen tcp
+Xvfb :99 -screen 0 1000x700x24 -ac -noreset -nolisten unix -listen tcp
 # In another shell:
 export DISPLAY=127.0.0.1:99
 ./reproduce.sh
@@ -91,7 +91,7 @@ HEADED=1 ONLY_CASE=core:flow5 ROUNDS=1 SAMPLES=1 WARMUPS=0 \
 ## Completion boundaries
 
 Native `ui_frame_ms` stops at `endOfFrame`, which completes the UI pipeline.
-View gets a second frame for its default post-frame fit. Neither clock establishes
+A fresh or source-changed View gets a second frame for its post-frame fit. An unchanged View rebuild uses one frame. Neither clock establishes
 raster completion. `FrameTiming` supplies separate engine build/raster durations.
 `analyze.py` matches build-start timestamps against sample `Timeline.now` intervals;
 delayed callback-delivery labels are not used for association. It derives
@@ -129,3 +129,36 @@ release mode, positive pixels, negative cases, frame joins and supplemental edit
 `images.py` builds a contact sheet and runs diagnostic OCR after measurement.
 Manual visual findings may be saved in `results/visual-findings.json`; analysis
 applies those findings only to that inspected run, never automatically to a new run.
+
+## Audited protocol and publication
+
+The current runner records `native-entrypoints-v2`. It primes the browser host
+once per phase, records whether each timed operation started, and preserves source
+transitions. An unchanged View rebuild waits for one frame; a fresh or changed
+View waits for its fit frame too. Run reservations are atomic. Launchers enforce
+x86_64 and supervise child processes with a deadline. Selected Pele bytes must
+match the independently recorded published 1.9.0 entry digest, not just a version string.
+
+The earlier 28 October 2026 campaign remains legacy evidence. Its View-repeat
+clock includes an unnecessary second frame, and its Pele render-update samples
+mix changed and unchanged replacements. Some negative rows fail in preparation.
+These records are retained, but their affected columns do not establish the
+corrected workloads' performance. The [comparison scope](../docs/native-flutter-comparison.md)
+explains which questions remain open.
+
+Publish a retained campaign in Trident's coverage → outcome → cost → evidence
+order, with one scorecard per runtime/public interface:
+
+```sh
+python publish.py --evidence-root /path/to/retained/native-flutter \
+  --out /path/to/fresh-publication
+```
+
+The publisher runs no renderer, mutates no input records, and keeps historical
+protocol limitations beside their numbers. It copies owning evidence and emits
+local links and a hash manifest. A new publication date never changes the
+original measurement date or upgrades the measurement protocol.
+
+[Dated scorecards, raw evidence and audit](https://github.com/adewale/trident/releases/tag/native-flutter-evidence-2026-10-28)
+are published separately from source commits. The original archive has SHA-256
+`576069ace64693beb8de81a34af5bb9d4237d0eb4e68d186bc16d08cc28b75d7`.

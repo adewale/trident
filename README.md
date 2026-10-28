@@ -162,7 +162,7 @@ application alongside Pele 1.9.0 in Chromium. It separates new instances,
 unchanged calls, source updates and first use in new processes, and retains
 painted output and failures. It is not registered in the standard CLI or catalog;
 its timing boundaries differ from the Node SVG suites. Generated evidence stays
-outside source commits.
+outside source commits. [Audited result tables and withheld comparisons](docs/native-flutter-comparison.md) explain the retained campaign.
 
 ## Add a tool
 
