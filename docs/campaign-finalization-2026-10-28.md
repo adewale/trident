@@ -1,6 +1,6 @@
 # Campaign finalization: 28 October 2026
 
-Status: the environment is restored. The [dated results](campaign-results-2026-10-28.md) now publish the triage, selected generic font-case requalification, Mermaid comparisons and [per-metric PR ordering](pr-performance-2026-10-28.md). Strict-backend requalification and three legacy suite preparations remain outstanding; no complete-suite pass or current-main performance claim is made.
+Status: the environment is restored. The [dated results](campaign-results-2026-10-28.md) now publish the triage, selected generic font-case requalification, Mermaid comparisons and [per-metric PR ordering](pr-performance-2026-10-28.md). Three legacy suite preparations and historical product-witness attribution remain outstanding; no complete-suite pass or current-main performance claim is made.
 
 The working branch was first rebased onto Trident main `a4b3984b284f3ee819c2c4d304d95b4ffc83ad33`, then rebased onto `8d5e76d70d1a6ae5e7b0f56d7378c58ff6ddf72d` after #39 landed, and then onto `7b080f456a57321db4c1a70529748494baa14e71` after #42 landed. That change publishes ecosystem tables and charts from a different, explicitly historical snapshot; reuse its reporting infrastructure without relabelling it as this frozen campaign. Original measurements remain attached to Trident producer `7d6f89ddfe64b1cf3978ff1cb5cd31528cf3d36f` and Agentic source `cfd58df8ab8c21ce76eb46556296a7439f231bbf`. Agentic main was `700da836a418277225e2f058a77c48dc010b050b` when work resumed.
 
@@ -27,7 +27,7 @@ These classifications do not establish that historical product findings still re
 
 ## Portable configuration repair
 
-Current main already maps neutral font intent to Agentic's public `style.roles.node.fontSize` and Pele's `fontSize`. Do not reapply the earlier eight-file proposal.
+Current main already maps neutral font intent to Agentic's public `style.roles.node.fontSize` and Pele's `fontSize`. Do not reapply the earlier eight-file proposal to current main. The archived strict observer has a separate reviewed repair at `2401d09f1c73b1c650445858e5640127368b21c6`; it is not restored to the current public runner.
 
 The old main and CFD portable runs each have 384 failures, all in `adversarial:configuration-reset`, caused by the former invalid option mapping. Requalify only that case, using frozen artifacts, six rounds, 31 warm samples, 20 fresh samples, 2 ms batch minimum and 8 preparation slots. Pele remains 1.9.0 and supplies a fresh positive control for the revised observer.
 

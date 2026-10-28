@@ -39,6 +39,20 @@
       "check": "actual SVG rasterization and visual review",
       "status": "passed",
       "detail": "All seven SVGs rendered with resvg; corrected clipped fidelity annotations and separated startup p95 markers from sample counts. This is local rendering review, not a GitHub-browser screenshot."
+    },
+    {
+      "check": "archived strict-backend font repair",
+      "producer": "2401d09f1c73b1c650445858e5640127368b21c6",
+      "unitTestsPassed": 5,
+      "unitAssertions": 28,
+      "rawUnknownOptionsRejected": 4,
+      "actualFontSequences": "14/24/14, both backends",
+      "workers": 781,
+      "failedWorkers": 0,
+      "blockedWorkers": 0,
+      "clockBodySha256": "9329bab2780467c0a890260cc29c0e01ddb6d1038052b0ee2255642c100bbe99",
+      "typecheck": "passed",
+      "singleThreadBiome": "passed"
     }
   ],
   "limits": "The complete test suite is not claimed passing on the damaged host. Benchmark runs were sequential and finished before plotting and validation. No repaired clock was spliced into a historical distribution.",

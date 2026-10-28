@@ -10,17 +10,20 @@ The reference is Mermaid **12.2.0**; Pele is **1.9.0** throughout this campaign 
 
 `--cases` admits an exact portable subset before artifact preparation. Explicit subsets use a separate record lane, so requalifying one case cannot replace the active full portfolio. Existing font-intent translation on main is reused; the old proposal is superseded by merged Trident #21 and subsequent main changes. No benchmark was added to CI.
 
-Only the changed observer case ran again: one case rather than the original 54, across Pele and two frozen Agentic artifacts. That is 1,173 completed workers. The first eight-slot Pele attempt hit host EAGAIN and remains a failed attempt. The successful retry kept six rounds, 31 warm sample means and 20 fresh processes per round/replica, using one preparation slot and reduced Node thread pools. This is a separate preparation cohort; its clocks are not spliced into the old full runs.
+Only the changed observer case ran again: one case rather than the original 54, across Pele and two frozen Agentic artifacts. Those generic roles produced 1,173 completed workers; the separate strict-backend repair adds 781, for 1,954 total. The first eight-slot Pele attempt hit host EAGAIN and remains a failed attempt. The successful retry kept six rounds, 31 warm sample means and 20 fresh processes per round/replica, using one preparation slot and reduced Node thread pools. This is a separate preparation cohort; its clocks are not spliced into the old full runs.
 
-| Artifact role | Version | Workers | Failed | Blocked | Admitted output cases | Complete semantic cases | Calibrated output timing rows / 4 |
+| Artifact role | Version | Workers | Failed | Blocked | Admitted output cases | Complete semantic cases | Calibrated timing rows / available |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| pele | 1.9.0 | 391 | 0 | 0 | 1 | 1 | 1 |
-| main | 0.4.2 | 391 | 0 | 0 | 1 | 0 | 2 |
-| candidate | 0.4.2 | 391 | 0 | 0 | 1 | 0 | 1 |
+| pele | 1.9.0 | 391 | 0 | 0 | 1 | 1 | 1/4 |
+| main | 0.4.2 | 391 | 0 | 0 | 1 | 0 | 2/4 |
+| candidate | 0.4.2 | 391 | 0 | 0 | 1 | 0 | 1/4 |
+| strict PR449: ELK + Agentic receipts | 0.4.2 | 781 | 0 | 0 | 2 | 0 | 5/8 |
 
 The former invalid mapping caused 384 failed workers in each old Agentic role. The corrected case now has zero failed or blocked workers. This is evidence of an observer repair, not a renderer improvement. Most new warm timing rows are uncalibrated. Agentic still lacks the portable observer's complete native projection; no full-fidelity or portfolio speed score is inferred.
 
 [Selected-case checks, timing dispositions and report hashes](evidence/campaign-2026-10-28/configuration-reset.json)
+
+The archived strict observer was repaired separately at public producer `2401d09f1c73b1c650445858e5640127368b21c6`, based on `7d6f89ddfe64b1cf3978ff1cb5cd31528cf3d36f`. Its timed invocation body is byte-for-byte unchanged: all enumerable receipt sidecars remain consumed inside the timer, and every backend decision is checked outside it. Five focused tests passed; actual frozen-artifact checks reject all four old raw options and verify owned 14→24→14 declarations for both backends. The two selected cases completed 781 workers without failure. This archived producer is not restored to the neutral current runner. [Strict subset evidence and independent checks](evidence/campaign-2026-10-28/strict-configuration-reset.json).
 
 ## Documentation rendering versus Mermaid
 
@@ -144,7 +147,7 @@ Historical product observations remain open for exact-witness reproduction: the 
 
 The browser reference suite has 1,120 passed and 20 unsupported ZenUML rows, preserving all 1,140 observations. It needs a separately qualified complete first-party reference binding. It is not a complete Mermaid-fidelity baseline.
 
-Strict PR449 has 1,920 historical failed workers. Only its two font-configuration cases (768 workers) are established observer errors; its class128/agentic and ER128/elk+agentic cases retain 1,152 failures. The strict operation consumes complete backend receipts in its timer. No SVG-only rerun is substituted for it, and its two strict font cases remain unrequalified.
+Strict PR449 has 1,920 historical failed workers. Only its two font-configuration cases (768 workers) are established observer errors; its class128/agentic and ER128/elk+agentic cases retain 1,152 failures. The strict operation consumes complete backend receipts in its timer. No SVG-only rerun is substituted for it. Its two font cases are now requalified using the separately preserved strict producer; the other 1,152 failures are unchanged, and the old full result is not overwritten.
 
 All 54 paired PR core jobs finished by 06:54 UTC, before the known local-activity overlap. Their dated paired costs remain eligible for their core protocol. The later base547 and CFD invocation timings overlap activity and receive no timing credit. Those broad runs also have qualification failures, so repeating their clocks would not create a usable rank. Fourteen family groups failed at adapter enumeration before exercising any cases; missing adapters are benchmark gaps.
 
@@ -160,9 +163,9 @@ The [per-metric ordering](pr-performance-2026-10-28.md) includes both cache flag
 
 ## What remains
 
-This delivery completes the dated reductions and selected generic font-case requalification. It does not close the three old suite-setup defects, the two strict-backend font requalifications, complete Mermaid reference-binding admission, or historical product-witness attribution. Current #571 needs its own admitted artifact before it can enter a comparable campaign. Benchmarks continue to run locally, outside CI.
+This delivery completes the dated reductions and selected generic font-case requalification. It does not close the three old suite-setup defects, complete Mermaid reference-binding admission, or historical product-witness attribution. Current #571 needs its own admitted artifact before it can enter a comparable campaign. Benchmarks continue to run locally, outside CI.
 
-The published evidence is about 420 KB of derived JSON, SVG and a small plotting recipe, plus Markdown. It is not a raw campaign backup: packages, dependency trees, millions of raw criteria, and full worker arrays remain outside the repository. The checked-in `render.py` reproduces all seven SVGs using only published inputs; two fresh regenerations produced identical files. It copies and hash-checks the three historical Dave figures and rebuilds the four new figures. Full collector replay still needs its recorded artifacts.
+The published evidence is under 0.5 MB of derived JSON, SVG and a small plotting recipe, plus Markdown. It is not a raw campaign backup: packages, dependency trees, millions of raw criteria, and full worker arrays remain outside the repository. The checked-in `render.py` reproduces all seven SVGs using only published inputs; two fresh regenerations produced identical files. It copies and hash-checks the three historical Dave figures and rebuilds the four new figures. Full collector replay still needs its recorded artifacts.
 
 ## Updating these records
 
