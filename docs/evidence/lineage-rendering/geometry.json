@@ -1,0 +1,80 @@
+{
+  "finding": "Two independently labelled incoming relationships share an attachment/arrowhead in Agentic Mermaid 0.4.1 under default and publication styling; Pele and Mermaid controls use distinct attachments. Distances are per-render SVG coordinates, not a shared-scale aesthetic score.",
+  "measurements": [
+    {
+      "render": "agentic-default",
+      "incomingEndpoints": {
+        "Mermaid": [
+          209.39150000000004,
+          237.2
+        ],
+        "ASCII": [
+          209.39150000000004,
+          237.2
+        ]
+      },
+      "endpointSeparationSvgUnits": 0.0,
+      "coincident": true
+    },
+    {
+      "render": "agentic-styled",
+      "incomingEndpoints": {
+        "Mermaid": [
+          274.72,
+          264.6
+        ],
+        "ASCII": [
+          274.72,
+          264.6
+        ]
+      },
+      "endpointSeparationSvgUnits": 0.0,
+      "coincident": true
+    },
+    {
+      "render": "pele-default",
+      "incomingEndpoints": {
+        "Mermaid": [
+          267.44,
+          169.0
+        ],
+        "ASCII": [
+          140.62,
+          169.0
+        ]
+      },
+      "endpointSeparationSvgUnits": 126.82,
+      "coincident": false
+    },
+    {
+      "render": "mermaid-default",
+      "incomingEndpoints": {
+        "Mermaid": [
+          777.7333333333333,
+          242.0
+        ],
+        "ASCII": [
+          734.2666666666667,
+          242.0
+        ]
+      },
+      "endpointSeparationSvgUnits": 43.4666666666667,
+      "coincident": false
+    },
+    {
+      "render": "agentic-fanin",
+      "incomingEndpoints": {
+        "Mermaid": [
+          103.953,
+          193.2
+        ],
+        "ASCII": [
+          103.953,
+          193.2
+        ]
+      },
+      "endpointSeparationSvgUnits": 0.0,
+      "coincident": true
+    }
+  ]
+}
