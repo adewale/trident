@@ -1,0 +1,3474 @@
+{
+  "protocol": "issue30-public-contract-followup-v1",
+  "assessmentDate": "2026-10-28",
+  "harnessRevision": "0e42ea0886df44549717205ca92aef93c69ac923",
+  "baseline": {
+    "path": "docs/evidence/support-0.1.json",
+    "sha256": "2adecbd6cbbb63daea4e8dda4cb698633465da8b0b33d731e3e408a5c56e4e08",
+    "executedIntegrations": 37,
+    "notRerun": true
+  },
+  "executedEvidenceTotals": {
+    "publicOutputIntegrations": 38,
+    "browserEditorWorkflows": 2,
+    "eligibleEntries": 42,
+    "excludedEntries": 46
+  },
+  "outputVerification": {
+    "protocol": "public-output-contract-verification-v1",
+    "producers": [
+      "100644 blob 0204ce3268adfb16c4c021de08ab0a50a688b04d\tportable/protocol.ts",
+      "100644 blob 0423521d87459206d20adc6b205cd28290b240a8\tportable/project-records.ts",
+      "100644 blob 114b71891d71dc30faa27e88aa7e4ca0ba3f0267\tunified/community-source-prepare.ts",
+      "100644 blob 143cb0eb5809bd88ec75883d35cf9f989de1f658\tunified/community-artifact-prepare.ts",
+      "100644 blob 154c62e1156fa558c68a97914150e0e8bef3ae43\tunified/support-verification.ts",
+      "100644 blob 1823c6eef4e6ea05d4b45bca5d02bd9062b3e9ca\tportable/cohorts.ts",
+      "100644 blob 19c946f793e79bfaa036c26db7cf26876f5f8ed1\tunified/community-extra-adapters.mjs",
+      "100644 blob 21cc51ce40a4b5ae788668e617275bacc42bb14e\tunified/community-protocol-identity.ts",
+      "100644 blob 2740a1a29fc5a3726e16f38ef6f522420e6285e7\tunified/failure-outputs.ts",
+      "100644 blob 2f89b53ee3c54994dad9f7cecb0a5959ff96e5b7\tunified/protocol-identity.ts",
+      "100644 blob 326f888041d241d0c025d71c8c8358ef7b313d67\tunified/community-python-worker.py",
+      "100644 blob 3489fdf261cd093af23d7a7cdbbceb816c8c5139\tunified/support.ts",
+      "100644 blob 368cb14d601ecda74fac76202831ae7bd1bd71f8\tunified/qualification-visible-source.ts",
+      "100644 blob 3c4999e57c8016ec651a548f0b8ba696165410ba\tportable/mermaid-oracle.ts",
+      "100644 blob 403ff7ba062a20a4610b46468f04a028222d4ca1\tci-policy-enforce.ts",
+      "100644 blob 40b8c9733871cdca86ed91dc69f28baf4d614a18\tunified/browser-png-inspection.ts",
+      "100644 blob 46919dbe7137c87acb3e9a37ff3714783ddc9af3\tunified/excalidraw-inspection.ts",
+      "100644 blob 46a6436ea29e11fa5d713b39ddb63acd9ae791cf\tci-policy.ts",
+      "100644 blob 4972896c78f1c5b8a911f8f5b342a5587c111173\tunified/community-browser.ts",
+      "100644 blob 4ef16f89e4a61d508793fd8fb023115c9f8a688d\tunified/project-update.ts",
+      "100644 blob 57236fdd42b4518e6bd41fdbf03d4347f2558b06\ttool-versions.json",
+      "100644 blob 5ef6354edf9d8f60eed95a51e4dd9253bfed2e90\tunified/community-worker-evidence.ts",
+      "100644 blob 6a0b61c7dd23cd9ad0a6b408278b18e38b89521d\tunified/trident-paths.ts",
+      "100644 blob 6f6490ef7cc348a2d5612399d09813ed5ebb241a\tunified/community-external.ts",
+      "100644 blob 6fdca45d96e84f46735cd8fe8926fe34e2889f1b\tunified/harness-paths.ts",
+      "100644 blob 7a8d7b3345485af80a7a95632a1dd59f40d8db93\tunified/png-inspection.ts",
+      "100644 blob 852381c5fe56bf942328f2218d9bc7f88c355977\tunified/process-tree.ts",
+      "100644 blob 861d3ecd711f27da243d4633e31d1408a30c9e48\tunified/qualification.ts",
+      "100644 blob 9650cf38842937be6ce0506095b2019ddcb5013a\tfidelity/selection.ts",
+      "100644 blob 9706b831179f972aaf9eb4d0e433f3927c4c445b\tportable/ci-policy.ts",
+      "100644 blob 9b4c6d41fcdff1e95f34584cae7699387b9ef24a\tunified/family-support.ts",
+      "100644 blob a2bdd352ec4593706fe6888250c38c4476ec021b\tunified/community-extra-source.ts",
+      "100644 blob a4babf48bfcc17736628dce4d0f6d416781ed7d1\tportable/mermaid-oracle-worker.mjs",
+      "100644 blob a865874cfc792441448bca480dc66e30de228524\tportable/artifact-dependencies.ts",
+      "100644 blob aa10f449699fafb6430719483ddfd6a1079131e3\tunified/catalog-eligibility.ts",
+      "100644 blob aaf1d51b3673c8ebf42a822d35cb86d569dbc291\tunified/release-cli.ts",
+      "100644 blob b3ac3e9b975ce5571ca70ca309af3275486b3d5b\tunified/artifact-admission.ts",
+      "100644 blob b4645079ec5f8b4a939360b735e7eb9ac7daf31a\tunified/workload-intent.ts",
+      "100644 blob b6e2112969be7aefb804478246a1e84d36cf5b7d\tportable/time-observer.ts",
+      "100644 blob c4e0381b39ae90356167d2f99e0e286bce65fdac\tunified/declared-adapter.mjs",
+      "100644 blob cd107b44969d3b7c6e583eabd9e2241242361093\tunified/lineage.ts",
+      "100644 blob d29586438e915f1ce580b210af765fcdc3422557\tunified/options.ts",
+      "100644 blob d50649b756b6334786b215c341776b37ace0cef1\tunified/oracle-labels.ts",
+      "100644 blob d9dfab66016cdc4bd0f89adc58ad1359b3944234\tunified/community-process.ts",
+      "100644 blob e26c2b2f6af3ee16e0bdf4ce2601edd9e590530f\tunified/community-cli.ts",
+      "100644 blob e908f7bc2e5773fb9702666c9aa2ad20ed6d6fd1\tunified/community.ts",
+      "100644 blob eacfa7f30a1a1925538ba704f73cb59f80fa44f3\tunified/browser-process-memory.ts",
+      "100644 blob ed051cbd9a8c3df3881ed07327e08fa3dba7976f\tunified/svg-text-inspection.ts",
+      "100644 blob f3abd8b344dc5863f318c64f0c980dfb04cd0ee5\tunified/community-worker.mjs",
+      "100644 blob fc752c49aa51e88dac8c8e13b7168abc93c44fe2\ttool-versions.ts",
+      "100644 blob ff13967087b5a60fb3037fc0b55eb9caa0041de0\tunified/corpus.ts"
+    ],
+    "catalogSha256": "a25ca13a702916f22319ac10495add3e6b53fdf7165d20abfd819a5974aed40a",
+    "generatedAt": "2026-10-28T18:09:35.293Z",
+    "preparedSha256": "92a5cf098b4e6486e4d7037471651f55b263e3cecb55c817bfa541c476104dcd",
+    "plannedProjects": 3,
+    "completedProjects": 3,
+    "workloads": [
+      {
+        "id": "support:flowchart",
+        "expectedRelationships": [
+          {
+            "from": "Alpha",
+            "to": "Beta"
+          }
+        ],
+        "family": "flowchart",
+        "source": "flowchart LR\nA[Alpha] --> B[Beta]",
+        "expectedLabels": [
+          "Alpha",
+          "Beta"
+        ],
+        "features": [],
+        "provenance": "Independent authored two-node output admission"
+      },
+      {
+        "id": "support:sequence",
+        "expectedRelationships": [
+          {
+            "from": "Alpha",
+            "to": "Beta",
+            "label": "Request"
+          }
+        ],
+        "family": "sequence",
+        "source": "sequenceDiagram\nparticipant A as Alpha\nparticipant B as Beta\nA->>B: Request",
+        "expectedLabels": [
+          "Alpha",
+          "Beta",
+          "Request"
+        ],
+        "features": [],
+        "provenance": "Independent authored message output admission"
+      },
+      {
+        "id": "support:class",
+        "expectedRelationships": [
+          {
+            "from": "Alpha",
+            "to": "Beta",
+            "label": "uses"
+          }
+        ],
+        "family": "class",
+        "source": "classDiagram\nclass Alpha\nclass Beta\nAlpha --> Beta: uses",
+        "expectedLabels": [
+          "Alpha",
+          "Beta",
+          "uses"
+        ],
+        "features": [],
+        "provenance": "Independent authored class output admission"
+      },
+      {
+        "id": "support:state",
+        "family": "state",
+        "source": "stateDiagram-v2\nstate \"Alpha\" as A\nstate \"Beta\" as B\nA --> B: advance",
+        "expectedLabels": [
+          "Alpha",
+          "Beta",
+          "advance"
+        ],
+        "features": [],
+        "provenance": "Independent authored state output admission"
+      },
+      {
+        "id": "support:er",
+        "expectedRelationships": [
+          {
+            "from": "ALPHA",
+            "to": "BETA",
+            "label": "owns"
+          }
+        ],
+        "family": "er",
+        "source": "erDiagram\nALPHA ||--o{ BETA : owns",
+        "expectedLabels": [
+          "ALPHA",
+          "BETA",
+          "owns"
+        ],
+        "features": [],
+        "provenance": "Independent authored relationship output admission"
+      },
+      {
+        "id": "support:pie",
+        "family": "pie",
+        "source": "pie\n\"Alpha\":7\n\"Beta\":3",
+        "expectedLabels": [
+          "Alpha",
+          "Beta"
+        ],
+        "features": [],
+        "provenance": "Independent authored numeric output admission"
+      }
+    ],
+    "projects": [
+      {
+        "project": "excalidraw/mermaid-to-excalidraw",
+        "state": "partially-verified",
+        "version": "2.3.0",
+        "declaredOutputs": [
+          "excalidraw"
+        ],
+        "boundOutputs": [
+          "excalidraw"
+        ],
+        "outputs": [
+          {
+            "output": "excalidraw",
+            "state": "other-transport-required",
+            "reason": "The reviewed module transport does not expose this output; no unsupported invocation is attempted"
+          },
+          {
+            "output": "excalidraw",
+            "transport": "browser",
+            "state": "invocation-verified",
+            "plannedInputs": 6,
+            "passed": 2,
+            "recordedInputObservations": 6,
+            "duplicateCaseIds": [],
+            "observations": [
+              {
+                "suite": "community-browser",
+                "surface": "browser:editable-conversion",
+                "runtime": "chromium",
+                "family": "flowchart",
+                "caseId": "support:flowchart",
+                "operation": "convert",
+                "format": "excalidraw",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "bytes": 522,
+                "findings": [],
+                "metrics": {
+                  "implementation": "excalidraw/mermaid-to-excalidraw",
+                  "apiBoundary": "public parseMermaidToExcalidraw; real DOM measurement, editable model, no SVG-engine score",
+                  "rejected": false,
+                  "outputFile": null,
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:editable-conversion",
+                "runtime": "chromium",
+                "family": "sequence",
+                "caseId": "support:sequence",
+                "operation": "convert",
+                "format": "excalidraw",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "bytes": 1486,
+                "findings": [],
+                "metrics": {
+                  "implementation": "excalidraw/mermaid-to-excalidraw",
+                  "apiBoundary": "public parseMermaidToExcalidraw; real DOM measurement, editable model, no SVG-engine score",
+                  "rejected": false,
+                  "outputFile": null,
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:editable-conversion",
+                "runtime": "chromium",
+                "family": "class",
+                "caseId": "support:class",
+                "operation": "convert",
+                "format": "excalidraw",
+                "mode": "output-contract-verification",
+                "status": "blocked",
+                "findings": [
+                  "Conversion qualification unavailable: image-only fallback is not an editable diagram model"
+                ],
+                "metrics": {
+                  "implementation": "excalidraw/mermaid-to-excalidraw",
+                  "apiBoundary": "public parseMermaidToExcalidraw; real DOM measurement, editable model, no SVG-engine score",
+                  "rejected": false,
+                  "outputFile": "/workspace/trident-issue30/verification-final/excalidraw%2Fmermaid-to-excalidraw/browser/failure-outputs/excalidraw_mermaid-to-excalidraw--support_class.json",
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:editable-conversion",
+                "runtime": "chromium",
+                "family": "state",
+                "caseId": "support:state",
+                "operation": "convert",
+                "format": "excalidraw",
+                "mode": "output-contract-verification",
+                "status": "blocked",
+                "findings": [
+                  "Conversion qualification unavailable: image-only fallback is not an editable diagram model"
+                ],
+                "metrics": {
+                  "implementation": "excalidraw/mermaid-to-excalidraw",
+                  "apiBoundary": "public parseMermaidToExcalidraw; real DOM measurement, editable model, no SVG-engine score",
+                  "rejected": false,
+                  "outputFile": "/workspace/trident-issue30/verification-final/excalidraw%2Fmermaid-to-excalidraw/browser/failure-outputs/excalidraw_mermaid-to-excalidraw--support_state.json",
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:editable-conversion",
+                "runtime": "chromium",
+                "family": "er",
+                "caseId": "support:er",
+                "operation": "convert",
+                "format": "excalidraw",
+                "mode": "output-contract-verification",
+                "status": "blocked",
+                "findings": [
+                  "Conversion qualification unavailable: image-only fallback is not an editable diagram model"
+                ],
+                "metrics": {
+                  "implementation": "excalidraw/mermaid-to-excalidraw",
+                  "apiBoundary": "public parseMermaidToExcalidraw; real DOM measurement, editable model, no SVG-engine score",
+                  "rejected": false,
+                  "outputFile": "/workspace/trident-issue30/verification-final/excalidraw%2Fmermaid-to-excalidraw/browser/failure-outputs/excalidraw_mermaid-to-excalidraw--support_er.json",
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:editable-conversion",
+                "runtime": "chromium",
+                "family": "pie",
+                "caseId": "support:pie",
+                "operation": "convert",
+                "format": "excalidraw",
+                "mode": "output-contract-verification",
+                "status": "blocked",
+                "findings": [
+                  "Conversion qualification unavailable: image-only fallback is not an editable diagram model"
+                ],
+                "metrics": {
+                  "implementation": "excalidraw/mermaid-to-excalidraw",
+                  "apiBoundary": "public parseMermaidToExcalidraw; real DOM measurement, editable model, no SVG-engine score",
+                  "rejected": false,
+                  "outputFile": "/workspace/trident-issue30/verification-final/excalidraw%2Fmermaid-to-excalidraw/browser/failure-outputs/excalidraw_mermaid-to-excalidraw--support_pie.json",
+                  "verification": "public-output-contract-verification-v1"
+                }
+              }
+            ],
+            "controls": [
+              {
+                "suite": "community-browser",
+                "surface": "browser:editable-conversion",
+                "runtime": "chromium",
+                "family": "*",
+                "caseId": "loader",
+                "operation": "load-and-initialize",
+                "format": "excalidraw",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "excalidraw/mermaid-to-excalidraw",
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:editable-conversion",
+                "runtime": "chromium",
+                "family": "flowchart",
+                "caseId": "family-support:flowchart",
+                "operation": "family-support",
+                "format": "excalidraw",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "bytes": 861,
+                "findings": [],
+                "metrics": {
+                  "implementation": "excalidraw/mermaid-to-excalidraw",
+                  "apiBoundary": "public parseMermaidToExcalidraw; real DOM measurement, editable model, no SVG-engine score",
+                  "rejected": false,
+                  "outputFile": null,
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:editable-conversion",
+                "runtime": "chromium",
+                "family": "sequence",
+                "caseId": "family-support:sequence",
+                "operation": "family-support",
+                "format": "excalidraw",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "bytes": 1785,
+                "findings": [],
+                "metrics": {
+                  "implementation": "excalidraw/mermaid-to-excalidraw",
+                  "apiBoundary": "public parseMermaidToExcalidraw; real DOM measurement, editable model, no SVG-engine score",
+                  "rejected": false,
+                  "outputFile": null,
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:editable-conversion",
+                "runtime": "chromium",
+                "family": "class",
+                "caseId": "family-support:class",
+                "operation": "family-support",
+                "format": "excalidraw",
+                "mode": "output-contract-verification",
+                "status": "blocked",
+                "findings": [
+                  "Conversion qualification unavailable: image-only fallback is not an editable diagram model"
+                ],
+                "metrics": {
+                  "implementation": "excalidraw/mermaid-to-excalidraw",
+                  "apiBoundary": "public parseMermaidToExcalidraw; real DOM measurement, editable model, no SVG-engine score",
+                  "rejected": false,
+                  "outputFile": "/workspace/trident-issue30/verification-final/excalidraw%2Fmermaid-to-excalidraw/browser/failure-outputs/excalidraw_mermaid-to-excalidraw--family-support_class.json",
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:editable-conversion",
+                "runtime": "chromium",
+                "family": "state",
+                "caseId": "family-support:state",
+                "operation": "family-support",
+                "format": "excalidraw",
+                "mode": "output-contract-verification",
+                "status": "blocked",
+                "findings": [
+                  "Conversion qualification unavailable: image-only fallback is not an editable diagram model"
+                ],
+                "metrics": {
+                  "implementation": "excalidraw/mermaid-to-excalidraw",
+                  "apiBoundary": "public parseMermaidToExcalidraw; real DOM measurement, editable model, no SVG-engine score",
+                  "rejected": false,
+                  "outputFile": "/workspace/trident-issue30/verification-final/excalidraw%2Fmermaid-to-excalidraw/browser/failure-outputs/excalidraw_mermaid-to-excalidraw--family-support_state.json",
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:editable-conversion",
+                "runtime": "chromium",
+                "family": "er",
+                "caseId": "family-support:er",
+                "operation": "family-support",
+                "format": "excalidraw",
+                "mode": "output-contract-verification",
+                "status": "blocked",
+                "findings": [
+                  "Conversion qualification unavailable: image-only fallback is not an editable diagram model"
+                ],
+                "metrics": {
+                  "implementation": "excalidraw/mermaid-to-excalidraw",
+                  "apiBoundary": "public parseMermaidToExcalidraw; real DOM measurement, editable model, no SVG-engine score",
+                  "rejected": false,
+                  "outputFile": "/workspace/trident-issue30/verification-final/excalidraw%2Fmermaid-to-excalidraw/browser/failure-outputs/excalidraw_mermaid-to-excalidraw--family-support_er.json",
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:editable-conversion",
+                "runtime": "chromium",
+                "family": "pie",
+                "caseId": "family-support:pie",
+                "operation": "family-support",
+                "format": "excalidraw",
+                "mode": "output-contract-verification",
+                "status": "blocked",
+                "findings": [
+                  "Conversion qualification unavailable: image-only fallback is not an editable diagram model"
+                ],
+                "metrics": {
+                  "implementation": "excalidraw/mermaid-to-excalidraw",
+                  "apiBoundary": "public parseMermaidToExcalidraw; real DOM measurement, editable model, no SVG-engine score",
+                  "rejected": false,
+                  "outputFile": "/workspace/trident-issue30/verification-final/excalidraw%2Fmermaid-to-excalidraw/browser/failure-outputs/excalidraw_mermaid-to-excalidraw--family-support_pie.json",
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:editable-conversion",
+                "runtime": "chromium",
+                "family": "invalid-source",
+                "caseId": "conversion-negative-1",
+                "operation": "conversion-negative-admission",
+                "format": "excalidraw",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "bytes": 0,
+                "findings": [],
+                "detail": "UnknownDiagramError: No diagram type detected matching given configuration for text: This is deliberately not a Mermaid diagram. @@@ {{{",
+                "metrics": {
+                  "implementation": "excalidraw/mermaid-to-excalidraw",
+                  "apiBoundary": "public parseMermaidToExcalidraw; real DOM measurement, editable model, no SVG-engine score",
+                  "rejected": true,
+                  "outputFile": null,
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:editable-conversion",
+                "runtime": "chromium",
+                "family": "invalid-source",
+                "caseId": "conversion-negative-2",
+                "operation": "conversion-negative-admission",
+                "format": "excalidraw",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "bytes": 0,
+                "findings": [],
+                "detail": "Error: Parse error on line 1:\nflowchart LR --> -->\n------------^\nExpecting 'SEMI', 'NEWLINE', 'SPACE', got 'LINK'",
+                "metrics": {
+                  "implementation": "excalidraw/mermaid-to-excalidraw",
+                  "apiBoundary": "public parseMermaidToExcalidraw; real DOM measurement, editable model, no SVG-engine score",
+                  "rejected": true,
+                  "outputFile": null,
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:editable-conversion",
+                "runtime": "chromium-v8",
+                "family": "*",
+                "caseId": "post-portfolio-heap",
+                "operation": "memory",
+                "format": "excalidraw",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "excalidraw/mermaid-to-excalidraw",
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:editable-conversion",
+                "runtime": "chromium-processes",
+                "family": "*",
+                "caseId": "post-portfolio-process-memory",
+                "operation": "process-memory",
+                "format": "excalidraw",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "excalidraw/mermaid-to-excalidraw",
+                  "verification": "public-output-contract-verification-v1"
+                }
+              }
+            ]
+          }
+        ],
+        "gaps": []
+      },
+      {
+        "project": "Dicklesworthstone/frankenmermaid",
+        "state": "partially-verified",
+        "version": "0.4.0",
+        "declaredOutputs": [
+          "svg",
+          "terminal",
+          "parse",
+          "diagnostics",
+          "source"
+        ],
+        "boundOutputs": [
+          "svg",
+          "parse",
+          "diagnostics",
+          "terminal"
+        ],
+        "outputs": [
+          {
+            "output": "svg",
+            "state": "invocation-verified",
+            "plannedInputs": 6,
+            "passed": 6,
+            "recordedInputObservations": 6,
+            "duplicateCaseIds": [],
+            "observations": [
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "flowchart",
+                "caseId": "support:flowchart",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 6434
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "sequence",
+                "caseId": "support:sequence",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 7614
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "class",
+                "caseId": "support:class",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 7096
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "state",
+                "caseId": "support:state",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 7117
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "er",
+                "caseId": "support:er",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 7288
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "pie",
+                "caseId": "support:pie",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 5612
+              }
+            ],
+            "controls": []
+          },
+          {
+            "output": "parse",
+            "state": "invocation-verified",
+            "plannedInputs": 6,
+            "passed": 6,
+            "recordedInputObservations": 6,
+            "duplicateCaseIds": [],
+            "observations": [
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "flowchart",
+                "caseId": "support:flowchart",
+                "operation": "parse",
+                "format": "parse",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 3521
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "sequence",
+                "caseId": "support:sequence",
+                "operation": "parse",
+                "format": "parse",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 3678
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "class",
+                "caseId": "support:class",
+                "operation": "parse",
+                "format": "parse",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 3413
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "state",
+                "caseId": "support:state",
+                "operation": "parse",
+                "format": "parse",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 3624
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "er",
+                "caseId": "support:er",
+                "operation": "parse",
+                "format": "parse",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 3443
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "pie",
+                "caseId": "support:pie",
+                "operation": "parse",
+                "format": "parse",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 3316
+              }
+            ],
+            "controls": []
+          },
+          {
+            "output": "diagnostics",
+            "state": "invocation-verified",
+            "plannedInputs": 6,
+            "passed": 6,
+            "recordedInputObservations": 6,
+            "duplicateCaseIds": [],
+            "observations": [
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "flowchart",
+                "caseId": "support:flowchart",
+                "operation": "diagnostics",
+                "format": "diagnostics",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": 0,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": true,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 59
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "sequence",
+                "caseId": "support:sequence",
+                "operation": "diagnostics",
+                "format": "diagnostics",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": 0,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": true,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 58
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "class",
+                "caseId": "support:class",
+                "operation": "diagnostics",
+                "format": "diagnostics",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": 0,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": true,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 55
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "state",
+                "caseId": "support:state",
+                "operation": "diagnostics",
+                "format": "diagnostics",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": 0,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": true,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 55
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "er",
+                "caseId": "support:er",
+                "operation": "diagnostics",
+                "format": "diagnostics",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": 0,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": true,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 52
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "pie",
+                "caseId": "support:pie",
+                "operation": "diagnostics",
+                "format": "diagnostics",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "apiBoundary": "public package API",
+                  "diagnosticsCount": 0,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": true,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 53
+              }
+            ],
+            "controls": [
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "invalid-source",
+                "caseId": "validator-negative-admission:negative-1",
+                "operation": "validator-negative-admission",
+                "format": "diagnostics",
+                "mode": "output-contract-verification",
+                "status": "failed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "detail": "Authored invalid source was accepted without error findings"
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "invalid-source",
+                "caseId": "validator-negative-admission:negative-2",
+                "operation": "validator-negative-admission",
+                "format": "diagnostics",
+                "mode": "output-contract-verification",
+                "status": "failed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid",
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "detail": "Authored invalid source was accepted without error findings"
+              }
+            ]
+          },
+          {
+            "output": "terminal",
+            "state": "other-transport-required",
+            "reason": "The reviewed module transport does not expose this output; no unsupported invocation is attempted"
+          },
+          {
+            "output": "terminal",
+            "transport": "public-release-cli",
+            "artifact": {
+              "version": "0.4.0",
+              "revision": "d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f",
+              "sha256": "cc827264b1b9a201dfe4b42bb03b70a57067f3b8cf75f89c394cd39aeed22090"
+            },
+            "state": "invocation-verified",
+            "plannedInputs": 6,
+            "passed": 6,
+            "recordedInputObservations": 6,
+            "duplicateCaseIds": [],
+            "observations": [
+              {
+                "suite": "community",
+                "surface": "cli:end-to-end",
+                "runtime": "linux-x64 public native CLI",
+                "family": "flowchart",
+                "caseId": "support:flowchart",
+                "operation": "render",
+                "format": "terminal",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid#native-release",
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 7925,
+                "findings": []
+              },
+              {
+                "suite": "community",
+                "surface": "cli:end-to-end",
+                "runtime": "linux-x64 public native CLI",
+                "family": "sequence",
+                "caseId": "support:sequence",
+                "operation": "render",
+                "format": "terminal",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid#native-release",
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 6755,
+                "findings": []
+              },
+              {
+                "suite": "community",
+                "surface": "cli:end-to-end",
+                "runtime": "linux-x64 public native CLI",
+                "family": "class",
+                "caseId": "support:class",
+                "operation": "render",
+                "format": "terminal",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid#native-release",
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 3957,
+                "findings": []
+              },
+              {
+                "suite": "community",
+                "surface": "cli:end-to-end",
+                "runtime": "linux-x64 public native CLI",
+                "family": "state",
+                "caseId": "support:state",
+                "operation": "render",
+                "format": "terminal",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid#native-release",
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 3951,
+                "findings": []
+              },
+              {
+                "suite": "community",
+                "surface": "cli:end-to-end",
+                "runtime": "linux-x64 public native CLI",
+                "family": "er",
+                "caseId": "support:er",
+                "operation": "render",
+                "format": "terminal",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid#native-release",
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 4019,
+                "findings": []
+              },
+              {
+                "suite": "community",
+                "surface": "cli:end-to-end",
+                "runtime": "linux-x64 public native CLI",
+                "family": "pie",
+                "caseId": "support:pie",
+                "operation": "render",
+                "format": "terminal",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "Dicklesworthstone/frankenmermaid#native-release",
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 8645,
+                "findings": []
+              }
+            ],
+            "controls": []
+          }
+        ],
+        "gaps": [
+          "Declared output has no binding: source"
+        ]
+      },
+      {
+        "project": "crafter-station/mermaid",
+        "state": "partially-verified",
+        "version": "0.0.3",
+        "declaredOutputs": [
+          "svg",
+          "terminal"
+        ],
+        "boundOutputs": [
+          "svg",
+          "parse",
+          "terminal"
+        ],
+        "outputs": [
+          {
+            "output": "svg",
+            "state": "no-positive-witness",
+            "plannedInputs": 6,
+            "passed": 0,
+            "recordedInputObservations": 6,
+            "duplicateCaseIds": [],
+            "observations": [
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "flowchart",
+                "caseId": "support:flowchart",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "failed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; published parser+layout+SVG pipeline; all three API calls included",
+                  "diagnosticsCount": null,
+                  "rejected": false,
+                  "outputFile": "/workspace/trident-issue30/verification-final/crafter-station%2Fmermaid/svg/community-raw/crafter-station_mermaid-svg-r1-attempt1.json.outputs/failure-outputs/crafter-station_mermaid--support_flowchart.svg",
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "detail": "Error: Malformed SVG XML: 3:88: disallowed character in entity name."
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "sequence",
+                "caseId": "support:sequence",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "failed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; published parser+layout+SVG pipeline; all three API calls included",
+                  "diagnosticsCount": null,
+                  "rejected": false,
+                  "outputFile": "/workspace/trident-issue30/verification-final/crafter-station%2Fmermaid/svg/community-raw/crafter-station_mermaid-svg-r1-attempt1.json.outputs/failure-outputs/crafter-station_mermaid--support_sequence.svg",
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "detail": "Error: Malformed SVG XML: 3:88: disallowed character in entity name."
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "class",
+                "caseId": "support:class",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "failed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; published parser+layout+SVG pipeline; all three API calls included",
+                  "diagnosticsCount": null,
+                  "rejected": false,
+                  "outputFile": "/workspace/trident-issue30/verification-final/crafter-station%2Fmermaid/svg/community-raw/crafter-station_mermaid-svg-r1-attempt1.json.outputs/failure-outputs/crafter-station_mermaid--support_class.svg",
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "detail": "Error: Malformed SVG XML: 3:88: disallowed character in entity name."
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "state",
+                "caseId": "support:state",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "failed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; published parser+layout+SVG pipeline; all three API calls included",
+                  "diagnosticsCount": null,
+                  "rejected": false,
+                  "outputFile": "/workspace/trident-issue30/verification-final/crafter-station%2Fmermaid/svg/community-raw/crafter-station_mermaid-svg-r1-attempt1.json.outputs/failure-outputs/crafter-station_mermaid--support_state.svg",
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "detail": "Error: Malformed SVG XML: 3:88: disallowed character in entity name."
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "er",
+                "caseId": "support:er",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "failed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; published parser+layout+SVG pipeline; all three API calls included",
+                  "diagnosticsCount": null,
+                  "rejected": false,
+                  "outputFile": "/workspace/trident-issue30/verification-final/crafter-station%2Fmermaid/svg/community-raw/crafter-station_mermaid-svg-r1-attempt1.json.outputs/failure-outputs/crafter-station_mermaid--support_er.svg",
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "detail": "Error: Malformed SVG XML: 3:88: disallowed character in entity name."
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "pie",
+                "caseId": "support:pie",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "failed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; published parser+layout+SVG pipeline; all three API calls included",
+                  "diagnosticsCount": null,
+                  "rejected": true,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "detail": "Error: Parser rejected diagram: [{\"severity\":\"error\",\"message\":\"Unable to detect diagram type\",\"span\":{\"start\":{\"line\":1,\"column\":1,\"offset\":0},\"end\":{\"line\":1,\"column\":1,\"offset\":0}},\"suggestions\":[\"Expected first line to be one of: graph/flowchart, sequenceDiagram, classDiagram, erDiagram, stateDiagram-v2\"]}]"
+              }
+            ],
+            "controls": []
+          },
+          {
+            "output": "parse",
+            "state": "invocation-verified",
+            "plannedInputs": 6,
+            "passed": 5,
+            "recordedInputObservations": 6,
+            "duplicateCaseIds": [],
+            "observations": [
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "flowchart",
+                "caseId": "support:flowchart",
+                "operation": "parse",
+                "format": "parse",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; public parser AST, no renderer/layout claim",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 554
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "sequence",
+                "caseId": "support:sequence",
+                "operation": "parse",
+                "format": "parse",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; public parser AST, no renderer/layout claim",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 571
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "class",
+                "caseId": "support:class",
+                "operation": "parse",
+                "format": "parse",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; public parser AST, no renderer/layout claim",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 560
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "state",
+                "caseId": "support:state",
+                "operation": "parse",
+                "format": "parse",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; public parser AST, no renderer/layout claim",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 692
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "er",
+                "caseId": "support:er",
+                "operation": "parse",
+                "format": "parse",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; public parser AST, no renderer/layout claim",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 474
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "pie",
+                "caseId": "support:pie",
+                "operation": "parse",
+                "format": "parse",
+                "mode": "output-contract-verification",
+                "status": "failed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; public parser AST, no renderer/layout claim",
+                  "diagnosticsCount": null,
+                  "rejected": true,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "detail": "Error: Parser rejected diagram: [{\"severity\":\"error\",\"message\":\"Unable to detect diagram type\",\"span\":{\"start\":{\"line\":1,\"column\":1,\"offset\":0},\"end\":{\"line\":1,\"column\":1,\"offset\":0}},\"suggestions\":[\"Expected first line to be one of: graph/flowchart, sequenceDiagram, classDiagram, erDiagram, stateDiagram-v2\"]}]"
+              }
+            ],
+            "controls": []
+          },
+          {
+            "output": "terminal",
+            "state": "invocation-verified",
+            "plannedInputs": 6,
+            "passed": 5,
+            "recordedInputObservations": 6,
+            "duplicateCaseIds": [],
+            "observations": [
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "flowchart",
+                "caseId": "support:flowchart",
+                "operation": "render",
+                "format": "terminal",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; published @crafter/mermaid-cli renderToTerminal; fixed 120-column host, default theme",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 559
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "sequence",
+                "caseId": "support:sequence",
+                "operation": "render",
+                "format": "terminal",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; published @crafter/mermaid-cli renderToTerminal; fixed 120-column host, default theme",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 2001
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "class",
+                "caseId": "support:class",
+                "operation": "render",
+                "format": "terminal",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; published @crafter/mermaid-cli renderToTerminal; fixed 120-column host, default theme",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 751
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "state",
+                "caseId": "support:state",
+                "operation": "render",
+                "format": "terminal",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; published @crafter/mermaid-cli renderToTerminal; fixed 120-column host, default theme",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 640
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "er",
+                "caseId": "support:er",
+                "operation": "render",
+                "format": "terminal",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; published @crafter/mermaid-cli renderToTerminal; fixed 120-column host, default theme",
+                  "diagnosticsCount": null,
+                  "rejected": null,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "bytes": 1212
+              },
+              {
+                "suite": "community",
+                "surface": "node:public-api",
+                "runtime": "Node 24.19.0",
+                "family": "pie",
+                "caseId": "support:pie",
+                "operation": "render",
+                "format": "terminal",
+                "mode": "output-contract-verification",
+                "status": "failed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse \u2192 layout \u2192 renderToString pipeline; published @crafter/mermaid-cli renderToTerminal; fixed 120-column host, default theme",
+                  "diagnosticsCount": null,
+                  "rejected": true,
+                  "outputFile": null,
+                  "diagnosticAdmissionFailed": false,
+                  "parserAdmissionFailed": false,
+                  "workerAttempt": 1,
+                  "verification": "public-output-contract-verification-v1"
+                },
+                "detail": "Error: Parse error:\nUnable to detect diagram type"
+              }
+            ],
+            "controls": []
+          },
+          {
+            "output": "svg",
+            "transport": "browser",
+            "state": "invocation-verified",
+            "plannedInputs": 6,
+            "passed": 5,
+            "recordedInputObservations": 6,
+            "duplicateCaseIds": [],
+            "observations": [
+              {
+                "suite": "community-browser",
+                "surface": "browser:dom-svg-serialization",
+                "runtime": "chromium",
+                "family": "flowchart",
+                "caseId": "support:flowchart",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "bytes": 5923,
+                "findings": [],
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse/layout/renderToDOM and DOM serialization; raw renderToString is a separate Node surface",
+                  "rejected": false,
+                  "outputFile": null,
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:dom-svg-serialization",
+                "runtime": "chromium",
+                "family": "sequence",
+                "caseId": "support:sequence",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "bytes": 6707,
+                "findings": [],
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse/layout/renderToDOM and DOM serialization; raw renderToString is a separate Node surface",
+                  "rejected": false,
+                  "outputFile": null,
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:dom-svg-serialization",
+                "runtime": "chromium",
+                "family": "class",
+                "caseId": "support:class",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "bytes": 6443,
+                "findings": [],
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse/layout/renderToDOM and DOM serialization; raw renderToString is a separate Node surface",
+                  "rejected": false,
+                  "outputFile": null,
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:dom-svg-serialization",
+                "runtime": "chromium",
+                "family": "state",
+                "caseId": "support:state",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "bytes": 6469,
+                "findings": [],
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse/layout/renderToDOM and DOM serialization; raw renderToString is a separate Node surface",
+                  "rejected": false,
+                  "outputFile": null,
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:dom-svg-serialization",
+                "runtime": "chromium",
+                "family": "er",
+                "caseId": "support:er",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "bytes": 6845,
+                "findings": [],
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse/layout/renderToDOM and DOM serialization; raw renderToString is a separate Node surface",
+                  "rejected": false,
+                  "outputFile": null,
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:dom-svg-serialization",
+                "runtime": "chromium",
+                "family": "pie",
+                "caseId": "support:pie",
+                "operation": "render",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "failed",
+                "detail": "Error: Parser rejected source: [{\"severity\":\"error\",\"message\":\"Unable to detect diagram type\",\"span\":{\"start\":{\"line\":1,\"column\":1,\"offset\":0},\"end\":{\"line\":1,\"column\":1,\"offset\":0}},\"suggestions\":[\"Expected first line to be one of: graph/flowchart, sequenceDiagram, classDiagram, erDiagram, stateDiagram-v2\"]}]",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse/layout/renderToDOM and DOM serialization; raw renderToString is a separate Node surface",
+                  "rejected": true,
+                  "outputFile": null,
+                  "verification": "public-output-contract-verification-v1"
+                }
+              }
+            ],
+            "controls": [
+              {
+                "suite": "community-browser",
+                "surface": "browser:dom-svg-serialization",
+                "runtime": "chromium",
+                "family": "*",
+                "caseId": "loader",
+                "operation": "load-and-initialize",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:dom-svg-serialization",
+                "runtime": "chromium",
+                "family": "flowchart",
+                "caseId": "family-support:flowchart",
+                "operation": "family-support",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "bytes": 6594,
+                "findings": [],
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse/layout/renderToDOM and DOM serialization; raw renderToString is a separate Node surface",
+                  "rejected": false,
+                  "outputFile": null,
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:dom-svg-serialization",
+                "runtime": "chromium",
+                "family": "sequence",
+                "caseId": "family-support:sequence",
+                "operation": "family-support",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "bytes": 7383,
+                "findings": [],
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse/layout/renderToDOM and DOM serialization; raw renderToString is a separate Node surface",
+                  "rejected": false,
+                  "outputFile": null,
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:dom-svg-serialization",
+                "runtime": "chromium",
+                "family": "class",
+                "caseId": "family-support:class",
+                "operation": "family-support",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "bytes": 6443,
+                "findings": [],
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse/layout/renderToDOM and DOM serialization; raw renderToString is a separate Node surface",
+                  "rejected": false,
+                  "outputFile": null,
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:dom-svg-serialization",
+                "runtime": "chromium",
+                "family": "state",
+                "caseId": "family-support:state",
+                "operation": "family-support",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "bytes": 6469,
+                "findings": [],
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse/layout/renderToDOM and DOM serialization; raw renderToString is a separate Node surface",
+                  "rejected": false,
+                  "outputFile": null,
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:dom-svg-serialization",
+                "runtime": "chromium",
+                "family": "er",
+                "caseId": "family-support:er",
+                "operation": "family-support",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "bytes": 6845,
+                "findings": [],
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse/layout/renderToDOM and DOM serialization; raw renderToString is a separate Node surface",
+                  "rejected": false,
+                  "outputFile": null,
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:dom-svg-serialization",
+                "runtime": "chromium",
+                "family": "pie",
+                "caseId": "family-support:pie",
+                "operation": "family-support",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "failed",
+                "findings": [
+                  "Missing authored label: Shares"
+                ],
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "apiBoundary": "public parse/layout/renderToDOM and DOM serialization; raw renderToString is a separate Node surface",
+                  "rejected": false,
+                  "outputFile": "/workspace/trident-issue30/verification-final/crafter-station%2Fmermaid/browser/failure-outputs/crafter-station_mermaid--family-support_pie.svg",
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:dom-svg-serialization",
+                "runtime": "chromium-v8",
+                "family": "*",
+                "caseId": "post-portfolio-heap",
+                "operation": "memory",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "verification": "public-output-contract-verification-v1"
+                }
+              },
+              {
+                "suite": "community-browser",
+                "surface": "browser:dom-svg-serialization",
+                "runtime": "chromium-processes",
+                "family": "*",
+                "caseId": "post-portfolio-process-memory",
+                "operation": "process-memory",
+                "format": "svg",
+                "mode": "output-contract-verification",
+                "status": "passed",
+                "metrics": {
+                  "implementation": "crafter-station/mermaid",
+                  "verification": "public-output-contract-verification-v1"
+                }
+              }
+            ]
+          }
+        ],
+        "gaps": []
+      }
+    ],
+    "limits": "Six authored output-admission inputs per bound format. No timing comparisons, full family support, model/paint completeness or overall top-tier support is inferred. Missing bindings and artifacts remain gaps."
+  },
+  "editors": [
+    {
+      "protocol": "public-browser-editor-workflow-v1",
+      "project": "gotoailab/modern_mermaid",
+      "producers": [
+        "100644 blob 9650cf38842937be6ce0506095b2019ddcb5013a\tfidelity/selection.ts",
+        "100644 blob 0204ce3268adfb16c4c021de08ab0a50a688b04d\tportable/protocol.ts",
+        "100644 blob 6a6907c5e9e000f1cf2aaa014fd377b227e3bb8d\tunified/editor-verification.ts",
+        "100644 blob 6fdca45d96e84f46735cd8fe8926fe34e2889f1b\tunified/harness-paths.ts",
+        "100644 blob 2f89b53ee3c54994dad9f7cecb0a5959ff96e5b7\tunified/protocol-identity.ts",
+        "100644 blob 368cb14d601ecda74fac76202831ae7bd1bd71f8\tunified/qualification-visible-source.ts",
+        "100644 blob 3489fdf261cd093af23d7a7cdbbceb816c8c5139\tunified/support.ts",
+        "100644 blob 6a0b61c7dd23cd9ad0a6b408278b18e38b89521d\tunified/trident-paths.ts"
+      ],
+      "runtime": {
+        "node": "v26.3.0",
+        "bun": "1.4.2"
+      },
+      "sourceRevision": "a021cbce37fc0b07a9f4791c28e983101ea06f2d",
+      "sourceManifestSha256": "5f42b72e84402d8f8ca0963584275f6d329b79480fea4169e133d2cbfb723431",
+      "lockSha256": "d1a62f665701b1086bfff6363f875ba2e40d8e56c0bd49e232a2bbbc64b07e78",
+      "buildRoot": "/workspace/trident-issue30/apps/gotoailab--modern_mermaid/dist",
+      "buildFiles": [
+        {
+          "path": "icon-192.png",
+          "sha256": "88e17d6a4b1fc6714a6008ca099a19cdcede4cbfc54939d1fac8fc267e5258a1"
+        },
+        {
+          "path": "og-image.svg",
+          "sha256": "139fe691686f5e29879fff49aa604cffaa2b0ad91a6f578f73098b6f6923eba3"
+        },
+        {
+          "path": "manifest.json",
+          "sha256": "3d3ec7b8f2f4a4a22363c3e416b7b6b8fdbaa3f1d8a57e3629c61b6fea62800f"
+        },
+        {
+          "path": "assets/_baseUniq-BdNXCeaB.js",
+          "sha256": "782b1035d354329770107a90e18442b6a7c0789b5e181cec888ba16fde35f86e"
+        },
+        {
+          "path": "assets/chunk-QZHKN3VN-2V8XLQKa.js",
+          "sha256": "6f73a4bb72869ecc606bb9fb3b2986eee86764cd9ee4e3eb7fd19d7761c3279f"
+        },
+        {
+          "path": "assets/classDiagram-v2-WZHVMYZB-Br4MQ5lV.js",
+          "sha256": "e42f0d128cd9ee5e3c0ea3d02b83cfbcc17f8c58bd3750bba4ce56d59fdfc2c2"
+        },
+        {
+          "path": "assets/journeyDiagram-XKPGCS4Q-C6Szho7S.js",
+          "sha256": "aa8557cc071cf6e8b1e94a392cfa5d7b0a4298573c1c9dbb3bfe8fb8c5772070"
+        },
+        {
+          "path": "assets/c4Diagram-YG6GDRKO-DqqHP9aN.js",
+          "sha256": "ee8d66612aad42850d4026ac84fefffa2f7d6cd495926cd0c0995f78567fb6f4"
+        },
+        {
+          "path": "assets/diagram-QEK2KX5R-Dzv6dh84.js",
+          "sha256": "9d4dfa19e39def6b0d4fb89f30aa6f69ce32a16f3aa3663f06ea68f60f455449"
+        },
+        {
+          "path": "assets/dagre-6UL2VRFP-CryiHhDB.js",
+          "sha256": "b279d4ec2915e0188288abc4ef4c4b13f22a19bcfcf19855c29c1b011a9c0077"
+        },
+        {
+          "path": "assets/timeline-definition-IT6M3QCI-C5iEOomT.js",
+          "sha256": "b4ea53b3a1e23e4bcb689bc68c973d05966324869f87b89b29fa7403e45dac9c"
+        },
+        {
+          "path": "assets/index-B_GhI99z.css",
+          "sha256": "6fe0fb2fec599a5764a9131b326b783a335c16fd6d59766c95e74d36e0e4073b"
+        },
+        {
+          "path": "assets/sequenceDiagram-WL72ISMW-BuOAZYpl.js",
+          "sha256": "4169cf7ed4aed9a1de0fd1772be4325021ca3106808440eb58a2b2540076616b"
+        },
+        {
+          "path": "assets/katex-qrhCpa0F.js",
+          "sha256": "ba66d5ada56e5e09917529924957eec715c529cb145592951a32d9db5b253b90"
+        },
+        {
+          "path": "assets/index-D_DinMs6.js",
+          "sha256": "0bf77f07c8a5a9471e69e6168bb098e5899bf1234afb6b53d451bc62fe7d9994"
+        },
+        {
+          "path": "assets/sankeyDiagram-TZEHDZUN-Z7avQAgD.js",
+          "sha256": "e539dc969517481c0426591916e6ccd0f1d1fa76665ff7d4c25eac4d7845ea4b"
+        },
+        {
+          "path": "assets/diagram-S2PKOQOG-gnrwwEgk.js",
+          "sha256": "f22d0b79f5314f077f2e8d2b478bcfe8531c0de2b668699634d2b008372ff75c"
+        },
+        {
+          "path": "assets/ganttDiagram-LVOFAZNH-DAzlT4NN.js",
+          "sha256": "5aa86dfd416c752482114b0afd12cd87a928ff971318a849ab88275247573c29"
+        },
+        {
+          "path": "assets/mindmap-definition-VGOIOE7T-C0mKqVx7.js",
+          "sha256": "358541275cc0ab79c9dafa4fec339f3cf21f826e6f304ec286494801aa17d5af"
+        },
+        {
+          "path": "assets/stateDiagram-FKZM4ZOC-7RP44FXi.js",
+          "sha256": "a5b3dc3ad787236f863790db9aca6a9b259d23e8810d488a5cb93870fadc060b"
+        },
+        {
+          "path": "assets/cose-bilkent-S5V4N54A-MEbY9FPE.js",
+          "sha256": "4610d47fc34be60b73d34f48d848ecbfefcbbba28f883118d1cb0c5ff69809b6"
+        },
+        {
+          "path": "assets/chunk-FMBD7UC4-Bg-g6yPW.js",
+          "sha256": "8c1ebd2f78f60f89bbff8a4cb0614b2528701b781b59a7205c96c183b17f6bfc"
+        },
+        {
+          "path": "assets/requirementDiagram-UZGBJVZJ-CvsvFSBc.js",
+          "sha256": "56aab4b99441f6d01829d5e430c10f15027043bdb790114dd122cf5add287966"
+        },
+        {
+          "path": "assets/init-Gi6I4Gst.js",
+          "sha256": "379fa880c14ad48f43b0c23ff56b30b2b808e8460fd9f9cad8bf7cb278c5b814"
+        },
+        {
+          "path": "assets/quadrantDiagram-AYHSOK5B-CIiqoVcJ.js",
+          "sha256": "aa89d86a8ce3d3af6ee7c6f3a40a8bde47bb89cc3573e9ad50dafc81809ad5b4"
+        },
+        {
+          "path": "assets/channel-j1L8M7T5.js",
+          "sha256": "a5969d6d8baf1cd085980ae0c2fcf4c8acf1a11cd65ed845c5103486a8f3499e"
+        },
+        {
+          "path": "assets/defaultLocale-C4B-KCzX.js",
+          "sha256": "4445565968bb01f0b2101c45c95105015486efe97da43fa7b0918ea0b7dbd730"
+        },
+        {
+          "path": "assets/chunk-TZMSLE5B-BgFVld5X.js",
+          "sha256": "8f9313af7c923f5f04ab4679fc8801ee820e2241a70fd2bda3575e3e53a35cfd"
+        },
+        {
+          "path": "assets/infoDiagram-ER5ION4S-BtshkyuV.js",
+          "sha256": "1784b82d60de826c5e9d6b65b72b897413946cd3e61625be0542c6b239d648a9"
+        },
+        {
+          "path": "assets/stateDiagram-v2-4FDKWEC3-C9_RPZ8L.js",
+          "sha256": "8002dba375a482ccb5551b90ac75b5fd4fbb8af772c8e8aa5c399542e16efb7f"
+        },
+        {
+          "path": "assets/chunk-QN33PNHL-By2fdo10.js",
+          "sha256": "f7cf73864eb55f664078e15090706fba0b258f8295429fb65fd70d23c333b95a"
+        },
+        {
+          "path": "assets/erDiagram-Q2GNP2WA-BQDDnXgu.js",
+          "sha256": "6be389574e6a28e53dbcdb1e504bf221124c41bed8c0dae3cf0d678cf27f5d67"
+        },
+        {
+          "path": "assets/arc-BZP_j3og.js",
+          "sha256": "871fa31b83ffce5766ecafd0513d0af60a9af84a0e0a1081c49fa41f4a45b30c"
+        },
+        {
+          "path": "assets/layout-Bj88RXb5.js",
+          "sha256": "76a92f2e4a50fb62603d15812025b4de9755af0df1f0305064dbd2e6cef2d9ba"
+        },
+        {
+          "path": "assets/architectureDiagram-VXUJARFQ-BPoI8V2C.js",
+          "sha256": "d41629e9f4c0342b4d95fc1d8967e7ddb0588eb8dae131b244680f9c4d691b1e"
+        },
+        {
+          "path": "assets/flowDiagram-NV44I4VS-CnnC1rgJ.js",
+          "sha256": "a6a2d5707f555b61fee307c9adab49c083928a3dbdbe52de67e0b07b438bce65"
+        },
+        {
+          "path": "assets/chunk-B4BG7PRW-DnB59j5X.js",
+          "sha256": "edad7a2b8e0deb1046075c08257efbca52200c39ea3ecd6b2ad506a50e24c374"
+        },
+        {
+          "path": "assets/diagram-PSM6KHXK-3lKXVF7i.js",
+          "sha256": "937ab416abee05231b7f096b191153cc54f23e66cdd45dac5044accb7a3e259d"
+        },
+        {
+          "path": "assets/chunk-4BX2VUAB-sFohhqB6.js",
+          "sha256": "67e70a29d594331c7422827198c49e16868a0ee948b60f87b438150c14cc3655"
+        },
+        {
+          "path": "assets/chunk-DI55MBZ5-DX58nk3W.js",
+          "sha256": "c0502b7abaf5827b7bd805ffd7a55b72081c5de52da24f3b9c5b97c1b7c036a1"
+        },
+        {
+          "path": "assets/_basePickBy-DWKBrx-Q.js",
+          "sha256": "d8333b294cbee08e82797e78036accccf37215e236689634b88461ff9a405c99"
+        },
+        {
+          "path": "assets/treemap-KMMF4GRG-BDmAQXvC.js",
+          "sha256": "766b207458887c8dd076393f0e8824b4f39b5c8dd90d6dd9c173a2b20f6dc25e"
+        },
+        {
+          "path": "assets/chunk-55IACEB6-DKHpPqhu.js",
+          "sha256": "912a98f0f3ce3b25e1d195610d8de53b56225c2789d7ce6b0bb7bec365cda22c"
+        },
+        {
+          "path": "assets/classDiagram-2ON5EDUG-Br4MQ5lV.js",
+          "sha256": "e42f0d128cd9ee5e3c0ea3d02b83cfbcc17f8c58bd3750bba4ce56d59fdfc2c2"
+        },
+        {
+          "path": "assets/xychartDiagram-PRI3JC2R-LuOnstkE.js",
+          "sha256": "1122f1c2c087d76817a4dc13fbd5abac9a2cd0e65cb9f295264a0684ca545fb8"
+        },
+        {
+          "path": "assets/graph-DfRvD14H.js",
+          "sha256": "96fcba17c7980841cdb03b38037f2a7d31df8c86c5b4b88c1f66f902d6ac12a4"
+        },
+        {
+          "path": "assets/pieDiagram-ADFJNKIX-9-w5hjnm.js",
+          "sha256": "8ff23e9ecfd6e6632c311fc331cc6736dbe384d782f1674a3493c53d95dd1a5f"
+        },
+        {
+          "path": "assets/ordinal-Cboi1Yqb.js",
+          "sha256": "71be569ce2355b7f256a834b3a4c11668fe80a880b3587c1b3b14e9e5dedf478"
+        },
+        {
+          "path": "assets/blockDiagram-VD42YOAC-C9BPQH9D.js",
+          "sha256": "d17c5d6964208fc76fb2bb0508f98370475f75a75689af702b61316ea9a110cc"
+        },
+        {
+          "path": "assets/gitGraphDiagram-NY62KEGX-CQTwsU1Z.js",
+          "sha256": "365cdb7e3c6fcdb1ed428a2d8a69b2ad789c8ecfca6353109c540d0462ce57be"
+        },
+        {
+          "path": "assets/cytoscape.esm-BnkdMOzK.js",
+          "sha256": "e7ae173da95c78cf0371619cfa13f59fa2c2e4b37f3f58d227cae9b51bf8720d"
+        },
+        {
+          "path": "assets/linear-29MCFo-v.js",
+          "sha256": "3ffe4359c6d14fa8869035411e59fe446585bea4fada9ad9ea29a1b25c6e6fd7"
+        },
+        {
+          "path": "assets/kanban-definition-3W4ZIXB7-CpFiOsdv.js",
+          "sha256": "f5b31862cd5a8321a05ab510d856ce370bd33c9cbfdad97907d933c50cd2b1ab"
+        },
+        {
+          "path": "assets/clone-Fxp3bK0F.js",
+          "sha256": "287ff7fcf0d552a540b33433d14a1c07bdfb6916b1bfa0442096971236ef244f"
+        },
+        {
+          "path": "registerSW.js",
+          "sha256": "9742073ef7fc795e7673d98f272992843298426a0ffd8cb3507784df5143608b"
+        },
+        {
+          "path": "index.html",
+          "sha256": "5fe12fc88e7907f5e2640472b8203e2890649e09817e3b9ef551840a67fac3ed"
+        },
+        {
+          "path": "robots.txt",
+          "sha256": "3563e821b6914ea4dc62767d9413f0d1321d235e58db12b61b6594b9efda8a2d"
+        },
+        {
+          "path": "favicon.svg",
+          "sha256": "d19717678cea0f65b1de34b60623df1a8ab1c561a6d605ab261d6d1acbdcdc40"
+        },
+        {
+          "path": "manifest.webmanifest",
+          "sha256": "c90d486bd4c96a3a718d790a4c78198caddbe6c72e038ddd33712128e509e508"
+        },
+        {
+          "path": "workbox-671b0b11.js",
+          "sha256": "eab794e5661c0bbffe8ec898df3f98908a6aa2169ceac48a1a6ceefff100062b"
+        },
+        {
+          "path": "sitemap.xml",
+          "sha256": "a2561409c68376feb5b821290a878561dd53f27654b3e881e980eeb05f420470"
+        },
+        {
+          "path": "sw.js",
+          "sha256": "31ccbfb44bdb177ed3363a2206d5e1271150d6ef7dd1c93e499c0fd9cf0f9837"
+        },
+        {
+          "path": "icon-512.png",
+          "sha256": "ffab880392a7cba5b210b8d5b829f606778d803450d143fa90ec0de2d370e01a"
+        }
+      ],
+      "preparation": "Caller-supplied built application from the named checkout; build/dependency preparation remains outside this functional check. File digests identify observed output, not a reproducible-build proof.",
+      "checks": [
+        {
+          "step": "input",
+          "status": "passed",
+          "output": "input.preview.svg"
+        },
+        {
+          "step": "edit",
+          "status": "passed",
+          "output": "edit.preview.svg"
+        },
+        {
+          "step": "invalid",
+          "status": "passed"
+        },
+        {
+          "step": "recovery",
+          "status": "passed",
+          "output": "recovery.preview.svg"
+        }
+      ],
+      "startedAt": "2026-10-28T18:11:21.133Z",
+      "scope": "Four authored UI steps on one flowchart: input, changed preview, visible invalid-source error, recovery. Preview checks use live DOM bounds and visible authored text. Retained SVG is a DOM fragment, not a qualified standalone export. No engine rank, whole-editor coverage, timing score or export qualification.",
+      "browserVersion": "154.0.8037.57",
+      "blockedExternalRequests": [
+        "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&family=Nunito:wght@400;600;700&family=Open+Sans:wght@400;600;700&family=Patrick+Hand&family=VT323&family=Ma+Shan+Zheng&family=Caveat:wght@400;500;600;700&family=Kalam:wght@300;400;700&display=swap"
+      ],
+      "finishedAt": "2026-10-28T18:11:25.284Z",
+      "status": "passed"
+    },
+    {
+      "protocol": "public-browser-editor-workflow-v1",
+      "project": "mermaid-js/mermaid-live-editor",
+      "producers": [
+        "100644 blob 9650cf38842937be6ce0506095b2019ddcb5013a\tfidelity/selection.ts",
+        "100644 blob 0204ce3268adfb16c4c021de08ab0a50a688b04d\tportable/protocol.ts",
+        "100644 blob 6a6907c5e9e000f1cf2aaa014fd377b227e3bb8d\tunified/editor-verification.ts",
+        "100644 blob 6fdca45d96e84f46735cd8fe8926fe34e2889f1b\tunified/harness-paths.ts",
+        "100644 blob 2f89b53ee3c54994dad9f7cecb0a5959ff96e5b7\tunified/protocol-identity.ts",
+        "100644 blob 368cb14d601ecda74fac76202831ae7bd1bd71f8\tunified/qualification-visible-source.ts",
+        "100644 blob 3489fdf261cd093af23d7a7cdbbceb816c8c5139\tunified/support.ts",
+        "100644 blob 6a0b61c7dd23cd9ad0a6b408278b18e38b89521d\tunified/trident-paths.ts"
+      ],
+      "runtime": {
+        "node": "v26.3.0",
+        "bun": "1.4.2"
+      },
+      "sourceRevision": "eb4141dd51247259e95ecd890c1bf3dabf314913",
+      "sourceManifestSha256": "2ebbf3123ce0fcb04caaaf9254186137a6c4deeba4564420ce7758374ceaea2c",
+      "lockSha256": "7f68c25709148ffc4fc6b05cf34687894fe9308f32405899264d1edbf5aa5105",
+      "buildRoot": "/workspace/trident-issue30/apps/mermaid-js--mermaid-live-editor/docs",
+      "buildFiles": [
+        {
+          "path": "404.html",
+          "sha256": "f401a5ba5acb8156954581d8ef0c56072ae23e0c89243896c8790c0c9042b10d"
+        },
+        {
+          "path": ".nojekyll",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "favicon.png",
+          "sha256": "01404af2522970ec5dd6e4a3d43b3a67ee0289a7274aad898d705c6877610bab"
+        },
+        {
+          "path": "manifest.json",
+          "sha256": "7927b37f0abf8445234efb91ebfb0b3ca8a71d15b8e4864cc4e58b93886afb29"
+        },
+        {
+          "path": "icons/use-chat.svg",
+          "sha256": "82b706b528c4e4853c46ce5a0e7f24a713245430677402a0e2f67af198c87902"
+        },
+        {
+          "path": "icons/mermaid.svg",
+          "sha256": "1292692fac40148f9b9d1974395fcec5ebe9d723e0412e7ec8ad721e3ee0387d"
+        },
+        {
+          "path": "icons/mermaid-tail.svg",
+          "sha256": "505b2929727611eee6327c36a66a212cc266a96eb87ab96075461ffeabd77d4e"
+        },
+        {
+          "path": "icons/code.svg",
+          "sha256": "57e1e8b29992cb149b42ef1845a53490fc0f01dba67d98573fe0dece017b034d"
+        },
+        {
+          "path": "icons/use-chat-dark.svg",
+          "sha256": "3f0363b27e0446475bbd8cbadfc83503aeeee4cfffa060f500cc9daa9dfcf514"
+        },
+        {
+          "path": "mermaidchart-logo.svg",
+          "sha256": "549a2265dbf822707333fd34d63cf74791e8f7a0d0196ef3e59ab853373e85f4"
+        },
+        {
+          "path": "index.html",
+          "sha256": "53610f936b0e6e3aee19b3f60ddb4b47f1192ea35000d627d035cbbadab025e8"
+        },
+        {
+          "path": "robots.txt",
+          "sha256": "a79d682a8dcda37b7155d3be3a749417e497c3d31d8ba63ceaf71979cbc5d7a2"
+        },
+        {
+          "path": "llms.txt",
+          "sha256": "50863f2bdeba1c03a0c6bb48f69083c807cb13655069ce64b759bd1fa25e9277"
+        },
+        {
+          "path": "favicon.svg",
+          "sha256": "f96606d158186255f87104d6bbca9886b48d825281d0bd89fb4ee0b5eaf97051"
+        },
+        {
+          "path": "_app/version.json",
+          "sha256": "e8e090e68698cec4aa287d30b78a714e3c3aa35469670425981c40a71cbabd77"
+        },
+        {
+          "path": "_app/immutable/assets/2.Cjn3HSOQ.css",
+          "sha256": "4c67865968d4b086f2ad2f4029efb3936cf241f49c65e112989537fa27d0b7cc"
+        },
+        {
+          "path": "_app/immutable/assets/FontAwesomeCSS.CgMYSIuj.css",
+          "sha256": "ddbefa552b43ec25cf8a28de60ced1e7cff6f32f287514434cfa1f66d1e8df0b"
+        },
+        {
+          "path": "_app/immutable/assets/codicon.ngg6Pgfi.ttf",
+          "sha256": "9d25513c861704be650eacef8c4588aceabdc8b668857747b5e42b299e926918"
+        },
+        {
+          "path": "_app/immutable/assets/fa-regular-400.nyy7hhHF.woff2",
+          "sha256": "81aaa8342d90df0a3c0b87655e2c31a71941f0dd351fb9fb1ca5d692e744f6d0"
+        },
+        {
+          "path": "_app/immutable/assets/fa-brands-400.BP5tdqmh.woff2",
+          "sha256": "70c632ba73c7ad942141bb2f56994b8eddf0a284c01aab9f21e0cd10021530c4"
+        },
+        {
+          "path": "_app/immutable/assets/editor.BuC0XPbM.css",
+          "sha256": "c145c8072752794ae6c4f0b36157657b884604a47238d6574794b03b63e9b626"
+        },
+        {
+          "path": "_app/immutable/assets/recursive-latin-ext-crsv-normal.DaNfgQdd.woff2",
+          "sha256": "65c22748b390e0a4183272ba55e5280b139b8451da7c7d44325ffb31d901491f"
+        },
+        {
+          "path": "_app/immutable/assets/4.BmjKRsT_.css",
+          "sha256": "558ae9cdda33bb2b82e2b8567883a5a09bfff1f819271b4768fa6cc9c2a5182b"
+        },
+        {
+          "path": "_app/immutable/assets/View.XCPtWYBK.css",
+          "sha256": "6b594e4e3f35f4951989de11ed1c37db836974deae7457a424e5cd3e42d80ec3"
+        },
+        {
+          "path": "_app/immutable/assets/0.DBCesUhI.css",
+          "sha256": "8db54addceb095b80753e51048800d59509560eef671848b7cda515397d028a7"
+        },
+        {
+          "path": "_app/immutable/assets/fa-solid-900.DRAAbZTg.woff2",
+          "sha256": "ff58a6b0a01dbce082458f6e5a58719df4e80e0c2b50f744bb5871e21eca6878"
+        },
+        {
+          "path": "_app/immutable/assets/recursive-latin-crsv-normal.CjD_r53C.woff2",
+          "sha256": "f1bbb8570693c8b05a48444d5eec33037965f9c3181f9c07f8ae83fa56a0ca71"
+        },
+        {
+          "path": "_app/immutable/assets/recursive-vietnamese-crsv-normal.BWWGUVOc.woff2",
+          "sha256": "a085fbfc1eae40bbe8d9916f8c8bb43f4459dd77ac1c9f4dc0d9fe422ee38eca"
+        },
+        {
+          "path": "_app/immutable/assets/6.HIdZaORI.css",
+          "sha256": "b50d4a269b6a0f8a3e16178246468fd773c4bd41536f2f282f082c6c59232b53"
+        },
+        {
+          "path": "_app/immutable/nodes/1.CSelhcKC.js",
+          "sha256": "7f2acdb56d97c902ef1f91adabaace1e480fe278995a868f4f32f5ab67221eec"
+        },
+        {
+          "path": "_app/immutable/nodes/6.DcrHRhbX.js",
+          "sha256": "2b7609c3dd50717d667ac0e6ff8aa8111a23e8e5c5bf02ee43356702cd2ed9fe"
+        },
+        {
+          "path": "_app/immutable/nodes/2.BYB2jNp0.js",
+          "sha256": "532b5195f738a76ac957a3ea5339ab0654c1ea32cd80fdd6ab35b3f172da1c23"
+        },
+        {
+          "path": "_app/immutable/nodes/0.B00RScJc.js",
+          "sha256": "aae397da8538b7b869ede59b628d2876bf23fca44493c3ded6c97889249d31a7"
+        },
+        {
+          "path": "_app/immutable/nodes/4.3dG01nwM.js",
+          "sha256": "266c13d95c918cded926224ed8cd608a0b2ce92681dc9a3543273ea242be3978"
+        },
+        {
+          "path": "_app/immutable/nodes/3.YAxnDtx3.js",
+          "sha256": "dc31bb162968ebeeadb447bfaa0a5612189ac0776b745836a801c3f9e5d7d973"
+        },
+        {
+          "path": "_app/immutable/nodes/5.BixtfWnQ.js",
+          "sha256": "ed038b8ed39b3c0bc1d75d7bde3c16366f32fe6b61304894a038a05cebc7c23b"
+        },
+        {
+          "path": "_app/immutable/entry/start.BCt1iU8t.js",
+          "sha256": "af5a8d8e67e77d7d5cfceaed443559f71f90de6e1b2cfa9181900127ca15653c"
+        },
+        {
+          "path": "_app/immutable/entry/app.CLApzLRk.js",
+          "sha256": "cc1af378b43211a560a050c14950aeb3c0e9acad996e89e3212d10ed52050a14"
+        },
+        {
+          "path": "_app/immutable/chunks/CfSJPG6W2.js",
+          "sha256": "df071e61a9754e5ff7a082a5bab4f6f5ee3a082c251f40d85d1c47ca48ba6807"
+        },
+        {
+          "path": "_app/immutable/chunks/xeqyYkYZ2.js",
+          "sha256": "b7e8299f5b1ae5607ae2540ff64c18e9646299c2a6292b119d01eb991e3141f8"
+        },
+        {
+          "path": "_app/immutable/chunks/DHwMPyMe.js",
+          "sha256": "bc5bd6c8e9b693a4dbba879c9b4c42dd99a05e60f98eb19a523d2352d955069c"
+        },
+        {
+          "path": "_app/immutable/chunks/Dt2IJEiX.js",
+          "sha256": "fb384a95384fd3ad2564b9a4a32727af2687ac26174f25894f1d2100ce7ab188"
+        },
+        {
+          "path": "_app/immutable/chunks/DT7zqm-g.js",
+          "sha256": "3e62d2f263de782216bbe34bc3548c53b9d9a7de16bd6edaa8a006ed36c9bf77"
+        },
+        {
+          "path": "_app/immutable/chunks/6RTg0lbw2.js",
+          "sha256": "fc0336d16849bf07801e67d229927011a21e2e0ef5b7c8e4494260455cf93f4c"
+        },
+        {
+          "path": "_app/immutable/chunks/Bri6UV-V2.js",
+          "sha256": "1a01df2b09226f1f376180126ae2717b2f4239a7829c30b4f853bd0c8e61d70c"
+        },
+        {
+          "path": "_app/immutable/chunks/B9JPFI3C2.js",
+          "sha256": "44afa50e036a60b51d9e8946705b63e56e4d85d8f6ae10108de80b312b642dbc"
+        },
+        {
+          "path": "_app/immutable/chunks/CaHgWlcF.js",
+          "sha256": "684755d0b13f855bb4dd157de3e59f4d8713bb771338d746ea822e5526461d54"
+        },
+        {
+          "path": "_app/immutable/chunks/BJ-ChhCE.js",
+          "sha256": "75ad8b1aea66562daea675c98e2496a3754ca885a4a119314e9653831186ac1b"
+        },
+        {
+          "path": "_app/immutable/chunks/GNp4JvVZ2.js",
+          "sha256": "cfdb8cdaffc23ebb994351ff324af4a17b5a4c671ca5dc84aa0942461a684280"
+        },
+        {
+          "path": "_app/immutable/chunks/C4m3c2Y9.js",
+          "sha256": "24ad2d040ab754b06c2e593a7ca365ade84c8ffd10ab7fd131ca30d9a2f5a07b"
+        },
+        {
+          "path": "_app/immutable/chunks/MGddyeP2.js",
+          "sha256": "3122d9d47f3705fcd7983de555729b8cb0250a1ce335e79d4f7e2fec8b256bad"
+        },
+        {
+          "path": "_app/immutable/chunks/CsQS60Ue2.js",
+          "sha256": "4faf3305fbfc61b59039430ea0a0c7952e992d741bbd4a15cc8aa37dd29a37cd"
+        },
+        {
+          "path": "_app/immutable/chunks/BJVAJXQA2.js",
+          "sha256": "a44092b520016bc8cea4f2765544918b7b5ef7745c69e48a7d9ed5a63925e3bd"
+        },
+        {
+          "path": "_app/immutable/chunks/BeGwcela.js",
+          "sha256": "cfc22daf2ad0cd716773a3ca1f5a66a11e07ba918c860aa329c1e940d870c4ae"
+        },
+        {
+          "path": "_app/immutable/chunks/5-lk1ZJq.js",
+          "sha256": "41781925cc1d095f634e22f2d636a1eadd1b4153c401c41889806cd0e7c1eb8e"
+        },
+        {
+          "path": "_app/immutable/chunks/C-CLZV1r2.js",
+          "sha256": "cbbb0c84c8b3126c37af380b24bd38a60ac4d85811ee49bad063feab890777fb"
+        },
+        {
+          "path": "_app/immutable/chunks/Ck3zr9PN.js",
+          "sha256": "aac3bf4e868aa02a74dff5fd85feb62ba34179335b82d537807e6b0f0cc9aa17"
+        },
+        {
+          "path": "_app/immutable/chunks/B2985qJz.js",
+          "sha256": "42c7182b03b501c525e4c8eb68b2ddf6c14f9bc79c3c776905a0cb3daf6f69ac"
+        },
+        {
+          "path": "_app/immutable/chunks/5OxHQk7T.js",
+          "sha256": "ff442b6e6a4e9bfacbca783d9ff949594e693bb37ea86c106f684620fb496823"
+        },
+        {
+          "path": "_app/immutable/chunks/Cg3sy2Ph.js",
+          "sha256": "e655109f73ea98881bfe24cb90f178829e0844aa0cce9ef3f90cdb3fda008301"
+        },
+        {
+          "path": "_app/immutable/chunks/BYgofb2h.js",
+          "sha256": "52688aefe9a0825bd762aaceb78342771e2828d3681e2963d577e6564470ee60"
+        },
+        {
+          "path": "_app/immutable/chunks/7OdYKPZF.js",
+          "sha256": "e5ce17d96ddb7b63b9215a108e952ba491fec292c9834ad1ed3e2db0a36a8747"
+        },
+        {
+          "path": "_app/immutable/chunks/BWPQTe0t.js",
+          "sha256": "794bb6262709d298e6318113816555bb314425ecb111f89ebe58cbe37e8cb774"
+        },
+        {
+          "path": "_app/immutable/chunks/Dq6ULnIM2.js",
+          "sha256": "74bb4d444bf5975dfa324e8b5e815a924744a75c922f0a38221568398fa387d4"
+        },
+        {
+          "path": "_app/immutable/chunks/DZH9a5iK.js",
+          "sha256": "70ccd9c99d3abac5f48e986cc504a47de5e159d2aab424e06f26b23e228bd882"
+        },
+        {
+          "path": "_app/immutable/chunks/DTj74zXo.js",
+          "sha256": "da731f252a2c8651c92bb10b22b77a69d67236aef1ad58bed8119212e4aa6a07"
+        },
+        {
+          "path": "_app/immutable/chunks/BWPyau1x.js",
+          "sha256": "e3b0ca84b7bceaa14bd9d1e7edade835ead13c7e6fa81710e709d299c0784e86"
+        },
+        {
+          "path": "_app/immutable/chunks/JloBEC982.js",
+          "sha256": "7ee37b63eee771b4fc835fe6d2b95f6314cdf66e843169ac523e802a501e0383"
+        },
+        {
+          "path": "_app/immutable/chunks/DHpiXF5c.js",
+          "sha256": "c82c096cd169dd2e720592c7723690c3c74a254fa64817cf00e968dd5c98314a"
+        },
+        {
+          "path": "_app/immutable/chunks/onAF5SnQ.js",
+          "sha256": "41649fe3b34c16edb251df57152184ba2b03adf729fa0bec731f56ce7b8c636c"
+        },
+        {
+          "path": "_app/immutable/chunks/CQFVGiJu2.js",
+          "sha256": "899335c685f759d53a2df2a004d90fa788937fad2213de804321fd3ff82b3c68"
+        },
+        {
+          "path": "_app/immutable/chunks/fWep2IrU.js",
+          "sha256": "4b3bd6532bb56eb0117da0c865b615ed6a23e8d30fd7aacc7407850cb60fbe9c"
+        },
+        {
+          "path": "_app/immutable/chunks/D-ptJ9y-.js",
+          "sha256": "224cfd072a59e3ff45f37adcec85b544858b47e90b0617f54fe3e6ab4de832ad"
+        },
+        {
+          "path": "_app/immutable/chunks/D3hlyOfw.js",
+          "sha256": "87bfb26727836297fc573ec8fa8f8074e5cbebbdc40e844d7a56306fea006273"
+        },
+        {
+          "path": "_app/immutable/chunks/VExApbQR2.js",
+          "sha256": "7a509e35d1676613fb8e613a6d7d58e3f7487fd617a6d73428a0a4079955ec8f"
+        },
+        {
+          "path": "_app/immutable/chunks/BEEn4gHE.js",
+          "sha256": "6a06945b7a04d32e929fc5f86cd1097fc29dfa4fcee24a330b4c0e73ba43ddf5"
+        },
+        {
+          "path": "_app/immutable/chunks/oz_6vUea.js",
+          "sha256": "c580f25e97de8b3bb096498919558aaa55e0fd2764d408cb73c66e3702cc2240"
+        },
+        {
+          "path": "_app/immutable/chunks/DTI5f4_b.js",
+          "sha256": "996503bc4c923312f2c8a9b20376d6b525d5dad7e1627efea345251fa7a95f86"
+        },
+        {
+          "path": "_app/immutable/chunks/DDpsfCPi2.js",
+          "sha256": "cafd0d919c0955d250888adc40cd0188fd96599d261e37b3de3679f62707c2c5"
+        },
+        {
+          "path": "_app/immutable/chunks/Bc-UZqZI2.js",
+          "sha256": "a2a3574942fcde6dc2c11ca3c19265b4df1f6fec772877c39e6c263ed70ee2e7"
+        },
+        {
+          "path": "_app/immutable/chunks/CGhzzHe4.js",
+          "sha256": "6b77b373e74f6020d360c858f18e9f098f9a956e39a847612d35b814f6887f66"
+        },
+        {
+          "path": "_app/immutable/chunks/bTuwJoIa.js",
+          "sha256": "a54603c0e0cfb172abe2c86bc617d1834fd6458dd32d3f1fe68997ee760fc3b6"
+        },
+        {
+          "path": "_app/immutable/chunks/DMUM7wLl.js",
+          "sha256": "f8cf8a6a9453b4ac6482c32d39360ea484400aa198c783aeda4cfcf58ced7350"
+        },
+        {
+          "path": "_app/immutable/chunks/DsF7k-Jl.js",
+          "sha256": "a74e3669f356ad0d67cc5232f1e0f62ff4544fdb8e7057cf9a5001a0ea6fc2cc"
+        },
+        {
+          "path": "_app/immutable/chunks/FvmIjYaQ.js",
+          "sha256": "fb4eab2690dc37ba7b619e074368450ed02be3c30b4fec782134e12d1474a573"
+        },
+        {
+          "path": "_app/immutable/chunks/nC082SSK.js",
+          "sha256": "e4b9b1818e4f38b823dd72f9c2dcfeddaaa60d50fdce59316eff9835cadba58f"
+        },
+        {
+          "path": "_app/immutable/chunks/DpFanUEy.js",
+          "sha256": "335b9279c9f8966b751b7990c9309dc53e267c70b8837023240c3b72e530020e"
+        },
+        {
+          "path": "_app/immutable/chunks/Dmftzpe0.js",
+          "sha256": "e263f9df07fc0012434e442c80478fa9d0b65bc810bd88d5a3d1b24661180f4b"
+        },
+        {
+          "path": "_app/immutable/chunks/CcwsVR0C.js",
+          "sha256": "c4079c95ca545fc031101180dbc5e529e188c7faa1881bbf18bf8701b2d2eb67"
+        },
+        {
+          "path": "_app/immutable/chunks/CHdTS7qa2.js",
+          "sha256": "1bf1affcfd82d73caca83f8e105448d99870d8b0a316fed64d589c30af29a8ca"
+        },
+        {
+          "path": "_app/immutable/chunks/DISqw1ZD.js",
+          "sha256": "b460f0ae3471b62c331c14155f86981cfc76b6f9f3c826ec937328b9137c9c62"
+        },
+        {
+          "path": "_app/immutable/chunks/43DmfD33.js",
+          "sha256": "de5f427d26790893b215cba9cf83c78dd4401d1198d6fe6c467691b123960580"
+        },
+        {
+          "path": "_app/immutable/chunks/VEF6q5-2.js",
+          "sha256": "f80585c5bfb8bc5f188f5f17be107679830f25ee844b89eddbd89dfdd1916d07"
+        },
+        {
+          "path": "_app/immutable/chunks/DrH0SRf2.js",
+          "sha256": "2f334989ddf5ad3a0cd557d71162ebf9eeadade1526083d1b35797f1069bf3bc"
+        },
+        {
+          "path": "_app/immutable/chunks/Lq6F0D0N2.js",
+          "sha256": "d8ed8a9d34ab50596261ad22b0b3a463ac31efeb8ce0153c57542b7e95077efc"
+        },
+        {
+          "path": "_app/immutable/chunks/L6TPLfm12.js",
+          "sha256": "a92367435ecdbfa20ae37ac1c289e018c62431e74146fa5065ebd02d5fb49481"
+        },
+        {
+          "path": "_app/immutable/chunks/Bc_sGQ0U.js",
+          "sha256": "2c3464d88876c09b13064125e728844a66cb31e3021ae346bb9683671699cd10"
+        },
+        {
+          "path": "_app/immutable/chunks/CZseBnjb2.js",
+          "sha256": "f5eebdc692aa01fdf1a3f64bb20ff58d83d26bd1ea8f3ba16cc22dede6e1c975"
+        },
+        {
+          "path": "_app/immutable/chunks/Meg-IJKx.js",
+          "sha256": "51d58f7a030daed6a266d9ae606c1351f7896c6a18950814e4559433dd225667"
+        },
+        {
+          "path": "_app/immutable/chunks/Bpm0hvYe2.js",
+          "sha256": "36d8f19662709a201d0ba25e26139d55d61317ba9d96b63facfab43188fc3930"
+        },
+        {
+          "path": "_app/immutable/chunks/CBb6Ju5X2.js",
+          "sha256": "93999e5dabeae5d6577647ffb6c0b749086935d0655e8cd572c5bfd898d5e0fd"
+        },
+        {
+          "path": "_app/immutable/chunks/BKxtCVv1.js",
+          "sha256": "b5c2b4c55aff810ce2372f02543c3e90c404c1e8487bd343df88c5d24b7c737e"
+        },
+        {
+          "path": "_app/immutable/chunks/LJFKmrmY.js",
+          "sha256": "d25451a8f26c7d054ef66a12068e2b57ba55791d9ccd16b026c93a4518073de4"
+        },
+        {
+          "path": "_app/immutable/chunks/JtZV5MQM.js",
+          "sha256": "eacea86139a97f930f62a24e45b2378ab8cc82ebfc5676ec6f2b589cdc820090"
+        },
+        {
+          "path": "_app/immutable/chunks/BT-1xLpG.js",
+          "sha256": "8f5161ac307ed9c1bc7aad9f188c26bd0e0b18f133889eea4e3d634000e01cf7"
+        },
+        {
+          "path": "_app/immutable/chunks/DkqhCAOL.js",
+          "sha256": "ef671378a8ae53aa91c7323d8f82956feaf6cb9bbb623f4ef83a69a8932bb30f"
+        },
+        {
+          "path": "_app/immutable/chunks/C880z0v7.js",
+          "sha256": "0cb3048a8ca71397a1b69af58e440689c88b1b7097a37b13bc8ac7d08988dfef"
+        },
+        {
+          "path": "_app/immutable/chunks/DdQqBouc2.js",
+          "sha256": "7c883ef644c8b87d0ccd3a97e70a6f21d746b17eb0f4da7ccaba5ac25b162f54"
+        },
+        {
+          "path": "_app/immutable/chunks/Du3djNOg2.js",
+          "sha256": "77bd03640ca1a24c6eff5929a3ee08de7649d19cea90dee588444182fbb1d007"
+        },
+        {
+          "path": "_app/immutable/chunks/DbInun42.js",
+          "sha256": "e2eaa622ad805796cece9e9832b5bb9ca398ade0d0371b693633990778ce5ffe"
+        },
+        {
+          "path": "_app/immutable/chunks/r6JrPz0H2.js",
+          "sha256": "a04c13dbd68cb0f220440fd87c466a992020cf13f64a3c10c919d723c8375ba1"
+        },
+        {
+          "path": "_app/immutable/chunks/qRULkPLS.js",
+          "sha256": "102ba66797c47f45e8d35d8703dd09ebaeb6cb9d856843784671633efe886845"
+        },
+        {
+          "path": "_app/immutable/chunks/B4a6Onfr2.js",
+          "sha256": "a3d82646c9d5f8f7242c20a332a2a90a7008ea644582c2dc92c1357a649dafd3"
+        },
+        {
+          "path": "_app/immutable/chunks/BJuU5Ddr.js",
+          "sha256": "ef0f4cb856a8c2b6afa7347d630b304ee8490af2839dca3eefdd46106ceeabb8"
+        },
+        {
+          "path": "_app/immutable/chunks/Bi3LETfS.js",
+          "sha256": "15fdfc903197c726a0c2158ed9cbdd967065f28bf4234a442e9bfa2bfb572e22"
+        },
+        {
+          "path": "_app/immutable/chunks/CpzslTdj2.js",
+          "sha256": "15310bb6f51d2670886bac778d8c23351697bd2a8393bff1e1295361e84c99d2"
+        },
+        {
+          "path": "_app/immutable/chunks/Dbnf3ORG.js",
+          "sha256": "8a8a5ccb27a89858e8694bce890874e7bc552bc78466d93867186f39afd1ca4f"
+        },
+        {
+          "path": "_app/immutable/chunks/D-1nCINd2.js",
+          "sha256": "e46150f83ff80f214267ccffd78e08efec510426fd6f719b51193476a7efb5f6"
+        },
+        {
+          "path": "_app/immutable/chunks/C7DZbr25.js",
+          "sha256": "48f6bb9d6624eee56cb2ae319b2a77c0b6e78af168a8d4792db0abcaedde7c3d"
+        },
+        {
+          "path": "_app/immutable/chunks/BGPo2iCu.js",
+          "sha256": "c7a9c5ca9bc0c64113b66042687262659a51a3ca193ce5e767c47093e9964c2f"
+        },
+        {
+          "path": "_app/immutable/chunks/_A7_fnyq2.js",
+          "sha256": "c497dbd4ce50ed36a457716bc501e4873078a0130537771e1c0487fef5a68508"
+        },
+        {
+          "path": "_app/immutable/chunks/nr791fC2.js",
+          "sha256": "a592c0b5ded4d8136c1c45c1fe91e3d1a9aba10fba9cd690dedbdd575c960c97"
+        },
+        {
+          "path": "_app/immutable/chunks/CPeIEjhZ.js",
+          "sha256": "53d660c28e07655c28819a15190a0ec97d608baaa473b5130eaa5037fa8407d5"
+        },
+        {
+          "path": "_app/immutable/chunks/fmXr3nnJ2.js",
+          "sha256": "a66e3b8eacf8ad4017403825f7cc7978fbefc5fd1f80ea6c044f8059848c5186"
+        },
+        {
+          "path": "_app/immutable/chunks/C5_-GSwl2.js",
+          "sha256": "9146223a874645367aa89e7189e958f0abb9c815e5b0439bf64c5263815a8dbd"
+        },
+        {
+          "path": "_app/immutable/chunks/B8J7ngcE.js",
+          "sha256": "e128961ad6029fe9fb0c0168430de115b5e95ce1335085603eb1673317832f40"
+        },
+        {
+          "path": "_app/immutable/chunks/CSiE7U0S.js",
+          "sha256": "39ee68217482f7b33e879e69dfb61a8e7d01e405b51765420afb798901fb171f"
+        },
+        {
+          "path": "_app/immutable/chunks/DU0SFjLb.js",
+          "sha256": "a0a36baf782d53047ec9f588ab80432decc45a597b7233d4c9ce7905f70017dc"
+        },
+        {
+          "path": "_app/immutable/chunks/BjRW0lAL2.js",
+          "sha256": "b9f7594a500461762ab4e927ed270dce45d54baa818688e06a8d845c66f49413"
+        },
+        {
+          "path": "_app/immutable/chunks/DPevzBS-2.js",
+          "sha256": "ffc5ec1efc0b2bb94660d6119320d892daf4ceac2db85e360ad2a6aaf87a4431"
+        },
+        {
+          "path": "_app/immutable/chunks/UddR1yIt.js",
+          "sha256": "893829c3fcd10552f2457a02337095deb5bc3fef40960525c94b1e39d476e21b"
+        },
+        {
+          "path": "_app/immutable/chunks/BbHxBJfT2.js",
+          "sha256": "f7954fe9d313f3c324768f202780547b3781df2455a401fef622ef9a0445a4d3"
+        },
+        {
+          "path": "_app/immutable/chunks/CuRJVwEq.js",
+          "sha256": "d4c86b671a92b73b379b16716ccb3ff73b4fb495bf9338ce84f318bfa020aab7"
+        },
+        {
+          "path": "_app/immutable/chunks/CL6KR6-I2.js",
+          "sha256": "33aabd384ed517159882db6926889885ff4cfcbaa20d7c47f5d3305f695ee9e9"
+        },
+        {
+          "path": "_app/immutable/chunks/DaorKoZD.js",
+          "sha256": "4339f717942e79d85e74adb48555e23f41da5d79661e38eb6e56cc0c214eb634"
+        },
+        {
+          "path": "_app/immutable/chunks/D_Lu-MrJ.js",
+          "sha256": "dc978506d1a47be041882cd4e6733cdc38b0bb579cd48fbfedd44f10ad6cd84f"
+        },
+        {
+          "path": "_app/immutable/chunks/Ceny-Yp72.js",
+          "sha256": "49be45568c63e672b82bac7a8063a33f79c54795f57c763125f814fcfab28971"
+        },
+        {
+          "path": "_app/immutable/chunks/DE6MezYz2.js",
+          "sha256": "bd69a9c2484d05bd637f95c7dc24925c62b8f890ab483e99840b2a96bfd6211e"
+        },
+        {
+          "path": "_app/immutable/chunks/Dm1o4DZ-2.js",
+          "sha256": "a6f975146470ffe927eb168975c6b47f3ec5dfc0557f78b22886fb10545c327b"
+        },
+        {
+          "path": "_app/immutable/chunks/BPUrPjek.js",
+          "sha256": "dead8a8ab97339cf69d1a37dfbfe3a71d21165fc11908b873ebaa830d60dd4fb"
+        },
+        {
+          "path": "_app/immutable/chunks/xihTtKlq.js",
+          "sha256": "0214edcff77242079f540507a53803aa22d857b6ad673e60e39748b6c7aa08c1"
+        },
+        {
+          "path": "_app/immutable/chunks/CI1ENdm4.js",
+          "sha256": "e3de88807d2dcd1b2920792a8eb02ff2bd3cd34babb7c3ebfac100eb6f4a0806"
+        },
+        {
+          "path": "_app/immutable/chunks/BifhSqXX2.js",
+          "sha256": "63126646dbf611a0cf9e2293a9f636ac3c93c815a8f7d1e97d783151ab8529b9"
+        },
+        {
+          "path": "_app/immutable/chunks/C7h46wYY.js",
+          "sha256": "0f16cff9f7780af91337017f6be26bd4871a5005e6c04adb6d01047e246437f5"
+        },
+        {
+          "path": "_app/immutable/chunks/Dytbh3Pb.js",
+          "sha256": "eb0c1e39ebe58553bb2afc1478be20f682ec3d694113f28a00220ebb45dcf07c"
+        },
+        {
+          "path": "_app/immutable/chunks/DjD0gczZ.js",
+          "sha256": "c859d8044b12ef2f0070919978bd2842cac4ca6c8c817cd4ae5e0c5f3348a1ab"
+        },
+        {
+          "path": "_app/immutable/chunks/Dt32m8D32.js",
+          "sha256": "5a0c3ca99b324da9e450db639357ae0af47a4eb175e3f1ef478de6f14767c9a2"
+        },
+        {
+          "path": "_app/immutable/chunks/CRfGWb83.js",
+          "sha256": "5f597679cef7e39dcc86886aeaba4dc7aa6a1ecb8abedde2cade18568a70c631"
+        },
+        {
+          "path": "_app/immutable/chunks/KythIMN8.js",
+          "sha256": "8ad0aacbbcd6400a7969177769ae26cc60e37c862f370b370e7c933a36b0d872"
+        },
+        {
+          "path": "_app/immutable/chunks/DEpTAE_X2.js",
+          "sha256": "c63755155c1c3f2190e4e49e1e7336d61a58c4753c66c7d367487f6f406327b9"
+        },
+        {
+          "path": "_app/immutable/chunks/Bokn4ipt2.js",
+          "sha256": "a6b10aeb8173fecfafa357c4c0a141ac825fc09bcb5bf5ea7b0706f87fef4c6d"
+        },
+        {
+          "path": "_app/immutable/chunks/aFhRjMaC2.js",
+          "sha256": "3552227399b615d6faa0259ca42b9013cf68a0c74f78271bd88c29a0d4256228"
+        },
+        {
+          "path": "_app/immutable/chunks/snXgsW9G.js",
+          "sha256": "3f8ba08bd85d9cef63f26343379e48cd89b109df3fd6f719b0ff13402bf3d43f"
+        },
+        {
+          "path": "_app/immutable/chunks/D7l1YWQ4.js",
+          "sha256": "71d01342f3788aed591fdee14d1e77aa7397bcfe09c804a4e61d4c171db2d10e"
+        },
+        {
+          "path": "_app/immutable/chunks/F8U4Gcod.js",
+          "sha256": "6d1c7e77fab90aa113e33ffb8aa6777ccd0f300aa47c97ff53759555bec3e3bb"
+        },
+        {
+          "path": "_app/immutable/chunks/ChWgtpbe.js",
+          "sha256": "189c774981a4758905a364cc41ee64e8c59a57bf8775503d5ee6a6576ac0e1be"
+        },
+        {
+          "path": "_app/immutable/chunks/BpGmw8i_2.js",
+          "sha256": "4916912b8ba88fac697970e5dfa62bc7a326d393c978e3c8ecbca359fef84d06"
+        },
+        {
+          "path": "_app/immutable/chunks/3wb6cqg42.js",
+          "sha256": "092d9e57ff2d97ecc0ec971990ce9584e4bd5e750b52b95cc275f769ff5925e6"
+        },
+        {
+          "path": "_app/immutable/chunks/jddmLYXk2.js",
+          "sha256": "9d864999d718419d04cce36b61de40817372ce5f6ee390d59d6883421ef20696"
+        },
+        {
+          "path": "_app/immutable/chunks/C64-g8F2.js",
+          "sha256": "3ac5cdbd35bae784ba4b3cab3d7e67a21e3d8332ce24e6b962b76eb0503b0ffa"
+        },
+        {
+          "path": "_app/immutable/chunks/B8KVkUCb.js",
+          "sha256": "38a62fc58394190ad3d772e234140856dc1d89fb4b65569e7f52323d2f590f45"
+        },
+        {
+          "path": "_app/immutable/chunks/Cuh4mgWG2.js",
+          "sha256": "7ff3651fb9c70ce50bf0916e4071024e196976e88e59c56064c38e848f433ee1"
+        },
+        {
+          "path": "_app/immutable/chunks/BEtHBSE62.js",
+          "sha256": "77d3a91eeaf54e004f8ec321e6208afecebe2435232146b41f68135373800953"
+        },
+        {
+          "path": "_app/immutable/chunks/Bz4Y3fRF.js",
+          "sha256": "37c0497660cf7404b76122dff7e73a5a3a5e1e20bc01488f142d1bf37411bbce"
+        },
+        {
+          "path": "_app/immutable/chunks/CjtHh7gc.js",
+          "sha256": "ec789289033c90ece90ee74daec4fc06b080fa4a0831ad5fc2ec6cf08abb42a8"
+        },
+        {
+          "path": "_app/immutable/chunks/Dn8vQFgK2.js",
+          "sha256": "9ba41bb1489cfc685d73cd2fb43b079b935e1d5fba87a0c3366a2815fc687936"
+        },
+        {
+          "path": "_app/immutable/chunks/Cimd5fb32.js",
+          "sha256": "621e51234c4fea96a2a3a6e0dd59151f1c0216d7cb4a963361ee29aa302c7977"
+        },
+        {
+          "path": "_app/immutable/chunks/D76YdDgn2.js",
+          "sha256": "7bfbe7e7be2751bbdc5b84e9ddeffaddfb60bc6117db37c91f2a23c1180fcc49"
+        },
+        {
+          "path": "_app/immutable/chunks/sBoK_t0W2.js",
+          "sha256": "e9017a169ebca71c2edba3ee62e01ae57969c0330ca295c1f201e3e17829a54e"
+        },
+        {
+          "path": "_app/immutable/chunks/BwWrilGY.js",
+          "sha256": "923bf047ed7decb6ba5ab3df467b6f739552e06715b3b49550872ae5bae00e1e"
+        },
+        {
+          "path": "_app/immutable/chunks/DAO4cTYb2.js",
+          "sha256": "d0a0c947ef2e2778ed894aa0d56bda9baeb174561dabe27a14014bf1c0cd1935"
+        },
+        {
+          "path": "_app/immutable/chunks/SKB7j1Zd.js",
+          "sha256": "b227caa96dcd0864659ce38050973aca4b778f30c1af0ca8224b4eb684c09939"
+        },
+        {
+          "path": "_app/immutable/chunks/CO0xo6tz.js",
+          "sha256": "a430ee0dec26a84d025dbe9ef67ef7df901311b9839abd8d14d464b6ab041d34"
+        },
+        {
+          "path": "_app/immutable/chunks/BhvaKfH2.js",
+          "sha256": "5b48ac299affd6b667e55847424dafc00af7ad9caa9e7f904fc542821ed4c2f4"
+        },
+        {
+          "path": "_app/immutable/chunks/C531GsRP.js",
+          "sha256": "084d9064c607e6db8ae6a69c261142379120ab495d0020a7f19332eddac203f0"
+        },
+        {
+          "path": "_app/immutable/chunks/Cx0iOlpp2.js",
+          "sha256": "1edee22dc88854a73483d053e0d5c2043eacd518ee70d37a0f17ee7f9244f988"
+        },
+        {
+          "path": "_app/immutable/chunks/e5iOcuU62.js",
+          "sha256": "1972a784e1ef483adf143fbde2021e6419909bc8e4b00d995fe9e0e61facab01"
+        },
+        {
+          "path": "_app/immutable/chunks/BjqSQlRZ.js",
+          "sha256": "6adc7a34e3b2528dbccd606bbdf214df6c4d6c0fffa95daf047401554791b948"
+        },
+        {
+          "path": "_app/immutable/chunks/i0X4ZdIN.js",
+          "sha256": "1c6f14208c883c792f2cf7d81efc333f0987c17062845ae5fc0377e057d138fe"
+        },
+        {
+          "path": "_app/immutable/chunks/DeNaHEVP2.js",
+          "sha256": "1e8e96c526f0f616346a9848ef73bc8dd5414e744046573891045f8365bae4e9"
+        },
+        {
+          "path": "_app/immutable/chunks/CTgm3pse2.js",
+          "sha256": "7f8d55330db77189647f0df55c4ce879c4b0e085157dbe953c5c3156e78e1fd9"
+        },
+        {
+          "path": "_app/immutable/chunks/BDs-ZApX2.js",
+          "sha256": "5f85a1e5793ba6d66a8c38662e3e2e309929ae89eecd3df09958959a89efb4cf"
+        },
+        {
+          "path": "_app/immutable/chunks/DIMkf-bt.js",
+          "sha256": "361b35ed3c739617f90ee999b6bcfe6e7047c1d30c52df58401c50486f5fd8e4"
+        },
+        {
+          "path": "_app/immutable/chunks/DauUninz2.js",
+          "sha256": "c7e11cd45bd941f372201b9f1b7685fa76e18ed59609be2dacd125db0ee63915"
+        },
+        {
+          "path": "_app/immutable/chunks/DPsjFTCs.js",
+          "sha256": "8e7b48093e628b896ab0e8ad7c6928e03563b1da816d53c769be75169e4ad5ff"
+        },
+        {
+          "path": "_app/immutable/chunks/B_1O55qH2.js",
+          "sha256": "8c271bb39506ecaea9d1accf2664a85e38ab2d0293d38253133955634bb5ad4c"
+        },
+        {
+          "path": "_app/immutable/chunks/Ba7i2nA0.js",
+          "sha256": "e5690905b616659b886795524f4349b37e19af5ae72519b06384dc4fb63409a1"
+        },
+        {
+          "path": "_app/immutable/chunks/CVaqCwHa.js",
+          "sha256": "0181ad561c8c1c97516cec2918b11f00f0321c07705dcdc9d03fe68cde282d58"
+        },
+        {
+          "path": "_app/immutable/chunks/Bjy-W4x22.js",
+          "sha256": "f07424758318dd6b5f32b0fe8de9d2ffb8d97a17c841758626d18ba0faa0456a"
+        },
+        {
+          "path": "_app/immutable/chunks/C40SMpuB.js",
+          "sha256": "99f3cd9e3774a0ec6c46e399e07c047b9b6788ee5815727c711d71780af01605"
+        },
+        {
+          "path": "_app/immutable/chunks/Cz3kc_lF.js",
+          "sha256": "316f4a89b44b02e98c60c65fe6caad3958a6618b38dcdb576fd2ef4c1d27a2b3"
+        },
+        {
+          "path": "_app/immutable/chunks/M54VuJdu2.js",
+          "sha256": "43b8ab6809d7e0971398c0649ac216e8fb482dfa5d47e676ee979b9e189a740f"
+        },
+        {
+          "path": "_app/immutable/chunks/DZFCIeNp.js",
+          "sha256": "84814a9784122bacec9f8f423f729a7262a98a8bf05a74d995e7a9aa5e55007a"
+        },
+        {
+          "path": "_app/immutable/chunks/DQjFNj1i2.js",
+          "sha256": "5c815cb853dbd7596a84b6b40dbaf272672f08a86275405678407899a8aef3e4"
+        },
+        {
+          "path": "_app/immutable/chunks/Cm7r79vr.js",
+          "sha256": "bc5c1f46b0ce8785c78dc51206bb6cabb2c49e4f60380207b522fd74c12f2b45"
+        },
+        {
+          "path": "_app/immutable/chunks/CopQ2nXW.js",
+          "sha256": "17aa9ef936a2a049be2b7d64aea32486f961c1edb7cf1c5c270f2612f2fef7ef"
+        },
+        {
+          "path": "_app/immutable/chunks/Dgi_GhH02.js",
+          "sha256": "03edb89610ba8886d37b34b3306d8b8d9f17cb563b26e3b5b82f08df9b31860d"
+        },
+        {
+          "path": "_app/immutable/chunks/BaKHy2Ym.js",
+          "sha256": "c45040ddac45a8bb265e760edc4efbe7aec1d4437ba2cd5cbfe9a2bc1b906869"
+        },
+        {
+          "path": "_app/immutable/chunks/BsLEIi0j2.js",
+          "sha256": "9cee97cfff4fe584e2d9b9fb46968349234002a6cb85b0f4307591aa9a132579"
+        },
+        {
+          "path": "_app/immutable/chunks/DezsRK8O.js",
+          "sha256": "721bbb944308c8e3388ef74930f0b5e192b98720f1889f4b324a033ef094a130"
+        },
+        {
+          "path": "_app/immutable/chunks/08VXUWAP.js",
+          "sha256": "bffb36886b330040548e09a7c68fa82f1d414134008ecc3188dcd9db87cd677a"
+        },
+        {
+          "path": "_app/immutable/chunks/DnOwxx-_.js",
+          "sha256": "631dfc91133355a29ffe6fd1901342e915f15e858be79190bc40fec12fd27cc7"
+        },
+        {
+          "path": "_app/immutable/chunks/DJPf-qFn2.js",
+          "sha256": "95993931fa0e0aafb4f76edfa13d19e507768ee4da0993e62e6cd8543399b5de"
+        },
+        {
+          "path": "_app/immutable/chunks/DKUnCU7f.js",
+          "sha256": "4f5442e1af0fa3d3d9ccefb06a5861526086d6e279aa8360cf296cb9e7ceb2b7"
+        },
+        {
+          "path": "_app/immutable/chunks/ClamHrr6.js",
+          "sha256": "3fa2881b96c9456be6c8fcc6d7840ee516499668f8f69ce7fa9e210ea4854393"
+        },
+        {
+          "path": "_app/immutable/chunks/BRJ1fhT_2.js",
+          "sha256": "0c9d54489cafa8ff0d9e7c437d0bedb55111e8a93ca2ab76e08a953ff875a430"
+        },
+        {
+          "path": "_app/immutable/chunks/CSKSodPl2.js",
+          "sha256": "447fb203355631984196c1886d546c179beeb235230efefbe667080aab58d5e2"
+        },
+        {
+          "path": "_app/immutable/chunks/Co-8njcA2.js",
+          "sha256": "86e196dcaa44bec72b7b7b3716cce19097960c4993e6948c7c2f86a9e605fcb8"
+        },
+        {
+          "path": "_app/immutable/chunks/CL9ZlnHI2.js",
+          "sha256": "0eec1c39cb83755b57fbbfeb0dfd05def6da258a8ac3a86fe106b5c685ff8f35"
+        },
+        {
+          "path": "_app/immutable/chunks/-q_WeFZc.js",
+          "sha256": "7b5a67d29f1919364ee7fa43d43ed56cf5ebc074cf816dfc8b5cdeaf8af3438d"
+        },
+        {
+          "path": "_app/immutable/chunks/BOotOW0E2.js",
+          "sha256": "cbd90a8ca4d40a492021fd1766b9f4696d0cdbcc9969a6efac0acd8cc862f643"
+        },
+        {
+          "path": "_app/immutable/chunks/B5-_aFwp.js",
+          "sha256": "2ea49cdc88d9d11eb71a63206916c8c59188f4533e204ef0fd7005cec109807d"
+        },
+        {
+          "path": "_app/immutable/chunks/BXBkWsqh.js",
+          "sha256": "6357cd6cbc23418880e90820be6a3bd82bf0ca2085d3b94bf4c6c30f679cc1d5"
+        },
+        {
+          "path": "_app/immutable/chunks/wfUqJqTc2.js",
+          "sha256": "9f7fa8a35f7542a40835be77796ecc64785d0bb224f858ca35fbdf93653d6892"
+        },
+        {
+          "path": "_app/immutable/chunks/D05T4iGw2.js",
+          "sha256": "f1dcbc07ef5c96168389bccfb33cd78f1edcf598f4b76a54c35f6b8083a50243"
+        },
+        {
+          "path": "_app/immutable/chunks/mNeLXRPS.js",
+          "sha256": "330bfc365d01d9fea7b5385b9da134692a9524676913888e5787271a1869fe88"
+        },
+        {
+          "path": "_app/immutable/chunks/DV3o63ZY.js",
+          "sha256": "83a1714a1a12ba92d31b12ab18752ddf5a4ee85a02ad8f67a4c310a674aab6c3"
+        },
+        {
+          "path": "_app/immutable/chunks/Bxkupp3x.js",
+          "sha256": "3c0a146a88fdc340b543cb4e7c1b0379fcad231cda24b6315e8f1d830584e0b4"
+        },
+        {
+          "path": "_app/immutable/chunks/Z5eAx3Zn.js",
+          "sha256": "dd6fd0e69c38d8f4a1bd74de666762779629cd2dbd644288b46dcd6cc6646486"
+        },
+        {
+          "path": "_app/immutable/chunks/CoaHZNfd.js",
+          "sha256": "7d4d673558f1da543fdf37ad826d2d65f1dd7259a45469d7401f313b39fa7724"
+        },
+        {
+          "path": "_app/immutable/chunks/B0rX6SVR2.js",
+          "sha256": "b26f6f978a6a6ebc21c9093402ac626eb3f3d2fa369046c0db3a2c42807eab0e"
+        },
+        {
+          "path": "_app/immutable/chunks/DGjln0Sq.js",
+          "sha256": "fa79868a6df207d940be2acbbde0212c41e6ff3179f19a38fe2c5befbc00a219"
+        },
+        {
+          "path": "_app/immutable/chunks/4qKpQvhr.js",
+          "sha256": "0ed855cfb487413746d77c967eec50269cbd34446077ace508d9070fa4777587"
+        },
+        {
+          "path": "_app/immutable/chunks/xxzYb2L3.js",
+          "sha256": "98d9e11d65bdd170645984175e2fc31cae1a01ab86aedd89073f416d695ecfdd"
+        },
+        {
+          "path": "_app/immutable/chunks/C70Conur.js",
+          "sha256": "84acb45ed6bec2584a9216e0fecb5909baa0b6a57eedb26bb11166017de16348"
+        },
+        {
+          "path": "_app/immutable/chunks/gp-XZpBa.js",
+          "sha256": "7110a8b2dc55041f461998cf79b16e2f25d9793b07155446cbfc97b45f8b8cfd"
+        },
+        {
+          "path": "_app/immutable/chunks/OUBadHtz2.js",
+          "sha256": "1ab8d3c2c203aeceea1db02bdb075c576eb536b7fe6a17bcb829d19edea1603d"
+        },
+        {
+          "path": "_app/immutable/chunks/BR4vzYOz.js",
+          "sha256": "284fae2ed21648141bd6639c5f1952aad7aa19f6eadcaf9f962cf7a48bfeb3c5"
+        },
+        {
+          "path": "_app/immutable/chunks/DdL9SqIa.js",
+          "sha256": "306a2b66455042750a665f7329a1c5feb4a33b408dec0e54802755dae2963b87"
+        },
+        {
+          "path": "_app/immutable/chunks/DRr7FNoh.js",
+          "sha256": "9530d9de02e845fa4048fa0ec60bd17bce69cfa344f08720ed48888c41482c3f"
+        },
+        {
+          "path": "_app/immutable/chunks/Bboa-8u-2.js",
+          "sha256": "980f6f72570322fcb2d70f866921a7bd178ae5ba90b287044b5aa732e25d22c5"
+        },
+        {
+          "path": "_app/immutable/chunks/DyMi60oD.js",
+          "sha256": "93b528c6ad4b461fe15053dc35c60ef89f5ca6f41cb4a6374d872777f76619e8"
+        },
+        {
+          "path": "_app/immutable/chunks/CU8zxmPf.js",
+          "sha256": "dae7cc880b6f984bb78cf084c0f7955b0d82d4ee0a17687c8388cbad2db262cf"
+        },
+        {
+          "path": "_app/immutable/chunks/DNEpR40I.js",
+          "sha256": "08b816f7f48d86786b9064a26706fe0ff2a44e5b573e4f455f7d6c3776f1a293"
+        },
+        {
+          "path": "_app/immutable/chunks/B_1BlN2i2.js",
+          "sha256": "2357d875a853f93ef343f4bdab017adf49e9844001065459c9cc3bb3f6672fcf"
+        },
+        {
+          "path": "_app/immutable/chunks/pnPBv1sB2.js",
+          "sha256": "5c208d9be8cfd57a9c4631d2eeba74b4e41fd8a107a50ae23c4697f735dd7894"
+        },
+        {
+          "path": "_app/immutable/chunks/B3EWhdL_2.js",
+          "sha256": "51d88a1a155674b35c03305042844e675f506d76d1257df323ff66f911dbf78d"
+        },
+        {
+          "path": "_app/immutable/chunks/C-yowl8Q.js",
+          "sha256": "05ad79d9f8cf21f59b661c2bfa467b29b547fe5fdbd0ccff200f00c30846ce99"
+        },
+        {
+          "path": "_app/immutable/chunks/D6jRqBbL.js",
+          "sha256": "b222c9e0d3a621c44983344965c7a99464019dbbcf2492843c49c611f31b5091"
+        },
+        {
+          "path": "_app/immutable/chunks/De9uGZY3.js",
+          "sha256": "d3f8369a112795e7ae1389ed89cc2bb667b5745945589da1862b8aa728bc58e0"
+        },
+        {
+          "path": "_app/immutable/chunks/DfRA7GlK.js",
+          "sha256": "73400901fa995a5cb49df3c9e712fb2e7057c93443abf02af2a4e18fbacef88a"
+        },
+        {
+          "path": "_app/immutable/chunks/NEE52Syq.js",
+          "sha256": "fa4fe9ccff8882e93028a9fa6961b1a485b8eb480880fa480fdf4057b0de7cd0"
+        },
+        {
+          "path": "_app/immutable/chunks/D3oG3TqN.js",
+          "sha256": "7fcd7f878d6ec203a987a354cb1d417f519e31a19d89af112ee6681b80724358"
+        },
+        {
+          "path": "_app/immutable/chunks/C9jvLYJC.js",
+          "sha256": "df97076e8f0e04fe72091343e74a925e4f18c60a460bd3c6478315182c3f979f"
+        },
+        {
+          "path": "_app/immutable/chunks/CIPQ_RoX2.js",
+          "sha256": "31ff67847e1488dbf870ec71f466f3644c1c6a700bc9e5f59ea6727835709fef"
+        },
+        {
+          "path": "_app/immutable/chunks/C8Fc0cco.js",
+          "sha256": "ad2f8eaadf848ecc3f28751230c7ddb7729314f606773de661e44e757aef37c9"
+        },
+        {
+          "path": "_app/immutable/chunks/DDdyfk2q2.js",
+          "sha256": "cec9bc5ab483d70ea893e0a25a3c3eba28f2f54d710c8a350c54f4d4476aaff8"
+        },
+        {
+          "path": "_app/immutable/chunks/SOo6toE52.js",
+          "sha256": "b34d7be6f8a903da0877bc96c65faee230d0a7a7000f52e5cc8950f789275331"
+        },
+        {
+          "path": "_app/immutable/chunks/CjIIRWRU2.js",
+          "sha256": "a5e2e0953e56e2996850530af7cf78fc550148addbad4eca9fea52e89edace51"
+        },
+        {
+          "path": "_app/immutable/chunks/DLNeptnl.js",
+          "sha256": "d2e242b6b0bb803563359dba269f67186212e105ea27e3e595ec278a05f5d698"
+        },
+        {
+          "path": "_app/immutable/chunks/Bu7IKW0P2.js",
+          "sha256": "00bb71396bbcfd687bacb0e1a1f2092d2633208d6ee9e4f3c804bef48f7643e1"
+        },
+        {
+          "path": "_app/immutable/chunks/D-oSqn_W2.js",
+          "sha256": "c22429b1cf9e8ee53e35dfcdd44124bbbd06bc5c42291d9e9f1ff814c68b1115"
+        },
+        {
+          "path": "_app/immutable/chunks/DhxGH80Q.js",
+          "sha256": "308bb8b9998045a6874c89eb936ae283a2507f88f184ee38dbd708a16d15f608"
+        },
+        {
+          "path": "_app/immutable/chunks/C-y9NEjX2.js",
+          "sha256": "ca236e02f3a5f8225d83597bb65b036ea8caae5f79549ea37213bb2979bcb085"
+        },
+        {
+          "path": "_app/immutable/chunks/aKtaBQYM.js",
+          "sha256": "cb2fb01f2064eb36487466778d2ffc4c97ad86af89be1635209de18f0b5b2236"
+        },
+        {
+          "path": "_app/immutable/chunks/Dz3cOKaV.js",
+          "sha256": "1a28f821e7a8bb26253b38f5bf7b22dbd7b833b9a9f19113336a94c9aa53edcd"
+        },
+        {
+          "path": "_app/immutable/chunks/LaXNxXoJ.js",
+          "sha256": "cf36387e873c274a26fbf5bed90ceb334be57a4c0ecae55300dd6ccc53793e3b"
+        },
+        {
+          "path": "_app/immutable/chunks/DS0j440C.js",
+          "sha256": "74fcc2c2332049f7d96592ac3f4180c904c41762f8a5a06470dcd1e66b7177a7"
+        },
+        {
+          "path": "_app/immutable/chunks/De2hgUGE.js",
+          "sha256": "ed42be999634b7600e1b6ba924576151f93f84de2343134edfbc56fe95ec6119"
+        },
+        {
+          "path": "_app/immutable/chunks/HclGiUj8.js",
+          "sha256": "bba5840eec0028b00854bcd58fba80694d02d41e98417656424c05b26db7120c"
+        },
+        {
+          "path": "_app/immutable/chunks/C8Ef5oNN2.js",
+          "sha256": "5137a827baefcb111c2ff8747bbe07924c9f9ea8f3d4a7a07a7b6e7c25f69e45"
+        },
+        {
+          "path": "_app/immutable/chunks/T0PCfa2j.js",
+          "sha256": "e989c135bfaaa2e4a20f0afa5a22b635e1dc0331673abde8235e6d147e0f786f"
+        },
+        {
+          "path": "_app/immutable/chunks/DmHpPYUd.js",
+          "sha256": "7d2fa4e26c98b5b27b23e9d3e00384db158153a042e32053b0ef2eb512369180"
+        },
+        {
+          "path": "_app/immutable/chunks/CC2rA5mh.js",
+          "sha256": "9380df24541bab1a9ab0999d08c542e6d63905cfd8116a61579e6896cfedba3c"
+        },
+        {
+          "path": "_app/immutable/chunks/wcsLiR4B2.js",
+          "sha256": "5d7371ff53fd1b32fa35c816f2689be1ff290bfa7743d34f8b69dc456d08885c"
+        },
+        {
+          "path": "_app/immutable/chunks/MCHQYvoe.js",
+          "sha256": "defaf5576a4fcd3967b1870c94466cb244f82fb8bff01e7fff1ee5aa12e38b69"
+        },
+        {
+          "path": "_app/immutable/workers/css.worker-yKcq13f2.js",
+          "sha256": "cd07798587ab4b6ba280a3d6ca2f13af27d51eab70a200a8656361ebf170853f"
+        },
+        {
+          "path": "_app/immutable/workers/editor.worker-tytyn86m.js",
+          "sha256": "631a8189a4026c0b53a286e16d873e8540a287ae5c774bb422a4161e87da6e59"
+        },
+        {
+          "path": "_app/immutable/workers/html.worker-DSJ9zmd7.js",
+          "sha256": "6e5cab66a3eba9b0b174a53720405984c9b47a6459a4ad15b288559703fb893d"
+        },
+        {
+          "path": "_app/immutable/workers/json.worker-Oa9UrkKE.js",
+          "sha256": "6a619a418d1f4d309ce13b9e700b522bfcdc56dc888df49318a5f83e8945571a"
+        },
+        {
+          "path": "_app/immutable/workers/ts.worker-BtjBFNHX.js",
+          "sha256": "85fa1d43d4dc229fb2328d92353c7d2fdd44b4ea3ca85672122147fae6bd6290"
+        },
+        {
+          "path": "favicon.ico",
+          "sha256": "c32565fe11449ab58aa3052399895bef49d176bfe464358d71209757cce49b1f"
+        },
+        {
+          "path": "view.html",
+          "sha256": "d7f4ba0a24a70f7d1598dac22c6196319dd31cf9258a6f8be6f1c3c3528e8d2b"
+        },
+        {
+          "path": "sitemap.xml",
+          "sha256": "81beb01c2c9d03fd13bd1ca3f038b259daaa436ef5b8e156b26e5aabd5b67345"
+        },
+        {
+          "path": "service-worker.js",
+          "sha256": "2d19d5117f6a9843942d9d16851d87301828facc7617993dc61e47fc7f6f258e"
+        },
+        {
+          "path": "embed.html",
+          "sha256": "7c282996bf997d17db300622a08cc87d26076b21301e4feeede5567dc3a88853"
+        },
+        {
+          "path": "edit.html",
+          "sha256": "5bd3f8ca1ad1c242af64a82e081e4db0dcf32c65fcdfb74451ab1204d763dbd8"
+        },
+        {
+          "path": "embed.js",
+          "sha256": "918ebb766ad40956d9118b6ed6294ccd7d4ed6112b7422ddfa8ccb1736d0957f"
+        }
+      ],
+      "preparation": "Caller-supplied built application from the named checkout; build/dependency preparation remains outside this functional check. File digests identify observed output, not a reproducible-build proof.",
+      "checks": [
+        {
+          "step": "input",
+          "status": "passed",
+          "output": "input.preview.svg"
+        },
+        {
+          "step": "edit",
+          "status": "passed",
+          "output": "edit.preview.svg"
+        },
+        {
+          "step": "invalid",
+          "status": "passed"
+        },
+        {
+          "step": "recovery",
+          "status": "passed",
+          "output": "recovery.preview.svg"
+        }
+      ],
+      "startedAt": "2026-10-28T18:11:25.752Z",
+      "scope": "Four authored UI steps on one flowchart: input, changed preview, visible invalid-source error, recovery. Preview checks use live DOM bounds and visible authored text. Retained SVG is a DOM fragment, not a qualified standalone export. No engine rank, whole-editor coverage, timing score or export qualification.",
+      "browserVersion": "154.0.8037.57",
+      "blockedExternalRequests": [
+        "https://mermaid.js.org/schemas/config.schema.json"
+      ],
+      "finishedAt": "2026-10-28T18:11:35.254Z",
+      "status": "passed"
+    }
+  ],
+  "adversarialAudit": [
+    {
+      "defect": "missing-converted-edge",
+      "head": "0e42ea0886df44549717205ca92aef93c69ac923",
+      "caught": true,
+      "compileOrImportError": false
+    },
+    {
+      "defect": "image-fallback-credit",
+      "head": "0e42ea0886df44549717205ca92aef93c69ac923",
+      "caught": true,
+      "compileOrImportError": false
+    },
+    {
+      "defect": "unbound-release-cli",
+      "head": "0e42ea0886df44549717205ca92aef93c69ac923",
+      "caught": true,
+      "compileOrImportError": false
+    },
+    {
+      "defect": "changed-companion-payload",
+      "head": "0e42ea0886df44549717205ca92aef93c69ac923",
+      "caught": true,
+      "compileOrImportError": false
+    }
+  ],
+  "mermanRuntimeCatalog": {
+    "project": "Latias94/merman",
+    "version": "0.9.2",
+    "entrySha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099",
+    "runtime": "published Node Linux native target",
+    "capabilities": {
+      "capability_ids": [
+        "layout-cytoscape",
+        "layout-elk",
+        "svg"
+      ],
+      "output_ids": [
+        "svg"
+      ],
+      "operation_ids": [
+        "layout-json",
+        "semantic-json",
+        "svg",
+        "svg-plan-json"
+      ],
+      "system_adapter_ids": [],
+      "text_measurement": {
+        "protocol_version": 1,
+        "provider_ids": [
+          "deterministic"
+        ]
+      }
+    },
+    "scope": "Observed runtime catalog, not an output or semantic qualification"
+  },
+  "limits": [
+    "This follow-up covers only the new/affected public output and application contracts; existing release artifacts were not retimed.",
+    "Six authored inputs per new bound output; one authored four-step workflow per browser editor.",
+    "No renderer speed rank, all-family support, complete semantic coverage or exported editor file qualification.",
+    "VS Code host, Dart Flutter PNG, Franken source serialization, Merman exporter transports and broader independent semantic/timing qualification remain open."
+  ]
+}

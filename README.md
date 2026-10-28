@@ -57,6 +57,8 @@ benchmark or a substitute for a complete campaign.
 ## Supported projects
 
 The 0.1 support check exercised public output interfaces for **37 projects**.
+Follow-up checks add editable Excalidraw conversion and two editor workflows,
+bringing the projects with executed evidence to **40 of 42 eligible entries**.
 The list below records at least one successful authored input per listed output;
 it does not certify every family or every benchmark. [Verified versions, transports,
 failures and missing formats](SUPPORT-QUALITY.md) remain explicit.
@@ -66,9 +68,9 @@ failures and missing formats](SUPPORT-QUALITY.md) remain explicit.
 | [Agentic Mermaid](https://github.com/adewale/agentic-mermaid) | SVG, terminal, PNG, parser |
 | [Beautiful Mermaid](https://github.com/lukilabs/beautiful-mermaid) | SVG, terminal |
 | [Bezel](https://github.com/crabtalk/bezel) | SVG |
-| [Crafter Mermaid](https://github.com/crafter-station/mermaid) | Browser DOM SVG, parser; raw Node SVG has a retained XML failure |
+| [Crafter Mermaid](https://github.com/crafter-station/mermaid) | Browser DOM SVG, parser, terminal; raw Node SVG has a retained XML failure |
 | [DSH Mermaid GB SVG](https://github.com/sandyyst/dsh-plugin-mermaid-gb-svg) | SVG |
-| [Frankenmermaid](https://github.com/Dicklesworthstone/frankenmermaid) | SVG, parser, diagnostics |
+| [Frankenmermaid](https://github.com/Dicklesworthstone/frankenmermaid) | SVG, parser, diagnostics, native CLI terminal |
 | [Latias Merman](https://github.com/Latias94/merman) | SVG |
 | [MDV](https://github.com/zhenhuaa/mdv) | SVG, terminal |
 | [Mermaid Dart](https://github.com/orestesgaolin/mermaid) | SVG |
@@ -95,11 +97,18 @@ Other exercised interfaces are [Maid](https://github.com/probelabs/maid) and
 [Mermaid AST](https://github.com/neongreen/mermaid-ast) and [Visimer](https://github.com/inkeep/visimer) parsing,
 [Mermaid Formatter](https://github.com/chenyanchen/mermaid-formatter) source formatting,
 and [Mermaid ReactFlow Render](https://github.com/taoche/mermaid-reactflow-render) graph conversion.
+[Mermaid to Excalidraw](https://github.com/excalidraw/mermaid-to-excalidraw) now has editable-model
+witnesses for flowcharts and sequences; four other common families returned image fallbacks.
 
-Five eligible entries are **blocked**: Rusty Mermaid's published package omits its
-runtime, while Mermaid Live Editor, VS Code Mermaid Editor, Mermaid to Excalidraw
-and Modern Mermaid need application/conversion benchmark contracts. They are not
-counted as supported above. The [catalog](CATALOG.md) retains all 88 entries;
+[Mermaid Live Editor](https://github.com/mermaid-js/mermaid-live-editor) and
+[Modern Mermaid](https://github.com/gotoailab/modern_mermaid) each pass the same four-step
+[application workflow](docs/application-contracts.md): source entry, edited preview, invalid-source
+error and recovery. These checks cover one flowchart and do not inherit an engine score.
+
+Two eligible entries remain **blocked**: Rusty Mermaid's published package omits
+its runtime, and VS Code Mermaid Editor needs a real extension-host/webview driver.
+Other projects still have missing formats and deeper qualification work; executed
+evidence does not establish complete benchmark support. The [catalog](CATALOG.md) retains all 88 entries;
 46 descendants or shared-engine bindings are excluded from normal comparisons.
 [Issue #30](https://github.com/adewale/trident/issues/30) tracks the remaining support work.
 

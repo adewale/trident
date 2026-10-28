@@ -1,6 +1,6 @@
 # Quality of Trident support
 
-Assessment: 2026-10-28. Trident now has executed public-output evidence for **37 of the 42 eligible catalog entries**, using the same six independently authored inputs for each bound format. The other five entries retain their blockers. The catalog contains 88 entities; 46 unbranded descendants, equivalent versions and shared-engine bindings remain excluded from normal comparisons.
+Assessment: 2026-10-28. Trident has executed evidence for **40 of the 42 eligible entries**: 38 public-output integrations and two browser-editor workflows. The original 0.1 receipt covers 37 integrations; follow-up evidence adds editable Excalidraw conversion and the two editors, plus Crafter and Frankenmermaid terminal transports. Rusty Mermaid's published runtime and the VS Code host workflow remain blocked. The catalog still contains 88 entities, with 46 excluded from normal comparisons.
 
 This assesses Trident integrations, not project quality or renderer speed. A successful call establishes a working public invocation for that input. It does not establish all-family compatibility, painted meaning, useful layout or calibrated timing. The earlier eight-project campaign supplies broader historical evidence for its own scopes, and is not silently rerun or upgraded.
 
@@ -8,12 +8,13 @@ This assesses Trident integrations, not project quality or renderer speed. A suc
 
 | Level | Entries | Evidence |
 |---|---:|---|
-| Public output exercised | 37 | Actual admitted release artifacts, common inputs, positive output witnesses; remaining binding and qualification gaps below. |
+| Public output exercised | 38 | Actual admitted release artifacts, common inputs, positive output witnesses; remaining binding and qualification gaps below. |
 | Release artifact blocked | 1 | Rusty Mermaid 0.42.0 omits its runtime. A separately identified 0.1.0 source candidate was built and exercised. |
-| Application contract missing | 4 | Live Editor, VS Code Mermaid Editor, Mermaid to Excalidraw and Modern Mermaid need application/conversion contracts. They are not independent SVG engines. |
+| Browser-editor workflow exercised | 2 | Live Editor and Modern Mermaid pass input, edit, invalid-source error and recovery on one authored flowchart. Exports and broader editor coverage remain unmeasured. |
+| VS Code host driver missing | 1 | The extension requires a real pinned VS Code extension host and webview workflow. |
 | Excluded from normal comparisons | 46 | Full inventory and old support evidence retained; this campaign supplies no new invocation evidence for them. |
 
-All 37 exercised projects share the first level. This is a rank of current invocation evidence only. Counting optional model APIs as bonus points would favor projects with more observable internals. No project is certified as having complete support across every applicable benchmark.
+The 38 output integrations share the first level; the two editors have separate workflow evidence. This is a rank of current invocation evidence only. Counting optional model APIs as bonus points would favor projects with more observable internals. No project is certified as having complete support across every applicable benchmark.
 
 ## What improved
 
@@ -23,7 +24,19 @@ All 37 exercised projects share the first level. This is a rank of current invoc
 - Crafter’s public DOM SVG serialization and raw SVG-string API remain separate surfaces. Its raw string has malformed XML; the browser result cannot erase that finding.
 - Public factories retain their receivers and dispose their instances. Separately installed parser/layout companions join the portable artifact identity.
 
-## Executed projects
+## Follow-up evidence for issue #30
+
+| Project / transport | Observed result | Scope and remaining gap |
+|---|---|---|
+| Crafter / published terminal package | 5/6 authored inputs passed | Actual `@crafter/mermaid-cli@0.0.4`, fixed 120-column host; SVG/XML finding remains. Published workspace dependency operands use recorded exact registry overrides; package files are unchanged. |
+| Frankenmermaid / native release CLI | 6/6 terminal inputs passed | SHA-256-checked v0.4.0 Linux x64 archive, source tag d5ade10…; distinct from the WASM distribution at 29536a1…. Other native platforms are unreviewed. Mermaid source serialization remains unbound. |
+| Mermaid to Excalidraw / browser API | 2/6 editable inputs passed; two invalid controls rejected | Flowchart and sequence preserve editable labels and declared relationships. Four image-only fallbacks are blocked, not editable-model successes. |
+| Modern Mermaid / built application | 4/4 workflow steps passed | One flowchart through source entry, edited preview, error and recovery; no export or performance claim. |
+| Mermaid Live Editor / built application | 4/4 workflow steps passed | Same workflow, using its real editor and preview rather than a substituted renderer. |
+
+The [follow-up receipt](docs/evidence/support-issue30.json) preserves separate artifacts, transport versions and denominators. [Application contracts and commands](docs/application-contracts.md) describe the new workflow. The historical table below is the unchanged 0.1 snapshot; it does not acquire new outcomes from later work.
+
+## Original 0.1 snapshot
 
 Each fraction is successful authored inputs / 6 planned inputs for that particular format and transport. Non-successes include unsupported families, failed labels and blocked APIs; inspect the receipt for their separate dispositions. Negative controls are excluded from these fractions. A positive diagnostic call does not prove that a validator rejects invalid input.
 
@@ -114,11 +127,11 @@ The ledger below retains all 88 identities. Excluded entities have configuration
 | emtyty/merslim | partially-verified | eligible |
 | enrimr/mermaid | not selected; configured evidence only | skip: zero-ahead-version |
 | evangwt/xmermaid | partially-verified | eligible |
-| excalidraw/mermaid-to-excalidraw | blocked | eligible |
+| excalidraw/mermaid-to-excalidraw | conversion partially verified | eligible |
 | fasouto/termaid | partially-verified | eligible |
 | fdotu/beautiful-mermaid | not selected; configured evidence only | skip: no-distinct-branding, zero-ahead-version |
 | gmh5225/beautiful-mermaid | not selected; configured evidence only | skip: no-distinct-branding, zero-ahead-version |
-| gotoailab/modern_mermaid | blocked | eligible |
+| gotoailab/modern_mermaid | editor workflow verified | eligible |
 | HealthSamurai/beautiful-mermaid | not selected; configured evidence only | skip: no-distinct-branding, zero-ahead-version |
 | inkeep/visimer | partially-verified | eligible |
 | ioggstream/d3fend-mermaid | not selected; configured evidence only | skip: zero-ahead-version |
@@ -140,7 +153,7 @@ The ledger below retains all 88 identities. Excluded entities have configuration
 | mbostock/mermaid | not selected; configured evidence only | skip: no-distinct-branding, zero-ahead-version |
 | Mermaid-Chart/mermaid-develop | not selected; configured evidence only | skip: no-distinct-branding, zero-ahead-version |
 | mermaid-js/mermaid | partially-verified | eligible |
-| mermaid-js/mermaid-live-editor | blocked | eligible |
+| mermaid-js/mermaid-live-editor | editor workflow verified | eligible |
 | Mootikins/figurehead-rs | partially-verified | eligible |
 | mopi1402/termaid | not selected; configured evidence only | skip: no-distinct-branding, zero-ahead-version |
 | mopi1402/termaid-ts | not selected; configured evidence only | skip: no-distinct-branding |

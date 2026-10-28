@@ -34,7 +34,7 @@ own dispositions. A renderer without a model API can pass output admission;
 that does not establish topology or full painted fidelity. Model failures cannot
 be hidden by correct labels, and model facts never substitute for missing ink.
 
-Portable protocol v5 records these dimensions separately. Complete semantic
+Portable protocol v6 records these dimensions separately. Complete semantic
 qualification still requires all the declared model and paint checks. A/A
 calibration measures timing noise and never supplies missing correctness proof.
 The report reads old evidence as unavailable where a dimension was not recorded;
@@ -165,3 +165,16 @@ family, model, paint or highest-level support. Product failures remain failures.
 Installed package CLIs use the same declared `benchmark.cli` contract, binding
 the actual Node executable and shipped CLI files. They remain separate from
 module and browser observations.
+
+## Application and release transports
+
+Editor input/edit/error/recovery workflows and editable conversion outputs have
+their own contracts. A preview DOM fragment is not a standalone SVG export, and
+an image fallback is not an editable model. No application inherits its embedded
+renderer’s score. See [application workflows](docs/application-contracts.md).
+
+An additional public release CLI retains its archive checksum, actual binary
+identity, version and source-tag revision. A native CLI and WASM distribution
+with the same version need not share a source commit. Unreviewed platforms and
+missing serializers remain gaps. Exact dependency overrides used for a published
+workspace operand are recorded; Trident does not patch the package’s code.
