@@ -6,7 +6,7 @@ import { extname, join, relative, resolve, sep } from 'node:path'
 import { chromium } from 'playwright'
 import { readCatalog } from './support.ts'
 import { communityCatalogFile } from './trident-paths.ts'
-import { qualifyOutput } from './qualification.ts'
+import { isRenderedSourceEcho } from './qualification-visible-source.ts'
 
 const digest = (path: string) => createHash('sha256').update(readFileSync(path)).digest('hex')
 /** A common source -> edit -> preview -> error -> recovery contract. This
@@ -27,7 +27,7 @@ export async function verifyEditor(settings: { project: string; source: string; 
   mkdirSync(out, { recursive: true })
   const checks: { step: string; status: string; detail?: string; output?: string }[] = []
   const remote = new Set<string>()
-  const receipt: any = { protocol: 'public-browser-editor-workflow-v1', project: node.id, sourceRevision: node.head, sourceManifestSha256: digest(join(source, 'package.json')), lockSha256: digest(join(source, 'pnpm-lock.yaml')), buildRoot: root, buildFiles: observedFiles, preparation: 'Caller-supplied built application from the named checkout; build/dependency preparation remains outside this functional check. File digests identify observed output, not a reproducible-build proof.', checks, startedAt: new Date().toISOString(), scope: 'Four authored UI steps on one flowchart: input, changed preview, visible invalid-source error, recovery. No engine rank, whole-editor coverage, timing score or export qualification.' }
+  const receipt: any = { protocol: 'public-browser-editor-workflow-v1', project: node.id, sourceRevision: node.head, sourceManifestSha256: digest(join(source, 'package.json')), lockSha256: digest(join(source, 'pnpm-lock.yaml')), buildRoot: root, buildFiles: observedFiles, preparation: 'Caller-supplied built application from the named checkout; build/dependency preparation remains outside this functional check. File digests identify observed output, not a reproducible-build proof.', checks, startedAt: new Date().toISOString(), scope: 'Four authored UI steps on one flowchart: input, changed preview, visible invalid-source error, recovery. Preview checks use live DOM bounds and visible authored text. Retained SVG is a DOM fragment, not a qualified standalone export. No engine rank, whole-editor coverage, timing score or export qualification.' }
   const server = createServer((request, response) => {
     try {
       const pathname = decodeURIComponent(new URL(request.url ?? '/', 'http://localhost').pathname)
@@ -62,14 +62,14 @@ export async function verifyEditor(settings: { project: string; source: string; 
     const preview = async (labels: string[], absent: string[] = []) => {
       const found = await page.waitForFunction(({ selector, labels, absent }) => {
         for (const svg of document.querySelectorAll(selector)) {
-          const bounds = svg.getBoundingClientRect(), text = svg.textContent ?? ''
-          if (bounds.width > 0 && bounds.height > 0 && labels.every(label => text.includes(label)) && absent.every(label => !text.includes(label))) return svg.outerHTML
+          const bounds = svg.getBoundingClientRect()
+          const texts = [...svg.querySelectorAll('text,foreignObject')].filter(element => { const style = getComputedStyle(element), box = element.getBoundingClientRect(); return !element.closest('defs,metadata,desc,title,style,script') && style.display !== 'none' && style.visibility !== 'hidden' && Number(style.opacity) > 0 && box.width > 0 && box.height > 0 }).map(element => (element.textContent ?? '').replace(/\s+/g, ' ').trim())
+          if (svg.namespaceURI === 'http://www.w3.org/2000/svg' && bounds.width > 0 && bounds.height > 0 && labels.every(label => texts.includes(label)) && absent.every(label => !texts.includes(label))) return svg.outerHTML
         }
         return false
       }, { selector: binding.preview, labels, absent }, { timeout: 25_000 })
       const svg = await found.jsonValue() as string
-      const qualification = qualifyOutput({ id: 'editor-preview', family: 'flowchart', source: '', features: [], provenance: 'Independently authored editor labels', expectedLabels: labels }, svg, 'svg')
-      if (!qualification.ok) throw Error(qualification.findings.join('; '))
+      if (isRenderedSourceEcho('flowchart LR\nA[' + labels[0] + '] --> B[' + labels[1] + ']', svg, 'svg')) throw Error('Preview displays source instead of a diagram')
       return svg
     }
     for (const [step, text, labels, absent] of [
@@ -82,7 +82,7 @@ export async function verifyEditor(settings: { project: string; source: string; 
         await enter(text)
         if (step === 'invalid') await page.locator(binding.error).filter({ hasText: /.+/ }).first().waitFor({ state: 'visible', timeout: 25_000 })
         else {
-          const svg = await preview([...labels], [...absent]), file = step + '.svg'
+          const svg = await preview([...labels], [...absent]), file = step + '.preview.svg'
           await page.locator(binding.error).filter({ hasText: /.+/ }).first().waitFor({ state: 'hidden', timeout: 25_000 })
           writeFileSync(join(out, file), svg); checks.push({ step, status: 'passed', output: file })
           await page.screenshot({ path: join(out, step + '.png') }); continue
