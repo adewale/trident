@@ -68,7 +68,7 @@ export function diagnosticSummary(value) {
   const errors = resultErrors(typed).filter(item => !['warning', 'info', 'hint'].includes(String(item?.severity ?? item?.level ?? '').toLowerCase()))
   const kind = typed.diagramType ?? typed.diagram_type ?? typed.type
   const unknown = typeof kind === 'string' && ['unknown', 'unsupported', 'none'].includes(kind.toLowerCase())
-  const rejected = typed.valid === false || typed.isValid === false || typed.ok === false || typed.success === false || errors.length > 0 || unknown
+  const rejected = typed.valid === false || typed.isValid === false || typed.is_valid === false || typed.ok === false || typed.success === false || errors.length > 0 || unknown
   return { errorCount: errors.length, findingCount: resultErrors(typed).length, accepted: !rejected && !unknown, unknownKind: unknown, kind: typeof kind === 'string' ? kind : null }
 }
 export function diagnosticQualification(value, workload) {

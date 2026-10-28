@@ -1,3 +1,4 @@
+import { diagnosticSummary } from '../unified/community-extra-adapters.mjs'
 import { expect, test } from 'bun:test'
 import { mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -22,4 +23,9 @@ test('Franken diagnostics preserve public warnings without inventing syntax reje
     expect(result.rows[0]).toMatchObject({ diagnosticAdmissionFailed: true, diagnosticAccepted: true, status: 'failed' })
     expect(result.rows[0].samplesMs).toBeUndefined()
   } finally { rmSync(root, { recursive: true, force: true }) }
+})
+
+test('a public snake-case rejection flag cannot become successful validation', () => {
+  expect(diagnosticSummary({ is_valid: false, errors: [] }).accepted).toBe(false)
+  expect(diagnosticSummary({ is_valid: true, errors: [] }).accepted).toBe(true)
 })
