@@ -9,7 +9,7 @@ import { modelCost, processCpuCost } from '../portable/costs.ts'
 import { resetPortableCancellation, runFirstUseBatch, runSerialJob, terminatePortableWorkers } from '../portable/execution.ts'
 import { portableDirectory } from '../portable/artifacts.ts'
 import { parsePortableOptions } from '../portable/run.ts'
-import { readProjectBenchmarkRecord } from '../portable/project-records.ts'
+import { inspectCurrentProjectRecords, readProjectBenchmarkRecord } from '../portable/project-records.ts'
 import { pathToFileURL } from 'node:url'
 import type { PortableJob, PortableWorkerResult } from '../portable/protocol.ts'
 import { portableCases } from '../portable/cohorts.ts'
@@ -20,6 +20,22 @@ afterEach(() => {
   for (const path of directories.splice(0)) rmSync(path, { recursive: true, force: true })
 })
 const stableRounds = () => Array.from({ length: 5 }, (_, index) => ({ round: index + 1, A0: Array(31).fill(10) as number[], A1: Array(31).fill(10) as number[], B: Array(31).fill(10) as number[] }))
+test('explicit case selection retains corpus order and refuses unknown, empty or excluded cases', () => {
+  const selected = ['invalid:unfinished-sequence', 'adversarial:configuration-reset']
+  const options = parsePortableOptions(['--project', 'owner/tool', '--artifact-root', '/missing/artifact', '--cases', selected.join(',')])
+  expect(options.caseIds).toEqual(selected)
+  expect(portableCases(undefined, options.caseIds).map(item => item.id)).toEqual([...selected].reverse())
+  for (const ids of [[], [''], ['missing'], [selected[0]!, selected[0]!]]) expect(() => portableCases(undefined, ids)).toThrow()
+  expect(() => portableCases(['family'], selected)).toThrow('excluded')
+})
+
+test('subset family counts describe exercised positive families and keep canonical representatives separate', () => {
+  const settings = { rounds: 6, samples: 31, coldSamples: 20, maximumControlSpread: .25 }
+  const positive = portableCases().filter(item => item.id === 'adversarial:configuration-reset')
+  expect(portableSummary(positive, [], settings).counts).toMatchObject({ cases: 1, positiveCases: 1, families: 1, canonicalFamilyRepresentatives: 0 })
+  expect(portableSummary(portableCases(['invalid']), [], settings).counts.families).toBe(0)
+})
+
 test('sampling and independent A/A noise govern calibration rather than successful process exit', () => {
   expect(calibrate(stableRounds(), 31).status).toBe('calibrated')
   expect(calibrate(stableRounds().slice(0, 3), 31).status).toBe('uncalibrated')
@@ -276,4 +292,10 @@ test('a family whose canonical source the renderer rejects is unsupported and no
   expect(pie.map(row => [row.operation, row.status])).toEqual([['family-support', 'unsupported'], ['render', 'unsupported']])
   expect(pie[1]!.detail).toContain('Invalid mermaid header')
   expect(record.observations.filter(row => row.family === 'flowchart' && row.operation === 'family-support').map(row => row.status)).toEqual(['passed'])
+  const subset = await runPortable({ ...options, caseIds: ['family:flowchart'], out: join(directory, 'subset'), observer: undefined })
+  const current = inspectCurrentProjectRecords(options.records).map(item => item.record)
+  expect(current.find(item => item.identity.lane === 'portable-svg')?.id).toBe(record.id)
+  expect(current.find(item => item.identity.lane === 'portable-svg-subset')?.id).toBe(subset.recordId)
+  expect(subset.sampling.caseSelection).toEqual({ scope: 'explicit subset; no whole-portfolio score', requestedIds: ['family:flowchart'], selectedIds: ['family:flowchart'] })
+  expect(subset.summary.counts).toMatchObject({ cases: 1, families: 1, canonicalFamilyRepresentatives: 1 })
 }, 60_000)

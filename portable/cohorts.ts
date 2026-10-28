@@ -389,12 +389,16 @@ const invalidCases: PortableCase[] = [
   { id: 'invalid:missing-endpoints', family: 'flowchart', cohort: 'invalid', source: 'flowchart LR\n --> -->', expected: { accept: false, labels: [] } },
   { id: 'invalid:unfinished-sequence', family: 'sequence', cohort: 'invalid', source: 'sequenceDiagram\nA->>', expected: { accept: false, labels: [] } },
 ]
-export function portableCases(selection?: readonly PortableCohort[]): PortableCase[] {
+export function portableCases(selection?: readonly PortableCohort[], caseIds?: readonly string[]): PortableCase[] {
   // Keep the original familyCases array as the historical 23-family mark;
   // the v2 current cohort also exercises both required first-party families.
   const required = [newerFamilyCases.find(testCase => testCase.family === 'eventmodeling')!, ...requiredExternalFamilyCases()]
   const cases = [...familyCases, ...required, ...['flowchart', 'sequence', 'class', 'state', 'er', 'architecture'].flatMap(family => [8, 32, 128].map(size => scalingCase(family, size))), ...adversarialCases, ...invalidCases]
-  return selection ? cases.filter(testCase => selection.includes(testCase.cohort)) : cases
+  const selected = selection ? cases.filter(testCase => selection.includes(testCase.cohort)) : cases
+  if (!caseIds) return selected
+  if (!caseIds.length || caseIds.some(id => !id.trim()) || new Set(caseIds).size !== caseIds.length) throw Error('Case selection needs unique nonempty IDs')
+  for (const id of caseIds) if (!selected.some(testCase => testCase.id === id)) throw Error('Unknown case or excluded by --cohort: ' + id)
+  return selected.filter(testCase => caseIds.includes(testCase.id))
 }
 
 /** A family is supported when the renderer accepts its canonical family-cohort source.
