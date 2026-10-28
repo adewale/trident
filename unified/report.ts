@@ -82,12 +82,28 @@ export function writeUnifiedReport(out: string, report: UnifiedReport): void {
       declared.push({ tool: identity.project, version: identity.artifact?.packageMetadata?.version ?? identity.artifact?.artifact?.version, source: existsSync(identityFile) ? identityFile : canonicalFile })
     }
     claims.push(...declared)
-    for (const row of result.observations) {
+    const receiptKey = (tool: string, variant?: string) => JSON.stringify([canonicalBenchmarkTool(tool), variant === 'candidate' || variant === 'default' ? null : variant ?? null])
+    const executedOwner = (row: BenchmarkObservation) => {
       const owner = row.metrics?.variantOf ?? row.metrics?.implementation ?? row.metrics?.project
-      if (typeof owner !== 'string' || row.metrics?.runtimeExecuted === false || row.mode === 'not-executed') continue
+      // Declarations retain coverage gaps without claiming an executed artifact.
+      return typeof owner === 'string' && row.metrics?.runtimeExecuted !== false && row.metrics?.measured !== false && row.runtime !== 'unmeasured' && row.mode !== 'not-executed' ? owner : undefined
+    }
+    const receipts = new Map(declared.map(claim => [receiptKey(claim.tool, claim.variant), claim]))
+    // Owning envelopes can carry the admitted version on execution rows rather
+    // than repeat it on every rejection, memory checkpoint and capability gap.
+    for (const row of result.observations) {
+      const owner = executedOwner(row), version = row.metrics?.version
+      if (owner === undefined || typeof version !== 'string') continue
+      const variant = typeof row.metrics?.variant === 'string' ? row.metrics.variant : undefined
+      const key = receiptKey(owner, variant)
+      if (!receipts.has(key)) receipts.set(key, { tool: owner, version, source: `${row.suite}/${row.surface}`, ...(variant ? { variant } : {}) })
+    }
+    for (const row of result.observations) {
+      const owner = executedOwner(row)
+      if (owner === undefined) continue
       const tool = canonicalBenchmarkTool(owner)
       const variant = typeof row.metrics?.variant === 'string' ? row.metrics.variant : undefined
-      const receipt = declared.find(claim => canonicalBenchmarkTool(claim.tool) === tool && (claim.variant ?? null) === (variant ?? null))
+      const receipt = receipts.get(receiptKey(tool, variant))
       claims.push({ tool, version: typeof row.metrics?.version === 'string' ? row.metrics.version : receipt?.version ?? '', source: `${row.suite}/${row.surface}`, ...(variant ? { variant } : {}) })
     }
   }

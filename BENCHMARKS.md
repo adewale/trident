@@ -53,6 +53,10 @@ observer code through an explicit pinned library dependency.
 - Keep explicit artifact variants separate, including repeated suite and case
   names. Reports show each admitted version and its owning receipt; source
   candidates and catalog releases are different comparisons.
+- Catalog-only declarations remain coverage gaps, without claiming a measured
+  artifact version. Execution rows and owning receipts supply versions for the
+  same tool and artifact role; missing receipts and conflicting versions fail
+  report admission. Rejections and memory checkpoints keep their actual status.
 - Inspect literal case and criterion denominators. Missing adapters, failures,
   unavailable counters, partial rounds and reference failures stay visible.
 - A p95 of batch means is not a single-call tail. Document heap, process RSS,
