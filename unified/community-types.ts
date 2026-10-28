@@ -21,6 +21,8 @@ export interface CommunityBenchmarkConfig {
 export interface DeclaredBinding {
   /** Dotted path to the function, for example `render` or `default.renderSvg`. */
   export: string
+  /** Reviewed option path for portable semantic font-size configuration. */
+  fontSizePath?: string[]
   /** A JSON second argument, passed unchanged on every call. */
   options?: unknown
   /** The field of the returned object that holds the output, when the return is not the output. */

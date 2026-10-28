@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
+import { portableRenderOptions } from './configuration.ts'
 import { qualifyPortable } from './fidelity.ts'
 import { assertBenchmarkExecutionAllowed } from './ci-policy.ts'
 import { PORTABLE_MEASUREMENT_PROTOCOL } from './protocol.ts'
@@ -37,11 +38,11 @@ try {
   }
   const invoke = async (source, options, recordWindow = false) => {
     let value, error, bytes = 0
-    const invocationOptions = options === undefined ? undefined : structuredClone(options)
+    const invocationOptions = portableRenderOptions(job.artifact, options)
     const begin = clock()
     const startNs = recordWindow ? process.hrtime.bigint().toString() : undefined
     try {
-      value = rendering.call(receiver, source, invocationOptions ?? (binding?.options === undefined ? undefined : structuredClone(binding.options)))
+      value = rendering.call(receiver, source, invocationOptions)
       if (thenable(value)) value = await value
       if (binding?.result) value = value?.[binding.result]
       const svg = typeof value === 'string' ? value : value?.svg

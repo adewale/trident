@@ -1,6 +1,6 @@
 import type { PortableCase } from './cohorts.ts'
 
-export const PORTABLE_MEASUREMENT_PROTOCOL = 'portable-svg-processes-v4'
+export const PORTABLE_MEASUREMENT_PROTOCOL = 'portable-svg-processes-v5'
 export const PORTABLE_ADAPTER_IDS = ['pele', 'agentic', 'beautiful', 'ondine', 'declared'] as const
 export type Replica = 'A0' | 'A1' | 'B'
 export type Track = 'first-use' | 'warm-repeat' | 'warm-new-source' | 'warm-label-edit'
@@ -10,7 +10,7 @@ export interface PortableArtifact {
   entry: string
   version: string
   adapter: typeof PORTABLE_ADAPTER_IDS[number]
-  binding?: { export: string; result?: string; options?: unknown }
+  binding?: { export: string; result?: string; options?: unknown; fontSizePath?: string[] }
 }
 export interface PortableJob {
   artifact: PortableArtifact
@@ -37,7 +37,7 @@ export interface MemorySnapshot {
   arrayBuffers: number
 }
 export interface PortableWorkerResult {
-  protocol: typeof PORTABLE_MEASUREMENT_PROTOCOL | 'portable-svg-processes-v3' | 'portable-svg-processes-v2' | 'portable-svg-processes-v1'
+  protocol: typeof PORTABLE_MEASUREMENT_PROTOCOL | 'portable-svg-processes-v4' | 'portable-svg-processes-v3' | 'portable-svg-processes-v2' | 'portable-svg-processes-v1'
   caseId: string
   family: string
   mode: PortableJob['mode']

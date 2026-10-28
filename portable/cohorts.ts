@@ -1,5 +1,5 @@
 /** Additive cohorts. Dave and the historical six-core comparison stay unchanged. */
-export const PORTABLE_COHORT_PROTOCOL = 'portable-authored-family-scaling-v1'
+export const PORTABLE_COHORT_PROTOCOL = 'portable-authored-family-scaling-v2'
 export type PortableCohort = 'family' | 'scaling' | 'adversarial' | 'invalid'
 export type Json = null | boolean | number | string | Json[] | { [key: string]: Json }
 export interface PortableEdge {
@@ -18,6 +18,7 @@ export interface PortableCase {
     model?: { path: (string | number | { map: string })[]; value: Json; comparison?: 'display-text' }[]
     topology?: { nodes: string[]; edges: PortableEdge[]; nodeLabels?: Record<string, string>; groups?: { id: string; members: string[] }[] }
   }
+  /** Semantic configuration intent translated through a reviewed public API. */
   renderOptions?: Record<string, Json>
   prelude?: { source: string; accept: boolean }[]
   edit?: { source: string; expected: PortableCase['expected']; renderOptions?: Record<string, Json> }
