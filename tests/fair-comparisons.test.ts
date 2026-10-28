@@ -133,6 +133,7 @@ test('campaign publication preserves dates, failed criteria and raw samples in a
     expect(markdown).toContain('"failed":1')
     expect(markdown).not.toContain('| Rank |')
     expect(readFileSync(join(out, 'evidence/1/docs/samples.json'), 'utf8')).toBe(bytes)
+    expect(existsSync(join(out, 'METHODOLOGY.md'))).toBe(true)
     expect(() => publishCampaigns([source], out)).toThrow('fresh')
     const envelope = JSON.parse(readFileSync(join(source, 'report.json'), 'utf8'))
     envelope.results[0].out = directory

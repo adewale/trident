@@ -4,6 +4,7 @@ import { readBenchmarkDocument } from '../portable/project-records.ts'
 import { canonicalBenchmarkTool } from '../tool-versions.ts'
 import type { BenchmarkObservation, UnifiedSuiteResult } from './types.ts'
 import { PUBLIC_SUITES } from './support.ts'
+import { copyPublicationMethods } from './publication-methods.ts'
 
 export interface CampaignEnvelope {
   startedAt: string; updatedAt: string; projects: string[]; profile: string; rounds: number
@@ -57,6 +58,7 @@ export function publishCampaigns(directories: string[], out: string, settings: {
     return { directory, selectedSuites, report: { ...original, results } }
   })
   mkdirSync(out, { recursive: true })
+  copyPublicationMethods(out)
   const lines = ['# Trident benchmark evidence', '', `Published ${new Date().toISOString()}. Measurement dates below belong to the original campaigns.`, '',
     'Unranked scorecards. Coverage, output correctness, optional model evidence, time and resources have different units. Missing adapters and unavailable observers receive no pass credit. No global winner or validated production holdout is claimed.', '',
     settings.copyEvidence ? 'Evidence is copied below. Original absolute paths inside raw records remain provenance; the links here point to the copied files.' : 'This local index links the original evidence in place. It is not a self-contained web publication; use --copy-evidence to create a portable evidence bundle.', '',

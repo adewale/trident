@@ -7,6 +7,7 @@ import { loadCurrentProjectRecords, readBenchmarkDocument, stableValue, type Pro
 import { rankCommunityObservations } from './community.ts'
 import { communityCorpus } from './corpus.ts'
 import type { BenchmarkObservation, UnifiedWorkload } from './types.ts'
+import { copyPublicationMethods } from './publication-methods.ts'
 
 /** Mermaid defines valid input, so its row is the reference, not a contestant. */
 export const REFERENCE_PROJECT = 'mermaid-js/mermaid'
@@ -280,6 +281,7 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
   rmSync(join(out, 'failures'), { recursive: true, force: true })
   rmSync(join(out, 'outputs'), { recursive: true, force: true })
   for (const directory of ['records', 'failures']) mkdirSync(join(out, directory), { recursive: true })
+  copyPublicationMethods(out)
   const inputEvidence = new Map(records.map(record => [record, reportInputs(record)]))
   const comparison = new Map<Lane, string>()
   const all = records.flatMap(record => {
@@ -299,7 +301,7 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
     '',
     `Measured ${measured[0]!.slice(0, 10)}${measured.at(-1)!.slice(0, 10) !== measured[0]!.slice(0, 10) ? ` to ${measured.at(-1)!.slice(0, 10)}` : ''} by [Trident](../README.md) against the pinned Mermaid ${MERMAID_ORACLE_PIN.version} oracle, on the corpus frozen from Agentic Mermaid ${communityCorpus().source.commit.slice(0, 8)}${communityCorpus().upstream ? `, with the newer families' examples from Mermaid's ${communityCorpus().upstream!.tag} syntax docs` : ''}. ${calibrated ? '' : `**Records with fewer than ${CALIBRATED_ROUNDS} rounds show no speed.**`}`,
     '',
-    `How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Tables group each output by public invocation surface and compatible protocol/runtime settings; costs never cross these boundaries. Rolling records are not paired same-session experiments. Rows are alphabetical within each group. Coverage, conditional pass rate and fixed-core timing are separate diagnostics; none determines a rank or overall winner. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so it is measured with the same checks but not ranked. An unsupported family is a coverage gap, never a failure. The legacy 23-family column preserves the original mark; the current mark also includes stable Event Modeling and required first-party ZenUML. "Newer families" counts how many of Mermaid's ${NEWER_FAMILIES.length} newest families the tool supports, with its pass rate in them; it never changes the other columns. See the [methodology](../METHODOLOGY.md).`,
+    `How to read it: one table per kind of output, because SVG, terminal and parser tools are different products. Tables group each output by public invocation surface and compatible protocol/runtime settings; costs never cross these boundaries. Rolling records are not paired same-session experiments. Rows are alphabetical within each group. Coverage, conditional pass rate and fixed-core timing are separate diagnostics; none determines a rank or overall winner. That time sums the first call of each of the six fixed-core inputs in its process (median over rounds), so it cannot be a cache hit; the repeated-source column repeats identical input, which a tool that caches results by source answers from its cache. Mermaid is the reference row: it defines valid input, so it is measured with the same checks but not ranked. An unsupported family is a coverage gap, never a failure. The legacy 23-family column preserves the original mark; the current mark also includes stable Event Modeling and required first-party ZenUML. "Newer families" counts how many of Mermaid's ${NEWER_FAMILIES.length} newest families the tool supports, with its pass rate in them; it never changes the other columns. See the [methodology](METHODOLOGY.md).`,
     '',
   ]
   for (const format of new Set([...Object.keys(OUTPUTS), ...all.map(lane => lane.format)])) {
