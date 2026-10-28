@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto'
 import { mkdtempSync, writeFileSync, readFileSync, rmSync, existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { verifySupport } from '../unified/support-verification.ts'
+import { verifySupport, partitionVerificationRows } from '../unified/support-verification.ts'
 
 test('support admission retains its narrow scope, strips timing claims and rejects changed artifact bytes', async () => {
   const root = mkdtempSync(join(tmpdir(), 'trident-support-contract-'))
@@ -30,4 +30,13 @@ test('support admission retains its narrow scope, strips timing claims and rejec
     expect(bad.projects[0].gaps.join(' ')).toContain('Frozen artifact validation failed')
     expect(existsSync(join(rejected, encodeURIComponent(node.id), 'svg'))).toBe(false)
   } finally { rmSync(root, { recursive: true, force: true }) }
+})
+
+test('support denominators keep controls separate and withhold duplicate input credit', () => {
+  const row: any = { suite: 'community', surface: 'node:public-api', runtime: 'fixture', family: 'flowchart', caseId: 'support:flowchart', operation: 'render', format: 'svg', mode: 'feature-corpus-qualification', status: 'passed', samplesMs: [123], metrics: { firstMs: 123 } }
+  const result = partitionVerificationRows([row, { ...row, caseId: 'parser-negative-1' }, { ...row, caseId: 'parser-negative-2' }])
+  expect(result).toMatchObject({ plannedInputs: 6, passed: 1, recordedInputObservations: 1 })
+  expect(result.controls).toHaveLength(2)
+  expect('samplesMs' in result.observations[0]!).toBe(false)
+  expect(partitionVerificationRows([row, row])).toMatchObject({ passed: 0, duplicateCaseIds: ['support:flowchart'] })
 })
