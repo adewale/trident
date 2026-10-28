@@ -37,6 +37,7 @@ export interface PortableOptions {
   preparationConcurrency: number
   maximumControlSpread: number
   cohorts?: PortableCohort[]
+  caseIds?: string[]
   observer?: string
   mermaidReference?: string
   usage?: string
@@ -50,7 +51,7 @@ import { assertBenchmarkExecutionAllowed as assertPortableLocal } from './ci-pol
 export function parsePortableOptions(argv: string[]): PortableOptions {
   const flags = new Set(['--force', '--plan', '--allow-partial']),
     values = new Map<string, string>()
-  const allowed = new Set(['project', 'artifact-root', 'adapter', 'binding', 'public-config', 'entry', 'node', 'out', 'records', 'rounds', 'samples', 'cold-samples', 'min-sample-ms', 'worker-timeout-ms', 'preparation-concurrency', 'maximum-control-spread', 'cohort', 'observer', 'mermaid-reference', 'usage', 'cpu-hour-usd'])
+  const allowed = new Set(['project', 'artifact-root', 'adapter', 'binding', 'public-config', 'entry', 'node', 'out', 'records', 'rounds', 'samples', 'cold-samples', 'min-sample-ms', 'worker-timeout-ms', 'preparation-concurrency', 'maximum-control-spread', 'cohort', 'cases', 'observer', 'mermaid-reference', 'usage', 'cpu-hour-usd'])
   for (let index = 0; index < argv.length; index++) {
     const flag = argv[index]!
     if (values.has(flag)) throw Error('Duplicate option ' + flag)
@@ -85,6 +86,8 @@ export function parsePortableOptions(argv: string[]): PortableOptions {
   if (publicConfig && adapter !== 'public-package') throw Error('--public-config is only valid for public-package')
   const cohorts = values.has('--cohort') ? (values.get('--cohort')!.split(',') as PortableCohort[]) : undefined
   if (cohorts?.some(cohort => !['family', 'scaling', 'adversarial', 'invalid'].includes(cohort)) || (cohorts && new Set(cohorts).size !== cohorts.length)) throw Error('Unknown or repeated cohort')
+  const caseIds = values.has('--cases') ? values.get('--cases')!.split(',').map(id => id.trim()) : undefined
+  if (caseIds) portableCases(cohorts, caseIds)
   return {
     project: values.get('--project')!,
     artifactRoot: resolve(values.get('--artifact-root')!),
@@ -103,6 +106,7 @@ export function parsePortableOptions(argv: string[]): PortableOptions {
     preparationConcurrency: integer('--preparation-concurrency', 8),
     maximumControlSpread: decimal('--maximum-control-spread', 0.25),
     cohorts,
+    caseIds,
     observer: values.has('--observer') ? resolve(values.get('--observer')!) : defaultTimeObserver(),
     mermaidReference: values.has('--mermaid-reference') ? resolve(values.get('--mermaid-reference')!) : undefined,
     usage: values.has('--usage') ? resolve(values.get('--usage')!) : undefined,
@@ -147,7 +151,7 @@ export async function runPortable(options: PortableOptions) {
   if (options.mermaidReference) process.env.MERMAID_REFERENCE_DIR = options.mermaidReference
   assertPortableLocal()
   resetPortableCancellation()
-  const testCases = portableCases(options.cohorts),
+  const testCases = portableCases(options.cohorts, options.caseIds),
     artifact = { ...resolveArtifact(options.project, options.artifactRoot, options.adapter, options.node, options.entry), ...(options.binding ? { binding: options.binding } : {}), ...(options.publicConfig ? { publicConfig: options.publicConfig } : {}) }
   if (artifact.publicConfig && readJson(join(artifact.root, 'package.json')).name !== artifact.publicConfig.package) throw Error('Public adapter package differs from the actual installed artifact')
   assertBenchmarkToolVersion(options.project, artifact.version, 'portable SVG artifact')
@@ -163,6 +167,7 @@ export async function runPortable(options: PortableOptions) {
     ]),
   )
   const sampling = {
+    ...(options.caseIds ? { caseSelection: { scope: 'explicit subset; no whole-portfolio score', requestedIds: options.caseIds, selectedIds: testCases.map(testCase => testCase.id) } } : {}),
     rounds: options.rounds,
     samples: options.samples,
     coldSamples: options.coldSamples,
@@ -180,7 +185,7 @@ export async function runPortable(options: PortableOptions) {
   }
   const identity: ProjectBenchmarkIdentity = jsonValue({
     project: options.project,
-    lane: 'portable-svg',
+    lane: options.caseIds ? 'portable-svg-subset' : 'portable-svg',
     protocol: { measurement: PORTABLE_MEASUREMENT_PROTOCOL, cohort: PORTABLE_COHORT_PROTOCOL, harness: harnessIdentity(), cases: testCases, familySupport: { protocol: FAMILY_SUPPORT_PROTOCOL, probes, oracle: { pin: MERMAID_ORACLE_PIN, diagramTypes: Object.fromEntries(probes.map(probe => [probe.family, diagramTypes[probe.id] ?? null])) } } },
     artifact: artifactIdentity(artifact),
     measurement: { sampling: Object.fromEntries(Object.entries(sampling).filter(([key]) => key !== 'maximumControlSpread')), environment: environmentIdentity(options.node), observer: observerIdentity(options.observer) },
