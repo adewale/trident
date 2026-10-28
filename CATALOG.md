@@ -23,8 +23,11 @@ responsibilities, so their counts should not be added to infer a project total.
 The snapshot also records unresolved discoveries and exclusions separately;
 those are not additional measured entries.
 
-There are 84 declared transport adapters: 20 are labelled existing adapters and
-64 remain candidates awaiting public API/artifact attempts. Four entities have
+There are 84 declared transport adapters: 20 retain existing-adapter labels and
+64 retain candidate labels from the catalog snapshot. Those historical labels
+are separate from the [0.1 verification](SUPPORT-QUALITY.md), which exercised
+37 release artifacts among 42 eligible entries and retained five blockers.
+Four entities have
 no benchmark adapter: Mermaid Live Editor, the VS Code Mermaid Editor,
 Mermaid-to-Excalidraw and Modern Mermaid. Their editor/conversion roles are not
 missing SVG-renderer scores.
