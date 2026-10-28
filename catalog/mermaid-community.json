@@ -335,7 +335,8 @@
         "adapter": "franken",
         "outputs": [
           "svg",
-          "parse"
+          "parse",
+          "diagnostics"
         ]
       },
       "benchmarkEligibility": {

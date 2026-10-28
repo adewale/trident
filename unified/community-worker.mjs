@@ -67,7 +67,16 @@ async function renderer() {
       }
       return source => engine.renderSvgSync(source)
     }
-    case 'franken': await module.default({ module_or_path: fs.readFileSync(artifact.wasm) }); return output === 'parse' ? valueAt(module, ['parse', 'parseDiagram']) : source => module.renderSvg(source)
+    case 'franken': {
+      await module.default({ module_or_path: fs.readFileSync(artifact.wasm) })
+      const parse = valueAt(module, ['parse', 'parseDiagram'])
+      if (output === 'diagnostics') return source => {
+        const parsed = parse(source)
+        if (!parsed?.ir || !Array.isArray(parsed.ir.diagnostics) || !Array.isArray(parsed.warnings)) throw Error('Public Franken parse returned no diagnostic envelope')
+        return { diagramType: parsed.ir.diagram_type, diagnostics: [...parsed.ir.diagnostics, ...parsed.warnings.map(message => ({ severity: 'warning', message }))], confidence: parsed.confidence }
+      }
+      return output === 'parse' ? parse : source => module.renderSvg(source)
+    }
     case 'mermaid': api.initialize({ startOnLoad: false, securityLevel: 'strict', logLevel: 'fatal' }); if (output !== 'parse') throw Error('Node SVG needs browser geometry; the browser adapter owns this output'); return source => api.parse(source)
     // parseAsync is the published complete interface for pie/GitGraph as well.
     case 'mermaid-ast': return valueAt(module, ['parseAsync', 'parse', 'default.parseAsync', 'default.parse'])
