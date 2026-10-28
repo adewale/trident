@@ -6,6 +6,7 @@ Trident benchmarks tools that read Mermaid: SVG renderers, terminal renderers an
 - [Methodology](METHODOLOGY.md): corpus, correctness checks, sampling and fair comparisons.
 - [Measurement rules](MEASUREMENT.md): interfaces, cache state, overfitting and claims.
 - [Catalog and support](CATALOG.md): what the entries mean and which suites have bindings.
+- [Verified support](SUPPORT-QUALITY.md): executed public interfaces and remaining gaps for every catalog entry.
 - [Comparison contracts](FAIRNESS.md): planning, independent inputs and unranked publication.
 - [Results](results/README.md): old snapshots have been removed; no current scores are claimed.
 

@@ -1,0 +1,1931 @@
+{
+  "protocol": "public-output-contract-verification-v1",
+  "generatedAt": "2026-10-28T14:42:57.733Z",
+  "producerSourceRevision": "3d966f054dd54861ac681eec2b620fe9dc3546a3",
+  "catalogSha256": "c16f561cf3e44cc751aaa80eecfb625c09737c9daf465516f00c1098b43ebcdf",
+  "preparedSha256": "1c2e546238ad0d4aaf9bbec1b5aad3091833e0e7343583f4c319788973f61942",
+  "rawReportSha256": "cd8760fc62566a7a0b0b791f08c15feeab72868122cc9ffb000cef6ef8152ab2",
+  "producerClosureSha256": "58b34b616e42fe86b7933e6108eeb2ca107fb2a3aa0440275317351af5a91bf0",
+  "scope": "Six authored output-admission inputs per bound format. No timing comparisons, full family support, model/paint completeness or overall top-tier support is inferred. Missing bindings and artifacts remain gaps.",
+  "plannedProjects": 42,
+  "completedProjects": 42,
+  "stateCounts": {
+    "blocked": 5,
+    "partially-verified": 37
+  },
+  "projects": [
+    {
+      "project": "mermaid-js/mermaid-live-editor",
+      "state": "blocked",
+      "version": null,
+      "declaredOutputs": [
+        "svg",
+        "png",
+        "source"
+      ],
+      "boundOutputs": [],
+      "artifact": {},
+      "gaps": [
+        "Applicable catalog operations have no admitted adapter; explicitly unmeasured"
+      ],
+      "outputs": []
+    },
+    {
+      "project": "tomoyukim/vscode-mermaid-editor",
+      "state": "blocked",
+      "version": null,
+      "declaredOutputs": [
+        "svg",
+        "png",
+        "jpeg"
+      ],
+      "boundOutputs": [],
+      "artifact": {},
+      "gaps": [
+        "Applicable catalog operations have no admitted adapter; explicitly unmeasured"
+      ],
+      "outputs": []
+    },
+    {
+      "project": "excalidraw/mermaid-to-excalidraw",
+      "state": "blocked",
+      "version": null,
+      "declaredOutputs": [
+        "excalidraw"
+      ],
+      "boundOutputs": [],
+      "artifact": {},
+      "gaps": [
+        "Applicable catalog operations have no admitted adapter; explicitly unmeasured"
+      ],
+      "outputs": []
+    },
+    {
+      "project": "gotoailab/modern_mermaid",
+      "state": "blocked",
+      "version": null,
+      "declaredOutputs": [
+        "svg",
+        "png",
+        "jpeg"
+      ],
+      "boundOutputs": [],
+      "artifact": {},
+      "gaps": [
+        "Applicable catalog operations have no admitted adapter; explicitly unmeasured"
+      ],
+      "outputs": []
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "state": "partially-verified",
+      "version": "0.4.0",
+      "declaredOutputs": [
+        "svg",
+        "terminal",
+        "parse",
+        "diagnostics",
+        "source"
+      ],
+      "boundOutputs": [
+        "svg",
+        "parse",
+        "diagnostics"
+      ],
+      "artifact": {
+        "kind": "franken",
+        "version": "0.4.0",
+        "revision": "29536a1308acd1bae4da8b72b4cebffb39709ae0",
+        "sha256": "0c5f169d3690e7b525f4a3f7eb739adfbd04ab7872592b52952977e46d0dcec9",
+        "runtime": "Rust/WASM public Node/browser distribution"
+      },
+      "gaps": [
+        "Declared output has no binding: terminal",
+        "Declared output has no binding: source"
+      ],
+      "outputs": [
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "franken",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "parse",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "franken",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "diagnostics",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "franken",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {
+            "failed": 2
+          }
+        },
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "transport": "browser",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {
+            "passed": 8
+          }
+        }
+      ]
+    },
+    {
+      "project": "wevm/ondine",
+      "state": "partially-verified",
+      "version": "0.0.3",
+      "declaredOutputs": [
+        "svg",
+        "terminal"
+      ],
+      "boundOutputs": [
+        "svg",
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.0.3",
+        "sha256": "57edf049d726b8f4dd86443c75e0a18eff7fc18c3b3655d1fbb9fc5bb788834b",
+        "integrity": "sha512-O5lb0DvNhiQJQKitkTYEPRyR83uyGxB2SsLcyu1zD3zJeL+sWxAzW+kM+s8srliERxxx3fFUijEfs26EYXZ5OA==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "terminal",
+          "state": "other-transport-required",
+          "reason": "The reviewed module transport does not expose this output; no unsupported invocation is attempted",
+          "transport": "node",
+          "inputStatuses": {},
+          "controls": {}
+        },
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "transport": "public-package-cli",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "transport": "browser",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {
+            "passed": 8
+          }
+        }
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "state": "partially-verified",
+      "version": "0.3.2",
+      "declaredOutputs": [
+        "svg",
+        "png"
+      ],
+      "boundOutputs": [
+        "svg"
+      ],
+      "artifact": {
+        "kind": "global",
+        "version": "0.3.2",
+        "sha256": "bf7dadb7cc3c5427d7fd2731b5f61b96a32cf3ec52fae26e5d25fb061947779a",
+        "runtime": "Dart dart2js -O2 on Node/browser"
+      },
+      "gaps": [
+        "Declared output has no binding: png"
+      ],
+      "outputs": [
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "global",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "transport": "browser",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {
+            "passed": 8
+          }
+        }
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "state": "partially-verified",
+      "version": "0.4.1",
+      "declaredOutputs": [
+        "svg",
+        "png",
+        "terminal"
+      ],
+      "boundOutputs": [
+        "svg",
+        "terminal",
+        "png",
+        "parse"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.4.1",
+        "sha256": "ea798905f3e444816f78dd1b2b2ccaea893e2e53d4d661f2a3bcbb68454ee920",
+        "integrity": "sha512-zMtVJmT4HRE6hsVxI1VNQ+TWTjN/vR2JcGXob2tMzVlVFK1a7idXifMuabXFGn3wZahovBFiiTI7YWWEG9KJOw==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "png",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "parse",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "transport": "public-package-cli",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "transport": "public-package-cli",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "transport": "browser",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {
+            "passed": 8
+          }
+        }
+      ]
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "state": "partially-verified",
+      "version": "5.10.2",
+      "declaredOutputs": [
+        "svg",
+        "terminal"
+      ],
+      "boundOutputs": [
+        "svg",
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "5.10.2",
+        "sha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
+        "integrity": "sha512-9P1+j6Phd8hit3fvIape7jwX6tnPN9DJhutJWGSAVZYr8ZD7dGucOqi3+2hdpE6b9I5E+dVtotnJMj8hgkemrQ==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "transport": "browser",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {
+            "passed": 8
+          }
+        }
+      ]
+    },
+    {
+      "project": "zhenhuaa/mdv",
+      "state": "partially-verified",
+      "version": "0.1.2",
+      "declaredOutputs": [
+        "svg",
+        "terminal"
+      ],
+      "boundOutputs": [
+        "svg",
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.1.2",
+        "sha256": "bec4b35eb59f58bec6bd22f29b0bbde90f3e79a9a074ccbf28b88d882204f82f",
+        "integrity": "sha512-SYibcPgSqR9zEiSAh8gNjYUb4Zb6xAXkjkeR6Yq3CGu7pky6gjf8IKkrXzPY3cBh3FsuPaiHYqgqjQTH97q5bA==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 5,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 5,
+            "failed": 1
+          },
+          "controls": {}
+        },
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 5,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 5,
+            "failed": 1
+          },
+          "controls": {}
+        },
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "transport": "browser",
+          "plannedInputs": 6,
+          "passed": 5,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 5,
+            "unsupported": 1
+          },
+          "controls": {
+            "passed": 7,
+            "unsupported": 1
+          }
+        }
+      ]
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "state": "partially-verified",
+      "version": "v0.3.1",
+      "declaredOutputs": [
+        "svg",
+        "png"
+      ],
+      "boundOutputs": [
+        "svg",
+        "png"
+      ],
+      "artifact": {
+        "kind": "cli",
+        "version": "v0.3.1",
+        "revision": "2f993bd79a55235eb59a34d807852276ba25bea7",
+        "sha256": "cdce4a18187734e4bc911894541a0f25a011718ce65d804f47181ebc789faf76"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "cli",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "png",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "cli",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "aj-archipelago/merval",
+      "state": "partially-verified",
+      "version": "1.0.7",
+      "declaredOutputs": [
+        "diagnostics"
+      ],
+      "boundOutputs": [
+        "diagnostics"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "1.0.7",
+        "sha256": "a64e719598462e31e3c356d46b286cde8ecb4b695b56d292c6eb08eb55df9e54",
+        "integrity": "sha512-z2/cmv5t04fUxlPJMMV0j9o9ZFG5PtuQq3pSpwKRPVpsZvAfHp7zuUJfyKcf+Uj9YKGWfnLeZr23DkwhT00iSg==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "diagnostics",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {
+            "passed": 1,
+            "failed": 1
+          }
+        }
+      ]
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "state": "partially-verified",
+      "version": "1.6.1",
+      "declaredOutputs": [
+        "terminal"
+      ],
+      "boundOutputs": [
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "cli",
+        "version": "1.6.1",
+        "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+        "sha256": "42f116149cc3485a72bb4eea174a71ca52179d8eb8c6fdb9c87e62d62151f1e2"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 3,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "cli",
+          "inputStatuses": {
+            "passed": 3,
+            "failed": 3
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "anomalyco/opencode",
+      "state": "partially-verified",
+      "version": "2.0.26",
+      "declaredOutputs": [
+        "terminal"
+      ],
+      "boundOutputs": [
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "2.0.26",
+        "revision": "4617210822bdbb31e5749751afbfb4584ccedac8",
+        "sourceRevision": "4617210822bdbb31e5749751afbfb4584ccedac8",
+        "buildRecipeId": "extra-source-v1:opencode-source:public-source-export:opentui0.5.17",
+        "runtimeCommandId": "bun-public-opentui:markdown-codeblock:headless-char-frame:v1",
+        "runtime": "Bun 1.4.2"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 3,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 3,
+            "failed": 3
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "chenyanchen/mermaid-formatter",
+      "state": "partially-verified",
+      "version": "0.3.0",
+      "declaredOutputs": [
+        "source"
+      ],
+      "boundOutputs": [
+        "source"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.3.0",
+        "sha256": "f370f7a4b68a8ab1145d965e0aa16661a084746a346cac41e4840d976ffed783",
+        "integrity": "sha512-PrIZBNt0Aba9/w14GQUWDKLHy1skO+AwuRWHtIBR8duk9460LM0/djX+yj8KUU4Jh6P42lvs1Te2jSxC6tIQig==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "source",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "state": "partially-verified",
+      "version": "0.0.3",
+      "declaredOutputs": [
+        "svg",
+        "terminal"
+      ],
+      "boundOutputs": [
+        "svg",
+        "parse"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.0.3",
+        "sha256": "c7a25a29f167eb88944f95536b13be8f62443a105a9e4e0c71d96f4fd7433837",
+        "integrity": "sha512-CwJC9ygrnIXyMG0sPNVSJ9BWpwl1NK/fN3aMd1e7xHUTHj/bzfJS+8fS7bsNWoqUPn2KX5FgcBbKxcTGwnh8EQ==",
+        "runtime": "Node"
+      },
+      "gaps": [
+        "Declared output has no binding: terminal"
+      ],
+      "outputs": [
+        {
+          "output": "svg",
+          "state": "no-positive-witness",
+          "plannedInputs": 6,
+          "passed": 0,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "failed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "parse",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 5,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 5,
+            "failed": 1
+          },
+          "controls": {}
+        },
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "transport": "browser",
+          "plannedInputs": 6,
+          "passed": 5,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 5,
+            "failed": 1
+          },
+          "controls": {
+            "passed": 7,
+            "failed": 1
+          }
+        }
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "state": "partially-verified",
+      "version": "0.2.3",
+      "declaredOutputs": [
+        "svg",
+        "png",
+        "terminal",
+        "parse"
+      ],
+      "boundOutputs": [
+        "svg",
+        "png",
+        "terminal",
+        "parse"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.2.3",
+        "sha256": "2ef93d0283cc39361c0fb5d62926d870921618c1539f0044f4081a09b1a9cd7d",
+        "integrity": "sha512-LUmNFbtg5RBrtwyR3MkKSPaO6Cgr66j4HsTtqtLGRyzVtLKlcrfIc/I8gm5BHqcyhjGN1pHA7R6h7c8tDSaynA==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 3,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 3,
+            "failed": 3
+          },
+          "controls": {}
+        },
+        {
+          "output": "png",
+          "state": "other-transport-required",
+          "reason": "The reviewed module transport does not expose this output; no unsupported invocation is attempted",
+          "transport": "node",
+          "inputStatuses": {},
+          "controls": {}
+        },
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 4,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 4,
+            "failed": 2
+          },
+          "controls": {}
+        },
+        {
+          "output": "parse",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 4,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 4,
+            "failed": 2
+          },
+          "controls": {}
+        },
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "transport": "browser",
+          "plannedInputs": 6,
+          "passed": 4,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 4,
+            "failed": 2
+          },
+          "controls": {
+            "passed": 5,
+            "failed": 3
+          }
+        },
+        {
+          "output": "png",
+          "state": "invocation-verified",
+          "transport": "browser",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {
+            "passed": 8
+          }
+        }
+      ]
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "state": "partially-verified",
+      "version": "0.4.2",
+      "declaredOutputs": [
+        "svg"
+      ],
+      "boundOutputs": [
+        "svg"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.4.2",
+        "sha256": "4b083ff3979c7b07e1c364393ef17659ffe7bfcfea75a818260f4de7ece7789b",
+        "integrity": "sha512-/KxDLMfR0THbxtrZiGxDuTKp0NGJTJRHH5ForIvxVxf9ctveEPN9irXUBFYIiKB337CXMhH2w+ds8pJ5hpRGvA==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "svg",
+          "state": "other-transport-required",
+          "reason": "The reviewed module transport does not expose this output; no unsupported invocation is attempted",
+          "transport": "node",
+          "inputStatuses": {},
+          "controls": {}
+        },
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "transport": "browser",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {
+            "passed": 8
+          }
+        }
+      ]
+    },
+    {
+      "project": "fasouto/termaid",
+      "state": "partially-verified",
+      "version": "0.10.0",
+      "declaredOutputs": [
+        "terminal"
+      ],
+      "boundOutputs": [
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "python",
+        "version": "0.10.0",
+        "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "runtime": "Python public termaid.render API; process startup recorded separately"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "python",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "inkeep/visimer",
+      "state": "partially-verified",
+      "version": "1.1.3",
+      "declaredOutputs": [
+        "parse"
+      ],
+      "boundOutputs": [
+        "parse"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "1.1.3",
+        "sha256": "2fa56662a484006ed7611dda1903f68305c3017bbd5557cfeabdb0064a25381d",
+        "integrity": "sha512-Kp0Wnb3Y7g/OpeIYEwH9Q01LPhFKDYJ3CSCpsK4XqofarVPakUaXEx55wCZ2QSC0CMxlgNlzPFdx2mByK/xvaA==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "parse",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "justsml/rusty-mermaid",
+      "state": "blocked",
+      "version": null,
+      "declaredOutputs": [
+        "diagnostics"
+      ],
+      "boundOutputs": [
+        "diagnostics"
+      ],
+      "artifact": {},
+      "gaps": [
+        "Published rusty-mermaid@0.42.0 omits pkg/rusty_mermaid.js and its WASM runtime; public release could not be invoked."
+      ],
+      "outputs": []
+    },
+    {
+      "project": "kingsword09/mermansi",
+      "state": "partially-verified",
+      "version": "v0.1.6",
+      "declaredOutputs": [
+        "terminal"
+      ],
+      "boundOutputs": [
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "cli",
+        "version": "v0.1.6",
+        "revision": "40e5923cfca654503212612fd0f1af8a8720dfbe",
+        "sha256": "3d9cff906f9695f0dc59e4f13811a5600c1785bb53d4c194278122b5bdea6617"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "cli",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "kitlangton/merman",
+      "state": "partially-verified",
+      "version": "0.2.1",
+      "declaredOutputs": [
+        "terminal"
+      ],
+      "boundOutputs": [
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.2.1",
+        "sha256": "f1e16af45f4c43e2c7d69a48c2f3bc286b061b84dca994fa83da98593705793d",
+        "integrity": "sha512-SqKB/VjkjxNgyxAkvGGbTQACrTpPkg5udiDtJswYEnSkOjKdRISYKtK2Hzi/Y8TjK3beHMHyOQeoCS10V+AD4g==",
+        "runtime": "Bun (published terminal renderer)"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 3,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 3,
+            "failed": 3
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "state": "partially-verified",
+      "version": "0.3.2",
+      "declaredOutputs": [
+        "svg"
+      ],
+      "boundOutputs": [
+        "svg"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.3.2",
+        "sha256": "448013e13d696562b1c4cac338a94c937dcc861b1641dd9b5fc56f87bf02cdf8",
+        "integrity": "sha512-ECmsDtEy7745CMQqDP1zkCxHx2zq5Vj+FGOss1gUowirJvYmtxahMQ2jV6/BvPm9cltcm2XQajAqPTYJKmVKEA==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 3,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 3,
+            "failed": 3
+          },
+          "controls": {}
+        },
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "transport": "browser",
+          "plannedInputs": 6,
+          "passed": 3,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 3,
+            "unsupported": 3
+          },
+          "controls": {
+            "passed": 5,
+            "unsupported": 3
+          }
+        }
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "state": "partially-verified",
+      "version": "0.9.2",
+      "declaredOutputs": [
+        "svg",
+        "png",
+        "jpeg",
+        "pdf",
+        "terminal"
+      ],
+      "boundOutputs": [
+        "svg",
+        "png"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.9.2",
+        "sha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099",
+        "integrity": "sha512-cYnkgZC9WYaHJ1bjHctobSkrheROGdqIUnHzZeJHuTq0sWyKWud2x4g3Ui95lsqooPF70Nb42p75QdKShTtCFw==",
+        "runtime": "Node"
+      },
+      "gaps": [
+        "Declared output has no binding: jpeg",
+        "Declared output has no binding: pdf",
+        "Declared output has no binding: terminal"
+      ],
+      "outputs": [
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "png",
+          "state": "blocked",
+          "plannedInputs": 6,
+          "passed": 0,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "blocked": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "transport": "browser",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {
+            "passed": 8
+          }
+        }
+      ]
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "state": "partially-verified",
+      "version": "1.1.3",
+      "declaredOutputs": [
+        "svg",
+        "terminal"
+      ],
+      "boundOutputs": [
+        "svg",
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "1.1.3",
+        "sha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39",
+        "integrity": "sha512-TItrtrAyHp1vwFfFVYauWGrquouk/6SS21Aq3RsxindSYZODcN4xYrPZD6BiZRU+o5mKJzDPz9MUSMvELdylyg==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 5,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 5,
+            "failed": 1
+          },
+          "controls": {}
+        },
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 5,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 5,
+            "failed": 1
+          },
+          "controls": {}
+        },
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "transport": "browser",
+          "plannedInputs": 6,
+          "passed": 5,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 5,
+            "unsupported": 1
+          },
+          "controls": {
+            "passed": 7,
+            "unsupported": 1
+          }
+        }
+      ]
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "state": "partially-verified",
+      "version": "v0.4.3",
+      "declaredOutputs": [
+        "terminal"
+      ],
+      "boundOutputs": [
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "cli",
+        "version": "v0.4.3",
+        "revision": "34c47a93cd792f24e06b49b5196a1c876240f03a",
+        "sha256": "488080c200a252a407f963ce09a3a2a5a114baa4612a6939264b62b36b9bdfbb"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 4,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "cli",
+          "inputStatuses": {
+            "passed": 4,
+            "failed": 2
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "neongreen/mermaid-ast",
+      "state": "partially-verified",
+      "version": "0.8.2",
+      "declaredOutputs": [
+        "parse"
+      ],
+      "boundOutputs": [
+        "parse"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.8.2",
+        "sha256": "025399ec070975322ab5e1eb9efb63265fb4745825accde6c1c7653813c4db2c",
+        "integrity": "sha512-uh2jEGW2IXwJZ8+BZM3cLBYy52xvopESvaiGPqE9tCoYlnroYzMmt8tjZu8bs7YkG5JOGtxqBT1fh88bbE8wVg==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "parse",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "state": "partially-verified",
+      "version": "1.9.0",
+      "declaredOutputs": [
+        "svg"
+      ],
+      "boundOutputs": [
+        "svg"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "1.9.0",
+        "sha256": "7c40a25eeaf4370fb56c03d9d8f6780051c9c39b6c6ca36d53239075117097f5",
+        "integrity": "sha512-KUmBt7P5JduVKQaP6FKfXiRgH3LBVIKsmdgPJZU7jD3ye6F+Z8fbms+OjivE7rWY09Qx+5X65VKe/9ywKFJ9Sw==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "transport": "browser",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {
+            "passed": 8
+          }
+        }
+      ]
+    },
+    {
+      "project": "probelabs/maid",
+      "state": "partially-verified",
+      "version": "0.0.29",
+      "declaredOutputs": [
+        "diagnostics"
+      ],
+      "boundOutputs": [
+        "diagnostics"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.0.29",
+        "sha256": "0c423ea628f9818a6eba2cdea8ac96b87c2ef58cd3a1cdc645ad55487e98d649",
+        "integrity": "sha512-Fer71+LDKClmibWkPTfsR5QZ13gaBxhVEZRmYNj+Cf9JQjoJpeg6JP+am3AcRpuWy5VgxE/8jtgJ3wacHD07LA==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "diagnostics",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 5,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 5,
+            "failed": 1
+          },
+          "controls": {
+            "passed": 2
+          }
+        }
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "state": "partially-verified",
+      "version": "0.1.4",
+      "declaredOutputs": [
+        "svg"
+      ],
+      "boundOutputs": [
+        "svg"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.1.4",
+        "sha256": "e7642aae65ffb9a8e00cf31ebd6a7516a5b9c4cd76deb94624d679f83c0baf47",
+        "integrity": "sha512-E6cr0UNq4ROZTJ5vM6xQ9enVmoFDc8sDk9FajlG7pMzq4I8LYbk0gTZrd1At01BMWjDg7rq6avwHYGX9aYMzRQ==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 1,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 1,
+            "failed": 5
+          },
+          "controls": {}
+        },
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "transport": "browser",
+          "plannedInputs": 6,
+          "passed": 1,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 1,
+            "failed": 5
+          },
+          "controls": {
+            "passed": 3,
+            "failed": 5
+          }
+        }
+      ]
+    },
+    {
+      "project": "taoche/mermaid-reactflow-render",
+      "state": "partially-verified",
+      "version": "0.5.1",
+      "declaredOutputs": [
+        "react-flow"
+      ],
+      "boundOutputs": [
+        "react-flow"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.5.1",
+        "sha256": "65ab06e23d203a663cb941e773f2cb87e1201b0205642011a50f884b9f4aa9a8",
+        "integrity": "sha512-fgFj0Z7RzDUZvILM0xReGLkdr+QHdjYIcMzNQ90fV275G3C09WHQaT4T3sZGtWfsGlDO0UPoOBL8BytzRsdtUA==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "react-flow",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 1,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 1,
+            "failed": 5
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "state": "partially-verified",
+      "version": "0.0.6",
+      "declaredOutputs": [
+        "terminal"
+      ],
+      "boundOutputs": [
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.0.6",
+        "sha256": "ca735b5d31c6c61667432c89028770f094dc19fbbc0b8763b8b3719ac5fb1dce",
+        "integrity": "sha512-DN8UewGe7CH25pT9BLiV19CSbhnnT03T9o2Xnyy1KupBrsxWUevUAsYAO63yn7ujMNQCPEYm2xxzoItRWlP8Pw==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 1,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 1,
+            "failed": 5
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "xai-org/grok-build",
+      "state": "partially-verified",
+      "version": "git-2bdd1d6a6369",
+      "declaredOutputs": [
+        "terminal"
+      ],
+      "boundOutputs": [
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "cli",
+        "version": "git-2bdd1d6a6369",
+        "revision": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8",
+        "sourceRevision": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8",
+        "sha256": "015d857ce63654b0e91e170e92ca6ae934c1d11949b56ed7b3e0e24a3f1e890e",
+        "buildRecipeId": "extra-source-v1:grok-source:public-markdown-crate-shim",
+        "runtimeCommandId": "public-markdown-ratatui:fenced-mermaid:plain-lines:v1",
+        "runtime": "native Rust (rustc 1.99.1 (58cf8f9c3 2026-10-13)); public Markdown host"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 5,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "cli",
+          "inputStatuses": {
+            "passed": 5,
+            "unsupported": 1
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "Yassimba/loom",
+      "state": "partially-verified",
+      "version": "0.10.0",
+      "declaredOutputs": [
+        "terminal"
+      ],
+      "boundOutputs": [
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.10.0",
+        "sha256": "c890362de11e32be98b89e0b145323198f61b1a0a771e0e65246d8e44e98ab3a",
+        "integrity": "sha512-oLph3MkCXPRZ3QqFgbtquKqwdO3rHOEGicTcsO0M8yoUeMmO+Fvxros0EMl+o4J1PmX2XhvATOyHz1yhH6pmwg==",
+        "runtime": "Bun (published Loom renderer component)"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "4nkitd/opencode-merman",
+      "state": "partially-verified",
+      "version": "0.1.1",
+      "declaredOutputs": [
+        "terminal"
+      ],
+      "boundOutputs": [
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.1.1",
+        "sha256": "85b17a4f330e2de45104164d586564ee25cfaf5bbbe099785d82c9ee573bd74f",
+        "integrity": "sha512-unP42IM+N9y5+4NQUOA89d+a1rpE4ft3KYB+9wD6OouD7+s+5v+wUGm4ixqFdlLXSUCmXIkua+t2YPrJKc3S8g==",
+        "runtime": "Bun (OpenTUI headless integration)"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "state": "partially-verified",
+      "version": "0.1.0",
+      "declaredOutputs": [
+        "terminal"
+      ],
+      "boundOutputs": [
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.1.0",
+        "revision": "a91a0c7baec6392212c59221bc67389bb617feb7",
+        "sourceRevision": "a91a0c7baec6392212c59221bc67389bb617feb7",
+        "sha256": "6cbc31d2719cfd2be538707c238d3ab1af24c20f2247f7f5a139df17e5bcb1ae",
+        "buildRecipeId": "extra-source-v1:ascii-mermaid-source:tracked-public-distribution",
+        "runtimeCommandId": "node-public-api:renderMermaidAscii:unicode:v1",
+        "runtime": "v24.19.0"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "npm:tui-mermaid",
+      "state": "partially-verified",
+      "version": "0.1.0",
+      "declaredOutputs": [
+        "terminal"
+      ],
+      "boundOutputs": [
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.1.0",
+        "sha256": "c9215cfdd6ac003a4f5fb7bc00fa763cc547b324cdb9617e8b77ae2a049039e6",
+        "integrity": "sha512-hZaiQJqMgSaznPwtUSB5HXkOgJ8H4gUKmLDGWturrJPkDvqNvpXbEFltNnpIhFmcyVoueqqOR48E0crvcQVR2g==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 5,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 5,
+            "failed": 1
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "state": "partially-verified",
+      "version": "git-a6b0c7657b94",
+      "declaredOutputs": [
+        "terminal"
+      ],
+      "boundOutputs": [
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "cli",
+        "version": "git-a6b0c7657b94",
+        "revision": "a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12",
+        "sourceRevision": "a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12",
+        "sha256": "b598bdc84c2e570d7f4e90ab82abc5435817c041269d9d0f769281f9cc6f08bc",
+        "buildRecipeId": "extra-source-v1:mermaidtext-go:go-build-trimpath",
+        "runtimeCommandId": "public-cli:stdin:default-unicode:v1",
+        "runtime": "native Go (go version go1.27.3 linux/amd64)"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 5,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "cli",
+          "inputStatuses": {
+            "passed": 5,
+            "unsupported": 1
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "xl0/lovely-mermaid",
+      "state": "partially-verified",
+      "version": "0.3.3",
+      "declaredOutputs": [
+        "terminal"
+      ],
+      "boundOutputs": [
+        "terminal"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "0.3.3",
+        "sha256": "f6cf8f2fbab10e06eea2c51da77a4b2e1dbe6d20d03bdcaf63ec1a34d97d0ccd",
+        "integrity": "sha512-EMLJS934qwt2MLO/a5o+T/89HGbuXZPwmCpHIhHO+DVrm+y5tHlEHgpZzlC2o4yW/rFPHRFO9xSMafzqH4wH5A==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "terminal",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        }
+      ]
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "state": "partially-verified",
+      "version": "12.2.0",
+      "declaredOutputs": [
+        "svg"
+      ],
+      "boundOutputs": [
+        "svg",
+        "parse"
+      ],
+      "artifact": {
+        "kind": "node",
+        "version": "12.2.0",
+        "sha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+        "integrity": "sha512-w7nr/SFrLO7BaVTs3dQTvYSV6nYSBj0Yy9DjBhsIJtAcHqRzXSq4Pg32ujHZ/AdWsAMNEvvhbm5dt9E2tOiHzw==",
+        "runtime": "Node"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "svg",
+          "state": "other-transport-required",
+          "reason": "The reviewed module transport does not expose this output; no unsupported invocation is attempted",
+          "transport": "node",
+          "inputStatuses": {},
+          "controls": {}
+        },
+        {
+          "output": "parse",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "node",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {
+            "passed": 2
+          }
+        },
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "transport": "browser",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {
+            "passed": 8
+          }
+        }
+      ]
+    },
+    {
+      "project": "crabtalk/bezel",
+      "state": "partially-verified",
+      "version": "0.2.21",
+      "declaredOutputs": [
+        "svg"
+      ],
+      "boundOutputs": [
+        "svg"
+      ],
+      "artifact": {
+        "kind": "global",
+        "version": "0.2.21",
+        "revision": "ccc263b6a7bad03da94687ffea3c553c8e0400ec",
+        "sha256": "4c4d1a36b93252055e9b02d6423f984730664353172c01258d91ec1ce70814c7",
+        "runtime": "Rust/WASM public render wrapper on Node/browser"
+      },
+      "gaps": [],
+      "outputs": [
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "transport": "global",
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {}
+        },
+        {
+          "output": "svg",
+          "state": "invocation-verified",
+          "transport": "browser",
+          "plannedInputs": 6,
+          "passed": 6,
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "inputStatuses": {
+            "passed": 6
+          },
+          "controls": {
+            "passed": 8
+          }
+        }
+      ]
+    }
+  ],
+  "evidence": "https://github.com/adewale/trident/releases/download/v0.1.0/trident-0.1.0-evidence.tar.gz",
+  "evidencePath": "support-verification/report.json"
+}

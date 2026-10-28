@@ -162,3 +162,6 @@ no acquisition or timing-comparison claim. Input observations, parser controls
 and other evidence have separate counts, and duplicate input rows receive no
 pass credit. Successful calls establish narrow invocation evidence, not complete
 family, model, paint or highest-level support. Product failures remain failures.
+Installed package CLIs use the same declared `benchmark.cli` contract, binding
+the actual Node executable and shipped CLI files. They remain separate from
+module and browser observations.

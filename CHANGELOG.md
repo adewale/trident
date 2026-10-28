@@ -22,6 +22,11 @@ Initial release of Trident as a standalone public-artifact benchmark tool.
   derivative of Mermaid rather than a Git fork; Mermaid Dart is a distinct brand.
 - Source and portable-kit installation paths share version 0.1.0. The kit needs
   Node 24, the actual target artifact and the pinned Mermaid oracle.
+- Public output verification exercised 37 release artifacts from 42 eligible
+  entries, including 16 browser transports and Ondine's public ASCII CLI.
+  Six more public APIs have portable Node bindings. The support ledger retains
+  missing formats, failed controls, four unbound application contracts and Rusty
+  Mermaid's broken npm artifact; a source candidate remains separate.
 
 The catalog is broader than verified execution coverage. Public documentation
 and repository examples are development-exposed, with no validated production
