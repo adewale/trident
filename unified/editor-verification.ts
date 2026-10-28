@@ -5,6 +5,8 @@ import { createServer } from 'node:http'
 import { extname, join, relative, resolve, sep } from 'node:path'
 import { chromium } from 'playwright'
 import { readCatalog } from './support.ts'
+import { protocolIdentity } from './protocol-identity.ts'
+import { harnessRepository } from './trident-paths.ts'
 import { communityCatalogFile } from './trident-paths.ts'
 import { isRenderedSourceEcho } from './qualification-visible-source.ts'
 
@@ -27,7 +29,7 @@ export async function verifyEditor(settings: { project: string; source: string; 
   mkdirSync(out, { recursive: true })
   const checks: { step: string; status: string; detail?: string; output?: string }[] = []
   const remote = new Set<string>()
-  const receipt: any = { protocol: 'public-browser-editor-workflow-v1', project: node.id, sourceRevision: node.head, sourceManifestSha256: digest(join(source, 'package.json')), lockSha256: digest(join(source, 'pnpm-lock.yaml')), buildRoot: root, buildFiles: observedFiles, preparation: 'Caller-supplied built application from the named checkout; build/dependency preparation remains outside this functional check. File digests identify observed output, not a reproducible-build proof.', checks, startedAt: new Date().toISOString(), scope: 'Four authored UI steps on one flowchart: input, changed preview, visible invalid-source error, recovery. Preview checks use live DOM bounds and visible authored text. Retained SVG is a DOM fragment, not a qualified standalone export. No engine rank, whole-editor coverage, timing score or export qualification.' }
+  const receipt: any = { protocol: 'public-browser-editor-workflow-v1', project: node.id, producers: protocolIdentity(harnessRepository, ['unified/editor-verification.ts']), runtime: { node: process.version, bun: process.versions.bun }, sourceRevision: node.head, sourceManifestSha256: digest(join(source, 'package.json')), lockSha256: digest(join(source, 'pnpm-lock.yaml')), buildRoot: root, buildFiles: observedFiles, preparation: 'Caller-supplied built application from the named checkout; build/dependency preparation remains outside this functional check. File digests identify observed output, not a reproducible-build proof.', checks, startedAt: new Date().toISOString(), scope: 'Four authored UI steps on one flowchart: input, changed preview, visible invalid-source error, recovery. Preview checks use live DOM bounds and visible authored text. Retained SVG is a DOM fragment, not a qualified standalone export. No engine rank, whole-editor coverage, timing score or export qualification.' }
   const server = createServer((request, response) => {
     try {
       const pathname = decodeURIComponent(new URL(request.url ?? '/', 'http://localhost').pathname)
