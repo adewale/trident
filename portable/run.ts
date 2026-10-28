@@ -10,7 +10,7 @@ import { environmentIdentity } from './environment.ts'
 import { artifactIdentity, byteDigest, harnessIdentity, portableDirectory, readJson, resolveArtifact } from './artifacts.ts'
 import { activateProjectRecord, findProjectRecord, inspectCurrentProjectRecords, publishProjectRecord, writeProjectBenchmarkRecord, stableValue, type ProjectBenchmarkIdentity, type ProjectBenchmarkRecord } from './project-records.ts'
 import { assertPortableRunning, PortableCancelled, resetPortableCancellation, measurePortableProject, terminatePortableWorkers } from './execution.ts'
-import { PORTABLE_MEASUREMENT_PROTOCOL, type PortableArtifact, type PortableJob, type PortableWorkerResult, type Replica } from './protocol.ts'
+import { PORTABLE_ADAPTER_IDS, PORTABLE_MEASUREMENT_PROTOCOL, type PortableArtifact, type PortableJob, type PortableWorkerResult, type Replica } from './protocol.ts'
 import { portableMarkdown, portableSummary } from './report.ts'
 import type { BenchmarkObservation } from './observation.ts'
 import type { UsageEvidence } from './costs.ts'
@@ -72,7 +72,7 @@ export function parsePortableOptions(argv: string[]): PortableOptions {
     return value
   }
   const adapter = values.get('--adapter') ?? 'pele'
-  if (!['pele', 'agentic', 'beautiful', 'ondine', 'declared'].includes(adapter)) throw Error('Unsupported public Node SVG adapter')
+  if (!PORTABLE_ADAPTER_IDS.includes(adapter as PortableArtifact['adapter'])) throw Error('Unsupported public Node SVG adapter')
   const binding = values.has('--binding') ? JSON.parse(values.get('--binding')!) as PortableArtifact['binding'] : undefined
   if (binding && (typeof binding.export !== 'string' || !binding.export.trim() || (binding.result !== undefined && typeof binding.result !== 'string'))) throw Error('--binding needs a public export and optional result field')
   if (adapter === 'declared' && !binding) throw Error('The declared adapter requires --binding JSON')

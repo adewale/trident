@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import type { CommunityNode } from './community-types.ts'
 import { fidelityCoreProjects } from '../fidelity/selection.ts'
+import { PORTABLE_ADAPTER_IDS } from '../portable/protocol.ts'
 
 export const PUBLIC_SUITES = ['community', 'docs', 'fidelity', 'native-fidelity', 'upstream-fidelity', 'upstream-original', 'portable'] as const
 export type PublicSuite = typeof PUBLIC_SUITES[number]
@@ -17,12 +18,11 @@ export interface CatalogMember extends CommunityNode {
 export interface SuiteSupport { state: SupportState; reason: string }
 export const outputName = (value: string) => ({ 'ascii-unicode': 'terminal', ascii: 'terminal', unicode: 'terminal', ast: 'parse', 'mermaid-text': 'source' }[value] ?? value)
 /** Reviewed bindings describe public APIs, not a preferred set of project IDs. */
-export const NATIVE_ADAPTERS = new Set(['agentic', 'pele', 'mermaid'])
 export function nativeAdapter(node: CommunityNode): string | undefined {
   const adapter = node.benchmark?.adapter
   return adapter && fidelityCoreProjects[adapter as keyof typeof fidelityCoreProjects] === node.id ? adapter : undefined
 }
-export const PORTABLE_ADAPTERS = new Set(['agentic', 'pele', 'beautiful', 'ondine', 'declared'])
+export const PORTABLE_ADAPTERS = new Set<string>(PORTABLE_ADAPTER_IDS)
 export function portableAdapter(node: CommunityNode): string | undefined {
   const adapter = node.benchmark?.adapter
   if (adapter === 'declared' && !node.benchmark?.api?.svg) return undefined
