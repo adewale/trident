@@ -1,0 +1,40 @@
+{
+  "purpose": "Recorded examples for reading reports, not current scores",
+  "examples": {
+    "community": {
+      "scope": "Merslim: browser SVG **4/6**, browser PNG **6/6**, Node SVG **3/6**, terminal **4/6**, parser **4/6**. These are the same six authored inputs on separate interfaces, not a combined score. Recorded 28 October 2026 with the PR #21 harness.",
+      "source": "/workspace/trident-pr21-review/native-verification/report.json",
+      "sha256": "b4b180cdeea7099cc669d323e170f9d0efa89cd1e115d70cf2418a96b5577b9f"
+    },
+    "docs": {
+      "scope": "Pele 1.9.0 returned SVG for **532/548 documentation occurrences (97.1%)** and failed 16 in each of five rounds. The first flowchart example (`flowchart.md:23`) took a median **0.60 ms** across five browser calls after warmup. This historical 27 October run reports SVG return and call time; it does not establish correct paint or a calibrated speed comparison.",
+      "source": "/workspace/benchmark-verification/2026-10-27/trident-corrected/docs/result.json",
+      "sha256": "bb5c88d4f4e009c2d0e809e8682656fc0f48a022bea67c9dab696095dbd2d24c"
+    },
+    "fidelity": {
+      "scope": "Pele 1.9.0 failed the controlled-image case: its SVG omitted the independently required embedded image. The historical 27 October run also recorded four architecture relationship failures; those are observations under that run's observer, not a claim that the current observer reproduces every finding.",
+      "source": "/workspace/benchmark-verification/2026-10-27/trident-corrected/fidelity/community-fidelity-report.json.gz",
+      "sha256": "43599a5fbda395f402647c20eb89807c889307a4a4aaede837398318e0757420"
+    },
+    "native-fidelity": {
+      "scope": "Pele 1.9.0: **555 structured-model criteria passed; 6 were unsupported** in the 27 October campaign. Flowchart identities, relationships and configuration-reset criteria passed. These are individual model criteria, not 561 diagrams or a complete editing-API certificate.",
+      "source": "/workspace/benchmark-verification/2026-10-27/trident-corrected/native-fidelity/obsidianmd%2Fpele/fidelity-report.json.gz",
+      "sha256": "f723583600d8f004e40b9dfbcecfc66528dc67eb911c9e9417d6603f6c9de33d"
+    },
+    "upstream-fidelity": {
+      "scope": "Pele 1.9.0: **4,908/5,113 executed assertions passed** in the 27 October replay. Expanded callbacks were **1,452 passed, 16 failed, 1,220 unavailable and 12 skipped**. Assertions and callbacks have different denominators; unavailable tests cannot be silently dropped from the report.",
+      "source": "/workspace/benchmark-verification/2026-10-27/trident-verified/upstream-fidelity/obsidianmd%2Fpele/upstream-fidelity-report.json",
+      "sha256": "37857b8d473db6e5466831bbdac1f8fbf66653dab6e30c64711f8aaeebfe3317"
+    },
+    "upstream-original": {
+      "scope": "Mermaid 12.2.0: **6,677 callbacks passed, zero failed, 16 pending and two todo**, across **331 files**, on 28 October. The sealed npm environment completed the genuine original core runner. Docs-site and browser/e2e tests were outside this run.",
+      "source": "/workspace/trident-pr21-review/original-campaign/upstream-original/attempts/9674739d-6c73-4408-bfe9-8016ac3ed9b0/upstream-original-summary.json",
+      "sha256": "e635e3d2acf4a5dee1d6aa43c23dceb576b9b87e1fae98ad463247714c3c76c6"
+    },
+    "portable": {
+      "scope": "Pele 1.9.0, authored flowchart: historical median **17.06 ms** for a first API call in a fresh process (import excluded), versus **0.350 ms** for repeated calls. The 27 October protocol-v3 report was **uncalibrated overall**. These numbers illustrate separate workloads; they are not current protocol-v6 scores or evidence of an improvement.",
+      "source": "/workspace/benchmark-verification/2026-10-27/trident-corrected/portable/obsidianmd%2Fpele/report.json",
+      "sha256": "adf16e69cb48e46b134fb2723afd8e64abefeed304d6de597544152bc1bb4a9f"
+    }
+  }
+}

@@ -18,17 +18,22 @@ The command IDs stay short so existing scripts continue to work.
 
 | Benchmark | Command ID | What it measures and why to use it |
 |---|---|---|
-| **Mermaid Compatibility** | `community` | Which frozen examples produce SVG, terminal text, PNG or a parser result? Use it to find unsupported syntax, broken interfaces and output failures. Format and label checks do not prove a faithful drawing. |
-| **DaveBench: Documentation Examples** | `docs` | Which examples in the pinned Mermaid syntax documentation return SVG? Reports coverage and public render-call time on each pair's common successful examples. Use it for a broad documentation workload; returning SVG does not prove correct paint. |
-| **Diagram Meaning** | `fidelity` | Does the actual SVG preserve authored relationships, labels, values and visible geometry? Use it to find wrong or missing drawn meaning. It covers declared criteria, not every aesthetic or accessibility concern. |
-| **Model and Editing Contracts** | `native-fidelity` | Do reviewed public model APIs preserve identities, relationships and edit/configuration behavior? Use it for deeper diagnostics where a model projection exists. A missing projection is a Trident support gap, not evidence of a bad renderer. |
-| **Mermaid Assertion Replay** | `upstream-fidelity` | Which original Mermaid test assertions work through another project's public model/parser API? Use it to examine compatibility. Private API and diagnostic-wording differences can fail without proving a wrong drawing. |
-| **Mermaid Reference Tests** | `upstream-original` | Does pinned Mermaid pass its own original core test runner? Use it to validate the reference environment. It runs Mermaid's tests against Mermaid, so it is not a peer-project score. |
-| **Render Cost and Scaling** | `portable` | What do fresh calls, repeated calls, edits and larger diagrams cost through a public Node SVG API? Reports latency, CPU and memory separately, with output checks and A/A noise controls. Use it for controlled regressions; it is not a production-traffic forecast. |
+| **Mermaid Compatibility** | `community` | Runs the same Mermaid examples through each project's supported outputs, including SVG, PNG and terminal diagrams. Reports successful examples, failures and unsupported features. |
+| **DaveBench: Documentation Examples** | `docs` | Inspired by [Dave Kiss's benchmark](https://x.com/davekiss/status/2111512440106078554), DaveBench tests whether an implementation can generate SVGs for the diagrams in Mermaid's own documentation. It reports rendering success rate and render time. |
+| **Diagram Meaning** | `fidelity` | Checks whether rendered diagrams preserve their intended meaning: the right labels, relationships, values and visible marks. Reports incorrect or missing content by diagram type. |
+| **Model and Editing Contracts** | `native-fidelity` | Tests an implementation's public diagram model and editing API. Checks that parsing and edits preserve the expected identities, relationships and configuration. |
+| **Mermaid Assertion Replay** | `upstream-fidelity` | Runs Mermaid's original test assertions through another implementation's public parser or model API. Reports which assertions pass, fail or cannot run through that API. |
+| **Mermaid Reference Tests** | `upstream-original` | Runs Mermaid's own core tests against the pinned Mermaid source. Checks that Trident's reference test environment works before its results are used in comparisons. |
+| **Render Cost and Scaling** | `portable` | Measures render time, CPU and memory through public Node SVG APIs. Tests first calls, repeated calls, edits and larger diagrams, with repeat runs to estimate measurement noise. |
+
+The [worked results](docs/benchmark-examples.md) show the units each benchmark reports.
+Success, meaning and timing remain separate results; the [benchmark guide](BENCHMARKS.md)
+explains coverage limits and comparison rules.
 
 ### Where the benchmarks come from
 
-**DaveBench** entered Trident through [Agentic Mermaid's documentation benchmark](https://github.com/adewale/agentic-mermaid/blob/main/eval/benchmark/docs/davebench.md).
+**DaveBench** is inspired by [Dave Kiss's documentation benchmark](https://x.com/davekiss/status/2111512440106078554).
+Its implementation entered Trident through [Agentic Mermaid's documentation benchmark](https://github.com/adewale/agentic-mermaid/blob/main/eval/benchmark/docs/davebench.md).
 That historical runner used 1,095 occurrences from AM's vendored Mermaid docs,
 with 546 distinct examples across 34 pages, and built an AM candidate beside fixed
 comparators. Trident's `docs` benchmark reads the raw syntax pages at the pinned
