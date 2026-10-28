@@ -1,5 +1,8 @@
 # Comparison contracts
 
+See [scope](SCOPE.md) for the boundary between public-API benchmarks and optional
+application studies. Whole-editor workflows do not enter core project counts.
+
 Trident compares named public work. SVG return, terminal output, parsing,
 optional model APIs and original upstream tests answer different questions.
 The required evidence is chosen before measuring any candidate.
@@ -92,7 +95,7 @@ representative production traffic nor a validated holdout. Additional independen
 workload contributors and review are still needed. Observers and adapters also
 need independent review before any claim of complete neutrality.
 
-## Publish evidence without ranking projects
+## Publish evidence and rank comparable results
 
 ```sh
 bun commands.ts results:publish --records RECORDS --out /evidence/community-report
@@ -100,9 +103,12 @@ bun commands.ts results:campaign --campaign /evidence/run \
   --out /evidence/publication --copy-evidence
 ```
 
-Community scorecards sort projects alphabetically within compatible public
-surface/runtime groups. Coverage, conditional acceptance, legacy first-call
-costs and repeated-source costs stay separate; there is no rank column.
+Result comparisons stack-rank projects by an explicitly named measure within
+compatible workload, public surface and runtime groups. Rates sort highest first;
+time and memory sort lowest first. Ties share a rank; missing measurements stay
+unranked. Coverage, conditional acceptance, first-call costs and repeated-source
+costs remain separate measures. A rank orders the stated measurement and does
+not establish an overall winner or qualify descriptive historical timing.
 
 The campaign index shows original measurement windows, selected artifacts,
 suite dispositions and per-project/surface/mode/round observation counts. It
@@ -166,12 +172,9 @@ Installed package CLIs use the same declared `benchmark.cli` contract, binding
 the actual Node executable and shipped CLI files. They remain separate from
 module and browser observations.
 
-## Application and release transports
+## Conversion and release transports
 
-Editor input/edit/error/recovery workflows and editable conversion outputs have
-their own contracts. A preview DOM fragment is not a standalone SVG export, and
-an image fallback is not an editable model. No application inherits its embedded
-renderer’s score. See [application workflows](docs/application-contracts.md).
+Editable conversion inspects the public element model; image fallbacks receive no editable-model credit. Whole-editor workflows remain outside core scope and do not inherit an embedded renderer’s score. See [public output bindings](docs/application-contracts.md).
 
 An additional public release CLI retains its archive checksum, actual binary
 identity, version and source-tag revision. A native CLI and WASM distribution

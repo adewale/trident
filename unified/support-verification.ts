@@ -38,6 +38,10 @@ export async function verifySupport(preparedFile: string, out: string, settings:
   if (existsSync(out)) throw Error('Support verification output must be fresh')
   const catalog = readCatalog(settings.catalog ?? communityCatalogFile)
   if (settings.projects?.some(id => !catalog.nodes.some(node => node.id === id)) || (settings.projects && new Set(settings.projects).size !== settings.projects.length)) throw Error('Choose unique known catalog projects')
+  const requested = catalog.nodes.filter(node => !settings.projects || settings.projects.includes(node.id))
+  const applications = requested.filter(node => (node as import('./support.ts').CatalogMember).comparisonScope?.kind === 'application')
+  if (settings.projects && applications.length) throw Error('Whole-application workflows are outside core support verification: ' + applications.map(node => node.id).join(', '))
+  const selected = requested.filter(node => !applications.includes(node))
   const supplied = JSON.parse(readFileSync(preparedFile, 'utf8')) as PreparedCommunity[]
   if (!Array.isArray(supplied) || new Set(supplied.map(entry => entry.node.id)).size !== supplied.length) throw Error('Prepared projects must be unique')
   await assertOracleAgrees(assertMermaidOracle(), supportWorkloads.map(workload => ({ id: workload.id, source: workload.source, accept: true })))
@@ -46,7 +50,6 @@ export async function verifySupport(preparedFile: string, out: string, settings:
   if (!Array.isArray(browserPrepared) || new Set(browserPrepared.map(peer => peer.node.id)).size !== browserPrepared.length) throw Error('Prepared browser projects must be unique')
   const producers = [...new Set([...communityProtocolIdentity(), ...protocolIdentity(harnessRepository, ['unified/support-verification.ts', 'unified/declared-adapter.mjs', 'unified/failure-outputs.ts'])])].sort()
   const projects: any[] = []
-  const selected = catalog.nodes.filter(node => !settings.projects || settings.projects.includes(node.id))
   const preparation = join(out, 'preparation'); mkdirSync(preparation)
   const prepared = await prepareCommunity(parseOptions(['--out', preparation, '--community-catalog', settings.catalog ?? communityCatalogFile, '--community-projects', selected.map(node => node.id).join(','), '--community-prepared', preparedFile]))
   const save = () => writeFileSync(join(out, 'report.json'), JSON.stringify({ protocol: SUPPORT_VERIFICATION_PROTOCOL, producers, catalogSha256: createHash('sha256').update(readFileSync(settings.catalog ?? communityCatalogFile)).digest('hex'), generatedAt: new Date().toISOString(), preparedSha256: createHash('sha256').update(readFileSync(preparedFile)).digest('hex'), plannedProjects: selected.length, completedProjects: projects.length, workloads: supportWorkloads, projects, limits: 'Six authored output-admission inputs per bound format. No timing comparisons, full family support, model/paint completeness or overall top-tier support is inferred. Missing bindings and artifacts remain gaps.' }, null, 2) + '\n')

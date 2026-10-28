@@ -553,8 +553,8 @@ export async function main(argv = process.argv.slice(2)) {
   const requested = selectCommunityProjects(catalog.nodes, options.communityProjects).map(node => node.id)
   const comparisonSelection = comparisonProjects(catalog, requested, includeExcluded)
   options.communityProjects = comparisonSelection.included
-  if (!options.communityProjects.length) throw Error('No projects remain after lineage/branding exclusions; inspect support --lineage or use --include-excluded-descendants for a version/runtime investigation')
-  if (comparisonSelection.excluded.length) console.error('Lineage/branding exclusions: ' + comparisonSelection.excluded.map(node => node.project).join(', '))
+  if (!options.communityProjects.length) throw Error('No projects remain after scope/lineage/branding exclusions; inspect support --lineage. The descendant override does not enable whole-application workflows')
+  if (comparisonSelection.excluded.length) console.error('Scope/lineage/branding exclusions: ' + comparisonSelection.excluded.map(node => node.project).join(', '))
   options.communityCandidate = communityCandidate(candidateValues, options)
   const result = await runProjectUpdates(options, settings)
   console.log(JSON.stringify({ comparisonSelection, attempt: result.attempt, plan: result.plan, updates: result.updates.map(update => ({ project: update.project, lane: update.record.identity.lane ?? 'community', action: update.action, id: update.record.id })) }, null, 2))

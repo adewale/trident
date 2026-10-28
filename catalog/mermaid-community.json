@@ -190,18 +190,9 @@
         "https://github.com/mermaid-js/mermaid-live-editor/blob/eb4141dd51247259e95ecd890c1bf3dabf314913/package.json"
       ],
       "notes": "Source-checked community member, not an independent renderer benchmark peer. Dependency and manifest inspection only; no local runtime benchmark or Git root ancestry check. Categories describe responsibility; relation remains unverified.",
-      "applicationContract": {
-        "kind": "browser-editor",
-        "path": "/edit",
-        "editor": ".monaco-editor",
-        "input": "keyboard",
-        "preview": "#view svg",
-        "error": "[data-testid=\"error-container\"]",
-        "generatedPaths": [
-          "docs",
-          "static/embed.js"
-        ],
-        "dismiss": "button:has-text(\"Stay on mermaid.live\")"
+      "comparisonScope": {
+        "kind": "application",
+        "reason": "Whole-editor workflows are outside Trident core benchmarks. Retained for discovery; no IDE, webview or application UI driver is required."
       }
     },
     {
@@ -231,7 +222,11 @@
       "evidence": [
         "https://github.com/tomoyukim/vscode-mermaid-editor/blob/594128149e0146c4221c3720356a300436e6144f/package.json"
       ],
-      "notes": "Source-checked community member, not an independent renderer benchmark peer. Dependency and manifest inspection only; no local runtime benchmark or Git root ancestry check. Categories describe responsibility; relation remains unverified."
+      "notes": "Source-checked community member, not an independent renderer benchmark peer. Dependency and manifest inspection only; no local runtime benchmark or Git root ancestry check. Categories describe responsibility; relation remains unverified.",
+      "comparisonScope": {
+        "kind": "application",
+        "reason": "Whole-editor workflows are outside Trident core benchmarks. Retained for discovery; no IDE, webview or application UI driver is required."
+      }
     },
     {
       "id": "excalidraw/mermaid-to-excalidraw",
@@ -304,18 +299,10 @@
         "lockfile": "pnpm-lock.yaml",
         "renderer": "mermaid@11.12.1"
       },
-      "notes": "Independent application repository, not an independent parser/layout/renderer. Categorised as editor and integration: it uses Mermaid as its engine and is eligible for application workflow comparisons. SVG is the preview surface; downloads are transparent PNG or background JPEG, clipboard images are PNG, and share URLs contain compressed source plus theme/background/font. Annotation state is not serialized into share URLs. Benchmark uses a local locked source build, not the live deployment; dependency SVG-return measurements and complete-editor measurements are reported separately. See docs/comparisons/modern-mermaid.md.",
-      "applicationContract": {
-        "kind": "browser-editor",
-        "path": "/",
-        "editor": "textarea",
-        "input": "textarea",
-        "preview": "svg[aria-roledescription]",
-        "error": ".text-red-700",
-        "generatedPaths": [
-          "dist"
-        ],
-        "dismiss": "button[aria-label=\"Close\"]"
+      "notes": "Independent application repository, not an independent parser/layout/renderer. Categorised as editor and integration: it uses Mermaid as its engine and is outside core renderer comparisons. SVG is the preview surface; downloads are transparent PNG or background JPEG, clipboard images are PNG, and share URLs contain compressed source plus theme/background/font. Annotation state is not serialized into share URLs. Any separately commissioned application study needs its own scope; dependency renderer scores are not editor scores. See docs/comparisons/modern-mermaid.md.",
+      "comparisonScope": {
+        "kind": "application",
+        "reason": "Whole-editor workflows are outside Trident core benchmarks. Retained for discovery; no IDE, webview or application UI driver is required."
       }
     },
     {
