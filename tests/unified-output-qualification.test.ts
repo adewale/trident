@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-import { mkdtempSync, writeFileSync, rmSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs'
 import { runCommunityNodeRound, runCommunityCli } from '../unified/community.ts'
 import { parseOptions } from '../unified/options.ts'
 import { spawnSync } from 'node:child_process'
@@ -151,6 +151,7 @@ test('PNG inspection limits block module and CLI qualification without blaming t
     const rows = await runCommunityNodeRound({ node, artifact: { kind: 'node', root, module, version: '1.0.0' } }, 'png', [workload(['Alpha'])], 1, parseOptions(['--out', join(root, 'module'), '--profile', 'smoke']))
     expect(rows[0]).toMatchObject({ status: 'blocked' })
     expect(rows[0]?.samplesMs).toBeUndefined()
+    mkdirSync(join(root, 'cli'))
     const row = runCommunityCli({ node, artifact: { kind: 'cli', executable: process.env.NODE_BIN ?? 'node', args: [cli], input: 'stdin', format: 'png', version: '1.0.0' } }, 'png', workload(['Alpha']), 1, join(root, 'cli'))
     expect(row.status).toBe('blocked')
     expect(row.findings?.join(' ')).toContain('qualification budget')
