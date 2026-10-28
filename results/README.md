@@ -14,7 +14,8 @@ Results are stack-ranked by the metric named above each table. Coverage and
 passed-check rates run highest first; latency and memory run lowest first.
 Ties share a rank. Unavailable measurements are unranked below measured rows.
 The ecosystem overview uses DaveBench's SVG return rate; each other benchmark
-keeps its own ranking. The charts follow their table order.
+keeps its own ranking. The charts follow their table order. Historical values are maintained only in
+`latest.json`; the provenance receipt stores their digest and original source links.
 
 Regenerate or check the tracked page without acquiring projects or running benchmarks:
 
@@ -23,7 +24,8 @@ bun commands.ts results:snapshot
 bun commands.ts results:snapshot --check
 ```
 
-The check also works in CI without the Mermaid oracle. It rejects stale Markdown,
+The check also works in CI without the Mermaid oracle. It validates receipt hashes
+and retained table values, and rejects stale Markdown,
 invalid chart values and unknown catalog projects. Numeric zero is an observed
 value; unmeasured, blocked and not-applicable states are separate.
 
@@ -68,7 +70,7 @@ snapshot does not invent missing reductions.
 To publish a new comparative table, add a `SnapshotTable` to `latest.json` from
 the suite's verified reduction, with its original date, public interface,
 workload, units, qualification and receipt. The initial historical tables copy
-the existing [worked-table receipt](../docs/evidence/benchmark-examples.json);
+the source [provenance receipt](../docs/evidence/benchmark-examples.json);
 they do not silently become current results when the page is regenerated.
 An `overview` selects a named count and optional denominator. A `chart` selects
 numeric columns from that same table; a denominator produces a percentage in

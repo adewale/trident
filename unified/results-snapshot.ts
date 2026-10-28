@@ -5,6 +5,7 @@ import { campaignScorecards, readCampaign } from './campaign-publication.ts'
 import { lineageInventory, type LineageCatalog } from './lineage.ts'
 import { PUBLIC_SUITES, projectSupport, type PublicSuite } from './support.ts'
 import { communityCatalogFile } from './trident-paths.ts'
+import { measurementNumber, rankResults } from './result-ranking.ts'
 
 type Cell = string | number
 export interface SnapshotTable {
@@ -95,28 +96,21 @@ export function validateSnapshot(snapshot: ResultsSnapshot, catalog: LineageCata
 }
 /** Shared competition ranks (1, 1, 3); unavailable measurements never become zero. */
 export function rankedRows(entry: SnapshotTable, name: (id: string) => string) {
-  const numeric = (value: Cell | undefined) => typeof value === 'number' ? value : typeof value === 'string' && /^-?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?$/i.test(value) ? Number(value) : NaN
-  const rows = entry.rows.map(row => {
+  const numeric = (value: Cell | undefined) => measurementNumber(value) ?? NaN
+  return rankResults(entry.rows, { direction: entry.ranking?.direction ?? 'descending', name: row => name(row.project), score: row => {
     const metric = entry.ranking
     const numerator = metric ? numeric(row.values[entry.columns.indexOf(metric.column)]) : NaN
     const denominator = metric?.denominator ? numeric(row.values[entry.columns.indexOf(metric.denominator)]) : 1
     const total = entry.population ? numeric(row.values[entry.columns.indexOf(entry.population.total)]) : NaN
     const unobserved = (entry.population?.outcomes ?? []).filter(column => /^(Blocked|Unavailable|Unexecuted|Missing)$/.test(column)).reduce((sum, column) => sum + numeric(row.values[entry.columns.indexOf(column)]), 0)
     const value = numerator / denominator
-    const score = Number.isFinite(numerator) && Number.isFinite(denominator) && denominator > 0 && Number.isFinite(value) && !(total > 0 && unobserved >= total) ? value : null
-    return { ...row, score, rank: null as number | null }
-  }).sort((a, b) => a.score === null ? b.score === null ? name(a.project).localeCompare(name(b.project)) : 1
-    : b.score === null ? -1 : (entry.ranking?.direction === 'ascending' ? a.score - b.score : b.score - a.score) || name(a.project).localeCompare(name(b.project)))
-  let previous: number | null = null, rank = 0
-  rows.forEach((row, index) => {
-    if (row.score !== null) { if (row.score !== previous) rank = index + 1; row.rank = rank; previous = row.score }
-  })
-  return rows
+    return Number.isFinite(numerator) && Number.isFinite(denominator) && denominator > 0 && Number.isFinite(value) && !(total > 0 && unobserved >= total) ? value : null
+  } }).map(({ row, ...rank }) => ({ ...row, ...rank }))
 }
 function chartValue(entry: SnapshotTable, row: SnapshotTable['rows'][number]) {
-  const chart = entry.chart!, numerator = row.values[entry.columns.indexOf(chart.numerator)]
-  const denominator = chart.denominator ? row.values[entry.columns.indexOf(chart.denominator)] : 1
-  if (typeof numerator !== 'number' || typeof denominator !== 'number' || numerator < 0 || denominator <= 0 || chart.denominator && numerator > denominator) throw Error('Chart needs observed numeric values and a valid denominator')
+  const chart = entry.chart!, numerator = measurementNumber(row.values[entry.columns.indexOf(chart.numerator)])
+  const denominator = chart.denominator ? measurementNumber(row.values[entry.columns.indexOf(chart.denominator)]) : 1
+  if (numerator === null || denominator === null || numerator < 0 || denominator <= 0 || chart.denominator && numerator > denominator) throw Error('Chart needs observed numeric values and a valid denominator')
   const value = chart.denominator ? 100 * numerator / denominator : numerator
   if (value > chart.maximum) throw Error('Chart value exceeds range')
   return Number(value.toFixed(1))
@@ -174,6 +168,7 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
   const alphabetical = <T extends { project: string }>(rows: T[]) => [...rows].sort((a, b) => name(a.project).localeCompare(name(b.project)))
   const primary = snapshot.tables.find(entry => entry.id === (snapshot.overviewRanking ?? 'docs-coverage'))
   if (snapshot.overviewRanking && !primary) throw Error('Unknown overview ranking table')
+  if (primary && !primary.ranking) throw Error('Overview ranking table needs a named metric')
   const currentPrimary = primary ? { ...primary, rows: primary.rows.filter(row => !snapshot.attempts.some(attempt => attempt.project === row.project && attempt.suite === primary.suite && stamp(attempt.updatedAt) >= stamp(primary.measuredAt))) } : undefined
   const primaryRanks = new Map(currentPrimary ? rankedRows(currentPrimary, name).map(row => [row.project, row.rank]) : [])
   const projects = [...lineage.nodes.filter(node => !node.excludedFromComparison)].sort((a, b) => (primaryRanks.get(a.project) ?? Infinity) - (primaryRanks.get(b.project) ?? Infinity) || name(a.project).localeCompare(name(b.project)))
@@ -250,6 +245,30 @@ export function writeSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalog
     for (const [path, content] of outputs) writeFileSync(path, content)
   }
 }
+
+/** Canonical observed values only; presentation order and ranking metadata may change. */
+export function retainedTableValues(snapshot: ResultsSnapshot, ids: string[]) {
+  return [...ids].sort().map(id => {
+    const entry = snapshot.tables.find(table => table.id === id)
+    if (!entry) throw Error('Missing retained table: ' + id)
+    return { id: entry.id, suite: entry.suite, measuredAt: entry.measuredAt, historical: entry.historical, unit: entry.unit, columns: entry.columns,
+      rows: [...entry.rows].sort((a, b) => a.project < b.project ? -1 : a.project > b.project ? 1 : 0).map(row => ({ project: row.project, values: row.values })) }
+  })
+}
+
+export function validateSnapshotReceipts(snapshot: ResultsSnapshot, root: string) {
+  const local = new Map<string, SnapshotTable[]>()
+  for (const entry of snapshot.tables) if (!entry.receipt.url.startsWith('https://')) local.set(entry.receipt.url, [...(local.get(entry.receipt.url) ?? []), entry])
+  for (const [url, entries] of local) {
+    const bytes = readFileSync(resolve(root, url.split('#')[0]!))
+    if (entries.some(entry => sha256(bytes) !== entry.receipt.sha256)) throw Error('Retained receipt hash changed: ' + url)
+    const receipt = (url.split('#')[0]!.endsWith('.json') ? JSON.parse(bytes.toString()) : {}) as { tableData?: { ids: string[]; valuesSha256: string } }
+    if (receipt.tableData) {
+      if (JSON.stringify(entries.map(entry => entry.id).sort()) !== JSON.stringify([...receipt.tableData.ids].sort())) throw Error('Retained table population changed: ' + url)
+      if (sha256(JSON.stringify(retainedTableValues(snapshot, receipt.tableData.ids))) !== receipt.tableData.valuesSha256) throw Error('Retained table values changed: ' + url)
+    }
+  }
+}
 export function main(argv = process.argv.slice(2)) {
   if (argv.includes('--help')) { console.log('bun commands.ts results:snapshot [--input results/latest.json] [--campaign DIR --evidence-url HTTPS_DIRECTORY]... [--out REPOSITORY_ROOT] [--check]\nRegenerates RESULTS.md and results/latest.json without running benchmarks. Campaign imports retain failed and partial attempts and original dates. Publish evidence first with results:campaign --copy-evidence; supply its permanent HTTPS evidence directory. --check verifies tracked output without writing.'); return }
   let input = resolve(import.meta.dir, '../results/latest.json'), out = resolve(import.meta.dir, '..'), check = false
@@ -271,10 +290,7 @@ export function main(argv = process.argv.slice(2)) {
   const catalog = JSON.parse(readFileSync(communityCatalogFile, 'utf8')) as LineageCatalog
   let snapshot = JSON.parse(readFileSync(input, 'utf8')) as ResultsSnapshot
   validateSnapshot(snapshot, catalog)
-  for (const entry of snapshot.tables) if (!entry.receipt.url.startsWith('https://')) {
-    const file = resolve(import.meta.dir, '..', entry.receipt.url.split('#')[0]!)
-    if (sha256(readFileSync(file)) !== entry.receipt.sha256) throw Error('Retained receipt hash changed: ' + entry.receipt.url)
-  }
+  validateSnapshotReceipts(snapshot, resolve(import.meta.dir, '..'))
   for (const entry of imports) {
     if (!entry.evidenceUrl) throw Error('--campaign needs --evidence-url')
     snapshot = importCampaign(snapshot, entry.directory, entry.evidenceUrl, catalog)

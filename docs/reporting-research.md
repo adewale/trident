@@ -46,7 +46,7 @@ aggregate or extra decimal places.
 | Old timings might be read as a new performance result. | Keep the original date, protocol, call mode, sample count and incomplete qualification visible. Do not add an unqualified speed ratio or confidence interval. |
 | A missing counter could look like zero cost. | The resource example says CPU is unavailable and gives process RSS and JS heap separate columns. |
 
-The [worked tables](benchmark-examples.md) show the presentation. Their
-[receipt](evidence/benchmark-examples.json) records numeric rows and source digests.
+The [comparison tables](../RESULTS.md#results-by-benchmark) show the presentation. Their
+[receipt](evidence/benchmark-examples.json) records source digests and the hash of the canonical table values.
 The changes are to documentation and example reductions, not benchmark collection
 or runtime publication code.
