@@ -1,0 +1,7 @@
+{
+  "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+  "family": "flowchart",
+  "source": "flowchart TD\n    Start --> one\n    subgraph one [My Group]\n        A --> B\n        B --> C\n    end\n    one --> End\n    one@{ view: collapsed }\n",
+  "file": "packages/mermaid/src/docs/syntax/flowchart.md",
+  "line": 1065
+}

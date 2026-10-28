@@ -1,0 +1,3921 @@
+{
+  "protocol": "public-docs-png-export-v1",
+  "measuredFrom": "2026-10-28T23:03:05.828Z",
+  "measuredTo": "2026-10-28T23:19:59.573Z",
+  "plannedOccurrences": 548,
+  "distinctSources": 546,
+  "pages": 34,
+  "rounds": 5,
+  "commonOccurrences": 315,
+  "outcomes": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1",
+      "runtime": "Node v24.19.0",
+      "round": 1,
+      "planned": 548,
+      "returned": 335,
+      "passed": 335,
+      "failed": 213,
+      "blocked": 0
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1",
+      "runtime": "Node v24.19.0",
+      "round": 2,
+      "planned": 548,
+      "returned": 335,
+      "passed": 335,
+      "failed": 213,
+      "blocked": 0
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1",
+      "runtime": "Node v24.19.0",
+      "round": 3,
+      "planned": 548,
+      "returned": 335,
+      "passed": 335,
+      "failed": 213,
+      "blocked": 0
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1",
+      "runtime": "Node v24.19.0",
+      "round": 4,
+      "planned": 548,
+      "returned": 335,
+      "passed": 335,
+      "failed": 213,
+      "blocked": 0
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1",
+      "runtime": "Node v24.19.0",
+      "round": 5,
+      "planned": 548,
+      "returned": 335,
+      "passed": 335,
+      "failed": 213,
+      "blocked": 0
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "runtime": "Chromium",
+      "round": 1,
+      "planned": 548,
+      "returned": 547,
+      "passed": 547,
+      "failed": 1,
+      "blocked": 0
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "runtime": "Chromium",
+      "round": 2,
+      "planned": 548,
+      "returned": 547,
+      "passed": 547,
+      "failed": 1,
+      "blocked": 0
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "runtime": "Chromium",
+      "round": 3,
+      "planned": 548,
+      "returned": 547,
+      "passed": 547,
+      "failed": 1,
+      "blocked": 0
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "runtime": "Chromium",
+      "round": 4,
+      "planned": 548,
+      "returned": 547,
+      "passed": 547,
+      "failed": 1,
+      "blocked": 0
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "runtime": "Chromium",
+      "round": 5,
+      "planned": 548,
+      "returned": 547,
+      "passed": 547,
+      "failed": 1,
+      "blocked": 0
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.9.0",
+      "runtime": "Chromium",
+      "round": 1,
+      "planned": 548,
+      "returned": 532,
+      "passed": 531,
+      "failed": 17,
+      "blocked": 0
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.9.0",
+      "runtime": "Chromium",
+      "round": 2,
+      "planned": 548,
+      "returned": 532,
+      "passed": 531,
+      "failed": 17,
+      "blocked": 0
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.9.0",
+      "runtime": "Chromium",
+      "round": 3,
+      "planned": 548,
+      "returned": 532,
+      "passed": 531,
+      "failed": 17,
+      "blocked": 0
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.9.0",
+      "runtime": "Chromium",
+      "round": 4,
+      "planned": 548,
+      "returned": 532,
+      "passed": 531,
+      "failed": 17,
+      "blocked": 0
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.9.0",
+      "runtime": "Chromium",
+      "round": 5,
+      "planned": 548,
+      "returned": 532,
+      "passed": 531,
+      "failed": 17,
+      "blocked": 0
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "runtime": "Native Linux Flutter release",
+      "round": 1,
+      "planned": 548,
+      "returned": 449,
+      "passed": 448,
+      "failed": 100,
+      "blocked": 0
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "runtime": "Native Linux Flutter release",
+      "round": 2,
+      "planned": 548,
+      "returned": 449,
+      "passed": 448,
+      "failed": 100,
+      "blocked": 0
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "runtime": "Native Linux Flutter release",
+      "round": 3,
+      "planned": 548,
+      "returned": 449,
+      "passed": 448,
+      "failed": 100,
+      "blocked": 0
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "runtime": "Native Linux Flutter release",
+      "round": 4,
+      "planned": 548,
+      "returned": 449,
+      "passed": 448,
+      "failed": 100,
+      "blocked": 0
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "runtime": "Native Linux Flutter release",
+      "round": 5,
+      "planned": 548,
+      "returned": 449,
+      "passed": 448,
+      "failed": 100,
+      "blocked": 0
+    }
+  ],
+  "costs": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1",
+      "runtime": "Node v24.19.0",
+      "commonOccurrences": 315,
+      "medianMs": 16.550482999999986,
+      "p95InputMedianMs": 47.87010499999997,
+      "sumInputMedianMs": 6854.747065999997,
+      "medianPixels": 83700,
+      "medianBytes": 7119
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "runtime": "Chromium",
+      "commonOccurrences": 315,
+      "medianMs": 32.29999999701977,
+      "p95InputMedianMs": 81.5,
+      "sumInputMedianMs": 12419.09999994561,
+      "medianPixels": 92400,
+      "medianBytes": 13667
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.9.0",
+      "runtime": "Chromium",
+      "commonOccurrences": 315,
+      "medianMs": 5.5,
+      "p95InputMedianMs": 12.100000001490116,
+      "sumInputMedianMs": 2033.2999999336898,
+      "medianPixels": 53020,
+      "medianBytes": 10103
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "runtime": "Native Linux Flutter release",
+      "commonOccurrences": 315,
+      "medianMs": 9.742,
+      "p95InputMedianMs": 47.333,
+      "sumInputMedianMs": 4726.477,
+      "medianPixels": 70735,
+      "medianBytes": 7868
+    }
+  ],
+  "failures": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:127",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"agentflow-beta LR\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:151",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"agentflow-beta TB\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:170",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"agentflow-beta TB\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:189",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"agentflow-beta TB\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:19",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"agentflow-beta TB\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:212",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"agentflow-beta TB\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:279",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"agentflow-beta LR\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:294",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"agentflow-beta TB\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:331",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"agentflow-beta TB\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:352",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"agentflow-beta TB\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:41",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"agentflow-beta TB\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:67",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"agentflow-beta TB\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:10",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:103",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:120",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:139",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:159",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:183",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:192",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:201",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:210",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:219",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:230",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:237",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:244",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:253",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:265",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:278",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:293",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:302",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:327",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:344",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:354",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:383",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:397",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:422",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:441",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:478",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:488",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:497",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:64",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/block.md:80",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"block\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/c4.md:175",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"c4\" is inventory-only in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/c4.md:225",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"c4\" is inventory-only in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/c4.md:267",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"c4\" is inventory-only in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/c4.md:309",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"c4\" is inventory-only in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/c4.md:331",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"c4\" is inventory-only in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/c4.md:7",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"c4\" is inventory-only in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/classDiagram.md:538",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "RangeError: SVG root viewBox must contain four finite values with positive bounds for PNG rasterization"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/classDiagram.md:774",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "RangeError: SVG root viewBox must contain four finite values with positive bounds for PNG rasterization"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/classDiagram.md:782",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "RangeError: SVG root viewBox must contain four finite values with positive bounds for PNG rasterization"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/classDiagram.md:827",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "RangeError: SVG root viewBox must contain four finite values with positive bounds for PNG rasterization"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/cynefin.md:118",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"cynefin\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/cynefin.md:144",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"cynefin\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/cynefin.md:93",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"cynefin\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:219",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "RangeError: SVG root viewBox must contain four finite values with positive bounds for PNG rasterization"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/eventmodeling.md:103",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"eventmodeling\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/eventmodeling.md:133",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"eventmodeling\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/eventmodeling.md:169",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"eventmodeling\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/eventmodeling.md:184",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"eventmodeling\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/eventmodeling.md:199",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"eventmodeling\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/eventmodeling.md:211",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"eventmodeling\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/eventmodeling.md:227",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"eventmodeling\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/eventmodeling.md:237",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"eventmodeling\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/eventmodeling.md:247",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"eventmodeling\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/eventmodeling.md:300",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"eventmodeling\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/eventmodeling.md:47",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"eventmodeling\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/eventmodeling.md:77",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"eventmodeling\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/eventmodeling.md:87",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"eventmodeling\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/gantt.md:291",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "GanttError: GANTT_EMPTY: Gantt diagram has no tasks"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/gantt.md:519",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "GanttError: GANTT_BAD_DATE: Invalid end date \"1s   %% not yet official\" for dateFormat \"YYYY\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/gitgraph.md:254",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "SceneValidationError: Scene validation failed: scene: parts[21]/0(shape:c6:shape).points: semantic \"833.395,248.04000000000002 843.395,258.04 833.395,268.04 823\" != crisp \"833.395,248.04 843.395,258.04 833.395,268.04 823.395,258.04\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/gitgraph.md:471",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "GitGraphParseError: Duplicate gitGraph commit id 'Boston' on line 18; commit IDs must be unique."
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/ishikawa.md:13",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"ishikawa\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/kanban.md:59",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"kanban\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/kanban.md:83",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"kanban\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/kanban.md:9",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"kanban\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/packet.md:121",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"packet\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/packet.md:34",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"packet\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/packet.md:58",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"packet\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/packet.md:77",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"packet\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/railroad.md:112",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"railroad\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/railroad.md:155",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"railroad\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/railroad.md:16",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"railroad\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/railroad.md:166",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"railroad\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/railroad.md:189",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"railroad\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/railroad.md:199",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"railroad\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/railroad.md:221",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"railroad\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/railroad.md:232",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"railroad\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/railroad.md:256",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"railroad\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/railroad.md:45",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"railroad\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/railroad.md:58",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"railroad\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/railroad.md:67",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"railroad\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/railroad.md:79",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"railroad\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/railroad.md:99",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"railroad\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/requirementDiagram.md:140",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"requirement\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/requirementDiagram.md:177",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"requirement\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/requirementDiagram.md:258",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"requirement\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/requirementDiagram.md:285",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"requirement\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/requirementDiagram.md:307",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"requirement\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/requirementDiagram.md:34",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"requirement\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/requirementDiagram.md:363",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"requirement\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/requirementDiagram.md:60",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"requirement\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/requirementDiagram.md:7",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"requirement\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/sankey.md:106",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"sankey\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/sankey.md:119",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"sankey\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/sankey.md:133",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"sankey\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/sankey.md:144",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"sankey\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/sankey.md:15",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"sankey\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/sankey.md:196",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"sankey\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/sankey.md:217",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"sankey\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/sankey.md:236",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"sankey\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:132",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"swimlane\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:142",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"swimlane\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:161",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"swimlane\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:199",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"swimlane\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:232",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"swimlane\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:258",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"swimlane\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:26",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"swimlane\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:282",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"swimlane\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:309",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"swimlane\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:335",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"swimlane\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:356",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"swimlane\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:50",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"swimlane\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:80",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"swimlane\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:107",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treeview\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:123",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treeview\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:149",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treeview\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:167",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treeview\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:183",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treeview\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:210",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treeview\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:222",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treeview\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:235",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treeview\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:39",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treeview\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:50",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treeview\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:62",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treeview\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:83",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treeview\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:95",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treeview\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treemap.md:115",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treemap\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treemap.md:133",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treemap\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treemap.md:185",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treemap\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treemap.md:204",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treemap\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treemap.md:51",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treemap\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treemap.md:63",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treemap\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treemap.md:77",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treemap\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treemap.md:99",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"treemap\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:107",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:131",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:150",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:161",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:181",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:197",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:213",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:233",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:250",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:263",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:282",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:29",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:306",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:321",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:349",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:407",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:439",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:478",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:507",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:527",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:53",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:579",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:7",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:88",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Unrecognized Mermaid header: \"usecase-beta\""
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/venn.md:101",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"venn\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/venn.md:114",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"venn\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/venn.md:135",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"venn\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/venn.md:18",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"venn\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/venn.md:35",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"venn\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/venn.md:64",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"venn\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/venn.md:76",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"venn\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/venn.md:89",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"venn\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:101",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:115",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:134",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:153",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:184",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:207",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:21",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:234",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:252",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:265",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:281",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:305",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:329",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:352",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:382",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:390",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:50",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:69",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/wardley.md:90",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"wardley\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:100",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"zenuml\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:110",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"zenuml\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:130",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"zenuml\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:150",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"zenuml\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:166",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"zenuml\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:193",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"zenuml\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:217",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"zenuml\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:239",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"zenuml\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:25",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"zenuml\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:264",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"zenuml\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:290",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"zenuml\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:38",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"zenuml\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:54",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"zenuml\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:76",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"zenuml\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:8",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"zenuml\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:90",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidFamilyDetectionError: Mermaid 11.16.0 family \"zenuml\" is unsupported in Agentic Mermaid"
+      ]
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:674",
+      "status": "failed",
+      "stages": {
+        "public-svg": 5
+      },
+      "details": [
+        "EncodingError: The source image cannot be decoded."
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "case": "packages/mermaid/src/docs/syntax/gantt.md:291",
+      "status": "failed",
+      "stages": {
+        "qualification": 5
+      },
+      "details": [
+        "PNG has no nonuniform visible diagram content despite declared authored labels"
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:100",
+      "status": "failed",
+      "stages": {
+        "public-svg": 5
+      },
+      "details": [
+        "PeleError: No diagram type detected for the given text."
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:110",
+      "status": "failed",
+      "stages": {
+        "public-svg": 5
+      },
+      "details": [
+        "PeleError: No diagram type detected for the given text."
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:130",
+      "status": "failed",
+      "stages": {
+        "public-svg": 5
+      },
+      "details": [
+        "PeleError: No diagram type detected for the given text."
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:150",
+      "status": "failed",
+      "stages": {
+        "public-svg": 5
+      },
+      "details": [
+        "PeleError: No diagram type detected for the given text."
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:166",
+      "status": "failed",
+      "stages": {
+        "public-svg": 5
+      },
+      "details": [
+        "PeleError: No diagram type detected for the given text."
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:193",
+      "status": "failed",
+      "stages": {
+        "public-svg": 5
+      },
+      "details": [
+        "PeleError: No diagram type detected for the given text."
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:217",
+      "status": "failed",
+      "stages": {
+        "public-svg": 5
+      },
+      "details": [
+        "PeleError: No diagram type detected for the given text."
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:239",
+      "status": "failed",
+      "stages": {
+        "public-svg": 5
+      },
+      "details": [
+        "PeleError: No diagram type detected for the given text."
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:25",
+      "status": "failed",
+      "stages": {
+        "public-svg": 5
+      },
+      "details": [
+        "PeleError: No diagram type detected for the given text."
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:264",
+      "status": "failed",
+      "stages": {
+        "public-svg": 5
+      },
+      "details": [
+        "PeleError: No diagram type detected for the given text."
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:290",
+      "status": "failed",
+      "stages": {
+        "public-svg": 5
+      },
+      "details": [
+        "PeleError: No diagram type detected for the given text."
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:38",
+      "status": "failed",
+      "stages": {
+        "public-svg": 5
+      },
+      "details": [
+        "PeleError: No diagram type detected for the given text."
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:54",
+      "status": "failed",
+      "stages": {
+        "public-svg": 5
+      },
+      "details": [
+        "PeleError: No diagram type detected for the given text."
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:76",
+      "status": "failed",
+      "stages": {
+        "public-svg": 5
+      },
+      "details": [
+        "PeleError: No diagram type detected for the given text."
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:8",
+      "status": "failed",
+      "stages": {
+        "public-svg": 5
+      },
+      "details": [
+        "PeleError: No diagram type detected for the given text."
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:90",
+      "status": "failed",
+      "stages": {
+        "public-svg": 5
+      },
+      "details": [
+        "PeleError: No diagram type detected for the given text."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:127",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:151",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:170",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:189",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:19",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:212",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:279",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:294",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:331",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:352",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:41",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/agentflow.md:67",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/classDiagram.md:163",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 4: unrecognized statement \"`Animal Class!` --> `Car Class`\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/classDiagram.md:782",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 2: unrecognized statement \"class Animal:::someclass {\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:219",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 2: unrecognized statement \"CAR 1 to zero or more NAMED-DRIVER : allows\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:376",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 2: unrecognized statement \"subgraph title1\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:403",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 2: unrecognized statement \"subgraph title1\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:412",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 2: unrecognized statement \"subgraph \"Customer Domain\"\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:421",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 2: unrecognized statement \"subgraph id1 [title 1]\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:442",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 2: unrecognized statement \"subgraph title1\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:465",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 3: unrecognized statement \"subgraph TOP\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:488",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 2: unrecognized statement \"id1||--||id2 : label\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:538",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 3: unrecognized statement \"CAR:::someclass {\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:558",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 12: unrecognized statement \"PERSON:::foo ||--|| CAR : owns\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:594",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 12: unrecognized statement \"PERSON:::foo ||--|| CAR : owns\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:1019",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: please add source Node"
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:1277",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 2: expected link or end of statement near \"e1@==> B\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:807",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 2: expected link or end of statement near \"e1@--> B\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:818",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 2: expected link or end of statement near \"e1@==> B\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:832",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 2: expected link or end of statement near \"e1@--> B\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:844",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 2: expected link or end of statement near \"e1@--> B\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/gantt.md:151",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 5: unrecognized statement \"weekend friday\""
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/gantt.md:291",
+      "status": "failed",
+      "stages": {
+        "qualification": 5
+      },
+      "details": [
+        "PNG has no nonuniform visible diagram content despite declared authored labels; PNG has no nonuniform visible diagram content despite declared authored labels"
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/mindmap.md:233",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "MermaidParseException at line 3: multiple roots are not allowed in a mindmap"
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:132",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:142",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:161",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:199",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:232",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:258",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:26",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:282",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:309",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:335",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:356",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:50",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/swimlanes.md:80",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:107",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:123",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:149",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:167",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:183",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:210",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:222",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:235",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:39",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:50",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:62",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:83",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/treeView.md:95",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:107",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:131",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:150",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:161",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:181",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:197",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:213",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:233",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:250",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:263",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:282",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:29",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:306",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:321",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:349",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:407",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:439",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:478",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:507",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:527",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:53",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:579",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:7",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/usecase.md:88",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:100",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:110",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:130",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:150",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:166",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:193",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:217",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:239",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:25",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:264",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:290",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:38",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:54",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:76",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:8",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "case": "packages/mermaid/src/docs/syntax/zenuml.md:90",
+      "status": "failed",
+      "stages": {
+        "public-api": 5
+      },
+      "details": [
+        "Unsupported operation: Unrecognized or not-yet-supported diagram type. Currently supported: flowchart, sequence, class, state, er, pie, gantt, quadrantChart, journey, timeline, xychart, mindmap, requirementDiagram, C4, gitGraph, sankey, packet, block, radar, treemap, kanban, architecture."
+      ]
+    }
+  ]
+}

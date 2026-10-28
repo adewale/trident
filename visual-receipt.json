@@ -1,0 +1,57 @@
+{
+  "baseline": "8cfa06bf6b8395d5c4d254b8c2551117fd520064",
+  "head": "6f5b3155a277873fe1f9fb8b48276367bbf30996",
+  "producer": "2d99f3f38941275036c108ff1ead165bcdd8f5c2",
+  "baselineScope": "No PNG DaveBench harness at base; renderer output is not claimed unavailable. No fabricated before image.",
+  "baselineDiagnostic": "fatal: path 'unified/docs-png-benchmark.ts' exists on disk, but not in '8cfa06bf6b8395d5c4d254b8c2551117fd520064'",
+  "fixture": {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1449",
+    "family": "flowchart",
+    "source": "flowchart LR\n    A[Hard edge] -->|Link text| B(Round edge)\n    B --> C{Decision}\n    C -->|One| D[Result one]\n    C -->|Two| E[Result two]\n",
+    "file": "packages/mermaid/src/docs/syntax/flowchart.md",
+    "line": 1449
+  },
+  "images": [
+    {
+      "path": "mermaid.png",
+      "sha256": "6a7d3a39664d15ed946854a466b4cc067d41a49b2141bb3a131e632a7a20d66d"
+    },
+    {
+      "path": "pele.png",
+      "sha256": "095f43a50807ee80a0f3baf24b2f23e6ac6a7c983b428c73a90e39095012c44e"
+    },
+    {
+      "path": "blank-mermaid.png",
+      "sha256": "7e8d2fbd3e0945b5f1b176ca6775b426b793946d37731ac5150c7b784e1bb9a6"
+    },
+    {
+      "path": "collapsed-agentic.png",
+      "sha256": "db1c70e5c270f81fd5a02714c5e05494da69abf8b6841472c2dfeb1334f68cfa"
+    },
+    {
+      "path": "collapsed-mermaid.png",
+      "sha256": "cdd9b28b142d4e5290b5d505e4ceb384539b0a0b9f65453cdc0ce0fd0de10079"
+    },
+    {
+      "path": "collapsed-pele.png",
+      "sha256": "33fa419c12cc343270eb5d0594803b2b36f7bb3980367c031aa3f70e989fb832"
+    },
+    {
+      "path": "blank-pele.png",
+      "sha256": "c9de209ffb76467831abd58200dc16269e24ffb1044f5f352910ccb2a7a4660f"
+    },
+    {
+      "path": "agentic.png",
+      "sha256": "ba0d07873702826e52c7f4bea18776b6de054af911e491284cc2fbd8ecbd7e13"
+    },
+    {
+      "path": "flutter.png",
+      "sha256": "1fc0a21a630e4483d0c7246b3bb1f262191b5ca3c22579b18773ffdea3fa5087"
+    },
+    {
+      "path": "collapsed-flutter.png",
+      "sha256": "97b8abd31ca48d9b4b6d159f3f260ef4eaddd9b7fa7e83b01387e31c9193b706"
+    }
+  ],
+  "observation": "Unedited actual PNG bytes from full round1 exports. Look for five nodes and three authored edge labels in the ordinary fixture. Collapsed fixture is retained as an explicit semantic qualification limit."
+}

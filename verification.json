@@ -1,0 +1,25 @@
+{
+  "producer": "2d99f3f38941275036c108ff1ead165bcdd8f5c2",
+  "observations": 10960,
+  "perParticipantRounds": 5,
+  "occurrencesPerRound": 548,
+  "warmupAttempts": 600,
+  "nativeCalls": 2890,
+  "nodeCalls": 2890,
+  "browserCalls": 5780,
+  "launchesVerified": 5,
+  "allNativeRelease": true,
+  "allNativeAcknowledgementsPresent": true,
+  "allChildAttemptsExitZeroWithoutTimeout": true,
+  "returnedPngFilesChecked": 12070,
+  "retainedFileLengthsMatch": true,
+  "nativeObserverDecodeErrors": 0,
+  "browserRasterBudgetErrors": 0,
+  "commonQualifiedOccurrences": 315,
+  "representativeInput": "packages/mermaid/src/docs/syntax/flowchart.md:1449",
+  "sourceAfterRun": "Failure-path hardening is separate from the measured producer; no affected branch executed.",
+  "visualLimitation": {
+    "case": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "finding": "Collapsed-subgraph input has visible A/B/C internals in Agentic and Flutter; Mermaid and Pele hide those internals. Nonblank PNG qualification does not certify option semantics."
+  }
+}

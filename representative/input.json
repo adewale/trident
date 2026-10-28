@@ -1,0 +1,7 @@
+{
+  "id": "packages/mermaid/src/docs/syntax/flowchart.md:1449",
+  "family": "flowchart",
+  "source": "flowchart LR\n    A[Hard edge] -->|Link text| B(Round edge)\n    B --> C{Decision}\n    C -->|One| D[Result one]\n    C -->|Two| E[Result two]\n",
+  "file": "packages/mermaid/src/docs/syntax/flowchart.md",
+  "line": 1449
+}
