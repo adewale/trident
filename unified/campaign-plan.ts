@@ -36,6 +36,7 @@ export function campaignPlan(options: CampaignPlanOptions) {
   })
   const estimatedMinutes = { low: rows.reduce((sum, row) => sum + row.estimatedMinutes.low, 0), high: rows.reduce((sum, row) => sum + row.estimatedMinutes.high, 0) }
   return { protocol: 'trident-campaign-plan-v1', selection: options.projects.map(node => node.id), suites: options.suites, rounds: options.rounds, profile: options.profile, tools, versions, oracleError, rows, estimatedMinutes, budgetMinutes: options.budgetMinutes ?? null,
+    preparation: { estimatedMinutes: null, scope: 'Acquisition, downloads and source builds are not included in the planning range. Their duration is unknown until artifacts/toolchains are admitted.' },
     budgetExceededByEstimate: options.budgetMinutes !== undefined && estimatedMinutes.high > options.budgetMinutes,
     policy: 'Planning performs no acquisition or rendering. Estimates are deliberately broad and do not establish feasibility or a maximum. A runtime budget stops at suite boundaries; an active worker retains its declared deadline. Missing external observers are unavailable counters, not free work.' }
 }

@@ -16,7 +16,7 @@ bun commands.ts bench --projects OWNER/TOOL,... --profile full \
 Execution requires `--projects` or the explicit `--all-projects` option. Listing
 and planning acquire nothing and render nothing. The plan shows each selected
 suite's binding, prerequisites, missing local tools, fresh-worker population and
-a broad runtime allowance. It does not predict a project's speed or prove that
+a broad runtime allowance. Acquisition, downloads and source builds have unknown duration and are excluded from that range. It does not predict a project's speed or prove that
 a build succeeds. Toolchain/version/network admission still happens at execution.
 
 The optional runtime budget is checked between suite/project boundaries. It does
@@ -59,7 +59,7 @@ Different public APIs require translations while the output admission rules stay
 ## Freeze external inputs before examining output
 
 `corpus/external-sources.json` records full Git pins, licenses and the same
-20-file selection cap for each of the eight primary repositories. Fetch those
+20-file selection cap for each of the eight primary repositories. License and notice texts at those pins travel with the frozen inputs. Fetch those
 pins into `.cache/corpus-sources/OWNER--REPO` (a bare repository is sufficient),
 then freeze the inputs:
 

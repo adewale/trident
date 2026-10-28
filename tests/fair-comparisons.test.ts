@@ -134,5 +134,11 @@ test('campaign publication preserves dates, failed criteria and raw samples in a
     expect(markdown).not.toContain('| Rank |')
     expect(readFileSync(join(out, 'evidence/1/docs/samples.json'), 'utf8')).toBe(bytes)
     expect(() => publishCampaigns([source], out)).toThrow('fresh')
+    const envelope = JSON.parse(readFileSync(join(source, 'report.json'), 'utf8'))
+    envelope.results[0].out = directory
+    writeFileSync(join(source, 'report.json'), JSON.stringify(envelope))
+    const escaped = join(directory, 'escaped-publication')
+    expect(() => publishCampaigns([source], escaped, { copyEvidence: true })).toThrow('outside its campaign')
+    expect(existsSync(escaped)).toBe(false)
   } finally { rmSync(directory, { recursive: true, force: true }) }
 })
