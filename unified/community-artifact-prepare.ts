@@ -1,3 +1,4 @@
+import { harnessFile } from './harness-paths.ts'
 import '../ci-policy-enforce.ts'
 import { createHash } from 'node:crypto'
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
@@ -156,7 +157,7 @@ export async function prepareCommunityArtifact(node: CommunityNode, cacheRoot: s
     await run(['git', 'checkout', '--detach', '--force', revision], checkout, env, log)
     const root = join(directory, 'wasm'),
       bindgen = process.env.AM_BENCH_WASM_BINDGEN ?? 'wasm-bindgen'
-    await run([process.versions.bun ? process.execPath : (process.env.AM_BENCH_BUN ?? 'bun'), 'run', join(driver, 'eval/benchmark/bezel-wasm/build.ts'), '--checkout', checkout, '--out', root, '--wasm-bindgen', bindgen], driver, env, log)
+    await run([process.versions.bun ? process.execPath : (process.env.AM_BENCH_BUN ?? 'bun'), 'run', harnessFile(driver, 'eval/benchmark/bezel-wasm/build.ts'), '--checkout', checkout, '--out', root, '--wasm-bindgen', bindgen], driver, env, log)
     const module = join(root, 'bezel.js'),
       wasm = join(root, 'pkg/bezel_bench_bg.wasm')
     const built = JSON.parse(readFileSync(join(root, 'manifest.json'), 'utf8')) as { version: string; revision: string }

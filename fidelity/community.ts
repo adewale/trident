@@ -1,3 +1,4 @@
+import { harnessFile } from '../unified/harness-paths.ts'
 import { writeBenchmarkDocument } from '../portable/project-records.ts'
 import { fidelityCriteriaProtocol } from './protocol.ts'
 import { createHash } from 'node:crypto'
@@ -16,7 +17,7 @@ import { qualifyOutput } from '../unified/qualification.ts'
 import { runRetainedSuite } from '../unified/retained-suite.ts'
 import { stableValue } from '../portable/project-records.ts'
 import type { BenchmarkObservation, UnifiedSuiteResult } from '../unified/types.ts'
-import { communityFidelityBrowserAction } from './community-browser-helper.ts'
+import { publicSvgBrowserAction } from '../unified/public-svg-browser.ts'
 import { planFidelityCriteria, completeCriterionLedger } from './ledger.ts'
 import { inspectFidelityPaint } from './paint.ts'
 import { inspectQuantitativePaint } from './paint-values.ts'
@@ -25,7 +26,6 @@ import type { FidelityRunOptions } from './run.ts'
 import { communityCatalogFile } from '../unified/trident-paths.ts'
 
 export interface CommunityFidelityOptions extends FidelityRunOptions { communityFidelityPng?: 'basic-families' | 'none' }
-const core = new Set(['adewale/agentic-mermaid', 'obsidianmd/pele', 'mermaid-js/mermaid'])
 const write = (path: string, value: unknown) => writeFileSync(path, JSON.stringify(value) + '\n')
 const digest = (path: string) => createHash('sha256').update(readFileSync(path)).digest('hex')
 async function bounded<T>(operation: Promise<T>, cancel: () => void, milliseconds = 20_000): Promise<T> { let timer: ReturnType<typeof setTimeout> | undefined; try { return await Promise.race([operation, new Promise<never>((_, reject) => { timer = setTimeout(() => { cancel(); const error = Error('Browser transport exceeded its declared20s deadline'); error.name = 'TimeoutError'; reject(error) }, milliseconds) })]) } finally { if (timer) clearTimeout(timer) } }
@@ -44,7 +44,15 @@ export function admitPreparedFidelityEngine(peer: PreparedCommunityBrowser) {
   if (!version || peer.artifact?.version && peer.artifact.version !== version && engine.kind !== 'merman') throw Error('Prepared artifact and browser versions disagree')
   const manifests = [...new Set([join(root, 'package.json'), ...(peer.artifact?.root ? [join(peer.artifact.root, 'package.json')] : [])])].filter(existsSync).map(path => { const manifest = JSON.parse(readFileSync(path, 'utf8')); if (manifest.version && manifest.version !== version) throw Error('Actual package version differs from prepared browser version'); return { path, name: manifest.name ?? null, version: manifest.version ?? null, sha256: digest(path) } })
   assertBenchmarkSetVersions([{ tool: peer.node.id, version, source: entry }])
-  return { root, entry, version, manifests, files, artifactSha256: engine.artifactSha256, revision: engine.revision ?? peer.artifact?.revision ?? null, integrity: engine.integrity ?? peer.artifact?.integrity ?? null, versionScope: manifests.length ? 'Actual installed package manifests plus sealed prepared executable bytes' : 'Frozen prepared distribution version/revision and sealed executable bytes; no embedded runtime version API is claimed' }
+  let addon: { root: string; entry: string; version: string; manifestSha256: string } | undefined
+  if (engine.zenuml) {
+    const backendRoot = resolve(engine.zenuml.root), backendEntry = resolve(backendRoot, engine.zenuml.entry), manifestFile = join(backendRoot, 'package.json')
+    const manifest = JSON.parse(readFileSync(manifestFile, 'utf8'))
+    if (engine.kind !== 'mermaid' || !backendEntry.startsWith(backendRoot + sep) || !files.some(file => file.path === backendEntry) || manifest.name !== '@mermaid-js/mermaid-zenuml' || manifest.version !== engine.zenuml.version) throw Error('Prepared addon identity or sealed entry differs from the actual package')
+    assertBenchmarkSetVersions([{ tool: manifest.name, version: manifest.version, source: manifestFile }])
+    addon = { root: backendRoot, entry: backendEntry, version: manifest.version, manifestSha256: digest(manifestFile) }
+  }
+  return { root, entry, version, manifests, files, ...(addon ? { addon } : {}), artifactSha256: engine.artifactSha256, revision: engine.revision ?? peer.artifact?.revision ?? null, integrity: engine.integrity ?? peer.artifact?.integrity ?? null, versionScope: manifests.length ? 'Actual installed package manifests plus sealed prepared executable bytes' : 'Frozen prepared distribution version/revision and sealed executable bytes; no embedded runtime version API is claimed' }
 }
 
 /** Collects new functionality evidence only. It never acquires peers, runs old
@@ -66,8 +74,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
   for (const node of nodes) {
     const peer = prepared.find(peer => peer.node.id === node.id), selected = !options.communityProjects || options.communityProjects.includes(node.id)
     let status = 'blocked', reason = peer?.browserDetail ?? peer?.error ?? 'No frozen prepared public SVG browser artifact; no acquisition attempted'
-    if (core.has(node.id)) { status = 'delegated'; reason = 'Fresh core3 fidelity lane owns this project; community collector does not duplicate its calls' }
-    else if (!selected) { status = 'not-selected'; reason = 'Project selection limits execution before loading any peer code' }
+    if (!selected) { status = 'not-selected'; reason = 'Project selection limits execution before loading any peer code' }
     else if (!node.outputs.includes('svg')) { status = 'not-applicable'; reason = 'Catalog boundary exposes terminal/parser/text/other outputs, not a public SVG engine' }
     else if (peer?.browserStatus === 'not-applicable') { status = 'not-applicable'; reason = peer.browserDetail ?? reason }
     else if (peer?.browserStatus === 'prepared') {
@@ -76,7 +83,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
     boundaries.push({ project: node.id, selected, catalogOutputs: node.outputs, status, reason, ...(peer?.browser ? { kind: peer.browser.kind, version: peer.browser.version, artifactSha256: peer.browser.artifactSha256 } : {}) })
   }
   const toolVersions = assertBenchmarkSetVersions(targets.map(({ peer, admission }) => ({ tool: peer.node.id, version: admission.version, source: admission.entry })))
-  const require = createRequire(join(root, 'eval/benchmark/package.json')), { chromium } = require('playwright'), executable = options.executable ?? defaultChromium(chromium)
+  const require = createRequire(harnessFile(root, 'eval/benchmark/package.json')), { chromium } = require('playwright'), executable = options.executable ?? defaultChromium(chromium)
   let browser: any
   const getBrowser = async () => browser ??= await chromium.launch({ headless: true, executablePath: executable })
   const results: UnifiedSuiteResult[] = [], aliases = new Map<string, { project: string; result: UnifiedSuiteResult }>()
@@ -84,7 +91,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
   try {
     for (const target of targets) {
       const { peer, admission } = target, engine = peer.browser!, project = peer.node.id, projectOut = join(out, Buffer.from(project).toString('base64url'))
-      const aliasKey = stableValue({ kind: engine.kind, global: engine.global ?? null, version: engine.version, legacy: engine.legacyMermaid ?? false, syncLegacy: engine.synchronousLegacyRender ?? false, scriptType: engine.scriptType ?? null, entry: engine.entry, wasm: engine.wasm ?? null, files: admission.files.filter(file => file.path.startsWith(admission.root + sep)).map(file => ({ path: relative(admission.root, file.path), sha256: file.sha256 })).sort((a, b) => a.path.localeCompare(b.path)) })
+      const aliasKey = stableValue({ addon: admission.addon ? { version: admission.addon.version, entry: relative(admission.addon.root, admission.addon.entry), files: admission.files.filter(file => file.path.startsWith(admission.addon!.root + sep)).map(file => ({ path: relative(admission.addon!.root, file.path), sha256: file.sha256 })) } : null, kind: engine.kind, global: engine.global ?? null, version: engine.version, legacy: engine.legacyMermaid ?? false, syncLegacy: engine.synchronousLegacyRender ?? false, scriptType: engine.scriptType ?? null, entry: engine.entry, wasm: engine.wasm ?? null, files: admission.files.filter(file => file.path.startsWith(admission.root + sep)).map(file => ({ path: relative(admission.root, file.path), sha256: file.sha256 })).sort((a, b) => a.path.localeCompare(b.path)) })
       const identity = () => JSON.parse(JSON.stringify({ project, lane: 'community-fidelity', protocol: producerContext(), artifact: admitPreparedFidelityEngine(peer), measurement: { kind: engine.kind, global: engine.global ?? null, entry: engine.entry, scriptType: engine.scriptType ?? null, legacyMermaid: engine.legacyMermaid ?? false, synchronousLegacyRender: engine.synchronousLegacyRender ?? false, wasm: engine.wasm ?? null, cases: selectedCases.map(value => value.id), browser: executableIdentity(executable), screenshots: options.communityFidelityPng ?? 'basic-families', deadlineMs: 20000 } }))
       const measure = async (directory: string): Promise<UnifiedSuiteResult> => {
         mkdirSync(directory, { recursive: true })
@@ -97,11 +104,12 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
         const server = createServer((request, response) => {
           const pathname = new URL(request.url ?? '/', 'http://localhost').pathname
           if (pathname === '/blank' || pathname === '/observer') { response.setHeader('content-type', 'text/html'); if (pathname === '/observer') response.setHeader('content-security-policy', "default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data: blob:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'"); response.end('<!doctype html><meta charset="utf-8"><body>'); return }
-          let file: string; try { file = resolve(admission.root, '.' + decodeURIComponent(pathname)) } catch { response.writeHead(400).end(); return }
-          if (!file.startsWith(admission.root + sep) || !existsSync(file) || !statSync(file).isFile()) { response.writeHead(404).end(); return }
+          const backend = admission.addon && pathname.startsWith('/__addon/'), base = backend ? admission.addon!.root : admission.root
+          let file: string; try { file = resolve(base, backend ? decodeURIComponent(pathname.slice('/__addon/'.length)) : '.' + decodeURIComponent(pathname)) } catch { response.writeHead(400).end(); return }
+          if (!file.startsWith(base + sep) || !existsSync(file) || !statSync(file).isFile()) { response.writeHead(404).end(); return }
           const sealed = admission.files.find(asset => asset.path === file)
           if (!sealed || digest(file) !== sealed.sha256) { response.writeHead(403).end('Unsealed or changed asset'); return }
-          fetched.add(relative(admission.root, file)); response.setHeader('content-type', ({ '.js': 'text/javascript', '.mjs': 'text/javascript', '.wasm': 'application/wasm', '.json': 'application/json', '.css': 'text/css', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.ttf': 'font/ttf' } as Record<string, string>)[extname(file)] ?? 'application/octet-stream'); response.end(readFileSync(file))
+          fetched.add((backend ? '__addon/' : '') + relative(base, file)); response.setHeader('content-type', ({ '.js': 'text/javascript', '.mjs': 'text/javascript', '.wasm': 'application/wasm', '.json': 'application/json', '.css': 'text/css', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.ttf': 'font/ttf' } as Record<string, string>)[extname(file)] ?? 'application/octet-stream'); response.end(readFileSync(file))
         })
         await new Promise<void>(done => server.listen(0, '127.0.0.1', done)); const origin = 'http://127.0.0.1:' + (server.address() as { port: number }).port
         const context = await (await getBrowser()).newContext({ viewport: { width: 1400, height: 1000 }, serviceWorkers: 'block' }); let page = await context.newPage(), observer = await context.newPage(), healthy = false
@@ -117,17 +125,17 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
         const initialize = async () => {
           if (page.isClosed() || !healthy && initialized) { void page.close().catch(() => {}); page = await context.newPage() }
           await page.goto(origin + '/blank')
-          if (engine.kind === 'franken' || engine.kind === 'merman') capabilities = await bounded(page.evaluate(communityFidelityBrowserAction, { type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: engine.wasm ? origin + '/' + engine.wasm : undefined }), () => { void page.close().catch(() => {}) })
-          else { await page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) }); capabilities = await bounded(page.evaluate(communityFidelityBrowserAction, { type: 'initialize-global', engine }), () => { void page.close().catch(() => {}) }) }
+          if (engine.kind === 'franken' || engine.kind === 'merman') capabilities = await bounded(page.evaluate(publicSvgBrowserAction, { type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: engine.wasm ? origin + '/' + engine.wasm : undefined }), () => { void page.close().catch(() => {}) })
+          else { await page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) }); capabilities = await bounded(page.evaluate(publicSvgBrowserAction, { type: 'initialize-global', engine, addonUrl: engine.zenuml ? origin + '/__addon/' + engine.zenuml.entry : undefined }), () => { void page.close().catch(() => {}) }) }
           initialized = healthy = true
         }
-        const render = async (input: any): Promise<any> => { try { if (!healthy || page.isClosed()) await initialize(); return await bounded<any>(page.evaluate(communityFidelityBrowserAction, input), () => { healthy = false; void page.close().catch(() => {}) }) } catch (error: any) { return { kind: 'exception', error: String(error), errorName: error?.name ?? 'Error' } } }
+        const render = async (input: any): Promise<any> => { try { if (!healthy || page.isClosed()) await initialize(); return await bounded<any>(page.evaluate(publicSvgBrowserAction, input), () => { healthy = false; void page.close().catch(() => {}) }) } catch (error: any) { return { kind: 'exception', error: String(error), errorName: error?.name ?? 'Error' } } }
         try {
           await initialize(); await observer.goto(origin + '/observer')
           for (const [index, testCase] of selectedCases.entries()) {
             try {
             if (!healthy || page.isClosed()) await initialize()
-            await bounded(page.evaluate(communityFidelityBrowserAction, { type: 'configure' }), () => { healthy = false; void page.close().catch(() => {}) })
+            await bounded(page.evaluate(publicSvgBrowserAction, { type: 'configure' }), () => { healthy = false; void page.close().catch(() => {}) })
             const preludes: any[] = []
             for (const [number, prelude] of (testCase.prelude ?? []).entries()) {
               const result = await render({ type: 'render', source: prelude.source, id: `community-prelude-${index}-${number}`, options: (prelude as any).renderOptions })
@@ -165,7 +173,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
       write(join(out, 'community-fidelity-progress.json'), { completed: results.length, selected: targets.length, project, observations: result.observations.length })
     }
   } finally { await browser?.close() }
-  const observations = results.flatMap(result => result.observations), report = { id: 'mermaid-fidelity', status: observations.some(row => row.status === 'failed') ? 'failed' : 'blocked', startedAt, finishedAt: new Date().toISOString(), observations, artifacts: results.flatMap(result => result.artifacts ?? []), gaps: [...new Set(results.flatMap(result => result.gaps))], toolVersions, criteriaProtocol: options.fidelityDiagnostic ? null : fidelityCriteriaProtocol(root, executable), catalogFile, preparedFile, boundaries, selectedCaseIds: selectedCases.map(value => value.id), scope: 'New SVG functionality collection on frozen prepared artifacts, no timing/startup/memory claims; core3 delegated; all missing native projections remain unavailable' }
+  const observations = results.flatMap(result => result.observations), report = { id: 'mermaid-fidelity', status: observations.some(row => row.status === 'failed') ? 'failed' : 'blocked', startedAt, finishedAt: new Date().toISOString(), observations, artifacts: results.flatMap(result => result.artifacts ?? []), gaps: [...new Set(results.flatMap(result => result.gaps))], toolVersions, criteriaProtocol: options.fidelityDiagnostic ? null : fidelityCriteriaProtocol(root, executable), catalogFile, preparedFile, boundaries, selectedCaseIds: selectedCases.map(value => value.id), scope: 'Public SVG functionality on all selected frozen prepared artifacts; no timing/startup/memory claims. Native model criteria remain unavailable in this SVG-only collection.' }
   writeBenchmarkDocument(join(out, 'community-fidelity-report.json'), report)
   return report as UnifiedSuiteResult
 }

@@ -8,8 +8,8 @@ export function baselineMeasurementContext(root: string, node: string, producers
   return {
     ...context,
     producers: context.producers.filter(object => {
-      const path = object.split('\t')[1]
-      return path !== 'eval/benchmark/tool-versions.ts' && path !== 'eval/benchmark/tool-versions.json'
+      const path = object.split('\t')[1]?.replace(/^(?:trident\/|eval\/benchmark\/)/, '')
+      return path !== 'tool-versions.ts' && path !== 'tool-versions.json'
     }),
   }
 }

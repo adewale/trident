@@ -24,14 +24,12 @@ test('public help and artifact help require no product checkout, oracle or compi
   expect(community.stdout).toContain('--candidate-dir')
 })
 
-test('project-specific commands are discoverable only through explicit adapter help', () => {
-  const adapters = help(['adapter', '--help'])
-  expect(adapters.status).toBe(0)
-  expect(adapters.stdout).toContain('agentic')
-  const source = help(['adapter', 'agentic', '--help'])
-  expect(source.status).toBe(0)
-  expect(source.stdout).toContain('TRIDENT_AGENTIC_ROOT')
-  expect(source.stdout).toContain('adapter agentic run')
+test('project-specific source commands are rejected by the public CLI', () => {
+  for (const args of [['adapter', 'agentic', '--help'], ['agentic', '--list'], ['source', 'bench:dave']]) {
+    const result = help(args)
+    expect(result.status).not.toBe(0)
+    expect(result.stderr).toContain('Unknown Trident command')
+  }
 })
 
 test('a product source environment cannot relocate Trident oracle defaults', () => {

@@ -504,7 +504,7 @@ export async function runRetainedCommunityCliSuite(options: UnifiedRunOptions): 
 export async function main(argv = process.argv.slice(2)) {
   if (argv.length === 1 && argv[0] === '--help') {
     console.log(
-      'bun commands.ts community:update --projects owner/project[,owner/other] --records DIRECTORY --out DIRECTORY [--markdown FILE] [--profile smoke|full] [--rounds N] [--plan] [--force] [--candidate-tarball FILE --candidate-sha256 HEX | --candidate-dir DIRECTORY | --candidate-revision SHA [--candidate-remote URL|CLONE] | --candidate-remote CLONE]\nA candidate is an unreleased build of one selected project: a tarball for an npm-backed tool, a Git commit for one Trident builds from source; its record stays in the candidate lane and never enters the league. Other unified flags, including --community-inputs, --community-prepared, --community-browser-prepared and --community-catalog, are accepted. Default selection is the full catalog. Preparation resolves selected artifacts; unchanged matching records skip every timing lane. --plan performs preparation but no timing. --force retains a new attempt. CI execution is refused.',
+      'bun commands.ts community:update --projects owner/project[,owner/other] --records DIRECTORY --out DIRECTORY [--markdown FILE] [--profile smoke|full] [--rounds N] [--plan] [--force] [--candidate-tarball FILE --candidate-sha256 HEX | --candidate-dir DIRECTORY | --candidate-revision SHA [--candidate-remote URL|CLONE] | --candidate-remote CLONE]\nA candidate is an unreleased build of one selected project: a tarball for an npm-backed tool, a Git commit for one Trident builds from source; its record stays in the candidate lane and never enters the league. Additional artifact options, including --community-inputs, --community-prepared, --community-browser-prepared and --community-catalog, are accepted. Default selection is the full catalog. Preparation resolves selected artifacts; unchanged matching records skip every timing lane. --plan performs preparation but no timing. --force retains a new attempt. CI execution is refused.',
     )
     return
   }
@@ -537,7 +537,7 @@ export async function main(argv = process.argv.slice(2)) {
       settings.markdown = resolve(value)
       continue
     }
-    if (flag === '--package-root') throw Error('Use --candidate-dir PACKAGE_DIRECTORY with one --projects selection; --package-root is a source-adapter option')
+    if (flag === '--package-root') throw Error('Use --candidate-dir PACKAGE_DIRECTORY with one --projects selection; --package-root is not a public artifact option')
     forwarded.push(aliases[flag] ?? flag)
     if (!['--community-force', '--allow-incomplete'].includes(flag)) forwarded.push(argv[++index] ?? '')
   }

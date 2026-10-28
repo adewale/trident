@@ -26,7 +26,7 @@ async function renderer() {
   if (config.adapter === 'mermaid') {
     const reference = process.env.MERMAID_REFERENCE_DIR ?? resolve(job.harnessRoot, '../mermaid-reference'), domRequire = createRequire(resolve(reference, 'package.json'))
     let JSDOM
-    try { ({ JSDOM } = domRequire('jsdom')) } catch (error) { throw Error(`Mermaid's Node adapter needs jsdom from the pinned Mermaid reference at ${reference}; run \`bun run reference:mermaid\` in the Agentic checkout or set MERMAID_REFERENCE_DIR (${String(error).split('\n')[0]})`) }
+    try { ({ JSDOM } = domRequire('jsdom')) } catch (error) { throw Error(`Mermaid's Node adapter needs jsdom from the pinned Mermaid reference at ${reference}; run \`bun commands.ts mermaid:install\` or set MERMAID_REFERENCE_DIR (${String(error).split('\n')[0]})`) }
     const dom = new JSDOM('<!doctype html><body>')
     for (const key of ['window', 'document', 'navigator', 'HTMLElement', 'SVGElement', 'Element', 'Node', 'Option']) Object.defineProperty(globalThis, key, { configurable: true, value: dom.window[key] })
     cleanups.push(() => dom.window.close())

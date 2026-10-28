@@ -51,6 +51,7 @@ export function publicDatabaseView(engine, model, family) {
 /** Execute the original callbacks. Adapter exceptions cannot satisfy negatives.
  * Async public parser results are prepared before the synchronous DB facade is
  * replayed; neither preparation nor assertions are an API latency benchmark. */
+/** @returns {Promise<Array<{family: string, path: string, name: string, status: string, assertions: Array<{passed: boolean, matcher: string, expected?: unknown, actual?: unknown}>, sources: string[], targetRejections?: number, requestedParseCalls?: number, preparedParseCalls?: number, diagnostics?: string[], error?: string}>>} */
 export async function executeUpstreamSpecs(files, parse) {
   const tests = [], groups = [], rows = [], publicSources = []
   let state, prepared = new Map()

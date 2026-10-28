@@ -1,10 +1,11 @@
+import { harnessFile } from './harness-paths.ts'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { admitCurrentReference } from '../../mermaid-modern-compat/reference.ts'
+import { admitCurrentReference } from '../reference/source.ts'
 import { selectsCoreFidelity } from '../fidelity/selection.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { assertBenchmarkSetVersions, assertBenchmarkToolVersion, benchmarkToolPins } from '../tool-versions.ts'
@@ -52,7 +53,7 @@ export async function runUpstreamFidelitySuite(options: UpstreamFidelityOptions)
   const { root, upstream, reference, pin } = sourceContext(options)
   mkdirSync(options.out, { recursive: true })
   const inventory = inventoryOriginalDeclarations(upstream)
-  const policy = JSON.parse(readFileSync(join(root, 'docs/project/upstream-mermaid-policy.json'), 'utf8'))
+  const policy = JSON.parse(readFileSync(harnessFile(root, 'docs/project/upstream-mermaid-policy.json'), 'utf8'))
   const required = new Set<string>([...policy.families.filter((family: any) => family.maturity === 'stable').map((family: any) => family.id), 'eventmodeling', 'zenuml'])
   const selected = inventory.files.filter(file => required.has(file.family) && file.path.startsWith('packages/mermaid/src/diagrams/'))
   const files = options.profile === 'smoke' ? selected.filter((file, index) => selected.findIndex(other => other.family === file.family) === index) : selected

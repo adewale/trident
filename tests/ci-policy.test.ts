@@ -5,7 +5,6 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { MERMAID_ORACLE_PIN, mermaidOracleDirectory } from '../portable/mermaid-oracle.ts'
-import { testWithAgentic } from './helpers/environment.ts'
 
 test('CI execution is rejected even when the generic indicator is explicitly false', () => {
   const local = { mermaidOracle: false }
@@ -30,24 +29,6 @@ test('a benchmark run refuses without exactly the pinned Mermaid oracle, and run
     const installed = { MERMAID_REFERENCE_DIR: mermaidOracleDirectory() }
     expect(() => assertBenchmarkExecutionAllowed(installed)).not.toThrow()
     expect(installed).toMatchObject({ TRIDENT_MERMAID_ORACLE: `${MERMAID_ORACLE_PIN.version} ${resolve(installed.MERMAID_REFERENCE_DIR)}` })
-  } finally {
-    rmSync(directory, { recursive: true, force: true })
-  }
-})
-
-// sample-bench.ts imports Agentic source, so it can only start inside that checkout.
-testWithAgentic('a directly invoked legacy benchmark refuses CI, or a missing oracle, before doing work', () => {
-  const run = (env: Record<string, string>) => spawnSync(process.execPath, [resolve(import.meta.dir, '../sample-bench.ts')], { encoding: 'utf8', timeout: 10_000, env: { ...process.env, ...env } })
-  const ci = run({ CI: 'true' })
-  expect(ci.status).not.toBe(0)
-  expect(ci.stderr).toContain('Benchmarks are excluded from CI')
-  expect(ci.stdout).toBe('')
-  const directory = mkdtempSync(join(tmpdir(), 'trident-no-oracle-'))
-  try {
-    const missing = run({ MERMAID_REFERENCE_DIR: directory, TRIDENT_MERMAID_ORACLE: '' })
-    expect(missing.status).not.toBe(0)
-    expect(missing.stderr).toContain('needs the pinned Mermaid oracle')
-    expect(missing.stdout).toBe('')
   } finally {
     rmSync(directory, { recursive: true, force: true })
   }

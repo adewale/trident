@@ -1,3 +1,4 @@
+import { harnessFile } from '../unified/harness-paths.ts'
 import { writeBenchmarkDocument } from '../portable/project-records.ts'
 import { fidelityCriteriaProtocol } from './protocol.ts'
 import { createServer } from 'node:http'
@@ -5,7 +6,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { extname, join, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { admitCurrentReference } from '../../mermaid-modern-compat/reference.ts'
+import { admitCurrentReference } from '../reference/source.ts'
 import { captureInstalledDependencyClosure } from '../portable/artifact-dependencies.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { assertBenchmarkSetVersions, benchmarkToolPins } from '../tool-versions.ts'
@@ -61,7 +62,7 @@ export async function runFidelityCampaign(options: FidelityRunOptions): Promise<
   const selectedCases = allCases.filter((value, index) => options.fidelityCaseIds ? options.fidelityCaseIds.includes(value.id) : options.profile !== 'smoke' || allCases.findIndex(candidate => candidate.family === value.family) === index)
   if (!selectedCases.length) throw Error('No authored fidelity cases selected')
   const planned = planFidelityCriteria(selectedCases)
-  const request = createRequire(join(root, 'eval/benchmark/package.json')), { chromium } = request('playwright')
+  const request = createRequire(harnessFile(root, 'eval/benchmark/package.json')), { chromium } = request('playwright')
   const browserExecutable = options.executable ?? defaultChromium(chromium), node = options.nodeExecutable ?? process.execPath
   let browser: any
   const getBrowser = async () => browser ??= await chromium.launch({ headless: true, executablePath: browserExecutable })

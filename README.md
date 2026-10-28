@@ -66,10 +66,23 @@ node /artifacts/trident-kit/run.mjs --project obsidianmd/pele \
 
 Copy the whole generated directory, including its manifest. It requires Node 24, the actual renderer artifact and the pinned oracle install; no Bun, Git or Trident `node_modules` is needed at runtime. Set `MERMAID_REFERENCE_DIR` for a nondefault install. `--allow-partial` permits incomplete diagnostics to produce a report; it does not turn them into a calibrated pass. See [portable methods](BENCHMARKS.md#portable-family-and-scaling).
 
-## Development and source adapters
+## Development and ownership
 
-`bun commands.ts test`, `typecheck` and `lint` always check standalone Trident. Tests need the pinned oracle. To exercise optional real-browser tests, set `AM_BROWSER_TESTS=1` and, if needed, `AM_CHROMIUM_EXECUTABLE=/path/to/chromium`.
+`bun commands.ts test`, `typecheck` and `lint` check all of Trident. Tests need
+the pinned oracle. Optional browser tests use `AM_BROWSER_TESTS=1` and
+`AM_CHROMIUM_EXECUTABLE=/path/to/chromium` (legacy environment variable names).
 
-Some inherited diagnostics still import Agentic Mermaid source or exercise its product/editor contracts. They are isolated behind [the explicit source adapter](adapters/agentic/README.md); `bun commands.ts adapter --help` lists adapters. They are not prerequisites for community benchmarks and their scores cannot be credited to other projects. Legacy product launcher commands remain compatibility aliases, outside the public help.
+Use `bun commands.ts bench --projects OWNER/TOOL,... --profile full --rounds 5
+--out /evidence/full` for all applicable public-artifact suites. `bench --list`
+lists suites and selected projects without collecting measurements. Adapter gaps,
+setup failures and unsupported surfaces stay visible in the campaign report.
 
-Trident originated in Agentic Mermaid and its maintainer also maintains that renderer. The [frozen corpus](corpus/community-corpus.json) retains that origin and many imported Mermaid tests. It is public, development-exposed material, not an independent or secret holdout. There are still source-coupled legacy modules; this separation makes their limits explicit rather than claiming that all inherited workloads are neutral.
+Product source tests, editor experiments, AM release budgets, private operation
+witnesses and the AM build/pack Dave wrapper live in
+[Agentic Mermaid](https://github.com/adewale/agentic-mermaid/tree/main/eval/benchmark).
+Trident has no AM source launcher, workspace assembler or implicit local candidate.
+AM uses a pinned Trident library for shared observers and measurement utilities.
+
+Trident originated in Agentic Mermaid; its maintainer maintains both. The
+[frozen corpus](corpus/community-corpus.json) records that origin and imported
+Mermaid inputs. This public development material is not an independent holdout.

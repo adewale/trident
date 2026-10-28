@@ -15,7 +15,7 @@
     "community:update": "bun run commands.ts community:update",
     "portable": "bun run commands.ts portable",
     "portable:build": "bun run commands.ts portable:build",
-    "adapter": "bun run commands.ts adapter"
+    "bench": "bun run commands.ts bench"
   },
   "engines": {
     "bun": ">=1.4.0",
@@ -31,7 +31,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.5",
-    "@modelcontextprotocol/sdk": "1.32.1",
     "@types/bun": "1.3.9",
     "typescript": "5.9.3"
   }
