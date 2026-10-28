@@ -76,7 +76,7 @@ function shippedFiles(root: string, directory = root): Array<{ path: string; sha
   })
 }
 /** A catalog binding selects the installed package's declared Node CLI, for any project. */
-function packageCliVariants(prepared: PreparedCommunity[]): Variant[] {
+export function packageCliVariants(prepared: PreparedCommunity[]): Variant[] {
   return prepared.filter(base => base.node.benchmark?.cli).map(base => {
     const binding = base.node.benchmark!.cli!, variant = 'node-cli'
     const unavailable = (error: string): Variant => ({ variantOf: base.node.id, variant, outputs: binding.outputs,

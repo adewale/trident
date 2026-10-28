@@ -13,8 +13,9 @@ test('support admission retains its narrow scope, strips timing claims and rejec
     const module = join(root, 'renderer.mjs'), catalog = join(root, 'catalog.json'), prepared = join(root, 'prepared.json')
     const bytes = 'export function draw(){return \'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><text>Alpha</text><text>Beta</text></svg>\'}'
     writeFileSync(module, bytes)
-    writeFileSync(join(root, 'package.json'), '{"name":"support-contract-fixture","version":"1.0.0","type":"module"}')
-    const node = { id: 'fixture/renderer', outputs: ['svg'], roles: ['renderer'], benchmark: { adapter: 'declared', outputs: ['svg'], api: { svg: { export: 'draw' } } } }
+    writeFileSync(join(root, 'package.json'), '{"name":"support-contract-fixture","version":"1.0.0","type":"module","bin":{"fixture-render":"cli.mjs"}}')
+    writeFileSync(join(root, 'cli.mjs'), `import {readFileSync} from 'node:fs';if(!readFileSync(0,'utf8'))process.exit(2);process.stdout.write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><text>Alpha</text><text>Beta</text></svg>')`)
+    const node = { id: 'fixture/renderer', outputs: ['svg'], roles: ['renderer'], benchmark: { adapter: 'declared', outputs: ['svg'], api: { svg: { export: 'draw' } }, cli: { bin: 'fixture-render', args: [], outputs: ['svg'] } } }
     writeFileSync(catalog, JSON.stringify({ nodes: [node] }))
     writeFileSync(prepared, JSON.stringify([{ node, artifact: { kind: 'node', root, module, version: '1.0.0', sha256: createHash('sha256').update(bytes).digest('hex') } }]))
     const out = join(root, 'admitted')
@@ -22,6 +23,7 @@ test('support admission retains its narrow scope, strips timing claims and rejec
     const report = JSON.parse(readFileSync(join(out, 'report.json'), 'utf8'))
     expect(report.projects[0].state).toBe('partially-verified')
     expect(report.projects[0].outputs[0].plannedInputs).toBe(6)
+    expect(report.projects[0].outputs.find((output: any) => output.transport === 'public-package-cli')).toMatchObject({ plannedInputs: 6, recordedInputObservations: 6, state: 'invocation-verified' })
     expect(report.projects[0].outputs[0].observations.every((row: any) => !row.samplesMs && !row.metrics.firstMs)).toBe(true)
     expect(report.limits).toContain('No timing comparisons, full family support')
     writeFileSync(module, bytes + '\nthrow Error("changed artifact must not execute")')

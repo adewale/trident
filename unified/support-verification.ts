@@ -6,6 +6,7 @@ import { communityModuleOutputSupported, prepareCommunity, runCommunityNodeRound
 import { runCommunityBrowserSuite, type PreparedCommunityBrowser } from './community-browser.ts'
 import { runExternalCommunity } from './community-external.ts'
 import { outputName, readCatalog } from './support.ts'
+import { packageCliVariants } from './community-cli.ts'
 import { protocolIdentity } from './protocol-identity.ts'
 import { harnessRepository } from './trident-paths.ts'
 import { communityCatalogFile } from './trident-paths.ts'
@@ -72,6 +73,16 @@ export async function verifySupport(preparedFile: string, out: string, settings:
         else rows = await runCommunityNodeRound(entry, output, supportWorkloads, 1, options)
         const facts = partitionVerificationRows(rows)
         project.outputs.push({ output, state: facts.passed ? 'invocation-verified' : facts.observations.every(row => row.status === 'blocked') ? 'blocked' : 'no-positive-witness', ...facts })
+      }
+      for (const variant of packageCliVariants([entry])) {
+        if (variant.error) { project.gaps.push('Public CLI preparation: ' + variant.error); continue }
+        verifyProvidedCommunityArtifact(variant.prepared.artifact!)
+        for (const output of variant.outputs) {
+          const target = join(dir, 'cli-' + output); mkdirSync(target)
+          const facts = partitionVerificationRows(supportWorkloads.map(workload => runCommunityCli(variant.prepared, output, workload, 1, target)))
+          project.outputs.push({ output, transport: 'public-package-cli', state: facts.passed ? 'invocation-verified' : 'no-positive-witness', ...facts })
+        }
+        verifyProvidedCommunityArtifact(variant.prepared.artifact!)
       }
       const browser = browserPrepared.find(peer => peer.node.id === node.id)
       if (browser?.browserStatus === 'prepared') {

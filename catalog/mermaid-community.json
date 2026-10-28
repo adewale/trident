@@ -387,8 +387,21 @@
         "package": "ondine",
         "subpath": "compiler",
         "outputs": [
+          "svg",
+          "terminal"
+        ],
+        "moduleOutputs": [
           "svg"
-        ]
+        ],
+        "cli": {
+          "bin": "ondine",
+          "args": [
+            "--ascii"
+          ],
+          "outputs": [
+            "terminal"
+          ]
+        }
       },
       "benchmarkEligibility": {
         "classification": "port-implementation",
