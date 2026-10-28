@@ -31,7 +31,7 @@ try {
   let publicRenderer
   if (job.artifact.adapter === 'public-package') {
     const config = job.artifact.publicConfig
-    if (!config || JSON.parse(readFileSync(join(job.artifact.root, 'package.json'), 'utf8')).name !== config.package) throw Error('Public adapter package differs from the actual installed artifact')
+    if (!config || !Array.isArray(config.outputs) || !config.outputs.includes('svg') || JSON.parse(readFileSync(join(job.artifact.root, 'package.json'), 'utf8')).name !== config.package) throw Error('Public adapter package differs from the actual installed artifact')
     const prepared = { ...job.artifact, module: job.artifact.entry, kind: 'node' }
     const renderer = await createExtraCommunityApi({ artifact: prepared, node: { id: job.artifact.project, benchmark: config }, config, output: 'svg', require: createRequire(join(job.artifact.root, 'package.json')), cleanups: publicCleanups })
     publicRenderer = renderer.invoke

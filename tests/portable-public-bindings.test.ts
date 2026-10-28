@@ -3,6 +3,7 @@ import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from 'nod
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
+import { parsePortableOptions } from '../portable/run.ts'
 import { artifactIdentity } from '../portable/artifacts.ts'
 import { portableAdapter, portableBinding } from '../unified/support.ts'
 
@@ -40,4 +41,8 @@ test('portable public-pipeline identity includes separately installed companion 
     writeFileSync(join(modules, '@crafter/mermaid-parser/package.json'), JSON.stringify({ name: '@crafter/mermaid-parser', version: '9.0.0' }))
     expect(() => artifactIdentity(artifact)).toThrow('companion version differs')
   } finally { rmSync(base, { recursive: true, force: true }) }
+})
+
+test('a diagnostic package cannot enter the public SVG pipeline by omitting its output contract', () => {
+  expect(() => parsePortableOptions(['--project', 'fixture/validator', '--artifact-root', '/not-installed', '--adapter', 'public-package', '--public-config', JSON.stringify({ package: 'rusty-mermaid', outputs: ['diagnostics'] })])).toThrow('package and SVG output')
 })

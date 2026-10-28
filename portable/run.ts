@@ -76,12 +76,12 @@ export function parsePortableOptions(argv: string[]): PortableOptions {
   const adapter = values.get('--adapter') ?? 'pele'
   if (!PORTABLE_ADAPTER_IDS.includes(adapter as PortableArtifact['adapter'])) throw Error('Unsupported public Node SVG adapter')
   const binding = values.has('--binding') ? JSON.parse(values.get('--binding')!) as PortableArtifact['binding'] : undefined
-  if (binding && (typeof binding.export !== 'string' || !binding.export.trim() || (binding.result !== undefined && typeof binding.result !== 'string') || ['factory', 'dispose'].some(key => (binding as any)[key] !== undefined && typeof (binding as any)[key] !== 'string'))) throw Error('--binding needs a public export and optional result field')
+  if (binding && (typeof binding.export !== 'string' || !binding.export.trim() || (binding.result !== undefined && typeof binding.result !== 'string') || ['factory', 'dispose'].some(key => (binding as any)[key] !== undefined && (typeof (binding as any)[key] !== 'string' || !(binding as any)[key].trim())))) throw Error('--binding needs a public export and optional result field')
   if (binding?.dispose && !binding.factory) throw Error('A disposal method requires a declared factory')
   if (adapter === 'declared' && !binding) throw Error('The declared adapter requires --binding JSON')
   if (binding && adapter !== 'declared') throw Error('--binding is only valid for the declared adapter')
   const publicConfig = values.has('--public-config') ? JSON.parse(values.get('--public-config')!) : undefined
-  if (adapter === 'public-package' && (!publicConfig || typeof publicConfig !== 'object' || Array.isArray(publicConfig) || typeof publicConfig.package !== 'string')) throw Error('The public-package adapter requires --public-config with its package')
+  if (adapter === 'public-package' && (!publicConfig || typeof publicConfig !== 'object' || Array.isArray(publicConfig) || typeof publicConfig.package !== 'string' || !Array.isArray(publicConfig.outputs) || !publicConfig.outputs.includes('svg'))) throw Error('The public-package adapter requires --public-config with its package and SVG output')
   if (publicConfig && adapter !== 'public-package') throw Error('--public-config is only valid for public-package')
   const cohorts = values.has('--cohort') ? (values.get('--cohort')!.split(',') as PortableCohort[]) : undefined
   if (cohorts?.some(cohort => !['family', 'scaling', 'adversarial', 'invalid'].includes(cohort)) || (cohorts && new Set(cohorts).size !== cohorts.length)) throw Error('Unknown or repeated cohort')
