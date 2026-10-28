@@ -2,9 +2,9 @@
   "purpose": "Recorded examples for reading reports, not current scores",
   "examples": {
     "community": {
-      "scope": "Merslim: browser SVG **4/6**, browser PNG **6/6**, Node SVG **3/6**, terminal **4/6**, parser **4/6**. These are the same six authored inputs on separate interfaces, not a combined score. Recorded 28 October 2026 with the PR #21 harness.",
-      "source": "/workspace/trident-pr21-review/native-verification/report.json",
-      "sha256": "b4b180cdeea7099cc669d323e170f9d0efa89cd1e115d70cf2418a96b5577b9f"
+      "scope": "Pele 1.9.0: in the 28 October community smoke campaign, **32/33 feature inputs passed and one was unsupported**, separately in Node SVG and browser SVG. All six core inputs passed on each surface. This is a selected smoke workload, not the entire frozen corpus or a semantic-fidelity score.",
+      "source": "/workspace/trident-release/0.1/final-smoke-campaign/community/project-attempts/9de7d00b-e43c-49a7-8324-c9ef7c53ed42/obsidianmd%2Fpele/community/community-result.json.gz",
+      "sha256": "c91630f58b39642f0fff13fc553ff88b8b55248a292de12981ee5068bb80f8d6"
     },
     "docs": {
       "scope": "Pele 1.9.0 returned SVG for **532/548 documentation occurrences (97.1%)** and failed 16 in each of five rounds. The first flowchart example (`flowchart.md:23`) took a median **0.60 ms** across five browser calls after warmup. This historical 27 October run reports SVG return and call time; it does not establish correct paint or a calibrated speed comparison.",

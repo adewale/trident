@@ -6,7 +6,7 @@ The provenance link for DaveBench was supplied by the project maintainer. Triden
 
 ## Mermaid Compatibility
 
-Merslim: browser SVG **4/6**, browser PNG **6/6**, Node SVG **3/6**, terminal **4/6**, parser **4/6**. These are the same six authored inputs on separate interfaces, not a combined score. Recorded 28 October 2026 with the PR #21 harness.
+Pele 1.9.0: in the 28 October community smoke campaign, **32/33 feature inputs passed and one was unsupported**, separately in Node SVG and browser SVG. All six core inputs passed on each surface. This is a selected smoke workload, not the entire frozen corpus or a semantic-fidelity score.
 
 ## DaveBench: Documentation Examples
 
@@ -36,7 +36,7 @@ Pele 1.9.0, authored flowchart: historical median **17.06 ms** for a first API c
 
 The receipt below records the exact raw-file digests and extraction scope. Full raw artifacts remain outside the source repository. These examples preserve their original dates; the current results directory remains empty.
 
-- Community: PR #21 native-verification report, six authored cases per output.
+- Community: retained 28 October `final-smoke-campaign` community result, 33 feature inputs plus six core inputs per SVG surface.
 - DaveBench, Diagram Meaning, Model and Editing, Render Cost and Scaling: retained `2026-10-27/trident-corrected` campaign.
 - Mermaid Assertion Replay: retained `2026-10-27/trident-verified` replay.
 - Mermaid Reference Tests: PR #21 fresh sealed original-runtime campaign.

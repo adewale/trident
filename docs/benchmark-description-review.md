@@ -14,7 +14,7 @@ The README should describe the task and its results before explaining measuremen
 
 **Reason:** Names the shared input and output formats before explaining the reported outcomes.
 
-**Recorded example:** Merslim: browser SVG **4/6**, browser PNG **6/6**, Node SVG **3/6**, terminal **4/6**, parser **4/6**. These are the same six authored inputs on separate interfaces, not a combined score. Recorded 28 October 2026 with the PR #21 harness.
+**Recorded example:** Pele 1.9.0: in the 28 October community smoke campaign, **32/33 feature inputs passed and one was unsupported**, separately in Node SVG and browser SVG. All six core inputs passed on each surface. This is a selected smoke workload, not the entire frozen corpus or a semantic-fidelity score.
 
 ## DaveBench: Documentation Examples
 
