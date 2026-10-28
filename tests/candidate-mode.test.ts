@@ -218,6 +218,8 @@ const evidence = () => {
 }
 const row = (caseId: string, status: 'passed' | 'failed', version: string, extra: Record<string, unknown> = {}) => ({ suite: 'community', surface: 'node:public-api', runtime: 'Node', family: 'flowchart', caseId, operation: 'render', format: 'svg', mode: 'feature-corpus-qualification', status, ...extra, metrics: { implementation: project, round: 1, version } })
 function record(id: string, identity: ProjectBenchmarkIdentity, version: string, statuses: Record<string, 'passed' | 'failed'>): ProjectBenchmarkRecord {
+  identity = JSON.parse(JSON.stringify(identity))
+  ;(identity.artifact as any).package.artifact.version = version
   const observations = [row('family:flowchart', 'passed', version, { operation: 'family-support' }), ...Object.entries(statuses).map(([caseId, status]) => row(caseId, status, version))] as ProjectBenchmarkRecord['observations']
   return { schemaVersion: 1, id, identity, startedAt: '2026-10-26T00:00:00Z', finishedAt: '2026-10-26T00:01:00Z', status: observations.some(row => row.status === 'failed') ? 'failed' : 'passed', evidenceDirectory: evidence(), evidenceFiles: ['result.json'], observations, gaps: [] }
 }
@@ -348,4 +350,14 @@ test('candidate case changes retain blocked, unsupported, missing and newly meas
   const markdown = renderCandidateComparison(candidate, release)
   expect(markdown).not.toContain('No case or family changed')
   for (const transition of ['`a`: passed → blocked', '`b`: passed → unsupported', '`c`: passed → skipped', '`d`: passed → not-applicable', '`e`: passed → not measured', '`g`: not measured → failed']) expect(markdown).toContain(transition)
+})
+
+test('resource diagnostics never become newly measured diagram cases in a candidate comparison', () => {
+  const release = record('release', base(), '1.0.0', { a: 'passed' })
+  const candidate = record('candidate', candidateOf(base(), 'c'.repeat(64)), '1.1.0-rc', { a: 'passed' })
+  candidate.observations.push({ ...row('renderer-process-tree', 'failed', '1.1.0-rc'), operation: 'process-memory', detail: 'Process tree snapshot unavailable' })
+  const markdown = renderCandidateComparison(candidate, release)
+  expect(markdown).toContain('No case or family changed')
+  expect(markdown).not.toContain('renderer-process-tree')
+  expect(markdown).toContain('100.0% (1/1) → 100.0% (1/1)')
 })

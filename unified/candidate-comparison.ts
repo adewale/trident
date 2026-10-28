@@ -1,6 +1,7 @@
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { loadCurrentProjectRecords, type ProjectBenchmarkRecord, stableValue } from '../portable/project-records.ts'
+import { currentReportVersion } from './current-report-versions.ts'
 import { comparisonKey, escape, featureRow, isCandidateRecord, type Lane, lanes, OUTPUTS, SCORED_FAMILIES, percent, SURFACES } from './league.ts'
 
 const version = (record: ProjectBenchmarkRecord) => lanes(record)[0]?.version ?? String((record.identity.artifact as any)?.package?.artifact?.version ?? 'unknown')
@@ -17,6 +18,8 @@ function verdicts(record: ProjectBenchmarkRecord): Map<string, string> {
 export function renderCandidateComparison(candidate: ProjectBenchmarkRecord, release: ProjectBenchmarkRecord | undefined): string {
   if (!isCandidateRecord(candidate)) throw Error('Not a candidate record: ' + candidate.id)
   if (release && (isCandidateRecord(release) || release.identity.project !== candidate.identity.project)) throw Error('The release record must be the same project’s release')
+  const candidateVersion = currentReportVersion(candidate)
+  const releaseVersion = release ? currentReportVersion(release) : null
   const project = candidate.identity.project,
     identity = (candidate.identity.artifact as { candidate?: { source?: string; sha256?: string; revision?: string } }).candidate
   const configuration = (record: ProjectBenchmarkRecord) => {
@@ -25,7 +28,7 @@ export function renderCandidateComparison(candidate: ProjectBenchmarkRecord, rel
   }
   // Cross-tool league cohorts allow different APIs. Before/after comparisons of
   // one tool additionally require the same adapter, defaults and output selection.
-  const comparable = (surface: string) => !!release && comparisonKey(release, surface) === comparisonKey(candidate, surface) && configuration(release) === configuration(candidate)
+  const comparable = (surface: string) => candidateVersion !== null && releaseVersion !== null && !!release && comparisonKey(release, surface) === comparisonKey(candidate, surface) && configuration(release) === configuration(candidate)
   const summary = (record: ProjectBenchmarkRecord) => `${escape(version(record))}, measured ${record.finishedAt}, status ${record.status}, ${rounds(record)} rounds, record \`${escape(record.id)}\``
   const lines = [
     `# ${project}: candidate against release`,

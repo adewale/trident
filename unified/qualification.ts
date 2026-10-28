@@ -8,13 +8,15 @@ import { authoredLabelForms, closeHtmlVoidElements, inspectSvgText, SVG_NAMESPAC
 import type { UnifiedWorkload } from './types.ts'
 import { assertMermaidOracle, mermaidVerdicts } from '../portable/mermaid-oracle.ts'
 import { censusDisplayText, referenceLabels } from './oracle-labels.ts'
+import { inspectPng } from './png-inspection.ts'
 
 export const SVG_QUALIFICATION_PROTOCOL = 'svg-xml-namespaced-authored-text-v5'
 
 export interface Qualification {
+  unavailable?: boolean
   ok: boolean
   findings: string[]
-  scope: 'format-and-authored-labels' | 'format-only' | 'binary-envelope' | 'source-envelope' | 'structured-envelope'
+  scope: 'format-and-authored-labels' | 'format-only' | 'binary-envelope' | 'decoded-raster-content' | 'source-envelope' | 'structured-envelope'
 }
 
 interface SvgXmlTag {
@@ -147,15 +149,8 @@ export function qualifyOutput(workload: UnifiedWorkload, output: unknown, format
     return { ok: !findings.length, findings, scope: 'structured-envelope' }
   }
   if (format === 'png') {
-    const bytes = output instanceof Uint8Array ? output : undefined
-    const signature = [137, 80, 78, 71, 13, 10, 26, 10]
-    if (!bytes || bytes.length < 33 || signature.some((value, index) => bytes[index] !== value)) findings.push('Invalid PNG signature or truncated PNG')
-    else {
-      const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
-      if (!view.getUint32(16) || !view.getUint32(20)) findings.push('PNG has empty dimensions')
-      if (String.fromCharCode(...bytes.subarray(12, 16)) !== 'IHDR') findings.push('PNG has no leading IHDR')
-    }
-    return { ok: !findings.length, findings, scope: 'binary-envelope' }
+    const inspected = inspectPng(output, !!workload.expectedLabels?.some(label => label.trim()))
+    return { ok: !inspected.findings.length, findings: inspected.findings, scope: inspected.scope, ...(inspected.unavailable ? { unavailable: true } : {}) }
   }
   if (typeof output !== 'string' || !output.trim()) return { ok: false, findings: ['Expected a nonempty output string'], scope: 'format-only' }
   if (format === 'svg') {
@@ -196,12 +191,12 @@ export async function withReferenceLabels(workloads: readonly UnifiedWorkload[],
       labels = referenceLabels(workload.family, reply)
     if (!labels) {
       gaps.push(`${workload.id}: pinned Mermaid ${reply.accepted ? 'has no label getter projection' : `rejected source (${reply.error})`}`)
-      return { ...workload }
+      return { ...workload, referenceAdmission: { accepted: reply.accepted, ...(reply.error ? { error: reply.error } : {}) } }
     }
     const expectedLabels = [...new Set([...(workload.expectedLabels ?? []), ...labels.map(label => censusDisplayText(label.text)).filter(Boolean)])]
     const markdownLabels = [...new Set([...(workload.markdownLabels ?? []), ...labels.filter(label => label.markdown).map(label => censusDisplayText(label.text)).filter(Boolean)])]
     if (!expectedLabels.length) gaps.push(`${workload.id}: pinned Mermaid returned no nonempty authored label expectations`)
-    return { ...workload, expectedLabels, markdownLabels, provenance: `${workload.provenance}; pinned Mermaid ${oracle.version} DB getters` }
+    return { ...workload, expectedLabels, markdownLabels, referenceAdmission: { accepted: reply.accepted, ...(reply.error ? { error: reply.error } : {}) }, provenance: `${workload.provenance}; pinned Mermaid ${oracle.version} DB getters` }
   })
   return { workloads: enriched, gaps, provenance }
 }

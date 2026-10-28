@@ -21,6 +21,19 @@ test('native Vitest callback accounting preserves module failures and never repo
   expect(() => summarizeOriginalVitest({ ...report, numPassedTests: 2 }, '/source', census)).toThrow('counts differ')
 })
 
+test('an actual missing Canvas environment blocks fidelity credit without hiding unrelated assertion failures', () => {
+  const path = '/source/packages/mermaid/src/diagrams/flowchart/flow.spec.ts'
+  const callbacks = [
+    { fullName: 'environment cannot draw', status: 'failed', failureMessages: ['Error: Could not create canvas of type 2d.'], location: { line: 4, column: 1 } },
+    { fullName: 'wrong error expectation', status: 'failed', failureMessages: ['AssertionError: expected function to throw "Could not create canvas of type 2d"'], location: { line: 5, column: 1 } },
+  ]
+  const report = { numTotalTests: 2, numPassedTests: 0, numFailedTests: 2, testResults: [{ name: path, status: 'failed', assertionResults: callbacks }] }
+  const summary = summarizeOriginalVitest(report as any, '/source', census)
+  expect(summary.callbacks.map(row => row.status)).toEqual(['unavailable', 'failed'])
+  expect(summary.rawOriginalCounts.failedCallbacks).toBe(2)
+  expect(callbacks.every(row => row.status === 'failed')).toBe(true)
+})
+
 test('snapshotting a public Mermaid DB keeps earlier prepared source independent of singleton resets', () => {
   let vertices = new Map([['A', { text: 'Alpha' }]])
   const db = { getVertices() { return vertices }, getClass(_id: string) { throw Error('not a zero-argument observation') }, addVertex() { throw Error('private mutation must not be called') } }

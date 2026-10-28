@@ -4,7 +4,7 @@ import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSyn
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { portableSummary } from '../portable/report.ts'
-import { calibrate } from '../portable/statistics.ts'
+import { calibrate, roundRatioUncertainty } from '../portable/statistics.ts'
 import { modelCost, processCpuCost } from '../portable/costs.ts'
 import { resetPortableCancellation, runFirstUseBatch, runSerialJob, terminatePortableWorkers } from '../portable/execution.ts'
 import { portableDirectory } from '../portable/artifacts.ts'
@@ -12,6 +12,7 @@ import { parsePortableOptions } from '../portable/run.ts'
 import { readProjectBenchmarkRecord } from '../portable/project-records.ts'
 import { pathToFileURL } from 'node:url'
 import type { PortableJob, PortableWorkerResult } from '../portable/protocol.ts'
+import { portableCases } from '../portable/cohorts.ts'
 
 const directories: string[] = []
 afterEach(() => {
@@ -31,6 +32,13 @@ test('sampling and independent A/A noise govern calibration rather than successf
   const noisy = stableRounds()
   noisy[1]!.A1 = Array(31).fill(20) as number[]
   expect(calibrate(noisy, 31).status).toBe('uncalibrated')
+  expect(calibrate(stableRounds(), 31).roundRatioUncertainty?.replicaB.interval).toBeNull()
+  expect(roundRatioUncertainty([.8, .85, .9, .95, 1, 1.05])).toMatchObject({ independentRounds: 6, interval: { lower: .8, upper: 1.05, confidence: .96875 } })
+  // Increasing calls inside existing rounds cannot manufacture more independent evidence.
+  const manyCalls = stableRounds().map(round => ({ ...round, A0: Array(1000).fill(10), A1: Array(1000).fill(10), B: Array(1000).fill(9) }))
+  expect(calibrate(manyCalls, 31).roundRatioUncertainty?.replicaB).toMatchObject({ independentRounds: 5, medianRatio: .9, interval: null })
+  expect(() => calibrate(stableRounds(), NaN)).toThrow('sample count')
+  expect(() => roundRatioUncertainty([1, 0])).toThrow('positive')
 })
 test('missing provider evidence and censored zero CPU counters never become free observed work', () => {
   expect(modelCost().dollars).toBeNull()
@@ -51,6 +59,16 @@ test('portable CLI keeps insufficient sampling explicit and rejects ambiguous se
   expect(() => parsePortableOptions(['--project', 'owner/tool', '--artifact-root', '/tmp/tool', '--worker-timeout-ms', '0'])).toThrow('positive integer')
   expect(() => parsePortableOptions(['--project', 'owner/tool', '--project', 'other/tool', '--artifact-root', '/tmp/tool'])).toThrow('Duplicate')
   expect(() => parsePortableOptions(['--project', 'owner/tool', '--artifact-root', '/tmp/tool', '--cohort', 'family,family'])).toThrow('repeated')
+})
+test('architecture scale preserves authored group membership', () => {
+  const cases = portableCases(['scaling']).filter(testCase => testCase.family === 'architecture')
+  expect(cases.map(testCase => testCase.scale)).toEqual([8, 32, 128])
+  const large = cases[2]!
+  expect(large.expected.topology?.nodes).toHaveLength(128)
+  expect(large.expected.topology?.edges).toHaveLength(127)
+  expect(large.expected.topology?.groups).toHaveLength(16)
+  expect(large.expected.topology?.groups?.[15]).toEqual({ id: 'G15', members: Array.from({ length: 8 }, (_, index) => `N${120 + index}`) })
+
 })
 test('prepared fresh processes execute first-use API windows serially', async () => {
   const directory = mkdtempSync(join(tmpdir(), 'portable-api-barrier-'))

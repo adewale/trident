@@ -1,0 +1,128 @@
+<svg id="fidelity-mermaid-27" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 342px;" viewBox="0 0 342 481" role="graphics-document document" aria-roledescription="zenuml"><defs>
+  <style>
+  .frame-border-outer { fill: #666; }
+  .frame-border-inner { fill: #ffffff; }
+  .frame-header-bg { fill: #ffffff; }
+  .frame-header-line { stroke: #666; stroke-width: 1; shape-rendering: crispEdges; }
+  .frame-title { font-family: Helvetica, Verdana, serif; font-size: 16px; font-weight: 600; fill: #222; }
+  .participant-box { fill: #ffffff; stroke: #666; stroke-width: 2; }
+  .participant-label { font-family: Helvetica, Verdana, serif; font-size: 16px; fill: #222; }
+  .participant-icon { color: #222; }
+  .participant-icon [fill="currentColor"]:not([stroke]) { stroke: #666; stroke-width: 1; }
+  .lifeline { stroke: #666; stroke-width: 1; }
+  .message-line { stroke: #000; stroke-width: 2; shape-rendering: crispEdges; }
+  .message-label { font-family: Helvetica, Verdana, serif; font-size: 14px; fill: #222; }
+  .arrow-head { fill: #000; stroke: #000; stroke-width: 2; }
+  .arrow-open { fill: none; }
+  .occurrence { fill: #dedede; stroke: #666; stroke-width: 2; shape-rendering: crispEdges; }
+  .fragment-border { fill: none; stroke: #666; stroke-width: 1; shape-rendering: crispEdges; }
+  .fragment-header { fill: #dedede; fill-opacity: 0.498; stroke: none; shape-rendering: crispEdges; }
+  .fragment-label { font-family: Helvetica, Verdana, serif; font-size: 14px; font-weight: 600; fill: #000; }
+  .fragment-condition { font-family: Helvetica, Verdana, serif; font-size: 14px; fill: #000; }
+  .fragment-separator { stroke: #e5e7eb; stroke-width: 1; shape-rendering: crispEdges; }
+  .fragment-section-label { font-family: Helvetica, Verdana, serif; font-size: 14px; fill: #000; }
+  .return-line { stroke: #000; stroke-width: 2; stroke-dasharray: 6,4; shape-rendering: crispEdges; }
+  .return-arrow { stroke: #000; stroke-width: 2; fill: none; }
+  .return-label { font-family: Helvetica, Verdana, serif; font-size: 14px; fill: #222; }
+  .return-icon { fill: #222; }
+  .divider-line { stroke: #aaaa33; stroke-width: 1; }
+  .divider-bg { fill: #fff5ad; stroke: #aaaa33; stroke-width: 1; }
+  .divider-label { font-family: Helvetica, Verdana, serif; font-size: 14px; fill: #333; }
+  .comment-text { font-family: Helvetica, Verdana, serif; font-size: 14px; fill: #333; opacity: 0.5; }
+  .seq-number { font-family: Helvetica, Verdana, serif; font-size: 12px; font-weight: 100; fill: #6b7280; }
+  .group-outline { fill: none; stroke: #666; }
+  .group-title-bg { fill: #ffffff; stroke: none; }
+  .group-title-text { font-family: Helvetica, Verdana, serif; font-size: 13px; font-weight: 400; fill: #222; }
+</style>
+</defs>
+<rect class="frame-border-outer" x="0" y="0" width="342" height="481" rx="4" fill="#666"></rect>
+<rect class="frame-border-inner" x="1" y="1" width="340" height="479" rx="3" fill="#fff"></rect>
+<line class="frame-header-line" x1="1" y1="33.5" x2="341" y2="33.5"></line>
+
+<g transform="translate(21, 34)">
+<line x1="50.5" y1="68" x2="50.5" y2="446" class="lifeline" stroke-dasharray="5,5" stroke-dashoffset="5" shape-rendering="crispEdges"></line>
+<line x1="150.5" y1="68" x2="150.5" y2="446" class="lifeline" stroke-dasharray="5,5" stroke-dashoffset="5" shape-rendering="crispEdges"></line>
+<line x1="250.5" y1="68" x2="250.5" y2="446" class="lifeline" stroke-dasharray="5,5" stroke-dashoffset="5" shape-rendering="crispEdges"></line>
+<g class="participant" data-participant="Client">
+  <rect x="11" y="29" width="78" height="38" rx="3" class="participant-box"></rect>
+  
+  
+  
+  <text x="50" y="47.75" text-anchor="middle" dominant-baseline="central" class="participant-label">Client</text>
+</g>
+<g class="participant" data-participant="API">
+  <rect x="111" y="29" width="78" height="38" rx="3" class="participant-box"></rect>
+  
+  
+  
+  <text x="150" y="47.75" text-anchor="middle" dominant-baseline="central" class="participant-label">API</text>
+</g>
+<g class="participant" data-participant="Stock">
+  <rect x="211" y="29" width="78" height="38" rx="3" class="participant-box"></rect>
+  
+  
+  
+  <text x="250" y="47.75" text-anchor="middle" dominant-baseline="central" class="participant-label">Stock</text>
+</g>
+<rect x="144" y="87" width="13" height="302" rx="1" class="occurrence" data-participant="API"></rect>
+<rect x="244" y="181" width="13" height="34" rx="1" class="occurrence" data-participant="Stock"></rect>
+<rect x="151" y="306" width="13" height="22" rx="1" class="occurrence" data-participant="API"></rect>
+<g class="message">
+  <line x1="51" y1="87" x2="143" y2="87" class="message-line"></line>
+  <svg x="136" y="82" width="7" height="10" viewBox="0 0 7 9" overflow="visible" class="arrow-head">
+    <g>
+      <path d="M1 1.25 L6.15 4.5 L1 7.75 Z" stroke="#000" stroke-linecap="round" stroke-width="2" fill="#000"></path>
+    </g>
+  </svg>
+  <text x="93.5" y="84" text-anchor="middle" class="message-label">checkout()</text>
+  <text x="47" y="84" text-anchor="end" class="seq-number">1</text>
+</g>
+<g class="message">
+  <line x1="158" y1="181" x2="243" y2="181" class="message-line"></line>
+  <svg x="236" y="176" width="7" height="10" viewBox="0 0 7 9" overflow="visible" class="arrow-head">
+    <g>
+      <path d="M1 1.25 L6.15 4.5 L1 7.75 Z" stroke="#000" stroke-linecap="round" stroke-width="2" fill="#000"></path>
+    </g>
+  </svg>
+  <text x="197" y="178" text-anchor="middle" class="message-label">reserve()</text>
+  <text x="154" y="178" text-anchor="end" class="seq-number">1.1.1</text>
+</g>
+<g class="message self-call">
+  <svg x="158" y="291" width="30" height="24">
+    <path d="M0,2 L26,2 Q28,2 28,4 L28,13 Q28,15 26,15 L14,15" fill="none" stroke="#000" stroke-width="2"></path>
+    <g transform="translate(7, 10)">
+      <svg height="10" width="7" viewBox="0 0 7 9">
+        <g transform="scale(-1, 1) translate(-7, 0)">
+          <path d="M1 1.25 L6.15 4.5 L1 7.75 Z" stroke="#000" stroke-linecap="round" fill="#000" stroke-width="2"></path>
+        </g>
+      </svg>
+    </g>
+  </svg>
+  <text x="163" y="289" text-anchor="start" class="message-label">fail()</text>
+  <text x="154" y="289" text-anchor="end" class="seq-number">1.1.2</text>
+</g>
+<g class="return">
+  <line x1="243" y1="214" x2="158" y2="214" class="return-line"></line>
+  <polyline points="163.15,210.75 158,214 163.15,217.25" fill="none" stroke-linecap="round" class="return-arrow"></polyline>
+  <text x="204" y="211" text-anchor="middle" class="return-label">ticket</text>
+  <text x="154" y="211" text-anchor="end" class="seq-number">1.1.1.1</text>
+</g>
+<g class="return">
+  <line x1="143" y1="388" x2="51" y2="388" class="return-line"></line>
+  <polyline points="56.15,384.75 51,388 56.15,391.25" fill="none" stroke-linecap="round" class="return-arrow"></polyline>
+  <text x="100.5" y="385" text-anchor="middle" class="return-label">receipt</text>
+  <text x="47" y="385" text-anchor="end" class="seq-number">1.2</text>
+</g>
+<g class="fragment fragment-alt">
+  <rect x="90.5" y="104.5" width="219" height="251" rx="4" class="fragment-border"></rect>
+  <rect x="91" y="105" width="218" height="25" class="fragment-header"></rect>
+  <svg x="95" y="105" width="20" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M12 8L20 12L12 16L4 12L12 8Z" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  <text x="117" y="117" dominant-baseline="central" class="fragment-label">Alt</text>
+  <text x="87" y="113" text-anchor="end" dominant-baseline="central" class="seq-number">1.1</text>
+  <g><text x="91" y="145" class="fragment-condition">[</text><text x="98.89" y="145" class="fragment-condition" opacity="0.65">available</text><text x="158.15171875" y="145" class="fragment-condition">]</text></g>
+  <line x1="91" y1="240.5" x2="309" y2="240.5" class="fragment-separator"></line>
+  <text x="95" y="256" class="fragment-section-label">[else]</text>
+</g>
+</g></svg>

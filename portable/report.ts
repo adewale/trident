@@ -156,6 +156,8 @@ export function portableMarkdown(report: { project: string; version: string; sta
     '',
     'A0, A1 and B use the same admitted artifact. Their differences diagnose measurement variation; they cannot establish a product speedup. Cold imports may prepare in batches, but first API calls execute one at a time after the complete idle barrier. Timings exclude import and qualification. Cases with a prelude report first-final-source timing after that prelude.',
     '',
+    'Calibration reports a descriptive A/A envelope separately from an exact median round-ratio uncertainty interval. Thousands of calls within five rounds are still only five independent rounds: a finite two-sided 95% sign interval needs at least six. Intervals require independent representative rounds and do not remove systematic host/workload differences. Repeated-source p95 values describe batch means, not individual tail latency.',
+    '',
     ...(summary.counts.unsupportedFamilies.length ? [`Unsupported families: ${summary.counts.unsupportedFamilies.join(', ')}. The renderer rejected each family's canonical source, so their ${summary.counts.unsupportedCases} cases were not run; they are coverage gaps, not failures.`, ''] : []),
     '## Family representatives',
     '',

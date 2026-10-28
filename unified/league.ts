@@ -7,6 +7,9 @@ import { loadCurrentProjectRecords, readBenchmarkDocument, stableValue, type Pro
 import { rankCommunityObservations } from './community.ts'
 import { communityCorpus } from './corpus.ts'
 import type { BenchmarkObservation, UnifiedWorkload } from './types.ts'
+import { positiveRenderInput } from './workload-intent.ts'
+import { median } from '../portable/statistics.ts'
+import { assertCurrentReportSetVersions, currentReportVersion } from './current-report-versions.ts'
 import { copyPublicationMethods } from './publication-methods.ts'
 
 /** Mermaid defines valid input, so its row is the reference, not a contestant. */
@@ -26,7 +29,7 @@ const slug = (project: string) => project.replace(/[^a-z0-9._-]+/gi, '-').toLowe
 export const percent = (passed: number, total: number) => (total ? `${((100 * passed) / total).toFixed(1)}%` : '—')
 export const escape = (value: unknown) => String(value).replaceAll('|', '\\|').replaceAll('\n', ' ')
 
-interface ReportInputs {
+export interface ReportInputs {
   source: 'context' | 'community-inputs' | 'unavailable'
   workloads: Map<string, UnifiedWorkload>
   gaps: string[]
@@ -44,6 +47,19 @@ interface AuthoredLabelAdmission {
   unmapped: number
 }
 
+export interface PositiveRenderAdmission {
+  passed: number
+  failed: number
+  blocked: number
+  unavailable: number
+  excludedParserOnly: number
+  excludedDiagnostic: number
+  excludedReferenceRejected: number
+  unknownIntent: number
+  unknownReference: number
+  unmapped: number
+}
+
 export interface Lane {
   project: string
   version: string
@@ -57,6 +73,7 @@ export interface Lane {
   blocked: number
   /** Report-only subset; null when retained oracle caveats cannot establish its denominator. */
   authoredLabels?: AuthoredLabelAdmission | null
+  positiveRendering?: PositiveRenderAdmission | null
   legacy: { supported: number; passed: number; failed: number }
   /** The newer families, kept out of every number above; null when the record probed none of them. */
   newer: { supported: string[]; passed: number; failed: number } | null
@@ -68,11 +85,12 @@ export interface Lane {
 }
 
 const rounds = (record: ProjectBenchmarkRecord) => Number((record.identity.measurement as { rounds?: number } | undefined)?.rounds ?? 0)
-const versionOf = (record: ProjectBenchmarkRecord) => String(record.observations.find(row => row.metrics?.version)?.metrics?.version ?? (record.identity.artifact as any)?.package?.artifact?.version ?? 'unknown')
-export const featureRow = (row: BenchmarkObservation) => !row.caseId.startsWith('core:') && !['family-support', 'capability', 'delivery', 'memory', 'load-and-initialize', 'worker-lifecycle', 'enroll', 'resource-diagnostic'].includes(row.operation) && !row.operation.endsWith('negative-admission')
+const versionOf = (record: ProjectBenchmarkRecord) => currentReportVersion(record) ?? 'unavailable'
+export const featureRow = (row: BenchmarkObservation) => !row.caseId.startsWith('core:') && !['family-support', 'capability', 'delivery', 'memory', 'process-memory', 'load-and-initialize', 'worker-lifecycle', 'enroll', 'resource-diagnostic'].includes(row.operation) && !row.operation.endsWith('negative-admission')
 
 /** One row per tool and public surface/output, from one retained project record. */
 export function lanes(record: ProjectBenchmarkRecord, evidence?: ReportInputs): Lane[] {
+  const admittedVersion = currentReportVersion(record)
   const groups = new Map<string, BenchmarkObservation[]>()
   for (const row of record.observations.filter(row => row.suite !== 'community-cli' && row.metrics?.implementation === record.identity.project)) {
     const key = `${row.surface}\n${row.format}`
@@ -83,8 +101,16 @@ export function lanes(record: ProjectBenchmarkRecord, evidence?: ReportInputs): 
   return [...groups].flatMap(([key, rows]) => {
     const [surface, format] = key.split('\n') as [string, string]
     const features = rows.filter(featureRow).filter(row => row.status !== 'not-applicable' && (row.metrics?.round === undefined || row.metrics.round === 1))
-    // A surface that measured nothing (for example Mermaid's SVG in Node, which needs a browser) has no row.
-    if (!features.length) return []
+    const inputLedgerRows = rows.filter(featureRow).filter(row => row.metrics?.round === undefined || row.metrics.round === 0 || row.metrics.round === 1)
+    const positive = evidence && evidence.oracleLedgerComplete && renderingOutput(format) ? positiveRenderAdmission(inputLedgerRows.filter(row => SCORED_FAMILIES.includes(row.family)), evidence) : null
+    // A blocked enrolled surface retains its whole planned denominator. An
+    // explicitly inapplicable interface (such as Mermaid SVG in Node) earns no row.
+    const enrolled = rows.some(row =>
+      (['capability', 'enroll'].includes(row.operation) && ['passed', 'blocked', 'failed'].includes(row.status)) ||
+      (row.operation === 'family-support' && ['passed', 'failed', 'blocked', 'unsupported'].includes(row.status)) ||
+      (row.operation === 'render' && ['passed', 'blocked', 'failed'].includes(row.status)),
+    )
+    if (!features.length && (!positive || !enrolled || positive.passed + positive.failed + positive.blocked + positive.unavailable === 0)) return []
     const allProbes = rows.filter(row => row.operation === 'family-support')
     const probes = allProbes.filter(row => SCORED_FAMILIES.includes(row.family)),
       newerProbes = allProbes.filter(row => NEWER_FAMILIES.includes(row.family))
@@ -102,7 +128,7 @@ export function lanes(record: ProjectBenchmarkRecord, evidence?: ReportInputs): 
     const firstCalls = rank?.qualified ? rank.requiredCaseIds.map(id => {
       // Every CLI sample is a fresh process, so its sample is already a first call.
       const values = rows.filter(row => row.caseId === id && row.status === 'passed').map(row => Number(surface === 'cli:end-to-end' ? row.samplesMs?.[0] : row.metrics?.firstMs)).filter(Number.isFinite).sort((a, b) => a - b)
-      return values.length === rounds(record) ? values[values.length >> 1]! : NaN
+      return values.length === rounds(record) ? median(values) : NaN
     }) : []
     return [
       {
@@ -117,14 +143,25 @@ export function lanes(record: ProjectBenchmarkRecord, evidence?: ReportInputs): 
         failed: scored.filter(row => row.status === 'failed').length,
         blocked: scored.filter(row => row.status === 'blocked').length,
         ...(evidence && ['svg', 'terminal'].includes(format) ? { authoredLabels: authoredLabelAdmission(scored, evidence) } : {}),
+        ...(evidence && ['svg', 'terminal', 'png'].includes(format) ? { positiveRendering: positive } : {}),
         legacy: { supported: new Set(probes.filter(probe => LEGACY_FAMILIES.includes(probe.family) && supported(probe)).map(probe => probe.family)).size, passed: legacy.filter(row => row.status === 'passed').length, failed: legacy.filter(row => row.status === 'failed').length },
         newer: newerProbes.length ? { supported: [...new Set(newerProbes.filter(supported).map(row => row.family))], passed: newer.filter(row => row.status === 'passed').length, failed: newer.filter(row => row.status === 'failed').length } : null,
-        coreFirstMs: rounds(record) >= CALIBRATED_ROUNDS && firstCalls.length && firstCalls.every(Number.isFinite) ? firstCalls.reduce((sum, value) => sum + value, 0) : null,
-        coreMedianMs: rounds(record) >= CALIBRATED_ROUNDS && rank?.qualified ? rank.medianMs : null,
+        coreFirstMs: admittedVersion !== null && rounds(record) >= CALIBRATED_ROUNDS && firstCalls.length && firstCalls.every(Number.isFinite) ? firstCalls.reduce((sum, value) => sum + value, 0) : null,
+        coreMedianMs: admittedVersion !== null && rounds(record) >= CALIBRATED_ROUNDS && rank?.qualified ? rank.medianMs : null,
         families,
       },
     ]
   })
+}
+
+const renderingOutput = (format: string) => ['svg', 'terminal', 'png'].includes(format)
+/** A stopped worker or unsupported family cannot shrink the positive denominator.
+ * Unknown input intent/reference cannot establish a scoped positive rendering ratio. */
+export function positiveRenderScore(lane: Lane): { passed: number; total: number; rate: number } | null {
+  const score = lane.positiveRendering
+  if (lane.version === 'unavailable' || !score || score.unknownIntent || score.unknownReference || score.unmapped) return null
+  const total = score.passed + score.failed + score.blocked + score.unavailable
+  return total ? { passed: score.passed, total, rate: score.passed / total } : null
 }
 
 /** Correctness first: families supported, then pass rate in them, then calibrated speed. */
@@ -168,6 +205,7 @@ function publishedRecord(record: ProjectBenchmarkRecord, evidence: ReportInputs)
       unlabeledCaseIds: [...evidence.workloads.values()].filter(workload => !workload.expectedLabels?.some(label => label.trim())).map(workload => workload.id).sort(),
     },
     authoredLabelAdmission: lanes(record, evidence).filter(lane => ['svg', 'terminal'].includes(lane.format)).map(lane => ({ surface: lane.surface, format: lane.format, counts: lane.authoredLabels })),
+    positiveRenderAdmission: lanes(record, evidence).filter(lane => ['svg', 'terminal', 'png'].includes(lane.format)).map(lane => ({ surface: lane.surface, format: lane.format, counts: lane.positiveRendering })),
     observations: portable(record.observations),
   }
 }
@@ -177,18 +215,55 @@ export function reportInputs(record: ProjectBenchmarkRecord): ReportInputs {
   const context = read(join(record.evidenceDirectory, 'context.json'))?.inputs?.literal,
     local = context && Array.isArray(context.workloads) ? undefined : read(join(record.evidenceDirectory, 'community/community-inputs.json')),
     document = context && Array.isArray(context.workloads) ? context : local,
-    workloads = new Map<string, UnifiedWorkload>((Array.isArray(document?.workloads) ? document.workloads : []).map((workload: UnifiedWorkload) => [workload.id, workload])),
+    declared: UnifiedWorkload[] = Array.isArray(document?.workloads) ? document.workloads : [],
+    workloads = new Map<string, UnifiedWorkload>(),
+    ledgerErrors = new Set<string>(),
     gaps: string[] = Array.isArray(document?.gaps) ? document.gaps.filter((gap: unknown): gap is string => typeof gap === 'string') : [],
     reference = document?.reference ?? null,
     rejected = ': pinned Mermaid rejected source ('
+  for (const [index, workload] of declared.entries()) {
+    if (typeof workload?.id !== 'string' || !workload.id) { ledgerErrors.add(`Malformed retained workload identity at index ${index}; positive rendering ratio unavailable`); continue }
+    if (workloads.has(workload.id)) ledgerErrors.add(`Duplicate workload ID in retained input ledger: ${workload.id}; positive rendering ratio unavailable`)
+    workloads.set(workload.id, workload)
+  }
+  const rejectedCaseIds = new Set([...gaps.filter(gap => gap.includes(rejected)).map(gap => gap.slice(0, gap.indexOf(rejected))).filter(id => workloads.has(id)), ...[...workloads.values()].filter(workload => workload.referenceAdmission?.accepted === false).map(workload => workload.id)])
+  for (const workload of workloads.values()) if (workload.referenceAdmission?.accepted === true && rejectedCaseIds.has(workload.id)) ledgerErrors.add(`Contradictory pinned reference admission in retained input ledger: ${workload.id}; positive rendering ratio unavailable`)
+  gaps.push(...ledgerErrors)
   return {
     source: document ? document === context ? 'context' : 'community-inputs' : 'unavailable',
     workloads,
     gaps,
     reference,
-    oracleLedgerComplete: Array.isArray(document?.gaps) && document.gaps.length === gaps.length && reference?.version === MERMAID_ORACLE_PIN.version && reference?.parserVersion === MERMAID_ORACLE_PIN.parser && reference?.domVersion === MERMAID_ORACLE_PIN.dom,
-    rejectedCaseIds: new Set(gaps.filter(gap => gap.includes(rejected)).map(gap => gap.slice(0, gap.indexOf(rejected))).filter(id => workloads.has(id))),
+    oracleLedgerComplete: !ledgerErrors.size && Array.isArray(document?.gaps) && document.gaps.length === gaps.length && reference?.version === MERMAID_ORACLE_PIN.version && reference?.parserVersion === MERMAID_ORACLE_PIN.parser && reference?.domVersion === MERMAID_ORACLE_PIN.dom,
+    rejectedCaseIds,
   }
+}
+
+/** Unknown declarations remain counted outside the positive denominator. A
+ * source accepted by a peer cannot establish its own reference acceptance. */
+export function positiveRenderAdmission(rows: BenchmarkObservation[], evidence: Pick<ReportInputs, 'workloads'>): PositiveRenderAdmission | null {
+  if (![...evidence.workloads.values()].some(workload => workload.intent !== undefined)) return null
+  const result: PositiveRenderAdmission = { passed: 0, failed: 0, blocked: 0, unavailable: 0, excludedParserOnly: 0, excludedDiagnostic: 0, excludedReferenceRejected: 0, unknownIntent: 0, unknownReference: 0, unmapped: 0 }
+  const observed = new Map<string, BenchmarkObservation>()
+  for (const row of rows) {
+    if (!evidence.workloads.has(row.caseId)) { result.unmapped++; continue }
+    if (observed.has(row.caseId)) throw Error('Duplicate positive-render observation: ' + row.caseId)
+    observed.set(row.caseId, row)
+  }
+  // Plan from the frozen input ledger, not the rows a successful worker chose
+  // to return. A stopped collector cannot shrink the positive denominator.
+  for (const workload of evidence.workloads.values()) {
+    if (workload.id.startsWith('core:') || !SCORED_FAMILIES.includes(workload.family)) continue
+    const row = observed.get(workload.id)
+    if (!['render', 'parse-only', 'negative-admission', 'diagnostic'].includes(workload.intent ?? '')) result.unknownIntent++
+    else if (workload.intent === 'parse-only') result.excludedParserOnly++
+    else if (workload.intent === 'negative-admission' || workload.intent === 'diagnostic') result.excludedDiagnostic++
+    else if (workload.referenceAdmission?.accepted === false) result.excludedReferenceRejected++
+    else if (!positiveRenderInput(workload)) result.unknownReference++
+    else if (row && (row.status === 'passed' || row.status === 'failed' || row.status === 'blocked')) result[row.status]++
+    else result.unavailable++
+  }
+  return result
 }
 
 function authoredLabelAdmission(rows: BenchmarkObservation[], evidence: ReportInputs): AuthoredLabelAdmission | null {
@@ -274,6 +349,7 @@ export const isCandidateRecord = (record: ProjectBenchmarkRecord) => {
 export function publishResults(store: string, out: string): { lanes: Lane[]; files: string[]; candidates: string[] } {
   const current = loadCurrentProjectRecords(store),
     records = current.filter(record => (record.identity.lane ?? 'community') === 'community')
+  assertCurrentReportSetVersions(records)
   const misfiled = records.filter(isCandidateRecord)
   if (misfiled.length) throw Error(`results:publish ranks releases only; the release lane of ${store} holds candidate records for ${misfiled.map(record => record.identity.project).join(', ')}`)
   if (!records.length) throw Error('No current community records in ' + store)
@@ -333,6 +409,11 @@ export function publishResults(store: string, out: string): { lanes: Lane[]; fil
   for (const lane of all.filter(lane => ['svg', 'terminal'].includes(lane.format))) {
     const score = lane.authoredLabels
     lines.push(`| ${escape(lane.project)} | ${SURFACES[lane.surface] ?? lane.surface} | ${OUTPUTS[lane.format]} | ${score ? `${percent(score.passed, score.passed + score.failed)} (${score.passed}/${score.passed + score.failed})` : 'unavailable'} | ${score ? `${score.blocked} / ${score.unavailable}` : '—'} | ${score ? `${score.excludedRejected} / ${score.excludedUnlabeled}` : '—'} | ${score?.unmapped ?? '—'} |`)
+  }
+  lines.push('', '## Declared positive rendering', '', 'Only inputs explicitly declared renderable by their owner and actually accepted by the pinned parser enter this fixed denominator; blocked, unsupported and missing outputs remain included. A scoped positive-render ratio requires complete known intent/reference declarations. Counts for partial known populations remain visible below without implying a complete ratio. Parser-only fixtures, intentional negative/diagnostic cases and observed reference rejection remain separate. Unknown historical intent/admission is unavailable, never inferred from a tool’s output or failure. This is admission under the output qualifier, not full semantic or perceptual fidelity; PNG decoded-content checks do not establish text/topology.', '', '| Tool | Surface | Output | Passed / known planned | Blocked / unavailable | Excluded parser / diagnostic / rejected | Unknown intent / reference / unmapped |', '|---|---|---|---:|---:|---:|---:|')
+  for (const lane of all.filter(lane => ['svg', 'terminal', 'png'].includes(lane.format))) {
+    const score = lane.positiveRendering
+    lines.push(`| ${escape(lane.project)} | ${SURFACES[lane.surface] ?? lane.surface} | ${OUTPUTS[lane.format]} | ${score ? `${percent(score.passed, score.passed + score.failed + score.blocked + score.unavailable)} (${score.passed}/${score.passed + score.failed + score.blocked + score.unavailable})` : 'unavailable'} | ${score ? `${score.blocked} / ${score.unavailable}` : '—'} | ${score ? `${score.excludedParserOnly} / ${score.excludedDiagnostic} / ${score.excludedReferenceRejected}` : '—'} | ${score ? `${score.unknownIntent} / ${score.unknownReference} / ${score.unmapped}` : '—'} |`)
   }
   lines.push('')
   const grid = all.filter(lane => lane.format === 'svg' || lane.format === 'terminal').sort((a, b) => a.project.localeCompare(b.project) || a.surface.localeCompare(b.surface))

@@ -1,5 +1,5 @@
 /** Additive cohorts. Dave and the historical six-core comparison stay unchanged. */
-export const PORTABLE_COHORT_PROTOCOL = 'portable-authored-family-scaling-v2'
+export const PORTABLE_COHORT_PROTOCOL = 'portable-authored-family-scaling-v3'
 export type PortableCohort = 'family' | 'scaling' | 'adversarial' | 'invalid'
 export type Json = null | boolean | number | string | Json[] | { [key: string]: Json }
 export interface PortableEdge {
@@ -311,6 +311,11 @@ function scalingCase(family: string, size: number): PortableCase {
   } else if (family === 'state') {
     source = 'stateDiagram-v2\n' + edges.map(item => `${item.source} --> ${item.target}`).join('\n')
     labels = nodes
+  } else if (family === 'architecture') {
+    const groups = Array.from({ length: Math.ceil(size / 8) }, (_, index) => ({ id: `G${index}`, members: nodes.slice(index * 8, (index + 1) * 8) }))
+    source = 'architecture-beta\n' + groups.map(group => `group ${group.id}(cloud)[${group.id}]`).concat(nodes.map((id, index) => `service ${id}(server)[${id}] in G${Math.floor(index / 8)}`), edges.map(item => `${item.source}:R --> L:${item.target}`)).join('\n')
+    labels = [...groups.map(group => group.id), ...nodes]
+    return { id: `scaling:${family}:${size}`, family, source, cohort: 'scaling', scale: size, expected: { accept: true, labels, topology: { nodes, edges, groups } } }
   } else {
     source = 'sequenceDiagram\nparticipant A as Alpha\nparticipant B as Beta\n' + nodes.map((id, index) => (index % 2 ? `B-->>A: ${id}` : `A->>B: ${id}`)).join('\n')
     labels = ['Alpha', 'Beta', ...nodes]
@@ -385,7 +390,10 @@ const invalidCases: PortableCase[] = [
   { id: 'invalid:unfinished-sequence', family: 'sequence', cohort: 'invalid', source: 'sequenceDiagram\nA->>', expected: { accept: false, labels: [] } },
 ]
 export function portableCases(selection?: readonly PortableCohort[]): PortableCase[] {
-  const cases = [...familyCases, ...['flowchart', 'sequence', 'class', 'state', 'er'].flatMap(family => [8, 32, 128].map(size => scalingCase(family, size))), ...adversarialCases, ...invalidCases]
+  // Keep the original familyCases array as the historical 23-family mark;
+  // the v2 current cohort also exercises both required first-party families.
+  const required = [newerFamilyCases.find(testCase => testCase.family === 'eventmodeling')!, ...requiredExternalFamilyCases()]
+  const cases = [...familyCases, ...required, ...['flowchart', 'sequence', 'class', 'state', 'er', 'architecture'].flatMap(family => [8, 32, 128].map(size => scalingCase(family, size))), ...adversarialCases, ...invalidCases]
   return selection ? cases.filter(testCase => selection.includes(testCase.cohort)) : cases
 }
 
@@ -395,7 +403,8 @@ export function portableCases(selection?: readonly PortableCohort[]): PortableCa
 export const FAMILY_SUPPORT_PROTOCOL = 'family-cohort-source-acceptance-v1'
 /** Mermaid's nine newest families (11.12.3 to 12.0.0), all but eventmodeling declared with a
  * `-beta` keyword. They are probed beyond the historical 23-family mark, and stay out of
- * portableCases so the portable cohort protocol is unchanged. */
+ * the current mark unless individually required; Event Modeling belongs to the
+ * v2 portable cohort while the original 23-family array stays historical. */
 const newerFamilyCases: PortableCase[] = [
   { id: 'family:venn', family: 'venn', cohort: 'family', source: 'venn-beta\n  set Alpha\n  set Beta\n  union Alpha,Beta["Both"]', expected: { accept: true, labels: ['Alpha', 'Beta', 'Both'] } },
   { id: 'family:treeview', family: 'treeview', cohort: 'family', source: 'treeView-beta\n├── Alpha\n│   └── Beta.txt\n└── Gamma.txt', expected: { accept: true, labels: ['Alpha', 'Beta.txt', 'Gamma.txt'] } },

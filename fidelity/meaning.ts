@@ -2,7 +2,7 @@ export type MeaningJson = null | boolean | number | string | MeaningJson[] | { [
 export interface MeaningNode { id: string; label: string }
 export interface MeaningEdge { source: string; target: string; directed: boolean; label?: string; startMarker?: string; endMarker?: string }
 export interface MeaningGroup { id: string; label: string; members: string[] }
-export interface PaintExpectation { fontSize?: number; images?: { href: string; count: number }[] }
+export interface PaintExpectation { fontSize?: number; nodeFill?: string; edgeStroke?: string; edgeStrokeWidth?: number; images?: { href: string; count: number }[] }
 export interface MeaningExpectation {
   labels: string[]
   nodes?: MeaningNode[]
@@ -38,6 +38,13 @@ export interface MeaningCheck {
   expected: unknown
   actual: unknown
   scope: string
+}
+
+/** Missing capability/host evidence cannot become a failed positive prelude
+ * or earn successful source-rejection credit for a negative prelude. */
+export function assessPrelude(accepted: boolean, actual: 'accepted' | 'rejected' | 'unsupported' | 'unavailable'): 'passed' | 'failed' | 'unsupported' | 'unavailable' {
+  if (actual === 'unsupported' || actual === 'unavailable') return actual
+  return (actual === 'accepted') === accepted ? 'passed' : 'failed'
 }
 const display = (value: string) => value.normalize('NFC').replace(/\s+/g, ' ').trim()
 const normalize = (value: unknown): unknown => Array.isArray(value) ? value.map(normalize) : value && typeof value === 'object' ? Object.fromEntries(Object.entries(value).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0).map(([key, item]) => [key, normalize(item)])) : value

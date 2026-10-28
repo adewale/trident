@@ -15,6 +15,7 @@ import { assertMermaidOracle, assertOracleAgrees, MERMAID_ORACLE_PIN, mermaidZen
 import { qualifyOutput, svgQualificationProvenance, withReferenceLabels } from './qualification.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult, UnifiedWorkload } from './types.ts'
 import { communityCorpus, corpusEvidence, corpusWorkloads } from './corpus.ts'
+import { workloadAppliesToOutput } from './workload-intent.ts'
 import { communityCatalogFile } from './trident-paths.ts'
 import { retainFailedOutput } from './failure-outputs.ts'
 
@@ -439,7 +440,7 @@ function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWo
     }
   }
   const qualification = qualifyOutput(workload, text, output)
-  row.status = qualification.ok ? 'passed' : 'failed'
+  row.status = qualification.unavailable ? 'blocked' : qualification.ok ? 'passed' : 'failed'
   row.bytes = value.byteLength
   row.findings = qualification.findings
   row.metrics = { ...row.metrics, qualification: qualification.scope, version: artifact.version, boundary: 'spawn through drained stdout/file artifact; process startup included', ...(qualification.ok ? {} : { outputFile: retainFailedOutput(out, prepared.node.id, workload.id, output === 'png' ? 'png' : output === 'svg' ? 'svg' : 'txt', value) }) }
@@ -855,13 +856,13 @@ function sourceAliasPlan(prepared: PreparedCommunity[], catalog: { nodes: Commun
 }
 function loadCommunityInputs(options: UnifiedRunOptions): { workloads: UnifiedWorkload[]; gaps: string[]; reference: unknown; source?: string } | undefined {
   if (!options.communityInputsFile) return
-  const input = readBenchmarkDocument(options.communityInputsFile) as { workloads: UnifiedWorkload[]; reference?: unknown }
+  const input = readBenchmarkDocument(options.communityInputsFile) as { workloads: UnifiedWorkload[]; reference?: unknown; gaps?: string[] }
   if (!Array.isArray(input.workloads) || new Set(input.workloads.map(workload => workload.id)).size !== input.workloads.length) throw Error('Frozen community input IDs are missing or duplicated')
   for (const core of communityCoreWorkloads()) {
     const actual = input.workloads.find(workload => workload.id === core.id)
     if (!actual || actual.source !== core.source || !sameProtocol(actual.expectedLabels, core.expectedLabels)) throw Error(`Frozen core source/independent expectations differ: ${core.id}`)
   }
-  return { workloads: input.workloads, gaps: [], reference: input.reference ?? null, source: resolve(options.communityInputsFile) }
+  return { workloads: input.workloads, gaps: input.gaps ?? [], reference: input.reference ?? null, source: resolve(options.communityInputsFile) }
 }
 export function verifyFrozenBrowserEngine(peer: import('./community-browser.ts').PreparedCommunityBrowser) {
   if (peer.browserStatus !== 'prepared') return
@@ -924,6 +925,7 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
     {
       workloads,
       reference: frozenInputs?.reference ?? enriched?.provenance,
+      gaps,
       source: frozenInputs?.source ?? null,
       policy: 'Full feature qualification executes once per admitted artifact/input; fixed-core performance is calibrated across rounds. Frozen source/expectations are not regenerated. Labels are existential evidence, not complete semantic/visual fidelity.',
     },
@@ -997,8 +999,8 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
       console.log(`community round ${round}/${options.rounds}: ${entry.node.id} ${entry.artifact!.version}`)
       for (const output of [...new Set((entry.node.benchmark!.outputs ?? []).map(normalizeCommunityOutput))].filter(outputSelected)) {
         const roundWorkloads = ((options.communityCoverageOnce ?? true) && round > 1 ? workloads.filter(w => w.features.includes('core-graph-batch')) : workloads).filter(w => output !== 'terminal' || !w.features.includes('core-graph-batch') || ['core:flow5', 'core:tree50', 'core:seq20'].includes(w.id))
-        const selectedWorkloads = ['parse', 'diagnostics'].includes(output) ? roundWorkloads : roundWorkloads.filter(w => !corpusEvidence(w.id)?.parserOnly)
-        for (const workload of roundWorkloads.filter(w => !selectedWorkloads.includes(w))) observations.push({ ...envelope(entry.node, output, workload, round), status: 'not-applicable', detail: 'Owning fixture declares a parser-only assertion scope; rendering is not a promised operation for this input.' })
+        const selectedWorkloads = roundWorkloads.filter(w => workloadAppliesToOutput(w, output) && (['parse', 'diagnostics', 'source'].includes(output) || w.intent !== undefined || !corpusEvidence(w.id)?.parserOnly))
+        for (const workload of roundWorkloads.filter(w => !selectedWorkloads.includes(w))) observations.push({ ...envelope(entry.node, output, workload, round), status: 'not-applicable', detail: `Rendering is outside this input's declared positive scope: ${workload.intentReason ?? 'legacy parser-only owner'}${workload.referenceAdmission?.accepted === false ? '; pinned parser rejected this source' : ''}. Parser/admission evidence remains separate.` })
         if (['node', 'global', 'franken'].includes(entry.artifact!.kind) && !communityModuleOutputSupported(entry.node, output)) {
           if (round === 1)
             observations.push({
@@ -1061,12 +1063,12 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
   }
   const browserResult = await browser.runCommunityBrowserSuite(
     preparedBrowsers,
-    workloads.filter(w => !corpusEvidence(w.id)?.parserOnly),
+    workloads.filter(w => workloadAppliesToOutput(w, 'svg') && (w.intent !== undefined || !corpusEvidence(w.id)?.parserOnly)),
     options,
   )
   for (const peer of preparedBrowsers.filter(peer => peer.browserStatus === 'prepared' && outputSelected(peer.browser?.output ?? 'svg')))
-    for (const workload of workloads.filter(w => corpusEvidence(w.id)?.parserOnly))
-      observations.push({ ...envelope(peer.node, 'svg', workload, 0), surface: 'browser:public-api', runtime: 'chromium', status: 'not-applicable', detail: 'Owning fixture declares a parser-only assertion scope; browser rendering is not a promised operation for this input.' })
+    for (const workload of workloads.filter(w => !workloadAppliesToOutput(w, 'svg') || w.intent === undefined && corpusEvidence(w.id)?.parserOnly))
+      observations.push({ ...envelope(peer.node, 'svg', workload, 0), surface: 'browser:public-api', runtime: 'chromium', status: 'not-applicable', detail: `Browser rendering is outside the positive input scope: ${workload.intentReason ?? 'legacy parser-only owner'}${workload.referenceAdmission?.accepted === false ? '; pinned parser rejected this source' : ''}.` })
   observations.push(...browserResult.observations)
   gaps.push(...browserResult.gaps)
   const identityRechecks: { implementation: string; boundary: string; status: string; detail?: string }[] = []

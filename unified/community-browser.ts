@@ -14,6 +14,7 @@ import type { BenchmarkObservation, BenchmarkStatus, UnifiedRunOptions, UnifiedS
 import { tridentDirectory } from './trident-paths.ts'
 import { retainFailedOutput } from './failure-outputs.ts'
 import { mermaidOracleDirectory, mermaidZenumlAddon } from '../portable/mermaid-oracle.ts'
+import { browserProcessMemory } from './browser-process-memory.ts'
 
 type BrowserKind = 'beautiful' | 'pele' | 'mermaid' | 'function' | 'ondine' | 'franken' | 'merman' | 'extra'
 export interface CommunityBrowserEngine {
@@ -139,7 +140,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
   mkdirSync(helperDirectory, { recursive: true })
   const helperBuild = await build({
     stdin: {
-      contents: `export{isRenderedSourceEcho}from ${JSON.stringify(join(tridentDirectory, 'unified/qualification-visible-source.ts'))};export{closeHtmlVoidElements,inspectSvgText}from ${JSON.stringify(join(tridentDirectory, 'unified/svg-text-inspection.ts'))}`,
+      contents: `export{isRenderedSourceEcho}from ${JSON.stringify(join(tridentDirectory, 'unified/qualification-visible-source.ts'))};export{closeHtmlVoidElements,inspectSvgText}from ${JSON.stringify(join(tridentDirectory, 'unified/svg-text-inspection.ts'))};export{inspectBrowserPng}from ${JSON.stringify(join(tridentDirectory, 'unified/browser-png-inspection.ts'))}`,
       resolveDir: harness,
       sourcefile: 'community-visible-output-qualification.mjs',
     },
@@ -519,16 +520,16 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                   return { ms, svg, error }
                 }
                 let xmlWellFormed: boolean | null = null
-                const validate = (svg: unknown): string[] => {
+                const validate = async (svg: unknown): Promise<string[]> => {
+                  const helper = (globalThis as any).unifiedCommunityQualification
                   if (output === 'png') {
-                    if (!(svg instanceof Uint8Array) || svg.length < 33 || [137, 80, 78, 71, 13, 10, 26, 10].some((byte, index) => svg[index] !== byte)) return ['Invalid PNG signature or truncated PNG']
-                    const header = new DataView(svg.buffer, svg.byteOffset, svg.byteLength)
-                    return String.fromCharCode(...svg.subarray(12, 16)) === 'IHDR' && header.getUint32(16) > 0 && header.getUint32(20) > 0 ? [] : ['PNG has invalid IHDR or empty dimensions']
+                    if (!(svg instanceof Uint8Array)) return ['No PNG binary bytes returned']
+                    if (typeof helper.inspectBrowserPng !== 'function') return ['PNG qualification unavailable: prepared helper has no browser PNG decoder/content inspector']
+                    return await helper.inspectBrowserPng({ bytes: svg, requireContent: expected.length > 0 })
                   }
                   if (typeof svg !== 'string') return ['No SVG string returned']
                   // Strict XML, except that HTML-serialized void elements (Mermaid's foreignObject
                   // <br>) are closed and recorded as not well-formed XML; nothing else is relaxed.
-                  const helper = (globalThis as any).unifiedCommunityQualification
                   let doc = new DOMParser().parseFromString(svg, 'image/svg+xml')
                   xmlWellFormed = !doc.querySelector('parsererror')
                   if (!xmlWellFormed) {
@@ -558,8 +559,8 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                 }
                 const first = await call('_first')
                 if (first.error) return { status: 'error', error: first.error, firstMs: first.ms }
-                const firstFindings = validate(first.svg)
-                if (firstFindings.length) return { status: 'qualification-failed', findings: firstFindings, firstMs: first.ms, xmlWellFormed, failedOutput: typeof first.svg === 'string' ? first.svg : undefined }
+                const firstFindings = await validate(first.svg)
+                if (firstFindings.length) return { status: firstFindings.some(finding => finding.startsWith('PNG qualification unavailable:')) ? 'qualification-unavailable' : 'qualification-failed', findings: firstFindings, firstMs: first.ms, xmlWellFormed, failedOutput: typeof first.svg === 'string' ? first.svg : undefined }
                 const bytes = first.svg instanceof Uint8Array ? first.svg.byteLength : new TextEncoder().encode(first.svg).length
                 if (!core && coverageOnly) return { status: 'ok', firstMs: first.ms, bytes, findings: [], hasLabelOracle: output !== 'png' && expected.length > 0, coverageOnly: true, xmlWellFormed }
                 let iterations = 1
@@ -589,8 +590,8 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                   }
                   samples.push(elapsed / iterations)
                 }
-                const findings = validate(last.svg)
-                return { status: findings.length ? 'qualification-failed' : 'ok', samples, iterations, firstMs: first.ms, bytes, findings, hasLabelOracle: output !== 'png' && expected.length > 0, xmlWellFormed, ...(findings.length && typeof last.svg === 'string' ? { failedOutput: last.svg } : {}) }
+                const findings = await validate(last.svg)
+                return { status: findings.some(finding => finding.startsWith('PNG qualification unavailable:')) ? 'qualification-unavailable' : findings.length ? 'qualification-failed' : 'ok', samples, iterations, firstMs: first.ms, bytes, findings, hasLabelOracle: output !== 'png' && expected.length > 0, xmlWellFormed, ...(findings.length && typeof last.svg === 'string' ? { failedOutput: last.svg } : {}) }
               },
               { source: workload.source, expected: [...(workload.expectedLabels ?? [])], markdownLabels: [...(workload.markdownLabels ?? [])], id: `unified_${round}_${record.samples.length}`, core: workload.features.includes('core-graph-batch'), output: engine.output ?? 'svg', coverageOnly: options.communityCoverageOnce ?? true },
             )
@@ -601,7 +602,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                 timer = setTimeout(() => reject(new Error('Browser API workload exceeded 30s')), 30_000)
               }),
             ]).finally(() => clearTimeout(timer))
-            const status = measured.status === 'ok' ? 'passed' : 'failed'
+            const status = measured.status === 'qualification-unavailable' ? 'blocked' : measured.status === 'ok' ? 'passed' : 'failed'
             const observation = row(peer, workload, workload.features.includes('core-graph-batch') ? 'core-api-repeat' : (options.communityCoverageOnce ?? true) ? 'feature-corpus-qualification' : 'feature-corpus-attempt', status, {
               ...(measured.samples ? { samplesMs: measured.samples } : {}),
               ...(measured.bytes === undefined ? {} : { bytes: measured.bytes }),
@@ -615,7 +616,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                 firstMs: measured.firstMs ?? null,
                 iterations: measured.iterations ?? null,
                 version: engine.version,
-                qualification: engine.output === 'png' ? 'PNG-signature-and-positive-dimensions; no pixel-text/fidelity assertion' : measured.hasLabelOracle ? 'XML-canvas-and-authored-labels' : 'XML-and-canvas',
+                qualification: engine.output === 'png' ? 'Native-browser-PNG-decode-and-bounded-raster-content; no OCR/topology/perceptual-fidelity assertion' : measured.hasLabelOracle ? 'XML-canvas-and-authored-labels' : 'XML-and-canvas',
                 apiBoundary: engine.apiBoundary ?? 'public browser API',
                 cache: 'public-default-repeats',
               },
@@ -657,6 +658,13 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
         } catch (error) {
           gaps.push(`${peer.node.id}: browser JS heap unavailable: ${String(error)}`)
         }
+        const processMemory = await browserProcessMemory(browser)
+        record.samples.push({
+          suite: 'community-browser', surface: engine.surface ?? 'browser:public-api', runtime: 'chromium-processes', family: '*', caseId: 'post-portfolio-process-memory',
+          operation: 'process-memory', format: engine.output ?? 'svg', mode: `after-round-${round}`, status: processMemory.status === 'measured' ? 'passed' : 'blocked',
+          metrics: { implementation: peer.node.id, round, portfolioCaseCount: roundWorkloads.length, featureCases: roundWorkloads.filter(workload => !workload.features.includes('core-graph-batch')).length, rssBytes: processMemory.rssBytes, pssBytes: processMemory.pssBytes, processCount: processMemory.processes.length, memoryStatus: processMemory.status, scope: processMemory.scope, processes: JSON.stringify(processMemory.processes) },
+          ...(processMemory.detail ? { detail: processMemory.detail } : {}),
+        })
       } catch (error) {
         record.error = String(error)
         if (!record.samples.some(sample => sample.operation === 'load-and-initialize'))

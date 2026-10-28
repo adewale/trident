@@ -1,6 +1,6 @@
 import type { PortableCase } from './cohorts.ts'
 
-export const PORTABLE_MEASUREMENT_PROTOCOL = 'portable-svg-processes-v5'
+export const PORTABLE_MEASUREMENT_PROTOCOL = 'portable-svg-processes-v6'
 export const PORTABLE_ADAPTER_IDS = ['pele', 'agentic', 'beautiful', 'ondine', 'declared', 'public-package'] as const
 export type Replica = 'A0' | 'A1' | 'B'
 export type Track = 'first-use' | 'warm-repeat' | 'warm-new-source' | 'warm-label-edit'
