@@ -317,14 +317,27 @@ function qualifyPortableUnchecked(testCase: PortableCase, output: PortableOutput
     check('svg-format', 'valid namespaced SVG', String(error), 'Strict XML and SVG root namespace.')
   }
   check('positive-canvas', true, root ? canvas(root) : false, 'Positive finite viewBox or explicit width/height.')
-  if (typeof testCase.renderOptions?.fontSize === 'number') {
-    const style = root?.attributes.style ?? ''
-    const size = /(?:^|;)\s*font-size\s*:\s*([\d.]+)px/.exec(style)?.[1] ?? /(?:^|;)\s*font\s*:\s*([\d.]+)px/.exec(style)?.[1]
-    check('svg-root-font-size', testCase.renderOptions.fontSize, size === undefined ? null : Number(size), 'Authored fontSize is emitted as an SVG root font declaration. Computed CSS, glyph metrics and clipping remain unmeasured.')
-  }
   const nodes = root ? all(root) : [],
     visibleText = root ? textIn(root) : ''
   for (const label of testCase.expected.labels) check('label:' + label, true, visibleText.includes(normalizedText(label)), 'Authored rendered text, excluding hidden/metadata/defs text; computed CSS and clipping remain unmeasured.')
+  if (typeof testCase.renderOptions?.fontSize === 'number') {
+    const cssOverrides = nodes.some(element => element.tag === 'style' && /(?:^|[;{])\s*font(?:-size)?\s*:/i.test(element.text))
+    const fontSize = (element: Element): number | undefined => {
+      for (let current: Element | undefined = element; current; current = current.parent) {
+        const style = current.attributes.style ?? ''
+        const inline = /(?:^|;)\s*font-size\s*:\s*([\d.]+)(?:px)?(?:\s*!important)?\s*(?:;|$)/i.exec(style)?.[1] ?? /(?:^|;)\s*font\s*:\s*(?:normal\s+|bold\s+|italic\s+|[1-9]00\s+)*([\d.]+)px\b/i.exec(style)?.[1]
+        const value = inline ?? current.attributes['font-size']
+        if (value !== undefined) return /^(?:\d+(?:\.\d+)?)(?:px)?$/.test(value) ? Number.parseFloat(value) : undefined
+      }
+      return undefined
+    }
+    for (const label of testCase.expected.labels) {
+      const matches = nodes.filter(element => ['text', 'tspan'].includes(element.tag) && visible(element) && textIn(element) === normalizedText(label))
+      const sizes = matches.map(fontSize)
+      const available = !cssOverrides && matches.length > 0 && sizes.every(size => size !== undefined)
+      check('svg-label-font-size:' + label, true, available && sizes.every(size => size === testCase.renderOptions!.fontSize), 'Font size on visible authored SVG labels, including inherited presentation and inline declarations. Stylesheet overrides, relative units, glyph metrics and clipping remain unmeasured.', available)
+    }
+  }
   const ids = nodes.map(element => element.attributes.id).filter((id): id is string => !!id)
   check('svg-unique-ids', ids.length, new Set(ids).size, 'Document IDs must be unique; repeated data-id values are renderer-specific.')
   const model = object(output.model),

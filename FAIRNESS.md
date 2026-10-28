@@ -34,7 +34,7 @@ own dispositions. A renderer without a model API can pass output admission;
 that does not establish topology or full painted fidelity. Model failures cannot
 be hidden by correct labels, and model facts never substitute for missing ink.
 
-Portable protocol v4 records these dimensions separately. Complete semantic
+Portable protocol v5 records these dimensions separately. Complete semantic
 qualification still requires all the declared model and paint checks. A/A
 calibration measures timing noise and never supplies missing correctness proof.
 The report reads old evidence as unavailable where a dimension was not recorded;
@@ -50,6 +50,8 @@ A catalog project can bind the portable SVG API without a bespoke runner:
   "api": { "svg": { "export": "draw", "result": "image" } }
 }
 ```
+
+Configuration cases express semantic intent. Reviewed option translations currently cover Pele and Agentic font sizes. Other adapters need a verified mapping; a declared binding can supply `fontSizePath`. A missing mapping blocks that case before its clock, rather than passing an ignored option or blaming the renderer. Label font checks admit explicit/inherited presentation and inline declarations; stylesheet overrides and relative units remain unmeasured.
 
 The worker awaits the public return and consumes the declared field. The standalone
 CLI accepts the same binding as `--adapter declared --binding JSON`. Preparation,
