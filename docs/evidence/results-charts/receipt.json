@@ -4,14 +4,14 @@
     "package": "mermaid",
     "version": "12.2.0"
   },
-  "inputMarkdownSha256": "806aeda4a8bfbc5a3568433aacec4248b39980393f0a87a1418474b92b5ecb4b",
+  "inputMarkdownSha256": "c4ff7c49e2332b46212287edc85edf832d479aa0b1b541c53ed681c5d29565e1",
   "charts": [
     {
-      "source": "xychart-beta horizontal\n    title \"Historical: DaveBench SVG returns — 2026-10-27\"\n    x-axis [\"Frankenmermaid 0.4.0\", \"Mermaid.js 12.2.0\", \"Pele 1.9.0\", \"Mermaid Dart 0.3.2\", \"Agentic Mermaid 0.4.1\", \"Zombie Mermaid 5.10.2\", \"Beautiful Mermaid 1.1.3\"]\n    y-axis \"SVG returned (%)\" 0 --> 100\n    bar [100, 99.8, 97.1, 81.9, 62, 44.7, 42.2]\n",
+      "source": "xychart-beta horizontal\n    title \"Historical: DaveBench SVG returns \u2014 2026-10-27\"\n    x-axis [\"Frankenmermaid 0.4.0\", \"Mermaid.js 12.2.0\", \"Pele 1.9.0\", \"Mermaid Dart 0.3.2\", \"Agentic Mermaid 0.4.1\", \"Zombie Mermaid 5.10.2\", \"Beautiful Mermaid 1.1.3\"]\n    y-axis \"SVG returned (%)\" 0 --> 100\n    bar [100, 99.8, 97.1, 81.9, 62, 44.7, 42.2]\n",
       "svgSha256": "f537fce221e37093e2b0adf0d9247b776cf8d55db733fd0054af383c0da568ac"
     },
     {
-      "source": "xychart-beta horizontal\n    title \"Historical: Diagram Meaning checks passed — 2026-10-27\"\n    x-axis [\"Pele 1.9.0\", \"Frankenmermaid 0.4.0\", \"Mermaid.js 12.2.0\", \"Mermaid Dart 0.3.2\", \"Agentic Mermaid 0.4.1\", \"Zombie Mermaid 5.10.2\", \"Beautiful Mermaid 1.1.3\"]\n    y-axis \"Passed criteria out of 1180\" 0 --> 1180\n    bar [1118, 1112, 1068, 1025, 716, 477, 356]\n",
+      "source": "xychart-beta horizontal\n    title \"Historical: Diagram Meaning checks passed \u2014 2026-10-27\"\n    x-axis [\"Pele 1.9.0\", \"Frankenmermaid 0.4.0\", \"Mermaid.js 12.2.0\", \"Mermaid Dart 0.3.2\", \"Agentic Mermaid 0.4.1\", \"Zombie Mermaid 5.10.2\", \"Beautiful Mermaid 1.1.3\"]\n    y-axis \"Passed criteria out of 1180\" 0 --> 1180\n    bar [1118, 1112, 1068, 1025, 716, 477, 356]\n",
       "svgSha256": "330a0836f564a9b98fece67ed02f2d64e68be76419f2dbfb109770d904897d32"
     }
   ],
