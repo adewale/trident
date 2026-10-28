@@ -40,7 +40,7 @@ test('support denominators keep controls separate and withhold duplicate input c
   expect(result).toMatchObject({ plannedInputs: 6, passed: 1, recordedInputObservations: 1 })
   expect(result.controls).toHaveLength(2)
   expect(result.observations[0]?.metrics).toMatchObject({ outputFile: '/owning/failure.svg', diagnosticAdmissionFailed: true })
-  expect(result.observations[0]?.metrics.firstMs).toBeUndefined()
+  expect(result.observations[0]?.metrics?.firstMs).toBeUndefined()
   expect('samplesMs' in result.observations[0]!).toBe(false)
   expect(partitionVerificationRows([row, row])).toMatchObject({ passed: 0, duplicateCaseIds: ['support:flowchart'] })
 })
