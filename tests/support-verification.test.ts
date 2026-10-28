@@ -35,10 +35,12 @@ test('support admission retains its narrow scope, strips timing claims and rejec
 })
 
 test('support denominators keep controls separate and withhold duplicate input credit', () => {
-  const row: any = { suite: 'community', surface: 'node:public-api', runtime: 'fixture', family: 'flowchart', caseId: 'support:flowchart', operation: 'render', format: 'svg', mode: 'feature-corpus-qualification', status: 'passed', samplesMs: [123], metrics: { firstMs: 123 } }
+  const row: any = { suite: 'community', surface: 'node:public-api', runtime: 'fixture', family: 'flowchart', caseId: 'support:flowchart', operation: 'render', format: 'svg', mode: 'feature-corpus-qualification', status: 'passed', samplesMs: [123], metrics: { firstMs: 123, outputFile: '/owning/failure.svg', diagnosticAdmissionFailed: true } }
   const result = partitionVerificationRows([row, { ...row, caseId: 'parser-negative-1' }, { ...row, caseId: 'parser-negative-2' }])
   expect(result).toMatchObject({ plannedInputs: 6, passed: 1, recordedInputObservations: 1 })
   expect(result.controls).toHaveLength(2)
+  expect(result.observations[0]?.metrics).toMatchObject({ outputFile: '/owning/failure.svg', diagnosticAdmissionFailed: true })
+  expect(result.observations[0]?.metrics.firstMs).toBeUndefined()
   expect('samplesMs' in result.observations[0]!).toBe(false)
   expect(partitionVerificationRows([row, row])).toMatchObject({ passed: 0, duplicateCaseIds: ['support:flowchart'] })
 })

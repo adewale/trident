@@ -24,7 +24,7 @@ export const supportWorkloads: UnifiedWorkload[] = [
 ]
 export function partitionVerificationRows(rows: BenchmarkObservation[]) {
   const ids = new Set(supportWorkloads.map(workload => workload.id))
-  const clean = rows.map(({ samplesMs: _samples, ...row }) => ({ ...row, metrics: { implementation: row.metrics?.implementation, verification: SUPPORT_VERIFICATION_PROTOCOL }, mode: 'output-contract-verification' }))
+  const clean = rows.map(({ samplesMs: _samples, ...row }) => ({ ...row, metrics: { ...Object.fromEntries(Object.entries(row.metrics ?? {}).filter(([key]) => ['implementation', 'outputFile', 'apiBoundary', 'rejected', 'diagnosticAdmissionFailed', 'parserAdmissionFailed', 'diagnosticsCount', 'diagnosticAccepted', 'workerAttempt'].includes(key))), verification: SUPPORT_VERIFICATION_PROTOCOL }, mode: 'output-contract-verification' }))
   const observations = clean.filter(row => ids.has(row.caseId)), controls = clean.filter(row => !ids.has(row.caseId))
   const duplicateCaseIds = [...ids].filter(id => observations.filter(row => row.caseId === id).length > 1)
   const passed = duplicateCaseIds.length ? 0 : [...ids].filter(id => observations.some(row => row.caseId === id && row.status === 'passed')).length
