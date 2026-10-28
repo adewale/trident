@@ -95,9 +95,11 @@ export async function runExternalCommunity(prepared: PreparedCommunity, workload
         break
       }
       // Workers process the supplied inputs in order; retain completed JSONL and
-      // assign the stopped current case before restarting untouched cases.
+      // assign the stopped current case before restarting untouched cases. JSONL
+      // transports may be waiting for acknowledgement: without a completed row,
+      // process exit alone cannot attribute a renderer failure to that input.
       const stopped = unresolved[0]!
-      results.set(stopped.id, { status: 'error', detail: lastDetail ?? `Worker stopped during this case (exit ${code}): ${stderr.slice(-1500)}`, workerAttempt: attempt })
+      results.set(stopped.id, { status: artifact.kind === 'jsonl-worker' ? 'blocked' : 'error', detail: lastDetail ?? `Worker stopped during this case (exit ${code}): ${stderr.slice(-1500)}`, workerAttempt: attempt })
       remaining = unresolved.slice(1)
     }
     writeFileSync(join(root, name + '-attempts.json'), JSON.stringify(attempts, null, 2))

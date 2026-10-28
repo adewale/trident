@@ -16,7 +16,7 @@ const driver = harnessRepository
 const example: UnifiedWorkload = { id: 'authored-flow', family: 'flowchart', source: 'flowchart LR\nA[Start] --> B[End]', features: [], provenance: 'independently authored admission regression', expectedLabels: ['Start', 'End'] }
 
 describe('community benchmark artifact admission', () => {
-  test('preserves external JSONL results and restarts inputs after a worker crash', async () => {
+  test('preserves external JSONL results, blocks an unproven crash and restarts untouched inputs', async () => {
     const directory = mkdtempSync(join(tmpdir(), 'am-external-progress-'))
     try {
       const executable = join(directory, 'worker.mjs')
@@ -41,7 +41,7 @@ import fs from 'node:fs';const job=JSON.parse(fs.readFileSync(process.argv[2],'u
       )
       expect(rows.map(row => [row.caseId, row.status])).toEqual([
         ['before', 'passed'],
-        ['crash', 'failed'],
+        ['crash', 'blocked'],
         ['after', 'passed'],
       ])
       expect(rows.find(row => row.caseId === 'after')?.metrics?.workerAttempt).toBe(2)

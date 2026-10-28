@@ -2,8 +2,9 @@
 
 This standalone Trident campaign measures `mermaid_flutter` **0.3.2** in a native
 Linux Flutter release application and Pele **1.9.0** in Chromium. It does not run
-Flutter Web or substitute a Dart/JavaScript core renderer. It is not registered
-in Trident's standard CLI or catalog.
+Flutter Web or substitute a Dart/JavaScript core renderer. The widget/DOM campaign is not registered
+in Trident's standard CLI or catalog. The separate [standard collector adapter](STANDARD.md)
+runs native PNG compatibility and the applicable Chromium SVG suites.
 
 The native app calls `MermaidDiagram`, `MermaidView` and `renderToPng()` directly.
 The browser harness calls `render()` followed by DOM insertion, and

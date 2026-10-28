@@ -1,5 +1,9 @@
 # Native Flutter and Pele: audited entrypoint results
 
+The later [standard benchmark run](native-flutter-standard-benchmarks.md) adds the
+full compatibility inventory, official-docs SVG return and Diagram Meaning. Its
+protocols and denominators remain separate from these entrypoint observations.
+
 **Question:** do these measurements establish which library completes equivalent
 rendering work faster?
 
