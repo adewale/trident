@@ -36,7 +36,7 @@ test('one numeric source supplies both the visible table rate and Mermaid bar; m
   expect(output).toContain('bar [50]')
   expect(output).toContain('Historical: Docs')
   expect(output).toContain('2 eligible projects')
-  expect(output).toContain('1 catalog descendants/bindings')
+  expect(output).toContain('1 catalog entries outside core comparison scope')
   const row = output.split('\n').find(line => line.startsWith('| fixture/alpha |'))!
   expect(row).toContain('N/A')
   expect(row).toContain('Unmeasured')
@@ -199,3 +199,9 @@ test('charts and ranking share numeric parsing without coercing unavailable stri
   delete entry.ranking
   expect(() => renderSnapshot(data, catalog)).toThrow('Overview ranking table needs a named metric')
 })
+
+test('partial historical campaigns do not manufacture new core blockers for application workflows', () => temporary(root => {
+  const scoped = { nodes: [...catalog.nodes, { id: 'fixture/editor', outputs: ['svg'], roles: ['observed'], comparisonScope: { kind: 'application' as const, reason: 'Whole editor workflow' } }], edges: catalog.edges }
+  campaign(root, ['fixture/editor'], [], '2026-02-03T00:00:00Z')
+  expect(importCampaign(snapshot(), root, 'https://example.org/old-run', scoped).attempts).toEqual([])
+}))

@@ -37,7 +37,7 @@ Version: node commands.ts --version
 Maintainer checks (Bun): test, typecheck, lint
 
 See BENCHMARKS.md for questions, usefulness, limitations and prerequisites.
-Normal comparisons exclude descendants without distinct recorded branding,
+Core comparisons exclude whole-application editor workflows and descendants without distinct recorded branding,
 zero-ahead versions and shared-engine bindings. See support --lineage; override
 with --include-excluded-descendants only for a fork/version/runtime investigation.
 Public commands need no source checkout of a benchmarked project. Every tool uses

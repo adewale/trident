@@ -3,6 +3,7 @@
 Trident compares Mermaid tools on input compatibility, diagram meaning and rendering cost. It tests SVG renderers, terminal tools and parsers through their public interfaces.
 
 - [Benchmarks and their value](BENCHMARKS.md): what each workload measures, how to run it, and when to trust it.
+- [Scope](SCOPE.md): core benchmark work, application exclusions and optional maintenance.
 - [Methodology](METHODOLOGY.md): corpus, correctness checks, sampling and fair comparisons.
 - [Measurement rules](MEASUREMENT.md): interfaces, cache state, overfitting and claims.
 - [Catalog and support](CATALOG.md): what the entries mean and which suites have bindings.
@@ -101,11 +102,13 @@ Other exercised interfaces are [Maid](https://github.com/probelabs/maid) and
 [Mermaid Formatter](https://github.com/chenyanchen/mermaid-formatter) source formatting,
 and [Mermaid ReactFlow Render](https://github.com/taoche/mermaid-reactflow-render) graph conversion.
 
-Five eligible entries are **blocked**: Rusty Mermaid's published package omits its
-runtime, while Mermaid Live Editor, VS Code Mermaid Editor, Mermaid to Excalidraw
-and Modern Mermaid need application/conversion benchmark contracts. They are not
-counted as supported above. The [catalog](CATALOG.md) retains all 88 entries;
-46 descendants or shared-engine bindings are excluded from normal comparisons.
+The current core selection has **39 eligible entries**: the 37 witnessed projects
+above, Mermaid to Excalidraw's pending conversion binding and Rusty Mermaid's
+broken published runtime. The historical 0.1 receipt retains its original 42-entry
+selection. VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid are
+discovery-only applications; full editor drivers are outside core requirements.
+The [catalog](CATALOG.md) retains all 88 entries. Default comparisons exclude 46
+descendants/bindings and these three applications, for 49 exclusions in total.
 [Issue #30](https://github.com/adewale/trident/issues/30) tracks the remaining support work.
 
 ## Project lineage

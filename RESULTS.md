@@ -8,7 +8,7 @@ Last recorded measurement/update: **2026-10-28**. 0 imported project/benchmark a
 
 ## Ecosystem overview
 
-42 eligible projects are listed below. 46 catalog descendants/bindings are listed separately. Results are never inherited through lineage.
+39 eligible projects are listed below. 49 catalog entries outside core comparison scope are listed separately. Results are never inherited through lineage.
 
 Each cell links its latest recorded attempt, or a dated retained table. New failed, blocked and partial attempts take precedence over earlier tables. Different suites have different units; there is no combined score. “Unmeasured” is missing evidence; “N/A” follows the declared output or reference scope, not a measured failure.
 
@@ -35,7 +35,6 @@ Overview order: DaveBench: Documentation Examples, highest SVG returned / Planne
 | evangwt/xmermaid | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
 | excalidraw/mermaid-to-excalidraw | — | Unmeasured: binding gap | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | fasouto/termaid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| gotoailab/modern_mermaid | — | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
 | inkeep/visimer | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | justsml/rusty-mermaid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | kingsword09/mermansi | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
@@ -44,7 +43,6 @@ Overview order: DaveBench: Documentation Examples, highest SVG returned / Planne
 | Latias94/merman | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
 | Lovely Mermaid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | mdv | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
-| mermaid-js/mermaid-live-editor | — | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
 | MermaidText | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | Mootikins/figurehead-rs | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | neongreen/mermaid-ast | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
@@ -54,7 +52,6 @@ Overview order: DaveBench: Documentation Examples, highest SVG returned / Planne
 | sandyyst/dsh-plugin-mermaid-gb-svg | — | Unmeasured | Unmeasured | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
 | taoche/mermaid-reactflow-render | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | tariqshams/mermaidtui | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
-| tomoyukim/vscode-mermaid-editor | — | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
 | TUI Mermaid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | xai-org/grok-build | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | Yassimba/loom | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
@@ -294,6 +291,7 @@ These entries are omitted from normal ecosystem comparisons under the [lineage p
 | dydoc/mermaid-ascii | no-distinct-branding, zero-ahead-version |
 | fdotu/beautiful-mermaid | no-distinct-branding, zero-ahead-version |
 | gmh5225/beautiful-mermaid | no-distinct-branding, zero-ahead-version |
+| gotoailab/modern_mermaid | application-workflow |
 | HealthSamurai/beautiful-mermaid | no-distinct-branding, zero-ahead-version |
 | jacob-lcs/mermaid | no-distinct-branding |
 | jeis4wpi/mermaid-ascii | no-distinct-branding, zero-ahead-version |
@@ -305,6 +303,7 @@ These entries are omitted from normal ecosystem comparisons under the [lineage p
 | lyngai/mermaid | no-distinct-branding, zero-ahead-version |
 | mbostock/mermaid | no-distinct-branding, zero-ahead-version |
 | Mermaid-Chart/mermaid-develop | no-distinct-branding, zero-ahead-version |
+| mermaid-js/mermaid-live-editor | application-workflow |
 | Merman | zero-ahead-version |
 | mopi1402/termaid | no-distinct-branding, zero-ahead-version |
 | mopi1402/termaid-ts | no-distinct-branding |
@@ -319,6 +318,7 @@ These entries are omitted from normal ecosystem comparisons under the [lineage p
 | theletterf/beautiful-mermaid | no-distinct-branding |
 | thepanax/beautiful-mermaid | no-distinct-branding, zero-ahead-version |
 | toeverything/mermaid-rs-renderer | no-distinct-branding |
+| tomoyukim/vscode-mermaid-editor | application-workflow |
 | vercel-labs/beautiful-mermaid | no-distinct-branding |
 | woxQAQ/mermaid-rs-render-js | no-distinct-branding, shared-engine-runtime-binding |
 | xen3r0/mermaid | no-distinct-branding |
