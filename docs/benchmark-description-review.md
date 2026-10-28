@@ -2,6 +2,8 @@
 
 The README should describe the task and its results before explaining measurement mechanics. Limits stay in the benchmark guide and beside the example where they change its meaning.
 
+Descriptions name the work; result columns name the measurements. The examples now use [comparative tables](benchmark-examples.md), with research and rationale in [reporting research](reporting-research.md).
+
 ## Mermaid Compatibility
 
 **Before**
@@ -10,11 +12,13 @@ The README should describe the task and its results before explaining measuremen
 
 **After**
 
-> Runs the same Mermaid examples through each project's supported outputs, including SVG, PNG and terminal diagrams. Reports successful examples, failures and unsupported features.
+> Tests shared Mermaid inputs through each project's SVG, PNG, terminal and parser interfaces.
 
-**Reason:** Names the shared input and output formats before explaining the reported outcomes.
+**Result columns:** Passed, failed, unsupported and blocked inputs, by format and diagram type.
 
-**Recorded example:** Pele 1.9.0: in the 28 October community smoke campaign, **32/33 feature inputs passed and one was unsupported**, separately in Node SVG and browser SVG. All six core inputs passed on each surface. This is a selected smoke workload, not the entire frozen corpus or a semantic-fidelity score.
+**Reason:** The description identifies the shared task; result columns carry the outcomes and keep formats separate.
+
+**Example:** see the [Mermaid Compatibility table](benchmark-examples.md#mermaid-compatibility).
 
 ## DaveBench: Documentation Examples
 
@@ -24,11 +28,13 @@ The README should describe the task and its results before explaining measuremen
 
 **After**
 
-> Inspired by [Dave Kiss's benchmark](https://x.com/davekiss/status/2111512440106078554), DaveBench tests whether an implementation can generate SVGs for the diagrams in Mermaid's own documentation. It reports rendering success rate and render time.
+> Tests SVG generation for diagrams in Mermaid's own documentation, inspired by [Dave Kiss's benchmark](https://x.com/davekiss/status/2111512440106078554).
 
-**Reason:** Credits the source, describes the task in one sentence and names the two results. Detailed matching and paint limits belong in the methods.
+**Result columns:** SVG return rate (%); render time (ms) on matched inputs.
 
-**Recorded example:** Pele 1.9.0 returned SVG for **532/548 documentation occurrences (97.1%)** and failed 16 in each of five rounds. The first flowchart example (`flowchart.md:23`) took a median **0.60 ms** across five browser calls after warmup. This historical 27 October run reports SVG return and call time; it does not establish correct paint or a calibrated speed comparison.
+**Reason:** Credit stays beside the task. Coverage and matched-input time get separate columns rather than an implied overall performance score.
+
+**Example:** see the [DaveBench: Documentation Examples table](benchmark-examples.md#davebench-documentation-examples).
 
 ## Diagram Meaning
 
@@ -38,11 +44,13 @@ The README should describe the task and its results before explaining measuremen
 
 **After**
 
-> Checks whether rendered diagrams preserve their intended meaning: the right labels, relationships, values and visible marks. Reports incorrect or missing content by diagram type.
+> Checks rendered SVGs against expected labels, relationships, values and visible geometry.
 
-**Reason:** Explains meaning with concrete labels and relationships instead of observer terminology.
+**Result columns:** Passed, failed and blocked checks, by diagram type.
 
-**Recorded example:** Pele 1.9.0 failed the controlled-image case: its SVG omitted the independently required embedded image. The historical 27 October run also recorded four architecture relationship failures; those are observations under that run's observer, not a claim that the current observer reproduces every finding.
+**Reason:** The description names the diagram content being checked. The table counts criteria rather than pretending they are whole diagrams.
+
+**Example:** see the [Diagram Meaning table](benchmark-examples.md#diagram-meaning).
 
 ## Model and Editing Contracts
 
@@ -52,11 +60,13 @@ The README should describe the task and its results before explaining measuremen
 
 **After**
 
-> Tests an implementation's public diagram model and editing API. Checks that parsing and edits preserve the expected identities, relationships and configuration.
+> Tests how public diagram models preserve identities and relationships through parsing, edits and configuration changes.
 
-**Reason:** Says what is tested and what must survive an edit; API eligibility and missing projections remain in the guide.
+**Result columns:** Shared checks passed, failed, unsupported or blocked; API-specific checks separately.
 
-**Recorded example:** Pele 1.9.0: **555 structured-model criteria passed; 6 were unsupported** in the 27 October campaign. Flowchart identities, relationships and configuration-reset criteria passed. These are individual model criteria, not 561 diagrams or a complete editing-API certificate.
+**Reason:** Shared checks and additional API contracts must be separate, so richer optional APIs confer no comparison bonus.
+
+**Example:** see the [Model and Editing Contracts table](benchmark-examples.md#model-and-editing-contracts).
 
 ## Mermaid Assertion Replay
 
@@ -66,11 +76,13 @@ The README should describe the task and its results before explaining measuremen
 
 **After**
 
-> Runs Mermaid's original test assertions through another implementation's public parser or model API. Reports which assertions pass, fail or cannot run through that API.
+> Replays Mermaid's original tests through public parser and model APIs.
 
-**Reason:** Makes the original assertions and the public-API boundary explicit, including tests that cannot run.
+**Result columns:** Declarations and callbacks passed, failed or unavailable; excluded tests.
 
-**Recorded example:** Pele 1.9.0: **4,908/5,113 executed assertions passed** in the 27 October replay. Expanded callbacks were **1,452 passed, 16 failed, 1,220 unavailable and 12 skipped**. Assertions and callbacks have different denominators; unavailable tests cannot be silently dropped from the report.
+**Reason:** The task remains original-test replay, while tables distinguish source declarations, expanded callbacks and unavailable work. Raw matcher counters are diagnostic, not a headline percentage.
+
+**Example:** see the [Mermaid Assertion Replay table](benchmark-examples.md#mermaid-assertion-replay).
 
 ## Mermaid Reference Tests
 
@@ -80,11 +92,13 @@ The README should describe the task and its results before explaining measuremen
 
 **After**
 
-> Runs Mermaid's own core tests against the pinned Mermaid source. Checks that Trident's reference test environment works before its results are used in comparisons.
+> Runs Mermaid's own core tests to validate the reference environment.
 
-**Reason:** Explains why a reference-only run exists and avoids presenting it as a peer-project score.
+**Result columns:** Passed, failed, pending and todo callbacks; files executed.
 
-**Recorded example:** Mermaid 12.2.0: **6,677 callbacks passed, zero failed, 16 pending and two todo**, across **331 files**, on 28 October. The sealed npm environment completed the genuine original core runner. Docs-site and browser/e2e tests were outside this run.
+**Reason:** The reference-only purpose is explicit. Its table shows original callbacks and files rather than borrowing peer compatibility scores.
+
+**Example:** see the [Mermaid Reference Tests table](benchmark-examples.md#mermaid-reference-tests).
 
 ## Render Cost and Scaling
 
@@ -94,8 +108,10 @@ The README should describe the task and its results before explaining measuremen
 
 **After**
 
-> Measures render time, CPU and memory through public Node SVG APIs. Tests first calls, repeated calls, edits and larger diagrams, with repeat runs to estimate measurement noise.
+> Measures SVG rendering through public Node APIs across first calls, repeated calls, edits and diagram sizes.
 
-**Reason:** Names the resources and workloads directly; explains A/A controls as repeat runs that estimate noise.
+**Result columns:** Latency (ms), CPU (ms), memory (MiB) and comparison qualification.
 
-**Recorded example:** Pele 1.9.0, authored flowchart: historical median **17.06 ms** for a first API call in a fresh process (import excluded), versus **0.350 ms** for repeated calls. The 27 October protocol-v3 report was **uncalibrated overall**. These numbers illustrate separate workloads; they are not current protocol-v6 scores or evidence of an improvement.
+**Reason:** Name the public API work in the description and put units, call modes and qualification into the table headers and cells.
+
+**Example:** see the [Render Cost and Scaling table](benchmark-examples.md#render-cost-and-scaling).

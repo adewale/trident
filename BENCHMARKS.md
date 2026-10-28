@@ -18,19 +18,66 @@ full sampling protocols; it does not mean every project has every capability.
 `community:update` runs only the community/CLI portion. `run` executes the portable
 Node kit independently. See [setup](README.md).
 
-| Benchmark / command ID | Question and output | Value and limits |
-|---|---|---|
-| Mermaid Compatibility (`community`) | Which frozen inputs return the requested SVG, terminal, PNG or parser result? Per-case dispositions, family coverage, six-input API costs, browser delivery/heap and CLI process costs. | **High for compatibility triage; narrow for speed.** XML/labels are weak fidelity evidence. PNG checks only the binary envelope. Different supported subsets are not comparable percentages. |
-| DaveBench: Documentation Examples (`docs`) | Does a public browser artifact return SVG for **every occurrence in every syntax page at the pinned Mermaid commit**? `inventory.json` records the exact pages, repeated occurrences and distinct source count; observations retain round, acceptance and public call time. | **High as an external workload; moderate for speed.** Protocol `public-docs-svg-return-v1`,30 warm-up attempts, rotated/reversed project order, full profile5 rounds. SVG return does not prove correct paint. Compare time only on pairwise common successful occurrences, retaining the complete acceptance denominator. Public docs are development-exposed. |
-| Diagram Meaning (`fidelity`) | Does the actual frozen public SVG draw independently authored identities, relationships, values, visibility and geometry? Shared planned criterion ledger and SVG/PNG witnesses. | **High for meaning and paint.** Same observer for every prepared SVG project. Missing model APIs remain unavailable; paint is not an aesthetic or accessibility judgment. Terminal-only tools have an explicit boundary. |
-| Model and Editing Contracts (`native-fidelity`) | Do reviewed public model/operation APIs preserve the same authored meaning and real edit/configuration workflows? Criterion-level facts and owned-ink evidence stay separate. | **High within a reviewed adapter's scope.** Current model bindings are Mermaid, Pele and Agentic; all other bindings are explicitly unsupported here, while SVG paint still runs. A reviewed adapter is a capability boundary, not a preferred project. |
-| Mermaid Assertion Replay (`upstream-fidelity`) | Which unchanged original Mermaid callbacks can be executed through reviewed public parser/model projections? Declaration, callback and individual assertion counts remain distinct. | **Medium for cross-project compatibility.** Private database/API and diagnostic wording differences can fail without proving wrong drawings. Unsupported imports/matchers remain unavailable. Callback workflow time is not rendering latency. |
-| Mermaid Reference Tests (`upstream-original`) | Does the pinned Mermaid source pass its own genuine original core Vitest runner? Original JSON plus complete declaration/callback accounting. | **High for reference setup; limited as a peer score.** Requires the actual runner/dependencies, one worker and read-only snapshots. This is Mermaid's own runner, so it does not execute another project's private tests. Browser/e2e and docs-site workspace exclusions stay explicit. |
-| Render Cost and Scaling (`portable`) | How do family, scaling, interacting-feature and invalid-input cases behave under fresh and warm public Node SVG calls? Reports separate fidelity, first result, batch means, CPU, RSS, heap and A/A calibration. | **High for controlled regressions; not a production forecast.** Full sampling uses5 rounds,31 warm sample means and20 fresh processes per replica/round/case. The complete worker budget defaults to300000ms and is configurable in the portable CLI; it includes all samples and qualification, not one API call. Current bindings include Pele, Agentic, Beautiful-compatible, Ondine, mdv, the VitePress plugin, the DSH engine, Merman, Crafter and Merslim. Public factory setup is recorded with import preparation; rendering and complete-process resource costs retain their own scopes. Configuration intent is translated through reviewed public option paths; unknown mappings block that case. Font changes are checked on authored label text, including inherited declarations, rather than requiring a particular root style. Missing browser/terminal/WASM bindings remain unsupported, not zero-cost. Incomplete semantics or noisy A/A controls cannot qualify performance. |
+| Benchmark / command ID | What it tests | Results table | Value |
+|---|---|---|---|
+| Mermaid Compatibility (`community`) | Shared Mermaid inputs through public output interfaces. | Passed, failed, unsupported, blocked and missing inputs, grouped by format/runtime. | High for finding syntax, interface and output failures; narrow for speed. |
+| DaveBench: Documentation Examples (`docs`) | SVG generation for every documentation occurrence at the pinned source commit. | Full-inventory return counts/rate; render time on matched inputs, with sampling and qualification. | High as a broad docs workload; returned SVG alone is weak fidelity evidence. |
+| Diagram Meaning (`fidelity`) | Expected labels, relationships, values, visibility and geometry in actual SVG. | Outcomes for the same planned criteria, with failed-input/output links. | High for diagnosing missing or incorrect drawn meaning; not an aesthetic score. |
+| Model and Editing Contracts (`native-fidelity`) | Public diagram models and edit/configuration behavior. | Shared criterion outcomes; additional API contracts separately. | High within a reviewed projection's scope; a missing Trident binding is not a missing project capability. |
+| Mermaid Assertion Replay (`upstream-fidelity`) | Original Mermaid tests through public parser/model projections. | Declaration dispositions and expanded callbacks, with unavailable/excluded work visible. | Useful for compatibility; private-API and diagnostic differences need interpretation. |
+| Mermaid Reference Tests (`upstream-original`) | The pinned Mermaid source running its own original core tests. | Original files and callbacks: passed, failed, pending and todo. | High for checking the reference environment; not a peer-project score. |
+| Render Cost and Scaling (`portable`) | Public Node SVG calls across families, sizes, edits and cache states. | Latency, CPU and memory by case/mode; output and calibration status. | High for controlled regressions; not a production forecast. |
+
+See the [worked comparison tables](docs/benchmark-examples.md) for recorded examples
+and [table conventions](REPORTING.md) for units, populations and missing values.
+
+## Methods behind the tables
+
+Compatibility checks include namespace/XML, canvas and authored-text admission
+for SVG, source-echo/text checks for terminal output, and bounded pixel decoding
+for PNG. PNG content is not OCR or diagram-meaning evidence. Public parser results
+have their own contracts. Six-input API costs, CLI process costs, browser delivery
+and heap are separate diagnostics, not a combined performance number.
+
+DaveBench uses `public-docs-svg-return-v1`: the inventory records pages, repeated
+occurrences and distinct sources, with 30 warmup attempts, rotated/reversed project
+order and five rounds in the full profile. Public docs are development-exposed.
+Returning SVG does not prove faithful paint. Show full output coverage alongside
+timing on the same successful inputs. Raw matcher observations are not another
+kind of rendering latency or success rate.
+
+Diagram Meaning uses one observer and a shared planned criterion ledger for
+prepared SVG projects. Public-model facts and SVG paint remain separate; terminal
+meaning has a different boundary. Reviewed model/replay bindings currently exist
+for Mermaid, Pele and Agentic Mermaid. Other bindings remain missing, without
+withholding otherwise valid SVG evidence. Replay leaves unsupported imports,
+matchers, private representation and exact diagnostic wording visible as their
+own compatibility limits.
+
+The original reference tests require the actual runner and dependencies, one
+worker and read-only snapshots. Original JSON supplies callbacks rather than
+invented expect() counts. Browser/e2e and docs-site workspace exclusions remain
+explicit.
+
+Portable full sampling uses five rounds, 31 warm sample means and 20 fresh
+processes per replica/round/case. The worker budget defaults to 300,000 ms and
+includes samples and qualification, not one API call. Current bindings include
+Pele, Agentic Mermaid, Beautiful-compatible APIs, Ondine, MDV, the VitePress plugin,
+the DSH engine, Merman, Crafter and Merslim. Public factory setup is recorded with
+import preparation; API clocks and complete-process resources have distinct
+scopes. Missing browser, terminal or WASM bindings are not zero-cost results.
+
+Configuration intent is translated through reviewed public option paths. An
+unknown mapping blocks that case instead of timing an ignored option. Font checks
+inspect authored label text, including inherited declarations, rather than
+requiring a specific root style. Incomplete semantics or noisy A/A controls cannot
+qualify performance. Per-case and per-family results stay available so an
+aggregate cannot hide workload-shape differences.
 
 ## DaveBench provenance and product diagnostics
 
-`docs` preserves the useful official-document workload as a public-artifact
+Inspired by [Dave Kiss's documentation benchmark](https://x.com/davekiss/status/2111512440106078554),
+`docs` preserves the official-document workload as a public-artifact
 experiment. It has a new explicit protocol and inventories the pinned upstream
 syntax directory directly. Historical AM DaveBench used AM's vendored page set
 and a build/pack wrapper around fixed comparators; its input count and timing
