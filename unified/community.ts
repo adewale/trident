@@ -3,7 +3,7 @@ import { captureInstalledDependencyClosure } from '../portable/artifact-dependen
 import { readBenchmarkDocument, writeBenchmarkDocument } from '../portable/project-records.ts'
 import { execFileSync, spawn, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { copyFileSync, existsSync, mkdirSync, readFileSync, realpathSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -101,6 +101,18 @@ export function candidatePackage(tarball: string): { name: string; version: stri
   return pkg
 }
 
+/** Seal a companion's own published files as well as its dependencies. The
+ * dependency observer intentionally leaves the root payload to its caller. */
+export function adapterCompanionIdentity(root: string) {
+  const visit = (directory: string): { path: string; sha256: string }[] => readdirSync(directory, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name)).flatMap(entry => {
+    if (['node_modules', '.git'].includes(entry.name)) return []
+    const path = join(directory, entry.name)
+    if (entry.isSymbolicLink()) throw Error('Adapter companion payload has an unreviewed symlink: ' + path)
+    return entry.isDirectory() ? visit(path) : entry.isFile() ? [{ path, sha256: artifactDigest(path) }] : []
+  })
+  return { files: visit(root), dependencies: captureInstalledDependencyClosure(root) }
+}
+
 async function npmArtifact(node: CommunityNode, cache: string, pinned = false, candidate?: { tarball: string; sha256: string }): Promise<CommunityArtifact> {
   const config = node.benchmark!,
     name = config.package!
@@ -176,7 +188,7 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false, c
   }
   addFile(module)
   for (const relative of [plan.wasmRelativePath, 'pkg/affine_mermaid_renderer_wasm_bg.wasm', 'grok-mermaid.wasm', 'src/grok-mermaid.wasm', 'dist/xmermaid_bg.wasm'].filter((value): value is string => typeof value === 'string')) addFile(join(root, relative))
-  const adapterCompanions = companions.map(spec => { const name = spec.slice(0, spec.lastIndexOf('@')), root = join(prefix, 'node_modules', name), pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')); if (pkg.version !== spec.slice(spec.lastIndexOf('@') + 1)) throw Error('Adapter companion version differs: ' + spec); return { root, name, version: pkg.version as string, integrity: installedNpmIntegrity(prefix, root, name, pkg.version), closureSha256: createHash('sha256').update(JSON.stringify(captureInstalledDependencyClosure(root))).digest('hex') } })
+  const adapterCompanions = companions.map(spec => { const name = spec.slice(0, spec.lastIndexOf('@')), root = join(prefix, 'node_modules', name), pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')); if (pkg.version !== spec.slice(spec.lastIndexOf('@') + 1)) throw Error('Adapter companion version differs: ' + spec); return { root, name, version: pkg.version as string, integrity: installedNpmIntegrity(prefix, root, name, pkg.version), closureSha256: createHash('sha256').update(JSON.stringify(adapterCompanionIdentity(root))).digest('hex') } })
   const prepared: CommunityArtifact = { kind: 'node', root, module, version, integrity, runtime, sha256: artifactDigest(module), files: wasmFiles, ...(plan.wasmRelativePath ? { wasm: join(root, plan.wasmRelativePath) } : {}), apiBoundary: plan.boundary, ...(adapterCompanions.length ? { adapterCompanions } : {}), ...(plan.overrides ? { dependencyOverrides: plan.overrides } : {}), ...(candidate ? { candidate: { sha256: candidate.sha256, tarball: copy } } : {}) }
   return extra.prepareExtraPublishedArtifact(prepared, { installedIntegrity: (nativeRoot: string, packageName: string, packageVersion: string) => installedNpmIntegrity(prefix, nativeRoot, packageName, packageVersion) })
 }
@@ -187,7 +199,7 @@ export function verifyProvidedCommunityArtifact(artifact: CommunityArtifact): vo
   if (!entry || !existsSync(entry)) throw new Error('Provided artifact entry does not exist')
   for (const companion of artifact.adapterCompanions ?? []) {
     const manifest = JSON.parse(readFileSync(join(companion.root, 'package.json'), 'utf8'))
-    if (manifest.name !== companion.name || manifest.version !== companion.version || createHash('sha256').update(JSON.stringify(captureInstalledDependencyClosure(companion.root))).digest('hex') !== companion.closureSha256) throw Error('Adapter companion closure changed: ' + companion.name)
+    if (manifest.name !== companion.name || manifest.version !== companion.version || createHash('sha256').update(JSON.stringify(adapterCompanionIdentity(companion.root))).digest('hex') !== companion.closureSha256) throw Error('Adapter companion closure changed: ' + companion.name)
   }
   const sourceFiles = artifact.sourceFiles as { root: string; revision: string; gitPath: string; blob: string }[] | undefined
   const dependencyPatches = artifact.dependencyPatches as { root: string; revision: string; gitPath: string; blob: string }[] | undefined
