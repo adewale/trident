@@ -154,6 +154,16 @@ bun commands.ts results:compare --records /evidence/records --project OWNER/TOOL
 
 A checkout, environment variable or local `dist/` never silently replaces a community release. Agentic Mermaid uses these same rules.
 
+## Native Flutter entrypoints
+
+The standalone [native Flutter / Chromium campaign](native-flutter/README.md)
+measures `mermaid_flutter` 0.3.2 widgets and PNG export in a native Linux release
+application alongside Pele 1.9.0 in Chromium. It separates new instances,
+unchanged calls, source updates and first use in new processes, and retains
+painted output and failures. It is not registered in the standard CLI or catalog;
+its timing boundaries differ from the Node SVG suites. Generated evidence stays
+outside source commits.
+
 ## Add a tool
 
 Declare the project and its public bindings in `catalog/mermaid-community.json`. An npm SVG renderer can use the generic adapter:
