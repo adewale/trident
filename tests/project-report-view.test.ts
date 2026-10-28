@@ -97,6 +97,7 @@ test('stack-ranked scorecards order passed inputs first and compare costs only w
       ['mermaid-js/mermaid', 'browser:public-api', 10, 'svg'],
       ['fixture/browser', 'browser:public-api', 5, 'svg'],
       ['fixture/zz-best', 'browser:public-api', 3, 'svg'],
+      ['fixture/aa-blocked', 'browser:public-api', 3, 'svg'],
       ['fixture/node', 'node:public-api', 1, 'svg'],
       ['fixture/formatter', 'node:public-api', 1, 'source'],
       ['fixture/remote', 'browser:public-api', 1, 'svg'],
@@ -115,11 +116,11 @@ test('stack-ranked scorecards order passed inputs first and compare costs only w
         identity: { project, protocol: { context: project === 'fixture/remote' ? 'different-runtime-protocol' : 'same' }, artifact: { package: { artifact: { version: project === 'mermaid-js/mermaid' ? '12.2.0' : 'fixture' } } }, measurement: { rounds: 5 } },
         startedAt: '2026-10-26T00:00:00Z',
         finishedAt: '2026-10-26T00:01:00Z',
-        status: project === 'fixture/browser' ? 'failed' : 'passed',
+        status: project === 'fixture/browser' ? 'failed' : project === 'fixture/aa-blocked' ? 'blocked' : 'passed',
         evidenceDirectory,
         evidenceFiles: ['result.json'],
         gaps: [],
-        observations: [...Array.from({ length: 5 }, (_, i) => communityCoreWorkloads().map(w => row(w.id, i + 1))).flat(), { ...row('authored-feature', 1), status: project === 'fixture/browser' ? 'failed' : 'passed' }],
+        observations: [...Array.from({ length: 5 }, (_, i) => communityCoreWorkloads().map(w => row(w.id, i + 1))).flat(), { ...row('authored-feature', 1), status: project === 'fixture/browser' ? 'failed' : project === 'fixture/aa-blocked' ? 'blocked' : 'passed' }],
       }
       publishProjectRecord(store, record)
     }
@@ -140,6 +141,7 @@ test('stack-ranked scorecards order passed inputs first and compare costs only w
     expect(markdown).not.toContain('| Rank |')
     expect(browser[1]!.trim()).toContain('[fixture/browser]')
     expect(markdown.indexOf('[fixture/zz-best]')).toBeLessThan(markdown.indexOf('[fixture/browser]'))
+    expect(markdown.indexOf('[fixture/browser]')).toBeLessThan(markdown.indexOf('[fixture/aa-blocked]'))
     expect(markdown).toContain('## Formatted Mermaid source')
     expect(
       rows

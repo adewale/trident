@@ -42,7 +42,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "population": {
         "total": "Planned inputs",
@@ -111,7 +111,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "overview": {
         "numerator": "Passed inputs",
@@ -213,7 +213,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "overview": {
         "numerator": "SVG returned",
@@ -320,7 +320,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "ranking": {
         "column": "Median call time (ms)",
@@ -423,7 +423,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "overview": {
         "numerator": "Passed criteria",
@@ -503,7 +503,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "overview": {
         "numerator": "Passed criteria",
@@ -555,7 +555,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "population": {
         "total": "API-specific criteria",
@@ -632,7 +632,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "overview": {
         "numerator": "Passed",
@@ -708,7 +708,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "population": {
         "total": "Recorded callbacks",
@@ -757,7 +757,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "overview": {
         "numerator": "Passed callbacks",
@@ -842,7 +842,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "overview": {
         "numerator": "Campaign qualification",
@@ -881,7 +881,7 @@
       ],
       "receipt": {
         "url": "docs/evidence/benchmark-examples.json",
-        "sha256": "2d891420401b987f3253d54da4b4719c68b64b7a44ad7ccaa869abfccedd2d18"
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
       },
       "ranking": {
         "column": "Process RSS (MiB)",
@@ -889,7 +889,7 @@
       }
     },
     {
-      "id": "cfd-dave-1095",
+      "id": "ecosystem-docs-1095-2026-10-27",
       "suite": "docs",
       "measuredAt": "2026-10-27T18:14:39.209Z",
       "historical": true,
@@ -960,7 +960,7 @@
       }
     },
     {
-      "id": "cfd-painted-920",
+      "id": "ecosystem-paint-920-2026-10-27",
       "suite": "fidelity",
       "measuredAt": "2026-10-27T17:55:53.920Z",
       "historical": true,
@@ -1429,7 +1429,7 @@
       }
     },
     {
-      "id": "cfd-dave-global-gzip",
+      "id": "ecosystem-browser-gzip-2026-10-27",
       "suite": "docs",
       "measuredAt": "2026-10-27T18:14:39.209Z",
       "historical": true,
@@ -1478,7 +1478,7 @@
       }
     },
     {
-      "id": "cfd-dave-common-cost",
+      "id": "ecosystem-docs-call-cost-2026-10-27",
       "suite": "docs",
       "measuredAt": "2026-10-27T18:14:39.209Z",
       "historical": true,
@@ -1531,5 +1531,5 @@
     "obsidianmd/pele": "Pele",
     "dfadler/zombie-mermaid": "Zombie Mermaid"
   },
-  "overviewRanking": "cfd-dave-1095"
+  "overviewRanking": "docs-coverage"
 }

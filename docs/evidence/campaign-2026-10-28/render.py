@@ -7,13 +7,10 @@ Three historical Dave SVGs are copied and hash-checked, not reconstructed.
 """
 import argparse
 import hashlib
-import importlib.util
 import json
 from pathlib import Path
 import re
 import shutil
-import sys
-import tempfile
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[2]
@@ -32,29 +29,10 @@ def main():
             assert hashlib.sha256(source.read_bytes()).hexdigest() == entry['sha256']
             shutil.copyfile(source, args.out / source.name)
 
-    sys.path.insert(0, str(REPO))
-    spec = importlib.util.spec_from_file_location('trident_charts', REPO / 'unified/charts.py')
-    charts = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(charts)
-    with tempfile.TemporaryDirectory(prefix='dated-pr-charts-') as temporary:
-        figures = charts.Figures(Path(temporary))
-        plt = figures.plt
-        plt.rcParams.update({'svg.fonttype': 'none', 'svg.hashsalt': 'trident-2026-10-28'})
-        # Same published ratio/band cells, shaped for the maintained PR plotter.
-        pr = load('pr-metrics.json')
-        selected = {'import', 'firstSvg', 'svg', 'ascii'}
-        ranks = []
-        for target in pr['targets']:
-            if target['integration'] not in {'main', 'integrated'} or target['sourceEvidence'] != target['id']:
-                continue
-            rank = dict(target, label=target['id'] + ' @' + target['head'][:8], draft=False)
-            rank['metricsByCache'] = {cache: {r['metric']: r for r in pr['rows'] if r['target'] == target['id'] and r['cache'] == cache and r['metric'] in selected} for cache in ['0', '1']}
-            rank['metrics'] = rank['metricsByCache']['1']
-            ranks.append(rank)
-        save_pr = figures.save
-        figures.save = lambda fig, name, title, note, rows: save_pr(fig, name, 'Frozen 27 October heads; costs measured 28 October', note, rows)
-        figures.prs(dict(pr, ranks=ranks))
-        shutil.copyfile(Path(temporary) / 'prs-cache-0-1.svg', args.out / 'pr-paired-costs.svg')
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    plt.rcParams.update({'svg.fonttype': 'none', 'svg.hashsalt': 'trident-2026-10-28'})
 
     def save(fig, name):
         fig.savefig(args.out / name, metadata={'Date': None})
@@ -91,6 +69,7 @@ def main():
     fig.tight_layout(rect=(0, .05, 1, 1)); save(fig, 'node-svg-memory.svg')
 
     latency = [r for r in groups if r['selected'] and r['mode'] == 'process-to-first-consumed' and r['runtime'] == 'node' and r['surface'] == 'library:.' and r['operation'] in ['render:svg', 'renderMermaidSVG:svg', 'renderResolvedScene:svg'] and r['elapsedMs']['n'] >= 20 and r['qualified'] == r['attempted']]
+    latency.sort(key=lambda row: row['elapsedMs']['median'])
     fig, ax = plt.subplots(figsize=(10, 4))
     for y, r in enumerate(latency):
         v = r['elapsedMs']; ax.barh(y, v['median'], color='#485ea8'); ax.scatter(v['p95'], y, marker='D', color='#b77816')
@@ -104,7 +83,7 @@ def main():
     for path in args.out.glob('*.svg'):
         svg = re.sub(r'\s*<dc:date>[^<]+</dc:date>', '', path.read_text())
         path.write_text('\n'.join(line.rstrip() for line in svg.splitlines()) + '\n')
-    print('Rendered seven SVGs from published inputs; no target implementation was invoked.')
+    print('Rendered six SVGs from published inputs; no target implementation was invoked.')
 
 
 if __name__ == '__main__':

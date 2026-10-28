@@ -32,7 +32,7 @@ export function campaignPlan(options: CampaignPlanOptions) {
       const cases = portable ? portableCases() : []
       const freshWorkers = portable ? cases.length * options.rounds * 3 * (options.profile === 'full' ? 20 : 1) : 0
       // Planning range, not a measured duration. No project-specific speed assumption.
-      const range = capability.state === 'adapter-missing' || capability.state === 'project-unsupported' || capability.state === 'reference-only' ? [0, 0] : portable ? [Math.ceil(freshWorkers / 600), Math.ceil(freshWorkers / 6)] : suite === 'upstream-original' ? [5, 45] : [1, 30]
+      const range = capability.state === 'adapter-missing' || capability.state === 'project-unsupported' || capability.state === 'reference-only' || capability.state === 'out-of-scope' ? [0, 0] : portable ? [Math.ceil(freshWorkers / 600), Math.ceil(freshWorkers / 6)] : suite === 'upstream-original' ? [5, 45] : [1, 30]
       return { project: node.id, suite, capability, prerequisites: required, missing, acquisition: 'not attempted', freshWorkers,
         estimatedMinutes: { low: range[0]!, high: range[1]!, basis: portable ? '0.1–10 seconds per fresh worker, plus warm/resource/qualification work; actual time depends on artifact and machine.' : 'Planning allowance per suite boundary; not a project performance prediction.' } }
     })
