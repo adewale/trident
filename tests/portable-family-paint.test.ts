@@ -123,9 +123,11 @@ for (const family of ['class', 'er'] as const) {
     const unsupported = observe(agenticSvg(family).replace('points="30,20 110,20"', 'transform="scale(2)" points="30,20 110,20"'))
     expect(finding(unsupported, 'svg-edge-owned-ink:0')?.status).toBe('unmeasured')
     expect(unsupported.semanticComplete).toBe(false)
-    const css = observe(agenticSvg(family).replace('</svg>', '<style>polyline {stroke: transparent}</style></svg>'))
-    expect(finding(css, 'svg-edge-owned-ink:0')?.status).toBe('unmeasured')
-    expect(css.semanticComplete).toBe(false)
+    for (const rule of ['polyline {stroke: transparent}', 'polyline {stroke-dasharray: 0 4}', 'rect {fill-opacity: 0; stroke-opacity: 0}']) {
+      const css = observe(agenticSvg(family).replace('</svg>', `<style>${rule}</style></svg>`))
+      expect(finding(css, 'svg-edge-owned-ink:0')?.status).toBe('unmeasured')
+      expect(css.semanticComplete).toBe(false)
+    }
   })
 }
 test('Agentic Class direction needs a referenced, visible and correctly oriented open arrow', () => {

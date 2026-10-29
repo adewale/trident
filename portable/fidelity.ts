@@ -614,7 +614,7 @@ function qualifyPortableUnchecked(testCase: PortableCase, output: PortableOutput
     const paintChecks = checks.length, nodeClass = testCase.family === 'class' ? 'class-node' : 'entity', edgeClass = `${testCase.family}-relationship`
     const drawnNodes = nodes.filter(element => element.uri === namespace && element.tag === 'g' && visible(element) && hasClass(element, nodeClass))
     const drawnEdges = nodes.filter(element => element.uri === namespace && ['path', 'polyline'].includes(element.tag) && visible(element) && hasClass(element, edgeClass))
-    const stylesheet = nodes.some(element => element.tag === 'style' && (cssOutsideProfile(element.text) || /(?:^|[;{])\s*(?:fill|stroke(?:-width|-opacity)?|opacity|display|visibility|transform|clip-path|mask|filter|marker(?:-start|-mid|-end)?)\s*:/i.test(element.text)))
+    const stylesheet = nodes.some(element => element.tag === 'style' && (cssOutsideProfile(element.text) || /(?:^|[;{])\s*(?:fill(?:-opacity)?|stroke(?:-width|-opacity|-dasharray|-dashoffset)?|opacity|display|visibility|transform|clip-path|mask|filter|marker(?:-start|-mid|-end)?)\s*:/i.test(element.text)))
     check('svg-owned-node-identities', multiset(expected.nodes), multiset(drawnNodes.map(node => node.attributes['data-id'])), 'Visible Agentic Class/ER node owner multiset; labels or metadata alone do not establish identity.')
     const bounds = new Map<string, Bounds | undefined>()
     for (const [index, node] of drawnNodes.entries()) {
