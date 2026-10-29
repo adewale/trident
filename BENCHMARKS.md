@@ -29,8 +29,9 @@ Node kit independently. See [setup](README.md).
 | Render Cost and Scaling (`portable`) | Public Node SVG calls across families, sizes, edits and cache states. | Latency, CPU and memory by case/mode; output and calibration status. | High for controlled regressions; not a production forecast. |
 
 The [initial baseline](BASELINE.md) applies these contracts across the selected
-ecosystem before the first public 0.1 release. Its proposed portable sampling
-profile is distinct from the existing full profile and must be frozen after a pilot.
+ecosystem before the first public 0.1 release. Its portable sampling uses
+the existing full profile, adopted after the bounded pilot. The baseline document
+links the frozen preparation record and collection allowance.
 
 See the [comparison tables](RESULTS.md#results-by-benchmark) for recorded examples
 and [table conventions](REPORTING.md) for units, populations and missing values.
