@@ -59,7 +59,7 @@ if(!opts.preflight){if(!opts.review)throw Error('A completed source-fact review 
 if(review){
  const referenceRoot=path.dirname(path.resolve(opts.review));
  const referenceContext=JSON.parse(fs.readFileSync(path.join(referenceRoot,'context.json')));
- if(referenceContext.renderIdentity!==review.renderIdentity)throw Error('Reference qualification does not own review');
+ if(referenceContext.renderIdentity!==review.renderIdentity||JSON.stringify(referenceContext.participants)!==JSON.stringify(participants))throw Error('Reference qualification does not own review/participant set');
  const rows=fs.readFileSync(path.join(referenceRoot,'rows.jsonl'),'utf8').trim().split('\n').map(JSON.parse).filter(r=>r.phase==='qualification');
  const references=[];
  for(const c of manifest.cases.filter(c=>review.cases[c.id]?.eligible))for(const p of participants){
