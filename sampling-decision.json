@@ -1,0 +1,48 @@
+{
+  "baselineId": "ecosystem-b0",
+  "status": "preparation and pilot complete; B0 collection not started",
+  "recordedAt": "2026-10-29T20:27:25.649532+00:00",
+  "releaseCutoff": "2026-10-29T18:42:38Z",
+  "admittedHarnessRevision": "b3ad23d40944cff51e80fa2e833123a3e28da7eb",
+  "pilotHarnessRevision": "7150569f5cdb499f2729ddb838818ba7f120e0bd",
+  "artifactIndex": "artifact-identities/adopted-index.json",
+  "publicInvocationIndex": "admission-index.json",
+  "portableProfile": {
+    "profile": "existing-full",
+    "rounds": 5,
+    "warmSampleMeans": 31,
+    "coldProcessesPerReplicaRound": 20,
+    "caseCount": 54,
+    "projects": 11,
+    "plannedFirstUseLaunchSlots": 178200,
+    "coldTailClaim": false,
+    "roundUncertainty": "Five rounds cannot produce the implemented finite two-sided 95% median interval; retain the reported descriptive control envelope and unavailable interval."
+  },
+  "withdrawnProposal": {
+    "coldProcessesPerReplicaRound": 5,
+    "reason": "Existing calibration requires at least 20 first-use observations per replica/round. The proposal could not qualify first-use timing; no gate changed.",
+    "originalPolicy": "preparation-policy.json",
+    "adjustment": "pilot-adjustment.json"
+  },
+  "budgets": {
+    "initialPreparationMinutes": 60,
+    "pilotSeconds": 1800,
+    "pilotActualSeconds": 1799.3325173465046,
+    "pilotAccounting": "Active controller collection only. The standard trial used the remaining budget; controller transitions were outside collection. Repairs and validation after the pilot are separate work, not claimed to fit the initial preparation allowance.",
+    "initialCollectionMinutes": 1440,
+    "boundaryRule": "Stop launching new suite/project boundaries after budget exhaustion. Active work keeps its existing worker deadline. This is not a hard 24-hour wall deadline.",
+    "onExhaustion": "Preserve completed and interrupted receipts. Leave unstarted cells incomplete, then resume the same frozen workload or publish a named exception. No sample reduction or completion claim."
+  },
+  "originalRunnerReadiness": "original-runner/readiness.json",
+  "collectionStatus": "not-started",
+  "collectionOrder": "External repository examples first as a separate compatibility cohort, then the existing seven-suite order with the remaining shared 24-hour allowance. Separate owning receipts; no pooled origin-cohort score.",
+  "constraints": [
+    "No test/build/download activity during timing; one active measurement worker.",
+    "No acquisition/latest-version lookup during collection; use adopted prepared snapshots.",
+    "Pilot observations never import into B0 or RESULTS.md.",
+    "Retain all 273 planned cells and distinguish 91 configured/conditional, 78 missing bindings and 104 unsupported/reference-only.",
+    "Calibrated output-only timing does not certify semantic completeness or aesthetics.",
+    "The one completed small-case population cannot establish full-campaign feasibility.",
+    "Original runner read-only readiness passed; retain freeze/original-runner/readiness.json and reverify the final producer head and runtime before B0 launch."
+  ]
+}

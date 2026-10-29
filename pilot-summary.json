@@ -1,0 +1,120 @@
+{
+  "scope": "Collection cost for one fixed flowchart case; diagnostic, not renderer latency or an ecosystem score. Successful output admission required for rank.",
+  "rows": [
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "wallSeconds": 54.341753262000566,
+      "outputPassed": true,
+      "outputCalibratedTracks": 1,
+      "totalTracks": 3,
+      "semanticCompleteCases": 0,
+      "record": "pilot-standard/01-sandyyst--dsh-plugin-mermaid-gb-svg/report.json",
+      "rank": 1
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "wallSeconds": 62.85256351299995,
+      "outputPassed": true,
+      "outputCalibratedTracks": 1,
+      "totalTracks": 3,
+      "semanticCompleteCases": 0,
+      "record": "pilot-standard/07-KlangHaus--vitepress-plugin-diagram/report.json",
+      "rank": 2
+    },
+    {
+      "project": "Latias94/merman",
+      "wallSeconds": 67.48154228099975,
+      "outputPassed": true,
+      "outputCalibratedTracks": 2,
+      "totalTracks": 3,
+      "semanticCompleteCases": 0,
+      "record": "pilot-standard/08-Latias94--merman/report.json",
+      "rank": 3
+    },
+    {
+      "project": "obsidianmd/pele",
+      "wallSeconds": 77.70986064699991,
+      "outputPassed": true,
+      "outputCalibratedTracks": 1,
+      "totalTracks": 3,
+      "semanticCompleteCases": 1,
+      "record": "pilot-standard/10-obsidianmd--pele/report.json",
+      "rank": 4
+    },
+    {
+      "project": "wevm/ondine",
+      "wallSeconds": 90.85160498100049,
+      "outputPassed": true,
+      "outputCalibratedTracks": 1,
+      "totalTracks": 3,
+      "semanticCompleteCases": 0,
+      "record": "pilot-standard/09-wevm--ondine/report.json",
+      "rank": 5
+    },
+    {
+      "project": "emtyty/merslim",
+      "wallSeconds": 107.72085432299991,
+      "outputPassed": true,
+      "outputCalibratedTracks": 0,
+      "totalTracks": 3,
+      "semanticCompleteCases": 0,
+      "record": "pilot-standard/06-emtyty--merslim/report.json",
+      "rank": 6
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "wallSeconds": 158.7659580489999,
+      "outputPassed": true,
+      "outputCalibratedTracks": 3,
+      "totalTracks": 3,
+      "semanticCompleteCases": 0,
+      "record": "pilot-standard/03-lukilabs--beautiful-mermaid/report.json",
+      "rank": 7
+    },
+    {
+      "project": "zhenhuaa/mdv",
+      "wallSeconds": 158.7707611750002,
+      "outputPassed": true,
+      "outputCalibratedTracks": 1,
+      "totalTracks": 3,
+      "semanticCompleteCases": 0,
+      "record": "pilot-standard/00-zhenhuaa--mdv/report.json",
+      "rank": 7
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "wallSeconds": 193.61426837699946,
+      "outputPassed": true,
+      "outputCalibratedTracks": 1,
+      "totalTracks": 3,
+      "semanticCompleteCases": 0,
+      "record": "pilot-standard/05-adewale--agentic-mermaid/report.json",
+      "rank": 9
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "wallSeconds": 207.115350561,
+      "outputPassed": true,
+      "outputCalibratedTracks": 1,
+      "totalTracks": 3,
+      "semanticCompleteCases": 0,
+      "record": "pilot-standard/02-dfadler--zombie-mermaid/report.json",
+      "rank": 10
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "wallSeconds": 68.6160253500002,
+      "outputPassed": false,
+      "outputCalibratedTracks": 0,
+      "totalTracks": 3,
+      "semanticCompleteCases": 0,
+      "record": "pilot-standard/04-crafter-station--mermaid/report.json",
+      "rank": null
+    }
+  ],
+  "smallCaseBoundariesCompleted": 11,
+  "smallCaseOutputPassed": 10,
+  "scalingCancelled": 1,
+  "scalingNotStarted": 10,
+  "completeSemanticCases": 0
+}
