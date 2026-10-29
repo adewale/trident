@@ -4,7 +4,7 @@ import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { baselineBrowserAction } from '../unified/baseline-browser-worker.mjs'
-import { baselineBrowserCases, baselineRoleOrder, qualifyBaselineBrowser, unsupportedByFamilyProbe, type BaselineBrowserCase } from '../unified/baseline-browser.ts'
+import { baselineBrowserCases, baselineRoleOrder, planBaselineBrowser, qualifyBaselineBrowser, unsupportedByFamilyProbe, type BaselineBrowserCase } from '../unified/baseline-browser.ts'
 import type { BenchmarkObservation } from '../unified/types.ts'
 import { runRetainedSuite } from '../unified/retained-suite.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
@@ -91,10 +91,104 @@ test('real browser consumer includes module initialization and traverses Map/Set
   } finally { await browser.close() }
 }, 20_000)
 
-test('only a rejected canonical family case makes that family unsupported; rejection messages decide nothing', () => {
-  const row = (caseId: string, family: string, accepted: boolean, detail = 'Error: Invalid mermaid header'): BenchmarkObservation => ({ suite: 'pinned-browser-baseline', surface: 'baseline-browser:pele', runtime: 'chromium', family, caseId, operation: 'public-svg', format: 'svg', mode: 'reused-page-render', status: accepted ? 'passed' : 'failed', detail, metrics: { accepted, expectedAccepted: true } })
-  const rows = [row('family:pie', 'pie', false), row('scaling:pie:8', 'pie', false), row('family:flowchart', 'flowchart', true), row('adversarial:flowchart', 'flowchart', false, 'Error: unsupported graph direction')]
+test('only reviewed canonical source refusals establish unsupported families; infrastructure stays failed', () => {
+  const row = (caseId: string, family: string, accepted: boolean, detail = 'PeleError: No diagram type detected for the given text.', errorName = 'PeleError', errorPhase: string | null = 'public-call'): BenchmarkObservation => ({ suite: 'pinned-browser-baseline', surface: 'baseline-browser:pele', runtime: 'chromium', family, caseId, operation: 'public-svg', format: 'svg', mode: 'reused-page-render', status: accepted ? 'passed' : 'failed', detail, metrics: { accepted, expectedAccepted: true, errorName, errorPhase } })
+  const rows = [
+    row('family:pie', 'pie', false),
+    row('scaling:pie:8', 'pie', false),
+    row('scaling:pie:broken-import', 'pie', false, 'TypeError: Failed to fetch dynamically imported module', 'TypeError'),
+    row('family:flowchart', 'flowchart', true),
+    row('adversarial:flowchart', 'flowchart', false, 'Error: unsupported graph direction', 'Error'),
+    row('family:sequence', 'sequence', false, 'TypeError: Failed to fetch dynamically imported module', 'TypeError'),
+    row('scaling:sequence:8', 'sequence', false),
+    row('family:class', 'class', false, undefined, 'PeleError', 'consumption'),
+    row('family:er', 'er', false, 'Error: Parse error on line 1: backend timed out', 'TimeoutError'),
+    row('family:gantt', 'gantt', false, undefined, 'PeleError', null),
+    row('family:sankey', 'sankey', false),
+    row('family:sankey', 'sankey', true),
+    row('scaling:sankey:8', 'sankey', false),
+  ]
   expect(qualifyBaselineBrowser(witness, { accepted: false, error: 'Error: unsupported diagram', errorPhase: 'public-call' }).status).toBe('failed')
   unsupportedByFamilyProbe(rows)
-  expect(rows.map(value => [value.caseId, value.status])).toEqual([['family:pie', 'unsupported'], ['scaling:pie:8', 'unsupported'], ['family:flowchart', 'passed'], ['adversarial:flowchart', 'failed']])
+  expect(rows.map(value => [value.caseId, value.status])).toEqual([
+    ['family:pie', 'unsupported'],
+    ['scaling:pie:8', 'unsupported'],
+    ['scaling:pie:broken-import', 'failed'],
+    ['family:flowchart', 'passed'],
+    ['adversarial:flowchart', 'failed'],
+    ['family:sequence', 'failed'],
+    ['scaling:sequence:8', 'failed'],
+    ['family:class', 'failed'],
+    ['family:er', 'failed'],
+    ['family:gantt', 'failed'],
+    ['family:sankey', 'failed'],
+    ['family:sankey', 'passed'],
+    ['scaling:sankey:8', 'failed'],
+  ])
 })
+
+test('explicit browser cases reject invalid selections and preserve corpus order', () => {
+  const ids = ['required:zenuml', 'family:zenuml']
+  const expected = baselineBrowserCases().filter(value => ids.includes(value.id))
+  expect(expected).toHaveLength(2)
+  expect(baselineBrowserCases(ids)).toEqual(expected)
+  expect(() => baselineBrowserCases([])).toThrow('Select at least one')
+  expect(() => baselineBrowserCases(['unknown-case'])).toThrow('Unknown browser baseline case ID')
+  expect(() => baselineBrowserCases(['family:zenuml', 'family:zenuml'])).toThrow('Duplicate browser baseline case ID')
+})
+
+test('invalid browser stages and launch arguments fail before reference preparation', () => {
+  const options = { root: '/unavailable', out: '/unused', referenceRoot: '/unavailable/reference', upstreamRoot: '/unavailable/source' }
+  expect(() => planBaselineBrowser({ ...options, stages: [] })).toThrow('Select distinct browser stages')
+  expect(() => planBaselineBrowser({ ...options, stages: ['renderer', 'renderer'] })).toThrow('Select distinct browser stages')
+  expect(() => planBaselineBrowser({ ...options, stages: ['unknown'] as any })).toThrow('Select distinct browser stages')
+  expect(() => planBaselineBrowser({ ...options, browserLaunchArgs: {} as any })).toThrow('Browser launch arguments must be an array of strings')
+  expect(() => planBaselineBrowser({ ...options, browserLaunchArgs: [17] as any })).toThrow('Browser launch arguments must be an array of strings')
+})
+
+test('first-party ZenUML binding is lazy, registered once, and included in the first public-call clock', async () => {
+  const require = createRequire(join(process.cwd(), 'eval/benchmark/package.json')), { chromium } = require('playwright')
+  const browser = await chromium.launch({ headless: true, executablePath: chromiumExecutable })
+  const fixture = JSON.stringify('__tridentZenumlFixture')
+  const addon = 'data:text/javascript,' + encodeURIComponent(`
+    const state = globalThis[${fixture}]
+    state.imports++
+    await new Promise(resolve => setTimeout(resolve, 25))
+    export default { id: 'fixture-zenuml' }
+  `)
+  const module = 'data:text/javascript,' + encodeURIComponent(`
+    const state = globalThis[${fixture}]
+    export default {
+      initialize() {},
+      async registerExternalDiagrams(plugins) {
+        if (plugins[0]?.id !== 'fixture-zenuml') throw Error('Unexpected addon')
+        state.registrations++
+        state.registered = true
+      },
+      async render(id, source) {
+        if (source === 'zenuml' && !state.registered) throw Error('ZenUML not registered')
+        return { svg: '<svg xmlns="http://www.w3.org/2000/svg"><text>Alpha</text></svg>' }
+      }
+    }
+  `)
+  try {
+    const page = await browser.newPage()
+    await page.evaluate(() => { (globalThis as any).__tridentZenumlFixture = { imports: 0, registrations: 0, registered: false } })
+    const counts = () => page.evaluate(() => {
+      const { imports, registrations } = (globalThis as any).__tridentZenumlFixture
+      return { imports, registrations }
+    })
+    await page.evaluate(baselineBrowserAction, { type: 'initialize', kind: 'mermaid', url: module, zenumlUrl: addon, configuration: {} })
+    expect(await counts()).toEqual({ imports: 0, registrations: 0 })
+    const flowchart = await page.evaluate(baselineBrowserAction, { type: 'render', family: 'flowchart', source: 'flowchart', renderId: 'flowchart' })
+    expect(flowchart.accepted).toBe(true)
+    expect(await counts()).toEqual({ imports: 0, registrations: 0 })
+    const first = await page.evaluate(baselineBrowserAction, { type: 'render', family: 'zenuml', source: 'zenuml', renderId: 'zenuml-first' })
+    expect(first.accepted).toBe(true)
+    expect(first.publicApiMs).toBeGreaterThanOrEqual(15)
+    expect(await counts()).toEqual({ imports: 1, registrations: 1 })
+    const second = await page.evaluate(baselineBrowserAction, { type: 'render', family: 'zenuml', source: 'zenuml', renderId: 'zenuml-second' })
+    expect(second.accepted).toBe(true)
+    expect(await counts()).toEqual({ imports: 1, registrations: 1 })
+  } finally { await browser.close() }
+}, 20_000)
