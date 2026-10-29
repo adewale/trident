@@ -1,8 +1,9 @@
 # Public bindings and qualification: issue 30
 
 [Issue 30](https://github.com/adewale/trident/issues/30) covers public artifact
-bindings and the evidence needed for individual claims. It does not require an
-all-project timing campaign or editor automation before a harness release.
+bindings and the evidence needed for individual claims. That bounded work is
+complete; its receipts predate the required [initial release baseline](../BASELINE.md).
+They do not replace B0. Editor automation remains outside core scope.
 
 | Requirement | Implementation and evidence | Limit |
 |---|---|---|

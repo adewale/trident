@@ -1,12 +1,15 @@
 # Methodology
 
-Portable protocol `portable-svg-processes-v6` recognizes reviewed ER cardinality
-bars and circles independently from continuous relation routes. Earlier sealed
-kits and their records retain their original protocol; a corrected observer
-requires a fresh kit and fresh owning qualification. Exact cardinality semantics
-remain outside this bounded ink-and-topology projection.
+Portable timing protocol `portable-svg-processes-v6` and qualification observers
+have separate identities. The current observer checks exact ER cardinality and
+identifying appearance for the reviewed Agentic Class/ER profiles described in
+[Comparison contracts](FAIRNESS.md#observe-output-independently-of-optional-apis).
+Other ER projections retain their documented limits; recognizing bars and circles
+alone does not establish exact cardinality meaning. Earlier sealed kits and records
+keep their original protocols and scopes. A corrected observer requires a fresh kit
+and fresh owning qualification.
 
-[Choose a benchmark](BENCHMARKS.md) · [Measurement rules](MEASUREMENT.md)
+[Choose a benchmark](BENCHMARKS.md) · [Measurement rules](MEASUREMENT.md) · [Initial baseline](BASELINE.md)
 
 Trident reports capability, correctness, time, memory and delivered bytes separately. It does not produce an overall “best renderer” score. A useful result names its workload, public interface, configuration, artifact, machine, date and failures.
 
@@ -26,7 +29,7 @@ The community corpus is frozen in `corpus/community-corpus.json`: six fixed timi
 
 Some imported fixtures are parser-only, oracle-rejected, or lack usable authored-label expectations. These gaps remain in the record. Do not reinterpret a parser fixture's rendering failure as a faithful-rendering defect. Unsupported families remain coverage gaps instead of free successful renders.
 
-Input intent is independent of acceptance. Render inputs, parser-only fixtures and negative/diagnostic sources retain separate counts and unchanged source strings. Only declared render inputs accepted by pinned Mermaid enter the positive-render population. The positive-render diagnostic uses passed / (passed + failed + blocked + unavailable) over that fixed population. Unsupported or missing outputs remain unavailable against their planned denominator. Unknown intent, reference admission or unmapped inputs withhold a complete ratio. Raw admission and the legacy 23-family mark retain their historical definitions. Publication remains alphabetical and unranked. A new classifier does not rewrite historical records or their original dates.
+Input intent is independent of acceptance. Render inputs, parser-only fixtures and negative/diagnostic sources retain separate counts and unchanged source strings. Only declared render inputs accepted by pinned Mermaid enter the positive-render population. The positive-render diagnostic uses passed / (passed + failed + blocked + unavailable) over that fixed population. Unsupported or missing outputs remain unavailable against their planned denominator. Unknown intent, reference admission or unmapped inputs withhold a complete ratio. Raw admission and the legacy 23-family mark retain their historical definitions. Comparative publication stack-ranks each compatible group by its named metric; ties share a rank and missing values remain unranked. A new classifier does not rewrite historical records or their original dates.
 
 ## What community admission checks
 
@@ -56,8 +59,8 @@ Source-runner preparation derives the ZenUML engine from the pinned source lockf
 
 Keep raw samples, failed outputs, package/dependency identities, protocol, input provenance and original dates. Reuse exact matching records without inventing fresh dates. New artifact, workload, qualifier, runtime or sampling settings require new evidence. Cross-machine records are separate cohorts. A completed collection can contain failures or uncalibrated timings.
 
-Old checked-in snapshots have been removed. Generate reports outside the source tree. Publish a claim only after checking the work at the public boundary, reviewing failure classifications and inspecting representative outputs. The [measurement rules](MEASUREMENT.md) explain why honest scope matters more than a league-table win.
+Old checked-in raw dumps have been removed. Keep large evidence outside the source tree; the tracked results overview links dated publications. Preserve the immutable B0 publication separately from rolling updates. Publish a claim only after checking the work at the public boundary, reviewing failure classifications and inspecting representative outputs. The [measurement rules](MEASUREMENT.md) explain why honest scope matters more than a league-table win.
 
 ## External cohorts and observation scopes
 
-[Comparison contracts](FAIRNESS.md) define the external repository-example selection policy, retained provenance and limitations. The AM-derived corpus remains a named legacy regression input. Optional model APIs and output admission are separate dimensions; neither is a substitute for painted correspondence. Published scorecards are alphabetical within compatible groups and retain all actual dispositions.
+[Comparison contracts](FAIRNESS.md) define the external repository-example selection policy, retained provenance and limitations. The AM-derived corpus remains a named legacy regression input. Optional model APIs and output admission are separate dimensions; neither is a substitute for painted correspondence. Published comparison tables rank within compatible groups by the named metric and retain all actual dispositions. Raw inventories and diagnostic ledgers may keep their source order.

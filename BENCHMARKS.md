@@ -28,6 +28,10 @@ Node kit independently. See [setup](README.md).
 | Mermaid Reference Tests (`upstream-original`) | The pinned Mermaid source running its own original core tests. | Original files and callbacks: passed, failed, pending and todo. | High for checking the reference environment; not a peer-project score. |
 | Render Cost and Scaling (`portable`) | Public Node SVG calls across families, sizes, edits and cache states. | Latency, CPU and memory by case/mode; output and calibration status. | High for controlled regressions; not a production forecast. |
 
+The [initial baseline](BASELINE.md) applies these contracts across the selected
+ecosystem before the first public 0.1 release. Its proposed portable sampling
+profile is distinct from the existing full profile and must be frozen after a pilot.
+
 See the [comparison tables](RESULTS.md#results-by-benchmark) for recorded examples
 and [table conventions](REPORTING.md) for units, populations and missing values.
 

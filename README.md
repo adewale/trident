@@ -3,6 +3,8 @@
 Trident compares Mermaid tools on input compatibility, diagram meaning and rendering cost. It tests SVG renderers, terminal tools and parsers through their public interfaces.
 
 - [Benchmarks and their value](BENCHMARKS.md): what each workload measures, how to run it, and when to trust it.
+- [Initial baseline](BASELINE.md): frozen ecosystem evidence required for the first public 0.1 release.
+- [Release process](RELEASE.md): baseline assessment, exact-head checks and packaging.
 - [Scope](SCOPE.md): core benchmark work, application exclusions and optional maintenance.
 - [Methodology](METHODOLOGY.md): corpus, correctness checks, sampling and fair comparisons.
 - [Measurement rules](MEASUREMENT.md): interfaces, cache state, overfitting and claims.
@@ -127,10 +129,12 @@ with its publication-figure look and Nord Light palette. Appearance implies no
 benchmark rank. See the [complete 89-entity tree](LINEAGE.md), [source](docs/lineage-overview.mmd)
 and [generation receipt](docs/images/lineage.json).
 
-## Install 0.1
+## Install and release status
 
-Use the `v0.1.0` GitHub source tag with Bun 1.4+ and Node 24+. Build a portable
-Node kit with the command below; published archives, when available, appear on
+The first public 0.1 release is pending the [initial baseline](BASELINE.md) and
+[release checks](RELEASE.md). The existing `v0.1.0` tag is an older preparation
+snapshot; it does not contain all features described on current main. Use Bun 1.4+
+and Node 24+ with the intended source revision. Published archives, when available, appear on
 the [GitHub releases page](https://github.com/adewale/trident/releases).
 The repository package is private. The kit ships its runtime files and manifest,
 while target artifacts and the pinned Mermaid oracle are installed separately.

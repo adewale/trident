@@ -29,6 +29,14 @@ and retained table values, and rejects stale Markdown,
 invalid chart values and unknown catalog projects. Numeric zero is an observed
 value; unmeasured, blocked and not-applicable states are separate.
 
+## Initial release baseline
+
+[BASELINE.md](../BASELINE.md) defines B0 and its required manifest, applicability
+ledger, owning evidence, checksums and acceptance checks. Publish that frozen
+index separately from the rolling overview before the first public 0.1 release.
+Importing a newer campaign here does not amend B0; pilot outputs are not baseline
+scores. Later release notes link their baseline compatibility assessment.
+
 ## After collecting a campaign
 
 Run measurements locally, serially, with the current qualifier. The source tree
