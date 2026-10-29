@@ -24,7 +24,9 @@ PNG checks decode the first and final returned images, require positive dimensio
 and bounded raster content, and retain the `decoded-raster-content` scope. They
 supply no SVG-label, relationship, editable-model or painted-meaning credit.
 [Existing native PNG results](native-flutter-standard-benchmarks.md) retain their
-original producer and date; transport fixture tests are not new Flutter results.
+original producer and date. A [fresh native invocation receipt](issue-30-status.md#native-png-verification)
+verifies the merged launcher with a real release build. Synthetic transport tests
+remain separate from that runtime evidence.
 
 ## Shared invocation check
 

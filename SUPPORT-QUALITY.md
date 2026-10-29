@@ -90,6 +90,8 @@ raster/SVG/model qualification scopes and separate control counts. Historical
 receipts above keep their original protocol and observations. The
 [native Flutter preparation](native-flutter/STANDARD.md#use-the-normal-cli-with-an-existing-native-bundle)
 selects PNG explicitly; the default catalog's Mermaid Dart binding remains SVG.
+The [dated native PNG verification](docs/issue-30-status.md#native-png-verification)
+records a real release build and saved-binding replay.
 [Public output contracts](docs/application-contracts.md) explain the checks and
 [issue 30's status](docs/issue-30-status.md) links the remaining evidence limits.
 
