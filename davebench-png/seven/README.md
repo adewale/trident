@@ -73,7 +73,10 @@ that suppresses every ratio when one participant is noisy.
 No outlier trimming occurs. A failed correctness/stability input is excluded from
 all participants' final common score and remains visible. A measured timeout
 invalidates the process-history assumption; the analyzer reports an incomplete
-campaign rather than silently replacing the failed launch. Every measured PNG
+campaign rather than silently replacing the failed launch. Any failed measured-run
+warmup aborts collection. Admission requires the complete participant/input review
+and pixel matrix; analysis checks every expected warmup and measurement cell.
+Every measured PNG
 must match its participant/input's actual pre-reviewed pixels. Qualification
 images are decoded independently before review; exact encoded matches may reuse
 prior inspection, while newly encoded streams are decoded and checked.

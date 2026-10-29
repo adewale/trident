@@ -23,6 +23,27 @@ blocks = list(range(1, context['blocks'] + 1))
 measured = [r for r in rows if r['phase'] == 'measure']
 assert not any(r['status'] == 'timeout' for r in measured), 'Timeout changed process history; retain evidence and report incomplete timing'
 warmups = [r for r in rows if r['phase'] == 'warmup']
+assert review['renderIdentity'] == context['renderIdentity']
+assert review['participants'] == participants
+assert len(warmups) == len(participants) * len(blocks) * len(context['inputs']) * 2
+assert all(r['status'] == 'ok' for r in warmups), 'Failed warmup invalidates measured process history'
+actual_cells = {(r['participant'], r['case'], r['block'], r['phase'], r['rep']) for r in rows}
+expected_cells = {(participant, case, block, phase, rep)
+                  for participant in participants for case in context['inputs'] for block in blocks
+                  for phase, repeats in [('warmup', 2), ('measure', context['repetitions'])]
+                  for rep in range(repeats)}
+assert len({r['id'] for r in rows}) == len(rows) == len(actual_cells)
+assert actual_cells == expected_cells, 'Missing, duplicate or unexpected launch/input cells'
+for case in context['inputs']:
+    record = review['cases'][case]
+    assert record['eligible'] and record['role'] == 'candidate'
+    for participant in participants:
+        assert record['checks'][participant]['pass']
+        expected = record['pixels'][participant]
+        assert len(expected) == 64 and int(expected, 16) >= 0
+for row in rows:
+    if row['status'] == 'ok':
+        assert row['inspection']['pixelSha256'] == review['cases'][row['case']]['pixels'][row['participant']]
 grouped = collections.defaultdict(list)
 for r in measured:
     grouped[r['participant'], r['case'], r['block']].append(r)

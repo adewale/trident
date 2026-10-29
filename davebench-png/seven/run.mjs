@@ -8,6 +8,7 @@ import {docsArtifactServer,docsInventory} from '../../unified/docs-benchmark.ts'
 import {configureControlled} from '../controlled/browser.ts';
 import {configureSeven} from './browser.ts';
 import {completedPng} from './completed.ts';
+import {validateReview,requireWarmupSuccess} from './admission.mjs';
 import {inspect} from '../controlled/png.mjs';
 import {isolationSnapshot} from '../controlled/isolation.mjs';
 
@@ -45,7 +46,7 @@ const font=out+'/Inter-Regular.ttf';fs.copyFileSync(publicPackages+'/agentic-mer
 const escaped=out.replaceAll('&','&amp;').replaceAll('<','&lt;');
 const fontconfig=`<?xml version="1.0"?><!DOCTYPE fontconfig SYSTEM "fonts.dtd"><fontconfig><dir>${escaped}</dir><cachedir>${escaped}/font-cache</cachedir><match target="font"><edit name="hinting" mode="assign"><bool>false</bool></edit><edit name="autohint" mode="assign"><bool>false</bool></edit><edit name="hintstyle" mode="assign"><const>hintnone</const></edit><edit name="antialias" mode="assign"><bool>true</bool></edit><edit name="rgba" mode="assign"><const>none</const></edit></match><alias><family>sans-serif</family><prefer><family>Inter</family></prefer></alias></fontconfig>`;
 fs.writeFileSync(out+'/fontconfig.conf',fontconfig);process.env.FONTCONFIG_FILE=out+'/fontconfig.conf';
-const sources=['run.mjs','browser.ts','completed.ts','prepare.mjs','bundle-addon.mjs','container.py','analyze.py','flutter_worker.dart','dart/worker.dart','dart/pubspec.yaml','dart/pubspec.lock','packages/package.json','packages/package-lock.json'].map(f=>({file:'davebench-png/seven/'+f,sha256:fileHash(import.meta.dirname+'/'+f)}));
+const sources=['run.mjs','browser.ts','completed.ts','admission.mjs','prepare.mjs','bundle-addon.mjs','container.py','analyze.py','flutter_worker.dart','dart/worker.dart','dart/pubspec.yaml','dart/pubspec.lock','packages/package.json','packages/package-lock.json'].map(f=>({file:'davebench-png/seven/'+f,sha256:fileHash(import.meta.dirname+'/'+f)}));
 for(const f of ['davebench-png/controlled/browser.ts','davebench-png/controlled/png.mjs','davebench-png/controlled/cases.json','davebench-png/controlled/isolation.mjs','unified/docs-benchmark.ts','native-flutter/env.sh'])sources.push({file:f,sha256:fileHash(root+'/'+f)});
 const sealed=[...participants.filter(p=>p.entry).map(p=>p.base+'/'+p.entry),...(build.zenuml?[build.zenuml.file]:[]),assets+'/build.json',assets+'/mermaid-dart',...build.flutter.outputs.map(f=>build.flutter.bundle+'/'+f.file),'/usr/lib/chromium/chromium',publicPackages+'/../package-lock.json',font].map(file=>({file,sha256:fileHash(file)}));
 const identity=hash(JSON.stringify({sources,sealed:sealed.filter(f=>f.file!==font),font:fileHash(font),participants,contract:profile.contract}));
@@ -53,6 +54,7 @@ const review=opts.review?JSON.parse(fs.readFileSync(opts.review)):undefined;
 if(opts.phase==='measure'&&(!review||review.renderIdentity!==identity||JSON.stringify(review.participants)!==JSON.stringify(participants.map(p=>p.id))))throw Error('Reviewed qualification identity/participants mismatch');
 const chosen=opts.phase==='coverage'?inventory.cases:opts.phase==='qualification'?profile.cases:profile.cases.filter(c=>review.cases[c.id]?.eligible);
 if(!chosen.length)throw Error('No eligible inputs');
+if(opts.phase==='measure')validateReview(review,identity,participants.map(p=>p.id),chosen);
 const blocks=opts.phase==='measure'?Number(opts.blocks??20):1,repetitions=opts.phase==='measure'?Number(opts.repetitions??3):1;
 if(!Number.isInteger(blocks)||blocks<1||!Number.isInteger(repetitions)||repetitions<1)throw Error('Invalid repetition count');
 let rngState=20261029;function rng(){rngState|=0;rngState=rngState+0x6D2B79F5|0;let t=Math.imul(rngState^rngState>>>15,1|rngState);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;}
@@ -137,7 +139,7 @@ try{
   fs.appendFileSync(out+'/actors.jsonl',JSON.stringify({participant:id,block:slot.block,...a.metadata})+'\n');snapshot('ready',id,slot.block);
   try{
    const warm=opts.phase==='measure'?chosen:[profile.cases[0]];
-   for(let pass=0;pass<2;pass++)for(const c of warm){const r=await call(a,p,c,'warmup',slot.block,pass);if(r.status==='timeout'){await a.close();a=await actor(p);}}
+   for(let pass=0;pass<2;pass++)for(const c of warm){const r=await call(a,p,c,'warmup',slot.block,pass);if(opts.phase==='measure')requireWarmupSuccess(r);else if(r.status==='timeout'){await a.close();a=await actor(p);}}
    snapshot('warmup-complete',id,slot.block);console.log(opts.phase,'block',slot.block,'/',blocks,id,chosen.length,'inputs',new Date().toISOString());
    for(let rep=0;rep<repetitions;rep++)for(const c of opts.phase==='measure'?shuffle(chosen):chosen){const r=await call(a,p,c,opts.phase==='measure'?'measure':opts.phase,slot.block,rep);if(r.status==='timeout'){await a.close();a=await actor(p);}}
    snapshot('complete',id,slot.block);
