@@ -8,18 +8,26 @@ export interface ReleaseCli {
   repository: string
   tag: string
   version: string
+  /** Defaults to a checked --version call; versionless CLIs must opt into a matching release tag. */
+  versionSource?: 'command' | 'release-tag'
   revision: string
   outputs: Record<string, { args: string[]; input?: 'stdin' | 'file' }>
   platforms: Record<string, { asset: string; sha256: string; executable: string }>
 }
 const digest = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex')
+function releaseVersionSource(spec: ReleaseCli): 'command' | 'release-tag' {
+  const source = spec.versionSource ?? 'command'
+  if (source !== 'command' && source !== 'release-tag') throw Error('Unknown release CLI version source')
+  if (source === 'release-tag' && spec.tag.replace(/^v/, '') !== spec.version) throw Error('Release CLI tag/version identity differs')
+  return source
+}
 export function verifyReleaseCli(node: CommunityNode, artifact: CommunityArtifact): void {
   const spec = node.benchmark?.cliRelease
   if (!spec) return
   for (const extra of artifact.additionalCli ?? []) {
     if (!extra.artifact) continue
     const cli = extra.artifact, platform = spec.platforms[`${process.platform}-${process.arch}`]
-    if (!platform || extra.id !== 'native-release' || cli.kind !== 'cli' || cli.version !== spec.version || cli.revision !== spec.revision || JSON.stringify(extra.outputs) !== JSON.stringify(Object.keys(spec.outputs)) || JSON.stringify(cli.outputBindings) !== JSON.stringify(spec.outputs)) throw Error('Frozen release CLI differs from its declared public binding')
+    if (!platform || extra.id !== 'native-release' || cli.kind !== 'cli' || cli.version !== spec.version || (cli.versionSource ?? 'command') !== releaseVersionSource(spec) || cli.revision !== spec.revision || JSON.stringify(extra.outputs) !== JSON.stringify(Object.keys(spec.outputs)) || JSON.stringify(cli.outputBindings) !== JSON.stringify(spec.outputs)) throw Error('Frozen release CLI differs from its declared public binding')
     const archive = cli.files?.find(file => file.path === join(cli.root!, platform.asset))
     if (!archive || archive.sha256 !== platform.sha256 || digest(readFileSync(archive.path)) !== platform.sha256) throw Error('Frozen release CLI archive differs from its reviewed SHA-256')
     const bytes = execFileSync('tar', ['-xOf', archive.path, '--', platform.executable], { maxBuffer: 128 * 1024 * 1024 })
@@ -38,6 +46,7 @@ export async function prepareReleaseCli(node: CommunityNode, cache: string): Pro
     const safe = (path: string) => /^[\w.-]+(?:\/[\w.-]+)*$/.test(path) && !path.split('/').some(part => part === '..' || part === '.')
     const memberPath = platform.executable.replace(/^(?:\.\/)+/, '')
     if (!safe(memberPath) || !safe(platform.asset) || !safe(spec.tag)) throw Error('Unsafe public release path')
+    const versionSource = releaseVersionSource(spec)
     const root = resolve(cache, 'public-release-cli', node.id.replaceAll('/', '--'), spec.tag, platform.sha256)
     mkdirSync(root, { recursive: true })
     const archive = join(root, platform.asset), executable = join(root, platform.executable)
@@ -54,9 +63,11 @@ export async function prepareReleaseCli(node: CommunityNode, cache: string): Pro
     const bytes = execFileSync('tar', ['-xOf', archive, '--', platform.executable], { maxBuffer: 128 * 1024 * 1024 })
     if (!existsSync(executable)) { mkdirSync(join(executable, '..'), { recursive: true }); writeFileSync(executable, bytes, { flag: 'wx' }); chmodSync(executable, 0o755) }
     if (digest(readFileSync(executable)) !== digest(bytes)) throw Error('Release CLI executable differs from its authenticated archive')
-    const observedVersion = execFileSync(executable, ['--version'], { encoding: 'utf8', timeout: 10_000 }).trim()
-    if (!observedVersion.split(/\s+/).includes(spec.version)) throw Error('Release CLI version differs: ' + observedVersion)
+    if (versionSource === 'command') {
+      const observedVersion = execFileSync(executable, ['--version'], { encoding: 'utf8', timeout: 10_000 }).trim()
+      if (!observedVersion.split(/\s+/).includes(spec.version)) throw Error('Release CLI version differs: ' + observedVersion)
+    }
     const first = spec.outputs[outputs[0]!]!
-    return { id, outputs, artifact: { kind: 'cli', root, executable, args: first.args, input: first.input ?? 'stdin', outputBindings: spec.outputs, version: spec.version, revision: spec.revision, sha256: digest(bytes), files: [{ path: executable, sha256: digest(bytes) }, { path: archive, sha256: platform.sha256 }], runtime: `${process.platform}-${process.arch} public native CLI`, apiBoundary: 'public release executable; fresh process, stdin/file through drained output', detail: `Archive ${url}; SHA-256 ${platform.sha256}. Source revision names the release tag, not a reproducible-build assertion.` } }
+    return { id, outputs, artifact: { kind: 'cli', root, executable, args: first.args, input: first.input ?? 'stdin', outputBindings: spec.outputs, version: spec.version, versionSource, revision: spec.revision, sha256: digest(bytes), files: [{ path: executable, sha256: digest(bytes) }, { path: archive, sha256: platform.sha256 }], runtime: `${process.platform}-${process.arch} public native CLI`, apiBoundary: 'public release executable; fresh process, stdin/file through drained output', detail: `Archive ${url}; SHA-256 ${platform.sha256}. Version identity: ${versionSource}. Source revision names the release tag, not a reproducible-build assertion.` } }
   } catch (error) { return { id, outputs, error: String(error) } }
 }

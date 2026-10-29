@@ -59,6 +59,7 @@ export interface CommunityArtifact {
   outputBindings?: Record<string, { args: string[]; input?: 'stdin' | 'file' }>
   global?: string
   version: string
+  versionSource?: 'command' | 'release-tag'
   revision?: string
   sha256?: string
   integrity?: string

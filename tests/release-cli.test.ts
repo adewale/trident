@@ -30,3 +30,26 @@ for (const member of ['tool', './tool']) test(`public CLI archive member ${membe
     expect((await prepareReleaseCli(node, root)).error).toContain('SHA-256')
   } finally { rmSync(root, { recursive: true, force: true }) }
 })
+
+test('a versionless CLI requires an explicit matching release-tag identity', async () => {
+  const root = mkdtempSync(join(tmpdir(), 'trident-versionless-cli-'))
+  try {
+    const executable = join(root, 'tool'); writeFileSync(executable, '#!/bin/sh\nif [ "$1" = "--version" ]; then exit 2; fi\ncat\n'); chmodSync(executable, 0o755)
+    const archive = join(root, 'tool.tar'); execFileSync('tar', ['-cf', archive, '-C', root, 'tool'])
+    const sha256 = createHash('sha256').update(readFileSync(archive)).digest('hex')
+    const directory = join(root, 'public-release-cli/fixture--tool/v1.0.0', sha256); mkdirSync(directory, { recursive: true }); writeFileSync(join(directory, 'tool.tar'), readFileSync(archive))
+    const node: CommunityNode = { id: 'fixture/tool', roles: ['renderer'], outputs: ['terminal'], benchmark: { adapter: 'fixture', cliRelease: { repository: 'fixture/tool', tag: 'v1.0.0', version: '1.0.0', versionSource: 'release-tag', revision: 'a'.repeat(40), outputs: { terminal: { args: [], input: 'stdin' } }, platforms: { [`${process.platform}-${process.arch}`]: { asset: 'tool.tar', executable: 'tool', sha256 } } } } }
+    const result = await prepareReleaseCli(node, root)
+    expect(result.error).toBeUndefined(); expect(result.artifact?.versionSource).toBe('release-tag')
+    expect(result.artifact?.detail).toContain('Version identity: release-tag')
+    expect(() => verifyReleaseCli(node, { additionalCli: [result] } as any)).not.toThrow()
+    const spec = node.benchmark!.cliRelease!
+    const changed = (overrides: Partial<typeof spec>) => ({ ...node, benchmark: { ...node.benchmark!, cliRelease: { ...spec, ...overrides } } })
+    expect((await prepareReleaseCli(changed({ versionSource: undefined }), root)).error).toBeDefined()
+    expect((await prepareReleaseCli(changed({ version: '2.0.0' }), root)).error).toContain('tag/version')
+    expect((await prepareReleaseCli(changed({ versionSource: 'unknown' as any }), root)).error).toContain('version source')
+    expect(() => verifyReleaseCli(changed({ versionSource: 'command' }), { additionalCli: [result] } as any)).toThrow('binding')
+    writeFileSync(join(directory, 'tool.tar'), 'changed archive')
+    expect((await prepareReleaseCli(node, root)).error).toContain('SHA-256')
+  } finally { rmSync(root, { recursive: true, force: true }) }
+})
