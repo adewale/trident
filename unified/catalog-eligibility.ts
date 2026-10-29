@@ -65,7 +65,7 @@ export function catalogNodeEligibility(node: CatalogNode) {
     adapterReview: node.benchmarkEligibility?.adapterReview ?? 'unreviewed',
     operations: outputs.map(output => ({
       output,
-      operation: output === 'parse' ? 'parse' : output === 'diagnostics' ? 'validate' : output === 'source' ? 'format-or-serialize' : output === 'react-flow' ? 'convert' : 'render',
+      operation: output === 'parse' ? 'parse' : output === 'diagnostics' ? 'validate' : output === 'source' ? 'format-or-serialize' : ['react-flow', 'excalidraw'].includes(output) ? 'convert' : 'render',
       configured: configuredOutputs.has(output),
       state: configuredOutputs.has(output) ? 'configured-not-yet-qualified' : 'declared-unmeasured',
       reason: configuredOutputs.has(output) ? 'Actual API/format/family admission and timings require the benchmark result; configuration is not a pass.' : 'Catalog declares this operation but no output binding is configured; missing coverage is not a zero score.',

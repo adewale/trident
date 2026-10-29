@@ -1,7 +1,9 @@
+import { verifyReleaseCli } from './release-cli.ts'
+import { captureInstalledDependencyClosure } from '../portable/artifact-dependencies.ts'
 import { readBenchmarkDocument, writeBenchmarkDocument } from '../portable/project-records.ts'
 import { execFileSync, spawn, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { copyFileSync, existsSync, mkdirSync, readFileSync, realpathSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -99,6 +101,18 @@ export function candidatePackage(tarball: string): { name: string; version: stri
   return pkg
 }
 
+/** Seal a companion's own published files as well as its dependencies. The
+ * dependency observer intentionally leaves the root payload to its caller. */
+export function adapterCompanionIdentity(root: string) {
+  const visit = (directory: string): { path: string; sha256: string }[] => readdirSync(directory, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name)).flatMap(entry => {
+    if (['node_modules', '.git'].includes(entry.name)) return []
+    const path = join(directory, entry.name)
+    if (entry.isSymbolicLink()) throw Error('Adapter companion payload has an unreviewed symlink: ' + path)
+    return entry.isDirectory() ? visit(path) : entry.isFile() ? [{ path, sha256: artifactDigest(path) }] : []
+  })
+  return { files: visit(root), dependencies: captureInstalledDependencyClosure(root) }
+}
+
 async function npmArtifact(node: CommunityNode, cache: string, pinned = false, candidate?: { tarball: string; sha256: string }): Promise<CommunityArtifact> {
   const config = node.benchmark!,
     name = config.package!
@@ -122,13 +136,13 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false, c
   const oracle = node.id === 'mermaid-js/mermaid' ? assertMermaidOracle() : undefined
   if (oracle && version !== oracle.version) throw new Error(`Mermaid's row must be the pinned oracle ${oracle.version}; the catalog records ${version}`)
   // A candidate installs into its own prefix, keyed by its bytes, from Trident's verified copy.
-  const prefix = oracle?.directory ?? (candidate ? join(cache, 'candidates', `${safe(name)}@${candidate.sha256}`) : join(cache, `${safe(name)}@${version}`)),
+  const prefix = oracle?.directory ?? (candidate ? join(cache, 'candidates', `${safe(name)}@${candidate.sha256}`) : join(cache, `${safe(name)}@${version}${plan.overrides ? '-recipe-' + createHash('sha256').update(JSON.stringify(plan)).digest('hex').slice(0, 16) : ''}`)),
     root = join(prefix, 'node_modules', name),
     copy = join(prefix, 'candidate.tgz')
   mkdirSync(prefix, { recursive: true })
   if (candidate && !existsSync(copy)) copyFileSync(candidate.tarball, copy)
   if (candidate && artifactDigest(copy) !== candidate.sha256) throw new Error(`Retained candidate copy differs from its SHA-256: ${copy}`)
-  const companions: string[] = plan.companions ?? []
+  const companions: string[] = [...(plan.companions ?? []), ...(plan.additionalCompanions ?? [])]
   const needed =
     !existsSync(join(root, 'package.json')) ||
     companions.some(spec => {
@@ -137,6 +151,11 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false, c
     })
   if (needed && oracle) throw new Error(`The Mermaid oracle at ${prefix} is incomplete; reinstall it with mermaid:install`)
   if (needed) {
+    if (plan.overrides) {
+      const manifest = join(prefix, 'package.json'), pkg = existsSync(manifest) ? JSON.parse(readFileSync(manifest, 'utf8')) : { private: true }
+      pkg.overrides = { ...pkg.overrides, ...plan.overrides }
+      writeFileSync(manifest, JSON.stringify(pkg, null, 2) + '\n')
+    }
     const install = spawnSync('npm', ['install', '--prefix', prefix, '--ignore-scripts', '--no-audit', '--no-fund', candidate ? copy : `${name}@${version}`, ...companions], {
       encoding: 'utf8',
       timeout: 300_000,
@@ -169,13 +188,19 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false, c
   }
   addFile(module)
   for (const relative of [plan.wasmRelativePath, 'pkg/affine_mermaid_renderer_wasm_bg.wasm', 'grok-mermaid.wasm', 'src/grok-mermaid.wasm', 'dist/xmermaid_bg.wasm'].filter((value): value is string => typeof value === 'string')) addFile(join(root, relative))
-  const prepared: CommunityArtifact = { kind: 'node', root, module, version, integrity, runtime, sha256: artifactDigest(module), files: wasmFiles, ...(plan.wasmRelativePath ? { wasm: join(root, plan.wasmRelativePath) } : {}), apiBoundary: plan.boundary, ...(candidate ? { candidate: { sha256: candidate.sha256, tarball: copy } } : {}) }
+  const adapterCompanions = companions.map(spec => { const name = spec.slice(0, spec.lastIndexOf('@')), root = join(prefix, 'node_modules', name), pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')); if (pkg.version !== spec.slice(spec.lastIndexOf('@') + 1)) throw Error('Adapter companion version differs: ' + spec); return { root, name, version: pkg.version as string, integrity: installedNpmIntegrity(prefix, root, name, pkg.version), closureSha256: createHash('sha256').update(JSON.stringify(adapterCompanionIdentity(root))).digest('hex') } })
+  const prepared: CommunityArtifact = { kind: 'node', root, module, version, integrity, runtime, sha256: artifactDigest(module), files: wasmFiles, ...(plan.wasmRelativePath ? { wasm: join(root, plan.wasmRelativePath) } : {}), apiBoundary: plan.boundary, ...(adapterCompanions.length ? { adapterCompanions } : {}), ...(plan.overrides ? { dependencyOverrides: plan.overrides } : {}), ...(candidate ? { candidate: { sha256: candidate.sha256, tarball: copy } } : {}) }
   return extra.prepareExtraPublishedArtifact(prepared, { installedIntegrity: (nativeRoot: string, packageName: string, packageVersion: string) => installedNpmIntegrity(prefix, nativeRoot, packageName, packageVersion) })
 }
 
 export function verifyProvidedCommunityArtifact(artifact: CommunityArtifact): void {
+  for (const variant of artifact.additionalCli ?? []) if (variant.artifact) verifyProvidedCommunityArtifact(variant.artifact)
   const entry = artifact.kind === 'cli' || artifact.kind === 'jsonl-worker' ? artifact.executable : artifact.kind === 'python' ? (artifact.python ?? artifact.executable) : (artifact.module ?? artifact.executable)
   if (!entry || !existsSync(entry)) throw new Error('Provided artifact entry does not exist')
+  for (const companion of artifact.adapterCompanions ?? []) {
+    const manifest = JSON.parse(readFileSync(join(companion.root, 'package.json'), 'utf8'))
+    if (manifest.name !== companion.name || manifest.version !== companion.version || createHash('sha256').update(JSON.stringify(adapterCompanionIdentity(companion.root))).digest('hex') !== companion.closureSha256) throw Error('Adapter companion closure changed: ' + companion.name)
+  }
   const sourceFiles = artifact.sourceFiles as { root: string; revision: string; gitPath: string; blob: string }[] | undefined
   const dependencyPatches = artifact.dependencyPatches as { root: string; revision: string; gitPath: string; blob: string }[] | undefined
   if (!artifact.sha256 && !artifact.files?.length && !sourceFiles?.length) throw new Error('Provided artifacts require compiled/shipped byte identity or a clean pinned Git source proof')
@@ -216,6 +241,7 @@ function validateFrozenCommunityEntry(entry: PreparedCommunity, node: CommunityN
   try {
     const artifact = entry.artifact
     verifyProvidedCommunityArtifact(artifact)
+    verifyReleaseCli(node, artifact)
     const candidate = options.communityCandidate?.project === node.id ? options.communityCandidate : undefined
     const revision = candidate && 'revision' in candidate ? candidate.revision : undefined
     if (node.benchmark?.adapter === 'extra-source' && (artifact.reviewed !== true || artifact.sourceRevision !== (revision ?? node.benchmark.sourcePin) || !artifact.buildRecipeId || !artifact.runtimeCommandId)) throw Error('Source artifact has no exact reviewed Git/protocol binding')
@@ -349,6 +375,7 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
         artifact = await prepareCommunityArtifact(node, cache)
       }
       if (!artifact) throw new Error('Preparation returned no actual artifact')
+      if (node.benchmark.cliRelease && !(provided[node.id] && options.communityArtifactPolicy === 'frozen')) artifact = { ...artifact, additionalCli: [await (await import('./release-cli.ts')).prepareReleaseCli(node, cache)] }
       if (node.id === '1jehuang/mermaid-rs-renderer' && artifact.kind === 'cli') artifact.outputBindings = { ...(artifact.outputBindings ?? {}), png: { args: ['-i', '-', '-e', 'png', '-o', '{output}'], input: 'stdin' } }
       artifact.detail = `${artifact.detail ?? ''}${artifact.detail ? '; ' : ''}Version policy: ${artifact.candidate ? ('revision' in artifact.candidate ? `unreleased candidate revision ${artifact.candidate.revision}, built with the reviewed source recipe; the catalog source pin does not apply` : 'unreleased candidate tarball; the catalog version pin does not apply') : provided[node.id] && options.communityArtifactPolicy === 'frozen' ? 'provided actual artifact version/bytes frozen; no latest lookup' : node.id === 'mermaid-js/mermaid' ? 'pinned current Mermaid' : node.benchmark.adapter === 'source-cli' || node.benchmark.adapter === 'extra-source' || node.benchmark.adapter === 'franken' ? 'recorded immutable source/distribution' : node.benchmark.version || node.benchmark.versionPolicy === 'recorded' || process.env.AM_COMMUNITY_VERSION_POLICY === 'recorded' ? 'recorded registry release' : 'resolved latest registry release'}. Recorded catalog versions remain separately available on the node.`
       prepared.push({ node, artifact })

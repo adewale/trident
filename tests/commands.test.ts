@@ -28,7 +28,7 @@ test('public help and artifact help require no product checkout, oracle or compi
 })
 
 test('project-specific source commands are rejected by the public CLI', () => {
-  for (const args of [['adapter', 'agentic', '--help'], ['agentic', '--list'], ['source', 'bench:dave']]) {
+  for (const args of [['adapter', 'agentic', '--help'], ['agentic', '--list'], ['source', 'bench:dave'], ['editor:verify', '--help']]) {
     const result = help(args)
     expect(result.status).not.toBe(0)
     expect(result.stderr).toContain('Unknown Trident command')

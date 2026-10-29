@@ -33,7 +33,7 @@ Overview order: DaveBench: Documentation Examples, highest SVG returned / Planne
 | crafter-station/mermaid | — | Unmeasured | Unmeasured | [169/920 paint criteria · historical · 2026-10-27](#ecosystem-paint-920-2026-10-27) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
 | emtyty/merslim | — | Unmeasured | Unmeasured | [243/920 paint criteria · historical · 2026-10-27](#ecosystem-paint-920-2026-10-27) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
 | evangwt/xmermaid | — | Unmeasured | Unmeasured | [699/920 paint criteria · historical · 2026-10-27](#ecosystem-paint-920-2026-10-27) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured: binding gap |
-| excalidraw/mermaid-to-excalidraw | — | Unmeasured: binding gap | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
+| excalidraw/mermaid-to-excalidraw | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | fasouto/termaid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | inkeep/visimer | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | justsml/rusty-mermaid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
