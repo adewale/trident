@@ -1,3 +1,4 @@
+import { verifyNativePngArtifact } from '../native-flutter/community-launch.mjs'
 import { releaseBenchmarkSkip } from './benchmark-skip.ts'
 import { verifyReleaseCli } from './release-cli.ts'
 import { captureInstalledDependencyClosure } from '../portable/artifact-dependencies.ts'
@@ -217,6 +218,7 @@ export function verifyProvidedCommunityArtifact(artifact: CommunityArtifact): vo
   for (const variant of artifact.additionalCli ?? []) if (variant.artifact) verifyProvidedCommunityArtifact(variant.artifact)
   const entry = artifact.kind === 'cli' || artifact.kind === 'jsonl-worker' ? artifact.executable : artifact.kind === 'python' ? (artifact.python ?? artifact.executable) : (artifact.module ?? artifact.executable)
   if (!entry || !existsSync(entry)) throw new Error('Provided artifact entry does not exist')
+  if (artifact.kind === 'jsonl-worker') verifyNativePngArtifact(artifact)
   for (const companion of artifact.adapterCompanions ?? []) {
     const manifest = JSON.parse(readFileSync(join(companion.root, 'package.json'), 'utf8'))
     if (manifest.name !== companion.name || manifest.version !== companion.version || createHash('sha256').update(JSON.stringify(adapterCompanionIdentity(companion.root))).digest('hex') !== companion.closureSha256) throw Error('Adapter companion closure changed: ' + companion.name)

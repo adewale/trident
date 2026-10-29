@@ -200,7 +200,9 @@ try {
       let tick = performance.now(); sink = render(workload.source); if (thenable(sink)) sink = await sink
       firstMs = performance.now() - tick
       if (workload.intent === 'negative-admission') {
-        const rejected = output === 'parse' && (sink === false || sink?.ok === false || sink?.success === false) || output === 'diagnostics' && diagnosticHelpers.diagnosticSummary(sink).accepted === false
+        let rejected;
+        try { rejected = output === 'parse' && (sink === false || sink?.ok === false || sink?.success === false) || output === 'diagnostics' && diagnosticHelpers.diagnosticSummary(sink).accepted === false }
+        catch (error) { error.observerUnavailable = true; throw error }
         emit({ runtime: process.versions.bun ? 'Bun ' + process.versions.bun : 'Node ' + process.versions.node, surface: extraApi?.surface, apiBoundary: extraApi?.boundary, id: workload.id, family: workload.family, status: 'failed', rejected, mode: 'negative-admission', detail: rejected ? 'Public API returned explicit source rejection' : 'Public API accepted independently invalid source' })
         continue
       }

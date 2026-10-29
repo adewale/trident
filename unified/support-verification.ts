@@ -31,8 +31,8 @@ export const supportControls: UnifiedWorkload[] = [
 ]
 function normalizeSupportControl(row: BenchmarkObservation): BenchmarkObservation {
   if (!supportControls.some(control => control.id === row.caseId)) return row
-  const status = row.status === 'blocked' ? 'blocked'
-    : row.metrics?.pngReturned === true ? 'failed'
+  const status = row.metrics?.pngReturned === true ? 'failed'
+    : row.status === 'blocked' ? 'blocked'
     : row.metrics?.rejected === true ? 'passed'
     : row.metrics?.rejected === false || row.metrics?.expectedAccepted === false && row.status === 'failed' || row.status === 'passed' ? 'failed'
     : 'blocked'

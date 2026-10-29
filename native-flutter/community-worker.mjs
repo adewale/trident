@@ -22,9 +22,10 @@ const qualify=(w,bytes)=>{if(!job.requireNonblankPng)return qualifyOutput({id:w.
 const child=spawn(executable,[],{env:{...process.env,FLUTTER_COMMUNITY_JOB:path.resolve(jobPath),FLUTTER_COMMUNITY_RAW:raw,FLUTTER_COMMUNITY_DIR:path.resolve(dir)},stdio:['ignore','inherit','inherit']});
 function collect(){
  if(!fs.existsSync(raw))return;
- const runtime=JSON.parse(fs.readFileSync(path.join(dir,'runtime.json'),'utf8'));
- if(runtime.release!==true||runtime.entrypoint!==launch.entrypoint||runtime.packageVersion!==launch.version)throw Error('Native runtime does not match the admitted release/API');
  const lines=fs.readFileSync(raw,'utf8').split('\n');lines.pop();
+ if(lines.length===emitted)return;
+ const runtime=JSON.parse(fs.readFileSync(path.join(dir,'runtime.json'),'utf8'));
+ if(runtime.release!==true||runtime.entrypoint!==launch.entrypoint||runtime.packageVersion!==launch.version||runtime.runtime!=='native Linux Flutter'||runtime.pixelRatio!==launch.pixelRatio||runtime.startupExcludedFromApiClocks!==launch.startupExcludedFromApiClocks)throw Error('Native runtime does not match the admitted release/API');
  for(;emitted<lines.length;emitted++){
   const r=JSON.parse(lines[emitted]);const w=job.workloads.find(w=>w.id===r.workload);
   if(!w||r.release!==true||r.sequence!==emitted)throw Error('Unowned workload or non-release output');

@@ -2,6 +2,8 @@
 import json,sys,time,statistics,re,resource
 job=json.load(open(sys.argv[1]));out=open(sys.argv[2],'w');started=time.perf_counter()
 import termaid
+render=termaid.render
+if not callable(render):raise TypeError('Public termaid.render is unavailable')
 out.write(json.dumps(dict(type='import',ms=(time.perf_counter()-started)*1000))+'\n');out.flush()
 def qualify(sink,w):
  if not isinstance(sink,str)or not sink.strip():raise ValueError('Empty terminal artifact')
@@ -17,22 +19,28 @@ def qualify(sink,w):
  missing=[label for label in w['expected']if not re.search(r'(?<!\w)'+re.escape(re.sub(r'\s+',' ',label).strip())+r'(?!\w)',re.sub(r'\s+',' ',sink))]
  if missing:raise ValueError('Missing declared labels: '+', '.join(missing[:8]))
 for w in job['workloads']:
- r=dict(type='result',workload=w['id'])
+ r=dict(type='result',workload=w['id']);stage='public-api'
  try:
-  t=time.perf_counter();sink=termaid.render(w['source']);first=(time.perf_counter()-t)*1000;r['firstMs']=first
+  t=time.perf_counter();sink=render(w['source']);first=(time.perf_counter()-t)*1000;r['firstMs']=first
+  stage='qualification'
+  if w.get('intent')=='negative-admission':
+   r.update(status='error',rejected=False,detail='Public API accepted independently invalid source')
+   out.write(json.dumps(r)+'\n');out.flush();continue
   qualify(sink,w)
   if job.get('coverageOnly'):
    r.update(status='ok',firstMs=first,outputBytes=len(sink.encode()),coverageOnly=True)
    out.write(json.dumps(r)+'\n');out.flush();continue
+  stage='public-api'
   t=time.perf_counter();n=0
-  while n<job['timing']['warmCalls']or(time.perf_counter()-t)*1000<job['timing']['warmupMs']:sink=termaid.render(w['source']);n+=1
+  while n<job['timing']['warmCalls']or(time.perf_counter()-t)*1000<job['timing']['warmupMs']:sink=render(w['source']);n+=1
   per=(time.perf_counter()-t)*1000/n;iterations=max(1,min(1024,__import__('math').ceil(job['timing']['minSampleMs']/max(.001,per))));samples=[]
   for _ in range(job['timing']['samples']):
    t=time.perf_counter()
-   for i in range(iterations):sink=termaid.render(w['source'])
+   for i in range(iterations):sink=render(w['source'])
    samples.append((time.perf_counter()-t)*1000/iterations)
+  stage='qualification'
   qualify(sink,w)
   r.update(status='ok',firstMs=first,samplesMs=samples,medianMs=statistics.median(samples),outputBytes=len(sink.encode()))
- except Exception as e:r.update(status='error',rejected=not isinstance(e,ValueError),detail=str(e))
+ except Exception as e:r.update(status='error',rejected=stage=='public-api',failureStage=stage,detail=str(e))
  out.write(json.dumps(r)+'\n');out.flush()
 out.write(json.dumps(dict(type='end',maxRssKiB=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))+'\n')

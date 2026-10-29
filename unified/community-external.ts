@@ -27,7 +27,7 @@ export async function runExternalCommunity(prepared: PreparedCommunity, workload
         job = join(root, stem + '.job.json'),
         result = join(root, stem + '.jsonl')
       if (existsSync(result)) unlinkSync(result)
-      writeFileSync(job, JSON.stringify({ output, coverageOnly: !core && (options.communityCoverageOnce ?? true), timing: { warmCalls: core ? 3 : 1, warmupMs: core ? 50 : 0, minSampleMs: core ? 10 : 0, maxCaseMs: 10_000, samples: core ? 5 : 3 }, workloads: remaining.map(w => ({ id: w.id, source: w.source, expected: w.expectedLabels ?? [] })) }))
+      writeFileSync(job, JSON.stringify({ output, coverageOnly: !core && (options.communityCoverageOnce ?? true), timing: { warmCalls: core ? 3 : 1, warmupMs: core ? 50 : 0, minSampleMs: core ? 10 : 0, maxCaseMs: 10_000, samples: core ? 5 : 3 }, workloads: remaining.map(w => ({ id: w.id, source: w.source, expected: w.expectedLabels ?? [], intent: w.intent })) }))
       const command = artifact.kind === 'python' ? [artifact.python ?? artifact.executable!, join(dirname(fileURLToPath(import.meta.url)), 'community-python-worker.py'), job, result] : [artifact.executable!, ...(artifact.args ?? []), job, result]
       let text = '',
         stderr = '',
@@ -99,7 +99,7 @@ export async function runExternalCommunity(prepared: PreparedCommunity, workload
       // transports may be waiting for acknowledgement: without a completed row,
       // process exit alone cannot attribute a renderer failure to that input.
       const stopped = unresolved[0]!
-      results.set(stopped.id, { status: artifact.kind === 'jsonl-worker' ? 'blocked' : 'error', detail: lastDetail ?? `Worker stopped during this case (exit ${code}): ${stderr.slice(-1500)}`, workerAttempt: attempt })
+      results.set(stopped.id, { status: 'blocked', detail: lastDetail ?? `Worker stopped during this case (exit ${code}): ${stderr.slice(-1500)}`, workerAttempt: attempt })
       remaining = unresolved.slice(1)
     }
     writeFileSync(join(root, name + '-attempts.json'), JSON.stringify(attempts, null, 2))
@@ -127,7 +127,7 @@ export async function runExternalCommunity(prepared: PreparedCommunity, workload
           firstMs: (r?.firstMs as number) ?? null,
           sampleIterations: r?.sampleIterations ? JSON.stringify(r.sampleIterations) : null,
           timingProtocol: (r?.timingProtocol as string | undefined) ?? null,
-          rejected: r?.status === 'unsupported' || r?.rejected === true,
+          rejected: r?.status === 'unsupported' ? true : typeof r?.rejected === 'boolean' ? r.rejected : null,
           pngReturned: r?.pngReturned === true,
           failureStage: (r?.failureStage as string) ?? null,
           qualification: (r?.qualificationScope as string | undefined) ?? (w.expectedLabels?.length ? 'declared-labels' : 'artifact-envelope-only'),

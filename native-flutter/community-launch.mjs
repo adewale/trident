@@ -17,15 +17,15 @@ export function nativePngArtifact(bundle,launchFile){
  const executable=join(bundle,'native_bench'),libapp=join(bundle,'lib/libapp.so');
  const paths=files(bundle);
  if(!paths.includes(executable)||!paths.includes(libapp))throw Error('Native release bundle needs native_bench and lib/libapp.so');
- const manifest={schema,version:'0.3.2',entrypoint:'mermaid_flutter.renderToPng',executable,files:paths.map(path=>({path,sha256:sha256(path)}))};
+ const manifest={schema,version:'0.3.2',entrypoint:'mermaid_flutter.renderToPng',pixelRatio:1,startupExcludedFromApiClocks:true,executable,files:paths.map(path=>({path,sha256:sha256(path)}))};
  writeFileSync(launchFile,JSON.stringify(manifest,null,2)+'\n',{flag:'wx'});
  const launcher=fileURLToPath(new URL('./community-worker.mjs',import.meta.url));
- return {kind:'jsonl-worker',executable:launcher,args:[launchFile],version:manifest.version,runtime:'Native Linux Flutter release',sha256:sha256(launcher),files:[launcher,fileURLToPath(new URL('./community-launch.mjs',import.meta.url)),launchFile,...paths].map(path=>({path,sha256:sha256(path)})),apiBoundary:manifest.entrypoint+'(source,pixelRatio:1); native API startup excluded'};
+ return {kind:'jsonl-worker',executable:launcher,args:[launchFile],version:manifest.version,runtime:'Native Linux Flutter release',sha256:sha256(launcher),files:[launcher,fileURLToPath(new URL('./community-launch.mjs',import.meta.url)),launchFile,...paths].map(path=>({path,sha256:sha256(path)})),apiBoundary:manifest.entrypoint+'(source,pixelRatio:1); native process startup excluded'};
 }
 /** Admit exact bundle bytes before the native child can run. */
 export function admitNativeLaunch(file){
  const manifest=JSON.parse(readFileSync(file,'utf8'));
- if(manifest.schema!==schema||manifest.version!=='0.3.2'||manifest.entrypoint!=='mermaid_flutter.renderToPng'||typeof manifest.executable!=='string'||!Array.isArray(manifest.files))throw Error('Invalid native PNG launch manifest');
+ if(manifest.schema!==schema||manifest.version!=='0.3.2'||manifest.entrypoint!=='mermaid_flutter.renderToPng'||manifest.pixelRatio!==1||manifest.startupExcludedFromApiClocks!==true||typeof manifest.executable!=='string'||!Array.isArray(manifest.files))throw Error('Invalid native PNG launch manifest');
  const executable=resolve(manifest.executable),bundle=dirname(executable);
  if(executable!==join(bundle,'native_bench'))throw Error('Unexpected native PNG executable');
  const expected=manifest.files.map(entry=>entry.path).sort();
@@ -33,4 +33,16 @@ export function admitNativeLaunch(file){
  for(const entry of manifest.files)if(typeof entry.sha256!=='string'||!/^[a-f0-9]{64}$/.test(entry.sha256)||sha256(entry.path)!==entry.sha256)throw Error('Native bundle digest mismatch: '+entry.path);
  if(process.env.FLUTTER_COMMUNITY_EXECUTABLE&&resolve(process.env.FLUTTER_COMMUNITY_EXECUTABLE)!==executable)throw Error('Ambient native executable differs from the explicit launch manifest');
  return manifest;
+}
+
+/** Tie the launch selected by argv to the files sealed by the shared collector. */
+export function verifyNativePngArtifact(artifact){
+ const launcher=fileURLToPath(new URL('./community-worker.mjs',import.meta.url));
+ if(artifact.kind!=='jsonl-worker'||realpathSync(artifact.executable)!==realpathSync(launcher))return;
+ if(!Array.isArray(artifact.args)||artifact.args.length!==1||typeof artifact.args[0]!=='string')throw Error('Native PNG binding requires exactly one sealed launch manifest');
+ const launchFile=resolve(artifact.args[0]);
+ const manifest=admitNativeLaunch(launchFile);
+ const required=[{path:launcher,sha256:sha256(launcher)},{path:fileURLToPath(new URL('./community-launch.mjs',import.meta.url)),sha256:sha256(fileURLToPath(new URL('./community-launch.mjs',import.meta.url)))},{path:launchFile,sha256:sha256(launchFile)},...manifest.files];
+ for(const file of required)if(!artifact.files?.some(sealed=>resolve(sealed.path)===file.path&&sealed.sha256===file.sha256))throw Error('Native launch file is outside its artifact seal: '+file.path);
+ if(artifact.version!==manifest.version)throw Error('Native PNG artifact version differs from its launch manifest');
 }
