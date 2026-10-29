@@ -1,0 +1,37 @@
+bun test v1.4.2 (744846f84)
+
+tests/portable-family-paint.test.ts:
+123 |     const unsupported = observe(agenticSvg(family).replace('points="30,20 110,20"', 'transform="scale(2)" points="30,20 110,20"'))
+124 |     expect(finding(unsupported, 'svg-edge-owned-ink:0')?.status).toBe('unmeasured')
+125 |     expect(unsupported.semanticComplete).toBe(false)
+126 |     for (const rule of ['polyline {stroke: transparent}', 'polyline {stroke-dasharray: 0 4}', 'rect {fill-opacity: 0; stroke-opacity: 0}']) {
+127 |       const css = observe(agenticSvg(family).replace('</svg>', `<style>${rule}</style></svg>`))
+128 |       expect(finding(css, 'svg-edge-owned-ink:0')?.status).toBe('unmeasured')
+                                                                 ^
+error: expect(received).toBe(expected)
+
+Expected: "unmeasured"
+Received: "passed"
+
+      at <anonymous> (/workspace/trident/tests/portable-family-paint.test.ts:128:60)
+(fail) Agentic class: unchanged metadata cannot hide missing, invisible or redirected route geometry [11.03ms]
+123 |     const unsupported = observe(agenticSvg(family).replace('points="30,20 110,20"', 'transform="scale(2)" points="30,20 110,20"'))
+124 |     expect(finding(unsupported, 'svg-edge-owned-ink:0')?.status).toBe('unmeasured')
+125 |     expect(unsupported.semanticComplete).toBe(false)
+126 |     for (const rule of ['polyline {stroke: transparent}', 'polyline {stroke-dasharray: 0 4}', 'rect {fill-opacity: 0; stroke-opacity: 0}']) {
+127 |       const css = observe(agenticSvg(family).replace('</svg>', `<style>${rule}</style></svg>`))
+128 |       expect(finding(css, 'svg-edge-owned-ink:0')?.status).toBe('unmeasured')
+                                                                 ^
+error: expect(received).toBe(expected)
+
+Expected: "unmeasured"
+Received: "passed"
+
+      at <anonymous> (/workspace/trident/tests/portable-family-paint.test.ts:128:60)
+(fail) Agentic er: unchanged metadata cannot hide missing, invisible or redirected route geometry [6.50ms]
+
+ 0 pass
+ 32 filtered out
+ 2 fail
+ 34 expect() calls
+Ran 2 tests across 1 file. [28.00ms]

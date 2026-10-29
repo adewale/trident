@@ -1,0 +1,22 @@
+bun test v1.4.2 (744846f84)
+
+tests/portable-family-paint.test.ts:
+374 |     'marker-end="url(#arrow)" style="marker-end:none !important;marker-end:url(#arrow)"',
+375 |     'marker-end="url(#arrow)" marker-start="url(#arrow)"',
+376 |   ]) {
+377 |     const result = observe(base.replace('marker-end="url(#arrow)"', replacement))
+378 |     expect(result.evidence?.outputAdmission).toBe('passed')
+379 |     expect(finding(result, 'svg-edge-target-marker:0')?.status).not.toBe('passed')
+                                                                          ^
+error: expect(received).not.toBe(expected)
+
+Expected: not "passed"
+
+      at <anonymous> (/workspace/trident/tests/portable-family-paint.test.ts:379:69)
+(fail) Agentic Class marker presentation cannot hide or add arrows behind valid SVG attributes [10.75ms]
+
+ 0 pass
+ 33 filtered out
+ 1 fail
+ 3 expect() calls
+Ran 1 test across 1 file. [25.00ms]

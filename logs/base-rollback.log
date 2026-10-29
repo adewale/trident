@@ -1,0 +1,198 @@
+bun test v1.4.2 (744846f84)
+
+../trident-pr54-review/base-rollback/tests/portable-family-paint.test.ts:
+79 | 
+80 | for (const family of ['class', 'er'] as const) {
+81 |   const observe = (ink = agenticSvg(family), native: unknown = agenticModel(family), authored = graph(family)) => qualifyPortable(authored, { svg: ink, model: native, adapter: 'agentic' })
+82 |   test(`Agentic ${family}: actual typed Result and independently owned visible ink qualify`, () => {
+83 |     const result = observe()
+84 |     expect(result.observer).toBe('portable-owned-topology-v3-agentic-class-er')
+                                 ^
+error: expect(received).toBe(expected)
+
+Expected: "portable-owned-topology-v3-agentic-class-er"
+Received: undefined
+
+      at <anonymous> (/workspace/trident-pr54-review/base-rollback/tests/portable-family-paint.test.ts:84:29)
+(fail) Agentic class: actual typed Result and independently owned visible ink qualify [4.79ms]
+92 |       (native: ReturnType<typeof agenticModel>) => { native.value.body.relations[0]!.to = 'C' },
+93 |     ]) {
+94 |       const native = agenticModel(family); mutate(native)
+95 |       const result = observe(undefined, native)
+96 |       expect(result.evidence?.outputAdmission).toBe('passed')
+97 |       expect(finding(result, 'model-edge-endpoints-and-multiplicity')?.status).toBe('failed')
+                                                                                    ^
+error: expect(received).toBe(expected)
+
+Expected: "failed"
+Received: "unmeasured"
+
+      at <anonymous> (/workspace/trident-pr54-review/base-rollback/tests/portable-family-paint.test.ts:97:80)
+(fail) Agentic class: typed identities and exact endpoint multiplicity cannot be replaced by labels [1.28ms]
+115 |       agenticSvg(family).replace('data-id="owned-1"', 'data-id="owned-0"'),
+116 |       agenticSvg(family).replace('points="30,20 110,20"', 'stroke-dasharray="0 4" points="30,20 110,20"'),
+117 |       agenticSvg(family).replace(/<polyline class="(?:class|er)-relationship"[^>]*\/>/, ''),
+118 |     ]) {
+119 |       const result = observe(ink)
+120 |       expect(finding(result, 'model-edge-endpoints-and-multiplicity')?.status).toBe('passed')
+                                                                                     ^
+error: expect(received).toBe(expected)
+
+Expected: "passed"
+Received: "unmeasured"
+
+      at <anonymous> (/workspace/trident-pr54-review/base-rollback/tests/portable-family-paint.test.ts:120:80)
+(fail) Agentic class: unchanged metadata cannot hide missing, invisible or redirected route geometry [0.83ms]
+79 | 
+80 | for (const family of ['class', 'er'] as const) {
+81 |   const observe = (ink = agenticSvg(family), native: unknown = agenticModel(family), authored = graph(family)) => qualifyPortable(authored, { svg: ink, model: native, adapter: 'agentic' })
+82 |   test(`Agentic ${family}: actual typed Result and independently owned visible ink qualify`, () => {
+83 |     const result = observe()
+84 |     expect(result.observer).toBe('portable-owned-topology-v3-agentic-class-er')
+                                 ^
+error: expect(received).toBe(expected)
+
+Expected: "portable-owned-topology-v3-agentic-class-er"
+Received: undefined
+
+      at <anonymous> (/workspace/trident-pr54-review/base-rollback/tests/portable-family-paint.test.ts:84:29)
+(fail) Agentic er: actual typed Result and independently owned visible ink qualify [0.93ms]
+92 |       (native: ReturnType<typeof agenticModel>) => { native.value.body.relations[0]!.to = 'C' },
+93 |     ]) {
+94 |       const native = agenticModel(family); mutate(native)
+95 |       const result = observe(undefined, native)
+96 |       expect(result.evidence?.outputAdmission).toBe('passed')
+97 |       expect(finding(result, 'model-edge-endpoints-and-multiplicity')?.status).toBe('failed')
+                                                                                    ^
+error: expect(received).toBe(expected)
+
+Expected: "failed"
+Received: "unmeasured"
+
+      at <anonymous> (/workspace/trident-pr54-review/base-rollback/tests/portable-family-paint.test.ts:97:80)
+(fail) Agentic er: typed identities and exact endpoint multiplicity cannot be replaced by labels [0.63ms]
+115 |       agenticSvg(family).replace('data-id="owned-1"', 'data-id="owned-0"'),
+116 |       agenticSvg(family).replace('points="30,20 110,20"', 'stroke-dasharray="0 4" points="30,20 110,20"'),
+117 |       agenticSvg(family).replace(/<polyline class="(?:class|er)-relationship"[^>]*\/>/, ''),
+118 |     ]) {
+119 |       const result = observe(ink)
+120 |       expect(finding(result, 'model-edge-endpoints-and-multiplicity')?.status).toBe('passed')
+                                                                                     ^
+error: expect(received).toBe(expected)
+
+Expected: "passed"
+Received: "unmeasured"
+
+      at <anonymous> (/workspace/trident-pr54-review/base-rollback/tests/portable-family-paint.test.ts:120:80)
+(fail) Agentic er: unchanged metadata cannot hide missing, invisible or redirected route geometry [0.70ms]
+136 |     agenticSvg('class').replace('id="arrow"', 'id="missing"'),
+137 |     agenticSvg('class').replace('fill="none" stroke="#111"', 'fill="none" stroke="#111" opacity="0.0"'),
+138 |     agenticSvg('class').replace('points="0 0,8 3,0 6"', 'points="8 0,0 3,8 6"'),
+139 |   ]) {
+140 |     const result = qualifyPortable(graph('class'), { svg: ink, model: agenticModel('class'), adapter: 'agentic' })
+141 |     expect(finding(result, 'svg-edge-target-marker:0')?.status).toBe('failed')
+                                                                      ^
+error: expect(received).toBe(expected)
+
+Expected: "failed"
+Received: undefined
+
+      at <anonymous> (/workspace/trident-pr54-review/base-rollback/tests/portable-family-paint.test.ts:141:65)
+(fail) Agentic Class direction needs a referenced, visible and correctly oriented open arrow [0.55ms]
+151 |     agenticSvg('er').replace('</svg>', '<circle cx="42" cy="20" r="4" stroke="#111"/></svg>'), // Conflicting zero minimum added to two ticks.
+152 |     agenticSvg('er').replace('</svg>', agenticGlyphs(30, 110) + '</svg>'), // A second owner cannot reuse the same endpoint glyphs.
+153 |   ]) {
+154 |     const result = qualifyPortable(graph('er'), { svg: ink, model: agenticModel('er'), adapter: 'agentic' })
+155 |     expect(result.semanticComplete).toBe(false)
+156 |     expect(result.checks.some(check => check.name.startsWith('svg-er-') && check.status !== 'passed')).toBe(true)
+                                                                                                             ^
+error: expect(received).toBe(expected)
+
+Expected: true
+Received: false
+
+      at <anonymous> (/workspace/trident-pr54-review/base-rollback/tests/portable-family-paint.test.ts:156:104)
+(fail) Agentic ER exact glyph meaning and identifying appearance reject credible substitutions [0.86ms]
+166 |   for (const family of ['class', 'er'] as const) {
+167 |     const routes = [{ source: 'A', target: 'B', from: 30, to: 110, y: 14 }, { source: 'A', target: 'B', from: 30, to: 110, y: 20 }, { source: 'B', target: 'A', from: 110, to: 30, y: 26 }]
+168 |     const edges = routes.map(({ source, target }) => ({ source, target })), authored = { ...graph(family), source: `${family === 'class' ? 'classDiagram' : 'erDiagram'}\n` + edges.map(({ source, target }) => `${source} ${family === 'class' ? '-->' : '||--o{'} ${target}${family === 'er' ? ' : owns' : ''}`).join('\n'), expected: { ...graph(family).expected, topology: { nodes: ['A', 'B', 'C'], edges } } }
+169 |     const native = agenticModel(family, edges)
+170 |     const qualified = qualifyPortable(authored, { svg: agenticSvg(family, routes.toReversed()), model: native, adapter: 'agentic' })
+171 |     expect(qualified.semanticComplete, JSON.stringify(qualified.checks.filter(check => check.status !== 'passed'))).toBe(true)
+                                                                                                                          ^
+error: [{"name":"model-node-identities","status":"unmeasured","expected":["\"A\"","\"B\"","\"C\""],"actual":[],"scope":"Exact authored node identity multiset in public parse model."},{"name":"model-edge-endpoints-and-multiplicity","status":"unmeasured","expected":["[\"A\",\"B\"]","[\"A\",\"B\"]","[\"B\",\"A\"]"],"actual":[],"scope":"Directed endpoint pair multiset; parallel and reciprocal edges stay distinct."},{"name":"painted-semantic-correspondence","status":"unmeasured","expected":"native semantic facts correspond to owned visible geometry","actual":null,"scope":"No reviewed renderer/family paint projection is available; label retention alone does not establish it."}]
+
+Expected: true
+Received: false
+
+      at <anonymous> (/workspace/trident-pr54-review/base-rollback/tests/portable-family-paint.test.ts:171:117)
+(fail) Agentic parallel and reciprocal relations retain exact multiplicity independently of SVG DOM order [0.67ms]
+190 |   const ink = agenticSvg('er').replace(agenticGlyphs(30, 110) + agenticGlyphs(130, 210), glyphs).replace('points="30,20 110,20"', 'stroke-dasharray="4 3" points="30,20 110,20"')
+191 |   const authored = { ...graph('er'), source: 'erDiagram\nA |o..|{ B : first\nB }|--|| C : second' }, native = agenticModel('er')
+192 |   Object.assign(native.value.body.relations[0]!, { leftCard: 'zero-or-one', rightCard: 'one-or-many', dashed: true })
+193 |   Object.assign(native.value.body.relations[1]!, { leftCard: 'one-or-many', rightCard: 'one-only' })
+194 |   const result = qualifyPortable(authored, { svg: ink, model: native, adapter: 'agentic' })
+195 |   expect(result.semanticComplete, JSON.stringify(result.checks.filter(check => check.status !== 'passed'))).toBe(true)
+                                                                                                                  ^
+error: [{"name":"model-node-identities","status":"unmeasured","expected":["\"A\"","\"B\"","\"C\""],"actual":[],"scope":"Exact authored node identity multiset in public parse model."},{"name":"model-edge-endpoints-and-multiplicity","status":"unmeasured","expected":["[\"A\",\"B\"]","[\"B\",\"C\"]"],"actual":[],"scope":"Directed endpoint pair multiset; parallel and reciprocal edges stay distinct."},{"name":"painted-semantic-correspondence","status":"unmeasured","expected":"native semantic facts correspond to owned visible geometry","actual":null,"scope":"No reviewed renderer/family paint projection is available; label retention alone does not establish it."}]
+
+Expected: true
+Received: false
+
+      at <anonymous> (/workspace/trident-pr54-review/base-rollback/tests/portable-family-paint.test.ts:195:109)
+(fail) Agentic ER distinguishes all four reviewed cardinality glyphs and dashed identifying intent [0.73ms]
+(pass) published Pele ER cardinality bars remain separate painted strokes, not a connecting relation [7.96ms]
+(pass) class: owned geometry binds authored relations without guessing generated IDs [1.54ms]
+(pass) class: correct public model and labels cannot hide an edge redirected to another node [0.47ms]
+(pass) class: dropped relation ink fails despite unchanged labels and native graph [0.36ms]
+(pass) class: body paths without endpoint marker ink cannot certify the declared relation [0.42ms]
+(pass) state: owned geometry binds authored relations without guessing generated IDs [0.84ms]
+(pass) state: correct public model and labels cannot hide an edge redirected to another node [0.44ms]
+(pass) state: dropped relation ink fails despite unchanged labels and native graph [0.25ms]
+(pass) state: body paths without endpoint marker ink cannot certify the declared relation [0.22ms]
+(pass) er: owned geometry binds authored relations without guessing generated IDs [0.98ms]
+(pass) er: correct public model and labels cannot hide an edge redirected to another node [0.37ms]
+(pass) er: dropped relation ink fails despite unchanged labels and native graph [0.45ms]
+(pass) er: body paths without endpoint marker ink cannot certify the declared relation [0.37ms]
+(pass) duplicate relation owner IDs fail even when all expected geometric endpoint pairs are present [0.38ms]
+(pass) a degenerate move-only path is not a connecting segment [0.31ms]
+(pass) a failed canvas or authored-label criterion withholds semantic completion despite correct topology [0.55ms]
+(pass) unreviewed class marker profiles remain unmeasured rather than pretending to cover all relationship kinds [0.22ms]
+(pass) simple sequence messages bind to actor lifelines while legitimate footer duplicates stay distinct [1.14ms]
+(pass) sequence message paint redirected to a third actor fails with correct labels and unchanged native messages [0.63ms]
+(pass) duplicating a message label cannot be hidden by an unowned global copy of the missing text [0.50ms]
+(pass) sequence chronology comes from painted rows, not DOM order or native endpoint multiset alone [0.61ms]
+(pass) a duplicated actor header cannot impersonate a legitimate footer [0.58ms]
+(pass) unreviewed sequence signal styles stay unmeasured even when their labels and endpoints match [0.55ms]
+365 | })
+366 | 
+367 | test('Agentic Class marker presentation cannot hide or add arrows behind valid SVG attributes', () => {
+368 |   const observe = (ink: string) => qualifyPortable(graph('class'), { svg: ink, model: agenticModel('class'), adapter: 'agentic' })
+369 |   const base = agenticSvg('class')
+370 |   expect(observe(base).semanticComplete).toBe(true)
+                                               ^
+error: expect(received).toBe(expected)
+
+Expected: true
+Received: false
+
+      at <anonymous> (/workspace/trident-pr54-review/base-rollback/tests/portable-family-paint.test.ts:370:42)
+(fail) Agentic Class marker presentation cannot hide or add arrows behind valid SVG attributes [0.35ms]
+
+11 tests failed:
+(fail) Agentic class: actual typed Result and independently owned visible ink qualify [4.79ms]
+(fail) Agentic class: typed identities and exact endpoint multiplicity cannot be replaced by labels [1.28ms]
+(fail) Agentic class: unchanged metadata cannot hide missing, invisible or redirected route geometry [0.83ms]
+(fail) Agentic er: actual typed Result and independently owned visible ink qualify [0.93ms]
+(fail) Agentic er: typed identities and exact endpoint multiplicity cannot be replaced by labels [0.63ms]
+(fail) Agentic er: unchanged metadata cannot hide missing, invisible or redirected route geometry [0.70ms]
+(fail) Agentic Class direction needs a referenced, visible and correctly oriented open arrow [0.55ms]
+(fail) Agentic ER exact glyph meaning and identifying appearance reject credible substitutions [0.86ms]
+(fail) Agentic parallel and reciprocal relations retain exact multiplicity independently of SVG DOM order [0.67ms]
+(fail) Agentic ER distinguishes all four reviewed cardinality glyphs and dashed identifying intent [0.73ms]
+(fail) Agentic Class marker presentation cannot hide or add arrows behind valid SVG attributes [0.35ms]
+
+ 23 pass
+ 11 fail
+ 108 expect() calls
+Ran 34 tests across 1 file. [41.00ms]

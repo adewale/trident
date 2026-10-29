@@ -1,0 +1,23 @@
+bun test v1.4.2 (744846f84)
+
+tests/portable-family-paint.test.ts:
+366 | 
+367 | test('Agentic Class marker presentation cannot hide or add arrows behind valid SVG attributes', () => {
+368 |   const observe = (ink: string) => qualifyPortable(graph('class'), { svg: ink, model: agenticModel('class'), adapter: 'agentic' })
+369 |   const base = agenticSvg('class')
+370 |   expect(observe(base).semanticComplete).toBe(true)
+371 |   expect(observe(base.replace('</svg>', '<style>/* theme tokens */ svg { --fg:#111 }</style></svg>')).semanticComplete).toBe(true)
+                                                                                                                              ^
+error: expect(received).toBe(expected)
+
+Expected: true
+Received: false
+
+      at <anonymous> (/workspace/trident/tests/portable-family-paint.test.ts:371:121)
+(fail) Agentic Class marker presentation cannot hide or add arrows behind valid SVG attributes [9.96ms]
+
+ 0 pass
+ 33 filtered out
+ 1 fail
+ 2 expect() calls
+Ran 1 test across 1 file. [23.00ms]

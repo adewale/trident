@@ -1,0 +1,122 @@
+bun test v1.4.2 (744846f84)
+
+tests/portable-family-paint.test.ts:
+(pass) Agentic class: actual typed Result and independently owned visible ink qualify [6.59ms]
+(pass) Agentic class: typed identities and exact endpoint multiplicity cannot be replaced by labels [3.86ms]
+(pass) Agentic class: unchanged metadata cannot hide missing, invisible or redirected route geometry [4.86ms]
+(pass) Agentic er: actual typed Result and independently owned visible ink qualify [1.84ms]
+(pass) Agentic er: typed identities and exact endpoint multiplicity cannot be replaced by labels [4.73ms]
+(pass) Agentic er: unchanged metadata cannot hide missing, invisible or redirected route geometry [12.65ms]
+(pass) Agentic Class direction needs a referenced, visible and correctly oriented open arrow [1.34ms]
+(pass) Agentic ER exact glyph meaning and identifying appearance reject credible substitutions [3.91ms]
+(pass) Agentic parallel and reciprocal relations retain exact multiplicity independently of SVG DOM order [1.98ms]
+(pass) Agentic ER distinguishes all four reviewed cardinality glyphs and dashed identifying intent [0.71ms]
+(pass) published Pele ER cardinality bars remain separate painted strokes, not a connecting relation [5.04ms]
+(pass) class: owned geometry binds authored relations without guessing generated IDs [1.01ms]
+(pass) class: correct public model and labels cannot hide an edge redirected to another node [0.30ms]
+(pass) class: dropped relation ink fails despite unchanged labels and native graph [0.58ms]
+(pass) class: body paths without endpoint marker ink cannot certify the declared relation [0.86ms]
+(pass) state: owned geometry binds authored relations without guessing generated IDs [3.72ms]
+(pass) state: correct public model and labels cannot hide an edge redirected to another node [0.25ms]
+(pass) state: dropped relation ink fails despite unchanged labels and native graph [0.16ms]
+(pass) state: body paths without endpoint marker ink cannot certify the declared relation [0.16ms]
+(pass) er: owned geometry binds authored relations without guessing generated IDs [0.49ms]
+(pass) er: correct public model and labels cannot hide an edge redirected to another node [0.18ms]
+(pass) er: dropped relation ink fails despite unchanged labels and native graph [0.21ms]
+(pass) er: body paths without endpoint marker ink cannot certify the declared relation [0.26ms]
+(pass) duplicate relation owner IDs fail even when all expected geometric endpoint pairs are present [0.29ms]
+(pass) a degenerate move-only path is not a connecting segment [0.19ms]
+(pass) a failed canvas or authored-label criterion withholds semantic completion despite correct topology [0.43ms]
+(pass) unreviewed class marker profiles remain unmeasured rather than pretending to cover all relationship kinds [0.23ms]
+(pass) simple sequence messages bind to actor lifelines while legitimate footer duplicates stay distinct [1.02ms]
+(pass) sequence message paint redirected to a third actor fails with correct labels and unchanged native messages [0.53ms]
+(pass) duplicating a message label cannot be hidden by an unowned global copy of the missing text [0.41ms]
+(pass) sequence chronology comes from painted rows, not DOM order or native endpoint multiset alone [0.42ms]
+(pass) a duplicated actor header cannot impersonate a legitimate footer [0.35ms]
+(pass) unreviewed sequence signal styles stay unmeasured even when their labels and endpoints match [0.35ms]
+(pass) Agentic Class marker presentation cannot hide or add arrows behind valid SVG attributes [3.74ms]
+
+tests/portable-fidelity.test.ts:
+(pass) qualifies declared graph meaning through both the public model and owned path geometry [0.44ms]
+(pass) malformed or disconnected owned paths cannot certify their apparent endpoint relationship [1.15ms]
+(pass) continuous owned paths retain their valid number separators and move boundaries [0.50ms]
+(pass) discarded characters cannot fabricate a visible owned target marker [0.41ms]
+(pass) unprojected valid path and marker grammars remain unmeasured [0.55ms]
+(pass) malformed transform and polygon lists cannot fabricate geometry evidence [3.81ms]
+(pass) a target marker must touch its actual stem and aim into the target box [0.35ms]
+(pass) nonfinite derived geometry cannot qualify finite coordinate tokens [0.32ms]
+(pass) correct labels and model do not hide a path attached to the wrong place [0.24ms]
+(pass) a duplicate painted edge fails even with unchanged labels and native graph [0.22ms]
+(pass) swapping labels between the correct node IDs loses authored meaning [0.16ms]
+(pass) a public model with reversed endpoints fails independently of the SVG label census [0.15ms]
+(pass) edge IDs and marker ink alone do not substitute for an actual connecting path [0.16ms]
+(pass) group membership must also be reflected in painted containment [0.40ms]
+(pass) missing public parse evidence remains unmeasured and cannot qualify semantic equivalence [0.12ms]
+(pass) numeric public-model fidelity is independent of labels and does not certify chart geometry [0.47ms]
+(pass) invalid-source rejection requires a public exception, rather than an empty successful return [0.05ms]
+(pass) font configuration must be emitted, rather than merely accepted as an unused option [0.65ms]
+(pass) namespace, duplicate document IDs and hidden source text are independent admission failures [5.07ms]
+(pass) an uninspectable public result fails its own qualification without aborting the campaign [0.16ms]
+
+tests/portable-measurement.test.ts:
+(pass) explicit case selection retains corpus order and refuses unknown, empty or excluded cases [6.64ms]
+(pass) subset family counts describe exercised positive families and keep canonical representatives separate [3.55ms]
+(pass) sampling and independent A/A noise govern calibration rather than successful process exit [1.88ms]
+(pass) missing provider evidence and censored zero CPU counters never become free observed work [0.23ms]
+(pass) portable CLI keeps insufficient sampling explicit and rejects ambiguous selection [1.30ms]
+(pass) architecture scale preserves authored group membership [0.36ms]
+(pass) prepared fresh processes execute first-use API windows serially [303.43ms]
+(pass) Agentic native qualification uses its actual root parser outside render clocks and memory snapshots [551.14ms]
+(pass) an edited native parse failure stays separate from a valid consumed SVG result [171.30ms]
+(pass) Agentic source variants cannot reuse another source native qualification merely because SVG bytes match [161.64ms]
+(pass) a failed memory-measured call is not hidden by later successful qualification [167.07ms]
+(pass) retention captures intermediate faults and warm timing rejects transient bad SVG [348.46ms]
+(pass) a worker deadline reaps the child before another launch [159.49ms]
+(pass) a valid result followed by failed worker cleanup never qualifies [259.09ms]
+(pass) cancellation aborts the current worker and latches against subsequent launches [113.47ms]
+(pass) the direct worker entry rejects CI before reading a job or loading a target [123.64ms]
+(pass) missing execution never becomes a vacuous acceptance or semantic pass [0.56ms]
+(pass) duplicated fresh-process identities cannot replace missing samples [5.57ms]
+(pass) dedicated result pipe retains large Unicode errors despite renderer stdout noise [156.42ms]
+(pass) resource counters use a terminal observer frame without per-worker files [366.60ms]
+(pass) an import failure retains its terminal blocked payload without first-use credit [174.85ms]
+(pass) a later cold worker cleanup failure does not lose earlier completed worker evidence [226.71ms]
+(pass) unserializable jobs are rejected before any serial or batch worker can be left alive [26.95ms]
+{"phase":"family-support","project":"fixture/family-support","family":"flowchart","supported":true}
+{"phase":"family-support","project":"fixture/family-support","family":"sequence","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"state","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"class","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"er","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"timeline","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"journey","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"architecture","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"xychart","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"pie","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"quadrant","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"gantt","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"mindmap","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"gitgraph","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"radar","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"sankey","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"c4","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"packet","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"kanban","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"requirement","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"treemap","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"ishikawa","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"block","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"eventmodeling","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"zenuml","supported":false}
+{"phase":"warm","project":"fixture/family-support","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"first-use","project":"fixture/family-support","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"memory","project":"fixture/family-support","round":1,"caseId":"family:flowchart"}
+{"phase":"family-support","project":"fixture/family-support","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/family-support","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"first-use","project":"fixture/family-support","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"memory","project":"fixture/family-support","round":1,"caseId":"family:flowchart"}
+(pass) a family whose canonical source the renderer rejects is unsupported and none of its cases run [4672.32ms]
+
+ 78 pass
+ 0 fail
+ 470 expect() calls
+Ran 78 tests across 3 files. [8.12s]

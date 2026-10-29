@@ -1,0 +1,72 @@
+$ bun run commands.ts test:ci
+bun test v1.4.2 (744846f84)
+
+tests/commands.test.ts:
+(pass) public help and artifact help require no product checkout, oracle or compiled kit [454.69ms]
+(pass) project-specific source commands are rejected by the public CLI [51.22ms]
+(pass) a product source environment cannot relocate Trident oracle defaults [0.36ms]
+(pass) release version needs no renderer, oracle or compiled kit [14.11ms]
+
+tests/ci-commands.test.ts:
+(pass) CI runs deterministic checks, help, support and a no-acquisition campaign plan without an oracle [5200.55ms]
+(pass) CI still rejects measurement, artifact acquisition and the local full suite before creating output [177.69ms]
+
+tests/png-launchers.test.ts:
+(pass) both PNG entrypoints share container isolation, preserve runner arguments and write the runtime receipt [95.57ms]
+
+tests/results-snapshot.test.ts:
+(pass) one numeric source supplies both the visible table rate and Mermaid bar; missing observations stay missing [3.13ms]
+(pass) latest failed or partial attempt overrides historical success without deleting its dated evidence [1.97ms]
+(pass) multi-project process failure is not assigned to every project; individual counts and versions remain visible [1.44ms]
+(pass) snapshot rejects invented numeric chart values, unknown projects and broken population counts [0.22ms]
+(pass) campaign groups keep formats and operations separate and retain qualification failures after successful output [0.48ms]
+(pass) snapshot check detects stale Markdown without rewriting it; reads need no Mermaid oracle [45.87ms]
+(pass) canonical historical values match their provenance digest without a second copy of the rows [10.04ms]
+(pass) result ranks use the named metric, share ties, put missing values last and reverse direction for cost [0.22ms]
+(pass) table and Mermaid chart use the same best-first project order [0.84ms]
+(pass) an entirely blocked population is unranked while an observed zero retains its rank [0.06ms]
+(pass) charts and ranking share numeric parsing without coercing unavailable strings to zero [0.37ms]
+(pass) partial historical campaigns do not manufacture new core blockers for application workflows [0.19ms]
+(pass) source candidate tables rank within their cohort and cannot replace published-release overview scores [0.72ms]
+(pass) the Flutter brand gets no inherited Dart score in the regular results overview [2.83ms]
+
+tests/portable-family-paint.test.ts:
+(pass) Agentic class: actual typed Result and independently owned visible ink qualify [5.67ms]
+(pass) Agentic class: typed identities and exact endpoint multiplicity cannot be replaced by labels [3.41ms]
+(pass) Agentic class: unchanged metadata cannot hide missing, invisible or redirected route geometry [5.19ms]
+(pass) Agentic er: actual typed Result and independently owned visible ink qualify [1.82ms]
+(pass) Agentic er: typed identities and exact endpoint multiplicity cannot be replaced by labels [3.69ms]
+(pass) Agentic er: unchanged metadata cannot hide missing, invisible or redirected route geometry [4.60ms]
+(pass) Agentic Class direction needs a referenced, visible and correctly oriented open arrow [1.26ms]
+(pass) Agentic ER exact glyph meaning and identifying appearance reject credible substitutions [4.58ms]
+(pass) Agentic parallel and reciprocal relations retain exact multiplicity independently of SVG DOM order [2.16ms]
+(pass) Agentic ER distinguishes all four reviewed cardinality glyphs and dashed identifying intent [0.62ms]
+(pass) published Pele ER cardinality bars remain separate painted strokes, not a connecting relation [4.84ms]
+(pass) class: owned geometry binds authored relations without guessing generated IDs [0.93ms]
+(pass) class: correct public model and labels cannot hide an edge redirected to another node [0.31ms]
+(pass) class: dropped relation ink fails despite unchanged labels and native graph [0.32ms]
+(pass) class: body paths without endpoint marker ink cannot certify the declared relation [0.28ms]
+(pass) state: owned geometry binds authored relations without guessing generated IDs [0.57ms]
+(pass) state: correct public model and labels cannot hide an edge redirected to another node [0.30ms]
+(pass) state: dropped relation ink fails despite unchanged labels and native graph [0.14ms]
+(pass) state: body paths without endpoint marker ink cannot certify the declared relation [0.14ms]
+(pass) er: owned geometry binds authored relations without guessing generated IDs [0.66ms]
+(pass) er: correct public model and labels cannot hide an edge redirected to another node [0.29ms]
+(pass) er: dropped relation ink fails despite unchanged labels and native graph [0.27ms]
+(pass) er: body paths without endpoint marker ink cannot certify the declared relation [0.30ms]
+(pass) duplicate relation owner IDs fail even when all expected geometric endpoint pairs are present [0.38ms]
+(pass) a degenerate move-only path is not a connecting segment [0.34ms]
+(pass) a failed canvas or authored-label criterion withholds semantic completion despite correct topology [0.50ms]
+(pass) unreviewed class marker profiles remain unmeasured rather than pretending to cover all relationship kinds [0.39ms]
+(pass) simple sequence messages bind to actor lifelines while legitimate footer duplicates stay distinct [0.95ms]
+(pass) sequence message paint redirected to a third actor fails with correct labels and unchanged native messages [0.66ms]
+(pass) duplicating a message label cannot be hidden by an unowned global copy of the missing text [0.50ms]
+(pass) sequence chronology comes from painted rows, not DOM order or native endpoint multiset alone [0.70ms]
+(pass) a duplicated actor header cannot impersonate a legitimate footer [0.55ms]
+(pass) unreviewed sequence signal styles stay unmeasured even when their labels and endpoints match [0.60ms]
+(pass) Agentic Class marker presentation cannot hide or add arrows behind valid SVG attributes [3.61ms]
+
+ 55 pass
+ 0 fail
+ 397 expect() calls
+Ran 55 tests across 5 files. [6.14s]
