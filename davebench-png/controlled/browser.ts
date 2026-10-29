@@ -82,9 +82,13 @@ export async function controlledExport(input: { source: string; id: string }) {
     ctx.imageSmoothingEnabled = false
     ctx.drawImage(image, Math.floor((1200 - width) / 2), Math.floor((900 - height) / 2))
     const drawnAt = performance.now()
-    const blob = await new Promise<Blob>((done, reject) => canvas.toBlob(value => (value ? done(value) : reject(Error('No final PNG'))), 'image/png'))
+    // A synchronous export avoids the document's idle-encoding schedule.
+    // Base64 production and decoding are both inside the completed-PNG timer.
+    const url = canvas.toDataURL('image/png')
+    if (!url.startsWith('data:image/png;base64,')) throw Error('No encoded PNG data URL')
     const encodedAt = performance.now()
-    const bytes = new Uint8Array(await blob.arrayBuffer()),
+    const binary = atob(url.slice(url.indexOf(',') + 1))
+    const bytes = Uint8Array.from(binary, char => char.charCodeAt(0)),
       outputBytes = bytes.length
     const totalMs = performance.now() - started
     // Source facts and computed font observations are collected AFTER the clock.
