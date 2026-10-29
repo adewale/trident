@@ -91,12 +91,40 @@ test('real browser consumer includes module initialization and traverses Map/Set
   } finally { await browser.close() }
 }, 20_000)
 
-test('only a rejected canonical family case makes that family unsupported; rejection messages decide nothing', () => {
-  const row = (caseId: string, family: string, accepted: boolean, detail = 'Error: Invalid mermaid header'): BenchmarkObservation => ({ suite: 'pinned-browser-baseline', surface: 'baseline-browser:pele', runtime: 'chromium', family, caseId, operation: 'public-svg', format: 'svg', mode: 'reused-page-render', status: accepted ? 'passed' : 'failed', detail, metrics: { accepted, expectedAccepted: true } })
-  const rows = [row('family:pie', 'pie', false), row('scaling:pie:8', 'pie', false), row('family:flowchart', 'flowchart', true), row('adversarial:flowchart', 'flowchart', false, 'Error: unsupported graph direction')]
+test('only reviewed canonical source refusals establish unsupported families; infrastructure stays failed', () => {
+  const row = (caseId: string, family: string, accepted: boolean, detail = 'PeleError: No diagram type detected for the given text.', errorName = 'PeleError', errorPhase: string | null = 'public-call'): BenchmarkObservation => ({ suite: 'pinned-browser-baseline', surface: 'baseline-browser:pele', runtime: 'chromium', family, caseId, operation: 'public-svg', format: 'svg', mode: 'reused-page-render', status: accepted ? 'passed' : 'failed', detail, metrics: { accepted, expectedAccepted: true, errorName, errorPhase } })
+  const rows = [
+    row('family:pie', 'pie', false),
+    row('scaling:pie:8', 'pie', false),
+    row('scaling:pie:broken-import', 'pie', false, 'TypeError: Failed to fetch dynamically imported module', 'TypeError'),
+    row('family:flowchart', 'flowchart', true),
+    row('adversarial:flowchart', 'flowchart', false, 'Error: unsupported graph direction', 'Error'),
+    row('family:sequence', 'sequence', false, 'TypeError: Failed to fetch dynamically imported module', 'TypeError'),
+    row('scaling:sequence:8', 'sequence', false),
+    row('family:class', 'class', false, undefined, 'PeleError', 'consumption'),
+    row('family:er', 'er', false, 'Error: Parse error on line 1: backend timed out', 'TimeoutError'),
+    row('family:gantt', 'gantt', false, undefined, 'PeleError', null),
+    row('family:sankey', 'sankey', false),
+    row('family:sankey', 'sankey', true),
+    row('scaling:sankey:8', 'sankey', false),
+  ]
   expect(qualifyBaselineBrowser(witness, { accepted: false, error: 'Error: unsupported diagram', errorPhase: 'public-call' }).status).toBe('failed')
   unsupportedByFamilyProbe(rows)
-  expect(rows.map(value => [value.caseId, value.status])).toEqual([['family:pie', 'unsupported'], ['scaling:pie:8', 'unsupported'], ['family:flowchart', 'passed'], ['adversarial:flowchart', 'failed']])
+  expect(rows.map(value => [value.caseId, value.status])).toEqual([
+    ['family:pie', 'unsupported'],
+    ['scaling:pie:8', 'unsupported'],
+    ['scaling:pie:broken-import', 'failed'],
+    ['family:flowchart', 'passed'],
+    ['adversarial:flowchart', 'failed'],
+    ['family:sequence', 'failed'],
+    ['scaling:sequence:8', 'failed'],
+    ['family:class', 'failed'],
+    ['family:er', 'failed'],
+    ['family:gantt', 'failed'],
+    ['family:sankey', 'failed'],
+    ['family:sankey', 'passed'],
+    ['scaling:sankey:8', 'failed'],
+  ])
 })
 
 test('explicit browser cases reject invalid selections and preserve corpus order', () => {

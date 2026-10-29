@@ -118,13 +118,16 @@ function sourceRejection(error: string, errorName: string): boolean {
     || /^Error: Invalid mermaid header:/.test(error)
     || /^Error: SEQUENCE_UNSUPPORTED_STATEMENT: line [1-9]\d*:/.test(error)
 }
-/** A family is unsupported only when the tool rejects its canonical family-cohort case
- * (family:<name>, the family-support probe source). Then its rejected positive cases are
- * unsupported; elsewhere a rejection stays a failure, whatever its message says. */
+/** Consistent reviewed public source refusals of a positive canonical probe establish
+ * unsupported input. A successful probe disproves that classification. Runtime, delivery
+ * and consumption failures stay failed, even in an otherwise unsupported family. */
 export function unsupportedByFamilyProbe(rows: BenchmarkObservation[]): void {
-  const rejected = new Set(rows.filter(row => row.caseId === `family:${row.family}` && row.metrics?.accepted === false).map(row => row.family))
+  const sourceRefused = (row: BenchmarkObservation) => row.metrics?.accepted === false && row.metrics.errorPhase === 'public-call' && sourceRejection(row.detail ?? '', String(row.metrics.errorName ?? 'Error'))
+  const canonical = rows.filter(row => row.caseId === `family:${row.family}` && row.metrics?.expectedAccepted === true)
+  const rejected = new Set(canonical.filter(sourceRefused).map(row => row.family))
+  for (const row of canonical) if (!sourceRefused(row)) rejected.delete(row.family)
   for (const row of rows)
-    if (rejected.has(row.family) && row.status === 'failed' && row.metrics?.accepted === false && row.metrics?.expectedAccepted !== false) {
+    if (rejected.has(row.family) && row.status === 'failed' && sourceRefused(row) && row.metrics?.expectedAccepted !== false) {
       row.status = 'unsupported'
       row.detail = `Family unsupported: the tool rejected family:${row.family}, its canonical source. ${row.detail ?? ''}`.trim()
     }
@@ -295,7 +298,7 @@ export async function runBaselineBrowserSuite(options: BaselineBrowserOptions): 
         const q = qualifyBaselineBrowser(testCase, result, preludes), row = rowFor(target, role, testCase, mode, round, sampleIndex)
         row.runtime = 'chromium:' + browser.version(); row.status = q.status; row.findings = q.findings; row.bytes = result.totalBytes ?? 0
         if (stage !== 'resource' && mode !== 'prelude-admission') row.samplesMs = [stage === 'startup' ? launchToFirstResultMs : result.consumedMs]
-        row.metrics = { ...row.metrics, collectionId, accepted: result.accepted, actualApi: result.actualApi, qualificationScope: q.scope, excludedCallbacks: JSON.stringify(result.excludedCallbacks ?? []), sidecarsComplete: result.sidecarsComplete ?? false, publicApiMs: result.publicApiMs ?? null, consumedMs: result.consumedMs ?? null, moduleImportMs: initialized.moduleImportMs, initializationMs: initialized.initializationMs, launchToApiReadyMs, resolvedRenderOptions: JSON.stringify(result.resolvedRenderOptions ?? null), clock: stage === 'startup' ? plan.settings.startupClock : plan.settings.rendererClock, rolling, callbacksScope: 'Nonserializable bind/interaction callbacks recorded as exclusions; no DOM bind or pixel paint claim', renderOptionsScope: testCase.renderOptions ? 'Public options applied; effects unmeasured beyond authored SVG labels' : 'Pinned public site defaults' }
+        row.metrics = { ...row.metrics, collectionId, accepted: result.accepted, errorName: result.errorName ?? null, errorPhase: result.errorPhase ?? null, actualApi: result.actualApi, qualificationScope: q.scope, excludedCallbacks: JSON.stringify(result.excludedCallbacks ?? []), sidecarsComplete: result.sidecarsComplete ?? false, publicApiMs: result.publicApiMs ?? null, consumedMs: result.consumedMs ?? null, moduleImportMs: initialized.moduleImportMs, initializationMs: initialized.initializationMs, launchToApiReadyMs, resolvedRenderOptions: JSON.stringify(result.resolvedRenderOptions ?? null), clock: stage === 'startup' ? plan.settings.startupClock : plan.settings.rendererClock, rolling, callbacksScope: 'Nonserializable bind/interaction callbacks recorded as exclusions; no DOM bind or pixel paint claim', renderOptionsScope: testCase.renderOptions ? 'Public options applied; effects unmeasured beyond authored SVG labels' : 'Pinned public site defaults' }
         if (!result.accepted) row.detail = String(result.error)
         collector.observations.push(row)
         return { result, row }
