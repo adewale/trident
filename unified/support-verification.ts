@@ -1,3 +1,4 @@
+import { releaseBenchmarkSkip } from './benchmark-skip.ts'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { createHash } from 'node:crypto'
@@ -41,7 +42,9 @@ export async function verifySupport(preparedFile: string, out: string, settings:
   const requested = catalog.nodes.filter(node => !settings.projects || settings.projects.includes(node.id))
   const applications = requested.filter(node => (node as import('./support.ts').CatalogMember).comparisonScope?.kind === 'application')
   if (settings.projects && applications.length) throw Error('Whole-application workflows are outside core support verification: ' + applications.map(node => node.id).join(', '))
-  const selected = requested.filter(node => !applications.includes(node))
+  const skipped = requested.filter(node => releaseBenchmarkSkip(node))
+  if (settings.projects && skipped.length) throw Error('Benchmark release skipped: ' + skipped.map(node => node.id + ': ' + releaseBenchmarkSkip(node)!.reason).join('; '))
+  const selected = requested.filter(node => !applications.includes(node) && !skipped.includes(node))
   const supplied = JSON.parse(readFileSync(preparedFile, 'utf8')) as PreparedCommunity[]
   if (!Array.isArray(supplied) || new Set(supplied.map(entry => entry.node.id)).size !== supplied.length) throw Error('Prepared projects must be unique')
   await assertOracleAgrees(assertMermaidOracle(), supportWorkloads.map(workload => ({ id: workload.id, source: workload.source, accept: true })))

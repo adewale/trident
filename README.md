@@ -104,7 +104,8 @@ Other exercised interfaces are [Maid](https://github.com/probelabs/maid) and
 and [Mermaid to Excalidraw](https://github.com/excalidraw/mermaid-to-excalidraw) editable conversion.
 
 The current core selection has **39 eligible entries**: the 38 witnessed projects
-above and Rusty Mermaid's broken published runtime. The historical 0.1 receipt retains its original 42-entry
+above and Rusty Mermaid's broken published runtime. The latter is disabled by
+version-specific configuration, so normal campaigns schedule the other 38 projects. The historical 0.1 receipt retains its original 42-entry
 selection. VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid are
 discovery-only applications; full editor drivers are outside core requirements.
 The [catalog](CATALOG.md) retains all 88 entries. Default comparisons exclude 46

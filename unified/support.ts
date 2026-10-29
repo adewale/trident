@@ -2,10 +2,11 @@ import { readFileSync } from 'node:fs'
 import type { CommunityNode } from './community-types.ts'
 import { fidelityCoreProjects } from '../fidelity/selection.ts'
 import { PORTABLE_ADAPTER_IDS, type PortableBinding } from '../portable/protocol.ts'
+import { releaseBenchmarkSkip } from './benchmark-skip.ts'
 
 export const PUBLIC_SUITES = ['community', 'docs', 'fidelity', 'native-fidelity', 'upstream-fidelity', 'upstream-original', 'portable'] as const
 export type PublicSuite = typeof PUBLIC_SUITES[number]
-export type SupportState = 'configured' | 'conditional' | 'adapter-missing' | 'project-unsupported' | 'reference-only' | 'out-of-scope'
+export type SupportState = 'configured' | 'conditional' | 'adapter-missing' | 'project-unsupported' | 'reference-only' | 'out-of-scope' | 'disabled'
 export interface CatalogMember extends CommunityNode {
   comparisonScope?: { kind: 'application'; reason: string }
   comparisonBranding?: { distinct: boolean; name?: string | null; evidence: string }
@@ -59,11 +60,14 @@ export function projectSupport(node: CatalogMember) {
         : cell('adapter-missing', 'No reviewed portable Node SVG invocation is bound; browser/WASM/CLI capability is not a Node binding.'),
   }
   if (node.comparisonScope?.kind === 'application') for (const suite of PUBLIC_SUITES) suites[suite] = cell('out-of-scope', node.comparisonScope.reason)
+  const releaseSkip = releaseBenchmarkSkip(node)
+  if (releaseSkip) for (const suite of PUBLIC_SUITES) if (!['project-unsupported', 'reference-only', 'out-of-scope'].includes(suites[suite].state)) suites[suite] = cell('disabled', releaseSkip.reason)
   return {
     project: node.id, relation: node.relation ?? 'unverified', parent: node.parent ?? null,
     categories: node.categories ?? [], runtime: node.runtime ?? 'not recorded', adapter: adapter ?? null,
     adapterReview: node.benchmarkEligibility?.adapterReview ?? 'not independently reviewed',
     comparisonScope: node.comparisonScope ?? null,
+    releaseSkip: releaseSkip ?? null,
     declaredOutputs: declared, boundOutputs: bound, missingOutputBindings: node.comparisonScope?.kind === 'application' ? [] : declared.filter(value => !bound.includes(value)), suites,
     evidence: 'Configuration assessment only. No successful build, family support, correctness or timing is asserted.',
   }
@@ -79,7 +83,7 @@ export function supportInventory(nodes: CatalogMember[]) {
 const escape = (value: unknown) => String(value).replaceAll('|', '/').replaceAll('\n', ' ')
 export function supportMarkdown(inventory: ReturnType<typeof supportInventory>) {
   return ['# Trident project support', '', `${inventory.catalogEntities} catalog entities; ${inventory.configuredEntities} have declared adapters. Configuration is not execution evidence.`, '',
-    'Each suite cell names harness coverage. adapter-missing means Trident has no reviewed binding; project-unsupported means the requested output is not declared. conditional requires browser/artifact admission. reference-only is outside a candidate comparison. out-of-scope marks whole-application workflows retained only for discovery.', '',
+    'Each suite cell names harness coverage. adapter-missing means Trident has no reviewed binding; project-unsupported means the requested output is not declared. conditional requires browser/artifact admission. reference-only is outside a candidate comparison. out-of-scope marks whole-application workflows retained only for discovery; disabled marks a pinned release skipped by configuration.', '',
     '| Project | Relation / parent | Declared → bound outputs | Adapter / review | ' + PUBLIC_SUITES.join(' | ') + ' |',
     '|---|---|---|---|' + PUBLIC_SUITES.map(() => '---').join('|') + '|',
     ...inventory.projects.map(row => '| ' + [row.project, `${row.relation}${row.parent ? ' / ' + row.parent : ''}`, `${row.declaredOutputs.join(', ')} → ${row.boundOutputs.join(', ') || 'none'}`, `${row.adapter ?? 'none'} / ${row.adapterReview}`, ...PUBLIC_SUITES.map(suite => row.suites[suite].state)].map(escape).join(' | ') + ' |'), '',

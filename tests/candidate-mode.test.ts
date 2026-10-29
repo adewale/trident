@@ -36,7 +36,9 @@ test('a candidate tarball stands in for the pinned release, verified by its SHA-
   const f = preparation(),
     tarball = pack('trident-fixture-renderer', '2.0.0-rc.1'),
     digest = sha256(tarball)
+  writeFileSync(f.catalog, JSON.stringify({ nodes: [{ ...node, benchmark: { ...node.benchmark!, skip: { version: '1.0.0', reason: 'Broken pinned release' } } }] }))
   const [entry] = await prepareCommunity({ ...f.options, communityCandidate: { project, tarball, sha256: digest } })
+  writeFileSync(f.catalog, JSON.stringify({ nodes: [node] }))
   expect(entry!.error).toBeUndefined()
   expect(entry!.artifact!.version).toBe('2.0.0-rc.1')
   const installed = entry!.artifact!.candidate as { sha256: string; tarball: string }

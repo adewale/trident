@@ -198,7 +198,7 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
         return `[${md(value)}${denominator}${projection.suffix ? ' ' + md(projection.suffix) : ''}${entry.historical ? ' · historical' : ''} · ${date(entry.measuredAt)}](#${anchor(entry.id)})`
       }
       const state = support.suites[suite]
-      return state.state === 'reference-only' || state.state === 'project-unsupported' ? 'N/A' : state.state === 'adapter-missing' ? 'Unmeasured: binding gap' : 'Unmeasured'
+      return state.state === 'reference-only' || state.state === 'project-unsupported' ? 'N/A' : state.state === 'disabled' ? 'Skipped: release disabled' : state.state === 'adapter-missing' ? 'Unmeasured: binding gap' : 'Unmeasured'
     })
     lines.push('| ' + md(name(project)) + ' | ' + (primaryRanks.get(project) ?? '—') + ' | ' + cells.join(' | ') + ' |')
   }

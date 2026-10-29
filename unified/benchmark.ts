@@ -67,7 +67,7 @@ export async function main(argv = process.argv.slice(2)) {
   const comparisonSelection = comparisonProjects(catalog, projects, includeExcluded)
   projects = comparisonSelection.included
   options.communityProjects = projects
-  if (!projects.length && !planOnly) throw Error('No projects remain after scope/lineage/branding exclusions; inspect support --lineage. The descendant override does not enable whole-application workflows')
+  if (!projects.length && !planOnly) throw Error('No projects remain after scope/lineage/branding exclusions or release skips: ' + comparisonSelection.excluded.map(node => node.project + ': ' + node.comparison).join('; '))
   const plan = { ...campaignPlan({ catalog, projects: catalog.nodes.filter((node: CatalogMember) => projects.includes(node.id)) as CatalogMember[], suites: chosen as PublicSuite[], profile: options.profile, rounds: options.rounds, executable: options.executable, upstreamRunnerRoot, budgetMinutes }), comparisonSelection }
   if (planOnly) { console.log(JSON.stringify(plan, null, 2)); return }
   assertBenchmarkExecutionAllowed()

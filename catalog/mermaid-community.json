@@ -3542,7 +3542,11 @@
         "versionPolicy": "recorded",
         "outputs": [
           "diagnostics"
-        ]
+        ],
+        "skip": {
+          "version": "0.42.0",
+          "reason": "Published npm archive contains only README.md and package.json; its declared pkg/rusty_mermaid.js entry and WASM runtime are absent. Re-enable after a fixed release is verified. Explicit candidates remain separate."
+        }
       },
       "benchmarkEligibility": {
         "classification": "validator",

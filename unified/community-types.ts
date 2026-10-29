@@ -10,6 +10,8 @@ export interface CommunityBenchmarkConfig {
   /** Outputs available in the non-DOM module host; other outputs use their declared transport. */
   moduleOutputs?: string[]
   version?: string
+  /** Do not acquire or benchmark this known-broken pinned release. */
+  skip?: { version: string; reason: string }
   versionPolicy?: string
   sourceAdapter?: string
   sourcePin?: string

@@ -4,22 +4,22 @@
     "package": "mermaid",
     "version": "12.2.0"
   },
-  "inputMarkdownSha256": "672366f412fb51a41edfb24304bc587aec1f3cbc9ac6d3ae32cc16a7a7a48b22",
+  "inputMarkdownSha256": "95e1d7269cf640a49643eb6ef64a21b101abc144673389fec483aa2002b61ed5",
   "charts": [
     {
-      "source": "xychart-beta horizontal\n    title \"Historical: DaveBench SVG returns — 2026-10-27\"\n    x-axis [\"Frankenmermaid 0.4.0\", \"Mermaid.js 12.2.0\", \"Pele 1.9.0\", \"Mermaid Dart 0.3.2\", \"Agentic Mermaid 0.4.1\", \"Zombie Mermaid 5.10.2\", \"Beautiful Mermaid 1.1.3\"]\n    y-axis \"SVG returned (%)\" 0 --> 100\n    bar [100, 99.8, 97.1, 81.9, 62, 44.7, 42.2]\n",
+      "source": "xychart-beta horizontal\n    title \"Historical: DaveBench SVG returns \u2014 2026-10-27\"\n    x-axis [\"Frankenmermaid 0.4.0\", \"Mermaid.js 12.2.0\", \"Pele 1.9.0\", \"Mermaid Dart 0.3.2\", \"Agentic Mermaid 0.4.1\", \"Zombie Mermaid 5.10.2\", \"Beautiful Mermaid 1.1.3\"]\n    y-axis \"SVG returned (%)\" 0 --> 100\n    bar [100, 99.8, 97.1, 81.9, 62, 44.7, 42.2]\n",
       "svgSha256": "f537fce221e37093e2b0adf0d9247b776cf8d55db733fd0054af383c0da568ac"
     },
     {
-      "source": "xychart-beta horizontal\n    title \"Historical: Full documentation inventory: returned SVG — 2026-10-27\"\n    x-axis [\"Pele 1.9.0\", \"Mermaid.js 12.2.0\", \"Agentic Mermaid 0.4.2\"]\n    y-axis \"% of 1,095 occurrences\" 0 --> 100\n    bar [97.1, 96.9, 80.5]\n",
+      "source": "xychart-beta horizontal\n    title \"Historical: Full documentation inventory: returned SVG \u2014 2026-10-27\"\n    x-axis [\"Pele 1.9.0\", \"Mermaid.js 12.2.0\", \"Agentic Mermaid 0.4.2\"]\n    y-axis \"% of 1,095 occurrences\" 0 --> 100\n    bar [97.1, 96.9, 80.5]\n",
       "svgSha256": "659bcc6d76a085254b00588bb3a2645a0b3279c57f8b8666462f3e8ddb90ca82"
     },
     {
-      "source": "xychart-beta horizontal\n    title \"Historical: Complete shipped browser-global JavaScript — 2026-10-27\"\n    x-axis [\"Pele 1.9.0\", \"Agentic Mermaid 0.4.2\", \"Mermaid.js 12.2.0\"]\n    y-axis \"bytes, gzip level 9\" 0 --> 1700000\n    bar [263250, 1264968, 1570966]\n",
+      "source": "xychart-beta horizontal\n    title \"Historical: Complete shipped browser-global JavaScript \u2014 2026-10-27\"\n    x-axis [\"Pele 1.9.0\", \"Agentic Mermaid 0.4.2\", \"Mermaid.js 12.2.0\"]\n    y-axis \"bytes, gzip level 9\" 0 --> 1700000\n    bar [263250, 1264968, 1570966]\n",
       "svgSha256": "4abdeb2b0f2766aeaa1fbf288758e4aa78bacc85445e6f30bc60bf027ff15156"
     },
     {
-      "source": "xychart-beta horizontal\n    title \"Historical: Diagram Meaning checks passed — 2026-10-27\"\n    x-axis [\"Pele 1.9.0\", \"Frankenmermaid 0.4.0\", \"Mermaid.js 12.2.0\", \"Mermaid Dart 0.3.2\", \"Agentic Mermaid 0.4.1\", \"Zombie Mermaid 5.10.2\", \"Beautiful Mermaid 1.1.3\"]\n    y-axis \"Passed criteria out of 1180\" 0 --> 1180\n    bar [1118, 1112, 1068, 1025, 716, 477, 356]\n",
+      "source": "xychart-beta horizontal\n    title \"Historical: Diagram Meaning checks passed \u2014 2026-10-27\"\n    x-axis [\"Pele 1.9.0\", \"Frankenmermaid 0.4.0\", \"Mermaid.js 12.2.0\", \"Mermaid Dart 0.3.2\", \"Agentic Mermaid 0.4.1\", \"Zombie Mermaid 5.10.2\", \"Beautiful Mermaid 1.1.3\"]\n    y-axis \"Passed criteria out of 1180\" 0 --> 1180\n    bar [1118, 1112, 1068, 1025, 716, 477, 356]\n",
       "svgSha256": "a545b1220c53739d6137019e9ce46065d57512b074f75904017e2af9251a8de4"
     }
   ],
