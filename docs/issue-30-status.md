@@ -50,3 +50,7 @@ branding. Current selection uses `orestesgaolin/mermaid` for Dart SVG and
 that correction and retains its originally recorded Mermaid Dart identity. New
 Flutter runs use the regular catalog directly and receive their own observations;
 older scores are not copied into the new project row.
+
+A [fresh check under the distinct Flutter identity](https://github.com/adewale/trident/blob/daf9119cf620189c6c0e31ce8d863e823d35d256/BRAND-SPLIT.md)
+uses the regular catalog without an override. Its owning report and native outputs
+are separate from the historical combined-ID receipt.

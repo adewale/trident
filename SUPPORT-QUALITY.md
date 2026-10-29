@@ -1,6 +1,6 @@
 # Quality of Trident support
 
-Assessment: 2026-10-29. The historical 0.1 receipt exercised **37 of 42 selected entries**. The current core selection has **40 entries**: 38 retain historical recorded public-output witnesses, including the separate Excalidraw conversion follow-up; Mermaid Flutter has a distinct native PNG entry with its own new verification. Rusty Mermaid has a broken published artifact disabled by version-specific configuration. Normal campaigns therefore schedule 39 projects. VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid are discovery-only applications, outside core benchmark requirements. All 89 catalog identities remain; 46 lineage exclusions plus three applications give 49 default exclusions. The original receipt and measurement dates are unchanged.
+Assessment: 2026-10-29. The historical 0.1 receipt exercised **37 of 42 selected entries**. The current core selection has **40 entries**: 38 have dated public-output witnesses, including the separate Excalidraw conversion follow-up; Mermaid Flutter has a distinct native PNG entry with its own new verification. Rusty Mermaid has a broken published artifact disabled by version-specific configuration. Normal campaigns therefore schedule 39 projects. VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid are discovery-only applications, outside core benchmark requirements. All 89 catalog identities remain; 46 lineage exclusions plus three applications give 49 default exclusions. The original receipt and measurement dates are unchanged.
 
 This assesses Trident integrations, not project quality or renderer speed. A successful call establishes a working public invocation for that input. It does not establish all-family compatibility, painted meaning, useful layout or calibrated timing. The earlier eight-project campaign supplies broader historical evidence for its own scopes, and is not silently rerun or upgraded.
 
@@ -60,7 +60,7 @@ Each fraction is successful authored inputs / 6 planned inputs for that particul
 | npm:tui-mermaid | 0.1.0 | terminal/node 5/6 | No unbound declared format; broader qualification remains separate |
 | obsidianmd/pele | 1.9.0 | svg/node 6/6; svg/browser 6/6 | No unbound declared format; broader qualification remains separate |
 | orestesgaolin/mermaid | 0.3.2 | svg/global 6/6; svg/browser 6/6 | Mermaid Dart SVG; Flutter PNG is a distinct catalog product |
-| pub:mermaid_flutter | 0.3.2 | png/native 6/6; invalid controls 2/2 | Mermaid Flutter; raster-only scope; no inherited Dart SVG/model score |
+| pub:mermaid_flutter | 0.3.2 | png/native 6/6; invalid controls 2/2 | [New Flutter receipt](https://github.com/adewale/trident/blob/daf9119cf620189c6c0e31ce8d863e823d35d256/BRAND-SPLIT.md); raster-only scope; no inherited Dart SVG/model score |
 | probelabs/maid | 0.0.29 | diagnostics/node 5/6 | No unbound declared format; broader qualification remains separate |
 | sandyyst/dsh-plugin-mermaid-gb-svg | 0.1.4 | svg/node 1/6; svg/browser 1/6 | svg/browser: 5 failed controls |
 | spacedock-dev/mermaidtext | git-a6b0c7657b94 | terminal/cli 5/6 | No unbound declared format; broader qualification remains separate |

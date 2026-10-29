@@ -27,6 +27,14 @@ def write_csv(path, rows):
         writer.writerows(rows)
 
 
+def native_project_id(observations):
+    identities = {row.get('metrics', {}).get('implementation') for row in observations
+                  if row.get('format') == 'png' and row.get('metrics', {}).get('implementation') in ('pub:mermaid_flutter', 'orestesgaolin/mermaid')}
+    if len(identities) != 1:
+        raise ValueError('Expected one recorded native project identity; do not combine or relabel old and new campaigns')
+    return identities.pop()
+
+
 def main():
     run, out = map(Path, sys.argv[1:3])
     other = Path(sys.argv[3]) if len(sys.argv) == 4 else run
@@ -38,7 +46,7 @@ def main():
     dispositions, costs, failures, coverage = [], [], [], []
     priority = {'failed': 6, 'blocked': 5, 'unsupported': 4, 'not-applicable': 3, 'passed': 1}
     # Historical reports retain their recorded combined project ID.
-    native = 'pub:mermaid_flutter' if any(row.get('metrics', {}).get('implementation') == 'pub:mermaid_flutter' for row in observations) else 'orestesgaolin/mermaid'
+    native = native_project_id(observations)
     for project, runtime, output in [(native, None, 'png'), ('obsidianmd/pele', 'chromium', 'svg')]:
         groups = defaultdict(list)
         for row in observations:
