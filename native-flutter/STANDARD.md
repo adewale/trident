@@ -56,11 +56,50 @@ bun commands.ts results:campaign --campaign /path/to/fresh-standard-run \
 ```
 
 Do not run builds, tests or another benchmark concurrently with timing collection.
-The driver pins the executable to the sealed bundle. Each native launch records
+The driver creates an explicit launch manifest for the sealed bundle. Each native launch records
 its executable and `libapp.so` hashes. `CHROMIUM_EXECUTABLE` overrides the default
 `/usr/bin/chromium`. `FLUTTER_COMMUNITY_EXECUTABLE`, if set, must name that bundle's
 `native_bench`. `STANDARD_SUITES=community,docs,fidelity` and `STANDARD_PROJECTS`
 can narrow a diagnostic run; print those selections with its results.
+
+## Use the normal CLI with an existing native bundle
+
+Build the release target `app/lib/community_worker.dart` using the commands above.
+The widget campaign's default `main.dart` executable implements a different
+protocol and cannot supply this binding. Native execution still needs the same
+Linux libraries, fonts and display described in [README.md](README.md).
+
+From the Trident root, seal the prepared bundle into a fresh directory:
+
+```sh
+bun native-flutter/prepare-community.ts \
+  --bundle native-flutter/app/build/linux/x64/release/bundle \
+  --out /path/to/fresh-native-preparation
+bun commands.ts support:verify \
+  --catalog /path/to/fresh-native-preparation/catalog.json \
+  --prepared /path/to/fresh-native-preparation/prepared.json \
+  --projects orestesgaolin/mermaid --out /path/to/fresh-verification
+bun commands.ts bench --suites community \
+  --community-catalog /path/to/fresh-native-preparation/catalog.json \
+  --community-prepared /path/to/fresh-native-preparation/prepared.json \
+  --projects orestesgaolin/mermaid --out /path/to/fresh-campaign
+```
+
+Preparation hashes the wrapper, launch manifest and every bundle file. It builds
+and renders nothing. The manifest names the exact native executable; each launch
+checks the bundle inventory, hashes and runtime API/version before accepting rows.
+A conflicting `FLUTTER_COMMUNITY_EXECUTABLE` is rejected. Keep the preparation,
+bundle and checkout at their recorded paths when replaying a saved binding.
+
+The generated one-project catalog selects `mermaid_flutter` 0.3.2 PNG under the
+existing Mermaid Dart identity. It does not add another project or change the
+repository's default Dart SVG binding. Report the runtime, version and output
+format whenever comparing results from these different public entrypoints.
+
+`support:verify` records six positive inputs and two independently invalid controls.
+Its PNG observations retain their raster-only qualification scope and discard
+all timing samples. The community campaign's API clocks are diagnostic until a
+separate declared comparison meets its timing prerequisites and calibration.
 
 ## Contracts
 

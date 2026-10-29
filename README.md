@@ -57,7 +57,8 @@ developed in AM and Trident; they are not external benchmark standards or produc
 traffic. Public examples and development fixtures are not a validated holdout.
 
 See [methods, commands and limitations](BENCHMARKS.md) for each benchmark. The
-six-input `support:verify` check tests invocation readiness; it is not an eighth
+`support:verify` check uses six positive inputs and two separate invalid-source
+controls to test invocation readiness; it is not an eighth
 benchmark or a substitute for a complete campaign.
 
 ## Supported projects
