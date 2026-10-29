@@ -81,7 +81,7 @@ for (const family of ['class', 'er'] as const) {
   const observe = (ink = agenticSvg(family), native: unknown = agenticModel(family), authored = graph(family)) => qualifyPortable(authored, { svg: ink, model: native, adapter: 'agentic' })
   test(`Agentic ${family}: actual typed Result and independently owned visible ink qualify`, () => {
     const result = observe()
-    expect(result.observer).toBe('portable-owned-topology-v2-agentic-class-er')
+    expect(result.observer).toBe('portable-owned-topology-v3-agentic-class-er')
     expect(result.semanticComplete).toBe(true)
     expect(finding(result, 'model-node-identities')?.status).toBe('passed')
     expect(finding(result, family === 'class' ? 'svg-edge-target-marker:0' : 'svg-er-cardinality-and-identifying')?.status).toBe('passed')
@@ -360,4 +360,28 @@ test('unreviewed sequence signal styles stay unmeasured even when their labels a
   expect(finding(result, 'model-message-order')?.status).toBe('passed')
   expect(finding(result, 'svg-sequence-message-profile')?.status).toBe('unmeasured')
   expect(result.semanticComplete).toBe(false)
+})
+
+test('Agentic Class marker presentation cannot hide or add arrows behind valid SVG attributes', () => {
+  const observe = (ink: string) => qualifyPortable(graph('class'), { svg: ink, model: agenticModel('class'), adapter: 'agentic' })
+  const base = agenticSvg('class')
+  expect(observe(base).semanticComplete).toBe(true)
+  for (const replacement of [
+    'marker-end="url(#arrow)" style="marker-end:none"',
+    'marker-end="url(#arrow)" style="MARKER-END:none"',
+    'marker-end="url(#arrow)" style="marker-end/**/:none"',
+    'marker-end="url(#arrow)" style="marker:none"',
+    'marker-end="url(#arrow)" style="marker-end:none !important;marker-end:url(#arrow)"',
+    'marker-end="url(#arrow)" marker-start="url(#arrow)"',
+    'marker-end="url(#arrow)" marker-mid="url(#arrow)"',
+  ]) {
+    const result = observe(base.replace('marker-end="url(#arrow)"', replacement))
+    expect(result.evidence?.outputAdmission).toBe('passed')
+    expect(finding(result, 'svg-edge-target-marker:0')?.status).not.toBe('passed')
+    expect(result.semanticComplete).toBe(false)
+  }
+  expect(observe(base.replaceAll('marker-end="url(#arrow)"', 'style="marker-end:url(#arrow)"')).semanticComplete).toBe(true)
+  const stylesheet = observe(base.replace('</svg>', '<style>.class-relationship { marker-end:none }</style></svg>'))
+  expect(finding(stylesheet, 'svg-edge-target-marker:0')?.status).not.toBe('passed')
+  expect(stylesheet.semanticComplete).toBe(false)
 })

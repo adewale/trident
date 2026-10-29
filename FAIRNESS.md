@@ -43,13 +43,16 @@ calibration measures timing noise and never supplies missing correctness proof.
 The report reads old evidence as unavailable where a dimension was not recorded;
 it does not backfill or relabel historical measurements.
 
-Qualification observer `portable-owned-topology-v2-agentic-class-er` adds a
+Qualification observer `portable-owned-topology-v3-agentic-class-er` adds a
 reviewed Agentic Class/ER projection. It separately calls the public
 `parseRegisteredMermaid` API after render clocks and memory snapshots, requiring
 the actual typed Result rather than source preservation. Declared node identities
 and endpoint multiplicity must agree with both that model and independently
 bound, visibly stroked SVG routes. Directed association/dependency Class routes
 also need their referenced, visible open-arrow resource pointing into the target.
+Simple inherited/inline marker longhands are inspected; marker shorthand,
+`!important`, escaped/commented declarations and stylesheet overrides remain
+unmeasured. Unexpected start/mid markers cannot earn a directed-to-only certificate.
 Simple ER relation lines additionally require the authored exact tick/fan/circle
 cardinality at each route end and the declared solid/dashed identifying appearance;
 each emitted glyph primitive can satisfy only one endpoint check.

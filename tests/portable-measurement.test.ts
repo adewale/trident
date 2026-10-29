@@ -152,7 +152,7 @@ test('Agentic native qualification uses its actual root parser outside render cl
     const f = agenticParserFixture(), result = await runSerialJob(f.job(mode), f.node)
     expect(result.status).toBe('passed')
     expect(result.qualification?.semanticComplete).toBe(true)
-    expect(result.qualification?.observer).toBe('portable-owned-topology-v2-agentic-class-er')
+    expect(result.qualification?.observer).toBe('portable-owned-topology-v3-agentic-class-er')
     const observations = f.observations(), parses = observations.filter(item => item.kind === 'parse')
     expect(parses.length).toBeGreaterThan(0)
     if (mode === 'cold') expect(parses.every(item => BigInt(item.at) > BigInt(result.apiWindow!.endNs))).toBe(true)

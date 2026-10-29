@@ -2,7 +2,7 @@ import { SaxesParser } from 'saxes'
 import type { PortableCase, PortableEdge } from './cohorts.ts'
 
 /** Qualification identity is separate from the unchanged SVG timing protocol. */
-export const PORTABLE_QUALIFICATION_OBSERVER = 'portable-owned-topology-v2-agentic-class-er'
+export const PORTABLE_QUALIFICATION_OBSERVER = 'portable-owned-topology-v3-agentic-class-er'
 
 export interface FidelityCheck {
   name: string
@@ -374,9 +374,10 @@ function agenticTopology(result: Record<string, any> | undefined, family: string
   return { nodes: nodes.map(node => node.id), edges: body.relations.map((rel: any) => ({ source: rel.from, target: rel.to })), labels: Object.fromEntries(nodes.map(node => [node.id, node.label ?? node.id])) }
 }
 
+const cssOutsideProfile = (style: string) => /\/\*|\\|!\s*important\b/i.test(style)
 function presentation(element: Element, name: string): string | undefined {
   for (let current: Element | undefined = element; current; current = current.parent) {
-    const inline = (current.attributes.style ?? '').split(';').map(item => item.split(':').map(part => part.trim())).filter(([key]) => key === name).at(-1)?.[1]
+    const inline = (current.attributes.style ?? '').split(';').map(item => item.split(':').map(part => part.trim())).filter(([key]) => key?.toLowerCase() === name).at(-1)?.[1]
     const value = inline ?? current.attributes[name]
     if (value !== undefined) return value
   }
@@ -386,6 +387,7 @@ function presentation(element: Element, name: string): string | undefined {
  * clipping, filters and host styles require the separate browser paint lane. */
 function visiblePaint(element: Element, stroke: boolean, definitions = false): boolean | undefined {
   for (let current: Element | undefined = element; current; current = current.parent) {
+    if (cssOutsideProfile(current.attributes.style ?? '')) return undefined
     if (['clip-path', 'mask', 'filter'].some(key => current!.attributes[key] && current!.attributes[key] !== 'none') || /(?:^|;)\s*(?:transform|clip-path|mask|filter)\s*:/i.test(current.attributes.style ?? '')) return undefined
     const opacity = finiteLength(presentation(current, 'opacity') ?? '1')
     if (opacity === undefined) return undefined
@@ -429,7 +431,12 @@ function routeEndpoints(element: Element): { start: Point; end: Point; beforeEnd
 /** Reviewed open association/dependency arrow: actual referenced V-shaped ink,
  * aligned by SVG's automatic end orientation and anchored at the written tip. */
 function agenticArrow(edge: Element, elements: Element[]): boolean | undefined {
-  const reference = /^url\(#([^\s()]+)\)$/.exec(edge.attributes['marker-end'] ?? '')
+  // Marker shorthand and !important need a CSS cascade observer. Simple
+  // longhands inherit normally and inline values override SVG attributes.
+  for (let current: Element | undefined = edge; current; current = current.parent)
+    if (cssOutsideProfile(current.attributes.style ?? '') || /(?:^|;)\s*marker\s*:/i.test(current.attributes.style ?? '')) return undefined
+  if (['marker-start', 'marker-mid'].some(name => { const value = presentation(edge, name); return value !== undefined && value !== 'none' })) return false
+  const reference = /^url\(#([^\s()]+)\)$/.exec(presentation(edge, 'marker-end') ?? '')
   if (!reference) return false
   const resources = elements.filter(item => item.uri === namespace && item.tag === 'marker' && item.attributes.id === reference[1])
   if (resources.length !== 1) return false
@@ -607,7 +614,7 @@ function qualifyPortableUnchecked(testCase: PortableCase, output: PortableOutput
     const paintChecks = checks.length, nodeClass = testCase.family === 'class' ? 'class-node' : 'entity', edgeClass = `${testCase.family}-relationship`
     const drawnNodes = nodes.filter(element => element.uri === namespace && element.tag === 'g' && visible(element) && hasClass(element, nodeClass))
     const drawnEdges = nodes.filter(element => element.uri === namespace && ['path', 'polyline'].includes(element.tag) && visible(element) && hasClass(element, edgeClass))
-    const stylesheet = nodes.some(element => element.tag === 'style' && /(?:^|[;{])\s*(?:fill|stroke(?:-width|-opacity)?|opacity|display|visibility|transform|clip-path|mask|filter)\s*:/i.test(element.text))
+    const stylesheet = nodes.some(element => element.tag === 'style' && (cssOutsideProfile(element.text) || /(?:^|[;{])\s*(?:fill|stroke(?:-width|-opacity)?|opacity|display|visibility|transform|clip-path|mask|filter|marker(?:-start|-mid|-end)?)\s*:/i.test(element.text)))
     check('svg-owned-node-identities', multiset(expected.nodes), multiset(drawnNodes.map(node => node.attributes['data-id'])), 'Visible Agentic Class/ER node owner multiset; labels or metadata alone do not establish identity.')
     const bounds = new Map<string, Bounds | undefined>()
     for (const [index, node] of drawnNodes.entries()) {
