@@ -36,9 +36,7 @@ test('a candidate tarball stands in for the pinned release, verified by its SHA-
   const f = preparation(),
     tarball = pack('trident-fixture-renderer', '2.0.0-rc.1'),
     digest = sha256(tarball)
-  writeFileSync(f.catalog, JSON.stringify({ nodes: [{ ...node, benchmark: { ...node.benchmark!, skip: { version: '1.0.0', reason: 'Broken pinned release' } } }] }))
   const [entry] = await prepareCommunity({ ...f.options, communityCandidate: { project, tarball, sha256: digest } })
-  writeFileSync(f.catalog, JSON.stringify({ nodes: [node] }))
   expect(entry!.error).toBeUndefined()
   expect(entry!.artifact!.version).toBe('2.0.0-rc.1')
   const installed = entry!.artifact!.candidate as { sha256: string; tarball: string }
@@ -362,4 +360,13 @@ test('resource diagnostics never become newly measured diagram cases in a candid
   expect(markdown).toContain('No case or family changed')
   expect(markdown).not.toContain('renderer-process-tree')
   expect(markdown).toContain('100.0% (1/1) → 100.0% (1/1)')
+})
+
+test('a disabled published release still admits an explicitly supplied candidate package', async () => {
+  const f = preparation(), tarball = pack('trident-fixture-renderer', '2.0.0-rc.1')
+  writeFileSync(f.catalog, JSON.stringify({ nodes: [{ ...node, benchmark: { ...node.benchmark!, skip: { version: '1.0.0', reason: 'Broken published runtime' } } }] }))
+  const [entry] = await prepareCommunity({ ...f.options, communityCandidate: { project, tarball, sha256: sha256(tarball) } })
+  expect(entry!.error).toBeUndefined()
+  expect(entry!.artifact!.version).toBe('2.0.0-rc.1')
+  expect(entry!.artifact!.candidate).toBeDefined()
 })

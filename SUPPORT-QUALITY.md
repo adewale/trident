@@ -46,7 +46,7 @@ Each fraction is successful authored inputs / 6 planned inputs for that particul
 | fasouto/termaid | 0.10.0 | terminal/python 6/6 | No unbound declared format; broader qualification remains separate |
 | gotoailab/modern_mermaid | discovery only | out of scope | Whole-editor workflow; no core driver requirement |
 | inkeep/visimer | 1.1.3 | parse/node 6/6 | No unbound declared format; broader qualification remains separate |
-| justsml/rusty-mermaid | not admitted | unmeasured | Published rusty-mermaid@0.42.0 omits pkg/rusty_mermaid.js and its WASM runtime; public release could not be invoked; 0.42.0 is skipped before acquisition. |
+| justsml/rusty-mermaid | 0.42.0 | skipped by configuration | Published rusty-mermaid@0.42.0 omits pkg/rusty_mermaid.js and its WASM runtime; public release could not be invoked; 0.42.0 is skipped before acquisition. |
 | kais-radwan/ascii-mermaid | 0.1.0 | terminal/node 6/6 | No unbound declared format; broader qualification remains separate |
 | kingsword09/mermansi | v0.1.6 | terminal/cli 6/6 | No unbound declared format; broader qualification remains separate |
 | kitlangton/merman | 0.2.1 | terminal/node 3/6 | No unbound declared format; broader qualification remains separate |
