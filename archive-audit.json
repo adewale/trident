@@ -1,0 +1,8 @@
+{
+  "checks": 182,
+  "pngFiles": 24,
+  "attempts": 2,
+  "positivePerAttempt": "6/6",
+  "controlsPerAttempt": "2/2",
+  "ambientConflict": "blocked before launch"
+}

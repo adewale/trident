@@ -1,0 +1,397 @@
+{
+  "protocol": "public-output-contract-verification-v2",
+  "producers": [
+    "100644 blob 0204ce3268adfb16c4c021de08ab0a50a688b04d\tportable/protocol.ts",
+    "100644 blob 0423521d87459206d20adc6b205cd28290b240a8\tportable/project-records.ts",
+    "100644 blob 114b71891d71dc30faa27e88aa7e4ca0ba3f0267\tunified/community-source-prepare.ts",
+    "100644 blob 143cb0eb5809bd88ec75883d35cf9f989de1f658\tunified/community-artifact-prepare.ts",
+    "100644 blob 19c946f793e79bfaa036c26db7cf26876f5f8ed1\tunified/community-extra-adapters.mjs",
+    "100644 blob 2740a1a29fc5a3726e16f38ef6f522420e6285e7\tunified/failure-outputs.ts",
+    "100644 blob 2e3e40f6187ea9cd6de4c6a2a01bf916d6612c00\tunified/lineage.ts",
+    "100644 blob 2f89b53ee3c54994dad9f7cecb0a5959ff96e5b7\tunified/protocol-identity.ts",
+    "100644 blob 368cb14d601ecda74fac76202831ae7bd1bd71f8\tunified/qualification-visible-source.ts",
+    "100644 blob 3c4999e57c8016ec651a548f0b8ba696165410ba\tportable/mermaid-oracle.ts",
+    "100644 blob 3da3e0ea5f77bd47733b7cefccee0b6d92a86beb\tunified/project-update.ts",
+    "100644 blob 403ff7ba062a20a4610b46468f04a028222d4ca1\tci-policy-enforce.ts",
+    "100644 blob 404d673b46a577dbe4c89912ee4af2e865a42e43\tunified/community-worker.mjs",
+    "100644 blob 40b8c9733871cdca86ed91dc69f28baf4d614a18\tunified/browser-png-inspection.ts",
+    "100644 blob 46919dbe7137c87acb3e9a37ff3714783ddc9af3\tunified/excalidraw-inspection.ts",
+    "100644 blob 46a6436ea29e11fa5d713b39ddb63acd9ae791cf\tci-policy.ts",
+    "100644 blob 57236fdd42b4518e6bd41fdbf03d4347f2558b06\ttool-versions.json",
+    "100644 blob 57f9c7caf187a31dd2721708321e532730cfd3ac\tunified/benchmark-skip.ts",
+    "100644 blob 5813f9b7c09528e50b77f9003f16b828a625081c\tportable/ci-policy.ts",
+    "100644 blob 5ef6354edf9d8f60eed95a51e4dd9253bfed2e90\tunified/community-worker-evidence.ts",
+    "100644 blob 692842733ae46444d33fda8dc39a092e604145b2\tunified/community-protocol-identity.ts",
+    "100644 blob 6a0b61c7dd23cd9ad0a6b408278b18e38b89521d\tunified/trident-paths.ts",
+    "100644 blob 6fdca45d96e84f46735cd8fe8926fe34e2889f1b\tunified/harness-paths.ts",
+    "100644 blob 718dcbe9f00169bc908fbfbb8e85f3469aab6898\tnative-flutter/app/lib/community_worker.dart",
+    "100644 blob 73da43d3fea40796d04fe7fe9906501d1d59d67a\tportable/cohorts.ts",
+    "100644 blob 7a3608023cb09b446352ef7967188f6cca00cc5c\tunified/community-external.ts",
+    "100644 blob 7a8d7b3345485af80a7a95632a1dd59f40d8db93\tunified/png-inspection.ts",
+    "100644 blob 7c14eba70718401acabbba66409daba59b664a4c\tunified/community-browser.ts",
+    "100644 blob 852381c5fe56bf942328f2218d9bc7f88c355977\tunified/process-tree.ts",
+    "100644 blob 861d3ecd711f27da243d4633e31d1408a30c9e48\tunified/qualification.ts",
+    "100644 blob 86e6502bbae5e3ce7fca30a93dc938aa4273b58c\tunified/support.ts",
+    "100644 blob 8ec1813a5bbc421c3e8f84a78eaf979510b57f41\tunified/community-python-worker.py",
+    "100644 blob 9650cf38842937be6ce0506095b2019ddcb5013a\tfidelity/selection.ts",
+    "100644 blob 9b4c6d41fcdff1e95f34584cae7699387b9ef24a\tunified/family-support.ts",
+    "100644 blob a2bdd352ec4593706fe6888250c38c4476ec021b\tunified/community-extra-source.ts",
+    "100644 blob a4babf48bfcc17736628dce4d0f6d416781ed7d1\tportable/mermaid-oracle-worker.mjs",
+    "100644 blob a865874cfc792441448bca480dc66e30de228524\tportable/artifact-dependencies.ts",
+    "100644 blob aa10f449699fafb6430719483ddfd6a1079131e3\tunified/catalog-eligibility.ts",
+    "100644 blob aaf1d51b3673c8ebf42a822d35cb86d569dbc291\tunified/release-cli.ts",
+    "100644 blob b3ac3e9b975ce5571ca70ca309af3275486b3d5b\tunified/artifact-admission.ts",
+    "100644 blob b416d12cc952cb348923542eaea9d14d19647da0\tunified/support-verification.ts",
+    "100644 blob b4645079ec5f8b4a939360b735e7eb9ac7daf31a\tunified/workload-intent.ts",
+    "100644 blob b4b4ca9a7105aa04a60a0add90861e6237ff59b6\tunified/candidate-packages.ts",
+    "100644 blob b6e2112969be7aefb804478246a1e84d36cf5b7d\tportable/time-observer.ts",
+    "100644 blob c4e0381b39ae90356167d2f99e0e286bce65fdac\tunified/declared-adapter.mjs",
+    "100644 blob d29586438e915f1ce580b210af765fcdc3422557\tunified/options.ts",
+    "100644 blob d50649b756b6334786b215c341776b37ace0cef1\tunified/oracle-labels.ts",
+    "100644 blob d9dfab66016cdc4bd0f89adc58ad1359b3944234\tunified/community-process.ts",
+    "100644 blob e26c2b2f6af3ee16e0bdf4ce2601edd9e590530f\tunified/community-cli.ts",
+    "100644 blob eacfa7f30a1a1925538ba704f73cb59f80fa44f3\tunified/browser-process-memory.ts",
+    "100644 blob eaf9d7373b56c794d19a073ff435a181a35cc483\tunified/community.ts",
+    "100644 blob ed051cbd9a8c3df3881ed07327e08fa3dba7976f\tunified/svg-text-inspection.ts",
+    "100644 blob fc752c49aa51e88dac8c8e13b7168abc93c44fe2\ttool-versions.ts",
+    "100644 blob fcb4981041a2a60fa8de2ece65f8d9c0f7fee3e5\tnative-flutter/community-launch.mjs",
+    "100644 blob ff13967087b5a60fb3037fc0b55eb9caa0041de0\tunified/corpus.ts",
+    "100755 blob bd7a559bbecab7be899e21b1285cfd0f73bd0a1f\tnative-flutter/community-worker.mjs"
+  ],
+  "catalogSha256": "4dffee4c0daadea85988b0382af3af489aabb39732f4a89d1096d0e733fbf0c9",
+  "generatedAt": "2026-10-29T12:33:07.224Z",
+  "preparedSha256": "9f6a005ce49af79cfaccf5db069c4c3da6306d339ca28276d3b7cb1986abb771",
+  "plannedProjects": 1,
+  "completedProjects": 1,
+  "workloads": [
+    {
+      "id": "support:flowchart",
+      "expectedRelationships": [
+        {
+          "from": "Alpha",
+          "to": "Beta"
+        }
+      ],
+      "family": "flowchart",
+      "source": "flowchart LR\nA[Alpha] --> B[Beta]",
+      "expectedLabels": [
+        "Alpha",
+        "Beta"
+      ],
+      "features": [],
+      "provenance": "Independent authored two-node output admission"
+    },
+    {
+      "id": "support:sequence",
+      "expectedRelationships": [
+        {
+          "from": "Alpha",
+          "to": "Beta",
+          "label": "Request"
+        }
+      ],
+      "family": "sequence",
+      "source": "sequenceDiagram\nparticipant A as Alpha\nparticipant B as Beta\nA->>B: Request",
+      "expectedLabels": [
+        "Alpha",
+        "Beta",
+        "Request"
+      ],
+      "features": [],
+      "provenance": "Independent authored message output admission"
+    },
+    {
+      "id": "support:class",
+      "expectedRelationships": [
+        {
+          "from": "Alpha",
+          "to": "Beta",
+          "label": "uses"
+        }
+      ],
+      "family": "class",
+      "source": "classDiagram\nclass Alpha\nclass Beta\nAlpha --> Beta: uses",
+      "expectedLabels": [
+        "Alpha",
+        "Beta",
+        "uses"
+      ],
+      "features": [],
+      "provenance": "Independent authored class output admission"
+    },
+    {
+      "id": "support:state",
+      "family": "state",
+      "source": "stateDiagram-v2\nstate \"Alpha\" as A\nstate \"Beta\" as B\nA --> B: advance",
+      "expectedLabels": [
+        "Alpha",
+        "Beta",
+        "advance"
+      ],
+      "features": [],
+      "provenance": "Independent authored state output admission"
+    },
+    {
+      "id": "support:er",
+      "expectedRelationships": [
+        {
+          "from": "ALPHA",
+          "to": "BETA",
+          "label": "owns"
+        }
+      ],
+      "family": "er",
+      "source": "erDiagram\nALPHA ||--o{ BETA : owns",
+      "expectedLabels": [
+        "ALPHA",
+        "BETA",
+        "owns"
+      ],
+      "features": [],
+      "provenance": "Independent authored relationship output admission"
+    },
+    {
+      "id": "support:pie",
+      "family": "pie",
+      "source": "pie\n\"Alpha\":7\n\"Beta\":3",
+      "expectedLabels": [
+        "Alpha",
+        "Beta"
+      ],
+      "features": [],
+      "provenance": "Independent authored numeric output admission"
+    }
+  ],
+  "negativeControls": [
+    {
+      "id": "support:negative-header",
+      "family": "invalid-source",
+      "source": "This is deliberately not a Mermaid diagram. @@@ {{{",
+      "features": [],
+      "provenance": "Independent malformed-header output control",
+      "intent": "negative-admission"
+    },
+    {
+      "id": "support:negative-flowchart",
+      "family": "flowchart",
+      "source": "flowchart LR\n --> -->",
+      "features": [],
+      "provenance": "Independent malformed flowchart output control",
+      "intent": "negative-admission"
+    }
+  ],
+  "projects": [
+    {
+      "project": "orestesgaolin/mermaid",
+      "state": "partially-verified",
+      "version": "0.3.2",
+      "declaredOutputs": [
+        "png"
+      ],
+      "boundOutputs": [
+        "png"
+      ],
+      "outputs": [
+        {
+          "output": "png",
+          "state": "invocation-verified",
+          "plannedInputs": 6,
+          "passed": 6,
+          "controlState": "verified",
+          "controlCounts": {
+            "planned": 2,
+            "passed": 2,
+            "failed": 0,
+            "blocked": 0,
+            "missing": 0
+          },
+          "duplicateControlIds": [],
+          "recordedInputObservations": 6,
+          "duplicateCaseIds": [],
+          "observations": [
+            {
+              "suite": "community",
+              "surface": "native:in-process-api",
+              "runtime": "Native Linux Flutter release",
+              "family": "flowchart",
+              "caseId": "support:flowchart",
+              "operation": "render",
+              "format": "png",
+              "mode": "output-contract-verification",
+              "status": "passed",
+              "bytes": 2249,
+              "metrics": {
+                "implementation": "orestesgaolin/mermaid",
+                "workerAttempt": 1,
+                "rejected": null,
+                "pngReturned": true,
+                "failureStage": null,
+                "qualification": "decoded-raster-content",
+                "boundary": "native public API; executable startup excluded",
+                "verification": "public-output-contract-verification-v2"
+              }
+            },
+            {
+              "suite": "community",
+              "surface": "native:in-process-api",
+              "runtime": "Native Linux Flutter release",
+              "family": "sequence",
+              "caseId": "support:sequence",
+              "operation": "render",
+              "format": "png",
+              "mode": "output-contract-verification",
+              "status": "passed",
+              "bytes": 6911,
+              "metrics": {
+                "implementation": "orestesgaolin/mermaid",
+                "workerAttempt": 1,
+                "rejected": null,
+                "pngReturned": true,
+                "failureStage": null,
+                "qualification": "decoded-raster-content",
+                "boundary": "native public API; executable startup excluded",
+                "verification": "public-output-contract-verification-v2"
+              }
+            },
+            {
+              "suite": "community",
+              "surface": "native:in-process-api",
+              "runtime": "Native Linux Flutter release",
+              "family": "class",
+              "caseId": "support:class",
+              "operation": "render",
+              "format": "png",
+              "mode": "output-contract-verification",
+              "status": "passed",
+              "bytes": 2541,
+              "metrics": {
+                "implementation": "orestesgaolin/mermaid",
+                "workerAttempt": 1,
+                "rejected": null,
+                "pngReturned": true,
+                "failureStage": null,
+                "qualification": "decoded-raster-content",
+                "boundary": "native public API; executable startup excluded",
+                "verification": "public-output-contract-verification-v2"
+              }
+            },
+            {
+              "suite": "community",
+              "surface": "native:in-process-api",
+              "runtime": "Native Linux Flutter release",
+              "family": "state",
+              "caseId": "support:state",
+              "operation": "render",
+              "format": "png",
+              "mode": "output-contract-verification",
+              "status": "passed",
+              "bytes": 4134,
+              "metrics": {
+                "implementation": "orestesgaolin/mermaid",
+                "workerAttempt": 1,
+                "rejected": null,
+                "pngReturned": true,
+                "failureStage": null,
+                "qualification": "decoded-raster-content",
+                "boundary": "native public API; executable startup excluded",
+                "verification": "public-output-contract-verification-v2"
+              }
+            },
+            {
+              "suite": "community",
+              "surface": "native:in-process-api",
+              "runtime": "Native Linux Flutter release",
+              "family": "er",
+              "caseId": "support:er",
+              "operation": "render",
+              "format": "png",
+              "mode": "output-contract-verification",
+              "status": "passed",
+              "bytes": 4072,
+              "metrics": {
+                "implementation": "orestesgaolin/mermaid",
+                "workerAttempt": 1,
+                "rejected": null,
+                "pngReturned": true,
+                "failureStage": null,
+                "qualification": "decoded-raster-content",
+                "boundary": "native public API; executable startup excluded",
+                "verification": "public-output-contract-verification-v2"
+              }
+            },
+            {
+              "suite": "community",
+              "surface": "native:in-process-api",
+              "runtime": "Native Linux Flutter release",
+              "family": "pie",
+              "caseId": "support:pie",
+              "operation": "render",
+              "format": "png",
+              "mode": "output-contract-verification",
+              "status": "passed",
+              "bytes": 15727,
+              "metrics": {
+                "implementation": "orestesgaolin/mermaid",
+                "workerAttempt": 1,
+                "rejected": null,
+                "pngReturned": true,
+                "failureStage": null,
+                "qualification": "decoded-raster-content",
+                "boundary": "native public API; executable startup excluded",
+                "verification": "public-output-contract-verification-v2"
+              }
+            }
+          ],
+          "controls": [
+            {
+              "suite": "community",
+              "surface": "native:in-process-api",
+              "runtime": "Native Linux Flutter release",
+              "family": "invalid-source",
+              "caseId": "support:negative-header",
+              "operation": "negative-admission",
+              "format": "png",
+              "mode": "output-contract-verification",
+              "status": "passed",
+              "detail": "Public operation rejected the independently invalid source",
+              "metrics": {
+                "implementation": "orestesgaolin/mermaid",
+                "workerAttempt": 1,
+                "rejected": true,
+                "pngReturned": false,
+                "failureStage": "public-api",
+                "qualification": "artifact-envelope-only",
+                "boundary": "native public API; executable startup excluded",
+                "verification": "public-output-contract-verification-v2"
+              }
+            },
+            {
+              "suite": "community",
+              "surface": "native:in-process-api",
+              "runtime": "Native Linux Flutter release",
+              "family": "flowchart",
+              "caseId": "support:negative-flowchart",
+              "operation": "negative-admission",
+              "format": "png",
+              "mode": "output-contract-verification",
+              "status": "passed",
+              "detail": "Public operation rejected the independently invalid source",
+              "metrics": {
+                "implementation": "orestesgaolin/mermaid",
+                "workerAttempt": 1,
+                "rejected": true,
+                "pngReturned": false,
+                "failureStage": "public-api",
+                "qualification": "artifact-envelope-only",
+                "boundary": "native public API; executable startup excluded",
+                "verification": "public-output-contract-verification-v2"
+              }
+            }
+          ]
+        }
+      ],
+      "gaps": []
+    }
+  ],
+  "limits": "Six authored positive inputs and two independent invalid-source controls per bound format. Raster decoding/content supplies no label or topology credit. No timing comparisons, full family support, model/paint completeness or overall top-tier support is inferred. Missing bindings and artifacts remain gaps."
+}

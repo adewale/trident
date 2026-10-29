@@ -1,0 +1,318 @@
+{
+  "observer": "Pillow 12.3.0",
+  "scope": "Independent decode, positive dimensions and nonuniform RGB content only; no OCR/topology/paint equivalence or benchmark timing",
+  "files": [
+    {
+      "path": "replay/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-0.png",
+      "sha256": "a979b136bcd4fe4af84a69d65e28fcc512df6d49cfc38cc3d83cb3551b87df6c",
+      "bytes": 2249,
+      "width": 265,
+      "height": 65,
+      "rgbVarianceOverWhite": [
+        816.5312606402509,
+        930.0825685689065,
+        686.1330542057311
+      ],
+      "decoded": true
+    },
+    {
+      "path": "replay/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-0.png.first.png",
+      "sha256": "a979b136bcd4fe4af84a69d65e28fcc512df6d49cfc38cc3d83cb3551b87df6c",
+      "bytes": 2249,
+      "width": 265,
+      "height": 65,
+      "rgbVarianceOverWhite": [
+        816.5312606402509,
+        930.0825685689065,
+        686.1330542057311
+      ],
+      "decoded": true
+    },
+    {
+      "path": "replay/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-1.png",
+      "sha256": "f084184c3a53b1823ca7729a69090a0eff4626f2f5136d741580539f162d792f",
+      "bytes": 6911,
+      "width": 400,
+      "height": 210,
+      "rgbVarianceOverWhite": [
+        587.8844030780906,
+        663.7883166653883,
+        452.8549868161792
+      ],
+      "decoded": true
+    },
+    {
+      "path": "replay/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-1.png.first.png",
+      "sha256": "f084184c3a53b1823ca7729a69090a0eff4626f2f5136d741580539f162d792f",
+      "bytes": 6911,
+      "width": 400,
+      "height": 210,
+      "rgbVarianceOverWhite": [
+        587.8844030780906,
+        663.7883166653883,
+        452.8549868161792
+      ],
+      "decoded": true
+    },
+    {
+      "path": "replay/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-2.png",
+      "sha256": "9e3fbeaa430031f18613a091261ffe13b6ee37fafec88828c3f19e0f5150a3e5",
+      "bytes": 2541,
+      "width": 69,
+      "height": 198,
+      "rgbVarianceOverWhite": [
+        936.1211369913854,
+        1134.2852292279865,
+        697.3006940456997
+      ],
+      "decoded": true
+    },
+    {
+      "path": "replay/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-2.png.first.png",
+      "sha256": "9e3fbeaa430031f18613a091261ffe13b6ee37fafec88828c3f19e0f5150a3e5",
+      "bytes": 2541,
+      "width": 69,
+      "height": 198,
+      "rgbVarianceOverWhite": [
+        936.1211369913854,
+        1134.2852292279865,
+        697.3006940456997
+      ],
+      "decoded": true
+    },
+    {
+      "path": "replay/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-3.png",
+      "sha256": "a02aef86371db4a1fb69e8d16c78cd52c0472f5e75984564159677f1f6e362fb",
+      "bytes": 4134,
+      "width": 83,
+      "height": 155,
+      "rgbVarianceOverWhite": [
+        1409.566227201094,
+        1520.486992993857,
+        1298.6139326066764
+      ],
+      "decoded": true
+    },
+    {
+      "path": "replay/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-3.png.first.png",
+      "sha256": "a02aef86371db4a1fb69e8d16c78cd52c0472f5e75984564159677f1f6e362fb",
+      "bytes": 4134,
+      "width": 83,
+      "height": 155,
+      "rgbVarianceOverWhite": [
+        1409.566227201094,
+        1520.486992993857,
+        1298.6139326066764
+      ],
+      "decoded": true
+    },
+    {
+      "path": "replay/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-4.png",
+      "sha256": "0941e8a6a889be392d2509693fcd0782a3981573d9c4f2e1c4594e49c0f5111d",
+      "bytes": 4072,
+      "width": 116,
+      "height": 271,
+      "rgbVarianceOverWhite": [
+        559.0639611391533,
+        658.3975326969418,
+        412.3334689654608
+      ],
+      "decoded": true
+    },
+    {
+      "path": "replay/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-4.png.first.png",
+      "sha256": "0941e8a6a889be392d2509693fcd0782a3981573d9c4f2e1c4594e49c0f5111d",
+      "bytes": 4072,
+      "width": 116,
+      "height": 271,
+      "rgbVarianceOverWhite": [
+        559.0639611391533,
+        658.3975326969418,
+        412.3334689654608
+      ],
+      "decoded": true
+    },
+    {
+      "path": "replay/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-5.png",
+      "sha256": "befb617f5a602b89bfb974abdf1af5d368c49004cf4d7e59c6db769201d58c44",
+      "bytes": 15727,
+      "width": 493,
+      "height": 414,
+      "rgbVarianceOverWhite": [
+        1388.0467919438831,
+        1388.0467919438831,
+        1433.9184068006366
+      ],
+      "decoded": true
+    },
+    {
+      "path": "replay/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-5.png.first.png",
+      "sha256": "befb617f5a602b89bfb974abdf1af5d368c49004cf4d7e59c6db769201d58c44",
+      "bytes": 15727,
+      "width": 493,
+      "height": 414,
+      "rgbVarianceOverWhite": [
+        1388.0467919438831,
+        1388.0467919438831,
+        1433.9184068006366
+      ],
+      "decoded": true
+    },
+    {
+      "path": "verification/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-0.png",
+      "sha256": "a979b136bcd4fe4af84a69d65e28fcc512df6d49cfc38cc3d83cb3551b87df6c",
+      "bytes": 2249,
+      "width": 265,
+      "height": 65,
+      "rgbVarianceOverWhite": [
+        816.5312606402509,
+        930.0825685689065,
+        686.1330542057311
+      ],
+      "decoded": true
+    },
+    {
+      "path": "verification/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-0.png.first.png",
+      "sha256": "a979b136bcd4fe4af84a69d65e28fcc512df6d49cfc38cc3d83cb3551b87df6c",
+      "bytes": 2249,
+      "width": 265,
+      "height": 65,
+      "rgbVarianceOverWhite": [
+        816.5312606402509,
+        930.0825685689065,
+        686.1330542057311
+      ],
+      "decoded": true
+    },
+    {
+      "path": "verification/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-1.png",
+      "sha256": "f084184c3a53b1823ca7729a69090a0eff4626f2f5136d741580539f162d792f",
+      "bytes": 6911,
+      "width": 400,
+      "height": 210,
+      "rgbVarianceOverWhite": [
+        587.8844030780906,
+        663.7883166653883,
+        452.8549868161792
+      ],
+      "decoded": true
+    },
+    {
+      "path": "verification/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-1.png.first.png",
+      "sha256": "f084184c3a53b1823ca7729a69090a0eff4626f2f5136d741580539f162d792f",
+      "bytes": 6911,
+      "width": 400,
+      "height": 210,
+      "rgbVarianceOverWhite": [
+        587.8844030780906,
+        663.7883166653883,
+        452.8549868161792
+      ],
+      "decoded": true
+    },
+    {
+      "path": "verification/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-2.png",
+      "sha256": "9e3fbeaa430031f18613a091261ffe13b6ee37fafec88828c3f19e0f5150a3e5",
+      "bytes": 2541,
+      "width": 69,
+      "height": 198,
+      "rgbVarianceOverWhite": [
+        936.1211369913854,
+        1134.2852292279865,
+        697.3006940456997
+      ],
+      "decoded": true
+    },
+    {
+      "path": "verification/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-2.png.first.png",
+      "sha256": "9e3fbeaa430031f18613a091261ffe13b6ee37fafec88828c3f19e0f5150a3e5",
+      "bytes": 2541,
+      "width": 69,
+      "height": 198,
+      "rgbVarianceOverWhite": [
+        936.1211369913854,
+        1134.2852292279865,
+        697.3006940456997
+      ],
+      "decoded": true
+    },
+    {
+      "path": "verification/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-3.png",
+      "sha256": "a02aef86371db4a1fb69e8d16c78cd52c0472f5e75984564159677f1f6e362fb",
+      "bytes": 4134,
+      "width": 83,
+      "height": 155,
+      "rgbVarianceOverWhite": [
+        1409.566227201094,
+        1520.486992993857,
+        1298.6139326066764
+      ],
+      "decoded": true
+    },
+    {
+      "path": "verification/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-3.png.first.png",
+      "sha256": "a02aef86371db4a1fb69e8d16c78cd52c0472f5e75984564159677f1f6e362fb",
+      "bytes": 4134,
+      "width": 83,
+      "height": 155,
+      "rgbVarianceOverWhite": [
+        1409.566227201094,
+        1520.486992993857,
+        1298.6139326066764
+      ],
+      "decoded": true
+    },
+    {
+      "path": "verification/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-4.png",
+      "sha256": "0941e8a6a889be392d2509693fcd0782a3981573d9c4f2e1c4594e49c0f5111d",
+      "bytes": 4072,
+      "width": 116,
+      "height": 271,
+      "rgbVarianceOverWhite": [
+        559.0639611391533,
+        658.3975326969418,
+        412.3334689654608
+      ],
+      "decoded": true
+    },
+    {
+      "path": "verification/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-4.png.first.png",
+      "sha256": "0941e8a6a889be392d2509693fcd0782a3981573d9c4f2e1c4594e49c0f5111d",
+      "bytes": 4072,
+      "width": 116,
+      "height": 271,
+      "rgbVarianceOverWhite": [
+        559.0639611391533,
+        658.3975326969418,
+        412.3334689654608
+      ],
+      "decoded": true
+    },
+    {
+      "path": "verification/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-5.png",
+      "sha256": "befb617f5a602b89bfb974abdf1af5d368c49004cf4d7e59c6db769201d58c44",
+      "bytes": 15727,
+      "width": 493,
+      "height": 414,
+      "rgbVarianceOverWhite": [
+        1388.0467919438831,
+        1388.0467919438831,
+        1433.9184068006366
+      ],
+      "decoded": true
+    },
+    {
+      "path": "verification/orestesgaolin%2Fmermaid/png/community-raw/orestesgaolin_mermaid-png-r1-features-a1.jsonl.native/case-5.png.first.png",
+      "sha256": "befb617f5a602b89bfb974abdf1af5d368c49004cf4d7e59c6db769201d58c44",
+      "bytes": 15727,
+      "width": 493,
+      "height": 414,
+      "rgbVarianceOverWhite": [
+        1388.0467919438831,
+        1388.0467919438831,
+        1433.9184068006366
+      ],
+      "decoded": true
+    }
+  ]
+}
