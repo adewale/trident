@@ -16,11 +16,13 @@ export const canonicalBenchmarkTool = (tool: string) => {
   return aliases[normalized] ?? (pins.aliases as Record<string, string>)[normalized] ?? Object.entries(pins.tools).find(([, pin]) => pin.package === normalized)?.[0] ?? normalized
 }
 
-/** Admission/report policy, deliberately outside measured producer closures. */
+/** Only reference artifacts have global version requirements. Peer defaults
+ * remain acquisition metadata; owning artifacts determine reported versions. */
 export function assertBenchmarkToolVersion(tool: string, version: string, source: string): void {
   const canonical = canonicalBenchmarkTool(tool)
   if (typeof version !== 'string' || !version.trim() || version !== version.trim()) throw Error(`Missing artifact version for ${canonical} in ${source}`)
-  const expected = (pins.tools as Record<string, { version: string }>)[canonical]?.version
+  const reference = canonical === pins.mermaidOracle.tool || pins.mermaidOracle.addons.includes(canonical)
+  const expected = reference ? (pins.tools as Record<string, { version: string }>)[canonical]?.version : undefined
   if (expected && version !== expected) throw Error(`Benchmark set requires ${canonical} ${expected}; ${source} supplied ${version}`)
 }
 
