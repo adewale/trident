@@ -1,0 +1,134 @@
+{
+  "target": "lib/fixed_png_worker.dart",
+  "mode": "release",
+  "command": [
+    "flutter",
+    "build",
+    "linux",
+    "--release",
+    "--target",
+    "lib/fixed_png_worker.dart"
+  ],
+  "startedAt": "2026-10-29T00:33:32.177Z",
+  "finishedAt": "2026-10-29T00:33:33.776Z",
+  "sourceCommit": "200bfdf8ef99363edc58159c58ef9d88d52d0026",
+  "sdk": {
+    "frameworkVersion": "3.47.8",
+    "channel": "stable",
+    "repositoryUrl": "https://github.com/flutter/flutter.git",
+    "frameworkRevision": "737ba8f885dc774b53b442759999a312c9461e4e",
+    "frameworkCommitDate": "2026-10-22 21:37:31 -0700",
+    "engineRevision": "cf636b1dfb818dd6a3ff16e390e93b1a036969c8",
+    "engineCommitDate": "2026-10-23 02:13:38.000Z",
+    "engineContentHash": "dfd2e6cb7d319db05e3bf1503f3e2ac60f6288a2",
+    "engineBuildDate": "2026-10-23 03:34:48.330",
+    "dartSdkVersion": "3.13.7",
+    "devToolsVersion": "2.60.0",
+    "flutterVersion": "3.47.8",
+    "flutterRoot": "/workspace/flutter"
+  },
+  "inputs": [
+    {
+      "file": "lib/fixed_png_worker.dart",
+      "sha256": "7b50c0cef587860509d382df2f67f585134775afb51f301fd0e7d6bf5b215607"
+    },
+    {
+      "file": "pubspec.yaml",
+      "sha256": "48140882a5d27575ad492025830f8f11abb55d1e4c13d87a10df3704dda222fe"
+    },
+    {
+      "file": "pubspec.lock",
+      "sha256": "388d85f3334be0b47755c92e9f6911bfb2cca253c9514d232e55e781e677f35e"
+    },
+    {
+      "file": "linux/.gitignore",
+      "sha256": "5ded4f1a9d10d34bf6ee5beb0711d88ee2ef07b0f07ace9ed77935a246e8eb82"
+    },
+    {
+      "file": "linux/CMakeLists.txt",
+      "sha256": "a8ab75631ad1ec0c71aa95da1f1e01bfa4a83071af29e6d155462b0cefa580f6"
+    },
+    {
+      "file": "linux/flutter/CMakeLists.txt",
+      "sha256": "787189e2623313cfee590a0b553338eb9fc68b3af922ddd77c5d39c75f989aeb"
+    },
+    {
+      "file": "linux/flutter/generated_plugin_registrant.cc",
+      "sha256": "7861b227b10a10cc1d7643f82a246b7db35b503f2d9ff1d3c906136e6c260dce"
+    },
+    {
+      "file": "linux/flutter/generated_plugin_registrant.h",
+      "sha256": "00f93bb5b1faefdede8f6065df327522900fb0b8efee86bacf424fd947ed14bb"
+    },
+    {
+      "file": "linux/flutter/generated_plugins.cmake",
+      "sha256": "d5aaa52ef8594d3128b35b6619c6a353e1be5f3c5a63a9c29c0a32b424e91952"
+    },
+    {
+      "file": "linux/runner/CMakeLists.txt",
+      "sha256": "8cdcfd911e770fd7d511c97c7bce6559486a815352a47c953f7ef632e236d2cc"
+    },
+    {
+      "file": "linux/runner/main.cc",
+      "sha256": "ea23f7cdf74091d63bba29ef60486370b766157b848f0cfe62bd8b1c1695a0c1"
+    },
+    {
+      "file": "linux/runner/my_application.cc",
+      "sha256": "900968eb61fed5ba227f9e1dec1763d74adf436743d5d3d086364f610972fd4e"
+    },
+    {
+      "file": "linux/runner/my_application.h",
+      "sha256": "a4218d7ac0db8a9a6716daf216b2d4fc6bdc7ac647e3183078b2c962ebdfcf70"
+    }
+  ],
+  "outputs": [
+    {
+      "file": "native_bench",
+      "sha256": "0a58bc26b9fe6444869c302acb831bb264aed8a7930163b17ec6ecc939be92ed"
+    },
+    {
+      "file": "data/icudtl.dat",
+      "sha256": "325a86063d26334c2eabe1743cea073b612540fbf3d8fc2ef0b5708e3763a8c7"
+    },
+    {
+      "file": "lib/libapp.so",
+      "sha256": "1f4b605bbc847bde44aaff294540d767da5ef309548402c4b27945073aa234d0"
+    },
+    {
+      "file": "lib/libflutter_linux_gtk.so",
+      "sha256": "360ff98cd21382014818e418a9b96dcddf93240751300627fe14816d5993a891"
+    },
+    {
+      "file": "data/flutter_assets/AssetManifest.bin",
+      "sha256": "f566cc6fccc657365c0197accf3a7d6f80f85209ff666ff774f4dcbc524aa842"
+    },
+    {
+      "file": "data/flutter_assets/FontManifest.json",
+      "sha256": "28b1eb2b3d2e1ad60b8c8b0f9100b1ccbf492f7fa97f5bebb51ea97e73926e7d"
+    },
+    {
+      "file": "data/flutter_assets/NOTICES.Z",
+      "sha256": "4a96934de2b6c3c9d80eba3d7e100776b5d4e5b7b3220c6bcd10a341ccc89cd5"
+    },
+    {
+      "file": "data/flutter_assets/NativeAssetsManifest.json",
+      "sha256": "9548a31e4a048135c1d94f919328bfb62ae2c7bb3cab96557c7941daa97776cb"
+    },
+    {
+      "file": "data/flutter_assets/version.json",
+      "sha256": "ae0156a2657dc53e83bd8397064ecdd39af383bb31b3870a9ca09cfbf247ac78"
+    },
+    {
+      "file": "data/flutter_assets/fonts/MaterialIcons-Regular.otf",
+      "sha256": "0de7897702d3b619d6e281713411b3c977be06f1e99809df46f37701f83e1220"
+    },
+    {
+      "file": "data/flutter_assets/shaders/ink_sparkle.frag",
+      "sha256": "1fe8436a743884cb65078fe8c7b38e18f5365f2a2961270916f426fd13c604af"
+    },
+    {
+      "file": "data/flutter_assets/shaders/stretch_effect.frag",
+      "sha256": "bc7599dbbbaab310efe41520574138d21fb18a88c8fe4495ed79315309336f6f"
+    }
+  ]
+}

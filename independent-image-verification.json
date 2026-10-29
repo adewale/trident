@@ -1,0 +1,6 @@
+{
+  "checked_rows": 3888,
+  "unique_encoded_pngs": 68,
+  "decoded_pixel_and_length_checks_pass": true,
+  "decoder": "Pillow 12.3.0"
+}

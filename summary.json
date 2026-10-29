@@ -1,0 +1,723 @@
+{
+  "protocol": "controlled-docs-png-v2",
+  "calibrated": false,
+  "aaPolicy": "Independent A/B replicas, identical bytes. Geometric mean of per-case A-median/B-median ratios; 10000 paired case-bootstrap draws, seed20261029. 95% interval must stay within0.90..1.10. No relative performance claim if any participant fails. This interval describes sensitivity to the fixed case mix, not population inference.",
+  "scope": "Warm repeated fixed-PNG exports. Browser peers share Chromium and one SVG-to-PNG implementation. Native public renderToPng plus required fixed-canvas normalization is charged inside its timer.",
+  "byLibrary": {
+    "mermaid": {
+      "version": "12.2.0",
+      "cases": 18,
+      "samples": 900,
+      "medianCaseMs": 52.07499999832362,
+      "aa": {
+        "estimate": 1.0278713119617284,
+        "ci95": [
+          0.9857553883393676,
+          1.0786134391911992
+        ],
+        "pass": true
+      },
+      "perCase": [
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+          "A": 39.30000000074506,
+          "B": 40.899999998509884,
+          "totalMs": 39.59999999962747,
+          "apiMs": 23.950000001117587,
+          "normalizationMs": 12.899999998509884,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+          "A": 47.899999998509884,
+          "B": 46,
+          "totalMs": 46.79999999888241,
+          "apiMs": 25.09999999962747,
+          "normalizationMs": 23.199999999254942,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:903",
+          "A": 63.29999999701977,
+          "B": 69.30000000074506,
+          "totalMs": 66.20000000111759,
+          "apiMs": 45.25,
+          "normalizationMs": 15.299999998882413,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:919",
+          "A": 74.59999999776483,
+          "B": 73.89999999850988,
+          "totalMs": 74,
+          "apiMs": 44.34999999962747,
+          "normalizationMs": 30.200000001117587,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:1449",
+          "A": 66.89999999850988,
+          "B": 65.60000000149012,
+          "totalMs": 65.65000000037253,
+          "apiMs": 45.400000002235174,
+          "normalizationMs": 19.300000000745058,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:7",
+          "A": 41.099999997764826,
+          "B": 30.699999999254942,
+          "totalMs": 39.05000000074506,
+          "apiMs": 14.849999999627471,
+          "normalizationMs": 16.34999999962747,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+          "A": 40.30000000074506,
+          "B": 38.30000000074506,
+          "totalMs": 38.65000000037253,
+          "apiMs": 14.249999998137355,
+          "normalizationMs": 25.200000001117587,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:101",
+          "A": 31.699999999254942,
+          "B": 26.599999997764826,
+          "totalMs": 30.65000000037253,
+          "apiMs": 12.400000000372529,
+          "normalizationMs": 13.800000000745058,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:189",
+          "A": 27.399999998509884,
+          "B": 31.399999998509884,
+          "totalMs": 30.59999999962747,
+          "apiMs": 14.199999999254942,
+          "normalizationMs": 13.499999998137355,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/classDiagram.md:142",
+          "A": 63.5,
+          "B": 60.5,
+          "totalMs": 61.29999999888241,
+          "apiMs": 33.09999999962747,
+          "normalizationMs": 29,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/classDiagram.md:180",
+          "A": 54.599999997764826,
+          "B": 52.29999999701977,
+          "totalMs": 53.4499999973923,
+          "apiMs": 33.04999999888241,
+          "normalizationMs": 20.5,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/classDiagram.md:311",
+          "A": 83.5,
+          "B": 79.80000000074506,
+          "totalMs": 83.10000000149012,
+          "apiMs": 57.04999999888241,
+          "normalizationMs": 20.90000000037253,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:26",
+          "A": 72.89999999850988,
+          "B": 73.19999999925494,
+          "totalMs": 73.04999999888241,
+          "apiMs": 49.09999999962747,
+          "normalizationMs": 26.100000001490116,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+          "A": 44.599999997764826,
+          "B": 46.600000001490116,
+          "totalMs": 45.34999999962747,
+          "apiMs": 27.699999999254942,
+          "normalizationMs": 13.599999999627471,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:142",
+          "A": 52.899999998509884,
+          "B": 45.899999998509884,
+          "totalMs": 49.84999999962747,
+          "apiMs": 30.450000001117587,
+          "normalizationMs": 14.450000001117587,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:213",
+          "A": 52.600000001490116,
+          "B": 56.30000000074506,
+          "totalMs": 55.30000000074506,
+          "apiMs": 34.249999998137355,
+          "normalizationMs": 14.300000000745058,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:251",
+          "A": 50.899999998509884,
+          "B": 50.5,
+          "totalMs": 50.69999999925494,
+          "apiMs": 25.84999999962747,
+          "normalizationMs": 26.549999998882413,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/mindmap.md:46",
+          "A": 60,
+          "B": 59.80000000074506,
+          "totalMs": 59.95000000111759,
+          "apiMs": 35.500000001862645,
+          "normalizationMs": 26.699999999254942,
+          "samples": 50
+        }
+      ]
+    },
+    "pele": {
+      "version": "1.9.0",
+      "cases": 18,
+      "samples": 900,
+      "medianCaseMs": 11.899999999441206,
+      "aa": {
+        "estimate": 0.937889286826203,
+        "ci95": [
+          0.8905343328969487,
+          0.986222071059461
+        ],
+        "pass": false
+      },
+      "perCase": [
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+          "A": 9.199999999254942,
+          "B": 10.800000000745058,
+          "totalMs": 10.649999998509884,
+          "apiMs": 0.5499999988824129,
+          "normalizationMs": 10,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+          "A": 9,
+          "B": 11.200000002980232,
+          "totalMs": 11.099999999627471,
+          "apiMs": 0.5999999977648258,
+          "normalizationMs": 10.200000001117587,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:903",
+          "A": 11.399999998509884,
+          "B": 13,
+          "totalMs": 12.199999999254942,
+          "apiMs": 0.9000000022351742,
+          "normalizationMs": 11.25,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:919",
+          "A": 14.5,
+          "B": 14.399999998509884,
+          "totalMs": 14.449999999254942,
+          "apiMs": 1,
+          "normalizationMs": 13.299999998882413,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:1449",
+          "A": 12.599999997764826,
+          "B": 12.400000002235174,
+          "totalMs": 12.5,
+          "apiMs": 0.8000000007450581,
+          "normalizationMs": 11.799999998882413,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:7",
+          "A": 10.5,
+          "B": 10.799999997019768,
+          "totalMs": 10.649999998509884,
+          "apiMs": 0.5,
+          "normalizationMs": 10.199999999254942,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+          "A": 13.099999997764826,
+          "B": 12.799999997019768,
+          "totalMs": 13,
+          "apiMs": 0.4500000011175871,
+          "normalizationMs": 12.599999999627471,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:101",
+          "A": 9.599999997764826,
+          "B": 12.800000000745058,
+          "totalMs": 10.200000001117587,
+          "apiMs": 0.5,
+          "normalizationMs": 9.650000000372529,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:189",
+          "A": 9,
+          "B": 11.300000000745058,
+          "totalMs": 10.349999999627471,
+          "apiMs": 0.5,
+          "normalizationMs": 9.450000001117587,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/classDiagram.md:142",
+          "A": 13.199999999254942,
+          "B": 13,
+          "totalMs": 13.149999998509884,
+          "apiMs": 0.5,
+          "normalizationMs": 12.599999999627471,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/classDiagram.md:180",
+          "A": 11.699999999254942,
+          "B": 12.300000000745058,
+          "totalMs": 11.75,
+          "apiMs": 0.4000000022351742,
+          "normalizationMs": 11.350000001490116,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/classDiagram.md:311",
+          "A": 11.899999998509884,
+          "B": 14.800000000745058,
+          "totalMs": 13.450000001117587,
+          "apiMs": 0.7000000011175871,
+          "normalizationMs": 12.899999998509884,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:26",
+          "A": 13.599999997764826,
+          "B": 12.600000001490116,
+          "totalMs": 12.849999999627471,
+          "apiMs": 1,
+          "normalizationMs": 11.950000001117587,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+          "A": 11.199999999254942,
+          "B": 11.800000000745058,
+          "totalMs": 11.75,
+          "apiMs": 0.5999999977648258,
+          "normalizationMs": 11.149999998509884,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:142",
+          "A": 11.100000001490116,
+          "B": 10.5,
+          "totalMs": 10.800000000745058,
+          "apiMs": 0.5,
+          "normalizationMs": 10.099999999627471,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:213",
+          "A": 12.100000001490116,
+          "B": 12.800000000745058,
+          "totalMs": 12.199999999254942,
+          "apiMs": 0.599999999627471,
+          "normalizationMs": 11.650000000372529,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:251",
+          "A": 10.800000000745058,
+          "B": 10.699999999254942,
+          "totalMs": 10.75,
+          "apiMs": 0.30000000074505806,
+          "normalizationMs": 10.299999998882413,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/mindmap.md:46",
+          "A": 12.699999999254942,
+          "B": 11.800000000745058,
+          "totalMs": 12.049999998882413,
+          "apiMs": 0.30000000074505806,
+          "normalizationMs": 11.800000000745058,
+          "samples": 50
+        }
+      ]
+    },
+    "agentic": {
+      "version": "0.4.1",
+      "cases": 18,
+      "samples": 900,
+      "medianCaseMs": 29.75,
+      "aa": {
+        "estimate": 0.9767411293482173,
+        "ci95": [
+          0.9029480817521768,
+          1.0540768092358417
+        ],
+        "pass": true
+      },
+      "perCase": [
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+          "A": 29.200000002980232,
+          "B": 26.300000000745058,
+          "totalMs": 28.15000000037253,
+          "apiMs": 13.349999999627471,
+          "normalizationMs": 12.200000001117587,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+          "A": 25,
+          "B": 31.599999997764826,
+          "totalMs": 29.300000000745058,
+          "apiMs": 12.650000000372529,
+          "normalizationMs": 18.500000001862645,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:903",
+          "A": 43.099999997764826,
+          "B": 41.399999998509884,
+          "totalMs": 41.65000000037253,
+          "apiMs": 24.849999997764826,
+          "normalizationMs": 19.40000000037253,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:919",
+          "A": 43.599999997764826,
+          "B": 35.19999999925494,
+          "totalMs": 42.15000000037253,
+          "apiMs": 23.84999999962747,
+          "normalizationMs": 18.34999999962747,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:1449",
+          "A": 39.899999998509884,
+          "B": 42.70000000298023,
+          "totalMs": 41.149999998509884,
+          "apiMs": 23.549999998882413,
+          "normalizationMs": 19.199999999254942,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:7",
+          "A": 25.100000001490116,
+          "B": 29.700000002980232,
+          "totalMs": 28.5,
+          "apiMs": 12.149999998509884,
+          "normalizationMs": 18.550000000745058,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+          "A": 25.899999998509884,
+          "B": 25.699999999254942,
+          "totalMs": 25.84999999962747,
+          "apiMs": 11.149999998509884,
+          "normalizationMs": 11.199999999254942,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:101",
+          "A": 21.799999997019768,
+          "B": 31.400000002235174,
+          "totalMs": 28.900000002235174,
+          "apiMs": 10.800000000745058,
+          "normalizationMs": 16.34999999962747,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:189",
+          "A": 23.899999998509884,
+          "B": 30.5,
+          "totalMs": 25.84999999962747,
+          "apiMs": 10.549999998882413,
+          "normalizationMs": 10.349999999627471,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/classDiagram.md:142",
+          "A": 33.100000001490116,
+          "B": 26.199999999254942,
+          "totalMs": 30.800000000745058,
+          "apiMs": 14.75,
+          "normalizationMs": 17.949999999254942,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/classDiagram.md:180",
+          "A": 28.300000000745058,
+          "B": 26.199999999254942,
+          "totalMs": 28.150000002235174,
+          "apiMs": 11.500000001862645,
+          "normalizationMs": 18.199999999254942,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/classDiagram.md:311",
+          "A": 39.600000001490116,
+          "B": 42.899999998509884,
+          "totalMs": 41.70000000111759,
+          "apiMs": 23.59999999962747,
+          "normalizationMs": 19.949999999254942,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:26",
+          "A": 39.5,
+          "B": 38.29999999701977,
+          "totalMs": 39.15000000037253,
+          "apiMs": 23.500000001862645,
+          "normalizationMs": 15.800000000745058,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+          "A": 30.199999999254942,
+          "B": 30.199999999254942,
+          "totalMs": 30.199999999254942,
+          "apiMs": 13.5,
+          "normalizationMs": 11.500000001862645,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:142",
+          "A": 31,
+          "B": 32.30000000074506,
+          "totalMs": 31.09999999962747,
+          "apiMs": 14.650000000372529,
+          "normalizationMs": 12.799999998882413,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:213",
+          "A": 36.20000000298023,
+          "B": 33.600000001490116,
+          "totalMs": 35.55000000074506,
+          "apiMs": 18.000000001862645,
+          "normalizationMs": 14.900000000372529,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:251",
+          "A": 22.599999997764826,
+          "B": 28.599999997764826,
+          "totalMs": 24.800000000745058,
+          "apiMs": 9.700000001117587,
+          "normalizationMs": 10.25,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/mindmap.md:46",
+          "A": 28.800000000745058,
+          "B": 22.900000002235174,
+          "totalMs": 25.25,
+          "apiMs": 9.849999999627471,
+          "normalizationMs": 14.950000001117587,
+          "samples": 50
+        }
+      ]
+    },
+    "flutter": {
+      "version": "0.3.2",
+      "cases": 18,
+      "samples": 900,
+      "medianCaseMs": 65.90625,
+      "aa": {
+        "estimate": 1.1069854684446212,
+        "ci95": [
+          1.0936547981679385,
+          1.120613613550242
+        ],
+        "pass": false
+      },
+      "perCase": [
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+          "A": 65.551,
+          "B": 57.178,
+          "totalMs": 62.043,
+          "apiMs": 5.8774999999999995,
+          "normalizationMs": 55.605999999999995,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+          "A": 63.68,
+          "B": 59.65,
+          "totalMs": 61.275999999999996,
+          "apiMs": 5.768000000000001,
+          "normalizationMs": 55.298,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:903",
+          "A": 73.536,
+          "B": 66.61,
+          "totalMs": 71.12299999999999,
+          "apiMs": 13.6345,
+          "normalizationMs": 55.9015,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:919",
+          "A": 73.445,
+          "B": 65.774,
+          "totalMs": 69.86949999999999,
+          "apiMs": 13.356,
+          "normalizationMs": 56.186499999999995,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/flowchart.md:1449",
+          "A": 74.059,
+          "B": 66.477,
+          "totalMs": 70.475,
+          "apiMs": 12.326,
+          "normalizationMs": 56.68150000000001,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:7",
+          "A": 72.173,
+          "B": 68.48,
+          "totalMs": 70.20599999999999,
+          "apiMs": 12.383,
+          "normalizationMs": 56.838499999999996,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+          "A": 70.278,
+          "B": 64.414,
+          "totalMs": 68.11449999999999,
+          "apiMs": 11.2735,
+          "normalizationMs": 56.625,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:101",
+          "A": 69.597,
+          "B": 61.815,
+          "totalMs": 65.09700000000001,
+          "apiMs": 8.971,
+          "normalizationMs": 55.599999999999994,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:189",
+          "A": 70.726,
+          "B": 65.261,
+          "totalMs": 69.4425,
+          "apiMs": 11.680499999999999,
+          "normalizationMs": 56.725,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/classDiagram.md:142",
+          "A": 65.37,
+          "B": 60.704,
+          "totalMs": 63.9805,
+          "apiMs": 7.075,
+          "normalizationMs": 56.088499999999996,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/classDiagram.md:180",
+          "A": 67.006,
+          "B": 60.194,
+          "totalMs": 63.751,
+          "apiMs": 6.6235,
+          "normalizationMs": 56.687000000000005,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/classDiagram.md:311",
+          "A": 70.6,
+          "B": 62.483,
+          "totalMs": 67.3205,
+          "apiMs": 10.098500000000001,
+          "normalizationMs": 56.317499999999995,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:26",
+          "A": 67.485,
+          "B": 61.49,
+          "totalMs": 64.93,
+          "apiMs": 7.6985,
+          "normalizationMs": 56.5855,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+          "A": 64.136,
+          "B": 55.942,
+          "totalMs": 61.894000000000005,
+          "apiMs": 5.745,
+          "normalizationMs": 54.9065,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:142",
+          "A": 64.679,
+          "B": 57.674,
+          "totalMs": 60.352000000000004,
+          "apiMs": 5.499,
+          "normalizationMs": 54.7215,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:213",
+          "A": 69.207,
+          "B": 63.17,
+          "totalMs": 66.71549999999999,
+          "apiMs": 10.528500000000001,
+          "normalizationMs": 55.961,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:251",
+          "A": 70.556,
+          "B": 60.325,
+          "totalMs": 64.7255,
+          "apiMs": 7.8965,
+          "normalizationMs": 56.2365,
+          "samples": 50
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/mindmap.md:46",
+          "A": 70.97,
+          "B": 65.781,
+          "totalMs": 69.269,
+          "apiMs": 12.8065,
+          "normalizationMs": 55.847500000000004,
+          "samples": 50
+        }
+      ]
+    }
+  },
+  "comparisons": [],
+  "measured": 3600,
+  "warmups": 288
+}

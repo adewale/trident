@@ -1,0 +1,576 @@
+{
+  "reviewedAt": "2026-10-29T00:37:39.187076+00:00",
+  "reviewer": "Zeno: 84 painted outputs, with fresh seeded-image review for four changed Mermaid outputs; Godel: independent protocol audit; main: integration and identity checks",
+  "manifestSha256": "5568e2c0a4d8f1cf7cbff55f2f9868b92ee9c03af04d56930904b1eda52bd51f",
+  "fontSha256": "1b08e7fc267a5c7e1d614100f604b83e7e8a0be241f0f288faa2b3ac93a683ba",
+  "renderIdentity": "6577122315950864b4fd2dfcbead4d1cff28d1d685ed99dc80e49f8db314aaa2",
+  "cases": {
+    "packages/mermaid/src/docs/syntax/flowchart.md:85": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "Two legible Start/Stop boxes; exactly one Start->Stop arrow, top-to-bottom."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "Two legible Start/Stop boxes; exactly one Start->Stop arrow, top-to-bottom."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "Two legible Start/Stop boxes; exactly one Start->Stop arrow, top-to-bottom."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "Two legible Start/Stop boxes; exactly one Start->Stop arrow, top-to-bottom."
+        }
+      },
+      "pixels": {
+        "mermaid": "d0c62fcfd2b1d1a39ed4ac0b70bf41c5d4feb3a5d6765ca3ace0423089720bc8",
+        "pele": "ad1bb4016e01391c0941dc19d5c6fd33fce23c7d29f2c08487ff6ec30108db15",
+        "agentic": "c3cde4bf55305e0372fc55fcf64f7efc21a9fa3442a5272e9eea1f159fb31929",
+        "flutter": "b4c2ebbdc9aa385cdbb43b372c8c07b048b9ad690b7f0065af326b6cc984916f"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/flowchart.md:92": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "Two legible Start/Stop boxes; exactly one Start->Stop arrow, left-to-right."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "Two legible Start/Stop boxes; exactly one Start->Stop arrow, left-to-right."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "Two legible Start/Stop boxes; exactly one Start->Stop arrow, left-to-right."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "Two legible Start/Stop boxes; exactly one Start->Stop arrow, left-to-right."
+        }
+      },
+      "pixels": {
+        "mermaid": "fe6d42f25dc936c12f959c20a0283df9c5356662c95df8b33c7e7322b7ced252",
+        "pele": "dea98d1599ac0a2561fea6bf6482c4936ea3c914210a060b025e8b9057cee7f8",
+        "agentic": "c1b88774fcb6c96737be57406b63a25f322d20b0588137ef25aff33ea73391b6",
+        "flutter": "c09db68389e74ba011903cbc0a1daae9e304f6c18291aa51d8be3c3f15a6bb41"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/flowchart.md:903": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "All five labels and the decision diamond are legible; Start->decision, Yes->OK->Rethink->decision, and No->End are painted with correct arrow directions."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "All five labels and the decision diamond are legible; Start->decision, Yes->OK->Rethink->decision, and No->End are painted with correct arrow directions."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "All five labels and the decision diamond are legible; Start->decision, Yes->OK->Rethink->decision, and No->End are painted with correct arrow directions."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "All five labels and the decision diamond are legible; Start->decision, Yes->OK->Rethink->decision, and No->End are painted with correct arrow directions."
+        }
+      },
+      "pixels": {
+        "mermaid": "0168f2052127f831e0240fc7af435d8ba357f93069be7af07310373a67737d89",
+        "pele": "11dfdde17ceb84808ed6fd100540da83a42ac3590f1b7e5f773cfb84f42dffa4",
+        "agentic": "8fd1fd6eb0594f05e9f7bf026fe0837977b4836fccf8889cd79bd49fb1d86b68",
+        "flutter": "282412e7b8450e3302c5de10342171d4627cb25b3dc57255937729470b6ce9b5"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/flowchart.md:919": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "Alternative edge-label syntax preserves all five nodes, five directed edges, decision diamond, Yes/No labels and Rethink return loop."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "Alternative edge-label syntax preserves all five nodes, five directed edges, decision diamond, Yes/No labels and Rethink return loop."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "Alternative edge-label syntax preserves all five nodes, five directed edges, decision diamond, Yes/No labels and Rethink return loop."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "Alternative edge-label syntax preserves all five nodes, five directed edges, decision diamond, Yes/No labels and Rethink return loop."
+        }
+      },
+      "pixels": {
+        "mermaid": "0168f2052127f831e0240fc7af435d8ba357f93069be7af07310373a67737d89",
+        "pele": "11dfdde17ceb84808ed6fd100540da83a42ac3590f1b7e5f773cfb84f42dffa4",
+        "agentic": "8fd1fd6eb0594f05e9f7bf026fe0837977b4836fccf8889cd79bd49fb1d86b68",
+        "flutter": "282412e7b8450e3302c5de10342171d4627cb25b3dc57255937729470b6ce9b5"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/flowchart.md:1449": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "All five nodes and three edge labels are legible; Hard edge->Round edge->Decision branches One->Result one and Two->Result two; rounded node and decision diamond retained."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "All five nodes and three edge labels are legible; Hard edge->Round edge->Decision branches One->Result one and Two->Result two; rounded node and decision diamond retained."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "All five nodes and three edge labels are legible; Hard edge->Round edge->Decision branches One->Result one and Two->Result two; rounded node and decision diamond retained."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "All five nodes and three edge labels are legible; Hard edge->Round edge->Decision branches One->Result one and Two->Result two; rounded node and decision diamond retained."
+        }
+      },
+      "pixels": {
+        "mermaid": "5d029a008413f37d07bf19d23bc05f68e4a38feb325dbd6296de68f4461e4840",
+        "pele": "95c90aed2da93e654b799d8a8f52ca5d3288753113690f7679897361e16af98e",
+        "agentic": "7becbe56bb3033ffdfdb35c6fb0d47a3d9027373308522320fe2255ed393e1b7",
+        "flutter": "62dc95544e8b1bd8c2d27c8e6929f009751e210516b263c9d060b9d061c4170a"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/flowchart.md:970": {
+      "eligible": false,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "All six nodes are inside their correct one/two/three groups; c1->a2, a1->a2, b1->b2 and c1->c2 have correct arrowheads and legible labels."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "All six nodes are inside their correct one/two/three groups; c1->a2, a1->a2, b1->b2 and c1->c2 have correct arrowheads and legible labels."
+        },
+        "agentic": {
+          "pass": false,
+          "reason": "Required group membership is wrong in painted PNG: c1 is outside group three, and a2 is outside group one. The three group boxes exist but contain only c2, a1 and b1/b2 respectively; this loses source grouping facts."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "All six nodes are inside their correct one/two/three groups; c1->a2, a1->a2, b1->b2 and c1->c2 have correct arrowheads and legible labels."
+        }
+      },
+      "pixels": {
+        "mermaid": "1c6542bded5356c88ef88bb1346f4eeb6db0193e4e9fd23200782a9237c144b6",
+        "pele": "8306f0d70a547318667b5f2009e53ff2e6b1378b2780567474fad8465629d2a8",
+        "agentic": "ed135ab761ad0a233cd166ea13198b3e268fe37ff4faa1033944d4e222568091",
+        "flutter": "49f5f227189641f51ca51d3556e1874f3c8f3e7436b2406839a63b1c4ce0e11d"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/flowchart.md:998": {
+      "eligible": false,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "All three groups contain their required nodes; four node edges and group one->two, group three->two, group two->c2 are painted with correct endpoints and directions."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "All three groups contain their required nodes; four node edges and group one->two, group three->two, group two->c2 are painted with correct endpoints and directions."
+        },
+        "agentic": {
+          "pass": false,
+          "reason": "Required group membership is wrong in painted PNG: c1 is outside group three, and a2 is outside group one. The three group boxes exist but contain only c2, a1 and b1/b2 respectively; this loses source grouping facts."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "All three groups contain their required nodes; four node edges and group one->two, group three->two, group two->c2 are painted with correct endpoints and directions."
+        }
+      },
+      "pixels": {
+        "mermaid": "5c38eda18725d041bdd62030234768771412d971a8d8c351d38c90e0b3bc4e14",
+        "pele": "f3b53f112a9c7c7087fb74b800810648377c25b51ab8142fa13c5055dd41b97b",
+        "agentic": "ce02bf6fe94ec140d8ba32c768810dfdf9b4a016dbbe8c3c8779924089812a9a",
+        "flutter": "9e0995cb0a581834263e96f93f7fbcf280fa2944e11aff1f12e136d8691001d6"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/flowchart.md:1065": {
+      "eligible": false,
+      "checks": {
+        "mermaid": {
+          "pass": false,
+          "reason": "Excluded semantic-negative-control; never admitted. Start->collapsed My Group->End is painted; internal A/B/C and their edges are hidden."
+        },
+        "pele": {
+          "pass": false,
+          "reason": "Excluded semantic-negative-control; never admitted. Start->collapsed My Group->End is painted; internal A/B/C and their edges are hidden."
+        },
+        "agentic": {
+          "pass": false,
+          "reason": "Excluded semantic-negative-control; never admitted. My Group is expanded and internal A/B/C plus A->B->C are painted despite view: collapsed."
+        },
+        "flutter": {
+          "pass": false,
+          "reason": "Excluded semantic-negative-control; never admitted. My Group is expanded and internal A/B/C plus A->B->C are painted despite view: collapsed."
+        }
+      },
+      "pixels": {
+        "mermaid": "b6e13be37b41ff9c9ae41935e0335a880843d3d565ec29bbd8aef8797dbe70d5",
+        "pele": "01c65c033ba9c7f34156f7cc0a5f285dd63a75da1ae63bdd998d1092c1b2104d",
+        "agentic": "f09cbb96591d1eec574a0a239e8473fb2750aeae8567b23ed2494df36277d5c0",
+        "flutter": "feb41db170b8c08bc7f2fcd114804e2ab57d6fe1802423e8cb9f1d31d40209e3"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:7": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "Alice/John lifelines and all three message labels are legible, in source order: solid closed Alice->John, dashed closed John->Alice, solid open async Alice->John."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "Alice/John lifelines and all three message labels are legible, in source order: solid closed Alice->John, dashed closed John->Alice, solid open async Alice->John."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "Alice/John lifelines and all three message labels are legible, in source order: solid closed Alice->John, dashed closed John->Alice, solid open async Alice->John."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "Alice/John lifelines and all three message labels are legible, in source order: solid closed Alice->John, dashed closed John->Alice, solid open async Alice->John."
+        }
+      },
+      "pixels": {
+        "mermaid": "e60d92b538648a81a07630f7597f03df28865a2b3976970f2b528c9e46221af1",
+        "pele": "c18b482a1e9f0249706ce485f00d2a5c4d8c359f67639d476be613cc27396b90",
+        "agentic": "9596b222bc5d349335f2c78a9c5f3347bf70e9ba2ea04569a2d9a157dc27a323",
+        "flutter": "a2c1ce8c0e528737ad679c7d26f6a11ea6124fa9dfdca4ce7ce29309dc193165"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "Two box participants Alice/Bob; first Bob->Alice Hi Alice then Alice->Bob Hi Bob, both solid directed messages with legible labels."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "Two box participants Alice/Bob; first Bob->Alice Hi Alice then Alice->Bob Hi Bob, both solid directed messages with legible labels."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "Two box participants Alice/Bob; first Bob->Alice Hi Alice then Alice->Bob Hi Bob, both solid directed messages with legible labels."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "Two box participants Alice/Bob; first Bob->Alice Hi Alice then Alice->Bob Hi Bob, both solid directed messages with legible labels."
+        }
+      },
+      "pixels": {
+        "mermaid": "138b436f9bd6287c3079e8e7a6c2775f2a0cc430f20bbd6fad28ca21f170f454",
+        "pele": "68bcfe59c8e7e7cd4549ded8b4a5c8c774a98619bf4cc02699cadbfb40b8ac36",
+        "agentic": "41df16125d6efa91a236d89677479af7175682926fcf32c7248bcc777830f701",
+        "flutter": "533cb42abc8b4e473915c5c736c3a562418846fb1adff19c8db348f4e96744dd"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:101": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "Alice/Bob are recognizable actor figures rather than box participants; Hi Bob goes Alice->Bob, then Hi Alice Bob->Alice; all labels legible."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "Alice/Bob are recognizable actor figures rather than box participants; Hi Bob goes Alice->Bob, then Hi Alice Bob->Alice; all labels legible."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "Alice/Bob are recognizable actor figures rather than box participants; Hi Bob goes Alice->Bob, then Hi Alice Bob->Alice; all labels legible. Actor glyphs are person/avatar icons instead of literal stick figures; actor semantics retained, with no box-participant substitution."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "Alice/Bob are recognizable actor figures rather than box participants; Hi Bob goes Alice->Bob, then Hi Alice Bob->Alice; all labels legible."
+        }
+      },
+      "pixels": {
+        "mermaid": "076fac4f11c1f2ae370159310a001223de35248d456c46941fca326b360240a5",
+        "pele": "de43217210f4a5bbfd54094d4472009941a657268be6adfa74451fd070b0ff55",
+        "agentic": "0f10accca400ef551bd28375417d5f52a4c4703dbcaf5fbd09c6e23c97da36b0",
+        "flutter": "79e72b03e4244674aa722a8232f294f9aa4562b21aec5ca977af54d3d8cb600a"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:189": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "Aliases display Alice/John; Hello John, how are you? goes Alice->John, then Great! John->Alice. Both arrows are solid as source ->> requires. Manifest incorrectly says the reply is dashed."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "Aliases display Alice/John; Hello John, how are you? goes Alice->John, then Great! John->Alice. Both arrows are solid as source ->> requires. Manifest incorrectly says the reply is dashed."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "Aliases display Alice/John; Hello John, how are you? goes Alice->John, then Great! John->Alice. Both arrows are solid as source ->> requires. Manifest incorrectly says the reply is dashed."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "Aliases display Alice/John; Hello John, how are you? goes Alice->John, then Great! John->Alice. Both arrows are solid as source ->> requires. Manifest incorrectly says the reply is dashed."
+        }
+      },
+      "pixels": {
+        "mermaid": "337ea0b2e924e91fe3535b504dac34c04321fa3a1f62c5cabd87b2ffca34ec1b",
+        "pele": "d5d96906c022a4c154f455a084ca675ac5733348b288e26362ebdfae51a4c2d7",
+        "agentic": "203202a380fa22f262a72bd25f92ff4edb2952ccfb5c6f80848c90bfe29fc9ac",
+        "flutter": "190fac14ba7a7b36017312a62c05c0bf0e26349e48d5e52c32c42e4d69f49b68"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/classDiagram.md:142": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "Fresh view_image review of the actual qualification-seeded PNG: Animal is isolated; Car and Vehicle are separate classes with an empty inheritance triangle at Vehicle; all three labels legible. Layout, labels and relationship/attribute facts remain intact; differences from the original reviewed PNG are faint box-outline and divider rasterization changes only."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "Animal is isolated; Car and Vehicle are separate classes with an empty inheritance triangle at Vehicle; all three labels legible."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "Animal is isolated; Car and Vehicle are separate classes with an empty inheritance triangle at Vehicle; all three labels legible."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "Animal is isolated; Car and Vehicle are separate classes with an empty inheritance triangle at Vehicle; all three labels legible."
+        }
+      },
+      "pixels": {
+        "mermaid": "efcb3ad55d9861cec3cb4782ed2ee60f4665135ac9b5f0a0b50f5a01c3894396",
+        "pele": "55dcf311a123cc757a603dc17aa89f8050f0187d200a561e88e4dd8b4861489c",
+        "agentic": "328964cfdf1a227cd1f584ca95412436d86aa02459e5ad82c6757fcb663da4bc",
+        "flutter": "ef08893b89555c77354537c18e66f4ea245c8a482752aa47e259ee4f86e78d12"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/classDiagram.md:180": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "Fresh view_image review of the actual qualification-seeded PNG: BankAccount contains public owner:String and balance:BigDecimal attributes plus public deposit(amount) and withdrawal(amount) methods; signs, types and parameter text legible. Layout, labels and relationship/attribute facts remain intact; differences from the original reviewed PNG are faint box-outline and divider rasterization changes only."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "BankAccount contains public owner:String and balance:BigDecimal attributes plus public deposit(amount) and withdrawal(amount) methods; signs, types and parameter text legible."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "BankAccount contains public owner:String and balance:BigDecimal attributes plus public deposit(amount) and withdrawal(amount) methods; signs, types and parameter text legible."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "BankAccount contains public owner:String and balance:BigDecimal attributes plus public deposit(amount) and withdrawal(amount) methods; signs, types and parameter text legible."
+        }
+      },
+      "pixels": {
+        "mermaid": "b0d87efbe6bb86347633184ebfe9115c61d9a4442f5eef3a7b9392cb523a4358",
+        "pele": "67b7f1c18c9efecaf371c7bc4cc5f0be4d64e641ca529fc878fd0493b6c3d71c",
+        "agentic": "4473c729fbd9c5bcea5e4b2c8bf3dd1faa1a97e013d574ae52b963f0f5f22b2c",
+        "flutter": "8bf2c8415a2aaab312b696861565cf0bb2c5c960e6402719488adde9b8959efa"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/classDiagram.md:311": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "Fresh view_image review of the actual qualification-seeded PNG: All six classes and relationship labels legible; empty inheritance triangle at classA, filled composition diamond at classC, empty aggregation diamond at classE, with corresponding B/D/F endpoints. Layout, labels and relationship/attribute facts remain intact; differences from the original reviewed PNG are faint box-outline and divider rasterization changes only."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "All six classes and relationship labels legible; empty inheritance triangle at classA, filled composition diamond at classC, empty aggregation diamond at classE, with corresponding B/D/F endpoints."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "All six classes and relationship labels legible; empty inheritance triangle at classA, filled composition diamond at classC, empty aggregation diamond at classE, with corresponding B/D/F endpoints."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "All six classes and relationship labels legible; empty inheritance triangle at classA, filled composition diamond at classC, empty aggregation diamond at classE, with corresponding B/D/F endpoints."
+        }
+      },
+      "pixels": {
+        "mermaid": "b2b594e51bb5be05883eebb2031d431e97f531a6e24c7bfd9881bb07fefd496f",
+        "pele": "da3fc5bd38ce35776cb363f40c1a774064707114710c56ef3237b5620ee71d7f",
+        "agentic": "de49df81e6caa68d3f15792accd458c2fe3708fe91cc2dac237100450c57e783",
+        "flutter": "1ae3b10faa299da0a30ed4b9cc49000bc18ed2b1a51cc5dc463a3ae93ffb8a2a"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:26": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "Three named states and all six directed transitions are present: initial->Still, Still->final, Still->Moving, Moving->Still, Moving->Crash, Crash->final. Initial/final glyphs are distinct; two final transitions may share the final glyph. One bullseye is shared by the Still and Crash final transitions; both source transitions remain present. This is accepted as a layout/endpoint-sharing difference."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "Three named states and all six directed transitions are present: initial->Still, Still->final, Still->Moving, Moving->Still, Moving->Crash, Crash->final. Initial/final glyphs are distinct; two final transitions may share the final glyph. One bullseye is shared by the Still and Crash final transitions; both source transitions remain present. This is accepted as a layout/endpoint-sharing difference."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "Three named states and all six directed transitions are present: initial->Still, Still->final, Still->Moving, Moving->Still, Moving->Crash, Crash->final. Initial/final glyphs are distinct; two separate final bullseyes are painted."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "Three named states and all six directed transitions are present: initial->Still, Still->final, Still->Moving, Moving->Still, Moving->Crash, Crash->final. Initial/final glyphs are distinct; two final transitions may share the final glyph. One bullseye is shared by the Still and Crash final transitions; both source transitions remain present. This is accepted as a layout/endpoint-sharing difference."
+        }
+      },
+      "pixels": {
+        "mermaid": "12c21264cad03520b76e57ae36df0d41a573d5e487e99bdfa324872dc3d70f74",
+        "pele": "4183ae105c15c7bc622e926f987d92bb479b47d525404771ae7ba46c792e9049",
+        "agentic": "1214fbaadd3e42fcd512dca0dfc11b350f057aeb59d9f65312f8b8042e855d6f",
+        "flutter": "004aa872e5a4f528f75e338f941c74c45683ac0f108bf2ebf33523729f068d5a"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:132": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "Two legible named states s1/s2; one directed s1->s2 arrow labelled A transition."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "Two legible named states s1/s2; one directed s1->s2 arrow labelled A transition."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "Two legible named states s1/s2; one directed s1->s2 arrow labelled A transition."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "Two legible named states s1/s2; one directed s1->s2 arrow labelled A transition."
+        }
+      },
+      "pixels": {
+        "mermaid": "e4206d9525ec610e05bbf483d27d15ad9f8d2dcd53dbef23d29a94486321b4e1",
+        "pele": "6bea5100b099a17334adc135a8cec44f69ced28a276b10b03819f428edd755ca",
+        "agentic": "eda1468dbcb6999fbeda999a08506620b072da7532526cfb5361d071ea6b2e55",
+        "flutter": "161f5ff5f661eb5efdcce9c8163f86f95bdfaa43102a26582edc52280c31715a"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:142": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "One legible s1 state, filled initial->s1 and s1->bullseye final; initial/final symbols distinguishable."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "One legible s1 state, filled initial->s1 and s1->bullseye final; initial/final symbols distinguishable."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "One legible s1 state, filled initial->s1 and s1->bullseye final; initial/final symbols distinguishable."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "One legible s1 state, filled initial->s1 and s1->bullseye final; initial/final symbols distinguishable."
+        }
+      },
+      "pixels": {
+        "mermaid": "2b9fee36064490ee401ad8ef6690965d81a3831f6508ea655d5c98f66612d1f3",
+        "pele": "04077b88a690a2709594392ce94e08d82a5565a5a127a0a36a877a3c7e92a0df",
+        "agentic": "c2551ec928150bbf83f48c32bd4aba6c44d3fea123307977ae817e2f69020a7c",
+        "flutter": "9a95e39c0eaeacc1bdb8bde01f7bb0cc68efa42f81a1f925aad74b1868a10f3c"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:213": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "Three legible entities and both relationship labels; CAR exactly-one to zero-or-more NAMED-DRIVER uses solid identifying allows; PERSON zero-or-more to zero-or-more NAMED-DRIVER uses dashed non-identifying is; cardinality symbols retained at both ends."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "Three legible entities and both relationship labels; CAR exactly-one to zero-or-more NAMED-DRIVER uses solid identifying allows; PERSON zero-or-more to zero-or-more NAMED-DRIVER uses dashed non-identifying is; cardinality symbols retained at both ends."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "Three legible entities and both relationship labels; CAR exactly-one to zero-or-more NAMED-DRIVER uses solid identifying allows; PERSON zero-or-more to zero-or-more NAMED-DRIVER uses dashed non-identifying is; cardinality symbols retained at both ends."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "Three legible entities and both relationship labels; CAR exactly-one to zero-or-more NAMED-DRIVER uses solid identifying allows; PERSON zero-or-more to zero-or-more NAMED-DRIVER uses dashed non-identifying is; cardinality symbols retained at both ends."
+        }
+      },
+      "pixels": {
+        "mermaid": "83f199dfb9124da1df047b99db4410bc80acf6edd906d18f8bc376ca57eb7e4c",
+        "pele": "d894abd13aeb3e8c40b4f7ccfe5707b6302eec9a3fea700903d15f67fd421afc",
+        "agentic": "3b964000ca4d693b44f521ebf56a450ad37dd317547f6531a09bdb593b850ef5",
+        "flutter": "a1751ed203ce290369c77b357bd76aa607dcb581eeeca9d267fe6591aa61f7f8"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:251": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "Fresh view_image review of the actual qualification-seeded PNG: PERSON contains three legible attributes: string firstName, optional string? middleName and string lastName; the optional marker is visibly retained. Layout, labels and relationship/attribute facts remain intact; differences from the original reviewed PNG are faint box-outline and divider rasterization changes only."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "PERSON contains three legible attributes: string firstName, optional string? middleName and string lastName; the optional marker is visibly retained."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "PERSON contains three legible attributes: string firstName, optional string? middleName and string lastName; the optional marker is visibly retained."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "PERSON contains three legible attributes: string firstName, optional string? middleName and string lastName; the optional marker is visibly retained."
+        }
+      },
+      "pixels": {
+        "mermaid": "e6dbd0241e5e82afdec6e7375592dc54180a2e0f472e298be006f7a579353b63",
+        "pele": "232d6e626c733e0c1d40597a8170560123e44e1272181977ed280c01570e7df5",
+        "agentic": "54fe10a51787b790be92394dec8d634d9ef8a7cfaacbcff470c0f4fafa73a696",
+        "flutter": "c7248c9769fca3b13528849bd8b7ceaec1ff08e2c1ef371169a1aa14d8e00fb9"
+      }
+    },
+    "packages/mermaid/src/docs/syntax/mindmap.md:46": {
+      "eligible": true,
+      "checks": {
+        "mermaid": {
+          "pass": true,
+          "reason": "All four labels and hierarchy links are legible: Root connects to A, and A connects to B/C as siblings. Orientation and branch styling vary without changing the tree."
+        },
+        "pele": {
+          "pass": true,
+          "reason": "All four labels and hierarchy links are legible: Root connects to A, and A connects to B/C as siblings. Orientation and branch styling vary without changing the tree."
+        },
+        "agentic": {
+          "pass": true,
+          "reason": "All four labels and hierarchy links are legible: Root connects to A, and A connects to B/C as siblings. Orientation and branch styling vary without changing the tree."
+        },
+        "flutter": {
+          "pass": true,
+          "reason": "All four labels and hierarchy links are legible: Root connects to A, and A connects to B/C as siblings. Orientation and branch styling vary without changing the tree."
+        }
+      },
+      "pixels": {
+        "mermaid": "9712468036cfb5a8da24d222692c3e9dfa8ab726ea3650c991d6dfd6034658e9",
+        "pele": "5761112eb756c9edb09425c55b0c28ad87da83f1e9c224c3594d7b2362c0bb63",
+        "agentic": "6689b2214c6b541bbb7100676116df0ee6c99bfba587300f961a7ccc5b7a7cc0",
+        "flutter": "b339c5b7504e2d58eb6aa61732ba0cced8f6358f4cead20627f806292058f8c8"
+      }
+    }
+  }
+}
