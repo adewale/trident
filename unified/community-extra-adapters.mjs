@@ -11,7 +11,7 @@ export function extraPackagePreparation(name) {
     case '@yassimba/pi-loom-mermaid': return { entry: 'src/loom-mermaid/index.ts', runtime: 'Bun (published Loom renderer component)', boundary: 'published terminal renderer component; Pi host hooks excluded' }
     case 'opencode-merman': return { entry: 'src/markdown.ts', runtime: 'Bun (OpenTUI headless integration)', companions: ['@opentui/core@0.5.14', '@opentui/solid@0.5.14', 'solid-js@1.9.12', '@opencode/plugin@2.0.22', '@opencode/theme@2.0.22'], boundary: 'published Markdown renderer in real OpenTUI headless host' }
     case '@kitlangton/merman': return { runtime: 'Bun (published terminal renderer)', boundary: 'public render(content,{color:false})' }
-    case '@crafter/mermaid-renderer': return { companions: ['@crafter/mermaid-parser@0.0.4', '@crafter/mermaid-layout@0.0.3', '@crafter/mermaid-themes@0.0.3'], boundary: 'public parse → layout → renderToString pipeline' }
+    case '@crafter/mermaid-renderer': return { companions: ['@crafter/mermaid-parser@0.0.4', '@crafter/mermaid-layout@0.0.3', '@crafter/mermaid-themes@0.0.3'], additionalCompanions: ['@crafter/mermaid-cli@0.0.4'], overrides: { '@crafter/mermaid-cli': { '@crafter/mermaid-parser': '0.0.4', '@crafter/mermaid-layout': '0.0.3', '@crafter/mermaid-themes': '0.0.3' } }, boundary: 'public parse → layout → renderToString pipeline' }
     case '@toeverything/mermaid-wasm': return { wasmRelativePath: 'pkg/affine_mermaid_renderer_wasm_bg.wasm', boundary: 'public Rust/WASM renderer' }
     case '@evangwt/xmermaid': return { wasmRelativePath: 'dist/xmermaid_wasm_bg.wasm', boundary: 'public browser XMermaid SVG API; DOM measurement included' }
     case 'dsh-plugin-mermaid-gb-svg': return { subpath: 'engine', boundary: 'public /engine renderDiagram with DEFAULT_OPTIONS' }
@@ -119,6 +119,7 @@ async function bindExtraCommunityApi(context) {
       qualification: 'public source formatter, not rendering or equivalent parse assertions',
     }
     case '@crafter/mermaid-renderer': {
+      if (output === 'terminal') { const terminal = await companion(context, '@crafter/mermaid-cli'); return { invoke: source => fn(terminal, 'renderToTerminal')(source, { width: 120 }), qualification: 'published @crafter/mermaid-cli renderToTerminal; fixed 120-column host, default theme' } }
       const parser = await companion(context, '@crafter/mermaid-parser'), layout = await companion(context, '@crafter/mermaid-layout')
       const parse = source => { const result = fn(parser, 'parse')(source); if (!result?.ast || result.diagnostics?.some(item => item.severity === 'error')) throw Error('Parser rejected diagram: ' + JSON.stringify(result?.diagnostics)); return result.ast }
       if (output === 'parse') return { invoke: parse, qualification: 'public parser AST, no renderer/layout claim' }
@@ -221,6 +222,7 @@ export function extraBrowserEntry(name, artifact) {
     source: `import{XMermaid,initWasm}from ${from};export async function createRenderer(){await initWasm({wasmUrl:new URL('/renderer.wasm',location.href)});const container=document.createElement('div');container.dataset.communityHost='true';document.body.append(container);const renderer=new XMermaid({container});return source=>renderer.renderToSVGString(source,{wasm:{wasmUrl:new URL('/renderer.wasm',location.href)}})}`,
     qualification: 'public XMermaid browser SVG string API; real DOM measurement included',
   }
+  if (name === '@excalidraw/mermaid-to-excalidraw') return { source: `import{parseMermaidToExcalidraw}from ${from};export async function createRenderer(){return source=>parseMermaidToExcalidraw(source)}`, outputs: ['excalidraw'], surface: 'browser:editable-conversion', qualification: 'public parseMermaidToExcalidraw; real DOM measurement, editable model, no SVG-engine score' }
   if (name === 'merslim') {
     const react = JSON.stringify(publishedEntry(root, 'react')), dom = JSON.stringify(publishedEntry(root, 'react-dom', './client'))
     return {

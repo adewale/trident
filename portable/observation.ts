@@ -6,6 +6,7 @@ export interface UnifiedWorkload {
   source: string
   features: readonly string[]
   provenance: string
+  expectedRelationships?: readonly { from: string; to: string; label?: string }[]
   expectedLabels?: readonly string[]
   /** Only independently declared Markdown labels may lose emphasis delimiters. */
   markdownLabels?: readonly string[]

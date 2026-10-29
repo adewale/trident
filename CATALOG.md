@@ -31,7 +31,7 @@ The current core selection has 39 entries. The original receipt keeps its dated
 42-entry scope; three full editors are now discovery-only applications: Mermaid
 Live Editor, VS Code Mermaid Editor and Modern Mermaid. They have no core driver
 requirement and are not missing renderer scores. Mermaid-to-Excalidraw retains
-an applicable public conversion binding gap. See [scope](SCOPE.md).
+a directly exercised public conversion binding; image fallbacks remain blocked for editable-model credit. See [scope](SCOPE.md).
 
 Of the 45 forks, 25 were recorded with zero commits ahead of their parent; four
 were also zero behind. A fork name therefore cannot establish another distinct

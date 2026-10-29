@@ -252,7 +252,17 @@
       "evidence": [
         "https://github.com/excalidraw/mermaid-to-excalidraw/blob/a3c40ca952d56f1d192611dc67c6c224c71f752f/package.json"
       ],
-      "notes": "Source-checked community member, not an independent renderer benchmark peer. Dependency and manifest inspection only; no local runtime benchmark or Git root ancestry check. Categories describe responsibility; relation remains unverified."
+      "notes": "Source-checked community member, not an independent renderer benchmark peer. Dependency and manifest inspection only; no local runtime benchmark or Git root ancestry check. Categories describe responsibility; relation remains unverified.",
+      "benchmark": {
+        "adapter": "published-extra",
+        "package": "@excalidraw/mermaid-to-excalidraw",
+        "version": "2.3.0",
+        "versionPolicy": "recorded",
+        "outputs": [
+          "excalidraw"
+        ],
+        "moduleOutputs": []
+      }
     },
     {
       "id": "gotoailab/modern_mermaid",
@@ -348,8 +358,41 @@
         "outputs": [
           "svg",
           "parse",
+          "diagnostics",
+          "terminal"
+        ],
+        "moduleOutputs": [
+          "svg",
+          "parse",
           "diagnostics"
-        ]
+        ],
+        "cliRelease": {
+          "repository": "Dicklesworthstone/frankenmermaid",
+          "tag": "v0.4.0",
+          "version": "0.4.0",
+          "revision": "d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f",
+          "outputs": {
+            "terminal": {
+              "args": [
+                "--quiet",
+                "render",
+                "-",
+                "--format",
+                "term",
+                "--width",
+                "120"
+              ],
+              "input": "stdin"
+            }
+          },
+          "platforms": {
+            "linux-x64": {
+              "asset": "frankenmermaid-linux-amd64.tar.xz",
+              "sha256": "a1e4ccf2cb02a01b00a36363791201faa9bc24f787b759330c96b5d545af175a",
+              "executable": "frankenmermaid"
+            }
+          }
+        }
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -3220,7 +3263,8 @@
         "versionPolicy": "recorded",
         "outputs": [
           "svg",
-          "parse"
+          "parse",
+          "terminal"
         ],
         "operationPackages": [
           {
@@ -3237,6 +3281,11 @@
             "package": "@crafter/mermaid-renderer",
             "version": "0.0.3",
             "operation": "render"
+          },
+          {
+            "package": "@crafter/mermaid-cli",
+            "version": "0.0.4",
+            "operation": "terminal"
           }
         ],
         "portable": {

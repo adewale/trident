@@ -77,7 +77,7 @@ function shippedFiles(root: string, directory = root): Array<{ path: string; sha
 }
 /** A catalog binding selects the installed package's declared Node CLI, for any project. */
 export function packageCliVariants(prepared: PreparedCommunity[]): Variant[] {
-  return prepared.filter(base => base.node.benchmark?.cli).map(base => {
+  const packages = prepared.filter(base => base.node.benchmark?.cli).map<Variant>(base => {
     const binding = base.node.benchmark!.cli!, variant = 'node-cli'
     const unavailable = (error: string): Variant => ({ variantOf: base.node.id, variant, outputs: binding.outputs,
       prepared: { node: { ...base.node, id: `${base.node.id}#${variant}` }, error }, error })
@@ -97,6 +97,8 @@ export function packageCliVariants(prepared: PreparedCommunity[]): Variant[] {
           artifact: { kind: 'cli', executable: node.executable, sha256: digest(node.executable), args: [cli, ...binding.args], input: 'stdin', version: pkg.version, runtime: `node:${node.version} installed public CLI`, files: shippedFiles(root) } } }
     } catch (error) { return unavailable(String(error)) }
   })
+  const releases: Variant[] = prepared.flatMap(base => (base.artifact?.additionalCli ?? []).map(extra => ({ variantOf: base.node.id, variant: extra.id, outputs: extra.outputs, ...(extra.error ? { error: extra.error } : {}), prepared: { node: { ...base.node, id: `${base.node.id}#${extra.id}`, benchmark: { ...base.node.benchmark!, outputs: extra.outputs } }, artifact: extra.artifact, error: extra.error } })))
+  return [...packages, ...releases]
 }
 function ranksFor(variants: Variant[], observations: BenchmarkObservation[], workloads: UnifiedWorkload[], rounds: number) {
   return variants

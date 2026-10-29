@@ -1,6 +1,6 @@
 # Quality of Trident support
 
-Assessment: 2026-10-28. The historical 0.1 receipt exercised **37 of 42 selected entries**. The current core selection has **39 entries**: 37 have the recorded public-output witnesses, Mermaid to Excalidraw has a conversion-binding gap, and Rusty Mermaid has a broken published artifact. VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid are discovery-only applications, outside core benchmark requirements. All 88 catalog identities remain; 46 lineage exclusions plus three applications give 49 default exclusions. The original receipt and measurement dates are unchanged.
+Assessment: 2026-10-28. The historical 0.1 receipt exercised **37 of 42 selected entries**. The current core selection has **39 entries**: 38 have recorded public-output witnesses, including the separate Excalidraw conversion follow-up, and Rusty Mermaid has a broken published artifact. VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid are discovery-only applications, outside core benchmark requirements. All 88 catalog identities remain; 46 lineage exclusions plus three applications give 49 default exclusions. The original receipt and measurement dates are unchanged.
 
 This assesses Trident integrations, not project quality or renderer speed. A successful call establishes a working public invocation for that input. It does not establish all-family compatibility, painted meaning, useful layout or calibrated timing. The earlier eight-project campaign supplies broader historical evidence for its own scopes, and is not silently rerun or upgraded.
 
@@ -8,13 +8,12 @@ This assesses Trident integrations, not project quality or renderer speed. A suc
 
 | Level | Entries | Evidence |
 |---|---:|---|
-| Public output exercised | 37 | Actual admitted release artifacts, common inputs, positive output witnesses; remaining binding and qualification gaps below. |
+| Public output exercised | 38 | Actual admitted release artifacts, common inputs, positive output witnesses; remaining binding and qualification gaps below. |
 | Release artifact blocked | 1 | Rusty Mermaid 0.42.0 omits its runtime. A separately identified 0.1.0 source candidate was built and exercised. |
-| Public conversion binding missing | 1 | Mermaid to Excalidraw needs its actual conversion API; an editor driver is unnecessary. |
 | Discovery-only applications | 3 | VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid have no core driver requirement. |
 | Excluded from normal comparisons | 46 | Full inventory and old support evidence retained; this campaign supplies no new invocation evidence for them. |
 
-All 37 exercised projects share the first level. This is a rank of current invocation evidence only. Counting optional model APIs as bonus points would favor projects with more observable internals. No project is certified as having complete support across every applicable benchmark.
+All 38 exercised projects share the first level. This is a rank of current invocation evidence only. Counting optional model APIs as bonus points would favor projects with more observable internals. No project is certified as having complete support across every applicable benchmark.
 
 ## What improved
 
@@ -40,10 +39,10 @@ Each fraction is successful authored inputs / 6 planned inputs for that particul
 | crabtalk/bezel | 0.2.21 | svg/global 6/6; svg/browser 6/6 | No unbound declared format; broader qualification remains separate |
 | crafter-station/mermaid | 0.0.3 | svg/node 0/6; parse/node 5/6; svg/browser 5/6 | Declared output has no binding: terminal; svg/node: no-positive-witness; svg/browser: 1 failed controls |
 | dfadler/zombie-mermaid | 5.10.2 | svg/node 6/6; terminal/node 6/6; svg/browser 6/6 | No unbound declared format; broader qualification remains separate |
-| Dicklesworthstone/frankenmermaid | 0.4.0 | svg/franken 6/6; parse/franken 6/6; diagnostics/franken 6/6; svg/browser 6/6 | Declared output has no binding: terminal; Declared output has no binding: source; diagnostics/franken: 2 failed controls |
+| Dicklesworthstone/frankenmermaid | 0.4.0 | svg/franken 6/6; parse/franken 6/6; diagnostics/franken 6/6; svg/browser 6/6 | Native terminal follow-up 6/6; selected artifact has no public source serializer; diagnostics/franken: 2 failed controls |
 | emtyty/merslim | 0.2.3 | svg/node 3/6; terminal/node 4/6; parse/node 4/6; svg/browser 4/6; png/browser 6/6 | svg/browser: 3 failed controls |
 | evangwt/xmermaid | 0.4.2 | svg/browser 6/6 | No unbound declared format; broader qualification remains separate |
-| excalidraw/mermaid-to-excalidraw | not admitted | unmeasured | Applicable catalog operations have no admitted adapter; explicitly unmeasured |
+| excalidraw/mermaid-to-excalidraw | 2.3.0 | excalidraw/browser 2/6 | Four image fallbacks blocked; two invalid controls rejected; no exported SVG score |
 | fasouto/termaid | 0.10.0 | terminal/python 6/6 | No unbound declared format; broader qualification remains separate |
 | gotoailab/modern_mermaid | discovery only | out of scope | Whole-editor workflow; no core driver requirement |
 | inkeep/visimer | 1.1.3 | parse/node 6/6 | No unbound declared format; broader qualification remains separate |
@@ -75,7 +74,7 @@ Each fraction is successful authored inputs / 6 planned inputs for that particul
 
 ## What prevents complete support
 
-Remaining bindings apply to actual public targets. PR #36 covers Crafter/Frankenmermaid terminal and Excalidraw conversion; PR #37 covers native Flutter PNG. The selected Latias native package exposes no PNG/JPEG/PDF/terminal exporter, and the pinned Franken artifacts expose no Mermaid-source serializer. Record those limits; implementing absent upstream features is outside Trident's scope.
+Remaining bindings apply to actual public targets. The separate output receipt covers Crafter/Frankenmermaid terminal and Excalidraw conversion; PR #37 covers native Flutter PNG. The selected Latias native package exposes no PNG/JPEG/PDF/terminal exporter, and the pinned Franken artifacts expose no Mermaid-source serializer. Record those limits; implementing absent upstream features is outside Trident's scope.
 
 Rusty Mermaid’s published 0.42.0 package cannot run. The public source at `ce95d8ddb8323006b6dd8ddbc616c2478c3827aa` identifies itself as 0.1.0; its WASM build runs through the existing candidate workflow and retains four failed smoke observations. See the [reproduction notes](RUSTY-MERMAID.md). It does not replace the broken release artifact.
 
@@ -179,3 +178,7 @@ The ledger below retains all 88 identities. Excluded entities have configuration
 | zhenhuaa/mdv | partially-verified | eligible |
 
 [Verification receipt](docs/evidence/support-0.1.json) records actual artifact identities, per-format dispositions, control counts and the owning report digest. The release evidence archive retains raw outputs and the producer closure. Run `bun commands.ts support` for current configuration and `support:verify --help` for a fresh admission check. [Benchmark methods](BENCHMARKS.md) and [report reading](REPORTING.md) describe broader campaign evidence.
+
+## Additional public output bindings
+
+The [output-binding receipt](docs/evidence/support-issue30.json) records Crafter terminal (5/6 authored inputs), Frankenmermaid native terminal (6/6), and Excalidraw editable conversion (2/6; four image fallbacks blocked). Both invalid conversion controls were rejected. These are additional interfaces and witnesses, not three new independent engines or a replacement for the historical 37-project receipt. [Binding contracts](docs/application-contracts.md) describe the limits. Whole-editor workflows remain outside core scope.

@@ -100,11 +100,11 @@ Other exercised interfaces are [Maid](https://github.com/probelabs/maid) and
 [Merval](https://github.com/aj-archipelago/merval) diagnostics,
 [Mermaid AST](https://github.com/neongreen/mermaid-ast) and [Visimer](https://github.com/inkeep/visimer) parsing,
 [Mermaid Formatter](https://github.com/chenyanchen/mermaid-formatter) source formatting,
-and [Mermaid ReactFlow Render](https://github.com/taoche/mermaid-reactflow-render) graph conversion.
+[Mermaid ReactFlow Render](https://github.com/taoche/mermaid-reactflow-render) graph conversion,
+and [Mermaid to Excalidraw](https://github.com/excalidraw/mermaid-to-excalidraw) editable conversion.
 
-The current core selection has **39 eligible entries**: the 37 witnessed projects
-above, Mermaid to Excalidraw's pending conversion binding and Rusty Mermaid's
-broken published runtime. The historical 0.1 receipt retains its original 42-entry
+The current core selection has **39 eligible entries**: the 38 witnessed projects
+above and Rusty Mermaid's broken published runtime. The historical 0.1 receipt retains its original 42-entry
 selection. VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid are
 discovery-only applications; full editor drivers are outside core requirements.
 The [catalog](CATALOG.md) retains all 88 entries. Default comparisons exclude 46

@@ -163,7 +163,8 @@ export function projectPackageIdentity(prepared: PreparedCommunity) {
     return { artifact, files: null, dependencies: { runtimeDependencyRoots: artifact.runtimeDependencyRoots } }
   }
   const files = root && existsSync(join(root, 'package.json')) ? fetchedFiles(root) : null
-  return { artifact, files, dependencies: root && existsSync(join(root, 'package.json')) ? captureInstalledDependencyClosure(root) : null }
+  const adapterCompanions = artifact.adapterCompanions?.map(companion => ({ ...companion, dependencies: captureInstalledDependencyClosure(companion.root) }))
+  return { artifact, files, ...(adapterCompanions ? { adapterCompanions } : {}), dependencies: root && existsSync(join(root, 'package.json')) ? captureInstalledDependencyClosure(root) : null }
 }
 /** Admit each project's runtime independently before any measurement starts. */
 export function admitProjectArtifacts(preparedEntry: PreparedCommunity, preparedBrowser: PreparedCommunityBrowser, options: UnifiedRunOptions) {

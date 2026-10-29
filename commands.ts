@@ -54,7 +54,7 @@ async function main() {
   const neutral: Record<string, string> = { build: 'portable/build.ts', portable: 'portable/run.ts', 'fidelity:report': 'fidelity/report.ts' }
   const own: Record<string, string> = { 'upstream:prepare': 'unified/prepare-upstream.ts', 'support:verify': 'unified/support-verification.ts', support: 'unified/support-command.ts', bench: 'unified/benchmark.ts', 'corpus:freeze': 'unified/external-corpus.ts', 'results:campaign': 'unified/campaign-publication.ts', 'results:snapshot': 'unified/results-snapshot.ts', 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
   const checks: Record<string, string[]> = {
-    test: ['test', '--timeout', '30000', '--parallel=2', resolve(directory, 'tests')],
+    test: ['test', '--timeout', '30000', resolve(directory, 'tests')],
     typecheck: ['x', '--no-install', 'tsc', '--noEmit', '-p', resolve(directory, 'tsconfig.json')],
     lint: ['x', '--no-install', 'biome', 'lint', '--config-path', resolve(directory, 'biome.json'), directory],
   }
