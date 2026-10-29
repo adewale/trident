@@ -1,0 +1,13 @@
+{
+  "sourceCommit": "15cbda3419968650b2c48a938b3753d28b6904cb",
+  "project": "pub:mermaid_flutter",
+  "regularCatalog": true,
+  "catalogOverride": false,
+  "positive": 6,
+  "plannedPositive": 6,
+  "invalidRejected": 2,
+  "plannedInvalid": 2,
+  "nativeBundleBuiltAt": "5867f424f5048e364be65b1ac1fdf6feb8a25301",
+  "nativeSourceUnchanged": true,
+  "scope": "Working invocation and bounded raster content only; no SVG/model/timing score; old combined-ID receipts unchanged"
+}
