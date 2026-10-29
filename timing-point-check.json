@@ -1,0 +1,79 @@
+[
+  {
+    "participant": "dart",
+    "name": "Mermaid Dart",
+    "scores": {
+      "totalMs": 12.120232468366044,
+      "renderWorkMs": 8.709371489474238,
+      "apiMs": 0.18326580823392852,
+      "normalizationMs": 8.48671668311226,
+      "clientBinaryDecodeMs": 0.01776298351110586
+    }
+  },
+  {
+    "participant": "pele",
+    "name": "Pele",
+    "scores": {
+      "totalMs": 12.222145557633887,
+      "renderWorkMs": 9.275612119627379,
+      "apiMs": 0.5459464330206251,
+      "normalizationMs": 8.583645968492782,
+      "clientBinaryDecodeMs": 0.01822285948022549
+    }
+  },
+  {
+    "participant": "zombie",
+    "name": "Zombie Mermaid",
+    "scores": {
+      "totalMs": 20.458690581220765,
+      "renderWorkMs": 15.092005065108541,
+      "apiMs": 2.294610040524925,
+      "normalizationMs": 11.067785486916316,
+      "clientBinaryDecodeMs": 0.013765150328221582
+    }
+  },
+  {
+    "participant": "beautiful",
+    "name": "Beautiful Mermaid",
+    "scores": {
+      "totalMs": 20.63344663510097,
+      "renderWorkMs": 14.575809813688307,
+      "apiMs": 1.8091844218563797,
+      "normalizationMs": 10.630732016866945,
+      "clientBinaryDecodeMs": 0.013624214909627771
+    }
+  },
+  {
+    "participant": "agentic",
+    "name": "Agentic Mermaid",
+    "scores": {
+      "totalMs": 30.353455413611467,
+      "renderWorkMs": 27.009218825592974,
+      "apiMs": 16.340106152836295,
+      "normalizationMs": 9.748757773930105,
+      "clientBinaryDecodeMs": 0.018330745274595592
+    }
+  },
+  {
+    "participant": "mermaid",
+    "name": "Mermaid",
+    "scores": {
+      "totalMs": 53.08462241939869,
+      "renderWorkMs": 46.520345271184375,
+      "apiMs": 31.175672181082362,
+      "normalizationMs": 13.475916693092335,
+      "clientBinaryDecodeMs": 0.016160422176644745
+    }
+  },
+  {
+    "participant": "flutter",
+    "name": "Mermaid Flutter",
+    "scores": {
+      "totalMs": 87.11061289300486,
+      "renderWorkMs": 85.15907740398904,
+      "apiMs": 9.611636386831876,
+      "normalizationMs": 74.53896610802653,
+      "clientBinaryDecodeMs": 0.023557891134172247
+    }
+  }
+]

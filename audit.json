@@ -1,0 +1,8 @@
+{
+  "checks": 110342,
+  "differences": [],
+  "pngFilesReconciled": 11872,
+  "distinctEncodedStreamsDecodedByPillow": 2311,
+  "allScoresIndependentlyAgree": true,
+  "scope": "Raw file, PNG, reviewed pixel, stage/clock, block/sample and independent score audit. Primary bootstrap uses declared paired launch blocks; this audit does not import its reducer."
+}

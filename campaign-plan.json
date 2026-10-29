@@ -1,0 +1,32 @@
+{
+  "declaredAt": "2026-10-29T09:21:35.191247+00:00",
+  "protocol": "davebench-seven-isolated-client-png-v1",
+  "producerCommit": "f2045b56b662231b9432937c8ed2201f0c5efb06",
+  "renderIdentity": "516f85b0c514d0900cd6d556823d0e47d4f2e4042affc3d882a5e1afc946e957",
+  "reviewSha256": "b47c0e911b94adb811674caa833f01e42a0ee57fdf5252413e5d978f320f60ca",
+  "profileCandidatesBeforeTiming": 20,
+  "eligibleBeforeTiming": [
+    "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "packages/mermaid/src/docs/syntax/flowchart.md:1449",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:7",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:101",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:189",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:142",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:180",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:26",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:142",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:251"
+  ],
+  "fullCoverageInputs": 548,
+  "independentLaunchBlocksPerParticipant": 20,
+  "warmupPassesPerLaunch": 2,
+  "measuredCallsPerCasePerLaunch": 3,
+  "score": "Geometric mean across launch blocks and common inputs of per-input three-call median client elapsed time to binary PNG consumption.",
+  "interval": "10000 paired launch-block bootstrap samples, seed20261029; fixed cases. Pairwise unadjusted95% intervals, observed ranking.",
+  "repeatability": "Odd/even block split is a diagnostic warning; no all-participant ratio suppression.",
+  "failures": "No outlier trimming. Errors/unsupported/contract failures retained. A correctness/stability failure excludes that input for all participants; any measured timeout changes history and makes the campaign incomplete rather than silently replacing a block.",
+  "timingScope": "Warm repeated export. No cold-start, widget frame, source-update or DOM presentation claim. Driver IPC and binary delivery included, file and SVG witness capture after clock."
+}

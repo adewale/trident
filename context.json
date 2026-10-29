@@ -1,0 +1,757 @@
+{
+  "protocol": "davebench-seven-isolated-client-png-v1",
+  "startedAt": "2026-10-29T09:21:37.282Z",
+  "phase": "measure",
+  "baseCommit": "f2045b56b662231b9432937c8ed2201f0c5efb06",
+  "sources": [
+    {
+      "file": "davebench-png/seven/run.mjs",
+      "sha256": "e1322c0c1aff550b62bc60512f41ef6ba642685cfe5942cc11a718e8671400ac"
+    },
+    {
+      "file": "davebench-png/seven/browser.ts",
+      "sha256": "653afc547dbae463afae1c37cf970fa9a49c30ed82dc227f6d3cf89ee96001fc"
+    },
+    {
+      "file": "davebench-png/seven/completed.ts",
+      "sha256": "3dec4e2aa44872da5661cd74cde48856f28d4033fde00c6d2820bb1cd12534ae"
+    },
+    {
+      "file": "davebench-png/seven/prepare.mjs",
+      "sha256": "9d9341688f091e69e8762debee8516f64edca5ae981fb74701c0f32580dd5bef"
+    },
+    {
+      "file": "davebench-png/seven/container.py",
+      "sha256": "15e5299623f5f60e434fd3268458b3df982e6e5f966049ec20ab9b252f13dd0f"
+    },
+    {
+      "file": "davebench-png/seven/analyze.py",
+      "sha256": "13a65a47911ccad92c947d66281d6a5a1851ee2a8f95f5009503d93bef7177f9"
+    },
+    {
+      "file": "davebench-png/seven/flutter_worker.dart",
+      "sha256": "5d86a67f67069080f06853b1ff86fd1a344d51bb031c8396f04d9388f1b5f813"
+    },
+    {
+      "file": "davebench-png/seven/dart/worker.dart",
+      "sha256": "c9e3fdcc0c71317096e8003ec88c033e59ae6a2d789f6d771cff7050c35860bf"
+    },
+    {
+      "file": "davebench-png/seven/dart/pubspec.yaml",
+      "sha256": "21d98b2c427fbf0189c59a3a84e50bf2fa5c4a0a929c0ea247d1f1d6aea11e22"
+    },
+    {
+      "file": "davebench-png/seven/dart/pubspec.lock",
+      "sha256": "ea995a693626a47eac3d0ffdf244cfcab7b1e26be1e2bdd11d1be9462d565af3"
+    },
+    {
+      "file": "davebench-png/seven/packages/package.json",
+      "sha256": "be6ad670fa1148fa70fb08ebccea6148fb705af9eb7988538cd8708dcf0a350b"
+    },
+    {
+      "file": "davebench-png/seven/packages/package-lock.json",
+      "sha256": "8c1e81976c3b43843e7e5883f6a10e62a79a50f8295731e8f6e73e10a48bd296"
+    },
+    {
+      "file": "davebench-png/controlled/browser.ts",
+      "sha256": "23ea11766d67f5fb7db979a46c44bd40af1d1365272aa28dfe8786fe8cc650bb"
+    },
+    {
+      "file": "davebench-png/controlled/png.mjs",
+      "sha256": "a769fb0be0e641eacf6a27042a3f4ff0f6178c741342bf92f63df819580c925e"
+    },
+    {
+      "file": "davebench-png/controlled/cases.json",
+      "sha256": "5568e2c0a4d8f1cf7cbff55f2f9868b92ee9c03af04d56930904b1eda52bd51f"
+    },
+    {
+      "file": "davebench-png/controlled/isolation.mjs",
+      "sha256": "5c2abedae54edce70cedc50ceb8408c49202018d636c16db81d7bf5440423675"
+    },
+    {
+      "file": "unified/docs-benchmark.ts",
+      "sha256": "92d2f7bbacbfea4d883622f5aba1ed8c151c2729a3152e27a9e2fa4ee2ad9625"
+    },
+    {
+      "file": "native-flutter/env.sh",
+      "sha256": "520319562f372e05e8dc833ecc47d25a02cb18b6327fcb930eebdff6980ce970"
+    }
+  ],
+  "sealed": [
+    {
+      "file": "/workspace/trident/davebench-png/node_modules/mermaid/dist/mermaid.min.js",
+      "sha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f"
+    },
+    {
+      "file": "/workspace/trident/davebench-png/node_modules/agentic-mermaid/dist/browser.global.js",
+      "sha256": "eda60aa893b4167535a99faf47eca8e5437ea3e33c685dd0b35dbfec751a4b31"
+    },
+    {
+      "file": "/workspace/seven-png-campaign/assets-final/beautiful-mermaid.js",
+      "sha256": "d3ca9ade36d0fca9630ae4f415589addc785f8c1f1d30bc53a0dca4a327bf786"
+    },
+    {
+      "file": "/workspace/seven-png-campaign/assets-final/zombie-mermaid.js",
+      "sha256": "893d0354a0c673b8398a17ec19b4a0447a4e7171a0b5fb9f85f849bcba6c3cef"
+    },
+    {
+      "file": "/workspace/trident/davebench-png/node_modules/pele/dist/pele.global.js",
+      "sha256": "323c16de7844d4b609743f70449ebce041a531e4f48f23b1e9e7ec9d3b917287"
+    },
+    {
+      "file": "/workspace/seven-png-campaign/assets-final/build.json",
+      "sha256": "fd3003ba964879a45b4cc7e0995855c3c9ddd73d59e8c043e7bc7d608b096e9e"
+    },
+    {
+      "file": "/workspace/seven-png-campaign/assets-final/mermaid-dart",
+      "sha256": "550b59afa158136d830a366e9d8b927ef159e75b164cd0ac117e8a9d071a3d51"
+    },
+    {
+      "file": "/workspace/seven-png-campaign/assets-final/native-app/build/linux/x64/release/bundle/native_bench",
+      "sha256": "879912e08f2c368002bbf891ba8bb5d1d9b37a55fd8f1742adfb2906f9e1bceb"
+    },
+    {
+      "file": "/workspace/seven-png-campaign/assets-final/native-app/build/linux/x64/release/bundle/data/icudtl.dat",
+      "sha256": "325a86063d26334c2eabe1743cea073b612540fbf3d8fc2ef0b5708e3763a8c7"
+    },
+    {
+      "file": "/workspace/seven-png-campaign/assets-final/native-app/build/linux/x64/release/bundle/lib/libapp.so",
+      "sha256": "7dc7a0a377f92b08a35c06c9856af87ebc13e3f5e2efbf24fdd039e9431ff617"
+    },
+    {
+      "file": "/workspace/seven-png-campaign/assets-final/native-app/build/linux/x64/release/bundle/lib/libflutter_linux_gtk.so",
+      "sha256": "360ff98cd21382014818e418a9b96dcddf93240751300627fe14816d5993a891"
+    },
+    {
+      "file": "/workspace/seven-png-campaign/assets-final/native-app/build/linux/x64/release/bundle/data/flutter_assets/AssetManifest.bin",
+      "sha256": "f566cc6fccc657365c0197accf3a7d6f80f85209ff666ff774f4dcbc524aa842"
+    },
+    {
+      "file": "/workspace/seven-png-campaign/assets-final/native-app/build/linux/x64/release/bundle/data/flutter_assets/FontManifest.json",
+      "sha256": "28b1eb2b3d2e1ad60b8c8b0f9100b1ccbf492f7fa97f5bebb51ea97e73926e7d"
+    },
+    {
+      "file": "/workspace/seven-png-campaign/assets-final/native-app/build/linux/x64/release/bundle/data/flutter_assets/NOTICES.Z",
+      "sha256": "4a96934de2b6c3c9d80eba3d7e100776b5d4e5b7b3220c6bcd10a341ccc89cd5"
+    },
+    {
+      "file": "/workspace/seven-png-campaign/assets-final/native-app/build/linux/x64/release/bundle/data/flutter_assets/NativeAssetsManifest.json",
+      "sha256": "9548a31e4a048135c1d94f919328bfb62ae2c7bb3cab96557c7941daa97776cb"
+    },
+    {
+      "file": "/workspace/seven-png-campaign/assets-final/native-app/build/linux/x64/release/bundle/data/flutter_assets/version.json",
+      "sha256": "ae0156a2657dc53e83bd8397064ecdd39af383bb31b3870a9ca09cfbf247ac78"
+    },
+    {
+      "file": "/workspace/seven-png-campaign/assets-final/native-app/build/linux/x64/release/bundle/data/flutter_assets/fonts/MaterialIcons-Regular.otf",
+      "sha256": "0de7897702d3b619d6e281713411b3c977be06f1e99809df46f37701f83e1220"
+    },
+    {
+      "file": "/workspace/seven-png-campaign/assets-final/native-app/build/linux/x64/release/bundle/data/flutter_assets/shaders/ink_sparkle.frag",
+      "sha256": "1fe8436a743884cb65078fe8c7b38e18f5365f2a2961270916f426fd13c604af"
+    },
+    {
+      "file": "/workspace/seven-png-campaign/assets-final/native-app/build/linux/x64/release/bundle/data/flutter_assets/shaders/stretch_effect.frag",
+      "sha256": "bc7599dbbbaab310efe41520574138d21fb18a88c8fe4495ed79315309336f6f"
+    },
+    {
+      "file": "/usr/lib/chromium/chromium",
+      "sha256": "4dc9f9f9b20e9bd95bf201f43d2d643f48938f36a70ddcb6fce3dd611a178180"
+    },
+    {
+      "file": "/workspace/trident/davebench-png/node_modules/../package-lock.json",
+      "sha256": "ff3d81db0f079a4f7d3dad659c03855c3c3c583c3ac4d007f5dd1f126795d3e1"
+    },
+    {
+      "file": "/workspace/seven-png-campaign/measurement/Inter-Regular.ttf",
+      "sha256": "1b08e7fc267a5c7e1d614100f604b83e7e8a0be241f0f288faa2b3ac93a683ba"
+    }
+  ],
+  "renderIdentity": "516f85b0c514d0900cd6d556823d0e47d4f2e4042affc3d882a5e1afc946e957",
+  "participants": [
+    {
+      "id": "mermaid",
+      "name": "Mermaid",
+      "version": "12.2.0",
+      "runtime": "Chromium",
+      "base": "/workspace/trident/davebench-png/node_modules/mermaid",
+      "entry": "dist/mermaid.min.js",
+      "api": "mermaid.render"
+    },
+    {
+      "id": "agentic",
+      "name": "Agentic Mermaid",
+      "version": "0.4.1",
+      "runtime": "Chromium",
+      "base": "/workspace/trident/davebench-png/node_modules/agentic-mermaid",
+      "entry": "dist/browser.global.js",
+      "api": "renderMermaidSVG"
+    },
+    {
+      "id": "beautiful",
+      "name": "Beautiful Mermaid",
+      "version": "1.1.3",
+      "runtime": "Chromium",
+      "base": "/workspace/seven-png-campaign/assets-final",
+      "entry": "beautiful-mermaid.js",
+      "api": "renderMermaidSVG"
+    },
+    {
+      "id": "zombie",
+      "name": "Zombie Mermaid",
+      "version": "5.10.2",
+      "runtime": "Chromium",
+      "base": "/workspace/seven-png-campaign/assets-final",
+      "entry": "zombie-mermaid.js",
+      "api": "renderMermaidSVG"
+    },
+    {
+      "id": "dart",
+      "name": "Mermaid Dart",
+      "version": "0.3.2",
+      "runtime": "native Dart AOT + Chromium PNG converter",
+      "base": "/workspace/seven-png-campaign/assets-final",
+      "api": "Mermaid.render + renderSceneToSvg",
+      "exe": "/workspace/seven-png-campaign/assets-final/mermaid-dart"
+    },
+    {
+      "id": "flutter",
+      "name": "Mermaid Flutter",
+      "version": "0.3.2",
+      "runtime": "native Flutter Linux release",
+      "api": "renderToPng",
+      "exe": "/workspace/seven-png-campaign/assets-final/native-app/build/linux/x64/release/bundle/native_bench"
+    },
+    {
+      "id": "pele",
+      "name": "Pele",
+      "version": "1.9.0",
+      "runtime": "Chromium",
+      "base": "/workspace/trident/davebench-png/node_modules/pele",
+      "entry": "dist/pele.global.js",
+      "api": "pele.render"
+    }
+  ],
+  "build": {
+    "startedAt": "2026-10-29T09:00:40.429Z",
+    "baseCommit": "4e1a32ed77513338bf6e4b9a17f233876eb0ad62",
+    "bundles": [
+      {
+        "pkg": "beautiful-mermaid",
+        "version": "1.1.3",
+        "entry": "/workspace/trident/davebench-png/seven/packages/node_modules/beautiful-mermaid/dist/index.js",
+        "entrySha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39",
+        "bundle": "/workspace/seven-png-campaign/assets-final/beautiful-mermaid.js",
+        "sha256": "d3ca9ade36d0fca9630ae4f415589addc785f8c1f1d30bc53a0dca4a327bf786"
+      },
+      {
+        "pkg": "zombie-mermaid",
+        "version": "5.10.2",
+        "entry": "/workspace/trident/davebench-png/seven/packages/node_modules/zombie-mermaid/dist/index.js",
+        "entrySha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
+        "bundle": "/workspace/seven-png-campaign/assets-final/zombie-mermaid.js",
+        "sha256": "893d0354a0c673b8398a17ec19b4a0447a4e7171a0b5fb9f85f849bcba6c3cef"
+      }
+    ],
+    "dart": {
+      "sdk": "Dart SDK version: 3.13.7 (stable) (Thu Oct 22 14:28:57 2026 -0700) on \"linux_x64\"",
+      "source": "c9e3fdcc0c71317096e8003ec88c033e59ae6a2d789f6d771cff7050c35860bf",
+      "lock": "ea995a693626a47eac3d0ffdf244cfcab7b1e26be1e2bdd11d1be9462d565af3",
+      "executable": "550b59afa158136d830a366e9d8b927ef159e75b164cd0ac117e8a9d071a3d51"
+    },
+    "flutter": {
+      "sdk": {
+        "frameworkVersion": "3.47.8",
+        "channel": "stable",
+        "repositoryUrl": "https://github.com/flutter/flutter.git",
+        "frameworkRevision": "737ba8f885dc774b53b442759999a312c9461e4e",
+        "frameworkCommitDate": "2026-10-22 21:37:31 -0700",
+        "engineRevision": "cf636b1dfb818dd6a3ff16e390e93b1a036969c8",
+        "engineCommitDate": "2026-10-23 02:13:38.000Z",
+        "engineContentHash": "dfd2e6cb7d319db05e3bf1503f3e2ac60f6288a2",
+        "engineBuildDate": "2026-10-23 03:34:48.330",
+        "dartSdkVersion": "3.13.7",
+        "devToolsVersion": "2.60.0",
+        "flutterVersion": "3.47.8",
+        "flutterRoot": "/workspace/flutter"
+      },
+      "source": "5d86a67f67069080f06853b1ff86fd1a344d51bb031c8396f04d9388f1b5f813",
+      "lock": "388d85f3334be0b47755c92e9f6911bfb2cca253c9514d232e55e781e677f35e",
+      "bundle": "/workspace/seven-png-campaign/assets-final/native-app/build/linux/x64/release/bundle",
+      "outputs": [
+        {
+          "file": "native_bench",
+          "sha256": "879912e08f2c368002bbf891ba8bb5d1d9b37a55fd8f1742adfb2906f9e1bceb"
+        },
+        {
+          "file": "data/icudtl.dat",
+          "sha256": "325a86063d26334c2eabe1743cea073b612540fbf3d8fc2ef0b5708e3763a8c7"
+        },
+        {
+          "file": "lib/libapp.so",
+          "sha256": "7dc7a0a377f92b08a35c06c9856af87ebc13e3f5e2efbf24fdd039e9431ff617"
+        },
+        {
+          "file": "lib/libflutter_linux_gtk.so",
+          "sha256": "360ff98cd21382014818e418a9b96dcddf93240751300627fe14816d5993a891"
+        },
+        {
+          "file": "data/flutter_assets/AssetManifest.bin",
+          "sha256": "f566cc6fccc657365c0197accf3a7d6f80f85209ff666ff774f4dcbc524aa842"
+        },
+        {
+          "file": "data/flutter_assets/FontManifest.json",
+          "sha256": "28b1eb2b3d2e1ad60b8c8b0f9100b1ccbf492f7fa97f5bebb51ea97e73926e7d"
+        },
+        {
+          "file": "data/flutter_assets/NOTICES.Z",
+          "sha256": "4a96934de2b6c3c9d80eba3d7e100776b5d4e5b7b3220c6bcd10a341ccc89cd5"
+        },
+        {
+          "file": "data/flutter_assets/NativeAssetsManifest.json",
+          "sha256": "9548a31e4a048135c1d94f919328bfb62ae2c7bb3cab96557c7941daa97776cb"
+        },
+        {
+          "file": "data/flutter_assets/version.json",
+          "sha256": "ae0156a2657dc53e83bd8397064ecdd39af383bb31b3870a9ca09cfbf247ac78"
+        },
+        {
+          "file": "data/flutter_assets/fonts/MaterialIcons-Regular.otf",
+          "sha256": "0de7897702d3b619d6e281713411b3c977be06f1e99809df46f37701f83e1220"
+        },
+        {
+          "file": "data/flutter_assets/shaders/ink_sparkle.frag",
+          "sha256": "1fe8436a743884cb65078fe8c7b38e18f5365f2a2961270916f426fd13c604af"
+        },
+        {
+          "file": "data/flutter_assets/shaders/stretch_effect.frag",
+          "sha256": "bc7599dbbbaab310efe41520574138d21fb18a88c8fe4495ed79315309336f6f"
+        }
+      ]
+    },
+    "finishedAt": "2026-10-29T09:01:21.645Z"
+  },
+  "font": {
+    "sha256": "1b08e7fc267a5c7e1d614100f604b83e7e8a0be241f0f288faa2b3ac93a683ba",
+    "selection": "Inter: /workspace/seven-png-campaign/measurement/Inter-Regular.ttf"
+  },
+  "contract": {
+    "protocol": "controlled-docs-png-v2",
+    "width": 1200,
+    "height": 900,
+    "margin": 30,
+    "scale": 1,
+    "background": "#ffffff",
+    "fontFamily": "Inter",
+    "baseFontSize": 14,
+    "downscaling": false,
+    "clipping": false,
+    "qualification": "Manual source-fact/legibility review before timing; actual final PNG dimensions, opacity, fit and stable pixels enforced on every call.",
+    "selection": "Fixed list of short structural examples from the pinned DaveBench corpus; covers flowcharts, sequences, classes, states, ER and mindmaps, plus a collapsed-subgraph negative control. Source/fact manifest frozen before v2 timing; never claims full-corpus or holdout performance.",
+    "scope": "Warm repeated fixed-PNG exports. Browser peers share Chromium and one SVG-to-PNG implementation. Native public renderToPng plus required fixed-canvas normalization is charged inside its timer.",
+    "typography": "Inter requested through public APIs, base size14; public per-role defaults are permitted if legible. Actual role sizes/families are retained; this is not typography-identical renderer throughput."
+  },
+  "metric": "Client wall time from dispatch of one source through binary PNG bytes consumed in Node; all artifact writes and output inspection outside clock. Public API and conversion clocks also retained. Dart native SVG requires an explicit Chromium conversion bridge; no Flutter substitution.",
+  "corpus": {
+    "version": "12.2.0",
+    "commit": "1fb7869866dd619168d840291c9c54b4f129758b",
+    "inputs": [
+      "packages/mermaid/src/diagram-api/diagram-orchestration.ts",
+      "packages/mermaid/src/diagram-api/detectType.ts",
+      "packages/mermaid/src/diagrams/**/**Detector.ts",
+      "packages/mermaid/src/schemas/config.schema.yaml",
+      "https://mermaid.ai/open-source/syntax/"
+    ]
+  },
+  "inputs": [
+    "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "packages/mermaid/src/docs/syntax/flowchart.md:1449",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:7",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:101",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:189",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:142",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:180",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:26",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:142",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:251"
+  ],
+  "blocks": 20,
+  "repetitions": 3,
+  "warmupPasses": 2,
+  "seed": 20261029,
+  "schedule": [
+    {
+      "block": 1,
+      "participants": [
+        "zombie",
+        "dart",
+        "agentic",
+        "pele",
+        "mermaid",
+        "beautiful",
+        "flutter"
+      ]
+    },
+    {
+      "block": 2,
+      "participants": [
+        "dart",
+        "agentic",
+        "pele",
+        "mermaid",
+        "beautiful",
+        "flutter",
+        "zombie"
+      ]
+    },
+    {
+      "block": 3,
+      "participants": [
+        "agentic",
+        "pele",
+        "mermaid",
+        "beautiful",
+        "flutter",
+        "zombie",
+        "dart"
+      ]
+    },
+    {
+      "block": 4,
+      "participants": [
+        "pele",
+        "mermaid",
+        "beautiful",
+        "flutter",
+        "zombie",
+        "dart",
+        "agentic"
+      ]
+    },
+    {
+      "block": 5,
+      "participants": [
+        "mermaid",
+        "beautiful",
+        "flutter",
+        "zombie",
+        "dart",
+        "agentic",
+        "pele"
+      ]
+    },
+    {
+      "block": 6,
+      "participants": [
+        "beautiful",
+        "flutter",
+        "zombie",
+        "dart",
+        "agentic",
+        "pele",
+        "mermaid"
+      ]
+    },
+    {
+      "block": 7,
+      "participants": [
+        "flutter",
+        "zombie",
+        "dart",
+        "agentic",
+        "pele",
+        "mermaid",
+        "beautiful"
+      ]
+    },
+    {
+      "block": 8,
+      "participants": [
+        "flutter",
+        "beautiful",
+        "mermaid",
+        "pele",
+        "agentic",
+        "dart",
+        "zombie"
+      ]
+    },
+    {
+      "block": 9,
+      "participants": [
+        "zombie",
+        "flutter",
+        "beautiful",
+        "mermaid",
+        "pele",
+        "agentic",
+        "dart"
+      ]
+    },
+    {
+      "block": 10,
+      "participants": [
+        "dart",
+        "zombie",
+        "flutter",
+        "beautiful",
+        "mermaid",
+        "pele",
+        "agentic"
+      ]
+    },
+    {
+      "block": 11,
+      "participants": [
+        "agentic",
+        "dart",
+        "zombie",
+        "flutter",
+        "beautiful",
+        "mermaid",
+        "pele"
+      ]
+    },
+    {
+      "block": 12,
+      "participants": [
+        "pele",
+        "agentic",
+        "dart",
+        "zombie",
+        "flutter",
+        "beautiful",
+        "mermaid"
+      ]
+    },
+    {
+      "block": 13,
+      "participants": [
+        "mermaid",
+        "pele",
+        "agentic",
+        "dart",
+        "zombie",
+        "flutter",
+        "beautiful"
+      ]
+    },
+    {
+      "block": 14,
+      "participants": [
+        "beautiful",
+        "mermaid",
+        "pele",
+        "agentic",
+        "dart",
+        "zombie",
+        "flutter"
+      ]
+    },
+    {
+      "block": 15,
+      "participants": [
+        "zombie",
+        "dart",
+        "agentic",
+        "pele",
+        "mermaid",
+        "beautiful",
+        "flutter"
+      ]
+    },
+    {
+      "block": 16,
+      "participants": [
+        "dart",
+        "agentic",
+        "pele",
+        "mermaid",
+        "beautiful",
+        "flutter",
+        "zombie"
+      ]
+    },
+    {
+      "block": 17,
+      "participants": [
+        "agentic",
+        "pele",
+        "mermaid",
+        "beautiful",
+        "flutter",
+        "zombie",
+        "dart"
+      ]
+    },
+    {
+      "block": 18,
+      "participants": [
+        "pele",
+        "mermaid",
+        "beautiful",
+        "flutter",
+        "zombie",
+        "dart",
+        "agentic"
+      ]
+    },
+    {
+      "block": 19,
+      "participants": [
+        "mermaid",
+        "beautiful",
+        "flutter",
+        "zombie",
+        "dart",
+        "agentic",
+        "pele"
+      ]
+    },
+    {
+      "block": 20,
+      "participants": [
+        "beautiful",
+        "flutter",
+        "zombie",
+        "dart",
+        "agentic",
+        "pele",
+        "mermaid"
+      ]
+    }
+  ],
+  "isolation": {
+    "capturedAt": "2026-10-29T09:21:37.318Z",
+    "cpuset": "2",
+    "quota": "100000 100000",
+    "memory": "17179869184",
+    "threads": [
+      {
+        "pid": "1",
+        "tid": "1",
+        "name": "bash",
+        "affinity": "2"
+      },
+      {
+        "pid": "7",
+        "tid": "7",
+        "name": "Xvfb",
+        "affinity": "2"
+      },
+      {
+        "pid": "8",
+        "tid": "10",
+        "name": "V8Worker",
+        "affinity": "2"
+      },
+      {
+        "pid": "8",
+        "tid": "11",
+        "name": "V8Worker",
+        "affinity": "2"
+      },
+      {
+        "pid": "8",
+        "tid": "12",
+        "name": "V8Worker",
+        "affinity": "2"
+      },
+      {
+        "pid": "8",
+        "tid": "13",
+        "name": "V8Worker",
+        "affinity": "2"
+      },
+      {
+        "pid": "8",
+        "tid": "14",
+        "name": "SignalInspector",
+        "affinity": "2"
+      },
+      {
+        "pid": "8",
+        "tid": "8",
+        "name": "MainThread",
+        "affinity": "2"
+      },
+      {
+        "pid": "8",
+        "tid": "9",
+        "name": "DelayedTaskSche",
+        "affinity": "2"
+      }
+    ]
+  },
+  "runtime": {
+    "container": "5deb5db1675f7ea18a1df51eec73cd3bec26a65aad3cd9e455a70679c54f3456",
+    "config": {
+      "image": "sha256:2cd3fe983ac340fec29801e90a9c0600a4ea6a72ce383e7ffcc86a1388d539bb",
+      "rootfsSha256": "1aef8feaef3f6e082e16654017488ffbb02e5db4dcb16b80bc0a0113f7083f66",
+      "cpuset": "2",
+      "nanoCpus": 1000000000,
+      "memory": 17179869184,
+      "network": "none",
+      "user": "1000:1000",
+      "mounts": [
+        [
+          "/usr",
+          "/usr",
+          true
+        ],
+        [
+          "/opt",
+          "/opt",
+          true
+        ],
+        [
+          "/workspace",
+          "/workspace",
+          false
+        ],
+        [
+          "/etc/ld.so.cache",
+          "/etc/ld.so.cache",
+          true
+        ],
+        [
+          "/etc/chromium.d",
+          "/etc/chromium.d",
+          true
+        ],
+        [
+          "/etc/ssl/certs/ca-certificates.crt",
+          "/etc/ssl/certs/ca-certificates.crt",
+          true
+        ]
+      ],
+      "capDrop": [
+        "ALL"
+      ],
+      "environment": {
+        "LIBGL_ALWAYS_SOFTWARE": "1",
+        "LP_NUM_THREADS": "1",
+        "FLUTTER_ROOT": "/workspace/flutter",
+        "BENCH_SYSROOT": "/workspace/sysroot",
+        "PUB_CACHE": "/workspace/pub-cache",
+        "XDG_CONFIG_HOME": "/workspace/config",
+        "XDG_CACHE_HOME": "/workspace/cache",
+        "NODE_EXTRA_CA_CERTS": "/etc/ssl/certs/ca-certificates.crt",
+        "SSL_CERT_FILE": "/etc/ssl/certs/ca-certificates.crt"
+      },
+      "nodeExecutable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node"
+    }
+  },
+  "versions": {
+    "node": "v24.19.0",
+    "chromium": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)"
+  },
+  "machine": {
+    "os": "Linux 5deb5db1675f 6.18.55 #1 SMP Wed Oct 14 19:45:18 UTC 2026 x86_64 GNU/Linux",
+    "cpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           46 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  5\nOn-line CPU(s) list:                     0-4\nVendor ID:                               AuthenticAMD\nModel name:                              AMD EPYC 9V74 80-Core Processor\nCPU family:                              25\nModel:                                   17\nThread(s) per core:                      1\nCore(s) per socket:                      5\nSocket(s):                               1\nStepping:                                1\nBogoMIPS:                                5192.25\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nHypervisor vendor:                       KVM\nVirtualization type:                     full\nL1d cache:                               96 KiB (3 instances)\nL1i cache:                               96 KiB (3 instances)\nL2 cache:                                3 MiB (3 instances)\nL3 cache:                                32 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-4\nVulnerability Gather data sampling:      Not affected\nVulnerability Ghostwrite:                Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Old microcode:             Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Vulnerable\nVulnerability Spec store bypass:         Vulnerable\nVulnerability Spectre v1:                Vulnerable: __user pointer sanitization and usercopy barriers only; no swapgs barriers\nVulnerability Spectre v2:                Vulnerable; STIBP: disabled; PBRSB-eIBRS: Not affected; BHI: Not affected\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Vulnerable\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n",
+    "osRelease": "PRETTY_NAME=\"Debian GNU/Linux 13 (trixie)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"13\"\nVERSION=\"13 (trixie)\"\nVERSION_CODENAME=trixie\nDEBIAN_VERSION_FULL=13.6\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\n"
+  }
+}
