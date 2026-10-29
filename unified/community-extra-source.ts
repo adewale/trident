@@ -3,7 +3,7 @@ import '../ci-policy-enforce.ts'
  * acquisition, compilation or product invocation; prepare runs outside clocks. */
 import { execFileSync, spawn } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { appendFileSync, copyFileSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statfsSync, symlinkSync, writeFileSync } from 'node:fs'
+import { appendFileSync, copyFileSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, realpathSync, rmSync, statfsSync, symlinkSync, writeFileSync } from 'node:fs'
 import { createRequire, isBuiltin } from 'node:module'
 import { join, relative, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
@@ -391,12 +391,13 @@ export async function prepareExtraCommunitySource(node: ExtraSourceNode, cacheRo
   mkdirSync(directory, { recursive: true })
   if (existsSync(manifest)) {
     const previous = json(manifest) as ExtraSourceArtifact,
-      interpretedBeautiful = adapter === 'beautiful-source' && /\.[cm]?tsx?$/.test(previous.module ?? '')
+      interpretedBeautiful = adapter === 'beautiful-source' && /\.[cm]?tsx?$/.test(previous.module ?? ''),
+      interpretedOpenCode = adapter === 'opencode-source'
     if (
       previous.revision === pin &&
       previous.buildRecipeId.startsWith(`extra-source-v1:${variant}:`) &&
-      (!(adapter === 'mermaid-source' || interpretedBeautiful) || previous.buildRecipeId.endsWith(':immutable-runtime-bindings:v3')) &&
-      (!interpretedBeautiful || !!previous.runtimeDependencyRoots?.length) &&
+      (!(adapter === 'mermaid-source' || interpretedBeautiful || interpretedOpenCode) || previous.buildRecipeId.endsWith(':immutable-runtime-bindings:v3')) &&
+      (!(interpretedBeautiful || interpretedOpenCode) || !!previous.runtimeDependencyRoots?.length) &&
       admitted(previous)
     )
       return { ...previous, detail: `${previous.detail ?? ''}; exact physical admitted artifact reused for ${node.id} at identical Git revision/build/runtime protocol` }
@@ -438,16 +439,19 @@ export async function prepareExtraCommunitySource(node: ExtraSourceNode, cacheRo
       bun = executable(process.env.AM_BENCH_BUN ?? process.env.BUN_BIN ?? (process.versions.bun ? process.execPath : 'bun'))
     if (typeof coreVersion !== 'string' || !/^\d+\.\d+\.\d+/.test(coreVersion) || typeof widthVersion !== 'string') throw Error('Pinned OpenCode catalog lacks concrete public OpenTUI/string-width versions; no companion version is guessed')
     mkdirSync(dependencies, { recursive: true })
-    if (!existsSync(join(dependencies, 'node_modules/@opentui/core/package.json'))) {
-      writeFileSync(join(dependencies, 'package.json'), JSON.stringify({ private: true, dependencies: { '@opentui/core': coreVersion, entities: pkg.dependencies.entities, 'string-width': widthVersion } }, null, 2))
+    const runtimePackages = { '@opentui/core': coreVersion, entities: pkg.dependencies.entities, 'string-width': widthVersion }
+    if (Object.keys(runtimePackages).some(name => !existsSync(join(dependencies, 'node_modules', name, 'package.json')))) {
+      writeFileSync(join(dependencies, 'package.json'), JSON.stringify({ private: true, dependencies: runtimePackages }, null, 2))
       await run(['npm', 'install', '--ignore-scripts', '--no-audit', '--no-fund', '--prefix', dependencies], dependencies, env, log)
     }
     if (json(join(dependencies, 'node_modules/@opentui/core/package.json')).version !== coreVersion) throw Error('OpenTUI companion differs from the exact pinned source catalog version')
     if (!existsSync(join(root, 'node_modules'))) symlinkSync(join(dependencies, 'node_modules'), join(root, 'node_modules'), 'dir')
+    if (realpathSync(join(root, 'node_modules')) !== realpathSync(join(dependencies, 'node_modules'))) throw Error('OpenCode source resolves a different runtime prefix; choose a fresh source cache')
+    dependencyRuntime = runtimeClosure(dependencies, Object.keys(runtimePackages), [])
     const module = join(root, 'src/markdown.ts')
     if (!existsSync(module)) throw Error('Pinned OpenCode lacks its documented public markdown export')
     runtimeVersion = version(bun)
-    buildRecipeId += `public-source-export:opentui${coreVersion}`
+    buildRecipeId += `public-source-export:opentui${coreVersion}:immutable-runtime-bindings:v3`
     runtimeCommandId = 'bun-public-opentui:markdown-codeblock:headless-char-frame:v1'
     artifact = {
       kind: 'node',
@@ -456,7 +460,8 @@ export async function prepareExtraCommunitySource(node: ExtraSourceNode, cacheRo
       version: pkg.version,
       revision: pin,
       runtime: `Bun ${runtimeVersion}`,
-      sourceFiles: gitSourceFiles(source, pin, ['packages/merman/src']),
+      files: dependencyRuntime.files,
+      sourceFiles: gitSourceFiles(source, pin, ['package.json', 'packages/merman/package.json', 'packages/merman/src']),
       detail: `Public createMermaidCodeBlockRenderer using a real @opentui/core@${coreVersion} testing renderer. Exact source catalog dependencies; direct private prepareDiagram is never extracted. Requires Bun for source .js-to-.ts resolution and OpenTUI runtime.`,
     }
   } else if (adapter === 'grok-source') {
