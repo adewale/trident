@@ -62,6 +62,139 @@ const svg = (family: Family, edges = edge(family, 0, 30, 110) + edge(family, 1, 
   `<svg xmlns="http://www.w3.org/2000/svg" class="pele pele-${family}" viewBox="0 0 250 50"><g class="pele-edges" fill="none" stroke="black">${edges}</g>${node(family, 'A', 10)}${node(family, 'B', 110)}${node(family, 'C', 210)}</svg>`
 const finding = (result: ReturnType<typeof qualifyPortable>, name: string) => result.checks.find(check => check.name === name)
 
+const agenticModel = (family: 'class' | 'er', edges = graph(family).expected.topology!.edges) => ({ ok: true, value: { kind: family, body: {
+  kind: family,
+  [family === 'class' ? 'classes' : 'entities']: ['A', 'B', 'C'].map(id => ({ id, label: id })),
+  relations: edges.map(({ source: from, target: to }) => family === 'class' ? { from, to, kind: 'association', markerAt: 'to' } : { from, to, leftCard: 'one-only', rightCard: 'zero-or-many', dashed: false }),
+} } })
+const agenticMarker = '<defs><marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto" overflow="visible"><polyline points="0 0,8 3,0 6" fill="none" stroke="#111"/></marker></defs>'
+const agenticGlyphs = (from: number, to: number, y = 20) => {
+  const direction = Math.sign(to - from), line = (x1: number, y1: number, x2: number, y2: number) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#111"/>`
+  return [4, 8].map(offset => line(from + direction * offset, y - 6, from + direction * offset, y + 6)).join('')
+    + [-7, 0, 7].map(side => line(to - direction * 4, y + side, to - direction * 16, y)).join('')
+    + `<circle cx="${to - direction * 20}" cy="${y}" r="4" fill="#fff" stroke="#111"/>`
+}
+const agenticSvg = (family: 'class' | 'er', routes: { source: string; target: string; from: number; to: number; y?: number }[] = [{ source: 'A', target: 'B', from: 30, to: 110 }, { source: 'B', target: 'C', from: 130, to: 210 }]) =>
+  `<svg xmlns="http://www.w3.org/2000/svg" class="am-fixture" viewBox="0 0 250 50">${family === 'class' ? agenticMarker : ''}${routes.map((route, index) => `<polyline class="${family}-relationship" data-id="owned-${index}" data-from="${route.source}" data-to="${route.target}" points="${route.from},${route.y ?? 20} ${route.to},${route.y ?? 20}" fill="none" stroke="#111"${family === 'class' ? ' marker-end="url(#arrow)"' : ''}/>`).join('')}${['A', 'B', 'C'].map((id, index) => `<g class="${family === 'class' ? 'class-node' : 'entity'}" data-id="${id}"><rect x="${index * 100 + 10}" y="10" width="20" height="20" fill="#fff" stroke="#111"/><text x="${index * 100 + 10}" y="20">${id}</text></g>`).join('')}${family === 'er' ? routes.map(route => agenticGlyphs(route.from, route.to, route.y)).join('') : ''}</svg>`
+
+for (const family of ['class', 'er'] as const) {
+  const observe = (ink = agenticSvg(family), native: unknown = agenticModel(family), authored = graph(family)) => qualifyPortable(authored, { svg: ink, model: native, adapter: 'agentic' })
+  test(`Agentic ${family}: actual typed Result and independently owned visible ink qualify`, () => {
+    const result = observe()
+    expect(result.observer).toBe('portable-owned-topology-v3-agentic-class-er')
+    expect(result.semanticComplete).toBe(true)
+    expect(finding(result, 'model-node-identities')?.status).toBe('passed')
+    expect(finding(result, family === 'class' ? 'svg-edge-target-marker:0' : 'svg-er-cardinality-and-identifying')?.status).toBe('passed')
+  })
+  test(`Agentic ${family}: typed identities and exact endpoint multiplicity cannot be replaced by labels`, () => {
+    for (const mutate of [
+      (native: ReturnType<typeof agenticModel>) => { native.value.body.relations.pop() },
+      (native: ReturnType<typeof agenticModel>) => { native.value.body.relations[0]!.to = 'C' },
+    ]) {
+      const native = agenticModel(family); mutate(native)
+      const result = observe(undefined, native)
+      expect(result.evidence?.outputAdmission).toBe('passed')
+      expect(finding(result, 'model-edge-endpoints-and-multiplicity')?.status).toBe('failed')
+      expect(result.semanticComplete).toBe(false)
+    }
+    for (const native of [undefined, { ok: true, value: { kind: family, body: { kind: 'preserved', source: sources[family] } } }, { ok: false, error: 'unsupported' }]) {
+      const result = qualifyPortable(graph(family), { svg: agenticSvg(family), model: native, adapter: 'agentic' })
+      expect(result.evidence?.outputAdmission).toBe('passed')
+      expect(result.semanticComplete).toBe(false)
+      expect(finding(result, 'model-native-result')?.status).not.toBe('passed')
+    }
+    const duplicate = agenticModel(family)
+    ;(duplicate.value.body as Record<string, any>)[family === 'class' ? 'classes' : 'entities'][1].id = 'A'
+    expect(finding(observe(undefined, duplicate), 'model-node-identities')?.status).toBe('failed')
+  })
+  test(`Agentic ${family}: unchanged metadata cannot hide missing, invisible or redirected route geometry`, () => {
+    for (const ink of [
+      agenticSvg(family).replace('30,20 110,20', '30,20 210,20'),
+      agenticSvg(family).replace('30,20 110,20', '30,20 30,20'),
+      agenticSvg(family).replace('30,20 110,20', '30,20 110,20').replace('fill="none" stroke="#111"', 'fill="none" stroke="none"'),
+      agenticSvg(family).replace('data-id="owned-1"', 'data-id="owned-0"'),
+      agenticSvg(family).replace('points="30,20 110,20"', 'stroke-dasharray="0 4" points="30,20 110,20"'),
+      agenticSvg(family).replace(/<polyline class="(?:class|er)-relationship"[^>]*\/>/, ''),
+    ]) {
+      const result = observe(ink)
+      expect(finding(result, 'model-edge-endpoints-and-multiplicity')?.status).toBe('passed')
+      expect(result.semanticComplete).toBe(false)
+    }
+    const unsupported = observe(agenticSvg(family).replace('points="30,20 110,20"', 'transform="scale(2)" points="30,20 110,20"'))
+    expect(finding(unsupported, 'svg-edge-owned-ink:0')?.status).toBe('unmeasured')
+    expect(unsupported.semanticComplete).toBe(false)
+    for (const rule of ['polyline {stroke: transparent}', 'polyline {stroke-dasharray: 0 4}', 'rect {fill-opacity: 0; stroke-opacity: 0}']) {
+      const css = observe(agenticSvg(family).replace('</svg>', `<style>${rule}</style></svg>`))
+      expect(finding(css, 'svg-edge-owned-ink:0')?.status).toBe('unmeasured')
+      expect(css.semanticComplete).toBe(false)
+    }
+  })
+}
+test('Agentic Class direction needs a referenced, visible and correctly oriented open arrow', () => {
+  for (const ink of [
+    agenticSvg('class').replace(' marker-end="url(#arrow)"', ''),
+    agenticSvg('class').replace('id="arrow"', 'id="missing"'),
+    agenticSvg('class').replace('fill="none" stroke="#111"', 'fill="none" stroke="#111" opacity="0.0"'),
+    agenticSvg('class').replace('points="0 0,8 3,0 6"', 'points="8 0,0 3,8 6"'),
+  ]) {
+    const result = qualifyPortable(graph('class'), { svg: ink, model: agenticModel('class'), adapter: 'agentic' })
+    expect(finding(result, 'svg-edge-target-marker:0')?.status).toBe('failed')
+    expect(result.semanticComplete).toBe(false)
+  }
+})
+test('Agentic ER exact glyph meaning and identifying appearance reject credible substitutions', () => {
+  for (const ink of [
+    agenticSvg('er').replace('<line x1="38" y1="14" x2="38" y2="26" stroke="#111"/>', ''),
+    agenticSvg('er').replace('cx="90"', 'cx="80"'),
+    agenticSvg('er').replace('cx="90" cy="20" r="4" fill="#fff" stroke="#111"', 'cx="90" cy="20" r="4" fill="#fff" stroke="none"'),
+    agenticSvg('er').replace('points="30,20 110,20"', 'stroke-dasharray="4 3" points="30,20 110,20"'),
+    agenticSvg('er').replace('</svg>', '<circle cx="42" cy="20" r="4" stroke="#111"/></svg>'), // Conflicting zero minimum added to two ticks.
+    agenticSvg('er').replace('</svg>', agenticGlyphs(30, 110) + '</svg>'), // A second owner cannot reuse the same endpoint glyphs.
+  ]) {
+    const result = qualifyPortable(graph('er'), { svg: ink, model: agenticModel('er'), adapter: 'agentic' })
+    expect(result.semanticComplete).toBe(false)
+    expect(result.checks.some(check => check.name.startsWith('svg-er-') && check.status !== 'passed')).toBe(true)
+  }
+  const native = agenticModel('er'); native.value.body.relations[0]!.rightCard = 'one-or-many'
+  const result = qualifyPortable(graph('er'), { svg: agenticSvg('er'), model: native, adapter: 'agentic' })
+  expect(finding(result, 'model-er-cardinality-and-identifying')?.status).toBe('failed')
+  const conflicting = qualifyPortable(graph('er'), { svg: agenticSvg('er').replace('</svg>', '<circle cx="42" cy="20" r="4" stroke="#111"/></svg>'), model: agenticModel('er'), adapter: 'agentic' })
+  expect(finding(conflicting, 'svg-er-cardinality-ink:0')?.status).toBe('unmeasured')
+  expect(conflicting.semanticComplete).toBe(false)
+})
+test('Agentic parallel and reciprocal relations retain exact multiplicity independently of SVG DOM order', () => {
+  for (const family of ['class', 'er'] as const) {
+    const routes = [{ source: 'A', target: 'B', from: 30, to: 110, y: 14 }, { source: 'A', target: 'B', from: 30, to: 110, y: 20 }, { source: 'B', target: 'A', from: 110, to: 30, y: 26 }]
+    const edges = routes.map(({ source, target }) => ({ source, target })), authored = { ...graph(family), source: `${family === 'class' ? 'classDiagram' : 'erDiagram'}\n` + edges.map(({ source, target }) => `${source} ${family === 'class' ? '-->' : '||--o{'} ${target}${family === 'er' ? ' : owns' : ''}`).join('\n'), expected: { ...graph(family).expected, topology: { nodes: ['A', 'B', 'C'], edges } } }
+    const native = agenticModel(family, edges)
+    const qualified = qualifyPortable(authored, { svg: agenticSvg(family, routes.toReversed()), model: native, adapter: 'agentic' })
+    expect(qualified.semanticComplete, JSON.stringify(qualified.checks.filter(check => check.status !== 'passed'))).toBe(true)
+    const dropped = qualifyPortable(authored, { svg: agenticSvg(family, routes.slice(1)), model: native, adapter: 'agentic' })
+    expect(finding(dropped, 'svg-owned-edge-count')?.status).toBe('failed')
+    expect(dropped.semanticComplete).toBe(false)
+    if (family === 'er') {
+      const duplicated = [routes[1]!, routes[1]!], repeatedEdges = duplicated.map(({ source, target }) => ({ source, target })), repeatedCase = { ...authored, source: 'erDiagram\nA ||--o{ B : one\nA ||--o{ B : two', expected: { ...authored.expected, topology: { nodes: ['A', 'B', 'C'], edges: repeatedEdges } } }
+      const shared = agenticSvg(family, duplicated).replace(agenticGlyphs(30, 110), '')
+      const borrowed = qualifyPortable(repeatedCase, { svg: shared, model: agenticModel(family, repeatedEdges), adapter: 'agentic' })
+      expect(borrowed.semanticComplete).toBe(false)
+      expect(finding(borrowed, 'svg-er-cardinality-ink:1')?.status).toBe('failed')
+    }
+  }
+})
+test('Agentic ER distinguishes all four reviewed cardinality glyphs and dashed identifying intent', () => {
+  const line = (x1: number, y1: number, x2: number, y2: number) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#111"/>`
+  const glyphs = line(34, 14, 34, 26) + '<circle cx="42" cy="20" r="4" fill="#fff" stroke="#111"/>'
+    + [13, 20, 27].map(y => line(106, y, 94, 20)).join('') + line(90, 14, 90, 26)
+    + [13, 20, 27].map(y => line(134, y, 146, 20)).join('') + line(150, 14, 150, 26)
+    + line(206, 14, 206, 26) + line(202, 14, 202, 26)
+  const ink = agenticSvg('er').replace(agenticGlyphs(30, 110) + agenticGlyphs(130, 210), glyphs).replace('points="30,20 110,20"', 'stroke-dasharray="4 3" points="30,20 110,20"')
+  const authored = { ...graph('er'), source: 'erDiagram\nA |o..|{ B : first\nB }|--|| C : second' }, native = agenticModel('er')
+  Object.assign(native.value.body.relations[0]!, { leftCard: 'zero-or-one', rightCard: 'one-or-many', dashed: true })
+  Object.assign(native.value.body.relations[1]!, { leftCard: 'one-or-many', rightCard: 'one-only' })
+  const result = qualifyPortable(authored, { svg: ink, model: native, adapter: 'agentic' })
+  expect(result.semanticComplete, JSON.stringify(result.checks.filter(check => check.status !== 'passed'))).toBe(true)
+})
+
 test('published Pele ER cardinality bars remain separate painted strokes, not a connecting relation', () => {
   const actualSvg = readFileSync(join(import.meta.dir, 'fixtures/fidelity/pele-er-cardinality-bars.svg'), 'utf8')
   const authored: PortableCase = {
@@ -229,4 +362,29 @@ test('unreviewed sequence signal styles stay unmeasured even when their labels a
   expect(finding(result, 'model-message-order')?.status).toBe('passed')
   expect(finding(result, 'svg-sequence-message-profile')?.status).toBe('unmeasured')
   expect(result.semanticComplete).toBe(false)
+})
+
+test('Agentic Class marker presentation cannot hide or add arrows behind valid SVG attributes', () => {
+  const observe = (ink: string) => qualifyPortable(graph('class'), { svg: ink, model: agenticModel('class'), adapter: 'agentic' })
+  const base = agenticSvg('class')
+  expect(observe(base).semanticComplete).toBe(true)
+  expect(observe(base.replace('</svg>', '<style>/* theme tokens */ svg { --fg:#111 }</style></svg>')).semanticComplete).toBe(true)
+  for (const replacement of [
+    'marker-end="url(#arrow)" style="marker-end:none"',
+    'marker-end="url(#arrow)" style="MARKER-END:none"',
+    'marker-end="url(#arrow)" style="marker-end/**/:none"',
+    'marker-end="url(#arrow)" style="marker:none"',
+    'marker-end="url(#arrow)" style="marker-end:none !important;marker-end:url(#arrow)"',
+    'marker-end="url(#arrow)" marker-start="url(#arrow)"',
+    'marker-end="url(#arrow)" marker-mid="url(#arrow)"',
+  ]) {
+    const result = observe(base.replace('marker-end="url(#arrow)"', replacement))
+    expect(result.evidence?.outputAdmission).toBe('passed')
+    expect(finding(result, 'svg-edge-target-marker:0')?.status).not.toBe('passed')
+    expect(result.semanticComplete).toBe(false)
+  }
+  expect(observe(base.replaceAll('marker-end="url(#arrow)"', 'style="marker-end:url(#arrow)"')).semanticComplete).toBe(true)
+  const stylesheet = observe(base.replace('</svg>', '<style>.class-relationship { marker-end/**/:none }</style></svg>'))
+  expect(finding(stylesheet, 'svg-edge-target-marker:0')?.status).not.toBe('passed')
+  expect(stylesheet.semanticComplete).toBe(false)
 })
