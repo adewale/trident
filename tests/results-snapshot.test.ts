@@ -128,9 +128,9 @@ test('canonical historical values match their provenance digest without a second
   expect(examples.tables).toBeUndefined()
   expect(examples.originalTableReceipt.url).toMatch(/\/blob\/[a-f0-9]{40}\//)
   expect(examples.originalTableReceipt.sha256).toMatch(/^[a-f0-9]{64}$/)
-  expect(data.tables.filter(row => row.historical).map(row => row.id).sort()).toEqual([...examples.tableData.ids].sort())
+  expect(data.tables.filter(row => row.receipt.url === 'docs/evidence/benchmark-examples.json').map(row => row.id).sort()).toEqual([...examples.tableData.ids].sort())
   expect(createHash('sha256').update(JSON.stringify(retainedTableValues(data, examples.tableData.ids))).digest('hex')).toBe(examples.tableData.valuesSha256)
-  for (const entry of data.tables.filter(row => row.historical)) {
+  for (const entry of data.tables.filter(row => row.receipt.url === 'docs/evidence/benchmark-examples.json')) {
     expect(entry.receipt.sha256).toBe(digest)
   }
   validateSnapshotReceipts(data, root)
@@ -166,7 +166,12 @@ test('result ranks use the named metric, share ties, put missing values last and
 test('table and Mermaid chart use the same best-first project order', () => {
   const data = snapshot()
   data.tables[0]!.rows.unshift({ project: 'fixture/alpha', values: ['1.0', 2, 0, 2] })
+  data.tables.push({ ...data.tables[0]!, id: 'another-docs-population', caption: 'A separate corpus, not the overview ranking population.', rows: [{ project: 'fixture/zebra', values: ['2.0', 99, 1, 100] }] })
   const output = renderSnapshot(data, catalog)
+  const overview = output.split('## Results by benchmark')[0]!
+  expect(overview.split('\n').find(row => row.startsWith('| fixture/zebra |'))).toContain('1/2')
+  expect(overview).not.toContain('99/100')
+  expect(output).toContain('**another-docs-population**')
   const section = output.slice(output.indexOf('**docs-coverage**'))
   expect(section.indexOf('| fixture/alpha | 1 |')).toBeLessThan(section.indexOf('| fixture/zebra | 2 |'))
   expect(section).toContain('x-axis ["fixture/alpha 1.0", "fixture/zebra 1.0"]')

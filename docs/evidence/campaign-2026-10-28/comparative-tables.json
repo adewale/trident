@@ -1,0 +1,25 @@
+{
+  "kind": "public-artifact-table-provenance",
+  "historicalSource": "https://github.com/adewale/trident/blob/a91a354f04fae37a73d6748fafbd4b9a7d756224/results/latest.json",
+  "inputs": [
+    {
+      "path": "dave.json",
+      "sha256": "192620a55e341cd62b37569ce53b46f75017cb1ab34c35af0571f459c5313364"
+    },
+    {
+      "path": "fidelity.json",
+      "sha256": "8de234305cc7f0421e3fa7fb2bfa13c44ef8bc62c706af362b59014a0d81e476"
+    }
+  ],
+  "tableData": {
+    "path": "../../../results/latest.json",
+    "ids": [
+      "ecosystem-docs-1095-2026-10-27",
+      "ecosystem-paint-920-2026-10-27",
+      "ecosystem-browser-gzip-2026-10-27",
+      "ecosystem-docs-call-cost-2026-10-27"
+    ],
+    "valuesSha256": "33dd94d90325eecb152d84dd993ee194f2eeec56aa838a4fc0d1b6a317cedbdf"
+  },
+  "limits": "Original public artifacts, measurement dates and fixed populations are retained. No AM PR matrices, source-workspace suites or strict internal-backend experiment is included."
+}
