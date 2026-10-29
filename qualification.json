@@ -1,0 +1,30 @@
+{
+  "sourceHead": "56f217b1bbb7901ee9f828018d1625f89de0e2e5",
+  "base": "bb108ce09389544c65d9d9efa7f914acabdc48ff",
+  "measuredAt": "2026-10-29",
+  "verification": {
+    "rendered": 20,
+    "delivery": 10,
+    "lane": "pinned-browser-baseline-subset",
+    "record": "ee13727a-a6d9-4b65-a9aa-e332354355b2",
+    "status": "blocked",
+    "checks": "passed"
+  },
+  "archive": {
+    "file": "evidence.tar.gz",
+    "bytes": 130676,
+    "sha256": "117b5b8c193f8adc8caa74c14b6d5b5d25ef5cab944e201a53d2c51ec926093a"
+  },
+  "ci": "https://github.com/adewale/trident/actions/runs/40863873445/job/123413585842",
+  "fullSuite": {
+    "passed": 431,
+    "failed": 0,
+    "assertions": 2656
+  },
+  "limits": [
+    "Two case IDs share one literal source; A0/A1 are same-artifact controls.",
+    "No native-semantic, full paint or comparative speed claim. Aggregate record is intentionally blocked.",
+    "Raw absolute paths retain original local provenance; inspect corresponding archive-relative files."
+  ],
+  "priorAttempt": "The earlier 39bc5f0 run passed rendering but tagged renderer-wide delivery as Flowchart. This run corrects that metadata and remains a separate attempt."
+}
