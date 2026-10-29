@@ -6,6 +6,7 @@ import { loadCurrentProjectRecords, publishProjectRecord, type ProjectBenchmarkR
 import { renderCandidateComparison } from '../unified/candidate-comparison.ts'
 import { communityCoreWorkloads } from '../unified/community.ts'
 import { positiveRenderScore, publishResults } from '../unified/league.ts'
+import { parseOptions } from '../unified/options.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 
 const temp = useTempDirs('trident-current-report-versions-')
@@ -32,15 +33,15 @@ function unchanged(out: string) {
   expect(readFileSync(join(out, 'records/keep'), 'utf8')).toBe('previous owning records')
 }
 
-for (const scenario of ['old-release', 'later-observation', 'artifact-conflict'] as const) {
+for (const scenario of ['later-observation', 'artifact-conflict'] as const) {
   test(`current publisher rejects ${scenario} before touching prior output; raw history stays readable`, () => {
-    const record = retained('obsidianmd/pele', scenario === 'old-release' ? '1.8.0' : '1.9.0')
+    const record = retained('obsidianmd/pele', '1.9.0')
     if (scenario === 'later-observation') record.observations.at(-1)!.metrics!.version = '1.8.0'
     if (scenario === 'artifact-conflict') (record.identity.artifact as any).package.artifact.version = '1.8.0'
     const store = temp.dir(), out = temp.dir()
     publishProjectRecord(store, record)
     sentinel(out)
-    expect(() => publishResults(store, out)).toThrow('requires obsidianmd/pele 1.9.0')
+    expect(() => publishResults(store, out)).toThrow('Mixed tool versions')
     unchanged(out)
     // Raw historical ownership/deserialization is not narrowed to today's pins.
     expect(loadCurrentProjectRecords(store)[0]!.observations).toEqual(record.observations)
@@ -91,7 +92,7 @@ test('explicit candidate versions are checked against their owning artifact for 
     expect(() => renderCandidateComparison(candidate, release)).toThrow('Mixed tool versions')
   }
   const pele = retained(); pele.identity.lane = 'candidate'
-  expect(() => renderCandidateComparison(pele, retained('obsidianmd/pele', '1.8.0'))).toThrow('requires obsidianmd/pele 1.9.0')
+  expect(renderCandidateComparison(pele, retained('obsidianmd/pele', '1.8.0'))).toContain('Release: 1.8.0')
 })
 
 test('results:compare CLI rejects a hidden mismatched observation before replacing its output', () => {
@@ -114,7 +115,7 @@ test('a browser artifact cannot hide an older release behind the valid Node arti
   const record = retained(), store = temp.dir(), out = temp.dir()
   ;(record.identity.artifact as any).browser = { version: '1.8.0' }
   publishProjectRecord(store, record)
-  expect(() => publishResults(store, out)).toThrow('requires obsidianmd/pele 1.9.0')
+  expect(() => publishResults(store, out)).toThrow('Mixed tool versions')
   expect(existsSync(join(out, 'README.md'))).toBe(false)
 })
 
@@ -145,4 +146,24 @@ test('same-release canonical aliases remain independently visible without a mixe
   const result = publishResults(store, out)
   expect(result.lanes.map(lane => lane.project).sort()).toEqual(['beautiful-mermaid', 'lukilabs/beautiful-mermaid'])
   expect(result.lanes.map(lane => lane.version)).toEqual(['2.0.0', '2.0.0'])
+})
+
+for (const version of ['1.8.0', '1.12.0']) {
+  test(`a consistent owning Pele ${version} artifact publishes independently of the legacy default pin`, () => {
+    const store = temp.dir(), out = temp.dir()
+    publishProjectRecord(store, retained('obsidianmd/pele', version))
+    expect(publishResults(store, out).lanes[0]!.version).toBe(version)
+  })
+}
+
+test('catalog admission accepts selected peer releases and rejects a mismatched reference before acquisition', () => {
+  const catalog = join(temp.dir(), 'catalog.json')
+  for (const project of ['obsidianmd/pele', 'fixture/renderer']) {
+    writeFileSync(catalog, JSON.stringify({ nodes: [{ id: project, benchmark: { version: '1.12.0' } }] }))
+    expect(parseOptions(['--community-catalog', catalog, '--projects', project]).communityProjects).toEqual([project])
+    writeFileSync(catalog, JSON.stringify({ nodes: [{ id: project, benchmark: { version: ' ' } }] }))
+    expect(() => parseOptions(['--community-catalog', catalog, '--projects', project])).toThrow('Missing artifact version')
+  }
+  writeFileSync(catalog, JSON.stringify({ nodes: [{ id: 'mermaid-js/mermaid', benchmark: { version: '12.1.0' } }] }))
+  expect(() => parseOptions(['--community-catalog', catalog, '--projects', 'mermaid-js/mermaid'])).toThrow('requires mermaid-js/mermaid 12.2.0')
 })

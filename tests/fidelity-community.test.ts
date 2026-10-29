@@ -16,7 +16,7 @@ function fixture(root: string): PreparedCommunityBrowser {
   return { node: { id: 'test/fidelity-engine', roles: ['peer'], outputs: ['svg'] }, artifact: { kind: 'global', root, module: entry, version: '1.0.0' }, browserStatus: 'prepared', browser: { root, entry: 'bundle.js', global: 'fidelityTestEngine', kind: 'function', version: '1.0.0', artifactSha256: sha(entry), files: [entry, asset].map(path => ({ path, sha256: sha(path) })) } }
 }
 
-test('community admission checks actual executable bytes, missing assets, installed versions and tool-set pins', () => {
+test('community admission checks actual executable bytes, missing assets, installed versions and reference pins', () => {
   const root = mkdtempSync(join(tmpdir(), 'fidelity-admission-'))
   try {
     let peer = fixture(root)
@@ -32,7 +32,9 @@ test('community admission checks actual executable bytes, missing assets, instal
     peer = fixture(root); peer.browser!.version = '2.0.0'
     expect(() => admitPreparedFidelityEngine(peer)).toThrow('versions disagree')
     peer = fixture(root); peer.node.id = 'obsidianmd/pele'; peer.artifact!.version = peer.browser!.version = '1.8.0'; writeFileSync(join(root, 'package.json'), JSON.stringify({ version: '1.8.0' }))
-    expect(() => admitPreparedFidelityEngine(peer)).toThrow('1.9.0')
+    expect(admitPreparedFidelityEngine(peer).version).toBe('1.8.0')
+    peer.node.id = 'mermaid-js/mermaid'
+    expect(() => admitPreparedFidelityEngine(peer)).toThrow('12.2.0')
   } finally { rmSync(root, { recursive: true, force: true }) }
 })
 

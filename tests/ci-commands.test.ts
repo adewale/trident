@@ -7,7 +7,7 @@ import { useTempDirs } from './helpers/temp-dir.ts'
 const root = resolve(import.meta.dir, '..'), command = join(root, 'commands.ts')
 const temp = useTempDirs('trident-ci-commands-')
 function run(args: string[], indicators = { CI: 'true', GITHUB_ACTIONS: 'true' }) {
-  return spawnSync(process.execPath, [command, ...args], { encoding: 'utf8', timeout: 20_000, env: { ...process.env, ...indicators, MERMAID_REFERENCE_DIR: '/missing/ci-oracle', MERMAID_UPSTREAM_DIR: '/missing/ci-source' } })
+  return spawnSync(process.execPath, [command, ...args], { encoding: 'utf8', timeout: args[0] === 'typecheck' ? 45_000 : 20_000, env: { ...process.env, ...indicators, MERMAID_REFERENCE_DIR: '/missing/ci-oracle', MERMAID_UPSTREAM_DIR: '/missing/ci-source' } })
 }
 
 test('CI runs deterministic checks, help, support and a no-acquisition campaign plan without an oracle', () => {

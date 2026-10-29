@@ -6,6 +6,7 @@
   },
   "mermaidOracle": {
     "tool": "mermaid-js/mermaid",
+    "addons": ["@mermaid-js/mermaid-zenuml"],
     "dependencies": {
       "@mermaid-js/parser": "2.0.1",
       "jsdom": "26.1.0"
