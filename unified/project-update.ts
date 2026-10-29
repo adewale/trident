@@ -19,6 +19,7 @@ import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult } from
 import { corpusEvidence, corpusWorkloads } from './corpus.ts'
 import { comparisonProjects } from './lineage.ts'
 import { communityCatalogFile, tridentDirectory } from './trident-paths.ts'
+import { candidateDependencies } from './candidate-packages.ts'
 
 const json = readBenchmarkDocument
 const writeJson = (path: string, value: unknown) => writeFileSync(path, JSON.stringify(value, null, 2) + '\n', { flag: 'wx' })
@@ -188,10 +189,10 @@ export function admitProjectArtifacts(preparedEntry: PreparedCommunity, prepared
 }
 /** An unreleased build says so in its record and is keyed by its bytes: it lives in the
  * candidate lane, so it never reuses, replaces or ranks as the release. */
-export function candidateIdentity(entry: PreparedCommunity, options: Pick<UnifiedRunOptions, 'communityCandidate' | 'packageRoot'>, _files: unknown): { source: 'tarball'; sha256: string } | { source: 'revision'; revision: string } | undefined {
+export function candidateIdentity(entry: PreparedCommunity, options: Pick<UnifiedRunOptions, 'communityCandidate' | 'packageRoot'>, _files: unknown): { source: 'tarball'; sha256: string; dependencies?: string[] } | { source: 'revision'; revision: string } | undefined {
   const candidate = options.communityCandidate
   // A revision is the whole identity: where it was fetched from cannot change its bytes.
-  if (candidate?.project === entry.node.id) return 'revision' in candidate ? { source: 'revision', revision: candidate.revision } : { source: 'tarball', sha256: candidate.sha256 }
+  if (candidate?.project === entry.node.id) return 'revision' in candidate ? { source: 'revision', revision: candidate.revision } : { source: 'tarball', sha256: candidate.sha256, ...(candidate.dependencies?.length ? { dependencies: candidate.dependencies.map(archive => archive.sha256).sort() } : {}) }
   if (entry.artifact?.candidate) throw Error('A candidate artifact reached a release record: ' + entry.node.id)
   return undefined
 }
@@ -216,28 +217,30 @@ function sourceCandidate(project: string, revision: string | undefined, remote: 
 }
 /** --candidate-tarball with its --candidate-sha256, or --candidate-dir, which npm packs here without running scripts,
  * for an npm-backed tool; --candidate-revision and/or --candidate-remote for a tool Trident builds from source. */
-export function communityCandidate(values: { tarball?: string; sha256?: string; directory?: string; revision?: string; remote?: string }, options: Pick<UnifiedRunOptions, 'communityProjects' | 'communityArtifacts' | 'communityPreparedFile' | 'communityBrowserPreparedFile' | 'out'>): UnifiedRunOptions['communityCandidate'] {
-  if (!values.tarball && !values.sha256 && !values.directory && !values.revision && !values.remote) return undefined
+export function communityCandidate(values: { tarball?: string; sha256?: string; directory?: string; revision?: string; remote?: string; dependencies?: string }, options: Pick<UnifiedRunOptions, 'communityProjects' | 'communityArtifacts' | 'communityPreparedFile' | 'communityBrowserPreparedFile' | 'out'>): UnifiedRunOptions['communityCandidate'] {
+  if (!values.tarball && !values.sha256 && !values.directory && !values.revision && !values.remote && !values.dependencies) return undefined
   const project = options.communityProjects?.length === 1 ? options.communityProjects[0]! : undefined
   if (!project) throw Error('A candidate needs exactly one --projects OWNER/TOOL')
   if (options.communityArtifacts || options.communityPreparedFile || options.communityBrowserPreparedFile) throw Error('A candidate is acquired from its own tarball or revision; drop --community-artifacts, --community-prepared and --community-browser-prepared')
   if (values.revision || values.remote) {
-    if (values.tarball || values.sha256 || values.directory) throw Error('Use --candidate-revision or --candidate-remote for a source build, or a tarball or --candidate-dir for an npm package, not both')
+    if (values.tarball || values.sha256 || values.directory || values.dependencies) throw Error('Use --candidate-revision or --candidate-remote for a source build, or a tarball or --candidate-dir for an npm package, not both')
     return { project, ...sourceCandidate(project, values.revision, values.remote) }
   }
+  const dependencies = values.dependencies ? candidateDependencies(resolve(values.dependencies)) : undefined
+  const extra = dependencies ? { dependencies } : {}
   if (values.directory) {
     if (values.tarball || values.sha256) throw Error('Use --candidate-dir, or --candidate-tarball with --candidate-sha256, not both')
     const destination = join(options.out, 'candidate-packs', randomUUID())
     mkdirSync(destination, { recursive: true })
     const packed = JSON.parse(execFileSync('npm', ['pack', resolve(values.directory), '--ignore-scripts', '--json', '--pack-destination', destination], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, npm_config_cache: process.env.npm_config_cache ?? join(options.out, 'npm-cache') } }))
     const tarball = join(destination, packed[0].filename)
-    return { project, tarball, sha256: byteDigest(tarball), packedFrom: resolve(values.directory) }
+    return { project, tarball, sha256: byteDigest(tarball), packedFrom: resolve(values.directory), ...extra }
   }
   if (!values.tarball || !values.sha256) throw Error('--candidate-tarball and --candidate-sha256 go together')
   if (!/^[a-f0-9]{64}$/.test(values.sha256)) throw Error('--candidate-sha256 must be a lowercase SHA-256 digest')
   const tarball = resolve(values.tarball)
   if (!existsSync(tarball) || byteDigest(tarball) !== values.sha256) throw Error(`Candidate tarball ${tarball} differs from --candidate-sha256`)
-  return { project, tarball, sha256: values.sha256 }
+  return { project, tarball, sha256: values.sha256, ...extra }
 }
 function inventoryFiles(directory: string, current = directory): string[] {
   return readdirSync(current, { withFileTypes: true })
@@ -506,13 +509,13 @@ export async function runRetainedCommunityCliSuite(options: UnifiedRunOptions): 
 export async function main(argv = process.argv.slice(2)) {
   if (argv.length === 1 && argv[0] === '--help') {
     console.log(
-      'bun commands.ts community:update --projects owner/project[,owner/other] --records DIRECTORY --out DIRECTORY [--markdown FILE] [--profile smoke|full] [--rounds N] [--include-excluded-descendants] [--plan] [--force] [--candidate-tarball FILE --candidate-sha256 HEX | --candidate-dir DIRECTORY | --candidate-revision SHA [--candidate-remote URL|CLONE] | --candidate-remote CLONE]\nA candidate is an unreleased build of one selected project: a tarball for an npm-backed tool, a Git commit for one Trident builds from source; its record stays in the candidate lane and never enters the league. Additional artifact options, including --community-inputs, --community-prepared, --community-browser-prepared and --community-catalog, are accepted. Select --projects explicitly or use --all-projects. Unbranded descendants, zero-ahead versions and runtime bindings are excluded before preparation; --include-excluded-descendants enables deliberate fork/version/runtime investigations. Preparation resolves selected artifacts; unchanged matching records skip every timing lane. --plan performs preparation but no timing. --force retains a new attempt. CI execution is refused.',
+      'bun commands.ts community:update --projects owner/project[,owner/other] --records DIRECTORY --out DIRECTORY [--markdown FILE] [--profile smoke|full] [--rounds N] [--include-excluded-descendants] [--plan] [--force] [--candidate-dependencies JSON] [--candidate-tarball FILE --candidate-sha256 HEX | --candidate-dir DIRECTORY | --candidate-revision SHA [--candidate-remote URL|CLONE] | --candidate-remote CLONE]\nA candidate is an unreleased build of one selected project: a tarball for an npm-backed tool, a Git commit for one Trident builds from source; its record stays in the candidate lane and never enters the league. For npm workspace builds, --candidate-dependencies reads a nonempty array of {tarball, sha256}, with paths relative to that JSON file; all archives are installed together and sealed. Additional artifact options, including --community-inputs, --community-prepared, --community-browser-prepared and --community-catalog, are accepted. Select --projects explicitly or use --all-projects. Unbranded descendants, zero-ahead versions and runtime bindings are excluded before preparation; --include-excluded-descendants enables deliberate fork/version/runtime investigations. Preparation resolves selected artifacts; unchanged matching records skip every timing lane. --plan performs preparation but no timing. --force retains a new attempt. CI execution is refused.',
     )
     return
   }
   const forwarded: string[] = [],
     settings: { plan?: boolean; markdown?: string } = {},
-    candidateValues: { tarball?: string; sha256?: string; directory?: string; revision?: string; remote?: string } = {}
+    candidateValues: { tarball?: string; sha256?: string; directory?: string; revision?: string; remote?: string; dependencies?: string } = {}
   const aliases: Record<string, string> = { '--projects': '--community-projects', '--records': '--community-records', '--catalog': '--community-catalog' }
   const seen = new Set<string>()
   let allProjects = false, includeExcluded = false
@@ -530,10 +533,10 @@ export async function main(argv = process.argv.slice(2)) {
       forwarded.push('--community-force')
       continue
     }
-    if (['--candidate-tarball', '--candidate-sha256', '--candidate-dir', '--candidate-revision', '--candidate-remote'].includes(flag)) {
+    if (['--candidate-tarball', '--candidate-sha256', '--candidate-dir', '--candidate-revision', '--candidate-remote', '--candidate-dependencies'].includes(flag)) {
       const value = argv[++index]
       if (!value || value.startsWith('--')) throw Error(flag + ' requires a value')
-      candidateValues[({ '--candidate-tarball': 'tarball', '--candidate-sha256': 'sha256', '--candidate-dir': 'directory', '--candidate-revision': 'revision', '--candidate-remote': 'remote' } as const)[flag as '--candidate-dir']] = value
+      candidateValues[({ '--candidate-tarball': 'tarball', '--candidate-sha256': 'sha256', '--candidate-dir': 'directory', '--candidate-revision': 'revision', '--candidate-remote': 'remote', '--candidate-dependencies': 'dependencies' } as const)[flag as '--candidate-dir']] = value
       continue
     }
     if (flag === '--markdown') {

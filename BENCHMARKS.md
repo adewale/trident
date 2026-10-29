@@ -40,8 +40,11 @@ have their own contracts. Six-input API costs, CLI process costs, browser delive
 and heap are separate diagnostics, not a combined performance number.
 
 DaveBench uses `public-docs-svg-return-v1`: the inventory records pages, repeated
-occurrences and distinct sources, with 30 warmup attempts, rotated/reversed project
-order and five rounds in the full profile. Public docs are development-exposed.
+occurrences and distinct sources, with 30 warmup attempts and five rounds in the
+full profile. Each project ordering is followed by its reverse, then the next pair
+rotates one position. Every complete round pair balances relative project order;
+all positions balance over 2N rounds for N projects. An odd final round leaves
+at most one extra precedence observation per pair. Public docs are development-exposed.
 Returning SVG does not prove faithful paint. Show full output coverage alongside
 timing on the same successful inputs.
 
@@ -73,6 +76,15 @@ inspect authored label text, including inherited declarations, rather than
 requiring a specific root style. Incomplete semantics or noisy A/A controls cannot
 qualify performance. Per-case and per-family results stay available so an
 aggregate cannot hide workload-shape differences.
+
+The standalone [DaveBench PNG extension](davebench-png/README.md),
+`bun commands.ts docs:png --out FRESH_DIR`, reuses the same inventory and sampling
+with protocol `public-docs-png-export-v1`. It measures completed PNG bytes through
+the published native Flutter, Node and Chromium export paths, then decodes and
+checks nonblank content outside the clocks. It preserves full coverage and shows
+costs on common qualified occurrences, with runtime and output pixels visible.
+The [dated four-library results](docs/davebench-png-results.md) describe its quality,
+geometry, network and timing limits. This is distinct from the SVG-return protocol.
 
 ## DaveBench provenance and product diagnostics
 

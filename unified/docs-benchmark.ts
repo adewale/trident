@@ -48,6 +48,13 @@ export function docsInventory(upstream = mermaidUpstreamDirectory()) {
   return { pin: currentReferencePin, pages, occurrences: cases.length, distinct: new Set(cases.map(value => value.source.trim())).size, cases }
 }
 
+/** Pair every ordering with its reverse before rotating the next pair. */
+export function docsRoundOrder<T>(targets: readonly T[], round: number): T[] {
+  const offset = Math.floor((round - 1) / 2) % Math.max(1, targets.length)
+  const order = [...targets.slice(offset), ...targets.slice(0, offset)]
+  return round % 2 === 0 ? order.reverse() : order
+}
+
 export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<UnifiedSuiteResult> {
   assertBenchmarkExecutionAllowed()
   const startedAt = new Date().toISOString(), observations: BenchmarkObservation[] = [], gaps: string[] = []
@@ -77,6 +84,7 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
   writeFileSync(join(options.out, 'context.json'), JSON.stringify({
     protocol: 'public-docs-svg-return-v1', producers, browser: executableIdentity(executable), driver: process.versions,
     rounds: options.rounds, warmupAttemptsPerRound: 30, pinnedSource: inventory.pin,
+    projectOrderByRound: Array.from({ length: options.rounds }, (_, index) => docsRoundOrder(targets, index + 1).map(peer => peer.node.id)),
     artifacts: targets.map(peer => ({ project: peer.node.id, admission: admitPreparedFidelityEngine(peer) })),
     timing: 'Elapsed browser public call through awaited return; output check and cleanup after stopped clock. No A/A performance qualification.',
     hostDeadlineMs: 20000, network: 'Prepared artifact origin only',
@@ -84,8 +92,7 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
   const browser = targets.length ? await chromium.launch({ headless: true, executablePath: executable }) : undefined
   try {
     for (let round = 1; round <= options.rounds; round++) {
-      const order = [...targets.slice((round - 1) % Math.max(1, targets.length)), ...targets.slice(0, (round - 1) % Math.max(1, targets.length))]
-      if (round % 2 === 0) order.reverse()
+      const order = docsRoundOrder(targets, round)
       for (const peer of order) {
         const engine = peer.browser!, root = resolve(engine.root)
         console.log(`docs round ${round}/${options.rounds}: ${peer.node.id} (${inventory.occurrences} occurrences)`)

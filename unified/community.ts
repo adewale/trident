@@ -21,6 +21,8 @@ import { communityCorpus, corpusEvidence, corpusWorkloads } from './corpus.ts'
 import { workloadAppliesToOutput } from './workload-intent.ts'
 import { communityCatalogFile } from './trident-paths.ts'
 import { retainFailedOutput } from './failure-outputs.ts'
+import { candidateKey, candidatePackage, verifyCandidateArchive, verifyCandidateDependencyPayload, type NpmCandidate } from './candidate-packages.ts'
+export { candidatePackage } from './candidate-packages.ts'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const median = (xs: number[]) => {
@@ -84,8 +86,6 @@ export function assertCommunityCandidate(nodes: CommunityNode[], candidate: { pr
   } else if (!node.benchmark?.package || source) throw Error(`${node.id} is not benchmarked from an npm package, so it takes no candidate tarball${source ? '; use --candidate-revision' : ''}`)
   return node
 }
-/** A candidate's identity: its tarball's digest, or its Git revision. */
-const candidateKey = (candidate: { sha256: string } | { revision: string }) => ('revision' in candidate ? candidate.revision : candidate.sha256)
 /** Build a candidate revision with the project's own reviewed recipe, exactly as its release is built. */
 async function sourceCandidateArtifact(node: CommunityNode, cache: string, candidate: { revision: string; remote: string }): Promise<CommunityArtifact> {
   const root = process.env.AM_COMMUNITY_SOURCE_CACHE ?? cache
@@ -95,13 +95,6 @@ async function sourceCandidateArtifact(node: CommunityNode, cache: string, candi
       : await (await import('./community-extra-source.ts')).prepareExtraCommunitySource({ ...node, head: candidate.revision, benchmark: { ...node.benchmark!, sourcePin: candidate.revision } }, root, candidate.remote)
   return { ...artifact, candidate: { revision: candidate.revision, remote: candidate.remote } }
 }
-/** The package a tarball holds, read without installing it. */
-export function candidatePackage(tarball: string): { name: string; version: string } {
-  const pkg = JSON.parse(execFileSync('tar', ['-xOzf', tarball, 'package/package.json'], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }))
-  if (typeof pkg.name !== 'string' || typeof pkg.version !== 'string') throw new Error('Candidate tarball has no package name and version')
-  return pkg
-}
-
 /** Seal a companion's own published files as well as its dependencies. The
  * dependency observer intentionally leaves the root payload to its caller. */
 export function adapterCompanionIdentity(root: string) {
@@ -114,7 +107,7 @@ export function adapterCompanionIdentity(root: string) {
   return { files: visit(root), dependencies: captureInstalledDependencyClosure(root) }
 }
 
-async function npmArtifact(node: CommunityNode, cache: string, pinned = false, candidate?: { tarball: string; sha256: string }): Promise<CommunityArtifact> {
+async function npmArtifact(node: CommunityNode, cache: string, pinned = false, candidate?: NpmCandidate): Promise<CommunityArtifact> {
   const config = node.benchmark!,
     name = config.package!
   const recorded = config.version ?? node.packages?.find(p => p.registry === 'npm' && p.name === name)?.version
@@ -131,22 +124,36 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false, c
     version = ((await response.json()) as { version: string }).version
   }
   if (!version) throw new Error(`No published version recorded for ${name}`)
+  const dependencyNames = new Set([name])
+  const dependencyArchives = (candidate?.dependencies ?? []).map(archive => {
+    verifyCandidateArchive(archive)
+    const pkg = candidatePackage(archive.tarball)
+    if (dependencyNames.has(pkg.name)) throw Error('Duplicate candidate package: ' + pkg.name)
+    dependencyNames.add(pkg.name)
+    return { ...archive, ...pkg }
+  }).sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
   const extra = await import('./community-extra-adapters.mjs'),
     plan = extra.extraPackagePreparation(name)
   // Mermaid's row is the pinned oracle install itself, never a second copy of Mermaid.
   const oracle = node.id === 'mermaid-js/mermaid' ? assertMermaidOracle() : undefined
   if (oracle && version !== oracle.version) throw new Error(`Mermaid's row must be the pinned oracle ${oracle.version}; the catalog records ${version}`)
   // A candidate installs into its own prefix, keyed by its bytes, from Trident's verified copy.
-  const prefix = oracle?.directory ?? (candidate ? join(cache, 'candidates', `${safe(name)}@${candidate.sha256}`) : join(cache, `${safe(name)}@${version}${plan.overrides ? '-recipe-' + createHash('sha256').update(JSON.stringify(plan)).digest('hex').slice(0, 16) : ''}`)),
+  const prefix = oracle?.directory ?? (candidate ? join(cache, 'candidates', safe(name), candidateKey(candidate)) : join(cache, `${safe(name)}@${version}${plan.overrides ? '-recipe-' + createHash('sha256').update(JSON.stringify(plan)).digest('hex').slice(0, 16) : ''}`)),
     root = join(prefix, 'node_modules', name),
     copy = join(prefix, 'candidate.tgz')
   mkdirSync(prefix, { recursive: true })
   if (candidate && !existsSync(copy)) copyFileSync(candidate.tarball, copy)
   if (candidate && artifactDigest(copy) !== candidate.sha256) throw new Error(`Retained candidate copy differs from its SHA-256: ${copy}`)
+  const retainedDependencies = dependencyArchives.map(archive => {
+    const tarball = join(prefix, archive.sha256 + '.tgz')
+    if (!existsSync(tarball)) copyFileSync(archive.tarball, tarball)
+    verifyCandidateArchive({ ...archive, tarball })
+    return { ...archive, tarball }
+  })
   const companions: string[] = [...(plan.companions ?? []), ...(plan.additionalCompanions ?? [])]
   const needed =
     !existsSync(join(root, 'package.json')) ||
-    companions.some(spec => {
+    retainedDependencies.some(pkg => !existsSync(join(prefix, 'node_modules', pkg.name, 'package.json'))) || companions.some(spec => {
       const name = spec.startsWith('@') ? spec.slice(0, spec.lastIndexOf('@')) : spec.split('@')[0]!
       return !existsSync(join(prefix, 'node_modules', name, 'package.json'))
     })
@@ -157,7 +164,7 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false, c
       pkg.overrides = { ...pkg.overrides, ...plan.overrides }
       writeFileSync(manifest, JSON.stringify(pkg, null, 2) + '\n')
     }
-    const install = spawnSync('npm', ['install', '--prefix', prefix, '--ignore-scripts', '--no-audit', '--no-fund', candidate ? copy : `${name}@${version}`, ...companions], {
+    const install = spawnSync('npm', ['install', '--prefix', prefix, '--ignore-scripts', '--no-audit', '--no-fund', candidate ? copy : `${name}@${version}`, ...retainedDependencies.map(pkg => pkg.tarball), ...companions], {
       encoding: 'utf8',
       timeout: 300_000,
       env: { ...process.env, npm_config_cache: process.env.npm_config_cache ?? process.env.NPM_CONFIG_CACHE ?? join(cache, '.npm-cache') },
@@ -190,11 +197,23 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false, c
   addFile(module)
   for (const relative of [plan.wasmRelativePath, 'pkg/affine_mermaid_renderer_wasm_bg.wasm', 'grok-mermaid.wasm', 'src/grok-mermaid.wasm', 'dist/xmermaid_bg.wasm'].filter((value): value is string => typeof value === 'string')) addFile(join(root, relative))
   const adapterCompanions = companions.map(spec => { const name = spec.slice(0, spec.lastIndexOf('@')), root = join(prefix, 'node_modules', name), pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')); if (pkg.version !== spec.slice(spec.lastIndexOf('@') + 1)) throw Error('Adapter companion version differs: ' + spec); return { root, name, version: pkg.version as string, integrity: installedNpmIntegrity(prefix, root, name, pkg.version), closureSha256: createHash('sha256').update(JSON.stringify(adapterCompanionIdentity(root))).digest('hex') } })
-  const prepared: CommunityArtifact = { kind: 'node', root, module, version, integrity, runtime, sha256: artifactDigest(module), files: wasmFiles, ...(plan.wasmRelativePath ? { wasm: join(root, plan.wasmRelativePath) } : {}), apiBoundary: plan.boundary, ...(adapterCompanions.length ? { adapterCompanions } : {}), ...(plan.overrides ? { dependencyOverrides: plan.overrides } : {}), ...(candidate ? { candidate: { sha256: candidate.sha256, tarball: copy } } : {}) }
+  if (retainedDependencies.length) {
+    const closure = captureInstalledDependencyClosure(root)
+    for (const pkg of retainedDependencies) {
+      const dependencyRoot = join(prefix, 'node_modules', pkg.name), realRoot = realpathSync(dependencyRoot)
+      if (!closure.nodes.some(node => node.realRoot === realRoot) || closure.edges.some(edge => edge.name === pkg.name && edge.resolution?.realRoot !== realRoot)) throw Error('Candidate dependency is unused or resolves to another package: ' + pkg.name)
+      const integrity = installedNpmIntegrity(prefix, dependencyRoot, pkg.name, pkg.version)
+      if (integrity !== 'sha512-' + createHash('sha512').update(readFileSync(pkg.tarball)).digest('base64')) throw Error('Installed candidate dependency differs from its tarball: ' + pkg.name)
+      wasmFiles.push(...verifyCandidateDependencyPayload(pkg, dependencyRoot))
+      adapterCompanions.push({ root: dependencyRoot, name: pkg.name, version: pkg.version, integrity, closureSha256: createHash('sha256').update(JSON.stringify(adapterCompanionIdentity(dependencyRoot))).digest('hex') })
+    }
+  }
+  const prepared: CommunityArtifact = { kind: 'node', root, module, version, integrity, runtime, sha256: artifactDigest(module), files: wasmFiles, ...(plan.wasmRelativePath ? { wasm: join(root, plan.wasmRelativePath) } : {}), apiBoundary: plan.boundary, ...(adapterCompanions.length ? { adapterCompanions } : {}), ...(plan.overrides ? { dependencyOverrides: plan.overrides } : {}), ...(candidate ? { candidate: { sha256: candidate.sha256, tarball: copy, ...(retainedDependencies.length ? { dependencies: retainedDependencies.map(({ tarball, sha256 }) => ({ tarball, sha256 })) } : {}) } } : {}) }
   return extra.prepareExtraPublishedArtifact(prepared, { installedIntegrity: (nativeRoot: string, packageName: string, packageVersion: string) => installedNpmIntegrity(prefix, nativeRoot, packageName, packageVersion) })
 }
 
 export function verifyProvidedCommunityArtifact(artifact: CommunityArtifact): void {
+  if (artifact.candidate && 'tarball' in artifact.candidate) for (const archive of [artifact.candidate, ...(artifact.candidate.dependencies ?? [])]) verifyCandidateArchive(archive)
   for (const variant of artifact.additionalCli ?? []) if (variant.artifact) verifyProvidedCommunityArtifact(variant.artifact)
   const entry = artifact.kind === 'cli' || artifact.kind === 'jsonl-worker' ? artifact.executable : artifact.kind === 'python' ? (artifact.python ?? artifact.executable) : (artifact.module ?? artifact.executable)
   if (!entry || !existsSync(entry)) throw new Error('Provided artifact entry does not exist')

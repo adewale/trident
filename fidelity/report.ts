@@ -1,6 +1,5 @@
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
-import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { assertBenchmarkSetVersions, canonicalBenchmarkTool } from '../tool-versions.ts'
 import type { BenchmarkObservation } from '../unified/types.ts'
 import { fidelityCoreProjects } from './selection.ts'
@@ -28,7 +27,6 @@ export function reviewFidelityCapabilities(rows: readonly BenchmarkObservation[]
 /** Read retained observations only. Rendering, acquisition and performance
  * workers are deliberately absent from this consumer's dependency graph. */
 export function writeFidelityComparison(options: FidelityReportOptions) {
-  assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: false }) // Reads evidence; renders nothing.
   const core = read(options.core), community = options.community ? read(options.community) : undefined
   const caseIds: string[] = core.cases.map((item: any) => item.id)
   if (community && JSON.stringify(community.selectedCaseIds) !== JSON.stringify(caseIds)) throw Error('Community and core authored case universes differ; collect matching functional evidence before composition')

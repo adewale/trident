@@ -18,6 +18,7 @@ Benchmark catalog projects (Bun):
   bun commands.ts community:update --help
   bun commands.ts results:publish --records DIR --out DIR
   bun commands.ts results:compare --records DIR --project OWNER/TOOL [--out FILE]
+  bun commands.ts docs:png --out FRESH_DIR [--rounds 5] [--native-bundle DIR]
   bun commands.ts results:campaign --campaign DIR --out FRESH_DIR [--copy-evidence]
   bun commands.ts results:snapshot [--campaign DIR --evidence-url HTTPS_DIRECTORY] [--check]
   bun commands.ts corpus:freeze --policy FILE --out FRESH_FILE
@@ -34,7 +35,7 @@ Setup and read evidence:
 
 Version: node commands.ts --version
 
-Maintainer checks (Bun): test, typecheck, lint
+Maintainer checks (Bun): test (local full suite), test:ci (fixtures), typecheck, lint
 
 See BENCHMARKS.md for questions, usefulness, limitations and prerequisites.
 Core comparisons exclude whole-application editor workflows and descendants without distinct recorded branding,
@@ -52,9 +53,10 @@ async function main() {
   const aliases: Record<string, string> = { 'portable:build': 'build', community: 'community:update' }
   const selected = Object.hasOwn(aliases, command) ? aliases[command]! : command
   const neutral: Record<string, string> = { build: 'portable/build.ts', portable: 'portable/run.ts', 'fidelity:report': 'fidelity/report.ts' }
-  const own: Record<string, string> = { 'upstream:prepare': 'unified/prepare-upstream.ts', 'support:verify': 'unified/support-verification.ts', support: 'unified/support-command.ts', bench: 'unified/benchmark.ts', 'corpus:freeze': 'unified/external-corpus.ts', 'results:campaign': 'unified/campaign-publication.ts', 'results:snapshot': 'unified/results-snapshot.ts', 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
+const own: Record<string, string> = { 'docs:png': 'unified/docs-png-benchmark.ts', 'upstream:prepare': 'unified/prepare-upstream.ts', 'support:verify': 'unified/support-verification.ts', support: 'unified/support-command.ts', bench: 'unified/benchmark.ts', 'corpus:freeze': 'unified/external-corpus.ts', 'results:campaign': 'unified/campaign-publication.ts', 'results:snapshot': 'unified/results-snapshot.ts', 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
   const checks: Record<string, string[]> = {
     test: ['test', '--timeout', '30000', resolve(directory, 'tests')],
+    'test:ci': ['test', '--timeout', '30000', ...['commands', 'ci-commands', 'png-launchers', 'results-snapshot'].map(name => resolve(directory, `tests/${name}.test.ts`))],
     typecheck: ['x', '--no-install', 'tsc', '--noEmit', '-p', resolve(directory, 'tsconfig.json')],
     lint: ['x', '--no-install', 'biome', 'lint', '--config-path', resolve(directory, 'biome.json'), directory],
   }
@@ -80,6 +82,7 @@ async function main() {
   }
   if (selected === 'mermaid:install') {
     if (args.length && (args.length !== 2 || args[0] !== '--dir')) throw Error('Use mermaid:install [--dir DIRECTORY]')
+    assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: false })
     const { installMermaidOracle, mermaidOracleDirectory } = await import('./portable/mermaid-oracle.ts')
     console.log(JSON.stringify(installMermaidOracle(args[1] ? resolve(args[1]) : mermaidOracleDirectory()), null, 2))
     return
@@ -111,8 +114,10 @@ async function main() {
     if (!process.versions.bun) throw Error('Maintainer checks require Bun 1.4 or later')
     argv = checks[selected]!
   } else throw Error(`Unknown Trident command ${command}; use --help`)
-  // Snapshot generation only reads retained data; it is safe to check in CI.
-  if (selected !== 'results:snapshot') assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !args.includes('--help') && !args.includes('--list') && !args.includes('--plan') && !['upstream:prepare', 'support', 'results:campaign', 'build', 'fidelity:report', 'typecheck', 'lint', 'results:publish', 'results:compare'].includes(selected) })
+  const offline = ['test:ci', 'typecheck', 'lint', 'results:snapshot', 'support', 'results:campaign', 'build', 'fidelity:report', 'results:publish', 'results:compare']
+  const inspectOnly = args.includes('--help') || selected === 'bench' && (args.includes('--list') || args.includes('--plan'))
+  // community:update --plan acquires artifacts, unlike bench --plan.
+  if (!offline.includes(selected) && !inspectOnly) assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !['upstream:prepare'].includes(selected) })
   const result = spawnSync(executable, [...argv, ...args], { cwd, stdio: 'inherit' })
   if (result.error) throw result.error
   process.exitCode = result.status ?? 1

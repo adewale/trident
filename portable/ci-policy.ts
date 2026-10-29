@@ -1,8 +1,8 @@
 import { assertMermaidOracle } from './mermaid-oracle.ts'
 
-/** Performance results require an explicitly owned local measurement session, and every
- * benchmark run consults the one pinned Mermaid oracle, so a run refuses to start without it.
- * Commands that only build, check or read evidence pass mermaidOracle: false. */
+/** Collection and artifact acquisition require a local session. Collection also
+ * needs the pinned oracle unless its caller declares a different reference boundary.
+ * Offline checks and evidence readers do not call this execution guard. */
 export function assertBenchmarkExecutionAllowed(environment: NodeJS.ProcessEnv = process.env, requirements: { mermaidOracle?: boolean } = {}): void {
   const enabled = (value: string | undefined) => value !== undefined && value !== '' && !/^(?:0|false|no)$/i.test(value)
   const indicators = ['CI', 'GITHUB_ACTIONS', 'GITLAB_CI', 'BUILDKITE', 'CIRCLECI', 'TF_BUILD', 'JENKINS_URL', 'TEAMCITY_VERSION']

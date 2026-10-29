@@ -15,6 +15,7 @@ import { tridentDirectory } from './trident-paths.ts'
 import { retainFailedOutput } from './failure-outputs.ts'
 import { mermaidOracleDirectory, mermaidZenumlAddon } from '../portable/mermaid-oracle.ts'
 import { browserProcessMemory } from './browser-process-memory.ts'
+import { candidateKey } from './candidate-packages.ts'
 
 type BrowserKind = 'beautiful' | 'pele' | 'mermaid' | 'function' | 'ondine' | 'franken' | 'merman' | 'extra'
 export interface CommunityBrowserEngine {
@@ -68,7 +69,7 @@ function browserFiles(engine: CommunityBrowserEngine): { path: string; sha256: s
   return [...paths].sort().map(path => ({ path, sha256: digest(readFileSync(path)) }))
 }
 // A candidate's bundle never shares a directory with the release of the same version.
-const bundleDirectory = (cache: string, id: string, artifact: CommunityArtifact) => join(cache, safe(id), artifact.candidate ? `${artifact.version}-candidate-${'revision' in artifact.candidate ? artifact.candidate.revision : artifact.candidate.sha256}` : artifact.version)
+const bundleDirectory = (cache: string, id: string, artifact: CommunityArtifact) => join(cache, safe(id), artifact.candidate ? `${artifact.version}-candidate-${candidateKey(artifact.candidate)}` : artifact.version)
 function packageRoot(artifact: CommunityArtifact): string | undefined {
   if (artifact.root && existsSync(join(artifact.root, 'package.json'))) return artifact.root
   if (!artifact.module) return undefined

@@ -1,0 +1,517 @@
+{
+  "protocol": "davebench-seven-isolated-client-png-v1",
+  "metric": "Client wall time from dispatch of one source through binary PNG bytes consumed in Node; all artifact writes and output inspection outside clock. Public API and conversion clocks also retained. Dart native SVG requires an explicit Chromium conversion bridge; no Flutter substitution.",
+  "scope": "Observed ordering on one fixed reviewed common DaveBench profile; not all-input or renderer-only speed. Fixed 1200x900 task includes required normalization and binary delivery.",
+  "score": "Geometric mean across independent launches and fixed common inputs of each three-call median client elapsed time.",
+  "uncertainty": "10000 paired launch-block bootstrap draws; fixed input profile. Pairwise 95% ranges unadjusted; observed ranks do not establish a simultaneous statistical ordering. Fastest reference selected by observed score.",
+  "blocks": 20,
+  "repetitions": 3,
+  "commonCases": [
+    "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "packages/mermaid/src/docs/syntax/flowchart.md:1449",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:7",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:101",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:189",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:142",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:180",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:26",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:142",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:251"
+  ],
+  "excludedAfterTiming": [],
+  "measuredRows": 5460,
+  "warmupRows": 3640,
+  "ranked": [
+    {
+      "rank": 1,
+      "participant": "dart",
+      "name": "Mermaid Dart",
+      "version": "0.3.2",
+      "runtime": "native Dart AOT + Chromium PNG converter",
+      "geometricMs": 12.120232468366044,
+      "geometricMsCi95": [
+        11.607839380482979,
+        12.745881448642992
+      ],
+      "relativeToFastest": 1.0,
+      "relativeToFastestCi95": [
+        1.0,
+        1.0
+      ],
+      "repeatability": {
+        "estimate": 1.0105649813693418,
+        "ci95": [
+          0.9161231617438641,
+          1.103864746720125
+        ],
+        "scope": "Odd/even independently launched blocks; diagnostic only",
+        "warning": true
+      },
+      "launchScoreCv": 0.11179197421371918,
+      "medianPngBytes": 33386.0,
+      "medianApiMs": 0.184,
+      "medianNormalizationMs": 8.200000002980232,
+      "medianClientOverheadMs": 3.043286502978299
+    },
+    {
+      "rank": 2,
+      "participant": "pele",
+      "name": "Pele",
+      "version": "1.9.0",
+      "runtime": "Chromium",
+      "geometricMs": 12.222145557633887,
+      "geometricMsCi95": [
+        11.818024261896204,
+        12.617831245891022
+      ],
+      "relativeToFastest": 1.0084085094517647,
+      "relativeToFastestCi95": [
+        0.9594007463269573,
+        1.0596756244009138
+      ],
+      "repeatability": {
+        "estimate": 1.0277772067442477,
+        "ci95": [
+          0.960363780631726,
+          1.0917332880222819
+        ],
+        "scope": "Odd/even independently launched blocks; diagnostic only",
+        "warning": false
+      },
+      "launchScoreCv": 0.07273921489874217,
+      "medianPngBytes": 33096.0,
+      "medianApiMs": 0.6000000014901161,
+      "medianNormalizationMs": 8.400000005960464,
+      "medianClientOverheadMs": 2.578860997018637
+    },
+    {
+      "rank": 3,
+      "participant": "zombie",
+      "name": "Zombie Mermaid",
+      "version": "5.10.2",
+      "runtime": "Chromium",
+      "geometricMs": 20.458690581220765,
+      "geometricMsCi95": [
+        19.810521733651438,
+        21.13969423264943
+      ],
+      "relativeToFastest": 1.6879783976601272,
+      "relativeToFastestCi95": [
+        1.593969079660784,
+        1.7801553108631216
+      ],
+      "repeatability": {
+        "estimate": 1.0231100364148076,
+        "ci95": [
+          0.9600626093545224,
+          1.0950725228897502
+        ],
+        "scope": "Odd/even independently launched blocks; diagnostic only",
+        "warning": false
+      },
+      "launchScoreCv": 0.07499182328118172,
+      "medianPngBytes": 30382.0,
+      "medianApiMs": 3.899999998509884,
+      "medianNormalizationMs": 10.600000001490116,
+      "medianClientOverheadMs": 4.837126497026475
+    },
+    {
+      "rank": 4,
+      "participant": "beautiful",
+      "name": "Beautiful Mermaid",
+      "version": "1.1.3",
+      "runtime": "Chromium",
+      "geometricMs": 20.63344663510097,
+      "geometricMsCi95": [
+        19.923246165107802,
+        21.35322751191464
+      ],
+      "relativeToFastest": 1.7023969374312349,
+      "relativeToFastestCi95": [
+        1.6010966143525691,
+        1.804056228638559
+      ],
+      "repeatability": {
+        "estimate": 1.0325634439924682,
+        "ci95": [
+          0.9648255424697482,
+          1.105447143176041
+        ],
+        "scope": "Odd/even independently launched blocks; diagnostic only",
+        "warning": true
+      },
+      "launchScoreCv": 0.07860667602097333,
+      "medianPngBytes": 29879.0,
+      "medianApiMs": 3.800000000745058,
+      "medianNormalizationMs": 10.450000002980232,
+      "medianClientOverheadMs": 5.317188499990152
+    },
+    {
+      "rank": 5,
+      "participant": "agentic",
+      "name": "Agentic Mermaid",
+      "version": "0.4.1",
+      "runtime": "Chromium",
+      "geometricMs": 30.353455413611467,
+      "geometricMsCi95": [
+        28.934471999343423,
+        31.900114217224832
+      ],
+      "relativeToFastest": 2.5043624776038214,
+      "relativeToFastestCi95": [
+        2.3496089142148793,
+        2.663641031601507
+      ],
+      "repeatability": {
+        "estimate": 1.0087680488047435,
+        "ci95": [
+          0.9173857162463169,
+          1.1125800271651551
+        ],
+        "scope": "Odd/even independently launched blocks; diagnostic only",
+        "warning": true
+      },
+      "launchScoreCv": 0.11255428159070434,
+      "medianPngBytes": 30733.0,
+      "medianApiMs": 15.75000000372529,
+      "medianNormalizationMs": 9.199999995529652,
+      "medianClientOverheadMs": 2.9334550014846172
+    },
+    {
+      "rank": 6,
+      "participant": "mermaid",
+      "name": "Mermaid",
+      "version": "12.2.0",
+      "runtime": "Chromium",
+      "geometricMs": 53.08462241939869,
+      "geometricMsCi95": [
+        50.69765765841104,
+        55.65774320493122
+      ],
+      "relativeToFastest": 4.37983533384778,
+      "relativeToFastestCi95": [
+        4.101971333752382,
+        4.6563110915461605
+      ],
+      "repeatability": {
+        "estimate": 1.0517488618878206,
+        "ci95": [
+          0.956441775665725,
+          1.1492457419063327
+        ],
+        "scope": "Odd/even independently launched blocks; diagnostic only",
+        "warning": true
+      },
+      "launchScoreCv": 0.11084273468241174,
+      "medianPngBytes": 34736.0,
+      "medianApiMs": 33.29999999701977,
+      "medianNormalizationMs": 13.100000001490116,
+      "medianClientOverheadMs": 5.477008500776719
+    },
+    {
+      "rank": 7,
+      "participant": "flutter",
+      "name": "Mermaid Flutter",
+      "version": "0.3.2",
+      "runtime": "native Flutter Linux release",
+      "geometricMs": 87.11061289300486,
+      "geometricMsCi95": [
+        85.5535239959366,
+        88.69397386211396
+      ],
+      "relativeToFastest": 7.187206443470835,
+      "relativeToFastestCi95": [
+        6.791912415092179,
+        7.5559612845082915
+      ],
+      "repeatability": {
+        "estimate": 1.0001906779129188,
+        "ci95": [
+          0.9640057477479418,
+          1.0371996803447268
+        ],
+        "scope": "Odd/even independently launched blocks; diagnostic only",
+        "warning": false
+      },
+      "launchScoreCv": 0.041502160465763466,
+      "medianPngBytes": 13471.0,
+      "medianApiMs": 8.8995,
+      "medianNormalizationMs": 73.976,
+      "medianClientOverheadMs": 1.8604939999840013
+    }
+  ],
+  "comparisons": [
+    {
+      "numerator": "pele",
+      "denominator": "dart",
+      "estimate": 1.0084085094517647,
+      "ci95": [
+        0.9594007463269573,
+        1.0596756244009138
+      ]
+    },
+    {
+      "numerator": "zombie",
+      "denominator": "dart",
+      "estimate": 1.687978397660127,
+      "ci95": [
+        1.593969079660784,
+        1.7801553108631216
+      ]
+    },
+    {
+      "numerator": "beautiful",
+      "denominator": "dart",
+      "estimate": 1.7023969374312349,
+      "ci95": [
+        1.6010966143525691,
+        1.804056228638559
+      ]
+    },
+    {
+      "numerator": "agentic",
+      "denominator": "dart",
+      "estimate": 2.5043624776038214,
+      "ci95": [
+        2.3496089142148793,
+        2.663641031601507
+      ]
+    },
+    {
+      "numerator": "mermaid",
+      "denominator": "dart",
+      "estimate": 4.37983533384778,
+      "ci95": [
+        4.101971333752382,
+        4.6563110915461605
+      ]
+    },
+    {
+      "numerator": "flutter",
+      "denominator": "dart",
+      "estimate": 7.187206443470834,
+      "ci95": [
+        6.791912415092179,
+        7.5559612845082915
+      ]
+    },
+    {
+      "numerator": "zombie",
+      "denominator": "pele",
+      "estimate": 1.6739033653908968,
+      "ci95": [
+        1.598440656150571,
+        1.7646273189787
+      ]
+    },
+    {
+      "numerator": "beautiful",
+      "denominator": "pele",
+      "estimate": 1.6882016776680777,
+      "ci95": [
+        1.615129558391563,
+        1.7718530416120308
+      ]
+    },
+    {
+      "numerator": "agentic",
+      "denominator": "pele",
+      "estimate": 2.483480111612061,
+      "ci95": [
+        2.364509537949837,
+        2.6116603189487653
+      ]
+    },
+    {
+      "numerator": "mermaid",
+      "denominator": "pele",
+      "estimate": 4.343314532548855,
+      "ci95": [
+        4.133200593432723,
+        4.563965948476559
+      ]
+    },
+    {
+      "numerator": "flutter",
+      "denominator": "pele",
+      "estimate": 7.127276670223914,
+      "ci95": [
+        6.872441384973549,
+        7.425962212995994
+      ]
+    },
+    {
+      "numerator": "beautiful",
+      "denominator": "zombie",
+      "estimate": 1.0085418982796786,
+      "ci95": [
+        0.968064468032193,
+        1.0475682801094273
+      ]
+    },
+    {
+      "numerator": "agentic",
+      "denominator": "zombie",
+      "estimate": 1.4836460472926456,
+      "ci95": [
+        1.3942437629094704,
+        1.5830470104004033
+      ]
+    },
+    {
+      "numerator": "mermaid",
+      "denominator": "zombie",
+      "estimate": 2.5947223850252468,
+      "ci95": [
+        2.4531202782327735,
+        2.7462354655521577
+      ]
+    },
+    {
+      "numerator": "flutter",
+      "denominator": "zombie",
+      "estimate": 4.2578782130350294,
+      "ci95": [
+        4.1198137516034645,
+        4.41910573083492
+      ]
+    },
+    {
+      "numerator": "agentic",
+      "denominator": "beautiful",
+      "estimate": 1.47108022961007,
+      "ci95": [
+        1.386994430523103,
+        1.5601321706618496
+      ]
+    },
+    {
+      "numerator": "mermaid",
+      "denominator": "beautiful",
+      "estimate": 2.572746248273073,
+      "ci95": [
+        2.4494817930921617,
+        2.703041475384332
+      ]
+    },
+    {
+      "numerator": "flutter",
+      "denominator": "beautiful",
+      "estimate": 4.221815891137403,
+      "ci95": [
+        4.066455457316592,
+        4.3887261251471505
+      ]
+    },
+    {
+      "numerator": "mermaid",
+      "denominator": "agentic",
+      "estimate": 1.7488823495065355,
+      "ci95": [
+        1.6732671092672677,
+        1.8262083145366073
+      ]
+    },
+    {
+      "numerator": "flutter",
+      "denominator": "agentic",
+      "estimate": 2.8698746717957406,
+      "ci95": [
+        2.731465644040981,
+        3.00230110601313
+      ]
+    },
+    {
+      "numerator": "flutter",
+      "denominator": "mermaid",
+      "estimate": 1.64097640564873,
+      "ci95": [
+        1.5513430109255524,
+        1.7295515029951622
+      ]
+    }
+  ],
+  "coverage": [
+    {
+      "participant": "mermaid",
+      "attempted": 548,
+      "statuses": {
+        "ok": 492,
+        "contract-failed": 55,
+        "error": 1
+      },
+      "pngContractSuccesses": 492,
+      "semanticScope": "Mechanical PNG contract coverage, not whole-corpus semantic validation"
+    },
+    {
+      "participant": "agentic",
+      "attempted": 548,
+      "statuses": {
+        "error": 213,
+        "ok": 320,
+        "contract-failed": 15
+      },
+      "pngContractSuccesses": 320,
+      "semanticScope": "Mechanical PNG contract coverage, not whole-corpus semantic validation"
+    },
+    {
+      "participant": "beautiful",
+      "attempted": 548,
+      "statuses": {
+        "error": 329,
+        "ok": 218,
+        "contract-failed": 1
+      },
+      "pngContractSuccesses": 218,
+      "semanticScope": "Mechanical PNG contract coverage, not whole-corpus semantic validation"
+    },
+    {
+      "participant": "zombie",
+      "attempted": 548,
+      "statuses": {
+        "error": 311,
+        "ok": 228,
+        "contract-failed": 9
+      },
+      "pngContractSuccesses": 228,
+      "semanticScope": "Mechanical PNG contract coverage, not whole-corpus semantic validation"
+    },
+    {
+      "participant": "dart",
+      "attempted": 548,
+      "statuses": {
+        "error": 99,
+        "ok": 414,
+        "contract-failed": 35
+      },
+      "pngContractSuccesses": 414,
+      "semanticScope": "Mechanical PNG contract coverage, not whole-corpus semantic validation"
+    },
+    {
+      "participant": "flutter",
+      "attempted": 548,
+      "statuses": {
+        "error": 99,
+        "ok": 414,
+        "contract-failed": 35
+      },
+      "pngContractSuccesses": 414,
+      "semanticScope": "Mechanical PNG contract coverage, not whole-corpus semantic validation"
+    },
+    {
+      "participant": "pele",
+      "attempted": 548,
+      "statuses": {
+        "ok": 510,
+        "contract-failed": 22,
+        "error": 16
+      },
+      "pngContractSuccesses": 510,
+      "semanticScope": "Mechanical PNG contract coverage, not whole-corpus semantic validation"
+    }
+  ],
+  "measurementContextSha256": "5562c3309aeb698c81038bbdbaf80c4ac380cd7a41970f917095974916b739d3"
+}

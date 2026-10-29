@@ -161,7 +161,42 @@ bun commands.ts community:update --projects OWNER/TOOL --candidate-dir /artifact
 bun commands.ts results:compare --records /evidence/records --project OWNER/TOOL
 ```
 
-A checkout, environment variable or local `dist/` never silently replaces a community release. Agentic Mermaid uses these same rules.
+A checkout, environment variable or local `dist/` never silently replaces a community release.
+
+For a workspace build that publishes several npm packages, build and pack them
+with the project's own commands. Add `--candidate-dependencies archives.json`
+to the candidate command above. The file contains a nonempty array:
+
+```json
+[
+  { "tarball": "packs/renderer-core.tgz", "sha256": "REPLACE_WITH_64_LOWERCASE_HEX_DIGITS" }
+]
+```
+
+Paths are relative to that JSON file. Trident checks each archive's hash and
+package identity, installs the candidate and dependency archives together with
+scripts disabled, and verifies that the candidate resolves those exact packages.
+Files bundled inside a dependency archive are checked and sealed with that archive.
+Unused archives, duplicate package names and substituted nested copies are
+rejected. Changing any dependency archive creates a separate installation,
+browser bundle and candidate record. Frozen preparation seals the dependency
+payloads and rejects later changes. This does not prove the archives came from
+one commit: retain the source commits and build receipts with the campaign.
+
+The [AM/ZM source comparison](docs/comparison-2026-10-29.md) includes an example
+of the resulting stack-ranked tables and explains the observed failures.
+
+## Native Flutter entrypoints
+
+The standalone [native Flutter / Chromium campaign](native-flutter/README.md)
+measures `mermaid_flutter` 0.3.2 widgets and PNG export in a native Linux release
+application alongside Pele 1.9.0 in Chromium. It separates new instances,
+unchanged calls, source updates and first use in new processes, and retains
+painted output and failures. It is not registered in the standard CLI or catalog;
+its timing boundaries differ from the Node SVG suites. Generated evidence stays
+outside source commits. [Audited result tables and withheld comparisons](docs/native-flutter-comparison.md) explain the retained campaign.
+
+The [seven-implementation DaveBench PNG campaign](docs/davebench-png-seven-results.md) reports warm fixed-canvas export timings on 13 common reviewed inputs and PNG-contract coverage on all 548 documentation occurrences. It measures native Dart and native Flutter release separately, alongside Mermaid, Agentic, Beautiful, Zombie and Pele in Chromium, using fresh process blocks and launch-round uncertainty. The close Dart/Pele and Zombie/Beautiful ordering is unresolved. The [earlier 20-input Pele/Flutter follow-up](docs/isolated-png-results.md), [initial controlled observations](docs/controlled-png-results.md) and [withdrawn v1 comparison](docs/davebench-png-results.md) remain separate campaigns.
 
 ## Add a tool
 
@@ -203,8 +238,11 @@ Copy the whole generated directory, including its manifest. It requires Node 24,
 
 ## Development and ownership
 
-`bun commands.ts test`, `typecheck` and `lint` check all of Trident. Tests need
-the pinned oracle. Optional browser tests use `AM_BROWSER_TESTS=1` and
+`bun commands.ts test` runs the full local suite and needs the pinned oracle.
+CI runs `lint`, `typecheck`, `results:snapshot --check` and the explicit
+`test:ci` fixture suite without project artifacts or an oracle. Collection,
+artifact acquisition and `community:update --plan` remain local operations.
+Optional browser tests use `AM_BROWSER_TESTS=1` and
 `AM_CHROMIUM_EXECUTABLE=/path/to/chromium` (legacy environment variable names).
 
 Use `bun commands.ts bench --projects OWNER/TOOL,... --profile full --rounds 5
