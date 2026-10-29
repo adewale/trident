@@ -181,14 +181,14 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
     '## Ecosystem overview', '',
     `${lineage.nodes.filter(node => !node.excludedFromComparison).length} eligible projects are listed below. ${lineage.excludedProjects.length} catalog entries outside core comparison scope are listed separately. Results are never inherited through lineage.`, '',
     'Each cell links its latest recorded attempt, or a dated retained table. New failed, blocked and partial attempts take precedence over earlier tables. Different suites have different units; there is no combined score. “Unmeasured” is missing evidence; “N/A” follows the declared output or reference scope, not a measured failure.', '',
-    `Overview order: ${primary ? benchmarkNames[primary.suite] + ', ' + (primary.ranking?.direction === 'ascending' ? 'lowest' : 'highest') + ' ' + primary.ranking?.column + (primary.ranking?.denominator ? ' / ' + primary.ranking.denominator : '') + ' first (' + date(primary.measuredAt) + ').' : 'No comparable ranking measure is available.'} Ties share a rank. Projects with no result for this measure, or a newer superseding attempt, remain unranked below. Each benchmark has its own ranking.`, '',
+    `Overview order: ${primary ? benchmarkNames[primary.suite] + ', ' + (primary.ranking?.direction === 'ascending' ? 'lowest' : 'highest') + ' ' + primary.ranking?.column + (primary.ranking?.denominator ? ' / ' + primary.ranking.denominator : '') + ' first (' + date(primary.measuredAt) + ').' : 'No comparable ranking measure is available.'} Ties share a rank. Projects with no result for this measure, or a newer superseding attempt, remain unranked below. Each benchmark has its own ranking. The overview’s ranked benchmark cell uses this same table and population.`, '',
     '| Project | Overview rank | Compatibility | DaveBench | Meaning | Models / editing | Assertion replay | Reference tests | Render cost |',
     '|---|---|---|---|---|---|---|---|---|']
   for (const { project } of projects) {
     const support = projectSupport(nodes.get(project)!)
     const cells = PUBLIC_SUITES.map(suite => {
       const attempts = snapshot.attempts.filter(attempt => attempt.project === project && attempt.suite === suite).sort((a, b) => stamp(b.updatedAt) - stamp(a.updatedAt) || b.id.localeCompare(a.id))
-      const entries = snapshot.tables.filter(entry => entry.suite === suite && entry.overview && entry.rows.some(row => row.project === project)).sort((a, b) => stamp(b.measuredAt) - stamp(a.measuredAt) || a.id.localeCompare(b.id))
+      const entries = snapshot.tables.filter(entry => entry.suite === suite && entry.overview && (suite !== primary?.suite || entry.id === primary.id) && entry.rows.some(row => row.project === project)).sort((a, b) => stamp(b.measuredAt) - stamp(a.measuredAt) || a.id.localeCompare(b.id))
       const attempt = attempts[0], entry = entries[0]
       if (attempt && (!entry || stamp(attempt.updatedAt) >= stamp(entry.measuredAt))) return `[${md(attempt.status)} · ${date(attempt.updatedAt)}](#${anchor(attempt.id)})`
       if (entry) {
