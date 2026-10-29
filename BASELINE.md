@@ -2,8 +2,8 @@
 
 **B0 (`ecosystem-b0`) is required before Trident's first public 0.1 release.** It
 is the frozen comparison point for future project versions and harness changes.
-Collection is pending. This document defines the required work; it supplies no
-new scores or timing qualification.
+Collection is pending. The dated preparation record below supplies artifact and
+pilot receipts; it supplies no B0 scores or complete timing qualification.
 
 B0 covers every normally selected brand and every applicable benchmark. The
 current results overview combines dated campaigns, candidates and observer
@@ -109,26 +109,34 @@ Separate preparation, public-call/invalid-control admission, functional collecti
 and timing. Use the same admitted artifacts throughout. Finish builds and tests
 before timing and run one active measurement worker at a time.
 
-The proposed B0 portable median profile is five rounds, 31 warm sample means and
-five fresh processes per identical A0/A1/B replica per round and case. Across the
-current 11 projects and 54 cases it plans 44,550 fresh launch slots, compared with
-178,200 for the existing full profile's 20 cold samples. Actual launches can be
-lower when declared admission gates withhold cases. Keep first-use, import, warm
-tracks and resource observations separate; this profile makes no cold p95/p99 claim.
+B0 adopts the existing full portable profile: five rounds, 31 warm sample means
+and **20 fresh processes per identical A0/A1/B replica per round and case**. Across
+the frozen 11 projects and 54 cases this plans 178,200 first-use launch slots before
+admission exclusions. First-use, import, warm tracks and resource observations stay
+separate. This profile makes no cold p95/p99 claim. With five rounds, the current
+method supplies no finite two-sided 95% median-ratio interval; retain that unavailable
+interval alongside the descriptive control envelope.
 
-Run a bounded pilot against the actual artifacts before freezing that proposal.
-Record its elapsed time, repeatability, exclusions and proposed collection budget.
-The frozen manifest must name the adopted sampling profile and budgets for
-preparation, pilot and collection, including the action taken at exhaustion. Pilot
-results are diagnostics, not B0 scores. Change a proposed profile before collection;
-never reduce samples or relax an A/A gate after seeing the results.
+The 29 October pilot withdrew the earlier five-process proposal because it cannot
+meet the existing first-use calibration minimum. Raw trials and the decision remain
+in the [preparation evidence](https://github.com/adewale/trident/tree/a43c75361a99e41fa337a477602eaaa3b30bfc70). The existing calibration gates were retained. `bench --profile full --rounds 5` selects the adopted protocol;
+it does not need a separate reduced profile.
 
-The public portable `run` command supports `--rounds 5 --samples 31 --cold-samples 5`;
-retain the project's reviewed adapter, binding and public options in the command
-receipt. **`bench --profile full` still selects 31 warm means and 20 cold samples.**
-It does not select this proposed B0 profile. Use explicit portable invocations if
-the five-cold-sample profile is adopted, and retain the other benchmarks' own
-protocols. Do not change the existing full profile or call the reduced profile full.
+The pilot used a 30-minute active-collection allowance. All 11 small-case boundaries
+finished; ten passed SVG output admission, and none earned complete semantic
+qualification. One scaling boundary was cancelled at exhaustion and ten were not
+started. Pilot observations remain diagnostics and cannot supply B0 scores.
+
+The initial collection allowance is **24 hours**, shared by the separate external
+compatibility cohort followed by the seven-suite campaign. Stop launching new
+suite/project boundaries at exhaustion; active work retains its worker deadline.
+The allowance is not a hard wall deadline or a completion forecast. Keep exhausted
+work incomplete, then resume the frozen workload or record a named exception.
+Do not reduce samples, drop cases or relax gates to claim completion.
+
+Record the actual collection windows, schedules, runtime/environment identities
+and any resumed allowance in the manifest. The pilot and budget do not establish
+that the full workload will finish within 24 hours.
 
 Keep SVG-return, browser SVG, native PNG, terminal API and whole-CLI clocks in
 separate comparable cohorts. Record machine, OS, runtime, browser, fonts and
@@ -137,11 +145,6 @@ and retain the actual schedule. Apply the declared A/A gates and uncertainty.
 Noisy or unqualified timing stays withheld, while independently verified functional
 results remain usable. A throughput or speed claim needs its own admitted work;
 the six legacy core clocks are diagnostics.
-
-Budgets are collection controls, not completion promises. The existing campaign
-budget stops between boundaries; an active worker retains its declared deadline.
-Unstarted or interrupted work remains incomplete. Resume or record a named
-exception rather than shrinking the frozen workload to claim completion.
 
 ## Publish the immutable evidence
 

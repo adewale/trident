@@ -13,10 +13,14 @@ attempts, failures, gaps, skips and qualification retained. It has not been
 collected yet. A six-input support check, bounded smoke campaign or the historical
 results overview does not satisfy this requirement.
 
-Before freezing B0, resolve pending observer changes or explicitly defer them,
-freeze the public artifacts and input ledgers, run the pilot, and adopt a named
-sampling profile and collection budget. Follow BASELINE.md for the complete
-applicability, evidence and acceptance rules. No new benchmark collection runs in CI.
+The [dated preparation record](https://github.com/adewale/trident/tree/a43c75361a99e41fa337a477602eaaa3b30bfc70) seals the selected artifacts and inputs,
+records public-call checks and the pilot, and adopts the full sampling profile and
+initial collection allowance. It does not satisfy the B0 collection gate.
+
+Before collection, verify that the frozen artifacts, inputs and sampling decision
+still match the intended harness head. Resolve pending observer changes or
+explicitly defer them. Follow BASELINE.md for the complete applicability, evidence
+and acceptance rules. No new benchmark collection runs in CI.
 
 Every later release includes a baseline assessment: identify compatible retained
 evidence, required new measurements and any bridge run for changed producers,

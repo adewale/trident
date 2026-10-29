@@ -58,6 +58,15 @@ current main; baseline collection and release publication remain pending.
 - GitHub CI runs static checks, result-snapshot consistency and offline fixture
   tests. Artifact acquisition, renderer execution and benchmark measurements remain
   local. Shared launcher and CI policy remove duplicated command decisions.
+- B0 preparation freezes the 29 October release cutoff, 39 selected artifact
+  identities and input inventories. The bounded pilot withdraws the five-process
+  cold proposal and adopts the existing full 20-process profile with a shared
+  24-hour initial collection allowance. Pilot receipts are diagnostics; B0 remains
+  uncollected. Immutable preparation evidence retains failures and unfinished work.
+- Peer admission uses each artifact's recorded version while retaining reference
+  and tool pins. OpenCode seals its actual renderer runtime dependencies. Public
+  release CLIs accept reviewed dot-prefixed archive members; versionless executables
+  explicitly bind their version to a matching release tag and archive checksum.
 - BASELINE.md defines the required initial ecosystem baseline, B0: all normally
   selected brands and applicable benchmarks, uniform release cutoff, frozen
   artifacts/inputs, a pilot before sampling/budget freeze, and immutable evidence.
