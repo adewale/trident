@@ -1519,6 +1519,305 @@
         "column": "Call cost / Mermaid",
         "direction": "ascending"
       }
+    },
+    {
+      "id": "am-zm-docs-2026-10-29",
+      "measuredAt": "2026-10-29",
+      "historical": false,
+      "artifactRole": "candidate",
+      "suite": "docs",
+      "unit": "documentation occurrences",
+      "caption": "AM 0.5.1 at c4a8eeb8 and ZM 5.11.3 at 51ed1cdf are unreleased source builds. DaveBench: all 548 occurrences from 34 syntax pages at Mermaid 12.2.0. Both five-round blocks returned identical counts. A returned SVG does not certify its meaning. No SVG includes unsupported syntax, parser rejection and security-policy rejection.",
+      "population": {
+        "total": "Planned",
+        "outcomes": [
+          "Returned",
+          "No SVG"
+        ]
+      },
+      "ranking": {
+        "column": "Returned",
+        "denominator": "Planned",
+        "direction": "descending"
+      },
+      "chart": {
+        "numerator": "Returned",
+        "denominator": "Planned",
+        "title": "Documentation examples returning SVG",
+        "axis": "Returned (%)",
+        "maximum": 100
+      },
+      "columns": [
+        "Version",
+        "Returned",
+        "No SVG",
+        "Planned"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.5.1 @ c4a8eeb8",
+            441,
+            107,
+            548
+          ]
+        },
+        {
+          "project": "dfadler/zombie-mermaid",
+          "values": [
+            "5.11.3 @ 51ed1cdf",
+            245,
+            303,
+            548
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/am-zm-2026-10-29/receipt.json",
+        "sha256": "fa8f71bae015612cd8a3463e502cd2475c838d5ad5ceab89dbb577f269fbae26"
+      }
+    },
+    {
+      "id": "am-zm-compatibility-svg-2026-10-29",
+      "measuredAt": "2026-10-29",
+      "historical": false,
+      "artifactRole": "candidate",
+      "suite": "community",
+      "unit": "positive feature inputs",
+      "caption": "AM 0.5.1 at c4a8eeb8 and ZM 5.11.3 at 51ed1cdf are unreleased source builds. Same 718 reference-accepted positive feature inputs, counted once. Node and browser SVG outcomes agree. Excludes parser-only and reference-rejected inputs and six separately timed core inputs. Qualification checks output structure and retained labels; it is not a complete visual correctness score.",
+      "population": {
+        "total": "Planned",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unsupported"
+        ]
+      },
+      "ranking": {
+        "column": "Passed",
+        "denominator": "Planned",
+        "direction": "descending"
+      },
+      "chart": {
+        "numerator": "Passed",
+        "denominator": "Planned",
+        "title": "SVG compatibility",
+        "axis": "Passed (%)",
+        "maximum": 100
+      },
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unsupported",
+        "Planned"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.5.1 @ c4a8eeb8",
+            595,
+            17,
+            106,
+            718
+          ]
+        },
+        {
+          "project": "dfadler/zombie-mermaid",
+          "values": [
+            "5.11.3 @ 51ed1cdf",
+            253,
+            51,
+            414,
+            718
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/am-zm-2026-10-29/receipt.json",
+        "sha256": "fa8f71bae015612cd8a3463e502cd2475c838d5ad5ceab89dbb577f269fbae26"
+      }
+    },
+    {
+      "id": "am-zm-compatibility-terminal-2026-10-29",
+      "measuredAt": "2026-10-29",
+      "historical": false,
+      "artifactRole": "candidate",
+      "suite": "community",
+      "unit": "positive feature inputs",
+      "caption": "AM 0.5.1 at c4a8eeb8 and ZM 5.11.3 at 51ed1cdf are unreleased source builds. Same 718 reference-accepted positive feature inputs through the public Node terminal APIs, counted once. Repeated core timing calls do not increase coverage. Qualification checks terminal output and retained labels.",
+      "population": {
+        "total": "Planned",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unsupported"
+        ]
+      },
+      "ranking": {
+        "column": "Passed",
+        "denominator": "Planned",
+        "direction": "descending"
+      },
+      "chart": {
+        "numerator": "Passed",
+        "denominator": "Planned",
+        "title": "Terminal compatibility",
+        "axis": "Passed (%)",
+        "maximum": 100
+      },
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unsupported",
+        "Planned"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.5.1 @ c4a8eeb8",
+            563,
+            49,
+            106,
+            718
+          ]
+        },
+        {
+          "project": "dfadler/zombie-mermaid",
+          "values": [
+            "5.11.3 @ 51ed1cdf",
+            237,
+            67,
+            414,
+            718
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/am-zm-2026-10-29/receipt.json",
+        "sha256": "fa8f71bae015612cd8a3463e502cd2475c838d5ad5ceab89dbb577f269fbae26"
+      }
+    },
+    {
+      "id": "am-zm-meaning-2026-10-29",
+      "measuredAt": "2026-10-29",
+      "historical": false,
+      "artifactRole": "candidate",
+      "suite": "fidelity",
+      "unit": "planned SVG paint/meaning criteria",
+      "caption": "AM 0.5.1 at c4a8eeb8 and ZM 5.11.3 at 51ed1cdf are unreleased source builds. 100 authored cases; same 1,035 planned browser-owned-ink criteria per project. Unavailable checks remain in the denominator. Public API and native model criteria are separate and earn no extra paint credit. This is a bounded meaning check, not an aesthetic score.",
+      "population": {
+        "total": "Planned",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unavailable"
+        ]
+      },
+      "ranking": {
+        "column": "Passed",
+        "denominator": "Planned",
+        "direction": "descending"
+      },
+      "chart": {
+        "numerator": "Passed",
+        "denominator": "Planned",
+        "title": "Diagram Meaning",
+        "axis": "Passed (%)",
+        "maximum": 100
+      },
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unavailable",
+        "Planned"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.5.1 @ c4a8eeb8",
+            937,
+            1,
+            97,
+            1035
+          ]
+        },
+        {
+          "project": "dfadler/zombie-mermaid",
+          "values": [
+            "5.11.3 @ 51ed1cdf",
+            400,
+            13,
+            622,
+            1035
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/am-zm-2026-10-29/receipt.json",
+        "sha256": "fa8f71bae015612cd8a3463e502cd2475c838d5ad5ceab89dbb577f269fbae26"
+      }
+    },
+    {
+      "id": "am-zm-docs-call-cost-2026-10-29",
+      "measuredAt": "2026-10-29",
+      "historical": false,
+      "artifactRole": "candidate",
+      "suite": "docs",
+      "unit": "milliseconds",
+      "caption": "AM 0.5.1 at c4a8eeb8 and ZM 5.11.3 at 51ed1cdf are unreleased source builds. Same 245 documentation occurrences returned SVG for both projects in all ten calls per input, split across two opposite-order five-round blocks. Each input contributes its median call time. p95 is over input medians, not individual-call tail latency. Timed public call through awaited SVG return; excludes initialization and paint. Descriptive only: no independent A/A performance qualification or equivalent-paint claim. One ZM input median was below timer resolution; no geometric-mean ratio is reported. This second block compensated for the original two-project scheduling bug; these measurements precede its fix.",
+      "ranking": {
+        "column": "Sum input medians (ms)",
+        "direction": "ascending"
+      },
+      "chart": {
+        "numerator": "Sum input medians (ms)",
+        "title": "Shared documentation SVG call cost",
+        "axis": "Sum of input medians (ms)",
+        "maximum": 1800
+      },
+      "columns": [
+        "Version",
+        "Common inputs",
+        "Calls per input",
+        "Median input (ms)",
+        "p95 input medians (ms)",
+        "Sum input medians (ms)"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.5.1 @ c4a8eeb8",
+            245,
+            10,
+            3.8,
+            24.45,
+            1675.75
+          ]
+        },
+        {
+          "project": "dfadler/zombie-mermaid",
+          "values": [
+            "5.11.3 @ 51ed1cdf",
+            245,
+            10,
+            1.3,
+            6.85,
+            538.55
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/am-zm-2026-10-29/receipt.json",
+        "sha256": "fa8f71bae015612cd8a3463e502cd2475c838d5ad5ceab89dbb577f269fbae26"
+      }
     }
   ],
   "attempts": [],

@@ -1,8 +1,8 @@
 # Mermaid ecosystem benchmark results
 
-Last recorded measurement/update: **2026-10-28**. 0 imported project/benchmark attempts; 16 retained result tables.
+Last recorded measurement/update: **2026-10-29**. 0 imported project/benchmark attempts; 21 retained result tables.
 
-**Historical** marks retained measurements collected before the current reporting work. This page is a rolling view across dated runs, not one matched ecosystem experiment. No fresh benchmark was run to create this page. Dates, versions, interfaces and qualification belong to each table.
+**Historical** marks retained measurements collected before the current reporting work. **Source candidates** are unreleased builds, ranked only within their own comparison tables; they do not replace release scores in the overview. This page is a rolling view across dated runs, not one matched ecosystem experiment. Regenerating it runs no benchmarks. Dates, versions, interfaces and qualification belong to each table.
 
 [Machine-readable results](results/latest.json) · [Benchmark methods](BENCHMARKS.md) · [Reading the tables](REPORTING.md) · [Update this page](results/README.md)
 
@@ -56,6 +56,19 @@ Overview order: DaveBench: Documentation Examples, highest SVG returned / Planne
 | xai-org/grok-build | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | Yassimba/loom | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 
+## Source candidate comparisons
+
+These tables compare unreleased builds within the named workload. Their dates and source commits belong to each table; they do not update release scores or ranks above.
+
+| Benchmark | Comparison | Measured |
+| --- | --- | --- |
+| DaveBench: Documentation Examples | [am-zm-docs-2026-10-29](#am-zm-docs-2026-10-29) | 2026-10-29 |
+| Mermaid Compatibility | [am-zm-compatibility-svg-2026-10-29](#am-zm-compatibility-svg-2026-10-29) | 2026-10-29 |
+| Mermaid Compatibility | [am-zm-compatibility-terminal-2026-10-29](#am-zm-compatibility-terminal-2026-10-29) | 2026-10-29 |
+| Diagram Meaning | [am-zm-meaning-2026-10-29](#am-zm-meaning-2026-10-29) | 2026-10-29 |
+| DaveBench: Documentation Examples | [am-zm-docs-call-cost-2026-10-29](#am-zm-docs-call-cost-2026-10-29) | 2026-10-29 |
+
+
 ## Results by benchmark
 
 Tables retain the full recorded populations. Charts show one named measure from the adjacent table; blocked, unavailable and failed checks remain visible in that table. Raw evidence from the retained historical runs is not hosted in this repository; the linked receipts record its original paths and hashes.
@@ -88,6 +101,48 @@ Ranked by **Passed inputs / Planned inputs**, highest first. Equal values share 
 | Mermaid.js | 1 | 12.2.0 | 33 | 0 | 0 | 0 | 33 |
 | Pele | 2 | 1.9.0 | 32 | 0 | 1 | 0 | 33 |
 | Agentic Mermaid | 3 | 0.4.1 | 14 | 1 | 18 | 0 | 33 |
+
+<a id="am-zm-compatibility-svg-2026-10-29"></a>
+
+**am-zm-compatibility-svg-2026-10-29** · 2026-10-29 · **Source candidates** · unit: positive feature inputs · [evidence](docs/evidence/am-zm-2026-10-29/receipt.json)
+
+AM 0.5.1 at c4a8eeb8 and ZM 5.11.3 at 51ed1cdf are unreleased source builds. Same 718 reference-accepted positive feature inputs, counted once. Node and browser SVG outcomes agree. Excludes parser-only and reference-rejected inputs and six separately timed core inputs. Qualification checks output structure and retained labels; it is not a complete visual correctness score.
+
+Ranked by **Passed / Planned**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Passed | Failed | Unsupported | Planned | Passed (%) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Agentic Mermaid | 1 | 0.5.1 @ c4a8eeb8 | 595 | 17 | 106 | 718 | 82.9% |
+| Zombie Mermaid | 2 | 5.11.3 @ 51ed1cdf | 253 | 51 | 414 | 718 | 35.2% |
+
+```mermaid
+xychart-beta horizontal
+    title "Source candidates: SVG compatibility — 2026-10-29"
+    x-axis ["Agentic Mermaid 0.5.1 @ c4a8eeb8", "Zombie Mermaid 5.11.3 @ 51ed1cdf"]
+    y-axis "Passed (%)" 0 --> 100
+    bar [82.9, 35.2]
+```
+
+<a id="am-zm-compatibility-terminal-2026-10-29"></a>
+
+**am-zm-compatibility-terminal-2026-10-29** · 2026-10-29 · **Source candidates** · unit: positive feature inputs · [evidence](docs/evidence/am-zm-2026-10-29/receipt.json)
+
+AM 0.5.1 at c4a8eeb8 and ZM 5.11.3 at 51ed1cdf are unreleased source builds. Same 718 reference-accepted positive feature inputs through the public Node terminal APIs, counted once. Repeated core timing calls do not increase coverage. Qualification checks terminal output and retained labels.
+
+Ranked by **Passed / Planned**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Passed | Failed | Unsupported | Planned | Passed (%) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Agentic Mermaid | 1 | 0.5.1 @ c4a8eeb8 | 563 | 49 | 106 | 718 | 78.4% |
+| Zombie Mermaid | 2 | 5.11.3 @ 51ed1cdf | 237 | 67 | 414 | 718 | 33.0% |
+
+```mermaid
+xychart-beta horizontal
+    title "Source candidates: Terminal compatibility — 2026-10-29"
+    x-axis ["Agentic Mermaid 0.5.1 @ c4a8eeb8", "Zombie Mermaid 5.11.3 @ 51ed1cdf"]
+    y-axis "Passed (%)" 0 --> 100
+    bar [78.4, 33]
+```
 
 ### DaveBench: Documentation Examples
 
@@ -193,6 +248,48 @@ Ranked by **Call cost / Mermaid**, lowest first. Equal values share a rank; unav
 | Agentic Mermaid | 2 | 0.4.2 | 0.1386222404620205 |
 | Mermaid.js | 3 | 12.2.0 | 1 |
 
+<a id="am-zm-docs-2026-10-29"></a>
+
+**am-zm-docs-2026-10-29** · 2026-10-29 · **Source candidates** · unit: documentation occurrences · [evidence](docs/evidence/am-zm-2026-10-29/receipt.json)
+
+AM 0.5.1 at c4a8eeb8 and ZM 5.11.3 at 51ed1cdf are unreleased source builds. DaveBench: all 548 occurrences from 34 syntax pages at Mermaid 12.2.0. Both five-round blocks returned identical counts. A returned SVG does not certify its meaning. No SVG includes unsupported syntax, parser rejection and security-policy rejection.
+
+Ranked by **Returned / Planned**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Returned | No SVG | Planned | Returned (%) |
+| --- | --- | --- | --- | --- | --- | --- |
+| Agentic Mermaid | 1 | 0.5.1 @ c4a8eeb8 | 441 | 107 | 548 | 80.5% |
+| Zombie Mermaid | 2 | 5.11.3 @ 51ed1cdf | 245 | 303 | 548 | 44.7% |
+
+```mermaid
+xychart-beta horizontal
+    title "Source candidates: Documentation examples returning SVG — 2026-10-29"
+    x-axis ["Agentic Mermaid 0.5.1 @ c4a8eeb8", "Zombie Mermaid 5.11.3 @ 51ed1cdf"]
+    y-axis "Returned (%)" 0 --> 100
+    bar [80.5, 44.7]
+```
+
+<a id="am-zm-docs-call-cost-2026-10-29"></a>
+
+**am-zm-docs-call-cost-2026-10-29** · 2026-10-29 · **Source candidates** · unit: milliseconds · [evidence](docs/evidence/am-zm-2026-10-29/receipt.json)
+
+AM 0.5.1 at c4a8eeb8 and ZM 5.11.3 at 51ed1cdf are unreleased source builds. Same 245 documentation occurrences returned SVG for both projects in all ten calls per input, split across two opposite-order five-round blocks. Each input contributes its median call time. p95 is over input medians, not individual-call tail latency. Timed public call through awaited SVG return; excludes initialization and paint. Descriptive only: no independent A/A performance qualification or equivalent-paint claim. One ZM input median was below timer resolution; no geometric-mean ratio is reported. This second block compensated for the original two-project scheduling bug; these measurements precede its fix.
+
+Ranked by **Sum input medians (ms)**, lowest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Common inputs | Calls per input | Median input (ms) | p95 input medians (ms) | Sum input medians (ms) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Zombie Mermaid | 1 | 5.11.3 @ 51ed1cdf | 245 | 10 | 1.3 | 6.85 | 538.55 |
+| Agentic Mermaid | 2 | 0.5.1 @ c4a8eeb8 | 245 | 10 | 3.8 | 24.45 | 1675.75 |
+
+```mermaid
+xychart-beta horizontal
+    title "Source candidates: Shared documentation SVG call cost — 2026-10-29"
+    x-axis ["Zombie Mermaid 5.11.3 @ 51ed1cdf", "Agentic Mermaid 0.5.1 @ c4a8eeb8"]
+    y-axis "Sum of input medians (ms)" 0 --> 1800
+    bar [538.5, 1675.8]
+```
+
 ### Diagram Meaning
 
 <a id="svg-meaning"></a>
@@ -274,6 +371,27 @@ Ranked by **Passed / Planned**, highest first. Equal values share a rank; unavai
 | Merman | 41 | 1.0.0 | 62 | 9 | 849 | 920 |
 | xen3r0/mermaid | 42 | 8.0.0-rc.9 | 49 | 6 | 865 | 920 |
 | songshaodong/mermaid | 43 | 0.5.8 | 39 | 0 | 881 | 920 |
+
+<a id="am-zm-meaning-2026-10-29"></a>
+
+**am-zm-meaning-2026-10-29** · 2026-10-29 · **Source candidates** · unit: planned SVG paint/meaning criteria · [evidence](docs/evidence/am-zm-2026-10-29/receipt.json)
+
+AM 0.5.1 at c4a8eeb8 and ZM 5.11.3 at 51ed1cdf are unreleased source builds. 100 authored cases; same 1,035 planned browser-owned-ink criteria per project. Unavailable checks remain in the denominator. Public API and native model criteria are separate and earn no extra paint credit. This is a bounded meaning check, not an aesthetic score.
+
+Ranked by **Passed / Planned**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Passed | Failed | Unavailable | Planned | Passed (%) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Agentic Mermaid | 1 | 0.5.1 @ c4a8eeb8 | 937 | 1 | 97 | 1035 | 90.5% |
+| Zombie Mermaid | 2 | 5.11.3 @ 51ed1cdf | 400 | 13 | 622 | 1035 | 38.6% |
+
+```mermaid
+xychart-beta horizontal
+    title "Source candidates: Diagram Meaning — 2026-10-29"
+    x-axis ["Agentic Mermaid 0.5.1 @ c4a8eeb8", "Zombie Mermaid 5.11.3 @ 51ed1cdf"]
+    y-axis "Passed (%)" 0 --> 100
+    bar [90.5, 38.6]
+```
 
 ### Model and Editing Contracts
 
@@ -380,7 +498,7 @@ Ranked by **Process RSS (MiB)**, lowest first. Equal values share a rank; unavai
 
 Latest attempts remain visible even when collection or qualification fails. Counts below are recorded observations, not inferred whole-diagram passes. Original inventories, protocols, timing qualification and failures remain in the owning evidence.
 
-No campaign has been imported into this snapshot yet. The tables above are explicitly dated historical evidence.
+No campaign attempt has been imported into this snapshot yet. Comparative tables above retain their own dates, artifact roles and evidence receipts.
 
 ## Excluded catalog entries
 

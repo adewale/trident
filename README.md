@@ -161,7 +161,30 @@ bun commands.ts community:update --projects OWNER/TOOL --candidate-dir /artifact
 bun commands.ts results:compare --records /evidence/records --project OWNER/TOOL
 ```
 
-A checkout, environment variable or local `dist/` never silently replaces a community release. Agentic Mermaid uses these same rules.
+A checkout, environment variable or local `dist/` never silently replaces a community release.
+
+For a workspace build that publishes several npm packages, build and pack them
+with the project's own commands. Add `--candidate-dependencies archives.json`
+to the candidate command above. The file contains a nonempty array:
+
+```json
+[
+  { "tarball": "packs/renderer-core.tgz", "sha256": "REPLACE_WITH_64_LOWERCASE_HEX_DIGITS" }
+]
+```
+
+Paths are relative to that JSON file. Trident checks each archive's hash and
+package identity, installs the candidate and dependency archives together with
+scripts disabled, and verifies that the candidate resolves those exact packages.
+Files bundled inside a dependency archive are checked and sealed with that archive.
+Unused archives, duplicate package names and substituted nested copies are
+rejected. Changing any dependency archive creates a separate installation,
+browser bundle and candidate record. Frozen preparation seals the dependency
+payloads and rejects later changes. This does not prove the archives came from
+one commit: retain the source commits and build receipts with the campaign.
+
+The [AM/ZM source comparison](docs/comparison-2026-10-29.md) includes an example
+of the resulting stack-ranked tables and explains the observed failures.
 
 ## Add a tool
 

@@ -1,27 +1,47 @@
 {
-  "purpose": "Review preview of the actual Mermaid blocks in RESULTS.md. Local pinned Mermaid rendering; not a screenshot of GitHub and not a renderer benchmark.",
+  "purpose": "Review preview of the nine actual Mermaid blocks in RESULTS.md, including five source-candidate comparisons. Local pinned Mermaid rendering; not a screenshot of GitHub and not a renderer benchmark.",
   "renderer": {
     "package": "mermaid",
     "version": "12.2.0"
   },
-  "inputMarkdownSha256": "95e1d7269cf640a49643eb6ef64a21b101abc144673389fec483aa2002b61ed5",
+  "inputMarkdownSha256": "b5c6345214d8d54f40e84d4f1ddd28401b46a55a0047c5b53e31aeb57f046841",
   "charts": [
     {
+      "source": "xychart-beta horizontal\n    title \"Source candidates: SVG compatibility — 2026-10-29\"\n    x-axis [\"Agentic Mermaid 0.5.1 @ c4a8eeb8\", \"Zombie Mermaid 5.11.3 @ 51ed1cdf\"]\n    y-axis \"Passed (%)\" 0 --> 100\n    bar [82.9, 35.2]\n",
+      "svgSha256": "05b204759566509d615bc279b26339f00e9a95112fe3b453b92479db95c1555e"
+    },
+    {
+      "source": "xychart-beta horizontal\n    title \"Source candidates: Terminal compatibility — 2026-10-29\"\n    x-axis [\"Agentic Mermaid 0.5.1 @ c4a8eeb8\", \"Zombie Mermaid 5.11.3 @ 51ed1cdf\"]\n    y-axis \"Passed (%)\" 0 --> 100\n    bar [78.4, 33]\n",
+      "svgSha256": "3d1a095bda319ee1ab1562f6e0b30cab5a741ff396efcc575b23c03baea68557"
+    },
+    {
       "source": "xychart-beta horizontal\n    title \"Historical: DaveBench SVG returns — 2026-10-27\"\n    x-axis [\"Frankenmermaid 0.4.0\", \"Mermaid.js 12.2.0\", \"Pele 1.9.0\", \"Mermaid Dart 0.3.2\", \"Agentic Mermaid 0.4.1\", \"Zombie Mermaid 5.10.2\", \"Beautiful Mermaid 1.1.3\"]\n    y-axis \"SVG returned (%)\" 0 --> 100\n    bar [100, 99.8, 97.1, 81.9, 62, 44.7, 42.2]\n",
-      "svgSha256": "f537fce221e37093e2b0adf0d9247b776cf8d55db733fd0054af383c0da568ac"
+      "svgSha256": "c716dcb7d6d3672c76b502595bdce37d414dcc088e2bf1e65b4394e31b53db33"
     },
     {
       "source": "xychart-beta horizontal\n    title \"Historical: Full documentation inventory: returned SVG — 2026-10-27\"\n    x-axis [\"Pele 1.9.0\", \"Mermaid.js 12.2.0\", \"Agentic Mermaid 0.4.2\"]\n    y-axis \"% of 1,095 occurrences\" 0 --> 100\n    bar [97.1, 96.9, 80.5]\n",
-      "svgSha256": "659bcc6d76a085254b00588bb3a2645a0b3279c57f8b8666462f3e8ddb90ca82"
+      "svgSha256": "7f1615dbd63837b504a9be059dd973a0969d70c96ad343655ea59138df26dd60"
     },
     {
       "source": "xychart-beta horizontal\n    title \"Historical: Complete shipped browser-global JavaScript — 2026-10-27\"\n    x-axis [\"Pele 1.9.0\", \"Agentic Mermaid 0.4.2\", \"Mermaid.js 12.2.0\"]\n    y-axis \"bytes, gzip level 9\" 0 --> 1700000\n    bar [263250, 1264968, 1570966]\n",
-      "svgSha256": "4abdeb2b0f2766aeaa1fbf288758e4aa78bacc85445e6f30bc60bf027ff15156"
+      "svgSha256": "d23caf22bd4c31028e401603928d688e7d6d6cb5f447c3bb3551a03bdc812a66"
+    },
+    {
+      "source": "xychart-beta horizontal\n    title \"Source candidates: Documentation examples returning SVG — 2026-10-29\"\n    x-axis [\"Agentic Mermaid 0.5.1 @ c4a8eeb8\", \"Zombie Mermaid 5.11.3 @ 51ed1cdf\"]\n    y-axis \"Returned (%)\" 0 --> 100\n    bar [80.5, 44.7]\n",
+      "svgSha256": "596972397076ea94add1617ec4fd6fe7dbce1ef0dc3119a0e59e33e0de70e91b"
+    },
+    {
+      "source": "xychart-beta horizontal\n    title \"Source candidates: Shared documentation SVG call cost — 2026-10-29\"\n    x-axis [\"Zombie Mermaid 5.11.3 @ 51ed1cdf\", \"Agentic Mermaid 0.5.1 @ c4a8eeb8\"]\n    y-axis \"Sum of input medians (ms)\" 0 --> 1800\n    bar [538.5, 1675.8]\n",
+      "svgSha256": "8b00a207a0ce218ea68fbb0965572a6257d6f08ab1a5d7091cb4a53ac7b103c3"
     },
     {
       "source": "xychart-beta horizontal\n    title \"Historical: Diagram Meaning checks passed — 2026-10-27\"\n    x-axis [\"Pele 1.9.0\", \"Frankenmermaid 0.4.0\", \"Mermaid.js 12.2.0\", \"Mermaid Dart 0.3.2\", \"Agentic Mermaid 0.4.1\", \"Zombie Mermaid 5.10.2\", \"Beautiful Mermaid 1.1.3\"]\n    y-axis \"Passed criteria out of 1180\" 0 --> 1180\n    bar [1118, 1112, 1068, 1025, 716, 477, 356]\n",
-      "svgSha256": "a545b1220c53739d6137019e9ce46065d57512b074f75904017e2af9251a8de4"
+      "svgSha256": "9de6acddbde8bc424d09b55ef9291b6434b0949a80ec7eb66564f1b4d4d88600"
+    },
+    {
+      "source": "xychart-beta horizontal\n    title \"Source candidates: Diagram Meaning — 2026-10-29\"\n    x-axis [\"Agentic Mermaid 0.5.1 @ c4a8eeb8\", \"Zombie Mermaid 5.11.3 @ 51ed1cdf\"]\n    y-axis \"Passed (%)\" 0 --> 100\n    bar [90.5, 38.6]\n",
+      "svgSha256": "21458882bd7db65f27a9b90f6d7a2a4331bf8541c4524622e07d1888b749e9d4"
     }
   ],
-  "previewSha256": "9d1deaeb2b24b428c2965a40364f23cd89774370f990b79a6ba6e69d1eaee507"
+  "previewSha256": "7c888d0f34ecab0efcb3fa55dc693c7e0db735df378b7e2619a64f55fb96c244"
 }
