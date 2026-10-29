@@ -3,11 +3,13 @@ flowchart TD
     Mermaid[Mermaid.js]
     Beautiful[Beautiful Mermaid]
     Dart[Mermaid Dart]
+    Flutter[Mermaid Flutter]
     Agentic[Agentic Mermaid]
     Zombie[Zombie Mermaid]
     ASCII[Mermaid ASCII]
     Mermaid -->|derivative| Beautiful
     Mermaid -->|Dart port| Dart
+    Dart -->|native Flutter renderer| Flutter
     Beautiful -->|fork| Agentic
     Beautiful -->|fork| Zombie
     ASCII -.->|ASCII component port| Beautiful

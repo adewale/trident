@@ -68,7 +68,7 @@ const addon = mermaidZenumlAddon(reference, join(packages, '@mermaid-js/mermaid-
 const participants = [
   { id: 'adewale/agentic-mermaid', version: '0.4.1', kind: 'node', api: 'agentic-mermaid/agent.renderMermaidPNG(source,{scale:1})', runtime: 'Node ' + execFileSync('node', ['--version'], { encoding: 'utf8' }).trim() },
   { id: 'mermaid-js/mermaid', version: '12.2.0', kind: 'mermaid', api: 'mermaid.render -> SVG serialization/decode -> canvas -> PNG bytes', runtime: 'Chromium' },
-  { id: 'orestesgaolin/mermaid', version: '0.3.2', kind: 'native', api: 'mermaid_flutter.renderToPng(source,pixelRatio:1)', runtime: 'Native Linux Flutter release' },
+  { id: 'pub:mermaid_flutter', version: '0.3.2', kind: 'native', api: 'mermaid_flutter.renderToPng(source,pixelRatio:1)', runtime: 'Native Linux Flutter release' },
   { id: 'obsidianmd/pele', version: '1.9.0', kind: 'pele', api: 'pele.render -> SVG serialization/decode -> canvas -> PNG bytes', runtime: 'Chromium' },
 ]
 const chrome = process.env.CHROMIUM_EXECUTABLE ?? '/usr/bin/chromium'

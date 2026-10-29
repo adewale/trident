@@ -233,3 +233,15 @@ test('source candidate tables rank within their cohort and cannot replace publis
   delete implicit.tables[0]!.overview
   expect(() => renderSnapshot(implicit, catalog)).toThrow('cannot replace the release overview')
 })
+
+
+test('the Flutter brand gets no inherited Dart score in the regular results overview', () => {
+  const actual = JSON.parse(readFileSync(new URL('../catalog/mermaid-community.json', import.meta.url), 'utf8'))
+  const data = JSON.parse(readFileSync(new URL('../results/latest.json', import.meta.url), 'utf8'))
+  const output = renderSnapshot(data, actual)
+  const flutter = output.split('\n').find(line => line.startsWith('| Mermaid Flutter |'))
+  expect(flutter).toBeDefined()
+  expect(flutter).toContain('Unmeasured')
+  expect(flutter).toContain('N/A')
+  expect(flutter).not.toContain('449/548')
+})

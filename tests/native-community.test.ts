@@ -54,8 +54,9 @@ test('an explicit native launch rejects changed bundle bytes and conflicting amb
 test('native binding flows through the ordinary frozen support collector with raster scope and separate invalid controls', async () => {
   const { root, bundle } = fixture(), prepared = prepareNativeCommunity(bundle, join(root, 'prepared'))
   const reportDir = join(root, 'verification')
-  await verifySupport(prepared.prepared, reportDir, { catalog: prepared.catalog, projects: ['orestesgaolin/mermaid'] })
+  await verifySupport(prepared.prepared, reportDir, { projects: ['pub:mermaid_flutter'] })
   const report = JSON.parse(readFileSync(join(reportDir, 'report.json'), 'utf8'))
+  expect(report.projects[0].project).toBe('pub:mermaid_flutter')
   const output = report.projects[0].outputs[0]
   expect(output).toMatchObject({ plannedInputs: 6, passed: 6, controlCounts: { planned: 2, passed: 2, failed: 0, blocked: 0, missing: 0 } })
   expect(output.observations.every((row: any) => row.metrics.qualification === 'decoded-raster-content')).toBe(true)

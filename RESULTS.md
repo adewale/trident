@@ -8,7 +8,7 @@ Last recorded measurement/update: **2026-10-29**. 0 imported project/benchmark a
 
 ## Ecosystem overview
 
-39 eligible projects are listed below. 49 catalog entries outside core comparison scope are listed separately. Results are never inherited through lineage.
+40 eligible projects are listed below. 49 catalog entries outside core comparison scope are listed separately. Results are never inherited through lineage.
 
 Each cell links its latest recorded attempt, or a dated retained table. New failed, blocked and partial attempts take precedence over earlier tables. Different suites have different units; there is no combined score. “Unmeasured” is missing evidence; “N/A” follows the declared output or reference scope, not a measured failure.
 
@@ -43,6 +43,7 @@ Overview order: DaveBench: Documentation Examples, highest SVG returned / Planne
 | Latias94/merman | — | Unmeasured | Unmeasured | [889/920 paint criteria · historical · 2026-10-27](#ecosystem-paint-920-2026-10-27) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
 | Lovely Mermaid | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | mdv | — | Unmeasured | Unmeasured | [165/920 paint criteria · historical · 2026-10-27](#ecosystem-paint-920-2026-10-27) | Unmeasured: binding gap | Unmeasured: binding gap | N/A | Unmeasured |
+| Mermaid Flutter | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | MermaidText | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | Mootikins/figurehead-rs | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |
 | neongreen/mermaid-ast | — | Unmeasured | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap | N/A | N/A |

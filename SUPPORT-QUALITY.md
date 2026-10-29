@@ -1,6 +1,6 @@
 # Quality of Trident support
 
-Assessment: 2026-10-28. The historical 0.1 receipt exercised **37 of 42 selected entries**. The current core selection has **39 entries**: 38 have recorded public-output witnesses, including the separate Excalidraw conversion follow-up, and Rusty Mermaid has a broken published artifact disabled by version-specific configuration. Normal campaigns therefore schedule 38 projects. VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid are discovery-only applications, outside core benchmark requirements. All 88 catalog identities remain; 46 lineage exclusions plus three applications give 49 default exclusions. The original receipt and measurement dates are unchanged.
+Assessment: 2026-10-29. The historical 0.1 receipt exercised **37 of 42 selected entries**. The current core selection has **40 entries**: 38 retain historical recorded public-output witnesses, including the separate Excalidraw conversion follow-up; Mermaid Flutter has a distinct native PNG entry with its own new verification. Rusty Mermaid has a broken published artifact disabled by version-specific configuration. Normal campaigns therefore schedule 39 projects. VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid are discovery-only applications, outside core benchmark requirements. All 89 catalog identities remain; 46 lineage exclusions plus three applications give 49 default exclusions. The original receipt and measurement dates are unchanged.
 
 This assesses Trident integrations, not project quality or renderer speed. A successful call establishes a working public invocation for that input. It does not establish all-family compatibility, painted meaning, useful layout or calibrated timing. The earlier eight-project campaign supplies broader historical evidence for its own scopes, and is not silently rerun or upgraded.
 
@@ -8,12 +8,12 @@ This assesses Trident integrations, not project quality or renderer speed. A suc
 
 | Level | Entries | Evidence |
 |---|---:|---|
-| Public output exercised | 38 | Actual admitted release artifacts, common inputs, positive output witnesses; remaining binding and qualification gaps below. |
+| Public output exercised | 39 | Actual admitted release artifacts, common inputs, positive output witnesses; remaining binding and qualification gaps below. |
 | Release artifact skipped | 1 | Rusty Mermaid 0.42.0 omits its runtime. A separately identified 0.1.0 source candidate was built and exercised. |
 | Discovery-only applications | 3 | VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid have no core driver requirement. |
 | Excluded from normal comparisons | 46 | Full inventory and old support evidence retained; this campaign supplies no new invocation evidence for them. |
 
-All 38 exercised projects share the first level. This is a rank of current invocation evidence only. Counting optional model APIs as bonus points would favor projects with more observable internals. No project is certified as having complete support across every applicable benchmark.
+All 39 exercised projects share the first level. This is a rank of current invocation evidence only. Counting optional model APIs as bonus points would favor projects with more observable internals. No project is certified as having complete support across every applicable benchmark.
 
 ## What improved
 
@@ -59,7 +59,8 @@ Each fraction is successful authored inputs / 6 planned inputs for that particul
 | neongreen/mermaid-ast | 0.8.2 | parse/node 6/6 | No unbound declared format; broader qualification remains separate |
 | npm:tui-mermaid | 0.1.0 | terminal/node 5/6 | No unbound declared format; broader qualification remains separate |
 | obsidianmd/pele | 1.9.0 | svg/node 6/6; svg/browser 6/6 | No unbound declared format; broader qualification remains separate |
-| orestesgaolin/mermaid | 0.3.2 | svg/global 6/6; svg/browser 6/6 | Declared output has no binding: png |
+| orestesgaolin/mermaid | 0.3.2 | svg/global 6/6; svg/browser 6/6 | Mermaid Dart SVG; Flutter PNG is a distinct catalog product |
+| pub:mermaid_flutter | 0.3.2 | png/native 6/6; invalid controls 2/2 | Mermaid Flutter; raster-only scope; no inherited Dart SVG/model score |
 | probelabs/maid | 0.0.29 | diagnostics/node 5/6 | No unbound declared format; broader qualification remains separate |
 | sandyyst/dsh-plugin-mermaid-gb-svg | 0.1.4 | svg/node 1/6; svg/browser 1/6 | svg/browser: 5 failed controls |
 | spacedock-dev/mermaidtext | git-a6b0c7657b94 | terminal/cli 5/6 | No unbound declared format; broader qualification remains separate |
@@ -89,7 +90,7 @@ invalid-source controls on each bound output and transport. The report retains
 raster/SVG/model qualification scopes and separate control counts. Historical
 receipts above keep their original protocol and observations. The
 [native Flutter preparation](native-flutter/STANDARD.md#use-the-normal-cli-with-an-existing-native-bundle)
-selects PNG explicitly; the default catalog's Mermaid Dart binding remains SVG.
+selects the regular Mermaid Flutter PNG entry; Mermaid Dart keeps its separate SVG binding.
 The [dated native PNG verification](docs/issue-30-status.md#native-png-verification)
 records a real release build and saved-binding replay.
 [Public output contracts](docs/application-contracts.md) explain the checks and
@@ -97,7 +98,7 @@ records a real release build and saved-binding replay.
 
 ## Every catalog entity
 
-The ledger below retains all 88 identities. Excluded entities have configuration metadata rather than new execution evidence. They do not inherit their parent’s results.
+The ledger below retains all 89 identities. Excluded entities have configuration metadata rather than new execution evidence. They do not inherit their parent’s results.
 
 | Entity | This verification | Normal comparison |
 |---|---|---|
@@ -163,6 +164,7 @@ The ledger below retains all 88 identities. Excluded entities have configuration
 | obsidianmd/pele | partially-verified | eligible |
 | Orbiter/beautiful-mermaid-py | not selected; configured evidence only | skip: no-distinct-branding |
 | orestesgaolin/mermaid | partially-verified | eligible |
+| pub:mermaid_flutter | partially-verified | eligible |
 | pgavlin/mermaid-ascii | not selected; configured evidence only | skip: no-distinct-branding |
 | probelabs/maid | partially-verified | eligible |
 | ramtinJ95/pi-mermaid-tui | not selected; configured evidence only | skip: shared-engine-runtime-binding |

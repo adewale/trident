@@ -104,24 +104,27 @@ Other exercised interfaces are [Maid](https://github.com/probelabs/maid) and
 [Mermaid ReactFlow Render](https://github.com/taoche/mermaid-reactflow-render) graph conversion,
 and [Mermaid to Excalidraw](https://github.com/excalidraw/mermaid-to-excalidraw) editable conversion.
 
-The current core selection has **39 eligible entries**: the 38 witnessed projects
-above and Rusty Mermaid's broken published runtime. The latter is disabled by
-version-specific configuration, so normal campaigns schedule the other 38 projects.
+The current core selection has **40 eligible entries**. **Mermaid Flutter**
+(`pub:mermaid_flutter`) is a separately branded native PNG renderer using Mermaid
+Dart's parsing/layout core; [native preparation](native-flutter/STANDARD.md#use-the-normal-cli-with-an-existing-native-bundle)
+selects it through the regular catalog. Rusty Mermaid's broken published runtime
+is disabled by version-specific configuration, so normal campaigns schedule 39 projects.
 The historical 0.1 receipt retains its original 42-entry selection. VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid are
 discovery-only applications; full editor drivers are outside core requirements.
-The [catalog](CATALOG.md) retains all 88 entries. Default comparisons exclude 46
+The [catalog](CATALOG.md) retains all 89 entries. Default comparisons exclude 46
 descendants/bindings and these three applications, for 49 exclusions in total.
-[Issue #30](https://github.com/adewale/trident/issues/30) tracks the remaining support work.
+[Issue #30](https://github.com/adewale/trident/issues/30) records the completed public-binding work and its qualification limits.
 
 ## Project lineage
 
-![Project lineage rendered by Agentic Mermaid: Beautiful is a derivative of Mermaid.js; Mermaid Dart is a distinct Dart port; Agentic and Zombie fork Beautiful; Pele has Ondine and Bezel ports; Frankenmermaid has an independent root.](docs/images/lineage.svg)
+![Project lineage rendered by Agentic Mermaid: Beautiful is a derivative of Mermaid.js; Mermaid Dart is a distinct Dart port with the separately branded Mermaid Flutter native renderer; Agentic and Zombie fork Beautiful; Pele has Ondine and Bezel ports; Frankenmermaid has an independent root.](docs/images/lineage.svg)
 
 Selected renderer lineages. Beautiful Mermaid is a derivative of Mermaid, not a
 Git fork; its ASCII component separately ports Mermaid ASCII. Mermaid Dart is a
-distinctive brand and remains eligible. Agentic Mermaid rendered this overview
+distinctive brand; Mermaid Flutter is a separate brand with shared parser/layout
+and native painting. Both remain eligible. Agentic Mermaid rendered this overview
 with its publication-figure look and Nord Light palette. Appearance implies no
-benchmark rank. See the [complete 88-entity tree](LINEAGE.md), [source](docs/lineage-overview.mmd)
+benchmark rank. See the [complete 89-entity tree](LINEAGE.md), [source](docs/lineage-overview.mmd)
 and [generation receipt](docs/images/lineage.json).
 
 ## Install 0.1

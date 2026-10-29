@@ -22,7 +22,7 @@ test('invalid ancestry cannot silently vanish from the tree', () => {
 test('the complete catalog tree contains every entity once and retains changed comparison projects', () => {
   const catalog = JSON.parse(readFileSync(new URL('../catalog/mermaid-community.json', import.meta.url), 'utf8')) as LineageCatalog
   const result = lineageInventory(catalog), markdown = lineageMarkdown(result)
-  expect(result.entities).toBe(88)
+  expect(result.entities).toBe(89)
   expect(result.duplicateCandidates).toHaveLength(25)
   for (const entry of result.nodes) expect(markdown.split('\n').filter(line => line.includes('── ' + entry.project + ' ['))).toHaveLength(1)
   for (const id of ['adewale/agentic-mermaid', 'dfadler/zombie-mermaid', 'lukilabs/beautiful-mermaid', 'wevm/ondine', 'Dicklesworthstone/frankenmermaid']) expect(result.nodes.find(n => n.project === id)?.selection).toBe('distinct-or-unresolved')
@@ -51,7 +51,7 @@ test('application workflows stay outside core comparisons even under the descend
 test('catalog editor exclusions retain discovery and keep direct native/output/conversion interfaces eligible', () => {
   const catalog = JSON.parse(readFileSync(new URL('../catalog/mermaid-community.json', import.meta.url), 'utf8')) as LineageCatalog
   const inventory = lineageInventory(catalog)
-  expect(inventory.entities).toBe(88)
+  expect(inventory.entities).toBe(89)
   expect(inventory.excludedProjects).toHaveLength(49)
   for (const id of ['tomoyukim/vscode-mermaid-editor', 'mermaid-js/mermaid-live-editor', 'gotoailab/modern_mermaid']) expect(inventory.nodes.find(entry => entry.project === id)?.exclusionReasons).toContain('application-workflow')
   for (const id of ['orestesgaolin/mermaid', 'excalidraw/mermaid-to-excalidraw', 'adewale/agentic-mermaid', 'obsidianmd/pele']) expect(inventory.nodes.find(entry => entry.project === id)?.excludedFromComparison).toBe(false)
@@ -108,4 +108,19 @@ test('maintainer lineage corrections preserve a derivative relationship and the 
   expect(result.nodes.find(node => node.project === 'lukilabs/beautiful-mermaid')).toMatchObject({ parent: 'mermaid-js/mermaid', relation: 'derivative', excludedFromComparison: false })
   expect(result.relationships.find(edge => edge.from === 'lukilabs/beautiful-mermaid' && edge.to === 'AlexanderGrooff/mermaid-ascii')?.relation).toBe('component-port')
   expect(result.nodes.find(node => node.project === 'orestesgaolin/mermaid')).toMatchObject({ branding: { distinct: true, name: 'Mermaid Dart' }, excludedFromComparison: false })
+})
+
+
+test('Dart and Flutter are distinct eligible brands with separate outputs and shared-core ancestry', () => {
+  const catalog = JSON.parse(readFileSync(new URL('../catalog/mermaid-community.json', import.meta.url), 'utf8'))
+  const inventory = lineageInventory(catalog)
+  const dart = catalog.nodes.find((node: any) => node.id === 'orestesgaolin/mermaid')
+  const flutter = catalog.nodes.find((node: any) => node.id === 'pub:mermaid_flutter')
+  expect(dart.outputs).toEqual(['svg'])
+  expect(dart.packages.map((pkg: any) => pkg.name)).toEqual(['mermaid_core'])
+  expect(flutter.outputs).toEqual(['png'])
+  expect(flutter.packages.map((pkg: any) => pkg.name)).toEqual(['mermaid_flutter'])
+  expect(inventory.nodes.find(node => node.project === flutter.id)).toMatchObject({ parent: dart.id, relation: 'native-renderer', branding: { distinct: true, name: 'Mermaid Flutter' }, excludedFromComparison: false })
+  expect(comparisonProjects(catalog, [dart.id, flutter.id]).included).toEqual([dart.id, flutter.id].sort())
+  expect(lineageMarkdown(inventory)).toContain('pub:mermaid_flutter [native-renderer')
 })
