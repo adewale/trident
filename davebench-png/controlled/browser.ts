@@ -21,7 +21,7 @@ export async function configureControlled(input: { kind: string }) {
   }
   let render: (source: string, id: string) => any
   if (input.kind === 'mermaid') {
-    host.mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', logLevel: 'fatal', theme: 'base', fontFamily: family, fontSize: size, htmlLabels: false, themeVariables, flowchart: { useMaxWidth: false }, sequence: { useMaxWidth: false } })
+    host.mermaid.initialize({ startOnLoad: false, handDrawnSeed: 42, securityLevel: 'strict', logLevel: 'fatal', theme: 'base', fontFamily: family, fontSize: size, htmlLabels: false, themeVariables, flowchart: { useMaxWidth: false }, sequence: { useMaxWidth: false } })
     render = (source, id) => host.mermaid.render(id, source)
   } else if (input.kind === 'pele') {
     render = source => host.pele.render(source, { fontFamily: family, fontSize: size, responsive: false, autoDirection: false, config: { theme: 'base', themeVariables } })
