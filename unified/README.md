@@ -25,6 +25,9 @@ Stages are `renderer`, `startup` and `resource`. Explicit case or stage
 selection writes to `pinned-browser-baseline-subset`, so it cannot replace a
 full-portfolio record. Unselected Agentic or Pele packages are not required.
 The selected project's artifact identity and protocol still determine reuse.
+Case selection controls the renderer stage. Startup and resource stages keep
+their fixed Flowchart witness, whose full input is retained in protocol settings
+when those stages are selected.
 
 Protocol `pinned-browser-public-svg-v2` admits the existing pinned first-party
 ZenUML addon when the selected corpus needs it. Its manifest and distribution

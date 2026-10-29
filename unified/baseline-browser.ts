@@ -149,6 +149,7 @@ export function planBaselineBrowser(options: BaselineBrowserOptions) {
   const mode = options.mode ?? 'plan'
   if (!['plan', 'smoke', 'full'].includes(mode)) throw Error('Browser baseline mode must be plan, smoke or full')
   const cases = baselineBrowserCases(options.caseIds)
+  const startupCase = baselineBrowserCases(['family:flowchart'])[0]!
   const stages = options.stages ?? ['renderer', 'startup', 'resource']
   if (!Array.isArray(stages) || !stages.length || new Set(stages).size !== stages.length || stages.some(stage => !['renderer', 'startup', 'resource'].includes(stage))) throw Error('Select distinct browser stages: renderer, startup, resource')
   const browserLaunchArgs = options.browserLaunchArgs ?? []
@@ -173,6 +174,7 @@ export function planBaselineBrowser(options: BaselineBrowserOptions) {
   })
   const settings = {
     protocol: BASELINE_BROWSER_PROTOCOL, mode, stages, browserLaunchArgs,
+    startupResourceCase: stages.some(stage => stage !== 'renderer') ? startupCase : null,
     caseSelection: options.caseIds === undefined ? 'full-portfolio' : 'explicit-subset',
     selectedCaseIds: options.caseIds === undefined ? null : cases.map(value => value.id),
     addonPolicy: 'Pinned first-party ZenUML addon admitted for selected ZenUML cases; lazy import and registration included in first ZenUML public workflow, excluded from unrelated startup',
@@ -195,7 +197,7 @@ export function planBaselineBrowser(options: BaselineBrowserOptions) {
     logicalOptionMapping: 'Authored fontSize stays in literal inputs; Mermaid uses public initialize.fontSize, Pele public render options.fontSize, Agentic documented style.roles.node/edge/group.fontSize. Actual resolved options are recorded; paint/font effects unmeasured.',
     filesystemCache: 'Uncontrolled; artifact-byte admission reads shipped files before clocks. Fresh browser is not a cold filesystem claim.',
   }
-  return { settings, identities, cases, selected: identities }
+  return { settings, identities, cases, startupCase, selected: identities }
 }
 
 interface Collector { identity: BaselineBrowserIdentity; directory: string; observations: BaselineBrowserObservation[]; artifacts: string[]; gaps: string[]; startedAt: string; resolve: (value: BaselineBrowserReport) => void; reject: (error: unknown) => void }
@@ -253,7 +255,7 @@ export async function runBaselineBrowserSuite(options: BaselineBrowserOptions): 
   await new Promise<void>(resolveListen => server.listen(0, '127.0.0.1', resolveListen))
   const origin = 'http://127.0.0.1:' + (server.address() as { port: number }).port
   let renderId = 0
-  const startupCase = baselineBrowserCases().find(value => value.id === 'family:flowchart')!
+  const startupCase = plan.startupCase
   const activeRoles = (round: number, sample = 1) => baselineRoleOrder(round, sample).filter(role => collectors.has(toolFor(role)))
   const delivery = (paths: Set<string>, target: BaselineBrowserIdentity) => [...paths].sort().map(url => {
     const roots = [{ kind: target.kind as string, packageRoot: target.packageRoot }, ...(target.zenuml ? [{ kind: 'mermaid-zenuml', packageRoot: target.zenuml.root }] : [])]
