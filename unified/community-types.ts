@@ -90,7 +90,7 @@ export interface CommunityArtifact {
   sourceFallback?: 'framed-source'
   /** An unreleased build, not the catalog's release: a tarball (its SHA-256 and Trident's verified
    * copy), or a source commit built with the release's recipe (its revision and where it was fetched). */
-  candidate?: { sha256: string; tarball: string } | { revision: string; remote: string }
+  candidate?: import('./candidate-packages.ts').NpmCandidate | { revision: string; remote: string }
 }
 export interface PreparedCommunity {
   node: CommunityNode

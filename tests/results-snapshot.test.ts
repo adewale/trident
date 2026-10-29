@@ -210,3 +210,26 @@ test('partial historical campaigns do not manufacture new core blockers for appl
   campaign(root, ['fixture/editor'], [], '2026-02-03T00:00:00Z')
   expect(importCampaign(snapshot(), root, 'https://example.org/old-run', scoped).attempts).toEqual([])
 }))
+
+test('source candidate tables rank within their cohort and cannot replace published-release overview scores', () => {
+  const data = snapshot()
+  const originalRow = renderSnapshot(data, catalog).split('\n').find(line => line.startsWith('| fixture/zebra |'))
+  const candidate = { ...structuredClone(data.tables[0]!), id: 'source-candidates', artifactRole: 'candidate' as const, historical: false, measuredAt: '2026-10-29' }
+  delete candidate.overview
+  candidate.rows[0]!.values = ['2.0-dev', 2, 0, 2]
+  data.tables.push(candidate)
+  const output = renderSnapshot(data, catalog)
+  expect(output.split('\n').find(line => line.startsWith('| fixture/zebra |'))).toBe(originalRow)
+  expect(output).toContain('2026-10-29 · **Source candidates**')
+  expect(output).toContain('Source candidates: Docs')
+  expect(output).toContain('| fixture/zebra | 1 | 2.0-dev | 2 | 0 | 2 | 100.0% |')
+  candidate.overview = { numerator: 'Returned', denominator: 'Planned', suffix: '' }
+  expect(() => renderSnapshot(data, catalog)).toThrow('cannot replace the release overview')
+  delete candidate.overview
+  data.overviewRanking = candidate.id
+  expect(() => renderSnapshot(data, catalog)).toThrow('cannot replace the release overview')
+  const implicit = snapshot()
+  implicit.tables[0]!.artifactRole = 'candidate'
+  delete implicit.tables[0]!.overview
+  expect(() => renderSnapshot(implicit, catalog)).toThrow('cannot replace the release overview')
+})

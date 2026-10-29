@@ -10,6 +10,7 @@ import { measurementNumber, rankResults } from './result-ranking.ts'
 type Cell = string | number
 export interface SnapshotTable {
   id: string; suite: PublicSuite; measuredAt: string; historical: boolean; unit: string; caption: string
+  artifactRole?: 'candidate'
   columns: string[]; rows: { project: string; values: Cell[] }[]
   receipt: { url: string; sha256: string }
   population?: { total: string; outcomes: string[] }
@@ -61,6 +62,8 @@ export function validateSnapshot(snapshot: ResultsSnapshot, catalog: LineageCata
   }
   for (const entry of snapshot.tables) {
     stamp(entry.measuredAt)
+    if (entry.artifactRole !== undefined && entry.artifactRole !== 'candidate') throw Error('Unknown table artifact role')
+    if (entry.artifactRole === 'candidate' && (entry.overview || entry.id === (snapshot.overviewRanking ?? 'docs-coverage'))) throw Error('Candidate tables cannot replace the release overview')
     const seen = new Set<string>()
     if (entry.columns[0] !== 'Version' || new Set(entry.columns).size !== entry.columns.length) throw Error('Tables need unique columns starting with Version')
     for (const row of entry.rows) {
@@ -176,7 +179,7 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
   const latest = measured.at(-1)
   const lines = ['# Mermaid ecosystem benchmark results', '',
     `Last recorded measurement/update: **${latest ? date(latest) : 'none'}**. ${snapshot.attempts.length} imported project/benchmark attempts; ${snapshot.tables.length} retained result tables.`, '',
-    '**Historical** marks retained measurements collected before the current reporting work. This page is a rolling view across dated runs, not one matched ecosystem experiment. No fresh benchmark was run to create this page. Dates, versions, interfaces and qualification belong to each table.', '',
+    '**Historical** marks retained measurements collected before the current reporting work. **Source candidates** are unreleased builds, ranked only within their own comparison tables; they do not replace release scores in the overview. This page is a rolling view across dated runs, not one matched ecosystem experiment. Regenerating it runs no benchmarks. Dates, versions, interfaces and qualification belong to each table.', '',
     '[Machine-readable results](results/latest.json) · [Benchmark methods](BENCHMARKS.md) · [Reading the tables](REPORTING.md) · [Update this page](results/README.md)', '',
     '## Ecosystem overview', '',
     `${lineage.nodes.filter(node => !node.excludedFromComparison).length} eligible projects are listed below. ${lineage.excludedProjects.length} catalog entries outside core comparison scope are listed separately. Results are never inherited through lineage.`, '',
@@ -188,7 +191,7 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
     const support = projectSupport(nodes.get(project)!)
     const cells = PUBLIC_SUITES.map(suite => {
       const attempts = snapshot.attempts.filter(attempt => attempt.project === project && attempt.suite === suite).sort((a, b) => stamp(b.updatedAt) - stamp(a.updatedAt) || b.id.localeCompare(a.id))
-      const entries = snapshot.tables.filter(entry => entry.suite === suite && entry.overview && (suite !== primary?.suite || entry.id === primary.id) && entry.rows.some(row => row.project === project)).sort((a, b) => stamp(b.measuredAt) - stamp(a.measuredAt) || a.id.localeCompare(b.id))
+      const entries = snapshot.tables.filter(entry => entry.artifactRole !== 'candidate' && entry.suite === suite && entry.overview && (suite !== primary?.suite || entry.id === primary.id) && entry.rows.some(row => row.project === project)).sort((a, b) => stamp(b.measuredAt) - stamp(a.measuredAt) || a.id.localeCompare(b.id))
       const attempt = attempts[0], entry = entries[0]
       if (attempt && (!entry || stamp(attempt.updatedAt) >= stamp(entry.measuredAt))) return `[${md(attempt.status)} · ${date(attempt.updatedAt)}](#${anchor(attempt.id)})`
       if (entry) {
@@ -202,20 +205,24 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
     })
     lines.push('| ' + md(name(project)) + ' | ' + (primaryRanks.get(project) ?? '—') + ' | ' + cells.join(' | ') + ' |')
   }
+  const candidates = snapshot.tables.filter(entry => entry.artifactRole === 'candidate')
+  if (candidates.length) lines.push('', '## Source candidate comparisons', '',
+    'These tables compare unreleased builds within the named workload. Their dates and source commits belong to each table; they do not update release scores or ranks above.', '',
+    table(['Benchmark', 'Comparison', 'Measured'], candidates.map(entry => [benchmarkNames[entry.suite], `[${entry.id}](#${anchor(entry.id)})`, date(entry.measuredAt)])), '')
   lines.push('', '## Results by benchmark', '', 'Tables retain the full recorded populations. Charts show one named measure from the adjacent table; blocked, unavailable and failed checks remain visible in that table. Raw evidence from the retained historical runs is not hosted in this repository; the linked receipts record its original paths and hashes.', '')
   for (const suite of PUBLIC_SUITES) {
     lines.push(`### ${benchmarkNames[suite]}`, '')
     const entries = snapshot.tables.filter(entry => entry.suite === suite)
     if (!entries.length) lines.push('No comparative result table has been published.', '')
     for (const entry of entries) {
-      lines.push(`<a id="${anchor(entry.id)}"></a>`, '', `**${entry.id}** · ${date(entry.measuredAt)}${entry.historical ? ' · Historical' : ''} · unit: ${md(entry.unit)} · ${receiptLink(entry.receipt)}`, '', entry.caption, '')
+      lines.push(`<a id="${anchor(entry.id)}"></a>`, '', `**${entry.id}** · ${date(entry.measuredAt)}${entry.historical ? ' · Historical' : ''}${entry.artifactRole === 'candidate' ? ' · **Source candidates**' : ''} · unit: ${md(entry.unit)} · ${receiptLink(entry.receipt)}`, '', entry.caption, '')
       const rows = rankedRows(entry, name)
       lines.push(entry.ranking ? `Ranked by **${md(entry.ranking.column)}${entry.ranking.denominator ? ' / ' + md(entry.ranking.denominator) : ''}**, ${entry.ranking.direction === 'ascending' ? 'lowest' : 'highest'} first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.` : 'No comparable numeric ranking measure is available.', '')
       const rate = entry.chart?.denominator
       lines.push(table(['Project', 'Rank', ...entry.columns, ...(rate ? [entry.chart!.axis] : [])], rows.map(row => [name(row.project), row.rank ?? '—', ...row.values, ...(rate ? [chartValue(entry, row).toFixed(1) + '%'] : [])])), '')
       if (entry.chart && rows.length) {
         const quote = (value: string) => JSON.stringify(value.replace(/[\r\n]/g, ' '))
-        lines.push('```mermaid', 'xychart-beta horizontal', `    title ${quote((entry.historical ? 'Historical: ' : '') + entry.chart.title + ' — ' + date(entry.measuredAt))}`,
+        lines.push('```mermaid', 'xychart-beta horizontal', `    title ${quote((entry.artifactRole === 'candidate' ? 'Source candidates: ' : entry.historical ? 'Historical: ' : '') + entry.chart.title + ' — ' + date(entry.measuredAt))}`,
           '    x-axis [' + rows.map(row => quote(name(row.project) + ' ' + row.values[0])).join(', ') + ']',
           `    y-axis ${quote(entry.chart.axis)} 0 --> ${entry.chart.maximum}`,
           '    bar [' + rows.map(row => chartValue(entry, row)).join(', ') + ']', '```', '')
@@ -223,7 +230,7 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
     }
   }
   lines.push('## Campaign attempts', '', 'Latest attempts remain visible even when collection or qualification fails. Counts below are recorded observations, not inferred whole-diagram passes. Original inventories, protocols, timing qualification and failures remain in the owning evidence.', '')
-  if (!snapshot.attempts.length) lines.push('No campaign has been imported into this snapshot yet. The tables above are explicitly dated historical evidence.', '')
+  if (!snapshot.attempts.length) lines.push('No campaign attempt has been imported into this snapshot yet. Comparative tables above retain their own dates, artifact roles and evidence receipts.', '')
   for (const attempt of [...snapshot.attempts].sort((a, b) => stamp(b.updatedAt) - stamp(a.updatedAt) || a.id.localeCompare(b.id))) {
     lines.push(`<a id="${anchor(attempt.id)}"></a>`, '', `### ${md(name(attempt.project))}: ${benchmarkNames[attempt.suite]}`, '',
       `Campaign invocation: ${attempt.measuredFrom} → ${attempt.updatedAt} · **${attempt.status}** · ${receiptLink(attempt.receipt)}${attempt.evidenceUrl ? ` · [owning results and failures](${attempt.evidenceUrl})` : ''}`, '', md(attempt.detail), '')
@@ -251,7 +258,7 @@ export function retainedTableValues(snapshot: ResultsSnapshot, ids: string[]) {
   return [...ids].sort().map(id => {
     const entry = snapshot.tables.find(table => table.id === id)
     if (!entry) throw Error('Missing retained table: ' + id)
-    return { id: entry.id, suite: entry.suite, measuredAt: entry.measuredAt, historical: entry.historical, unit: entry.unit, columns: entry.columns,
+    return { id: entry.id, suite: entry.suite, measuredAt: entry.measuredAt, historical: entry.historical, ...(entry.artifactRole ? { artifactRole: entry.artifactRole } : {}), unit: entry.unit, columns: entry.columns,
       rows: [...entry.rows].sort((a, b) => a.project < b.project ? -1 : a.project > b.project ? 1 : 0).map(row => ({ project: row.project, values: row.values })) }
   })
 }

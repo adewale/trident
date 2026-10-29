@@ -5,7 +5,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { loadCurrentProjectRecords, type ProjectBenchmarkIdentity, type ProjectBenchmarkRecord, publishProjectRecord } from '../portable/project-records.ts'
 import { renderCandidateComparison } from '../unified/candidate-comparison.ts'
-import { assertCommunityCandidate, communityCoreWorkloads, prepareCommunity } from '../unified/community.ts'
+import { assertCommunityCandidate, communityCoreWorkloads, prepareCommunity, verifyProvidedCommunityArtifact } from '../unified/community.ts'
 import { prepareCommunityBrowsers } from '../unified/community-browser.ts'
 import type { CommunityNode } from '../unified/community-types.ts'
 import { publishResults } from '../unified/league.ts'
@@ -17,11 +17,11 @@ const temp = useTempDirs('trident-candidate-')
 const sha256 = (path: string) => createHash('sha256').update(readFileSync(path)).digest('hex')
 const project = 'owner/fixture-renderer'
 const node: CommunityNode = { id: project, roles: ['renderer'], outputs: ['svg'], benchmark: { adapter: 'declared', package: 'trident-fixture-renderer', version: '1.0.0', outputs: ['svg'], api: { svg: { export: 'render' } } } }
-function pack(name: string, version: string): string {
+function pack(name: string, version: string, dependencies?: Record<string, string>, body?: string): string {
   const source = temp.dir(),
     destination = temp.dir()
-  writeFileSync(join(source, 'package.json'), JSON.stringify({ name, version, type: 'module', main: 'index.js', exports: './index.js' }))
-  writeFileSync(join(source, 'index.js'), "export const render = source => '<svg xmlns=\"http://www.w3.org/2000/svg\"><text>' + source.length + '</text></svg>'\n")
+  writeFileSync(join(source, 'package.json'), JSON.stringify({ name, version, type: 'module', main: 'index.js', exports: './index.js', dependencies }))
+  writeFileSync(join(source, 'index.js'), body ?? "export const render = source => '<svg xmlns=\"http://www.w3.org/2000/svg\"><text>' + source.length + '</text></svg>'\n")
   const [packed] = JSON.parse(execFileSync('npm', ['pack', source, '--ignore-scripts', '--json', '--pack-destination', destination], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, npm_config_cache: join(destination, 'npm-cache') } }))
   return join(destination, packed.filename)
 }
@@ -370,3 +370,50 @@ test('a disabled published release still admits an explicitly supplied candidate
   expect(entry!.artifact!.version).toBe('2.0.0-rc.1')
   expect(entry!.artifact!.candidate).toBeDefined()
 })
+
+test('workspace candidates install source archives together, isolate dependency-only changes and reject changed frozen payloads', async () => {
+  const f = preparation(), name = 'trident-fixture-workspace-piece'
+  const tarball = pack('trident-fixture-renderer', '2.0.0', { [name]: '1.0.0' }, `export { render } from '${name}'`)
+  const first = pack(name, '1.0.0', undefined, `export const render = () => '<svg>source-first</svg>'`)
+  const second = pack(name, '1.0.0', undefined, `export const render = () => '<svg>source-second</svg>'`)
+  const manifest = join(f.root, 'dependencies.json')
+  writeFileSync(manifest, JSON.stringify([{ tarball: first, sha256: sha256(first) }]))
+  const request = communityCandidate({ tarball, sha256: sha256(tarball), dependencies: manifest }, f.options)!
+  const [a] = await prepareCommunity({ ...f.options, communityCandidate: request })
+  expect(a!.error).toBeUndefined()
+  expect(execFileSync('node', ['--input-type=module', '-e', `import {render} from ${JSON.stringify(a!.artifact!.module)}; console.log(render())`], { encoding: 'utf8' })).toContain('source-first')
+  verifyProvidedCommunityArtifact(a!.artifact!)
+  const replacement = { project, tarball, sha256: sha256(tarball), dependencies: [{ tarball: second, sha256: sha256(second) }] }
+  const [b] = await prepareCommunity({ ...f.options, communityCandidate: replacement })
+  expect(b!.error).toBeUndefined()
+  expect(a!.artifact!.root).not.toBe(b!.artifact!.root)
+  expect(candidateIdentity(a!, { communityCandidate: request }, null)).not.toEqual(candidateIdentity(b!, { communityCandidate: replacement }, null))
+  expect(execFileSync('node', ['--input-type=module', '-e', `import {render} from ${JSON.stringify(b!.artifact!.module)}; console.log(render())`], { encoding: 'utf8' })).toContain('source-second')
+  const [browserA] = await prepareCommunityBrowsers([a!], { ...f.options, out: join(f.root, 'browser-a') })
+  const [browserB] = await prepareCommunityBrowsers([b!], { ...f.options, out: join(f.root, 'browser-b') })
+  expect(browserA!.browserStatus).toBe('prepared')
+  expect(browserB!.browserStatus).toBe('prepared')
+  expect(browserA!.browser!.root).not.toBe(browserB!.browser!.root)
+  expect(readFileSync(join(browserA!.browser!.root, browserA!.browser!.entry), 'utf8')).toContain('source-first')
+  expect(readFileSync(join(browserB!.browser!.root, browserB!.browser!.entry), 'utf8')).toContain('source-second')
+  const frozen = join(f.root, 'frozen-workspace.json'); writeFileSync(frozen, JSON.stringify([a]))
+  const [mismatch] = await prepareCommunity({ ...f.options, communityPreparedFile: frozen, communityCandidate: replacement })
+  expect(mismatch!.error).toContain('requested candidate differ')
+  const [valid] = await prepareCommunity({ ...f.options, communityPreparedFile: frozen, communityCandidate: request })
+  expect(valid!.error).toBeUndefined()
+  const companion = a!.artifact!.adapterCompanions!.find(pkg => pkg.name === name)!
+  writeFileSync(join(companion.root, 'index.js'), 'export const render = () => "tampered"')
+  expect(() => verifyProvidedCommunityArtifact(a!.artifact!)).toThrow('companion closure changed')
+  const [changed] = await prepareCommunity({ ...f.options, communityPreparedFile: frozen, communityCandidate: request })
+  expect(changed!.error).toContain('not reacquired')
+  const [poisoned] = await prepareCommunity({ ...f.options, communityCandidate: request })
+  expect(poisoned!.error).toContain('payload differs from its tarball')
+  const [duplicate] = await prepareCommunity({ ...f.options, communityCandidate: { ...replacement, dependencies: [replacement.dependencies[0]!, replacement.dependencies[0]!] } })
+  expect(duplicate!.error).toContain('Duplicate candidate package')
+  const orphan = pack('trident-fixture-unused-package', '1.0.0')
+  const [unused] = await prepareCommunity({ ...f.options, communityCandidate: { ...replacement, dependencies: [...replacement.dependencies, { tarball: orphan, sha256: sha256(orphan) }] } })
+  expect(unused!.error).toContain('unused or resolves to another package')
+  writeFileSync(manifest, JSON.stringify([{ tarball: first, sha256: '0'.repeat(64) }]))
+  expect(() => communityCandidate({ tarball, sha256: sha256(tarball), dependencies: manifest }, f.options)).toThrow('differs from its supplied SHA-256')
+  expect(() => communityCandidate({ revision: 'a'.repeat(40), dependencies: manifest }, f.options)).toThrow('not both')
+}, 60_000)

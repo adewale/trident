@@ -91,3 +91,16 @@ benchmarked project's renderer and say nothing about its visual quality.
 
 [Choose a benchmark](../BENCHMARKS.md) · [Table conventions](../REPORTING.md) ·
 [Comparison contracts](../FAIRNESS.md)
+
+## Source-candidate comparisons
+
+An unreleased comparison table sets `artifactRole: "candidate"`. The generator
+labels its table and chart as source candidates and links it from a separate
+index. It is ranked only against the other rows in that table; it cannot supply
+an `overview` or become `overviewRanking`. Release overview values and ranks
+remain unchanged. Keep source commits, packed archive identities, planned
+populations and timing qualification in the receipt and caption.
+
+The [29 October AM/ZM comparison](../docs/comparison-2026-10-29.md) demonstrates
+this path with raw observations published at an immutable evidence commit and
+a reducer that reconciles all five tables.

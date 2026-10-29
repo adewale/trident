@@ -1,0 +1,58 @@
+{
+  "kind": "trident-source-candidate-comparison",
+  "measuredAt": "2026-10-29",
+  "producer": "bd1c685f32353661243ec55366d69442df19c62b",
+  "evidence": {
+    "commit": "824cea4b29c3bfd0e31e1d824314bc5fc26e7159",
+    "index": "https://github.com/adewale/trident/blob/824cea4b29c3bfd0e31e1d824314bc5fc26e7159/README.md",
+    "archive": "https://github.com/adewale/trident/blob/824cea4b29c3bfd0e31e1d824314bc5fc26e7159/campaign.tar.gz",
+    "archiveSha256": "f9b66ed92b3f2e14d5457ef66f5176b334919fad8f3dec7b035d04b92884bcb5",
+    "summary": "https://github.com/adewale/trident/blob/824cea4b29c3bfd0e31e1d824314bc5fc26e7159/summary.json"
+  },
+  "inputs": [
+    {
+      "path": "docs-result.json",
+      "sha256": "fdd1ad126bef39cd2a340340c495ed0b981b9117cfa81bd9eb116e94fc454476"
+    },
+    {
+      "path": "docs-reverse-result.json",
+      "sha256": "ac45d965c686993e03f2b14ad340588a99a12527dcdf619c87803b2156923d06"
+    },
+    {
+      "path": "fidelity-result.json",
+      "sha256": "202724ad68f4db10a939a2205ef04007a9ff452c75823de1bec2491f510164b3"
+    },
+    {
+      "path": "community-am-corrected-result.json",
+      "sha256": "11f6c8bcb975a99207a592d2c3abf717b251191b960f552a7e2079b3b77672a6"
+    },
+    {
+      "path": "community-zm-corrected-result.json",
+      "sha256": "88ea7fc614a5960473a6219cf10027d3d53814d5a06221fc928254e79a4f02ee"
+    },
+    {
+      "path": "docs/inventory.json",
+      "sha256": "11eb96add9b4766a30f56817c7c90f26b10e0b22027970d2de940a1b77253a4c"
+    },
+    {
+      "path": "artifacts.json",
+      "sha256": "be375fcba0419efccf93148563fad66c964bd9a5fb3f57819cb25fb6241f49e2"
+    },
+    {
+      "path": "independent-reduction.json",
+      "sha256": "8da4bb2879572b97214c19420a70075bbd223ece28469615fa87ef4d1305ecc6"
+    }
+  ],
+  "reduction": "python3 docs/evidence/am-zm-2026-10-29/reduce.py EXTRACTED_EVIDENCE --check results/latest.json",
+  "tableData": {
+    "ids": [
+      "am-zm-docs-2026-10-29",
+      "am-zm-compatibility-svg-2026-10-29",
+      "am-zm-compatibility-terminal-2026-10-29",
+      "am-zm-meaning-2026-10-29",
+      "am-zm-docs-call-cost-2026-10-29"
+    ],
+    "valuesSha256": "3b2febbdd74bead9ab80525cae0128da6325449a685da43c688e0261a7c4e6ba"
+  },
+  "limits": "Source candidates only; release overview unchanged. Fixed populations, corrected community attempts only, unavailable criteria retained. Two opposite-order timing blocks, no independent A/A qualification. Raw owning results and failed attempts remain in the immutable archive."
+}
