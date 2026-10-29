@@ -5,8 +5,9 @@ import {createInterface} from 'node:readline';
 import {createHash} from 'node:crypto';
 import {chromium} from 'playwright';
 import {docsArtifactServer,docsInventory} from '../../unified/docs-benchmark.ts';
-import {configureControlled,controlledExport} from '../controlled/browser.ts';
+import {configureControlled} from '../controlled/browser.ts';
 import {configureSeven} from './browser.ts';
+import {completedPng} from './completed.ts';
 import {inspect} from '../controlled/png.mjs';
 import {isolationSnapshot} from '../controlled/isolation.mjs';
 
@@ -43,7 +44,7 @@ const font=out+'/Inter-Regular.ttf';fs.copyFileSync(publicPackages+'/agentic-mer
 const escaped=out.replaceAll('&','&amp;').replaceAll('<','&lt;');
 const fontconfig=`<?xml version="1.0"?><!DOCTYPE fontconfig SYSTEM "fonts.dtd"><fontconfig><dir>${escaped}</dir><cachedir>${escaped}/font-cache</cachedir><match target="font"><edit name="hinting" mode="assign"><bool>false</bool></edit><edit name="autohint" mode="assign"><bool>false</bool></edit><edit name="hintstyle" mode="assign"><const>hintnone</const></edit><edit name="antialias" mode="assign"><bool>true</bool></edit><edit name="rgba" mode="assign"><const>none</const></edit></match><alias><family>sans-serif</family><prefer><family>Inter</family></prefer></alias></fontconfig>`;
 fs.writeFileSync(out+'/fontconfig.conf',fontconfig);process.env.FONTCONFIG_FILE=out+'/fontconfig.conf';
-const sources=['run.mjs','browser.ts','prepare.mjs','container.py','analyze.py','flutter_worker.dart','dart/worker.dart','dart/pubspec.yaml','dart/pubspec.lock','packages/package.json','packages/package-lock.json'].map(f=>({file:'davebench-png/seven/'+f,sha256:fileHash(import.meta.dirname+'/'+f)}));
+const sources=['run.mjs','browser.ts','completed.ts','prepare.mjs','container.py','analyze.py','flutter_worker.dart','dart/worker.dart','dart/pubspec.yaml','dart/pubspec.lock','packages/package.json','packages/package-lock.json'].map(f=>({file:'davebench-png/seven/'+f,sha256:fileHash(import.meta.dirname+'/'+f)}));
 for(const f of ['davebench-png/controlled/browser.ts','davebench-png/controlled/png.mjs','davebench-png/controlled/cases.json','davebench-png/controlled/isolation.mjs','unified/docs-benchmark.ts','native-flutter/env.sh'])sources.push({file:f,sha256:fileHash(root+'/'+f)});
 const sealed=[...participants.filter(p=>p.entry).map(p=>p.base+'/'+p.entry),assets+'/build.json',assets+'/mermaid-dart',...build.flutter.outputs.map(f=>build.flutter.bundle+'/'+f.file),'/usr/lib/chromium/chromium',publicPackages+'/../package-lock.json',font].map(file=>({file,sha256:fileHash(file)}));
 const identity=hash(JSON.stringify({sources,sealed:sealed.filter(f=>f.file!==font),font:fileHash(font),participants,contract:profile.contract}));
@@ -85,14 +86,14 @@ async function actor(p){
    if(p.id==='mermaid')await page.evaluate(async url=>{const addon=await import(url);await globalThis.mermaid.registerExternalDiagrams([addon.default]);},origin+'/__addon/dist/mermaid-zenuml.core.mjs');
   }
   if(p.exe){native=await worker(p.exe,p.id);metadata.native=native.metadata;}
-  return {metadata,close,async render(c,id){
+  return {metadata,close,async evidence(){return page?await page.evaluate(()=>globalThis.sevenEvidence?.svg):undefined;},async render(c,id){
    if(p.id==='flutter')return native.render(c.source,id);
    if(p.id==='dart'){
     const value=await native.render(c.source,id);if(value.status!=='ok')return value;
-    const converted=await page.evaluate(controlledExport,{source:value.svg,id});
-    return {...converted,normalizationMs:converted.totalMs,apiMs:value.apiMs,totalMs:value.apiMs+(converted.totalMs??0),svg:value.svg};
+    const converted=await page.evaluate(completedPng,{source:value.svg,id});
+    return {...converted,normalizationMs:converted.totalMs,apiMs:value.apiMs,totalMs:value.apiMs+(converted.totalMs??0)};
    }
-   return page.evaluate(controlledExport,{source:c.source,id});
+   return page.evaluate(completedPng,{source:c.source,id});
   }};
  }catch(e){await close();throw e;}
 }
@@ -103,6 +104,7 @@ async function call(a,p,c,phase,block,rep){
   if(result.pngBase64){bytes=Buffer.from(result.pngBase64,'base64');const consumed=bytes.length;if(!consumed)throw Error('No binary PNG bytes');}
   clientMs=performance.now()-start;
   delete result.pngBase64;
+  const evidence=await a.evidence();if(evidence)result.svg=evidence;
   if(result.svg){fs.writeFileSync(out+'/svg/'+id+'.svg',result.svg);delete result.svg;}
   if(result.intrinsicPngBase64){fs.writeFileSync(out+'/png/'+id+'.intrinsic.png',Buffer.from(result.intrinsicPngBase64,'base64'));delete result.intrinsicPngBase64;}
   if(bytes){
