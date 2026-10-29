@@ -48,16 +48,15 @@ export async function completedPng(input: { source: string; id: string }) {
     ctx.imageSmoothingEnabled = false
     ctx.drawImage(image, Math.floor((1200 - width) / 2), Math.floor((900 - height) / 2))
     const drawnAt = performance.now()
-    // A synchronous export avoids the document's idle-encoding schedule.
-    // Base64 production and decoding are both inside the completed-PNG timer.
+    // A synchronous export avoids idle-encoding scheduling. The client decodes
+    // this Base64 once, inside the primary clock; no redundant browser readback.
     const url = canvas.toDataURL('image/png')
     if (!url.startsWith('data:image/png;base64,')) throw Error('No encoded PNG data URL')
     const encodedAt = performance.now()
-    const binary = atob(url.slice(url.indexOf(',') + 1))
-    const bytes = Uint8Array.from(binary, char => char.charCodeAt(0)),
-      outputBytes = bytes.length
+    const payload = url.slice(url.indexOf(',') + 1)
+    const outputBytes = payload.length * 3 / 4 - (payload.endsWith('==') ? 2 : payload.endsWith('=') ? 1 : 0)
     const totalMs = performance.now() - started
-    return { status: 'ok', totalMs, apiMs, normalizationMs: totalMs - apiMs, svgPreparationMs: preparedAt - started - apiMs, svgDecodeMs: decodedAt - preparedAt, canvasDrawMs: drawnAt - decodedAt, pngRasterReadbackEncodeMs: encodedAt - drawnAt, encodedByteReadMs: started + totalMs - encodedAt, bytes: outputBytes, pngBase64: url.slice(url.indexOf(',') + 1), naturalWidth: width, naturalHeight: height }
+    return { status: 'ok', totalMs, apiMs, normalizationMs: totalMs - apiMs, svgPreparationMs: preparedAt - started - apiMs, svgDecodeMs: decodedAt - preparedAt, canvasDrawMs: drawnAt - decodedAt, pngRasterReadbackEncodeMs: encodedAt - drawnAt, bytes: outputBytes, pngBase64: payload, naturalWidth: width, naturalHeight: height }
   } catch (error) {
     return { status: 'error', stage, detail: String(error) }
   } finally {

@@ -98,13 +98,13 @@ async function actor(p){
  }catch(e){await close();throw e;}
 }
 async function call(a,p,c,phase,block,rep){
- const id='s'+String(serial++).padStart(6,'0');let result,bytes,clientMs;
+ const id='s'+String(serial++).padStart(6,'0');let result,bytes,clientMs,binaryDecodeMs;
  try{
   const start=performance.now();result=await deadline(a.render(c,id),20000,p.id+' '+c.id);
-  if(result.pngBase64){bytes=Buffer.from(result.pngBase64,'base64');const consumed=bytes.length;if(!consumed)throw Error('No binary PNG bytes');}
+  if(result.pngBase64){const decodeStart=performance.now();bytes=Buffer.from(result.pngBase64,'base64');const consumed=bytes.length;if(!consumed||consumed!==result.bytes)throw Error('PNG byte count mismatch');binaryDecodeMs=performance.now()-decodeStart;}
   clientMs=performance.now()-start;
   delete result.pngBase64;
-  const evidence=await a.evidence();if(evidence)result.svg=evidence;
+  const evidence=result.stage==='public-api'?undefined:await a.evidence();if(evidence)result.svg=evidence;
   if(result.svg){fs.writeFileSync(out+'/svg/'+id+'.svg',result.svg);delete result.svg;}
   if(result.intrinsicPngBase64){fs.writeFileSync(out+'/png/'+id+'.intrinsic.png',Buffer.from(result.intrinsicPngBase64,'base64'));delete result.intrinsicPngBase64;}
   if(bytes){
@@ -119,7 +119,7 @@ async function call(a,p,c,phase,block,rep){
   }
   if(result.status==='ok'&&!bytes)throw Error('Successful render returned no PNG');
  }catch(e){result={...result,status:String(e).includes('deadline')?'timeout':'contract-failed',detail:String(e)};}
- const row={id,case:c.id,participant:p.id,phase,block,rep,...result,renderWorkMs:result?.totalMs,totalMs:clientMs};
+ const row={id,case:c.id,participant:p.id,phase,block,rep,...result,renderWorkMs:result?.totalMs,totalMs:clientMs,clientBinaryDecodeMs:binaryDecodeMs};
  if(opts.phase!=='measure')for(const key of Object.keys(row))if(key.endsWith('Ms'))delete row[key];
  rows.push(row);fs.appendFileSync(out+'/rows.jsonl',JSON.stringify(row)+'\n');return row;
 }
