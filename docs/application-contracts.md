@@ -12,13 +12,14 @@ Use `support:verify` with explicitly prepared Node/browser artifacts for this fo
 
 ## Native Flutter PNG
 
-Mermaid Dart's `mermaid_flutter` 0.3.2 binding calls the published
+Mermaid Flutter's `mermaid_flutter` 0.3.2 binding calls the published
 `renderToPng(source, pixelRatio: 1)` API in a native Linux Flutter release app.
 [Prepare a native bundle](../native-flutter/STANDARD.md#use-the-normal-cli-with-an-existing-native-bundle)
 for the normal shared collector. A saved launch manifest identifies the executable
 and seals its whole bundle; an environment variable cannot select a replacement.
-The default catalog continues to select Dart SVG. These are two entrypoints of
-one project, with different runtime and output contracts.
+The regular catalog has distinct **Mermaid Dart** (`orestesgaolin/mermaid`, SVG)
+and **Mermaid Flutter** (`pub:mermaid_flutter`, native PNG) entries. Flutter uses
+Dart's parser/layout but paints natively; shared code earns no inherited score.
 
 PNG checks decode the first and final returned images, require positive dimensions
 and bounded raster content, and retain the `decoded-raster-content` scope. They

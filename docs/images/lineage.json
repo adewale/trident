@@ -1,8 +1,8 @@
 {
   "generator": "Agentic Mermaid",
-  "entrySha256": "ea798905f3e444816f78dd1b2b2ccaea893e2e53d4d661f2a3bcbb68454ee920",
+  "entrySha256": "49c13651b5c4c6035af84e943b5f90bc51348a6f1593537e0767aaf29dcf4db6",
   "source": "docs/lineage-overview.mmd",
-  "sourceSha256": "207e63bafa1643f7803b993752b0956b0ce2e7c6a90ca073e73b4b3d0fb3de96",
+  "sourceSha256": "18440d779ba5982c01ad0baee5a8a4d9fd0aaef015b1f7726c50d969ce080724",
   "options": {
     "style": [
       "publication-figure",
@@ -31,7 +31,7 @@
       }
     ]
   },
-  "svgSha256": "3416a8e2e7f88cfbdb12ca364073956424f10a58d26dea1bb8459041abd55a6c",
-  "pngSha256": "4b30fc6e13c7d9d6631a3c9d5ca24f2e3905bd1c8b617c4fbd3e3a68d099e701",
-  "scope": "Selected lineage overview; all 88 entities and selection reasons are in LINEAGE.md. Derivative, fork, component port and runtime binding have distinct meanings. Diagram appearance implies no benchmark rank."
+  "svgSha256": "0113ac00db72e5acba55c08dfcb25060fb597da220baa52147f8a97196d5bc61",
+  "pngSha256": "d031ce1a5164713b2f7e983e287403137f646e87a265639877cdffe47316795a",
+  "scope": "Selected lineage overview; all catalog entities and selection reasons are in LINEAGE.md. Derivative, fork, component port, native renderer and runtime binding have distinct meanings. Diagram appearance implies no benchmark rank."
 }

@@ -483,29 +483,22 @@
       "head": "3e92b91bcbad0b883ce6a4c8826015b5fa1c10f7",
       "lastCommit": "2026-10-19T08:26:47Z",
       "license": "MIT",
-      "runtime": "Dart >=3.12; Flutter >=3.35 for native widgets and PNG export",
+      "runtime": "Dart >=3.12; public SVG rendering through mermaid_core",
       "outputs": [
-        "svg",
-        "png"
+        "svg"
       ],
       "packages": [
         {
           "registry": "pub.dev",
           "name": "mermaid_core",
-          "version": "0.3.0",
-          "license": "MIT"
-        },
-        {
-          "registry": "pub.dev",
-          "name": "mermaid_flutter",
-          "version": "0.3.0",
+          "version": "0.3.2",
           "license": "MIT"
         }
       ],
       "roles": [
         "peer"
       ],
-      "notes": "Dart port of Mermaid with its own parser, layout and SVG renderer; mermaid_flutter paints the render scene natively without JavaScript or a WebView. The comparison demo is https://roszkowski.dev/mermaid/. The CLI's PNG export requires an external rasterizer; native PNG export requires a Flutter runner. Published versions were verified through pub.dev on 2026-10-19; the repository manifests are already at 0.3.1. Port classification follows the project's explicit description and LICENSE derivation notice; shared-root lineage and published-package commit ancestry were not checked.",
+      "notes": "Mermaid Dart provides the mermaid_core parser, layout and SVG renderer. Mermaid Flutter is a separately branded native renderer using this core and has its own catalog entry, pub:mermaid_flutter. Existing evidence retains the identities recorded when it was collected.",
       "benchmark": {
         "adapter": "dart",
         "outputs": [
@@ -516,12 +509,61 @@
         "classification": "port-implementation",
         "engineScope": "derived-code-independent-runtime-implementation",
         "adapterReview": "existing-adapter; outcomes remain independent",
-        "reason": "Catalog declares svg, png operations with adapter dart. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+        "reason": "Public mermaid_core SVG binding; native Flutter PNG belongs to the separately branded Mermaid Flutter entry. Actual execution and qualification remain separately recorded."
       },
       "comparisonBranding": {
         "distinct": true,
         "name": "Mermaid Dart",
-        "evidence": "Maintainer confirms Mermaid Dart is a distinctive brand (2026-10-28). Public identity includes its Dart/Flutter products and https://roszkowski.dev/mermaid/."
+        "evidence": "Maintainer confirms Mermaid Dart and Mermaid Flutter are distinct brands (2026-10-29). Mermaid Dart names the mermaid_core product."
+      }
+    },
+    {
+      "id": "pub:mermaid_flutter",
+      "categories": [
+        "renderer"
+      ],
+      "relation": "native-renderer",
+      "repo": "https://github.com/orestesgaolin/mermaid",
+      "homepage": "https://pub.dev/packages/mermaid_flutter",
+      "checkedAt": "2026-10-29",
+      "branch": "main",
+      "head": "3e92b91bcbad0b883ce6a4c8826015b5fa1c10f7",
+      "license": "MIT",
+      "runtime": "Native Linux Flutter release; Flutter >=3.35; Dart >=3.12",
+      "outputs": [
+        "png"
+      ],
+      "packages": [
+        {
+          "registry": "pub.dev",
+          "name": "mermaid_flutter",
+          "version": "0.3.2",
+          "license": "MIT"
+        }
+      ],
+      "roles": [
+        "peer"
+      ],
+      "notes": "Mermaid Flutter is a distinct branded native renderer. It uses mermaid_core for parsing/layout, paints the scene with Flutter, and exposes renderToPng. Shared parser/layout ancestry does not imply independent engines, equivalent SVG/PNG work or reusable measurements. Supply a sealed native community_worker.dart release bundle through the normal prepared-artifact interface.",
+      "benchmark": {
+        "adapter": "native-flutter",
+        "outputs": [
+          "png"
+        ],
+        "version": "0.3.2",
+        "runtime": "native Linux Flutter release",
+        "apiBoundary": "mermaid_flutter.renderToPng(source,pixelRatio:1)"
+      },
+      "benchmarkEligibility": {
+        "classification": "branded-native-renderer",
+        "engineScope": "shared-parser-and-layout; native Flutter painting and PNG export",
+        "adapterReview": "public native PNG binding; real release invocation verified separately",
+        "reason": "Distinct brand with native paint/export code, rather than another host for the same SVG renderer. Applicable PNG collection is configured; SVG/model protocols do not apply without real bindings."
+      },
+      "comparisonBranding": {
+        "distinct": true,
+        "name": "Mermaid Flutter",
+        "evidence": "Maintainer confirms Flutter and Dart have distinct branding (2026-10-29); public package identity is mermaid_flutter at https://pub.dev/packages/mermaid_flutter."
       }
     },
     {
@@ -5056,6 +5098,13 @@
       "to": "mermaid-js/mermaid",
       "relation": "derivative",
       "evidence": "Maintainer correction 2026-10-28: derivative relationship, not a Git fork. Independent source root and separately recorded Mermaid ASCII component port are preserved."
+    },
+    {
+      "from": "pub:mermaid_flutter",
+      "to": "orestesgaolin/mermaid",
+      "relation": "native-renderer",
+      "scope": "shared Mermaid Dart parsing/layout; native Flutter painting and PNG",
+      "evidence": "https://pub.dev/packages/mermaid_flutter/versions/0.3.2 documents the native Flutter renderer built on mermaid_core; maintainer confirms distinct branding (2026-10-29)."
     }
   ],
   "rendererBenchmarkExclusions": [

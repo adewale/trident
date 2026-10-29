@@ -1,4 +1,3 @@
-import { nativePngNode } from './prepare-community.ts'
 /** Execute existing Trident suite collectors; native transport renders PNG in Flutter. */
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from 'node:fs'
 import { resolve, join } from 'node:path'
@@ -15,9 +14,8 @@ const prep = join(out, 'preparation')
 mkdirSync(prep)
 const digest = (p: string) => createHash('sha256').update(readFileSync(p)).digest('hex')
 const catalog = JSON.parse(readFileSync(join(root, 'catalog/mermaid-community.json'), 'utf8'))
-const native = catalog.nodes.find((n: any) => n.id === 'orestesgaolin/mermaid'),
+const native = catalog.nodes.find((n: any) => n.id === 'pub:mermaid_flutter'),
   pele = catalog.nodes.find((n: any) => n.id === 'obsidianmd/pele')
-Object.assign(native, nativePngNode(native))
 pele.benchmark.moduleOutputs = [] // This campaign admits the actual Chromium transport, never Node SVG.
 const runtimeCatalog = join(prep, 'runtime-catalog.json')
 writeFileSync(runtimeCatalog, JSON.stringify(catalog, null, 2))

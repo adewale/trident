@@ -2,9 +2,9 @@
 
 `standard-campaign.ts` invokes the existing Mermaid Compatibility, official-docs
 SVG-return and Diagram Meaning collectors. It selects mermaid_flutter 0.3.2 as
-native Flutter PNG and Pele 1.9.0 as Chromium SVG. Its explicit runtime catalog
-replaces the legacy Dart/JavaScript SVG binding for this investigation; the
-repository catalog and renderer implementations are unchanged.
+native Flutter PNG and Pele 1.9.0 as Chromium SVG. Mermaid Flutter is selected as `pub:mermaid_flutter`; Mermaid Dart
+keeps its own `orestesgaolin/mermaid` SVG identity. The campaign uses a local
+catalog only to restrict Pele to Chromium. Renderer implementations are unchanged.
 
 Use the [dated scorecards](../docs/native-flutter-standard-benchmarks.md) for
 coverage, outcomes, cost boundaries and evidence. The original widget/DOM
@@ -76,13 +76,11 @@ bun native-flutter/prepare-community.ts \
   --bundle native-flutter/app/build/linux/x64/release/bundle \
   --out /path/to/fresh-native-preparation
 bun commands.ts support:verify \
-  --catalog /path/to/fresh-native-preparation/catalog.json \
   --prepared /path/to/fresh-native-preparation/prepared.json \
-  --projects orestesgaolin/mermaid --out /path/to/fresh-verification
+  --projects pub:mermaid_flutter --out /path/to/fresh-verification
 bun commands.ts bench --suites community \
-  --community-catalog /path/to/fresh-native-preparation/catalog.json \
   --community-prepared /path/to/fresh-native-preparation/prepared.json \
-  --projects orestesgaolin/mermaid --out /path/to/fresh-campaign
+  --projects pub:mermaid_flutter --out /path/to/fresh-campaign
 ```
 
 Preparation hashes the wrapper, launch manifest and every bundle file. It builds
@@ -91,10 +89,12 @@ checks the bundle inventory, hashes and runtime API/version before accepting row
 A conflicting `FLUTTER_COMMUNITY_EXECUTABLE` is rejected. Keep the preparation,
 bundle and checkout at their recorded paths when replaying a saved binding.
 
-The generated one-project catalog selects `mermaid_flutter` 0.3.2 PNG under the
-existing Mermaid Dart identity. It does not add another project or change the
-repository's default Dart SVG binding. Report the runtime, version and output
-format whenever comparing results from these different public entrypoints.
+Preparation uses the regular catalog's **Mermaid Flutter** entry
+(`pub:mermaid_flutter`); no catalog override is needed. **Mermaid Dart**
+(`orestesgaolin/mermaid`) remains the distinct SVG product. Both use the Dart core
+for parsing/layout, while their rendering and output paths differ. Missing native
+bundles remain explicit preparation gaps. Older campaign receipts keep the combined
+identity they originally recorded; new runs do not inherit those scores.
 
 `support:verify` records six positive inputs and two independently invalid controls.
 Its PNG observations retain their raster-only qualification scope and discard

@@ -5,7 +5,7 @@ implementation, a port, a fork at a historical revision, a runtime binding or an
 integration. Listing a repository does not prove a working adapter, supported
 families or correct output.
 
-At the catalog snapshot used for this change, its 88 entities have these lineage
+At the catalog snapshot used for this change, its 89 entities have these lineage
 classifications:
 
 | Relation | Entities | Meaning |
@@ -14,6 +14,7 @@ classifications:
 | Independent | 26 | Recorded as independently rooted. This does not prove independent implementation of every component. |
 | Derivative | 1 | Beautiful Mermaid derives from Mermaid without a Git-fork claim. |
 | Port | 9 | Reimplements a project in another language or runtime. |
+| Native renderer | 1 | Mermaid Flutter uses Mermaid Dart parsing/layout with its own native painting and PNG output. |
 | Binding | 3 | Exposes another engine through a different runtime/package boundary. |
 | Unverified | 3 | Ancestry has not been established. |
 | Root | 1 | The pinned Mermaid language reference. |
@@ -23,11 +24,12 @@ responsibilities, so their counts should not be added to infer a project total.
 The snapshot also records unresolved discoveries and exclusions separately;
 those are not additional measured entries.
 
-There are 84 declared transport adapters: 20 retain existing-adapter labels and
-64 retain candidate labels from the catalog snapshot. Those historical labels
+There are 85 declared transport adapters: 20 retain existing-adapter labels and
+64 retain candidate labels from the original catalog snapshot; Mermaid Flutter
+has a separately verified native PNG binding. Those historical labels
 are separate from the [0.1 verification](SUPPORT-QUALITY.md), which exercised
 37 release artifacts among 42 eligible entries and retained five blockers.
-The current core selection has 39 entries. The original receipt keeps its dated
+The current core selection has 40 entries. The original receipt keeps its dated
 42-entry scope; three full editors are now discovery-only applications: Mermaid
 Live Editor, VS Code Mermaid Editor and Modern Mermaid. They have no core driver
 requirement and are not missing renderer scores. Mermaid-to-Excalidraw retains
@@ -50,7 +52,7 @@ bun commands.ts support --out /evidence/support.json
 The matrix is generated from the catalog and the actual suite admission rules.
 It includes declared/bound outputs, adapter review status, lineage, parent and a
 reason for each suite cell. It is configuration evidence, not a fresh runtime
-validation of 88 projects.
+validation of 89 projects.
 
 The reviewed native-model integrations currently belong to Agentic Mermaid,
 Pele and the pinned Mermaid reference. Fifteen catalog entries have configured
@@ -88,5 +90,11 @@ original statuses and dates; a new vocabulary never rewrites old results.
 dependencies kept separate. Generate a fresh view with `bun commands.ts support
 --lineage`. Whole-application workflows, unbranded descendants, zero-ahead forks and bindings are excluded from normal comparisons; scores still
 require artifact/protocol proof before reuse. [The dated support stack rank](SUPPORT-QUALITY.md)
-shows integration evidence and gaps for all 88 entries. [Report reading](REPORTING.md)
+shows integration evidence and gaps for all 89 entries. [Report reading](REPORTING.md)
 explains how to interpret the resulting scorecards.
+
+Mermaid Dart (`orestesgaolin/mermaid`, `mermaid_core`) and Mermaid Flutter
+(`pub:mermaid_flutter`, `mermaid_flutter`) have distinct branding. The lineage
+records Flutter's native-renderer relationship to the Dart core. They remain
+separate comparison projects without claiming independent parser/layout engines.
+Historical combined-ID observations retain their original identity and protocol.

@@ -1,10 +1,10 @@
 # Project lineage
 
-Catalog checked: 2026-10-18. 88 entities. Regenerate with `bun commands.ts support --lineage`.
+Catalog checked: 2026-10-18. 89 entities. Regenerate with `bun commands.ts support --lineage`.
 
 Whole-application editor workflows are outside the core benchmark scope and remain catalog observations. The descendant override does not enable them. Descendants without established distinct branding are excluded from normal comparisons, even with code changes. Owner/package scopes and runtime suffixes alone do not establish branding. Bindings and zero-ahead versions are also excluded. An explicit inclusion override retains these for version/runtime investigations. Selection guidance uses the recorded catalog snapshot, not a fresh upstream audit. Ports and changed forks remain separate. Zero-ahead descendants can be omitted from a current-engine comparison, but historical/build studies retain them. Measurement aliases require verified artifact, build, runtime and invocation equivalence through catalog-eligibility; lineage alone never supplies a score.
 
-Arrows in the tree mean source fork, derivative, port or runtime binding as labelled. Independently rooted code can still be a documented port. Dependencies, vendoring and inspiration are listed separately below.
+Arrows in the tree mean source fork, derivative, port, native renderer or runtime binding as labelled. Independently rooted code can still be a documented port. Dependencies, vendoring and inspiration are listed separately below.
 
 ```text
 ├── 1jehuang/mermaid-rs-renderer [independent; distinct-or-unresolved]
@@ -74,6 +74,7 @@ Arrows in the tree mean source fork, derivative, port or runtime binding as labe
 │   ├── Mermaid-Chart/mermaid-develop [fork; +0/−7450; SKIP: no-distinct-branding, zero-ahead-version]
 │   ├── NicolasNewman/mermaid [fork; +17/−4341; SKIP: no-distinct-branding]
 │   ├── orestesgaolin/mermaid [port; distinct-or-unresolved]
+│   │   └── pub:mermaid_flutter [native-renderer; shared Mermaid Dart parsing/layout; native Flutter painting and PNG; distinct-or-unresolved]
 │   ├── songshaodong/mermaid [fork; +0/−15918; SKIP: no-distinct-branding, zero-ahead-version]
 │   ├── xen3r0/mermaid [fork; +2/−15335; SKIP: no-distinct-branding]
 │   ├── xeolabs/mermaid [fork; +0/−9209; SKIP: no-distinct-branding, zero-ahead-version]
@@ -116,8 +117,8 @@ Arrows in the tree mean source fork, derivative, port or runtime binding as labe
 
 25 zero-ahead forks are candidates to omit from current-engine comparisons. This saves work by narrowing the question; it does not assert that a newer parent score describes a historical descendant. 4 same-parent-head candidates also need artifact verification before any result reuse.
 
-49 entries are excluded from normal comparisons by application scope, branding, version or binding policy. Changed forks still need distinct branding. Independently implemented ports also need an established separate brand under this selection rule. This is a comparison-scope choice, not a claim about code quality or behavior. Mermaid Dart is a distinct brand and remains eligible. Beautiful Mermaid is a derivative of Mermaid, not a Git fork; its ASCII component port is recorded separately.
+49 entries are excluded from normal comparisons by application scope, branding, version or binding policy. Changed forks still need distinct branding. Independently implemented ports also need an established separate brand under this selection rule. This is a comparison-scope choice, not a claim about code quality or behavior. Mermaid Dart and Mermaid Flutter have distinct brands and remain eligible. Their shared parser/layout and separate rendering paths are recorded; this does not count them as independently implemented engines. Beautiful Mermaid is a derivative of Mermaid, not a Git fork; its ASCII component port is recorded separately.
 
-Keep branded differentiated projects such as Agentic Mermaid, Zombie Mermaid, Beautiful Mermaid, Mermaid Dart and Ondine. Frankenmermaid has an independent root. Review unverified lineages before counting independent engines. Never silently transfer results between projects.
+Keep branded differentiated projects such as Agentic Mermaid, Zombie Mermaid, Beautiful Mermaid, Mermaid Dart, Mermaid Flutter and Ondine. Frankenmermaid has an independent root. Review unverified lineages before counting independent engines. Never silently transfer results between projects.
 
 Use an explicit `bench --projects ... --plan` selection. `--include-excluded-descendants` is reserved for a named version/fork/runtime investigation. Community collection already measures verified physical-artifact aliases once and keeps per-entity evidence-reuse receipts; candidates without that proof run independently when explicitly selected.

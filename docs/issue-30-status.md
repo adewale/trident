@@ -7,7 +7,7 @@ all-project timing campaign or editor automation before a harness release.
 | Requirement | Implementation and evidence | Limit |
 |---|---|---|
 | Terminal and conversion bindings | [PR 36](https://github.com/adewale/trident/pull/36); [public output contracts](application-contracts.md) | Excalidraw image fallbacks supply no editable-model credit. |
-| Native Flutter PNG through the shared collector | [PR 37](https://github.com/adewale/trident/pull/37) supplied real `renderToPng` evidence; [PR 51](https://github.com/adewale/trident/pull/51) sealed normal-CLI launches; the [real native verification](#native-png-verification) exercised the merged code. | PNG retains raster-only qualification. Default catalog selection remains Dart SVG. |
+| Native Flutter PNG through the shared collector | [PR 37](https://github.com/adewale/trident/pull/37) supplied real `renderToPng` evidence; [PR 51](https://github.com/adewale/trident/pull/51) sealed normal-CLI launches; the [real native verification](#native-png-verification) exercised the merged code. | PNG retains raster-only qualification. Dart SVG and native Flutter PNG now have distinct branded catalog entries. |
 | Applicable checks and bounded invalid controls | [Shared invocation check](application-contracts.md#shared-invocation-check): six positives, two separately counted invalid inputs, preserved format-specific qualification. | Raster content supplies no label/topology claim. Optional public models remain optional. Six inputs do not establish complete family support. |
 | Claim-specific timing prerequisites | [Measurement rules](../MEASUREMENT.md); [calibrated Pele/Flutter comparison](isolated-png-results.md); [seven-implementation export campaign](davebench-png-seven-results.md) with uncertainty and repeatability diagnostics. | Each campaign retains its own task, selection and calibration policy. Standard compatibility clocks have no A/A calibration and cannot supply equivalent-work speed ratios. |
 
@@ -41,3 +41,16 @@ Rusty Mermaid 0.42.0 stays skipped for missing published runtime files. Franken'
 unavailable source serializer and Merman's unbound exporters need actual public
 targets before binding work. These are recorded artifact limits, not instructions
 to implement upstream features. Whole-editor workflows stay outside core scope.
+
+## Brand separation after this verification
+
+The maintainer confirmed that Mermaid Dart and Mermaid Flutter have distinct
+branding. Current selection uses `orestesgaolin/mermaid` for Dart SVG and
+`pub:mermaid_flutter` for native Flutter PNG. The immutable receipt above predates
+that correction and retains its originally recorded Mermaid Dart identity. New
+Flutter runs use the regular catalog directly and receive their own observations;
+older scores are not copied into the new project row.
+
+A [fresh check under the distinct Flutter identity](https://github.com/adewale/trident/blob/daf9119cf620189c6c0e31ce8d863e823d35d256/BRAND-SPLIT.md)
+uses the regular catalog without an override. Its owning report and native outputs
+are separate from the historical combined-ID receipt.

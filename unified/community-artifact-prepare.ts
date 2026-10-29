@@ -45,6 +45,7 @@ function environment(cache: string): NodeJS.ProcessEnv {
  * manifest can bypass toolchain work, but must match the resolved version and
  * every shipped/fetched file digest. Timings are always rerun separately. */
 export async function prepareCommunityArtifact(node: CommunityNode, cacheRoot: string, providedManifest?: string): Promise<CommunityArtifact> {
+  if (node.benchmark?.adapter === 'native-flutter') throw Error('Native Flutter requires a sealed release bundle. Run bun native-flutter/prepare-community.ts --bundle RELEASE_BUNDLE --out FRESH_DIRECTORY, then supply its prepared.json with --community-prepared (or --prepared for support:verify); no catalog override is required.')
   const adapter = node.benchmark?.adapter,
     recorded = process.env.AM_COMMUNITY_VERSION_POLICY === 'recorded'
   const cache = resolve(cacheRoot)
@@ -133,7 +134,7 @@ export async function prepareCommunityArtifact(node: CommunityNode, cacheRoot: s
       sha256: digest(readFileSync(module)),
       files: artifactFiles([module]),
       runtime: 'Dart dart2js -O2 on Node/browser',
-      detail: 'Unmodified mermaid_core public Mermaid(ApproximateTextMeasurer) → renderSceneToSvg; native Flutter and PNG runtime are separate unmeasured surfaces. Compiler/dependency commands and versions are in acquisition.log/pubspec.lock.',
+      detail: 'Unmodified mermaid_core public Mermaid(ApproximateTextMeasurer) → renderSceneToSvg; Mermaid Flutter native PNG is a separately cataloged brand, not an output of this SVG artifact. Compiler/dependency commands and versions are in acquisition.log/pubspec.lock.',
     }
   } else if (adapter === 'bezel') {
     const info = await json(`https://crates.io/api/v1/crates/bezel-mermaid/${version}`),
