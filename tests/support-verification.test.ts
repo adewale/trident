@@ -85,7 +85,7 @@ test('invalid CLI controls distinguish completed command rejection from broken t
     expect(attempt(process.execPath, ['-e', 'process.exit(2)']).controlCounts.passed).toBe(1)
     expect(attempt(join(root, 'missing-command'), []).controlCounts.blocked).toBe(1)
     expect(attempt(process.execPath, ['-e', 'process.kill(process.pid, "SIGTERM")']).controlCounts.blocked).toBe(1)
-    expect(attempt(process.execPath, ['-e', '', '{output}']).controlCounts.failed).toBe(1)
+    expect(attempt(process.execPath, ['-e', 'process.exit(0)', '{output}']).controlCounts.failed).toBe(1)
     expect(attempt(process.execPath, ['-e', 'process.stdout.write("broken SVG")']).controlCounts.failed).toBe(1)
   } finally { rmSync(root, { recursive: true, force: true }) }
 })
