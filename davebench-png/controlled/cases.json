@@ -1,0 +1,472 @@
+{
+  "contract": {
+    "protocol": "controlled-docs-png-v2",
+    "width": 1200,
+    "height": 900,
+    "margin": 30,
+    "scale": 1,
+    "background": "#ffffff",
+    "fontFamily": "Inter",
+    "baseFontSize": 14,
+    "downscaling": false,
+    "clipping": false,
+    "qualification": "Manual source-fact/legibility review before timing; actual final PNG dimensions, opacity, fit and stable pixels enforced on every call.",
+    "selection": "Fixed list of short structural examples from the pinned DaveBench corpus; covers flowcharts, sequences, classes, states, ER and mindmaps, plus a collapsed-subgraph negative control. Source/fact manifest frozen before v2 timing; never claims full-corpus or holdout performance.",
+    "scope": "Warm repeated fixed-PNG exports. Browser peers share Chromium and one SVG-to-PNG implementation. Native public renderToPng plus required fixed-canvas normalization is charged inside its timer.",
+    "typography": "Inter requested through public APIs, base size14; public per-role defaults are permitted if legible. Actual role sizes/families are retained; this is not typography-identical renderer throughput."
+  },
+  "corpusPin": {
+    "version": "12.2.0",
+    "commit": "1fb7869866dd619168d840291c9c54b4f129758b",
+    "inputs": [
+      "packages/mermaid/src/diagram-api/diagram-orchestration.ts",
+      "packages/mermaid/src/diagram-api/detectType.ts",
+      "packages/mermaid/src/diagrams/**/**Detector.ts",
+      "packages/mermaid/src/schemas/config.schema.yaml",
+      "https://mermaid.ai/open-source/syntax/"
+    ]
+  },
+  "cases": [
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+      "family": "flowchart",
+      "source": "flowchart TD\n    Start --> Stop\n",
+      "file": "packages/mermaid/src/docs/syntax/flowchart.md",
+      "line": 85,
+      "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+      "expected": {
+        "labels": [
+          "Start",
+          "Stop"
+        ],
+        "facts": [
+          "Two boxes; exactly Start -> Stop; top-to-bottom."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+      "family": "flowchart",
+      "source": "flowchart LR\n    Start --> Stop\n",
+      "file": "packages/mermaid/src/docs/syntax/flowchart.md",
+      "line": 92,
+      "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+      "expected": {
+        "labels": [
+          "Start",
+          "Stop"
+        ],
+        "facts": [
+          "Two boxes; exactly Start -> Stop; left-to-right."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:903",
+      "family": "flowchart",
+      "source": "flowchart TD\n    A[Start] --> B{Is it?}\n    B -->|Yes| C[OK]\n    C --> D[Rethink]\n    D --> B\n    B ---->|No| E[End]\n",
+      "file": "packages/mermaid/src/docs/syntax/flowchart.md",
+      "line": 903,
+      "sourceSha256": "49d93245842947c38b3169be332e9d9e4cf387b701c14d3f2f0dafc65103c206",
+      "expected": {
+        "labels": [
+          "Start",
+          "Is it?",
+          "OK",
+          "Rethink",
+          "End",
+          "Yes",
+          "No"
+        ],
+        "facts": [
+          "Start->decision; Yes->OK->Rethink->decision loop; No->End; five nodes, five directed edges; decision diamond."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:919",
+      "family": "flowchart",
+      "source": "flowchart TD\n    A[Start] --> B{Is it?}\n    B -- Yes --> C[OK]\n    C --> D[Rethink]\n    D --> B\n    B -- No ----> E[End]\n",
+      "file": "packages/mermaid/src/docs/syntax/flowchart.md",
+      "line": 919,
+      "sourceSha256": "96d66977bb2506fdd1d02f95a7308e33e18c41b9ce1a416fcaae0334e8de7000",
+      "expected": {
+        "labels": [
+          "Start",
+          "Is it?",
+          "OK",
+          "Rethink",
+          "End",
+          "Yes",
+          "No"
+        ],
+        "facts": [
+          "Same five-node/five-edge decision loop as occurrence903, using alternative edge-label syntax."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:1449",
+      "family": "flowchart",
+      "source": "flowchart LR\n    A[Hard edge] -->|Link text| B(Round edge)\n    B --> C{Decision}\n    C -->|One| D[Result one]\n    C -->|Two| E[Result two]\n",
+      "file": "packages/mermaid/src/docs/syntax/flowchart.md",
+      "line": 1449,
+      "sourceSha256": "46c4d04542ff7c8e262334d4a5f5024c3aa8fc4fbe6bcfb36293ef2679402386",
+      "expected": {
+        "labels": [
+          "Hard edge",
+          "Round edge",
+          "Decision",
+          "Result one",
+          "Result two",
+          "Link text",
+          "One",
+          "Two"
+        ],
+        "facts": [
+          "Five nodes; Hard edge->Round edge (Link text), Round edge->Decision, Decision->Result one (One), Decision->Result two (Two); diamond decision; both results present."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+      "family": "flowchart",
+      "source": "flowchart TB\n    c1-->a2\n    subgraph one\n    a1-->a2\n    end\n    subgraph two\n    b1-->b2\n    end\n    subgraph three\n    c1-->c2\n    end\n",
+      "file": "packages/mermaid/src/docs/syntax/flowchart.md",
+      "line": 970,
+      "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+      "expected": {
+        "labels": [
+          "one",
+          "two",
+          "three",
+          "a1",
+          "a2",
+          "b1",
+          "b2",
+          "c1",
+          "c2"
+        ],
+        "facts": [
+          "Groups one contains a1/a2; two contains b1/b2; three contains c1/c2; edges c1->a2,a1->a2,b1->b2,c1->c2."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:998",
+      "family": "flowchart",
+      "source": "flowchart TB\n    c1-->a2\n    subgraph one\n    a1-->a2\n    end\n    subgraph two\n    b1-->b2\n    end\n    subgraph three\n    c1-->c2\n    end\n    one --> two\n    three --> two\n    two --> c2\n",
+      "file": "packages/mermaid/src/docs/syntax/flowchart.md",
+      "line": 998,
+      "sourceSha256": "1c231ae5c6296a881b62b3c2e7f7b786fc66fbc449d2a134b7bc5d54a917dc18",
+      "expected": {
+        "labels": [
+          "one",
+          "two",
+          "three",
+          "a1",
+          "a2",
+          "b1",
+          "b2",
+          "c1",
+          "c2"
+        ],
+        "facts": [
+          "Same three groups and four node edges as occurrence970 plus group one->two, group three->two, group two->node c2."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+      "family": "flowchart",
+      "source": "flowchart TD\n    Start --> one\n    subgraph one [My Group]\n        A --> B\n        B --> C\n    end\n    one --> End\n    one@{ view: collapsed }\n",
+      "file": "packages/mermaid/src/docs/syntax/flowchart.md",
+      "line": 1065,
+      "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+      "expected": {
+        "labels": [
+          "Start",
+          "My Group",
+          "End"
+        ],
+        "facts": [
+          "Collapsed My Group; internal A,B,C must NOT be painted; Start->group->End."
+        ]
+      },
+      "role": "semantic-negative-control"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:7",
+      "family": "sequenceDiagram",
+      "source": "sequenceDiagram\n    Alice->>John: Hello John, how are you?\n    John-->>Alice: Great!\n    Alice-)John: See you later!\n",
+      "file": "packages/mermaid/src/docs/syntax/sequenceDiagram.md",
+      "line": 7,
+      "sourceSha256": "b2066a62d878a2b2b1ad49be0674b68d0fb78deed9c5def176cfcb2340403d25",
+      "expected": {
+        "labels": [
+          "Alice",
+          "John",
+          "Hello John, how are you?",
+          "Great!",
+          "See you later!"
+        ],
+        "facts": [
+          "Two lifelines; messages Alice->John solid closed arrow, John->Alice dashed closed arrow, Alice->John open async arrow; chronological order as source."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+      "family": "sequenceDiagram",
+      "source": "sequenceDiagram\n    participant Alice\n    participant Bob\n    Bob->>Alice: Hi Alice\n    Alice->>Bob: Hi Bob\n",
+      "file": "packages/mermaid/src/docs/syntax/sequenceDiagram.md",
+      "line": 89,
+      "sourceSha256": "469a26df510d0cc0bf5a2160f1b03054162ea125f3c5e7f84573f4f73f4c17f2",
+      "expected": {
+        "labels": [
+          "Alice",
+          "Bob",
+          "Hi Alice",
+          "Hi Bob"
+        ],
+        "facts": [
+          "Two box participants; first Bob->Alice Hi Alice, then Alice->Bob Hi Bob; both directed messages."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:101",
+      "family": "sequenceDiagram",
+      "source": "sequenceDiagram\n    actor Alice\n    actor Bob\n    Alice->>Bob: Hi Bob\n    Bob->>Alice: Hi Alice\n",
+      "file": "packages/mermaid/src/docs/syntax/sequenceDiagram.md",
+      "line": 101,
+      "sourceSha256": "2ae466706c787aa96a3f5e09de4710ce4ab41da116a15bf3733cae7b6d641f12",
+      "expected": {
+        "labels": [
+          "Alice",
+          "Bob",
+          "Hi Bob",
+          "Hi Alice"
+        ],
+        "facts": [
+          "Two stick-figure actors; Alice->Bob Hi Bob then Bob->Alice Hi Alice; both messages."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:189",
+      "family": "sequenceDiagram",
+      "source": "sequenceDiagram\n    participant A as Alice\n    participant J as John\n    A->>J: Hello John, how are you?\n    J->>A: Great!\n",
+      "file": "packages/mermaid/src/docs/syntax/sequenceDiagram.md",
+      "line": 189,
+      "sourceSha256": "b833048175d5418f3346650eac414112d00518cbef48e0aaa9ebfd0c874fa89d",
+      "expected": {
+        "labels": [
+          "Alice",
+          "John",
+          "Hello John, how are you?",
+          "Great!"
+        ],
+        "facts": [
+          "Aliases A and J display Alice and John; first Alice->John then solid closed-arrow John->Alice response."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/classDiagram.md:142",
+      "family": "classDiagram",
+      "source": "classDiagram\n    class Animal\n    Vehicle <|-- Car\n",
+      "file": "packages/mermaid/src/docs/syntax/classDiagram.md",
+      "line": 142,
+      "sourceSha256": "498d9363ba8ed96f76ca34393fae13c085316490eb4dcb3b8207150641c90efd",
+      "expected": {
+        "labels": [
+          "Animal",
+          "Vehicle",
+          "Car"
+        ],
+        "facts": [
+          "Three classes, Animal isolated; Car inherits Vehicle with an empty triangle at Vehicle."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/classDiagram.md:180",
+      "family": "classDiagram",
+      "source": "classDiagram\nclass BankAccount\nBankAccount : +String owner\nBankAccount : +BigDecimal balance\nBankAccount : +deposit(amount)\nBankAccount : +withdrawal(amount)\n",
+      "file": "packages/mermaid/src/docs/syntax/classDiagram.md",
+      "line": 180,
+      "sourceSha256": "53b5bb9ec41a4729e9a47573fc8660bf806877eca73b121b40c01680b0710f59",
+      "expected": {
+        "labels": [
+          "BankAccount",
+          "owner",
+          "String",
+          "balance",
+          "BigDecimal",
+          "deposit",
+          "withdrawal",
+          "amount"
+        ],
+        "facts": [
+          "One class, two public attributes owner:String and balance:BigDecimal; two public methods deposit(amount),withdrawal(amount); members contained in class."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/classDiagram.md:311",
+      "family": "classDiagram",
+      "source": "classDiagram\nclassA <|-- classB : implements\nclassC *-- classD : composition\nclassE o-- classF : aggregation\n",
+      "file": "packages/mermaid/src/docs/syntax/classDiagram.md",
+      "line": 311,
+      "sourceSha256": "029e13c779ccef5ed4bbab74cf26205edc74cf4e34cd0881a24081e5e0dfe5b0",
+      "expected": {
+        "labels": [
+          "classA",
+          "classB",
+          "classC",
+          "classD",
+          "classE",
+          "classF",
+          "implements",
+          "composition",
+          "aggregation"
+        ],
+        "facts": [
+          "Six classes; classB inherits classA (empty triangle at A); composition C-D with filled diamond at C; aggregation E-F with empty diamond at E; three relationship labels."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:26",
+      "family": "stateDiagram",
+      "source": "stateDiagram\n    [*] --> Still\n    Still --> [*]\n\n    Still --> Moving\n    Moving --> Still\n    Moving --> Crash\n    Crash --> [*]\n",
+      "file": "packages/mermaid/src/docs/syntax/stateDiagram.md",
+      "line": 26,
+      "sourceSha256": "39acf723262aa56455c7d2cfebc2348353ba00810ea9d82ad399f815f5810048",
+      "expected": {
+        "labels": [
+          "Still",
+          "Moving",
+          "Crash"
+        ],
+        "facts": [
+          "Initial->Still; Still->final; Still->Moving; Moving->Still; Moving->Crash; Crash->final. Three named states, one initial, two final endpoints."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+      "family": "stateDiagram",
+      "source": "stateDiagram-v2\n    s1 --> s2: A transition\n",
+      "file": "packages/mermaid/src/docs/syntax/stateDiagram.md",
+      "line": 132,
+      "sourceSha256": "ad6754c39467d7b5deb867e48c2902a3d538af529f3306c00ee46f962911ab02",
+      "expected": {
+        "labels": [
+          "s1",
+          "s2",
+          "A transition"
+        ],
+        "facts": [
+          "Two states, one directed s1->s2 labelled A transition."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:142",
+      "family": "stateDiagram",
+      "source": "stateDiagram-v2\n    [*] --> s1\n    s1 --> [*]\n",
+      "file": "packages/mermaid/src/docs/syntax/stateDiagram.md",
+      "line": 142,
+      "sourceSha256": "f6ff1530a8fe9c5758478684c2fea3a38a82573468dd10e15709a018127ad6b0",
+      "expected": {
+        "labels": [
+          "s1"
+        ],
+        "facts": [
+          "One named state; initial->s1->final; filled initial and bullseye final distinguishable."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:213",
+      "family": "entityRelationshipDiagram",
+      "source": "erDiagram\n    CAR ||--o{ NAMED-DRIVER : allows\n    PERSON }o..o{ NAMED-DRIVER : is\n",
+      "file": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md",
+      "line": 213,
+      "sourceSha256": "719e355f1c64ad841d58d2a78f8b58654e96ca4c10348c222af8b94322830d19",
+      "expected": {
+        "labels": [
+          "CAR",
+          "NAMED-DRIVER",
+          "PERSON",
+          "allows",
+          "is"
+        ],
+        "facts": [
+          "Three entities; CAR exactly-one to zero-or-more NAMED-DRIVER identifying allows; PERSON zero-or-more to zero-or-more NAMED-DRIVER non-identifying is; endpoint cardinality symbols retained."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:251",
+      "family": "entityRelationshipDiagram",
+      "source": "erDiagram\n    PERSON {\n        string firstName\n        string? middleName\n        string lastName\n    }\n",
+      "file": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md",
+      "line": 251,
+      "sourceSha256": "64765bbdf6549438c541e231158026c013e95c99cf9ca0a4dfc0f840ab77bf0d",
+      "expected": {
+        "labels": [
+          "PERSON",
+          "firstName",
+          "middleName",
+          "lastName",
+          "string"
+        ],
+        "facts": [
+          "One entity; three attributes, middleName is optional string, other two required string; attribute meanings retained."
+        ]
+      },
+      "role": "candidate"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/mindmap.md:46",
+      "family": "mindmap",
+      "source": "mindmap\nRoot\n    A\n      B\n      C\n",
+      "file": "packages/mermaid/src/docs/syntax/mindmap.md",
+      "line": 46,
+      "sourceSha256": "50120b037f07451727a4c261d4a2f601f5ce26c40c061336c710b49d99f33bf7",
+      "expected": {
+        "labels": [
+          "Root",
+          "A",
+          "B",
+          "C"
+        ],
+        "facts": [
+          "Four nodes; Root->A; A->B and A->C; B/C siblings, not independent roots."
+        ]
+      },
+      "role": "candidate"
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # DaveBench PNG export
 
+> V1 timings are withdrawn as comparative evidence. Use the [controlled PNG profile](controlled/README.md) for the replacement contract. This guide reproduces the retained v1 diagnostic.
+
 This is a PNG extension of Trident's existing official-documentation SVG-return
 collector. It reuses `docsInventory()`: all 548 occurrences (546 distinct trimmed
 sources) from the 34 pinned Mermaid 12.2.0 syntax pages, including examples a

@@ -1,4 +1,9 @@
-# DaveBench PNG export: four-library comparison
+# DaveBench PNG export v1: withdrawn timing comparison
+
+> **Timing comparison withdrawn.** The v1 table measured unequal runtimes,
+> output sizes and diagram content. Its nonblank gate did not establish equivalent
+> work. The retained data is an export diagnostic, not a comparative performance
+> result. A replacement must meet a fixed output and verified-content contract.
 
 This extends the existing DaveBench documentation corpus to completed PNG export.
 It uses the same 548 occurrences, 546 distinct trimmed sources and 34 syntax pages
@@ -58,34 +63,20 @@ acknowledgement barriers. Native and Agentic PNG APIs expose opaque combined cos
 browser stage clocks are retained separately. Browser PNG production includes any
 deferred rasterization/readback plus encoding, rather than isolated encoding CPU.
 
-The same **315 occurrences** qualify for all four participants in all five rounds. Costs below are conditional on this PNG-admission cohort.
+The original timing table is withdrawn. Its 315-input common-success cohort
+used unequal runtimes, intrinsic dimensions, fonts and diagram content. The raw
+samples remain in the immutable evidence archive below for diagnosis. Those
+latencies must not be used to rank the libraries.
 
-| Participant / runtime | Median input median (ms) | P95 input median (ms) | Sum of input medians (ms) | Median pixels per PNG |
-|---|---:|---:|---:|---:|
-| Agentic Mermaid 0.4.1 / Node | 16.55 | 47.87 | 6854.75 | 83,700 |
-| Mermaid 12.2.0 / Chromium | 32.30 | 81.50 | 12419.10 | 92,400 |
-| mermaid_flutter 0.3.2 / native Flutter release | 9.74 | 47.33 | 4726.48 | 70,735 |
-| Pele 1.9.0 / Chromium | 5.50 | 12.10 | 2033.30 | 53,020 |
+The collapsed-subgraph example `flowchart.md:1065` is a concrete counterexample:
+Agentic and Flutter paint internal A/B/C nodes while Mermaid and Pele hide them.
+All four passed the nonblank gate. PNG bytes and a shared source do not establish
+that the same diagram was exported.
 
-Each shared occurrence must qualify for every participant in every round. An
-occurrence contributes its median across five calls; the table reports the median
-and nearest-rank p95 across those input medians, plus their sum. The p95 describes
-a workload distribution, not single-call tail latency. The sum is not elapsed
-suite time. Individual samples and min/max ranges remain retained.
-
-Outputs use intrinsic bounds at scale1 and each API's default layout/fonts/theme.
-The browser canvas has a white backdrop; direct APIs use their artifact/default
-background. Different output dimensions and backends prevent an equal-pixel
-throughput or calibrated renderer-speed ranking. The common-success cohort is
-conditional and does not replace each participant's full coverage. There is no
-A/A calibration, cold-start, source-update or production-holdout claim.
-
-The common cohort is not a semantic-equivalence certificate. In
-`flowchart.md:1065`, the source requests a collapsed subgraph. Agentic and Flutter
-show the internal A/B/C nodes, while Mermaid and Pele hide them. All four PNGs
-pass the nonblank gate. These actual images are retained as a qualification limit;
-the timing table does not establish which library completes equivalent diagram
-meaning faster.
+The [controlled replacement](../davebench-png/controlled/README.md) uses one
+Chromium pipeline for all three browser libraries, fixed-size outputs, the same
+font, source-fact review before timing and A/A calibration. Its smaller reviewed
+profile must not be presented as full-corpus DaveBench performance.
 
 ## Evidence and reproduction
 
