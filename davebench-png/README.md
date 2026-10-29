@@ -1,5 +1,7 @@
 # DaveBench PNG export
 
+Latest: [seven-implementation PNG results](../docs/davebench-png-seven-results.md) and [isolated runner](seven/README.md). The older protocols below remain separate.
+
 > V1 timings are withdrawn as comparative evidence. Use the [controlled PNG profile](controlled/README.md) for the replacement contract. This guide reproduces the retained v1 diagnostic.
 
 This is a PNG extension of Trident's existing official-documentation SVG-return

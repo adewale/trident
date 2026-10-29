@@ -1,0 +1,36 @@
+{
+  "claim": "Observed fixed-profile client PNG times and illustrative same-source BankAccount output; no simultaneous-rank, identical-typography or full-corpus-semantic claim.",
+  "timingProducer": "f2045b56b662231b9432937c8ed2201f0c5efb06",
+  "coverageProducer": "bd8e9b3fe933e4a9262dace5dd3d86700b12aa0f",
+  "evidenceCommit": "c08ffddfba2efcdb226fc55a42780d6042540841",
+  "input": "packages/mermaid/src/docs/syntax/classDiagram.md:180",
+  "inputSource": "classDiagram\nclass BankAccount\nBankAccount : +String owner\nBankAccount : +BigDecimal balance\nBankAccount : +deposit(amount)\nBankAccount : +withdrawal(amount)\n",
+  "imagePolicy": "Complete unedited 1200x900 PNGs plus labelled unscaled crops. Statistical plot generated with Matplotlib from retained timing-statistics.json.",
+  "files": {
+    "mermaid.png": "a498535efb191acdbcd4a0828e3568a588b5459949263ab244df6dd69ab35666",
+    "pele.png": "b3c5c875b4f1f1419d87ca858f7b331293d1348e5db925464a286911e854ea52",
+    "beautiful.png": "33371e6f8cff7c1e96f8df36bc5f4cd242c41e803ab3b371d989cbf2383646ff",
+    "zombie.png": "60b19edafe10ae3c0ea67b480d5ecdd414384ecfd42011aa3cbda423b679b013",
+    "timing.svg": "ef3b5154354248d11c07d2f7e02b331bb393053892c0df7a1cbfa020b08c4cec",
+    "painted-contact.png": "e52f63b3a44e812bcf20de16d9e3a4c5cd9e49ddda177689ab601209a480ea0e",
+    "timing.png": "9908687cf0748e17749545ae0e71ad849356e905e0d3d5f836a730f51d436036",
+    "summary.json": "920e6855480fd4a45b1ce6a7460aa58db2dd816e48d1b37cb8441ab4bd669089",
+    "dart.png": "917ce99490e9787a2ae2c33f1114bf60c1096a6e14572af4ca4dab237339651f",
+    "agentic.png": "6af3be1fa2f34c0a8e5b3c1155e9c0ba5d2fd0f5b868454b31e0afbf239369df",
+    "flutter.png": "33087e316307b2317493ec023039c20b8e5a5c060e82f7b6428bbc3dc338aac2"
+  },
+  "audit": {
+    "checks": 110342,
+    "differences": [],
+    "pngFilesReconciled": 11872,
+    "distinctEncodedStreamsDecodedByPillow": 2311,
+    "allScoresIndependentlyAgree": true,
+    "scope": "Raw file, PNG, reviewed pixel, stage/clock, block/sample and independent score audit. Primary bootstrap uses declared paired launch blocks; this audit does not import its reducer."
+  },
+  "archiveVerification": {
+    "archiveSha256": "4948406f231711efb726b3a415380598ed1bd24b2f631884c59268a9bcf87017",
+    "retainedFilesVerified": 36217,
+    "distinctPhysicalFilesChecked": 6564,
+    "allMatch": true
+  }
+}

@@ -172,7 +172,7 @@ painted output and failures. It is not registered in the standard CLI or catalog
 its timing boundaries differ from the Node SVG suites. Generated evidence stays
 outside source commits. [Audited result tables and withheld comparisons](docs/native-flutter-comparison.md) explain the retained campaign.
 
-The [fixed PNG export follow-up](docs/isolated-png-results.md) measures actual native Flutter release `renderToPng()` against Pele in Chromium on 20 reviewed inputs under an enforced one-CPU cgroup. Both pass A/A calibration for this fixed 1200×900 PNG task. The wider Mermaid/Agentic/Pele/native campaign retains Agentic's failed calibration and withholds four-way ranking. [Earlier PNG observations](docs/controlled-png-results.md) and the withdrawn [v1 comparison](docs/davebench-png-results.md) stay separate.
+The [seven-implementation DaveBench PNG campaign](docs/davebench-png-seven-results.md) reports warm fixed-canvas export timings on 13 common reviewed inputs and PNG-contract coverage on all 548 documentation occurrences. It measures native Dart and native Flutter release separately, alongside Mermaid, Agentic, Beautiful, Zombie and Pele in Chromium, using fresh process blocks and launch-round uncertainty. The close Dart/Pele and Zombie/Beautiful ordering is unresolved. The [earlier 20-input Pele/Flutter follow-up](docs/isolated-png-results.md), [initial controlled observations](docs/controlled-png-results.md) and [withdrawn v1 comparison](docs/davebench-png-results.md) remain separate campaigns.
 
 ## Add a tool
 
