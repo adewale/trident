@@ -13,7 +13,7 @@ This assesses Trident integrations, not project quality or renderer speed. A suc
 | Discovery-only applications | 3 | VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid have no core driver requirement. |
 | Excluded from normal comparisons | 46 | Full inventory and old support evidence retained; this campaign supplies no new invocation evidence for them. |
 
-All 37 exercised projects share the first level. This is a rank of current invocation evidence only. Counting optional model APIs as bonus points would favor projects with more observable internals. No project is certified as having complete support across every applicable benchmark.
+All 38 exercised projects share the first level. This is a rank of current invocation evidence only. Counting optional model APIs as bonus points would favor projects with more observable internals. No project is certified as having complete support across every applicable benchmark.
 
 ## What improved
 
@@ -74,7 +74,7 @@ Each fraction is successful authored inputs / 6 planned inputs for that particul
 
 ## What prevents complete support
 
-Remaining bindings apply to actual public targets. PR #36 covers Crafter/Frankenmermaid terminal and Excalidraw conversion; PR #37 covers native Flutter PNG. The selected Latias native package exposes no PNG/JPEG/PDF/terminal exporter, and the pinned Franken artifacts expose no Mermaid-source serializer. Record those limits; implementing absent upstream features is outside Trident's scope.
+Remaining bindings apply to actual public targets. The separate output receipt covers Crafter/Frankenmermaid terminal and Excalidraw conversion; PR #37 covers native Flutter PNG. The selected Latias native package exposes no PNG/JPEG/PDF/terminal exporter, and the pinned Franken artifacts expose no Mermaid-source serializer. Record those limits; implementing absent upstream features is outside Trident's scope.
 
 Rusty Mermaid’s published 0.42.0 package cannot run. The public source at `ce95d8ddb8323006b6dd8ddbc616c2478c3827aa` identifies itself as 0.1.0; its WASM build runs through the existing candidate workflow and retains four failed smoke observations. See the [reproduction notes](RUSTY-MERMAID.md). It does not replace the broken release artifact.
 
