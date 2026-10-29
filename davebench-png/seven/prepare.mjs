@@ -3,6 +3,7 @@ import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {build} from 'esbuild';
+import {bundleAddon} from './bundle-addon.mjs';
 
 const root=path.resolve(import.meta.dirname,'../..');
 const out=path.resolve(process.argv[2]);
@@ -10,6 +11,7 @@ fs.mkdirSync(out);
 const sha=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const run=(cmd,args,cwd)=>execFileSync(cmd,args,{cwd,stdio:'inherit',env:process.env});
 const receipt={startedAt:new Date().toISOString(),baseCommit:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),bundles:[]};
+receipt.zenuml=await bundleAddon(out);
 for(const [pkg,global] of [['beautiful-mermaid','beautifulMermaid'],['zombie-mermaid','zombieMermaid']]){
   const base=path.join(import.meta.dirname,'packages/node_modules',pkg),entry=path.join(base,'dist/index.js');
   const file=path.join(out,pkg+'.js');

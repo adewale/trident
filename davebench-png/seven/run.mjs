@@ -38,15 +38,16 @@ const participants=opts.participants?opts.participants.split(',').map(id=>{const
 if(new Set(participants.map(p=>p.id)).size!==participants.length)throw Error('Duplicate participant');
 for(const p of participants.filter(p=>['mermaid','agentic','pele'].includes(p.id)))if(JSON.parse(fs.readFileSync(p.base+'/package.json')).version!==p.version)throw Error('Package version mismatch');
 for(const p of build.bundles)if(fileHash(p.bundle)!==p.sha256)throw Error('Browser build receipt mismatch');
+if(build.zenuml&&fileHash(build.zenuml.file)!==build.zenuml.sha256)throw Error('ZenUML addon build receipt mismatch');
 if(fileHash(assets+'/mermaid-dart')!==build.dart.executable)throw Error('Dart executable differs from build receipt');
 for(const f of build.flutter.outputs)if(fileHash(build.flutter.bundle+'/'+f.file)!==f.sha256)throw Error('Flutter bundle differs from build receipt');
 const font=out+'/Inter-Regular.ttf';fs.copyFileSync(publicPackages+'/agentic-mermaid/assets/fonts/Inter-Regular.ttf',font);
 const escaped=out.replaceAll('&','&amp;').replaceAll('<','&lt;');
 const fontconfig=`<?xml version="1.0"?><!DOCTYPE fontconfig SYSTEM "fonts.dtd"><fontconfig><dir>${escaped}</dir><cachedir>${escaped}/font-cache</cachedir><match target="font"><edit name="hinting" mode="assign"><bool>false</bool></edit><edit name="autohint" mode="assign"><bool>false</bool></edit><edit name="hintstyle" mode="assign"><const>hintnone</const></edit><edit name="antialias" mode="assign"><bool>true</bool></edit><edit name="rgba" mode="assign"><const>none</const></edit></match><alias><family>sans-serif</family><prefer><family>Inter</family></prefer></alias></fontconfig>`;
 fs.writeFileSync(out+'/fontconfig.conf',fontconfig);process.env.FONTCONFIG_FILE=out+'/fontconfig.conf';
-const sources=['run.mjs','browser.ts','completed.ts','prepare.mjs','container.py','analyze.py','flutter_worker.dart','dart/worker.dart','dart/pubspec.yaml','dart/pubspec.lock','packages/package.json','packages/package-lock.json'].map(f=>({file:'davebench-png/seven/'+f,sha256:fileHash(import.meta.dirname+'/'+f)}));
+const sources=['run.mjs','browser.ts','completed.ts','prepare.mjs','bundle-addon.mjs','container.py','analyze.py','flutter_worker.dart','dart/worker.dart','dart/pubspec.yaml','dart/pubspec.lock','packages/package.json','packages/package-lock.json'].map(f=>({file:'davebench-png/seven/'+f,sha256:fileHash(import.meta.dirname+'/'+f)}));
 for(const f of ['davebench-png/controlled/browser.ts','davebench-png/controlled/png.mjs','davebench-png/controlled/cases.json','davebench-png/controlled/isolation.mjs','unified/docs-benchmark.ts','native-flutter/env.sh'])sources.push({file:f,sha256:fileHash(root+'/'+f)});
-const sealed=[...participants.filter(p=>p.entry).map(p=>p.base+'/'+p.entry),assets+'/build.json',assets+'/mermaid-dart',...build.flutter.outputs.map(f=>build.flutter.bundle+'/'+f.file),'/usr/lib/chromium/chromium',publicPackages+'/../package-lock.json',font].map(file=>({file,sha256:fileHash(file)}));
+const sealed=[...participants.filter(p=>p.entry).map(p=>p.base+'/'+p.entry),...(build.zenuml?[build.zenuml.file]:[]),assets+'/build.json',assets+'/mermaid-dart',...build.flutter.outputs.map(f=>build.flutter.bundle+'/'+f.file),'/usr/lib/chromium/chromium',publicPackages+'/../package-lock.json',font].map(file=>({file,sha256:fileHash(file)}));
 const identity=hash(JSON.stringify({sources,sealed:sealed.filter(f=>f.file!==font),font:fileHash(font),participants,contract:profile.contract}));
 const review=opts.review?JSON.parse(fs.readFileSync(opts.review)):undefined;
 if(opts.phase==='measure'&&(!review||review.renderIdentity!==identity||JSON.stringify(review.participants)!==JSON.stringify(participants.map(p=>p.id))))throw Error('Reviewed qualification identity/participants mismatch');
@@ -79,11 +80,11 @@ async function actor(p){
  const close=async()=>{if(native){const log=await native.close();fs.appendFileSync(out+'/'+p.id+'.log',log);}await browser?.close();if(server)await new Promise(r=>server.close(r));};
  try{
   if(p.id!=='flutter'){
-   server=docsArtifactServer(p.base,p.id==='mermaid'?{root:publicPackages+'/@mermaid-js/mermaid-zenuml'}:undefined);await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
+   server=docsArtifactServer(p.base,p.id==='mermaid'?{root:build.zenuml?.root??publicPackages+'/@mermaid-js/mermaid-zenuml'}:undefined);await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
    browser=await chromium.launch({headless:true,executablePath:'/usr/bin/chromium'});context=await browser.newContext();await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());page=await context.newPage();page.setDefaultTimeout(20000);await page.goto(origin+'/blank');
    if(p.entry)await page.addScriptTag({url:origin+'/'+p.entry});
    Object.assign(metadata,await page.evaluate(['mermaid','agentic','pele'].includes(p.id)?configureControlled:configureSeven,{kind:p.id}));
-   if(p.id==='mermaid')await page.evaluate(async url=>{const addon=await import(url);await globalThis.mermaid.registerExternalDiagrams([addon.default]);},origin+'/__addon/dist/mermaid-zenuml.core.mjs');
+   if(p.id==='mermaid')await page.evaluate(async url=>{const addon=await import(url);await globalThis.mermaid.registerExternalDiagrams([addon.default]);},origin+'/__addon/'+(build.zenuml?.entry??'dist/mermaid-zenuml.core.mjs'));
   }
   if(p.exe){native=await worker(p.exe,p.id);metadata.native=native.metadata;}
   return {metadata,close,async evidence(){return page?await page.evaluate(()=>globalThis.sevenEvidence?.svg):undefined;},async render(c,id){
