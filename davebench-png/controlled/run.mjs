@@ -9,6 +9,7 @@ import {protocolIdentity} from '../../unified/protocol-identity.ts';
 import {configureControlled,controlledExport} from './browser.ts';
 import {inspect} from './png.mjs';
 import {isolationSnapshot} from './isolation.mjs';
+import {pixelValidator} from './validator.mjs';
 const root=path.resolve(import.meta.dirname,'../..');
 const argv=process.argv.slice(2),opts={};
 for(let i=0;i<argv.length;i++){if(argv[i]==='--preflight'){opts.preflight=true;continue;}if(!['--out','--review','--native-bundle','--font','--rounds','--repetitions','--runtime-receipt'].includes(argv[i])||!argv[i+1])throw Error('Invalid argument');opts[argv[i].slice(2)]=argv[++i];}
@@ -29,7 +30,7 @@ if(receipt.mode!=='release'||receipt.target!=='lib/fixed_png_worker.dart')throw 
 for(const f of receipt.inputs)if(sha(fs.readFileSync(path.join(root,'native-flutter/app',f.file)))!==f.sha256)throw Error('Stale native build input: '+f.file);
 for(const f of receipt.outputs)if(sha(fs.readFileSync(path.join(bundle,f.file)))!==f.sha256)throw Error('Native build output mismatch: '+f.file);
 const packages=path.join(root,'davebench-png/node_modules');
-const roots=['davebench-png/controlled/run.mjs','davebench-png/controlled/run-container.py','davebench-png/controlled/build-native.mjs','davebench-png/controlled/browser.ts','davebench-png/controlled/png.mjs','davebench-png/controlled/reduce.mjs','davebench-png/controlled/cases.json','native-flutter/app/lib/fixed_png_worker.dart'];
+const roots=['davebench-png/controlled/run.mjs','davebench-png/controlled/run-container.py','davebench-png/controlled/build-native.mjs','davebench-png/controlled/browser.ts','davebench-png/controlled/png.mjs','davebench-png/controlled/reduce.mjs','davebench-png/controlled/cases.json','native-flutter/app/lib/fixed_png_worker.dart','native-flutter/env.sh'];
 const producers=protocolIdentity(root,roots);
 const participants=[{id:'mermaid',pkg:'mermaid',version:'12.2.0',entry:'dist/mermaid.min.js'}, {id:'pele',pkg:'pele',version:'1.9.0',entry:'dist/pele.global.js'}, {id:'agentic',pkg:'agentic-mermaid',version:'0.4.1',entry:'dist/browser.global.js'}, {id:'flutter',pkg:'mermaid_flutter',version:'0.3.2'}];
 for(const p of participants.filter(p=>p.entry)){const meta=JSON.parse(fs.readFileSync(path.join(packages,p.pkg,'package.json')));if(meta.version!==p.version)throw Error('Package pin mismatch');}
@@ -50,8 +51,24 @@ if(runtime){context.isolation=isolationSnapshot();context.runtime=runtime;fs.cop
 context.buildReceipt=receipt;fs.copyFileSync(receiptPath,path.join(out,'native-build.json'));
 context.renderIdentity=sha(JSON.stringify({producers,sources:roots.map(file=>({file,sha256:sha(fs.readFileSync(path.join(root,file)))})),artifacts:sealed.filter(f=>f.file!==fontconfig).map(f=>({file:f.file===font?'font/Inter-Regular.ttf':f.file,sha256:f.sha256})),fontconfig:sha(fs.readFileSync(fontconfig,'utf8').replaceAll(out,'<OUTPUT>')),versions:context.versions,nativeEnvironment:{softwareGL:context.nativeEnvironment.softwareGL,softwareRasterThreads:context.nativeEnvironment.softwareRasterThreads,cpuAffinity:context.nativeEnvironment.cpuAffinity},runtimeConfig:runtime?.config}));
 fs.writeFileSync(path.join(out,'context.json'),JSON.stringify(context,null,2));
-let review;
+let review,validatePixels;
 if(!opts.preflight){if(!opts.review)throw Error('A completed source-fact review is required BEFORE timing');review=JSON.parse(fs.readFileSync(opts.review));if(review.manifestSha256!==context.manifestSha256||review.fontSha256!==context.font.sha256||review.renderIdentity!==context.renderIdentity)throw Error('Review does not own manifest/font/producer/artifacts/runtime');fs.copyFileSync(opts.review,path.join(out,'review.json'));}
+if(review){
+ const referenceRoot=path.dirname(path.resolve(opts.review));
+ const referenceContext=JSON.parse(fs.readFileSync(path.join(referenceRoot,'context.json')));
+ if(referenceContext.renderIdentity!==review.renderIdentity)throw Error('Reference qualification does not own review');
+ const rows=fs.readFileSync(path.join(referenceRoot,'rows.jsonl'),'utf8').trim().split('\n').map(JSON.parse).filter(r=>r.phase==='qualification');
+ const references=[];
+ for(const c of manifest.cases.filter(c=>review.cases[c.id]?.eligible))for(const p of participants){
+  const matched=rows.filter(r=>r.case===c.id&&r.participant===p.id);
+  if(matched.length!==1||matched[0].status!=='ok')throw Error('Missing unique reviewed PNG');
+  const bytes=fs.readFileSync(path.join(referenceRoot,'png',path.basename(matched[0].png)));
+  references.push({bytes,pixelSha256:review.cases[c.id].pixels[p.id]});
+ }
+ validatePixels=pixelValidator(references);
+ context.pixelValidation='Decode every reference and verify reviewed pixels before warmup; hash every returned PNG; exact encoded matches reuse that decoding, every new byte stream is decoded. Expected per-case pixel hash enforced on every call.';
+ fs.writeFileSync(path.join(out,'context.json'),JSON.stringify(context,null,2));
+}
 const browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_EXECUTABLE??'/usr/bin/chromium'});
 const actors=[],servers=[];let serial=0;
 function random(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296;};}
@@ -75,7 +92,8 @@ async function call(actor,c,phase,round=0,rep=0){
  try{
   row=await actor.render(c,id,file);
   if(row.status==='ok'){
-   row.inspection=inspect(fs.readFileSync(file),opts.preflight);
+   const bytes=fs.readFileSync(file);
+   row.inspection=opts.preflight?inspect(bytes,true):validatePixels(bytes);
    if(!opts.preflight && row.inspection.pixelSha256!==review.cases[c.id].pixels[actor.id]){row.status='stability-failed';row.detail='Output pixels differ from pre-reviewed output';}
   }
  }catch(error){row={...row,status:'contract-failed',detail:String(error)};}
