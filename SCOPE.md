@@ -15,8 +15,11 @@ declared output, measuring comparable work and publishing readable evidence.
 
 Each benchmark applies only where its interface and observation contract fit.
 Every catalog entry does not need every benchmark, format or optional model API.
-A release with no comparative timing claim does not need a complete calibrated
-ecosystem campaign. Claimed timing comparisons still require their stated checks.
+The first public 0.1 release requires [B0](BASELINE.md), covering every normally
+selected brand and applicable benchmark with explicit gaps and qualification.
+Later releases assess whether retained baseline evidence remains compatible or
+needs new measurements or a bridge run; they do not automatically repeat the
+entire ecosystem campaign. Claimed timing comparisons require their stated checks.
 
 ## Outside core requirements
 
@@ -27,7 +30,7 @@ are excluded from core comparison and are not missing benchmark adapters. The
 descendant investigation override cannot enable these application workflows.
 An embedded Mermaid dependency does not supply an editor score.
 
-APIs actually exposed by an artifact stay in scope. This includes Mermaid Dart's
+APIs actually exposed by an artifact stay in scope. This includes Mermaid Flutter's
 native PNG API and Mermaid-to-Excalidraw's conversion API. A complete Flutter
 widget or browser interaction campaign is a separately scoped experiment, rather
 than a prerequisite for supporting the public output operation.

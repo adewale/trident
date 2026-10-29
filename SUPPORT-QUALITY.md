@@ -81,7 +81,7 @@ Rusty Mermaid’s published 0.42.0 package cannot run. The public source at `ce9
 
 Whole-editor application workflows are outside core requirements. Mermaid-to-Excalidraw retains a direct conversion-API contract; it does not inherit its embedded renderer’s SVG score. See [scope](SCOPE.md).
 
-Additional claims require their applicable documentation, meaning, invalid-control and timing checks. Optional models and undeclared formats are not mandatory for every project. The six-case check establishes invocation only; completing every project/suite combination is not a harness release prerequisite. The maintainer maintains both Trident and Agentic Mermaid; common output observers, independent input contributions and external adapter review remain necessary.
+Additional claims require their applicable documentation, meaning, invalid-control and timing checks. Optional models and undeclared formats are not mandatory for every project. The six-case check establishes invocation only. The first public 0.1 release now requires [B0](BASELINE.md) across normally selected brands and applicable configured benchmarks, retaining explicit gaps and qualification; it does not require every product to expose every interface. The maintainer maintains both Trident and Agentic Mermaid; common output observers, independent input contributions and external adapter review remain necessary.
 
 ## Current invocation-check protocol
 

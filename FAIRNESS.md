@@ -5,7 +5,9 @@ application studies. Whole-editor workflows do not enter core project counts.
 
 Trident compares named public work. SVG return, terminal output, parsing,
 optional model APIs and original upstream tests answer different questions.
-The required evidence is chosen before measuring any candidate.
+The required evidence is chosen before measuring any candidate. [B0](BASELINE.md)
+defines the uniform artifact cutoff, frozen workloads, applicability ledger and
+future comparison rules for the first public release baseline.
 
 ## Plan before collecting
 

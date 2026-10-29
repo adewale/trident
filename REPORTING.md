@@ -11,6 +11,8 @@ They are generated from [results/latest.json](results/latest.json), including
 the Mermaid chart values. Historical evidence keeps its original dates and
 protocols; the overview retains missing projects and newer failed attempts.
 See [publication instructions](results/README.md) to update or check the page.
+The [initial baseline](BASELINE.md) has its own immutable publication and manifest;
+rolling imports never overwrite it or turn pilot observations into baseline scores.
 
 ## What belongs above a table
 
