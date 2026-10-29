@@ -30,7 +30,7 @@ if(receipt.mode!=='release'||receipt.target!=='lib/fixed_png_worker.dart')throw 
 for(const f of receipt.inputs)if(sha(fs.readFileSync(path.join(root,'native-flutter/app',f.file)))!==f.sha256)throw Error('Stale native build input: '+f.file);
 for(const f of receipt.outputs)if(sha(fs.readFileSync(path.join(bundle,f.file)))!==f.sha256)throw Error('Native build output mismatch: '+f.file);
 const packages=path.join(root,'davebench-png/node_modules');
-const roots=['davebench-png/controlled/run.mjs','davebench-png/controlled/run-container.py','davebench-png/controlled/build-native.mjs','davebench-png/controlled/browser.ts','davebench-png/controlled/png.mjs','davebench-png/controlled/reduce.mjs','davebench-png/controlled/cases.json','native-flutter/app/lib/fixed_png_worker.dart','native-flutter/env.sh'];
+const roots=['davebench-png/container_launcher.py','davebench-png/controlled/run.mjs','davebench-png/controlled/run-container.py','davebench-png/controlled/build-native.mjs','davebench-png/controlled/browser.ts','davebench-png/controlled/png.mjs','davebench-png/controlled/reduce.mjs','davebench-png/controlled/cases.json','native-flutter/app/lib/fixed_png_worker.dart','native-flutter/env.sh'];
 const producers=protocolIdentity(root,roots);
 const declaredParticipants=[{id:'mermaid',pkg:'mermaid',version:'12.2.0',entry:'dist/mermaid.min.js'}, {id:'pele',pkg:'pele',version:'1.9.0',entry:'dist/pele.global.js'}, {id:'agentic',pkg:'agentic-mermaid',version:'0.4.1',entry:'dist/browser.global.js'}, {id:'flutter',pkg:'mermaid_flutter',version:'0.3.2'}];
 const selected=opts.participants?opts.participants.split(','):declaredParticipants.map(p=>p.id);

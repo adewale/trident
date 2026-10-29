@@ -6,6 +6,7 @@
   "description": "Trident: local Mermaid artifact benchmarks and retained evidence",
   "scripts": {
     "test": "bun run commands.ts test",
+    "test:ci": "bun run commands.ts test:ci",
     "typecheck": "bun run commands.ts typecheck",
     "lint": "bun run commands.ts lint",
     "run": "bun run commands.ts run",
