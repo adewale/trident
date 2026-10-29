@@ -463,16 +463,23 @@ function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWo
   if (workload.features.includes('core-graph-batch')) row.samplesMs = [ms]
   else row.metrics = { ...row.metrics, firstMs: ms, timingScope: 'one qualification call, not a repeated speed sample' }
   if (child.status !== 0) {
-    row.status = 'failed'
+    const transportFailed = !!child.error || !!child.signal || child.status === null
+    row.status = transportFailed ? 'blocked' : 'failed'
     row.detail = child.error?.message ?? child.stderr?.toString().slice(0, 1500)
-    row.metrics = { ...row.metrics, rejected: true }
+    row.metrics = { ...row.metrics, rejected: !transportFailed, failureStage: transportFailed ? 'transport' : 'public-command' }
     return row
   }
   const fileOutput = (binding?.args ?? artifact.args)?.some(arg => arg.includes('{output}'))
   if (fileOutput && !existsSync(destination)) {
     row.status = 'failed'
     row.detail = 'CLI exited successfully without producing its declared output file'
-    row.metrics = { ...row.metrics, rejected: true }
+    row.metrics = { ...row.metrics, rejected: false, failureStage: 'output' }
+    return row
+  }
+  if (workload.intent === 'negative-admission') {
+    row.status = 'failed'
+    row.detail = 'Public command accepted independently invalid source (exit 0)'
+    row.metrics = { ...row.metrics, rejected: false }
     return row
   }
   const value = fileOutput ? readFileSync(destination) : child.stdout

@@ -3,9 +3,9 @@ import { createHash } from 'node:crypto'
 import { mkdtempSync, writeFileSync, readFileSync, rmSync, existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { runCommunityNodeRound, communityModuleOutputSupported } from '../unified/community.ts'
+import { runCommunityNodeRound, runCommunityCli, communityModuleOutputSupported } from '../unified/community.ts'
 import { parseOptions } from '../unified/options.ts'
-import { verifySupport, partitionVerificationRows } from '../unified/support-verification.ts'
+import { verifySupport, partitionVerificationRows, supportControls } from '../unified/support-verification.ts'
 
 test('support admission retains its narrow scope, strips timing claims and rejects changed artifact bytes', async () => {
   const root = mkdtempSync(join(tmpdir(), 'trident-support-contract-'))
@@ -60,5 +60,44 @@ test('a browser-only output never executes a guessed module API', async () => {
     expect(rows).toHaveLength(1)
     expect(rows[0]?.status).toBe('not-applicable')
     expect(existsSync(loaded)).toBe(false)
+  } finally { rmSync(root, { recursive: true, force: true }) }
+})
+
+test('support controls keep source rejection, accepted output, observer failures and missing evidence distinct', () => {
+  const row: any = { suite: 'community', surface: 'native:in-process-api', runtime: 'fixture', family: 'invalid-source', caseId: 'support:negative-header', operation: 'render', format: 'png', mode: 'fixture', status: 'failed', samplesMs: [123], metrics: { rejected: true, qualification: 'decoded-raster-content' } }
+  expect(partitionVerificationRows([row]).controlCounts).toEqual({ planned: 2, passed: 1, failed: 0, blocked: 0, missing: 1 })
+  expect(partitionVerificationRows([{ ...row, status: 'passed', metrics: { rejected: false } }]).controlCounts.failed).toBe(1)
+  expect(partitionVerificationRows([{ ...row, status: 'blocked' }]).controlCounts.blocked).toBe(1)
+  expect(partitionVerificationRows([{ ...row, metrics: { rejected: true, pngReturned: true } }]).controlCounts.failed).toBe(1)
+  expect(partitionVerificationRows([{ ...row, status: 'passed', metrics: { rejected: true, pngReturned: true, expectedAccepted: false } }]).controlCounts.failed).toBe(1)
+  expect(partitionVerificationRows([{ ...row, metrics: { rejected: false } }]).controlCounts.failed).toBe(1)
+  expect(partitionVerificationRows([{ ...row, metrics: {} }]).controlState).toBe('incomplete')
+  expect(partitionVerificationRows([row, row]).controlCounts).toEqual({ planned: 2, passed: 0, failed: 0, blocked: 1, missing: 1 })
+  expect(partitionVerificationRows([row, row]).duplicateControlIds).toEqual(['support:negative-header'])
+})
+
+
+test('invalid CLI controls distinguish completed command rejection from broken transport and missing output', () => {
+  const root = mkdtempSync(join(tmpdir(), 'trident-cli-controls-'))
+  try {
+    const node = { id: 'fixture/cli', outputs: ['svg'], roles: ['renderer'], benchmark: { adapter: 'declared', outputs: ['svg'] } }
+    const attempt = (executable: string, args: string[]) => partitionVerificationRows([runCommunityCli({ node, artifact: { kind: 'cli', version: 'fixture', executable, args } }, 'svg', supportControls[0]!, 1, root)])
+    expect(attempt(process.execPath, ['-e', 'process.exit(2)']).controlCounts.passed).toBe(1)
+    expect(attempt(join(root, 'missing-command'), []).controlCounts.blocked).toBe(1)
+    expect(attempt(process.execPath, ['-e', 'process.kill(process.pid, "SIGTERM")']).controlCounts.blocked).toBe(1)
+    expect(attempt(process.execPath, ['-e', '', '{output}']).controlCounts.failed).toBe(1)
+    expect(attempt(process.execPath, ['-e', 'process.stdout.write("broken SVG")']).controlCounts.failed).toBe(1)
+  } finally { rmSync(root, { recursive: true, force: true }) }
+})
+
+test('invalid public parser controls admit explicit false returns without requiring a positive model', async () => {
+  const root = mkdtempSync(join(tmpdir(), 'trident-parser-controls-'))
+  try {
+    const module = join(root, 'parser.mjs')
+    writeFileSync(module, 'export function parse(){return {ok:false,error:"invalid source"}}')
+    const node = { id: 'fixture/parser', outputs: ['parse'], roles: ['parser'], benchmark: { adapter: 'declared', outputs: ['parse'], api: { parse: { export: 'parse' } } } }
+    const rows = await runCommunityNodeRound({ node, artifact: { kind: 'node', module, version: 'fixture' } }, 'parse', supportControls, 1, parseOptions(['--out', root, '--profile', 'smoke']))
+    expect(partitionVerificationRows(rows).controlCounts).toEqual({ planned: 2, passed: 2, failed: 0, blocked: 0, missing: 0 })
+    expect(rows.every(row => !row.samplesMs)).toBe(true)
   } finally { rmSync(root, { recursive: true, force: true }) }
 })

@@ -28,7 +28,7 @@ export async function runExternalCommunity(prepared: PreparedCommunity, workload
         result = join(root, stem + '.jsonl')
       if (existsSync(result)) unlinkSync(result)
       writeFileSync(job, JSON.stringify({ output, coverageOnly: !core && (options.communityCoverageOnce ?? true), timing: { warmCalls: core ? 3 : 1, warmupMs: core ? 50 : 0, minSampleMs: core ? 10 : 0, maxCaseMs: 10_000, samples: core ? 5 : 3 }, workloads: remaining.map(w => ({ id: w.id, source: w.source, expected: w.expectedLabels ?? [] })) }))
-      const command = artifact.kind === 'python' ? [artifact.python ?? artifact.executable!, join(dirname(fileURLToPath(import.meta.url)), 'community-python-worker.py'), job, result] : [artifact.executable!, job, result]
+      const command = artifact.kind === 'python' ? [artifact.python ?? artifact.executable!, join(dirname(fileURLToPath(import.meta.url)), 'community-python-worker.py'), job, result] : [artifact.executable!, ...(artifact.args ?? []), job, result]
       let text = '',
         stderr = '',
         progressCount = 0,
@@ -128,6 +128,8 @@ export async function runExternalCommunity(prepared: PreparedCommunity, workload
           sampleIterations: r?.sampleIterations ? JSON.stringify(r.sampleIterations) : null,
           timingProtocol: (r?.timingProtocol as string | undefined) ?? null,
           rejected: r?.status === 'unsupported' || r?.rejected === true,
+          pngReturned: r?.pngReturned === true,
+          failureStage: (r?.failureStage as string) ?? null,
           qualification: (r?.qualificationScope as string | undefined) ?? (w.expectedLabels?.length ? 'declared-labels' : 'artifact-envelope-only'),
           boundary: 'native public API; executable startup excluded',
         },

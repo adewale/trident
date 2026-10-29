@@ -1,7 +1,9 @@
+import { nativePngNode } from './prepare-community.ts'
 /** Execute existing Trident suite collectors; native transport renders PNG in Flutter. */
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from 'node:fs'
 import { resolve, join } from 'node:path'
 import { createHash } from 'node:crypto'
+import { nativePngArtifact } from './community-launch.mjs'
 import { runCommunitySuite, installedNpmIntegrity } from '../unified/community.ts'
 import { prepareCommunityBrowsers } from '../unified/community-browser.ts'
 import { runDocsBenchmark } from '../unified/docs-benchmark.ts'
@@ -15,32 +17,12 @@ const digest = (p: string) => createHash('sha256').update(readFileSync(p)).diges
 const catalog = JSON.parse(readFileSync(join(root, 'catalog/mermaid-community.json'), 'utf8'))
 const native = catalog.nodes.find((n: any) => n.id === 'orestesgaolin/mermaid'),
   pele = catalog.nodes.find((n: any) => n.id === 'obsidianmd/pele')
-native.outputs = ['png']
-native.benchmark = { adapter: 'native-flutter', outputs: ['png'], version: '0.3.2', runtime: 'native Linux Flutter release', apiBoundary: 'mermaid_flutter.renderToPng(source,pixelRatio:1)' }
-for (const p of native.packages) p.version = '0.3.2'
-native.notes += ' Explicit native Flutter PNG runtime investigation; no compiled JavaScript/SVG binding is used.'
+Object.assign(native, nativePngNode(native))
 pele.benchmark.moduleOutputs = [] // This campaign admits the actual Chromium transport, never Node SVG.
 const runtimeCatalog = join(prep, 'runtime-catalog.json')
 writeFileSync(runtimeCatalog, JSON.stringify(catalog, null, 2))
 const bundle = resolve(process.env.FLUTTER_COMMUNITY_BUNDLE ?? join(root, 'native-flutter/app/build/linux/x64/release/bundle'))
-const nativeExecutable = join(bundle, 'native_bench')
-if (process.env.FLUTTER_COMMUNITY_EXECUTABLE && resolve(process.env.FLUTTER_COMMUNITY_EXECUTABLE) !== nativeExecutable) throw Error('Executable must belong to the sealed FLUTTER_COMMUNITY_BUNDLE')
-process.env.FLUTTER_COMMUNITY_EXECUTABLE = nativeExecutable
-const files = (dir: string): string[] =>
-  readdirSync(dir).flatMap(name => {
-    const p = join(dir, name)
-    return statSync(p).isDirectory() ? files(p) : [p]
-  })
-const launcher = join(root, 'native-flutter/community-worker.mjs')
-const nativeArtifact = {
-  kind: 'jsonl-worker',
-  executable: launcher,
-  version: '0.3.2',
-  runtime: 'Native Linux Flutter release',
-  sha256: digest(launcher),
-  files: [launcher, ...files(bundle)].map(path => ({ path, sha256: digest(path) })),
-  apiBoundary: 'mermaid_flutter.renderToPng; native Flutter release, API startup excluded',
-}
+const nativeArtifact = nativePngArtifact(bundle, join(prep, 'native-launch.json'))
 const pkgroot = join(root, 'native-flutter/node_modules/pele'),
   module = join(pkgroot, 'dist/pele.js')
 const peleArtifact = { kind: 'node', root: pkgroot, module, version: '1.9.0', runtime: 'Chromium-only campaign', sha256: digest(module), files: [{ path: module, sha256: digest(module) }], integrity: installedNpmIntegrity(join(root, 'native-flutter'), pkgroot, 'pele', '1.9.0') }

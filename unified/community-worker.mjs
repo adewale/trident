@@ -199,6 +199,11 @@ try {
     try {
       let tick = performance.now(); sink = render(workload.source); if (thenable(sink)) sink = await sink
       firstMs = performance.now() - tick
+      if (workload.intent === 'negative-admission') {
+        const rejected = output === 'parse' && (sink === false || sink?.ok === false || sink?.success === false) || output === 'diagnostics' && diagnosticHelpers.diagnosticSummary(sink).accepted === false
+        emit({ runtime: process.versions.bun ? 'Bun ' + process.versions.bun : 'Node ' + process.versions.node, surface: extraApi?.surface, apiBoundary: extraApi?.boundary, id: workload.id, family: workload.family, status: 'failed', rejected, mode: 'negative-admission', detail: rejected ? 'Public API returned explicit source rejection' : 'Public API accepted independently invalid source' })
+        continue
+      }
       const qualification = qualify(sink, workload), bytes = consume(sink), core = workload.features.includes('core-graph-batch')
       if (core && diagnosticAdmissionFailed) {
         emit({ runtime: process.versions.bun ? 'Bun ' + process.versions.bun : 'Node ' + process.versions.node, surface: extraApi?.surface, apiBoundary: extraApi?.boundary, id: workload.id, family: workload.family, status: 'failed', firstMs, bytes, qualification, mode: 'positive-diagnostic-with-failed-negative-admission', diagnosticAdmissionFailed: true, diagnosticAccepted: diagnosticHelpers.diagnosticSummary(sink).accepted, diagnosticStatusScope: 'positive API completion; negative-control failure withholds calibrated core rank', detail: 'Public validator accepted this positive source, but accepted an authored invalid negative without error findings; no calibrated core samples or qualified rank.' })

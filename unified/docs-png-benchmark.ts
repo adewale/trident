@@ -1,3 +1,4 @@
+import { nativePngArtifact } from '../native-flutter/community-launch.mjs'
 import { execFileSync, spawn } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { appendFileSync, existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
@@ -59,6 +60,8 @@ const list = (dir: string): string[] =>
     return statSync(p).isDirectory() ? list(p) : [p]
   })
 const sealedFiles = [...list(packages), ...list(bundle), join(root, 'native-flutter/app/pubspec.lock')].filter(p => !p.endsWith('.map')).map(path => ({ path, sha256: hash(path) }))
+const nativeBinding = nativePngArtifact(bundle, join(out, 'native-launch.json'))
+sealedFiles.push(...nativeBinding.files!.filter(file => !sealedFiles.some(sealed => sealed.path === file.path)))
 const artifactIdentity = join(out, 'artifacts.json')
 writeFileSync(artifactIdentity, JSON.stringify({ expected, native: 'mermaid_flutter/mermaid_core 0.3.2', executable, files: sealedFiles }, null, 2))
 const addon = mermaidZenumlAddon(reference, join(packages, '@mermaid-js/mermaid-zenuml'))
@@ -156,7 +159,7 @@ async function worker(peer: (typeof participants)[number], round: number) {
   writeFileSync(jobPath, JSON.stringify(job))
   const native = peer.kind === 'native',
     entry = join(root, native ? 'native-flutter/community-worker.mjs' : 'unified/docs-png-agentic-worker.mjs')
-  const child = spawn('node', [entry, jobPath, resultPath], { detached: true, env: { ...process.env, FLUTTER_COMMUNITY_EXECUTABLE: executable }, stdio: ['ignore', 'pipe', 'pipe'] })
+  const child = spawn('node', [entry, ...(native ? nativeBinding.args! : []), jobPath, resultPath], { detached: true, env: { ...process.env }, stdio: ['ignore', 'pipe', 'pipe'] })
   let log = '',
     completed = 0,
     lastProgress = Date.now(),

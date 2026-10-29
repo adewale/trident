@@ -82,6 +82,17 @@ Whole-editor application workflows are outside core requirements. Mermaid-to-Exc
 
 Additional claims require their applicable documentation, meaning, invalid-control and timing checks. Optional models and undeclared formats are not mandatory for every project. The six-case check establishes invocation only; completing every project/suite combination is not a harness release prerequisite. The maintainer maintains both Trident and Agentic Mermaid; common output observers, independent input contributions and external adapter review remain necessary.
 
+## Current invocation-check protocol
+
+Fresh `support:verify` runs use protocol v2: six positive inputs plus two separate
+invalid-source controls on each bound output and transport. The report retains
+raster/SVG/model qualification scopes and separate control counts. Historical
+receipts above keep their original protocol and observations. The
+[native Flutter preparation](native-flutter/STANDARD.md#use-the-normal-cli-with-an-existing-native-bundle)
+selects PNG explicitly; the default catalog's Mermaid Dart binding remains SVG.
+[Public output contracts](docs/application-contracts.md) explain the checks and
+[issue 30's status](docs/issue-30-status.md) links the remaining evidence limits.
+
 ## Every catalog entity
 
 The ledger below retains all 88 identities. Excluded entities have configuration metadata rather than new execution evidence. They do not inherit their parent’s results.
