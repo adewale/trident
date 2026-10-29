@@ -80,6 +80,8 @@ Future<void> serve() async {
       stage = 'fixed-canvas';
       codec = await ui.instantiateImageCodec(intrinsic);
       image = (await codec.getNextFrame()).image;
+      final decodedAt = total.elapsedMicroseconds / 1000;
+      row['decodeMs'] = decodedAt - (row['apiMs'] as double);
       row['naturalWidth'] = image.width;
       row['naturalHeight'] = image.height;
       if (image.width > 1140 || image.height > 840)
@@ -101,12 +103,17 @@ Future<void> serve() async {
         ui.Paint()..filterQuality = ui.FilterQuality.none,
       );
       picture = recorder.endRecording();
+      final recordedAt = total.elapsedMicroseconds / 1000;
+      row['pictureRecordMs'] = recordedAt - decodedAt;
       finalImage = await picture.toImage(1200, 900);
+      final rasterAt = total.elapsedMicroseconds / 1000;
+      row['rasterImageMs'] = rasterAt - recordedAt;
       final data = await finalImage.toByteData(format: ui.ImageByteFormat.png);
       if (data == null) throw StateError('No final encoded PNG');
       encoded = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       row['bytes'] = encoded.length;
       row['totalMs'] = total.elapsedMicroseconds / 1000;
+      row['pngReadbackEncodeMs'] = (row['totalMs'] as double) - rasterAt;
       row['normalizationMs'] =
           (row['totalMs'] as double) - (row['apiMs'] as double);
       row['intrinsicBytes'] = consumed;

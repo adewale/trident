@@ -68,9 +68,11 @@ export async function controlledExport(input: { source: string; id: string }) {
     root.style.height = height + 'px'
     root.style.maxWidth = 'none'
     const serialized = new XMLSerializer().serializeToString(root)
+    const preparedAt = performance.now()
     const image = new Image()
     image.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(serialized)
     await image.decode()
+    const decodedAt = performance.now()
     const canvas = document.createElement('canvas')
     canvas.width = 1200
     canvas.height = 900
@@ -79,13 +81,15 @@ export async function controlledExport(input: { source: string; id: string }) {
     ctx.fillRect(0, 0, 1200, 900)
     ctx.imageSmoothingEnabled = false
     ctx.drawImage(image, Math.floor((1200 - width) / 2), Math.floor((900 - height) / 2))
+    const drawnAt = performance.now()
     const blob = await new Promise<Blob>((done, reject) => canvas.toBlob(value => (value ? done(value) : reject(Error('No final PNG'))), 'image/png'))
+    const encodedAt = performance.now()
     const bytes = new Uint8Array(await blob.arrayBuffer()),
       outputBytes = bytes.length
     const totalMs = performance.now() - started
     // Source facts and computed font observations are collected AFTER the clock.
     const text = [...root.querySelectorAll('text')].map(node => ({ text: node.textContent, fontFamily: getComputedStyle(node).fontFamily, fontSize: getComputedStyle(node).fontSize }))
-    return { status: 'ok', totalMs, apiMs, normalizationMs: totalMs - apiMs, bytes: outputBytes, png: Array.from(bytes), naturalWidth: width, naturalHeight: height, text, svg }
+    return { status: 'ok', totalMs, apiMs, normalizationMs: totalMs - apiMs, svgPreparationMs: preparedAt - started - apiMs, svgDecodeMs: decodedAt - preparedAt, canvasDrawMs: drawnAt - decodedAt, pngRasterReadbackEncodeMs: encodedAt - drawnAt, encodedByteReadMs: started + totalMs - encodedAt, bytes: outputBytes, png: Array.from(bytes), naturalWidth: width, naturalHeight: height, text, svg }
   } catch (error) {
     return { status: 'error', stage, detail: String(error), svg }
   } finally {

@@ -8,9 +8,10 @@ import {docsArtifactServer} from '../../unified/docs-benchmark.ts';
 import {protocolIdentity} from '../../unified/protocol-identity.ts';
 import {configureControlled,controlledExport} from './browser.ts';
 import {inspect} from './png.mjs';
+import {isolationSnapshot} from './isolation.mjs';
 const root=path.resolve(import.meta.dirname,'../..');
 const argv=process.argv.slice(2),opts={};
-for(let i=0;i<argv.length;i++){if(argv[i]==='--preflight'){opts.preflight=true;continue;}if(!['--out','--review','--native-bundle','--font','--rounds','--repetitions'].includes(argv[i])||!argv[i+1])throw Error('Invalid argument');opts[argv[i].slice(2)]=argv[++i];}
+for(let i=0;i<argv.length;i++){if(argv[i]==='--preflight'){opts.preflight=true;continue;}if(!['--out','--review','--native-bundle','--font','--rounds','--repetitions','--runtime-receipt'].includes(argv[i])||!argv[i+1])throw Error('Invalid argument');opts[argv[i].slice(2)]=argv[++i];}
 if(!opts.out)throw Error('Specify fresh --out');
 const out=path.resolve(opts.out);fs.mkdirSync(out);fs.mkdirSync(path.join(out,'png'));fs.mkdirSync(path.join(out,'svg'));
 const manifestPath=path.join(import.meta.dirname,'cases.json'),manifest=JSON.parse(fs.readFileSync(manifestPath));
@@ -28,8 +29,8 @@ if(receipt.mode!=='release'||receipt.target!=='lib/fixed_png_worker.dart')throw 
 for(const f of receipt.inputs)if(sha(fs.readFileSync(path.join(root,'native-flutter/app',f.file)))!==f.sha256)throw Error('Stale native build input: '+f.file);
 for(const f of receipt.outputs)if(sha(fs.readFileSync(path.join(bundle,f.file)))!==f.sha256)throw Error('Native build output mismatch: '+f.file);
 const packages=path.join(root,'davebench-png/node_modules');
-const roots=['davebench-png/controlled/run.mjs','davebench-png/controlled/build-native.mjs','davebench-png/controlled/browser.ts','davebench-png/controlled/png.mjs','davebench-png/controlled/reduce.mjs','davebench-png/controlled/cases.json','native-flutter/app/lib/fixed_png_worker.dart'];
-const producers=opts.preflight?['PREFLIGHT: output qualification, never comparative timing']:protocolIdentity(root,roots);
+const roots=['davebench-png/controlled/run.mjs','davebench-png/controlled/run-container.py','davebench-png/controlled/build-native.mjs','davebench-png/controlled/browser.ts','davebench-png/controlled/png.mjs','davebench-png/controlled/reduce.mjs','davebench-png/controlled/cases.json','native-flutter/app/lib/fixed_png_worker.dart'];
+const producers=protocolIdentity(root,roots);
 const participants=[{id:'mermaid',pkg:'mermaid',version:'12.2.0',entry:'dist/mermaid.min.js'}, {id:'pele',pkg:'pele',version:'1.9.0',entry:'dist/pele.global.js'}, {id:'agentic',pkg:'agentic-mermaid',version:'0.4.1',entry:'dist/browser.global.js'}, {id:'flutter',pkg:'mermaid_flutter',version:'0.3.2'}];
 for(const p of participants.filter(p=>p.entry)){const meta=JSON.parse(fs.readFileSync(path.join(packages,p.pkg,'package.json')));if(meta.version!==p.version)throw Error('Package pin mismatch');}
 const bundleFiles=fs.readdirSync(bundle,{recursive:true}).map(f=>path.join(bundle,f)).filter(f=>fs.statSync(f).isFile());
@@ -44,8 +45,10 @@ context.nativeEnvironment={display:process.env.DISPLAY,softwareGL:process.env.LI
 const sdkVersion=path.join(process.env.FLUTTER_ROOT??'/missing','bin/cache/flutter.version.json');
 if(fs.existsSync(sdkVersion))context.flutterSdk=JSON.parse(fs.readFileSync(sdkVersion));
 context.osRelease=fs.readFileSync('/etc/os-release','utf8');
+const runtime=opts['runtime-receipt']?JSON.parse(fs.readFileSync(opts['runtime-receipt'])):undefined;
+if(runtime){context.isolation=isolationSnapshot();context.runtime=runtime;fs.copyFileSync(opts['runtime-receipt'],path.join(out,'runtime.json'));}
 context.buildReceipt=receipt;fs.copyFileSync(receiptPath,path.join(out,'native-build.json'));
-context.renderIdentity=sha(JSON.stringify({sources:roots.map(file=>({file,sha256:sha(fs.readFileSync(path.join(root,file)))})),artifacts:sealed.filter(f=>f.file!==fontconfig).map(f=>({file:f.file===font?'font/Inter-Regular.ttf':f.file,sha256:f.sha256})),fontconfig:sha(fs.readFileSync(fontconfig,'utf8').replaceAll(out,'<OUTPUT>')),versions:context.versions,nativeEnvironment:{softwareGL:context.nativeEnvironment.softwareGL,softwareRasterThreads:context.nativeEnvironment.softwareRasterThreads,cpuAffinity:context.nativeEnvironment.cpuAffinity}}));
+context.renderIdentity=sha(JSON.stringify({producers,sources:roots.map(file=>({file,sha256:sha(fs.readFileSync(path.join(root,file)))})),artifacts:sealed.filter(f=>f.file!==fontconfig).map(f=>({file:f.file===font?'font/Inter-Regular.ttf':f.file,sha256:f.sha256})),fontconfig:sha(fs.readFileSync(fontconfig,'utf8').replaceAll(out,'<OUTPUT>')),versions:context.versions,nativeEnvironment:{softwareGL:context.nativeEnvironment.softwareGL,softwareRasterThreads:context.nativeEnvironment.softwareRasterThreads,cpuAffinity:context.nativeEnvironment.cpuAffinity},runtimeConfig:runtime?.config}));
 fs.writeFileSync(path.join(out,'context.json'),JSON.stringify(context,null,2));
 let review;
 if(!opts.preflight){if(!opts.review)throw Error('A completed source-fact review is required BEFORE timing');review=JSON.parse(fs.readFileSync(opts.review));if(review.manifestSha256!==context.manifestSha256||review.fontSha256!==context.font.sha256||review.renderIdentity!==context.renderIdentity)throw Error('Review does not own manifest/font/producer/artifacts/runtime');fs.copyFileSync(opts.review,path.join(out,'review.json'));}
@@ -77,13 +80,14 @@ async function call(actor,c,phase,round=0,rep=0){
   }
  }catch(error){row={...row,status:'contract-failed',detail:String(error)};}
  const data={id,case:c.id,participant:actor.id,variant:actor.variant,phase,round,rep,...row};
- if(opts.preflight){delete data.totalMs;delete data.apiMs;delete data.normalizationMs;}
+ if(opts.preflight)for(const key of Object.keys(data))if(key.endsWith('Ms'))delete data[key];
  fs.appendFileSync(path.join(out,'rows.jsonl'),JSON.stringify(data)+'\n');return data;
 }
 try{
  const variants=opts.preflight?['Q']:['A','B'];
  for(const p of participants){if(p.id==='flutter')for(const v of variants)actors.push(await nativeActor(v));else await webActors(p,variants);}
  const probes=actors.map(a=>({participant:a.id,variant:a.variant,...a.metadata}));fs.writeFileSync(path.join(out,'actors.json'),JSON.stringify(probes,null,2));
+ if(runtime)fs.appendFileSync(path.join(out,'isolation.jsonl'),JSON.stringify({phase:'actors-ready',...isolationSnapshot()})+'\n');
  if(Math.max(...probes.map(p=>p.fontProbeWidth))-Math.min(...probes.map(p=>p.fontProbeWidth))>0.25)throw Error('Font metrics do not match across runtimes; no comparison permitted');
  if(opts.preflight){
   for(const actor of actors){for(let i=0;i<3;i++)await call(actor,manifest.cases[0],'warmup');for(const c of manifest.cases){const row=await call(actor,c,'qualification');console.log('QUALIFY',actor.id,c.id,row.status);}}
@@ -92,11 +96,13 @@ try{
   if(!chosen.length)throw Error('No reviewed common inputs');
   for(const c of chosen){if(c.role!=='candidate'||participants.some(p=>review.cases[c.id].checks[p.id]?.pass!==true||!review.cases[c.id].pixels[p.id]))throw Error('Invalid reviewed common case: '+c.id);}
   for(const actor of actors)for(let warm=0;warm<2;warm++)for(const c of chosen){const row=await call(actor,c,'warmup');if(row.status!=='ok')throw Error('Reviewed output/warmup mismatch: '+JSON.stringify(row));}
+  if(runtime)fs.appendFileSync(path.join(out,'isolation.jsonl'),JSON.stringify({phase:'warmup-complete',...isolationSnapshot()})+'\n');
   const rounds=Number(opts.rounds??5),reps=Number(opts.repetitions??5);if(!Number.isInteger(rounds)||rounds<1||!Number.isInteger(reps)||reps<1)throw Error('Positive integer rounds/repetitions required');context.rounds=rounds;context.repetitions=reps;context.seed=20261029;context.commonCases=chosen.map(c=>c.id);context.aaPolicy='Independent A/B replicas, identical bytes. Geometric mean of per-case A-median/B-median ratios; 10000 paired case-bootstrap draws, seed20261029. 95% interval must stay within0.90..1.10. No relative performance claim if any participant fails. This interval describes sensitivity to the fixed case mix, not population inference.';
   fs.writeFileSync(path.join(out,'context.json'),JSON.stringify(context,null,2));
   for(let round=1;round<=rounds;round++){console.log('CONTROLLED round',round,'/',rounds,'cases',chosen.length);for(let rep=1;rep<=reps;rep++)for(const c of shuffle(chosen))for(const actor of shuffle(actors)){const row=await call(actor,c,'measure',round,rep);if(row.status!=='ok')throw Error('Output contract/stability failed during timing; comparison withheld: '+JSON.stringify(row));}}
  }
  for(const f of sealed)if(sha(fs.readFileSync(f.file))!==f.sha256)throw Error('Artifact changed during run');
+ if(runtime)fs.appendFileSync(path.join(out,'isolation.jsonl'),JSON.stringify({phase:'complete',...isolationSnapshot()})+'\n');
  if(!opts.preflight&&JSON.stringify(protocolIdentity(root,roots))!==JSON.stringify(context.producers))throw Error('Producer identity changed during run');
  fs.writeFileSync(path.join(out,'completed.json'),JSON.stringify({complete:true,preflight:!!opts.preflight,finishedAt:new Date().toISOString()},null,2));
 }finally{for(const actor of actors)await actor.close();await browser.close();for(const s of servers)await new Promise(done=>s.close(done));}
