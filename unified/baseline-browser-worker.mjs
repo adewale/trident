@@ -11,7 +11,7 @@ export async function baselineBrowserAction(action) {
       if (typeof api.initialize !== 'function') throw Error('Pinned Mermaid has no public initialize')
       await api.initialize(action.configuration)
     }
-    state.__baselineBrowser = { api, kind: action.kind, method, configuration: action.configuration }
+    state.__baselineBrowser = { api, kind: action.kind, method, configuration: action.configuration, zenumlUrl: action.zenumlUrl, zenumlRegistered: false }
     return { method, moduleImportMs: imported - began, initializationMs: performance.now() - imported, moduleThroughReadyMs: performance.now() - began }
   }
   if (action.type === 'release') {
@@ -56,6 +56,12 @@ export async function baselineBrowserAction(action) {
   const start = performance.now()
   let called
   try {
+    if (current.kind === 'mermaid' && action.family === 'zenuml' && current.zenumlUrl && !current.zenumlRegistered) {
+      if (typeof current.api.registerExternalDiagrams !== 'function') throw Error('Pinned ZenUML addon requires public registerExternalDiagrams')
+      const plugin = await import(current.zenumlUrl)
+      await current.api.registerExternalDiagrams([plugin.default])
+      current.zenumlRegistered = true
+    }
     let resolvedRenderOptions = action.renderOptions
     if (current.kind === 'agentic') {
       const { fontSize, ...remaining } = action.renderOptions ?? {}

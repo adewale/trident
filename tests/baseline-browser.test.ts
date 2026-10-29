@@ -4,7 +4,7 @@ import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { baselineBrowserAction } from '../unified/baseline-browser-worker.mjs'
-import { baselineBrowserCases, baselineRoleOrder, qualifyBaselineBrowser, unsupportedByFamilyProbe, type BaselineBrowserCase } from '../unified/baseline-browser.ts'
+import { baselineBrowserCases, baselineRoleOrder, planBaselineBrowser, qualifyBaselineBrowser, unsupportedByFamilyProbe, type BaselineBrowserCase } from '../unified/baseline-browser.ts'
 import type { BenchmarkObservation } from '../unified/types.ts'
 import { runRetainedSuite } from '../unified/retained-suite.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
@@ -97,4 +97,69 @@ test('only a rejected canonical family case makes that family unsupported; rejec
   expect(qualifyBaselineBrowser(witness, { accepted: false, error: 'Error: unsupported diagram', errorPhase: 'public-call' }).status).toBe('failed')
   unsupportedByFamilyProbe(rows)
   expect(rows.map(value => [value.caseId, value.status])).toEqual([['family:pie', 'unsupported'], ['scaling:pie:8', 'unsupported'], ['family:flowchart', 'passed'], ['adversarial:flowchart', 'failed']])
+})
+
+test('explicit browser cases reject invalid selections and preserve corpus order', () => {
+  const ids = ['required:zenuml', 'family:zenuml']
+  const expected = baselineBrowserCases().filter(value => ids.includes(value.id))
+  expect(expected).toHaveLength(2)
+  expect(baselineBrowserCases(ids)).toEqual(expected)
+  expect(() => baselineBrowserCases([])).toThrow('Select at least one')
+  expect(() => baselineBrowserCases(['unknown-case'])).toThrow('Unknown browser baseline case ID')
+  expect(() => baselineBrowserCases(['family:zenuml', 'family:zenuml'])).toThrow('Duplicate browser baseline case ID')
+})
+
+test('invalid browser stages and launch arguments fail before reference preparation', () => {
+  const options = { root: '/unavailable', out: '/unused', referenceRoot: '/unavailable/reference', upstreamRoot: '/unavailable/source' }
+  expect(() => planBaselineBrowser({ ...options, stages: [] })).toThrow('Select distinct browser stages')
+  expect(() => planBaselineBrowser({ ...options, stages: ['renderer', 'renderer'] })).toThrow('Select distinct browser stages')
+  expect(() => planBaselineBrowser({ ...options, stages: ['unknown'] as any })).toThrow('Select distinct browser stages')
+  expect(() => planBaselineBrowser({ ...options, browserLaunchArgs: {} as any })).toThrow('Browser launch arguments must be an array of strings')
+  expect(() => planBaselineBrowser({ ...options, browserLaunchArgs: [17] as any })).toThrow('Browser launch arguments must be an array of strings')
+})
+
+test('first-party ZenUML binding is lazy, registered once, and included in the first public-call clock', async () => {
+  const state = globalThis as any
+  const key = '__tridentZenumlFixture' + Date.now() + Math.random()
+  const previous = state.__baselineBrowser
+  state[key] = { imports: 0, registrations: 0, registered: false }
+  const fixture = JSON.stringify(key)
+  const addon = 'data:text/javascript,' + encodeURIComponent(`
+    const state = globalThis[${fixture}]
+    state.imports++
+    await new Promise(resolve => setTimeout(resolve, 25))
+    export default { id: 'fixture-zenuml' }
+  `)
+  const module = 'data:text/javascript,' + encodeURIComponent(`
+    const state = globalThis[${fixture}]
+    export default {
+      initialize() {},
+      async registerExternalDiagrams(plugins) {
+        if (plugins[0]?.id !== 'fixture-zenuml') throw Error('Unexpected addon')
+        state.registrations++
+        state.registered = true
+      },
+      async render(id, source) {
+        if (source === 'zenuml' && !state.registered) throw Error('ZenUML not registered')
+        return { svg: '<svg xmlns="http://www.w3.org/2000/svg"><text>Alpha</text></svg>' }
+      }
+    }
+  `)
+  try {
+    await baselineBrowserAction({ type: 'initialize', kind: 'mermaid', url: module, zenumlUrl: addon, configuration: {} })
+    expect(state[key].imports).toBe(0)
+    const flowchart = await baselineBrowserAction({ type: 'render', family: 'flowchart', source: 'flowchart', renderId: 'flowchart' })
+    expect(flowchart.accepted).toBe(true)
+    expect(state[key].registrations).toBe(0)
+    expect(state[key].imports).toBe(0)
+    const first = await baselineBrowserAction({ type: 'render', family: 'zenuml', source: 'zenuml', renderId: 'zenuml-first' })
+    expect(first.accepted).toBe(true)
+    expect(first.publicApiMs).toBeGreaterThanOrEqual(15)
+    expect(state[key].imports).toBe(1)
+    expect(state[key].registrations).toBe(1)
+    const second = await baselineBrowserAction({ type: 'render', family: 'zenuml', source: 'zenuml', renderId: 'zenuml-second' })
+    expect(second.accepted).toBe(true)
+    expect(state[key].imports).toBe(1)
+    expect(state[key].registrations).toBe(1)
+  } finally { state.__baselineBrowser = previous; delete state[key] }
 })
