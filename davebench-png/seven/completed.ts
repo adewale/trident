@@ -1,5 +1,6 @@
 /** Completed PNG response only. SVG/text evidence is fetched after the client clock. */
 export async function completedPng(input: { source: string; id: string }) {
+  ;(globalThis as any).sevenEvidence = undefined
   const host = document.createElement('div')
   host.style.cssText = 'position:absolute;left:-20000px;top:0;'
   let stage = 'public-api',
