@@ -172,6 +172,8 @@ painted output and failures. It is not registered in the standard CLI or catalog
 its timing boundaries differ from the Node SVG suites. Generated evidence stays
 outside source commits. [Audited result tables and withheld comparisons](docs/native-flutter-comparison.md) explain the retained campaign.
 
+The [controlled PNG export profile](docs/controlled-png-results.md) adds Mermaid 12.2.0 and Agentic Mermaid 0.4.1, one shared Chromium pipeline, fixed 1200×900 outputs and source-fact review before timing. Its18 common cases pass output checks, but A/A calibration fails for Flutter and Pele, so relative performance claims are withheld. The earlier [v1 timing comparison](docs/davebench-png-results.md) is withdrawn.
+
 ## Add a tool
 
 Declare the project and its public bindings in `catalog/mermaid-community.json`. An npm SVG renderer can use the generic adapter:

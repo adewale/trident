@@ -26,7 +26,7 @@ Dart JavaScript, pure Dart runner or debug Flutter timing is used.
 
 Counts per round; every one of the five rounds has these same outcomes. Units are documentation occurrences.
 
-| Participant / runtime | Planned | PNG bytes returned | Nonblank PNG qualified | Failed | Blocked |
+| Participant / runtime | Planned | PNG bytes returned | Nonblank PNGs (mechanical only) | Failed | Blocked |
 |---|---:|---:|---:|---:|---:|---:|
 | Agentic Mermaid 0.4.1 / Node | 548 | 335 | 335 | 213 | 0 |
 | Mermaid 12.2.0 / Chromium | 548 | 547 | 547 | 1 | 0 |
@@ -73,7 +73,7 @@ Agentic and Flutter paint internal A/B/C nodes while Mermaid and Pele hide them.
 All four passed the nonblank gate. PNG bytes and a shared source do not establish
 that the same diagram was exported.
 
-The [controlled replacement](../davebench-png/controlled/README.md) uses one
+The [controlled replacement results](controlled-png-results.md) uses one
 Chromium pipeline for all three browser libraries, fixed-size outputs, the same
 font, source-fact review before timing and A/A calibration. Its smaller reviewed
 profile must not be presented as full-corpus DaveBench performance.

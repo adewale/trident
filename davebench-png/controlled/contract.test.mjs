@@ -9,6 +9,7 @@ test('fixed PNG gate rejects blank, wrong size, alpha and clipped content',()=>{
  assert.throws(()=>inspect(PNG.sync.write(image(1199))),/1200x900/);
  p.data[(50*1200+50)*4]=0;const a=inspect(PNG.sync.write(p));assert.equal(a.width,1200);
  p.data[3]=0;assert.throws(()=>inspect(PNG.sync.write(p)),/opaque/);p.data[3]=255;
+ p.data[(50*1200+29)*4]=0;assert.throws(()=>inspect(PNG.sync.write(p)),/margin/);p.data[(50*1200+29)*4]=255;
  p.data[0]=0;assert.throws(()=>inspect(PNG.sync.write(p)),/margin/);
 });
 test('decoded pixel identity ignores compression but detects changed pixels',()=>{
