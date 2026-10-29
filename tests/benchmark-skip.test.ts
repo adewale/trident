@@ -44,7 +44,8 @@ test('a release pause skips before acquisition, survives descendant overrides, a
     const actual = JSON.parse(readFileSync(new URL('../catalog/mermaid-community.json', import.meta.url), 'utf8'))
     const requested = actual.nodes.map((node: { id: string }) => node.id)
     const selected = comparisonProjects(actual, requested)
-    expect(selected.included).toHaveLength(38)
+    expect(selected.included).toHaveLength(39)
+    expect(selected.included).toContain('pub:mermaid_flutter')
     expect(selected.included).not.toContain('justsml/rusty-mermaid')
   } finally { rmSync(root, { recursive: true, force: true }) }
 })
