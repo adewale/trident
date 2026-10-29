@@ -53,9 +53,12 @@ xvfb-run -a node davebench-png/controlled/run.mjs --preflight --out /tmp/png-qua
 Before timing, inspect each actual PNG against the source facts in `cases.json`.
 Record every implementation's pass/failure and reason in `review.json`, including
 the manifest/font SHA256 and decoded pixel hash for each output. The retained run's
-review is an example. A nonblank image alone cannot pass. The negative control
-cannot enter timing. To reproduce the recorded timing, use its review file: a
-different environment that changes pixels must be reviewed again.
+review is a template. A nonblank image alone cannot pass. The negative control
+cannot enter timing. Bind a new review to the fresh qualification's
+`renderIdentity`, manifest/font hashes and actual pixel hashes. A new build receipt
+changes that identity even if pixels are identical. Reuse earlier semantic
+observations only after verifying exact decoded pixel matches; inspect changed
+outputs again. Copying the retained review alone cannot admit a fresh build.
 
 The build script binds worker and dependency hashes, target/flags and SDK revisions
 to the resulting native bundle. Qualification and collection validate that receipt.
