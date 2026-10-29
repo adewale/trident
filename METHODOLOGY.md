@@ -1,10 +1,13 @@
 # Methodology
 
-Portable protocol `portable-svg-processes-v6` recognizes reviewed ER cardinality
-bars and circles independently from continuous relation routes. Earlier sealed
-kits and their records retain their original protocol; a corrected observer
-requires a fresh kit and fresh owning qualification. Exact cardinality semantics
-remain outside this bounded ink-and-topology projection.
+Portable timing protocol `portable-svg-processes-v6` and qualification observers
+have separate identities. The current observer checks exact ER cardinality and
+identifying appearance for the reviewed Agentic Class/ER profiles described in
+[Comparison contracts](FAIRNESS.md#observe-output-independently-of-optional-apis).
+Other ER projections retain their documented limits; recognizing bars and circles
+alone does not establish exact cardinality meaning. Earlier sealed kits and records
+keep their original protocols and scopes. A corrected observer requires a fresh kit
+and fresh owning qualification.
 
 [Choose a benchmark](BENCHMARKS.md) · [Measurement rules](MEASUREMENT.md) · [Initial baseline](BASELINE.md)
 

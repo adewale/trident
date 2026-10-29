@@ -13,6 +13,11 @@ current main; baseline collection and release publication remain pending.
 - Portable SVG process protocol v6 separates output admission, public-model facts,
   painted evidence and timing calibration. Its bounded route/marker checks inspect
   actual ink; unavailable projections and failed qualification remain visible.
+- Qualification observer `portable-owned-topology-v3-agentic-class-er` reads the
+  actual public Class/ER model and independently checks owned SVG routes, directed
+  Class arrows, and simple ER cardinality/identifying ink. Marker overrides cannot
+  hide behind SVG attributes. Unsupported profiles remain unmeasured; the SVG
+  timing protocol and historical qualifications are unchanged.
 - Shared public-output verification v2 runs six positive inputs and two separately
   counted invalid controls. API rejection, accepted output, transport failure and
   unavailable observation retain different outcomes. Raster decoding earns no SVG
