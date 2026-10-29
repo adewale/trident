@@ -1,0 +1,259 @@
+{
+  "matched": 42,
+  "eligible": 20,
+  "renderIdentity": "85f632fe39e870ef301ba65dd101b8aa855462df8b0f78dced7881d53c226cdd",
+  "proof": [
+    {
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+      "participant": "pele",
+      "pixelSha256": "ad1bb4016e01391c0941dc19d5c6fd33fce23c7d29f2c08487ff6ec30108db15",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+      "participant": "pele",
+      "pixelSha256": "dea98d1599ac0a2561fea6bf6482c4936ea3c914210a060b025e8b9057cee7f8",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:903",
+      "participant": "pele",
+      "pixelSha256": "11dfdde17ceb84808ed6fd100540da83a42ac3590f1b7e5f773cfb84f42dffa4",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:919",
+      "participant": "pele",
+      "pixelSha256": "11dfdde17ceb84808ed6fd100540da83a42ac3590f1b7e5f773cfb84f42dffa4",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:1449",
+      "participant": "pele",
+      "pixelSha256": "95c90aed2da93e654b799d8a8f52ca5d3288753113690f7679897361e16af98e",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+      "participant": "pele",
+      "pixelSha256": "8306f0d70a547318667b5f2009e53ff2e6b1378b2780567474fad8465629d2a8",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:998",
+      "participant": "pele",
+      "pixelSha256": "f3b53f112a9c7c7087fb74b800810648377c25b51ab8142fa13c5055dd41b97b",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+      "participant": "pele",
+      "pixelSha256": "01c65c033ba9c7f34156f7cc0a5f285dd63a75da1ae63bdd998d1092c1b2104d",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:7",
+      "participant": "pele",
+      "pixelSha256": "c18b482a1e9f0249706ce485f00d2a5c4d8c359f67639d476be613cc27396b90",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+      "participant": "pele",
+      "pixelSha256": "68bcfe59c8e7e7cd4549ded8b4a5c8c774a98619bf4cc02699cadbfb40b8ac36",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:101",
+      "participant": "pele",
+      "pixelSha256": "de43217210f4a5bbfd54094d4472009941a657268be6adfa74451fd070b0ff55",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:189",
+      "participant": "pele",
+      "pixelSha256": "d5d96906c022a4c154f455a084ca675ac5733348b288e26362ebdfae51a4c2d7",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/classDiagram.md:142",
+      "participant": "pele",
+      "pixelSha256": "55dcf311a123cc757a603dc17aa89f8050f0187d200a561e88e4dd8b4861489c",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/classDiagram.md:180",
+      "participant": "pele",
+      "pixelSha256": "67b7f1c18c9efecaf371c7bc4cc5f0be4d64e641ca529fc878fd0493b6c3d71c",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/classDiagram.md:311",
+      "participant": "pele",
+      "pixelSha256": "da3fc5bd38ce35776cb363f40c1a774064707114710c56ef3237b5620ee71d7f",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/stateDiagram.md:26",
+      "participant": "pele",
+      "pixelSha256": "4183ae105c15c7bc622e926f987d92bb479b47d525404771ae7ba46c792e9049",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+      "participant": "pele",
+      "pixelSha256": "6bea5100b099a17334adc135a8cec44f69ced28a276b10b03819f428edd755ca",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/stateDiagram.md:142",
+      "participant": "pele",
+      "pixelSha256": "04077b88a690a2709594392ce94e08d82a5565a5a127a0a36a877a3c7e92a0df",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:213",
+      "participant": "pele",
+      "pixelSha256": "d894abd13aeb3e8c40b4f7ccfe5707b6302eec9a3fea700903d15f67fd421afc",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:251",
+      "participant": "pele",
+      "pixelSha256": "232d6e626c733e0c1d40597a8170560123e44e1272181977ed280c01570e7df5",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/mindmap.md:46",
+      "participant": "pele",
+      "pixelSha256": "5761112eb756c9edb09425c55b0c28ad87da83f1e9c224c3594d7b2362c0bb63",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+      "participant": "flutter",
+      "pixelSha256": "b4c2ebbdc9aa385cdbb43b372c8c07b048b9ad690b7f0065af326b6cc984916f",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+      "participant": "flutter",
+      "pixelSha256": "c09db68389e74ba011903cbc0a1daae9e304f6c18291aa51d8be3c3f15a6bb41",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:903",
+      "participant": "flutter",
+      "pixelSha256": "282412e7b8450e3302c5de10342171d4627cb25b3dc57255937729470b6ce9b5",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:919",
+      "participant": "flutter",
+      "pixelSha256": "282412e7b8450e3302c5de10342171d4627cb25b3dc57255937729470b6ce9b5",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:1449",
+      "participant": "flutter",
+      "pixelSha256": "62dc95544e8b1bd8c2d27c8e6929f009751e210516b263c9d060b9d061c4170a",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+      "participant": "flutter",
+      "pixelSha256": "49f5f227189641f51ca51d3556e1874f3c8f3e7436b2406839a63b1c4ce0e11d",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:998",
+      "participant": "flutter",
+      "pixelSha256": "9e0995cb0a581834263e96f93f7fbcf280fa2944e11aff1f12e136d8691001d6",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+      "participant": "flutter",
+      "pixelSha256": "feb41db170b8c08bc7f2fcd114804e2ab57d6fe1802423e8cb9f1d31d40209e3",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:7",
+      "participant": "flutter",
+      "pixelSha256": "a2c1ce8c0e528737ad679c7d26f6a11ea6124fa9dfdca4ce7ce29309dc193165",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+      "participant": "flutter",
+      "pixelSha256": "533cb42abc8b4e473915c5c736c3a562418846fb1adff19c8db348f4e96744dd",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:101",
+      "participant": "flutter",
+      "pixelSha256": "79e72b03e4244674aa722a8232f294f9aa4562b21aec5ca977af54d3d8cb600a",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:189",
+      "participant": "flutter",
+      "pixelSha256": "190fac14ba7a7b36017312a62c05c0bf0e26349e48d5e52c32c42e4d69f49b68",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/classDiagram.md:142",
+      "participant": "flutter",
+      "pixelSha256": "ef08893b89555c77354537c18e66f4ea245c8a482752aa47e259ee4f86e78d12",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/classDiagram.md:180",
+      "participant": "flutter",
+      "pixelSha256": "8bf2c8415a2aaab312b696861565cf0bb2c5c960e6402719488adde9b8959efa",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/classDiagram.md:311",
+      "participant": "flutter",
+      "pixelSha256": "1ae3b10faa299da0a30ed4b9cc49000bc18ed2b1a51cc5dc463a3ae93ffb8a2a",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/stateDiagram.md:26",
+      "participant": "flutter",
+      "pixelSha256": "004aa872e5a4f528f75e338f941c74c45683ac0f108bf2ebf33523729f068d5a",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+      "participant": "flutter",
+      "pixelSha256": "161f5ff5f661eb5efdcce9c8163f86f95bdfaa43102a26582edc52280c31715a",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/stateDiagram.md:142",
+      "participant": "flutter",
+      "pixelSha256": "9a95e39c0eaeacc1bdb8bde01f7bb0cc68efa42f81a1f925aad74b1868a10f3c",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:213",
+      "participant": "flutter",
+      "pixelSha256": "a1751ed203ce290369c77b357bd76aa607dcb581eeeca9d267fe6591aa61f7f8",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:251",
+      "participant": "flutter",
+      "pixelSha256": "c7248c9769fca3b13528849bd8b7ceaec1ff08e2c1ef371169a1aa14d8e00fb9",
+      "match": true
+    },
+    {
+      "case": "packages/mermaid/src/docs/syntax/mindmap.md:46",
+      "participant": "flutter",
+      "pixelSha256": "b339c5b7504e2d58eb6aa61732ba0cced8f6358f4cead20627f806292058f8c8",
+      "match": true
+    }
+  ]
+}
