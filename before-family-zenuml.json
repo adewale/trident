@@ -1,0 +1,11 @@
+{
+  "accepted": false,
+  "publicApiMs": 11.699999988079071,
+  "consumedMs": 11.699999988079071,
+  "error": "UnknownDiagramError: No diagram type detected matching given configuration for text: zenuml\ntitle Demo\nAlice->John: Hello John, how are you?\nJohn->Alice: Great!",
+  "errorName": "UnknownDiagramError",
+  "errorPhase": "public-call",
+  "actualApi": "render",
+  "excludedCallbacks": [],
+  "unsupportedSidecars": []
+}

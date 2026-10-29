@@ -1,0 +1,232 @@
+{
+  "head": "c2f2a5b945f2458aeb7cabe36b88862b462786cd",
+  "runtimeSource": "f49a6b19d0319682222dc208cc3243c2190e76e5",
+  "baseline": "bd1c685f32353661243ec55366d69442df19c62b",
+  "referenceSource": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "mermaid": "12.2.0",
+  "addon": "1.0.1",
+  "browser": "chromium:156.0.8078.73",
+  "startedAt": "2026-10-29T09:53:41.641Z",
+  "finishedAt": "2026-10-29T09:55:02.418Z",
+  "protocol": "pinned-browser-public-svg-v2",
+  "lane": "pinned-browser-baseline-subset",
+  "recordId": "5512aba3-88d7-4cbe-a808-49ea00d4b2e2",
+  "aggregateStatus": "blocked",
+  "counts": {
+    "passed": 30
+  },
+  "renderObservations": [
+    {
+      "role": "mermaid-a0",
+      "round": 1,
+      "caseId": "family:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a0",
+      "round": 1,
+      "caseId": "required:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a1",
+      "round": 1,
+      "caseId": "family:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a1",
+      "round": 1,
+      "caseId": "required:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a1",
+      "round": 2,
+      "caseId": "required:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a1",
+      "round": 2,
+      "caseId": "family:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a0",
+      "round": 2,
+      "caseId": "required:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a0",
+      "round": 2,
+      "caseId": "family:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a1",
+      "round": 3,
+      "caseId": "family:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a1",
+      "round": 3,
+      "caseId": "required:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a0",
+      "round": 3,
+      "caseId": "family:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a0",
+      "round": 3,
+      "caseId": "required:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a1",
+      "round": 4,
+      "caseId": "required:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a1",
+      "round": 4,
+      "caseId": "family:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a0",
+      "round": 4,
+      "caseId": "required:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a0",
+      "round": 4,
+      "caseId": "family:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a0",
+      "round": 5,
+      "caseId": "family:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a0",
+      "round": 5,
+      "caseId": "required:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a1",
+      "round": 5,
+      "caseId": "family:zenuml",
+      "status": "passed"
+    },
+    {
+      "role": "mermaid-a1",
+      "round": 5,
+      "caseId": "required:zenuml",
+      "status": "passed"
+    }
+  ],
+  "deliveryObservations": 10,
+  "gaps": [
+    "Admission proves XML/namespace/canvas/authored labels only; native relationships and CSS/paint fidelity unmeasured.",
+    "Document V8 heap excludes native/GPU/worker/whole-browser process peak. No monetary/model-token cost inferred.",
+    "A0/A1 are same-artifact controls, not independent tools. Five renderer rounds provide repeatability diagnostics, not p95 or causal proof."
+  ],
+  "validation": {
+    "bun": "1.4.2",
+    "node": "24.22.1",
+    "focusedTests": 8,
+    "focusedAssertions": 61,
+    "fullTests": 418,
+    "fullAssertions": 2358,
+    "fullTestConfiguration": {
+      "AM_BROWSER_TESTS": "1",
+      "TMPDIR": "/private/tmp"
+    },
+    "typecheck": "passed",
+    "lint": "passed",
+    "negativeChecks": {
+      "addonBinding": "fails when removed",
+      "oldClassifier": "fails with eight misclassified outcomes",
+      "caseSelectionAndEarlyAdmission": "two tests fail when reverted"
+    }
+  },
+  "visualReview": {
+    "status": "reviewed",
+    "claim": "Title Demo, Alice and John actors, reciprocal message arrows and authored labels appear in the actual Chromium screenshot",
+    "limit": "One literal source under two retained named case IDs; not a native/CSS/all-paint certificate"
+  },
+  "files": [
+    {
+      "path": "after-family-zenuml.json",
+      "bytes": 5891,
+      "sha256": "bc6e1bb231711fb7c22260bdc5998355450e67c8d2c55043f41eb7398e12bb4e"
+    },
+    {
+      "path": "after-family-zenuml.png",
+      "bytes": 6472,
+      "sha256": "a75a3c90a2e39894686afa35653ec83e28491becf83f321d7827fab3aab04a27"
+    },
+    {
+      "path": "after-family-zenuml.svg",
+      "bytes": 4989,
+      "sha256": "b1dd0ce1c4cabcd446ede67d60ab13a4029b92fa0af81a02fe9c9cf5e4ba0010"
+    },
+    {
+      "path": "after-required-zenuml.json",
+      "bytes": 5873,
+      "sha256": "9d96e414469a9867c4d02c41c0b65903931a6d498c3c5810933e8ea4e1d0b346"
+    },
+    {
+      "path": "after-required-zenuml.png",
+      "bytes": 6472,
+      "sha256": "a75a3c90a2e39894686afa35653ec83e28491becf83f321d7827fab3aab04a27"
+    },
+    {
+      "path": "after-required-zenuml.svg",
+      "bytes": 4989,
+      "sha256": "e6acf5a5339ff20972acb8cec09a41d7afe1de6529b007b90be2ce4cb63479ea"
+    },
+    {
+      "path": "before-family-zenuml.json",
+      "bytes": 425,
+      "sha256": "8e32987d2a5483293a9eaa42cc54e1d31f647498e840c1c993b213d4f613bc02"
+    },
+    {
+      "path": "before-required-zenuml.json",
+      "bytes": 423,
+      "sha256": "fbd4adf24e46c65fc270219076f32e36d03b9ee08d306666ca2b7a5527623fef"
+    },
+    {
+      "path": "family-zenuml.mmd",
+      "bytes": 76,
+      "sha256": "f72a7943f9ddde8b64214f49c897cb8fcfab3c8d0308761d1444d442950c565b"
+    },
+    {
+      "path": "isolation.json",
+      "bytes": 530,
+      "sha256": "97b2ee544b050895c2e174817212398580a6ec5b0cd6a40a1cd75bade74cdb87"
+    },
+    {
+      "path": "required-zenuml.mmd",
+      "bytes": 76,
+      "sha256": "f72a7943f9ddde8b64214f49c897cb8fcfab3c8d0308761d1444d442950c565b"
+    },
+    {
+      "path": "visual-receipt.json",
+      "bytes": 9430,
+      "sha256": "542bb39da108b251710dd0adcde3dc7d50159a2b8c3a6ecd8e2ee6067ecc556b"
+    }
+  ]
+}

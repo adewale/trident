@@ -1,0 +1,169 @@
+{
+  "reference": "mermaid@12.2.0",
+  "addon": "@mermaid-js/mermaid-zenuml@1.0.1",
+  "before": "bd1c685f32353661243ec55366d69442df19c62b",
+  "afterRuntime": "f49a6b19d0319682222dc208cc3243c2190e76e5",
+  "configuration": {
+    "startOnLoad": false,
+    "securityLevel": "strict"
+  },
+  "scope": "Untimed visual qualification using the actual public browser worker; not a performance run",
+  "evidence": [
+    {
+      "revision": "before",
+      "caseId": "family:zenuml",
+      "source": "zenuml\ntitle Demo\nAlice->John: Hello John, how are you?\nJohn->Alice: Great!",
+      "browser": "156.0.8078.73",
+      "qualification": {
+        "status": "failed",
+        "findings": [
+          "UnknownDiagramError: No diagram type detected matching given configuration for text: zenuml\ntitle Demo\nAlice->John: Hello John, how are you?\nJohn->Alice: Great!"
+        ],
+        "scope": "public operation did not produce expected SVG"
+      },
+      "accepted": false,
+      "error": "UnknownDiagramError: No diagram type detected matching given configuration for text: zenuml\ntitle Demo\nAlice->John: Hello John, how are you?\nJohn->Alice: Great!",
+      "requestedPaths": [
+        "/blank",
+        "/package/mermaid/dist/mermaid.esm.min.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-674HQBI4.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-GDOATIN3.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-IER4RZHT.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-MFYRHTYG.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-LGKD3V67.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-XUG7IRDC.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-4GHFHL4L.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-KJ5T2YZX.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-F6PIGZHG.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-MMC4O45A.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-XGFVAD2T.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-YX6CVSZ3.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-MIE3LDYP.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-GHI2JMQX.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-ZZ52EIBP.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-FWWDAFD2.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-L2B47AAZ.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-QVIEFLGF.mjs"
+      ],
+      "blockedRequests": []
+    },
+    {
+      "revision": "before",
+      "caseId": "required:zenuml",
+      "source": "zenuml\ntitle Demo\nAlice->John: Hello John, how are you?\nJohn->Alice: Great!",
+      "browser": "156.0.8078.73",
+      "qualification": {
+        "status": "failed",
+        "findings": [
+          "UnknownDiagramError: No diagram type detected matching given configuration for text: zenuml\ntitle Demo\nAlice->John: Hello John, how are you?\nJohn->Alice: Great!"
+        ],
+        "scope": "public operation did not produce expected SVG"
+      },
+      "accepted": false,
+      "error": "UnknownDiagramError: No diagram type detected matching given configuration for text: zenuml\ntitle Demo\nAlice->John: Hello John, how are you?\nJohn->Alice: Great!",
+      "requestedPaths": [
+        "/blank",
+        "/package/mermaid/dist/mermaid.esm.min.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-674HQBI4.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-GDOATIN3.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-IER4RZHT.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-MFYRHTYG.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-LGKD3V67.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-XUG7IRDC.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-4GHFHL4L.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-KJ5T2YZX.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-F6PIGZHG.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-MMC4O45A.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-XGFVAD2T.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-YX6CVSZ3.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-MIE3LDYP.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-GHI2JMQX.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-ZZ52EIBP.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-FWWDAFD2.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-L2B47AAZ.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-QVIEFLGF.mjs"
+      ],
+      "blockedRequests": []
+    },
+    {
+      "revision": "after",
+      "caseId": "family:zenuml",
+      "source": "zenuml\ntitle Demo\nAlice->John: Hello John, how are you?\nJohn->Alice: Great!",
+      "browser": "156.0.8078.73",
+      "qualification": {
+        "status": "passed",
+        "findings": [],
+        "scope": "SVG namespace/canvas/XML and authored text; native semantics/CSS/paint unmeasured; nonserializable callbacks excluded explicitly"
+      },
+      "accepted": true,
+      "error": null,
+      "requestedPaths": [
+        "/blank",
+        "/package/mermaid/dist/mermaid.esm.min.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-674HQBI4.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-GDOATIN3.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-IER4RZHT.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-MFYRHTYG.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-LGKD3V67.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-XUG7IRDC.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-4GHFHL4L.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-KJ5T2YZX.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-F6PIGZHG.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-MMC4O45A.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-XGFVAD2T.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-YX6CVSZ3.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-MIE3LDYP.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-GHI2JMQX.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-ZZ52EIBP.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-FWWDAFD2.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-L2B47AAZ.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-QVIEFLGF.mjs",
+        "/package/addon/dist/mermaid-zenuml.esm.min.mjs",
+        "/package/addon/dist/chunks/mermaid-zenuml.esm.min/chunk-VDOFMJQL.mjs",
+        "/package/addon/dist/chunks/mermaid-zenuml.esm.min/zenuml-definition-MT6PIYM6.mjs",
+        "/package/addon/dist/chunks/mermaid-zenuml.esm.min/chunk-YT4XVR7J.mjs"
+      ],
+      "blockedRequests": []
+    },
+    {
+      "revision": "after",
+      "caseId": "required:zenuml",
+      "source": "zenuml\ntitle Demo\nAlice->John: Hello John, how are you?\nJohn->Alice: Great!",
+      "browser": "156.0.8078.73",
+      "qualification": {
+        "status": "passed",
+        "findings": [],
+        "scope": "SVG namespace/canvas/XML and authored text; native semantics/CSS/paint unmeasured; nonserializable callbacks excluded explicitly"
+      },
+      "accepted": true,
+      "error": null,
+      "requestedPaths": [
+        "/blank",
+        "/package/mermaid/dist/mermaid.esm.min.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-674HQBI4.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-GDOATIN3.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-IER4RZHT.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-MFYRHTYG.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-LGKD3V67.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-XUG7IRDC.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-4GHFHL4L.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-KJ5T2YZX.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-F6PIGZHG.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-MMC4O45A.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-XGFVAD2T.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-YX6CVSZ3.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-MIE3LDYP.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-GHI2JMQX.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-ZZ52EIBP.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-FWWDAFD2.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-L2B47AAZ.mjs",
+        "/package/mermaid/dist/chunks/mermaid.esm.min/chunk-QVIEFLGF.mjs",
+        "/package/addon/dist/mermaid-zenuml.esm.min.mjs",
+        "/package/addon/dist/chunks/mermaid-zenuml.esm.min/chunk-VDOFMJQL.mjs",
+        "/package/addon/dist/chunks/mermaid-zenuml.esm.min/zenuml-definition-MT6PIYM6.mjs",
+        "/package/addon/dist/chunks/mermaid-zenuml.esm.min/chunk-YT4XVR7J.mjs"
+      ],
+      "blockedRequests": []
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "actualSubsetId": "5512aba3-88d7-4cbe-a808-49ea00d4b2e2",
+  "actualSubsetLane": "pinned-browser-baseline-subset",
+  "subsetReused": true,
+  "fullLanePreserved": true,
+  "fullLaneFixture": "Explicitly unmeasured blocked preservation fixture in a separate verification store; no full-portfolio measurements or success invented",
+  "runtimeHead": "c2f2a5b945f2458aeb7cabe36b88862b462786cd",
+  "scope": "Actual runBaselineBrowserSuite called on final clean PR head. Identical retained subset reused; full lane entry unchanged."
+}
