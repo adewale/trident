@@ -128,9 +128,9 @@ test('canonical historical values match their provenance digest without a second
   expect(examples.tables).toBeUndefined()
   expect(examples.originalTableReceipt.url).toMatch(/\/blob\/[a-f0-9]{40}\//)
   expect(examples.originalTableReceipt.sha256).toMatch(/^[a-f0-9]{64}$/)
-  expect(data.tables.filter(row => row.historical).map(row => row.id).sort()).toEqual([...examples.tableData.ids].sort())
+  expect(data.tables.filter(row => row.receipt.url === 'docs/evidence/benchmark-examples.json').map(row => row.id).sort()).toEqual([...examples.tableData.ids].sort())
   expect(createHash('sha256').update(JSON.stringify(retainedTableValues(data, examples.tableData.ids))).digest('hex')).toBe(examples.tableData.valuesSha256)
-  for (const entry of data.tables.filter(row => row.historical)) {
+  for (const entry of data.tables.filter(row => row.receipt.url === 'docs/evidence/benchmark-examples.json')) {
     expect(entry.receipt.sha256).toBe(digest)
   }
   validateSnapshotReceipts(data, root)

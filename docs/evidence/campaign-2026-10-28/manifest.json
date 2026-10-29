@@ -67,6 +67,11 @@
       "path": "validation.json",
       "bytes": 1983,
       "sha256": "e7334a957a063b43e19659214f8508c1e48a3c6afa5adb0a547bc2cc73c09175"
+    },
+    {
+      "path": "comparative-tables.json",
+      "bytes": 973,
+      "sha256": "554424314b31634457c76e9ef94cbbffc0c6d794267f101723e16ed77734f221"
     }
   ],
   "limits": "Files are compact derived projections, not the raw workers or target artifacts. They reproduce the displayed tables and figures; full collector replay requires the recorded artifacts and raw evidence. No archive, dependency tree or binary is published.",

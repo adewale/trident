@@ -137,7 +137,7 @@ Ranked by **Median call time (ms)**, lowest first. Equal values share a rank; un
 
 <a id="ecosystem-docs-1095-2026-10-27"></a>
 
-**ecosystem-docs-1095-2026-10-27** · 2026-10-27 · Historical · unit: documentation occurrences · [evidence](docs/evidence/campaign-2026-10-28/dave.json)
+**ecosystem-docs-1095-2026-10-27** · 2026-10-27 · Historical · unit: documentation occurrences · [evidence](docs/evidence/campaign-2026-10-28/comparative-tables.json)
 
 Six rounds, 1,095 occurrences. Full inventory; acceptance does not establish meaning. CFD Agentic 0.4.2, Pele 1.9.0, Mermaid 12.2.0. 27 October 2026.
 
@@ -159,7 +159,7 @@ xychart-beta horizontal
 
 <a id="ecosystem-browser-gzip-2026-10-27"></a>
 
-**ecosystem-browser-gzip-2026-10-27** · 2026-10-27 · Historical · unit: gzip bytes · [evidence](docs/evidence/campaign-2026-10-28/dave.json)
+**ecosystem-browser-gzip-2026-10-27** · 2026-10-27 · Historical · unit: gzip bytes · [evidence](docs/evidence/campaign-2026-10-28/comparative-tables.json)
 
 Complete shipped browser globals, level-9 gzip. Excludes focused/lazy entries, fonts and wire overhead; not startup memory.
 
@@ -181,7 +181,7 @@ xychart-beta horizontal
 
 <a id="ecosystem-docs-call-cost-2026-10-27"></a>
 
-**ecosystem-docs-call-cost-2026-10-27** · 2026-10-27 · Historical · unit: call cost / Mermaid · [evidence](docs/evidence/campaign-2026-10-28/dave.json)
+**ecosystem-docs-call-cost-2026-10-27** · 2026-10-27 · Historical · unit: call cost / Mermaid · [evidence](docs/evidence/campaign-2026-10-28/comparative-tables.json)
 
 847 identical successful occurrences across all tools and all six rounds; public SVG return clock excludes validation and paint. Descriptive; no A/A qualification. Full 1,095-occurrence outcomes appear separately. This is a descriptive ordering of retained samples, not a calibrated winner.
 
@@ -223,7 +223,7 @@ xychart-beta horizontal
 
 <a id="ecosystem-paint-920-2026-10-27"></a>
 
-**ecosystem-paint-920-2026-10-27** · 2026-10-27 · Historical · unit: Mermaid-qualified paint criteria · [evidence](docs/evidence/campaign-2026-10-28/fidelity.json)
+**ecosystem-paint-920-2026-10-27** · 2026-10-27 · Historical · unit: Mermaid-qualified paint criteria · [evidence](docs/evidence/campaign-2026-10-28/comparative-tables.json)
 
 100 cases across 25 families; fixed 920 reference-passed paint criteria. Another 150 authored criteria are reference-unqualified across all surfaces. Alias rows do not create independent wins. Historical CFD candidate, not current main.
 

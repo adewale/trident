@@ -23,7 +23,7 @@ The [configuration-reset receipt](evidence/campaign-2026-10-28/configuration-res
 
 ## Ownership and reproduction
 
-AM-specific PR matrices, strict backend-receipt experiments and source-suite failure attribution now belong in [Agentic Mermaid’s campaign report](https://github.com/adewale/agentic-mermaid/blob/main/docs/benchmarks/campaign-2026-10-28.md). They are not prerequisites for this runner change or a Trident release. Whole-editor experiments are outside [core scope](../SCOPE.md).
+The legacy AM report writer and chart generator, AM-specific PR matrices, strict backend-receipt experiments and source-suite failure attribution now belong in [Agentic Mermaid’s campaign report](https://github.com/adewale/agentic-mermaid/blob/main/docs/benchmarks/campaign-2026-10-28.md). They are not prerequisites for this runner change or a Trident release. Whole-editor experiments are outside [core scope](../SCOPE.md).
 
 The [evidence manifest](evidence/campaign-2026-10-28/manifest.json) records the bounded projections and original publication. Raw workers, package archives and dependency trees remain external. Historical validation receipts retain their original limitations; current-head code checks are reported in the PR.
 

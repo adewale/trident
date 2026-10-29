@@ -931,8 +931,8 @@
         }
       ],
       "receipt": {
-        "url": "docs/evidence/campaign-2026-10-28/dave.json",
-        "sha256": "192620a55e341cd62b37569ce53b46f75017cb1ab34c35af0571f459c5313364"
+        "url": "docs/evidence/campaign-2026-10-28/comparative-tables.json",
+        "sha256": "554424314b31634457c76e9ef94cbbffc0c6d794267f101723e16ed77734f221"
       },
       "chart": {
         "numerator": "Returned SVG",
@@ -1406,8 +1406,8 @@
         }
       ],
       "receipt": {
-        "url": "docs/evidence/campaign-2026-10-28/fidelity.json",
-        "sha256": "8de234305cc7f0421e3fa7fb2bfa13c44ef8bc62c706af362b59014a0d81e476"
+        "url": "docs/evidence/campaign-2026-10-28/comparative-tables.json",
+        "sha256": "554424314b31634457c76e9ef94cbbffc0c6d794267f101723e16ed77734f221"
       },
       "population": {
         "total": "Planned",
@@ -1463,8 +1463,8 @@
         }
       ],
       "receipt": {
-        "url": "docs/evidence/campaign-2026-10-28/dave.json",
-        "sha256": "192620a55e341cd62b37569ce53b46f75017cb1ab34c35af0571f459c5313364"
+        "url": "docs/evidence/campaign-2026-10-28/comparative-tables.json",
+        "sha256": "554424314b31634457c76e9ef94cbbffc0c6d794267f101723e16ed77734f221"
       },
       "chart": {
         "numerator": "Gzip bytes",
@@ -1512,8 +1512,8 @@
         }
       ],
       "receipt": {
-        "url": "docs/evidence/campaign-2026-10-28/dave.json",
-        "sha256": "192620a55e341cd62b37569ce53b46f75017cb1ab34c35af0571f459c5313364"
+        "url": "docs/evidence/campaign-2026-10-28/comparative-tables.json",
+        "sha256": "554424314b31634457c76e9ef94cbbffc0c6d794267f101723e16ed77734f221"
       },
       "ranking": {
         "column": "Call cost / Mermaid",
