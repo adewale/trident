@@ -12,7 +12,7 @@ import {isolationSnapshot} from './isolation.mjs';
 import {pixelValidator} from './validator.mjs';
 const root=path.resolve(import.meta.dirname,'../..');
 const argv=process.argv.slice(2),opts={};
-for(let i=0;i<argv.length;i++){if(argv[i]==='--preflight'){opts.preflight=true;continue;}if(!['--out','--review','--native-bundle','--font','--rounds','--repetitions','--runtime-receipt'].includes(argv[i])||!argv[i+1])throw Error('Invalid argument');opts[argv[i].slice(2)]=argv[++i];}
+for(let i=0;i<argv.length;i++){if(argv[i]==='--preflight'){opts.preflight=true;continue;}if(!['--out','--review','--native-bundle','--font','--rounds','--repetitions','--runtime-receipt','--participants'].includes(argv[i])||!argv[i+1])throw Error('Invalid argument');opts[argv[i].slice(2)]=argv[++i];}
 if(!opts.out)throw Error('Specify fresh --out');
 const out=path.resolve(opts.out);fs.mkdirSync(out);fs.mkdirSync(path.join(out,'png'));fs.mkdirSync(path.join(out,'svg'));
 const manifestPath=path.join(import.meta.dirname,'cases.json'),manifest=JSON.parse(fs.readFileSync(manifestPath));
@@ -32,7 +32,10 @@ for(const f of receipt.outputs)if(sha(fs.readFileSync(path.join(bundle,f.file)))
 const packages=path.join(root,'davebench-png/node_modules');
 const roots=['davebench-png/controlled/run.mjs','davebench-png/controlled/run-container.py','davebench-png/controlled/build-native.mjs','davebench-png/controlled/browser.ts','davebench-png/controlled/png.mjs','davebench-png/controlled/reduce.mjs','davebench-png/controlled/cases.json','native-flutter/app/lib/fixed_png_worker.dart','native-flutter/env.sh'];
 const producers=protocolIdentity(root,roots);
-const participants=[{id:'mermaid',pkg:'mermaid',version:'12.2.0',entry:'dist/mermaid.min.js'}, {id:'pele',pkg:'pele',version:'1.9.0',entry:'dist/pele.global.js'}, {id:'agentic',pkg:'agentic-mermaid',version:'0.4.1',entry:'dist/browser.global.js'}, {id:'flutter',pkg:'mermaid_flutter',version:'0.3.2'}];
+const declaredParticipants=[{id:'mermaid',pkg:'mermaid',version:'12.2.0',entry:'dist/mermaid.min.js'}, {id:'pele',pkg:'pele',version:'1.9.0',entry:'dist/pele.global.js'}, {id:'agentic',pkg:'agentic-mermaid',version:'0.4.1',entry:'dist/browser.global.js'}, {id:'flutter',pkg:'mermaid_flutter',version:'0.3.2'}];
+const selected=opts.participants?opts.participants.split(','):declaredParticipants.map(p=>p.id);
+if(selected.length<2||new Set(selected).size!==selected.length||selected.some(id=>!declaredParticipants.some(p=>p.id===id)))throw Error('Select at least two distinct declared participants');
+const participants=declaredParticipants.filter(p=>selected.includes(p.id));
 for(const p of participants.filter(p=>p.entry)){const meta=JSON.parse(fs.readFileSync(path.join(packages,p.pkg,'package.json')));if(meta.version!==p.version)throw Error('Package pin mismatch');}
 const bundleFiles=fs.readdirSync(bundle,{recursive:true}).map(f=>path.join(bundle,f)).filter(f=>fs.statSync(f).isFile());
 const browserExe=process.env.CHROMIUM_EXECUTABLE??'/usr/bin/chromium';
