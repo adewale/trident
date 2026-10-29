@@ -51,7 +51,7 @@ and endpoint multiplicity must agree with both that model and independently
 bound, visibly stroked SVG routes. Directed association/dependency Class routes
 also need their referenced, visible open-arrow resource pointing into the target.
 Simple inherited/inline marker longhands are inspected; marker shorthand,
-`!important`, escaped/commented declarations and stylesheet overrides remain
+`!important`, escaped/commented inline declarations and stylesheet overrides remain
 unmeasured. Unexpected start/mid markers cannot earn a directed-to-only certificate.
 Simple ER relation lines additionally require the authored exact tick/fan/circle
 cardinality at each route end and the declared solid/dashed identifying appearance;

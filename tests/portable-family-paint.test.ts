@@ -368,6 +368,7 @@ test('Agentic Class marker presentation cannot hide or add arrows behind valid S
   const observe = (ink: string) => qualifyPortable(graph('class'), { svg: ink, model: agenticModel('class'), adapter: 'agentic' })
   const base = agenticSvg('class')
   expect(observe(base).semanticComplete).toBe(true)
+  expect(observe(base.replace('</svg>', '<style>/* theme tokens */ svg { --fg:#111 }</style></svg>')).semanticComplete).toBe(true)
   for (const replacement of [
     'marker-end="url(#arrow)" style="marker-end:none"',
     'marker-end="url(#arrow)" style="MARKER-END:none"',
@@ -383,7 +384,7 @@ test('Agentic Class marker presentation cannot hide or add arrows behind valid S
     expect(result.semanticComplete).toBe(false)
   }
   expect(observe(base.replaceAll('marker-end="url(#arrow)"', 'style="marker-end:url(#arrow)"')).semanticComplete).toBe(true)
-  const stylesheet = observe(base.replace('</svg>', '<style>.class-relationship { marker-end:none }</style></svg>'))
+  const stylesheet = observe(base.replace('</svg>', '<style>.class-relationship { marker-end/**/:none }</style></svg>'))
   expect(finding(stylesheet, 'svg-edge-target-marker:0')?.status).not.toBe('passed')
   expect(stylesheet.semanticComplete).toBe(false)
 })
