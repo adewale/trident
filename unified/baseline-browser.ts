@@ -322,10 +322,11 @@ export async function runBaselineBrowserSuite(options: BaselineBrowserOptions): 
         if (stage === 'resource') { await snapshot('afterConsumed'); await snapshot('outputHeldAfterGc', true); await evaluate({ type: 'release' }); await snapshot('afterConsumerReleaseAfterGc', true) }
       }
       const files = delivery(paths, target), initial = delivery(initialPaths, target), file = join(collector.directory, `${role}-${stage}-${round}-${sample}-browser.json`)
-      write(file, { tool: target.tool, role, stage, round, sample, browser: browser.version(), snapshots, initialFiles: initial, files, blockedRequests, pageErrors, configuration: plan.settings.configuration })
+      write(file, { tool: target.tool, role, stage, round, sample, caseIds: stage === 'renderer' ? plan.cases.map(value => value.id) : [startupCase.id], browser: browser.version(), snapshots, initialFiles: initial, files, blockedRequests, pageErrors, configuration: plan.settings.configuration })
       if (resourceResultRow) resourceResultRow.metrics = { ...resourceResultRow.metrics, rawEvidence: file }
       collector.artifacts.push(file)
       const metadata = rowFor(target, role, startupCase, stage === 'resource' ? 'browser-document-resource-checkpoints' : 'delivery', round, sample)
+      if (stage === 'renderer') { metadata.caseId = 'stage:renderer'; metadata.family = '*' }
       metadata.runtime = 'chromium:' + browser.version(); metadata.operation = stage === 'resource' ? 'document-heap-checkpoints' : 'requested-module-closure'
       metadata.metrics = { ...metadata.metrics, checkpoint: stage, initialBytes: initial.reduce((sum, item) => sum + item.bytes, 0), deliveredBytes: files.reduce((sum, item) => sum + item.bytes, 0), perFileGzipBytes: files.reduce((sum, item) => sum + item.gzipBytes, 0), uniqueRequestedPaths: files.length, scope: stage === 'resource' ? plan.settings.memoryScope : plan.settings.deliveryScope, rawEvidence: file, rolling }
       collector.observations.push(metadata)
