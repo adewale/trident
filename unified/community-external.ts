@@ -95,15 +95,17 @@ export async function runExternalCommunity(prepared: PreparedCommunity, workload
         break
       }
       // Workers process the supplied inputs in order; retain completed JSONL and
-      // assign the stopped current case before restarting untouched cases.
+      // assign the stopped current case before restarting untouched cases. JSONL
+      // transports may be waiting for acknowledgement: without a completed row,
+      // process exit alone cannot attribute a renderer failure to that input.
       const stopped = unresolved[0]!
-      results.set(stopped.id, { status: 'error', detail: lastDetail ?? `Worker stopped during this case (exit ${code}): ${stderr.slice(-1500)}`, workerAttempt: attempt })
+      results.set(stopped.id, { status: artifact.kind === 'jsonl-worker' ? 'blocked' : 'error', detail: lastDetail ?? `Worker stopped during this case (exit ${code}): ${stderr.slice(-1500)}`, workerAttempt: attempt })
       remaining = unresolved.slice(1)
     }
     writeFileSync(join(root, name + '-attempts.json'), JSON.stringify(attempts, null, 2))
     for (const w of selected) {
       const r = results.get(w.id),
-        status = r?.status === 'ok' || r?.status === 'passed' ? 'passed' : r ? 'failed' : 'blocked'
+        status = r?.status === 'ok' || r?.status === 'passed' ? 'passed' : r?.status === 'blocked' || !r ? 'blocked' : 'failed'
       rows.push({
         suite: 'community',
         surface: artifact.kind === 'python' ? 'python:public-api' : 'native:in-process-api',
@@ -123,8 +125,10 @@ export async function runExternalCommunity(prepared: PreparedCommunity, workload
           round,
           workerAttempt: (r?.workerAttempt as number) ?? null,
           firstMs: (r?.firstMs as number) ?? null,
+          sampleIterations: r?.sampleIterations ? JSON.stringify(r.sampleIterations) : null,
+          timingProtocol: (r?.timingProtocol as string | undefined) ?? null,
           rejected: r?.status === 'unsupported' || r?.rejected === true,
-          qualification: w.expectedLabels?.length ? 'declared-labels' : 'artifact-envelope-only',
+          qualification: (r?.qualificationScope as string | undefined) ?? (w.expectedLabels?.length ? 'declared-labels' : 'artifact-envelope-only'),
           boundary: 'native public API; executable startup excluded',
         },
       })

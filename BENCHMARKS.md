@@ -77,6 +77,15 @@ requiring a specific root style. Incomplete semantics or noisy A/A controls cann
 qualify performance. Per-case and per-family results stay available so an
 aggregate cannot hide workload-shape differences.
 
+The standalone [DaveBench PNG extension](davebench-png/README.md),
+`bun commands.ts docs:png --out FRESH_DIR`, reuses the same inventory and sampling
+with protocol `public-docs-png-export-v1`. It measures completed PNG bytes through
+the published native Flutter, Node and Chromium export paths, then decodes and
+checks nonblank content outside the clocks. It preserves full coverage and shows
+costs on common qualified occurrences, with runtime and output pixels visible.
+The [dated four-library results](docs/davebench-png-results.md) describe its quality,
+geometry, network and timing limits. This is distinct from the SVG-return protocol.
+
 ## DaveBench provenance and product diagnostics
 
 Inspired by [Dave Kiss's documentation benchmark](https://x.com/davekiss/status/2111512440106078554),

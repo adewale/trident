@@ -1,0 +1,17 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+const root=path.resolve(import.meta.dirname,'../..'),app=path.join(root,'native-flutter/app');
+const hash=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+const sources=['lib/fixed_png_worker.dart','pubspec.yaml','pubspec.lock',...fs.readdirSync(path.join(app,'linux'),{recursive:true}).filter(f=>!f.startsWith('flutter/ephemeral/')).map(f=>'linux/'+f)].filter(f=>fs.statSync(path.join(app,f)).isFile());
+const inputs=sources.map(file=>({file,sha256:hash(path.join(app,file))}));
+const sdk=JSON.parse(execFileSync('flutter',['--version','--machine'],{cwd:app,encoding:'utf8'}));
+const args=['build','linux','--release','--target','lib/fixed_png_worker.dart'];
+const startedAt=new Date().toISOString();
+execFileSync('flutter',args,{cwd:app,stdio:'inherit'});
+for(const f of inputs)if(hash(path.join(app,f.file))!==f.sha256)throw Error('Build input changed: '+f.file);
+const bundle=path.join(app,'build/linux/x64/release/bundle');
+const outputs=fs.readdirSync(bundle,{recursive:true}).map(file=>({file,absolute:path.join(bundle,file)})).filter(f=>fs.statSync(f.absolute).isFile()).map(f=>({file:f.file,sha256:hash(f.absolute)}));
+const receipt={target:'lib/fixed_png_worker.dart',mode:'release',command:['flutter',...args],startedAt,finishedAt:new Date().toISOString(),sourceCommit:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),sdk,inputs,outputs};
+fs.writeFileSync(path.join(app,'build/controlled-build.json'),JSON.stringify(receipt,null,2));

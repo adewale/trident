@@ -186,6 +186,18 @@ one commit: retain the source commits and build receipts with the campaign.
 The [AM/ZM source comparison](docs/comparison-2026-10-29.md) includes an example
 of the resulting stack-ranked tables and explains the observed failures.
 
+## Native Flutter entrypoints
+
+The standalone [native Flutter / Chromium campaign](native-flutter/README.md)
+measures `mermaid_flutter` 0.3.2 widgets and PNG export in a native Linux release
+application alongside Pele 1.9.0 in Chromium. It separates new instances,
+unchanged calls, source updates and first use in new processes, and retains
+painted output and failures. It is not registered in the standard CLI or catalog;
+its timing boundaries differ from the Node SVG suites. Generated evidence stays
+outside source commits. [Audited result tables and withheld comparisons](docs/native-flutter-comparison.md) explain the retained campaign.
+
+The [seven-implementation DaveBench PNG campaign](docs/davebench-png-seven-results.md) reports warm fixed-canvas export timings on 13 common reviewed inputs and PNG-contract coverage on all 548 documentation occurrences. It measures native Dart and native Flutter release separately, alongside Mermaid, Agentic, Beautiful, Zombie and Pele in Chromium, using fresh process blocks and launch-round uncertainty. The close Dart/Pele and Zombie/Beautiful ordering is unresolved. The [earlier 20-input Pele/Flutter follow-up](docs/isolated-png-results.md), [initial controlled observations](docs/controlled-png-results.md) and [withdrawn v1 comparison](docs/davebench-png-results.md) remain separate campaigns.
+
 ## Add a tool
 
 Declare the project and its public bindings in `catalog/mermaid-community.json`. An npm SVG renderer can use the generic adapter:
