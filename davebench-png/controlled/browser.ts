@@ -93,7 +93,7 @@ export async function controlledExport(input: { source: string; id: string }) {
     const totalMs = performance.now() - started
     // Source facts and computed font observations are collected AFTER the clock.
     const text = [...root.querySelectorAll('text')].map(node => ({ text: node.textContent, fontFamily: getComputedStyle(node).fontFamily, fontSize: getComputedStyle(node).fontSize }))
-    return { status: 'ok', totalMs, apiMs, normalizationMs: totalMs - apiMs, svgPreparationMs: preparedAt - started - apiMs, svgDecodeMs: decodedAt - preparedAt, canvasDrawMs: drawnAt - decodedAt, pngRasterReadbackEncodeMs: encodedAt - drawnAt, encodedByteReadMs: started + totalMs - encodedAt, bytes: outputBytes, png: Array.from(bytes), naturalWidth: width, naturalHeight: height, text, svg }
+    return { status: 'ok', totalMs, apiMs, normalizationMs: totalMs - apiMs, svgPreparationMs: preparedAt - started - apiMs, svgDecodeMs: decodedAt - preparedAt, canvasDrawMs: drawnAt - decodedAt, pngRasterReadbackEncodeMs: encodedAt - drawnAt, encodedByteReadMs: started + totalMs - encodedAt, bytes: outputBytes, pngBase64: url.slice(url.indexOf(',') + 1), naturalWidth: width, naturalHeight: height, text, svg }
   } catch (error) {
     return { status: 'error', stage, detail: String(error), svg }
   } finally {
