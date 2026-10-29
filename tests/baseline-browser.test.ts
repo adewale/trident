@@ -147,11 +147,9 @@ test('invalid browser stages and launch arguments fail before reference preparat
 })
 
 test('first-party ZenUML binding is lazy, registered once, and included in the first public-call clock', async () => {
-  const state = globalThis as any
-  const key = '__tridentZenumlFixture' + Date.now() + Math.random()
-  const previous = state.__baselineBrowser
-  state[key] = { imports: 0, registrations: 0, registered: false }
-  const fixture = JSON.stringify(key)
+  const require = createRequire(join(process.cwd(), 'eval/benchmark/package.json')), { chromium } = require('playwright')
+  const browser = await chromium.launch({ headless: true, executablePath: chromiumExecutable })
+  const fixture = JSON.stringify('__tridentZenumlFixture')
   const addon = 'data:text/javascript,' + encodeURIComponent(`
     const state = globalThis[${fixture}]
     state.imports++
@@ -174,20 +172,23 @@ test('first-party ZenUML binding is lazy, registered once, and included in the f
     }
   `)
   try {
-    await baselineBrowserAction({ type: 'initialize', kind: 'mermaid', url: module, zenumlUrl: addon, configuration: {} })
-    expect(state[key].imports).toBe(0)
-    const flowchart = await baselineBrowserAction({ type: 'render', family: 'flowchart', source: 'flowchart', renderId: 'flowchart' })
+    const page = await browser.newPage()
+    await page.evaluate(() => { (globalThis as any).__tridentZenumlFixture = { imports: 0, registrations: 0, registered: false } })
+    const counts = () => page.evaluate(() => {
+      const { imports, registrations } = (globalThis as any).__tridentZenumlFixture
+      return { imports, registrations }
+    })
+    await page.evaluate(baselineBrowserAction, { type: 'initialize', kind: 'mermaid', url: module, zenumlUrl: addon, configuration: {} })
+    expect(await counts()).toEqual({ imports: 0, registrations: 0 })
+    const flowchart = await page.evaluate(baselineBrowserAction, { type: 'render', family: 'flowchart', source: 'flowchart', renderId: 'flowchart' })
     expect(flowchart.accepted).toBe(true)
-    expect(state[key].registrations).toBe(0)
-    expect(state[key].imports).toBe(0)
-    const first = await baselineBrowserAction({ type: 'render', family: 'zenuml', source: 'zenuml', renderId: 'zenuml-first' })
+    expect(await counts()).toEqual({ imports: 0, registrations: 0 })
+    const first = await page.evaluate(baselineBrowserAction, { type: 'render', family: 'zenuml', source: 'zenuml', renderId: 'zenuml-first' })
     expect(first.accepted).toBe(true)
     expect(first.publicApiMs).toBeGreaterThanOrEqual(15)
-    expect(state[key].imports).toBe(1)
-    expect(state[key].registrations).toBe(1)
-    const second = await baselineBrowserAction({ type: 'render', family: 'zenuml', source: 'zenuml', renderId: 'zenuml-second' })
+    expect(await counts()).toEqual({ imports: 1, registrations: 1 })
+    const second = await page.evaluate(baselineBrowserAction, { type: 'render', family: 'zenuml', source: 'zenuml', renderId: 'zenuml-second' })
     expect(second.accepted).toBe(true)
-    expect(state[key].imports).toBe(1)
-    expect(state[key].registrations).toBe(1)
-  } finally { state.__baselineBrowser = previous; delete state[key] }
-})
+    expect(await counts()).toEqual({ imports: 1, registrations: 1 })
+  } finally { await browser.close() }
+}, 20_000)
