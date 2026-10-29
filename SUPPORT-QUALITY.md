@@ -1,6 +1,6 @@
 # Quality of Trident support
 
-Assessment: 2026-10-28. The historical 0.1 receipt exercised **37 of 42 selected entries**. The current core selection has **39 entries**: 38 have recorded public-output witnesses, including the separate Excalidraw conversion follow-up, and Rusty Mermaid has a broken published artifact. VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid are discovery-only applications, outside core benchmark requirements. All 88 catalog identities remain; 46 lineage exclusions plus three applications give 49 default exclusions. The original receipt and measurement dates are unchanged.
+Assessment: 2026-10-28. The historical 0.1 receipt exercised **37 of 42 selected entries**. The current core selection has **39 entries**: 38 have recorded public-output witnesses, including the separate Excalidraw conversion follow-up, and Rusty Mermaid has a broken published artifact disabled by version-specific configuration. Normal campaigns therefore schedule 38 projects. VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid are discovery-only applications, outside core benchmark requirements. All 88 catalog identities remain; 46 lineage exclusions plus three applications give 49 default exclusions. The original receipt and measurement dates are unchanged.
 
 This assesses Trident integrations, not project quality or renderer speed. A successful call establishes a working public invocation for that input. It does not establish all-family compatibility, painted meaning, useful layout or calibrated timing. The earlier eight-project campaign supplies broader historical evidence for its own scopes, and is not silently rerun or upgraded.
 
@@ -9,7 +9,7 @@ This assesses Trident integrations, not project quality or renderer speed. A suc
 | Level | Entries | Evidence |
 |---|---:|---|
 | Public output exercised | 38 | Actual admitted release artifacts, common inputs, positive output witnesses; remaining binding and qualification gaps below. |
-| Release artifact blocked | 1 | Rusty Mermaid 0.42.0 omits its runtime. A separately identified 0.1.0 source candidate was built and exercised. |
+| Release artifact skipped | 1 | Rusty Mermaid 0.42.0 omits its runtime. A separately identified 0.1.0 source candidate was built and exercised. |
 | Discovery-only applications | 3 | VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid have no core driver requirement. |
 | Excluded from normal comparisons | 46 | Full inventory and old support evidence retained; this campaign supplies no new invocation evidence for them. |
 
@@ -46,7 +46,7 @@ Each fraction is successful authored inputs / 6 planned inputs for that particul
 | fasouto/termaid | 0.10.0 | terminal/python 6/6 | No unbound declared format; broader qualification remains separate |
 | gotoailab/modern_mermaid | discovery only | out of scope | Whole-editor workflow; no core driver requirement |
 | inkeep/visimer | 1.1.3 | parse/node 6/6 | No unbound declared format; broader qualification remains separate |
-| justsml/rusty-mermaid | not admitted | unmeasured | Published rusty-mermaid@0.42.0 omits pkg/rusty_mermaid.js and its WASM runtime; public release could not be invoked. |
+| justsml/rusty-mermaid | 0.42.0 | skipped by configuration | Published rusty-mermaid@0.42.0 omits pkg/rusty_mermaid.js and its WASM runtime; public release could not be invoked; 0.42.0 is skipped before acquisition. |
 | kais-radwan/ascii-mermaid | 0.1.0 | terminal/node 6/6 | No unbound declared format; broader qualification remains separate |
 | kingsword09/mermansi | v0.1.6 | terminal/cli 6/6 | No unbound declared format; broader qualification remains separate |
 | kitlangton/merman | 0.2.1 | terminal/node 3/6 | No unbound declared format; broader qualification remains separate |

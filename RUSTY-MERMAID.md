@@ -2,7 +2,12 @@
 
 The published `rusty-mermaid@0.42.0` npm tarball contains its README and package
 metadata, but omits `pkg/rusty_mermaid.js` and its WASM runtime. Trident retains
-that release as blocked. The npm metadata's Git head `5028e40c` could not be
+that release as blocked and skips it before acquisition in normal campaigns.
+Its catalog `benchmark.skip` names version `0.42.0` and the packaging defect.
+The descendant override cannot enable a disabled release. A new pinned version
+is not covered by this skip; verify its package before updating the pin.
+Explicit `community:update --candidate-dir` or tarball runs remain available
+through the separate candidate lane. The npm metadata's Git head `5028e40c` could not be
 fetched during this assessment; no source equivalence is asserted.
 
 A separate public source revision,

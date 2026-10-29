@@ -551,10 +551,11 @@ export async function main(argv = process.argv.slice(2)) {
   if (!options.communityProjects && !allProjects) throw Error('Choose --projects OWNER/TOOL,... or explicitly --all-projects before preparation')
   const catalog = json(options.communityCatalogFile ?? communityCatalogFile) as import('./lineage.ts').LineageCatalog
   const requested = selectCommunityProjects(catalog.nodes, options.communityProjects).map(node => node.id)
-  const comparisonSelection = comparisonProjects(catalog, requested, includeExcluded)
+  const candidateProject = Object.values(candidateValues).some(Boolean) && requested.length === 1 ? requested[0] : undefined
+  const comparisonSelection = comparisonProjects(catalog, requested, includeExcluded, candidateProject)
   options.communityProjects = comparisonSelection.included
-  if (!options.communityProjects.length) throw Error('No projects remain after scope/lineage/branding exclusions; inspect support --lineage. The descendant override does not enable whole-application workflows')
-  if (comparisonSelection.excluded.length) console.error('Scope/lineage/branding exclusions: ' + comparisonSelection.excluded.map(node => node.project).join(', '))
+  if (!options.communityProjects.length) throw Error('No projects remain after scope/lineage/branding exclusions or release skips: ' + comparisonSelection.excluded.map(node => node.project + ': ' + node.comparison).join('; '))
+  if (comparisonSelection.excluded.length) console.error('Scope/lineage/branding exclusions or release skips: ' + comparisonSelection.excluded.map(node => node.project + ': ' + node.comparison).join('; '))
   options.communityCandidate = communityCandidate(candidateValues, options)
   const result = await runProjectUpdates(options, settings)
   console.log(JSON.stringify({ comparisonSelection, attempt: result.attempt, plan: result.plan, updates: result.updates.map(update => ({ project: update.project, lane: update.record.identity.lane ?? 'community', action: update.action, id: update.record.id })) }, null, 2))

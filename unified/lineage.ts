@@ -1,4 +1,5 @@
 import type { CatalogMember } from './support.ts'
+import { releaseBenchmarkSkip } from './benchmark-skip.ts'
 
 export interface LineageCatalog {
   checkedAt?: string
@@ -66,9 +67,12 @@ export function lineageMarkdown(inventory: ReturnType<typeof lineageInventory>) 
   return lines.join('\n')
 }
 
-export function comparisonProjects(catalog: LineageCatalog, requested: string[], includeExcluded = false) {
+export function comparisonProjects(catalog: LineageCatalog, requested: string[], includeExcluded = false, candidateProject?: string) {
   const inventory = lineageInventory(catalog)
-  const selected = inventory.nodes.filter(node => requested.includes(node.project))
-  const included = (node: typeof selected[number]) => !node.exclusionReasons.includes('application-workflow') && (includeExcluded || !node.excludedFromComparison)
+  const selected = inventory.nodes.filter(node => requested.includes(node.project)).map(node => {
+    const skip = releaseBenchmarkSkip(catalog.nodes.find(entry => entry.id === node.project)!, candidateProject)
+    return skip ? { ...node, excludedFromComparison: true, exclusionReasons: [...node.exclusionReasons, 'disabled-release'], comparison: 'Skipped release ' + skip.version + ': ' + skip.reason } : node
+  })
+  const included = (node: typeof selected[number]) => !node.exclusionReasons.some(reason => ['application-workflow', 'disabled-release'].includes(reason)) && (includeExcluded || !node.excludedFromComparison)
   return { projects: selected, included: selected.filter(included).map(node => node.project), excluded: selected.filter(node => !included(node)), includeExcluded, policy: inventory.policy }
 }

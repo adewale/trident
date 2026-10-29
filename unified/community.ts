@@ -1,3 +1,4 @@
+import { releaseBenchmarkSkip } from './benchmark-skip.ts'
 import { verifyReleaseCli } from './release-cli.ts'
 import { captureInstalledDependencyClosure } from '../portable/artifact-dependencies.ts'
 import { readBenchmarkDocument, writeBenchmarkDocument } from '../portable/project-records.ts'
@@ -285,6 +286,9 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
   mkdirSync(cache, { recursive: true })
   const catalog = JSON.parse(readFileSync(options.communityCatalogFile ?? communityCatalogFile, 'utf8')) as { nodes: CommunityNode[] }
   catalog.nodes = selectCommunityProjects(catalog.nodes, options.communityProjects)
+  const skipped = catalog.nodes.filter(node => releaseBenchmarkSkip(node, options.communityCandidate?.project))
+  if (options.communityProjects && skipped.length === catalog.nodes.length) throw Error('Benchmark release skipped: ' + skipped.map(node => node.id + ': ' + releaseBenchmarkSkip(node)!.reason).join('; '))
+  catalog.nodes = catalog.nodes.filter(node => !skipped.includes(node))
   if (options.communityPreparedFile) return loadFrozenCommunity(options, catalog.nodes)
   const manifestPath = options.communityArtifacts ?? process.env.AM_BENCH_COMMUNITY_ARTIFACTS
   const provided = manifestPath ? (JSON.parse(readFileSync(manifestPath, 'utf8')) as Record<string, CommunityArtifact>) : {}
