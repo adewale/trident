@@ -1,0 +1,1558 @@
+{
+  "projects": [
+    "adewale/agentic-mermaid",
+    "dfadler/zombie-mermaid"
+  ],
+  "names": {
+    "adewale/agentic-mermaid": "Agentic Mermaid",
+    "dfadler/zombie-mermaid": "Zombie Mermaid"
+  },
+  "artifacts": {
+    "preparedAt": "2026-10-29T07:58:58.443Z",
+    "trident": "bd1c685f32353661243ec55366d69442df19c62b",
+    "selection": "Current main source candidates for both projects",
+    "receipts": [
+      {
+        "project": "adewale/agentic-mermaid",
+        "source": "/workspace/agentic-mermaid",
+        "revision": "c4a8eeb8a3c472fd73e6654c0efa151b8f19a7f5",
+        "candidate": {
+          "project": "adewale/agentic-mermaid",
+          "tarball": "/workspace/am-zm-2026-10-29/preparation/am/candidate-packs/d8f04386-2a5c-47f4-9762-005392050bf3/agentic-mermaid-0.5.1.tgz",
+          "sha256": "95a1321f9020dafcdc350eb8df81784e6d3ef8f7b4dc8767db8a1b7c6032340b",
+          "packedFrom": "/workspace/agentic-mermaid"
+        },
+        "artifact": {
+          "kind": "node",
+          "root": "/workspace/am-zm-2026-10-29/cache/candidates/agentic-mermaid@95a1321f9020dafcdc350eb8df81784e6d3ef8f7b4dc8767db8a1b7c6032340b/node_modules/agentic-mermaid",
+          "module": "/workspace/am-zm-2026-10-29/cache/candidates/agentic-mermaid@95a1321f9020dafcdc350eb8df81784e6d3ef8f7b4dc8767db8a1b7c6032340b/node_modules/agentic-mermaid/dist/agent.js",
+          "version": "0.5.1",
+          "integrity": "sha512-8k9JZ7/gECFxjDcQCjS0QucT0mGaRVUkTQaM4yTBExp3dSIwiyYKwNZ5UQNx9rAdLiRURy0HqHQ90Pk79RwSNw==",
+          "runtime": "Node",
+          "sha256": "49c13651b5c4c6035af84e943b5f90bc51348a6f1593537e0767aaf29dcf4db6",
+          "files": [
+            {
+              "path": "/workspace/am-zm-2026-10-29/cache/candidates/agentic-mermaid@95a1321f9020dafcdc350eb8df81784e6d3ef8f7b4dc8767db8a1b7c6032340b/node_modules/agentic-mermaid/dist/agent.js",
+              "sha256": "49c13651b5c4c6035af84e943b5f90bc51348a6f1593537e0767aaf29dcf4db6"
+            }
+          ],
+          "apiBoundary": "published package API",
+          "candidate": {
+            "sha256": "95a1321f9020dafcdc350eb8df81784e6d3ef8f7b4dc8767db8a1b7c6032340b",
+            "tarball": "/workspace/am-zm-2026-10-29/cache/candidates/agentic-mermaid@95a1321f9020dafcdc350eb8df81784e6d3ef8f7b4dc8767db8a1b7c6032340b/candidate.tgz"
+          },
+          "detail": "Version policy: unreleased candidate tarball; the catalog version pin does not apply. Recorded catalog versions remain separately available on the node."
+        },
+        "sourceStatus": ""
+      },
+      {
+        "project": "dfadler/zombie-mermaid",
+        "source": "/workspace/am-zm-2026-10-29/zombie",
+        "revision": "51ed1cdf4ee47351090adfa00bdee2baff2c52ee",
+        "archives": [
+          {
+            "path": "/workspace/am-zm-2026-10-29/packs/zombie-mermaid-5.11.3.tgz",
+            "sha256": "86137cb2da404aa97903509b3307bc095d12db4a37285e8f7ad36c457e7a306d"
+          },
+          {
+            "path": "/workspace/am-zm-2026-10-29/packs/zombie-mermaid-core-5.11.3.tgz",
+            "sha256": "a2370cf7a0b876cf9377747b858a58898ad3a414b43d8d0acfd39e775db16d6f"
+          },
+          {
+            "path": "/workspace/am-zm-2026-10-29/packs/zombie-mermaid-mermaid-parser-5.11.3.tgz",
+            "sha256": "8f498c9b65d3e53578e12f62cefd4d6c9c9b60f7b2fc97d4fba54b133e3e6949"
+          },
+          {
+            "path": "/workspace/am-zm-2026-10-29/packs/zombie-mermaid-svg-renderer-5.11.3.tgz",
+            "sha256": "ce87d0f53be1774113f3b11d7e8638a915c934e77c3acffa40cebdb9f661f2bb"
+          },
+          {
+            "path": "/workspace/am-zm-2026-10-29/packs/zombie-mermaid-ascii-renderer-5.11.3.tgz",
+            "sha256": "8a32f7e6e9f52ca4fc8c8efe94f6fa3d867187db96d4708818f0a70ec2d30dc6"
+          },
+          {
+            "path": "/workspace/am-zm-2026-10-29/packs/zombie-mermaid-mcp-5.11.3.tgz",
+            "sha256": "902a57168d4c9a89346053572d303f3d8bce255c20c221152ed6948f17b3a1c6"
+          }
+        ],
+        "installation": "All six public source archives installed together; no published workspace substitution."
+      },
+      {
+        "project": "dfadler/zombie-mermaid",
+        "source": "/workspace/am-zm-2026-10-29/zombie",
+        "revision": "51ed1cdf4ee47351090adfa00bdee2baff2c52ee",
+        "candidate": {
+          "project": "dfadler/zombie-mermaid",
+          "tarball": "/workspace/am-zm-2026-10-29/packs/zombie-mermaid-5.11.3.tgz",
+          "sha256": "86137cb2da404aa97903509b3307bc095d12db4a37285e8f7ad36c457e7a306d"
+        },
+        "artifact": {
+          "kind": "node",
+          "root": "/workspace/am-zm-2026-10-29/cache/candidates/zombie-mermaid@86137cb2da404aa97903509b3307bc095d12db4a37285e8f7ad36c457e7a306d/node_modules/zombie-mermaid",
+          "module": "/workspace/am-zm-2026-10-29/cache/candidates/zombie-mermaid@86137cb2da404aa97903509b3307bc095d12db4a37285e8f7ad36c457e7a306d/node_modules/zombie-mermaid/dist/index.js",
+          "version": "5.11.3",
+          "integrity": "sha512-nVapXBSoM5SK99QzWBBOgQjR6j6m/kQ+/77rkWZFDRBHWaqz4yh4ZPqg3mBBpSWNnWW40RIakV7jlucYRxetwA==",
+          "runtime": "Node",
+          "sha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
+          "files": [
+            {
+              "path": "/workspace/am-zm-2026-10-29/cache/candidates/zombie-mermaid@86137cb2da404aa97903509b3307bc095d12db4a37285e8f7ad36c457e7a306d/node_modules/zombie-mermaid/dist/index.js",
+              "sha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd"
+            }
+          ],
+          "apiBoundary": "published package API",
+          "candidate": {
+            "sha256": "86137cb2da404aa97903509b3307bc095d12db4a37285e8f7ad36c457e7a306d",
+            "tarball": "/workspace/am-zm-2026-10-29/cache/candidates/zombie-mermaid@86137cb2da404aa97903509b3307bc095d12db4a37285e8f7ad36c457e7a306d/candidate.tgz"
+          },
+          "detail": "Version policy: unreleased candidate tarball; the catalog version pin does not apply. Recorded catalog versions remain separately available on the node."
+        },
+        "sourceStatus": ""
+      }
+    ]
+  },
+  "measuredAt": "2026-10-29",
+  "documentation": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "returnedEveryRound": 441,
+      "planned": 548,
+      "rate": 80.474,
+      "countsStable": true,
+      "rounds": [
+        {
+          "block": 0,
+          "round": 1,
+          "failed": 107,
+          "passed": 441
+        },
+        {
+          "block": 0,
+          "round": 2,
+          "failed": 107,
+          "passed": 441
+        },
+        {
+          "block": 0,
+          "round": 3,
+          "failed": 107,
+          "passed": 441
+        },
+        {
+          "block": 0,
+          "round": 4,
+          "failed": 107,
+          "passed": 441
+        },
+        {
+          "block": 0,
+          "round": 5,
+          "failed": 107,
+          "passed": 441
+        },
+        {
+          "block": 1,
+          "round": 1,
+          "failed": 107,
+          "passed": 441
+        },
+        {
+          "block": 1,
+          "round": 2,
+          "failed": 107,
+          "passed": 441
+        },
+        {
+          "block": 1,
+          "round": 3,
+          "failed": 107,
+          "passed": 441
+        },
+        {
+          "block": 1,
+          "round": 4,
+          "failed": 107,
+          "passed": 441
+        },
+        {
+          "block": 1,
+          "round": 5,
+          "failed": 107,
+          "passed": 441
+        }
+      ],
+      "errorExamples": [
+        [
+          "MermaidFamilyDetectionError: Mermaid 12.2.0 family \"usecase\" is unsupported in Agentic Mermaid",
+          120
+        ],
+        [
+          "MermaidFamilyDetectionError: Mermaid 12.2.0 family \"wardley\" is unsupported in Agentic Mermaid",
+          95
+        ],
+        [
+          "MermaidFamilyDetectionError: Mermaid 12.2.0 family \"railroad\" is unsupported in Agentic Mermaid",
+          70
+        ],
+        [
+          "MermaidFamilyDetectionError: Mermaid 12.2.0 family \"swimlane\" is unsupported in Agentic Mermaid",
+          65
+        ],
+        [
+          "MermaidFamilyDetectionError: Mermaid 12.2.0 family \"treeview\" is unsupported in Agentic Mermaid",
+          65
+        ]
+      ]
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "returnedEveryRound": 245,
+      "planned": 548,
+      "rate": 44.708,
+      "countsStable": true,
+      "rounds": [
+        {
+          "block": 0,
+          "round": 1,
+          "failed": 303,
+          "passed": 245
+        },
+        {
+          "block": 0,
+          "round": 2,
+          "failed": 303,
+          "passed": 245
+        },
+        {
+          "block": 0,
+          "round": 3,
+          "failed": 303,
+          "passed": 245
+        },
+        {
+          "block": 0,
+          "round": 4,
+          "failed": 303,
+          "passed": 245
+        },
+        {
+          "block": 0,
+          "round": 5,
+          "failed": 303,
+          "passed": 245
+        },
+        {
+          "block": 1,
+          "round": 1,
+          "failed": 303,
+          "passed": 245
+        },
+        {
+          "block": 1,
+          "round": 2,
+          "failed": 303,
+          "passed": 245
+        },
+        {
+          "block": 1,
+          "round": 3,
+          "failed": 303,
+          "passed": 245
+        },
+        {
+          "block": 1,
+          "round": 4,
+          "failed": 303,
+          "passed": 245
+        },
+        {
+          "block": 1,
+          "round": 5,
+          "failed": 303,
+          "passed": 245
+        }
+      ],
+      "errorExamples": [
+        [
+          "MermaidParseError: Line 1: Invalid mermaid header: \"---\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-v2\", \"sequenceDiagram\", \"classDiagram\", \"erDiagram\", \"xychart-beta\", \"C4Context\"/\"C4Container\"/\"C4Component\"/\"C4Dynamic\"/\"C4Deployment\", \"architecture-beta\", \"pie\".",
+          420
+        ],
+        [
+          "MermaidParseError: Line 1: Invalid mermaid header: \"block\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-v2\", \"sequenceDiagram\", \"classDiagram\", \"erDiagram\", \"xychart-beta\", \"C4Context\"/\"C4Container\"/\"C4Component\"/\"C4Dynamic\"/\"C4Deployment\", \"architecture-beta\", \"pie\".",
+          150
+        ],
+        [
+          "MermaidParseError: Line 1: Invalid mermaid header: \"usecase-beta\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-v2\", \"sequenceDiagram\", \"classDiagram\", \"erDiagram\", \"xychart-beta\", \"C4Context\"/\"C4Container\"/\"C4Component\"/\"C4Dynamic\"/\"C4Deployment\", \"architecture-beta\", \"pie\".",
+          100
+        ],
+        [
+          "MermaidParseError: Line 1: Invalid mermaid header: \"wardley-beta\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-v2\", \"sequenceDiagram\", \"classDiagram\", \"erDiagram\", \"xychart-beta\", \"C4Context\"/\"C4Container\"/\"C4Component\"/\"C4Dynamic\"/\"C4Deployment\", \"architecture-beta\", \"pie\".",
+          95
+        ],
+        [
+          "MermaidParseError: Line 1: Invalid mermaid header: \"zenuml\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-v2\", \"sequenceDiagram\", \"classDiagram\", \"erDiagram\", \"xychart-beta\", \"C4Context\"/\"C4Container\"/\"C4Component\"/\"C4Dynamic\"/\"C4Deployment\", \"architecture-beta\", \"pie\".",
+          80
+        ]
+      ]
+    }
+  ],
+  "renderCost": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "commonOccurrences": 245,
+      "samplesPerInput": 10,
+      "sumInputMediansMs": 1675.75000006333,
+      "medianInputMedianMs": 3.800000000745058,
+      "p95InputMedianMs": 24.449999999254942,
+      "geometricMeanInputMedianMs": 4.339699260779653,
+      "zeroOrNegativeMedians": 0,
+      "blocks": [
+        {
+          "block": 0,
+          "sumInputMediansMs": 1666.6000000461936,
+          "medianInputMedianMs": 3.6999999955296516,
+          "p95InputMedianMs": 24.19999999552965
+        },
+        {
+          "block": 1,
+          "sumInputMediansMs": 1686.400000065565,
+          "medianInputMedianMs": 3.7999999970197678,
+          "p95InputMedianMs": 24.5
+        }
+      ],
+      "qualification": "Descriptive only; two project-order blocks, no independent A/A performance qualification; SVG-return success does not establish equal paint."
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "commonOccurrences": 245,
+      "samplesPerInput": 10,
+      "sumInputMediansMs": 538.5499999672174,
+      "medianInputMedianMs": 1.2999999970197678,
+      "p95InputMedianMs": 6.849999997764826,
+      "geometricMeanInputMedianMs": null,
+      "zeroOrNegativeMedians": 1,
+      "blocks": [
+        {
+          "block": 0,
+          "sumInputMediansMs": 544.0999999642372,
+          "medianInputMedianMs": 1.2999999970197678,
+          "p95InputMedianMs": 6.699999995529652
+        },
+        {
+          "block": 1,
+          "sumInputMediansMs": 541.8999999836087,
+          "medianInputMedianMs": 1.2999999970197678,
+          "p95InputMedianMs": 6.799999997019768
+        }
+      ],
+      "qualification": "Descriptive only; two project-order blocks, no independent A/A performance qualification; SVG-return success does not establish equal paint."
+    }
+  ],
+  "meaning": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "surfaces": {
+        "browser-owned-ink": {
+          "planned": 1035,
+          "passed": 937,
+          "blocked": 97,
+          "failed": 1
+        },
+        "browser-public-api": {
+          "planned": 269,
+          "passed": 264,
+          "blocked": 5
+        },
+        "native-public-api": {
+          "planned": 623,
+          "blocked": 623
+        }
+      },
+      "failedChecks": [
+        {
+          "suite": "mermaid-fidelity",
+          "surface": "browser-owned-ink",
+          "runtime": "Chromium",
+          "family": "flowchart",
+          "caseId": "features:flowchart:controlled-image:embedded-images",
+          "operation": "embedded-images",
+          "format": "svg",
+          "mode": "independent-authored-criteria",
+          "status": "failed",
+          "metrics": {
+            "implementation": "adewale/agentic-mermaid",
+            "criterion": "embedded-images",
+            "authoredCase": "features:flowchart:controlled-image",
+            "required": true,
+            "fidelityCriterionDisposition": "planned-observed",
+            "evidenceRecorded": true,
+            "project": "adewale/agentic-mermaid",
+            "metricId": "observation-1887"
+          }
+        }
+      ]
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "surfaces": {
+        "browser-owned-ink": {
+          "planned": 1035,
+          "passed": 400,
+          "blocked": 622,
+          "failed": 13
+        },
+        "browser-public-api": {
+          "planned": 269,
+          "passed": 91,
+          "blocked": 178
+        },
+        "native-public-api": {
+          "planned": 623,
+          "blocked": 623
+        }
+      },
+      "failedChecks": [
+        {
+          "suite": "mermaid-fidelity",
+          "surface": "browser-owned-ink",
+          "runtime": "Chromium",
+          "family": "pie",
+          "caseId": "meaning:family:pie:labels-within-canvas",
+          "operation": "labels-within-canvas",
+          "format": "svg",
+          "mode": "independent-authored-criteria",
+          "status": "failed",
+          "metrics": {
+            "implementation": "dfadler/zombie-mermaid",
+            "criterion": "labels-within-canvas",
+            "authoredCase": "meaning:family:pie",
+            "required": true,
+            "fidelityCriterionDisposition": "planned-observed",
+            "evidenceRecorded": true,
+            "project": "dfadler/zombie-mermaid",
+            "metricId": "observation-161"
+          }
+        },
+        {
+          "suite": "mermaid-fidelity",
+          "surface": "browser-owned-ink",
+          "runtime": "Chromium",
+          "family": "pie",
+          "caseId": "meaning:family:pie:unclipped-authored-labels",
+          "operation": "unclipped-authored-labels",
+          "format": "svg",
+          "mode": "independent-authored-criteria",
+          "status": "failed",
+          "metrics": {
+            "implementation": "dfadler/zombie-mermaid",
+            "criterion": "unclipped-authored-labels",
+            "authoredCase": "meaning:family:pie",
+            "required": true,
+            "fidelityCriterionDisposition": "planned-observed",
+            "evidenceRecorded": true,
+            "project": "dfadler/zombie-mermaid",
+            "metricId": "observation-162"
+          }
+        },
+        {
+          "suite": "mermaid-fidelity",
+          "surface": "browser-owned-ink",
+          "runtime": "Chromium",
+          "family": "c4",
+          "caseId": "meaning:family:c4:painted-relationships",
+          "operation": "painted-relationships",
+          "format": "svg",
+          "mode": "independent-authored-criteria",
+          "status": "failed",
+          "metrics": {
+            "implementation": "dfadler/zombie-mermaid",
+            "criterion": "painted-relationships",
+            "authoredCase": "meaning:family:c4",
+            "required": false,
+            "fidelityCriterionDisposition": "planned-observed",
+            "evidenceRecorded": true,
+            "project": "dfadler/zombie-mermaid",
+            "metricId": "observation-282"
+          }
+        },
+        {
+          "suite": "mermaid-fidelity",
+          "surface": "browser-owned-ink",
+          "runtime": "Chromium",
+          "family": "sequence",
+          "caseId": "features:sequence:notes-loop-reciprocal:painted-relationships",
+          "operation": "painted-relationships",
+          "format": "svg",
+          "mode": "independent-authored-criteria",
+          "status": "failed",
+          "metrics": {
+            "implementation": "dfadler/zombie-mermaid",
+            "criterion": "painted-relationships",
+            "authoredCase": "features:sequence:notes-loop-reciprocal",
+            "required": true,
+            "fidelityCriterionDisposition": "planned-observed",
+            "evidenceRecorded": true,
+            "project": "dfadler/zombie-mermaid",
+            "metricId": "observation-551"
+          }
+        },
+        {
+          "suite": "mermaid-fidelity",
+          "surface": "browser-owned-ink",
+          "runtime": "Chromium",
+          "family": "pie",
+          "caseId": "features:pie:fractions-show-data:labels-within-canvas",
+          "operation": "labels-within-canvas",
+          "format": "svg",
+          "mode": "independent-authored-criteria",
+          "status": "failed",
+          "metrics": {
+            "implementation": "dfadler/zombie-mermaid",
+            "criterion": "labels-within-canvas",
+            "authoredCase": "features:pie:fractions-show-data",
+            "required": true,
+            "fidelityCriterionDisposition": "planned-observed",
+            "evidenceRecorded": true,
+            "project": "dfadler/zombie-mermaid",
+            "metricId": "observation-702"
+          }
+        },
+        {
+          "suite": "mermaid-fidelity",
+          "surface": "browser-owned-ink",
+          "runtime": "Chromium",
+          "family": "pie",
+          "caseId": "features:pie:fractions-show-data:unclipped-authored-labels",
+          "operation": "unclipped-authored-labels",
+          "format": "svg",
+          "mode": "independent-authored-criteria",
+          "status": "failed",
+          "metrics": {
+            "implementation": "dfadler/zombie-mermaid",
+            "criterion": "unclipped-authored-labels",
+            "authoredCase": "features:pie:fractions-show-data",
+            "required": true,
+            "fidelityCriterionDisposition": "planned-observed",
+            "evidenceRecorded": true,
+            "project": "dfadler/zombie-mermaid",
+            "metricId": "observation-703"
+          }
+        },
+        {
+          "suite": "mermaid-fidelity",
+          "surface": "browser-owned-ink",
+          "runtime": "Chromium",
+          "family": "pie",
+          "caseId": "meaning:family:pie:configuration-reset:labels-within-canvas",
+          "operation": "labels-within-canvas",
+          "format": "svg",
+          "mode": "independent-authored-criteria",
+          "status": "failed",
+          "metrics": {
+            "implementation": "dfadler/zombie-mermaid",
+            "criterion": "labels-within-canvas",
+            "authoredCase": "meaning:family:pie:configuration-reset",
+            "required": true,
+            "fidelityCriterionDisposition": "planned-observed",
+            "evidenceRecorded": true,
+            "project": "dfadler/zombie-mermaid",
+            "metricId": "observation-1264"
+          }
+        },
+        {
+          "suite": "mermaid-fidelity",
+          "surface": "browser-owned-ink",
+          "runtime": "Chromium",
+          "family": "pie",
+          "caseId": "meaning:family:pie:configuration-reset:unclipped-authored-labels",
+          "operation": "unclipped-authored-labels",
+          "format": "svg",
+          "mode": "independent-authored-criteria",
+          "status": "failed",
+          "metrics": {
+            "implementation": "dfadler/zombie-mermaid",
+            "criterion": "unclipped-authored-labels",
+            "authoredCase": "meaning:family:pie:configuration-reset",
+            "required": true,
+            "fidelityCriterionDisposition": "planned-observed",
+            "evidenceRecorded": true,
+            "project": "dfadler/zombie-mermaid",
+            "metricId": "observation-1265"
+          }
+        },
+        {
+          "suite": "mermaid-fidelity",
+          "surface": "browser-owned-ink",
+          "runtime": "Chromium",
+          "family": "pie",
+          "caseId": "meaning:family:pie:configuration-reset:edit:labels-within-canvas",
+          "operation": "labels-within-canvas",
+          "format": "svg",
+          "mode": "independent-authored-criteria",
+          "status": "failed",
+          "metrics": {
+            "implementation": "dfadler/zombie-mermaid",
+            "criterion": "labels-within-canvas",
+            "authoredCase": "meaning:family:pie:configuration-reset:edit",
+            "required": true,
+            "fidelityCriterionDisposition": "planned-observed",
+            "evidenceRecorded": true,
+            "project": "dfadler/zombie-mermaid",
+            "metricId": "observation-1284"
+          }
+        },
+        {
+          "suite": "mermaid-fidelity",
+          "surface": "browser-owned-ink",
+          "runtime": "Chromium",
+          "family": "pie",
+          "caseId": "meaning:family:pie:configuration-reset:edit:unclipped-authored-labels",
+          "operation": "unclipped-authored-labels",
+          "format": "svg",
+          "mode": "independent-authored-criteria",
+          "status": "failed",
+          "metrics": {
+            "implementation": "dfadler/zombie-mermaid",
+            "criterion": "unclipped-authored-labels",
+            "authoredCase": "meaning:family:pie:configuration-reset:edit",
+            "required": true,
+            "fidelityCriterionDisposition": "planned-observed",
+            "evidenceRecorded": true,
+            "project": "dfadler/zombie-mermaid",
+            "metricId": "observation-1285"
+          }
+        },
+        {
+          "suite": "mermaid-fidelity",
+          "surface": "browser-owned-ink",
+          "runtime": "Chromium",
+          "family": "flowchart",
+          "caseId": "features:flowchart:font-size-reset:computed-authored-font-size",
+          "operation": "computed-authored-font-size",
+          "format": "svg",
+          "mode": "independent-authored-criteria",
+          "status": "failed",
+          "metrics": {
+            "implementation": "dfadler/zombie-mermaid",
+            "criterion": "computed-authored-font-size",
+            "authoredCase": "features:flowchart:font-size-reset",
+            "required": true,
+            "fidelityCriterionDisposition": "planned-observed",
+            "evidenceRecorded": true,
+            "project": "dfadler/zombie-mermaid",
+            "metricId": "observation-1845"
+          }
+        },
+        {
+          "suite": "mermaid-fidelity",
+          "surface": "browser-owned-ink",
+          "runtime": "Chromium",
+          "family": "flowchart",
+          "caseId": "features:flowchart:font-size-reset:edit:computed-authored-font-size",
+          "operation": "computed-authored-font-size",
+          "format": "svg",
+          "mode": "independent-authored-criteria",
+          "status": "failed",
+          "metrics": {
+            "implementation": "dfadler/zombie-mermaid",
+            "criterion": "computed-authored-font-size",
+            "authoredCase": "features:flowchart:font-size-reset:edit",
+            "required": true,
+            "fidelityCriterionDisposition": "planned-observed",
+            "evidenceRecorded": true,
+            "project": "dfadler/zombie-mermaid",
+            "metricId": "observation-1868"
+          }
+        },
+        {
+          "suite": "mermaid-fidelity",
+          "surface": "browser-owned-ink",
+          "runtime": "Chromium",
+          "family": "flowchart",
+          "caseId": "features:flowchart:controlled-image:embedded-images",
+          "operation": "embedded-images",
+          "format": "svg",
+          "mode": "independent-authored-criteria",
+          "status": "failed",
+          "metrics": {
+            "implementation": "dfadler/zombie-mermaid",
+            "criterion": "embedded-images",
+            "authoredCase": "features:flowchart:controlled-image",
+            "required": true,
+            "fidelityCriterionDisposition": "planned-observed",
+            "evidenceRecorded": true,
+            "project": "dfadler/zombie-mermaid",
+            "metricId": "observation-1887"
+          }
+        }
+      ]
+    }
+  ],
+  "compatibility": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "totalObservations": 3437,
+      "groups": [
+        {
+          "surface": "browser:public-api",
+          "format": "js-wasm-fonts",
+          "mode": "round-1",
+          "operation": "delivery",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "js-wasm-fonts",
+          "mode": "round-2",
+          "operation": "delivery",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "js-wasm-fonts",
+          "mode": "round-3",
+          "operation": "delivery",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "js-wasm-fonts",
+          "mode": "round-4",
+          "operation": "delivery",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "js-wasm-fonts",
+          "mode": "round-5",
+          "operation": "delivery",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-1",
+          "operation": "memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-1",
+          "operation": "process-memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-2",
+          "operation": "memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-2",
+          "operation": "process-memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-3",
+          "operation": "memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-3",
+          "operation": "process-memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-4",
+          "operation": "memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-4",
+          "operation": "process-memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-5",
+          "operation": "memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-5",
+          "operation": "process-memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "cold-round-1",
+          "operation": "load-and-initialize",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "cold-round-2",
+          "operation": "load-and-initialize",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "cold-round-3",
+          "operation": "load-and-initialize",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "cold-round-4",
+          "operation": "load-and-initialize",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "cold-round-5",
+          "operation": "load-and-initialize",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "core-api-repeat",
+          "operation": "render",
+          "observations": 30,
+          "uniqueInputs": 6,
+          "passed": 30
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "family-support-probe",
+          "operation": "family-support",
+          "observations": 33,
+          "uniqueInputs": 33,
+          "passed": 25,
+          "unsupported": 8
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "feature-corpus-attempt",
+          "operation": "render",
+          "observations": 363,
+          "uniqueInputs": 363,
+          "not-applicable": 363
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "feature-corpus-qualification",
+          "operation": "render",
+          "observations": 718,
+          "uniqueInputs": 718,
+          "passed": 595,
+          "failed": 17,
+          "unsupported": 106
+        },
+        {
+          "surface": "node:public-api",
+          "format": "svg",
+          "mode": "core-api-repeat",
+          "operation": "render",
+          "observations": 30,
+          "uniqueInputs": 6,
+          "passed": 30
+        },
+        {
+          "surface": "node:public-api",
+          "format": "svg",
+          "mode": "family-support-probe",
+          "operation": "family-support",
+          "observations": 33,
+          "uniqueInputs": 33,
+          "passed": 25,
+          "unsupported": 8
+        },
+        {
+          "surface": "node:public-api",
+          "format": "svg",
+          "mode": "feature-corpus-attempt",
+          "operation": "render",
+          "observations": 363,
+          "uniqueInputs": 363,
+          "not-applicable": 363
+        },
+        {
+          "surface": "node:public-api",
+          "format": "svg",
+          "mode": "feature-corpus-qualification",
+          "operation": "render",
+          "observations": 718,
+          "uniqueInputs": 718,
+          "unsupported": 106,
+          "passed": 595,
+          "failed": 17
+        },
+        {
+          "surface": "node:public-api",
+          "format": "terminal",
+          "mode": "core-api-repeat",
+          "operation": "render",
+          "observations": 15,
+          "uniqueInputs": 3,
+          "passed": 15
+        },
+        {
+          "surface": "node:public-api",
+          "format": "terminal",
+          "mode": "family-support-probe",
+          "operation": "family-support",
+          "observations": 33,
+          "uniqueInputs": 33,
+          "passed": 25,
+          "unsupported": 8
+        },
+        {
+          "surface": "node:public-api",
+          "format": "terminal",
+          "mode": "feature-corpus-attempt",
+          "operation": "render",
+          "observations": 363,
+          "uniqueInputs": 363,
+          "not-applicable": 363
+        },
+        {
+          "surface": "node:public-api",
+          "format": "terminal",
+          "mode": "feature-corpus-qualification",
+          "operation": "render",
+          "observations": 718,
+          "uniqueInputs": 718,
+          "unsupported": 106,
+          "passed": 563,
+          "failed": 49
+        }
+      ],
+      "setupFailures": []
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "totalObservations": 3437,
+      "groups": [
+        {
+          "surface": "browser:public-api",
+          "format": "js-wasm-fonts",
+          "mode": "round-1",
+          "operation": "delivery",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "js-wasm-fonts",
+          "mode": "round-2",
+          "operation": "delivery",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "js-wasm-fonts",
+          "mode": "round-3",
+          "operation": "delivery",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "js-wasm-fonts",
+          "mode": "round-4",
+          "operation": "delivery",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "js-wasm-fonts",
+          "mode": "round-5",
+          "operation": "delivery",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-1",
+          "operation": "memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-1",
+          "operation": "process-memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-2",
+          "operation": "memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-2",
+          "operation": "process-memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-3",
+          "operation": "memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-3",
+          "operation": "process-memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-4",
+          "operation": "memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-4",
+          "operation": "process-memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-5",
+          "operation": "memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "after-round-5",
+          "operation": "process-memory",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "cold-round-1",
+          "operation": "load-and-initialize",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "cold-round-2",
+          "operation": "load-and-initialize",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "cold-round-3",
+          "operation": "load-and-initialize",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "cold-round-4",
+          "operation": "load-and-initialize",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "cold-round-5",
+          "operation": "load-and-initialize",
+          "observations": 1,
+          "uniqueInputs": 1,
+          "passed": 1
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "core-api-repeat",
+          "operation": "render",
+          "observations": 30,
+          "uniqueInputs": 6,
+          "passed": 30
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "family-support-probe",
+          "operation": "family-support",
+          "observations": 33,
+          "uniqueInputs": 33,
+          "passed": 9,
+          "unsupported": 24
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "feature-corpus-attempt",
+          "operation": "render",
+          "observations": 363,
+          "uniqueInputs": 363,
+          "not-applicable": 363
+        },
+        {
+          "surface": "browser:public-api",
+          "format": "svg",
+          "mode": "feature-corpus-qualification",
+          "operation": "render",
+          "observations": 718,
+          "uniqueInputs": 718,
+          "passed": 253,
+          "unsupported": 414,
+          "failed": 51
+        },
+        {
+          "surface": "node:public-api",
+          "format": "svg",
+          "mode": "core-api-repeat",
+          "operation": "render",
+          "observations": 30,
+          "uniqueInputs": 6,
+          "passed": 30
+        },
+        {
+          "surface": "node:public-api",
+          "format": "svg",
+          "mode": "family-support-probe",
+          "operation": "family-support",
+          "observations": 33,
+          "uniqueInputs": 33,
+          "passed": 9,
+          "unsupported": 24
+        },
+        {
+          "surface": "node:public-api",
+          "format": "svg",
+          "mode": "feature-corpus-attempt",
+          "operation": "render",
+          "observations": 363,
+          "uniqueInputs": 363,
+          "not-applicable": 363
+        },
+        {
+          "surface": "node:public-api",
+          "format": "svg",
+          "mode": "feature-corpus-qualification",
+          "operation": "render",
+          "observations": 718,
+          "uniqueInputs": 718,
+          "unsupported": 414,
+          "passed": 253,
+          "failed": 51
+        },
+        {
+          "surface": "node:public-api",
+          "format": "terminal",
+          "mode": "core-api-repeat",
+          "operation": "render",
+          "observations": 15,
+          "uniqueInputs": 3,
+          "passed": 15
+        },
+        {
+          "surface": "node:public-api",
+          "format": "terminal",
+          "mode": "family-support-probe",
+          "operation": "family-support",
+          "observations": 33,
+          "uniqueInputs": 33,
+          "passed": 8,
+          "unsupported": 24,
+          "failed": 1
+        },
+        {
+          "surface": "node:public-api",
+          "format": "terminal",
+          "mode": "feature-corpus-attempt",
+          "operation": "render",
+          "observations": 363,
+          "uniqueInputs": 363,
+          "not-applicable": 363
+        },
+        {
+          "surface": "node:public-api",
+          "format": "terminal",
+          "mode": "feature-corpus-qualification",
+          "operation": "render",
+          "observations": 718,
+          "uniqueInputs": 718,
+          "unsupported": 414,
+          "passed": 237,
+          "failed": 67
+        }
+      ],
+      "setupFailures": []
+    }
+  ],
+  "commonDocumentationCaseIds": [
+    "packages/mermaid/src/docs/syntax/architecture.md:7",
+    "packages/mermaid/src/docs/syntax/architecture.md:146",
+    "packages/mermaid/src/docs/syntax/architecture.md:161",
+    "packages/mermaid/src/docs/syntax/architecture.md:181",
+    "packages/mermaid/src/docs/syntax/architecture.md:228",
+    "packages/mermaid/src/docs/syntax/architecture.md:320",
+    "packages/mermaid/src/docs/syntax/c4.md:7",
+    "packages/mermaid/src/docs/syntax/c4.md:175",
+    "packages/mermaid/src/docs/syntax/c4.md:225",
+    "packages/mermaid/src/docs/syntax/c4.md:267",
+    "packages/mermaid/src/docs/syntax/c4.md:309",
+    "packages/mermaid/src/docs/syntax/c4.md:331",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:50",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:142",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:154",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:163",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:180",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:191",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:205",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:221",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:275",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:290",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:311",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:322",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:362",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:367",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:383",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:398",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:416",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:439",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:518",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:538",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:545",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:555",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:577",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:591",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:633",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:643",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:653",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:669",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:735",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:774",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:782",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:799",
+    "packages/mermaid/src/docs/syntax/classDiagram.md:827",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:25",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:57",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:149",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:158",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:213",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:219",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:229",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:251",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:264",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:280",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:310",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:333",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:376",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:403",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:412",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:421",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:442",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:465",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:488",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:538",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:558",
+    "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:594",
+    "packages/mermaid/src/docs/syntax/examples.md:11",
+    "packages/mermaid/src/docs/syntax/examples.md:17",
+    "packages/mermaid/src/docs/syntax/examples.md:26",
+    "packages/mermaid/src/docs/syntax/examples.md:40",
+    "packages/mermaid/src/docs/syntax/examples.md:50",
+    "packages/mermaid/src/docs/syntax/examples.md:76",
+    "packages/mermaid/src/docs/syntax/examples.md:94",
+    "packages/mermaid/src/docs/syntax/examples.md:110",
+    "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "packages/mermaid/src/docs/syntax/flowchart.md:115",
+    "packages/mermaid/src/docs/syntax/flowchart.md:178",
+    "packages/mermaid/src/docs/syntax/flowchart.md:185",
+    "packages/mermaid/src/docs/syntax/flowchart.md:192",
+    "packages/mermaid/src/docs/syntax/flowchart.md:199",
+    "packages/mermaid/src/docs/syntax/flowchart.md:206",
+    "packages/mermaid/src/docs/syntax/flowchart.md:213",
+    "packages/mermaid/src/docs/syntax/flowchart.md:222",
+    "packages/mermaid/src/docs/syntax/flowchart.md:229",
+    "packages/mermaid/src/docs/syntax/flowchart.md:236",
+    "packages/mermaid/src/docs/syntax/flowchart.md:243",
+    "packages/mermaid/src/docs/syntax/flowchart.md:250",
+    "packages/mermaid/src/docs/syntax/flowchart.md:257",
+    "packages/mermaid/src/docs/syntax/flowchart.md:264",
+    "packages/mermaid/src/docs/syntax/flowchart.md:293",
+    "packages/mermaid/src/docs/syntax/flowchart.md:304",
+    "packages/mermaid/src/docs/syntax/flowchart.md:311",
+    "packages/mermaid/src/docs/syntax/flowchart.md:318",
+    "packages/mermaid/src/docs/syntax/flowchart.md:325",
+    "packages/mermaid/src/docs/syntax/flowchart.md:332",
+    "packages/mermaid/src/docs/syntax/flowchart.md:339",
+    "packages/mermaid/src/docs/syntax/flowchart.md:346",
+    "packages/mermaid/src/docs/syntax/flowchart.md:353",
+    "packages/mermaid/src/docs/syntax/flowchart.md:360",
+    "packages/mermaid/src/docs/syntax/flowchart.md:367",
+    "packages/mermaid/src/docs/syntax/flowchart.md:374",
+    "packages/mermaid/src/docs/syntax/flowchart.md:381",
+    "packages/mermaid/src/docs/syntax/flowchart.md:388",
+    "packages/mermaid/src/docs/syntax/flowchart.md:395",
+    "packages/mermaid/src/docs/syntax/flowchart.md:402",
+    "packages/mermaid/src/docs/syntax/flowchart.md:409",
+    "packages/mermaid/src/docs/syntax/flowchart.md:416",
+    "packages/mermaid/src/docs/syntax/flowchart.md:423",
+    "packages/mermaid/src/docs/syntax/flowchart.md:430",
+    "packages/mermaid/src/docs/syntax/flowchart.md:437",
+    "packages/mermaid/src/docs/syntax/flowchart.md:444",
+    "packages/mermaid/src/docs/syntax/flowchart.md:451",
+    "packages/mermaid/src/docs/syntax/flowchart.md:458",
+    "packages/mermaid/src/docs/syntax/flowchart.md:465",
+    "packages/mermaid/src/docs/syntax/flowchart.md:472",
+    "packages/mermaid/src/docs/syntax/flowchart.md:479",
+    "packages/mermaid/src/docs/syntax/flowchart.md:486",
+    "packages/mermaid/src/docs/syntax/flowchart.md:493",
+    "packages/mermaid/src/docs/syntax/flowchart.md:500",
+    "packages/mermaid/src/docs/syntax/flowchart.md:507",
+    "packages/mermaid/src/docs/syntax/flowchart.md:514",
+    "packages/mermaid/src/docs/syntax/flowchart.md:521",
+    "packages/mermaid/src/docs/syntax/flowchart.md:528",
+    "packages/mermaid/src/docs/syntax/flowchart.md:535",
+    "packages/mermaid/src/docs/syntax/flowchart.md:542",
+    "packages/mermaid/src/docs/syntax/flowchart.md:549",
+    "packages/mermaid/src/docs/syntax/flowchart.md:556",
+    "packages/mermaid/src/docs/syntax/flowchart.md:563",
+    "packages/mermaid/src/docs/syntax/flowchart.md:570",
+    "packages/mermaid/src/docs/syntax/flowchart.md:577",
+    "packages/mermaid/src/docs/syntax/flowchart.md:584",
+    "packages/mermaid/src/docs/syntax/flowchart.md:591",
+    "packages/mermaid/src/docs/syntax/flowchart.md:598",
+    "packages/mermaid/src/docs/syntax/flowchart.md:605",
+    "packages/mermaid/src/docs/syntax/flowchart.md:612",
+    "packages/mermaid/src/docs/syntax/flowchart.md:619",
+    "packages/mermaid/src/docs/syntax/flowchart.md:632",
+    "packages/mermaid/src/docs/syntax/flowchart.md:674",
+    "packages/mermaid/src/docs/syntax/flowchart.md:686",
+    "packages/mermaid/src/docs/syntax/flowchart.md:693",
+    "packages/mermaid/src/docs/syntax/flowchart.md:700",
+    "packages/mermaid/src/docs/syntax/flowchart.md:707",
+    "packages/mermaid/src/docs/syntax/flowchart.md:714",
+    "packages/mermaid/src/docs/syntax/flowchart.md:721",
+    "packages/mermaid/src/docs/syntax/flowchart.md:728",
+    "packages/mermaid/src/docs/syntax/flowchart.md:735",
+    "packages/mermaid/src/docs/syntax/flowchart.md:742",
+    "packages/mermaid/src/docs/syntax/flowchart.md:749",
+    "packages/mermaid/src/docs/syntax/flowchart.md:758",
+    "packages/mermaid/src/docs/syntax/flowchart.md:767",
+    "packages/mermaid/src/docs/syntax/flowchart.md:774",
+    "packages/mermaid/src/docs/syntax/flowchart.md:781",
+    "packages/mermaid/src/docs/syntax/flowchart.md:791",
+    "packages/mermaid/src/docs/syntax/flowchart.md:807",
+    "packages/mermaid/src/docs/syntax/flowchart.md:818",
+    "packages/mermaid/src/docs/syntax/flowchart.md:832",
+    "packages/mermaid/src/docs/syntax/flowchart.md:844",
+    "packages/mermaid/src/docs/syntax/flowchart.md:869",
+    "packages/mermaid/src/docs/syntax/flowchart.md:876",
+    "packages/mermaid/src/docs/syntax/flowchart.md:885",
+    "packages/mermaid/src/docs/syntax/flowchart.md:903",
+    "packages/mermaid/src/docs/syntax/flowchart.md:919",
+    "packages/mermaid/src/docs/syntax/flowchart.md:944",
+    "packages/mermaid/src/docs/syntax/flowchart.md:953",
+    "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "packages/mermaid/src/docs/syntax/flowchart.md:986",
+    "packages/mermaid/src/docs/syntax/flowchart.md:998",
+    "packages/mermaid/src/docs/syntax/flowchart.md:1019",
+    "packages/mermaid/src/docs/syntax/flowchart.md:1040",
+    "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "packages/mermaid/src/docs/syntax/flowchart.md:1158",
+    "packages/mermaid/src/docs/syntax/flowchart.md:1175",
+    "packages/mermaid/src/docs/syntax/flowchart.md:1221",
+    "packages/mermaid/src/docs/syntax/flowchart.md:1277",
+    "packages/mermaid/src/docs/syntax/flowchart.md:1297",
+    "packages/mermaid/src/docs/syntax/flowchart.md:1335",
+    "packages/mermaid/src/docs/syntax/flowchart.md:1343",
+    "packages/mermaid/src/docs/syntax/flowchart.md:1361",
+    "packages/mermaid/src/docs/syntax/flowchart.md:1381",
+    "packages/mermaid/src/docs/syntax/flowchart.md:1435",
+    "packages/mermaid/src/docs/syntax/flowchart.md:1449",
+    "packages/mermaid/src/docs/syntax/pie.md:8",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:7",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:30",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:101",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:113",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:125",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:137",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:149",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:161",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:173",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:189",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:199",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:214",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:229",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:250",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:315",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:392",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:405",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:415",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:423",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:438",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:446",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:456",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:464",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:483",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:513",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:544",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:557",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:589",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:602",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:625",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:661",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:684",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:695",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:717",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:750",
+    "packages/mermaid/src/docs/syntax/sequenceDiagram.md:775",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:26",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:52",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:99",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:106",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:113",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:125",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:142",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:156",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:175",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:196",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:222",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:235",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:255",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:270",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:294",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:311",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:399",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:433",
+    "packages/mermaid/src/docs/syntax/stateDiagram.md:461",
+    "packages/mermaid/src/docs/syntax/xyChart.md:9",
+    "packages/mermaid/src/docs/syntax/xyChart.md:239",
+    "packages/mermaid/src/docs/syntax/xyChart.md:249"
+  ],
+  "fidelityCases": 100,
+  "notes": [
+    "Both freshly pulled main branches built through their own canonical build commands and packed as explicit source candidates.",
+    "Zombie workspace package archives were installed together, preserving the actual source dependency closure.",
+    "Only corrected community attempts are summarized; the initial missing-candidate-selector setup failures remain retained.",
+    "Two five-round docs blocks use opposite project orders. This is not an A/A-calibrated performance campaign.",
+    "Public model/replay adapters are absent for Zombie, so those optional APIs earn no comparative score.",
+    "No full portable scaling/release qualification was run."
+  ]
+}

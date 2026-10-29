@@ -1,0 +1,104 @@
+{
+  "preparedAt": "2026-10-29T07:58:58.443Z",
+  "trident": "bd1c685f32353661243ec55366d69442df19c62b",
+  "selection": "Current main source candidates for both projects",
+  "receipts": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "source": "/workspace/agentic-mermaid",
+      "revision": "c4a8eeb8a3c472fd73e6654c0efa151b8f19a7f5",
+      "candidate": {
+        "project": "adewale/agentic-mermaid",
+        "tarball": "/workspace/am-zm-2026-10-29/preparation/am/candidate-packs/d8f04386-2a5c-47f4-9762-005392050bf3/agentic-mermaid-0.5.1.tgz",
+        "sha256": "95a1321f9020dafcdc350eb8df81784e6d3ef8f7b4dc8767db8a1b7c6032340b",
+        "packedFrom": "/workspace/agentic-mermaid"
+      },
+      "artifact": {
+        "kind": "node",
+        "root": "/workspace/am-zm-2026-10-29/cache/candidates/agentic-mermaid@95a1321f9020dafcdc350eb8df81784e6d3ef8f7b4dc8767db8a1b7c6032340b/node_modules/agentic-mermaid",
+        "module": "/workspace/am-zm-2026-10-29/cache/candidates/agentic-mermaid@95a1321f9020dafcdc350eb8df81784e6d3ef8f7b4dc8767db8a1b7c6032340b/node_modules/agentic-mermaid/dist/agent.js",
+        "version": "0.5.1",
+        "integrity": "sha512-8k9JZ7/gECFxjDcQCjS0QucT0mGaRVUkTQaM4yTBExp3dSIwiyYKwNZ5UQNx9rAdLiRURy0HqHQ90Pk79RwSNw==",
+        "runtime": "Node",
+        "sha256": "49c13651b5c4c6035af84e943b5f90bc51348a6f1593537e0767aaf29dcf4db6",
+        "files": [
+          {
+            "path": "/workspace/am-zm-2026-10-29/cache/candidates/agentic-mermaid@95a1321f9020dafcdc350eb8df81784e6d3ef8f7b4dc8767db8a1b7c6032340b/node_modules/agentic-mermaid/dist/agent.js",
+            "sha256": "49c13651b5c4c6035af84e943b5f90bc51348a6f1593537e0767aaf29dcf4db6"
+          }
+        ],
+        "apiBoundary": "published package API",
+        "candidate": {
+          "sha256": "95a1321f9020dafcdc350eb8df81784e6d3ef8f7b4dc8767db8a1b7c6032340b",
+          "tarball": "/workspace/am-zm-2026-10-29/cache/candidates/agentic-mermaid@95a1321f9020dafcdc350eb8df81784e6d3ef8f7b4dc8767db8a1b7c6032340b/candidate.tgz"
+        },
+        "detail": "Version policy: unreleased candidate tarball; the catalog version pin does not apply. Recorded catalog versions remain separately available on the node."
+      },
+      "sourceStatus": ""
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "source": "/workspace/am-zm-2026-10-29/zombie",
+      "revision": "51ed1cdf4ee47351090adfa00bdee2baff2c52ee",
+      "archives": [
+        {
+          "path": "/workspace/am-zm-2026-10-29/packs/zombie-mermaid-5.11.3.tgz",
+          "sha256": "86137cb2da404aa97903509b3307bc095d12db4a37285e8f7ad36c457e7a306d"
+        },
+        {
+          "path": "/workspace/am-zm-2026-10-29/packs/zombie-mermaid-core-5.11.3.tgz",
+          "sha256": "a2370cf7a0b876cf9377747b858a58898ad3a414b43d8d0acfd39e775db16d6f"
+        },
+        {
+          "path": "/workspace/am-zm-2026-10-29/packs/zombie-mermaid-mermaid-parser-5.11.3.tgz",
+          "sha256": "8f498c9b65d3e53578e12f62cefd4d6c9c9b60f7b2fc97d4fba54b133e3e6949"
+        },
+        {
+          "path": "/workspace/am-zm-2026-10-29/packs/zombie-mermaid-svg-renderer-5.11.3.tgz",
+          "sha256": "ce87d0f53be1774113f3b11d7e8638a915c934e77c3acffa40cebdb9f661f2bb"
+        },
+        {
+          "path": "/workspace/am-zm-2026-10-29/packs/zombie-mermaid-ascii-renderer-5.11.3.tgz",
+          "sha256": "8a32f7e6e9f52ca4fc8c8efe94f6fa3d867187db96d4708818f0a70ec2d30dc6"
+        },
+        {
+          "path": "/workspace/am-zm-2026-10-29/packs/zombie-mermaid-mcp-5.11.3.tgz",
+          "sha256": "902a57168d4c9a89346053572d303f3d8bce255c20c221152ed6948f17b3a1c6"
+        }
+      ],
+      "installation": "All six public source archives installed together; no published workspace substitution."
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "source": "/workspace/am-zm-2026-10-29/zombie",
+      "revision": "51ed1cdf4ee47351090adfa00bdee2baff2c52ee",
+      "candidate": {
+        "project": "dfadler/zombie-mermaid",
+        "tarball": "/workspace/am-zm-2026-10-29/packs/zombie-mermaid-5.11.3.tgz",
+        "sha256": "86137cb2da404aa97903509b3307bc095d12db4a37285e8f7ad36c457e7a306d"
+      },
+      "artifact": {
+        "kind": "node",
+        "root": "/workspace/am-zm-2026-10-29/cache/candidates/zombie-mermaid@86137cb2da404aa97903509b3307bc095d12db4a37285e8f7ad36c457e7a306d/node_modules/zombie-mermaid",
+        "module": "/workspace/am-zm-2026-10-29/cache/candidates/zombie-mermaid@86137cb2da404aa97903509b3307bc095d12db4a37285e8f7ad36c457e7a306d/node_modules/zombie-mermaid/dist/index.js",
+        "version": "5.11.3",
+        "integrity": "sha512-nVapXBSoM5SK99QzWBBOgQjR6j6m/kQ+/77rkWZFDRBHWaqz4yh4ZPqg3mBBpSWNnWW40RIakV7jlucYRxetwA==",
+        "runtime": "Node",
+        "sha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
+        "files": [
+          {
+            "path": "/workspace/am-zm-2026-10-29/cache/candidates/zombie-mermaid@86137cb2da404aa97903509b3307bc095d12db4a37285e8f7ad36c457e7a306d/node_modules/zombie-mermaid/dist/index.js",
+            "sha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd"
+          }
+        ],
+        "apiBoundary": "published package API",
+        "candidate": {
+          "sha256": "86137cb2da404aa97903509b3307bc095d12db4a37285e8f7ad36c457e7a306d",
+          "tarball": "/workspace/am-zm-2026-10-29/cache/candidates/zombie-mermaid@86137cb2da404aa97903509b3307bc095d12db4a37285e8f7ad36c457e7a306d/candidate.tgz"
+        },
+        "detail": "Version policy: unreleased candidate tarball; the catalog version pin does not apply. Recorded catalog versions remain separately available on the node."
+      },
+      "sourceStatus": ""
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "project": "adewale/agentic-mermaid",
+    "coverage": 441,
+    "commonCosts": 245,
+    "sum": 1675.75000006333,
+    "median": 3.800000000745058,
+    "verified": true
+  },
+  {
+    "project": "dfadler/zombie-mermaid",
+    "coverage": 245,
+    "commonCosts": 245,
+    "sum": 538.5499999672174,
+    "median": 1.2999999970197678,
+    "verified": true
+  }
+]

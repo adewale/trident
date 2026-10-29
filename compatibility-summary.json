@@ -1,0 +1,42 @@
+[
+  {
+    "benchmark": "compatibility-svg",
+    "rank": 1,
+    "project": "adewale/agentic-mermaid",
+    "format": "svg",
+    "planned": 718,
+    "unsupported": 106,
+    "passed": 595,
+    "failed": 17
+  },
+  {
+    "benchmark": "compatibility-svg",
+    "rank": 2,
+    "project": "dfadler/zombie-mermaid",
+    "format": "svg",
+    "planned": 718,
+    "unsupported": 414,
+    "passed": 253,
+    "failed": 51
+  },
+  {
+    "benchmark": "compatibility-terminal",
+    "rank": 1,
+    "project": "adewale/agentic-mermaid",
+    "format": "terminal",
+    "planned": 718,
+    "unsupported": 106,
+    "passed": 563,
+    "failed": 49
+  },
+  {
+    "benchmark": "compatibility-terminal",
+    "rank": 2,
+    "project": "dfadler/zombie-mermaid",
+    "format": "terminal",
+    "planned": 718,
+    "unsupported": 414,
+    "passed": 237,
+    "failed": 67
+  }
+]

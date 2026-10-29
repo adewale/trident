@@ -1,0 +1,46 @@
+{
+  "kind": "trident-source-candidate-comparison",
+  "measuredAt": "2026-10-29",
+  "producer": "bd1c685f32353661243ec55366d69442df19c62b",
+  "archives": {
+    "campaign.tar.gz": {
+      "sha256": "f9b66ed92b3f2e14d5457ef66f5176b334919fad8f3dec7b035d04b92884bcb5",
+      "bytes": 3248858
+    }
+  },
+  "contents": [
+    "report.md",
+    "summary.json",
+    "compatibility-summary.json",
+    "artifacts.json",
+    "campaign.json",
+    "independent-reduction.json",
+    "report-receipt.json",
+    "docs-result.json",
+    "docs-reverse-result.json",
+    "fidelity-result.json",
+    "community-am-corrected-result.json",
+    "community-zm-corrected-result.json",
+    "community-am-result.json",
+    "community-zm-result.json",
+    "prepared.json",
+    "browsers.json",
+    "browsers-reverse.json",
+    "catalog.json",
+    "prepare.ts",
+    "run.ts",
+    "rerun-community.ts",
+    "reverse-docs.ts",
+    "summarize.py",
+    "verify-reduction.mjs",
+    "report.py",
+    "docs",
+    "docs-reverse",
+    "fidelity",
+    "community-am-corrected",
+    "community-zm-corrected",
+    "community-am",
+    "community-zm"
+  ],
+  "limits": "Original paths are provenance. The archive includes corrected and failed attempts separately, raw outputs, inventories, protocols, scripts and independently checked reductions. Installed dependencies are not bundled. These are source candidates; no A/A performance qualification was run."
+}
