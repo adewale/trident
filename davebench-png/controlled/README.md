@@ -31,6 +31,13 @@ and encoding; this harness does not pretend to isolate those opaque costs.
 Startup, qualification, pixel hashing, transport and evidence writes are outside
 each timer. All exports, including validation, execute sequentially on one machine.
 
+Browser PNG serialization uses synchronous `canvas.toDataURL('image/png')`,
+followed by Base64 decoding into binary bytes before the timer stops. Base64
+production and decoding are charged to export. The browser main thread blocks;
+this is a headless export task, not a UI responsiveness measurement. Transport
+reuses the Base64 string after the clock, avoiding per-byte protocol objects.
+Earlier asynchronous `toBlob()` campaigns and array transport remain separate.
+
 ## Reproduce
 
 Use Node 24+, Bun 1.4+, Chromium, Flutter 3.47.8 with Linux desktop dependencies, Xvfb/xauth and
@@ -47,8 +54,15 @@ flutter pub get
 cd ../..
 node davebench-png/controlled/build-native.mjs
 node davebench-png/controlled/contract.test.mjs
-xvfb-run -a node davebench-png/controlled/run.mjs --preflight --out /tmp/png-qualification
+python3 davebench-png/controlled/run-container.py --preflight --participants pele,flutter --out /workspace/png-qualification
 ```
+
+The commands select the original Pele/native Flutter pair. Omit
+`--participants pele,flutter` for the four-library campaign. Freeze participant
+selection before collection; it is part of review ownership. A candidate enters
+timing only if every selected participant passes its source-fact checks. The
+negative control remains excluded. Keep campaigns with different participant sets
+and admitted case sets separate.
 
 Before timing, inspect each actual PNG against the source facts in `cases.json`.
 Record every implementation's pass/failure and reason in `review.json`, including
@@ -64,22 +78,48 @@ The build script binds worker and dependency hashes, target/flags and SDK revisi
 to the resulting native bundle. Qualification and collection validate that receipt.
 Review binds the exact producer/configuration and binaries as well as pixels.
 
-Commit all measurement producers before collecting timing, then run with fresh
-output directories. On a headless system set `LIBGL_ALWAYS_SOFTWARE=1` consistently
-for qualification and timing. If using a non-system SDK/sysroot, source
-`native-flutter/env.sh` with its selectors first.
+Commit all measurement producers before qualification or timing, then use fresh
+output directories. The wrapper requires access to the local Docker daemon and
+a host exposing CPU2. It creates a private PID namespace with enforced CPU2
+affinity, a one-CPU quota, 16 GiB memory limit and no external network.
+Every live thread is checked after actor startup, after warmup and at completion.
+`LIBGL_ALWAYS_SOFTWARE=1` and `LP_NUM_THREADS=1` are set for the run.
+
+The tiny imported image supplies directory/configuration structure. Readonly
+mounts supply the host's installed `/usr`, `/opt`, loader cache and Chromium
+configuration; `/workspace` holds the checkout, SDK, packages and artifacts.
+The rootfs hash identifies that structure, not the complete mounted userland.
+The wrapper preserves Docker proxy configuration and mounts the system CA bundle.
+No dependency installation occurs inside the timed container.
+
+Place the checkout, dependencies, SDK and output under `/workspace`. If using a
+non-system SDK/sysroot, use the selectors in `native-flutter/env.sh`. The exact
+runtime configuration and container identity are retained beside each run.
 
 ```sh
-xvfb-run -a node davebench-png/controlled/run.mjs \
-  --out /tmp/png-controlled --review /tmp/png-qualification/review.json \
+python3 davebench-png/controlled/run-container.py \
+  --participants pele,flutter --out /workspace/png-controlled --review /workspace/png-qualification/review.json \
   --rounds 5 --repetitions 5
-node davebench-png/controlled/reduce.mjs /tmp/png-controlled
+node davebench-png/controlled/reduce.mjs /workspace/png-controlled
 ```
 
 Independent A/B replicas use identical library bytes. Each gets two complete
 warmup passes, then five rounds of five calls per admitted source, randomly
 interleaved with seed 20261029. Every output must match that implementation's
 pre-reviewed decoded pixels. Any mismatch aborts comparison and retains evidence.
+
+Before warmup, every reference PNG is decoded, checked for geometry and matched
+to the reviewed pixel hash. Every returned PNG is hashed. An exact encoded-byte
+match reuses that prior decoding; each new byte stream is decoded and checked.
+The expected pixel hash is enforced for the current input and participant on
+every call. This reduces untimed overhead, which changes inter-call cadence;
+campaigns using the earlier decoder-per-call method must remain separate.
+
+Stage clocks retain native decode, picture recording, raster-image creation and
+combined PNG readback/encoding. Browser clocks retain SVG preparation/decode,
+drawing calls, combined raster/readback/PNG production and encoded-byte reading.
+These wall intervals include queue/callback waits. Deferred drawing can land in
+the PNG stage; the intervals do not isolate encoder CPU costs.
 
 Before seeing timings, the A/A gate is a 95% case-bootstrap interval for the
 geometric mean of per-case A-median/B-median ratios, wholly inside 0.90–1.10.
@@ -94,9 +134,10 @@ owns the contract and sealed inputs. `png/` and `svg/` retain actual artifacts;
 after successful completion and artifact revalidation. `summary.json` is a
 reduction, never a substitute for raw samples and the qualification exclusions.
 
-The retained completed campaign failed its A/A gate for Flutter and Pele; use
-its timings only as observations. A later placement attempt was stopped because
+The initial retained campaign failed its A/A gate for Flutter and Pele; use
+those timings only as observations. A later placement attempt was stopped because
 engine/raster threads overrode inherited CPU masks. The context's CPU-affinity
 field records the controller mask; it does not attest every descendant thread.
-Verify effective thread placement separately before claiming a constrained CPU
-configuration. Both the failed calibration and excluded setup are retained.
+The container campaign adds kernel enforcement and actual live-thread checks.
+The failed calibration and excluded setup remain retained; do not pool campaigns
+or infer that a changed outcome identifies the original discrepancy's cause.

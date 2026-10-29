@@ -172,7 +172,7 @@ painted output and failures. It is not registered in the standard CLI or catalog
 its timing boundaries differ from the Node SVG suites. Generated evidence stays
 outside source commits. [Audited result tables and withheld comparisons](docs/native-flutter-comparison.md) explain the retained campaign.
 
-The [controlled PNG export profile](docs/controlled-png-results.md) adds Mermaid 12.2.0 and Agentic Mermaid 0.4.1, one shared Chromium pipeline, fixed 1200×900 outputs and source-fact review before timing. Its18 common cases pass output checks, but A/A calibration fails for Flutter and Pele, so relative performance claims are withheld. The earlier [v1 timing comparison](docs/davebench-png-results.md) is withdrawn.
+The [fixed PNG export follow-up](docs/isolated-png-results.md) measures actual native Flutter release `renderToPng()` against Pele in Chromium on 20 reviewed inputs under an enforced one-CPU cgroup. Both pass A/A calibration for this fixed 1200×900 PNG task. The wider Mermaid/Agentic/Pele/native campaign retains Agentic's failed calibration and withholds four-way ranking. [Earlier PNG observations](docs/controlled-png-results.md) and the withdrawn [v1 comparison](docs/davebench-png-results.md) stay separate.
 
 ## Add a tool
 

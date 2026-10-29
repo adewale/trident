@@ -1,4 +1,8 @@
-# Controlled DaveBench PNG export profile
+# Initial controlled DaveBench PNG campaign
+
+The [later fixed-PNG follow-up](isolated-png-results.md) has a separately calibrated
+20-case Pele/native pair and retains the wider uncalibrated results. This page
+records the initial campaign; do not pool its measurements with the follow-up.
 
 The v1 timing comparison is withdrawn because its runtimes, output sizes and
 painted content differed. This replacement measures one application task:
