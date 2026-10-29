@@ -135,6 +135,45 @@ function workerFixture(body: string) {
   })
   return { node, job, directory }
 }
+function agenticParserFixture(rejectEdit = false, rejectNewSource = false) {
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50"><defs><marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto" overflow="visible"><polyline points="0 0,8 3,0 6" fill="none" stroke="#111"/></marker></defs><polyline class="class-relationship" data-id="owned" data-from="A" data-to="B" points="30,20 110,20" fill="none" stroke="#111" marker-end="url(#arrow)"/><g class="class-node" data-id="A"><rect x="10" y="10" width="20" height="20" fill="#fff"/><text>A</text></g><g class="class-node" data-id="B"><rect x="110" y="10" width="20" height="20" fill="#fff"/><text>B</text></g></svg>'
+  const fixture = workerFixture(`import{appendFileSync}from'node:fs';
+const log=value=>appendFileSync(new URL('./observations.jsonl',import.meta.url),JSON.stringify({...value,at:process.hrtime.bigint().toString()})+'\\n');
+const memory=process.memoryUsage;process.memoryUsage=(...args)=>{log({kind:'memory'});return memory(...args)};
+export function renderMermaidSVG(source){return ${JSON.stringify(svg)}.replace('<text>A</text>','<text>'+(source.includes('Edited')?'Edited':'A')+'</text>')}
+export async function parseRegisteredMermaid(source){log({kind:'parse',source});${rejectEdit ? "if(source.includes('Edited'))throw Error('edited native parse fault');" : ''}${rejectNewSource ? "if(source.includes('portable-source-'))throw Error('new-source native parse fault');" : ''}return{ok:true,value:{kind:'class',body:{kind:'class',classes:[{id:'A',label:source.includes('Edited')?'Edited':'A'},{id:'B',label:'B'}],relations:[{from:'A',to:'B',kind:'association',markerAt:'to'}]}}}}
+`)
+  const expected = (label: string) => ({ accept: true, labels: [label, 'B'], topology: { nodes: ['A', 'B'], edges: [{ source: 'A', target: 'B' }], nodeLabels: { A: label, B: 'B' } } })
+  const job = (mode: PortableJob['mode']): PortableJob => ({ ...fixture.job(mode), artifact: { ...fixture.job(mode).artifact, adapter: 'agentic' }, testCase: { id: 'fixture:agentic-parser', family: 'class', cohort: 'adversarial', source: 'classDiagram\nclass A\nclass B\nA --> B', expected: expected('A'), edit: { source: 'classDiagram\nclass A["Edited"]\nclass B\nA --> B', expected: expected('Edited') } } })
+  return { ...fixture, job, observations: () => readFileSync(join(fixture.directory, 'observations.jsonl'), 'utf8').trim().split('\n').map(line => JSON.parse(line) as { kind: string; at: string; source?: string }) }
+}
+test('Agentic native qualification uses its actual root parser outside render clocks and memory snapshots', async () => {
+  for (const mode of ['cold', 'memory', 'warm'] as const) {
+    const f = agenticParserFixture(), result = await runSerialJob(f.job(mode), f.node)
+    expect(result.status).toBe('passed')
+    expect(result.qualification?.semanticComplete).toBe(true)
+    expect(result.qualification?.observer).toBe('portable-owned-topology-v2-agentic-class-er')
+    const observations = f.observations(), parses = observations.filter(item => item.kind === 'parse')
+    expect(parses.length).toBeGreaterThan(0)
+    if (mode === 'cold') expect(parses.every(item => BigInt(item.at) > BigInt(result.apiWindow!.endNs))).toBe(true)
+    if (mode === 'memory') expect(observations.filter(item => item.kind === 'memory').every(item => BigInt(item.at) < BigInt(parses[0]!.at))).toBe(true)
+    if (mode === 'warm') expect(parses.some(item => item.source?.includes('Edited'))).toBe(true)
+  }
+})
+test('an edited native parse failure stays separate from a valid consumed SVG result', async () => {
+  const f = agenticParserFixture(true), result = await runSerialJob(f.job('warm'), f.node)
+  expect(result.status).toBe('failed')
+  expect(result.qualification?.evidence?.outputAdmission).toBe('passed')
+  expect(result.qualification?.checks.find(check => check.name === 'model-native-result')?.status).toBe('failed')
+  expect(result.qualification?.semanticComplete).toBe(false)
+})
+test('Agentic source variants cannot reuse another source native qualification merely because SVG bytes match', async () => {
+  const f = agenticParserFixture(false, true), result = await runSerialJob(f.job('warm'), f.node)
+  expect(result.status).toBe('failed')
+  expect(result.qualification?.evidence?.outputAdmission).toBe('passed')
+  expect(result.qualification?.checks.find(check => check.name === 'model-native-result')?.status).toBe('failed')
+  expect(f.observations().some(item => item.kind === 'parse' && item.source?.includes('portable-source-'))).toBe(true)
+})
 test('a failed memory-measured call is not hidden by later successful qualification', async () => {
   const f = workerFixture('export function render(){if(++calls===1)throw Error("first-call fault");return {svg:good}}')
   const result = await runSerialJob(f.job('memory'), f.node)

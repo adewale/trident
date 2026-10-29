@@ -1,6 +1,9 @@
 import { SaxesParser } from 'saxes'
 import type { PortableCase, PortableEdge } from './cohorts.ts'
 
+/** Qualification identity is separate from the unchanged SVG timing protocol. */
+export const PORTABLE_QUALIFICATION_OBSERVER = 'portable-owned-topology-v2-agentic-class-er'
+
 export interface FidelityCheck {
   name: string
   status: 'passed' | 'failed' | 'unmeasured'
@@ -11,10 +14,12 @@ export interface FidelityCheck {
 export interface PortableOutput {
   svg?: unknown
   model?: unknown
+  modelError?: unknown
   error?: unknown
   adapter?: string
 }
 export interface PortableQualification {
+  observer?: string
   accepted: boolean
   passed: boolean
   semanticComplete: boolean
@@ -88,12 +93,12 @@ function parseSvg(svg: string): Element {
 }
 const all = (element: Element): Element[] => [element, ...element.children.flatMap(all)]
 const hasClass = (element: Element, value: string) => element.attributes.class?.split(/\s+/).includes(value) ?? false
-function visible(element: Element): boolean {
+function visible(element: Element, definitions = false): boolean {
   for (let current: Element | undefined = element; current; current = current.parent) {
     const attributes = current.attributes,
       style = attributes.style ?? ''
     if (
-      ['defs', 'metadata', 'style', 'script', 'title', 'desc'].includes(current.tag) ||
+      ((!definitions && current.tag === 'defs') || ['metadata', 'style', 'script', 'title', 'desc'].includes(current.tag)) ||
       attributes.display === 'none' ||
       ['hidden', 'collapse'].includes(attributes.visibility ?? '') ||
       attributes.opacity === '0' ||
@@ -185,7 +190,7 @@ function pathTokens(data: string | undefined): string[] | undefined {
 }
 
 /** Endpoint projection only. Curve interiors and crossings need a separate oracle. */
-function pathEndpoints(path: Element): { start: Point; end: Point } | undefined {
+function pathEndpoints(path: Element): { start: Point; end: Point; beforeEnd?: Point } | undefined {
   const tokens = pathTokens(path.attributes.d)
   const shift = translation(path)
   if (!tokens?.length || !shift) return undefined
@@ -194,7 +199,7 @@ function pathEndpoints(path: Element): { start: Point; end: Point } | undefined 
     current = { x: 0, y: 0 },
     start: Point | undefined,
     subpath = { x: 0, y: 0 },
-    hasSegment = false
+    hasSegment = false, beforeEnd: Point | undefined
   const arity: Record<string, number> = { M: 2, L: 2, H: 1, V: 1, C: 6, S: 4, Q: 4, T: 2, A: 7 }
   while (cursor < tokens.length) {
     if (/^[a-z]$/i.test(tokens[cursor]!)) command = tokens[cursor++]!
@@ -203,6 +208,7 @@ function pathEndpoints(path: Element): { start: Point; end: Point } | undefined 
     if (!start && upper !== 'M') return undefined
     if (upper === 'Z') {
       current = { ...subpath }
+      beforeEnd = undefined
       command = ''
       continue
     }
@@ -225,11 +231,14 @@ function pathEndpoints(path: Element): { start: Point; end: Point } | undefined 
       start ??= { ...current }
       subpath = { ...current }
       command = relative ? 'l' : 'L'
-    } else hasSegment ||= current.x !== previous.x || current.y !== previous.y || (['C', 'S', 'Q'].includes(upper) && values.slice(0, -2).some((value, index) => value + (index % 2 ? origin.y : origin.x) !== (index % 2 ? previous.y : previous.x)))
+    } else {
+      hasSegment ||= current.x !== previous.x || current.y !== previous.y || (['C', 'S', 'Q'].includes(upper) && values.slice(0, -2).some((value, index) => value + (index % 2 ? origin.y : origin.x) !== (index % 2 ? previous.y : previous.x)))
+      beforeEnd = ['C', 'S', 'Q'].includes(upper) ? { x: origin.x + values[count - 4]!, y: origin.y + values[count - 3]! } : ['L', 'H', 'V'].includes(upper) ? previous : undefined
+    }
   }
   if (!start || !hasSegment) return undefined
   const projected = { start: { x: start.x + shift.x, y: start.y + shift.y }, end: { x: current.x + shift.x, y: current.y + shift.y } }
-  return [...Object.values(projected.start), ...Object.values(projected.end)].every(Number.isFinite) ? projected : undefined
+  return [...Object.values(projected.start), ...Object.values(projected.end)].every(Number.isFinite) ? { ...projected, ...(beforeEnd ? { beforeEnd: { x: beforeEnd.x + shift.x, y: beforeEnd.y + shift.y } } : {}) } : undefined
 }
 
 /** Pele ER's two cardinality bars are disconnected glyph strokes. They must
@@ -352,6 +361,147 @@ function nativeTopology(model: Record<string, any>): NativeTopology | undefined 
       return undefined
   }
 }
+
+/** Agentic's root export returns a Result containing a typed body, not a
+ * Mermaid/Pele database. Read actual public fields without inventing getters. */
+function agenticTopology(result: Record<string, any> | undefined, family: string): NativeTopology | undefined {
+  const value = object(result?.value), body = object(value?.body)
+  if (result?.ok !== true || value?.kind !== family || body?.kind !== family) return undefined
+  const nodes = family === 'class' ? body.classes : body.entities
+  if (!Array.isArray(nodes) || !Array.isArray(body.relations)
+    || !nodes.every(node => typeof node?.id === 'string' && node.id.length > 0)
+    || !body.relations.every((rel: any) => typeof rel?.from === 'string' && typeof rel?.to === 'string')) return undefined
+  return { nodes: nodes.map(node => node.id), edges: body.relations.map((rel: any) => ({ source: rel.from, target: rel.to })), labels: Object.fromEntries(nodes.map(node => [node.id, node.label ?? node.id])) }
+}
+
+function presentation(element: Element, name: string): string | undefined {
+  for (let current: Element | undefined = element; current; current = current.parent) {
+    const inline = (current.attributes.style ?? '').split(';').map(item => item.split(':').map(part => part.trim())).filter(([key]) => key === name).at(-1)?.[1]
+    const value = inline ?? current.attributes[name]
+    if (value !== undefined) return value
+  }
+  return undefined
+}
+/** Only finite presentation-attribute paint is observed here. Computed CSS,
+ * clipping, filters and host styles require the separate browser paint lane. */
+function visiblePaint(element: Element, stroke: boolean, definitions = false): boolean | undefined {
+  for (let current: Element | undefined = element; current; current = current.parent) {
+    if (['clip-path', 'mask', 'filter'].some(key => current!.attributes[key] && current!.attributes[key] !== 'none') || /(?:^|;)\s*(?:transform|clip-path|mask|filter)\s*:/i.test(current.attributes.style ?? '')) return undefined
+    const opacity = finiteLength(presentation(current, 'opacity') ?? '1')
+    if (opacity === undefined) return undefined
+    if (opacity <= 0) return false
+  }
+  const opacity = finiteLength(presentation(element, stroke ? 'stroke-opacity' : 'fill-opacity') ?? '1')
+  if (opacity === undefined) return undefined
+  if (opacity <= 0 || !visible(element, definitions)) return false
+  if (stroke) {
+    const width = finiteLength(presentation(element, 'stroke-width') ?? '1')
+    if (width === undefined) return undefined
+    if (width <= 0) return false
+    const dash = presentation(element, 'stroke-dasharray')
+    if (dash && dash !== 'none') {
+      const values = numberList(dash)
+      if (!values || values.some(value => value < 0)) return undefined
+      const repeated = values.length % 2 ? [...values, ...values] : values
+      if (repeated.some(value => value > 0) && !repeated.some((value, index) => index % 2 === 0 && value > 0)) return false
+    }
+  }
+  const color = presentation(element, stroke ? 'stroke' : 'fill') ?? (stroke ? 'none' : '#000')
+  if (color === 'none' || color === 'transparent') return false
+  if (/^#[\da-f]{3}(?:[\da-f](?:[\da-f]{2}(?:[\da-f]{2})?)?)?$/i.test(color)) {
+    return !((color.length === 5 && color.at(-1) === '0') || (color.length === 9 && color.slice(-2) === '00'))
+  }
+  return undefined
+}
+function routeEndpoints(element: Element): { start: Point; end: Point; beforeEnd?: Point; afterStart?: Point } | undefined {
+  if (element.tag === 'path') return pathEndpoints(element)
+  const points = numberList(element.attributes.points), shift = translation(element)
+  if (!points || points.length < 4 || points.length % 2 || !shift || !points.slice(2).some((value, index) => value !== points[index]!)) return undefined
+  const end = { x: points.at(-2)! + shift.x, y: points.at(-1)! + shift.y }
+  let beforeEnd: Point | undefined
+  for (let index = points.length - 4; index >= 0; index -= 2) if (points[index] !== points.at(-2) || points[index + 1] !== points.at(-1)) { beforeEnd = { x: points[index]! + shift.x, y: points[index + 1]! + shift.y }; break }
+  let afterStart: Point | undefined
+  for (let index = 2; index < points.length; index += 2) if (points[index] !== points[0] || points[index + 1] !== points[1]) { afterStart = { x: points[index]! + shift.x, y: points[index + 1]! + shift.y }; break }
+  if (beforeEnd && !Object.values(beforeEnd).every(Number.isFinite) || afterStart && !Object.values(afterStart).every(Number.isFinite)) return undefined
+  const result = { start: { x: points[0]! + shift.x, y: points[1]! + shift.y }, end, beforeEnd, afterStart }
+  return [...Object.values(result.start), ...Object.values(result.end)].every(Number.isFinite) ? result : undefined
+}
+/** Reviewed open association/dependency arrow: actual referenced V-shaped ink,
+ * aligned by SVG's automatic end orientation and anchored at the written tip. */
+function agenticArrow(edge: Element, elements: Element[]): boolean | undefined {
+  const reference = /^url\(#([^\s()]+)\)$/.exec(edge.attributes['marker-end'] ?? '')
+  if (!reference) return false
+  const resources = elements.filter(item => item.uri === namespace && item.tag === 'marker' && item.attributes.id === reference[1])
+  if (resources.length !== 1) return false
+  const marker = resources[0]!, geometry = marker.children.filter(item => item.uri === namespace && !['title', 'desc'].includes(item.tag))
+  if (!['auto', 'auto-start-reverse'].includes(marker.attributes.orient ?? '') || marker.attributes.viewBox || marker.attributes.overflow !== 'visible' || marker.attributes.transform || ![undefined, 'strokeWidth', 'userSpaceOnUse'].includes(marker.attributes.markerUnits) || geometry.length !== 1 || geometry[0]!.tag !== 'polyline' || geometry[0]!.attributes.transform) return undefined
+  const shape = geometry[0]!, points = numberList(shape.attributes.points), paint = visiblePaint(shape, true, true)
+  if (paint !== true) return paint
+  if (presentation(shape, 'fill') !== 'none') return undefined
+  if (!points || points.length !== 6) return false
+  const [ax, ay, tx, ty, bx, by] = points as [number, number, number, number, number, number]
+  return ax === bx && tx > ax && (ay - ty) * (by - ty) < 0 && Math.abs((ay + by) / 2 - ty) < 1e-6
+    && finiteLength(marker.attributes.refX) === tx && finiteLength(marker.attributes.refY) === ty
+    && (finiteLength(marker.attributes.markerWidth) ?? 0) > 0 && (finiteLength(marker.attributes.markerHeight) ?? 0) > 0
+}
+
+type ErMeaning = PortableEdge & { left: string; right: string; dashed: boolean }
+/** Independently authored simple ER relation profile. This deliberately does
+ * not reinterpret an opaque parse envelope or infer meaning from SVG tags. */
+function authoredEr(testCase: PortableCase): ErMeaning[] | undefined {
+  const cards: Record<string, string> = { '||': 'one-only', 'o|': 'zero-or-one', '|o': 'zero-or-one', '}|': 'one-or-many', '|{': 'one-or-many', '}o': 'zero-or-many', 'o{': 'zero-or-many' }
+  const result: ErMeaning[] = []
+  for (const line of testCase.source.split('\n')) {
+    const match = /^\s*([A-Za-z_][\w]*)\s+(\|\||o\||\|o|\}\||\|\{|\}o|o\{)(--|\.\.)(\|\||o\||\|o|\}\||\|\{|\}o|o\{)\s+([A-Za-z_][\w]*)\s*:\s*[^\r]*$/.exec(line)
+    if (match) result.push({ source: match[1]!, target: match[5]!, left: cards[match[2]!]!, right: cards[match[4]!]!, dashed: match[3] === '..' })
+  }
+  return same(multiset(result.map(pair)), multiset(testCase.expected.topology!.edges.map(pair))) ? result : undefined
+}
+const erMeaningKey = (edge: ErMeaning) => JSON.stringify([edge.source, edge.target, edge.left, edge.right, edge.dashed])
+
+/** Match the reviewed tick/fan/circle vocabulary in route-local coordinates.
+ * Every primitive is consumed once globally, so overlapping relations cannot
+ * borrow one another's cardinality ink. Generated ownership IDs are irrelevant. */
+function erGlyph(point: Point, toward: Point, kind: string, candidates: Element[], consumed: Set<Element>): boolean | undefined {
+  const length = Math.hypot(toward.x - point.x, toward.y - point.y)
+  if (!Number.isFinite(length) || length === 0) return undefined
+  const ux = (toward.x - point.x) / length, uy = (toward.y - point.y) / length
+  const local = (x: number, y: number): Point => ({ x: point.x + ux * x - uy * y, y: point.y + uy * x + ux * y })
+  const segments: [Point, Point][] = [], circles: [Point, number][] = []
+  const tick = (at: number) => segments.push([local(at, -6), local(at, 6)])
+  if (kind === 'one-only') { tick(4); tick(8) }
+  else if (kind === 'zero-or-one') { tick(4); circles.push([local(12, 0), 4]) }
+  else if (kind === 'one-or-many' || kind === 'zero-or-many') {
+    for (const side of [-7, 0, 7]) segments.push([local(4, side), local(16, 0)])
+    if (kind === 'one-or-many') tick(20)
+    else circles.push([local(20, 0), 4])
+  } else return undefined
+  const near = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.y - b.y) < .02
+  const read = (shape: Element, names: string[]) => {
+    const shift = translation(shape), values = names.map(name => finiteLength(shape.attributes[name]))
+    return shift && values.every(value => value !== undefined) ? { shift, values: values as number[] } : undefined
+  }
+  for (const expected of [...segments.map(segment => ({ segment })), ...circles.map(circle => ({ circle }))]) {
+    const matches = candidates.filter(shape => {
+      if (consumed.has(shape)) return false
+      if ('segment' in expected && shape.tag === 'line') {
+        const data = read(shape, ['x1', 'y1', 'x2', 'y2'])
+        if (!data) return false
+        const [x1, y1, x2, y2] = data.values, a = { x: x1! + data.shift.x, y: y1! + data.shift.y }, b = { x: x2! + data.shift.x, y: y2! + data.shift.y }, [c, d] = expected.segment
+        return near(a, c) && near(b, d) || near(a, d) && near(b, c)
+      }
+      if ('circle' in expected && shape.tag === 'circle') {
+        const data = read(shape, ['cx', 'cy', 'r'])
+        return !!data && near({ x: data.values[0]! + data.shift.x, y: data.values[1]! + data.shift.y }, expected.circle[0]) && Math.abs(data.values[2]! - expected.circle[1]) < .02
+      }
+      return false
+    })
+    const painted = matches.filter(shape => visiblePaint(shape, true) === true)
+    if (!painted.length) return matches.some(shape => visiblePaint(shape, true) === undefined) ? undefined : false
+    consumed.add(painted[0]!)
+  }
+  return true
+}
 function modelPath(model: unknown, path: (string | number | { map: string })[]): unknown {
   let current: any = model
   for (const key of path) {
@@ -418,11 +568,12 @@ function qualifyPortableUnchecked(testCase: PortableCase, output: PortableOutput
   }
   const ids = nodes.map(element => element.attributes.id).filter((id): id is string => !!id)
   check('svg-unique-ids', ids.length, new Set(ids).size, 'Document IDs must be unique; repeated data-id values are renderer-specific.')
-  const model = object(output.model),
-    topology = model ? nativeTopology(model) : undefined,
-    expected = testCase.expected.topology
+  const model = object(output.model), agentic = output.adapter === 'agentic' && ['class', 'er'].includes(testCase.family),
+    topology = agentic ? agenticTopology(model, testCase.family) : model ? nativeTopology(model) : undefined,
+    expected = testCase.expected.topology, erExpected = agentic && testCase.family === 'er' && expected ? authoredEr(testCase) : undefined
   const modelChecks = checks.length
   const outputAdmission = checks.every(item => item.status === 'passed') ? 'passed' as const : 'failed' as const
+  if (agentic) check('model-native-result', true, output.modelError === undefined && topology !== undefined, 'Actual parseRegisteredMermaid Result must contain the requested typed Class/ER body and complete identity/endpoint fields. Renderer acceptance is independent of native model availability; preserved/opaque bodies earn no native credit.', output.model !== undefined || output.modelError !== undefined)
   for (const assertion of testCase.expected.model ?? []) {
     const value = modelPath(output.model, assertion.path),
       display = assertion.comparison === 'display-text'
@@ -437,6 +588,11 @@ function qualifyPortableUnchecked(testCase: PortableCase, output: PortableOutput
   if (expected) {
     check('model-node-identities', multiset(expected.nodes), multiset(topology?.nodes ?? []), 'Exact authored node identity multiset in public parse model.', topology !== undefined)
     check('model-edge-endpoints-and-multiplicity', multiset(expected.edges.map(pair)), multiset((topology?.edges ?? []).map(pair)), 'Directed endpoint pair multiset; parallel and reciprocal edges stay distinct.', topology !== undefined)
+    if (agentic && testCase.family === 'er') {
+      const relations = object(object(model?.value)?.body)?.relations
+      const meaning = Array.isArray(relations) ? relations.map((rel: any) => erMeaningKey({ source: rel.from, target: rel.to, left: rel.leftCard, right: rel.rightCard, dashed: rel.dashed })) : []
+      check('model-er-cardinality-and-identifying', multiset(erExpected?.map(erMeaningKey) ?? []), multiset(meaning), 'Independently authored simple ER cardinality and identifying relation multiset against the typed public model.', !!erExpected && !!topology)
+    }
     if (model?.type === 'sequence') check('model-message-order', expected.edges.map(pair), (topology?.edges ?? []).map(pair), 'Authored message endpoint order is significant in a sequence diagram.', topology !== undefined)
     for (const [id, label] of Object.entries(expected.nodeLabels ?? {})) check('model-node-label:' + id, label, topology?.labels?.[id], 'Authored label belongs to its authored public-model node identity.', topology?.labels !== undefined)
     for (const group of expected.groups ?? []) {
@@ -447,7 +603,81 @@ function qualifyPortableUnchecked(testCase: PortableCase, output: PortableOutput
   const nativeChecks = checks.slice(modelChecks)
   const nativeComplete = nativeChecks.length > 0 && nativeChecks.every(item => item.status === 'passed')
   let paintComplete = false
-  if (expected && root && hasClass(root, 'pele') && ['flowchart', 'class', 'state', 'er'].includes(model?.type)) {
+  if (agentic && expected && root) {
+    const paintChecks = checks.length, nodeClass = testCase.family === 'class' ? 'class-node' : 'entity', edgeClass = `${testCase.family}-relationship`
+    const drawnNodes = nodes.filter(element => element.uri === namespace && element.tag === 'g' && visible(element) && hasClass(element, nodeClass))
+    const drawnEdges = nodes.filter(element => element.uri === namespace && ['path', 'polyline'].includes(element.tag) && visible(element) && hasClass(element, edgeClass))
+    const stylesheet = nodes.some(element => element.tag === 'style' && /(?:^|[;{])\s*(?:fill|stroke(?:-width|-opacity)?|opacity|display|visibility|transform|clip-path|mask|filter)\s*:/i.test(element.text))
+    check('svg-owned-node-identities', multiset(expected.nodes), multiset(drawnNodes.map(node => node.attributes['data-id'])), 'Visible Agentic Class/ER node owner multiset; labels or metadata alone do not establish identity.')
+    const bounds = new Map<string, Bounds | undefined>()
+    for (const [index, node] of drawnNodes.entries()) {
+      const shape = node.children.find(child => child.uri === namespace && visible(child) && ['rect', 'circle', 'ellipse', 'polygon'].includes(child.tag)), box = shapeBounds(node)
+      const fill = shape ? visiblePaint(shape, false) : false, stroke = shape ? visiblePaint(shape, true) : false
+      const supported = !stylesheet && (!shape || translation(shape) !== undefined) && (fill === true || stroke === true || fill !== undefined && stroke !== undefined)
+      check(`svg-node-owned-ink:${index}`, true, !!box && (fill === true || stroke === true), 'Finite visible owned card geometry under the reviewed presentation-attribute/translation profile; arbitrary CSS and clipping are unmeasured.', supported)
+      bounds.set(node.attributes['data-id']!, supported && box && (fill === true || stroke === true) ? box : undefined)
+    }
+    for (const [id, label] of Object.entries(expected.nodeLabels ?? {})) {
+      const owners = drawnNodes.filter(node => node.attributes['data-id'] === id)
+      check('svg-owned-node-label:' + id, true, owners.length === 1 && textIn(owners[0]!).includes(normalizedText(label)), 'Independently authored label belongs to its visible authored node owner.')
+    }
+    const geometryAvailable = bounds.size === expected.nodes.length && [...bounds.values()].every(Boolean)
+    const ownersAt = (point: Point) => [...bounds].filter(([, box]) => box && distance(point, box) <= 1).map(([id]) => id)
+    check('svg-owned-edge-identities', true, drawnEdges.every(edge => !!edge.attributes['data-id']) && new Set(drawnEdges.map(edge => edge.attributes['data-id'])).size === drawnEdges.length, 'Every visible route has one nonempty unique owner; parallel relations remain distinct without interpreting generated ID spellings.')
+    check('svg-owned-edge-count', expected.edges.length, drawnEdges.length, 'Exact visible route count, independently of public model and retained labels.')
+    const observed: PortableEdge[] = []
+    const erObserved: ErMeaning[] = [], consumedGlyphs = new Set<Element>()
+    const glyphs = nodes.filter(element => {
+      if (element.uri !== namespace || !['line', 'circle'].includes(element.tag)) return false
+      for (let owner: Element | undefined = element; owner; owner = owner.parent) if (owner.tag === 'defs' || hasClass(owner, nodeClass)) return false
+      return true
+    })
+    let erMeasured = !!erExpected && !stylesheet
+    let bindingsMeasured = geometryAvailable
+    for (const [index, edge] of drawnEdges.entries()) {
+      const points = routeEndpoints(edge), paint = visiblePaint(edge, true), supported = !stylesheet && translation(edge) !== undefined && paint !== undefined
+      check(`svg-edge-owned-ink:${index}`, true, !!points && paint === true, 'The owned route must contain finite nondegenerate continuous path/polyline ink with a visible stroke; an endpoint tag is not a connecting path.', supported)
+      const source = points && geometryAvailable ? ownersAt(points.start) : [], target = points && geometryAvailable ? ownersAt(points.end) : []
+      const measurable = supported && !!points && geometryAvailable && source.length <= 1 && target.length <= 1
+      if (!measurable) bindingsMeasured = false
+      if (source.length === 1 && target.length === 1 && paint === true) observed.push({ source: source[0]!, target: target[0]! })
+      check(`svg-edge-attachment:${index}`, true, source.length === 1 && target.length === 1 && source[0] === edge.attributes['data-from'] && target[0] === edge.attributes['data-to'], 'Actual written route endpoints must each identify the corresponding declared owned card within1px. Ambiguous or unsupported geometry earns no correspondence credit.', measurable)
+      if (testCase.family === 'class') {
+        const body = object(object(model?.value)?.body), profile = Array.isArray(body?.relations) && body.relations.every((rel: any) => ['association', 'dependency'].includes(rel.kind) && rel.markerAt === 'to')
+        const arrow = agenticArrow(edge, nodes), box = target.length === 1 ? bounds.get(target[0]!) : undefined, tangent = points?.beforeEnd
+        const inward = points && tangent && box ? (points.end.x - tangent.x) * (box.x + box.width / 2 - points.end.x) + (points.end.y - tangent.y) * (box.y + box.height / 2 - points.end.y) > 0 : false
+        check(`svg-edge-target-marker:${index}`, true, arrow === true && inward, 'Reviewed directed association/dependency routes need visible referenced open-arrow ink anchored at their end, with automatic orientation pointing into the target card. Other marker profiles remain unmeasured.', profile && arrow !== undefined && measurable && !!tangent)
+      } else {
+        const classify = (point: Point | undefined, toward: Point | undefined): string | false | undefined => {
+          if (!point || !toward) return undefined
+          let unknown = false
+          const matches: { kind: string; trial: Set<Element> }[] = []
+          for (const kind of ['one-only', 'zero-or-one', 'one-or-many', 'zero-or-many']) {
+            const trial = new Set(consumedGlyphs), matched = erGlyph(point, toward, kind, glyphs, trial)
+            if (matched === true) matches.push({ kind, trial })
+            unknown ||= matched === undefined
+          }
+          if (matches.length > 1) return undefined
+          if (matches.length === 1) { for (const item of matches[0]!.trial) consumedGlyphs.add(item); return matches[0]!.kind }
+          return unknown ? undefined : false
+        }
+        const left = classify(points?.start, points?.afterStart), right = classify(points?.end, points?.beforeEnd)
+        const dash = presentation(edge, 'stroke-dasharray'), values = dash && dash !== 'none' ? numberList(dash) : []
+        const dashed = values && values.every(value => value > 0) ? values.length > 0 : undefined
+        const available = measurable && !!erExpected && !stylesheet && left !== undefined && right !== undefined && dashed !== undefined
+        check(`svg-er-cardinality-ink:${index}`, true, !!left && !!right, 'Actual endpoint-local tick/fan/circle geometry, with finite visible stroked pieces consumed once globally; generated cardinality IDs and metadata do not establish meaning.', available)
+        if (!available) erMeasured = false
+        if (typeof left === 'string' && typeof right === 'string' && dashed !== undefined && source.length === 1 && target.length === 1) erObserved.push({ source: source[0]!, target: target[0]!, left, right, dashed })
+      }
+    }
+    check('svg-owned-edge-endpoints-and-multiplicity', multiset(expected.edges.map(pair)), multiset(observed.map(pair)), 'Authored endpoint pair multiset versus independently bound written route geometry; duplicate and reciprocal routes remain significant.', bindingsMeasured)
+    if (testCase.family === 'er') {
+      check('svg-er-cardinality-and-identifying', multiset(erExpected?.map(erMeaningKey) ?? []), multiset(erObserved.map(erMeaningKey)), 'Independent authored relation meanings versus geometrically classified endpoint glyphs and actual route dash appearance.', erMeasured)
+      check('svg-er-cardinality-piece-count', glyphs.length, consumedGlyphs.size, 'The reviewed emitted profile has no missing, extra, hidden or shared endpoint glyph primitives.', erMeasured)
+    }
+    paintComplete = checks.slice(paintChecks).every(item => item.status === 'passed')
+    unmeasuredScopes.push('Agentic Class/ER qualification covers declared node/route identity, optional owned labels, endpoint multiplicity and finite connecting geometry. Class requires the reviewed directed open-arrow profile; simple ER relations require exact tick/fan/circle cardinality and solid/dashed identifying appearance. Full CSS/font/clipping/curve-interior paint, member/attribute content, other Class markers and unsupported ER source/glyph profiles remain unmeasured.')
+  } else if (expected && root && hasClass(root, 'pele') && ['flowchart', 'class', 'state', 'er'].includes(model?.type)) {
     const drawnNodes = nodes.filter(element => element.uri === namespace && visible(element) && hasClass(element, 'pele-node'))
     const drawnEdges = nodes.filter(element => element.uri === namespace && visible(element) && hasClass(element, 'pele-edge'))
     const drawnGroups = nodes.filter(element => element.uri === namespace && visible(element) && hasClass(element, 'pele-cluster'))
@@ -641,7 +871,9 @@ function qualifyPortableUnchecked(testCase: PortableCase, output: PortableOutput
     checks,
     unmeasuredScopes,
     scope: complete
-      ? model?.type === 'sequence'
+      ? agentic
+        ? 'Declared Agentic Class/ER native identities/endpoints and owned visible route geometry, directed Class open arrows and simple ER cardinality/identifying appearance; complete only for these authored criteria, not complete Mermaid, CSS or visual fidelity.'
+        : model?.type === 'sequence'
         ? 'Declared simple sequence actor identities, ordered message endpoints and multiplicity plus owned lifelines, connecting path geometry, target arrows and public-model message label correspondence; not complete Mermaid or visual fidelity.'
         : `Declared ${testCase.family} native identities/endpoints plus owned SVG identities/ink/bounding-box attachment, scoped endpoint markers and optional group criteria; not complete Mermaid or visual fidelity.`
       : 'Public model facts and SVG admission, with painted semantic correspondence explicitly unmeasured where no reviewed projection exists.',
@@ -651,9 +883,10 @@ function qualifyPortableUnchecked(testCase: PortableCase, output: PortableOutput
 /** An unreviewed result shape must fail its own record, not abort other projects. */
 export function qualifyPortable(testCase: PortableCase, output: PortableOutput): PortableQualification {
   try {
-    return qualifyPortableUnchecked(testCase, output)
+    return { observer: PORTABLE_QUALIFICATION_OBSERVER, ...qualifyPortableUnchecked(testCase, output) }
   } catch (error) {
     return {
+      observer: PORTABLE_QUALIFICATION_OBSERVER,
       accepted: output.error === undefined,
       passed: false,
       semanticComplete: false,
