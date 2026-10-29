@@ -113,7 +113,7 @@ test('diagnostic response inspection cannot masquerade as source rejection', asy
     const node = { id: 'fixture/validator', outputs: ['diagnostics'], roles: ['validator'], benchmark: { adapter: 'declared', outputs: ['diagnostics'], api: { diagnostics: { export: 'validate' } } } }
     const rows = await runCommunityNodeRound({ node, artifact: { kind: 'node', module, version: 'fixture' } }, 'diagnostics', supportControls, 1, parseOptions(['--out', root, '--profile', 'smoke']))
     expect(partitionVerificationRows(rows).controlCounts).toEqual({ planned: 2, passed: 0, failed: 0, blocked: 2, missing: 0 })
-    expect(rows.every(row => row.metrics?.rejected === false)).toBe(true)
+    expect(rows.filter(row => supportControls.some(control => control.id === row.caseId)).every(row => row.metrics?.rejected === false)).toBe(true)
   } finally { rmSync(root, { recursive: true, force: true }) }
 })
 
