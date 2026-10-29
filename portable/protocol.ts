@@ -51,7 +51,7 @@ export interface PortableWorkerResult {
   importMs: number
   tracks: Partial<Record<Track, number[]>>
   outputBytes: number
-  qualification: { accepted: boolean; passed: boolean; semanticComplete: boolean; evidence?: { outputAdmission: string; nativeModel: string; paintedMeaning: string }; checks: { name: string; status: string; expected: unknown; actual: unknown; scope: string }[]; unmeasuredScopes: string[]; scope: string } | null
+  qualification: { observer?: string; accepted: boolean; passed: boolean; semanticComplete: boolean; evidence?: { outputAdmission: string; nativeModel: string; paintedMeaning: string }; checks: { name: string; status: string; expected: unknown; actual: unknown; scope: string }[]; unmeasuredScopes: string[]; scope: string } | null
   prelude: { source: string; expectedAccepted: boolean; actualAccepted: boolean; passed: boolean }[]
   memory?: { before: MemorySnapshot; atReturn: MemorySnapshot; afterGc: MemorySnapshot; gcAvailable: boolean }
   retention?: { calls: number; snapshot: MemorySnapshot }[]
