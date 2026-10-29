@@ -1,16 +1,25 @@
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { readdirSync, readFileSync } from 'node:fs'
-import { dirname, join, relative, resolve } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
 
 export interface CandidateArchive { tarball: string; sha256: string }
 export interface NpmCandidate extends CandidateArchive { dependencies?: CandidateArchive[] }
 const digest = (path: string) => createHash('sha256').update(readFileSync(path)).digest('hex')
 
+/** Check path safety, not registry naming policy: scoped leaves may start with _. */
+function safePackageName(name: unknown): name is string {
+  if (typeof name !== 'string') return false
+  const scoped = name.startsWith('@'), parts = name.split('/')
+  if (parts.length !== (scoped ? 2 : 1)) return false
+  if (scoped) parts[0] = parts[0]!.slice(1)
+  return parts.every(part => part.length > 0 && part !== '.' && part !== '..' && encodeURIComponent(part) === part)
+}
+
 /** Public packed archives only: no workspace links or source-directory imports. */
 export function candidatePackage(tarball: string): { name: string; version: string } {
   const pkg = JSON.parse(execFileSync('tar', ['-xOzf', tarball, 'package/package.json'], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }))
-  if (typeof pkg.name !== 'string' || !/^(?:@[a-z0-9._-]+\/)?[a-z0-9][a-z0-9._-]*$/i.test(pkg.name) || typeof pkg.version !== 'string' || !pkg.version.trim()) throw Error('Candidate tarball has no valid package name and version')
+  if (!safePackageName(pkg.name) || typeof pkg.version !== 'string' || !pkg.version.trim()) throw Error('Candidate tarball has no valid package name and version')
   return pkg
 }
 export function verifyCandidateArchive(archive: CandidateArchive) {
@@ -20,17 +29,27 @@ export function verifyCandidateArchive(archive: CandidateArchive) {
 export function verifyCandidateDependencyPayload(archive: CandidateArchive, root: string) {
   const files = execFileSync('tar', ['-tzf', archive.tarball], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }).trim().split('\n').filter(path => !path.endsWith('/'))
   if (new Set(files).size !== files.length || files.some(path => !path.startsWith('package/') || path.slice(8).split('/').some(part => !part || part === '..' || part === '.'))) throw Error('Invalid candidate dependency archive paths')
-  const installed = (directory: string): string[] => readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
-    if (['node_modules', '.git'].includes(entry.name)) return []
-    const path = join(directory, entry.name)
-    if (entry.isSymbolicLink()) throw Error('Candidate dependency payload contains a symlink')
-    return entry.isDirectory() ? installed(path) : [relative(root, path)]
-  })
-  if (JSON.stringify(installed(root).sort()) !== JSON.stringify(files.map(path => path.slice(8)).sort())) throw Error('Installed candidate dependency payload differs from its tarball')
-  for (const file of files) {
-    const expected = execFileSync('tar', ['-xOzf', archive.tarball, file], { maxBuffer: 64 * 1024 * 1024 })
-    if (!expected.equals(readFileSync(join(root, file.slice(8))))) throw Error('Installed candidate dependency payload differs from its tarball: ' + file)
+  const archived = files.map(path => path.slice(8)), ownedPaths = new Set<string>()
+  for (const file of archived) {
+    const parts = file.split('/')
+    for (let count = 1; count <= parts.length; count++) ownedPaths.add(parts.slice(0, count).join('/'))
   }
+  const installed = (directory: string, prefix = ''): string[] => readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+    const path = join(directory, entry.name)
+    const name = prefix ? prefix + '/' + entry.name : entry.name
+    // Traverse bundled packages from the archive, excluding separately installed
+    // dependencies and npm's generated .bin/.package-lock metadata.
+    if (entry.name === '.git' || (entry.name === 'node_modules' || /(?:^|\/)node_modules(?:\/@[^/]+)?$/.test(prefix)) && !ownedPaths.has(name)) return []
+    if (entry.isSymbolicLink()) throw Error('Candidate dependency payload contains a symlink')
+    return entry.isDirectory() ? installed(path, name) : [name]
+  })
+  if (JSON.stringify(installed(root).sort()) !== JSON.stringify(archived.sort())) throw Error('Installed candidate dependency payload differs from its tarball')
+  return files.map(file => {
+    const expected = execFileSync('tar', ['-xOzf', archive.tarball, file], { maxBuffer: 64 * 1024 * 1024 })
+    const path = join(root, file.slice(8)), actual = readFileSync(path)
+    if (!expected.equals(actual)) throw Error('Installed candidate dependency payload differs from its tarball: ' + file)
+    return { path, sha256: createHash('sha256').update(actual).digest('hex') }
+  })
 }
 export function candidateDependencies(manifest: string): CandidateArchive[] {
   const entries: unknown = JSON.parse(readFileSync(manifest, 'utf8'))
@@ -46,5 +65,5 @@ export function candidateDependencies(manifest: string): CandidateArchive[] {
 export function candidateKey(candidate: NpmCandidate | { revision: string }): string {
   if ('revision' in candidate) return candidate.revision
   if (!candidate.dependencies?.length) return candidate.sha256
-  return candidate.sha256 + '-' + createHash('sha256').update(JSON.stringify(candidate.dependencies.map(entry => entry.sha256).sort())).digest('hex')
+  return createHash('sha256').update(JSON.stringify({ root: candidate.sha256, dependencies: candidate.dependencies.map(entry => entry.sha256).sort() })).digest('hex')
 }

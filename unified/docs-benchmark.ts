@@ -48,10 +48,11 @@ export function docsInventory(upstream = mermaidUpstreamDirectory()) {
   return { pin: currentReferencePin, pages, occurrences: cases.length, distinct: new Set(cases.map(value => value.source.trim())).size, cases }
 }
 
-/** Rotate starting positions. Reversing alternate rotations cancels this for two peers. */
+/** Pair every ordering with its reverse before rotating the next pair. */
 export function docsRoundOrder<T>(targets: readonly T[], round: number): T[] {
-  const offset = (round - 1) % Math.max(1, targets.length)
-  return [...targets.slice(offset), ...targets.slice(0, offset)]
+  const offset = Math.floor((round - 1) / 2) % Math.max(1, targets.length)
+  const order = [...targets.slice(offset), ...targets.slice(0, offset)]
+  return round % 2 === 0 ? order.reverse() : order
 }
 
 export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<UnifiedSuiteResult> {

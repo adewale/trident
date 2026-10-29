@@ -176,6 +176,7 @@ to the candidate command above. The file contains a nonempty array:
 Paths are relative to that JSON file. Trident checks each archive's hash and
 package identity, installs the candidate and dependency archives together with
 scripts disabled, and verifies that the candidate resolves those exact packages.
+Files bundled inside a dependency archive are checked and sealed with that archive.
 Unused archives, duplicate package names and substituted nested copies are
 rejected. Changing any dependency archive creates a separate installation,
 browser bundle and candidate record. Frozen preparation seals the dependency

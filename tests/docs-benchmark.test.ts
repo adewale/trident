@@ -7,13 +7,22 @@ import { chromium } from 'playwright'
 import { publicSvgBrowserAction } from '../unified/public-svg-browser.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
 
-test('docs rounds rotate both two-project input orders and give every project each position', () => {
-  for (const peers of [['a', 'b'], ['b', 'a'], ['a', 'b', 'c'], ['a', 'b', 'c', 'd']]) {
-    const rounds = Array.from({ length: peers.length }, (_, index) => docsRoundOrder(peers, index + 1))
-    for (let position = 0; position < peers.length; position++) expect(new Set(rounds.map(round => round[position]))).toEqual(new Set(peers))
+test('docs rounds balance pairwise order after each round pair and positions over a full rotation', () => {
+  for (const peers of [['a', 'b'], ['b', 'a'], ['a', 'b', 'c'], ['c', 'b', 'a'], ['a', 'b', 'c', 'd']]) {
+    const rounds = Array.from({ length: 2 * peers.length }, (_, index) => docsRoundOrder(peers, index + 1))
+    for (let position = 0; position < peers.length; position++) {
+      for (const project of peers) expect(rounds.filter(round => round[position] === project)).toHaveLength(2)
+    }
+    for (let prefix = 1; prefix <= rounds.length; prefix++) {
+      for (let a = 0; a < peers.length; a++) for (let b = a + 1; b < peers.length; b++) {
+        const preceding = rounds.slice(0, prefix).filter(round => round.indexOf(peers[a]!) < round.indexOf(peers[b]!)).length
+        expect(Math.abs(2 * preceding - prefix)).toBeLessThanOrEqual(prefix % 2)
+      }
+    }
     for (const round of rounds) expect([...round].sort()).toEqual([...peers].sort())
     expect(peers).toEqual(rounds[0]!)
   }
+  expect(Array.from({ length: 6 }, (_, index) => docsRoundOrder(['a', 'b', 'c'], index + 1).join(''))).toEqual(['abc', 'cba', 'bca', 'acb', 'cab', 'bac'])
   expect(docsRoundOrder(['a', 'b'], 2)).toEqual(['b', 'a'])
   expect(docsRoundOrder([], 1)).toEqual([])
   expect(docsRoundOrder(['a'], 3)).toEqual(['a'])

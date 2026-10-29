@@ -138,7 +138,7 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false, c
   const oracle = node.id === 'mermaid-js/mermaid' ? assertMermaidOracle() : undefined
   if (oracle && version !== oracle.version) throw new Error(`Mermaid's row must be the pinned oracle ${oracle.version}; the catalog records ${version}`)
   // A candidate installs into its own prefix, keyed by its bytes, from Trident's verified copy.
-  const prefix = oracle?.directory ?? (candidate ? join(cache, 'candidates', `${safe(name)}@${candidateKey(candidate)}`) : join(cache, `${safe(name)}@${version}${plan.overrides ? '-recipe-' + createHash('sha256').update(JSON.stringify(plan)).digest('hex').slice(0, 16) : ''}`)),
+  const prefix = oracle?.directory ?? (candidate ? join(cache, 'candidates', safe(name), candidateKey(candidate)) : join(cache, `${safe(name)}@${version}${plan.overrides ? '-recipe-' + createHash('sha256').update(JSON.stringify(plan)).digest('hex').slice(0, 16) : ''}`)),
     root = join(prefix, 'node_modules', name),
     copy = join(prefix, 'candidate.tgz')
   mkdirSync(prefix, { recursive: true })
@@ -204,7 +204,7 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false, c
       if (!closure.nodes.some(node => node.realRoot === realRoot) || closure.edges.some(edge => edge.name === pkg.name && edge.resolution?.realRoot !== realRoot)) throw Error('Candidate dependency is unused or resolves to another package: ' + pkg.name)
       const integrity = installedNpmIntegrity(prefix, dependencyRoot, pkg.name, pkg.version)
       if (integrity !== 'sha512-' + createHash('sha512').update(readFileSync(pkg.tarball)).digest('base64')) throw Error('Installed candidate dependency differs from its tarball: ' + pkg.name)
-      verifyCandidateDependencyPayload(pkg, dependencyRoot)
+      wasmFiles.push(...verifyCandidateDependencyPayload(pkg, dependencyRoot))
       adapterCompanions.push({ root: dependencyRoot, name: pkg.name, version: pkg.version, integrity, closureSha256: createHash('sha256').update(JSON.stringify(adapterCompanionIdentity(dependencyRoot))).digest('hex') })
     }
   }
