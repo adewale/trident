@@ -88,7 +88,7 @@ test('campaign imports generate ranked tables and charts from the full docs inve
   const root = temp(), { report } = docsFixture(root)
   const tables = campaignTables(report, receipt), entry = tables[0]!
   expect(tables).toHaveLength(1)
-  expect(entry.rows.find(row => row.project === 'Fixture/A')?.values).toEqual(['1.0.0', 1, 1, 0, 0, 0, 2, '2026-01-02'])
+  expect(entry.rows.find(row => row.project === 'Fixture/A')?.values).toEqual(['1.0.0', 1, 1, 0, 0, 0, 0, 2, '2026-01-02'])
   expect(entry.rows.find(row => row.project === 'fixture/b')?.values[1]).toBe(2)
   expect(rankedRows(entry, id => id).map(row => [row.project, row.rank])).toEqual([['fixture/b', 1], ['Fixture/A', 2]])
   expect(entry.chart?.denominator).toBe('Planned')
@@ -102,11 +102,13 @@ test('campaign imports generate ranked tables and charts from the full docs inve
   expect(() => importCampaign(imported, root, 'https://example.org/evidence', catalog)).toThrow('Pilot')
 })
 
-test('missing docs rounds remain unexecuted, and duplicate samples cannot inflate a return rate', () => {
+test('missing docs rounds retain partial observations without a rank, and duplicates cannot inflate a return rate', () => {
   const root = temp(), { out, observations, report } = docsFixture(root)
   const own = observations.filter(row => !(row.metrics.project === 'fixture/b' && row.caseId === 'two' && row.metrics.round === 6))
   write(join(out, 'result.json'), { id: 'docs', finishedAt: '2026-01-02', observations: own })
-  expect(campaignTables(report, receipt)[0]!.rows.find(row => row.project === 'fixture/b')!.values.slice(1, 7)).toEqual([1, 0, 0, 0, 1, 2])
+  const entry = campaignTables(report, receipt)[0]!
+  expect(entry.rows.find(row => row.project === 'fixture/b')!.values.slice(1, 8)).toEqual([1, 0, 0, 0, 0, 1, 2])
+  expect(rankedRows(entry, id => id).find(row => row.project === 'fixture/b')!.rank).toBeNull()
   write(join(out, 'result.json'), { id: 'docs', finishedAt: '2026-01-02', observations: [...own, own[0]] })
   expect(() => campaignTables(report, receipt)).toThrow('inventory/rounds')
 })

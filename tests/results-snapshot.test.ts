@@ -1,6 +1,6 @@
 import { expect, test } from 'bun:test'
 import { createHash } from 'node:crypto'
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
@@ -131,6 +131,22 @@ test('snapshot check detects stale Markdown without rewriting it; reads need no 
   expect({ status: result.status, stderr: result.stderr }).toEqual({ status: 0, stderr: '' })
 }))
 
+test('large snapshots publish linked GitHub detail pages without dropping tables or missing stale pages', () => temporary(root => {
+  const data = snapshot()
+  const template = data.tables[0]!
+  data.tables.push(...Array.from({ length: 100 }, (_, index) => ({ ...structuredClone(template), id: 'large-' + index, caption: 'A retained input cohort. '.repeat(80) })))
+  writeSnapshot(data, catalog, root)
+  const overview = readFileSync(join(root, 'RESULTS.md'), 'utf8')
+  expect(Buffer.byteLength(overview)).toBeLessThan(120000)
+  const directory = join(root, 'results/tables'), files = readdirSync(directory).filter(file => /-\d+\.md$/.test(file))
+  const pages = files.map(file => readFileSync(join(directory, file), 'utf8'))
+  for (const entry of data.tables) expect(pages.filter(page => page.includes(`<a id="${entry.id}"></a>`))).toHaveLength(1)
+  for (const link of overview.matchAll(/\]\((results\/tables\/[^)#]+\.md)/g)) expect(readFileSync(join(root, link[1]!), 'utf8')).toContain('#')
+  writeSnapshot(data, catalog, root, true)
+  writeFileSync(join(directory, files[0]!), 'stale')
+  expect(() => writeSnapshot(data, catalog, root, true)).toThrow('stale')
+}))
+
 test('canonical historical values match their provenance digest without a second copy of the rows', () => {
   const root = resolve(import.meta.dir, '..')
   const data = JSON.parse(readFileSync(join(root, 'results/latest.json'), 'utf8')) as ResultsSnapshot
@@ -249,11 +265,12 @@ test('source candidate tables rank within their cohort and cannot replace publis
 
 test('the Flutter brand gets no inherited Dart score in the regular results overview', () => {
   const actual = JSON.parse(readFileSync(new URL('../catalog/mermaid-community.json', import.meta.url), 'utf8'))
-  const data = JSON.parse(readFileSync(new URL('../results/latest.json', import.meta.url), 'utf8'))
+  const data = snapshot()
+  data.tables[0]!.rows[0]!.project = 'orestesgaolin/mermaid'
   const output = renderSnapshot(data, actual)
   const flutter = output.split('\n').find(line => line.startsWith('| Mermaid Flutter |'))
   expect(flutter).toBeDefined()
   expect(flutter).toContain('Unmeasured')
   expect(flutter).toContain('N/A')
-  expect(flutter).not.toContain('449/548')
+  expect(flutter).not.toContain('1/2')
 })

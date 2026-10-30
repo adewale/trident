@@ -2,13 +2,21 @@
 
 [RESULTS.md](../RESULTS.md) is the repository's ecosystem overview. It lists all
 eligible projects, the latest imported attempts and dated result tables for all
-seven benchmarks. Its initial measurements are retained 27–28 October 2026
-evidence, clearly marked historical; they are not a newly qualified campaign.
+seven benchmarks. It includes the 30 October 2026 full campaign and retains older
+dated evidence. The linked campaign archive preserves all 39 originally measured
+projects; the rolling page applies the current 27-project selection.
 
 [`latest.json`](latest.json) stores the table values, dates, interfaces,
 qualification notes, receipt hashes and campaign attempts. The generator uses
 those same numeric rows for the Markdown tables and Mermaid charts. Do not edit
 `RESULTS.md` by hand.
+
+Large snapshots put the complete ranked tables and attempt records in generated
+pages under `results/tables/`, linked from the overview. Each page stays small
+enough for GitHub to render. `results:snapshot --check` checks those pages too.
+Incomplete documentation rounds remain unranked, with partial observations
+counted separately from inputs never executed. Their bars and percentages are
+withheld rather than shown as zero.
 
 Results are stack-ranked by the metric named above each table. Coverage and
 passed-check rates run highest first; latency and memory run lowest first.

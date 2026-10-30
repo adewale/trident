@@ -1,5 +1,5 @@
 import { cpSync, existsSync, lstatSync, mkdirSync, realpathSync, writeFileSync } from 'node:fs'
-import { basename, dirname, join, relative, resolve } from 'node:path'
+import { basename, dirname, isAbsolute, join, relative, resolve } from 'node:path'
 import { readBenchmarkDocument } from '../portable/project-records.ts'
 import { canonicalBenchmarkTool } from '../tool-versions.ts'
 import type { BenchmarkObservation, UnifiedSuiteResult } from './types.ts'
@@ -14,7 +14,14 @@ export interface CampaignEnvelope {
 export function readCampaign(directory: string): CampaignEnvelope {
   const report = readBenchmarkDocument(join(directory, 'report.json')) as CampaignEnvelope
   if (!Array.isArray(report.projects) || !Array.isArray(report.results) || typeof report.startedAt !== 'string') throw Error('Not a public-artifact campaign: ' + directory)
-  return report
+  const originalRoot = (report as CampaignEnvelope & { options?: { out?: string } }).options?.out
+  if (!originalRoot || !isAbsolute(originalRoot)) return report
+  return { ...report, results: report.results.map(row => {
+    if (!row.out) return row
+    const path = relative(originalRoot, row.out)
+    if (path.startsWith('..') || isAbsolute(path)) throw Error('Campaign boundary is outside its recorded root')
+    return { ...row, out: join(directory, path) }
+  }) }
 }
 const cell = (value: unknown) => String(value).replaceAll('|', '/').replaceAll('\n', ' ')
 const link = (root: string, path: string) => encodeURI(relative(root, path)).replaceAll('#', '%23')
@@ -43,7 +50,8 @@ export function campaignArtifactRole(report: CampaignEnvelope): 'candidate' | un
 /** Tool aliases are case-insensitive; retained project IDs use catalog spelling. */
 export function campaignProjectId(value: unknown, projects: readonly string[]) {
   const canonical = canonicalBenchmarkTool(String(value))
-  return projects.find(project => canonicalBenchmarkTool(project) === canonical) ?? canonical
+  return projects.find(project => canonicalBenchmarkTool(project) === canonical)
+    ?? projects.find(project => canonical.startsWith(canonicalBenchmarkTool(project) + '#')) ?? canonical
 }
 export function campaignScorecards(row: CampaignEnvelope['results'][number], projects: readonly string[] = []) {
   const results = campaignResults(row)

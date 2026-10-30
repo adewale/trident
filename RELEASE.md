@@ -5,7 +5,8 @@ is private; there is no npm publish. Renderer failures are findings. Incorrect
 invocation or reporting is a harness defect.
 
 The first public 0.1 release requires the reconciled [B0 baseline](BASELINE.md).
-Reconciliation and publication remain pending. Later releases assess retained evidence and collect
+The [full campaign evidence](https://github.com/adewale/trident/blob/8b2404b0bf2940e571ca0e14e54eeff0517a98ca/README.md)
+is public; baseline reconciliation remains pending. Later releases assess retained evidence and collect
 only measurements affected by changed artifacts or contracts. Missing upstream
 features, editor drivers, Pages and version alerts remain outside release gates.
 

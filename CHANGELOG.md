@@ -7,6 +7,12 @@ current main; baseline reconciliation and release publication remain pending.
 
 ### Benchmarks and measurement
 
+- Publish the 30 October 39-project campaign, ranked tables and a checksummed raw
+  download. The rolling overview uses the current 27-project selection and links
+  the archive for projects excluded later. Large reports have linked detail pages.
+- Keep interrupted DaveBench rounds unranked, distinguish partial observations
+  from unexecuted inputs, retain CLI variant ownership, and resolve owning reports
+  relative to an extracted evidence archive.
 - Seven documented suites cover Mermaid compatibility, DaveBench documentation
   examples, diagram meaning, public models and editing, original assertion replay,
   the genuine Mermaid reference tests, and portable SVG render cost/scaling.

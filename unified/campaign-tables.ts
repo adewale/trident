@@ -14,12 +14,12 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
   const projectId = (value: unknown) => campaignProjectId(value, report.projects ?? [])
   const artifactRole = campaignArtifactRole(report), candidate = artifactRole === 'candidate'
   const tables = new Map<string, SnapshotTable>()
-  const add = (key: unknown[], suite: PublicSuite, measuredAt: string, caption: string, columns: string[], project: string, values: (string | number)[], ranking: SnapshotTable['ranking'], extra: Partial<SnapshotTable> = {}) => {
+  const add = (key: unknown[], suite: PublicSuite, measuredAt: string, caption: string, columns: string[], project: string, values: (string | number)[], ranking: SnapshotTable['ranking'], extra: Partial<SnapshotTable> = {}, unrankedReason?: string) => {
     const id = 'run-' + hash([receipt.sha256, ...key]).slice(0, 24)
     const entry = tables.get(id) ?? { id, suite, measuredAt, campaignUpdatedAt: report.updatedAt, historical: (report as any).schema !== 'trident-campaign-v2', unit: 'observations', caption, columns, rows: [], receipt, ranking, ...(artifactRole ? { artifactRole } : {}), ...extra }
     if (entry.rows.some(row => row.project === project)) throw Error('Duplicate project in reduced campaign cohort')
     if (Date.parse(measuredAt) > Date.parse(entry.measuredAt)) entry.measuredAt = measuredAt
-    entry.rows.push({ project, values }); tables.set(id, entry)
+    entry.rows.push({ project, values, ...(unrankedReason ? { unrankedReason } : {}) }); tables.set(id, entry)
   }
   for (const boundary of report.results) {
     if (!boundary.out) continue
@@ -73,24 +73,49 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             if (coordinates.has(coordinate) || !Number.isInteger(row.metrics?.round) || Number(row.metrics?.round) < 1 || Number(row.metrics?.round) > report.rounds || !inventory.cases.some((c: any) => c.id === row.caseId)) throw Error('Docs observations do not match the declared inventory/rounds')
             coordinates.add(coordinate); byCase.set(row.caseId, [...(byCase.get(row.caseId) ?? []), row])
           }
-          const counts = { passed: 0, failed: 0, unsupported: 0, blocked: 0, missing: 0 }
+          const counts = { passed: 0, failed: 0, unsupported: 0, blocked: 0, missing: 0, partial: 0 }
           for (const input of inventory.cases) {
             const observations = byCase.get(input.id) ?? []
             if (observations.length === report.rounds && observations.every(row => row.status === 'passed')) counts.passed++
             else if (observations.some(row => row.status === 'failed')) counts.failed++
             else if (observations.some(row => row.status === 'unsupported')) counts.unsupported++
             else if (observations.some(row => row.status === 'blocked') || own.some(row => row.operation === 'artifact-admission' && row.status === 'blocked')) counts.blocked++
+            else if (observations.length) counts.partial++
             else counts.missing++
           }
+          const completeRounds = Array.from({ length: report.rounds }, (_, index) => index + 1).filter(round => inventory.cases.every((input: any) => coordinates.has(JSON.stringify([input.id, round])))).length
+          const incomplete = coordinates.size !== inventory.cases.length * report.rounds || counts.blocked > 0
+          const unrankedReason = incomplete ? `${counts.blocked === inventory.cases.length ? 'blocked' : 'incomplete'} (${completeRounds}/${report.rounds} complete rounds)` : undefined
           const version = own.find(row => typeof row.metrics?.version === 'string')?.metrics?.version ?? result.toolVersions?.find(row => projectId(row.tool) === project)?.version ?? 'unavailable'
           add(['docs', cohort, hash(inventory.cases), report.rounds], 'docs', measuredAt(own, result.finishedAt),
             `Pinned documentation occurrences; Chromium public SVG calls. Returned means the occurrence returned SVG in all ${report.rounds} declared rounds. Failures and unexecuted work retain the full inventory. SVG return does not certify meaning or paint.`,
-            ['Version', 'Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Planned', 'Measured'], project,
-            [String(version), counts.passed, counts.failed, counts.unsupported, counts.blocked, counts.missing, inventory.cases.length, measuredAt(own, result.finishedAt)],
+            ['Version', 'Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed', 'Planned', 'Measured'], project,
+            [String(version), counts.passed, counts.failed, counts.unsupported, counts.blocked, counts.missing, counts.partial, inventory.cases.length, measuredAt(own, result.finishedAt)],
             { column: 'Returned in all rounds', denominator: 'Planned', direction: 'descending' },
-            { unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted'] }, ...(candidate ? { artifactRole: 'candidate' } : { overview: { numerator: 'Returned in all rounds', denominator: 'Planned', suffix: '%' } }) })
+            { unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed'] }, ...(candidate ? { artifactRole: 'candidate' } : { overview: { numerator: 'Returned in all rounds', denominator: 'Planned', suffix: '%' } }) }, unrankedReason)
         }
         continue
+      }
+      if (boundary.suite === 'community') {
+        const qualified = new Map<string, typeof result.observations>()
+        for (const row of result.observations.filter(row => row.operation === 'render' && row.mode === 'feature-corpus-qualification')) {
+          const project = projectId(row.metrics?.implementation ?? row.metrics?.project)
+          const key = JSON.stringify([project, row.format, row.metrics?.variant ?? 'default', row.surface, row.runtime])
+          qualified.set(key, [...(qualified.get(key) ?? []), row])
+        }
+        for (const [key, observations] of qualified) {
+          const [project, format, variant] = JSON.parse(key)
+          const population = observations.map(row => JSON.stringify([row.caseId, row.metrics?.round ?? null])).sort()
+          if (new Set(population).size !== population.length) throw Error('Duplicate compatibility qualification input')
+          const count = (status: string) => observations.filter(row => row.status === status).length
+          const version = observations.find(row => row.metrics?.version)?.metrics?.version ?? 'unavailable'
+          add(['compatibility-inputs', cohort, format, variant, format === 'terminal' ? 'terminal-output-checks' : observations[0]!.surface, hash(population)], 'community', measuredAt(observations, result.finishedAt),
+            `${cohort}; ${format} compatibility. The same recorded inputs are checked for output format and authored labels. Runtime boundaries are listed per row; this compares output checks, not speed or complete layout correctness.`,
+            ['Version', 'Interface', 'Runtime', 'Passed', 'Failed', 'Unsupported', 'Blocked', 'Other', 'Planned inputs'], project,
+            [String(version), observations[0]!.surface, observations[0]!.runtime, count('passed'), count('failed'), count('unsupported'), count('blocked'), observations.length - count('passed') - count('failed') - count('unsupported') - count('blocked'), observations.length],
+            { column: 'Passed', denominator: 'Planned inputs', direction: 'descending' },
+            { summary: true, unit: 'inputs', population: { total: 'Planned inputs', outcomes: ['Passed', 'Failed', 'Unsupported', 'Blocked', 'Other'] } })
+        }
       }
       const groups = new Map<string, typeof result.observations>()
       for (const row of result.observations) {
@@ -120,7 +145,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
   // Charts use exactly the table's verified numeric rows. Fully unobserved rows
   // stay visible and unranked in the table, without a fabricated zero bar.
   for (const table of tables.values()) {
-    if (table.suite === 'docs' && table.rows.every(row => Number(row.values[4]) + Number(row.values[5]) < Number(row.values[6]))) table.chart = { numerator: 'Returned in all rounds', denominator: 'Planned', title: 'Documentation SVG return', axis: '%', maximum: 100 }
+    if (table.suite === 'docs') table.chart = { numerator: 'Returned in all rounds', denominator: 'Planned', title: 'Documentation SVG return', axis: '%', maximum: 100 }
   }
   return [...tables.values()]
 }
