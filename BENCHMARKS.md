@@ -28,7 +28,7 @@ Node kit independently. See [setup](README.md).
 | Mermaid Reference Tests (`upstream-original`) | The pinned Mermaid source running its own original core tests. | Original files and callbacks: passed, failed, pending and todo. | High for checking the reference environment; not a peer-project score. |
 | Render Cost and Scaling (`portable`) | Public Node SVG calls across families, sizes, edits and cache states. | Latency, CPU and memory by case/mode; output and calibration status. | High for controlled regressions; not a production forecast. |
 
-The [initial baseline](BASELINE.md) applies these contracts across the selected
+The [initial baseline](https://github.com/adewale/trident/blob/f764f2ab653f1fb6998b0fd8ca014b16d034a921/BASELINE.md) applies these contracts across the selected
 ecosystem before the first public 0.1 release. Its portable sampling uses
 the existing full profile, adopted after the bounded pilot. The baseline document
 links the frozen preparation record and collection allowance.
@@ -84,13 +84,13 @@ requiring a specific root style. Incomplete semantics or noisy A/A controls cann
 qualify performance. Per-case and per-family results stay available so an
 aggregate cannot hide workload-shape differences.
 
-The standalone [DaveBench PNG extension](davebench-png/README.md),
+The standalone [DaveBench PNG extension](https://github.com/adewale/trident/blob/f764f2ab653f1fb6998b0fd8ca014b16d034a921/davebench-png/README.md),
 `bun commands.ts docs:png --out FRESH_DIR`, reuses the same inventory and sampling
 with protocol `public-docs-png-export-v1`. It measures completed PNG bytes through
 the published native Flutter, Node and Chromium export paths, then decodes and
 checks nonblank content outside the clocks. It preserves full coverage and shows
 costs on common qualified occurrences, with runtime and output pixels visible.
-The [dated four-library results](docs/davebench-png-results.md) describe its quality,
+The [dated four-library results](https://github.com/adewale/trident/blob/f764f2ab653f1fb6998b0fd8ca014b16d034a921/docs/davebench-png-results.md) describe its quality,
 geometry, network and timing limits. This is distinct from the SVG-return protocol.
 
 ## DaveBench provenance and product diagnostics

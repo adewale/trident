@@ -4,14 +4,14 @@ Start with a comparison table for the question you want answered. Put projects
 and versions in rows, measurements in columns, and units in the column headings.
 Link each row's failures and receipt so readers can inspect what happened.
 The [comparison tables](RESULTS.md#results-by-benchmark) cover all seven benchmarks;
-[the research notes](docs/reporting-research.md) explain the examples we learned from.
+[the research notes](https://github.com/adewale/trident/blob/f764f2ab653f1fb6998b0fd8ca014b16d034a921/docs/reporting-research.md) explain the examples we learned from.
 
 The repository's [ecosystem results](RESULTS.md) provide a single entry point.
 They are generated from [results/latest.json](results/latest.json), including
 the Mermaid chart values. Historical evidence keeps its original dates and
 protocols; the overview retains missing projects and newer failed attempts.
 See [publication instructions](results/README.md) to update or check the page.
-The [initial baseline](BASELINE.md) has its own immutable publication and manifest;
+The [initial baseline](https://github.com/adewale/trident/blob/f764f2ab653f1fb6998b0fd8ca014b16d034a921/BASELINE.md) has its own immutable publication and manifest;
 rolling imports never overwrite it or turn pilot observations into baseline scores.
 
 ## What belongs above a table

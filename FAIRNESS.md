@@ -1,11 +1,11 @@
 # Comparison contracts
 
-See [scope](SCOPE.md) for the boundary between public-API benchmarks and optional
+See [scope](https://github.com/adewale/trident/blob/f764f2ab653f1fb6998b0fd8ca014b16d034a921/SCOPE.md) for the boundary between public-API benchmarks and optional
 application studies. Whole-editor workflows do not enter core project counts.
 
 Trident compares named public work. SVG return, terminal output, parsing,
 optional model APIs and original upstream tests answer different questions.
-The required evidence is chosen before measuring any candidate. [B0](BASELINE.md)
+The required evidence is chosen before measuring any candidate. [B0](https://github.com/adewale/trident/blob/f764f2ab653f1fb6998b0fd8ca014b16d034a921/BASELINE.md)
 defines the uniform artifact cutoff, frozen workloads, applicability ledger and
 future comparison rules for the first public release baseline.
 
@@ -198,7 +198,7 @@ module and browser observations.
 
 ## Conversion and release transports
 
-Editable conversion inspects the public element model; image fallbacks receive no editable-model credit. Whole-editor workflows remain outside core scope and do not inherit an embedded renderer’s score. See [public output bindings](docs/application-contracts.md).
+Editable conversion inspects the public element model; image fallbacks receive no editable-model credit. Whole-editor workflows remain outside core scope and do not inherit an embedded renderer’s score. See [public output bindings](https://github.com/adewale/trident/blob/f764f2ab653f1fb6998b0fd8ca014b16d034a921/docs/application-contracts.md).
 
 An additional public release CLI retains its archive checksum, actual binary
 identity, version and source-tag revision. A native CLI and WASM distribution

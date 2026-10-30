@@ -9,7 +9,7 @@ alone does not establish exact cardinality meaning. Earlier sealed kits and reco
 keep their original protocols and scopes. A corrected observer requires a fresh kit
 and fresh owning qualification.
 
-[Choose a benchmark](BENCHMARKS.md) · [Measurement rules](MEASUREMENT.md) · [Initial baseline](BASELINE.md)
+[Choose a benchmark](BENCHMARKS.md) · [Measurement rules](MEASUREMENT.md) · [Initial baseline](https://github.com/adewale/trident/blob/f764f2ab653f1fb6998b0fd8ca014b16d034a921/BASELINE.md)
 
 Trident reports capability, correctness, time, memory and delivered bytes separately. It does not produce an overall “best renderer” score. A useful result names its workload, public interface, configuration, artifact, machine, date and failures.
 
