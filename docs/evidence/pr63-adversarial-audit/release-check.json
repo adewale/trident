@@ -1,0 +1,142 @@
+{
+  "sourceRevision": "61e611471b143601b25976d89e3301fd6a2bb316",
+  "version": "0.1.0",
+  "archive": "/workspace/trident-pr63-audit/release-current/trident-0.1.0-node24.tar.gz",
+  "sha256": "adb98cf331cadea38fc61cbf0ae65574e06a143fd36e805e82c102885626d025",
+  "status": "harness-smoke-passed",
+  "projects": [
+    "obsidianmd/pele",
+    "AlexanderGrooff/mermaid-ascii"
+  ],
+  "sourceCommand": [
+    "/workspace/trident/commands.ts",
+    "bench",
+    "--projects",
+    "obsidianmd/pele,AlexanderGrooff/mermaid-ascii",
+    "--profile",
+    "smoke",
+    "--suites",
+    "community",
+    "--community-catalog",
+    "/workspace/trident-pr63-audit/fresh-preparation/preparation/catalog.json",
+    "--community-prepared",
+    "/workspace/trident-pr63-audit/fresh-preparation/preparation/community-prepared.json",
+    "--community-browser-prepared",
+    "/workspace/trident-pr63-audit/fresh-preparation/preparation/community-browser-prepared.json",
+    "--community-artifact-policy",
+    "frozen",
+    "--community-inputs",
+    "/workspace/trident-pr63-audit/release-current/verification/inputs.json",
+    "--out",
+    "/workspace/trident-pr63-audit/release-current/verification/source",
+    "--executable",
+    "/usr/bin/chromium"
+  ],
+  "sourceExitCode": 0,
+  "sourceCampaign": "/workspace/trident-pr63-audit/release-current/verification/source/report.json",
+  "kitCommand": [
+    "/workspace/trident-pr63-audit/release-current/verification/extracted/trident-0.1.0/run.mjs",
+    "--project",
+    "obsidianmd/pele",
+    "--artifact-root",
+    "/workspace/trident-b0-2026-10-29/artifact-cache/pele@1.12.0/node_modules/pele",
+    "--entry",
+    "/workspace/trident-b0-2026-10-29/artifact-cache/pele@1.12.0/node_modules/pele/dist/pele.js",
+    "--adapter",
+    "pele",
+    "--out",
+    "/workspace/trident-pr63-audit/release-current/verification/kit",
+    "--records",
+    "/workspace/trident-pr63-audit/release-current/verification/kit-records",
+    "--cases",
+    "family:flowchart,adversarial:label-edit,adversarial:configuration-reset,adversarial:invalid-recovery",
+    "--rounds",
+    "1",
+    "--samples",
+    "1",
+    "--cold-samples",
+    "1",
+    "--min-sample-ms",
+    "0",
+    "--worker-timeout-ms",
+    "15000",
+    "--allow-partial"
+  ],
+  "kitExitCode": 0,
+  "kitRecord": "/workspace/trident-pr63-audit/release-current/verification/kit/attempts/2f0ef8d3-cfc7-4568-93e1-c77daa3c4cfb/result.json.gz",
+  "kitCases": [
+    {
+      "id": "family:flowchart",
+      "family": "flowchart",
+      "cohort": "family",
+      "expectedAccepted": true,
+      "unsupported": null,
+      "checkedWorkers": 7,
+      "acceptanceMatches": true,
+      "failedWorkers": 0,
+      "blockedWorkers": 0,
+      "semanticComplete": true,
+      "outputAdmission": "passed",
+      "unmeasuredScopes": [
+        "Perceptual legibility, font metrics, text clipping and complete shape/path paint correspondence are not measured.",
+        "Graph checks cover owner identity, declared label ownership, edge count/endpoints, approximate attachment, ordinary directed markers or ER endpoint marker ink, and optional group containment. Crossings, full curve geometry, arbitrary transforms, unasserted class member/ER cardinality meaning and undeclared label-owner assignments remain unmeasured."
+      ],
+      "failures": []
+    },
+    {
+      "id": "adversarial:label-edit",
+      "family": "flowchart",
+      "cohort": "adversarial",
+      "expectedAccepted": true,
+      "unsupported": null,
+      "checkedWorkers": 7,
+      "acceptanceMatches": true,
+      "failedWorkers": 0,
+      "blockedWorkers": 0,
+      "semanticComplete": true,
+      "outputAdmission": "passed",
+      "unmeasuredScopes": [
+        "Perceptual legibility, font metrics, text clipping and complete shape/path paint correspondence are not measured.",
+        "Graph checks cover owner identity, declared label ownership, edge count/endpoints, approximate attachment, ordinary directed markers or ER endpoint marker ink, and optional group containment. Crossings, full curve geometry, arbitrary transforms, unasserted class member/ER cardinality meaning and undeclared label-owner assignments remain unmeasured."
+      ],
+      "failures": []
+    },
+    {
+      "id": "adversarial:invalid-recovery",
+      "family": "flowchart",
+      "cohort": "adversarial",
+      "expectedAccepted": true,
+      "unsupported": null,
+      "checkedWorkers": 7,
+      "acceptanceMatches": true,
+      "failedWorkers": 0,
+      "blockedWorkers": 0,
+      "semanticComplete": true,
+      "outputAdmission": "passed",
+      "unmeasuredScopes": [
+        "Perceptual legibility, font metrics, text clipping and complete shape/path paint correspondence are not measured.",
+        "Graph checks cover owner identity, declared label ownership, edge count/endpoints, approximate attachment, ordinary directed markers or ER endpoint marker ink, and optional group containment. Crossings, full curve geometry, arbitrary transforms, unasserted class member/ER cardinality meaning and undeclared label-owner assignments remain unmeasured."
+      ],
+      "failures": []
+    },
+    {
+      "id": "adversarial:configuration-reset",
+      "family": "flowchart",
+      "cohort": "adversarial",
+      "expectedAccepted": true,
+      "unsupported": null,
+      "checkedWorkers": 7,
+      "acceptanceMatches": true,
+      "failedWorkers": 0,
+      "blockedWorkers": 0,
+      "semanticComplete": true,
+      "outputAdmission": "passed",
+      "unmeasuredScopes": [
+        "Perceptual legibility, font metrics, text clipping and complete shape/path paint correspondence are not measured.",
+        "Graph checks cover owner identity, declared label ownership, edge count/endpoints, approximate attachment, ordinary directed markers or ER endpoint marker ink, and optional group containment. Crossings, full curve geometry, arbitrary transforms, unasserted class member/ER cardinality meaning and undeclared label-owner assignments remain unmeasured."
+      ],
+      "failures": []
+    }
+  ],
+  "limits": "Bounded invocation, configuration/edit/reset and reporting smoke on the extracted archive. Renderer findings and blocked option mappings remain in owning reports; this is not B0, a full support claim or timing qualification."
+}

@@ -1,0 +1,2 @@
+$ bun run commands.ts lint
+Checked 237 files in 262ms. No fixes applied.

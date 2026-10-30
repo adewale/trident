@@ -1,0 +1,23 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-reporting-regressions.test.ts:
+92 |       results.push({ suite: 'community', cohort, out, status })
+93 |     }
+94 |     write(join(root, 'report.json'), { schema: 'trident-campaign-v2', startedAt: '2026-02-01T00:00:00Z', updatedAt: '2026-02-01T00:00:01Z', profile: 'full', rounds: 1, projects: ['fixture/a'], requestedSuites: ['community'], results })
+95 |     let data = importCampaign(empty(), root, 'https://example.org/cohorts', catalog)
+96 |     const compatibility = overview(data).row.split('|')[3]!
+97 |     expect(compatibility).toContain('core: recorded')
+                               ^
+error: expect(received).toContain(expected)
+
+Expected to contain: "core: recorded"
+Received: " [recorded · 2026-02-01](#attempt-c5c67e1eb5b760849c6bc011) "
+
+      at <anonymous> (/workspace/trident/tests/campaign-reporting-regressions.test.ts:97:27)
+(fail) latest core and external cohort statuses are both visible and a newer partial campaign supersedes the pair [10.33ms]
+
+ 0 pass
+ 5 filtered out
+ 1 fail
+ 1 expect() calls
+Ran 1 test across 1 file. [54.00ms]

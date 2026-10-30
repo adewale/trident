@@ -1,0 +1,23 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-reporting-regressions.test.ts:
+65 | })
+66 | 
+67 | test('fully blocked generated docs data stays blocked and unranked rather than showing zero percent', () => {
+68 |   const data = importCampaign(empty(), campaign(temp(), { blocked: true, updatedAt: '2026-02-01T00:00:00Z' }), 'https://example.org/blocked', catalog)
+69 |   expect(overview(data).rank).toBe('—')
+70 |   expect(overview(data).docs).toContain('blocked')
+                                   ^
+error: expect(received).toContain(expected)
+
+Expected to contain: "blocked"
+Received: "[0.0% · 2026-01-01](#run-d8eadbb8548285b0f8155808)"
+
+      at <anonymous> (/workspace/trident/tests/campaign-reporting-regressions.test.ts:70:31)
+(fail) fully blocked generated docs data stays blocked and unranked rather than showing zero percent [11.72ms]
+
+ 0 pass
+ 4 filtered out
+ 1 fail
+ 2 expect() calls
+Ran 1 test across 1 file. [49.00ms]

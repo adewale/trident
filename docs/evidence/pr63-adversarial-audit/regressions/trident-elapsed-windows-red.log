@@ -1,0 +1,29 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-resume-regressions.test.ts:
+94 |   try {
+95 |     await collectCampaignBoundary(results, 1000, boundary, async () => { clock = 2000; throw new CollectionBudgetExhausted() }, () => saves++)
+96 |     expect([results[0].elapsedSeconds, results[0].completed]).toEqual([2, false])
+97 |     clock = 1_000_000
+98 |     await collectCampaignBoundary(results, clock + 500, boundary, async () => { clock += 1000; return { status: 'passed', samples: [2, 3], finishedAt: 'original-measurement-date' } }, () => saves++)
+99 |     expect([results[0].elapsedSeconds, results[0].completed]).toEqual([3, true])
+                                                                   ^
+error: expect(received).toEqual(expected)
+
+  [
+-   3,
++   1,
+    true,
+  ]
+
+- Expected  - 1
++ Received  + 1
+
+      at <anonymous> (/workspace/trident/tests/campaign-resume-regressions.test.ts:99:63)
+(fail) resumed boundary collection adds active windows without counting idle pause time [1.28ms]
+
+ 0 pass
+ 4 filtered out
+ 1 fail
+ 2 expect() calls
+Ran 1 test across 1 file. [625.00ms]

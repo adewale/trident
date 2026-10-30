@@ -1,0 +1,12 @@
+bun test v1.4.2 (744846f84)
+
+tests/portable-measurement.test.ts:
+{"phase":"warm","project":"fixture/api","round":1,"caseId":"invalid:unknown-header","completedCasesInRound":1}
+{"phase":"warm","project":"fixture/api","round":1,"caseId":"invalid:unknown-header","completedCasesInRound":1}
+(pass) invalid controls retain one real public invocation without repeated timing or resource workers [581.14ms]
+
+ 1 pass
+ 26 filtered out
+ 0 fail
+ 16 expect() calls
+Ran 1 test across 1 file. [644.00ms]

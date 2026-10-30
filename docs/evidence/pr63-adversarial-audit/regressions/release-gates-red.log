@@ -1,0 +1,162 @@
+bun test v1.4.2 (744846f84)
+
+../../tmp/trident-release-red-z7eb3g_k/release-workflow-regressions.test.ts:
+15 | }
+16 | 
+17 | test('source smoke requires the selected SVG and terminal interfaces independently', () => {
+18 |   const svg = 'fixture/svg', terminal = 'fixture/dual-output'
+19 |   const rows = [sourceRow(svg, 'svg'), sourceRow(terminal, 'svg'), sourceRow(terminal, 'terminal', 'failed')]
+20 |   expect(() => verifySourceSmoke(rows, svg, terminal)).toThrow('terminal flowchart output')
+                                                            ^
+error: expect(received).toThrow(expected)
+
+Expected substring: "terminal flowchart output"
+
+Received function did not throw
+Received value: undefined
+
+      at <anonymous> (/tmp/trident-release-red-z7eb3g_k/release-workflow-regressions.test.ts:20:56)
+(fail) source smoke requires the selected SVG and terminal interfaces independently [0.81ms]
+(pass) kit smoke retains blocked mapping attempts even when they have no qualification-bearing workers [3.49ms]
+56 | test.each(['missing', 'probe', 'baseline'] as const)('planned kit cases cannot replace execution with %s evidence', kind => {
+57 |   const fixture = kitFixture()
+58 |   if (kind === 'missing') fixture.results.pop()
+59 |   else fixture.results.at(-1)!.mode = kind
+60 |   fixture.save()
+61 |   expect(() => verifyKitSmoke(fixture.file, fixture.project, caseIds)).toThrow('did not attempt the declared case: adversarial:invalid-recovery')
+                                                                            ^
+error: expect(received).toThrow(expected)
+
+Expected substring: "did not attempt the declared case: adversarial:invalid-recovery"
+
+Received function did not throw
+Received value: {
+  project: "fixture/svg",
+  protocol: "portable-svg-processes-v7",
+  recordId: "fixture-attempt",
+  evidenceDirectory: "/tmp/trident-release-workflow-wo0wWS/attempts/fixture-attempt",
+  summary: {
+    counts: {
+      cases: 4,
+    },
+    cases: [
+      {
+        id: "family:flowchart",
+        checkedWorkers: 1,
+        outputAdmission: "passed",
+      }, {
+        id: "adversarial:label-edit",
+        checkedWorkers: 0,
+        outputAdmission: "incomplete",
+      }, {
+        id: "adversarial:configuration-reset",
+        checkedWorkers: 0,
+        outputAdmission: "incomplete",
+      }, {
+        id: "adversarial:invalid-recovery",
+        checkedWorkers: 0,
+        outputAdmission: "incomplete",
+      }
+    ],
+  },
+}
+
+      at <anonymous> (/tmp/trident-release-red-z7eb3g_k/release-workflow-regressions.test.ts:61:72)
+(fail) planned kit cases cannot replace execution with missing evidence [5.01ms]
+56 | test.each(['missing', 'probe', 'baseline'] as const)('planned kit cases cannot replace execution with %s evidence', kind => {
+57 |   const fixture = kitFixture()
+58 |   if (kind === 'missing') fixture.results.pop()
+59 |   else fixture.results.at(-1)!.mode = kind
+60 |   fixture.save()
+61 |   expect(() => verifyKitSmoke(fixture.file, fixture.project, caseIds)).toThrow('did not attempt the declared case: adversarial:invalid-recovery')
+                                                                            ^
+error: expect(received).toThrow(expected)
+
+Expected substring: "did not attempt the declared case: adversarial:invalid-recovery"
+
+Received function did not throw
+Received value: {
+  project: "fixture/svg",
+  protocol: "portable-svg-processes-v7",
+  recordId: "fixture-attempt",
+  evidenceDirectory: "/tmp/trident-release-workflow-bW354k/attempts/fixture-attempt",
+  summary: {
+    counts: {
+      cases: 4,
+    },
+    cases: [
+      {
+        id: "family:flowchart",
+        checkedWorkers: 1,
+        outputAdmission: "passed",
+      }, {
+        id: "adversarial:label-edit",
+        checkedWorkers: 0,
+        outputAdmission: "incomplete",
+      }, {
+        id: "adversarial:configuration-reset",
+        checkedWorkers: 0,
+        outputAdmission: "incomplete",
+      }, {
+        id: "adversarial:invalid-recovery",
+        checkedWorkers: 0,
+        outputAdmission: "incomplete",
+      }
+    ],
+  },
+}
+
+      at <anonymous> (/tmp/trident-release-red-z7eb3g_k/release-workflow-regressions.test.ts:61:72)
+(fail) planned kit cases cannot replace execution with probe evidence [2.24ms]
+56 | test.each(['missing', 'probe', 'baseline'] as const)('planned kit cases cannot replace execution with %s evidence', kind => {
+57 |   const fixture = kitFixture()
+58 |   if (kind === 'missing') fixture.results.pop()
+59 |   else fixture.results.at(-1)!.mode = kind
+60 |   fixture.save()
+61 |   expect(() => verifyKitSmoke(fixture.file, fixture.project, caseIds)).toThrow('did not attempt the declared case: adversarial:invalid-recovery')
+                                                                            ^
+error: expect(received).toThrow(expected)
+
+Expected substring: "did not attempt the declared case: adversarial:invalid-recovery"
+
+Received function did not throw
+Received value: {
+  project: "fixture/svg",
+  protocol: "portable-svg-processes-v7",
+  recordId: "fixture-attempt",
+  evidenceDirectory: "/tmp/trident-release-workflow-dSt6Ka/attempts/fixture-attempt",
+  summary: {
+    counts: {
+      cases: 4,
+    },
+    cases: [
+      {
+        id: "family:flowchart",
+        checkedWorkers: 1,
+        outputAdmission: "passed",
+      }, {
+        id: "adversarial:label-edit",
+        checkedWorkers: 0,
+        outputAdmission: "incomplete",
+      }, {
+        id: "adversarial:configuration-reset",
+        checkedWorkers: 0,
+        outputAdmission: "incomplete",
+      }, {
+        id: "adversarial:invalid-recovery",
+        checkedWorkers: 0,
+        outputAdmission: "incomplete",
+      }
+    ],
+  },
+}
+
+      at <anonymous> (/tmp/trident-release-red-z7eb3g_k/release-workflow-regressions.test.ts:61:72)
+(fail) planned kit cases cannot replace execution with baseline evidence [1.27ms]
+(pass) kit smoke binds exact case identities and the owning attempt rather than inventory length [1.18ms]
+(pass) a passing derived flowchart row still needs actual output admission in its worker evidence [0.71ms]
+
+ 3 pass
+ 4 fail
+ 8 expect() calls
+Ran 7 tests across 1 file. [960.00ms]

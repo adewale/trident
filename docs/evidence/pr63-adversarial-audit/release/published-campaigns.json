@@ -1,0 +1,47 @@
+{
+  "publishedAt": "2026-10-30T02:57:40.273Z",
+  "copyEvidence": false,
+  "campaigns": [
+    {
+      "source": "/workspace/trident-pr63-audit/release-current/verification/source",
+      "selectedSuites": "all recorded suites",
+      "measuredFrom": "2026-10-30T02:57:30.204Z",
+      "lastRecordedUpdate": "2026-10-30T02:57:40.253Z",
+      "profile": "smoke",
+      "rounds": 1,
+      "projects": [
+        "AlexanderGrooff/mermaid-ascii",
+        "obsidianmd/pele"
+      ],
+      "complete": "collection completed; qualification may fail",
+      "results": [
+        {
+          "suite": "community",
+          "cohort": "core",
+          "out": "/workspace/trident-pr63-audit/release-current/verification/source/community",
+          "launched": true,
+          "elapsedSeconds": 10.047,
+          "status": "passed",
+          "observations": 48,
+          "counts": {
+            "not-applicable": 8,
+            "passed": 40
+          },
+          "gaps": [
+            "Bounded release smoke; six legacy cases, one common flowchart and two invalid controls. No deep coverage or qualified timing claim.",
+            "SVG XML/canvas and authored-label checks do not establish complete semantic identity, multiplicity, route geometry or visual fidelity. Dedicated family feature assertions remain separate.",
+            "Core repeat cases calibrate to20ms/256iterations. With communityCoverageOnce, feature-corpus inputs qualify one actual call in round1 without warm/repeated speed samples; later rounds contain core only. These protocols never share a speed aggregate. API clocks exclude validation/cleanup; internal DOM measurement belongs to the API. JS heap excludes native/WASM/process memory.",
+            "Supplemental fixed-core CLI comparison only; deep feature coverage is unmeasured for these variants.",
+            "Rolling per-project records: original observation dates are retained in project-update-manifest.json. This is not a paired same-session comparison.",
+            "Bounded release smoke; six legacy cases, one common flowchart and two invalid controls. No deep coverage or qualified timing claim.",
+            "SVG XML/canvas and authored-label checks do not establish complete semantic identity, multiplicity, route geometry or visual fidelity. Dedicated family feature assertions remain separate.",
+            "Core repeat cases calibrate to20ms/256iterations. With communityCoverageOnce, feature-corpus inputs qualify one actual call in round1 without warm/repeated speed samples; later rounds contain core only. These protocols never share a speed aggregate. API clocks exclude validation/cleanup; internal DOM measurement belongs to the API. JS heap excludes native/WASM/process memory.",
+            "Supplemental fixed-core CLI comparison only; deep feature coverage is unmeasured for these variants.",
+            "Rolling per-project records: original observation dates are retained in project-update-manifest.json. This is not a paired same-session comparison."
+          ],
+          "completed": true
+        }
+      ]
+    }
+  ]
+}

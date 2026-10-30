@@ -1,0 +1,38 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-reporting-regressions.test.ts:
+76 |   mkdirSync(directory, { recursive: true })
+77 |   write(join(directory, 'report.json'), { project, summary: { cases: [{ id: caseId }], counts: { positiveCases: 1, outputAdmissionCases: 1, completeSemanticCases: 1, outputCalibratedTimingRows: 1, totalTimingRows: 3 } } })
+78 |   const file = join(root, 'report.json')
+79 |   write(file, { pilot: true, results: [{ project, caseId, out: '/nonexistent/old-workspace/pilot/portable/project/case', elapsedSeconds: 2, completed: true }] })
+80 |   const summary = summarizePilot(file)
+81 |   expect(summary.counts).toMatchObject({ collected: 1, notStarted: 0, positiveCases: 1, semanticCompleteCases: 1 })
+                              ^
+error: expect(received).toMatchObject(expected)
+
+  {
+-   "collected": 1,
+-   "notStarted": 0,
+-   "positiveCases": 1,
+-   "semanticCompleteCases": 1,
++   "cancelled": 0,
++   "collected": 0,
++   "incomplete": 0,
++   "notStarted": 1,
++   "outputAdmissionCases": 0,
++   "planned": 1,
++   "positiveCases": 0,
++   "semanticCompleteCases": 0,
+  }
+
+- Expected  - 4
++ Received  + 8
+
+      at <anonymous> (/workspace/trident/tests/campaign-reporting-regressions.test.ts:81:26)
+(fail) an extracted native pilot reads owning reports relative to its controller and retains usable report paths [4.38ms]
+
+ 0 pass
+ 4 filtered out
+ 1 fail
+ 1 expect() calls
+Ran 1 test across 1 file. [40.00ms]

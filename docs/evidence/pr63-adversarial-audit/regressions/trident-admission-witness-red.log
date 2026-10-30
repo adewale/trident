@@ -1,0 +1,31 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-resume-regressions.test.ts:
+(pass) a force-fresh resume reuses this campaign only, keeping old and other-cohort cache entries fresh [17.06ms]
+(pass) release lookup excludes applications and unbranded descendants but may reconsider a paused version [1.67ms]
+{"phase":"family-support","project":"fixture/witness","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/witness","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+59 |   const entry = join(tool, 'index.mjs'); writeFileSync(entry, `export function render(){return {svg:${JSON.stringify(svg)}}}`)
+60 |   const options = parsePortableOptions(['--project', 'fixture/witness', '--artifact-root', tool, '--rounds', '1', '--samples', '1', '--cold-samples', '1', '--min-sample-ms', '0'])
+61 |   const results: PortableWorkerResult[] = []
+62 |   await measurePortableProject({ project: 'fixture/witness', root: tool, entry, version: '1.0.0', adapter: 'pele' }, portableCases(['family'], ['family:flowchart']), options, root, result => results.push(result), new CollectionCheckpoint(root, { fixture: 'witness' }))
+63 |   expect(results.filter(result => result.mode === 'warm').map(result => [result.replica, result.status])).toEqual([['A1', 'failed']])
+64 |   expect(readdirSync(join(root, 'svg'))).toEqual(['family_flowchart.svg'])
+                                              ^
+error: expect(received).toEqual(expected)
+
+- [
+-   "family_flowchart.svg",
+- ]
++ []
+
+- Expected  - 3
++ Received  + 1
+
+      at <anonymous> (/workspace/trident/tests/campaign-resume-regressions.test.ts:64:42)
+(fail) early admission failure retains the actual SVG from the first scheduled replica [706.76ms]
+
+ 2 pass
+ 1 fail
+ 11 expect() calls
+Ran 3 tests across 1 file. [6.35s]

@@ -1,0 +1,24 @@
+bun test v1.4.2 (744846f84)
+
+::group::tests/release-workflow-regressions.test.ts:
+ 5 | 
+ 6 | export class CollectionBudgetExhausted extends Error {
+ 7 |   constructor() { super('Collection budget exhausted; completed units retained for resume'); this.name = 'CollectionBudgetExhausted' }
+ 8 | }
+ 9 | export function checkCollectionBudget(deadline?: number) {
+10 |   if (deadline !== undefined && Date.now() >= deadline) throw new CollectionBudgetExhausted()
+                                                                   ^
+CollectionBudgetExhausted: Collection budget exhausted; completed units retained for resume
+      at checkCollectionBudget (/workspace/trident/portable/checkpoint.ts:10:63)
+      at runCommunityCliCohort (/workspace/trident/unified/community-cli.ts:357:13)
+      at <anonymous> (/workspace/trident/tests/release-workflow-regressions.test.ts:84:24)
+
+::error file=portable/checkpoint.ts,line=10,col=63,title=CollectionBudgetExhausted: Collection budget exhausted; completed units retained for resume::%0A      at checkCollectionBudget (/workspace/trident/portable/checkpoint.ts:10:63)%0A      at runCommunityCliCohort (/workspace/trident/unified/community-cli.ts:357:13)%0A      at <anonymous> (/workspace/trident/tests/release-workflow-regressions.test.ts:84:24)
+(fail) an expired allowance can retain unavailable CLI views without starting a child [57.10ms]
+
+::endgroup::
+
+ 0 pass
+ 8 filtered out
+ 1 fail
+Ran 1 test across 1 file. [1497.00ms]

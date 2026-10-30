@@ -1,0 +1,19 @@
+bun test v1.4.2 (744846f84)
+
+::group::tests/release-workflow-regressions.test.ts:
+(pass) source smoke requires the selected SVG and terminal interfaces independently [0.38ms]
+(pass) kit smoke retains blocked mapping attempts even when they have no qualification-bearing workers [3.28ms]
+(pass) planned kit cases cannot replace execution with missing evidence [1.05ms]
+(pass) planned kit cases cannot replace execution with probe evidence [0.68ms]
+(pass) planned kit cases cannot replace execution with baseline evidence [1.07ms]
+(pass) kit smoke binds exact case identities and the owning attempt rather than inventory length [1.52ms]
+(pass) a passing derived flowchart row still needs actual output admission in its worker evidence [1.28ms]
+(pass) an expired allowance can retain unavailable CLI views without starting a child [66.60ms]
+(pass) the resource deadline gates actual commands after unavailable observations are recorded [0.21ms]
+
+::endgroup::
+
+ 9 pass
+ 0 fail
+ 15 expect() calls
+Ran 9 tests across 1 file. [1005.00ms]

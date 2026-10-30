@@ -1,0 +1,23 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-reporting-regressions.test.ts:
+30 | }
+31 | 
+32 | test('fresh generated docs tables supply their own overview rank and literal percentage', () => {
+33 |   const data = importCampaign(empty(), campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), 'https://example.org/fresh', catalog)
+34 |   expect(overview(data).rank).toBe('1')
+35 |   expect(overview(data).docs).toContain('100.0%')
+                                   ^
+error: expect(received).toContain(expected)
+
+Expected to contain: "100.0%"
+Received: "[2.0% · 2026-01-01](#run-8250046d2e316e541e0dddd2)"
+
+      at <anonymous> (/workspace/trident/tests/campaign-reporting-regressions.test.ts:35:31)
+(fail) fresh generated docs tables supply their own overview rank and literal percentage [10.77ms]
+
+ 0 pass
+ 4 filtered out
+ 1 fail
+ 2 expect() calls
+Ran 1 test across 1 file. [43.00ms]

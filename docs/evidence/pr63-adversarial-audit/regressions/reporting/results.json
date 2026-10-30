@@ -1,0 +1,44 @@
+[
+  {
+    "name": "owning-import",
+    "file": "unified/results-snapshot.ts",
+    "pattern": "fresh generated docs",
+    "exitCode": 1,
+    "regressionFailed": true
+  },
+  {
+    "name": "candidate-isolation",
+    "file": "unified/results-snapshot.ts",
+    "pattern": "candidate study tables",
+    "exitCode": 1,
+    "regressionFailed": true
+  },
+  {
+    "name": "later-partial",
+    "file": "unified/results-snapshot.ts",
+    "pattern": "a genuinely later partial",
+    "exitCode": 1,
+    "regressionFailed": true
+  },
+  {
+    "name": "blocked-is-not-zero",
+    "file": "unified/results-snapshot.ts",
+    "pattern": "fully blocked generated",
+    "exitCode": 1,
+    "regressionFailed": true
+  },
+  {
+    "name": "percentage",
+    "file": "unified/results-snapshot.ts",
+    "pattern": "fresh generated docs",
+    "exitCode": 1,
+    "regressionFailed": true
+  },
+  {
+    "name": "pilot-relocation",
+    "file": "unified/pilot-summary.ts",
+    "pattern": "an extracted native pilot",
+    "exitCode": 1,
+    "regressionFailed": true
+  }
+]

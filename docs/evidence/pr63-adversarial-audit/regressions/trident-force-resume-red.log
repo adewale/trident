@@ -1,0 +1,20 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-resume-regressions.test.ts:
+21 |   } })
+22 |   await updateProjectRecords(store, [request('fixture/a', 'old-a', 'old:core'), request('fixture/b', 'old-b', 'old:core')])
+23 |   const freshA = request('fixture/a', 'new-a', 'current:core')
+24 |   await expect(updateProjectRecords(store, [freshA, { identity: identity('fixture/b'), measure: async () => { throw new CollectionBudgetExhausted() } }], true)).rejects.toBeInstanceOf(CollectionBudgetExhausted)
+25 |   const reuse = (record: ProjectBenchmarkRecord) => (record.provenance as { collectionCampaignId?: string } | undefined)?.collectionCampaignId === 'current:core'
+26 |   const resumed = await updateProjectRecords(store, [{ identity: identity('fixture/a'), measure: async () => { throw Error('Completed campaign project must not rerun') } }, request('fixture/b', 'new-b', 'current:core')], true, reuse)
+                                                                                                                          ^
+error: Completed campaign project must not rerun
+      at measure (/workspace/trident/tests/campaign-resume-regressions.test.ts:26:118)
+      at updateProjectRecords (/workspace/trident/unified/project-update.ts:52:34)
+      at <anonymous> (/workspace/trident/tests/campaign-resume-regressions.test.ts:26:25)
+(fail) a force-fresh resume reuses this campaign only, keeping old and other-cohort cache entries fresh [8.82ms]
+
+ 0 pass
+ 1 fail
+ 1 expect() calls
+Ran 1 test across 1 file. [771.00ms]

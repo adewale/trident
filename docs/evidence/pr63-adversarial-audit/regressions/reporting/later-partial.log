@@ -1,0 +1,23 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-reporting-regressions.test.ts:
+39 | })
+40 | 
+41 | test('a genuinely later partial attempt hides older scores, but a later owning import restores reused dated evidence', () => {
+42 |   let data = importCampaign(empty(), campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), 'https://example.org/first', catalog)
+43 |   data = importCampaign(data, campaign(temp(), { partial: true, updatedAt: '2026-02-02T00:00:00Z' }), 'https://example.org/partial', catalog)
+44 |   expect(overview(data).rank).toBe('—')
+                                   ^
+error: expect(received).toBe(expected)
+
+Expected: "—"
+Received: "1"
+
+      at <anonymous> (/workspace/trident/tests/campaign-reporting-regressions.test.ts:44:31)
+(fail) a genuinely later partial attempt hides older scores, but a later owning import restores reused dated evidence [11.89ms]
+
+ 0 pass
+ 4 filtered out
+ 1 fail
+ 1 expect() calls
+Ran 1 test across 1 file. [53.00ms]

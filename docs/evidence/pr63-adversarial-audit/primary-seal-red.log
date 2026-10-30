@@ -1,0 +1,72 @@
+bun test v1.4.2 (744846f84)
+
+::group::tests/campaign-preparation-regressions.test.ts:
+101 |   manifest([{ project: f.node.id, identity }, { project: f.node.id, identity }])
+102 |   expect(() => loadCampaignPreparation(file)).toThrow('cover each selected project once')
+103 |   // Legacy partial preparations could retain an artifact behind an error-only receipt.
+104 |   manifest([{ project: f.node.id, error: 'Primary admission failed' }])
+105 |   writeFileSync(f.current.module, 'changed primary bytes after freeze')
+106 |   expect(() => loadCampaignPreparation(file)).toThrow('owning identity receipt differ')
+                                                    ^
+error: expect(received).toThrow(expected)
+
+Expected substring: "owning identity receipt differ"
+
+Received function did not throw
+Received value: {
+  manifest: {
+    schema: "trident-campaign-preparation-v1",
+    projects: [ "fixture/renderer" ],
+    profile: "full",
+    rounds: 6,
+    files: {
+      catalog: {
+        path: "catalog.json",
+        sha256: "c7d9d7e91eb856f4ff8fdc8fc20d027d69323c4d42d5591d554b6977494c4fa8",
+      },
+      prepared: {
+        path: "prepared.json",
+        sha256: "ef84d3378f2f847fc4ed32de1b27c3e06c439d47f6ce9fd4e28ff821a0cb338f",
+      },
+      browsers: {
+        path: "browsers.json",
+        sha256: "3117b824514587067aaf851b1e3a6551e2e0bc3d508d297fb41ab1a51d096326",
+      },
+      inputs: {
+        path: "inputs.json",
+        sha256: "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      },
+      inventories: {
+        path: "inventories.json",
+        sha256: "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      },
+    },
+    artifacts: [
+      {
+        project: "fixture/renderer",
+        error: "Primary admission failed",
+      }
+    ],
+  },
+  options: {
+    communityCatalogFile: "/tmp/trident-canonical-browser-y71fQc/catalog.json",
+    communityPreparedFile: "/tmp/trident-canonical-browser-y71fQc/prepared.json",
+    communityBrowserPreparedFile: "/tmp/trident-canonical-browser-y71fQc/browsers.json",
+    communityInputsFile: "/tmp/trident-canonical-browser-y71fQc/inputs.json",
+    communityArtifactPolicy: "frozen",
+  },
+  externalInputs: undefined,
+}
+
+      at <anonymous> (/workspace/trident/tests/campaign-preparation-regressions.test.ts:106:47)
+
+::error file=tests/campaign-preparation-regressions.test.ts,line=106,col=47,title=error: expect(received).toThrow(expected)::Expected substring: "owning identity receipt differ"%0A%0AReceived function did not throw%0AReceived value: {%0A  manifest: {%0A    schema: "trident-campaign-preparation-v1",%0A    projects: [ "fixture/renderer" ],%0A    profile: "full",%0A    rounds: 6,%0A    files: {%0A      catalog: {%0A        path: "catalog.json",%0A        sha256: "c7d9d7e91eb856f4ff8fdc8fc20d027d69323c4d42d5591d554b6977494c4fa8",%0A      },%0A      prepared: {%0A        path: "prepared.json",%0A        sha256: "ef84d3378f2f847fc4ed32de1b27c3e06c439d47f6ce9fd4e28ff821a0cb338f",%0A      },%0A      browsers: {%0A        path: "browsers.json",%0A        sha256: "3117b824514587067aaf851b1e3a6551e2e0bc3d508d297fb41ab1a51d096326",%0A      },%0A      inputs: {%0A        path: "inputs.json",%0A        sha256: "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",%0A      },%0A      inventories: {%0A        path: "inventories.json",%0A        sha256: "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",%0A      },%0A    },%0A    artifacts: [%0A      {%0A        project: "fixture/renderer",%0A        error: "Primary admission failed",%0A      }%0A    ],%0A  },%0A  options: {%0A    communityCatalogFile: "/tmp/trident-canonical-browser-y71fQc/catalog.json",%0A    communityPreparedFile: "/tmp/trident-canonical-browser-y71fQc/prepared.json",%0A    communityBrowserPreparedFile: "/tmp/trident-canonical-browser-y71fQc/browsers.json",%0A    communityInputsFile: "/tmp/trident-canonical-browser-y71fQc/inputs.json",%0A    communityArtifactPolicy: "frozen",%0A  },%0A  externalInputs: undefined,%0A}%0A%0A      at <anonymous> (/workspace/trident/tests/campaign-preparation-regressions.test.ts:106:47)
+(fail) identical browser metadata cannot bypass a missing or failed primary identity receipt [10.29ms]
+
+::endgroup::
+
+ 0 pass
+ 5 filtered out
+ 1 fail
+ 4 expect() calls
+Ran 1 test across 1 file. [891.00ms]

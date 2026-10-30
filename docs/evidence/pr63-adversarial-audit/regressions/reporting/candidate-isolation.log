@@ -1,0 +1,22 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-reporting-regressions.test.ts:
+92 |       for (const row of entry.rows) chartValue(entry, row)
+93 |     }
+94 |     if (entry.ranking && (!entry.columns.includes(entry.ranking.column) || entry.ranking.column === 'Version' || !['ascending', 'descending'].includes(entry.ranking.direction) || entry.ranking.denominator && !entry.columns.includes(entry.ranking.denominator))) throw Error('Invalid ranking metric')
+95 |   }
+96 |   for (const attempt of snapshot.attempts) {
+97 |     if (attempt.artifactRole !== undefined) throw Error('Unknown attempt artifact role')
+                                                                                            ^
+error: Unknown attempt artifact role
+      at validateSnapshot (/workspace/trident/unified/results-snapshot.ts:97:88)
+      at renderSnapshot (/workspace/trident/unified/results-snapshot.ts:187:3)
+      at overview (/workspace/trident/tests/campaign-reporting-regressions.test.ts:27:15)
+      at <anonymous> (/workspace/trident/tests/campaign-reporting-regressions.test.ts:57:10)
+(fail) candidate study tables and attempts cannot replace or suppress release scores, including unstarted boundaries [19.88ms]
+
+ 0 pass
+ 4 filtered out
+ 1 fail
+ 1 expect() calls
+Ran 1 test across 1 file. [79.00ms]

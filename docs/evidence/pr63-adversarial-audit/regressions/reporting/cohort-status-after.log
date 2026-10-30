@@ -1,0 +1,10 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-reporting-regressions.test.ts:
+(pass) latest core and external cohort statuses are both visible and a newer partial campaign supersedes the pair [13.15ms]
+
+ 1 pass
+ 5 filtered out
+ 0 fail
+ 12 expect() calls
+Ran 1 test across 1 file. [43.00ms]

@@ -1,0 +1,20 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-resume-regressions.test.ts:
+68 | 
+69 | test.skipIf(!localCollection)('forced retained-suite resume keeps same-campaign history and original dates', async () => {
+70 |   const root = mkdtempSync(join(tmpdir(), 'trident-retained-campaign-')); directories.push(root)
+71 |   const records = join(root, 'records'), calls: string[] = []
+72 |   const run = (project: string, campaign: string, resume = false, forbid = false, force = true) => runRetainedSuite({ out: join(root, project), records, force, campaign: { id: campaign, resume }, identity: () => ({ project, protocol: 'fixture', artifact: '1.0.0', measurement: 'fixed' }), measure: async () => {
+73 |     if (forbid) throw Error('Completed retained unit must not rerun')
+                           ^
+error: Completed retained unit must not rerun
+      at measure (/workspace/trident/tests/campaign-resume-regressions.test.ts:73:23)
+      at runRetainedSuite (/workspace/trident/unified/retained-suite.ts:112:27)
+      at <anonymous> (/workspace/trident/tests/campaign-resume-regressions.test.ts:80:25)
+(fail) forced retained-suite resume keeps same-campaign history and original dates [10.86ms]
+
+ 0 pass
+ 4 filtered out
+ 1 fail
+Ran 1 test across 1 file. [629.00ms]

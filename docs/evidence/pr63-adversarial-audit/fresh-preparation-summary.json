@@ -1,0 +1,15 @@
+{
+  "projects": [
+    "AlexanderGrooff/mermaid-ascii",
+    "obsidianmd/pele"
+  ],
+  "errors": [],
+  "cutoff": "2026-10-29T18:42:38Z",
+  "sampling": {
+    "protocol": "portable-svg-processes-v7",
+    "rounds": 1,
+    "samples": 1,
+    "coldSamples": 1
+  },
+  "source": "61e611471b143601b25976d89e3301fd6a2bb316"
+}

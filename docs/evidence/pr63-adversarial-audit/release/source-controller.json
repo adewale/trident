@@ -1,0 +1,143 @@
+{
+  "schema": "trident-campaign-v2",
+  "campaignId": "dccce3b8-c034-4f9f-abd7-3ce2c76f55ad",
+  "pilot": false,
+  "includeExcluded": false,
+  "startedAt": "2026-10-30T02:57:30.204Z",
+  "updatedAt": "2026-10-30T02:57:40.253Z",
+  "projects": [
+    "AlexanderGrooff/mermaid-ascii",
+    "obsidianmd/pele"
+  ],
+  "profile": "smoke",
+  "rounds": 1,
+  "requestedSuites": [
+    "community"
+  ],
+  "options": {
+    "root": "/workspace/trident",
+    "harnessRoot": "/workspace/trident",
+    "out": "/workspace/trident-pr63-audit/release-current/verification/source",
+    "profile": "smoke",
+    "rounds": 1,
+    "communityProjects": [
+      "AlexanderGrooff/mermaid-ascii",
+      "obsidianmd/pele"
+    ],
+    "communityForce": false,
+    "allowIncomplete": false,
+    "communityArtifactPolicy": "frozen",
+    "communityCoverageOnce": true,
+    "executable": "/usr/bin/chromium",
+    "communityCatalogFile": "/workspace/trident-pr63-audit/release-current/verification/source/preparation/catalog.json",
+    "communityPreparedFile": "/workspace/trident-pr63-audit/release-current/verification/source/preparation/community-prepared.json",
+    "communityInputsFile": "/workspace/trident-pr63-audit/release-current/verification/source/preparation/community-inputs.json",
+    "communityBrowserPreparedFile": "/workspace/trident-pr63-audit/release-current/verification/source/preparation/community-browser-prepared.json"
+  },
+  "preparationFile": "/workspace/trident-pr63-audit/release-current/verification/source/preparation.json",
+  "preparationSha256": "decac113ca656f764be20727f86227588126c77c288f4b7960692d81734b8b64",
+  "runtime": {
+    "environment": {
+      "runtime": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "node": "24.19.0",
+        "v8": "13.6.233.17-node.51",
+        "platform": "linux",
+        "arch": "x64"
+      },
+      "nodeSha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12",
+      "host": "55cc1e917f42",
+      "cpu": [
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C"
+      ],
+      "kernel": "6.18.55",
+      "cpuLimit": "400000 100000",
+      "memoryLimit": "34359738368",
+      "environment": {
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null,
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_NUMERIC": null,
+        "AGENTIC_MERMAID_EXPERIMENTS": null
+      }
+    },
+    "driver": {
+      "status": "available",
+      "path": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+      "mode": 33216,
+      "version": "1.4.2",
+      "sha256": "a83d263767d839e4d2649ca8e35d07159c7afc99afdc96d731ced29e056dda0c",
+      "companions": []
+    },
+    "browser": {
+      "status": "available",
+      "path": "/usr/bin/chromium",
+      "mode": 33261,
+      "version": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)",
+      "sha256": "2c8d32d29dc6781c35ae196ea83299d507ac88fc339301abe74672feda299779",
+      "companions": [
+        {
+          "path": "/usr/lib/chromium/chromium",
+          "sha256": "4dc9f9f9b20e9bd95bf201f43d2d643f48938f36a70ddcb6fce3dd611a178180"
+        }
+      ]
+    },
+    "selectors": {
+      "LD_LIBRARY_PATH": "/workspace/trident-b0-2026-10-29/runtime-libs",
+      "DISPLAY": ":97",
+      "FONTCONFIG_FILE": null,
+      "FONTCONFIG_PATH": null,
+      "LIBGL_ALWAYS_SOFTWARE": "1",
+      "NODE_COMPILE_CACHE": null,
+      "UV_THREADPOOL_SIZE": null,
+      "NODE_BIN": null,
+      "BUN_BIN": null,
+      "BUN_OPTIONS": null,
+      "AM_BENCH_OBSERVER": "/workspace/.cloud-tools/gnu-time-root/usr/bin/time",
+      "MERMAID_REFERENCE_DIR": "/workspace/.cloud-tools/mermaid-reference",
+      "MERMAID_UPSTREAM_DIR": "/workspace/trident-pr21-review/mermaid-original-source",
+      "MERMAID_UPSTREAM_RUNNER_ROOT": "/workspace/trident-pr21-review/mermaid-original-runtime"
+    }
+  },
+  "windows": [
+    {
+      "startedAt": "2026-10-30T02:57:30.204Z",
+      "budgetMinutes": null,
+      "deadline": null
+    }
+  ],
+  "results": [
+    {
+      "suite": "community",
+      "cohort": "core",
+      "out": "/workspace/trident-pr63-audit/release-current/verification/source/community",
+      "launched": true,
+      "elapsedSeconds": 10.047,
+      "status": "passed",
+      "observations": 48,
+      "counts": {
+        "not-applicable": 8,
+        "passed": 40
+      },
+      "gaps": [
+        "Bounded release smoke; six legacy cases, one common flowchart and two invalid controls. No deep coverage or qualified timing claim.",
+        "SVG XML/canvas and authored-label checks do not establish complete semantic identity, multiplicity, route geometry or visual fidelity. Dedicated family feature assertions remain separate.",
+        "Core repeat cases calibrate to20ms/256iterations. With communityCoverageOnce, feature-corpus inputs qualify one actual call in round1 without warm/repeated speed samples; later rounds contain core only. These protocols never share a speed aggregate. API clocks exclude validation/cleanup; internal DOM measurement belongs to the API. JS heap excludes native/WASM/process memory.",
+        "Supplemental fixed-core CLI comparison only; deep feature coverage is unmeasured for these variants.",
+        "Rolling per-project records: original observation dates are retained in project-update-manifest.json. This is not a paired same-session comparison.",
+        "Bounded release smoke; six legacy cases, one common flowchart and two invalid controls. No deep coverage or qualified timing claim.",
+        "SVG XML/canvas and authored-label checks do not establish complete semantic identity, multiplicity, route geometry or visual fidelity. Dedicated family feature assertions remain separate.",
+        "Core repeat cases calibrate to20ms/256iterations. With communityCoverageOnce, feature-corpus inputs qualify one actual call in round1 without warm/repeated speed samples; later rounds contain core only. These protocols never share a speed aggregate. API clocks exclude validation/cleanup; internal DOM measurement belongs to the API. JS heap excludes native/WASM/process memory.",
+        "Supplemental fixed-core CLI comparison only; deep feature coverage is unmeasured for these variants.",
+        "Rolling per-project records: original observation dates are retained in project-update-manifest.json. This is not a paired same-session comparison."
+      ],
+      "completed": true
+    }
+  ]
+}

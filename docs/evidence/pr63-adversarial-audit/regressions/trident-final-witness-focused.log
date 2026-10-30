@@ -1,0 +1,22 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-resume-regressions.test.ts:
+(pass) a force-fresh resume reuses this campaign only, keeping old and other-cohort cache entries fresh [12.46ms]
+(pass) release lookup excludes applications and unbranded descendants but may reconsider a paused version [1.45ms]
+{"phase":"family-support","project":"fixture/witness","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/witness","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+(pass) early admission failure retains the actual SVG from the first scheduled replica [452.63ms]
+(pass) forced retained-suite resume keeps same-campaign history and original dates [15.07ms]
+(pass) resumed boundary collection adds active windows without counting idle pause time [0.99ms]
+{"phase":"family-support","project":"fixture/later-witness","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/later-witness","round":1,"caseId":"fixture:witness","completedCasesInRound":1}
+(pass) a later warm failure retains its actual SVG without replacing the representative (process 3) [764.65ms]
+{"phase":"family-support","project":"fixture/later-witness","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/later-witness","round":1,"caseId":"fixture:witness","completedCasesInRound":1}
+{"phase":"warm","project":"fixture/later-witness","round":2,"caseId":"fixture:witness","completedCasesInRound":1}
+(pass) a later warm failure retains its actual SVG without replacing the representative (process 5) [1165.09ms]
+
+ 7 pass
+ 0 fail
+ 30 expect() calls
+Ran 7 tests across 1 file. [3.22s]

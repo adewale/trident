@@ -1,0 +1,44 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-resume-regressions.test.ts:
+{"phase":"family-support","project":"fixture/later-witness","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/later-witness","round":1,"caseId":"fixture:witness","completedCasesInRound":1}
+118 |   await measurePortableProject({ project: 'fixture/later-witness', root: tool, entry, version: '1.0.0', adapter: 'pele' }, [{ id: 'fixture:witness', family: 'flowchart', cohort: 'adversarial', source: 'flowchart LR\nA[Visible]', expected: { accept: true, labels: ['Visible'] } }], options, root, result => results.push(result), new CollectionCheckpoint(root, { fixture: 'later-witness' }))
+119 |   const warm = results.filter(result => result.mode === 'warm')
+120 |   expect(warm[0]!.qualification?.evidence?.outputAdmission).toBe('passed')
+121 |   expect(warm.filter(result => result.status === 'failed').map(result => [result.round, result.replica])).toEqual([[round, 'B']])
+122 |   expect(readFileSync(join(root, 'svg/fixture_witness.svg'), 'utf8')).toBe(good)
+123 |   expect(readFileSync(join(root, `failures/fixture_witness-warm-r${round}-B-0.svg`), 'utf8')).toBe(bad)
+               ^
+ENOENT: no such file or directory, open '/tmp/trident-later-witness-j7xbOt/failures/fixture_witness-warm-r1-B-0.svg'
+    path: "/tmp/trident-later-witness-j7xbOt/failures/fixture_witness-warm-r1-B-0.svg",
+ syscall: "open",
+   errno: -2,
+    code: "ENOENT"
+
+      at <anonymous> (/workspace/trident/tests/campaign-resume-regressions.test.ts:123:10)
+(fail) a later warm failure retains its actual SVG without replacing the representative (process 3) [1178.60ms]
+{"phase":"family-support","project":"fixture/later-witness","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/later-witness","round":1,"caseId":"fixture:witness","completedCasesInRound":1}
+{"phase":"warm","project":"fixture/later-witness","round":2,"caseId":"fixture:witness","completedCasesInRound":1}
+118 |   await measurePortableProject({ project: 'fixture/later-witness', root: tool, entry, version: '1.0.0', adapter: 'pele' }, [{ id: 'fixture:witness', family: 'flowchart', cohort: 'adversarial', source: 'flowchart LR\nA[Visible]', expected: { accept: true, labels: ['Visible'] } }], options, root, result => results.push(result), new CollectionCheckpoint(root, { fixture: 'later-witness' }))
+119 |   const warm = results.filter(result => result.mode === 'warm')
+120 |   expect(warm[0]!.qualification?.evidence?.outputAdmission).toBe('passed')
+121 |   expect(warm.filter(result => result.status === 'failed').map(result => [result.round, result.replica])).toEqual([[round, 'B']])
+122 |   expect(readFileSync(join(root, 'svg/fixture_witness.svg'), 'utf8')).toBe(good)
+123 |   expect(readFileSync(join(root, `failures/fixture_witness-warm-r${round}-B-0.svg`), 'utf8')).toBe(bad)
+               ^
+ENOENT: no such file or directory, open '/tmp/trident-later-witness-yj2l0z/failures/fixture_witness-warm-r2-B-0.svg'
+    path: "/tmp/trident-later-witness-yj2l0z/failures/fixture_witness-warm-r2-B-0.svg",
+ syscall: "open",
+   errno: -2,
+    code: "ENOENT"
+
+      at <anonymous> (/workspace/trident/tests/campaign-resume-regressions.test.ts:123:10)
+(fail) a later warm failure retains its actual SVG without replacing the representative (process 5) [1219.18ms]
+
+ 0 pass
+ 5 filtered out
+ 2 fail
+ 6 expect() calls
+Ran 2 tests across 1 file. [6.87s]

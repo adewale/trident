@@ -1,0 +1,738 @@
+$ bun run commands.ts test
+bun test v1.4.2 (744846f84)
+
+tests/adapter-companion-identity.test.ts:
+(pass) changing an executed companion invalidates the owning public artifact [18.69ms]
+
+tests/artifact-dependencies.test.ts:
+(pass) actual installed dependency closure > retains empty legacy dependencies arrays as no edges but rejects nonempty arrays [4.95ms]
+(pass) actual installed dependency closure > retains empty legacy optionalDependencies arrays as no edges but rejects nonempty arrays [0.48ms]
+(pass) actual installed dependency closure > retains empty legacy peerDependencies arrays as no edges but rejects nonempty arrays [1.13ms]
+(pass) actual installed dependency closure > captures same-version implementation changes without relying on a lockfile or hashing the candidate [1.05ms]
+(pass) actual installed dependency closure > resolves symlinked packages and their actual nested dependencies and file targets [1.61ms]
+(pass) actual installed dependency closure > terminates dependency cycles and excludes nested node_modules and Git storage from file scans [1.33ms]
+(pass) actual installed dependency closure > records missing optional and peer packages and invalidates when an optional package appears [1.77ms]
+(pass) actual installed dependency closure > captures linked directories without following cycles or aliases into Git storage [11.16ms]
+(pass) actual installed dependency closure > fails closed for a missing required package and prevents dependency paths from hashing candidate source [0.38ms]
+(pass) actual installed dependency closure > rejects a dependency file symlink into candidate-owned source [0.66ms]
+
+tests/baseline-browser.test.ts:
+(pass) full browser case identity admits optional edit preludes before collection and reuses the completed record [55.14ms]
+(pass) baseline public-result gate checks authored SVG independently and never treats infrastructure failure as expected rejection [65.24ms]
+(pass) counterbalancing rotates all four roles and keeps sample order deterministic [0.20ms]
+(pass) real browser consumer includes module initialization and traverses Map/Set sidecars, while recording excluded callbacks [2022.91ms]
+(pass) only reviewed canonical source refusals establish unsupported families; infrastructure stays failed [0.94ms]
+(pass) explicit browser cases reject invalid selections and preserve corpus order [13.05ms]
+(pass) invalid browser stages and launch arguments fail before reference preparation [43.29ms]
+(pass) first-party ZenUML binding is lazy, registered once, and included in the first public-call clock [830.86ms]
+
+tests/baseline-measurement-context.test.ts:
+(pass) an unrelated tool pin preserves an admitted artifact clock while worker changes invalidate it [3189.82ms]
+
+tests/benchmark-context.test.ts:
+(pass) private transport dependency byte changes invalidate context without a package-version change [861.19ms]
+
+tests/benchmark-skip.test.ts:
+(pass) a release pause skips before acquisition, survives descendant overrides, and permits a separately selected candidate [3295.40ms]
+
+tests/browser-png-inspection.test.ts:
+(pass) native browser PNG admission decodes real content and rejects blank/transparent/fabricated envelopes [639.08ms]
+
+tests/browser-process-memory.test.ts:
+(pass) Chromium RSS/PSS ownership deduplicates process IDs and refuses a partial total [2.00ms]
+(pass) unsupported platform, invalid counters and failed CDP are explicit unavailable evidence [0.43ms]
+
+tests/candidate-mode.test.ts:
+community preparation 1/1: owner/fixture-renderer
+community preparation 1/1: owner/fixture-renderer
+community preparation 1/1: owner/fixture-renderer
+(pass) a candidate tarball stands in for the pinned release, verified by its SHA-256 [1553.86ms]
+(pass) candidate mode takes one project, a tarball for npm and a revision for a source build, and checks it before acquisition [923.09ms]
+(pass) a source candidate is one Git commit, from GitHub by default or from a named remote or clean clone [66.43ms]
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+(pass) a source candidate is built with the release recipe from its own commit, and frozen preparation keeps it [142.57ms]
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+(pass) source cache keeps release and candidate labels separate in candidate-first order [84.49ms]
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+(pass) source cache keeps release and candidate labels separate in release-first order [77.14ms]
+(pass) a candidate record is keyed by its bytes in its own lane, so it never reuses or replaces the release [11.02ms]
+(pass) results:publish leaves candidates out of the league and refuses a candidate in the release lane [72.37ms]
+(pass) a candidate comparison keeps failures as failures and withholds times that do not compare [4.18ms]
+(pass) candidate comparisons withhold browser times and case changes under different visible-output checks [5.10ms]
+(pass) a Merman Node candidate cannot silently acquire the released browser SDK [31.72ms]
+(pass) same-project candidates need the same API binding and declared outputs before comparing [2.85ms]
+(pass) candidate case changes retain blocked, unsupported, missing and newly measured outcomes [0.70ms]
+(pass) resource diagnostics never become newly measured diagram cases in a candidate comparison [0.64ms]
+community preparation 1/1: owner/fixture-renderer
+(pass) a disabled published release still admits an explicitly supplied candidate package [865.80ms]
+community preparation 1/1: owner/fixture-renderer
+community preparation 1/1: owner/fixture-renderer
+community preparation 1/1: owner/fixture-renderer
+community preparation 1/1: owner/fixture-renderer
+community preparation 1/1: owner/fixture-renderer
+(pass) workspace candidates install source archives together, isolate dependency-only changes and reject changed frozen payloads [3922.61ms]
+community preparation 1/1: owner/fixture-renderer
+(pass) candidate archives accept npm-valid scoped underscore names in the root and its dependencies [1415.74ms]
+(pass) candidate package names cannot escape their installed package path [81.12ms]
+community preparation 1/1: owner/fixture-renderer
+community preparation 1/1: owner/fixture-renderer
+(pass) candidate cache and browser paths admit long npm names while dependency-only changes remain isolated [2424.28ms]
+community preparation 1/1: owner/fixture-renderer
+community preparation 1/1: owner/fixture-renderer
+(pass) workspace dependency archives verify and seal their bundled files alongside separate dependencies [2350.12ms]
+
+tests/ci-commands.test.ts:
+(pass) CI runs deterministic checks, help, support and a no-acquisition campaign plan without an oracle [9232.34ms]
+(pass) CI still rejects measurement, artifact acquisition and the local full suite before creating output [338.74ms]
+
+tests/ci-policy.test.ts:
+(pass) CI execution is rejected even when the generic indicator is explicitly false [3.24ms]
+(pass) a benchmark run refuses without exactly the pinned Mermaid oracle, and runs with it [2.25ms]
+
+tests/commands.test.ts:
+(pass) public help and artifact help require no product checkout, oracle or compiled kit [849.35ms]
+(pass) project-specific source commands are rejected by the public CLI [89.05ms]
+(pass) a product source environment cannot relocate Trident oracle defaults [0.41ms]
+(pass) release version needs no renderer, oracle or compiled kit [23.44ms]
+
+tests/committed-data-identity.test.ts:
+(pass) vendored TypeScript corpus inputs bind their own bytes without resolving original parser imports [63.66ms]
+
+tests/community-external-disposition.test.ts:
+(pass) external observer blocks and raster scopes survive collection without label credit [53.13ms]
+(pass) JSONL interruption retains explicit API failures and blocks an uncertain next case [42.21ms]
+
+tests/community-protocol-identity.test.ts:
+(pass) producer and transitively imported helper changes invalidate retained community clocks [105.67ms]
+(pass) dirty and committed reports, tests, documentation and independent suites retain the identity [65.74ms]
+(pass) a new runtime helper is bound immediately, including dynamic imports; type-only dependencies are excluded [79.03ms]
+
+tests/current-report-version-admission.test.ts:
+(pass) current publisher rejects later-observation before touching prior output; raw history stays readable [5.88ms]
+(pass) current publisher rejects artifact-conflict before touching prior output; raw history stays readable [1.86ms]
+(pass) an unpinned tool cannot conceal disagreement between owning artifact and observed release [1.94ms]
+(pass) Pele 1.9 publishes with corrected raw medians; source pins and dependency releases are not tool versions [6.48ms]
+(pass) missing owning artifact evidence remains visible and unranked instead of inventing a version [4.30ms]
+(pass) explicit candidate versions are checked against their owning artifact for every project [7.85ms]
+(pass) results:compare CLI rejects a hidden mismatched observation before replacing its output [88.80ms]
+(pass) a browser artifact cannot hide an older release behind the valid Node artifact [2.54ms]
+(pass) explicitly unexecuted metadata is not a tool-version claim or a new render [4.57ms]
+(pass) release publication reconciles canonical aliases beautiful-mermaid and lukilabs/beautiful-mermaid before replacing output [3.11ms]
+(pass) release publication reconciles canonical aliases SomeOrg/Renderer and someorg/renderer before replacing output [3.11ms]
+(pass) same-release canonical aliases remain independently visible without a mixed-version error [6.33ms]
+(pass) a consistent owning Pele 1.8.0 artifact publishes independently of the legacy default pin [3.69ms]
+(pass) a consistent owning Pele 1.12.0 artifact publishes independently of the legacy default pin [2.88ms]
+(pass) catalog admission accepts selected peer releases and rejects a mismatched reference before acquisition [1.52ms]
+
+tests/docs-benchmark.test.ts:
+(pass) docs rounds balance pairwise order after each round pair and positions over a full rotation [0.63ms]
+(pass) UTF-8 public bundles initialize before docs clocks await the real public return and exclude post-call cleanup; failures earn no successful sample [966.32ms]
+
+tests/docs-png-benchmark.test.ts:
+(pass) PNG docs export awaits actual encoded bytes, retains intrinsic dimensions and rejects invalid SVG [791.11ms]
+
+tests/excalidraw-inspection.test.ts:
+(pass) editable conversion must retain authored labels and exact directed relationships [0.75ms]
+(pass) editable geometry, endpoint identity and image-only fallbacks retain different dispositions [0.23ms]
+
+tests/fair-comparisons.test.ts:
+(pass) project support distinguishes a missing observer from absent output and does not grant a fork reference evidence [0.41ms]
+(pass) campaign planning never installs a target or runs a renderer and execution requires explicit selection [1797.20ms]
+(pass) identical SVG receives identical output admission regardless of tool name or optional parse API [8.36ms]
+(pass) a declared public SVG adapter preserves its receiver and awaits its returned field in both transports [187.34ms]
+(pass) optional model failures do not erase a qualified SVG-only timing while full-check qualification remains failed [7.38ms]
+(pass) external corpus selection reads pinned source, retains duplicates and empty contributors, and ignores renderer results [76.55ms]
+(pass) campaign publication preserves dates, failed criteria and raw samples in a portable unranked bundle [3.83ms]
+(pass) a later model-only failure cannot erase an earlier bad SVG return in a warm worker [156.75ms]
+
+tests/fidelity-classification.test.ts:
+(pass) docs coverage keeps required support, beta coverage, deliberate CSS rejection and environment failures distinct [0.70ms]
+(pass) reference failures and missing paint remain in the ledger rather than creating peer fidelity credit [0.33ms]
+
+tests/fidelity-community.test.ts:
+(pass) community admission checks actual executable bytes, missing assets, installed versions and reference pins [1.30ms]
+(pass) project selection precedes admission and returned SVG cannot forge observer labels with event handlers [1096.45ms]
+(pass) budget expiry escapes paint collection without publishing a completed report [2551.25ms]
+
+tests/fidelity-ledger.test.ts:
+(pass) a reference render failure keeps planned ink evidence in the denominator and prevents a complete case claim [1.19ms]
+(pass) an omitted peer criterion cannot disappear from a common baseline-qualified comparison [0.40ms]
+(pass) failed workflow setup withholds qualified postcondition credit while preserving the observed fact [0.74ms]
+(pass) capability-specific serializers remain visible without creating a fictitious Mermaid API denominator [0.54ms]
+(pass) authored nodes, relationships and font configuration declare checks before observation [0.41ms]
+
+tests/fidelity-meaning.test.ts:
+(pass) semantic admission rejects wrong endpoints, collapsed parallel edges, direction loss, identity relabeling and wrong immediate ownership [2.99ms]
+(pass) missing evidence cannot pass, while available wrong values fail separately from unavailable projections [0.38ms]
+(pass) numeric values and relationship markers remain independently checked even when all labels survive [0.25ms]
+(pass) reviewed public model projections preserve nesting and sequence order without reparsing authored input [2.40ms]
+(pass) Mermaid public Event Modeling getter transport preserves actual frame identities and endpoints [0.29ms]
+(pass) native Event Modeling projection preserves qualified payloads and reads inferred endpoints from public layout output [0.34ms]
+(pass) native ZenUML call-stack projection retains ordered endpoints and observes assignment returns without inventing a second reply [0.41ms]
+(pass) declared unordered fact collections allow authored rename order changes without discarding duplicates [0.11ms]
+(pass) actual adapter family and public serializer return are observed rather than supplied by the requested case [2.89ms]
+(pass) unavailable positioned projection does not erase independently returned native frame facts [1.30ms]
+(pass) only reviewed source rejection earns negative credit; backend/resource faults retain unavailable evidence [0.54ms]
+(pass) native Mermaid registers the declared addon without inventing its missing public semantic model [2.95ms]
+
+tests/fidelity-paint-values.test.ts:
+(pass) pie weights bind actual wedge areas to authored legend labels instead of trusting correct native numbers [4392.15ms]
+(pass) bar positions must encode independently authored values even when every expected label and bar remains [738.69ms]
+(pass) packet fields preserve actual owned width and bit order, not just field names [433.93ms]
+(pass) quadrant coordinates come from uniquely owned dots in four distinct actual regions [713.49ms]
+(pass) treemap sibling areas and gantt durations reject wrong geometry even with retained labels [884.87ms]
+(pass) weighted Sankey edges require bounded owned endpoints and distinct weighted paint [744.85ms]
+(pass) journey relative scores observe actual task-owned glyph order [494.20ms]
+(pass) radar values measure drawn curve intersections rather than retained legend or model values [559.03ms]
+
+tests/fidelity-paint.test.ts:
+(pass) actual painted endpoints and multiplicity are independent of correct labels and model expectations [2023.51ms]
+(pass) an extra explicitly identified but unbound route cannot earn exact multiplicity credit [262.77ms]
+(pass) one missing node body cannot borrow a surrounding cluster while another body remains distinct [255.16ms]
+(pass) unprojected marker grammar cannot invent an arrow: L0 0 L6 3 L0 6 Z [230.34ms]
+(pass) unprojected marker grammar cannot invent an arrow: M0 0 L6 3 M0 6 [219.50ms]
+(pass) unprojected marker grammar cannot invent an arrow: M0 0 L6,,3 L0 6 Z [297.39ms]
+(pass) browser paint rejects hidden and clipped authored labels, not just missing SVG text [1588.01ms]
+(pass) failed image decoding earns no paint credit and unsupported ownership remains unavailable [1652.25ms]
+(pass) every relationship label belongs to its actual owned route, even when all endpoints and text counts are correct [541.93ms]
+(pass) marker ownership distinguishes inheritance, composition and inline arrowheads without classifying decorations as directed arrows [1079.19ms]
+(pass) requested font size is checked on every authored text run rather than one convenient element [602.57ms]
+(pass) owned node fill and edge stroke effects cannot be satisfied by unrelated matching decorations [1082.40ms]
+(pass) barbed four-vertex arrows are concave directional heads rather than convex cardinality diamonds [624.34ms]
+(pass) actual sequence messages exclude painted actor lifelines and nested outlines retain node ownership [727.48ms]
+(pass) rich foreignObject leaves remain actual authored text and logical tree groups do not imply enclosure [542.78ms]
+(pass) C4 person relationships can attach to the actual compound head rather than an unrelated body rectangle [505.65ms]
+(pass) actual Mermaid open-arrow legs retain direction across a repeated moveto apex [1037.63ms]
+(pass) actual ZenUML inline SVG heads and reflected arrows determine reciprocal physical direction [568.61ms]
+(pass) actual ZenUML activations, self calls, and return polylines stay owned by their drawn actors [1215.83ms]
+(pass) actual Pele external labels bind distinct service bodies without borrowing their common cluster [714.29ms]
+
+tests/fidelity-report.test.ts:
+(pass) matching case names cannot compose evidence from changed expectations or observers [2.63ms]
+(pass) report restores jointly omitted criteria and an entirely omitted admitted project [9.25ms]
+(pass) a matching default font cannot earn configured font credit from an export name [0.18ms]
+
+tests/fidelity-selection.test.ts:
+(pass) peer-only selection skips direct campaign before reference, executable and output preparation [1.45ms]
+(pass) peer-only selection skips native worker bridge before reference, executable and output preparation [0.26ms]
+
+tests/franken-diagnostics.test.ts:
+(pass) Franken diagnostics preserve public warnings without inventing syntax rejection [166.68ms]
+(pass) a public snake-case rejection flag cannot become successful validation [0.31ms]
+
+tests/fresh-process.test.ts:
+(pass) child milestone decoder preserves Unicode split across stdout buffers and ignores unframed output [60.65ms]
+(pass) GNU time readings preserve resolution and reject missing counters [0.87ms]
+
+tests/lineage.test.ts:
+(pass) lineage distinguishes historical versions, exact heads, changed forks, ports and dependencies [1.02ms]
+(pass) invalid ancestry cannot silently vanish from the tree [0.49ms]
+(pass) the complete catalog tree contains every entity once and retains changed comparison projects [8.75ms]
+(pass) branding excludes even changed descendants; explicit investigation override is visible [0.71ms]
+(pass) application workflows stay outside core comparisons even under the descendant override [0.65ms]
+(pass) catalog editor exclusions retain discovery and keep direct native/output/conversion interfaces eligible [2.37ms]
+(pass) explicit application support verification fails before preparation or oracle acquisition [1.13ms]
+(pass) both public CLIs enforce exclusions before preparation and the plan records the override [5943.49ms]
+(pass) maintainer lineage corrections preserve a derivative relationship and the Mermaid Dart brand [4.94ms]
+(pass) Dart and Flutter are distinct eligible brands with separate outputs and shared-core ancestry [4.32ms]
+
+tests/mermaid-community-discovery.test.ts:
+(pass) retains an unpublished editor as a candidate without assuming renderer ownership [24.39ms]
+(pass) combines registry and GitHub discoveries while retaining their query provenance and curated categories [0.75ms]
+(pass) recognises a curated npm package without repository search metadata and merges its provenance [0.37ms]
+(pass) matches the curated repository from npm URL https://github.com:443/Example/Editor.git [0.20ms]
+(pass) matches the curated repository from npm URL ssh://git@github.com:22/Example/Editor.git [0.06ms]
+(pass) matches the curated repository from npm URL git+ssh://git@github.com:22/Example/Editor.git [0.12ms]
+(pass) matches the curated repository from npm URL git://github.com:9418/Example/Editor.git [0.02ms]
+(pass) matches the curated repository from npm URL git@github.com:Example/Editor.git [0.01ms]
+(pass) retains conflicting repository for source review [0.12ms]
+(pass) retains known repository with conflicting ownership for source review [0.02ms]
+(pass) retains ambiguous package ownership for source review [0.02ms]
+(pass) retains each repository observation when https://gitlab.com/one/editor precedes https://bitbucket.org/two/editor for the same package [0.20ms]
+(pass) retains each repository observation when https://bitbucket.org/two/editor precedes https://gitlab.com/one/editor for the same package [0.56ms]
+(pass) preserves explicit npm repository metadata from https://gitlab.com/other/editor before matching a curated package [0.18ms]
+(pass) preserves explicit npm repository metadata from https://bitbucket.org/other/editor before matching a curated package [0.02ms]
+(pass) preserves explicit npm repository metadata from git+ssh://git@example.org/other/editor.git before matching a curated package [0.02ms]
+(pass) preserves explicit npm repository metadata from https://github.com:invalid/example/editor.git before matching a curated package [0.13ms]
+(pass) preserves explicit npm repository metadata from ssh://git@github.com:70000/example/editor.git before matching a curated package [0.02ms]
+(pass) preserves explicit npm repository metadata from https://github.com.example.org/example/editor.git before matching a curated package [0.01ms]
+
+tests/mermaid-oracle.test.ts:
+(pass) the pinned Mermaid refuses authored expectations it contradicts and types the sources it accepts [2331.70ms]
+
+tests/native-community.test.ts:
+(pass) an explicit native launch rejects changed bundle bytes and conflicting ambient executables before launch [877.87ms]
+{"project":"pub:mermaid_flutter","state":"partially-verified","outputs":[{"output":"png","state":"invocation-verified","passed":6}]}
+(pass) native binding flows through the ordinary frozen support collector with raster scope and separate invalid controls [3297.22ms]
+(pass) repointing a saved native manifest cannot launch a bundle outside its artifact seal [113.80ms]
+(pass) native runtime facts may follow an empty startup ledger but must match claimed options before rows are accepted [1436.63ms]
+
+tests/newer-families.test.ts:
+(pass) the historical family mark stays fixed while the current portable cohort exercises both required additions [2.32ms]
+(pass) the pinned oracle accepts every newer probe and reads back exactly its labels [4018.57ms]
+(pass) the committed corpus carries every documented example of the newer families at the oracle release [4.28ms]
+(pass) a re-import from the tagged Mermaid checkout reproduces the committed examples [38.35ms]
+(pass) Event Modeling label expectations survive the oracle layout getter failing [1209.14ms]
+(pass) the pinned Mermaid baseline accepts every imported documented example before benchmarking [2724.95ms]
+(pass) ZenUML refuses an addon version outside this benchmark set before loading it [1.05ms]
+(pass) the pinned first-party addon admits the authored required ZenUML source [1283.30ms]
+
+tests/parser-timing.test.ts:
+(pass) sampling preserves authored source and separates first, warmup and repeated calls [0.54ms]
+(pass) rejected sources retain timings and distinguish false returns from exceptions [0.18ms]
+(pass) invalid sample count %s refuses before parser execution [0.09ms]
+(pass) invalid sample count %s refuses before parser execution
+(pass) invalid sample count %s refuses before parser execution [0.03ms]
+(pass) invalid sample count %s refuses before parser execution
+
+tests/png-launchers.test.ts:
+(pass) both PNG entrypoints share container isolation, preserve runner arguments and write the runtime receipt [177.13ms]
+
+tests/portable-configuration.test.ts:
+(pass) semantic configuration uses each reviewed public path and keeps declared options immutable [0.62ms]
+(pass) font checks follow actual authored labels rather than the root or unrelated text [4.26ms]
+(pass) the real Node worker translates seed and edited font options; unavailable bindings remain blocked [309.76ms]
+
+tests/portable-family-paint.test.ts:
+(pass) Agentic class: actual typed Result and independently owned visible ink qualify [5.29ms]
+(pass) Agentic class: typed identities and exact endpoint multiplicity cannot be replaced by labels [6.93ms]
+(pass) Agentic class: unchanged metadata cannot hide missing, invisible or redirected route geometry [18.01ms]
+(pass) Agentic er: actual typed Result and independently owned visible ink qualify [7.24ms]
+(pass) Agentic er: typed identities and exact endpoint multiplicity cannot be replaced by labels [11.95ms]
+(pass) Agentic er: unchanged metadata cannot hide missing, invisible or redirected route geometry [10.73ms]
+(pass) Agentic Class direction needs a referenced, visible and correctly oriented open arrow [2.12ms]
+(pass) Agentic ER exact glyph meaning and identifying appearance reject credible substitutions [10.29ms]
+(pass) Agentic parallel and reciprocal relations retain exact multiplicity independently of SVG DOM order [5.71ms]
+(pass) Agentic ER distinguishes all four reviewed cardinality glyphs and dashed identifying intent [1.31ms]
+(pass) published Pele ER cardinality bars remain separate painted strokes, not a connecting relation [7.59ms]
+(pass) class: owned geometry binds authored relations without guessing generated IDs [1.95ms]
+(pass) class: correct public model and labels cannot hide an edge redirected to another node [0.41ms]
+(pass) class: dropped relation ink fails despite unchanged labels and native graph [0.36ms]
+(pass) class: body paths without endpoint marker ink cannot certify the declared relation [0.37ms]
+(pass) state: owned geometry binds authored relations without guessing generated IDs [1.02ms]
+(pass) state: correct public model and labels cannot hide an edge redirected to another node [0.45ms]
+(pass) state: dropped relation ink fails despite unchanged labels and native graph [0.20ms]
+(pass) state: body paths without endpoint marker ink cannot certify the declared relation [0.24ms]
+(pass) er: owned geometry binds authored relations without guessing generated IDs [0.77ms]
+(pass) er: correct public model and labels cannot hide an edge redirected to another node [0.40ms]
+(pass) er: dropped relation ink fails despite unchanged labels and native graph [0.19ms]
+(pass) er: body paths without endpoint marker ink cannot certify the declared relation [0.19ms]
+(pass) duplicate relation owner IDs fail even when all expected geometric endpoint pairs are present [0.46ms]
+(pass) a degenerate move-only path is not a connecting segment [0.32ms]
+(pass) a failed canvas or authored-label criterion withholds semantic completion despite correct topology [0.71ms]
+(pass) unreviewed class marker profiles remain unmeasured rather than pretending to cover all relationship kinds [0.30ms]
+(pass) simple sequence messages bind to actor lifelines while legitimate footer duplicates stay distinct [2.41ms]
+(pass) sequence message paint redirected to a third actor fails with correct labels and unchanged native messages [1.30ms]
+(pass) duplicating a message label cannot be hidden by an unowned global copy of the missing text [1.08ms]
+(pass) sequence chronology comes from painted rows, not DOM order or native endpoint multiset alone [0.61ms]
+(pass) a duplicated actor header cannot impersonate a legitimate footer [0.79ms]
+(pass) unreviewed sequence signal styles stay unmeasured even when their labels and endpoints match [0.59ms]
+(pass) Agentic Class marker presentation cannot hide or add arrows behind valid SVG attributes [3.79ms]
+
+tests/portable-fidelity.test.ts:
+(pass) qualifies declared graph meaning through both the public model and owned path geometry [0.58ms]
+(pass) malformed or disconnected owned paths cannot certify their apparent endpoint relationship [1.56ms]
+(pass) continuous owned paths retain their valid number separators and move boundaries [1.08ms]
+(pass) discarded characters cannot fabricate a visible owned target marker [1.39ms]
+(pass) unprojected valid path and marker grammars remain unmeasured [0.90ms]
+(pass) malformed transform and polygon lists cannot fabricate geometry evidence [1.51ms]
+(pass) a target marker must touch its actual stem and aim into the target box [1.42ms]
+(pass) nonfinite derived geometry cannot qualify finite coordinate tokens [0.70ms]
+(pass) correct labels and model do not hide a path attached to the wrong place [0.31ms]
+(pass) a duplicate painted edge fails even with unchanged labels and native graph [0.33ms]
+(pass) swapping labels between the correct node IDs loses authored meaning [0.31ms]
+(pass) a public model with reversed endpoints fails independently of the SVG label census [0.22ms]
+(pass) edge IDs and marker ink alone do not substitute for an actual connecting path [0.14ms]
+(pass) group membership must also be reflected in painted containment [0.54ms]
+(pass) missing public parse evidence remains unmeasured and cannot qualify semantic equivalence [0.20ms]
+(pass) numeric public-model fidelity is independent of labels and does not certify chart geometry [0.63ms]
+(pass) invalid-source rejection requires a public exception, rather than an empty successful return [0.09ms]
+(pass) font configuration must be emitted, rather than merely accepted as an unused option [0.79ms]
+(pass) namespace, duplicate document IDs and hidden source text are independent admission failures [3.73ms]
+(pass) an uninspectable public result fails its own qualification without aborting the campaign [0.39ms]
+
+tests/portable-kit.test.ts:
+(pass) a copied Trident package builds relative outputs and runs its compiled worker without Agentic source, docs or Git [12981.71ms]
+
+tests/portable-measurement.test.ts:
+(pass) explicit case selection retains corpus order and refuses unknown, empty or excluded cases [24.77ms]
+(pass) subset family counts describe exercised positive families and keep canonical representatives separate [2.29ms]
+(pass) sampling and independent A/A noise govern calibration rather than successful process exit [3.73ms]
+(pass) missing provider evidence and censored zero CPU counters never become free observed work [0.40ms]
+(pass) portable CLI keeps insufficient sampling explicit and rejects ambiguous selection [3.06ms]
+(pass) architecture scale preserves authored group membership [0.78ms]
+(pass) prepared fresh processes execute first-use API windows serially [434.60ms]
+(pass) Agentic native qualification uses its actual root parser outside render clocks and memory snapshots [768.78ms]
+(pass) an edited native parse failure stays separate from a valid consumed SVG result [250.42ms]
+(pass) Agentic source variants cannot reuse another source native qualification merely because SVG bytes match [246.67ms]
+(pass) a failed memory-measured call is not hidden by later successful qualification [239.90ms]
+(pass) retention captures intermediate faults and warm timing rejects transient bad SVG [632.06ms]
+(pass) a worker deadline reaps the child before another launch [361.65ms]
+(pass) a valid result followed by failed worker cleanup never qualifies [480.74ms]
+(pass) cancellation aborts the current worker and latches against subsequent launches [131.22ms]
+(pass) the direct worker entry rejects CI before reading a job or loading a target [201.80ms]
+(pass) missing execution never becomes a vacuous acceptance or semantic pass [0.87ms]
+(pass) duplicated fresh-process identities cannot replace missing samples [6.23ms]
+(pass) dedicated result pipe retains large Unicode errors despite renderer stdout noise [439.30ms]
+(pass) resource counters use a terminal observer frame without per-worker files [600.44ms]
+(pass) an import failure retains its terminal blocked payload without first-use credit [255.23ms]
+(pass) a later cold worker cleanup failure does not lose earlier completed worker evidence [368.49ms]
+(pass) unserializable jobs are rejected before any serial or batch worker can be left alive [63.64ms]
+{"phase":"family-support","project":"fixture/family-support","family":"flowchart","supported":true}
+{"phase":"family-support","project":"fixture/family-support","family":"sequence","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"state","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"class","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"er","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"timeline","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"journey","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"architecture","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"xychart","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"pie","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"quadrant","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"gantt","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"mindmap","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"gitgraph","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"radar","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"sankey","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"c4","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"packet","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"kanban","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"requirement","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"treemap","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"ishikawa","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"block","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"eventmodeling","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"zenuml","supported":false}
+{"phase":"warm","project":"fixture/family-support","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"first-use","project":"fixture/family-support","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"memory","project":"fixture/family-support","round":1,"caseId":"family:flowchart"}
+{"phase":"family-support","project":"fixture/family-support","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/family-support","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"first-use","project":"fixture/family-support","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"memory","project":"fixture/family-support","round":1,"caseId":"family:flowchart"}
+(pass) a family whose canonical source the renderer rejects is unsupported and none of its cases run [10846.38ms]
+(pass) v7 admits its declared five-process median profile without upgrading historical v6 qualification [2.28ms]
+{"phase":"warm","project":"fixture/api","round":1,"caseId":"invalid:unknown-header","completedCasesInRound":1}
+{"phase":"warm","project":"fixture/api","round":1,"caseId":"invalid:unknown-header","completedCasesInRound":1}
+(pass) invalid controls retain one real public invocation without repeated timing or resource workers [577.41ms]
+{"phase":"warm","project":"fixture/api","round":1,"caseId":"invalid:unknown-header","completedCasesInRound":1}
+(pass) a budget-paused portable invocation resumes its existing attempt directory [4762.54ms]
+
+tests/portable-public-bindings.test.ts:
+(pass) portable admission uses a declared factory and disposes its real receiver [303.53ms]
+(pass) portable public-pipeline identity includes separately installed companion bytes [7.73ms]
+(pass) a diagnostic package cannot enter the public SVG pipeline by omitting its output contract [0.14ms]
+
+tests/project-records.test.ts:
+(pass) immutable project benchmark records > different benchmark lanes retain independent current records for the same project [10.97ms]
+(pass) immutable project benchmark records > reuses the same full identity and invalidates artifact, protocol and measurement changes [3.78ms]
+(pass) immutable project benchmark records > updates one project without rewriting another project or erasing history [4.82ms]
+(pass) immutable project benchmark records > reactivates an earlier version without rewriting attempts or duplicating history [5.44ms]
+(pass) immutable project benchmark records > retains failed results without treating them as passes [2.29ms]
+(pass) immutable project benchmark records > missing retained evidence cannot be reused or ranked [1.56ms]
+(pass) immutable project benchmark records > reports missing peer evidence while allowing an independent project update [3.19ms]
+(pass) immutable project benchmark records > immutable collisions and a concurrent writer leave the published index unchanged [1.28ms]
+(pass) immutable project benchmark records > project paths are collision free and cannot escape the record store [2.66ms]
+(pass) immutable project benchmark records > a failed index publication retains the previous snapshot and releases the writer lock [2.47ms]
+(pass) immutable project benchmark records > truncated evidence, mismatched identities and duplicate rows are rejected [2.31ms]
+(pass) immutable project benchmark records > new entries reference one compressed canonical record and reject changed payload bytes [7.64ms]
+(pass) immutable project benchmark records > derived documents share the gzip/reference codec without imposing a suite schema or changing legacy JSON [3.77ms]
+
+tests/project-report-view.test.ts:
+(pass) two retained project views keep their canonical owner without mutating cached raw evidence [0.76ms]
+(pass) legacy project metadata is attributed consistently in coverage and exported CSV [3.27ms]
+(pass) stack-ranked scorecards order passed inputs first and compare costs only within each invocation surface [112.56ms]
+(pass) stable Event Modeling changes the current mark while beta additions leave the historical mark intact [4.60ms]
+(pass) portable reports retain every failure without duplicating oversized rendered evidence [6.52ms]
+(pass) portable reports preserve oracle caveats and separate pinned-accepted authored-label checks from raw results [8.22ms]
+(pass) first-call core reports use the arithmetic median for six rounds [1.65ms]
+(pass) positive-render diagnostics retain their planned population without ranking projects [20.84ms]
+
+tests/project-update.test.ts:
+(pass) unchanged projects never reach the measurement callback; updating one preserves its peer [5.13ms]
+(pass) refuses duplicate project jobs and measurement results for another identity [0.47ms]
+(pass) project selection rejects unknown and repeated IDs before preparation [0.50ms]
+(pass) Markdown retains historical prose and measurement dates and updates just its marked section [3.97ms]
+(pass) different project adapters share a comparison cohort, while differing protocols remain separate [2.26ms]
+(pass) retained CLI results must belong to this controller invocation [0.75ms]
+(pass) forced measurements retain new attempts without changing previous observations [1.78ms]
+(pass) an API-only project has no CLI resource prerequisite or latency measurement [33.42ms]
+(pass) source-built mermaid-source identity uses admitted runtime bytes, while npm still requires its declared installation [15.12ms]
+(pass) source-built beautiful-source identity uses admitted runtime bytes, while npm still requires its declared installation [11.72ms]
+(pass) installed CLI bindings apply equally to every project and never discover a local native binary [3841.13ms]
+community preparation 1/2: adewale/agentic-mermaid
+community preparation 2/2: owner/another-renderer
+(pass) community acquisition never substitutes a local checkout for a catalog release, including Agentic Mermaid [6.72ms]
+
+tests/release-cli.test.ts:
+(pass) public CLI archive member tool retains archive ownership, version and binding checks [48.04ms]
+(pass) public CLI archive member ./tool retains archive ownership, version and binding checks [20.03ms]
+(pass) a versionless CLI requires an explicit matching release-tag identity [15.88ms]
+
+tests/report-variants.test.ts:
+(pass) coverage keeps explicit artifact variants separate when suite and case names match [2.15ms]
+(pass) report admits observed versions without treating catalog declarations as executions [1.50ms]
+
+tests/results-snapshot.test.ts:
+(pass) one numeric source supplies both the visible table rate and Mermaid bar; missing observations stay missing [6.24ms]
+(pass) latest failed or partial attempt overrides historical success without deleting its dated evidence [3.86ms]
+(pass) multi-project process failure is not assigned to every project; individual counts and versions remain visible [3.33ms]
+(pass) snapshot rejects invented numeric chart values, unknown projects and broken population counts [0.35ms]
+(pass) campaign groups keep formats and operations separate and retain qualification failures after successful output [3.80ms]
+(pass) snapshot check detects stale Markdown without rewriting it; reads need no Mermaid oracle [127.11ms]
+(pass) canonical historical values match their provenance digest without a second copy of the rows [14.81ms]
+(pass) result ranks use the named metric, share ties, put missing values last and reverse direction for cost [0.43ms]
+(pass) table and Mermaid chart use the same best-first project order [1.57ms]
+(pass) an entirely blocked population is unranked while an observed zero retains its rank [0.15ms]
+(pass) charts and ranking share numeric parsing without coercing unavailable strings to zero [0.52ms]
+(pass) partial historical campaigns do not manufacture new core blockers for application workflows [0.56ms]
+(pass) source candidate tables rank within their cohort and cannot replace published-release overview scores [1.03ms]
+(pass) the Flutter brand gets no inherited Dart score in the regular results overview [6.00ms]
+
+tests/retained-suite.test.ts:
+(pass) publication preserves raw clocks, separates actual samples and metadata, and rejects duplicated clocks [0.93ms]
+(pass) explicit recovery publishes completed matching raw evidence without measuring; cancellation or changed identity cannot recover [5.86ms]
+(pass) retained selected-project results reuse clocks and dates; changed identity only measures that project [12.47ms]
+(pass) changed owning observations cannot be reused and do not replace the published pointer [2.88ms]
+(pass) identity changes during collection retain incomplete evidence without publishing [1.57ms]
+(pass) cancellation during final identity validation cannot publish a completed measurement [1.91ms]
+(pass) an artifact change during cached-evidence validation cannot activate the cached result [4.75ms]
+(pass) producer identity follows runtime dependencies and spawned roots without binding reports or type-only imports [135.28ms]
+(pass) new retained attempts store observations once and resolve both compressed and reference result APIs [3.50ms]
+(pass) completed canonical output can recover publication without being rewritten or measured again [2.65ms]
+(pass) an actual legacy inline record reuses original results without migration or remeasurement [1.72ms]
+(pass) queued OS cancellation during fresh identity validation is delivered before publication [1.10ms]
+(pass) queued OS cancellation during cached identity validation is delivered before publication [1.24ms]
+(pass) a failure receipt anchors the original completed output rather than corruption discovered at publication [2.81ms]
+
+tests/stable-support.test.ts:
+(pass) stable support requires executed positive evidence for the exact public work and declared criteria [1.29ms]
+(pass) a passing case cannot hide another failed, blocked or unsupported positive on the same interface [0.60ms]
+(pass) native functionality does not stand in for rendering, and separate partial cases cannot manufacture complete criteria [0.18ms]
+(pass) optional beta and experimental families remain visible without excusing missing stable support [0.09ms]
+(pass) ambiguous excluded families are required until reviewed and cannot turn a policy-only result into a certificate [0.25ms]
+(pass) reviewed upstream stability may add a requirement, but a policy-stable requirement cannot be removed by relabeling [0.09ms]
+(pass) maturity input uncertainty and unknown positive runtime families prevent a complete-library claim [0.11ms]
+
+tests/support-verification.test.ts:
+{"project":"fixture/renderer","state":"partially-verified","outputs":[{"output":"svg","state":"invocation-verified","passed":2},{"output":"svg","state":"invocation-verified","passed":2}]}
+(pass) support admission retains its narrow scope, strips timing claims and rejects changed artifact bytes [5747.30ms]
+(pass) support denominators keep controls separate and withhold duplicate input credit [9.37ms]
+(pass) a browser-only output never executes a guessed module API [2.08ms]
+(pass) support controls keep source rejection, accepted output, observer failures and missing evidence distinct [0.85ms]
+(pass) invalid CLI controls distinguish completed command rejection from broken transport and missing output [58.64ms]
+(pass) invalid public parser controls admit explicit false returns without requiring a positive model [322.23ms]
+(pass) diagnostic response inspection cannot masquerade as source rejection [213.46ms]
+(pass) Python controls separate public ValueError rejection, accepted returns and missing transport or API [496.08ms]
+
+tests/unified-cli-resource-observer.test.ts:
+(pass) explicit observer retains the default command binding and actual costs without qualifying invalid output [85.53ms]
+(pass) explicit observer retains the stdout-binding command binding and actual costs without qualifying invalid output [82.91ms]
+(pass) explicit observer retains the file-binding command binding and actual costs without qualifying invalid output [75.32ms]
+(pass) a configured observer is the one community updates bind and run, not the host default [76.24ms]
+(pass) an unavailable declared package CLI retains its preparation error without aborting other project identities [6.07ms]
+
+tests/unified-community-admission.test.ts:
+(pass) community benchmark artifact admission > preserves external JSONL results, blocks an unproven crash and restarts untouched inputs [123.58ms]
+(pass) community benchmark artifact admission > binds physical npm lock keys and rejects ambiguous or malformed integrity [0.98ms]
+(pass) community benchmark artifact admission > never admits source/metadata JSON as terminal ink or a missing file as stdout [20.30ms]
+(pass) community benchmark artifact admission > rejects empty/echo ASTs and resumes remaining cases after a crashing worker [315.53ms]
+(pass) matched family evidence and artifact alias guards > qualifies a complete existing flowchart cohort while withholding broader/missing/duplicate/failed/zero claims [0.72ms]
+(pass) matched family evidence and artifact alias guards > same Git pin and equal bytes never alias interpreted programs or different reviewed protocols [3.20ms]
+(pass) negative admission survives crashed workers > retains first-attempt sidecar and withholds earlier core pass after contradictory restarted admission [1284.52ms]
+
+tests/unified-community-reconciliation.test.ts:
+(pass) strict qualification partition reconciliation > input-file provenance paths may differ but literal sources, labels and reference cannot [0.66ms]
+(pass) strict qualification partition reconciliation > refreshesSVG andIR plusSVG delivery/heap while preserving untouchedPNG/terminal/parser/source objects [1.01ms]
+(pass) strict qualification partition reconciliation > feature-once comparison tolerates outcome-dependent legacy mode without altering either raw mode [0.31ms]
+(pass) strict qualification partition reconciliation > rejects missing/duplicate/runtime-mismatched selected work and any timed unaffected lane [0.30ms]
+(pass) strict qualification partition reconciliation > recovers actual failure-only round associations from raw sidecars without modifying original rows [1.42ms]
+
+tests/unified-community-worker-evidence.test.ts:
+(pass) worker crash evidence contract > a real interrupted writer retains committed prefix and ignores even parseable uncommitted tail [13.46ms]
+(pass) worker crash evidence contract > malformed committed data cannot erase independent earlier or later committed results [0.31ms]
+(pass) worker crash evidence contract > contradictory duplicate ledgers withhold that case timing and remain failed after later repeats [0.24ms]
+(pass) worker crash evidence contract > identical incremental/completed duplicates agree despite harmless object member order [0.15ms]
+
+tests/unified-declared-adapter.test.ts:
+community round 1/1: fixture/declared 1.0.0
+community preparation 1/1: fixture/declared
+(pass) a tool declared only in its catalog entry is benchmarked through its named public export [1820.50ms]
+
+tests/unified-extra-adapter-qualification.test.ts:
+(pass) native React Flow edge labels retain authored edge text without source sidecars [1.65ms]
+(pass) the Rusty public qualifier receives the independently valid core workload [0.25ms]
+
+tests/unified-family-support.test.ts:
+community round 1/1: fixture/flow-only 1.0.0
+(pass) a community tool that rejects a family canonical source runs none of that family, and keeps failures elsewhere [1397.37ms]
+community round 1/1: fixture/flow-only-api 1.0.0
+(pass) an error that says unsupported, inside a supported family, is a failure [1542.72ms]
+
+tests/unified-label-rules.test.ts:
+(pass) retained mermaid-js/mermaid output passes once markdown labels are read as drawn: corpus:mermaid-upstream-suite-bench:flowchart-upstream-markdown-formatting-in-nodes-and-labels [19.38ms]
+(pass) retained mermaid-js/mermaid output passes once markdown labels are read as drawn: corpus:mermaid-requirement-bench:requirement-docs-4 [9.54ms]
+(pass) retained mermaid-js/mermaid output passes once markdown labels are read as drawn: editor:mindmap [17.74ms]
+(pass) retained mermaid-js/mermaid output passes once wrapped labels are read as drawn: corpus:mermaid-upstream-suite-bench:sequence-upstream-should-draw-two-actors-notes-to-the-left-with-text-wrapped-inline [2.53ms]
+(pass) retained mermaid-js/mermaid output passes once wrapped labels are read as drawn: corpus:mermaid-upstream-suite-bench:sequence-upstream-should-handle-different-line-breaks [3.55ms]
+(pass) retained obsidianmd/pele output passes once wrapped labels are read as drawn: corpus:mermaid-kanban-bench:kanban-render-2 [1.55ms]
+(pass) retained adewale/agentic-mermaid output passes once wrapped labels are read as drawn: corpus:mermaid-gantt-bench:db-end-on-31st [2.48ms]
+(pass) markdown strong and emphasis markers are optional, never the words they wrap [1.74ms]
+(pass) marker syntax that markdown leaves alone is still required literally [1.51ms]
+(pass) combining marks remain part of a complete authored token [4.10ms]
+(pass) terminal output reads markdown labels the same way [1.02ms]
+(pass) stacked <text> rows of one wrapped label join in reading order [1.76ms]
+(pass) rows that are not one wrapped label stay separate [2.17ms]
+(pass) wrapped rows do not ignore inherited font size [0.43ms]
+(pass) wrapped rows do not ignore nested positioned spans [0.34ms]
+(pass) wrapped rows do not ignore first span font size [0.23ms]
+(pass) inherited and first-span font sizes allow adjacent rows at their own scale [0.37ms]
+(pass) a source echo stacked as rows is still not a diagram [0.24ms]
+(pass) literal punctuation is required in SVG and terminal labels, including pie __proto__ [3.70ms]
+(pass) the pinned oracle distinguishes literal labels from actual Markdown before measurement [1226.20ms]
+
+tests/unified-native-storage.test.ts:
+(pass) compiled executable restores byte-for-byte with permissions and runs directly [11.62ms]
+
+tests/unified-output-qualification.test.ts:
+(pass) benchmark output admission at reader-facing text > admits literal authored labels inside decorated visible text runs [1.05ms]
+(pass) benchmark output admission at reader-facing text > does not infer an authored identity from a longer identifier [0.15ms]
+(pass) benchmark output admission at reader-facing text > metadata, source echoes and attributes do not substitute for visible labels [0.60ms]
+(pass) benchmark output admission at reader-facing text > keeps interleaved values and separate text runs outside generic matching [0.84ms]
+(pass) benchmark output admission at reader-facing text > reads escaped literal angle brackets and positioned line breaks [0.52ms]
+(pass) benchmark output admission at reader-facing text > accepts a declared empty SVG envelope but never supplies a missing label [0.23ms]
+(pass) benchmark output admission at reader-facing text > rejects malformed XML, unescaped CSS URLs and foreign or absent SVG namespaces [0.63ms]
+(pass) benchmark output admission at reader-facing text > requires a positive finite viewBox or explicit dimensions [0.27ms]
+(pass) source code fallbacks never qualify as rendered SVG or terminal diagrams [0.82ms]
+(pass) community labels refuse to load without the pinned Mermaid oracle, instead of passing cases unchecked [0.37ms]
+(pass) wide terminal gutters cannot stall source-echo admission [23.29ms]
+(pass) PNG admission requires complete decodable pixels and content, not an invented IHDR envelope [4.37ms]
+(pass) PNG inspection limits block module and CLI qualification without blaming the renderer [219.41ms]
+
+tests/unified-style-qualification.test.ts:
+(pass) registered style display admission > requires the declared uniform uppercase display instead of accepting untransformed text [1.87ms]
+(pass) registered style display admission > admits only declared mixed-role variants and explicitly leaves role correspondence unmeasured [0.82ms]
+(pass) registered style display admission > unchanged public style tokens do not permit arbitrary case changes [0.33ms]
+(pass) registered style display admission > projects supported Unicode capitalization and lowercase without reading renderer output [0.79ms]
+(pass) registered style display admission > retains visible-text and identity boundaries after applying a style transform [0.61ms]
+(pass) registered style display admission > honors left-to-right public role token overrides [0.39ms]
+(pass) registered style display admission > reports missing or unsupported public transform inputs rather than silently weakening expectations [0.07ms]
+(pass) style projection carries an explicit Markdown label type without weakening literal punctuation [1.30ms]
+
+tests/unified-svg-browser-qualification.test.ts:
+(pass) Node and real browser XML adapters agree on independently authored text-retention cases [1060.94ms]
+(pass) pinned Mermaid loads its sealed ZenUML addon and draws authored required labels [2962.18ms]
+
+tests/unified-svg-text-qualification.test.ts:
+(pass) inert metadata and unused definitions do not satisfy authored labels [0.53ms]
+(pass) actual SVG namespaces admit prefixed text and reject foreign lookalikes [0.40ms]
+(pass) decorations retain whole authored tokens without admitting prefix collisions [1.08ms]
+(pass) line-positioned tspans preserve words without joining unrelated text elements [0.23ms]
+(pass) namespace support never admits a prefixed source-echo fallback [0.20ms]
+(pass) reads XHTML foreign-object lines and literal CDATA without another entity decoding pass [1.14ms]
+
+tests/unified-workload-intent.test.ts:
+(pass) a parser-owned fragment never promises drawable output despite a generated layout assertion [0.79ms]
+(pass) pinned rejection is an observed input boundary, not a positive renderer failure or an intentional-invalid declaration [0.07ms]
+(pass) positive rendering scores preserve every excluded or unavailable population and do not rewrite historical rows [0.49ms]
+(pass) unknown serialized intent values cannot shrink the positive denominator as diagnostics [0.10ms]
+
+tests/upstream-fidelity-executor.test.ts:
+(pass) original callback projection checks actual endpoints, expands tables, and retains private/disabled outcomes [150.32ms]
+(pass) infrastructure and unsupported assertion capabilities never satisfy original negative assertions [15.96ms]
+(pass) original date assertions compare actual timestamps instead of empty object representations [9.93ms]
+(pass) pure helpers and sync matchers around async calls cannot manufacture public parser evidence [11.07ms]
+(pass) original rejects assertions invoke async functions and retain actual public rejection evidence [13.30ms]
+(pass) strict private prototypes cannot become a passing structural-only assertion [6.77ms]
+(pass) Vitest diagnostic messages do not negate assertions and public parses cannot invent cumulative private DB state [13.87ms]
+
+tests/upstream-fidelity-original.test.ts:
+(pass) native Vitest callback accounting preserves module failures and never reports callbacks as assertion counts [0.72ms]
+(pass) an actual missing Canvas environment blocks fidelity credit without hiding unrelated assertion failures [0.09ms]
+(pass) snapshotting a public Mermaid DB keeps earlier prepared source independent of singleton resets [0.44ms]
+(pass) source transform admission binds an ESM-only installed package without requiring a CommonJS export [0.94ms]
+(pass) selecting only a peer never prepares or executes the unrelated Mermaid original runner [0.42ms]
+(pass) selecting a community-only peer skips original public projection before source, runtime and output admission [0.84ms]
+
+tests/upstream-runtime-dependencies.test.ts:
+(pass) the original runner uses the locked ZenUML engine rather than its semver minimum [15.70ms]
+(pass) direct source operands select the actual locked uuid override, not a declared range minimum or another importer [0.36ms]
+(pass) receipt keeps peer/patch-qualified operands and source overrides while npm receives only a registry version [0.13ms]
+(pass) jsdom requires the Canvas adapter selected by its actual locked peer snapshot [0.36ms]
+(pass) installed versions and tarball integrity must agree with selected operands, not merely the requested manifest [2.14ms]
+(pass) original runner records the installed Vitest version and refuses another tool version for a pinned runner [0.33ms]
+(pass) a symlink ancestor cannot route a supposedly external runtime into the pinned source [0.74ms]
+(pass) renaming a runtime never bypasses the sealed original baseline dependency or byte checks [1.66ms]
+(pass) the external runtime link stays outside source changes without hiding new or modified source [31.95ms]
+
+tests/campaign-workflows.test.ts:
+(pass) pilot headlines use owning counts, reconcile pauses, and reject foreign/duplicate evidence [2.04ms]
+(pass) a shared deadline retains complete units, resumes them once, and binds identity and bytes [1.69ms]
+(pass) full sampling has independent-round uncertainty with 70 percent fewer cold launch slots [4.05ms]
+(pass) campaign imports generate ranked tables and charts from the full docs inventory without transcription [3.34ms]
+(pass) missing docs rounds remain unexecuted, and duplicate samples cannot inflate a return rate [2.03ms]
+(pass) observation counts compare equal populations and keep incompatible populations separate [0.93ms]
+(pass) release selection respects the cutoff and refuses a new CLI release without an archive binding [2.15ms]
+(pass) one preparation index rejects modified or escaping component files [1.17ms]
+(pass) release verification checks the actual archive, extracted manifest and executable version [78.00ms]
+(pass) portable tables keep invalid rejection separate and never rank unmeasured output as zero [1.18ms]
+(pass) inapplicable and skipped observations keep their own counts and receive no rank [0.60ms]
+
+tests/campaign-reporting-regressions.test.ts:
+(pass) fresh generated docs tables supply their own overview rank and literal percentage [4.06ms]
+(pass) a genuinely later partial attempt hides older scores, but a later owning import restores reused dated evidence [4.23ms]
+(pass) candidate study tables and attempts cannot replace or suppress release scores, including unstarted boundaries [4.68ms]
+(pass) fully blocked generated docs data stays blocked and unranked rather than showing zero percent [3.89ms]
+(pass) an extracted native pilot reads owning reports relative to its controller and retains usable report paths [0.42ms]
+(pass) latest core and external cohort statuses are both visible and a newer partial campaign supersedes the pair [9.00ms]
+
+tests/release-workflow-regressions.test.ts:
+(pass) source smoke requires the selected SVG and terminal interfaces independently [0.37ms]
+(pass) kit smoke retains blocked mapping attempts even when they have no qualification-bearing workers [1.43ms]
+(pass) planned kit cases cannot replace execution with missing evidence [0.71ms]
+(pass) planned kit cases cannot replace execution with probe evidence [0.89ms]
+(pass) planned kit cases cannot replace execution with baseline evidence [0.60ms]
+(pass) kit smoke binds exact case identities and the owning attempt rather than inventory length [0.60ms]
+(pass) a passing derived flowchart row still needs actual output admission in its worker evidence [0.47ms]
+(pass) an expired allowance can retain unavailable CLI views without starting a child [23.91ms]
+(pass) the resource deadline gates actual commands after unavailable observations are recorded [0.29ms]
+
+tests/campaign-resume-regressions.test.ts:
+(pass) a force-fresh resume reuses this campaign only, keeping old and other-cohort cache entries fresh [20.59ms]
+(pass) release lookup excludes applications and unbranded descendants but may reconsider a paused version [1.10ms]
+{"phase":"family-support","project":"fixture/witness","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/witness","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+(pass) early admission failure retains the actual SVG from the first scheduled replica [387.62ms]
+(pass) forced retained-suite resume keeps same-campaign history and original dates [10.22ms]
+(pass) resumed boundary collection adds active windows without counting idle pause time [1.62ms]
+{"phase":"family-support","project":"fixture/later-witness","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/later-witness","round":1,"caseId":"fixture:witness","completedCasesInRound":1}
+(pass) a later warm failure retains its actual SVG without replacing the representative (process 3) [599.89ms]
+{"phase":"family-support","project":"fixture/later-witness","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/later-witness","round":1,"caseId":"fixture:witness","completedCasesInRound":1}
+{"phase":"warm","project":"fixture/later-witness","round":2,"caseId":"fixture:witness","completedCasesInRound":1}
+(pass) a later warm failure retains its actual SVG without replacing the representative (process 5) [1054.41ms]
+
+tests/campaign-preparation-regressions.test.ts:
+(pass) release resolution retains observed-only catalog entries without acquisition or a crash [0.44ms]
+(pass) a source-only CLI retains the actual reviewed head when GitHub has no releases [1.61ms]
+(pass) canonical preparation blocks an independently valid browser from another primary release [1.74ms]
+(pass) canonical browser reconciliation preserves separate SDK versions and non-browser dispositions [0.73ms]
+(pass) a loaded canonical manifest rejects stale browser ownership and changed live browser bytes [2.91ms]
+(pass) identical browser metadata cannot bypass a missing or failed primary identity receipt [3.21ms]
+
+tests/compiled-artifact-version.test.ts:
+(pass) an explicit dart release cutoff survives a newer registry latest and ambient latest policy [2.54ms]
+(pass) an explicit bezel release cutoff survives a newer registry latest and ambient latest policy [0.14ms]
+(pass) an explicit termaid release cutoff survives a newer registry latest and ambient latest policy [0.09ms]
+
+ 508 pass
+ 0 fail
+ 3119 expect() calls
+Ran 508 tests across 75 files. [156.28s]
