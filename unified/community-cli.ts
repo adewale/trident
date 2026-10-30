@@ -177,7 +177,9 @@ function resourceDiagnostic(variant: Variant, output: string, workload: UnifiedW
   const resourcePath = join(out, 'gnu-time.txt')
   rmSync(resourcePath, { force: true })
   // GNU time execs the exact reviewed command; its observer elapsed time is never a speed sample.
-  const wrapped: PreparedCommunity = { node: variant.prepared.node, artifact: { ...artifact, executable: observer.path, args: ['-f', 'user_seconds=%U\nsystem_seconds=%S\npeak_rss_kib=%M', '-o', resourcePath, '--', artifact.executable!, ...(artifact.args ?? [])] } }
+  const binding = artifact.outputBindings?.[output]
+  const wrapped: PreparedCommunity = { node: variant.prepared.node, artifact: { ...artifact, outputBindings: undefined, input: binding?.input ?? artifact.input,
+    executable: observer.path, args: ['-f', 'user_seconds=%U\nsystem_seconds=%S\npeak_rss_kib=%M', '-o', resourcePath, '--', artifact.executable!, ...(binding?.args ?? artifact.args ?? [])] } }
   const actual = runCommunityCli(wrapped, output, workload, 1, out)
   row.status = actual.status
   row.bytes = actual.bytes

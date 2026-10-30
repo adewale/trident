@@ -136,8 +136,8 @@ Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples}
   if (prepareOnly) { console.log('Prepared campaign: ' + preparedFile); return }
   const prepared = read(options.communityPreparedFile!) as PreparedCommunity[], browsers = read(options.communityBrowserPreparedFile!)
   const deadline = budgetMinutes !== undefined ? Date.now() + budgetMinutes * 60_000 : previous?.deadline
-  const runtime = { environment: environmentIdentity(options.nodeExecutable ?? 'node'), driver: executableIdentity(process.execPath), browser: executableIdentity(options.executable ?? plan.tools.chromium ?? undefined),
-    selectors: Object.fromEntries(['LD_LIBRARY_PATH', 'DISPLAY', 'FONTCONFIG_FILE', 'FONTCONFIG_PATH', 'LIBGL_ALWAYS_SOFTWARE', 'NODE_COMPILE_CACHE', 'UV_THREADPOOL_SIZE', 'MERMAID_REFERENCE_DIR', 'MERMAID_UPSTREAM_DIR', 'MERMAID_UPSTREAM_RUNNER_ROOT'].map(name => [name, process.env[name] ?? null])) }
+  const runtime = { environment: environmentIdentity(options.nodeExecutable ?? process.env.NODE_BIN ?? 'node'), driver: executableIdentity(process.execPath), browser: executableIdentity(options.executable ?? plan.tools.chromium ?? undefined),
+    selectors: Object.fromEntries(['LD_LIBRARY_PATH', 'DISPLAY', 'FONTCONFIG_FILE', 'FONTCONFIG_PATH', 'LIBGL_ALWAYS_SOFTWARE', 'NODE_COMPILE_CACHE', 'UV_THREADPOOL_SIZE', 'NODE_BIN', 'BUN_BIN', 'BUN_OPTIONS', 'AM_BENCH_OBSERVER', 'MERMAID_REFERENCE_DIR', 'MERMAID_UPSTREAM_DIR', 'MERMAID_UPSTREAM_RUNNER_ROOT'].map(name => [name, process.env[name] ?? null])) }
   if (previous && stableValue(previous.runtime) !== stableValue(runtime)) throw Error('Resume runtime or environment changed; retain the old campaign and start a separate comparison')
   const windows = [...(previous?.windows ?? []), { startedAt: new Date().toISOString(), budgetMinutes: budgetMinutes ?? null, deadline: deadline ?? null }]
   const results: any[] = previous?.results ?? [], startedAt = previous?.startedAt ?? windows[0].startedAt
@@ -204,7 +204,7 @@ Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples}
         const packageRoot = publicPackageRoot(peer)
         if (!packageRoot || !peer.artifact?.module) throw Error(peer.error ?? 'No installed public Node entry')
         const sampling = options.profile === 'full' ? FULL_SAMPLING : { samples: 1, coldSamples: 1 }
-        const portable = parsePortableOptions(['--project', peer.node.id, '--artifact-root', packageRoot, '--entry', peer.artifact.module, '--adapter', adapter, ...(adapter === 'declared' ? ['--binding', JSON.stringify(portableBinding(peer.node))] : []), ...(adapter === 'public-package' ? ['--public-config', JSON.stringify(peer.node.benchmark)] : []), '--out', targetOut, '--records', join(base.benchmarkRecordStore, 'portable'), '--rounds', String(options.rounds), '--samples', String(sampling.samples), '--cold-samples', String(sampling.coldSamples), '--allow-partial'])
+        const portable = parsePortableOptions(['--project', peer.node.id, '--artifact-root', packageRoot, '--entry', peer.artifact.module, '--adapter', adapter, ...(adapter === 'declared' ? ['--binding', JSON.stringify(portableBinding(peer.node))] : []), ...(adapter === 'public-package' ? ['--public-config', JSON.stringify(peer.node.benchmark)] : []), '--node', options.nodeExecutable ?? process.env.NODE_BIN ?? 'node', '--out', targetOut, '--records', join(base.benchmarkRecordStore, 'portable'), '--rounds', String(options.rounds), '--samples', String(sampling.samples), '--cold-samples', String(sampling.coldSamples), '--allow-partial'])
         if (caseId) portable.caseIds = [caseId]
         const result = await runPortable({ ...portable, collectionDeadline: deadline, resume })
         if (!('summary' in result)) throw Error('Portable collector returned only a plan')

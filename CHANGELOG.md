@@ -80,6 +80,8 @@ current main; baseline collection and release publication remain pending.
   and tool pins. OpenCode seals its actual renderer runtime dependencies. Public
   release CLIs accept reviewed dot-prefixed archive members; versionless executables
   explicitly bind their version to a matching release tag and archive checksum.
+  CLI resource passes preserve output-specific arguments and file/stdin bindings
+  when GNU time wraps the command.
 - BASELINE.md defines the required initial ecosystem baseline, B0: all normally
   selected brands and applicable benchmarks, uniform release cutoff, frozen
   artifacts/inputs, a pilot before sampling/budget freeze, and immutable evidence.

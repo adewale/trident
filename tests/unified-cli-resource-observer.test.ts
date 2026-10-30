@@ -6,7 +6,7 @@ import { communityCliCacheIdentity, observeCommunityResourceTool, rankCommunityC
 import { communityCoreWorkloads } from '../unified/community.ts'
 import { readBenchmarkDocument } from '../portable/project-records.ts'
 
-test('explicit observer identity is bound and invalid artifacts retain actual resource costs without qualifying', () => {
+test.each(['default', 'stdout-binding', 'file-binding'] as const)('explicit observer retains the %s command binding and actual costs without qualifying invalid output', binding => {
   const directory = mkdtempSync(join(tmpdir(), 'am-resource-observer-'))
   try {
     const observer = join(directory, 'observer.cjs'),
@@ -16,13 +16,13 @@ test('explicit observer identity is bound and invalid artifacts retain actual re
       `#!${process.execPath}\nconst fs=require('node:fs'),cp=require('node:child_process');if(process.argv.includes('--version')){console.log('fixture (GNU Time) UNKNOWN');process.exit(0)}const args=process.argv.slice(2),out=args[args.indexOf('-o')+1],start=args.indexOf('--')+1;const child=cp.spawnSync(args[start],args.slice(start+1),{input:fs.readFileSync(0),encoding:'utf8'});fs.writeFileSync(out,'user_seconds=0.00\\nsystem_seconds=0.00\\npeak_rss_kib=1234\\n');process.stdout.write(child.stdout||'');process.stderr.write(child.stderr||'');process.exit(child.status||0);`,
     )
     chmodSync(observer, 0o755)
-    writeFileSync(invalid, `console.log('<svg>broken output</svg>')`)
+    writeFileSync(invalid, `const fs=require('node:fs');if(process.argv[2]){if(!fs.readFileSync(process.argv[2],'utf8').includes('Start'))process.exit(7);fs.writeFileSync(process.argv[3],'<svg>broken output</svg>')}else console.log('<svg>broken output</svg>')`)
     const observed = observeCommunityResourceTool(observer)
     expect(observed.error).toBeUndefined()
     expect(observed.version).toBe('fixture (GNU Time) UNKNOWN')
     expect(observed.sha256).toHaveLength(64)
     const variant = {
-      prepared: { node: { id: 'fixture/invalid', roles: ['renderer'], outputs: ['svg'], benchmark: { adapter: 'fixture', outputs: ['svg'] } }, artifact: { kind: 'cli' as const, executable: process.execPath, args: [invalid], version: 'fixture' } },
+      prepared: { node: { id: 'fixture/invalid', roles: ['renderer'], outputs: ['svg'], benchmark: { adapter: 'fixture', outputs: ['svg'] } }, artifact: { kind: 'cli' as const, executable: process.execPath, args: [invalid], ...(binding === 'default' ? {} : { outputBindings: { svg: { args: binding === 'file-binding' ? [invalid, '{input}', '{output}'] : [invalid], input: binding === 'file-binding' ? 'file' as const : 'stdin' as const } } }), version: 'fixture' } },
       variantOf: 'fixture/invalid',
       variant: 'public-cli',
       outputs: ['svg'],
