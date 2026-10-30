@@ -21,6 +21,25 @@ async function inspect(svg: string, expectation: MeaningExpectation = expected, 
   finally { await page.close() }
 }
 
+test('actual Mermaid drop shadow preserves source ink without granting arbitrary filters paint credit', async () => {
+  const svg = retainedSvg('mermaid-flowchart-drop-shadow.svg')
+  const authored = { labels: ['Alpha', 'Beta', 'Gamma'], nodes: [{ id: 'A', label: 'Alpha' }, { id: 'B', label: 'Beta' }, { id: 'C', label: 'Gamma' }], edges: [{ source: 'A', target: 'B', directed: true }, { source: 'B', target: 'C', directed: true }] }
+  const observed = await inspect(svg, authored)
+  expect(observed.passed).toBe(true)
+  expect((await inspect(svg.replaceAll('community-fidelity-0', 'renamed-output'), authored)).passed).toBe(true)
+  for (const changed of [
+    svg.replace('height="130%" width="130%"', 'height="10%" width="10%"'),
+    svg.replace('<feDropShadow ', '<feDropShadow in="SourceAlpha" '),
+    svg.replace(/<feDropShadow[^>]*><\/feDropShadow>/, '<feComponentTransfer><feFuncA type="linear" slope="0"/></feComponentTransfer>'),
+  ]) {
+    const result = await inspect(changed, authored)
+    expect(result.checks.find(item => item.criterion === 'paint-opacity-and-color')?.status).toBe('unavailable')
+    expect(result.passed).toBe(false)
+  }
+  const hidden = await inspect(svg.replace(/(<g[^>]*class="nodes"[^>]*>)/, '$1<g opacity="0">').replace('</svg>', '</g></svg>'), authored)
+  expect(hidden.passed).toBe(false)
+})
+
 test('actual painted endpoints and multiplicity are independent of correct labels and model expectations', async () => {
   expect((await inspect(fixture)).passed).toBe(true)
   const reversed = await inspect(fixture.replace('M70 25 L150 25', 'M150 25 L70 25'))

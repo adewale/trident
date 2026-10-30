@@ -58,7 +58,7 @@ export async function publicSvgBrowserAction(input: any): Promise<any> {
       const value = await Promise.race([Promise.resolve(state.render(input.source, input.id)), deadline])
       const durationMs = performance.now() - started
       const svg = typeof value === 'string' ? value : (value as any)?.svg
-      return typeof svg === 'string' && /<svg(?:\s|>)/i.test(svg) ? { status: 'passed', durationMs, bytes: new TextEncoder().encode(svg).byteLength } : { status: 'failed', error: 'Public call did not return SVG' }
+      return typeof svg === 'string' && /<svg(?:\s|>)/i.test(svg) ? { status: 'passed', durationMs, bytes: new TextEncoder().encode(svg).byteLength, ...(input.retainSvg ? { svg } : {}) } : { status: 'failed', error: 'Public call did not return SVG' }
     } catch (error) { return { status: 'failed', error: String(error) } }
     finally { if (timer) clearTimeout(timer); host.__communityAfterCall?.(); for (const node of document.querySelectorAll('body > div:not([data-community-host])')) node.remove() }
   }

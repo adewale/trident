@@ -24,6 +24,22 @@ function campaign(directory: string, options: { updatedAt: string; measuredAt?: 
   write(join(directory, 'report.json'), { schema: 'trident-campaign-v2', startedAt: '2026-01-01T00:00:00Z', updatedAt: options.updatedAt, profile: 'full', rounds: 1, projects: ['fixture/a', 'fixture/b'], requestedSuites: ['docs'], ...(options.candidate ? { artifactRole: 'candidate' } : {}), results: options.partial ? [] : [{ suite: 'docs', status: options.blocked ? 'blocked' : 'failed', out }] })
   return directory
 }
+
+test('documentation SVG return and reviewed drawing correctness retain separate populations and ranks', () => {
+  const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), file = join(root, 'docs/result.json')
+  const result = JSON.parse(readFileSync(file, 'utf8'))
+  for (const project of ['fixture/a', 'fixture/b']) for (const caseId of ['one', 'two']) result.observations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: 'flowchart', operation: 'drawing-checks', mode: 'reviewed-first-round-output', format: 'svg', caseId, status: caseId === 'two' ? 'blocked' : project === 'fixture/a' ? 'failed' : 'passed', metrics: { project, version: '1.0.0', round: 1 } })
+  write(file, result)
+  const snapshot = importCampaign(empty(), root, 'https://example.test/drawings', catalog)
+  const drawings = snapshot.tables.find(table => table.columns.includes('Correct'))!
+  expect(drawings).toBeDefined()
+  expect(drawings.chart).toBeUndefined()
+  expect(drawings.rows.find(row => row.project === 'fixture/a')!.values.slice(1, 6)).toEqual([0, 1, 1, 0, 2])
+  expect(drawings.rows.every(row => !!row.unrankedReason)).toBe(true)
+  expect(rankedRows(drawings, value => value).every(row => row.rank === null)).toBe(true)
+  const returns = snapshot.tables.find(table => table.columns.includes('Returned in all rounds'))!
+  expect(returns.rows.find(row => row.project === 'fixture/a')!.values[1]).toBe(2)
+})
 function overview(snapshot: ResultsSnapshot, project = 'fixture/a') {
   const row = renderSnapshot(snapshot, catalog).split('\n').find(line => line.startsWith('| ' + project + ' |'))!
   const cells = row.split('|').map(value => value.trim())

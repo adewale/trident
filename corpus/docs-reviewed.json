@@ -1,0 +1,382 @@
+[
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+    "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+    "intent": "drawing",
+    "family": "flowchart",
+    "review": "Literal labels, node identities, relationships and declared values transcribed from the pinned source; reviewed content scope excludes aesthetic preference and undeclared styling.",
+    "expected": {
+      "labels": [
+        "A",
+        "B"
+      ],
+      "nodes": [
+        {
+          "id": "A",
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "label": "B"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B",
+          "directed": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+    "intent": "drawing",
+    "family": "flowchart",
+    "review": "Literal labels, node identities, relationships and declared values transcribed from the pinned source; reviewed content scope excludes aesthetic preference and undeclared styling.",
+    "expected": {
+      "labels": [
+        "Start",
+        "Stop"
+      ],
+      "nodes": [
+        {
+          "id": "Start",
+          "label": "Start"
+        },
+        {
+          "id": "Stop",
+          "label": "Stop"
+        }
+      ],
+      "edges": [
+        {
+          "source": "Start",
+          "target": "Stop",
+          "directed": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+    "intent": "drawing",
+    "family": "flowchart",
+    "review": "Literal labels, node identities, relationships and declared values transcribed from the pinned source; reviewed content scope excludes aesthetic preference and undeclared styling.",
+    "expected": {
+      "labels": [
+        "Start",
+        "Stop"
+      ],
+      "nodes": [
+        {
+          "id": "Start",
+          "label": "Start"
+        },
+        {
+          "id": "Stop",
+          "label": "Stop"
+        }
+      ],
+      "edges": [
+        {
+          "source": "Start",
+          "target": "Stop",
+          "directed": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:693",
+    "sourceSha256": "9733d593d7c58fd476fc1d9669504583efa270cc4823a54eecca11ffd03d4db3",
+    "intent": "drawing",
+    "family": "flowchart",
+    "review": "Literal labels, node identities, relationships and declared values transcribed from the pinned source; reviewed content scope excludes aesthetic preference and undeclared styling.",
+    "expected": {
+      "labels": [
+        "A",
+        "B"
+      ],
+      "nodes": [
+        {
+          "id": "A",
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "label": "B"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B",
+          "directed": false
+        }
+      ]
+    }
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+    "sourceSha256": "30e40d14fabfa9e924f4ac0cf2fb3ae051149db61be7e4d84c13eed8a8365b88",
+    "intent": "drawing",
+    "family": "flowchart",
+    "review": "Literal labels, node identities, relationships and declared values transcribed from the pinned source; reviewed content scope excludes aesthetic preference and undeclared styling.",
+    "expected": {
+      "labels": [
+        "A",
+        "B"
+      ],
+      "nodes": [
+        {
+          "id": "A",
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "label": "B"
+        }
+      ],
+      "edges": []
+    }
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "intent": "drawing",
+    "family": "flowchart",
+    "review": "Literal labels, node identities, relationships and declared values transcribed from the pinned source; reviewed content scope excludes aesthetic preference and undeclared styling.",
+    "expected": {
+      "labels": [
+        "This ❤ Unicode"
+      ],
+      "nodes": [
+        {
+          "id": "id",
+          "label": "This ❤ Unicode"
+        }
+      ],
+      "edges": []
+    }
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:45",
+    "sourceSha256": "f4db835df6afe3f2a60fd530d101e862e7adee3fb9a13cbd63bb06fceb16af18",
+    "intent": "drawing",
+    "family": "flowchart",
+    "review": "Literal labels, node identities, relationships and declared values transcribed from the pinned source; reviewed content scope excludes aesthetic preference and undeclared styling.",
+    "expected": {
+      "labels": [
+        "This is the text in the box",
+        "Node with text"
+      ],
+      "nodes": [
+        {
+          "id": "id1",
+          "label": "This is the text in the box"
+        }
+      ],
+      "edges": []
+    }
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:99",
+    "sourceSha256": "bd780a3a2d167f1014a4c6e654d333d227057ffd42946970e533d61ea0907b37",
+    "intent": "drawing",
+    "family": "state",
+    "review": "Literal labels, node identities, relationships and declared values transcribed from the pinned source; reviewed content scope excludes aesthetic preference and undeclared styling.",
+    "expected": {
+      "labels": [
+        "stateId"
+      ],
+      "nodes": [
+        {
+          "id": "stateId",
+          "label": "stateId"
+        }
+      ],
+      "edges": []
+    }
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:125",
+    "sourceSha256": "ad45017122efa3019d856e560e060bf751cae87fb54770889a6c63623ca4a674",
+    "intent": "drawing",
+    "family": "state",
+    "review": "Literal labels, node identities, relationships and declared values transcribed from the pinned source; reviewed content scope excludes aesthetic preference and undeclared styling.",
+    "expected": {
+      "labels": [
+        "s1",
+        "s2"
+      ],
+      "nodes": [
+        {
+          "id": "s1",
+          "label": "s1"
+        },
+        {
+          "id": "s2",
+          "label": "s2"
+        }
+      ],
+      "edges": [
+        {
+          "source": "s1",
+          "target": "s2",
+          "directed": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "sourceSha256": "ad6754c39467d7b5deb867e48c2902a3d538af529f3306c00ee46f962911ab02",
+    "intent": "drawing",
+    "family": "state",
+    "review": "Literal labels, node identities, relationships and declared values transcribed from the pinned source; reviewed content scope excludes aesthetic preference and undeclared styling.",
+    "expected": {
+      "labels": [
+        "s1",
+        "s2",
+        "A transition"
+      ],
+      "nodes": [
+        {
+          "id": "s1",
+          "label": "s1"
+        },
+        {
+          "id": "s2",
+          "label": "s2"
+        }
+      ],
+      "edges": [
+        {
+          "source": "s1",
+          "target": "s2",
+          "directed": true,
+          "label": "A transition"
+        }
+      ]
+    }
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:113",
+    "sourceSha256": "e7475df8ff02639af8891e24b199160a17991b45bede216b2ebac89a8ed5afbe",
+    "intent": "drawing",
+    "family": "state",
+    "review": "Literal labels, node identities, relationships and declared values transcribed from the pinned source; reviewed content scope excludes aesthetic preference and undeclared styling.",
+    "expected": {
+      "labels": [
+        "This is a state description"
+      ],
+      "nodes": [
+        {
+          "id": "s2",
+          "label": "This is a state description"
+        }
+      ],
+      "edges": []
+    }
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:64",
+    "sourceSha256": "24e2536fc7a02abbc39c94baca52fcb055a4dd6c79fdd1e9733fba9faa2d823e",
+    "intent": "drawing",
+    "family": "block",
+    "review": "Literal labels, node identities, relationships and declared values transcribed from the pinned source; reviewed content scope excludes aesthetic preference and undeclared styling.",
+    "expected": {
+      "labels": [
+        "a",
+        "b",
+        "c"
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "label": "a"
+        },
+        {
+          "id": "b",
+          "label": "b"
+        },
+        {
+          "id": "c",
+          "label": "c"
+        }
+      ],
+      "edges": []
+    }
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:327",
+    "sourceSha256": "f84186409cf32f763577dc6df754dd5ff83e66c4082333724d19203aa6f5f9af",
+    "intent": "drawing",
+    "family": "block",
+    "review": "Literal labels, node identities, relationships and declared values transcribed from the pinned source; reviewed content scope excludes aesthetic preference and undeclared styling.",
+    "expected": {
+      "labels": [
+        "A",
+        "B"
+      ],
+      "nodes": [
+        {
+          "id": "A",
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "label": "B"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B",
+          "directed": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/pie.md:8",
+    "sourceSha256": "f41484cd94dd84837056db4c681ce6119f533b643bed745c58116553acdebf27",
+    "intent": "drawing",
+    "family": "pie",
+    "review": "Literal labels, node identities, relationships and declared values transcribed from the pinned source; reviewed content scope excludes aesthetic preference and undeclared styling.",
+    "expected": {
+      "labels": [
+        "Pets adopted by volunteers",
+        "Dogs",
+        "Cats",
+        "Rats"
+      ],
+      "facts": {
+        "slices": [
+          {
+            "label": "Dogs",
+            "value": 386
+          },
+          {
+            "label": "Cats",
+            "value": 85
+          },
+          {
+            "label": "Rats",
+            "value": 15
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/gantt.md:291",
+    "sourceSha256": "b651c090529ba2c6f4e065203d75ffb3f4638219d65b2474c41082ca106319d7",
+    "intent": "configuration-only",
+    "family": "gantt",
+    "review": "Configuration-only Gantt example: tickInterval and weekday settings declare no tasks. A nonblank-image requirement is inappropriate."
+  }
+]

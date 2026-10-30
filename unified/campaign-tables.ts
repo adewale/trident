@@ -93,6 +93,18 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             [String(version), counts.passed, counts.failed, counts.unsupported, counts.blocked, counts.missing, counts.partial, inventory.cases.length, measuredAt(own, result.finishedAt)],
             { column: 'Returned in all rounds', denominator: 'Planned', direction: 'descending' },
             { comparisonKey: hash(['docs', cohort, inventory.protocol ?? 'public-docs-svg-return-v1', inventory.pin ?? null, inventory.cases, report.rounds]), unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed'] }, ...(candidate ? { artifactRole: 'candidate' } : { overview: { numerator: 'Returned in all rounds', denominator: 'Planned', suffix: '%' } }) }, unrankedReason)
+          const drawings = own.filter(row => row.operation === 'drawing-checks')
+          if (drawings.length) {
+            if (new Set(drawings.map(row => row.caseId)).size !== drawings.length || drawings.some(row => !inventory.cases.some((input: any) => input.id === row.caseId))) throw Error('Documentation drawing observations do not match the inventory')
+            const correct = drawings.filter(row => row.status === 'passed').length, incorrect = drawings.filter(row => row.status === 'failed').length, notDrawing = drawings.filter(row => row.status === 'not-applicable').length
+            const unknown = inventory.cases.length - correct - incorrect - notDrawing
+            add(['docs-drawings', cohort, hash(inventory.cases), hash(inventory.drawingReview ?? null), hash(inventory.producers ?? [])], 'docs', measuredAt(drawings, result.finishedAt),
+              'First-round actual SVG witnesses checked against reviewed source expectations and the shared paint observer. Unreviewed sources and unresolved observations stay unknown; unknown work withholds a correctness rank. SVG-return coverage is a separate table. No per-call semantic timing qualification.',
+              ['Version', 'Correct', 'Incorrect', 'Unknown', 'Not a drawing', 'Planned', 'Measured'], project,
+              [String(version), correct, incorrect, unknown, notDrawing, inventory.cases.length, measuredAt(drawings, result.finishedAt)],
+              { column: 'Correct', direction: 'descending' },
+              { unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unknown', 'Not a drawing'] } }, unknown ? 'Required documentation content evidence is unknown' : undefined)
+          }
         }
         continue
       }
@@ -145,7 +157,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
   // Charts use exactly the table's verified numeric rows. Fully unobserved rows
   // stay visible and unranked in the table, without a fabricated zero bar.
   for (const table of tables.values()) {
-    if (table.suite === 'docs') table.chart = { numerator: 'Returned in all rounds', denominator: 'Planned', title: 'Documentation SVG return', axis: '%', maximum: 100 }
+    if (table.suite === 'docs' && table.columns.includes('Returned in all rounds')) table.chart = { numerator: 'Returned in all rounds', denominator: 'Planned', title: 'Documentation SVG return', axis: '%', maximum: 100 }
   }
   return [...tables.values()]
 }

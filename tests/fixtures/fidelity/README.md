@@ -18,3 +18,9 @@ remains continuous. Portable tests independently declare ALPHA→BETA, retain
 the real glyphs, and perturb their attachment and individual stroke grammar.
 This is endpoint marker-ink evidence; it does not certify exact ER cardinality
 meaning or prove complete curve geometry.
+
+`mermaid-flowchart-drop-shadow.svg` is the unchanged Mermaid 12.2.0 output for
+`meaning:family:flowchart`, from the 30 October 2026 ecosystem campaign,
+`fidelity/bWVybWFpZC1qcy9tZXJtYWlk/attempts/df248ac6-0311-47d9-abd7-e5d824146c53`.
+Its sole `feDropShadow` composites SourceGraphic without clipping its bounds.
+Tests retain the real drawing and perturb filter bounds, input and alpha.

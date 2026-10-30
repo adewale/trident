@@ -23,6 +23,7 @@ import { planFidelityCriteria, completeCriterionLedger } from './ledger.ts'
 import { inspectFidelityPaint } from './paint.ts'
 import { inspectQuantitativePaint } from './paint-values.ts'
 import { expandedFidelityCases } from './cases.ts'
+import { assessSvgCases, summarizeSvgCases } from './svg-assessment.ts'
 import { assessPrelude } from './meaning.ts'
 import type { FidelityRunOptions } from './run.ts'
 import { communityCatalogFile } from '../unified/trident-paths.ts'
@@ -179,7 +180,12 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
       write(join(out, 'community-fidelity-progress.json'), { completed: results.length, selected: targets.length, project, observations: result.observations.length })
     }
   } finally { await browser?.close() }
-  const observations = results.flatMap(result => result.observations), report = { id: 'mermaid-fidelity', status: observations.some(row => row.status === 'failed') ? 'failed' : 'blocked', startedAt, finishedAt: new Date().toISOString(), observations, artifacts: results.flatMap(result => result.artifacts ?? []), gaps: [...new Set(results.flatMap(result => result.gaps))], toolVersions, criteriaProtocol: options.fidelityDiagnostic ? null : fidelityCriteriaProtocol(root, executable), catalogFile, preparedFile, boundaries, selectedCaseIds: selectedCases.map(value => value.id), scope: 'Public SVG functionality on all selected frozen prepared artifacts; no timing/startup/memory claims. Native model criteria remain unavailable in this SVG-only collection.' }
+  const observations = results.flatMap(result => result.observations)
+  const svgAssessments = targets.map(({ peer }) => {
+    const cases = assessSvgCases(selectedCases, observations.filter(row => row.metrics?.implementation === peer.node.id))
+    return { project: peer.node.id, version: peer.browser!.version, ...summarizeSvgCases(cases), cases }
+  })
+  const report = { id: 'mermaid-fidelity', status: observations.some(row => row.status === 'failed') ? 'failed' : 'blocked', startedAt, finishedAt: new Date().toISOString(), observations, svgAssessments, artifacts: results.flatMap(result => result.artifacts ?? []), gaps: [...new Set(results.flatMap(result => result.gaps))], toolVersions, criteriaProtocol: options.fidelityDiagnostic ? null : fidelityCriteriaProtocol(root, executable), catalogFile, preparedFile, boundaries, selectedCaseIds: selectedCases.map(value => value.id), scope: 'Public SVG functionality on all selected frozen prepared artifacts; no timing/startup/memory claims. Native model criteria remain unavailable in this SVG-only collection.' }
   writeBenchmarkDocument(join(out, 'community-fidelity-report.json'), report)
   return report as UnifiedSuiteResult
 }

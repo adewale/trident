@@ -39,6 +39,26 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const colorCanvas = document.createElement('canvas').getContext('2d')!
   const colors = new Map<string, number | null>()
   const unknownPaint = new Set<string>()
+  // A single SVG drop shadow composites SourceGraphic over its shadow. Admit
+  // only that bounded form: arbitrary filter graphs or a clipped filter region
+  // can remove the authored ink and must remain unobserved.
+  const preservesSourceGraphic = (setting: string): boolean => {
+    const match = /^url\(["']?#([^\s"')]+)["']?\)$/.exec(setting)
+    if (!match) return false
+    let filter: Element | null
+    try { filter = document.getElementById(decodeURIComponent(match[1]!)) } catch { return false }
+    if (!filter || !svg.contains(filter) || filter.localName !== 'filter' || filter.children.length !== 1 || filter.hasAttribute('href') || filter.hasAttribute('filterRes')) return false
+    const shadow = filter.children[0]!
+    if (shadow.localName !== 'feDropShadow' || shadow.children.length || shadow.hasAttribute('x') || shadow.hasAttribute('y') || shadow.hasAttribute('width') || shadow.hasAttribute('height') || !['', 'SourceGraphic'].includes(shadow.getAttribute('in') ?? '')) return false
+    if (filter.getAttribute('filterUnits') && filter.getAttribute('filterUnits') !== 'objectBoundingBox') return false
+    const fraction = (name: string, fallback: number) => {
+      const value = filter.getAttribute(name)
+      if (value === null) return fallback
+      return /^[-+]?(?:\d*\.)?\d+%$/.test(value) ? Number.parseFloat(value) / 100 : NaN
+    }
+    const x = fraction('x', -.1), y = fraction('y', -.1), width = fraction('width', 1.2), height = fraction('height', 1.2)
+    return x < 0 && y < 0 && x + width > 1 && y + height > 1 && getComputedStyle(shadow).display !== 'none'
+  }
   const colorAlpha = (color: string): number | null => {
     if (['none', 'transparent'].includes(color)) return 0
     if (/url\(|context-|var\(/.test(color)) { unknownPaint.add(color); return null }
@@ -51,7 +71,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       const style = getComputedStyle(current)
       if ((!definitions && ['defs', 'marker', 'clipPath', 'mask', 'symbol'].includes(current.localName)) || ['none'].includes(style.display) || ['hidden', 'collapse'].includes(style.visibility) || Number(style.opacity) === 0) return false
       if (/opacity\(\s*0(?:\.0+)?%?\s*\)/.test(style.filter)) return false
-      if (style.filter && style.filter !== 'none') unknownPaint.add('filter:' + style.filter)
+      if (style.filter && style.filter !== 'none' && !preservesSourceGraphic(style.filter)) unknownPaint.add('filter:' + style.filter)
       if (style.mixBlendMode && style.mixBlendMode !== 'normal') unknownPaint.add('blend:' + style.mixBlendMode)
       if (current === svg) break
     }

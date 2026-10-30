@@ -46,12 +46,13 @@ test('UTF-8 public bundles initialize before docs clocks await the real public r
     })
     await page.evaluate(publicSvgBrowserAction, { type: 'initialize-global', engine: { kind: 'function', global: 'fixture' } })
     const started = performance.now()
-    const value = await page.evaluate(publicSvgBrowserAction, { type: 'measure-docs', source: 'accepted', id: 'actual' })
+    const value = await page.evaluate(publicSvgBrowserAction, { type: 'measure-docs', source: 'accepted', id: 'actual', retainSvg: true })
     const wallMs = performance.now() - started
     expect(wallMs - value.durationMs).toBeGreaterThanOrEqual(30)
     expect(value.status).toBe('passed')
     expect(value.durationMs).toBeGreaterThanOrEqual(20)
     expect(value.bytes).toBeGreaterThan(0)
+    expect(value.svg).toBe('<svg xmlns="http://www.w3.org/2000/svg"/>')
     const cleanupElapsed = await page.evaluate(() => performance.now() - (globalThis as any).cleanupAt)
     expect(cleanupElapsed).toBeGreaterThanOrEqual(35)
     for (const source of ['bad', 'throw']) {
