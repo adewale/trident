@@ -1,0 +1,229 @@
+{
+  "schema": "trident-results-snapshot-v1",
+  "tables": [],
+  "attempts": [
+    {
+      "id": "attempt-317ab74005d895004c09fbc8",
+      "project": "obsidianmd/pele",
+      "suite": "community",
+      "measuredFrom": "2026-10-30T00:49:03.450Z",
+      "updatedAt": "2026-10-30T00:49:12.772Z",
+      "status": "recorded",
+      "detail": "Bounded release smoke; six legacy cases, one common flowchart and two invalid controls. No deep coverage or qualified timing claim.; SVG XML/canvas and authored-label checks do not establish complete semantic identity, multiplicity, route geometry or visual fidelity. Dedicated family feature assertions remain separate.; Core repeat cases calibrate to20ms/256iterations. With communityCoverageOnce, feature-corpus inputs qualify one actual call in round1 without warm/repeated speed samples; later rounds contain core only. These protocols never share a speed aggregate. API clocks exclude validation/cleanup; internal DOM measurement belongs to the API. JS heap excludes native/WASM/process memory.; Supplemental fixed-core CLI comparison only; deep feature coverage is unmeasured for these variants.; Rolling per-project records: original observation dates are retained in project-update-manifest.json. This is not a paired same-session comparison.; Bounded release smoke; six legacy cases, one common flowchart and two invalid controls. No deep coverage or qualified timing claim.; SVG XML/canvas and authored-label checks do not establish complete semantic identity, multiplicity, route geometry or visual fidelity. Dedicated family feature assertions remain separate.; Core repeat cases calibrate to20ms/256iterations. With communityCoverageOnce, feature-corpus inputs qualify one actual call in round1 without warm/repeated speed samples; later rounds contain core only. These protocols never share a speed aggregate. API clocks exclude validation/cleanup; internal DOM measurement belongs to the API. JS heap excludes native/WASM/process memory.; Supplemental fixed-core CLI comparison only; deep feature coverage is unmeasured for these variants.; Rolling per-project records: original observation dates are retained in project-update-manifest.json. This is not a paired same-session comparison.; Campaign process status: passed; Recorded observation dispositions; process completion does not establish benchmark qualification.",
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "evidenceUrl": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/community/",
+      "groups": [
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "browser:public-api",
+          "runtime": "chromium-v8",
+          "format": "svg",
+          "operation": "memory",
+          "mode": "after-round-1",
+          "round": "1",
+          "caseIds": 1,
+          "recordedObservations": 1,
+          "dispositions": {
+            "passed": 1
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "browser:public-api",
+          "runtime": "chromium-processes",
+          "format": "svg",
+          "operation": "process-memory",
+          "mode": "after-round-1",
+          "round": "1",
+          "caseIds": 1,
+          "recordedObservations": 1,
+          "dispositions": {
+            "passed": 1
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "browser:public-api",
+          "runtime": "chromium",
+          "format": "svg",
+          "operation": "load-and-initialize",
+          "mode": "cold-round-1",
+          "round": "not round-based",
+          "caseIds": 1,
+          "recordedObservations": 1,
+          "dispositions": {
+            "passed": 1
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "browser:public-api",
+          "runtime": "chromium",
+          "format": "svg",
+          "operation": "render",
+          "mode": "core-api-repeat",
+          "round": "1",
+          "caseIds": 6,
+          "recordedObservations": 6,
+          "dispositions": {
+            "passed": 6
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "browser:public-api",
+          "runtime": "chromium",
+          "format": "svg",
+          "operation": "family-support",
+          "mode": "family-support-probe",
+          "round": "1",
+          "caseIds": 5,
+          "recordedObservations": 5,
+          "dispositions": {
+            "passed": 5
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "browser:public-api",
+          "runtime": "chromium",
+          "format": "svg",
+          "operation": "render",
+          "mode": "feature-corpus-attempt",
+          "round": "0",
+          "caseIds": 2,
+          "recordedObservations": 2,
+          "dispositions": {
+            "not-applicable": 2
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "browser:public-api",
+          "runtime": "chromium",
+          "format": "svg",
+          "operation": "render",
+          "mode": "feature-corpus-qualification",
+          "round": "1",
+          "caseIds": 1,
+          "recordedObservations": 1,
+          "dispositions": {
+            "passed": 1
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "browser:public-api",
+          "runtime": "chromium",
+          "format": "js-wasm-fonts",
+          "operation": "delivery",
+          "mode": "round-1",
+          "round": "1",
+          "caseIds": 1,
+          "recordedObservations": 1,
+          "dispositions": {
+            "passed": 1
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "node:public-api",
+          "runtime": "Node 24.19.0",
+          "format": "svg",
+          "operation": "render",
+          "mode": "core-api-repeat",
+          "round": "1",
+          "caseIds": 6,
+          "recordedObservations": 6,
+          "dispositions": {
+            "passed": 6
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "node:public-api",
+          "runtime": "Node 24.19.0",
+          "format": "svg",
+          "operation": "family-support",
+          "mode": "family-support-probe",
+          "round": "1",
+          "caseIds": 5,
+          "recordedObservations": 5,
+          "dispositions": {
+            "passed": 5
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "node:public-api",
+          "runtime": "Node",
+          "format": "svg",
+          "operation": "render",
+          "mode": "feature-corpus-attempt",
+          "round": "1",
+          "caseIds": 2,
+          "recordedObservations": 2,
+          "dispositions": {
+            "not-applicable": 2
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "node:public-api",
+          "runtime": "Node 24.19.0",
+          "format": "svg",
+          "operation": "render",
+          "mode": "feature-corpus-qualification",
+          "round": "1",
+          "caseIds": 1,
+          "recordedObservations": 1,
+          "dispositions": {
+            "passed": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "attempt-d2aa0610755e00bf5809114e",
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "suite": "community",
+      "measuredFrom": "2026-10-30T00:49:03.450Z",
+      "updatedAt": "2026-10-30T00:49:12.772Z",
+      "status": "unavailable",
+      "detail": "Bounded release smoke; six legacy cases, one common flowchart and two invalid controls. No deep coverage or qualified timing claim.; SVG XML/canvas and authored-label checks do not establish complete semantic identity, multiplicity, route geometry or visual fidelity. Dedicated family feature assertions remain separate.; Core repeat cases calibrate to20ms/256iterations. With communityCoverageOnce, feature-corpus inputs qualify one actual call in round1 without warm/repeated speed samples; later rounds contain core only. These protocols never share a speed aggregate. API clocks exclude validation/cleanup; internal DOM measurement belongs to the API. JS heap excludes native/WASM/process memory.; Supplemental fixed-core CLI comparison only; deep feature coverage is unmeasured for these variants.; Rolling per-project records: original observation dates are retained in project-update-manifest.json. This is not a paired same-session comparison.; Bounded release smoke; six legacy cases, one common flowchart and two invalid controls. No deep coverage or qualified timing claim.; SVG XML/canvas and authored-label checks do not establish complete semantic identity, multiplicity, route geometry or visual fidelity. Dedicated family feature assertions remain separate.; Core repeat cases calibrate to20ms/256iterations. With communityCoverageOnce, feature-corpus inputs qualify one actual call in round1 without warm/repeated speed samples; later rounds contain core only. These protocols never share a speed aggregate. API clocks exclude validation/cleanup; internal DOM measurement belongs to the API. JS heap excludes native/WASM/process memory.; Supplemental fixed-core CLI comparison only; deep feature coverage is unmeasured for these variants.; Rolling per-project records: original observation dates are retained in project-update-manifest.json. This is not a paired same-session comparison.; Campaign process status: passed; No per-project observation table was available.",
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "evidenceUrl": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/community/",
+      "groups": []
+    }
+  ]
+}

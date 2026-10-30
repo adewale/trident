@@ -14,10 +14,10 @@ Expected promise that rejects
 Received promise that resolved: Promise { <resolved> }
 
       at <anonymous> (/workspace/trident/tests/fidelity-community.test.ts:68:354)
-(fail) budget expiry escapes paint collection without publishing a completed report [2364.96ms]
+(fail) budget expiry escapes paint collection without publishing a completed report [1387.07ms]
 
  0 pass
  2 filtered out
  1 fail
  1 expect() calls
-Ran 1 test across 1 file. [3.44s]
+Ran 1 test across 1 file. [1.67s]

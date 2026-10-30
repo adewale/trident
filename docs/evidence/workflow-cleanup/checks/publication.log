@@ -1,0 +1,34 @@
+bun test v1.4.2 (744846f84)
+
+tests/results-snapshot.test.ts:
+(pass) one numeric source supplies both the visible table rate and Mermaid bar; missing observations stay missing [6.54ms]
+(pass) latest failed or partial attempt overrides historical success without deleting its dated evidence [6.37ms]
+(pass) multi-project process failure is not assigned to every project; individual counts and versions remain visible [3.15ms]
+(pass) snapshot rejects invented numeric chart values, unknown projects and broken population counts [0.45ms]
+(pass) campaign groups keep formats and operations separate and retain qualification failures after successful output [1.28ms]
+(pass) snapshot check detects stale Markdown without rewriting it; reads need no Mermaid oracle [159.48ms]
+(pass) canonical historical values match their provenance digest without a second copy of the rows [25.68ms]
+(pass) result ranks use the named metric, share ties, put missing values last and reverse direction for cost [0.35ms]
+(pass) table and Mermaid chart use the same best-first project order [2.00ms]
+(pass) an entirely blocked population is unranked while an observed zero retains its rank [0.27ms]
+(pass) charts and ranking share numeric parsing without coercing unavailable strings to zero [0.73ms]
+(pass) partial historical campaigns do not manufacture new core blockers for application workflows [0.28ms]
+(pass) source candidate tables rank within their cohort and cannot replace published-release overview scores [1.49ms]
+(pass) the Flutter brand gets no inherited Dart score in the regular results overview [9.14ms]
+
+tests/campaign-workflows.test.ts:
+(pass) pilot headlines use owning counts, reconcile pauses, and reject foreign/duplicate evidence [3.20ms]
+(pass) a shared deadline retains complete units, resumes them once, and binds identity and bytes [4.19ms]
+(pass) full sampling has independent-round uncertainty with 70 percent fewer cold launch slots [13.72ms]
+(pass) campaign imports generate ranked tables and charts from the full docs inventory without transcription [4.20ms]
+(pass) missing docs rounds remain unexecuted, and duplicate samples cannot inflate a return rate [2.31ms]
+(pass) observation counts compare equal populations and keep incompatible populations separate [0.93ms]
+(pass) release selection respects the cutoff and refuses a new CLI release without an archive binding [2.20ms]
+(pass) one preparation index rejects modified or escaping component files [1.02ms]
+(pass) release verification checks the actual archive, extracted manifest and executable version [103.30ms]
+(pass) portable tables keep invalid rejection separate and never rank unmeasured output as zero [0.76ms]
+
+ 24 pass
+ 0 fail
+ 139 expect() calls
+Ran 24 tests across 2 files. [1215.00ms]

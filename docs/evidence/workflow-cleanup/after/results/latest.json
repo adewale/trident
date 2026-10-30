@@ -1,0 +1,1108 @@
+{
+  "schema": "trident-results-snapshot-v1",
+  "tables": [
+    {
+      "id": "run-d6880cb3b670a60d866fd53e",
+      "suite": "community",
+      "measuredAt": "2026-10-30T00:49:06.716Z",
+      "historical": false,
+      "unit": "observations",
+      "caption": "core; default; node:public-api; Node; terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Unavailable",
+        "Recorded",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "values": [
+            "1.6.1",
+            0,
+            0,
+            0,
+            0,
+            2,
+            2,
+            "2026-10-30T00:49:06.716Z"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending"
+      },
+      "population": {
+        "total": "Recorded",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unsupported",
+          "Blocked",
+          "Unavailable"
+        ]
+      }
+    },
+    {
+      "id": "run-6a765b890456b6d5d024c6d5",
+      "suite": "community",
+      "measuredAt": "2026-10-30T00:49:06.716Z",
+      "historical": false,
+      "unit": "observations",
+      "caption": "core; default; cli:end-to-end; linux-x64 public native CLI; terminal; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Unavailable",
+        "Recorded",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "values": [
+            "1.6.1",
+            2,
+            0,
+            0,
+            0,
+            0,
+            2,
+            "2026-10-30T00:49:06.716Z"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending"
+      },
+      "population": {
+        "total": "Recorded",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unsupported",
+          "Blocked",
+          "Unavailable"
+        ]
+      }
+    },
+    {
+      "id": "run-c950de1fea7135cdcaceea93",
+      "suite": "community",
+      "measuredAt": "2026-10-30T00:49:06.716Z",
+      "historical": false,
+      "unit": "observations",
+      "caption": "core; default; cli:end-to-end; linux-x64 public native CLI; terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Unavailable",
+        "Recorded",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "values": [
+            "1.6.1",
+            4,
+            0,
+            0,
+            0,
+            0,
+            4,
+            "2026-10-30T00:49:06.716Z"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending"
+      },
+      "population": {
+        "total": "Recorded",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unsupported",
+          "Blocked",
+          "Unavailable"
+        ]
+      }
+    },
+    {
+      "id": "run-7b3c7a5ff9b52f183299001b",
+      "suite": "community",
+      "measuredAt": "2026-10-30T00:49:06.716Z",
+      "historical": false,
+      "unit": "observations",
+      "caption": "core; default; browser:public-api; chromium; svg; capability. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Unavailable",
+        "Recorded",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "values": [
+            "1.6.1",
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            "2026-10-30T00:49:06.716Z"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending"
+      },
+      "population": {
+        "total": "Recorded",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unsupported",
+          "Blocked",
+          "Unavailable"
+        ]
+      }
+    },
+    {
+      "id": "run-a1a9d73df5018d5b1459f112",
+      "suite": "community",
+      "measuredAt": "2026-10-30T00:49:12.529Z",
+      "historical": false,
+      "unit": "observations",
+      "caption": "core; default; node:public-api; Node; svg; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Unavailable",
+        "Recorded",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.12.0",
+            0,
+            0,
+            0,
+            0,
+            2,
+            2,
+            "2026-10-30T00:49:12.529Z"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending"
+      },
+      "population": {
+        "total": "Recorded",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unsupported",
+          "Blocked",
+          "Unavailable"
+        ]
+      }
+    },
+    {
+      "id": "run-06e3f690f0a018888a02dbe4",
+      "suite": "community",
+      "measuredAt": "2026-10-30T00:49:12.529Z",
+      "historical": false,
+      "unit": "observations",
+      "caption": "core; default; node:public-api; Node 24.19.0; svg; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Unavailable",
+        "Recorded",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.12.0",
+            5,
+            0,
+            0,
+            0,
+            0,
+            5,
+            "2026-10-30T00:49:12.529Z"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending"
+      },
+      "population": {
+        "total": "Recorded",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unsupported",
+          "Blocked",
+          "Unavailable"
+        ]
+      }
+    },
+    {
+      "id": "run-12219aaf0752dde8024685c6",
+      "suite": "community",
+      "measuredAt": "2026-10-30T00:49:12.529Z",
+      "historical": false,
+      "unit": "observations",
+      "caption": "core; default; node:public-api; Node 24.19.0; svg; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Unavailable",
+        "Recorded",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.12.0",
+            7,
+            0,
+            0,
+            0,
+            0,
+            7,
+            "2026-10-30T00:49:12.529Z"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending"
+      },
+      "population": {
+        "total": "Recorded",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unsupported",
+          "Blocked",
+          "Unavailable"
+        ]
+      }
+    },
+    {
+      "id": "run-f3ddfa7692bbd01d14b8042d",
+      "suite": "community",
+      "measuredAt": "2026-10-30T00:49:12.529Z",
+      "historical": false,
+      "unit": "observations",
+      "caption": "core; default; browser:public-api; chromium; svg; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Unavailable",
+        "Recorded",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.12.0",
+            7,
+            0,
+            0,
+            0,
+            2,
+            9,
+            "2026-10-30T00:49:12.529Z"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending"
+      },
+      "population": {
+        "total": "Recorded",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unsupported",
+          "Blocked",
+          "Unavailable"
+        ]
+      }
+    },
+    {
+      "id": "run-9dab633284d510474e6981c8",
+      "suite": "community",
+      "measuredAt": "2026-10-30T00:49:12.529Z",
+      "historical": false,
+      "unit": "observations",
+      "caption": "core; default; browser:public-api; chromium; svg; load-and-initialize. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Unavailable",
+        "Recorded",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.12.0",
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            "2026-10-30T00:49:12.529Z"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending"
+      },
+      "population": {
+        "total": "Recorded",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unsupported",
+          "Blocked",
+          "Unavailable"
+        ]
+      }
+    },
+    {
+      "id": "run-5f07ff31ac7286cd9c44ab31",
+      "suite": "community",
+      "measuredAt": "2026-10-30T00:49:12.529Z",
+      "historical": false,
+      "unit": "observations",
+      "caption": "core; default; browser:public-api; chromium; svg; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Unavailable",
+        "Recorded",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.12.0",
+            5,
+            0,
+            0,
+            0,
+            0,
+            5,
+            "2026-10-30T00:49:12.529Z"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending"
+      },
+      "population": {
+        "total": "Recorded",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unsupported",
+          "Blocked",
+          "Unavailable"
+        ]
+      }
+    },
+    {
+      "id": "run-73f14cad433e82ceb43e5d83",
+      "suite": "community",
+      "measuredAt": "2026-10-30T00:49:12.529Z",
+      "historical": false,
+      "unit": "observations",
+      "caption": "core; default; browser:public-api; chromium-v8; svg; memory. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Unavailable",
+        "Recorded",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.12.0",
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            "2026-10-30T00:49:12.529Z"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending"
+      },
+      "population": {
+        "total": "Recorded",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unsupported",
+          "Blocked",
+          "Unavailable"
+        ]
+      }
+    },
+    {
+      "id": "run-acd51dcc74e7ffce4f45137f",
+      "suite": "community",
+      "measuredAt": "2026-10-30T00:49:12.529Z",
+      "historical": false,
+      "unit": "observations",
+      "caption": "core; default; browser:public-api; chromium-processes; svg; process-memory. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Unavailable",
+        "Recorded",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.12.0",
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            "2026-10-30T00:49:12.529Z"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending"
+      },
+      "population": {
+        "total": "Recorded",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unsupported",
+          "Blocked",
+          "Unavailable"
+        ]
+      }
+    },
+    {
+      "id": "run-8b1ada3691b79fe5cf8400ed",
+      "suite": "community",
+      "measuredAt": "2026-10-30T00:49:12.529Z",
+      "historical": false,
+      "unit": "observations",
+      "caption": "core; default; browser:public-api; chromium; js-wasm-fonts; delivery. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Unavailable",
+        "Recorded",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.12.0",
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            "2026-10-30T00:49:12.529Z"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending"
+      },
+      "population": {
+        "total": "Recorded",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unsupported",
+          "Blocked",
+          "Unavailable"
+        ]
+      }
+    },
+    {
+      "id": "run-446b036572ad1f463932e2bc",
+      "suite": "community",
+      "measuredAt": "2026-10-30T00:49:06.716Z",
+      "historical": false,
+      "unit": "observations",
+      "caption": "core; public-cli; cli:end-to-end; linux-x64 public native CLI; terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Unavailable",
+        "Recorded",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "values": [
+            "1.6.1",
+            3,
+            0,
+            0,
+            0,
+            0,
+            3,
+            "2026-10-30T00:49:06.716Z"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending"
+      },
+      "population": {
+        "total": "Recorded",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unsupported",
+          "Blocked",
+          "Unavailable"
+        ]
+      }
+    },
+    {
+      "id": "run-7a156fbe781d6bccfdf0c069",
+      "suite": "community",
+      "measuredAt": "2026-10-30T00:49:06.716Z",
+      "historical": false,
+      "unit": "observations",
+      "caption": "core; public-cli; cli:end-to-end; linux-x64 public native CLI; terminal; resource-diagnostic. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Unavailable",
+        "Recorded",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "values": [
+            "1.6.1",
+            3,
+            0,
+            0,
+            0,
+            0,
+            3,
+            "2026-10-30T00:49:06.716Z"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending"
+      },
+      "population": {
+        "total": "Recorded",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unsupported",
+          "Blocked",
+          "Unavailable"
+        ]
+      }
+    }
+  ],
+  "attempts": [
+    {
+      "id": "attempt-20f498daa85153187bd481fc",
+      "project": "obsidianmd/pele",
+      "suite": "community",
+      "measuredFrom": "2026-10-30T00:49:03.450Z",
+      "updatedAt": "2026-10-30T00:49:12.772Z",
+      "status": "recorded",
+      "detail": "Bounded release smoke; six legacy cases, one common flowchart and two invalid controls. No deep coverage or qualified timing claim.; SVG XML/canvas and authored-label checks do not establish complete semantic identity, multiplicity, route geometry or visual fidelity. Dedicated family feature assertions remain separate.; Core repeat cases calibrate to20ms/256iterations. With communityCoverageOnce, feature-corpus inputs qualify one actual call in round1 without warm/repeated speed samples; later rounds contain core only. These protocols never share a speed aggregate. API clocks exclude validation/cleanup; internal DOM measurement belongs to the API. JS heap excludes native/WASM/process memory.; Supplemental fixed-core CLI comparison only; deep feature coverage is unmeasured for these variants.; Rolling per-project records: original observation dates are retained in project-update-manifest.json. This is not a paired same-session comparison.; Bounded release smoke; six legacy cases, one common flowchart and two invalid controls. No deep coverage or qualified timing claim.; SVG XML/canvas and authored-label checks do not establish complete semantic identity, multiplicity, route geometry or visual fidelity. Dedicated family feature assertions remain separate.; Core repeat cases calibrate to20ms/256iterations. With communityCoverageOnce, feature-corpus inputs qualify one actual call in round1 without warm/repeated speed samples; later rounds contain core only. These protocols never share a speed aggregate. API clocks exclude validation/cleanup; internal DOM measurement belongs to the API. JS heap excludes native/WASM/process memory.; Supplemental fixed-core CLI comparison only; deep feature coverage is unmeasured for these variants.; Rolling per-project records: original observation dates are retained in project-update-manifest.json. This is not a paired same-session comparison.; Campaign process status: passed; Recorded observation dispositions; process completion does not establish benchmark qualification.",
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "evidenceUrl": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/community/",
+      "groups": [
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "browser:public-api",
+          "runtime": "chromium-v8",
+          "format": "svg",
+          "operation": "memory",
+          "mode": "after-round-1",
+          "round": "1",
+          "caseIds": 1,
+          "recordedObservations": 1,
+          "dispositions": {
+            "passed": 1
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "browser:public-api",
+          "runtime": "chromium-processes",
+          "format": "svg",
+          "operation": "process-memory",
+          "mode": "after-round-1",
+          "round": "1",
+          "caseIds": 1,
+          "recordedObservations": 1,
+          "dispositions": {
+            "passed": 1
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "browser:public-api",
+          "runtime": "chromium",
+          "format": "svg",
+          "operation": "load-and-initialize",
+          "mode": "cold-round-1",
+          "round": "not round-based",
+          "caseIds": 1,
+          "recordedObservations": 1,
+          "dispositions": {
+            "passed": 1
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "browser:public-api",
+          "runtime": "chromium",
+          "format": "svg",
+          "operation": "render",
+          "mode": "core-api-repeat",
+          "round": "1",
+          "caseIds": 6,
+          "recordedObservations": 6,
+          "dispositions": {
+            "passed": 6
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "browser:public-api",
+          "runtime": "chromium",
+          "format": "svg",
+          "operation": "family-support",
+          "mode": "family-support-probe",
+          "round": "1",
+          "caseIds": 5,
+          "recordedObservations": 5,
+          "dispositions": {
+            "passed": 5
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "browser:public-api",
+          "runtime": "chromium",
+          "format": "svg",
+          "operation": "render",
+          "mode": "feature-corpus-attempt",
+          "round": "0",
+          "caseIds": 2,
+          "recordedObservations": 2,
+          "dispositions": {
+            "not-applicable": 2
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "browser:public-api",
+          "runtime": "chromium",
+          "format": "svg",
+          "operation": "render",
+          "mode": "feature-corpus-qualification",
+          "round": "1",
+          "caseIds": 1,
+          "recordedObservations": 1,
+          "dispositions": {
+            "passed": 1
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "browser:public-api",
+          "runtime": "chromium",
+          "format": "js-wasm-fonts",
+          "operation": "delivery",
+          "mode": "round-1",
+          "round": "1",
+          "caseIds": 1,
+          "recordedObservations": 1,
+          "dispositions": {
+            "passed": 1
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "node:public-api",
+          "runtime": "Node 24.19.0",
+          "format": "svg",
+          "operation": "render",
+          "mode": "core-api-repeat",
+          "round": "1",
+          "caseIds": 6,
+          "recordedObservations": 6,
+          "dispositions": {
+            "passed": 6
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "node:public-api",
+          "runtime": "Node 24.19.0",
+          "format": "svg",
+          "operation": "family-support",
+          "mode": "family-support-probe",
+          "round": "1",
+          "caseIds": 5,
+          "recordedObservations": 5,
+          "dispositions": {
+            "passed": 5
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "node:public-api",
+          "runtime": "Node",
+          "format": "svg",
+          "operation": "render",
+          "mode": "feature-corpus-attempt",
+          "round": "1",
+          "caseIds": 2,
+          "recordedObservations": 2,
+          "dispositions": {
+            "not-applicable": 2
+          }
+        },
+        {
+          "project": "obsidianmd/pele",
+          "version": "1.12.0",
+          "variant": "default",
+          "surface": "node:public-api",
+          "runtime": "Node 24.19.0",
+          "format": "svg",
+          "operation": "render",
+          "mode": "feature-corpus-qualification",
+          "round": "1",
+          "caseIds": 1,
+          "recordedObservations": 1,
+          "dispositions": {
+            "passed": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "attempt-83c0835b21ba841a87302e55",
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "suite": "community",
+      "measuredFrom": "2026-10-30T00:49:03.450Z",
+      "updatedAt": "2026-10-30T00:49:12.772Z",
+      "status": "recorded",
+      "detail": "Bounded release smoke; six legacy cases, one common flowchart and two invalid controls. No deep coverage or qualified timing claim.; SVG XML/canvas and authored-label checks do not establish complete semantic identity, multiplicity, route geometry or visual fidelity. Dedicated family feature assertions remain separate.; Core repeat cases calibrate to20ms/256iterations. With communityCoverageOnce, feature-corpus inputs qualify one actual call in round1 without warm/repeated speed samples; later rounds contain core only. These protocols never share a speed aggregate. API clocks exclude validation/cleanup; internal DOM measurement belongs to the API. JS heap excludes native/WASM/process memory.; Supplemental fixed-core CLI comparison only; deep feature coverage is unmeasured for these variants.; Rolling per-project records: original observation dates are retained in project-update-manifest.json. This is not a paired same-session comparison.; Bounded release smoke; six legacy cases, one common flowchart and two invalid controls. No deep coverage or qualified timing claim.; SVG XML/canvas and authored-label checks do not establish complete semantic identity, multiplicity, route geometry or visual fidelity. Dedicated family feature assertions remain separate.; Core repeat cases calibrate to20ms/256iterations. With communityCoverageOnce, feature-corpus inputs qualify one actual call in round1 without warm/repeated speed samples; later rounds contain core only. These protocols never share a speed aggregate. API clocks exclude validation/cleanup; internal DOM measurement belongs to the API. JS heap excludes native/WASM/process memory.; Supplemental fixed-core CLI comparison only; deep feature coverage is unmeasured for these variants.; Rolling per-project records: original observation dates are retained in project-update-manifest.json. This is not a paired same-session comparison.; Campaign process status: passed; Recorded observation dispositions; process completion does not establish benchmark qualification.",
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/report.json",
+        "sha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2"
+      },
+      "evidenceUrl": "https://raw.githubusercontent.com/adewale/trident/130b7d0a601bc45bb2d7e16610aa326034a7ea93/docs/evidence/workflow-cleanup/raw-source/community/",
+      "groups": [
+        {
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "version": "1.6.1",
+          "variant": "default",
+          "surface": "browser:public-api",
+          "runtime": "chromium",
+          "format": "svg",
+          "operation": "capability",
+          "mode": "capability",
+          "round": "not round-based",
+          "caseIds": 1,
+          "recordedObservations": 1,
+          "dispositions": {
+            "not-applicable": 1
+          }
+        },
+        {
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "version": "1.6.1",
+          "variant": "default",
+          "surface": "cli:end-to-end",
+          "runtime": "linux-x64 public native CLI",
+          "format": "terminal",
+          "operation": "family-support",
+          "mode": "family-support-probe",
+          "round": "1",
+          "caseIds": 2,
+          "recordedObservations": 2,
+          "dispositions": {
+            "passed": 2
+          }
+        },
+        {
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "version": "1.6.1",
+          "variant": "default",
+          "surface": "cli:end-to-end",
+          "runtime": "linux-x64 public native CLI",
+          "format": "terminal",
+          "operation": "render",
+          "mode": "feature-corpus-qualification",
+          "round": "1",
+          "caseIds": 1,
+          "recordedObservations": 1,
+          "dispositions": {
+            "passed": 1
+          }
+        },
+        {
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "version": "1.6.1",
+          "variant": "default",
+          "surface": "cli:end-to-end",
+          "runtime": "linux-x64 public native CLI",
+          "format": "terminal",
+          "operation": "render",
+          "mode": "fresh-process",
+          "round": "1",
+          "caseIds": 3,
+          "recordedObservations": 3,
+          "dispositions": {
+            "passed": 3
+          }
+        },
+        {
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "version": "1.6.1",
+          "variant": "public-cli",
+          "surface": "cli:end-to-end",
+          "runtime": "linux-x64 public native CLI",
+          "format": "terminal",
+          "operation": "render",
+          "mode": "fresh-process",
+          "round": "1",
+          "caseIds": 3,
+          "recordedObservations": 3,
+          "dispositions": {
+            "passed": 3
+          }
+        },
+        {
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "version": "1.6.1",
+          "variant": "public-cli",
+          "surface": "cli:end-to-end",
+          "runtime": "linux-x64 public native CLI",
+          "format": "terminal",
+          "operation": "resource-diagnostic",
+          "mode": "instrumented-resource-only",
+          "round": "not round-based",
+          "caseIds": 3,
+          "recordedObservations": 3,
+          "dispositions": {
+            "passed": 3
+          }
+        },
+        {
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "version": "1.6.1",
+          "variant": "default",
+          "surface": "node:public-api",
+          "runtime": "Node",
+          "format": "terminal",
+          "operation": "render",
+          "mode": "feature-corpus-attempt",
+          "round": "1",
+          "caseIds": 2,
+          "recordedObservations": 2,
+          "dispositions": {
+            "not-applicable": 2
+          }
+        }
+      ]
+    }
+  ]
+}

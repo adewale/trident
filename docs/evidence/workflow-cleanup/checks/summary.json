@@ -1,0 +1,17 @@
+{
+  "sourceRevision": "703115859c2b3b8dcdbbf8bfde73feec4c4286bf",
+  "fullSuite": {
+    "passed": 479,
+    "failed": 0,
+    "assertions": 3009,
+    "files": 71
+  },
+  "ciFixtures": {
+    "passed": 65,
+    "failed": 0
+  },
+  "typecheck": "passed",
+  "lint": "passed",
+  "resultsSnapshot": "current",
+  "regressionReview": "Relevant fixes removed or original defects reproduced; expected failures retained in regressions/"
+}

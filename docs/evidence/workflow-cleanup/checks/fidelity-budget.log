@@ -1,0 +1,11 @@
+bun test v1.4.2 (744846f84)
+
+tests/fidelity-community.test.ts:
+(pass) community admission checks actual executable bytes, missing assets, installed versions and reference pins [4.11ms]
+(pass) project selection precedes admission and returned SVG cannot forge observer labels with event handlers [1568.02ms]
+(pass) budget expiry escapes paint collection without publishing a completed report [3879.26ms]
+
+ 3 pass
+ 0 fail
+ 16 expect() calls
+Ran 3 tests across 1 file. [5.72s]

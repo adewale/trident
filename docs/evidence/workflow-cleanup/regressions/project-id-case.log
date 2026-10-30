@@ -1,0 +1,37 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-workflows.test.ts:
+86 | 
+87 | test('campaign imports generate ranked tables and charts from the full docs inventory without transcription', () => {
+88 |   const root = temp(), { report } = docsFixture(root)
+89 |   const tables = campaignTables(report, receipt), entry = tables[0]!
+90 |   expect(tables).toHaveLength(1)
+91 |   expect(entry.rows.find(row => row.project === 'Fixture/A')?.values).toEqual(['1.0.0', 1, 1, 0, 0, 0, 2, '2026-01-02'])
+                                                                           ^
+error: expect(received).toEqual(expected)
+
+- [
+-   "1.0.0",
+-   1,
+-   1,
+-   0,
+-   0,
+-   0,
+-   2,
+-   "2026-01-02",
+- ]
++ undefined
+
+- Expected  - 10
++ Received  + 1
+
+      at <anonymous> (/workspace/trident/tests/campaign-workflows.test.ts:91:71)
+(fail) campaign imports generate ranked tables and charts from the full docs inventory without transcription [10.44ms]
+(pass) missing docs rounds remain unexecuted, and duplicate samples cannot inflate a return rate [6.34ms]
+(pass) observation counts compare equal populations and keep incompatible populations separate [2.73ms]
+
+ 2 pass
+ 7 filtered out
+ 1 fail
+ 7 expect() calls
+Ran 3 tests across 1 file. [1246.00ms]

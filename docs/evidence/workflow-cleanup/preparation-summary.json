@@ -1,7 +1,7 @@
 {
-  "sourceRevision": "cc9a897e63bbbf133c8b6ebfb593ad2f96094e16",
+  "sourceRevision": "703115859c2b3b8dcdbbf8bfde73feec4c4286bf",
   "entryPoint": "/workspace/trident-baseline/preparation.json",
-  "sha256": "d6182873363b4d8f80f02d2468eed17b8e4765b6ad43c2d1d0832c56a2d11744",
+  "sha256": "20e5d640d4765a3371424c785ef9b298972b20e9bb312ce7fed95bb47f131c42",
   "cutoff": "2026-10-29T18:42:38Z",
   "projects": [
     "excalidraw/mermaid-to-excalidraw",
@@ -52,5 +52,6 @@
     "samples": 31,
     "coldSamples": 5
   },
-  "scope": "Preparation and workflow verification only; B0 remains uncollected. The index retains original absolute runtime/cache paths. Compiled artifacts and dependency closure remain in the prepared workspace, not in this small review bundle."
+  "scope": "Preparation and workflow verification only; B0 remains uncollected. The index retains original absolute runtime/cache paths. Compiled artifacts and dependency closure remain in the prepared workspace, not in this small review bundle.",
+  "producerCheck": "Matches final collection producer objects; reporting-only identifier resolution does not invalidate collection."
 }
