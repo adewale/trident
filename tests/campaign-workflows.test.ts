@@ -134,6 +134,14 @@ test('release selection respects the cutoff and refuses a new CLI release withou
   expect(frozen.catalog.nodes[0]!.packages[0].gitHead).toBe('new')
   expect(frozen.catalog.nodes[1]!.benchmark.preparationError).toContain('reviewed CLI archive/binding')
   expect(catalog.nodes[0].packages[0].version).toBe('0.1.0')
+  const source: any = { nodes: [{ id: 'fixture/source', benchmark: { adapter: 'source-cli', sourcePin: 'c'.repeat(40) } }] }
+  const pinned = await resolveReleaseCatalog(source, ['fixture/source'], cutoff, temp(), async () => [])
+  expect(pinned.catalog.nodes[0]!.benchmark.preparationError).toBeUndefined()
+  expect(pinned.catalog.nodes[0]!.benchmark.sourcePin).toBe('c'.repeat(40))
+  const future: any = { nodes: [{ ...catalog.nodes[1], release: { tag: 'v9.0.0', commit: 'b'.repeat(40) } }] }
+  const selected = await resolveReleaseCatalog(future, ['fixture/cli'], cutoff, temp(), async (_kind, _name, url) => url.includes('/commits/') ? { sha: 'a'.repeat(40) } : [{ tag_name: 'v1.0.0', published_at: '2026-01-01' }])
+  expect(selected.catalog.nodes[0]!.release.tag).toBe('v1.0.0')
+  expect(selected.catalog.nodes[0]!.benchmark.preparationError).toBeUndefined()
 })
 
 test('one preparation index rejects modified or escaping component files', () => {

@@ -50,10 +50,11 @@ export async function resolveReleaseCatalog<T extends { nodes: CommunityNode[] }
         selectedVersion = stableReleaseBefore<string>(Object.keys(data.releases), cutoff, value => value, value => data.releases[value].filter((file: any) => Date.parse(file.upload_time_iso_8601) <= Date.parse(cutoff)).map((file: any) => file.upload_time_iso_8601).sort()[0])
         selected = data.releases[selectedVersion]
       } else {
+        if (!data.length && b.sourcePin && !node.release) {
+          ledger.push({ project: node.id, sourcePin: b.sourcePin, metadata, selection: 'Reviewed immutable source; no published release' }); continue
+        }
         selected = stableReleaseBefore<any>(data.filter((row: any) => !row.draft && !row.prerelease), cutoff, row => row.tag_name, row => row.published_at)
         selectedVersion = selected.tag_name
-        // A reviewed published Git tag may be newer than GitHub Release objects.
-        if (node.release && version(node.release.tag) && compare(node.release.tag, selectedVersion) > 0) selectedVersion = node.release.tag
         const revision = node.release?.tag === selectedVersion ? node.release.commit : (await request('github', node.id, 'repos/' + node.id + '/commits/' + encodeURIComponent(selectedVersion))).sha
         if (!/^[a-f0-9]{40}$/.test(revision)) throw Error('Release tag has no immutable commit')
         if (b.adapter === 'franken') { node.distribution = { ...node.distribution, version: selectedVersion.replace(/^v/, ''), revision }; delete node.distribution.wasmSha256 }
