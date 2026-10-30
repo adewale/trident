@@ -34,13 +34,18 @@ export function campaignResults(row: CampaignEnvelope['results'][number]): Unifi
     return Array.isArray(result.observations) ? [result] : []
   })
 }
-export function campaignScorecards(row: CampaignEnvelope['results'][number]) {
+/** Tool aliases are case-insensitive; retained project IDs use catalog spelling. */
+export function campaignProjectId(value: unknown, projects: readonly string[]) {
+  const canonical = canonicalBenchmarkTool(String(value))
+  return projects.find(project => canonicalBenchmarkTool(project) === canonical) ?? canonical
+}
+export function campaignScorecards(row: CampaignEnvelope['results'][number], projects: readonly string[] = []) {
   const results = campaignResults(row)
   const groups = new Map<string, { project: string; version: string; variant: string; surface: string; runtime: string; format: string; operation: string; mode: string; round: number | string; observations: BenchmarkObservation[] }>()
   for (const result of results) for (const observation of result.observations) {
     const raw = observation.metrics?.project ?? observation.metrics?.implementation ?? row.project ?? 'unattributed'
-    const project = canonicalBenchmarkTool(String(raw)), variant = String(observation.metrics?.variant ?? 'default')
-    const version = String(observation.metrics?.version ?? result.toolVersions?.find(receipt => canonicalBenchmarkTool(receipt.tool) === project && (receipt.variant ?? 'default') === variant)?.version ?? 'see frozen artifact receipt')
+    const project = campaignProjectId(raw, projects), variant = String(observation.metrics?.variant ?? 'default')
+    const version = String(observation.metrics?.version ?? result.toolVersions?.find(receipt => canonicalBenchmarkTool(receipt.tool) === canonicalBenchmarkTool(project) && (receipt.variant ?? 'default') === variant)?.version ?? 'see frozen artifact receipt')
     const group = { project, version, variant, surface: observation.surface, runtime: observation.runtime, format: observation.format ?? 'not recorded', operation: observation.operation ?? 'not recorded', mode: observation.mode, round: String(observation.metrics?.round ?? 'not round-based') }
     const key = JSON.stringify(group)
     const own = groups.get(key) ?? { ...group, observations: [] as BenchmarkObservation[] }
@@ -93,7 +98,7 @@ export function publishCampaigns(directories: string[], out: string, settings: {
       lines.push('| ' + [row.suite, row.project ?? report.projects.join(', '), row.status + (row.disposition ? ' / ' + row.disposition : ''), counts + (row.gaps?.length ? '; ' + row.gaps.join('; ') : '')].map(cell).join(' | ') + ' | ' + evidence + ' |')
     }
     for (const row of report.results) {
-      const cards = campaignScorecards(row)
+      const cards = campaignScorecards(row, report.projects)
       if (!cards.length) continue
       lines.push('', `### ${row.suite}${row.project ? ': ' + row.project : ''} observations`, '', 'Counts are recorded observations within each public surface/mode/round. Unexecuted inputs and planned denominators remain in the owning inventory; no acceptance percentage is inferred.', '',
         '| Project | Version / artifact role | Surface / runtime | Format / operation | Mode / round | Distinct case IDs | Recorded observations | Dispositions |', '|---|---|---|---|---|---:|---:|---|')

@@ -77,9 +77,9 @@ function docsFixture(root: string) {
   const out = join(root, 'docs'); mkdirSync(out)
   write(join(out, 'inventory.json'), { cases: [{ id: 'one' }, { id: 'two' }] })
   const observations: any[] = []
-  for (const project of ['fixture/a', 'fixture/b']) for (let round = 1; round <= 6; round++) for (const id of ['one', 'two']) observations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', format: 'svg', family: 'flowchart', operation: 'render', mode: 'one-public-call', caseId: id, status: project === 'fixture/a' && id === 'two' && round === 3 ? 'failed' : 'passed', metrics: { project, version: '1.0.0', round }, samplesMs: [1] })
+  for (const project of ['Fixture/A', 'fixture/b']) for (let round = 1; round <= 6; round++) for (const id of ['one', 'two']) observations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', format: 'svg', family: 'flowchart', operation: 'render', mode: 'one-public-call', caseId: id, status: project === 'Fixture/A' && id === 'two' && round === 3 ? 'failed' : 'passed', metrics: { project, version: '1.0.0', round }, samplesMs: [1] })
   write(join(out, 'result.json'), { id: 'docs', startedAt: '2026-01-01', finishedAt: '2026-01-02', observations, gaps: [] })
-  const report: any = { schema: 'trident-campaign-v2', startedAt: '2026-02-01', updatedAt: '2026-02-02', rounds: 6, profile: 'full', projects: ['fixture/a', 'fixture/b'], requestedSuites: ['docs'], results: [{ suite: 'docs', status: 'failed', out }] }
+  const report: any = { schema: 'trident-campaign-v2', startedAt: '2026-02-01', updatedAt: '2026-02-02', rounds: 6, profile: 'full', projects: ['Fixture/A', 'fixture/b'], requestedSuites: ['docs'], results: [{ suite: 'docs', status: 'failed', out }] }
   write(join(root, 'report.json'), report)
   return { out, observations, report }
 }
@@ -88,13 +88,14 @@ test('campaign imports generate ranked tables and charts from the full docs inve
   const root = temp(), { report } = docsFixture(root)
   const tables = campaignTables(report, receipt), entry = tables[0]!
   expect(tables).toHaveLength(1)
-  expect(entry.rows.find(row => row.project === 'fixture/a')?.values).toEqual(['1.0.0', 1, 1, 0, 0, 0, 2, '2026-01-02'])
+  expect(entry.rows.find(row => row.project === 'Fixture/A')?.values).toEqual(['1.0.0', 1, 1, 0, 0, 0, 2, '2026-01-02'])
   expect(entry.rows.find(row => row.project === 'fixture/b')?.values[1]).toBe(2)
-  expect(rankedRows(entry, id => id).map(row => [row.project, row.rank])).toEqual([['fixture/b', 1], ['fixture/a', 2]])
+  expect(rankedRows(entry, id => id).map(row => [row.project, row.rank])).toEqual([['fixture/b', 1], ['Fixture/A', 2]])
   expect(entry.chart?.denominator).toBe('Planned')
   const catalog: any = { nodes: report.projects.map((id: string) => ({ id, roles: ['renderer'], outputs: ['svg'], benchmark: { adapter: 'declared', package: id, outputs: ['svg'], api: { svg: { export: 'render' } } } })), edges: [] }
   const imported = importCampaign({ schema: 'trident-results-snapshot-v1', tables: [], attempts: [] }, root, 'https://example.org/evidence', catalog)
   expect(imported.tables).toHaveLength(1)
+  expect(imported.attempts.find(attempt => attempt.project === 'Fixture/A')!.groups.length).toBeGreaterThan(0)
   expect(imported.overviewRanking).toBe(imported.tables[0]!.id)
   expect(() => validateSnapshot(imported, catalog)).not.toThrow()
   report.pilot = true; write(join(root, 'report.json'), report)
@@ -113,11 +114,12 @@ test('missing docs rounds remain unexecuted, and duplicate samples cannot inflat
 test('observation counts compare equal populations and keep incompatible populations separate', () => {
   const root = temp(), out = join(root, 'fidelity'); mkdirSync(out)
   const observation = (project: string, caseId: string, status: string) => ({ suite: 'fidelity', surface: 'browser-owned-ink', runtime: 'Chromium', format: 'svg', operation: 'criterion', mode: 'label', family: 'flowchart', caseId, status, metrics: { project, version: '1.0.0' } })
-  const rows = [observation('fixture/a', 'one', 'passed'), observation('fixture/a', 'two', 'failed'), observation('fixture/b', 'one', 'passed'), observation('fixture/b', 'two', 'passed')]
-  const report: any = { projects: ['fixture/a', 'fixture/b'], rounds: 1, results: [{ suite: 'fidelity', out }] }
+  const rows = [observation('Fixture/A', 'one', 'passed'), observation('Fixture/A', 'two', 'failed'), observation('fixture/b', 'one', 'passed'), observation('fixture/b', 'two', 'passed')]
+  const report: any = { projects: ['Fixture/A', 'fixture/b'], rounds: 1, results: [{ suite: 'fidelity', out }] }
   write(join(out, 'result.json'), { finishedAt: '2026-01-02', observations: rows })
   const tables = campaignTables(report, receipt)
   expect(tables).toHaveLength(1)
+  expect(tables[0]!.rows.map(row => row.project)).toEqual(['Fixture/A', 'fixture/b'])
   expect(rankedRows(tables[0]!, id => id)[0]!.project).toBe('fixture/b')
   rows.push(observation('fixture/b', 'extra', 'passed'))
   write(join(out, 'result.json'), { finishedAt: '2026-01-02', observations: rows })
@@ -174,7 +176,7 @@ test('release verification checks the actual archive, extracted manifest and exe
 test('portable tables keep invalid rejection separate and never rank unmeasured output as zero', () => {
   const root = temp(), out = join(root, 'portable'); mkdirSync(out)
   const cases = [{ id: 'positive', expectedAccepted: true, outputAdmission: 'passed', failedWorkers: 0, blockedWorkers: 0, semanticComplete: false }, { id: 'negative', expectedAccepted: false, acceptanceMatches: true, failedWorkers: 0, blockedWorkers: 0 }]
-  const result = { project: 'fixture/a', version: '1.0.0', protocol: PORTABLE_MEASUREMENT_PROTOCOL, finishedAt: '2026-01-01', sampling: FULL_SAMPLING, summary: { cases, timing: [{ expectedAccepted: false, medianMs: 1 }] } }
+  const result = { project: 'Fixture/A', version: '1.0.0', protocol: PORTABLE_MEASUREMENT_PROTOCOL, finishedAt: '2026-01-01', sampling: FULL_SAMPLING, summary: { cases, timing: [{ expectedAccepted: false, medianMs: 1 }] } }
   write(join(out, 'report.json'), result)
   const campaign: any = { schema: 'trident-campaign-v2', results: [{ suite: 'portable', out }] }
   const tables = campaignTables(campaign, receipt)

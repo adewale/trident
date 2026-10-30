@@ -130,7 +130,7 @@ export function importCampaign(snapshot: ResultsSnapshot, directory: string, evi
   const suites = (report as typeof report & { requestedSuites?: PublicSuite[] }).requestedSuites ?? [...new Set(report.results.map(row => row.suite))]
   for (const row of report.results) {
     if (!PUBLIC_SUITES.includes(row.suite as PublicSuite)) throw Error('Unknown campaign benchmark: ' + row.suite)
-    const cards = campaignScorecards(row)
+    const cards = campaignScorecards(row, report.projects)
     const owning = row.out ? relative(resolve(directory), resolve(row.out)) : undefined
     if (owning?.startsWith('..')) throw Error('Campaign evidence must be owned inside the published campaign directory')
     const scopes = row.project ? [row.project] : report.projects

@@ -2,8 +2,7 @@ import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { readBenchmarkDocument } from '../portable/project-records.ts'
-import { campaignResults, type CampaignEnvelope } from './campaign-publication.ts'
-import { canonicalBenchmarkTool } from '../tool-versions.ts'
+import { campaignResults, campaignProjectId, type CampaignEnvelope } from './campaign-publication.ts'
 import type { SnapshotTable } from './results-snapshot.ts'
 import type { PublicSuite } from './support.ts'
 
@@ -12,6 +11,7 @@ const hash = (value: unknown) => createHash('sha256').update(JSON.stringify(valu
 /** Tables are reductions of owning observations, with interfaces and observed
  * populations separated. No hand-transcribed numbers or pooled overall score. */
 export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable['receipt']): SnapshotTable[] {
+  const projectId = (value: unknown) => campaignProjectId(value, report.projects ?? [])
   const tables = new Map<string, SnapshotTable>()
   const add = (key: unknown[], suite: PublicSuite, measuredAt: string, caption: string, columns: string[], project: string, values: (string | number)[], ranking: SnapshotTable['ranking'], extra: Partial<SnapshotTable> = {}) => {
     const id = 'run-' + hash([receipt.sha256, ...key]).slice(0, 24)
@@ -63,9 +63,9 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
         if (!existsSync(file)) continue
         const inventory = JSON.parse(readFileSync(file, 'utf8'))
         if (!Array.isArray(inventory.cases) || new Set(inventory.cases.map((c: any) => c.id)).size !== inventory.cases.length) throw Error('Docs inventory IDs are missing or duplicated')
-        const projects = new Set(result.observations.map(row => canonicalBenchmarkTool(String(row.metrics?.project ?? row.metrics?.implementation ?? boundary.project))))
+        const projects = new Set(result.observations.map(row => projectId(String(row.metrics?.project ?? row.metrics?.implementation ?? boundary.project))))
         for (const project of projects) {
-          const own = result.observations.filter(row => canonicalBenchmarkTool(String(row.metrics?.project ?? row.metrics?.implementation ?? boundary.project)) === project)
+          const own = result.observations.filter(row => projectId(String(row.metrics?.project ?? row.metrics?.implementation ?? boundary.project)) === project)
           if (!own.some(row => row.operation === 'render' || row.status === 'blocked')) continue
           const coordinates = new Set<string>(), byCase = new Map<string, typeof own>()
           for (const row of own.filter(row => row.operation === 'render')) {
@@ -82,7 +82,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             else if (observations.some(row => row.status === 'blocked') || own.some(row => row.operation === 'artifact-admission' && row.status === 'blocked')) counts.blocked++
             else counts.missing++
           }
-          const version = own.find(row => typeof row.metrics?.version === 'string')?.metrics?.version ?? result.toolVersions?.find(row => canonicalBenchmarkTool(row.tool) === project)?.version ?? 'unavailable'
+          const version = own.find(row => typeof row.metrics?.version === 'string')?.metrics?.version ?? result.toolVersions?.find(row => projectId(row.tool) === project)?.version ?? 'unavailable'
           add(['docs', cohort, hash(inventory.cases), report.rounds], 'docs', measuredAt(own, result.finishedAt),
             `Pinned documentation occurrences; Chromium public SVG calls. Returned means the occurrence returned SVG in all ${report.rounds} declared rounds. Failures and unexecuted work retain the full inventory. SVG return does not certify meaning or paint.`,
             ['Version', 'Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Planned', 'Measured'], project,
@@ -94,7 +94,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
       }
       const groups = new Map<string, typeof result.observations>()
       for (const row of result.observations) {
-        const project = canonicalBenchmarkTool(String(row.metrics?.project ?? row.metrics?.implementation ?? boundary.project ?? 'unattributed'))
+        const project = projectId(String(row.metrics?.project ?? row.metrics?.implementation ?? boundary.project ?? 'unattributed'))
         if (project === 'unattributed') continue
         const surface = row.surface.startsWith(project + ':') ? row.surface.slice(project.length + 1) : row.surface
         const key = JSON.stringify([project, surface, row.runtime, row.format ?? '', row.operation ?? '', row.metrics?.variant ?? 'default'])
@@ -108,7 +108,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
         const population = observations.map(row => JSON.stringify([row.caseId, row.mode, row.metrics?.round ?? null])).sort()
         const counts = (status: string) => observations.filter(row => row.status === status).length
         const passed = counts('passed'), failed = counts('failed'), unsupported = counts('unsupported'), blocked = counts('blocked')
-        const version = observations.find(row => typeof row.metrics?.version === 'string')?.metrics?.version ?? result.toolVersions?.find(row => canonicalBenchmarkTool(row.tool) === project)?.version ?? 'unavailable'
+        const version = observations.find(row => typeof row.metrics?.version === 'string')?.metrics?.version ?? result.toolVersions?.find(row => projectId(row.tool) === project)?.version ?? 'unavailable'
         add([boundary.suite, cohort, result.id, surface, runtime, format, operation, variant, hash(population)], boundary.suite as PublicSuite, measuredAt(observations, result.finishedAt),
           `${cohort}; ${variant}; ${surface}; ${runtime}; ${format || 'no format'}; ${operation || 'declared checks'}. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.`,
           ['Version', 'Passed', 'Failed', 'Unsupported', 'Blocked', 'Unavailable', 'Recorded', 'Measured'], project,
