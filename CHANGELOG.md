@@ -85,9 +85,6 @@ current main; baseline collection and release publication remain pending.
   artifacts/inputs, a pilot before sampling/budget freeze, and immutable evidence.
   B0 is not collected yet. Every later release must assess baseline compatibility
   and retain any required fresh measurements or bridge runs.
-- RELEASE.md now includes the baseline gate, exact-head checks, copied-kit smoke
-  verification, archives/checksums, accurate release notes and an unused version
-  tag. Existing tags and historical evidence remain unchanged.
 
 The original 0.1 invocation receipt exercised 37 of 42 selected entries. Later
 bindings and brand-specific verification are separate dated evidence in

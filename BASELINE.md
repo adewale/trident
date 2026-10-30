@@ -114,6 +114,8 @@ completed project-rounds. Other suites reuse completed project records and retai
 interrupted attempts. Resume validates artifact, producer, workload and sampling
 identities; it cannot change the comparison. It records each allowance and window,
 rather than silently restarting the clock for another cohort.
+Resume restores the recorded invocation options; supply only `--out` and an
+optional additional `--budget-minutes`.
 
 Run one active measurement worker at a time. Finish builds, downloads and tests
 before timing. Unstarted and interrupted work remains incomplete. A 24-hour

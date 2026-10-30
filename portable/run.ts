@@ -178,7 +178,7 @@ export async function runPortable(options: PortableOptions) {
     maximumControlSpread: options.maximumControlSpread,
     order: 'rotate A0/A1/B by round and case; all warm jobs, then all cold jobs, then serial memory/baseline jobs',
     controls: 'A0/A1/B are the exact same admitted artifact, not three tool versions',
-    caseAdmission: 'Every selected case receives a public invocation. Invalid controls and cases failing or blocking admission retain their outcome but receive no further timing/resource jobs.',
+    caseAdmission: 'All selected cases remain in scope. A rejected family probe marks its cases unsupported. Invalid controls run once; cases failing or blocking admission retain their outcome but receive no further timing/resource jobs.',
     warmScope: 'Per-call means from batches bounded by minSampleMs or256calls; every distinct immutable SVG is checked outside clocks, byte-identical admitted returns reuse qualification; individual first-use samples are fresh processes',
     commentVariantScope: 'Trailing comment changes only source bytes, never semantic graph; this is a cache-key diagnostic',
     coldScope: 'Concurrent import preparation behind an idle barrier; one measured API call at a time and complete child exit before the next',
@@ -228,7 +228,7 @@ export async function runPortable(options: PortableOptions) {
       pendingAttempt = id
       writeFileSync(join(options.out, 'report.json'), JSON.stringify({ status: 'running', project: options.project, startedAt, pendingAttempt: id, previousRecordRetained: true }) + '\n')
       mkdirSync(directory, { recursive: true })
-      mkdirSync(join(directory, 'svg'))
+      mkdirSync(join(directory, 'svg'), { recursive: true })
       if (!existsSync(join(directory, 'invocation.json'))) writeJson(join(directory, 'invocation.json'), { options, artifact, sampling, identity, startedAt })
       const results: PortableWorkerResult[] = []
       const retain = (result: PortableWorkerResult) => {

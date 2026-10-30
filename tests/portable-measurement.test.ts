@@ -374,3 +374,21 @@ test('invalid controls retain one real public invocation without repeated timing
     expect(summary.counts.failedWorkers).toBe(rejected ? 0 : 1)
   }
 }, 30_000)
+
+test('a budget-paused portable invocation resumes its existing attempt directory', async () => {
+  const fixture = workerFixture('export function render(){throw new Error("Parse error on line 1: invalid source")}')
+  const tool = join(fixture.directory, 'tool'); mkdirSync(tool)
+  for (const name of ['package.json', 'index.mjs']) writeFileSync(join(tool, name), readFileSync(join(fixture.directory, name)))
+  const kit = join(fixture.directory, 'kit')
+  execFileSync(process.execPath, [join(portableDirectory, 'build.ts'), '--out', kit], { stdio: 'ignore' })
+  const { runPortable } = await import(pathToFileURL(join(kit, 'run.mjs')).href)
+  const options = { ...parsePortableOptions(['--project', 'fixture/api', '--artifact-root', tool, '--entry', 'index.mjs', '--cases', 'invalid:unknown-header', '--rounds', '1', '--samples', '1', '--cold-samples', '1', '--out', join(fixture.directory, 'out'), '--records', join(fixture.directory, 'records'), '--allow-partial']), observer: undefined }
+  await expect(runPortable({ ...options, collectionDeadline: Date.now() - 1 })).rejects.toThrow('Collection budget exhausted')
+  const paused = JSON.parse(readFileSync(join(options.out, 'report.json'), 'utf8'))
+  expect(paused.status).toBe('budget-exhausted')
+  expect(existsSync(join(options.out, 'attempts', paused.pendingAttempt, 'svg'))).toBe(true)
+  const resumed = await runPortable({ ...options, resume: true })
+  expect(resumed.recordId).toBe(paused.pendingAttempt)
+  expect(resumed.summary.counts.negativeAdmissionCases).toBe(1)
+  expect(resumed.summary.timing).toHaveLength(0)
+}, 30_000)

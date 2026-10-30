@@ -89,11 +89,11 @@ Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples}
   const previous = resume ? read(reportFile) : undefined
   if (previous) {
     if (previous.schema !== 'trident-campaign-v2') throw Error('This campaign predates resumable collection; retain it and start a new campaign')
-    if (options.communityProjects && stableValue(options.communityProjects) !== stableValue(previous.projects) || selected.length && stableValue(selected) !== stableValue(previous.requestedSuites) || seen.has('--profile') && options.profile !== previous.profile || seen.has('--rounds') && options.rounds !== previous.rounds) throw Error('Resume cannot change the selected projects, suites or sampling')
-    options = { ...options, communityProjects: previous.projects, profile: previous.profile, rounds: previous.rounds }
+    if (!previous.options || [...seen].some(flag => !['--resume', '--out', '--budget-minutes'].includes(flag))) throw Error('Resume keeps the recorded invocation; supply only --out and an optional --budget-minutes')
+    options = { ...previous.options, out: options.out }
     preparedFile = previous.preparationFile
-    upstreamRunnerRoot ??= previous.upstreamRunnerRoot
-    if (seen.has('--pilot') && !previous.pilot) throw Error('Resume cannot turn ecosystem collection into a pilot')
+    upstreamRunnerRoot = previous.upstreamRunnerRoot
+    includeExcluded = previous.includeExcluded ?? false
     pilotOnly = previous.pilot ?? false
   }
   if (preparedFile) {
@@ -121,6 +121,7 @@ Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples}
   if (!projects.length && !planOnly) throw Error('No projects remain after scope/lineage/branding exclusions or release skips: ' + comparisonSelection.excluded.map(node => node.project + ': ' + node.comparison).join('; '))
   const plan = { ...campaignPlan({ catalog, projects: catalog.nodes.filter((node: CatalogMember) => projects.includes(node.id)), suites: chosen as PublicSuite[], profile: options.profile, rounds: options.rounds, executable: options.executable, upstreamRunnerRoot, budgetMinutes, portableCaseIds: pilotOnly ? PILOT_CASES : undefined }), comparisonSelection, pilot: pilotOnly, portableCaseIds: pilotOnly ? PILOT_CASES : undefined }
   if (planOnly) { console.log(JSON.stringify(plan, null, 2)); return }
+  options.executable ??= plan.tools.chromium ?? undefined
   assertBenchmarkExecutionAllowed()
   if (!resume && existsSync(reportFile)) throw Error('Choose a fresh campaign directory or --resume')
   mkdirSync(options.out, { recursive: true })
@@ -136,12 +137,12 @@ Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples}
   const prepared = read(options.communityPreparedFile!) as PreparedCommunity[], browsers = read(options.communityBrowserPreparedFile!)
   const deadline = budgetMinutes !== undefined ? Date.now() + budgetMinutes * 60_000 : previous?.deadline
   const runtime = { environment: environmentIdentity(options.nodeExecutable ?? 'node'), driver: executableIdentity(process.execPath), browser: executableIdentity(options.executable ?? plan.tools.chromium ?? undefined),
-    selectors: Object.fromEntries(['LD_LIBRARY_PATH', 'DISPLAY', 'FONTCONFIG_FILE', 'FONTCONFIG_PATH', 'LIBGL_ALWAYS_SOFTWARE', 'NODE_COMPILE_CACHE', 'UV_THREADPOOL_SIZE'].map(name => [name, process.env[name] ?? null])) }
+    selectors: Object.fromEntries(['LD_LIBRARY_PATH', 'DISPLAY', 'FONTCONFIG_FILE', 'FONTCONFIG_PATH', 'LIBGL_ALWAYS_SOFTWARE', 'NODE_COMPILE_CACHE', 'UV_THREADPOOL_SIZE', 'MERMAID_REFERENCE_DIR', 'MERMAID_UPSTREAM_DIR', 'MERMAID_UPSTREAM_RUNNER_ROOT'].map(name => [name, process.env[name] ?? null])) }
   if (previous && stableValue(previous.runtime) !== stableValue(runtime)) throw Error('Resume runtime or environment changed; retain the old campaign and start a separate comparison')
   const windows = [...(previous?.windows ?? []), { startedAt: new Date().toISOString(), budgetMinutes: budgetMinutes ?? null, deadline: deadline ?? null }]
   const results: any[] = previous?.results ?? [], startedAt = previous?.startedAt ?? windows[0].startedAt
   const save = () => {
-    const report = { schema: 'trident-campaign-v2', pilot: pilotOnly, startedAt, updatedAt: new Date().toISOString(), projects, profile: options.profile, rounds: options.rounds, requestedSuites: chosen, preparationFile: preparedFile, preparationSha256, upstreamRunnerRoot, runtime, deadline, windows, results }
+    const report = { schema: 'trident-campaign-v2', pilot: pilotOnly, includeExcluded, startedAt, updatedAt: new Date().toISOString(), projects, profile: options.profile, rounds: options.rounds, requestedSuites: chosen, options, preparationFile: preparedFile, preparationSha256, upstreamRunnerRoot, runtime, deadline, windows, results }
     writeFileSync(reportFile, JSON.stringify(report, null, 2))
     writeFileSync(join(options.out, 'report.md'), '# Public-artifact campaign\n\n' + `Profile ${options.profile}; ${options.rounds} rounds. Owning result tables are generated by results:snapshot.\n\n` + '| Suite | Cohort | Project | Status | Detail |\n|---|---|---|---|---|\n' + results.map(row => `| ${row.suite} | ${row.cohort ?? 'core'} | ${row.project ?? projects.join(', ')} | ${row.status} | ${String(row.detail ?? row.out ?? '').replaceAll('|', '/').replaceAll('\n', ' ')} |`).join('\n') + '\n')
   }
