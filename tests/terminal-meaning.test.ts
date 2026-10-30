@@ -9,6 +9,7 @@ const chain: TerminalMeaning = { nodes, edges: [{ source: 'Alpha', target: 'Beta
 
 test('real terminal boxes, continuous routes and arrowheads establish directed relationships across layouts', () => {
   expect(inspectTerminalMeaning(fixture('chain'), chain).status).toBe('correct')
+  expect(inspectTerminalMeaning(fixture('chain').split('\n').map(line => '  ' + line).join('\n'), chain).status).toBe('correct')
   expect(inspectTerminalMeaning(fixture('branch'), { nodes, edges: [{ source: 'Alpha', target: 'Beta' }, { source: 'Alpha', target: 'Gamma' }] }).status).toBe('correct')
   expect(inspectTerminalMeaning(fixture('vertical'), { nodes: nodes.slice(0, 2), edges: [{ source: 'Alpha', target: 'Beta' }] }).status).toBe('correct')
   const ascii = fixture('chain').replace(/[┌┐└┘┬┴┼├┤]/g, '+').replaceAll('─', '-').replaceAll('│', '|').replaceAll('►', '>')
@@ -29,7 +30,12 @@ test('correct labels cannot conceal wrong direction, disconnected stems, missing
 test('a relationship label belongs to its traced route, not an unrelated text occurrence', () => {
   const expected = { nodes: nodes.slice(0, 2), edges: [{ source: 'Alpha', target: 'Beta', label: 'send' }] }
   expect(inspectTerminalMeaning(fixture('labelled'), expected).status).toBe('correct')
+  expect(inspectTerminalMeaning(fixture('termaid-labelled'), expected).status).toBe('correct')
   expect(inspectTerminalMeaning(fixture('labelled').replace('send', 'lost'), expected).status).toBe('incorrect')
+  expect(inspectTerminalMeaning(fixture('termaid-labelled').replace('send', '    '), expected).status).toBe('incorrect')
+  const misplaced = fixture('chain').split('\n').map((line, index) => index === 1 ? line.replace('│     │', '│send │') : line).join('\n')
+  expect(inspectTerminalMeaning(misplaced, { nodes, edges: [{ source: 'Alpha', target: 'Beta' }, { source: 'Beta', target: 'Gamma', label: 'send' }] }).status).toBe('incorrect')
+  expect(inspectTerminalMeaning(fixture('termaid-branch'), { nodes, edges: [{ source: 'Alpha', target: 'Beta' }, { source: 'Alpha', target: 'Gamma' }] }).status).toBe('unknown')
 })
 
 test('ANSI concealment, cursor movement and wide or combining text cannot receive guessed cell coordinates', () => {

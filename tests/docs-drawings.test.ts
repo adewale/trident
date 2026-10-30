@@ -11,6 +11,7 @@ test('successful SVG return without source review never supplies a correctness p
   expect(admitDocsReviews([input], [review])[0]!.intent).toBe('drawing')
   expect(() => admitDocsReviews([{ ...input, source: input.source + '\nB-->C' }], [review])).toThrow('stale')
   expect(() => admitDocsReviews([input], [review, review])).toThrow('duplicate')
+  expect(() => admitDocsReviews([input], [{ ...review, expected: { labels: [] } }])).toThrow()
 })
 
 test('drawing correctness requires all planned content checks, with wrong arrows and missing evidence kept distinct', () => {

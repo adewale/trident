@@ -6,7 +6,7 @@ export interface TerminalMeaning {
   edges: readonly { source: string; target: string; label?: string }[]
 }
 type Box = { x: number; y: number; right: number; bottom: number; label: string; id?: string }
-const scope = 'Rectangular flowcharts, single-cell ASCII labels, orthogonal non-crossing directed routes and inline horizontal edge labels. ANSI terminal state, wide/combining text, groups and ambiguous junctions are unqualified.'
+const scope = 'Rectangular flowcharts, single-cell ASCII labels, orthogonal non-crossing directed routes and uniquely owned horizontal edge labels. ANSI terminal state, wide/combining text, groups and ambiguous junctions are unqualified.'
 
 export function inspectTerminalMeaning(output: string, expected: TerminalMeaning) {
   const verdict = (status: 'correct' | 'incorrect' | 'unknown', reason: string, edges: { source: string; target: string; label?: string }[] = []) => ({ status, reason, scope, edges })
@@ -43,12 +43,14 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   const arrows: Record<string, number> = { '▲': 0, '^': 0, '↑': 0, '►': 1, '▶': 1, '>': 1, '→': 1, '▼': 2, 'v': 2, '↓': 2, '◄': 3, '◀': 3, '<': 3, '←': 3 }
   const dx = [0, 1, 0, -1], dy = [-1, 0, 1, 0], key = (x: number, y: number) => x + ',' + y
   const captions = new Map<string, { label: string; token: string }>()
+  const floating: { label: string; x: number; y: number; width: number }[] = []
   for (const label of new Set(expected.edges.map(edge => edge.label).filter((value): value is string => !!value))) {
     if (/[^\x20-\x7e]/.test(label)) return verdict('unknown', 'Edge label is outside the display-cell scope')
     for (let y = 0; y < grid.length; y++) {
       const line = grid[y]!.join('')
       for (let x = line.indexOf(label); x >= 0; x = line.indexOf(label, x + 1)) {
-        if (inside(x, y) || !(points[cell(x - 1, y)]?.includes(1)) || !(points[cell(x + label.length, y)]?.includes(3) || arrows[cell(x + label.length, y)] === 1)) continue
+        if (Array.from({ length: label.length }, (_, offset) => inside(x + offset, y)).some(Boolean)) continue
+        if (!(points[cell(x - 1, y)]?.includes(1)) || !(points[cell(x + label.length, y)]?.includes(3) || arrows[cell(x + label.length, y)] === 1)) { floating.push({ label, x, y, width: label.length }); continue }
         for (let offset = 0; offset < label.length; offset++) {
           const coordinate = key(x + offset, y)
           if (captions.has(coordinate)) return verdict('unknown', 'Overlapping edge-label spans are ambiguous')
@@ -58,6 +60,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
     }
   }
   const actual: { source: string; target: string; label?: string }[] = [], used = new Set<string>()
+  const paths: { x: number; y: number }[][] = []
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) {
     const heading = arrows[cell(x, y)]
     if (heading === undefined || inside(x, y) || captions.has(key(x, y))) continue
@@ -83,6 +86,14 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
     }
     if (!source.id || labels.size > 1) return verdict('unknown', 'Source or relationship label ownership is ambiguous', actual)
     actual.push({ source: source.id, target: target.id, ...(labels.size ? { label: [...labels.values()][0]! } : {}) })
+    paths.push([{ x, y }, ...[...visited].map(coordinate => { const [x, y] = coordinate.split(',').map(Number); return { x: x!, y: y! } })])
+  }
+  for (const caption of floating) {
+    const midpoint = caption.x + (caption.width - 1) / 2
+    const candidates = paths.map((path, index) => ({ index, near: path.some(point => Math.abs(point.y - caption.y) === 1 && Math.abs(point.x - midpoint) <= .5) })).filter(item => item.near)
+    if (candidates.length !== 1 || actual[candidates[0]!.index]!.label) return verdict('unknown', 'Floating relationship label has no unique adjacent route owner', actual)
+    actual[candidates[0]!.index]!.label = caption.label
+    for (let offset = 0; offset < caption.width; offset++) used.add(key(caption.x + offset, caption.y))
   }
   const canonical = (edges: readonly { source: string; target: string; label?: string }[]) => edges.map(edge => JSON.stringify([edge.source, edge.target, edge.label ?? ''])).sort()
   if (JSON.stringify(canonical(actual)) !== JSON.stringify(canonical(expected.edges))) return verdict('incorrect', 'Drawn directed relationships or their labels differ from the authored graph', actual)

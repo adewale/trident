@@ -14,7 +14,7 @@ export function admitDocsReviews(inputs: readonly DocsInput[], reviews: readonly
   const byId = new Map<string, DocsDrawingReview>()
   for (const review of reviews) {
     const input = inputs.find(item => item.id === review.id)
-    if (byId.has(review.id) || !input || sourceHash(input.source) !== review.sourceSha256 || !review.review?.trim() || !['drawing', 'configuration-only'].includes(review.intent) || !review.family || review.intent === 'drawing' && !Array.isArray(review.expected?.labels)) throw Error('Missing, duplicate or stale documentation drawing review: ' + review.id)
+    if (byId.has(review.id) || !input || sourceHash(input.source) !== review.sourceSha256 || !review.review?.trim() || !['drawing', 'configuration-only'].includes(review.intent) || !review.family || review.intent === 'drawing' && (!Array.isArray(review.expected?.labels) || review.expected.labels.some(label => typeof label !== 'string') || !review.expected.labels.length && !review.expected.nodes?.length && !Object.keys(review.expected.facts ?? {}).length)) throw Error('Missing, duplicate or stale documentation drawing review: ' + review.id)
     byId.set(review.id, review)
   }
   return inputs.map(input => ({ id: input.id, family: input.family, sourceSha256: sourceHash(input.source), intent: byId.get(input.id)?.intent ?? 'unreviewed', review: byId.get(input.id) ?? null }))
@@ -27,6 +27,7 @@ export function reviewedDocsCase(input: DocsInput, review: DocsDrawingReview): A
 
 export function assessDocsDrawing(input: DocsInput, review: DocsDrawingReview | null, publicStatus: string, admissionPassed: boolean, checks: readonly PaintCheck[]) {
   if (!review) return { status: 'unknown', reason: 'No reviewed source expectation; SVG return supplies no correctness credit' }
+  if (review.id !== input.id || review.sourceSha256 !== sourceHash(input.source)) throw Error('Stale documentation source review')
   if (review.intent === 'configuration-only') return { status: 'not-applicable', reason: review.review }
   if (publicStatus !== 'passed') return { status: 'unknown', reason: 'Public call did not supply an inspectable SVG; see the separate render outcome' }
   const authored = reviewedDocsCase(input, review)
