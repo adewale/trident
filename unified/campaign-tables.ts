@@ -107,13 +107,13 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
         // purporting to cover an inferred whole-diagram inventory.
         const population = observations.map(row => JSON.stringify([row.caseId, row.mode, row.metrics?.round ?? null])).sort()
         const counts = (status: string) => observations.filter(row => row.status === status).length
-        const passed = counts('passed'), failed = counts('failed'), unsupported = counts('unsupported'), blocked = counts('blocked')
+        const passed = counts('passed'), failed = counts('failed'), unsupported = counts('unsupported'), blocked = counts('blocked'), inapplicable = counts('not-applicable'), skipped = counts('skipped')
         const version = observations.find(row => typeof row.metrics?.version === 'string')?.metrics?.version ?? result.toolVersions?.find(row => projectId(row.tool) === project)?.version ?? 'unavailable'
         add([boundary.suite, cohort, result.id, surface, runtime, format, operation, variant, hash(population)], boundary.suite as PublicSuite, measuredAt(observations, result.finishedAt),
           `${cohort}; ${variant}; ${surface}; ${runtime}; ${format || 'no format'}; ${operation || 'declared checks'}. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.`,
-          ['Version', 'Passed', 'Failed', 'Unsupported', 'Blocked', 'Unavailable', 'Recorded', 'Measured'], project,
-          [String(version), passed, failed, unsupported, blocked, observations.length - passed - failed - unsupported - blocked, observations.length, measuredAt(observations, result.finishedAt)],
-          { column: 'Passed', direction: 'descending' }, { ...(candidate ? { artifactRole: 'candidate' } : {}), population: { total: 'Recorded', outcomes: ['Passed', 'Failed', 'Unsupported', 'Blocked', 'Unavailable'] } })
+          ['Version', 'Passed', 'Failed', 'Unsupported', 'Blocked', 'Not applicable', 'Skipped', 'Unavailable', 'Recorded', 'Measured'], project,
+          [String(version), passed, failed, unsupported, blocked, inapplicable, skipped, observations.length - passed - failed - unsupported - blocked - inapplicable - skipped, observations.length, measuredAt(observations, result.finishedAt)],
+          { column: 'Passed', direction: 'descending' }, { ...(candidate ? { artifactRole: 'candidate' } : {}), population: { total: 'Recorded', outcomes: ['Passed', 'Failed', 'Unsupported', 'Blocked', 'Not applicable', 'Skipped', 'Unavailable'] } })
       }
     }
   }

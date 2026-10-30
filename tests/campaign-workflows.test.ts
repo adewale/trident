@@ -187,3 +187,14 @@ test('portable tables keep invalid rejection separate and never rank unmeasured 
   write(join(out, 'report.json'), result)
   expect(rankedRows(campaignTables(campaign, receipt)[0]!, id => id)[0]!.rank).toBeNull()
 })
+
+test('inapplicable and skipped observations keep their own counts and receive no rank', () => {
+  const root = temp(), out = join(root, 'fidelity'); mkdirSync(out)
+  const observations = ['not-applicable', 'skipped', 'blocked'].map((status, index) => ({ suite: 'fidelity', surface: 'browser', runtime: 'Chromium', format: 'svg', caseId: 'one', operation: 'criterion', mode: 'capability', family: 'flowchart', status, metrics: { project: 'fixture/' + index, version: '1.0.0' } }))
+  write(join(out, 'result.json'), { id: 'fidelity', finishedAt: '2026-01-02', observations })
+  const table = campaignTables({ projects: observations.map(row => row.metrics.project), results: [{ suite: 'fidelity', out }] } as any, receipt)[0]!
+  expect(table.rows[0]!.values[table.columns.indexOf('Not applicable')]).toBe(1)
+  expect(table.rows[1]!.values[table.columns.indexOf('Skipped')]).toBe(1)
+  expect(table.rows.every(row => row.values[table.columns.indexOf('Unavailable')] === 0)).toBe(true)
+  expect(rankedRows(table, id => id).map(row => row.rank)).toEqual([null, null, null])
+})
