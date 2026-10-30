@@ -5,7 +5,10 @@ __pycache__/
 *.py[cod]
 .cache/
 
-# Generated scores and evidence are not source files.
+# Publish raw evidence separately; retain the small generated result views.
 results/*
 !results/README.md
 !results/latest.json
+!results/tables/
+results/tables/*
+!results/tables/*.md

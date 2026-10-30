@@ -1,10 +1,11 @@
 import { afterEach, expect, test } from 'bun:test'
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { importCampaign, renderSnapshot, type ResultsSnapshot } from '../unified/results-snapshot.ts'
+import { importCampaign, rankedRows, renderSnapshot, type ResultsSnapshot } from '../unified/results-snapshot.ts'
 import { summarizePilot } from '../unified/pilot-summary.ts'
 import type { LineageCatalog } from '../unified/lineage.ts'
+import { readCampaign } from '../unified/campaign-publication.ts'
 
 const catalog: LineageCatalog = { nodes: ['fixture/a', 'fixture/b'].map(id => ({ id, roles: ['peer'], outputs: ['svg'], benchmark: { adapter: 'declared', outputs: ['svg'], api: { svg: { export: 'render' } } } })) }
 const directories: string[] = []
@@ -69,6 +70,56 @@ test('fully blocked generated docs data stays blocked and unranked rather than s
   expect(overview(data).rank).toBe('—')
   expect(overview(data).docs).toContain('blocked')
   expect(overview(data).docs).not.toContain('0.0%')
+})
+
+test('an interrupted docs round retains partial observations without a fabricated zero rank or chart bar', () => {
+  const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' })
+  const report = JSON.parse(readFileSync(join(root, 'report.json'), 'utf8')); report.rounds = 2; write(join(root, 'report.json'), report)
+  const result = JSON.parse(readFileSync(join(root, 'docs/result.json'), 'utf8'))
+  result.observations.push(...result.observations.filter((row: any) => row.metrics.project === 'fixture/b').map((row: any) => ({ ...row, metrics: { ...row.metrics, round: 2 } })))
+  result.observations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', mode: 'round', operation: 'round', caseId: 'round:2', status: 'blocked', metrics: { project: 'fixture/a', round: 2 }, detail: 'Browser host deadline' })
+  write(join(root, 'docs/result.json'), result)
+  const data = importCampaign(empty(), root, 'https://example.org/interrupted', catalog)
+  const table = data.tables.find(table => table.suite === 'docs')!, row = table.rows.find(row => row.project === 'fixture/a')!
+  expect(row.values[table.columns.indexOf('Partially observed')]).toBe(2)
+  expect(row.values[table.columns.indexOf('Unexecuted')]).toBe(0)
+  expect(row.unrankedReason).toBe('incomplete (1/2 complete rounds)')
+  expect(rankedRows(table, id => id).map(row => [row.project, row.rank])).toEqual([['fixture/b', 1], ['fixture/a', null]])
+  expect(overview(data).rank).toBe('—')
+  expect(overview(data).docs).toContain('incomplete')
+  const output = renderSnapshot(data, catalog)
+  expect(output).toContain('bar [50]')
+  expect(output).not.toContain('bar [50, 0]')
+  expect(output).not.toContain('| 0.0% |')
+})
+
+test('CLI variants belong to their catalogue project while terminal compatibility shares only identical input populations', () => {
+  const root = temp(), out = join(root, 'community'); mkdirSync(out)
+  const observations = ['fixture/a', 'fixture/b'].flatMap((project, index) => ['one', 'two'].map(caseId => ({ suite: 'community', surface: index ? 'node:public-api' : 'cli:end-to-end', runtime: index ? 'Node' : 'Rust', format: 'terminal', operation: 'render', mode: 'feature-corpus-qualification', caseId, status: index && caseId === 'two' ? 'failed' : 'passed', metrics: { implementation: project, round: 1, version: '1' } })))
+  observations.push({ ...observations[0]!, mode: 'fresh-process', metrics: { implementation: 'FIXTURE/A#native-release', round: 1, version: '1', variant: 'native-release' } } as any)
+  write(join(out, 'result.json'), { id: 'community', finishedAt: '2026-02-01T00:00:00Z', observations })
+  write(join(root, 'report.json'), { schema: 'trident-campaign-v2', startedAt: '2026-02-01T00:00:00Z', updatedAt: '2026-02-01T00:00:01Z', projects: ['fixture/a', 'fixture/b'], requestedSuites: ['community'], rounds: 1, profile: 'full', results: [{ suite: 'community', out, status: 'failed' }] })
+  const data = importCampaign(empty(), root, 'https://example.org/variants', catalog)
+  expect(() => renderSnapshot(data, catalog)).not.toThrow()
+  expect(data.tables.flatMap(table => table.rows).every(row => ['fixture/a', 'fixture/b'].includes(row.project))).toBe(true)
+  expect(data.attempts.find(attempt => attempt.project === 'fixture/a')?.groups.some(group => group.variant === 'native-release')).toBe(true)
+  const table = data.tables.find(table => table.summary)!
+  expect(table.rows).toHaveLength(2)
+  expect(rankedRows(table, id => id).map(row => [row.project, row.rank])).toEqual([['fixture/a', 1], ['fixture/b', 2]])
+})
+
+test('copied campaign evidence reads its own reports even while the original directory still exists', () => {
+  const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' })
+  const file = join(root, 'report.json'), report = JSON.parse(readFileSync(file, 'utf8'))
+  report.options = { out: root }; write(file, report)
+  const copy = join(temp(), 'extracted'); cpSync(root, copy, { recursive: true })
+  write(join(root, 'docs/result.json'), { observations: [] })
+  expect(readCampaign(copy).results[0]!.out).toBe(join(copy, 'docs'))
+  const data = importCampaign(empty(), copy, 'https://example.org/extracted', catalog)
+  expect(data.tables.find(table => table.suite === 'docs')?.rows).toHaveLength(2)
+  expect(overview(data).docs).toContain('100.0%')
+  const raw = JSON.parse(readFileSync(join(copy, 'report.json'), 'utf8'))
+  expect(raw.results[0].out).toBe(join(root, 'docs'))
 })
 
 test('an extracted native pilot reads owning reports relative to its controller and retains usable report paths', () => {

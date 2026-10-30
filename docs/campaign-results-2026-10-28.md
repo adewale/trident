@@ -6,10 +6,10 @@ The four additional tables live in [RESULTS.md](../RESULTS.md), generated from t
 
 | Comparison | Canonical table | Boundary and limits |
 |---|---|---|
-| DaveBench documentation coverage | [1,095 occurrences](../RESULTS.md#ecosystem-docs-1095-2026-10-27) | All occurrences across six rounds; returning SVG does not establish diagram meaning. |
-| Documentation call cost | [847 shared successful occurrences](../RESULTS.md#ecosystem-docs-call-cost-2026-10-27) | Same successful inputs for all three tools; SVG return excludes inspection and paint. Descriptive, without A/A speedup qualification. |
-| Browser-global size | [Shipped gzip bytes](../RESULTS.md#ecosystem-browser-gzip-2026-10-27) | Complete browser globals, level-9 gzip; excludes fonts, focused/lazy entries and wire overhead. |
-| Diagram Meaning | [920 reference-qualified paint criteria](../RESULTS.md#ecosystem-paint-920-2026-10-27) | 100 authored cases across 25 families and 43 historical implementation rows. Missing observations retain the denominator; models and browser admission stay separate. |
+| DaveBench documentation coverage | [1,095 occurrences](../results/tables/docs-1.md#ecosystem-docs-1095-2026-10-27) | All occurrences across six rounds; returning SVG does not establish diagram meaning. |
+| Documentation call cost | [847 shared successful occurrences](../results/tables/docs-1.md#ecosystem-docs-call-cost-2026-10-27) | Same successful inputs for all three tools; SVG return excludes inspection and paint. Descriptive, without A/A speedup qualification. |
+| Browser-global size | [Shipped gzip bytes](../results/tables/docs-1.md#ecosystem-browser-gzip-2026-10-27) | Complete browser globals, level-9 gzip; excludes fonts, focused/lazy entries and wire overhead. |
+| Diagram Meaning | [920 reference-qualified paint criteria](../results/tables/fidelity-1.md#ecosystem-paint-920-2026-10-27) | 100 authored cases across 25 families and 43 historical implementation rows. Missing observations retain the denominator; models and browser admission stay separate. |
 
 The documentation collection used Mermaid 12.2.0, Pele 1.9.0 and an explicitly frozen Agentic Mermaid 0.4.2 candidate. Mermaid and Pele lacked the selected ZenUML binding; that is a collection limitation, not a Mermaid language limitation. The paint evidence retains a separate 150 reference-unqualified criteria across surfaces.
 

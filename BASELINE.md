@@ -1,7 +1,9 @@
 # Initial ecosystem baseline
 
-**Publish B0 (`ecosystem-b0`) before the first public 0.1 release. Reconciliation
-and publication remain pending.** B0 covers every normally selected brand and applicable benchmark.
+**Reconcile B0 (`ecosystem-b0`) before the first public 0.1 release.** The
+[30 October full campaign](https://github.com/adewale/trident/blob/8b2404b0bf2940e571ca0e14e54eeff0517a98ca/README.md)
+and its raw evidence are public. Baseline applicability reconciliation and
+qualification remain pending. B0 covers every normally selected brand and applicable benchmark.
 A broken release, unsupported operation or missing Trident binding stays visible.
 Projects do not have to pass every check for the harness to ship.
 
