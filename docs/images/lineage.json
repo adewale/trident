@@ -1,9 +1,39 @@
 {
   "generator": "Agentic Mermaid",
-  "entrySha256": "49c13651b5c4c6035af84e943b5f90bc51348a6f1593537e0767aaf29dcf4db6",
+  "entrySha256": "59196e12f9447b5fb8042acbcb3c5094f2572e25371fbfb1ec14edb377777876",
   "source": "docs/lineage-overview.mmd",
-  "sourceSha256": "18440d779ba5982c01ad0baee5a8a4d9fd0aaef015b1f7726c50d969ce080724",
+  "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb",
+  "projects": [
+    "1jehuang/mermaid-rs-renderer",
+    "adewale/agentic-mermaid",
+    "AlexanderGrooff/mermaid-ascii",
+    "anomalyco/opencode",
+    "crabtalk/bezel",
+    "crafter-station/mermaid",
+    "dfadler/zombie-mermaid",
+    "Dicklesworthstone/frankenmermaid",
+    "emtyty/merslim",
+    "evangwt/xmermaid",
+    "fasouto/termaid",
+    "kais-radwan/ascii-mermaid",
+    "kitlangton/merman",
+    "KlangHaus/vitepress-plugin-diagram",
+    "Latias94/merman",
+    "lukilabs/beautiful-mermaid",
+    "mermaid-js/mermaid",
+    "Mootikins/figurehead-rs",
+    "obsidianmd/pele",
+    "orestesgaolin/mermaid",
+    "pub:mermaid_flutter",
+    "sandyyst/dsh-plugin-mermaid-gb-svg",
+    "spacedock-dev/mermaidtext",
+    "tariqshams/mermaidtui",
+    "wevm/ondine",
+    "xai-org/grok-build",
+    "Yassimba/loom"
+  ],
   "options": {
+    "padding": 100,
     "style": [
       "publication-figure",
       "nord-light",
@@ -31,7 +61,7 @@
       }
     ]
   },
-  "svgSha256": "0113ac00db72e5acba55c08dfcb25060fb597da220baa52147f8a97196d5bc61",
-  "pngSha256": "d031ce1a5164713b2f7e983e287403137f646e87a265639877cdffe47316795a",
-  "scope": "Selected lineage overview; all catalog entities and selection reasons are in LINEAGE.md. Derivative, fork, component port, native renderer and runtime binding have distinct meanings. Diagram appearance implies no benchmark rank."
+  "svgSha256": "2167dc5f5b7caf69322017bb6bdd047f8279dcaf68b9630c82a8ab779555eaef",
+  "pngSha256": "8e10b6b7a618ca662abf9ac89262904cea566d4668c0bf752eca53085228877e",
+  "scope": "Every normally scheduled renderer, with its configured rendering output checks. Failed and blocked interfaces remain possible; labels are not passes or qualified timing claims. Derivative, fork, component port and native renderer have distinct meanings. All catalog entities and exclusions remain in LINEAGE.md."
 }

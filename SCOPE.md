@@ -6,7 +6,7 @@ declared output, measuring comparable work and publishing readable evidence.
 
 ## Core work
 
-- Public SVG, PNG, terminal, parser, formatting and conversion APIs or CLIs.
+- Public SVG, PNG and terminal renderer APIs or CLIs; parsing, editing and diagnostics belonging to those renderers.
 - Independent inputs, applicable meaning/model checks and invalid controls.
 - Explicit artifact, version, runtime, workload and measurement identities.
 - Bounded campaigns, named case selection and honest missing/blocked outcomes.
@@ -30,10 +30,13 @@ are excluded from core comparison and are not missing benchmark adapters. The
 descendant investigation override cannot enable these application workflows.
 An embedded Mermaid dependency does not supply an editor score.
 
-APIs actually exposed by an artifact stay in scope. This includes Mermaid Flutter's
-native PNG API and Mermaid-to-Excalidraw's conversion API. A complete Flutter
-widget or browser interaction campaign is a separately scoped experiment, rather
-than a prerequisite for supporting the public output operation.
+Validator, parser, formatter and conversion-only projects stay outside renderer
+campaigns. The catalogue retains their discovery and lineage records. Explicit
+catalogue-only selections also remain excluded, even when a renderer is present;
+the descendant override cannot enable either class.
+
+Mermaid Flutter's native PNG API remains in scope. Complete widget or browser
+interaction campaigns are separate experiments rather than renderer prerequisites.
 
 Trident does not implement missing features in benchmarked products or require
 an exporter that the selected package does not expose. A broken published package

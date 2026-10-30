@@ -3,7 +3,7 @@
 ## Unreleased
 
 The first public 0.1 release is still in preparation. The changes below describe
-current main; baseline collection and release publication remain pending.
+current main; baseline reconciliation and release publication remain pending.
 
 ### Benchmarks and measurement
 
@@ -31,9 +31,10 @@ current main; baseline collection and release publication remain pending.
 
 ### Projects and public interfaces
 
-- The catalog contains 89 identities: 40 in core scope and 39 normally scheduled
-  projects. Distinct branding, source lineage, application exclusions and skips
-  remain explicit. Beautiful Mermaid is a derivative, rather than a Git fork.
+- The catalog contains 89 identities: 27 renderers are normally scheduled and
+  62 entries remain excluded. Twelve former participants are catalogue-only;
+  validator, parser, formatter and conversion-only entries are outside renderer scope. Distinct branding, source lineage, application exclusions
+  and skips remain explicit. Beautiful Mermaid is a derivative, rather than a Git fork.
 - Mermaid Dart SVG and Mermaid Flutter native PNG have separate branded identities.
   Their shared parser/layout core remains documented. Native Flutter preparation
   selects the regular catalog entry without an override; saved bindings select
@@ -66,9 +67,9 @@ current main; baseline collection and release publication remain pending.
   observed catalog entries remain valid without inventing a published release.
 - Portable v7 uses six independent rounds and five fresh processes per replica;
   invalid controls run once, and failed/blocked admission withholds repeated clocks.
-  The 54-case workload remains. This plans 50,490 cold launches for 11 projects,
-  compared with 178,200 in the earlier v6 proposal. Historical qualification remains
-  versioned; noise and correctness gates still withhold unsupported claims.
+  The 54-case workload remains. The current ten-project Node SVG selection plans
+  45,900 cold launches; the preceding eleven-project selection planned 50,490.
+  Sampling is unchanged. Historical qualification remains versioned; noise and correctness gates still withhold unsupported claims.
 - One deadline covers external examples and the seven-suite campaign. Checkpoints
   retain portable jobs and completed DaveBench project-rounds; resumed allowances
   and runtime identities are recorded without silently restarting the budget.

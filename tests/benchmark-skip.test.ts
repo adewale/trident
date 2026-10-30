@@ -8,7 +8,7 @@ import { prepareCommunity } from '../unified/community.ts'
 import { projectSupport } from '../unified/support.ts'
 import { verifySupport } from '../unified/support-verification.ts'
 
-const paused = { id: 'fixture/broken', roles: ['parser'], outputs: ['diagnostics'], benchmark: { adapter: 'published-extra', package: 'fixture-do-not-acquire', version: '1.0.0', outputs: ['diagnostics'], skip: { version: '1.0.0', reason: 'Published runtime missing' } } }
+const paused = { id: 'fixture/broken', roles: ['renderer'], outputs: ['svg'], benchmark: { adapter: 'published-extra', package: 'fixture-do-not-acquire', version: '1.0.0', outputs: ['svg'], skip: { version: '1.0.0', reason: 'Published runtime missing' } } }
 test('a release pause skips before acquisition, survives descendant overrides, and permits a separately selected candidate', async () => {
   const root = mkdtempSync(join(tmpdir(), 'trident-release-skip-'))
   try {
@@ -44,7 +44,7 @@ test('a release pause skips before acquisition, survives descendant overrides, a
     const actual = JSON.parse(readFileSync(new URL('../catalog/mermaid-community.json', import.meta.url), 'utf8'))
     const requested = actual.nodes.map((node: { id: string }) => node.id)
     const selected = comparisonProjects(actual, requested)
-    expect(selected.included).toHaveLength(39)
+    expect(selected.included).toHaveLength(27)
     expect(selected.included).toContain('pub:mermaid_flutter')
     expect(selected.included).not.toContain('justsml/rusty-mermaid')
   } finally { rmSync(root, { recursive: true, force: true }) }

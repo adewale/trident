@@ -150,7 +150,14 @@ failure modes; they do not certify absence of selection or observer bias.
 
 When combining corrected attempts, a `--suites ID,...` option after each `--campaign` selects that campaign's suites for the report view. The selected scope is printed; raw campaign evidence is never edited or silently superseded.
 
-## Descendant selection
+## Renderer and descendant selection
+
+Normal campaigns require a declared rendering output: SVG, raster, PDF or terminal.
+Validator, parser, formatter and conversion-only entries remain catalogue records.
+Explicit `comparisonScope: {kind: "catalog-only", reason: "..."}` decisions also
+exclude a project before preparation. The descendant-investigation override cannot
+bypass renderer scope or catalogue-only selection. A renderer may still be tested
+through its own parser, model, diagnostics and editing APIs.
 
 Normal public campaigns exclude descendants without an established distinct
 product brand, including changed forks. An owner prefix, npm scope, runtime
@@ -198,7 +205,7 @@ module and browser observations.
 
 ## Conversion and release transports
 
-Editable conversion inspects the public element model; image fallbacks receive no editable-model credit. Whole-editor workflows remain outside core scope and do not inherit an embedded renderer’s score. See [public output bindings](docs/application-contracts.md).
+Historical editable-conversion receipts inspect the public element model; image fallbacks receive no editable-model credit. Conversion-only projects and whole-editor workflows are outside current renderer selection. See [public output bindings](docs/application-contracts.md).
 
 An additional public release CLI retains its archive checksum, actual binary
 identity, version and source-tag revision. A native CLI and WASM distribution

@@ -20,7 +20,7 @@ import { runIncrementalCommunitySuite } from './project-update.ts'
 import { parseOptions } from './options.ts'
 import { communityCatalogFile } from './trident-paths.ts'
 import type { UnifiedSuiteResult } from './types.ts'
-import { PUBLIC_SUITES, nativeAdapter, portableAdapter, portableBinding, projectSupport, type CatalogMember, type PublicSuite } from './support.ts'
+import { PUBLIC_SUITES, coreScopeReason, nativeAdapter, portableAdapter, portableBinding, projectSupport, type CatalogMember, type PublicSuite } from './support.ts'
 import { comparisonProjects } from './lineage.ts'
 import { campaignPlan } from './campaign-plan.ts'
 import { loadCampaignPreparation, prepareCampaign } from './campaign-preparation.ts'
@@ -40,7 +40,7 @@ export function publicPackageRoot(peer: PreparedCommunity | undefined): string |
  * exclusions apply before metadata acquisition as well as before collection. */
 export function releaseSelectionProjects(catalog: Parameters<typeof comparisonProjects>[0], requested: string[], includeExcluded = false): string[] {
   return comparisonProjects(catalog, requested, includeExcluded).projects.filter(project =>
-    !project.exclusionReasons.includes('application-workflow') && (includeExcluded || project.exclusionReasons.every(reason => reason === 'disabled-release')),
+    !coreScopeReason(catalog.nodes.find(node => node.id === project.project)!) && (includeExcluded || project.exclusionReasons.every(reason => reason === 'disabled-release')),
   ).map(project => project.project)
 }
 
@@ -137,9 +137,9 @@ Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples}
     writeFileSync(join(options.out, 'preparation/registry/selection.json'), JSON.stringify({ cutoff, ledger: resolved.ledger }, null, 2))
   }
   let projects = selectCommunityProjects(catalog.nodes, options.communityProjects).map(peer => peer.id)
-  if (list) { console.log(JSON.stringify({ suites: chosen, projects, profile: options.profile, rounds: options.rounds, support: catalog.nodes.filter((node: CatalogMember) => projects.includes(node.id)).map(projectSupport) }, null, 2)); return }
   const comparisonSelection = comparisonProjects(catalog, projects, includeExcluded)
   projects = comparisonSelection.included; options.communityProjects = projects
+  if (list) { console.log(JSON.stringify({ suites: chosen, projects, profile: options.profile, rounds: options.rounds, comparisonSelection, support: catalog.nodes.filter((node: CatalogMember) => projects.includes(node.id)).map(projectSupport) }, null, 2)); return }
   if (!projects.length && !planOnly) throw Error('No projects remain after scope/lineage/branding exclusions or release skips: ' + comparisonSelection.excluded.map(node => node.project + ': ' + node.comparison).join('; '))
   const plan = { ...campaignPlan({ catalog, projects: catalog.nodes.filter((node: CatalogMember) => projects.includes(node.id)), suites: chosen as PublicSuite[], profile: options.profile, rounds: options.rounds, executable: options.executable, upstreamRunnerRoot, budgetMinutes, portableCaseIds: pilotOnly ? PILOT_CASES : undefined }), comparisonSelection, pilot: pilotOnly, portableCaseIds: pilotOnly ? PILOT_CASES : undefined }
   if (planOnly) { console.log(JSON.stringify(plan, null, 2)); return }
