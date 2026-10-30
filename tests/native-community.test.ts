@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test'
-import { chmodSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { chmodSync, existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { Resvg } from '@resvg/resvg-js'
@@ -39,7 +39,8 @@ test('an explicit native launch rejects changed bundle bytes and conflicting amb
   const { root, bundle } = fixture(), manifest = join(root, 'launch.json')
   const artifact = nativePngArtifact(bundle, manifest) as CommunityArtifact
   expect(artifact.args).toEqual([manifest])
-  expect(admitNativeLaunch(manifest).executable).toBe(join(bundle, 'native_bench'))
+  // The binding records the bundle's physical path (macOS temporary paths are symlinks).
+  expect(admitNativeLaunch(manifest).executable).toBe(realpathSync(join(bundle, 'native_bench')))
   verifyProvidedCommunityArtifact(artifact)
   const worker = artifact.executable!
   const result = spawnSync('node', [worker, manifest, join(root, 'no-job'), join(root, 'must-not-exist')], { encoding: 'utf8', env: { ...process.env, FLUTTER_COMMUNITY_EXECUTABLE: '/unsealed/other-worker' } })

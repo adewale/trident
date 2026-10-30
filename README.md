@@ -248,7 +248,8 @@ Copy the whole generated directory, including its manifest. It requires Node 24,
 
 `bun commands.ts test` runs the full local suite and needs the pinned oracle.
 CI runs `lint`, `typecheck`, `results:snapshot --check` and the explicit
-`test:ci` fixture suite without project artifacts or an oracle. Collection,
+`test:ci` fixture suite without project artifacts or an oracle, and runs
+`test:ci` again on macOS, whose temporary folders are symlinks. Collection,
 artifact acquisition and `community:update --plan` remain local operations.
 Optional browser tests use `AM_BROWSER_TESTS=1` and
 `AM_CHROMIUM_EXECUTABLE=/path/to/chromium` (legacy environment variable names).
