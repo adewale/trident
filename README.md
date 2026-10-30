@@ -1,6 +1,6 @@
 # Trident
 
-Trident compares Mermaid tools on input compatibility, diagram meaning and rendering cost. It tests SVG renderers, terminal tools and parsers through their public interfaces.
+Trident compares Mermaid tools on input compatibility, diagram meaning and rendering cost. It tests rendering and the parser/model APIs exposed by renderers through their public interfaces.
 
 - [Benchmarks and their value](BENCHMARKS.md): what each workload measures, how to run it, and when to trust it.
 - [Initial baseline](BASELINE.md): frozen ecosystem evidence required for the first public 0.1 release.
@@ -65,10 +65,10 @@ benchmark or a substitute for a complete campaign.
 
 ## Supported projects
 
-The 0.1 support check exercised public output interfaces for **37 projects**.
-The list below records at least one successful authored input per listed output;
-it does not certify every family or every benchmark. [Verified versions, transports,
-failures and missing formats](SUPPORT-QUALITY.md) remain explicit.
+Normal campaigns select **27 renderers**: 16 with SVG output, ten terminal-only
+implementations and the native Mermaid Flutter PNG renderer. The dated
+[public-output checks](SUPPORT-QUALITY.md) record actual invocations, versions,
+failures and missing bindings; they do not certify all families or qualified timing.
 
 | SVG-rendering project | Outputs exercised successfully |
 |---|---|
@@ -79,7 +79,6 @@ failures and missing formats](SUPPORT-QUALITY.md) remain explicit.
 | [DSH Mermaid GB SVG](https://github.com/sandyyst/dsh-plugin-mermaid-gb-svg) | SVG |
 | [Frankenmermaid](https://github.com/Dicklesworthstone/frankenmermaid) | SVG, parser, diagnostics |
 | [Latias Merman](https://github.com/Latias94/merman) | SVG |
-| [MDV](https://github.com/zhenhuaa/mdv) | SVG, terminal |
 | [Mermaid Dart](https://github.com/orestesgaolin/mermaid) | SVG |
 | [Mermaid.js](https://github.com/mermaid-js/mermaid) | Browser SVG, parser |
 | [Mermaid RS Renderer](https://github.com/1jehuang/mermaid-rs-renderer) | SVG, PNG |
@@ -91,43 +90,54 @@ failures and missing formats](SUPPORT-QUALITY.md) remain explicit.
 | [Zombie Mermaid](https://github.com/dfadler/zombie-mermaid) | SVG, terminal |
 
 Terminal-only interfaces are exercised for [ASCII Mermaid](https://github.com/kais-radwan/ascii-mermaid),
-[Figurehead](https://github.com/Mootikins/figurehead-rs), [Grok Build](https://github.com/xai-org/grok-build),
-[Kitlangton Merman](https://github.com/kitlangton/merman), [Loom](https://github.com/Yassimba/loom),
-[Lovely Mermaid](https://github.com/xl0/lovely-mermaid), [Mermaid ASCII](https://github.com/AlexanderGrooff/mermaid-ascii),
-[Mermaidtext](https://github.com/spacedock-dev/mermaidtext), [MermaidTUI](https://github.com/tariqshams/mermaidtui),
-[Mermansi](https://github.com/kingsword09/mermansi), [OpenCode](https://github.com/anomalyco/opencode),
-[OpenCode Merman](https://github.com/4nkitd/opencode-merman), [Termaid](https://github.com/fasouto/termaid)
-and [TUI Mermaid](https://www.npmjs.com/package/tui-mermaid).
+[Figurehead](https://github.com/Mootikins/figurehead-rs), [Grok's renderer component](https://github.com/xai-org/grok-build),
+[Kitlangton Merman](https://github.com/kitlangton/merman), [Loom's renderer component](https://github.com/Yassimba/loom),
+[Mermaid ASCII](https://github.com/AlexanderGrooff/mermaid-ascii),
+[MermaidText](https://github.com/spacedock-dev/mermaidtext), [MermaidTUI](https://github.com/tariqshams/mermaidtui),
+[OpenCode's Merman component](https://github.com/anomalyco/opencode)
+and [Termaid](https://github.com/fasouto/termaid).
 
-Other exercised interfaces are [Maid](https://github.com/probelabs/maid) and
-[Merval](https://github.com/aj-archipelago/merval) diagnostics,
-[Mermaid AST](https://github.com/neongreen/mermaid-ast) and [Visimer](https://github.com/inkeep/visimer) parsing,
-[Mermaid Formatter](https://github.com/chenyanchen/mermaid-formatter) source formatting,
-[Mermaid ReactFlow Render](https://github.com/taoche/mermaid-reactflow-render) graph conversion,
-and [Mermaid to Excalidraw](https://github.com/excalidraw/mermaid-to-excalidraw) editable conversion.
+[Mermaid Flutter](https://pub.dev/packages/mermaid_flutter) has a separate native
+PNG interface using Mermaid Dart's parser/layout core. DSH Mermaid GB SVG is a
+flowchart specialist. Parser, model and invalid-input checks of enrolled renderers
+remain in scope; validator-only tools do not enter renderer comparisons.
 
-The current core selection has **40 eligible entries**. **Mermaid Flutter**
-(`pub:mermaid_flutter`) is a separately branded native PNG renderer using Mermaid
-Dart's parsing/layout core; [native preparation](native-flutter/STANDARD.md#use-the-normal-cli-with-an-existing-native-bundle)
-selects it through the regular catalog. Rusty Mermaid's broken published runtime
-is disabled by version-specific configuration, so normal campaigns schedule 39 projects.
-The historical 0.1 receipt retains its original 42-entry selection. VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid are
-discovery-only applications; full editor drivers are outside core requirements.
-The [catalog](CATALOG.md) retains all 89 entries. Default comparisons exclude 46
-descendants/bindings and these three applications, for 49 exclusions in total.
-[Issue #30](https://github.com/adewale/trident/issues/30) records the completed public-binding work and its qualification limits.
+The [catalogue](CATALOG.md) retains all 89 identities and their ancestry.
+**62 are excluded** by renderer scope, explicit project selection, branding,
+application or binding policy. MDV, OpenCode Merman, TUI Mermaid, Lovely Mermaid
+and Mermansi are catalogue-only. So are the seven parser/validator/formatter/converter
+entries removed from the earlier 39-project selection. Rusty Mermaid declares
+only diagnostics and is also outside renderer scope; its broken-release receipt
+remains recorded. These exclusions apply before acquisition and cannot be enabled
+with the descendant-investigation override. Historical receipts retain their
+original project selections and dates.
 
 ## Project lineage
 
-![Project lineage rendered by Agentic Mermaid: Beautiful is a derivative of Mermaid.js; Mermaid Dart is a distinct Dart port with the separately branded Mermaid Flutter native renderer; Agentic and Zombie fork Beautiful; Pele has Ondine and Bezel ports; Frankenmermaid has an independent root.](docs/images/lineage.svg)
+[![Lineage of all 27 scheduled renderers with a legend: blue for SVG, green for terminal-only, purple for native PNG, solid arrows for project lineage and a dashed arrow for the ASCII component port.](docs/images/lineage.png)](docs/images/lineage.png)
 
-Selected renderer lineages. Beautiful Mermaid is a derivative of Mermaid, not a
-Git fork; its ASCII component separately ports Mermaid ASCII. Mermaid Dart is a
-distinctive brand; Mermaid Flutter is a separate brand with shared parser/layout
-and native painting. Both remain eligible. Agentic Mermaid rendered this overview
-with its publication-figure look and Nord Light palette. Appearance implies no
-benchmark rank. See the [complete 89-entity tree](LINEAGE.md), [source](docs/lineage-overview.mmd)
-and [generation receipt](docs/images/lineage.json).
+Every scheduled renderer appears once. Node labels show configured rendering
+output checks, including interfaces that may fail or remain blocked. They do not
+assert successful output or qualified performance. The image's legend explains
+the output colours, grey groups and arrow styles. Solid arrows label recorded
+forks, derivatives, ports or native-renderer relationships; the dashed arrow marks
+only Beautiful Mermaid's ASCII component port. Unconnected renderers are grouped
+without inventing ancestry. Mermaid Dart and Mermaid Flutter remain distinct brands.
+
+The [Mermaid source](docs/lineage-overview.mmd) is generated from the actual
+selection with `bun commands.ts support --lineage --out FRESH.mmd`. To update the
+tracked artwork, copy that source to `docs/lineage-overview.mmd`, then run
+`bun scripts/render-lineage.ts --renderer-entry INSTALLED_AGENTIC_ENTRY --out FRESH.svg`
+and copy the resulting SVG, PNG and JSON receipt into `docs/images/lineage.*`.
+Agentic Mermaid renders the diagram with Publication Figure and Nord Light.
+The script adds the legend below the graph, then rasterizes the complete figure
+with verified bundled Inter fonts and system fonts disabled. Use `--look NAME`
+and `--palette NAME` on the generation command to compare alternatives.
+[The font and style comparison](docs/lineage-rendering.md) explains the rendering choices;
+the [SVG download](docs/images/lineage.svg) retains live text.
+[The receipt](docs/images/lineage.json) records the renderer version, selected projects and hashes;
+[the full catalogue tree](LINEAGE.md) includes every exclusion. Appearance implies
+no benchmark rank.
 
 ## Install and release status
 

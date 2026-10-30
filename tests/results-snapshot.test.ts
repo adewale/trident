@@ -48,6 +48,18 @@ test('one numeric source supplies both the visible table rate and Mermaid bar; m
   expect(renderSnapshot(changed, catalog)).toContain('| 0.0% |')
 })
 
+test('catalogue-only projects leave current tables and ranks while their original observations are retained', () => {
+  const data = snapshot()
+  data.tables[0]!.rows.push({ project: 'fixture/alpha', values: ['1.0', 2, 0, 2] })
+  const scoped = { ...catalog, nodes: catalog.nodes.map(node => node.id === 'fixture/alpha' ? { ...node, comparisonScope: { kind: 'catalog-only' as const, reason: 'Explicit project selection' } } : node) }
+  const output = renderSnapshot(data, scoped)
+  expect(output).toContain('| fixture/zebra | 1 | 1.0 | 1 | 1 | 2 | 50.0% |')
+  expect(output).toContain('bar [50]')
+  expect(output).not.toContain('| fixture/alpha | 1 |')
+  expect(output).toContain('| fixture/alpha | catalog-only |')
+  expect(data.tables[0]!.rows).toHaveLength(2)
+})
+
 test('latest failed or partial attempt overrides historical success without deleting its dated evidence', () => temporary(root => {
   campaign(root, ['fixture/zebra'], [{ suite: 'docs', project: 'fixture/zebra', status: 'failed', detail: 'Render rejected' }])
   let data = importCampaign(snapshot(), root, 'https://example.org/run', catalog)

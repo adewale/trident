@@ -5,7 +5,7 @@ is private; there is no npm publish. Renderer failures are findings. Incorrect
 invocation or reporting is a harness defect.
 
 The first public 0.1 release requires the reconciled [B0 baseline](BASELINE.md).
-Collection is still pending. Later releases assess retained evidence and collect
+Reconciliation and publication remain pending. Later releases assess retained evidence and collect
 only measurements affected by changed artifacts or contracts. Missing upstream
 features, editor drivers, Pages and version alerts remain outside release gates.
 

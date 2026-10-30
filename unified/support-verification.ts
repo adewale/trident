@@ -6,7 +6,7 @@ import { parseOptions } from './options.ts'
 import { communityModuleOutputSupported, prepareCommunity, runCommunityNodeRound, runCommunityCli, verifyProvidedCommunityArtifact, verifyFrozenBrowserEngine } from './community.ts'
 import { runCommunityBrowserSuite, type PreparedCommunityBrowser } from './community-browser.ts'
 import { runExternalCommunity } from './community-external.ts'
-import { outputName, readCatalog } from './support.ts'
+import { coreScopeReason, outputName, readCatalog } from './support.ts'
 import { packageCliVariants } from './community-cli.ts'
 import { protocolIdentity } from './protocol-identity.ts'
 import { communityProtocolIdentity } from './community-protocol-identity.ts'
@@ -65,11 +65,12 @@ export async function verifySupport(preparedFile: string, out: string, settings:
   const catalog = readCatalog(settings.catalog ?? communityCatalogFile)
   if (settings.projects?.some(id => !catalog.nodes.some(node => node.id === id)) || (settings.projects && new Set(settings.projects).size !== settings.projects.length)) throw Error('Choose unique known catalog projects')
   const requested = catalog.nodes.filter(node => !settings.projects || settings.projects.includes(node.id))
-  const applications = requested.filter(node => (node as import('./support.ts').CatalogMember).comparisonScope?.kind === 'application')
-  if (settings.projects && applications.length) throw Error('Whole-application workflows are outside core support verification: ' + applications.map(node => node.id).join(', '))
+  const excluded = requested.filter(node => coreScopeReason(node))
+  if (settings.projects && excluded.length) throw Error('Projects are outside core support verification: ' + excluded.map(node => node.id + ': ' + coreScopeReason(node)).join('; '))
   const skipped = requested.filter(node => releaseBenchmarkSkip(node))
   if (settings.projects && skipped.length) throw Error('Benchmark release skipped: ' + skipped.map(node => node.id + ': ' + releaseBenchmarkSkip(node)!.reason).join('; '))
-  const selected = requested.filter(node => !applications.includes(node) && !skipped.includes(node))
+  const selected = requested.filter(node => !excluded.includes(node) && !skipped.includes(node))
+  if (!selected.length) throw Error('No renderer projects remain for core support verification')
   const supplied = JSON.parse(readFileSync(preparedFile, 'utf8')) as PreparedCommunity[]
   if (!Array.isArray(supplied) || new Set(supplied.map(entry => entry.node.id)).size !== supplied.length) throw Error('Prepared projects must be unique')
   await assertOracleAgrees(assertMermaidOracle(), [...supportWorkloads.map(workload => ({ id: workload.id, source: workload.source, accept: true })), ...supportControls.map(workload => ({ id: workload.id, source: workload.source, accept: false }))])

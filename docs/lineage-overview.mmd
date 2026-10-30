@@ -1,24 +1,80 @@
-flowchart TD
-  subgraph MermaidFamily[Mermaid lineage]
-    Mermaid[Mermaid.js]
-    Beautiful[Beautiful Mermaid]
-    Dart[Mermaid Dart]
-    Flutter[Mermaid Flutter]
-    Agentic[Agentic Mermaid]
-    Zombie[Zombie Mermaid]
-    ASCII[Mermaid ASCII]
-    Mermaid -->|derivative| Beautiful
-    Mermaid -->|Dart port| Dart
-    Dart -->|native Flutter renderer| Flutter
-    Beautiful -->|fork| Agentic
-    Beautiful -->|fork| Zombie
-    ASCII -.->|ASCII component port| Beautiful
+flowchart TB
+  %% 27 scheduled renderers. Output checks include failed or blocked interfaces.
+  %% Solid arrows: recorded derivation. Dashed arrow: component port only.
+  subgraph G0["Mermaid.js lineage"]
+    %% adewale/agentic-mermaid
+    p1["Agentic Mermaid<br/>SVG + terminal + PNG"]:::svg
+    %% AlexanderGrooff/mermaid-ascii
+    p2["Mermaid ASCII<br/>terminal"]:::terminal
+    %% dfadler/zombie-mermaid
+    p6["Zombie Mermaid<br/>SVG + terminal"]:::svg
+    %% kais-radwan/ascii-mermaid
+    p11["ASCII Mermaid<br/>terminal"]:::terminal
+    %% lukilabs/beautiful-mermaid
+    p15["Beautiful Mermaid<br/>SVG + terminal"]:::svg
+    %% mermaid-js/mermaid
+    p16["Mermaid.js<br/>SVG"]:::svg
+    %% orestesgaolin/mermaid
+    p19["Mermaid Dart<br/>SVG"]:::svg
+    %% pub:mermaid_flutter
+    p20["Mermaid Flutter<br/>PNG"]:::raster
+    p15 -->|fork| p1
+    p15 -->|fork| p6
+    p15 -->|port| p11
+    p16 -->|derivative| p15
+    p16 -->|port| p19
+    p19 -->|native renderer| p20
+    p2 -.->|ASCII component port| p15
   end
-  subgraph OtherEngines[Other implementation lineages]
-    Pele[Pele]
-    Ondine[Ondine]
-    Bezel[Bezel]
-    Franken[Frankenmermaid]
-    Pele -->|Rust port| Ondine
-    Pele -->|port| Bezel
+  subgraph G1["Pele lineage"]
+    %% crabtalk/bezel
+    p4["Bezel<br/>SVG"]:::svg
+    %% obsidianmd/pele
+    p18["Pele<br/>SVG"]:::svg
+    %% wevm/ondine
+    p24["Ondine<br/>SVG + terminal"]:::svg
+    p18 -->|port| p4
+    p18 -->|port| p24
   end
+  subgraph G2["Grok renderer lineage"]
+    %% spacedock-dev/mermaidtext
+    p22["MermaidText<br/>terminal"]:::terminal
+    %% xai-org/grok-build
+    p25["Grok renderer<br/>terminal"]:::terminal
+    p25 -->|port| p22
+  end
+  subgraph G3["Other SVG renderers · no asserted ancestry"]
+    %% 1jehuang/mermaid-rs-renderer
+    p0["Mermaid RS Renderer<br/>SVG + PNG"]:::svg
+    %% crafter-station/mermaid
+    p5["Crafter Mermaid<br/>SVG + terminal"]:::svg
+    %% Dicklesworthstone/frankenmermaid
+    p7["Frankenmermaid<br/>SVG + terminal"]:::svg
+    %% emtyty/merslim
+    p8["Merslim<br/>SVG + PNG + terminal"]:::svg
+    %% evangwt/xmermaid
+    p9["XMermaid<br/>SVG"]:::svg
+    %% KlangHaus/vitepress-plugin-diagram
+    p13["VitePress Plugin Diagram<br/>SVG"]:::svg
+    %% Latias94/merman
+    p14["Latias Merman<br/>SVG + PNG"]:::svg
+    %% sandyyst/dsh-plugin-mermaid-gb-svg
+    p21["DSH GB SVG (flowcharts)<br/>SVG"]:::svg
+  end
+  subgraph G4["Other terminal renderers · no asserted ancestry"]
+    %% anomalyco/opencode
+    p3["OpenCode renderer<br/>terminal"]:::terminal
+    %% fasouto/termaid
+    p10["Termaid<br/>terminal"]:::terminal
+    %% kitlangton/merman
+    p12["Kitlangton Merman<br/>terminal"]:::terminal
+    %% Mootikins/figurehead-rs
+    p17["Figurehead<br/>terminal"]:::terminal
+    %% tariqshams/mermaidtui
+    p23["MermaidTUI<br/>terminal"]:::terminal
+    %% Yassimba/loom
+    p26["Loom renderer<br/>terminal"]:::terminal
+  end
+  classDef svg fill:#e8eff8,stroke:#5e81ac,color:#233448
+  classDef terminal fill:#e5f3ed,stroke:#51816c,color:#233f35
+  classDef raster fill:#eee8f6,stroke:#8b73a6,color:#493759

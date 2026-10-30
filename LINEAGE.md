@@ -2,7 +2,7 @@
 
 Catalog checked: 2026-10-18. 89 entities. Regenerate with `bun commands.ts support --lineage`.
 
-Whole-application editor workflows are outside the core benchmark scope and remain catalog observations. The descendant override does not enable them. Descendants without established distinct branding are excluded from normal comparisons, even with code changes. Owner/package scopes and runtime suffixes alone do not establish branding. Bindings and zero-ahead versions are also excluded. An explicit inclusion override retains these for version/runtime investigations. Selection guidance uses the recorded catalog snapshot, not a fresh upstream audit. Ports and changed forks remain separate. Zero-ahead descendants can be omitted from a current-engine comparison, but historical/build studies retain them. Measurement aliases require verified artifact, build, runtime and invocation equivalence through catalog-eligibility; lineage alone never supplies a score.
+Renderer benchmarks require a declared SVG, raster, PDF or terminal output. Validator, parser, formatter and conversion-only tools, applications and explicit catalog-only entries remain discovery records. The descendant override cannot enable them. Descendants without established distinct branding are excluded from normal comparisons, even with code changes. Owner/package scopes and runtime suffixes alone do not establish branding. Bindings and zero-ahead versions are also excluded. An explicit inclusion override retains these for version/runtime investigations. Selection guidance uses the recorded catalog snapshot, not a fresh upstream audit. Ports and changed forks remain separate. Zero-ahead descendants can be omitted from a current-engine comparison, but historical/build studies retain them. Measurement aliases require verified artifact, build, runtime and invocation equivalence through catalog-eligibility; lineage alone never supplies a score.
 
 Arrows in the tree mean source fork, derivative, port, native renderer or runtime binding as labelled. Independently rooted code can still be a documented port. Dependencies, vendoring and inspiration are listed separately below.
 
@@ -11,7 +11,7 @@ Arrows in the tree mean source fork, derivative, port, native renderer or runtim
 │   ├── akashacms/mermaid-wasm-renderer [binding; SKIP: no-distinct-branding, shared-engine-runtime-binding]
 │   ├── toeverything/mermaid-rs-renderer [fork; +6/−179; SKIP: no-distinct-branding]
 │   └── woxQAQ/mermaid-rs-render-js [binding; SKIP: no-distinct-branding, shared-engine-runtime-binding]
-├── aj-archipelago/merval [independent; distinct-or-unresolved]
+├── aj-archipelago/merval [independent; SKIP: catalog-only]
 ├── AlexanderGrooff/mermaid-ascii [independent; distinct-or-unresolved]
 │   ├── app-creative/mermaid-ascii [fork; +0/−128; SKIP: no-distinct-branding, zero-ahead-version]
 │   ├── Aurelian-Shuttleworth/mermaid-ascii [fork; +0/−128; SKIP: no-distinct-branding, zero-ahead-version]
@@ -27,20 +27,20 @@ Arrows in the tree mean source fork, derivative, port, native renderer or runtim
 │   │   └── Chronostasys/mermaid-ascii [fork; +6/−0; SKIP: no-distinct-branding]
 │   └── sgryjp/mermaid-ascii [fork; +0/−128; SKIP: no-distinct-branding, zero-ahead-version]
 ├── anomalyco/opencode [independent; distinct-or-unresolved]
-│   └── 4nkitd/opencode-merman [port; distinct-or-unresolved]
-├── chenyanchen/mermaid-formatter [independent; distinct-or-unresolved]
+│   └── 4nkitd/opencode-merman [port; SKIP: catalog-only]
+├── chenyanchen/mermaid-formatter [independent; SKIP: catalog-only]
 ├── crafter-station/mermaid [independent; distinct-or-unresolved]
 ├── Dicklesworthstone/frankenmermaid [independent; distinct-or-unresolved]
 ├── emtyty/merslim [independent; distinct-or-unresolved]
 ├── evangwt/xmermaid [independent; distinct-or-unresolved]
-├── excalidraw/mermaid-to-excalidraw [unverified; distinct-or-unresolved]
+├── excalidraw/mermaid-to-excalidraw [unverified; SKIP: catalog-only]
 ├── fasouto/termaid [independent; distinct-or-unresolved]
 │   ├── mopi1402/termaid [fork; +0/−15; SKIP: no-distinct-branding, zero-ahead-version]
 │   └── mopi1402/termaid-ts [port; SKIP: no-distinct-branding]
 ├── gotoailab/modern_mermaid [independent; SKIP: application-workflow]
-├── inkeep/visimer [independent; distinct-or-unresolved]
-├── justsml/rusty-mermaid [independent; distinct-or-unresolved]
-├── kingsword09/mermansi [independent; distinct-or-unresolved]
+├── inkeep/visimer [independent; SKIP: catalog-only]
+├── justsml/rusty-mermaid [independent; SKIP: non-renderer]
+├── kingsword09/mermansi [independent; SKIP: catalog-only]
 ├── kitlangton/merman [independent; distinct-or-unresolved]
 ├── KlangHaus/vitepress-plugin-diagram [independent; distinct-or-unresolved]
 ├── Latias94/merman [independent; distinct-or-unresolved]
@@ -68,7 +68,7 @@ Arrows in the tree mean source fork, derivative, port, native renderer or runtim
 │   │   ├── thepanax/beautiful-mermaid [fork; +0/−0; SKIP: no-distinct-branding, zero-ahead-version]
 │   │   ├── vercel-labs/beautiful-mermaid [fork; +16/−23; SKIP: no-distinct-branding]
 │   │   ├── ysknsid25/beautiful-mermaid [fork; +6/−19; SKIP: no-distinct-branding]
-│   │   └── zhenhuaa/mdv [fork; +5/−12; distinct-or-unresolved]
+│   │   └── zhenhuaa/mdv [fork; +5/−12; SKIP: catalog-only]
 │   ├── lyngai/mermaid [fork; +0/−13476; SKIP: no-distinct-branding, zero-ahead-version]
 │   ├── mbostock/mermaid [fork; +0/−11787; SKIP: no-distinct-branding, zero-ahead-version]
 │   ├── Mermaid-Chart/mermaid-develop [fork; +0/−7450; SKIP: no-distinct-branding, zero-ahead-version]
@@ -81,20 +81,20 @@ Arrows in the tree mean source fork, derivative, port, native renderer or runtim
 │   └── zakaria-forks/mermaid [fork; +0/−6092; SKIP: no-distinct-branding, zero-ahead-version]
 ├── mermaid-js/mermaid-live-editor [unverified; SKIP: application-workflow]
 ├── Mootikins/figurehead-rs [independent; distinct-or-unresolved]
-├── neongreen/mermaid-ast [independent; distinct-or-unresolved]
+├── neongreen/mermaid-ast [independent; SKIP: catalog-only]
 ├── obsidianmd/pele [independent; distinct-or-unresolved]
 │   ├── crabtalk/bezel [port; distinct-or-unresolved]
 │   └── wevm/ondine [port; distinct-or-unresolved]
-├── probelabs/maid [independent; distinct-or-unresolved]
+├── probelabs/maid [independent; SKIP: catalog-only]
 ├── sandyyst/dsh-plugin-mermaid-gb-svg [independent; distinct-or-unresolved]
-├── taoche/mermaid-reactflow-render [independent; distinct-or-unresolved]
+├── taoche/mermaid-reactflow-render [independent; SKIP: catalog-only]
 ├── tariqshams/mermaidtui [independent; distinct-or-unresolved]
 ├── tomoyukim/vscode-mermaid-editor [unverified; SKIP: application-workflow]
 ├── xai-org/grok-build [independent; distinct-or-unresolved]
-│   ├── npm:tui-mermaid [port; distinct-or-unresolved]
+│   ├── npm:tui-mermaid [port; SKIP: catalog-only]
 │   ├── ramtinJ95/pi-mermaid-tui [binding; SKIP: shared-engine-runtime-binding]
 │   ├── spacedock-dev/mermaidtext [port; distinct-or-unresolved]
-│   └── xl0/lovely-mermaid [port; distinct-or-unresolved]
+│   └── xl0/lovely-mermaid [port; SKIP: catalog-only]
 └── Yassimba/loom [independent; distinct-or-unresolved]
 ```
 
@@ -117,8 +117,8 @@ Arrows in the tree mean source fork, derivative, port, native renderer or runtim
 
 25 zero-ahead forks are candidates to omit from current-engine comparisons. This saves work by narrowing the question; it does not assert that a newer parent score describes a historical descendant. 4 same-parent-head candidates also need artifact verification before any result reuse.
 
-49 entries are excluded from normal comparisons by application scope, branding, version or binding policy. Changed forks still need distinct branding. Independently implemented ports also need an established separate brand under this selection rule. This is a comparison-scope choice, not a claim about code quality or behavior. Mermaid Dart and Mermaid Flutter have distinct brands and remain eligible. Their shared parser/layout and separate rendering paths are recorded; this does not count them as independently implemented engines. Beautiful Mermaid is a derivative of Mermaid, not a Git fork; its ASCII component port is recorded separately.
+62 entries are excluded from normal comparisons by renderer scope, explicit selection, branding, version or binding policy. Changed forks still need distinct branding. Independently implemented ports also need an established separate brand under this selection rule. This is a comparison-scope choice, not a claim about code quality or behavior. Mermaid Dart and Mermaid Flutter have distinct brands and remain eligible. Their shared parser/layout and separate rendering paths are recorded; this does not count them as independently implemented engines. Beautiful Mermaid is a derivative of Mermaid, not a Git fork; its ASCII component port is recorded separately.
 
-Keep branded differentiated projects such as Agentic Mermaid, Zombie Mermaid, Beautiful Mermaid, Mermaid Dart, Mermaid Flutter and Ondine. Frankenmermaid has an independent root. Review unverified lineages before counting independent engines. Never silently transfer results between projects.
+Branded differentiated renderers remain eligible under the same selection rules. Review unverified lineages before counting independent engines. Never silently transfer results between projects.
 
 Use an explicit `bench --projects ... --plan` selection. `--include-excluded-descendants` is reserved for a named version/fork/runtime investigation. Community collection already measures verified physical-artifact aliases once and keeps per-entity evidence-reuse receipts; candidates without that proof run independently when explicitly selected.

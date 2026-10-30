@@ -1,9 +1,40 @@
 {
   "generator": "Agentic Mermaid",
-  "entrySha256": "49c13651b5c4c6035af84e943b5f90bc51348a6f1593537e0767aaf29dcf4db6",
+  "generatorVersion": "0.5.4",
+  "entrySha256": "55ccacfd6be531f1bb59fa3c789aa847eef390681b290610fdf3461857f19b61",
   "source": "docs/lineage-overview.mmd",
-  "sourceSha256": "18440d779ba5982c01ad0baee5a8a4d9fd0aaef015b1f7726c50d969ce080724",
+  "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb",
+  "projects": [
+    "1jehuang/mermaid-rs-renderer",
+    "adewale/agentic-mermaid",
+    "AlexanderGrooff/mermaid-ascii",
+    "anomalyco/opencode",
+    "crabtalk/bezel",
+    "crafter-station/mermaid",
+    "dfadler/zombie-mermaid",
+    "Dicklesworthstone/frankenmermaid",
+    "emtyty/merslim",
+    "evangwt/xmermaid",
+    "fasouto/termaid",
+    "kais-radwan/ascii-mermaid",
+    "kitlangton/merman",
+    "KlangHaus/vitepress-plugin-diagram",
+    "Latias94/merman",
+    "lukilabs/beautiful-mermaid",
+    "mermaid-js/mermaid",
+    "Mootikins/figurehead-rs",
+    "obsidianmd/pele",
+    "orestesgaolin/mermaid",
+    "pub:mermaid_flutter",
+    "sandyyst/dsh-plugin-mermaid-gb-svg",
+    "spacedock-dev/mermaidtext",
+    "tariqshams/mermaidtui",
+    "wevm/ondine",
+    "xai-org/grok-build",
+    "Yassimba/loom"
+  ],
   "options": {
+    "padding": 100,
     "style": [
       "publication-figure",
       "nord-light",
@@ -31,7 +62,37 @@
       }
     ]
   },
-  "svgSha256": "0113ac00db72e5acba55c08dfcb25060fb597da220baa52147f8a97196d5bc61",
-  "pngSha256": "d031ce1a5164713b2f7e983e287403137f646e87a265639877cdffe47316795a",
-  "scope": "Selected lineage overview; all catalog entities and selection reasons are in LINEAGE.md. Derivative, fork, component port, native renderer and runtime binding have distinct meanings. Diagram appearance implies no benchmark rank."
+  "legend": "SVG footer with colour swatches and line samples; outside the graph layout",
+  "diagramSvgSha256": "8cfed4678db3805784918d6d19aae447d7dca0288387859d6e19dd08f9093e8d",
+  "png": {
+    "api": "@resvg/resvg-js",
+    "version": "2.6.2",
+    "fonts": "verified renderer bundle",
+    "fontSha256": [
+      {
+        "path": "assets/fonts/Inter-Regular.ttf",
+        "sha256": "1b08e7fc267a5c7e1d614100f604b83e7e8a0be241f0f288faa2b3ac93a683ba"
+      },
+      {
+        "path": "assets/fonts/Inter-Medium.ttf",
+        "sha256": "8c883f63b2c4157d997319f2c8bc6995ed4357ef371940d31ca159004a4aae63"
+      },
+      {
+        "path": "assets/fonts/Inter-SemiBold.ttf",
+        "sha256": "e7a1aaf7eda9f2fad4131725fa556265ec75ca7b2d756260173a040363e8d4f7"
+      },
+      {
+        "path": "assets/fonts/Inter-Bold.ttf",
+        "sha256": "b37284b5701b6b168dfc770aa1a4ac492106422fd3ba76bc7641e37434e8019c"
+      }
+    ],
+    "fitTo": {
+      "mode": "width",
+      "value": 1800
+    },
+    "loadSystemFonts": false
+  },
+  "svgSha256": "5bc102d6a47797f92c40517251d84ebcca3a3a7c43a217244dc65454f3776689",
+  "pngSha256": "50b889c8aaccd982e33771569ad9b2f50a1d902ba449fdeb1b2c201295ca4768",
+  "scope": "Every normally scheduled renderer, with its configured rendering output checks. Failed and blocked interfaces remain possible; labels are not passes or qualified timing claims. Derivative, fork, component port and native renderer have distinct meanings. All catalog entities and exclusions remain in LINEAGE.md."
 }

@@ -1,10 +1,20 @@
 # Quality of Trident support
 
-Assessment: 2026-10-29. The historical 0.1 receipt exercised **37 of 42 selected entries**. The current core selection has **40 entries**: 38 have dated public-output witnesses, including the separate Excalidraw conversion follow-up; Mermaid Flutter has a distinct native PNG entry with its own new verification. Rusty Mermaid has a broken published artifact disabled by version-specific configuration. Normal campaigns therefore schedule 39 projects. VS Code Mermaid Editor, Mermaid Live Editor and Modern Mermaid are discovery-only applications, outside core benchmark requirements. All 89 catalog identities remain; 46 lineage exclusions plus three applications give 49 default exclusions. The original receipt and measurement dates are unchanged.
+Current selection: **27 renderers**, following the 30 October scope change. All
+89 catalogue identities remain, with 62 excluded. Twelve former participants are
+catalogue-only; validator, parser, formatter and conversion-only tools are also
+excluded. These rules apply to collection, support verification and current report
+views. They do not change historical raw observations or receipt hashes.
+
+The dated assessment below is from **29 October 2026**, before this selection
+change. It exercised 39 public interfaces. Its earlier 42-entry receipt and the
+subsequent Flutter/conversion follow-ups keep their original populations. Some
+interfaces listed below now belong to excluded projects; their past invocation
+checks are not current enrollment.
 
 This assesses Trident integrations, not project quality or renderer speed. A successful call establishes a working public invocation for that input. It does not establish all-family compatibility, painted meaning, useful layout or calibrated timing. The earlier eight-project campaign supplies broader historical evidence for its own scopes, and is not silently rerun or upgraded.
 
-## Support levels
+## Dated support levels before the scope change
 
 | Level | Entries | Evidence |
 |---|---:|---|
@@ -79,9 +89,9 @@ Remaining bindings apply to actual public targets. The separate output receipt c
 
 Rusty Mermaid’s published 0.42.0 package cannot run. The public source at `ce95d8ddb8323006b6dd8ddbc616c2478c3827aa` identifies itself as 0.1.0; its WASM build runs through the existing candidate workflow and retains four failed smoke observations. See the [reproduction notes](RUSTY-MERMAID.md). It does not replace the broken release artifact.
 
-Whole-editor application workflows are outside core requirements. Mermaid-to-Excalidraw retains a direct conversion-API contract; it does not inherit its embedded renderer’s SVG score. See [scope](SCOPE.md).
+Whole-editor application workflows are outside core requirements. Mermaid-to-Excalidraw retains its historical conversion-API receipt and is excluded from current renderer campaigns. See [scope](SCOPE.md).
 
-Additional claims require their applicable documentation, meaning, invalid-control and timing checks. Optional models and undeclared formats are not mandatory for every project. The six-case check establishes invocation only. The first public 0.1 release now requires [B0](BASELINE.md) across normally selected brands and applicable configured benchmarks, retaining explicit gaps and qualification; it does not require every product to expose every interface. The maintainer maintains both Trident and Agentic Mermaid; common output observers, independent input contributions and external adapter review remain necessary.
+Additional claims require their applicable documentation, meaning, invalid-control and timing checks. Optional models and undeclared formats are not mandatory for every project. The six-case check establishes invocation only. The first public 0.1 release requires [B0](BASELINE.md) across the current 27-renderer selection and applicable configured benchmarks, retaining explicit gaps and qualification; it does not require every product to expose every interface. The maintainer maintains both Trident and Agentic Mermaid; common output observers, independent input contributions and external adapter review remain necessary.
 
 ## Current invocation-check protocol
 

@@ -8,7 +8,7 @@ export const PUBLIC_SUITES = ['community', 'docs', 'fidelity', 'native-fidelity'
 export type PublicSuite = typeof PUBLIC_SUITES[number]
 export type SupportState = 'configured' | 'conditional' | 'adapter-missing' | 'project-unsupported' | 'reference-only' | 'out-of-scope' | 'disabled'
 export interface CatalogMember extends CommunityNode {
-  comparisonScope?: { kind: 'application'; reason: string }
+  comparisonScope?: { kind: 'application' | 'catalog-only'; reason: string }
   comparisonBranding?: { distinct: boolean; name?: string | null; evidence: string }
   relation?: string
   parent?: string
@@ -20,6 +20,11 @@ export interface CatalogMember extends CommunityNode {
 }
 export interface SuiteSupport { state: SupportState; reason: string }
 export const outputName = (value: string) => ({ 'ascii-unicode': 'terminal', ascii: 'terminal', unicode: 'terminal', ast: 'parse', 'mermaid-text': 'source' }[value] ?? value)
+/** Syntax-only tools stay discoverable without entering renderer campaigns. */
+export function coreScopeReason(node: CatalogMember): string | undefined {
+  if (node.comparisonScope) return node.comparisonScope.reason
+  if (!node.outputs.some(output => ['svg', 'png', 'jpeg', 'pdf', 'terminal'].includes(outputName(output)))) return 'No rendered output is declared; validator, parser, formatter and conversion-only tools are outside renderer benchmarks.'
+}
 /** Reviewed bindings describe public APIs, not a preferred set of project IDs. */
 export function nativeAdapter(node: CommunityNode): string | undefined {
   const adapter = node.benchmark?.adapter
@@ -59,7 +64,8 @@ export function projectSupport(node: CatalogMember) {
       : portableAdapter(node) ? cell('configured', 'Reviewed public Node SVG call; SVG admission, optional model/paint evidence and A/A calibration remain distinct.')
         : cell('adapter-missing', 'No reviewed portable Node SVG invocation is bound; browser/WASM/CLI capability is not a Node binding.'),
   }
-  if (node.comparisonScope?.kind === 'application') for (const suite of PUBLIC_SUITES) suites[suite] = cell('out-of-scope', node.comparisonScope.reason)
+  const scopeReason = coreScopeReason(node)
+  if (scopeReason) for (const suite of PUBLIC_SUITES) suites[suite] = cell('out-of-scope', scopeReason)
   const releaseSkip = releaseBenchmarkSkip(node)
   if (releaseSkip) for (const suite of PUBLIC_SUITES) if (!['project-unsupported', 'reference-only', 'out-of-scope'].includes(suites[suite].state)) suites[suite] = cell('disabled', releaseSkip.reason)
   return {
@@ -68,7 +74,7 @@ export function projectSupport(node: CatalogMember) {
     adapterReview: node.benchmarkEligibility?.adapterReview ?? 'not independently reviewed',
     comparisonScope: node.comparisonScope ?? null,
     releaseSkip: releaseSkip ?? null,
-    declaredOutputs: declared, boundOutputs: bound, missingOutputBindings: node.comparisonScope?.kind === 'application' ? [] : declared.filter(value => !bound.includes(value)), suites,
+    declaredOutputs: declared, boundOutputs: bound, missingOutputBindings: scopeReason ? [] : declared.filter(value => !bound.includes(value)), suites,
     evidence: 'Configuration assessment only. No successful build, family support, correctness or timing is asserted.',
   }
 }
@@ -83,7 +89,7 @@ export function supportInventory(nodes: CatalogMember[]) {
 const escape = (value: unknown) => String(value).replaceAll('|', '/').replaceAll('\n', ' ')
 export function supportMarkdown(inventory: ReturnType<typeof supportInventory>) {
   return ['# Trident project support', '', `${inventory.catalogEntities} catalog entities; ${inventory.configuredEntities} have declared adapters. Configuration is not execution evidence.`, '',
-    'Each suite cell names harness coverage. adapter-missing means Trident has no reviewed binding; project-unsupported means the requested output is not declared. conditional requires browser/artifact admission. reference-only is outside a candidate comparison. out-of-scope marks whole-application workflows retained only for discovery; disabled marks a pinned release skipped by configuration.', '',
+    'Each suite cell names harness coverage. adapter-missing means Trident has no reviewed binding; project-unsupported means the requested output is not declared. conditional requires browser/artifact admission. reference-only is outside a candidate comparison. out-of-scope marks non-renderers, applications and explicit catalog-only entries; disabled marks a pinned release skipped by configuration.', '',
     '| Project | Relation / parent | Declared → bound outputs | Adapter / review | ' + PUBLIC_SUITES.join(' | ') + ' |',
     '|---|---|---|---|' + PUBLIC_SUITES.map(() => '---').join('|') + '|',
     ...inventory.projects.map(row => '| ' + [row.project, `${row.relation}${row.parent ? ' / ' + row.parent : ''}`, `${row.declaredOutputs.join(', ')} → ${row.boundOutputs.join(', ') || 'none'}`, `${row.adapter ?? 'none'} / ${row.adapterReview}`, ...PUBLIC_SUITES.map(suite => row.suites[suite].state)].map(escape).join(' | ') + ' |'), '',

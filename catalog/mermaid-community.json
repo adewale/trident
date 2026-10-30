@@ -159,7 +159,7 @@
     ],
     "roles": "language-reference, ancestor, self, peer (browserless renderer worth comparing on speed, payload and output), terminal-peer, parser-peer, observed (catalogued but not selected for renderer benchmarks; application or integration comparisons may still apply).",
     "outputs": "svg, png, jpeg, pdf, ascii-unicode (includes ANSI-coloured text), ast, diagnostics, mermaid-text, react-flow, excalidraw.",
-    "benchmarkEligibility": "Every node has an explicit per-node eligibility classification/reason and operation adapter enrollment. Configuration is not a measurement/pass. Unknown public APIs and absent adapters are unmeasured until actual attempts; no private-host or credential blockers are inferred. Validators/formatters/converters compare only applicable operations. Source/history aliases require identical complete Git pins plus admitted compiled/distributed bytes and identical reviewed build/runtime protocols; shared roots/ahead counts alone never authorize evidence reuse."
+    "benchmarkEligibility": "Renderer campaigns require a declared SVG, raster, PDF or terminal output. Validator, parser, formatter and conversion-only tools, applications and explicit catalog-only entries remain discovery records and cannot be enabled with the descendant override. Renderers may still exercise their own parsing, diagnostics and source APIs. Configuration is not a measurement/pass. Source/history aliases require verified artifact, build, runtime and invocation equivalence; lineage alone never authorizes score reuse."
   },
   "nodes": [
     {
@@ -262,6 +262,10 @@
           "excalidraw"
         ],
         "moduleOutputs": []
+      },
+      "comparisonScope": {
+        "kind": "catalog-only",
+        "reason": "Editable conversion is outside the renderer campaign; retained for discovery and provenance."
       }
     },
     {
@@ -3041,6 +3045,10 @@
         "distinct": true,
         "name": "mdv",
         "evidence": "Catalog identifies a terminal Markdown viewer and @zhenhuaa/mdv package."
+      },
+      "comparisonScope": {
+        "kind": "catalog-only",
+        "reason": "Excluded by project selection: Beautiful-derived viewer/library; renderer differentiation has not been established for a separate campaign."
       }
     },
     {
@@ -3164,6 +3172,10 @@
         "engineScope": "diagnostics-only-operation-cohort",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Published @aj-archipelago/merval@1.0.7 declares diagnostics. No SVG/terminal rank is appropriate; parser/validation correctness and cost are relevant. Missing diagnostics adapter is not global N/A."
+      },
+      "comparisonScope": {
+        "kind": "catalog-only",
+        "reason": "Validator-only tool; no rendered output. Excluded from renderer benchmarks."
       }
     },
     {
@@ -3306,6 +3318,10 @@
         "engineScope": "source-transformation-operation-cohort",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Published mermaid-formatter@0.3.0 emits Mermaid text. Compare formatting/parse/roundtrip correctness and latency separately; do not place it in renderer speed ranks or classify the whole tool N/A."
+      },
+      "comparisonScope": {
+        "kind": "catalog-only",
+        "reason": "Source formatter; no rendered output. Excluded from renderer benchmarks."
       }
     },
     {
@@ -3598,6 +3614,10 @@
         "engineScope": "independent-engine-candidate",
         "adapterReview": "existing-adapter; outcomes remain independent",
         "reason": "Catalog declares parse operations with adapter visimer. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+      },
+      "comparisonScope": {
+        "kind": "catalog-only",
+        "reason": "Parser/editing core; its DOM integration delegates rendering to Mermaid. Excluded from renderer benchmarks."
       }
     },
     {
@@ -3688,6 +3708,10 @@
         "engineScope": "independent-engine-candidate",
         "adapterReview": "existing-adapter; outcomes remain independent",
         "reason": "Catalog declares terminal operations with adapter source-cli. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+      },
+      "comparisonScope": {
+        "kind": "catalog-only",
+        "reason": "Uses Merman parser and ASCII rendering; excluded from the regular campaign as an integration around an enrolled engine."
       }
     },
     {
@@ -4008,6 +4032,10 @@
         "engineScope": "independent-engine-candidate",
         "adapterReview": "existing-adapter; outcomes remain independent",
         "reason": "Catalog declares parse operations with adapter mermaid-ast. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+      },
+      "comparisonScope": {
+        "kind": "catalog-only",
+        "reason": "AST interface using the Mermaid parser; no rendered output. Excluded from renderer benchmarks."
       }
     },
     {
@@ -4102,6 +4130,10 @@
         "engineScope": "diagnostics-only-operation-cohort",
         "adapterReview": "existing-adapter; outcomes remain independent",
         "reason": "Catalog declares diagnostics operations with adapter maid. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+      },
+      "comparisonScope": {
+        "kind": "catalog-only",
+        "reason": "Validator-only tool; no rendered output. Excluded from renderer benchmarks."
       }
     },
     {
@@ -4203,6 +4235,10 @@
         "engineScope": "graph-conversion-operation-cohort",
         "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
         "reason": "Published mermaid-reactflow-render@0.5.1 emits React Flow and is flowchart-only. Require graph/node/edge semantic conversion cohort or actual rendered React viewport; no fabricated SVG latency. Conversion is measurable functionality despite renderer-cohort mismatch."
+      },
+      "comparisonScope": {
+        "kind": "catalog-only",
+        "reason": "Graph conversion is outside the renderer campaign; retained for discovery and provenance."
       }
     },
     {
@@ -4385,6 +4421,10 @@
         "distinct": true,
         "name": "OpenCode Merman",
         "evidence": "Catalog records separately named opencode-merman port."
+      },
+      "comparisonScope": {
+        "kind": "catalog-only",
+        "reason": "Excluded by project selection: derived from the enrolled OpenCode Merman component; a separate renderer comparison is not currently justified."
       }
     },
     {
@@ -4525,6 +4565,10 @@
         "distinct": true,
         "name": "TUI Mermaid",
         "evidence": "Catalog records published tui-mermaid package, derived from grok-build."
+      },
+      "comparisonScope": {
+        "kind": "catalog-only",
+        "reason": "Excluded by project selection: TypeScript Grok port overlaps the enrolled Grok lineage; no separate regular campaign."
       }
     },
     {
@@ -4636,6 +4680,10 @@
         "distinct": true,
         "name": "Lovely Mermaid",
         "evidence": "Catalog records separately named lovely-mermaid port of grok-build."
+      },
+      "comparisonScope": {
+        "kind": "catalog-only",
+        "reason": "Excluded by project selection: TypeScript Grok port overlaps the enrolled Grok lineage; no separate regular campaign."
       }
     },
     {

@@ -1,7 +1,7 @@
 # Initial ecosystem baseline
 
-**Publish B0 (`ecosystem-b0`) before the first public 0.1 release. Collection has
-not started.** B0 covers every normally selected brand and applicable benchmark.
+**Publish B0 (`ecosystem-b0`) before the first public 0.1 release. Reconciliation
+and publication remain pending.** B0 covers every normally selected brand and applicable benchmark.
 A broken release, unsupported operation or missing Trident binding stays visible.
 Projects do not have to pass every check for the harness to ship.
 
@@ -37,8 +37,8 @@ The reference remains Mermaid 12.2.0 with the source and tools in
 [tool-versions.json](tool-versions.json). Its original tests run once in their
 qualified source/runtime, separately from peer scores. A newer Mermaid product
 needs its own reviewed identity. Mermaid Dart and Mermaid Flutter are separate
-brands; unbranded descendants and applications remain excluded. Rusty Mermaid
-0.42.0 stays skipped for its missing published runtime.
+brands; unbranded descendants and applications remain excluded. Validator-only tools remain outside renderer scope, including Rusty Mermaid.
+Its 0.42.0 missing-runtime receipt remains historical evidence.
 
 The dated [29 October preparation archive](https://github.com/adewale/trident/tree/a43c75361a99e41fa337a477602eaaa3b30bfc70)
 retains the original 39-artifact freeze and raw v6 pilot evidence. Its hard-coded
@@ -78,8 +78,9 @@ interval, under its independence assumptions. Five rounds cannot supply that
 interval regardless of repeated-call count. Intervals and A/A noise checks remain
 visible; unstable timing is withheld. No individual-call p95/p99 claim is made.
 
-For 11 projects and 51 positive cases this plans **50,490 cold launch slots**,
-before admission exclusions, versus the earlier 178,200-slot v6 plan. All 54 cases
+For the current ten portable Node SVG projects and 51 positive cases this plans
+**45,900 cold launch slots**, before admission exclusions. The earlier 39-project
+selection planned 50,490 slots across eleven Node SVG projects; sampling is unchanged. All 54 cases
 remain in the inventory; a rejected family probe marks its cases unsupported.
 Invalid controls run once. Cases with failed or blocked admission retain their
 outcomes and receive no further timing/resource jobs.
