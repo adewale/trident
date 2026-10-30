@@ -71,9 +71,9 @@ core; default; node:public-api; Node; terminal; render. Compared rows have the s
 
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AlexanderGrooff/mermaid-ascii | — | 1.6.1 | 0 | 0 | 0 | 0 | 2 | 2 | 2026-10-30T00:49:06.716Z |
+| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| AlexanderGrooff/mermaid-ascii | — | 1.6.1 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 2 | 2026-10-30T00:49:06.716Z |
 
 <a id="run-6a765b890456b6d5d024c6d5"></a>
 
@@ -83,9 +83,9 @@ core; default; cli:end-to-end; linux-x64 public native CLI; terminal; family-sup
 
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AlexanderGrooff/mermaid-ascii | 1 | 1.6.1 | 2 | 0 | 0 | 0 | 0 | 2 | 2026-10-30T00:49:06.716Z |
+| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| AlexanderGrooff/mermaid-ascii | 1 | 1.6.1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 2026-10-30T00:49:06.716Z |
 
 <a id="run-c950de1fea7135cdcaceea93"></a>
 
@@ -95,9 +95,9 @@ core; default; cli:end-to-end; linux-x64 public native CLI; terminal; render. Co
 
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AlexanderGrooff/mermaid-ascii | 1 | 1.6.1 | 4 | 0 | 0 | 0 | 0 | 4 | 2026-10-30T00:49:06.716Z |
+| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| AlexanderGrooff/mermaid-ascii | 1 | 1.6.1 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 4 | 2026-10-30T00:49:06.716Z |
 
 <a id="run-7b3c7a5ff9b52f183299001b"></a>
 
@@ -107,9 +107,9 @@ core; default; browser:public-api; chromium; svg; capability. Compared rows have
 
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AlexanderGrooff/mermaid-ascii | — | 1.6.1 | 0 | 0 | 0 | 0 | 1 | 1 | 2026-10-30T00:49:06.716Z |
+| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| AlexanderGrooff/mermaid-ascii | — | 1.6.1 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T00:49:06.716Z |
 
 <a id="run-a1a9d73df5018d5b1459f112"></a>
 
@@ -119,9 +119,9 @@ core; default; node:public-api; Node; svg; render. Compared rows have the same r
 
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| obsidianmd/pele | — | 1.12.0 | 0 | 0 | 0 | 0 | 2 | 2 | 2026-10-30T00:49:12.529Z |
+| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| obsidianmd/pele | — | 1.12.0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 2 | 2026-10-30T00:49:12.529Z |
 
 <a id="run-06e3f690f0a018888a02dbe4"></a>
 
@@ -131,9 +131,9 @@ core; default; node:public-api; Node 24.19.0; svg; family-support. Compared rows
 
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| obsidianmd/pele | 1 | 1.12.0 | 5 | 0 | 0 | 0 | 0 | 5 | 2026-10-30T00:49:12.529Z |
+| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| obsidianmd/pele | 1 | 1.12.0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 2026-10-30T00:49:12.529Z |
 
 <a id="run-12219aaf0752dde8024685c6"></a>
 
@@ -143,9 +143,9 @@ core; default; node:public-api; Node 24.19.0; svg; render. Compared rows have th
 
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| obsidianmd/pele | 1 | 1.12.0 | 7 | 0 | 0 | 0 | 0 | 7 | 2026-10-30T00:49:12.529Z |
+| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| obsidianmd/pele | 1 | 1.12.0 | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 7 | 2026-10-30T00:49:12.529Z |
 
 <a id="run-f3ddfa7692bbd01d14b8042d"></a>
 
@@ -155,9 +155,9 @@ core; default; browser:public-api; chromium; svg; render. Compared rows have the
 
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| obsidianmd/pele | 1 | 1.12.0 | 7 | 0 | 0 | 0 | 2 | 9 | 2026-10-30T00:49:12.529Z |
+| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| obsidianmd/pele | 1 | 1.12.0 | 7 | 0 | 0 | 0 | 2 | 0 | 0 | 9 | 2026-10-30T00:49:12.529Z |
 
 <a id="run-9dab633284d510474e6981c8"></a>
 
@@ -167,9 +167,9 @@ core; default; browser:public-api; chromium; svg; load-and-initialize. Compared 
 
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| obsidianmd/pele | 1 | 1.12.0 | 1 | 0 | 0 | 0 | 0 | 1 | 2026-10-30T00:49:12.529Z |
+| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| obsidianmd/pele | 1 | 1.12.0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 2026-10-30T00:49:12.529Z |
 
 <a id="run-5f07ff31ac7286cd9c44ab31"></a>
 
@@ -179,9 +179,9 @@ core; default; browser:public-api; chromium; svg; family-support. Compared rows 
 
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| obsidianmd/pele | 1 | 1.12.0 | 5 | 0 | 0 | 0 | 0 | 5 | 2026-10-30T00:49:12.529Z |
+| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| obsidianmd/pele | 1 | 1.12.0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 2026-10-30T00:49:12.529Z |
 
 <a id="run-73f14cad433e82ceb43e5d83"></a>
 
@@ -191,9 +191,9 @@ core; default; browser:public-api; chromium-v8; svg; memory. Compared rows have 
 
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| obsidianmd/pele | 1 | 1.12.0 | 1 | 0 | 0 | 0 | 0 | 1 | 2026-10-30T00:49:12.529Z |
+| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| obsidianmd/pele | 1 | 1.12.0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 2026-10-30T00:49:12.529Z |
 
 <a id="run-acd51dcc74e7ffce4f45137f"></a>
 
@@ -203,9 +203,9 @@ core; default; browser:public-api; chromium-processes; svg; process-memory. Comp
 
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| obsidianmd/pele | 1 | 1.12.0 | 1 | 0 | 0 | 0 | 0 | 1 | 2026-10-30T00:49:12.529Z |
+| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| obsidianmd/pele | 1 | 1.12.0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 2026-10-30T00:49:12.529Z |
 
 <a id="run-8b1ada3691b79fe5cf8400ed"></a>
 
@@ -215,9 +215,9 @@ core; default; browser:public-api; chromium; js-wasm-fonts; delivery. Compared r
 
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| obsidianmd/pele | 1 | 1.12.0 | 1 | 0 | 0 | 0 | 0 | 1 | 2026-10-30T00:49:12.529Z |
+| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| obsidianmd/pele | 1 | 1.12.0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 2026-10-30T00:49:12.529Z |
 
 <a id="run-446b036572ad1f463932e2bc"></a>
 
@@ -227,9 +227,9 @@ core; public-cli; cli:end-to-end; linux-x64 public native CLI; terminal; render.
 
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AlexanderGrooff/mermaid-ascii | 1 | 1.6.1 | 3 | 0 | 0 | 0 | 0 | 3 | 2026-10-30T00:49:06.716Z |
+| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| AlexanderGrooff/mermaid-ascii | 1 | 1.6.1 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 2026-10-30T00:49:06.716Z |
 
 <a id="run-7a156fbe781d6bccfdf0c069"></a>
 
@@ -239,9 +239,9 @@ core; public-cli; cli:end-to-end; linux-x64 public native CLI; terminal; resourc
 
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AlexanderGrooff/mermaid-ascii | 1 | 1.6.1 | 3 | 0 | 0 | 0 | 0 | 3 | 2026-10-30T00:49:06.716Z |
+| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| AlexanderGrooff/mermaid-ascii | 1 | 1.6.1 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 2026-10-30T00:49:06.716Z |
 
 ### DaveBench: Documentation Examples
 

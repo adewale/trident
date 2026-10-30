@@ -7,7 +7,7 @@ This bundle records preparation, budget/resume, publication and shipped-kit chec
 **Claim:** the same owning records now produce ranked tables without transcription, and Mermaid ASCII retains its catalog identity.
 
 - Base: `1c7fcb22ed843734154942208abad80c77577b0d`; [actual generated output](before/RESULTS.md). The importer produces zero tables and loses Mermaid ASCII's observation groups.
-- Head: `703115859c2b3b8dcdbbf8bfde73feec4c4286bf`; [actual generated output](after/RESULTS.md). The importer produces 15 tables, preserving public interfaces and both projects' observation groups.
+- Head: `cf8062ddaba0e32c212f8c39627cf1f9e2fa4870`; [actual generated output](after/RESULTS.md). The importer produces 15 tables, preserving public interfaces and both projects' observation groups.
 - Named input: `bounded-source-release-smoke`, collected at `cc9a897e63bbbf133c8b6ebfb593ad2f96094e16`. Both generators read the same controller, empty initial snapshot and owning observations. [Hashes and reproduction command](comparison.json); [raw controller](raw-source/report.json); [owning result](raw-source/community/result.json).
 
 Review the new metric tables and Mermaid ASCII's recorded evidence. These are the production Markdown generator's outputs; there is no separate screenshot renderer. Comparable numeric rows receive ranks. This two-brand smoke has different public interfaces, so its tables do not establish a winner between Pele and Mermaid ASCII. The mixed-case reporting regression and inventory/ranking tests provide independent checks.
@@ -31,7 +31,7 @@ The release check ran at `cc9a897e63bbbf133c8b6ebfb593ad2f96094e16`, before the 
 
 ## Regression review
 
-The [regression logs](regressions/) show failures when the relevant fix is removed or the original defect is exercised. They cover pilot totals, automatic tables, checkpoint reuse, archive validation, release-CLI binding, legacy cold qualification, one-call invalid admission, CLI output bindings under GNU time, compiled cutoff versions, paint-budget propagation and mixed-case project IDs.
+The [regression logs](regressions/) show failures when the relevant fix is removed or the original defect is exercised. They cover pilot totals, automatic tables, checkpoint reuse, archive validation, release-CLI binding, legacy cold qualification, one-call invalid admission, CLI output bindings under GNU time, compiled cutoff versions, paint-budget propagation and mixed-case project IDs, and separate unranked inapplicable/skipped counts.
 
 The review also corrected resume directory handling, restored recorded invocation options, preserved reused measurement dates, retained untimed admission observations, and removed a redundant community report path. Tests retain failures and unavailable observations rather than converting them to zero or pass.
 

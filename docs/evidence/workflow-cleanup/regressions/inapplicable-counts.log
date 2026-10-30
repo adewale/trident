@@ -1,0 +1,23 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-workflows.test.ts:
+191 | test('inapplicable and skipped observations keep their own counts and receive no rank', () => {
+192 |   const root = temp(), out = join(root, 'fidelity'); mkdirSync(out)
+193 |   const observations = ['not-applicable', 'skipped', 'blocked'].map((status, index) => ({ suite: 'fidelity', surface: 'browser', runtime: 'Chromium', format: 'svg', caseId: 'one', operation: 'criterion', mode: 'capability', family: 'flowchart', status, metrics: { project: 'fixture/' + index, version: '1.0.0' } }))
+194 |   write(join(out, 'result.json'), { id: 'fidelity', finishedAt: '2026-01-02', observations })
+195 |   const table = campaignTables({ projects: observations.map(row => row.metrics.project), results: [{ suite: 'fidelity', out }] } as any, receipt)[0]!
+196 |   expect(table.rows[0]!.values[table.columns.indexOf('Not applicable')]).toBe(1)
+                                                                               ^
+error: expect(received).toBe(expected)
+
+Expected: 1
+Received: 0
+
+      at <anonymous> (/workspace/trident/tests/campaign-workflows.test.ts:196:74)
+(fail) inapplicable and skipped observations keep their own counts and receive no rank [7.95ms]
+
+ 0 pass
+ 10 filtered out
+ 1 fail
+ 1 expect() calls
+Ran 1 test across 1 file. [1.61s]

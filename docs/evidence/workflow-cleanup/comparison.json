@@ -1,14 +1,14 @@
 {
   "name": "bounded-source-release-smoke",
   "base": "1c7fcb22ed843734154942208abad80c77577b0d",
-  "head": "703115859c2b3b8dcdbbf8bfde73feec4c4286bf",
+  "head": "cf8062ddaba0e32c212f8c39627cf1f9e2fa4870",
   "collectionSource": "cc9a897e63bbbf133c8b6ebfb593ad2f96094e16",
   "rawEvidenceCommit": "130b7d0a601bc45bb2d7e16610aa326034a7ea93",
   "inputSha256": "f1e7c7e4106960b37a69bb94f520eff9398e9d068cce7b8703c7196f6d2b39f2",
   "emptySnapshotSha256": "4147e70f9197b494dfdc634811c339c947691cc7191582534067556d53b7e859",
   "outputs": {
     "before": "1fafe04d4c10580bf98d2c2b8843e8a5861de7de80d38e6454105906e0eeebba",
-    "after": "0d2051738a02ecb3114afc5350890b7b6f02d9ef9e6ca33507741bd2aac6a138"
+    "after": "cba06bdcdbdb15f18c35a495bc61cf46231270224bae411bfe441eef193565e8"
   },
   "command": "bun commands.ts results:snapshot --input EMPTY_SNAPSHOT --campaign SOURCE_CAMPAIGN --evidence-url RAW_EVIDENCE_URL --out OUTPUT",
   "claim": "The same owning observations generate ranked per-interface tables without transcription. Catalog project spelling is preserved. The base importer creates attempts but zero tables.",

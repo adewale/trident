@@ -1,0 +1,1 @@
+The generated surface is Markdown. Immutable production before/after documents, input hashes and independent reduction tests supply the evidence. The mechanical image/video linter does not recognize Markdown artifacts. Its media-only error was reviewed with that limitation. The remaining warnings concern the requested six-part diff size and intentional CLI progress messages.
