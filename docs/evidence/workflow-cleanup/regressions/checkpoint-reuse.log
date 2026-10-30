@@ -1,0 +1,21 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-workflows.test.ts:
+ 5 | 
+ 6 | export class CollectionBudgetExhausted extends Error {
+ 7 |   constructor() { super('Collection budget exhausted; completed units retained for resume'); this.name = 'CollectionBudgetExhausted' }
+ 8 | }
+ 9 | export function checkCollectionBudget(deadline?: number) {
+10 |   if (deadline !== undefined && Date.now() >= deadline) throw new CollectionBudgetExhausted()
+                                                                   ^
+CollectionBudgetExhausted: Collection budget exhausted; completed units retained for resume
+      at checkCollectionBudget (/workspace/trident/portable/checkpoint.ts:10:63)
+      at collect (/workspace/trident/portable/checkpoint.ts:43:5)
+      at <anonymous> (/workspace/trident/tests/campaign-workflows.test.ts:49:23)
+(fail) a shared deadline retains complete units, resumes them once, and binds identity and bytes [2.92ms]
+
+ 0 pass
+ 9 filtered out
+ 1 fail
+ 1 expect() calls
+Ran 1 test across 1 file. [998.00ms]

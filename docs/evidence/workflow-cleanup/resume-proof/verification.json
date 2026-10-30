@@ -1,0 +1,22 @@
+{
+  "sourceRevision": "f6073b04e85d6b118dc12e48495f6d2d07ff42a2",
+  "retainedUnits": 13,
+  "allRetainedWorkerValuesUnchanged": true,
+  "startedAtPreserved": true,
+  "invocationOptionsPreserved": true,
+  "windows": [
+    {
+      "startedAt": "2026-10-30T00:32:34.469Z",
+      "budgetMinutes": 0.1666666667,
+      "deadline": 1793320363975
+    },
+    {
+      "startedAt": "2026-10-30T00:33:08.082Z",
+      "budgetMinutes": 0.6666666667,
+      "deadline": 1793320427817
+    }
+  ],
+  "flowchartCompleted": true,
+  "scalingStillIncomplete": true,
+  "scope": "One real Pele pilot on frozen published artifact. Budget/resume proof only; no ecosystem qualification."
+}

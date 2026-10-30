@@ -1,0 +1,58 @@
+[
+  {
+    "name": "pilot-total",
+    "file": "unified/pilot-summary.ts",
+    "test": "tests/campaign-workflows.test.ts",
+    "pattern": "pilot headlines",
+    "exitCode": 1,
+    "failedRegression": true
+  },
+  {
+    "name": "automatic-tables",
+    "file": "unified/results-snapshot.ts",
+    "test": "tests/campaign-workflows.test.ts",
+    "pattern": "campaign imports generate",
+    "exitCode": 1,
+    "failedRegression": true
+  },
+  {
+    "name": "checkpoint-reuse",
+    "file": "portable/checkpoint.ts",
+    "test": "tests/campaign-workflows.test.ts",
+    "pattern": "a shared deadline",
+    "exitCode": 1,
+    "failedRegression": true
+  },
+  {
+    "name": "archive-checksum",
+    "file": "scripts/package-release.ts",
+    "test": "tests/campaign-workflows.test.ts",
+    "pattern": "release verification checks",
+    "exitCode": 1,
+    "failedRegression": true
+  },
+  {
+    "name": "cli-release-binding",
+    "file": "unified/release-selection.ts",
+    "test": "tests/campaign-workflows.test.ts",
+    "pattern": "release selection respects",
+    "exitCode": 1,
+    "failedRegression": true
+  },
+  {
+    "name": "legacy-cold-minimum",
+    "file": "portable/report.ts",
+    "test": "tests/portable-measurement.test.ts",
+    "pattern": "v7 admits",
+    "exitCode": 1,
+    "failedRegression": true
+  },
+  {
+    "name": "single-negative-call",
+    "file": "portable/execution.ts",
+    "test": "tests/portable-measurement.test.ts",
+    "pattern": "invalid controls retain",
+    "exitCode": 1,
+    "failedRegression": true
+  }
+]

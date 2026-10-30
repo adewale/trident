@@ -1,0 +1,68 @@
+bun test v1.4.2 (744846f84)
+
+tests/unified-cli-resource-observer.test.ts:
+(pass) explicit observer retains the default command binding and actual costs without qualifying invalid output [81.61ms]
+29 |     }
+30 |     const workload = { id: 'core:flow5', family: 'flowchart', source: 'flowchart LR\nA[Start]', expectedLabels: ['Start'], features: ['core-graph-batch'], provenance: 'authored resource admission regression' }
+31 |     const result = runCommunityResourceDiagnostic(variant, 'svg', workload, observed, directory)
+32 |     expect(result.status).toBe('failed')
+33 |     expect(result.samplesMs).toBeUndefined()
+34 |     expect(result.metrics).toMatchObject({ userCpuMs: 0, systemCpuMs: 0, cpuBelowResolution: true, totalCpuUpperBoundMs: 20, peakRssBytes: 1234 * 1024 })
+                                ^
+error: expect(received).toMatchObject(expected)
+
+  {
+-   "cpuBelowResolution": true,
+-   "peakRssBytes": 1263616,
+-   "systemCpuMs": 0,
+-   "totalCpuUpperBoundMs": 20,
+-   "userCpuMs": 0,
++   "clock": "GNU time child user/system CPU and maximum resident set; observer elapsed discarded",
++   "implementation": "fixture/invalid",
++   "metricId": "fixture/invalid:cli-resource:svg",
++   "observer": "/tmp/am-resource-observer-kl6R1Y/observer.cjs",
++   "qualification": "format-only",
++   "variant": "public-cli",
++   "variantOf": "fixture/invalid",
+  }
+
+- Expected  - 5
++ Received  + 7
+
+      at <anonymous> (/workspace/trident/tests/unified-cli-resource-observer.test.ts:34:28)
+(fail) explicit observer retains the stdout-binding command binding and actual costs without qualifying invalid output [70.75ms]
+29 |     }
+30 |     const workload = { id: 'core:flow5', family: 'flowchart', source: 'flowchart LR\nA[Start]', expectedLabels: ['Start'], features: ['core-graph-batch'], provenance: 'authored resource admission regression' }
+31 |     const result = runCommunityResourceDiagnostic(variant, 'svg', workload, observed, directory)
+32 |     expect(result.status).toBe('failed')
+33 |     expect(result.samplesMs).toBeUndefined()
+34 |     expect(result.metrics).toMatchObject({ userCpuMs: 0, systemCpuMs: 0, cpuBelowResolution: true, totalCpuUpperBoundMs: 20, peakRssBytes: 1234 * 1024 })
+                                ^
+error: expect(received).toMatchObject(expected)
+
+  {
+-   "cpuBelowResolution": true,
+-   "peakRssBytes": 1263616,
+-   "systemCpuMs": 0,
+-   "totalCpuUpperBoundMs": 20,
+-   "userCpuMs": 0,
++   "clock": "GNU time child user/system CPU and maximum resident set; observer elapsed discarded",
++   "implementation": "fixture/invalid",
++   "metricId": "fixture/invalid:cli-resource:svg",
++   "observer": "/tmp/am-resource-observer-ilWJYd/observer.cjs",
++   "qualification": "unavailable",
++   "variant": "public-cli",
++   "variantOf": "fixture/invalid",
+  }
+
+- Expected  - 5
++ Received  + 7
+
+      at <anonymous> (/workspace/trident/tests/unified-cli-resource-observer.test.ts:34:28)
+(fail) explicit observer retains the file-binding command binding and actual costs without qualifying invalid output [61.70ms]
+
+ 1 pass
+ 2 filtered out
+ 2 fail
+ 19 expect() calls
+Ran 3 tests across 1 file. [262.00ms]

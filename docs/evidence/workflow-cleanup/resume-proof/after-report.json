@@ -1,0 +1,150 @@
+{
+  "schema": "trident-campaign-v2",
+  "pilot": true,
+  "includeExcluded": false,
+  "startedAt": "2026-10-30T00:32:34.469Z",
+  "updatedAt": "2026-10-30T00:33:49.252Z",
+  "projects": [
+    "obsidianmd/pele"
+  ],
+  "profile": "full",
+  "rounds": 6,
+  "requestedSuites": [
+    "portable"
+  ],
+  "options": {
+    "root": "/workspace/trident",
+    "harnessRoot": "/workspace/trident",
+    "out": "/workspace/trident-simplification-evidence/resume-pilot",
+    "profile": "full",
+    "rounds": 6,
+    "communityProjects": [
+      "obsidianmd/pele"
+    ],
+    "communityForce": false,
+    "allowIncomplete": false,
+    "communityArtifactPolicy": "frozen",
+    "communityCoverageOnce": true,
+    "communityCatalogFile": "/workspace/trident-simplification-evidence/resume-pilot/preparation/catalog.json",
+    "communityPreparedFile": "/workspace/trident-simplification-evidence/resume-pilot/preparation/community-prepared.json",
+    "communityBrowserPreparedFile": "/workspace/trident-simplification-evidence/resume-pilot/preparation/community-browser-prepared.json",
+    "communityInputsFile": "/workspace/trident-simplification-evidence/resume-pilot/preparation/community-inputs.json"
+  },
+  "preparationFile": "/workspace/trident-simplification-evidence/resume-pilot/preparation.json",
+  "preparationSha256": "563c1384ceb2fa8e98edf884748fe9ce1c3ac67482fd458928cdc8d0490d3770",
+  "runtime": {
+    "environment": {
+      "runtime": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "node": "24.19.0",
+        "v8": "13.6.233.17-node.51",
+        "platform": "linux",
+        "arch": "x64"
+      },
+      "nodeSha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12",
+      "host": "55cc1e917f42",
+      "cpu": [
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C"
+      ],
+      "kernel": "6.18.55",
+      "cpuLimit": "400000 100000",
+      "memoryLimit": "34359738368",
+      "environment": {
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null,
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_NUMERIC": null,
+        "AGENTIC_MERMAID_EXPERIMENTS": null
+      }
+    },
+    "driver": {
+      "status": "available",
+      "path": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+      "mode": 33216,
+      "version": "1.4.2",
+      "sha256": "a83d263767d839e4d2649ca8e35d07159c7afc99afdc96d731ced29e056dda0c",
+      "companions": []
+    },
+    "browser": {
+      "status": "not-configured",
+      "path": null
+    },
+    "selectors": {
+      "LD_LIBRARY_PATH": "/workspace/trident-b0-2026-10-29/runtime-libs",
+      "DISPLAY": ":97",
+      "FONTCONFIG_FILE": null,
+      "FONTCONFIG_PATH": null,
+      "LIBGL_ALWAYS_SOFTWARE": "1",
+      "NODE_COMPILE_CACHE": null,
+      "UV_THREADPOOL_SIZE": null,
+      "MERMAID_REFERENCE_DIR": "/workspace/.cloud-tools/mermaid-reference",
+      "MERMAID_UPSTREAM_DIR": "/workspace/trident-pr21-review/mermaid-original-source",
+      "MERMAID_UPSTREAM_RUNNER_ROOT": "/workspace/trident-pr21-review/mermaid-original-runtime"
+    }
+  },
+  "deadline": 1793320427817,
+  "windows": [
+    {
+      "startedAt": "2026-10-30T00:32:34.469Z",
+      "budgetMinutes": 0.1666666667,
+      "deadline": 1793320363975
+    },
+    {
+      "startedAt": "2026-10-30T00:33:08.082Z",
+      "budgetMinutes": 0.6666666667,
+      "deadline": 1793320427817
+    }
+  ],
+  "results": [
+    {
+      "suite": "portable",
+      "project": "obsidianmd/pele",
+      "cohort": "pilot:family:flowchart",
+      "out": "/workspace/trident-simplification-evidence/resume-pilot/portable/obsidianmd%2Fpele/family%3Aflowchart",
+      "launched": true,
+      "elapsedSeconds": 20.95,
+      "caseId": "family:flowchart",
+      "status": "blocked",
+      "detail": "Portable qualification: uncalibrated",
+      "counts": {
+        "cases": 1,
+        "positiveCases": 1,
+        "negativeCases": 0,
+        "families": 1,
+        "canonicalFamilyRepresentatives": 1,
+        "unsupportedFamilies": [],
+        "unsupportedCases": 0,
+        "workers": 121,
+        "failedWorkers": 0,
+        "blockedWorkers": 0,
+        "completeSemanticCases": 1,
+        "outputAdmissionCases": 1,
+        "negativeAdmissionCases": 0,
+        "outputCalibratedTimingRows": 1,
+        "calibratedTimingRows": 1,
+        "totalTimingRows": 3,
+        "actualTimedCalls": 11739
+      },
+      "completed": true
+    },
+    {
+      "suite": "portable",
+      "project": "obsidianmd/pele",
+      "cohort": "pilot:scaling:class:128",
+      "out": "/workspace/trident-simplification-evidence/resume-pilot/portable/obsidianmd%2Fpele/scaling%3Aclass%3A128",
+      "launched": true,
+      "elapsedSeconds": 20.217,
+      "caseId": "scaling:class:128",
+      "status": "blocked",
+      "detail": "CollectionBudgetExhausted: Collection budget exhausted; completed units retained for resume",
+      "completed": false,
+      "disposition": "budget-exhausted"
+    }
+  ]
+}

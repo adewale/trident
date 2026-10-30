@@ -1,0 +1,19 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-workflows.test.ts:
+130 |   const catalog: any = { nodes: [{ id: 'fixture/npm', outputs: ['svg'], roles: ['renderer'], benchmark: { adapter: 'declared', package: 'fixture' }, packages: [{ registry: 'npm', name: 'fixture', version: '0.1.0', gitHead: 'old' }] },
+131 |     { id: 'fixture/cli', outputs: ['terminal'], roles: ['renderer'], release: { tag: 'v1.0.0', commit: 'a'.repeat(40) }, benchmark: { adapter: 'source-cli', cliRelease: { version: '1.0.0', revision: 'a'.repeat(40) } } }] }
+132 |   const frozen = await resolveReleaseCatalog(catalog, ['fixture/npm', 'fixture/cli'], cutoff, temp(), async (kind, _name, url) => kind === 'npm' ? { versions: { '1.0.0': { gitHead: 'new' }, '2.0.0': {} }, time: { '1.0.0': '2026-01-01', '2.0.0': '2026-02-01' } } : url.includes('/commits/') ? { sha: 'b'.repeat(40) } : [{ tag_name: 'v2.0.0', published_at: '2026-01-02' }])
+133 |   expect(frozen.catalog.nodes[0]!.benchmark.version).toBe('1.0.0')
+134 |   expect(frozen.catalog.nodes[0]!.packages[0].gitHead).toBe('new')
+135 |   expect(frozen.catalog.nodes[1]!.benchmark.preparationError).toContain('reviewed CLI archive/binding')
+                                                                    ^
+error: Received value must be an array type, or both received and expected values must be strings.
+      at <anonymous> (/workspace/trident/tests/campaign-workflows.test.ts:135:63)
+(fail) release selection respects the cutoff and refuses a new CLI release without an archive binding [2.52ms]
+
+ 0 pass
+ 9 filtered out
+ 1 fail
+ 4 expect() calls
+Ran 1 test across 1 file. [1246.00ms]

@@ -1,0 +1,23 @@
+bun test v1.4.2 (744846f84)
+
+tests/portable-measurement.test.ts:
+350 |   const settings = { rounds: 6, samples: 31, coldSamples: 5, maximumControlSpread: .25 }
+351 |   const first = portableSummary(cases, results, settings).timing.find(row => row.track === 'first-use')!
+352 |   expect(first.outputCalibration.status).toBe('calibrated')
+353 |   expect(first.outputCalibration.roundRatioUncertainty?.replicaB.interval).not.toBeNull()
+354 |   const legacy = portableSummary(cases, results.map(row => ({ ...row, protocol: 'portable-svg-processes-v6' })), settings)
+355 |   expect(legacy.timing.find(row => row.track === 'first-use')!.outputCalibration.status).toBe('uncalibrated')
+                                                                                               ^
+error: expect(received).toBe(expected)
+
+Expected: "uncalibrated"
+Received: "calibrated"
+
+      at <anonymous> (/workspace/trident/tests/portable-measurement.test.ts:355:90)
+(fail) v7 admits its declared five-process median profile without upgrading historical v6 qualification [8.88ms]
+
+ 0 pass
+ 25 filtered out
+ 1 fail
+ 3 expect() calls
+Ran 1 test across 1 file. [39.00ms]

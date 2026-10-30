@@ -1,0 +1,11 @@
+bun test v1.4.2 (744846f84)
+
+tests/compiled-artifact-version.test.ts:
+(pass) an explicit dart release cutoff survives a newer registry latest and ambient latest policy [3.27ms]
+(pass) an explicit bezel release cutoff survives a newer registry latest and ambient latest policy [0.14ms]
+(pass) an explicit termaid release cutoff survives a newer registry latest and ambient latest policy [0.21ms]
+
+ 3 pass
+ 0 fail
+ 3 expect() calls
+Ran 3 tests across 1 file. [60.00ms]

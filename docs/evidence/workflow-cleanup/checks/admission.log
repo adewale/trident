@@ -1,0 +1,14 @@
+bun test v1.4.2 (744846f84)
+
+tests/portable-measurement.test.ts:
+{"phase":"warm","project":"fixture/api","round":1,"caseId":"invalid:unknown-header","completedCasesInRound":1}
+{"phase":"warm","project":"fixture/api","round":1,"caseId":"invalid:unknown-header","completedCasesInRound":1}
+(pass) invalid controls retain one real public invocation without repeated timing or resource workers [575.06ms]
+{"phase":"warm","project":"fixture/api","round":1,"caseId":"invalid:unknown-header","completedCasesInRound":1}
+(pass) a budget-paused portable invocation resumes its existing attempt directory [3773.16ms]
+
+ 2 pass
+ 25 filtered out
+ 0 fail
+ 23 expect() calls
+Ran 2 tests across 1 file. [4.42s]

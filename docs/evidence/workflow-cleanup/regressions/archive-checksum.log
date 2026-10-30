@@ -1,0 +1,35 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-workflows.test.ts:
+155 |   const root = temp(), kit = join(root, 'trident-1.0.0'); mkdirSync(kit)
+156 |   const entry = join(kit, 'run.mjs'); writeFileSync(entry, "console.log('Trident 1.0.0')")
+157 |   write(join(kit, 'harness-artifact.json'), { files: [{ path: 'run.mjs', sha256: sha(entry) }] })
+158 |   const archive = join(root, 'kit.tar.gz'); execFileSync('tar', ['-czf', archive, '-C', root, 'trident-1.0.0'])
+159 |   expect(verifyReleaseArchive(archive, sha(archive), join(root, 'extracted'), '1.0.0').kit).toBe(join(root, 'extracted/trident-1.0.0'))
+160 |   expect(() => verifyReleaseArchive(archive, 'f'.repeat(64), join(root, 'bad'), '1.0.0')).toThrow('checksum')
+                                                                                                ^
+error: expect(received).toThrow(expected)
+
+Expected substring: "checksum"
+
+Received function did not throw
+Received value: {
+  kit: "/tmp/trident-workflow-MHFZYu/bad/trident-1.0.0",
+  manifest: {
+    files: [
+      {
+        path: "run.mjs",
+        sha256: "9c8d5497f4d307b137774de952cf8f35b00c547dae019850414f8d06287a67ec",
+      }
+    ],
+  },
+}
+
+      at <anonymous> (/workspace/trident/tests/campaign-workflows.test.ts:160:91)
+(fail) release verification checks the actual archive, extracted manifest and executable version [124.51ms]
+
+ 0 pass
+ 9 filtered out
+ 1 fail
+ 2 expect() calls
+Ran 1 test across 1 file. [1008.00ms]

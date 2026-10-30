@@ -1,0 +1,68 @@
+bun test v1.4.2 (744846f84)
+
+tests/compiled-artifact-version.test.ts:
+84 |       return
+85 |     }
+86 |     const file = createWriteStream(log, { flags: 'a' })
+87 |     file.write(`\n$ ${command.join(' ')}\n`)
+88 |     const group = process.platform !== 'win32',
+89 |       child = spawn(command[0]!, command.slice(1), { cwd, env, detached: group, stdio: ['ignore', 'pipe', 'pipe'] })
+                   ^
+ENOENT: no such file or directory, posix_spawn '/nonexistent/forbidden-acquisition'
+      path: "/nonexistent/forbidden-acquisition",
+   syscall: "spawn /nonexistent/forbidden-acquisition",
+     errno: -2,
+ spawnargs: [ "--suppress-analytics",
+  "pub", "get"
+],
+      code: "ENOENT"
+
+      at spawn (node:child_process:721:35)
+      at spawn (node:child_process:22:39)
+      at <anonymous> (/workspace/trident/unified/community-source-prepare.ts:89:15)
+      at new Promise (1:11)
+      at run (/workspace/trident/unified/community-source-prepare.ts:71:10)
+      at prepareCommunityArtifact (/workspace/trident/unified/community-artifact-prepare.ts:124:11)
+      at async <anonymous> (/workspace/trident/tests/compiled-artifact-version.test.ts:23:26)
+(fail) an explicit dart release cutoff survives a newer registry latest and ambient latest policy [25.08ms]
+15 |   try {
+16 |     process.env.AM_COMMUNITY_VERSION_POLICY = 'latest'
+17 |     process.env.AM_BENCH_DART = '/nonexistent/forbidden-acquisition'
+18 |     process.env.AM_BENCH_PYTHON = '/nonexistent/forbidden-acquisition'
+19 |     globalThis.fetch = (async (url: string | URL | Request) => {
+20 |       if (!String(url).endsWith('/mermaid_core') && !String(url).endsWith('/bezel-mermaid') && !String(url).endsWith('/termaid/json')) throw Error('Frozen release was ignored; unexpected acquisition')
+                                                                                                                                                  ^
+error: Frozen release was ignored; unexpected acquisition
+      at <anonymous> (/workspace/trident/tests/compiled-artifact-version.test.ts:20:142)
+      at json (/workspace/trident/unified/community-artifact-prepare.ts:18:26)
+      at prepareCommunityArtifact (/workspace/trident/unified/community-artifact-prepare.ts:140:24)
+      at async <anonymous> (/workspace/trident/tests/compiled-artifact-version.test.ts:23:26)
+(fail) an explicit bezel release cutoff survives a newer registry latest and ambient latest policy [0.48ms]
+84 |       return
+85 |     }
+86 |     const file = createWriteStream(log, { flags: 'a' })
+87 |     file.write(`\n$ ${command.join(' ')}\n`)
+88 |     const group = process.platform !== 'win32',
+89 |       child = spawn(command[0]!, command.slice(1), { cwd, env, detached: group, stdio: ['ignore', 'pipe', 'pipe'] })
+                   ^
+ENOENT: no such file or directory, posix_spawn '/nonexistent/forbidden-acquisition'
+      path: "/nonexistent/forbidden-acquisition",
+   syscall: "spawn /nonexistent/forbidden-acquisition",
+     errno: -2,
+ spawnargs: [ "-m",
+  "venv", "/tmp/trident-compiled-version-Svb4uH/cache/fixture--termaid@9.0.0/venv"
+],
+      code: "ENOENT"
+
+      at spawn (node:child_process:721:35)
+      at spawn (node:child_process:22:39)
+      at <anonymous> (/workspace/trident/unified/community-source-prepare.ts:89:15)
+      at new Promise (1:11)
+      at run (/workspace/trident/unified/community-source-prepare.ts:71:10)
+      at prepareCommunityArtifact (/workspace/trident/unified/community-artifact-prepare.ts:185:40)
+      at async <anonymous> (/workspace/trident/tests/compiled-artifact-version.test.ts:23:26)
+(fail) an explicit termaid release cutoff survives a newer registry latest and ambient latest policy [2.24ms]
+
+ 0 pass
+ 3 fail
+Ran 3 tests across 1 file. [92.00ms]

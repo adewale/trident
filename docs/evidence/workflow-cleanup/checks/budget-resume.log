@@ -1,0 +1,24 @@
+{"phase":"family-support","project":"obsidianmd/pele","family":"flowchart","supported":true}
+{"phase":"warm","project":"obsidianmd/pele","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"warm","project":"obsidianmd/pele","round":2,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"warm","project":"obsidianmd/pele","round":3,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"warm","project":"obsidianmd/pele","round":4,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"warm","project":"obsidianmd/pele","round":5,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"warm","project":"obsidianmd/pele","round":6,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"first-use","project":"obsidianmd/pele","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"first-use","project":"obsidianmd/pele","round":2,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"first-use","project":"obsidianmd/pele","round":3,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"first-use","project":"obsidianmd/pele","round":4,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"first-use","project":"obsidianmd/pele","round":5,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"first-use","project":"obsidianmd/pele","round":6,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"memory","project":"obsidianmd/pele","round":1,"caseId":"family:flowchart"}
+{"phase":"memory","project":"obsidianmd/pele","round":2,"caseId":"family:flowchart"}
+{"phase":"memory","project":"obsidianmd/pele","round":3,"caseId":"family:flowchart"}
+{"phase":"memory","project":"obsidianmd/pele","round":4,"caseId":"family:flowchart"}
+{"phase":"memory","project":"obsidianmd/pele","round":5,"caseId":"family:flowchart"}
+{"phase":"memory","project":"obsidianmd/pele","round":6,"caseId":"family:flowchart"}
+{"phase":"family-support","project":"obsidianmd/pele","family":"class","supported":true}
+{"phase":"warm","project":"obsidianmd/pele","round":1,"caseId":"scaling:class:128","completedCasesInRound":1}
+{"phase":"warm","project":"obsidianmd/pele","round":2,"caseId":"scaling:class:128","completedCasesInRound":1}
+{"phase":"warm","project":"obsidianmd/pele","round":3,"caseId":"scaling:class:128","completedCasesInRound":1}
+Campaign evidence: /workspace/trident-simplification-evidence/resume-pilot/report.md

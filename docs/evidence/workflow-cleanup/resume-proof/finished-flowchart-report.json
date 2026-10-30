@@ -1,0 +1,3685 @@
+{
+  "schemaVersion": 1,
+  "protocol": "portable-svg-processes-v7",
+  "status": "incomplete",
+  "project": "obsidianmd/pele",
+  "version": "1.12.0",
+  "artifact": {
+    "artifact": {
+      "project": "obsidianmd/pele",
+      "root": "/workspace/trident-b0-2026-10-29/artifact-cache/pele@1.12.0/node_modules/pele",
+      "entry": "/workspace/trident-b0-2026-10-29/artifact-cache/pele@1.12.0/node_modules/pele/dist/pele.js",
+      "version": "1.12.0",
+      "adapter": "pele"
+    },
+    "packageName": "pele",
+    "packageMetadata": {
+      "name": "pele",
+      "version": "1.12.0",
+      "description": "A fast, lightweight Mermaid renderer that outputs themeable SVG.",
+      "license": "MIT",
+      "author": "kepano",
+      "keywords": [
+        "mermaid",
+        "diagram",
+        "diagrams",
+        "flowchart",
+        "svg",
+        "renderer"
+      ],
+      "homepage": "https://pele.run",
+      "bugs": "https://github.com/obsidianmd/pele/issues",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/obsidianmd/pele.git"
+      },
+      "type": "module",
+      "main": "./dist/pele.js",
+      "module": "./dist/pele.js",
+      "types": "./dist/index.d.ts",
+      "exports": {
+        ".": {
+          "types": "./dist/index.d.ts",
+          "import": "./dist/pele.js",
+          "default": "./dist/pele.js"
+        },
+        "./core": {
+          "types": "./dist/core.d.ts",
+          "import": "./dist/esm/core.js",
+          "default": "./dist/esm/core.js"
+        },
+        "./lazy": {
+          "types": "./dist/lazy.d.ts",
+          "import": "./dist/esm/lazy.js",
+          "default": "./dist/esm/lazy.js"
+        },
+        "./diagrams/*": {
+          "types": "./dist/entries/*.d.ts",
+          "import": "./dist/esm/diagrams/*.js",
+          "default": "./dist/esm/diagrams/*.js"
+        },
+        "./global": "./dist/pele.global.js",
+        "./package.json": "./package.json"
+      },
+      "files": [
+        "dist",
+        "LICENSE",
+        "README.md"
+      ],
+      "sideEffects": [
+        "./dist/pele.js",
+        "./src/index.ts"
+      ],
+      "scripts": {
+        "build": "node scripts/build.mjs",
+        "typecheck": "tsc --noEmit",
+        "test": "vitest run --exclude \"tests/website/**\"",
+        "test:website": "vitest run tests/website",
+        "prepublishOnly": "npm run typecheck && npm test && npm run build",
+        "test:watch": "vitest --exclude \"tests/website/**\"",
+        "bench": "node scripts/bench.mjs",
+        "bench:mermaid": "node scripts/bench-mermaid.mjs",
+        "website": "cd website && pnpm dev"
+      },
+      "engines": {
+        "node": ">=20"
+      },
+      "devDependencies": {
+        "@braintree/sanitize-url": "^7.1.2",
+        "@mermaid-js/parser": "^2.0.1",
+        "beautiful-mermaid": "^1.1.3",
+        "esbuild": "^0.28.2",
+        "jison": "^0.4.18",
+        "js-yaml": "^4.3.2",
+        "typescript": "^7.0.2",
+        "vitest": "^4.1.11"
+      }
+    },
+    "entrySha256": "111172ef3cfe3ab8fd58cba28f69e2c23f1d9f08c63db306fb9eb654a77de20b",
+    "files": [
+      {
+        "path": "dist/core.d.ts",
+        "sha256": "57ab2ebb0cff781e06f8dfe9aa0de2a6113c788bff25a26fca3af75001bdc9ce",
+        "bytes": 1552,
+        "gzipBytes": 517
+      },
+      {
+        "path": "dist/detect.d.ts",
+        "sha256": "131f548444e7f62c8304b2f5c7b140dad3fc5eb68450000eb040638209becf8a",
+        "bytes": 2306,
+        "gzipBytes": 684
+      },
+      {
+        "path": "dist/diagrams/agentflow/colorSlots.d.ts",
+        "sha256": "523286e22c582afdd3133cde138d03e5df42e149e43ed7c73dc0feee590b6301",
+        "bytes": 576,
+        "gzipBytes": 279
+      },
+      {
+        "path": "dist/diagrams/agentflow/db.d.ts",
+        "sha256": "f0aec3cb653896a63479543b4dcefbfb7b9338b9b93d87629191f6881aedd393",
+        "bytes": 3786,
+        "gzipBytes": 1139
+      },
+      {
+        "path": "dist/diagrams/agentflow/diagnostics.d.ts",
+        "sha256": "c5d619be197cfaad86ab82a7d21690bf0900ea120f7d82439c6a62bc4469a59a",
+        "bytes": 953,
+        "gzipBytes": 358
+      },
+      {
+        "path": "dist/diagrams/agentflow/graph.d.ts",
+        "sha256": "361aef1621fdaca436f898f83b2b1f231833519d01f17cc98c62d194df80e817",
+        "bytes": 1319,
+        "gzipBytes": 478
+      },
+      {
+        "path": "dist/diagrams/agentflow/index.d.ts",
+        "sha256": "751a3e7a0734f73b48cec2dd2784f6b843392b163ee622f4feb62db83d4b0123",
+        "bytes": 140,
+        "gzipBytes": 116
+      },
+      {
+        "path": "dist/diagrams/agentflow/lexer.d.ts",
+        "sha256": "cfa6edccde5c3a07c9cea0357303bb0b1d151d68ab674e6fcb510a39a9ccc447",
+        "bytes": 167,
+        "gzipBytes": 128
+      },
+      {
+        "path": "dist/diagrams/agentflow/parser.d.ts",
+        "sha256": "e5f335fc0ed8ffb39d623fd32b12eef17441061cbbcb04bfe0470844562718a7",
+        "bytes": 138,
+        "gzipBytes": 131
+      },
+      {
+        "path": "dist/diagrams/agentflow/render.d.ts",
+        "sha256": "370e383130565e3af7517842b6ba2ef6d758284c81fbf9974196197b98f50b2d",
+        "bytes": 427,
+        "gzipBytes": 209
+      },
+      {
+        "path": "dist/diagrams/agentflow/shapes.d.ts",
+        "sha256": "0fa0c3994b9ffbbeed4c55b08c92cb768c5ef53d57c809b0651f04b55b6fee46",
+        "bytes": 799,
+        "gzipBytes": 351
+      },
+      {
+        "path": "dist/diagrams/agentflow/tokens.d.ts",
+        "sha256": "53457cae1b79ed818b205ce7410ebf66d8f5324628fbe3f9dc8c58b81a819296",
+        "bytes": 1618,
+        "gzipBytes": 678
+      },
+      {
+        "path": "dist/diagrams/agentflow/types.d.ts",
+        "sha256": "59035817bf042ef0d46113fd624106a706fcfe94f191a9deef41699373e749a0",
+        "bytes": 4064,
+        "gzipBytes": 1176
+      },
+      {
+        "path": "dist/diagrams/architecture/db.d.ts",
+        "sha256": "e8f937ecd848e61869cf2a3f5035037cb8177760972743b360e48afd8208865a",
+        "bytes": 1901,
+        "gzipBytes": 566
+      },
+      {
+        "path": "dist/diagrams/architecture/icons.d.ts",
+        "sha256": "782f443172263be92791e44ea75dae7a902e660cc41932068a4ea5fc0e55baa3",
+        "bytes": 59,
+        "gzipBytes": 72
+      },
+      {
+        "path": "dist/diagrams/architecture/index.d.ts",
+        "sha256": "e5fa283f2607024713a2f0732eb2f7f810f4ac9634bcd99a3fb4b3432017febb",
+        "bytes": 149,
+        "gzipBytes": 120
+      },
+      {
+        "path": "dist/diagrams/architecture/layout.d.ts",
+        "sha256": "a6cfb3abab578942f8a9676150a829c8d01d6888ef9863b94c19f35d993f480b",
+        "bytes": 560,
+        "gzipBytes": 273
+      },
+      {
+        "path": "dist/diagrams/architecture/parser.d.ts",
+        "sha256": "f8bab5ec4fa7dfa08d8d6d808cc9158143edf90ca609e05767766328006e38da",
+        "bytes": 1205,
+        "gzipBytes": 423
+      },
+      {
+        "path": "dist/diagrams/architecture/render.d.ts",
+        "sha256": "55bbdad7696927bebf5d6df46b852e52023d0be06e658cf01810e6706e463a2a",
+        "bytes": 284,
+        "gzipBytes": 168
+      },
+      {
+        "path": "dist/diagrams/block/arrows.d.ts",
+        "sha256": "fd9fb32912c0d39b543eeb6fe0654e09c2af3f10aac6b0dda54156a71cd7089e",
+        "bytes": 571,
+        "gzipBytes": 254
+      },
+      {
+        "path": "dist/diagrams/block/db.d.ts",
+        "sha256": "83d8b561b5b268f7cc58c30450afbd4d5348ada9f516de21bb86948e830f09ab",
+        "bytes": 1419,
+        "gzipBytes": 494
+      },
+      {
+        "path": "dist/diagrams/block/index.d.ts",
+        "sha256": "c456391c74e121b4523a8115d8e90537670ee222b22c60145a6b8667ffb30126",
+        "bytes": 128,
+        "gzipBytes": 112
+      },
+      {
+        "path": "dist/diagrams/block/layout.d.ts",
+        "sha256": "f57b76be3bd706a80e1b7d4a43af0b374ffb3be3db32818b71c1acbc7c84ec5b",
+        "bytes": 634,
+        "gzipBytes": 246
+      },
+      {
+        "path": "dist/diagrams/block/lexer.d.ts",
+        "sha256": "bd30866dc9186686ac1738f8fb8a0058a46d266ea42fd541a930177bd2eb8cd9",
+        "bytes": 147,
+        "gzipBytes": 123
+      },
+      {
+        "path": "dist/diagrams/block/parser.d.ts",
+        "sha256": "6bdeccd4359576d12996097f4a07362e7ea2409de2a5edc6cb0b12d88dc1d2cd",
+        "bytes": 296,
+        "gzipBytes": 202
+      },
+      {
+        "path": "dist/diagrams/block/render.d.ts",
+        "sha256": "582d266a12d745bd96e3ba3507ed310688ec5e1cffaeb1709b6e54e310219284",
+        "bytes": 266,
+        "gzipBytes": 160
+      },
+      {
+        "path": "dist/diagrams/block/tokens.d.ts",
+        "sha256": "0ae4649df12e020cdec617b1af79752cadb8ad760e8f34bb1bbde0d41c4fa0f7",
+        "bytes": 862,
+        "gzipBytes": 401
+      },
+      {
+        "path": "dist/diagrams/block/types.d.ts",
+        "sha256": "ee67d6b9640ae7b416d07211945a86dd9cb29f60da75c869b34cb82f0969761d",
+        "bytes": 869,
+        "gzipBytes": 312
+      },
+      {
+        "path": "dist/diagrams/c4/db.d.ts",
+        "sha256": "f6edaeb66be6d5b2e49313be7672abc7dfe9e82052f79fddbfaf53306f3c3316",
+        "bytes": 1393,
+        "gzipBytes": 468
+      },
+      {
+        "path": "dist/diagrams/c4/index.d.ts",
+        "sha256": "30ba7756f47f4827c7d9ea2ac066ebcbdef9e75c944eed54354b4ec4faa6de1c",
+        "bytes": 119,
+        "gzipBytes": 108
+      },
+      {
+        "path": "dist/diagrams/c4/layout.d.ts",
+        "sha256": "96454f744f4e73a68530f56fa826efefca4c79fc9c9412c63ff33aa72ea2e118",
+        "bytes": 867,
+        "gzipBytes": 389
+      },
+      {
+        "path": "dist/diagrams/c4/lexer.d.ts",
+        "sha256": "0110e098f7bcf412ac69be6a98802adbc9745ba00273a8f7aa3123b8dbfa9878",
+        "bytes": 146,
+        "gzipBytes": 121
+      },
+      {
+        "path": "dist/diagrams/c4/parser.d.ts",
+        "sha256": "66ff44705097ab67c28748092694361ebc11e90f70116c6c57c0103448b43a06",
+        "bytes": 99,
+        "gzipBytes": 110
+      },
+      {
+        "path": "dist/diagrams/c4/render.d.ts",
+        "sha256": "4cdbe0c221b427b6ee363cd27b80d70b537666f08e5c73e429769c0de8bc3f45",
+        "bytes": 246,
+        "gzipBytes": 160
+      },
+      {
+        "path": "dist/diagrams/c4/route.d.ts",
+        "sha256": "a74662e0cea896d65f85f2b3a403c375009383543cbbfde5b618653c4f53b254",
+        "bytes": 1402,
+        "gzipBytes": 479
+      },
+      {
+        "path": "dist/diagrams/c4/tokens.d.ts",
+        "sha256": "317f9ce782e51d503e5ea6bcae753ef5fc73fef7b0174b30fa8b1524ec108bee",
+        "bytes": 1482,
+        "gzipBytes": 552
+      },
+      {
+        "path": "dist/diagrams/c4/types.d.ts",
+        "sha256": "ad6bef9d6b273bbcdd5a639178613fc1399622ad1a4f5edbd598c1cbcd958014",
+        "bytes": 1375,
+        "gzipBytes": 405
+      },
+      {
+        "path": "dist/diagrams/class/db.d.ts",
+        "sha256": "dbf39c7f2b9f9dc7b2111e1c79fb41357bba5c2b6d11109757cda8f8fcc8e36d",
+        "bytes": 2285,
+        "gzipBytes": 687
+      },
+      {
+        "path": "dist/diagrams/class/graph.d.ts",
+        "sha256": "fab1ceb2f9569e587d61ee60ed8bee1798b3e3de87501e9c35c0715ffe090707",
+        "bytes": 957,
+        "gzipBytes": 420
+      },
+      {
+        "path": "dist/diagrams/class/index.d.ts",
+        "sha256": "9f9838056043b0d8d209c35d349f0a0595b8dce722d1605beb77f963a9b0ea59",
+        "bytes": 135,
+        "gzipBytes": 114
+      },
+      {
+        "path": "dist/diagrams/class/lexer.d.ts",
+        "sha256": "bd30866dc9186686ac1738f8fb8a0058a46d266ea42fd541a930177bd2eb8cd9",
+        "bytes": 147,
+        "gzipBytes": 123
+      },
+      {
+        "path": "dist/diagrams/class/markers.d.ts",
+        "sha256": "9891526ec07f88d250d203fcb4239a11784c81787cab499834049220235d912a",
+        "bytes": 234,
+        "gzipBytes": 146
+      },
+      {
+        "path": "dist/diagrams/class/members.d.ts",
+        "sha256": "75738eccaeab026185661220bb37df9a358987bd08683793dfbaa58223c3c1c7",
+        "bytes": 487,
+        "gzipBytes": 250
+      },
+      {
+        "path": "dist/diagrams/class/parser.d.ts",
+        "sha256": "ffec11eccfb27d478e265b5938b7938f199bd53a7a56944823fc95aa19fe0acb",
+        "bytes": 115,
+        "gzipBytes": 119
+      },
+      {
+        "path": "dist/diagrams/class/render.d.ts",
+        "sha256": "64e7843ed11ca04b7cb2945a5d2ee87618451bc5f2b1dfe0eb7036860832d728",
+        "bytes": 254,
+        "gzipBytes": 160
+      },
+      {
+        "path": "dist/diagrams/class/tokens.d.ts",
+        "sha256": "82d3d80aac1b96d9b0e5c812280dd900d110ea1d0e0c3ebc1d55f98e3547e60b",
+        "bytes": 1275,
+        "gzipBytes": 576
+      },
+      {
+        "path": "dist/diagrams/class/types.d.ts",
+        "sha256": "34410479e6144481d40446abbefb17f72f899751a872679664564f1233b92d61",
+        "bytes": 1587,
+        "gzipBytes": 457
+      },
+      {
+        "path": "dist/diagrams/common/accDescr.d.ts",
+        "sha256": "5af455209716f5cdb9ab2dbda94d7eca6a1e6d056f458a2ab24b80bab6617e87",
+        "bytes": 106,
+        "gzipBytes": 110
+      },
+      {
+        "path": "dist/diagrams/common/caseless.d.ts",
+        "sha256": "e8368c7c6b10c3efacb52c1d67059aa5ee6578fd96929e9b86a35a5319c01492",
+        "bytes": 80,
+        "gzipBytes": 90
+      },
+      {
+        "path": "dist/diagrams/common/fit-text.d.ts",
+        "sha256": "1f4c3afd521b0187c0e7027a44481c33c52297a947c96bd1e20b5ec01e5bcdd4",
+        "bytes": 290,
+        "gzipBytes": 187
+      },
+      {
+        "path": "dist/diagrams/common/fit-width.d.ts",
+        "sha256": "519f8b54efeb0be4f0bed1e7bf9bcbef87303fa0566ff41e18fb5bdbddf5c207",
+        "bytes": 679,
+        "gzipBytes": 249
+      },
+      {
+        "path": "dist/diagrams/common/fit.d.ts",
+        "sha256": "0cd766db41772b51bab965e296394ecbb388f72d344bf1c4e3a621cd5a1af909",
+        "bytes": 376,
+        "gzipBytes": 178
+      },
+      {
+        "path": "dist/diagrams/common/generics.d.ts",
+        "sha256": "8dba79c043fa796294cff51524823bf6fcda7f665a9bb20948bb7b268b3b978b",
+        "bytes": 66,
+        "gzipBytes": 79
+      },
+      {
+        "path": "dist/diagrams/common/icon.d.ts",
+        "sha256": "938cd9ca25a22072b557d51a08ffbede13a421c2649421cec66eb6940e8d2a1a",
+        "bytes": 182,
+        "gzipBytes": 150
+      },
+      {
+        "path": "dist/diagrams/common/literal-label.d.ts",
+        "sha256": "508159d98ccf3b60aeb7333ae07597774e494214b84557e63e32ef2a79ecd67d",
+        "bytes": 431,
+        "gzipBytes": 206
+      },
+      {
+        "path": "dist/diagrams/common/outline.d.ts",
+        "sha256": "e0fa0b63e715ed6a0edb25234492f6d5598c4f30d554748e8af8cd64df7574de",
+        "bytes": 1167,
+        "gzipBytes": 501
+      },
+      {
+        "path": "dist/diagrams/common/scan.d.ts",
+        "sha256": "6d9c6b1f2c2b5e633936185aaae73c071bec1f187fb27b38e430a5aa84dd607f",
+        "bytes": 412,
+        "gzipBytes": 189
+      },
+      {
+        "path": "dist/diagrams/common/tokens.d.ts",
+        "sha256": "d2baf963ee8767a4b95342afdc4e630e846e122572c5c30cc86c7c8c740cbd43",
+        "bytes": 1695,
+        "gzipBytes": 519
+      },
+      {
+        "path": "dist/diagrams/cynefin/boundaries.d.ts",
+        "sha256": "88af716865f35d26cdbd7e08fbc7f1b1e3be27f50dd39ca080980480746c0a66",
+        "bytes": 989,
+        "gzipBytes": 344
+      },
+      {
+        "path": "dist/diagrams/cynefin/index.d.ts",
+        "sha256": "39fd5c709f42db10e4a1ca25505647eacef1f7dfc2e09376082d9d4c2bf2920a",
+        "bytes": 148,
+        "gzipBytes": 119
+      },
+      {
+        "path": "dist/diagrams/cynefin/model.d.ts",
+        "sha256": "7e24c446f4fba31a2f10489cdd4582b4258d9415a33efd5058f044b9d89ccc81",
+        "bytes": 1114,
+        "gzipBytes": 358
+      },
+      {
+        "path": "dist/diagrams/cynefin/parser.d.ts",
+        "sha256": "4b3b60d393f8b2d1429ddc4990478eabdeda992494b722ed5b4dbf45f8e39626",
+        "bytes": 731,
+        "gzipBytes": 333
+      },
+      {
+        "path": "dist/diagrams/cynefin/render.d.ts",
+        "sha256": "647592b29b12f4f2ab387ec5ac7c3401ed077cf82d425711e29dc128102e4bd4",
+        "bytes": 272,
+        "gzipBytes": 164
+      },
+      {
+        "path": "dist/diagrams/er/db.d.ts",
+        "sha256": "dd4b2830720be58ddf1f49738531de73604a39b9a6ebb22e90e325fe8057d821",
+        "bytes": 1181,
+        "gzipBytes": 462
+      },
+      {
+        "path": "dist/diagrams/er/graph.d.ts",
+        "sha256": "da34899007956cd6f26a257f612ed793947ed01ab8122c4cb33ef0a10986eab1",
+        "bytes": 699,
+        "gzipBytes": 307
+      },
+      {
+        "path": "dist/diagrams/er/index.d.ts",
+        "sha256": "9e101ae1d8cb66a81a4c374c6185a46526010063b1b7f6b7e6239f28c7dd1aa5",
+        "bytes": 119,
+        "gzipBytes": 108
+      },
+      {
+        "path": "dist/diagrams/er/lexer.d.ts",
+        "sha256": "bd30866dc9186686ac1738f8fb8a0058a46d266ea42fd541a930177bd2eb8cd9",
+        "bytes": 147,
+        "gzipBytes": 123
+      },
+      {
+        "path": "dist/diagrams/er/markers.d.ts",
+        "sha256": "e14d9e9db1879d945baaa57eaa59e65eaceef3f0746642861a6b0f3f06691c5b",
+        "bytes": 143,
+        "gzipBytes": 120
+      },
+      {
+        "path": "dist/diagrams/er/parser.d.ts",
+        "sha256": "83ccb19f8021fbc390c53b9452d21015ba0e602507f5693d643cb8cb9a674c8a",
+        "bytes": 99,
+        "gzipBytes": 108
+      },
+      {
+        "path": "dist/diagrams/er/render.d.ts",
+        "sha256": "5488cb62138910c6b8fc9445bea49ca760f6f1f4b082199176aab64085010052",
+        "bytes": 245,
+        "gzipBytes": 157
+      },
+      {
+        "path": "dist/diagrams/er/tokens.d.ts",
+        "sha256": "53abdc8ab5d7ce0a64a83168411d362140ccd6e3b8072af526eed2352bd92271",
+        "bytes": 997,
+        "gzipBytes": 468
+      },
+      {
+        "path": "dist/diagrams/er/types.d.ts",
+        "sha256": "4b62b1391369a3e398097feff991fe85a0a96cc5a1013e51f9835aab146e0726",
+        "bytes": 1435,
+        "gzipBytes": 495
+      },
+      {
+        "path": "dist/diagrams/eventmodeling/index.d.ts",
+        "sha256": "6b29b24e1db2f0fb606e31dbdbe0ac69897cbf58e75caf4fa1d6e7085e70b984",
+        "bytes": 166,
+        "gzipBytes": 125
+      },
+      {
+        "path": "dist/diagrams/eventmodeling/model.d.ts",
+        "sha256": "805b0145a077d85e1ec09e92aef5232506a41e028fe48f39a5380fcda004ac0a",
+        "bytes": 1209,
+        "gzipBytes": 451
+      },
+      {
+        "path": "dist/diagrams/eventmodeling/parser.d.ts",
+        "sha256": "e27985076fa0ad057323ddae5a59c56533bb079c665da02d3eff12d7b1369047",
+        "bytes": 1396,
+        "gzipBytes": 470
+      },
+      {
+        "path": "dist/diagrams/eventmodeling/render.d.ts",
+        "sha256": "3264e09e231abe69ea1e07bda0a8c094bf7d745a2063010bb28e1a745f592c38",
+        "bytes": 288,
+        "gzipBytes": 169
+      },
+      {
+        "path": "dist/diagrams/flowchart/db.d.ts",
+        "sha256": "138707bbd6ebaa01925bd659703f6158ab0b3e6bbd85c8695c0c3c4fd9b58683",
+        "bytes": 2391,
+        "gzipBytes": 800
+      },
+      {
+        "path": "dist/diagrams/flowchart/graph.d.ts",
+        "sha256": "4b56b32b55b2814598caa3c99b929466c71d02aecc12f203ac17bc2d712020bf",
+        "bytes": 1415,
+        "gzipBytes": 512
+      },
+      {
+        "path": "dist/diagrams/flowchart/index.d.ts",
+        "sha256": "8b527fd501c7d46bf316f6568d5fc34079be7f86d236eb410e0ee15eed82b204",
+        "bytes": 130,
+        "gzipBytes": 116
+      },
+      {
+        "path": "dist/diagrams/flowchart/lexer.d.ts",
+        "sha256": "bd30866dc9186686ac1738f8fb8a0058a46d266ea42fd541a930177bd2eb8cd9",
+        "bytes": 147,
+        "gzipBytes": 123
+      },
+      {
+        "path": "dist/diagrams/flowchart/parser.d.ts",
+        "sha256": "5d911833659d09b1ad7a8e3d701a1675c636ff9932080cbc52e9862b8b4e62a8",
+        "bytes": 113,
+        "gzipBytes": 120
+      },
+      {
+        "path": "dist/diagrams/flowchart/render.d.ts",
+        "sha256": "52cfe91bcddfc3845d2ff5f02b3873c4fcedca0ce7850c0e2c64df43eeffb3aa",
+        "bytes": 989,
+        "gzipBytes": 450
+      },
+      {
+        "path": "dist/diagrams/flowchart/shapes.d.ts",
+        "sha256": "e811750b113939aea3ab85e7f627aeb0ced7faccb7b88d92ab369fc95007e82f",
+        "bytes": 135,
+        "gzipBytes": 106
+      },
+      {
+        "path": "dist/diagrams/flowchart/tokens.d.ts",
+        "sha256": "2369bc8b8327bd03f9882a348c17f0d6c56299f520bbd25a9403ecf5a76ed609",
+        "bytes": 1567,
+        "gzipBytes": 658
+      },
+      {
+        "path": "dist/diagrams/flowchart/types.d.ts",
+        "sha256": "63320b839d99d033f9221479cf32c4cab56ffe59bb1966b3088a257b9e151461",
+        "bytes": 1813,
+        "gzipBytes": 567
+      },
+      {
+        "path": "dist/diagrams/gantt/axis.d.ts",
+        "sha256": "454fdeabb2f2b3fae90012862dde226a6466059bef4e034f5e50ab3c09415a13",
+        "bytes": 409,
+        "gzipBytes": 218
+      },
+      {
+        "path": "dist/diagrams/gantt/dates.d.ts",
+        "sha256": "0b3be13ee79dadfbefd65e78e264b5f6d6e4b2bdb0063bdc5ba70479f83aa0e6",
+        "bytes": 631,
+        "gzipBytes": 260
+      },
+      {
+        "path": "dist/diagrams/gantt/db.d.ts",
+        "sha256": "fa21fe721c431dc5e8049fed65dfa05240cb121aefa9c5d148c267fdaf319cc6",
+        "bytes": 2257,
+        "gzipBytes": 740
+      },
+      {
+        "path": "dist/diagrams/gantt/index.d.ts",
+        "sha256": "237be96c1fa7bcd707d9b571eecf3af923885d32e430d863d454ac105aa36a96",
+        "bytes": 128,
+        "gzipBytes": 112
+      },
+      {
+        "path": "dist/diagrams/gantt/lexer.d.ts",
+        "sha256": "bd30866dc9186686ac1738f8fb8a0058a46d266ea42fd541a930177bd2eb8cd9",
+        "bytes": 147,
+        "gzipBytes": 123
+      },
+      {
+        "path": "dist/diagrams/gantt/parser.d.ts",
+        "sha256": "32a23cd88a24e24db37cb4c837c2ae8dbdd51038ea43c7ca36f15081736b4ca6",
+        "bytes": 798,
+        "gzipBytes": 286
+      },
+      {
+        "path": "dist/diagrams/gantt/render.d.ts",
+        "sha256": "cfab160091db57155290b603e5873dd1751a26e8adf21905acfb0c00e1591ea3",
+        "bytes": 257,
+        "gzipBytes": 165
+      },
+      {
+        "path": "dist/diagrams/gantt/tokens.d.ts",
+        "sha256": "aa6cd10d561c197d3850c2943ba585378a2ca41f420af31ada590446d10644b6",
+        "bytes": 910,
+        "gzipBytes": 414
+      },
+      {
+        "path": "dist/diagrams/gantt/types.d.ts",
+        "sha256": "3fb9993f9aba85a8e9c9fa0c5353873493cb87a2ec30c8cba40cf3d2d71e4272",
+        "bytes": 1080,
+        "gzipBytes": 380
+      },
+      {
+        "path": "dist/diagrams/git/db.d.ts",
+        "sha256": "57f601c49397d5c0c1681c46e4c1f25fabfd1929a17f776add6a51f2053cd172",
+        "bytes": 1889,
+        "gzipBytes": 649
+      },
+      {
+        "path": "dist/diagrams/git/index.d.ts",
+        "sha256": "44d6488c621393b78cff180da1e746f55a2d821f6b1ef403c67f4dcdffac3b4b",
+        "bytes": 138,
+        "gzipBytes": 119
+      },
+      {
+        "path": "dist/diagrams/git/parser.d.ts",
+        "sha256": "745bc0a9ab6050c3135d336525979b05548678a3aa34dfd6fce80848982a9a51",
+        "bytes": 1088,
+        "gzipBytes": 417
+      },
+      {
+        "path": "dist/diagrams/git/render.d.ts",
+        "sha256": "85a22a927febfdb28636f779e89ee07c610cfab317f65c236d5cddb3cd465a2a",
+        "bytes": 257,
+        "gzipBytes": 164
+      },
+      {
+        "path": "dist/diagrams/info/index.d.ts",
+        "sha256": "d15ff10d0fca245627c2308c6c8fd27d95f64d4b655df152c1509e4118c57b0d",
+        "bytes": 139,
+        "gzipBytes": 116
+      },
+      {
+        "path": "dist/diagrams/info/model.d.ts",
+        "sha256": "4790b8be97903c0a9a8d5e886d0c957facd4a005758ded0407555b8c82ba7e6f",
+        "bytes": 279,
+        "gzipBytes": 172
+      },
+      {
+        "path": "dist/diagrams/info/parser.d.ts",
+        "sha256": "81462d4a32f8b4e64e425d1bc31bcac4c7fca99389656868e0cb97e7443ba8c9",
+        "bytes": 281,
+        "gzipBytes": 194
+      },
+      {
+        "path": "dist/diagrams/info/render.d.ts",
+        "sha256": "bd0f4f844e75343f2d00f16018446534b0b93990b623efe26d2bc00434d777bd",
+        "bytes": 264,
+        "gzipBytes": 165
+      },
+      {
+        "path": "dist/diagrams/ishikawa/db.d.ts",
+        "sha256": "737389419dfe10830c658142b9365a24148afb41fcde1392b741a0120b8f7ee3",
+        "bytes": 315,
+        "gzipBytes": 202
+      },
+      {
+        "path": "dist/diagrams/ishikawa/index.d.ts",
+        "sha256": "e7958afb7c52b2f9b65ee0ed1674d0633863841e5133d0a00516130f869d606b",
+        "bytes": 137,
+        "gzipBytes": 115
+      },
+      {
+        "path": "dist/diagrams/ishikawa/lexer.d.ts",
+        "sha256": "bfcb260edcbab5cfe372621604f0caf369fa55fd7e8b818476b3a9d6d1ae44ea",
+        "bytes": 329,
+        "gzipBytes": 212
+      },
+      {
+        "path": "dist/diagrams/ishikawa/parser.d.ts",
+        "sha256": "82e42bdf7b4418f746812ffa236196632f379a30c8ae4242aec4b7abcc60277f",
+        "bytes": 117,
+        "gzipBytes": 119
+      },
+      {
+        "path": "dist/diagrams/ishikawa/render.d.ts",
+        "sha256": "4fed42595e0ce6291caff48f8c76bb8eaed44671753edc93608376c5ae2a7d51",
+        "bytes": 276,
+        "gzipBytes": 168
+      },
+      {
+        "path": "dist/diagrams/ishikawa/types.d.ts",
+        "sha256": "1a518747f647d5fc8757ab359fdafe26be97fa3d1160ea5c60854520268a661f",
+        "bytes": 206,
+        "gzipBytes": 136
+      },
+      {
+        "path": "dist/diagrams/journey/db.d.ts",
+        "sha256": "b691c4544876f5a9b879547189789e92009ba6f6673557e8e04eabf8202cb6d2",
+        "bytes": 885,
+        "gzipBytes": 296
+      },
+      {
+        "path": "dist/diagrams/journey/index.d.ts",
+        "sha256": "bb09c74d2dd7864ab73dda88f75ea4a8330c4f0945560fb1d5f9f7455c274272",
+        "bytes": 145,
+        "gzipBytes": 118
+      },
+      {
+        "path": "dist/diagrams/journey/lexer.d.ts",
+        "sha256": "6da9fafea83bfcea4d48e7aa3b2280374ecadab50bd7fc0ebe5ae47f3330f625",
+        "bytes": 467,
+        "gzipBytes": 275
+      },
+      {
+        "path": "dist/diagrams/journey/parser.d.ts",
+        "sha256": "622b1c3165900079b7a7fe9f4df670eafcfb9038b40caa3ac5a7686d1c39ff76",
+        "bytes": 114,
+        "gzipBytes": 114
+      },
+      {
+        "path": "dist/diagrams/journey/render.d.ts",
+        "sha256": "cfb93c549ab856ea32e8ceee08fd8873ce668502d0c5e7476c7a8a485c8bdd43",
+        "bytes": 270,
+        "gzipBytes": 168
+      },
+      {
+        "path": "dist/diagrams/kanban/db.d.ts",
+        "sha256": "b02f8a280ad51cdb4cd526bace0ab438c3256334734133e9d8cf15c8f165d99c",
+        "bytes": 873,
+        "gzipBytes": 366
+      },
+      {
+        "path": "dist/diagrams/kanban/index.d.ts",
+        "sha256": "24efd7cfbe78f07a32fc6686470854d8221c857d4b90b9a44bbd9fc5b4246545",
+        "bytes": 142,
+        "gzipBytes": 117
+      },
+      {
+        "path": "dist/diagrams/kanban/parser.d.ts",
+        "sha256": "e776b938156b2656f1dfff6bf8224862956df6ba85fe321ea7afe64aec589995",
+        "bytes": 194,
+        "gzipBytes": 149
+      },
+      {
+        "path": "dist/diagrams/kanban/render.d.ts",
+        "sha256": "faedd82a8716762bf369c23573bf401ae84e3a1b44f3ab11aa6d9a8a6ebc7f99",
+        "bytes": 266,
+        "gzipBytes": 165
+      },
+      {
+        "path": "dist/diagrams/mindmap/db.d.ts",
+        "sha256": "c370b14c78e76b6f3bc0994570dfb83296013e2c36fd3fe6357caf9760961320",
+        "bytes": 781,
+        "gzipBytes": 333
+      },
+      {
+        "path": "dist/diagrams/mindmap/index.d.ts",
+        "sha256": "20d2178bbc2f5bbf5792c67a9df9b2b5e5ee3ed2a4ce5dbfecd157eb1ac11d83",
+        "bytes": 145,
+        "gzipBytes": 118
+      },
+      {
+        "path": "dist/diagrams/mindmap/parser.d.ts",
+        "sha256": "9ac10fd1a3359c60f8efba0b323c7d6f7be789dd6e4f0026c119cd5988e583ee",
+        "bytes": 195,
+        "gzipBytes": 149
+      },
+      {
+        "path": "dist/diagrams/mindmap/render.d.ts",
+        "sha256": "0724f57f574c6201e687a2dcb9ff17eaad9abaa23883d6c1df6aaf892538a271",
+        "bytes": 269,
+        "gzipBytes": 164
+      },
+      {
+        "path": "dist/diagrams/packet/index.d.ts",
+        "sha256": "be0bf9df935d67bde1f896ac0d5e92d900f00a38034d367a9f2cdf67ef4f8491",
+        "bytes": 145,
+        "gzipBytes": 118
+      },
+      {
+        "path": "dist/diagrams/packet/model.d.ts",
+        "sha256": "a9ba96cd11b8e66ee6b2522d87f8a39cd95217888e653d86c123ec05730218c7",
+        "bytes": 634,
+        "gzipBytes": 293
+      },
+      {
+        "path": "dist/diagrams/packet/parser.d.ts",
+        "sha256": "663e4c1941be7a287b0f40ac777c815b2ea0a4dcdbe217b7afa72b3cee77f79e",
+        "bytes": 459,
+        "gzipBytes": 248
+      },
+      {
+        "path": "dist/diagrams/packet/render.d.ts",
+        "sha256": "7b7d1806787d034b6c985698df8043d0e0df535b03ddbca14031665e7aa280f7",
+        "bytes": 269,
+        "gzipBytes": 166
+      },
+      {
+        "path": "dist/diagrams/pie/index.d.ts",
+        "sha256": "d47da507f5b86d0987b9a57f24958826c69b88b42c64fe3d90abefa04e9859d1",
+        "bytes": 136,
+        "gzipBytes": 115
+      },
+      {
+        "path": "dist/diagrams/pie/model.d.ts",
+        "sha256": "e5f178f3e58fb2ac4c0df69b02b412e32b0da307f8bc3b4e348f1aecfddc22ba",
+        "bytes": 331,
+        "gzipBytes": 201
+      },
+      {
+        "path": "dist/diagrams/pie/parser.d.ts",
+        "sha256": "fa16ef2ad3bae798df3f48dd09d44220be1f6decfeadc5b43c9b143d7eae65d2",
+        "bytes": 399,
+        "gzipBytes": 245
+      },
+      {
+        "path": "dist/diagrams/pie/render.d.ts",
+        "sha256": "326e8bb50ea1a952e70e8f57bb7db0b2ea33c55d32f318e90ba1954276ed7dc5",
+        "bytes": 260,
+        "gzipBytes": 161
+      },
+      {
+        "path": "dist/diagrams/quadrant/db.d.ts",
+        "sha256": "7edba2374cbb09cd8234f592f1cf168eddab63643ddd5c999885088a8ccef490",
+        "bytes": 1992,
+        "gzipBytes": 481
+      },
+      {
+        "path": "dist/diagrams/quadrant/index.d.ts",
+        "sha256": "a4cd04ec3012c74e2cc001946d61c512dd944c601edc95d5b5578cf51657a969",
+        "bytes": 142,
+        "gzipBytes": 120
+      },
+      {
+        "path": "dist/diagrams/quadrant/lexer.d.ts",
+        "sha256": "bd30866dc9186686ac1738f8fb8a0058a46d266ea42fd541a930177bd2eb8cd9",
+        "bytes": 147,
+        "gzipBytes": 123
+      },
+      {
+        "path": "dist/diagrams/quadrant/parser.d.ts",
+        "sha256": "cbcc901138376187a7f99c028dc9cf68b806f412caadbf6987e7f3513cb95f79",
+        "bytes": 117,
+        "gzipBytes": 119
+      },
+      {
+        "path": "dist/diagrams/quadrant/render.d.ts",
+        "sha256": "28acf0ef0baf80ad600c1729c0b322327054fd7782fa31ec42a10db1bdfa8fea",
+        "bytes": 272,
+        "gzipBytes": 165
+      },
+      {
+        "path": "dist/diagrams/quadrant/tokens.d.ts",
+        "sha256": "5f32fc1d5cfbedf1d2d039bf407dd14c1b0b73f2d860593c8f4fa99e13a44d89",
+        "bytes": 853,
+        "gzipBytes": 407
+      },
+      {
+        "path": "dist/diagrams/radar/index.d.ts",
+        "sha256": "acf38ff7b38e3ae5ece3025041bd93000f3ea5e1e9d3071d478ecdef5ca9bef1",
+        "bytes": 142,
+        "gzipBytes": 117
+      },
+      {
+        "path": "dist/diagrams/radar/model.d.ts",
+        "sha256": "125bd07255ad2d6e3b4d700e1cc449d586c93abf892b95e9019e665c46f77f52",
+        "bytes": 677,
+        "gzipBytes": 299
+      },
+      {
+        "path": "dist/diagrams/radar/parser.d.ts",
+        "sha256": "c7caddb735eaad9c9bb3ed9493cbe5c3c213dd71903bfc92efe3ef173fecd3ad",
+        "bytes": 893,
+        "gzipBytes": 376
+      },
+      {
+        "path": "dist/diagrams/radar/render.d.ts",
+        "sha256": "12e076ec9d459bd80f550cee7ba294d76829ed7dfed13052b59404539b2fb64b",
+        "bytes": 516,
+        "gzipBytes": 263
+      },
+      {
+        "path": "dist/diagrams/railroad/abnf.d.ts",
+        "sha256": "63a7cdab260fceb90d96f10ca2ed3a435f789af64835478b0cafc6d3f7419750",
+        "bytes": 1028,
+        "gzipBytes": 411
+      },
+      {
+        "path": "dist/diagrams/railroad/common.d.ts",
+        "sha256": "3844cbfa22e436efadfd8036b965651f31e59075832d7b7f832afde8563bbf5e",
+        "bytes": 2110,
+        "gzipBytes": 721
+      },
+      {
+        "path": "dist/diagrams/railroad/db.d.ts",
+        "sha256": "f310b8c5fc6f0fa2fec6d0d6600fe7e5f4f4eaafe5a3aa03bff654a0f54c617d",
+        "bytes": 801,
+        "gzipBytes": 312
+      },
+      {
+        "path": "dist/diagrams/railroad/ebnf.d.ts",
+        "sha256": "d32ffebc646bf5328abe921a856a2fd105490489a09ab02ba8decdb11ecc6dcd",
+        "bytes": 1241,
+        "gzipBytes": 464
+      },
+      {
+        "path": "dist/diagrams/railroad/index.d.ts",
+        "sha256": "9c0475ebbc85a81859f03ddf0221a16cc26fdcc304b3c75c6d2d4b4257d5c908",
+        "bytes": 142,
+        "gzipBytes": 116
+      },
+      {
+        "path": "dist/diagrams/railroad/ir.d.ts",
+        "sha256": "8e9bf68ca3d9b80c30d8ae334c54bbd6a54e666e376054e2fbddd06a0fab28ef",
+        "bytes": 938,
+        "gzipBytes": 371
+      },
+      {
+        "path": "dist/diagrams/railroad/peg.d.ts",
+        "sha256": "a367c3e8e5b6608130a0f309a20d9bbcd73874dcfde70eb39309ed2b42e3cb15",
+        "bytes": 1078,
+        "gzipBytes": 424
+      },
+      {
+        "path": "dist/diagrams/railroad/render.d.ts",
+        "sha256": "6e19094a89bf0d500831ec79c746fd8d310bc2916adfc25c1bcf3d8ae28f13f5",
+        "bytes": 275,
+        "gzipBytes": 162
+      },
+      {
+        "path": "dist/diagrams/railroad/types.d.ts",
+        "sha256": "4d57e81723465343cb111a8f6bc837323860b7d8313be2e4ff960c73b732a36a",
+        "bytes": 781,
+        "gzipBytes": 289
+      },
+      {
+        "path": "dist/diagrams/registry.d.ts",
+        "sha256": "960b4ec0faed4367d82014107a076d2f31719b83fe65ee885d6adc21a2e85318",
+        "bytes": 90,
+        "gzipBytes": 99
+      },
+      {
+        "path": "dist/diagrams/requirement/db.d.ts",
+        "sha256": "f48769fd41d2e19755c2d1bf7db712203aac42f49c9cd474074d78cc09364f61",
+        "bytes": 2426,
+        "gzipBytes": 771
+      },
+      {
+        "path": "dist/diagrams/requirement/graph.d.ts",
+        "sha256": "25c73e8ae06859534c1bb7aa6f2377b40670b5e091d63c948391282ad50fb24e",
+        "bytes": 615,
+        "gzipBytes": 262
+      },
+      {
+        "path": "dist/diagrams/requirement/index.d.ts",
+        "sha256": "8917746c6eee9822fbae1a51e81d4a48236b1c342fce8f8464065515ef5094b9",
+        "bytes": 146,
+        "gzipBytes": 118
+      },
+      {
+        "path": "dist/diagrams/requirement/lexer.d.ts",
+        "sha256": "bd30866dc9186686ac1738f8fb8a0058a46d266ea42fd541a930177bd2eb8cd9",
+        "bytes": 147,
+        "gzipBytes": 123
+      },
+      {
+        "path": "dist/diagrams/requirement/parser.d.ts",
+        "sha256": "eebf0d6433719df9708d7a559c2a30b8d63f1ef4fcb7673e4196ef4b809363b2",
+        "bytes": 126,
+        "gzipBytes": 120
+      },
+      {
+        "path": "dist/diagrams/requirement/render.d.ts",
+        "sha256": "be0a99033f359ff0f75f2cd8b4129b271de3565032ef3647d5498a182b014a24",
+        "bytes": 285,
+        "gzipBytes": 165
+      },
+      {
+        "path": "dist/diagrams/requirement/tokens.d.ts",
+        "sha256": "7e5be6c5c81960dc12d4a999dac9011d45524b52f8fb4c6eb9a380ad981bc5b6",
+        "bytes": 1379,
+        "gzipBytes": 595
+      },
+      {
+        "path": "dist/diagrams/requirement/types.d.ts",
+        "sha256": "30f0266b913823394be81bdcd94f6f02eb3715401b41d60d4b40646aa54e4804",
+        "bytes": 848,
+        "gzipBytes": 256
+      },
+      {
+        "path": "dist/diagrams/sankey/db.d.ts",
+        "sha256": "0caf78d7e2474e979cf7d207887758b33f9ddb6cd7c86f07c97a0a559d722037",
+        "bytes": 710,
+        "gzipBytes": 276
+      },
+      {
+        "path": "dist/diagrams/sankey/index.d.ts",
+        "sha256": "558c2627139fc916983eb24bb01067be3fe2db9ab4b2dd26de947313d6d29aed",
+        "bytes": 131,
+        "gzipBytes": 113
+      },
+      {
+        "path": "dist/diagrams/sankey/layout.d.ts",
+        "sha256": "ed6f490d83dd6a32dd0e0b3343e4584b72c8ee70106a3dc114d71bc5bfeec374",
+        "bytes": 738,
+        "gzipBytes": 314
+      },
+      {
+        "path": "dist/diagrams/sankey/lexer.d.ts",
+        "sha256": "d59d2a0ef684c1addb17ca032783a6765c2b39522c1dfbfab75ce4fc3101136c",
+        "bytes": 384,
+        "gzipBytes": 247
+      },
+      {
+        "path": "dist/diagrams/sankey/parser.d.ts",
+        "sha256": "fca0099641b483c80167265ad4a00fa854ae4f867afdf0a747cfdc940fd9c073",
+        "bytes": 260,
+        "gzipBytes": 180
+      },
+      {
+        "path": "dist/diagrams/sankey/render.d.ts",
+        "sha256": "13dbdbb458fc7f2ee4d21134de51b3bea0ac2b0c3d54ec435dd2875796217c90",
+        "bytes": 266,
+        "gzipBytes": 164
+      },
+      {
+        "path": "dist/diagrams/sequence/actors.d.ts",
+        "sha256": "05d03b2bd8d1c0f14de4b4daabb9184bb8056a95ca43f62ce81f06cc135da73a",
+        "bytes": 564,
+        "gzipBytes": 275
+      },
+      {
+        "path": "dist/diagrams/sequence/colors.d.ts",
+        "sha256": "2927adc30dcbcf5ebc4317911a8308213458194484720186cd864ba7af83f478",
+        "bytes": 60,
+        "gzipBytes": 77
+      },
+      {
+        "path": "dist/diagrams/sequence/db.d.ts",
+        "sha256": "7a1dfd065a5012c6f0c26bb3fd2d4efa094e161dd94a3f81a356fdfed17b9c7c",
+        "bytes": 2073,
+        "gzipBytes": 644
+      },
+      {
+        "path": "dist/diagrams/sequence/index.d.ts",
+        "sha256": "64e167b8e41bf5a10f5197319f81440cb3d708c11f179cd8a656eb11edd59eba",
+        "bytes": 127,
+        "gzipBytes": 115
+      },
+      {
+        "path": "dist/diagrams/sequence/lexer.d.ts",
+        "sha256": "bd30866dc9186686ac1738f8fb8a0058a46d266ea42fd541a930177bd2eb8cd9",
+        "bytes": 147,
+        "gzipBytes": 123
+      },
+      {
+        "path": "dist/diagrams/sequence/parser.d.ts",
+        "sha256": "be1457f1527367b6c03d53036e888038004940c91971cbea7666200b9a544f5e",
+        "bytes": 415,
+        "gzipBytes": 227
+      },
+      {
+        "path": "dist/diagrams/sequence/render.d.ts",
+        "sha256": "3d82ba79e213ad8fe6ef4540ba746064db47a51753dbc2b3b2215443dbf3ffbd",
+        "bytes": 561,
+        "gzipBytes": 281
+      },
+      {
+        "path": "dist/diagrams/sequence/tokens.d.ts",
+        "sha256": "d8cc949f83756542dc595324f595de85dd9982efc727c4ce926c998a65cfb4a7",
+        "bytes": 1852,
+        "gzipBytes": 667
+      },
+      {
+        "path": "dist/diagrams/sequence/types.d.ts",
+        "sha256": "6a6b4316b8038c6b2e51a5d9ba32c21dbde643006ee73ef879c15c7657c8db66",
+        "bytes": 3569,
+        "gzipBytes": 1018
+      },
+      {
+        "path": "dist/diagrams/state/db.d.ts",
+        "sha256": "cfe58b8dfea98925c8489155d4ca7b356103b63840e8e57b6b9c3f89a224be99",
+        "bytes": 1500,
+        "gzipBytes": 543
+      },
+      {
+        "path": "dist/diagrams/state/graph.d.ts",
+        "sha256": "dda176a30ca08fdad730a3e6e5de69ef63c6ed7e9cd43666638c22813de2c1fb",
+        "bytes": 824,
+        "gzipBytes": 349
+      },
+      {
+        "path": "dist/diagrams/state/index.d.ts",
+        "sha256": "23da09307c9c9600fb581af9d04baa2493d4205588eb380be34a5ced528129bb",
+        "bytes": 128,
+        "gzipBytes": 112
+      },
+      {
+        "path": "dist/diagrams/state/lexer.d.ts",
+        "sha256": "d334bb099afc015fd8943b0ece2bba36d5d9f5d283392e854f9dc5c2cd9b0c45",
+        "bytes": 178,
+        "gzipBytes": 136
+      },
+      {
+        "path": "dist/diagrams/state/parser.d.ts",
+        "sha256": "38b287d4f42506df3309277b8d580ba7e5696822243dcd38a220829a859a09ba",
+        "bytes": 366,
+        "gzipBytes": 220
+      },
+      {
+        "path": "dist/diagrams/state/render.d.ts",
+        "sha256": "4c630ff2e66994037eac42c2679ef7443d166269ba5f3ad9504f9d86b2cf89cc",
+        "bytes": 254,
+        "gzipBytes": 161
+      },
+      {
+        "path": "dist/diagrams/state/tokens.d.ts",
+        "sha256": "6e33430c0f32241b5b053354b2fd70a6ddea286567e7963bdf532a786f631c97",
+        "bytes": 1052,
+        "gzipBytes": 495
+      },
+      {
+        "path": "dist/diagrams/state/types.d.ts",
+        "sha256": "5134cbf25768932b29a8999df93ba59b7b98a2385720f5f2df955b7ee75c3e13",
+        "bytes": 1652,
+        "gzipBytes": 438
+      },
+      {
+        "path": "dist/diagrams/swimlane/index.d.ts",
+        "sha256": "8f53a3ed0ac55a55c5a55c21a4d631b7e58eaf170550e7d536c151f276b0a2e4",
+        "bytes": 250,
+        "gzipBytes": 145
+      },
+      {
+        "path": "dist/diagrams/timeline/db.d.ts",
+        "sha256": "189bbd40c6287ac51098ebf85d3b49e63a278a1f98586dd64f270c494a40f00d",
+        "bytes": 998,
+        "gzipBytes": 329
+      },
+      {
+        "path": "dist/diagrams/timeline/index.d.ts",
+        "sha256": "0817f517ba09a98ac21290f7102f0f27c52c10c2201846e49811294cb7fd4d93",
+        "bytes": 148,
+        "gzipBytes": 119
+      },
+      {
+        "path": "dist/diagrams/timeline/lexer.d.ts",
+        "sha256": "b8a096685525bfed025b60ba549ef1d01b9e589709efd9b919a5903dbd598890",
+        "bytes": 491,
+        "gzipBytes": 279
+      },
+      {
+        "path": "dist/diagrams/timeline/parser.d.ts",
+        "sha256": "ecdd63e0d02f67f4e09175cdc8c2d27f9dc55ac663c35ca701c573c4e01088f5",
+        "bytes": 117,
+        "gzipBytes": 118
+      },
+      {
+        "path": "dist/diagrams/timeline/render.d.ts",
+        "sha256": "e9b0be44a975244e8e11b7cd4c16ed3b5f8bd9d30d45b75a76c8f17210e3a9b0",
+        "bytes": 272,
+        "gzipBytes": 165
+      },
+      {
+        "path": "dist/diagrams/treemap/format.d.ts",
+        "sha256": "84a4defaad0ae2716663cfd8e882c8601ba3108b211a8d22758a1f471d954dfa",
+        "bytes": 76,
+        "gzipBytes": 89
+      },
+      {
+        "path": "dist/diagrams/treemap/index.d.ts",
+        "sha256": "9672cb4e1132e42793440c02797fbeef029a9e18e7dd97ca8f09def3378f1e53",
+        "bytes": 148,
+        "gzipBytes": 118
+      },
+      {
+        "path": "dist/diagrams/treemap/layout.d.ts",
+        "sha256": "55bd4491443f1d4051c157e35e1b9761219059ef7dd2c9dbf160d253a71424e5",
+        "bytes": 502,
+        "gzipBytes": 246
+      },
+      {
+        "path": "dist/diagrams/treemap/model.d.ts",
+        "sha256": "79aea3cbe3c2040989e0b910d882ad70f82401b57f2c15be0ccfcc2e5da8f403",
+        "bytes": 769,
+        "gzipBytes": 302
+      },
+      {
+        "path": "dist/diagrams/treemap/parser.d.ts",
+        "sha256": "13ffe5acedd5d11fd669c47bfcb21b4c088e08b3687ccf8082a2bb813020ef47",
+        "bytes": 805,
+        "gzipBytes": 321
+      },
+      {
+        "path": "dist/diagrams/treemap/render.d.ts",
+        "sha256": "32d13edb2358c73e7d5cb1dc83008cb96ce2d9687f65c7d4928f2fbf64ebb435",
+        "bytes": 272,
+        "gzipBytes": 164
+      },
+      {
+        "path": "dist/diagrams/treeview/boxDrawing.d.ts",
+        "sha256": "978074814c8f8b02de2d92403fb9e68933636c58c5093f71973f7f8f9d836416",
+        "bytes": 456,
+        "gzipBytes": 230
+      },
+      {
+        "path": "dist/diagrams/treeview/icons.d.ts",
+        "sha256": "36cf0e7c3617853beaa1c7c1f1e276bf48593638e2ccde36a95f1b2e331ce9c7",
+        "bytes": 763,
+        "gzipBytes": 370
+      },
+      {
+        "path": "dist/diagrams/treeview/index.d.ts",
+        "sha256": "36ac952e53164cb872da61bb5245ca82b20e5760d73f235c1b48971da8ad0e95",
+        "bytes": 151,
+        "gzipBytes": 119
+      },
+      {
+        "path": "dist/diagrams/treeview/model.d.ts",
+        "sha256": "ff0e635d83e7017f2dc5a60e2c95144434e0ffec5bec48073a9c48fa7d0f32f3",
+        "bytes": 947,
+        "gzipBytes": 363
+      },
+      {
+        "path": "dist/diagrams/treeview/parser.d.ts",
+        "sha256": "8bfddb224ff5eb58d0bb3362ba1c591dcc8b27f071e4aa93c2a64d690548a2cf",
+        "bytes": 606,
+        "gzipBytes": 299
+      },
+      {
+        "path": "dist/diagrams/treeview/render.d.ts",
+        "sha256": "98dbd0a063a3a7df58604b69ed3053e53db73eee89c05d5c6e58b6ba699fe694",
+        "bytes": 428,
+        "gzipBytes": 224
+      },
+      {
+        "path": "dist/diagrams/usecase/db.d.ts",
+        "sha256": "9d95d887926f248cbdd982dcef24181ed4b5ef6151835aeea890c58696a291b4",
+        "bytes": 2231,
+        "gzipBytes": 688
+      },
+      {
+        "path": "dist/diagrams/usecase/graph.d.ts",
+        "sha256": "5b9fd30a11187f152cffc5bcb8bc8e3c4e0e5bb348b9e5ad7e713238ac4b5b68",
+        "bytes": 1624,
+        "gzipBytes": 582
+      },
+      {
+        "path": "dist/diagrams/usecase/index.d.ts",
+        "sha256": "8d14b9a24b1895e1b4e584956ee49c7be91cb1dfcf5aefdfa8bff0c0bb48c58f",
+        "bytes": 148,
+        "gzipBytes": 113
+      },
+      {
+        "path": "dist/diagrams/usecase/json.d.ts",
+        "sha256": "d4172cb9058234f35b8c0ca6adebbdb2576e429ea821934e6d95f064fb603152",
+        "bytes": 212,
+        "gzipBytes": 165
+      },
+      {
+        "path": "dist/diagrams/usecase/lexer.d.ts",
+        "sha256": "300e1ce5dd3b8046134180618b810759ad5c15646f1191fd4bf1021804afbc91",
+        "bytes": 316,
+        "gzipBytes": 173
+      },
+      {
+        "path": "dist/diagrams/usecase/parser.d.ts",
+        "sha256": "13221fd4702a4acd72963156826fa5f90eb18404d7da5e2f79dc19f9305266d4",
+        "bytes": 132,
+        "gzipBytes": 125
+      },
+      {
+        "path": "dist/diagrams/usecase/render.d.ts",
+        "sha256": "d2948dcdcb7a95f71ec022ce76db2c73b3c337a4264ac5bdd54817e73a92263c",
+        "bytes": 272,
+        "gzipBytes": 162
+      },
+      {
+        "path": "dist/diagrams/usecase/tokens.d.ts",
+        "sha256": "9771f7abdd9d5613c00e294c1c79e45aae970c78573646b24535b714fe9a2bae",
+        "bytes": 1477,
+        "gzipBytes": 622
+      },
+      {
+        "path": "dist/diagrams/usecase/types.d.ts",
+        "sha256": "450dc522b35305f9545da04c2d0e3cd3829bc402d8c3dc38f960ce09ec4d56d7",
+        "bytes": 3633,
+        "gzipBytes": 1019
+      },
+      {
+        "path": "dist/diagrams/venn/db.d.ts",
+        "sha256": "0ddb8c54f3c8d5d068258d36f8262a921d35585d8c0818c097daae476555a561",
+        "bytes": 834,
+        "gzipBytes": 375
+      },
+      {
+        "path": "dist/diagrams/venn/index.d.ts",
+        "sha256": "91c77d975e2102b5ff5a4efc9e3d636fd146d467569bcfc1e95777d8f8d5d155",
+        "bytes": 125,
+        "gzipBytes": 111
+      },
+      {
+        "path": "dist/diagrams/venn/layout.d.ts",
+        "sha256": "66ae4dc99c519d3e361baf73fae4ca0f2bb5a2506336e2cc6d6cbe379fbf91f2",
+        "bytes": 728,
+        "gzipBytes": 298
+      },
+      {
+        "path": "dist/diagrams/venn/lexer.d.ts",
+        "sha256": "183889de15e4ebb0ea99cec20de4a54d91a649efd6433e9d59e8e49d68857653",
+        "bytes": 892,
+        "gzipBytes": 429
+      },
+      {
+        "path": "dist/diagrams/venn/parser.d.ts",
+        "sha256": "831d6f25e7d85f8b18405edaa46e9753365565b9b23e4eca60ec56ec302f6a5c",
+        "bytes": 105,
+        "gzipBytes": 111
+      },
+      {
+        "path": "dist/diagrams/venn/render.d.ts",
+        "sha256": "aad456d92626c12d9e6e6317b226b073364f12557609b79d517c5eb1e084199d",
+        "bytes": 264,
+        "gzipBytes": 161
+      },
+      {
+        "path": "dist/diagrams/venn/types.d.ts",
+        "sha256": "b88fc73beb3cda0579c6adc89586f6d9b32d78d043e287fb43ec8d76f4000fac",
+        "bytes": 444,
+        "gzipBytes": 196
+      },
+      {
+        "path": "dist/diagrams/wardley/builder.d.ts",
+        "sha256": "5ce2c87e553ee151d51d2169c83906a2386f42505c315773959ed06c3ce7f602",
+        "bytes": 2652,
+        "gzipBytes": 756
+      },
+      {
+        "path": "dist/diagrams/wardley/index.d.ts",
+        "sha256": "db3eb6ec7451f2e02f98fa6095b99a9309383b06d1284a9edc72d3a229b23600",
+        "bytes": 148,
+        "gzipBytes": 119
+      },
+      {
+        "path": "dist/diagrams/wardley/model.d.ts",
+        "sha256": "7ff8d0299c3c2d4a368cdad60b374850d6ab577da59d2f383e8f6a2e811e0d2a",
+        "bytes": 473,
+        "gzipBytes": 225
+      },
+      {
+        "path": "dist/diagrams/wardley/parser.d.ts",
+        "sha256": "77c20b3ad012230da417e3cbfb0ed7e7e058a694491d6f6db4cd0ed6d3eff3e9",
+        "bytes": 2258,
+        "gzipBytes": 636
+      },
+      {
+        "path": "dist/diagrams/wardley/render.d.ts",
+        "sha256": "1533541988a28cb097be40a86e0a2c4313268c7578b50d58924e7e22085f9e5f",
+        "bytes": 272,
+        "gzipBytes": 165
+      },
+      {
+        "path": "dist/diagrams/xychart/db.d.ts",
+        "sha256": "4037fdb18df0abeea518292c0c399bc0b3fe4afe9fabf8722041ad5e1e937f63",
+        "bytes": 1763,
+        "gzipBytes": 504
+      },
+      {
+        "path": "dist/diagrams/xychart/index.d.ts",
+        "sha256": "ff6c0580e5ad73c69d0eb235f0131d14a1cbe02d96d2ed2d9bb560656a8a3b88",
+        "bytes": 134,
+        "gzipBytes": 116
+      },
+      {
+        "path": "dist/diagrams/xychart/lexer.d.ts",
+        "sha256": "bd30866dc9186686ac1738f8fb8a0058a46d266ea42fd541a930177bd2eb8cd9",
+        "bytes": 147,
+        "gzipBytes": 123
+      },
+      {
+        "path": "dist/diagrams/xychart/parser.d.ts",
+        "sha256": "3b92163050ad1d0f0e529323866949e04bbd7df245f1395ee00a0a603bdc90af",
+        "bytes": 114,
+        "gzipBytes": 118
+      },
+      {
+        "path": "dist/diagrams/xychart/render.d.ts",
+        "sha256": "2552be24bbfea3a55d22fe85368a3f62e1f37734d59f1398969c987dcd6f60c2",
+        "bytes": 269,
+        "gzipBytes": 165
+      },
+      {
+        "path": "dist/diagrams/xychart/ticks.d.ts",
+        "sha256": "973c83b0cbfc92d1ff417bf630aac406c2b2c3874ee3f8ab7e005a3ab3430fc7",
+        "bytes": 301,
+        "gzipBytes": 136
+      },
+      {
+        "path": "dist/diagrams/xychart/tokens.d.ts",
+        "sha256": "59d79dfa025078379158e7072f199be466b9467c958fac962b449329d9605f02",
+        "bytes": 721,
+        "gzipBytes": 373
+      },
+      {
+        "path": "dist/entries/agentflow.d.ts",
+        "sha256": "2e794217e614631ed212412a49777d0be87dd3bed5fb7e3eb2f5a9c37ef57ae7",
+        "bytes": 71,
+        "gzipBytes": 84
+      },
+      {
+        "path": "dist/entries/architecture.d.ts",
+        "sha256": "6a8ce763439752c8f27eed200a7ce18dc1e5865216d2ba1ca8d16ee7fe64deda",
+        "bytes": 77,
+        "gzipBytes": 87
+      },
+      {
+        "path": "dist/entries/block.d.ts",
+        "sha256": "ebc53e3969518f5803c3a2e428a4e2ecd786cd5b332ca6338e73e1c1c542c113",
+        "bytes": 63,
+        "gzipBytes": 80
+      },
+      {
+        "path": "dist/entries/c4.d.ts",
+        "sha256": "6e10ace8538d00d53f18359343af70da0e19d793629563ff5d656b7e3611ee79",
+        "bytes": 57,
+        "gzipBytes": 77
+      },
+      {
+        "path": "dist/entries/class.d.ts",
+        "sha256": "6e643875425a2ce6fc48f4c3990243265148ce5f950f118dff7e6d89ed15f9f2",
+        "bytes": 70,
+        "gzipBytes": 83
+      },
+      {
+        "path": "dist/entries/cynefin.d.ts",
+        "sha256": "5e73eb684cc65aeaae100239097203808ddd3e706ce4b5113f4c3c97a648df46",
+        "bytes": 67,
+        "gzipBytes": 82
+      },
+      {
+        "path": "dist/entries/er.d.ts",
+        "sha256": "fa810f6a5877e59e188f1be675a68b1da410b959e2e308bba0c42927816ebdeb",
+        "bytes": 57,
+        "gzipBytes": 77
+      },
+      {
+        "path": "dist/entries/eventmodeling.d.ts",
+        "sha256": "f0a78fecb030170a1a38264551a8597171eda1c217863e46159b93e08ff1970a",
+        "bytes": 79,
+        "gzipBytes": 88
+      },
+      {
+        "path": "dist/entries/flowchart.d.ts",
+        "sha256": "9338ff5d5ee965ecebc1098542667fe2742f8f0f471dd53005fc4356a8d4f047",
+        "bytes": 71,
+        "gzipBytes": 82
+      },
+      {
+        "path": "dist/entries/gantt.d.ts",
+        "sha256": "72447602d1de0773bb501dd4cf52d035aef39bfe137547e7bbe3f1644f87cebd",
+        "bytes": 63,
+        "gzipBytes": 80
+      },
+      {
+        "path": "dist/entries/gitGraph.d.ts",
+        "sha256": "649901826c9d9878ca971545333dcd0b6e1dc8f4cad5f49043760d409096776c",
+        "bytes": 64,
+        "gzipBytes": 83
+      },
+      {
+        "path": "dist/entries/info.d.ts",
+        "sha256": "1e84ddf6cea8bf267052198574be715be63cc6615448ade541a4a41ff8df52fd",
+        "bytes": 61,
+        "gzipBytes": 77
+      },
+      {
+        "path": "dist/entries/ishikawa.d.ts",
+        "sha256": "ad7d26088e6e226e7536972a4948d93fbd7e68f76a020a1de70cd6070b0e3b8a",
+        "bytes": 69,
+        "gzipBytes": 83
+      },
+      {
+        "path": "dist/entries/journey.d.ts",
+        "sha256": "aa9acb656bd09bb4fe2d7e9bd68840bfd5c97ffdc3691ea770cb79e703efd1f6",
+        "bytes": 67,
+        "gzipBytes": 82
+      },
+      {
+        "path": "dist/entries/kanban.d.ts",
+        "sha256": "c53fbf3921b18df982f4c2b4724c9f6fe92d57f7458e898bdf2c990fa9e04616",
+        "bytes": 65,
+        "gzipBytes": 81
+      },
+      {
+        "path": "dist/entries/mindmap.d.ts",
+        "sha256": "12429b07f9f043bfb92d70956d6b79d6ee07786d3603b0d15016ef5badd8264e",
+        "bytes": 67,
+        "gzipBytes": 80
+      },
+      {
+        "path": "dist/entries/packet.d.ts",
+        "sha256": "7a15c94157b084129cd69dc49acaa3387f7556e26f551b516e88ce9fc8f014d7",
+        "bytes": 65,
+        "gzipBytes": 81
+      },
+      {
+        "path": "dist/entries/pie.d.ts",
+        "sha256": "af699b91bada17b70f201f5e1dec0fba70829c1644296eab5e5daef4ff60788c",
+        "bytes": 59,
+        "gzipBytes": 78
+      },
+      {
+        "path": "dist/entries/quadrantChart.d.ts",
+        "sha256": "ad4b427551b32ae358a470982447c6e2918924bcc94a410f2bf07d0db9200bcf",
+        "bytes": 74,
+        "gzipBytes": 86
+      },
+      {
+        "path": "dist/entries/radar.d.ts",
+        "sha256": "28c91eeefabf952e101f4d61495737b8f27a88907d6def3b91d53b0c89deccc1",
+        "bytes": 63,
+        "gzipBytes": 80
+      },
+      {
+        "path": "dist/entries/railroad.d.ts",
+        "sha256": "f2b02b8b5014db6cdb160212e9a24399c8568dc7287dbe3d14b85ba52c5d2d5c",
+        "bytes": 69,
+        "gzipBytes": 83
+      },
+      {
+        "path": "dist/entries/requirement.d.ts",
+        "sha256": "f90f1b861f3c59cdb9f7e8e73d7deb3fb9234f8f45eb8f34313bfe22d497458e",
+        "bytes": 75,
+        "gzipBytes": 86
+      },
+      {
+        "path": "dist/entries/sankey.d.ts",
+        "sha256": "c8d8543533279541b8383a8533359f011eb344f6d2944367f9d1899220b72173",
+        "bytes": 65,
+        "gzipBytes": 81
+      },
+      {
+        "path": "dist/entries/sequence.d.ts",
+        "sha256": "e485c6875ffb87dfdd9b6239906bfaef95998dc203d3ec684d86cd27c9f9bb03",
+        "bytes": 69,
+        "gzipBytes": 83
+      },
+      {
+        "path": "dist/entries/state.d.ts",
+        "sha256": "8c6cb87bc3242bd713c57a57e148572ffdf9b183b694160a9a44919b5059a9b3",
+        "bytes": 63,
+        "gzipBytes": 80
+      },
+      {
+        "path": "dist/entries/swimlane.d.ts",
+        "sha256": "57d4f03517c583f9237099b6f4a60c7ccc62228e0e6708712318fd138c7ff885",
+        "bytes": 69,
+        "gzipBytes": 83
+      },
+      {
+        "path": "dist/entries/timeline.d.ts",
+        "sha256": "df5877d7bf184669a7459977308544a5068637d15f2b9c487f82863a5ee10bc7",
+        "bytes": 69,
+        "gzipBytes": 83
+      },
+      {
+        "path": "dist/entries/treemap.d.ts",
+        "sha256": "05155f486274b2eb005945c45a33c84be688789fbe84ecfdb030a1046f56ab79",
+        "bytes": 67,
+        "gzipBytes": 82
+      },
+      {
+        "path": "dist/entries/treeView.d.ts",
+        "sha256": "1145c61580ab144c917881fb74a77106cd52f2699c3a013906d70dba6b201902",
+        "bytes": 69,
+        "gzipBytes": 86
+      },
+      {
+        "path": "dist/entries/usecase.d.ts",
+        "sha256": "202857ac712e438fd1d259c44246c0802ea4c3780f79c1264974bc21492da317",
+        "bytes": 67,
+        "gzipBytes": 82
+      },
+      {
+        "path": "dist/entries/venn.d.ts",
+        "sha256": "af935b10a05b193edae081831b9b285d316d629dec8f592ec9350d823de44f5e",
+        "bytes": 61,
+        "gzipBytes": 79
+      },
+      {
+        "path": "dist/entries/wardley.d.ts",
+        "sha256": "f6611ab1402460600038323d9b6a117dfd85471d648c65dd2d6d5cb1cfc6e64b",
+        "bytes": 67,
+        "gzipBytes": 82
+      },
+      {
+        "path": "dist/entries/xychart.d.ts",
+        "sha256": "cdf0a64ea525053dac10f358d099ae392c098d8bf60bdfbbc3da1b5e418736fa",
+        "bytes": 67,
+        "gzipBytes": 80
+      },
+      {
+        "path": "dist/errors.d.ts",
+        "sha256": "9ebe9bcd4dc6382fce74868a24ef1b1004e13860b11041c498ee45680e8a3244",
+        "bytes": 1242,
+        "gzipBytes": 460
+      },
+      {
+        "path": "dist/esm/chunks/2CHDFZHC.js",
+        "sha256": "77e15c9ac1e2122a23ce7d183cd19277a2297f07ae4fada3c6584812c769cf37",
+        "bytes": 3734,
+        "gzipBytes": 1917
+      },
+      {
+        "path": "dist/esm/chunks/2S3JPEOY.js",
+        "sha256": "6d7c95fc23b81a7f119b1c7be86977c7107ad60b753933f33a472b5ef034f966",
+        "bytes": 6483,
+        "gzipBytes": 3050
+      },
+      {
+        "path": "dist/esm/chunks/2U463FD2.js",
+        "sha256": "9814418ae40d47c1201780d4a69538f145a0ff1c7480f2aca0131234b5590448",
+        "bytes": 20173,
+        "gzipBytes": 8508
+      },
+      {
+        "path": "dist/esm/chunks/3OKCTCH7.js",
+        "sha256": "dc30919df1d39ebd82d65a3862e45fb13db499e20d830380d3c69d93b2b7eab6",
+        "bytes": 12551,
+        "gzipBytes": 5342
+      },
+      {
+        "path": "dist/esm/chunks/42UK3TL6.js",
+        "sha256": "00275775c75f59af63159084d091b8b7cd1ed2b30442f52bc241b481b6849f0e",
+        "bytes": 44885,
+        "gzipBytes": 16619
+      },
+      {
+        "path": "dist/esm/chunks/43YPWK3Q.js",
+        "sha256": "e56dcfe84a18db696a29768e4c1782a848a7864d340a9374bbaa9f20b654b7b5",
+        "bytes": 206,
+        "gzipBytes": 141
+      },
+      {
+        "path": "dist/esm/chunks/45MVAN6X.js",
+        "sha256": "ec1be8152eaf98ae1e6c47a5cd96e6a0b9a3e0e4e71476691b5d1619814f8d9e",
+        "bytes": 183,
+        "gzipBytes": 132
+      },
+      {
+        "path": "dist/esm/chunks/46GJKBLZ.js",
+        "sha256": "ee8e5327d5c50385b9e31be9b2d4766601b3b831ee45c5da0e603877157d0ef3",
+        "bytes": 382,
+        "gzipBytes": 205
+      },
+      {
+        "path": "dist/esm/chunks/4WR52FRP.js",
+        "sha256": "e3caedd34b3ad19c57bb4c6a5f4126e6c6a5b0b46d64aff86fbffd3d7baa880d",
+        "bytes": 27924,
+        "gzipBytes": 11523
+      },
+      {
+        "path": "dist/esm/chunks/5THPTBWS.js",
+        "sha256": "dc81c12df1149e9bb75d87b4cdb6ac5fe26b1255ac1e6435aa05ba0a520528dd",
+        "bytes": 478,
+        "gzipBytes": 302
+      },
+      {
+        "path": "dist/esm/chunks/63WH7YNF.js",
+        "sha256": "1b57432157240999c3f6bedd2feeed9916a7d0b628ed7958a0e6b71934f51d93",
+        "bytes": 339,
+        "gzipBytes": 193
+      },
+      {
+        "path": "dist/esm/chunks/673H7YBG.js",
+        "sha256": "38340f53c02696f8a9e0abbfa39f059ce28475816e9a0b26ee54d2940b5d6bdd",
+        "bytes": 7161,
+        "gzipBytes": 3239
+      },
+      {
+        "path": "dist/esm/chunks/6DDU7VKX.js",
+        "sha256": "2621e15953eefef6b488e7b0bd78e5b2fd3fecfc1ad8ad916e01b819fd526dae",
+        "bytes": 205,
+        "gzipBytes": 142
+      },
+      {
+        "path": "dist/esm/chunks/6Y6FML25.js",
+        "sha256": "e19a4b3067c896139fb47a0e4b278f3447a498b5d8f2dd33f533625b9f590e5b",
+        "bytes": 7454,
+        "gzipBytes": 3310
+      },
+      {
+        "path": "dist/esm/chunks/7HQPULDG.js",
+        "sha256": "1ea4015188b81de7bbebb1cd13130055395424657c32c4643ebff47fa913beaa",
+        "bytes": 19222,
+        "gzipBytes": 7484
+      },
+      {
+        "path": "dist/esm/chunks/7N3VAIG2.js",
+        "sha256": "ad66a7d3c9f72c6668fbd5f0ab529f8c70234c2ec4f2c8123f60d526ec1b9285",
+        "bytes": 7677,
+        "gzipBytes": 3486
+      },
+      {
+        "path": "dist/esm/chunks/7NY54ILO.js",
+        "sha256": "57c45a5ee4a0290e5664403171766d3ab76e2aae3f9e27dcee11b4757f5ab0bd",
+        "bytes": 8499,
+        "gzipBytes": 3776
+      },
+      {
+        "path": "dist/esm/chunks/7OAKGN26.js",
+        "sha256": "e2ab570f84d21ea6b1e58c1ebae73bf8c657fe3eb67633361f49e43420a4aa14",
+        "bytes": 7783,
+        "gzipBytes": 3087
+      },
+      {
+        "path": "dist/esm/chunks/7WLXJQOR.js",
+        "sha256": "de9d710f8b23385f34ca8f5af3c508e087bb261eae602b593d7887849664d828",
+        "bytes": 1952,
+        "gzipBytes": 943
+      },
+      {
+        "path": "dist/esm/chunks/BJNHMTN6.js",
+        "sha256": "f4d5ee24bacc5879daed12aaf3a52d43aca7d2feaa8c7ad8fd1c10958eb4d9bf",
+        "bytes": 14765,
+        "gzipBytes": 6353
+      },
+      {
+        "path": "dist/esm/chunks/BK7N5KMP.js",
+        "sha256": "779ce2f739cf38efeb06457a27bfb49d3be0665f7d6e030395c7389fe6f62157",
+        "bytes": 5137,
+        "gzipBytes": 2465
+      },
+      {
+        "path": "dist/esm/chunks/CLQLV5VT.js",
+        "sha256": "96bcf581a02094895e3dc78dc078ddfa8e542e58a2bd77becef3cf585092e9d6",
+        "bytes": 250,
+        "gzipBytes": 162
+      },
+      {
+        "path": "dist/esm/chunks/CUSPXG5M.js",
+        "sha256": "7ab50c2218a8447f1a3bf6556a8ad9f8e3bfd257c2804cfa8f422d8404d676d5",
+        "bytes": 228,
+        "gzipBytes": 153
+      },
+      {
+        "path": "dist/esm/chunks/D3L7O4X2.js",
+        "sha256": "7dcbc77a7c546ecabc10d73c1a0506efe8b40a1fdbe5265c84a634973aaf0b72",
+        "bytes": 183,
+        "gzipBytes": 131
+      },
+      {
+        "path": "dist/esm/chunks/D5TW5CPZ.js",
+        "sha256": "d43dc2d8684e455d3f6f9e935936a129ee88b8a3621a9d4d5489ac7a15b7624a",
+        "bytes": 369,
+        "gzipBytes": 284
+      },
+      {
+        "path": "dist/esm/chunks/DDVFZY3L.js",
+        "sha256": "049a60aaa3998197c87632a0ce460ddc47696c8eca8ce1e3458e71d3fc6b5851",
+        "bytes": 11228,
+        "gzipBytes": 4850
+      },
+      {
+        "path": "dist/esm/chunks/DKTLEL5E.js",
+        "sha256": "91864eed78a6a3cc9791d20fb9b61fd8f458c12101662883cd23e755fd2a4cb6",
+        "bytes": 838,
+        "gzipBytes": 403
+      },
+      {
+        "path": "dist/esm/chunks/DO6ND2WD.js",
+        "sha256": "e56d244ce13fe8718c1542d2565b4ac20de97836fc4f20492c70fc39b501619c",
+        "bytes": 15297,
+        "gzipBytes": 6078
+      },
+      {
+        "path": "dist/esm/chunks/EGADTWYV.js",
+        "sha256": "8ccc7ebbf81ba33271072d84a3547c376f9ca972f67ca1f7c81366287fd0e5ff",
+        "bytes": 162,
+        "gzipBytes": 123
+      },
+      {
+        "path": "dist/esm/chunks/EI4VGK5C.js",
+        "sha256": "2b579af86621a4faf1bc455951b8cd53229d402525b89a6aff9a8c58aa21841a",
+        "bytes": 16860,
+        "gzipBytes": 7140
+      },
+      {
+        "path": "dist/esm/chunks/EOJSJZXM.js",
+        "sha256": "3295e046cb9ab0543ca7286aba49f7acd9a5e557c80c0f234701fe506a174521",
+        "bytes": 269,
+        "gzipBytes": 166
+      },
+      {
+        "path": "dist/esm/chunks/F4O23KYR.js",
+        "sha256": "7018c1e26b5609b609f18672eacb49165951409c5e335e1ce5f8f77ba1ec0fb9",
+        "bytes": 20721,
+        "gzipBytes": 7807
+      },
+      {
+        "path": "dist/esm/chunks/FTXIJQGB.js",
+        "sha256": "d5a635ff4d5134d1e6600fea35c3add7ab4b7167475733b1b093b0a3d34e795b",
+        "bytes": 2579,
+        "gzipBytes": 1090
+      },
+      {
+        "path": "dist/esm/chunks/G2OEIG6X.js",
+        "sha256": "dddff6f331bc239070bfca431cddfa900798ca47297e4e262de1ab115d082f0a",
+        "bytes": 188,
+        "gzipBytes": 137
+      },
+      {
+        "path": "dist/esm/chunks/G3MDBVQH.js",
+        "sha256": "41619661f2539269b66fd5783497c4ee940fe1d1e32ae19ee52cde5d781049ad",
+        "bytes": 561,
+        "gzipBytes": 335
+      },
+      {
+        "path": "dist/esm/chunks/GER2CN75.js",
+        "sha256": "efba06eeb0bffbcdb42c4f1f299660667c19f287d168174dbff424b5ed48d126",
+        "bytes": 13594,
+        "gzipBytes": 5580
+      },
+      {
+        "path": "dist/esm/chunks/GP5YUCAR.js",
+        "sha256": "b08058494ad666243f2d26d51508bb5bdb98bd4613be8365f8a5fd38231204b1",
+        "bytes": 5784,
+        "gzipBytes": 2835
+      },
+      {
+        "path": "dist/esm/chunks/GUJTEFZK.js",
+        "sha256": "e8584ce5872c50c6370efc1fbce911848506d84ff6fa88e4f079f412b5e2f068",
+        "bytes": 511,
+        "gzipBytes": 226
+      },
+      {
+        "path": "dist/esm/chunks/GXJ2T77W.js",
+        "sha256": "0ee7879c0c0250344434a2bc634240028007564b138a475106dd117b658a90ba",
+        "bytes": 205,
+        "gzipBytes": 141
+      },
+      {
+        "path": "dist/esm/chunks/HX3UMAK7.js",
+        "sha256": "4963fe64f09c7c4cc586be3e4cb077d919ca05c344cc6847f5a7f458947e31f2",
+        "bytes": 206,
+        "gzipBytes": 142
+      },
+      {
+        "path": "dist/esm/chunks/IU7WZTP6.js",
+        "sha256": "69f4db78a07a25a016643f31b683aa18b72017ea655923e26b632887af378e27",
+        "bytes": 3700,
+        "gzipBytes": 1724
+      },
+      {
+        "path": "dist/esm/chunks/J3JF2HV4.js",
+        "sha256": "b94a31181448769dffdefcb965c21d707e44ea923dbebb7fa43e2a1bc9515ddb",
+        "bytes": 41951,
+        "gzipBytes": 15881
+      },
+      {
+        "path": "dist/esm/chunks/J5J2NR2G.js",
+        "sha256": "1d0e500e8a6b0a24c66dc9bc491e76c3a347812d42573d1977f5336c682affd1",
+        "bytes": 140,
+        "gzipBytes": 112
+      },
+      {
+        "path": "dist/esm/chunks/JRCWTJEL.js",
+        "sha256": "0ed8155bfd74eb44c806ae773edcd6035a2682726b554553ec902b376c2b0b51",
+        "bytes": 167,
+        "gzipBytes": 128
+      },
+      {
+        "path": "dist/esm/chunks/K2ZHGJKH.js",
+        "sha256": "cb65a5714d1684af43017abd3f083726f773f8d0f5903a210e3e2a0792ab349f",
+        "bytes": 5374,
+        "gzipBytes": 2669
+      },
+      {
+        "path": "dist/esm/chunks/KHUP5TOH.js",
+        "sha256": "f2c1fbabced5b7048e974521c9a4ac429f36b46e9569d7819ca69a2b893b5988",
+        "bytes": 13515,
+        "gzipBytes": 6281
+      },
+      {
+        "path": "dist/esm/chunks/L74FQTH5.js",
+        "sha256": "067c10b5260bbaa0fc371bc0c43afe05bb968545e902fd3f520df67e19398450",
+        "bytes": 159,
+        "gzipBytes": 120
+      },
+      {
+        "path": "dist/esm/chunks/LAV4ZXOS.js",
+        "sha256": "e61e3806094a96641f9736a28ab26b32dca7d085ad773359352f78133c50b60b",
+        "bytes": 225,
+        "gzipBytes": 149
+      },
+      {
+        "path": "dist/esm/chunks/LBIZYCRR.js",
+        "sha256": "9f77401f86fb2b2cd06a6d7151b87cee4054dc8a318100857f369d85ca2feff5",
+        "bytes": 244,
+        "gzipBytes": 156
+      },
+      {
+        "path": "dist/esm/chunks/LFFXNLRS.js",
+        "sha256": "17a5d70b7c07b32977fa37486a0d5f78682e8ccaa548bc33a1b69b7c4d2ea60d",
+        "bytes": 138,
+        "gzipBytes": 109
+      },
+      {
+        "path": "dist/esm/chunks/LJ44NU43.js",
+        "sha256": "8cf6b49c72b3b3ba394b0d1b1460b337af33ca8b8c6b5e70e33d3e67e6c693b4",
+        "bytes": 24168,
+        "gzipBytes": 9835
+      },
+      {
+        "path": "dist/esm/chunks/LLLWOAQD.js",
+        "sha256": "adbfabf17add67b0d84c1f28f234838f7469c8c4e89f085eb5dbaeaf90246e34",
+        "bytes": 13713,
+        "gzipBytes": 5929
+      },
+      {
+        "path": "dist/esm/chunks/LTY5LMQH.js",
+        "sha256": "aa4dc5ed9ab02bbcc8f20984443a3b63d18b0cbaea4607153a9335d5dde1bae9",
+        "bytes": 28924,
+        "gzipBytes": 11294
+      },
+      {
+        "path": "dist/esm/chunks/LTYQZ5U5.js",
+        "sha256": "5c34202da8eb28874dc4699570372bc332f127103cecb9b557103411968d1caf",
+        "bytes": 366,
+        "gzipBytes": 204
+      },
+      {
+        "path": "dist/esm/chunks/MJBOF5Q6.js",
+        "sha256": "1f9b452ce821a5bacd6b58e7d9c7f9f8a2c0a4078576dcb3fb939a52acec87d2",
+        "bytes": 9064,
+        "gzipBytes": 4180
+      },
+      {
+        "path": "dist/esm/chunks/NDSCUZ25.js",
+        "sha256": "11fe7f6b93834455f7834f37eb4a0d5ada94ea6ff8cff14fc1e4cd11e462eed8",
+        "bytes": 1989,
+        "gzipBytes": 1076
+      },
+      {
+        "path": "dist/esm/chunks/NMN3IKWL.js",
+        "sha256": "71e352120484c3890ad7f08fdb648bf169989bad0ddbafebae858e0df9c76e5f",
+        "bytes": 342,
+        "gzipBytes": 194
+      },
+      {
+        "path": "dist/esm/chunks/NMUA3R2D.js",
+        "sha256": "16b6134c8c289fd4aab8cbf6459bf80e0b74e24a0eadd058a876acd9104a4bd6",
+        "bytes": 249,
+        "gzipBytes": 161
+      },
+      {
+        "path": "dist/esm/chunks/NY5A6PPW.js",
+        "sha256": "8bff72f565251629e91873f4dd0c48d912f5a4aa616369bf0239e7e52a238bf4",
+        "bytes": 136,
+        "gzipBytes": 108
+      },
+      {
+        "path": "dist/esm/chunks/O3ACPFEJ.js",
+        "sha256": "78f8728de0ed9aebb5c12c0eb7b4879a23615b6f9b61415b5d2139e730de6e1a",
+        "bytes": 34964,
+        "gzipBytes": 13019
+      },
+      {
+        "path": "dist/esm/chunks/O4MQT6AV.js",
+        "sha256": "4ac895cb9366a9b50fb01eb7e2512aee083addb8fd0bde62dbed1789058bb280",
+        "bytes": 30425,
+        "gzipBytes": 11664
+      },
+      {
+        "path": "dist/esm/chunks/OHJ2EJXK.js",
+        "sha256": "5494d8e606b796dd675d6890e29240c3faabc8b47eadd298c8b05fb16cb1eab6",
+        "bytes": 2127,
+        "gzipBytes": 1048
+      },
+      {
+        "path": "dist/esm/chunks/OU2GIT2H.js",
+        "sha256": "b88f1b67c1b512b9021521b00aa2f2d0a0b20dd38c81fefaa1a3aeb26762ba2d",
+        "bytes": 114,
+        "gzipBytes": 98
+      },
+      {
+        "path": "dist/esm/chunks/PDMLSE6I.js",
+        "sha256": "d90dffba68c8e1f71d5bfdcda143eacadc3bb12a530d2615312ca7bd2715fb8e",
+        "bytes": 480,
+        "gzipBytes": 333
+      },
+      {
+        "path": "dist/esm/chunks/PJ7X32S5.js",
+        "sha256": "be9a82dc3f7c379775145c43b43a117bb57073881ffe89ec006969901499e1dd",
+        "bytes": 161,
+        "gzipBytes": 122
+      },
+      {
+        "path": "dist/esm/chunks/RLLQ44NJ.js",
+        "sha256": "6a5465b1820770924ace70b178a2a29a3f275383e29ab7261979c72ac618abc7",
+        "bytes": 233,
+        "gzipBytes": 156
+      },
+      {
+        "path": "dist/esm/chunks/RVARI57O.js",
+        "sha256": "3dc7661b060578920eab83aafd1fa261886e7e331d44f8f5d2f34bd0804027a3",
+        "bytes": 159,
+        "gzipBytes": 149
+      },
+      {
+        "path": "dist/esm/chunks/S6DWMCK5.js",
+        "sha256": "e4d5bd34087dfe6c51255868bac7ad95afb80ab2503fab25de438621afdc548c",
+        "bytes": 288,
+        "gzipBytes": 172
+      },
+      {
+        "path": "dist/esm/chunks/STIOTUT7.js",
+        "sha256": "c862dd012974d12677385c5dd5e45d39d147baf09d58b158973bab8a8193e57c",
+        "bytes": 231,
+        "gzipBytes": 155
+      },
+      {
+        "path": "dist/esm/chunks/SXSLPWUD.js",
+        "sha256": "5433f786100fc8afe2cfd125d6dd9b27cc46a02e099e29f6ee7ede3fbcb131a3",
+        "bytes": 4138,
+        "gzipBytes": 1932
+      },
+      {
+        "path": "dist/esm/chunks/TBJXKAT4.js",
+        "sha256": "90a2d602ae87cc9966285b2f892ac7573c6868ccea7b8d705941d5548447f1d5",
+        "bytes": 11519,
+        "gzipBytes": 5075
+      },
+      {
+        "path": "dist/esm/chunks/TIVX74RS.js",
+        "sha256": "5c2c017a3266c20707b9ed8e7c584278ae718db88be8a262a11334960020f090",
+        "bytes": 21213,
+        "gzipBytes": 8892
+      },
+      {
+        "path": "dist/esm/chunks/TK23BXEA.js",
+        "sha256": "418d89d1d32538947ae660285efc864832355e24803a4f1f48631e87e99703cf",
+        "bytes": 9411,
+        "gzipBytes": 4266
+      },
+      {
+        "path": "dist/esm/chunks/TR4WJQGX.js",
+        "sha256": "cfc3fbcbb2b0b7bbf1ca5445a1a5fbf24fc5fcb04c553329707cf62f66fa86fb",
+        "bytes": 592,
+        "gzipBytes": 415
+      },
+      {
+        "path": "dist/esm/chunks/UWRPUF3N.js",
+        "sha256": "e16cc01b399138dc70b0db536b6c5ae6ef1a136e652e5f34cd8e8a1fc6591b04",
+        "bytes": 37864,
+        "gzipBytes": 16393
+      },
+      {
+        "path": "dist/esm/chunks/VMTWYMKQ.js",
+        "sha256": "ad4558c88a7c4005838163046d7492e0e5f86e5a817c9c820f88845793c11d78",
+        "bytes": 14918,
+        "gzipBytes": 6283
+      },
+      {
+        "path": "dist/esm/chunks/VSWIZJ7B.js",
+        "sha256": "679700af45719f7a1f2cc4c661fdda8f13c0cc905760c7ff6d66e4646c10a51e",
+        "bytes": 12256,
+        "gzipBytes": 3146
+      },
+      {
+        "path": "dist/esm/chunks/W2WY5CQX.js",
+        "sha256": "8bd91ecc70bd02e3217294f6e332ee684589f591f3ed75137f215bdf224fb469",
+        "bytes": 1383,
+        "gzipBytes": 760
+      },
+      {
+        "path": "dist/esm/chunks/W77N5H3K.js",
+        "sha256": "f2e9658aa9d6b18d1732bfcdbc1516c463456d1f81ee2106e25b15dc1c09ee55",
+        "bytes": 12240,
+        "gzipBytes": 5600
+      },
+      {
+        "path": "dist/esm/chunks/WM7NR6YK.js",
+        "sha256": "a1d5bc9e2bab13d851e37a8928621319bd9e75b61edeb9b900dc08388a91e22f",
+        "bytes": 137,
+        "gzipBytes": 109
+      },
+      {
+        "path": "dist/esm/chunks/WSTWNLCU.js",
+        "sha256": "ade4e18b40a82297ae891456ed7d876492060faa5978250b2cddbab0ad94b8f9",
+        "bytes": 32106,
+        "gzipBytes": 12538
+      },
+      {
+        "path": "dist/esm/chunks/WXKV2YEK.js",
+        "sha256": "f0351fabd33e2df5244df9361f5ae4b61b44493725628caae3dc4de5ef1cd6e2",
+        "bytes": 161,
+        "gzipBytes": 122
+      },
+      {
+        "path": "dist/esm/chunks/XLHPVVFU.js",
+        "sha256": "b3bdfcc420b1bfc8fa81dbfd8931b81a3382808e9c6521ee68b6e6fddecddbfc",
+        "bytes": 950,
+        "gzipBytes": 501
+      },
+      {
+        "path": "dist/esm/chunks/XQ5S3AI3.js",
+        "sha256": "c4c3c96c59210d4a9f5f26d94a4b5908fb0e6a97a9282d90e2080047542115d2",
+        "bytes": 42538,
+        "gzipBytes": 16150
+      },
+      {
+        "path": "dist/esm/chunks/YNX532HU.js",
+        "sha256": "17f5a6030de97484c124a2579f2ecdd7dbbeb808b63a34fbe7120b7c6903834e",
+        "bytes": 182,
+        "gzipBytes": 131
+      },
+      {
+        "path": "dist/esm/chunks/YUPSMAUO.js",
+        "sha256": "420ddb5ea0a9126b60a417544a5116d7433f15569c5dfc26175b825060e41c6e",
+        "bytes": 974,
+        "gzipBytes": 582
+      },
+      {
+        "path": "dist/esm/chunks/YWXUFHC7.js",
+        "sha256": "6c5d05ca644ec18852c61e8a7646c8aa3e5764fa9642c0ed1d587f15767fb01c",
+        "bytes": 6524,
+        "gzipBytes": 3372
+      },
+      {
+        "path": "dist/esm/chunks/Z3ZRV7NH.js",
+        "sha256": "8f5e1037e421abc94ec33bed93bdbc2987f8c04bd646b98587afa292088ada22",
+        "bytes": 27827,
+        "gzipBytes": 11629
+      },
+      {
+        "path": "dist/esm/chunks/ZFRCZTLK.js",
+        "sha256": "01524589241028555a24e1402bd0b835b80ef1759e8489bff39787d939abc3df",
+        "bytes": 226,
+        "gzipBytes": 151
+      },
+      {
+        "path": "dist/esm/chunks/ZZDR4CN3.js",
+        "sha256": "80ca896171610f980e257d626e39e54fcef54c2750707101df260522da9d7d9f",
+        "bytes": 135,
+        "gzipBytes": 107
+      },
+      {
+        "path": "dist/esm/core.js",
+        "sha256": "bdc3d544e0429d0903a21c4719f3418bb9a6b297b7a9a4233891e6d443eb9662",
+        "bytes": 347,
+        "gzipBytes": 231
+      },
+      {
+        "path": "dist/esm/diagrams/agentflow.js",
+        "sha256": "7197d8e207c72812fd377380006b5e9660cad2e488dc325e3b4b328b4982b7c1",
+        "bytes": 449,
+        "gzipBytes": 202
+      },
+      {
+        "path": "dist/esm/diagrams/architecture.js",
+        "sha256": "8a17c81834f5e0f570d8a51949c048fb58de55d0a53750617ca613f84c0dbf22",
+        "bytes": 244,
+        "gzipBytes": 145
+      },
+      {
+        "path": "dist/esm/diagrams/block.js",
+        "sha256": "8f2510b279b962c80e3bac8654722fb110a88b2be76b5e0cbf95903c72bf6a47",
+        "bytes": 304,
+        "gzipBytes": 165
+      },
+      {
+        "path": "dist/esm/diagrams/c4.js",
+        "sha256": "e67ca18877bc441aa71a00dc7eb6379d01681cba2d299adc4fd69772d418f8b7",
+        "bytes": 329,
+        "gzipBytes": 170
+      },
+      {
+        "path": "dist/esm/diagrams/class.js",
+        "sha256": "0598481902dc9585570aa0f3d903122f09969cacb86aae31490aac0ff9825305",
+        "bytes": 449,
+        "gzipBytes": 202
+      },
+      {
+        "path": "dist/esm/diagrams/cynefin.js",
+        "sha256": "8be6cf98bf207a65cc0e7dc20d2df0bed99adc5241556cc2add8882a498e2e84",
+        "bytes": 214,
+        "gzipBytes": 135
+      },
+      {
+        "path": "dist/esm/diagrams/er.js",
+        "sha256": "11a5ef14b8a268d460bf44a4c6bd66d7b7b7a4f700f692fd75373aeb4b5820d7",
+        "bytes": 394,
+        "gzipBytes": 189
+      },
+      {
+        "path": "dist/esm/diagrams/eventmodeling.js",
+        "sha256": "9215d3897a41dd51991fdad12780d9ec7cb53801059ba7ff7c72ffc592dbf2e2",
+        "bytes": 304,
+        "gzipBytes": 163
+      },
+      {
+        "path": "dist/esm/diagrams/flowchart.js",
+        "sha256": "2874b34ec1308c6f1c9fa533fddf448df848d9e52f2503396c1f5965351c926e",
+        "bytes": 484,
+        "gzipBytes": 211
+      },
+      {
+        "path": "dist/esm/diagrams/gantt.js",
+        "sha256": "c54eb5080d610ae913db6df5cfbb21407ac70cc2b9a78ad1afe51f562d2140ea",
+        "bytes": 214,
+        "gzipBytes": 135
+      },
+      {
+        "path": "dist/esm/diagrams/gitGraph.js",
+        "sha256": "0abe9f53601f72f758200526f19a0d1706f6c1b6d01a4eee3c7e0a364aaf4e29",
+        "bytes": 209,
+        "gzipBytes": 130
+      },
+      {
+        "path": "dist/esm/diagrams/info.js",
+        "sha256": "d6b9900745491eb554660d8527f12c6d4bfc192bf1f6aebd4fbbefa3112e2b4f",
+        "bytes": 154,
+        "gzipBytes": 114
+      },
+      {
+        "path": "dist/esm/diagrams/ishikawa.js",
+        "sha256": "178ecb980d824c6ec82e27c7988c3ea5c6e6a3c1266a2d26c8fc57d27dd50703",
+        "bytes": 269,
+        "gzipBytes": 150
+      },
+      {
+        "path": "dist/esm/diagrams/journey.js",
+        "sha256": "2c6e46606f64673564cdb94b7118ffd7ecdb1b4e78351c196b2ffe0fdb140b00",
+        "bytes": 244,
+        "gzipBytes": 145
+      },
+      {
+        "path": "dist/esm/diagrams/kanban.js",
+        "sha256": "cbb7e90b1c588398457b7001a57d351032156c90513f8055459c32a97da42569",
+        "bytes": 299,
+        "gzipBytes": 161
+      },
+      {
+        "path": "dist/esm/diagrams/mindmap.js",
+        "sha256": "fabfb003588a957bd05cb92c9912637f47cdb072d85704a862f2edc5918097b7",
+        "bytes": 269,
+        "gzipBytes": 151
+      },
+      {
+        "path": "dist/esm/diagrams/packet.js",
+        "sha256": "8bc10d1ec4f366beee3f7f67a81575de897205c5c13cb719163a0ffc3346ea39",
+        "bytes": 239,
+        "gzipBytes": 140
+      },
+      {
+        "path": "dist/esm/diagrams/pie.js",
+        "sha256": "f1a0ff9c62e285856a0e2d1a03103c444210787322bfc1e1d5c5a7c2ec4c3645",
+        "bytes": 184,
+        "gzipBytes": 124
+      },
+      {
+        "path": "dist/esm/diagrams/quadrantChart.js",
+        "sha256": "5193832334fc4feaaf488ab504ba0d4fc97f20249ec8e491320e4e4f2c237934",
+        "bytes": 209,
+        "gzipBytes": 130
+      },
+      {
+        "path": "dist/esm/diagrams/radar.js",
+        "sha256": "632945ca8c2688877b023029bee46e2dcab87a44cb30c430cef6420a726f5eae",
+        "bytes": 179,
+        "gzipBytes": 120
+      },
+      {
+        "path": "dist/esm/diagrams/railroad.js",
+        "sha256": "fe7c25246da431a6f25d41ab5bfac9c14ed85085e0dee40fb64f2cdf07d5ceaa",
+        "bytes": 179,
+        "gzipBytes": 120
+      },
+      {
+        "path": "dist/esm/diagrams/requirement.js",
+        "sha256": "92aa0f8c8122bc25a369c45ae3328a5cab79b1d4873361b5976a7459fada2d51",
+        "bytes": 304,
+        "gzipBytes": 165
+      },
+      {
+        "path": "dist/esm/diagrams/sankey.js",
+        "sha256": "46ae64600b54ef7b078e5a13634bbc2776467222d9b1ba2fcc8866a096ad3ed5",
+        "bytes": 179,
+        "gzipBytes": 119
+      },
+      {
+        "path": "dist/esm/diagrams/sequence.js",
+        "sha256": "4632cad4781b3d755bae7aed832df1c5cba0555e701e20421dd453339dd78095",
+        "bytes": 334,
+        "gzipBytes": 174
+      },
+      {
+        "path": "dist/esm/diagrams/state.js",
+        "sha256": "942fbdc324c495079f4da22f52c4a027fa4b41dc064476d7a1a3362398a586eb",
+        "bytes": 364,
+        "gzipBytes": 181
+      },
+      {
+        "path": "dist/esm/diagrams/swimlane.js",
+        "sha256": "0551b8658b7a74b464dfca3a966489472ba1f2cb954b3b9d46f3b73af0f0cab9",
+        "bytes": 509,
+        "gzipBytes": 215
+      },
+      {
+        "path": "dist/esm/diagrams/timeline.js",
+        "sha256": "51114e362fb8a03c1e14db4920e6b2eb39308529f0d80dd7221b63324da6ab1d",
+        "bytes": 304,
+        "gzipBytes": 165
+      },
+      {
+        "path": "dist/esm/diagrams/treemap.js",
+        "sha256": "c002acec88ee50c94ef191251b7a7518792ae8b30cf7eb36d3f40d65b7943876",
+        "bytes": 244,
+        "gzipBytes": 144
+      },
+      {
+        "path": "dist/esm/diagrams/treeView.js",
+        "sha256": "a80f35714dcd8089ffe52aa3d63c3be1687f01111637389f669e960ebf29ac05",
+        "bytes": 274,
+        "gzipBytes": 153
+      },
+      {
+        "path": "dist/esm/diagrams/usecase.js",
+        "sha256": "4ba9fead72f94c5c79a2fce01392734db57dedc085ec39c12147be479d42f02d",
+        "bytes": 334,
+        "gzipBytes": 175
+      },
+      {
+        "path": "dist/esm/diagrams/venn.js",
+        "sha256": "3f5488093daf6cedf13c871f1d618519bd75af4210af9162665c760287d6e8d1",
+        "bytes": 184,
+        "gzipBytes": 124
+      },
+      {
+        "path": "dist/esm/diagrams/wardley.js",
+        "sha256": "452bd7718bbf041bac6b58e70eeaa136c25a3defe8903ce94a236ac8d7082ff6",
+        "bytes": 269,
+        "gzipBytes": 150
+      },
+      {
+        "path": "dist/esm/diagrams/xychart.js",
+        "sha256": "419f06fd05c826bc9a0ee3d354461bd2f45f11aa8416011429f868dc1f192a12",
+        "bytes": 209,
+        "gzipBytes": 130
+      },
+      {
+        "path": "dist/esm/lazy.js",
+        "sha256": "2efe9ed2984571e96dcd8df53cd8c0586ef4cd677d7c524bf02e6f6cbd85ff8c",
+        "bytes": 3011,
+        "gzipBytes": 1099
+      },
+      {
+        "path": "dist/index.d.ts",
+        "sha256": "34c595d96487af7467b3217c41855bad82643ae4091e474c9ec62e9123009e44",
+        "bytes": 61,
+        "gzipBytes": 64
+      },
+      {
+        "path": "dist/layout/components.d.ts",
+        "sha256": "d16564c7338476e5051b38f365e29920af9747780c0b056c00df4ad8a1bb60e2",
+        "bytes": 205,
+        "gzipBytes": 161
+      },
+      {
+        "path": "dist/layout/compound.d.ts",
+        "sha256": "6b450f0a4eddcde0015072faf7846ac7e8f86553ce9f923f3f40527c57ee9fa2",
+        "bytes": 1342,
+        "gzipBytes": 506
+      },
+      {
+        "path": "dist/layout/lanes.d.ts",
+        "sha256": "f57c1cb425af189f1a31401ae5cdb6a42100f1e53fba237262320d91c8e3bbb7",
+        "bytes": 257,
+        "gzipBytes": 185
+      },
+      {
+        "path": "dist/layout/layered.d.ts",
+        "sha256": "731818e974aaf2b2b63763e0d16d3b3da3ce60359e990b2a1fa3a998498cb3e9",
+        "bytes": 1543,
+        "gzipBytes": 509
+      },
+      {
+        "path": "dist/lazy.d.ts",
+        "sha256": "4383147b83d986d623fe9d0687590fbbefe28fb6a5a0841969c2a2dfc0e628fa",
+        "bytes": 466,
+        "gzipBytes": 228
+      },
+      {
+        "path": "dist/models.d.ts",
+        "sha256": "5ec142c2ec6af5ffba01c47134d868e9a7717c58db94732ce219361d07a10194",
+        "bytes": 3074,
+        "gzipBytes": 661
+      },
+      {
+        "path": "dist/mount.d.ts",
+        "sha256": "4fed60d3c7d245effe53e30dd58a24d25bc74046eaae6a8d22db70e0a5182945",
+        "bytes": 944,
+        "gzipBytes": 392
+      },
+      {
+        "path": "dist/pele.global.js",
+        "sha256": "787ed66bb4bd56c15e224109ff5b89ed395ebfacf71fae2c0ccad1f86d6e24ef",
+        "bytes": 730358,
+        "gzipBytes": 274006
+      },
+      {
+        "path": "dist/pele.js",
+        "sha256": "111172ef3cfe3ab8fd58cba28f69e2c23f1d9f08c63db306fb9eb654a77de20b",
+        "bytes": 726020,
+        "gzipBytes": 273181
+      },
+      {
+        "path": "dist/preprocess.d.ts",
+        "sha256": "c3ce548b0f9ad6c11e527d84fce669bd5abd16b621057ce7ce67dafbb26c7313",
+        "bytes": 611,
+        "gzipBytes": 286
+      },
+      {
+        "path": "dist/svg/builder.d.ts",
+        "sha256": "21006c730d0094484ff07e405eeced622e01d9afbadaca34827cc5617b16f489",
+        "bytes": 637,
+        "gzipBytes": 252
+      },
+      {
+        "path": "dist/svg/cluster.d.ts",
+        "sha256": "50176c83f228c57b80134ad824dbe16a7d6e4f42dd649d26a0dea922658ef6cf",
+        "bytes": 680,
+        "gzipBytes": 312
+      },
+      {
+        "path": "dist/svg/edges.d.ts",
+        "sha256": "1f5bdfbed8e0329baf786183d825b9201214bebc0c61c0f8db9bc9e771038349",
+        "bytes": 1980,
+        "gzipBytes": 599
+      },
+      {
+        "path": "dist/svg/ink.d.ts",
+        "sha256": "9fb5c73bc523de79044d1bf05dcd3150e3341227bb362b630e4e1fe02f2c5480",
+        "bytes": 373,
+        "gzipBytes": 203
+      },
+      {
+        "path": "dist/svg/root.d.ts",
+        "sha256": "e3a6ab869647ce1eeda7df8861726c30dd5f5407d5571dc4d2d60df4dc621018",
+        "bytes": 294,
+        "gzipBytes": 196
+      },
+      {
+        "path": "dist/svg/shapes.d.ts",
+        "sha256": "0559ad3c42a0ba59fb08e5dca43aa929ef2f05d205e4f1fcab893a3aa652d28b",
+        "bytes": 936,
+        "gzipBytes": 319
+      },
+      {
+        "path": "dist/svg/theme.d.ts",
+        "sha256": "fe396e3a91e376503b33c0a619baaebedac1cfeb82846f0060bc036c2d8e7805",
+        "bytes": 882,
+        "gzipBytes": 377
+      },
+      {
+        "path": "dist/svg/title.d.ts",
+        "sha256": "9bef93e4a0aa6e4ddacab4003e009e5d29997854f0e5eeb3c859d9c91fed2a14",
+        "bytes": 487,
+        "gzipBytes": 224
+      },
+      {
+        "path": "dist/text/entities.d.ts",
+        "sha256": "44c5406aa9b3c3b0db76fe62c9ae8f03d06381df61509912b1e96143a8652f31",
+        "bytes": 122,
+        "gzipBytes": 89
+      },
+      {
+        "path": "dist/text/icons.d.ts",
+        "sha256": "2bb83e0e86b80c46aeb6f1364da459f3c69309b3b7169bd494e9bd47274b6361",
+        "bytes": 195,
+        "gzipBytes": 154
+      },
+      {
+        "path": "dist/text/label.d.ts",
+        "sha256": "ad841d9351a762c58c15a3853b433b90071c6e1f01e92f5c6efc3b118cade56b",
+        "bytes": 846,
+        "gzipBytes": 364
+      },
+      {
+        "path": "dist/text/math.d.ts",
+        "sha256": "f31ce6680152f292aebbd541db089a526b3723aa658e65ef444bef168a66fa4e",
+        "bytes": 335,
+        "gzipBytes": 193
+      },
+      {
+        "path": "dist/text/measurer.d.ts",
+        "sha256": "061cff45df884f452a9b26ca07e63de4e1bfe1edd27fe99bb83709221693de97",
+        "bytes": 523,
+        "gzipBytes": 260
+      },
+      {
+        "path": "dist/text/metrics.d.ts",
+        "sha256": "971a734cbd327671081cfebda0d8cd4f2b9fb99fef06ccb0332748be29741257",
+        "bytes": 447,
+        "gzipBytes": 246
+      },
+      {
+        "path": "dist/types.d.ts",
+        "sha256": "4d18dec0636963d6515a5a800db26146574479d8ea4aea13575a243b6bd4a193",
+        "bytes": 1857,
+        "gzipBytes": 663
+      },
+      {
+        "path": "dist/util/chars.d.ts",
+        "sha256": "9b5f4cde082569658666737aa9f85ab3b3273dc228f3dface0afdfa2cee40a38",
+        "bytes": 371,
+        "gzipBytes": 118
+      },
+      {
+        "path": "dist/util/unicode.d.ts",
+        "sha256": "5eb117d55d97701bf92bf62856f2ec8176b58b1edabb652d9d8baa17a9ea641a",
+        "bytes": 64,
+        "gzipBytes": 81
+      },
+      {
+        "path": "dist/util/url.d.ts",
+        "sha256": "d537ef500610c11971ae4bdbd9dc1962341eacd28bc9915765fd14a4a972f31a",
+        "bytes": 641,
+        "gzipBytes": 223
+      },
+      {
+        "path": "dist/util/yaml.d.ts",
+        "sha256": "7f03fc2b2c7cf2d139d851c47bdff1aaad0d6247fc72f692714d5f22ed30d238",
+        "bytes": 167,
+        "gzipBytes": 134
+      },
+      {
+        "path": "dist/window.d.ts",
+        "sha256": "6bed1136d42e301450d684efab28344be3b5fc7f16387241af3b8a95e7b05c69",
+        "bytes": 159,
+        "gzipBytes": 133
+      },
+      {
+        "path": "dist/zoom.d.ts",
+        "sha256": "1510c618faabb327d12157617d97147d75044d9d70439def3384f6af6b1ba0f5",
+        "bytes": 896,
+        "gzipBytes": 339
+      },
+      {
+        "path": "LICENSE",
+        "sha256": "311bccc30de6f7b9cbfb64232bb0c911ccb2191abe316550813ae25b2c7925b9",
+        "bytes": 1934,
+        "gzipBytes": 974
+      },
+      {
+        "path": "package.json",
+        "sha256": "ffc45ea05628e42ab314e75656c9dadad838674f9c8d4fa09622354990d40eb8",
+        "bytes": 2121,
+        "gzipBytes": 774
+      },
+      {
+        "path": "README.md",
+        "sha256": "99bf0166609240acc1a43bfdca82b651fc9e18aa8612f28d1ae932919f9f7e6b",
+        "bytes": 3209,
+        "gzipBytes": 1539
+      }
+    ],
+    "dependencies": {
+      "schemaVersion": 1,
+      "root": {
+        "logicalRoot": "/workspace/trident-b0-2026-10-29/artifact-cache/pele@1.12.0/node_modules/pele",
+        "realRoot": "/workspace/trident-b0-2026-10-29/artifact-cache/pele@1.12.0/node_modules/pele",
+        "name": "pele",
+        "version": "1.12.0"
+      },
+      "nodes": [],
+      "edges": []
+    },
+    "deliveryScope": "Per-file package gzip sizes are inventory, not observed network transfer or an npm tarball total."
+  },
+  "sampling": {
+    "caseSelection": {
+      "scope": "explicit subset; no whole-portfolio score",
+      "requestedIds": [
+        "family:flowchart"
+      ],
+      "selectedIds": [
+        "family:flowchart"
+      ]
+    },
+    "rounds": 6,
+    "samples": 31,
+    "coldSamples": 5,
+    "minSampleMs": 2,
+    "workerTimeoutMs": 300000,
+    "preparationConcurrency": 8,
+    "maximumControlSpread": 0.25,
+    "order": "rotate A0/A1/B by round and case; all warm jobs, then all cold jobs, then serial memory/baseline jobs",
+    "controls": "A0/A1/B are the exact same admitted artifact, not three tool versions",
+    "caseAdmission": "All selected cases remain in scope. A rejected family probe marks its cases unsupported. Invalid controls run once; cases failing or blocking admission retain their outcome but receive no further timing/resource jobs.",
+    "warmScope": "Per-call means from batches bounded by minSampleMs or256calls; every distinct immutable SVG is checked outside clocks, byte-identical admitted returns reuse qualification; individual first-use samples are fresh processes",
+    "commentVariantScope": "Trailing comment changes only source bytes, never semantic graph; this is a cache-key diagnostic",
+    "coldScope": "Concurrent import preparation behind an idle barrier; one measured API call at a time and complete child exit before the next",
+    "memoryScope": "Separate serial fresh processes; API snapshots precede qualification, GNU time describes the whole worker",
+    "retentionCalls": [
+      0,
+      10,
+      100,
+      1000
+    ]
+  },
+  "startedAt": "2026-10-30T00:32:36.251Z",
+  "finishedAt": "2026-10-30T00:33:28.941Z",
+  "evidenceDirectory": "/workspace/trident-simplification-evidence/resume-pilot/portable/obsidianmd%2Fpele/family%3Aflowchart/attempts/8e780205-f9b3-4a6f-9da0-e305ba46117d",
+  "recordId": "8e780205-f9b3-4a6f-9da0-e305ba46117d",
+  "reused": false,
+  "summary": {
+    "status": "uncalibrated",
+    "cases": [
+      {
+        "id": "family:flowchart",
+        "family": "flowchart",
+        "cohort": "family",
+        "expectedAccepted": true,
+        "unsupported": null,
+        "checkedWorkers": 114,
+        "acceptanceMatches": true,
+        "failedWorkers": 0,
+        "blockedWorkers": 0,
+        "semanticComplete": true,
+        "outputAdmission": "passed",
+        "unmeasuredScopes": [
+          "Perceptual legibility, font metrics, text clipping and complete shape/path paint correspondence are not measured.",
+          "Graph checks cover owner identity, declared label ownership, edge count/endpoints, approximate attachment, ordinary directed markers or ER endpoint marker ink, and optional group containment. Crossings, full curve geometry, arbitrary transforms, unasserted class member/ER cardinality meaning and undeclared label-owner assignments remain unmeasured."
+        ],
+        "failures": []
+      }
+    ],
+    "timing": [
+      {
+        "caseId": "family:flowchart",
+        "family": "flowchart",
+        "cohort": "family",
+        "scale": null,
+        "expectedAccepted": true,
+        "track": "first-use",
+        "samples": 30,
+        "medianMs": 15.116657501086593,
+        "p95Ms": 20.813546001911163,
+        "minMs": 12.198001001030207,
+        "maxMs": 23.839714001864195,
+        "rounds": [
+          {
+            "round": 1,
+            "samples": 5,
+            "medianMs": 14.826442997902632,
+            "p95Ms": 18.276534996926785,
+            "minMs": 14.46203300356865,
+            "maxMs": 18.276534996926785
+          },
+          {
+            "round": 2,
+            "samples": 5,
+            "medianMs": 13.465234998613596,
+            "p95Ms": 18.763778001070023,
+            "minMs": 12.441792000085115,
+            "maxMs": 18.763778001070023
+          },
+          {
+            "round": 3,
+            "samples": 5,
+            "medianMs": 15.209454998373985,
+            "p95Ms": 20.363046001642942,
+            "minMs": 12.198001001030207,
+            "maxMs": 20.363046001642942
+          },
+          {
+            "round": 4,
+            "samples": 5,
+            "medianMs": 16.129795998334885,
+            "p95Ms": 23.839714001864195,
+            "minMs": 14.416962999850512,
+            "maxMs": 23.839714001864195
+          },
+          {
+            "round": 5,
+            "samples": 5,
+            "medianMs": 15.045894000679255,
+            "p95Ms": 18.587514001876116,
+            "minMs": 13.267060000449419,
+            "maxMs": 18.587514001876116
+          },
+          {
+            "round": 6,
+            "samples": 5,
+            "medianMs": 15.18742100149393,
+            "p95Ms": 20.813546001911163,
+            "minMs": 13.134206999093294,
+            "maxMs": 20.813546001911163
+          }
+        ],
+        "calibration": {
+          "status": "calibrated",
+          "gaps": [],
+          "controlRatios": [
+            0.9208232035017739,
+            0.8977947248341867,
+            0.9635990205521628,
+            0.8973661465260799,
+            0.8645011091090703,
+            1.2348905871350444
+          ],
+          "candidateRatios": [
+            0.9096605939935615,
+            0.9097229047949718,
+            0.9931628025239491,
+            0.9990917662150038,
+            0.9624018045072631,
+            0.9016998247999382
+          ],
+          "controlBand": {
+            "lower": 0.8097883411031641,
+            "upper": 1.2348905871350444
+          },
+          "candidateRatio": 0.9360623546511174,
+          "roundRatioUncertainty": {
+            "controls": {
+              "independentRounds": 6,
+              "medianRatio": 0.9093089641679803,
+              "interval": {
+                "lower": 0.8645011091090703,
+                "upper": 1.2348905871350444,
+                "confidence": 0.96875
+              },
+              "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+              "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+            },
+            "replicaB": {
+              "independentRounds": 6,
+              "medianRatio": 0.9360623546511174,
+              "interval": {
+                "lower": 0.9016998247999382,
+                "upper": 0.9990917662150038,
+                "confidence": 0.96875
+              },
+              "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+              "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+            }
+          },
+          "interpretation": "within observed control band"
+        },
+        "outputCalibration": {
+          "status": "calibrated",
+          "gaps": [],
+          "controlRatios": [
+            0.9208232035017739,
+            0.8977947248341867,
+            0.9635990205521628,
+            0.8973661465260799,
+            0.8645011091090703,
+            1.2348905871350444
+          ],
+          "candidateRatios": [
+            0.9096605939935615,
+            0.9097229047949718,
+            0.9931628025239491,
+            0.9990917662150038,
+            0.9624018045072631,
+            0.9016998247999382
+          ],
+          "controlBand": {
+            "lower": 0.8097883411031641,
+            "upper": 1.2348905871350444
+          },
+          "candidateRatio": 0.9360623546511174,
+          "roundRatioUncertainty": {
+            "controls": {
+              "independentRounds": 6,
+              "medianRatio": 0.9093089641679803,
+              "interval": {
+                "lower": 0.8645011091090703,
+                "upper": 1.2348905871350444,
+                "confidence": 0.96875
+              },
+              "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+              "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+            },
+            "replicaB": {
+              "independentRounds": 6,
+              "medianRatio": 0.9360623546511174,
+              "interval": {
+                "lower": 0.9016998247999382,
+                "upper": 0.9990917662150038,
+                "confidence": 0.96875
+              },
+              "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+              "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+            }
+          },
+          "interpretation": "within observed control band"
+        },
+        "scope": "First API call in each fresh process; module import and declared factory setup excluded.",
+        "semanticComplete": true,
+        "outputAdmissionComplete": true,
+        "nativeModelComplete": true,
+        "nativeAndPaintScopes": [
+          "Perceptual legibility, font metrics, text clipping and complete shape/path paint correspondence are not measured.",
+          "Graph checks cover owner identity, declared label ownership, edge count/endpoints, approximate attachment, ordinary directed markers or ER endpoint marker ink, and optional group containment. Crossings, full curve geometry, arbitrary transforms, unasserted class member/ER cardinality meaning and undeclared label-owner assignments remain unmeasured."
+        ]
+      },
+      {
+        "caseId": "family:flowchart",
+        "family": "flowchart",
+        "cohort": "family",
+        "scale": null,
+        "expectedAccepted": true,
+        "track": "warm-repeat",
+        "samples": 186,
+        "medianMs": 0.2557313754223287,
+        "p95Ms": 1.4915049988776445,
+        "minMs": 0.07166035739438874,
+        "maxMs": 2.645472001284361,
+        "rounds": [
+          {
+            "round": 1,
+            "samples": 31,
+            "medianMs": 0.3652216674139102,
+            "p95Ms": 1.4662650022655725,
+            "minMs": 0.18311600076655546,
+            "maxMs": 2.248438499867916
+          },
+          {
+            "round": 2,
+            "samples": 31,
+            "medianMs": 0.2075972992926836,
+            "p95Ms": 1.5684700012207031,
+            "minMs": 0.08122060015797615,
+            "maxMs": 2.49728100001812
+          },
+          {
+            "round": 3,
+            "samples": 31,
+            "medianMs": 0.2899899993624006,
+            "p95Ms": 1.4915049988776445,
+            "minMs": 0.11212205259423506,
+            "maxMs": 2.0128930006176233
+          },
+          {
+            "round": 4,
+            "samples": 31,
+            "medianMs": 0.22861400060355663,
+            "p95Ms": 1.341610997915268,
+            "minMs": 0.0846892911940813,
+            "maxMs": 1.6386235002428293
+          },
+          {
+            "round": 5,
+            "samples": 31,
+            "medianMs": 0.20582354576750236,
+            "p95Ms": 1.4996284991502762,
+            "minMs": 0.07166035739438874,
+            "maxMs": 1.7887629978358746
+          },
+          {
+            "round": 6,
+            "samples": 31,
+            "medianMs": 0.36145200083653134,
+            "p95Ms": 2.375459998846054,
+            "minMs": 0.1200800590655383,
+            "maxMs": 2.645472001284361
+          }
+        ],
+        "calibration": {
+          "status": "uncalibrated",
+          "gaps": [
+            "Observed A/A control spread exceeds the declared noise ceiling"
+          ],
+          "controlRatios": [
+            0.9689344927223844,
+            0.9041183651043935,
+            1.1052353686993677,
+            0.9099820104035684,
+            0.8853320036792098,
+            1.2856191714662533
+          ],
+          "candidateRatios": [
+            1.0686134733839154,
+            0.6873738548731738,
+            1.0460773637351957,
+            0.6392171093304626,
+            0.8688586133998119,
+            1.0852221691625157
+          ],
+          "controlBand": {
+            "lower": 0.7778353202834526,
+            "upper": 1.2856191714662533
+          },
+          "candidateRatio": 0.9574679885675037,
+          "roundRatioUncertainty": {
+            "controls": {
+              "independentRounds": 6,
+              "medianRatio": 0.9394582515629764,
+              "interval": {
+                "lower": 0.8853320036792098,
+                "upper": 1.2856191714662533,
+                "confidence": 0.96875
+              },
+              "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+              "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+            },
+            "replicaB": {
+              "independentRounds": 6,
+              "medianRatio": 0.9574679885675037,
+              "interval": {
+                "lower": 0.6392171093304626,
+                "upper": 1.0852221691625157,
+                "confidence": 0.96875
+              },
+              "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+              "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+            }
+          },
+          "interpretation": "within observed control band"
+        },
+        "outputCalibration": {
+          "status": "uncalibrated",
+          "gaps": [
+            "Observed A/A control spread exceeds the declared noise ceiling"
+          ],
+          "controlRatios": [
+            0.9689344927223844,
+            0.9041183651043935,
+            1.1052353686993677,
+            0.9099820104035684,
+            0.8853320036792098,
+            1.2856191714662533
+          ],
+          "candidateRatios": [
+            1.0686134733839154,
+            0.6873738548731738,
+            1.0460773637351957,
+            0.6392171093304626,
+            0.8688586133998119,
+            1.0852221691625157
+          ],
+          "controlBand": {
+            "lower": 0.7778353202834526,
+            "upper": 1.2856191714662533
+          },
+          "candidateRatio": 0.9574679885675037,
+          "roundRatioUncertainty": {
+            "controls": {
+              "independentRounds": 6,
+              "medianRatio": 0.9394582515629764,
+              "interval": {
+                "lower": 0.8853320036792098,
+                "upper": 1.2856191714662533,
+                "confidence": 0.96875
+              },
+              "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+              "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+            },
+            "replicaB": {
+              "independentRounds": 6,
+              "medianRatio": 0.9574679885675037,
+              "interval": {
+                "lower": 0.6392171093304626,
+                "upper": 1.0852221691625157,
+                "confidence": 0.96875
+              },
+              "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+              "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+            }
+          },
+          "interpretation": "within observed control band"
+        },
+        "scope": "Distribution of per-call means from bounded adaptive batches; p95 of sample means is not a single-call tail latency.",
+        "semanticComplete": true,
+        "outputAdmissionComplete": true,
+        "nativeModelComplete": true,
+        "nativeAndPaintScopes": [
+          "Perceptual legibility, font metrics, text clipping and complete shape/path paint correspondence are not measured.",
+          "Graph checks cover owner identity, declared label ownership, edge count/endpoints, approximate attachment, ordinary directed markers or ER endpoint marker ink, and optional group containment. Crossings, full curve geometry, arbitrary transforms, unasserted class member/ER cardinality meaning and undeclared label-owner assignments remain unmeasured."
+        ]
+      },
+      {
+        "caseId": "family:flowchart",
+        "family": "flowchart",
+        "cohort": "family",
+        "scale": null,
+        "expectedAccepted": true,
+        "track": "warm-new-source",
+        "samples": 186,
+        "medianMs": 0.18327411025706114,
+        "p95Ms": 0.5333263327678045,
+        "minMs": 0.0853492923391362,
+        "maxMs": 2.542348001152277,
+        "rounds": [
+          {
+            "round": 1,
+            "samples": 31,
+            "medianMs": 0.23399169966578484,
+            "p95Ms": 0.7865756650765737,
+            "minMs": 0.14390566671888033,
+            "maxMs": 2.542348001152277
+          },
+          {
+            "round": 2,
+            "samples": 31,
+            "medianMs": 0.1667762498060862,
+            "p95Ms": 0.4626955986022949,
+            "minMs": 0.0853492923391362,
+            "maxMs": 0.9259010006984075
+          },
+          {
+            "round": 3,
+            "samples": 31,
+            "medianMs": 0.18982781706885857,
+            "p95Ms": 0.37311866755286854,
+            "minMs": 0.13905573338270188,
+            "maxMs": 0.4026223737746477
+          },
+          {
+            "round": 4,
+            "samples": 31,
+            "medianMs": 0.16356584573021302,
+            "p95Ms": 0.3116338572331837,
+            "minMs": 0.10169290006160736,
+            "maxMs": 0.9223740007728338
+          },
+          {
+            "round": 5,
+            "samples": 31,
+            "medianMs": 0.15991992360124221,
+            "p95Ms": 0.24264511176281506,
+            "minMs": 0.10224704763719014,
+            "maxMs": 0.24312555458810595
+          },
+          {
+            "round": 6,
+            "samples": 31,
+            "medianMs": 0.18495854532176798,
+            "p95Ms": 0.6772376659015814,
+            "minMs": 0.12898193742148578,
+            "maxMs": 1.1057464983314276
+          }
+        ],
+        "calibration": {
+          "status": "uncalibrated",
+          "gaps": [
+            "Observed A/A control spread exceeds the declared noise ceiling"
+          ],
+          "controlRatios": [
+            1.4392878830570526,
+            1.1679927568540078,
+            1.049792388773834,
+            0.8843466443512489,
+            0.9513146764394936,
+            1.3502721714087003
+          ],
+          "candidateRatios": [
+            1.0726682382189379,
+            0.980277226632143,
+            1.1996872290539153,
+            1.0642559879271003,
+            1.12303351618669,
+            0.9644434173812421
+          ],
+          "controlBand": {
+            "lower": 0.6947880349523936,
+            "upper": 1.4392878830570526
+          },
+          "candidateRatio": 1.0684621130730192,
+          "roundRatioUncertainty": {
+            "controls": {
+              "independentRounds": 6,
+              "medianRatio": 1.108892572813921,
+              "interval": {
+                "lower": 0.8843466443512489,
+                "upper": 1.4392878830570526,
+                "confidence": 0.96875
+              },
+              "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+              "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+            },
+            "replicaB": {
+              "independentRounds": 6,
+              "medianRatio": 1.0684621130730192,
+              "interval": {
+                "lower": 0.9644434173812421,
+                "upper": 1.1996872290539153,
+                "confidence": 0.96875
+              },
+              "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+              "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+            }
+          },
+          "interpretation": "within observed control band"
+        },
+        "outputCalibration": {
+          "status": "uncalibrated",
+          "gaps": [
+            "Observed A/A control spread exceeds the declared noise ceiling"
+          ],
+          "controlRatios": [
+            1.4392878830570526,
+            1.1679927568540078,
+            1.049792388773834,
+            0.8843466443512489,
+            0.9513146764394936,
+            1.3502721714087003
+          ],
+          "candidateRatios": [
+            1.0726682382189379,
+            0.980277226632143,
+            1.1996872290539153,
+            1.0642559879271003,
+            1.12303351618669,
+            0.9644434173812421
+          ],
+          "controlBand": {
+            "lower": 0.6947880349523936,
+            "upper": 1.4392878830570526
+          },
+          "candidateRatio": 1.0684621130730192,
+          "roundRatioUncertainty": {
+            "controls": {
+              "independentRounds": 6,
+              "medianRatio": 1.108892572813921,
+              "interval": {
+                "lower": 0.8843466443512489,
+                "upper": 1.4392878830570526,
+                "confidence": 0.96875
+              },
+              "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+              "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+            },
+            "replicaB": {
+              "independentRounds": 6,
+              "medianRatio": 1.0684621130730192,
+              "interval": {
+                "lower": 0.9644434173812421,
+                "upper": 1.1996872290539153,
+                "confidence": 0.96875
+              },
+              "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+              "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+            }
+          },
+          "interpretation": "within observed control band"
+        },
+        "scope": "Comment-varied source bytes with the same semantic graph; cache-key diagnostic, not proof of uncached layout. Distribution of per-call means from bounded adaptive batches; p95 of sample means is not a single-call tail latency.",
+        "semanticComplete": true,
+        "outputAdmissionComplete": true,
+        "nativeModelComplete": true,
+        "nativeAndPaintScopes": [
+          "Perceptual legibility, font metrics, text clipping and complete shape/path paint correspondence are not measured.",
+          "Graph checks cover owner identity, declared label ownership, edge count/endpoints, approximate attachment, ordinary directed markers or ER endpoint marker ink, and optional group containment. Crossings, full curve geometry, arbitrary transforms, unasserted class member/ER cardinality meaning and undeclared label-owner assignments remain unmeasured."
+        ]
+      }
+    ],
+    "familyTimings": [
+      {
+        "family": "flowchart",
+        "supported": true,
+        "medianMs": 0.2557313754223287,
+        "calibrated": false,
+        "outputCalibrated": false,
+        "semanticComplete": true
+      }
+    ],
+    "resources": [
+      {
+        "caseId": "family:flowchart",
+        "family": "flowchart",
+        "cohort": "family",
+        "round": 1,
+        "qualified": true,
+        "before": {
+          "rss": 70639616,
+          "heapTotal": 21479424,
+          "heapUsed": 12153872,
+          "external": 10223684,
+          "arrayBuffers": 146324
+        },
+        "atReturn": {
+          "rss": 70901760,
+          "heapTotal": 22003712,
+          "heapUsed": 12740640,
+          "external": 10223914,
+          "arrayBuffers": 146514
+        },
+        "afterGc": {
+          "rss": 70901760,
+          "heapTotal": 22003712,
+          "heapUsed": 12535088,
+          "external": 10223914,
+          "arrayBuffers": 146514
+        },
+        "apiReturnDelta": {
+          "rss": 262144,
+          "heapTotal": 524288,
+          "heapUsed": 586768,
+          "external": 230,
+          "arrayBuffers": 190
+        },
+        "retainedDelta": {
+          "rss": 262144,
+          "heapTotal": 524288,
+          "heapUsed": 381216,
+          "external": 230,
+          "arrayBuffers": 190
+        },
+        "baselineAfterGc": {
+          "rss": 70336512,
+          "heapTotal": 21479424,
+          "heapUsed": 12156808,
+          "external": 10223724,
+          "arrayBuffers": 146324
+        },
+        "gcAvailable": true,
+        "wholeWorker": {
+          "userSeconds": 0.31,
+          "systemSeconds": 0.07,
+          "peakRssBytes": 71557120,
+          "scope": "Whole fresh process, including import, driver, GC and post-snapshot qualification; not an API-only allocation peak."
+        },
+        "baselineWholeWorker": {
+          "userSeconds": 0.27,
+          "systemSeconds": 0.07,
+          "peakRssBytes": 70598656,
+          "scope": "Whole fresh process, including import, driver, GC and post-snapshot qualification; not an API-only allocation peak."
+        },
+        "cost": {
+          "status": "rate-unavailable",
+          "seconds": 0.38,
+          "lowerSeconds": 0.36,
+          "upperSeconds": 0.4,
+          "dollars": null,
+          "lowerDollars": null,
+          "upperDollars": null,
+          "scope": "Whole fresh worker CPU, including runtime/import/qualification; 10ms reporting grain per counter. Not an API-only CPU allocation or a provider invoice."
+        }
+      },
+      {
+        "caseId": "family:flowchart",
+        "family": "flowchart",
+        "cohort": "family",
+        "round": 2,
+        "qualified": true,
+        "before": {
+          "rss": 70242304,
+          "heapTotal": 21479424,
+          "heapUsed": 12153944,
+          "external": 10223684,
+          "arrayBuffers": 146324
+        },
+        "atReturn": {
+          "rss": 70766592,
+          "heapTotal": 22003712,
+          "heapUsed": 12740712,
+          "external": 10223914,
+          "arrayBuffers": 146514
+        },
+        "afterGc": {
+          "rss": 70766592,
+          "heapTotal": 22003712,
+          "heapUsed": 12535160,
+          "external": 10223914,
+          "arrayBuffers": 146514
+        },
+        "apiReturnDelta": {
+          "rss": 524288,
+          "heapTotal": 524288,
+          "heapUsed": 586768,
+          "external": 230,
+          "arrayBuffers": 190
+        },
+        "retainedDelta": {
+          "rss": 524288,
+          "heapTotal": 524288,
+          "heapUsed": 381216,
+          "external": 230,
+          "arrayBuffers": 190
+        },
+        "baselineAfterGc": {
+          "rss": 70606848,
+          "heapTotal": 21479424,
+          "heapUsed": 12156808,
+          "external": 10223724,
+          "arrayBuffers": 146324
+        },
+        "gcAvailable": true,
+        "wholeWorker": {
+          "userSeconds": 0.32,
+          "systemSeconds": 0.05,
+          "peakRssBytes": 71290880,
+          "scope": "Whole fresh process, including import, driver, GC and post-snapshot qualification; not an API-only allocation peak."
+        },
+        "baselineWholeWorker": {
+          "userSeconds": 0.33,
+          "systemSeconds": 0.09,
+          "peakRssBytes": 70868992,
+          "scope": "Whole fresh process, including import, driver, GC and post-snapshot qualification; not an API-only allocation peak."
+        },
+        "cost": {
+          "status": "rate-unavailable",
+          "seconds": 0.37,
+          "lowerSeconds": 0.35,
+          "upperSeconds": 0.39,
+          "dollars": null,
+          "lowerDollars": null,
+          "upperDollars": null,
+          "scope": "Whole fresh worker CPU, including runtime/import/qualification; 10ms reporting grain per counter. Not an API-only CPU allocation or a provider invoice."
+        }
+      },
+      {
+        "caseId": "family:flowchart",
+        "family": "flowchart",
+        "cohort": "family",
+        "round": 3,
+        "qualified": true,
+        "before": {
+          "rss": 70610944,
+          "heapTotal": 21479424,
+          "heapUsed": 12153872,
+          "external": 10223684,
+          "arrayBuffers": 146324
+        },
+        "atReturn": {
+          "rss": 70873088,
+          "heapTotal": 22003712,
+          "heapUsed": 12740640,
+          "external": 10223914,
+          "arrayBuffers": 146514
+        },
+        "afterGc": {
+          "rss": 70873088,
+          "heapTotal": 22003712,
+          "heapUsed": 12535088,
+          "external": 10223914,
+          "arrayBuffers": 146514
+        },
+        "apiReturnDelta": {
+          "rss": 262144,
+          "heapTotal": 524288,
+          "heapUsed": 586768,
+          "external": 230,
+          "arrayBuffers": 190
+        },
+        "retainedDelta": {
+          "rss": 262144,
+          "heapTotal": 524288,
+          "heapUsed": 381216,
+          "external": 230,
+          "arrayBuffers": 190
+        },
+        "baselineAfterGc": {
+          "rss": 71364608,
+          "heapTotal": 21479424,
+          "heapUsed": 12156928,
+          "external": 10223724,
+          "arrayBuffers": 146324
+        },
+        "gcAvailable": true,
+        "wholeWorker": {
+          "userSeconds": 0.35,
+          "systemSeconds": 0.04,
+          "peakRssBytes": 71790592,
+          "scope": "Whole fresh process, including import, driver, GC and post-snapshot qualification; not an API-only allocation peak."
+        },
+        "baselineWholeWorker": {
+          "userSeconds": 0.38,
+          "systemSeconds": 0.05,
+          "peakRssBytes": 71626752,
+          "scope": "Whole fresh process, including import, driver, GC and post-snapshot qualification; not an API-only allocation peak."
+        },
+        "cost": {
+          "status": "rate-unavailable",
+          "seconds": 0.38999999999999996,
+          "lowerSeconds": 0.36999999999999994,
+          "upperSeconds": 0.41,
+          "dollars": null,
+          "lowerDollars": null,
+          "upperDollars": null,
+          "scope": "Whole fresh worker CPU, including runtime/import/qualification; 10ms reporting grain per counter. Not an API-only CPU allocation or a provider invoice."
+        }
+      },
+      {
+        "caseId": "family:flowchart",
+        "family": "flowchart",
+        "cohort": "family",
+        "round": 4,
+        "qualified": true,
+        "before": {
+          "rss": 70733824,
+          "heapTotal": 21479424,
+          "heapUsed": 12153872,
+          "external": 10223684,
+          "arrayBuffers": 146324
+        },
+        "atReturn": {
+          "rss": 70995968,
+          "heapTotal": 22003712,
+          "heapUsed": 12740640,
+          "external": 10223914,
+          "arrayBuffers": 146514
+        },
+        "afterGc": {
+          "rss": 70995968,
+          "heapTotal": 22003712,
+          "heapUsed": 12535088,
+          "external": 10223914,
+          "arrayBuffers": 146514
+        },
+        "apiReturnDelta": {
+          "rss": 262144,
+          "heapTotal": 524288,
+          "heapUsed": 586768,
+          "external": 230,
+          "arrayBuffers": 190
+        },
+        "retainedDelta": {
+          "rss": 262144,
+          "heapTotal": 524288,
+          "heapUsed": 381216,
+          "external": 230,
+          "arrayBuffers": 190
+        },
+        "baselineAfterGc": {
+          "rss": 71090176,
+          "heapTotal": 21479424,
+          "heapUsed": 12155528,
+          "external": 10223724,
+          "arrayBuffers": 146324
+        },
+        "gcAvailable": true,
+        "wholeWorker": {
+          "userSeconds": 0.34,
+          "systemSeconds": 0.04,
+          "peakRssBytes": 71651328,
+          "scope": "Whole fresh process, including import, driver, GC and post-snapshot qualification; not an API-only allocation peak."
+        },
+        "baselineWholeWorker": {
+          "userSeconds": 0.3,
+          "systemSeconds": 0.05,
+          "peakRssBytes": 71241728,
+          "scope": "Whole fresh process, including import, driver, GC and post-snapshot qualification; not an API-only allocation peak."
+        },
+        "cost": {
+          "status": "rate-unavailable",
+          "seconds": 0.38,
+          "lowerSeconds": 0.36,
+          "upperSeconds": 0.4,
+          "dollars": null,
+          "lowerDollars": null,
+          "upperDollars": null,
+          "scope": "Whole fresh worker CPU, including runtime/import/qualification; 10ms reporting grain per counter. Not an API-only CPU allocation or a provider invoice."
+        }
+      },
+      {
+        "caseId": "family:flowchart",
+        "family": "flowchart",
+        "cohort": "family",
+        "round": 5,
+        "qualified": true,
+        "before": {
+          "rss": 69844992,
+          "heapTotal": 21479424,
+          "heapUsed": 12153992,
+          "external": 10223684,
+          "arrayBuffers": 146324
+        },
+        "atReturn": {
+          "rss": 70369280,
+          "heapTotal": 22003712,
+          "heapUsed": 12740760,
+          "external": 10223914,
+          "arrayBuffers": 146514
+        },
+        "afterGc": {
+          "rss": 70369280,
+          "heapTotal": 22265856,
+          "heapUsed": 12535208,
+          "external": 10223914,
+          "arrayBuffers": 146514
+        },
+        "apiReturnDelta": {
+          "rss": 524288,
+          "heapTotal": 524288,
+          "heapUsed": 586768,
+          "external": 230,
+          "arrayBuffers": 190
+        },
+        "retainedDelta": {
+          "rss": 524288,
+          "heapTotal": 786432,
+          "heapUsed": 381216,
+          "external": 230,
+          "arrayBuffers": 190
+        },
+        "baselineAfterGc": {
+          "rss": 70766592,
+          "heapTotal": 21479424,
+          "heapUsed": 12156808,
+          "external": 10223724,
+          "arrayBuffers": 146324
+        },
+        "gcAvailable": true,
+        "wholeWorker": {
+          "userSeconds": 0.34,
+          "systemSeconds": 0.06,
+          "peakRssBytes": 70893568,
+          "scope": "Whole fresh process, including import, driver, GC and post-snapshot qualification; not an API-only allocation peak."
+        },
+        "baselineWholeWorker": {
+          "userSeconds": 0.32,
+          "systemSeconds": 0.06,
+          "peakRssBytes": 71028736,
+          "scope": "Whole fresh process, including import, driver, GC and post-snapshot qualification; not an API-only allocation peak."
+        },
+        "cost": {
+          "status": "rate-unavailable",
+          "seconds": 0.4,
+          "lowerSeconds": 0.38,
+          "upperSeconds": 0.42000000000000004,
+          "dollars": null,
+          "lowerDollars": null,
+          "upperDollars": null,
+          "scope": "Whole fresh worker CPU, including runtime/import/qualification; 10ms reporting grain per counter. Not an API-only CPU allocation or a provider invoice."
+        }
+      },
+      {
+        "caseId": "family:flowchart",
+        "family": "flowchart",
+        "cohort": "family",
+        "round": 6,
+        "qualified": true,
+        "before": {
+          "rss": 70205440,
+          "heapTotal": 21479424,
+          "heapUsed": 12153872,
+          "external": 10223684,
+          "arrayBuffers": 146324
+        },
+        "atReturn": {
+          "rss": 70336512,
+          "heapTotal": 22003712,
+          "heapUsed": 12740640,
+          "external": 10223914,
+          "arrayBuffers": 146514
+        },
+        "afterGc": {
+          "rss": 70336512,
+          "heapTotal": 22003712,
+          "heapUsed": 12535088,
+          "external": 10223914,
+          "arrayBuffers": 146514
+        },
+        "apiReturnDelta": {
+          "rss": 131072,
+          "heapTotal": 524288,
+          "heapUsed": 586768,
+          "external": 230,
+          "arrayBuffers": 190
+        },
+        "retainedDelta": {
+          "rss": 131072,
+          "heapTotal": 524288,
+          "heapUsed": 381216,
+          "external": 230,
+          "arrayBuffers": 190
+        },
+        "baselineAfterGc": {
+          "rss": 70209536,
+          "heapTotal": 21479424,
+          "heapUsed": 12156904,
+          "external": 10223724,
+          "arrayBuffers": 146324
+        },
+        "gcAvailable": true,
+        "wholeWorker": {
+          "userSeconds": 0.34,
+          "systemSeconds": 0.05,
+          "peakRssBytes": 70991872,
+          "scope": "Whole fresh process, including import, driver, GC and post-snapshot qualification; not an API-only allocation peak."
+        },
+        "baselineWholeWorker": {
+          "userSeconds": 0.31,
+          "systemSeconds": 0.04,
+          "peakRssBytes": 70471680,
+          "scope": "Whole fresh process, including import, driver, GC and post-snapshot qualification; not an API-only allocation peak."
+        },
+        "cost": {
+          "status": "rate-unavailable",
+          "seconds": 0.39,
+          "lowerSeconds": 0.37,
+          "upperSeconds": 0.41000000000000003,
+          "dollars": null,
+          "lowerDollars": null,
+          "upperDollars": null,
+          "scope": "Whole fresh worker CPU, including runtime/import/qualification; 10ms reporting grain per counter. Not an API-only CPU allocation or a provider invoice."
+        }
+      }
+    ],
+    "retention": [],
+    "modelCost": {
+      "status": "unavailable",
+      "dollars": null,
+      "detail": "No actual provider/model transcript and dated token-price evidence supplied"
+    },
+    "counts": {
+      "cases": 1,
+      "positiveCases": 1,
+      "negativeCases": 0,
+      "families": 1,
+      "canonicalFamilyRepresentatives": 1,
+      "unsupportedFamilies": [],
+      "unsupportedCases": 0,
+      "workers": 121,
+      "failedWorkers": 0,
+      "blockedWorkers": 0,
+      "completeSemanticCases": 1,
+      "outputAdmissionCases": 1,
+      "negativeAdmissionCases": 0,
+      "outputCalibratedTimingRows": 1,
+      "calibratedTimingRows": 1,
+      "totalTimingRows": 3,
+      "actualTimedCalls": 11739
+    }
+  }
+}

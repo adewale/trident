@@ -1,0 +1,27 @@
+{
+  "out": "/workspace/trident-simplification-evidence/release-verified/trident-0.1.0",
+  "sourceRevision": "cc9a897e63bbbf133c8b6ebfb593ad2f96094e16",
+  "files": [
+    {
+      "path": "run.mjs",
+      "sha256": "1ba9b62bb0abad8dc979fbfb1d954cadbf693f60510ba26ad1ccb1151da829d5"
+    },
+    {
+      "path": "worker.mjs",
+      "sha256": "b287143200b50983f7e634945d1ee9fd6e38bf4bda30176f3463682455b4aaad"
+    },
+    {
+      "path": "execution.mjs",
+      "sha256": "385af07ce2a233799e15a5453739603ede4bbc2e46da4003f2c913992c1605ec"
+    },
+    {
+      "path": "mermaid-oracle-worker.mjs",
+      "sha256": "50764aa4e2b0259c98fbcb2ccf9737ef1f27fd3198b534477c2f5ea8bf25db23"
+    },
+    {
+      "path": "package.json",
+      "sha256": "c683e6d53e94e75ea73e62256cb68b4ecc34e47f60b2c298b31845d23907def0"
+    }
+  ]
+}
+{"version":"0.1.0","archive":"/workspace/trident-simplification-evidence/release-verified/trident-0.1.0-node24.tar.gz","sha256":"dfca7eb69bea3f4ab772dd2c88c9aa600bcd6d09c203fe838d74234a1cff4242","checksums":"/workspace/trident-simplification-evidence/release-verified/SHA256SUMS","verification":"/workspace/trident-simplification-evidence/release-verified/release-check.json"}

@@ -1,0 +1,23 @@
+bun test v1.4.2 (744846f84)
+
+tests/fidelity-community.test.ts:
+63 | test('budget expiry escapes paint collection without publishing a completed report', async () => {
+64 |   const root = mkdtempSync(join(tmpdir(), 'fidelity-budget-'))
+65 |   try {
+66 |     const peer = fixture(root), catalog = join(root, 'catalog.json'), prepared = join(root, 'prepared.json'), out = join(root, 'out')
+67 |     writeFileSync(catalog, JSON.stringify({ nodes: [peer.node] })); writeFileSync(prepared, JSON.stringify([peer]))
+68 |     await expect(runCommunityFidelitySuite({ root: process.cwd(), harnessRoot: process.cwd(), out, profile: 'full', rounds: 1, fidelityDiagnostic: true, fidelityCaseIds: ['meaning:family:flowchart'], communityProjects: [peer.node.id], communityBrowserPreparedFile: prepared, communityCatalogFile: catalog, collectionDeadline: Date.now() - 1 })).rejects.toThrow('Collection budget exhausted')
+                                                                                                                                                                                                                                                                                                                                                                      ^
+error: expect(received).rejects.toThrow(expected)
+
+Expected promise that rejects
+Received promise that resolved: Promise { <resolved> }
+
+      at <anonymous> (/workspace/trident/tests/fidelity-community.test.ts:68:354)
+(fail) budget expiry escapes paint collection without publishing a completed report [2364.96ms]
+
+ 0 pass
+ 2 filtered out
+ 1 fail
+ 1 expect() calls
+Ran 1 test across 1 file. [3.44s]

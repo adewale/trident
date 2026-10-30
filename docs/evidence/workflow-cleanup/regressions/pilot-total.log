@@ -1,0 +1,35 @@
+bun test v1.4.2 (744846f84)
+
+tests/campaign-workflows.test.ts:
+31 |     rows.push({ project, caseId: 'family:flowchart', seconds, report: '/obsolete/workspace/pilot/' + id + '/report.json', summary: { counts: { completeSemanticCases: 0 } } })
+32 |   }
+33 |   rows.push({ project: 'fixture/one', caseId: 'scaling:class:128', cancelledForBudget: true }, { project: 'fixture/two', caseId: 'scaling:class:128', status: 'not-started-budget-exhausted' })
+34 |   const file = join(root, 'summary.json'); write(file, { rows, completeSemanticCases: 0 })
+35 |   const summary = summarizePilot(file)
+36 |   expect(summary.counts).toEqual({ planned: 4, collected: 2, cancelled: 1, notStarted: 1, incomplete: 0, positiveCases: 2, outputAdmissionCases: 2, semanticCompleteCases: 1 })
+                              ^
+error: expect(received).toEqual(expected)
+
+  {
+    "cancelled": 1,
+    "collected": 2,
+    "incomplete": 0,
+    "notStarted": 1,
+    "outputAdmissionCases": 2,
+    "planned": 4,
+    "positiveCases": 2,
+-   "semanticCompleteCases": 1,
++   "semanticCompleteCases": 0,
+  }
+
+- Expected  - 1
++ Received  + 1
+
+      at <anonymous> (/workspace/trident/tests/campaign-workflows.test.ts:36:26)
+(fail) pilot headlines use owning counts, reconcile pauses, and reject foreign/duplicate evidence [5.47ms]
+
+ 0 pass
+ 9 filtered out
+ 1 fail
+ 1 expect() calls
+Ran 1 test across 1 file. [1159.00ms]

@@ -1,0 +1,30 @@
+{
+  "invocationId": null,
+  "attempt": "/workspace/trident-simplification-evidence/release-verified/verification/source/community/project-attempts/ed10a7e8-8d0c-4354-b9ee-537c92115d17",
+  "updates": [
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "action": "measured",
+      "record": "31f3a67b-852e-4466-9c2c-8834ec7e9ca2"
+    },
+    {
+      "project": "obsidianmd/pele",
+      "action": "measured",
+      "record": "f6152acf-2745-4b23-a160-1c36a2b7646d"
+    }
+  ],
+  "records": [
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "id": "31f3a67b-852e-4466-9c2c-8834ec7e9ca2",
+      "measuredAt": "2026-10-30T00:49:06.716Z",
+      "evidenceDirectory": "/workspace/trident-simplification-evidence/release-verified/verification/source/community/project-attempts/ed10a7e8-8d0c-4354-b9ee-537c92115d17/AlexanderGrooff%2Fmermaid-ascii"
+    },
+    {
+      "project": "obsidianmd/pele",
+      "id": "f6152acf-2745-4b23-a160-1c36a2b7646d",
+      "measuredAt": "2026-10-30T00:49:12.529Z",
+      "evidenceDirectory": "/workspace/trident-simplification-evidence/release-verified/verification/source/community/project-attempts/ed10a7e8-8d0c-4354-b9ee-537c92115d17/obsidianmd%2Fpele"
+    }
+  ]
+}
