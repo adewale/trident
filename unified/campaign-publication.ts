@@ -1,5 +1,5 @@
 import { cpSync, existsSync, lstatSync, mkdirSync, realpathSync, writeFileSync } from 'node:fs'
-import { dirname, join, relative, resolve } from 'node:path'
+import { basename, dirname, join, relative, resolve } from 'node:path'
 import { readBenchmarkDocument } from '../portable/project-records.ts'
 import { canonicalBenchmarkTool } from '../tool-versions.ts'
 import type { BenchmarkObservation, UnifiedSuiteResult } from './types.ts'
@@ -61,18 +61,27 @@ export function campaignScorecards(row: CampaignEnvelope['results'][number], pro
     caseIds: new Set(observations.map(observation => observation.caseId)).size, recordedObservations: observations.length,
     dispositions: Object.fromEntries([...new Set(observations.map(observation => observation.status))].sort().map(status => [status, observations.filter(observation => observation.status === status).length])) }))
 }
+/** A path with its symlinks resolved, so containment checks agree with the realpath'd campaign
+ * directories (macOS temporary paths are /var -> /private/var). A path that does not exist yet
+ * resolves through its nearest existing ancestor. */
+function physical(path: string): string {
+  const absolute = resolve(path)
+  if (existsSync(absolute)) return realpathSync(absolute)
+  const parent = dirname(absolute)
+  return parent === absolute ? absolute : join(physical(parent), basename(absolute))
+}
 /** A report is a view over retained evidence. It never relabels earlier data as
  * a current-protocol run, changes dates, or pools unrelated suite denominators. */
 export function publishCampaigns(directories: string[], out: string, settings: { copyEvidence?: boolean; suiteSelection?: Record<string, string[]> } = {}) {
   if (!directories.length || existsSync(out)) throw Error('Choose input campaigns and a fresh publication directory')
   const sources = directories.map(directory => realpathSync(directory))
   if (new Set(sources).size !== sources.length) throw Error('Duplicate campaign directory')
-  if (sources.some(source => { const path = relative(source, resolve(out)); return !path.startsWith('..') })) throw Error('Publication output must be outside input evidence')
+  if (sources.some(source => { const path = relative(source, physical(out)); return !path.startsWith('..') })) throw Error('Publication output must be outside input evidence')
   const inputs = sources.map(directory => {
     const original = readCampaign(directory), selectedSuites = settings.suiteSelection?.[directory]
     if (selectedSuites && (!selectedSuites.length || new Set(selectedSuites).size !== selectedSuites.length || selectedSuites.some(suite => !PUBLIC_SUITES.includes(suite as any)))) throw Error('Publication suite selection must name unique public suites')
     const results = selectedSuites ? original.results.filter(row => selectedSuites.includes(row.suite)) : original.results
-    if (settings.copyEvidence && results.some(row => row.out && relative(directory, resolve(row.out)).startsWith('..'))) throw Error('A selected suite owns evidence outside its campaign; supply the original owning campaign for a portable bundle')
+    if (settings.copyEvidence && results.some(row => row.out && relative(directory, physical(row.out)).startsWith('..'))) throw Error('A selected suite owns evidence outside its campaign; supply the original owning campaign for a portable bundle')
     return { directory, selectedSuites, report: { ...original, results } }
   })
   mkdirSync(out, { recursive: true })
@@ -96,7 +105,7 @@ export function publishCampaigns(directories: string[], out: string, settings: {
     lines.push('', `## Campaign ${index + 1}`, '', 'Selected projects: ' + report.projects.join(', ') + '.', '', '| Suite | Project scope | Status / disposition | Counts and limits | Owning evidence |', '|---|---|---|---|---|')
     if (selectedSuites) lines.splice(lines.length - 2, 0, `This publication selects these suites from the original campaign: ${selectedSuites.join(', ')}. The linked original report and copied evidence remain unchanged.`, '')
     for (const row of [...report.results].sort((a, b) => a.suite.localeCompare(b.suite) || (a.project ?? '').localeCompare(b.project ?? ''))) {
-      const owning = row.out ? resolve(row.out) : undefined
+      const owning = row.out ? physical(row.out) : undefined
       const within = owning && !relative(directory, owning).startsWith('..')
       const mapped = within ? join(target, relative(directory, owning!)) : owning
       const evidence = mapped && existsSync(owning!) ? `[owning directory](${link(out, mapped)}/)` : 'no owning evidence directory recorded'
