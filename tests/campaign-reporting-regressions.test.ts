@@ -30,6 +30,68 @@ function overview(snapshot: ResultsSnapshot, project = 'fixture/a') {
   return { row, rank: cells[2], docs: cells[4] }
 }
 
+function oneProjectRerun(options: { updatedAt: string; partial?: boolean; changedInput?: boolean }) {
+  const root = campaign(temp(), options)
+  const report = JSON.parse(readFileSync(join(root, 'report.json'), 'utf8'))
+  report.projects = ['fixture/a']; write(join(root, 'report.json'), report)
+  if (!options.partial) {
+    const file = join(root, 'docs/result.json'), result = JSON.parse(readFileSync(file, 'utf8'))
+    result.observations = result.observations.filter((row: any) => row.metrics.project === 'fixture/a').map((row: any) => ({ ...row, status: 'failed', metrics: { ...row.metrics, measuredAt: options.updatedAt } }))
+    write(file, result)
+    if (options.changedInput) write(join(root, 'docs/inventory.json'), { cases: [{ id: 'one', source: 'different bytes' }, { id: 'two' }] })
+  }
+  return root
+}
+
+test('a one-project docs rerun updates its row while comparable peer scores, dates and owning receipts survive', () => {
+  let data = importCampaign(empty(), campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), 'https://example.org/original', catalog)
+  const original = structuredClone(data.tables[0])
+  data = importCampaign(data, oneProjectRerun({ updatedAt: '2026-02-02T00:00:00Z' }), 'https://example.org/rerun', catalog)
+  const comparison = data.tables.find(table => table.id === data.overviewRanking)!
+  expect(comparison.rolling).toBe(true)
+  expect(comparison.rows).toHaveLength(2)
+  expect(comparison.rows.find(row => row.project === 'fixture/b')?.receipt?.url).toBe('https://example.org/original/report.json')
+  expect(comparison.rows.find(row => row.project === 'fixture/a')?.receipt?.url).toBe('https://example.org/rerun/report.json')
+  expect(data.tables.find(table => table.id === original!.id)).toEqual(original!)
+  expect(overview(data).rank).toBe('2')
+  expect(overview(data).docs).toContain('0.0%')
+  expect(overview(data).docs).toContain('2026-02-02')
+  expect(overview(data, 'fixture/b').rank).toBe('1')
+  expect(overview(data, 'fixture/b').docs).toContain('50.0%')
+  expect(overview(data, 'fixture/b').docs).toContain('2026-01-01')
+  data = importCampaign(data, oneProjectRerun({ updatedAt: '2026-02-03T00:00:00Z', partial: true }), 'https://example.org/interrupted', catalog)
+  expect(overview(data).rank).toBe('—')
+  expect(overview(data).docs).toContain('unavailable')
+  expect(overview(data, 'fixture/b').rank).toBe('1')
+  const output = renderSnapshot(data, catalog)
+  const currentTable = output.split(`<a id="${comparison.id}"></a>`)[1]!.split('<a id=')[0]!
+  expect(currentTable).not.toContain('| fixture/a |')
+  expect(currentTable).toContain('| fixture/b | 1 |')
+})
+
+test('equal-sized docs inventories with changed input bytes cannot join a rolling comparison', () => {
+  let data = importCampaign(empty(), campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), 'https://example.org/original', catalog)
+  data = importCampaign(data, oneProjectRerun({ updatedAt: '2026-02-02T00:00:00Z', changedInput: true }), 'https://example.org/changed', catalog)
+  const comparison = data.tables.find(table => table.id === data.overviewRanking)!
+  expect(comparison.rolling).not.toBe(true)
+  expect(comparison.rows).toHaveLength(1)
+  expect(overview(data, 'fixture/b').rank).toBe('—')
+})
+
+test('a newer multi-project run cannot keep an omitted project score alive through another row’s publication date', () => {
+  let data = importCampaign(empty(), campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), 'https://example.org/original', catalog)
+  data = importCampaign(data, oneProjectRerun({ updatedAt: '2026-02-02T00:00:00Z' }), 'https://example.org/rerun', catalog)
+  const root = campaign(temp(), { updatedAt: '2026-02-03T00:00:00Z' }), file = join(root, 'docs/result.json')
+  const result = JSON.parse(readFileSync(file, 'utf8'))
+  result.observations = result.observations.filter((row: any) => row.metrics.project === 'fixture/b')
+  write(file, result)
+  data = importCampaign(data, root, 'https://example.org/missing-one-project', catalog)
+  expect(overview(data).rank).toBe('—')
+  expect(overview(data).docs).toContain('unavailable')
+  expect(overview(data, 'fixture/b').rank).toBe('1')
+  expect(overview(data, 'fixture/b').docs).toContain('50.0%')
+})
+
 test('fresh generated docs tables supply their own overview rank and literal percentage', () => {
   const data = importCampaign(empty(), campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), 'https://example.org/fresh', catalog)
   expect(overview(data).rank).toBe('1')

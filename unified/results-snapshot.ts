@@ -14,9 +14,12 @@ export interface SnapshotTable {
   artifactRole?: 'candidate'
   /** A compact result table also shown on the ecosystem landing page. */
   summary?: boolean
+  /** Same protocol, pinned input bytes and sampling; coverage comparisons only. */
+  comparisonKey?: string
+  rolling?: boolean
   /** Owning import window, separate from the original observation date. */
   campaignUpdatedAt?: string
-  columns: string[]; rows: { project: string; values: Cell[]; unrankedReason?: string }[]
+  columns: string[]; rows: { project: string; values: Cell[]; unrankedReason?: string; receipt?: { url: string; sha256: string }; campaignUpdatedAt?: string }[]
   receipt: { url: string; sha256: string }
   population?: { total: string; outcomes: string[] }
   overview?: { numerator: string; denominator?: string; suffix: string }
@@ -72,6 +75,8 @@ export function validateSnapshot(snapshot: ResultsSnapshot, catalog: LineageCata
   for (const entry of snapshot.tables) {
     stamp(entry.measuredAt)
     if (entry.campaignUpdatedAt !== undefined) stamp(entry.campaignUpdatedAt)
+    if (entry.comparisonKey !== undefined && !/^[a-f0-9]{64}$/.test(entry.comparisonKey)) throw Error('Invalid comparison key')
+    if (entry.rolling && (!entry.comparisonKey || entry.suite !== 'docs' || !entry.columns.includes('Measured') || entry.rows.some(row => !row.receipt || !row.campaignUpdatedAt))) throw Error('Rolling coverage needs per-row owning evidence')
     if (entry.artifactRole !== undefined && entry.artifactRole !== 'candidate') throw Error('Unknown table artifact role')
     if (entry.artifactRole === 'candidate' && (entry.overview || entry.id === (snapshot.overviewRanking ?? 'docs-coverage'))) throw Error('Candidate tables cannot replace the release overview')
     const seen = new Set<string>()
@@ -81,6 +86,9 @@ export function validateSnapshot(snapshot: ResultsSnapshot, catalog: LineageCata
       seen.add(row.project)
       if (row.values.length !== entry.columns.length || row.values.some(value => !['string', 'number'].includes(typeof value) || typeof value === 'number' && !Number.isFinite(value))) throw Error('Invalid table values')
       if (row.unrankedReason !== undefined && (typeof row.unrankedReason !== 'string' || !row.unrankedReason.trim())) throw Error('Invalid unranked reason')
+      if (row.receipt && (!validLink(row.receipt.url) || !/^[a-f0-9]{64}$/.test(row.receipt.sha256))) throw Error('Invalid row evidence receipt')
+      if (row.campaignUpdatedAt !== undefined) stamp(row.campaignUpdatedAt)
+      if (entry.rolling) stamp(String(row.values[entry.columns.indexOf('Measured')]))
     }
     for (const projection of [entry.overview, entry.chart]) if (projection) {
       if (!entry.columns.includes(projection.numerator) || projection.denominator && !entry.columns.includes(projection.denominator)) throw Error('Unknown result column')
@@ -114,8 +122,10 @@ export function validateSnapshot(snapshot: ResultsSnapshot, catalog: LineageCata
  * later attempts against that publication window, retaining original clocks. */
 function supersedingAttempt(attempts: SnapshotAttempt[], entry: SnapshotTable, project: string) {
   const eligible = attempts.filter(attempt => attempt.project === project && attempt.suite === entry.suite && attempt.artifactRole !== 'candidate')
-  const publishedAt = stamp(entry.campaignUpdatedAt ?? entry.measuredAt)
-  const owns = (attempt: SnapshotAttempt) => entry.campaignUpdatedAt !== undefined && stamp(attempt.updatedAt) === publishedAt && attempt.receipt.sha256 === entry.receipt.sha256 && attempt.receipt.url === entry.receipt.url
+  const row = entry.rows.find(row => row.project === project), receipt = row?.receipt ?? entry.receipt
+  const updatedAt = row?.campaignUpdatedAt ?? entry.campaignUpdatedAt
+  const publishedAt = stamp(updatedAt ?? entry.measuredAt)
+  const owns = (attempt: SnapshotAttempt) => updatedAt !== undefined && stamp(attempt.updatedAt) === publishedAt && attempt.receipt.sha256 === receipt.sha256 && attempt.receipt.url === receipt.url
   return eligible.filter(attempt => !owns(attempt) && stamp(attempt.updatedAt) >= publishedAt).sort((a, b) => stamp(b.updatedAt) - stamp(a.updatedAt) || b.id.localeCompare(a.id))[0]
 }
 /** One campaign may own several independent input cohorts. Its shared update
@@ -196,7 +206,23 @@ export function importCampaign(snapshot: ResultsSnapshot, directory: string, evi
   const tables = new Map(snapshot.tables.map(table => [table.id, table]))
   const generated = campaignTables(report, { url: evidenceUrl.replace(/\/$/, '') + '/report.json', sha256: digest })
   for (const table of generated) tables.set(table.id, table)
-  const overview = generated.find(table => table.overview)
+  let overview = generated.find(table => table.overview)
+  if (overview?.comparisonKey) {
+    const key = overview.comparisonKey
+    const comparable = [...tables.values()].filter(table => table.comparisonKey === key && !table.rolling && table.artifactRole !== 'candidate')
+      .sort((a, b) => stamp(a.campaignUpdatedAt ?? a.measuredAt) - stamp(b.campaignUpdatedAt ?? b.measuredAt) || a.id.localeCompare(b.id))
+    if (comparable.length > 1) {
+      const latest = comparable.at(-1)!, rows = new Map<string, SnapshotTable['rows'][number]>()
+      for (const table of comparable) {
+        if (JSON.stringify(table.columns) !== JSON.stringify(latest.columns)) throw Error('Comparable coverage has different columns')
+        for (const row of table.rows) rows.set(row.project, { ...row, receipt: table.receipt, campaignUpdatedAt: table.campaignUpdatedAt ?? table.measuredAt })
+      }
+      overview = { ...latest, id: 'latest-docs-' + key.slice(0, 24), rolling: true, rows: [...rows.values()],
+        measuredAt: comparable.map(table => table.measuredAt).sort((a, b) => stamp(a) - stamp(b)).at(-1)!,
+        caption: 'Latest comparable documentation coverage per project, across dated runs. Protocol, pinned input bytes and round count match. Each row retains its own measurement date and evidence. This is a rolling coverage comparison, with no cross-run timing claim.' }
+      tables.set(overview.id, overview)
+    }
+  }
   return { ...snapshot, ...(overview ? { overviewRanking: overview.id } : {}), tables: [...tables.values()], attempts: [...byId.values()].sort((a, b) => stamp(a.updatedAt) - stamp(b.updatedAt) || a.id.localeCompare(b.id)) }
 }
 
@@ -239,7 +265,8 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
       if (attempt) return attemptCell(attempt)
       if (entry) {
         const row = entry.rows.find(row => row.project === project)!, projection = entry.overview!
-        if (row.unrankedReason) return `[${md(row.unrankedReason)} · ${date(entry.measuredAt)}](#${anchor(entry.id)})`
+        const observedAt = entry.rolling ? String(row.values[entry.columns.indexOf('Measured')]) : entry.measuredAt
+        if (row.unrankedReason) return `[${md(row.unrankedReason)} · ${date(observedAt)}](#${anchor(entry.id)})`
         if (projection.suffix === '%' && entry.ranking && rankedRows(entry, name).find(row => row.project === project)?.rank === null) {
           const owner = attempts.find(attempt => attempt.receipt.sha256 === entry.receipt.sha256 && attempt.receipt.url === entry.receipt.url)
           return owner ? attemptCell(owner) : 'Unmeasured'
@@ -247,7 +274,7 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
         const value = row.values[entry.columns.indexOf(projection.numerator)]
         const denominator = projection.denominator ? '/' + row.values[entry.columns.indexOf(projection.denominator)] : ''
         const display = projection.suffix === '%' && projection.denominator ? (100 * Number(value) / Number(row.values[entry.columns.indexOf(projection.denominator)])).toFixed(1) + '%' : md(value) + denominator + (projection.suffix ? ' ' + md(projection.suffix) : '')
-        return `[${display}${entry.historical ? ' · historical' : ''} · ${date(entry.measuredAt)}](#${anchor(entry.id)})`
+        return `[${display}${entry.historical ? ' · historical' : ''} · ${date(observedAt)}](#${anchor(entry.id)})`
       }
       const state = support.suites[suite]
       return state.state === 'reference-only' || state.state === 'project-unsupported' ? 'N/A' : state.state === 'disabled' ? 'Skipped: release disabled' : state.state === 'adapter-missing' ? 'Unmeasured: binding gap' : 'Unmeasured'
@@ -261,16 +288,16 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
   lines.push('', '## Results by benchmark', '', 'Tables retain the full recorded populations. Charts show one named measure from the adjacent table; blocked, unavailable and failed checks remain visible in that table. Linked publications provide raw downloads; each table’s receipt identifies its owning evidence.', '')
   for (const suite of PUBLIC_SUITES) {
     lines.push(`### ${benchmarkNames[suite]}`, '')
-    const entries = snapshot.tables.filter(entry => entry.suite === suite).map(entry => ({ ...entry, rows: entry.rows.filter(row => visible(row.project)) })).filter(entry => entry.rows.length)
+    const entries = snapshot.tables.filter(entry => entry.suite === suite).map(entry => ({ ...entry, rows: entry.rows.filter(row => visible(row.project) && (!entry.rolling || !supersedingAttempt(snapshot.attempts, entry, row.project))) })).filter(entry => entry.rows.length)
     if (!entries.length) lines.push('No comparative result table has been published.', '')
     if (detailLinks) lines.push(`[All ${entries.length} ranked tables and recorded attempts](${detailLinks.get('suite:' + suite)})`, '')
     for (const entry of entries.filter(entry => !detailLinks || entry.summary || entry.id === primary?.id)) {
-      lines.push(`<a id="${anchor(entry.id)}"></a>`, '', `**${entry.id}** · ${date(entry.measuredAt)}${entry.historical ? ' · Historical' : ''}${entry.artifactRole === 'candidate' ? ' · **Source candidates**' : ''} · unit: ${md(entry.unit)} · ${receiptLink(entry.receipt)}`, '', entry.caption, '')
+      lines.push(`<a id="${anchor(entry.id)}"></a>`, '', `**${entry.id}** · ${date(entry.measuredAt)}${entry.historical ? ' · Historical' : ''}${entry.artifactRole === 'candidate' ? ' · **Source candidates**' : ''} · unit: ${md(entry.unit)} · ${entry.rolling ? '[latest source run](' + entry.receipt.url + ')' : receiptLink(entry.receipt)}`, '', entry.caption, '')
       const rows = rankedRows(entry, name)
       lines.push(entry.ranking ? `Ranked by **${md(entry.ranking.column)}${entry.ranking.denominator ? ' / ' + md(entry.ranking.denominator) : ''}**, ${entry.ranking.direction === 'ascending' ? 'lowest' : 'highest'} first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.` : 'No comparable numeric ranking measure is available.', '')
       const rate = entry.chart?.denominator
       const notes = rows.some(row => row.unrankedReason)
-      lines.push(table(['Project', 'Rank', ...entry.columns, ...(rate ? [entry.chart!.axis] : []), ...(notes ? ['Ranking note'] : [])], rows.map(row => [name(row.project), row.rank ?? '—', ...row.values, ...(rate ? [row.rank === null ? '—' : chartValue(entry, row).toFixed(1) + '%'] : []), ...(notes ? [row.unrankedReason ?? ''] : [])])), '')
+      lines.push(table(['Project', 'Rank', ...entry.columns, ...(rate ? [entry.chart!.axis] : []), ...(notes ? ['Ranking note'] : []), ...(entry.rolling ? ['Row evidence'] : [])], rows.map(row => [name(row.project), row.rank ?? '—', ...row.values, ...(rate ? [row.rank === null ? '—' : chartValue(entry, row).toFixed(1) + '%'] : []), ...(notes ? [row.unrankedReason ?? ''] : []), ...(entry.rolling ? [receiptLink(row.receipt!)] : [])])), '')
       const chartRows = rows.filter(row => row.rank !== null)
       if (entry.chart && chartRows.length) {
         const quote = (value: string) => JSON.stringify(value.replace(/[\r\n]/g, ' '))

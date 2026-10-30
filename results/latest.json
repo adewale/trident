@@ -24025,6 +24025,7 @@
         "denominator": "Planned",
         "direction": "descending"
       },
+      "comparisonKey": "4bbacfa5f8317511946234018c8fd8c4b5b9062c4319d8290eb37549f6df720e",
       "population": {
         "total": "Planned",
         "outcomes": [
@@ -90027,6 +90028,455 @@
         "column": "Median ms",
         "direction": "ascending"
       }
+    },
+    {
+      "id": "run-029d5410e9f2cfad0ce20e91",
+      "suite": "docs",
+      "measuredAt": "2026-10-30T18:00:04.653Z",
+      "campaignUpdatedAt": "2026-10-30T18:00:04.926Z",
+      "historical": false,
+      "unit": "documentation occurrences",
+      "caption": "Pinned documentation occurrences; Chromium public SVG calls. Returned means the occurrence returned SVG in all 6 declared rounds. Failures and unexecuted work retain the full inventory. SVG return does not certify meaning or paint.",
+      "columns": [
+        "Version",
+        "Returned in all rounds",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Unexecuted",
+        "Partially observed",
+        "Planned",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "mermaid-js/mermaid",
+          "values": [
+            "12.2.0",
+            547,
+            1,
+            0,
+            0,
+            0,
+            0,
+            548,
+            "2026-10-30T18:00:04.653Z"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "https://github.com/adewale/trident/tree/3fbae99754990daae9916dcdad344ed61e127ad5/reruns/mermaid-davebench-2026-10-30/evidence/1/report.json",
+        "sha256": "b0dcb3e875222f4aab87de6ff009beea4b081b67b04da23c90fc522c51ea74bf"
+      },
+      "ranking": {
+        "column": "Returned in all rounds",
+        "denominator": "Planned",
+        "direction": "descending"
+      },
+      "comparisonKey": "4bbacfa5f8317511946234018c8fd8c4b5b9062c4319d8290eb37549f6df720e",
+      "population": {
+        "total": "Planned",
+        "outcomes": [
+          "Returned in all rounds",
+          "Failed",
+          "Unsupported",
+          "Blocked",
+          "Unexecuted",
+          "Partially observed"
+        ]
+      },
+      "overview": {
+        "numerator": "Returned in all rounds",
+        "denominator": "Planned",
+        "suffix": "%"
+      },
+      "chart": {
+        "numerator": "Returned in all rounds",
+        "denominator": "Planned",
+        "title": "Documentation SVG return",
+        "axis": "%",
+        "maximum": 100
+      }
+    },
+    {
+      "id": "latest-docs-4bbacfa5f831751194623401",
+      "suite": "docs",
+      "measuredAt": "2026-10-30T18:00:04.653Z",
+      "campaignUpdatedAt": "2026-10-30T18:00:04.926Z",
+      "historical": false,
+      "unit": "documentation occurrences",
+      "caption": "Latest comparable documentation coverage per project, across dated runs. Protocol, pinned input bytes and round count match. Each row retains its own measurement date and evidence. This is a rolling coverage comparison, with no cross-run timing claim.",
+      "columns": [
+        "Version",
+        "Returned in all rounds",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Unexecuted",
+        "Partially observed",
+        "Planned",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "1jehuang/mermaid-rs-renderer",
+          "values": [
+            "unavailable",
+            0,
+            0,
+            0,
+            548,
+            0,
+            0,
+            548,
+            "2026-10-30T05:06:34.638Z"
+          ],
+          "unrankedReason": "blocked (0/6 complete rounds)",
+          "receipt": {
+            "url": "https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json",
+            "sha256": "fd5c525cbb7d2fac287cbb523fdd9d2781a29fce405caf27a61d3607b9ca386b"
+          },
+          "campaignUpdatedAt": "2026-10-30T11:37:15.317Z"
+        },
+        {
+          "project": "Dicklesworthstone/frankenmermaid",
+          "values": [
+            "0.4.0",
+            548,
+            0,
+            0,
+            0,
+            0,
+            0,
+            548,
+            "2026-10-30T05:04:54.932Z"
+          ],
+          "receipt": {
+            "url": "https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json",
+            "sha256": "fd5c525cbb7d2fac287cbb523fdd9d2781a29fce405caf27a61d3607b9ca386b"
+          },
+          "campaignUpdatedAt": "2026-10-30T11:37:15.317Z"
+        },
+        {
+          "project": "wevm/ondine",
+          "values": [
+            "0.0.3",
+            532,
+            16,
+            0,
+            0,
+            0,
+            0,
+            548,
+            "2026-10-30T05:04:52.149Z"
+          ],
+          "receipt": {
+            "url": "https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json",
+            "sha256": "fd5c525cbb7d2fac287cbb523fdd9d2781a29fce405caf27a61d3607b9ca386b"
+          },
+          "campaignUpdatedAt": "2026-10-30T11:37:15.317Z"
+        },
+        {
+          "project": "orestesgaolin/mermaid",
+          "values": [
+            "0.3.2",
+            449,
+            99,
+            0,
+            0,
+            0,
+            0,
+            548,
+            "2026-10-30T05:06:34.147Z"
+          ],
+          "receipt": {
+            "url": "https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json",
+            "sha256": "fd5c525cbb7d2fac287cbb523fdd9d2781a29fce405caf27a61d3607b9ca386b"
+          },
+          "campaignUpdatedAt": "2026-10-30T11:37:15.317Z"
+        },
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.5.1",
+            441,
+            107,
+            0,
+            0,
+            0,
+            0,
+            548,
+            "2026-10-30T05:06:30.859Z"
+          ],
+          "receipt": {
+            "url": "https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json",
+            "sha256": "fd5c525cbb7d2fac287cbb523fdd9d2781a29fce405caf27a61d3607b9ca386b"
+          },
+          "campaignUpdatedAt": "2026-10-30T11:37:15.317Z"
+        },
+        {
+          "project": "dfadler/zombie-mermaid",
+          "values": [
+            "5.11.2",
+            245,
+            303,
+            0,
+            0,
+            0,
+            0,
+            548,
+            "2026-10-30T05:06:21.348Z"
+          ],
+          "receipt": {
+            "url": "https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json",
+            "sha256": "fd5c525cbb7d2fac287cbb523fdd9d2781a29fce405caf27a61d3607b9ca386b"
+          },
+          "campaignUpdatedAt": "2026-10-30T11:37:15.317Z"
+        },
+        {
+          "project": "zhenhuaa/mdv",
+          "values": [
+            "0.1.2",
+            231,
+            317,
+            0,
+            0,
+            0,
+            0,
+            548,
+            "2026-10-30T05:06:17.482Z"
+          ],
+          "receipt": {
+            "url": "https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json",
+            "sha256": "fd5c525cbb7d2fac287cbb523fdd9d2781a29fce405caf27a61d3607b9ca386b"
+          },
+          "campaignUpdatedAt": "2026-10-30T11:37:15.317Z"
+        },
+        {
+          "project": "crafter-station/mermaid",
+          "values": [
+            "0.0.3",
+            216,
+            332,
+            0,
+            0,
+            0,
+            0,
+            548,
+            "2026-10-30T05:06:14.056Z"
+          ],
+          "receipt": {
+            "url": "https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json",
+            "sha256": "fd5c525cbb7d2fac287cbb523fdd9d2781a29fce405caf27a61d3607b9ca386b"
+          },
+          "campaignUpdatedAt": "2026-10-30T11:37:15.317Z"
+        },
+        {
+          "project": "emtyty/merslim",
+          "values": [
+            "0.2.3",
+            286,
+            262,
+            0,
+            0,
+            0,
+            0,
+            548,
+            "2026-10-30T05:06:11.748Z"
+          ],
+          "receipt": {
+            "url": "https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json",
+            "sha256": "fd5c525cbb7d2fac287cbb523fdd9d2781a29fce405caf27a61d3607b9ca386b"
+          },
+          "campaignUpdatedAt": "2026-10-30T11:37:15.317Z"
+        },
+        {
+          "project": "evangwt/xmermaid",
+          "values": [
+            "0.4.2",
+            264,
+            284,
+            0,
+            0,
+            0,
+            0,
+            548,
+            "2026-10-30T05:05:56.903Z"
+          ],
+          "receipt": {
+            "url": "https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json",
+            "sha256": "fd5c525cbb7d2fac287cbb523fdd9d2781a29fce405caf27a61d3607b9ca386b"
+          },
+          "campaignUpdatedAt": "2026-10-30T11:37:15.317Z"
+        },
+        {
+          "project": "KlangHaus/vitepress-plugin-diagram",
+          "values": [
+            "0.3.2",
+            183,
+            365,
+            0,
+            0,
+            0,
+            0,
+            548,
+            "2026-10-30T05:05:53.919Z"
+          ],
+          "receipt": {
+            "url": "https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json",
+            "sha256": "fd5c525cbb7d2fac287cbb523fdd9d2781a29fce405caf27a61d3607b9ca386b"
+          },
+          "campaignUpdatedAt": "2026-10-30T11:37:15.317Z"
+        },
+        {
+          "project": "Latias94/merman",
+          "values": [
+            "0.9.2",
+            548,
+            0,
+            0,
+            0,
+            0,
+            0,
+            548,
+            "2026-10-30T05:05:52.001Z"
+          ],
+          "receipt": {
+            "url": "https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json",
+            "sha256": "fd5c525cbb7d2fac287cbb523fdd9d2781a29fce405caf27a61d3607b9ca386b"
+          },
+          "campaignUpdatedAt": "2026-10-30T11:37:15.317Z"
+        },
+        {
+          "project": "lukilabs/beautiful-mermaid",
+          "values": [
+            "1.1.3",
+            231,
+            317,
+            0,
+            0,
+            0,
+            0,
+            548,
+            "2026-10-30T05:05:45.344Z"
+          ],
+          "receipt": {
+            "url": "https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json",
+            "sha256": "fd5c525cbb7d2fac287cbb523fdd9d2781a29fce405caf27a61d3607b9ca386b"
+          },
+          "campaignUpdatedAt": "2026-10-30T11:37:15.317Z"
+        },
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.12.0",
+            532,
+            16,
+            0,
+            0,
+            0,
+            0,
+            548,
+            "2026-10-30T05:05:41.924Z"
+          ],
+          "receipt": {
+            "url": "https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json",
+            "sha256": "fd5c525cbb7d2fac287cbb523fdd9d2781a29fce405caf27a61d3607b9ca386b"
+          },
+          "campaignUpdatedAt": "2026-10-30T11:37:15.317Z"
+        },
+        {
+          "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+          "values": [
+            "0.1.4",
+            548,
+            0,
+            0,
+            0,
+            0,
+            0,
+            548,
+            "2026-10-30T05:05:39.320Z"
+          ],
+          "receipt": {
+            "url": "https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json",
+            "sha256": "fd5c525cbb7d2fac287cbb523fdd9d2781a29fce405caf27a61d3607b9ca386b"
+          },
+          "campaignUpdatedAt": "2026-10-30T11:37:15.317Z"
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "values": [
+            "12.2.0",
+            547,
+            1,
+            0,
+            0,
+            0,
+            0,
+            548,
+            "2026-10-30T18:00:04.653Z"
+          ],
+          "receipt": {
+            "url": "https://github.com/adewale/trident/tree/3fbae99754990daae9916dcdad344ed61e127ad5/reruns/mermaid-davebench-2026-10-30/evidence/1/report.json",
+            "sha256": "b0dcb3e875222f4aab87de6ff009beea4b081b67b04da23c90fc522c51ea74bf"
+          },
+          "campaignUpdatedAt": "2026-10-30T18:00:04.926Z"
+        },
+        {
+          "project": "crabtalk/bezel",
+          "values": [
+            "0.2.22",
+            532,
+            16,
+            0,
+            0,
+            0,
+            0,
+            548,
+            "2026-10-30T05:04:59.359Z"
+          ],
+          "receipt": {
+            "url": "https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json",
+            "sha256": "fd5c525cbb7d2fac287cbb523fdd9d2781a29fce405caf27a61d3607b9ca386b"
+          },
+          "campaignUpdatedAt": "2026-10-30T11:37:15.317Z"
+        }
+      ],
+      "receipt": {
+        "url": "https://github.com/adewale/trident/tree/3fbae99754990daae9916dcdad344ed61e127ad5/reruns/mermaid-davebench-2026-10-30/evidence/1/report.json",
+        "sha256": "b0dcb3e875222f4aab87de6ff009beea4b081b67b04da23c90fc522c51ea74bf"
+      },
+      "ranking": {
+        "column": "Returned in all rounds",
+        "denominator": "Planned",
+        "direction": "descending"
+      },
+      "comparisonKey": "4bbacfa5f8317511946234018c8fd8c4b5b9062c4319d8290eb37549f6df720e",
+      "population": {
+        "total": "Planned",
+        "outcomes": [
+          "Returned in all rounds",
+          "Failed",
+          "Unsupported",
+          "Blocked",
+          "Unexecuted",
+          "Partially observed"
+        ]
+      },
+      "overview": {
+        "numerator": "Returned in all rounds",
+        "denominator": "Planned",
+        "suffix": "%"
+      },
+      "chart": {
+        "numerator": "Returned in all rounds",
+        "denominator": "Planned",
+        "title": "Documentation SVG return",
+        "axis": "%",
+        "maximum": 100
+      },
+      "rolling": true
     }
   ],
   "attempts": [
@@ -165576,6 +166026,125 @@
         "sha256": "fd5c525cbb7d2fac287cbb523fdd9d2781a29fce405caf27a61d3607b9ca386b"
       },
       "groups": []
+    },
+    {
+      "id": "attempt-10875c0e46f6cd58ae886fe3",
+      "project": "mermaid-js/mermaid",
+      "suite": "docs",
+      "cohort": "core",
+      "measuredFrom": "2026-10-30T17:56:31.364Z",
+      "updatedAt": "2026-10-30T18:00:04.926Z",
+      "status": "failed",
+      "detail": "SVG return only; no meaning/paint qualification. Distinct protocol from historical AM Davebench: complete pinned upstream syntax directory, all catalog browser bindings. Latency comparisons require pairwise common successes; no overall speed score.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.",
+      "receipt": {
+        "url": "https://github.com/adewale/trident/tree/3fbae99754990daae9916dcdad344ed61e127ad5/reruns/mermaid-davebench-2026-10-30/evidence/1/report.json",
+        "sha256": "b0dcb3e875222f4aab87de6ff009beea4b081b67b04da23c90fc522c51ea74bf"
+      },
+      "evidenceUrl": "https://github.com/adewale/trident/tree/3fbae99754990daae9916dcdad344ed61e127ad5/reruns/mermaid-davebench-2026-10-30/evidence/1/docs/",
+      "groups": [
+        {
+          "project": "mermaid-js/mermaid",
+          "version": "12.2.0",
+          "variant": "default",
+          "surface": "browser:svg",
+          "runtime": "Chromium",
+          "format": "svg",
+          "operation": "render",
+          "mode": "one-public-call",
+          "round": "1",
+          "caseIds": 548,
+          "recordedObservations": 548,
+          "dispositions": {
+            "failed": 1,
+            "passed": 547
+          }
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "version": "12.2.0",
+          "variant": "default",
+          "surface": "browser:svg",
+          "runtime": "Chromium",
+          "format": "svg",
+          "operation": "render",
+          "mode": "one-public-call",
+          "round": "2",
+          "caseIds": 548,
+          "recordedObservations": 548,
+          "dispositions": {
+            "failed": 1,
+            "passed": 547
+          }
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "version": "12.2.0",
+          "variant": "default",
+          "surface": "browser:svg",
+          "runtime": "Chromium",
+          "format": "svg",
+          "operation": "render",
+          "mode": "one-public-call",
+          "round": "3",
+          "caseIds": 548,
+          "recordedObservations": 548,
+          "dispositions": {
+            "failed": 1,
+            "passed": 547
+          }
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "version": "12.2.0",
+          "variant": "default",
+          "surface": "browser:svg",
+          "runtime": "Chromium",
+          "format": "svg",
+          "operation": "render",
+          "mode": "one-public-call",
+          "round": "4",
+          "caseIds": 548,
+          "recordedObservations": 548,
+          "dispositions": {
+            "failed": 1,
+            "passed": 547
+          }
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "version": "12.2.0",
+          "variant": "default",
+          "surface": "browser:svg",
+          "runtime": "Chromium",
+          "format": "svg",
+          "operation": "render",
+          "mode": "one-public-call",
+          "round": "5",
+          "caseIds": 548,
+          "recordedObservations": 548,
+          "dispositions": {
+            "failed": 1,
+            "passed": 547
+          }
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "version": "12.2.0",
+          "variant": "default",
+          "surface": "browser:svg",
+          "runtime": "Chromium",
+          "format": "svg",
+          "operation": "render",
+          "mode": "one-public-call",
+          "round": "6",
+          "caseIds": 548,
+          "recordedObservations": 548,
+          "dispositions": {
+            "failed": 1,
+            "passed": 547
+          }
+        }
+      ]
     }
   ],
   "projectNames": {
@@ -165588,8 +166157,12 @@
     "dfadler/zombie-mermaid": "Zombie Mermaid",
     "xai-org/grok-build": "Grok renderer"
   },
-  "overviewRanking": "run-8b501af93dc3dbc6f265dfd4",
+  "overviewRanking": "latest-docs-4bbacfa5f831751194623401",
   "publications": [
+    {
+      "title": "Mermaid DaveBench rerun: six complete rounds, 547/548 SVG returns",
+      "url": "https://github.com/adewale/trident/blob/3fbae99754990daae9916dcdad344ed61e127ad5/reruns/mermaid-davebench-2026-10-30/README.md"
+    },
     {
       "title": "30 October 2026: all 39 measured projects, ranked tables and raw evidence",
       "url": "https://github.com/adewale/trident/blob/8b2404b0bf2940e571ca0e14e54eeff0517a98ca/README.md"

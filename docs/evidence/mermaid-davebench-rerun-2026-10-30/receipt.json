@@ -1,0 +1,21 @@
+{
+  "method": "The owning per-round Markdown report, filtered to Mermaid rows without changing values, rendered by the GitHub Markdown API and captured as an unchanged table element in Chromium. Identical styling for both views.",
+  "input": "Mermaid 12.2.0, the same 548 pinned documentation occurrences, six rounds and a 20-second browser-call deadline",
+  "records": [
+    {
+      "label": "before",
+      "source": "https://github.com/adewale/trident/blob/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/docs/report.md",
+      "markdownSha256": "bcfa6a334bb2b8dd04f46d405ee09433f943cbfb4c9b0a3c88d2e7076575b04b",
+      "htmlSha256": "0f5c3b901131d3f746acb3a035828d997a3f836579fe65df5d64613df6a1cadb",
+      "pngSha256": "a21ee44c4cefcfbce48134b56177ec6c135a1384d76b35e6eaf18c08a08bbc38"
+    },
+    {
+      "label": "after",
+      "source": "https://github.com/adewale/trident/blob/3fbae99754990daae9916dcdad344ed61e127ad5/reruns/mermaid-davebench-2026-10-30/evidence/1/docs/report.md",
+      "markdownSha256": "54c0bfbc57571392d4d219e0f60e6a22278261ef05fb6b14c2a23ad55c170ccf",
+      "htmlSha256": "3306bdb1490e0dc852b0ecdca734cefdf9a22290c26ec9e4121ab01335174cac",
+      "pngSha256": "3a4d7bb8da9f48e10049afee2a79a2b22d3ad425970b762ed07bc1ee70a028ef"
+    }
+  ],
+  "limits": "Shows reported collection outcomes, not diagram paint quality or a cross-run speed comparison. The original campaign had multiple projects; the rerun scheduled Mermaid alone."
+}

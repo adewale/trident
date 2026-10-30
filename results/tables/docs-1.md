@@ -180,6 +180,78 @@ xychart-beta horizontal
     y-axis "%" 0 --> 100
     bar [100, 100, 100, 97.1, 97.1, 97.1, 81.9, 80.5, 52.2, 48.2, 44.7, 42.2, 39.4, 33.4]
 ```
+
+<a id="run-029d5410e9f2cfad0ce20e91"></a>
+
+**run-029d5410e9f2cfad0ce20e91** · 2026-10-30 · unit: documentation occurrences · [evidence](https://github.com/adewale/trident/tree/3fbae99754990daae9916dcdad344ed61e127ad5/reruns/mermaid-davebench-2026-10-30/evidence/1/report.json)
+
+Pinned documentation occurrences; Chromium public SVG calls. Returned means the occurrence returned SVG in all 6 declared rounds. Failures and unexecuted work retain the full inventory. SVG return does not certify meaning or paint.
+
+Ranked by **Returned in all rounds / Planned**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Returned in all rounds | Failed | Unsupported | Blocked | Unexecuted | Partially observed | Planned | Measured | % |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Mermaid.js | 1 | 12.2.0 | 547 | 1 | 0 | 0 | 0 | 0 | 548 | 2026-10-30T18:00:04.653Z | 99.8% |
+
+```mermaid
+xychart-beta horizontal
+    title "Documentation SVG return — 2026-10-30"
+    x-axis ["Mermaid.js 12.2.0"]
+    y-axis "%" 0 --> 100
+    bar [99.8]
+```
+
+<a id="latest-docs-4bbacfa5f831751194623401"></a>
+
+**latest-docs-4bbacfa5f831751194623401** · 2026-10-30 · unit: documentation occurrences · [latest source run](https://github.com/adewale/trident/tree/3fbae99754990daae9916dcdad344ed61e127ad5/reruns/mermaid-davebench-2026-10-30/evidence/1/report.json)
+
+Latest comparable documentation coverage per project, across dated runs. Protocol, pinned input bytes and round count match. Each row retains its own measurement date and evidence. This is a rolling coverage comparison, with no cross-run timing claim.
+
+Ranked by **Returned in all rounds / Planned**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+| Project | Rank | Version | Returned in all rounds | Failed | Unsupported | Blocked | Unexecuted | Partially observed | Planned | Measured | % | Ranking note | Row evidence |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Frankenmermaid | 1 | 0.4.0 | 548 | 0 | 0 | 0 | 0 | 0 | 548 | 2026-10-30T05:04:54.932Z | 100.0% |  | [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json) |
+| Latias94/merman | 1 | 0.9.2 | 548 | 0 | 0 | 0 | 0 | 0 | 548 | 2026-10-30T05:05:52.001Z | 100.0% |  | [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json) |
+| sandyyst/dsh-plugin-mermaid-gb-svg | 1 | 0.1.4 | 548 | 0 | 0 | 0 | 0 | 0 | 548 | 2026-10-30T05:05:39.320Z | 100.0% |  | [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json) |
+| Mermaid.js | 4 | 12.2.0 | 547 | 1 | 0 | 0 | 0 | 0 | 548 | 2026-10-30T18:00:04.653Z | 99.8% |  | [evidence](https://github.com/adewale/trident/tree/3fbae99754990daae9916dcdad344ed61e127ad5/reruns/mermaid-davebench-2026-10-30/evidence/1/report.json) |
+| Bezel | 5 | 0.2.22 | 532 | 16 | 0 | 0 | 0 | 0 | 548 | 2026-10-30T05:04:59.359Z | 97.1% |  | [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json) |
+| Ondine | 5 | 0.0.3 | 532 | 16 | 0 | 0 | 0 | 0 | 548 | 2026-10-30T05:04:52.149Z | 97.1% |  | [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json) |
+| Pele | 5 | 1.12.0 | 532 | 16 | 0 | 0 | 0 | 0 | 548 | 2026-10-30T05:05:41.924Z | 97.1% |  | [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json) |
+| Mermaid Dart | 8 | 0.3.2 | 449 | 99 | 0 | 0 | 0 | 0 | 548 | 2026-10-30T05:06:34.147Z | 81.9% |  | [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json) |
+| Agentic Mermaid | 9 | 0.5.1 | 441 | 107 | 0 | 0 | 0 | 0 | 548 | 2026-10-30T05:06:30.859Z | 80.5% |  | [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json) |
+| emtyty/merslim | 10 | 0.2.3 | 286 | 262 | 0 | 0 | 0 | 0 | 548 | 2026-10-30T05:06:11.748Z | 52.2% |  | [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json) |
+| evangwt/xmermaid | 11 | 0.4.2 | 264 | 284 | 0 | 0 | 0 | 0 | 548 | 2026-10-30T05:05:56.903Z | 48.2% |  | [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json) |
+| Zombie Mermaid | 12 | 5.11.2 | 245 | 303 | 0 | 0 | 0 | 0 | 548 | 2026-10-30T05:06:21.348Z | 44.7% |  | [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json) |
+| Beautiful Mermaid | 13 | 1.1.3 | 231 | 317 | 0 | 0 | 0 | 0 | 548 | 2026-10-30T05:05:45.344Z | 42.2% |  | [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json) |
+| crafter-station/mermaid | 14 | 0.0.3 | 216 | 332 | 0 | 0 | 0 | 0 | 548 | 2026-10-30T05:06:14.056Z | 39.4% |  | [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json) |
+| KlangHaus/vitepress-plugin-diagram | 15 | 0.3.2 | 183 | 365 | 0 | 0 | 0 | 0 | 548 | 2026-10-30T05:05:53.919Z | 33.4% |  | [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json) |
+| 1jehuang/mermaid-rs-renderer | — | unavailable | 0 | 0 | 0 | 548 | 0 | 0 | 548 | 2026-10-30T05:06:34.638Z | — | blocked (0/6 complete rounds) | [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json) |
+
+```mermaid
+xychart-beta horizontal
+    title "Documentation SVG return — 2026-10-30"
+    x-axis ["Frankenmermaid 0.4.0", "Latias94/merman 0.9.2", "sandyyst/dsh-plugin-mermaid-gb-svg 0.1.4", "Mermaid.js 12.2.0", "Bezel 0.2.22", "Ondine 0.0.3", "Pele 1.12.0", "Mermaid Dart 0.3.2", "Agentic Mermaid 0.5.1", "emtyty/merslim 0.2.3", "evangwt/xmermaid 0.4.2", "Zombie Mermaid 5.11.2", "Beautiful Mermaid 1.1.3", "crafter-station/mermaid 0.0.3", "KlangHaus/vitepress-plugin-diagram 0.3.2"]
+    y-axis "%" 0 --> 100
+    bar [100, 100, 100, 99.8, 97.1, 97.1, 97.1, 81.9, 80.5, 52.2, 48.2, 44.7, 42.2, 39.4, 33.4]
+```
+<a id="attempt-10875c0e46f6cd58ae886fe3"></a>
+
+### Mermaid.js: DaveBench: Documentation Examples (core)
+
+Campaign invocation: 2026-10-30T17:56:31.364Z → 2026-10-30T18:00:04.926Z · **failed** · [evidence](https://github.com/adewale/trident/tree/3fbae99754990daae9916dcdad344ed61e127ad5/reruns/mermaid-davebench-2026-10-30/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/tree/3fbae99754990daae9916dcdad344ed61e127ad5/reruns/mermaid-davebench-2026-10-30/evidence/1/docs/)
+
+SVG return only; no meaning/paint qualification. Distinct protocol from historical AM Davebench: complete pinned upstream syntax directory, all catalog browser bindings. Latency comparisons require pairwise common successes; no overall speed score.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.
+
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 12.2.0 / default | browser:svg / Chromium | svg / render | one-public-call / 1 | 548 | 547 | 1 | 0 | 0 | {} | 548 |
+| 12.2.0 / default | browser:svg / Chromium | svg / render | one-public-call / 2 | 548 | 547 | 1 | 0 | 0 | {} | 548 |
+| 12.2.0 / default | browser:svg / Chromium | svg / render | one-public-call / 3 | 548 | 547 | 1 | 0 | 0 | {} | 548 |
+| 12.2.0 / default | browser:svg / Chromium | svg / render | one-public-call / 4 | 548 | 547 | 1 | 0 | 0 | {} | 548 |
+| 12.2.0 / default | browser:svg / Chromium | svg / render | one-public-call / 5 | 548 | 547 | 1 | 0 | 0 | {} | 548 |
+| 12.2.0 / default | browser:svg / Chromium | svg / render | one-public-call / 6 | 548 | 547 | 1 | 0 | 0 | {} | 548 |
+
 <a id="attempt-06ace092b9ca06718278e0f1"></a>
 
 ### AlexanderGrooff/mermaid-ascii: DaveBench: Documentation Examples (core)
