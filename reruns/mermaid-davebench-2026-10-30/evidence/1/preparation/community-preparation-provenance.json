@@ -1,0 +1,7 @@
+{
+  "source": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/preparation/community-prepared.json",
+  "sourceSha256": "fd2e1d287bbba6e29639b9e5d0a1160efd6211f071b60e3bf32e15c49fbcbd65",
+  "loadedAt": "2026-10-30T17:56:03.033Z",
+  "acquisition": "forbidden; frozen actual failures are retained without retry",
+  "invalidArtifacts": []
+}

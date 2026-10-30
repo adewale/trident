@@ -1,0 +1,134 @@
+{
+  "schema": "trident-campaign-v2",
+  "campaignId": "d3bcdac6-dcfe-410f-836a-28b25ce609a2",
+  "pilot": false,
+  "includeExcluded": false,
+  "startedAt": "2026-10-30T17:56:31.364Z",
+  "updatedAt": "2026-10-30T18:00:04.926Z",
+  "projects": [
+    "mermaid-js/mermaid"
+  ],
+  "profile": "full",
+  "rounds": 6,
+  "requestedSuites": [
+    "docs"
+  ],
+  "options": {
+    "root": "/workspace/trident",
+    "harnessRoot": "/workspace/trident",
+    "out": "/workspace/trident-mermaid-davebench-rerun-2026-10-30/campaign",
+    "profile": "full",
+    "rounds": 6,
+    "communityProjects": [
+      "mermaid-js/mermaid"
+    ],
+    "communityForce": false,
+    "allowIncomplete": false,
+    "communityArtifactPolicy": "frozen",
+    "communityCoverageOnce": true,
+    "executable": "/usr/bin/chromium",
+    "communityRecordStore": "/workspace/trident-mermaid-davebench-rerun-2026-10-30/fresh-records",
+    "communityCatalogFile": "/workspace/trident-mermaid-davebench-rerun-2026-10-30/campaign/preparation/catalog.json",
+    "communityPreparedFile": "/workspace/trident-mermaid-davebench-rerun-2026-10-30/campaign/preparation/community-prepared.json",
+    "communityBrowserPreparedFile": "/workspace/trident-mermaid-davebench-rerun-2026-10-30/campaign/preparation/community-browser-prepared.json",
+    "communityInputsFile": "/workspace/trident-mermaid-davebench-rerun-2026-10-30/campaign/preparation/community-inputs.json"
+  },
+  "preparationFile": "/workspace/trident-mermaid-davebench-rerun-2026-10-30/campaign/preparation.json",
+  "preparationSha256": "f7f32fd4c8f6b5af086cca9c18ef108df7a92073917b98e8ef098689cf90940a",
+  "runtime": {
+    "environment": {
+      "runtime": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "node": "24.19.0",
+        "v8": "13.6.233.17-node.51",
+        "platform": "linux",
+        "arch": "x64"
+      },
+      "nodeSha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12",
+      "host": "55cc1e917f42",
+      "cpu": [
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C"
+      ],
+      "kernel": "6.18.55",
+      "cpuLimit": "800000 200000",
+      "memoryLimit": "34359738368",
+      "environment": {
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null,
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_NUMERIC": null,
+        "AGENTIC_MERMAID_EXPERIMENTS": null
+      }
+    },
+    "driver": {
+      "status": "available",
+      "path": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+      "mode": 33216,
+      "version": "1.4.2",
+      "sha256": "a83d263767d839e4d2649ca8e35d07159c7afc99afdc96d731ced29e056dda0c",
+      "companions": []
+    },
+    "browser": {
+      "status": "available",
+      "path": "/usr/bin/chromium",
+      "mode": 33261,
+      "version": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)",
+      "sha256": "2c8d32d29dc6781c35ae196ea83299d507ac88fc339301abe74672feda299779",
+      "companions": [
+        {
+          "path": "/usr/lib/chromium/chromium",
+          "sha256": "4dc9f9f9b20e9bd95bf201f43d2d643f48938f36a70ddcb6fce3dd611a178180"
+        }
+      ]
+    },
+    "selectors": {
+      "LD_LIBRARY_PATH": "/workspace/trident-b0-2026-10-29/runtime-libs",
+      "DISPLAY": ":97",
+      "FONTCONFIG_FILE": null,
+      "FONTCONFIG_PATH": null,
+      "LIBGL_ALWAYS_SOFTWARE": "1",
+      "NODE_COMPILE_CACHE": null,
+      "UV_THREADPOOL_SIZE": null,
+      "NODE_BIN": null,
+      "BUN_BIN": null,
+      "BUN_OPTIONS": null,
+      "AM_BENCH_OBSERVER": "/workspace/.cloud-tools/gnu-time-root/usr/bin/time",
+      "MERMAID_REFERENCE_DIR": "/workspace/.cloud-tools/mermaid-reference",
+      "MERMAID_UPSTREAM_DIR": "/workspace/trident-pr21-review/mermaid-original-source",
+      "MERMAID_UPSTREAM_RUNNER_ROOT": "/workspace/trident-pr21-review/mermaid-original-runtime"
+    }
+  },
+  "deadline": 1793383889746,
+  "windows": [
+    {
+      "startedAt": "2026-10-30T17:56:31.364Z",
+      "budgetMinutes": 15,
+      "deadline": 1793383889746
+    }
+  ],
+  "results": [
+    {
+      "suite": "docs",
+      "cohort": "core",
+      "out": "/workspace/trident-mermaid-davebench-rerun-2026-10-30/campaign/docs",
+      "launched": true,
+      "elapsedSeconds": 213.561,
+      "status": "failed",
+      "observations": 3288,
+      "counts": {
+        "passed": 3282,
+        "failed": 6
+      },
+      "gaps": [
+        "SVG return only; no meaning/paint qualification. Distinct protocol from historical AM Davebench: complete pinned upstream syntax directory, all catalog browser bindings. Latency comparisons require pairwise common successes; no overall speed score."
+      ],
+      "completed": true
+    }
+  ]
+}

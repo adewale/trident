@@ -1,0 +1,37 @@
+{
+  "publishedAt": "2026-10-30T18:04:36.153Z",
+  "copyEvidence": true,
+  "campaigns": [
+    {
+      "source": "/workspace/trident-mermaid-davebench-rerun-2026-10-30/campaign",
+      "selectedSuites": "all recorded suites",
+      "measuredFrom": "2026-10-30T17:56:31.364Z",
+      "lastRecordedUpdate": "2026-10-30T18:00:04.926Z",
+      "profile": "full",
+      "rounds": 6,
+      "projects": [
+        "mermaid-js/mermaid"
+      ],
+      "complete": "collection completed; qualification may fail",
+      "results": [
+        {
+          "suite": "docs",
+          "cohort": "core",
+          "out": "/workspace/trident-mermaid-davebench-rerun-2026-10-30/campaign/docs",
+          "launched": true,
+          "elapsedSeconds": 213.561,
+          "status": "failed",
+          "observations": 3288,
+          "counts": {
+            "passed": 3282,
+            "failed": 6
+          },
+          "gaps": [
+            "SVG return only; no meaning/paint qualification. Distinct protocol from historical AM Davebench: complete pinned upstream syntax directory, all catalog browser bindings. Latency comparisons require pairwise common successes; no overall speed score."
+          ],
+          "completed": true
+        }
+      ]
+    }
+  ]
+}

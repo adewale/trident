@@ -1,0 +1,69 @@
+[
+  {
+    "node": {
+      "id": "mermaid-js/mermaid",
+      "categories": [
+        "renderer",
+        "parser"
+      ],
+      "relation": "root",
+      "repo": "https://github.com/mermaid-js/mermaid",
+      "branch": "develop",
+      "head": "e28fbd9ded0a07ba9569e51be4764c1ad4daa8f6",
+      "lastCommit": "2026-10-14T08:44:56+00:00",
+      "rootCommits": [
+        "e26c2a252789a456a30f1f150f1c513b49454363"
+      ],
+      "license": "MIT",
+      "runtime": "TypeScript (browser DOM)",
+      "outputs": [
+        "svg"
+      ],
+      "packages": [
+        {
+          "registry": "npm",
+          "name": "mermaid",
+          "version": "12.2.0",
+          "license": "MIT"
+        }
+      ],
+      "roles": [
+        "language-reference"
+      ],
+      "notes": "knsv/mermaid resolves to the same head (legacy name). Default branch is develop; 12.2.0 provenance names master.",
+      "benchmark": {
+        "adapter": "mermaid",
+        "package": "mermaid",
+        "outputs": [
+          "svg",
+          "parse"
+        ],
+        "version": "12.2.0",
+        "versionPolicy": "recorded"
+      },
+      "benchmarkEligibility": {
+        "classification": "language-reference",
+        "engineScope": "pinned-reference-version",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "reason": "Catalog declares svg operations with adapter mermaid. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+      }
+    },
+    "artifact": {
+      "kind": "node",
+      "root": "/workspace/.cloud-tools/mermaid-reference/node_modules/mermaid",
+      "module": "/workspace/.cloud-tools/mermaid-reference/node_modules/mermaid/dist/mermaid.core.mjs",
+      "version": "12.2.0",
+      "integrity": "sha512-w7nr/SFrLO7BaVTs3dQTvYSV6nYSBj0Yy9DjBhsIJtAcHqRzXSq4Pg32ujHZ/AdWsAMNEvvhbm5dt9E2tOiHzw==",
+      "runtime": "Node",
+      "sha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+      "files": [
+        {
+          "path": "/workspace/.cloud-tools/mermaid-reference/node_modules/mermaid/dist/mermaid.core.mjs",
+          "sha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf"
+        }
+      ],
+      "apiBoundary": "published package API",
+      "detail": "Version policy: pinned current Mermaid. Recorded catalog versions remain separately available on the node.; Version policy: provided actual artifact version/bytes frozen; no latest lookup. Recorded catalog versions remain separately available on the node."
+    }
+  }
+]

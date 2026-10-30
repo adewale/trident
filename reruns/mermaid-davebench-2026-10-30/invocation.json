@@ -1,0 +1,23 @@
+{
+  "command": [
+    "bun",
+    "commands.ts",
+    "bench",
+    "--prepared",
+    "/workspace/trident-mermaid-davebench-rerun-2026-10-30/campaign/preparation.json",
+    "--projects",
+    "mermaid-js/mermaid",
+    "--suites",
+    "docs",
+    "--executable",
+    "/usr/bin/chromium",
+    "--budget-minutes",
+    "15",
+    "--records",
+    "/workspace/trident-mermaid-davebench-rerun-2026-10-30/fresh-records",
+    "--out",
+    "/workspace/trident-mermaid-davebench-rerun-2026-10-30/campaign"
+  ],
+  "cwd": "/workspace/trident",
+  "startedAt": "2026-10-30T17:56:26.071748+00:00"
+}
