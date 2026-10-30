@@ -1,3 +1,4 @@
+import { CollectionBudgetExhausted, checkCollectionBudget } from '../portable/checkpoint.ts'
 import { harnessFile } from '../unified/harness-paths.ts'
 import { writeBenchmarkDocument } from '../portable/project-records.ts'
 import { fidelityCriteriaProtocol } from './protocol.ts'
@@ -134,6 +135,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
         try {
           await initialize(); await observer.goto(origin + '/observer')
           for (const [index, testCase] of selectedCases.entries()) {
+            checkCollectionBudget(options.collectionDeadline)
             try {
             if (!healthy || page.isClosed()) await initialize()
             await bounded(page.evaluate(publicSvgBrowserAction, { type: 'configure' }), () => { healthy = false; void page.close().catch(() => {}) })

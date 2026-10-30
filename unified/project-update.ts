@@ -1,3 +1,4 @@
+import { checkCollectionBudget } from '../portable/checkpoint.ts'
 import { readBenchmarkDocument, writeBenchmarkDocument } from '../portable/project-records.ts'
 import { execFileSync } from 'node:child_process'
 import { createHash, randomUUID } from 'node:crypto'
@@ -408,6 +409,7 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
     plans.map(item => ({
       identity: item.identity,
       measure: async () => {
+        checkCollectionBudget(options.collectionDeadline)
         const id = randomUUID(),
           directory = join(attempt, encodeURIComponent(item.entry.node.id)),
           out = join(directory, 'community')
@@ -419,10 +421,12 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
         writeJson(browserPath, [item.browser])
         const single = { ...options, communityProjects: [item.entry.node.id], communityPreparedFile: preparedPath, communityBrowserPreparedFile: browserPath, communityInputsFile: inputPath, out }
         const community = await runCommunitySuite(single)
+        checkCollectionBudget(options.collectionDeadline)
         const outputs = options.communityOutputs?.filter(output => ['svg', 'terminal', 'ascii', 'unicode', 'ascii-unicode'].includes(output))
         const cli = outputs?.length === 0 ? { id: 'community-cli', startedAt: now(), finishedAt: now(), status: 'passed' as const, observations: [], gaps: ['No CLI output is selected for this project record'] } : await runCommunityCliSuite({ ...single, communityOutputs: outputs, out: join(directory, 'community-cli') })
         if (!existsSync(join(directory, 'community-cli'))) mkdirSync(join(directory, 'community-cli'))
         if (!existsSync(join(directory, 'community-cli/community-cli-suite.json'))) writeJson(join(directory, 'community-cli/community-cli-suite.json'), cli)
+        checkCollectionBudget(options.collectionDeadline)
         // Recheck the admitted artifact after clocks, before publishing a reusable record.
         if (stableValue(projectPackageIdentity(item.entry)) !== stableValue((item.identity.artifact as any).package)) throw Error('Project artifact changed during measurement')
         verifyFrozenBrowserEngine(item.browser)
@@ -464,13 +468,16 @@ export async function runIncrementalCommunitySuite(options: UnifiedRunOptions): 
   const result = await runProjectUpdates(options)
   const selected = result.updates.map(update => update.record)
   const envelope = (suite: string): UnifiedSuiteResult => {
-    const observations = selected.flatMap(record => record.observations.filter(row => (suite === 'community' ? row.suite !== 'community-cli' : row.suite === suite)))
+    const observations = selected.flatMap(record => record.observations.filter(row => (suite === 'community' ? row.suite !== 'community-cli' : row.suite === suite)).map(row => ({ ...row, metrics: { ...row.metrics,
+      version: row.metrics?.version ?? (record.identity.artifact as any).package?.artifact?.version,
+      measuredFrom: row.metrics?.measuredFrom ?? record.startedAt, measuredAt: row.metrics?.measuredAt ?? record.finishedAt,
+      ...(record.identity.lane === 'candidate' ? { artifactRole: 'candidate' } : {}) } })))
     const statuses = selected.map(record => (record.provenance as { suiteStatus?: Record<string, string> } | undefined)?.suiteStatus?.[suite])
     const resultStatus = statuses.includes('failed') ? 'failed' : statuses.includes('blocked') ? 'blocked' : status(observations)
     return {
       id: suite,
-      startedAt: result.startedAt ?? now(),
-      finishedAt: now(),
+      startedAt: selected.map(record => record.startedAt).sort()[0] ?? result.startedAt,
+      finishedAt: selected.map(record => record.finishedAt).sort().at(-1) ?? now(),
       status: resultStatus,
       observations,
       gaps: [...new Set(selected.flatMap(record => record.gaps)), 'Rolling per-project records: original observation dates are retained in project-update-manifest.json. This is not a paired same-session comparison.'],

@@ -43,7 +43,7 @@ Run measurements locally, serially, with the current qualifier. The source tree
 keeps the small overview; publish raw evidence outside it:
 
 ```sh
-bun commands.ts bench --projects OWNER/TOOL --profile full --rounds 5 \
+bun commands.ts bench --projects OWNER/TOOL --profile full \
   --records /evidence/records --out /evidence/run
 bun commands.ts results:campaign --campaign /evidence/run \
   --out /evidence/publication --copy-evidence
@@ -66,25 +66,17 @@ recent recorded attempt for that project and benchmark, including failures,
 blocks and requested boundaries with no result; it keeps older tables below.
 Different public interfaces remain separate in the observation tables.
 
-Campaign imports currently summarize recorded observation dispositions when
-the owning suite exposes them through the campaign publisher. These counts are
-explicitly **observations**, not inferred whole-diagram scores or percentages.
-If the publisher has no per-project observation table, the attempt retains its
-process status and evidence link; a successful process is shown as `recorded`,
-not a qualified benchmark pass. Detailed suite scores, planned inventories,
-timing qualification and raw samples remain in the owning publication. The
-snapshot does not invent missing reductions.
+Campaign imports now generate the comparative tables from owning suite results.
+DaveBench reconciles the complete frozen inventory across the declared rounds;
+portable latency retains case/mode and output-calibration scope. Other suites
+compare recorded observations only where the public interface and observed check
+coordinates match. Different populations stay in separate cohorts. Missing bindings,
+blocked work, failed checks and original measurement dates remain visible.
 
-To publish a new comparative table, add a `SnapshotTable` to `latest.json` from
-the suite's verified reduction, with its original date, public interface,
-workload, units, qualification and receipt. The initial historical tables copy
-the source [provenance receipt](../docs/evidence/benchmark-examples.json);
-they do not silently become current results when the page is regenerated.
-An `overview` selects a named count and optional denominator. A `chart` selects
-numeric columns from that same table; a denominator produces a percentage in
-both the table and chart. Never replace missing numbers with zero.
-Set `ranking.column` and `ranking.direction` (`ascending` or `descending`);
-add `ranking.denominator` for a rate. These settings also determine chart order.
+The same table rows produce ranks and charts. There is no per-run transcription of
+`SnapshotTable` values. Hand-entered historical tables remain immutable legacy
+imports; they are not a template for adding fresh campaign results. Pilot campaigns
+are rejected by the ecosystem importer.
 
 Keep failure outputs, artifact identities and actual measurement dates. A
 campaign invocation date can be newer than reused measurements; the linked

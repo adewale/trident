@@ -1,3 +1,4 @@
+import { CollectionBudgetExhausted, checkCollectionBudget } from '../portable/checkpoint.ts'
 import { harnessFile } from '../unified/harness-paths.ts'
 import { writeBenchmarkDocument } from '../portable/project-records.ts'
 import { fidelityCriteriaProtocol } from './protocol.ts'
@@ -95,6 +96,7 @@ export async function runFidelityCampaign(options: FidelityRunOptions): Promise<
         await page.evaluate(baselineBrowserAction, { type: 'initialize', kind: target.tool, url: `${origin}/package/${target.tool}/${target.entry.replace(/^\.\//, '')}`, configuration: { startOnLoad: false, securityLevel: 'strict', logLevel: 'fatal' } })
         if (target.tool === 'mermaid' && addon) await page.evaluate(async (url: string) => { const api = (globalThis as any).__baselineBrowser.api, plugin = await import(url); await api.registerExternalDiagrams([plugin.default]) }, origin + '/addon/' + addon.entry)
           for (const [index, testCase] of selectedCases.entries()) {
+            checkCollectionBudget(options.collectionDeadline)
             const add = (surface: string, criterion: string, status: string, actual: unknown, expected: unknown, scope: string) => observations.push({ suite: 'mermaid-fidelity', surface, runtime: surface === 'native-public-api' ? `${process.versions.bun ? 'Bun ' + process.versions.bun : 'Node ' + process.versions.node}:public-model-host` : 'Chromium', family: testCase.family, caseId: testCase.id + ':' + criterion, operation: criterion, format: surface === 'native-public-api' ? 'structured' : 'svg', mode: 'independent-authored-criteria', status: status === 'unavailable' ? 'blocked' : status === 'rejected' ? 'failed' : status as BenchmarkObservation['status'], detail: scope, metrics: { implementation: target.project, criterion, authoredCase: testCase.id, required: testCase.required, expected: JSON.stringify(expected ?? null), actual: JSON.stringify(actual ?? null), scope } })
             try {
             for (const [preludeIndex, prelude] of (testCase.prelude ?? []).entries()) {
@@ -150,6 +152,7 @@ export async function runFidelityCampaign(options: FidelityRunOptions): Promise<
             } catch (error) { collectionErrors.push(testCase.id + ': ' + String(error)); rows.push({ caseId: testCase.id, family: testCase.family, collectionError: String(error) }) }
           }
         } catch (error) {
+          if (error instanceof CollectionBudgetExhausted) { write(join(directory, 'interrupted-fidelity.json'), { status: 'incomplete', observations, rows }); throw error }
           collectionErrors.push('Browser setup: ' + String(error))
           rows.push({ setupOrCollectionError: String(error), scope: 'Collection stopped; every remaining planned criterion is retained as unavailable. Completed rows remain raw evidence.' })
         } finally { await context.close() }

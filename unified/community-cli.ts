@@ -1,3 +1,4 @@
+import { CollectionBudgetExhausted, checkCollectionBudget } from '../portable/checkpoint.ts'
 import { readBenchmarkDocument, writeBenchmarkDocument } from '../portable/project-records.ts'
 /** Supplemental fixed-core CLI comparison. Existing community evidence is never overwritten. */
 import { execFileSync } from 'node:child_process'
@@ -17,6 +18,7 @@ interface Options {
   packageRoot: string
   rounds: number
   outputs?: string[]
+  collectionDeadline?: number
   observerExecutable?: string
   observerProvenance?: string
   resourceOnly?: boolean
@@ -349,6 +351,7 @@ export async function runCommunityCliCohort(options: Options) {
       for (const variant of ordered)
         for (const output of variant.outputs)
           for (const workload of workloads.filter(w => output !== 'terminal' || terminalIds.includes(w.id))) {
+            checkCollectionBudget(options.collectionDeadline)
             const directory = join(options.out, 'raw', `round-${round}`, safe(variant.prepared.node.id), output, safe(workload.id))
             mkdirSync(directory, { recursive: true })
             let row: BenchmarkObservation
@@ -393,6 +396,7 @@ export async function runCommunityCliCohort(options: Options) {
   for (const variant of variants)
     for (const output of variant.outputs)
       for (const workload of workloads.filter(w => output !== 'terminal' || terminalIds.includes(w.id))) {
+        checkCollectionBudget(options.collectionDeadline)
         const directory = join(options.out, 'resources', safe(variant.prepared.node.id), output, safe(workload.id))
         mkdirSync(directory, { recursive: true })
         const diagnostic = resourceDiagnostic(variant, output, workload, observer, directory)
@@ -453,7 +457,7 @@ export async function runCommunityCliSuite(options: UnifiedRunOptions): Promise<
     for (const file of ['community-prepared.json', 'community-inputs.json', 'community-result.json']) if (!existsSync(join(source, file))) throw Error(`Completed community prerequisite is absent: ${join(source, file)}`)
     const prerequisite = read(join(source, 'community-result.json'))
     if (prerequisite.id !== 'community' || typeof prerequisite.finishedAt !== 'string' || !Array.isArray(prerequisite.observations)) throw Error('Community prerequisite has no completed suite envelope')
-    const result = await runCommunityCliCohort({ run: source, out: options.out, target: options.root, packageRoot: options.packageRoot ?? options.root, rounds: options.rounds, outputs: options.communityOutputs, observerExecutable: communityObserver(options) })
+    const result = await runCommunityCliCohort({ run: source, out: options.out, target: options.root, packageRoot: options.packageRoot ?? options.root, rounds: options.rounds, collectionDeadline: options.collectionDeadline, outputs: options.communityOutputs, observerExecutable: communityObserver(options) })
     envelope = {
       id: 'community-cli',
       status: result.status as UnifiedSuiteResult['status'],
@@ -464,6 +468,7 @@ export async function runCommunityCliSuite(options: UnifiedRunOptions): Promise<
       artifacts: ['community-cli-result.json', 'ranks.json', 'community-cli-inputs.json'],
     }
   } catch (error) {
+    if (error instanceof CollectionBudgetExhausted) throw error
     const detail = String(error)
     envelope = {
       id: 'community-cli',

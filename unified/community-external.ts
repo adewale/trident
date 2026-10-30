@@ -1,3 +1,4 @@
+import { checkCollectionBudget } from '../portable/checkpoint.ts'
 import { spawn } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
@@ -22,6 +23,7 @@ export async function runExternalCommunity(prepared: PreparedCommunity, workload
     let remaining = selected,
       lastDetail: string | undefined
     for (let attempt = 1; remaining.length && attempt <= 8; attempt++) {
+      checkCollectionBudget(options.collectionDeadline)
       lastDetail = undefined
       const stem = name + `-a${attempt}`,
         job = join(root, stem + '.job.json'),

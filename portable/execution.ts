@@ -7,6 +7,8 @@ import { familySupportProbe } from './cohorts.ts'
 import { PORTABLE_MEASUREMENT_PROTOCOL, type PortableArtifact, type PortableJob, type PortableWorkerResult, type Replica } from './protocol.ts'
 import type { PortableCase } from './cohorts.ts'
 import type { PortableOptions } from './run.ts'
+import { CollectionCheckpoint } from './checkpoint.ts'
+export { CollectionBudgetExhausted, CollectionCheckpoint } from './checkpoint.ts'
 
 const active = new Set<ChildProcess>()
 let cancelled = false
@@ -163,7 +165,7 @@ export async function runFirstUseBatch(jobs: PortableJob[], node: string, concur
 }
 
 /** All timed scheduling lives beside the execution boundary, independently of reporting. */
-export async function measurePortableProject(artifact: PortableArtifact, testCases: PortableCase[], options: PortableOptions, directory: string, retain: (result: PortableWorkerResult) => void) {
+export async function measurePortableProject(artifact: PortableArtifact, testCases: PortableCase[], options: PortableOptions, directory: string, retain: (result: PortableWorkerResult) => void, checkpoint: CollectionCheckpoint) {
   const makeJob = (testCase: PortableCase, round: number, replica: Replica, mode: PortableJob['mode'], sample: number): PortableJob => {
     const stem = `${testCase.id.replaceAll(':', '_')}-${mode}-r${round}-${replica}-${sample}`
     return {
@@ -181,12 +183,18 @@ export async function measurePortableProject(artifact: PortableArtifact, testCas
       ...(mode === 'warm' && round === 1 && replica === 'B' ? { svgFile: join(directory, 'svg', testCase.id.replaceAll(':', '_') + '.svg') } : {}),
     }
   }
+  const key = (job: PortableJob) => JSON.stringify([job.testCase.id, job.mode, job.round, job.replica, job.sample])
+  const serial = async (job: PortableJob, observer?: string) => {
+    const result = await checkpoint.collect(key(job), () => runSerialJob(job, options.node, observer))
+    return validateResult(job, result)
+  }
   // Probe each selected family once, untimed, before any measured case of that family runs.
   const unsupported = new Set<string>()
+  const admissionOnly = new Set<string>()
   for (const family of new Set(testCases.map(testCase => testCase.family))) {
     const probe = familySupportProbe(family)
     if (!probe) continue
-    const result = await runSerialJob(makeJob(probe, 1, 'B', 'probe', 0), options.node)
+    const result = await serial(makeJob(probe, 1, 'B', 'probe', 0))
     retain(result)
     if (result.status === 'unsupported') unsupported.add(family)
     console.log(JSON.stringify({ phase: 'family-support', project: options.project, family, supported: result.status !== 'unsupported' }))
@@ -199,23 +207,40 @@ export async function measurePortableProject(artifact: PortableArtifact, testCas
   }
   for (let round = 1; round <= options.rounds; round++)
     for (const [index, testCase] of testCases.entries()) {
-      for (const replica of order(round, index)) retain(await runSerialJob(makeJob(testCase, round, replica, 'warm', 0), options.node))
+      if (admissionOnly.has(testCase.id)) continue
+      for (const replica of order(round, index)) {
+        const result = await serial(makeJob(testCase, round, replica, 'warm', 0))
+        retain(result)
+        if (!testCase.expected.accept || ['failed', 'blocked'].includes(result.status)) { admissionOnly.add(testCase.id); break }
+      }
       console.log(JSON.stringify({ phase: 'warm', project: options.project, round, caseId: testCase.id, completedCasesInRound: index + 1 }))
     }
   for (let round = 1; round <= options.rounds; round++)
     for (const [index, testCase] of testCases.entries()) {
+      if (admissionOnly.has(testCase.id)) continue
       for (const replica of order(round, index)) {
         const jobs = Array.from({ length: options.coldSamples }, (_, sample) => makeJob(testCase, round, replica, 'cold', sample))
-        await runFirstUseBatch(jobs, options.node, options.preparationConcurrency, retain)
+        const batch = await checkpoint.collect('batch:' + key(jobs[0]!), async () => {
+          const completed: PortableWorkerResult[] = []
+          try { return await runFirstUseBatch(jobs, options.node, options.preparationConcurrency, result => completed.push(result)) }
+          catch (error) {
+            const file = join(directory, `interrupted-cold-${testCase.id.replaceAll(':', '_')}-${round}-${replica}-${Date.now()}.json`)
+            writeFileSync(file, JSON.stringify({ status: 'incomplete', jobs, completed, error: String(error) }))
+            throw error
+          }
+        })
+        if (batch.length !== jobs.length) throw Error('Checkpoint cold batch differs from its declared jobs')
+        batch.forEach((result, index) => retain(validateResult(jobs[index]!, result)))
       }
       console.log(JSON.stringify({ phase: 'first-use', project: options.project, round, caseId: testCase.id, completedCasesInRound: index + 1 }))
     }
   const observer = options.observer
   for (let round = 1; round <= options.rounds; round++)
     for (const testCase of testCases) {
+      if (admissionOnly.has(testCase.id)) continue
       const modes: PortableJob['mode'][] = round % 2 ? ['baseline', 'memory'] : ['memory', 'baseline']
-      for (const mode of modes) retain(await runSerialJob(makeJob(testCase, round, 'B', mode, 0), options.node, observer))
-      if (testCase.cohort === 'scaling' && testCase.family === 'flowchart' && testCase.scale === 8) retain(await runSerialJob(makeJob(testCase, round, 'B', 'retention', 0), options.node, observer))
+      for (const mode of modes) retain(await serial(makeJob(testCase, round, 'B', mode, 0), observer))
+      if (testCase.cohort === 'scaling' && testCase.family === 'flowchart' && testCase.scale === 8) retain(await serial(makeJob(testCase, round, 'B', 'retention', 0), observer))
       console.log(JSON.stringify({ phase: 'memory', project: options.project, round, caseId: testCase.id }))
     }
 }

@@ -16,6 +16,9 @@ for (const member of ['tool', './tool']) test(`public CLI archive member ${membe
     const node: CommunityNode = { id: 'fixture/tool', roles: ['renderer'], outputs: ['terminal'], benchmark: { adapter: 'fixture', cliRelease: { repository: 'fixture/tool', tag: 'v1', version: '1.0.0', revision: 'a'.repeat(40), outputs: { terminal: { args: ['render'], input: 'stdin' } }, platforms: { [`${process.platform}-${process.arch}`]: { asset: 'tool.tar', executable: member, sha256 } } } } }
     const result = await prepareReleaseCli(node, root)
     expect(result.error).toBeUndefined(); expect(result.artifact?.version).toBe('1.0.0')
+    const source = { ...node, benchmark: { ...node.benchmark!, adapter: 'source-cli' } }
+    expect(() => verifyReleaseCli(source, result.artifact!)).not.toThrow()
+    expect(() => verifyReleaseCli(source, { ...result.artifact!, files: result.artifact!.files!.filter(file => file.path.endsWith('/tool')) })).toThrow('SHA-256')
     const parent: any = { additionalCli: [result] }
     expect(() => verifyReleaseCli(node, parent)).not.toThrow()
     expect(() => verifyReleaseCli(node, { ...parent, additionalCli: [{ ...result, artifact: { ...result.artifact, outputBindings: { terminal: { args: ['different'] } } } }] })).toThrow('binding')

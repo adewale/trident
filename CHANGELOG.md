@@ -10,14 +10,14 @@ current main; baseline collection and release publication remain pending.
 - Seven documented suites cover Mermaid compatibility, DaveBench documentation
   examples, diagram meaning, public models and editing, original assertion replay,
   the genuine Mermaid reference tests, and portable SVG render cost/scaling.
-- Portable SVG process protocol v6 separates output admission, public-model facts,
+- Portable SVG process protocol v7 separates output admission, public-model facts,
   painted evidence and timing calibration. Its bounded route/marker checks inspect
   actual ink; unavailable projections and failed qualification remain visible.
 - Qualification observer `portable-owned-topology-v3-agentic-class-er` reads the
   actual public Class/ER model and independently checks owned SVG routes, directed
   Class arrows, and simple ER cardinality/identifying ink. Marker overrides cannot
-  hide behind SVG attributes. Unsupported profiles remain unmeasured; the SVG
-  timing protocol and historical qualifications are unchanged.
+  hide behind SVG attributes. Unsupported profiles remain unmeasured; historical
+  qualifications keep their original observer and timing identities.
 - Shared public-output verification v2 runs six positive inputs and two separately
   counted invalid controls. API rejection, accepted output, transport failure and
   unavailable observation retain different outcomes. Raster decoding earns no SVG
@@ -58,11 +58,24 @@ current main; baseline collection and release publication remain pending.
 - GitHub CI runs static checks, result-snapshot consistency and offline fixture
   tests. Artifact acquisition, renderer execution and benchmark measurements remain
   local. Shared launcher and CI policy remove duplicated command decisions.
-- B0 preparation freezes the 29 October release cutoff, 39 selected artifact
-  identities and input inventories. The bounded pilot withdraws the five-process
-  cold proposal and adopts the existing full 20-process profile with a shared
-  24-hour initial collection allowance. Pilot receipts are diagnostics; B0 remains
-  uncollected. Immutable preparation evidence retains failures and unfinished work.
+- Campaign preparation now creates one hashed manifest for artifact/dependency
+  identities, input inventories, applicability and retained compiled files/locks.
+  Collection and resume use that entry point instead of session-specific scripts.
+- Portable v7 uses six independent rounds and five fresh processes per replica;
+  invalid controls run once, and failed/blocked admission withholds repeated clocks.
+  The 54-case workload remains. This plans 50,490 cold launches for 11 projects,
+  compared with 178,200 in the earlier v6 proposal. Historical qualification remains
+  versioned; noise and correctness gates still withhold unsupported claims.
+- One deadline covers external examples and the seven-suite campaign. Checkpoints
+  retain portable jobs and completed DaveBench project-rounds; resumed allowances
+  and runtime identities are recorded without silently restarting the budget.
+- Campaign imports generate ranked tables and charts from owning observations.
+  Pilot headlines are reduced from owning reports; the original preparation
+  summary incorrectly said zero cases completed semantic checks. Pele completed
+  them for its one flowchart case. The corrected reduction preserves original data.
+- `release:check` builds once and verifies source collection/reporting and the
+  extracted shipped archive, producing one receipt alongside checksums. Separate
+  manually coordinated smoke checks are no longer the documented release path.
 - Peer admission uses each artifact's recorded version while retaining reference
   and tool pins. OpenCode seals its actual renderer runtime dependencies. Public
   release CLIs accept reviewed dot-prefixed archive members; versionless executables

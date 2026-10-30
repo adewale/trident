@@ -6,6 +6,7 @@ import { lineageInventory, type LineageCatalog } from './lineage.ts'
 import { PUBLIC_SUITES, projectSupport, type PublicSuite } from './support.ts'
 import { communityCatalogFile } from './trident-paths.ts'
 import { measurementNumber, rankResults } from './result-ranking.ts'
+import { campaignTables } from './campaign-tables.ts'
 
 type Cell = string | number
 export interface SnapshotTable {
@@ -105,7 +106,7 @@ export function rankedRows(entry: SnapshotTable, name: (id: string) => string) {
     const numerator = metric ? numeric(row.values[entry.columns.indexOf(metric.column)]) : NaN
     const denominator = metric?.denominator ? numeric(row.values[entry.columns.indexOf(metric.denominator)]) : 1
     const total = entry.population ? numeric(row.values[entry.columns.indexOf(entry.population.total)]) : NaN
-    const unobserved = (entry.population?.outcomes ?? []).filter(column => /^(Blocked|Unavailable|Unexecuted|Missing)$/.test(column)).reduce((sum, column) => sum + numeric(row.values[entry.columns.indexOf(column)]), 0)
+    const unobserved = (entry.population?.outcomes ?? []).filter(column => /^(Blocked|Unavailable|Unexecuted|Unmeasured|Missing)$/.test(column)).reduce((sum, column) => sum + numeric(row.values[entry.columns.indexOf(column)]), 0)
     const value = numerator / denominator
     return Number.isFinite(numerator) && Number.isFinite(denominator) && denominator > 0 && Number.isFinite(value) && !(total > 0 && unobserved >= total) ? value : null
   } }).map(({ row, ...rank }) => ({ ...row, ...rank }))
@@ -123,6 +124,7 @@ function chartValue(entry: SnapshotTable, row: SnapshotTable['rows'][number]) {
 export function importCampaign(snapshot: ResultsSnapshot, directory: string, evidenceUrl: string, catalog: LineageCatalog): ResultsSnapshot {
   if (!/^https:\/\//.test(evidenceUrl) || !validLink(evidenceUrl)) throw Error('Provide the permanent HTTPS URL of the published campaign evidence directory')
   const report = readCampaign(directory), digest = sha256(readFileSync(join(directory, 'report.json')))
+  if ((report as typeof report & { pilot?: boolean }).pilot) throw Error('Pilot observations are diagnostics and cannot be imported as ecosystem scores')
   const attempts: SnapshotAttempt[] = []
   const touched = new Set<string>()
   const suites = (report as typeof report & { requestedSuites?: PublicSuite[] }).requestedSuites ?? [...new Set(report.results.map(row => row.suite))]
@@ -140,7 +142,7 @@ export function importCampaign(snapshot: ResultsSnapshot, directory: string, evi
       const boundaryFailure = scopes.length === 1 && ['failed', 'blocked'].includes(row.status) ? row.status : undefined
       const status = boundaryFailure ?? (groups.length ? own.failed ? 'failed' : own.blocked ? 'blocked' : own.unsupported === groups.reduce((sum, group) => sum + group.recordedObservations, 0) ? 'unsupported' : 'recorded'
         : row.project || scopes.length === 1 || row.status === 'blocked' ? row.status === 'passed' ? 'recorded' : row.status : 'unavailable')
-      attempts.push({ id: 'attempt-' + sha256(digest + project + row.suite).slice(0, 24), project, suite: row.suite as PublicSuite,
+      attempts.push({ id: 'attempt-' + sha256(digest + project + row.suite + ((row as typeof row & { cohort?: string }).cohort ?? '')).slice(0, 24), project, suite: row.suite as PublicSuite,
         measuredFrom: report.startedAt, updatedAt: report.updatedAt, status,
         detail: [row.detail, row.disposition, ...(row.gaps ?? []), 'Campaign process status: ' + row.status, !groups.length ? 'No per-project observation table was available.' : 'Recorded observation dispositions; process completion does not establish benchmark qualification.'].filter(Boolean).join('; '),
         receipt: { url: evidenceUrl.replace(/\/$/, '') + '/report.json', sha256: digest },
@@ -160,7 +162,11 @@ export function importCampaign(snapshot: ResultsSnapshot, directory: string, evi
   }
   const byId = new Map(snapshot.attempts.map(attempt => [attempt.id, attempt]))
   for (const attempt of attempts) byId.set(attempt.id, attempt)
-  return { ...snapshot, attempts: [...byId.values()].sort((a, b) => stamp(a.updatedAt) - stamp(b.updatedAt) || a.id.localeCompare(b.id)) }
+  const tables = new Map(snapshot.tables.map(table => [table.id, table]))
+  const generated = campaignTables(report, { url: evidenceUrl.replace(/\/$/, '') + '/report.json', sha256: digest })
+  for (const table of generated) tables.set(table.id, table)
+  const overview = generated.find(table => table.overview)
+  return { ...snapshot, ...(overview ? { overviewRanking: overview.id } : {}), tables: [...tables.values()], attempts: [...byId.values()].sort((a, b) => stamp(a.updatedAt) - stamp(b.updatedAt) || a.id.localeCompare(b.id)) }
 }
 
 export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalog): string {

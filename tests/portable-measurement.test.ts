@@ -338,3 +338,21 @@ test('a family whose canonical source the renderer rejects is unsupported and no
   expect(subset.sampling.caseSelection).toEqual({ scope: 'explicit subset; no whole-portfolio score', requestedIds: ['family:flowchart'], selectedIds: ['family:flowchart'] })
   expect(subset.summary.counts).toMatchObject({ cases: 1, families: 1, canonicalFamilyRepresentatives: 1 })
 }, 60_000)
+
+test('v7 admits its declared five-process median profile without upgrading historical v6 qualification', () => {
+  const cases = [{ id: 'versioned-sampler', family: 'flowchart', cohort: 'family' as const, source: 'flowchart LR\nA', expected: { accept: true, labels: ['A'] } }]
+  const results: PortableWorkerResult[] = []
+  for (let round = 1; round <= 6; round++) for (const replica of ['A0', 'A1', 'B'] as const) for (let sample = 0; sample < 5; sample++) results.push({
+    protocol: 'portable-svg-processes-v7', caseId: cases[0]!.id, family: 'flowchart', mode: 'cold', round, replica, sample, status: 'passed', importMs: 1, tracks: { 'first-use': [1] }, outputBytes: 40,
+    qualification: { accepted: true, passed: true, semanticComplete: true, checks: [], unmeasuredScopes: [], scope: 'fixture', evidence: { outputAdmission: 'passed', nativeModel: 'unavailable', nativeAndPaintScopes: [] } } as any,
+    prelude: [], runtime: { executable: '/fixture/node', node: '24', platform: 'linux', arch: 'x64' },
+  })
+  const settings = { rounds: 6, samples: 31, coldSamples: 5, maximumControlSpread: .25 }
+  const first = portableSummary(cases, results, settings).timing.find(row => row.track === 'first-use')!
+  expect(first.outputCalibration.status).toBe('calibrated')
+  expect(first.outputCalibration.roundRatioUncertainty?.replicaB.interval).not.toBeNull()
+  const legacy = portableSummary(cases, results.map(row => ({ ...row, protocol: 'portable-svg-processes-v6' })), settings)
+  expect(legacy.timing.find(row => row.track === 'first-use')!.outputCalibration.status).toBe('uncalibrated')
+  const invalid = portableCases(['invalid'])
+  expect(portableSummary(invalid, [], settings).timing).toHaveLength(0)
+})

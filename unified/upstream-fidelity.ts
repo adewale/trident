@@ -1,3 +1,4 @@
+import { checkCollectionBudget } from '../portable/checkpoint.ts'
 import { harnessFile } from './harness-paths.ts'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
@@ -66,6 +67,7 @@ export async function runUpstreamFidelitySuite(options: UpstreamFidelityOptions)
   ].filter(target => !options.communityProjects || options.communityProjects.includes(target.project))
   const results: any[] = [], observations: BenchmarkObservation[] = []
   for (const target of targets) {
+    checkCollectionBudget(options.collectionDeadline)
     const out = join(options.out, Buffer.from(target.project).toString('base64url')), manifest = JSON.parse(readFileSync(join(target.packageRoot, 'package.json'), 'utf8'))
     assertBenchmarkToolVersion(target.project, manifest.version, join(target.packageRoot, 'package.json'))
     const result = await runRetainedSuite({ out, records: options.benchmarkRecordStore ?? join(options.out, 'records'), force: options.benchmarkForce,

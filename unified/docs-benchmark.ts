@@ -4,6 +4,7 @@ import { createServer } from 'node:http'
 import { extname, join, resolve, sep } from 'node:path'
 import { chromium } from 'playwright'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
+import { CollectionBudgetExhausted, CollectionCheckpoint, checkCollectionBudget } from '../portable/checkpoint.ts'
 import { admitCurrentReference, currentReferencePin } from '../reference/source.ts'
 import { admitPreparedFidelityEngine } from '../fidelity/community.ts'
 import { defaultChromium, executableIdentity } from './benchmark-context.ts'
@@ -89,11 +90,16 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
     timing: 'Elapsed browser public call through awaited return; output check and cleanup after stopped clock. No A/A performance qualification.',
     hostDeadlineMs: 20000, network: 'Prepared artifact origin only',
   }, null, 2))
+  const checkpoint = new CollectionCheckpoint(options.out, { context: JSON.parse(readFileSync(join(options.out, 'context.json'), 'utf8')), inventory }, options.collectionDeadline)
+  let budgetError: CollectionBudgetExhausted | undefined
   const browser = targets.length ? await chromium.launch({ headless: true, executablePath: executable }) : undefined
   try {
     for (let round = 1; round <= options.rounds; round++) {
       const order = docsRoundOrder(targets, round)
       for (const peer of order) {
+        const key = JSON.stringify([round, peer.node.id])
+        const recorded = await checkpoint.collect(key, async () => {
+        const roundObservations: BenchmarkObservation[] = []
         const engine = peer.browser!, root = resolve(engine.root)
         console.log(`docs round ${round}/${options.rounds}: ${peer.node.id} (${inventory.occurrences} occurrences)`)
         const server = docsArtifactServer(root, engine.zenuml)
@@ -116,23 +122,32 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
           }
           let warmupPassed = 0
           for (let index = 0; index < 30; index++) {
+            checkCollectionBudget(options.collectionDeadline)
             const value = await invoke({ type: 'measure-docs', source: inventory.cases[index % inventory.cases.length]!.source, id: `warmup_${round}_${index}` })
             if (value.status === 'passed') warmupPassed++
           }
           for (const [index, testCase] of inventory.cases.entries()) {
+            checkCollectionBudget(options.collectionDeadline)
             const value = await invoke({ type: 'measure-docs', source: testCase.source, id: `docs_${round}_${index}` })
-            observations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'render', format: 'svg', mode: 'one-public-call', status: value.status, ...(value.status === 'passed' ? { samplesMs: [value.durationMs] } : { detail: value.error }), metrics: { project: peer.node.id, version: engine.version, round, bytes: value.bytes ?? null, warmupAttempts: 30, warmupPassed } })
+            roundObservations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'render', format: 'svg', mode: 'one-public-call', status: value.status, ...(value.status === 'passed' ? { samplesMs: [value.durationMs] } : { detail: value.error }), metrics: { project: peer.node.id, version: engine.version, measuredAt: new Date().toISOString(), round, bytes: value.bytes ?? null, warmupAttempts: 30, warmupPassed } })
           }
         } catch (error) {
-          observations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: '*', caseId: peer.node.id, operation: 'round', format: 'svg', mode: 'not-completed', status: 'blocked', detail: String(error), metrics: { project: peer.node.id, round, plannedOccurrences: inventory.occurrences } })
+          if (error instanceof CollectionBudgetExhausted) {
+            writeFileSync(join(options.out, `interrupted-round-${round}-${encodeURIComponent(peer.node.id)}-${Date.now()}.json`), JSON.stringify({ project: peer.node.id, round, status: 'incomplete', observations: roundObservations }))
+            throw error
+          }
+          roundObservations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: '*', caseId: peer.node.id, operation: 'round', format: 'svg', mode: 'not-completed', status: 'blocked', detail: String(error), metrics: { project: peer.node.id, round, plannedOccurrences: inventory.occurrences } })
           gaps.push(`${peer.node.id} round ${round}: ${error}`)
         } finally { await context.close(); await new Promise<void>(done => server.close(() => done())) }
         admitPreparedFidelityEngine(peer)
+        return roundObservations
+        })
+        observations.push(...recorded)
         writeFileSync(join(options.out, 'observations.json'), JSON.stringify(observations))
       }
     }
-  } finally { await browser?.close() }
-  const result: UnifiedSuiteResult = { id: 'docs', status: observations.some(value => value.status === 'failed') ? 'failed' : observations.some(value => value.status === 'blocked') ? 'blocked' : observations.length && observations.every(value => value.status === 'unsupported') ? 'not-applicable' : 'passed', startedAt, finishedAt: new Date().toISOString(), observations, gaps: [...gaps, 'SVG return only; no meaning/paint qualification. Distinct protocol from historical AM Davebench: complete pinned upstream syntax directory, all catalog browser bindings. Latency comparisons require pairwise common successes; no overall speed score.'], artifacts: [join(options.out, 'inventory.json'), join(options.out, 'observations.json')] }
+  } catch (error) { if (error instanceof CollectionBudgetExhausted) { budgetError = error; gaps.push(error.message) } else throw error } finally { await browser?.close() }
+  const result: UnifiedSuiteResult = { id: 'docs', status: budgetError ? 'blocked' : observations.some(value => value.status === 'failed') ? 'failed' : observations.some(value => value.status === 'blocked') ? 'blocked' : observations.length && observations.every(value => value.status === 'unsupported') ? 'not-applicable' : 'passed', startedAt: checkpoint.startedAt, finishedAt: new Date().toISOString(), observations, gaps: [...gaps, 'SVG return only; no meaning/paint qualification. Distinct protocol from historical AM Davebench: complete pinned upstream syntax directory, all catalog browser bindings. Latency comparisons require pairwise common successes; no overall speed score.'], artifacts: [join(options.out, 'inventory.json'), join(options.out, 'observations.json')] }
   const rows = selected.flatMap(peer => Array.from({ length: options.rounds }, (_, index) => {
     const own = observations.filter(row => row.metrics?.project === peer.node.id && row.metrics?.round === index + 1 && row.operation === 'render')
     const passed = own.filter(row => row.status === 'passed').length
@@ -140,5 +155,6 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
   }))
   writeFileSync(join(options.out, 'report.md'), '# Official documentation SVG return\n\n' + `${inventory.occurrences} occurrences; ${inventory.distinct} distinct inputs; ${inventory.pages.length} pinned syntax pages.\n\n` + '| Project | Round | SVG returned | Failed | Unexecuted |\n|---|---|---|---|---|\n' + rows.join('\n') + '\n\nA returned SVG is weak compatibility evidence. Timing samples are in result.json; compare only pairwise common successful inputs. No overall speed rank or calibrated performance pass.\n')
   writeFileSync(join(options.out, 'result.json'), JSON.stringify(result))
+  if (budgetError) throw budgetError
   return result
 }

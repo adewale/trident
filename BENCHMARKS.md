@@ -6,7 +6,7 @@ The old published snapshots have been removed; new evidence is generated outside
 tracked source files.
 
 ```sh
-bun commands.ts bench --projects OWNER/TOOL,... --profile full --rounds 5 --out /evidence/full
+bun commands.ts bench --projects OWNER/TOOL,... --profile full --out /evidence/full
 bun commands.ts bench --list
 bun commands.ts support
 bun commands.ts bench --projects OWNER/TOOL,... --profile full --plan
@@ -45,7 +45,7 @@ have their own contracts. Six-input API costs, CLI process costs, browser delive
 and heap are separate diagnostics, not a combined performance number.
 
 DaveBench uses `public-docs-svg-return-v1`: the inventory records pages, repeated
-occurrences and distinct sources, with 30 warmup attempts and five rounds in the
+occurrences and distinct sources, with 30 warmup attempts and six rounds in the
 full profile. Each project ordering is followed by its reverse, then the next pair
 rotates one position. Every complete round pair balances relative project order;
 all positions balance over 2N rounds for N projects. An odd final round leaves
@@ -67,8 +67,10 @@ worker and read-only snapshots. Original JSON supplies callbacks rather than
 invented expect() counts. Browser/e2e and docs-site workspace exclusions remain
 explicit.
 
-Portable full sampling uses five rounds, 31 warm sample means and 20 fresh
-processes per replica/round/case. The worker budget defaults to 300,000 ms and
+Portable protocol v7 uses six rounds, 31 warm sample means and five fresh
+processes per replica/round/positive case. Invalid controls run once without speed
+credit; failed or blocked admission withholds further clocks for that case.
+Earlier v6 records retain their original sampling and qualification. The worker budget defaults to 300,000 ms and
 includes samples and qualification, not one API call. Current bindings include
 Pele, Agentic Mermaid, Beautiful-compatible APIs, Ondine, MDV, the VitePress plugin,
 the DSH engine, Merman, Crafter and Merslim. Public factory setup is recorded with

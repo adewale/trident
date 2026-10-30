@@ -66,7 +66,7 @@ export async function prepareCommunityArtifact(node: CommunityNode, cacheRoot: s
   } else if (adapter === 'franken') version = node.distribution?.version
   else throw new Error(`No reviewed compiled artifact adapter for ${node.id}`)
   if (!version) throw new Error(`${node.id}: missing exact artifact version`)
-  const directory = join(cache, `${safe(node.id)}@${version}`),
+  const directory = join(cache, `${safe(node.id)}@${version}${adapter === 'franken' ? '-' + node.distribution?.revision : ''}`),
     manifest = join(directory, 'artifact.json'),
     log = join(directory, 'acquisition.log')
   mkdirSync(directory, { recursive: true })
@@ -74,14 +74,14 @@ export async function prepareCommunityArtifact(node: CommunityNode, cacheRoot: s
   const provided = providedManifest ?? process.env.AM_BENCH_COMMUNITY_ARTIFACTS
   if (provided) {
     const artifact = (JSON.parse(readFileSync(provided, 'utf8')) as Record<string, CommunityArtifact>)[node.id]
-    if (artifact?.version === version && verified(artifact)) {
+    if (artifact?.version === version && (adapter !== 'franken' || artifact.revision === node.distribution?.revision) && verified(artifact)) {
       writeFileSync(manifest, JSON.stringify(artifact, null, 2) + '\n')
       return artifact
     }
   }
   if (existsSync(manifest)) {
     const artifact = JSON.parse(readFileSync(manifest, 'utf8')) as CommunityArtifact
-    if (artifact.version === version && verified(artifact)) return artifact
+    if (artifact.version === version && (adapter !== 'franken' || artifact.revision === node.distribution?.revision) && verified(artifact)) return artifact
   }
   const env = environment(cache)
   let artifact: CommunityArtifact

@@ -32,7 +32,7 @@ export function publicationResult(raw: UnifiedSuiteResult, project: string): Uni
       if (seen.has(coordinate)) throw Error('Duplicate measured sample coordinates; row IDs cannot qualify repeated clocks')
       seen.add(coordinate)
     }
-    return { ...row, metrics: { ...row.metrics, implementation: project, project, metricId: `observation-${index + 1}` } }
+    return { ...row, metrics: { ...row.metrics, measuredFrom: row.metrics?.measuredFrom ?? raw.startedAt, measuredAt: row.metrics?.measuredAt ?? raw.finishedAt, implementation: project, project, metricId: `observation-${index + 1}` } }
   }) }
 }
 

@@ -24,7 +24,8 @@ function releaseVersionSource(spec: ReleaseCli): 'command' | 'release-tag' {
 export function verifyReleaseCli(node: CommunityNode, artifact: CommunityArtifact): void {
   const spec = node.benchmark?.cliRelease
   if (!spec) return
-  for (const extra of artifact.additionalCli ?? []) {
+  const transports = [...(node.benchmark?.adapter === 'source-cli' && !artifact.candidate ? [{ id: 'native-release', outputs: Object.keys(spec.outputs), artifact }] : []), ...(artifact.additionalCli ?? [])]
+  for (const extra of transports) {
     if (!extra.artifact) continue
     const cli = extra.artifact, platform = spec.platforms[`${process.platform}-${process.arch}`]
     if (!platform || extra.id !== 'native-release' || cli.kind !== 'cli' || cli.version !== spec.version || (cli.versionSource ?? 'command') !== releaseVersionSource(spec) || cli.revision !== spec.revision || JSON.stringify(extra.outputs) !== JSON.stringify(Object.keys(spec.outputs)) || JSON.stringify(cli.outputBindings) !== JSON.stringify(spec.outputs)) throw Error('Frozen release CLI differs from its declared public binding')

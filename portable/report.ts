@@ -1,15 +1,17 @@
 import type { PortableCase } from './cohorts.ts'
 import type { PortableWorkerResult, Track } from './protocol.ts'
+import { FULL_SAMPLING, PORTABLE_MEASUREMENT_PROTOCOL } from './protocol.ts'
 import { calibrate, median, summarize } from './statistics.ts'
 import { modelCost, processCpuCost, type UsageEvidence } from './costs.ts'
 
 export function portableSummary(cases: PortableCase[], results: PortableWorkerResult[], settings: { rounds: number; samples: number; coldSamples: number; maximumControlSpread: number; cpuHourUsd?: number; usage?: UsageEvidence }) {
   if (new Set(results.map(result => result.protocol)).size > 1) throw Error('Cannot combine different portable measurement protocols')
+  const coldMinimum = results[0]?.protocol && results[0].protocol !== PORTABLE_MEASUREMENT_PROTOCOL ? 20 : FULL_SAMPLING.coldSamples
   const tracks: Track[] = ['first-use', 'warm-repeat', 'warm-new-source', 'warm-label-edit']
   // Families whose canonical source the renderer rejected; their cases were never run.
   const unsupported = new Map(results.filter(result => result.mode === 'probe' && result.status === 'unsupported').map(result => [result.family, result.error ?? 'Renderer rejected the canonical family source']))
   const measured = cases.filter(testCase => !unsupported.has(testCase.family))
-  const rows = measured.flatMap(testCase =>
+  const rows = measured.filter(testCase => testCase.expected.accept).flatMap(testCase =>
     tracks
       .filter(track => track !== 'warm-label-edit' || testCase.edit)
       .map(track => {
@@ -21,7 +23,7 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
           const perReplica = (replica: string) => relevant.filter(result => result.round === index + 1 && result.replica === replica).flatMap(result => result.tracks[track] ?? [])
           return { round: index + 1, A0: perReplica('A0'), A1: perReplica('A1'), B: perReplica('B') }
         })
-        const calibration = calibrate(rounds, track === 'first-use' ? Math.max(20, settings.coldSamples) : Math.max(31, settings.samples), settings.maximumControlSpread)
+        const calibration = calibrate(rounds, track === 'first-use' ? Math.max(coldMinimum, settings.coldSamples) : Math.max(FULL_SAMPLING.samples, settings.samples), settings.maximumControlSpread)
         const outputCalibration = structuredClone(calibration)
         const outputAdmissionComplete = completeWorkers && relevant.every(result => result.status !== 'blocked' && result.prelude.every(item => item.passed) && result.qualification?.evidence?.outputAdmission === 'passed')
         if (!outputAdmissionComplete) { outputCalibration.status = 'uncalibrated'; outputCalibration.gaps.push('Format/text output admission is incomplete or unavailable in this protocol') }
@@ -57,7 +59,7 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
     const calls = results.filter(result => result.caseId === testCase.id && result.mode !== 'baseline')
     const failed = calls.filter(result => result.status === 'failed'),
       blocked = calls.filter(result => result.status === 'blocked')
-    const timingComplete = rows.filter(row => row.caseId === testCase.id).every(row => !row.calibration.gaps.includes('Expected worker identities are missing or duplicated'))
+    const timingComplete = !testCase.expected.accept || rows.filter(row => row.caseId === testCase.id).every(row => !row.calibration.gaps.includes('Expected worker identities are missing or duplicated'))
     return {
       id: testCase.id,
       family: testCase.family,
@@ -69,7 +71,7 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
       failedWorkers: failed.length,
       blockedWorkers: blocked.length,
       semanticComplete: timingComplete && testCase.expected.accept && calls.length > 0 && calls.every(result => result.qualification?.semanticComplete),
-      outputAdmission: !calls.some(result => result.qualification?.evidence) ? 'unavailable in retained protocol' : calls.some(result => result.qualification?.evidence?.outputAdmission === 'failed') ? 'failed' : timingComplete && calls.length > 0 && calls.every(result => result.qualification?.evidence?.outputAdmission === 'passed') ? 'passed' : 'incomplete',
+      outputAdmission: !calls.some(result => result.qualification?.evidence) ? 'unavailable in retained protocol' : calls.some(result => result.qualification?.evidence?.outputAdmission === 'failed') ? 'failed' : calls.length > 0 && calls.every(result => result.qualification?.evidence?.outputAdmission === 'passed') ? 'passed' : 'incomplete',
       unmeasuredScopes: [...new Set(calls.flatMap(result => result.qualification?.unmeasuredScopes.filter(scope => !scope.startsWith('Repeated passing')) ?? []))],
       failures: failed.slice(0, 3).map(result => ({ mode: result.mode, round: result.round, replica: result.replica, error: result.error ?? null, checks: result.qualification?.checks.filter(check => check.status === 'failed') ?? [] })),
     }
@@ -107,7 +109,7 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
     return { family, supported: !unsupported.has(family), medianMs: row?.medianMs ?? null, calibrated: row?.calibration.status === 'calibrated', outputCalibrated: row?.outputCalibration.status === 'calibrated', semanticComplete: row?.semanticComplete ?? false }
   })
   return {
-    status: results.some(result => result.status === 'failed') ? 'failed' : results.some(result => result.status === 'blocked') ? 'blocked' : !measured.length ? 'unsupported' : rows.some(row => row.calibration.status !== 'calibrated') ? 'uncalibrated' : 'measured',
+    status: results.some(result => result.status === 'failed') ? 'failed' : results.some(result => result.status === 'blocked') ? 'blocked' : !measured.length ? 'unsupported' : coverage.some(row => !row.unsupported && row.checkedWorkers === 0) ? 'blocked' : rows.some(row => row.calibration.status !== 'calibrated') ? 'uncalibrated' : 'measured',
     cases: coverage,
     timing: rows,
     familyTimings,
@@ -126,7 +128,8 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
       failedWorkers: results.filter(result => result.status === 'failed').length,
       blockedWorkers: results.filter(result => result.status === 'blocked').length,
       completeSemanticCases: coverage.filter(row => row.semanticComplete).length,
-      outputAdmissionCases: coverage.filter(row => row.outputAdmission === 'passed').length,
+      outputAdmissionCases: coverage.filter(row => row.expectedAccepted && row.outputAdmission === 'passed').length,
+      negativeAdmissionCases: coverage.filter(row => !row.expectedAccepted && row.acceptanceMatches && !row.failedWorkers && !row.blockedWorkers).length,
       outputCalibratedTimingRows: rows.filter(row => row.outputCalibration.status === 'calibrated').length,
       calibratedTimingRows: rows.filter(row => row.calibration.status === 'calibrated').length,
       totalTimingRows: rows.length,
