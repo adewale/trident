@@ -378,5 +378,144 @@
     "intent": "configuration-only",
     "family": "gantt",
     "review": "Configuration-only Gantt example: tickInterval and weekday settings declare no tasks. A nonblank-image requirement is inappropriate."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "intent": "drawing",
+    "family": "flowchart",
+    "expected": {
+      "labels": [
+        "one",
+        "two",
+        "three",
+        "a1",
+        "a2",
+        "b1",
+        "b2",
+        "c1",
+        "c2"
+      ],
+      "nodes": [
+        {
+          "id": "a1",
+          "label": "a1"
+        },
+        {
+          "id": "a2",
+          "label": "a2"
+        },
+        {
+          "id": "b1",
+          "label": "b1"
+        },
+        {
+          "id": "b2",
+          "label": "b2"
+        },
+        {
+          "id": "c1",
+          "label": "c1"
+        },
+        {
+          "id": "c2",
+          "label": "c2"
+        }
+      ],
+      "edges": [
+        {
+          "source": "c1",
+          "target": "a2",
+          "directed": true
+        },
+        {
+          "source": "a1",
+          "target": "a2",
+          "directed": true
+        },
+        {
+          "source": "b1",
+          "target": "b2",
+          "directed": true
+        },
+        {
+          "source": "c1",
+          "target": "c2",
+          "directed": true
+        }
+      ],
+      "groups": [
+        {
+          "id": "one",
+          "label": "one",
+          "members": [
+            "a1",
+            "a2"
+          ]
+        },
+        {
+          "id": "two",
+          "label": "two",
+          "members": [
+            "b1",
+            "b2"
+          ]
+        },
+        {
+          "id": "three",
+          "label": "three",
+          "members": [
+            "c1",
+            "c2"
+          ]
+        }
+      ]
+    },
+    "review": "Source-fact contract reused from davebench-png/controlled/cases.json: Groups one contains a1/a2; two contains b1/b2; three contains c1/c2; edges c1->a2,a1->a2,b1->b2,c1->c2."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+    "intent": "drawing",
+    "family": "flowchart",
+    "expected": {
+      "labels": [
+        "Start",
+        "My Group",
+        "End"
+      ],
+      "forbiddenLabels": [
+        "A",
+        "B",
+        "C"
+      ],
+      "nodes": [
+        {
+          "id": "Start",
+          "label": "Start"
+        },
+        {
+          "id": "one",
+          "label": "My Group"
+        },
+        {
+          "id": "End",
+          "label": "End"
+        }
+      ],
+      "edges": [
+        {
+          "source": "Start",
+          "target": "one",
+          "directed": true
+        },
+        {
+          "source": "one",
+          "target": "End",
+          "directed": true
+        }
+      ]
+    },
+    "review": "Source-fact contract reused from davebench-png/controlled/cases.json: Collapsed My Group; internal A,B,C must NOT be painted; Start->group->End."
   }
 ]

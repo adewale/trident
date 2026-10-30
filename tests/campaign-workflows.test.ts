@@ -16,12 +16,19 @@ import { importCampaign, rankedRows, validateSnapshot } from '../unified/results
 import { stableReleaseBefore, resolveReleaseCatalog } from '../unified/release-selection.ts'
 import { loadCampaignPreparation } from '../unified/campaign-preparation.ts'
 import { verifyReleaseArchive } from '../scripts/package-release.ts'
+import { DEFAULT_SUITES } from '../unified/support.ts'
+import { main as benchmarkMain } from '../unified/benchmark.ts'
 
 const directories: string[] = []
 const temp = () => { const root = mkdtempSync(join(tmpdir(), 'trident-workflow-')); directories.push(root); return root }
 const write = (file: string, value: unknown) => writeFileSync(file, JSON.stringify(value))
 const sha = (file: string) => createHash('sha256').update(readFileSync(file)).digest('hex')
 afterEach(() => { for (const directory of directories.splice(0)) rmSync(directory, { recursive: true, force: true }) })
+
+test('default collection excludes expensive clocks, optional models and retired replay', async () => {
+  expect([...DEFAULT_SUITES]).toEqual(['docs', 'fidelity'])
+  await expect(benchmarkMain(['--suites', 'upstream-fidelity', '--projects', 'mermaid-js/mermaid'])).rejects.toThrow('retired')
+})
 
 test('pilot headlines use owning counts, reconcile pauses, and reject foreign/duplicate evidence', () => {
   const root = temp(), rows: any[] = []

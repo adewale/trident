@@ -15,6 +15,7 @@ test('successful SVG return without source review never supplies a correctness p
 
 test('drawing correctness requires all planned content checks, with wrong arrows and missing evidence kept distinct', () => {
   expect(assessDocsDrawing(input, review, 'passed', true, checks()).status).toBe('correct')
+  expect(assessDocsDrawing(input, { ...review, unverifiedFacts: ['Required decision shape'] }, 'passed', true, checks()).status).toBe('unknown')
   expect(assessDocsDrawing(input, review, 'passed', true, checks().filter(row => row.criterion !== 'painted-relationships')).status).toBe('unknown')
   const reversed = checks().map(row => ({ ...row, status: row.criterion === 'painted-relationships' ? 'failed' as const : row.status }))
   expect(assessDocsDrawing(input, review, 'passed', true, reversed).status).toBe('incorrect')

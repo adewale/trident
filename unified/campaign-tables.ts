@@ -104,6 +104,16 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
               [String(version), correct, incorrect, unknown, notDrawing, inventory.cases.length, measuredAt(drawings, result.finishedAt)],
               { column: 'Correct', direction: 'descending' },
               { unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unknown', 'Not a drawing'] } }, unknown ? 'Required documentation content evidence is unknown' : undefined)
+            const reviewedIds = new Set((inventory.drawingReview?.cases ?? []).filter((input: any) => input.intent === 'drawing').map((input: any) => input.id))
+            if (reviewedIds.size) {
+              const subset = drawings.filter(row => reviewedIds.has(row.caseId)), passed = subset.filter(row => row.status === 'passed').length, failed = subset.filter(row => row.status === 'failed').length, missing = reviewedIds.size - passed - failed
+              add(['docs-reviewed-profile', cohort, hash(inventory.drawingReview), hash(inventory.producers ?? [])], 'docs', measuredAt(subset, result.finishedAt),
+                `Reviewed ${reviewedIds.size}-occurrence subset of ${inventory.cases.length} documentation occurrences; source expectations were fixed before collection. This bounded content profile is not full DaveBench correctness or a holdout. Unknown evidence withholds a rank.`,
+                ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned reviewed', 'Measured'], project,
+                [String(version), passed, failed, missing, reviewedIds.size, measuredAt(subset, result.finishedAt)],
+                { column: 'Correct', denominator: 'Planned reviewed', direction: 'descending' },
+                { unit: 'reviewed documentation occurrences', population: { total: 'Planned reviewed', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, missing ? 'Reviewed drawing evidence is unknown' : undefined)
+            }
           }
         }
         continue

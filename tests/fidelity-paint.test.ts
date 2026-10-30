@@ -73,6 +73,25 @@ test('one missing node body cannot borrow a surrounding cluster while another bo
   expect(observed.checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('unavailable')
 })
 
+test('group labels bind their own containers without letting nodes borrow the same group outline', async () => {
+  const grouped = fixture.replace('<g class="node">', '<g class="cluster"><rect x="4" y="4" width="224" height="72" fill="white" stroke="black"/><text x="12" y="68">Team</text><g class="node">').replace('</svg>', '</g></svg>')
+  const authored = { ...expected, labels: [...expected.labels, 'Team'], groups: [{ id: 'team', label: 'Team', members: ['A', 'B'] }] }
+  expect((await inspect(grouped, authored)).checks.find(item => item.criterion === 'painted-group:team')?.status).toBe('passed')
+  const wrong = await inspect(grouped.replace('width="224" height="72"', 'width="100" height="72"'), authored)
+  expect(wrong.checks.find(item => item.criterion === 'painted-group:team')?.status).toBe('failed')
+  const missingNode = grouped.replace('<rect x="10" y="10" width="60" height="30" fill="white" stroke="black"/>', '')
+  expect((await inspect(missingNode, authored)).checks.find(item => item.criterion === 'painted-node-ownership')?.status).toBe('unavailable')
+})
+
+test('collapsed or hidden source content cannot pass merely because the requested outer labels are present', async () => {
+  const authored = { ...expected, forbiddenLabels: ['Beta'] }
+  expect((await inspect(fixture, authored)).checks.find(item => item.criterion === 'hidden-authored-content')?.status).toBe('failed')
+  const hidden = fixture.replace('x="154" y="30"', 'x="154" y="30" display="none"')
+  expect((await inspect(hidden, authored)).checks.find(item => item.criterion === 'hidden-authored-content')?.status).toBe('passed')
+  const masked = fixture.replace('x="154" y="30"', 'x="154" y="30" style="mask-image:linear-gradient(black,transparent)"')
+  expect((await inspect(masked, authored)).checks.find(item => item.criterion === 'hidden-authored-content')?.status).toBe('unavailable')
+})
+
 test.each(['L0 0 L6 3 L0 6 Z', 'M0 0 L6 3 M0 6', 'M0 0 L6,,3 L0 6 Z'])('unprojected marker grammar cannot invent an arrow: %s', async path => {
   const broken = fixture.replace('M0 0 L6 3 L0 6 Z', path)
   expect((await inspect(broken)).checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('unavailable')

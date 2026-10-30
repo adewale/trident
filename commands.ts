@@ -19,7 +19,6 @@ Benchmark catalog projects (Bun):
   bun commands.ts community:update --help
   bun commands.ts results:publish --records DIR --out DIR
   bun commands.ts results:compare --records DIR --project OWNER/TOOL [--out FILE]
-  bun commands.ts docs:png --out FRESH_DIR [--rounds 5] [--native-bundle DIR]
   bun commands.ts results:campaign --campaign DIR --out FRESH_DIR [--copy-evidence]
   bun commands.ts results:snapshot [--campaign DIR --evidence-url HTTPS_DIRECTORY] [--check]
   bun commands.ts corpus:freeze --policy FILE --out FRESH_FILE
@@ -54,6 +53,7 @@ async function main() {
   if (!command || command === '--help' || command === 'help') { console.log(help); return }
   const aliases: Record<string, string> = { 'portable:build': 'build', community: 'community:update' }
   const selected = Object.hasOwn(aliases, command) ? aliases[command]! : command
+  if (selected === 'docs:png' && !args.includes('--help')) throw Error('DaveBench PNG export v1 is retired: its nonblank gate did not establish correct drawings. Retained evidence and the fixed PNG profile are in docs/isolated-png-results.md.')
   const neutral: Record<string, string> = { build: 'portable/build.ts', portable: 'portable/run.ts', 'fidelity:report': 'fidelity/report.ts' }
 const own: Record<string, string> = { 'release:check': 'scripts/package-release.ts', 'docs:png': 'unified/docs-png-benchmark.ts', 'upstream:prepare': 'unified/prepare-upstream.ts', 'support:verify': 'unified/support-verification.ts', support: 'unified/support-command.ts', bench: 'unified/benchmark.ts', 'corpus:freeze': 'unified/external-corpus.ts', 'results:campaign': 'unified/campaign-publication.ts', 'results:snapshot': 'unified/results-snapshot.ts', 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
   const checks: Record<string, string[]> = {

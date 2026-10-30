@@ -5,6 +5,10 @@ import { PORTABLE_ADAPTER_IDS, type PortableBinding } from '../portable/protocol
 import { releaseBenchmarkSkip } from './benchmark-skip.ts'
 
 export const PUBLIC_SUITES = ['community', 'docs', 'fidelity', 'native-fidelity', 'upstream-fidelity', 'upstream-original', 'portable'] as const
+/** Historical IDs remain readable. Expensive clocks and optional model APIs
+ * require explicit selection; ordinary campaigns start with SVG evidence. */
+export const CAMPAIGN_SUITES = ['community', 'docs', 'fidelity', 'native-fidelity', 'portable'] as const
+export const DEFAULT_SUITES = ['docs', 'fidelity'] as const
 export type PublicSuite = typeof PUBLIC_SUITES[number]
 export type SupportState = 'configured' | 'conditional' | 'adapter-missing' | 'project-unsupported' | 'reference-only' | 'out-of-scope' | 'disabled'
 export interface CatalogMember extends CommunityNode {
@@ -56,7 +60,7 @@ export function projectSupport(node: CatalogMember) {
     docs: renderer,
     fidelity: renderer,
     'native-fidelity': native,
-    'upstream-fidelity': native,
+    'upstream-fidelity': cell('out-of-scope', 'Retired comparative benchmark: private test/projection compatibility is not a renderer-quality score. Historical evidence remains readable.'),
     'upstream-original': adapter === 'mermaid' && node.relation === 'root'
       ? cell('configured', 'The pinned language reference runs its own original tests; an installed original Vitest runner is required.')
       : cell('reference-only', 'Original upstream tests validate the pinned reference, not another project or a fork revision.'),
