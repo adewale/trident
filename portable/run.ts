@@ -145,6 +145,7 @@ function observations(project: string, cases: PortableCase[], results: PortableW
     const base = { suite: 'portable-community', surface: 'node:public-svg', runtime: `node:${result.runtime.node}`, family: result.family, caseId: result.caseId, format: 'svg', status, detail: result.qualification?.scope ?? result.error }
     if (result.mode === 'probe') return [{ ...base, operation: 'family-support', mode: 'probe', detail: result.error, metrics: { ...metrics, metricId: `probe:${result.family}` } }]
     if (result.mode === 'baseline' || result.mode === 'memory' || result.mode === 'retention') return [{ ...base, operation: 'resource-diagnostic', mode: result.mode, metrics: { ...metrics, metricId: `${result.mode}:${result.round}:${result.replica}:${result.sample}` } }]
+    if (!Object.keys(result.tracks).length) return [{ ...base, operation: 'admission', mode: 'single-public-call', metrics: { ...metrics, metricId: `admission:${result.round}:${result.replica}:${result.sample}` } }]
     return Object.entries(result.tracks).map(([track, samples]) => ({ ...base, operation: 'render', mode: `${result.replica}:${track}`, samplesMs: samples, metrics: { ...metrics, metricId: `${track}:${result.round}:${result.replica}:${result.sample}` } }))
   }), ...unrun]
 }

@@ -152,45 +152,47 @@ try {
     // Warmup and qualification never enter the recorded API clocks.
     retained = await invoke(testCase.source, testCase.renderOptions)
     await inspect(retained, testCase, testCase.source)
-    for (const track of ['warm-repeat', 'warm-new-source', ...(testCase.edit ? ['warm-label-edit'] : [])]) {
-      const samples = []
-      const iterations = []
-      let lastSource = testCase.source
-      let invocation = 0
-      for (let index = 0; index < job.samples; index++) {
-        let elapsed = 0, calls = 0
-        do {
-          const edited = track === 'warm-label-edit' && invocation % 2 === 1
-          const source = track === 'warm-new-source' ? `${testCase.source}\n%% portable-source-${job.round}-${invocation}` : edited ? testCase.edit.source : testCase.source
-          const options = edited ? testCase.edit.renderOptions ?? testCase.renderOptions : testCase.renderOptions
-          const current = await invoke(source, options)
-          if ((!current.error) !== testCase.expected.accept) { result.status = 'failed'; result.error = 'Acceptance changed during the measured track' }
-          const expectedCase = edited ? { ...testCase, source, expected: testCase.edit.expected, renderOptions: testCase.edit.renderOptions ?? testCase.renderOptions } : { ...testCase, source }
-          await inspect(current, expectedCase, source)
-          lastSource = source
-          elapsed += current.elapsedMs
-          calls++; invocation++
-          retained = current
-        } while (elapsed < (job.minSampleMs ?? 2) && calls < 256)
-        samples.push(elapsed / calls)
-        iterations.push(calls)
+    if (testCase.expected.accept && result.status !== 'failed') {
+      for (const track of ['warm-repeat', 'warm-new-source', ...(testCase.edit ? ['warm-label-edit'] : [])]) {
+        const samples = []
+        const iterations = []
+        let lastSource = testCase.source
+        let invocation = 0
+        for (let index = 0; index < job.samples; index++) {
+          let elapsed = 0, calls = 0
+          do {
+            const edited = track === 'warm-label-edit' && invocation % 2 === 1
+            const source = track === 'warm-new-source' ? `${testCase.source}\n%% portable-source-${job.round}-${invocation}` : edited ? testCase.edit.source : testCase.source
+            const options = edited ? testCase.edit.renderOptions ?? testCase.renderOptions : testCase.renderOptions
+            const current = await invoke(source, options)
+            if ((!current.error) !== testCase.expected.accept) { result.status = 'failed'; result.error = 'Acceptance changed during the measured track' }
+            const expectedCase = edited ? { ...testCase, source, expected: testCase.edit.expected, renderOptions: testCase.edit.renderOptions ?? testCase.renderOptions } : { ...testCase, source }
+            await inspect(current, expectedCase, source)
+            lastSource = source
+            elapsed += current.elapsedMs
+            calls++; invocation++
+            retained = current
+          } while (elapsed < (job.minSampleMs ?? 2) && calls < 256)
+          samples.push(elapsed / calls)
+          iterations.push(calls)
+        }
+        result.tracks[track] = samples
+        result.iterations[track] = iterations
+        // Validate the actual last return from each track, outside its clock.
+        const edited = track === 'warm-label-edit' && (invocation - 1) % 2 === 1
+        const expectedCase = edited ? { ...testCase, source: lastSource, expected: testCase.edit.expected, renderOptions: testCase.edit.renderOptions ?? testCase.renderOptions } : { ...testCase, source: lastSource }
+        const checked = await inspect(retained, expectedCase, expectedCase.source)
+        if (checked.checks.some(check => check.status === 'failed')) { result.status = 'failed'; result.error = `${track}: declared output checks failed`; result.qualification = checked }
       }
-      result.tracks[track] = samples
-      result.iterations[track] = iterations
-      // Validate the actual last return from each track, outside its clock.
-      const edited = track === 'warm-label-edit' && (invocation - 1) % 2 === 1
-      const expectedCase = edited ? { ...testCase, source: lastSource, expected: testCase.edit.expected, renderOptions: testCase.edit.renderOptions ?? testCase.renderOptions } : { ...testCase, source: lastSource }
-      const checked = await inspect(retained, expectedCase, expectedCase.source)
-      if (checked.checks.some(check => check.status === 'failed')) { result.status = 'failed'; result.error = `${track}: declared output checks failed`; result.qualification = checked }
+      // Ensure the edited output is checked even when an odd sample count ends on seed.
+      if (testCase.edit) {
+        const rendered = await invoke(testCase.edit.source, testCase.edit.renderOptions ?? testCase.renderOptions)
+        const checked = qualifyPortable({ ...testCase, source: testCase.edit.source, expected: testCase.edit.expected, renderOptions: testCase.edit.renderOptions ?? testCase.renderOptions }, { svg: typeof rendered.value === 'string' ? rendered.value : rendered.value?.svg, ...await publicModel(testCase.edit.source, testCase.family, rendered), error: rendered.error, adapter: job.artifact.adapter })
+        rememberOutputFailure(checked, testCase, typeof rendered.value === 'string' ? rendered.value : rendered.value?.svg)
+        if (checked.checks.some(check => check.status === 'failed')) { result.status = 'failed'; result.error = 'Edited output failed declared checks'; result.qualification = checked }
+      }
+      retained = await invoke(testCase.source, testCase.renderOptions)
     }
-    // Ensure the edited output is checked even when an odd sample count ends on seed.
-    if (testCase.edit) {
-      const rendered = await invoke(testCase.edit.source, testCase.edit.renderOptions ?? testCase.renderOptions)
-      const checked = qualifyPortable({ ...testCase, source: testCase.edit.source, expected: testCase.edit.expected, renderOptions: testCase.edit.renderOptions ?? testCase.renderOptions }, { svg: typeof rendered.value === 'string' ? rendered.value : rendered.value?.svg, ...await publicModel(testCase.edit.source, testCase.family, rendered), error: rendered.error, adapter: job.artifact.adapter })
-      rememberOutputFailure(checked, testCase, typeof rendered.value === 'string' ? rendered.value : rendered.value?.svg)
-      if (checked.checks.some(check => check.status === 'failed')) { result.status = 'failed'; result.error = 'Edited output failed declared checks'; result.qualification = checked }
-    }
-    retained = await invoke(testCase.source, testCase.renderOptions)
   }
   if (retained) {
     if (retained.error) result.error ??= retained.error
