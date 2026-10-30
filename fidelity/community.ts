@@ -165,7 +165,10 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
             details.findings = diagnostics.get(testCase.id) ?? []; rows.push(details)
             } catch (error) { rows.push({ caseId: testCase.id, family: testCase.family, collectionError: String(error), scope: 'This case observer failed; missing planned checks remain unavailable, collection continues to later cases' }) }
           }
-        } catch (error) { initializationError = String(error) }
+        } catch (error) {
+          if (error instanceof CollectionBudgetExhausted) { write(join(directory, 'interrupted-fidelity.json'), { status: 'incomplete', observations, rows }); throw error }
+          initializationError = String(error)
+        }
         finally { await context.close(); await new Promise<void>(done => server.close(() => done())) }
         const completed = completeCriterionLedger(planned, observations, project).map(row => row.surface === 'native-public-api' ? { ...row, detail: 'No reviewed native model adapter; no native call or passing evidence claimed' } : row)
         const receipt = join(directory, 'community-fidelity-cases.json'); write(receipt, { project, admission, capabilities, initialized, initializationError, fetched: [...fetched], blockedRequests: [...blockedRequests], rows, nativeScope: 'No reviewed native model adapter for this peer; every planned native criterion remains unavailable, independent of SVG success' }); artifacts.push(receipt)

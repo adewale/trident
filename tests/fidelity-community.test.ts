@@ -1,7 +1,7 @@
 import { readBenchmarkDocument } from '../portable/project-records.ts'
 import { expect, test } from 'bun:test'
 import { createHash } from 'node:crypto'
-import { mkdtempSync, writeFileSync, rmSync, unlinkSync, readFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, writeFileSync, rmSync, unlinkSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { admitPreparedFidelityEngine, runCommunityFidelitySuite } from '../fidelity/community.ts'
@@ -11,7 +11,7 @@ const sha = (path: string) => createHash('sha256').update(readFileSync(path)).di
 function fixture(root: string): PreparedCommunityBrowser {
   const entry = join(root, 'bundle.js'), asset = join(root, 'engine.wasm')
   writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'fidelity-test-engine', version: '1.0.0' }))
-  writeFileSync(entry, 'globalThis.fidelityTestEngine=()=>"<svg xmlns=\"http://www.w3.org/2000/svg\"/>"')
+  writeFileSync(entry, `globalThis.fidelityTestEngine=()=>${JSON.stringify('<svg xmlns="http://www.w3.org/2000/svg"/>')}`)
   writeFileSync(asset, 'actual frozen asset bytes')
   return { node: { id: 'test/fidelity-engine', roles: ['peer'], outputs: ['svg'] }, artifact: { kind: 'global', root, module: entry, version: '1.0.0' }, browserStatus: 'prepared', browser: { root, entry: 'bundle.js', global: 'fidelityTestEngine', kind: 'function', version: '1.0.0', artifactSha256: sha(entry), files: [entry, asset].map(path => ({ path, sha256: sha(path) })) } }
 }
@@ -57,5 +57,18 @@ test('project selection precedes admission and returned SVG cannot forge observe
     const labels = receipt.rows[0].findings.find((item: any) => item.criterion === 'visible-authored-labels')
     expect(labels.actual.find((item: any) => item.label === 'Alpha').count).toBe(0)
     expect(result.observations.filter(row => row.surface === 'native-public-api').every(row => row.status === 'blocked')).toBe(true)
+  } finally { rmSync(root, { recursive: true, force: true }) }
+}, 30_000)
+
+test('budget expiry escapes paint collection without publishing a completed report', async () => {
+  const root = mkdtempSync(join(tmpdir(), 'fidelity-budget-'))
+  try {
+    const peer = fixture(root), catalog = join(root, 'catalog.json'), prepared = join(root, 'prepared.json'), out = join(root, 'out')
+    writeFileSync(catalog, JSON.stringify({ nodes: [peer.node] })); writeFileSync(prepared, JSON.stringify([peer]))
+    await expect(runCommunityFidelitySuite({ root: process.cwd(), harnessRoot: process.cwd(), out, profile: 'full', rounds: 1, fidelityDiagnostic: true, fidelityCaseIds: ['meaning:family:flowchart'], communityProjects: [peer.node.id], communityBrowserPreparedFile: prepared, communityCatalogFile: catalog, collectionDeadline: Date.now() - 1 })).rejects.toThrow('Collection budget exhausted')
+    const interrupted = JSON.parse(readFileSync(join(out, Buffer.from(peer.node.id).toString('base64url'), 'interrupted-fidelity.json'), 'utf8'))
+    expect(interrupted.status).toBe('incomplete')
+    expect(interrupted.observations).toEqual([])
+    expect(existsSync(join(out, 'community-fidelity-report.json'))).toBe(false)
   } finally { rmSync(root, { recursive: true, force: true }) }
 }, 30_000)
