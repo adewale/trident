@@ -26,3 +26,23 @@ jobs:
       - run: bun run typecheck
       - run: bun commands.ts results:snapshot --check
       - run: bun run test:ci
+  macos-tests:
+    # macOS temporary folders are symlinks (/var -> /private/var), which Linux paths never
+    # exercise. This job only runs Trident's CI-safe fixture tests: no oracle, project
+    # artifacts or benchmarks, which Trident refuses to run in CI.
+    name: Fixture tests on macOS
+    runs-on: macos-latest
+    timeout-minutes: 15
+    env:
+      MERMAID_REFERENCE_DIR: /nonexistent/trident-oracle
+      MERMAID_UPSTREAM_DIR: /nonexistent/trident-source
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.2'
+      - run: bun install --frozen-lockfile
+      - run: bun run test:ci

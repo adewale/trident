@@ -2,7 +2,7 @@ import { checkCollectionBudget } from '../portable/checkpoint.ts'
 import { readBenchmarkDocument, writeBenchmarkDocument } from '../portable/project-records.ts'
 import { execFileSync } from 'node:child_process'
 import { createHash, randomUUID } from 'node:crypto'
-import { closeSync, existsSync, mkdirSync, openSync, readdirSync, readFileSync, readSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
+import { closeSync, existsSync, mkdirSync, openSync, readdirSync, readFileSync, readSync, realpathSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { cpus, hostname, release } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
@@ -233,7 +233,9 @@ export function communityCandidate(values: { tarball?: string; sha256?: string; 
     if (values.tarball || values.sha256) throw Error('Use --candidate-dir, or --candidate-tarball with --candidate-sha256, not both')
     const destination = join(options.out, 'candidate-packs', randomUUID())
     mkdirSync(destination, { recursive: true })
-    const packed = JSON.parse(execFileSync('npm', ['pack', resolve(values.directory), '--ignore-scripts', '--json', '--pack-destination', destination], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, npm_config_cache: process.env.npm_config_cache ?? join(options.out, 'npm-cache') } }))
+    // Given a path through a symlink (macOS temporary folders are /var -> /private/var),
+    // npm pack silently omits bundleDependencies, so pack the physical directory.
+    const packed = JSON.parse(execFileSync('npm', ['pack', realpathSync(resolve(values.directory)), '--ignore-scripts', '--json', '--pack-destination', destination], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, npm_config_cache: process.env.npm_config_cache ?? join(options.out, 'npm-cache') } }))
     const tarball = join(destination, packed[0].filename)
     return { project, tarball, sha256: byteDigest(tarball), packedFrom: resolve(values.directory), ...extra }
   }

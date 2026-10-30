@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { loadCurrentProjectRecords, type ProjectBenchmarkIdentity, type ProjectBenchmarkRecord, publishProjectRecord } from '../portable/project-records.ts'
 import { renderCandidateComparison } from '../unified/candidate-comparison.ts'
@@ -25,7 +25,8 @@ function pack(name: string, version: string, dependencies?: Record<string, strin
 }
 function packDirectory(source: string): string {
   const destination = temp.dir()
-  const [packed] = JSON.parse(execFileSync('npm', ['pack', source, '--ignore-scripts', '--json', '--pack-destination', destination], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, npm_config_cache: join(destination, 'npm-cache') } }))
+  // npm pack omits bundleDependencies when the path runs through a symlink, as macOS temp paths do.
+  const [packed] = JSON.parse(execFileSync('npm', ['pack', realpathSync(source), '--ignore-scripts', '--json', '--pack-destination', destination], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, npm_config_cache: join(destination, 'npm-cache') } }))
   return join(destination, packed.filename)
 }
 function preparation(packageName = node.benchmark!.package!) {
