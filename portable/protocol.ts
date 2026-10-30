@@ -1,6 +1,8 @@
 import type { PortableCase } from './cohorts.ts'
 
-export const PORTABLE_MEASUREMENT_PROTOCOL = 'portable-svg-processes-v6'
+export const PORTABLE_MEASUREMENT_PROTOCOL = 'portable-svg-processes-v7'
+/** Median comparisons across independent rounds; no individual-call tail claim. */
+export const FULL_SAMPLING = Object.freeze({ rounds: 6, samples: 31, coldSamples: 5 })
 export const PORTABLE_ADAPTER_IDS = ['pele', 'agentic', 'beautiful', 'ondine', 'declared', 'public-package'] as const
 export type Replica = 'A0' | 'A1' | 'B'
 export type Track = 'first-use' | 'warm-repeat' | 'warm-new-source' | 'warm-label-edit'
@@ -39,7 +41,7 @@ export interface MemorySnapshot {
   arrayBuffers: number
 }
 export interface PortableWorkerResult {
-  protocol: typeof PORTABLE_MEASUREMENT_PROTOCOL | 'portable-svg-processes-v4' | 'portable-svg-processes-v3' | 'portable-svg-processes-v2' | 'portable-svg-processes-v1'
+  protocol: typeof PORTABLE_MEASUREMENT_PROTOCOL | 'portable-svg-processes-v6' | 'portable-svg-processes-v4' | 'portable-svg-processes-v3' | 'portable-svg-processes-v2' | 'portable-svg-processes-v1'
   caseId: string
   family: string
   mode: PortableJob['mode']

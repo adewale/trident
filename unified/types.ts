@@ -44,6 +44,11 @@ export interface UnifiedRunOptions {
   communityPreparedFile?: string
   communityInputsFile?: string
   communityBrowserPreparedFile?: string
+  /** One shared absolute deadline for all cohorts and suites. Never measurement identity. */
+  collectionDeadline?: number
+  collectionResume?: boolean
+  /** Controller/cohort ownership for forced resume; never measurement identity. */
+  collectionCampaignId?: string
   rounds: number
   profile: 'smoke' | 'full'
   /** All timing campaigns run sequentially. */

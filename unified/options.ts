@@ -2,6 +2,7 @@ import { resolve } from 'node:path'
 import { harnessRepository } from './trident-paths.ts'
 import { admitSelectedArtifacts } from './artifact-admission.ts'
 import type { UnifiedRunOptions } from './types.ts'
+import { FULL_SAMPLING } from '../portable/protocol.ts'
 
 /** Public-artifact settings only. Product release/editor/provider options live
  * in the product repository and are not accepted as community benchmark flags. */
@@ -26,7 +27,7 @@ export function parseOptions(argv: string[]): UnifiedRunOptions & { allowIncompl
   }
   const profile = values.get('profile') ?? 'smoke'
   if (profile !== 'smoke' && profile !== 'full') throw Error('--profile must be smoke or full')
-  const rounds = Number(values.get('rounds') ?? (profile === 'full' ? 5 : 1))
+  const rounds = Number(values.get('rounds') ?? (profile === 'full' ? FULL_SAMPLING.rounds : 1))
   if (!Number.isSafeInteger(rounds) || rounds < 1) throw Error('--rounds must be a positive integer')
   if (values.has('projects') && values.has('community-projects')) throw Error('Use --projects or --community-projects, not both')
   const communityProjects = (values.get('projects') ?? values.get('community-projects'))?.split(',')

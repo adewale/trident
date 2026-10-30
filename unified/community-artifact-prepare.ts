@@ -47,26 +47,26 @@ function environment(cache: string): NodeJS.ProcessEnv {
 export async function prepareCommunityArtifact(node: CommunityNode, cacheRoot: string, providedManifest?: string): Promise<CommunityArtifact> {
   if (node.benchmark?.adapter === 'native-flutter') throw Error('Native Flutter requires a sealed release bundle. Run bun native-flutter/prepare-community.ts --bundle RELEASE_BUNDLE --out FRESH_DIRECTORY, then supply its prepared.json with --community-prepared (or --prepared for support:verify); no catalog override is required.')
   const adapter = node.benchmark?.adapter,
-    recorded = process.env.AM_COMMUNITY_VERSION_POLICY === 'recorded'
+    recorded = !!node.benchmark?.version || node.benchmark?.versionPolicy === 'recorded' || process.env.AM_COMMUNITY_VERSION_POLICY === 'recorded'
   const cache = resolve(cacheRoot)
   mkdirSync(cache, { recursive: true })
   let version: string | undefined, metadata: Record<string, unknown> | undefined
   if (adapter === 'dart') {
-    const declared = node.packages?.find(pkg => pkg.registry === 'pub.dev' && pkg.name === 'mermaid_core')?.version
+    const declared = node.benchmark?.version ?? node.packages?.find(pkg => pkg.registry === 'pub.dev' && pkg.name === 'mermaid_core')?.version
     metadata = await json('https://pub.dev/api/packages/mermaid_core')
     version = recorded ? declared : (metadata.latest as { version?: string } | undefined)?.version
   } else if (adapter === 'bezel') {
-    const declared = node.packages?.find(pkg => pkg.registry === 'crates.io' && pkg.name === 'bezel-mermaid')?.version
+    const declared = node.benchmark?.version ?? node.packages?.find(pkg => pkg.registry === 'crates.io' && pkg.name === 'bezel-mermaid')?.version
     metadata = await json('https://crates.io/api/v1/crates/bezel-mermaid')
     version = recorded ? declared : (metadata.crate as { newest_version?: string } | undefined)?.newest_version
   } else if (adapter === 'termaid') {
-    const declared = node.packages?.find(pkg => pkg.registry === 'pypi' && pkg.name === 'termaid')?.version
+    const declared = node.benchmark?.version ?? node.packages?.find(pkg => pkg.registry === 'pypi' && pkg.name === 'termaid')?.version
     metadata = await json('https://pypi.org/pypi/termaid/json')
     version = recorded ? declared : (metadata.info as { version?: string } | undefined)?.version
   } else if (adapter === 'franken') version = node.distribution?.version
   else throw new Error(`No reviewed compiled artifact adapter for ${node.id}`)
   if (!version) throw new Error(`${node.id}: missing exact artifact version`)
-  const directory = join(cache, `${safe(node.id)}@${version}`),
+  const directory = join(cache, `${safe(node.id)}@${version}${adapter === 'franken' ? '-' + node.distribution?.revision : ''}`),
     manifest = join(directory, 'artifact.json'),
     log = join(directory, 'acquisition.log')
   mkdirSync(directory, { recursive: true })
@@ -74,14 +74,14 @@ export async function prepareCommunityArtifact(node: CommunityNode, cacheRoot: s
   const provided = providedManifest ?? process.env.AM_BENCH_COMMUNITY_ARTIFACTS
   if (provided) {
     const artifact = (JSON.parse(readFileSync(provided, 'utf8')) as Record<string, CommunityArtifact>)[node.id]
-    if (artifact?.version === version && verified(artifact)) {
+    if (artifact?.version === version && (adapter !== 'franken' || artifact.revision === node.distribution?.revision) && verified(artifact)) {
       writeFileSync(manifest, JSON.stringify(artifact, null, 2) + '\n')
       return artifact
     }
   }
   if (existsSync(manifest)) {
     const artifact = JSON.parse(readFileSync(manifest, 'utf8')) as CommunityArtifact
-    if (artifact.version === version && verified(artifact)) return artifact
+    if (artifact.version === version && (adapter !== 'franken' || artifact.revision === node.distribution?.revision) && verified(artifact)) return artifact
   }
   const env = environment(cache)
   let artifact: CommunityArtifact

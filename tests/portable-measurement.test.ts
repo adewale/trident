@@ -6,7 +6,7 @@ import { join } from 'node:path'
 import { portableSummary } from '../portable/report.ts'
 import { calibrate, roundRatioUncertainty } from '../portable/statistics.ts'
 import { modelCost, processCpuCost } from '../portable/costs.ts'
-import { resetPortableCancellation, runFirstUseBatch, runSerialJob, terminatePortableWorkers } from '../portable/execution.ts'
+import { resetPortableCancellation, runFirstUseBatch, runSerialJob, terminatePortableWorkers, measurePortableProject, CollectionCheckpoint } from '../portable/execution.ts'
 import { portableDirectory } from '../portable/artifacts.ts'
 import { parsePortableOptions } from '../portable/run.ts'
 import { inspectCurrentProjectRecords, readProjectBenchmarkRecord } from '../portable/project-records.ts'
@@ -338,3 +338,60 @@ test('a family whose canonical source the renderer rejects is unsupported and no
   expect(subset.sampling.caseSelection).toEqual({ scope: 'explicit subset; no whole-portfolio score', requestedIds: ['family:flowchart'], selectedIds: ['family:flowchart'] })
   expect(subset.summary.counts).toMatchObject({ cases: 1, families: 1, canonicalFamilyRepresentatives: 1 })
 }, 60_000)
+
+test('v7 admits its declared five-process median profile without upgrading historical v6 qualification', () => {
+  const cases = [{ id: 'versioned-sampler', family: 'flowchart', cohort: 'family' as const, source: 'flowchart LR\nA', expected: { accept: true, labels: ['A'] } }]
+  const results: PortableWorkerResult[] = []
+  for (let round = 1; round <= 6; round++) for (const replica of ['A0', 'A1', 'B'] as const) for (let sample = 0; sample < 5; sample++) results.push({
+    protocol: 'portable-svg-processes-v7', caseId: cases[0]!.id, family: 'flowchart', mode: 'cold', round, replica, sample, status: 'passed', importMs: 1, tracks: { 'first-use': [1] }, outputBytes: 40,
+    qualification: { accepted: true, passed: true, semanticComplete: true, checks: [], unmeasuredScopes: [], scope: 'fixture', evidence: { outputAdmission: 'passed', nativeModel: 'unavailable', nativeAndPaintScopes: [] } } as any,
+    prelude: [], runtime: { executable: '/fixture/node', node: '24', platform: 'linux', arch: 'x64' },
+  })
+  const settings = { rounds: 6, samples: 31, coldSamples: 5, maximumControlSpread: .25 }
+  const first = portableSummary(cases, results, settings).timing.find(row => row.track === 'first-use')!
+  expect(first.outputCalibration.status).toBe('calibrated')
+  expect(first.outputCalibration.roundRatioUncertainty?.replicaB.interval).not.toBeNull()
+  const legacy = portableSummary(cases, results.map(row => ({ ...row, protocol: 'portable-svg-processes-v6' })), settings)
+  expect(legacy.timing.find(row => row.track === 'first-use')!.outputCalibration.status).toBe('uncalibrated')
+  const invalid = portableCases(['invalid'])
+  expect(portableSummary(invalid, [], settings).timing).toHaveLength(0)
+})
+
+test('invalid controls retain one real public invocation without repeated timing or resource workers', async () => {
+  const invalid = portableCases(['invalid']).find(row => row.id === 'invalid:unknown-header')!
+  for (const rejected of [true, false]) {
+    const fixture = workerFixture(`import{appendFileSync}from'node:fs';export function render(){appendFileSync(new URL('./calls.txt',import.meta.url),'call\\n');${rejected ? 'throw new Error("Parse error on line 1: invalid source")' : 'return {svg:good}'}}`)
+    const options = parsePortableOptions(['--project', 'fixture/api', '--artifact-root', fixture.directory, '--rounds', '2', '--samples', '1', '--cold-samples', '1'])
+    const results: PortableWorkerResult[] = []
+    await measurePortableProject(fixture.job('warm').artifact, [invalid], options, fixture.directory, result => results.push(result), new CollectionCheckpoint(fixture.directory, { fixture: 'invalid-control' }))
+    expect(results).toHaveLength(1)
+    expect(results[0]!.mode).toBe('warm')
+    expect(results[0]!.qualification?.accepted).toBe(!rejected)
+    expect(results[0]!.status).toBe(rejected ? 'passed' : 'failed')
+    expect(readFileSync(join(fixture.directory, 'calls.txt'), 'utf8').trim().split('\n')).toHaveLength(1)
+    const summary = portableSummary([invalid], results, { ...options, usage: undefined })
+    expect(summary.timing).toHaveLength(0)
+    expect(summary.counts.negativeAdmissionCases).toBe(rejected ? 1 : 0)
+    expect(summary.counts.failedWorkers).toBe(rejected ? 0 : 1)
+  }
+}, 30_000)
+
+test('a budget-paused portable invocation resumes its existing attempt directory', async () => {
+  const fixture = workerFixture('export function render(){throw new Error("Parse error on line 1: invalid source")}')
+  const tool = join(fixture.directory, 'tool'); mkdirSync(tool)
+  for (const name of ['package.json', 'index.mjs']) writeFileSync(join(tool, name), readFileSync(join(fixture.directory, name)))
+  const kit = join(fixture.directory, 'kit')
+  execFileSync(process.execPath, [join(portableDirectory, 'build.ts'), '--out', kit], { stdio: 'ignore' })
+  const { runPortable } = await import(pathToFileURL(join(kit, 'run.mjs')).href)
+  const options = { ...parsePortableOptions(['--project', 'fixture/api', '--artifact-root', tool, '--entry', 'index.mjs', '--cases', 'invalid:unknown-header', '--rounds', '1', '--samples', '1', '--cold-samples', '1', '--out', join(fixture.directory, 'out'), '--records', join(fixture.directory, 'records'), '--allow-partial']), observer: undefined }
+  await expect(runPortable({ ...options, collectionDeadline: Date.now() - 1 })).rejects.toThrow('Collection budget exhausted')
+  const paused = JSON.parse(readFileSync(join(options.out, 'report.json'), 'utf8'))
+  expect(paused.status).toBe('budget-exhausted')
+  expect(existsSync(join(options.out, 'attempts', paused.pendingAttempt, 'svg'))).toBe(true)
+  const resumed = await runPortable({ ...options, resume: true })
+  expect(resumed.recordId).toBe(paused.pendingAttempt)
+  expect(resumed.summary.counts.negativeAdmissionCases).toBe(1)
+  expect(resumed.summary.timing).toHaveLength(0)
+  const record = readProjectBenchmarkRecord(join(resumed.evidenceDirectory, 'result.json.gz'))
+  expect(record.observations.map(row => [row.operation, row.status, row.samplesMs])).toEqual([['admission', 'passed', undefined]])
+}, 30_000)

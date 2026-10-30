@@ -8,7 +8,8 @@ import { copyPublicationMethods } from './publication-methods.ts'
 
 export interface CampaignEnvelope {
   startedAt: string; updatedAt: string; projects: string[]; profile: string; rounds: number
-  results: { suite: string; project?: string; status: string; disposition?: string; detail?: string; out?: string; observations?: number; counts?: Record<string, unknown>; gaps?: string[] }[]
+  artifactRole?: 'candidate'
+  results: { suite: string; project?: string; cohort?: string; status: string; disposition?: string; detail?: string; out?: string; observations?: number; counts?: Record<string, unknown>; gaps?: string[] }[]
 }
 export function readCampaign(directory: string): CampaignEnvelope {
   const report = readBenchmarkDocument(join(directory, 'report.json')) as CampaignEnvelope
@@ -17,23 +18,40 @@ export function readCampaign(directory: string): CampaignEnvelope {
 }
 const cell = (value: unknown) => String(value).replaceAll('|', '/').replaceAll('\n', ' ')
 const link = (root: string, path: string) => encodeURI(relative(root, path)).replaceAll('#', '%23')
-export function campaignScorecards(row: CampaignEnvelope['results'][number]) {
+export function campaignResults(row: CampaignEnvelope['results'][number]): UnifiedSuiteResult[] {
   if (!row.out) return []
   const files = ['result.json', 'node-fidelity-result.json', 'community-fidelity-report.json', 'upstream-fidelity-report.json', 'upstream-original-report.json']
-  let result: UnifiedSuiteResult | undefined
   for (const name of files) {
     const path = join(row.out, name)
     if (!existsSync(path) && !existsSync(path + '.gz')) continue
     const value = readBenchmarkDocument(path) as any
     const candidate = value.result ?? value
-    if (Array.isArray(candidate.observations)) { result = candidate; break }
+    if (Array.isArray(candidate.observations)) return [candidate]
   }
-  if (!result) return []
+  return ['community-result.json', 'retained-cli-suite.json'].flatMap(name => {
+    const file = join(row.out!, name)
+    if (!existsSync(file) && !existsSync(file + '.gz')) return []
+    const result = readBenchmarkDocument(file) as UnifiedSuiteResult
+    return Array.isArray(result.observations) ? [result] : []
+  })
+}
+/** A candidate comparison is a study lane, including release peers or unstarted
+ * boundaries in that study. It cannot update the release overview. */
+export function campaignArtifactRole(report: CampaignEnvelope): 'candidate' | undefined {
+  return report.artifactRole === 'candidate' || report.results.some(row => campaignResults(row).some(result => result.observations.some(observation => observation.metrics?.artifactRole === 'candidate'))) ? 'candidate' : undefined
+}
+/** Tool aliases are case-insensitive; retained project IDs use catalog spelling. */
+export function campaignProjectId(value: unknown, projects: readonly string[]) {
+  const canonical = canonicalBenchmarkTool(String(value))
+  return projects.find(project => canonicalBenchmarkTool(project) === canonical) ?? canonical
+}
+export function campaignScorecards(row: CampaignEnvelope['results'][number], projects: readonly string[] = []) {
+  const results = campaignResults(row)
   const groups = new Map<string, { project: string; version: string; variant: string; surface: string; runtime: string; format: string; operation: string; mode: string; round: number | string; observations: BenchmarkObservation[] }>()
-  for (const observation of result.observations) {
+  for (const result of results) for (const observation of result.observations) {
     const raw = observation.metrics?.project ?? observation.metrics?.implementation ?? row.project ?? 'unattributed'
-    const project = canonicalBenchmarkTool(String(raw)), variant = String(observation.metrics?.variant ?? 'default')
-    const version = String(observation.metrics?.version ?? result.toolVersions?.find(receipt => canonicalBenchmarkTool(receipt.tool) === project && (receipt.variant ?? 'default') === variant)?.version ?? 'see frozen artifact receipt')
+    const project = campaignProjectId(raw, projects), variant = String(observation.metrics?.variant ?? 'default')
+    const version = String(observation.metrics?.version ?? result.toolVersions?.find(receipt => canonicalBenchmarkTool(receipt.tool) === canonicalBenchmarkTool(project) && (receipt.variant ?? 'default') === variant)?.version ?? 'see frozen artifact receipt')
     const group = { project, version, variant, surface: observation.surface, runtime: observation.runtime, format: observation.format ?? 'not recorded', operation: observation.operation ?? 'not recorded', mode: observation.mode, round: String(observation.metrics?.round ?? 'not round-based') }
     const key = JSON.stringify(group)
     const own = groups.get(key) ?? { ...group, observations: [] as BenchmarkObservation[] }
@@ -86,7 +104,7 @@ export function publishCampaigns(directories: string[], out: string, settings: {
       lines.push('| ' + [row.suite, row.project ?? report.projects.join(', '), row.status + (row.disposition ? ' / ' + row.disposition : ''), counts + (row.gaps?.length ? '; ' + row.gaps.join('; ') : '')].map(cell).join(' | ') + ' | ' + evidence + ' |')
     }
     for (const row of report.results) {
-      const cards = campaignScorecards(row)
+      const cards = campaignScorecards(row, report.projects)
       if (!cards.length) continue
       lines.push('', `### ${row.suite}${row.project ? ': ' + row.project : ''} observations`, '', 'Counts are recorded observations within each public surface/mode/round. Unexecuted inputs and planned denominators remain in the owning inventory; no acceptance percentage is inferred.', '',
         '| Project | Version / artifact role | Surface / runtime | Format / operation | Mode / round | Distinct case IDs | Recorded observations | Dispositions |', '|---|---|---|---|---|---:|---:|---|')

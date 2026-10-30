@@ -1,3 +1,4 @@
+import { checkCollectionBudget } from '../portable/checkpoint.ts'
 import { verifyNativePngArtifact } from '../native-flutter/community-launch.mjs'
 import { releaseBenchmarkSkip } from './benchmark-skip.ts'
 import { verifyReleaseCli } from './release-cli.ts'
@@ -337,6 +338,7 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
       continue
     }
     try {
+      if (node.benchmark.preparationError) throw Error(String(node.benchmark.preparationError))
       if (node.benchmark.adapter === 'declared')
         for (const output of new Set((node.benchmark.outputs ?? []).map(normalizeCommunityOutput))) if (typeof node.benchmark.api?.[output]?.export !== 'string') throw new Error(`Declared adapter has no api.${output}.export binding for its declared ${output} output`)
       const candidate = options.communityCandidate?.project === node.id ? options.communityCandidate : undefined
@@ -394,14 +396,23 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
       } else if (node.benchmark.package) artifact = await npmArtifact(node, cache, node.id === 'mermaid-js/mermaid')
       else if (node.benchmark.adapter === 'source-cli') {
         const { prepareCommunitySource } = await import('./community-source-prepare.ts')
-        artifact = await prepareCommunitySource(node, process.env.AM_COMMUNITY_SOURCE_CACHE ?? cache)
+        if (node.benchmark.cliRelease) {
+          const result = await (await import('./release-cli.ts')).prepareReleaseCli(node, cache)
+          if (!result.artifact) throw Error(result.error)
+          const { reviewedCommunitySourcePresentation } = await import('./community-source-prepare.ts')
+          artifact = { ...result.artifact, ...reviewedCommunitySourcePresentation(node) }
+        } else artifact = await prepareCommunitySource(node, process.env.AM_COMMUNITY_SOURCE_CACHE ?? cache)
       } else {
         const { prepareCommunityArtifact } = await import('./community-artifact-prepare.ts')
         artifact = await prepareCommunityArtifact(node, cache)
       }
       if (!artifact) throw new Error('Preparation returned no actual artifact')
-      if (node.benchmark.cliRelease && !(provided[node.id] && options.communityArtifactPolicy === 'frozen')) artifact = { ...artifact, additionalCli: [await (await import('./release-cli.ts')).prepareReleaseCli(node, cache)] }
-      if (node.id === '1jehuang/mermaid-rs-renderer' && artifact.kind === 'cli') artifact.outputBindings = { ...(artifact.outputBindings ?? {}), png: { args: ['-i', '-', '-e', 'png', '-o', '{output}'], input: 'stdin' } }
+      if (node.benchmark.adapter === 'source-cli' && node.benchmark.cliRelease && artifact.kind === 'cli') artifact.outputBindings = { ...node.benchmark.cliRelease.outputs, ...(artifact.outputBindings ?? {}) }
+      if (node.benchmark.adapter === 'source-cli' && node.benchmark.cliRelease && !artifact.candidate) {
+        const { verifyReleaseCli } = await import('./release-cli.ts')
+        verifyReleaseCli(node, artifact)
+      }
+      if (node.benchmark.cliRelease && node.benchmark.adapter !== 'source-cli' && !(provided[node.id] && options.communityArtifactPolicy === 'frozen')) artifact = { ...artifact, additionalCli: [await (await import('./release-cli.ts')).prepareReleaseCli(node, cache)] }
       artifact.detail = `${artifact.detail ?? ''}${artifact.detail ? '; ' : ''}Version policy: ${artifact.candidate ? ('revision' in artifact.candidate ? `unreleased candidate revision ${artifact.candidate.revision}, built with the reviewed source recipe; the catalog source pin does not apply` : 'unreleased candidate tarball; the catalog version pin does not apply') : provided[node.id] && options.communityArtifactPolicy === 'frozen' ? 'provided actual artifact version/bytes frozen; no latest lookup' : node.id === 'mermaid-js/mermaid' ? 'pinned current Mermaid' : node.benchmark.adapter === 'source-cli' || node.benchmark.adapter === 'extra-source' || node.benchmark.adapter === 'franken' ? 'recorded immutable source/distribution' : node.benchmark.version || node.benchmark.versionPolicy === 'recorded' || process.env.AM_COMMUNITY_VERSION_POLICY === 'recorded' ? 'recorded registry release' : 'resolved latest registry release'}. Recorded catalog versions remain separately available on the node.`
       prepared.push({ node, artifact })
     } catch (error) {
@@ -1055,8 +1066,10 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
   for (let round = 1; round <= options.rounds; round++)
     for (const entry of round % 2 ? runnable : [...runnable].reverse()) {
       assertCommunityNotInterrupted()
+      checkCollectionBudget(options.collectionDeadline)
       console.log(`community round ${round}/${options.rounds}: ${entry.node.id} ${entry.artifact!.version}`)
       for (const output of [...new Set((entry.node.benchmark!.outputs ?? []).map(normalizeCommunityOutput))].filter(outputSelected)) {
+        checkCollectionBudget(options.collectionDeadline)
         const roundWorkloads = ((options.communityCoverageOnce ?? true) && round > 1 ? workloads.filter(w => w.features.includes('core-graph-batch')) : workloads).filter(w => output !== 'terminal' || !w.features.includes('core-graph-batch') || ['core:flow5', 'core:tree50', 'core:seq20'].includes(w.id))
         const selectedWorkloads = roundWorkloads.filter(w => workloadAppliesToOutput(w, output) && (['parse', 'diagnostics', 'source'].includes(output) || w.intent !== undefined || !corpusEvidence(w.id)?.parserOnly))
         for (const workload of roundWorkloads.filter(w => !selectedWorkloads.includes(w))) observations.push({ ...envelope(entry.node, output, workload, round), status: 'not-applicable', detail: `Rendering is outside this input's declared positive scope: ${workload.intentReason ?? 'legacy parser-only owner'}${workload.referenceAdmission?.accepted === false ? '; pinned parser rejected this source' : ''}. Parser/admission evidence remains separate.` })
@@ -1081,7 +1094,7 @@ export async function runCommunitySuite(options: UnifiedRunOptions): Promise<Uni
         }
         const measure = async (list: UnifiedWorkload[], measureOptions = options): Promise<BenchmarkObservation[]> =>
           entry.artifact!.kind === 'cli'
-            ? list.map(workload => runCli(entry, output, workload, round, measureOptions.out))
+            ? list.map(workload => { checkCollectionBudget(options.collectionDeadline); return runCli(entry, output, workload, round, measureOptions.out) })
             : entry.artifact!.kind === 'jsonl-worker' || entry.artifact!.kind === 'python'
               ? (await import('./community-external.ts')).runExternalCommunity(entry, list, output, round, measureOptions)
               : nodeRound(entry, output, list, round, measureOptions)

@@ -1,3 +1,4 @@
+import { CollectionBudgetExhausted, checkCollectionBudget } from '../portable/checkpoint.ts'
 import { spawn } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
@@ -355,6 +356,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
     .filter(peer => selected(peer.browser!.output ?? 'svg'))
   for (let round = 1; round <= options.rounds; round++)
     for (const peer of round % 2 ? engines : [...engines].reverse()) {
+      checkCollectionBudget(options.collectionDeadline)
       const engine = peer.browser!,
         roundWorkloads = (options.communityCoverageOnce ?? true) && round > 1 ? workloads.filter(workload => workload.features.includes('core-graph-batch')) : workloads,
         fetched = new Set<string>(),
@@ -499,6 +501,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
           rejected = familyProbes.get(supportKey) ?? new Map<string, BenchmarkObservation>()
         familyProbes.set(supportKey, rejected)
         for (const workload of [...probes, ...roundWorkloads]) {
+          checkCollectionBudget(options.collectionDeadline)
           const probe = probes.includes(workload)
           if (!probe && rejected.has(workload.family)) {
             record.samples.push(unsupportedFamilyRow(row(peer, workload, workload.features.includes('core-graph-batch') ? 'core-api-repeat' : (options.communityCoverageOnce ?? true) ? 'feature-corpus-qualification' : 'feature-corpus-attempt', 'unsupported', { metrics: { round } }), rejected.get(workload.family)!))
@@ -676,6 +679,10 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
           ...(processMemory.detail ? { detail: processMemory.detail } : {}),
         })
       } catch (error) {
+        if (error instanceof CollectionBudgetExhausted) {
+          writeFileSync(join(options.out, `interrupted-browser-${encodeURIComponent(peer.node.id)}-${round}-${Date.now()}.json`), JSON.stringify(record))
+          throw error
+        }
         record.error = String(error)
         if (!record.samples.some(sample => sample.operation === 'load-and-initialize'))
           record.samples.push({

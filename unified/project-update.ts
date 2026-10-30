@@ -1,3 +1,4 @@
+import { checkCollectionBudget } from '../portable/checkpoint.ts'
 import { readBenchmarkDocument, writeBenchmarkDocument } from '../portable/project-records.ts'
 import { execFileSync } from 'node:child_process'
 import { createHash, randomUUID } from 'node:crypto'
@@ -32,11 +33,11 @@ export interface ProjectUpdateRequest {
   measure(): Promise<ProjectBenchmarkRecord>
 }
 /** Timed work is behind the cache lookup; a forced retry retains the old attempt. */
-export async function updateProjectRecords(store: string, requests: ProjectUpdateRequest[], force = false) {
+export async function updateProjectRecords(store: string, requests: ProjectUpdateRequest[], force = false, resumeCampaignId?: string) {
   if (new Set(requests.map(request => request.identity.project)).size !== requests.length) throw Error('Duplicate project update')
   const updates: { project: string; action: 'reused' | 'measured'; record: ProjectBenchmarkRecord }[] = []
   for (const request of requests) {
-    const retained = force ? undefined : findProjectRecord(store, request.identity)
+    const retained = force && !resumeCampaignId ? undefined : findProjectRecord(store, request.identity, force ? resumeCampaignId : undefined)
     if (retained) {
       if ((retained.provenance as { protocol?: string } | undefined)?.protocol === 'community-project-update-v1') {
         const contextFile = (retained.provenance as { contextFile: string }).contextFile
@@ -345,6 +346,7 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
   assertBenchmarkExecutionAllowed()
   const driver = options.harnessRoot ?? options.root
   const store = options.communityRecordStore ?? join(driver, 'bench-report/project-records')
+  const resumeCampaignId = options.collectionResume ? options.collectionCampaignId : undefined
   const catalog = json(options.communityCatalogFile ?? communityCatalogFile) as { nodes: CommunityNode[] }
   selectCommunityProjects(catalog.nodes, options.communityProjects) // Reject unknown IDs before acquisition.
   const candidate = options.communityCandidate
@@ -389,7 +391,7 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
         measurement: contextValue.measurement,
       }),
     )
-    return { entry, browser, identity, retained: options.communityForce ? undefined : findProjectRecord(store, identity) }
+    return { entry, browser, identity, retained: options.communityForce && !resumeCampaignId ? undefined : findProjectRecord(store, identity, options.communityForce ? resumeCampaignId : undefined) }
   })
   const plan = plans.map(item => ({ project: item.entry.node.id, lane: item.identity.lane ?? 'community', action: item.retained ? 'reuse' : 'measure', record: item.retained?.id ?? null }))
   writeJson(join(attempt, 'plan.json'), { startedAt, context, projects: plan })
@@ -408,6 +410,7 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
     plans.map(item => ({
       identity: item.identity,
       measure: async () => {
+        checkCollectionBudget(options.collectionDeadline)
         const id = randomUUID(),
           directory = join(attempt, encodeURIComponent(item.entry.node.id)),
           out = join(directory, 'community')
@@ -419,6 +422,8 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
         writeJson(browserPath, [item.browser])
         const single = { ...options, communityProjects: [item.entry.node.id], communityPreparedFile: preparedPath, communityBrowserPreparedFile: browserPath, communityInputsFile: inputPath, out }
         const community = await runCommunitySuite(single)
+        // CLI gates actual jobs itself. An empty CLI view must still finish and
+        // publish API work whose last call used the remaining allowance.
         const outputs = options.communityOutputs?.filter(output => ['svg', 'terminal', 'ascii', 'unicode', 'ascii-unicode'].includes(output))
         const cli = outputs?.length === 0 ? { id: 'community-cli', startedAt: now(), finishedAt: now(), status: 'passed' as const, observations: [], gaps: ['No CLI output is selected for this project record'] } : await runCommunityCliSuite({ ...single, communityOutputs: outputs, out: join(directory, 'community-cli') })
         if (!existsSync(join(directory, 'community-cli'))) mkdirSync(join(directory, 'community-cli'))
@@ -440,11 +445,12 @@ async function runProjectUpdatesUnlocked(options: UnifiedRunOptions, settings: {
           evidenceFiles: inventoryFiles(directory),
           observations,
           gaps: [...community.gaps, ...cli.gaps],
-          provenance: { protocol: 'community-project-update-v1', suiteStatus: { community: community.status, 'community-cli': cli.status }, driverRevision: git(driver, 'rev-parse', 'HEAD'), targetRevision: git(options.root, 'rev-parse', 'HEAD'), contextFile: join(store, 'contexts', context), ...(candidate?.project === item.entry.node.id ? { candidate } : {}) },
+          provenance: { protocol: 'community-project-update-v1', suiteStatus: { community: community.status, 'community-cli': cli.status }, driverRevision: git(driver, 'rev-parse', 'HEAD'), targetRevision: git(options.root, 'rev-parse', 'HEAD'), contextFile: join(store, 'contexts', context), ...(options.collectionCampaignId ? { collectionCampaignId: options.collectionCampaignId } : {}), ...(candidate?.project === item.entry.node.id ? { candidate } : {}) },
         }
       },
     })),
     options.communityForce,
+    resumeCampaignId,
   )
   const inspected = inspectCurrentProjectRecords(store).filter(item => (item.record.identity.lane ?? 'community') === 'community'),
     records = inspected.filter(item => item.evidenceRetained).map(item => item.record),
@@ -464,13 +470,16 @@ export async function runIncrementalCommunitySuite(options: UnifiedRunOptions): 
   const result = await runProjectUpdates(options)
   const selected = result.updates.map(update => update.record)
   const envelope = (suite: string): UnifiedSuiteResult => {
-    const observations = selected.flatMap(record => record.observations.filter(row => (suite === 'community' ? row.suite !== 'community-cli' : row.suite === suite)))
+    const observations = selected.flatMap(record => record.observations.filter(row => (suite === 'community' ? row.suite !== 'community-cli' : row.suite === suite)).map(row => ({ ...row, metrics: { ...row.metrics,
+      version: row.metrics?.version ?? (record.identity.artifact as any).package?.artifact?.version,
+      measuredFrom: row.metrics?.measuredFrom ?? record.startedAt, measuredAt: row.metrics?.measuredAt ?? record.finishedAt,
+      ...(record.identity.lane === 'candidate' ? { artifactRole: 'candidate' } : {}) } })))
     const statuses = selected.map(record => (record.provenance as { suiteStatus?: Record<string, string> } | undefined)?.suiteStatus?.[suite])
     const resultStatus = statuses.includes('failed') ? 'failed' : statuses.includes('blocked') ? 'blocked' : status(observations)
     return {
       id: suite,
-      startedAt: result.startedAt ?? now(),
-      finishedAt: now(),
+      startedAt: selected.map(record => record.startedAt).sort()[0] ?? result.startedAt,
+      finishedAt: selected.map(record => record.finishedAt).sort().at(-1) ?? now(),
       status: resultStatus,
       observations,
       gaps: [...new Set(selected.flatMap(record => record.gaps)), 'Rolling per-project records: original observation dates are retained in project-update-manifest.json. This is not a paired same-session comparison.'],

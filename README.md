@@ -155,7 +155,7 @@ bun install --frozen-lockfile
 node commands.ts mermaid:install
 bunx playwright install chromium
 bun commands.ts community:update --projects obsidianmd/pele,mermaid-js/mermaid \
-  --profile full --rounds 5 --records /evidence/records --out /evidence/run
+  --profile full --records /evidence/records --out /evidence/run
 bun commands.ts results:publish --records /evidence/records --out /evidence/report
 ```
 
@@ -165,7 +165,7 @@ Every tool uses its catalog release. To measure an unreleased npm package, selec
 
 ```sh
 bun commands.ts community:update --projects OWNER/TOOL --candidate-dir /artifacts/package \
-  --profile full --rounds 5 --records /evidence/records --out /evidence/candidate
+  --profile full --records /evidence/records --out /evidence/candidate
 bun commands.ts results:compare --records /evidence/records --project OWNER/TOOL
 ```
 
@@ -253,7 +253,7 @@ artifact acquisition and `community:update --plan` remain local operations.
 Optional browser tests use `AM_BROWSER_TESTS=1` and
 `AM_CHROMIUM_EXECUTABLE=/path/to/chromium` (legacy environment variable names).
 
-Use `bun commands.ts bench --projects OWNER/TOOL,... --profile full --rounds 5
+Use `bun commands.ts bench --projects OWNER/TOOL,... --profile full
 --out /evidence/full` for all applicable public-artifact suites. `bench --list`
 lists suites and selected projects without collecting measurements. Adapter gaps,
 setup failures and unsupported surfaces stay visible in the campaign report.

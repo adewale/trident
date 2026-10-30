@@ -1,6 +1,6 @@
 # Methodology
 
-Portable timing protocol `portable-svg-processes-v6` and qualification observers
+Portable timing protocol `portable-svg-processes-v7` and qualification observers
 have separate identities. The current observer checks exact ER cardinality and
 identifying appearance for the reviewed Agentic Class/ER profiles described in
 [Comparison contracts](FAIRNESS.md#observe-output-independently-of-optional-apis).

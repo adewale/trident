@@ -171,7 +171,7 @@ test('a source candidate is built with the release recipe from its own commit, a
 test.each(['candidate-first', 'release-first'] as const)('source cache keeps release and candidate labels separate in %s order', async order => {
   const { clone, candidate } = sourceClone(),
     original = (JSON.parse(readFileSync(communityCatalogFile, 'utf8')).nodes as CommunityNode[]).find(node => node.id === 'AlexanderGrooff/mermaid-ascii')!,
-    tool = { ...original, head: candidate, release: { commit: candidate, tag: '1.6.1' } },
+    tool = { ...original, benchmark: { ...original.benchmark!, cliRelease: undefined }, head: candidate, release: { commit: candidate, tag: '1.6.1' } },
     root = temp.dir(),
     catalog = join(root, 'catalog.json'),
     go = join(root, 'go')

@@ -39,7 +39,7 @@ own dispositions. A renderer without a model API can pass output admission;
 that does not establish topology or full painted fidelity. Model failures cannot
 be hidden by correct labels, and model facts never substitute for missing ink.
 
-Portable protocol v6 records these dimensions separately. Complete semantic
+Portable protocol v7 records these dimensions separately. Complete semantic
 qualification still requires all the declared model and paint checks. A/A
 calibration measures timing noise and never supplies missing correctness proof.
 The report reads old evidence as unavailable where a dimension was not recorded;
@@ -63,7 +63,8 @@ This observer's completion applies to those authored criteria. Other Class marke
 profiles, ER syntax or glyph profiles, member/attribute content, computed CSS,
 fonts, clipping and complete curve-interior paint remain unmeasured. Unsupported
 paint profiles cannot earn completion through model facts or SVG metadata. The
-observer identity is distinct from the unchanged SVG-only timing protocol v6;
+observer identity is separate from the timing protocol. The observer was introduced
+under v6; v7 revises sampling and resumable scheduling, preserving historical records;
 new qualification replays do not rewrite historical records or their scopes.
 
 A catalog project can bind the portable SVG API without a bespoke runner:

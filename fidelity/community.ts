@@ -1,3 +1,4 @@
+import { CollectionBudgetExhausted, checkCollectionBudget } from '../portable/checkpoint.ts'
 import { harnessFile } from '../unified/harness-paths.ts'
 import { writeBenchmarkDocument } from '../portable/project-records.ts'
 import { fidelityCriteriaProtocol } from './protocol.ts'
@@ -134,6 +135,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
         try {
           await initialize(); await observer.goto(origin + '/observer')
           for (const [index, testCase] of selectedCases.entries()) {
+            checkCollectionBudget(options.collectionDeadline)
             try {
             if (!healthy || page.isClosed()) await initialize()
             await bounded(page.evaluate(publicSvgBrowserAction, { type: 'configure' }), () => { healthy = false; void page.close().catch(() => {}) })
@@ -163,13 +165,16 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
             details.findings = diagnostics.get(testCase.id) ?? []; rows.push(details)
             } catch (error) { rows.push({ caseId: testCase.id, family: testCase.family, collectionError: String(error), scope: 'This case observer failed; missing planned checks remain unavailable, collection continues to later cases' }) }
           }
-        } catch (error) { initializationError = String(error) }
+        } catch (error) {
+          if (error instanceof CollectionBudgetExhausted) { write(join(directory, 'interrupted-fidelity.json'), { status: 'incomplete', observations, rows }); throw error }
+          initializationError = String(error)
+        }
         finally { await context.close(); await new Promise<void>(done => server.close(() => done())) }
         const completed = completeCriterionLedger(planned, observations, project).map(row => row.surface === 'native-public-api' ? { ...row, detail: 'No reviewed native model adapter; no native call or passing evidence claimed' } : row)
         const receipt = join(directory, 'community-fidelity-cases.json'); write(receipt, { project, admission, capabilities, initialized, initializationError, fetched: [...fetched], blockedRequests: [...blockedRequests], rows, nativeScope: 'No reviewed native model adapter for this peer; every planned native criterion remains unavailable, independent of SVG success' }); artifacts.push(receipt)
         return { id: 'mermaid-fidelity', startedAt: began, finishedAt: new Date().toISOString(), status: completed.some(row => row.status === 'failed') ? 'failed' : 'blocked', observations: completed, artifacts, gaps: ['Native public-model criteria are unavailable for this noncore peer; public SVG success supplies no model passes.', 'Quantitative and graph projections are bounded reviewed checks, not whole-family visual equivalence.', ...(initializationError ? ['Collection interrupted: ' + initializationError + '; every missing planned criterion remains unavailable'] : []), ...[...blockedRequests].map(url => 'Blocked external resource: ' + url)] }
       }
-      const result = options.fidelityDiagnostic ? await measure(projectOut) : await runRetainedSuite({ out: projectOut, records: options.benchmarkRecordStore ?? options.communityRecordStore ?? join(out, 'records'), force: options.benchmarkForce ?? options.communityForce, identity, measure })
+      const result = options.fidelityDiagnostic ? await measure(projectOut) : await runRetainedSuite({ out: projectOut, records: options.benchmarkRecordStore ?? options.communityRecordStore ?? join(out, 'records'), force: options.benchmarkForce ?? options.communityForce, campaign: options.collectionCampaignId ? { id: options.collectionCampaignId, resume: options.collectionResume } : undefined, identity, measure })
       results.push(result); if (!aliases.has(aliasKey)) aliases.set(aliasKey, { project, result })
       write(join(out, 'community-fidelity-progress.json'), { completed: results.length, selected: targets.length, project, observations: result.observations.length })
     }

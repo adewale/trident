@@ -14,6 +14,8 @@ export interface RetainedSuiteOptions {
   out: string
   records: string
   force?: boolean
+  /** Forced resumes reuse only records published by this controller/cohort. */
+  campaign?: { id: string; resume?: boolean }
   /** Explicitly publish a completed attempt whose publication alone failed. */
   resumeAttempt?: string
   /** Re-evaluated after collection so changed artifacts cannot be published. */
@@ -32,7 +34,7 @@ export function publicationResult(raw: UnifiedSuiteResult, project: string): Uni
       if (seen.has(coordinate)) throw Error('Duplicate measured sample coordinates; row IDs cannot qualify repeated clocks')
       seen.add(coordinate)
     }
-    return { ...row, metrics: { ...row.metrics, implementation: project, project, metricId: `observation-${index + 1}` } }
+    return { ...row, metrics: { ...row.metrics, measuredFrom: row.metrics?.measuredFrom ?? raw.startedAt, measuredAt: row.metrics?.measuredAt ?? raw.finishedAt, implementation: project, project, metricId: `observation-${index + 1}` } }
   }) }
 }
 
@@ -60,7 +62,7 @@ export async function runRetainedSuite(options: RetainedSuiteOptions): Promise<U
   process.once('SIGTERM', terminate)
   try {
     writeFileSync(fd, JSON.stringify({ project: identity.project, lane: identity.lane, pid: process.pid }))
-    const retained = options.force || options.resumeAttempt ? undefined : findProjectRecord(options.records, identity)
+    const retained = options.resumeAttempt || options.force && !(options.campaign?.resume && options.campaign.id) ? undefined : findProjectRecord(options.records, identity, options.force ? options.campaign?.id : undefined)
     active()
     if (retained) {
       const result = readBenchmarkResult(retained)
@@ -132,7 +134,7 @@ export async function runRetainedSuite(options: RetainedSuiteOptions): Promise<U
       evidenceFiles: [...new Set([...files('').filter(path => options.resumeAttempt || path !== 'identity.json'), 'result.json.gz'])],
       observations: result.observations,
       gaps: result.gaps,
-      provenance: metadata(result),
+      provenance: { ...metadata(result), ...(options.campaign ? { collectionCampaignId: options.campaign.id } : {}) },
     }
     completedOutput = writeProjectBenchmarkRecord(payload, record)
     active()

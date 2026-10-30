@@ -1,0 +1,226 @@
+{
+  "schema": "trident-pilot-summary-v1",
+  "scope": "Diagnostic collection cost and declared checks on the named pilot inputs; no ecosystem score, renderer-latency ranking or full-suite qualification.",
+  "sourceSha256": "0682eae860a329194d21477e42148dd56b31218355ba378e2c043909c83ce20f",
+  "counts": {
+    "planned": 22,
+    "collected": 11,
+    "cancelled": 1,
+    "notStarted": 10,
+    "incomplete": 0,
+    "positiveCases": 11,
+    "outputAdmissionCases": 10,
+    "semanticCompleteCases": 1
+  },
+  "rows": [
+    {
+      "project": "zhenhuaa/mdv",
+      "caseId": "family:flowchart",
+      "seconds": 158.7707611750002,
+      "state": "collected",
+      "positiveCases": 1,
+      "outputAdmissionCases": 1,
+      "semanticCompleteCases": 0,
+      "calibratedTracks": 1,
+      "totalTracks": 3,
+      "report": "00-zhenhuaa--mdv/report.json",
+      "sha256": "8e7efa5bd59505ad557d724c808365da5abbae7183fed333a6673f2798e9f092"
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "family:flowchart",
+      "seconds": 54.341753262000566,
+      "state": "collected",
+      "positiveCases": 1,
+      "outputAdmissionCases": 1,
+      "semanticCompleteCases": 0,
+      "calibratedTracks": 1,
+      "totalTracks": 3,
+      "report": "01-sandyyst--dsh-plugin-mermaid-gb-svg/report.json",
+      "sha256": "4a6f85ce7a2df5c22da8fe480c58b9b5299b79461e30fda5a426aeeaf2c27823"
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "caseId": "family:flowchart",
+      "seconds": 207.115350561,
+      "state": "collected",
+      "positiveCases": 1,
+      "outputAdmissionCases": 1,
+      "semanticCompleteCases": 0,
+      "calibratedTracks": 1,
+      "totalTracks": 3,
+      "report": "02-dfadler--zombie-mermaid/report.json",
+      "sha256": "570e4cca13f20ab1eba775e80d9673b3d0094aabdb062ca7397e206863aed8ef"
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "caseId": "family:flowchart",
+      "seconds": 158.7659580489999,
+      "state": "collected",
+      "positiveCases": 1,
+      "outputAdmissionCases": 1,
+      "semanticCompleteCases": 0,
+      "calibratedTracks": 3,
+      "totalTracks": 3,
+      "report": "03-lukilabs--beautiful-mermaid/report.json",
+      "sha256": "aa0d1974f80a9c888fd3e58bc47070489d4edb40525b067648a977aa06098f28"
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "family:flowchart",
+      "seconds": 68.6160253500002,
+      "state": "collected",
+      "positiveCases": 1,
+      "outputAdmissionCases": 0,
+      "semanticCompleteCases": 0,
+      "calibratedTracks": 0,
+      "totalTracks": 3,
+      "report": "04-crafter-station--mermaid/report.json",
+      "sha256": "286ff9956dac5253989e42b2c1ead0591e2a1c55599e0589f158848478436d91"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "caseId": "family:flowchart",
+      "seconds": 193.61426837699946,
+      "state": "collected",
+      "positiveCases": 1,
+      "outputAdmissionCases": 1,
+      "semanticCompleteCases": 0,
+      "calibratedTracks": 1,
+      "totalTracks": 3,
+      "report": "05-adewale--agentic-mermaid/report.json",
+      "sha256": "7c6c71ffab0f783aeeaafc61771012bffce22263d4006a4a600e3de6c9816c8e"
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "family:flowchart",
+      "seconds": 107.72085432299991,
+      "state": "collected",
+      "positiveCases": 1,
+      "outputAdmissionCases": 1,
+      "semanticCompleteCases": 0,
+      "calibratedTracks": 0,
+      "totalTracks": 3,
+      "report": "06-emtyty--merslim/report.json",
+      "sha256": "2cca47d3eed8bdbcfc3214948b9c16337d9da9ea94ceecbf10a0d7d94f940d93"
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "family:flowchart",
+      "seconds": 62.85256351299995,
+      "state": "collected",
+      "positiveCases": 1,
+      "outputAdmissionCases": 1,
+      "semanticCompleteCases": 0,
+      "calibratedTracks": 1,
+      "totalTracks": 3,
+      "report": "07-KlangHaus--vitepress-plugin-diagram/report.json",
+      "sha256": "7a2496ed8c5fbeebe62c9665f9c3b1d917596b2cf0fcb58dbb98b5556c366e43"
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "family:flowchart",
+      "seconds": 67.48154228099975,
+      "state": "collected",
+      "positiveCases": 1,
+      "outputAdmissionCases": 1,
+      "semanticCompleteCases": 0,
+      "calibratedTracks": 2,
+      "totalTracks": 3,
+      "report": "08-Latias94--merman/report.json",
+      "sha256": "2f8ba0a69d3632c3e4d9ca4bb65f17ee3bb4fb96ebd666ea33eefb8a0a065b66"
+    },
+    {
+      "project": "wevm/ondine",
+      "caseId": "family:flowchart",
+      "seconds": 90.85160498100049,
+      "state": "collected",
+      "positiveCases": 1,
+      "outputAdmissionCases": 1,
+      "semanticCompleteCases": 0,
+      "calibratedTracks": 1,
+      "totalTracks": 3,
+      "report": "09-wevm--ondine/report.json",
+      "sha256": "6ffb45b8ad1c79f42a9c782cebcf78ea8711ac0a40e557f8e492749707ee9276"
+    },
+    {
+      "project": "obsidianmd/pele",
+      "caseId": "family:flowchart",
+      "seconds": 77.70986064699991,
+      "state": "collected",
+      "positiveCases": 1,
+      "outputAdmissionCases": 1,
+      "semanticCompleteCases": 1,
+      "calibratedTracks": 1,
+      "totalTracks": 3,
+      "report": "10-obsidianmd--pele/report.json",
+      "sha256": "f48ea0fb12d4a6eb568168795f7cee8d0dd307182c505e0a4aac728a967c1eea"
+    },
+    {
+      "project": "zhenhuaa/mdv",
+      "caseId": "scaling:class:128",
+      "seconds": 180.06874920599967,
+      "state": "cancelled"
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "scaling:class:128",
+      "seconds": null,
+      "state": "not-started"
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "caseId": "scaling:class:128",
+      "seconds": null,
+      "state": "not-started"
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "caseId": "scaling:class:128",
+      "seconds": null,
+      "state": "not-started"
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "scaling:class:128",
+      "seconds": null,
+      "state": "not-started"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "caseId": "scaling:class:128",
+      "seconds": null,
+      "state": "not-started"
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "scaling:class:128",
+      "seconds": null,
+      "state": "not-started"
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "scaling:class:128",
+      "seconds": null,
+      "state": "not-started"
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "scaling:class:128",
+      "seconds": null,
+      "state": "not-started"
+    },
+    {
+      "project": "wevm/ondine",
+      "caseId": "scaling:class:128",
+      "seconds": null,
+      "state": "not-started"
+    },
+    {
+      "project": "obsidianmd/pele",
+      "caseId": "scaling:class:128",
+      "seconds": null,
+      "state": "not-started"
+    }
+  ]
+}

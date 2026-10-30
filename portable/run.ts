@@ -1,17 +1,16 @@
 import { TRIDENT_VERSION } from '../version.ts'
 import { PORTABLE_HELP } from './help.ts'
-import { gzipSync } from 'node:zlib'
 import { execFileSync } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
-import { appendFileSync, existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, rmSync, writeFileSync, openSync, closeSync, unlinkSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, rmSync, writeFileSync, openSync, closeSync, unlinkSync } from 'node:fs'
 import { join, resolve, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { FAMILY_SUPPORT_PROTOCOL, familySupportProbe, portableCases, PORTABLE_COHORT_PROTOCOL, type PortableCase, type PortableCohort } from './cohorts.ts'
 import { environmentIdentity } from './environment.ts'
 import { artifactIdentity, byteDigest, harnessIdentity, portableDirectory, readJson, resolveArtifact } from './artifacts.ts'
 import { activateProjectRecord, findProjectRecord, inspectCurrentProjectRecords, publishProjectRecord, writeProjectBenchmarkRecord, stableValue, type ProjectBenchmarkIdentity, type ProjectBenchmarkRecord } from './project-records.ts'
-import { assertPortableRunning, PortableCancelled, resetPortableCancellation, measurePortableProject, terminatePortableWorkers } from './execution.ts'
-import { PORTABLE_ADAPTER_IDS, PORTABLE_MEASUREMENT_PROTOCOL, type PortableArtifact, type PortableJob, type PortableWorkerResult, type Replica } from './protocol.ts'
+import { assertPortableRunning, PortableCancelled, resetPortableCancellation, measurePortableProject, terminatePortableWorkers, CollectionBudgetExhausted, CollectionCheckpoint } from './execution.ts'
+import { FULL_SAMPLING, PORTABLE_ADAPTER_IDS, PORTABLE_MEASUREMENT_PROTOCOL, type PortableArtifact, type PortableJob, type PortableWorkerResult, type Replica } from './protocol.ts'
 import { portableMarkdown, portableSummary } from './report.ts'
 import type { BenchmarkObservation } from './observation.ts'
 import type { UsageEvidence } from './costs.ts'
@@ -45,6 +44,8 @@ export interface PortableOptions {
   force: boolean
   plan: boolean
   allowPartial: boolean
+  collectionDeadline?: number
+  resume?: boolean
 }
 export { assertBenchmarkExecutionAllowed as assertPortableLocal } from './ci-policy.ts'
 import { assertBenchmarkExecutionAllowed as assertPortableLocal } from './ci-policy.ts'
@@ -98,9 +99,9 @@ export function parsePortableOptions(argv: string[]): PortableOptions {
     node: values.get('--node') ?? process.env.NODE_BIN ?? 'node',
     out: resolve(values.get('--out') ?? 'bench-report/portable'),
     records: resolve(values.get('--records') ?? 'bench-report/project-records'),
-    rounds: integer('--rounds', 5),
-    samples: integer('--samples', 31),
-    coldSamples: integer('--cold-samples', 20),
+    rounds: integer('--rounds', FULL_SAMPLING.rounds),
+    samples: integer('--samples', FULL_SAMPLING.samples),
+    coldSamples: integer('--cold-samples', FULL_SAMPLING.coldSamples),
     minSampleMs: decimal('--min-sample-ms', 2),
     workerTimeoutMs: integer('--worker-timeout-ms', 300_000),
     preparationConcurrency: integer('--preparation-concurrency', 8),
@@ -144,6 +145,7 @@ function observations(project: string, cases: PortableCase[], results: PortableW
     const base = { suite: 'portable-community', surface: 'node:public-svg', runtime: `node:${result.runtime.node}`, family: result.family, caseId: result.caseId, format: 'svg', status, detail: result.qualification?.scope ?? result.error }
     if (result.mode === 'probe') return [{ ...base, operation: 'family-support', mode: 'probe', detail: result.error, metrics: { ...metrics, metricId: `probe:${result.family}` } }]
     if (result.mode === 'baseline' || result.mode === 'memory' || result.mode === 'retention') return [{ ...base, operation: 'resource-diagnostic', mode: result.mode, metrics: { ...metrics, metricId: `${result.mode}:${result.round}:${result.replica}:${result.sample}` } }]
+    if (!Object.keys(result.tracks).length) return [{ ...base, operation: 'admission', mode: 'single-public-call', metrics: { ...metrics, metricId: `admission:${result.round}:${result.replica}:${result.sample}` } }]
     return Object.entries(result.tracks).map(([track, samples]) => ({ ...base, operation: 'render', mode: `${result.replica}:${track}`, samplesMs: samples, metrics: { ...metrics, metricId: `${track}:${result.round}:${result.replica}:${result.sample}` } }))
   }), ...unrun]
 }
@@ -177,6 +179,7 @@ export async function runPortable(options: PortableOptions) {
     maximumControlSpread: options.maximumControlSpread,
     order: 'rotate A0/A1/B by round and case; all warm jobs, then all cold jobs, then serial memory/baseline jobs',
     controls: 'A0/A1/B are the exact same admitted artifact, not three tool versions',
+    caseAdmission: 'All selected cases remain in scope. A rejected family probe marks its cases unsupported. Invalid controls run once; cases failing or blocking admission retain their outcome but receive no further timing/resource jobs.',
     warmScope: 'Per-call means from batches bounded by minSampleMs or256calls; every distinct immutable SVG is checked outside clocks, byte-identical admitted returns reuse qualification; individual first-use samples are fresh processes',
     commentVariantScope: 'Trailing comment changes only source bytes, never semantic graph; this is a cache-key diagnostic',
     coldScope: 'Concurrent import preparation behind an idle barrier; one measured API call at a time and complete child exit before the next',
@@ -199,6 +202,7 @@ export async function runPortable(options: PortableOptions) {
   const lock = join(options.records, 'portable-campaign.lock'),
     fd = openSync(lock, 'wx')
   let published = false
+  let pendingAttempt: string | undefined
   try {
     writeFileSync(fd, JSON.stringify({ pid: process.pid, project: options.project, startedAt: now() }))
     const retained = options.force ? undefined : findProjectRecord(options.records, identity)
@@ -216,19 +220,22 @@ export async function runPortable(options: PortableOptions) {
       activateProjectRecord(options.records, retained)
       record = retained
     } else {
-      const startedAt = now(),
-        id = randomUUID(),
+      const previous = options.resume && existsSync(join(options.out, 'report.json')) ? readJson(join(options.out, 'report.json')) : undefined
+      if (previous?.pendingAttempt && !/^[a-f0-9-]{36}$/.test(previous.pendingAttempt)) throw Error('Invalid pending portable attempt')
+      const id = previous?.pendingAttempt ?? randomUUID(),
         directory = join(options.out, 'attempts', id)
+      const checkpoint = new CollectionCheckpoint(directory, identity, options.collectionDeadline)
+      const startedAt = checkpoint.startedAt
+      pendingAttempt = id
       writeFileSync(join(options.out, 'report.json'), JSON.stringify({ status: 'running', project: options.project, startedAt, pendingAttempt: id, previousRecordRetained: true }) + '\n')
       mkdirSync(directory, { recursive: true })
-      mkdirSync(join(directory, 'svg'))
-      writeJson(join(directory, 'invocation.json'), { options, artifact, sampling, identity, startedAt })
+      mkdirSync(join(directory, 'svg'), { recursive: true })
+      if (!existsSync(join(directory, 'invocation.json'))) writeJson(join(directory, 'invocation.json'), { options, artifact, sampling, identity, startedAt })
       const results: PortableWorkerResult[] = []
       const retain = (result: PortableWorkerResult) => {
         results.push(result)
-        appendFileSync(join(directory, 'workers.jsonl.gz'), gzipSync(Buffer.from(JSON.stringify(result) + '\n')))
       }
-      await measurePortableProject(artifact, testCases, options, directory, retain)
+      await measurePortableProject(artifact, testCases, options, directory, retain, checkpoint)
       assertIdentityStable()
       const actualObservations = observations(options.project, testCases, results)
       const finishedAt = now()
@@ -240,7 +247,7 @@ export async function runPortable(options: PortableOptions) {
         finishedAt,
         status: results.some(result => result.status === 'failed') ? 'failed' : results.some(result => result.status === 'partial' || result.status === 'blocked') ? 'blocked' : 'passed',
         evidenceDirectory: directory,
-        evidenceFiles: [...listFiles(directory).filter(file => !['workers.jsonl.gz', 'invocation.json'].includes(file)), 'result.json.gz'],
+        evidenceFiles: [...listFiles(directory).filter(file => !['checkpoint.jsonl.gz', 'checkpoint.json', 'invocation.json'].includes(file)), 'result.json.gz'],
         observations: actualObservations,
         gaps: [...new Set(results.flatMap(result => result.qualification?.unmeasuredScopes.filter(scope => !scope.startsWith('Repeated passing')) ?? []))],
         provenance: { workerProtocol: PORTABLE_MEASUREMENT_PROTOCOL, sampler: sampling, artifact, results },
@@ -252,7 +259,8 @@ export async function runPortable(options: PortableOptions) {
       assertPortableRunning()
       publishProjectRecord(options.records, record, { payloadFile })
       published = true
-      rmSync(join(directory, 'workers.jsonl.gz'), { force: true })
+      rmSync(join(directory, 'checkpoint.jsonl.gz'), { force: true })
+      rmSync(join(directory, 'checkpoint.json'), { force: true })
       rmSync(join(directory, 'invocation.json'), { force: true })
     }
     const results = (record.provenance as { results: PortableWorkerResult[] }).results
@@ -287,7 +295,7 @@ export async function runPortable(options: PortableOptions) {
     )
     return report
   } catch (error) {
-    if (!options.plan) writeFileSync(join(options.out, 'report.json'), JSON.stringify({ status: error instanceof PortableCancelled ? 'cancelled' : 'incomplete', project: options.project, finishedAt: now(), error: String(error), completedRecordPublished: published }) + '\n')
+    if (!options.plan) writeFileSync(join(options.out, 'report.json'), JSON.stringify({ status: error instanceof CollectionBudgetExhausted ? 'budget-exhausted' : error instanceof PortableCancelled ? 'cancelled' : 'incomplete', project: options.project, finishedAt: now(), error: String(error), completedRecordPublished: published, ...(error instanceof CollectionBudgetExhausted ? { pendingAttempt } : {}) }) + '\n')
     throw error
   } finally {
     closeSync(fd)

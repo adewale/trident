@@ -12,7 +12,8 @@ Benchmark catalog projects (Bun):
   bun commands.ts support [--lineage] [--out FILE.md|json]
   bun commands.ts support:verify --prepared FILE --out FRESH_DIRECTORY
   bun commands.ts bench --projects OWNER/TOOL[,...] --plan
-  bun commands.ts bench --projects OWNER/TOOL[,...] --profile full --rounds 5 --out DIR
+  bun commands.ts bench --prepare --all-projects --cutoff UTC --out DIR
+  bun commands.ts bench --prepared FILE --profile full --budget-minutes N --out DIR
   bun commands.ts bench --list
   bun commands.ts community:update --projects OWNER/TOOL[,...] --records DIR --out DIR
   bun commands.ts community:update --help
@@ -36,6 +37,7 @@ Setup and read evidence:
 Version: node commands.ts --version
 
 Maintainer checks (Bun): test (local full suite), test:ci (fixtures), typecheck, lint
+  bun commands.ts release:check --prepared FILE --projects SVG_PROJECT,TERMINAL_PROJECT --out DIR
 
 See BENCHMARKS.md for questions, usefulness, limitations and prerequisites.
 Core comparisons exclude whole-application editor workflows and descendants without distinct recorded branding,
@@ -53,10 +55,10 @@ async function main() {
   const aliases: Record<string, string> = { 'portable:build': 'build', community: 'community:update' }
   const selected = Object.hasOwn(aliases, command) ? aliases[command]! : command
   const neutral: Record<string, string> = { build: 'portable/build.ts', portable: 'portable/run.ts', 'fidelity:report': 'fidelity/report.ts' }
-const own: Record<string, string> = { 'docs:png': 'unified/docs-png-benchmark.ts', 'upstream:prepare': 'unified/prepare-upstream.ts', 'support:verify': 'unified/support-verification.ts', support: 'unified/support-command.ts', bench: 'unified/benchmark.ts', 'corpus:freeze': 'unified/external-corpus.ts', 'results:campaign': 'unified/campaign-publication.ts', 'results:snapshot': 'unified/results-snapshot.ts', 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
+const own: Record<string, string> = { 'release:check': 'scripts/package-release.ts', 'docs:png': 'unified/docs-png-benchmark.ts', 'upstream:prepare': 'unified/prepare-upstream.ts', 'support:verify': 'unified/support-verification.ts', support: 'unified/support-command.ts', bench: 'unified/benchmark.ts', 'corpus:freeze': 'unified/external-corpus.ts', 'results:campaign': 'unified/campaign-publication.ts', 'results:snapshot': 'unified/results-snapshot.ts', 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
   const checks: Record<string, string[]> = {
     test: ['test', '--timeout', '30000', resolve(directory, 'tests')],
-    'test:ci': ['test', '--timeout', '30000', ...['commands', 'ci-commands', 'png-launchers', 'results-snapshot', 'portable-family-paint'].map(name => resolve(directory, `tests/${name}.test.ts`))],
+    'test:ci': ['test', '--timeout', '30000', ...['commands', 'ci-commands', 'png-launchers', 'results-snapshot', 'portable-family-paint', 'campaign-workflows', 'campaign-preparation-regressions', 'campaign-reporting-regressions', 'campaign-resume-regressions', 'release-workflow-regressions'].map(name => resolve(directory, `tests/${name}.test.ts`))],
     typecheck: ['x', '--no-install', 'tsc', '--noEmit', '-p', resolve(directory, 'tsconfig.json')],
     lint: ['x', '--no-install', 'biome', 'lint', '--config-path', resolve(directory, 'biome.json'), directory],
   }
@@ -115,7 +117,7 @@ const own: Record<string, string> = { 'docs:png': 'unified/docs-png-benchmark.ts
     argv = checks[selected]!
   } else throw Error(`Unknown Trident command ${command}; use --help`)
   const offline = ['test:ci', 'typecheck', 'lint', 'results:snapshot', 'support', 'results:campaign', 'build', 'fidelity:report', 'results:publish', 'results:compare']
-  const inspectOnly = args.includes('--help') || selected === 'bench' && (args.includes('--list') || args.includes('--plan'))
+  const inspectOnly = args.includes('--help') || selected === 'bench' && (args.includes('--list') || args.includes('--plan') || args.includes('--pilot-summary'))
   // community:update --plan acquires artifacts, unlike bench --plan.
   if (!offline.includes(selected) && !inspectOnly) assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !['upstream:prepare'].includes(selected) })
   const result = spawnSync(executable, [...argv, ...args], { cwd, stdio: 'inherit' })

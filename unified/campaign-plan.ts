@@ -4,10 +4,11 @@ import { resolve } from 'node:path'
 import { chromium } from 'playwright'
 import { admitMermaidOracle, mermaidOracleDirectory } from '../portable/mermaid-oracle.ts'
 import { portableCases } from '../portable/cohorts.ts'
+import { FULL_SAMPLING } from '../portable/protocol.ts'
 import { lineageInventory, type LineageCatalog } from './lineage.ts'
 import { projectSupport, type CatalogMember, type PublicSuite } from './support.ts'
 
-export interface CampaignPlanOptions { projects: CatalogMember[]; catalog?: LineageCatalog; suites: readonly PublicSuite[]; rounds: number; profile: 'smoke' | 'full'; executable?: string; upstreamRunnerRoot?: string; budgetMinutes?: number }
+export interface CampaignPlanOptions { projects: CatalogMember[]; catalog?: LineageCatalog; suites: readonly PublicSuite[]; rounds: number; profile: 'smoke' | 'full'; executable?: string; upstreamRunnerRoot?: string; budgetMinutes?: number; portableCaseIds?: string[] }
 export function campaignPlan(options: CampaignPlanOptions) {
   const lineage = options.catalog ? lineageInventory(options.catalog) : undefined
   const comparisonSelection = lineage ? { projects: lineage.nodes.filter(node => options.projects.some(project => project.id === node.project)), policy: lineage.policy } : null
@@ -29,8 +30,8 @@ export function campaignPlan(options: CampaignPlanOptions) {
       if (['dart', 'franken', 'source-cli', 'extra-source', 'mermaid-rs-wasm'].includes(node.benchmark?.adapter ?? '')) required.push('declared project toolchain/build recipe')
       const missing = required.filter(key => key in tools && !tools[key as keyof typeof tools])
       const portable = suite === 'portable' && capability.state === 'configured'
-      const cases = portable ? portableCases() : []
-      const freshWorkers = portable ? cases.length * options.rounds * 3 * (options.profile === 'full' ? 20 : 1) : 0
+      const cases = portable ? portableCases(undefined, options.portableCaseIds) : []
+      const freshWorkers = portable ? cases.filter(testCase => testCase.expected.accept).length * options.rounds * 3 * (options.profile === 'full' ? FULL_SAMPLING.coldSamples : 1) : 0
       // Planning range, not a measured duration. No project-specific speed assumption.
       const range = capability.state === 'adapter-missing' || capability.state === 'project-unsupported' || capability.state === 'reference-only' || capability.state === 'out-of-scope' || capability.state === 'disabled' ? [0, 0] : portable ? [Math.ceil(freshWorkers / 600), Math.ceil(freshWorkers / 6)] : suite === 'upstream-original' ? [5, 45] : [1, 30]
       return { project: node.id, suite, capability, prerequisites: required, missing, acquisition: 'not attempted', freshWorkers,
@@ -41,6 +42,6 @@ export function campaignPlan(options: CampaignPlanOptions) {
   return { protocol: 'trident-campaign-plan-v1', comparisonSelection, selection: options.projects.map(node => node.id), suites: options.suites, rounds: options.rounds, profile: options.profile, tools, versions, oracleError, rows, estimatedMinutes, budgetMinutes: options.budgetMinutes ?? null,
     preparation: { estimatedMinutes: null, scope: 'Acquisition, downloads and source builds are not included in the planning range. Their duration is unknown until artifacts/toolchains are admitted.' },
     budgetExceededByEstimate: options.budgetMinutes !== undefined && estimatedMinutes.high > options.budgetMinutes,
-    policy: 'Planning performs no acquisition or rendering. Estimates are deliberately broad and do not establish feasibility or a maximum. A runtime budget stops at suite boundaries; an active worker retains its declared deadline. Missing external observers are unavailable counters, not free work.' }
+    policy: 'Planning performs no acquisition or rendering. Estimates are deliberately broad and do not establish feasibility or a maximum. A runtime budget stops new work at collector checkpoints; an active worker retains its declared deadline. Missing external observers are unavailable counters, not free work.' }
 }
 export function readCampaignPlan(file: string) { return JSON.parse(readFileSync(file, 'utf8')) }
