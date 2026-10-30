@@ -40,6 +40,19 @@ test('documentation SVG return and reviewed drawing correctness retain separate 
   const returns = snapshot.tables.find(table => table.columns.includes('Returned in all rounds'))!
   expect(returns.rows.find(row => row.project === 'fixture/a')!.values[1]).toBe(2)
 })
+
+test('new SVG case verdicts replace fragmented criterion scorecards without inventing ranks for unknown diagrams', () => {
+  const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' })
+  const cases = [{ caseId: 'one', family: 'flowchart', status: 'correct' }, { caseId: 'two', family: 'flowchart', status: 'unknown' }]
+  write(join(root, 'docs/result.json'), { id: 'mermaid-fidelity', startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z', observations: [], gaps: [], selectedCaseIds: ['one', 'two'], criteriaProtocol: { observer: 'fixture' }, svgAssessments: [{ project: 'fixture/a', version: '1.0.0', cases }] })
+  const controller = JSON.parse(readFileSync(join(root, 'report.json'), 'utf8')); controller.requestedSuites = ['fidelity']; controller.results[0].suite = 'fidelity'; write(join(root, 'report.json'), controller)
+  const snapshot = importCampaign(empty(), root, 'https://example.test/svg', catalog)
+  expect(snapshot.tables).toHaveLength(1)
+  expect(snapshot.tables[0]!.rows[0]!.values.slice(1, 6)).toEqual([1, 0, 0, 1, 2])
+  expect(rankedRows(snapshot.tables[0]!, value => value)[0]!.rank).toBeNull()
+  write(join(root, 'docs/result.json'), { id: 'mermaid-fidelity', observations: [], selectedCaseIds: ['one', 'two', 'three'], svgAssessments: [{ project: 'fixture/a', version: '1.0.0', cases }] })
+  expect(() => importCampaign(empty(), root, 'https://example.test/svg', catalog)).toThrow('omit')
+})
 function overview(snapshot: ResultsSnapshot, project = 'fixture/a') {
   const row = renderSnapshot(snapshot, catalog).split('\n').find(line => line.startsWith('| ' + project + ' |'))!
   const cells = row.split('|').map(value => value.trim())

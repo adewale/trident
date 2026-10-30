@@ -5,6 +5,7 @@ import { readBenchmarkDocument } from '../portable/project-records.ts'
 import { campaignResults, campaignProjectId, campaignArtifactRole, type CampaignEnvelope } from './campaign-publication.ts'
 import type { SnapshotTable } from './results-snapshot.ts'
 import type { PublicSuite } from './support.ts'
+import { summarizeSvgCases } from '../fidelity/svg-assessment.ts'
 
 const measuredAt = (rows: any[], fallback: string): string => rows.map(row => row.metrics?.measuredAt).filter((value): value is string => typeof value === 'string' && Number.isFinite(Date.parse(value))).sort((a, b) => Date.parse(a) - Date.parse(b)).at(-1) ?? fallback
 const hash = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex')
@@ -58,6 +59,26 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
     }
     const results = campaignResults(boundary)
     for (const result of results) {
+      const svg = (result as any).svgAssessments
+      if (boundary.suite === 'fidelity' && Array.isArray(svg)) {
+        for (const assessment of svg) {
+          const cases = assessment.cases
+          if (!Array.isArray(cases) || new Set(cases.map(item => item.caseId)).size !== cases.length || cases.some(item => !['correct', 'incorrect', 'unsupported', 'unknown'].includes(item.status))) throw Error('SVG case assessment inventory is invalid')
+          const selected = (result as any).selectedCaseIds
+          if (!Array.isArray(selected) || JSON.stringify([...selected].sort()) !== JSON.stringify(cases.map(item => item.caseId).sort())) throw Error('SVG assessments omit a declared case')
+          const summary = summarizeSvgCases(cases), project = projectId(assessment.project)
+          const protocol = (result as any).criteriaProtocol
+          const own = result.observations.filter(row => projectId(row.metrics?.project ?? row.metrics?.implementation) === project)
+          add(['svg-case-verdicts', cohort, hash([...selected].sort()), hash(protocol ?? null)], 'fidelity', measuredAt(own, result.finishedAt),
+            'Whole-diagram outcomes for the same authored case inventory and planned SVG checks. Public-model APIs confer no drawing credit. Unknown observations withhold a correctness rank; raw criterion evidence remains in the owning report.',
+            ['Version', 'Correct', 'Incorrect', 'Unsupported', 'Unknown', 'Planned', 'Measured'], project,
+            [assessment.version, summary.correct, summary.incorrect, summary.unsupported, summary.unknown, summary.planned, measuredAt(own, result.finishedAt)],
+            { column: 'Correct', denominator: 'Planned', direction: 'descending' },
+            { summary: true, unit: 'authored diagrams', population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unsupported', 'Unknown'] } },
+            summary.unknown ? 'Required SVG observations are unknown' : !protocol ? 'Observer protocol is unqualified' : undefined)
+        }
+        continue
+      }
       if (boundary.suite === 'docs') {
         const file = join(boundary.out, 'inventory.json')
         if (!existsSync(file)) continue
