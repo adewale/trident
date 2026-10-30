@@ -42,10 +42,13 @@ figures become very wide and lose readability when fitted to 1800 pixels.
 
 ![Four looks and three palettes, with typography and arrowhead details](images/lineage-style-controls.png)
 
-Publication Figure with Nord Light remains the README default. Its updated PNG
-uses AM 0.5.4's public `renderMermaidPNG` API with verified bundled fonts and system
-fonts disabled. The README embeds PNG for consistent lettering across readers;
-the SVG remains available with live text and its requested font family.
+Publication Figure with Nord Light remains the README default. The diagram uses
+AM 0.5.4's public SVG API. A compact footer adds colour swatches and solid/dashed
+line samples outside the graph, preserving its layout. The complete SVG is
+rasterized with Trident's pinned resvg and Inter fonts checked against the
+renderer bundle's SHA-256 manifest; system fonts remain disabled. The README
+embeds this PNG for consistent lettering across readers. The SVG remains
+available with live text and its requested font family.
 
 The generation receipt now names the renderer version and PNG/font policy.
 Use `bun scripts/render-lineage.ts --renderer-entry INSTALLED_AGENTIC_ENTRY --out FRESH.svg`

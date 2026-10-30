@@ -75,12 +75,6 @@ flowchart TB
     %% Yassimba/loom
     p26["Loom renderer<br/>terminal"]:::terminal
   end
-  subgraph legend["Legend"]
-    legendSvg["Blue · SVG renderer<br/>May also provide terminal or PNG"]:::svg
-    legendTerminal["Green · terminal-only renderer<br/>ASCII / Unicode"]:::terminal
-    legendRaster["Purple · native raster renderer<br/>PNG"]:::raster
-    legendNote["Grey frames group projects<br/>Solid arrows: project lineage<br/>Dashed arrow: component port<br/>Colours show output types, not scores"]
-  end
   classDef svg fill:#e8eff8,stroke:#5e81ac,color:#233448
   classDef terminal fill:#e5f3ed,stroke:#51816c,color:#233f35
   classDef raster fill:#eee8f6,stroke:#8b73a6,color:#493759

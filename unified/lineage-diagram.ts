@@ -1,6 +1,12 @@
 import { comparisonProjects, lineageInventory, type LineageCatalog } from './lineage.ts'
 import { outputName } from './support.ts'
 
+export const lineageColours = {
+  svg: { fill: '#e8eff8', stroke: '#5e81ac', text: '#233448' },
+  terminal: { fill: '#e5f3ed', stroke: '#51816c', text: '#233f35' },
+  raster: { fill: '#eee8f6', stroke: '#8b73a6', text: '#493759' },
+}
+
 const names: Record<string, string> = {
   'mermaid-js/mermaid': 'Mermaid.js', 'obsidianmd/pele': 'Pele',
   'Dicklesworthstone/frankenmermaid': 'Frankenmermaid', '1jehuang/mermaid-rs-renderer': 'Mermaid RS Renderer',
@@ -43,16 +49,6 @@ export function lineageDiagram(catalog: LineageCatalog): string {
     for (const edge of edges.filter(edge => group.members.some(node => node.id === edge.from) && group.members.some(node => node.id === edge.to))) lines.push(`    ${ids.get(edge.from)} ${edge.component ? '-.->' : '-->'}|${edge.label}| ${ids.get(edge.to)}`)
     lines.push('  end')
   }
-  lines.push(
-    '  subgraph legend["Legend"]',
-    '    legendSvg["Blue · SVG renderer<br/>May also provide terminal or PNG"]:::svg',
-    '    legendTerminal["Green · terminal-only renderer<br/>ASCII / Unicode"]:::terminal',
-    '    legendRaster["Purple · native raster renderer<br/>PNG"]:::raster',
-    '    legendNote["Grey frames group projects<br/>Solid arrows: project lineage<br/>Dashed arrow: component port<br/>Colours show output types, not scores"]',
-    '  end',
-    '  classDef svg fill:#e8eff8,stroke:#5e81ac,color:#233448',
-    '  classDef terminal fill:#e5f3ed,stroke:#51816c,color:#233f35',
-    '  classDef raster fill:#eee8f6,stroke:#8b73a6,color:#493759',
-  )
+  for (const [kind, colours] of Object.entries(lineageColours)) lines.push(`  classDef ${kind} fill:${colours.fill},stroke:${colours.stroke},color:${colours.text}`)
   return lines.join('\n') + '\n'
 }
