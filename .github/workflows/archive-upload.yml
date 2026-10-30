@@ -1,0 +1,20 @@
+name: Publish verified campaign archive
+on:
+  push:
+    branches: [evidence/ecosystem-2026-10-30]
+    paths: [archive-upload.json]
+permissions:
+  contents: write
+concurrency:
+  group: ecosystem-archive-2026-10-30
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify and attach the existing evidence archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: python3 publish-archive.py
