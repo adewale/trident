@@ -156,7 +156,7 @@ function resourceObserver(configured?: string, provenance?: string): ResourceObs
     return { path, version: null, error: String(error) }
   }
 }
-function resourceDiagnostic(variant: Variant, output: string, workload: UnifiedWorkload, observer: ResourceObserver, out: string): BenchmarkObservation {
+function resourceDiagnostic(variant: Variant, output: string, workload: UnifiedWorkload, observer: ResourceObserver, out: string, deadline?: number): BenchmarkObservation {
   const row: BenchmarkObservation = {
     suite: 'community-cli',
     surface: 'cli:end-to-end',
@@ -174,6 +174,7 @@ function resourceDiagnostic(variant: Variant, output: string, workload: UnifiedW
     row.detail = observer.error ?? variant.error ?? 'Declared CLI has no prepared binding for this output'
     return row
   }
+  checkCollectionBudget(deadline)
   const resourcePath = join(out, 'gnu-time.txt')
   rmSync(resourcePath, { force: true })
   // GNU time execs the exact reviewed command; its observer elapsed time is never a speed sample.
@@ -353,7 +354,6 @@ export async function runCommunityCliCohort(options: Options) {
       for (const variant of ordered)
         for (const output of variant.outputs)
           for (const workload of workloads.filter(w => output !== 'terminal' || terminalIds.includes(w.id))) {
-            checkCollectionBudget(options.collectionDeadline)
             const directory = join(options.out, 'raw', `round-${round}`, safe(variant.prepared.node.id), output, safe(workload.id))
             mkdirSync(directory, { recursive: true })
             let row: BenchmarkObservation
@@ -370,7 +370,7 @@ export async function runCommunityCliCohort(options: Options) {
                 status: 'blocked',
                 detail: variant.error ?? 'Declared CLI has no prepared binding for this output',
               }
-            } else row = runCommunityCli(variant.prepared, output, workload, round, directory)
+            } else { checkCollectionBudget(options.collectionDeadline); row = runCommunityCli(variant.prepared, output, workload, round, directory) }
             row.suite = 'community-cli'
             row.runtime = variant.prepared.artifact?.runtime ?? 'native:compiled-public-cli (embedded runtime version unreported)'
             row.metrics = { ...row.metrics, implementation: variant.prepared.node.id, variantOf: variant.variantOf, variant: variant.variant, metricId: `${variant.prepared.node.id}:cli:${output}`, round }
@@ -398,10 +398,9 @@ export async function runCommunityCliCohort(options: Options) {
   for (const variant of variants)
     for (const output of variant.outputs)
       for (const workload of workloads.filter(w => output !== 'terminal' || terminalIds.includes(w.id))) {
-        checkCollectionBudget(options.collectionDeadline)
         const directory = join(options.out, 'resources', safe(variant.prepared.node.id), output, safe(workload.id))
         mkdirSync(directory, { recursive: true })
-        const diagnostic = resourceDiagnostic(variant, output, workload, observer, directory)
+        const diagnostic = resourceDiagnostic(variant, output, workload, observer, directory, options.collectionDeadline)
         diagnostics.push(diagnostic)
         writeFileSync(join(directory, 'observation.json'), JSON.stringify(diagnostic, null, 2))
       }

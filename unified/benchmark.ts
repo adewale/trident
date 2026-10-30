@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
-import { createHash } from 'node:crypto'
+import { createHash, randomUUID } from 'node:crypto'
 import { environmentIdentity } from '../portable/environment.ts'
 import { executableIdentity } from './benchmark-context.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
@@ -35,6 +35,27 @@ export function publicPackageRoot(peer: PreparedCommunity | undefined): string |
   if (!peer.artifact.module) return undefined
   let root = dirname(resolve(peer.artifact.module))
   while (root !== dirname(root)) { if (existsSync(join(root, 'package.json'))) return root; root = dirname(root) }
+}
+/** A newer published version may remove a release-specific pause. Other scope
+ * exclusions apply before metadata acquisition as well as before collection. */
+export function releaseSelectionProjects(catalog: Parameters<typeof comparisonProjects>[0], requested: string[], includeExcluded = false): string[] {
+  return comparisonProjects(catalog, requested, includeExcluded).projects.filter(project =>
+    !project.exclusionReasons.includes('application-workflow') && (includeExcluded || project.exclusionReasons.every(reason => reason === 'disabled-release')),
+  ).map(project => project.project)
+}
+
+export async function collectCampaignBoundary(results: any[], deadline: number | undefined, boundary: { suite: string; project?: string; out: string; cohort?: string }, run: () => Promise<any>, save: () => void) {
+  const { suite, project, out, cohort = 'core' } = boundary
+  const index = results.findIndex(row => row.suite === suite && row.project === project && (row.cohort ?? 'core') === cohort)
+  if (index >= 0 && results[index].completed) return
+  const previousSeconds = index >= 0 ? results[index].elapsedSeconds ?? 0 : 0
+  let value: any, launched = false
+  const began = Date.now()
+  try { checkCollectionBudget(deadline); launched = true; value = { ...await run(), completed: true } }
+  catch (error) { value = { status: 'blocked', detail: String(error), ...(error instanceof CollectionBudgetExhausted ? { completed: false, disposition: 'budget-exhausted' } : { completed: true }) } }
+  const row = { suite, project, cohort, out, launched, elapsedSeconds: previousSeconds + (Date.now() - began) / 1000, ...(cohort.startsWith('pilot:') ? { caseId: cohort.slice(6) } : {}), ...value }
+  if (index >= 0) results[index] = row; else results.push(row)
+  save()
 }
 
 /** Prepare once, then collect/resume with one frozen manifest and shared budget. */
@@ -110,7 +131,8 @@ Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples}
   if (!list && !options.communityProjects && !allProjects) throw Error('Choose --projects OWNER/TOOL,..., explicitly --all-projects, or --prepared before starting')
   let catalog = read(options.communityCatalogFile ?? communityCatalogFile)
   if (cutoff && !preparedFile && !options.communityPreparedFile && !planOnly && !list) {
-    const resolved = await resolveReleaseCatalog(catalog, selectCommunityProjects(catalog.nodes, options.communityProjects).map(peer => peer.id), cutoff, join(options.out, 'preparation/registry'))
+    const requested = selectCommunityProjects(catalog.nodes, options.communityProjects).map(peer => peer.id)
+    const resolved = await resolveReleaseCatalog(catalog, releaseSelectionProjects(catalog, requested, includeExcluded), cutoff, join(options.out, 'preparation/registry'))
     catalog = resolved.catalog
     writeFileSync(join(options.out, 'preparation/registry/selection.json'), JSON.stringify({ cutoff, ledger: resolved.ledger }, null, 2))
   }
@@ -140,31 +162,22 @@ Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples}
     selectors: Object.fromEntries(['LD_LIBRARY_PATH', 'DISPLAY', 'FONTCONFIG_FILE', 'FONTCONFIG_PATH', 'LIBGL_ALWAYS_SOFTWARE', 'NODE_COMPILE_CACHE', 'UV_THREADPOOL_SIZE', 'NODE_BIN', 'BUN_BIN', 'BUN_OPTIONS', 'AM_BENCH_OBSERVER', 'MERMAID_REFERENCE_DIR', 'MERMAID_UPSTREAM_DIR', 'MERMAID_UPSTREAM_RUNNER_ROOT'].map(name => [name, process.env[name] ?? null])) }
   if (previous && stableValue(previous.runtime) !== stableValue(runtime)) throw Error('Resume runtime or environment changed; retain the old campaign and start a separate comparison')
   const windows = [...(previous?.windows ?? []), { startedAt: new Date().toISOString(), budgetMinutes: budgetMinutes ?? null, deadline: deadline ?? null }]
-  const results: any[] = previous?.results ?? [], startedAt = previous?.startedAt ?? windows[0].startedAt
+  const results: any[] = previous?.results ?? [], startedAt = previous?.startedAt ?? windows[0].startedAt, campaignId = previous?.campaignId ?? randomUUID()
+  if (typeof campaignId !== 'string' || !/^[a-f0-9-]{36}$/.test(campaignId)) throw Error('Invalid campaign identity')
   const save = () => {
-    const report = { schema: 'trident-campaign-v2', pilot: pilotOnly, includeExcluded, startedAt, updatedAt: new Date().toISOString(), projects, profile: options.profile, rounds: options.rounds, requestedSuites: chosen, options, preparationFile: preparedFile, preparationSha256, upstreamRunnerRoot, runtime, deadline, windows, results }
+    const report = { schema: 'trident-campaign-v2', campaignId, pilot: pilotOnly, includeExcluded, startedAt, updatedAt: new Date().toISOString(), projects, profile: options.profile, rounds: options.rounds, requestedSuites: chosen, options, preparationFile: preparedFile, preparationSha256, upstreamRunnerRoot, runtime, deadline, windows, results }
     writeFileSync(reportFile, JSON.stringify(report, null, 2))
     writeFileSync(join(options.out, 'report.md'), '# Public-artifact campaign\n\n' + `Profile ${options.profile}; ${options.rounds} rounds. Owning result tables are generated by results:snapshot.\n\n` + '| Suite | Cohort | Project | Status | Detail |\n|---|---|---|---|---|\n' + results.map(row => `| ${row.suite} | ${row.cohort ?? 'core'} | ${row.project ?? projects.join(', ')} | ${row.status} | ${String(row.detail ?? row.out ?? '').replaceAll('|', '/').replaceAll('\n', ' ')} |`).join('\n') + '\n')
   }
-  const collect = async (suite: string, project: string | undefined, out: string, run: () => Promise<any>, cohort = 'core') => {
-    const index = results.findIndex(row => row.suite === suite && row.project === project && (row.cohort ?? 'core') === cohort)
-    if (index >= 0 && results[index].completed) return
-    let value: any, launched = false
-    const began = Date.now()
-    try { checkCollectionBudget(deadline); launched = true; value = { ...await run(), completed: true } }
-    catch (error) { value = { status: 'blocked', detail: String(error), ...(error instanceof CollectionBudgetExhausted ? { completed: false, disposition: 'budget-exhausted' } : { completed: true }) } }
-    const row = { suite, project, cohort, out, launched, elapsedSeconds: (Date.now() - began) / 1000, ...(cohort.startsWith('pilot:') ? { caseId: cohort.slice(6) } : {}), ...value }
-    if (index >= 0) results[index] = row; else results.push(row)
-    save()
-  }
-  const base = { ...options, collectionDeadline: deadline, collectionResume: resume, benchmarkRecordStore: join(options.out, 'records'), fidelityZenumlRoot: browsers.find((peer: any) => peer.node.id === 'mermaid-js/mermaid')?.browser?.zenuml?.root, upstreamRunnerRoot }
+  const collect = (suite: string, project: string | undefined, out: string, run: () => Promise<any>, cohort = 'core') => collectCampaignBoundary(results, deadline, { suite, project, out, cohort }, run, save)
+  const base = { ...options, collectionDeadline: deadline, collectionResume: resume, collectionCampaignId: campaignId, benchmarkRecordStore: join(options.out, 'records'), fidelityZenumlRoot: browsers.find((peer: any) => peer.node.id === 'mermaid-js/mermaid')?.browser?.zenuml?.root, upstreamRunnerRoot }
   const resultSummary = (result: UnifiedSuiteResult, out: string) => {
     mkdirSync(out, { recursive: true })
     if (!existsSync(join(out, 'result.json'))) writeBenchmarkDocument(join(out, 'result.json'), result)
     return { status: result.status, out, observations: result.observations.length, counts: Object.fromEntries([...new Set(result.observations.map(row => row.status))].map(status => [status, result.observations.filter(row => row.status === status).length])), gaps: result.gaps }
   }
   const compatibility = async (out: string, inputs: string, cohort: string) => {
-    const community = await runIncrementalCommunitySuite({ ...base, out, communityInputsFile: inputs, communityRecordStore: options.communityRecordStore ?? join(options.out, 'project-records', cohort) })
+    const community = await runIncrementalCommunitySuite({ ...base, out, collectionCampaignId: campaignId + ':community:' + cohort, communityInputsFile: inputs, communityRecordStore: options.communityRecordStore ?? join(options.out, 'project-records', cohort) })
     const cli = readBenchmarkDocument(join(out, 'retained-cli-suite.json')) as UnifiedSuiteResult
     return resultSummary({ ...community, status: [community.status, cli.status].includes('failed') ? 'failed' : [community.status, cli.status].includes('blocked') ? 'blocked' : community.status,
       observations: [...community.observations, ...cli.observations], gaps: [...community.gaps, ...cli.gaps] }, out)
@@ -178,7 +191,7 @@ Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples}
     const out = join(options.out, suite)
     if (suite === 'community') await collect(suite, undefined, out, () => compatibility(out, options.communityInputsFile!, 'core'))
     else if (suite === 'docs') await collect(suite, undefined, out, async () => resultSummary(await runDocsBenchmark({ ...base, out }), out))
-    else if (suite === 'fidelity') await collect(suite, undefined, out, async () => resultSummary(await runCommunityFidelitySuite({ ...base, out }), out))
+    else if (suite === 'fidelity') await collect(suite, undefined, out, async () => resultSummary(await runCommunityFidelitySuite({ ...base, out, collectionCampaignId: campaignId + ':fidelity' }), out))
     else if (suite === 'upstream-original') await collect(suite, 'mermaid-js/mermaid', out, async () => resultSummary(await runUpstreamOriginalSuite({ ...base, out }), out))
     else if (suite === 'native-fidelity' || suite === 'upstream-fidelity') for (const peer of prepared) {
       const targetOut = join(out, encodeURIComponent(peer.node.id))

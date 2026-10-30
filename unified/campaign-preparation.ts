@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto'
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { dirname, join, relative, resolve } from 'node:path'
 import { prepareCommunity, communityCoreWorkloads, verifyFrozenBrowserEngine } from './community.ts'
-import { prepareCommunityBrowsers } from './community-browser.ts'
+import { prepareCommunityBrowsers, type PreparedCommunityBrowser } from './community-browser.ts'
 import { projectPackageIdentity } from './project-update.ts'
 import { corpusWorkloads } from './corpus.ts'
 import { withReferenceLabels } from './qualification.ts'
@@ -27,6 +27,28 @@ interface PreparationManifest {
   files: Record<string, { path: string; sha256: string }>
   artifacts: { project: string; version?: string; identity?: unknown; error?: string }[]
 }
+/** Bind browser dispositions to the selected primary artifact without requiring
+ * separate public components (for example Merman's SDK) to share its version. */
+export function reconcileCampaignBrowsers(prepared: PreparedCommunity[], value: unknown): PreparedCommunityBrowser[] {
+  if (!Array.isArray(value) || value.some(peer => !peer?.node?.id) || new Set(value.map(peer => peer.node.id)).size !== value.length) throw Error('Browser preparation needs unique project identities')
+  const selectors = (entry: PreparedCommunity) => Object.fromEntries(['id', 'benchmark', 'outputs', 'head', 'release', 'distribution', 'packages'].map(key => [key, (entry.node as any)[key] ?? null]))
+  const artifactMetadata = (entry: PreparedCommunity) => JSON.stringify({ ...entry.artifact, detail: undefined })
+  return prepared.map(entry => {
+    const peer = (value as PreparedCommunityBrowser[]).find(peer => peer.node.id === entry.node.id)
+    try {
+      if (!peer) throw Error('No browser disposition for the selected project')
+      if (stableValue(selectors(peer)) !== stableValue(selectors(entry))) throw Error('Browser catalog/config differs from the selected project')
+      if (!['prepared', 'blocked', 'not-applicable'].includes(peer.browserStatus)) throw Error('Unknown browser preparation disposition')
+      // Equal selectors refer to the primary already sealed by the caller. Only
+      // differing representations need another full dependency-closure scan.
+      if ((peer.artifact || entry.artifact) && artifactMetadata(peer) !== artifactMetadata(entry) && stableValue(projectPackageIdentity(peer)) !== stableValue(projectPackageIdentity(entry))) throw Error('Browser primary artifact differs from the selected artifact')
+      if (peer.browserStatus === 'prepared') verifyFrozenBrowserEngine(peer)
+      return JSON.parse(JSON.stringify({ ...peer, ...entry, artifact: entry.artifact, error: entry.error, ...(peer.browserStatus === 'prepared' ? {} : { browser: undefined }) })) as PreparedCommunityBrowser
+    } catch (error) {
+      return { ...entry, browserStatus: 'blocked', browserDetail: 'Canonical browser admission failed: ' + String(error) }
+    }
+  })
+}
 export function loadCampaignPreparation(file: string): { manifest: PreparationManifest; options: Partial<UnifiedRunOptions>; externalInputs?: string } {
   const manifest = JSON.parse(readFileSync(file, 'utf8')) as PreparationManifest
   if (manifest.schema !== 'trident-campaign-preparation-v1' || !Array.isArray(manifest.projects) || new Set(manifest.projects).size !== manifest.projects.length) throw Error('Invalid campaign preparation')
@@ -39,6 +61,13 @@ export function loadCampaignPreparation(file: string): { manifest: PreparationMa
   for (const required of ['catalog', 'prepared', 'browsers', 'inputs', 'inventories']) if (!files[required]) throw Error('Preparation omits ' + required)
   const prepared = readBenchmarkDocument(files.prepared!) as PreparedCommunity[]
   if (!Array.isArray(prepared) || stableValue(prepared.map(entry => entry.node.id).sort()) !== stableValue([...manifest.projects].sort())) throw Error('Prepared project inventory differs from the manifest')
+  if (!Array.isArray(manifest.artifacts) || stableValue(manifest.artifacts.map(receipt => receipt.project).sort()) !== stableValue([...manifest.projects].sort())) throw Error('Prepared artifact receipts must cover each selected project once')
+  for (const entry of prepared) {
+    const receipt = manifest.artifacts.find(receipt => receipt.project === entry.node.id)!
+    if (!!entry.artifact !== !!receipt.identity) throw Error('Prepared primary artifact and its owning identity receipt differ: ' + entry.node.id)
+  }
+  const browsers = readBenchmarkDocument(files.browsers!)
+  if (stableValue(reconcileCampaignBrowsers(prepared, browsers)) !== stableValue(browsers)) throw Error('Prepared browser selection, artifact or live bytes differ from the canonical manifest')
   for (const receipt of manifest.artifacts) if (receipt.identity) {
     const entry = prepared.find(entry => entry.node.id === receipt.project)
     if (!entry || stableValue(projectPackageIdentity(entry)) !== stableValue(receipt.identity)) throw Error('Prepared runtime bytes or dependency closure changed: ' + receipt.project)
@@ -65,17 +94,21 @@ export async function prepareCampaign(options: UnifiedRunOptions, catalog: unkno
     const path = join(directory, 'registry', name)
     files['registry:' + name] = { path: relative(options.out, path), sha256: hash(path) }
   }
-  const prepared = await prepareCommunity({ ...options, communityCatalogFile: catalogFile, out: directory })
-  const browsers = options.communityBrowserPreparedFile ? readBenchmarkDocument(options.communityBrowserPreparedFile) : await prepareCommunityBrowsers(prepared, { ...options, communityCatalogFile: catalogFile, out: directory })
-  const artifacts: PreparationManifest['artifacts'] = prepared.map(entry => {
+  const acquired = await prepareCommunity({ ...options, communityCatalogFile: catalogFile, out: directory })
+  const rawBrowsers = options.communityBrowserPreparedFile ? readBenchmarkDocument(options.communityBrowserPreparedFile) : await prepareCommunityBrowsers(acquired, { ...options, communityCatalogFile: catalogFile, out: directory })
+  const artifacts: PreparationManifest['artifacts'] = []
+  const prepared: PreparedCommunity[] = acquired.map(entry => {
     try {
-      if (!entry.artifact) return { project: entry.node.id, error: entry.error ?? 'No artifact' }
-      const browser = (browsers as Awaited<ReturnType<typeof prepareCommunityBrowsers>>).find(peer => peer.node.id === entry.node.id)
-      if (!browser) throw Error('No browser disposition')
-      verifyFrozenBrowserEngine(browser)
-      return { project: entry.node.id, version: entry.artifact.version, identity: projectPackageIdentity(entry) }
-    } catch (error) { return { project: entry.node.id, version: entry.artifact?.version, error: String(error) } }
+      if (!entry.artifact) { artifacts.push({ project: entry.node.id, error: entry.error ?? 'No artifact' }); return entry }
+      artifacts.push({ project: entry.node.id, version: entry.artifact.version, identity: projectPackageIdentity(entry) })
+      return entry
+    } catch (error) {
+      const detail = 'Canonical artifact admission failed: ' + String(error)
+      artifacts.push({ project: entry.node.id, version: entry.artifact?.version, error: detail })
+      return { node: entry.node, error: detail }
+    }
   })
+  const browsers = reconcileCampaignBrowsers(prepared, rawBrowsers)
   const retainFile = (path: string, role: 'artifact' | 'lock' = 'artifact') => {
     const sha256 = hash(path), target = join(directory, 'blobs', sha256)
     mkdirSync(dirname(target), { recursive: true })

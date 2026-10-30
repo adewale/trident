@@ -1,7 +1,7 @@
 import { createRequire } from 'node:module'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import { createExtraCommunityApi } from '../unified/community-extra-adapters.mjs'
-import { readFileSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
 import { portableRenderOptions } from './configuration.ts'
 import { qualifyPortable } from './fidelity.ts'
@@ -19,9 +19,10 @@ const runtime = { executable: process.execPath, node: process.versions.node, pla
 const result = { protocol: PORTABLE_MEASUREMENT_PROTOCOL, caseId: job.testCase.id, family: job.testCase.family, mode: job.mode, round: job.round, replica: job.replica, sample: job.sample, status: 'blocked', importMs: 0, tracks: {}, iterations: {}, outputBytes: 0, qualification: null, prelude: [], runtime }
 const errorText = error => error instanceof Error ? String(error.stack ?? error) : String(error)
 const thenable = value => value && typeof value.then === 'function'
-let outputFailure, outputFailureSvg, disposePublicFactory
+let outputFailure, outputFailureSvg, failedSvg, representativeSvg, disposePublicFactory
 const publicCleanups = []
-const rememberOutputFailure = (qualification, expectedCase, svg) => {
+const rememberFailure = (qualification, expectedCase, svg) => {
+  if (failedSvg === undefined && typeof svg === 'string' && qualification.checks.some(check => check.status === 'failed')) failedSvg = svg
   if (!outputFailure && expectedCase.expected.accept && qualification.evidence?.outputAdmission !== 'passed') { outputFailure = qualification; outputFailureSvg = typeof svg === 'string' ? svg : undefined }
 }
 function collect() { if (global.gc) { global.gc(); global.gc() } }
@@ -94,7 +95,7 @@ try {
     const previous = typeof svg === 'string' && admitted.find(item => item.source === source && item.expected === expectedCase.expected && item.svg === svg)
     if (previous) return previous.qualification
     const qualification = qualifyPortable(expectedCase, { svg, ...await publicModel(source, expectedCase.family, rendered), error: rendered.error, adapter: job.artifact.adapter })
-    rememberOutputFailure(qualification, expectedCase, svg)
+    rememberFailure(qualification, expectedCase, svg)
     if (qualification.checks.some(check => check.status === 'failed')) {
       result.status = 'failed'; result.error ??= 'A consumed SVG return failed its declared checks'; result.qualification = qualification
     } else if (typeof svg === 'string') {
@@ -106,6 +107,8 @@ try {
   for (const prelude of testCase.prelude ?? []) {
     const rendered = await invoke(prelude.source, undefined)
     const actualAccepted = !rendered.error
+    const svg = typeof rendered.value === 'string' ? rendered.value : rendered.value?.svg
+    if (actualAccepted !== prelude.accept && typeof svg === 'string') failedSvg ??= svg
     result.prelude.push({ source: prelude.source, expectedAccepted: prelude.accept, actualAccepted, passed: prelude.accept === actualAccepted })
   }
   let retained
@@ -188,7 +191,7 @@ try {
       if (testCase.edit) {
         const rendered = await invoke(testCase.edit.source, testCase.edit.renderOptions ?? testCase.renderOptions)
         const checked = qualifyPortable({ ...testCase, source: testCase.edit.source, expected: testCase.edit.expected, renderOptions: testCase.edit.renderOptions ?? testCase.renderOptions }, { svg: typeof rendered.value === 'string' ? rendered.value : rendered.value?.svg, ...await publicModel(testCase.edit.source, testCase.family, rendered), error: rendered.error, adapter: job.artifact.adapter })
-        rememberOutputFailure(checked, testCase, typeof rendered.value === 'string' ? rendered.value : rendered.value?.svg)
+        rememberFailure(checked, testCase, typeof rendered.value === 'string' ? rendered.value : rendered.value?.svg)
         if (checked.checks.some(check => check.status === 'failed')) { result.status = 'failed'; result.error = 'Edited output failed declared checks'; result.qualification = checked }
       }
       retained = await invoke(testCase.source, testCase.renderOptions)
@@ -199,11 +202,11 @@ try {
     if (job.mode !== 'memory') result.outputBytes = retained.bytes
     const svg = typeof retained.value === 'string' ? retained.value : retained.value?.svg
     const qualification = qualifyPortable(testCase, { svg, ...await publicModel(testCase.source, testCase.family, retained), error: retained.error, adapter: job.artifact.adapter })
-    rememberOutputFailure(qualification, testCase, svg)
+    rememberFailure(qualification, testCase, svg)
     result.qualification ??= qualification
     if (result.status !== 'failed') result.status = qualification.checks.some(check => check.status === 'failed') || !result.prelude.every(item => item.passed) ? 'failed' : qualification.passed ? 'passed' : 'partial'
     const witnessSvg = outputFailure ? outputFailureSvg : svg
-    if (job.svgFile && typeof witnessSvg === 'string') writeFileSync(job.svgFile, witnessSvg, { flag: 'wx' })
+    if (job.svgFile && typeof witnessSvg === 'string') { writeFileSync(job.svgFile, witnessSvg, { flag: 'wx' }); representativeSvg = witnessSvg }
   }
 } catch (error) {
   result.status = 'blocked'
@@ -214,6 +217,13 @@ try { if (disposePublicFactory) await disposePublicFactory(); for (const cleanup
 // the general qualification witness. Output-only timing must inspect every return.
 if (outputFailure) { result.qualification = outputFailure; if (result.status !== 'blocked') result.status = 'failed' }
 if (result.prelude.some(item => !item.passed)) { result.status = 'failed'; result.error ??= 'A declared prelude changed acceptance' }
+// Non-representative workers retain only an actual failed return, after all API clocks.
+if (typeof failedSvg === 'string' && failedSvg !== representativeSvg && job.diagnosticFile) {
+  try {
+    const file = job.diagnosticFile.replace(/\.json$/, '') + '.svg'
+    mkdirSync(dirname(file), { recursive: true }); writeFileSync(file, failedSvg, { flag: 'wx' })
+  } catch (error) { result.status = 'blocked'; result.error = [result.error, 'Could not retain failed SVG: ' + errorText(error)].filter(Boolean).join('; ') }
+}
 if (result.qualification && !result.qualification.checks.some(check => check.status === 'failed') && !job.fullEvidence) {
   result.qualification.checks = result.qualification.checks.map(check => ({ ...check, expected: null, actual: null }))
   result.qualification.unmeasuredScopes.push('Repeated passing check payloads omitted; authored expectations and representative SVG/model evidence are retained with the run. Failed checks retain their full payloads.')

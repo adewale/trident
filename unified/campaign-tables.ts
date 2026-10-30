@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { readBenchmarkDocument } from '../portable/project-records.ts'
-import { campaignResults, campaignProjectId, type CampaignEnvelope } from './campaign-publication.ts'
+import { campaignResults, campaignProjectId, campaignArtifactRole, type CampaignEnvelope } from './campaign-publication.ts'
 import type { SnapshotTable } from './results-snapshot.ts'
 import type { PublicSuite } from './support.ts'
 
@@ -12,10 +12,11 @@ const hash = (value: unknown) => createHash('sha256').update(JSON.stringify(valu
  * populations separated. No hand-transcribed numbers or pooled overall score. */
 export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable['receipt']): SnapshotTable[] {
   const projectId = (value: unknown) => campaignProjectId(value, report.projects ?? [])
+  const artifactRole = campaignArtifactRole(report), candidate = artifactRole === 'candidate'
   const tables = new Map<string, SnapshotTable>()
   const add = (key: unknown[], suite: PublicSuite, measuredAt: string, caption: string, columns: string[], project: string, values: (string | number)[], ranking: SnapshotTable['ranking'], extra: Partial<SnapshotTable> = {}) => {
     const id = 'run-' + hash([receipt.sha256, ...key]).slice(0, 24)
-    const entry = tables.get(id) ?? { id, suite, measuredAt, historical: (report as any).schema !== 'trident-campaign-v2', unit: 'observations', caption, columns, rows: [], receipt, ranking, ...extra }
+    const entry = tables.get(id) ?? { id, suite, measuredAt, campaignUpdatedAt: report.updatedAt, historical: (report as any).schema !== 'trident-campaign-v2', unit: 'observations', caption, columns, rows: [], receipt, ranking, ...(artifactRole ? { artifactRole } : {}), ...extra }
     if (entry.rows.some(row => row.project === project)) throw Error('Duplicate project in reduced campaign cohort')
     if (Date.parse(measuredAt) > Date.parse(entry.measuredAt)) entry.measuredAt = measuredAt
     entry.rows.push({ project, values }); tables.set(id, entry)
@@ -57,7 +58,6 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
     }
     const results = campaignResults(boundary)
     for (const result of results) {
-      const candidate = result.observations.some(row => row.metrics?.artifactRole === 'candidate')
       if (boundary.suite === 'docs') {
         const file = join(boundary.out, 'inventory.json')
         if (!existsSync(file)) continue

@@ -61,6 +61,9 @@ current main; baseline collection and release publication remain pending.
 - Campaign preparation now creates one hashed manifest for artifact/dependency
   identities, input inventories, applicability and retained compiled files/locks.
   Collection and resume use that entry point instead of session-specific scripts.
+  Browser snapshots are bound to the selected primary artifact; missing browser
+  support cannot remove the primary artifact's seal. Source-only CLI pins and
+  observed catalog entries remain valid without inventing a published release.
 - Portable v7 uses six independent rounds and five fresh processes per replica;
   invalid controls run once, and failed/blocked admission withholds repeated clocks.
   The 54-case workload remains. This plans 50,490 cold launches for 11 projects,
@@ -69,13 +72,22 @@ current main; baseline collection and release publication remain pending.
 - One deadline covers external examples and the seven-suite campaign. Checkpoints
   retain portable jobs and completed DaveBench project-rounds; resumed allowances
   and runtime identities are recorded without silently restarting the budget.
+  Forced resumes reuse their own completed records across cache-history changes.
+  Completed calls can publish after the deadline, and pilot collection costs add
+  active windows while excluding idle pauses. Failed admission retains any returned SVG.
 - Campaign imports generate ranked tables and charts from owning observations.
   Pilot headlines are reduced from owning reports; the original preparation
   summary incorrectly said zero cases completed semantic checks. Pele completed
   them for its one flowchart case. The corrected reduction preserves original data.
+  Fresh DaveBench rows retain their overview ranks and literal percentages;
+  candidate attempts and fully blocked rows cannot replace release scores with
+  a new rank or a fabricated zero. Extracted pilot reports use relative paths.
 - `release:check` builds once and verifies source collection/reporting and the
   extracted shipped archive, producing one receipt alongside checksums. Separate
   manually coordinated smoke checks are no longer the documented release path.
+  Its format checks require actual SVG and terminal output, and every declared
+  kit case needs an owning worker attempt. Temporary build staging preserves
+  clean-source provenance when the chosen output directory is inside the checkout.
 - Peer admission uses each artifact's recorded version while retaining reference
   and tool pins. OpenCode seals its actual renderer runtime dependencies. Public
   release CLIs accept reviewed dot-prefixed archive members; versionless executables

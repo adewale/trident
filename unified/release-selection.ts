@@ -25,7 +25,8 @@ export async function resolveReleaseCatalog<T extends { nodes: CommunityNode[] }
   const frozen = structuredClone(catalog), ledger: unknown[] = []
   mkdirSync(out, { recursive: true })
   for (const node of frozen.nodes.filter(node => projects.includes(node.id))) {
-    const b = node.benchmark!
+    const b = node.benchmark
+    if (!b) { ledger.push({ project: node.id, selection: 'Catalog observation; no benchmark artifact configured' }); continue }
     try {
       let kind: string, name: string, url: string
       if (b.package) { kind = 'npm'; name = b.package; url = 'https://registry.npmjs.org/' + encodeURIComponent(name) }
@@ -50,8 +51,9 @@ export async function resolveReleaseCatalog<T extends { nodes: CommunityNode[] }
         selectedVersion = stableReleaseBefore<string>(Object.keys(data.releases), cutoff, value => value, value => data.releases[value].filter((file: any) => Date.parse(file.upload_time_iso_8601) <= Date.parse(cutoff)).map((file: any) => file.upload_time_iso_8601).sort()[0])
         selected = data.releases[selectedVersion]
       } else {
-        if (!data.length && b.sourcePin && !node.release) {
-          ledger.push({ project: node.id, sourcePin: b.sourcePin, metadata, selection: 'Reviewed immutable source; no published release' }); continue
+        const reviewedPin = b.adapter === 'franken' ? node.distribution?.revision : node.head ?? b.sourcePin
+        if (!data.length && !node.release && /^[a-f0-9]{40}$/.test(reviewedPin ?? '')) {
+          ledger.push({ project: node.id, sourcePin: reviewedPin, metadata, selection: 'Reviewed immutable source; no published release' }); continue
         }
         selected = stableReleaseBefore<any>(data.filter((row: any) => !row.draft && !row.prerelease), cutoff, row => row.tag_name, row => row.published_at)
         selectedVersion = selected.tag_name

@@ -233,14 +233,14 @@ function retained(record: ProjectBenchmarkRecord): boolean {
   return existsSync(record.evidenceDirectory) && statSync(record.evidenceDirectory).isDirectory() && record.evidenceFiles.every(file => existsSync(join(record.evidenceDirectory, file)) && statSync(join(record.evidenceDirectory, file)).isFile())
 }
 
-export function findProjectRecord(store: string, identity: ProjectBenchmarkIdentity): ProjectBenchmarkRecord | undefined {
+export function findProjectRecord(store: string, identity: ProjectBenchmarkIdentity, campaignId?: string): ProjectBenchmarkRecord | undefined {
   validateIdentity(identity)
   const entry = readIndex(store).projects.find(entry => entry.project === identity.project && lane(entry) === lane(identity))
   if (!entry) return undefined
   const key = identityKey(identity)
   for (const id of [...entry.history].reverse()) {
     const record = readRecord(store, entry.project, id, lane(entry))
-    if (identityKey(record.identity) === key && retained(record)) return record
+    if (identityKey(record.identity) === key && (campaignId === undefined || (record.provenance as { collectionCampaignId?: string } | undefined)?.collectionCampaignId === campaignId) && retained(record)) return record
   }
   return undefined
 }

@@ -8,7 +8,8 @@ import { copyPublicationMethods } from './publication-methods.ts'
 
 export interface CampaignEnvelope {
   startedAt: string; updatedAt: string; projects: string[]; profile: string; rounds: number
-  results: { suite: string; project?: string; status: string; disposition?: string; detail?: string; out?: string; observations?: number; counts?: Record<string, unknown>; gaps?: string[] }[]
+  artifactRole?: 'candidate'
+  results: { suite: string; project?: string; cohort?: string; status: string; disposition?: string; detail?: string; out?: string; observations?: number; counts?: Record<string, unknown>; gaps?: string[] }[]
 }
 export function readCampaign(directory: string): CampaignEnvelope {
   const report = readBenchmarkDocument(join(directory, 'report.json')) as CampaignEnvelope
@@ -33,6 +34,11 @@ export function campaignResults(row: CampaignEnvelope['results'][number]): Unifi
     const result = readBenchmarkDocument(file) as UnifiedSuiteResult
     return Array.isArray(result.observations) ? [result] : []
   })
+}
+/** A candidate comparison is a study lane, including release peers or unstarted
+ * boundaries in that study. It cannot update the release overview. */
+export function campaignArtifactRole(report: CampaignEnvelope): 'candidate' | undefined {
+  return report.artifactRole === 'candidate' || report.results.some(row => campaignResults(row).some(result => result.observations.some(observation => observation.metrics?.artifactRole === 'candidate'))) ? 'candidate' : undefined
 }
 /** Tool aliases are case-insensitive; retained project IDs use catalog spelling. */
 export function campaignProjectId(value: unknown, projects: readonly string[]) {

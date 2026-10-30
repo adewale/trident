@@ -35,8 +35,10 @@ This builds once, exercises bounded source collection/reporting, extracts that
 archive and runs its Node kit from an empty directory. It checks version and file
 hashes, public SVG invocation, label edits, configuration seed/reset and invalid
 recovery. It writes the archive, SHA256SUMS and one `release-check.json` linking
-owning reports. Blocked option mappings and renderer failures remain findings;
-the smoke supplies no B0, full-support or timing qualification claim. Inspect the
+owning reports. Blocked option mappings and renderer failures remain findings.
+The selected projects must supply SVG and terminal output respectively, and each
+kit case must have an owning worker attempt. Unrun cases fail the smoke check.
+The smoke supplies no B0, full-support or timing qualification claim. Inspect the
 receipt and actual failed/blocked outputs before publishing.
 
 Fixture tests remain useful for regressions. The release check additionally

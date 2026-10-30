@@ -1,12 +1,13 @@
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { basename, dirname, join } from 'node:path'
+import { basename, dirname, join, relative } from 'node:path'
 import { rankResults } from './result-ranking.ts'
 
 /** Read the owning reports, never a controller's hand-maintained totals. */
 export function summarizePilot(file: string) {
   const source = JSON.parse(readFileSync(file, 'utf8'))
-  const boundaries = source.pilot && Array.isArray(source.results) ? source.results.map((row: any) => ({ ...row, report: existsSync(join(row.out, 'report.json')) ? join(row.out, 'report.json') : undefined,
+  const nativeReport = (row: any) => join(dirname(file), 'portable', encodeURIComponent(row.project), encodeURIComponent(row.caseId), 'report.json')
+  const boundaries = source.pilot && Array.isArray(source.results) ? source.results.map((row: any) => ({ ...row, report: existsSync(nativeReport(row)) ? nativeReport(row) : undefined,
     seconds: row.elapsedSeconds, cancelledForBudget: row.disposition === 'budget-exhausted' && row.launched })) : source.rows
   if (!Array.isArray(boundaries)) throw Error('Pilot controller needs a rows array or an explicit diagnostic pilot campaign')
   const seen = new Set<string>()
@@ -19,7 +20,7 @@ export function summarizePilot(file: string) {
     if (!row.report) return { ...base, state: 'not-started' as const }
     // Historical controllers retain absolute workspace paths. Locate the owning
     // report inside this pilot directory so an extracted archive works too.
-    const reportPath = source.pilot ? join(dirname(file), 'portable', encodeURIComponent(row.project), encodeURIComponent(row.caseId), 'report.json') : join(dirname(file), basename(dirname(row.report)), basename(row.report))
+    const reportPath = source.pilot ? nativeReport(row) : join(dirname(file), basename(dirname(row.report)), basename(row.report))
     const bytes = readFileSync(reportPath), report = JSON.parse(bytes.toString())
     if (report.project === row.project && !report.summary) return { ...base, state: 'incomplete' as const }
     if (report.project !== row.project || report.summary?.cases?.length !== 1 || report.summary.cases[0].id !== row.caseId) throw Error('Pilot owning report differs from its project/case boundary')
@@ -28,7 +29,7 @@ export function summarizePilot(file: string) {
     if (counts.outputAdmissionCases > counts.positiveCases || counts.completeSemanticCases > counts.positiveCases || counts.outputCalibratedTimingRows > counts.totalTimingRows) throw Error('Pilot counts do not reconcile')
     return { ...base, state: 'collected' as const, positiveCases: counts.positiveCases, outputAdmissionCases: counts.outputAdmissionCases,
       semanticCompleteCases: counts.completeSemanticCases, calibratedTracks: counts.outputCalibratedTimingRows, totalTracks: counts.totalTimingRows,
-      report: basename(dirname(reportPath)) + '/' + basename(reportPath), sha256: createHash('sha256').update(bytes).digest('hex') }
+      report: relative(dirname(file), reportPath), sha256: createHash('sha256').update(bytes).digest('hex') }
   })
   const collected = rows.filter((row: any) => row.state === 'collected')
   return { schema: 'trident-pilot-summary-v1', scope: 'Diagnostic collection cost and declared checks on the named pilot inputs; no ecosystem score, renderer-latency ranking or full-suite qualification.',

@@ -166,8 +166,14 @@ export async function runFirstUseBatch(jobs: PortableJob[], node: string, concur
 
 /** All timed scheduling lives beside the execution boundary, independently of reporting. */
 export async function measurePortableProject(artifact: PortableArtifact, testCases: PortableCase[], options: PortableOptions, directory: string, retain: (result: PortableWorkerResult) => void, checkpoint: CollectionCheckpoint) {
+  const order = (round: number, index: number) => {
+    const values: Replica[] = ['A0', 'A1', 'B']
+    const offset = (round + index) % values.length
+    return [...values.slice(offset), ...values.slice(0, offset)]
+  }
   const makeJob = (testCase: PortableCase, round: number, replica: Replica, mode: PortableJob['mode'], sample: number): PortableJob => {
     const stem = `${testCase.id.replaceAll(':', '_')}-${mode}-r${round}-${replica}-${sample}`
+    const representative = mode === 'warm' && round === 1 && replica === order(round, testCases.indexOf(testCase))[0]
     return {
       artifact,
       testCase,
@@ -179,8 +185,8 @@ export async function measurePortableProject(artifact: PortableArtifact, testCas
       replica,
       sample,
       diagnosticFile: join(directory, 'failures', stem + '.json'),
-      fullEvidence: mode === 'warm' && round === 1 && replica === 'B',
-      ...(mode === 'warm' && round === 1 && replica === 'B' ? { svgFile: join(directory, 'svg', testCase.id.replaceAll(':', '_') + '.svg') } : {}),
+      fullEvidence: representative,
+      ...(representative ? { svgFile: join(directory, 'svg', testCase.id.replaceAll(':', '_') + '.svg') } : {}),
     }
   }
   const key = (job: PortableJob) => JSON.stringify([job.testCase.id, job.mode, job.round, job.replica, job.sample])
@@ -200,11 +206,6 @@ export async function measurePortableProject(artifact: PortableArtifact, testCas
     console.log(JSON.stringify({ phase: 'family-support', project: options.project, family, supported: result.status !== 'unsupported' }))
   }
   testCases = testCases.filter(testCase => !unsupported.has(testCase.family))
-  const order = (round: number, index: number) => {
-    const values: Replica[] = ['A0', 'A1', 'B']
-    const offset = (round + index) % values.length
-    return [...values.slice(offset), ...values.slice(0, offset)]
-  }
   for (let round = 1; round <= options.rounds; round++)
     for (const [index, testCase] of testCases.entries()) {
       if (admissionOnly.has(testCase.id)) continue

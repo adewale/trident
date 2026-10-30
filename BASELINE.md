@@ -29,6 +29,8 @@ applicability plan and dependency identities. Reuse that manifest with `--prepar
 collection performs no latest-version lookup or artifact acquisition. Reviewed
 existing snapshots can be adopted with the existing `--community-catalog`,
 `--community-prepared` and `--community-browser-prepared` options during preparation.
+Browser snapshots must match the selected artifact and its public binding; a
+valid snapshot from an older release cannot supply current-release evidence.
 There is no sequence of manually repaired "final" manifests.
 
 The reference remains Mermaid 12.2.0 with the source and tools in
@@ -116,6 +118,7 @@ identities; it cannot change the comparison. It records each allowance and windo
 rather than silently restarting the clock for another cohort.
 Resume restores the recorded invocation options; supply only `--out` and an
 optional additional `--budget-minutes`.
+A forced fresh campaign reuses its own completed records when resumed.
 
 Run one active measurement worker at a time. Finish builds, downloads and tests
 before timing. Unstarted and interrupted work remains incomplete. A 24-hour

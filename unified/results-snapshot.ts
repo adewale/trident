@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, relative, resolve } from 'node:path'
-import { campaignScorecards, readCampaign } from './campaign-publication.ts'
+import { campaignScorecards, campaignArtifactRole, readCampaign } from './campaign-publication.ts'
 import { lineageInventory, type LineageCatalog } from './lineage.ts'
 import { PUBLIC_SUITES, projectSupport, type PublicSuite } from './support.ts'
 import { communityCatalogFile } from './trident-paths.ts'
@@ -12,6 +12,8 @@ type Cell = string | number
 export interface SnapshotTable {
   id: string; suite: PublicSuite; measuredAt: string; historical: boolean; unit: string; caption: string
   artifactRole?: 'candidate'
+  /** Owning import window, separate from the original observation date. */
+  campaignUpdatedAt?: string
   columns: string[]; rows: { project: string; values: Cell[] }[]
   receipt: { url: string; sha256: string }
   population?: { total: string; outcomes: string[] }
@@ -23,6 +25,8 @@ export interface SnapshotAttempt {
   id: string; project: string; suite: PublicSuite; measuredFrom: string; updatedAt: string
   status: string; detail: string; receipt: { url: string; sha256: string }
   evidenceUrl?: string
+  artifactRole?: 'candidate'
+  cohort?: string
   groups: ReturnType<typeof campaignScorecards>
 }
 export interface ResultsSnapshot {
@@ -63,6 +67,7 @@ export function validateSnapshot(snapshot: ResultsSnapshot, catalog: LineageCata
   }
   for (const entry of snapshot.tables) {
     stamp(entry.measuredAt)
+    if (entry.campaignUpdatedAt !== undefined) stamp(entry.campaignUpdatedAt)
     if (entry.artifactRole !== undefined && entry.artifactRole !== 'candidate') throw Error('Unknown table artifact role')
     if (entry.artifactRole === 'candidate' && (entry.overview || entry.id === (snapshot.overviewRanking ?? 'docs-coverage'))) throw Error('Candidate tables cannot replace the release overview')
     const seen = new Set<string>()
@@ -90,6 +95,8 @@ export function validateSnapshot(snapshot: ResultsSnapshot, catalog: LineageCata
     if (entry.ranking && (!entry.columns.includes(entry.ranking.column) || entry.ranking.column === 'Version' || !['ascending', 'descending'].includes(entry.ranking.direction) || entry.ranking.denominator && !entry.columns.includes(entry.ranking.denominator))) throw Error('Invalid ranking metric')
   }
   for (const attempt of snapshot.attempts) {
+    if (attempt.artifactRole !== undefined && attempt.artifactRole !== 'candidate') throw Error('Unknown attempt artifact role')
+    if (attempt.cohort !== undefined && (typeof attempt.cohort !== 'string' || !attempt.cohort.trim())) throw Error('Invalid attempt cohort')
     if (!projects.has(attempt.project) || stamp(attempt.updatedAt) < stamp(attempt.measuredFrom)) throw Error('Invalid campaign project or measurement interval')
     if (!['recorded', 'passed', 'failed', 'blocked', 'unsupported', 'not-applicable', 'unavailable'].includes(attempt.status)) throw Error('Invalid campaign status')
     if (attempt.evidenceUrl && !validLink(attempt.evidenceUrl)) throw Error('Invalid owning evidence URL')
@@ -98,6 +105,23 @@ export function validateSnapshot(snapshot: ResultsSnapshot, catalog: LineageCata
     }
   }
 }
+/** Owning import records publish the table rather than supersede it. Order
+ * later attempts against that publication window, retaining original clocks. */
+function supersedingAttempt(attempts: SnapshotAttempt[], entry: SnapshotTable, project: string) {
+  const eligible = attempts.filter(attempt => attempt.project === project && attempt.suite === entry.suite && attempt.artifactRole !== 'candidate')
+  const publishedAt = stamp(entry.campaignUpdatedAt ?? entry.measuredAt)
+  const owns = (attempt: SnapshotAttempt) => entry.campaignUpdatedAt !== undefined && stamp(attempt.updatedAt) === publishedAt && attempt.receipt.sha256 === entry.receipt.sha256 && attempt.receipt.url === entry.receipt.url
+  return eligible.filter(attempt => !owns(attempt) && stamp(attempt.updatedAt) >= publishedAt).sort((a, b) => stamp(b.updatedAt) - stamp(a.updatedAt) || b.id.localeCompare(a.id))[0]
+}
+/** One campaign may own several independent input cohorts. Its shared update
+ * time cannot choose one cohort's outcome by hash-ID ordering. */
+function currentCohorts(attempts: SnapshotAttempt[], entry?: SnapshotTable) {
+  const latest = attempts[0]
+  if (!latest || entry && stamp(latest.updatedAt) < stamp(entry.campaignUpdatedAt ?? entry.measuredAt)) return []
+  const group = attempts.filter(attempt => attempt.receipt.sha256 === latest.receipt.sha256 && attempt.receipt.url === latest.receipt.url && stamp(attempt.updatedAt) === stamp(latest.updatedAt))
+  return new Set(group.map(attempt => attempt.cohort ?? 'core')).size > 1 ? group.sort((a, b) => (a.cohort ?? 'core').localeCompare(b.cohort ?? 'core')) : []
+}
+const attemptCell = (attempt: SnapshotAttempt, label = '') => `[${md(label)}${md(attempt.status)} · ${date(attempt.updatedAt)}](#${anchor(attempt.id)})`
 /** Shared competition ranks (1, 1, 3); unavailable measurements never become zero. */
 export function rankedRows(entry: SnapshotTable, name: (id: string) => string) {
   const numeric = (value: Cell | undefined) => measurementNumber(value) ?? NaN
@@ -126,6 +150,7 @@ export function importCampaign(snapshot: ResultsSnapshot, directory: string, evi
   const report = readCampaign(directory), digest = sha256(readFileSync(join(directory, 'report.json')))
   if ((report as typeof report & { pilot?: boolean }).pilot) throw Error('Pilot observations are diagnostics and cannot be imported as ecosystem scores')
   const attempts: SnapshotAttempt[] = []
+  const artifactRole = campaignArtifactRole(report)
   const touched = new Set<string>()
   const suites = (report as typeof report & { requestedSuites?: PublicSuite[] }).requestedSuites ?? [...new Set(report.results.map(row => row.suite))]
   for (const row of report.results) {
@@ -142,10 +167,10 @@ export function importCampaign(snapshot: ResultsSnapshot, directory: string, evi
       const boundaryFailure = scopes.length === 1 && ['failed', 'blocked'].includes(row.status) ? row.status : undefined
       const status = boundaryFailure ?? (groups.length ? own.failed ? 'failed' : own.blocked ? 'blocked' : own.unsupported === groups.reduce((sum, group) => sum + group.recordedObservations, 0) ? 'unsupported' : 'recorded'
         : row.project || scopes.length === 1 || row.status === 'blocked' ? row.status === 'passed' ? 'recorded' : row.status : 'unavailable')
-      attempts.push({ id: 'attempt-' + sha256(digest + project + row.suite + ((row as typeof row & { cohort?: string }).cohort ?? '')).slice(0, 24), project, suite: row.suite as PublicSuite,
+      attempts.push({ id: 'attempt-' + sha256(digest + project + row.suite + (row.cohort ?? '')).slice(0, 24), project, suite: row.suite as PublicSuite, ...(row.cohort !== undefined ? { cohort: row.cohort } : {}),
         measuredFrom: report.startedAt, updatedAt: report.updatedAt, status,
         detail: [row.detail, row.disposition, ...(row.gaps ?? []), 'Campaign process status: ' + row.status, !groups.length ? 'No per-project observation table was available.' : 'Recorded observation dispositions; process completion does not establish benchmark qualification.'].filter(Boolean).join('; '),
-        receipt: { url: evidenceUrl.replace(/\/$/, '') + '/report.json', sha256: digest },
+        receipt: { url: evidenceUrl.replace(/\/$/, '') + '/report.json', sha256: digest }, ...(artifactRole ? { artifactRole } : {}),
         ...(owning ? { evidenceUrl: evidenceUrl.replace(/\/$/, '') + '/' + encodeURI(owning).replaceAll('#', '%23') + '/' } : {}), groups })
     }
   }
@@ -157,7 +182,7 @@ export function importCampaign(snapshot: ResultsSnapshot, directory: string, evi
     attempts.push({
       id: 'attempt-' + sha256(digest + project + suite).slice(0, 24), project, suite: suite as PublicSuite,
       measuredFrom: report.startedAt, updatedAt: report.updatedAt, status: 'unavailable', detail: 'Requested boundary has no recorded result in this partial campaign.',
-      receipt: { url: evidenceUrl.replace(/\/$/, '') + '/report.json', sha256: digest }, groups: [],
+      receipt: { url: evidenceUrl.replace(/\/$/, '') + '/report.json', sha256: digest }, ...(artifactRole ? { artifactRole } : {}), groups: [],
     })
   }
   const byId = new Map(snapshot.attempts.map(attempt => [attempt.id, attempt]))
@@ -178,7 +203,8 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
   const primary = snapshot.tables.find(entry => entry.id === (snapshot.overviewRanking ?? 'docs-coverage'))
   if (snapshot.overviewRanking && !primary) throw Error('Unknown overview ranking table')
   if (primary && !primary.ranking) throw Error('Overview ranking table needs a named metric')
-  const currentPrimary = primary ? { ...primary, rows: primary.rows.filter(row => !snapshot.attempts.some(attempt => attempt.project === row.project && attempt.suite === primary.suite && stamp(attempt.updatedAt) >= stamp(primary.measuredAt))) } : undefined
+  const attemptsFor = (project: string, suite: PublicSuite) => snapshot.attempts.filter(attempt => attempt.project === project && attempt.suite === suite && attempt.artifactRole !== 'candidate').sort((a, b) => stamp(b.updatedAt) - stamp(a.updatedAt) || b.id.localeCompare(a.id))
+  const currentPrimary = primary ? { ...primary, rows: primary.rows.filter(row => !supersedingAttempt(snapshot.attempts, primary, row.project) && !currentCohorts(attemptsFor(row.project, primary.suite), primary).length) } : undefined
   const primaryRanks = new Map(currentPrimary ? rankedRows(currentPrimary, name).map(row => [row.project, row.rank]) : [])
   const projects = [...lineage.nodes.filter(node => !node.excludedFromComparison)].sort((a, b) => (primaryRanks.get(a.project) ?? Infinity) - (primaryRanks.get(b.project) ?? Infinity) || name(a.project).localeCompare(name(b.project)))
   const measured = [...snapshot.tables.map(entry => entry.measuredAt), ...snapshot.attempts.map(entry => entry.updatedAt)].sort((a, b) => stamp(a) - stamp(b))
@@ -196,15 +222,22 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
   for (const { project } of projects) {
     const support = projectSupport(nodes.get(project)!)
     const cells = PUBLIC_SUITES.map(suite => {
-      const attempts = snapshot.attempts.filter(attempt => attempt.project === project && attempt.suite === suite).sort((a, b) => stamp(b.updatedAt) - stamp(a.updatedAt) || b.id.localeCompare(a.id))
+      const attempts = attemptsFor(project, suite)
       const entries = snapshot.tables.filter(entry => entry.artifactRole !== 'candidate' && entry.suite === suite && entry.overview && (suite !== primary?.suite || entry.id === primary.id) && entry.rows.some(row => row.project === project)).sort((a, b) => stamp(b.measuredAt) - stamp(a.measuredAt) || a.id.localeCompare(b.id))
-      const attempt = attempts[0], entry = entries[0]
-      if (attempt && (!entry || stamp(attempt.updatedAt) >= stamp(entry.measuredAt))) return `[${md(attempt.status)} · ${date(attempt.updatedAt)}](#${anchor(attempt.id)})`
+      const entry = entries[0], attempt = entry ? supersedingAttempt(attempts, entry, project) : attempts[0]
+      const cohorts = currentCohorts(attempts, entry)
+      if (cohorts.length) return cohorts.map(attempt => attemptCell(attempt, (attempt.cohort ?? 'core') + ': ')).join('; ')
+      if (attempt) return attemptCell(attempt)
       if (entry) {
         const row = entry.rows.find(row => row.project === project)!, projection = entry.overview!
+        if (projection.suffix === '%' && entry.ranking && rankedRows(entry, name).find(row => row.project === project)?.rank === null) {
+          const owner = attempts.find(attempt => attempt.receipt.sha256 === entry.receipt.sha256 && attempt.receipt.url === entry.receipt.url)
+          return owner ? attemptCell(owner) : 'Unmeasured'
+        }
         const value = row.values[entry.columns.indexOf(projection.numerator)]
         const denominator = projection.denominator ? '/' + row.values[entry.columns.indexOf(projection.denominator)] : ''
-        return `[${md(value)}${denominator}${projection.suffix ? ' ' + md(projection.suffix) : ''}${entry.historical ? ' · historical' : ''} · ${date(entry.measuredAt)}](#${anchor(entry.id)})`
+        const display = projection.suffix === '%' && projection.denominator ? (100 * Number(value) / Number(row.values[entry.columns.indexOf(projection.denominator)])).toFixed(1) + '%' : md(value) + denominator + (projection.suffix ? ' ' + md(projection.suffix) : '')
+        return `[${display}${entry.historical ? ' · historical' : ''} · ${date(entry.measuredAt)}](#${anchor(entry.id)})`
       }
       const state = support.suites[suite]
       return state.state === 'reference-only' || state.state === 'project-unsupported' ? 'N/A' : state.state === 'disabled' ? 'Skipped: release disabled' : state.state === 'adapter-missing' ? 'Unmeasured: binding gap' : 'Unmeasured'
@@ -238,8 +271,8 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
   lines.push('## Campaign attempts', '', 'Latest attempts remain visible even when collection or qualification fails. Counts below are recorded observations, not inferred whole-diagram passes. Original inventories, protocols, timing qualification and failures remain in the owning evidence.', '')
   if (!snapshot.attempts.length) lines.push('No campaign attempt has been imported into this snapshot yet. Comparative tables above retain their own dates, artifact roles and evidence receipts.', '')
   for (const attempt of [...snapshot.attempts].sort((a, b) => stamp(b.updatedAt) - stamp(a.updatedAt) || a.id.localeCompare(b.id))) {
-    lines.push(`<a id="${anchor(attempt.id)}"></a>`, '', `### ${md(name(attempt.project))}: ${benchmarkNames[attempt.suite]}`, '',
-      `Campaign invocation: ${attempt.measuredFrom} → ${attempt.updatedAt} · **${attempt.status}** · ${receiptLink(attempt.receipt)}${attempt.evidenceUrl ? ` · [owning results and failures](${attempt.evidenceUrl})` : ''}`, '', md(attempt.detail), '')
+    lines.push(`<a id="${anchor(attempt.id)}"></a>`, '', `### ${md(name(attempt.project))}: ${benchmarkNames[attempt.suite]}${attempt.cohort !== undefined ? ' (' + md(attempt.cohort) + ')' : ''}`, '',
+      `Campaign invocation: ${attempt.measuredFrom} → ${attempt.updatedAt} · **${attempt.status}**${attempt.artifactRole === 'candidate' ? ' · **Source candidate study**' : ''} · ${receiptLink(attempt.receipt)}${attempt.evidenceUrl ? ` · [owning results and failures](${attempt.evidenceUrl})` : ''}`, '', md(attempt.detail), '')
     if (attempt.groups.length) lines.push(table(['Version / artifact role', 'Interface / runtime', 'Format / operation', 'Mode / round', 'Distinct case IDs', 'Passed observations', 'Failed', 'Unsupported', 'Blocked', 'Other dispositions', 'Recorded observations'], attempt.groups.map(group => [group.version + ' / ' + group.variant, group.surface + ' / ' + group.runtime, group.format + ' / ' + group.operation, group.mode + ' / ' + group.round, group.caseIds, group.dispositions.passed ?? 0, group.dispositions.failed ?? 0, group.dispositions.unsupported ?? 0, group.dispositions.blocked ?? 0, JSON.stringify(Object.fromEntries(Object.entries(group.dispositions).filter(([key]) => !['passed', 'failed', 'unsupported', 'blocked'].includes(key)))), group.recordedObservations])), '')
   }
   lines.push('## Excluded catalog entries', '', 'These entries are omitted from normal ecosystem comparisons under the [lineage policy](LINEAGE.md). No parent score is substituted.', '',
