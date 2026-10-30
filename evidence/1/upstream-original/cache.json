@@ -1,0 +1,9 @@
+{
+  "project": "mermaid-js/mermaid",
+  "lane": "upstream-original-core-runner",
+  "reused": false,
+  "recordId": "673a0315-2547-4723-b2fa-a402d65cedb9",
+  "startedAt": "2026-10-30T05:14:44.566Z",
+  "finishedAt": "2026-10-30T05:25:18.185Z",
+  "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/upstream-original/attempts/673a0315-2547-4723-b2fa-a402d65cedb9"
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "project": "wevm/ondine",
+    "lane": "portable-svg",
+    "recordId": "08b1887e-a768-4e3d-9c31-7276b7e608c9",
+    "status": "blocked",
+    "measuredAt": "2026-10-30T05:55:32.434Z",
+    "evidenceRetained": true
+  },
+  {
+    "project": "adewale/agentic-mermaid",
+    "lane": "portable-svg",
+    "recordId": "96f1b5c9-33b2-4c64-b23e-03cf594a7485",
+    "status": "failed",
+    "measuredAt": "2026-10-30T07:38:46.927Z",
+    "evidenceRetained": true
+  }
+]

@@ -1,0 +1,334 @@
+{
+  "pin": {
+    "version": "12.2.0",
+    "commit": "1fb7869866dd619168d840291c9c54b4f129758b",
+    "tags": [
+      "@mermaid-js/tiny@12.2.0",
+      "mermaid@12.2.0"
+    ],
+    "parserVersion": "2.0.1",
+    "domVersion": "26.1.0"
+  },
+  "scope": "Original pinned source callbacks with expectations unchanged, through reviewed public parser/model projections. Declarations, expanded callbacks and assertions retain separate counts. Private/import/matcher gaps and disabled tests are never passes; this is distinct from Mermaid own-runner execution.",
+  "inventory": {
+    "files": 368,
+    "declarations": 3995,
+    "disabledOrTodoDeclarations": 15
+  },
+  "requiredFamilies": [
+    "flowchart",
+    "sequence",
+    "class",
+    "state",
+    "er",
+    "journey",
+    "gantt",
+    "pie",
+    "quadrant",
+    "requirement",
+    "gitgraph",
+    "mindmap",
+    "sankey",
+    "xychart",
+    "block",
+    "packet",
+    "kanban",
+    "architecture",
+    "treemap",
+    "ishikawa",
+    "eventmodeling",
+    "zenuml"
+  ],
+  "results": [
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "recordId": "11d236d2-30dc-40f3-9c12-4bf7d7c8a6ce",
+      "reused": false,
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/upstream-fidelity/mermaid-js%2Fmermaid/bWVybWFpZC1qcy9tZXJtYWlk/attempts/11d236d2-30dc-40f3-9c12-4bf7d7c8a6ce",
+      "startedAt": "2026-10-30T05:14:07.466Z",
+      "finishedAt": "2026-10-30T05:14:27.273Z",
+      "summary": {
+        "project": "mermaid-js/mermaid",
+        "version": "12.2.0",
+        "declaredInventory": {
+          "files": 368,
+          "declarations": 3995,
+          "disabledOrTodoDeclarations": 15
+        },
+        "selectedFiles": 85,
+        "declaredOutcomes": {
+          "outside-public-parser-projection": 2453,
+          "skipped-upstream": 15,
+          "unavailable": 1047,
+          "passed": 477,
+          "unexecuted-registration": 3
+        },
+        "expandedOutcomes": {
+          "unavailable": 1133,
+          "passed": 1555,
+          "skipped-upstream": 12
+        },
+        "executedAssertions": 5427,
+        "passedAssertions": 5229,
+        "families": [
+          {
+            "family": "flowchart",
+            "selectedFiles": 21,
+            "callbacks": {
+              "unavailable": 171,
+              "passed": 821,
+              "skipped-upstream": 3
+            },
+            "declarations": {
+              "unavailable": 156,
+              "passed": 166,
+              "skipped-upstream": 3
+            }
+          },
+          {
+            "family": "sequence",
+            "selectedFiles": 10,
+            "callbacks": {
+              "unavailable": 29
+            },
+            "declarations": {
+              "outside-public-parser-projection": 6,
+              "unavailable": 193,
+              "unexecuted-registration": 3
+            }
+          },
+          {
+            "family": "class",
+            "selectedFiles": 6,
+            "callbacks": {
+              "unavailable": 366,
+              "passed": 128,
+              "skipped-upstream": 1
+            },
+            "declarations": {
+              "outside-public-parser-projection": 12,
+              "unavailable": 170,
+              "passed": 78,
+              "skipped-upstream": 1
+            }
+          },
+          {
+            "family": "state",
+            "selectedFiles": 10,
+            "callbacks": {
+              "passed": 61,
+              "unavailable": 60,
+              "skipped-upstream": 1
+            },
+            "declarations": {
+              "passed": 60,
+              "unavailable": 62,
+              "skipped-upstream": 1
+            }
+          },
+          {
+            "family": "er",
+            "selectedFiles": 4,
+            "callbacks": {
+              "unavailable": 256,
+              "passed": 404,
+              "skipped-upstream": 1
+            },
+            "declarations": {
+              "outside-public-parser-projection": 5,
+              "unavailable": 72,
+              "passed": 71,
+              "skipped-upstream": 1
+            }
+          },
+          {
+            "family": "journey",
+            "selectedFiles": 2,
+            "callbacks": {
+              "passed": 7
+            },
+            "declarations": {
+              "unavailable": 3,
+              "passed": 7
+            }
+          },
+          {
+            "family": "gantt",
+            "selectedFiles": 2,
+            "callbacks": {
+              "unavailable": 5,
+              "passed": 45
+            },
+            "declarations": {
+              "unavailable": 32,
+              "passed": 12
+            }
+          },
+          {
+            "family": "pie",
+            "selectedFiles": 2,
+            "callbacks": {
+              "passed": 13,
+              "skipped-upstream": 2,
+              "unavailable": 3
+            },
+            "declarations": {
+              "passed": 13,
+              "skipped-upstream": 2,
+              "unavailable": 3
+            }
+          },
+          {
+            "family": "quadrant",
+            "selectedFiles": 2,
+            "callbacks": {
+              "unavailable": 5
+            },
+            "declarations": {
+              "unavailable": 29
+            }
+          },
+          {
+            "family": "requirement",
+            "selectedFiles": 2,
+            "callbacks": {
+              "unavailable": 32,
+              "passed": 21
+            },
+            "declarations": {
+              "outside-public-parser-projection": 1,
+              "unavailable": 32,
+              "passed": 16
+            }
+          },
+          {
+            "family": "gitgraph",
+            "selectedFiles": 1,
+            "callbacks": {
+              "passed": 53,
+              "skipped-upstream": 4,
+              "unavailable": 17
+            },
+            "declarations": {
+              "passed": 52,
+              "skipped-upstream": 4,
+              "unavailable": 17
+            }
+          },
+          {
+            "family": "mindmap",
+            "selectedFiles": 4,
+            "callbacks": {
+              "unavailable": 37
+            },
+            "declarations": {
+              "outside-public-parser-projection": 6,
+              "unavailable": 48
+            }
+          },
+          {
+            "family": "sankey",
+            "selectedFiles": 1,
+            "callbacks": {
+              "unavailable": 6
+            },
+            "declarations": {
+              "unavailable": 5
+            }
+          },
+          {
+            "family": "xychart",
+            "selectedFiles": 5,
+            "callbacks": {
+              "unavailable": 6
+            },
+            "declarations": {
+              "outside-public-parser-projection": 15,
+              "unavailable": 78
+            }
+          },
+          {
+            "family": "block",
+            "selectedFiles": 4,
+            "callbacks": {
+              "unavailable": 38,
+              "passed": 2
+            },
+            "declarations": {
+              "outside-public-parser-projection": 1,
+              "unavailable": 38,
+              "passed": 2
+            }
+          },
+          {
+            "family": "packet",
+            "selectedFiles": 2,
+            "callbacks": {
+              "unavailable": 26
+            },
+            "declarations": {
+              "unavailable": 25
+            }
+          },
+          {
+            "family": "kanban",
+            "selectedFiles": 1,
+            "callbacks": {
+              "unavailable": 30
+            },
+            "declarations": {
+              "unavailable": 30
+            }
+          },
+          {
+            "family": "architecture",
+            "selectedFiles": 3,
+            "callbacks": {
+              "unavailable": 39
+            },
+            "declarations": {
+              "outside-public-parser-projection": 1,
+              "unavailable": 37
+            }
+          },
+          {
+            "family": "treemap",
+            "selectedFiles": 1,
+            "callbacks": {
+              "unavailable": 4
+            },
+            "declarations": {
+              "unavailable": 4
+            }
+          },
+          {
+            "family": "ishikawa",
+            "selectedFiles": 1,
+            "callbacks": {
+              "unavailable": 3
+            },
+            "declarations": {
+              "unavailable": 3
+            }
+          },
+          {
+            "family": "eventmodeling",
+            "selectedFiles": 1,
+            "callbacks": {},
+            "declarations": {
+              "unavailable": 10
+            }
+          },
+          {
+            "family": "zenuml",
+            "selectedFiles": 0,
+            "callbacks": {},
+            "declarations": {}
+          }
+        ],
+        "scope": "Original pinned source callbacks with expectations unchanged, through reviewed public parser/model projections. Declarations, expanded callbacks and assertions retain separate counts. Private/import/matcher gaps and disabled tests are never passes; this is distinct from Mermaid own-runner execution."
+      }
+    }
+  ]
+}

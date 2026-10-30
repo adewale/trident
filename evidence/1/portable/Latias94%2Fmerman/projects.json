@@ -1,0 +1,66 @@
+[
+  {
+    "project": "wevm/ondine",
+    "lane": "portable-svg",
+    "recordId": "08b1887e-a768-4e3d-9c31-7276b7e608c9",
+    "status": "blocked",
+    "measuredAt": "2026-10-30T05:55:32.434Z",
+    "evidenceRetained": true
+  },
+  {
+    "project": "adewale/agentic-mermaid",
+    "lane": "portable-svg",
+    "recordId": "96f1b5c9-33b2-4c64-b23e-03cf594a7485",
+    "status": "failed",
+    "measuredAt": "2026-10-30T07:38:46.927Z",
+    "evidenceRetained": true
+  },
+  {
+    "project": "dfadler/zombie-mermaid",
+    "lane": "portable-svg",
+    "recordId": "d1565c5c-b901-42ea-9bcb-bccf5c6ad7fa",
+    "status": "failed",
+    "measuredAt": "2026-10-30T08:29:41.608Z",
+    "evidenceRetained": true
+  },
+  {
+    "project": "zhenhuaa/mdv",
+    "lane": "portable-svg",
+    "recordId": "f448f2c2-526c-43ab-ad7e-dfd86931a641",
+    "status": "failed",
+    "measuredAt": "2026-10-30T09:06:23.225Z",
+    "evidenceRetained": true
+  },
+  {
+    "project": "crafter-station/mermaid",
+    "lane": "portable-svg",
+    "recordId": "653d8961-8dfc-4410-81b3-b92eec0609ae",
+    "status": "failed",
+    "measuredAt": "2026-10-30T09:06:50.369Z",
+    "evidenceRetained": true
+  },
+  {
+    "project": "emtyty/merslim",
+    "lane": "portable-svg",
+    "recordId": "a71c93e7-8fc0-4642-8f39-87e85d9d4711",
+    "status": "failed",
+    "measuredAt": "2026-10-30T09:29:12.603Z",
+    "evidenceRetained": true
+  },
+  {
+    "project": "KlangHaus/vitepress-plugin-diagram",
+    "lane": "portable-svg",
+    "recordId": "4e424bb7-064d-46ec-9753-da06fe9b1968",
+    "status": "failed",
+    "measuredAt": "2026-10-30T09:38:07.169Z",
+    "evidenceRetained": true
+  },
+  {
+    "project": "Latias94/merman",
+    "lane": "portable-svg",
+    "recordId": "ded3adb4-2b7b-45db-833e-66d158728624",
+    "status": "failed",
+    "measuredAt": "2026-10-30T10:07:26.363Z",
+    "evidenceRetained": true
+  }
+]

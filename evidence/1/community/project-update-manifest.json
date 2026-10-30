@@ -1,0 +1,437 @@
+{
+  "invocationId": null,
+  "attempt": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5",
+  "updates": [
+    {
+      "project": "excalidraw/mermaid-to-excalidraw",
+      "action": "measured",
+      "record": "8e414333-8eaa-4ec4-9dd8-004650ef4a52"
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "action": "measured",
+      "record": "0e4efa3f-2d81-4d9f-8a70-458b62c2f6d9"
+    },
+    {
+      "project": "wevm/ondine",
+      "action": "measured",
+      "record": "1191051b-7483-47fa-af22-f5b9aea8ee88"
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "action": "measured",
+      "record": "8bb50213-36db-49bb-83e6-305e12402717"
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "action": "measured",
+      "record": "f3e15d80-fdd6-4f0f-bab7-6fcca50c8427"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "action": "measured",
+      "record": "b77b0493-4bfe-48c2-94aa-a3898caa8230"
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "action": "measured",
+      "record": "736fae0d-61c3-4f77-baf3-1d61c793ef38"
+    },
+    {
+      "project": "zhenhuaa/mdv",
+      "action": "measured",
+      "record": "94ddcbb3-3f5b-49b5-9015-ac6106234096"
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "action": "measured",
+      "record": "347f6266-5d89-4ac8-8c22-b73eea742da0"
+    },
+    {
+      "project": "aj-archipelago/merval",
+      "action": "measured",
+      "record": "2285167d-15d3-477b-9033-9667fc862215"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "action": "measured",
+      "record": "f3261868-4431-49ba-b7cb-edd4d0c4b49e"
+    },
+    {
+      "project": "anomalyco/opencode",
+      "action": "measured",
+      "record": "9ef3e23f-c88e-4bf0-8dbc-d2f4ff87c602"
+    },
+    {
+      "project": "chenyanchen/mermaid-formatter",
+      "action": "measured",
+      "record": "9d0e4b0e-9b30-466f-8326-029065ecb155"
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "action": "measured",
+      "record": "84842976-7253-4508-bbf5-a5e182e79124"
+    },
+    {
+      "project": "emtyty/merslim",
+      "action": "measured",
+      "record": "3235a9e8-6746-44b7-83c6-7381cce7ec7c"
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "action": "measured",
+      "record": "a673b27e-7fd6-445f-8d07-9557e51e7457"
+    },
+    {
+      "project": "fasouto/termaid",
+      "action": "measured",
+      "record": "effa2044-6150-49c7-b8d0-0858048d9cf6"
+    },
+    {
+      "project": "inkeep/visimer",
+      "action": "measured",
+      "record": "c8c3e9d2-b4a4-42dd-81d6-e33ecdae8dc5"
+    },
+    {
+      "project": "kingsword09/mermansi",
+      "action": "measured",
+      "record": "dd5a3938-9a09-402d-baef-59199c9a3660"
+    },
+    {
+      "project": "kitlangton/merman",
+      "action": "measured",
+      "record": "0715007f-87fc-4015-a427-57ea4e9d28f7"
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "action": "measured",
+      "record": "c1ddde58-35d1-400e-8f9c-22978337bea9"
+    },
+    {
+      "project": "Latias94/merman",
+      "action": "measured",
+      "record": "042ddbb7-c1b1-4ecf-b0e5-1e6a8042baed"
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "action": "measured",
+      "record": "e30ece22-6dec-4a2a-b0df-0c08ab1f04bc"
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "action": "measured",
+      "record": "c2005bb4-342d-459f-88bc-7b4b38471f2f"
+    },
+    {
+      "project": "neongreen/mermaid-ast",
+      "action": "measured",
+      "record": "10099ec6-ef75-42a6-8f51-03e6320e735b"
+    },
+    {
+      "project": "obsidianmd/pele",
+      "action": "measured",
+      "record": "743da661-98ea-49c9-b9f7-14718e39d061"
+    },
+    {
+      "project": "probelabs/maid",
+      "action": "measured",
+      "record": "6062b7e9-b8a1-42d9-a6c9-dd8508bfd423"
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "action": "measured",
+      "record": "867efe1d-a598-48b2-b42c-50c24abb5f46"
+    },
+    {
+      "project": "taoche/mermaid-reactflow-render",
+      "action": "measured",
+      "record": "7bc72c51-3b69-4a47-9b53-9d66eae5e747"
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "action": "measured",
+      "record": "acbbba16-81d6-41b0-98c9-ca78eafb4a81"
+    },
+    {
+      "project": "xai-org/grok-build",
+      "action": "measured",
+      "record": "0e644bd7-54a6-4b5c-a5f9-5921eb4ae992"
+    },
+    {
+      "project": "Yassimba/loom",
+      "action": "measured",
+      "record": "6e3c325d-1a95-46f2-a47a-69ad6eeaee80"
+    },
+    {
+      "project": "4nkitd/opencode-merman",
+      "action": "measured",
+      "record": "c4cd8ec1-c810-4751-bed9-662b7c58c523"
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "action": "measured",
+      "record": "ed66f095-6b13-4ef5-a823-fdf2585e3ad8"
+    },
+    {
+      "project": "npm:tui-mermaid",
+      "action": "measured",
+      "record": "22d6a3ae-ff06-4423-a995-f37a4bf2e19d"
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "action": "measured",
+      "record": "bb07dfb1-6db5-4571-9e1b-8f3f84dc8470"
+    },
+    {
+      "project": "xl0/lovely-mermaid",
+      "action": "measured",
+      "record": "d9395384-096a-4ea0-857f-baacf96fe2d7"
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "action": "measured",
+      "record": "f779d4da-ec86-42a0-a702-78e89e72fe09"
+    },
+    {
+      "project": "crabtalk/bezel",
+      "action": "measured",
+      "record": "6bac37bc-181b-4414-8571-492d23c163d8"
+    }
+  ],
+  "records": [
+    {
+      "project": "excalidraw/mermaid-to-excalidraw",
+      "id": "8e414333-8eaa-4ec4-9dd8-004650ef4a52",
+      "measuredAt": "2026-10-30T03:49:01.250Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/excalidraw%2Fmermaid-to-excalidraw"
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "id": "0e4efa3f-2d81-4d9f-8a70-458b62c2f6d9",
+      "measuredAt": "2026-10-30T03:50:21.812Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/Dicklesworthstone%2Ffrankenmermaid"
+    },
+    {
+      "project": "wevm/ondine",
+      "id": "1191051b-7483-47fa-af22-f5b9aea8ee88",
+      "measuredAt": "2026-10-30T03:51:40.499Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/wevm%2Fondine"
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "id": "8bb50213-36db-49bb-83e6-305e12402717",
+      "measuredAt": "2026-10-30T03:52:52.565Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/orestesgaolin%2Fmermaid"
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "id": "f3e15d80-fdd6-4f0f-bab7-6fcca50c8427",
+      "measuredAt": "2026-10-30T03:58:39.759Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/pub%3Amermaid_flutter"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "id": "b77b0493-4bfe-48c2-94aa-a3898caa8230",
+      "measuredAt": "2026-10-30T04:07:30.299Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/adewale%2Fagentic-mermaid"
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "id": "736fae0d-61c3-4f77-baf3-1d61c793ef38",
+      "measuredAt": "2026-10-30T04:09:47.021Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/dfadler%2Fzombie-mermaid"
+    },
+    {
+      "project": "zhenhuaa/mdv",
+      "id": "94ddcbb3-3f5b-49b5-9015-ac6106234096",
+      "measuredAt": "2026-10-30T04:15:41.489Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/zhenhuaa%2Fmdv"
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "id": "347f6266-5d89-4ac8-8c22-b73eea742da0",
+      "measuredAt": "2026-10-30T04:17:57.954Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/1jehuang%2Fmermaid-rs-renderer"
+    },
+    {
+      "project": "aj-archipelago/merval",
+      "id": "2285167d-15d3-477b-9033-9667fc862215",
+      "measuredAt": "2026-10-30T04:18:03.637Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/aj-archipelago%2Fmerval"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "id": "f3261868-4431-49ba-b7cb-edd4d0c4b49e",
+      "measuredAt": "2026-10-30T04:18:39.549Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/AlexanderGrooff%2Fmermaid-ascii"
+    },
+    {
+      "project": "anomalyco/opencode",
+      "id": "9ef3e23f-c88e-4bf0-8dbc-d2f4ff87c602",
+      "measuredAt": "2026-10-30T04:19:31.484Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/anomalyco%2Fopencode"
+    },
+    {
+      "project": "chenyanchen/mermaid-formatter",
+      "id": "9d0e4b0e-9b30-466f-8326-029065ecb155",
+      "measuredAt": "2026-10-30T04:19:40.666Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/chenyanchen%2Fmermaid-formatter"
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "id": "84842976-7253-4508-bbf5-a5e182e79124",
+      "measuredAt": "2026-10-30T04:20:22.177Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/crafter-station%2Fmermaid"
+    },
+    {
+      "project": "emtyty/merslim",
+      "id": "3235a9e8-6746-44b7-83c6-7381cce7ec7c",
+      "measuredAt": "2026-10-30T04:23:35.204Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/emtyty%2Fmerslim"
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "id": "a673b27e-7fd6-445f-8d07-9557e51e7457",
+      "measuredAt": "2026-10-30T04:24:10.636Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/evangwt%2Fxmermaid"
+    },
+    {
+      "project": "fasouto/termaid",
+      "id": "effa2044-6150-49c7-b8d0-0858048d9cf6",
+      "measuredAt": "2026-10-30T04:25:28.965Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/fasouto%2Ftermaid"
+    },
+    {
+      "project": "inkeep/visimer",
+      "id": "c8c3e9d2-b4a4-42dd-81d6-e33ecdae8dc5",
+      "measuredAt": "2026-10-30T04:25:37.427Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/inkeep%2Fvisimer"
+    },
+    {
+      "project": "kingsword09/mermansi",
+      "id": "dd5a3938-9a09-402d-baef-59199c9a3660",
+      "measuredAt": "2026-10-30T04:25:46.631Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/kingsword09%2Fmermansi"
+    },
+    {
+      "project": "kitlangton/merman",
+      "id": "0715007f-87fc-4015-a427-57ea4e9d28f7",
+      "measuredAt": "2026-10-30T04:25:53.571Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/kitlangton%2Fmerman"
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "id": "c1ddde58-35d1-400e-8f9c-22978337bea9",
+      "measuredAt": "2026-10-30T04:26:24.476Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/KlangHaus%2Fvitepress-plugin-diagram"
+    },
+    {
+      "project": "Latias94/merman",
+      "id": "042ddbb7-c1b1-4ecf-b0e5-1e6a8042baed",
+      "measuredAt": "2026-10-30T04:28:21.160Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/Latias94%2Fmerman"
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "id": "e30ece22-6dec-4a2a-b0df-0c08ab1f04bc",
+      "measuredAt": "2026-10-30T04:31:00.631Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/lukilabs%2Fbeautiful-mermaid"
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "id": "c2005bb4-342d-459f-88bc-7b4b38471f2f",
+      "measuredAt": "2026-10-30T04:39:04.748Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/Mootikins%2Ffigurehead-rs"
+    },
+    {
+      "project": "neongreen/mermaid-ast",
+      "id": "10099ec6-ef75-42a6-8f51-03e6320e735b",
+      "measuredAt": "2026-10-30T04:40:20.902Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/neongreen%2Fmermaid-ast"
+    },
+    {
+      "project": "obsidianmd/pele",
+      "id": "743da661-98ea-49c9-b9f7-14718e39d061",
+      "measuredAt": "2026-10-30T04:41:27.152Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/obsidianmd%2Fpele"
+    },
+    {
+      "project": "probelabs/maid",
+      "id": "6062b7e9-b8a1-42d9-a6c9-dd8508bfd423",
+      "measuredAt": "2026-10-30T04:41:40.273Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/probelabs%2Fmaid"
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "id": "867efe1d-a598-48b2-b42c-50c24abb5f46",
+      "measuredAt": "2026-10-30T04:42:43.454Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/sandyyst%2Fdsh-plugin-mermaid-gb-svg"
+    },
+    {
+      "project": "taoche/mermaid-reactflow-render",
+      "id": "7bc72c51-3b69-4a47-9b53-9d66eae5e747",
+      "measuredAt": "2026-10-30T04:42:51.590Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/taoche%2Fmermaid-reactflow-render"
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "id": "acbbba16-81d6-41b0-98c9-ca78eafb4a81",
+      "measuredAt": "2026-10-30T04:43:08.217Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/tariqshams%2Fmermaidtui"
+    },
+    {
+      "project": "xai-org/grok-build",
+      "id": "0e644bd7-54a6-4b5c-a5f9-5921eb4ae992",
+      "measuredAt": "2026-10-30T04:43:13.350Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/xai-org%2Fgrok-build"
+    },
+    {
+      "project": "Yassimba/loom",
+      "id": "6e3c325d-1a95-46f2-a47a-69ad6eeaee80",
+      "measuredAt": "2026-10-30T04:43:20.741Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/Yassimba%2Floom"
+    },
+    {
+      "project": "4nkitd/opencode-merman",
+      "id": "c4cd8ec1-c810-4751-bed9-662b7c58c523",
+      "measuredAt": "2026-10-30T04:45:08.728Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/4nkitd%2Fopencode-merman"
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "id": "ed66f095-6b13-4ef5-a823-fdf2585e3ad8",
+      "measuredAt": "2026-10-30T04:45:53.308Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/kais-radwan%2Fascii-mermaid"
+    },
+    {
+      "project": "npm:tui-mermaid",
+      "id": "22d6a3ae-ff06-4423-a995-f37a4bf2e19d",
+      "measuredAt": "2026-10-30T04:46:07.008Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/npm%3Atui-mermaid"
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "id": "bb07dfb1-6db5-4571-9e1b-8f3f84dc8470",
+      "measuredAt": "2026-10-30T04:46:13.253Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/spacedock-dev%2Fmermaidtext"
+    },
+    {
+      "project": "xl0/lovely-mermaid",
+      "id": "d9395384-096a-4ea0-857f-baacf96fe2d7",
+      "measuredAt": "2026-10-30T04:46:27.972Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/xl0%2Flovely-mermaid"
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "id": "f779d4da-ec86-42a0-a702-78e89e72fe09",
+      "measuredAt": "2026-10-30T04:53:22.841Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/mermaid-js%2Fmermaid"
+    },
+    {
+      "project": "crabtalk/bezel",
+      "id": "6bac37bc-181b-4414-8571-492d23c163d8",
+      "measuredAt": "2026-10-30T04:54:56.879Z",
+      "evidenceDirectory": "/workspace/trident-ecosystem-b0-2026-10-30/campaign/community/project-attempts/b1b6078d-2f9b-407e-9fbb-3accfea841b5/crabtalk%2Fbezel"
+    }
+  ]
+}
