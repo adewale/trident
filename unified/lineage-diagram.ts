@@ -43,6 +43,16 @@ export function lineageDiagram(catalog: LineageCatalog): string {
     for (const edge of edges.filter(edge => group.members.some(node => node.id === edge.from) && group.members.some(node => node.id === edge.to))) lines.push(`    ${ids.get(edge.from)} ${edge.component ? '-.->' : '-->'}|${edge.label}| ${ids.get(edge.to)}`)
     lines.push('  end')
   }
-  lines.push('  classDef svg fill:#e8eff8,stroke:#5e81ac,color:#233448', '  classDef terminal fill:#e5f3ed,stroke:#51816c,color:#233f35', '  classDef raster fill:#eee8f6,stroke:#8b73a6,color:#493759')
+  lines.push(
+    '  subgraph legend["Legend"]',
+    '    legendSvg["Blue · SVG renderer<br/>May also provide terminal or PNG"]:::svg',
+    '    legendTerminal["Green · terminal-only renderer<br/>ASCII / Unicode"]:::terminal',
+    '    legendRaster["Purple · native raster renderer<br/>PNG"]:::raster',
+    '    legendNote["Grey frames group projects<br/>Solid arrows: project lineage<br/>Dashed arrow: component port<br/>Colours show output types, not scores"]',
+    '  end',
+    '  classDef svg fill:#e8eff8,stroke:#5e81ac,color:#233448',
+    '  classDef terminal fill:#e5f3ed,stroke:#51816c,color:#233f35',
+    '  classDef raster fill:#eee8f6,stroke:#8b73a6,color:#493759',
+  )
   return lines.join('\n') + '\n'
 }

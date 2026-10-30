@@ -118,8 +118,8 @@ original project selections and dates.
 
 Every scheduled renderer appears once. Node labels show configured rendering
 output checks, including interfaces that may fail or remain blocked. They do not
-assert successful output or qualified performance. Blue nodes include SVG, green
-nodes are terminal-only, and purple marks native PNG. Solid arrows label recorded
+assert successful output or qualified performance. The image's legend explains
+the output colours, grey groups and arrow styles. Solid arrows label recorded
 forks, derivatives, ports or native-renderer relationships; the dashed arrow marks
 only Beautiful Mermaid's ASCII component port. Unconnected renderers are grouped
 without inventing ancestry. Mermaid Dart and Mermaid Flutter remain distinct brands.
