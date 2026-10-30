@@ -92,7 +92,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             ['Version', 'Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed', 'Planned', 'Measured'], project,
             [String(version), counts.passed, counts.failed, counts.unsupported, counts.blocked, counts.missing, counts.partial, inventory.cases.length, measuredAt(own, result.finishedAt)],
             { column: 'Returned in all rounds', denominator: 'Planned', direction: 'descending' },
-            { unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed'] }, ...(candidate ? { artifactRole: 'candidate' } : { overview: { numerator: 'Returned in all rounds', denominator: 'Planned', suffix: '%' } }) }, unrankedReason)
+            { comparisonKey: hash(['docs', cohort, inventory.protocol ?? 'public-docs-svg-return-v1', inventory.pin ?? null, inventory.cases, report.rounds]), unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed'] }, ...(candidate ? { artifactRole: 'candidate' } : { overview: { numerator: 'Returned in all rounds', denominator: 'Planned', suffix: '%' } }) }, unrankedReason)
         }
         continue
       }

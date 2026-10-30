@@ -74,6 +74,12 @@ recent recorded attempt for that project and benchmark, including failures,
 blocks and requested boundaries with no result; it keeps older tables below.
 Different public interfaces remain separate in the observation tables.
 
+A one-project DaveBench rerun updates that project's coverage without removing
+comparable peers. Rolling coverage joins only matching protocol, pinned input
+bytes and round counts. Each row keeps its own date and evidence receipt; a newer
+partial attempt still supersedes an older score. Different workloads and source
+candidates stay separate. This merge supplies no cross-run timing comparison.
+
 Campaign imports now generate the comparative tables from owning suite results.
 DaveBench reconciles the complete frozen inventory across the declared rounds;
 portable latency retains case/mode and output-calibration scope. Other suites

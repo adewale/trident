@@ -7,6 +7,10 @@ current main; baseline reconciliation and release publication remain pending.
 
 ### Benchmarks and measurement
 
+- Complete a targeted six-round Mermaid 12.2.0 DaveBench rerun: 547/548 SVG
+  returns in every round, with the original image-decoding failure retained.
+  Rolling coverage preserves comparable peer scores, dates and row evidence
+  when importing a one-project rerun; changed input bytes cannot join the cohort.
 - Publish the 30 October 39-project campaign, ranked tables and a checksummed raw
   download. The rolling overview uses the current 27-project selection and links
   the archive for projects excluded later. Large reports have linked detail pages.
