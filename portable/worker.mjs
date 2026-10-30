@@ -206,7 +206,7 @@ try {
     result.qualification ??= qualification
     if (result.status !== 'failed') result.status = qualification.checks.some(check => check.status === 'failed') || !result.prelude.every(item => item.passed) ? 'failed' : qualification.passed ? 'passed' : 'partial'
     const witnessSvg = outputFailure ? outputFailureSvg : svg
-    if (job.svgFile && typeof witnessSvg === 'string') { writeFileSync(job.svgFile, witnessSvg, { flag: 'wx' }); representativeSvg = witnessSvg }
+    if (job.svgFile && typeof witnessSvg === 'string') { mkdirSync(dirname(job.svgFile), { recursive: true }); writeFileSync(job.svgFile, witnessSvg, { flag: 'wx' }); representativeSvg = witnessSvg }
   }
 } catch (error) {
   result.status = 'blocked'
