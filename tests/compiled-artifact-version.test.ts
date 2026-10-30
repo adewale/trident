@@ -9,7 +9,7 @@ test.each(['dart', 'bezel', 'termaid'] as const)('an explicit %s release cutoff 
   const directory = temp.dir(), entry = join(directory, 'entry.js'), cache = join(directory, 'cache'), savedFetch = globalThis.fetch
   const names = ['AM_COMMUNITY_VERSION_POLICY', 'AM_BENCH_DART', 'AM_BENCH_PYTHON'], saved = names.map(name => process.env[name])
   writeFileSync(entry, 'sealed compiled fixture')
-  const artifact = { kind: 'global', module: entry, version: '1.0.0' }, location = join(cache, 'fixture--' + adapter + '@1.0.0')
+  const artifact = { kind: 'global' as const, module: entry, version: '1.0.0' }, location = join(cache, 'fixture--' + adapter + '@1.0.0')
   mkdirSync(location, { recursive: true }); writeFileSync(join(location, 'artifact.json'), JSON.stringify(artifact))
   const [registry, name] = adapter === 'dart' ? ['pub.dev', 'mermaid_core'] : adapter === 'bezel' ? ['crates.io', 'bezel-mermaid'] : ['pypi', 'termaid']
   try {
