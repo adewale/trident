@@ -78,8 +78,9 @@ visible; unstable timing is withheld. No individual-call p95/p99 claim is made.
 
 For 11 projects and 51 positive cases this plans **50,490 cold launch slots**,
 before admission exclusions, versus the earlier 178,200-slot v6 plan. All 54 cases
-receive a public invocation. Invalid controls and cases with failed or blocked
-admission retain their outcomes and receive no further timing/resource jobs.
+remain in the inventory; a rejected family probe marks its cases unsupported.
+Invalid controls run once. Cases with failed or blocked admission retain their
+outcomes and receive no further timing/resource jobs.
 Optional model gaps cannot erase independently admitted SVG-only observations;
 full semantic claims still require their declared evidence.
 

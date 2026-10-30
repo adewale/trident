@@ -6,7 +6,7 @@ import { join } from 'node:path'
 import { portableSummary } from '../portable/report.ts'
 import { calibrate, roundRatioUncertainty } from '../portable/statistics.ts'
 import { modelCost, processCpuCost } from '../portable/costs.ts'
-import { resetPortableCancellation, runFirstUseBatch, runSerialJob, terminatePortableWorkers } from '../portable/execution.ts'
+import { resetPortableCancellation, runFirstUseBatch, runSerialJob, terminatePortableWorkers, measurePortableProject, CollectionCheckpoint } from '../portable/execution.ts'
 import { portableDirectory } from '../portable/artifacts.ts'
 import { parsePortableOptions } from '../portable/run.ts'
 import { inspectCurrentProjectRecords, readProjectBenchmarkRecord } from '../portable/project-records.ts'
@@ -356,3 +356,21 @@ test('v7 admits its declared five-process median profile without upgrading histo
   const invalid = portableCases(['invalid'])
   expect(portableSummary(invalid, [], settings).timing).toHaveLength(0)
 })
+
+test('invalid controls retain one real public invocation without repeated timing or resource workers', async () => {
+  const invalid = portableCases(['invalid']).find(row => row.id === 'invalid:unknown-header')!
+  for (const rejected of [true, false]) {
+    const fixture = workerFixture(rejected ? 'export function render(){throw new Error("Parse error on line 1: invalid source")}' : 'export function render(){return {svg:good}}')
+    const options = parsePortableOptions(['--project', 'fixture/api', '--artifact-root', fixture.directory, '--rounds', '2', '--samples', '1', '--cold-samples', '1'])
+    const results: PortableWorkerResult[] = []
+    await measurePortableProject(fixture.job('warm').artifact, [invalid], options, fixture.directory, result => results.push(result), new CollectionCheckpoint(fixture.directory, { fixture: 'invalid-control' }))
+    expect(results).toHaveLength(1)
+    expect(results[0]!.mode).toBe('warm')
+    expect(results[0]!.qualification?.accepted).toBe(!rejected)
+    expect(results[0]!.status).toBe(rejected ? 'passed' : 'failed')
+    const summary = portableSummary([invalid], results, { ...options, usage: undefined })
+    expect(summary.timing).toHaveLength(0)
+    expect(summary.counts.negativeAdmissionCases).toBe(rejected ? 1 : 0)
+    expect(summary.counts.failedWorkers).toBe(rejected ? 0 : 1)
+  }
+}, 30_000)

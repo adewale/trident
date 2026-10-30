@@ -107,7 +107,7 @@ Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples}
   if (pilotOnly && selected.length) throw Error('--pilot selects its diagnostic portable cases; do not supply --suites')
   const chosen = previous?.requestedSuites ?? (pilotOnly ? ['portable'] : selected.length ? selected : [...PUBLIC_SUITES])
   if (allProjects && options.communityProjects && !preparedFile) throw Error('Use --projects or --all-projects, not both')
-  if (!list && !options.communityProjects && !allProjects) throw Error('Choose --projects, --all-projects or --prepared before starting')
+  if (!list && !options.communityProjects && !allProjects) throw Error('Choose --projects OWNER/TOOL,..., explicitly --all-projects, or --prepared before starting')
   let catalog = read(options.communityCatalogFile ?? communityCatalogFile)
   if (cutoff && !preparedFile && !options.communityPreparedFile && !planOnly && !list) {
     const resolved = await resolveReleaseCatalog(catalog, selectCommunityProjects(catalog.nodes, options.communityProjects).map(peer => peer.id), cutoff, join(options.out, 'preparation/registry'))
@@ -118,7 +118,7 @@ Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples}
   if (list) { console.log(JSON.stringify({ suites: chosen, projects, profile: options.profile, rounds: options.rounds, support: catalog.nodes.filter((node: CatalogMember) => projects.includes(node.id)).map(projectSupport) }, null, 2)); return }
   const comparisonSelection = comparisonProjects(catalog, projects, includeExcluded)
   projects = comparisonSelection.included; options.communityProjects = projects
-  if (!projects.length && !planOnly) throw Error('No projects remain after scope, lineage, branding and release skips')
+  if (!projects.length && !planOnly) throw Error('No projects remain after scope/lineage/branding exclusions or release skips: ' + comparisonSelection.excluded.map(node => node.project + ': ' + node.comparison).join('; '))
   const plan = { ...campaignPlan({ catalog, projects: catalog.nodes.filter((node: CatalogMember) => projects.includes(node.id)), suites: chosen as PublicSuite[], profile: options.profile, rounds: options.rounds, executable: options.executable, upstreamRunnerRoot, budgetMinutes, portableCaseIds: pilotOnly ? PILOT_CASES : undefined }), comparisonSelection, pilot: pilotOnly, portableCaseIds: pilotOnly ? PILOT_CASES : undefined }
   if (planOnly) { console.log(JSON.stringify(plan, null, 2)); return }
   assertBenchmarkExecutionAllowed()

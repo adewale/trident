@@ -162,3 +162,18 @@ test('release verification checks the actual archive, extracted manifest and exe
   execFileSync('tar', ['-czf', archive, '-C', root, 'trident-1.0.0'])
   expect(() => verifyReleaseArchive(archive, sha(archive), join(root, 'tampered'), '1.0.0')).toThrow('manifest')
 })
+
+test('portable tables keep invalid rejection separate and never rank unmeasured output as zero', () => {
+  const root = temp(), out = join(root, 'portable'); mkdirSync(out)
+  const cases = [{ id: 'positive', expectedAccepted: true, outputAdmission: 'passed', failedWorkers: 0, blockedWorkers: 0, semanticComplete: false }, { id: 'negative', expectedAccepted: false, acceptanceMatches: true, failedWorkers: 0, blockedWorkers: 0 }]
+  const result = { project: 'fixture/a', version: '1.0.0', protocol: PORTABLE_MEASUREMENT_PROTOCOL, finishedAt: '2026-01-01', sampling: FULL_SAMPLING, summary: { cases, timing: [{ expectedAccepted: false, medianMs: 1 }] } }
+  write(join(out, 'report.json'), result)
+  const campaign: any = { schema: 'trident-campaign-v2', results: [{ suite: 'portable', out }] }
+  const tables = campaignTables(campaign, receipt)
+  expect(tables).toHaveLength(1)
+  expect(tables[0]!.rows[0]!.values.slice(1, 10)).toEqual([1, 0, 0, 0, 0, 1, 1, 1, 0])
+  expect(rankedRows(tables[0]!, id => id)[0]!.rank).toBe(1)
+  cases[0]!.outputAdmission = 'incomplete'
+  write(join(out, 'report.json'), result)
+  expect(rankedRows(campaignTables(campaign, receipt)[0]!, id => id)[0]!.rank).toBeNull()
+})

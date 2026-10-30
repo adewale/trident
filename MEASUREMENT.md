@@ -6,8 +6,10 @@ Community, documentation and portable sampling protocols stay distinct; their
 results cannot share one speed aggregate. See [each benchmark](BENCHMARKS.md).
 
 Portable fresh-process work reports import, first use, repeated-source sample
-means and separately instrumented resource passes. Full calibration uses5 rounds,
-31 warm sample means and20 fresh workers per replica/round/case. CPU counter
+means and separately instrumented resource passes. The full v7 profile uses six
+rounds, 31 warm sample means and five fresh workers per replica/round/positive
+case. Invalid controls run once without timing credit. Historical protocols keep
+their original qualification rules. CPU counter
 resolution, unavailable observers and failed A/A calibration remain explicit.
 
 Browser initialization/delivery includes its declared host and actual requests.

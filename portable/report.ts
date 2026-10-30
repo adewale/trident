@@ -109,7 +109,7 @@ export function portableSummary(cases: PortableCase[], results: PortableWorkerRe
     return { family, supported: !unsupported.has(family), medianMs: row?.medianMs ?? null, calibrated: row?.calibration.status === 'calibrated', outputCalibrated: row?.outputCalibration.status === 'calibrated', semanticComplete: row?.semanticComplete ?? false }
   })
   return {
-    status: results.some(result => result.status === 'failed') ? 'failed' : results.some(result => result.status === 'blocked') ? 'blocked' : !measured.length ? 'unsupported' : coverage.some(row => !row.unsupported && row.checkedWorkers === 0) ? 'blocked' : rows.some(row => row.calibration.status !== 'calibrated') ? 'uncalibrated' : 'measured',
+    status: results.some(result => result.status === 'failed') ? 'failed' : results.some(result => result.status === 'blocked') ? 'blocked' : !measured.length ? 'unsupported' : coverage.some(row => !row.unsupported && row.checkedWorkers === 0) || rows.some(row => row.calibration.status !== 'calibrated') ? 'uncalibrated' : 'measured',
     cases: coverage,
     timing: rows,
     familyTimings,
