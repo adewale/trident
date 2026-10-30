@@ -1,0 +1,654 @@
+{
+  "createdAt": "2026-10-30T12:15:06.310Z",
+  "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb",
+  "originalSvgMatches": true,
+  "originalPngMatches": true,
+  "fonts": [
+    {
+      "name": "Inter-Regular.ttf",
+      "sha256": "1b08e7fc267a5c7e1d614100f604b83e7e8a0be241f0f288faa2b3ac93a683ba"
+    },
+    {
+      "name": "Inter-Medium.ttf",
+      "sha256": "8c883f63b2c4157d997319f2c8bc6995ed4357ef371940d31ca159004a4aae63"
+    },
+    {
+      "name": "Inter-SemiBold.ttf",
+      "sha256": "e7a1aaf7eda9f2fad4131725fa556265ec75ca7b2d756260173a040363e8d4f7"
+    },
+    {
+      "name": "Inter-Bold.ttf",
+      "sha256": "b37284b5701b6b168dfc770aa1a4ac492106422fd3ba76bc7641e37434e8019c"
+    }
+  ],
+  "records": [
+    {
+      "id": "01-original-051-system",
+      "title": "0.5.1 \u00b7 original \u00b7 system fonts",
+      "version": "0.5.1",
+      "options": {
+        "padding": 100,
+        "style": [
+          "publication-figure",
+          "nord-light",
+          {
+            "font": "Inter",
+            "roles": {
+              "node": {
+                "fontSize": 18,
+                "fontWeight": 600,
+                "fillColor": "#fffdf8",
+                "borderColor": "#7891a6",
+                "textColor": "#233448"
+              },
+              "edge": {
+                "fontSize": 14,
+                "strokeColor": "#5e81ac",
+                "textColor": "#456079"
+              },
+              "group": {
+                "fontSize": 15,
+                "fontWeight": 700,
+                "borderColor": "#a3b4c3"
+              }
+            }
+          }
+        ]
+      },
+      "font": {
+        "loadSystemFonts": true,
+        "defaultFontFamily": "DejaVu Sans"
+      },
+      "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb",
+      "svgSha256": "2167dc5f5b7caf69322017bb6bdd047f8279dcaf68b9630c82a8ab779555eaef",
+      "pngSha256": "8e10b6b7a618ca662abf9ac89262904cea566d4668c0bf752eca53085228877e",
+      "derivativePath": "<path class=\"edge\" data-style=\"solid\" data-arrow-start=\"false\" data-arrow-end=\"true\" data-marker-end=\"arrow\" data-label=\"derivative\" d=\"M1381.84333333,682 L1381.84333333,779.5 Q1381.84333333,787.5 1373.84333333,787.5 L1084.09,787.5 Q1078.09,787.5 1078.09,793.5 L1078.09,799.5\" fill=\"none\" stroke=\"#5e81ac\" stroke-width=\"1.45\" marker-end=\"url(#arrowhead-235e81ac)\" data-relationship=\"flowchart-edge\" data-direction=\"forward\" data-id=\"edge:p16-&gt;p15#0\" data-role=\"edge\" data-from=\"p16\" data-to=\"p15\" role=\"graphics-symbol\" aria-roledescription=\"relation\" aria-label=\"p16 to p15: derivative\" />",
+      "labels": [
+        "<tspan x=\"1381.84333333\" dy=\"-5.4\" textLength=\"96.66\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Mermaid.js</tspan>",
+        "<tspan x=\"1078.09\" dy=\"-5.4\" textLength=\"153.9\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Beautiful Mermaid</tspan>"
+      ]
+    },
+    {
+      "id": "02-original-051-inter",
+      "title": "0.5.1 \u00b7 original \u00b7 explicit Inter",
+      "version": "0.5.1",
+      "options": {
+        "padding": 100,
+        "style": [
+          "publication-figure",
+          "nord-light",
+          {
+            "font": "Inter",
+            "roles": {
+              "node": {
+                "fontSize": 18,
+                "fontWeight": 600,
+                "fillColor": "#fffdf8",
+                "borderColor": "#7891a6",
+                "textColor": "#233448"
+              },
+              "edge": {
+                "fontSize": 14,
+                "strokeColor": "#5e81ac",
+                "textColor": "#456079"
+              },
+              "group": {
+                "fontSize": 15,
+                "fontWeight": 700,
+                "borderColor": "#a3b4c3"
+              }
+            }
+          }
+        ]
+      },
+      "font": {
+        "loadSystemFonts": false,
+        "fontFiles": [
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Regular.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Medium.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-SemiBold.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Bold.ttf"
+        ],
+        "defaultFontFamily": "Inter"
+      },
+      "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb",
+      "svgSha256": "2167dc5f5b7caf69322017bb6bdd047f8279dcaf68b9630c82a8ab779555eaef",
+      "pngSha256": "1519caa8986b1113779ba8b8ea92a3f8aa75446eeded38f71c7c32b28185cd87",
+      "derivativePath": "<path class=\"edge\" data-style=\"solid\" data-arrow-start=\"false\" data-arrow-end=\"true\" data-marker-end=\"arrow\" data-label=\"derivative\" d=\"M1381.84333333,682 L1381.84333333,779.5 Q1381.84333333,787.5 1373.84333333,787.5 L1084.09,787.5 Q1078.09,787.5 1078.09,793.5 L1078.09,799.5\" fill=\"none\" stroke=\"#5e81ac\" stroke-width=\"1.45\" marker-end=\"url(#arrowhead-235e81ac)\" data-relationship=\"flowchart-edge\" data-direction=\"forward\" data-id=\"edge:p16-&gt;p15#0\" data-role=\"edge\" data-from=\"p16\" data-to=\"p15\" role=\"graphics-symbol\" aria-roledescription=\"relation\" aria-label=\"p16 to p15: derivative\" />",
+      "labels": [
+        "<tspan x=\"1381.84333333\" dy=\"-5.4\" textLength=\"96.66\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Mermaid.js</tspan>",
+        "<tspan x=\"1078.09\" dy=\"-5.4\" textLength=\"153.9\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Beautiful Mermaid</tspan>"
+      ]
+    },
+    {
+      "id": "03-latest-054-system",
+      "title": "0.5.4 \u00b7 original \u00b7 system fonts",
+      "version": "0.5.4",
+      "options": {
+        "padding": 100,
+        "style": [
+          "publication-figure",
+          "nord-light",
+          {
+            "font": "Inter",
+            "roles": {
+              "node": {
+                "fontSize": 18,
+                "fontWeight": 600,
+                "fillColor": "#fffdf8",
+                "borderColor": "#7891a6",
+                "textColor": "#233448"
+              },
+              "edge": {
+                "fontSize": 14,
+                "strokeColor": "#5e81ac",
+                "textColor": "#456079"
+              },
+              "group": {
+                "fontSize": 15,
+                "fontWeight": 700,
+                "borderColor": "#a3b4c3"
+              }
+            }
+          }
+        ]
+      },
+      "font": {
+        "loadSystemFonts": true,
+        "defaultFontFamily": "DejaVu Sans"
+      },
+      "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb",
+      "svgSha256": "8cfed4678db3805784918d6d19aae447d7dca0288387859d6e19dd08f9093e8d",
+      "pngSha256": "be6aa037000aa9aef4fe8c7f9f0dfb39474892dfc59cb5685a7078af8b3c6232",
+      "derivativePath": "<path class=\"edge\" data-style=\"solid\" data-arrow-start=\"false\" data-arrow-end=\"true\" data-marker-end=\"arrow\" data-label=\"derivative\" d=\"M1381.84333333,682 L1381.84333333,767.64375 Q1381.84333333,775.64375 1373.84333333,775.64375 L1086.09,775.64375 Q1078.09,775.64375 1078.09,783.64375 L1078.09,799.7875\" fill=\"none\" stroke=\"#5e81ac\" stroke-width=\"1.45\" marker-end=\"url(#arrowhead-235e81ac)\" data-relationship=\"flowchart-edge\" data-direction=\"forward\" data-id=\"edge:p16-&gt;p15#0\" data-role=\"edge\" data-from=\"p16\" data-to=\"p15\" role=\"graphics-symbol\" aria-roledescription=\"relation\" aria-label=\"p16 to p15: derivative\" />",
+      "labels": [
+        "<tspan x=\"1381.84333333\" dy=\"-5.4\" textLength=\"96.66\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Mermaid.js</tspan>",
+        "<tspan x=\"1078.09\" dy=\"-5.4\" textLength=\"153.9\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Beautiful Mermaid</tspan>"
+      ]
+    },
+    {
+      "id": "04-latest-054-inter",
+      "title": "0.5.4 \u00b7 original \u00b7 explicit Inter",
+      "version": "0.5.4",
+      "options": {
+        "padding": 100,
+        "style": [
+          "publication-figure",
+          "nord-light",
+          {
+            "font": "Inter",
+            "roles": {
+              "node": {
+                "fontSize": 18,
+                "fontWeight": 600,
+                "fillColor": "#fffdf8",
+                "borderColor": "#7891a6",
+                "textColor": "#233448"
+              },
+              "edge": {
+                "fontSize": 14,
+                "strokeColor": "#5e81ac",
+                "textColor": "#456079"
+              },
+              "group": {
+                "fontSize": 15,
+                "fontWeight": 700,
+                "borderColor": "#a3b4c3"
+              }
+            }
+          }
+        ]
+      },
+      "font": {
+        "loadSystemFonts": false,
+        "fontFiles": [
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Regular.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Medium.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-SemiBold.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Bold.ttf"
+        ],
+        "defaultFontFamily": "Inter"
+      },
+      "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb",
+      "svgSha256": "8cfed4678db3805784918d6d19aae447d7dca0288387859d6e19dd08f9093e8d",
+      "pngSha256": "1a0ff582c8e13a3e74782ddd1e0745ad6ab71a9e7929296f4c376c06e1dc0161",
+      "derivativePath": "<path class=\"edge\" data-style=\"solid\" data-arrow-start=\"false\" data-arrow-end=\"true\" data-marker-end=\"arrow\" data-label=\"derivative\" d=\"M1381.84333333,682 L1381.84333333,767.64375 Q1381.84333333,775.64375 1373.84333333,775.64375 L1086.09,775.64375 Q1078.09,775.64375 1078.09,783.64375 L1078.09,799.7875\" fill=\"none\" stroke=\"#5e81ac\" stroke-width=\"1.45\" marker-end=\"url(#arrowhead-235e81ac)\" data-relationship=\"flowchart-edge\" data-direction=\"forward\" data-id=\"edge:p16-&gt;p15#0\" data-role=\"edge\" data-from=\"p16\" data-to=\"p15\" role=\"graphics-symbol\" aria-roledescription=\"relation\" aria-label=\"p16 to p15: derivative\" />",
+      "labels": [
+        "<tspan x=\"1381.84333333\" dy=\"-5.4\" textLength=\"96.66\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Mermaid.js</tspan>",
+        "<tspan x=\"1078.09\" dy=\"-5.4\" textLength=\"153.9\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Beautiful Mermaid</tspan>"
+      ]
+    },
+    {
+      "id": "05-crisp-nord",
+      "title": "0.5.4 \u00b7 crisp / Nord Light \u00b7 Inter",
+      "version": "0.5.4",
+      "options": {
+        "padding": 100,
+        "style": [
+          "crisp",
+          "nord-light",
+          {
+            "font": "Inter",
+            "roles": {
+              "node": {
+                "fontSize": 18,
+                "fontWeight": 600,
+                "fillColor": "#fffdf8",
+                "borderColor": "#7891a6",
+                "textColor": "#233448"
+              },
+              "edge": {
+                "fontSize": 14,
+                "strokeColor": "#5e81ac",
+                "textColor": "#456079"
+              },
+              "group": {
+                "fontSize": 15,
+                "fontWeight": 700,
+                "borderColor": "#a3b4c3"
+              }
+            }
+          }
+        ]
+      },
+      "font": {
+        "loadSystemFonts": false,
+        "fontFiles": [
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Regular.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Medium.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-SemiBold.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Bold.ttf"
+        ],
+        "defaultFontFamily": "Inter"
+      },
+      "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb",
+      "svgSha256": "6abc94bfdc8f307d31788aa610ef9e073afa4d4390a274f67849778b39cd84f5",
+      "pngSha256": "5abfca0bc9d05de3f6d7d3d9acdf2a1299d7f2b5b9223da90c2c67ef2b33f56f",
+      "labels": [
+        "<tspan x=\"360.896666667\" dy=\"-5.4\" textLength=\"96.66\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Mermaid.js</tspan>",
+        "<tspan x=\"642.71\" dy=\"-5.4\" textLength=\"153.9\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Beautiful Mermaid</tspan>"
+      ]
+    },
+    {
+      "id": "06-tufte-nord",
+      "title": "0.5.4 \u00b7 Tufte / Nord Light \u00b7 Inter",
+      "version": "0.5.4",
+      "options": {
+        "padding": 100,
+        "style": [
+          "look:tufte",
+          "nord-light",
+          {
+            "font": "Inter",
+            "roles": {
+              "node": {
+                "fontSize": 18,
+                "fontWeight": 600,
+                "fillColor": "#fffdf8",
+                "borderColor": "#7891a6",
+                "textColor": "#233448"
+              },
+              "edge": {
+                "fontSize": 14,
+                "strokeColor": "#5e81ac",
+                "textColor": "#456079"
+              },
+              "group": {
+                "fontSize": 15,
+                "fontWeight": 700,
+                "borderColor": "#a3b4c3"
+              }
+            }
+          }
+        ]
+      },
+      "font": {
+        "loadSystemFonts": false,
+        "fontFiles": [
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Regular.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Medium.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-SemiBold.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Bold.ttf"
+        ],
+        "defaultFontFamily": "Inter"
+      },
+      "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb",
+      "svgSha256": "7f12fe131f25b0b4f9cd20480eebd71cf155471c79cdaaccb3e5b7241378d228",
+      "pngSha256": "e4e6cff13bd4b86d8849cadea53dbc3211fd40536cfb34414bd3a82c705f11e9",
+      "labels": [
+        "<tspan x=\"360.896666667\" dy=\"-5.4\" textLength=\"96.66\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Mermaid.js</tspan>",
+        "<tspan x=\"642.71\" dy=\"-5.4\" textLength=\"153.9\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Beautiful Mermaid</tspan>"
+      ]
+    },
+    {
+      "id": "07-blueprint-nord",
+      "title": "0.5.4 \u00b7 blueprint / Nord Light \u00b7 Inter",
+      "version": "0.5.4",
+      "options": {
+        "padding": 100,
+        "style": [
+          "blueprint",
+          "nord-light",
+          {
+            "font": "Inter",
+            "roles": {
+              "node": {
+                "fontSize": 18,
+                "fontWeight": 600,
+                "fillColor": "#fffdf8",
+                "borderColor": "#7891a6",
+                "textColor": "#233448"
+              },
+              "edge": {
+                "fontSize": 14,
+                "strokeColor": "#5e81ac",
+                "textColor": "#456079"
+              },
+              "group": {
+                "fontSize": 15,
+                "fontWeight": 700,
+                "borderColor": "#a3b4c3"
+              }
+            }
+          }
+        ]
+      },
+      "font": {
+        "loadSystemFonts": false,
+        "fontFiles": [
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Regular.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Medium.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-SemiBold.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Bold.ttf"
+        ],
+        "defaultFontFamily": "Inter"
+      },
+      "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb",
+      "svgSha256": "31c5bbc178c0298ee6f0c0e12f1a98f7e07cf9d66ea32e812618b49a02f268c6",
+      "pngSha256": "330388940beb4d454bdcd2ce970de264adeda61b16d1d507b52d9d9a8b9b329f",
+      "labels": [
+        "<tspan x=\"360.896666667\" dy=\"-5.4\" textLength=\"96.66\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Mermaid.js</tspan>",
+        "<tspan x=\"642.71\" dy=\"-5.4\" textLength=\"153.9\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Beautiful Mermaid</tspan>"
+      ]
+    },
+    {
+      "id": "08-publication-github",
+      "title": "0.5.4 \u00b7 publication / GitHub Light \u00b7 Inter",
+      "version": "0.5.4",
+      "options": {
+        "padding": 100,
+        "style": [
+          "publication-figure",
+          "github-light",
+          {
+            "font": "Inter",
+            "roles": {
+              "node": {
+                "fontSize": 18,
+                "fontWeight": 600,
+                "fillColor": "#fffdf8",
+                "borderColor": "#7891a6",
+                "textColor": "#233448"
+              },
+              "edge": {
+                "fontSize": 14,
+                "strokeColor": "#5e81ac",
+                "textColor": "#456079"
+              },
+              "group": {
+                "fontSize": 15,
+                "fontWeight": 700,
+                "borderColor": "#a3b4c3"
+              }
+            }
+          }
+        ]
+      },
+      "font": {
+        "loadSystemFonts": false,
+        "fontFiles": [
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Regular.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Medium.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-SemiBold.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Bold.ttf"
+        ],
+        "defaultFontFamily": "Inter"
+      },
+      "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb",
+      "svgSha256": "e51b8522b46e0fec4a7fb22f5f287f4bc190ffd918f6c0547719f133dcb3c447",
+      "pngSha256": "af000150d2fb986fb0adb3dd869920f1ce2df34084c60b059d3295f07cf1a67d",
+      "derivativePath": "<path class=\"edge\" data-style=\"solid\" data-arrow-start=\"false\" data-arrow-end=\"true\" data-marker-end=\"arrow\" data-label=\"derivative\" d=\"M1381.84333333,682 L1381.84333333,767.64375 Q1381.84333333,775.64375 1373.84333333,775.64375 L1086.09,775.64375 Q1078.09,775.64375 1078.09,783.64375 L1078.09,799.7875\" fill=\"none\" stroke=\"#5e81ac\" stroke-width=\"1.45\" marker-end=\"url(#arrowhead-235e81ac)\" data-relationship=\"flowchart-edge\" data-direction=\"forward\" data-id=\"edge:p16-&gt;p15#0\" data-role=\"edge\" data-from=\"p16\" data-to=\"p15\" role=\"graphics-symbol\" aria-roledescription=\"relation\" aria-label=\"p16 to p15: derivative\" />",
+      "labels": [
+        "<tspan x=\"1381.84333333\" dy=\"-5.4\" textLength=\"96.66\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Mermaid.js</tspan>",
+        "<tspan x=\"1078.09\" dy=\"-5.4\" textLength=\"153.9\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Beautiful Mermaid</tspan>"
+      ]
+    },
+    {
+      "id": "09-publication-latte",
+      "title": "0.5.4 \u00b7 publication / Catppuccin Latte \u00b7 Inter",
+      "version": "0.5.4",
+      "options": {
+        "padding": 100,
+        "style": [
+          "publication-figure",
+          "catppuccin-latte",
+          {
+            "font": "Inter",
+            "roles": {
+              "node": {
+                "fontSize": 18,
+                "fontWeight": 600,
+                "fillColor": "#fffdf8",
+                "borderColor": "#7891a6",
+                "textColor": "#233448"
+              },
+              "edge": {
+                "fontSize": 14,
+                "strokeColor": "#5e81ac",
+                "textColor": "#456079"
+              },
+              "group": {
+                "fontSize": 15,
+                "fontWeight": 700,
+                "borderColor": "#a3b4c3"
+              }
+            }
+          }
+        ]
+      },
+      "font": {
+        "loadSystemFonts": false,
+        "fontFiles": [
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Regular.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Medium.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-SemiBold.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Bold.ttf"
+        ],
+        "defaultFontFamily": "Inter"
+      },
+      "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb",
+      "svgSha256": "a0fe72754e248bc95e7b4da43c13c63c81ba6ad134c82583506a4ea84879ea49",
+      "pngSha256": "84f0a0e05832227f02d18b6f238637cd2b7923b5e86d77ef42274c57619b7d25",
+      "derivativePath": "<path class=\"edge\" data-style=\"solid\" data-arrow-start=\"false\" data-arrow-end=\"true\" data-marker-end=\"arrow\" data-label=\"derivative\" d=\"M1381.84333333,682 L1381.84333333,767.64375 Q1381.84333333,775.64375 1373.84333333,775.64375 L1086.09,775.64375 Q1078.09,775.64375 1078.09,783.64375 L1078.09,799.7875\" fill=\"none\" stroke=\"#5e81ac\" stroke-width=\"1.45\" marker-end=\"url(#arrowhead-235e81ac)\" data-relationship=\"flowchart-edge\" data-direction=\"forward\" data-id=\"edge:p16-&gt;p15#0\" data-role=\"edge\" data-from=\"p16\" data-to=\"p15\" role=\"graphics-symbol\" aria-roledescription=\"relation\" aria-label=\"p16 to p15: derivative\" />",
+      "labels": [
+        "<tspan x=\"1381.84333333\" dy=\"-5.4\" textLength=\"96.66\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Mermaid.js</tspan>",
+        "<tspan x=\"1078.09\" dy=\"-5.4\" textLength=\"153.9\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Beautiful Mermaid</tspan>"
+      ]
+    },
+    {
+      "id": "10-publication-regular",
+      "title": "0.5.4 \u00b7 publication / Nord \u00b7 weight 400",
+      "version": "0.5.4",
+      "options": {
+        "padding": 100,
+        "style": [
+          "publication-figure",
+          "nord-light",
+          {
+            "font": "Inter",
+            "roles": {
+              "node": {
+                "fontSize": 18,
+                "fontWeight": 400,
+                "fillColor": "#fffdf8",
+                "borderColor": "#7891a6",
+                "textColor": "#233448"
+              },
+              "edge": {
+                "fontSize": 14,
+                "strokeColor": "#5e81ac",
+                "textColor": "#456079",
+                "fontWeight": 400
+              },
+              "group": {
+                "fontSize": 15,
+                "fontWeight": 400,
+                "borderColor": "#a3b4c3"
+              }
+            }
+          }
+        ]
+      },
+      "font": {
+        "loadSystemFonts": false,
+        "fontFiles": [
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Regular.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Medium.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-SemiBold.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Bold.ttf"
+        ],
+        "defaultFontFamily": "Inter"
+      },
+      "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb",
+      "svgSha256": "c594cce3a41966cf74abe079834579925a6c05223ff78527bd8589982d3c5fcb",
+      "pngSha256": "4c82485d71dda769ba1017ad94961a5cb5eb7f20137a681ff43de725e157cfdf",
+      "derivativePath": "<path class=\"edge\" data-style=\"solid\" data-arrow-start=\"false\" data-arrow-end=\"true\" data-marker-end=\"arrow\" data-label=\"derivative\" d=\"M1291.60133333,592.8875 L1291.60133333,678.53125 Q1291.60133333,686.53125 1283.60133333,686.53125 L1014.73,686.53125 Q1006.73,686.53125 1006.73,694.53125 L1006.73,710.675\" fill=\"none\" stroke=\"#5e81ac\" stroke-width=\"1.45\" marker-end=\"url(#arrowhead-235e81ac)\" data-relationship=\"flowchart-edge\" data-direction=\"forward\" data-id=\"edge:p16-&gt;p15#0\" data-role=\"edge\" data-from=\"p16\" data-to=\"p15\" role=\"graphics-symbol\" aria-roledescription=\"relation\" aria-label=\"p16 to p15: derivative\" />",
+      "labels": [
+        "<tspan x=\"1291.60133333\" dy=\"-5.4\" textLength=\"87.264\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Mermaid.js</tspan>",
+        "<tspan x=\"1006.73\" dy=\"-5.4\" textLength=\"138.78\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Beautiful Mermaid</tspan>"
+      ]
+    },
+    {
+      "id": "11-publication-defaults",
+      "title": "0.5.4 \u00b7 publication defaults / Nord \u00b7 Inter",
+      "version": "0.5.4",
+      "options": {
+        "padding": 100,
+        "font": "Inter",
+        "style": [
+          "publication-figure",
+          "nord-light"
+        ]
+      },
+      "font": {
+        "loadSystemFonts": false,
+        "fontFiles": [
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Regular.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Medium.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-SemiBold.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/Inter-Bold.ttf"
+        ],
+        "defaultFontFamily": "Inter"
+      },
+      "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb",
+      "svgSha256": "0552122973f701bdff5e80e3736838d7dc6877369d164db5086f7ac1d3b85940",
+      "pngSha256": "58625b1d699efc0fd6ecb5f33e1bd84cdf2c4f4a510884dac1169eebd474f9c6",
+      "derivativePath": "<path class=\"edge\" data-style=\"solid\" data-arrow-start=\"false\" data-arrow-end=\"true\" data-marker-end=\"arrow\" data-label=\"derivative\" d=\"M1239.30833333,637 L1239.30833333,717.44375 Q1239.30833333,725.44375 1231.30833333,725.44375 L975.625,725.44375 Q967.625,725.44375 967.625,733.44375 L967.625,749.5875\" fill=\"none\" stroke=\"#2e3440\" stroke-width=\"1.45\" marker-end=\"url(#arrowhead-color-u-76-61-72-28-2d-2d-66-67-29)\" data-relationship=\"flowchart-edge\" data-direction=\"forward\" data-id=\"edge:p16-&gt;p15#0\" data-role=\"edge\" data-from=\"p16\" data-to=\"p15\" role=\"graphics-symbol\" aria-roledescription=\"relation\" aria-label=\"p16 to p15: derivative\" />",
+      "labels": [
+        "<tspan x=\"1239.30833333\" dy=\"-4.5\" textLength=\"80.55\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Mermaid.js</tspan>",
+        "<tspan x=\"967.625\" dy=\"-4.5\" textLength=\"128.25\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Beautiful Mermaid</tspan>"
+      ]
+    },
+    {
+      "id": "12-publication-dejavu",
+      "title": "0.5.4 \u00b7 publication / Nord \u00b7 DejaVu Sans",
+      "version": "0.5.4",
+      "options": {
+        "padding": 100,
+        "style": [
+          "publication-figure",
+          "nord-light",
+          {
+            "font": "DejaVu Sans",
+            "roles": {
+              "node": {
+                "fontSize": 18,
+                "fontWeight": 600,
+                "fillColor": "#fffdf8",
+                "borderColor": "#7891a6",
+                "textColor": "#233448"
+              },
+              "edge": {
+                "fontSize": 14,
+                "strokeColor": "#5e81ac",
+                "textColor": "#456079"
+              },
+              "group": {
+                "fontSize": 15,
+                "fontWeight": 700,
+                "borderColor": "#a3b4c3"
+              }
+            }
+          }
+        ]
+      },
+      "font": {
+        "loadSystemFonts": false,
+        "fontFiles": [
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/DejaVuSans.ttf",
+          "/workspace/trident-lineage-diagnostics-2026-10-30/renderer/node_modules/agentic-mermaid/assets/fonts/DejaVuSans-Bold.ttf"
+        ],
+        "defaultFontFamily": "DejaVu Sans"
+      },
+      "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb",
+      "svgSha256": "9cc8b8e510f8d0030f5e9f18fa5a269fd738c41b9f913a8d6937b3d2aacef68f",
+      "pngSha256": "be6aa037000aa9aef4fe8c7f9f0dfb39474892dfc59cb5685a7078af8b3c6232",
+      "derivativePath": "<path class=\"edge\" data-style=\"solid\" data-arrow-start=\"false\" data-arrow-end=\"true\" data-marker-end=\"arrow\" data-label=\"derivative\" d=\"M1381.84333333,682 L1381.84333333,767.64375 Q1381.84333333,775.64375 1373.84333333,775.64375 L1086.09,775.64375 Q1078.09,775.64375 1078.09,783.64375 L1078.09,799.7875\" fill=\"none\" stroke=\"#5e81ac\" stroke-width=\"1.45\" marker-end=\"url(#arrowhead-235e81ac)\" data-relationship=\"flowchart-edge\" data-direction=\"forward\" data-id=\"edge:p16-&gt;p15#0\" data-role=\"edge\" data-from=\"p16\" data-to=\"p15\" role=\"graphics-symbol\" aria-roledescription=\"relation\" aria-label=\"p16 to p15: derivative\" />",
+      "labels": [
+        "<tspan x=\"1381.84333333\" dy=\"-5.4\" textLength=\"96.66\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Mermaid.js</tspan>",
+        "<tspan x=\"1078.09\" dy=\"-5.4\" textLength=\"153.9\" lengthAdjust=\"spacingAndGlyphs\" data-font-metrics=\"deterministic-fit\">Beautiful Mermaid</tspan>"
+      ]
+    },
+    {
+      "id": "public-png-051",
+      "title": "0.5.1 \u00b7 public PNG API",
+      "version": "0.5.1",
+      "publicPng": true,
+      "pngSha256": "16d2e1230baedac7aa84ffa87c0888151d785caacfc057348c5bfe085409585f",
+      "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb"
+    },
+    {
+      "id": "public-png-054",
+      "title": "0.5.4 \u00b7 public PNG API",
+      "version": "0.5.4",
+      "publicPng": true,
+      "pngSha256": "8c57213e0db79000741fbe8d461d1c0714c149e0e83258603875d5072f971dd0",
+      "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb"
+    }
+  ],
+  "focusSourceSha256": "6a9ae285090c174961a62c8d22003c5d306e2a9b857da2c2b5c2e65c3ff92e55",
+  "findings": {
+    "baselineSvgAndPngReproduced": true,
+    "latestSystemFontPngEqualsExplicitDejaVu": true,
+    "paletteOnlyDerivativePathUnchanged": true,
+    "oldFinalStraightSvgUnits": 6,
+    "latestFinalStraightSvgUnits": 16.14375,
+    "nominalMarkerLengthSvgUnits": 11.6
+  },
+  "originalArtifactCommit": "431f9b5f52dfd127ae67b151f795332bea792cc3",
+  "latestPublishedRenderer": {
+    "version": "0.5.4",
+    "integrity": "sha512-PPsdwDEHN7rBtJqJLQ1zUEHm41AGOLxY9HoDX33x86GDrA644NQxw6M0WvZtJ0DV0HV9uY3+4cpPnoNT+X1RRw=="
+  },
+  "images": {
+    "docs/images/lineage-font-controls.png": {
+      "sha256": "304e10cdf7779eef7869b900105a4482d031ef0a281f3e783a844bff21d5ef9c",
+      "method": "Chromium screenshot of an HTML viewport showing unchanged focus PNGs at two pixels per SVG unit."
+    },
+    "docs/images/lineage-style-controls.png": {
+      "sha256": "1e24afc9312785a0824ffcf3f528c10d3a81b07ef894e97edd35bb5b1720e0bf",
+      "method": "Chromium screenshot of an HTML viewport showing unchanged focus PNGs at two pixels per SVG unit."
+    }
+  },
+  "limits": "Visual rendering diagnosis, not benchmark scores. Full-source variants preserve all 27 nodes; focus comparisons use the same Mermaid-family subgraph. Source class definitions constrain node colors in the palette controls. Original per-variant SVG/PNG files and the self-contained HTML gallery are retained in the session diagnostic directory; the contact sheets and final corrected lineage are checked in."
+}

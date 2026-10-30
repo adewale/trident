@@ -1,6 +1,7 @@
 {
   "generator": "Agentic Mermaid",
-  "entrySha256": "59196e12f9447b5fb8042acbcb3c5094f2572e25371fbfb1ec14edb377777876",
+  "generatorVersion": "0.5.4",
+  "entrySha256": "55ccacfd6be531f1bb59fa3c789aa847eef390681b290610fdf3461857f19b61",
   "source": "docs/lineage-overview.mmd",
   "sourceSha256": "92490b9037b9b102956f3ab86de3c2ab4faf1a69a6f119fd4f544d3837a8beeb",
   "projects": [
@@ -61,7 +62,15 @@
       }
     ]
   },
-  "svgSha256": "2167dc5f5b7caf69322017bb6bdd047f8279dcaf68b9630c82a8ab779555eaef",
-  "pngSha256": "8e10b6b7a618ca662abf9ac89262904cea566d4668c0bf752eca53085228877e",
+  "png": {
+    "api": "renderMermaidPNG",
+    "fonts": "verified renderer bundle",
+    "fitTo": {
+      "width": 1800
+    },
+    "loadSystemFonts": false
+  },
+  "svgSha256": "8cfed4678db3805784918d6d19aae447d7dca0288387859d6e19dd08f9093e8d",
+  "pngSha256": "139ddeb3b555af5788fc2f3533f0631ee98c4844e2cb6d3dae8c0e4893533f0a",
   "scope": "Every normally scheduled renderer, with its configured rendering output checks. Failed and blocked interfaces remain possible; labels are not passes or qualified timing claims. Derivative, fork, component port and native renderer have distinct meanings. All catalog entities and exclusions remain in LINEAGE.md."
 }

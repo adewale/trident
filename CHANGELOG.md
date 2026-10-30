@@ -49,6 +49,9 @@ current main; baseline reconciliation and release publication remain pending.
 
 ### Results, checks and release preparation
 
+- Lineage artwork records its Agentic Mermaid version and uses the public PNG API
+  with verified bundled fonts; style and palette controls are available separately.
+
 - RESULTS.md and its machine-readable source provide dated, per-benchmark tables
   and charts. Comparable results are stack-ranked by the named metric, with tied
   ranks and explicit unmeasured, blocked, failed and withheld cells. Historical

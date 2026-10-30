@@ -114,7 +114,7 @@ original project selections and dates.
 
 ## Project lineage
 
-![Lineage of all 27 scheduled renderers, labelled with SVG, terminal and PNG output checks. Blue nodes include SVG, green nodes are terminal-only, and purple marks native Flutter PNG.](docs/images/lineage.svg)
+![Lineage of all 27 scheduled renderers, labelled with SVG, terminal and PNG output checks. Blue nodes include SVG, green nodes are terminal-only, and purple marks native Flutter PNG.](docs/images/lineage.png)
 
 Every scheduled renderer appears once. Node labels show configured rendering
 output checks, including interfaces that may fail or remain blocked. They do not
@@ -129,8 +129,13 @@ selection with `bun commands.ts support --lineage --out FRESH.mmd`. To update th
 tracked artwork, copy that source to `docs/lineage-overview.mmd`, then run
 `bun scripts/render-lineage.ts --renderer-entry INSTALLED_AGENTIC_ENTRY --out FRESH.svg`
 and copy the resulting SVG, PNG and JSON receipt into `docs/images/lineage.*`.
-The public Agentic Mermaid renderer uses publication-figure and Nord Light styling.
-[The receipt](docs/images/lineage.json) records the selected projects and hashes;
+The public Agentic Mermaid SVG and PNG APIs use publication-figure and Nord Light
+styling. PNG generation uses the renderer's verified bundled Inter fonts, with
+system fonts disabled, so the README has consistent typography. Use `--look NAME`
+and `--palette NAME` on the generation command to compare alternatives.
+[The font and style comparison](docs/lineage-rendering.md) explains the rendering choices;
+the [SVG download](docs/images/lineage.svg) retains live text.
+[The receipt](docs/images/lineage.json) records the renderer version, selected projects and hashes;
 [the full catalogue tree](LINEAGE.md) includes every exclusion. Appearance implies
 no benchmark rank.
 
