@@ -129,7 +129,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             if (reviewedIds.size) {
               const subset = drawings.filter(row => reviewedIds.has(row.caseId)), passed = subset.filter(row => row.status === 'passed').length, failed = subset.filter(row => row.status === 'failed').length, missing = reviewedIds.size - passed - failed
               add(['docs-reviewed-profile', cohort, hash(inventory.drawingReview), hash(inventory.producers ?? [])], 'docs', measuredAt(subset, result.finishedAt),
-                `Reviewed ${reviewedIds.size}-occurrence subset of ${inventory.cases.length} documentation occurrences; source expectations were fixed before collection. This bounded content profile is not full DaveBench correctness or a holdout. Unknown evidence withholds a rank.`,
+                `Reviewed ${reviewedIds.size}-occurrence subset of ${inventory.cases.length} documentation occurrences, bound to exact source hashes. This development-exposed content profile is not full DaveBench correctness or a holdout. Unknown evidence withholds a rank.`,
                 ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned reviewed', 'Measured'], project,
                 [String(version), passed, failed, missing, reviewedIds.size, measuredAt(subset, result.finishedAt)],
                 { column: 'Correct', denominator: 'Planned reviewed', direction: 'descending' },
