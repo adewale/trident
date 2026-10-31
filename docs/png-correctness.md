@@ -20,6 +20,9 @@ still match their exact reviewed PNG bytes after source-contract admission.
 
 Changes to any pixel, alpha, dimensions, color profile, orientation metadata or
 unrecognized ancillary extension do not receive a pass from the old baseline.
+Metadata position relative to palette/image data and its encoding context also
+remain bound. Unknown display extensions conservatively bind the entire encoded
+image; Trident cannot assume that reencoding preserves their interpretation.
 The decoder preserves 16-bit low bits and Adam7 placement; a color histogram,
 thumbnail or perceptual tolerance is not a substitute. Animated PNG remains
 unknown without a separate frame observer. Existing decode and allocation budgets

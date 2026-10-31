@@ -20,7 +20,7 @@ export function inspectPng(output: unknown, requireContent: boolean): PngInspect
     if (output.length > 64 * 1024 * 1024) throw Error('PNG exceeds the declared 64 MiB encoded qualification budget')
     const bytes = output, view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength), chunks: Uint8Array[] = []
     let cursor = 8, width = 0, height = 0, depth = 0, color = 0, interlace = 0, ended = false, idatEnded = false, palette: Uint8Array | undefined, transparency: Uint8Array | undefined
-    const displayMetadata: { type: string; sha256: string }[] = []
+    const displayMetadata: { type: string; sha256: string; phase: string; unknown: boolean }[] = []
     while (cursor < bytes.length) {
       if (cursor + 12 > bytes.length) throw Error('Truncated PNG chunk')
       const length = view.getUint32(cursor), end = cursor + length + 12
@@ -50,7 +50,7 @@ export function inspectPng(output: unknown, requireContent: boolean): PngInspect
           // ancillary extensions remain part of the identity. Only standard
           // text/time annotations are known to leave the image unchanged.
           if (['acTL', 'fcTL', 'fdAT'].includes(type)) { result.unavailable = true; throw Error('Animated PNG needs a frame-specific content observer') }
-          if (!['tEXt', 'zTXt', 'iTXt', 'tIME'].includes(type)) displayMetadata.push({ type, sha256: createHash('sha256').update(data).digest('hex') })
+          if (!['tEXt', 'zTXt', 'iTXt', 'tIME'].includes(type)) displayMetadata.push({ type, sha256: createHash('sha256').update(data).digest('hex'), phase: chunks.length ? 'after-image-data' : palette ? 'after-palette' : 'before-palette', unknown: !['cHRM', 'gAMA', 'iCCP', 'sBIT', 'sRGB', 'bKGD', 'pHYs', 'eXIf', 'hIST', 'cICP', 'mDCV', 'cLLI'].includes(type) })
         }
       }
       cursor = end
@@ -119,7 +119,7 @@ export function inspectPng(output: unknown, requireContent: boolean): PngInspect
     result.scope = 'decoded-raster-content'; result.visiblePixels = visiblePixels; result.distinctCompositedColors = colors.size
     const dimensions = Buffer.alloc(8); dimensions.writeUInt32BE(width); dimensions.writeUInt32BE(height, 4)
     const protocol = 'png-rgba16-and-display-metadata-v1' as const
-    result.pixelIdentity = { protocol, width, height, sha256: createHash('sha256').update(protocol + '\n').update(dimensions).update(JSON.stringify(displayMetadata)).update(pixels).digest('hex') }
+    result.pixelIdentity = { protocol, width, height, sha256: createHash('sha256').update(protocol + '\n').update(dimensions).update(JSON.stringify(displayMetadata.map(({ unknown, ...metadata }) => ({ ...metadata, encoding: { color, depth, interlace, paletteSha256: palette ? createHash('sha256').update(palette).digest('hex') : null }, ...(unknown ? { rawContextSha256: createHash('sha256').update(bytes).digest('hex') } : {}) })))).update(pixels).digest('hex') }
     if (requireContent && (!visiblePixels || colors.size < 2)) result.findings.push('PNG has no nonuniform visible diagram content despite declared authored labels')
   } catch (error) { const detail = error instanceof Error ? error.message : String(error); if (detail.startsWith('PNG exceeds the declared')) result.unavailable = true; result.findings.push(detail) }
   return result

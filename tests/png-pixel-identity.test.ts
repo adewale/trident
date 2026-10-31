@@ -116,3 +116,16 @@ test('persisted pixel aliases cannot replace the actual reviewed original PNG', 
   expect(assessDocsPng(input, expected, baseline, [noOriginal]).status).toBe('correct')
   expect(assessDocsPng(input, expected, reencoded, [bound]).status).toBe('correct')
 })
+
+
+test('display metadata placement and encoding-dependent interpretation cannot alias different display semantics', () => {
+  const gamma = Buffer.from([0, 0, 177, 143]), before = image(raw, { metadata: [['gAMA', gamma]] })
+  const after = Buffer.concat([baseline.subarray(0, -12), chunk('gAMA', gamma), baseline.subarray(-12)])
+  expect(identity(before).sha256).not.toBe(identity(after).sha256)
+  expect(identity(image(raw, { metadata: [['gAMA', gamma]], level: 0, split: true }))).toEqual(identity(before))
+  const background = Buffer.from([0, 1, 0, 1, 0, 1]), eight = image(raw, { metadata: [['bKGD', background]] })
+  const sixteenRaw = Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255])
+  expect(identity(image(sixteenRaw, { depth: 16, metadata: [['bKGD', background]] })).sha256).not.toBe(identity(eight).sha256)
+  const unknown = [['vpAg', Buffer.from('uninterpreted display extension')]] as [string, Uint8Array][]
+  expect(identity(image(raw, { metadata: unknown, level: 0 })).sha256).not.toBe(identity(image(raw, { metadata: unknown })).sha256)
+})
