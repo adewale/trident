@@ -56,7 +56,7 @@ test('nested containers prove exact immediate members and reject borrowed descen
   const wrong = { ...expected, groups: [{ ...expected.groups[0]!, members: ['inner', 'A', 'B'] }, { ...expected.groups[1]!, members: [] }] }
   expect(status((await inspect(value, 'flowchart', wrong)).checks, 'painted-group-membership')).toBe('failed')
   const extra = value.replace('</svg>', rect('Extra', 120, 195) + '</svg>')
-  expect((await inspect(extra, 'flowchart', expected)).paint.checks.find(check => check.criterion === 'painted-node-ownership')?.status).toBe('failed')
+  expect((await inspect(extra, 'flowchart', expected)).paint.checks.find((check: PaintCheck) => check.criterion === 'painted-node-ownership')?.status).toBe('failed')
 })
 
 for (const renderer of ['mermaid', 'pele']) test(renderer + ' retained sequence headers and complete loop interval use physical ownership', async () => {
@@ -200,11 +200,11 @@ test('an external usecase actor label needs a real connected head, spine, arms a
 
 test('C4 explicit row limits are falsifiable even when another requested style offset is unknown', async () => {
   const ids = ['A', 'B', 'C', 'D'], value = svg(ids.map((id, i) => rect(id, 10 + 100 * i, 30)).join(''))
-  const expected = { labels: ids, nodes: ids.map(id => ({ id, label: id })), facts: { 'authored-style': [{ kind: 'UpdateLayoutConfig', positions: [], attributes: { c4ShapeInRow: '3' } }, { kind: 'UpdateRelStyle', positions: ['A', 'B'], attributes: { offsetX: '5' } }] } }
+  const expected: MeaningExpectation = { labels: ids, nodes: ids.map(id => ({ id, label: id })), facts: { 'authored-style': [{ kind: 'UpdateLayoutConfig', positions: [], attributes: { c4ShapeInRow: '3' } }, { kind: 'UpdateRelStyle', positions: ['A', 'B'], attributes: { offsetX: '5' } }] } }
   expect(status((await inspect(value, 'c4', expected)).checks, 'source-fact:authored-style')).toBe('failed')
   const valid = value.replace('<rect x="310" y="30"', '<rect x="10" y="130"').replace('<text x="315" y="55">D', '<text x="15" y="155">D')
   expect(status((await inspect(valid, 'c4', expected)).checks, 'source-fact:authored-style')).toBe('unavailable')
-  const noOffset = structuredClone(expected); noOffset.facts['authored-style'].pop()
+  const noOffset = structuredClone(expected); (noOffset.facts!['authored-style'] as any[]).pop()
   expect(status((await inspect(valid, 'c4', noOffset)).checks, 'source-fact:authored-style')).toBe('passed')
 })
 

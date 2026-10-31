@@ -531,7 +531,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   if (input.family === 'sequence') {
     if (Array.isArray(facts['participant-order'])) {
       const actual = facts['participant-order'].map((id: string) => ({ id, x: node.get(id) ? center(node.get(id)!.box).x : null }))
-      fact('participant-order', actual, exactNodes && actual.every((item: any) => item.x !== null) ? actual.every((item: any, i: number) => !i || item.x > actual[i - 1].x + 1) : null, 'Source participant order binds distinct owned header bodies; actual left-to-right header centers establish order, independent of DOM declaration order and lifeline IDs.')
+      fact('participant-order', actual, exactNodes && actual.every((item: any) => item.x !== null) ? actual.every((item: any, i: number) => !i || item.x > Number(actual[i - 1]?.x) + 1) : null, 'Source participant order binds distinct owned header bodies; actual left-to-right header centers establish order, independent of DOM declaration order and lifeline IDs.')
     }
     if (Array.isArray(facts['participant-kinds'])) {
       const actual = facts['participant-kinds'].map((entry: any) => ({ id: entry.id, kind: entry.kind, shape: silhouette(entry.id, entry.kind === 'participant' ? 'rectangle' : entry.kind), extraAttributes: entry.attributes }))
@@ -605,8 +605,8 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   if (Array.isArray(facts['lane-order']) && input.family === 'swimlane') {
     const actual = facts['lane-order'].map((id: string) => ({ id, box: group.get(id)?.box ?? null }))
     const xs = actual.map((item: any) => item.box ? center(item.box).x : NaN), ys = actual.map((item: any) => item.box ? center(item.box).y : NaN)
-    const horizontal = xs.every((x: number, i: number) => !i || x > xs[i - 1] + 1) && ys.every((y: number) => Math.abs(y - ys[0]) < 2)
-    const vertical = ys.every((y: number, i: number) => !i || y > ys[i - 1] + 1) && xs.every((x: number) => Math.abs(x - xs[0]) < 2)
+    const horizontal = xs.every((x: number, i: number) => !i || x > xs[i - 1]! + 1) && ys.every((y: number) => Math.abs(y - ys[0]!) < 2)
+    const vertical = ys.every((y: number, i: number) => !i || y > ys[i - 1]! + 1) && xs.every((x: number) => Math.abs(x - xs[0]!) < 2)
     fact('lane-order', actual, actual.every((item: any) => item.box) ? horizontal || vertical : null, 'Lane order is read from nonoverlapping actual enclosing containers, proceeding left-to-right or top-to-bottom along their common measured axis. Matching lane captions outside containers cannot supply ownership.')
   }
 
