@@ -206,6 +206,28 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       // from a surrounding cluster or another node's artwork.
       if (current.matches('g.node,g.pele-node,g.participant,[data-role="node"],[data-role="actor"]')) return undefined
     }
+    // Flat public SVGs need no renderer-specific classes or wrapper groups.
+    // Bind only the smallest actual closed outline containing this label. A
+    // canvas background or a body enclosing another authored node label cannot
+    // supply ownership for a missing node.
+    if (!group && identity) {
+      const label = labelBox(element)
+      const bodyCandidates = geometry.filter(shape => {
+        if (!['rect', 'circle', 'ellipse', 'polygon', 'path'].includes(shape.localName)) return false
+        const style = getComputedStyle(shape)
+        if (shape.localName === 'path' && style.fill === 'none' && !/z\s*$/i.test(shape.getAttribute('d') ?? '')) return false
+        const b = rect(shape)
+        if (b.width <= 0 || b.height <= 0 || !contains(b, label, 2)) return false
+        if (contains(b, rootBox, 2)) return false
+        const ownLabels = (input.expected.nodes ?? []).filter(node => visibleMatches(node.label).some(text => contains(b, labelBox(text), 2)))
+        if (ownLabels.some(node => node.id !== identity)) return false
+        const matrix = (shape as SVGGraphicsElement).getScreenCTM?.()
+        if (!matrix || !(shape as SVGGeometryElement).isPointInFill?.(new DOMPoint(point.x, point.y).matrixTransform(matrix.inverse()))) return false
+        return true
+      }).sort((a, b) => rect(a).width * rect(a).height - rect(b).width * rect(b).height)
+      const smallest = bodyCandidates[0]
+      if (smallest && bodyCandidates.every(candidate => candidate === smallest || contains(rect(candidate), rect(smallest), 1) && rect(candidate).width * rect(candidate).height > rect(smallest).width * rect(smallest).height + 1)) return { owner: smallest, shape: smallest, box: rect(smallest) }
+    }
     return undefined
   }
   const anchors = new Map<string, { id: string; label: string; owner: Element; shape: Element; box: Box; outlines?: Element[] }>()
@@ -234,6 +256,15 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       const body = [...owner.querySelectorAll('rect,circle,ellipse,polygon,path')].some(shape => visible(shape) && rect(shape).width > 0 && rect(shape).height > 0)
       const labels = labelElements.filter(element => owner.contains(element) && visible(element)).map(element => normalize(labelText(element))).filter(Boolean)
       if (body && labels.some(label => !allowed.has(label))) unexpectedNodes.push(...labels)
+    }
+  }
+  if (input.expected.nodes?.length && !['sequence', 'zenuml'].includes(input.family)) {
+    const allowed = new Set(input.expected.labels.map(normalize))
+    for (const [index, element] of labelElements.entries()) {
+      const label = normalize(labelText(element))
+      if (!label || allowed.has(label) || !visible(element)) continue
+      const owned = ownedBox(element, '__unrequested__:' + index)
+      if (owned && ![...anchors.values()].some(node => node.shape === owned.shape || node.owner.contains(owned.shape))) unexpectedNodes.push(label)
     }
   }
   if (input.expected.nodes?.length) check('painted-node-ownership', input.expected.nodes.map(node => node.id), [...anchors.keys(), ...unexpectedNodes.map(label => 'unexpected:' + label)], unexpectedNodes.length ? false : missingNodes.length ? null : true, unexpectedNodes.length ? 'Additional visible node bodies carry undeclared labels: ' + unexpectedNodes.join(', ') : missingNodes.length ? 'Ambiguous or absent label-to-shape ownership: ' + missingNodes.join(', ') : 'Unique actual label-to-shape ownership, independently of native model identity; no additional declared node bodies carry unrelated labels')
@@ -370,6 +401,11 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       const siblings = [...parent.children].filter(shape => ['path', 'line', 'polyline', 'polygon'].includes(shape.localName) && visible(shape))
       if (siblings.length >= 2 && siblings.length <= 4 && siblings.some(shape => shape !== element && getComputedStyle(shape).fill === 'none')) return true
     }
+    if (Math.max(box.width, box.height) <= 16 && ['arrow', 'triangle'].includes(shapeKind(element)) && ![...anchors.values()].some(node => node.owner.contains(element))) {
+      const stems = geometry.filter(shape => shape !== element && ['path', 'line', 'polyline'].includes(shape.localName) && getComputedStyle(shape).fill === 'none' && ![...anchors.values()].some(node => node.owner.contains(shape)))
+      const attached = stems.filter(stem => [pointFor(stem, false), pointFor(stem, true)].some(point => point && distanceToInk(point, element) <= 2))
+      if (attached.length === 1) return true
+    }
     const owner = element.closest('g.message,g.return'), viewport = element.closest('svg[viewBox]')
     if (!owner || !viewport || viewport === svg || !owner.contains(viewport)) return false
     const shapes = [...viewport.querySelectorAll('path,polygon,polyline,circle,line')].filter(shape => visible(shape))
@@ -413,9 +449,9 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   }
   const inlineMarker = (element: Element, side: 'start' | 'end', endpoint: Point, other: Point): Marker => {
     const parent = element.parentElement
-    const owner = element.closest('g[class$="-edge"],g.edge,[data-edge-id],g.message,g.return') ?? (parent?.localName === 'g' && parent.children.length <= 4 && ![...anchors.values()].some(node => node.owner.contains(element)) ? parent : null)
-    if (!owner) return { kind: 'none', point: endpoint }
-    const shapes = [...owner.querySelectorAll('path,polygon,polyline,circle,line')].filter(shape => inlineShape(shape) && visible(shape) && shape !== element && Math.hypot(center(rect(shape)).x - endpoint.x, center(rect(shape)).y - endpoint.y) < Math.hypot(center(rect(shape)).x - other.x, center(rect(shape)).y - other.y))
+    const owner = element.closest('g[class$="-edge"],g.edge,g[data-edge-id],g.message,g.return') ?? (parent?.localName === 'g' && parent.children.length <= 4 && ![...anchors.values()].some(node => node.owner.contains(element)) ? parent : null)
+    const scope = owner ?? svg
+    const shapes = [...scope.querySelectorAll('path,polygon,polyline,circle,line')].filter(shape => inlineShape(shape) && visible(shape) && shape !== element && (owner || distanceToInk(endpoint, shape) <= 2) && Math.hypot(center(rect(shape)).x - endpoint.x, center(rect(shape)).y - endpoint.y) < Math.hypot(center(rect(shape)).x - other.x, center(rect(shape)).y - other.y))
     if (!shapes.length) return { kind: 'none', point: endpoint }
     if (input.family === 'er') return { kind: 'decoration', point: endpoint, clearance: 4 }
     if (shapes.length !== 1) return { kind: 'unknown', point: endpoint, unknown: 'Compound inline decoration needs a reviewed projection' }

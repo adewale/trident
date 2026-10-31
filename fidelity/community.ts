@@ -22,10 +22,12 @@ import { publicSvgBrowserAction } from '../unified/public-svg-browser.ts'
 import { planFidelityCriteria, completeCriterionLedger } from './ledger.ts'
 import { inspectFidelityPaint } from './paint.ts'
 import { inspectQuantitativePaint } from './paint-values.ts'
+import { inspectSourceFacts } from './paint-facts.ts'
 import { expandedFidelityCases } from './cases.ts'
 import { reviewedFontSizePath } from '../portable/configuration.ts'
 import { assessSvgCases, summarizeSvgCases } from './svg-assessment.ts'
 import { assessPrelude } from './meaning.ts'
+import { evidenceDigest } from '../portable/evidence-contract.ts'
 import type { FidelityRunOptions } from './run.ts'
 import { communityCatalogFile } from '../unified/trident-paths.ts'
 import { runCommunityCli, verifyProvidedCommunityArtifact } from '../unified/community.ts'
@@ -143,7 +145,8 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
         const context = await (await getBrowser()).newContext({ viewport: { width: 1400, height: 1000 }, serviceWorkers: 'block' }); let page = await context.newPage(), observer = await context.newPage(), healthy = false
         await context.route('**/*', async (route: any) => { const url = route.request().url(); if (url.startsWith(origin + '/') || /^(?:data:|blob:|about:blank)/.test(url)) await route.continue(); else { blockedRequests.add(url); await route.abort() } })
         page.setDefaultTimeout(20_000)
-        const diagnostics = new Map<string, any[]>()
+        const diagnostics = new Map<string, any[]>(), outputBindings: Record<string, { svgSha256: string; observerSha256: string }> = Object.create(null)
+        const observerSha256 = evidenceDigest(identity().protocol)
         const add = (testCase: typeof selectedCases[number], surface: string, criterion: string, status: string, actual: unknown, _expected: unknown, scope: string) => {
           if (status !== 'passed') { const findings = diagnostics.get(testCase.id) ?? []; findings.push({ criterion, status, actual, scope }); diagnostics.set(testCase.id, findings) }
           observations.push({ suite: 'mermaid-fidelity', surface, runtime: engine.kind === 'cli' ? 'public CLI + Chromium SVG observer' : 'Chromium', family: testCase.family, caseId: testCase.id + ':' + criterion, operation: criterion, format: 'svg', mode: 'independent-authored-criteria', status: status === 'unavailable' ? 'blocked' : status as BenchmarkObservation['status'], metrics: { implementation: project, criterion, authoredCase: testCase.id, required: testCase.required } })
@@ -179,12 +182,15 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
               const qualification = qualifyOutput({ id: testCase.id, family: testCase.family, source: testCase.source, expectedLabels: testCase.expected.labels, features: testCase.features, provenance: testCase.provenance }, result.svg, 'svg')
               add(testCase, 'browser-public-api', 'standalone-svg-and-labels', qualification.ok ? 'passed' : 'failed', qualification.findings, [], qualification.scope)
               const stem = `${index}-${testCase.id.replace(/[^a-zA-Z0-9_.-]/g, '_')}`, svgPath = join(directory, stem + '.svg.gz'); writeFileSync(svgPath, gzipSync(result.svg)); artifacts.push(svgPath)
+              outputBindings[testCase.id] = { svgSha256: createHash('sha256').update(result.svg).digest('hex'), observerSha256 }
               details.svgEvidence = { path: svgPath, encoding: 'gzip', bytes: Buffer.byteLength(result.svg), sha256: createHash('sha256').update(result.svg).digest('hex'), scope: 'Lossless actual public SVG output, never an input/corpus digest' }
               if (observer.isClosed()) { observer = await context.newPage(); await observer.goto(origin + '/observer') }
               await observer.setContent(result.svg); await observer.evaluate(() => { document.body.style.margin = '0'; document.body.style.background = '#fff' })
               const paint = await bounded<any>(observer.evaluate(inspectFidelityPaint, { family: testCase.family, expected: testCase.expected, paint: testCase.paint }), () => { void observer.close().catch(() => {}) })
               for (const item of paint.checks) { const unavailableOption = item.criterion === 'computed-authored-font-size' && !capabilities.fontOptions; add(testCase, 'browser-owned-ink', item.criterion, unavailableOption ? 'unavailable' : item.status, item.actual, item.expected, unavailableOption ? 'This prepared public adapter has no reviewed font-size option mapping; default matching font sizes do not earn configuration credit' : item.scope) }
-              for (const item of await bounded<any>(observer.evaluate(inspectQuantitativePaint, { family: testCase.family, expected: testCase.expected, source: testCase.source, nodes: paint.nodes }), () => { void observer.close().catch(() => {}) })) add(testCase, 'browser-owned-ink', item.criterion, item.status, item.actual, item.expected, item.scope)
+              const quantitative = await bounded<any>(observer.evaluate(inspectQuantitativePaint, { family: testCase.family, expected: testCase.expected, source: testCase.source, nodes: paint.nodes }), () => { void observer.close().catch(() => {}) })
+              const facts = await bounded<any>(observer.evaluate(inspectSourceFacts, { family: testCase.family, source: testCase.source, expected: testCase.expected, paint, quantitative }), () => { void observer.close().catch(() => {}) })
+              for (const item of [...quantitative, ...facts]) add(testCase, 'browser-owned-ink', item.criterion, item.status, item.actual, item.expected, item.scope)
               if ((options.communityFidelityPng ?? 'basic-families') !== 'none' && testCase.id.startsWith('meaning:family:') && !testCase.id.includes(':configuration-reset') && await observer.locator('svg').count() > 0) {
                 const pngPath = join(directory, stem + '.png'); try { await observer.locator('svg').first().screenshot({ path: pngPath, timeout: 10_000 }); artifacts.push(pngPath) } catch (error) { details.screenshotError = String(error) }
               }
@@ -197,7 +203,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
           initializationError = String(error)
         }
         finally { await context.close(); await new Promise<void>(done => server.close(() => done())) }
-        const completed = completeCriterionLedger(planned, observations, project).map(row => row.surface === 'native-public-api' ? { ...row, detail: 'No reviewed native model adapter; no native call or passing evidence claimed' } : row)
+        const completed = completeCriterionLedger(planned, observations, project).map(row => ({ ...row, metrics: { ...row.metrics, ...(outputBindings[String(row.metrics?.authoredCase)] ?? {}) } })).map(row => row.surface === 'native-public-api' ? { ...row, detail: 'No reviewed native model adapter; no native call or passing evidence claimed' } : row)
         const receipt = join(directory, 'community-fidelity-cases.json'); write(receipt, { project, admission, capabilities, initialized, initializationError, fetched: [...fetched], blockedRequests: [...blockedRequests], rows, nativeScope: 'No reviewed native model adapter for this peer; every planned native criterion remains unavailable, independent of SVG success' }); artifacts.push(receipt)
         return { id: 'mermaid-fidelity', startedAt: began, finishedAt: new Date().toISOString(), status: completed.some(row => row.status === 'failed') ? 'failed' : 'blocked', observations: completed, artifacts, gaps: ['Native public-model criteria are unavailable for this noncore peer; public SVG success supplies no model passes.', 'Quantitative and graph projections are bounded reviewed checks, not whole-family visual equivalence.', ...(initializationError ? ['Collection interrupted: ' + initializationError + '; every missing planned criterion remains unavailable'] : []), ...[...blockedRequests].map(url => 'Blocked external resource: ' + url)] }
       }

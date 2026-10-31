@@ -278,3 +278,17 @@ test('unclassed inline triangle geometry is observed without an implementation-s
   const backwards = svg.replace('129,33 121,37 121,29', '121,33 129,37 129,29')
   expect((await inspect(backwards, facts)).checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('failed')
 })
+
+test('unwrapped public SVG binds labels to individual real outlines without borrowing a canvas background', async () => {
+  const authored = { labels: ['A', 'B'], nodes: [{ id: 'A', label: 'A' }, { id: 'B', label: 'B' }], edges: [{ source: 'A', target: 'B', directed: true }] }
+  for (const name of ['rs-flat-flowchart.svg', 'merslim-flat-flowchart.svg']) {
+    const svg = retainedSvg(name)
+    expect((await inspect(svg, authored)).checks.filter(check => ['painted-node-ownership', 'painted-relationships'].includes(check.criterion)).map(check => [check.criterion, check.status])).toEqual([['painted-node-ownership', 'passed'], ['painted-relationships', 'passed']])
+    const renamed = svg.replaceAll('edge-0', 'arbitrary-relation').replaceAll('edgePath', 'arbitrary-path')
+    expect((await inspect(renamed, authored)).checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('passed')
+    const extra = svg.replace('</svg>', '<rect x="10" y="67" width="60" height="10" fill="white" stroke="black"/><text x="12" y="75" font-size="8">Intruder</text></svg>')
+    expect((await inspect(extra, authored)).checks.find(check => check.criterion === 'painted-node-ownership')?.status).toBe('failed')
+  }
+  const flat = '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="100"><rect width="240" height="100" fill="white"/><text x="14" y="30">Alpha</text></svg>'
+  expect((await inspect(flat, { labels: ['Alpha'], nodes: [{ id: 'A', label: 'Alpha' }], edges: [] })).checks.find(check => check.criterion === 'painted-node-ownership')?.status).toBe('unavailable')
+})
