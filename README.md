@@ -26,14 +26,15 @@ later excluded from regular campaigns. The rolling overview uses the current
 
 Trident has three rendering workloads, a partial public-test comparison and an
 optional model/API workload. Drawing checks and cost measurement are shared parts
-of those workloads. None yet has complete correctness qualification.
+of those workloads. Verified counts, failures and unknowns retain separate
+populations; complete accuracy and general comparative performance remain unresolved.
 
 | Workload | What it measures | Results | Collector IDs |
 |---|---|---|---|
 | **Documentation Examples — DaveBench** | Accurate SVG and PNG rendering of the same pinned Mermaid documentation corpus, inspired by [Dave Kiss's benchmark](https://x.com/davekiss/status/2111512440106078554). | Separate output-return and reviewed-content tables for each format. Incorrect, unknown and configuration-only examples stay visible; speed requires qualified matched work. | `docs` |
 | **Mermaid Feature Cases** | Authored syntax, labels, relationships, chart values, grouping and scaling through public rendering interfaces. | Correct, incorrect, unsupported and unknown diagrams; feature/family details. Cost is reported on matched qualified inputs. | `community`, `fidelity`, `portable` |
-| **Terminal Rendering — Project Examples** | Correctly drawn terminal text, topology, labels and family-specific facts on real project inputs. Origins distinguish terminal examples from shared rendering tests. | 116 drawing inputs and four invalid-source controls, reported separately. All 120 have source contracts; missing output observers remain unknown. Speed is unqualified. | `bench --terminal` |
-| **Mermaid Public API Tests — diagnostic** | Whether an implementation passes Mermaid's original public-behaviour assertions without changing the callbacks or expected answers. | 41 unchanged callbacks cover parsing, detection and structural accessibility contracts. Original and installed Mermaid controls both pass all 41. This is a diagnostic subset, not a whole-suite pass rate or drawing-accuracy score. | `mermaid:public-tests` |
+| **Terminal Rendering — Project Examples** | The named active v3 corpus: 115 unchanged research drawings, one independently reviewed authored adaptation and four original invalid controls. | Verified correct, incorrect and unknown drawings over 116; typed rejection counts over four controls separately. The ambiguous original is a separate diagnostic in the 121-entry research inventory. No speed rank. | `bench --terminal` |
+| **Mermaid Public API Tests — diagnostic** | 154 unchanged callbacks from 37 declarations at the pinned Mermaid source: parsing, detection, structural accessibility and one SVG-return callback over 24 use-case examples. | Passed callbacks over the same 154 planned callbacks; failed, unsupported and binding gaps remain separate. Original and installed Mermaid controls pass all 154. The historical 41-callback scope remains separate. No whole-suite or drawing-accuracy claim. | `mermaid:public-tests --scope expanded-public` |
 | **Public Model Contracts — optional** | Public parsing and model inspection, including replacement sources and configuration reset. | Shared contracts separately from API-specific checks and missing bindings. | `native-fidelity` |
 
 Ordinary campaigns select `docs,fidelity`. Select expensive performance collection
@@ -50,13 +51,19 @@ Correctness qualification remains incomplete. [The bounded repair campaign](docs
 shows the current evidence and gaps. Full DaveBench return scores are not counts
 of correctly drawn diagrams. The [reviewed source expectations](corpus/docs-reviewed.json)
 bind all 548 input occurrences. The [source census](docs/docs-source-expectations.md)
-lists drawing contracts, configuration-only inputs, unresolved interpretations
-and review scope. Source transcription and output-observer qualification are
+records 547 complete contracts and one held duplicate-commit interpretation;
+all 546 drawing occurrences remain in the denominator, with one invalid-source
+control and one configuration-only input separate. Source transcription and output-observer qualification are
 separate; a complete contract alone earns no correctness credit. First-round
 outputs are retained for inspection and rechecking without rendering again. PNG
 content reviews bind actual image bytes and expected source facts; SVG or nonblank
 checks alone cannot establish PNG accuracy. A `--docs-png-review FILE` supplies
-those image reviews. Qualified overall speed comparisons remain incomplete.
+those image reviews. The minimum PNG cohort returned 997 actual images
+(548 Mermaid SVG conversions and 449 native Flutter images), all inspected at
+native dimensions. Changed contracts and unresolved facts still withhold grades;
+inspection coverage is not a correct-image count. [Current evidence](docs/evidence/png-full-corpus-2026-10-31/README.md)
+keeps repairs and held decisions explicit. Qualified overall speed comparisons
+remain incomplete.
 
 The [suite scope audit](docs/benchmark-scope-audit-2026-10-31.md) distinguishes
 shared benchmark machinery, duplicate collection and AM-specific diagnostics.
@@ -66,10 +73,15 @@ Assertion Replay is retired as a comparative benchmark; Mermaid's own tests are
 an explicit reference-environment check (`--suites upstream-original`). The old
 nonblank-only PNG exporter is retired. The [reviewed fixed-PNG study](docs/davebench-png-seven-results.md)
 keeps its task-specific content review, performance results and limitations.
-Terminal Rendering has [120 real inputs with source contracts](docs/terminal-correctness.md).
-Mermaid ASCII is required; Mermaid supplies an unscored source reference. Run
-`bench --terminal --plan` before collecting. The [retained results](docs/terminal-results-2026-10-31.md)
-rank verified counts, with incomplete accuracy and observer gaps visible.
+Terminal Rendering defaults to the [named active v3 profile](docs/evidence/terminal-active-profile-2026-10-31/README.md).
+Its 120 calls comprise 116 drawings and four invalid controls; all active source
+profiles have bounded observers. Particular representations, missing outputs and
+required facts can still remain unknown. Mermaid ASCII is required outside
+explicit targeted extensions; Mermaid supplies an unscored source reference. Run
+`bench --terminal --plan` before collecting; `--corpus original` and saved v1/v2
+rechecks preserve the original 120 literal sources. [Retained full-cohort results](docs/evidence/terminal-state-adaptation-2026-10-31/README.md)
+order verified counts with unknowns; the [older results](docs/terminal-results-2026-10-31.md)
+retain their original scope.
 
 ### Where the benchmarks come from
 
@@ -80,11 +92,11 @@ to short summaries as well as saved tables; see [the reporting rule](REPORTING.m
 | Corpus or profile | Where the inputs come from |
 |---|---|
 | DaveBench | Mermaid's [syntax documentation at commit `1fb7869`](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b/packages/mermaid/src/docs/syntax): 548 fenced occurrences, 546 distinct sources, 34 pages. Trident transcribes expected facts from the literal sources and their documented syntax, independently of candidate output. The [source audit](docs/docs-source-expectations.md) distinguishes extraction, review and unresolved interpretations. |
-| Mermaid Public Tests and reference validation | Mermaid's [original tests at that same commit](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b). The census preserves 4,060 declarations across 368 files. The [41-callback scope](docs/mermaid-public-conformance.md) retains original assertions and separately records unbound public surfaces, private tests and disabled tests. |
+| Mermaid Public Tests and reference validation | Mermaid's [original tests at that same commit](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b). The census preserves 4,060 declarations across 368 files. The [154-callback expanded scope](docs/mermaid-public-conformance.md) retains original assertions, exact source/fixture hashes and separate original/public-reference controls. The portable retained `expanded-154-bundle-v2` owns both disjoint raw parents; ordinary reporters revalidate their complete native evidence before reducing counts. Unbound public surfaces, private and disabled tests remain explicit. The historical 41 callbacks are not pooled with the expanded population. |
 | Authored feature, model and cost cases | Fixtures developed in AM and Trident, with explicit expected facts in [fidelity/cases.ts](fidelity/cases.ts) and [portable/cohorts.ts](portable/cohorts.ts). Each run records its selection from these development fixtures. |
 | Legacy compatibility corpus | The [frozen AM corpus](corpus/community-corpus.json), imported from AM commit `de612cc08009cf8abbeae2d3795dac3baa0b5e36`. Its manifest also identifies upstream inputs. |
 | External repository examples | Examples and fixtures from the repositories and commits in [external-sources.json](corpus/external-sources.json), capped at 20 files per project. The frozen inventory retains file provenance, duplicates, licenses and extraction decisions. |
-| Terminal Rendering | [120 source inputs](corpus/terminal-project-examples.json) selected from research across 18 pinned terminal-project repositories; 17 contribute inputs. Origins include docs, fixtures, issues and PRs, with body/patch hashes and extraction steps. [Origin roles](corpus/terminal-origin-classification.json) separate 67 terminal-specific and 53 shared-renderer robustness cases. All inputs have [independent source contracts](corpus/terminal-project-reviews.json): 116 drawings and four invalid controls. The diagnostic observer profile is bounded by representation support, not selected by renderer pass rates. The old four authored graphs are checker controls only. |
+| Terminal Rendering | The unchanged [original 120 literal sources](corpus/terminal-project-examples.json) come from 18 pinned repositories; 17 contribute inputs, with 67 terminal-specific and 53 shared-renderer robustness origins. The [active v3 manifest](corpus/terminal-active-profile.json) explicitly selects 119 of those sources plus one independently reviewed [authored alias adaptation](corpus/terminal-source-adaptations.json). The ambiguous original remains diagnostic: 121 research entries, 116 active drawings and four invalid controls. All original bytes, body/patch hashes, licenses and independent source receipts remain available. Synthetic checker fixtures supply no benchmark score. |
 | Reviewed fixed-PNG study | A [13-input common profile](docs/davebench-png-seven-results.md) selected from Mermaid's documentation after source-fact review of 20 candidates. Its full coverage phase retained all 548 documentation attempts. |
 
 **DaveBench** is inspired by [Dave Kiss's documentation benchmark](https://x.com/davekiss/status/2111512440106078554).

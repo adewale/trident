@@ -7,9 +7,13 @@ shipped bytes at the intended revision. It does not mean rerunning every project
 The 0.1 release remains blocked on the accuracy gaps in [the baseline](BASELINE.md).
 The six-project verification covers all 16 paths across two recorded phases,
 including label/pixel propagation and the scoped public-model postconditions.
-Those controls do not establish complete drawing semantics. Full
-DaveBench drawing accuracy, full native-PNG correctness, broader original-test
-conformance and complete terminal accuracy have not thereby been established.
+Those historical transport controls do not establish complete drawing semantics.
+Current qualification adds a 154-callback public API diagnostic, all active
+terminal source profiles, retained SVG regrading and independent inspection of
+all 997 returned PNGs in the minimum two-project cohort. Complete DaveBench
+accuracy, native-PNG accuracy, whole-suite conformance and terminal accuracy
+remain unresolved wherever source, representation or required output facts are
+held unknown. The new evidence package and final-head checks are still pending.
 [The verification evidence](https://github.com/adewale/trident/blob/79777b738e4bb5292a31b11dc405c42f6c90d323/qualification-evidence/README.md) includes the 18-call first-use check and source/extracted-kit preservation. The development archive was not released.
 Renderer failures are findings; a missing or incorrect Trident observer is a
 harness limitation and must not be reported as a renderer defect.
@@ -39,16 +43,18 @@ Before the first release, resolve or explicitly bound each advertised claim:
 
 | Claim | Concrete prerequisite |
 |---|---|
-| Full DaveBench accuracy | Settle the pending interpretations listed in the [source census](docs/docs-source-expectations.md); qualify every required drawing fact across the frozen SVG/PNG inventory. Keep configuration-only inputs separate. |
-| Mermaid test compatibility | Publish the exact qualified public-callback scope and all nonpasses. Broader assertions require their own original-source contract and reference qualification. |
-| Terminal accuracy | Qualify every required fact for the 116 positive drawings, with four typed invalid controls separate. An unavailable family observer supplies no correctness pass. |
-| PNG correctness | Independently review exact decoded pixels against complete source facts, or satisfy the strict exact-SVG conversion proof. A decoded image or correct SVG alone is insufficient. |
+| Full DaveBench accuracy | Keep all 548 occurrences: 546 drawings, one invalid control and one configuration-only input. The [source census](docs/docs-source-expectations.md) has 547 complete contracts and one held duplicate-commit interpretation. Regrade every required fact against exact retained outputs; the held drawing stays planned and unknown. |
+| Mermaid test compatibility | Publish the exact 154-callback/37-declaration diagnostic and all nonpasses, with original/public-reference controls and owned `expanded-154-bundle-v2` parents. Preserve historical 41-callback evidence separately. Broader assertions require independent source and reference qualification. |
+| Terminal accuracy | Use the named active v3 manifest: 116 drawings and four typed invalid controls; preserve the ambiguous original separately in 121 research entries. All active source profiles have bounded observers; missing or uninspectable outputs still supply no correctness pass. Original v1/v2 saved cohorts keep their original IDs. |
+| PNG correctness | Bind independent actual-image reviews to current source/format contracts, exact image bytes and inspection evidence; keep held facts unknown. Strict SVG-to-PNG preservation is a separate certificate. Same-call PNG-to-SVG transfer fills only unavailable planned painted checks and preserves contrary observations; it supplies no structural/font/resource/motion proof. A decoded image or correct SVG alone is insufficient. |
 | Comparative performance | Qualify the same matched successful tasks and every actual timed sample; retain intervals, A/A controls, runtime and call boundary. |
 
 A narrower supported claim must be stated as that exact scope in the README,
 results and release notes. It cannot be described as full-corpus support. The
 current gaps remain visible in the owning reports rather than being waived by
-another campaign or a passing packaging check.
+another campaign or a passing packaging check. The published `79777b7` foundation
+receipts and earlier CI/package checks remain historical; they are not evidence
+that the current assembled revision or its new archive passed final checks.
 
 ## Check and package the intended revision
 

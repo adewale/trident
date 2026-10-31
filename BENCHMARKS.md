@@ -38,7 +38,10 @@ The collector now retains each first-round SVG and separately applies
 bind exact bytes, literal drawing facts and configuration-only examples. Their
 absence produces unknown evidence. The [source census](docs/docs-source-expectations.md)
 lists each drawing contract, configuration-only input and unresolved interpretation
-across 36 normalized families. It retains review scope and per-source blockers;
+across 36 normalized families: 547 source contracts are complete and one duplicate
+Boston commit-ID interpretation remains held. All 546 drawing occurrences stay
+planned; one invalid-source and one configuration-only occurrence are separate.
+It retains review scope and per-source blockers;
 source transcription and source review remain separate from output qualification.
 Reference agreement supplies no automatic pass. Every required source fact needs
 a qualified observer bound to the actual output; unsupported facts remain unknown.
@@ -73,9 +76,20 @@ SVG-to-PNG certificate additionally requires the exact rasterized SVG, every
 source fact, frozen rasterizer/fonts and an independently reviewed reference
 raster with matching decoded pixels. These are
 [separate evidence paths](docs/png-correctness.md), not a general native-PNG
-semantic oracle. Changed or unreviewed content stays unknown. Settings-only
+semantic oracle. An independent review of the actual same-call PNG may also
+supply only existing unavailable planned static painted checks for its exact
+SVG. This reverse transfer binds source, both expectation contracts, original
+and rasterized SVG bytes, actual PNG, capture inputs and invocation. HTML repair
+requires namespace/content equivalence before transferring to the original SVG.
+It preserves failed checks and cannot supply structural, font, resource,
+metadata or motion facts; it is not an SVG-to-PNG preservation certificate.
+Changed or unreviewed content stays unknown. Settings-only
 sources have no nonblank-drawing requirement. New PNG clocks remain descriptive
-unless every timed output and A/A calibration qualify.
+unless every timed output and A/A calibration qualify. The minimum retained
+cohort returned 997 actual PNGs (548 Mermaid conversions and 449 native Flutter
+images); all were viewed at native dimensions. [Independent image evidence](docs/evidence/png-full-corpus-2026-10-31/README.md)
+retains current-contract gaps, repairs and non-drawing returns; 997 is an
+inspection count, not an accuracy numerator.
 
 The replaced v1 standalone PNG exporter and old studies retain their own protocols;
 their counts and timings are not silently imported into the new output lanes.
@@ -118,20 +132,38 @@ their separate scopes. [Measurement rules](MEASUREMENT.md) give the clock detail
 ## Mermaid Public API Tests — diagnostic
 
 Task: pass the unchanged public-behaviour assertions in Mermaid's own tests.
-The current independently checked [diagnostic scope](docs/mermaid-public-conformance.md) is **41 callbacks**:
-16 public parse callbacks, six detector callbacks and 19 parameterized
-accessibility render callbacks from 23 original declarations in the pinned
-Mermaid source. It checks acceptance/rejection, suppressed errors, returned family
+The current independently checked [expanded diagnostic scope](docs/mermaid-public-conformance.md)
+is **154 unchanged callbacks from 37 original declarations** at Mermaid commit
+`1fb7869866dd619168d840291c9c54b4f129758b`: 102 parse, 32 detection, 19 structural
+accessibility and one generic SVG-return callback over 24 canonical use-case
+examples. The historical 41-callback scope remains separately selectable.
+The retained `expanded-154-bundle-v2` combines disjoint 153- and one-callback
+parents; normal publication revalidates both raw parents and every invocation.
+It does not pool historical 41-callback scores with expanded scores. It checks acceptance/rejection, suppressed errors, returned family
 and configuration, original snapshots and caller-ID/ARIA conventions. The
 accessibility scope retains Mermaid's exact API conventions and original jsdom
 geometry mocks; it is not a drawing-accuracy check. The original runner and substituted
 public reference must both pass before a peer comparison can be scored.
 
+The retained `expanded-154-bundle-v2` regrades both raw parents without new API
+calls. Its corpus is the unchanged 154-callback selection above; native original
+and public-reference controls qualify all selected callbacks. Expected answers
+remain the upstream assertions. This table reports **passed callbacks / 154**,
+not drawing quality or whole-suite conformance; unmeasured projects get no zero.
+The [manifest and source audit](qualification/source-audits/public-expanded-scope.json)
+retain parameter, source and fixture hashes and the two parent collection paths.
+
+| Project | Version | Passed / 154 | Failed | Unsupported | Binding/evidence gaps |
+|---|---|---:|---:|---:|---:|
+| Mermaid | 12.2.0 | 154 | 0 | 0 | 0 |
+| Agentic Mermaid | 0.4.1 | 59 | 27 | 63 | 5 |
+
 ```sh
 bun commands.ts mermaid:public-tests --help
 ```
 
-Tables stack-rank passes over the same 41 planned callbacks, with assertion
+Tables stack-rank passes over the same selected 154 (or historical 41) planned
+callbacks, with assertion
 failures, unsupported operations, binding gaps and unrun work separate. A Trident
 adapter exception cannot earn syntax-rejection credit. This diagnostic measures
 that exact API scope; it does not measure drawing accuracy, speed or all Mermaid
@@ -144,35 +176,51 @@ are frozen for campaign scheduling.
 
 ## Terminal Rendering — Project Examples
 
-Task: correctly render a representative corpus as terminal display cells, then
-measure completed rendering on the same verified work. The
-[corpus](docs/terminal-corpus.md) contains 120 inputs from capped research across
-18 repositories (17 contribute inputs): 116 positive drawings and four invalid
-rejection controls, with separate denominators. Docs, tests, issue/PR URLs,
-dates, commits, licenses, body/patch hashes and extraction changes remain attached
-to every input. The 67 terminal-specific cases and 53 shared-renderer robustness
-cases are development inputs, not a production-frequency sample.
+Task: correctly render the named source corpus as terminal display cells, then
+measure completed rendering on the same verified work. The unchanged [original
+corpus](docs/terminal-corpus.md) has 120 literal inputs from 18 pinned repositories
+(17 contribute inputs), with 67 terminal-specific and 53 shared-renderer
+robustness origins. Docs, tests, issue/PR URLs, dates, commits, licenses and
+body/patch hashes remain attached. These are development inputs, not a
+production-frequency sample.
 
-Every input now declares its required source facts. The bounded
-[observer](docs/terminal-correctness.md) reads actual terminal state, including
-ANSI movement, erase and conceal, then checks supported node boxes, directed
-routes, captions and layout; supported pie rows, five-score-cell journey rows
-and timeline trees have their own required facts. Missing family observers,
-unknown controls or unsupported background paint keep correctness unknown.
+Ordinary `bench --terminal` selects [active v3](corpus/terminal-active-profile.json):
+115 unchanged original drawings, one independently reviewed authored alias
+adaptation and all four original invalid controls. Its 116 drawings and four
+rejection controls have separate denominators. The ambiguous original nested-state
+source remains diagnostic with exact bytes and provenance, so the research
+inventory retains 121 entries. The manifest binds every input/review hash and
+explicit membership; no original-source score transfers to the fresh identity.
+
+Every active input declares independently reviewed source facts. Family
+observers cover all 116 active drawing profiles and read actual display cells,
+ANSI movement, erase and conceal, owned geometry, routes, group containment,
+styles, quantities and ordered family structures. Independent positives and
+meaningful wrong-output mutations qualify those bounded representations. An
+uninspectable representation, unknown control, required paint or missing output
+still leaves the corresponding fact unknown; unsupported representations are
+not renderer defects.
 
 `bench --terminal` uses CLI, Python and Node transports. Mermaid is the mandatory
 unscored source reference; Mermaid ASCII is the terminal baseline. The diagnostic
 subset identifies sources with supported facts for at least one declared
 representation. Its size is neither a pass count nor full-corpus qualification. Collection uses all 120
 inputs once per selected renderer; `--all-inputs` is an explicit alias for that
-inventory. Saved-output rechecks need no renderer or Mermaid
-installation. Source capability declarations do not replace observed output.
+inventory. `--corpus original` names the unchanged historical population. Saved
+v1/v2 runs select it automatically; saved v3 runs require their active manifest
+and membership identities. Saved-output rechecks need no renderer or Mermaid
+installation. The [ordinary-profile controls](docs/evidence/terminal-active-profile-2026-10-31/README.md)
+verify planning, regrading and separate diagnostic/control tables without SUT
+calls. Source capability declarations do not replace observed output.
 
 Tables rank verified correct counts over the same declared subset, keeping
 incorrect, unsupported and unknown cells visible. Full accuracy and comparative
 performance remain unqualified. Cold CLI and warm Python clocks have different
-boundaries. The [dated earlier results](docs/terminal-results-2026-10-31.md) keep
-their original 16-drawing scope and cannot be relabelled with the new contracts.
+boundaries. The [18-project retained regrade](docs/evidence/terminal-state-adaptation-2026-10-31/README.md)
+keeps original and active populations separate, including the three fresh
+adaptation calls and 15 uncollected project coordinates. The [dated earlier
+results](docs/terminal-results-2026-10-31.md) retain their original 16-drawing
+scope and cannot be relabelled with the new contracts.
 
 ## Public Model Contracts — optional
 
