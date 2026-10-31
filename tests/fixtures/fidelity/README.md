@@ -94,3 +94,17 @@ renderer skin's sharp-corner convention, then swap the source shapes and
 collapse the actual contrast. The SHA-256 digests are
 `a782b10ce8314d76c1685bb98eda70d9d2008baa25385b9f73020ec53653bb82` and
 `4600302dbb91083fa8b3096353cdeabb4c876ea39b8c64062e83972c72d00a77`.
+
+`mermaid-sequence-linebreak.svg` and `pele-sequence-linebreak.svg` are unchanged
+Mermaid12.2.0 and Pele1.9.0 outputs for documentation
+`packages/mermaid/src/docs/syntax/sequenceDiagram.md:464` at the same pin and
+campaign. The source explicitly asks for `Alice<br/>Johnson`, message
+`Hello John,<br/>how are you?` and a separate multiline note. The bounded
+line-break controls independently declare the participant/message facts;
+notes remain a separate unsupported ownership profile. Mermaid uses sibling
+`text` elements, while Pele uses `tspan` children. Their actual glyph rows
+satisfy the same line contract; SVG structure and CSS prefixes are immaterial.
+Mermaid's unrelated unresolved note-filter diagnostic still withholds a whole
+drawing certificate; passing this profile does not erase it. SHA-256 digests:
+`56841ada14d57582eecdc8b1596a770887bd00e77b352e43643ac9e508a36130` and
+`984ae4c3f3ce89c753e995b665539fd83e3f3fa86d205935c16192509f690083`.

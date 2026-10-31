@@ -6,6 +6,13 @@ import { compileVisualStyles } from './style-expectation.ts'
 export function projectVisualExpectation(family: string, literal: MeaningExpectation): { expected: MeaningExpectation; projections: string[] } {
   const expected = structuredClone(literal), facts: any = expected.facts ??= {}, projections: string[] = []
   const configuration = facts['authored-config'] ?? {}
+  const lineBreaks: any[] = Array.isArray(facts['text-line-breaks']) ? facts['text-line-breaks'] : []
+  const addLineBreaks = (owner: Record<string, string | number>, label: string) => { const lines = label.replace(/<br\s*\/?\s*>/gi, '\n').split('\n'); if (lines.length < 2 || lineBreaks.some(entry => entry.owner?.kind === owner.kind && entry.owner?.id === owner.id && entry.owner?.index === owner.index)) return; lineBreaks.push({ owner, lines }) }
+  for (const node of expected.nodes ?? []) addLineBreaks({ kind: family === 'sequence' ? 'participant' : 'node', id: node.id }, node.label)
+  for (const [index, edge] of (expected.edges ?? []).entries()) if (edge.label) addLineBreaks({ kind: family === 'sequence' ? 'message' : 'edge', index }, edge.label)
+  for (const group of expected.groups ?? []) addLineBreaks({ kind: 'group', id: group.id }, group.label)
+  if (typeof facts.title === 'string') addLineBreaks({ kind: 'title' }, facts.title)
+  if (lineBreaks.length) facts['text-line-breaks'] = lineBreaks
   if (family === 'class' && Array.isArray(facts.members)) {
     const signature = (value: string) => value.normalize('NFC').replace(/\s+/g, ' ').trim().replace(/\)\s*:\s*/g, ') ').replace(/\s*:\s*/g, ':')
     const members = new Set(facts.members.flatMap((entry: any) => entry.values.map((value: string) => signature(value))))

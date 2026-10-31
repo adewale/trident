@@ -1,7 +1,8 @@
 import type { MeaningExpectation, PaintExpectation } from './meaning.ts'
 
 export interface PaintCheck { criterion: string; status: 'passed' | 'failed' | 'unavailable'; expected: unknown; actual: unknown; scope: string }
-export interface PaintEvidence { checks: PaintCheck[]; complete: boolean; passed: boolean; nodes: unknown[]; connections: unknown[]; viewBox: string | null; groups?: { id: string; label: string; box: { x: number; y: number; width: number; height: number } }[]; camouflagedText?: { text: string; box: { x: number; y: number; width: number; height: number } }[]; camouflagedGeometry?: { tag: string; box: { x: number; y: number; width: number; height: number } }[] }
+export interface PaintedTextLines { owner: Record<string, string | number>; label: string | null; lines: string[] | null; scope: string }
+export interface PaintEvidence { textLineBlocks?: PaintedTextLines[]; checks: PaintCheck[]; complete: boolean; passed: boolean; nodes: unknown[]; connections: unknown[]; viewBox: string | null; groups?: { id: string; label: string; box: { x: number; y: number; width: number; height: number } }[]; camouflagedText?: { text: string; box: { x: number; y: number; width: number; height: number } }[]; camouflagedGeometry?: { tag: string; box: { x: number; y: number; width: number; height: number } }[] }
 export interface PaintInput { family: string; expected: MeaningExpectation; paint?: PaintExpectation }
 
 /** The authored request fixes the denominator before any renderer runs. */
@@ -34,7 +35,8 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const requiredLabels = [...new Set([...input.expected.labels, ...(typeof input.expected.facts?.title === 'string' && input.expected.facts.title ? [input.expected.facts.title] : [])])]
   const normalize = (value: string) => value.normalize('NFC').replace(/\s+/g, ' ').trim()
   const rect = (element: Element) => { const b = element.getBoundingClientRect(); return { x: b.x, y: b.y, width: b.width, height: b.height } }
-  const labelBox = (element: Element) => { if (element.namespaceURI === 'http://www.w3.org/2000/svg') return rect(element); const range = document.createRange(); range.selectNodeContents(element); const b = range.getBoundingClientRect(); return { x: b.x, y: b.y, width: b.width, height: b.height } }
+  const fragmentedLabels = new Map<Element, Element[]>()
+  const labelBox = (element: Element) => { const fragments = fragmentedLabels.get(element); if (fragments) { const boxes = fragments.map(fragment => fragment.getBoundingClientRect()), x = Math.min(...boxes.map(box => box.x)), y = Math.min(...boxes.map(box => box.y)); return { x, y, width: Math.max(...boxes.map(box => box.right)) - x, height: Math.max(...boxes.map(box => box.bottom)) - y } }; if (element.namespaceURI === 'http://www.w3.org/2000/svg') return rect(element); const range = document.createRange(); range.selectNodeContents(element); const b = range.getBoundingClientRect(); return { x: b.x, y: b.y, width: b.width, height: b.height } }
   type Box = ReturnType<typeof rect>
   const center = (box: Box) => ({ x: box.x + box.width / 2, y: box.y + box.height / 2 })
   const contains = (outer: Box, inner: Box, epsilon = 1.5) => inner.x >= outer.x - epsilon && inner.y >= outer.y - epsilon && inner.x + inner.width <= outer.x + outer.width + epsilon && inner.y + inner.height <= outer.y + outer.height + epsilon
@@ -124,6 +126,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const rootBox = rect(svg)
   check('canvas', 'positive finite rendered canvas', rootBox, [rootBox.x, rootBox.y, rootBox.width, rootBox.height].every(Number.isFinite) && rootBox.width > 0 && rootBox.height > 0, 'Actual browser viewport of the returned SVG')
   const labelText = (element: Element): string => {
+    const fragments = fragmentedLabels.get(element); if (fragments) return fragments.map(fragment => fragment.textContent ?? '').join(' ')
     if (element.namespaceURI !== 'http://www.w3.org/2000/svg') return (element as HTMLElement).innerText ?? element.textContent ?? ''
     let result = '', previous: DOMRect | undefined
     for (const child of element.childNodes) {
@@ -139,6 +142,24 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const matches = (label: string) => {
     const exact = labelElements.filter(element => normalize(labelText(element)) === normalize(label))
     if (exact.length) return exact
+    const lines = label.split('\n').map(normalize)
+    if (lines.length > 1 && lines.every(Boolean)) {
+      const starts = labelElements.filter(element => normalize(labelText(element)) === lines[0] && visible(element)), blocks: Element[] = []
+      for (const start of starts) {
+        const fragments = [start]
+        for (const line of lines.slice(1)) {
+          const previous = rect(fragments.at(-1)!), candidates = labelElements.filter(element => !fragments.includes(element) && visible(element) && normalize(labelText(element)) === line).filter(element => { const box = rect(element), gap = box.y - previous.y; return gap > Math.min(box.height, previous.height) * .4 && gap <= Math.max(box.height, previous.height) * 2 && (Math.abs(box.x - previous.x) <= 2 || Math.abs(box.x + box.width / 2 - previous.x - previous.width / 2) <= 2) })
+          if (candidates.length !== 1) break
+          fragments.push(candidates[0]!)
+        }
+        if (fragments.length !== lines.length) continue
+        const boxes = fragments.map(rect), x = Math.min(...boxes.map(box => box.x)), y = Math.min(...boxes.map(box => box.y)), box = { x, y, width: Math.max(...boxes.map(box => box.x + box.width)) - x, height: Math.max(...boxes.map(box => box.y + box.height)) - y }
+        // Do not join two snippets across unrelated intervening visible text.
+        if (labelElements.some(element => !fragments.includes(element) && visible(element) && contains(box, rect(element), 0) && normalize(labelText(element)))) continue
+        fragmentedLabels.set(start, fragments); blocks.push(start)
+      }
+      if (blocks.length) return blocks
+    }
     const token = normalize(label).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     const pattern = new RegExp('(?<![\\p{L}\\p{N}_])' + token + '(?![\\p{L}\\p{N}_])', 'u')
     return labelElements.filter(element => pattern.test(normalize(labelText(element))))
@@ -344,7 +365,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (['sequence', 'zenuml'].includes(input.family)) elements = elements.sort((a, b) => rect(a).y - rect(b).y).slice(0, 1)
     const owners = new Map<Element, { owner: Element; shape: Element; box: Box }>()
     for (const element of elements) { const owned = ownedBox(element, node.id); if (owned) owners.set(owned.owner, owned) }
-    if (owners.size === 1) { const owned = [...owners.values()][0]!; anchors.set(node.id, { ...node, ...owned }); elements.forEach(element => nodeLabelElements.add(element)) }
+    if (owners.size === 1) { const owned = [...owners.values()][0]!; anchors.set(node.id, { ...node, ...owned }); elements.filter(element => { const candidate = ownedBox(element, node.id); return candidate?.shape === owned.shape }).forEach(element => nodeLabelElements.add(element)) }
     else missingNodes.push(node.id)
   }
   // A common ancestor can contain several unrelated labels. It is not a
@@ -581,6 +602,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   }
   const connections: Array<{ source: string; target: string; directed: boolean; startMarker: string; endMarker: string; startFilled?: boolean; endFilled?: boolean; element: Element }> = []
   const connectionLabels = new Map<Element, string[]>()
+  const connectionLabelElements = new Map<Element, { label: string; element: Element }[]>()
   const edgeSelector = '.edge path,.edgePath path,.edge-path,.edge-paths path,g[class$="-edge"] path,g[class*="-edge "] path,path.flowchart-link,path.relation,path.relationshipLine,path.transition,path.em-relation,g.message line,g.message path,g.return line,g.return path,[data-relationship="sequence-message"],line.messageLine0,line.messageLine1,path.messageLine0,path.messageLine1,[data-edge-id],polyline.class-relationship,polyline.er-relationship'
   let paths = [...svg.querySelectorAll(edgeSelector)].filter(element => visible(element) && !camouflage(element) && ['path', 'line', 'polyline'].includes(element.localName))
   let unboundRelations = false, invalidMarker = false
@@ -639,14 +661,15 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       const actualLabels: string[] = [], expectedLabels = input.expected.edges.filter(edge => edge.label).map(edge => JSON.stringify([keyFor(edge), normalize(edge.label!)])).sort()
       let ambiguous = false
       const identifiers = (element: Element) => { const values = new Set<string>(); for (let current: Element | null = element; current && current !== svg; current = current.parentElement) for (const name of ['id', 'data-id', 'data-edge-id']) { const id = current.getAttribute(name); if (id) values.add(id) } return values }
-      const distance = (element: Element, connection: typeof connections[number]) => { const box = rect(element); return Math.min(...pointsOn(connection.element).map(point => Math.hypot(Math.max(box.x - point.x, 0, point.x - box.x - box.width), Math.max(box.y - point.y, 0, point.y - box.y - box.height)))) }
+      const distance = (element: Element, connection: typeof connections[number]) => { const box = labelBox(element); return Math.min(...pointsOn(connection.element).map(point => Math.hypot(Math.max(box.x - point.x, 0, point.x - box.x - box.width), Math.max(box.y - point.y, 0, point.y - box.y - box.height)))) }
       for (const [label, elements] of matched) for (const element of elements) {
         const ranked = connections.map(connection => ({ connection, distance: distance(element, connection) })).sort((a, b) => a.distance - b.distance)
         const ids = identifiers(element), owned = ranked.filter(item => [...identifiers(item.connection.element)].some(id => ids.has(id)))
-        const threshold = Math.max(6, rect(element).height * .75)
+        const threshold = Math.max(6, labelBox(element).height * .75)
         const candidate = owned.length === 1 && owned[0]!.distance <= threshold && owned[0]!.distance <= (ranked[0]?.distance ?? Infinity) + 2 ? owned[0] : ranked[0] && ranked[0].distance <= threshold && (!ranked[1] || ranked[1].distance - ranked[0].distance > 2) ? ranked[0] : undefined
         if (!candidate) { ambiguous = true; continue }
         connectionLabels.set(candidate.connection.element, [...(connectionLabels.get(candidate.connection.element) ?? []), normalize(label)])
+        connectionLabelElements.set(candidate.connection.element, [...(connectionLabelElements.get(candidate.connection.element) ?? []), { label: normalize(label), element }])
         actualLabels.push(JSON.stringify([keyFor(candidate.connection), normalize(label)]))
       }
       actualLabels.sort()
@@ -667,6 +690,40 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     check('painted-group:' + group.id, members, outside, available ? outside.length === 0 : null, 'Authored descendant nodes fit their actual owned group boundary; immediate membership is checked independently in the native model')
   }
   check('paint-opacity-and-color', 'resolved visible paint colors/alpha', [...unknownPaint], unknownPaint.size ? null : true, 'Unresolved paint servers/context colors cannot silently earn a visible-ink or complete-style claim')
+  const paintedLines = (element: Element): string[] | null => {
+    if (!visible(element) || (fragmentedLabels.get(element) ?? [element]).some(fragment => camouflagedElements.has(fragment))) return null
+    const glyphs: { text: string; x: number; y: number; height: number }[] = []
+    for (const fragment of fragmentedLabels.get(element) ?? [element]) {
+    const walker = document.createTreeWalker(fragment, NodeFilter.SHOW_TEXT)
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+      if (!node.parentElement || !visible(node.parentElement)) continue
+      if (camouflage(node.parentElement)) return null
+      const style = getComputedStyle(node.parentElement), fill = colorAlpha(node.parentElement.namespaceURI === 'http://www.w3.org/2000/svg' ? style.fill : style.color), stroke = colorAlpha(style.stroke)
+      if (fill === null || stroke === null) return null
+      let opacity = Math.max(fill * Number(style.fillOpacity), stroke * Number(style.strokeOpacity))
+      for (let parent: Element | null = node.parentElement; parent; parent = parent.parentElement) { const css = getComputedStyle(parent); opacity *= Number(css.opacity); if (css.clipPath !== 'none' || css.maskImage !== 'none' || css.mixBlendMode !== 'normal' || css.filter !== 'none' && !preservesSourceGraphic(css.filter)) return null; if (parent === svg) break }
+      if (opacity < 1 / 255) return null
+      const value = node.textContent ?? ''
+      let offset = 0
+      for (const character of value) { const range = document.createRange(); range.setStart(node, offset); offset += character.length; range.setEnd(node, offset); const boxes = [...range.getClientRects()].filter(box => box.width > 0 && box.height > 0); if (boxes.length > 1) return null; const box = boxes[0]; if (box) glyphs.push({ text: character, x: box.x, y: box.y + box.height / 2, height: box.height }) }
+    }
+    }
+    const rows: { y: number; height: number; glyphs: typeof glyphs }[] = []
+    for (const glyph of glyphs) { const matches = rows.filter(row => Math.abs(row.y - glyph.y) < Math.min(row.height, glyph.height) * .4); if (matches.length > 1) return null; const row = matches[0]; if (row) row.glyphs.push(glyph); else rows.push({ y: glyph.y, height: glyph.height, glyphs: [glyph] }) }
+    return rows.sort((a, b) => a.y - b.y).map(row => normalize(row.glyphs.sort((a, b) => a.x - b.x).map(glyph => glyph.text).join(''))).filter(Boolean)
+  }
+  const textLineBlocks: PaintedTextLines[] = []
+  const requests: any = input.expected.facts?.['text-line-breaks']
+  if (Array.isArray(requests)) for (const request of requests) {
+    const owner = request.owner, kind = owner?.kind
+    let label: string | null = null, candidates: Element[] = [], bound = false
+    if (kind === 'node' || kind === 'participant') { const node = anchors.get(owner.id); label = node?.label ?? null; if (node) candidates = visibleMatches(node.label).filter(element => contains(node.box, labelBox(element), 2)); bound = checks.find(check => check.criterion === 'painted-node-ownership')?.status === 'passed' }
+    else if (kind === 'edge' || kind === 'message') { const edge = input.expected.edges?.[owner.index]; label = edge?.label ?? null; if (edge && label) { const routes = connections.filter(connection => keyFor(connection) === keyFor(edge)); if (routes.length === 1) candidates = (connectionLabelElements.get(routes[0]!.element) ?? []).filter(item => item.label === normalize(label!)).map(item => item.element) }; bound = checks.find(check => check.criterion === 'painted-relationship-label-ownership')?.status === 'passed' }
+    else if (kind === 'group') { const group = groupBoxes.find(group => group.id === owner.id); label = group?.label ?? null; if (group) candidates = visibleMatches(group.label).filter(element => contains(group.box, labelBox(element), 2)); bound = checks.find(check => check.criterion === 'painted-group:' + owner.id)?.status === 'passed' }
+    else if (kind === 'title' && typeof input.expected.facts?.title === 'string') { label = input.expected.facts.title; candidates = visibleMatches(label).filter(element => !nodeLabelElements.has(element) && ![...connectionLabelElements.values()].flat().some(item => item.element === element)); bound = true }
+    const safePaint = ['visible-authored-labels', 'unclipped-authored-labels'].every(criterion => checks.find(check => check.criterion === criterion)?.status === 'passed')
+    textLineBlocks.push({ owner, label, lines: bound && safePaint && candidates.length === 1 ? paintedLines(candidates[0]!) : null, scope: 'Actual per-character browser rectangles establish displayed rows on a unique physical label owner. Unsupported note/fragment/box roles, ambiguous occurrences and unproved paint remain unavailable' })
+  }
   const nodeStyle = (shape: Element) => { const style = getComputedStyle(shape); let opacity = 1; for (let parent: Element | null = shape; parent; parent = parent.parentElement) { opacity *= Number(getComputedStyle(parent).opacity); if (parent === svg) break }; return { fill: style.fill, fillOpacity: Number(style.fillOpacity), stroke: style.stroke, strokeOpacity: Number(style.strokeOpacity), strokeWidth: Number.parseFloat(style.strokeWidth), dash: style.strokeDasharray, opacity } }
-  return { checks, complete: checks.every(item => item.status !== 'unavailable'), passed: checks.length > 0 && checks.every(item => item.status === 'passed'), nodes: [...anchors.values()].map(({ owner: _, shape, outlines: ___, ...node }) => { const style = getComputedStyle(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM?.(); return { ...node, outline: { tag: shape.localName, vertices: matrix ? vertices(shape)?.map(p => { const point = new DOMPoint(p.x, p.y).matrixTransform(matrix); return { x: point.x, y: point.y } }) : null, rx: (style.rx === 'auto' ? (shape as SVGRectElement).rx?.baseVal.value ?? 0 : /%/.test(style.rx) ? NaN : Number.parseFloat(style.rx)) * (matrix ? Math.hypot(matrix.a, matrix.b) : 1), ry: (style.ry === 'auto' ? style.rx === 'auto' ? (shape as SVGRectElement).ry?.baseVal.value ?? 0 : /%/.test(style.rx) ? NaN : Number.parseFloat(style.rx) : /%/.test(style.ry) ? NaN : Number.parseFloat(style.ry)) * (matrix ? Math.hypot(matrix.c, matrix.d) : 1) }, style: nodeStyle(shape) } }), connections: connections.map(({ element, ...edge }) => ({ ...edge, box: rect(element), start: pointFor(element, false), end: pointFor(element, true), stroke: getComputedStyle(element).stroke, strokeWidth: Number.parseFloat(getComputedStyle(element).strokeWidth), dash: getComputedStyle(element).strokeDasharray, labels: connectionLabels.get(element) ?? [], style: nodeStyle(element) })), viewBox: svg.getAttribute('viewBox'), groups: groupBoxes, camouflagedText, camouflagedGeometry }
+  return { textLineBlocks, checks, complete: checks.every(item => item.status !== 'unavailable'), passed: checks.length > 0 && checks.every(item => item.status === 'passed'), nodes: [...anchors.values()].map(({ owner: _, shape, outlines: ___, ...node }) => { const style = getComputedStyle(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM?.(); return { ...node, outline: { tag: shape.localName, vertices: matrix ? vertices(shape)?.map(p => { const point = new DOMPoint(p.x, p.y).matrixTransform(matrix); return { x: point.x, y: point.y } }) : null, rx: (style.rx === 'auto' ? (shape as SVGRectElement).rx?.baseVal.value ?? 0 : /%/.test(style.rx) ? NaN : Number.parseFloat(style.rx)) * (matrix ? Math.hypot(matrix.a, matrix.b) : 1), ry: (style.ry === 'auto' ? style.rx === 'auto' ? (shape as SVGRectElement).ry?.baseVal.value ?? 0 : /%/.test(style.rx) ? NaN : Number.parseFloat(style.rx) : /%/.test(style.ry) ? NaN : Number.parseFloat(style.ry)) * (matrix ? Math.hypot(matrix.c, matrix.d) : 1) }, style: nodeStyle(shape) } }), connections: connections.map(({ element, ...edge }) => ({ ...edge, box: rect(element), start: pointFor(element, false), end: pointFor(element, true), stroke: getComputedStyle(element).stroke, strokeWidth: Number.parseFloat(getComputedStyle(element).strokeWidth), dash: getComputedStyle(element).strokeDasharray, labels: connectionLabels.get(element) ?? [], style: nodeStyle(element) })), viewBox: svg.getAttribute('viewBox'), groups: groupBoxes, camouflagedText, camouflagedGeometry }
 }

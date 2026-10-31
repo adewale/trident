@@ -43,3 +43,10 @@ test('treemap sibling areas include aggregate subtree weights; default printed v
   expect(projected['displayed-values']).toEqual([{ id: 'Root', value: 10, format: ',' }, { id: 'Root/A', value: 7, format: ',' }, { id: 'Root/B', value: 3, format: ',' }])
   expect(projectVisualExpectation('treemap', { ...raw, facts: { ...raw.facts, 'authored-config': { treemap: { showValues: false } } } }).expected.facts).not.toHaveProperty('displayed-values')
 })
+
+test('explicit owned source breaks become obligations independently of family text representation', () => {
+  const raw = { labels: ['Line one\nLine two'], nodes: [{ id: 'A', label: 'Line one\nLine two' }], edges: [{ source: 'A', target: 'B', directed: true, label: 'Edge one\nEdge two' }], groups: [{ id: 'g', label: 'Group one\nGroup two', members: ['A'] }], facts: { title: 'Title one\nTitle two' } }
+  const projected = projectVisualExpectation('flowchart', raw).expected
+  expect(projected.facts?.['text-line-breaks']).toEqual([{ owner: { kind: 'node', id: 'A' }, lines: ['Line one', 'Line two'] }, { owner: { kind: 'edge', index: 0 }, lines: ['Edge one', 'Edge two'] }, { owner: { kind: 'group', id: 'g' }, lines: ['Group one', 'Group two'] }, { owner: { kind: 'title' }, lines: ['Title one', 'Title two'] }])
+  expect(raw.facts).not.toHaveProperty('text-line-breaks')
+})
