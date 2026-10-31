@@ -84,3 +84,17 @@ test('an extra partial line cannot disappear from the XY series inventory', asyn
   const change = `document.querySelector('svg').insertAdjacentHTML('beforeend','<path d="M200 200L300 180" fill="none" stroke="red"/>')`
   expect(check(await inspect('xychart', { change }), 'source-fact:series')?.status).not.toBe('passed')
 })
+
+
+test('numeric range and category labels must own actual ticks rather than borrow other text', async () => {
+  const change = `const t=[...document.querySelectorAll('text')].find(e=>e.textContent==='10');t.textContent='';document.querySelector('svg').insertAdjacentHTML('beforeend','<text x="400" y="30">10</text>')`
+  expect(check(await inspect('xychart', { change }), 'source-fact:y-range')?.status).not.toBe('passed')
+  const missingCategoryTick = `const ticks=[...document.querySelector('.bottom-axis .ticks').querySelectorAll('path')];ticks[0].remove()`
+  expect(check(await inspect('xychart', { change: missingCategoryTick }), 'source-fact:series')?.status).not.toBe('passed')
+})
+
+
+test('a named unique curve cannot borrow its label from unrelated text', async () => {
+  const change = `document.querySelector('.radarLegendBox-0').remove()`
+  expect(check(await inspect('radar', { change }), 'source-fact:curves')?.status).not.toBe('passed')
+})

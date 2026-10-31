@@ -75,20 +75,20 @@ export function inspectChartFacts(input: { family: string; source: string; expec
   if (input.family === 'xychart') {
     const categories: string[] = facts['x-categories'] ?? [], range: number[] = facts['y-range'] ?? [], series: { kind: string; label?: string; values: number[] }[] = facts.series ?? []
     const horizontal = facts.orientation === 'horizontal', categoryAxis = horizontal ? 'y' : 'x', valueAxis = horizontal ? 'x' : 'y'
-    const categoryLabels = categories.map(label), minimum = range.length === 2 ? numericLabel(range[0]!) : undefined, maximum = range.length === 2 ? numericLabel(range[1]!) : undefined
+    const categoryLabels = categories.map(label), categoryTicks = categoryLabels.map(element => element ? tickCoordinate(element, categoryAxis) : undefined), minimum = range.length === 2 ? numericLabel(range[0]!) : undefined, maximum = range.length === 2 ? numericLabel(range[1]!) : undefined
     const ticks = text.map(element => ({ element, value: numeric(element.textContent ?? ''), coordinate: tickCoordinate(element, valueAxis), perpendicular: anchor(element)[categoryAxis] })).filter(item => Number.isFinite(item.value) && item.coordinate !== undefined && !categoryLabels.includes(item.element))
     const clusters = ticks.map(seed => ticks.filter(tick => Math.abs(tick.perpendicular - seed.perpendicular) < 1)).filter(group => group.length > 1 && new Set(group.map(tick => tick.value)).size === group.length)
     const distinct = [...new Map(clusters.map(group => [group.map(tick => tick.value).sort((a, b) => a - b).join(','), group])).values()].sort((a, b) => b.length - a.length)
     const calibrated = distinct[0] && (!distinct[1] || distinct[0].length > distinct[1].length) ? [...distinct[0]].sort((a, b) => a.value - b.value) : null
     const first = calibrated?.[0], last = calibrated?.at(-1), slope = first && last ? (last.coordinate! - first.coordinate!) / (last.value - first.value) : NaN
     const calibrationOkay = first && Number.isFinite(slope) && slope !== 0 && calibrated!.every(tick => Math.abs(tick.coordinate! - (first.coordinate! + (tick.value - first.value) * slope)) < 1)
-    const ready = calibrationOkay && categories.length > 1 && new Set(categories).size === categories.length && categoryLabels.every(Boolean) && range.length === 2 && range[1]! > range[0]! && series.length > 0 && series.every(item => ['bar', 'line'].includes(item.kind) && item.values.length === categories.length && item.values.every(value => Number.isFinite(value) && value >= range[0]! && value <= range[1]!))
+    const ready = calibrationOkay && categories.length > 1 && new Set(categories).size === categories.length && categoryLabels.every(Boolean) && categoryTicks.every(coordinate => coordinate !== undefined) && range.length === 2 && range[1]! > range[0]! && series.length > 0 && series.every(item => ['bar', 'line'].includes(item.kind) && item.values.length === categories.length && item.values.every(value => Number.isFinite(value) && value >= range[0]! && value <= range[1]!))
     if (!ready) {
       for (const key of ['x-categories', 'y-range', 'orientation', 'series', 'x-axis-label', 'y-axis-label', 'series-annotations']) add(key, null, null, 'XY profile needs unique category labels, at least two independently bound numeric ticks and finite in-range series; numeric categories, implicit scales and clipping need additional evidence')
       if (facts.series) quantitative('painted-series-values', facts.series, null, null, 'Complete XY geometry profile is unavailable')
       return checks
     }
-    const positions = categoryLabels.map(element => anchor(element!)[categoryAxis]), low = first!.coordinate! + (range[0]! - first!.value) * slope, high = first!.coordinate! + (range[1]! - first!.value) * slope
+    const positions = categoryTicks as number[], low = first!.coordinate! + (range[0]! - first!.value) * slope, high = first!.coordinate! + (range[1]! - first!.value) * slope
     const step = Math.min(...positions.slice(1).map((value, i) => Math.abs(value - positions[i]!))), tolerance = 3, baselineTolerance = Math.max(3, Number.parseFloat(getComputedStyle(first!.element).fontSize) * .65)
     const increasing = positions.every((value, i) => !i || value > positions[i - 1]!), decreasing = positions.every((value, i) => !i || value < positions[i - 1]!)
     const positioned = Number.isFinite(low) && Number.isFinite(high) && Math.abs(high - low) > 1 && step > 1 && (increasing || decreasing)
@@ -107,8 +107,8 @@ export function inspectChartFacts(input: { family: string; source: string; expec
     const observed: unknown[] = []; let available = !!positioned, passed = true
     const selected = new Set<Element>()
     for (const item of series) {
-      const peers = item.kind === 'bar' ? expectedBars : expectedLines, key = peers.length > 1 ? item.label ? swatch(item.label) : null : undefined
-      if (peers.length > 1 && !key) { available = false; continue }
+      const peers = item.kind === 'bar' ? expectedBars : expectedLines, key = item.label ? swatch(item.label) : peers.length > 1 ? null : undefined
+      if ((item.label || peers.length > 1) && !key) { available = false; continue }
       if (item.label && !label(item.label)) { passed = false; continue }
       const candidates = (item.kind === 'bar' ? bars : lines).filter(element => key === undefined || colorOf(element) === key)
       if (item.kind === 'bar') {
@@ -138,7 +138,7 @@ export function inspectChartFacts(input: { family: string; source: string; expec
     const scope = 'Exact category/series inventory with label-to-legend color ownership for repeated series kinds, visible numeric tick calibration, value positions within3CSSpx and bounded baseline overhang. No series order or DOM class supplies ownership.'
     add('series', observed, available ? passed : null, scope); quantitative('painted-series-values', facts.series, observed, available ? passed : null, scope)
     add('x-categories', positions, positioned ? increasing : null, 'Unique authored category labels occur in source order on the actual category axis; horizontal category charts progress top-to-bottom, vertical charts left-to-right')
-    add('y-range', { low, high, minimum: minimum?.textContent, maximum: maximum?.textContent }, positioned && minimum && maximum ? horizontal ? high > low : high < low : null, 'The explicit numeric range binds visible min/max tick labels and their actual axis orientation')
+    add('y-range', { low, high, minimum: minimum?.textContent, maximum: maximum?.textContent }, positioned && calibrated!.some(tick => tick.element === minimum) && calibrated!.some(tick => tick.element === maximum) ? horizontal ? high > low : high < low : null, 'The explicit numeric range binds visible min/max tick labels and their actual axis orientation')
     add('orientation', { categoryAxis, valueAxis, positions, low, high }, positioned ? horizontal ? high > low && increasing : high < low && increasing : null, 'Requested orientation follows independently calibrated category and numeric axes')
     for (const [key, axis] of [['x-axis-label', categoryAxis], ['y-axis-label', valueAxis]] as const) if (Object.hasOwn(facts, key)) {
       const element = label(String(facts[key])), b = element ? center(box(element)) : null
@@ -205,8 +205,8 @@ export function inspectChartFacts(input: { family: string; source: string; expec
     let available = prepared && range.length === 2 && range[1]! > range[0]! && curves.length > 0 && curves.every(curve => curve.values.length === axes.length && curve.values.every(value => Number.isFinite(value) && value >= range[0]! && value <= range[1]!)), passed = closed.length === curves.length
     const owned = new Set<Element>(), observations: unknown[] = []
     for (const curve of curves) {
-      const ink = curves.length > 1 ? curve.label ? swatch(curve.label) : null : undefined
-      if (curves.length > 1 && !ink) { available = false; continue }
+      const ink = curve.label ? swatch(curve.label) : curves.length > 1 ? null : undefined
+      if ((curve.label || curves.length > 1) && !ink) { available = false; continue }
       if (curve.label && !label(curve.label)) passed = false
       const candidates = closed.filter(path => ink === undefined || color(getComputedStyle(path).fill)?.rgb === ink || color(getComputedStyle(path).stroke)?.rgb === ink)
       if (candidates.length !== 1) { available = false; continue }
@@ -227,7 +227,7 @@ export function inspectChartFacts(input: { family: string; source: string; expec
         observations.push({ curve: curve.id, label: curve.label ?? null, axis: axis.id, sourceValue: curve.values[index], radialCoordinate: intersections, expectedCoordinate: wanted })
       })
     }
-    const scope = 'Exact curve and axis inventory; every curve is sampled against its owned radial spokes and the authored scale within3CSSpx. Multiple curves require distinct visible legend-to-color ownership. Unlabelled radial rings do not independently prove a numeric range.'
+    const scope = 'Exact curve and axis inventory; every curve is sampled against its owned radial spokes and the authored scale within3CSSpx. Every named curve requires visible legend-to-color ownership; multiple curves need distinct ownership. Unlabelled radial rings do not independently prove a numeric range.'
     add('curves', observations, available ? passed && ordered : null, scope)
     if (facts.curves) quantitative('painted-radar-values', facts.curves, observations, available ? passed && ordered : null, scope)
     add('range', null, null, 'Radial position checks use the authored scale, but unlabelled rings cannot independently attest numeric min/max values; a qualified numeric tick profile is required')
