@@ -12,7 +12,7 @@ test('readonly checkpoint readers admit all attempts and preserve files; keyed r
     const checkpoint = new CollectionCheckpoint(dir, identity); checkpoint.record('first', { status: 'failed' }); checkpoint.record('second', { status: 'passed' })
     const before = readFileSync(join(dir, 'checkpoint.json'))
     expect(readCheckpointEntries(dir, identity)).toHaveLength(2)
-    expect(readCheckpointValue(dir, 'first', identity)).toEqual({ status: 'failed' })
+    expect(readCheckpointValue<{ status: string }>(dir, 'first', identity)).toEqual({ status: 'failed' })
     expect(readCheckpointValue(dir, 'missing', identity)).toBeUndefined()
     expect(() => readCheckpointEntries(dir, { schema: 'other' })).toThrow('identity')
     expect(readFileSync(join(dir, 'checkpoint.json'))).toEqual(before)
