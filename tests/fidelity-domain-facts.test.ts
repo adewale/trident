@@ -18,7 +18,7 @@ const provenance = JSON.parse(readFileSync(new URL('provenance.json', directory)
 const documentation = JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json', import.meta.url), 'utf8')) as any[]
 const sources = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString()).cases as any[]
 const authored = expandedFidelityCases()
-const contract = (file: string) => { const entry = provenance.find(entry => entry.file === file)!; const reviewed = entry.caseId.startsWith('meaning:') ? authored.find(item => item.id === entry.caseId)! : documentation.find(item => item.id === entry.caseId); return { entry, source: reviewed.source ?? sources.find(item => item.id === entry.caseId).source, expected: structuredClone(reviewed.expected) as MeaningExpectation } }
+const contract = (file: string) => { const entry = provenance.find(entry => entry.file === file)!; const reviewed = authored.find(item => item.id === entry.caseId) ?? documentation.find(item => item.id === entry.caseId); return { entry, source: reviewed.source ?? sources.find(item => item.id === entry.caseId).source, expected: structuredClone(reviewed.expected) as MeaningExpectation } }
 const status = (checks: PaintCheck[], key: string) => checks.find(check => check.criterion === 'source-fact:' + key)?.status
 async function inspect(file: string, options: { change?: string; expected?: MeaningExpectation; opaque?: boolean } = {}) {
   const { entry, source, expected } = contract(file), page = await browser.newPage({ viewport: { width: 1600, height: 1200 } })
@@ -43,7 +43,7 @@ test('retained public outputs and exact source bytes retain immutable provenance
 for (const [file, keys] of [
   ['requirement-mermaid.svg', ['definitions']],
   ['timeline-mermaid.svg', ['periods', 'sections']], ['timeline-pele.svg', ['periods', 'sections']],
-  ['journey-mermaid.svg', ['tasks', 'sections']], ['gantt-mermaid.svg', ['tasks', 'sections', 'calendar-settings']],
+  ['journey-mermaid.svg', ['tasks', 'sections']], ['journey-authored-agentic.svg', ['tasks', 'sections']], ['mindmap-shaped-mermaid.svg', ['hierarchy']], ['gantt-mermaid.svg', ['tasks', 'sections', 'calendar-settings']],
   ['packet-mermaid.svg', ['fields']], ['packet-pele.svg', ['fields']],
   ['kanban-mermaid.svg', ['columns']], ['treeview-mermaid.svg', ['hierarchy']],
   ['venn-mermaid.svg', ['sets', 'intersections']], ['venn-pele.svg', ['sets', 'intersections']],
@@ -77,6 +77,22 @@ test('journey absolute scores do not fit an expected relative ordering', async (
   expect(status(await inspect('journey-mermaid.svg', { change: changed }), 'tasks')).not.toBe('passed')
   const actor = `const c=[...document.querySelectorAll('circle')].find(e=>e.getAttribute('class')==='actor-0'&&Number(e.getAttribute('cx'))>100);c.style.fill='black'`
   expect(status(await inspect('journey-mermaid.svg', { change: actor }), 'tasks')).not.toBe('passed')
+})
+
+test('a structural actor heading is bound to the visible legend and score ticks remain absolute', async () => {
+  const move = `const e=[...document.querySelectorAll('text')].find(e=>e.textContent==='Actors');e.setAttribute('x','500')`
+  expect(status(await inspect('journey-authored-agentic.svg', { change: move }), 'tasks')).toBe('failed')
+  const wrong = `const e=[...document.querySelectorAll('circle')].find(e=>Number(e.getAttribute('r'))===16);e.setAttribute('cy',String(Number(e.getAttribute('cy'))+40))`
+  expect(status(await inspect('journey-authored-agentic.svg', { change: wrong }), 'tasks')).not.toBe('passed')
+})
+
+test('mindmap endpoint covers allow only the actual exposed owned route', async () => {
+  const missing = `document.querySelector('path.edge').remove()`
+  expect(status(await inspect('mindmap-shaped-mermaid.svg', { change: missing }), 'hierarchy')).toBe('failed')
+  const cover = `document.querySelector('svg').insertAdjacentHTML('beforeend','<rect x="45" y="190" width="30" height="25" fill="white"/>')`
+  expect(status(await inspect('mindmap-shaped-mermaid.svg', { change: cover }), 'hierarchy')).not.toBe('passed')
+  const extra = `const e=document.querySelector('path.edge');e.after(e.cloneNode(true))`
+  expect(status(await inspect('mindmap-shaped-mermaid.svg', { change: extra }), 'hierarchy')).toBe('failed')
 })
 
 test('Gantt uses independent printed calendar ticks for absolute starts and dependencies', async () => {

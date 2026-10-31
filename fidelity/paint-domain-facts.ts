@@ -191,6 +191,9 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
     return result
   }
   const sourceTitle = typeof facts.title === 'string' ? [facts.title] : []
+  const themeCommitOwners = new Map<string, SVGGeometryElement>()
+  const themeCurveOwners = new Map<string, SVGGeometryElement>()
+  const themeHierarchyRoutes = new Map<string, SVGGeometryElement | null>()
   if (input.family === 'requirement') {
     const definitions: any[] = facts.definitions ?? [], aliases = new Map([['verifymethod', 'Verification'], ['docref', 'Doc. Ref.'], ['id', 'ID'], ['text', 'Text'], ['risk', 'Risk'], ['type', 'Type']])
     const kinds: Record<string, string> = { requirement: 'Requirement', functionalrequirement: 'Functional Requirement', interfacerequirement: 'Interface Requirement', performancerequirement: 'Performance Requirement', physicalrequirement: 'Physical Requirement', designconstraint: 'Design Constraint', element: 'Element' }
@@ -288,7 +291,10 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
       if (score !== null && Math.abs(score - task.score) > .03 || !same([...actors].sort(), [...(task.actors ?? [])].sort()) || b && sectionBody && (center(b).x < box(sectionBody).x || center(b).x > box(sectionBody).x + box(sectionBody).width || b.y < box(sectionBody).y + box(sectionBody).height - 2)) valid = false
       observed.push({ label: task.label, section: task.section, body: b, face: face ? box(face) : null, stem: line ? endPoints(line) : null, absoluteScore: score, actors })
     }
-    valid &&= ordered(observed.map(task => task.body && center(task.body)), 'x') && exactText([...sourceTitle, ...sections, ...tasks.map(task => task.label), ...actorNames, ...numericTicks.map(tick => norm(tick.element.textContent ?? ''))])
+    // A conventional legend heading is structural only when it is visibly
+    // above the complete actor legend and to the left of the task domain.
+    const legendHeading = findText('Actors').filter(heading => { const h = box(heading), actorLabels = actorNames.map(label); return actorLabels.length > 0 && actorLabels.every(e => e && box(e).y > h.y + h.height && box(e).x >= h.x && box(e).x < h.x + h.width + 45) && observed.every(task => task.body && h.x + h.width < task.body.x) })
+    valid &&= ordered(observed.map(task => task.body && center(task.body)), 'x') && exactText([...sourceTitle, ...sections, ...tasks.map(task => task.label), ...actorNames, ...numericTicks.map(tick => norm(tick.element.textContent ?? '')), ...legendHeading.map(e => norm(e.textContent ?? ''))])
     add('tasks', observed, available ? valid : null, 'Exact task/section/actor inventory and source order; every actor badge binds its printed legend color. Printed numeric ticks calibrate the absolute score axis when available. In the qualified unlabelled journey stem/face vocabulary, the lower stem endpoint is zero and one face diameter is one score unit, so absolute scores are measured independently rather than compared only by rank. Other score encodings remain unknown.')
     add('sections', sections.map(section => { const e = label(section), b = body(e); return { section, body: b ? box(b) : null } }), available ? valid : null, 'Each full-width section header owns its complete consecutive task span; the exact printed inventory prevents unrelated headings from supplying section credit.')
   }
@@ -514,10 +520,30 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
     const hierarchy: any[] = facts.hierarchy ?? []
     const observed = hierarchy.map(entry => { const declared = input.expected.nodes?.find(node => node.id === entry.id), e = label(declared?.label ?? entry.id), shape = body(e); return { ...entry, label: declared?.label ?? entry.id, owner: shape, box: shape ? box(shape) : null, actualShape: outlineKind(shape) } })
     const bind = (p: { x: number; y: number }) => { const candidates = observed.filter(node => node.box && distance(p, node.box) < 3); return candidates.length === 1 ? candidates[0]!.id : null }
-    const connections = paths.filter(path => path.localName === 'path' && !filled(path) && endPoints(path).length === 2).map(path => { const ends = endPoints(path); return { source: bind(ends[0]!), target: bind(ends[1]!) } }).filter(edge => edge.source !== edge.target)
-    const canonical = (edge: any) => [edge.source, edge.target].sort().join('\0'), expectedEdges = hierarchy.filter(entry => entry.parent).map(entry => ({ source: entry.parent, target: entry.id })), available = hierarchy.length > 0 && observed.every(entry => entry.box && (!entry.shape || ['circle', 'rectangle', 'rounded'].includes(entry.shape) && entry.actualShape)) && connections.every(edge => edge.source && edge.target)
+    // Node bodies may intentionally cover only route ends. Inspect the actual
+    // exposed interval between those bodies instead of discarding the route
+    // merely because its mathematical endpoint lies underneath its owner.
+    let routesAvailable = true
+    const connections = [...svg.querySelectorAll('path,line,polyline')].filter(element => !element.closest('defs,marker,clipPath,mask')).flatMap(element => {
+      const path = element as SVGGeometryElement, ends = endPoints(path), css = getComputedStyle(path), stroke = color(css.stroke)
+      if (ends.length !== 2 || Math.hypot(ends[0]!.x - ends[1]!.x, ends[0]!.y - ends[1]!.y) < 1 || !stroke || Number(css.strokeOpacity) * stroke.alpha < 1 / 255 || Number.parseFloat(css.strokeWidth) < .25) return []
+      const source = bind(ends[0]!), target = bind(ends[1]!)
+      if (source && source === target) return []
+      const exposed = sample(path, 256).filter(p => !observed.some(node => node.box && distance(p, node.box) < 1))
+      if (!exposed.length) return []
+      if (!source || !target || !exposed.every(p => inkAtPoint(path, p))) routesAvailable = false
+      else { const key = [source, target].sort().join('\0'); themeHierarchyRoutes.set(key, themeHierarchyRoutes.has(key) ? null : path) }
+      return [{ source, target }]
+    })
+    const canonical = (edge: any) => [edge.source, edge.target].sort().join('\0'), expectedEdges = hierarchy.filter(entry => entry.parent).map(entry => ({ source: entry.parent, target: entry.id })), available = hierarchy.length > 0 && routesAvailable && observed.every(entry => entry.box && (!entry.shape || ['circle', 'rectangle', 'rounded'].includes(entry.shape) && entry.actualShape)) && connections.every(edge => edge.source && edge.target)
     const valid = new Set(observed.map(entry => entry.owner)).size === hierarchy.length && same(expectedEdges.map(canonical).sort(), connections.map(canonical).sort()) && observed.every(entry => !entry.shape || entry.actualShape === entry.shape || entry.shape === 'rectangle' && entry.actualShape === 'rounded') && exactText(input.expected.labels)
     add('hierarchy', { nodes: observed.map(({ owner: _, ...entry }) => entry), connections }, available ? valid : null, 'The complete rooted hierarchy is reconstructed from independently owned bodies and exact actual connector endpoint pairs; requested primitive shapes are measured from their outlines. Radial sibling placement is not invented from DOM order; compound shapes and unbound connectors stay unknown.')
+    const edgeContract = input.expected.edges ?? [], edgeProfile = edgeContract.every(edge => !edge.directed && !edge.label) && same(edgeContract.map(canonical).sort(), expectedEdges.map(canonical).sort())
+    if (edgeContract.length) quantitative('painted-relationships', edgeContract, connections, available && edgeProfile ? valid : null, 'Complete mindmap relationship multiplicity comes from actual exposed strokes between uniquely owned node bodies. Endpoint portions may be covered only by their independently measured owner bodies; extra, missing, hidden or unbound routes cannot gain relationship credit.')
+    for (const group of input.expected.groups ?? []) {
+      const children = hierarchy.filter(entry => entry.parent === group.id).map(entry => entry.id)
+      quantitative('painted-group:' + group.id, group, { id: group.id, members: children, representation: 'connector-owned hierarchy' }, available && same([...group.members].sort(), [...children].sort()) ? valid : null, 'Mindmap membership is the immediate rooted connector hierarchy, measured from owned bodies and exposed route inventory. An authored parent is not required to draw a separate enclosing container.')
+    }
     add('tree-order', null, null, 'A radial mindmap drawing does not uniquely print a depth-first source traversal; exact hierarchy is observed independently, while source traversal remains a required unknown.')
   }
   if (input.family === 'ishikawa') {
@@ -548,6 +574,7 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
       const glyph = glyphs[i], c = glyph ? center(box(glyph)) : null, branch = c ? branchRows.filter(branch => branch.center && Math.abs(branch.center[lane] - c[lane]) < 3) : []
       const authored = commit.authoredId ?? (!/^commit:\d+$/.test(commit.id) ? commit.id : null), e = authored ? label(authored) : undefined, nearLabel = e && c ? distance(c, box(e)) <= 55 : !authored
       if (!glyph || branch.length !== 1 || !nearLabel) available = false
+      else if (commit.type === 'NORMAL' && branch[0]?.id === commit.branch) themeCommitOwners.set(commit.id, glyph)
       if (branch[0]?.id !== commit.branch) valid = false
       const nested = glyph ? candidates.filter(other => other !== glyph && Math.hypot(center(box(other)).x - c!.x, center(box(other)).y - c!.y) < 1 && box(other).width < box(glyph).width - 1) : []
       const type = glyph?.localName === 'rect' && nested.some(other => other.localName === 'rect') ? 'HIGHLIGHT' : glyph?.localName === 'circle' && !paths.some(path => { const b = box(path); return c && b.width < 18 && b.height < 18 && Math.hypot(center(b).x - c.x, center(b).y - c.y) < 1 }) ? 'NORMAL' : null
@@ -632,6 +659,7 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
     for (const curve of curves) {
       const ink = curve.label ? swatch(curve.label) : curves.length === 1 ? undefined : null, candidates = closed.filter(path => ink === undefined || color(getComputedStyle(path).fill)?.rgb === ink || color(getComputedStyle(path).stroke)?.rgb === ink), owner = ink !== null && candidates.length === 1 ? candidates[0] : null
       if (!owner || used.has(owner)) { available = false; continue }; used.add(owner)
+      themeCurveOwners.set(curve.id, owner)
       const points = sample(owner, 4096)
       axes.forEach((axis, i) => { const tip = axisOwners[i]?.tip; if (!tip || !origin) { available = false; return }; const ux = (tip.x - origin.x) / radius, uy = (tip.y - origin.y) / radius, distances: number[] = []
         for (let j = 1; j < points.length; j++) { const a = points[j - 1]!, b = points[j]!, ax = a.x - origin.x, ay = a.y - origin.y, dx = b.x - a.x, dy = b.y - a.y, denominator = dx * uy - dy * ux; if (Math.abs(denominator) < 1e-8) continue; const t = -(ax * uy - ay * ux) / denominator, projected = (ax + t * dx) * ux + (ay + t * dy) * uy; if (t >= 0 && t <= 1 && projected >= -.1 && projected <= radius + 2 && !distances.some(value => Math.abs(value - projected) < .5)) distances.push(projected) }
@@ -674,6 +702,79 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
     const available = observations.every((entry: any) => entry.body && entry.properties.every((p: any) => p.available)), passed = observations.every((entry: any) => entry.properties.every((p: any) => p.passed))
     add('point-appearance', observations, available ? passed : null, 'Source class definitions and inline point overrides compile independently to actual owned dot radius/fill/stroke/width. Physical geometry and computed paint establish output values; renderer class spelling is ignored, and unsupported properties remain unknown.')
     if (definitions.length) add('authored-style', observations, available && definitions.every(rule => rule.kind === 'classDef' && facts['point-appearance'].some((entry: any) => String(entry.classes).split(',').includes(rule.selection))) ? passed : null, 'Every source class definition must be exercised by a measured point-owned appearance projection; unused selectors or unsupported rule kinds remain required unknowns.')
+  }
+  if (facts['theme-paint']) {
+    const policy = facts['theme-paint'], roles: any[] = Array.isArray(policy.roles) ? policy.roles : []
+    const genericLabelsClear = input.paint.checks.some(check => check.criterion === 'unclipped-authored-labels' && check.status === 'passed') && input.paint.checks.some(check => check.criterion === 'visible-authored-labels' && check.status === 'passed')
+    const measuredShape = (bounds: Box | undefined) => bounds ? [...svg.querySelectorAll('rect,circle,ellipse,path,polygon')].filter(e => !e.closest('defs,marker,clipPath,mask')).find(e => inside(bounds, box(e), .1) && inside(box(e), bounds, .1)) : undefined
+    const nearestLabel = (owner: string, ordinal?: number, kind?: string) => {
+      const matches = findText(owner).sort((a, b) => box(a).x - box(b).x || box(a).y - box(b).y)
+      if (matches.length === 1) return matches[0]
+      const occurrences = roles.filter(role => role.owner === owner && role.kind === kind).sort((a, b) => a.sourceOrdinal - b.sourceOrdinal)
+      return ordinal !== undefined && occurrences.length === matches.length ? matches[occurrences.findIndex(role => role.sourceOrdinal === ordinal)] : undefined
+    }
+    const effective = (element: Element, property: 'fill' | 'stroke' | 'foreground') => {
+      const leaves = property === 'foreground' && element.localName === 'foreignObject' ? [...element.querySelectorAll('*')].filter(e => norm(e.textContent ?? '') && ![...e.children].some(child => norm(child.textContent ?? ''))) : [element]
+      const paints = leaves.map(leaf => {
+        const css = getComputedStyle(leaf), value = color(property === 'foreground' ? leaf.namespaceURI === 'http://www.w3.org/1999/xhtml' ? css.color : css.fill : css[property])
+        if (!value) return null
+        let opacity = value.alpha * Number(property === 'stroke' ? css.strokeOpacity : css.fillOpacity), brightness = 1, known = true
+        for (let e: Element | null = leaf; e; e = e.parentElement) {
+          const s = getComputedStyle(e); opacity *= Number(s.opacity)
+          if (s.filter && s.filter !== 'none') { const match = /^brightness\(([-+.\d]+)(%?)\)$/.exec(s.filter); if (match) brightness *= Number(match[1]) / (match[2] ? 100 : 1); else if (!preservesSourceGraphic(s.filter)) known = false }
+          if (s.clipPath && s.clipPath !== 'none' && !(property === 'foreground' && genericLabelsClear) || s.maskImage && s.maskImage !== 'none' || s.display === 'none' || ['hidden', 'collapse'].includes(s.visibility)) known = false
+          if (e === svg) break
+        }
+        return { channels: value.rgb.split(',').map(Number).map(channel => Math.min(255, channel * brightness)), opacity, brightness, known }
+      })
+      return paints.length && paints.every(paint => paint && paint.known && same(paint.channels, paints[0]?.channels) && Math.abs(paint.opacity - paints[0]!.opacity) < 1e-8) ? paints[0] : null
+    }
+    const observations = roles.map(role => {
+      let e: Element | undefined, owner: Element | undefined, route: any
+      const declared = input.expected.nodes?.find(node => node.id === role.owner), measured: any = input.paint.nodes.find((node: any) => node.id === role.owner), heading = nearestLabel(declared?.label ?? role.owner, role.sourceOrdinal, role.kind) ?? (genericLabelsClear && measured?.box && declared ? [...svg.querySelectorAll('text,foreignObject')].find(e => norm(e.textContent ?? '') === norm(declared.label) && inside(measured.box, box(e))) : undefined)
+      if (input.family === 'timeline' && ['period', 'event', 'section'].includes(role.kind)) { e = heading; owner = body(e) }
+      if (input.family === 'treemap' && ['section', 'leaf'].includes(role.kind) && declared) { const section = (facts.hierarchy ?? []).some((entry: any) => entry.parent === role.owner); if (section === (role.kind === 'section')) { e = heading; owner = measuredShape(measured?.box) ?? body(e) } }
+      if (input.family === 'gitgraph' && role.kind === 'branch' && (facts.branches ?? []).some((branch: any) => branch.id === role.owner)) { e = heading; owner = body(e) }
+      if (input.family === 'gitgraph' && role.kind === 'commit') { owner = themeCommitOwners.get(role.owner); e = heading }
+      if (input.family === 'mindmap' && role.kind === 'node' && declared) { e = heading; owner = measuredShape(measured?.box) ?? body(e) }
+      if (input.family === 'mindmap' && role.kind === 'edge') { const key = String(role.owner).split('->').sort().join('\0'); owner = themeHierarchyRoutes.get(key) ?? undefined }
+      if (input.family === 'radar' && role.kind === 'curve') { owner = themeCurveOwners.get(role.owner); const curve = (facts.curves ?? []).find((curve: any) => curve.id === role.owner); e = curve?.label ? nearestLabel(curve.label) : undefined }
+      if (input.family === 'usecase' && ['actor', 'usecase'].includes(role.kind) && declared) {
+        e = heading
+        owner = measuredShape(measured?.box) ?? body(e)
+      }
+      if (input.family === 'usecase' && role.kind === 'boundary') {
+        const group = input.expected.groups?.find(group => group.id === role.owner), measured = input.paint.groups?.find(group => group.id === role.owner)
+        e = group ? nearestLabel(group.label) : undefined
+        if (measured) owner = rectangles.filter(rect => inside(measured.box, box(rect)) && inside(box(rect), measured.box))[0]
+      }
+      if (input.family === 'usecase' && ['include', 'extend'].includes(role.kind)) {
+        const [source, target] = String(role.owner).split('->'), matches = input.paint.connections.filter((edge: any) => edge.source === source && edge.target === target)
+        if (matches.length === 1) route = matches[0]
+      }
+      const properties = Object.entries(role).filter(([key]) => ['fill', 'stroke', 'foreground', 'fillOpacity', 'strokeOpacity', 'strokeWidth', 'brightness'].includes(key)).map(([property, wanted]) => {
+        const paintProperty = property === 'foreground' ? 'foreground' : property.startsWith('stroke') ? 'stroke' : 'fill', target = property === 'foreground' ? e : owner, paint = target ? effective(target, paintProperty) : null
+        let actual: unknown = paint
+        let passed: boolean | null = null
+        if (['fill', 'stroke', 'foreground'].includes(property)) {
+          const value = color(String(wanted)), actualChannels = paint?.channels ?? (route && property === 'stroke' ? color(route.stroke)?.rgb.split(',').map(Number) : undefined), factor = Number(role.brightness ?? 1), expectedChannels = value?.rgb.split(',').map(Number).map(channel => Math.min(255, channel * factor))
+          actual = actualChannels ?? null
+          if (actualChannels && expectedChannels) { const expectedOpacity = value!.alpha * Number(property === 'fill' ? role.fillOpacity ?? 1 : property === 'stroke' ? role.strokeOpacity ?? 1 : 1); passed = actualChannels.every((channel: number, i: number) => Math.abs(channel - expectedChannels[i]!) <= 1.01) && (!paint || Math.abs(paint.opacity - expectedOpacity) < 1 / 255) }
+        } else if (property === 'brightness') {
+          // The observable contract is the resulting paint, so a renderer may
+          // precompute brighter colors instead of retaining a CSS filter.
+          const foreground = e ? effective(e, 'foreground') : null, fillExpected = color(String(role.fill ?? 'none')), foreExpected = color(String(role.foreground ?? 'none')), factor = Number(wanted)
+          actual = { fill: paint?.channels ?? null, foreground: foreground?.channels ?? null }
+          if (paint && foreground && fillExpected && foreExpected) passed = [ [paint.channels, fillExpected.rgb.split(',').map(Number)], [foreground.channels, foreExpected.rgb.split(',').map(Number)] ].every(([channels, original]) => channels!.every((channel, i) => Math.abs(channel - Math.min(255, original![i]! * factor)) <= 1.01))
+        }
+        else if (property === 'strokeWidth') { actual = owner ? Number.parseFloat(getComputedStyle(owner).strokeWidth) : route?.strokeWidth ?? null; if (typeof actual === 'number') passed = Math.abs(actual - Number(wanted)) < .1 }
+        else { actual = paint?.opacity ?? null; if (paint) passed = Math.abs(paint.opacity - Number(wanted)) < 1 / 255 }
+        return { property, expected: wanted, actual, passed }
+      })
+      return { kind: role.kind, owner: role.owner, body: owner ? box(owner) : route?.box ?? null, label: e ? box(e) : null, properties }
+    })
+    const properties = observations.flatMap(role => role.properties), available = policy.family === input.family && roles.length > 0 && properties.length > 0 && properties.every(property => property.passed !== null), valid = properties.every(property => property.passed === true)
+    add('theme-paint', observations, properties.some(property => property.passed === false) ? false : available ? valid : null, 'An independently transcribed source policy supplies only concrete owned fill/stroke/foreground/alpha/width/brightness roles. Actual node, period, event, hierarchy and branch ownership selects measured ink before color comparison, allowing one RGB channel unit of serialization quantization. Theme identifiers, generated classes and renderer model echoes supply no credit; unbound or unsupported roles stay unknown.')
   }
   let pieProfile: any = null
   if (input.family === 'pie' && facts['authored-config']) {
