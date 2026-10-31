@@ -45,6 +45,16 @@ test('terminal-state interpretation observes cleared and concealed ink instead o
   expect(inspectTerminalMeaning(drawing, { nodes: [{ id: 'A', label: '工程' }, { id: 'B', label: '終了' }], edges: [{ source: 'A', target: 'B' }] }).status).toBe('correct')
 })
 
+test('equal explicit SGR foreground/background cannot supply a complete graph or a hidden authored label', () => {
+  const drawing = fixture('chain'), invisible = ['\x1b[30;40m', '\x1b[90;100m', '\x1b[38;5;196;48;5;196m', '\x1b[38;2;21;84;147;48;2;21;84;147m']
+  for (const style of invisible) {
+    expect(inspectTerminalMeaning(style + drawing + '\x1b[0m', chain).status).not.toBe('correct')
+    expect(inspectTerminalMeaning(drawing.replace('Alpha', style + 'Alpha\x1b[0m'), chain).status).not.toBe('correct')
+    expect(inspectTerminalMeaning(drawing + '\x1b[2J\x1b[H' + style + drawing + '\x1b[0m', chain).status).not.toBe('correct')
+  }
+  expect(inspectTerminalMeaning('\x1b[31m' + drawing + '\x1b[0m', chain).status).toBe('correct')
+})
+
 
 test('shared stems require one actual source and cannot borrow expected topology', () => {
   const expected = { nodes, edges: [{ source: 'Alpha', target: 'Beta' }, { source: 'Alpha', target: 'Gamma' }] }, drawing = fixture('termaid-branch')

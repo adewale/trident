@@ -92,7 +92,10 @@ graphs survive only as historical controls and fixtures.
 
 The terminal interpreter observes cursor movement, carriage returns, erasure,
 saved positions, concealment, foreground/background contrast and owned alternate
-screens. It counts graphemes, combining text, emoji and wide characters in display
+screens. The declared display profile uses the canonical xterm ANSI/256 palette,
+default light-gray foreground and black background, plus explicit RGB colours.
+Equal explicit foreground/background colours and concealment cannot supply label
+ink. Other host themes are outside this profile. It counts graphemes, combining text, emoji and wide characters in display
 cells. Nondefault background painting, unsupported and ambiguous controls stay unknown; stripping escape codes
 cannot recover text that is no longer visible. The canonical `expected-empty-drawing` feature comes from a source contract with
 no nodes, relationships or other visible facts. It requires a real returned string
