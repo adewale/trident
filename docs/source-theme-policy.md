@@ -7,9 +7,20 @@ parser, model, renderer, SVG, output receipt or image. Directly executing the
 public theme helper was used initially as a consistency diagnostic only;
 those helper results are not the policy or test oracle.
 
-The native theme identifier remains source/native metadata. The observable
-contract consists of the following owned paint effects. A named look/layout
-identifier likewise cannot be required as literal drawing text.
+The native theme identifier remains source/native metadata. Explicit
+`theme: default` selects an advisory default skin uniformly across families;
+it does not require Mermaid's inherited colors, alpha, width or filter values.
+Explicit source paint overrides remain required. Nondefault named themes
+select the independently sourced palette tokens below, without additionally
+requesting a renderer's default alpha, stroke width or brightness decoration.
+A named look/layout identifier likewise cannot be required as drawing text.
+
+`theme-paint.comparison: source-paint-tokens` compares independently measured
+base paint tokens and separately requires visible, correctly owned carriers.
+Unrequested neutral brightness/compositing decoration can vary; unsupported
+or hue-changing filters stay unknown. Explicit opacity, filter or width
+requests remain strict. PNG review must independently qualify the relation
+from visible pixels to a requested token; ambiguity cannot earn credit.
 
 ## Palette derivation
 
@@ -37,23 +48,27 @@ uses a period's slot for its events, and advances per unsectioned period unless
 `diagrams/timeline/svgDraw.js:500–507` and `styles.js:108–116` map these semantic
 ordinals to scale and foreground tokens. No CSS class spelling is required.
 
-**Events additionally have brightness120%** (`styles.js:197–198`), so their
-painted RGB channels are the owning period color ×1.2, clamped255. Header and
-event pixels are therefore deliberately different. Case444 holds all periods
-and events at base slot0;445 uses its explicit red/green/blue overrides;446–450
-use base/forest/dark/default/neutral palettes respectively. A theme background
-variable is a derivation input, not by itself a promise that a standalone SVG
-paints an opaque canvas background.
+The pinned renderer adds brightness120% to events (`styles.js:197–198`). This
+is source provenance for decoding a qualified actual carrier, not a required
+filter when the source did not request it. Case444's `disableMulticolor` also
+requires equal fill tokens across same-kind owners (periods separately from
+events), without imposing a default fixed palette. Fully lowered explicit
+owner fill overrides are excluded from those equality groups; unqualified
+style priority leaves the original request required/unknown. Case445 requires
+only its active explicit color/foreground overrides;446–448/450 require the
+base/forest/dark/neutral palette tokens. Case449's default skin is advisory.
+A theme background variable is a derivation input, not by itself a promise
+that a standalone SVG paints an opaque canvas background.
 
 ## Treemap468–469
 
 `diagrams/treemap/renderer.ts:80–124,164–225,339–358` puts the synthetic root in
 the transparent palette slot, then assigns stable descending-aggregate-weight section traversal order to cScale0,1… (`renderer.ts:144–147`);
-leaves inherit their immediate parent section's color. Group fill alpha is0.6,
-leaf fill alpha0.3 over that group, yielding combined alpha0.72 over white when
-there is one group level. Leaf border uses the parent color at width3. These
-are distinct foreground/background/alpha obligations; do not compare the
-flattened leaf pixel directly with opaque cScale RGB.
+leaves inherit their immediate parent section's color. The pinned renderer's
+group alpha0.6, leaf alpha0.3 and default border widths are unrequested skin
+constants, not mandatory source effects. Case468 requires its forest palette
+tokens on the correct owners; flattened pixels alone do not establish their
+opaque RGB token without independently qualified compositing.
 
 `docs/syntax/treemap.md:131,156` defines diagramPadding as padding around the
 entire diagram. `renderer.ts:525–526` applies it to the viewport. Case469's200
@@ -64,14 +79,16 @@ requires the corresponding actual content-to-canvas margin, not printed text.
 `docs/syntax/usecase.md:374–403,426–457` explicitly documents role colors,
 independent source-order boundary numbering, and actor-first/usecase-second
 rotation. Literal role/palette colors are in `themes/theme-redux-color.js:61–108`;
-font and width effects are in `diagrams/usecase/styles.ts:233–310`.
+renderer-default font and width provenance is in
+`diagrams/usecase/styles.ts:233–310`; those constants are not implied requests.
 
 Case490: Customer uses violet role fill/stroke; Browse and Checkout use teal
 role fill/stroke. Catalogue takes palette slot0 (pale fuchsia/fuchsia), Payment
 slot1 (pale teal/teal). Include stroke is sky blue. Case491: Customer, Auditor,
 Browse, Checkout take slots0,1,2,3 respectively, with no boundary cycle to alter
-that order. Text is `#28253D`; actor size14, use case size12; visible glyph/shape
-roles establish ownership. Raw theme/class identifiers supply no credit.
+that order. Text token is `#28253D`; visible glyph/shape roles establish
+ownership. Raw theme/class identifiers supply no credit, and unrequested
+renderer-default font sizes or stroke widths supply no obligation.
 
 ## Git graph
 
@@ -95,14 +112,16 @@ additionally darkens25. This yields default slot0 inverse `(19,19,0)` within
 one channel unit, not the complement of the final normal darkblue slot.
 Other themes derive the complement from their single initial git palette.
 Explicit `gitInvN` overrides win. `gitSpecial` retains primary inner paint,
-commit/tag caption foreground and backdrop; commit-caption backdrop opacity
-is the literal0.5 in `styles.js:141`. These roles must be bound to the actual
-outer/inner shapes and caption backdrops separately.
+commit/tag caption foreground and backdrop. The renderer's literal caption
+backdrop opacity0.5 in `styles.js:141` is diagnostic provenance, not a
+mandatory alpha for a color-only override. These roles must be bound to the
+actual outer/inner shapes and caption backdrops separately. Default-skin
+normal colors are advisory unless the source explicitly overrides them.
 
-Treemap group stroke opacity is the literal0.4 in
-`diagrams/treemap/renderer.ts:212`; default group stroke width2 and fill alpha0.6
-remain distinct from opaque leaf borders. Authored stroke/color overrides
-inherit these alphas unless the source overrides opacity explicitly.
+Treemap group stroke opacity0.4 in `diagrams/treemap/renderer.ts:212`, default
+group width2 and fill alpha0.6 are implementation provenance. A color-only
+request does not additionally require these constants. Authored alpha/width
+overrides remain distinct required effects.
 
 Scale `peer`/`peerChannels` are independently transcribed border colors:
 forest/default reserve peer1=secondary darkened45 and peer2=tertiary darkened40

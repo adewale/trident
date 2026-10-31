@@ -32393,6 +32393,7 @@
           "theme": "base",
           "family": "gitgraph",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "commit:0",
@@ -33246,6 +33247,7 @@
           "theme": "base",
           "family": "gitgraph",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "main",
@@ -33776,6 +33778,7 @@
           "theme": "base",
           "family": "gitgraph",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "main",
@@ -34408,6 +34411,7 @@
           "theme": "base",
           "family": "gitgraph",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "commit:0",
@@ -35332,6 +35336,7 @@
           "theme": "base",
           "family": "gitgraph",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "MetroLine1",
@@ -35889,6 +35894,7 @@
           "theme": "base",
           "family": "gitgraph",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "main",
@@ -36117,6 +36123,7 @@
           "theme": "base",
           "family": "gitgraph",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "test2",
@@ -37979,6 +37986,7 @@
           "theme": "base",
           "family": "gitgraph",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "main",
@@ -38908,6 +38916,7 @@
           "theme": "forest",
           "family": "gitgraph",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "main",
@@ -39832,116 +39841,7 @@
             "id": "release",
             "head": "commit:16"
           }
-        ],
-        "theme-paint": {
-          "theme": "default",
-          "family": "gitgraph",
-          "quantizationTolerancePerChannel": 1,
-          "roles": [
-            {
-              "owner": "main",
-              "kind": "branch",
-              "sourceOrdinal": 0,
-              "fill": "#0000ec",
-              "foreground": "#ffffff"
-            },
-            {
-              "owner": "commit:15",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "hotfix",
-              "kind": "branch",
-              "sourceOrdinal": 1,
-              "fill": "#dede00",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "commit:1",
-              "kind": "commit",
-              "fill": "#dede00",
-              "stroke": "#dede00"
-            },
-            {
-              "owner": "commit:4",
-              "kind": "commit",
-              "fill": "#dede00",
-              "stroke": "#dede00"
-            },
-            {
-              "owner": "develop",
-              "kind": "branch",
-              "sourceOrdinal": 2,
-              "fill": "#9dec00",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "commit:2",
-              "kind": "commit",
-              "fill": "#9dec00",
-              "stroke": "#9dec00"
-            },
-            {
-              "owner": "featureB",
-              "kind": "branch",
-              "sourceOrdinal": 3,
-              "fill": "#0076ec",
-              "foreground": "#ffffff"
-            },
-            {
-              "owner": "commit:6",
-              "kind": "commit",
-              "fill": "#0076ec",
-              "stroke": "#0076ec"
-            },
-            {
-              "owner": "commit:8",
-              "kind": "commit",
-              "fill": "#0076ec",
-              "stroke": "#0076ec"
-            },
-            {
-              "owner": "commit:12",
-              "kind": "commit",
-              "fill": "#0076ec",
-              "stroke": "#0076ec"
-            },
-            {
-              "owner": "featureA",
-              "kind": "branch",
-              "sourceOrdinal": 4,
-              "fill": "#00ecec",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "commit:9",
-              "kind": "commit",
-              "fill": "#00ecec",
-              "stroke": "#00ecec"
-            },
-            {
-              "owner": "commit:11",
-              "kind": "commit",
-              "fill": "#00ecec",
-              "stroke": "#00ecec"
-            },
-            {
-              "owner": "release",
-              "kind": "branch",
-              "sourceOrdinal": 5,
-              "fill": "#00ec76",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "commit:14",
-              "kind": "commit",
-              "fill": "#00ec76",
-              "stroke": "#00ec76"
-            }
-          ]
-        }
+        ]
       },
       "advisoryFacts": {
         "unprinted-source-identities": {
@@ -40131,14 +40031,13 @@
       "requiredObligations": [
         "visible-labels",
         "fact:branches",
-        "fact:commits",
-        "fact:theme-paint"
+        "fact:commits"
       ],
       "unresolved": [],
       "excludedNonvisual": [
         "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\"",
         "Raw git-operation-order is source/native identity or history without a unique printed inverse; its complete ordered commits/parents/branch order,grammar AST or rooted hierarchy remains required: [{\"kind\":\"commit\",\"commit\":\"commit:0\"},{\"kind\":\"branch\",\"branch\":\"hotfix\"},{\"kind\":\"checkout\",\"branch\":\"hotfix\"},{\"kind\":\"commit\",\"commit\":\"commit:1\"},{\"kind\":\"branch\",\"branch\":\"develop\"},{\"kind\":\"checkout\",\"branch\":\"develop\"},{\"kind\":\"commit\",\"commit\":\"commit:2\"},{\"kind\":\"branch\",\"branch\":\"featureB\"},{\"kind\":\"checkout\",\"branch\":\"featureB\"},{\"kind\":\"commit\",\"commit\":\"commit:3\"},{\"kind\":\"checkout\",\"branch\":\"main\"},{\"kind\":\"checkout\",\"branch\":\"hotfix\"},{\"kind\":\"commit\",\"commit\":\"commit:4\"},{\"kind\":\"checkout\",\"branch\":\"develop\"},{\"kind\":\"commit\",\"commit\":\"commit:5\"},{\"kind\":\"checkout\",\"branch\":\"featureB\"},{\"kind\":\"commit\",\"commit\":\"commit:6\"},{\"kind\":\"checkout\",\"branch\":\"main\"},{\"kind\":\"merge\",\"branch\":\"hotfix\",\"commit\":\"commit:7\"},{\"kind\":\"checkout\",\"branch\":\"featureB\"},{\"kind\":\"commit\",\"commit\":\"commit:8\"},{\"kind\":\"checkout\",\"branch\":\"develop\"},{\"kind\":\"branch\",\"branch\":\"featureA\"},{\"kind\":\"commit\",\"commit\":\"commit:9\"},{\"kind\":\"checkout\",\"branch\":\"develop\"},{\"kind\":\"merge\",\"branch\":\"hotfix\",\"commit\":\"commit:10\"},{\"kind\":\"checkout\",\"branch\":\"featureA\"},{\"kind\":\"commit\",\"commit\":\"commit:11\"},{\"kind\":\"checkout\",\"branch\":\"featureB\"},{\"kind\":\"commit\",\"commit\":\"commit:12\"},{\"kind\":\"checkout\",\"branch\":\"develop\"},{\"kind\":\"merge\",\"branch\":\"featureA\",\"commit\":\"commit:13\"},{\"kind\":\"branch\",\"branch\":\"release\"},{\"kind\":\"checkout\",\"branch\":\"release\"},{\"kind\":\"commit\",\"commit\":\"commit:14\"},{\"kind\":\"checkout\",\"branch\":\"main\"},{\"kind\":\"commit\",\"commit\":\"commit:15\"},{\"kind\":\"checkout\",\"branch\":\"release\"},{\"kind\":\"merge\",\"branch\":\"main\",\"commit\":\"commit:16\"},{\"kind\":\"checkout\",\"branch\":\"develop\"},{\"kind\":\"merge\",\"branch\":\"release\",\"commit\":\"commit:17\"}]",
-        "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"default\""
+        "Default theme identity is advisory; cross-renderer cosmetic defaults are not an inverse engine/theme-name claim: theme=\"default\""
       ],
       "visualProjections": [
         "Only Git operation history,railroad grammar dialect and mindmap DFS traversal are advisory/native identities; all visible topology,chronology,ownership and recursive grammar semantics remain required",
@@ -40760,6 +40659,7 @@
           "theme": "dark",
           "family": "gitgraph",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "main",
@@ -41689,6 +41589,7 @@
           "theme": "neutral",
           "family": "gitgraph",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "main",
@@ -42498,71 +42399,7 @@
             "id": "featureA",
             "head": "commit:7"
           }
-        ],
-        "theme-paint": {
-          "theme": "default",
-          "family": "gitgraph",
-          "quantizationTolerancePerChannel": 1,
-          "roles": [
-            {
-              "owner": "main",
-              "kind": "branch",
-              "sourceOrdinal": 0,
-              "fill": "#0000ec",
-              "foreground": "#ffffff"
-            },
-            {
-              "owner": "commit:0",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "commit:4",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "commit:6",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "develop",
-              "kind": "branch",
-              "sourceOrdinal": 1,
-              "fill": "#dede00",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "commit:1",
-              "kind": "commit",
-              "fill": "#dede00",
-              "stroke": "#dede00"
-            },
-            {
-              "owner": "commit:2",
-              "kind": "commit",
-              "fill": "#dede00",
-              "stroke": "#dede00"
-            },
-            {
-              "owner": "featureA",
-              "kind": "branch",
-              "sourceOrdinal": 2,
-              "fill": "#9dec00",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "commit:7",
-              "kind": "commit",
-              "fill": "#9dec00",
-              "stroke": "#9dec00"
-            }
-          ]
-        }
+        ]
       },
       "advisoryFacts": {
         "unprinted-source-identities": {
@@ -42628,14 +42465,13 @@
       "requiredObligations": [
         "visible-labels",
         "fact:branches",
-        "fact:commits",
-        "fact:theme-paint"
+        "fact:commits"
       ],
       "unresolved": [],
       "excludedNonvisual": [
         "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\"",
         "Raw git-operation-order is source/native identity or history without a unique printed inverse; its complete ordered commits/parents/branch order,grammar AST or rooted hierarchy remains required: [{\"kind\":\"commit\",\"commit\":\"commit:0\"},{\"kind\":\"branch\",\"branch\":\"develop\"},{\"kind\":\"commit\",\"commit\":\"commit:1\"},{\"kind\":\"commit\",\"commit\":\"commit:2\"},{\"kind\":\"checkout\",\"branch\":\"main\"},{\"kind\":\"commit\",\"commit\":\"commit:3\"},{\"kind\":\"commit\",\"commit\":\"commit:4\"},{\"kind\":\"merge\",\"branch\":\"develop\",\"commit\":\"commit:5\"},{\"kind\":\"commit\",\"commit\":\"commit:6\"},{\"kind\":\"branch\",\"branch\":\"featureA\"},{\"kind\":\"commit\",\"commit\":\"commit:7\"}]",
-        "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"default\""
+        "Default theme identity is advisory; cross-renderer cosmetic defaults are not an inverse engine/theme-name claim: theme=\"default\""
       ],
       "visualProjections": [
         "Only Git operation history,railroad grammar dialect and mindmap DFS traversal are advisory/native identities; all visible topology,chronology,ownership and recursive grammar semantics remain required",
@@ -42903,13 +42739,13 @@
           "theme": "default",
           "family": "gitgraph",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "main",
               "kind": "branch",
               "sourceOrdinal": 0,
-              "fill": "#ff0000",
-              "foreground": "#ffffff"
+              "fill": "#ff0000"
             },
             {
               "owner": "commit:0",
@@ -42933,8 +42769,7 @@
               "owner": "develop",
               "kind": "branch",
               "sourceOrdinal": 1,
-              "fill": "#00ff00",
-              "foreground": "#000000"
+              "fill": "#00ff00"
             },
             {
               "owner": "commit:1",
@@ -42952,8 +42787,7 @@
               "owner": "featureA",
               "kind": "branch",
               "sourceOrdinal": 2,
-              "fill": "#0000ff",
-              "foreground": "#000000"
+              "fill": "#0000ff"
             },
             {
               "owner": "commit:7",
@@ -43043,14 +42877,14 @@
       "excludedNonvisual": [
         "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\"",
         "Raw git-operation-order is source/native identity or history without a unique printed inverse; its complete ordered commits/parents/branch order,grammar AST or rooted hierarchy remains required: [{\"kind\":\"commit\",\"commit\":\"commit:0\"},{\"kind\":\"branch\",\"branch\":\"develop\"},{\"kind\":\"commit\",\"commit\":\"commit:1\"},{\"kind\":\"commit\",\"commit\":\"commit:2\"},{\"kind\":\"checkout\",\"branch\":\"main\"},{\"kind\":\"commit\",\"commit\":\"commit:3\"},{\"kind\":\"commit\",\"commit\":\"commit:4\"},{\"kind\":\"merge\",\"branch\":\"develop\",\"commit\":\"commit:5\"},{\"kind\":\"commit\",\"commit\":\"commit:6\"},{\"kind\":\"branch\",\"branch\":\"featureA\"},{\"kind\":\"commit\",\"commit\":\"commit:7\"}]",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.git0=\"#ff0000\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.git1=\"#00ff00\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.git2=\"#0000ff\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.git3=\"#ff00ff\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.git4=\"#00ffff\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.git5=\"#ffff00\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.git6=\"#ff00ff\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.git7=\"#00ffff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.git0=\"#ff0000\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.git1=\"#00ff00\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.git2=\"#0000ff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.git3=\"#ff00ff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.git4=\"#00ffff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.git5=\"#ffff00\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.git6=\"#ff00ff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.git7=\"#00ffff\"",
         "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"default\""
       ],
       "visualProjections": [
@@ -43287,81 +43121,66 @@
           "theme": "default",
           "family": "gitgraph",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "main",
               "kind": "branch",
               "sourceOrdinal": 0,
-              "fill": "#0000ec",
               "foreground": "#ffffff"
             },
             {
               "owner": "branch1",
               "kind": "branch",
               "sourceOrdinal": 1,
-              "fill": "#dede00",
               "foreground": "#ffffff"
-            },
-            {
-              "owner": "commit:0",
-              "kind": "commit",
-              "fill": "#dede00",
-              "stroke": "#dede00"
             },
             {
               "owner": "branch2",
               "kind": "branch",
               "sourceOrdinal": 2,
-              "fill": "#9dec00",
               "foreground": "#ffffff"
             },
             {
               "owner": "branch3",
               "kind": "branch",
               "sourceOrdinal": 3,
-              "fill": "#0076ec",
               "foreground": "#ffffff"
             },
             {
               "owner": "branch4",
               "kind": "branch",
               "sourceOrdinal": 4,
-              "fill": "#00ecec",
               "foreground": "#ffffff"
             },
             {
               "owner": "branch5",
               "kind": "branch",
               "sourceOrdinal": 5,
-              "fill": "#00ec76",
               "foreground": "#ffffff"
             },
             {
               "owner": "branch6",
               "kind": "branch",
               "sourceOrdinal": 6,
-              "fill": "#ec00ec",
               "foreground": "#ffffff"
             },
             {
               "owner": "branch7",
               "kind": "branch",
               "sourceOrdinal": 7,
-              "fill": "#ec0000",
               "foreground": "#ffffff"
             },
             {
               "owner": "branch8",
               "kind": "branch",
               "sourceOrdinal": 8,
-              "fill": "#0000ec",
               "foreground": "#ffffff"
             },
             {
               "owner": "branch9",
               "kind": "branch",
               "sourceOrdinal": 9,
-              "fill": "#dede00",
               "foreground": "#ffffff"
             }
           ]
@@ -43490,16 +43309,16 @@
         "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\"",
         "Raw git-operation-order is source/native identity or history without a unique printed inverse; its complete ordered commits/parents/branch order,grammar AST or rooted hierarchy remains required: [{\"kind\":\"checkout\",\"branch\":\"main\"},{\"kind\":\"branch\",\"branch\":\"branch1\"},{\"kind\":\"branch\",\"branch\":\"branch2\"},{\"kind\":\"branch\",\"branch\":\"branch3\"},{\"kind\":\"branch\",\"branch\":\"branch4\"},{\"kind\":\"branch\",\"branch\":\"branch5\"},{\"kind\":\"branch\",\"branch\":\"branch6\"},{\"kind\":\"branch\",\"branch\":\"branch7\"},{\"kind\":\"branch\",\"branch\":\"branch8\"},{\"kind\":\"branch\",\"branch\":\"branch9\"},{\"kind\":\"checkout\",\"branch\":\"branch1\"},{\"kind\":\"commit\",\"commit\":\"commit:0\"}]",
         "A branch without an owned source commit has no displayed head/attachment glyph: branch creation carries the current DB head, but branch renderer consumes only name/order and lane ordinal (gitGraphAst.ts138-149,457-472; gitGraphRenderer.ts869-889,1010,1059-1075): [{\"id\":\"main\",\"head\":null},{\"id\":\"branch2\",\"head\":null},{\"id\":\"branch3\",\"head\":null},{\"id\":\"branch4\",\"head\":null},{\"id\":\"branch5\",\"head\":null},{\"id\":\"branch6\",\"head\":null},{\"id\":\"branch7\",\"head\":null},{\"id\":\"branch8\",\"head\":null},{\"id\":\"branch9\",\"head\":null}]",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.gitBranchLabel0=\"#ffffff\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.gitBranchLabel1=\"#ffffff\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.gitBranchLabel2=\"#ffffff\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.gitBranchLabel3=\"#ffffff\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.gitBranchLabel4=\"#ffffff\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.gitBranchLabel5=\"#ffffff\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.gitBranchLabel6=\"#ffffff\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.gitBranchLabel7=\"#ffffff\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.gitBranchLabel8=\"#ffffff\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.gitBranchLabel9=\"#ffffff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.gitBranchLabel0=\"#ffffff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.gitBranchLabel1=\"#ffffff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.gitBranchLabel2=\"#ffffff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.gitBranchLabel3=\"#ffffff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.gitBranchLabel4=\"#ffffff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.gitBranchLabel5=\"#ffffff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.gitBranchLabel6=\"#ffffff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.gitBranchLabel7=\"#ffffff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.gitBranchLabel8=\"#ffffff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.gitBranchLabel9=\"#ffffff\"",
         "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"default\""
       ],
       "visualProjections": [
@@ -43752,71 +43571,7 @@
             "id": "featureA",
             "head": "commit:7"
           }
-        ],
-        "theme-paint": {
-          "theme": "default",
-          "family": "gitgraph",
-          "quantizationTolerancePerChannel": 1,
-          "roles": [
-            {
-              "owner": "main",
-              "kind": "branch",
-              "sourceOrdinal": 0,
-              "fill": "#0000ec",
-              "foreground": "#ffffff"
-            },
-            {
-              "owner": "commit:0",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "commit:4",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "commit:6",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "develop",
-              "kind": "branch",
-              "sourceOrdinal": 1,
-              "fill": "#dede00",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "commit:1",
-              "kind": "commit",
-              "fill": "#dede00",
-              "stroke": "#dede00"
-            },
-            {
-              "owner": "commit:2",
-              "kind": "commit",
-              "fill": "#dede00",
-              "stroke": "#dede00"
-            },
-            {
-              "owner": "featureA",
-              "kind": "branch",
-              "sourceOrdinal": 2,
-              "fill": "#9dec00",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "commit:7",
-              "kind": "commit",
-              "fill": "#9dec00",
-              "stroke": "#9dec00"
-            }
-          ]
-        }
+        ]
       },
       "advisoryFacts": {
         "unprinted-source-identities": {
@@ -43883,14 +43638,13 @@
         "visible-labels",
         "fact:authored-config",
         "fact:branches",
-        "fact:commits",
-        "fact:theme-paint"
+        "fact:commits"
       ],
       "unresolved": [],
       "excludedNonvisual": [
         "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\"",
         "Raw git-operation-order is source/native identity or history without a unique printed inverse; its complete ordered commits/parents/branch order,grammar AST or rooted hierarchy remains required: [{\"kind\":\"commit\",\"commit\":\"commit:0\"},{\"kind\":\"branch\",\"branch\":\"develop\"},{\"kind\":\"commit\",\"commit\":\"commit:1\"},{\"kind\":\"commit\",\"commit\":\"commit:2\"},{\"kind\":\"checkout\",\"branch\":\"main\"},{\"kind\":\"commit\",\"commit\":\"commit:3\"},{\"kind\":\"commit\",\"commit\":\"commit:4\"},{\"kind\":\"merge\",\"branch\":\"develop\",\"commit\":\"commit:5\"},{\"kind\":\"commit\",\"commit\":\"commit:6\"},{\"kind\":\"branch\",\"branch\":\"featureA\"},{\"kind\":\"commit\",\"commit\":\"commit:7\"}]",
-        "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"default\""
+        "Default theme identity is advisory; cross-renderer cosmetic defaults are not an inverse engine/theme-name claim: theme=\"default\""
       ],
       "visualProjections": [
         "Only Git operation history,railroad grammar dialect and mindmap DFS traversal are advisory/native identities; all visible topology,chronology,ownership and recursive grammar semantics remain required",
@@ -44164,71 +43918,7 @@
             "id": "featureA",
             "head": "commit:7"
           }
-        ],
-        "theme-paint": {
-          "theme": "default",
-          "family": "gitgraph",
-          "quantizationTolerancePerChannel": 1,
-          "roles": [
-            {
-              "owner": "main",
-              "kind": "branch",
-              "sourceOrdinal": 0,
-              "fill": "#0000ec",
-              "foreground": "#ffffff"
-            },
-            {
-              "owner": "commit:0",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "commit:4",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "commit:6",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "develop",
-              "kind": "branch",
-              "sourceOrdinal": 1,
-              "fill": "#dede00",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "commit:1",
-              "kind": "commit",
-              "fill": "#dede00",
-              "stroke": "#dede00"
-            },
-            {
-              "owner": "commit:2",
-              "kind": "commit",
-              "fill": "#dede00",
-              "stroke": "#dede00"
-            },
-            {
-              "owner": "featureA",
-              "kind": "branch",
-              "sourceOrdinal": 2,
-              "fill": "#9dec00",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "commit:7",
-              "kind": "commit",
-              "fill": "#9dec00",
-              "stroke": "#9dec00"
-            }
-          ]
-        }
+        ]
       },
       "advisoryFacts": {
         "unprinted-source-identities": {
@@ -44295,14 +43985,13 @@
         "visible-labels",
         "fact:authored-config",
         "fact:branches",
-        "fact:commits",
-        "fact:theme-paint"
+        "fact:commits"
       ],
       "unresolved": [],
       "excludedNonvisual": [
         "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\"",
         "Raw git-operation-order is source/native identity or history without a unique printed inverse; its complete ordered commits/parents/branch order,grammar AST or rooted hierarchy remains required: [{\"kind\":\"commit\",\"commit\":\"commit:0\"},{\"kind\":\"branch\",\"branch\":\"develop\"},{\"kind\":\"commit\",\"commit\":\"commit:1\"},{\"kind\":\"commit\",\"commit\":\"commit:2\"},{\"kind\":\"checkout\",\"branch\":\"main\"},{\"kind\":\"commit\",\"commit\":\"commit:3\"},{\"kind\":\"commit\",\"commit\":\"commit:4\"},{\"kind\":\"merge\",\"branch\":\"develop\",\"commit\":\"commit:5\"},{\"kind\":\"commit\",\"commit\":\"commit:6\"},{\"kind\":\"branch\",\"branch\":\"featureA\"},{\"kind\":\"commit\",\"commit\":\"commit:7\"}]",
-        "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"default\""
+        "Default theme identity is advisory; cross-renderer cosmetic defaults are not an inverse engine/theme-name claim: theme=\"default\""
       ],
       "visualProjections": [
         "Only Git operation history,railroad grammar dialect and mindmap DFS traversal are advisory/native identities; all visible topology,chronology,ownership and recursive grammar semantics remain required",
@@ -44577,71 +44266,7 @@
             "id": "featureA",
             "head": "commit:7"
           }
-        ],
-        "theme-paint": {
-          "theme": "default",
-          "family": "gitgraph",
-          "quantizationTolerancePerChannel": 1,
-          "roles": [
-            {
-              "owner": "main",
-              "kind": "branch",
-              "sourceOrdinal": 0,
-              "fill": "#0000ec",
-              "foreground": "#ffffff"
-            },
-            {
-              "owner": "commit:0",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "commit:4",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "commit:6",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "develop",
-              "kind": "branch",
-              "sourceOrdinal": 1,
-              "fill": "#dede00",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "commit:1",
-              "kind": "commit",
-              "fill": "#dede00",
-              "stroke": "#dede00"
-            },
-            {
-              "owner": "commit:2",
-              "kind": "commit",
-              "fill": "#dede00",
-              "stroke": "#dede00"
-            },
-            {
-              "owner": "featureA",
-              "kind": "branch",
-              "sourceOrdinal": 2,
-              "fill": "#9dec00",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "commit:7",
-              "kind": "commit",
-              "fill": "#9dec00",
-              "stroke": "#9dec00"
-            }
-          ]
-        }
+        ]
       },
       "advisoryFacts": {
         "unprinted-source-identities": {
@@ -44708,14 +44333,13 @@
         "visible-labels",
         "fact:authored-config",
         "fact:branches",
-        "fact:commits",
-        "fact:theme-paint"
+        "fact:commits"
       ],
       "unresolved": [],
       "excludedNonvisual": [
         "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\"",
         "Raw git-operation-order is source/native identity or history without a unique printed inverse; its complete ordered commits/parents/branch order,grammar AST or rooted hierarchy remains required: [{\"kind\":\"commit\",\"commit\":\"commit:0\"},{\"kind\":\"branch\",\"branch\":\"develop\"},{\"kind\":\"commit\",\"commit\":\"commit:1\"},{\"kind\":\"commit\",\"commit\":\"commit:2\"},{\"kind\":\"checkout\",\"branch\":\"main\"},{\"kind\":\"commit\",\"commit\":\"commit:3\"},{\"kind\":\"commit\",\"commit\":\"commit:4\"},{\"kind\":\"merge\",\"branch\":\"develop\",\"commit\":\"commit:5\"},{\"kind\":\"commit\",\"commit\":\"commit:6\"},{\"kind\":\"branch\",\"branch\":\"featureA\"},{\"kind\":\"commit\",\"commit\":\"commit:7\"}]",
-        "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"default\""
+        "Default theme identity is advisory; cross-renderer cosmetic defaults are not an inverse engine/theme-name claim: theme=\"default\""
       ],
       "visualProjections": [
         "Only Git operation history,railroad grammar dialect and mindmap DFS traversal are advisory/native identities; all visible topology,chronology,ownership and recursive grammar semantics remain required",
@@ -44990,71 +44614,7 @@
             "id": "featureA",
             "head": "commit:7"
           }
-        ],
-        "theme-paint": {
-          "theme": "default",
-          "family": "gitgraph",
-          "quantizationTolerancePerChannel": 1,
-          "roles": [
-            {
-              "owner": "main",
-              "kind": "branch",
-              "sourceOrdinal": 0,
-              "fill": "#0000ec",
-              "foreground": "#ffffff"
-            },
-            {
-              "owner": "commit:0",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "commit:4",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "commit:6",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "develop",
-              "kind": "branch",
-              "sourceOrdinal": 1,
-              "fill": "#dede00",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "commit:1",
-              "kind": "commit",
-              "fill": "#dede00",
-              "stroke": "#dede00"
-            },
-            {
-              "owner": "commit:2",
-              "kind": "commit",
-              "fill": "#dede00",
-              "stroke": "#dede00"
-            },
-            {
-              "owner": "featureA",
-              "kind": "branch",
-              "sourceOrdinal": 2,
-              "fill": "#9dec00",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "commit:7",
-              "kind": "commit",
-              "fill": "#9dec00",
-              "stroke": "#9dec00"
-            }
-          ]
-        }
+        ]
       },
       "advisoryFacts": {
         "unprinted-source-identities": {
@@ -45121,14 +44681,13 @@
         "visible-labels",
         "fact:authored-config",
         "fact:branches",
-        "fact:commits",
-        "fact:theme-paint"
+        "fact:commits"
       ],
       "unresolved": [],
       "excludedNonvisual": [
         "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\"",
         "Raw git-operation-order is source/native identity or history without a unique printed inverse; its complete ordered commits/parents/branch order,grammar AST or rooted hierarchy remains required: [{\"kind\":\"commit\",\"commit\":\"commit:0\"},{\"kind\":\"branch\",\"branch\":\"develop\"},{\"kind\":\"commit\",\"commit\":\"commit:1\"},{\"kind\":\"commit\",\"commit\":\"commit:2\"},{\"kind\":\"checkout\",\"branch\":\"main\"},{\"kind\":\"commit\",\"commit\":\"commit:3\"},{\"kind\":\"commit\",\"commit\":\"commit:4\"},{\"kind\":\"merge\",\"branch\":\"develop\",\"commit\":\"commit:5\"},{\"kind\":\"commit\",\"commit\":\"commit:6\"},{\"kind\":\"branch\",\"branch\":\"featureA\"},{\"kind\":\"commit\",\"commit\":\"commit:7\"}]",
-        "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"default\""
+        "Default theme identity is advisory; cross-renderer cosmetic defaults are not an inverse engine/theme-name claim: theme=\"default\""
       ],
       "visualProjections": [
         "Only Git operation history,railroad grammar dialect and mindmap DFS traversal are advisory/native identities; all visible topology,chronology,ownership and recursive grammar semantics remain required",
@@ -45401,71 +44960,7 @@
             "id": "featureA",
             "head": "commit:7"
           }
-        ],
-        "theme-paint": {
-          "theme": "default",
-          "family": "gitgraph",
-          "quantizationTolerancePerChannel": 1,
-          "roles": [
-            {
-              "owner": "main",
-              "kind": "branch",
-              "sourceOrdinal": 0,
-              "fill": "#0000ec",
-              "foreground": "#ffffff"
-            },
-            {
-              "owner": "commit:0",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "commit:4",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "commit:6",
-              "kind": "commit",
-              "fill": "#0000ec",
-              "stroke": "#0000ec"
-            },
-            {
-              "owner": "develop",
-              "kind": "branch",
-              "sourceOrdinal": 1,
-              "fill": "#dede00",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "commit:1",
-              "kind": "commit",
-              "fill": "#dede00",
-              "stroke": "#dede00"
-            },
-            {
-              "owner": "commit:2",
-              "kind": "commit",
-              "fill": "#dede00",
-              "stroke": "#dede00"
-            },
-            {
-              "owner": "featureA",
-              "kind": "branch",
-              "sourceOrdinal": 2,
-              "fill": "#9dec00",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "commit:7",
-              "kind": "commit",
-              "fill": "#9dec00",
-              "stroke": "#9dec00"
-            }
-          ]
-        }
+        ]
       },
       "advisoryFacts": {
         "unprinted-source-identities": {
@@ -45532,14 +45027,13 @@
         "visible-labels",
         "fact:authored-config",
         "fact:branches",
-        "fact:commits",
-        "fact:theme-paint"
+        "fact:commits"
       ],
       "unresolved": [],
       "excludedNonvisual": [
         "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\"",
         "Raw git-operation-order is source/native identity or history without a unique printed inverse; its complete ordered commits/parents/branch order,grammar AST or rooted hierarchy remains required: [{\"kind\":\"commit\",\"commit\":\"commit:0\"},{\"kind\":\"branch\",\"branch\":\"develop\"},{\"kind\":\"commit\",\"commit\":\"commit:1\"},{\"kind\":\"commit\",\"commit\":\"commit:2\"},{\"kind\":\"checkout\",\"branch\":\"main\"},{\"kind\":\"commit\",\"commit\":\"commit:3\"},{\"kind\":\"commit\",\"commit\":\"commit:4\"},{\"kind\":\"merge\",\"branch\":\"develop\",\"commit\":\"commit:5\"},{\"kind\":\"commit\",\"commit\":\"commit:6\"},{\"kind\":\"branch\",\"branch\":\"featureA\"},{\"kind\":\"commit\",\"commit\":\"commit:7\"}]",
-        "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"default\""
+        "Default theme identity is advisory; cross-renderer cosmetic defaults are not an inverse engine/theme-name claim: theme=\"default\""
       ],
       "visualProjections": [
         "Only Git operation history,railroad grammar dialect and mindmap DFS traversal are advisory/native identities; all visible topology,chronology,ownership and recursive grammar semantics remain required",
@@ -46833,6 +46327,7 @@
           "theme": "base",
           "family": "mindmap",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "root",
@@ -47029,15 +46524,15 @@
       ],
       "unresolved": [],
       "excludedNonvisual": [
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.git0=\"#374151\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.gitBranchLabel0=\"#ffffff\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.cScaleLabel0=\"#ffffff\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.cScale1=\"#bfdbfe\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.cScaleLabel1=\"#172554\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.cScale2=\"#bbf7d0\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.cScaleLabel2=\"#14532d\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.cScale3=\"#fde68a\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.cScaleLabel3=\"#451a03\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.git0=\"#374151\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.gitBranchLabel0=\"#ffffff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.cScaleLabel0=\"#ffffff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.cScale1=\"#bfdbfe\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.cScaleLabel1=\"#172554\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.cScale2=\"#bbf7d0\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.cScaleLabel2=\"#14532d\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.cScale3=\"#fde68a\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.cScaleLabel3=\"#451a03\"",
         "Documented depth colors and child-edge paint are projected to exact node/path owners: mindmap.colorBy=\"depth\"",
         "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"base\""
       ],
@@ -48643,6 +48138,7 @@
           "theme": "base",
           "family": "radar",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "c1",
@@ -48696,9 +48192,9 @@
       ],
       "unresolved": [],
       "excludedNonvisual": [
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.cScale0=\"#FF0000\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.cScale1=\"#00FF00\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.cScale2=\"#0000FF\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.cScale0=\"#FF0000\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.cScale1=\"#00FF00\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.cScale2=\"#0000FF\"",
         "Radar curve and legend fill opacity is a concrete owned paint obligation: themeVariables.radar.curveOpacity=0",
         "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"base\""
       ],
@@ -65357,6 +64853,7 @@
           "theme": "base",
           "family": "timeline",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "2002",
@@ -65370,8 +64867,7 @@
               "kind": "event",
               "sourceOrdinal": 0,
               "fill": "#ffcb5e",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             },
             {
               "owner": "2004",
@@ -65385,16 +64881,14 @@
               "kind": "event",
               "sourceOrdinal": 1,
               "fill": "#ffcb5e",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             },
             {
               "owner": "Google",
               "kind": "event",
               "sourceOrdinal": 2,
               "fill": "#ffcb5e",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             },
             {
               "owner": "2005",
@@ -65408,8 +64902,7 @@
               "kind": "event",
               "sourceOrdinal": 3,
               "fill": "#ffcb5e",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             },
             {
               "owner": "2006",
@@ -65423,8 +64916,28 @@
               "kind": "event",
               "sourceOrdinal": 4,
               "fill": "#ffcb5e",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
+            }
+          ],
+          "equalities": [
+            {
+              "property": "fill",
+              "roleIndices": [
+                0,
+                2,
+                5,
+                7
+              ]
+            },
+            {
+              "property": "fill",
+              "roleIndices": [
+                1,
+                3,
+                4,
+                6,
+                8
+              ]
             }
           ]
         }
@@ -65451,7 +64964,7 @@
       "unresolved": [],
       "excludedNonvisual": [
         "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\"",
-        "Timeline color selection is required by each exact owned role: timeline.disableMulticolor=true",
+        "Timeline monochrome selection requires same-role owned paint equality, without imposing a renderer default palette: timeline.disableMulticolor=true",
         "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"base\""
       ],
       "visualProjections": [
@@ -65598,6 +65111,7 @@
           "theme": "default",
           "family": "timeline",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "2002",
@@ -65611,31 +65125,25 @@
               "kind": "event",
               "sourceOrdinal": 0,
               "fill": "#ff0000",
-              "foreground": "#ffffff",
-              "brightness": 1.2
+              "foreground": "#ffffff"
             },
             {
               "owner": "2004",
               "kind": "period",
               "sourceOrdinal": 1,
-              "fill": "#00ff00",
-              "foreground": "#000000"
+              "fill": "#00ff00"
             },
             {
               "owner": "Facebook",
               "kind": "event",
               "sourceOrdinal": 1,
-              "fill": "#00ff00",
-              "foreground": "#000000",
-              "brightness": 1.2
+              "fill": "#00ff00"
             },
             {
               "owner": "Google",
               "kind": "event",
               "sourceOrdinal": 2,
-              "fill": "#00ff00",
-              "foreground": "#000000",
-              "brightness": 1.2
+              "fill": "#00ff00"
             },
             {
               "owner": "2005",
@@ -65649,68 +65157,7 @@
               "kind": "event",
               "sourceOrdinal": 3,
               "fill": "#0000ff",
-              "foreground": "#ffffff",
-              "brightness": 1.2
-            },
-            {
-              "owner": "2006",
-              "kind": "period",
-              "sourceOrdinal": 3,
-              "fill": "#c386ff",
               "foreground": "#ffffff"
-            },
-            {
-              "owner": "Twitter",
-              "kind": "event",
-              "sourceOrdinal": 4,
-              "fill": "#c386ff",
-              "foreground": "#ffffff",
-              "brightness": 1.2
-            },
-            {
-              "owner": "2007",
-              "kind": "period",
-              "sourceOrdinal": 4,
-              "fill": "#ff86ff",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "Tumblr",
-              "kind": "event",
-              "sourceOrdinal": 5,
-              "fill": "#ff86ff",
-              "foreground": "#000000",
-              "brightness": 1.2
-            },
-            {
-              "owner": "2008",
-              "kind": "period",
-              "sourceOrdinal": 5,
-              "fill": "#ff86c3",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "Instagram",
-              "kind": "event",
-              "sourceOrdinal": 6,
-              "fill": "#ff86c3",
-              "foreground": "#000000",
-              "brightness": 1.2
-            },
-            {
-              "owner": "2010",
-              "kind": "period",
-              "sourceOrdinal": 6,
-              "fill": "#ff8686",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "Pinterest",
-              "kind": "event",
-              "sourceOrdinal": 7,
-              "fill": "#ff8686",
-              "foreground": "#000000",
-              "brightness": 1.2
             }
           ]
         }
@@ -65741,11 +65188,11 @@
       "unresolved": [],
       "excludedNonvisual": [
         "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.cScale0=\"#ff0000\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.cScaleLabel0=\"#ffffff\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.cScale1=\"#00ff00\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.cScale2=\"#0000ff\"",
-        "Literal theme token is retained with its concrete owned paint projection: themeVariables.cScaleLabel2=\"#ffffff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.cScale0=\"#ff0000\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.cScaleLabel0=\"#ffffff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.cScale1=\"#00ff00\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.cScale2=\"#0000ff\"",
+        "Authored paint token is retained exactly; active documented owners keep its required paint and unexercised slots remain native provenance: themeVariables.cScaleLabel2=\"#ffffff\"",
         "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"default\""
       ],
       "visualProjections": [
@@ -65923,6 +65370,7 @@
           "theme": "base",
           "family": "timeline",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "2002",
@@ -65936,8 +65384,7 @@
               "kind": "event",
               "sourceOrdinal": 0,
               "fill": "#ffcb5e",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             },
             {
               "owner": "2004",
@@ -65951,16 +65398,14 @@
               "kind": "event",
               "sourceOrdinal": 1,
               "fill": "#cb5eff",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             },
             {
               "owner": "Google",
               "kind": "event",
               "sourceOrdinal": 2,
               "fill": "#cb5eff",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             },
             {
               "owner": "2005",
@@ -65974,8 +65419,7 @@
               "kind": "event",
               "sourceOrdinal": 3,
               "fill": "#77a3ff",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             },
             {
               "owner": "2006",
@@ -65989,8 +65433,7 @@
               "kind": "event",
               "sourceOrdinal": 4,
               "fill": "#e2ff5e",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             },
             {
               "owner": "2007",
@@ -66004,8 +65447,7 @@
               "kind": "event",
               "sourceOrdinal": 5,
               "fill": "#92ff5e",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             },
             {
               "owner": "2008",
@@ -66019,8 +65461,7 @@
               "kind": "event",
               "sourceOrdinal": 6,
               "fill": "#5eff7a",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             },
             {
               "owner": "2010",
@@ -66034,8 +65475,7 @@
               "kind": "event",
               "sourceOrdinal": 7,
               "fill": "#5effcb",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             }
           ]
         }
@@ -66231,6 +65671,7 @@
           "theme": "forest",
           "family": "timeline",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "2002",
@@ -66244,8 +65685,7 @@
               "kind": "event",
               "sourceOrdinal": 0,
               "fill": "#b9d970",
-              "foreground": "#000000",
-              "brightness": 1.2
+              "foreground": "#000000"
             },
             {
               "owner": "2004",
@@ -66259,16 +65699,14 @@
               "kind": "event",
               "sourceOrdinal": 1,
               "fill": "#acff7f",
-              "foreground": "#000000",
-              "brightness": 1.2
+              "foreground": "#000000"
             },
             {
               "owner": "Google",
               "kind": "event",
               "sourceOrdinal": 2,
               "fill": "#acff7f",
-              "foreground": "#000000",
-              "brightness": 1.2
+              "foreground": "#000000"
             },
             {
               "owner": "2005",
@@ -66282,8 +65720,7 @@
               "kind": "event",
               "sourceOrdinal": 3,
               "fill": "#cde498",
-              "foreground": "#000000",
-              "brightness": 1.2
+              "foreground": "#000000"
             },
             {
               "owner": "2006",
@@ -66297,8 +65734,7 @@
               "kind": "event",
               "sourceOrdinal": 4,
               "fill": "#84d970",
-              "foreground": "#000000",
-              "brightness": 1.2
+              "foreground": "#000000"
             },
             {
               "owner": "2007",
@@ -66312,8 +65748,7 @@
               "kind": "event",
               "sourceOrdinal": 5,
               "fill": "#70d990",
-              "foreground": "#000000",
-              "brightness": 1.2
+              "foreground": "#000000"
             },
             {
               "owner": "2008",
@@ -66327,8 +65762,7 @@
               "kind": "event",
               "sourceOrdinal": 6,
               "fill": "#70d9c5",
-              "foreground": "#000000",
-              "brightness": 1.2
+              "foreground": "#000000"
             },
             {
               "owner": "2010",
@@ -66342,8 +65776,7 @@
               "kind": "event",
               "sourceOrdinal": 7,
               "fill": "#70b9d9",
-              "foreground": "#000000",
-              "brightness": 1.2
+              "foreground": "#000000"
             }
           ]
         }
@@ -66539,6 +65972,7 @@
           "theme": "dark",
           "family": "timeline",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "2002",
@@ -66552,8 +65986,7 @@
               "kind": "event",
               "sourceOrdinal": 0,
               "fill": "#1f2020",
-              "foreground": "#d3d3d3",
-              "brightness": 1.2
+              "foreground": "#d3d3d3"
             },
             {
               "owner": "2004",
@@ -66567,16 +66000,14 @@
               "kind": "event",
               "sourceOrdinal": 1,
               "fill": "#0b0000",
-              "foreground": "#d3d3d3",
-              "brightness": 1.2
+              "foreground": "#d3d3d3"
             },
             {
               "owner": "Google",
               "kind": "event",
               "sourceOrdinal": 2,
               "fill": "#0b0000",
-              "foreground": "#d3d3d3",
-              "brightness": 1.2
+              "foreground": "#d3d3d3"
             },
             {
               "owner": "2005",
@@ -66590,8 +66021,7 @@
               "kind": "event",
               "sourceOrdinal": 3,
               "fill": "#4d1037",
-              "foreground": "#d3d3d3",
-              "brightness": 1.2
+              "foreground": "#d3d3d3"
             },
             {
               "owner": "2006",
@@ -66605,8 +66035,7 @@
               "kind": "event",
               "sourceOrdinal": 4,
               "fill": "#3f5258",
-              "foreground": "#d3d3d3",
-              "brightness": 1.2
+              "foreground": "#d3d3d3"
             },
             {
               "owner": "2007",
@@ -66620,8 +66049,7 @@
               "kind": "event",
               "sourceOrdinal": 5,
               "fill": "#4f2f1b",
-              "foreground": "#d3d3d3",
-              "brightness": 1.2
+              "foreground": "#d3d3d3"
             },
             {
               "owner": "2008",
@@ -66635,8 +66063,7 @@
               "kind": "event",
               "sourceOrdinal": 6,
               "fill": "#6e0a0a",
-              "foreground": "#d3d3d3",
-              "brightness": 1.2
+              "foreground": "#d3d3d3"
             },
             {
               "owner": "2010",
@@ -66650,8 +66077,7 @@
               "kind": "event",
               "sourceOrdinal": 7,
               "fill": "#3b0048",
-              "foreground": "#d3d3d3",
-              "brightness": 1.2
+              "foreground": "#d3d3d3"
             }
           ]
         }
@@ -66842,127 +66268,7 @@
             ]
           }
         ],
-        "sections": [],
-        "theme-paint": {
-          "theme": "default",
-          "family": "timeline",
-          "quantizationTolerancePerChannel": 1,
-          "roles": [
-            {
-              "owner": "2002",
-              "kind": "period",
-              "sourceOrdinal": 0,
-              "fill": "#8686ff",
-              "foreground": "#ffffff"
-            },
-            {
-              "owner": "LinkedIn",
-              "kind": "event",
-              "sourceOrdinal": 0,
-              "fill": "#8686ff",
-              "foreground": "#ffffff",
-              "brightness": 1.2
-            },
-            {
-              "owner": "2004",
-              "kind": "period",
-              "sourceOrdinal": 1,
-              "fill": "#ffff78",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "Facebook",
-              "kind": "event",
-              "sourceOrdinal": 1,
-              "fill": "#ffff78",
-              "foreground": "#000000",
-              "brightness": 1.2
-            },
-            {
-              "owner": "Google",
-              "kind": "event",
-              "sourceOrdinal": 2,
-              "fill": "#ffff78",
-              "foreground": "#000000",
-              "brightness": 1.2
-            },
-            {
-              "owner": "2005",
-              "kind": "period",
-              "sourceOrdinal": 2,
-              "fill": "#d7ff86",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "YouTube",
-              "kind": "event",
-              "sourceOrdinal": 3,
-              "fill": "#d7ff86",
-              "foreground": "#000000",
-              "brightness": 1.2
-            },
-            {
-              "owner": "2006",
-              "kind": "period",
-              "sourceOrdinal": 3,
-              "fill": "#c386ff",
-              "foreground": "#ffffff"
-            },
-            {
-              "owner": "Twitter",
-              "kind": "event",
-              "sourceOrdinal": 4,
-              "fill": "#c386ff",
-              "foreground": "#ffffff",
-              "brightness": 1.2
-            },
-            {
-              "owner": "2007",
-              "kind": "period",
-              "sourceOrdinal": 4,
-              "fill": "#ff86ff",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "Tumblr",
-              "kind": "event",
-              "sourceOrdinal": 5,
-              "fill": "#ff86ff",
-              "foreground": "#000000",
-              "brightness": 1.2
-            },
-            {
-              "owner": "2008",
-              "kind": "period",
-              "sourceOrdinal": 5,
-              "fill": "#ff86c3",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "Instagram",
-              "kind": "event",
-              "sourceOrdinal": 6,
-              "fill": "#ff86c3",
-              "foreground": "#000000",
-              "brightness": 1.2
-            },
-            {
-              "owner": "2010",
-              "kind": "period",
-              "sourceOrdinal": 6,
-              "fill": "#ff8686",
-              "foreground": "#000000"
-            },
-            {
-              "owner": "Pinterest",
-              "kind": "event",
-              "sourceOrdinal": 7,
-              "fill": "#ff8686",
-              "foreground": "#000000",
-              "brightness": 1.2
-            }
-          ]
-        }
+        "sections": []
       },
       "advisoryFacts": {
         "configuration-identifiers-and-tokens": {
@@ -66979,13 +66285,12 @@
         "visible-labels",
         "fact:periods",
         "fact:sections",
-        "fact:theme-paint",
         "fact:title"
       ],
       "unresolved": [],
       "excludedNonvisual": [
         "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\"",
-        "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"default\""
+        "Default theme identity is advisory; cross-renderer cosmetic defaults are not an inverse engine/theme-name claim: theme=\"default\""
       ],
       "visualProjections": [
         "Configuration identities are preserved as exact source/native metadata; named themes compile to finite semantic-owner paint effects from independently transcribed pinned literals/formulas. All remaining concrete configuration is required unchanged"
@@ -67155,6 +66460,7 @@
           "theme": "neutral",
           "family": "timeline",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "2002",
@@ -67168,8 +66474,7 @@
               "kind": "event",
               "sourceOrdinal": 0,
               "fill": "#555555",
-              "foreground": "#f4f4f4",
-              "brightness": 1.2
+              "foreground": "#f4f4f4"
             },
             {
               "owner": "2004",
@@ -67183,16 +66488,14 @@
               "kind": "event",
               "sourceOrdinal": 1,
               "fill": "#f4f4f4",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             },
             {
               "owner": "Google",
               "kind": "event",
               "sourceOrdinal": 2,
               "fill": "#f4f4f4",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             },
             {
               "owner": "2005",
@@ -67206,8 +66509,7 @@
               "kind": "event",
               "sourceOrdinal": 3,
               "fill": "#555555",
-              "foreground": "#f4f4f4",
-              "brightness": 1.2
+              "foreground": "#f4f4f4"
             },
             {
               "owner": "2006",
@@ -67221,8 +66523,7 @@
               "kind": "event",
               "sourceOrdinal": 4,
               "fill": "#bbbbbb",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             },
             {
               "owner": "2007",
@@ -67236,8 +66537,7 @@
               "kind": "event",
               "sourceOrdinal": 5,
               "fill": "#777777",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             },
             {
               "owner": "2008",
@@ -67251,8 +66551,7 @@
               "kind": "event",
               "sourceOrdinal": 6,
               "fill": "#999999",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             },
             {
               "owner": "2010",
@@ -67266,8 +66565,7 @@
               "kind": "event",
               "sourceOrdinal": 7,
               "fill": "#dddddd",
-              "foreground": "#333333",
-              "brightness": 1.2
+              "foreground": "#333333"
             }
           ]
         }
@@ -69590,6 +68888,7 @@
           "theme": "forest",
           "family": "treemap",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "Category A",
@@ -69597,10 +68896,7 @@
               "sourceOrdinal": 0,
               "fill": "#acff7f",
               "foreground": "#000000",
-              "fillOpacity": 0.6,
-              "stroke": "#47cb00",
-              "strokeWidth": 2,
-              "strokeOpacity": 0.4
+              "stroke": "#47cb00"
             },
             {
               "owner": "Category A/Item A1",
@@ -69608,9 +68904,7 @@
               "sourceOrdinal": 1,
               "fill": "#acff7f",
               "foreground": "#000000",
-              "fillOpacity": 0.3,
-              "stroke": "#acff7f",
-              "strokeWidth": 3
+              "stroke": "#acff7f"
             },
             {
               "owner": "Category A/Item A2",
@@ -69618,9 +68912,7 @@
               "sourceOrdinal": 2,
               "fill": "#acff7f",
               "foreground": "#000000",
-              "fillOpacity": 0.3,
-              "stroke": "#acff7f",
-              "strokeWidth": 3
+              "stroke": "#acff7f"
             },
             {
               "owner": "Category B",
@@ -69628,10 +68920,7 @@
               "sourceOrdinal": 3,
               "fill": "#b9d970",
               "foreground": "#000000",
-              "fillOpacity": 0.6,
-              "stroke": "#7ca02a",
-              "strokeWidth": 2,
-              "strokeOpacity": 0.4
+              "stroke": "#7ca02a"
             },
             {
               "owner": "Category B/Item B1",
@@ -69639,9 +68928,7 @@
               "sourceOrdinal": 4,
               "fill": "#b9d970",
               "foreground": "#000000",
-              "fillOpacity": 0.3,
-              "stroke": "#b9d970",
-              "strokeWidth": 3
+              "stroke": "#b9d970"
             },
             {
               "owner": "Category B/Item B2",
@@ -69649,9 +68936,7 @@
               "sourceOrdinal": 5,
               "fill": "#b9d970",
               "foreground": "#000000",
-              "fillOpacity": 0.3,
-              "stroke": "#b9d970",
-              "strokeWidth": 3
+              "stroke": "#b9d970"
             }
           ]
         }
@@ -73202,6 +72487,7 @@
           "theme": "redux-color",
           "family": "usecase",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "Customer",
@@ -73209,8 +72495,7 @@
               "sourceOrdinal": 0,
               "fill": "#F5F3FF",
               "stroke": "#A78BFA",
-              "foreground": "#28253D",
-              "strokeWidth": 2
+              "foreground": "#28253D"
             },
             {
               "owner": "Browse",
@@ -73218,8 +72503,7 @@
               "sourceOrdinal": 1,
               "fill": "#F0FDFA",
               "stroke": "#2DD4BF",
-              "foreground": "#28253D",
-              "strokeWidth": 2
+              "foreground": "#28253D"
             },
             {
               "owner": "Checkout",
@@ -73227,8 +72511,7 @@
               "sourceOrdinal": 2,
               "fill": "#F0FDFA",
               "stroke": "#2DD4BF",
-              "foreground": "#28253D",
-              "strokeWidth": 2
+              "foreground": "#28253D"
             },
             {
               "owner": "Catalogue",
@@ -73236,8 +72519,7 @@
               "sourceOrdinal": 0,
               "fill": "#FDF4FF",
               "stroke": "#E879F9",
-              "foreground": "#000000",
-              "strokeWidth": 1
+              "foreground": "#000000"
             },
             {
               "owner": "Payment",
@@ -73245,8 +72527,7 @@
               "sourceOrdinal": 1,
               "fill": "#F0FDFA",
               "stroke": "#2DD4BF",
-              "foreground": "#000000",
-              "strokeWidth": 1
+              "foreground": "#000000"
             },
             {
               "owner": "Checkout->Browse",
@@ -73514,6 +72795,7 @@
           "theme": "redux-color",
           "family": "usecase",
           "quantizationTolerancePerChannel": 1,
+          "comparison": "source-paint-tokens",
           "roles": [
             {
               "owner": "Customer",
@@ -73521,8 +72803,7 @@
               "sourceOrdinal": 0,
               "fill": "#FDF4FF",
               "stroke": "#E879F9",
-              "foreground": "#28253D",
-              "strokeWidth": 2
+              "foreground": "#28253D"
             },
             {
               "owner": "Auditor",
@@ -73530,8 +72811,7 @@
               "sourceOrdinal": 1,
               "fill": "#F0FDFA",
               "stroke": "#2DD4BF",
-              "foreground": "#28253D",
-              "strokeWidth": 2
+              "foreground": "#28253D"
             },
             {
               "owner": "Browse",
@@ -73539,8 +72819,7 @@
               "sourceOrdinal": 2,
               "fill": "#FFF7ED",
               "stroke": "#FB923C",
-              "foreground": "#28253D",
-              "strokeWidth": 2
+              "foreground": "#28253D"
             },
             {
               "owner": "Checkout",
@@ -73548,8 +72827,7 @@
               "sourceOrdinal": 3,
               "fill": "#ECFEFF",
               "stroke": "#22D3EE",
-              "foreground": "#28253D",
-              "strokeWidth": 2
+              "foreground": "#28253D"
             }
           ]
         }

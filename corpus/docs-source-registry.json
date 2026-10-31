@@ -1,7 +1,7 @@
 {
   "schema": "trident-docs-source-registry-v1",
   "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-  "reviewedCorpusSha256": "1933af2319fe9a3cc78567a0ccf7d06d43d675eb4d2a7d289778db4065173ecb",
+  "reviewedCorpusSha256": "a9380db75d3cb152d04e7321243cc9ebae78b5ea6350e6382e08816469474579",
   "provenance": {
     "literalAuditBaseline": "2cc55cf",
     "structuralFix": "c9dd0b5",
@@ -24,7 +24,8 @@
     "unprintedEmptyGitHeads": "qualification/source-audits/unprinted-empty-git-heads.json; independent exactthree-case review",
     "bostonDuplicateIdentityHold": "qualification/source-audits/boston-duplicate-identity-hold.json; exactsourceambiguity stays in full drawing population asunknown",
     "sourceIdentitiesAndEventNamespaces": "qualification/source-audits/source-identities-and-event-namespaces.json; independently reviewed exact54case delta and source-only twin controls",
-    "eventDataReferencePresentation": "qualification/source-audits/event-data-reference-presentation.json; independently approved exacttwo-case delta and used-value/unused-record controls"
+    "eventDataReferencePresentation": "qualification/source-audits/event-data-reference-presentation.json; independently approved exacttwo-case delta and used-value/unused-record controls",
+    "defaultSkinFairness": "qualification/source-audits/default-skin-fairness.json; exact32-case independent review; default skin advisory, explicit overrides and nondefault palette tokens required"
   },
   "cases": [
     {
@@ -1970,49 +1971,49 @@
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:292",
       "sourceSha256": "2b5676bb24021917bba6738e0bdb3e3f0bde1b7ceb6fd8e3dcc702a6c7d54728",
       "intent": "drawing",
-      "semanticSha256": "ac32db4fb440a0619f240833afb7f34bd9d2c4c48158aeacbc22a96e44173727",
+      "semanticSha256": "295249da230f93c02c52001fbda71fa1abf82f4f3d2ea981f4a388f26a4e516f",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:354",
       "sourceSha256": "9db160f1ea2da2a3c60d54563f67ee06ab4aef1be7b03e3c8ee682d5cefe2d24",
       "intent": "drawing",
-      "semanticSha256": "6ed7e9dab67464b382e74010116093a2709000c55b03b4c1d28904b6420e77cb",
+      "semanticSha256": "6fc76f222c052332a3888cdf029ac03098d94cad4e855540a7d9fee3a92d6c10",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:381",
       "sourceSha256": "654c165edb80bec82b6b3771db41613f4c6e0cc303d34f2b6d3f69837676556d",
       "intent": "drawing",
-      "semanticSha256": "7cb0f97f4ba83a99eea538a07ec05028523aaa4f473a58bc27893bb078bd0124",
+      "semanticSha256": "53568d96b79bf24661fc10efe9e040e7be969ec2ced4ed74dcf6dce5ab6faa63",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:412",
       "sourceSha256": "c24fff4aa6e688a0d4cadce29acfce4b3bb31aa71186fa18b7db0574392af9c7",
       "intent": "drawing",
-      "semanticSha256": "36e58bdcede1146fa7ba0c3d5946bba961a95bd08e440f437383f5918b06c292",
+      "semanticSha256": "5962c3b6885929e3ba6bcba903fc68c762f3c1b3d46c8fa3148560e63f81ffd9",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:471",
       "sourceSha256": "2ea996869e041ddfc44828a6b284b1d67c52d5470d14746fa975632b7e5af975",
       "intent": "drawing",
-      "semanticSha256": "79da0f2ac40fb559199fb20785a0e8e598e6ed52cffc79c0b9adfc591470aff5",
+      "semanticSha256": "5aa4b34bf458f4afd7649da50175267a42fab9761b71cb4cf15eced0a1228c2d",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:521",
       "sourceSha256": "c3ee031fd6b06262a1f93cd39d93cf7a6c0d7463f4ff5a71ed01f61c8f0be01d",
       "intent": "drawing",
-      "semanticSha256": "6769b364da5f461fce00f49b7ede0d1bcef430b36895702e888f968faa431a81",
+      "semanticSha256": "7ac9dfadbf2b35c7c27be79f1128ac0f9477c6062be77d6c15030eeb44e75260",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:542",
       "sourceSha256": "f4cb5e4a6b1f525d45fdf295a707e08356c285f9088a5af16d2948943d63520c",
       "intent": "drawing",
-      "semanticSha256": "ba30dab955890744dacec72f966f388cf6cf20f1f6d76175fcc7febb195c5a8a",
+      "semanticSha256": "cbac47ac58de2ac4f3fac87d9a9de70c4455073876a036a4d03c66b97b82d8d7",
       "profileEligible": true
     },
     {
@@ -2054,91 +2055,91 @@
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:708",
       "sourceSha256": "2e6d85f337707401a684fcde18f5ef1b69d36a2f297ede7a2b125e0988bb7f4a",
       "intent": "drawing",
-      "semanticSha256": "f9256f9e1b7f83112ab6143b4eb782b9e38ae2e8d26b09e0816e1df6ca17bac3",
+      "semanticSha256": "f1ad3e786649759fe6c91925954f1cf6949a534e903c45dca3c40225ddbabebb",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:760",
       "sourceSha256": "c71743cecb2dabd79bb3a3cb03598faf94ebf6264d85958ade631187cdae416a",
       "intent": "drawing",
-      "semanticSha256": "627146108443faf0a5abd92b980229bd3da5d40b2b81c1dd191ad8644fe1f935",
+      "semanticSha256": "3907317dc7a97dddd7024f013878582d47d08dfe668db22375f507cb42cfa99d",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:812",
       "sourceSha256": "5e3445f0fc879faa9d96ec83f693ba884e5beedffdfba842a91ada6c68f2fede",
       "intent": "drawing",
-      "semanticSha256": "482ba352835b32b6b47ad61fe4e1c6977a7acde5560528261d02936cdde7eb6f",
+      "semanticSha256": "d6b27f587ee5c5f0f70502bbae89aab73e63d4b5d37d9c1ead24b5207a3366ea",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:864",
       "sourceSha256": "18580869f46e70b92b94e916fec45d982e8105dddc89f04039b214578b59a53e",
       "intent": "drawing",
-      "semanticSha256": "7fbb43eeddd50ab0df4eb5b6f1fcf5ecef1bc69f114eae802f52b9c55afdead4",
+      "semanticSha256": "8fcfd0cb0cc97a5f05bc64b9430be737db8040da93949d758f3bcb7905aa9168",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:916",
       "sourceSha256": "9ecf12a72dac0389358ae948198e8f4b24d856954475a1e3ccfc5e0f5e3d151d",
       "intent": "drawing",
-      "semanticSha256": "8e194931cb026a4bda5659ce747f470d5045297b661955cf66349b1ccbe2b4b3",
+      "semanticSha256": "a34e92ce1cc76e0af538f0889a39c6bf36595f59ab5be0cd59967b66ae0b4a14",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:974",
       "sourceSha256": "0dd68e5f46812c9cb0172f42b797897a04fa5e4f8726c3df83b851c3373e136a",
       "intent": "drawing",
-      "semanticSha256": "2e9f1c71523a82cffed4018f3d885c229098a42f5ef349eb410d87252707c7a1",
+      "semanticSha256": "b5270f8281ed05aba935c68fc68cb6f208346536d80e1689aba30482d2bc8260",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:1009",
       "sourceSha256": "ec477e2218dbb2dec8e6c29d8ac43bb9d4690a17340def9a9114f8c7da4edcf4",
       "intent": "drawing",
-      "semanticSha256": "cc43f1b8ae49b85b72c25edc913d7a45db508cf83f5a5555c425ed58b49d33d6",
+      "semanticSha256": "72b35b627625426866593734ac651fd3fd4def95212f6d7168c586d40ffef267",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:1049",
       "sourceSha256": "34f436ae888763914dd350b891ff6422dd5119216223b819bd595915dc3e74f9",
       "intent": "drawing",
-      "semanticSha256": "faa0b138cb62d356101d8ae5b9dba457325b9cb304c451d0e500018a9549031e",
+      "semanticSha256": "3ccdd432d56ac18fcdb9aee128e5269d759ccec8d6ed7ac8dfc6a305de3ee299",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:1090",
       "sourceSha256": "038b1f1304082948bfdefd204a1a5385f0e5fabafb5704a80ac58ed94003e943",
       "intent": "drawing",
-      "semanticSha256": "ef304da88dae085217ab4b42f8093b35f9e766d2a36c936311ad57ea4965d444",
+      "semanticSha256": "eded8fe2dfce73dc738dcbf79df612ff13f88675ac3bb0a9a40734f4e43d588d",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:1123",
       "sourceSha256": "47e7698080dfde9e2d2ce604a5fbd6296b90d35dfc15e916ea6f7d36ab725638",
       "intent": "drawing",
-      "semanticSha256": "d33b95c60e7fcd0e81356d249fa3fa47b1cea1ba087a50b21776761c03866e28",
+      "semanticSha256": "8fbc4993aa659dd48d8baa94bd2ae870117e5c1331ea0d6d6973622b7f01f90f",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:1157",
       "sourceSha256": "5ea826163c48e19b289544b753e00fef611b91dc2e90ab58f732bf8e54f801c7",
       "intent": "drawing",
-      "semanticSha256": "1cfe32a5c43a199477e7046a2da0cf0eeb6d0b43f97f1b598a364c197e307208",
+      "semanticSha256": "0e60b20ae3403dd511522ca0a01f5cc74ed66c9b57fdb85e69b64a1ed6b7f702",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:1190",
       "sourceSha256": "70a0d916e613bfbb3ab1b3b0cfab54c2bb7681c0af0600676309880986cf3af8",
       "intent": "drawing",
-      "semanticSha256": "175d98b262a4ab0e6f47c9864bdb3ef28cd68b4bc103001017575cb5c006c713",
+      "semanticSha256": "13ef2990eb50a6ca045174a6258c21a90f2fb958e5d86587c5523c69b2ef89fa",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:1225",
       "sourceSha256": "457923b6b9a404a183b4c57076f49d15e13ef516734aaed88991c41ad2508727",
       "intent": "drawing",
-      "semanticSha256": "96feea33da3b0ee6b7b44e49bbce51e3960553036b21b6daef4722f5dfb0ddbd",
+      "semanticSha256": "bd533972ef01ec457dc7607c0fb24d133673a9765eda3a8722965484a146f204",
       "profileEligible": true
     },
     {
@@ -2243,7 +2244,7 @@
       "id": "packages/mermaid/src/docs/syntax/mindmap.md:140",
       "sourceSha256": "cb6a59b35b4a4c0775a163535d1825c0565aadc0cd2b30025fd90a395d7fa3ea",
       "intent": "drawing",
-      "semanticSha256": "71b8a2343790287f312c701b7448794b79cbd8aedf3fc542cc51aaf0fcdec9a1",
+      "semanticSha256": "f3382fb3473384d1f836b476601bb2a93b5257ea301699a5167f4c4d11fd66aa",
       "profileEligible": true
     },
     {
@@ -2355,7 +2356,7 @@
       "id": "packages/mermaid/src/docs/syntax/radar.md:189",
       "sourceSha256": "8ac5e8cdf4bde31ea9d13949a16224fc52fb6c065b6c06f1a4fda6c2e4b9e107",
       "intent": "drawing",
-      "semanticSha256": "6b969ce90f54b0cdf697f29946d5a2729564aae28e8eb90b46be7e721fe0223a",
+      "semanticSha256": "0b51f386c01837954ccf422094787b37486fa46db63e8ee08a6e05b00e037868",
       "profileEligible": true
     },
     {
@@ -3139,49 +3140,49 @@
       "id": "packages/mermaid/src/docs/syntax/timeline.md:182",
       "sourceSha256": "64117926335cd14590d19d67b0d17bfca9b406f08c413b116a83704ca7764694",
       "intent": "drawing",
-      "semanticSha256": "5771a80bfc922db1e977d3790dd5a67a5603b97a98936e66a533468a95225f26",
+      "semanticSha256": "b564e07a36f2c1fa38288e511bf4b80ee0179366dad6b431518e0c025f6cb3a3",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/timeline.md:212",
       "sourceSha256": "f95f9c275a44121d44c0208019e8e1eb19f521084d44a8905ba0399eafc13c29",
       "intent": "drawing",
-      "semanticSha256": "98e934c8b4fe053f3cf1dfc206131d0d05a59247914b2a48df5af5559df3a44b",
+      "semanticSha256": "9e1ffa7d8ed0a3cd48c6869b4886edc894478030254b4bfe6df52290ffcf076b",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/timeline.md:261",
       "sourceSha256": "d355ed477cfd4b671660099d7b5f2aabed4f2f37dfb9b58b085dc8a96c5fc657",
       "intent": "drawing",
-      "semanticSha256": "679e8a37def1b25375453f01f0e44d64d749e4673851539ad99cda74c7cb8e30",
+      "semanticSha256": "d027841dce2bcb5f8ad3d59709bfc99c7822c07d8b20cce963222b994eb86ebb",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/timeline.md:280",
       "sourceSha256": "a24bead1895db6a5952242866563a286fdd35a2ba18f27356d81166929269d9f",
       "intent": "drawing",
-      "semanticSha256": "aa16d1198f37c04caf7dbcbc7d3b919b195cbaacb4035e1403e79b2212fd0142",
+      "semanticSha256": "7b2864288e933c751062894011534a1ce48c5f53eedc5830112eff6c13eca2c0",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/timeline.md:299",
       "sourceSha256": "f09678e83888b535e359e428ad53f8eabe9dc749bf6b7858398371983f79bb2f",
       "intent": "drawing",
-      "semanticSha256": "cc17cce238d4eecbee1dcde735aaa2c8b010d91777e9355f957766c87347c470",
+      "semanticSha256": "a14da5b73aace49ad777dedc99942a2ac3b6df874c7eaccdc3841fcf1308a5b4",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/timeline.md:318",
       "sourceSha256": "87eacd36f6ef7b35936d9d94ad985824a3bc3f42fb2aedabe170ede481a922fc",
       "intent": "drawing",
-      "semanticSha256": "7042053ef88ce9bfd6797955a813f1021ed8faa3519cacb8f7fbfc1cd4b971a2",
+      "semanticSha256": "1d54d608d243b70486fb0dcbfa8f54ff6ab5caa628cf075ff6045457df9b3676",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/timeline.md:337",
       "sourceSha256": "399391685b5266aa85385e61b0a4057003b40dba1db4dfe7e1f774b16b039bbc",
       "intent": "drawing",
-      "semanticSha256": "5a381137ad6a3c76d538f225de6f69e7075e73930db1b6ab0fd25ed12ff4f81f",
+      "semanticSha256": "c3cb4cfbbb134032cc0a0084da989eeced526734681d8640397bb7a51d46d07c",
       "profileEligible": true
     },
     {
@@ -3307,7 +3308,7 @@
       "id": "packages/mermaid/src/docs/syntax/treemap.md:115",
       "sourceSha256": "9acc1e6e648be555faaaec66700176bd56ab060fd39ea8dea1dc63856ecc037c",
       "intent": "drawing",
-      "semanticSha256": "89a56505921daf103fd93c57e739b242626cfbaa53a703f6e8841aed5b6fc01e",
+      "semanticSha256": "4181e716706c70289a4c0f12853bca8a6748de5f22f633e7f93b8201d9acc131",
       "profileEligible": true
     },
     {
@@ -3461,14 +3462,14 @@
       "id": "packages/mermaid/src/docs/syntax/usecase.md:407",
       "sourceSha256": "9f28c6340d44d92b81ca481f9a19c89a50822f1be0f4fde52e3e188ca19d8999",
       "intent": "drawing",
-      "semanticSha256": "e83ee57eb1352be1ba60dcc3ec9036137e35c4428aabe9e4e63b5126225986bd",
+      "semanticSha256": "2356e1545d72ac59f5547beae90bd9311195a570c239eab23cd1e93f224c621b",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/usecase.md:439",
       "sourceSha256": "b59e41d6c3ba23c6711c4df43423f7ebc52ec6d3caefb37d6fafb5800276a72d",
       "intent": "drawing",
-      "semanticSha256": "93901a87ff49d69f4b0a8385c99c69f2f6d12c28d2d9d420950f3b985ffe8c7f",
+      "semanticSha256": "82b9acec4a6cdc63ad943efec5961339f358771eb1c549212a5645b3ae73041b",
       "profileEligible": true
     },
     {
