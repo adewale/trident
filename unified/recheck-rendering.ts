@@ -23,12 +23,25 @@ const read = (file: string): any => readBenchmarkDocument(file)
 const write = (file: string, value: unknown) => { mkdirSync(dirname(file), { recursive: true }); writeFileSync(file, JSON.stringify(value) + '\n') }
 const safe = (root: string, path: string) => { const file = resolve(root, path); if (relative(root, file).startsWith('..')) throw Error('Retained witness escapes its campaign'); return file }
 
+/** Resolve only into the new evidence copy, including provenance roots retained
+ * by an earlier recheck. Never read the machine named in an archived path. */
+export function retainedPath(directory: string, out: string, aliases: string[], path: string) {
+  const absolute = resolve(directory, path)
+  for (const root of [directory, ...aliases]) {
+    const suffix = relative(root, absolute)
+    if (!suffix.startsWith('..') && !suffix.startsWith('/')) return safe(out, suffix)
+  }
+  throw Error('Retained witness is outside its recorded campaign roots')
+}
+
 /** Reassess retained bytes only. No artifact acquisition, public render call or
  * reference parser call occurs here; every original result remains alongside it. */
 export async function recheckRendering(directory: string, out: string, pngReviewFile?: string, executable?: string) {
   directory = resolve(directory); out = resolve(out)
   if (existsSync(out) || !relative(directory, out).startsWith('..')) throw Error('Choose a fresh output outside the input campaign')
   const recordedRoot = resolve(read(join(directory, 'report.json')).options?.out ?? directory)
+  const previous = join(directory, 'report.collected.json')
+  const aliases = [recordedRoot, ...(existsSync(previous) && read(previous).options?.out ? [resolve(read(previous).options.out)] : [])]
   const report = readCampaign(directory), began = new Date().toISOString()
   const inventoryFile = join(directory, 'preparation/inventories.json'), authored = expandedFidelityCases()
   const sourceInventory = read(inventoryFile)
@@ -41,11 +54,7 @@ export async function recheckRendering(directory: string, out: string, pngReview
   const pngReviews = admitPngReviews(docsInventory.cases, sourceReviews, JSON.parse(pngBytes.toString()) as DocsPngReview[])
   const producer = { source: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: tridentDirectory, encoding: 'utf8' }).trim(), producers: protocolIdentity(tridentDirectory, ['unified/recheck-rendering.ts']), browser: executableIdentity(executable ?? defaultChromium(chromium)), rendererInvocations: 0, environment: Object.fromEntries(['LANG', 'LC_ALL', 'LD_LIBRARY_PATH', 'FONTCONFIG_FILE', 'FONTCONFIG_PATH'].map(name => [name, process.env[name] ?? null])), fontReadiness: 'Await document.fonts.ready; only frozen campaign font assets can load', startedAt: began }
   cpSync(directory, out, { recursive: true, dereference: false, filter: path => !['node_modules', '.git'].includes(path.split('/').at(-1)!) })
-  const remap = (path: string) => {
-    const absolute = resolve(directory, path), inside = !relative(directory, absolute).startsWith('..')
-    const owned = inside ? absolute : safe(directory, relative(recordedRoot, safe(recordedRoot, absolute)))
-    return safe(out, relative(directory, owned))
-  }
+  const remap = (path: string) => retainedPath(directory, out, aliases, path)
   const prepared = read(join(directory, 'preparation/community-browser-prepared.json')) as any[]
   const browser = await chromium.launch({ headless: true, executablePath: executable ?? defaultChromium(chromium) })
   const context = await browser.newContext({ viewport: { width: 1400, height: 1000 }, serviceWorkers: 'block' })
@@ -136,7 +145,7 @@ export async function recheckRendering(directory: string, out: string, pngReview
       write(destination, result)
     }
   } finally { await context.close(); await browser.close() }
-  const updated = { ...report, options: { ...(report as any).options, out }, updatedAt: new Date().toISOString(), results: report.results.map(boundary => ({ ...boundary, ...(boundary.out ? { out: remap(boundary.out) } : {}) })), recheck: { ...producer, originalReportSha256: hash(readFileSync(join(directory, 'report.json'))), pngReviewSha256: hash(pngBytes), docsSvgChecked: docsChecked, featureSvgChecked: featureChecked }, scope: 'Coverage receipts with current retained-output checks. Original measurements and collected results remain present; SVG/PNG checks call no renderer. Clock comparisons remain unqualified.' }
+  const updated = { ...report, options: { ...(report as any).options, out }, updatedAt: new Date().toISOString(), results: report.results.map(boundary => ({ ...boundary, ...(boundary.out ? { out: remap(boundary.out) } : {}) })), recheck: { ...producer, recordedSourceRoot: recordedRoot, originalReportSha256: hash(readFileSync(join(directory, 'report.json'))), pngReviewSha256: hash(pngBytes), docsSvgChecked: docsChecked, featureSvgChecked: featureChecked }, scope: 'Coverage receipts with current retained-output checks. Original measurements and collected results remain present; SVG/PNG checks call no renderer. Clock comparisons remain unqualified.' }
   write(join(out, 'report.collected.json'), report); write(join(out, 'report.json'), updated)
   write(join(out, 'recheck-receipt.json'), updated.recheck)
   return updated.recheck
