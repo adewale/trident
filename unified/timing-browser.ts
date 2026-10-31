@@ -137,7 +137,7 @@ export async function runBrowserSvgTiming(options: BrowserSvgTimingOptions) {
     const target = frozen.selected.get(project)!
     admitPreparedFidelityEngine(target.peer)
     if (!servers.has(project)) {
-      const server = docsArtifactServer(target.peer.browser!.root, target.peer.browser!.zenuml)
+      const server = docsArtifactServer(target.peer.browser!.root, target.peer.browser!.zenuml, frozen.resources.resources.map((resource: any) => resource.url))
       await new Promise<void>(done => server.listen(0, '127.0.0.1', done))
       servers.set(project, { server, origin: 'http://127.0.0.1:' + (server.address() as { port: number }).port })
     }

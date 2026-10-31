@@ -2850,26 +2850,6 @@
         "D"
       ],
       "facts": {
-        "authored-style": [
-          {
-            "kind": "style",
-            "selection": "B",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#969"
-              },
-              {
-                "property": "stroke",
-                "value": "#333"
-              },
-              {
-                "property": "stroke-width",
-                "value": "4px"
-              }
-            ]
-          }
-        ],
         "node-shapes": [
           {
             "id": "db",
@@ -2954,6 +2934,16 @@
             "group": "ID",
             "value": "auto"
           }
+        ],
+        "node-paint": [
+          {
+            "id": "B",
+            "properties": {
+              "fill": "#969",
+              "stroke": "#333",
+              "stroke-width": "4px"
+            }
+          }
         ]
       },
       "nodes": [
@@ -3023,16 +3013,17 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "group-membership-and-labels",
-        "fact:authored-style",
         "fact:dialect-kinds",
         "fact:grid-cell-order",
         "fact:grid-columns",
+        "fact:node-paint",
         "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": [],
       "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
       ]
     }
   },
@@ -5022,26 +5013,6 @@
         "D"
       ],
       "facts": {
-        "authored-style": [
-          {
-            "kind": "style",
-            "selection": "B",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#939"
-              },
-              {
-                "property": "stroke",
-                "value": "#333"
-              },
-              {
-                "property": "stroke-width",
-                "value": "4px"
-              }
-            ]
-          }
-        ],
         "node-shapes": [
           {
             "id": "db",
@@ -5126,6 +5097,16 @@
             "group": "ID",
             "value": "auto"
           }
+        ],
+        "node-paint": [
+          {
+            "id": "B",
+            "properties": {
+              "fill": "#939",
+              "stroke": "#333",
+              "stroke-width": "4px"
+            }
+          }
         ]
       },
       "nodes": [
@@ -5195,16 +5176,17 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "group-membership-and-labels",
-        "fact:authored-style",
         "fact:dialect-kinds",
         "fact:grid-cell-order",
         "fact:grid-columns",
+        "fact:node-paint",
         "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": [],
       "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
       ]
     }
   },
@@ -5499,54 +5481,6 @@
         "Database"
       ],
       "facts": {
-        "authored-style": [
-          {
-            "kind": "classDef",
-            "selection": "front",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#696"
-              },
-              {
-                "property": "stroke",
-                "value": "#333"
-              }
-            ]
-          },
-          {
-            "kind": "classDef",
-            "selection": "back",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#969"
-              },
-              {
-                "property": "stroke",
-                "value": "#333"
-              }
-            ]
-          },
-          {
-            "kind": "class",
-            "selection": "Frontend",
-            "attributes": [
-              {
-                "class": "front"
-              }
-            ]
-          },
-          {
-            "kind": "class",
-            "selection": "Backend,Database",
-            "attributes": [
-              {
-                "class": "back"
-              }
-            ]
-          }
-        ],
         "node-shapes": [
           {
             "id": "blockArrowId6",
@@ -5651,6 +5585,29 @@
             "group": null,
             "value": 3
           }
+        ],
+        "node-paint": [
+          {
+            "id": "Backend",
+            "properties": {
+              "fill": "#969",
+              "stroke": "#333"
+            }
+          },
+          {
+            "id": "Database",
+            "properties": {
+              "fill": "#969",
+              "stroke": "#333"
+            }
+          },
+          {
+            "id": "Frontend",
+            "properties": {
+              "fill": "#696",
+              "stroke": "#333"
+            }
+          }
         ]
       },
       "nodes": [
@@ -5697,16 +5654,17 @@
         "visible-labels",
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
-        "fact:authored-style",
         "fact:dialect-kinds",
         "fact:grid-cell-order",
         "fact:grid-columns",
+        "fact:node-paint",
         "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": [],
       "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
       ]
     }
   },
@@ -5729,28 +5687,6 @@
         "End"
       ],
       "facts": {
-        "authored-style": [
-          {
-            "kind": "style",
-            "selection": "Start",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#969"
-              }
-            ]
-          },
-          {
-            "kind": "style",
-            "selection": "End",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#696"
-              }
-            ]
-          }
-        ],
         "node-shapes": [
           {
             "id": "Start",
@@ -5927,6 +5863,20 @@
             "group": null,
             "value": 3
           }
+        ],
+        "node-paint": [
+          {
+            "id": "End",
+            "properties": {
+              "fill": "#696"
+            }
+          },
+          {
+            "id": "Start",
+            "properties": {
+              "fill": "#969"
+            }
+          }
         ]
       },
       "nodes": [
@@ -5985,16 +5935,17 @@
         "visible-labels",
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
-        "fact:authored-style",
         "fact:dialect-kinds",
         "fact:grid-cell-order",
         "fact:grid-columns",
+        "fact:node-paint",
         "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": [],
       "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
       ]
     }
   },
@@ -6166,22 +6117,6 @@
         "A"
       ],
       "facts": {
-        "authored-style": [
-          {
-            "kind": "style",
-            "selection": "A",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#969"
-              },
-              {
-                "property": "stroke",
-                "value": "#333"
-              }
-            ]
-          }
-        ],
         "node-shapes": [],
         "grid-cell-order": [
           {
@@ -6195,6 +6130,15 @@
           {
             "group": null,
             "value": "auto"
+          }
+        ],
+        "node-paint": [
+          {
+            "id": "A",
+            "properties": {
+              "fill": "#969",
+              "stroke": "#333"
+            }
           }
         ]
       },
@@ -6218,15 +6162,16 @@
         "visible-labels",
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
-        "fact:authored-style",
         "fact:grid-cell-order",
         "fact:grid-columns",
+        "fact:node-paint",
         "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": [],
       "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
       ]
     }
   },
@@ -11706,18 +11651,6 @@
         "Animal"
       ],
       "facts": {
-        "authored-style": [
-          {
-            "kind": "classDef",
-            "selection": "someclass",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#f96"
-              }
-            ]
-          }
-        ],
         "members": [
           {
             "id": "Animal",
@@ -11748,12 +11681,14 @@
         "visible-labels",
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
-        "fact:authored-style",
         "fact:edge-appearance",
         "fact:members"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
+      ]
     }
   },
   {
@@ -11767,18 +11702,6 @@
         "Animal"
       ],
       "facts": {
-        "authored-style": [
-          {
-            "kind": "classDef",
-            "selection": "someclass",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#f96"
-              }
-            ]
-          }
-        ],
         "members": [
           {
             "id": "Animal",
@@ -11812,12 +11735,14 @@
         "visible-labels",
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
-        "fact:authored-style",
         "fact:edge-appearance",
         "fact:members"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
+      ]
     }
   },
   {
@@ -14851,32 +14776,6 @@
         "HOUSE"
       ],
       "facts": {
-        "entity-classes": [
-          {
-            "id": "CAR",
-            "classes": "someclass"
-          },
-          {
-            "id": "PERSON",
-            "classes": "someclass"
-          },
-          {
-            "id": "HOUSE",
-            "classes": "someclass"
-          }
-        ],
-        "authored-style": [
-          {
-            "kind": "classDef",
-            "selection": "someclass",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#f96"
-              }
-            ]
-          }
-        ],
         "attributes": [
           {
             "id": "CAR",
@@ -14923,7 +14822,27 @@
             "values": []
           }
         ],
-        "cardinalities": []
+        "cardinalities": [],
+        "node-paint": [
+          {
+            "id": "CAR",
+            "properties": {
+              "fill": "#f96"
+            }
+          },
+          {
+            "id": "HOUSE",
+            "properties": {
+              "fill": "#f96"
+            }
+          },
+          {
+            "id": "PERSON",
+            "properties": {
+              "fill": "#f96"
+            }
+          }
+        ]
       },
       "nodes": [
         {
@@ -14954,14 +14873,14 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "fact:attributes",
-        "fact:authored-style",
         "fact:cardinalities",
-        "fact:entity-classes"
+        "fact:node-paint"
       ],
       "unresolved": [],
       "excludedNonvisual": [],
       "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
       ]
     }
   },
@@ -14988,48 +14907,6 @@
         "HOUSE"
       ],
       "facts": {
-        "entity-classes": [
-          {
-            "id": "PERSON",
-            "classes": "foo"
-          },
-          {
-            "id": "HOUSE",
-            "classes": "bar"
-          }
-        ],
-        "authored-style": [
-          {
-            "kind": "classDef",
-            "selection": "foo",
-            "attributes": [
-              {
-                "property": "stroke",
-                "value": "#f00"
-              }
-            ]
-          },
-          {
-            "kind": "classDef",
-            "selection": "bar",
-            "attributes": [
-              {
-                "property": "stroke",
-                "value": "#0f0"
-              }
-            ]
-          },
-          {
-            "kind": "classDef",
-            "selection": "foobar",
-            "attributes": [
-              {
-                "property": "stroke",
-                "value": "#00f"
-              }
-            ]
-          }
-        ],
         "attributes": [
           {
             "id": "CAR",
@@ -15091,6 +14968,20 @@
             "right": "one-only",
             "identifying": true
           }
+        ],
+        "node-paint": [
+          {
+            "id": "HOUSE",
+            "properties": {
+              "stroke": "#0f0"
+            }
+          },
+          {
+            "id": "PERSON",
+            "properties": {
+              "stroke": "#f00"
+            }
+          }
         ]
       },
       "nodes": [
@@ -15132,12 +15023,14 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "fact:attributes",
-        "fact:authored-style",
         "fact:cardinalities",
-        "fact:entity-classes"
+        "fact:node-paint"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
+      ]
     }
   },
   {
@@ -15163,62 +15056,6 @@
         "HOUSE"
       ],
       "facts": {
-        "entity-classes": [
-          {
-            "id": "PERSON",
-            "classes": "foo"
-          },
-          {
-            "id": "HOUSE",
-            "classes": "bar"
-          }
-        ],
-        "authored-style": [
-          {
-            "kind": "classDef",
-            "selection": "default",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#f9f"
-              },
-              {
-                "property": "stroke-width",
-                "value": "4px"
-              }
-            ]
-          },
-          {
-            "kind": "classDef",
-            "selection": "foo",
-            "attributes": [
-              {
-                "property": "stroke",
-                "value": "#f00"
-              }
-            ]
-          },
-          {
-            "kind": "classDef",
-            "selection": "bar",
-            "attributes": [
-              {
-                "property": "stroke",
-                "value": "#0f0"
-              }
-            ]
-          },
-          {
-            "kind": "classDef",
-            "selection": "foobar",
-            "attributes": [
-              {
-                "property": "stroke",
-                "value": "#00f"
-              }
-            ]
-          }
-        ],
         "attributes": [
           {
             "id": "CAR",
@@ -15280,6 +15117,27 @@
             "right": "one-only",
             "identifying": true
           }
+        ],
+        "node-paint": [
+          {
+            "id": "CAR",
+            "properties": {
+              "fill": "#f9f",
+              "stroke-width": "4px"
+            }
+          },
+          {
+            "id": "HOUSE",
+            "properties": {
+              "stroke": "#0f0"
+            }
+          },
+          {
+            "id": "PERSON",
+            "properties": {
+              "stroke": "#f00"
+            }
+          }
         ]
       },
       "nodes": [
@@ -15321,12 +15179,14 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "fact:attributes",
-        "fact:authored-style",
         "fact:cardinalities",
-        "fact:entity-classes"
+        "fact:node-paint"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
+      ]
     }
   },
   {
@@ -16624,14 +16484,16 @@
             "text": "I am good thanks!"
           },
           {
-            "from": "Bob",
-            "to": "Alice",
-            "text": "Checking with John..."
+            "from": "Alice",
+            "to": "Bob",
+            "text": "Checking with John...",
+            "direction": "unprinted"
           },
           {
             "from": "Alice",
             "to": "John",
-            "text": "Yes... John, how are you?"
+            "text": "Yes... John, how are you?",
+            "direction": "unprinted"
           }
         ],
         "message-style": [
@@ -16768,7 +16630,10 @@
         "fact:text-line-breaks"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Sequence messages without arrowheads encode unordered endpoint pairs, caption, chronology and solid/dotted stroke; literal sender/receiver remain in source/native data rather than invented visible direction"
+      ]
     }
   },
   {
@@ -16899,62 +16764,6 @@
         "A"
       ],
       "facts": {
-        "authored-style": [
-          {
-            "kind": "classDef",
-            "selection": "green",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#9f6"
-              },
-              {
-                "property": "stroke",
-                "value": "#333"
-              },
-              {
-                "property": "stroke-width",
-                "value": "2px"
-              }
-            ]
-          },
-          {
-            "kind": "classDef",
-            "selection": "orange",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#f96"
-              },
-              {
-                "property": "stroke",
-                "value": "#333"
-              },
-              {
-                "property": "stroke-width",
-                "value": "4px"
-              }
-            ]
-          },
-          {
-            "kind": "class",
-            "selection": "sq,e",
-            "attributes": [
-              {
-                "class": "green"
-              }
-            ]
-          },
-          {
-            "kind": "class",
-            "selection": "di",
-            "attributes": [
-              {
-                "class": "orange"
-              }
-            ]
-          }
-        ],
         "node-shapes": [
           {
             "id": "sq",
@@ -17015,6 +16824,86 @@
             "stroke": "thick",
             "markerStart": "none",
             "markerEnd": "arrow"
+          }
+        ],
+        "text-line-breaks": [
+          {
+            "owner": {
+              "kind": "node",
+              "id": "ro"
+            },
+            "lines": [
+              "Rounded",
+              "square",
+              "shape"
+            ]
+          },
+          {
+            "owner": {
+              "kind": "node",
+              "id": "di"
+            },
+            "lines": [
+              "Diamond with ",
+              " line break"
+            ]
+          },
+          {
+            "owner": {
+              "kind": "node",
+              "id": "e"
+            },
+            "lines": [
+              "Inner / circle",
+              "and some odd ",
+              "special characters"
+            ]
+          },
+          {
+            "owner": {
+              "kind": "node",
+              "id": "od3"
+            },
+            "lines": [
+              "Really long text with linebreak",
+              "in an Odd shape"
+            ]
+          },
+          {
+            "owner": {
+              "kind": "edge",
+              "index": 1
+            },
+            "lines": [
+              "Two line",
+              "edge comment"
+            ]
+          }
+        ],
+        "node-paint": [
+          {
+            "id": "di",
+            "properties": {
+              "fill": "#f96",
+              "stroke": "#333",
+              "stroke-width": "4px"
+            }
+          },
+          {
+            "id": "e",
+            "properties": {
+              "fill": "#9f6",
+              "stroke": "#333",
+              "stroke-width": "2px"
+            }
+          },
+          {
+            "id": "sq",
+            "properties": {
+              "fill": "#9f6",
+              "stroke": "#333",
+              "stroke-width": "2px"
+            }
           }
         ]
       },
@@ -17142,14 +17031,16 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "group-membership-and-labels",
-        "fact:authored-style",
         "fact:edge-appearance",
-        "fact:node-shapes"
+        "fact:node-paint",
+        "fact:node-shapes",
+        "fact:text-line-breaks"
       ],
       "unresolved": [],
       "excludedNonvisual": [],
       "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
       ]
     }
   },
@@ -18190,6 +18081,19 @@
             "id": "newLines",
             "shape": "rectangle"
           }
+        ],
+        "text-line-breaks": [
+          {
+            "owner": {
+              "kind": "node",
+              "id": "newLines"
+            },
+            "lines": [
+              "Line1",
+              "    Line 2",
+              "    Line 3"
+            ]
+          }
         ]
       },
       "nodes": [
@@ -18224,7 +18128,8 @@
         "fact:authored-config",
         "fact:direction",
         "fact:markdown-source-labels",
-        "fact:node-shapes"
+        "fact:node-shapes",
+        "fact:text-line-breaks"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -24733,6 +24638,28 @@
             "id": "d",
             "shape": "rounded"
           }
+        ],
+        "text-line-breaks": [
+          {
+            "owner": {
+              "kind": "node",
+              "id": "a"
+            },
+            "lines": [
+              "The cat",
+              "  in the hat"
+            ]
+          },
+          {
+            "owner": {
+              "kind": "node",
+              "id": "c"
+            },
+            "lines": [
+              "The cat",
+              "  in the hat"
+            ]
+          }
         ]
       },
       "nodes": [
@@ -24805,7 +24732,8 @@
         "group-membership-and-labels",
         "fact:authored-config",
         "fact:markdown-source-labels",
-        "fact:node-shapes"
+        "fact:node-shapes",
+        "fact:text-line-breaks"
       ],
       "unresolved": [],
       "excludedNonvisual": [],
@@ -25266,23 +25194,11 @@
       ],
       "facts": {
         "direction": "LR",
-        "authored-style": [
-          {
-            "kind": "classDef",
-            "selection": "someclass",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#f96"
-              }
-            ]
-          }
-        ],
-        "node-attributes": [
+        "node-paint": [
           {
             "id": "A",
-            "attributes": {
-              "classes": "someclass"
+            "properties": {
+              "fill": "#f96"
             }
           }
         ]
@@ -25316,12 +25232,14 @@
         "visible-labels",
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
-        "fact:authored-style",
         "fact:direction",
-        "fact:node-attributes"
+        "fact:node-paint"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
+      ]
     }
   },
   {
@@ -25337,55 +25255,23 @@
         "C"
       ],
       "facts": {
-        "authored-style": [
-          {
-            "kind": "classDef",
-            "selection": "foo",
-            "attributes": [
-              {
-                "property": "stroke",
-                "value": "#f00"
-              }
-            ]
-          },
-          {
-            "kind": "classDef",
-            "selection": "bar",
-            "attributes": [
-              {
-                "property": "stroke",
-                "value": "#0f0"
-              }
-            ]
-          },
-          {
-            "kind": "classDef",
-            "selection": "foobar",
-            "attributes": [
-              {
-                "property": "stroke",
-                "value": "#00f"
-              }
-            ]
-          }
-        ],
-        "node-attributes": [
+        "node-paint": [
           {
             "id": "A",
-            "attributes": {
-              "classes": "foo"
+            "properties": {
+              "stroke": "#f00"
             }
           },
           {
             "id": "B",
-            "attributes": {
-              "classes": "bar"
+            "properties": {
+              "stroke": "#0f0"
             }
           },
           {
             "id": "C",
-            "attributes": {
-              "classes": "foobar"
+            "properties": {
+              "stroke": "#00f"
             }
           }
         ]
@@ -25433,13 +25319,13 @@
         "visible-labels",
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
-        "fact:authored-style",
-        "fact:node-attributes"
+        "fact:node-paint"
       ],
       "unresolved": [],
       "excludedNonvisual": [],
       "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
       ]
     }
   },
@@ -25456,31 +25342,13 @@
       ],
       "facts": {
         "direction": "LR",
-        "authored-style": [
-          {
-            "kind": "classDef",
-            "selection": "myStyle",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#ff0000"
-              },
-              {
-                "property": "stroke",
-                "value": "#ffff00"
-              },
-              {
-                "property": "stroke-width",
-                "value": "4px"
-              }
-            ]
-          }
-        ],
-        "node-attributes": [
+        "node-paint": [
           {
             "id": "A",
-            "attributes": {
-              "classes": "myStyle"
+            "properties": {
+              "fill": "#ff0000",
+              "stroke": "#ffff00",
+              "stroke-width": "4px"
             }
           }
         ]
@@ -25514,12 +25382,14 @@
         "visible-labels",
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
-        "fact:authored-style",
         "fact:direction",
-        "fact:node-attributes"
+        "fact:node-paint"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
+      ]
     }
   },
   {
@@ -35027,6 +34897,18 @@
             "id": "root/Origins/Long history",
             "decoration": "::icon(fa fa-book)"
           }
+        ],
+        "text-line-breaks": [
+          {
+            "owner": {
+              "kind": "node",
+              "id": "root/Research/On effectiveness\nand features"
+            },
+            "lines": [
+              "On effectiveness",
+              "and features"
+            ]
+          }
         ]
       },
       "nodes": [
@@ -35174,7 +35056,8 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "fact:decorations",
-        "fact:hierarchy"
+        "fact:hierarchy",
+        "fact:text-line-breaks"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -36181,6 +36064,19 @@
             "parent": "id1",
             "shape": "rectangle"
           }
+        ],
+        "text-line-breaks": [
+          {
+            "owner": {
+              "kind": "node",
+              "id": "id1"
+            },
+            "lines": [
+              "Root with",
+              "a second line",
+              "Unicode works too: 🤓"
+            ]
+          }
         ]
       },
       "nodes": [
@@ -36220,7 +36116,8 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "fact:hierarchy",
-        "fact:markdown-source-labels"
+        "fact:markdown-source-labels",
+        "fact:text-line-breaks"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -36898,54 +36795,6 @@
             }
           }
         ],
-        "authored-style": [
-          {
-            "kind": "classDef",
-            "selection": "class1",
-            "attributes": [
-              {
-                "property": "color",
-                "value": "#109060"
-              }
-            ]
-          },
-          {
-            "kind": "classDef",
-            "selection": "class2",
-            "attributes": [
-              {
-                "property": "color",
-                "value": "#908342"
-              },
-              {
-                "property": "radius",
-                "value": "10"
-              },
-              {
-                "property": "stroke-color",
-                "value": "#310085"
-              },
-              {
-                "property": "stroke-width",
-                "value": "10px"
-              }
-            ]
-          },
-          {
-            "kind": "classDef",
-            "selection": "class3",
-            "attributes": [
-              {
-                "property": "color",
-                "value": "#f00fff"
-              },
-              {
-                "property": "radius",
-                "value": "10"
-              }
-            ]
-          }
-        ],
         "points": [
           {
             "label": "Campaign A",
@@ -37015,7 +36864,6 @@
       "expectedFactsComplete": true,
       "requiredObligations": [
         "visible-labels",
-        "fact:authored-style",
         "fact:axes",
         "fact:point-appearance",
         "fact:points",
@@ -37023,7 +36871,10 @@
         "fact:title"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
+      ]
     }
   },
   {
@@ -39947,40 +39798,6 @@
         "simulation"
       ],
       "facts": {
-        "authored-style": [
-          {
-            "kind": "classDef",
-            "selection": "important",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#f96"
-              },
-              {
-                "property": "stroke",
-                "value": "#333"
-              },
-              {
-                "property": "stroke-width",
-                "value": "4px"
-              }
-            ]
-          },
-          {
-            "kind": "classDef",
-            "selection": "test",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#ffa"
-              },
-              {
-                "property": "stroke",
-                "value": "#000"
-              }
-            ]
-          }
-        ],
         "definitions": [
           {
             "name": "test_req",
@@ -40022,11 +39839,13 @@
         "visible-labels",
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
-        "fact:authored-style",
         "fact:definitions"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
+      ]
     }
   },
   {
@@ -43954,7 +43773,8 @@
           {
             "from": "Alice",
             "to": "John",
-            "text": "Hello John, how are you?"
+            "text": "Hello John, how are you?",
+            "direction": "unprinted"
           }
         ],
         "message-style": [
@@ -44023,7 +43843,10 @@
         "fact:participant-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Sequence messages without arrowheads encode unordered endpoint pairs, caption, chronology and solid/dotted stroke; literal sender/receiver remain in source/native data rather than invented visible direction"
+      ]
     }
   },
   {
@@ -44044,7 +43867,8 @@
           {
             "from": "Alice",
             "to": "John",
-            "text": "Hello John,\nhow are you?"
+            "text": "Hello John,\nhow are you?",
+            "direction": "unprinted"
           }
         ],
         "message-style": [
@@ -44136,7 +43960,10 @@
         "fact:text-line-breaks"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Sequence messages without arrowheads encode unordered endpoint pairs, caption, chronology and solid/dotted stroke; literal sender/receiver remain in source/native data rather than invented visible direction"
+      ]
     }
   },
   {
@@ -44157,7 +43984,8 @@
           {
             "from": "Alice",
             "to": "John",
-            "text": "Hello John,\nhow are you?"
+            "text": "Hello John,\nhow are you?",
+            "direction": "unprinted"
           }
         ],
         "message-style": [
@@ -44259,7 +44087,10 @@
         "fact:text-line-breaks"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Sequence messages without arrowheads encode unordered endpoint pairs, caption, chronology and solid/dotted stroke; literal sender/receiver remain in source/native data rather than invented visible direction"
+      ]
     }
   },
   {
@@ -44281,12 +44112,14 @@
           {
             "from": "Alice",
             "to": "John",
-            "text": "Hello John, how are you?"
+            "text": "Hello John, how are you?",
+            "direction": "unprinted"
           },
           {
-            "from": "John",
-            "to": "Alice",
-            "text": "Great!"
+            "from": "Alice",
+            "to": "John",
+            "text": "Great!",
+            "direction": "unprinted"
           }
         ],
         "message-style": [
@@ -44362,7 +44195,10 @@
         "fact:participant-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Sequence messages without arrowheads encode unordered endpoint pairs, caption, chronology and solid/dotted stroke; literal sender/receiver remain in source/native data rather than invented visible direction"
+      ]
     }
   },
   {
@@ -44872,19 +44708,22 @@
       "facts": {
         "message-order": [
           {
-            "from": "Service",
-            "to": "DB",
-            "text": "connect"
+            "from": "DB",
+            "to": "Service",
+            "text": "connect",
+            "direction": "unprinted"
           },
           {
             "from": "Service",
             "to": "Service",
-            "text": "Log error"
+            "text": "Log error",
+            "direction": "unprinted"
           },
           {
             "from": "Service",
             "to": "Service",
-            "text": "Log different error"
+            "text": "Log different error",
+            "direction": "unprinted"
           }
         ],
         "message-style": [
@@ -44983,7 +44822,10 @@
         "fact:participant-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Sequence messages without arrowheads encode unordered endpoint pairs, caption, chronology and solid/dotted stroke; literal sender/receiver remain in source/native data rather than invented visible direction"
+      ]
     }
   },
   {
@@ -45002,9 +44844,10 @@
       "facts": {
         "message-order": [
           {
-            "from": "Service",
-            "to": "DB",
-            "text": "connect"
+            "from": "DB",
+            "to": "Service",
+            "text": "connect",
+            "direction": "unprinted"
           }
         ],
         "message-style": [
@@ -45071,7 +44914,10 @@
         "fact:participant-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Sequence messages without arrowheads encode unordered endpoint pairs, caption, chronology and solid/dotted stroke; literal sender/receiver remain in source/native data rather than invented visible direction"
+      ]
     }
   },
   {
@@ -45095,24 +44941,28 @@
       "facts": {
         "message-order": [
           {
-            "from": "Consumer",
-            "to": "API",
-            "text": "Book something"
+            "from": "API",
+            "to": "Consumer",
+            "text": "Book something",
+            "direction": "unprinted"
           },
           {
             "from": "API",
             "to": "BookingService",
-            "text": "Start booking process"
+            "text": "Start booking process",
+            "direction": "unprinted"
           },
           {
             "from": "API",
             "to": "Consumer",
-            "text": "show failure"
+            "text": "show failure",
+            "direction": "unprinted"
           },
           {
             "from": "API",
             "to": "BillingService",
-            "text": "Start billing process"
+            "text": "Start billing process",
+            "direction": "unprinted"
           }
         ],
         "message-style": [
@@ -45224,7 +45074,10 @@
         "fact:participant-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Sequence messages without arrowheads encode unordered endpoint pairs, caption, chronology and solid/dotted stroke; literal sender/receiver remain in source/native data rather than invented visible direction"
+      ]
     }
   },
   {
@@ -48244,12 +48097,6 @@
             "id": "D",
             "kind": "state"
           }
-        ],
-        "group-directions": [
-          {
-            "group": "B",
-            "direction": "LR"
-          }
         ]
       },
       "nodes": [
@@ -48320,7 +48167,13 @@
         }
       ],
       "advisoryFacts": {
-        "direction": "LR"
+        "direction": "LR",
+        "group-directions": [
+          {
+            "group": "B",
+            "direction": "LR"
+          }
+        ]
       }
     },
     "sourceReview": {
@@ -48333,14 +48186,14 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "group-membership-and-labels",
-        "fact:group-directions",
         "fact:pseudostates",
         "fact:state-kinds"
       ],
       "unresolved": [],
       "excludedNonvisual": [],
       "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
+        "Literal group-directions is retained as advisory layout intent; its own syntax does not establish a strict per-edge/rank obligation"
       ]
     }
   },
@@ -54250,26 +54103,6 @@
         "C"
       ],
       "facts": {
-        "authored-style": [
-          {
-            "kind": "classDef",
-            "selection": "important",
-            "attributes": [
-              {
-                "property": "fill",
-                "value": "#f96"
-              },
-              {
-                "property": "stroke",
-                "value": "#333"
-              },
-              {
-                "property": "stroke-width",
-                "value": "2px"
-              }
-            ]
-          }
-        ],
         "hierarchy": [
           {
             "id": "Main",
@@ -54281,8 +54114,7 @@
           },
           {
             "id": "Main/B",
-            "parent": "Main",
-            "class": "important"
+            "parent": "Main"
           },
           {
             "id": "Main/B/B1",
@@ -54355,6 +54187,16 @@
             "value": 5,
             "format": ","
           }
+        ],
+        "node-paint": [
+          {
+            "id": "Main/B",
+            "properties": {
+              "fill": "#f96",
+              "stroke": "#333",
+              "stroke-width": "2px"
+            }
+          }
         ]
       },
       "nodes": [
@@ -54392,16 +54234,17 @@
       "requiredObligations": [
         "visible-labels",
         "node-identities-and-labels",
-        "fact:authored-style",
         "fact:displayed-values",
         "fact:hierarchy",
+        "fact:node-paint",
         "fact:show-values",
         "fact:values"
       ],
       "unresolved": [],
       "excludedNonvisual": [],
       "visualProjections": [
-        "Treemap area encodes sibling weight fractions including independently derived subtree aggregates; showValues defaults true, so printed source values remain separate obligations unless explicitly disabled"
+        "Treemap area encodes sibling weight fractions including independently derived subtree aggregates; showValues defaults true, so printed source values remain separate obligations unless explicitly disabled",
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
       ]
     }
   },
@@ -56089,6 +55932,18 @@
             "id": "Reviewer",
             "kind": "actor"
           }
+        ],
+        "text-line-breaks": [
+          {
+            "owner": {
+              "kind": "node",
+              "id": "Formatted"
+            },
+            "lines": [
+              "Formatted label",
+              "with a physical line break"
+            ]
+          }
         ]
       },
       "nodes": [
@@ -56148,7 +56003,8 @@
         "relationship-endpoints-directions-labels",
         "fact:dialect-kinds",
         "fact:markdown-source-labels",
-        "fact:node-shapes"
+        "fact:node-shapes",
+        "fact:text-line-breaks"
       ],
       "unresolved": [],
       "excludedNonvisual": [],
@@ -57182,28 +57038,6 @@
         "Inspect payload"
       ],
       "facts": {
-        "authored-style": [
-          {
-            "kind": "classDef",
-            "selection": "data",
-            "attributes": [
-              {
-                "property": "stroke",
-                "value": "#3572a5"
-              }
-            ]
-          },
-          {
-            "kind": "style",
-            "selection": "Payload",
-            "attributes": [
-              {
-                "property": "stroke-width",
-                "value": "2px"
-              }
-            ]
-          }
-        ],
         "node-shapes": [
           {
             "id": "Inspect",
@@ -57212,14 +57046,6 @@
           {
             "id": "Payload",
             "shape": "json-table"
-          }
-        ],
-        "node-attributes": [
-          {
-            "id": "Payload",
-            "attributes": {
-              "classes": "data"
-            }
           }
         ],
         "dialect-kinds": [
@@ -57285,6 +57111,15 @@
             ],
             "classes": "data"
           }
+        ],
+        "node-paint": [
+          {
+            "id": "Payload",
+            "properties": {
+              "stroke": "#3572a5",
+              "stroke-width": "2px"
+            }
+          }
         ]
       },
       "nodes": [
@@ -57319,15 +57154,15 @@
         "visible-labels",
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
-        "fact:authored-style",
         "fact:dialect-kinds",
-        "fact:node-attributes",
+        "fact:node-paint",
         "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": [],
       "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
       ]
     }
   },
@@ -58424,6 +58259,18 @@
             "id": "Customer",
             "kind": "actor"
           }
+        ],
+        "text-line-breaks": [
+          {
+            "owner": {
+              "kind": "node",
+              "id": "Reset"
+            },
+            "lines": [
+              "Reset",
+              "password"
+            ]
+          }
         ]
       },
       "nodes": [
@@ -58471,7 +58318,8 @@
         "relationship-endpoints-directions-labels",
         "fact:dialect-kinds",
         "fact:markdown-source-labels",
-        "fact:node-shapes"
+        "fact:node-shapes",
+        "fact:text-line-breaks"
       ],
       "unresolved": [],
       "excludedNonvisual": [],

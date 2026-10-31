@@ -1,5 +1,5 @@
 import { readFileSync, realpathSync, writeFileSync } from 'node:fs'
-import { dirname, isAbsolute, relative, resolve } from 'node:path'
+import { basename, dirname, isAbsolute, relative, resolve } from 'node:path'
 import { timingFromRetainedBundle } from '../portable/qualified-timing.ts'
 import { readCheckpointEntries } from '../portable/checkpoint.ts'
 import { admitInvocationEvidence, evidenceBytesDigest, evidenceDigest, type InvocationEvidence } from '../portable/evidence-contract.ts'
@@ -18,9 +18,17 @@ export function qualifyRetainedTimingBundle(bundle: any, root: string) {
   if (isAbsolute(journalPath) || journalPath === '..' || journalPath.startsWith('../')) throw Error('Timing journal is outside the owning bundle')
   const frames = readCheckpointEntries<InvocationEvidence>(journalDirectory, { schema: 'trident-invocation-journal-v1' }).map(([_key, value]) => admitInvocationEvidence(value))
   const readOwned = (output: NonNullable<InvocationEvidence['output']>) => {
-    const path = resolve(root, output.path), owned = relative(root, path)
+    let path = resolve(root, output.path)
+    const owned = relative(root, path)
+    if (isAbsolute(owned) || owned === '..' || owned.startsWith('../')) {
+      // Raw frames remain immutable when a complete bundle is copied. Resolve
+      // only the journal's original content-addressed output convention into
+      // this bundle; never read the former machine's absolute path.
+      if (basename(path) !== output.sha256 || basename(dirname(path)) !== 'outputs') throw Error('Timing output is outside the owning bundle')
+      path = resolve(journalDirectory, 'outputs', output.sha256)
+    }
     const actual = relative(realpathSync(root), realpathSync(path))
-    if (isAbsolute(owned) || owned === '..' || owned.startsWith('../') || isAbsolute(actual) || actual === '..' || actual.startsWith('../')) throw Error('Timing output is outside the owning bundle')
+    if (isAbsolute(actual) || actual === '..' || actual.startsWith('../')) throw Error('Timing output is outside the owning bundle')
     return readFileSync(path)
   }
   // Validate every raw reference before any selected-sample reduction. Extra

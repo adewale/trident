@@ -20,7 +20,7 @@ test('CI runs deterministic checks, help, support and a no-acquisition campaign 
 
 test('CI still rejects measurement, artifact acquisition and the local full suite before creating output', () => {
   for (const indicators of [{ CI: 'true', GITHUB_ACTIONS: 'true' }, { CI: 'false', GITHUB_ACTIONS: 'true' }]) {
-    for (const args of [['bench', '--projects', 'mermaid-js/mermaid'], ['community:update', '--projects', 'mermaid-js/mermaid', '--plan'], ['mermaid:install', '--dir'], ['upstream:prepare'], ['portable'], ['docs:png'], ['test']]) {
+    for (const args of [['bench', '--projects', 'mermaid-js/mermaid'], ['community:update', '--projects', 'mermaid-js/mermaid', '--plan'], ['mermaid:install', '--dir'], ['upstream:prepare'], ['portable'], ['timing:browser'], ['docs:png'], ['test']]) {
       const out = join(temp.dir(), 'must-not-exist')
       const result = run(args.includes('--dir') ? [...args, out] : [...args, '--out', out], indicators)
       expect(result.status).not.toBe(0)

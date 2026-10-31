@@ -1,6 +1,6 @@
 import { expect, test } from 'bun:test'
 import { Worker } from 'node:worker_threads'
-import { readFileSync, writeFileSync, existsSync } from 'node:fs'
+import { readFileSync, writeFileSync, existsSync, cpSync, rmSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { once } from 'node:events'
 import { spawnSync } from 'node:child_process'
@@ -43,6 +43,15 @@ test('real per-call capture qualifies through the public offline CLI and never i
   const file = join(f.root, 'offline.json'), command = spawnSync(process.env.BUN_BIN ?? 'bun', ['commands.ts', 'timing:qualify', '--bundle', result.bundleFile, '--out', file], { cwd: join(import.meta.dir, '..'), encoding: 'utf8' })
   expect(command.status, command.stderr).toBe(0)
   expect(JSON.parse(readFileSync(file, 'utf8')).status).toBe('qualified')
+  const copied = join(temp.dir(), 'copied-capture')
+  cpSync(out, copied, { recursive: true })
+  const journalBefore = readdirSync(join(copied, 'raw'), { recursive: true }).sort()
+  const originalBundle = readFileSync(result.bundleFile)
+  rmSync(out, { recursive: true })
+  const copiedBundle = join(copied, result.bundleFile.split('/').at(-1)!)
+  expect(qualifyRetainedTiming(copiedBundle)!.status).toBe('qualified')
+  expect(readFileSync(copiedBundle)).toEqual(originalBundle)
+  expect(readdirSync(join(copied, 'raw'), { recursive: true }).sort()).toEqual(journalBefore)
 })
 
 test('grading crash resumes complete raw output with stable attempts, original clocks and zero new calls', async () => {
