@@ -164,6 +164,22 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       }
       if (blocks.length) return blocks
     }
+    // Requirement risk/verification tokens are enums, not authored literal
+    // captions. Their field headings and enum capitalization may differ while
+    // the independently owned definition rows retain the same semantic value.
+    if (input.family === 'requirement' && !(input.expected.nodes ?? []).some(node => node.label === label)) {
+      const definitions = input.expected.facts?.definitions, wanted = normalize(label).toLowerCase()
+      if (Array.isArray(definitions)) {
+        const risk = ['low', 'medium', 'high'].includes(wanted) && definitions.some((entry: any) => String(entry.fields?.risk ?? '').toLowerCase() === wanted)
+        const verify = ['analysis', 'inspection', 'test', 'demonstration'].includes(wanted) && definitions.some((entry: any) => String(entry.fields?.verifymethod ?? '').toLowerCase() === wanted)
+        if (risk || verify) {
+          const heading = risk ? 'risk' : '(?:verification|verify[ _-]*method)'
+          const field = new RegExp('^' + heading + '\\s*:\\s*' + wanted + '$', 'iu')
+          const rows = labelElements.filter(element => field.test(normalize(labelText(element))))
+          if (rows.length) return rows
+        }
+      }
+    }
     const token = normalize(label).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     const pattern = new RegExp('(?<![\\p{L}\\p{N}_])' + token + '(?![\\p{L}\\p{N}_])', 'u')
     return labelElements.filter(element => pattern.test(normalize(labelText(element))))

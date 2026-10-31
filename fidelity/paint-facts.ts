@@ -276,7 +276,7 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
         return { label: slice.label, quantities: matches.map(match => ({ value: Number(match![1]), percent: match![2] === '%' })), expected: slice.value }
       })
       const supported = observed.every((item: any) => item.quantities.length <= 1)
-      add(key, observed, supported ? facts[key] ? observed.every((item: any) => item.quantities.length === 1 && !item.quantities[0].percent && Math.abs(item.quantities[0].value - item.expected) < 1e-9) : observed.every((item: any) => item.quantities.length === 0) : null, 'Requested pie data values require exact visible legend quantities; a percentage or native model value cannot substitute for the requested absolute display')
+      add(key, observed, supported ? facts[key] ? observed.every((item: any) => item.quantities.length === 1 && !item.quantities[0].percent && Math.abs(item.quantities[0].value - item.expected) < 1e-9) : observed.every((item: any) => item.quantities.every((quantity: any) => quantity.percent)) : null, 'Requested pie data values require exact visible absolute legend quantities. With showData disabled, optional percentages are distinct from absolute data; their values remain subject to the independent fraction observer.')
       continue
     }
     if (key === 'image-requests' && Array.isArray(facts[key])) {
