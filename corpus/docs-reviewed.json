@@ -11657,10 +11657,12 @@
             "values": []
           }
         ],
-        "edge-appearance": [
+        "node-paint": [
           {
             "id": "Animal",
-            "classes": "someclass"
+            "properties": {
+              "fill": "#f96"
+            }
           }
         ]
       },
@@ -11681,8 +11683,8 @@
         "visible-labels",
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
-        "fact:edge-appearance",
-        "fact:members"
+        "fact:members",
+        "fact:node-paint"
       ],
       "unresolved": [],
       "excludedNonvisual": [],
@@ -11711,10 +11713,12 @@
             ]
           }
         ],
-        "edge-appearance": [
+        "node-paint": [
           {
             "id": "Animal",
-            "classes": "someclass"
+            "properties": {
+              "fill": "#f96"
+            }
           }
         ]
       },
@@ -11735,8 +11739,8 @@
         "visible-labels",
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
-        "fact:edge-appearance",
-        "fact:members"
+        "fact:members",
+        "fact:node-paint"
       ],
       "unresolved": [],
       "excludedNonvisual": [],
@@ -11757,6 +11761,14 @@
         "Mineral"
       ],
       "facts": {
+        "node-attributes": [
+          {
+            "id": "Animal",
+            "attributes": {
+              "classes": "pink"
+            }
+          }
+        ],
         "authored-style": [
           {
             "kind": "classDef",
@@ -11792,12 +11804,6 @@
             "id": "Mineral",
             "values": []
           }
-        ],
-        "edge-appearance": [
-          {
-            "id": "Animal",
-            "classes": "pink"
-          }
         ]
       },
       "nodes": [
@@ -11822,8 +11828,8 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "fact:authored-style",
-        "fact:edge-appearance",
-        "fact:members"
+        "fact:members",
+        "fact:node-attributes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -11845,12 +11851,6 @@
             "id": "Animal",
             "values": []
           }
-        ],
-        "edge-appearance": [
-          {
-            "id": "Animal",
-            "classes": "styleClass"
-          }
         ]
       },
       "nodes": [
@@ -11870,11 +11870,13 @@
         "visible-labels",
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
-        "fact:edge-appearance",
         "fact:members"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
+      ]
     }
   },
   {

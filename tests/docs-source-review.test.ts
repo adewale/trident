@@ -42,6 +42,15 @@ test('class declarations and members do not get consumed as CSS class directives
   const value = facts('classDiagram\nclass Bird {\n+String name\n+fly() bool\n}\nclass Duck:::bird\nBird <|-- Duck\nclassDef bird fill:red')
   expect(value.members).toEqual([{ id: 'Bird', values: ['+String name', '+fly() bool'] }, { id: 'Duck', values: [] }])
   expect(value['edge-appearance']).toContainEqual({ from: 'Bird', to: 'Duck', stroke: 'solid' })
+  expect(value['node-attributes']).toEqual([{ id: 'Duck', attributes: { classes: 'bird' } }])
+})
+
+test('inline class assignments survive source style lowering for ordinary and block declarations', () => {
+  for (const declaration of ['class Animal:::someclass', 'class Animal:::someclass {\n-int age\n}']) {
+    const row = reviewDocumentationSource(input('classDiagram\n' + declaration + '\nclassDef someclass fill:#f96'))
+    expect(row.expected!.facts!['node-paint']).toEqual([{ id: 'Animal', properties: { fill: '#f96' } }])
+    expect(row.expected!.facts!['edge-appearance']).toBeUndefined()
+  }
 })
 
 test('entity cardinality aliases, attributes, groups and layout remain explicit', () => {

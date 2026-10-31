@@ -883,7 +883,7 @@ function classes(r: LiteralReview) {
     match = /^namespace\s+([\w.-]+)(?:\s*\[([^\]]+)\])?\s*\{$/.exec(line)
     if (match) { stack.push({ kind: 'namespace', id: namespace(match[1]!, match[2]) }); continue }
     const inlineAnnotation = /^class\s+([\w.-]+)\s+<<([^>]+)>>$/.exec(line); if (inlineAnnotation) { annotations.push({ id: node(inlineAnnotation[1]!), annotation: inlineAnnotation[2]! }); r.labels(inlineAnnotation[2]!); continue }
-    const classShorthand = /^class\s+([\w.-]+):::([\w,-]+)\s*(\{)?$/.exec(line); if (classShorthand) { const id = node(classShorthand[1]!); appearance.push({ id, classes: classShorthand[2]! }); if (classShorthand[3]) stack.push({ kind: 'class', id }); continue }
+    const classShorthand = /^class\s+([\w.-]+):::([\w,-]+)\s*(\{)?$/.exec(line); if (classShorthand) { const id = node(classShorthand[1]!); r.fact('node-attributes', [...(r.expected.facts!['node-attributes'] as MeaningJson[] ?? []), { id, attributes: { classes: classShorthand[2]! } }]); if (classShorthand[3]) stack.push({ kind: 'class', id }); continue }
     match = new RegExp('^class\\s+(' + idPattern + ')(?:~([^~]+)~)?(?:\\[(.*?)\\])?\\s*(\\{)?$').exec(line)
     if (match) { const id = node(match[1]!, match[3] === undefined ? undefined : cleanLabel(match[3])); if (match[2]) generics.push({ id, parameter: match[2] }); if (match[4]) stack.push({ kind: 'class', id }); continue }
     match = /^note(?:\s+for\s+(`[^`]+`|[\w.-]+))?\s+"([\s\S]*)"$/.exec(line)
