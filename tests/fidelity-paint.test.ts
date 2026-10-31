@@ -127,7 +127,7 @@ test('browser paint rejects hidden and clipped authored labels, not just missing
   expect(multiline.passed).toBe(true)
 })
 
-test('image prerequisites stay unknown while missing/wrong assets and nonvisible requested geometry fail', async () => {
+test('image representation/prerequisite gaps stay unknown while exact decoded nonvisible geometry fails', async () => {
   const broken = 'data:image/png;base64,invalid'
   const badImage = await inspect(fixture.replace('</svg>', `<image href="${broken}" width="20" height="20"/></svg>`), expected, { paint: { images: [{ href: broken, count: 1 }] } })
   expect(badImage.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('unavailable')
@@ -139,10 +139,23 @@ test('image prerequisites stay unknown while missing/wrong assets and nonvisible
   expect(blocked.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('unavailable')
   expect(blocked.passed).toBe(false)
   const wrong = await inspect(retained.replace(red, broken), expected, { paint: { images: [{ href: red, count: 1 }] } })
-  expect(wrong.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('failed')
+  expect(wrong.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('unavailable')
   expect(wrong.checks.find(item => item.criterion === 'emitted-image-decoding')?.status).toBe('unavailable')
   const omitted = await inspect(fixture, expected, { paint: { images: [{ href: red, count: 1 }] } })
-  expect(omitted.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('failed')
+  expect(omitted.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('unavailable')
+  // Exactly the same existing PNG bytes have two legal URI encodings. The
+  // bounded href observer cannot call their equivalence a renderer failure or
+  // independently certify it merely because this fixture knows the bytes.
+  const equivalent = 'data:image/png,' + [...Buffer.from(red.split(',')[1]!, 'base64')].map(byte => '%' + byte.toString(16).padStart(2, '0')).join('')
+  const reencoded = await inspect(retained.replace(red, equivalent), expected, { paint: { images: [{ href: red, count: 1 }] } })
+  expect(reencoded.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('unavailable')
+  expect(reencoded.checks.find(item => item.criterion === 'emitted-image-decoding')?.status).toBe('passed')
+  expect(reencoded.passed).toBe(false)
+  // The same frozen red fixture can be inlined instead of retaining its
+  // source URL; URL spelling alone cannot establish wrong image contents.
+  const inlined = await inspect(retained, expected, { paint: { images: [{ href: 'https://fixture.invalid/frozen-red.png', count: 1 }] } })
+  expect(inlined.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('unavailable')
+  expect(inlined.checks.find(item => item.criterion === 'emitted-image-decoding')?.status).toBe('passed')
   const hiddenImage = await inspect(retained.replace('x="100" y="50" width="20"', 'x="100" y="50" opacity="0" width="20"'), expected, { paint: { images: [{ href: red, count: 1 }] } })
   expect(hiddenImage.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('failed')
   const ambiguous = await inspect(fixture.replace('</svg>', '<g><rect x="10" y="50" width="60" height="25"/><text x="14" y="68">Alpha</text></g></svg>'))
