@@ -42,7 +42,11 @@ old=ws/'trident-ecosystem-2026-10-31-campaign/docs/png'
 for file in [old/'context.json',old/'observations.json',old/'checkpoint.json',old/'checkpoint.jsonl.gz',old/'transport-pub%3Amermaid_flutter-r1.json',old/'community-prepared.json']:
  add(file)
 for pattern in ['community-raw/pub_mermaid_flutter-png-r1-features-a1*']:
- for file in old.glob(pattern):add(file)
+ for file in old.glob(pattern):
+  if file.is_dir():
+   for child in file.rglob('*'):
+    if child.is_file():add(child)
+  else:add(file)
 raw=old/'community-raw/pub_mermaid_flutter-png-r1-features-a1.jsonl'
 if raw.exists():
  for line in raw.read_text().splitlines():
@@ -86,7 +90,7 @@ for row in index['files']:
 def put(tar,name,data):
  item=tarfile.TarInfo(name);item.size=len(data);item.mode=0o644;item.mtime=0;tar.addfile(item,io.BytesIO(data))
 index_bytes=(json.dumps(index,ensure_ascii=False,indent=2)+'\n').encode();pending=P(str(out)+'.pending')
-with tarfile.open(pending,'w:gz',compresslevel=6)as tar:
+with tarfile.open(pending,'w:gz',compresslevel=9)as tar:
  put(tar,'index.json',index_bytes)
  for digest,path in sorted(objects.items()):
   data=P(path).read_bytes()
