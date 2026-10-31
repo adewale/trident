@@ -14,7 +14,7 @@ This establishes invocation, retention, input propagation and five scoped public
 
 ## Production timing-path check
 
-[Exact source](browser-first-use/sources.json): one independent Trident-authored flowchart, `meaning:family:flowchart`. This is a bounded mechanism check, not the DaveBench corpus. The two projects use the same first-use public SVG boundary: fresh browser contexts, controller/page RPC and shared adapter cleanup included; imports, initialization, retention and grading excluded.
+[Exact source](browser-first-use/sources.json): one portable flowchart, `meaning:family:flowchart`, inherited from Agentic Mermaid when [Trident was extracted](https://github.com/adewale/trident/blob/1c653fb61183672e033125dbf53ae3900d29d862/portable/cohorts.ts#L32). Its semantic expectations were independently reviewed. This is a bounded mechanism check, not the DaveBench corpus. The two projects use the same first-use public SVG boundary: fresh browser contexts, controller/page RPC and shared adapter cleanup included; imports, initialization, retention and grading excluded.
 
 | Rank by observed median time | Project | Actual calls | Correct checked outputs | Median ms |
 |---:|---|---:|---:|---:|
