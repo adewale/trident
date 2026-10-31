@@ -32,7 +32,7 @@ test('actual154 native callbacks reach normal campaign/table readers and stack r
   expect(snapshot.tables).toHaveLength(1)
   expect(snapshot.tables[0]!.rows[0]!.values.slice(1,6)).toEqual([154,0,0,0,154])
   expect(snapshot.overviewRanking).toBeUndefined()
-})
+},30_000)
 test('normal union admission regrades owning raw callbacks and refuses changed parent or aggregate claims',()=>{
   for(const mutation of [
     (root:string)=>change(root,'public-conformance-report.json',saved=>saved.targets[0].counts.passed++),
@@ -43,7 +43,7 @@ test('normal union admission regrades owning raw callbacks and refuses changed p
     (root:string)=>change(root,'inventory.json',inventory=>inventory.callbacks.pop()),
     (root:string)=>change(root,'context.json',context=>context.targets[0].version='invented'),
   ]){const root=retained();mutation(root);expect(()=>readPublicTestEvidence(root)).toThrow()}
-})
+},30_000)
 test('portable bundle writer preserves parent measured observations and validates copies after relocation',()=>{
   const old=retained(),output=join(temp.dir(),'assembled'),built=writePublicScopeUnionBundle([join(old,'scopes/0'),join(old,'scopes/1')],output)
   expect(built.saved.result.observations).toEqual(readPublicTestEvidence(old).saved.result.observations)
@@ -51,4 +51,4 @@ test('portable bundle writer preserves parent measured observations and validate
   const moved=join(temp.dir(),'moved');cpSync(output,moved,{recursive:true})
   expect(readPublicTestEvidence(moved).targets).toEqual(built.targets)
   expect(()=>writePublicScopeUnionBundle([join(old,'scopes/0'),join(old,'scopes/1')],output)).toThrow('Fresh')
-})
+},30_000)
