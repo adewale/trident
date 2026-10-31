@@ -1,3 +1,4 @@
+import { inspectTerminalGrouping, type TerminalGroup } from './terminal-groups.ts'
 import { terminalRectangles } from './terminal-rectangles.ts'
 import { interpretTerminal, terminalTextWidth } from './terminal-display.ts'
 /** A bounded terminal observer: grapheme-aware labels in rectangular boxes joined
@@ -6,19 +7,23 @@ import { interpretTerminal, terminalTextWidth } from './terminal-display.ts'
 export interface TerminalMeaning {
   nodes: readonly { id: string; label: string }[]
   edges: readonly { source: string; target: string; label?: string }[]
+  groups?: readonly TerminalGroup[]
   layout?: readonly { before: string; after: string; axis: 'x' | 'y' }[]
 }
 type Box = { x: number; y: number; right: number; bottom: number; label: string; id?: string }
-const scope = 'Rectangular flowcharts in bounded display cells, NFC grapheme labels, qualified terminal-state controls and orthogonal directed routes with a unique drawn source and uniquely owned captions. Groups, other family facts and ambiguous junctions require their own qualified projections.'
+const scope = 'Rectangular flowcharts in bounded display cells, NFC grapheme labels, qualified terminal-state controls and orthogonal directed routes with a unique drawn source and uniquely owned captions. Labelled enclosing groups use independently observed direct membership and source/end ports; remaining family facts and ambiguous junctions require their own qualified projections.'
 
 export function inspectTerminalMeaning(output: string, expected: TerminalMeaning, options = { primitiveShapes: false }) {
   const verdict = (status: 'correct' | 'incorrect' | 'unknown', reason: string, edges: { source: string; target: string; label?: string }[] = []) => ({ status, reason, scope, edges })
-  if (!expected.nodes.length || new Set(expected.nodes.map(node => node.id)).size !== expected.nodes.length || new Set(expected.nodes.map(node => node.label)).size !== expected.nodes.length || expected.nodes.some(node => !node.label || /[\n\r\x00-\x1f]/.test(node.label)) || expected.edges.some(edge => !expected.nodes.some(node => node.id === edge.source) || !expected.nodes.some(node => node.id === edge.target))) return verdict('unknown', 'Expected identities/labels are ambiguous or outside the declared display scope')
+  if (!expected.nodes.length && !expected.groups?.length || new Set(expected.nodes.map(node => node.id)).size !== expected.nodes.length || new Set(expected.nodes.map(node => node.label)).size !== expected.nodes.length || expected.nodes.some(node => !node.label || /[\n\r\x00-\x1f]/.test(node.label)) || expected.edges.some(edge => ![...expected.nodes, ...(expected.groups ?? [])].some(node => node.id === edge.source) || ![...expected.nodes, ...(expected.groups ?? [])].some(node => node.id === edge.target))) return verdict('unknown', 'Expected identities/labels are ambiguous or outside the declared display scope')
   const display = interpretTerminal(output)
   if (display.status !== 'available') return verdict('unknown', display.reason ?? 'No qualified terminal-state interpretation')
   const text = display.text, grid = display.cells, cell = (x: number, y: number) => grid[y]?.[x] ?? ' '
   if (grid.length > 256 || grid.some(line => line.length > 512) || [...text].filter(character => (options.primitiveShapes ? ['┌', '╭', '+', '◇', '◯', '◎', '(', '/', '▷', '⌜', '╟'] : ['┌', '╭', '+']).includes(character)).length > (options.primitiveShapes ? 256 : 64) || expected.nodes.length > 32) return verdict('unknown', 'Output exceeds the bounded grid profile')
-  const boxes: Box[] = terminalRectangles(grid, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: options.primitiveShapes, ports: true }).map(({ lines, ...box }) => ({ ...box, label: lines.join(' ').replace(/\s+/g, ' ').trim() }))
+  const grouping = expected.groups?.length ? inspectTerminalGrouping(output, expected.nodes, expected.groups) : undefined
+  if (grouping && grouping.status !== 'passed') return verdict('unknown', grouping.reason)
+  const groupBoxes = grouping?.groups ?? []
+  const boxes: Box[] = terminalRectangles(grid, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: options.primitiveShapes, ports: true }).filter(box => !groupBoxes.some(group => group.x === box.x && group.y === box.y && group.right === box.right && group.bottom === box.bottom)).map(({ lines, ...box }) => ({ ...box, label: lines.join(' ').replace(/\s+/g, ' ').trim() }))
   for (const node of expected.nodes) {
     const matches = boxes.filter(box => box.label.normalize('NFC') === node.label.normalize('NFC'))
     if (!matches.length && (text.includes(node.label) || boxes.some(box => box.label.replace(/\s/g, '') === node.label.replace(/\s/g, '')))) return verdict('unknown', 'Visible authored label lacks a qualified node-container or wrapping projection: ' + node.label)
@@ -27,7 +32,15 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   }
   if (boxes.length !== expected.nodes.length) return verdict('unknown', 'Additional or nested containers need a reviewed ownership projection')
   const inside = (x: number, y: number) => boxes.find(box => x >= box.x && x <= box.right && y >= box.y && y <= box.bottom)
-  const boundary = (x: number, y: number) => boxes.find(box => (x === box.x || x === box.right) && y > box.y && y < box.bottom || (y === box.y || y === box.bottom) && x > box.x && x < box.right)
+  const groupBoundary = (x: number, y: number) => groupBoxes.find(box => (x === box.x || x === box.right) && y > box.y && y < box.bottom || (y === box.y || y === box.bottom) && x > box.x && x < box.right)
+  const groupExits = (x: number, y: number) => { const group = groupBoundary(x, y); if (!group) return undefined; const perpendicular = y === group.y || y === group.bottom ? [0, 2] : [1, 3]; return (points[cell(x, y)] ?? []).filter(direction => perpendicular.includes(direction)) }
+  const boundary = (x: number, y: number, sourceDirection?: number): Box | undefined => {
+    const node = boxes.find(box => (x === box.x || x === box.right) && y > box.y && y < box.bottom || (y === box.y || y === box.bottom) && x > box.x && x < box.right)
+    if (node) return node
+    const group = groupBoundary(x, y), exits = groupExits(x, y)
+    return group && (sourceDirection === undefined || exits?.length === 1 && exits[0] === sourceDirection) ? { ...group, label: group.label } : undefined
+  }
+
   const points: Record<string, number[]> = { '─': [1, 3], '-': [1, 3], '│': [0, 2], '|': [0, 2], '┌': [1, 2], '┐': [2, 3], '└': [0, 1], '┘': [0, 3], '╭': [1, 2], '╮': [2, 3], '╰': [0, 1], '╯': [0, 3], '┬': [1, 2, 3], '┴': [0, 1, 3], '├': [0, 1, 2], '┤': [0, 2, 3], '┼': [0, 1, 2, 3], '+': [0, 1, 2, 3] }
   const arrows: Record<string, number> = { '▲': 0, '^': 0, '↑': 0, '►': 1, '▶': 1, '>': 1, '→': 1, '▼': 2, 'v': 2, '↓': 2, '◄': 3, '◀': 3, '<': 3, '←': 3 }
   const dx = [0, 1, 0, -1], dy = [-1, 0, 1, 0], key = (x: number, y: number) => x + ',' + y
@@ -48,7 +61,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
       }
       for (const hit of hits) {
         const { x, width } = hit
-        if (Array.from({ length: width }, (_, offset) => inside(x + offset, y)).some(Boolean)) continue
+        if (Array.from({ length: width }, (_, offset) => inside(x + offset, y) || grouping?.headers.has(key(x + offset, y))).some(Boolean)) continue
         uncertainCaption ||= hit.uncertain
         const token = key(x, y), span = Array.from({ length: width }, (_, offset) => key(x + offset, y))
         for (const coordinate of span) captionCells.add(coordinate)
@@ -72,24 +85,29 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   const paths: { x: number; y: number }[][] = []
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) {
     const heading = arrows[cell(x, y)]
-    if (heading === undefined || boxes.some(box => x > box.x && x < box.right && y > box.y && y < box.bottom) || captionCells.has(key(x, y))) continue
+    if (heading === undefined || boxes.some(box => x > box.x && x < box.right && y > box.y && y < box.bottom) || captionCells.has(key(x, y)) || grouping?.headers.has(key(x, y))) continue
     const port = boundary(x, y), inward = port && (x === port.x && heading === 1 || x === port.right && heading === 3 || y === port.y && heading === 2 || y === port.bottom && heading === 0)
     const target = inward ? port : boundary(x + dx[heading]!, y + dy[heading]!)
+    if (target && groupBoxes.some(group => group.id === target.id)) {
+      const contactX = inward ? x : x + dx[heading]!, contactY = inward ? y : y + dy[heading]!, normal = contactX === target.x && heading === 1 || contactX === target.right && heading === 3 || contactY === target.y && heading === 2 || contactY === target.bottom && heading === 0
+      if (!normal) return verdict('unknown', 'Arrowhead meets a group border without a qualified inward port', actual)
+    }
     if (!target?.id) return verdict('incorrect', 'Arrowhead does not meet a drawn target node', actual)
     used.add(key(x, y))
     // Do not use expected edges to choose a branch. A shared outgoing stem is
     // qualified only when exactly one path reaches a drawn source node.
     const pending = [{ x: x - dx[heading]!, y: y - dy[heading]!, towardPrevious: heading, path: new Set<string>(), labels: new Map<string, string>() }]
     const sources: { source: Box; path: Set<string>; labels: Map<string, string> }[] = []
-    let steps = 0, cycle = false
+    let steps = 0, cycle = false, unqualifiedGroupPort = false
     while (pending.length) {
       if (++steps > 4096) return verdict('unknown', 'Route exploration exceeds the bounded graph profile', actual)
-      const cursor = pending.pop()!, source = boundary(cursor.x, cursor.y)
+      const cursor = pending.pop()!, source = boundary(cursor.x, cursor.y, cursor.towardPrevious)
       if (source) { sources.push({ source, path: cursor.path, labels: cursor.labels }); continue }
       const coordinate = key(cursor.x, cursor.y)
       if (cursor.path.has(coordinate)) { cycle = true; continue }
       if (arrows[cell(cursor.x, cursor.y)] !== undefined && !captions.has(coordinate)) continue
-      const caption = captions.get(coordinate), exits = caption?.exits ?? points[cell(cursor.x, cursor.y)]
+      const caption = captions.get(coordinate), groupWire = groupExits(cursor.x, cursor.y), exits = caption?.exits ?? groupWire ?? points[cell(cursor.x, cursor.y)]
+      if (groupWire && !groupWire.length) unqualifiedGroupPort = true
       if (!exits?.includes(cursor.towardPrevious)) continue
       const path = new Set(cursor.path); path.add(coordinate)
       const labels = new Map(cursor.labels)
@@ -98,6 +116,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
     }
     if (cycle || sources.length > 1) return verdict('unknown', 'Junction, crossing or cycle has ambiguous source ownership', actual)
     const found = sources[0]
+    if (!found && unqualifiedGroupPort) return verdict('unknown', 'Group border has no qualified source endpoint or pass-through projection', actual)
     if (!found) return verdict('incorrect', 'Arrow stem is disconnected from its source node', actual)
     if (!found.source.id || found.labels.size > 1) return verdict('unknown', 'Source or relationship label ownership is ambiguous', actual)
     for (const coordinate of found.path) used.add(coordinate)
@@ -114,7 +133,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   }
   const canonical = (edges: readonly { source: string; target: string; label?: string }[]) => edges.map(edge => JSON.stringify([edge.source, edge.target, edge.label ?? ''])).sort()
   if (JSON.stringify(canonical(actual)) !== JSON.stringify(canonical(expected.edges))) return verdict('incorrect', 'Drawn directed relationships or their labels differ from the authored graph', actual)
-  for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) if (cell(x, y) !== ' ' && !inside(x, y) && !used.has(key(x, y))) return verdict('unknown', 'Unassigned output ink or text remains outside the verified nodes and routes', actual)
+  for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) if (cell(x, y) !== ' ' && !inside(x, y) && !used.has(key(x, y)) && !grouping?.decor.has(key(x, y))) return verdict('unknown', 'Unassigned output ink or text remains outside the verified nodes and routes', actual)
   for (const constraint of expected.layout ?? []) {
     const before = boxes.find(box => box.id === constraint.before), after = boxes.find(box => box.id === constraint.after)
     if (!before || !after || !['x', 'y'].includes(constraint.axis)) return verdict('unknown', 'Authored layout relation has no unique node ownership', actual)
