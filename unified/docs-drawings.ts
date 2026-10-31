@@ -32,7 +32,7 @@ export function assessDocsDrawing(input: DocsInput, review: DocsDrawingReview | 
   if (!review) return { status: 'unknown', reason: 'No reviewed source expectation; SVG return supplies no correctness credit' }
   if (review.id !== input.id || review.sourceSha256 !== sourceHash(input.source)) throw Error('Stale documentation source review')
   if (review.intent === 'configuration-only') return { status: 'not-applicable', reason: review.review }
-  if (review.sourceReview?.expectedFactsComplete === false) return { status: 'unknown', reason: 'Source expectations are incomplete: ' + review.sourceReview.unresolved.join('; ') }
+  if (review.sourceReview?.expectedFactsComplete !== true) return { status: 'unknown', reason: 'Source expectations are incomplete or have no complete source contract: ' + (review.sourceReview?.unresolved.join('; ') ?? 'legacy review has no completeness metadata') }
   if (publicStatus !== 'passed') return { status: 'unknown', reason: 'Public call did not supply an inspectable SVG; see the separate render outcome' }
   const authored = reviewedDocsCase(input, review)
   const row = (surface: string, operation: string, status: BenchmarkObservation['status']): BenchmarkObservation => ({ suite: 'docs', surface, runtime: 'Chromium', family: authored.family, caseId: input.id + ':' + operation, operation, format: 'svg', mode: 'reviewed-documentation-content', status, metrics: { authoredCase: input.id, ...(binding ? binding : {}) } })

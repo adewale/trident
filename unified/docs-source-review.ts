@@ -88,7 +88,7 @@ class LiteralReview {
     this.body = source
     this.lines = source.split(/\r?\n/).map(line => line.replace(/\s+$/, '')).filter(line => line.trim() && !/^\s*%%/.test(line))
     const header = this.lines[0]?.trim().split(/[\s:;]+/)[0]?.toLowerCase() ?? ''
-    this.family = familyNames[header] ?? header.replace(/-beta$/, '')
+    this.family = Object.hasOwn(familyNames, header) ? familyNames[header]! : header.replace(/-beta$/, '')
     if (/^c4/.test(header)) this.family = 'c4'
   }
   fact(key: string, value: MeaningJson) { this.expected.facts![key] = value }
@@ -100,7 +100,8 @@ class LiteralReview {
     if (!match) return false
     if (match[1] === 'class' && !/^[\w.,-]+(?:,\s*[\w.-]+)*\s+[\w,-]+$/.test(match[2]!)) return false
     const styles = (this.expected.facts!['authored-style'] ?? []) as MeaningJson[]
-    const [selection = '', ...rest] = match[2]!.split(/\s+/), expression = rest.join(' ')
+    const classDirective = match[1] === 'class' ? /^(.+)\s+([\w,-]+)$/.exec(match[2]!) : null
+    const [selected = '', ...rest] = match[2]!.split(/\s+/), selection = classDirective ? classDirective[1]!.replace(/\s/g, '') : selected, expression = classDirective ? classDirective[2]! : rest.join(' ')
     const attributes: MeaningJson[] = expression.split(/(?<!\\),/).filter(Boolean).map((value): MeaningJson => { const index = value.indexOf(':'); if (index < 0 && match[1] !== 'class') this.unresolved.push('Style declaration has no property/value separator: ' + value.trim()); return index < 0 ? { class: value.trim() } : { property: value.slice(0, index).trim(), value: value.slice(index + 1).trim() } })
     styles.push({ kind: match[1]!, selection, attributes }); this.fact('authored-style', styles); return true
   }
@@ -152,8 +153,8 @@ function numericCharts(r: LiteralReview) {
       if (match) { const labels = [cleanLabel(match[2]!), cleanLabel(match[3]!)]; axes[match[1]!] = labels; r.labels(...labels); continue }
       match = /^\s*quadrant-([1-4])\s+(.+)$/.exec(line)
       if (match) { const label = cleanLabel(match[2]!); quadrants.push({ number: Number(match[1]), label }); r.labels(label); continue }
-      match = /^\s*(.+?)\s*:\s*\[\s*([-+\d.]+)\s*,\s*([-+\d.]+)\s*\]\s*(?:::.*)?$/.exec(line)
-      if (match) { const label = cleanLabel(match[1]!); points.push({ label, x: Number(match[2]), y: Number(match[3]) }); r.labels(label); continue }
+      match = /^\s*(.+?)(?::::([\w,-]+))?\s*:\s*\[\s*([-+\d.]+)\s*,\s*([-+\d.]+)\s*\]\s*(.*)$/.exec(line)
+      if (match) { const label = cleanLabel(match[1]!); points.push({ label, x: Number(match[3]), y: Number(match[4]) }); r.labels(label); const properties: Record<string, string> = {}; for (const item of syntaxList(match[5]!)) { const property = /^([\w-]+)\s*:\s*(.+)$/.exec(item); if (!property) r.unknown(item); else properties[property[1]!] = property[2]! }; if (match[2] || Object.keys(properties).length) r.fact('point-appearance', [...(r.expected.facts!['point-appearance'] as MeaningJson[] ?? []), { label, classes: match[2] ?? '', properties }]); continue }
       r.unknown(line)
     }
     r.fact('points', points); r.fact('quadrants', quadrants); r.fact('axes', axes); return true
@@ -276,15 +277,19 @@ function orderedCharts(r: LiteralReview) {
     r.fact('domain-entries', entries); r.fact('domain-transitions', transitions); return true
   }
   if (r.family === 'venn') {
-    const sets: MeaningJson[] = [], unions: MeaningJson[] = []
+    const sets: MeaningJson[] = [], unions: MeaningJson[] = [], textNodes: MeaningJson[] = []; let owner: MeaningJson = null
     for (const line of r.lines.slice(1)) {
       if (r.title(line) || r.style(line)) continue
-      const match = /^\s*(set|union)\s+([^\[]+?)(?:\["([^"]*)"\])?\s*$/.exec(line)
+      const match = /^\s*(set|union|text)\s+([^\[:]+?)(?:\["([^"]*)"\])?(?:\s*:\s*([-+\d.]+))?\s*$/.exec(line)
       if (!match) { r.unknown(line); continue }
       const ids = match[2]!.trim().split(/\s*,\s*/), label = match[3] !== undefined ? cleanLabel('"' + match[3] + '"') : ids.join(','); r.labels(label)
-      if (match[1] === 'set' && ids.length === 1) sets.push({ id: ids[0]!, label }); else unions.push({ members: ids, label })
+      if (match[1] === 'text') { if (!owner || ids.length !== 1) { r.unknown(line); continue }; textNodes.push({ id: ids[0]!, label, owner }); continue }
+      const size: Record<string, MeaningJson> = match[4] === undefined ? {} : { size: Number(match[4]) }
+      if (match[1] === 'set' && ids.length === 1) { sets.push({ id: ids[0]!, label, ...size }); owner = { kind: 'set', id: ids[0]! } }
+      else if (match[1] === 'union' && ids.length >= 2) { unions.push({ members: ids, label, ...size }); owner = { kind: 'intersection', members: ids } }
+      else r.unknown(line)
     }
-    r.fact('sets', sets); r.fact('intersections', unions); return true
+    r.fact('sets', sets); r.fact('intersections', unions); if (textNodes.length) r.fact('region-texts', textNodes); return true
   }
   return false
 }
@@ -342,7 +347,7 @@ function flowchart(r: LiteralReview) {
       if (form[0] === '[' && /^[\/\\]/.test(content) && /[\/\\]$/.test(content)) {
         const first = content[0], last = content.at(-1); shape = first === '/' ? last === '/' ? 'parallelogram' : 'trapezoid' : last === '\\' ? 'parallelogram-alt' : 'trapezoid-alt'; content = content.slice(1, -1)
       }
-      label = cleanLabel(content); at = end + form[1].length
+      label = cleanLabel(content); const embeddedIcons = [...label.matchAll(/\b(?:fa|fab|fas|far|fal|fad|fak):fa-[\w-]+/g)].map(match => ({ reference: match[0], textOffset: match.index! })); if (embeddedIcons.length) { r.fact('embedded-icons', [...(r.expected.facts!['embedded-icons'] as MeaningJson[] ?? []), { id, icons: embeddedIcons }]); label = label.replace(/\b(?:fa|fab|fas|far|fal|fad|fak):fa-[\w-]+/g, '').replace(/\s+/g, ' ').trim() }; at = end + form[1].length
     }
     while (/\s/.test(source[at] ?? '') && at < source.length) at++
     if (source.startsWith('@{', at)) {
@@ -482,6 +487,7 @@ function stateDiagram(r: LiteralReview) {
   if (stack.length) r.unresolved.push('Unclosed composite state')
   for (const group of groups) group.label = nodes.get(group.id)?.label ?? group.label
   r.expected.nodes = [...nodes.values()]; r.expected.edges = edges; if (groups.length) r.expected.groups = groups
+  for (const node of r.expected.nodes) if (!kinds.some((item: any) => item.id === node.id)) { const pseudo = pseudostates.find((item: any) => item.id === node.id) as any; kinds.push({ id: node.id, kind: pseudo ? 'pseudostate-' + pseudo.kind : groups.some(group => group.id === node.id) ? 'composite-state' : 'state' }) }
   r.labels(...r.expected.nodes.map(node => node.label)); if (pseudostates.length) r.fact('pseudostates', pseudostates); if (kinds.length) r.fact('state-kinds', kinds); if (notes.length) r.fact('notes', notes); if (regions.length) r.fact('parallel-regions', regions); if (directions.length) r.fact('group-directions', directions)
   return true
 }
@@ -547,9 +553,9 @@ function wardley(r: LiteralReview) {
     if (r.title(line) || r.style(line)) continue
     let match = /^\s*size\s*\[\s*([\d.]+)\s*,\s*([\d.]+)\s*\]\s*$/.exec(line)
     if (match) { r.fact('size', [Number(match[1]), Number(match[2])]); continue }
-    match = /^\s*(anchor|component)\s+(.+?)\s*\[\s*([-+\d.]+)(?:\s*,\s*([-+\d.]+))?\s*\](?:\s+label\s*\[\s*([-+\d.]+)\s*,\s*([-+\d.]+)\s*\])?(?:\s*\(([^)]+)\))?\s*$/.exec(line)
+    match = /^\s*(anchor|component)\s+(.+?)\s*\[\s*([-+\d.]+)(?:\s*,\s*([-+\d.]+))?\s*\](?:\s+label\s*\[\s*([-+\d.]+)\s*,\s*([-+\d.]+)\s*\])?(?:\s*\(([^)]+)\))?(?:\s*\((inertia)\))?\s*$/.exec(line)
     if (match) {
-      const name = cleanLabel(match[2]!), item = { name, kind: match[1]!, coordinates: match[4] === undefined ? [Number(match[3])] : [Number(match[3]), Number(match[4])], ...(match[5] ? { labelOffset: [Number(match[5]), Number(match[6])] } : {}), ...(match[7] ? { strategy: match[7] } : {}) }; r.labels(name)
+      const name = cleanLabel(match[2]!), item = { name, kind: match[1]!, coordinates: match[4] === undefined ? [Number(match[3])] : [Number(match[3]), Number(match[4])], ...(match[5] ? { labelOffset: [Number(match[5]), Number(match[6])] } : {}), ...(match[7] ? match[7] === 'inertia' ? { inertia: true } : { strategy: match[7] } : {}), ...(match[8] ? { inertia: true } : {}) }; r.labels(name)
       if (pipeline) pipeline.members.push(item); else components.push(item); continue
     }
     match = /^\s*pipeline\s+(.+?)\s*\{\s*$/.exec(line)
@@ -563,8 +569,12 @@ function wardley(r: LiteralReview) {
     if (match) { const text = cleanLabel('"' + match[1] + '"'); notes.push({ text, coordinates: [Number(match[2]), Number(match[3])] }); r.labels(text); continue }
     match = /^\s*(.+?)\s+(->|\+<>|\+>|\+'([^']*)'>)\s+(.+?)\s*$/.exec(line)
     if (match) { const source = cleanLabel(match[1]!), target = cleanLabel(match[4]!), label = match[3] ?? ''; links.push({ source, target, kind: match[2]!, label }); r.labels(label); continue }
-    match = /^\s*(annotation|annotations|label|style)\s+(.+)$/.exec(line)
-    if (match) { annotations.push({ kind: match[1]!, value: match[2]! }); r.unresolved.push('Wardley annotation/style structure requires explicit field review: ' + line.trim()); continue }
+    match = /^\s*(accelerator|deaccelerator)\s+"([^"]*)"\s*\[\s*([-+\d.]+)\s*,\s*([-+\d.]+)\s*\]\s*$/.exec(line)
+    if (match) { annotations.push({ kind: match[1]!, label: match[2]!, coordinates: [Number(match[3]), Number(match[4])] }); r.labels(match[2]!); continue }
+    match = /^\s*annotations\s*\[\s*([-+\d.]+)\s*,\s*([-+\d.]+)\s*\]\s*$/.exec(line)
+    if (match) { r.fact('annotation-legend-position', [Number(match[1]), Number(match[2])]); continue }
+    match = /^\s*annotation\s+(\d+)\s*,\s*\[\s*([-+\d.]+)\s*,\s*([-+\d.]+)\s*\]\s*"([^"]*)"\s*$/.exec(line)
+    if (match) { annotations.push({ kind: 'numbered-annotation', number: Number(match[1]), coordinates: [Number(match[2]), Number(match[3])], text: match[4]! }); r.labels(match[1]!, match[4]!); continue }
     r.unknown(line)
   }
   if (pipeline) r.unresolved.push('Unclosed Wardley pipeline')
@@ -578,13 +588,14 @@ function gitgraph(r: LiteralReview) {
   const commits: any[] = [], operations: MeaningJson[] = []; let current = main
   const attributes = (text: string) => {
     const out: Record<string, string> = {}, matched: string[] = []
+    const bareMessage = /^\s*("(?:[^"\\]|\\.)*")\s*$/.exec(text); if (bareMessage) return { message: cleanLabel(bareMessage[1]!) }
     for (const match of text.matchAll(/\b(id|tag|type|parent|order)\s*:\s*("(?:[^"\\]|\\.)*"|[^\s]+)/g)) { out[match[1]!] = cleanLabel(match[2]!); matched.push(match[0]) }
     let rest = text; for (const match of matched) rest = rest.replace(match, '')
     if (rest.trim()) r.unresolved.push('Uninterpreted git command attribute: ' + rest.trim())
     return out
   }
   const addCommit = (attr: Record<string, string>, parents: string[], extra: Record<string, MeaningJson> = {}) => {
-    const id = 'commit:' + commits.length, item = { id, ...(attr.id ? { authoredId: attr.id } : {}), branch: current, parents, type: attr.type ?? 'NORMAL', tags: attr.tag ? [attr.tag] : [], ...extra }; commits.push(item); branches.get(current)!.head = id; if (attr.id && config.showCommitLabel !== false) r.labels(attr.id); if (attr.tag) r.labels(attr.tag); return id
+    const id = 'commit:' + commits.length, item = { id, ...(attr.id ? { authoredId: attr.id } : {}), ...(attr.message ? { message: attr.message } : {}), branch: current, parents, type: attr.type ?? 'NORMAL', tags: attr.tag ? [attr.tag] : [], ...extra }; commits.push(item); branches.get(current)!.head = id; if (attr.id && config.showCommitLabel !== false) r.labels(attr.id); if (attr.tag) r.labels(attr.tag); return id
   }
   const headerDirection = /^\s*gitGraph\s+(LR|TB|BT)\s*:?/i.exec(r.lines[0]!); if (headerDirection) r.fact('direction', headerDirection[1]!); else r.fact('direction', 'LR')
   for (const line of r.lines.slice(1)) {
@@ -631,8 +642,8 @@ function sequence(r: LiteralReview) {
     }
     match = /^([\w.-]+?)(\(\))?\s*(<<-->>|<<->>|-->>|->>|-->|->|--x|-x|--\)|-\))([+-])?(\(\))?\s*([\w.-]+)\s*:\s*(.*)$/.exec(line)
     if (match) {
-      const source = match[1]!, target = match[6]!, text = cleanLabel(match[7]!); node(source); node(target); edges.push({ source, target, directed: true, label: text }); messages.push({ from: source, to: target, text }); styles.push(match[3]!); r.labels(text)
-      if (match[2] || match[5]) lifecycles.push({ kind: 'endpoint-activation-notation', message: messages.length - 1, from: !!match[2], to: !!match[5] })
+      const source = match[1]!, target = match[6]!, text = cleanLabel(match[7]!), startMarker = match[3]!.startsWith('<<') ? 'arrow' : 'none', endMarker = match[3]!.endsWith('x') ? 'cross' : 'arrow'; node(source); node(target); edges.push({ source, target, directed: startMarker === 'arrow' || endMarker === 'arrow', label: text, startMarker, endMarker }); messages.push({ from: source, to: target, text }); styles.push(match[3]!); r.labels(text)
+      if (match[2] || match[5]) lifecycles.push({ kind: 'central-lifeline-connection', message: messages.length - 1, from: !!match[2], to: !!match[5] })
       if (match[4]) lifecycles.push({ kind: match[4] === '+' ? 'activate' : 'deactivate', actor: target, beforeMessage: messages.length })
       continue
     }
@@ -643,7 +654,7 @@ function sequence(r: LiteralReview) {
     match = /^(loop|alt|opt|par|critical|break|rect|box)\b\s*(.*)$/.exec(line)
     if (match) {
       const kind = match[1]!, caption = cleanLabel(match[2]!)
-      if (kind === 'box') { const box = { id: 'box:' + boxes.length, label: caption, members: [] as string[] }; boxes.push(box); stack.push({ kind, index: boxes.length - 1 }); r.labels(caption) }
+      if (kind === 'box') { const color = /^(transparent|purple|aqua|red|blue|green|yellow|black|white|gray|grey|orange|pink|cyan|magenta|lime|teal|navy|maroon|olive|silver|#[\da-fA-F]{3,8}|rgba?\([^)]*\))\s+(.+)$/i.exec(caption); const boxCaption = color ? color[2]! : caption; if (color) r.fact('box-appearance', [...(r.expected.facts!['box-appearance'] as MeaningJson[] ?? []), { id: 'box:' + boxes.length, color: color[1]! }]); const box = { id: 'box:' + boxes.length, label: boxCaption, members: [] as string[] }; boxes.push(box); stack.push({ kind, index: boxes.length - 1 }); r.labels(boxCaption) }
       else { fragments.push({ kind, caption, beginMessage: messages.length, nesting: stack.filter(item => item.kind !== 'box').map(item => item.index) }); stack.push({ kind, index: fragments.length - 1 }); if (kind !== 'rect') r.labels(caption) }
       continue
     }
@@ -816,6 +827,27 @@ function gantt(r: LiteralReview) {
   return true
 }
 
+/** Strict JSON with source-order object properties, including numeric keys.
+ * JavaScript object enumeration is deliberately not the table oracle. */
+function jsonTableRows(source: string) {
+  type Value = { kind: 'object'; entries: [string, Value][] } | { kind: 'array'; values: Value[] } | { kind: 'scalar'; value: string | number | boolean | null }
+  JSON.parse(source) // Full strict-JSON lexical validation; not object enumeration.
+  let at = 0
+  const whitespace = () => { while (/\s/.test(source[at] ?? '') && at < source.length) at++ }
+  const string = () => { const match = /^"(?:[^"\\]|\\.)*"/.exec(source.slice(at)); if (!match) throw Error('Expected JSON string'); at += match[0].length; return JSON.parse(match[0]) as string }
+  const value = (): Value => {
+    whitespace()
+    if (source[at] === '{') { at++; whitespace(); const entries = new Map<string, Value>(); while (source[at] !== '}') { const key = string(); whitespace(); if (source[at++] !== ':') throw Error('Expected JSON property separator'); entries.set(key, value()); whitespace(); if (source[at] === ',') { at++; whitespace() } else break }; if (source[at++] !== '}') throw Error('Expected JSON object end'); return { kind: 'object', entries: [...entries] } }
+    if (source[at] === '[') { at++; whitespace(); const values: Value[] = []; while (source[at] !== ']') { values.push(value()); whitespace(); if (source[at] === ',') { at++; whitespace() } else break }; if (source[at++] !== ']') throw Error('Expected JSON array end'); return { kind: 'array', values } }
+    if (source[at] === '"') return { kind: 'scalar', value: string() }
+    const token = /^(?:true|false|null|-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)/.exec(source.slice(at)); if (!token) throw Error('Expected JSON scalar'); at += token[0].length; return { kind: 'scalar', value: JSON.parse(token[0]) }
+  }
+  const root = value(); whitespace(); if (at !== source.length || root.kind !== 'object') throw Error('JSON table must be an object')
+  const rows: { path: string; value: string; kind: string }[] = []
+  const visit = (entry: Value, path: string) => { if (entry.kind === 'object' && entry.entries.length) for (const [key, child] of entry.entries) visit(child, path ? path + '.' + key : key); else if (entry.kind === 'array' && entry.values.length) entry.values.forEach((child, index) => visit(child, path + '[' + index + ']')); else rows.push({ path, value: entry.kind === 'scalar' ? typeof entry.value === 'string' ? entry.value : JSON.stringify(entry.value) : entry.kind === 'object' ? '{}' : '[]', kind: entry.kind === 'scalar' ? entry.value === null ? 'null' : typeof entry.value : entry.kind }) }
+  visit(root, ''); return rows
+}
+
 /** These dialects explicitly extend flowchart syntax in the pinned source docs.
  * Adaptations preserve every extra source facet instead of erasing it. */
 function flowchartDialects(r: LiteralReview) {
@@ -835,7 +867,7 @@ function flowchartDialects(r: LiteralReview) {
     if (originalFamily === 'agentflow') {
       const flow = /^flow\s+([\w.-]+)(?:\[([\s\S]*)\])?$/.exec(line)
       if (flow) { kinds.push({ id: flow[1]!, kind: 'agent-flow' }); adapted.push('subgraph ' + flow[1] + '[' + (flow[2] ?? flow[1]) + ']'); continue }
-      if (line === 'global') { const id = 'global:' + anonymous++; kinds.push({ id, kind: 'shared-global-scope' }); adapted.push('subgraph ' + id + '[]'); continue }
+      if (line === 'global') { const id = 'global-scope-' + anonymous++; kinds.push({ id, kind: 'shared-global-scope' }); adapted.push('subgraph ' + id + '[]'); continue }
       if (/^connector\s+/.test(line)) { const id = /^connector\s+([\w.-]+)/.exec(line)?.[1]; if (id) kinds.push({ id, kind: 'connector' }); line = line.replace(/^connector\s+/, '') }
       adapted.push(line); continue
     }
@@ -862,7 +894,12 @@ function flowchartDialects(r: LiteralReview) {
       continue
     }
     // Use case: explicit actors, boundaries, stereotypes and special relationships.
-    if (/^json\s/.test(line)) { r.unknown(line); continue }
+    if (/^json\s/.test(line)) {
+      const declaration = /^json\s+([\w.-]+)@(\{[\s\S]*\})(?::::([\w,-]+))?$/.exec(line)
+      if (!declaration) { r.unknown(line); continue }
+      try { const id = declaration[1]!, rows = jsonTableRows(declaration[2]!); kinds.push({ id, kind: 'json-table', rows, ...(declaration[3] ? { classes: declaration[3] } : {}) }); r.labels(id, ...rows.flatMap(row => [row.path, row.value])); adapted.push(id + '[' + id + ']' + (declaration[3] ? ':::' + declaration[3] : '')) } catch (error) { r.unresolved.push('JSON table interpretation: ' + String(error)) }
+      continue
+    }
     const boundary = /^systemBoundary\s+([\s\S]*)$/.exec(line)
     if (boundary) {
       const value = boundary[1]!, quotedName = /^"([^"]+)"$/.exec(value)
@@ -884,9 +921,12 @@ function flowchartDialects(r: LiteralReview) {
   }
   if (originalFamily === 'block' && stack.length) r.unresolved.push('Unclosed block group')
   r.body = adapted.join('\n'); r.family = 'flowchart'; flowchart(r); r.body = originalBody; r.family = originalFamily
+  const globalIds = new Set(kinds.filter((kind: any) => kind.kind === 'shared-global-scope').map((kind: any) => kind.id)), globalNodes = new Set((r.expected.groups ?? []).filter(group => globalIds.has(group.id)).flatMap(group => group.members))
+  if (globalIds.size) { r.expected.groups = (r.expected.groups ?? []).filter(group => !globalIds.has(group.id)).map(group => ({ ...group, members: group.members.filter(id => !globalNodes.has(id) && !globalIds.has(id)) })); extra['global-node-scope'] = [...globalNodes] }
+  if (originalFamily === 'swimlane') extra['lane-order'] = (r.expected.groups ?? []).map(group => group.id)
   if (kinds.length) extra['dialect-kinds'] = kinds
   if (annotations.length) extra.notes = annotations
-  if (originalFamily === 'block') { extra['grid-cell-order'] = grid; extra['grid-columns'] = columns }
+  if (originalFamily === 'block') { for (const group of [null, ...(r.expected.groups ?? []).map(group => group.id)]) if (!columns.some((entry: any) => entry.group === group)) columns.push({ group, value: 'auto' }); extra['grid-cell-order'] = grid; extra['grid-columns'] = columns }
   for (const [key, value] of Object.entries(extra)) r.fact(key, value)
   return true
 }

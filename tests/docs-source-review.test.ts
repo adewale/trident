@@ -1,4 +1,7 @@
 import { expect, test } from 'bun:test'
+import { readFileSync } from 'node:fs'
+import { gunzipSync } from 'node:zlib'
+import { documentationSourceAudit } from '../scripts/review-docs-sources.ts'
 import { admitDocsReviews, assessDocsDrawing } from '../unified/docs-drawings.ts'
 import { docsSourcePin, requiredDocumentationObligations, reviewDocumentationSource } from '../unified/docs-source-review.ts'
 
@@ -111,4 +114,63 @@ test('a source quantity mutation changes its independent expected answer and bou
   expect(first.sourceSha256).not.toBe(second.sourceSha256)
   expect(first.sourceReview.requiredObligations).toEqual(requiredDocumentationObligations(first.expected))
   expect(first.sourceReview.requiredObligations).toContain('fact:slices')
+})
+
+test('sequence box colors are separate from labels, while ordinary multiword labels remain intact', () => {
+  const row = review('sequenceDiagram\nbox Purple Alice & John\nparticipant A\nparticipant J\nend\nbox Another Group\nparticipant B\nend\nA->>B: hi')
+  expect(row.expected!.groups!.map(group => group.label)).toEqual(['Alice & John', 'Another Group'])
+  expect(row.expected!.facts!['box-appearance']).toEqual([{ id: 'box:0', color: 'Purple' }])
+})
+
+test('ordered JSON tables keep integer-key source order, nested paths and last duplicate values', () => {
+  const row = review('usecase-beta\njson Data@{ "2": "second", "1": "first", "__proto__": true, "n": null, "nested": { "x": 2 }, "items": ["A", "B"], "empty": {}, "2": "last" }')
+  const table = (row.expected!.facts!['dialect-kinds'] as any[])[0]
+  expect(table.rows).toEqual([{ path: '2', value: 'last', kind: 'string' }, { path: '1', value: 'first', kind: 'string' }, { path: '__proto__', value: 'true', kind: 'boolean' }, { path: 'n', value: 'null', kind: 'null' }, { path: 'nested.x', value: '2', kind: 'number' }, { path: 'items[0]', value: 'A', kind: 'string' }, { path: 'items[1]', value: 'B', kind: 'string' }, { path: 'empty', value: '{}', kind: 'object' }])
+  expect(row.sourceReview.expectedFactsComplete).toBe(true)
+  expect(review('usecase-beta\njson Data@[1,2]').sourceReview.expectedFactsComplete).toBe(false)
+})
+
+test('point styles, Venn region membership and Wardley annotation coordinates stay in expected facts', () => {
+  expect(facts('quadrantChart\nA:::special: [0.2, 0.8] radius: 12, color: #f00')['point-appearance']).toEqual([{ label: 'A', classes: 'special', properties: { radius: '12', color: '#f00' } }])
+  const venn = facts('venn-beta\nset A["Alpha"]:20\n  text t["Inside"]\nset B:12\nunion A,B["Both"]:3')
+  expect(venn.sets).toEqual([{ id: 'A', label: 'Alpha', size: 20 }, { id: 'B', label: 'B', size: 12 }])
+  expect(venn['region-texts']).toEqual([{ id: 't', label: 'Inside', owner: { kind: 'set', id: 'A' } }])
+  expect(facts('wardley-beta\ncomponent Database [0.5, 0.4] (buy) (inertia)\nannotations [0.1, 0.2]\nannotation 1,[0.3, 0.4] "Risk"').annotations).toEqual([{ kind: 'numbered-annotation', number: 1, coordinates: [0.3, 0.4], text: 'Risk' }])
+})
+
+test('ZenUML sync nesting, explicit async senders, returns and control regions preserve order', () => {
+  const value = facts('zenuml\nClient->A.method() {\nB.nested() {\nreturn answer\n}\nif(ready) {\nB->Client: done\n}\n}')
+  const events = value['zenuml-event-order'] as any[]
+  expect(events.map(event => [event.kind, event.from, event.to])).toEqual([['sync', 'Client', 'A'], ['sync', 'A', 'B'], ['return', 'B', 'A'], ['async', 'B', 'Client']])
+  expect((value['control-regions'] as any[])[0]).toMatchObject({ kind: 'if', condition: 'ready', beginEvent: 3, endEvent: 4 })
+})
+
+test('shared agentflow nodes stay at top level when referenced inside multiple flows', () => {
+  const row = review('agentflow-beta TB\nglobal\ncorpus[Shared]\nend\nflow a[First]\nx[Work]\nx -.- corpus\nend\nflow b[Second]\ny[Other]\ny -.- corpus\nend')
+  expect(row.expected!.groups).toEqual([{ id: 'a', label: 'First', members: ['x'] }, { id: 'b', label: 'Second', members: ['y'] }])
+  expect(row.expected!.facts!['global-node-scope']).toEqual(['corpus'])
+})
+
+test('fontawesome glyph references are resource obligations rather than literal visible words', () => {
+  const row = review('flowchart TD\nA["fa:fa-twitter for peace"] --> B(fa:fa-spinner)')
+  expect(row.expected!.nodes).toEqual([{ id: 'A', label: 'for peace' }, { id: 'B', label: '' }])
+  expect(row.expected!.facts!['embedded-icons']).toEqual([{ id: 'A', icons: [{ reference: 'fa:fa-twitter', textOffset: 0 }] }, { id: 'B', icons: [{ reference: 'fa:fa-spinner', textOffset: 0 }] }])
+})
+
+
+test('the full pinned corpus keeps all 548 occurrences and 546 distinct literal diagrams', () => {
+  const inventory = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString())
+  const audit = documentationSourceAudit(inventory)
+  const committed = JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json', import.meta.url), 'utf8'))
+  expect(inventory.occurrences).toBe(548)
+  expect(inventory.distinct).toBe(546)
+  expect(audit.reviews).toEqual(committed)
+  expect(audit.admitted).toHaveLength(548)
+  expect(audit.pending.map(row => row.id)).toEqual(['packages/mermaid/src/docs/syntax/block.md:488', 'packages/mermaid/src/docs/syntax/flowchart.md:844', 'packages/mermaid/src/docs/syntax/gantt.md:519'])
+  expect(audit.reviews.filter(row => row.intent === 'configuration-only').map(row => row.id)).toEqual(['packages/mermaid/src/docs/syntax/gantt.md:291'])
+  expect(audit.reviews.filter(row => row.intent === 'drawing' && row.sourceReview.expectedFactsComplete)).toHaveLength(544)
+  for (const row of audit.reviews) if (row.intent === 'drawing') { expect(Object.keys(row.expected!.facts!).length).toBeGreaterThan(0); expect(row.sourceReview.requiredObligations.some(obligation => obligation.startsWith('fact:'))).toBe(true) }
+  const shared = new Map<string, string[]>()
+  for (const row of inventory.cases) { const ids = shared.get(row.source.trim()) ?? []; ids.push(row.id); shared.set(row.source.trim(), ids) }
+  expect([...shared.values()].filter(ids => ids.length > 1).map(ids => ids.length).sort()).toEqual([2, 2])
 })
