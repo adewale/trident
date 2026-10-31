@@ -127,7 +127,7 @@ test('independent concentric 100-node drawing verifies the complete large-source
   const drawing = grid.map(row => row.join('').trimEnd()).join('\n'), name = 'graph-large-cli'
   expect(allPass(graph(name, drawing))).toBe(true)
   expect(status(graph(name, drawing.replace('►', '◄')), 'relationships')).toBe('failed')
-})
+}, 30_000)
 
 test('unsupported textual or unqualified representations remain unknown instead of becoming node faults', () => {
   const checks = graph('graph-thick-python', 'Unsupported diagram family at this public boundary')

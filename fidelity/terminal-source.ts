@@ -74,12 +74,17 @@ export function analyseTerminalSource(source: string, family: string): TerminalS
   }
   if (family === 'state') {
     const states = new Map<string, { id: string; label: string; scope: string[] }>(), transitions: any[] = [], groups: any[] = [], parents: string[] = []; let direction = 'TB'
+    const state = (id: string, label?: string) => {
+      const key = JSON.stringify([parents, id]), previous = states.get(key)
+      if (!previous || label !== undefined) states.set(key, { id, label: label === undefined ? id : visibleTerminalLabel(label), scope: [...parents] })
+    }
     for (const line of lines.slice(1)) {
       let m: RegExpExecArray | null
       if ((m = /^\s*direction\s+(\S+)/.exec(line))) direction = m[1]!
-      else if ((m = /^\s*state\s+(\S+)\s*\{/.exec(line))) { const id = m[1]!; states.set(JSON.stringify([parents, id]), { id, label: id, scope: [...parents] }); groups.push({ id, parent: parents.at(-1) ?? null }); parents.push(id) }
+      else if ((m = /^\s*state\s+"([^"]+)"\s+as\s+([\p{Letter}\p{Number}_.-]+)\s*$/u.exec(line))) state(m[2]!, m[1]!)
+      else if ((m = /^\s*state\s+(\S+)\s*\{/.exec(line))) { const id = m[1]!; state(id); groups.push({ id, parent: parents.at(-1) ?? null }); parents.push(id) }
       else if (line.trim() === '}') parents.pop()
-      else if ((m = /^\s*(\S+)\s*-->\s*([^:\s]+)(?:\s*:\s*(.+))?\s*$/.exec(line))) { for (const id of [m[1]!, m[2]!]) if (id !== '[*]') states.set(JSON.stringify([parents, id]), { id, label: id, scope: [...parents] }); transitions.push({ source: m[1], target: m[2], caption: visibleTerminalLabel(m[3] ?? ''), scope: [...parents] }) }
+      else if ((m = /^\s*(\S+)\s*-->\s*([^:\s]+)(?:\s*:\s*(.+))?\s*$/.exec(line))) { for (const id of [m[1]!, m[2]!]) if (id !== '[*]') state(id); transitions.push({ source: m[1], target: m[2], caption: visibleTerminalLabel(m[3] ?? ''), scope: [...parents] }) }
       else if (line.trim()) sourceUncertainties.push('Untranscribed state statement: ' + line.trim())
     }
     fact('states', [...states.values()], 'State identities, including composite states')

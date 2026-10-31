@@ -9,6 +9,11 @@ export function inspectTerminalState(output: string, contract: TerminalSourceCon
   const set = (criterion: string, status: TerminalFactCheck['status'], detail: string, actual?: unknown) => { const row = checks.find(row => row.criterion === criterion); if (row) Object.assign(row, { status, detail, actual }) }
   const states = contract.facts.find(fact => fact.criterion === 'states')?.expected as { id: string; label: string; scope: string[] }[] | undefined, transitions = contract.facts.find(fact => fact.criterion === 'transitions')?.expected as { source: string; target: string; caption: string; scope: string[] }[] | undefined
   if (!states || !transitions) return checks
+  // Aliases map source IDs to independently owned display labels within the
+  // same closed lexical scope. Identical labels in one scope are uninspectable.
+  if (new Set(states.map(state => identity(state.scope, state.label))).size !== states.length) return checks
+  const groupIds = (contract.facts.find(fact => fact.criterion === 'state-enclosures')?.expected as { id: string }[] | undefined)?.map(group => group.id) ?? []
+  if (states.some(state => groupIds.includes(state.id) && state.id !== state.label)) return checks
   if (states.every(state => !state.scope.length)) {
     const initial = transitions.some(edge => edge.source === '[*]'), final = transitions.some(edge => edge.target === '[*]'), start = '\0initial', end = '\0final'
     const verdict = inspectTerminalMeaning(output, { nodes: [...states.map(({ id, label }) => ({ id, label })), ...(initial ? [{ id: start, label: '●' }] : []), ...(final ? [{ id: end, label: '◉' }] : [])], edges: transitions.map(edge => ({ source: edge.source === '[*]' ? start : edge.source, target: edge.target === '[*]' ? end : edge.target, ...(edge.caption ? { label: edge.caption } : {}) })) }, { primitiveShapes: true })
@@ -36,7 +41,8 @@ export function inspectTerminalState(output: string, contract: TerminalSourceCon
   if (!exact) return checks
   const normalized = grid.map(row => [...row]), leaves = observed.filter(item => !item.group)
   for (const [n, item] of leaves.entries()) { const { box } = item; for (let y = box.y + 1; y < box.bottom; y++) for (let x = box.x + 1; x < box.right; x++) normalized[y]![x] = ' '; normalized[box.y + 1]![box.x + 1] = String.fromCodePoint(0xe000 + n) }
-  const graph: TerminalMeaning = { nodes: leaves.map((item, n) => ({ id: identity(item.scope, item.label), label: String.fromCodePoint(0xe000 + n) })), groups: observed.filter(item => item.group).map(item => ({ id: identity(item.scope, item.label), label: item.label, members: leaves.filter(leaf => leaf.scope.join('\0') === [...item.scope, item.label].join('\0')).map(leaf => identity(leaf.scope, leaf.label)), ...(item.scope.length ? { parent: identity(item.scope.slice(0, -1), item.scope.at(-1)!) } : {}) })), edges: transitions.map(edge => ({ source: identity(edge.scope, edge.source), target: identity(edge.scope, edge.target), ...(edge.caption ? { label: edge.caption } : {}) })) }
+  const endpoint = (scope: string[], id: string) => identity(scope, states.find(state => state.id === id && JSON.stringify(state.scope) === JSON.stringify(scope))?.label ?? id)
+  const graph: TerminalMeaning = { nodes: leaves.map((item, n) => ({ id: identity(item.scope, item.label), label: String.fromCodePoint(0xe000 + n) })), groups: observed.filter(item => item.group).map(item => ({ id: identity(item.scope, item.label), label: item.label, members: observed.filter(child => child.scope.join('\0') === [...item.scope, item.label].join('\0')).map(child => identity(child.scope, child.label)), ...(item.scope.length ? { parent: identity(item.scope.slice(0, -1), item.scope.at(-1)!) } : {}) })), edges: transitions.map(edge => ({ source: endpoint(edge.scope, edge.source), target: endpoint(edge.scope, edge.target), ...(edge.caption ? { label: edge.caption } : {}) })) }
   const verdict = inspectTerminalMeaning(normalized.map(row => row.join('')).join('\n'), graph, { primitiveShapes: true })
   set('transitions', verdict.status === 'correct' ? 'passed' : verdict.status === 'incorrect' ? 'failed' : 'unknown', 'Scope-qualified states and composite ports own directed transitions: ' + verdict.reason, verdict.edges)
   return checks
