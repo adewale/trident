@@ -9,7 +9,7 @@ publication remain pending.
 ### Benchmarks and measurement
 
 - Freeze all 548 DaveBench syntax-documentation occurrences, including 546
-  distinct sources, with exact source hashes and structured expectations. The
+  whitespace-trimmed sources (547 exact bodies), with exact source hashes and structured expectations. The
   [source census](docs/docs-source-expectations.md) records drawing contracts,
   configuration-only inputs, unresolved interpretations and review scope. Source
   coverage supplies no output pass.
@@ -31,6 +31,9 @@ publication remain pending.
 - Separate visible drawing facts from native metadata, including raw Git
   operation history and layout identifiers. Keep one ambiguous documentation
   example unknown without removing it from the 546-drawing denominator.
+- Allow each renderer's default skin. Require explicit paint overrides and named
+  palette tokens without imposing Mermaid's unrequested opacity, border widths
+  or brightness. Keep visible-owner checks and monochrome relationships required.
 - Inspect all 997 returned images in the two-project PNG qualification cohort.
   Bind each accepted judgment to its current source contract and actual pixels;
   unresolved facts remain unknown. Review files can be authored without Codex.

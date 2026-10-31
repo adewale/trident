@@ -18,7 +18,7 @@ import type { PaintCheck } from '../fidelity/paint.ts'
 setDefaultTimeout(30_000)
 let browser: Browser, page: Page
 const dirs: string[] = []
-const executable = chromiumExecutable ?? '/usr/bin/chromium'
+const executable = chromiumExecutable ?? chromium.executablePath()
 beforeAll(async () => { browser = await chromium.launch({ headless: true, executablePath: executable }); page = await browser.newPage() })
 afterAll(async () => { await browser?.close(); for (const dir of dirs) rmSync(dir, { recursive: true, force: true }) })
 const source = { id: 'synthetic/same-call-static', family: 'flowchart', source: 'flowchart LR\nA[Alpha]' }

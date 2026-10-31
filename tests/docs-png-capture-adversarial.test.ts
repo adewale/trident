@@ -7,13 +7,14 @@ import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
 import { beginDocsPngCapture, completeDocsPngCapture } from '../unified/docs-png-capture.ts'
 import { readBrowserPngCaptureProfile } from '../unified/docs-png-svg-static.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
+import { chromium } from 'playwright'
 
 function fixture() {
   const root = mkdtempSync(join(tmpdir(), 'trident-independent-capture-'))
   const file = join(root, 'environment-control'), bytes = Buffer.from('Independent capture environment control')
   writeFileSync(file, bytes)
   const owned = { path: file, sha256: evidenceBytesDigest(bytes), bytes: bytes.length }
-  const executable = chromiumExecutable!
+  const executable = chromiumExecutable ?? chromium.executablePath()
   writeFileSync(join(root, 'context.json'), JSON.stringify({ browser: { status: 'available', version: 'Actual executable byte control; no renderer invoked', path: executable, sha256: evidenceBytesDigest(readFileSync(executable)), companions: [owned] }, resources: { manifestSha256: 'e'.repeat(64), files: [] } }))
   writeFileSync(join(root, 'result.json'), '{}')
   const journal = new InvocationJournal(join(root, 'invocations'))

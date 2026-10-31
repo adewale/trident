@@ -24,7 +24,8 @@ Preparation freezes artifacts once; collection performs no latest-version lookup
 Task: accurately render the examples in the pinned Mermaid syntax documentation
 as SVG and PNG, and measure completed rendering on matched verified work. Both
 formats use one literal source inventory. The
-inventory has 548 occurrences, 546 distinct sources and 34 pages. Repeated
+inventory has 548 occurrences across 34 pages: 546 sources after trimming boundary
+whitespace, or 547 exact source bodies. Every occurrence retains its original bytes. Repeated
 occurrences remain in the inventory. [Dave Kiss's documentation benchmark](https://x.com/davekiss/status/2111512440106078554)
 inspired this workload; its AM predecessor used a different wrapper and vendored
 page set and cannot supply interchangeable input counts or clocks.
