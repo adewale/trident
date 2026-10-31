@@ -9,7 +9,7 @@ with terminal-specific evidence from 53 shared-renderer robustness inputs. Those
 shared cases do not establish terminal user demand for their diagram families.
 
 [Source contracts](../corpus/terminal-project-reviews.json) now bind all 120
-sources to literal source bytes. They declare 318 required facts across the full
+sources to literal source bytes. They declare 330 required facts across the full
 inventory: node and relationship identities, group membership, captions,
 direction, chart values, dates, hierarchy, cardinality and other family semantics.
 The transcription reads source tokens; candidate output and renderer ASTs never
@@ -19,9 +19,9 @@ required to qualify this transcription and its observers.
 
 The v2 profile separates **116 positive drawing inputs** from **four invalid-source
 controls**. Every positive input keeps its full obligations, including those with
-no implemented output observer. Fifty sources use facts for which an observer
+no implemented output observer. Forty-seven sources use facts for which an observer
 exists in at least one bounded display representation. This diagnostic subset is
-not a claim that 50 outputs pass, or a replacement for the 116-input denominator.
+not a claim that 47 outputs pass, or a replacement for the 116-input denominator.
 
 The four invalid controls are `terminal:321aee6efed4a803` (unquoted pie label),
 `terminal:955cacf9438d691d` (unquoted Unicode Git branch references), and
@@ -97,11 +97,11 @@ real returned string with no visible ink. An absent output is unknown.
 
 | Source obligations | Qualified output representation | Remaining gaps |
 |---|---|---|
-| Basic flowchart node identities, exact directed relationships, captions and direction | Rectangular boxes; continuous orthogonal routes; uniquely owned captions; at most 32 nodes, 512 columns and 256 rows | Groups, explicit shapes/line breaks, undirected or styled links, ambiguous junctions and larger drawings |
-| Pie labels and numeric weights | Owned label/bar/percentage rows, complete slice set, percentage precision and one-cell bar quantization | Circular/other chart representations and unassigned output ink |
+| Basic flowchart node identities, exact directed relationships, captions and direction | Rectangular boxes; continuous orthogonal routes; uniquely owned captions; at most 32 nodes, 512 columns and 256 rows | Groups, explicit shapes/line breaks, undirected or styled links, cyclic/grouped direction hints, ambiguous junctions and larger drawings |
+| Pie labels and numeric weights | Owned label/bar/percentage rows, complete slice set, percentage precision and explicit displayed-quantum rounding | Circular/other chart representations and unassigned output ink |
 | Journey tasks, scores, actors and sections | Ordered section/task rows with five explicit score cells and an owned actor row | Other representations and unassigned summary graphics |
 | Timeline periods, events and sections | Ordered section headings, period bullets and owned event-tree rows | Other representations |
-| Sequence participants, ordered messages, notes and fragment spans | Header boxes with continuous lifelines; straight solid/dashed message stems; owned adjacent captions; framed branch regions; exact multiline notes with actor span and chronology | Self-calls, diagonal or wrapped messages, nested fragments and other unqualified representations |
+| Sequence participants, ordered messages, notes and fragment spans | Header boxes with continuous lifelines; straight solid/dashed message stems with filled triangle heads; owned adjacent captions; framed branch regions; exact multiline notes with actor span and chronology | Self-calls, diagonal or wrapped messages, nested fragments and other unqualified representations |
 | C4, class, ER, Gitgraph, mindmap, quadrant, treemap, Gantt, state, block, Kanban, architecture, XY, ZenUML and packet obligations | Source facts are explicit | Output observers have not been qualified; text/number presence cannot pass these facts |
 | Invalid source controls | Typed outcome API binds project, case, source hash, public boundary and observer identity | Python SyntaxError and Dart MermaidParseException retain typed public evidence; generic errors, UnsupportedError and CLI exits get no rejection credit |
 
