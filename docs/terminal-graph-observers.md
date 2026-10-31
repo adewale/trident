@@ -41,11 +41,14 @@ branch at an ambiguous junction. Crow-foot glyph dialects outside the declared
 pair representation remain unknown.
 
 State observation distinguishes repeated labels by closed lexical enclosure,
-checks composite parentage, and traces scope-qualified endpoints. For the retained
-nested-state input, the observed frames establish the parentage of D and E; they
-do not create the additional B/C identities required in other lexical scopes.
-The state identity check therefore fails while transitions without uniquely
-established endpoints stay unknown.
+checks composite parentage, and traces scope-qualified endpoints. The original
+`terminal:9972eaa8ca8692d8` issue reproducer has a disputed source interpretation:
+its historical contract assumes nine lexical identities, while pinned public
+state-DB semantics may share global B/C identities across those scopes. The exact
+source is held by `terminal-source-holds.ts` pending independent source review.
+Every original required fact remains planned and unknown for every renderer;
+neither a six-state pass nor the historical lexical mismatch supplies a score.
+The source bytes, origin, historical contract and admission registry are retained.
 
 Independent controls supplement the original output fixtures: a closed scoped
 state graph, a crossing-free ER branch with identifying/non-identifying links,

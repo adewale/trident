@@ -8,6 +8,7 @@ import { createMeaningAdapter } from '../fidelity/adapters.ts'
 import { readTerminalCorpus, reviewedTerminalCases, type TerminalProjectCase } from '../fidelity/terminal-corpus.ts'
 import { assessTerminalDrawing, assessTerminalSourceRejection } from '../fidelity/terminal-assessment.ts'
 import { terminalSourceObservable } from '../fidelity/terminal-facts.ts'
+import { terminalSourceInterpretationHold } from '../fidelity/terminal-source-holds.ts'
 import { communityModuleOutputSupported, runCommunityCli, runCommunityNodeRound, verifyProvidedCommunityArtifact } from './community.ts'
 import { verifyReleaseCli } from './release-cli.ts'
 import { runExternalCommunity } from './community-external.ts'
@@ -21,7 +22,7 @@ const ascii = 'AlexanderGrooff/mermaid-ascii', defaults = [ascii, 'fasouto/terma
 const read = (file: string): any => JSON.parse(readFileSync(file, 'utf8'))
 const hash = (bytes: string | Buffer) => createHash('sha256').update(bytes).digest('hex')
 const invocationObserved = (row?: BenchmarkObservation) => !!row && row.metrics?.failureStage !== 'transport' && (typeof row.metrics?.firstMs === 'number' || row.metrics?.failureStage === 'public-api')
-const ready = (input: TerminalProjectCase) => input.intent !== 'invalid' && input.expected.status === 'independently-reviewed' && !input.expected.unverifiedFacts?.length && (input.expected.contract ? terminalSourceObservable(input.expected.contract, input.expected.graph) : input.family === 'flowchart' && !!input.expected.graph)
+const ready = (input: TerminalProjectCase) => !terminalSourceInterpretationHold(input) && input.intent !== 'invalid' && input.expected.status === 'independently-reviewed' && !input.expected.unverifiedFacts?.length && (input.expected.contract ? terminalSourceObservable(input.expected.contract, input.expected.graph) : input.family === 'flowchart' && !!input.expected.graph)
 export const terminalProfileId = 'terminal-project-corpus-v2'
 
 /** A collection interval is not a per-call clock. Retained legacy cases without
