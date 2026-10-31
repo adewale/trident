@@ -2,6 +2,7 @@ import type { MeaningExpectation } from './meaning.ts'
 import { compileVisualStyles } from './style-expectation.ts'
 import { projectSourceConfiguration } from './configuration-expectation.ts'
 import { projectSourceMetadata } from './source-metadata-expectation.ts'
+import { projectEventData } from './event-data-expectation.ts'
 
 /** A drawing encodes proportions and printed values, not an invisible copy of
  * its input database. Literal source bytes remain in the corpus inventory. */
@@ -9,6 +10,7 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
   const expected = structuredClone(literal), facts: any = expected.facts ??= {}, projections: string[] = []
   let profileExpected:MeaningExpectation|undefined
   const excludedNonvisual:string[]=[]
+  if(family==='eventmodeling'){const dataProjection=projectEventData(expected);if(dataProjection.changed){profileExpected=structuredClone(literal);projections.push(...dataProjection.projections);excludedNonvisual.push(...dataProjection.excluded)}}
   const sourceMetadata=projectSourceMetadata(family,expected)
   if(sourceMetadata.changed){profileExpected=structuredClone(literal);projections.push(...sourceMetadata.projections);excludedNonvisual.push(...sourceMetadata.excluded)}
   if(family==='flowchart'&&Array.isArray(facts['node-shapes'])){

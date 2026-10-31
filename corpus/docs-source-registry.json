@@ -1,7 +1,7 @@
 {
   "schema": "trident-docs-source-registry-v1",
   "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-  "reviewedCorpusSha256": "3192c120f7425867d9fb965cd09c812047690d57a4ed663ba54c3cb953f97c59",
+  "reviewedCorpusSha256": "1933af2319fe9a3cc78567a0ccf7d06d43d675eb4d2a7d289778db4065173ecb",
   "provenance": {
     "literalAuditBaseline": "2cc55cf",
     "structuralFix": "c9dd0b5",
@@ -23,7 +23,8 @@
     "json-scalar-array-display": "qualification/source-audits/json-scalar-array-display.json; independently approved exact source delta before admission",
     "unprintedEmptyGitHeads": "qualification/source-audits/unprinted-empty-git-heads.json; independent exactthree-case review",
     "bostonDuplicateIdentityHold": "qualification/source-audits/boston-duplicate-identity-hold.json; exactsourceambiguity stays in full drawing population asunknown",
-    "sourceIdentitiesAndEventNamespaces": "qualification/source-audits/source-identities-and-event-namespaces.json; independently reviewed exact54case delta and source-only twin controls"
+    "sourceIdentitiesAndEventNamespaces": "qualification/source-audits/source-identities-and-event-namespaces.json; independently reviewed exact54case delta and source-only twin controls",
+    "eventDataReferencePresentation": "qualification/source-audits/event-data-reference-presentation.json; independently approved exacttwo-case delta and used-value/unused-record controls"
   },
   "cases": [
     {
@@ -891,14 +892,14 @@
       "id": "packages/mermaid/src/docs/syntax/eventmodeling.md:103",
       "sourceSha256": "16482e95f341dafd0395e62625d5f30d36669bc09fb557c7bbd2e3186110f059",
       "intent": "drawing",
-      "semanticSha256": "f3fcc5bc1e0066959d34a49862ddcddf4272572a161f695f01939bc7f463473f",
+      "semanticSha256": "534292d220e2615877cdb7f9fc3ab2769b227fc5c078e402e7c61fac72e07382",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/eventmodeling.md:133",
       "sourceSha256": "60ed88ab0a168f783bf271435a86f69935dc5112576c3cf6381632ecce47ae3e",
       "intent": "drawing",
-      "semanticSha256": "f3fcc5bc1e0066959d34a49862ddcddf4272572a161f695f01939bc7f463473f",
+      "semanticSha256": "534292d220e2615877cdb7f9fc3ab2769b227fc5c078e402e7c61fac72e07382",
       "profileEligible": true
     },
     {

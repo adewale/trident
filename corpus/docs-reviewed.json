@@ -16537,8 +16537,20 @@
             "resets": false,
             "kind": "command",
             "label": "AddItem",
-            "dataReference": "AddItem01",
-            "fields": [],
+            "fields": [
+              {
+                "name": "description",
+                "value": "john"
+              },
+              {
+                "name": "image",
+                "value": "avatar_john"
+              },
+              {
+                "name": "price",
+                "value": "20.4"
+              }
+            ],
             "readsFrom": []
           },
           {
@@ -16546,8 +16558,20 @@
             "resets": false,
             "kind": "event",
             "label": "ItemAdded",
-            "dataReference": "ItemAdded",
-            "fields": [],
+            "fields": [
+              {
+                "name": "description",
+                "value": "string"
+              },
+              {
+                "name": "image",
+                "value": "string"
+              },
+              {
+                "name": "price",
+                "value": "number"
+              }
+            ],
             "readsFrom": []
           },
           {
@@ -16555,8 +16579,20 @@
             "resets": false,
             "kind": "command",
             "label": "AddItem",
-            "dataReference": "AddItem02",
-            "fields": [],
+            "fields": [
+              {
+                "name": "description",
+                "value": "jack"
+              },
+              {
+                "name": "image",
+                "value": "avatar_jack"
+              },
+              {
+                "name": "price",
+                "value": "12.5"
+              }
+            ],
             "readsFrom": []
           },
           {
@@ -16564,12 +16600,26 @@
             "resets": false,
             "kind": "event",
             "label": "ItemAdded",
-            "dataReference": "ItemAdded",
-            "fields": [],
+            "fields": [
+              {
+                "name": "description",
+                "value": "string"
+              },
+              {
+                "name": "image",
+                "value": "string"
+              },
+              {
+                "name": "price",
+                "value": "number"
+              }
+            ],
             "readsFrom": []
           }
-        ],
-        "data-definitions": [
+        ]
+      },
+      "advisoryFacts": {
+        "native-event-data-definitions": [
           {
             "id": "AddItem01",
             "fields": [
@@ -16621,6 +16671,32 @@
               }
             ]
           }
+        ],
+        "event-reference-resolution": [
+          {
+            "frame": "02",
+            "reference": "AddItem01",
+            "definition": "AddItem01",
+            "supersededInlineFields": []
+          },
+          {
+            "frame": "03",
+            "reference": "ItemAdded",
+            "definition": "ItemAdded",
+            "supersededInlineFields": []
+          },
+          {
+            "frame": "04",
+            "reference": "AddItem02",
+            "definition": "AddItem02",
+            "supersededInlineFields": []
+          },
+          {
+            "frame": "05",
+            "reference": "ItemAdded",
+            "definition": "ItemAdded",
+            "supersededInlineFields": []
+          }
         ]
       }
     },
@@ -16631,20 +16707,17 @@
       "expectedFactsComplete": true,
       "requiredObligations": [
         "visible-labels",
-        "fact:data-definitions",
         "fact:frames"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
-    }
-  },
-  {
-    "id": "packages/mermaid/src/docs/syntax/eventmodeling.md:133",
-    "sourceSha256": "60ed88ab0a168f783bf271435a86f69935dc5112576c3cf6381632ecce47ae3e",
-    "intent": "drawing",
-    "family": "eventmodeling",
-    "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
-    "expected": {
+      "excludedNonvisual": [
+        "Nonvisual Event data declarations and reference identities (eventmodeling.md96-156;eventmodeling.langium28-31;db.ts348-376): {\"definitions\":[{\"id\":\"AddItem01\",\"fields\":[{\"name\":\"description\",\"value\":\"john\"},{\"name\":\"image\",\"value\":\"avatar_john\"},{\"name\":\"price\",\"value\":\"20.4\"}]},{\"id\":\"AddItem02\",\"fields\":[{\"name\":\"description\",\"value\":\"jack\"},{\"name\":\"image\",\"value\":\"avatar_jack\"},{\"name\":\"price\",\"value\":\"12.5\"}]},{\"id\":\"ItemAdded\",\"fields\":[{\"name\":\"description\",\"value\":\"string\"},{\"name\":\"image\",\"value\":\"string\"},{\"name\":\"price\",\"value\":\"number\"}]}],\"references\":[{\"frame\":\"02\",\"reference\":\"AddItem01\",\"definition\":\"AddItem01\",\"supersededInlineFields\":[]},{\"frame\":\"03\",\"reference\":\"ItemAdded\",\"definition\":\"ItemAdded\",\"supersededInlineFields\":[]},{\"frame\":\"04\",\"reference\":\"AddItem02\",\"definition\":\"AddItem02\",\"supersededInlineFields\":[]},{\"frame\":\"05\",\"reference\":\"ItemAdded\",\"definition\":\"ItemAdded\",\"supersededInlineFields\":[]}]}"
+      ],
+      "visualProjections": [
+        "Event data declarations/reference IDs remain exact native/advisory IR; resolved used field names/values are required on their particular frames. A resolved reference replaces inline data per the pinned public grammar/action; unused definitions have no painted-record obligation."
+      ]
+    },
+    "profileExpected": {
       "labels": [
         "CartUI",
         "AddItem",
@@ -16763,6 +16836,209 @@
           }
         ]
       }
+    }
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/eventmodeling.md:133",
+    "sourceSha256": "60ed88ab0a168f783bf271435a86f69935dc5112576c3cf6381632ecce47ae3e",
+    "intent": "drawing",
+    "family": "eventmodeling",
+    "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
+    "expected": {
+      "labels": [
+        "CartUI",
+        "AddItem",
+        "ItemAdded",
+        "description",
+        "john",
+        "image",
+        "avatar_john",
+        "price",
+        "20.4",
+        "jack",
+        "avatar_jack",
+        "12.5",
+        "string",
+        "number"
+      ],
+      "facts": {
+        "frames": [
+          {
+            "id": "01",
+            "resets": false,
+            "kind": "ui",
+            "label": "CartUI",
+            "dataReference": null,
+            "fields": [],
+            "readsFrom": []
+          },
+          {
+            "id": "02",
+            "resets": false,
+            "kind": "command",
+            "label": "AddItem",
+            "fields": [
+              {
+                "name": "description",
+                "value": "john"
+              },
+              {
+                "name": "image",
+                "value": "avatar_john"
+              },
+              {
+                "name": "price",
+                "value": "20.4"
+              }
+            ],
+            "readsFrom": []
+          },
+          {
+            "id": "03",
+            "resets": false,
+            "kind": "event",
+            "label": "ItemAdded",
+            "fields": [
+              {
+                "name": "description",
+                "value": "string"
+              },
+              {
+                "name": "image",
+                "value": "string"
+              },
+              {
+                "name": "price",
+                "value": "number"
+              }
+            ],
+            "readsFrom": []
+          },
+          {
+            "id": "04",
+            "resets": false,
+            "kind": "command",
+            "label": "AddItem",
+            "fields": [
+              {
+                "name": "description",
+                "value": "jack"
+              },
+              {
+                "name": "image",
+                "value": "avatar_jack"
+              },
+              {
+                "name": "price",
+                "value": "12.5"
+              }
+            ],
+            "readsFrom": []
+          },
+          {
+            "id": "05",
+            "resets": false,
+            "kind": "event",
+            "label": "ItemAdded",
+            "fields": [
+              {
+                "name": "description",
+                "value": "string"
+              },
+              {
+                "name": "image",
+                "value": "string"
+              },
+              {
+                "name": "price",
+                "value": "number"
+              }
+            ],
+            "readsFrom": []
+          }
+        ]
+      },
+      "advisoryFacts": {
+        "native-event-data-definitions": [
+          {
+            "id": "AddItem01",
+            "fields": [
+              {
+                "name": "description",
+                "value": "john"
+              },
+              {
+                "name": "image",
+                "value": "avatar_john"
+              },
+              {
+                "name": "price",
+                "value": "20.4"
+              }
+            ]
+          },
+          {
+            "id": "AddItem02",
+            "fields": [
+              {
+                "name": "description",
+                "value": "jack"
+              },
+              {
+                "name": "image",
+                "value": "avatar_jack"
+              },
+              {
+                "name": "price",
+                "value": "12.5"
+              }
+            ]
+          },
+          {
+            "id": "ItemAdded",
+            "fields": [
+              {
+                "name": "description",
+                "value": "string"
+              },
+              {
+                "name": "image",
+                "value": "string"
+              },
+              {
+                "name": "price",
+                "value": "number"
+              }
+            ]
+          }
+        ],
+        "event-reference-resolution": [
+          {
+            "frame": "02",
+            "reference": "AddItem01",
+            "definition": "AddItem01",
+            "supersededInlineFields": []
+          },
+          {
+            "frame": "03",
+            "reference": "ItemAdded",
+            "definition": "ItemAdded",
+            "supersededInlineFields": []
+          },
+          {
+            "frame": "04",
+            "reference": "AddItem02",
+            "definition": "AddItem02",
+            "supersededInlineFields": []
+          },
+          {
+            "frame": "05",
+            "reference": "ItemAdded",
+            "definition": "ItemAdded",
+            "supersededInlineFields": []
+          }
+        ]
+      }
     },
     "sourceReview": {
       "protocol": "literal-documentation-facts-v1",
@@ -16771,11 +17047,135 @@
       "expectedFactsComplete": true,
       "requiredObligations": [
         "visible-labels",
-        "fact:data-definitions",
         "fact:frames"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Nonvisual Event data declarations and reference identities (eventmodeling.md96-156;eventmodeling.langium28-31;db.ts348-376): {\"definitions\":[{\"id\":\"AddItem01\",\"fields\":[{\"name\":\"description\",\"value\":\"john\"},{\"name\":\"image\",\"value\":\"avatar_john\"},{\"name\":\"price\",\"value\":\"20.4\"}]},{\"id\":\"AddItem02\",\"fields\":[{\"name\":\"description\",\"value\":\"jack\"},{\"name\":\"image\",\"value\":\"avatar_jack\"},{\"name\":\"price\",\"value\":\"12.5\"}]},{\"id\":\"ItemAdded\",\"fields\":[{\"name\":\"description\",\"value\":\"string\"},{\"name\":\"image\",\"value\":\"string\"},{\"name\":\"price\",\"value\":\"number\"}]}],\"references\":[{\"frame\":\"02\",\"reference\":\"AddItem01\",\"definition\":\"AddItem01\",\"supersededInlineFields\":[]},{\"frame\":\"03\",\"reference\":\"ItemAdded\",\"definition\":\"ItemAdded\",\"supersededInlineFields\":[]},{\"frame\":\"04\",\"reference\":\"AddItem02\",\"definition\":\"AddItem02\",\"supersededInlineFields\":[]},{\"frame\":\"05\",\"reference\":\"ItemAdded\",\"definition\":\"ItemAdded\",\"supersededInlineFields\":[]}]}"
+      ],
+      "visualProjections": [
+        "Event data declarations/reference IDs remain exact native/advisory IR; resolved used field names/values are required on their particular frames. A resolved reference replaces inline data per the pinned public grammar/action; unused definitions have no painted-record obligation."
+      ]
+    },
+    "profileExpected": {
+      "labels": [
+        "CartUI",
+        "AddItem",
+        "ItemAdded",
+        "description",
+        "john",
+        "image",
+        "avatar_john",
+        "price",
+        "20.4",
+        "jack",
+        "avatar_jack",
+        "12.5",
+        "string",
+        "number"
+      ],
+      "facts": {
+        "frames": [
+          {
+            "id": "01",
+            "resets": false,
+            "kind": "ui",
+            "label": "CartUI",
+            "dataReference": null,
+            "fields": [],
+            "readsFrom": []
+          },
+          {
+            "id": "02",
+            "resets": false,
+            "kind": "command",
+            "label": "AddItem",
+            "dataReference": "AddItem01",
+            "fields": [],
+            "readsFrom": []
+          },
+          {
+            "id": "03",
+            "resets": false,
+            "kind": "event",
+            "label": "ItemAdded",
+            "dataReference": "ItemAdded",
+            "fields": [],
+            "readsFrom": []
+          },
+          {
+            "id": "04",
+            "resets": false,
+            "kind": "command",
+            "label": "AddItem",
+            "dataReference": "AddItem02",
+            "fields": [],
+            "readsFrom": []
+          },
+          {
+            "id": "05",
+            "resets": false,
+            "kind": "event",
+            "label": "ItemAdded",
+            "dataReference": "ItemAdded",
+            "fields": [],
+            "readsFrom": []
+          }
+        ],
+        "data-definitions": [
+          {
+            "id": "AddItem01",
+            "fields": [
+              {
+                "name": "description",
+                "value": "john"
+              },
+              {
+                "name": "image",
+                "value": "avatar_john"
+              },
+              {
+                "name": "price",
+                "value": "20.4"
+              }
+            ]
+          },
+          {
+            "id": "AddItem02",
+            "fields": [
+              {
+                "name": "description",
+                "value": "jack"
+              },
+              {
+                "name": "image",
+                "value": "avatar_jack"
+              },
+              {
+                "name": "price",
+                "value": "12.5"
+              }
+            ]
+          },
+          {
+            "id": "ItemAdded",
+            "fields": [
+              {
+                "name": "description",
+                "value": "string"
+              },
+              {
+                "name": "image",
+                "value": "string"
+              },
+              {
+                "name": "price",
+                "value": "number"
+              }
+            ]
+          }
+        ]
+      }
     }
   },
   {
