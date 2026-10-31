@@ -6,7 +6,7 @@ export function terminalRectangles(grid: string[][], profile: ContainerProfile =
   const cell = (x: number, y: number) => grid[y]?.[x] ?? ' ', boxes: TerminalRectangle[] = []
   const forms = [['┌', '┐', '└', '┘', 'rectangle'], ['╭', '╮', '╰', '╯', 'rounded'], ['+', '+', '+', '+', 'rectangle']]
   if (profile.primitives) forms.push(['◇', '◇', '◇', '◇', 'diamond'], ['◯', '◯', '◯', '◯', 'circle'], ['◎', '◎', '◎', '◎', 'double-circle'], ['(', ')', '(', ')', 'stadium'], ['/', '/', '/', '/', 'parallelogram'], ['▷', '┐', '▷', '┘', 'asymmetric'], ['⌜', '⌝', '⌞', '⌟', 'unqualified-primitive'], ['╟', '╢', '╟', '╢', 'unqualified-double-wall'])
-  const topPorts = profile.primitives ? /^[─┬┴┼+\-◇◯◎▼v↓]+$/ : /^[─┬┴┼+\-▼v↓]+$/, bottomPorts = profile.primitives ? /^[─┬┴┼+\-◇◯◎▲^↑]+$/ : /^[─┬┴┼+\-▲^↑]+$/
+  const topPorts = profile.primitives ? /^[─┬┴┼+\-◇◯◎△▼v↓]+$/ : /^[─┬┴┼+\-▼v↓]+$/, bottomPorts = profile.primitives ? /^[─┬┴┼+\-◇◯◎△▲^↑]+$/ : /^[─┬┴┼+\-▲^↑]+$/
   const horizontal = (text: string, side: 'top' | 'bottom') => !!profile.ports && (side === 'top' ? topPorts : bottomPorts).test(text) || profile.horizontal.test(text) || !!profile.primitives && /^[─┬┴┼+\-◇◯◎]+$/.test(text)
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) {
     const form = forms.find(form => form[0] === cell(x, y))
@@ -39,6 +39,16 @@ export function terminalRectangles(grid: string[][], profile: ContainerProfile =
         while (lines.length && !lines[0]) lines.shift()
         while (lines.length && !lines.at(-1)) lines.pop()
         boxes.push({ x, y, right, bottom, lines, shape }); break
+      }
+    }
+  }
+  if (profile.primitives) for (let y = 0; y < grid.length; y++) for (let x = 1; x < grid[y]!.length; x++) if (cell(x, y) === '/') {
+    for (let right = x + 2; right + 1 < grid[y]!.length; right++) if (cell(right, y) === '\\' && horizontal(grid[y]!.slice(x + 1, right).join(''), 'top')) {
+      for (let bottom = y + 2; bottom < grid.length; bottom++) {
+        if (cell(x, bottom) !== '\\' || cell(right, bottom) !== '/' || !horizontal(grid[bottom]!.slice(x + 1, right).join(''), 'bottom')) continue
+        if (!Array.from({ length: bottom - y - 1 }, (_, n) => y + n + 1).every(row => (profile.vertical.test(cell(x - 1, row)) || profile.ports && /^[▶►>→]$/.test(cell(x - 1, row))) && (profile.vertical.test(cell(right + 1, row)) || profile.ports && /^[◀◄<←]$/.test(cell(right + 1, row))))) continue
+        const lines = grid.slice(y + 1, bottom).map(row => row.slice(x, right + 1).join('').trim()); while (lines.length && !lines[0]) lines.shift(); while (lines.length && !lines.at(-1)) lines.pop()
+        boxes.push({ x: x - 1, y, right: right + 1, bottom, lines, shape: 'hexagon' }); break
       }
     }
   }

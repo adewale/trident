@@ -31,7 +31,7 @@ test('column and prefix keys retain field roles; missing or changed keys cannot 
     const original = assess(name), changed = assess(name, fixture(name).replace('PK', 'FK'))
     expect('checks' in original && original.checks?.find(check => check.criterion === 'entity-bodies')?.status).toBe('passed')
     expect('checks' in changed && changed.checks?.find(check => check.criterion === 'entity-bodies')?.status).toBe('failed')
-    expect(assess(name).status).toBe('unknown') // No relation/cardinality observer is implied by correct body data.
+    expect(assess(name).status).toBe(name === 'er-cli-key-columns' ? 'correct' : 'unknown') // Inline cardinalities are traced; unfamiliar crow-foot glyphs remain unknown.
   }
 })
 test('ambiguous unlabelled inline key placement stays unknown instead of borrowing source field roles', () => {

@@ -1,3 +1,4 @@
+import { inspectTerminalErRoutes } from './terminal-er-routes.ts'
 import { terminalErAttributeValue, type TerminalErAttribute as Attribute } from './terminal-er-values.ts'
 export { terminalErSourceAttribute } from './terminal-er-values.ts'
 import { terminalAuthoredLinesObserved } from './terminal-text.ts'
@@ -87,23 +88,17 @@ export function inspectTerminalEr(output: string, contract: TerminalSourceContra
       }
     }
   }
+  if (relations && equal && checks.find(check => check.criterion === 'entity-relations')?.status === 'unknown') { const traced = inspectTerminalErRoutes(grid, entities, contract); if (traced) set(traced.criterion, traced.status, traced.detail, traced.actual) }
   return result()
 }
 
-/** A source-only diagnostic bound for the straight-link projection. It never
+/** A source-only diagnostic bound for numeric straight links and inline-cardinality orthogonal graphs. It never
  * supplies output facts or removes other ER sources from the population. */
 export function terminalErSourceObservable(contract: TerminalSourceContract) {
   const entities = contract.facts.find(fact => fact.criterion === 'entity-bodies')?.expected as { id: string; attributes: string[]; attributeFacts?: Attribute[] }[] | undefined
   const relations = contract.facts.find(fact => fact.criterion === 'entity-relations')?.expected as { source: string; target: string; sourceCardinality: string; targetCardinality: string }[] | undefined
   if (!entities?.length || entities.length > 32 || !relations || entities.some(entity => !entity.attributeFacts || entity.attributeFacts.length !== entity.attributes.length)) return false
   if (!relations.length) return true
-  const degree = new Map(entities.map(entity => [entity.id, 0])), adjacent = new Map(entities.map(entity => [entity.id, [] as string[]])), card = new Set(['||', 'o|', '|o', '}o', 'o{', '}|', '|{'])
-  if (relations.length !== entities.length - 1) return false
-  for (const edge of relations) {
-    if (edge.source === edge.target || !degree.has(edge.source) || !degree.has(edge.target) || !card.has(edge.sourceCardinality) || !card.has(edge.targetCardinality)) return false
-    degree.set(edge.source, degree.get(edge.source)! + 1); degree.set(edge.target, degree.get(edge.target)! + 1); adjacent.get(edge.source)!.push(edge.target); adjacent.get(edge.target)!.push(edge.source)
-  }
-  const seen = new Set<string>(), pending = [entities[0]!.id]
-  while (pending.length) { const id = pending.pop()!; if (seen.has(id)) continue; seen.add(id); pending.push(...adjacent.get(id)!) }
-  return seen.size === entities.length && [...degree.values()].every(count => count <= 2)
+  const card = new Set(['||', 'o|', '|o', '}o', 'o{', '}|', '|{']), ids = new Set(entities.map(entity => entity.id))
+  return relations.every(edge => ids.has(edge.source) && ids.has(edge.target) && card.has(edge.sourceCardinality) && card.has(edge.targetCardinality))
 }

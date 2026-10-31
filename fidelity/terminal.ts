@@ -6,24 +6,25 @@ import { interpretTerminal, terminalTextWidth } from './terminal-display.ts'
  * unknown. Text presence alone never establishes a relationship. */
 export interface TerminalMeaning {
   nodes: readonly { id: string; label: string }[]
-  edges: readonly { source: string; target: string; label?: string }[]
+  edges: readonly { source: string; target: string; label?: string; directed?: boolean; stroke?: string; endMarker?: string; visible?: boolean }[]
   groups?: readonly TerminalGroup[]
   layout?: readonly { before: string; after: string; axis: 'x' | 'y' }[]
 }
-type Box = { x: number; y: number; right: number; bottom: number; label: string; id?: string }
-const scope = 'Rectangular flowcharts in bounded display cells, NFC grapheme labels, qualified terminal-state controls and orthogonal directed routes with a unique drawn source and uniquely owned captions. Labelled enclosing groups use independently observed direct membership and source/end ports; remaining family facts and ambiguous junctions require their own qualified projections.'
+type Box = { x: number; y: number; right: number; bottom: number; label: string; id?: string; shape?: string }
+const scope = 'Closed graph containers in at most 128 nodes, 4096 columns, 2048 rows and 2 MB of terminal input; NFC grapheme labels, qualified terminal-state controls, exact solid/dotted/thick strokes and owned arrow/circle/cross/class markers on orthogonal routes. Plain undirected links use a straight horizontal projection; multiline captions retain contiguous owned rows. Labelled enclosing groups use independently observed direct membership and source/end ports; remaining family facts and ambiguous junctions require their own qualified projections.'
 
 export function inspectTerminalMeaning(output: string, expected: TerminalMeaning, options = { primitiveShapes: false }) {
-  const verdict = (status: 'correct' | 'incorrect' | 'unknown', reason: string, edges: { source: string; target: string; label?: string }[] = []) => ({ status, reason, scope, edges })
+  const verdict = (status: 'correct' | 'incorrect' | 'unknown', reason: string, edges: { source: string; target: string; label?: string; route?: { x: number; y: number }[] }[] = []) => ({ status, reason, scope, edges })
   if (!expected.nodes.length && !expected.groups?.length || new Set(expected.nodes.map(node => node.id)).size !== expected.nodes.length || new Set(expected.nodes.map(node => node.label)).size !== expected.nodes.length || expected.nodes.some(node => !node.label || /[\n\r\x00-\x1f]/.test(node.label)) || expected.edges.some(edge => ![...expected.nodes, ...(expected.groups ?? [])].some(node => node.id === edge.source) || ![...expected.nodes, ...(expected.groups ?? [])].some(node => node.id === edge.target))) return verdict('unknown', 'Expected identities/labels are ambiguous or outside the declared display scope')
-  const display = interpretTerminal(output)
+  const display = interpretTerminal(output, { columns: 4096, rows: 2048, inputBytes: 2_000_000 })
   if (display.status !== 'available') return verdict('unknown', display.reason ?? 'No qualified terminal-state interpretation')
   const text = display.text, grid = display.cells, cell = (x: number, y: number) => grid[y]?.[x] ?? ' '
-  if (grid.length > 256 || grid.some(line => line.length > 512) || [...text].filter(character => (options.primitiveShapes ? ['┌', '╭', '+', '◇', '◯', '◎', '(', '/', '▷', '⌜', '╟'] : ['┌', '╭', '+']).includes(character)).length > (options.primitiveShapes ? 256 : 64) || expected.nodes.length > 32) return verdict('unknown', 'Output exceeds the bounded grid profile')
+  if (grid.length > 2048 || grid.some(line => line.length > 4096) || [...text].filter(character => (options.primitiveShapes ? ['┌', '╭', '+', '◇', '◯', '◎', '(', '/', '▷', '⌜', '╟'] : ['┌', '╭', '+']).includes(character)).length > (options.primitiveShapes ? 1024 : 512) || expected.nodes.length > 128) return verdict('unknown', 'Output exceeds the bounded grid profile')
   const grouping = expected.groups?.length ? inspectTerminalGrouping(output, expected.nodes, expected.groups) : undefined
   if (grouping && grouping.status !== 'passed') return verdict('unknown', grouping.reason)
   const groupBoxes = grouping?.groups ?? []
   const boxes: Box[] = terminalRectangles(grid, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: options.primitiveShapes, ports: true }).filter(box => !groupBoxes.some(group => group.x === box.x && group.y === box.y && group.right === box.right && group.bottom === box.bottom)).map(({ lines, ...box }) => ({ ...box, label: lines.join(' ').replace(/\s+/g, ' ').trim() }))
+  for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) if (/^[●◉]$/.test(cell(x, y)) && expected.nodes.some(node => node.label === cell(x, y)) && !boxes.some(box => x >= box.x && x <= box.right && y >= box.y && y <= box.bottom)) boxes.push({ x, y, right: x, bottom: y, label: cell(x, y) })
   for (const node of expected.nodes) {
     const matches = boxes.filter(box => box.label.normalize('NFC') === node.label.normalize('NFC'))
     if (!matches.length && (text.includes(node.label) || boxes.some(box => box.label.replace(/\s/g, '') === node.label.replace(/\s/g, '')))) return verdict('unknown', 'Visible authored label lacks a qualified node-container or wrapping projection: ' + node.label)
@@ -35,20 +36,61 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   const groupBoundary = (x: number, y: number) => groupBoxes.find(box => (x === box.x || x === box.right) && y > box.y && y < box.bottom || (y === box.y || y === box.bottom) && x > box.x && x < box.right)
   const groupExits = (x: number, y: number) => { const group = groupBoundary(x, y); if (!group) return undefined; const perpendicular = y === group.y || y === group.bottom ? [0, 2] : [1, 3]; return (points[cell(x, y)] ?? []).filter(direction => perpendicular.includes(direction)) }
   const boundary = (x: number, y: number, sourceDirection?: number): Box | undefined => {
-    const node = boxes.find(box => (x === box.x || x === box.right) && y > box.y && y < box.bottom || (y === box.y || y === box.bottom) && x > box.x && x < box.right)
+    const node = boxes.find(box => box.x === box.right && box.y === box.bottom && x === box.x && y === box.y || (x === box.x || x === box.right) && y > box.y && y < box.bottom || (y === box.y || y === box.bottom) && x > box.x && x < box.right)
     if (node) return node
     const group = groupBoundary(x, y), exits = groupExits(x, y)
     return group && (sourceDirection === undefined || exits?.length === 1 && exits[0] === sourceDirection) ? { ...group, label: group.label } : undefined
   }
 
-  const points: Record<string, number[]> = { '─': [1, 3], '-': [1, 3], '│': [0, 2], '|': [0, 2], '┌': [1, 2], '┐': [2, 3], '└': [0, 1], '┘': [0, 3], '╭': [1, 2], '╮': [2, 3], '╰': [0, 1], '╯': [0, 3], '┬': [1, 2, 3], '┴': [0, 1, 3], '├': [0, 1, 2], '┤': [0, 2, 3], '┼': [0, 1, 2, 3], '+': [0, 1, 2, 3] }
+  const points: Record<string, number[]> = { '┄': [1, 3], '┈': [1, 3], '╌': [1, 3], '━': [1, 3], '┆': [0, 2], '┊': [0, 2], '╎': [0, 2], '┃': [0, 2], '─': [1, 3], '-': [1, 3], '│': [0, 2], '|': [0, 2], '┌': [1, 2], '┐': [2, 3], '└': [0, 1], '┘': [0, 3], '╭': [1, 2], '╮': [2, 3], '╰': [0, 1], '╯': [0, 3], '┬': [1, 2, 3], '┴': [0, 1, 3], '├': [0, 1, 2], '┤': [0, 2, 3], '┼': [0, 1, 2, 3], '+': [0, 1, 2, 3] }
   const arrows: Record<string, number> = { '▲': 0, '^': 0, '↑': 0, '►': 1, '▶': 1, '>': 1, '→': 1, '▼': 2, 'v': 2, '↓': 2, '◄': 3, '◀': 3, '<': 3, '←': 3 }
   const dx = [0, 1, 0, -1], dy = [-1, 0, 1, 0], key = (x: number, y: number) => x + ',' + y
+  const special = new Map<string, { heading: number; directed?: boolean; endMarker?: string }>()
+  for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) {
+    const glyph = cell(x, y)
+    if (!/[△▽◁▷◇◆○◯●×✕]/.test(glyph) || boxes.some(box => box.x === box.right && box.y === box.bottom && x === box.x && y === box.y || x > box.x && x < box.right && y > box.y && y < box.bottom)) continue
+    const port = boundary(x, y)
+    if (port && ['diamond', 'circle', 'double-circle'].includes(port.shape ?? '')) continue
+    const inward = port ? y === port.bottom ? 0 : x === port.x ? 1 : y === port.y ? 2 : x === port.right ? 3 : undefined : undefined
+    const triangleDirection = ({ '△': 0, '▷': 1, '▽': 2, '◁': 3 } as Record<string, number>)[glyph]
+    const directions = inward !== undefined ? [inward] : [0, 1, 2, 3].filter(direction => { const box = boundary(x + dx[direction]!, y + dy[direction]!); return box && (direction === 0 && y - 1 === box.bottom || direction === 1 && x + 1 === box.x || direction === 2 && y + 1 === box.y || direction === 3 && x - 1 === box.right) })
+    if (directions.length !== 1 || triangleDirection !== undefined && triangleDirection !== directions[0]) continue
+    const endMarker = glyph === '△' || glyph === '▽' || glyph === '◁' || glyph === '▷' ? 'inheritance' : glyph === '◇' ? 'aggregation' : glyph === '◆' ? 'composition' : /[×✕]/.test(glyph) ? 'cross' : 'circle'
+    special.set(key(x, y), { heading: directions[0]!, endMarker, ...(['cross', 'circle'].includes(endMarker) ? { directed: false } : {}) })
+  }
+  // Plain undirected horizontal links have two independently observed box
+  // contacts and a continuous stroke. No expected edge chooses their endpoints.
+  for (const left of boxes) for (const right of boxes) if (expected.edges.some(edge => edge.directed === false) && left.right < right.x) for (let y = Math.max(left.y, right.y) + 1; y < Math.min(left.bottom, right.bottom); y++) {
+    const cells = grid[y]!.slice(left.right + 1, right.x)
+    if (arrows[cell(left.right, y)] === undefined && arrows[cell(right.x, y)] === undefined && cells.length >= 2 && cells.every(glyph => /^[─━┄┈╌-]$/.test(glyph))) special.set(key(right.x - 1, y), { heading: 1, directed: false })
+  }
+  const arrowAt = (x: number, y: number) => special.get(key(x, y))?.heading ?? arrows[cell(x, y)]
   const captions = new Map<string, { label: string; token: string; exits: number[] }>(), captionCells = new Set<string>(), captionSpans = new Map<string, string[]>()
   const floating: { label: string; x: number; y: number; width: number }[] = []
   let uncertainCaption = false
   for (const label of new Set(expected.edges.map(edge => edge.label).filter((value): value is string => !!value))) {
-    if (/[\n\r\x00-\x1f]/.test(label)) return verdict('unknown', 'Multiline edge labels need a qualified route ownership projection')
+    if (/[\r\x00-\x09\x0b-\x1f]/.test(label)) return verdict('unknown', 'Edge labels contain unqualified controls')
+    if (label.includes('\n')) {
+      const authored = label.split('\n')
+      for (let top = 0; top <= grid.length - authored.length; top++) {
+        const hits = authored.map((line, offset) => {
+          const row = grid[top + offset]!.join(''), offsetInRow = row.indexOf(line)
+          if (offsetInRow < 0 || row.indexOf(line, offsetInRow + 1) >= 0) return undefined
+          const x = terminalTextWidth(row.slice(0, offsetInRow)), width = terminalTextWidth(line)
+          if (Array.from({ length: width }, (_, n) => inside(x + n, top + offset)).some(Boolean)) return undefined
+          return { x, width, y: top + offset }
+        })
+        if (hits.some(hit => !hit)) continue
+        const concrete = hits as { x: number; width: number; y: number }[], left = Math.max(...concrete.map(hit => hit.x)), right = Math.min(...concrete.map(hit => hit.x + hit.width - 1)), candidates = []
+        for (let column = left; column <= right; column++) if (concrete.every(hit => Math.abs(column - (hit.x + (hit.width - 1) / 2)) <= .5) && points[cell(column, top - 1)]?.includes(2) && (points[cell(column, top + authored.length)]?.includes(0) || arrowAt(column, top + authored.length) === 2)) candidates.push(column)
+        if (candidates.length !== 1) continue
+        const token = key(candidates[0]!, top), span: string[] = []
+        for (const hit of concrete) for (let n = 0; n < hit.width; n++) { const coordinate = key(hit.x + n, hit.y); captionCells.add(coordinate); span.push(coordinate) }
+        captionSpans.set(token, span)
+        for (const hit of concrete) captions.set(key(candidates[0]!, hit.y), { label, token, exits: [0, 2] })
+      }
+      continue
+    }
     for (let y = 0; y < grid.length; y++) {
       const line = grid[y]!.join(''), hits: { x: number; width: number; uncertain: boolean }[] = []
       for (let offset = line.indexOf(label.normalize('NFC')); offset >= 0; offset = line.indexOf(label.normalize('NFC'), offset + 1)) {
@@ -66,7 +108,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
         const token = key(x, y), span = Array.from({ length: width }, (_, offset) => key(x + offset, y))
         for (const coordinate of span) captionCells.add(coordinate)
         captionSpans.set(token, span)
-        const horizontal = points[cell(x - 1, y)]?.includes(1) && (points[cell(x + width, y)]?.includes(3) || arrows[cell(x + width, y)] === 1)
+        const horizontal = points[cell(x - 1, y)]?.includes(1) && (points[cell(x + width, y)]?.includes(3) || arrowAt(x + width, y) === 1)
         if (horizontal) {
           for (const coordinate of span) {
             if (captions.has(coordinate)) return verdict('unknown', 'Overlapping edge-label spans are ambiguous')
@@ -75,16 +117,16 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
           continue
         }
         const midpoint = x + (width - 1) / 2
-        const vertical = Array.from({ length: width }, (_, offset) => x + offset).filter(column => Math.abs(column - midpoint) <= .5 && points[cell(column, y - 1)]?.includes(2) && points[cell(column, y + 1)]?.includes(0))
+        const vertical = Array.from({ length: width }, (_, offset) => x + offset).filter(column => Math.abs(column - midpoint) <= .5 && (points[cell(column, y - 1)]?.includes(2) || arrowAt(column, y - 1) === 0) && (points[cell(column, y + 1)]?.includes(0) || arrowAt(column, y + 1) === 2))
         if (vertical.length === 1) { captions.set(key(vertical[0]!, y), { label, token, exits: [0, 2] }); continue }
         floating.push({ label, x, y, width })
       }
     }
   }
-  const actual: { source: string; target: string; label?: string }[] = [], used = new Set<string>()
+  const actual: { source: string; target: string; label?: string; stroke?: string; directed?: boolean; endMarker?: string; route?: { x: number; y: number }[] }[] = [], used = new Set<string>()
   const paths: { x: number; y: number }[][] = []
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) {
-    const heading = arrows[cell(x, y)]
+    const heading = arrowAt(x, y)
     if (heading === undefined || boxes.some(box => x > box.x && x < box.right && y > box.y && y < box.bottom) || captionCells.has(key(x, y)) || grouping?.headers.has(key(x, y))) continue
     const port = boundary(x, y), inward = port && (x === port.x && heading === 1 || x === port.right && heading === 3 || y === port.y && heading === 2 || y === port.bottom && heading === 0)
     const target = inward ? port : boundary(x + dx[heading]!, y + dy[heading]!)
@@ -98,6 +140,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
     // qualified only when exactly one path reaches a drawn source node.
     const pending = [{ x: x - dx[heading]!, y: y - dy[heading]!, towardPrevious: heading, path: new Set<string>(), labels: new Map<string, string>() }]
     const sources: { source: Box; path: Set<string>; labels: Map<string, string> }[] = []
+    const headSources: typeof sources = []
     let steps = 0, cycle = false, unqualifiedGroupPort = false
     while (pending.length) {
       if (++steps > 4096) return verdict('unknown', 'Route exploration exceeds the bounded graph profile', actual)
@@ -105,7 +148,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
       if (source) { sources.push({ source, path: cursor.path, labels: cursor.labels }); continue }
       const coordinate = key(cursor.x, cursor.y)
       if (cursor.path.has(coordinate)) { cycle = true; continue }
-      if (arrows[cell(cursor.x, cursor.y)] !== undefined && !captions.has(coordinate)) continue
+      if (arrowAt(cursor.x, cursor.y) !== undefined && !captions.has(coordinate)) { const heading = arrowAt(cursor.x, cursor.y)!, node = boundary(cursor.x + dx[heading]!, cursor.y + dy[heading]!); if (node) { const path = new Set(cursor.path); path.add(coordinate); headSources.push({ source: node, path, labels: cursor.labels }) }; continue }
       const caption = captions.get(coordinate), groupWire = groupExits(cursor.x, cursor.y), exits = caption?.exits ?? groupWire ?? points[cell(cursor.x, cursor.y)]
       if (groupWire && !groupWire.length) unqualifiedGroupPort = true
       if (!exits?.includes(cursor.towardPrevious)) continue
@@ -114,6 +157,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
       if (caption) labels.set(caption.token, caption.label)
       for (const direction of exits.filter(direction => direction !== cursor.towardPrevious)) pending.push({ x: cursor.x + dx[direction]!, y: cursor.y + dy[direction]!, towardPrevious: (direction + 2) % 4, path, labels })
     }
+    if (!sources.length) sources.push(...headSources)
     if (cycle || sources.length > 1) return verdict('unknown', 'Junction, crossing or cycle has ambiguous source ownership', actual)
     const found = sources[0]
     if (!found && unqualifiedGroupPort) return verdict('unknown', 'Group border has no qualified source endpoint or pass-through projection', actual)
@@ -121,17 +165,20 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
     if (!found.source.id || found.labels.size > 1) return verdict('unknown', 'Source or relationship label ownership is ambiguous', actual)
     for (const coordinate of found.path) used.add(coordinate)
     for (const token of found.labels.keys()) for (const coordinate of captionSpans.get(token) ?? []) used.add(coordinate)
-    actual.push({ source: found.source.id, target: target.id, ...(found.labels.size ? { label: [...found.labels.values()][0]! } : {}) })
+    const strokes = new Set([...found.path].map(coordinate => { const [col, row] = coordinate.split(',').map(Number); const glyph = cell(col!, row!); return /[┄┈╌┆┊╎]/.test(glyph) ? 'dotted' : /[━┃]/.test(glyph) ? 'thick' : /[─│|-]/.test(glyph) ? 'solid' : undefined }).filter(Boolean))
+    if (strokes.size > 1) return verdict('unknown', 'Mixed line strokes have no qualified style ownership', actual)
+    const stroke = [...strokes][0]
+    actual.push({ source: found.source.id, target: target.id, ...(found.labels.size ? { label: [...found.labels.values()][0]! } : {}), ...(stroke && stroke !== 'solid' ? { stroke } : {}), ...(special.get(key(x, y))?.directed === false ? { directed: false } : {}), ...(special.get(key(x, y))?.endMarker ? { endMarker: special.get(key(x, y))!.endMarker } : {}), route: [{ x, y }, ...[...found.path].map(coordinate => { const [x, y] = coordinate.split(',').map(Number); return { x: x!, y: y! } })] })
     paths.push([{ x, y }, ...[...found.path].map(coordinate => { const [x, y] = coordinate.split(',').map(Number); return { x: x!, y: y! } })])
   }
   for (const caption of floating) {
     const midpoint = caption.x + (caption.width - 1) / 2
-    const candidates = paths.map((path, index) => ({ index, near: path.some(point => Math.abs(point.y - caption.y) === 1 && Math.abs(point.x - midpoint) <= .5 || point.y === caption.y && (point.x === caption.x - 1 || point.x === caption.x + caption.width)) })).filter(item => item.near)
+    const candidates = paths.map((path, index) => ({ index, near: path.some(point => Math.abs(point.y - caption.y) === 1 && Math.abs(point.x - midpoint) <= .5 || point.y === caption.y && (point.x === caption.x - 1 || point.x === caption.x - 2 && cell(point.x + 1, point.y) === ' ' || point.x === caption.x + caption.width || point.x === caption.x + caption.width + 1 && cell(point.x - 1, point.y) === ' ')) })).filter(item => item.near)
     if (candidates.length !== 1 || actual[candidates[0]!.index]!.label) return verdict('unknown', 'Floating relationship label has no unique adjacent route owner', actual)
     actual[candidates[0]!.index]!.label = caption.label
     for (let offset = 0; offset < caption.width; offset++) used.add(key(caption.x + offset, caption.y))
   }
-  const canonical = (edges: readonly { source: string; target: string; label?: string }[]) => edges.map(edge => JSON.stringify([edge.source, edge.target, edge.label ?? ''])).sort()
+  const canonical = (edges: readonly { source: string; target: string; label?: string; directed?: boolean; stroke?: string; endMarker?: string; visible?: boolean }[]) => edges.map(edge => JSON.stringify([edge.source, edge.target, edge.label ?? '', edge.stroke ?? 'solid', edge.directed !== false, edge.endMarker ?? ''])).sort()
   if (JSON.stringify(canonical(actual)) !== JSON.stringify(canonical(expected.edges))) return verdict('incorrect', 'Drawn directed relationships or their labels differ from the authored graph', actual)
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) if (cell(x, y) !== ' ' && !inside(x, y) && !used.has(key(x, y)) && !grouping?.decor.has(key(x, y))) return verdict('unknown', 'Unassigned output ink or text remains outside the verified nodes and routes', actual)
   for (const constraint of expected.layout ?? []) {
