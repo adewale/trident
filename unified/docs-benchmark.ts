@@ -13,7 +13,7 @@ import { tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { CollectionBudgetExhausted, CollectionCheckpoint, checkCollectionBudget } from '../portable/checkpoint.ts'
 import { admitCurrentReference, currentReferencePin } from '../reference/source.ts'
-import { admitPreparedFidelityEngine } from '../fidelity/community.ts'
+import { admitPreparedSvgEngine, isSvgCli, preparedSvgInvocation, renderPreparedSvgCli } from '../fidelity/community.ts'
 import { defaultChromium, executableIdentity } from './benchmark-context.ts'
 import type { PreparedCommunityBrowser } from './community-browser.ts'
 import { publicSvgBrowserAction } from './public-svg-browser.ts'
@@ -96,7 +96,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
   const executable = options.executable ?? defaultChromium(chromium)
   const targets: PreparedCommunityBrowser[] = []
   for (const peer of selected) {
-    try { admitPreparedFidelityEngine(peer); targets.push(peer) }
+    try { admitPreparedSvgEngine(peer); targets.push(peer) }
     catch (error) {
       const detail = String(error), status = !peer.node.outputs.includes('svg') ? 'unsupported' as const : 'blocked' as const
       observations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: '*', caseId: peer.node.id, operation: 'artifact-admission', format: 'svg', mode: 'not-executed', status, detail, metrics: { project: peer.node.id, plannedOccurrences: inventory.occurrences, runtimeExecuted: false } })
@@ -107,8 +107,8 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
     protocol: 'public-docs-svg-return-v1', producers, drawingReview, browser: executableIdentity(executable), driver: process.versions,
     rounds: options.rounds, warmupAttemptsPerRound: options.rounds === 1 ? 0 : 30, pinnedSource: inventory.pin,
     projectOrderByRound: Array.from({ length: options.rounds }, (_, index) => docsRoundOrder(targets, index + 1).map(peer => peer.node.id)),
-    artifacts: targets.map(peer => ({ project: peer.node.id, admission: admitPreparedFidelityEngine(peer) })),
-    timing: 'Elapsed browser public call through awaited return; output check and cleanup after stopped clock. No A/A performance qualification.',
+    artifacts: targets.map(peer => ({ project: peer.node.id, admission: admitPreparedSvgEngine(peer) })),
+    timing: 'Public SVG call through returned output. Browser API excludes process startup; CLI includes spawn through drained output. Unlike boundaries have no shared speed ranking. Output observation follows the clock; no A/A performance qualification.',
     hostDeadlineMs: 20000, network: 'Prepared artifact origin only',
   }, null, 2))
   const checkpoint = new CollectionCheckpoint(options.out, { context: JSON.parse(readFileSync(join(options.out, 'context.json'), 'utf8')), inventory }, options.collectionDeadline)
@@ -121,7 +121,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
         const key = JSON.stringify([round, peer.node.id])
         const recorded = await checkpoint.collect(key, async () => {
         const roundObservations: BenchmarkObservation[] = []
-        const engine = peer.browser!, root = resolve(engine.root)
+        const engine = preparedSvgInvocation(peer, admitPreparedSvgEngine(peer)), root = resolve(engine.root)
         console.log(`docs round ${round}/${options.rounds}: ${peer.node.id} (${inventory.occurrences} occurrences)`)
         const server = docsArtifactServer(root, engine.zenuml)
         await new Promise<void>(done => server.listen(0, '127.0.0.1', done))
@@ -129,12 +129,13 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
         const context = await browser!.newContext({ viewport: { width: 1400, height: 1000 } }), page = await context.newPage()
         let observer: any = await context.newPage()
         await observer.goto(origin + '/observer')
-        const invoke = (input: any) => callDocsPage(page, publicSvgBrowserAction, input)
+        const invoke = async (input: any) => isSvgCli(peer) ? renderPreparedSvgCli(peer, input.source, input.id, options.out) : callDocsPage(page, publicSvgBrowserAction, input)
         page.setDefaultTimeout(20_000)
         await context.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort())
         try {
           await page.goto(origin + '/blank')
-          if (engine.kind === 'franken' || engine.kind === 'merman') await invoke({ type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: origin + '/' + engine.wasm })
+          if (engine.kind === 'cli') { /* Public CLI is invoked below; Chromium only observes actual returned SVG. */ }
+          else if (engine.kind === 'franken' || engine.kind === 'merman') await invoke({ type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: origin + '/' + engine.wasm })
           else {
             await page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) })
             await invoke({ type: 'initialize-global', engine, addonUrl: engine.zenuml ? origin + '/__addon/' + engine.zenuml.entry : undefined })
@@ -148,7 +149,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
           for (const [index, testCase] of inventory.cases.entries()) {
             checkCollectionBudget(options.collectionDeadline)
             const value = await invoke({ type: 'measure-docs', source: testCase.source, id: `docs_${round}_${index}`, retainSvg: round === 1 })
-            roundObservations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'render', format: 'svg', mode: 'one-public-call', status: value.status, ...(value.status === 'passed' ? { samplesMs: [value.durationMs] } : { detail: value.error }), metrics: { project: peer.node.id, version: engine.version, measuredAt: new Date().toISOString(), round, bytes: value.bytes ?? null, warmupAttempts: options.rounds === 1 ? 0 : 30, warmupPassed } })
+            roundObservations.push({ suite: 'docs', surface: engine.kind === 'cli' ? 'public:svg' : 'browser:svg', runtime: engine.kind === 'cli' ? 'public CLI' : 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'render', format: 'svg', mode: 'one-public-call', status: value.status, ...(value.status === 'passed' ? { samplesMs: [value.durationMs] } : { detail: value.error }), metrics: { project: peer.node.id, version: engine.version, measuredAt: new Date().toISOString(), round, bytes: value.bytes ?? null, warmupAttempts: options.rounds === 1 ? 0 : 30, warmupPassed, ...(value.transportObservation ? { transportObservation: value.transportObservation } : {}) } })
             if (round === 1) {
               const review = drawingInventory[index]!.review
               let witness: string | undefined, assessment: ReturnType<typeof assessDocsDrawing>
@@ -178,7 +179,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
                   } finally { if (inspectionTimer) clearTimeout(inspectionTimer) }
                 } else assessment = assessDocsDrawing(testCase, review, value.status, false, [])
               } catch (error) { assessment = { status: 'unknown', reason: 'Drawing observer did not complete: ' + String(error) } }
-              roundObservations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'drawing-checks', format: 'svg', mode: 'reviewed-first-round-output', status: assessment.status === 'correct' ? 'passed' : assessment.status === 'incorrect' ? 'failed' : assessment.status === 'not-applicable' ? 'not-applicable' : 'blocked', detail: JSON.stringify(assessment), metrics: { project: peer.node.id, version: engine.version, measuredAt: new Date().toISOString(), round, reviewedSource: !!review, ...(witness ? { witness } : {}) } })
+              roundObservations.push({ suite: 'docs', surface: engine.kind === 'cli' ? 'public:svg' : 'browser:svg', runtime: engine.kind === 'cli' ? 'public CLI' : 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'drawing-checks', format: 'svg', mode: 'reviewed-first-round-output', status: assessment.status === 'correct' ? 'passed' : assessment.status === 'incorrect' ? 'failed' : assessment.status === 'not-applicable' ? 'not-applicable' : 'blocked', detail: JSON.stringify(assessment), metrics: { project: peer.node.id, version: engine.version, measuredAt: new Date().toISOString(), round, reviewedSource: !!review, ...(witness ? { witness } : {}) } })
             }
           }
         } catch (error) {
@@ -189,7 +190,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
           roundObservations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: '*', caseId: peer.node.id, operation: 'round', format: 'svg', mode: 'not-completed', status: 'blocked', detail: String(error), metrics: { project: peer.node.id, round, plannedOccurrences: inventory.occurrences } })
           gaps.push(`${peer.node.id} round ${round}: ${error}`)
         } finally { await context.close(); await new Promise<void>(done => server.close(() => done())) }
-        admitPreparedFidelityEngine(peer)
+        admitPreparedSvgEngine(peer)
         return roundObservations
         })
         observations.push(...recorded)

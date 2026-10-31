@@ -1,10 +1,10 @@
 import { readBenchmarkDocument } from '../portable/project-records.ts'
 import { expect, test } from 'bun:test'
 import { createHash } from 'node:crypto'
-import { existsSync, mkdtempSync, writeFileSync, rmSync, unlinkSync, readFileSync } from 'node:fs'
+import { chmodSync, existsSync, mkdtempSync, writeFileSync, rmSync, unlinkSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { admitPreparedFidelityEngine, runCommunityFidelitySuite } from '../fidelity/community.ts'
+import { admitPreparedFidelityEngine, admitPreparedSvgEngine, runCommunityFidelitySuite } from '../fidelity/community.ts'
 import type { PreparedCommunityBrowser } from '../unified/community-browser.ts'
 
 const sha = (path: string) => createHash('sha256').update(readFileSync(path)).digest('hex')
@@ -70,5 +70,25 @@ test('budget expiry escapes paint collection without publishing a completed repo
     expect(interrupted.status).toBe('incomplete')
     expect(interrupted.observations).toEqual([])
     expect(existsSync(join(out, 'community-fidelity-report.json'))).toBe(false)
+  } finally { rmSync(root, { recursive: true, force: true }) }
+}, 30_000)
+
+test('a frozen SVG CLI reaches the same paint observer without a browser bundle or invented API clock', async () => {
+  const root = mkdtempSync(join(tmpdir(), 'fidelity-public-cli-'))
+  try {
+    const executable = join(root, 'renderer.mjs'), calls = join(root, 'calls.txt')
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="250" height="100"><rect x="1" y="1" width="245" height="95" fill="white"/><text x="10" y="20">Alpha</text><text x="10" y="40">Beta</text><text x="10" y="60">Gamma</text></svg>'
+    writeFileSync(executable, '#!/usr/bin/env node\nimport fs from "node:fs";fs.readFileSync(0,"utf8");fs.appendFileSync('+JSON.stringify(calls)+',"call\\n");process.stdout.write('+JSON.stringify(svg)+')')
+    chmodSync(executable, 0o755)
+    const peer: PreparedCommunityBrowser = { node: { id: 'test/public-svg-cli', roles: ['renderer'], outputs: ['svg'], benchmark: { adapter: 'source-cli', outputs: ['svg'] } }, artifact: { kind: 'cli', root, executable, args: [], input: 'stdin', version: 'fixture', sha256: sha(executable), files: [{ path: executable, sha256: sha(executable) }] }, browserStatus: 'not-applicable' }
+    const prepared = join(root, 'prepared.json'), catalog = join(root, 'catalog.json')
+    writeFileSync(prepared, JSON.stringify([peer])); writeFileSync(catalog, JSON.stringify({ nodes: [peer.node] }))
+    const result = await runCommunityFidelitySuite({ root: process.cwd(), harnessRoot: process.cwd(), out: join(root, 'evidence'), profile: 'full', rounds: 1, fidelityDiagnostic: true, fidelityCaseIds: ['meaning:family:flowchart'], communityProjects: [peer.node.id], communityBrowserPreparedFile: prepared, communityCatalogFile: catalog, communityFidelityPng: 'none' })
+    expect(readFileSync(calls, 'utf8')).toBe('call\n')
+    expect(result.observations.find(row => row.operation === 'public-svg-admission')?.status).toBe('passed')
+    expect(result.observations.some(row => row.surface === 'browser-owned-ink')).toBe(true)
+    expect(result.observations.find(row => row.operation === 'public-svg-admission')?.runtime).toContain('public CLI')
+    writeFileSync(executable, 'changed')
+    expect(() => admitPreparedSvgEngine(peer)).toThrow()
   } finally { rmSync(root, { recursive: true, force: true }) }
 }, 30_000)

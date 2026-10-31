@@ -29,6 +29,9 @@ occurrences remain in the inventory. [Dave Kiss's documentation benchmark](https
 inspired this workload; its AM predecessor used a different wrapper and vendored
 page set and cannot supply interchangeable input counts or clocks.
 
+Public SVG CLIs use the same retained-output observer as browser APIs. CLI clocks
+include process startup; browser API clocks do not. They have no shared speed rank.
+
 SVG return (`public-docs-svg-return-v1`) remains a weak compatibility diagnostic.
 The collector now retains each first-round SVG and separately applies
 `reviewed-docs-svg-content-v1`. [Source expectations](corpus/docs-reviewed.json)

@@ -114,3 +114,8 @@ One-round documentation coverage skips performance warmups. Broader repeated cos
 cache, memory and scaling profiles remain optional diagnostics; their sampling is
 not silently reduced or presented as full performance qualification. Upstream test
 conformance remains an unimplemented benchmark, rather than old replay under a new name.
+
+The SVG collector now accepts authenticated public SVG CLIs as well as browser
+artifacts. It reuses the existing CLI transport and identical SVG paint observers,
+retains original transport records, and identifies startup-inclusive CLI clocks.
+A missing browser bundle no longer excludes an otherwise admitted SVG CLI.
