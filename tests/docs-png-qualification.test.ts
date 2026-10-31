@@ -4,13 +4,13 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { gzipSync } from 'node:zlib'
 import { Resvg } from '@resvg/resvg-js'
-import { CollectionCheckpoint } from '../portable/checkpoint.ts'
+import { CollectionCheckpoint, readCheckpointValue } from '../portable/checkpoint.ts'
 import { InvocationJournal } from '../portable/invocation-journal.ts'
 import { evidenceDigest, evidenceBytesDigest } from '../portable/evidence-contract.ts'
 import { sourceHash, type DocsDrawingReview } from '../unified/docs-drawings.ts'
 import { docsExpectationsHash, assessDocsPng, type DocsPngReview } from '../unified/docs-png-drawings.ts'
 import { qualifyCollectedDocsPng } from '../unified/docs-benchmark.ts'
-import { readDocsPngRasterProfile, readRetainedPngSvg, requireRetainedPngOwnership, retainPngReference } from '../unified/docs-png-qualification.ts'
+import { bindDocsPngConversionReturn, readDocsPngRasterProfile, readRetainedPngSvg, requireRetainedPngOwnership, retainPngReference } from '../unified/docs-png-qualification.ts'
 import type { FrozenRasterProfile } from '../unified/png-preservation.ts'
 import type { UnifiedRunOptions, UnifiedSuiteResult } from '../unified/types.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
@@ -111,6 +111,15 @@ test('native PNG review ownership cannot borrow another project or altered actua
   expect(() => requireRetainedPngOwnership({ ...owned, actualPng: reference })).toThrow('own project')
   expect(() => requireRetainedPngOwnership({ ...owned, attemptId: 'borrowed-attempt' })).toThrow('own project')
   expect(() => requireRetainedPngOwnership({ ...owned, source: { ...input, source: input.source.replace('-->', '<--') } })).toThrow('literal source')
+})
+
+test('an otherwise matching PNG return cannot acquire ownership with a contradictory terminal outcome', () => {
+  const f = fixture(), attemptId = String(f.result.observations[1]!.metrics!.rawInvocationId), directory = join(f.out, 'invocations'), identity = { schema: 'trident-invocation-journal-v1' }
+  const started = readCheckpointValue<any>(directory, attemptId + ':started', identity)
+  new CollectionCheckpoint(directory, identity).record(attemptId + ':public-error', { ...started, state: 'public-error', finishedAt: new Date().toISOString(), detail: 'Adversarial contradictory terminal control' })
+  const request = { root: f.out, project: 'synthetic/control', round: 1, source: input, actualPng: f.actualPng, attemptId }
+  expect(() => requireRetainedPngOwnership(request)).toThrow('contradictory terminal')
+  expect(() => bindDocsPngConversionReturn({ ...request, originalSvg: svg, rasterizedSvg: svg })).toThrow('contradictory terminal')
 })
 
 
