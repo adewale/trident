@@ -74,7 +74,12 @@ class LiteralReview {
           const front = parseYaml(match[1]!) as any
           if (front?.title !== undefined) this.fact('title', String(front.title))
           // Configuration is explicit source intent, never an inferred render option.
-          if (front?.config !== undefined) this.fact('authored-config', front.config)
+          if (front?.config !== undefined) {
+            const visible = JSON.parse(JSON.stringify(front.config))
+            for (const path of [['logLevel'], ['kanban', 'ticketBaseUrl']]) { let parent = visible; for (const key of path.slice(0, -1)) parent = parent?.[key]; const key = path.at(-1)!; if (parent && typeof parent === 'object' && Object.hasOwn(parent, key)) { this.excludedNonvisual.push('Configuration affects logging or navigation, not the static drawing: ' + path.join('.') + '=' + JSON.stringify(parent[key])); delete parent[key] } }
+            if (visible?.kanban && !Object.keys(visible.kanban).length) delete visible.kanban
+            if (Object.keys(visible).length) this.fact('authored-config', visible)
+          }
           for (const [key, value] of Object.entries(front ?? {})) if (!['title', 'config'].includes(key)) this.fact('frontmatter:' + key, value as MeaningJson)
         } catch (error) { this.unresolved.push('Frontmatter syntax requires review: ' + String(error)) }
         source = source.slice(match[0].length)
@@ -323,14 +328,14 @@ function flowchart(r: LiteralReview) {
   if (parsed.unclosed) r.unresolved.push('Unclosed flowchart label, quote or attribute syntax')
   const addNode = (id: string, label?: string) => {
     if (!nodes.has(id)) nodes.set(id, { id, label: label ?? id }); else if (label !== undefined) nodes.get(id)!.label = label
-    if (stack.length && !stack.at(-1)!.members.includes(id)) stack.at(-1)!.members.push(id)
+    if (stack.length && stack.at(-1)!.id !== id && !stack.at(-1)!.members.includes(id)) stack.at(-1)!.members.push(id)
   }
   const nodeAt = (source: string, offset: number): { id: string; end: number } | undefined => {
     let at = offset; while (/\s/.test(source[at] ?? '') && at < source.length) at++
     const idMatch = /^[\p{L}\p{N}_][\p{L}\p{N}_:.\/-]*/u.exec(source.slice(at))
     if (!idMatch) return
     // A, B and an edge identifier are separate tokens; never consume the arrow.
-    const id = idMatch[0].replace(/[-.]+$/, ''); if (!id) return
+    const boundary = idMatch[0].search(/:::|--|-\./), id = (boundary < 0 ? idMatch[0] : idMatch[0].slice(0, boundary)).replace(/[-.]+$/, ''); if (!id) return
     at += id.length; let label: string | undefined, shape: string | undefined
     const forms: [string, string, string][] = [['(((', ')))', 'double-circle'], ['([', '])', 'stadium'], ['[[', ']]', 'subroutine'], ['[(', ')]', 'cylinder'], ['((', '))', 'circle'], ['{{', '}}', 'hexagon'], ['[', ']', 'rectangle'], ['(', ')', 'rounded'], ['{', '}', 'diamond'], ['>', ']', 'asymmetric']]
     const form = forms.find(([opening]) => source.startsWith(opening, at))
@@ -362,7 +367,7 @@ function flowchart(r: LiteralReview) {
         attributes.set(id, { ...(attributes.get(id) as any ?? {}), ...attr }); at = end + 1
       } catch { return }
     }
-    if (source.startsWith(':::', at)) { const classes = /^:::([\w,-]+)/.exec(source.slice(at)); if (!classes) return; attributes.set(id, { ...(attributes.get(id) as any ?? {}), classes: classes[1]! }); at += classes[0].length }
+    if (source.startsWith(':::', at)) { const classes = /^:::([\w,-]+)/.exec(source.slice(at)); if (!classes) return; const edgeBoundary = classes[1]!.search(/--|-\./), value = edgeBoundary < 0 ? classes[1]! : classes[1]!.slice(0, edgeBoundary); if (!value) return; attributes.set(id, { ...(attributes.get(id) as any ?? {}), classes: value }); at += 3 + value.length }
     addNode(id, label); if (shape) shapes.set(id, shape)
     return { id, end: at }
   }
@@ -644,7 +649,7 @@ function sequence(r: LiteralReview) {
     if (match) {
       const source = match[1]!, target = match[6]!, text = cleanLabel(match[7]!), startMarker = match[3]!.startsWith('<<') ? 'arrow' : 'none', endMarker = match[3]!.endsWith('x') ? 'cross' : 'arrow'; node(source); node(target); edges.push({ source, target, directed: startMarker === 'arrow' || endMarker === 'arrow', label: text, startMarker, endMarker }); messages.push({ from: source, to: target, text }); styles.push(match[3]!); r.labels(text)
       if (match[2] || match[5]) lifecycles.push({ kind: 'central-lifeline-connection', message: messages.length - 1, from: !!match[2], to: !!match[5] })
-      if (match[4]) lifecycles.push({ kind: match[4] === '+' ? 'activate' : 'deactivate', actor: target, beforeMessage: messages.length })
+      if (match[4]) lifecycles.push({ kind: match[4] === '+' ? 'activate' : 'deactivate', actor: match[4] === '+' ? target : source, beforeMessage: messages.length })
       continue
     }
     match = /^(activate|deactivate|destroy)\s+([\w.-]+)$/.exec(line)
@@ -654,13 +659,13 @@ function sequence(r: LiteralReview) {
     match = /^(loop|alt|opt|par|critical|break|rect|box)\b\s*(.*)$/.exec(line)
     if (match) {
       const kind = match[1]!, caption = cleanLabel(match[2]!)
-      if (kind === 'box') { const color = /^(transparent|purple|aqua|red|blue|green|yellow|black|white|gray|grey|orange|pink|cyan|magenta|lime|teal|navy|maroon|olive|silver|#[\da-fA-F]{3,8}|rgba?\([^)]*\))\s+(.+)$/i.exec(caption); const boxCaption = color ? color[2]! : caption; if (color) r.fact('box-appearance', [...(r.expected.facts!['box-appearance'] as MeaningJson[] ?? []), { id: 'box:' + boxes.length, color: color[1]! }]); const box = { id: 'box:' + boxes.length, label: boxCaption, members: [] as string[] }; boxes.push(box); stack.push({ kind, index: boxes.length - 1 }); r.labels(boxCaption) }
+      if (kind === 'box') { const color = /^(transparent|purple|aqua|red|blue|green|yellow|black|white|gray|grey|orange|pink|cyan|magenta|lime|teal|navy|maroon|olive|silver|#[\da-fA-F]{3,8}|rgba?\([^)]*\))(?:\s+(.+))?$/i.exec(caption); const boxCaption = color ? color[2] ?? '' : caption; if (color) r.fact('box-appearance', [...(r.expected.facts!['box-appearance'] as MeaningJson[] ?? []), { id: 'box:' + boxes.length, color: color[1]! }]); const box = { id: 'box:' + boxes.length, label: boxCaption, members: [] as string[] }; boxes.push(box); stack.push({ kind, index: boxes.length - 1 }); r.labels(boxCaption) }
       else { fragments.push({ kind, caption, beginMessage: messages.length, nesting: stack.filter(item => item.kind !== 'box').map(item => item.index) }); stack.push({ kind, index: fragments.length - 1 }); if (kind !== 'rect') r.labels(caption) }
       continue
     }
-    if (line === 'end') { const open = stack.pop(); if (!open) { r.unknown(line); continue }; if (open.kind !== 'box') (fragments[open.index] as any).endMessage = messages.length; continue }
+    if (line === 'end') { const open = stack.pop(); if (!open) { r.unknown(line); continue }; if (open.kind !== 'box') { (fragments[open.index] as any).endMessage = messages.length; for (const fragment of fragments as any[]) if (fragment.parent === open.index && fragment.endMessage === undefined) fragment.endMessage = messages.length }; continue }
     match = /^(else|and|option)\b\s*(.*)$/.exec(line)
-    if (match && stack.length) { const caption = cleanLabel(match[2]!); fragments.push({ kind: match[1]!, caption, beginMessage: messages.length, parent: stack.at(-1)!.index }); r.labels(caption); continue }
+    if (match && stack.length) { for (const fragment of fragments as any[]) if (fragment.parent === stack.at(-1)!.index && fragment.endMessage === undefined) fragment.endMessage = messages.length; const caption = cleanLabel(match[2]!); fragments.push({ kind: match[1]!, caption, beginMessage: messages.length, parent: stack.at(-1)!.index }); r.labels(caption); continue }
     match = /^autonumber(?:\s+(.*))?$/.exec(line)
     if (match) { r.fact('autonumber', match[1]?.trim() || true); continue }
     r.unknown(line)
@@ -915,7 +920,7 @@ function flowchartDialects(r: LiteralReview) {
     const relation = /^(.+?)\s+(?:([\w]+)@)?\.\.>\s*:\s*(include|extend)\s+([\w.-]+)$/.exec(line)
     if (relation) { kinds.push({ source: relation[1]!.trim(), target: relation[4]!, kind: relation[3]!, ...(relation[2] ? { id: relation[2] } : {}) }); line = relation[1] + ' ' + (relation[2] ? relation[2] + '@' : '') + '-.->|' + relation[3] + '| ' + relation[4] }
     if (line.includes('--|>')) { const ids = line.split(/\s*--\|>\s*/); if (ids.length === 2) kinds.push({ source: ids[0]!, target: ids[1]!, kind: 'generalization' }); line = line.replace('--|>', '-->') }
-    if (/^"[^"\n]+"$/.test(line)) { const label = cleanLabel(line); line = 'anonymous-usecase-' + anonymous++ + '[' + line + ']'; kinds.push({ id: /^([^[]+)/.exec(line)![1]!, kind: 'anonymous-use-case', label }) }
+    if (/^"[^"\n]+"$/.test(line)) { const label = cleanLabel(line); const id = label.replace(/\W/g, '_'); if (!id) r.unresolved.push('Anonymous usecase has empty identifier'); line = id + '(' + line + ')'; kinds.push({ id, kind: 'anonymous-use-case', label }) }
     if (actor) { const id = /^[\w.-]+/.exec(line)?.[0]; if (!id) r.unknown(line); else kinds.push({ id, kind: 'actor' }) }
     adapted.push(line)
   }
@@ -923,6 +928,21 @@ function flowchartDialects(r: LiteralReview) {
   r.body = adapted.join('\n'); r.family = 'flowchart'; flowchart(r); r.body = originalBody; r.family = originalFamily
   const globalIds = new Set(kinds.filter((kind: any) => kind.kind === 'shared-global-scope').map((kind: any) => kind.id)), globalNodes = new Set((r.expected.groups ?? []).filter(group => globalIds.has(group.id)).flatMap(group => group.members))
   if (globalIds.size) { r.expected.groups = (r.expected.groups ?? []).filter(group => !globalIds.has(group.id)).map(group => ({ ...group, members: group.members.filter(id => !globalNodes.has(id) && !globalIds.has(id)) })); extra['global-node-scope'] = [...globalNodes] }
+  if (originalFamily === 'usecase') {
+    const shapes = new Map(((r.expected.facts!['node-shapes'] ?? []) as any[]).map(item => [item.id, item.shape]))
+    const attrs = new Map(((r.expected.facts!['node-attributes'] ?? []) as any[]).map(item => [item.id, item.attributes]))
+    for (const node of r.expected.nodes ?? []) {
+      const kind = kinds.find((item: any) => item.id === node.id && ['actor', 'json-table'].includes(item.kind)) as any
+      if (kind?.kind === 'actor') { const attribute = attrs.get(node.id) as any; shapes.set(node.id, attribute?.icon ? 'actor-icon' : 'actor-' + (attribute?.type ?? 'stick')) }
+      else if (kind?.kind === 'json-table') shapes.set(node.id, 'json-table')
+      else { const shape = shapes.get(node.id); if (shape && !['rounded', 'rectangle'].includes(shape)) r.unresolved.push('Usecase shape is not defined by the source dialect: ' + shape); shapes.set(node.id, shape === 'rectangle' ? 'rectangle' : 'ellipse') }
+    }
+    r.fact('node-shapes', [...shapes].map(([id, shape]) => ({ id, shape })))
+  }
+  if (originalFamily === 'block') {
+    const arrows = new Set(kinds.filter((item: any) => item.kind === 'block-arrow').map((item: any) => item.id))
+    r.fact('node-shapes', ((r.expected.facts!['node-shapes'] ?? []) as any[]).map(item => arrows.has(item.id) ? { ...item, shape: 'block-arrow' } : item))
+  }
   if (originalFamily === 'swimlane') extra['lane-order'] = (r.expected.groups ?? []).map(group => group.id)
   if (kinds.length) extra['dialect-kinds'] = kinds
   if (annotations.length) extra.notes = annotations
@@ -1023,7 +1043,7 @@ function railroad(r: LiteralReview) {
           } else { value = { kind: token.kind === 'literal' ? 'terminal' : 'reference', value: token.value }; r.labels(token.value) }
         }
         if (minimum !== undefined) value = { kind: 'repeat', minimum, maximum: maximum ?? null, expression: value }
-        if (peek('*') || peek('+') || peek('?')) { const repeat = tokens[at++]!.value; value = { kind: 'repeat', minimum: repeat === '+' ? 1 : 0, maximum: repeat === '?' ? 1 : null, expression: value } }
+        if (dialect !== 'abnf' && (peek('*') || peek('+') || peek('?'))) { const repeat = tokens[at++]!.value; value = { kind: 'repeat', minimum: repeat === '+' ? 1 : 0, maximum: repeat === '?' ? 1 : null, expression: value } }
         return value
       }
       const expression = choice(); if (at !== tokens.length) throw Error('Unconsumed grammar tokens'); rules.push({ name: rule[1]!, expression }); r.labels(rule[1]!)
@@ -1049,13 +1069,13 @@ function zenuml(r: LiteralReview) {
     let match = /^(while|if)\((.*)\)\s*\{$/.exec(line) ?? /^(else|opt|par|try|catch|finally)\s*\{$/.exec(line)
     if (match) { const region = { kind: match[1]!, condition: match[2] ?? '', beginEvent: events.length, scope: scope() }; regions.push(region); stack.push({ kind: 'region', id: regions.length - 1 }); r.labels(match[2] ?? ''); continue }
     match = /^(?:@(Actor|Database)\s+)?([\w.-]+)(?:\s+as\s+(.+))?$/.exec(line)
-    if (match && !line.includes('.')) { actor(match[2]!, match[3]); if (match[1]) kinds.push({ id: match[2]!, kind: match[1]! }); commentFor('participant'); continue }
+    if (match && !line.includes('.') && !['return', 'new', 'opt', 'par', 'try', 'catch', 'finally', 'else'].includes(match[2]!)) { actor(match[2]!, match[3]); if (match[1]) kinds.push({ id: match[2]!, kind: match[1]! }); commentFor('participant'); continue }
     match = /^new\s+([\w.-]+)(?:\((.*)\))?$/.exec(line)
     if (match) { actor(match[1]!); const caller = stack.filter(item => item.kind === 'call').at(-1)?.target ?? null; events.push({ kind: 'create', target: match[1]!, caller, arguments: match[2] ?? null, scope: scope(), comments: commentFor('message') }); continue }
     match = /^(?:([\w.-]+)\s+)?(?:([\w.-]+)\s*=\s*)?(?:([\w.-]+)->)?([\w.-]+)\.([\w.-]+)(?:\((.*)\))?\s*(\{)?$/.exec(line)
     if (match) {
       const caller = match[3] ?? stack.filter(item => item.kind === 'call').at(-1)?.target ?? null, target = match[4]!, method = match[5]!, params = match[6] ?? null
-      actor(target); if (caller) actor(caller)
+      if (caller) actor(caller); actor(target)
       events.push({ kind: 'sync', from: caller, to: target, method, arguments: params, assignment: match[2] ?? null, assignmentType: match[1] ?? null, scope: scope(), comments: commentFor('message') }); r.labels(method)
       if (match[7]) stack.push({ kind: 'call', id: events.length - 1, target, caller }); continue
     }
@@ -1065,6 +1085,7 @@ function zenuml(r: LiteralReview) {
     if (match) { const call = stack.filter(item => item.kind === 'call').at(-1); if (!call) r.unresolved.push('ZenUML return has no enclosing synchronous call'); events.push({ kind: 'return', from: call?.target ?? null, to: call?.caller ?? null, value: match[1] ?? '', scope: scope(), comments: commentFor('message') }); r.labels(match[1] ?? ''); continue }
     r.unknown(line)
   }
+  const messageComments: MeaningJson[] = []; for (let index = 0; index < events.length; index++) for (const source of ((events[index] as any).comments ?? []) as string[]) { const text = cleanLabel('`' + source + '`'); messageComments.push({ event: index, source, text }); r.labels(text) }; if (messageComments.length) r.fact('zenuml-message-comments', messageComments)
   if (reply) r.unresolved.push('Unconsumed ZenUML reply annotation'); if (stack.length) r.unresolved.push('Unclosed ZenUML block')
   r.expected.nodes = [...actors.values()]; r.labels(...r.expected.nodes.map(item => item.label)); r.fact('participant-order', [...actors.keys()]); r.fact('participant-kinds', kinds); r.fact('zenuml-event-order', events); if (regions.length) r.fact('control-regions', regions)
   return true

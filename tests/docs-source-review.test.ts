@@ -56,7 +56,7 @@ test('sequence order, aliases, notes and activation retain more than common labe
   expect(row.expected!.facts!['message-order']).toEqual([{ from: 'A', to: 'B', text: 'request' }, { from: 'B', to: 'A', text: 'response' }])
   expect(row.expected!.facts!['message-style']).toEqual(['->>', '-->>'])
   expect(row.expected!.facts!.notes).toEqual([{ side: 'right of', actors: ['B'], text: 'waiting', afterMessage: 1 }])
-  expect(row.expected!.facts!.lifecycles).toEqual([{ kind: 'activate', actor: 'B', beforeMessage: 1 }, { kind: 'deactivate', actor: 'A', beforeMessage: 2 }])
+  expect(row.expected!.facts!.lifecycles).toEqual([{ kind: 'activate', actor: 'B', beforeMessage: 1 }, { kind: 'deactivate', actor: 'B', beforeMessage: 2 }])
 })
 
 test('numeric chart contracts preserve exact source quantities and authored axes', () => {
@@ -173,4 +173,49 @@ test('the full pinned corpus keeps all 548 occurrences and 546 distinct literal 
   const shared = new Map<string, string[]>()
   for (const row of inventory.cases) { const ids = shared.get(row.source.trim()) ?? []; ids.push(row.id); shared.set(row.source.trim(), ids) }
   expect([...shared.values()].filter(ids => ids.length > 1).map(ids => ids.length).sort()).toEqual([2, 2])
+})
+
+
+test('usecase label delimiters do not replace actor geometry or default ellipse semantics', () => {
+  const row = review('usecase-beta\nactor Normal("Normal actor")\nactor Hollow("Other")@{ type: hollow }\nLogin("Sign in")\nReport[Generate report]\n"Reset password"\nNormal --> Implied\nsystemBoundary service[Service]@{ type: package }\nWork("Do work")\nend')
+  expect(row.expected!.facts!['node-shapes']).toEqual([{ id: 'Normal', shape: 'actor-stick' }, { id: 'Hollow', shape: 'actor-hollow' }, { id: 'Login', shape: 'ellipse' }, { id: 'Report', shape: 'rectangle' }, { id: 'Reset_password', shape: 'ellipse' }, { id: 'Work', shape: 'ellipse' }, { id: 'Implied', shape: 'ellipse' }])
+  expect(row.expected!.groups).toEqual([{ id: 'service', label: 'Service', members: ['Work'] }])
+})
+
+test('ABNF prefix repetition cannot be consumed as postfix repetition on the preceding item', () => {
+  const value = facts('railroad-abnf-beta\ndomain = label *( "." label ) ;')
+  expect(value['grammar-rules']).toEqual([{ name: 'domain', expression: { kind: 'sequence', items: [{ kind: 'reference', value: 'label' }, { kind: 'repeat', minimum: 0, maximum: null, expression: { kind: 'sequence', items: [{ kind: 'terminal', value: '.' }, { kind: 'reference', value: 'label' }] } }] } }])
+})
+
+test('inline classes and compact edge tokens are grammar boundaries rather than node IDs', () => {
+  const row = review('flowchart LR\nA:::red-->B\nB---C\nC--oD\nD--xE\nclassDef red fill:red')
+  expect(row.expected!.nodes!.map(node => node.id)).toEqual(['A', 'B', 'C', 'D', 'E'])
+  expect(row.expected!.facts!['node-attributes']).toEqual([{ id: 'A', attributes: { classes: 'red' } }])
+  expect(row.expected!.edges).toEqual([{ source: 'A', target: 'B', directed: true, startMarker: 'none', endMarker: 'arrow' }, { source: 'B', target: 'C', directed: false, startMarker: 'none', endMarker: 'none' }, { source: 'C', target: 'D', directed: false, startMarker: 'none', endMarker: 'circle' }, { source: 'D', target: 'E', directed: false, startMarker: 'none', endMarker: 'cross' }])
+})
+
+test('sequence fragments and branches bind their exact message ranges', () => {
+  const value = facts('sequenceDiagram\nalt allowed\nA->>B: yes\nelse denied\nA->>B: no\nelse retry\nB->>A: again\nend')
+  expect(value.fragments).toEqual([{ kind: 'alt', caption: 'allowed', beginMessage: 0, nesting: [], endMessage: 3 }, { kind: 'else', caption: 'denied', beginMessage: 1, parent: 0, endMessage: 2 }, { kind: 'else', caption: 'retry', beginMessage: 2, parent: 0, endMessage: 3 }])
+})
+
+test('ZenUML source-first explicit callers, bare returns and painted message comments remain explicit', () => {
+  const row = review('zenuml\n// participant comment is hidden\nClient\n// **message** comment\nClient->A.method() {\nreturn\n}')
+  expect(row.expected!.facts!['participant-order']).toEqual(['Client', 'A'])
+  expect((row.expected!.facts!['zenuml-event-order'] as any[]).map(event => event.kind)).toEqual(['sync', 'return'])
+  expect(row.expected!.labels).toContain('message comment')
+  expect(row.expected!.labels).not.toContain('participant comment is hidden')
+})
+
+test('a sequence box with only a color does not invent a visible caption', () => {
+  const row = review('sequenceDiagram\nbox Purple\nparticipant A\nend')
+  expect(row.expected!.groups).toEqual([{ id: 'box:0', label: '', members: ['A'] }])
+  expect(row.expected!.facts!['box-appearance']).toEqual([{ id: 'box:0', color: 'Purple' }])
+})
+
+test('logging and navigation configuration is frozen provenance rather than a pixel obligation', () => {
+  const row = review('---\nconfig:\n  logLevel: debug\n  kanban:\n    ticketBaseUrl: https://example.com/#TICKET#\n---\nkanban\nTodo\n  work[Work]')
+  expect(row.expected!.facts!['authored-config']).toBeUndefined()
+  expect(row.sourceReview.excludedNonvisual).toContain('Configuration affects logging or navigation, not the static drawing: logLevel="debug"')
+  expect(row.sourceReview.excludedNonvisual).toContain('Configuration affects logging or navigation, not the static drawing: kanban.ticketBaseUrl="https://example.com/#TICKET#"')
 })

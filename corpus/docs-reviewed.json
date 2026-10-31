@@ -2830,7 +2830,7 @@
           },
           {
             "id": "blockArrowId6",
-            "shape": "rectangle"
+            "shape": "block-arrow"
           },
           {
             "id": "B",
@@ -2998,6 +2998,7 @@
       ],
       "facts": {
         "direction": "TB",
+        "node-shapes": [],
         "grid-cell-order": [
           {
             "kind": "node",
@@ -3052,7 +3053,8 @@
         "relationship-endpoints-directions-labels",
         "fact:direction",
         "fact:grid-cell-order",
-        "fact:grid-columns"
+        "fact:grid-columns",
+        "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -3073,6 +3075,7 @@
       ],
       "facts": {
         "direction": "TB",
+        "node-shapes": [],
         "grid-cell-order": [
           {
             "kind": "node",
@@ -3137,7 +3140,8 @@
         "relationship-endpoints-directions-labels",
         "fact:direction",
         "fact:grid-cell-order",
-        "fact:grid-columns"
+        "fact:grid-columns",
+        "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -3349,6 +3353,7 @@
       ],
       "facts": {
         "direction": "TB",
+        "node-shapes": [],
         "grid-cell-order": [
           {
             "kind": "node",
@@ -3549,7 +3554,8 @@
         "group-membership-and-labels",
         "fact:direction",
         "fact:grid-cell-order",
-        "fact:grid-columns"
+        "fact:grid-columns",
+        "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -4319,31 +4325,31 @@
         "node-shapes": [
           {
             "id": "blockArrowId",
-            "shape": "rectangle"
+            "shape": "block-arrow"
           },
           {
             "id": "blockArrowId2",
-            "shape": "rectangle"
+            "shape": "block-arrow"
           },
           {
             "id": "blockArrowId3",
-            "shape": "rectangle"
+            "shape": "block-arrow"
           },
           {
             "id": "blockArrowId4",
-            "shape": "rectangle"
+            "shape": "block-arrow"
           },
           {
             "id": "blockArrowId5",
-            "shape": "rectangle"
+            "shape": "block-arrow"
           },
           {
             "id": "blockArrowId6",
-            "shape": "rectangle"
+            "shape": "block-arrow"
           },
           {
             "id": "blockArrowId7",
-            "shape": "rectangle"
+            "shape": "block-arrow"
           }
         ],
         "dialect-kinds": [
@@ -4538,6 +4544,7 @@
       ],
       "facts": {
         "direction": "TB",
+        "node-shapes": [],
         "grid-cell-order": [
           {
             "kind": "node",
@@ -4617,7 +4624,8 @@
         "relationship-endpoints-directions-labels",
         "fact:direction",
         "fact:grid-cell-order",
-        "fact:grid-columns"
+        "fact:grid-columns",
+        "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -4637,6 +4645,7 @@
       ],
       "facts": {
         "direction": "TB",
+        "node-shapes": [],
         "grid-cell-order": [
           {
             "kind": "node",
@@ -4696,7 +4705,8 @@
         "relationship-endpoints-directions-labels",
         "fact:direction",
         "fact:grid-cell-order",
-        "fact:grid-columns"
+        "fact:grid-columns",
+        "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -4715,6 +4725,7 @@
       ],
       "facts": {
         "direction": "TB",
+        "node-shapes": [],
         "grid-cell-order": [
           {
             "kind": "node",
@@ -4772,7 +4783,8 @@
         "relationship-endpoints-directions-labels",
         "fact:direction",
         "fact:grid-cell-order",
-        "fact:grid-columns"
+        "fact:grid-columns",
+        "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -4792,6 +4804,7 @@
       ],
       "facts": {
         "direction": "TB",
+        "node-shapes": [],
         "grid-cell-order": [
           {
             "kind": "node",
@@ -4850,7 +4863,8 @@
         "relationship-endpoints-directions-labels",
         "fact:direction",
         "fact:grid-cell-order",
-        "fact:grid-columns"
+        "fact:grid-columns",
+        "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -4900,7 +4914,7 @@
           },
           {
             "id": "blockArrowId6",
-            "shape": "rectangle"
+            "shape": "block-arrow"
           },
           {
             "id": "B",
@@ -5256,6 +5270,7 @@
             ]
           }
         ],
+        "node-shapes": [],
         "grid-cell-order": [
           {
             "kind": "node",
@@ -5314,7 +5329,8 @@
         "fact:authored-style",
         "fact:direction",
         "fact:grid-cell-order",
-        "fact:grid-columns"
+        "fact:grid-columns",
+        "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -5387,15 +5403,15 @@
         "node-shapes": [
           {
             "id": "blockArrowId6",
-            "shape": "rectangle"
+            "shape": "block-arrow"
           },
           {
             "id": "down",
-            "shape": "rectangle"
+            "shape": "block-arrow"
           },
           {
             "id": "left",
-            "shape": "rectangle"
+            "shape": "block-arrow"
           },
           {
             "id": "Database",
@@ -5591,7 +5607,7 @@
           },
           {
             "id": "down",
-            "shape": "rectangle"
+            "shape": "block-arrow"
           },
           {
             "id": "Decision",
@@ -5599,7 +5615,7 @@
           },
           {
             "id": "right",
-            "shape": "rectangle"
+            "shape": "block-arrow"
           },
           {
             "id": "Process1",
@@ -5607,11 +5623,11 @@
           },
           {
             "id": "downAgain",
-            "shape": "rectangle"
+            "shape": "block-arrow"
           },
           {
             "id": "r3",
-            "shape": "rectangle"
+            "shape": "block-arrow"
           },
           {
             "id": "Process2",
@@ -5619,7 +5635,7 @@
           },
           {
             "id": "r2",
-            "shape": "rectangle"
+            "shape": "block-arrow"
           },
           {
             "id": "End",
@@ -5839,6 +5855,7 @@
       ],
       "facts": {
         "direction": "TB",
+        "node-shapes": [],
         "grid-cell-order": [
           {
             "kind": "node",
@@ -5896,7 +5913,8 @@
         "relationship-endpoints-directions-labels",
         "fact:direction",
         "fact:grid-cell-order",
-        "fact:grid-columns"
+        "fact:grid-columns",
+        "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -5925,6 +5943,7 @@
             ]
           }
         ],
+        "node-shapes": [],
         "grid-cell-order": [
           {
             "kind": "node",
@@ -5963,7 +5982,8 @@
         "fact:authored-style",
         "fact:direction",
         "fact:grid-cell-order",
-        "fact:grid-columns"
+        "fact:grid-columns",
+        "fact:node-shapes"
       ],
       "unresolved": [
         "Style declaration has no property/value separator: fill#969"
@@ -5999,6 +6019,7 @@
             ]
           }
         ],
+        "node-shapes": [],
         "grid-cell-order": [
           {
             "kind": "node",
@@ -6034,7 +6055,8 @@
         "fact:authored-style",
         "fact:direction",
         "fact:grid-cell-order",
-        "fact:grid-columns"
+        "fact:grid-columns",
+        "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -16820,7 +16842,8 @@
             "kind": "else",
             "caption": "is well",
             "beginMessage": 2,
-            "parent": 1
+            "parent": 1,
+            "endMessage": 3
           },
           {
             "kind": "opt",
@@ -17199,7 +17222,8 @@
             "kind": "else",
             "caption": "Credentials found",
             "beginMessage": 4,
-            "parent": 0
+            "parent": 0,
+            "endMessage": 10
           },
           {
             "kind": "par",
@@ -17214,7 +17238,8 @@
             "kind": "and",
             "caption": "Response",
             "beginMessage": 9,
-            "parent": 2
+            "parent": 2,
+            "endMessage": 10
           }
         ],
         "notes": [
@@ -17245,7 +17270,7 @@
           },
           {
             "kind": "deactivate",
-            "actor": "web",
+            "actor": "account",
             "beforeMessage": 5
           },
           {
@@ -17255,7 +17280,7 @@
           },
           {
             "kind": "deactivate",
-            "actor": "web",
+            "actor": "blog",
             "beforeMessage": 10
           }
         ]
@@ -24435,7 +24460,7 @@
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
       "labels": [
-        "A:::someclass",
+        "A",
         "B"
       ],
       "facts": {
@@ -24451,12 +24476,20 @@
               }
             ]
           }
+        ],
+        "node-attributes": [
+          {
+            "id": "A",
+            "attributes": {
+              "classes": "someclass"
+            }
+          }
         ]
       },
       "nodes": [
         {
-          "id": "A:::someclass",
-          "label": "A:::someclass"
+          "id": "A",
+          "label": "A"
         },
         {
           "id": "B",
@@ -24465,7 +24498,7 @@
       ],
       "edges": [
         {
-          "source": "A:::someclass",
+          "source": "A",
           "target": "B",
           "directed": true,
           "startMarker": "none",
@@ -24483,7 +24516,8 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "fact:authored-style",
-        "fact:direction"
+        "fact:direction",
+        "fact:node-attributes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -24497,9 +24531,9 @@
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
       "labels": [
-        "A:::foo",
-        "B:::bar",
-        "C:::foobar"
+        "A",
+        "B",
+        "C"
       ],
       "facts": {
         "direction": "LR",
@@ -24534,33 +24568,53 @@
               }
             ]
           }
+        ],
+        "node-attributes": [
+          {
+            "id": "A",
+            "attributes": {
+              "classes": "foo"
+            }
+          },
+          {
+            "id": "B",
+            "attributes": {
+              "classes": "bar"
+            }
+          },
+          {
+            "id": "C",
+            "attributes": {
+              "classes": "foobar"
+            }
+          }
         ]
       },
       "nodes": [
         {
-          "id": "A:::foo",
-          "label": "A:::foo"
+          "id": "A",
+          "label": "A"
         },
         {
-          "id": "B:::bar",
-          "label": "B:::bar"
+          "id": "B",
+          "label": "B"
         },
         {
-          "id": "C:::foobar",
-          "label": "C:::foobar"
+          "id": "C",
+          "label": "C"
         }
       ],
       "edges": [
         {
-          "source": "A:::foo",
-          "target": "C:::foobar",
+          "source": "A",
+          "target": "C",
           "directed": true,
           "startMarker": "none",
           "endMarker": "arrow"
         },
         {
-          "source": "B:::bar",
-          "target": "C:::foobar",
+          "source": "B",
+          "target": "C",
           "directed": true,
           "startMarker": "none",
           "endMarker": "arrow"
@@ -24577,7 +24631,8 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "fact:authored-style",
-        "fact:direction"
+        "fact:direction",
+        "fact:node-attributes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -24591,7 +24646,7 @@
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
       "labels": [
-        "A:::myStyle",
+        "A",
         "B"
       ],
       "facts": {
@@ -24615,12 +24670,20 @@
               }
             ]
           }
+        ],
+        "node-attributes": [
+          {
+            "id": "A",
+            "attributes": {
+              "classes": "myStyle"
+            }
+          }
         ]
       },
       "nodes": [
         {
-          "id": "A:::myStyle",
-          "label": "A:::myStyle"
+          "id": "A",
+          "label": "A"
         },
         {
           "id": "B",
@@ -24629,7 +24692,7 @@
       ],
       "edges": [
         {
-          "source": "A:::myStyle",
+          "source": "A",
           "target": "B",
           "directed": true,
           "startMarker": "none",
@@ -24647,7 +24710,8 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "fact:authored-style",
-        "fact:direction"
+        "fact:direction",
+        "fact:node-attributes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -27412,7 +27476,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "base",
           "gitGraph": {
             "showBranches": false
@@ -27807,7 +27870,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -27833,7 +27898,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "base",
           "gitGraph": {
             "rotateCommitLabel": true
@@ -28030,7 +28094,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -28056,7 +28122,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "base",
           "gitGraph": {
             "rotateCommitLabel": false
@@ -28253,7 +28318,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -28266,7 +28333,6 @@
       "labels": [],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "base",
           "gitGraph": {
             "showBranches": false,
@@ -28659,7 +28725,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -28690,7 +28758,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "base",
           "gitGraph": {
             "showBranches": true,
@@ -28973,7 +29040,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -28991,7 +29060,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "base",
           "gitGraph": {
             "showBranches": true,
@@ -29063,7 +29131,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -29082,7 +29152,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "base",
           "gitGraph": {
             "showBranches": true,
@@ -29163,7 +29232,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -29942,7 +30013,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "base"
         },
         "direction": "LR",
@@ -30334,7 +30404,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -30356,7 +30428,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "forest"
         },
         "direction": "LR",
@@ -30748,7 +30819,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -30770,7 +30843,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "default"
         },
         "direction": "LR",
@@ -31162,7 +31234,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -31184,7 +31258,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "dark"
         },
         "direction": "LR",
@@ -31576,7 +31649,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -31598,7 +31673,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "neutral"
         },
         "direction": "LR",
@@ -31990,7 +32064,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -32008,7 +32084,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "default"
         },
         "direction": "LR",
@@ -32165,7 +32240,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -32183,7 +32260,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "default",
           "themeVariables": {
             "git0": "#ff0000",
@@ -32350,7 +32426,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -32374,7 +32452,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "default",
           "themeVariables": {
             "gitBranchLabel0": "#ffffff",
@@ -32507,7 +32584,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -32525,7 +32604,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "default",
           "themeVariables": {
             "commitLabelColor": "#ff0000",
@@ -32686,7 +32764,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -32704,7 +32784,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "default",
           "themeVariables": {
             "commitLabelColor": "#ff0000",
@@ -32866,7 +32945,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -32884,7 +32965,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "default",
           "themeVariables": {
             "commitLabelColor": "#ff0000",
@@ -33046,7 +33126,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -33064,7 +33146,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "default",
           "themeVariables": {
             "tagLabelColor": "#ff0000",
@@ -33226,7 +33307,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -33244,7 +33327,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "default",
           "themeVariables": {
             "gitInv0": "#ff0000"
@@ -33404,7 +33486,9 @@
         "fact:git-operation-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -33669,11 +33753,6 @@
         "Weird flickering in Firefox"
       ],
       "facts": {
-        "authored-config": {
-          "kanban": {
-            "ticketBaseUrl": "https://mermaidchart.atlassian.net/browse/#TICKET#"
-          }
-        },
         "columns": [
           {
             "id": "Todo",
@@ -33787,11 +33866,12 @@
       "expectedFactsComplete": true,
       "requiredObligations": [
         "visible-labels",
-        "fact:authored-config",
         "fact:columns"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: kanban.ticketBaseUrl=\"https://mermaidchart.atlassian.net/browse/#TICKET#\""
+      ]
     }
   },
   {
@@ -37282,26 +37362,26 @@
               "kind": "sequence",
               "items": [
                 {
+                  "kind": "reference",
+                  "value": "label"
+                },
+                {
                   "kind": "repeat",
                   "minimum": 0,
                   "maximum": null,
                   "expression": {
-                    "kind": "reference",
-                    "value": "label"
+                    "kind": "sequence",
+                    "items": [
+                      {
+                        "kind": "terminal",
+                        "value": "."
+                      },
+                      {
+                        "kind": "reference",
+                        "value": "label"
+                      }
+                    ]
                   }
-                },
-                {
-                  "kind": "sequence",
-                  "items": [
-                    {
-                      "kind": "terminal",
-                      "value": "."
-                    },
-                    {
-                      "kind": "reference",
-                      "value": "label"
-                    }
-                  ]
                 }
               ]
             }
@@ -42382,7 +42462,7 @@
           },
           {
             "kind": "deactivate",
-            "actor": "Alice",
+            "actor": "John",
             "beforeMessage": 2
           }
         ]
@@ -42497,12 +42577,12 @@
           },
           {
             "kind": "deactivate",
-            "actor": "Alice",
+            "actor": "John",
             "beforeMessage": 3
           },
           {
             "kind": "deactivate",
-            "actor": "Alice",
+            "actor": "John",
             "beforeMessage": 4
           }
         ]
@@ -43038,7 +43118,8 @@
             "kind": "else",
             "caption": "is well",
             "beginMessage": 2,
-            "parent": 0
+            "parent": 0,
+            "endMessage": 3
           },
           {
             "kind": "opt",
@@ -43176,7 +43257,8 @@
             "kind": "and",
             "caption": "Alice to John",
             "beginMessage": 1,
-            "parent": 0
+            "parent": 0,
+            "endMessage": 2
           }
         ]
       },
@@ -43319,7 +43401,8 @@
             "kind": "and",
             "caption": "Alice to John",
             "beginMessage": 1,
-            "parent": 0
+            "parent": 0,
+            "endMessage": 4
           },
           {
             "kind": "par",
@@ -43334,7 +43417,8 @@
             "kind": "and",
             "caption": "John to Diana",
             "beginMessage": 3,
-            "parent": 2
+            "parent": 2,
+            "endMessage": 4
           }
         ]
       },
@@ -43471,13 +43555,15 @@
             "kind": "option",
             "caption": "Network timeout",
             "beginMessage": 1,
-            "parent": 0
+            "parent": 0,
+            "endMessage": 2
           },
           {
             "kind": "option",
             "caption": "Credentials rejected",
             "beginMessage": 2,
-            "parent": 0
+            "parent": 0,
+            "endMessage": 3
           }
         ]
       },
@@ -43866,12 +43952,12 @@
           },
           {
             "kind": "deactivate",
-            "actor": "Alice",
+            "actor": "John",
             "beforeMessage": 3
           },
           {
             "kind": "deactivate",
-            "actor": "Alice",
+            "actor": "John",
             "beforeMessage": 4
           },
           {
@@ -43881,7 +43967,7 @@
           },
           {
             "kind": "deactivate",
-            "actor": "Alice",
+            "actor": "John",
             "beforeMessage": 6
           }
         ]
@@ -50014,7 +50100,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "base",
           "timeline": {
             "disableMulticolor": true
@@ -50068,7 +50153,9 @@
         "fact:title"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -50098,7 +50185,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "default",
           "themeVariables": {
             "cScale0": "#ff0000",
@@ -50177,7 +50263,9 @@
         "fact:title"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -50207,7 +50295,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "base"
         },
         "title": "History of Social Media Platform",
@@ -50279,7 +50366,9 @@
         "fact:title"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -50309,7 +50398,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "forest"
         },
         "title": "History of Social Media Platform",
@@ -50381,7 +50469,9 @@
         "fact:title"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -50411,7 +50501,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "dark"
         },
         "title": "History of Social Media Platform",
@@ -50483,7 +50572,9 @@
         "fact:title"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -50513,7 +50604,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "default"
         },
         "title": "History of Social Media Platform",
@@ -50585,7 +50675,9 @@
         "fact:title"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -50615,7 +50707,6 @@
       ],
       "facts": {
         "authored-config": {
-          "logLevel": "debug",
           "theme": "neutral"
         },
         "title": "History of Social Media Platform",
@@ -50687,7 +50778,9 @@
         "fact:title"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\""
+      ]
     }
   },
   {
@@ -53058,11 +53151,11 @@
         "node-shapes": [
           {
             "id": "Customer",
-            "shape": "rounded"
+            "shape": "actor-stick"
           },
           {
             "id": "Checkout",
-            "shape": "rounded"
+            "shape": "ellipse"
           }
         ],
         "layout-constraints": [
@@ -53152,15 +53245,23 @@
         "node-shapes": [
           {
             "id": "Browse",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Checkout",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Track",
-            "shape": "rounded"
+            "shape": "ellipse"
+          },
+          {
+            "id": "Customer",
+            "shape": "actor-stick"
+          },
+          {
+            "id": "Support",
+            "shape": "actor-stick"
           }
         ],
         "layout-constraints": [
@@ -53327,15 +53428,23 @@
         "node-shapes": [
           {
             "id": "Browse",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Checkout",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Track",
-            "shape": "rounded"
+            "shape": "ellipse"
+          },
+          {
+            "id": "Customer",
+            "shape": "actor-stick"
+          },
+          {
+            "id": "Support",
+            "shape": "actor-stick"
           }
         ],
         "layout-constraints": [
@@ -53495,19 +53604,23 @@
         "node-shapes": [
           {
             "id": "Admin",
-            "shape": "rounded"
+            "shape": "actor-stick"
           },
           {
             "id": "Login",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Report",
             "shape": "rectangle"
           },
           {
-            "id": "anonymous-usecase-0",
-            "shape": "rectangle"
+            "id": "Reset_password",
+            "shape": "ellipse"
+          },
+          {
+            "id": "Customer",
+            "shape": "actor-stick"
           }
         ],
         "dialect-kinds": [
@@ -53520,7 +53633,7 @@
             "kind": "actor"
           },
           {
-            "id": "anonymous-usecase-0",
+            "id": "Reset_password",
             "kind": "anonymous-use-case",
             "label": "Reset password"
           }
@@ -53544,7 +53657,7 @@
           "label": "Generate report"
         },
         {
-          "id": "anonymous-usecase-0",
+          "id": "Reset_password",
           "label": "Reset password"
         }
       ],
@@ -53602,23 +53715,27 @@
         "node-shapes": [
           {
             "id": "Normal",
-            "shape": "rounded"
+            "shape": "actor-stick"
           },
           {
             "id": "Hollow",
-            "shape": "rounded"
+            "shape": "actor-hollow"
           },
           {
             "id": "Awesome",
-            "shape": "rounded"
+            "shape": "actor-awesome"
           },
           {
             "id": "Icon",
-            "shape": "rounded"
+            "shape": "actor-icon"
           },
           {
             "id": "Fallback",
-            "shape": "rounded"
+            "shape": "actor-icon"
+          },
+          {
+            "id": "Manage",
+            "shape": "ellipse"
           }
         ],
         "node-attributes": [
@@ -53773,15 +53890,19 @@
         "node-shapes": [
           {
             "id": "SalesAgent",
-            "shape": "rounded"
+            "shape": "actor-stick"
           },
           {
             "id": "Quote",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Archive",
             "shape": "rectangle"
+          },
+          {
+            "id": "Broker",
+            "shape": "actor-hollow"
           }
         ],
         "node-attributes": [
@@ -53909,11 +54030,11 @@
         "node-shapes": [
           {
             "id": "Analyst",
-            "shape": "rounded"
+            "shape": "actor-stick"
           },
           {
             "id": "Literal",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Priced",
@@ -54009,19 +54130,19 @@
         "node-shapes": [
           {
             "id": "Reviewer",
-            "shape": "rounded"
+            "shape": "actor-stick"
           },
           {
             "id": "Literal",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Formatted",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Quoted",
-            "shape": "rounded"
+            "shape": "ellipse"
           }
         ],
         "dialect-kinds": [
@@ -54106,6 +54227,20 @@
       ],
       "facts": {
         "direction": "TB",
+        "node-shapes": [
+          {
+            "id": "User",
+            "shape": "actor-stick"
+          },
+          {
+            "id": "Login",
+            "shape": "ellipse"
+          },
+          {
+            "id": "Dashboard",
+            "shape": "ellipse"
+          }
+        ],
         "dialect-kinds": [
           {
             "id": "User",
@@ -54154,7 +54289,8 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "fact:dialect-kinds",
-        "fact:direction"
+        "fact:direction",
+        "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -54190,11 +54326,11 @@
         "node-shapes": [
           {
             "id": "Clerk",
-            "shape": "rounded"
+            "shape": "actor-stick"
           },
           {
             "id": "Authorize",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Receipt",
@@ -54256,7 +54392,6 @@
           "id": "sb1",
           "label": "Payment service",
           "members": [
-            "sb1",
             "Clerk",
             "Authorize",
             "Receipt"
@@ -54301,11 +54436,11 @@
         "node-shapes": [
           {
             "id": "Clerk",
-            "shape": "rounded"
+            "shape": "actor-stick"
           },
           {
             "id": "Authorize",
-            "shape": "rounded"
+            "shape": "ellipse"
           }
         ],
         "node-attributes": [
@@ -54421,6 +54556,24 @@
             "markerEnd": "none"
           }
         ],
+        "node-shapes": [
+          {
+            "id": "User",
+            "shape": "actor-stick"
+          },
+          {
+            "id": "Support",
+            "shape": "actor-stick"
+          },
+          {
+            "id": "Start",
+            "shape": "ellipse"
+          },
+          {
+            "id": "Finish",
+            "shape": "ellipse"
+          }
+        ],
         "dialect-kinds": [
           {
             "id": "User",
@@ -54513,7 +54666,8 @@
         "relationship-endpoints-directions-labels",
         "fact:dialect-kinds",
         "fact:direction",
-        "fact:edge-appearance"
+        "fact:edge-appearance",
+        "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -54533,6 +54687,16 @@
       ],
       "facts": {
         "direction": "TB",
+        "node-shapes": [
+          {
+            "id": "User",
+            "shape": "actor-stick"
+          },
+          {
+            "id": "Login",
+            "shape": "ellipse"
+          }
+        ],
         "dialect-kinds": [
           {
             "id": "User",
@@ -54571,7 +54735,8 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "fact:dialect-kinds",
-        "fact:direction"
+        "fact:direction",
+        "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -54609,6 +54774,28 @@
             "stroke": "dotted",
             "markerStart": "none",
             "markerEnd": "arrow"
+          }
+        ],
+        "node-shapes": [
+          {
+            "id": "Admin",
+            "shape": "actor-stick"
+          },
+          {
+            "id": "Person",
+            "shape": "actor-stick"
+          },
+          {
+            "id": "Checkout",
+            "shape": "ellipse"
+          },
+          {
+            "id": "Payment",
+            "shape": "ellipse"
+          },
+          {
+            "id": "ApplyCoupon",
+            "shape": "ellipse"
           }
         ],
         "dialect-kinds": [
@@ -54708,7 +54895,8 @@
         "relationship-endpoints-directions-labels",
         "fact:dialect-kinds",
         "fact:direction",
-        "fact:edge-appearance"
+        "fact:edge-appearance",
+        "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -54801,6 +54989,20 @@
             "markerEnd": "arrow"
           }
         ],
+        "node-shapes": [
+          {
+            "id": "Customer",
+            "shape": "actor-stick"
+          },
+          {
+            "id": "Checkout",
+            "shape": "ellipse"
+          },
+          {
+            "id": "Payment",
+            "shape": "ellipse"
+          }
+        ],
         "dialect-kinds": [
           {
             "id": "Customer",
@@ -54860,7 +55062,8 @@
         "fact:dialect-kinds",
         "fact:direction",
         "fact:edge-appearance",
-        "fact:edge-attributes"
+        "fact:edge-attributes",
+        "fact:node-shapes"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -54890,7 +55093,11 @@
         "node-shapes": [
           {
             "id": "Login",
-            "shape": "rounded"
+            "shape": "ellipse"
+          },
+          {
+            "id": "User",
+            "shape": "actor-stick"
           }
         ],
         "dialect-kinds": [
@@ -55009,11 +55216,11 @@
         "node-shapes": [
           {
             "id": "Inspect",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Payload",
-            "shape": "rectangle"
+            "shape": "json-table"
           }
         ],
         "node-attributes": [
@@ -55139,10 +55346,9 @@
         "Session",
         "active",
         "true",
-        "Customer:::external",
+        "Customer",
         "Checkout",
         "Edit profile",
-        "Customer",
         "Account"
       ],
       "facts": {
@@ -55217,7 +55423,7 @@
         "node-shapes": [
           {
             "id": "Checkout",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Profile",
@@ -55225,10 +55431,20 @@
           },
           {
             "id": "Session",
-            "shape": "rectangle"
+            "shape": "json-table"
+          },
+          {
+            "id": "Customer",
+            "shape": "actor-stick"
           }
         ],
         "node-attributes": [
+          {
+            "id": "Customer",
+            "attributes": {
+              "classes": "external"
+            }
+          },
           {
             "id": "Checkout",
             "attributes": {
@@ -55267,8 +55483,8 @@
       },
       "nodes": [
         {
-          "id": "Customer:::external",
-          "label": "Customer:::external"
+          "id": "Customer",
+          "label": "Customer"
         },
         {
           "id": "Checkout",
@@ -55281,10 +55497,6 @@
         {
           "id": "Session",
           "label": "Session"
-        },
-        {
-          "id": "Customer",
-          "label": "Customer"
         }
       ],
       "edges": [
@@ -55363,11 +55575,15 @@
         "node-shapes": [
           {
             "id": "Browse",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Checkout",
-            "shape": "rounded"
+            "shape": "ellipse"
+          },
+          {
+            "id": "Customer",
+            "shape": "actor-stick"
           }
         ],
         "layout-constraints": [
@@ -55505,11 +55721,19 @@
         "node-shapes": [
           {
             "id": "Browse",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Checkout",
-            "shape": "rounded"
+            "shape": "ellipse"
+          },
+          {
+            "id": "Customer",
+            "shape": "actor-stick"
+          },
+          {
+            "id": "Auditor",
+            "shape": "actor-stick"
           }
         ],
         "layout-constraints": [
@@ -55621,7 +55845,11 @@
         "node-shapes": [
           {
             "id": "Browse",
-            "shape": "rounded"
+            "shape": "ellipse"
+          },
+          {
+            "id": "Customer",
+            "shape": "actor-stick"
           }
         ],
         "layout-constraints": [
@@ -55695,11 +55923,15 @@
         "node-shapes": [
           {
             "id": "SignIn",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Reset",
-            "shape": "rounded"
+            "shape": "ellipse"
+          },
+          {
+            "id": "Customer",
+            "shape": "actor-stick"
           }
         ],
         "dialect-kinds": [
@@ -55864,23 +56096,23 @@
         "node-shapes": [
           {
             "id": "Customer",
-            "shape": "rounded"
+            "shape": "actor-stick"
           },
           {
             "id": "Staff",
-            "shape": "rounded"
+            "shape": "actor-hollow"
           },
           {
             "id": "Browse",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Checkout",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Payment",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Review",
@@ -55888,7 +56120,7 @@
           },
           {
             "id": "OrderData",
-            "shape": "rectangle"
+            "shape": "json-table"
           }
         ],
         "node-attributes": [
@@ -56081,7 +56313,6 @@
           "id": "ordering",
           "label": "Ordering System",
           "members": [
-            "ordering",
             "Browse",
             "Checkout",
             "Payment",
@@ -56140,11 +56371,15 @@
         "node-shapes": [
           {
             "id": "Reset",
-            "shape": "rounded"
+            "shape": "ellipse"
           },
           {
             "id": "Refund",
-            "shape": "rounded"
+            "shape": "ellipse"
+          },
+          {
+            "id": "Customer",
+            "shape": "actor-stick"
           }
         ],
         "dialect-kinds": [
@@ -59764,10 +59999,36 @@
       "labels": [
         "SyncMessage",
         "result",
+        "1. assign a variable from a sync message.",
+        "1.1. optionally give the variable a type",
+        "2. use return keyword",
+        "3. use @return or @reply annotator on an async message",
         "A",
         "B"
       ],
       "facts": {
+        "zenuml-message-comments": [
+          {
+            "event": 0,
+            "source": "1. assign a variable from a sync message.",
+            "text": "1. assign a variable from a sync message."
+          },
+          {
+            "event": 1,
+            "source": "1.1. optionally give the variable a type",
+            "text": "1.1. optionally give the variable a type"
+          },
+          {
+            "event": 2,
+            "source": "2. use return keyword",
+            "text": "2. use return keyword"
+          },
+          {
+            "event": 4,
+            "source": "3. use @return or @reply annotator on an async message",
+            "text": "3. use @return or @reply annotator on an async message"
+          }
+        ],
         "participant-order": [
           "A",
           "B"
@@ -59860,7 +60121,8 @@
         "node-identities-and-labels",
         "fact:participant-kinds",
         "fact:participant-order",
-        "fact:zenuml-event-order"
+        "fact:zenuml-event-order",
+        "fact:zenuml-message-comments"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -59880,15 +60142,23 @@
         "x1",
         "x11",
         "x2",
-        "A",
+        "return early",
         "Client",
+        "A",
         "B"
       ],
       "facts": {
         "title": "Reply message",
+        "zenuml-message-comments": [
+          {
+            "event": 3,
+            "source": "return early",
+            "text": "return early"
+          }
+        ],
         "participant-order": [
-          "A",
           "Client",
+          "A",
           "B"
         ],
         "participant-kinds": [],
@@ -60001,12 +60271,12 @@
       },
       "nodes": [
         {
-          "id": "A",
-          "label": "A"
-        },
-        {
           "id": "Client",
           "label": "Client"
+        },
+        {
+          "id": "A",
+          "label": "A"
         },
         {
           "id": "B",
@@ -60026,7 +60296,8 @@
         "fact:participant-kinds",
         "fact:participant-order",
         "fact:title",
-        "fact:zenuml-event-order"
+        "fact:zenuml-event-order",
+        "fact:zenuml-message-comments"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -60138,9 +60409,23 @@
     "expected": {
       "labels": [
         "getBook",
+        "a comment on a message.",
+        "Markdown is supported.",
         "BookService"
       ],
       "facts": {
+        "zenuml-message-comments": [
+          {
+            "event": 0,
+            "source": "a comment on a message.",
+            "text": "a comment on a message."
+          },
+          {
+            "event": 0,
+            "source": "**Markdown** is supported.",
+            "text": "Markdown is supported."
+          }
+        ],
         "participant-order": [
           "BookService"
         ],
@@ -60179,7 +60464,8 @@
         "node-identities-and-labels",
         "fact:participant-kinds",
         "fact:participant-order",
-        "fact:zenuml-event-order"
+        "fact:zenuml-event-order",
+        "fact:zenuml-message-comments"
       ],
       "unresolved": [],
       "excludedNonvisual": [
