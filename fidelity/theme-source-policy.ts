@@ -36,11 +36,22 @@ export function sourceThemePalette(theme: SourceThemeName, overrides: Record<str
   const neutralScale = ['#555', '#f4f4f4', '#555', '#bbb', '#777', '#999', '#ddd', '#fff', '#ddd'].map(hsl)
   const git = theme === 'dark' ? [adjust(secondary, 0, 20), ...darkScale.slice(2, 6).map(color => adjust(color, 0, 20)), adjust(darkScale[6]!, 0, 10), adjust(darkScale[7]!, 0, 10), adjust(darkScale[8]!, 0, 20)] : theme === 'neutral' ? [adjust(neutralScale[1]!, 0, -25), ...neutralScale.slice(2, 9)] : [primary, secondary, tertiary, ...[-30, -60, -90, 60, 120].map(hue => adjust(primary, hue))].map(color => adjust(color, 0, theme === 'default' ? -50 : -25))
   const gitLabels = theme === 'base' ? Array(8).fill('#333333') : theme === 'dark' ? ['#2c2c2c', '#d3d3d3', '#d3d3d3', '#2c2c2c', '#d3d3d3', '#d3d3d3', '#d3d3d3', '#d3d3d3'] : theme === 'neutral' ? ['#333333', '#ffffff', '#333333', '#ffffff', '#333333', '#333333', '#333333', '#333333'] : ['#ffffff', '#000000', '#000000', '#ffffff', '#000000', '#000000', '#000000', '#000000']
+  const gitInverse = git.map((value, index) => {
+    // Default's constructor initializes inverse tokens after its first -25
+    // pass; `||` preserves them when calculate performs the second -25 pass.
+    const initial = theme === 'default' ? adjust(value, 0, 25) : ['base', 'forest'].includes(theme) && overrides['git' + index] ? adjust(hsl(overrides['git' + index]!), 0, -25) : value
+    const inverse = { h: (initial.h + 180) % 360, s: initial.s, l: 1 - initial.l }
+    const final = theme === 'default' && index === 0 ? adjust(inverse, 0, -25) : inverse
+    return { hex: overrides['gitInv' + index] ?? hex(final), channels: overrides['gitInv' + index] ? sourceColorChannels(overrides['gitInv' + index]!) : rgb(final) }
+  })
+  const peers = scale.map((value, index) => ['default', 'forest'].includes(theme) && index === 1 ? adjust(secondary, 0, -45) : ['default', 'forest'].includes(theme) && index === 2 ? adjust(tertiary, 0, -40) : adjust(value, 0, theme === 'dark' ? 10 : theme === 'base' || theme === 'neutral' ? -10 : theme === 'default' ? -15 : -25))
   return {
     theme,
     fontFamily: '"trebuchet ms", verdana, arial, sans-serif', fontSize: 16,
-    scale: scale.map((value, index) => ({ css: overrides['cScale' + index] ?? `hsl(${value.h}, ${value.s * 100}%, ${value.l * 100}%)`, hex: overrides['cScale' + index] ?? hex(value), channels: overrides['cScale' + index] ? sourceColorChannels(overrides['cScale' + index]!) : rgb(value), foreground: overrides['cScaleLabel' + index] ?? labelColors[index] })),
+    scale: scale.map((value, index) => ({ css: overrides['cScale' + index] ?? `hsl(${value.h}, ${value.s * 100}%, ${value.l * 100}%)`, hex: overrides['cScale' + index] ?? hex(value), channels: overrides['cScale' + index] ? sourceColorChannels(overrides['cScale' + index]!) : rgb(value), foreground: overrides['cScaleLabel' + index] ?? labelColors[index], peer: overrides['cScalePeer' + index] ?? hex(peers[index]!), peerChannels: overrides['cScalePeer' + index] ? sourceColorChannels(overrides['cScalePeer' + index]!) : rgb(peers[index]!) })),
     git: git.map((value, index) => ({ hex: overrides['git' + index] ?? hex(value), channels: overrides['git' + index] ? sourceColorChannels(overrides['git' + index]!) : rgb(value), foreground: overrides['gitBranchLabel' + index] ?? gitLabels[index] })),
+    gitInverse,
+    gitSpecial: { innerFill: overrides.primaryColor ?? hex(primary), innerStroke: overrides.primaryColor ?? hex(primary), reverseStrokeWidth: 3, commitLabelBackground: overrides.commitLabelBackground ?? hex(secondary), commitLabelOpacity: .5, commitLabelForeground: overrides.commitLabelColor ?? hex({ h: (secondary.h + 180) % 360, s: secondary.s, l: 1 - secondary.l }), tagBackground: overrides.tagLabelBackground ?? hex(primary), tagForeground: overrides.tagLabelColor ?? (theme === 'base' ? '#333333' : hex({ h: (primary.h + 180) % 360, s: primary.s, l: 1 - primary.l })) },
     eventBrightness: 1.2,
     quantizationTolerancePerChannel: 1,
   }

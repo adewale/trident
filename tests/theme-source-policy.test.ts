@@ -29,3 +29,10 @@ test('redux role color semantics differ from the independent rotation cycle', ()
   expect(reduxUsecaseSourcePolicy.rotation[0]).toEqual({ fill: '#FDF4FF', stroke: '#E879F9' })
   expect(reduxUsecaseSourcePolicy.rotation[2]).toEqual({ fill: '#FFF7ED', stroke: '#FB923C' })
 })
+
+test('git special glyph colors preserve source first-pass inverse initialization', () => {
+  expect(sourceThemePalette('base').gitInverse[0]!.channels.map(Math.round)).toEqual([0, 52, 162])
+  expect(sourceThemePalette('default').gitInverse[0]!.channels.map(Math.round)).toEqual([19, 19, 0])
+  expect(sourceThemePalette('default').gitSpecial).toMatchObject({ innerFill: '#ececff', reverseStrokeWidth: 3, commitLabelOpacity: .5 })
+  expect(sourceThemePalette('neutral').gitSpecial.innerFill).toBe('#eeeeee')
+})

@@ -84,3 +84,30 @@ uses the paired foreground. Explicit source color/label overrides remain
 independent required effects; actor/commit identities are never read from
 renderer CSS classes or generated IDs. Highlight/reverse/merge inner glyph
 paint has its own source rules and must not borrow normal commit-color credit.
+
+Git special glyphs use separate owned layers. `diagrams/git/styles.js:110`
+uses `gitInvN` for the highlight outer outline; `:147–165` uses primaryColor
+for merge inner dots, reverse inner marks (width3), and highlight inner marks.
+`gitInverse` independently computes RGB complements. Default theme preserves
+its constructor's first-pass inverse tokens (`theme-default.js:429–436` uses
+`||`) while its second pass darkens normal git colors again; inverse slot0
+additionally darkens25. This yields default slot0 inverse `(19,19,0)` within
+one channel unit, not the complement of the final normal darkblue slot.
+Other themes derive the complement from their single initial git palette.
+Explicit `gitInvN` overrides win. `gitSpecial` retains primary inner paint,
+commit/tag caption foreground and backdrop; commit-caption backdrop opacity
+is the literal0.5 in `styles.js:141`. These roles must be bound to the actual
+outer/inner shapes and caption backdrops separately.
+
+Treemap group stroke opacity is the literal0.4 in
+`diagrams/treemap/renderer.ts:212`; default group stroke width2 and fill alpha0.6
+remain distinct from opaque leaf borders. Authored stroke/color overrides
+inherit these alphas unless the source overrides opacity explicitly.
+
+Scale `peer`/`peerChannels` are independently transcribed border colors:
+forest/default reserve peer1=secondary darkened45 and peer2=tertiary darkened40
+(`theme-forest.js:138–143`, `theme-default.js:164–169`). Their other peers are
+first scale pass darkened25; default preserves that constructor first pass.
+Base/neutral peers darken the scale10; dark peers lighten10. Explicit
+cScalePeerN overrides remain final. These peer colors own group borders,
+while treemap leaf borders use the immediate parent group's fill color.
