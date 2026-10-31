@@ -8,6 +8,11 @@ test('global layout hints become normative order only for a defensible simple ch
   expect(branching.facts).not.toHaveProperty('direction')
   expect(branching.advisoryFacts?.direction).toBe('TD')
 })
+test('complete class signature facts replace brittle literal signature display labels', () => {
+  const expected = projectVisualExpectation('class', { labels: ['User', '+save() bool', '+String name'], facts: { members: [{ id: 'User', values: ['+save() bool', '+String name'] }] } }).expected
+  expect(expected.labels).toEqual(['User'])
+  expect(expected.facts?.members).toEqual([{ id: 'User', values: ['+save() bool', '+String name'] }])
+})
 
 test('unprinted pie totals project to fractions; showData retains explicit absolute values', () => {
   const raw = { labels: ['A', 'B'], facts: { slices: [{ label: 'A', value: 7 }, { label: 'B', value: 3 }], 'show-data': false } }

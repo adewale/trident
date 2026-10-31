@@ -152,7 +152,7 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
     if (key === 'members' && input.family === 'class' && Array.isArray(facts.members)) {
       // The colon before a displayed return type is presentation punctuation;
       // visibility, names, argument/return types and access modifiers remain.
-      const canonical = (value: string) => normalize(value).replace(/\)\s*:\s*/g, ') ')
+      const canonical = (value: string) => normalize(value).replace(/\)\s*:\s*/g, ') ').replace(/\s*:\s*/g, ':')
       const actual = facts.members.map((entry: any) => {
         const elements = ownedText(entry.id)
         return { id: entry.id, elements, values: elements ? bodyText(entry.id, elements).map(element => normalize(element.textContent ?? '')).filter(Boolean).map(canonical).sort() : null }
