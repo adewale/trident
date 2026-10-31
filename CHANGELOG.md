@@ -20,8 +20,8 @@ publication remain pending.
   metadata. Strict SVG-to-PNG preservation additionally requires the actual
   rasterized SVG, frozen rasterizer/fonts and an independently reviewed reference
   image. A native PNG without complete content evidence remains unknown.
-- Qualify 22 unchanged original Mermaid public parse/detector callbacks against
-  both the source runner and substituted public reference. Preserve the complete
+- Qualify 41 unchanged original Mermaid public parse/detector/accessibility
+  callbacks against both the source runner and substituted public reference. Preserve the complete
   4,060-declaration census separately; broader conformance remains unqualified.
 - Declare required terminal source facts across the full 120-input corpus;
   keep 116 positive drawings and four invalid controls separate. Expand bounded display-cell observers; the

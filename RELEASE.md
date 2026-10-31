@@ -36,7 +36,7 @@ Before the first release, resolve or explicitly bound each advertised claim:
 | Claim | Concrete prerequisite |
 |---|---|
 | Full DaveBench accuracy | Settle the three pending source interpretations; qualify every required drawing fact on actual SVG/PNG output. Keep the configuration-only example separate. |
-| Mermaid test compatibility | Publish the exact qualified 22-callback parse/detector scope and all nonpasses. Broader assertions require their own original-source contract and reference qualification. |
+| Mermaid test compatibility | Publish the exact qualified public-callback scope and all nonpasses. Broader assertions require their own original-source contract and reference qualification. |
 | Terminal accuracy | Qualify every required fact for the 116 positive drawings, with four typed invalid controls separate. An unavailable family observer supplies no correctness pass. |
 | PNG correctness | Independently review exact decoded pixels against complete source facts, or satisfy the strict exact-SVG conversion proof. A decoded image or correct SVG alone is insufficient. |
 | Comparative performance | Qualify the same matched successful tasks and every actual timed sample; retain intervals, A/A controls, runtime and call boundary. |

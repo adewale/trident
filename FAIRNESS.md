@@ -13,9 +13,12 @@ future comparison rules for the first public release baseline.
 
 ```sh
 bun commands.ts support --out /evidence/support.md
-bun commands.ts bench --projects OWNER/TOOL,... --profile full --plan
-bun commands.ts bench --projects OWNER/TOOL,... --profile full \
-  --rounds 5 --budget-minutes 720 --out /evidence/run
+bun commands.ts bench --projects OWNER/TOOL,... --suites docs,fidelity \
+  --profile smoke --rounds 1 --plan
+bun commands.ts bench --prepare --projects OWNER/TOOL,... \
+  --profile smoke --rounds 1 --out /evidence/preparation
+bun commands.ts bench --prepared /evidence/preparation/preparation.json \
+  --suites docs,fidelity --budget-minutes 5 --out /evidence/run
 ```
 
 Execution requires `--projects` or the explicit `--all-projects` option. Listing
@@ -24,11 +27,11 @@ suite's binding, prerequisites, missing local tools, fresh-worker population and
 a broad runtime allowance. Acquisition, downloads and source builds have unknown duration and are excluded from that range. It does not predict a project's speed or prove that
 a build succeeds. Toolchain/version/network admission still happens at execution.
 
-The optional runtime budget is checked between suite/project boundaries. It does
-not interrupt an active boundary or reduce requested sampling; each portable
-worker retains its own deadline. An overrun therefore remains possible. Unstarted
-boundaries are recorded as `budget-exhausted`, and the campaign writes an
-incomplete receipt rather than a completion claim. Use a smaller project/suite
+This example requests one bounded correctness pass, not a timing comparison.
+Preparation freezes sampling; collection cannot change it. The collection budget
+is checked at safe job/case/round boundaries; active workers retain their own
+deadlines. Expiry preserves completed work and records the rest as unrun or
+interrupted, rather than reducing samples or claiming completion. Use a smaller project/suite
 selection when the planning range exceeds the available window.
 
 ## Observe output independently of optional APIs
@@ -39,33 +42,19 @@ own dispositions. A renderer without a model API can pass output admission;
 that does not establish topology or full painted fidelity. Model failures cannot
 be hidden by correct labels, and model facts never substitute for missing ink.
 
-Portable protocol v7 records these dimensions separately. Complete semantic
-qualification still requires all the declared model and paint checks. A/A
-calibration measures timing noise and never supplies missing correctness proof.
-The report reads old evidence as unavailable where a dimension was not recorded;
-it does not backfill or relabel historical measurements.
+Current SVG verdicts require the complete source-fact ledger, actual output
+bytes and current observer identity. All projects face the same required facts;
+project-specific projections must prove those same facts rather than earn extra
+votes. Unknown projection support cannot be filled with native-model agreement.
+The source, PNG and terminal qualification rules are in
+[BENCHMARKS.md](BENCHMARKS.md).
 
-Qualification observer `portable-owned-topology-v3-agentic-class-er` adds a
-reviewed Agentic Class/ER projection. It separately calls the public
-`parseRegisteredMermaid` API after render clocks and memory snapshots, requiring
-the actual typed Result rather than source preservation. Declared node identities
-and endpoint multiplicity must agree with both that model and independently
-bound, visibly stroked SVG routes. Directed association/dependency Class routes
-also need their referenced, visible open-arrow resource pointing into the target.
-Simple inherited/inline marker longhands are inspected; marker shorthand,
-`!important`, escaped/commented inline declarations and stylesheet overrides remain
-unmeasured. Unexpected start/mid markers cannot earn a directed-to-only certificate.
-Simple ER relation lines additionally require the authored exact tick/fan/circle
-cardinality at each route end and the declared solid/dashed identifying appearance;
-each emitted glyph primitive can satisfy only one endpoint check.
-
-This observer's completion applies to those authored criteria. Other Class marker
-profiles, ER syntax or glyph profiles, member/attribute content, computed CSS,
-fonts, clipping and complete curve-interior paint remain unmeasured. Unsupported
-paint profiles cannot earn completion through model facts or SVG metadata. The
-observer identity is separate from the timing protocol. The observer was introduced
-under v6; v7 revises sampling and resumable scheduling, preserving historical records;
-new qualification replays do not rewrite historical records or their scopes.
+The legacy portable observer `portable-owned-topology-v3-agentic-class-er`
+contains an AM Class/ER projection with a narrower declared profile. It remains
+part of those historical/diagnostic records, not the current generic correctness
+contract. A passing legacy profile or format/text calibration cannot qualify
+adaptive timing samples under the strict per-call method. Rechecks preserve the
+old observer and measurement identities alongside new evidence.
 
 A catalog project can bind the portable SVG API without a bespoke runner:
 
@@ -83,7 +72,10 @@ Configuration cases express semantic intent. Reviewed option translations curren
 The worker awaits the public return and consumes the declared field. The standalone
 CLI accepts the same binding as `--adapter declared --binding JSON`. Preparation,
 fonts, plugin loading, import costs and option mappings must remain explicit.
-Different public APIs require translations while the output admission rules stay fixed. Format/text-only timing calibration is reported independently, so an optional model failure cannot erase an otherwise admitted SVG-only measurement. Full semantic qualification remains strict.
+Different public APIs require translations while the required task stays fixed.
+A real SVG return remains visible when an optional model check fails. Its clock
+still needs complete per-call drawing checks and A/A qualification before a
+performance comparison; format/text admission alone is insufficient.
 
 ## Freeze external inputs before examining output
 
@@ -140,8 +132,9 @@ links the owning scorecards, raw results and failure outputs. `--copy-evidence`
 copies campaign evidence into a portable directory; without it, the output is
 explicitly a local index. It never collects new timings or claims that earlier
 runs used this revised protocol. Publication time is separate from measurement
-time. Compare latency only on declared shared successful inputs, alongside the
-full acceptance denominator; old six-case ratios are narrow diagnostics.
+time. Compare latency only after the strict per-call proof on declared matched inputs,
+alongside the full correctness denominator. Old six-case ratios are narrow
+descriptive diagnostics.
 
 The semantic contract tests give identical SVG the same generic admission under
 different adapter labels, reject lost labels, retain bad model evidence and

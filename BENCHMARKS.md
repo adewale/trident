@@ -85,13 +85,13 @@ their counts and timings are not silently imported into the new output lanes.
 ## Mermaid Feature Cases
 
 Task: preserve independently declared diagram facts through a public rendering
-interface. Existing collectors retain their IDs:
+interface. The correctness collector and legacy diagnostics retain their IDs:
 
 | Collector | Checks | What a result establishes |
 |---|---|---|
-| `community` | Output format, authored text, invalid-input controls and interface behaviour. | Input/output admission within the named format and runtime. |
+| `community` — legacy diagnostic | Output format, authored text, invalid-input controls and interface behaviour. | Input/output admission within the named format and runtime; no complete drawing or qualified speed claim. |
 | `fidelity` | Visible labels, owned nodes/routes, arrow direction, grouping, declared values and hidden content. | Completion of the same planned SVG checks, with failed and unknown criteria retained. |
-| `portable` | Public Node SVG calls across families, sizes, repeated/new sources and edits. | Qualified cost for a named task and call mode; output and optional model scope remain visible. |
+| `portable` — legacy adaptive diagnostic | Public Node SVG calls across families, sizes, repeated/new sources and edits. | Descriptive process/sample means with original output/model scope; no strict per-call timing qualification. |
 
 The 718-positive-input compatibility cohort originated in AM testing and remains
 a labelled legacy regression workload. The separately pinned external repository
@@ -106,8 +106,10 @@ failure details, not votes in an overall fidelity score. Group checks inspect
 actual enclosure; explicit hidden-content checks reject painted collapsed members.
 Bounded filter support does not admit arbitrary masks, filters or paint servers.
 
-Portable protocol v7 retains six rounds, 31 warm sample means and five fresh
-processes per replica/round/positive case. Invalid controls receive no speed
+The legacy portable process protocol v7 retains six rounds, 31 warm adaptive
+sample means and five fresh processes per replica/round/positive case. These
+records are descriptive diagnostics; they lack the exhaustive strict per-call
+proof required for a current comparative timing rank. Invalid controls receive no speed
 credit. Unknown option mappings and failed output admission withhold their clocks.
 First use, repeated source, changed source, edits and resource checkpoints have
 separate tables. Comment-varied sources are cache diagnostics. A/A calibration
@@ -118,17 +120,20 @@ their separate scopes. [Measurement rules](MEASUREMENT.md) give the clock detail
 ## Mermaid Public Tests
 
 Task: pass the unchanged public-behaviour assertions in Mermaid's own tests.
-The current [qualified scope](docs/mermaid-public-conformance.md) is **22 callbacks**:
-16 public parse callbacks and six public detector callbacks from the pinned
+The current [qualified scope](docs/mermaid-public-conformance.md) is **41 callbacks**:
+16 public parse callbacks, six detector callbacks and 19 parameterized
+accessibility render callbacks from 23 original declarations in the pinned
 Mermaid source. It checks acceptance/rejection, suppressed errors, returned family
-and configuration, and original snapshots. The original runner and substituted
+and configuration, original snapshots and caller-ID/ARIA conventions. The
+accessibility scope retains Mermaid's exact API conventions and original jsdom
+geometry mocks; it is not a drawing-accuracy check. The original runner and substituted
 public reference must both pass before a peer comparison can be scored.
 
 ```sh
 bun commands.ts mermaid:public-tests --help
 ```
 
-Tables stack-rank passes over the same 22 planned callbacks, with assertion
+Tables stack-rank passes over the same 41 planned callbacks, with assertion
 failures, unsupported operations, binding gaps and unrun work separate. A Trident
 adapter exception cannot earn syntax-rejection credit. This benchmark measures
 that exact API scope; it does not measure drawing accuracy, speed or all Mermaid
@@ -206,7 +211,7 @@ Mermaid's own original tests (`--suites upstream-original`) validate the pinned
 reference environment. Run them explicitly when that pin/runtime changes, with
 read-only snapshots and the actual runner. They provide no peer-project score.
 Existing owning evidence can be reused without rerunning every campaign. These
-reference-runner results are separate from the qualified 22-callback public-test
+reference-runner results are separate from the qualified public-callback
 comparison above.
 
 AM owns its product invocation/MCP matrices, editor/session flows, release budgets,
