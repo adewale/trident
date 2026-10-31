@@ -85,6 +85,14 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   }
   const bodies = (id: string) => { const owner = node.get(id) ?? group.get(id); return owner ? geometry.filter(element => nearBox(box(element), owner.box)) : [] }
   const parts = (id: string) => { const owner = node.get(id) ?? group.get(id); return owner ? geometry.filter(element => contains(owner.box, box(element)) && !nodes.some(other => other.id !== id && area(other.box) < area(owner.box) - 1 && contains(other.box, box(element)))) : [] }
+  if (input.family === 'c4') for (const entry of facts.elements ?? []) if (/^Person(?:_Ext)?$/.test(entry.kind)) {
+    const owner = node.get(entry.id), torso = owner ? bodies(entry.id).filter(element => element.localName === 'rect') : []
+    if (!owner || !torso.length) continue
+    const heads = geometry.filter(element => ['circle', 'ellipse'].includes(element.localName) && Math.abs(box(element).width - box(element).height) <= 1 && box(element).width >= 4 && box(element).width < owner.box.width * .6 && Math.abs(center(box(element)).x - center(owner.box).x) <= 2 && center(box(element)).y < owner.box.y + 2 && Math.abs(box(element).y + box(element).height - owner.box.y) <= Math.max(4, box(element).height * .5))
+    if (heads.length !== 1) continue
+    const ink = [...torso, heads[0]!], boxes = ink.map(box), x = Math.min(...boxes.map(b => b.x)), y = Math.min(...boxes.map(b => b.y)), union = { x, y, width: Math.max(...boxes.map(b => b.x + b.width)) - x, height: Math.max(...boxes.map(b => b.y + b.height)) - y }
+    const actual: Owned = { ...owner, box: union, anchorParts: ink.map(element => ({ tag: element.localName, box: box(element) })) }; nodes[nodes.findIndex(node => node.id === owner.id)] = actual; node.set(owner.id, actual)
+  }
   const samples = (element: SVGGeometryElement, count = 128): Point[] => {
     const matrix = element.getScreenCTM(), length = element.getTotalLength()
     return matrix && length > 0 ? Array.from({ length: count + 1 }, (_, index) => { const p = element.getPointAtLength(length * index / count).matrixTransform(matrix); return { x: p.x, y: p.y } }) : []
@@ -269,27 +277,56 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       const actual: Owned = { id: entry.id, label: owner.label, box: owner.box, anchorParts: ink.map(element => ({ tag: element.localName, box: box(element) })), outline: { tag: ink[0]!.localName, vertices: vertices(ink[0]!), rx: 0, ry: 0 } }; node.set(entry.id, actual); nodes.push(actual); compositeAdded = true
     }
     const missing = (input.expected.nodes ?? []).filter(expected => !expected.label && !node.has(expected.id)), blankCandidates: { shape: SVGGeometryElement; parts: SVGGeometryElement[]; box: Box; kind: string; index: number }[] = []
-    const round = (element: SVGGeometryElement) => { const b = box(element), points = samples(element, 128); return b.width > 2 && b.width <= 50 && Math.abs(b.width - b.height) < 1.5 && points.length > 20 && points.every(p => Math.abs(((p.x - b.x) / b.width - .5) ** 2 * 4 + ((p.y - b.y) / b.height - .5) ** 2 * 4 - 1) < .07) }
+    // Reconstruct bounded flat SVG paint at physical sample points. A black
+    // disc hidden by a later white disc cannot remain a visible start glyph.
+    const rawInk = [...svg.querySelectorAll('rect,circle,ellipse,polygon,polyline,path,line')].filter(paintable) as SVGGeometryElement[]
+    const layers = rawInk.map(element => {
+      const css = getComputedStyle(element); let opacity = 1
+      for (let parent: Element | null = element; parent; parent = parent.parentElement) { opacity *= Number(getComputedStyle(parent).opacity); if (parent === svg) break }
+      return { element, matrix: element.getScreenCTM(), fill: rgba(css.fill), stroke: rgba(css.stroke), fillOpacity: opacity * Number(css.fillOpacity), strokeOpacity: opacity * Number(css.strokeOpacity), strokeWidth: Number.parseFloat(css.strokeWidth) }
+    })
+    let canvasColor = [255, 255, 255, 255]
+    for (let parent: Element | null = svg; parent; parent = parent.parentElement) { const color = rgba(getComputedStyle(parent).backgroundColor); if (color?.[3] === 255) { canvasColor = color; break } }
+    const rgbSame = (a: number[], b: number[]) => a.slice(0, 3).every((value, i) => Math.abs(value - b[i]!) <= 2)
+    const pointColor = (point: Point) => {
+      const color = [...canvasColor]
+      const composite = (ink: number[], opacity: number) => { const alpha = ink[3]! / 255 * opacity; for (let i = 0; i < 3; i++) color[i] = color[i]! * (1 - alpha) + ink[i]! * alpha }
+      for (const layer of layers) {
+        if (!layer.matrix) continue
+        const local = new DOMPoint(point.x, point.y).matrixTransform(layer.matrix.inverse())
+        if (layer.fill && layer.fill[3] && layer.element.localName !== 'line' && layer.element.isPointInFill(local)) composite(layer.fill, layer.fillOpacity)
+        if (layer.stroke && layer.stroke[3] && layer.strokeWidth > 0 && layer.element.isPointInStroke(local)) composite(layer.stroke, layer.strokeOpacity)
+      }
+      return color
+    }
+    const visibleCircleKind = (shape: SVGGeometryElement, b: Box): string | null => {
+      if (evidence.get('paint-opacity-and-color')?.status !== 'passed' || [...svg.querySelectorAll('image,use')].some(element => { const other = box(element); return paintable(element) && Math.min(b.x + b.width, other.x + other.width) > Math.max(b.x, other.x) && Math.min(b.y + b.height, other.y + other.height) > Math.max(b.y, other.y) })) return null
+      const origin = center(b), radius = Math.min(b.width, b.height) / 2, ring = (r: number) => Array.from({ length: 8 }, (_, i) => pointColor({ x: origin.x + Math.cos(i * Math.PI / 4) * r, y: origin.y + Math.sin(i * Math.PI / 4) * r }))
+      const outerStrokes = layers.filter(layer => nearBox(box(layer.element), b) && layer.stroke?.[3] && layer.strokeOpacity > 0).map(layer => layer.strokeWidth * (layer.matrix ? Math.max(Math.hypot(layer.matrix.a, layer.matrix.b), Math.hypot(layer.matrix.c, layer.matrix.d)) : 1)), edgeInset = Math.max(.01, Math.min(radius * .04, Math.max(...outerStrokes, .1) / 4)), border = ring(radius - edgeInset), middle = pointColor(origin)
+      for (const fraction of [.2, .3, .4, .5, .6, .7, .8]) {
+        const gap = ring(radius * (fraction + 1) / 2), disc = ring(radius * fraction * .5)
+        if (gap.every(color => rgbSame(color, gap[0]!)) && disc.every(color => rgbSame(color, middle)) && !rgbSame(middle, gap[0]!) && border.every(color => !rgbSame(color, gap[0]!))) return 'pseudostate-end'
+      }
+      const backdrops = layers.filter(layer => layer.matrix && layer.fill?.[3] === 255 && layer.fillOpacity >= .999 && area(box(layer.element)) > area(b) + 1 && !!(layer.element.compareDocumentPosition(shape) & Node.DOCUMENT_POSITION_FOLLOWING) && [[b.x, b.y], [b.x + b.width, b.y], [b.x, b.y + b.height], [b.x + b.width, b.y + b.height]].every(([x, y]) => layer.element.isPointInFill(new DOMPoint(x, y).matrixTransform(layer.matrix!.inverse())))), background = backdrops.at(-1)?.fill ?? canvasColor
+      const disc = [middle, ...ring(radius * .25), ...ring(radius * .5), ...ring(radius * .75)]
+      return disc.every(color => rgbSame(color, middle) && !rgbSame(color, background)) ? 'pseudostate-start' : null
+    }
+    const round = (element: SVGGeometryElement) => { const b = box(element), points = samples(element, 128); return b.width > 2 && Math.abs(b.width - b.height) < 1.5 && points.length > 20 && points.every(p => Math.abs(((p.x - b.x) / b.width - .5) ** 2 * 4 + ((p.y - b.y) / b.height - .5) ** 2 * 4 - 1) < .07) }
     for (const shape of geometry) {
       const b = box(shape)
       if (nodes.some(owner => contains(owner.box, b)) || paintedText.some(element => contains(b, box(element))) || blankCandidates.some(candidate => nearBox(candidate.box, b))) continue
       if (round(shape)) {
         if (geometry.some(other => other !== shape && round(other) && contains(box(other), b, 0) && area(box(other)) > area(b) + 1)) continue
-        const inner = geometry.filter(other => other !== shape && round(other) && distance(center(box(other)), center(b)) < 1 && area(box(other)) < area(b) - 1)
-        const filled = (element: Element) => {
-          const css = getComputedStyle(element), ink = rgba(css.fill), b = box(element)
-          if (!ink || ink[3] !== 255 || Number(css.fillOpacity) < .999) return false
-          const backdrops = geometry.filter(other => other !== element && area(box(other)) > area(b) + 1 && contains(box(other), b) && !!(other.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING) && rgba(getComputedStyle(other).fill)?.[3] === 255 && Number(getComputedStyle(other).fillOpacity) === 1)
-          let backdrop = backdrops.length ? rgba(getComputedStyle(backdrops.at(-1)!).fill) : null
-          if (!backdrop) { for (let parent: Element | null = svg; parent; parent = parent.parentElement) { const color = rgba(getComputedStyle(parent).backgroundColor); if (color?.[3] === 255) { backdrop = color; break } } }
-          return !same(ink, backdrop ?? [255, 255, 255, 255])
-        }
-        const kind = inner.length && inner.some(filled) ? 'pseudostate-end' : filled(shape) ? 'pseudostate-start' : 'unclassified-round'
-        if (kind) blankCandidates.push({ shape, parts: [shape, ...inner], box: b, kind, index: blankCandidates.length })
+        const contained = geometry.filter(other => other !== shape && contains(b, box(other), .25)), clean = contained.every(other => round(other) && distance(center(box(other)), center(b)) < 1)
+        const kind = clean ? visibleCircleKind(shape, b) ?? 'unclassified-round' : 'unclassified-round'
+        blankCandidates.push({ shape, parts: [shape, ...contained], box: b, kind, index: blankCandidates.length })
       } else {
         const points = vertices(shape), norm = points?.map(p => ({ x: (p.x - b.x) / b.width, y: (p.y - b.y) / b.height })), diamond = norm?.length === 4 && polygonTemplates.diamond!.every(p => norm.some(q => distance(p, q) <= .04))
         const bar = shape.localName === 'rect' && Math.min(b.width, b.height) >= 2 && Math.max(b.width, b.height) >= Math.min(b.width, b.height) * 4 && (rgba(getComputedStyle(shape).fill)?.[3] ?? 0) > 0
-        if (diamond || bar) blankCandidates.push({ shape, parts: [shape], box: b, kind: diamond ? 'choice' : 'bar', index: blankCandidates.length })
+        if (diamond || bar) {
+          const contained = geometry.filter(other => other !== shape && contains(b, box(other), .25)), clean = contained.every(other => nearBox(box(other), b) && (diamond ? vertices(other)?.length === 4 && polygonTemplates.diamond!.every(p => vertices(other)!.some(q => distance(p, { x: (q.x - b.x) / b.width, y: (q.y - b.y) / b.height }) < .04)) : other.localName === 'rect'))
+          blankCandidates.push({ shape, parts: [shape, ...contained], box: b, kind: clean ? diamond ? 'choice' : 'bar' : 'unclassified-symbol', index: blankCandidates.length })
+        }
       }
     }
     const kinds = new Map((facts['state-kinds'] ?? []).map((entry: any) => [entry.id, entry.kind])), pseudoScope = new Map((facts.pseudostates ?? []).map((entry: any) => [entry.id, entry.scope]))
@@ -322,7 +359,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
         const candidate = blankCandidates[index]!, css = getComputedStyle(candidate.shape), outline = { tag: candidate.shape.localName, vertices: vertices(candidate.shape), rx: 0, ry: 0 }, observed: Owned = { id, label: '', box: candidate.box, anchorParts: candidate.parts.map(element => ({ tag: element.localName, box: box(element) })), outline, style: { fill: css.fill, fillOpacity: Number(css.fillOpacity), stroke: css.stroke, strokeOpacity: Number(css.strokeOpacity), strokeWidth: Number.parseFloat(css.strokeWidth), dash: css.strokeDasharray, opacity: Number(css.opacity) } }
         nodes.push(observed); node.set(id, observed)
       }
-      exactNodes = (input.expected.nodes ?? []).every(expected => node.has(expected.id)) && mappings[0]!.size === blankCandidates.length
+      exactNodes = evidence.get('painted-node-ownership')?.status !== 'failed' && (input.expected.nodes ?? []).every(expected => node.has(expected.id)) && mappings[0]!.size === blankCandidates.length
       add('painted-node-ownership', input.expected.nodes, nodes, exactNodes ? true : null, 'Unlabelled state glyphs are first measured as filled discs, concentric final circles, diamonds or bars; a unique adjacency-and-smallest-scope matching then assigns source identities. No public ID or class string chooses a glyph. Extra, unbound or symmetric glyph assignments remain unknown.')
     }
     if (!missing.length && compositeAdded && (input.expected.nodes ?? []).every(expected => node.has(expected.id))) {
@@ -694,7 +731,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
         const owner = node.get(entry.id) ?? group.get(entry.id), values = ownedText(entry.id), fields = values?.map(element => ({ text: normalize(readText(element)), element })) ?? [], expectedType = typeName(entry.kind), typeRows = fields.filter(field => { const value = field.text.toLowerCase().replace(/^[«\[]|[»\]]$/g, '').replace(/^software\s+/, ''); return value === expectedType || value.startsWith(expectedType + ':') })
         const header = fields.filter(field => field.text === normalize(entry.label)), contents = fields.filter(field => !header.includes(field) && !typeRows.includes(field)), technology = typeRows.flatMap(field => { const match = /:\s*(.+?)[»\]]?$/.exec(field.text); return match ? [match[1]!] : [] })
         const observedFields = [...contents.map(field => field.text.replace(/^\[|\]$/g, '')), ...technology].sort(), expectedFields = entry.extraVisibleFields.map((value: string) => normalize(value)).sort()
-        const ink = parts(entry.id), heads = ink.filter(shape => ['circle', 'ellipse'].includes(shape.localName) && box(shape).height < (owner?.box.height ?? 0) * .6), torsos = ink.filter(shape => shape.localName === 'rect' && heads.some(head => center(box(head)).y < box(shape).y + 2))
+        const ink = parts(entry.id), heads = ink.filter(shape => ['circle', 'ellipse'].includes(shape.localName) && ink.some(torso => torso.localName === 'rect' && box(torso).width > box(shape).width && center(box(shape)).y < box(torso).y + 2)), torsos = ink.filter(shape => shape.localName === 'rect' && heads.some(head => center(box(head)).y < box(shape).y + 2) && box(shape).width > 0 && box(shape).height > 0)
         let kind: boolean | null = expectedType === 'person' ? heads.length === 1 && torsos.length === 1 : entry.kind.includes('Boundary') ? !!group.get(entry.id) : /Db|Queue/.test(entry.kind) ? null : silhouette(entry.id, 'rectangle').matches
         if (/_Ext$/.test(entry.kind)) {
           const peers = facts.elements.filter((peer: any) => !/_Ext$/.test(peer.kind) && typeName(peer.kind) === expectedType).map((peer: any) => node.get(peer.id)).filter(Boolean), own = node.get(entry.id)

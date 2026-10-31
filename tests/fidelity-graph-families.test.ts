@@ -144,6 +144,10 @@ test('unlabelled state roles are assigned only after unique actual glyph adjacen
   expect(status((await inspect(wrong, 'state', expected)).checks, 'source-fact:pseudostates')).not.toBe('passed')
   const symmetric = value.replace('</svg>', '<circle cx="30" cy="170" r="8" fill="black"/><path d="M38 170 L100 70" fill="none" stroke="black"/></svg>')
   expect(status((await inspect(symmetric, 'state', expected)).checks, 'painted-node-ownership')).not.toBe('passed')
+  const crossedFinal = value.replace('</svg>', '<path d="M244 64L256 76 M244 76L256 64" fill="none" stroke="black"/></svg>')
+  expect(status((await inspect(crossedFinal, 'state', expected)).checks, 'source-fact:pseudostates')).not.toBe('passed')
+  const coveredStart = value.replace('</svg>', '<circle cx="30" cy="70" r="8" fill="white"/></svg>')
+  expect(status((await inspect(coveredStart, 'state', expected)).checks, 'source-fact:pseudostates')).not.toBe('passed')
 })
 
 test('a hidden intermediate connector cannot pass because both visible endpoints and captions are correct', async () => {

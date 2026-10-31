@@ -1,0 +1,54 @@
+{
+  "schema": "retained-graph-witness-v1",
+  "campaign": "trident-ecosystem-2026-10-31-campaign",
+  "retained": [
+    {
+      "file": "mermaid-state-pseudostates.svg",
+      "project": "mermaid-js/mermaid",
+      "caseId": "features:state:initial-final-pseudostates",
+      "sourceSha256": "4a954808f9e96f9c6e4a0da55089da756b7b0497e8f0676e1995ed157003e8fe",
+      "svgSha256": "6ed0e20f2c0f4c007ec55a1bcfc4da7fc4ddb7f3fbe70a5138958cbb71209bd1",
+      "svgBytes": 38416,
+      "retainedCompressedSha256": "d4f0bc2d99cf1e651c457129a973f716ea69ba9ad620dcd9946bb8265e8c125a",
+      "campaignArtifact": "fidelity/bWVybWFpZC1qcy9tZXJtYWlk/attempts/b3c67d52-d1c1-43c0-b2a4-939814d70f00/34-features_state_initial-final-pseudostates.svg.gz",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "mutation": "none"
+    },
+    {
+      "file": "mermaid-c4-elements.svg",
+      "project": "mermaid-js/mermaid",
+      "caseId": "meaning:family:c4",
+      "sourceSha256": "58dc5cbec9a8e98271673b8e1deae85ce4264191388e718c9bee732fffbd57d0",
+      "svgSha256": "fb0a4f555958624049cd36beba442cedf0ad394b9613db11eeffb57fd52afefd",
+      "svgBytes": 24010,
+      "retainedCompressedSha256": "efd231fd85cf8f9c19ac0ce65396a9151c8b27a7c3a7148bab5299ddb8ac34af",
+      "campaignArtifact": "fidelity/bWVybWFpZC1qcy9tZXJtYWlk/attempts/b3c67d52-d1c1-43c0-b2a4-939814d70f00/16-meaning_family_c4.svg.gz",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "mutation": "none"
+    },
+    {
+      "file": "pele-state-pseudostates.svg",
+      "project": "obsidianmd/pele",
+      "caseId": "features:state:initial-final-pseudostates",
+      "sourceSha256": "4a954808f9e96f9c6e4a0da55089da756b7b0497e8f0676e1995ed157003e8fe",
+      "svgSha256": "62f1235b26b38504d6b2c9f19d3c6a65ff20788646b9482816b0256d820fa526",
+      "svgBytes": 2359,
+      "retainedCompressedSha256": "7d76fb1573c0f988c738ce3c95ae6ccf7c0dd87064b9f3af78f0714a160aaa30",
+      "campaignArtifact": "fidelity/b2JzaWRpYW5tZC9wZWxl/attempts/776363d0-9fc5-4dfd-b338-1d4914f591bf/34-features_state_initial-final-pseudostates.svg.gz",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "mutation": "none"
+    },
+    {
+      "file": "pele-c4-elements.svg",
+      "project": "obsidianmd/pele",
+      "caseId": "meaning:family:c4",
+      "sourceSha256": "58dc5cbec9a8e98271673b8e1deae85ce4264191388e718c9bee732fffbd57d0",
+      "svgSha256": "77180b32741adc78af35c085d0174e60671991dc65429af479be80082206d1f8",
+      "svgBytes": 2308,
+      "retainedCompressedSha256": "41eb52e44bd1bc765435a1a5e7455d1f674b208bfb2082dc3093867fbd6143ba",
+      "campaignArtifact": "fidelity/b2JzaWRpYW5tZC9wZWxl/attempts/776363d0-9fc5-4dfd-b338-1d4914f591bf/16-meaning_family_c4.svg.gz",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "mutation": "none"
+    }
+  ]
+}
