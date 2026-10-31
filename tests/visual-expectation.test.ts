@@ -2,6 +2,33 @@ import { expect, test } from 'bun:test'
 import { projectVisualExpectation } from '../fidelity/visual-expectation.ts'
 import type {MeaningExpectation} from '../fidelity/meaning.ts'
 
+test('scalar-array JSON rows bind one displayed key and ordered continuation values without dropping logical indices',()=>{
+  const literal:MeaningExpectation={labels:['Payload','colors[0]','Red','colors[1]','Green','items[0].name','Book'],nodes:[{id:'Payload',label:'Payload'}],facts:{'dialect-kinds':[{id:'Payload',kind:'json-table',rows:[{path:'colors[0]',value:'Red',kind:'string'},{path:'colors[1]',value:'Green',kind:'string'},{path:'items[0].name',value:'Book',kind:'string'}]}]},advisoryFacts:{'json-scalar-array-source-structure':[{table:'Payload',group:'colors',rowStart:0,length:2}]}}
+  const visual=projectVisualExpectation('usecase',literal),rows:any=(visual.expected.facts!['dialect-kinds'] as any[])[0].rows
+  expect(rows[0]).toEqual({path:'colors[0]',value:'Red',kind:'string',displayKey:'colors',arrayGroup:'colors',arrayIndex:0})
+  expect(rows[1]).toEqual({path:'colors[1]',value:'Green',kind:'string',displayKey:'',arrayGroup:'colors',arrayIndex:1})
+  expect(rows[2]).toEqual({path:'items[0].name',value:'Book',kind:'string'})
+  expect(visual.expected.labels).toEqual(['Payload','Red','Green','items[0].name','Book','colors'])
+  expect(visual.profileExpected).toEqual(literal)
+  const mixed:MeaningExpectation={labels:['items[0]','A','items[1].name','B'],facts:{'dialect-kinds':[{id:'Payload',kind:'json-table',rows:[{path:'items[0]',value:'A',kind:'string'},{path:'items[1].name',value:'B',kind:'string'}]}]}}
+  expect(projectVisualExpectation('usecase',mixed).expected.facts).toEqual(mixed.facts)
+})
+
+test('symbol-only shapes preserve authored captions natively while requiring unique owned visible glyphs',()=>{
+  for(const shape of ['sm-circ','framed-circle','fork','hourglass','bolt','f-circ','cross-circ']){
+    const literal:MeaningExpectation={labels:['Caption','Target'],nodes:[{id:'A',label:'Caption'},{id:'B',label:'Target'}],edges:[{source:'A',target:'B',directed:true}],facts:{'node-shapes':[{id:'A',shape},{id:'B',shape:'rectangle'}],'node-attributes':[{id:'A',attributes:{shape,label:'Caption'}}]}}
+    const visual=projectVisualExpectation('flowchart',literal)
+    expect(visual.expected.labels).toEqual(['Target'])
+    expect(visual.expected.nodes).toEqual([{id:'A',label:''},{id:'B',label:'Target'}])
+    expect(visual.expected.facts!['symbol-only-nodes']).toEqual([{id:'A',shape,labelPolicy:'unprinted',ownership:'unique-visible-glyph'}])
+    expect(visual.expected.facts!['node-shapes']).toEqual(literal.facts!['node-shapes'])
+    expect(visual.expected.edges).toEqual(literal.edges)
+    expect(visual.profileExpected).toEqual(literal)
+  }
+  const shared:MeaningExpectation={labels:['Caption'],nodes:[{id:'A',label:'Caption'},{id:'B',label:'Caption'}],facts:{'node-shapes':[{id:'A',shape:'fork'},{id:'B',shape:'rectangle'}]}}
+  expect(projectVisualExpectation('flowchart',shared).expected.labels).toEqual(['Caption'])
+})
+
 test('Git commit message metadata never substitutes for displayed ID/tag text and remains complete native data',()=>{
   const literal:MeaningExpectation={labels:['Shown','Tag'],facts:{commits:[{id:'commit:0',authoredId:'Shown',message:'private message',branch:'main',parents:[],type:'NORMAL',tags:['Tag']}]}}
   const visual=projectVisualExpectation('gitgraph',literal)

@@ -35,6 +35,16 @@ test('unsupported named themes and concrete variables fail closed rather than di
   expect(row.expected!.facts!['theme-paint']).toBeUndefined()
   expect(row.profileExpected).toBeUndefined()
   for(const look of ['handDrawn','neo'])expect(source('---\nconfig:\n  look: '+look+'\n---\nflowchart LR\nA --> B').expected!.facts!['authored-config']).toEqual({look})
+  for(const variable of ['primaryColor','secondaryColor','tertiaryColor','darkMode','scaleLabelColor','labelTextColor']){
+    const value=variable==='darkMode'?true:'#ff0000',yamlValue=typeof value==='boolean'?String(value):'"'+value+'"'
+    const custom=source('---\nconfig:\n  theme: base\n  themeVariables:\n    '+variable+': '+yamlValue+'\n---\ntimeline\n2020 : Event')
+    expect(custom.expected!.facts!['theme-paint']).toBeUndefined()
+    expect(custom.expected!.facts!['authored-config']).toEqual({theme:'base',themeVariables:{[variable]:value}})
+  }
+  for(const look of ['neo','handDrawn'])expect(source('---\nconfig:\n  theme: base\n  look: '+look+'\n---\ntimeline\n2020 : Event').expected!.facts!['theme-paint']).toBeUndefined()
+  const roleOverride=source('---\nconfig:\n  theme: redux-color\n  themeVariables:\n    usecaseActorBkg: "#ff0000"\n---\nusecase-beta\nactor A')
+  expect(roleOverride.expected!.facts!['theme-paint']).toBeUndefined()
+  expect(roleOverride.expected!.facts!['authored-config']).toEqual({theme:'redux-color',themeVariables:{usecaseActorBkg:'#ff0000'}})
 })
 test('redux role and rotation policies bind real node/group/route owners',()=>{
   const role=source('---\nconfig:\n  theme: redux-color\n---\nusecase-beta\nactor Customer\nsystemBoundary Catalogue\nBrowse[Browse]\nend\nCheckout[Checkout]\nCheckout ..> : include Browse')

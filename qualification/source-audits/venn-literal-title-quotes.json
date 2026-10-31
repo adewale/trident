@@ -1,0 +1,22 @@
+{
+  "schema": "trident-independent-source-interpretation-v1",
+  "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "sourceReader": "/root/resolve_sources_and_tests",
+  "independentReviewer": "/root",
+  "reviewStatus": "approved",
+  "approvedFullDiffSha256": "ea063bfe2c02ed89e504f17183538b617d426dd5b206a8a40ed46bd48c70ceb1",
+  "independence": "Root independently read the exact full-case delta and source grammar/handler/strictJSON provenance before admission. No renderer/model execution supplied an expected result.",
+  "rendererInvocations": 0,
+  "referenceModelInvocations": 0,
+  "literalInventoryChanged": false,
+  "sourcePolicy": "unified/docs-source-review.ts; fidelity/visual-expectation.ts",
+  "requiredObservableClaim": "Venn TITLE terminal retains full quote characters; set/union quoted labels retain their own delimiter rules",
+  "rows": [
+    {
+      "id": "packages/mermaid/src/docs/syntax/venn.md:64",
+      "sourceSha256": "7e1f629a073676a8e78837478b7c4351f087e557dd39b9ea1d7ecd0afd9f72ce",
+      "beforeSemanticSha256": "baf61b426fbad0ed4bf85935f2016c5c637b0f83b44fb5fecbbb12b223ea617f",
+      "afterSemanticSha256": "937978d7b8e562f512e9c24281581bcbc202476ea901cc8353e98ae5db19a0e6"
+    }
+  ]
+}

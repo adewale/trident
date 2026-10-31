@@ -8,6 +8,22 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
   const expected = structuredClone(literal), facts: any = expected.facts ??= {}, projections: string[] = []
   let profileExpected:MeaningExpectation|undefined
   const excludedNonvisual:string[]=[]
+  if(family==='flowchart'&&Array.isArray(facts['node-shapes'])){
+    const glyphs=new Set(['sm-circ','start','small-circle','fr-circ','stop','framed-circle','fork','join','hourglass','collate','bolt','com-link','lightning-bolt','f-circ','junction','filled-circle','cross-circ','summary','crossed-circle'])
+    const symbols:any[]=facts['node-shapes'].filter((row:any)=>glyphs.has(row.shape)),symbolIds=new Set(symbols.map(row=>row.id)),nativeLabels=(expected.nodes??[]).filter(node=>symbolIds.has(node.id)).map(node=>({id:node.id,label:node.label,shape:symbols.find(row=>row.id===node.id)!.shape}))
+    if(nativeLabels.length){
+      profileExpected=structuredClone(literal)
+      const protectedLabels=new Set([...(expected.nodes??[]).filter(node=>!symbolIds.has(node.id)).map(node=>node.label),...(expected.groups??[]).map(group=>group.label),...(expected.edges??[]).flatMap(edge=>edge.label?[edge.label]:[]),...(typeof facts.title==='string'?[facts.title]:[])])
+      const hidden=new Set(nativeLabels.map(row=>row.label));expected.labels=expected.labels.filter(label=>!hidden.has(label)||protectedLabels.has(label))
+      expected.nodes=expected.nodes?.map(node=>symbolIds.has(node.id)?{...node,label:''}:node)
+      if(Array.isArray(facts['node-attributes']))facts['node-attributes']=facts['node-attributes'].map((row:any)=>{if(!symbolIds.has(row.id))return row;const attributes={...row.attributes};delete attributes.label;return{...row,attributes}})
+      if(Array.isArray(facts['text-line-breaks'])){facts['text-line-breaks']=facts['text-line-breaks'].filter((row:any)=>row.owner?.kind!=='node'||!symbolIds.has(row.owner.id));if(!facts['text-line-breaks'].length)delete facts['text-line-breaks']}
+      facts['symbol-only-nodes']=symbols.map(row=>({id:row.id,shape:row.shape,labelPolicy:'unprinted',ownership:'unique-visible-glyph'}))
+      ;(expected.advisoryFacts??={})['symbol-source-labels']=nativeLabels
+      excludedNonvisual.push('Symbol-only glyph labels are retained source/native metadata; pinned shape handlers explicitly clear labels or draw fixed circle/bullseye glyphs without text (shapes.ts304-334,361-364,433-437,489-493; forkJoin14,hourglass11,lightningBolt12,filledCircle15,crossedCircle26; stateStart/stateEnd): '+JSON.stringify(nativeLabels))
+      projections.push('Start,stop,fork,collate,communication-link,junction and summary glyphs encode semantic symbols without a painted caption; every node still requires unique actual glyph ownership and its exact shape,relationships and static styles')
+    }
+  }
   if(family==='gitgraph'&&Array.isArray(facts.commits)){
     const messages:any[]=[]
     facts.commits=facts.commits.map((entry:any)=>{if(!Object.hasOwn(entry,'message'))return entry;const{message,...visual}=entry;messages.push({id:entry.id,message});return visual})
@@ -23,6 +39,25 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
       return{...identity,kind:'pipeline-group',visibility:coordinates[0]}
     })
     if(originals.length){profileExpected??=structuredClone(literal);(expected.advisoryFacts??={})['pipeline-parent-native-coordinates']=originals;excludedNonvisual.push('Wardley pipeline parent is a range/header group sharing source visibility, not an additional evolution point; exact authored parent coordinates remain native/advisory (wardley.md230-232): '+JSON.stringify(originals));projections.push('Pipeline parent label and member range encode the group; visibility and every named member evolution remain required, while the parent original evolution coordinate is preserved without manufacturing a separate point glyph')}
+  }
+  if(family==='usecase'&&Array.isArray(facts['dialect-kinds'])){
+    const metadata:any[]=[],hiddenPaths=new Set<string>(),visibleKeys=new Set<string>(),protectedLabels=new Set([...(expected.nodes??[]).map(node=>node.label),...(expected.groups??[]).map(group=>group.label),...(expected.edges??[]).flatMap(edge=>edge.label?[edge.label]:[]),...(typeof facts.title==='string'?[facts.title]:[])])
+    for(const table of facts['dialect-kinds'].filter((entry:any)=>entry.kind==='json-table'&&Array.isArray(entry.rows))){
+      // Brackets in an ordinary object key are literal text. Only independent
+      // strict-JSON AST provenance can establish that a row came from an array.
+      const rows:any[]=table.rows,arrays:any[]=Array.isArray(expected.advisoryFacts?.['json-scalar-array-source-structure'])?(expected.advisoryFacts!['json-scalar-array-source-structure'] as any[]).filter(row=>row.table===table.id):[]
+      table.rows=rows.map((row,rowIndex)=>{
+        protectedLabels.add(row.value)
+        const array=arrays.find(array=>rowIndex>=array.rowStart&&rowIndex<array.rowStart+array.length)
+        if(!array){protectedLabels.add(row.path);return row}
+        const group=array.group,index=rowIndex-array.rowStart,displayKey=index===0?group:''
+        if(row.path!==group+'['+index+']'||!['string','number','boolean','null'].includes(row.kind))throw Error('Source scalar-array row provenance contradicts literal JSON structure')
+        hiddenPaths.add(row.path);if(displayKey)visibleKeys.add(displayKey)
+        metadata.push({table:table.id,path:row.path,arrayGroup:group,arrayIndex:index})
+        return{...row,displayKey,arrayGroup:group,arrayIndex:index}
+      })
+    }
+    if(metadata.length){profileExpected??=structuredClone(literal);expected.labels=expected.labels.filter(label=>!hiddenPaths.has(label)||protectedLabels.has(label));for(const key of visibleKeys)if(!expected.labels.includes(key))expected.labels.push(key);(expected.advisoryFacts??={})['json-array-logical-paths']=metadata;excludedNonvisual.push('Scalar JSON arrays print one group key then ordered continuation rows; logical index paths remain source/native ownership metadata, not separate painted keys (usecase.md342,usecaseDb149-202,usecase.spec.ts1094-1105): '+JSON.stringify(metadata));projections.push('JSON table scalar arrays preserve exact ordered values and logical indices, with displayed parent key on the first row and blank continuation keys; object-array nested leaf paths remain visibly indexed')}
   }
   if(family==='agentflow'&&Array.isArray(facts['node-attributes'])){
     const actedOn=new Set(['shape','label','labelType','view','algorithm','curve','animate','animation']),metadata:any[]=[]

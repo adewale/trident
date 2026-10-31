@@ -9,6 +9,15 @@ const input = (source: string, id = 'source-control') => ({ id, family: 'source-
 const review = (source: string) => reviewDocumentationSource(input(source), { visual: false })
 const facts = (source: string) => review(source).expected!.facts!
 
+test('Venn title uses the raw TITLE terminal while quoted set/union labels use delimiters',()=>{
+  const row=review('venn-beta\ntitle "Team overlap"\nset Frontend\nset Backend\nunion Frontend,Backend["APIs"]')
+  expect(row.expected!.facts!.title).toBe('"Team overlap"')
+  expect(row.expected!.labels).toContain('"Team overlap"')
+  expect(row.expected!.labels).toContain('APIs')
+  expect(row.expected!.labels).not.toContain('Team overlap')
+  expect(review('xychart-beta\ntitle "Sales Revenue"\nx-axis [Q1,Q2]\ny-axis 0 --> 10\nbar [2,4]').expected!.facts!.title).toBe('Sales Revenue')
+})
+
 test('literal IDs and labels do not inherit JavaScript object properties or unintended Markdown', () => {
   const row = review('flowchart LR\n__proto__[__proto__] --> constructor[constructor]\nconstructor --> toString[toString]')
   expect(row.expected!.nodes).toEqual([{ id: '__proto__', label: '__proto__' }, { id: 'constructor', label: 'constructor' }, { id: 'toString', label: 'toString' }])
@@ -140,6 +149,14 @@ test('ordered JSON tables keep integer-key source order, nested paths and last d
   expect(table.rows).toEqual([{ path: '2', value: 'last', kind: 'string' }, { path: '1', value: 'first', kind: 'string' }, { path: '__proto__', value: 'true', kind: 'boolean' }, { path: 'n', value: 'null', kind: 'null' }, { path: 'nested.x', value: '2', kind: 'number' }, { path: 'items[0]', value: 'A', kind: 'string' }, { path: 'items[1]', value: 'B', kind: 'string' }, { path: 'empty', value: '{}', kind: 'object' }])
   expect(row.sourceReview.expectedFactsComplete).toBe(true)
   expect(review('usecase-beta\njson Data@[1,2]').sourceReview.expectedFactsComplete).toBe(false)
+})
+test('JSON scalar-array grouping follows actual AST structure, never bracket-shaped ordinary object keys',()=>{
+  const row=reviewDocumentationSource(input('usecase-beta\njson Data@{ "literal[0]": "A", "literal[1]": "B", "colors": ["Red", "Green"], "items": ["value", {"name":"Nested"}] }'))
+  const rows=(row.expected!.facts!['dialect-kinds'] as any[])[0].rows
+  expect(rows.slice(0,2)).toEqual([{path:'literal[0]',value:'A',kind:'string'},{path:'literal[1]',value:'B',kind:'string'}])
+  expect(rows[2]).toMatchObject({path:'colors[0]',displayKey:'colors',arrayIndex:0})
+  expect(rows[3]).toMatchObject({path:'colors[1]',displayKey:'',arrayIndex:1})
+  expect(rows.slice(4)).toEqual([{path:'items[0]',value:'value',kind:'string'},{path:'items[1].name',value:'Nested',kind:'string'}])
 })
 
 test('point styles, Venn region membership and Wardley annotation coordinates stay in expected facts', () => {

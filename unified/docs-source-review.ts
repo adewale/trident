@@ -109,7 +109,11 @@ class LiteralReview {
   fact(key: string, value: MeaningJson) { this.expected.facts![key] = value }
   labels(...values: string[]) { for (const value of values) if (value && !this.expected.labels.includes(value)) this.expected.labels.push(value) }
   unknown(line: string) { this.unresolved.push('Uninterpreted ' + this.family + ' construct: ' + line.trim()) }
-  title(line: string) { const match = /^\s*title\s+(.+)$/.exec(line); if (!match) return false; const title = cleanLabel(match[1]!); if (typeof this.expected.facts!.title === 'string' && this.expected.facts!.title !== title) this.excludedNonvisual.push('Chart title overrides frontmatter title without painting the superseded value: ' + JSON.stringify(this.expected.facts!.title)); this.fact('title', title); this.labels(title); return true }
+  title(line: string) { const match = /^\s*title\s+(.+)$/.exec(line); if (!match) return false;
+    // Venn's TITLE terminal carries the complete remainder; its production
+    // removes only the six-character keyword/space prefix (venn.jison26/72).
+    // Quotes here are literal title text, unlike quoted set/union labels.
+    const title = this.family==='venn'?decodeHTML(match[1]!.trim()):cleanLabel(match[1]!); if (typeof this.expected.facts!.title === 'string' && this.expected.facts!.title !== title) this.excludedNonvisual.push('Chart title overrides frontmatter title without painting the superseded value: ' + JSON.stringify(this.expected.facts!.title)); this.fact('title', title); this.labels(title); return true }
   style(line: string) {
     const match = /^\s*(classDef|style|linkStyle|class)\s+(.+?)\s*;?\s*$/.exec(line)
     if (!match) return false
@@ -984,8 +988,9 @@ function jsonTableRows(source: string) {
   }
   const root = value(); whitespace(); if (at !== source.length || root.kind !== 'object') throw Error('JSON table must be an object')
   const rows: { path: string; value: string; kind: string }[] = []
-  const visit = (entry: Value, path: string) => { if (entry.kind === 'object' && entry.entries.length) for (const [key, child] of entry.entries) visit(child, path ? path + '.' + key : key); else if (entry.kind === 'array' && entry.values.length) entry.values.forEach((child, index) => visit(child, path + '[' + index + ']')); else rows.push({ path, value: entry.kind === 'scalar' ? typeof entry.value === 'string' ? entry.value : JSON.stringify(entry.value) : entry.kind === 'object' ? '{}' : '[]', kind: entry.kind === 'scalar' ? entry.value === null ? 'null' : typeof entry.value : entry.kind }) }
-  visit(root, ''); return rows
+  const scalarArrays:{group:string;rowStart:number;length:number}[]=[]
+  const visit = (entry: Value, path: string) => { if (entry.kind === 'object' && entry.entries.length) for (const [key, child] of entry.entries) visit(child, path ? path + '.' + key : key); else if (entry.kind === 'array' && entry.values.length) {if(entry.values.every(child=>child.kind==='scalar'))scalarArrays.push({group:path,rowStart:rows.length,length:entry.values.length});entry.values.forEach((child, index) => visit(child, path + '[' + index + ']'))} else rows.push({ path, value: entry.kind === 'scalar' ? typeof entry.value === 'string' ? entry.value : JSON.stringify(entry.value) : entry.kind === 'object' ? '{}' : '[]', kind: entry.kind === 'scalar' ? entry.value === null ? 'null' : typeof entry.value : entry.kind }) }
+  visit(root, ''); return {rows,scalarArrays}
 }
 
 /** These dialects explicitly extend flowchart syntax in the pinned source docs.
@@ -1037,7 +1042,7 @@ function flowchartDialects(r: LiteralReview) {
     if (/^json\s/.test(line)) {
       const declaration = /^json\s+([\w.-]+)@(\{[\s\S]*\})(?::::([\w,-]+))?$/.exec(line)
       if (!declaration) { r.unknown(line); continue }
-      try { const id = declaration[1]!, rows = jsonTableRows(declaration[2]!); kinds.push({ id, kind: 'json-table', rows, ...(declaration[3] ? { classes: declaration[3] } : {}) }); r.labels(id, ...rows.flatMap(row => [row.path, row.value])); adapted.push(id + '[' + id + ']' + (declaration[3] ? ':::' + declaration[3] : '')) } catch (error) { r.unresolved.push('JSON table interpretation: ' + String(error)) }
+      try { const id = declaration[1]!, {rows,scalarArrays} = jsonTableRows(declaration[2]!); kinds.push({ id, kind: 'json-table', rows, ...(declaration[3] ? { classes: declaration[3] } : {}) }); if(scalarArrays.length){const advisory=r.expected.advisoryFacts??={};advisory['json-scalar-array-source-structure']=[...((advisory['json-scalar-array-source-structure']??[]) as MeaningJson[]),...scalarArrays.map(array=>({table:id,...array}))]};r.labels(id, ...rows.flatMap(row => [row.path, row.value])); adapted.push(id + '[' + id + ']' + (declaration[3] ? ':::' + declaration[3] : '')) } catch (error) { r.unresolved.push('JSON table interpretation: ' + String(error)) }
       continue
     }
     const boundary = /^systemBoundary\s+([\s\S]*)$/.exec(line)

@@ -42,9 +42,15 @@ export function projectSourceConfiguration(family:string,expected:MeaningExpecta
     if(!facts['node-attributes'].length)delete facts['node-attributes']
   }
   const theme=config?.theme,variables:Record<string,string>=config?.themeVariables??{},roles:SourceThemePaintRole[]=[],consumed=new Set<string>()
+  // Theme constructors apply overrides before derived colors. A source base
+  // variable we have not independently transcribed (primaryColor,darkMode,etc)
+  // can change the entire palette, so adding default-derived colors would be
+  // contradictory, even while retaining that unhandled variable as required.
+  const classic=requestedLook===undefined||requestedLook==='classic',independentGitPaint=new Set(['commitLabelColor','commitLabelBackground','commitLabelFontSize','tagLabelColor','tagLabelBackground','tagLabelBorder','tagLabelFontSize'])
+  const supportedOverrides=Object.keys(variables).every(key=>/^(?:cScale(?:Peer|Label)?\d+|git(?:Inv|BranchLabel)?\d+)$/.test(key)||family==='gitgraph'&&independentGitPaint.has(key)||family==='radar'&&key==='radar')&&!(family==='treemap'&&Object.keys(variables).some(key=>/^cScale\d+$/.test(key)))
   const token=(key:string)=>{if(Object.hasOwn(variables,key)){consumed.add(key);retain('themeVariables.'+key,variables[key]!,'Literal theme token is retained with its concrete owned paint projection')}}
   let paint:SourceThemePaint|undefined
-  if(named.has(theme)){
+  if(named.has(theme)&&classic&&supportedOverrides){
     const palette=sourceThemePalette(theme as SourceThemeName,variables)
     if(family==='timeline'&&Array.isArray(facts.periods)){
       const sections:string[]=facts.sections??[],monochrome=config.timeline?.disableMulticolor===true
@@ -109,7 +115,7 @@ export function projectSourceConfiguration(family:string,expected:MeaningExpecta
       for(const key of Object.keys(variables))if(/^(?:git\d+|gitBranchLabel\d+)$/.test(key))token(key)
     }
     if(roles.length)paint={theme,family,quantizationTolerancePerChannel:palette.quantizationTolerancePerChannel,roles}
-  }else if(theme==='redux-color'&&family==='usecase'){
+  }else if(theme==='redux-color'&&family==='usecase'&&classic&&!Object.keys(variables).length){
     const policy=reduxUsecaseSourcePolicy,kinds:any[]=facts['dialect-kinds']??[],actors=(expected.nodes??[]).filter(node=>kinds.some(row=>row.id===node.id&&row.kind==='actor')),usecases=(expected.nodes??[]).filter(node=>!actors.some(actor=>actor.id===node.id)),rotate=config.usecase?.colorScheme==='rotate'
     for(const[index,node]of [...actors,...usecases].entries()){
       const kind=actors.some(actor=>actor.id===node.id)?'actor':'usecase',color=rotate?policy.rotation[index%policy.rotation.length]!:policy.role[kind]

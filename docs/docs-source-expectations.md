@@ -51,6 +51,8 @@ The four former pending examples retain their exact bytes. Block 488 discards th
 
 Named theme requests compile to exact source-derived owner colors, foregrounds, opacity and border effects; raw theme/layout/htmlLabels identifiers and only the classic look identity remain advisory with complete native profiles retained. Concrete font, direction, dimensions, spacing, colors and unsupported configuration remain required. The independent palette policy imports no Mermaid module and lives in the runtime producer closure. Git commit messages remain owned nonvisual metadata distinct from displayed IDs/tags. Wardley pipeline parents encode a labelled range at shared visibility; original parent coordinates remain native/advisory and all member evolution coordinates remain required. Exact approved deltas and admission hashes are in the configuration-visual-policy, git-commit-message-metadata and wardley-pipeline-group source-audit ledgers.
 
+Symbol-only flowchart shapes retain original captions natively/advisory while requiring unique actual glyph ownership and exact shapes. Venn quoted TITLE text retains literal quote glyphs under its own grammar. Scalar JSON arrays retain logical paths/indices but print a group key on their first row and blank continuation keys; strict independent JSON AST provenance prevents bracket-shaped object keys from being mistaken for arrays. Exact separately reviewed deltas are recorded in their source-audit ledgers.
+
 ## Pending source interpretation
 
 No uninterpreted source constructs remain. The separate observer qualification ledger still determines which drawing facts can be scored.

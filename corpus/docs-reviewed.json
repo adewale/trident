@@ -21750,10 +21750,76 @@
     "family": "flowchart",
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
+      "labels": [],
+      "facts": {
+        "node-shapes": [
+          {
+            "id": "A",
+            "shape": "sm-circ"
+          }
+        ],
+        "node-attributes": [
+          {
+            "id": "A",
+            "attributes": {
+              "shape": "sm-circ"
+            }
+          }
+        ],
+        "symbol-only-nodes": [
+          {
+            "id": "A",
+            "shape": "sm-circ",
+            "labelPolicy": "unprinted",
+            "ownership": "unique-visible-glyph"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "A",
+          "label": ""
+        }
+      ],
+      "edges": [],
+      "advisoryFacts": {
+        "symbol-source-labels": [
+          {
+            "id": "A",
+            "label": "Small start",
+            "shape": "sm-circ"
+          }
+        ],
+        "direction": "TD"
+      }
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "node-identities-and-labels",
+        "relationship-endpoints-directions-labels",
+        "fact:node-attributes",
+        "fact:node-shapes",
+        "fact:symbol-only-nodes"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Symbol-only glyph labels are retained source/native metadata; pinned shape handlers explicitly clear labels or draw fixed circle/bullseye glyphs without text (shapes.ts304-334,361-364,433-437,489-493; forkJoin14,hourglass11,lightningBolt12,filledCircle15,crossedCircle26; stateStart/stateEnd): [{\"id\":\"A\",\"label\":\"Small start\",\"shape\":\"sm-circ\"}]"
+      ],
+      "visualProjections": [
+        "Start,stop,fork,collate,communication-link,junction and summary glyphs encode semantic symbols without a painted caption; every node still requires unique actual glyph ownership and its exact shape,relationships and static styles",
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+      ]
+    },
+    "profileExpected": {
       "labels": [
         "Small start"
       ],
       "facts": {
+        "direction": "TD",
         "node-shapes": [
           {
             "id": "A",
@@ -21776,28 +21842,7 @@
           "label": "Small start"
         }
       ],
-      "edges": [],
-      "advisoryFacts": {
-        "direction": "TD"
-      }
-    },
-    "sourceReview": {
-      "protocol": "literal-documentation-facts-v1",
-      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
-      "requiredObligations": [
-        "visible-labels",
-        "node-identities-and-labels",
-        "relationship-endpoints-directions-labels",
-        "fact:node-attributes",
-        "fact:node-shapes"
-      ],
-      "unresolved": [],
-      "excludedNonvisual": [],
-      "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
-      ]
+      "edges": []
     }
   },
   {
@@ -21807,10 +21852,76 @@
     "family": "flowchart",
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
+      "labels": [],
+      "facts": {
+        "node-shapes": [
+          {
+            "id": "A",
+            "shape": "framed-circle"
+          }
+        ],
+        "node-attributes": [
+          {
+            "id": "A",
+            "attributes": {
+              "shape": "framed-circle"
+            }
+          }
+        ],
+        "symbol-only-nodes": [
+          {
+            "id": "A",
+            "shape": "framed-circle",
+            "labelPolicy": "unprinted",
+            "ownership": "unique-visible-glyph"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "A",
+          "label": ""
+        }
+      ],
+      "edges": [],
+      "advisoryFacts": {
+        "symbol-source-labels": [
+          {
+            "id": "A",
+            "label": "Stop",
+            "shape": "framed-circle"
+          }
+        ],
+        "direction": "TD"
+      }
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "node-identities-and-labels",
+        "relationship-endpoints-directions-labels",
+        "fact:node-attributes",
+        "fact:node-shapes",
+        "fact:symbol-only-nodes"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Symbol-only glyph labels are retained source/native metadata; pinned shape handlers explicitly clear labels or draw fixed circle/bullseye glyphs without text (shapes.ts304-334,361-364,433-437,489-493; forkJoin14,hourglass11,lightningBolt12,filledCircle15,crossedCircle26; stateStart/stateEnd): [{\"id\":\"A\",\"label\":\"Stop\",\"shape\":\"framed-circle\"}]"
+      ],
+      "visualProjections": [
+        "Start,stop,fork,collate,communication-link,junction and summary glyphs encode semantic symbols without a painted caption; every node still requires unique actual glyph ownership and its exact shape,relationships and static styles",
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+      ]
+    },
+    "profileExpected": {
       "labels": [
         "Stop"
       ],
       "facts": {
+        "direction": "TD",
         "node-shapes": [
           {
             "id": "A",
@@ -21833,28 +21944,7 @@
           "label": "Stop"
         }
       ],
-      "edges": [],
-      "advisoryFacts": {
-        "direction": "TD"
-      }
-    },
-    "sourceReview": {
-      "protocol": "literal-documentation-facts-v1",
-      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
-      "requiredObligations": [
-        "visible-labels",
-        "node-identities-and-labels",
-        "relationship-endpoints-directions-labels",
-        "fact:node-attributes",
-        "fact:node-shapes"
-      ],
-      "unresolved": [],
-      "excludedNonvisual": [],
-      "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
-      ]
+      "edges": []
     }
   },
   {
@@ -21864,10 +21954,76 @@
     "family": "flowchart",
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
+      "labels": [],
+      "facts": {
+        "node-shapes": [
+          {
+            "id": "A",
+            "shape": "fork"
+          }
+        ],
+        "node-attributes": [
+          {
+            "id": "A",
+            "attributes": {
+              "shape": "fork"
+            }
+          }
+        ],
+        "symbol-only-nodes": [
+          {
+            "id": "A",
+            "shape": "fork",
+            "labelPolicy": "unprinted",
+            "ownership": "unique-visible-glyph"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "A",
+          "label": ""
+        }
+      ],
+      "edges": [],
+      "advisoryFacts": {
+        "symbol-source-labels": [
+          {
+            "id": "A",
+            "label": "Fork or Join",
+            "shape": "fork"
+          }
+        ],
+        "direction": "TD"
+      }
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "node-identities-and-labels",
+        "relationship-endpoints-directions-labels",
+        "fact:node-attributes",
+        "fact:node-shapes",
+        "fact:symbol-only-nodes"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Symbol-only glyph labels are retained source/native metadata; pinned shape handlers explicitly clear labels or draw fixed circle/bullseye glyphs without text (shapes.ts304-334,361-364,433-437,489-493; forkJoin14,hourglass11,lightningBolt12,filledCircle15,crossedCircle26; stateStart/stateEnd): [{\"id\":\"A\",\"label\":\"Fork or Join\",\"shape\":\"fork\"}]"
+      ],
+      "visualProjections": [
+        "Start,stop,fork,collate,communication-link,junction and summary glyphs encode semantic symbols without a painted caption; every node still requires unique actual glyph ownership and its exact shape,relationships and static styles",
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+      ]
+    },
+    "profileExpected": {
       "labels": [
         "Fork or Join"
       ],
       "facts": {
+        "direction": "TD",
         "node-shapes": [
           {
             "id": "A",
@@ -21890,28 +22046,7 @@
           "label": "Fork or Join"
         }
       ],
-      "edges": [],
-      "advisoryFacts": {
-        "direction": "TD"
-      }
-    },
-    "sourceReview": {
-      "protocol": "literal-documentation-facts-v1",
-      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
-      "requiredObligations": [
-        "visible-labels",
-        "node-identities-and-labels",
-        "relationship-endpoints-directions-labels",
-        "fact:node-attributes",
-        "fact:node-shapes"
-      ],
-      "unresolved": [],
-      "excludedNonvisual": [],
-      "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
-      ]
+      "edges": []
     }
   },
   {
@@ -21921,10 +22056,76 @@
     "family": "flowchart",
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
+      "labels": [],
+      "facts": {
+        "node-shapes": [
+          {
+            "id": "A",
+            "shape": "hourglass"
+          }
+        ],
+        "node-attributes": [
+          {
+            "id": "A",
+            "attributes": {
+              "shape": "hourglass"
+            }
+          }
+        ],
+        "symbol-only-nodes": [
+          {
+            "id": "A",
+            "shape": "hourglass",
+            "labelPolicy": "unprinted",
+            "ownership": "unique-visible-glyph"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "A",
+          "label": ""
+        }
+      ],
+      "edges": [],
+      "advisoryFacts": {
+        "symbol-source-labels": [
+          {
+            "id": "A",
+            "label": "Collate",
+            "shape": "hourglass"
+          }
+        ],
+        "direction": "TD"
+      }
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "node-identities-and-labels",
+        "relationship-endpoints-directions-labels",
+        "fact:node-attributes",
+        "fact:node-shapes",
+        "fact:symbol-only-nodes"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Symbol-only glyph labels are retained source/native metadata; pinned shape handlers explicitly clear labels or draw fixed circle/bullseye glyphs without text (shapes.ts304-334,361-364,433-437,489-493; forkJoin14,hourglass11,lightningBolt12,filledCircle15,crossedCircle26; stateStart/stateEnd): [{\"id\":\"A\",\"label\":\"Collate\",\"shape\":\"hourglass\"}]"
+      ],
+      "visualProjections": [
+        "Start,stop,fork,collate,communication-link,junction and summary glyphs encode semantic symbols without a painted caption; every node still requires unique actual glyph ownership and its exact shape,relationships and static styles",
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+      ]
+    },
+    "profileExpected": {
       "labels": [
         "Collate"
       ],
       "facts": {
+        "direction": "TD",
         "node-shapes": [
           {
             "id": "A",
@@ -21947,28 +22148,7 @@
           "label": "Collate"
         }
       ],
-      "edges": [],
-      "advisoryFacts": {
-        "direction": "TD"
-      }
-    },
-    "sourceReview": {
-      "protocol": "literal-documentation-facts-v1",
-      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
-      "requiredObligations": [
-        "visible-labels",
-        "node-identities-and-labels",
-        "relationship-endpoints-directions-labels",
-        "fact:node-attributes",
-        "fact:node-shapes"
-      ],
-      "unresolved": [],
-      "excludedNonvisual": [],
-      "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
-      ]
+      "edges": []
     }
   },
   {
@@ -22149,10 +22329,76 @@
     "family": "flowchart",
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
+      "labels": [],
+      "facts": {
+        "node-shapes": [
+          {
+            "id": "A",
+            "shape": "bolt"
+          }
+        ],
+        "node-attributes": [
+          {
+            "id": "A",
+            "attributes": {
+              "shape": "bolt"
+            }
+          }
+        ],
+        "symbol-only-nodes": [
+          {
+            "id": "A",
+            "shape": "bolt",
+            "labelPolicy": "unprinted",
+            "ownership": "unique-visible-glyph"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "A",
+          "label": ""
+        }
+      ],
+      "edges": [],
+      "advisoryFacts": {
+        "symbol-source-labels": [
+          {
+            "id": "A",
+            "label": "Communication link",
+            "shape": "bolt"
+          }
+        ],
+        "direction": "TD"
+      }
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "node-identities-and-labels",
+        "relationship-endpoints-directions-labels",
+        "fact:node-attributes",
+        "fact:node-shapes",
+        "fact:symbol-only-nodes"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Symbol-only glyph labels are retained source/native metadata; pinned shape handlers explicitly clear labels or draw fixed circle/bullseye glyphs without text (shapes.ts304-334,361-364,433-437,489-493; forkJoin14,hourglass11,lightningBolt12,filledCircle15,crossedCircle26; stateStart/stateEnd): [{\"id\":\"A\",\"label\":\"Communication link\",\"shape\":\"bolt\"}]"
+      ],
+      "visualProjections": [
+        "Start,stop,fork,collate,communication-link,junction and summary glyphs encode semantic symbols without a painted caption; every node still requires unique actual glyph ownership and its exact shape,relationships and static styles",
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+      ]
+    },
+    "profileExpected": {
       "labels": [
         "Communication link"
       ],
       "facts": {
+        "direction": "TD",
         "node-shapes": [
           {
             "id": "A",
@@ -22175,28 +22421,7 @@
           "label": "Communication link"
         }
       ],
-      "edges": [],
-      "advisoryFacts": {
-        "direction": "TD"
-      }
-    },
-    "sourceReview": {
-      "protocol": "literal-documentation-facts-v1",
-      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
-      "requiredObligations": [
-        "visible-labels",
-        "node-identities-and-labels",
-        "relationship-endpoints-directions-labels",
-        "fact:node-attributes",
-        "fact:node-shapes"
-      ],
-      "unresolved": [],
-      "excludedNonvisual": [],
-      "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
-      ]
+      "edges": []
     }
   },
   {
@@ -22662,10 +22887,76 @@
     "family": "flowchart",
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
+      "labels": [],
+      "facts": {
+        "node-shapes": [
+          {
+            "id": "A",
+            "shape": "f-circ"
+          }
+        ],
+        "node-attributes": [
+          {
+            "id": "A",
+            "attributes": {
+              "shape": "f-circ"
+            }
+          }
+        ],
+        "symbol-only-nodes": [
+          {
+            "id": "A",
+            "shape": "f-circ",
+            "labelPolicy": "unprinted",
+            "ownership": "unique-visible-glyph"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "A",
+          "label": ""
+        }
+      ],
+      "edges": [],
+      "advisoryFacts": {
+        "symbol-source-labels": [
+          {
+            "id": "A",
+            "label": "Junction",
+            "shape": "f-circ"
+          }
+        ],
+        "direction": "TD"
+      }
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "node-identities-and-labels",
+        "relationship-endpoints-directions-labels",
+        "fact:node-attributes",
+        "fact:node-shapes",
+        "fact:symbol-only-nodes"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Symbol-only glyph labels are retained source/native metadata; pinned shape handlers explicitly clear labels or draw fixed circle/bullseye glyphs without text (shapes.ts304-334,361-364,433-437,489-493; forkJoin14,hourglass11,lightningBolt12,filledCircle15,crossedCircle26; stateStart/stateEnd): [{\"id\":\"A\",\"label\":\"Junction\",\"shape\":\"f-circ\"}]"
+      ],
+      "visualProjections": [
+        "Start,stop,fork,collate,communication-link,junction and summary glyphs encode semantic symbols without a painted caption; every node still requires unique actual glyph ownership and its exact shape,relationships and static styles",
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+      ]
+    },
+    "profileExpected": {
       "labels": [
         "Junction"
       ],
       "facts": {
+        "direction": "TD",
         "node-shapes": [
           {
             "id": "A",
@@ -22688,28 +22979,7 @@
           "label": "Junction"
         }
       ],
-      "edges": [],
-      "advisoryFacts": {
-        "direction": "TD"
-      }
-    },
-    "sourceReview": {
-      "protocol": "literal-documentation-facts-v1",
-      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
-      "requiredObligations": [
-        "visible-labels",
-        "node-identities-and-labels",
-        "relationship-endpoints-directions-labels",
-        "fact:node-attributes",
-        "fact:node-shapes"
-      ],
-      "unresolved": [],
-      "excludedNonvisual": [],
-      "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
-      ]
+      "edges": []
     }
   },
   {
@@ -23175,10 +23445,76 @@
     "family": "flowchart",
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
+      "labels": [],
+      "facts": {
+        "node-shapes": [
+          {
+            "id": "A",
+            "shape": "cross-circ"
+          }
+        ],
+        "node-attributes": [
+          {
+            "id": "A",
+            "attributes": {
+              "shape": "cross-circ"
+            }
+          }
+        ],
+        "symbol-only-nodes": [
+          {
+            "id": "A",
+            "shape": "cross-circ",
+            "labelPolicy": "unprinted",
+            "ownership": "unique-visible-glyph"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "A",
+          "label": ""
+        }
+      ],
+      "edges": [],
+      "advisoryFacts": {
+        "symbol-source-labels": [
+          {
+            "id": "A",
+            "label": "Summary",
+            "shape": "cross-circ"
+          }
+        ],
+        "direction": "TD"
+      }
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "node-identities-and-labels",
+        "relationship-endpoints-directions-labels",
+        "fact:node-attributes",
+        "fact:node-shapes",
+        "fact:symbol-only-nodes"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Symbol-only glyph labels are retained source/native metadata; pinned shape handlers explicitly clear labels or draw fixed circle/bullseye glyphs without text (shapes.ts304-334,361-364,433-437,489-493; forkJoin14,hourglass11,lightningBolt12,filledCircle15,crossedCircle26; stateStart/stateEnd): [{\"id\":\"A\",\"label\":\"Summary\",\"shape\":\"cross-circ\"}]"
+      ],
+      "visualProjections": [
+        "Start,stop,fork,collate,communication-link,junction and summary glyphs encode semantic symbols without a painted caption; every node still requires unique actual glyph ownership and its exact shape,relationships and static styles",
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+      ]
+    },
+    "profileExpected": {
       "labels": [
         "Summary"
       ],
       "facts": {
+        "direction": "TD",
         "node-shapes": [
           {
             "id": "A",
@@ -23201,28 +23537,7 @@
           "label": "Summary"
         }
       ],
-      "edges": [],
-      "advisoryFacts": {
-        "direction": "TD"
-      }
-    },
-    "sourceReview": {
-      "protocol": "literal-documentation-facts-v1",
-      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
-      "requiredObligations": [
-        "visible-labels",
-        "node-identities-and-labels",
-        "relationship-endpoints-directions-labels",
-        "fact:node-attributes",
-        "fact:node-shapes"
-      ],
-      "unresolved": [],
-      "excludedNonvisual": [],
-      "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
-      ]
+      "edges": []
     }
   },
   {
@@ -67723,6 +68038,191 @@
         "3",
         "missing",
         "null",
+        "Red",
+        "Green",
+        "address.city",
+        "Oslo",
+        "items[0].name",
+        "Book",
+        "emptyObject",
+        "{}",
+        "emptyArray",
+        "[]",
+        "Inspect payload",
+        "colors"
+      ],
+      "facts": {
+        "node-shapes": [
+          {
+            "id": "Inspect",
+            "shape": "ellipse"
+          },
+          {
+            "id": "Payload",
+            "shape": "json-table"
+          }
+        ],
+        "dialect-kinds": [
+          {
+            "id": "Payload",
+            "kind": "json-table",
+            "rows": [
+              {
+                "path": "2",
+                "value": "second in source",
+                "kind": "string"
+              },
+              {
+                "path": "1",
+                "value": "first after 2",
+                "kind": "string"
+              },
+              {
+                "path": "enabled",
+                "value": "true",
+                "kind": "boolean"
+              },
+              {
+                "path": "count",
+                "value": "3",
+                "kind": "number"
+              },
+              {
+                "path": "missing",
+                "value": "null",
+                "kind": "null"
+              },
+              {
+                "path": "colors[0]",
+                "value": "Red",
+                "kind": "string",
+                "displayKey": "colors",
+                "arrayGroup": "colors",
+                "arrayIndex": 0
+              },
+              {
+                "path": "colors[1]",
+                "value": "Green",
+                "kind": "string",
+                "displayKey": "",
+                "arrayGroup": "colors",
+                "arrayIndex": 1
+              },
+              {
+                "path": "address.city",
+                "value": "Oslo",
+                "kind": "string"
+              },
+              {
+                "path": "items[0].name",
+                "value": "Book",
+                "kind": "string"
+              },
+              {
+                "path": "emptyObject",
+                "value": "{}",
+                "kind": "object"
+              },
+              {
+                "path": "emptyArray",
+                "value": "[]",
+                "kind": "array"
+              }
+            ],
+            "classes": "data"
+          }
+        ],
+        "node-paint": [
+          {
+            "id": "Payload",
+            "properties": {
+              "stroke": "#3572a5",
+              "stroke-width": "2px"
+            }
+          }
+        ]
+      },
+      "advisoryFacts": {
+        "json-scalar-array-source-structure": [
+          {
+            "table": "Payload",
+            "group": "colors",
+            "rowStart": 5,
+            "length": 2
+          }
+        ],
+        "json-array-logical-paths": [
+          {
+            "table": "Payload",
+            "path": "colors[0]",
+            "arrayGroup": "colors",
+            "arrayIndex": 0
+          },
+          {
+            "table": "Payload",
+            "path": "colors[1]",
+            "arrayGroup": "colors",
+            "arrayIndex": 1
+          }
+        ],
+        "direction": "TB"
+      },
+      "nodes": [
+        {
+          "id": "Inspect",
+          "label": "Inspect payload"
+        },
+        {
+          "id": "Payload",
+          "label": "Payload"
+        }
+      ],
+      "edges": [
+        {
+          "source": "Inspect",
+          "target": "Payload",
+          "directed": true,
+          "startMarker": "none",
+          "endMarker": "arrow"
+        }
+      ]
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "visible-labels",
+        "node-identities-and-labels",
+        "relationship-endpoints-directions-labels",
+        "fact:dialect-kinds",
+        "fact:node-paint",
+        "fact:node-shapes"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Scalar JSON arrays print one group key then ordered continuation rows; logical index paths remain source/native ownership metadata, not separate painted keys (usecase.md342,usecaseDb149-202,usecase.spec.ts1094-1105): [{\"table\":\"Payload\",\"path\":\"colors[0]\",\"arrayGroup\":\"colors\",\"arrayIndex\":0},{\"table\":\"Payload\",\"path\":\"colors[1]\",\"arrayGroup\":\"colors\",\"arrayIndex\":1}]"
+      ],
+      "visualProjections": [
+        "JSON table scalar arrays preserve exact ordered values and logical indices, with displayed parent key on the first row and blank continuation keys; object-array nested leaf paths remain visibly indexed",
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
+      ]
+    },
+    "profileExpected": {
+      "labels": [
+        "Payload",
+        "2",
+        "second in source",
+        "1",
+        "first after 2",
+        "enabled",
+        "true",
+        "count",
+        "3",
+        "missing",
+        "null",
         "colors[0]",
         "Red",
         "colors[1]",
@@ -67738,6 +68238,29 @@
         "Inspect payload"
       ],
       "facts": {
+        "direction": "TB",
+        "authored-style": [
+          {
+            "kind": "classDef",
+            "selection": "data",
+            "attributes": [
+              {
+                "property": "stroke",
+                "value": "#3572a5"
+              }
+            ]
+          },
+          {
+            "kind": "style",
+            "selection": "Payload",
+            "attributes": [
+              {
+                "property": "stroke-width",
+                "value": "2px"
+              }
+            ]
+          }
+        ],
         "node-shapes": [
           {
             "id": "Inspect",
@@ -67746,6 +68269,14 @@
           {
             "id": "Payload",
             "shape": "json-table"
+          }
+        ],
+        "node-attributes": [
+          {
+            "id": "Payload",
+            "attributes": {
+              "classes": "data"
+            }
           }
         ],
         "dialect-kinds": [
@@ -67811,14 +68342,15 @@
             ],
             "classes": "data"
           }
-        ],
-        "node-paint": [
+        ]
+      },
+      "advisoryFacts": {
+        "json-scalar-array-source-structure": [
           {
-            "id": "Payload",
-            "properties": {
-              "stroke": "#3572a5",
-              "stroke-width": "2px"
-            }
+            "table": "Payload",
+            "group": "colors",
+            "rowStart": 5,
+            "length": 2
           }
         ]
       },
@@ -67840,29 +68372,6 @@
           "startMarker": "none",
           "endMarker": "arrow"
         }
-      ],
-      "advisoryFacts": {
-        "direction": "TB"
-      }
-    },
-    "sourceReview": {
-      "protocol": "literal-documentation-facts-v1",
-      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
-      "requiredObligations": [
-        "visible-labels",
-        "node-identities-and-labels",
-        "relationship-endpoints-directions-labels",
-        "fact:dialect-kinds",
-        "fact:node-paint",
-        "fact:node-shapes"
-      ],
-      "unresolved": [],
-      "excludedNonvisual": [],
-      "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
-        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
       ]
     }
   },
@@ -69678,13 +70187,13 @@
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
       "labels": [
-        "Team overlap",
+        "\"Team overlap\"",
         "Frontend",
         "Backend",
         "APIs"
       ],
       "facts": {
-        "title": "Team overlap",
+        "title": "\"Team overlap\"",
         "sets": [
           {
             "id": "Frontend",
