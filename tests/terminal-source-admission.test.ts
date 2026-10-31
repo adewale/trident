@@ -46,6 +46,13 @@ test('changed source, family and intent cannot inherit an existing source review
   const result = reviewedTerminalCases(corpus, saveReviews(changed))
   expect(result).toHaveLength(120)
   expect(result[at]!.expected.status).toBe('unreviewed')
+  const changedIntent = reviews(), originalCorpus = readTerminalCorpus()
+  changedIntent.find((item: any) => item.caseId === input.id).intent = 'invalid'
+  const retained = reviewedTerminalCases(originalCorpus, saveReviews(changedIntent))
+  expect(retained.find(item => item.id === input.id)!.intent).toBe('valid')
+  expect(retained.find(item => item.id === input.id)!.expected.status).toBe('unreviewed')
+  expect(retained.filter(item => item.intent !== 'invalid')).toHaveLength(116)
+  expect(retained.filter(item => item.intent === 'invalid')).toHaveLength(4)
 })
 
 test('review wording, scope prose and provenance annotations do not invalidate unchanged semantics', () => {
