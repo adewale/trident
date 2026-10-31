@@ -4,6 +4,9 @@ import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
 import { sourceHash, type DocsDrawingReview } from '../unified/docs-drawings.ts'
 import { assessDocsPng, docsExpectationsHash } from '../unified/docs-png-drawings.ts'
 import { importOfflinePngReviews, type OfflinePngReviewReceipt } from '../unified/docs-png-offline-review.ts'
+import { readFileSync } from 'node:fs'
+import { gunzipSync } from 'node:zlib'
+import { docsPngStaticProjection } from '../unified/docs-png-static-contract.ts'
 
 const input = { id: 'synthetic/offline-raster-control', family: 'flowchart', source: 'flowchart LR\nA[Alpha]-->B[Beta]' }
 const contract: DocsDrawingReview = { id: input.id, sourceSha256: sourceHash(input.source), family: 'flowchart', intent: 'drawing', expected: { labels: ['Alpha', 'Beta'], nodes: [{ id: 'A', label: 'Alpha' }, { id: 'B', label: 'Beta' }], edges: [{ source: 'A', target: 'B', directed: true }] }, review: 'Independent literal synthetic control; not a benchmark judgment.', sourceReview: { protocol: 'literal-documentation-facts-v1', sourcePin: '1fb7869866dd619168d840291c9c54b4f129758b', method: 'Literal source control', expectedFactsComplete: true, requiredObligations: ['visible-labels', 'node-identities-and-labels', 'relationship-endpoints-directions-labels'], unresolved: [], excludedNonvisual: [] } }
@@ -43,4 +46,15 @@ test('identical project images keep separate inspection receipts and cannot carr
   expect(result.imported).toHaveLength(2)
   peer.review.status = 'correct'
   expect(() => run([receipt, peer])).toThrow('conflict')
+})
+
+test('a newly authored canonical static-frame review must retain its exact named format projection', () => {
+  const current = JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json', import.meta.url), 'utf8')).find((review: DocsDrawingReview) => review.id.endsWith('flowchart.md:818')) as DocsDrawingReview
+  const canonical = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString()).cases.find((input: { id: string }) => input.id === current.id)
+  const projected = { ...structuredClone(receipt), source: canonical.source, reviewedSourceContract: current, review: { ...receipt.review, id: current.id, sourceSha256: current.sourceSha256, expectationsSha256: docsExpectationsHash(current) } }
+  expect(() => importOfflinePngReviews([canonical], [current], [projected], () => png, () => png)).toThrow('explicitly reviewed static format claim')
+  const fresh: OfflinePngReviewReceipt = { ...projected, reviewedStaticProjection: docsPngStaticProjection(current)! }
+  expect(importOfflinePngReviews([canonical], [current], [fresh], () => png, () => png).reviews[0]!.status).toBe('incorrect')
+  fresh.reviewedStaticProjection!.expected.labels = []
+  expect(() => importOfflinePngReviews([canonical], [current], [fresh], () => png, () => png)).toThrow('static format claim')
 })
