@@ -21,12 +21,27 @@ publication remain pending.
   metadata. Strict SVG-to-PNG preservation additionally requires the actual
   rasterized SVG, frozen rasterizer/fonts and an independently reviewed reference
   image. A native PNG without complete content evidence remains unknown.
-- Qualify 41 unchanged original Mermaid public parse/detector/accessibility
-  callbacks against both the source runner and substituted public reference. Preserve the complete
-  4,060-declaration census separately; broader conformance remains unqualified.
-- Declare required terminal source facts across the full 120-input corpus;
-  keep 116 positive drawings and four invalid controls separate. Expand bounded display-cell observers; the
-  diagnostic subset is not a verified-pass count or complete accuracy claim.
+- Qualify 154 unchanged Mermaid public callbacks from 37 declarations against
+  original-source and installed-reference controls. Keep the 4,060-declaration
+  census and historical 41-callback scope separate; this is public API evidence.
+- Use the versioned active terminal corpus in ordinary benchmark collection:
+  115 original drawings, one reviewed adaptation and four invalid controls.
+  Preserve all 120 original sources and the ambiguous original state example
+  in the 121-entry research inventory. Historical runs keep their original IDs.
+- Separate visible drawing facts from native metadata, including raw Git
+  operation history and layout identifiers. Keep one ambiguous documentation
+  example unknown without removing it from the 546-drawing denominator.
+- Inspect all 997 returned images in the two-project PNG qualification cohort.
+  Bind each accepted judgment to its current source contract and actual pixels;
+  unresolved facts remain unknown. Review files can be authored without Codex.
+- Embed frozen image resources during browser PNG conversion. The targeted
+  favicon example now retains its image; the former blank export was a Trident
+  conversion defect, with the same Mermaid artifact before and after.
+- Prevent hidden node bodies, covered connectors and erased arrowheads from
+  earning a complete SVG certificate. Measure dash paint using actual path
+  lengths and cap scaling; omitted marker orientation is fixed zero degrees.
+- Dispose of timed-out documentation pages before later calls, and bind frozen
+  capture inputs to calls that actually entered after the capture began.
 - Verify 16 public execution paths across six complementary project artifacts,
   using 56 output calls and separate model operations. Bound harness collection
   to five minutes after preparation; invocation coverage is not a quality score.
