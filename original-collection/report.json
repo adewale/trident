@@ -1,0 +1,27 @@
+{
+  "schema": "trident-campaign-v2",
+  "options": {
+    "out": "/workspace/trident-terminal-real-qualification-2026-10-31/collection"
+  },
+  "startedAt": "2026-10-31T02:31:44.133Z",
+  "updatedAt": "2026-10-31T02:31:46.527Z",
+  "projects": [
+    "AlexanderGrooff/mermaid-ascii",
+    "fasouto/termaid"
+  ],
+  "profile": "full",
+  "rounds": 1,
+  "requestedSuites": [
+    "community"
+  ],
+  "results": [
+    {
+      "suite": "community",
+      "cohort": "terminal-project-corpus-v1",
+      "out": "/workspace/trident-terminal-real-qualification-2026-10-31/collection/terminal",
+      "status": "blocked",
+      "completed": true
+    }
+  ],
+  "scope": "Real project examples; full inventory retains unmeasured/unknown cells. Reviewed subset is separately bounded. Mermaid reference is unscored. CLI and Python clocks are not compared."
+}

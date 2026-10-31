@@ -1,0 +1,3048 @@
+{
+  "profile": "terminal-project-corpus-v1",
+  "source": "3b9bc966a1b77dc7b81db5308025c4cb1f7e8ba1",
+  "producers": [
+    "100644 blob a8abb05d08711a91f0a53944cea3989069a0fb0e\tcatalog/mermaid-community.json",
+    "100644 blob 403ff7ba062a20a4610b46468f04a028222d4ca1\tci-policy-enforce.ts",
+    "100644 blob 46a6436ea29e11fa5d713b39ddb63acd9ae791cf\tci-policy.ts",
+    "100644 blob 79eb399d15e2acbccdb437025d932193bda11a40\tcorpus/terminal-project-examples.json",
+    "100644 blob dbba4a73713832f42ecf643928f5f5fd2185f87b\tcorpus/terminal-project-reviews.json",
+    "100644 blob 7fc90a4356a669314e6e20ddbf8b7f16b1c53a34\tfidelity/adapters.ts",
+    "100644 blob 27db6253ef4156d6b400326a37c6a61a0854e9f2\tfidelity/meaning.ts",
+    "100644 blob 9650cf38842937be6ce0506095b2019ddcb5013a\tfidelity/selection.ts",
+    "100644 blob 7542e1efc7565017d2b386c16053af991734e5ad\tfidelity/terminal-assessment.ts",
+    "100644 blob fcc30921e54e09ff0b5ce0dc087b37c116e053d0\tfidelity/terminal-corpus.ts",
+    "100644 blob 12a4d08d89ab80b6daa0d53a5140ae382a356d9f\tfidelity/terminal.ts",
+    "100644 blob 3d90dd1334ebdfa75999dffa2d737aeae3133475\tnative-flutter/community-launch.mjs",
+    "100644 blob a865874cfc792441448bca480dc66e30de228524\tportable/artifact-dependencies.ts",
+    "100644 blob 2f2faf1ee051638f2dc67ea48661e6819700d239\tportable/checkpoint.ts",
+    "100644 blob 5813f9b7c09528e50b77f9003f16b828a625081c\tportable/ci-policy.ts",
+    "100644 blob 73da43d3fea40796d04fe7fe9906501d1d59d67a\tportable/cohorts.ts",
+    "100644 blob 3c4999e57c8016ec651a548f0b8ba696165410ba\tportable/mermaid-oracle.ts",
+    "100644 blob b1731be5ead03172bf3015ca76513287e5973657\tportable/project-records.ts",
+    "100644 blob 2ded90e3f187b0bb2f2b648127551893e21df344\tportable/protocol.ts",
+    "100644 blob f95fb7a418cef16b70a50c63cbf10168e2a3a1dd\ttool-versions.json",
+    "100644 blob ff51e22ba9ca2e2a776934a86dec5c66317599c1\ttool-versions.ts",
+    "100644 blob 57f9c7caf187a31dd2721708321e532730cfd3ac\tunified/benchmark-skip.ts",
+    "100644 blob eacfa7f30a1a1925538ba704f73cb59f80fa44f3\tunified/browser-process-memory.ts",
+    "100644 blob b4b4ca9a7105aa04a60a0add90861e6237ff59b6\tunified/candidate-packages.ts",
+    "100644 blob aa10f449699fafb6430719483ddfd6a1079131e3\tunified/catalog-eligibility.ts",
+    "100644 blob 9cf11fbbab5c2ca8e8bdaf09481bda28c67ce796\tunified/community-artifact-prepare.ts",
+    "100644 blob 1fcf1781f4bd80217906299b74efbe43c20c4707\tunified/community-browser.ts",
+    "100644 blob 74c18fa1bb6b38d614984495290def3762cfcd4c\tunified/community-external.ts",
+    "100644 blob 19c946f793e79bfaa036c26db7cf26876f5f8ed1\tunified/community-extra-adapters.mjs",
+    "100644 blob 630557c945c9cb05c27272b7a41f7108869be905\tunified/community-extra-source.ts",
+    "100644 blob d9dfab66016cdc4bd0f89adc58ad1359b3944234\tunified/community-process.ts",
+    "100644 blob 9088157b94016b1ece3358bce3d7096e63a3d6cc\tunified/community-python-worker.py",
+    "100644 blob 114b71891d71dc30faa27e88aa7e4ca0ba3f0267\tunified/community-source-prepare.ts",
+    "100644 blob 5ef6354edf9d8f60eed95a51e4dd9253bfed2e90\tunified/community-worker-evidence.ts",
+    "100644 blob be95b6f91c07218040b3ce9420c5143636ad0f57\tunified/community.ts",
+    "100644 blob ff13967087b5a60fb3037fc0b55eb9caa0041de0\tunified/corpus.ts",
+    "100644 blob 2740a1a29fc5a3726e16f38ef6f522420e6285e7\tunified/failure-outputs.ts",
+    "100644 blob 9b4c6d41fcdff1e95f34584cae7699387b9ef24a\tunified/family-support.ts",
+    "100644 blob 6fdca45d96e84f46735cd8fe8926fe34e2889f1b\tunified/harness-paths.ts",
+    "100644 blob eb110035690a9ca42b94b19fb270c5ddb2835421\tunified/lineage.ts",
+    "100644 blob d50649b756b6334786b215c341776b37ace0cef1\tunified/oracle-labels.ts",
+    "100644 blob 7a8d7b3345485af80a7a95632a1dd59f40d8db93\tunified/png-inspection.ts",
+    "100644 blob 2f89b53ee3c54994dad9f7cecb0a5959ff96e5b7\tunified/protocol-identity.ts",
+    "100644 blob 368cb14d601ecda74fac76202831ae7bd1bd71f8\tunified/qualification-visible-source.ts",
+    "100644 blob 861d3ecd711f27da243d4633e31d1408a30c9e48\tunified/qualification.ts",
+    "100644 blob 719c7a3ba6e57955fe11607cd3ca7443a6c536d7\tunified/release-cli.ts",
+    "100644 blob 457e16e00729301ed0788d5389bcacbebd2b3f5c\tunified/support.ts",
+    "100644 blob ed051cbd9a8c3df3881ed07327e08fa3dba7976f\tunified/svg-text-inspection.ts",
+    "100644 blob e579291f212d50493fd60b3c2d0be0095ec41bf5\tunified/terminal-profile.ts",
+    "100644 blob 6a0b61c7dd23cd9ad0a6b408278b18e38b89521d\tunified/trident-paths.ts",
+    "100644 blob b4645079ec5f8b4a939360b735e7eb9ac7daf31a\tunified/workload-intent.ts"
+  ],
+  "startedAt": "2026-10-31T02:31:44.133Z",
+  "finishedAt": "2026-10-31T02:31:46.512Z",
+  "inventory": [
+    [
+      "terminal:03019928d457c65c",
+      "03019928d457c65c1a8799f748a63ff0269dad8d6b29c154a22a6fe1c0667daf"
+    ],
+    [
+      "terminal:049722f83e7a31e0",
+      "049722f83e7a31e037c83bde72aaf6e9b458b2155b21df6c4bc7de5eb77adfd7"
+    ],
+    [
+      "terminal:0dbd28f2f1c494cc",
+      "0dbd28f2f1c494ccb74e7fde1aa3df58f07cb2691b05670875202c70c25427aa"
+    ],
+    [
+      "terminal:11426c4cad392dc7",
+      "11426c4cad392dc7fbd5e7f471d586c1830876daac3f50a098d6c61ea48006df"
+    ],
+    [
+      "terminal:128500dada38a009",
+      "128500dada38a0093d98c19c7c36e4248c20aff5aa90a93e018bea6aedf06db7"
+    ],
+    [
+      "terminal:1468e1cf1186af65",
+      "1468e1cf1186af65a80264f610e1b7eca8d9b98e0d0018037f2316258e973a74"
+    ],
+    [
+      "terminal:1b492a74df0fc4b6",
+      "1b492a74df0fc4b6f5dd8c366bda5d3baae4fc7a5835534e3dcf8c0f3df174f9"
+    ],
+    [
+      "terminal:1c0f33b5035768f2",
+      "1c0f33b5035768f269ecf82930876ed3963720c0a22c8916b5de2b200583c264"
+    ],
+    [
+      "terminal:206a9307ba8592b1",
+      "206a9307ba8592b1f23adf48804560e6f347ace250088317f934ae6a0b8d6c11"
+    ],
+    [
+      "terminal:2091f6913743bcab",
+      "2091f6913743bcaba4d229c80408a90a08ba63e4b5d6a7ffa6774b6cc0a1b0fd"
+    ],
+    [
+      "terminal:22775b7f44c796b6",
+      "22775b7f44c796b6df5ce850c7cf7fbb0af771d895c9b0f3f66e8b30fdf62871"
+    ],
+    [
+      "terminal:2295dae5ca33addf",
+      "2295dae5ca33addfb3d04dfbc568c1c3f0207e618f3cb9053b77f92f271c500e"
+    ],
+    [
+      "terminal:22e97a0fc1fff023",
+      "22e97a0fc1fff023dde7175e72d50834fd2832d7674069c0fb7cc4d87bf2c1e4"
+    ],
+    [
+      "terminal:2431a54dd231055c",
+      "2431a54dd231055cadfdb7f19e1de673c25f789ae7500524a79c37698270e369"
+    ],
+    [
+      "terminal:2598092a6e404821",
+      "2598092a6e404821748227ca06ae815462794ff45839ef3fa0a9b773a5bb8c77"
+    ],
+    [
+      "terminal:25b4a684eb0b6e31",
+      "25b4a684eb0b6e31eaa489dbd3c88bde931ea436c30299cbc9cbeea0f2fd6466"
+    ],
+    [
+      "terminal:25e166249d24378d",
+      "25e166249d24378d1e9af172b57d85905c53876c9e82447a4d1f6ce8c01f1302"
+    ],
+    [
+      "terminal:263ec71ab0c651b3",
+      "263ec71ab0c651b34524d8b9aa0da4e48cd92960d30fa621223ff92f928afa1d"
+    ],
+    [
+      "terminal:276c8474274911fa",
+      "276c8474274911fad28e9e3695137a760f89f3429a5dac0180a9a475f62222f7"
+    ],
+    [
+      "terminal:278dccc21dd27020",
+      "278dccc21dd27020643b1fa3c5e2e54118631e5f7473c1e0d0329601f9fee850"
+    ],
+    [
+      "terminal:27a0bf1eef1bdb6f",
+      "27a0bf1eef1bdb6f4647715e6b817adf3373e328f62b2574bc01a0323656b4f2"
+    ],
+    [
+      "terminal:29fc1dab07164509",
+      "29fc1dab071645091a3d0e13b17dcbae9a3d74e76bcb4082f81380214ce53730"
+    ],
+    [
+      "terminal:3042977d4e6d813b",
+      "3042977d4e6d813b0473b57c64bc799b6f1692b43ea1b2c18eb6a2fb27df564d"
+    ],
+    [
+      "terminal:321aee6efed4a803",
+      "321aee6efed4a803c844ca07f799fedcd4bf5c0e0d52c326ce74572b70c72d10"
+    ],
+    [
+      "terminal:32ad8ee06ab49562",
+      "32ad8ee06ab49562fcd678375eab9def42c95eabb1a1736b3a69f2f546c631f0"
+    ],
+    [
+      "terminal:383e68bb60ac3633",
+      "383e68bb60ac363313797f64c4465b959fb795b0f9bdbaaf299ef7a4dbbf3575"
+    ],
+    [
+      "terminal:39d5de95eb42396b",
+      "39d5de95eb42396b750f70bd5c47220b151fdc6447d3209f86fee0f92c04325e"
+    ],
+    [
+      "terminal:3c2f67b774f592f2",
+      "3c2f67b774f592f2530179bee7836ed3aaa4b84682c13edff6d36906a1babe99"
+    ],
+    [
+      "terminal:3f4b6bd0b23e6927",
+      "3f4b6bd0b23e692744bb492e932358285283b32985691e9acc38e4dd794ae57d"
+    ],
+    [
+      "terminal:404189958f761756",
+      "404189958f7617566bd4879eda14fdb5539a8947a41f4d58fb854cd6a5f11472"
+    ],
+    [
+      "terminal:43382cbc1379cf4c",
+      "43382cbc1379cf4c8ff7399915269340c350b406ff8cee53838d407392c95689"
+    ],
+    [
+      "terminal:435d2e71f8557532",
+      "435d2e71f8557532485021bd502fc1a9c23474db322d011b5a7ceafcac27284f"
+    ],
+    [
+      "terminal:46492176fc22b23d",
+      "46492176fc22b23d8ca656c13814c940fc79fde019cf6c3cccdbeaecb47a23a2"
+    ],
+    [
+      "terminal:46c4d04542ff7c8e",
+      "46c4d04542ff7c8e262334d4a5f5024c3aa8fc4fbe6bcfb36293ef2679402386"
+    ],
+    [
+      "terminal:478ab66bb4c7e4f5",
+      "478ab66bb4c7e4f5af447292eec807dcfb8d05140a6ce7eb71c3210d7574790c"
+    ],
+    [
+      "terminal:486d9d241d7bf98f",
+      "486d9d241d7bf98fb6be9d78a1734510b145ced330460ed54f3ced0973f0f74f"
+    ],
+    [
+      "terminal:48d7ff23dee1b343",
+      "48d7ff23dee1b343726baf5dcbffe6c5b22e6ce616741f04b1bb6a4dc39a764c"
+    ],
+    [
+      "terminal:4ab51e1e2963ef1c",
+      "4ab51e1e2963ef1c571cfcc63a22281f7c7bbe33a44f63c25fffbf94d3171e67"
+    ],
+    [
+      "terminal:4ab6c5415bc7a24c",
+      "4ab6c5415bc7a24cfe3bd79cdd437c77e70726a0967b6524d1c85d9d7ff67072"
+    ],
+    [
+      "terminal:4ae5560b57ca0064",
+      "4ae5560b57ca00644f52af4a27dae7aff65b9f0cd9b72f84b22dbe63c3a334d4"
+    ],
+    [
+      "terminal:4e4550d086c4e288",
+      "4e4550d086c4e288c1fb103e0e2bc7aa6a21b3e0d21e19f55b605c5ef4132959"
+    ],
+    [
+      "terminal:4f96b68984c54c5a",
+      "4f96b68984c54c5a5f1aeb775fcee518667a72b6ff46194bbaab91130e25252a"
+    ],
+    [
+      "terminal:529e14e4d09b944a",
+      "529e14e4d09b944a273af61e271192e3360958bedc7c4f6d337bb14e1b24060f"
+    ],
+    [
+      "terminal:53e2d239ed8df992",
+      "53e2d239ed8df99294034693a642bbe2fdc66f4d61fecf583fb16fc645bbcc02"
+    ],
+    [
+      "terminal:54f7237ee5ab1a85",
+      "54f7237ee5ab1a8529f7617177e0d5d2ed22c79a6de598eb01d7e7892de33ad8"
+    ],
+    [
+      "terminal:570e13053d228e29",
+      "570e13053d228e29128e4ffcfaf57d4fa6604fbba6c4864054c612c98b00e05d"
+    ],
+    [
+      "terminal:587429a5094fbb28",
+      "587429a5094fbb289b72522e2962f3f22820f6fc102a55a7e1e9ef1d70bc2b0d"
+    ],
+    [
+      "terminal:5b249b03683c12ec",
+      "5b249b03683c12ec815e81e96120069bd8a5c37eac640d3c5592ce0fb1901830"
+    ],
+    [
+      "terminal:5c9a50898b1e6ffe",
+      "5c9a50898b1e6ffe8275b4b1253c51b2b1bc3c1efbcd345a6591b5faaa3d8af6"
+    ],
+    [
+      "terminal:5d18804ad5e0e31f",
+      "5d18804ad5e0e31fb1a9a0f0f98189e0651301d6841ec474888bed896a8b4976"
+    ],
+    [
+      "terminal:5eee7283ba095288",
+      "5eee7283ba095288a839cdf63a27465f76c1edaf4c9407c2e6a732f469f5d057"
+    ],
+    [
+      "terminal:61cc5e1150412252",
+      "61cc5e11504122529ce5e4a228db227e510c808410ff42016d0141143bc75b6d"
+    ],
+    [
+      "terminal:64788fe4b88b1f1f",
+      "64788fe4b88b1f1fa60cddc2ea87c27f3fa3a1b869cb3294d388331160cab047"
+    ],
+    [
+      "terminal:663c83c9e855c6b5",
+      "663c83c9e855c6b59b7f167768f15cd591a7635f37655193321fcbca3a8c5622"
+    ],
+    [
+      "terminal:684ec260a97cf7b6",
+      "684ec260a97cf7b68465eb903fe9bb4dce387e2504214588b0069c837ae3f7e6"
+    ],
+    [
+      "terminal:6c29eb05c097760d",
+      "6c29eb05c097760d92c15f7a39656b6e2a0ceb12410a19f86690c9c7cc5ee2b4"
+    ],
+    [
+      "terminal:6f0f134c3b965095",
+      "6f0f134c3b9650951860340f7c708d12fe621a4edaeeed112c37c4f50dea6852"
+    ],
+    [
+      "terminal:6f83e372d7057526",
+      "6f83e372d705752669151f57e02ae97625b10cdcd860de39d278211ff1eeecce"
+    ],
+    [
+      "terminal:704f69aae7273edd",
+      "704f69aae7273edd6e4dbb3aa3bbb3b2758784613885489bd16d3c62b4a31adf"
+    ],
+    [
+      "terminal:75a4be6507dd75fe",
+      "75a4be6507dd75fef11705a305b280a727c6814af2103f29a807f7c2ba88934d"
+    ],
+    [
+      "terminal:75e652628bded0d8",
+      "75e652628bded0d8d7b2c6f5455db42e24e84436a714a04caf15ebb63b80c0af"
+    ],
+    [
+      "terminal:767a3f8c3e47e0bd",
+      "767a3f8c3e47e0bd1a2c378dd34ced4b84aafa7c152d7b3164b1e7c64637b9d5"
+    ],
+    [
+      "terminal:7801c75b869778fe",
+      "7801c75b869778fe2a77352bceb16cab2f019013dfed253900c81e6bcbcc892e"
+    ],
+    [
+      "terminal:837336a6e0f8f27c",
+      "837336a6e0f8f27cbd07d612a41e616b1d6cd1cf24048ee81d299b0da7027e97"
+    ],
+    [
+      "terminal:867520b102964291",
+      "867520b102964291be014723cbb81fd0cc8a30e13f11948ebbe54a7181f0f7c5"
+    ],
+    [
+      "terminal:87325fd383c3b1af",
+      "87325fd383c3b1af9b79168d4c8174d5e0b4ed4341d8c9f804b1249cd0de76c1"
+    ],
+    [
+      "terminal:898156db49cbe4e9",
+      "898156db49cbe4e9f2ef5464cf9da8865436d8dace3629ba6d2f08e75f15fe1e"
+    ],
+    [
+      "terminal:89be4f2885fb74a9",
+      "89be4f2885fb74a9890b4c23cc4c22cccbd07eaa7555b349ed6ba7af131cbe28"
+    ],
+    [
+      "terminal:89e9eb6aebb72128",
+      "89e9eb6aebb721286e049b6738a9834a709427bac88d3b549e7779e3b7e6094c"
+    ],
+    [
+      "terminal:908bfa4128c34006",
+      "908bfa4128c34006189696960e49e04cf55642036e1110a27cd3d79b3272a419"
+    ],
+    [
+      "terminal:90e78c1ed707e7e4",
+      "90e78c1ed707e7e46c637ad22564ff732aec29583c542d5a9464a7310e2275b5"
+    ],
+    [
+      "terminal:915784d6704949c2",
+      "915784d6704949c29e75cd8430198a9286c6314c5a558494e47f52bad288c6b1"
+    ],
+    [
+      "terminal:94ac61fd1311d5bc",
+      "94ac61fd1311d5bce12c10ccab4e57ae03397c74ee7da196b5e9a07d56b40f7d"
+    ],
+    [
+      "terminal:94e514f9f375364c",
+      "94e514f9f375364c3d10b97977a7c3ce354e22d02ba8937ee721963213b6df97"
+    ],
+    [
+      "terminal:9516272260e4c69d",
+      "9516272260e4c69db25b4479fe59f49cf31d29397c322b9f1fe0b65c99f54f77"
+    ],
+    [
+      "terminal:955cacf9438d691d",
+      "955cacf9438d691d1a73f2ceed733716f40cb503a2dc0a2ec300642490a3d616"
+    ],
+    [
+      "terminal:9972eaa8ca8692d8",
+      "9972eaa8ca8692d847b516eaef201d8a03a6666830f62033b2c6b0e8b39c1186"
+    ],
+    [
+      "terminal:9cdc849ecf29b4d2",
+      "9cdc849ecf29b4d25ba71adb5c669684cca9f598609f6191db4fa57aea209843"
+    ],
+    [
+      "terminal:9e4e5a5e072642e8",
+      "9e4e5a5e072642e8268139c9c8ae318b3361f867333f73e0d19e9d32ce41c5e3"
+    ],
+    [
+      "terminal:a181524246065697",
+      "a181524246065697c61c84e86f2d5a16c1f2be6252cb043ad338d9fe01fa7d3d"
+    ],
+    [
+      "terminal:a2118d0582abef57",
+      "a2118d0582abef57281c87dbee293a79fb849869f20b888dfe894f8683004da3"
+    ],
+    [
+      "terminal:a5204531005bef25",
+      "a5204531005bef25fc0c6754aca316b53847acc977fd98b3260a4997f6f2f4eb"
+    ],
+    [
+      "terminal:a60c7e7b3b930353",
+      "a60c7e7b3b930353dcf69ed1e9dd6f0818179b0263c0412b0511e04b43675196"
+    ],
+    [
+      "terminal:aaf86b713c100b5a",
+      "aaf86b713c100b5a41d8242ebfaa5faa3e96f75b598a365e88d1d497fbc61798"
+    ],
+    [
+      "terminal:b1428b5b59888938",
+      "b1428b5b59888938394e34d7ff0e8aa2c7ea9366095924e5e95da4dc38e53289"
+    ],
+    [
+      "terminal:b1c4dd60b314e8a1",
+      "b1c4dd60b314e8a14f0fe989543d84e34d82d3f325e859b1624dc3645a57c9b1"
+    ],
+    [
+      "terminal:b23c0856e157b1f2",
+      "b23c0856e157b1f2e8766d5d1510545deb9dad6f505274bc3ed65419193b4fb6"
+    ],
+    [
+      "terminal:b29260d2c1b434d5",
+      "b29260d2c1b434d58e1b720ebac9ec6403d5c2460fb084e10c2b1c576654b6be"
+    ],
+    [
+      "terminal:b4c60f465d6bcb5b",
+      "b4c60f465d6bcb5b80a6a9a03c52fe1d4d96dc02827c992b03a38a6bf9623d2a"
+    ],
+    [
+      "terminal:bd36b029775eba8c",
+      "bd36b029775eba8c0cfbf4cd6d765414c9ae7840a8cc1d9557326c9a59f152dd"
+    ],
+    [
+      "terminal:bf9642a4ab479973",
+      "bf9642a4ab479973d222863499296cc4a6b7115ed049ba4c67831cc9d2241e73"
+    ],
+    [
+      "terminal:bfad6c5a05be093a",
+      "bfad6c5a05be093a87c404f35baf2111ec93931293f3555a305aabf11449b6e0"
+    ],
+    [
+      "terminal:c18237e0a535bdb7",
+      "c18237e0a535bdb73d9c241d24e7905bd72b7e64ca3ece4b5c241eb4fd8c7546"
+    ],
+    [
+      "terminal:c2e297448b5388ba",
+      "c2e297448b5388bae250230081cb51d57572b9dd0478c6b3ae8f6b79a6c8d114"
+    ],
+    [
+      "terminal:c5455d2e2f5f8672",
+      "c5455d2e2f5f86725669b8a0553543ef6a26f6eb8a063357198269749b28364a"
+    ],
+    [
+      "terminal:c64d9c102f509905",
+      "c64d9c102f509905e22a19cbe0f5ca253426727f7bb86d22249581941f31a935"
+    ],
+    [
+      "terminal:c8082a89c0a3e258",
+      "c8082a89c0a3e258e46c12013938f3281ce101d0d24b241ce46aada868070995"
+    ],
+    [
+      "terminal:cd2dd60c268497d1",
+      "cd2dd60c268497d134ea85fc4220ecd19c9702ec49697ce8e892136c72a09412"
+    ],
+    [
+      "terminal:cd771fca2659a460",
+      "cd771fca2659a4602374e2056bf5c02e9fb82a3fe6ce9864b46a39d692f58ca0"
+    ],
+    [
+      "terminal:d04b45557e7b8f2e",
+      "d04b45557e7b8f2eca12da9a61cc9ac74c091ab380915c61605a2128fc7df9ed"
+    ],
+    [
+      "terminal:d2896678981aedb8",
+      "d2896678981aedb83fdea857c7ee453cd24c89a79e9ba0706292fa763776d111"
+    ],
+    [
+      "terminal:d3cc8b77d097ec56",
+      "d3cc8b77d097ec56fee2cdba37fe9fe1b967b994212186f6890bba4821114f7c"
+    ],
+    [
+      "terminal:d7362afef7c26051",
+      "d7362afef7c260513c0911b9af7d8e36feb2238455591c9065e79fd7865c5bbb"
+    ],
+    [
+      "terminal:d98a600399ba3ce5",
+      "d98a600399ba3ce50000f564ddfab3def229c000a188abec793a43efc02992ef"
+    ],
+    [
+      "terminal:da9198e1adbc1c14",
+      "da9198e1adbc1c144a6b287850dadc08466027af7dc2dc9e4c896145221fb099"
+    ],
+    [
+      "terminal:dbc553f665d05c10",
+      "dbc553f665d05c10084949154ba4f24f58a4a363b5ffcb419bedfcc5daf23ab6"
+    ],
+    [
+      "terminal:ddef9c7af192e428",
+      "ddef9c7af192e428e8347b650baa4041481c4804fe0c718a2582e6fd3c936895"
+    ],
+    [
+      "terminal:de6e8bf0fd559efc",
+      "de6e8bf0fd559efcf50b29b49547d8a5568edd8b9cb8e59b99d040bbf5b16223"
+    ],
+    [
+      "terminal:df5eb5c9968bbb86",
+      "df5eb5c9968bbb86e32090ea82a3f6489e6d63bdd99cdad85c081f0f4353eb41"
+    ],
+    [
+      "terminal:e07394221b261392",
+      "e07394221b261392d5bdb2f23bd063207925a4689b5271ddba5a07b0da56dfd4"
+    ],
+    [
+      "terminal:e52b4b37f626102c",
+      "e52b4b37f626102c671c29a373c7833fa699b3060e3810eee1e57e51707a4d19"
+    ],
+    [
+      "terminal:e54c4b6195e240be",
+      "e54c4b6195e240be74ea4f664d99741b49e1ba86ffcb3376efa380a53b23324e"
+    ],
+    [
+      "terminal:e84af4bd39ddf3eb",
+      "e84af4bd39ddf3ebdbf465ff96d873cafe8b95f24b9fcbeb6aef29229ec4aa69"
+    ],
+    [
+      "terminal:e920356ba6c73b52",
+      "e920356ba6c73b5235740e6fc2842b9c6fb402c4f800d9cf0d25f7ec9c3ecf04"
+    ],
+    [
+      "terminal:e977db2dd4ba0536",
+      "e977db2dd4ba05362f6be763e69db25fa336d521e0771578a5ab3e9939e142c6"
+    ],
+    [
+      "terminal:ea02b4528ba4eb10",
+      "ea02b4528ba4eb107e066e90cf2a635f02267cbac959f4524c5cf0306e6e4026"
+    ],
+    [
+      "terminal:ea7675b95cb763b3",
+      "ea7675b95cb763b31fae93f37ab7fefe9e427ffe137ab9275351afd30511ff27"
+    ],
+    [
+      "terminal:ef20265c9ef84973",
+      "ef20265c9ef8497318904bbeaf4f7926baa1a674246f3ce92b5a4d9d46c012dd"
+    ],
+    [
+      "terminal:f78157ede4e2d1ab",
+      "f78157ede4e2d1abc7fb60523935120f011ad25848334481258778fe115400d0"
+    ],
+    [
+      "terminal:fbfb884b46380275",
+      "fbfb884b463802756649bbe53d8d02e74b8c3fc0ca92b4cd0320d89f82653139"
+    ]
+  ],
+  "corpusFile": "corpus/terminal-project-examples.json",
+  "corpusSha256": "e37fc22f33fe4966338a97aeca8add5a25ec68b8dd44152bd5218cd53d1f0497",
+  "reviewsSha256": "a73ddd93169a17c6bb192d765a21d6e906e9a799117af6300b2fe08c859ba43d",
+  "selectedCaseIds": [
+    "terminal:2091f6913743bcab",
+    "terminal:22775b7f44c796b6",
+    "terminal:3c2f67b774f592f2",
+    "terminal:404189958f761756",
+    "terminal:435d2e71f8557532",
+    "terminal:46492176fc22b23d",
+    "terminal:5d18804ad5e0e31f",
+    "terminal:684ec260a97cf7b6",
+    "terminal:6f83e372d7057526",
+    "terminal:837336a6e0f8f27c",
+    "terminal:915784d6704949c2",
+    "terminal:b1c4dd60b314e8a1",
+    "terminal:b4c60f465d6bcb5b",
+    "terminal:bf9642a4ab479973",
+    "terminal:bfad6c5a05be093a",
+    "terminal:e977db2dd4ba0536"
+  ],
+  "allInputs": false,
+  "artifacts": [
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "git-5f00e3d9ac9f",
+      "artifact": {
+        "kind": "cli",
+        "executable": "/workspace/trident/node_modules/.cache/unified-community/AlexanderGrooff--mermaid-ascii@5f00e3d9ac9fc96a19859d502333e35b87d2ffea/bin/mermaid-ascii",
+        "args": [],
+        "input": "stdin",
+        "format": "terminal",
+        "defaults": "Public CLI stdin with default Unicode diagram output, non-TTY color policy.",
+        "version": "git-5f00e3d9ac9f",
+        "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+        "sha256": "42f116149cc3485a72bb4eea174a71ca52179d8eb8c6fdb9c87e62d62151f1e2",
+        "sourceRoot": "/workspace/trident/node_modules/.cache/unified-community/AlexanderGrooff--mermaid-ascii@5f00e3d9ac9fc96a19859d502333e35b87d2ffea/source",
+        "buildCommand": [
+          "go",
+          "build",
+          "-trimpath",
+          "-o",
+          "/workspace/trident/node_modules/.cache/unified-community/AlexanderGrooff--mermaid-ascii@5f00e3d9ac9fc96a19859d502333e35b87d2ffea/bin/mermaid-ascii",
+          "."
+        ],
+        "boundary": "cold-public-cli"
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "artifact": {
+        "kind": "python",
+        "python": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.10.0/venv/bin/python",
+        "executable": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.10.0/venv/bin/python",
+        "version": "0.10.0",
+        "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "files": [
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.10.0/wheels/termaid-0.10.0-py3-none-any.whl",
+            "sha256": "b884a616d30071643f8e93528b0ad68bd5696b41a7b5d31cd0554d2f990f28f2"
+          }
+        ],
+        "runtime": "Python public termaid.render API; process startup recorded separately",
+        "detail": "Exact PyPI version in an isolated venv; every resolved dependency wheel is retained and hashed. No Python model/provider integration is implied."
+      }
+    }
+  ],
+  "sourceReference": [
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:03019928d457c65c",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:44.940Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:049722f83e7a31e0",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:44.951Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:0dbd28f2f1c494cc",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:44.953Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:11426c4cad392dc7",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:44.957Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:128500dada38a009",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:44.960Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:1468e1cf1186af65",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:44.974Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:1b492a74df0fc4b6",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:44.977Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:1c0f33b5035768f2",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:44.992Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:206a9307ba8592b1",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:44.998Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:2091f6913743bcab",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": true,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.002Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:22775b7f44c796b6",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": true,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.004Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:2295dae5ca33addf",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.177Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:22e97a0fc1fff023",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.197Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:2431a54dd231055c",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.199Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:2598092a6e404821",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.212Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:25b4a684eb0b6e31",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.215Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:25e166249d24378d",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.235Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:263ec71ab0c651b3",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.256Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:276c8474274911fa",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.273Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:278dccc21dd27020",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.275Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:27a0bf1eef1bdb6f",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.278Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:29fc1dab07164509",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.281Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:3042977d4e6d813b",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.301Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:321aee6efed4a803",
+      "sourceAccepted": false,
+      "status": "rejected",
+      "declaredGraphMatches": null,
+      "error": "Error: Parsing failed: Lexer error on line 2, column 3: unexpected character: ->D<- at offset: 6, skipped 4 characters. Parse error on line 2, column 8: Expecting token of type 'EOF' but found `:`.",
+      "checkedAt": "2026-10-31T02:31:45.315Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:32ad8ee06ab49562",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.317Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:383e68bb60ac3633",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.328Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:39d5de95eb42396b",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.396Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:3c2f67b774f592f2",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": true,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.401Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:3f4b6bd0b23e6927",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.403Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:404189958f761756",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": true,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.405Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:43382cbc1379cf4c",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.422Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:435d2e71f8557532",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": true,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.426Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:46492176fc22b23d",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": true,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.428Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:46c4d04542ff7c8e",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.435Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:478ab66bb4c7e4f5",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.437Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:486d9d241d7bf98f",
+      "sourceAccepted": false,
+      "status": "unsupported",
+      "declaredGraphMatches": null,
+      "error": "UnknownDiagramError: No diagram type detected matching given configuration for text: not a diagram",
+      "checkedAt": "2026-10-31T02:31:45.438Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:48d7ff23dee1b343",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.440Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:4ab51e1e2963ef1c",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.442Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:4ab6c5415bc7a24c",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.444Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:4ae5560b57ca0064",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.448Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:4e4550d086c4e288",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.454Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:4f96b68984c54c5a",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.458Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:529e14e4d09b944a",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.461Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:53e2d239ed8df992",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.463Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:54f7237ee5ab1a85",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.477Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:570e13053d228e29",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.482Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:587429a5094fbb28",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.486Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:5b249b03683c12ec",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.603Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:5c9a50898b1e6ffe",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.607Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:5d18804ad5e0e31f",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": true,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.611Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:5eee7283ba095288",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.612Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:61cc5e1150412252",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.614Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:64788fe4b88b1f1f",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.616Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:663c83c9e855c6b5",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.618Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:684ec260a97cf7b6",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": true,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.620Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:6c29eb05c097760d",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.626Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:6f0f134c3b965095",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.627Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:6f83e372d7057526",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": true,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.630Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:704f69aae7273edd",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.631Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:75a4be6507dd75fe",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.635Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:75e652628bded0d8",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.640Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:767a3f8c3e47e0bd",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.646Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:7801c75b869778fe",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.698Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:837336a6e0f8f27c",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": true,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.700Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:867520b102964291",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.703Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:87325fd383c3b1af",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.705Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:898156db49cbe4e9",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.708Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:89be4f2885fb74a9",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.710Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:89e9eb6aebb72128",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.729Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:908bfa4128c34006",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.731Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:90e78c1ed707e7e4",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.735Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:915784d6704949c2",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": true,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.738Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:94ac61fd1311d5bc",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.742Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:94e514f9f375364c",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.744Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:9516272260e4c69d",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.749Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:955cacf9438d691d",
+      "sourceAccepted": false,
+      "status": "rejected",
+      "declaredGraphMatches": null,
+      "error": "Error: Parsing failed: Lexer error on line 6, column 12: unexpected character: ->主<- at offset: 151, skipped 2 characters.\nLexer error on line 9, column 12: unexpected character: ->主<- at offset: 240, skipped 2 characters.\nLexer error on line 10, column 17: unexpected character: ->/<- at offset: 259, skipped 3 characters.\nLexer error on line 12, column 12: unexpected character: ->主<- at offset: 331, skipped 2 characters.\nLexer error on line 13, column 16: unexpected character: ->/<- at offset: 349, skipped 3 characters. Parse error on line 6, column 14: Expecting: one of these possible Token sequences:\n  1. [REFERENCE]\n  2. [STRING]\nbut found: '\n'\nParse error on line 9, column 14: Expecting: one of these possible Token sequences:\n  1. [REFERENCE]\n  2. [STRING]\nbut found: '\n'\nParse error on line 12, column 14: Expecting: one of these possible Token sequences:\n  1. [REFERENCE]\n  2. [STRING]\nbut found: '\n'",
+      "checkedAt": "2026-10-31T02:31:45.757Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:9972eaa8ca8692d8",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.764Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:9cdc849ecf29b4d2",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.770Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:9e4e5a5e072642e8",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.774Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:a181524246065697",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.776Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:a2118d0582abef57",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.780Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:a5204531005bef25",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.783Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:a60c7e7b3b930353",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.804Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:aaf86b713c100b5a",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.805Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:b1428b5b59888938",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.810Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:b1c4dd60b314e8a1",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": true,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.812Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:b23c0856e157b1f2",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.813Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:b29260d2c1b434d5",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.816Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:b4c60f465d6bcb5b",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": true,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.817Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:bd36b029775eba8c",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.821Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:bf9642a4ab479973",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": true,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.823Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:bfad6c5a05be093a",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": true,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.824Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:c18237e0a535bdb7",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.826Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:c2e297448b5388ba",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.828Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:c5455d2e2f5f8672",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.850Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:c64d9c102f509905",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.855Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:c8082a89c0a3e258",
+      "sourceAccepted": false,
+      "status": "unsupported",
+      "declaredGraphMatches": null,
+      "error": "UnknownDiagramError: No diagram type detected matching given configuration for text: this is not a diagram",
+      "checkedAt": "2026-10-31T02:31:45.855Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:cd2dd60c268497d1",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.867Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:cd771fca2659a460",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.882Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:d04b45557e7b8f2e",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.906Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:d2896678981aedb8",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.909Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:d3cc8b77d097ec56",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.913Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:d7362afef7c26051",
+      "sourceAccepted": false,
+      "status": "unsupported",
+      "declaredGraphMatches": null,
+      "error": "UnknownDiagramError: No diagram type detected matching given configuration for text: zenuml\n    title Checkout\n    @Actor User\n    @Control Shop\n    @Database Store\n    User->Shop.order() {\n        Store.save()\n    }\n",
+      "checkedAt": "2026-10-31T02:31:45.914Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:d98a600399ba3ce5",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.921Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:da9198e1adbc1c14",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.927Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:dbc553f665d05c10",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.972Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:ddef9c7af192e428",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:45.993Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:de6e8bf0fd559efc",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:46.004Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:df5eb5c9968bbb86",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:46.007Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:e07394221b261392",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:46.010Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:e52b4b37f626102c",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:46.011Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:e54c4b6195e240be",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:46.017Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:e84af4bd39ddf3eb",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:46.020Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:e920356ba6c73b52",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:46.023Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:e977db2dd4ba0536",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": true,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:46.024Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:ea02b4528ba4eb10",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:46.026Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:ea7675b95cb763b3",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:46.027Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:ef20265c9ef84973",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:46.028Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:f78157ede4e2d1ab",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:46.029Z",
+      "terminalScore": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "role": "source-reference-only",
+      "caseId": "terminal:fbfb884b46380275",
+      "sourceAccepted": true,
+      "status": "accepted",
+      "declaredGraphMatches": null,
+      "error": null,
+      "checkedAt": "2026-10-31T02:31:46.031Z",
+      "terminalScore": null
+    }
+  ],
+  "outputs": [
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:2091f6913743bcab",
+      "witness": "3206af0e62883c3211e3b5260d7d94c97af659a172c7962fbde01cc37f4c3552.txt",
+      "sha256": "3206af0e62883c3211e3b5260d7d94c97af659a172c7962fbde01cc37f4c3552",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:22775b7f44c796b6",
+      "witness": "c33b9c4a2907b8cc14673c3718b177abd1cf8bf85612ce5a9a27fce813e6a494.txt",
+      "sha256": "c33b9c4a2907b8cc14673c3718b177abd1cf8bf85612ce5a9a27fce813e6a494",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:3c2f67b774f592f2",
+      "witness": "560bacf454a803e28075b2be40e9c1ef2556af9357a2feec43007a56c644f8c9.txt",
+      "sha256": "560bacf454a803e28075b2be40e9c1ef2556af9357a2feec43007a56c644f8c9",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:404189958f761756",
+      "witness": "eadd83cbd40de7ee801ae953b42cddfdca612e22af00506c189da4877cd42b56.txt",
+      "sha256": "eadd83cbd40de7ee801ae953b42cddfdca612e22af00506c189da4877cd42b56",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:435d2e71f8557532",
+      "witness": "beb8368b0a9ea2dd79d530510e85726689fa48c508ce9d155746b011fea7b459.txt",
+      "sha256": "beb8368b0a9ea2dd79d530510e85726689fa48c508ce9d155746b011fea7b459",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:46492176fc22b23d",
+      "witness": "0e772acc9dace392141eb8176460cf72fd6835139e485630a078b5bbb8f12a3c.txt",
+      "sha256": "0e772acc9dace392141eb8176460cf72fd6835139e485630a078b5bbb8f12a3c",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:5d18804ad5e0e31f",
+      "witness": "3ff484a4f33e423f986dc436fb4b87e720cdc93b4eebff2064ee7c96921c0f1b.txt",
+      "sha256": "3ff484a4f33e423f986dc436fb4b87e720cdc93b4eebff2064ee7c96921c0f1b",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:684ec260a97cf7b6",
+      "witness": "2fe8df625a4c89e79290ba26ab158f109ed6f64742d7f15f796e5f9b9e739ecf.txt",
+      "sha256": "2fe8df625a4c89e79290ba26ab158f109ed6f64742d7f15f796e5f9b9e739ecf",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:6f83e372d7057526",
+      "witness": "2d847e7d68c4d14c0007044c79f888bcc08a3ab91ce7e18bd4b1fc282df38987.txt",
+      "sha256": "2d847e7d68c4d14c0007044c79f888bcc08a3ab91ce7e18bd4b1fc282df38987",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:837336a6e0f8f27c",
+      "witness": "eef1f97e746e75d4fb2c9f984d9a9cd5b0069c7a1c5fb393a0298efa65ca2bbe.txt",
+      "sha256": "eef1f97e746e75d4fb2c9f984d9a9cd5b0069c7a1c5fb393a0298efa65ca2bbe",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:915784d6704949c2",
+      "witness": "4cb3660d7e0bfe256a5f1a2118e59c5deb9e5b83ac30a6c302bac77a2fa07ed9.txt",
+      "sha256": "4cb3660d7e0bfe256a5f1a2118e59c5deb9e5b83ac30a6c302bac77a2fa07ed9",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:b1c4dd60b314e8a1",
+      "witness": "42cf4786465e956fb6443b76a5e545418653a2582cfc5e871116875e1757180e.txt",
+      "sha256": "42cf4786465e956fb6443b76a5e545418653a2582cfc5e871116875e1757180e",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:b4c60f465d6bcb5b",
+      "witness": "3d292635bae2a4371f5faeab05eba24f5abd62a26786813f2ecbdd16d59237b0.txt",
+      "sha256": "3d292635bae2a4371f5faeab05eba24f5abd62a26786813f2ecbdd16d59237b0",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:bf9642a4ab479973",
+      "witness": "08d76ddd3f779814dd55e5580d318fdb5038ac208f0e4598429768549b5c8894.txt",
+      "sha256": "08d76ddd3f779814dd55e5580d318fdb5038ac208f0e4598429768549b5c8894",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:bfad6c5a05be093a",
+      "witness": "2f62806ac070dd9aa317b2014167f0c29331442773f1d05b38db48ca506ae203.txt",
+      "sha256": "2f62806ac070dd9aa317b2014167f0c29331442773f1d05b38db48ca506ae203",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:e977db2dd4ba0536",
+      "witness": "807aa5107c51ce9799a0ad6316382e05e0c0a3d92239ca45d9bc943974f82b24.txt",
+      "sha256": "807aa5107c51ce9799a0ad6316382e05e0c0a3d92239ca45d9bc943974f82b24",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:2091f6913743bcab",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:22775b7f44c796b6",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:3c2f67b774f592f2",
+      "publicStatus": "failed",
+      "detail": "Missing declared labels: Deploy, Test, Build, Code"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:404189958f761756",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:435d2e71f8557532",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:46492176fc22b23d",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:5d18804ad5e0e31f",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:684ec260a97cf7b6",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:6f83e372d7057526",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:837336a6e0f8f27c",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:915784d6704949c2",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:b1c4dd60b314e8a1",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:b4c60f465d6bcb5b",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:bf9642a4ab479973",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:bfad6c5a05be093a",
+      "publicStatus": "passed"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:e977db2dd4ba0536",
+      "publicStatus": "passed"
+    }
+  ],
+  "transportObservations": [
+    {
+      "suite": "community",
+      "surface": "cli:end-to-end",
+      "runtime": "native",
+      "family": "flowchart",
+      "caseId": "terminal:2091f6913743bcab",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "metrics": {
+        "implementation": "AlexanderGrooff/mermaid-ascii",
+        "round": 1,
+        "featureCount": 2,
+        "firstMs": 17.457782000000407,
+        "timingScope": "one qualification call, not a repeated speed sample",
+        "qualification": "format-and-authored-labels",
+        "version": "git-5f00e3d9ac9f",
+        "boundary": "spawn through drained stdout/file artifact; process startup included",
+        "outputFile": "/workspace/trident-terminal-real-qualification-2026-10-31/collection/failure-outputs/AlexanderGrooff_mermaid-ascii--terminal_2091f6913743bcab.txt"
+      },
+      "bytes": 966,
+      "findings": []
+    },
+    {
+      "suite": "community",
+      "surface": "cli:end-to-end",
+      "runtime": "native",
+      "family": "flowchart",
+      "caseId": "terminal:22775b7f44c796b6",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "metrics": {
+        "implementation": "AlexanderGrooff/mermaid-ascii",
+        "round": 1,
+        "featureCount": 2,
+        "firstMs": 14.96491100000003,
+        "timingScope": "one qualification call, not a repeated speed sample",
+        "qualification": "format-and-authored-labels",
+        "version": "git-5f00e3d9ac9f",
+        "boundary": "spawn through drained stdout/file artifact; process startup included",
+        "outputFile": "/workspace/trident-terminal-real-qualification-2026-10-31/collection/failure-outputs/AlexanderGrooff_mermaid-ascii--terminal_22775b7f44c796b6.txt"
+      },
+      "bytes": 153,
+      "findings": []
+    },
+    {
+      "suite": "community",
+      "surface": "cli:end-to-end",
+      "runtime": "native",
+      "family": "flowchart",
+      "caseId": "terminal:3c2f67b774f592f2",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "metrics": {
+        "implementation": "AlexanderGrooff/mermaid-ascii",
+        "round": 1,
+        "featureCount": 2,
+        "firstMs": 16.745175000000017,
+        "timingScope": "one qualification call, not a repeated speed sample",
+        "qualification": "format-and-authored-labels",
+        "version": "git-5f00e3d9ac9f",
+        "boundary": "spawn through drained stdout/file artifact; process startup included",
+        "outputFile": "/workspace/trident-terminal-real-qualification-2026-10-31/collection/failure-outputs/AlexanderGrooff_mermaid-ascii--terminal_3c2f67b774f592f2.txt"
+      },
+      "bytes": 472,
+      "findings": []
+    },
+    {
+      "suite": "community",
+      "surface": "cli:end-to-end",
+      "runtime": "native",
+      "family": "flowchart",
+      "caseId": "terminal:404189958f761756",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "metrics": {
+        "implementation": "AlexanderGrooff/mermaid-ascii",
+        "round": 1,
+        "featureCount": 2,
+        "firstMs": 14.863642000000254,
+        "timingScope": "one qualification call, not a repeated speed sample",
+        "qualification": "format-and-authored-labels",
+        "version": "git-5f00e3d9ac9f",
+        "boundary": "spawn through drained stdout/file artifact; process startup included",
+        "outputFile": "/workspace/trident-terminal-real-qualification-2026-10-31/collection/failure-outputs/AlexanderGrooff_mermaid-ascii--terminal_404189958f761756.txt"
+      },
+      "bytes": 198,
+      "findings": []
+    },
+    {
+      "suite": "community",
+      "surface": "cli:end-to-end",
+      "runtime": "native",
+      "family": "flowchart",
+      "caseId": "terminal:435d2e71f8557532",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "metrics": {
+        "implementation": "AlexanderGrooff/mermaid-ascii",
+        "round": 1,
+        "featureCount": 2,
+        "firstMs": 23.662623000000167,
+        "timingScope": "one qualification call, not a repeated speed sample",
+        "qualification": "format-and-authored-labels",
+        "version": "git-5f00e3d9ac9f",
+        "boundary": "spawn through drained stdout/file artifact; process startup included",
+        "outputFile": "/workspace/trident-terminal-real-qualification-2026-10-31/collection/failure-outputs/AlexanderGrooff_mermaid-ascii--terminal_435d2e71f8557532.txt"
+      },
+      "bytes": 1184,
+      "findings": []
+    },
+    {
+      "suite": "community",
+      "surface": "cli:end-to-end",
+      "runtime": "native",
+      "family": "flowchart",
+      "caseId": "terminal:46492176fc22b23d",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "metrics": {
+        "implementation": "AlexanderGrooff/mermaid-ascii",
+        "round": 1,
+        "featureCount": 2,
+        "firstMs": 16.089514000000236,
+        "timingScope": "one qualification call, not a repeated speed sample",
+        "qualification": "format-and-authored-labels",
+        "version": "git-5f00e3d9ac9f",
+        "boundary": "spawn through drained stdout/file artifact; process startup included",
+        "outputFile": "/workspace/trident-terminal-real-qualification-2026-10-31/collection/failure-outputs/AlexanderGrooff_mermaid-ascii--terminal_46492176fc22b23d.txt"
+      },
+      "bytes": 265,
+      "findings": []
+    },
+    {
+      "suite": "community",
+      "surface": "cli:end-to-end",
+      "runtime": "native",
+      "family": "flowchart",
+      "caseId": "terminal:5d18804ad5e0e31f",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "metrics": {
+        "implementation": "AlexanderGrooff/mermaid-ascii",
+        "round": 1,
+        "featureCount": 2,
+        "firstMs": 31.51635400000032,
+        "timingScope": "one qualification call, not a repeated speed sample",
+        "qualification": "format-and-authored-labels",
+        "version": "git-5f00e3d9ac9f",
+        "boundary": "spawn through drained stdout/file artifact; process startup included",
+        "outputFile": "/workspace/trident-terminal-real-qualification-2026-10-31/collection/failure-outputs/AlexanderGrooff_mermaid-ascii--terminal_5d18804ad5e0e31f.txt"
+      },
+      "bytes": 849,
+      "findings": []
+    },
+    {
+      "suite": "community",
+      "surface": "cli:end-to-end",
+      "runtime": "native",
+      "family": "flowchart",
+      "caseId": "terminal:684ec260a97cf7b6",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "metrics": {
+        "implementation": "AlexanderGrooff/mermaid-ascii",
+        "round": 1,
+        "featureCount": 2,
+        "firstMs": 14.022840999999971,
+        "timingScope": "one qualification call, not a repeated speed sample",
+        "qualification": "format-and-authored-labels",
+        "version": "git-5f00e3d9ac9f",
+        "boundary": "spawn through drained stdout/file artifact; process startup included",
+        "outputFile": "/workspace/trident-terminal-real-qualification-2026-10-31/collection/failure-outputs/AlexanderGrooff_mermaid-ascii--terminal_684ec260a97cf7b6.txt"
+      },
+      "bytes": 207,
+      "findings": []
+    },
+    {
+      "suite": "community",
+      "surface": "cli:end-to-end",
+      "runtime": "native",
+      "family": "flowchart",
+      "caseId": "terminal:6f83e372d7057526",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "metrics": {
+        "implementation": "AlexanderGrooff/mermaid-ascii",
+        "round": 1,
+        "featureCount": 2,
+        "firstMs": 14.72494099999949,
+        "timingScope": "one qualification call, not a repeated speed sample",
+        "qualification": "format-and-authored-labels",
+        "version": "git-5f00e3d9ac9f",
+        "boundary": "spawn through drained stdout/file artifact; process startup included",
+        "outputFile": "/workspace/trident-terminal-real-qualification-2026-10-31/collection/failure-outputs/AlexanderGrooff_mermaid-ascii--terminal_6f83e372d7057526.txt"
+      },
+      "bytes": 621,
+      "findings": []
+    },
+    {
+      "suite": "community",
+      "surface": "cli:end-to-end",
+      "runtime": "native",
+      "family": "flowchart",
+      "caseId": "terminal:837336a6e0f8f27c",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "metrics": {
+        "implementation": "AlexanderGrooff/mermaid-ascii",
+        "round": 1,
+        "featureCount": 2,
+        "firstMs": 15.699921999999788,
+        "timingScope": "one qualification call, not a repeated speed sample",
+        "qualification": "format-and-authored-labels",
+        "version": "git-5f00e3d9ac9f",
+        "boundary": "spawn through drained stdout/file artifact; process startup included",
+        "outputFile": "/workspace/trident-terminal-real-qualification-2026-10-31/collection/failure-outputs/AlexanderGrooff_mermaid-ascii--terminal_837336a6e0f8f27c.txt"
+      },
+      "bytes": 375,
+      "findings": []
+    },
+    {
+      "suite": "community",
+      "surface": "cli:end-to-end",
+      "runtime": "native",
+      "family": "flowchart",
+      "caseId": "terminal:915784d6704949c2",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "metrics": {
+        "implementation": "AlexanderGrooff/mermaid-ascii",
+        "round": 1,
+        "featureCount": 2,
+        "firstMs": 14.855070999999953,
+        "timingScope": "one qualification call, not a repeated speed sample",
+        "qualification": "format-and-authored-labels",
+        "version": "git-5f00e3d9ac9f",
+        "boundary": "spawn through drained stdout/file artifact; process startup included",
+        "outputFile": "/workspace/trident-terminal-real-qualification-2026-10-31/collection/failure-outputs/AlexanderGrooff_mermaid-ascii--terminal_915784d6704949c2.txt"
+      },
+      "bytes": 299,
+      "findings": []
+    },
+    {
+      "suite": "community",
+      "surface": "cli:end-to-end",
+      "runtime": "native",
+      "family": "flowchart",
+      "caseId": "terminal:b1c4dd60b314e8a1",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "metrics": {
+        "implementation": "AlexanderGrooff/mermaid-ascii",
+        "round": 1,
+        "featureCount": 2,
+        "firstMs": 13.725836999999956,
+        "timingScope": "one qualification call, not a repeated speed sample",
+        "qualification": "format-and-authored-labels",
+        "version": "git-5f00e3d9ac9f",
+        "boundary": "spawn through drained stdout/file artifact; process startup included",
+        "outputFile": "/workspace/trident-terminal-real-qualification-2026-10-31/collection/failure-outputs/AlexanderGrooff_mermaid-ascii--terminal_b1c4dd60b314e8a1.txt"
+      },
+      "bytes": 245,
+      "findings": []
+    },
+    {
+      "suite": "community",
+      "surface": "cli:end-to-end",
+      "runtime": "native",
+      "family": "flowchart",
+      "caseId": "terminal:b4c60f465d6bcb5b",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "metrics": {
+        "implementation": "AlexanderGrooff/mermaid-ascii",
+        "round": 1,
+        "featureCount": 2,
+        "firstMs": 15.201399000000492,
+        "timingScope": "one qualification call, not a repeated speed sample",
+        "qualification": "format-and-authored-labels",
+        "version": "git-5f00e3d9ac9f",
+        "boundary": "spawn through drained stdout/file artifact; process startup included",
+        "outputFile": "/workspace/trident-terminal-real-qualification-2026-10-31/collection/failure-outputs/AlexanderGrooff_mermaid-ascii--terminal_b4c60f465d6bcb5b.txt"
+      },
+      "bytes": 276,
+      "findings": []
+    },
+    {
+      "suite": "community",
+      "surface": "cli:end-to-end",
+      "runtime": "native",
+      "family": "flowchart",
+      "caseId": "terminal:bf9642a4ab479973",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "metrics": {
+        "implementation": "AlexanderGrooff/mermaid-ascii",
+        "round": 1,
+        "featureCount": 2,
+        "firstMs": 15.154542999999649,
+        "timingScope": "one qualification call, not a repeated speed sample",
+        "qualification": "format-and-authored-labels",
+        "version": "git-5f00e3d9ac9f",
+        "boundary": "spawn through drained stdout/file artifact; process startup included",
+        "outputFile": "/workspace/trident-terminal-real-qualification-2026-10-31/collection/failure-outputs/AlexanderGrooff_mermaid-ascii--terminal_bf9642a4ab479973.txt"
+      },
+      "bytes": 1081,
+      "findings": []
+    },
+    {
+      "suite": "community",
+      "surface": "cli:end-to-end",
+      "runtime": "native",
+      "family": "flowchart",
+      "caseId": "terminal:bfad6c5a05be093a",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "metrics": {
+        "implementation": "AlexanderGrooff/mermaid-ascii",
+        "round": 1,
+        "featureCount": 2,
+        "firstMs": 15.377527000000555,
+        "timingScope": "one qualification call, not a repeated speed sample",
+        "qualification": "format-and-authored-labels",
+        "version": "git-5f00e3d9ac9f",
+        "boundary": "spawn through drained stdout/file artifact; process startup included",
+        "outputFile": "/workspace/trident-terminal-real-qualification-2026-10-31/collection/failure-outputs/AlexanderGrooff_mermaid-ascii--terminal_bfad6c5a05be093a.txt"
+      },
+      "bytes": 607,
+      "findings": []
+    },
+    {
+      "suite": "community",
+      "surface": "cli:end-to-end",
+      "runtime": "native",
+      "family": "flowchart",
+      "caseId": "terminal:e977db2dd4ba0536",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "metrics": {
+        "implementation": "AlexanderGrooff/mermaid-ascii",
+        "round": 1,
+        "featureCount": 2,
+        "firstMs": 14.193048999999519,
+        "timingScope": "one qualification call, not a repeated speed sample",
+        "qualification": "format-and-authored-labels",
+        "version": "git-5f00e3d9ac9f",
+        "boundary": "spawn through drained stdout/file artifact; process startup included",
+        "outputFile": "/workspace/trident-terminal-real-qualification-2026-10-31/collection/failure-outputs/AlexanderGrooff_mermaid-ascii--terminal_e977db2dd4ba0536.txt"
+      },
+      "bytes": 487,
+      "findings": []
+    },
+    {
+      "suite": "community",
+      "surface": "python:public-api",
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "family": "flowchart",
+      "caseId": "terminal:2091f6913743bcab",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "bytes": 830,
+      "metrics": {
+        "implementation": "fasouto/termaid",
+        "version": "0.10.0",
+        "round": 1,
+        "workerAttempt": 1,
+        "firstMs": 15.942255000481964,
+        "sampleIterations": null,
+        "timingProtocol": null,
+        "rejected": null,
+        "pngReturned": false,
+        "failureStage": null,
+        "qualification": "declared-labels",
+        "boundary": "native public API; executable startup excluded"
+      }
+    },
+    {
+      "suite": "community",
+      "surface": "python:public-api",
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "family": "flowchart",
+      "caseId": "terminal:22775b7f44c796b6",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "bytes": 162,
+      "metrics": {
+        "implementation": "fasouto/termaid",
+        "version": "0.10.0",
+        "round": 1,
+        "workerAttempt": 1,
+        "firstMs": 0.2496779998182319,
+        "sampleIterations": null,
+        "timingProtocol": null,
+        "rejected": null,
+        "pngReturned": false,
+        "failureStage": null,
+        "qualification": "declared-labels",
+        "boundary": "native public API; executable startup excluded"
+      }
+    },
+    {
+      "suite": "community",
+      "surface": "python:public-api",
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "family": "flowchart",
+      "caseId": "terminal:3c2f67b774f592f2",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "failed",
+      "detail": "Missing declared labels: Deploy, Test, Build, Code",
+      "metrics": {
+        "implementation": "fasouto/termaid",
+        "version": "0.10.0",
+        "round": 1,
+        "workerAttempt": 1,
+        "firstMs": 1.3088530004097265,
+        "sampleIterations": null,
+        "timingProtocol": null,
+        "rejected": false,
+        "pngReturned": false,
+        "failureStage": "qualification",
+        "qualification": "declared-labels",
+        "boundary": "native public API; executable startup excluded"
+      }
+    },
+    {
+      "suite": "community",
+      "surface": "python:public-api",
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "family": "flowchart",
+      "caseId": "terminal:404189958f761756",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "bytes": 238,
+      "metrics": {
+        "implementation": "fasouto/termaid",
+        "version": "0.10.0",
+        "round": 1,
+        "workerAttempt": 1,
+        "firstMs": 1.3772000002063578,
+        "sampleIterations": null,
+        "timingProtocol": null,
+        "rejected": null,
+        "pngReturned": false,
+        "failureStage": null,
+        "qualification": "declared-labels",
+        "boundary": "native public API; executable startup excluded"
+      }
+    },
+    {
+      "suite": "community",
+      "surface": "python:public-api",
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "family": "flowchart",
+      "caseId": "terminal:435d2e71f8557532",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "bytes": 897,
+      "metrics": {
+        "implementation": "fasouto/termaid",
+        "version": "0.10.0",
+        "round": 1,
+        "workerAttempt": 1,
+        "firstMs": 1.5645829998902627,
+        "sampleIterations": null,
+        "timingProtocol": null,
+        "rejected": null,
+        "pngReturned": false,
+        "failureStage": null,
+        "qualification": "declared-labels",
+        "boundary": "native public API; executable startup excluded"
+      }
+    },
+    {
+      "suite": "community",
+      "surface": "python:public-api",
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "family": "flowchart",
+      "caseId": "terminal:46492176fc22b23d",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "bytes": 285,
+      "metrics": {
+        "implementation": "fasouto/termaid",
+        "version": "0.10.0",
+        "round": 1,
+        "workerAttempt": 1,
+        "firstMs": 0.6349670002236962,
+        "sampleIterations": null,
+        "timingProtocol": null,
+        "rejected": null,
+        "pngReturned": false,
+        "failureStage": null,
+        "qualification": "declared-labels",
+        "boundary": "native public API; executable startup excluded"
+      }
+    },
+    {
+      "suite": "community",
+      "surface": "python:public-api",
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "family": "flowchart",
+      "caseId": "terminal:5d18804ad5e0e31f",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "bytes": 721,
+      "metrics": {
+        "implementation": "fasouto/termaid",
+        "version": "0.10.0",
+        "round": 1,
+        "workerAttempt": 1,
+        "firstMs": 1.4691519991174573,
+        "sampleIterations": null,
+        "timingProtocol": null,
+        "rejected": null,
+        "pngReturned": false,
+        "failureStage": null,
+        "qualification": "declared-labels",
+        "boundary": "native public API; executable startup excluded"
+      }
+    },
+    {
+      "suite": "community",
+      "surface": "python:public-api",
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "family": "flowchart",
+      "caseId": "terminal:684ec260a97cf7b6",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "bytes": 236,
+      "metrics": {
+        "implementation": "fasouto/termaid",
+        "version": "0.10.0",
+        "round": 1,
+        "workerAttempt": 1,
+        "firstMs": 0.3499100002954947,
+        "sampleIterations": null,
+        "timingProtocol": null,
+        "rejected": null,
+        "pngReturned": false,
+        "failureStage": null,
+        "qualification": "declared-labels",
+        "boundary": "native public API; executable startup excluded"
+      }
+    },
+    {
+      "suite": "community",
+      "surface": "python:public-api",
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "family": "flowchart",
+      "caseId": "terminal:6f83e372d7057526",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "bytes": 796,
+      "metrics": {
+        "implementation": "fasouto/termaid",
+        "version": "0.10.0",
+        "round": 1,
+        "workerAttempt": 1,
+        "firstMs": 1.4983029996074038,
+        "sampleIterations": null,
+        "timingProtocol": null,
+        "rejected": null,
+        "pngReturned": false,
+        "failureStage": null,
+        "qualification": "declared-labels",
+        "boundary": "native public API; executable startup excluded"
+      }
+    },
+    {
+      "suite": "community",
+      "surface": "python:public-api",
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "family": "flowchart",
+      "caseId": "terminal:837336a6e0f8f27c",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "bytes": 321,
+      "metrics": {
+        "implementation": "fasouto/termaid",
+        "version": "0.10.0",
+        "round": 1,
+        "workerAttempt": 1,
+        "firstMs": 0.8548810001229867,
+        "sampleIterations": null,
+        "timingProtocol": null,
+        "rejected": null,
+        "pngReturned": false,
+        "failureStage": null,
+        "qualification": "declared-labels",
+        "boundary": "native public API; executable startup excluded"
+      }
+    },
+    {
+      "suite": "community",
+      "surface": "python:public-api",
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "family": "flowchart",
+      "caseId": "terminal:915784d6704949c2",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "bytes": 339,
+      "metrics": {
+        "implementation": "fasouto/termaid",
+        "version": "0.10.0",
+        "round": 1,
+        "workerAttempt": 1,
+        "firstMs": 0.4632889995264122,
+        "sampleIterations": null,
+        "timingProtocol": null,
+        "rejected": null,
+        "pngReturned": false,
+        "failureStage": null,
+        "qualification": "declared-labels",
+        "boundary": "native public API; executable startup excluded"
+      }
+    },
+    {
+      "suite": "community",
+      "surface": "python:public-api",
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "family": "flowchart",
+      "caseId": "terminal:b1c4dd60b314e8a1",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "bytes": 305,
+      "metrics": {
+        "implementation": "fasouto/termaid",
+        "version": "0.10.0",
+        "round": 1,
+        "workerAttempt": 1,
+        "firstMs": 0.6681030008621747,
+        "sampleIterations": null,
+        "timingProtocol": null,
+        "rejected": null,
+        "pngReturned": false,
+        "failureStage": null,
+        "qualification": "declared-labels",
+        "boundary": "native public API; executable startup excluded"
+      }
+    },
+    {
+      "suite": "community",
+      "surface": "python:public-api",
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "family": "flowchart",
+      "caseId": "terminal:b4c60f465d6bcb5b",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "bytes": 185,
+      "metrics": {
+        "implementation": "fasouto/termaid",
+        "version": "0.10.0",
+        "round": 1,
+        "workerAttempt": 1,
+        "firstMs": 0.355922000380815,
+        "sampleIterations": null,
+        "timingProtocol": null,
+        "rejected": null,
+        "pngReturned": false,
+        "failureStage": null,
+        "qualification": "declared-labels",
+        "boundary": "native public API; executable startup excluded"
+      }
+    },
+    {
+      "suite": "community",
+      "surface": "python:public-api",
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "family": "flowchart",
+      "caseId": "terminal:bf9642a4ab479973",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "bytes": 1395,
+      "metrics": {
+        "implementation": "fasouto/termaid",
+        "version": "0.10.0",
+        "round": 1,
+        "workerAttempt": 1,
+        "firstMs": 1.3366169996515964,
+        "sampleIterations": null,
+        "timingProtocol": null,
+        "rejected": null,
+        "pngReturned": false,
+        "failureStage": null,
+        "qualification": "declared-labels",
+        "boundary": "native public API; executable startup excluded"
+      }
+    },
+    {
+      "suite": "community",
+      "surface": "python:public-api",
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "family": "flowchart",
+      "caseId": "terminal:bfad6c5a05be093a",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "bytes": 471,
+      "metrics": {
+        "implementation": "fasouto/termaid",
+        "version": "0.10.0",
+        "round": 1,
+        "workerAttempt": 1,
+        "firstMs": 1.368614999591955,
+        "sampleIterations": null,
+        "timingProtocol": null,
+        "rejected": null,
+        "pngReturned": false,
+        "failureStage": null,
+        "qualification": "declared-labels",
+        "boundary": "native public API; executable startup excluded"
+      }
+    },
+    {
+      "suite": "community",
+      "surface": "python:public-api",
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "family": "flowchart",
+      "caseId": "terminal:e977db2dd4ba0536",
+      "operation": "render",
+      "format": "terminal",
+      "mode": "feature-corpus-qualification",
+      "status": "passed",
+      "bytes": 461,
+      "metrics": {
+        "implementation": "fasouto/termaid",
+        "version": "0.10.0",
+        "round": 1,
+        "workerAttempt": 1,
+        "firstMs": 0.6952069998078514,
+        "sampleIterations": null,
+        "timingProtocol": null,
+        "rejected": null,
+        "pngReturned": false,
+        "failureStage": null,
+        "qualification": "declared-labels",
+        "boundary": "native public API; executable startup excluded"
+      }
+    }
+  ]
+}

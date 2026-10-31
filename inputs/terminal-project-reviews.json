@@ -1,0 +1,934 @@
+[
+  {
+    "caseId": "terminal:2091f6913743bcab",
+    "sourceSha256": "2091f6913743bcaba4d229c80408a90a08ba63e4b5d6a7ffa6774b6cc0a1b0fd",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "Root"
+        },
+        {
+          "id": "B",
+          "label": "Top Node"
+        },
+        {
+          "id": "C",
+          "label": "Bottom Node"
+        },
+        {
+          "id": "D",
+          "label": "Final"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B"
+        },
+        {
+          "source": "A",
+          "target": "C"
+        },
+        {
+          "source": "B",
+          "target": "D"
+        },
+        {
+          "source": "C",
+          "target": "D"
+        }
+      ],
+      "layout": [
+        {
+          "before": "A",
+          "after": "B",
+          "axis": "x"
+        },
+        {
+          "before": "A",
+          "after": "C",
+          "axis": "x"
+        },
+        {
+          "before": "B",
+          "after": "D",
+          "axis": "x"
+        },
+        {
+          "before": "C",
+          "after": "D",
+          "axis": "x"
+        }
+      ]
+    },
+    "unverifiedFacts": []
+  },
+  {
+    "caseId": "terminal:435d2e71f8557532",
+    "sourceSha256": "435d2e71f8557532485021bd502fc1a9c23474db322d011b5a7ceafcac27284f",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "Root"
+        },
+        {
+          "id": "B",
+          "label": "Left Node"
+        },
+        {
+          "id": "C",
+          "label": "Right Node"
+        },
+        {
+          "id": "D",
+          "label": "Final"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B"
+        },
+        {
+          "source": "A",
+          "target": "C"
+        },
+        {
+          "source": "B",
+          "target": "D"
+        },
+        {
+          "source": "C",
+          "target": "D"
+        }
+      ],
+      "layout": [
+        {
+          "before": "A",
+          "after": "B",
+          "axis": "y"
+        },
+        {
+          "before": "A",
+          "after": "C",
+          "axis": "y"
+        },
+        {
+          "before": "B",
+          "after": "D",
+          "axis": "y"
+        },
+        {
+          "before": "C",
+          "after": "D",
+          "axis": "y"
+        }
+      ]
+    },
+    "unverifiedFacts": []
+  },
+  {
+    "caseId": "terminal:46492176fc22b23d",
+    "sourceSha256": "46492176fc22b23d8ca656c13814c940fc79fde019cf6c3cccdbeaecb47a23a2",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "label": "C"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B"
+        },
+        {
+          "source": "B",
+          "target": "C"
+        }
+      ],
+      "layout": [
+        {
+          "before": "B",
+          "after": "A",
+          "axis": "y"
+        },
+        {
+          "before": "C",
+          "after": "B",
+          "axis": "y"
+        }
+      ]
+    },
+    "unverifiedFacts": []
+  },
+  {
+    "caseId": "terminal:3c2f67b774f592f2",
+    "sourceSha256": "3c2f67b774f592f2530179bee7836ed3aaa4b84682c13edff6d36906a1babe99",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "Deploy"
+        },
+        {
+          "id": "B",
+          "label": "Test"
+        },
+        {
+          "id": "C",
+          "label": "Build"
+        },
+        {
+          "id": "D",
+          "label": "Code"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B"
+        },
+        {
+          "source": "B",
+          "target": "C"
+        },
+        {
+          "source": "C",
+          "target": "D"
+        }
+      ],
+      "layout": [
+        {
+          "before": "B",
+          "after": "A",
+          "axis": "x"
+        },
+        {
+          "before": "C",
+          "after": "B",
+          "axis": "x"
+        },
+        {
+          "before": "D",
+          "after": "C",
+          "axis": "x"
+        }
+      ]
+    },
+    "unverifiedFacts": []
+  },
+  {
+    "caseId": "terminal:404189958f761756",
+    "sourceSha256": "404189958f7617566bd4879eda14fdb5539a8947a41f4d58fb854cd6a5f11472",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "label": "B"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B",
+          "label": "Save & Exit"
+        }
+      ],
+      "layout": [
+        {
+          "before": "A",
+          "after": "B",
+          "axis": "x"
+        }
+      ]
+    },
+    "unverifiedFacts": []
+  },
+  {
+    "caseId": "terminal:5d18804ad5e0e31f",
+    "sourceSha256": "5d18804ad5e0e31fb1a9a0f0f98189e0651301d6841ec474888bed896a8b4976",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "Start"
+        },
+        {
+          "id": "B",
+          "label": "Left"
+        },
+        {
+          "id": "C",
+          "label": "Right"
+        },
+        {
+          "id": "D",
+          "label": "Joint"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B"
+        },
+        {
+          "source": "A",
+          "target": "C"
+        },
+        {
+          "source": "B",
+          "target": "D"
+        },
+        {
+          "source": "C",
+          "target": "D"
+        }
+      ],
+      "layout": [
+        {
+          "before": "A",
+          "after": "B",
+          "axis": "x"
+        },
+        {
+          "before": "A",
+          "after": "C",
+          "axis": "x"
+        },
+        {
+          "before": "B",
+          "after": "D",
+          "axis": "x"
+        },
+        {
+          "before": "C",
+          "after": "D",
+          "axis": "x"
+        }
+      ]
+    },
+    "unverifiedFacts": []
+  },
+  {
+    "caseId": "terminal:663c83c9e855c6b5",
+    "sourceSha256": "663c83c9e855c6b59b7f167768f15cd591a7635f37655193321fcbca3a8c5622",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "label": "B"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B"
+        },
+        {
+          "source": "A",
+          "target": "B"
+        }
+      ],
+      "layout": []
+    },
+    "unverifiedFacts": [
+      "Coincident parallel route multiplicity needs a reviewed projection."
+    ]
+  },
+  {
+    "caseId": "terminal:684ec260a97cf7b6",
+    "sourceSha256": "684ec260a97cf7b68465eb903fe9bb4dce387e2504214588b0069c837ae3f7e6",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "Start"
+        },
+        {
+          "id": "B",
+          "label": "End"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B"
+        }
+      ],
+      "layout": [
+        {
+          "before": "A",
+          "after": "B",
+          "axis": "x"
+        }
+      ]
+    },
+    "unverifiedFacts": []
+  },
+  {
+    "caseId": "terminal:6f83e372d7057526",
+    "sourceSha256": "6f83e372d705752669151f57e02ae97625b10cdcd860de39d278211ff1eeecce",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "label": "D"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B",
+          "label": "alpha"
+        },
+        {
+          "source": "A",
+          "target": "C",
+          "label": "beta"
+        },
+        {
+          "source": "A",
+          "target": "D",
+          "label": "gamma"
+        }
+      ],
+      "layout": [
+        {
+          "before": "A",
+          "after": "B",
+          "axis": "y"
+        },
+        {
+          "before": "A",
+          "after": "C",
+          "axis": "y"
+        },
+        {
+          "before": "A",
+          "after": "D",
+          "axis": "y"
+        }
+      ]
+    },
+    "unverifiedFacts": []
+  },
+  {
+    "caseId": "terminal:837336a6e0f8f27c",
+    "sourceSha256": "837336a6e0f8f27cbd07d612a41e616b1d6cd1cf24048ee81d299b0da7027e97",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "label": "C"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B"
+        },
+        {
+          "source": "A",
+          "target": "C"
+        }
+      ],
+      "layout": [
+        {
+          "before": "A",
+          "after": "B",
+          "axis": "y"
+        },
+        {
+          "before": "A",
+          "after": "C",
+          "axis": "y"
+        }
+      ]
+    },
+    "unverifiedFacts": []
+  },
+  {
+    "caseId": "terminal:915784d6704949c2",
+    "sourceSha256": "915784d6704949c29e75cd8430198a9286c6314c5a558494e47f52bad288c6b1",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "Start"
+        },
+        {
+          "id": "B",
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "label": "End"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B"
+        },
+        {
+          "source": "B",
+          "target": "C"
+        }
+      ],
+      "layout": [
+        {
+          "before": "A",
+          "after": "B",
+          "axis": "x"
+        },
+        {
+          "before": "B",
+          "after": "C",
+          "axis": "x"
+        }
+      ]
+    },
+    "unverifiedFacts": []
+  },
+  {
+    "caseId": "terminal:b1c4dd60b314e8a1",
+    "sourceSha256": "b1c4dd60b314e8a14f0fe989543d84e34d82d3f325e859b1624dc3645a57c9b1",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "label": "C"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B"
+        },
+        {
+          "source": "B",
+          "target": "C"
+        }
+      ],
+      "layout": [
+        {
+          "before": "B",
+          "after": "A",
+          "axis": "x"
+        },
+        {
+          "before": "C",
+          "after": "B",
+          "axis": "x"
+        }
+      ]
+    },
+    "unverifiedFacts": []
+  },
+  {
+    "caseId": "terminal:b4c60f465d6bcb5b",
+    "sourceSha256": "b4c60f465d6bcb5b80a6a9a03c52fe1d4d96dc02827c992b03a38a6bf9623d2a",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "label": "B"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B",
+          "label": "Label"
+        }
+      ],
+      "layout": [
+        {
+          "before": "A",
+          "after": "B",
+          "axis": "y"
+        }
+      ]
+    },
+    "unverifiedFacts": []
+  },
+  {
+    "caseId": "terminal:bf9642a4ab479973",
+    "sourceSha256": "bf9642a4ab479973d222863499296cc4a6b7115ed049ba4c67831cc9d2241e73",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "SourceA",
+          "label": "SourceA"
+        },
+        {
+          "id": "SourceB",
+          "label": "SourceB"
+        },
+        {
+          "id": "Merge",
+          "label": "Merge"
+        },
+        {
+          "id": "Fanout",
+          "label": "Fanout"
+        },
+        {
+          "id": "TargetA",
+          "label": "TargetA"
+        },
+        {
+          "id": "TargetB",
+          "label": "TargetB"
+        }
+      ],
+      "edges": [
+        {
+          "source": "SourceA",
+          "target": "Merge"
+        },
+        {
+          "source": "SourceB",
+          "target": "Merge"
+        },
+        {
+          "source": "Fanout",
+          "target": "TargetA"
+        },
+        {
+          "source": "Fanout",
+          "target": "TargetB"
+        }
+      ],
+      "layout": [
+        {
+          "before": "SourceA",
+          "after": "Merge",
+          "axis": "y"
+        },
+        {
+          "before": "SourceB",
+          "after": "Merge",
+          "axis": "y"
+        },
+        {
+          "before": "Fanout",
+          "after": "TargetA",
+          "axis": "y"
+        },
+        {
+          "before": "Fanout",
+          "after": "TargetB",
+          "axis": "y"
+        }
+      ]
+    },
+    "unverifiedFacts": []
+  },
+  {
+    "caseId": "terminal:bfad6c5a05be093a",
+    "sourceSha256": "bfad6c5a05be093a87c404f35baf2111ec93931293f3555a305aabf11449b6e0",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "label": "B"
+        },
+        {
+          "id": "C",
+          "label": "C"
+        },
+        {
+          "id": "D",
+          "label": "D"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B"
+        },
+        {
+          "source": "A",
+          "target": "C"
+        },
+        {
+          "source": "B",
+          "target": "D"
+        },
+        {
+          "source": "C",
+          "target": "D"
+        }
+      ],
+      "layout": [
+        {
+          "before": "A",
+          "after": "B",
+          "axis": "y"
+        },
+        {
+          "before": "A",
+          "after": "C",
+          "axis": "y"
+        },
+        {
+          "before": "B",
+          "after": "D",
+          "axis": "y"
+        },
+        {
+          "before": "C",
+          "after": "D",
+          "axis": "y"
+        }
+      ]
+    },
+    "unverifiedFacts": []
+  },
+  {
+    "caseId": "terminal:e977db2dd4ba0536",
+    "sourceSha256": "e977db2dd4ba05362f6be763e69db25fa336d521e0771578a5ab3e9939e142c6",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "Start"
+        },
+        {
+          "id": "B",
+          "label": "Process"
+        },
+        {
+          "id": "C",
+          "label": "End"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B"
+        },
+        {
+          "source": "B",
+          "target": "C"
+        }
+      ],
+      "layout": [
+        {
+          "before": "A",
+          "after": "B",
+          "axis": "y"
+        },
+        {
+          "before": "B",
+          "after": "C",
+          "axis": "y"
+        }
+      ]
+    },
+    "unverifiedFacts": []
+  },
+  {
+    "caseId": "terminal:22775b7f44c796b6",
+    "sourceSha256": "22775b7f44c796b6df5ce850c7cf7fbb0af771d895c9b0f3f66e8b30fdf62871",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "label": "B"
+        }
+      ],
+      "edges": [],
+      "layout": []
+    },
+    "unverifiedFacts": []
+  },
+  {
+    "caseId": "terminal:5eee7283ba095288",
+    "sourceSha256": "5eee7283ba095288a839cdf63a27465f76c1edaf4c9407c2e6a732f469f5d057",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "A"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "A"
+        }
+      ],
+      "layout": []
+    },
+    "unverifiedFacts": [
+      "Source self-loop direction needs a reviewed loop/layout projection."
+    ]
+  },
+  {
+    "caseId": "terminal:94ac61fd1311d5bc",
+    "sourceSha256": "94ac61fd1311d5bce12c10ccab4e57ae03397c74ee7da196b5e9a07d56b40f7d",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "日本語テスト"
+        },
+        {
+          "id": "B",
+          "label": "終了"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B"
+        }
+      ],
+      "layout": []
+    },
+    "unverifiedFacts": [
+      "Wide-character display cells are outside the current terminal observer."
+    ]
+  },
+  {
+    "caseId": "terminal:1c0f33b5035768f2",
+    "sourceSha256": "1c0f33b5035768f269ecf82930876ed3963720c0a22c8916b5de2b200583c264",
+    "intent": "valid",
+    "review": "Independent inspection of the literal source: node identities/labels, directed-edge multiset, owned captions and declared layout relations where observable. No renderer or reference output supplies these facts.",
+    "graph": {
+      "nodes": [
+        {
+          "id": "A",
+          "label": "First Second"
+        },
+        {
+          "id": "B",
+          "label": "Line 1 Line 2 Line 3"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B"
+        }
+      ],
+      "layout": []
+    },
+    "unverifiedFacts": [
+      "Source <br> line-break preservation needs a multiline node-label observer."
+    ]
+  },
+  {
+    "caseId": "terminal:486d9d241d7bf98f",
+    "sourceSha256": "486d9d241d7bf98fb6be9d78a1734510b145ced330460ed54f3ced0973f0f74f",
+    "intent": "invalid",
+    "review": "Independent inspection: plain prose lacks any Mermaid diagram declaration or grammar. This is a real negative test from the contributing project, not a Trident mutation.",
+    "unverifiedFacts": []
+  },
+  {
+    "caseId": "terminal:c8082a89c0a3e258",
+    "sourceSha256": "c8082a89c0a3e258e46c12013938f3281ce101d0d24b241ce46aada868070995",
+    "intent": "invalid",
+    "review": "Independent inspection: plain prose lacks any Mermaid diagram declaration or grammar. This is a real negative test from the contributing project, not a Trident mutation.",
+    "unverifiedFacts": []
+  }
+]

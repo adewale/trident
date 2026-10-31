@@ -1,0 +1,28 @@
+{
+  "publishedAt": "2026-10-31T02:49:57.009Z",
+  "copyEvidence": true,
+  "campaigns": [
+    {
+      "source": "/workspace/trident-terminal-real-qualification-2026-10-31/final-rechecked",
+      "selectedSuites": "all recorded suites",
+      "measuredFrom": "2026-10-31T02:31:44.133Z",
+      "lastRecordedUpdate": "2026-10-31T02:49:12.816Z",
+      "profile": "full",
+      "rounds": 1,
+      "projects": [
+        "AlexanderGrooff/mermaid-ascii",
+        "fasouto/termaid"
+      ],
+      "complete": "no completion receipt: partial",
+      "results": [
+        {
+          "suite": "community",
+          "cohort": "terminal-project-corpus-v1",
+          "out": "/workspace/trident-terminal-real-qualification-2026-10-31/final-rechecked/terminal",
+          "status": "blocked",
+          "completed": true
+        }
+      ]
+    }
+  ]
+}

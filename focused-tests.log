@@ -1,0 +1,53 @@
+bun test v1.4.2 (744846f84)
+
+tests/terminal-reporting.test.ts:
+(pass) new named terminal attempts preserve broad community evidence and its overview cell [4.14ms]
+(pass) the same terminal profile supersedes its old primary rank; another profile cannot hide it [2.50ms]
+(pass) correctness counts display best-first while unknowns still withhold formal ranks [0.23ms]
+
+tests/terminal-corpus.test.ts:
+(pass) literal Mermaid source and golden input sections preserve bytes and exclude output [0.88ms]
+(pass) static source extraction rejects test titles, type names, interpolation and dynamic fragments [9.28ms]
+(pass) source metadata describes feature strata without becoming drawing expectations [0.96ms]
+(pass) committed real corpus has authenticated source bytes, research snapshots and explicit missing correctness evidence [44.15ms]
+(pass) independent reviews bind exact source facts and unobserved facts withhold whole-drawing credit [32.15ms]
+
+tests/campaign-reporting-regressions.test.ts:
+(pass) documentation SVG return and reviewed drawing correctness retain separate populations and ranks [7.11ms]
+(pass) new SVG case verdicts replace fragmented criterion scorecards without inventing ranks for unknown diagrams [3.60ms]
+(pass) newer PNG-only or unstarted PNG work cannot suppress retained SVG coverage [6.60ms]
+(pass) a one-project docs rerun updates its row while comparable peer scores, dates and owning receipts survive [14.30ms]
+(pass) equal-sized docs inventories with changed input bytes cannot join a rolling comparison [2.50ms]
+(pass) a newer multi-project run cannot keep an omitted project score alive through another row’s publication date [5.92ms]
+(pass) fresh generated docs tables supply their own overview rank and literal percentage [2.16ms]
+(pass) a genuinely later partial attempt hides older scores, but a later owning import restores reused dated evidence [4.58ms]
+(pass) candidate study tables and attempts cannot replace or suppress release scores, including unstarted boundaries [6.35ms]
+(pass) fully blocked generated docs data stays blocked and unranked rather than showing zero percent [2.28ms]
+(pass) an interrupted docs round retains partial observations without a fabricated zero rank or chart bar [2.08ms]
+(pass) CLI variants belong to their catalogue project while terminal compatibility shares only identical input populations [2.54ms]
+(pass) copied campaign evidence reads its own reports even while the original directory still exists [3.25ms]
+(pass) an extracted native pilot reads owning reports relative to its controller and retains usable report paths [0.85ms]
+(pass) latest core and external cohort statuses are both visible and a newer partial campaign supersedes the pair [4.66ms]
+
+tests/terminal-profile.test.ts:
+(pass) terminal regrading uses retained ink and independent facts, not the old admission status [5.16ms]
+(pass) omitted work stays in the denominator and unverifiable facts cannot receive a pass [0.34ms]
+(pass) changed witnesses, duplicate coordinates, missing reference and changed inventory reject regrading [0.38ms]
+(pass) existing external transport forwards an opt-in raw terminal witness from its completed worker record [17.10ms]
+(pass) public saved-output launcher works in CI without oracle or renderer; collection remains guarded [1340.84ms]
+
+tests/terminal-meaning.test.ts:
+(pass) real terminal boxes, continuous routes and arrowheads establish directed relationships across layouts [5.05ms]
+(pass) correct labels cannot conceal wrong direction, disconnected stems, missing nodes or incorrect topology [3.03ms]
+(pass) a relationship label belongs to its traced route, not an unrelated text occurrence [2.03ms]
+(pass) ANSI concealment, cursor movement and wide or combining text cannot receive guessed cell coordinates [0.23ms]
+(pass) shared stems require one actual source and cannot borrow expected topology [0.70ms]
+(pass) floating captions containing arrow-like letters retain owned-label and layout requirements [1.14ms]
+(pass) actual vertical captions belong to a continuous route and missing captions cannot pass [1.53ms]
+(pass) caption spaces painted over by route ink stay unknown while a reversed arrow still fails [0.67ms]
+(pass) a caption beside one vertical route is owned, while an absent or detached caption cannot pass [0.36ms]
+
+ 37 pass
+ 0 fail
+ 178 expect() calls
+Ran 37 tests across 5 files. [1.84s]
