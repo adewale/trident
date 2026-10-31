@@ -13,6 +13,7 @@ import { admitPreparedFidelityEngine } from '../fidelity/community.ts'
 import { defaultChromium, executableIdentity } from './benchmark-context.ts'
 import { docsRoundOrder, type docsInventory } from './docs-benchmark.ts'
 import { callDocsPage, closeDocsContext, docsArtifactServer, initializeDocsPage } from './docs-runtime.ts'
+import { beginDocsPngCapture, completeDocsPngCapture } from './docs-png-capture.ts'
 import { publicDocsPngAction } from './docs-png-browser.ts'
 import { inspectPng } from './png-inspection.ts'
 import { externalPngInvocation } from './docs-png-transport-ownership.ts'
@@ -53,9 +54,13 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
   writeFileSync(join(options.out, 'community-prepared.json'), JSON.stringify(prepared))
   const retained = join(options.out, 'drawings'); mkdirSync(retained, { recursive: true })
   const conversionRequired = projects.some(project => docsPngTransport(prepared.find(row => row.node.id === project), browsers.find(row => row.node.id === project)) === 'svg-conversion')
-  const context = { format: 'png', resources: { manifestSha256: resources.manifestSha256, files: resources.identity }, driver: process.versions, browser: conversionRequired ? executableIdentity(options.executable ?? defaultChromium(chromium)) : null, artifacts: prepared, preparedBrowsers: browsers, rounds: options.rounds, selectedCaseIds: selectedCases.map(input => input.id), calls: 'One actual output call per occurrence per round; no adaptive repetition or implicit artifact acquisition.', timing: 'Descriptive only: browser includes public SVG render + serialization/raster/PNG encoding; native/Node API clocks exclude startup; CLI includes startup. Clocks with different boundaries do not share a speed ranking.', correctness: 'Actual PNG/source/expectation hashes need a full content review. Decoding and nonblank checks alone never pass content.' }
+  const context = { format: 'png', rasterization: { protocol: 'owned-image-inlining-v1', background: '#ffffff', resourceManifestSha256: resources.manifestSha256 }, resources: { manifestSha256: resources.manifestSha256, files: resources.identity }, driver: process.versions, browser: conversionRequired ? executableIdentity(options.executable ?? defaultChromium(chromium)) : null, artifacts: prepared, preparedBrowsers: browsers, rounds: options.rounds, selectedCaseIds: selectedCases.map(input => input.id), calls: 'One actual output call per occurrence per round; no adaptive repetition or implicit artifact acquisition.', timing: 'Descriptive only: browser includes public SVG render + serialization/raster/PNG encoding; native/Node API clocks exclude startup; CLI includes startup. Clocks with different boundaries do not share a speed ranking.', correctness: 'Actual PNG/source/expectation hashes need a full content review. Decoding and nonblank checks alone never pass content.' }
   writeFileSync(join(options.out, 'context.json'), JSON.stringify(context, null, 2))
-  const checkpoint = new CollectionCheckpoint(options.out, { inventory, sourceReviews, imageReviews, context, projects, rounds: options.rounds, producers: protocolIdentity(options.harnessRoot ?? options.root, ['unified/docs-png-lane.ts', 'unified/community-worker.mjs']) }, options.collectionDeadline)
+  const producers = protocolIdentity(options.harnessRoot ?? options.root, ['unified/docs-png-lane.ts', 'unified/community-worker.mjs'])
+  const checkpoint = new CollectionCheckpoint(options.out, { inventory, sourceReviews, imageReviews, context, projects, rounds: options.rounds, producers }, options.collectionDeadline)
+  let capture: ReturnType<typeof beginDocsPngCapture> | undefined
+  if (conversionRequired) try { capture = beginDocsPngCapture(options.out, producers) } catch (error) { gaps.push('Optional browser PNG capture profile unavailable: ' + String(error)) }
+  const capturedAttempts: string[] = []
   const journal = new InvocationJournal(join(options.out, 'invocations'))
   const rawKey = (project: string, round: number, id: string) => JSON.stringify(['raw-png', project, round, id])
   let budgetError: CollectionBudgetExhausted | undefined
@@ -79,7 +84,7 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
           const context = await browserHost.newContext({ viewport: { width: 1400, height: 1000 } }), page = await context.newPage()
           context.setDefaultTimeout(20_000)
           await context.route('**/*', route => routeDocsResource(route, origin, resources))
-          conversion = { close: () => closeDocsContext(context, server), invoke: (source, id) => callDocsPage(page, publicDocsPngAction, { source, id }) }
+          conversion = { close: () => closeDocsContext(context, server), invoke: (source, id) => callDocsPage(page, publicDocsPngAction, { source, id, ownedImages: resources.resources.map(resource => ({ url: resource.url, contentType: resource.contentType, bytesBase64: Buffer.from(resource.body).toString('base64') })) }) }
           await initializeDocsPage(page, engine, origin)
         } else if (transport !== 'unavailable') {
           verifyProvidedCommunityArtifact(peer!.artifact!)
@@ -94,9 +99,9 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
             let nativeError: DocsPublicRejectionEvidence['nativeError']
             let bytes: Uint8Array | undefined, status: BenchmarkObservation['status'] = 'blocked', detail: string | undefined, durationMs: number | undefined, originalSvg: string | undefined, rasterizedSvg: string | undefined, invocationId: string | undefined, invocationDirectory: string | undefined
             if (conversion) {
-              const identity = { project, caseId: input.id, sourceSha256: evidenceBytesDigest(input.source), artifactSha256: browser!.browser!.artifactSha256, bindingSha256: evidenceDigest({ format: 'png', transport, engine: browser!.browser!, round }), format: 'png' }
+              const identity = { project, caseId: input.id, sourceSha256: evidenceBytesDigest(input.source), artifactSha256: browser!.browser!.artifactSha256, bindingSha256: evidenceDigest({ format: 'png', transport, engine: browser!.browser!, round, rasterization: context.rasterization }), format: 'png' }
               for (const pending of journal.pending(identity)) journal.failed(pending, 'Prior conversion has no recorded return; resumed with new attempt', null, 'interrupted')
-              const attempt = journal.start(identity); invocationId = attempt.attemptId; invocationDirectory = journal.directory
+              const attempt = journal.start(identity); capturedAttempts.push(attempt.attemptId); invocationId = attempt.attemptId; invocationDirectory = journal.directory
               let value: any
               try { value = await conversion.invoke(input.source, `docs_png_${round}_${index}`) }
               catch (error) { journal.failed(attempt, error, null, 'interrupted'); throw error }
@@ -153,8 +158,9 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
       writeFileSync(join(options.out, 'observations.json'), JSON.stringify(observations))
     }
   } catch (error) { if (error instanceof CollectionBudgetExhausted) budgetError = error; else throw error } finally { await browserHost?.close() }
-  const result: UnifiedSuiteResult = { id: 'docs', startedAt: checkpoint.startedAt ?? startedAt, finishedAt: new Date().toISOString(), status: budgetError ? 'blocked' : observations.some(row => row.status === 'failed') ? 'failed' : observations.some(row => row.status === 'blocked') ? 'blocked' : 'passed', observations, artifacts: [retained], gaps: [...gaps, 'PNG return/decode and reviewed source-content are separate. Native PNG needs no SVG. SVG conversion, native API and CLI clocks retain different boundaries; no qualified speed ranking.'] }
+  const result: UnifiedSuiteResult = { id: 'docs', startedAt: checkpoint.startedAt ?? startedAt, finishedAt: new Date().toISOString(), status: budgetError ? 'blocked' : observations.some(row => row.status === 'failed') ? 'failed' : observations.some(row => row.status === 'blocked') ? 'blocked' : 'passed', observations, artifacts: [retained, ...(capture ? [capture.directory] : [])], gaps: [...gaps, 'PNG return/decode and reviewed source-content are separate. Native PNG needs no SVG. SVG conversion, native API and CLI clocks retain different boundaries; no qualified speed ranking.'] }
   writeFileSync(join(options.out, 'result.json'), JSON.stringify(result))
+  if (capture) try { completeDocsPngCapture(capture, capturedAttempts) } catch (error) { result.gaps.push('Optional capture completion unavailable: ' + String(error)); writeFileSync(join(options.out, 'result.json'), JSON.stringify(result)) }
   if (budgetError) throw budgetError
   return result
 }

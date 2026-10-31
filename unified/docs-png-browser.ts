@@ -1,5 +1,5 @@
 /** Runs inside Chromium after the existing public SVG adapter initializes. */
-export async function publicDocsPngAction(input: { source: string; id: string }): Promise<any> {
+export async function publicDocsPngAction(input: { source: string; id: string; ownedImages?: { url: string; contentType: string; bytesBase64: string }[] }): Promise<any> {
   const state = (globalThis as any).__fidelityCommunity
   const stages: Record<string, number> = {}
   const started = performance.now()
@@ -35,10 +35,20 @@ export async function publicDocsPngAction(input: { source: string; id: string })
     root.setAttribute('width', String(width))
     root.setAttribute('height', String(height))
     root.style.maxWidth = 'none'
+    // SVG decoded as an Image cannot fetch nested external image URLs. Inline
+    // only collector-owned immutable resource bytes; retain the original SVG.
+    stage = 'owned-image-inlining'
+    const inlineStarted = performance.now()
+    for (const node of root.querySelectorAll('image,img')) {
+      const attribute = node.tagName.toLowerCase() === 'img' ? 'src' : node.hasAttribute('href') ? 'href' : 'xlink:href'
+      const url = node.getAttribute(attribute), owned = input.ownedImages?.find(resource => resource.url === url)
+      if (owned) node.setAttribute(attribute, 'data:' + owned.contentType + ';base64,' + owned.bytesBase64)
+    }
+    stages.ownedImageInliningMs = performance.now() - inlineStarted
     const serialized = new XMLSerializer().serializeToString(root)
     rasterizedSvg = serialized
     url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(serialized)
-    stages.svgPreparationMs = performance.now() - t
+    stages.svgPreparationMs = Math.max(0, performance.now() - t - stages.ownedImageInliningMs!)
     stage = 'svg-decode'
     t = performance.now()
     const image = new Image()

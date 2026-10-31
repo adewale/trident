@@ -10,6 +10,7 @@ import { reviewedDocsCase, sourceHash, type DocsDrawingReview } from '../unified
 import { docsExpectationsHash } from '../unified/docs-png-drawings.ts'
 import type { OfflinePngReviewReceipt } from '../unified/docs-png-offline-review.ts'
 import { auditDocsPngSvgSerialization, mergeOwnedPngSvgStaticChecks, observeOwnedPngSvgStaticFrame, readBrowserPngCaptureProfile } from '../unified/docs-png-svg-static.ts'
+import { beginDocsPngCapture, completeDocsPngCapture } from '../unified/docs-png-capture.ts'
 import { makeSvgCaseContract } from '../fidelity/svg-assessment.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
 import type { PaintCheck } from '../fidelity/paint.ts'
@@ -23,20 +24,21 @@ afterAll(async () => { await browser?.close(); for (const dir of dirs) rmSync(di
 const source = { id: 'synthetic/same-call-static', family: 'flowchart', source: 'flowchart LR\nA[Alpha]' }
 const review: DocsDrawingReview = { id: source.id, sourceSha256: sourceHash(source.source), family: 'flowchart', intent: 'drawing', expected: { labels: ['Alpha'], nodes: [{ id: 'A', label: 'Alpha' }] }, review: 'Independent complete literal synthetic control, never a benchmark score.', sourceReview: { protocol: 'literal-documentation-facts-v1', sourcePin: '1fb7869866dd619168d840291c9c54b4f129758b', method: 'Literal one-labelled-box source control', expectedFactsComplete: true, requiredObligations: ['visible-labels', 'node-identities-and-labels'], unresolved: [], excludedNonvisual: [] } }
 const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="180" height="60"><rect x="5" y="5" width="160" height="50" fill="white" stroke="black"/><text x="15" y="35">Alpha</text></svg>'
-async function fixture(originalSvg = svg) {
+async function fixture(originalSvg = svg, project = 'synthetic/eligible-svg') {
   const root = mkdtempSync(join(tmpdir(), 'trident-static-svg-')); dirs.push(root)
   const rasterizedSvg = await page.evaluate(original => { const host = document.createElement('div'); host.innerHTML = original; const root = host.querySelector('svg')!; root.setAttribute('width', '180'); root.setAttribute('height', '60'); root.style.maxWidth = 'none'; return new XMLSerializer().serializeToString(root) }, originalSvg)
   const actualPng = Buffer.from(await page.evaluate(async serialized => { const image = new Image(); image.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(serialized); await image.decode(); const c = document.createElement('canvas'); c.width = 180; c.height = 60; const ctx = c.getContext('2d')!; ctx.fillStyle = 'white'; ctx.fillRect(0,0,180,60); ctx.drawImage(image,0,0); return Array.from(new Uint8Array(await (await new Promise<Blob>(done => c.toBlob(blob => done(blob!), 'image/png'))).arrayBuffer())) }, rasterizedSvg))
   const file = join(root, 'font-control'); writeFileSync(file, 'Synthetic environment byte identity control, not a font correctness assertion')
   const fontManifest = { schema: 'synthetic-frozen-font-control', files: [{ path: file, sha256: evidenceBytesDigest(readFileSync(file)), bytes: readFileSync(file).length }] }, fontsFile = join(root, 'fonts.json'); writeFileSync(fontsFile, JSON.stringify(fontManifest))
-  const engine = { artifactSha256: 'c'.repeat(64), kind: 'synthetic-owned-static-control' }, project = 'mermaid-js/mermaid'
+  const engine = { artifactSha256: 'c'.repeat(64), kind: 'synthetic-owned-static-control' }
   const context = { browser: { status: 'available', path: executable, sha256: evidenceBytesDigest(readFileSync(executable)), version: 'Synthetic control of actual browser invocation', companions: [{ path: file, sha256: fontManifest.files[0]!.sha256 }] }, resources: { manifestSha256: 'a'.repeat(64), files: [] }, preparedBrowsers: [{ node: { id: project }, browser: engine }] }
   writeFileSync(join(root, 'context.json'), JSON.stringify(context)); writeFileSync(join(root, 'result.json'), '{}')
-  const completionFile = join(root, 'completion.json'); writeFileSync(completionFile, JSON.stringify({ schema: 'trident-owned-full-png-collection-v1', project, fontsSha256: evidenceBytesDigest(readFileSync(fontsFile)), resultSha256: evidenceBytesDigest(readFileSync(join(root, 'result.json'))) }))
-  const profile = readBrowserPngCaptureProfile({ root, fontsFile, completionFile })
   const identity = { project, caseId: source.id, sourceSha256: sourceHash(source.source), artifactSha256: engine.artifactSha256, bindingSha256: evidenceDigest({ format: 'png', transport: 'svg-conversion', engine, round: 1 }), format: 'png' }
   const journal = new InvocationJournal(join(root, 'invocations')), started = journal.start(identity); journal.returned(started, actualPng, 1)
   new CollectionCheckpoint(root, { schema: 'synthetic-static-control' }).record(JSON.stringify(['raw-png', project, 1, source.id]), { status: 'passed', invocationId: started.attemptId, bytesBase64: actualPng.toString('base64'), originalSvg, rasterizedSvg })
+  const snapshot = () => ({ fonts: fontManifest.files, configuration: fontManifest.files, variables: {} })
+  const capture = beginDocsPngCapture(root, ['100644 blob ' + 'a'.repeat(40) + '\tunified/docs-png-browser.ts'], snapshot), completionFile = completeDocsPngCapture(capture,[started.attemptId],snapshot).file
+  const profile = readBrowserPngCaptureProfile({root,completionFile})
   const receipt: OfflinePngReviewReceipt = { schema: 'trident-offline-png-image-review-v1', project, source: source.source, reviewedSourceContract: review, actualImage: { path: 'synthetic-box.png', sha256: evidenceBytesDigest(actualPng), width: 180, height: 60 }, inspection: { method: 'Synthetic view_image explicit full source/image control; not benchmark image evidence', packet: 'synthetic-packet.png', packetSha256: evidenceBytesDigest(actualPng), checkedAt: '2026-10-31T18:00:00Z' }, review: { id: source.id, sourceSha256: sourceHash(source.source), expectationsSha256: docsExpectationsHash(review), pngSha256: evidenceBytesDigest(actualPng), status: 'correct', reviewedBy: 'Independent synthetic full-source control author', review: 'Known authored control contains exactly one visible Alpha label in a stroked box. This tests evidence gates and does not claim a general image oracle or a benchmark image review.' } }
   return { root, source, review, receipt, actualPng, packet: actualPng, originalSvg, rasterizedSvg, attemptId: started.attemptId, round: 1, profile, evaluate: <T>(fn: typeof auditDocsPngSvgSerialization, value: { originalSvg: string; rasterizedSvg: string }) => page.evaluate(fn, value) as Promise<T>, fontsFile, completionFile }
 }
@@ -81,7 +83,7 @@ test('capture environment and opaque certificate identities cannot be substitute
   expect(() => mergeOwnedPngSvgStaticChecks({ ...mergeInput(f, frame, [unknown('visible-ink')]), review: changed })).toThrow('stale source')
   expect(() => mergeOwnedPngSvgStaticChecks(mergeInput(f, frame, [unknown('visible-ink'),unknown('visible-ink')]))).toThrow('duplicate')
   writeFileSync(join(f.root, 'font-control'), 'altered actual environment bytes')
-  expect(() => readBrowserPngCaptureProfile({ root: f.root, fontsFile: f.fontsFile, completionFile: f.completionFile })).toThrow('environment bytes changed')
+  expect(() => readBrowserPngCaptureProfile({ root: f.root, completionFile: f.completionFile })).toThrow('environment bytes changed')
 })
 
 test('bounded serialization distinguishes retained raster frame from changed intrinsic original presentation', async () => {
@@ -100,4 +102,14 @@ test('well-formed foreignObject XML can change text ownership under HTML repair 
   expect(audit).toMatchObject({ matched: true, originalXmlWellFormed: true, unchangedIntrinsicSizing: true, originalTreeEquivalent: false })
   const unchanged = await fixture(); const frame = await observeOwnedPngSvgStaticFrame(unchanged)
   expect(frame.originalStaticTransfer).toBe('bounded-intrinsic-frame')
+})
+
+
+test('eligible SVG projects share the same evidence method and cannot borrow another capture execution', async () => {
+  const f = await fixture(svg,'another/eligible-svg-project'), frame = await observeOwnedPngSvgStaticFrame(f)
+  expect(frame.returnEvidence.project).toBe('another/eligible-svg-project')
+  const snapshot = () => ({fonts:f.profile.fontFiles.map(file=>({...file})),configuration:f.profile.fontFiles.map(file=>({...file})),variables:{}})
+  const later = beginDocsPngCapture(f.root,['100644 blob '+ 'a'.repeat(40)+'\tunified/docs-png-browser.ts'],snapshot)
+  const completed=completeDocsPngCapture(later,[],snapshot),profile=readBrowserPngCaptureProfile({root:f.root,completionFile:completed.file})
+  await expect(observeOwnedPngSvgStaticFrame({...f,profile})).rejects.toThrow('not covered by this capture execution')
 })
