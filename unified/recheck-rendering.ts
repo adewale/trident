@@ -39,9 +39,10 @@ export function retainedPath(directory: string, out: string, aliases: string[], 
 export async function recheckRendering(directory: string, out: string, pngReviewFile?: string, executable?: string) {
   directory = resolve(directory); out = resolve(out)
   if (existsSync(out) || !relative(directory, out).startsWith('..')) throw Error('Choose a fresh output outside the input campaign')
-  const recordedRoot = resolve(read(join(directory, 'report.json')).options?.out ?? directory)
+  const recorded = read(join(directory, 'report.json'))
+  const recordedRoot = resolve(recorded.options?.out ?? directory)
   const previous = join(directory, 'report.collected.json')
-  const aliases = [recordedRoot, ...(existsSync(previous) && read(previous).options?.out ? [resolve(read(previous).options.out)] : [])]
+  const aliases = [recordedRoot, ...(recorded.recheck?.recordedSourceRoots ?? []), ...(existsSync(previous) && read(previous).options?.out ? [resolve(read(previous).options.out)] : [])]
   const report = readCampaign(directory), began = new Date().toISOString()
   const inventoryFile = join(directory, 'preparation/inventories.json'), authored = expandedFidelityCases()
   const sourceInventory = read(inventoryFile)
@@ -145,7 +146,7 @@ export async function recheckRendering(directory: string, out: string, pngReview
       write(destination, result)
     }
   } finally { await context.close(); await browser.close() }
-  const updated = { ...report, options: { ...(report as any).options, out }, updatedAt: new Date().toISOString(), results: report.results.map(boundary => ({ ...boundary, ...(boundary.out ? { out: remap(boundary.out) } : {}) })), recheck: { ...producer, recordedSourceRoot: recordedRoot, originalReportSha256: hash(readFileSync(join(directory, 'report.json'))), pngReviewSha256: hash(pngBytes), docsSvgChecked: docsChecked, featureSvgChecked: featureChecked }, scope: 'Coverage receipts with current retained-output checks. Original measurements and collected results remain present; SVG/PNG checks call no renderer. Clock comparisons remain unqualified.' }
+  const updated = { ...report, options: { ...(report as any).options, out }, updatedAt: new Date().toISOString(), results: report.results.map(boundary => ({ ...boundary, ...(boundary.out ? { out: remap(boundary.out) } : {}) })), recheck: { ...producer, recordedSourceRoots: aliases, originalReportSha256: hash(readFileSync(join(directory, 'report.json'))), pngReviewSha256: hash(pngBytes), docsSvgChecked: docsChecked, featureSvgChecked: featureChecked }, scope: 'Coverage receipts with current retained-output checks. Original measurements and collected results remain present; SVG/PNG checks call no renderer. Clock comparisons remain unqualified.' }
   write(join(out, 'report.collected.json'), report); write(join(out, 'report.json'), updated)
   write(join(out, 'recheck-receipt.json'), updated.recheck)
   return updated.recheck
