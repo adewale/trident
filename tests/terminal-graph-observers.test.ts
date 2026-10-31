@@ -128,3 +128,10 @@ test('independent concentric 100-node drawing verifies the complete large-source
   expect(allPass(graph(name, drawing))).toBe(true)
   expect(status(graph(name, drawing.replace('►', '◄')), 'relationships')).toBe('failed')
 })
+
+test('unsupported textual or unqualified representations remain unknown instead of becoming node faults', () => {
+  const checks = graph('graph-thick-python', 'Unsupported diagram family at this public boundary')
+  expect(checks.every(row => row.status === 'unknown')).toBe(true)
+  expect(classes('class-cardinality-python', 'classDiagram is not supported').every(row => row.status === 'unknown')).toBe(true)
+  expect(states('state-loop-zombie', 'stateDiagram is not supported').every(row => row.status === 'unknown')).toBe(true)
+})
