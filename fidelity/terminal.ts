@@ -179,7 +179,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
     actual[candidates[0]!.index]!.label = caption.label
     for (let offset = 0; offset < caption.width; offset++) used.add(key(caption.x + offset, caption.y))
   }
-  const canonical = (edges: readonly { source: string; target: string; label?: string; directed?: boolean; stroke?: string; endMarker?: string; visible?: boolean }[]) => edges.map(edge => JSON.stringify([edge.source, edge.target, edge.label ?? '', edge.stroke ?? 'solid', edge.directed !== false, edge.endMarker ?? ''])).sort()
+  const canonical = (edges: readonly { source: string; target: string; label?: string; directed?: boolean; stroke?: string; endMarker?: string; visible?: boolean }[]) => edges.map(edge => { const endpoints = edge.directed === false && !edge.endMarker ? [edge.source, edge.target].sort() : [edge.source, edge.target]; return JSON.stringify([...endpoints, edge.label ?? '', edge.stroke ?? 'solid', edge.directed !== false, edge.endMarker ?? '']) }).sort()
   if (JSON.stringify(canonical(actual)) !== JSON.stringify(canonical(expected.edges))) return verdict('incorrect', 'Drawn directed relationships or their labels differ from the authored graph', actual)
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) if (cell(x, y) !== ' ' && !inside(x, y) && !used.has(key(x, y)) && !grouping?.decor.has(key(x, y))) return verdict('unknown', 'Unassigned output ink or text remains outside the verified nodes and routes', actual)
   for (const constraint of expected.layout ?? []) {

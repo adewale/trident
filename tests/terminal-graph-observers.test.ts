@@ -135,3 +135,9 @@ test('unsupported textual or unqualified representations remain unknown instead 
   expect(classes('class-cardinality-python', 'classDiagram is not supported').every(row => row.status === 'unknown')).toBe(true)
   expect(states('state-loop-zombie', 'stateDiagram is not supported').every(row => row.status === 'unknown')).toBe(true)
 })
+
+test('plain undirected endpoint order is independent of left/right placement', () => {
+  const analysis = analyseTerminalSource('graph LR\nA --- B', 'flowchart'), drawing = '┌───┐    ┌───┐\n│ B ├────┤ A │\n└───┘    └───┘'
+  expect(allPass(inspectTerminalGraphFacts(drawing, analysis.contract, analysis.graph!))).toBe(true)
+  expect(allPass(inspectTerminalGraphFacts(drawing.replace('────┤', '───►│'), analysis.contract, analysis.graph!))).toBe(false)
+})
