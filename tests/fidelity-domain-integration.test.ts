@@ -50,3 +50,14 @@ test('optional pie percentages are independently quantitative and cannot replace
   const wrong = `const e=[...document.querySelectorAll('text')].find(e=>e.textContent.startsWith('Alpha (70'));e.textContent='Alpha (20.0%)'`
   expect(status(await inspect('pie-authored-agentic.svg', wrong), 'painted-slice-weights')).toBe('failed')
 })
+
+test('fishbone nodes and logical edges are owned by complete rooted branch geometry', async () => {
+  const actual = await inspect('ishikawa-authored-mermaid.svg')
+  expect(status(actual, 'source-fact:cause-hierarchy')).toBe('passed')
+  expect(status(actual, 'painted-relationships')).toBe('passed')
+  expect(status(actual, 'painted-node-ownership')).toBe('passed')
+  const wrong = `const e=document.querySelector('line.ishikawa-sub-branch');e.setAttribute('x1','-34.054');e.setAttribute('y1','350')`
+  const changed = await inspect('ishikawa-authored-mermaid.svg', wrong)
+  expect(status(changed, 'source-fact:cause-hierarchy')).toBe('failed')
+  expect(status(changed, 'painted-relationships')).toBe('failed')
+})
