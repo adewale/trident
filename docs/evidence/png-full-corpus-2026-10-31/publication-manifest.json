@@ -1,6 +1,6 @@
 {
   "schema": "trident-final-qualified-png-publication-proof-v1",
-  "publicationPath": "completion/png-evidence",
+  "publicationPath": "qualification-evidence/completion-2026-10-31/png-evidence",
   "archive": {
     "schema": "trident-png-evidence-archive-manifest-v1",
     "archive": "trident-png-qualified-evidence-final-2026-10-31.tar.gz",
@@ -102,5 +102,6 @@
     "Original publicSVG is a nested owned PNG-export companion, not an independentSVGcall/timing witness; the normalized rasterized frame remains diagnostic.",
     "The separate same-budget raster429 retry completedunknown with one unavailable painted-node-visibility criterion; original timeout and fullprimary grades remain unchanged.",
     "Independent resvg preservation is a separate stricter metric and is not conferred by direct PNG correctness or rasterized-SVG content evidence."
-  ]
+  ],
+  "publicationUrl": "https://github.com/adewale/trident/blob/586bc66045cf4f1400b2d2d4aef40b525387b27f/qualification-evidence/completion-2026-10-31/png-evidence/README.md"
 }

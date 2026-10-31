@@ -2,6 +2,9 @@
 
 These minimum qualification cohorts regrade retained outputs on frozen artifacts; they do not establish a new 27-project campaign or baseline. Ordinary reducers and the shared ranker order each named metric best first, with shared ties and no grand aggregate. Verified correct counts are lower bounds while unknowns leave complete drawing accuracy unresolved. The [qualification index](../qualification/README.md) retains detailed provenance and publication links; [runtime tests and archive checks](../RELEASE.md) are pinned separately.
 
+[Raw evidence, checksums and reproduction](https://github.com/adewale/trident/blob/586bc66045cf4f1400b2d2d4aef40b525387b27f/qualification-evidence/completion-2026-10-31/README.md)
+include the current outputs, source contracts, direct PNG reviews and archive restoration checks.
+
 ## DaveBench documentation drawings — PNG
 
 [DaveBench](../BENCHMARKS.md#documentation-examples--davebench) uses these [548 literal documentation occurrences](../corpus/docs-source-inventory.json.gz) from Mermaid commit `1fb7869866dd619168d840291c9c54b4f129758b`: 546 drawings, one invalid-source control and one configuration-only input. The [source census](docs-source-expectations.md) has 547 complete contracts, including both non-drawing inputs; the sole held duplicate-Boston interpretation remains a planned drawing. [Independent contracts](../corpus/docs-reviewed.json), SHA-256 `2aa8a9ad10d72a5738a52b917c3e14611c99c5b5c514b7767f6b76561612cf6c`, retain required facts and reviewed visual projections. Nonvisual identities and unrequested default skins remain advisory; renderer agreement supplies no expected answer. Mermaid rendering bindings include the declared first-party ZenUML 1.0.1 addon.

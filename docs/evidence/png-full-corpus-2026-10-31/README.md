@@ -1,5 +1,9 @@
 # Full documentation PNG evidence
 
+[Download the final archive, checksums and restore receipts](https://github.com/adewale/trident/blob/586bc66045cf4f1400b2d2d4aef40b525387b27f/qualification-evidence/completion-2026-10-31/png-evidence/README.md).
+The three chunks reconstruct one 174,383,266-byte archive; a fresh restore
+verified 449 native ownership records and 951 selected review bindings.
+
 The same 548 pinned literal Mermaid documentation occurrences remain in both
 format lanes. The original PNG campaign returned 547 Mermaid and 449 native
 `mermaid_flutter`0.3.2 images. Those historical return totals alone prove no

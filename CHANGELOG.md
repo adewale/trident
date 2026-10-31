@@ -8,6 +8,11 @@ publication remain pending.
 
 ### Benchmarks and measurement
 
+- Publish the [minimum-cohort qualification results](docs/qualification-results-2026-10-31.md)
+  and restorable source/output evidence. Tables rank named verified counts and
+  retain unresolved facts. A fresh restore validates all 449 native PNG ownership
+  records and 951 selected image-review bindings.
+
 - Freeze all 548 DaveBench syntax-documentation occurrences, including 546
   whitespace-trimmed sources (547 exact bodies), with exact source hashes and structured expectations. The
   [source census](docs/docs-source-expectations.md) records drawing contracts,

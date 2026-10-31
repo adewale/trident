@@ -9,8 +9,9 @@ blocked.**
 original failures, repairs, outputs and clocks. It remains historical. Current
 retained qualification evidence is linked below. Runtime `8aa1238a` passed its
 actual source/extracted-kit archive check, browser-enabled full suite, static and
-regeneration checks, and Linux/macOS fixture CI. Final evidence publication is
-pending. [Release status](../RELEASE.md)
+regeneration checks, and Linux/macOS fixture CI. [Complete evidence and reproduction](https://github.com/adewale/trident/blob/586bc66045cf4f1400b2d2d4aef40b525387b27f/qualification-evidence/completion-2026-10-31/README.md)
+include a fresh archive restore, 449 native ownership checks and 951 selected
+review bindings. [Release status](../RELEASE.md)
 records the exact revision, archive hash and CI run without borrowing an earlier
 producer's checks.
 
@@ -33,7 +34,7 @@ It is separate from an ecosystem benchmark campaign.
 | 10. Timing | Fixed balanced first-use schedule, fresh runtimes, per-call correctness, exhaustive causal journal, A/A controls and durable finalization. | The [final retained replay](../docs/qualification-results-2026-10-31.md) qualifies all 18 outputs in six rounds on one fixed source, with its uncertainty interval. It supplies no ecosystem performance claim. |
 | 11. Reports | Derived tables, best-first named metrics, shared ties, unknowns and partial-accuracy caveats. | The [current report](../docs/qualification-results-2026-10-31.md) keeps cohorts separate; historical tables retain their original corpus and observer identities. |
 | 12. Adversarial audit | [Concrete independent counterexamples](../docs/evidence/qualification-adversarial-audit-2026-10-31/README.md) cover SVG dash scaling, body/route ownership, source-palette taint, mixed invocation receipts, HTML repair, retrospective font snapshots and timed-out page reuse. | Targeted controls retain exact source cuts. Linux/macOS fixture CI and the browser-enabled full suite passed for runtime `8aa1238a`. Later documentation heads make no inherited CI claim. |
-| 13. Release | Baseline, claim prerequisites and source-versus-extracted-kit checks documented. | Runtime `8aa1238a` passed actual archive parity; its revision, archive hash and fixture CI are in [release status](../RELEASE.md). Final publication and the initial baseline remain open. |
+| 13. Release | Baseline, claim prerequisites and source-versus-extracted-kit checks documented. | Runtime `8aa1238a` passed actual archive parity; its revision, archive hash and fixture CI are in [release status](../RELEASE.md). The [final evidence](https://github.com/adewale/trident/blob/586bc66045cf4f1400b2d2d4aef40b525387b27f/qualification-evidence/completion-2026-10-31/README.md) is retained; the initial baseline remains open. |
 
 The [source ledgers](source-audits/) retain reviewer roles, exact hashes and
 findings. A generator reproducing its own answers is not an independent review.

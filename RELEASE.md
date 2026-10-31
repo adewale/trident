@@ -19,8 +19,8 @@ source/extracted-kit `package-parity-verified` check. Its archive SHA-256 is
 [Linux and macOS fixture CI](https://github.com/adewale/trident/actions/runs/41252220020)
 passed for that revision. Its browser-enabled full suite passed 1,243 tests with
 zero failures and 9,738 assertions across 167 files. Lint, typecheck, source/public
-manifest regeneration and snapshot checks also passed. Final evidence
-publication and the initial baseline remain open. These runtime checks
+manifest regeneration and snapshot checks also passed. [Complete evidence and
+restoration checks](https://github.com/adewale/trident/blob/586bc66045cf4f1400b2d2d4aef40b525387b27f/qualification-evidence/completion-2026-10-31/README.md) are retained; the initial baseline remains open. These runtime checks
 do not assert CI for a later documentation revision or declare the 0.1 release
 ready. Earlier `1ba6f812` checks and the [published `79777b7` foundation](https://github.com/adewale/trident/blob/79777b738e4bb5292a31b11dc405c42f6c90d323/qualification-evidence/README.md)
 remain historical evidence with their original producers. The development
