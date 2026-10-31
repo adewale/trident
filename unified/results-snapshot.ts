@@ -253,7 +253,8 @@ export function importCampaign(snapshot: ResultsSnapshot, directory: string, evi
   const tables = new Map(snapshot.tables.map(table => [table.id, table]))
   const generated = campaignTables(report, { url: evidenceUrl.replace(/\/$/, '') + '/' + reportFile, sha256: digest })
   for (const table of generated) tables.set(table.id, table)
-  let overview = generated.find(table => !table.diagnostic && table.outputFormat === 'svg' && table.unit === 'reviewed documentation occurrences' && table.overview) ?? generated.find(table => !table.diagnostic && table.overview)
+  const overviewEligible = (table: SnapshotTable) => !table.diagnostic && table.artifactRole !== 'candidate' && !!table.overview
+  let overview = generated.find(table => overviewEligible(table) && table.outputFormat === 'svg' && table.unit === 'documentation drawings') ?? generated.find(table => overviewEligible(table) && table.outputFormat === 'svg') ?? (!snapshot.overviewRanking ? generated.find(overviewEligible) : undefined)
   if (overview?.comparisonKey) {
     const key = overview.comparisonKey
     const comparable = [...tables.values()].filter(table => table.comparisonKey === key && !table.rolling && table.artifactRole !== 'candidate')
@@ -266,7 +267,7 @@ export function importCampaign(snapshot: ResultsSnapshot, directory: string, evi
       }
       overview = { ...latest, id: 'latest-docs-' + key.slice(0, 24), rolling: true, rows: [...rows.values()],
         measuredAt: comparable.map(table => table.measuredAt).sort((a, b) => stamp(a) - stamp(b)).at(-1)!,
-        caption: 'Latest comparable documentation coverage per project, across dated runs. Protocol, pinned input bytes and round count match. Each row retains its own measurement date and evidence. This is a rolling coverage comparison, with no cross-run timing claim.' }
+        caption: 'Latest comparable documentation scores per project, across dated runs. Protocol, pinned input bytes, source expectations and observer identity match. Each row retains its own measurement date and evidence. This is a rolling count comparison, with no cross-run timing claim.' }
       tables.set(overview.id, overview)
     }
   }

@@ -193,7 +193,7 @@ test('candidate study tables and attempts cannot replace or suppress release sco
 test('fully blocked generated docs data stays blocked and unranked rather than showing zero percent', () => {
   const data = importCampaign(empty(), campaign(temp(), { blocked: true, updatedAt: '2026-02-01T00:00:00Z' }), 'https://example.org/blocked', catalog)
   expect(overview(data).rank).toBe('—')
-  expect(overview(data).docs).toContain('blocked')
+  expect(overview(data).docs).toContain('No verified drawing-content observations')
   expect(overview(data).docs).not.toContain('0.0%')
 })
 
@@ -201,7 +201,7 @@ test('an interrupted docs round retains partial observations without a fabricate
   const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' })
   const report = JSON.parse(readFileSync(join(root, 'report.json'), 'utf8')); report.rounds = 2; write(join(root, 'report.json'), report)
   const result = JSON.parse(readFileSync(join(root, 'docs/result.json'), 'utf8'))
-  result.observations.push(...result.observations.filter((row: any) => row.metrics.project === 'fixture/b').map((row: any) => ({ ...row, metrics: { ...row.metrics, round: 2 } })))
+  result.observations.push(...result.observations.filter((row: any) => row.metrics.project === 'fixture/b' && row.operation === 'render').map((row: any) => ({ ...row, metrics: { ...row.metrics, round: 2 } })))
   result.observations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', mode: 'round', operation: 'round', caseId: 'round:2', status: 'blocked', metrics: { project: 'fixture/a', round: 2 }, detail: 'Browser host deadline' })
   write(join(root, 'docs/result.json'), result)
   const data = importCampaign(empty(), root, 'https://example.org/interrupted', catalog)
