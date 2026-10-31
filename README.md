@@ -22,14 +22,16 @@ later excluded from regular campaigns. The rolling overview uses the current
 
 ## Benchmarks
 
-Trident has three rendering workloads and an optional model/API workload. Drawing
-checks and cost measurement are shared parts of those workloads.
+Trident has three rendering workloads, a partial public-test comparison and an
+optional model/API workload. Drawing checks and cost measurement are shared parts
+of those workloads. None yet has complete correctness qualification.
 
 | Workload | What it measures | Results | Collector IDs |
 |---|---|---|---|
 | **Documentation Examples — DaveBench** | Accurate SVG and PNG rendering of the same pinned Mermaid documentation corpus, inspired by [Dave Kiss's benchmark](https://x.com/davekiss/status/2111512440106078554). | Separate output-return and reviewed-content tables for each format. Incorrect, unknown and configuration-only examples stay visible; speed requires qualified matched work. | `docs` |
 | **Mermaid Feature Cases** | Authored syntax, labels, relationships, chart values, grouping and scaling through public rendering interfaces. | Correct, incorrect, unsupported and unknown diagrams; feature/family details. Cost is reported on matched qualified inputs. | `community`, `fidelity`, `portable` |
-| **Terminal Rendering — Project Examples** | Node text, directed routes, captions and requested layout direction on real project inputs. Origins distinguish terminal examples from shared rendering tests. | All 120 planned inputs remain visible; 16 reviewed drawings get verified-correct count ranks. Complete accuracy and speed remain unqualified. | `bench --terminal` |
+| **Terminal Rendering — Project Examples** | Correctly drawn terminal text, topology, labels and family-specific facts on real project inputs. Origins distinguish terminal examples from shared rendering tests. | 116 drawing inputs and four invalid-source controls, reported separately. All 120 have source contracts; missing output observers remain unknown. Speed is unqualified. | `bench --terminal` |
+| **Mermaid Public Tests — partial** | Whether an implementation passes Mermaid's original public-behaviour assertions without changing the callbacks or expected answers. | The first 22 parser/detector callbacks are qualified against the original runner. Other public surfaces remain pending; this is not a whole-suite pass rate. | `mermaid:public-tests` |
 | **Public Model Contracts — optional** | Public parsing and model inspection, including replacement sources and configuration reset. | Shared contracts separately from API-specific checks and missing bindings. | `native-fidelity` |
 
 Ordinary campaigns select `docs,fidelity`. Select expensive performance collection
@@ -45,7 +47,10 @@ SVG-to-PNG conversion path. The source inventory is identical in both lanes.
 Correctness qualification remains incomplete. [The bounded repair campaign](docs/benchmark-repair-2026-10-30.md)
 shows the current evidence and gaps. Full DaveBench return scores are not counts
 of correctly drawn diagrams. The [reviewed source expectations](corpus/docs-reviewed.json)
-bind exact input bytes; unreviewed sources earn no correctness credit. First-round
+bind all 548 input occurrences: 544 drawing contracts, one configuration-only
+example and three unresolved source interpretations. Source transcription and
+output-observer qualification are separate; a complete contract alone earns no
+correctness credit. First-round
 outputs are retained for inspection and rechecking without rendering again. PNG
 content reviews bind actual image bytes and expected source facts; SVG or nonblank
 checks alone cannot establish PNG accuracy. A `--docs-png-review FILE` supplies
@@ -59,7 +64,7 @@ Assertion Replay is retired as a comparative benchmark; Mermaid's own tests are
 an explicit reference-environment check (`--suites upstream-original`). The old
 nonblank-only PNG exporter is retired. The [reviewed fixed-PNG study](docs/davebench-png-seven-results.md)
 keeps its task-specific content review, performance results and limitations.
-Terminal Rendering has [120 real inputs and 16 reviewed drawings](docs/terminal-correctness.md).
+Terminal Rendering has [120 real inputs with source contracts](docs/terminal-correctness.md).
 Mermaid ASCII is required; Mermaid supplies an unscored source reference. Run
 `bench --terminal --plan` before collecting. The [retained results](docs/terminal-results-2026-10-31.md)
 rank verified counts, with incomplete accuracy and observer gaps visible.
@@ -72,12 +77,12 @@ to short summaries as well as saved tables; see [the reporting rule](REPORTING.m
 
 | Corpus or profile | Where the inputs come from |
 |---|---|
-| DaveBench | Mermaid's [syntax documentation at commit `1fb7869`](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b/packages/mermaid/src/docs/syntax): 548 fenced occurrences, 546 distinct sources, 34 pages. Trident's [reviewed expectations](corpus/docs-reviewed.json) bind exact source bytes; 16 drawings are reviewed and one occurrence is configuration-only. |
-| Mermaid conformance and reference validation | Mermaid's [original tests at that same commit](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b). An eligible public-behaviour conformance comparison still needs qualification; the original reference runner and historical replay retain their own inventories and exclusions. |
+| DaveBench | Mermaid's [syntax documentation at commit `1fb7869`](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b/packages/mermaid/src/docs/syntax): 548 fenced occurrences, 546 distinct sources, 34 pages. Trident transcribes expected facts from the literal sources and their documented syntax, independently of candidate output. The [source audit](docs/docs-source-expectations.md) distinguishes extraction, review and unresolved interpretations. |
+| Mermaid Public Tests and reference validation | Mermaid's [original tests at that same commit](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b). The census preserves 4,060 declarations across 368 files. The [22-callback scope](docs/mermaid-public-conformance.md) retains original assertions and separately records unbound public surfaces, private tests and disabled tests. |
 | Authored feature, model and cost cases | Fixtures developed in AM and Trident, with explicit expected facts in [fidelity/cases.ts](fidelity/cases.ts) and [portable/cohorts.ts](portable/cohorts.ts). Each run records its selection from these development fixtures. |
 | Legacy compatibility corpus | The [frozen AM corpus](corpus/community-corpus.json), imported from AM commit `de612cc08009cf8abbeae2d3795dac3baa0b5e36`. Its manifest also identifies upstream inputs. |
 | External repository examples | Examples and fixtures from the repositories and commits in [external-sources.json](corpus/external-sources.json), capped at 20 files per project. The frozen inventory retains file provenance, duplicates, licenses and extraction decisions. |
-| Terminal Rendering | [120 source inputs](corpus/terminal-project-examples.json) selected from research across 18 pinned terminal-project repositories; 17 contribute inputs. Origins include docs, fixtures, issues and PRs, with body/patch hashes and extraction steps. [Origin roles](corpus/terminal-origin-classification.json) separate 67 terminal-specific and 53 shared-renderer robustness cases. [22 independent contracts](corpus/terminal-project-reviews.json) support the 16 reviewed drawings profile; 98 inputs remain unreviewed. The old four authored graphs are checker controls only. |
+| Terminal Rendering | [120 source inputs](corpus/terminal-project-examples.json) selected from research across 18 pinned terminal-project repositories; 17 contribute inputs. Origins include docs, fixtures, issues and PRs, with body/patch hashes and extraction steps. [Origin roles](corpus/terminal-origin-classification.json) separate 67 terminal-specific and 53 shared-renderer robustness cases. All inputs have [independent source contracts](corpus/terminal-project-reviews.json): 116 drawings and four invalid controls. A 46-source observer profile is bounded by representation support, not selected by renderer pass rates. The old four authored graphs are checker controls only. |
 | Reviewed fixed-PNG study | A [13-input common profile](docs/davebench-png-seven-results.md) selected from Mermaid's documentation after source-fact review of 20 candidates. Its full coverage phase retained all 548 documentation attempts. |
 
 **DaveBench** is inspired by [Dave Kiss's documentation benchmark](https://x.com/davekiss/status/2111512440106078554).
@@ -94,6 +99,34 @@ Public examples and development fixtures are not a validated holdout. See
 [methods, commands and limitations](BENCHMARKS.md) for the current workloads.
 `support:verify` uses six positive inputs and two invalid-source controls to
 check invocation readiness; it is not a comparative benchmark.
+
+### Verify Trident before collecting scores
+
+The [harness profile](qualification/harness-profile.json) uses six projects to
+cover the execution mechanisms: Mermaid, Mermaid ASCII, Agentic Mermaid,
+Mermaid Flutter, Latias Merman and Termaid. Its 16 jobs cover browser, Node,
+package CLI, native CLI, WASM, Python, PNG-only workers and public models. The
+same four controls test positive output, a changed label, invalid input and
+recovery. That is 56 output calls plus two separate model workflows, with a
+five-minute collection budget. These checks do not rank the six projects.
+
+```sh
+bun commands.ts verify:harness --plan
+bun commands.ts verify:harness --prepared community-prepared.json \
+  --browser-prepared community-browser-prepared.json --out /evidence/harness
+```
+
+Collection saves raw returns before grading. Rechecking uses the retained bytes
+and binds each verdict to its source, expectations, output and observer. Unknown
+clocks remain unknown. Reuse output when an observer changes; call a renderer
+again only for missing or invalid collection evidence.
+
+Comparative timing also needs a complete correctness verdict for **every timed
+output**, fixed matched sources and boundaries, serialized calls and A/A
+calibration. `timing:qualify --bundle FILE --out FRESH_FILE` checks that evidence
+offline. Legacy adaptive means and a passing initial output cannot qualify later
+samples. All commands run without Codex; building expectations and reviewing
+unfamiliar output still require human or contributor judgment.
 
 ## Supported projects
 

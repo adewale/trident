@@ -1,11 +1,12 @@
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { isAbsolute, join, relative, resolve } from 'node:path'
 import { readBenchmarkDocument } from '../portable/project-records.ts'
 import { campaignResults, campaignProjectId, campaignArtifactRole, type CampaignEnvelope } from './campaign-publication.ts'
 import type { SnapshotTable } from './results-snapshot.ts'
 import type { PublicSuite } from './support.ts'
 import { summarizeSvgCases } from '../fidelity/svg-assessment.ts'
+import { timingFromRetainedBundle } from '../portable/qualified-timing.ts'
 
 const measuredAt = (rows: any[], fallback: string): string => rows.map(row => row.metrics?.measuredAt).filter((value): value is string => typeof value === 'string' && Number.isFinite(Date.parse(value))).sort((a, b) => Date.parse(a) - Date.parse(b)).at(-1) ?? fallback
 const hash = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex')
@@ -48,11 +49,17 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
       }
       for (const row of result.summary.timing) {
         if (!row.expectedAccepted) continue
-        const qualified = row.outputAdmissionComplete && row.outputCalibration?.status === 'calibrated'
+        const bundle = result.qualifiedTimingBundles?.find((item: any) => item.plan?.cases?.length === 1 && item.plan.cases[0].caseId === row.caseId && item.plan.track === row.track)
+        const timing = timingFromRetainedBundle(bundle, output => {
+          const root = resolve(boundary.out!), file = resolve(root, output.path), path = relative(root, file)
+          if (isAbsolute(path) || path === '..' || path.startsWith('../')) throw Error('Timing output is outside the owning retained evidence')
+          return readFileSync(file)
+        })
+        const qualified = timing?.status === 'qualified'
         add(['portable', cohort, row.caseId, row.track, result.protocol, result.sampling], 'portable', result.finishedAt,
-          `${row.caseId}; ${row.track}. ${row.scope} SVG-return cost requires output admission and A/A calibration; declared semantic scope is reported separately. Unqualified latency is withheld.`,
+          `${row.caseId}; ${row.track}. ${row.scope} Comparative latency requires complete source correctness for every retained timed output, a fixed corpus and binding, serialized calls and A/A calibration. Legacy output-only or first-output checks cannot qualify later samples.`,
           ['Version', 'Median ms', 'Samples', 'Declared semantics', 'Output calibration', 'Measured'], result.project,
-          [result.version, qualified && Number.isFinite(row.medianMs) ? row.medianMs : 'withheld', row.samples, row.semanticComplete ? 'complete for this case' : 'partial', row.outputCalibration?.status ?? 'unavailable', result.finishedAt],
+          [result.version, qualified ? timing.medianMs! : 'withheld', row.samples, qualified ? 'every sampled output' : 'unqualified', timing?.calibration.status ?? 'no per-call correctness bundle', result.finishedAt],
           { column: 'Median ms', direction: 'ascending' }, { unit: 'ms' })
       }
       continue
@@ -62,7 +69,10 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
       const terminal = (result as any).terminalAssessments, terminalProfile = (result as any).terminalProfile
       if (boundary.suite === 'community' && Array.isArray(terminal)) {
         if (!terminalProfile?.id || !Array.isArray(terminalProfile.cases) || !terminalProfile.cases.length || !Array.isArray(terminalProfile.producers) || !terminalProfile.producers.length) throw Error('Terminal profile lacks source/observer identity')
-        const allIds = terminalProfile.cases.map((input: any) => input.id), reviewedIds = terminalProfile.reviewedCaseIds
+        const rawIds = terminalProfile.cases.map((input: any) => input.id), allIds = terminalProfile.drawingCaseIds ?? rawIds, reviewedIds = terminalProfile.reviewedCaseIds
+        if (!Array.isArray(allIds) || allIds.some((id: string) => !rawIds.includes(id)) || new Set(rawIds).size !== rawIds.length) throw Error('Terminal drawing inventory differs from its frozen source inventory')
+        const rejectionIds = terminalProfile.rejectionCaseIds
+        if (terminalProfile.drawingCaseIds && (!Array.isArray(rejectionIds) || rejectionIds.some((id: string) => !rawIds.includes(id) || allIds.includes(id)) || new Set(rejectionIds).size !== rejectionIds.length || allIds.length + rejectionIds.length !== rawIds.length)) throw Error('Terminal drawing and rejection populations must partition the source inventory')
         if (new Set(allIds).size !== allIds.length || !Array.isArray(reviewedIds) || new Set(reviewedIds).size !== reviewedIds.length || reviewedIds.some((id: string) => !allIds.includes(id))) throw Error('Terminal profile has an invalid planned inventory')
         for (const [scope, assessments, planned] of [['full', terminal, allIds], ['reviewed', (result as any).terminalReviewedAssessments, reviewedIds]] as const) {
           if (!Array.isArray(assessments)) throw Error('Terminal result omitted a declared profile')
@@ -74,11 +84,24 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             const own = result.observations.filter(row => projectId(row.metrics?.project) === project && row.format === 'terminal' && row.operation === 'graph-correctness')
             const clock = own.length && own.every(row => row.metrics?.measuredAt === null) ? 'Unknown; recovered text, see receipt' : measuredAt(own, result.finishedAt)
             add(['terminal-case-verdicts', cohort, scope, hash(terminalProfile)], 'community', measuredAt(own, result.finishedAt),
-              (scope === 'full' ? 'Full planned terminal corpus, retaining unmeasured and unreviewed inputs.' : 'Independently reviewed drawing subset, ranked by verified correct count only. Unknown outcomes leave complete accuracy unresolved; this count rank cannot establish full-corpus correctness.') + ` Corpus: ${allIds.length} selected inputs from pinned terminal-project documentation, issues and PRs, without selection on renderer outcomes. Source/review hashes and all origins remain in the owning receipt. Full-inventory accuracy ranks are withheld for unknown work; reviewed-subset ranks order only verified counts. Mermaid source reference is unscored; no speed or aesthetics score.`,
+              (scope === 'full' ? 'Full planned terminal drawing corpus, retaining unmeasured and unreviewed inputs.' : 'Bounded observer profile, kept separately from the full drawing corpus.') + ` Corpus: ${allIds.length} drawings from ${rawIds.length} selected source inputs in pinned terminal-project documentation, issues and PRs, without selection on renderer outcomes. Invalid-source controls are separate from drawing accuracy. Source/review hashes and all origins remain in the owning receipt. Ranks order verified correct counts only; unknown work prevents a complete accuracy claim. Mermaid source reference is unscored; no speed or aesthetics score.`,
               ['Version', 'Correct', 'Incorrect', 'Unsupported', 'Unknown', 'Planned', 'Measured'], project,
               [assessment.version, count('correct'), count('incorrect'), count('unsupported'), unknown, planned.length, clock],
-              scope === 'reviewed' ? { column: 'Correct', direction: 'descending' } : { column: 'Correct', denominator: 'Planned', direction: 'descending' },
-              { cohort, unit: 'terminal input cases', ...(scope === 'reviewed' ? { summary: true, overview: { numerator: 'Correct', denominator: 'Planned', suffix: '' } } : {}), population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unsupported', 'Unknown'] } }, !planned.length || scope === 'full' && unknown || scope === 'reviewed' && !count('correct') && !count('incorrect') && !count('unsupported') ? 'Terminal source/display/drawing evidence is incomplete' : undefined)
+              { column: 'Correct', direction: 'descending' },
+              { cohort, unit: 'terminal input cases', ...(scope === 'full' ? { summary: true, overview: { numerator: 'Correct', denominator: 'Planned', suffix: '' } } : {}), population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unsupported', 'Unknown'] } }, !planned.length || !count('correct') && !count('incorrect') && !count('unsupported') ? 'No verified terminal drawing observations' : undefined)
+          }
+        }
+        if (Array.isArray(rejectionIds) && rejectionIds.length) {
+          const controls = (result as any).terminalRejectionAssessments
+          if (!Array.isArray(controls) || JSON.stringify(controls.map(item => item.project).sort()) !== JSON.stringify(terminal.map(item => item.project).sort())) throw Error('Terminal rejection table omits a project')
+          for (const assessment of controls) {
+            const cases = assessment.cases
+            if (!Array.isArray(cases) || JSON.stringify(cases.map(input => input.caseId).sort()) !== JSON.stringify([...rejectionIds].sort()) || cases.some(input => !['correct', 'incorrect', 'unknown'].includes(input.status))) throw Error('Terminal rejection verdicts omit or duplicate planned controls')
+            const count = (status: string) => cases.filter(input => input.status === status).length
+            add(['terminal-source-rejections', cohort, hash(terminalProfile)], 'community', result.finishedAt,
+              'Four independently invalid sources in the full terminal inventory, checked for typed public grammar rejection. Process exits, missing ink and transport failures remain unknown. This is separate from drawing correctness and supplies no speed score.',
+              ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned'], projectId(assessment.project), [assessment.version, count('correct'), count('incorrect'), count('unknown'), rejectionIds.length],
+              { column: 'Correct', direction: 'descending' }, { cohort, unit: 'invalid-source controls', population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, count('correct') + count('incorrect') === 0 ? 'No typed source-rejection observations' : undefined)
           }
         }
         continue

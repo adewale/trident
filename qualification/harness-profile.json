@@ -1,6 +1,7 @@
 {
   "schema": "trident-harness-profile-v1",
   "purpose": "Unscored verification of public execution paths; not ecosystem ranking, corpus accuracy or timing qualification",
+  "budgetMinutes": 5,
   "projects": [
     {"project":"mermaid-js/mermaid","version":"12.2.0"},
     {"project":"AlexanderGrooff/mermaid-ascii","version":"1.6.1"},

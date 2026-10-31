@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto'
+import { checkCollectionBudget } from '../portable/checkpoint.ts'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { chromium } from 'playwright'
@@ -44,8 +45,9 @@ async function browserControls(peer:PreparedCommunityBrowser,output:string,optio
  try {
   await context.route('**/*',route=>routeDocsResource(route,origin,resources));await initializeDocsPage(page,engine,origin)
   for(const [index,input] of verificationControls.entries()) {
+   checkCollectionBudget(options.collectionDeadline)
    write(join(options.out,`started-${index}.json`),{caseId:input.id,startedAt:new Date().toISOString(),project:peer.node.id,output,transport:'browser'})
-   const value=await callDocsPage(page,output==='png'?publicDocsPngAction:publicSvgBrowserAction,output==='png'?{source:input.source,id:'v'+index}:{type:'measure-docs',source:input.source,id:'v'+index,retainSvg:true})
+   const value=await callDocsPage(page,output==='png'?publicDocsPngAction:publicSvgBrowserAction,output==='png'?{source:input.source,id:'v'+index}:{type:'measure-docs',source:input.source,id:'v'+index,retainSvg:true},Math.min(20_000,Math.max(1,(options.collectionDeadline??Infinity)-Date.now())))
    // Persist the untouched return before output checking can fail.
    write(join(options.out,`raw-${index}.json`),value)
    const returned=output==='png'?value.status==='ok':value.status==='passed'
@@ -64,12 +66,13 @@ export async function verifyHarness(preparedFile:string,browserFile:string,out:s
  const plan={...harnessVerificationPlan(),preparedSha256:hash(readFileSync(preparedFile)),browserPreparedSha256:hash(readFileSync(browserFile))},prepared=JSON.parse(readFileSync(preparedFile,'utf8')) as PreparedCommunity[],browsers=reconcileCampaignBrowsers(prepared,JSON.parse(readFileSync(browserFile,'utf8')))
  for(const expected of profile.projects){const peer=prepared.find(p=>p.node.id===expected.project);if(!peer?.artifact||peer.artifact.version!==expected.version)throw Error('Verification requires the pinned artifact '+expected.project+'@'+expected.version);verifyProvidedCommunityArtifact(peer.artifact);verifyReleaseCli(peer.node,peer.artifact)}
  const producers=protocolIdentity(tridentDirectory,['unified/harness-verification.ts','qualification/harness-profile.json']);mkdirSync(out,{recursive:true});write(join(out,'plan.json'),plan)
- const results:any[]=[]
+ const results:any[]=[],collectionDeadline=Date.now()+profile.budgetMinutes*60_000
  for(const job of profile.jobs){
   const directory=join(out,job.id);mkdirSync(directory)
-  const primary=prepared.find(peer=>peer.node.id===job.project)!,options:UnifiedRunOptions={root:tridentDirectory,harnessRoot:tridentDirectory,out:directory,rounds:1,profile:'smoke',communityCoverageOnce:true,communityProjects:[job.project],executable}
+  const primary=prepared.find(peer=>peer.node.id===job.project)!,options:UnifiedRunOptions={root:tridentDirectory,harnessRoot:tridentDirectory,out:directory,rounds:1,profile:'smoke',communityCoverageOnce:true,communityProjects:[job.project],executable,collectionDeadline}
   let rows:BenchmarkObservation[]=[],error:string|undefined
   try{
+   checkCollectionBudget(collectionDeadline)
    write(join(directory,'attempt.json'),{job,startedAt:new Date().toISOString(),artifact:primary.artifact,producers})
    if(job.transport==='model'){
     const modelOptions={...options,packageRoot:primary.artifact!.root,fidelityCaseIds:['meaning:family:flowchart']};const result=await runMermaidFidelitySuite(modelOptions);rows=result.observations
@@ -78,7 +81,7 @@ export async function verifyHarness(preparedFile:string,browserFile:string,out:s
    }else{
     const peer=selectArtifactVariant(primary,job.output as 'svg'|'png'|'terminal',[{project:job.project,output:job.output as any,variant:job.transport}]);write(join(directory,'selected-artifact.json'),peer)
     const expectedKind=job.id==='png-only-worker'?'jsonl-worker':job.id==='python-api'?'python':job.transport!=='primary'?'cli':job.id==='terminal-baseline'?'cli':'node';if(peer.artifact?.kind!==expectedKind)throw Error('Prepared artifact does not exercise the required '+expectedKind+' mechanism')
-    if(peer.artifact!.kind==='cli')rows=verificationControls.map(input=>runCommunityCli(peer,job.output,input,1,directory))
+    if(peer.artifact!.kind==='cli')rows=verificationControls.map(input=>{checkCollectionBudget(collectionDeadline);return runCommunityCli(peer,job.output,input,1,directory)})
     else if(peer.artifact!.kind==='python'||peer.artifact!.kind==='jsonl-worker')rows=await runExternalCommunity(peer,[...verificationControls],job.output,1,options)
     else rows=await runCommunityNodeRound(peer,job.output,[...verificationControls],1,options)
    }

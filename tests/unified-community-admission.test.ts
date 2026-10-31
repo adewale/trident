@@ -126,13 +126,13 @@ import fs from 'node:fs';const job=JSON.parse(fs.readFileSync(process.argv[2],'u
 })
 
 describe('matched family evidence and artifact alias guards', () => {
-  test('qualifies a complete existing flowchart cohort while withholding broader/missing/duplicate/failed/zero claims', () => {
+  test('legacy output-only samples cannot qualify speed even when every initial output passed', () => {
     const rows: BenchmarkObservation[] = [1, 2, 3].flatMap(round =>
       communityCoreWorkloads()
         .filter(workload => workload.family === 'flowchart')
         .map(workload => ({ suite: 'community', surface: 'node:public-api', runtime: 'fixture runtime', family: workload.family, caseId: workload.id, operation: 'render', format: 'svg', mode: 'core-api-repeat', status: 'passed', samplesMs: [4, 5, 6], metrics: { implementation: 'fixture/flow-only', round } })),
     )
-    expect(rankCommunityFamilyObservations(rows, 3)[0]).toMatchObject({ family: 'flowchart', qualified: true, medianMs: 10, requiredCaseIds: ['core:flow5', 'core:tree50'] })
+    expect(rankCommunityFamilyObservations(rows, 3)[0]).toMatchObject({ family: 'flowchart', qualified: false, medianMs: null, requiredCaseIds: ['core:flow5', 'core:tree50'] })
     expect(rankCommunityObservations(rows, 3)[0]?.qualified).toBe(false)
     expect(rankCommunityFamilyObservations(rows.slice(1), 3)[0]?.qualified).toBe(false)
     expect(rankCommunityFamilyObservations([...rows, rows[0]!], 3)[0]?.qualified).toBe(false)
@@ -153,7 +153,7 @@ describe('matched family evidence and artifact alias guards', () => {
         rows.map(row => ({ ...row, metrics: { ...row.metrics, evidenceImplementation: 'fixture/representative', evidenceReuse: true } })),
         3,
       )[0],
-    ).toMatchObject({ qualified: true, independentMeasurement: false, evidenceImplementation: 'fixture/representative' })
+    ).toMatchObject({ qualified: false, independentMeasurement: false, evidenceImplementation: 'fixture/representative' })
   })
   test('same Git pin and equal bytes never alias interpreted programs or different reviewed protocols', () => {
     const directory = mkdtempSync(join(tmpdir(), 'am-artifact-alias-'))

@@ -866,7 +866,9 @@ function matchedRanks(observations: BenchmarkObservation[], rounds: number, byFa
         const selected = ids.map(id => relevant.filter(row => row.caseId === id && row.metrics?.round === index + 1))
         return ids.length && selected.every(matches => matches.length === 1 && matches[0]!.status === 'passed' && matches[0]!.samplesMs?.length && matches[0]!.samplesMs!.every(value => Number.isFinite(value) && value > 0)) ? selected.reduce((n, matches) => n + median(matches[0]!.samplesMs!), 0) : null
       })
-      const qualified = ids.length > 0 && relevant.length === ids.length * rounds && values.every(value => value !== null)
+      // Legacy adaptive means and one initial output witness cannot establish
+      // correctness for every timed public call. Keep raw samples in their own
+      // records, without promoting them into comparative latency rankings.
       return {
         implementation,
         surface,
@@ -877,9 +879,11 @@ function matchedRanks(observations: BenchmarkObservation[], rounds: number, byFa
         evidenceImplementation: rows[0]?.metrics?.evidenceImplementation ?? implementation,
         independentMeasurement: !rows.some(row => row.metrics?.evidenceReuse === true),
         requiredCaseIds: ids,
-        qualified,
-        perRoundMs: values,
-        medianMs: qualified ? median(values as number[]) : null,
+        qualified: false,
+        observedPerRoundMs: values,
+        perRoundMs: null,
+        medianMs: null as number | null,
+        qualificationGap: 'No per-call complete correctness and matched A/A timing bundle; use timing:qualify on retained invocation evidence',
         policy: byFamily
           ? 'Family scope of the existing fixed core only: flowchart2 inputs; other SVG/parser families1; terminal flowchart2/sequence1. All required cases must pass every round. This is not an invented broader workload or full-family feature score.'
           : 'Fixed core: SVG/PNG/parser6 inputs/5 families; terminal3/2. Every required case must qualify uniquely in every round; boundaries remain separate.',

@@ -1,0 +1,98 @@
+import { admitCaseEvidenceContract, admitCheckedEvidence, admitInvocationEvidence, constructEvidenceVerdict, evidenceBytesDigest, evidenceDigest, type CaseEvidenceContract, type CheckedEvidence, type InvocationEvidence } from './evidence-contract.ts'
+import { calibrate, median } from './statistics.ts'
+
+type Replica = 'A0' | 'A1' | 'B'
+interface Artifact { project: string; artifactSha256: string; bindingSha256: string }
+export interface TimingPlan {
+  schema: 'trident-qualified-timing-plan-v1'
+  /** Exact API/process boundary, cache/prelude policy and output format. */
+  boundary: string
+  format: 'svg' | 'png' | 'terminal'
+  track: string
+  environmentSha256: string
+  observerSha256: string
+  rounds: number
+  samplesPerRound: number
+  maximumControlSpread: number
+  cases: readonly CaseEvidenceContract[]
+  artifacts: Record<Replica, Artifact>
+}
+export interface TimingSample {
+  round: number
+  sample: number
+  replica: Replica
+  caseId: string
+  invocation: InvocationEvidence
+  checked: CheckedEvidence
+}
+const replicas: Replica[] = ['A0', 'A1', 'B']
+const digest = (value: unknown) => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value)
+const fail = (message: string): never => { throw Error('Invalid qualified timing: ' + message) }
+export function admitTimingPlan(value: TimingPlan): Readonly<TimingPlan> {
+  if (!value || value.schema !== 'trident-qualified-timing-plan-v1' || !value.boundary?.trim() || !value.track?.trim() || !['svg', 'png', 'terminal'].includes(value.format) || !digest(value.environmentSha256) || !digest(value.observerSha256)) fail('boundary, track, format, observer and host identity are required')
+  if (!Number.isSafeInteger(value.rounds) || value.rounds < 5 || !Number.isSafeInteger(value.samplesPerRound) || value.samplesPerRound < 1 || !Number.isFinite(value.maximumControlSpread) || value.maximumControlSpread < 0) fail('sampling and control ceiling must be frozen before collection')
+  if (!Array.isArray(value.cases) || !value.cases.length || new Set(value.cases.map(input => input.caseId)).size !== value.cases.length) fail('nonempty unique fixed corpus is required')
+  const cases = value.cases.map(admitCaseEvidenceContract)
+  for (const replica of replicas) {
+    const artifact = value.artifacts?.[replica]
+    if (!artifact?.project?.trim() || !digest(artifact.artifactSha256) || !digest(artifact.bindingSha256)) fail('artifact and public binding identities are required for each replica')
+  }
+  if (evidenceDigest(value.artifacts.A0) !== evidenceDigest(value.artifacts.A1)) fail('A/A replicas must use exactly the same artifact and binding')
+  return Object.freeze({ ...value, cases: Object.freeze(cases), artifacts: Object.freeze(Object.fromEntries(replicas.map(replica => [replica, Object.freeze({ ...value.artifacts[replica] })]))) as TimingPlan['artifacts'] })
+}
+
+/** Regrade every measured return, including repeats, outside its API clock.
+ * readOutput must read the retained bytes named by the invocation receipt.
+ * This never promotes first-output qualification to later calls. */
+export function qualifyTiming(plan: TimingPlan, samples: readonly TimingSample[], readOutput: (output: NonNullable<InvocationEvidence['output']>) => Uint8Array) {
+  plan = admitTimingPlan(plan)
+  const gaps = new Set<string>(), seen = new Set<string>(), attempts = new Set<string>()
+  const durations = new Map<string, number>()
+  const windows: { start: number; finish: number; attempt: string }[] = []
+  for (const sample of samples) {
+    if (!Number.isSafeInteger(sample.round) || sample.round < 1 || sample.round > plan.rounds || !Number.isSafeInteger(sample.sample) || sample.sample < 0 || sample.sample >= plan.samplesPerRound || !replicas.includes(sample.replica)) fail('sample is outside the frozen plan')
+    const contract = plan.cases.find(input => input.caseId === sample.caseId)
+    if (!contract) throw Error('Invalid qualified timing: sample source is outside the frozen corpus')
+    const coordinate = JSON.stringify([sample.round, sample.replica, sample.caseId, sample.sample])
+    if (seen.has(coordinate)) fail('duplicate sample coordinate')
+    seen.add(coordinate)
+    const invocation = admitInvocationEvidence(sample.invocation), artifact = plan.artifacts[sample.replica]
+    if (attempts.has(invocation.attemptId)) fail('one public invocation cannot supply multiple samples')
+    attempts.add(invocation.attemptId)
+    if (invocation.identity.project !== artifact.project || invocation.identity.artifactSha256 !== artifact.artifactSha256 || invocation.identity.bindingSha256 !== artifact.bindingSha256 || invocation.identity.caseId !== contract.caseId || invocation.identity.sourceSha256 !== contract.sourceSha256 || invocation.identity.format !== plan.format) fail('invocation differs from the planned artifact, source or output')
+    if (invocation.state !== 'returned' || !invocation.output || invocation.durationMs === null || invocation.durationMs <= 0 || invocation.startedAt === null || invocation.finishedAt === null) { gaps.add('Every sample requires a retained return and its actual complete public-call clocks'); continue }
+    const bytes = readOutput(invocation.output)
+    if (bytes.byteLength !== invocation.output.bytes || evidenceBytesDigest(bytes) !== invocation.output.sha256) fail('retained measured output changed')
+    const checked = admitCheckedEvidence(contract, sample.checked)
+    if (checked.observerSha256 !== plan.observerSha256) fail('sample was graded by a different observer')
+    if (checked.outputSha256 !== invocation.output.sha256) fail('correctness evidence belongs to a different output')
+    if (constructEvidenceVerdict(contract, checked).status !== 'correct') { gaps.add('Every timed output must satisfy the complete source contract'); continue }
+    const start = Date.parse(invocation.startedAt), finish = Date.parse(invocation.finishedAt)
+    // Millisecond UTC stamps may round sub-ms calls; they still bind the actual
+    // host interval. Monotonic API duration must fit with that rounding margin.
+    if (invocation.durationMs > finish - start + 2) fail('API duration exceeds its invocation interval')
+    windows.push({ start, finish, attempt: invocation.attemptId })
+    durations.set(coordinate, invocation.durationMs)
+  }
+  windows.sort((a, b) => a.start - b.start || a.finish - b.finish)
+  if (windows.some((window, index) => index > 0 && window.start < windows[index - 1]!.finish)) gaps.add('Measured public calls overlapped; this protocol requires serialized execution')
+  const planned = plan.rounds * replicas.length * plan.cases.length * plan.samplesPerRound
+  if (samples.length !== planned || durations.size !== planned) gaps.add('The fixed case/replica/round/sample population is incomplete')
+  const rounds = Array.from({ length: plan.rounds }, (_, index) => {
+    const values = (replica: Replica) => Array.from({ length: plan.samplesPerRound }, (_, sample) => {
+      const calls = plan.cases.map(input => durations.get(JSON.stringify([index + 1, replica, input.caseId, sample])))
+      return calls.every(value => value !== undefined) ? calls.reduce<number>((sum, value) => sum + value!, 0) : null
+    }).filter((value): value is number => value !== null)
+    return { round: index + 1, A0: values('A0'), A1: values('A1'), B: values('B') }
+  })
+  const calibration = calibrate(rounds, plan.samplesPerRound, plan.maximumControlSpread)
+  for (const gap of calibration.gaps) gaps.add(gap)
+  const qualified = gaps.size === 0
+  return Object.freeze({ schema: 'trident-qualified-timing-v1' as const, status: qualified ? 'qualified' as const : 'unqualified' as const, planSha256: evidenceDigest(plan), samplesSha256: evidenceDigest(samples), comparisonKey: evidenceDigest({ cases: plan.cases, boundary: plan.boundary, format: plan.format, track: plan.track, environment: plan.environmentSha256, observer: plan.observerSha256, rounds: plan.rounds, samples: plan.samplesPerRound }), project: plan.artifacts.B.project, caseIds: plan.cases.map(input => input.caseId), boundary: plan.boundary, format: plan.format, track: plan.track, environmentSha256: plan.environmentSha256, planned, checked: durations.size, gaps: [...gaps], perRoundMs: qualified ? rounds.map(round => median(round.B)) : null, medianMs: qualified ? median(rounds.flatMap(round => round.B)) : null, calibration, interpretation: 'Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim.' })
+}
+
+/** Consumers must recompute qualification from owned raw evidence. Never trust
+ * an imported boolean or a summary stamped "qualified" by itself. */
+export function timingFromRetainedBundle(bundle: { plan: TimingPlan; samples: TimingSample[] } | undefined, readOutput: (output: NonNullable<InvocationEvidence['output']>) => Uint8Array) {
+  return bundle ? qualifyTiming(bundle.plan, bundle.samples, readOutput) : null
+}
