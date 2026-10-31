@@ -1,13 +1,18 @@
 import {mock} from 'bun:test'
-import {mkdtempSync,mkdirSync,writeFileSync,readFileSync,readdirSync} from 'node:fs'
+import {mkdtempSync,mkdirSync,writeFileSync,readFileSync,readdirSync,existsSync} from 'node:fs'
 import {join,resolve} from 'node:path'
 import {Worker} from 'node:worker_threads'
 import {once} from 'node:events'
+import {inspect} from 'node:util'
 const tree=resolve(import.meta.dir,'../../..'), mode=process.argv[2]??'artifact'
 const modules=await import(tree+'/portable/qualified-timing-collection.ts'), realCollect=modules.collectQualifiedTiming, realLaunch=modules.launchOwnedTimingBrowser
 // Test-only source identity: this child isolates mutable module mocks, and its
 // synthetic fixture receipts are never published as renderer measurements.
 mock.module(tree+'/unified/protocol-identity.ts',()=>({protocolIdentity:()=>({source:'synthetic driver-finalization regression',files:[]})}))
+// Only this isolated child replaces the execution preflight: both artifacts
+// are fixture packages and every public collection call is replaced below by
+// the synthetic Worker driver. The production CI guard remains unchanged.
+mock.module(tree+'/ci-policy.ts',()=>({assertBenchmarkExecutionAllowed:()=>{if(mode==='preflight')throw Error('Injected synthetic preflight failure before capture')}}))
 const{evidenceBytesDigest:hash}=await import(tree+'/portable/evidence-contract.ts')
 const{qualifyRetainedTiming}=await import(tree+'/unified/qualify-timing.ts')
 const{chromiumExecutable}=await import(tree+'/tests/helpers/environment.ts')
@@ -26,6 +31,8 @@ mock.module(tree+'/portable/qualified-timing-collection.ts',()=>({...modules,lau
 }}))
 const{runBrowserSvgTiming}=await import(tree+'/unified/timing-browser.ts')
 let failed=false,detail=''
-try{await runBrowserSvgTiming({preparedFile,baseline:'fixture/reference',candidate:'fixture/candidate',out,executable:chromiumExecutable,maximumControlSpread:1000})}catch(error){failed=true;detail=String(error)}
-const files=readdirSync(out).filter(file=>file.startsWith('timing-bundle-'));const reread=retained?qualifyRetainedTiming(retained.bundleFile):undefined;const finalization=JSON.parse(readFileSync(join(out,'driver-finalization.json'),'utf8'))
+try{await runBrowserSvgTiming({preparedFile,baseline:'fixture/reference',candidate:'fixture/candidate',out,executable:chromiumExecutable,maximumControlSpread:1000})}catch(error){failed=true;detail=inspect(error,{depth:5})}
+const finalizationFile=join(out,'driver-finalization.json')
+if(!retained||!existsSync(out)||!existsSync(finalizationFile))throw Error(`Synthetic driver-finalization fixture (${mode}) did not retain its capture/finalization receipt at ${out}. Original driver error: ${detail||'driver returned without the required synthetic capture'}`)
+const files=readdirSync(out).filter(file=>file.startsWith('timing-bundle-'));const reread=qualifyRetainedTiming(retained.bundleFile);const finalization=JSON.parse(readFileSync(finalizationFile,'utf8'))
 console.log(JSON.stringify({driverFailed:failed,driverError:detail,bundleStatus:retained?.qualification.status,offlineStatus:reread?.status,storedStatuses:files.map(file=>JSON.parse(readFileSync(join(out,file),'utf8')).qualification.status),finalizationStatus:finalization.status,finalizationChecks:finalization.checks,actualProjectCalls:0,syntheticCalls:retained?.samples.length,bundle:retained?.bundleFile,root}))

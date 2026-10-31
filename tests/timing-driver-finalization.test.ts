@@ -46,7 +46,7 @@ test('predeclared driver finalization cannot disappear, retain errors or borrow 
 
 test('production driver failures after capture leave no qualified artifact or offline result', () => {
   for (const mode of ['artifact', 'cleanup', 'passed']) {
-    const processResult = spawnSync(process.env.BUN_BIN ?? 'bun', [join(import.meta.dir, 'fixtures/timing/driver-finalization.ts'), mode], { encoding: 'utf8', timeout: 30_000 })
+    const processResult = spawnSync(process.env.BUN_BIN ?? 'bun', [join(import.meta.dir, 'fixtures/timing/driver-finalization.ts'), mode], { encoding: 'utf8', timeout: 30_000, env: { ...process.env, CI: 'true', GITHUB_ACTIONS: 'true' } })
     expect(processResult.status, processResult.stderr).toBe(0)
     const result = JSON.parse(processResult.stdout.trim().split('\n').at(-1)!)
     expect(result.actualProjectCalls).toBe(0)
@@ -65,3 +65,11 @@ test('production driver failures after capture leave no qualified artifact or of
     }
   }
 }, 100_000)
+
+test('isolated timing fixture reports the original preflight failure before reading missing capture files', () => {
+  const result=spawnSync(process.env.BUN_BIN??'bun',[join(import.meta.dir,'fixtures/timing/driver-finalization.ts'),'preflight'],{encoding:'utf8',timeout:30_000,env:{...process.env,CI:'true',GITHUB_ACTIONS:'true'}})
+  expect(result.status).toBe(1)
+  expect(result.stderr).toContain('did not retain its capture/finalization receipt')
+  expect(result.stderr).toContain('Original driver error: Error: Injected synthetic preflight failure before capture')
+  expect(result.stderr).not.toContain('ENOENT')
+},30_000)
