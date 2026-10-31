@@ -5,6 +5,7 @@ import {reviewedDocsCase,type DocsDrawingReview,type DocsInput} from './docs-dra
 import {docsSourceSemanticHash} from './docs-source-admission.ts'
 import {requiredDocumentationObligations} from './docs-source-review.ts'
 import {docsPngClearanceProjection,type DocsPngClearanceProjection} from './docs-png-clearance-contract.ts'
+import {sourceEdgeAnimationActive,sourceDashPattern,projectSourceEdgePattern} from '../fidelity/edge-pattern-expectation.ts'
 
 export const docsPngStaticProtocol='documentation-png-static-invariants-v1'
 const animatedIds=new Set([818,832,844].map(line=>'packages/mermaid/src/docs/syntax/flowchart.md:'+line))
@@ -33,6 +34,7 @@ export function docsPngStaticProjection(review:DocsDrawingReview):DocsPngStaticP
   const entry=registry.cases.find(row=>row.id===review.id),semantic=docsSourceSemanticHash(review)
   if(!entry||entry.sourceSha256!==review.sourceSha256||entry.semanticSha256!==semantic||review.intent!=='drawing'||!review.expected||!review.sourceReview?.expectedFactsComplete)throw Error('PNG static projection requires the exact registered original source contract: '+review.id)
   const expected=structuredClone(review.expected),facts:any=expected.facts??={},excludedTemporal:DocsPngStaticProjection['excludedTemporal']=[],excludedMetadata:NonNullable<DocsPngStaticProjection['excludedMetadata']>=[]
+  if(animatedIds.has(review.id))projectSourceEdgePattern(expected)
   for(const key of metadataKeys){excludedMetadata.push({owner:'diagram',property:key,value:facts[key],reason:'PNG pixels cannot expose DOM/ARIA name or description metadata; the original SVG and native contract retains this exact value'});delete facts[key]}
   const exclude=(owner:string,property:string,value:MeaningJson,reason:string)=>excludedTemporal.push({owner,property,value,reason})
   const edgeFor=(id:string)=>{
@@ -40,16 +42,18 @@ export function docsPngStaticProjection(review:DocsDrawingReview):DocsPngStaticP
     if(!appearance||owned?.length!==1)throw Error('PNG animation projection has no unique source-owned edge')
     return{appearance,edge:owned[0]!}
   }
-  const addPaint=(id:string,properties:Record<string,string>)=>{const{appearance,edge}=edgeFor(id);if(appearance.stroke==='solid')appearance.stroke='dotted';facts['edge-paint']=[...(facts['edge-paint']??[]),{edge:structuredClone(edge),properties}]}
+  const addPaint=(id:string,properties:Record<string,string>)=>{const{appearance,edge}=edgeFor(id);if(['solid','dotted'].includes(appearance.stroke))appearance.stroke=sourceDashPattern(properties['stroke-dasharray']??'')??appearance.stroke;facts['edge-paint']=[...(facts['edge-paint']??[]),{edge:structuredClone(edge),properties}]}
   if(animatedIds.has(review.id)&&!review.id.endsWith('flowchart.md:844')){
     facts['edge-attributes']=facts['edge-attributes'].map((item:any)=>{
       const attributes={...item.attributes}
-      const hasTemporal=['animate','animation'].some(key=>Object.hasOwn(attributes,key)),active=attributes.animate===true||['fast','slow'].includes(attributes.animation)
+      const hasTemporal=['animate','animation'].some(key=>Object.hasOwn(attributes,key)),active=sourceEdgeAnimationActive(attributes)
       if(hasTemporal){
         if(attributes.animation!==undefined&&!['fast','slow'].includes(attributes.animation)||attributes.animate!==undefined&&typeof attributes.animate!=='boolean')throw Error('Unreviewed PNG animation vocabulary')
         edgeFor(item.id)
         for(const key of ['animate','animation'])if(Object.hasOwn(attributes,key)){exclude('edge:'+item.id,key,attributes[key],'A single PNG cannot verify animation activation/absence,temporal progression or playback speed');delete attributes[key]}
-        if(active){addPaint(item.id,{'stroke-dasharray':'9,5','stroke-linecap':'round'});exclude('edge:'+item.id,'stroke-dashoffset',900,'Pinned fast/slow keyframes change dash offset toward zero; one frame has no required elapsed phase')}
+        // Animation enable/speed does not request a backend default dash, cap
+        // or initial offset. Explicit authored CSS remains required separately.
+        if(active)edgeFor(item.id)
       }
       return{...item,attributes}
     }).filter((item:any)=>Object.keys(item.attributes).length)
@@ -71,7 +75,7 @@ export function docsPngStaticProjection(review:DocsDrawingReview):DocsPngStaticP
   if(!excludedTemporal.length&&!excludedMetadata.length)throw Error('Empty PNG static projection')
   if(excludedTemporal.length)(expected.advisoryFacts??={})['png-temporal-source']=excludedTemporal as unknown as MeaningJson
   if(excludedMetadata.length)(expected.advisoryFacts??={})['png-inaccessible-metadata']=excludedMetadata as unknown as MeaningJson
-  return{protocol:docsPngStaticProtocol,sourceSemanticSha256:semantic,originalExpectedSha256:evidenceDigest(review.expected),expected,nativeProfileExpected:structuredClone(review.profileExpected??review.expected),excludedTemporal,...(excludedMetadata.length?{excludedMetadata}:{}),provenance:['flowchart.md:816-861 (pinned source1fb7869866dd619168d840291c9c54b4f129758b)','styles.ts:52-68: fast/slow retain9,5 dash and roundcaps while dashoffset advances','rendering-util/rendering-elements/edges.js:815-821: animate:true selectsfast; animation:fast selectsfast','usecase/styles.ts:356-359 retainsroundcaps for shared fast/slow animation classes','CSS/SVG dash arrays with odd length repeat the pattern; source844dash9 means9,9, never repaired9,5','PNG is a raster image format; DOM/ARIA name/description relationships are not pixels. Authored visible labels are retained separately'],claim:'PNG correctness covers the complete static frame: owned labels,nodes,shapes,relationships,markers,thickness,color and authored/default dash paint. It does not certify animation activation,absence,elapsed phase,speed,temporal progression or DOM/ARIA metadata; full source/native/SVG obligations remain unchanged.'}
+  return{protocol:docsPngStaticProtocol,sourceSemanticSha256:semantic,originalExpectedSha256:evidenceDigest(review.expected),expected,nativeProfileExpected:structuredClone(review.profileExpected??review.expected),excludedTemporal,...(excludedMetadata.length?{excludedMetadata}:{}),provenance:['flowchart.md:816-861 (pinned source1fb7869866dd619168d840291c9c54b4f129758b)',animatedIds.has(review.id)&&!review.id.endsWith('flowchart.md:844')?'flowchart.md816-838;usecase.md296: animation enable/speed does not require backend default dash,cap or initial offset':'styles.ts:52-68: fast/slow retain9,5 dash and roundcaps while dashoffset advances','rendering-util/rendering-elements/edges.js:815-821: animate:true selectsfast; animation:fast selectsfast','usecase/styles.ts:356-359 retainsroundcaps for shared fast/slow animation classes','CSS/SVG dash arrays with odd length repeat the pattern; source844dash9 means9,9, never repaired9,5','PNG is a raster image format; DOM/ARIA name/description relationships are not pixels. Authored visible labels are retained separately'],claim:(animatedIds.has(review.id)&&!review.id.endsWith('flowchart.md:844')?'PNG correctness covers source-requested static labels,nodes,shapes,relationships,markers,weight,color and explicit CSS. Unrequested animation dash/cap/offset skin remains advisory. It does not certify activation,speed,phase,progression or DOM/ARIA metadata; full source/native/SVG obligations remain unchanged.':'PNG correctness covers the complete static frame: owned labels,nodes,shapes,relationships,markers,thickness,color and authored/default dash paint. It does not certify animation activation,absence,elapsed phase,speed,temporal progression or DOM/ARIA metadata; full source/native/SVG obligations remain unchanged.')}
 }
 
 /** Canonical admission remains on the original review. This derived authored

@@ -442,7 +442,8 @@ test('the exact malformed animation fence keeps its edge owner, literal comma re
   const source = 'flowchart LR\nA e1@--> B\nclassDef animate stroke-dasharray: 9,5,stroke-dashoffset: 900,animation: dash 25s linear infinite;\nclass e1 animate'
   const row = reviewDocumentationSource(input(source))
   expect(row.expected!.nodes!.map(node=>node.id)).toEqual(['A','B'])
-  expect(row.expected!.facts!['edge-appearance']).toEqual([{source:'A',target:'B',id:'e1',stroke:'solid',markerStart:'none',markerEnd:'arrow'}])
+  expect(row.expected!.facts!['edge-appearance']).toEqual([{source:'A',target:'B',id:'e1',stroke:'dotted',markerStart:'none',markerEnd:'arrow'}])
+  expect(row.profileExpected!.facts!['edge-appearance']).toEqual([{source:'A',target:'B',id:'e1',stroke:'solid',markerStart:'none',markerEnd:'arrow'}])
   expect(row.expected!.facts!['authored-style']).toEqual([{kind:'classDef',selection:'animate',attributes:[{property:'stroke-dasharray',value:'9'},{property:'stroke-dashoffset',value:'900'},{property:'animation',value:'dash 25s linear infinite'}]},{kind:'class',selection:'e1',attributes:[{class:'animate'}]}])
   expect(row.sourceReview.requiredObligations).toContain('fact:authored-style')
   expect(row.sourceReview.excludedNonvisual.join(' ')).toContain('discarded without repair: 5')

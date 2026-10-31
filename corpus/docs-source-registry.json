@@ -1,7 +1,7 @@
 {
   "schema": "trident-docs-source-registry-v1",
   "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-  "reviewedCorpusSha256": "a9380db75d3cb152d04e7321243cc9ebae78b5ea6350e6382e08816469474579",
+  "reviewedCorpusSha256": "2aa8a9ad10d72a5738a52b917c3e14611c99c5b5c514b7767f6b76561612cf6c",
   "provenance": {
     "literalAuditBaseline": "2cc55cf",
     "structuralFix": "c9dd0b5",
@@ -25,7 +25,8 @@
     "bostonDuplicateIdentityHold": "qualification/source-audits/boston-duplicate-identity-hold.json; exactsourceambiguity stays in full drawing population asunknown",
     "sourceIdentitiesAndEventNamespaces": "qualification/source-audits/source-identities-and-event-namespaces.json; independently reviewed exact54case delta and source-only twin controls",
     "eventDataReferencePresentation": "qualification/source-audits/event-data-reference-presentation.json; independently approved exacttwo-case delta and used-value/unused-record controls",
-    "defaultSkinFairness": "qualification/source-audits/default-skin-fairness.json; exact32-case independent review; default skin advisory, explicit overrides and nondefault palette tokens required"
+    "defaultSkinFairness": "qualification/source-audits/default-skin-fairness.json; exact32-case independent review; default skin advisory, explicit overrides and nondefault palette tokens required",
+    "effectiveEdgeStyle": "qualification/source-audits/effective-edge-style.json; exact4 SVG plus5 PNG independent source review; source animation enable/speed does not request renderer default dash skin"
   },
   "cases": [
     {
@@ -1635,14 +1636,14 @@
       "id": "packages/mermaid/src/docs/syntax/flowchart.md:832",
       "sourceSha256": "4d814bb7de2a5933c7e49f7ab5a623140d0528f3406ca0f1e393e5757505bd2d",
       "intent": "drawing",
-      "semanticSha256": "59bcfe392495496231114744d3c45ba08a43b467ea5b5408e23b8c6c97f56950",
+      "semanticSha256": "aff9e089e74321a5b4d88c6904925f0bc239c9bc972a1989de609496371c7327",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/flowchart.md:844",
       "sourceSha256": "b03ea11e4f024eb7f3b176d9dc7a5e2a363c11503302f52c63be6fc1666b15de",
       "intent": "drawing",
-      "semanticSha256": "832a266d0b3ed2718c3fed61831af88c5efc1d17e7ec88343fa0cd6d7abcaf46",
+      "semanticSha256": "eaf759be4579ec0205ac58d5215cf0ac0e26b5dbc6ff63241a71f50bf47e0567",
       "profileEligible": true
     },
     {
@@ -3434,7 +3435,7 @@
       "id": "packages/mermaid/src/docs/syntax/usecase.md:282",
       "sourceSha256": "5b4f68379af67286393c263396555c7306309d01a38545bcb01eac8953632995",
       "intent": "drawing",
-      "semanticSha256": "c4550c798794b7c7a8809656f88d29c3beaa80251177721b47cdb0a28b8c5c2f",
+      "semanticSha256": "b988f4d8d66f580e5ab8c18ccfe328811cb255cb378dfba0095ffebff5f348ce",
       "profileEligible": true
     },
     {
@@ -3490,7 +3491,7 @@
       "id": "packages/mermaid/src/docs/syntax/usecase.md:527",
       "sourceSha256": "e4fb4f72cd84fab78673e2b844b78727eab6143008b3fcdf4d85d7cbfb126070",
       "intent": "drawing",
-      "semanticSha256": "c47055c0bfbd2d3b373c885a7665f098b81c26c697656057f539b27406536378",
+      "semanticSha256": "c70da9a685db060ac8b7f1a4abf103a20feb71ac33d20d94db39f0d3659e92d2",
       "profileEligible": true
     },
     {

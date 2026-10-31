@@ -3,6 +3,7 @@ import { compileVisualStyles } from './style-expectation.ts'
 import { projectSourceConfiguration } from './configuration-expectation.ts'
 import { projectSourceMetadata } from './source-metadata-expectation.ts'
 import { projectEventData } from './event-data-expectation.ts'
+import { projectSourceEdgePattern } from './edge-pattern-expectation.ts'
 
 /** A drawing encodes proportions and printed values, not an invisible copy of
  * its input database. Literal source bytes remain in the corpus inventory. */
@@ -155,6 +156,8 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
   if (facts['authored-config'] && !Object.keys(configuration).length) delete facts['authored-config']
   const configProjection=projectSourceConfiguration(family,expected)
   if(configProjection.changed){profileExpected??=structuredClone(literal);projections.push(...configProjection.projections);excludedNonvisual.push(...configProjection.excluded)}
+  const priorNativeEdgeProfile=profileExpected??structuredClone(expected),edgePattern=projectSourceEdgePattern(expected)
+  if(edgePattern.changed){profileExpected??=priorNativeEdgeProfile;projections.push(...edgePattern.projections);excludedNonvisual.push(...edgePattern.excluded)}
   const styles = compileVisualStyles(expected)
   if (styles.active && styles.complete) { projections.push('Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact'); return { expected: styles.expected, projections,...(profileExpected?{profileExpected,excludedNonvisual}:{}) } }
   return { expected, projections,...(profileExpected?{profileExpected,excludedNonvisual}:{}) }

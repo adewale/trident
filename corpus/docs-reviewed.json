@@ -25631,7 +25631,6 @@
             "source": "A",
             "target": "B",
             "id": "e1",
-            "stroke": "solid",
             "markerStart": "none",
             "markerEnd": "arrow"
           }
@@ -25671,7 +25670,58 @@
         "fact:edge-attributes"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Explicit edge CSS supersedes its DSL base pattern; animation enable/speed leaves the default pattern advisory. Full original appearance remains native (flowchart.md816-861; usecase.md296): {\"base\":{\"source\":\"A\",\"target\":\"B\",\"id\":\"e1\",\"stroke\":\"solid\",\"markerStart\":\"none\",\"markerEnd\":\"arrow\"},\"effectiveStroke\":\"animation-selected skin (advisory)\",\"selectedBy\":\"edge-animation\"}"
+      ],
+      "visualProjections": [
+        "Resolve owned edge dash through explicit class/inline CSS; enabled animation leaves unrequested default line pattern advisory; retain the literal base appearance natively, every marker/width request, and all full CSS/temporal obligations"
+      ]
+    },
+    "profileExpected": {
+      "labels": [
+        "A",
+        "B"
+      ],
+      "facts": {
+        "direction": "LR",
+        "edge-attributes": [
+          {
+            "id": "e1",
+            "attributes": {
+              "animation": "fast"
+            }
+          }
+        ],
+        "edge-appearance": [
+          {
+            "source": "A",
+            "target": "B",
+            "id": "e1",
+            "stroke": "solid",
+            "markerStart": "none",
+            "markerEnd": "arrow"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "A",
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "label": "B"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B",
+          "directed": true,
+          "startMarker": "none",
+          "endMarker": "arrow"
+        }
+      ]
     }
   },
   {
@@ -25681,6 +25731,95 @@
     "family": "flowchart",
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
+      "labels": [
+        "A",
+        "B"
+      ],
+      "facts": {
+        "direction": "LR",
+        "authored-style": [
+          {
+            "kind": "classDef",
+            "selection": "animate",
+            "attributes": [
+              {
+                "property": "stroke-dasharray",
+                "value": "9"
+              },
+              {
+                "property": "stroke-dashoffset",
+                "value": "900"
+              },
+              {
+                "property": "animation",
+                "value": "dash 25s linear infinite"
+              }
+            ]
+          },
+          {
+            "kind": "class",
+            "selection": "e1",
+            "attributes": [
+              {
+                "class": "animate"
+              }
+            ]
+          }
+        ],
+        "edge-appearance": [
+          {
+            "source": "A",
+            "target": "B",
+            "id": "e1",
+            "stroke": "dotted",
+            "markerStart": "none",
+            "markerEnd": "arrow"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "A",
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "label": "B"
+        }
+      ],
+      "edges": [
+        {
+          "source": "A",
+          "target": "B",
+          "directed": true,
+          "startMarker": "none",
+          "endMarker": "arrow"
+        }
+      ]
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "visible-labels",
+        "node-identities-and-labels",
+        "relationship-endpoints-directions-labels",
+        "fact:authored-style",
+        "fact:direction",
+        "fact:edge-appearance"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Invalid CSS declaration discarded without repair: 5 (classDef animate); no authored property override; the configured theme/default remains applicable",
+        "Explicit edge CSS supersedes its DSL base pattern; animation enable/speed leaves the default pattern advisory. Full original appearance remains native (flowchart.md816-861; usecase.md296): {\"base\":{\"source\":\"A\",\"target\":\"B\",\"id\":\"e1\",\"stroke\":\"solid\",\"markerStart\":\"none\",\"markerEnd\":\"arrow\"},\"effectiveStroke\":\"dotted\",\"dash\":\"9\",\"selectedBy\":\"owned-edge-css\"}"
+      ],
+      "visualProjections": [
+        "Resolve owned edge dash through explicit class/inline CSS; enabled animation leaves unrequested default line pattern advisory; retain the literal base appearance natively, every marker/width request, and all full CSS/temporal obligations"
+      ]
+    },
+    "profileExpected": {
       "labels": [
         "A",
         "B"
@@ -25745,24 +25884,6 @@
           "startMarker": "none",
           "endMarker": "arrow"
         }
-      ]
-    },
-    "sourceReview": {
-      "protocol": "literal-documentation-facts-v1",
-      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
-      "requiredObligations": [
-        "visible-labels",
-        "node-identities-and-labels",
-        "relationship-endpoints-directions-labels",
-        "fact:authored-style",
-        "fact:direction",
-        "fact:edge-appearance"
-      ],
-      "unresolved": [],
-      "excludedNonvisual": [
-        "Invalid CSS declaration discarded without repair: 5 (classDef animate); no authored property override; the configured theme/default remains applicable"
       ]
     }
   },
@@ -71643,7 +71764,6 @@
             "source": "Customer",
             "target": "Checkout",
             "id": "opens",
-            "stroke": "solid",
             "markerStart": "none",
             "markerEnd": "arrow"
           },
@@ -71744,10 +71864,165 @@
         "fact:node-shapes"
       ],
       "unresolved": [],
-      "excludedNonvisual": [],
+      "excludedNonvisual": [
+        "Explicit edge CSS supersedes its DSL base pattern; animation enable/speed leaves the default pattern advisory. Full original appearance remains native (flowchart.md816-861; usecase.md296): {\"base\":{\"source\":\"Customer\",\"target\":\"Checkout\",\"id\":\"opens\",\"stroke\":\"solid\",\"markerStart\":\"none\",\"markerEnd\":\"arrow\"},\"effectiveStroke\":\"animation-selected skin (advisory)\",\"selectedBy\":\"edge-animation\"}"
+      ],
       "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
+        "Resolve owned edge dash through explicit class/inline CSS; enabled animation leaves unrequested default line pattern advisory; retain the literal base appearance natively, every marker/width request, and all full CSS/temporal obligations"
       ]
+    },
+    "profileExpected": {
+      "labels": [
+        "Customer",
+        "Checkout",
+        "Payment",
+        "starts checkout",
+        "include"
+      ],
+      "facts": {
+        "authored-style": [
+          {
+            "kind": "classDef",
+            "selection": "emphasized",
+            "attributes": [
+              {
+                "property": "stroke",
+                "value": "#d33"
+              },
+              {
+                "property": "stroke-width",
+                "value": "3px"
+              }
+            ]
+          },
+          {
+            "kind": "class",
+            "selection": "opens,payment",
+            "attributes": [
+              {
+                "class": "emphasized"
+              }
+            ]
+          },
+          {
+            "kind": "style",
+            "selection": "opens",
+            "attributes": [
+              {
+                "property": "stroke",
+                "value": "#06c"
+              },
+              {
+                "property": "stroke-width",
+                "value": "4px"
+              }
+            ]
+          }
+        ],
+        "edge-attributes": [
+          {
+            "id": "opens",
+            "attributes": {
+              "animation": "fast"
+            }
+          },
+          {
+            "id": "payment",
+            "attributes": {
+              "animate": false
+            }
+          }
+        ],
+        "edge-appearance": [
+          {
+            "source": "Customer",
+            "target": "Checkout",
+            "id": "opens",
+            "stroke": "solid",
+            "markerStart": "none",
+            "markerEnd": "arrow"
+          },
+          {
+            "source": "Checkout",
+            "target": "Payment",
+            "id": "payment",
+            "stroke": "dotted",
+            "markerStart": "none",
+            "markerEnd": "arrow"
+          }
+        ],
+        "node-shapes": [
+          {
+            "id": "Customer",
+            "shape": "actor-stick"
+          },
+          {
+            "id": "Checkout",
+            "shape": "ellipse"
+          },
+          {
+            "id": "Payment",
+            "shape": "ellipse"
+          }
+        ],
+        "dialect-kinds": [
+          {
+            "id": "Customer",
+            "kind": "actor"
+          },
+          {
+            "source": "Checkout",
+            "target": "Payment",
+            "kind": "include",
+            "id": "payment"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "Customer",
+          "label": "Customer"
+        },
+        {
+          "id": "Checkout",
+          "label": "Checkout"
+        },
+        {
+          "id": "Payment",
+          "label": "Payment"
+        }
+      ],
+      "edges": [
+        {
+          "source": "Customer",
+          "target": "Checkout",
+          "directed": true,
+          "label": "starts checkout",
+          "startMarker": "none",
+          "endMarker": "arrow"
+        },
+        {
+          "source": "Checkout",
+          "target": "Payment",
+          "directed": true,
+          "label": "include",
+          "startMarker": "none",
+          "endMarker": "arrow"
+        }
+      ],
+      "advisoryFacts": {
+        "edge-length-requests": [
+          {
+            "index": 0,
+            "source": "Customer",
+            "target": "Checkout",
+            "minimumRanks": 2,
+            "controllingDelimiter": "--->"
+          }
+        ],
+        "direction": "TB"
+      }
     }
   },
   {
@@ -73360,7 +73635,6 @@
             "source": "Customer",
             "target": "Checkout",
             "id": "starts",
-            "stroke": "solid",
             "markerStart": "none",
             "markerEnd": "arrow"
           },
@@ -73559,10 +73833,355 @@
         "fact:notes"
       ],
       "unresolved": [],
-      "excludedNonvisual": [],
+      "excludedNonvisual": [
+        "Explicit edge CSS supersedes its DSL base pattern; animation enable/speed leaves the default pattern advisory. Full original appearance remains native (flowchart.md816-861; usecase.md296): {\"base\":{\"source\":\"Customer\",\"target\":\"Checkout\",\"id\":\"starts\",\"stroke\":\"solid\",\"markerStart\":\"none\",\"markerEnd\":\"arrow\"},\"effectiveStroke\":\"animation-selected skin (advisory)\",\"selectedBy\":\"edge-animation\"}"
+      ],
       "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
+        "Resolve owned edge dash through explicit class/inline CSS; enabled animation leaves unrequested default line pattern advisory; retain the literal base appearance natively, every marker/width request, and all full CSS/temporal obligations"
       ]
+    },
+    "profileExpected": {
+      "labels": [
+        "Employee",
+        "Core",
+        "OrderData",
+        "status",
+        "pending",
+        "items[0].name",
+        "Book",
+        "items[0].quantity",
+        "1",
+        "total",
+        "29.95",
+        "Validates the cart before payment",
+        "Customer",
+        "Order staff",
+        "Browse products",
+        "Checkout",
+        "Process payment",
+        "Review order",
+        "places order",
+        "include",
+        "Ordering System"
+      ],
+      "facts": {
+        "accessibility-description": "A customer places an order through the storefront.\n  Staff review the order and inspect its data.",
+        "accessibility-title": "Online ordering use cases",
+        "markdown-source-labels": [
+          {
+            "source": "Validates the **cart** before payment",
+            "text": "Validates the cart before payment",
+            "owners": [
+              {
+                "kind": "note",
+                "target": "Checkout",
+                "index": 0
+              }
+            ]
+          }
+        ],
+        "authored-style": [
+          {
+            "kind": "classDef",
+            "selection": "system",
+            "attributes": [
+              {
+                "property": "stroke",
+                "value": "#c8a02a"
+              },
+              {
+                "property": "stroke-width",
+                "value": "2px"
+              }
+            ]
+          },
+          {
+            "kind": "classDef",
+            "selection": "critical",
+            "attributes": [
+              {
+                "property": "stroke",
+                "value": "#c33"
+              },
+              {
+                "property": "stroke-width",
+                "value": "3px"
+              }
+            ]
+          },
+          {
+            "kind": "classDef",
+            "selection": "data",
+            "attributes": [
+              {
+                "property": "stroke",
+                "value": "#3572a5"
+              }
+            ]
+          },
+          {
+            "kind": "style",
+            "selection": "pays",
+            "attributes": [
+              {
+                "property": "stroke",
+                "value": "#6b46c1"
+              },
+              {
+                "property": "stroke-width",
+                "value": "2px"
+              }
+            ]
+          }
+        ],
+        "edge-attributes": [
+          {
+            "id": "starts",
+            "attributes": {
+              "animation": "fast"
+            }
+          }
+        ],
+        "node-shapes": [
+          {
+            "id": "Customer",
+            "shape": "actor-stick"
+          },
+          {
+            "id": "Staff",
+            "shape": "actor-hollow"
+          },
+          {
+            "id": "Browse",
+            "shape": "ellipse"
+          },
+          {
+            "id": "Checkout",
+            "shape": "ellipse"
+          },
+          {
+            "id": "Payment",
+            "shape": "ellipse"
+          },
+          {
+            "id": "Review",
+            "shape": "rectangle"
+          },
+          {
+            "id": "OrderData",
+            "shape": "json-table"
+          }
+        ],
+        "node-attributes": [
+          {
+            "id": "Staff",
+            "attributes": {
+              "type": "hollow",
+              "business": true
+            }
+          },
+          {
+            "id": "ordering",
+            "attributes": {
+              "type": "package",
+              "classes": "system"
+            }
+          },
+          {
+            "id": "Checkout",
+            "attributes": {
+              "classes": "critical"
+            }
+          },
+          {
+            "id": "OrderData",
+            "attributes": {
+              "classes": "data"
+            }
+          }
+        ],
+        "edge-appearance": [
+          {
+            "source": "Customer",
+            "target": "Checkout",
+            "id": "starts",
+            "stroke": "solid",
+            "markerStart": "none",
+            "markerEnd": "arrow"
+          },
+          {
+            "source": "Checkout",
+            "target": "Payment",
+            "id": "pays",
+            "stroke": "dotted",
+            "markerStart": "none",
+            "markerEnd": "arrow"
+          }
+        ],
+        "dialect-kinds": [
+          {
+            "id": "Customer",
+            "kind": "actor"
+          },
+          {
+            "id": "Staff",
+            "kind": "stereotype",
+            "value": "Employee"
+          },
+          {
+            "id": "Staff",
+            "kind": "actor"
+          },
+          {
+            "id": "ordering",
+            "kind": "system-boundary"
+          },
+          {
+            "id": "Checkout",
+            "kind": "stereotype",
+            "value": "Core"
+          },
+          {
+            "id": "OrderData",
+            "kind": "json-table",
+            "rows": [
+              {
+                "path": "status",
+                "value": "pending",
+                "kind": "string"
+              },
+              {
+                "path": "items[0].name",
+                "value": "Book",
+                "kind": "string"
+              },
+              {
+                "path": "items[0].quantity",
+                "value": "1",
+                "kind": "number"
+              },
+              {
+                "path": "total",
+                "value": "29.95",
+                "kind": "number"
+              }
+            ],
+            "classes": "data"
+          },
+          {
+            "source": "Checkout",
+            "target": "Payment",
+            "kind": "include",
+            "id": "pays"
+          }
+        ],
+        "notes": [
+          {
+            "target": "Checkout",
+            "text": "Validates the cart before payment"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "Customer",
+          "label": "Customer"
+        },
+        {
+          "id": "Staff",
+          "label": "Order staff"
+        },
+        {
+          "id": "Browse",
+          "label": "Browse products"
+        },
+        {
+          "id": "Checkout",
+          "label": "Checkout"
+        },
+        {
+          "id": "Payment",
+          "label": "Process payment"
+        },
+        {
+          "id": "Review",
+          "label": "Review order"
+        },
+        {
+          "id": "OrderData",
+          "label": "OrderData"
+        }
+      ],
+      "edges": [
+        {
+          "source": "Customer",
+          "target": "Checkout",
+          "directed": true,
+          "label": "places order",
+          "startMarker": "none",
+          "endMarker": "arrow"
+        },
+        {
+          "source": "Customer",
+          "target": "Browse",
+          "directed": true,
+          "startMarker": "none",
+          "endMarker": "arrow"
+        },
+        {
+          "source": "Checkout",
+          "target": "Payment",
+          "directed": true,
+          "label": "include",
+          "startMarker": "none",
+          "endMarker": "arrow"
+        },
+        {
+          "source": "Staff",
+          "target": "Review",
+          "directed": true,
+          "startMarker": "none",
+          "endMarker": "arrow"
+        },
+        {
+          "source": "Review",
+          "target": "OrderData",
+          "directed": true,
+          "startMarker": "none",
+          "endMarker": "arrow"
+        }
+      ],
+      "groups": [
+        {
+          "id": "ordering",
+          "label": "Ordering System",
+          "members": [
+            "Browse",
+            "Checkout",
+            "Payment",
+            "Review"
+          ]
+        }
+      ],
+      "advisoryFacts": {
+        "subgraph-direction-requests": [
+          {
+            "group": null,
+            "direction": "LR"
+          }
+        ],
+        "edge-length-requests": [
+          {
+            "index": 0,
+            "source": "Customer",
+            "target": "Checkout",
+            "minimumRanks": 2,
+            "controllingDelimiter": "--->"
+          }
+        ],
+        "direction": "TB"
+      }
     }
   },
   {

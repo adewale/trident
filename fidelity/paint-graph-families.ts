@@ -575,11 +575,12 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       if (!route) { available = false; return { expected: entry, actual: null } }
       const forward = route.source === (entry.source ?? entry.from), startMarker = forward ? route.startMarker : route.endMarker, endMarker = forward ? route.endMarker : route.startMarker
       const stroke = routePattern(route), thick = entry.stroke === 'thick'
-      if (stroke === null) available = false
+      if (stroke === null&&entry.stroke!==undefined) available = false
       const thickPeers = new Set<Route>(facts['edge-appearance'].filter((item: any) => item.stroke === 'thick').flatMap((item: any) => relation(item.source ?? item.from, item.target ?? item.to)))
       const baseline = routes.filter(other => other !== route && routePattern(other) === 'solid' && !thickPeers.has(other)).map(other => other.strokeWidth).filter((value): value is number => Number.isFinite(value))
       if (thick && !baseline.length) available = false
-      return { expected: entry, actual: { stroke, startMarker, endMarker, width: route.strokeWidth }, matches: (thick ? Number.isFinite(route.strokeWidth) && baseline.every(width => route.strokeWidth! > width + .1) : ['dashed', 'dotted'].includes(entry.stroke) ? stroke === 'dotted' : stroke === entry.stroke) && (entry.markerStart === undefined || startMarker === entry.markerStart) && (entry.markerEnd === undefined || endMarker === entry.markerEnd) }
+      const patternMatches=entry.stroke===undefined||(thick?Number.isFinite(route.strokeWidth)&&baseline.every(width=>route.strokeWidth!>width+.1):['dashed','dotted'].includes(entry.stroke)?stroke==='dotted':stroke===entry.stroke)
+      return { expected: entry, actual: { stroke, startMarker, endMarker, width: route.strokeWidth }, matches: patternMatches && (entry.markerStart === undefined || startMarker === entry.markerStart) && (entry.markerEnd === undefined || endMarker === entry.markerEnd) }
     })
     fact('edge-appearance', observed, available && routesBound ? observed.every((entry: any) => entry.matches) : null, 'Exact source endpoint pairs bind the actual route, stroke dash and endpoint glyphs. A thick request must preserve a measured width contrast against solid peer routes; route classes and edge IDs supply no paint credit.')
   }
