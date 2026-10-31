@@ -2,9 +2,22 @@ import { expect, test } from 'bun:test'
 import { expandedFidelityCases } from '../fidelity/cases.ts'
 import { planFidelityCriteria } from '../fidelity/ledger.ts'
 import { assessSvgCases, makeSvgObservationBinding } from '../fidelity/svg-assessment.ts'
-import { recheckFeaturePaint, recheckFeatureAdmission } from '../unified/recheck-rendering.ts'
-import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
+import { recheckRendering, recheckFeaturePaint, recheckFeatureAdmission, invalidateRetainedSvgChecks, bindRetainedAuthoredSvgReturn } from '../unified/recheck-rendering.ts'
+import { evidenceBytesDigest, evidenceDigest } from '../portable/evidence-contract.ts'
 import type { BenchmarkObservation } from '../unified/types.ts'
+import { planRetainedSvgRegrade, retainedSvgStimulus, readRetainedPreparationInput, retainedObserverAssets, retainedImagePrerequisites, retainedSvgResourcePolicy, routeRetainedObserver, requireRetainedDocsSvgReturn } from '../unified/recheck-inputs.ts'
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync, cpSync, symlinkSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { chromium } from 'playwright'
+import { chromiumExecutable } from './helpers/environment.ts'
+import { inspectFidelityPaint } from '../fidelity/paint.ts'
+import { inspectQuantitativePaint } from '../fidelity/paint-values.ts'
+import { inspectSourceFacts, mergePaintChecks } from '../fidelity/paint-facts.ts'
+import { inspectChartFacts } from '../fidelity/paint-chart-facts.ts'
+import { InvocationJournal } from '../portable/invocation-journal.ts'
+import { CollectionCheckpoint } from '../portable/checkpoint.ts'
+import { gzipSync, gunzipSync } from 'node:zlib'
 
 const input = expandedFidelityCases()[0]!, project = 'fixture/renderer'
 const binding = makeSvgObservationBinding(input, evidenceBytesDigest('synthetic retained output bytes'), evidenceBytesDigest('synthetic observer identity'))
@@ -61,3 +74,162 @@ test('retained admission is newly checked from the actual receipt and source, wh
   const absent = recheckFeatureAdmission(testCase, project, rows, svg, undefined, fresh, at)
   expect(absent.filter(row => !row.operation.startsWith('prelude-')).every(row => row.status === 'blocked')).toBe(true)
 })
+
+test('fresh grading permits enriched contracts but freezes every public source/options/prelude stimulus', () => {
+  const legacy = { ...input, expected: { labels: input.expected.labels }, sourceReview: undefined, paint: undefined }
+  const plan = planRetainedSvgRegrade([legacy], [input])
+  expect(plan.originalContractsSha256).not.toBe(plan.gradingContractsSha256)
+  expect(plan.stimulusSha256).toBe(evidenceDigest([retainedSvgStimulus(input)]))
+  expect(plan.cases[0]!.gradingContract.expectationsSha256).toBe(makeSvgObservationBinding(input, 'a'.repeat(64), 'b'.repeat(64)).expectationsSha256)
+  // A newly derived paint assertion is an observer change, never another call.
+  expect(() => planRetainedSvgRegrade([legacy], [{ ...input, paint: { nodeFill: '#ffffff', fontSize: 24 } }])).not.toThrow()
+  for (const altered of [
+    { ...input, source: input.source + '\nC --> A' }, { ...input, family: 'state' },
+    { ...input, renderOptions: { fontSize: 24 } }, { ...input, prelude: [{ source: 'flowchart LR\nX-->Y', accept: true }] },
+  ]) expect(() => planRetainedSvgRegrade([legacy], [altered])).toThrow('stimuli changed')
+  const configured = expandedFidelityCases().find(item => item.renderOptions?.fontSize)!
+  expect(() => planRetainedSvgRegrade([configured], [{ ...configured, renderOptions: { fontSize: 33 } }])).toThrow('stimuli changed')
+  expect(() => planRetainedSvgRegrade([input, input], [input])).toThrow('duplicate')
+})
+
+test('old partial contracts receive only freshly observed full-source SVG checks, preserving bytes and original attempt IDs', async () => {
+  const svg = readFileSync(new URL('./fixtures/fidelity/mermaid-flowchart-drop-shadow.svg', import.meta.url), 'utf8')
+  const legacy = { ...input, expected: { labels: input.expected.labels }, sourceReview: undefined }, attemptId = 'retained-original-attempt'
+  const oldBinding = makeSvgObservationBinding(legacy, evidenceBytesDigest(svg), 'c'.repeat(64))
+  const previous = planFidelityCriteria([legacy]).filter(item => item.surface !== 'native-public-api').map(item => ({ suite: 'fidelity', surface: item.surface, runtime: 'fixture', family: item.family, caseId: input.id + ':' + item.criterion, operation: item.criterion, format: 'svg', mode: 'fixture', status: 'passed', metrics: { implementation: project, authoredCase: input.id, rawInvocationId: attemptId, ...oldBinding } }) as BenchmarkObservation)
+  const saved = JSON.stringify(previous), entry = { caseId: input.id, family: input.family, publicResult: { kind: 'returned' }, svgEvidence: { sha256: evidenceBytesDigest(svg), encoding: 'gzip', bytes: Buffer.byteLength(svg) } }
+  planRetainedSvgRegrade([legacy], [input])
+  const owningReturn = bindRetainedAuthoredSvgReturn(legacy, entry, project, previous, svg)
+  expect(owningReturn.sourceSha256).toBe(evidenceBytesDigest(input.source))
+  expect(() => bindRetainedAuthoredSvgReturn(legacy, { ...entry, publicResult: {} }, project, previous, svg)).toThrow('receipt/source')
+  expect(() => bindRetainedAuthoredSvgReturn(legacy, entry, 'fixture/other', previous, svg)).toThrow('contradicts')
+  const freshBinding = makeSvgObservationBinding(input, evidenceBytesDigest(svg), 'd'.repeat(64))
+  let rows = invalidateRetainedSvgChecks(previous, at)
+  expect(rows.every(row => row.status === 'blocked' && row.metrics?.expectationsSha256 === undefined && row.metrics?.observerSha256 === undefined)).toBe(true)
+  rows = recheckFeatureAdmission(input, project, rows, svg, 'returned', freshBinding, at)
+  const browser = await chromium.launch({ headless: true, executablePath: chromiumExecutable })
+  try {
+    const page: any = await browser.newPage()
+    await page.setContent(svg)
+    const paint = await page.evaluate(inspectFidelityPaint, { family: input.family, expected: input.expected, paint: input.paint })
+    const quantitative = await page.evaluate(inspectQuantitativePaint, { family: input.family, expected: input.expected, source: input.source, nodes: paint.nodes as NonNullable<Parameters<typeof inspectQuantitativePaint>[0]['nodes']> })
+    const facts = await page.evaluate(inspectSourceFacts, { family: input.family, source: input.source, expected: input.expected, paint, quantitative })
+    const charts = await page.evaluate(inspectChartFacts, { family: input.family, source: input.source, expected: input.expected, paint, quantitative })
+    const checked = await recheckFeaturePaint(input, project, rows, async () => mergePaintChecks(paint.checks, quantitative, facts, charts), at, true, freshBinding)
+    expect(assessSvgCases([input], checked.observations, { [input.id]: freshBinding })[0]!.status).toBe('correct')
+    expect(checked.observations.find(row => row.operation === 'source-fact:direction')?.metrics?.expectationsSha256).toBe(freshBinding.expectationsSha256)
+    expect(checked.observations.filter(row => row.metrics?.rawInvocationId).every(row => row.metrics?.rawInvocationId === attemptId)).toBe(true)
+    expect(JSON.stringify(previous)).toBe(saved)
+    expect(evidenceBytesDigest(svg)).toBe(owningReturn.svgSha256)
+  } finally { await browser.close() }
+})
+
+function frozenAssets(root: string) {
+  const image = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGP4z8DwHwAFAAH/iZk9HQAAAABJRU5ErkJggg==', 'base64'), sha256 = evidenceBytesDigest(image)
+  mkdirSync(join(root, 'preparation/blobs'), { recursive: true })
+  writeFileSync(join(root, 'preparation/blobs', sha256), image)
+  const resources = [{ url: 'https://images.example.test/owned.png', path: 'blobs/' + sha256, sha256, contentType: 'image/png' }]
+  const manifest = JSON.stringify(resources)
+  writeFileSync(join(root, 'preparation/docs-resources.json'), manifest)
+  writeFileSync(join(root, 'preparation.json'), JSON.stringify({ schema: 'trident-campaign-preparation-v1', files: { docsResources: { path: 'preparation/docs-resources.json', sha256: evidenceBytesDigest(manifest) }, ['artifact:' + sha256]: { path: 'preparation/blobs/' + sha256, sha256 } } }))
+  return { sha256, image, resources }
+}
+
+test('moved archives load exact frozen image bytes under an image-only CSP and never borrow unowned resources', async () => {
+  const root = mkdtempSync(join(tmpdir(), 'recheck-images-')), before = join(root, 'before'), moved = join(root, 'moved')
+  try {
+    const fixture = frozenAssets(before)
+    cpSync(before, moved, { recursive: true }); rmSync(before, { recursive: true })
+    const assets = retainedObserverAssets(moved), gaps: string[] = []
+    expect(assets.manifestSha256).toBe(readRetainedPreparationInput(moved, 'docsResources').sha256)
+    expect(assets.policy).toContain("script-src 'none'")
+    expect(assets.policy).toContain("connect-src 'none'")
+    expect(assets.policy).toContain('https://images.example.test/owned.png')
+    const authored = { ...input, paint: { images: [{ href: fixture.resources[0]!.url, count: 1 }] } }
+    expect(retainedImagePrerequisites(authored, assets)).toEqual([])
+    expect(retainedImagePrerequisites({ ...authored, paint: { images: [{ href: 'https://unowned.example.test/other.png', count: 1 }] } }, assets)[0]).toContain('no owned frozen')
+    const browser = await chromium.launch({ headless: true, executablePath: chromiumExecutable })
+    try {
+      const context = await browser.newContext({ serviceWorkers: 'block' })
+      await context.route('**/*', route => routeRetainedObserver(route, assets, undefined, gaps))
+      const page = await context.newPage()
+      await page.goto('http://trident.invalid/observer')
+      await page.setContent('<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><image href="https://images.example.test/owned.png" width="40" height="40"/></svg><script>globalThis.untrustedScriptRan=true</script>')
+      expect(await page.evaluate(async () => { const image = new Image(); image.src = 'https://images.example.test/owned.png'; await image.decode(); return image.naturalWidth })).toBe(1)
+      expect(await page.evaluate(() => (globalThis as any).untrustedScriptRan)).toBeUndefined()
+      expect(gaps).toEqual([])
+    } finally { await browser.close() }
+    rmSync(join(moved, 'preparation/blobs', fixture.sha256))
+    writeFileSync(join(root, 'foreign'), fixture.image); symlinkSync(join(root, 'foreign'), join(moved, 'preparation/blobs', fixture.sha256))
+    expect(retainedImagePrerequisites(authored, retainedObserverAssets(moved))[0]).toContain('symlink escapes')
+    expect(() => retainedObserverAssets(moved).blob(fixture.sha256)).toThrow('symlink escapes')
+  } finally { rmSync(root, { recursive: true, force: true }) }
+})
+
+test('old absolute font URLs require sealed peer bytes and exact policy sources', () => {
+  const root = mkdtempSync(join(tmpdir(), 'recheck-fonts-'))
+  try {
+    const fixture = frozenAssets(root), assets = retainedObserverAssets(root)
+    const peer = { browser: { root: '/original/renderer', files: [{ path: '/original/renderer/font.woff2', sha256: fixture.sha256 }] } }
+    const result = retainedSvgResourcePolicy('<svg><style>@font-face{src:url("http://127.0.0.1:1234/font.woff2")}</style></svg>', assets, peer)
+    expect(result.gaps).toEqual([])
+    expect(result.policy).toContain("font-src 'self' data: blob: http://127.0.0.1:1234/font.woff2")
+    expect(result.policy).not.toContain('127.0.0.1:*')
+    expect(retainedSvgResourcePolicy('<svg><style>@font-face{src:url("http://127.0.0.1:1234/other.woff2")}</style></svg>', assets, peer).gaps[0]).toContain('prerequisite unavailable')
+  } finally { rmSync(root, { recursive: true, force: true }) }
+})
+
+test('DaveBench regrading requires the original literal-source public return, not another project or round witness', () => {
+  const root = mkdtempSync(join(tmpdir(), 'recheck-svg-return-'))
+  try {
+    const source = { id: 'docs:fixture', source: 'flowchart LR\nA-->B' }, svg = '<svg xmlns="http://www.w3.org/2000/svg"/>'
+    const checkpoint = new CollectionCheckpoint(root, { fixture: 'synthetic retained capture' }), journal = new InvocationJournal(join(root, 'invocations'))
+    const start = journal.start({ project, caseId: source.id, sourceSha256: evidenceBytesDigest(source.source), artifactSha256: 'a'.repeat(64), bindingSha256: 'b'.repeat(64), format: 'svg' })
+    journal.returned(start, svg, null)
+    checkpoint.record(JSON.stringify(['raw-svg', 1, project, 'primary', source.id]), { value: { status: 'passed', svg }, invocationId: start.attemptId })
+    const request = { root, project, source, round: 1, variant: 'primary', svg, attemptId: start.attemptId, remap: (path: string) => path }
+    expect(requireRetainedDocsSvgReturn(request).attemptId).toBe(start.attemptId)
+    expect(() => requireRetainedDocsSvgReturn({ ...request, source: { ...source, source: source.source + '\nB-->A' } })).toThrow('literal source')
+    expect(() => requireRetainedDocsSvgReturn({ ...request, round: 2 })).toThrow('own source/project/round')
+    expect(() => requireRetainedDocsSvgReturn({ ...request, project: 'foreign/project' })).toThrow('own source/project/round')
+    expect(() => requireRetainedDocsSvgReturn({ ...request, svg: svg + ' ' })).toThrow('own source/project/round')
+  } finally { rmSync(root, { recursive: true, force: true }) }
+})
+
+test('the real archive regrader reuses retained SVGs across contract enrichment and preserves every original view', async () => {
+  const root = mkdtempSync(join(tmpdir(), 'recheck-archive-')), collected = join(root, 'collected'), out = join(root, 'regraded'), again = join(root, 'again')
+  try {
+    const save = (path: string, value: unknown) => { mkdirSync(join(path, '..'), { recursive: true }); writeFileSync(path, JSON.stringify(value)) }
+    const cases = expandedFidelityCases().map(input => ({ ...input, expected: { labels: input.expected.labels }, sourceReview: undefined }))
+    const docs = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString())
+    const inventories = { fidelity: cases, docs }, browsers: unknown[] = []
+    save(join(collected, 'preparation/inventories.json'), inventories)
+    save(join(collected, 'preparation/community-browser-prepared.json'), browsers)
+    save(join(collected, 'preparation.json'), { schema: 'trident-campaign-preparation-v1', files: Object.fromEntries([['inventories', 'preparation/inventories.json'], ['browsers', 'preparation/community-browser-prepared.json']].map(([key, path]) => [key, { path, sha256: evidenceBytesDigest(readFileSync(join(collected, path!))) }])) })
+    save(join(collected, 'docs/inventory.json'), docs)
+    const fixture = join(collected, 'fidelity/attempts/original-attempt'), receiptPath = join(fixture, 'community-fidelity-cases.json'), witness = join(fixture, 'actual.svg.gz')
+    const svg = readFileSync(new URL('./fixtures/fidelity/mermaid-flowchart-drop-shadow.svg', import.meta.url), 'utf8'), legacy = cases.find(value => value.id === input.id)!
+    const oldBinding = makeSvgObservationBinding(legacy, evidenceBytesDigest(svg), 'e'.repeat(64))
+    const previous = planFidelityCriteria([legacy]).filter(item => item.surface !== 'native-public-api').map(item => ({ suite: 'fidelity', surface: item.surface, runtime: 'retained fixture', family: item.family, caseId: input.id + ':' + item.criterion, operation: item.criterion, format: 'svg', mode: 'fixture', status: 'passed', metrics: { implementation: project, authoredCase: input.id, rawInvocationId: 'original-attempt-id', ...oldBinding } }) as BenchmarkObservation)
+    save(receiptPath, { project, capabilities: { fontOptions: false }, rows: [{ caseId: input.id, family: input.family, publicResult: { kind: 'returned' }, svgEvidence: { path: witness, sha256: evidenceBytesDigest(svg), encoding: 'gzip', bytes: Buffer.byteLength(svg) } }] })
+    writeFileSync(witness, gzipSync(svg))
+    const finishedAt = '2026-01-01T00:01:00Z', result = { selectedCaseIds: [input.id], finishedAt, observations: previous, svgAssessments: [{ project }], artifacts: [receiptPath] }
+    save(join(collected, 'fidelity/result.json'), result)
+    const report = { startedAt: at, updatedAt: finishedAt, projects: [project], profile: 'synthetic archive regrade control', rounds: 1, options: { out: collected }, results: [{ suite: 'fidelity', out: join(collected, 'fidelity'), status: 'passed' }] }
+    save(join(collected, 'report.json'), report)
+    const originals = ['preparation/inventories.json', 'report.json', 'fidelity/result.json', 'fidelity/attempts/original-attempt/community-fidelity-cases.json', 'fidelity/attempts/original-attempt/actual.svg.gz'].map(path => ({ path, sha256: evidenceBytesDigest(readFileSync(join(collected, path))) }))
+    const regrade = await recheckRendering(collected, out, undefined, chromiumExecutable)
+    expect(regrade.rendererInvocations).toBe(0)
+    expect(regrade.originalContractsSha256).not.toBe(regrade.gradingContractsSha256)
+    const fresh = JSON.parse(readFileSync(join(out, 'fidelity/result.json'), 'utf8'))
+    expect(fresh.svgAssessments[0].cases[0].status).toBe('correct')
+    expect(fresh.finishedAt).toBe(finishedAt)
+    expect(fresh.observations.filter((row: BenchmarkObservation) => row.metrics?.rawInvocationId).every((row: BenchmarkObservation) => row.metrics?.rawInvocationId === 'original-attempt-id')).toBe(true)
+    expect(evidenceDigest(JSON.parse(readFileSync(join(out, regrade.gradingFile), 'utf8')))).toBe(regrade.gradingSha256)
+    const collectedResult = evidenceBytesDigest(readFileSync(join(out, 'fidelity/result.collected.json'))), collectedReport = evidenceBytesDigest(readFileSync(join(out, 'report.collected.json')))
+    await recheckRendering(out, again, undefined, chromiumExecutable)
+    expect(evidenceBytesDigest(readFileSync(join(again, 'fidelity/result.collected.json')))).toBe(collectedResult)
+    expect(evidenceBytesDigest(readFileSync(join(again, 'report.collected.json')))).toBe(collectedReport)
+    for (const original of originals) expect(evidenceBytesDigest(readFileSync(join(collected, original.path)))).toBe(original.sha256)
+  } finally { rmSync(root, { recursive: true, force: true }) }
+}, 30_000)

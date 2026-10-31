@@ -24,6 +24,7 @@ import { protocolIdentity } from './protocol-identity.ts'
 import { withDocsDeadline } from './docs-benchmark.ts'
 import { tridentDirectory } from './trident-paths.ts'
 import { readCampaign } from './campaign-publication.ts'
+import { planRetainedSvgRegrade, readRetainedPreparationInput, retainedObserverAssets, retainedImagePrerequisites, retainedSvgResourcePolicy, routeRetainedObserver, requireRetainedDocsSvgReturn } from './recheck-inputs.ts'
 
 const hash = (bytes: string | Uint8Array) => createHash('sha256').update(bytes).digest('hex')
 const read = (file: string): any => readBenchmarkDocument(file)
@@ -39,6 +40,28 @@ export function retainedPath(directory: string, out: string, aliases: string[], 
     if (!suffix.startsWith('..') && !suffix.startsWith('/')) return safe(out, suffix)
   }
   throw Error('Retained witness is outside its recorded campaign roots')
+}
+
+/** Historical evidence is retained as history, with every old binding removed
+ * from the new grade. Only freshly inspected rows may acquire the new binding. */
+export function invalidateRetainedSvgChecks(observations: readonly BenchmarkObservation[], checkedAt: string): BenchmarkObservation[] {
+  return observations.map(row => {
+    if (row.surface === 'native-public-api') return row
+    const metrics: NonNullable<BenchmarkObservation['metrics']> = { ...row.metrics, originalCriterionStatus: row.metrics?.originalCriterionStatus ?? row.status, originalEvidenceBinding: row.metrics?.originalEvidenceBinding ?? JSON.stringify({ sourceSha256: row.metrics?.sourceSha256, expectationsSha256: row.metrics?.expectationsSha256, svgSha256: row.metrics?.svgSha256, observerSha256: row.metrics?.observerSha256 }), recheckedAt: checkedAt, recheckObservation: 'missing-witness' }
+    delete metrics.sourceSha256; delete metrics.expectationsSha256; delete metrics.svgSha256; delete metrics.observerSha256
+    return { ...row, status: 'blocked', detail: 'No freshly validated retained evidence is available; original status is preserved separately', metrics }
+  })
+}
+
+/** The original source inventory and actual public receipt own this output.
+ * Legacy receipts predate per-call source hashes; they remain explicitly bound
+ * to the SHA-sealed original inventory, rather than the new grading contract. */
+export function bindRetainedAuthoredSvgReturn(original: AuthoredFidelityCase, entry: any, project: string, observations: readonly BenchmarkObservation[], svg: string) {
+  if (entry.caseId !== original.id || entry.family !== original.family || entry.publicResult?.kind !== 'returned' || entry.svgEvidence?.sha256 !== hash(svg) || entry.svgEvidence?.bytes !== Buffer.byteLength(svg) || entry.svgEvidence?.encoding !== 'gzip') throw Error('Retained SVG does not match its original public receipt/source coordinate')
+  const rows = observations.filter(row => row.metrics?.implementation === project && row.metrics?.authoredCase === original.id && row.surface !== 'native-public-api')
+  const admission = rows.filter(row => row.operation === 'public-svg-admission')
+  if (admission.length !== 1 || admission[0]!.status !== 'passed' || rows.some(row => row.family !== original.family || row.metrics?.sourceSha256 !== undefined && row.metrics.sourceSha256 !== hash(original.source) || row.metrics?.svgSha256 !== undefined && row.metrics.svgSha256 !== hash(svg))) throw Error('Original public SVG observation contradicts its source/project/output receipt')
+  return { schema: 'trident-retained-authored-svg-return-v1' as const, project, caseId: original.id, sourceSha256: hash(original.source), svgSha256: hash(svg), originalReceiptRowSha256: evidenceDigest(entry), scope: 'Original preparation source inventory, project-owned actual public return receipt and exact retained SVG bytes; no new invocation or prelude proof' }
 }
 
 /** Fresh paint evidence replaces every required paint observation. A missing
@@ -87,10 +110,10 @@ export async function recheckRendering(directory: string, out: string, pngReview
   const previous = join(directory, 'report.collected.json')
   const aliases = [recordedRoot, ...(recorded.recheck?.recordedSourceRoots ?? []), ...(existsSync(previous) && read(previous).options?.out ? [resolve(read(previous).options.out)] : [])]
   const report = readCampaign(directory), began = new Date().toISOString()
-  const inventoryFile = join(directory, 'preparation/inventories.json'), authored = expandedFidelityCases()
-  const sourceInventory = read(inventoryFile)
-  const contract = (cases: any[]) => cases.map(({ id, source, expected, paint, prelude }) => ({ id, source, expected, paint, prelude }))
-  if (JSON.stringify(contract(sourceInventory.fidelity)) !== JSON.stringify(contract(authored))) throw Error('Authored source/expectation inventory changed; recheck needs its original contracts')
+  const inventory = readRetainedPreparationInput(directory, 'inventories'), authored = expandedFidelityCases()
+  const sourceInventory = JSON.parse(inventory.bytes.toString())
+  const grading = { ...planRetainedSvgRegrade(sourceInventory.fidelity, authored), originalInventorySha256: inventory.sha256 }
+  const gradingSha256 = evidenceDigest(grading)
   const docsInventory = read(join(directory, 'docs/inventory.json'))
   const sourceReviews = read(join(tridentDirectory, 'corpus/docs-reviewed.json')) as DocsDrawingReview[]
   admitDocsReviews(docsInventory.cases, sourceReviews)
@@ -98,25 +121,34 @@ export async function recheckRendering(directory: string, out: string, pngReview
   const pngReviews = admitPngReviews(docsInventory.cases, sourceReviews, JSON.parse(pngBytes.toString()) as DocsPngReview[])
   const raster = pngRasterProfileFile ? readDocsPngRasterProfile(pngRasterProfileFile) : undefined
   const producer = { source: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: tridentDirectory, encoding: 'utf8' }).trim(), producers: protocolIdentity(tridentDirectory, ['unified/recheck-rendering.ts']), browser: executableIdentity(executable ?? defaultChromium(chromium)), rendererInvocations: 0, environment: Object.fromEntries(['LANG', 'LC_ALL', 'LD_LIBRARY_PATH', 'FONTCONFIG_FILE', 'FONTCONFIG_PATH'].map(name => [name, process.env[name] ?? null])), fontReadiness: 'Await document.fonts.ready; only frozen campaign font assets can load', ...(raster ? { pngRasterProfileSha256: raster.fileSha256, pngRasterProfile: raster.profile, referenceRasterizerMode: 'Offline resvg preservation only; no project API calls' } : {}), startedAt: began }
-  const observerSha256 = evidenceDigest({ producers: producer.producers, browser: producer.browser, environment: producer.environment, fontReadiness: producer.fontReadiness })
+  const assets = retainedObserverAssets(directory)
+  const observerSha256 = evidenceDigest({ producers: producer.producers, browser: producer.browser, environment: producer.environment, fontReadiness: producer.fontReadiness, resourceManifestSha256: assets.manifestSha256, resourcePolicy: assets.policy })
   cpSync(directory, out, { recursive: true, dereference: false, filter: path => !['node_modules', '.git'].includes(path.split('/').at(-1)!) })
   const remap = (path: string) => retainedPath(directory, out, aliases, path)
-  const prepared = read(join(directory, 'preparation/community-browser-prepared.json')) as any[]
+  const gradingFile = 'recheck-history/gradings/' + gradingSha256 + '.json'
+  if (existsSync(join(directory, 'recheck-grading.json'))) {
+    const oldGrading = read(join(directory, 'recheck-grading.json'))
+    write(join(out, 'recheck-history/gradings', evidenceDigest(oldGrading) + '.json'), oldGrading)
+  }
+  write(join(out, gradingFile), grading)
+  write(join(out, 'recheck-grading.json'), grading)
+  // The source archive may itself be a prior regrade. Keep its current views
+  // and the first collected views, rather than overwriting the latter.
+  mkdirSync(join(out, 'recheck-history/reports'), { recursive: true })
+  cpSync(join(directory, 'report.json'), join(out, 'recheck-history/reports', hash(readFileSync(join(directory, 'report.json'))) + '.json'))
+  const prepared = JSON.parse(readRetainedPreparationInput(directory, 'browsers').bytes.toString()) as any[]
   const browser = await chromium.launch({ headless: true, executablePath: executable ?? defaultChromium(chromium) })
   const context = await browser.newContext({ viewport: { width: 1400, height: 1000 }, serviceWorkers: 'block' })
-  let peer: any, page = await context.newPage()
-  await context.route('**/*', async route => {
-    const url = new URL(route.request().url())
-    if (url.hostname === 'trident.invalid' && url.pathname === '/observer') return route.fulfill({ contentType: 'text/html', headers: { 'content-security-policy': "default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data: blob: http://127.0.0.1:*; font-src data: blob: http://127.0.0.1:*; connect-src 'none'" }, body: '<!doctype html><meta charset="utf-8"><body>' })
-    if (['127.0.0.1', 'trident.invalid'].includes(url.hostname) && peer?.browser) {
-      const file = resolve(peer.browser.root, '.' + decodeURIComponent(url.pathname)), asset = peer.browser.files?.find((item: any) => resolve(item.path) === file)
-      const blob = asset && join(out, 'preparation/blobs', asset.sha256)
-      if (asset && blob && existsSync(blob) && hash(readFileSync(blob)) === asset.sha256) return route.fulfill({ body: readFileSync(blob), contentType: /\.woff2?$/.test(file) ? 'font/woff2' : /\.ttf$/.test(file) ? 'font/ttf' : 'application/octet-stream' })
-    }
-    return route.abort()
-  })
+  const copiedAssets = retainedObserverAssets(out)
+  let peer: any, page = await context.newPage(), resourceGaps: string[] = [], resourcePolicy = copiedAssets.policy
+  await context.route('**/*', route => routeRetainedObserver(route, copiedAssets, peer, resourceGaps, resourcePolicy))
+  context.on('requestfailed', request => resourceGaps.push('Browser resource prerequisite did not load: ' + request.url()))
   const inspect = async (project: string, svg: string, input: any): Promise<PaintCheck[]> => {
     peer = prepared.find(item => item.node.id === project)
+    const resources = retainedSvgResourcePolicy(svg, copiedAssets, peer)
+    resourcePolicy = resources.policy
+    resourceGaps = retainedImagePrerequisites(input, copiedAssets).concat(resources.gaps)
+    if (resourceGaps.length) throw Error('Observer prerequisites unavailable: ' + resourceGaps.join('; '))
     if (page.isClosed()) page = await context.newPage()
     await page.goto('http://trident.invalid/observer')
     await page.setContent(svg, { waitUntil: 'domcontentloaded', timeout: 20_000 })
@@ -125,6 +157,7 @@ export async function recheckRendering(directory: string, out: string, pngReview
     const quantitative = await withDocsDeadline(() => page.evaluate(inspectQuantitativePaint, { family: input.family, expected: input.expected, source: input.source, nodes: paint.nodes as NonNullable<Parameters<typeof inspectQuantitativePaint>[0]['nodes']> }), () => { void page.close().catch(() => {}) })
     const facts = await withDocsDeadline(() => page.evaluate(inspectSourceFacts, { family: input.family, source: input.source, expected: input.expected, paint, quantitative }), () => { void page.close().catch(() => {}) })
     const charts = await withDocsDeadline(() => page.evaluate(inspectChartFacts, { family: input.family, source: input.source, expected: input.expected, paint, quantitative }), () => { void page.close().catch(() => {}) })
+    if (resourceGaps.length) throw Error('Observer prerequisites unavailable: ' + resourceGaps.join('; '))
     return mergePaintChecks(paint.checks, quantitative, facts, charts)
   }
   let docsChecked = 0, featureChecked = 0
@@ -134,7 +167,9 @@ export async function recheckRendering(directory: string, out: string, pngReview
       const source = join(boundary.out, 'result.json')
       if (!existsSync(source)) continue
       const destination = remap(source), result = structuredClone(read(source)), originalSha256 = hash(readFileSync(source))
-      cpSync(source, join(dirname(destination), 'result.collected.json'))
+      if (!existsSync(join(dirname(destination), 'result.collected.json'))) cpSync(source, join(dirname(destination), 'result.collected.json'))
+      mkdirSync(join(out, 'recheck-history/results'), { recursive: true })
+      cpSync(source, join(out, 'recheck-history/results', originalSha256 + '.json'), { recursive: false })
       if (boundary.suite === 'docs') {
         for (const row of result.observations) {
           if (row.operation !== 'drawing-checks') continue
@@ -176,9 +211,11 @@ export async function recheckRendering(directory: string, out: string, pngReview
             const svg = gunzipSync(readFileSync(witness)).toString('utf8')
             if (witness.split('/').at(-1) !== hash(svg) + '.svg.gz') throw Error('Retained SVG content hash differs')
             const authored = reviewedDocsCase(input, expected)
-            const render = result.observations.find((item: any) => item.format === 'svg' && item.operation === 'render' && item.caseId === input.id && item.metrics?.project === row.metrics.project && item.metrics?.round === 1)
             const admission = qualifyOutput({ id: input.id, family: authored.family, source: input.source, expectedLabels: authored.expected.labels, features: [], provenance: expected.review }, svg, 'svg')
-            try { assessment = assessDocsDrawing(input, expected, render?.status ?? 'blocked', admission.ok, await inspect(row.metrics.project, svg, authored), makeSvgObservationBinding(authored, hash(svg), observerSha256)); docsChecked++ }
+            try {
+              const publicReturn = requireRetainedDocsSvgReturn({ root: join(out, 'docs'), project: row.metrics.project, source: input, round: Number(row.metrics.round), variant: row.metrics.variant ?? 'primary', svg, attemptId: row.metrics.rawInvocationId, remap })
+              assessment = { ...assessDocsDrawing(input, expected, 'passed', admission.ok, await inspect(row.metrics.project, svg, authored), makeSvgObservationBinding(authored, hash(svg), observerSha256)), publicReturn }; docsChecked++
+            }
             catch (error) { assessment = { status: 'unknown', reason: 'Retained SVG observer did not complete: ' + String(error) } }
           } else assessment = assessDocsDrawing(input, expected, 'blocked', false, [])
           row.metrics = { ...row.metrics, originalDrawingStatus: row.status, recheckedAt: began }
@@ -192,15 +229,8 @@ export async function recheckRendering(directory: string, out: string, pngReview
         const original = result.observations as BenchmarkObservation[]
         // Invalidate old paint evidence before loading any witnesses. Missing
         // receipts/witnesses therefore remain unknown instead of surviving as passes.
-        result.observations = original.map(row => {
-          if (row.surface === 'native-public-api') return row
-          const metrics: NonNullable<BenchmarkObservation['metrics']> = { ...row.metrics, originalCriterionStatus: row.status, originalEvidenceBinding: JSON.stringify({ sourceSha256: row.metrics?.sourceSha256, expectationsSha256: row.metrics?.expectationsSha256, svgSha256: row.metrics?.svgSha256, observerSha256: row.metrics?.observerSha256 }), recheckedAt: began, recheckObservation: 'missing-witness' }
-          // A new observer may freshly validate retained bytes. It cannot relabel
-          // a historical API/prelude status as if that call had happened again.
-          delete metrics.svgSha256; delete metrics.observerSha256
-          return { ...row, status: 'blocked', detail: 'No freshly validated retained evidence is available; original status is preserved separately', metrics }
-        })
-        const witnessed = new Set<string>(), bindings: Record<string, Record<string, SvgEvidenceBinding>> = {}
+        result.observations = invalidateRetainedSvgChecks(original, began)
+        const witnessed = new Set<string>(), bindings: Record<string, Record<string, SvgEvidenceBinding>> = {}, publicReturns: unknown[] = []
         for (const receiptPath of result.artifacts ?? []) {
           if (!receiptPath.endsWith('community-fidelity-cases.json')) continue
           const receipt = read(remap(receiptPath))
@@ -208,12 +238,14 @@ export async function recheckRendering(directory: string, out: string, pngReview
             if (!entry.svgEvidence) continue
             const input = authored.find(item => item.id === entry.caseId)
             if (!input) throw Error('Retained SVG has no original authored contract')
+            const originalInput = sourceInventory.fidelity.find((item: AuthoredFidelityCase) => item.id === entry.caseId)
             const svg = gunzipSync(readFileSync(remap(entry.svgEvidence.path))).toString('utf8')
             if (hash(svg) !== entry.svgEvidence.sha256) throw Error('Retained SVG content hash differs')
             const coordinate = JSON.stringify([receipt.project, input.id])
             if (witnessed.has(coordinate)) throw Error('Duplicate retained SVG witness coordinate')
             witnessed.add(coordinate)
             if (entry.family !== undefined && entry.family !== input.family) throw Error('Retained SVG receipt contradicts the authored family')
+            publicReturns.push(bindRetainedAuthoredSvgReturn(originalInput, entry, receipt.project, original, svg))
             const binding = makeSvgObservationBinding(input, hash(svg), observerSha256)
             ;(bindings[receipt.project] ??= {})[input.id] = binding
             result.observations = recheckFeatureAdmission(input, receipt.project, result.observations, svg, entry.publicResult?.kind, binding, began)
@@ -229,14 +261,16 @@ export async function recheckRendering(directory: string, out: string, pngReview
         })
         result.criteriaProtocol = { ...result.criteriaProtocol, reassessedBy: producer, reassessedPlanned: planFidelityCriteria(selected).filter(item => item.surface !== 'native-public-api') }
         result.recheckBindings = bindings
+        result.recheckPublicReturns = publicReturns
       } else continue
-      result.recheck = { ...producer, originalResultSha256: originalSha256, originalMeasurementFinishedAt: result.finishedAt }
+      result.recheck = { ...producer, gradingSha256, gradingFile, originalResultSha256: originalSha256, originalMeasurementFinishedAt: result.finishedAt }
       result.status = result.observations.some((row: any) => row.status === 'failed') ? 'failed' : result.observations.some((row: any) => row.status === 'blocked') ? 'blocked' : 'passed'
       write(destination, result)
     }
   } finally { await context.close(); await browser.close() }
-  const updated = { ...report, options: { ...(report as any).options, out }, updatedAt: new Date().toISOString(), results: report.results.map(boundary => ({ ...boundary, ...(boundary.out ? { out: remap(boundary.out) } : {}) })), recheck: { ...producer, recordedSourceRoots: aliases, originalReportSha256: hash(readFileSync(join(directory, 'report.json'))), pngReviewSha256: hash(pngBytes), docsSvgChecked: docsChecked, featureSvgChecked: featureChecked }, scope: 'Coverage receipts with current retained-output checks. Original measurements and collected results remain present; SVG/PNG checks call no project renderer; optional offline resvg preservation is recorded separately. Clock comparisons remain unqualified.' }
-  write(join(out, 'report.collected.json'), report); write(join(out, 'report.json'), updated)
+  const updated = { ...report, options: { ...(report as any).options, out }, updatedAt: new Date().toISOString(), results: report.results.map(boundary => ({ ...boundary, ...(boundary.out ? { out: remap(boundary.out) } : {}) })), recheck: { ...producer, gradingSha256, gradingFile, originalInventorySha256: inventory.sha256, stimulusSha256: grading.stimulusSha256, originalContractsSha256: grading.originalContractsSha256, gradingContractsSha256: grading.gradingContractsSha256, resourceManifestSha256: assets.manifestSha256, recordedSourceRoots: aliases, originalReportSha256: hash(readFileSync(join(directory, 'report.json'))), pngReviewSha256: hash(pngBytes), docsSvgChecked: docsChecked, featureSvgChecked: featureChecked }, scope: 'Coverage receipts with explicit fresh grading of retained outputs under current source contracts. Original measurements, inventories, public return UUIDs and collected results remain present; SVG/PNG checks call no project renderer; optional offline resvg preservation is recorded separately. Clock comparisons remain unqualified.' }
+  if (!existsSync(join(out, 'report.collected.json'))) cpSync(join(directory, 'report.json'), join(out, 'report.collected.json'))
+  write(join(out, 'report.json'), updated)
   write(join(out, 'recheck-receipt.json'), updated.recheck)
   return updated.recheck
 }
