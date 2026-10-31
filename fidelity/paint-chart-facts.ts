@@ -185,13 +185,11 @@ export function inspectChartFacts(input: { family: string; source: string; expec
     const ready = !!plot && observed.every((p: any) => p.actual), passed = ready && dots.length === observed.length && observed.every((p: any) => Math.abs(p.actual.x - p.expected.x) < .015 && Math.abs(p.actual.y - p.expected.y) < .015)
     add('points', observed, ready ? passed : null, 'Every authored point uniquely owns an actual visible dot; exact point inventory and coordinates normalize to the four painted regions within 1.5%')
     if (facts.points) quantitative('painted-quadrant-coordinates', facts.points, observed, ready ? passed : null, 'Complete owned point inventory and normalized quadrant coordinates')
-    const axes = facts.axes ?? (Array.isArray(facts['axis-labels']) && facts['axis-labels'].length === 4 ? { x: facts['axis-labels'].slice(0, 2), y: facts['axis-labels'].slice(2) } : null)
-    if (axes) {
+    for (const [criterion, axes] of [['axes', facts.axes], ['axis-labels', Array.isArray(facts['axis-labels']) && facts['axis-labels'].length === 4 ? { x: facts['axis-labels'].slice(0, 2), y: facts['axis-labels'].slice(2) } : null]] as const) if (axes) {
       const positions = { x: (axes.x ?? []).map((name: string) => { const e = label(name); return e ? center(box(e)) : null }), y: (axes.y ?? []).map((name: string) => { const e = label(name); return e ? center(box(e)) : null }) }
       const owned = plot && positions.x.length === 2 && positions.y.length === 2 && [...positions.x, ...positions.y].every(Boolean)
       const okay = owned && positions.x[0]!.x < (plot.x + plot.right) / 2 && positions.x[1]!.x > (plot.x + plot.right) / 2 && positions.x.every((p: any) => p.y > plot.bottom) && positions.y[0]!.y > (plot.y + plot.bottom) / 2 && positions.y[1]!.y < (plot.y + plot.bottom) / 2 && positions.y.every((p: any) => p.x < plot.x)
-      add('axes', positions, owned ? !!okay : null, 'Source left/right and bottom/top endpoint labels are painted outside the correct side of their owned plot')
-      add('axis-labels', positions, owned ? !!okay : null, 'Exact source axis label order and spatial roles, not merely text presence')
+      add(criterion, positions, owned ? !!okay : null, 'Each declared axis fact independently binds source left/right and bottom/top endpoint labels outside the correct plot side. A second alias cannot override contradictory authored labels')
     }
     if (Array.isArray(facts.quadrants)) {
       const captions = facts.quadrants.map((q: any) => { const e = label(q.label); return { number: q.number, label: q.label, center: e ? center(box(e)) : null } })
