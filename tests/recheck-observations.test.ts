@@ -2,7 +2,7 @@ import { expect, test } from 'bun:test'
 import { expandedFidelityCases } from '../fidelity/cases.ts'
 import { planFidelityCriteria } from '../fidelity/ledger.ts'
 import { assessSvgCases, makeSvgObservationBinding } from '../fidelity/svg-assessment.ts'
-import { recheckRendering, recheckFeaturePaint, recheckFeatureAdmission, invalidateRetainedSvgChecks, bindRetainedAuthoredSvgReturn } from '../unified/recheck-rendering.ts'
+import { recheckRendering, recheckFeaturePaint, recheckFeatureAdmission, invalidateRetainedSvgChecks, bindRetainedAuthoredSvgReturn, retainedPath } from '../unified/recheck-rendering.ts'
 import { evidenceBytesDigest, evidenceDigest } from '../portable/evidence-contract.ts'
 import type { BenchmarkObservation } from '../unified/types.ts'
 import { planRetainedSvgRegrade, retainedSvgStimulus, readRetainedPreparationInput, retainedObserverAssets, retainedImagePrerequisites, retainedSvgResourcePolicy, routeRetainedObserver, requireRetainedDocsSvgReturn, retainedDocsSvgOwnershipContext } from '../unified/recheck-inputs.ts'
@@ -25,6 +25,22 @@ const binding = makeSvgObservationBinding(input, evidenceBytesDigest('synthetic 
 const prior = () => planFidelityCriteria([input]).filter(item => item.surface !== 'native-public-api').map(item => ({ suite: 'fidelity', surface: item.surface, runtime: 'fixture', family: item.family, caseId: input.id + ':' + item.criterion, operation: item.criterion, format: 'svg', mode: 'fixture', status: 'passed', metrics: { implementation: project, authoredCase: input.id, ...binding } }) as BenchmarkObservation)
 const at = '2026-01-01T00:00:00Z'
 const bindings = { [input.id]: binding }
+
+test('copied retained witness paths reject foreign symlink bytes and keep ordinary missing witnesses unresolved', () => {
+  const base = mkdtempSync(join(tmpdir(), 'recheck-witness-owner-')), archive = join(base, 'archive'), copy = join(base, 'copy'), foreign = join(base, 'foreign')
+  try {
+    mkdirSync(archive); mkdirSync(copy); mkdirSync(foreign)
+    writeFileSync(join(foreign, 'witness.svg'), 'Foreign old-machine SVG bytes')
+    symlinkSync(join(foreign, 'witness.svg'), join(copy, 'borrowed.svg'))
+    symlinkSync(foreign, join(copy, 'borrowed-directory'))
+    expect(() => retainedPath(archive, copy, [], join(archive, 'borrowed.svg'))).toThrow('symlink escapes')
+    expect(() => retainedPath(archive, copy, [], join(archive, 'borrowed-directory/witness.svg'))).toThrow('symlink escapes')
+    expect(() => retainedPath(archive, copy, [], join(archive, 'borrowed-directory/missing.svg'))).toThrow('symlink escapes')
+    expect(retainedPath(archive, copy, [], join(archive, 'missing.svg'))).toBe(join(copy, 'missing.svg'))
+    writeFileSync(join(copy, 'owned.svg'), 'Owned retained bytes'); symlinkSync(join(copy, 'owned.svg'), join(copy, 'owned-link.svg'))
+    expect(readFileSync(retainedPath(archive, copy, [], join(archive, 'owned-link.svg')), 'utf8')).toBe('Owned retained bytes')
+  } finally { rmSync(base, { recursive: true, force: true }) }
+})
 
 test('an observer exception cannot preserve a prior correct SVG verdict', async () => {
   const before = prior(), saved = JSON.stringify(before)

@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto'
-import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { dirname, join, relative, resolve } from 'node:path'
+import { cpSync, existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
+import { dirname, isAbsolute, join, relative, resolve } from 'node:path'
 import { gunzipSync } from 'node:zlib'
 import { execFileSync } from 'node:child_process'
 import { chromium } from 'playwright'
@@ -29,7 +29,17 @@ import { planRetainedSvgRegrade, readRetainedPreparationInput, retainedObserverA
 const hash = (bytes: string | Uint8Array) => createHash('sha256').update(bytes).digest('hex')
 const read = (file: string): any => readBenchmarkDocument(file)
 const write = (file: string, value: unknown) => { mkdirSync(dirname(file), { recursive: true }); writeFileSync(file, JSON.stringify(value) + '\n') }
-const safe = (root: string, path: string) => { const file = resolve(root, path); if (relative(root, file).startsWith('..')) throw Error('Retained witness escapes its campaign'); return file }
+const safe = (root: string, path: string, campaign = root) => {
+  const file = resolve(root, path), suffix = relative(resolve(root), file)
+  if (isAbsolute(suffix) || suffix === '..' || suffix.startsWith('../')) throw Error('Retained witness escapes its campaign')
+  // Missing witnesses retain their unknown outcome. Validate their nearest
+  // existing ancestor so symlinked directories cannot borrow another archive.
+  let present = file
+  while (!existsSync(present)) { const parent = dirname(present); if (parent === present) throw Error('Retained witness has no owning directory'); present = parent }
+  const actual = relative(realpathSync(campaign), realpathSync(present))
+  if (isAbsolute(actual) || actual === '..' || actual.startsWith('../')) throw Error('Retained witness symlink escapes its campaign')
+  return file
+}
 
 /** Resolve only into the new evidence copy, including provenance roots retained
  * by an earlier recheck. Never read the machine named in an archived path. */
@@ -180,7 +190,7 @@ export async function recheckRendering(directory: string, out: string, pngReview
           if (row.operation !== 'drawing-checks') continue
           const input = docsInventory.cases.find((item: any) => item.id === row.caseId), expected = sourceReviews.find(item => item.id === row.caseId) ?? null
           if (!input) throw Error('Retained drawing observation has no declared documentation input')
-          const witness = row.metrics?.witness ? safe(join(out, 'docs'), row.metrics.witness) : undefined
+          const witness = row.metrics?.witness ? safe(join(out, 'docs'), row.metrics.witness, out) : undefined
           let assessment: any
           if (row.format === 'png') {
             const bytes = witness && existsSync(witness) ? readRetainedPng(join(out, 'docs'), row.metrics.witness) : undefined
