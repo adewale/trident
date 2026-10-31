@@ -19,6 +19,13 @@ image were separately inspected. Historical reviews of16 earlier examples
 supply no automatic content credit. Saved review hashes remain unchanged when a
 source contract changes; fresh decisions record any newly qualified projection.
 
+The historical missing return was occurrence 211, the external favicon flowchart:
+its exporter reported `EncodingError: The source image cannot be decoded`.
+The new collection returned a PNG with a blank icon box for the identical source
+and frozen Mermaid artifact. Exporter producers differ, so 547→548 is a return
+change rather than evidence of project improvement or content correctness.
+`mermaid-return-transition.json` retains both actual outcomes and producer vectors.
+
 Every returned image in the two-project cohort was inspected offline at native
 size against its complete source-owned facts. Packets preserve original pixel
 dimensions, with headers outside the images. Raw receipts retain the literal
@@ -28,6 +35,26 @@ PNG projections retain their exact separately reviewed policy snapshot. The
 selection audit records current valid decisions, stale historical receipts and
 each remaining source or image-evidence uncertainty; unknowns never become
 passes. Native PNG remains a first-class content surface without an SVG API.
+
+The current normal PNG assessor consumes 951 fully admitted exact-byte reviews.
+All 997 current returned images remain source-owned: 993 drawing images and four
+configuration/invalid-source outputs. The drawing comparison retains 546 cases per
+project, including source-pending and no-image outcomes:
+
+| Project | Correct | Incorrect | Unknown | Returned drawings |
+|---|---:|---:|---:|---:|
+| Mermaid 12.2.0 | 485 | 41 | 20 | 546 |
+| `mermaid_flutter` 0.3.2 | 289 | 136 | 121 | 447 |
+
+The unknowns comprise 42 actual-image holds, including two source-incomplete
+outcomes, plus 99 native no-image outcomes. Each project also has one configuration
+example and one accepted-invalid-source control, kept outside this drawing table.
+[The current summary](current-content-summary.json) pins the exact source/producer
+and normal-result hashes; [the coverage ledger](current-content-grades.json.gz)
+retains every current per-case grade and required-fact gap. Historical call dates
+and clocks are preserved without timing qualification. Exact-byte review
+consumption disables pixel aliases; the complete officially decoded review
+materialization remains archived unchanged.
 
 The external favicon occurrence211 exposed a Trident exporter defect. Its
 retained public SVG paints the owned MIT favicon correctly, while an SVG decoded
@@ -52,6 +79,27 @@ Historical SVG observations are retained for diagnosis; final current SVG
 qualification requires the final frozen observer over every declared source.
 This method is available to every eligible SVG-producing project. Native-only
 PNG cannot supply SVG evidence.
+
+The final frozen observer inspected all 546 original public SVG drawings afresh.
+The primary original-SVG result is 149 correct, 43 incorrect and 354 unknown.
+Its separate rasterized-frame diagnostic is 256 correct, 31 incorrect and 259
+unknown. These are distinct surfaces: none of the original SVGs met the strict
+intrinsic-size/tree transfer condition, so the rasterized diagnostic supplies no
+automatic original-SVG content credit. One rasterized observation hit its host
+deadline; a separate fresh-page retry under the same budget completed with one
+unavailable node-visibility criterion and remained unknown. Both attempts remain
+retained, and the primary original-SVG grade is unchanged.
+
+The current cross-surface census finds 22 PNG-correct images whose original SVG
+fails format requirements: 12 malformed XML outputs and 10 outputs with duplicate
+identifiers. The rasterized intersection contains the same 10 duplicate-ID cases.
+No unexplained painted contradictions remain. All contrary checks stay retained;
+the full SVG incorrect total is not presented as a count of image-content defects.
+[The SVG summary](current-svg-content-summary.json) and
+[per-case ledger](current-svg-content-grades.json.gz) pin the exact current result
+and census. Each SVG is explicitly owned as a companion of its parent PNG-export
+call, with source/artifact/binding/capture hashes; it has no invented independent
+SVG invocation or timing sample.
 
 This bridge does not establish independent resvg preservation. That separate
 metric still requires a frozen resvg/font profile, complete independently

@@ -1,0 +1,63 @@
+{
+  "schema": "trident-current-png-content-summary-v1",
+  "sourceContractsSha256": "2aa8a9ad10d72a5738a52b917c3e14611c99c5b5c514b7767f6b76561612cf6c",
+  "normalResultSha256": "1b7eabab143f186925ef572fde6a1b1d57446257f550d76cf7f288a0e3972be0",
+  "producerSha256": "fb9299da5b49040612ee4d1914b1b43332db5924bf7d213be24ad1b5f5d713cb",
+  "frozenSourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "formats": [
+    "png"
+  ],
+  "projects": [
+    {
+      "project": "mermaid-js/mermaid",
+      "plannedSources": 548,
+      "plannedDrawings": 546,
+      "returned": 548,
+      "returnedDrawings": 546,
+      "correct": 485,
+      "incorrect": 41,
+      "unknown": 20,
+      "noImage": 0,
+      "sourceReviewPending": 1,
+      "configurationOnly": 1,
+      "invalidSourceControls": [
+        {
+          "id": "packages/mermaid/src/docs/syntax/kanban.md:83",
+          "status": "incorrect",
+          "reason": "The public API accepted source that violates the independently documented identifier constraint"
+        }
+      ]
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "plannedSources": 548,
+      "plannedDrawings": 546,
+      "returned": 449,
+      "returnedDrawings": 447,
+      "correct": 289,
+      "incorrect": 136,
+      "unknown": 121,
+      "noImage": 99,
+      "sourceReviewPending": 1,
+      "configurationOnly": 1,
+      "invalidSourceControls": [
+        {
+          "id": "packages/mermaid/src/docs/syntax/kanban.md:83",
+          "status": "incorrect",
+          "reason": "The public API accepted source that violates the independently documented identifier constraint"
+        }
+      ]
+    }
+  ],
+  "currentReviewInspections": 951,
+  "actualImageUnknownOutcomes": 42,
+  "sourceIncompleteDrawingOutcomes": 2,
+  "remainingImageEvidenceGaps": 40,
+  "plannedNoImageOutcomes": 99,
+  "currentUnknownDrawingOutcomes": 141,
+  "coverageLedger": "current-content-grades.json.gz",
+  "coverageLedgerSha256": "9c75fd68f474939306a23ce4de4db86a9a196ccf2ddc0e86e69ac7e73acd0b9a",
+  "archiveLogicalResult": "workspaces/trident-png-full-2026-10-31/png-content-final-effective-style/result.json",
+  "archiveLogicalCurrentFactLedger": "workspaces/trident-png-full-2026-10-31/png-content-final-effective-style/pending-ledger.json",
+  "scope": "Normal assessor consumes exact source/format/image-bound independently authored image judgments. All546drawings per project remain the denominator. Native PNG requires no SVG. Invalid-source controls and configuration examples remain separate. Pixel aliases are disabled for these exact-byte current grades; full imported pixel baselines remain retained. Public-call clocks/dates are historical and timing is unqualified. No renderer or Codex/API is invoked by grading."
+}

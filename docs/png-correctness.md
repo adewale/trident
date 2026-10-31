@@ -9,11 +9,13 @@ those facts; hashes establish identity, not the truth of the review.
 
 `docsPngStaticProjection` derives a named PNG contract from the exact registered
 original source review. A single raster cannot establish animation activation,
-absence, duration, progression or elapsed dash phase. Fast/slow animated edges
-still require their source-owned static dash pattern and round caps; the malformed
-flowchart class example keeps its literal `9` dash pattern (equivalent to `9,9`),
-without repairing the discarded `5`. All labels, endpoints, markers, thickness,
-other styles and colors remain required. The complete original native/SVG
+absence, duration, progression or elapsed dash phase. Enabling animation or
+selecting a speed does not prescribe a renderer's default dash pattern, line caps
+or dash offset. Explicit static CSS remains required: the malformed flowchart
+class example keeps its literal `9` dash pattern (equivalent to `9,9`), without
+repairing the discarded `5`. The authored thick edge retains its relative weight
+obligation without an invented absolute pixel width. All labels, endpoints,
+markers, authored paint and other static styles remain required. The complete original native/SVG
 expectations remain available and canonical admission stays on the original review.
 
 PNG pixels also cannot expose SVG `<title>`/`<desc>` and ARIA relationships.
@@ -31,6 +33,12 @@ the projected static contract. The strong path freshly inspects that contract
 against its exact retained raster-input SVG; it cannot omit static paint checks
 or import an SVG lane's temporal verdict. Unknown/custom syntax receives no
 implicit weaker contract.
+
+Unrequested default-theme decoration remains advisory. Explicit authored colors,
+opacity and stroke widths, plus source-qualified named nondefault palette tokens,
+retain their required visible effects. The exact source policy and format
+projection are hashed; an old saved decision is never upgraded by restamping its
+expectation hash after a policy change.
 
 ## Exact reviewed pixels
 
@@ -195,9 +203,9 @@ valid SVG differently. Direct reviewed-PNG evidence remains independent.
 
 The full548 documentation workload now has retained native-size image inspection
 receipts for the minimum two-project cohort, with per-case current-hash selection
-and explicit unresolved facts. The current selection audit and published evidence
-manifest define the actual covered decisions; inspection totals alone do not make
-every image correct or the corpus rankable. Source-policy changes, conflicting
+and explicit unresolved facts. The current selection audit, normal content results
+and published evidence manifest define the qualified comparison; inspection totals
+alone do not establish content correctness. Source-policy changes, conflicting
 observations and incomplete source/image facts remain visible unknowns until
 independently resolved. The decoder, binding and preservation constructors enforce
 evidence requirements; they never create missing content judgments.
