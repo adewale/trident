@@ -35,3 +35,15 @@ test('independent reviews bind exact source facts and unobserved facts withhold 
   expect(assessTerminalDrawing(cases.find(input => input.family === 'sequence')!, 'source labels only').status).toBe('unknown')
   expect(assessTerminalDrawing(reviewed.find(input => input.intent === 'invalid')!, 'renderer threw').status).toBe('unknown')
 })
+
+import { cpSync, readFileSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { useTempDirs } from './helpers/temp-dir.ts'
+const provenanceTemp = useTempDirs('terminal-provenance-')
+test('a plausible hash string cannot replace the actual authenticated origin body', () => {
+  const directory = provenanceTemp.dir(), corpus = JSON.parse(readFileSync(new URL('../corpus/terminal-project-examples.json', import.meta.url), 'utf8'))
+  cpSync(new URL('../corpus/terminal-research', import.meta.url), join(directory, 'terminal-research'), { recursive: true })
+  corpus.cases[0].origins[0].bodySha256 = '0'.repeat(64)
+  const file = join(directory, 'terminal-project-examples.json'); writeFileSync(file, JSON.stringify(corpus))
+  expect(() => readTerminalCorpus(file)).toThrow('body or patch hash')
+})

@@ -73,11 +73,11 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             if (project === 'mermaid-js/mermaid') throw Error('Mermaid source reference cannot receive a terminal renderer score')
             const own = result.observations.filter(row => projectId(row.metrics?.project) === project && row.format === 'terminal' && row.operation === 'graph-correctness')
             add(['terminal-case-verdicts', cohort, scope, hash(terminalProfile)], 'community', measuredAt(own, result.finishedAt),
-              (scope === 'full' ? 'Full planned terminal corpus, retaining unmeasured and unreviewed inputs.' : 'Independently reviewed observable drawing subset; its size cannot establish full-corpus correctness.') + ` Corpus: ${allIds.length} selected inputs from pinned terminal-project documentation, issues and PRs, without selection on renderer outcomes. Source/review hashes and all origins remain in the owning receipt. Unknowns withhold rank. Mermaid source reference is unscored; no speed or aesthetics score.`,
+              (scope === 'full' ? 'Full planned terminal corpus, retaining unmeasured and unreviewed inputs.' : 'Independently reviewed drawing subset, ranked by verified correct count only. Unknown outcomes leave complete accuracy unresolved; this count rank cannot establish full-corpus correctness.') + ` Corpus: ${allIds.length} selected inputs from pinned terminal-project documentation, issues and PRs, without selection on renderer outcomes. Source/review hashes and all origins remain in the owning receipt. Full-inventory accuracy ranks are withheld for unknown work; reviewed-subset ranks order only verified counts. Mermaid source reference is unscored; no speed or aesthetics score.`,
               ['Version', 'Correct', 'Incorrect', 'Unsupported', 'Unknown', 'Planned', 'Measured'], project,
               [assessment.version, count('correct'), count('incorrect'), count('unsupported'), unknown, planned.length, measuredAt(own, result.finishedAt)],
-              { column: 'Correct', denominator: 'Planned', direction: 'descending' },
-              { cohort, unit: 'terminal input cases', population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unsupported', 'Unknown'] } }, unknown || !planned.length ? 'Terminal source/display/drawing evidence is incomplete' : undefined)
+              scope === 'reviewed' ? { column: 'Correct', direction: 'descending' } : { column: 'Correct', denominator: 'Planned', direction: 'descending' },
+              { cohort, unit: 'terminal input cases', population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unsupported', 'Unknown'] } }, !planned.length || scope === 'full' && unknown || scope === 'reviewed' && !count('correct') && !count('incorrect') && !count('unsupported') ? 'Terminal source/display/drawing evidence is incomplete' : undefined)
           }
         }
         continue

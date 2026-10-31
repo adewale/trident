@@ -40,6 +40,13 @@ export function readTerminalCorpus(file = resolve(import.meta.dir, '../corpus/te
     for (const origin of input.origins) {
       const snapshot = snapshots.get(origin.researchSnapshotSha256)
       if (!snapshot || snapshot.repository !== origin.repository || !/^https:\/\/github\.com\//.test(origin.url) || !/^[a-f0-9]{64}$/.test(origin.bodySha256) || !Number.isInteger(origin.line) || origin.line < 1 || !origin.extraction) throw Error('Terminal source lacks authenticated origin metadata: ' + input.id)
+      const entries = origin.kind === 'repository-file' ? snapshot.files : origin.kind === 'pull-diff' ? snapshot.pullDiffs : snapshot.records
+      const entry = entries?.find((item: any) => item.kind === origin.kind && item.url === origin.url && (origin.kind === 'repository-file' ? item.path === origin.path && item.blob === origin.blob : origin.kind === 'pull-diff' ? item.number === origin.number && item.path === origin.path && item.headCommit === origin.headCommit : item.number === origin.number))
+      if (!entry) throw Error('Terminal origin pointer has no matching authenticated source record: ' + input.id)
+      for (const key of ['repository', 'commit', 'path', 'blob', 'number', 'url', 'title', 'author', 'state', 'createdAt', 'updatedAt', 'closedAt', 'baseCommit', 'headCommit', 'fileSha']) if (origin[key] !== undefined && entry[key] !== origin[key]) throw Error('Terminal origin metadata differs from its authenticated record: ' + key)
+      const body = origin.kind === 'pull-diff' ? entry.patch.split('\n').filter((line: string) => line.startsWith('+') && !line.startsWith('+++')).map((line: string) => line.slice(1)).join('\n') : entry.body
+      if (typeof body !== 'string' || hash(body) !== origin.bodySha256 || origin.kind !== 'pull-diff' && entry.bodySha256 !== origin.bodySha256 || origin.kind === 'pull-diff' && (hash(entry.patch) !== entry.patchSha256 || entry.patchSha256 !== origin.patchSha256)) throw Error('Terminal origin body or patch hash differs from its authenticated bytes: ' + input.id)
+      if (origin.line > body.split('\n').length + 1) throw Error('Terminal origin line escapes its authenticated source body')
     }
     if (input.expected.status !== 'unreviewed' && input.expected.status !== 'independently-reviewed') throw Error('Terminal drawing expectation has an unknown review status')
   }
