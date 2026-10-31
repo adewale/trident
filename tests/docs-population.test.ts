@@ -5,7 +5,7 @@ import { documentationPopulation, documentationDrawingScore } from '../unified/d
 import type { BenchmarkObservation } from '../unified/types.ts'
 
 const inventory = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString())
-const grade = (caseId: string, status: BenchmarkObservation['status']): BenchmarkObservation => ({ suite: 'docs', surface: 'review', runtime: 'retained', caseId, operation: 'drawing-checks', status })
+const grade = (caseId: string, status: BenchmarkObservation['status']): BenchmarkObservation => ({ suite: 'docs', surface: 'review', runtime: 'retained', family: 'control', format: 'svg', mode: 'retained', caseId, operation: 'drawing-checks', status })
 
 test('full literal docs inventory has a fixed drawing population and separate invalid/configuration controls', () => {
   const population = documentationPopulation(inventory.cases)
