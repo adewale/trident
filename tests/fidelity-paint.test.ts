@@ -127,13 +127,20 @@ test('browser paint rejects hidden and clipped authored labels, not just missing
   expect(multiline.passed).toBe(true)
 })
 
-test('failed image decoding earns no paint credit and unsupported ownership remains unavailable', async () => {
+test('image prerequisites stay unknown while missing/wrong assets and nonvisible requested geometry fail', async () => {
   const broken = 'data:image/png;base64,invalid'
   const badImage = await inspect(fixture.replace('</svg>', `<image href="${broken}" width="20" height="20"/></svg>`), expected, { paint: { images: [{ href: broken, count: 1 }] } })
-  expect(badImage.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('failed')
+  expect(badImage.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('unavailable')
+  expect(badImage.passed).toBe(false)
   const red = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGP4z8DwHwAFAAH/iZk9HQAAAABJRU5ErkJggg=='
   const retained = fixture.replace('</svg>', `<image href="${red}" x="100" y="50" width="20" height="20"/></svg>`)
   expect((await inspect(retained, expected, { paint: { images: [{ href: red, count: 1 }] } })).passed).toBe(true)
+  const blocked = await inspect('<meta http-equiv="Content-Security-Policy" content="img-src &#39;none&#39;">' + retained, expected, { paint: { images: [{ href: red, count: 1 }] } })
+  expect(blocked.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('unavailable')
+  expect(blocked.passed).toBe(false)
+  const wrong = await inspect(retained.replace(red, broken), expected, { paint: { images: [{ href: red, count: 1 }] } })
+  expect(wrong.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('failed')
+  expect(wrong.checks.find(item => item.criterion === 'emitted-image-decoding')?.status).toBe('unavailable')
   const omitted = await inspect(fixture, expected, { paint: { images: [{ href: red, count: 1 }] } })
   expect(omitted.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('failed')
   const hiddenImage = await inspect(retained.replace('x="100" y="50" width="20"', 'x="100" y="50" opacity="0" width="20"'), expected, { paint: { images: [{ href: red, count: 1 }] } })
