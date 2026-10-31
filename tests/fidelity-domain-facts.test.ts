@@ -227,3 +227,13 @@ test('empty Git branches retain owned names and documented lane order without in
     }
   }
 })
+
+test('qualified event identity and data bind the measured caption and enclosing typed namespace lane', async () => {
+  const file = 'eventmodeling-namespaced-mermaid.svg', { expected } = contract(file), projected = structuredClone(expected)
+  projected.facts!['event-namespace-presentation'] = (projected.facts!.frames as any[]).map(frame => ({ id: frame.id, entityIdentifier: frame.label, displayLabel: frame.label.split('.')[1], namespace: frame.label.split('.')[0], entityType: frame.kind === 'read-model' ? 'readmodel' : frame.kind }))
+  for (const key of ['frames', 'frame-order', 'frame-content', 'event-namespace-presentation']) expect(status(await inspect(file, { expected: projected }), key)).toBe('passed')
+  const wrongNamespace = `const e=[...document.querySelectorAll('text')].find(e=>e.textContent==='UI/A: Cart');e.textContent='UI/A: Other'`
+  expect(status(await inspect(file, { expected: projected, change: wrongNamespace }), 'event-namespace-presentation')).toBe('failed')
+  const wrongField = `const e=[...document.querySelectorAll('foreignObject')].find(e=>e.querySelector('b')?.textContent==='Add');e.querySelector('div').innerHTML=e.querySelector('div').innerHTML.replace('7','8')`
+  expect(status(await inspect(file, { expected: projected, change: wrongField }), 'frame-content')).toBe('failed')
+})

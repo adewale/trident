@@ -1289,5 +1289,25 @@
     "sourceSha256": "34f436ae888763914dd350b891ff6422dd5119216223b819bd595915dc3e74f9",
     "svgSha256": "3ae6eed09fa0767e1482029fdb1181016e7356ba168f341189d0ae0907bd1060",
     "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/3ae6eed09fa0767e1482029fdb1181016e7356ba168f341189d0ae0907bd1060.svg.gz"
+  },
+  {
+    "file": "eventmodeling-namespaced-mermaid.svg",
+    "caseId": "features:eventmodeling:explicit-sources-data",
+    "family": "eventmodeling",
+    "project": "mermaid-js/mermaid",
+    "version": "12.2.0",
+    "sourceSha256": "52660f1c2978e61b9556b3423cba4ac04342bbbec63a3440ef97db022e3e7777",
+    "svgSha256": "23b60ce45d63a378445790610698c30e408ffe82c8519779c49b147d4905bf38",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-campaign/fidelity/bWVybWFpZC1qcy9tZXJtYWlk/attempts/b3c67d52-d1c1-43c0-b2a4-939814d70f00/26-features_eventmodeling_explicit-sources-data.svg.gz"
+  },
+  {
+    "file": "eventmodeling-namespaced-pele.svg",
+    "caseId": "features:eventmodeling:explicit-sources-data",
+    "family": "eventmodeling",
+    "project": "obsidianmd/pele",
+    "version": "1.9.0",
+    "sourceSha256": "52660f1c2978e61b9556b3423cba4ac04342bbbec63a3440ef97db022e3e7777",
+    "svgSha256": "7c0614ca852d0eeaa8a766fe6c179ddb341c88602734a41ffc71d84b31a7d5f0",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-campaign/fidelity/b2JzaWRpYW5tZC9wZWxl/attempts/776363d0-9fc5-4dfd-b338-1d4914f591bf/26-features_eventmodeling_explicit-sources-data.svg.gz"
   }
 ]

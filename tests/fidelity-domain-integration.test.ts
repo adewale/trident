@@ -14,12 +14,12 @@ const directory = new URL('./fixtures/domain-facts/', import.meta.url)
 const provenance = JSON.parse(readFileSync(new URL('provenance.json', directory), 'utf8')) as any[]
 const docs = JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json', import.meta.url), 'utf8')) as any[]
 const sources = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString()).cases as any[]
-async function inspect(file: string, change?: string) {
+async function inspect(file: string, change?: string, expectedOverride?: any) {
   const entry = provenance.find(entry => entry.file === file)!, sourceCase = expandedFidelityCases().find(c => c.id === entry.caseId) ?? docs.find(c => c.id === entry.caseId), page = await browser.newPage({ viewport: { width: 1600, height: 1200 } })
   try {
     await page.setContent(readFileSync(new URL(file, directory), 'utf8'))
     if (change) await page.evaluate(change)
-    return await inspectSvgDrawing(page, { family: entry.family, source: sourceCase.source ?? sources.find(c => c.id === entry.caseId).source, expected: sourceCase.expected })
+    return await inspectSvgDrawing(page, { family: entry.family, source: sourceCase.source ?? sources.find(c => c.id === entry.caseId).source, expected: expectedOverride ?? sourceCase.expected })
   } finally { await page.close() }
 }
 const status = (result: Awaited<ReturnType<typeof inspect>>, key: string) => result.checks.find(check => check.criterion === key)?.status
@@ -60,4 +60,18 @@ test('fishbone nodes and logical edges are owned by complete rooted branch geome
   const changed = await inspect('ishikawa-authored-mermaid.svg', wrong)
   expect(status(changed, 'source-fact:cause-hierarchy')).toBe('failed')
   expect(status(changed, 'painted-relationships')).toBe('failed')
+})
+
+test('qualified event identities require their own typed namespace rows and complete owned scalar data', async () => {
+  const expected = structuredClone(expandedFidelityCases().find(c => c.id === 'features:eventmodeling:explicit-sources-data')!.expected), frames = expected.facts!.frames as any[]
+  // Reviewed public syntax splits exactly two parts into a basename caption and
+  // typed namespace lane. The complete qualified identity remains required.
+  expected.labels = expected.labels.filter(label => !frames.some(frame => frame.label === label))
+  expected.facts!['event-namespace-presentation'] = frames.map(frame => ({ id: frame.id, entityIdentifier: frame.label, displayLabel: frame.label.split('.')[1], namespace: frame.label.split('.')[0], entityType: frame.kind === 'read-model' ? 'readmodel' : frame.kind }))
+  const file = 'eventmodeling-namespaced-mermaid.svg', actual = await inspect(file, undefined, expected)
+  expect(status(actual, 'source-fact:frames')).toBe('passed')
+  expect(status(actual, 'source-fact:frame-content')).toBe('passed')
+  expect(status(actual, 'source-fact:event-namespace-presentation')).toBe('passed')
+  const wrong = `const e=[...document.querySelectorAll('text')].find(e=>e.textContent==='UI/A: Cart');e.textContent='UI/A: Other'`
+  expect(status(await inspect(file, wrong, expected), 'source-fact:event-namespace-presentation')).toBe('failed')
 })
