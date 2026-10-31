@@ -1,0 +1,42 @@
+import type { MeaningExpectation } from './meaning.ts'
+
+/** A drawing encodes proportions and printed values, not an invisible copy of
+ * its input database. Literal source bytes remain in the corpus inventory. */
+export function projectVisualExpectation(family: string, literal: MeaningExpectation): { expected: MeaningExpectation; projections: string[] } {
+  const expected = structuredClone(literal), facts: any = expected.facts ??= {}, projections: string[] = []
+  const configuration = facts['authored-config'] ?? {}
+  if (family === 'pie' && Array.isArray(facts.slices) && facts['show-data'] !== true) {
+    const total = facts.slices.reduce((sum: number, slice: any) => sum + slice.value, 0)
+    if (total > 0 && facts.slices.every((slice: any) => Number.isFinite(slice.value) && slice.value >= 0)) {
+      facts.slices = facts.slices.map((slice: any) => ({ ...slice, value: slice.value / total }))
+      projections.push('Pie without showData encodes each labelled slice fraction; common rescaling of unprinted totals is visually equivalent')
+    }
+  }
+  if (family === 'sankey' && Array.isArray(facts.links)) {
+    const links = structuredClone(facts.links) as { source: string; target: string; value: number }[], settings = configuration.sankey ?? {}, total = links.reduce((sum, link) => sum + link.value, 0)
+    facts['show-values'] = settings.showValues !== false
+    if (facts['show-values']) {
+      const ids = [...new Set(links.flatMap(link => [link.source, link.target]))]
+      facts['displayed-node-values'] = ids.map(id => { const incoming = links.filter(link => link.target === id).reduce((sum, link) => sum + link.value, 0), outgoing = links.filter(link => link.source === id).reduce((sum, link) => sum + link.value, 0), value = Math.max(incoming, outgoing); return { id, value, display: String(settings.prefix ?? '') + String(Math.round(value * 100) / 100) + String(settings.suffix ?? '') } })
+      projections.push('Sankey showValues defaults true at the pinned schema: print each node max(incoming,outgoing), rounded to two decimal places with configured prefix/suffix')
+    }
+    if (total > 0 && links.every(link => Number.isFinite(link.value) && link.value >= 0)) facts.links = links.map(link => ({ ...link, value: link.value / total }))
+    projections.push('Sankey link geometry encodes relative endpoint-owned flow widths; hidden absolute link totals are not additional visible facts')
+  }
+  if (family === 'treemap' && Array.isArray(facts.values)) {
+    const literalValues = structuredClone(facts.values) as { id: string; value: number }[], settings = configuration.treemap ?? {}, hierarchy: { id: string; parent: string }[] = facts.hierarchy ?? (expected.nodes ?? []).map(node => ({ id: node.id, parent: node.id.split('/').slice(0, -1).join('/') })), weights = new Map(literalValues.map(entry => [entry.id, entry.value]))
+    facts['show-values'] = settings.showValues !== false
+    const visiting = new Set<string>()
+    const weight = (id: string): number => {
+      if (weights.has(id)) return weights.get(id)!
+      if (visiting.has(id)) return NaN
+      visiting.add(id); const children = hierarchy.filter(entry => entry.parent === id), value = children.reduce((sum, child) => sum + weight(child.id), 0); visiting.delete(id); weights.set(id, value); return value
+    }
+    hierarchy.forEach(entry => weight(entry.id))
+    if (facts['show-values']) facts['displayed-values'] = hierarchy.map(entry => ({ id: entry.id, value: weight(entry.id), format: settings.valueFormat ?? ',' }))
+    const normalized = hierarchy.map(entry => { const siblings = hierarchy.filter(other => other.parent === entry.parent), total = siblings.reduce((sum, other) => sum + weight(other.id), 0); return { id: entry.id, value: total > 0 ? weight(entry.id) / total : NaN } })
+    if (normalized.every(entry => Number.isFinite(entry.value) && entry.value >= 0)) facts.values = normalized
+    projections.push('Treemap area encodes sibling weight fractions including independently derived subtree aggregates; showValues defaults true, so printed source values remain separate obligations unless explicitly disabled')
+  }
+  return { expected, projections }
+}
