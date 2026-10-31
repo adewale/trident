@@ -11,6 +11,7 @@ import { assessTerminalRecord, collectTerminalWorkloads, terminalProfileId } fro
 import { verifyProvidedCommunityArtifact } from '../unified/community.ts'
 import { verifyReleaseCli } from '../unified/release-cli.ts'
 import { protocolIdentity } from '../unified/protocol-identity.ts'
+import { bindTerminalAdaptationInvocation } from '../unified/terminal-adaptation-invocation.ts'
 import { tridentDirectory } from '../unified/trident-paths.ts'
 import type { CommunityNode, PreparedCommunity } from '../unified/community-types.ts'
 import catalog from '../catalog/mermaid-community.json' with { type: 'json' }
@@ -68,9 +69,10 @@ const addedOutputs = collection.observations.map((row: any) => {
   const path = row.metrics?.outputFile, project = row.metrics?.implementation ?? row.metrics?.project
   const directory = row.metrics?.rawInvocationDirectory ?? row.metrics?.invocationDirectory, attemptId = row.metrics?.rawInvocationId ?? row.metrics?.invocationId
   if (typeof directory !== 'string' || typeof attemptId !== 'string') throw Error('New public call lacks its durable invocation receipt; collection is retained for inspection')
-  const records = new InvocationJournal(directory).records(), starts = records.filter(frame => frame.state === 'started'), outcome = records.find(frame => frame.attemptId === attemptId && frame.state !== 'started')
+  const records = new InvocationJournal(directory).records()
   const artifact = selected.find(peer => peer.node.id === project)?.artifact
-  if (starts.length !== 1 || starts[0]!.attemptId !== attemptId || !outcome || outcome.identity.project !== project || outcome.identity.caseId !== row.caseId || outcome.identity.sourceSha256 !== adaptations[0]!.sourceSha256 || outcome.identity.artifactSha256 !== artifact?.sha256 || outcome.identity.format !== 'terminal') throw Error('New call receipt does not bind one exact source/artifact/public invocation')
+  if (!artifact?.sha256) throw Error('New correctness call lacks its exact frozen artifact hash')
+  const outcome = bindTerminalAdaptationInvocation(records, attemptId, { project, caseId: row.caseId, sourceSha256: adaptations[0]!.sourceSha256, artifactSha256: artifact.sha256, format: 'terminal' })
   if (typeof path === 'string' && (!outcome.output || outcome.output.sha256 !== evidenceBytesDigest(readFileSync(path)))) throw Error('New witness differs from its original public return receipt')
   return { project, caseId: row.caseId, measuredAt: outcome.startedAt, measuredAtOrigin: 'Actual public call-entry receipt; never the collection endpoint', ...(typeof path === 'string' ? copyWitness(path) : {}), runtimeExecuted: true, publicStatus: row.status, detail: row.detail, collectionId: 'authored-adaptation', producerSource: collection.producerSource, invocation: { directory, attemptId, state: outcome.state, startedAt: outcome.startedAt, finishedAt: outcome.finishedAt, identity: outcome.identity, receiptSha256: evidenceDigest(outcome), output: outcome.output, streams: outcome.streams ?? null } }
 })
