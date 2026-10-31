@@ -1,7 +1,7 @@
-import { readFileSync, realpathSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, realpathSync } from 'node:fs'
 import { basename, dirname, isAbsolute, join, relative, resolve } from 'node:path'
 import { gunzipSync } from 'node:zlib'
-import { readCheckpointValue } from '../portable/checkpoint.ts'
+import { readCheckpointValue, writeDurableEvidence } from '../portable/checkpoint.ts'
 import { admitInvocationEvidence, evidenceDigest, evidenceBytesDigest, type CaseEvidenceContract, type CheckedEvidence } from '../portable/evidence-contract.ts'
 import { planFidelityCriteria } from '../fidelity/ledger.ts'
 import { mergePaintChecks } from '../fidelity/paint-facts.ts'
@@ -50,6 +50,19 @@ export function readRetainedPng(root: string, witness: string) {
   const bytes = readFileSync(file)
   if (basename(file) !== evidenceBytesDigest(bytes) + '.png') throw Error('PNG witness hash differs from retained bytes')
   return bytes
+}
+
+/** Keep derived reference images inside the owned result and preserve any
+ * already retained bytes. Rechecking a copied symlink cannot rewrite its source. */
+export function retainPngReference(root: string, png: Uint8Array) {
+  const directory = join(root, 'referencePng'), witness = 'referencePng/' + evidenceBytesDigest(png) + '.png'
+  mkdirSync(directory, { recursive: true })
+  const owned = relative(realpathSync(root), realpathSync(directory))
+  if (isAbsolute(owned) || owned === '..' || owned.startsWith('../')) throw Error('Reference PNG directory escapes its result bundle')
+  const file = join(root, witness)
+  if (existsSync(file)) ownedWitness(root, witness)
+  writeDurableEvidence(file, png)
+  return witness
 }
 
 /** Also used for native PNG: an image review establishes content, while the

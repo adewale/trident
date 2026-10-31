@@ -18,7 +18,7 @@ import { assessSvgCases, summarizeSvgCases, makeSvgObservationBinding, type SvgE
 import { admitDocsReviews, assessDocsDrawing, reviewedDocsCase, type DocsDrawingReview } from './docs-drawings.ts'
 import { admitPngReviews, assessDocsPng, type DocsPngReview } from './docs-png-drawings.ts'
 import { qualifyOutput } from './qualification.ts'
-import { readDocsPngRasterProfile, readRetainedPngSvg, readRetainedPng, bindDocsPngConversionReturn, requireRetainedPngOwnership, qualifyRetainedDocsPngConversion } from './docs-png-qualification.ts'
+import { readDocsPngRasterProfile, readRetainedPngSvg, readRetainedPng, bindDocsPngConversionReturn, requireRetainedPngOwnership, retainPngReference, qualifyRetainedDocsPngConversion } from './docs-png-qualification.ts'
 import { defaultChromium, executableIdentity } from './benchmark-context.ts'
 import { protocolIdentity } from './protocol-identity.ts'
 import { withDocsDeadline } from './docs-benchmark.ts'
@@ -157,9 +157,7 @@ export async function recheckRendering(directory: string, out: string, pngReview
                 const qualification = await qualifyRetainedDocsPngConversion({ source: input, review: expected, actualPng: bytes, originalSvg, rasterizedSvg, returnEvidence, profile: raster.profile, pngReviews, observerSha256, inspectSvg: (svg, authored) => inspect(row.metrics.project, svg, authored) })
                 const { referencePng, ...verdict } = qualification as typeof qualification & { referencePng?: Uint8Array }
                 if (referencePng) {
-                  const path = 'png/referencePng/' + hash(referencePng) + '.png'
-                  mkdirSync(join(root, 'png/referencePng'), { recursive: true }); writeFileSync(join(root, path), referencePng)
-                  row.metrics.referencePngWitness = path
+                  row.metrics.referencePngWitness = 'png/' + retainPngReference(join(root, 'png'), referencePng)
                 }
                 assessment = { ...verdict, originalContentAssessment: assessment }
               } catch (error) { assessment = { status: 'unknown', reason: 'Retained conversion proof did not complete: ' + String(error), originalContentAssessment: assessment } }

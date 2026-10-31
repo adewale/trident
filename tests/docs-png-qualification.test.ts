@@ -10,7 +10,7 @@ import { evidenceDigest, evidenceBytesDigest } from '../portable/evidence-contra
 import { sourceHash, type DocsDrawingReview } from '../unified/docs-drawings.ts'
 import { docsExpectationsHash, assessDocsPng, type DocsPngReview } from '../unified/docs-png-drawings.ts'
 import { qualifyCollectedDocsPng } from '../unified/docs-benchmark.ts'
-import { readDocsPngRasterProfile, readRetainedPngSvg, requireRetainedPngOwnership } from '../unified/docs-png-qualification.ts'
+import { readDocsPngRasterProfile, readRetainedPngSvg, requireRetainedPngOwnership, retainPngReference } from '../unified/docs-png-qualification.ts'
 import type { FrozenRasterProfile } from '../unified/png-preservation.ts'
 import type { UnifiedRunOptions, UnifiedSuiteResult } from '../unified/types.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
@@ -112,4 +112,16 @@ test('retained SVG pointers cannot escape through an owned-looking symlink', () 
   const f = fixture(), other = fixture(), witness = String(f.result.observations[1]!.metrics!.originalSvgWitness)
   rmSync(join(f.out, witness)); symlinkSync(join(other.out, witness), join(f.out, witness))
   expect(() => readRetainedPngSvg(f.out, witness)).toThrow('symlink escapes')
+})
+
+
+test('saving derived reference PNGs preserves prior bytes and cannot write through a copied symlink', () => {
+  const f = fixture(), other = fixture()
+  mkdirSync(join(other.out, 'referencePng')); symlinkSync(join(other.out, 'referencePng'), join(f.out, 'referencePng'))
+  expect(() => retainPngReference(f.out, reference)).toThrow('escapes')
+  expect(() => readFileSync(join(other.out, 'referencePng', evidenceBytesDigest(reference) + '.png'))).toThrow()
+  const safe = fixture(), witness = retainPngReference(safe.out, reference)
+  writeFileSync(join(safe.out, witness), Buffer.from('changed prior bytes'))
+  expect(() => retainPngReference(safe.out, reference)).toThrow('Immutable')
+  expect(readFileSync(join(safe.out, witness)).toString()).toBe('changed prior bytes')
 })

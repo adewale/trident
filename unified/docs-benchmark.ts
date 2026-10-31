@@ -32,7 +32,7 @@ import type { UnifiedRunOptions, UnifiedSuiteResult, BenchmarkObservation } from
 import { mermaidOracleDirectory, mermaidUpstreamDirectory } from '../portable/mermaid-oracle.ts'
 import { runDocsPngLane } from './docs-png-lane.ts'
 import { admitPngReviews, type DocsPngReview } from './docs-png-drawings.ts'
-import { readDocsPngRasterProfile, readRetainedPngSvg, readRetainedPng, bindDocsPngConversionReturn, qualifyRetainedDocsPngConversion } from './docs-png-qualification.ts'
+import { readDocsPngRasterProfile, readRetainedPngSvg, readRetainedPng, bindDocsPngConversionReturn, retainPngReference, qualifyRetainedDocsPngConversion } from './docs-png-qualification.ts'
 import type { FrozenRasterProfile } from './png-preservation.ts'
 
 /** Every occurrence from every syntax page of the pinned upstream release.
@@ -262,9 +262,7 @@ export async function qualifyCollectedDocsPng(options: UnifiedRunOptions, result
         } })
         const { referencePng, ...assessment } = qualification as typeof qualification & { referencePng?: Uint8Array }
         if (referencePng) {
-          const witness = 'referencePng/' + createHash('sha256').update(referencePng).digest('hex') + '.png'
-          mkdirSync(join(options.out, 'referencePng'), { recursive: true }); writeFileSync(join(options.out, witness), referencePng)
-          row.metrics.referencePngWitness = witness
+          row.metrics.referencePngWitness = retainPngReference(options.out, referencePng)
         }
         row.detail = JSON.stringify({ ...assessment, originalContentAssessment: originalAssessment })
         row.status = assessment.status === 'correct' ? 'passed' : assessment.status === 'incorrect' ? 'failed' : 'blocked'
