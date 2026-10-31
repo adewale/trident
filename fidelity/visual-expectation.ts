@@ -3,8 +3,21 @@ import { compileVisualStyles } from './style-expectation.ts'
 
 /** A drawing encodes proportions and printed values, not an invisible copy of
  * its input database. Literal source bytes remain in the corpus inventory. */
-export function projectVisualExpectation(family: string, literal: MeaningExpectation): { expected: MeaningExpectation; projections: string[] } {
+export function projectVisualExpectation(family: string, literal: MeaningExpectation): { expected: MeaningExpectation; projections: string[]; profileExpected?:MeaningExpectation; excludedNonvisual?:string[] } {
   const expected = structuredClone(literal), facts: any = expected.facts ??= {}, projections: string[] = []
+  let profileExpected:MeaningExpectation|undefined
+  const excludedNonvisual:string[]=[]
+  if(family==='agentflow'&&Array.isArray(facts['node-attributes'])){
+    const actedOn=new Set(['shape','label','labelType','view','algorithm','curve','animate','animation']),metadata:any[]=[]
+    facts['node-attributes']=facts['node-attributes'].map((entry:any)=>{
+      const visual:Record<string,any>={},nonvisual:Record<string,any>={}
+      for(const[key,value]of Object.entries(entry.attributes??{}))(actedOn.has(key)?visual:nonvisual)[key]=value
+      if(Object.keys(nonvisual).length){metadata.push({id:entry.id,attributes:nonvisual});excludedNonvisual.push('Agentflow carried metadata is nonvisual (agentflow.md:14,250-260): '+JSON.stringify({id:entry.id,attributes:nonvisual}))}
+      return{id:entry.id,attributes:visual}
+    }).filter((entry:any)=>Object.keys(entry.attributes).length)
+    if(!facts['node-attributes'].length)delete facts['node-attributes']
+    if(metadata.length){profileExpected=structuredClone(literal);(expected.advisoryFacts??={})['nonvisual-node-metadata']=metadata;projections.push('Agentflow acts only on shape,label,labelType,view,algorithm,curve,animate,animation; other exact metadata keys/values remain advisory for static drawings and mandatory in the original native profileExpected')}
+  }
   const configuration = facts['authored-config'] ?? {}
   const lineBreaks: any[] = Array.isArray(facts['text-line-breaks']) ? facts['text-line-breaks'] : []
   const addLineBreaks = (owner: Record<string, string | number>, label: string) => { const lines = label.replace(/<br\s*\/?\s*>/gi, '\n').split('\n'); if (lines.length < 2 || lineBreaks.some(entry => entry.owner?.kind === owner.kind && entry.owner?.id === owner.id && entry.owner?.index === owner.index)) return; lineBreaks.push({ owner, lines }) }
@@ -79,6 +92,6 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
   }
   if (facts['authored-config'] && !Object.keys(configuration).length) delete facts['authored-config']
   const styles = compileVisualStyles(expected)
-  if (styles.active && styles.complete) { projections.push('Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact'); return { expected: styles.expected, projections } }
-  return { expected, projections }
+  if (styles.active && styles.complete) { projections.push('Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact'); return { expected: styles.expected, projections,...(profileExpected?{profileExpected,excludedNonvisual}:{}) } }
+  return { expected, projections,...(profileExpected?{profileExpected,excludedNonvisual}:{}) }
 }

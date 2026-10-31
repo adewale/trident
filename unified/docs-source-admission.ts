@@ -7,7 +7,7 @@ import type { DocsDrawingReview, DocsInput } from './docs-drawings.ts'
  * semantic data must change explicitly; literal regeneration remains available. */
 export function docsSourceSemanticHash(review: DocsDrawingReview) {
   const source = review.sourceReview
-  return evidenceDigest({ intent: review.intent, family: review.family, expected: review.expected ?? null, ...(review.expectedRejection ? { expectedRejection: review.expectedRejection } : {}), unverifiedFacts: review.unverifiedFacts ?? [], sourceReview: source ? { protocol: source.protocol, sourcePin: source.sourcePin, expectedFactsComplete: source.expectedFactsComplete, requiredObligations: source.requiredObligations, unresolved: source.unresolved, excludedNonvisual: source.excludedNonvisual } : null })
+  return evidenceDigest({ intent: review.intent, family: review.family, expected: review.expected ?? null, ...(review.profileExpected?{profileExpected:review.profileExpected}:{}), ...(review.expectedRejection ? { expectedRejection: review.expectedRejection } : {}), unverifiedFacts: review.unverifiedFacts ?? [], sourceReview: source ? { protocol: source.protocol, sourcePin: source.sourcePin, expectedFactsComplete: source.expectedFactsComplete, requiredObligations: source.requiredObligations, unresolved: source.unresolved, excludedNonvisual: source.excludedNonvisual } : null })
 }
 const registered = new Map(registry.cases.map(entry => [entry.id, Object.freeze({ ...entry })]))
 if (registry.schema !== 'trident-docs-source-registry-v1' || registered.size !== 548 || registry.cases.length !== 548) throw Error('Canonical documentation source registry is incomplete or duplicated')

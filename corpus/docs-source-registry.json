@@ -1,7 +1,7 @@
 {
   "schema": "trident-docs-source-registry-v1",
   "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-  "reviewedCorpusSha256": "eb3d9020e299918eec0bd123176752f3b2b62c27892db09e8e90c15aa97915fd",
+  "reviewedCorpusSha256": "166e40e448364f3190470ac5cfbd8260dc8da0acbe86c49277a7f5b9389c4b9a",
   "provenance": {
     "literalAuditBaseline": "2cc55cf",
     "structuralFix": "c9dd0b5",
@@ -13,7 +13,8 @@
     "quadrantClassRetentionFix": "3877461",
     "standaloneClassCssScope": "classDiagram.md:827 excludes the adjacent page stylesheet; literal source unchanged",
     "pendingFourResolution": "qualification/source-audits/pending-four-resolution.json; independent root review of literal documentation and grammar, no renderer output",
-    "agentflowDefaultShapeFix": "qualification/source-audits/agentflow-rounded-default.json; DEFAULT_SHAPE roundedRect and explicit normalization; independent root review"
+    "agentflowDefaultShapeFix": "qualification/source-audits/agentflow-rounded-default.json; DEFAULT_SHAPE roundedRect and explicit normalization; independent root review",
+    "agentflowNonvisualMetadata": "qualification/source-audits/agentflow-nonvisual-metadata.json; root independently approved exact two-case generated delta before registry promotion"
   },
   "cases": [
     {
@@ -76,14 +77,14 @@
       "id": "packages/mermaid/src/docs/syntax/agentflow.md:279",
       "sourceSha256": "2a44766f654fd6811d69edf862cfd708f35b41cd446e1c93875ddb80e17b67d9",
       "intent": "drawing",
-      "semanticSha256": "2e30b49036cd4fb75ba5bbe5aa8852d1898bea9ee3f799f6bff4eab5b1167e43",
+      "semanticSha256": "41a344bff6f9d121e131c3818bad486f209d598025d3f1ae635c42fc89c7fce0",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/agentflow.md:294",
       "sourceSha256": "4c546d7812fae4ab7b644b5a7ec339bb9724a468c3794cae1633231f19bee9cf",
       "intent": "drawing",
-      "semanticSha256": "42cc04c125580d40f46e5d150655a8fb36e02442ca861965318d8520288dbe71",
+      "semanticSha256": "0d569d4522442bb983704cdfdd54f5a84e56157a13de04ca001f4405a7e9b8dd",
       "profileEligible": true
     },
     {

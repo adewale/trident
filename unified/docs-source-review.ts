@@ -1254,6 +1254,6 @@ export function reviewDocumentationSource(input: DocsInput, options: { visual?: 
     review.unresolved.push('This family has no complete independent source interpreter yet')
   }
   const result = review.finish()
-  if (options.visual !== false && result.expected) { const projected = projectVisualExpectation(result.family, result.expected); result.expected = projected.expected; result.sourceReview.requiredObligations = requiredDocumentationObligations(result.expected); if (projected.projections.length) result.sourceReview.visualProjections = projected.projections }
+  if (options.visual !== false && result.expected) { const projected = projectVisualExpectation(result.family, result.expected); result.expected = projected.expected; if(projected.profileExpected)result.profileExpected=projected.profileExpected; if(projected.excludedNonvisual)result.sourceReview.excludedNonvisual.push(...projected.excludedNonvisual); result.sourceReview.requiredObligations = requiredDocumentationObligations(result.expected); if (projected.projections.length) result.sourceReview.visualProjections = projected.projections }
   return result
 }

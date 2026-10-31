@@ -58,3 +58,13 @@ test('editorial provenance edits and fixture source controls do not require a ne
  expect(docsSourceAdmission(future,futureReview)).toMatchObject({canonical:true,matched:false})
  expect(assessDocsDrawing(future,futureReview,'passed',true,[]).status).toBe('unknown')
 })
+
+test('native Agentflow metadata profiles remain source-bound after static visual projection',()=>{
+ const expected=reviews.find(row=>row.id==='packages/mermaid/src/docs/syntax/agentflow.md:279')!,stimulus=inputs.find((row:any)=>row.id===expected.id)
+ expect(expected.profileExpected).toBeDefined()
+ expect(reviewedDocsCase(stimulus,expected).profileExpected).toEqual(expected.profileExpected)
+ expect(docsSourceAdmission(stimulus,expected).matched).toBe(true)
+ const forged={...expected,profileExpected:{...expected.profileExpected!,facts:{...expected.profileExpected!.facts,'node-attributes':[]}}}
+ expect(docsSourceAdmission(stimulus,forged).matched).toBe(false)
+ expect(assessDocsDrawing(stimulus,forged,'passed',true,[]).status).toBe('unknown')
+})

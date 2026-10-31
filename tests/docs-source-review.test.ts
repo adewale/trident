@@ -170,6 +170,21 @@ test('Agentflow uses its shipped rounded default for unshaped nodes and connecto
   expect(mutated.expected!.facts!['node-shapes']).toEqual([{id:'a',shape:'decision'},{id:'b',shape:'rounded'}])
 })
 
+test('Agentflow carried metadata stays in the native profile and literal provenance without manufacturing static drawing obligations',()=>{
+  const stimulus=input('agentflow-beta LR\nconnector api[API]\napi@{ protocol: http, endpoint: "https://api.example.com" }\nwork[Work]@{ shape: task, instruction: "Check the result", params: "x :: String", returns: Answer, connectorRef: api.run }')
+  const literal=reviewDocumentationSource(stimulus,{visual:false}),visual=reviewDocumentationSource(stimulus)
+  expect(visual.profileExpected).toEqual(literal.expected)
+  expect(visual.expected!.facts!['node-attributes']).toEqual([{id:'work',attributes:{shape:'task'}}])
+  expect(visual.expected!.advisoryFacts!['nonvisual-node-metadata']).toEqual([{id:'api',attributes:{protocol:'http',endpoint:'https://api.example.com'}},{id:'work',attributes:{instruction:'Check the result',params:'x :: String',returns:'Answer',connectorRef:'api.run'}}])
+  expect(visual.sourceReview.excludedNonvisual.join(' ')).toContain('https://api.example.com')
+  expect(visual.sourceReview.excludedNonvisual.join(' ')).toContain('Check the result')
+  const mutated=reviewDocumentationSource({...stimulus,source:stimulus.source.replace('Check the result','Check another result')})
+  expect(mutated.expected!.facts).toEqual(visual.expected!.facts)
+  expect(mutated.profileExpected!.facts).not.toEqual(visual.profileExpected!.facts)
+  const algorithm=reviewDocumentationSource(input('agentflow-beta LR\nflow group[Group]\na[A]\nend\ngroup@{ algorithm: elk.rectpacking }'))
+  expect((algorithm.expected!.facts!['node-attributes'] as any[]).find(entry=>entry.id==='group').attributes.algorithm).toBe('elk.rectpacking')
+})
+
 test('fontawesome glyph references are resource obligations rather than literal visible words', () => {
   const row = review('flowchart TD\nA["fa:fa-twitter for peace"] --> B(fa:fa-spinner)')
   expect(row.expected!.nodes).toEqual([{ id: 'A', label: 'for peace' }, { id: 'B', label: '' }])

@@ -8,7 +8,7 @@ import { evidenceDigest } from '../portable/evidence-contract.ts'
 import { docsSourceAdmission } from './docs-source-admission.ts'
 
 export interface DocsRejectionExpectation { category: 'duplicate-identifier'; identifiers: string[]; rule: string; provenance: string[] }
-export interface DocsDrawingReview { id: string; sourceSha256: string; intent: 'drawing' | 'configuration-only' | 'invalid-source'; family: string; expected?: MeaningExpectation; expectedRejection?: DocsRejectionExpectation; unverifiedFacts?: string[]; review: string; sourceReview?: DocsSourceReview }
+export interface DocsDrawingReview { id: string; sourceSha256: string; intent: 'drawing' | 'configuration-only' | 'invalid-source'; family: string; expected?: MeaningExpectation; profileExpected?:MeaningExpectation; expectedRejection?: DocsRejectionExpectation; unverifiedFacts?: string[]; review: string; sourceReview?: DocsSourceReview }
 export interface DocsInput { id: string; source: string; family: string }
 export const sourceHash = (source: string) => createHash('sha256').update(source).digest('hex')
 
@@ -31,7 +31,7 @@ export function admitDocsReviews(inputs: readonly DocsInput[], reviews: readonly
 export function reviewedDocsCase(input: DocsInput, review: DocsDrawingReview): AuthoredFidelityCase {
   if (!review.expected || review.intent !== 'drawing' || review.id !== input.id || review.sourceSha256 !== sourceHash(input.source)) throw Error('Documentation source has no matching drawing expectation')
   const admission = docsSourceAdmission(input, review)
-  return { id: input.id, family: review.family, source: input.source, required: true, features: ['reviewed-documentation-content'], provenance: review.review, expected: review.expected, ...(review.sourceReview ? { sourceReview: { protocol: review.sourceReview.protocol, sourceSha256: review.sourceSha256, expectedSha256: evidenceDigest(review.expected), expectedFactsComplete: review.sourceReview.expectedFactsComplete && admission.matched, requiredObligations: review.sourceReview.requiredObligations, unresolved: [...review.sourceReview.unresolved, ...(admission.matched ? [] : [admission.reason])], provenance: review.review } } : {}) }
+  return { id: input.id, family: review.family, source: input.source, required: true, features: ['reviewed-documentation-content'], provenance: review.review, expected: review.expected, ...(review.profileExpected?{profileExpected:review.profileExpected}:{}), ...(review.sourceReview ? { sourceReview: { protocol: review.sourceReview.protocol, sourceSha256: review.sourceSha256, expectedSha256: evidenceDigest(review.expected), expectedFactsComplete: review.sourceReview.expectedFactsComplete && admission.matched, requiredObligations: review.sourceReview.requiredObligations, unresolved: [...review.sourceReview.unresolved, ...(admission.matched ? [] : [admission.reason])], provenance: review.review } } : {}) }
 }
 
 export function assessDocsDrawing(input: DocsInput, review: DocsDrawingReview | null, publicStatus: string, admissionPassed: boolean | 'unavailable', checks: readonly PaintCheck[], binding?: SvgEvidenceBinding) {

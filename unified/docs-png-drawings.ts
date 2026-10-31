@@ -20,7 +20,7 @@ export interface DocsPngReview {
 }
 export const docsExpectationsHash = (review: DocsDrawingReview) => {
   const sourceReview = (review as DocsDrawingReview & { sourceReview?: unknown }).sourceReview
-  return sourceHash(JSON.stringify({ intent: review.intent, family: review.family, expected: review.expected, ...(review.expectedRejection ? { expectedRejection: review.expectedRejection } : {}), unverifiedFacts: review.unverifiedFacts ?? [], ...(sourceReview ? { sourceReview } : {}) }))
+  return sourceHash(JSON.stringify({ intent: review.intent, family: review.family, expected: review.expected, ...(review.profileExpected?{profileExpected:review.profileExpected}:{}), ...(review.expectedRejection ? { expectedRejection: review.expectedRejection } : {}), unverifiedFacts: review.unverifiedFacts ?? [], ...(sourceReview ? { sourceReview } : {}) }))
 }
 const validPixels = (pixels: PngPixelIdentity | undefined) => pixels === undefined || !!pixels && typeof pixels === 'object' && pixels.protocol === 'png-rgba16-and-display-metadata-v1' && /^[a-f0-9]{64}$/.test(pixels.sha256) && Number.isSafeInteger(pixels.width) && Number.isSafeInteger(pixels.height) && pixels.width > 0 && pixels.height > 0 && pixels.width * pixels.height <= 16 * 1024 * 1024
 const samePixels = (left: PngPixelIdentity, right: PngPixelIdentity) => left.protocol === right.protocol && left.width === right.width && left.height === right.height && left.sha256 === right.sha256

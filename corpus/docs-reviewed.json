@@ -1374,6 +1374,114 @@
         ],
         "node-attributes": [
           {
+            "id": "title",
+            "attributes": {
+              "shape": "input"
+            }
+          },
+          {
+            "id": "create",
+            "attributes": {
+              "shape": "tool"
+            }
+          }
+        ],
+        "dialect-kinds": [
+          {
+            "id": "github",
+            "kind": "connector"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "github",
+          "label": "GitHub API"
+        },
+        {
+          "id": "title",
+          "label": "Issue title"
+        },
+        {
+          "id": "create",
+          "label": "create_issue"
+        }
+      ],
+      "edges": [
+        {
+          "source": "title",
+          "target": "create",
+          "directed": true,
+          "startMarker": "none",
+          "endMarker": "arrow"
+        }
+      ],
+      "advisoryFacts": {
+        "nonvisual-node-metadata": [
+          {
+            "id": "github",
+            "attributes": {
+              "protocol": "http",
+              "endpoint": "https://api.github.com"
+            }
+          },
+          {
+            "id": "create",
+            "attributes": {
+              "connectorRef": "github.create_issue"
+            }
+          }
+        ],
+        "direction": "LR"
+      }
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "visible-labels",
+        "node-identities-and-labels",
+        "relationship-endpoints-directions-labels",
+        "fact:dialect-kinds",
+        "fact:node-attributes",
+        "fact:node-shapes"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Agentflow carried metadata is nonvisual (agentflow.md:14,250-260): {\"id\":\"github\",\"attributes\":{\"protocol\":\"http\",\"endpoint\":\"https://api.github.com\"}}",
+        "Agentflow carried metadata is nonvisual (agentflow.md:14,250-260): {\"id\":\"create\",\"attributes\":{\"connectorRef\":\"github.create_issue\"}}"
+      ],
+      "visualProjections": [
+        "Agentflow acts only on shape,label,labelType,view,algorithm,curve,animate,animation; other exact metadata keys/values remain advisory for static drawings and mandatory in the original native profileExpected",
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+      ]
+    },
+    "profileExpected": {
+      "labels": [
+        "GitHub API",
+        "Issue title",
+        "create_issue"
+      ],
+      "facts": {
+        "direction": "LR",
+        "node-shapes": [
+          {
+            "id": "github",
+            "shape": "rounded"
+          },
+          {
+            "id": "title",
+            "shape": "input"
+          },
+          {
+            "id": "create",
+            "shape": "tool"
+          }
+        ],
+        "node-attributes": [
+          {
             "id": "github",
             "attributes": {
               "protocol": "http",
@@ -1423,28 +1531,6 @@
           "startMarker": "none",
           "endMarker": "arrow"
         }
-      ],
-      "advisoryFacts": {
-        "direction": "LR"
-      }
-    },
-    "sourceReview": {
-      "protocol": "literal-documentation-facts-v1",
-      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
-      "requiredObligations": [
-        "visible-labels",
-        "node-identities-and-labels",
-        "relationship-endpoints-directions-labels",
-        "fact:dialect-kinds",
-        "fact:node-attributes",
-        "fact:node-shapes"
-      ],
-      "unresolved": [],
-      "excludedNonvisual": [],
-      "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
       ]
     }
   },
@@ -1467,6 +1553,265 @@
         "Designer"
       ],
       "facts": {
+        "node-shapes": [
+          {
+            "id": "llm",
+            "shape": "rounded"
+          },
+          {
+            "id": "city",
+            "shape": "input"
+          },
+          {
+            "id": "research",
+            "shape": "tool"
+          },
+          {
+            "id": "write",
+            "shape": "tool"
+          },
+          {
+            "id": "render",
+            "shape": "tool"
+          },
+          {
+            "id": "brand",
+            "shape": "refdoc"
+          }
+        ],
+        "node-attributes": [
+          {
+            "id": "city",
+            "attributes": {
+              "shape": "input"
+            }
+          },
+          {
+            "id": "research",
+            "attributes": {
+              "shape": "tool"
+            }
+          },
+          {
+            "id": "write",
+            "attributes": {
+              "shape": "tool"
+            }
+          },
+          {
+            "id": "render",
+            "attributes": {
+              "shape": "tool"
+            }
+          },
+          {
+            "id": "brand",
+            "attributes": {
+              "shape": "refdoc"
+            }
+          }
+        ],
+        "edge-appearance": [
+          {
+            "source": "render",
+            "target": "brand",
+            "stroke": "dotted",
+            "markerStart": "none",
+            "markerEnd": "none"
+          }
+        ],
+        "dialect-kinds": [
+          {
+            "id": "llm",
+            "kind": "connector"
+          },
+          {
+            "id": "coffee_team",
+            "kind": "agent-flow"
+          },
+          {
+            "id": "researcher",
+            "kind": "agent-flow"
+          },
+          {
+            "id": "designer",
+            "kind": "agent-flow"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "llm",
+          "label": "LLM API"
+        },
+        {
+          "id": "city",
+          "label": "city"
+        },
+        {
+          "id": "research",
+          "label": "research_location"
+        },
+        {
+          "id": "write",
+          "label": "write_copy"
+        },
+        {
+          "id": "render",
+          "label": "generate_html"
+        },
+        {
+          "id": "brand",
+          "label": "Nordic Brand Guide"
+        }
+      ],
+      "edges": [
+        {
+          "source": "city",
+          "target": "research",
+          "directed": true,
+          "startMarker": "none",
+          "endMarker": "arrow"
+        },
+        {
+          "source": "research",
+          "target": "write",
+          "directed": true,
+          "startMarker": "none",
+          "endMarker": "arrow"
+        },
+        {
+          "source": "render",
+          "target": "brand",
+          "directed": false,
+          "startMarker": "none",
+          "endMarker": "none"
+        },
+        {
+          "source": "researcher",
+          "target": "designer",
+          "directed": true,
+          "startMarker": "none",
+          "endMarker": "arrow"
+        }
+      ],
+      "groups": [
+        {
+          "id": "coffee_team",
+          "label": "Coffee Team",
+          "members": [
+            "city",
+            "researcher",
+            "designer"
+          ]
+        },
+        {
+          "id": "researcher",
+          "label": "Researcher",
+          "members": [
+            "research",
+            "write",
+            "city"
+          ]
+        },
+        {
+          "id": "designer",
+          "label": "Designer",
+          "members": [
+            "render",
+            "brand"
+          ]
+        }
+      ],
+      "advisoryFacts": {
+        "nonvisual-node-metadata": [
+          {
+            "id": "llm",
+            "attributes": {
+              "protocol": "http",
+              "endpoint": "https://api.example.com/chat"
+            }
+          },
+          {
+            "id": "city",
+            "attributes": {
+              "value": "Stockholm"
+            }
+          },
+          {
+            "id": "research",
+            "attributes": {
+              "params": "city :: String",
+              "returns": "Report"
+            }
+          },
+          {
+            "id": "write",
+            "attributes": {
+              "connectorRef": "llm.chat",
+              "returns": "CoffeeCopy"
+            }
+          },
+          {
+            "id": "researcher",
+            "attributes": {
+              "instruction": "Research the city and draft English coffee copy citing sources."
+            }
+          },
+          {
+            "id": "render",
+            "attributes": {
+              "connectorRef": "llm.chat",
+              "returns": "String"
+            }
+          }
+        ],
+        "direction": "TB"
+      }
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "visible-labels",
+        "node-identities-and-labels",
+        "relationship-endpoints-directions-labels",
+        "group-membership-and-labels",
+        "fact:dialect-kinds",
+        "fact:edge-appearance",
+        "fact:node-attributes",
+        "fact:node-shapes"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Agentflow carried metadata is nonvisual (agentflow.md:14,250-260): {\"id\":\"llm\",\"attributes\":{\"protocol\":\"http\",\"endpoint\":\"https://api.example.com/chat\"}}",
+        "Agentflow carried metadata is nonvisual (agentflow.md:14,250-260): {\"id\":\"city\",\"attributes\":{\"value\":\"Stockholm\"}}",
+        "Agentflow carried metadata is nonvisual (agentflow.md:14,250-260): {\"id\":\"research\",\"attributes\":{\"params\":\"city :: String\",\"returns\":\"Report\"}}",
+        "Agentflow carried metadata is nonvisual (agentflow.md:14,250-260): {\"id\":\"write\",\"attributes\":{\"connectorRef\":\"llm.chat\",\"returns\":\"CoffeeCopy\"}}",
+        "Agentflow carried metadata is nonvisual (agentflow.md:14,250-260): {\"id\":\"researcher\",\"attributes\":{\"instruction\":\"Research the city and draft English coffee copy citing sources.\"}}",
+        "Agentflow carried metadata is nonvisual (agentflow.md:14,250-260): {\"id\":\"render\",\"attributes\":{\"connectorRef\":\"llm.chat\",\"returns\":\"String\"}}"
+      ],
+      "visualProjections": [
+        "Agentflow acts only on shape,label,labelType,view,algorithm,curve,animate,animation; other exact metadata keys/values remain advisory for static drawings and mandatory in the original native profileExpected",
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+      ]
+    },
+    "profileExpected": {
+      "labels": [
+        "LLM API",
+        "city",
+        "research_location",
+        "write_copy",
+        "generate_html",
+        "Nordic Brand Guide",
+        "Coffee Team",
+        "Researcher",
+        "Designer"
+      ],
+      "facts": {
+        "direction": "TB",
         "node-shapes": [
           {
             "id": "llm",
@@ -1656,30 +2001,6 @@
             "brand"
           ]
         }
-      ],
-      "advisoryFacts": {
-        "direction": "TB"
-      }
-    },
-    "sourceReview": {
-      "protocol": "literal-documentation-facts-v1",
-      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
-      "requiredObligations": [
-        "visible-labels",
-        "node-identities-and-labels",
-        "relationship-endpoints-directions-labels",
-        "group-membership-and-labels",
-        "fact:dialect-kinds",
-        "fact:edge-appearance",
-        "fact:node-attributes",
-        "fact:node-shapes"
-      ],
-      "unresolved": [],
-      "excludedNonvisual": [],
-      "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
       ]
     }
   },
