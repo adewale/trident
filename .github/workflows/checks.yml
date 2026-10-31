@@ -24,7 +24,7 @@ jobs:
           bun-version: '1.4.2'
       - run: bun install --frozen-lockfile
       # Chromium inspects checked-in fixtures; no project or benchmark runs.
-      - run: bunx playwright install --with-deps --only-shell chromium
+      - run: bunx playwright install --with-deps chromium
       - run: bun run lint
       - run: bun run typecheck
       - run: bun commands.ts results:snapshot --check
@@ -49,5 +49,5 @@ jobs:
           bun-version: '1.4.2'
       - run: bun install --frozen-lockfile
       # Chromium inspects checked-in fixtures; no project or benchmark runs.
-      - run: bunx playwright install --with-deps --only-shell chromium
+      - run: bunx playwright install --with-deps chromium
       - run: bun run test:ci

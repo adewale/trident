@@ -1,5 +1,5 @@
 import { afterAll, expect, setDefaultTimeout, test } from 'bun:test'
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { gzipSync } from 'node:zlib'
@@ -21,8 +21,13 @@ afterAll(() => { for (const dir of directories) rmSync(dir, { recursive: true, f
 const input = { id: 'synthetic:complete-flow', family: 'flowchart', source: 'flowchart LR\nA[Alpha]-->B[Beta]' }
 const expected = { id: input.id, sourceSha256: sourceHash(input.source), family: 'flowchart', intent: 'drawing', expected: { labels: ['Alpha', 'Beta'], nodes: [{ id: 'A', label: 'Alpha' }, { id: 'B', label: 'Beta' }], edges: [{ source: 'A', target: 'B', directed: true }], facts: { direction: 'LR' } }, review: 'Independent synthetic source control: visible Alpha and Beta boxes, directed left-to-right arrow; not a benchmark score.', sourceReview: { protocol: 'literal-documentation-facts-v1', sourcePin: '1fb7869866dd619168d840291c9c54b4f129758b', method: 'Full literal synthetic source facts', expectedFactsComplete: true, requiredObligations: ['visible-labels', 'node-identities-and-labels', 'relationship-endpoints-directions-labels', 'fact:direction'], unresolved: [], excludedNonvisual: [] } } as DocsDrawingReview
 const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="80"><rect width="240" height="80" fill="white"/><defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z"/></marker></defs><g><rect x="10" y="10" width="60" height="30" fill="white" stroke="black"/><text x="14" y="30">Alpha</text></g><g><rect x="150" y="10" width="60" height="30" fill="white" stroke="black"/><text x="154" y="30">Beta</text></g><path d="M70 25 L150 25" fill="none" stroke="black" marker-end="url(#arrow)"/></svg>'
-const font = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
-const profile: FrozenRasterProfile = { schema: 'trident-raster-profile-v1', background: '#ffffff', defaultFontFamily: 'DejaVu Sans', fontFiles: [{ path: font, sha256: evidenceBytesDigest(readFileSync(font)) }] }
+const selectedFont = [
+  { path: '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', family: 'DejaVu Sans' },
+  { path: '/System/Library/Fonts/Supplemental/Arial.ttf', family: 'Arial' },
+].find(candidate => existsSync(candidate.path))
+if (!selectedFont) throw Error('PNG fixture requires DejaVu Sans (Linux) or Arial (macOS)')
+const font = selectedFont.path
+const profile: FrozenRasterProfile = { schema: 'trident-raster-profile-v1', background: '#ffffff', defaultFontFamily: selectedFont.family, fontFiles: [{ path: font, sha256: evidenceBytesDigest(readFileSync(font)) }] }
 const reference = new Resvg(svg, { background: '#ffffff', fitTo: { mode: 'original' }, font: { loadSystemFonts: false, fontFiles: [font], defaultFontFamily: profile.defaultFontFamily }, dpi: 96 }).render().asPng()
 const imageReview: DocsPngReview = { id: input.id, sourceSha256: sourceHash(input.source), expectationsSha256: docsExpectationsHash(expected), pngSha256: evidenceBytesDigest(reference), status: 'correct', reviewedBy: 'Synthetic independent trust control', review: 'Complete control: Alpha and Beta labels in distinct boxes with an actual left-to-right arrow. This source-grounded control is not a general image oracle or benchmark score.' }
 const reencode = (png: Uint8Array) => {
