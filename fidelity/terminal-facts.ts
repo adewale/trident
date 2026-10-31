@@ -1,3 +1,5 @@
+import { terminalAuthoredLinesObserved } from './terminal-text.ts'
+import { inspectTerminalEr, terminalErSourceObservable } from './terminal-er.ts'
 import { inspectTerminalGrouping } from './terminal-groups.ts'
 import { terminalRectangles } from './terminal-rectangles.ts'
 import { inspectTerminalKanban } from './terminal-kanban.ts'
@@ -11,6 +13,7 @@ export interface TerminalFactCheck { criterion: string; status: 'passed' | 'fail
 /** Each source obligation receives a disposition. A missing family/representation
  * checker is an unknown, never an omitted obligation or a text-only pass. */
 export function inspectTerminalFacts(output: string, contract: TerminalSourceContract, graph?: TerminalMeaning): TerminalFactCheck[] {
+  if (contract.family === 'er') return inspectTerminalEr(output, contract).checks
   if (contract.family === 'sequence') return inspectTerminalSequence(output, contract)
   const display = interpretTerminal(output)
   const checks = contract.facts.filter(fact => fact.required !== false).map(fact => ({ criterion: fact.criterion, expected: fact.expected, status: 'unknown' as TerminalFactCheck['status'], detail: 'No qualified observer for this source fact and output representation' }))
@@ -40,13 +43,24 @@ export function inspectTerminalFacts(output: string, contract: TerminalSourceCon
     }
     const breaks = contract.facts.find(fact => fact.criterion === 'node-line-breaks')?.expected as { id: string; lines: string[] }[] | undefined
     if (breaks?.length && breaks.every(item => owned(item.id).length === 1 && item.lines.every(line => normalize(line)))) {
-      const actual = breaks.map(item => ({ id: item.id, lines: owned(item.id)[0]!.lines })), partitions = (rows: string[], wanted: string[]) => { const memo = new Map<string, boolean>(); const match = (row: number, at: number): boolean => { if (at === wanted.length) return row === rows.length; const key = row + ',' + at; if (memo.has(key)) return memo.get(key)!; for (let end = row + 1; end <= rows.length; end++) if (normalize(rows.slice(row, end).join(' ')) === normalize(wanted[at]!) && match(end, at + 1)) { memo.set(key, true); return true }; memo.set(key, false); return false }; return match(0, 0) }
-      set('node-line-breaks', actual.every((item, n) => partitions(item.lines, breaks[n]!.lines)) ? 'passed' : 'failed', 'Each authored line retains a distinct contiguous run of display rows; soft wrapping may add rows but cannot merge an authored break', actual)
+      const actual = breaks.map(item => ({ id: item.id, lines: owned(item.id)[0]!.lines }))
+      set('node-line-breaks', actual.every((item, n) => terminalAuthoredLinesObserved(item.lines, breaks[n]!.lines)) ? 'passed' : 'failed', 'Each authored line retains a distinct contiguous run of display rows; soft wrapping may add rows but cannot merge an authored break', actual)
+    }
+  }
+  if (contract.family === 'state') {
+    const states = contract.facts.find(fact => fact.criterion === 'states')?.expected as { id: string; label: string; scope: string[] }[] | undefined, transitions = contract.facts.find(fact => fact.criterion === 'transitions')?.expected as { source: string; target: string; caption: string; scope: string[] }[] | undefined
+    if (states?.length && transitions && states.every(state => !state.scope.length) && transitions.every(edge => !edge.scope.length && edge.source !== edge.target)) {
+      const initial = transitions.some(edge => edge.source === '[*]'), final = transitions.some(edge => edge.target === '[*]'), startId = '\0terminal-initial', endId = '\0terminal-final'
+      const nodes = [...states.map(({ id, label }) => ({ id, label })), ...(initial ? [{ id: startId, label: '●' }] : []), ...(final ? [{ id: endId, label: '◉' }] : [])]
+      const verdict = inspectTerminalMeaning(output, { nodes, edges: transitions.map(edge => ({ source: edge.source === '[*]' ? startId : edge.source, target: edge.target === '[*]' ? endId : edge.target, ...(edge.caption ? { label: edge.caption } : {}) })) }, { primitiveShapes: true })
+      if (verdict.status === 'correct') for (const criterion of ['states', 'transitions']) set(criterion, 'passed', 'Closed state graph with exact ordinary-state identities, observed filled initial / bullseye final glyphs and owned directed transition captions: ' + verdict.reason)
+      else if (verdict.status === 'incorrect') set(/node labelled/.test(verdict.reason) ? 'states' : 'transitions', 'failed', verdict.reason)
+      else for (const criterion of ['states', 'transitions']) set(criterion, 'unknown', verdict.reason)
     }
   }
   if (contract.family === 'class') {
-    const classes = contract.facts.find(fact => fact.criterion === 'class-bodies')?.expected as { id: string; members: string[] }[] | undefined, relations = contract.facts.find(fact => fact.criterion === 'class-relations')?.expected as unknown[] | undefined
-    if (classes?.length && classes.every(item => !item.members.length && /^[\p{Letter}\p{Number}_.-]+$/u.test(item.id)) && relations?.length === 0) {
+    const classes = contract.facts.find(fact => fact.criterion === 'class-bodies')?.expected as { id: string; members: string[]; genericParameters?: string }[] | undefined, relations = contract.facts.find(fact => fact.criterion === 'class-relations')?.expected as unknown[] | undefined
+    if (classes?.length && classes.every(item => !item.members.length && !item.genericParameters && /^[\p{Letter}\p{Number}_.-]+$/u.test(item.id)) && relations?.length === 0) {
       const verdict = inspectTerminalMeaning(output, { nodes: classes.map(item => ({ id: item.id, label: item.id })), edges: [] })
       if (verdict.status === 'correct') for (const criterion of ['class-bodies', 'class-relations']) set(criterion, 'passed', 'Isolated empty classes require exact owned rectangles and no unexpected members or relationships: ' + verdict.reason)
       else if (verdict.status === 'incorrect') set(/node labelled/.test(verdict.reason) ? 'class-bodies' : 'class-relations', 'failed', verdict.reason)
@@ -102,11 +116,13 @@ export function inspectTerminalFacts(output: string, contract: TerminalSourceCon
  * from the full drawing inventory or supplies any output pass. */
 export function terminalSourceObservable(contract: TerminalSourceContract, graph?: TerminalMeaning) {
   if (contract.sourceUncertainties.length) return false
-  const supported = contract.family === 'flowchart' ? ['nodes', 'relationships', 'layout-order', 'node-shapes', 'node-line-breaks', 'groups'] : contract.family === 'pie' ? ['title', 'slice-values'] : contract.family === 'journey' ? ['title', 'journey-tasks'] : contract.family === 'timeline' ? ['title', 'timeline-periods'] : contract.family === 'sequence' ? ['participants', 'ordered-messages', 'owned-notes', 'fragments'] : contract.family === 'kanban' ? ['kanban-hierarchy'] : contract.family === 'class' ? ['class-bodies', 'class-relations'] : []
+  const supported = contract.family === 'flowchart' ? ['nodes', 'relationships', 'layout-order', 'node-shapes', 'node-line-breaks', 'groups'] : contract.family === 'pie' ? ['title', 'slice-values'] : contract.family === 'journey' ? ['title', 'journey-tasks'] : contract.family === 'timeline' ? ['title', 'timeline-periods'] : contract.family === 'sequence' ? ['participants', 'ordered-messages', 'owned-notes', 'fragments'] : contract.family === 'kanban' ? ['kanban-hierarchy'] : contract.family === 'class' ? ['class-bodies', 'class-relations'] : contract.family === 'er' ? ['entity-bodies', 'entity-relations'] : contract.family === 'state' ? ['states', 'transitions'] : []
   if (contract.facts.some(fact => fact.required !== false && !supported.includes(fact.criterion))) return false
+  if (contract.family === 'state' && ((contract.facts.find(fact => fact.criterion === 'states')?.expected as any[] ?? []).some(state => state.scope.length) || (contract.facts.find(fact => fact.criterion === 'transitions')?.expected as any[] ?? []).some(edge => edge.scope.length || edge.source === edge.target))) return false
+  if (contract.family === 'er' && !terminalErSourceObservable(contract)) return false
   const primitiveTypes = ['rectangle', 'rounded', 'stadium', 'diamond', 'circle', 'double-circle', 'asymmetric', 'parallelogram', 'database', 'subroutine']
   if ((contract.facts.find(fact => fact.criterion === 'node-shapes')?.expected as any[] ?? []).some(item => !primitiveTypes.includes(item.shape))) return false
-  if (contract.family === 'class') { const classes = contract.facts.find(fact => fact.criterion === 'class-bodies')?.expected as any[] ?? [], relations = contract.facts.find(fact => fact.criterion === 'class-relations')?.expected as any[] ?? []; if (!classes.length || classes.length > 32 || classes.some(item => item.members.length || !/^[\p{Letter}\p{Number}_.-]+$/u.test(item.id)) || relations.length) return false }
+  if (contract.family === 'class') { const classes = contract.facts.find(fact => fact.criterion === 'class-bodies')?.expected as any[] ?? [], relations = contract.facts.find(fact => fact.criterion === 'class-relations')?.expected as any[] ?? []; if (!classes.length || classes.length > 32 || classes.some(item => item.members.length || item.genericParameters || !/^[\p{Letter}\p{Number}_.-]+$/u.test(item.id)) || relations.length) return false }
   if (contract.family === 'sequence' && (contract.facts.find(fact => fact.criterion === 'ordered-messages')?.expected as any[] ?? []).some(message => !['->>', '-->>'].includes(message.marker))) return false
   if (contract.family === 'sequence' && (contract.facts.find(fact => fact.criterion === 'fragments')?.expected as any[] ?? []).some(fragment => fragment.nesting?.length)) return false
   if (graph && (graph.nodes.length > 32 || new Set(graph.nodes.map(node => node.label)).size !== graph.nodes.length || graph.nodes.some(node => !node.label || terminalTextWidth(node.label) > 510 || /[\x00-\x1f]/.test(node.label)) || graph.edges.some(edge => /[\n\r]/.test(edge.label ?? '') || (edge as any).directed === false || (edge as any).endMarker || (edge as any).stroke || (edge as any).visible === false))) return false

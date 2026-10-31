@@ -60,14 +60,14 @@ test('empty valid source is not subject to a nonblank drawing requirement', () =
   expect(assessTerminalDrawing(empty).status).toBe('unknown')
 })
 test('zero-node title drawings stay meaningful and unsupported group ink is not misclassified as an empty-source defect', () => {
-  const text = '---\ntitle: Still a title\n---\nflowchart', analysis = analyseTerminalSource(text, 'flowchart'), base = source('a5204531005bef25'), item = { ...base, source: text, sourceSha256: createHash('sha256').update(text).digest('hex'), expected: { status: 'independently-reviewed', contract: analysis.contract, graph: analysis.graph } }
+  const text = '---\ntitle: Still a title\n---\nflowchart', analysis = analyseTerminalSource(text, 'flowchart'), base = source('a5204531005bef25'), item = { ...base, id: 'synthetic:source-control', source: text, sourceSha256: createHash('sha256').update(text).digest('hex'), expected: { status: 'independently-reviewed', contract: analysis.contract, graph: analysis.graph } }
   expect(assessTerminalDrawing(item, 'Still a title').status).toBe('correct')
   expect(assessTerminalDrawing(item, '').status).toBe('unknown')
   const groups = analyseTerminalSource('flowchart\nsubgraph G\nend', 'flowchart')
   expect(assessTerminalDrawing({ ...item, source: 'flowchart\nsubgraph G\nend', sourceSha256: createHash('sha256').update('flowchart\nsubgraph G\nend').digest('hex'), expected: { status: 'independently-reviewed', contract: groups.contract, graph: groups.graph } }, '┌───┐\n│ G │\n└───┘').status).toBe('unknown')
 })
 test('raw invalid UTF-8 stays unknown and binds actual bytes instead of replacement-decoded label evidence', () => {
-  const text = 'flowchart\nA["�"]', analysis = analyseTerminalSource(text, 'flowchart'), base = source('a5204531005bef25'), item = { ...base, source: text, sourceSha256: createHash('sha256').update(text).digest('hex'), expected: { status: 'independently-reviewed', contract: analysis.contract, graph: analysis.graph } }, drawing = '┌───┐\n│ � │\n└───┘'
+  const text = 'flowchart\nA["�"]', analysis = analyseTerminalSource(text, 'flowchart'), base = source('a5204531005bef25'), item = { ...base, id: 'synthetic:source-control', source: text, sourceSha256: createHash('sha256').update(text).digest('hex'), expected: { status: 'independently-reviewed', contract: analysis.contract, graph: analysis.graph } }, drawing = '┌───┐\n│ � │\n└───┘'
   expect(assessTerminalDrawing(item, Buffer.from(drawing)).status).toBe('correct')
   const [prefix, suffix] = drawing.split('�'), bytes = Buffer.concat([Buffer.from(prefix!), Buffer.from([255]), Buffer.from(suffix!)]), verdict = assessTerminalDrawing(item, bytes)
   expect(verdict.status).toBe('unknown')
@@ -116,4 +116,16 @@ test('invalid source rejection is separate and requires typed public evidence', 
   expect(assessTerminalSourceRejection(invalid, typed, 'fixture/terminal').status).toBe('correct')
   expect(assessTerminalSourceRejection(invalid, { ...typed, kind: 'accepted' }, 'fixture/terminal').status).toBe('incorrect')
   expect(() => assessTerminalSourceRejection(invalid, { ...typed, sourceSha256: '0'.repeat(64) }, 'fixture/terminal')).toThrow('stale')
+})
+
+test('canonical drawing and rejection verdicts require the exact independently audited source contract', () => {
+  const empty = source('a5204531005bef25'), changed = structuredClone(empty)
+  changed.expected.contract!.facts.find(fact => fact.criterion === 'nodes')!.expected = [{ id: 'invented', label: 'invented' }]
+  expect(assessTerminalDrawing(changed, '').status).toBe('unknown')
+  expect(assessTerminalDrawing({ ...empty, expected: { ...empty.expected, graph: { nodes: [{ id: 'injected', label: 'injected' }], edges: [] } } }, '').status).toBe('unknown')
+  const invalid = structuredClone(source('321aee6efed4a803'))
+  invalid.expected.contract!.facts[0]!.expected = 'invented answer'
+  expect(assessTerminalSourceRejection(invalid).status).toBe('unknown')
+  const text = empty.source + '\nA', analysis = analyseTerminalSource(text, 'flowchart')
+  expect(assessTerminalDrawing({ ...empty, source: text, sourceSha256: createHash('sha256').update(text).digest('hex'), expected: { status: 'independently-reviewed', contract: analysis.contract, graph: analysis.graph } }, '').status).toBe('unknown')
 })

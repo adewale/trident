@@ -74,10 +74,12 @@ test('over-notes cannot include extra actors and side notes cannot borrow a more
   }).join('\n')
   const score = (declaration: string, left: number, right: number) => {
     const source = base.source + '\n' + declaration, contract = analyseTerminalSource(source, 'sequence').contract
-    return assessTerminalDrawing({ ...base, source, sourceSha256: createHash('sha256').update(source).digest('hex'), expected: { status: 'independently-reviewed', contract } }, text + '\n' + note(left, right)).status
+    return assessTerminalDrawing({ ...base, id: 'synthetic:source-control', source, sourceSha256: createHash('sha256').update(source).digest('hex'), expected: { status: 'independently-reviewed', contract } }, text + '\n' + note(left, right)).status
   }
   expect(score('Note over Browser,Server: Shared', 3, 23)).toBe('correct')
   expect(score('Note over Browser,Server: Shared', 3, 39)).toBe('incorrect')
+  expect(score('Note over Browser,Database: Shared', 3, 39)).toBe('correct')
+  expect(score('Note over Browser,Database: Shared', 3, 23)).toBe('incorrect')
   expect(score('Note right of Browser: Shared', 8, 18)).toBe('correct')
   expect(score('Note right of Browser: Shared', 24, 34)).toBe('incorrect')
 })
@@ -96,6 +98,6 @@ test('open or ambiguous heads and nested frame profiles remain unknown rather th
   expect(assess('sequence-ascii-simple', output.replace('►', '→')).status).toBe('unknown')
   for (const source of ['sequenceDiagram\nA->B: x', 'sequenceDiagram\nalt outer\nopt inner\nA->>B: x\nend\nend']) {
     const contract = analyseTerminalSource(source, 'sequence').contract
-    expect(assessTerminalDrawing({ ...base, source, sourceSha256: createHash('sha256').update(source).digest('hex'), expected: { status: 'independently-reviewed', contract } }, output).status).toBe('unknown')
+    expect(assessTerminalDrawing({ ...base, id: 'synthetic:source-control', source, sourceSha256: createHash('sha256').update(source).digest('hex'), expected: { status: 'independently-reviewed', contract } }, output).status).toBe('unknown')
   }
 })
