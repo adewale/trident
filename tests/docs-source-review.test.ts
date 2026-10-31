@@ -238,12 +238,12 @@ test('visual contracts project unprinted ratios once while raw literal contracts
 
 
 test('class block colon members retain their owning class instead of inventing nodes', () => {
-  const result = review('classDiagram\nclass Student {\n-idCard : IdCard\n}\nclass IdCard {\n-id : int\n-name : string\n}\nStudent "1" --o "1" IdCard : carries', 'class')
+  const result = review('classDiagram\nclass Student {\n-idCard : IdCard\n}\nclass IdCard {\n-id : int\n-name : string\n}\nStudent "1" --o "1" IdCard : carries')
   expect(result.expected?.nodes).toEqual([{ id: 'Student', label: 'Student' }, { id: 'IdCard', label: 'IdCard' }])
   expect(result.expected?.facts?.members).toEqual([{ id: 'Student', values: ['-idCard : IdCard'] }, { id: 'IdCard', values: ['-id : int', '-name : string'] }])
   expect(result.expected?.labels).toContain('IdCard')
   expect(result.sourceReview.expectedFactsComplete).toBe(true)
-  const global = review('classDiagram\nStudent: -idCard : IdCard\nclass IdCard', 'class')
+  const global = review('classDiagram\nStudent: -idCard : IdCard\nclass IdCard')
   expect(global.expected?.facts?.members).toEqual([{ id: 'Student', values: ['-idCard : IdCard'] }, { id: 'IdCard', values: [] }])
 })
 
