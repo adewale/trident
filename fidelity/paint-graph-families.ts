@@ -22,7 +22,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   }
   type Point = { x: number; y: number }
   type Box = Point & { width: number; height: number }
-  type Owned = { id: string; label: string; box: Box; outline?: { tag: string; vertices?: Point[] | null; rx: number; ry: number }; style?: any }
+  type Owned = { id: string; label: string; box: Box; anchorParts?: { tag: string; box: Box }[]; outline?: { tag: string; vertices?: Point[] | null; rx: number; ry: number }; style?: any }
   type Route = { source: string; target: string; directed: boolean; startMarker: string; endMarker: string; startFilled?: boolean; endFilled?: boolean; box?: Box; start?: Point; end?: Point; dash?: string; strokeWidth?: number; labels?: string[]; style?: any }
   const nodes = input.paint.nodes as Owned[], groups = input.paint.groups ?? [], routes = input.paint.connections as Route[], node = new Map(nodes.map(item => [item.id, item])), group = new Map(groups.map(item => [item.id, item]))
   const evidence = new Map([...input.paint.checks, ...(input.quantitative ?? [])].map(item => [item.criterion, item]))
@@ -190,7 +190,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
         const observed = actorKind(ink)
         if (!observed || textBox.y - observed.box.y - observed.box.height > Math.max(20, textBox.height * 2)) continue
         actorProfiles.set(expected.id, observed)
-        if (!node.has(expected.id)) { const actual: Owned = { ...expected, box: observed.box, outline: { tag: 'compound-actor', vertices: null, rx: 0, ry: 0 } }; nodes.push(actual); node.set(expected.id, actual) }
+        if (!node.has(expected.id)) { const actual: Owned = { ...expected, box: observed.box, anchorParts: observed.ink.map(element => ({ tag: element.localName, box: box(element) })), outline: { tag: 'compound-actor', vertices: null, rx: 0, ry: 0 } }; nodes.push(actual); node.set(expected.id, actual) }
         break
       }
     }
@@ -283,7 +283,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     if (missing.length && choices.every(item => item.choices.length > 0) && choices.reduce((product, item) => product * item.choices.length, 1) <= 10000) visit(0, new Map(), new Set())
     if (mappings.length === 1) {
       for (const [id, index] of mappings[0]!) {
-        const candidate = blankCandidates[index]!, css = getComputedStyle(candidate.shape), outline = { tag: candidate.shape.localName, vertices: vertices(candidate.shape), rx: 0, ry: 0 }, observed: Owned = { id, label: '', box: candidate.box, outline, style: { fill: css.fill, fillOpacity: Number(css.fillOpacity), stroke: css.stroke, strokeOpacity: Number(css.strokeOpacity), strokeWidth: Number.parseFloat(css.strokeWidth), dash: css.strokeDasharray, opacity: Number(css.opacity) } }
+        const candidate = blankCandidates[index]!, css = getComputedStyle(candidate.shape), outline = { tag: candidate.shape.localName, vertices: vertices(candidate.shape), rx: 0, ry: 0 }, observed: Owned = { id, label: '', box: candidate.box, anchorParts: candidate.parts.map(element => ({ tag: element.localName, box: box(element) })), outline, style: { fill: css.fill, fillOpacity: Number(css.fillOpacity), stroke: css.stroke, strokeOpacity: Number(css.strokeOpacity), strokeWidth: Number.parseFloat(css.strokeWidth), dash: css.strokeDasharray, opacity: Number(css.opacity) } }
         nodes.push(observed); node.set(id, observed)
       }
       exactNodes = (input.expected.nodes ?? []).every(expected => node.has(expected.id)) && mappings[0]!.size === blankCandidates.length
