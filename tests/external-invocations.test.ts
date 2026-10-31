@@ -47,3 +47,28 @@ test('a complete stale external frame is rejected instead of silently dropped', 
   writeFileSync(result + '.invocations.jsonl', JSON.stringify({ schema: 'trident-invocation-evidence-v1', attemptId: 'stale', identity: { ...identity, sourceSha256: evidenceBytesDigest('old source') }, state: 'public-error', startedAt: null, finishedAt: null, durationMs: null, output: null, detail: 'old error' }) + '\n')
   expect(() => recoverExternalInvocations(result, new Map([['case', identity]]), new InvocationJournal(join(root, 'journal')))).toThrow('stale')
 })
+
+test('a completed Python grade uses the terminal return frame and preserves valid empty drawing semantics', async () => {
+  const root = temp.dir(), modules = join(root, 'modules'); mkdirSync(modules)
+  writeFileSync(join(modules, 'termaid.py'), "def render(source):return '\\x1b[0m\\n'\n")
+  const previous = process.env.PYTHONPATH; process.env.PYTHONPATH = modules
+  try {
+    const rows = await runExternalCommunity({ node: { id: 'fixture/python', roles: ['renderer'], outputs: ['terminal'] }, artifact: { kind: 'python', python: 'python3', version: 'fixture' } }, [{ id: 'empty', family: 'flowchart', source: 'graph LR', features: ['expected-empty-drawing'], provenance: 'Synthetic empty drawing control' }], 'terminal', 1, parseOptions(['--out', join(root, 'run'), '--profile', 'smoke']))
+    expect(rows[0]!.status).toBe('passed')
+    expect(rows[0]!.metrics!.firstMs).toBeNumber()
+    expect(rows[0]!.metrics!.measuredAt).toBeString()
+    expect(readFileSync(rows[0]!.metrics!.outputFile as string, 'utf8')).toBe('\x1b[0m\n')
+    expect(JSON.parse(rows[0]!.metrics!.typedSourceOutcome as string).kind).toBe('accepted')
+  } finally { if (previous === undefined) delete process.env.PYTHONPATH; else process.env.PYTHONPATH = previous }
+})
+
+test('a generic Python ValueError cannot earn typed source-rejection credit', async () => {
+  const root = temp.dir(), modules = join(root, 'modules'); mkdirSync(modules)
+  writeFileSync(join(modules, 'termaid.py'), "def render(source):raise ValueError('runtime/cache failure')\n")
+  const previous = process.env.PYTHONPATH; process.env.PYTHONPATH = modules
+  try {
+    const rows = await runExternalCommunity({ node: { id: 'fixture/python', roles: ['renderer'], outputs: ['terminal'] }, artifact: { kind: 'python', python: 'python3', version: 'fixture' } }, [{ id: 'invalid', family: 'invalid', source: 'invalid', intent: 'negative-admission', features: [], provenance: 'Synthetic generic exception control' }], 'terminal', 1, parseOptions(['--out', join(root, 'run'), '--profile', 'smoke']))
+    expect(rows[0]!.metrics!.rejected).toBe(false)
+    expect(JSON.parse(rows[0]!.metrics!.typedSourceOutcome as string).kind).toBe('unavailable')
+  } finally { if (previous === undefined) delete process.env.PYTHONPATH; else process.env.PYTHONPATH = previous }
+})

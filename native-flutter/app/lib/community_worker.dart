@@ -85,6 +85,10 @@ Future<void> runJob() async {
       final firstBytes = bytes;
       final byteCount = bytes.length; // Consume the actual encoded result before stopping.
       row['firstMs'] = lastDuration;
+      row['typedSourceOutcome'] = {'project': workload['invocationIdentity']['project'],
+        'caseId': workload['id'], 'sourceSha256': workload['invocationIdentity']['sourceSha256'],
+        'kind': 'accepted', 'publicBoundary': 'mermaid_flutter.renderToPng(source,pixelRatio:1)',
+        'detail': 'Actual public function returned PNG bytes', 'observerSha256': job['observerSha256']};
       if (errors.isNotEmpty) throw StateError(errors.join('\n'));
       final samples = <double>[];
       final sampleIterations = <int>[];
@@ -124,6 +128,11 @@ Future<void> runJob() async {
       if (errors.isNotEmpty) throw StateError(errors.join('\n'));
       row['status'] = 'ok';
     } catch (error, stack) {
+      row['typedSourceOutcome'] = {'project': workload['invocationIdentity']['project'],
+        'caseId': workload['id'], 'sourceSha256': workload['invocationIdentity']['sourceSha256'],
+        'kind': stage == 'public-api' && error.runtimeType.toString() == 'MermaidParseException' ? 'syntax-rejection' : 'unavailable',
+        'publicBoundary': 'mermaid_flutter.renderToPng(source,pixelRatio:1)',
+        'detail': error.toString(), 'observerSha256': job['observerSha256']};
       row.addAll({'status': stage == 'public-api' ? 'error' : 'blocked', 'rejected': stage == 'public-api' && (error is UnsupportedError || error.runtimeType.toString() == 'MermaidParseException'), 'failureStage': stage, 'detail': error.toString(), 'stack': stack.toString(), 'frameworkErrors': errors});
     } finally { FlutterError.onError = previous; }
     sink.writeln(jsonEncode(row)); await sink.flush();

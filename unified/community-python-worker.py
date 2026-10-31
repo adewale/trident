@@ -46,6 +46,7 @@ render=termaid.render
 if not callable(render):raise TypeError('Public termaid.render is unavailable')
 emit(out,dict(type='import',ms=(time.perf_counter()-started)*1000))
 class ObserverUnavailable(Exception):pass
+def source_outcome(w,kind,detail):return dict(project=w['invocationIdentity']['project'],caseId=w['id'],sourceSha256=w['invocationIdentity']['sourceSha256'],kind=kind,publicBoundary='termaid.render(source)',detail=detail,observerSha256=job['observerSha256'])
 def qualify(sink,w):
  if 'expected-empty-drawing' in w.get('features',[]):
   if not isinstance(sink,str):raise ValueError('Empty drawing must return terminal text')
@@ -68,7 +69,7 @@ def qualify(sink,w):
 for w in job['workloads']:
  r=dict(type='result',workload=w['id']);stage='public-api'
  try:
-  sink,first,returned=call(w);r.update(firstMs=first,invocationId=returned['attemptId'],outputFile=returned['output']['path'],measuredAt=returned['finishedAt'])
+  sink,first,returned=call(w);r.update(typedSourceOutcome=source_outcome(w,'accepted','Actual public function returned'),firstMs=first,invocationId=returned['attemptId'],outputFile=returned['output']['path'],measuredAt=returned['finishedAt'])
   stage='qualification'
   if w.get('intent')=='negative-admission':
    r.update(status='error',rejected=False,detail='Public API accepted independently invalid source')
@@ -89,6 +90,6 @@ for w in job['workloads']:
   stage='qualification'
   qualify(sink,w)
   r.update(status='ok',firstMs=first,samplesMs=samples,medianMs=statistics.median(samples),outputBytes=len(sink.encode()),timingQualified=False,timingProtocol='legacy-adaptive-individually-retained-unqualified-v1')
- except Exception as e:r.update(status='blocked' if isinstance(e,ObserverUnavailable) else 'error',rejected=stage=='public-api',failureStage=stage,detail=str(e))
+ except Exception as e:r.update(status='blocked' if isinstance(e,ObserverUnavailable) else 'error',rejected=stage=='public-api' and isinstance(e,SyntaxError),typedSourceOutcome=source_outcome(w,'syntax-rejection' if stage=='public-api' and isinstance(e,SyntaxError) else 'unavailable',str(e)),failureStage=stage,detail=str(e))
  emit(out,r)
 emit(out,dict(type='end',maxRssKiB=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss));raw.close();out.close()

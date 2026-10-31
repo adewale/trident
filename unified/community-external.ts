@@ -36,7 +36,7 @@ export async function runExternalCommunity(prepared: PreparedCommunity, workload
       const stem = name + `-a${attempt}`,
         job = join(root, stem + '.job.json'),
         result = join(root, stem + '.jsonl')
-      writeFileSync(job, JSON.stringify({ output, invocationRunId: randomUUID(), retainOutputWitness: output === 'terminal' && selected.some(w => w.features.includes('retain-output-witness')), frozenPython: artifact.kind === 'python' ? { version: artifact.version, files: artifact.files } : undefined, coverageOnly: !core && (options.communityCoverageOnce ?? true), timing: { warmCalls: core ? 3 : 1, warmupMs: core ? 50 : 0, minSampleMs: core ? 10 : 0, maxCaseMs: 10_000, samples: core ? 5 : 3 }, workloads: remaining.map(w => ({ id: w.id, source: w.source, expected: w.expectedLabels ?? [], intent: w.intent, features: w.features, invocationIdentity: identities.get(w.id) })) }))
+      if (!existsSync(job)) writeFileSync(job, JSON.stringify({ output, invocationRunId: randomUUID(), observerSha256: evidenceBytesDigest(readFileSync(artifact.kind === 'python' ? join(dirname(fileURLToPath(import.meta.url)), 'community-python-worker.py') : artifact.executable!)), retainOutputWitness: output === 'terminal' && selected.some(w => w.features.includes('retain-output-witness')), frozenPython: artifact.kind === 'python' ? { version: artifact.version, files: artifact.files } : undefined, coverageOnly: !core && (options.communityCoverageOnce ?? true), timing: { warmCalls: core ? 3 : 1, warmupMs: core ? 50 : 0, minSampleMs: core ? 10 : 0, maxCaseMs: 10_000, samples: core ? 5 : 3 }, workloads: remaining.map(w => ({ id: w.id, source: w.source, expected: w.expectedLabels ?? [], intent: w.intent, features: w.features, invocationIdentity: identities.get(w.id) })) }))
       const command = artifact.kind === 'python' ? [artifact.python ?? artifact.executable!, join(dirname(fileURLToPath(import.meta.url)), 'community-python-worker.py'), job, result] : [artifact.executable!, ...(artifact.args ?? []), job, result]
       let text = '',
         stderr = '',
@@ -55,8 +55,8 @@ export async function runExternalCommunity(prepared: PreparedCommunity, workload
           try {
             const value = JSON.parse(line) as Record<string, unknown>
             if (remaining.some(workload => workload.id === value.workload)) {
-              const frame = rawFrames.find(frame => frame.identity.caseId === value.workload && (typeof value.invocationId === 'string' ? frame.attemptId === value.invocationId : frame.state !== 'started'))
-              results.set(value.workload as string, frame ? { ...value, invocationId: frame.attemptId, outputFile: frame.output?.path, firstMs: frame.durationMs, measuredAt: frame.finishedAt, workerAttempt: attempt } : { status: 'blocked', detail: 'Worker reported a grade without a matching durable raw invocation', measuredAt: null, workerAttempt: attempt })
+              const frame = typeof value.invocationId === 'string' ? journal.outcome(value.invocationId) : rawFrames.find(frame => frame.identity.caseId === value.workload && frame.state !== 'started')
+              results.set(value.workload as string, frame && frame.identity.caseId === value.workload && (!['ok', 'passed'].includes(String(value.status)) || frame.state === 'returned') ? { ...value, invocationId: frame.attemptId, outputFile: frame.output?.path, firstMs: frame.durationMs, measuredAt: frame.finishedAt, workerAttempt: attempt } : { status: 'blocked', detail: 'Worker reported a grade without a matching durable raw invocation', measuredAt: null, workerAttempt: attempt })
             }
           } catch {
             /* A malformed completed record cannot qualify a case. */
@@ -89,8 +89,10 @@ export async function runExternalCommunity(prepared: PreparedCommunity, workload
       child.stderr?.on('data', chunk => {
         stderr = (stderr + String(chunk)).slice(-2_000_000)
       })
+      let collectionError: unknown
+      const terminate = () => { try { if (process.platform !== 'win32' && child.pid) process.kill(-child.pid, 'SIGKILL'); else child.kill('SIGKILL') } catch {} }
       const monitor = setInterval(() => {
-        readProgress()
+        try { readProgress() } catch (error) { collectionError = error; terminate(); return }
         const limit = progressCount === remaining.length ? 10_000 : progressCount ? 30_000 : 120_000
         if (performance.now() - lastProgress <= limit) return
         timedOut = true
@@ -107,6 +109,7 @@ export async function runExternalCommunity(prepared: PreparedCommunity, workload
         child.once('close', done)
       })
       clearInterval(monitor)
+      if (collectionError) throw collectionError
       readProgress()
       recoverStopped()
       writeFileSync(join(root, stem + '.log'), text + stderr)
@@ -158,6 +161,7 @@ export async function runExternalCommunity(prepared: PreparedCommunity, workload
           workerAttempt: (r?.workerAttempt as number) ?? null,
           firstMs: (r?.firstMs as number) ?? null,
           sampleIterations: r?.sampleIterations ? JSON.stringify(r.sampleIterations) : null,
+          typedSourceOutcome: r?.typedSourceOutcome ? JSON.stringify(r.typedSourceOutcome) : null,
           timingQualified: false,
           timingProtocol: (r?.timingProtocol as string | undefined) ?? null,
           rejected: r?.status === 'unsupported' ? true : typeof r?.rejected === 'boolean' ? r.rejected : null,
