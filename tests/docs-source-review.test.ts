@@ -6,7 +6,7 @@ import { admitDocsReviews, assessDocsDrawing } from '../unified/docs-drawings.ts
 import { docsSourcePin, requiredDocumentationObligations, reviewDocumentationSource } from '../unified/docs-source-review.ts'
 
 const input = (source: string, id = 'source-control') => ({ id, family: 'source-control', source })
-const review = (source: string) => reviewDocumentationSource(input(source))
+const review = (source: string) => reviewDocumentationSource(input(source), { visual: false })
 const facts = (source: string) => review(source).expected!.facts!
 
 test('literal IDs and labels do not inherit JavaScript object properties or unintended Markdown', () => {
@@ -224,4 +224,14 @@ test('logging and navigation configuration is frozen provenance rather than a pi
 test('authored radar legend intent and event fields after read dependencies remain explicit facts', () => {
   expect(facts('radar-beta\naxis a["A"]\ncurve c["C"]{3}\nshowLegend true')['show-legend']).toBe(true)
   expect(facts('eventmodeling\nrf 03 evt Cart.Added ->> 02 { productId: 7 }').frames).toEqual([{ id: '03', resets: true, kind: 'event', label: 'Cart.Added', dataReference: null, fields: [{ name: 'productId', value: '7' }], readsFrom: ['02'] }])
+})
+
+
+test('visual contracts project unprinted ratios once while raw literal contracts preserve source quantities', () => {
+  const stimulus = input('pie\n"A": 2\n"B": 6'), raw = reviewDocumentationSource(stimulus, { visual: false }), visual = reviewDocumentationSource(stimulus)
+  expect(raw.expected!.facts!.slices).toEqual([{ label: 'A', value: 2 }, { label: 'B', value: 6 }])
+  expect(visual.expected!.facts!.slices).toEqual([{ label: 'A', value: .25 }, { label: 'B', value: .75 }])
+  expect(visual.sourceReview.visualProjections).toHaveLength(1)
+  expect(visual.sourceReview.requiredObligations).toEqual(requiredDocumentationObligations(visual.expected))
+  expect(raw.sourceSha256).toBe(visual.sourceSha256)
 })

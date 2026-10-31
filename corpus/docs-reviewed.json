@@ -16163,11 +16163,11 @@
         "slices": [
           {
             "label": "Time spent looking for movie",
-            "value": 90
+            "value": 0.9
           },
           {
             "label": "Time spent watching it",
-            "value": 10
+            "value": 0.1
           }
         ]
       }
@@ -16184,7 +16184,10 @@
         "fact:title"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Pie without showData encodes each labelled slice fraction; common rescaling of unprinted totals is visually equivalent"
+      ]
     }
   },
   {
@@ -16206,15 +16209,15 @@
         "slices": [
           {
             "label": "FRIENDS",
-            "value": 2
+            "value": 0.04
           },
           {
             "label": "FAMILY",
-            "value": 3
+            "value": 0.06
           },
           {
             "label": "NOSE",
-            "value": 45
+            "value": 0.9
           }
         ]
       }
@@ -16231,7 +16234,10 @@
         "fact:title"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Pie without showData encodes each labelled slice fraction; common rescaling of unprinted totals is visually equivalent"
+      ]
     }
   },
   {
@@ -35480,15 +35486,15 @@
         "slices": [
           {
             "label": "Dogs",
-            "value": 386
+            "value": 0.7942386831275721
           },
           {
             "label": "Cats",
-            "value": 85
+            "value": 0.1748971193415638
           },
           {
             "label": "Rats",
-            "value": 15
+            "value": 0.030864197530864196
           }
         ]
       }
@@ -35505,7 +35511,10 @@
         "fact:title"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Pie without showData encodes each labelled slice fraction; common rescaling of unprinted totals is visually equivalent"
+      ]
     }
   },
   {
@@ -39094,344 +39103,345 @@
           {
             "source": "Agricultural 'waste'",
             "target": "Bio-conversion",
-            "value": 124.729
+            "value": 0.015876044431387903
           },
           {
             "source": "Bio-conversion",
             "target": "Liquid",
-            "value": 0.597
+            "value": 0.00007598873177479639
           },
           {
             "source": "Bio-conversion",
             "target": "Losses",
-            "value": 26.862
+            "value": 0.003419111076942346
           },
           {
             "source": "Bio-conversion",
             "target": "Solid",
-            "value": 280.322
+            "value": 0.03568059173965574
           },
           {
             "source": "Bio-conversion",
             "target": "Gas",
-            "value": 81.144
+            "value": 0.010328357874596447
           },
           {
             "source": "Biofuel imports",
             "target": "Liquid",
-            "value": 35
+            "value": 0.00445495077406679
           },
           {
             "source": "Biomass imports",
             "target": "Solid",
-            "value": 35
+            "value": 0.00445495077406679
           },
           {
             "source": "Coal imports",
             "target": "Coal",
-            "value": 11.606
+            "value": 0.0014772616766805476
           },
           {
             "source": "Coal reserves",
             "target": "Coal",
-            "value": 63.965
+            "value": 0.008141740750376636
           },
           {
             "source": "Coal",
             "target": "Solid",
-            "value": 75.571
+            "value": 0.009619002427057183
           },
           {
             "source": "District heating",
             "target": "Industry",
-            "value": 10.639
+            "value": 0.0013541777510084738
           },
           {
             "source": "District heating",
             "target": "Heating and cooling - commercial",
-            "value": 22.505
+            "value": 0.002864533347724946
           },
           {
             "source": "District heating",
             "target": "Heating and cooling - homes",
-            "value": 46.184
+            "value": 0.005878498472842875
           },
           {
             "source": "Electricity grid",
             "target": "Over generation / exports",
-            "value": 104.453
+            "value": 0.013295227805817099
           },
           {
             "source": "Electricity grid",
             "target": "Heating and cooling - homes",
-            "value": 113.726
+            "value": 0.014475535192329136
           },
           {
             "source": "Electricity grid",
             "target": "H2 conversion",
-            "value": 27.14
+            "value": 0.0034544961145192197
           },
           {
             "source": "Electricity grid",
             "target": "Industry",
-            "value": 342.165
+            "value": 0.043552235188816096
           },
           {
             "source": "Electricity grid",
             "target": "Road transport",
-            "value": 37.797
+            "value": 0.004810964983068641
           },
           {
             "source": "Electricity grid",
             "target": "Agriculture",
-            "value": 4.412
+            "value": 0.0005615783661480766
           },
           {
             "source": "Electricity grid",
             "target": "Heating and cooling - commercial",
-            "value": 40.858
+            "value": 0.00520058224933774
           },
           {
             "source": "Electricity grid",
             "target": "Losses",
-            "value": 56.691
+            "value": 0.007215874695217726
           },
           {
             "source": "Electricity grid",
             "target": "Rail transport",
-            "value": 7.863
+            "value": 0.001000836512471062
           },
           {
             "source": "Electricity grid",
             "target": "Lighting & appliances - commercial",
-            "value": 90.008
+            "value": 0.011456605979205819
           },
           {
             "source": "Electricity grid",
             "target": "Lighting & appliances - homes",
-            "value": 93.494
+            "value": 0.011900319076302871
           },
           {
             "source": "Gas imports",
             "target": "Ngas",
-            "value": 40.719
+            "value": 0.005182889730549304
           },
           {
             "source": "Gas reserves",
             "target": "Ngas",
-            "value": 82.233
+            "value": 0.010466970485823839
           },
           {
             "source": "Gas",
             "target": "Heating and cooling - commercial",
-            "value": 0.129
+            "value": 0.000016419675710131884
           },
           {
             "source": "Gas",
             "target": "Losses",
-            "value": 1.401
+            "value": 0.0001783253152705021
           },
           {
             "source": "Gas",
             "target": "Thermal generation",
-            "value": 151.891
+            "value": 0.019333340800679395
           },
           {
             "source": "Gas",
             "target": "Agriculture",
-            "value": 2.096
+            "value": 0.0002667879092126855
           },
           {
             "source": "Gas",
             "target": "Industry",
-            "value": 48.58
+            "value": 0.006183471674404704
           },
           {
             "source": "Geothermal",
             "target": "Electricity grid",
-            "value": 7.013
+            "value": 0.0008926448508151543
           },
           {
             "source": "H2 conversion",
             "target": "H2",
-            "value": 20.897
+            "value": 0.0026598601807335345
           },
           {
             "source": "H2 conversion",
             "target": "Losses",
-            "value": 6.242
+            "value": 0.0007945086494778544
           },
           {
             "source": "H2",
             "target": "Road transport",
-            "value": 20.897
+            "value": 0.0026598601807335345
           },
           {
             "source": "Hydro",
             "target": "Electricity grid",
-            "value": 6.995
+            "value": 0.0008903537332742057
           },
           {
             "source": "Liquid",
             "target": "Industry",
-            "value": 121.066
+            "value": 0.015409802011804858
           },
           {
             "source": "Liquid",
             "target": "International shipping",
-            "value": 128.69
+            "value": 0.016380217574704436
           },
           {
             "source": "Liquid",
             "target": "Road transport",
-            "value": 135.835
+            "value": 0.017289663954153215
           },
           {
             "source": "Liquid",
             "target": "Domestic aviation",
-            "value": 14.458
+            "value": 0.001840276522613076
           },
           {
             "source": "Liquid",
             "target": "International aviation",
-            "value": 206.267
+            "value": 0.02625455232326956
           },
           {
             "source": "Liquid",
             "target": "Agriculture",
-            "value": 3.64
+            "value": 0.0004633148805029462
           },
           {
             "source": "Liquid",
             "target": "National navigation",
-            "value": 33.218
+            "value": 0.004228130137512876
           },
           {
             "source": "Liquid",
             "target": "Rail transport",
-            "value": 4.413
+            "value": 0.000561705650455907
           },
           {
             "source": "Marine algae",
             "target": "Bio-conversion",
-            "value": 4.375
+            "value": 0.0005568688467583487
           },
           {
             "source": "Ngas",
             "target": "Gas",
-            "value": 122.952
+            "value": 0.015649860216373143
           },
           {
             "source": "Nuclear",
             "target": "Thermal generation",
-            "value": 839.978
+            "value": 0.1069160183228307
           },
           {
             "source": "Oil imports",
             "target": "Oil",
-            "value": 504.287
+            "value": 0.06418782174290913
           },
           {
             "source": "Oil reserves",
             "target": "Oil",
-            "value": 107.703
+            "value": 0.013708901806266157
           },
           {
             "source": "Oil",
             "target": "Liquid",
-            "value": 611.99
+            "value": 0.07789672354917529
           },
           {
             "source": "Other waste",
             "target": "Solid",
-            "value": 56.587
+            "value": 0.007202637127203357
           },
           {
             "source": "Other waste",
             "target": "Bio-conversion",
-            "value": 77.81
+            "value": 0.009903991992289628
           },
           {
             "source": "Pumped heat",
             "target": "Heating and cooling - homes",
-            "value": 193.026
+            "value": 0.02456918080328618
           },
           {
             "source": "Pumped heat",
             "target": "Heating and cooling - commercial",
-            "value": 70.672
+            "value": 0.008995436602995663
           },
           {
             "source": "Solar PV",
             "target": "Electricity grid",
-            "value": 59.901
+            "value": 0.007624457323353566
           },
           {
             "source": "Solar Thermal",
             "target": "Heating and cooling - homes",
-            "value": 19.263
+            "value": 0.002451877621738531
           },
           {
             "source": "Solar",
             "target": "Solar Thermal",
-            "value": 19.263
+            "value": 0.002451877621738531
           },
           {
             "source": "Solar",
             "target": "Solar PV",
-            "value": 59.901
+            "value": 0.007624457323353566
           },
           {
             "source": "Solid",
             "target": "Agriculture",
-            "value": 0.882
+            "value": 0.00011226475950648312
           },
           {
             "source": "Solid",
             "target": "Thermal generation",
-            "value": 400.12
+            "value": 0.050928997249131545
           },
           {
             "source": "Solid",
             "target": "Industry",
-            "value": 46.477
+            "value": 0.005915792775037206
           },
           {
             "source": "Thermal generation",
             "target": "Electricity grid",
-            "value": 525.531
+            "value": 0.06689184957845982
           },
           {
             "source": "Thermal generation",
             "target": "Losses",
-            "value": 787.129
+            "value": 0.10018916993829767
           },
           {
             "source": "Thermal generation",
             "target": "District heating",
-            "value": 79.329
+            "value": 0.010097336855884124
           },
           {
             "source": "Tidal",
             "target": "Electricity grid",
-            "value": 9.452
+            "value": 0.0012030912776136943
           },
           {
             "source": "UK land based bioenergy",
             "target": "Bio-conversion",
-            "value": 182.01
+            "value": 0.02316701686822561
           },
           {
             "source": "Wave",
             "target": "Electricity grid",
-            "value": 19.013
+            "value": 0.002420056544780911
           },
           {
             "source": "Wind",
             "target": "Electricity grid",
-            "value": 289.366
+            "value": 0.03683175101967459
           }
-        ]
+        ],
+        "show-values": false
       },
       "nodes": [
         {
@@ -39637,10 +39647,14 @@
         "visible-labels",
         "node-identities-and-labels",
         "fact:authored-config",
-        "fact:links"
+        "fact:links",
+        "fact:show-values"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Sankey link geometry encodes relative endpoint-owned flow widths; hidden absolute link totals are not additional visible facts"
+      ]
     }
   },
   {
@@ -39661,17 +39675,40 @@
           {
             "source": "Electricity grid",
             "target": "Over generation / exports",
-            "value": 104.453
+            "value": 0.42578438685955833
           },
           {
             "source": "Electricity grid",
             "target": "Heating and cooling - homes",
-            "value": 113.726
+            "value": 0.4635841496174369
           },
           {
             "source": "Electricity grid",
             "target": "H2 conversion",
-            "value": 27.14
+            "value": 0.11063146352300474
+          }
+        ],
+        "show-values": true,
+        "displayed-node-values": [
+          {
+            "id": "Electricity grid",
+            "value": 245.31900000000002,
+            "display": "245.32"
+          },
+          {
+            "id": "Over generation / exports",
+            "value": 104.453,
+            "display": "104.45"
+          },
+          {
+            "id": "Heating and cooling - homes",
+            "value": 113.726,
+            "display": "113.73"
+          },
+          {
+            "id": "H2 conversion",
+            "value": 27.14,
+            "display": "27.14"
           }
         ]
       },
@@ -39702,10 +39739,16 @@
       "requiredObligations": [
         "visible-labels",
         "node-identities-and-labels",
-        "fact:links"
+        "fact:displayed-node-values",
+        "fact:links",
+        "fact:show-values"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Sankey showValues defaults true at the pinned schema: print each node max(incoming,outgoing), rounded to two decimal places with configured prefix/suffix",
+        "Sankey link geometry encodes relative endpoint-owned flow widths; hidden absolute link totals are not additional visible facts"
+      ]
     }
   },
   {
@@ -39726,17 +39769,40 @@
           {
             "source": "Bio-conversion",
             "target": "Losses",
-            "value": 26.862
+            "value": 0.06917348221091447
           },
           {
             "source": "Bio-conversion",
             "target": "Solid",
-            "value": 280.322
+            "value": 0.7218691415504418
           },
           {
             "source": "Bio-conversion",
             "target": "Gas",
-            "value": 81.144
+            "value": 0.2089573762386436
+          }
+        ],
+        "show-values": true,
+        "displayed-node-values": [
+          {
+            "id": "Bio-conversion",
+            "value": 388.32800000000003,
+            "display": "388.33"
+          },
+          {
+            "id": "Losses",
+            "value": 26.862,
+            "display": "26.86"
+          },
+          {
+            "id": "Solid",
+            "value": 280.322,
+            "display": "280.32"
+          },
+          {
+            "id": "Gas",
+            "value": 81.144,
+            "display": "81.14"
           }
         ]
       },
@@ -39767,10 +39833,16 @@
       "requiredObligations": [
         "visible-labels",
         "node-identities-and-labels",
-        "fact:links"
+        "fact:displayed-node-values",
+        "fact:links",
+        "fact:show-values"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Sankey showValues defaults true at the pinned schema: print each node max(incoming,outgoing), rounded to two decimal places with configured prefix/suffix",
+        "Sankey link geometry encodes relative endpoint-owned flow widths; hidden absolute link totals are not additional visible facts"
+      ]
     }
   },
   {
@@ -39790,12 +39862,30 @@
           {
             "source": "Pumped heat",
             "target": "Heating and cooling, homes",
-            "value": 193.026
+            "value": 0.7319964504850246
           },
           {
             "source": "Pumped heat",
             "target": "Heating and cooling, commercial",
-            "value": 70.672
+            "value": 0.26800354951497546
+          }
+        ],
+        "show-values": true,
+        "displayed-node-values": [
+          {
+            "id": "Pumped heat",
+            "value": 263.698,
+            "display": "263.7"
+          },
+          {
+            "id": "Heating and cooling, homes",
+            "value": 193.026,
+            "display": "193.03"
+          },
+          {
+            "id": "Heating and cooling, commercial",
+            "value": 70.672,
+            "display": "70.67"
           }
         ]
       },
@@ -39822,10 +39912,16 @@
       "requiredObligations": [
         "visible-labels",
         "node-identities-and-labels",
-        "fact:links"
+        "fact:displayed-node-values",
+        "fact:links",
+        "fact:show-values"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Sankey showValues defaults true at the pinned schema: print each node max(incoming,outgoing), rounded to two decimal places with configured prefix/suffix",
+        "Sankey link geometry encodes relative endpoint-owned flow widths; hidden absolute link totals are not additional visible facts"
+      ]
     }
   },
   {
@@ -39845,12 +39941,30 @@
           {
             "source": "Pumped heat",
             "target": "Heating and cooling, \"homes\"",
-            "value": 193.026
+            "value": 0.7319964504850246
           },
           {
             "source": "Pumped heat",
             "target": "Heating and cooling, \"commercial\"",
-            "value": 70.672
+            "value": 0.26800354951497546
+          }
+        ],
+        "show-values": true,
+        "displayed-node-values": [
+          {
+            "id": "Pumped heat",
+            "value": 263.698,
+            "display": "263.7"
+          },
+          {
+            "id": "Heating and cooling, \"homes\"",
+            "value": 193.026,
+            "display": "193.03"
+          },
+          {
+            "id": "Heating and cooling, \"commercial\"",
+            "value": 70.672,
+            "display": "70.67"
           }
         ]
       },
@@ -39877,10 +39991,16 @@
       "requiredObligations": [
         "visible-labels",
         "node-identities-and-labels",
-        "fact:links"
+        "fact:displayed-node-values",
+        "fact:links",
+        "fact:show-values"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Sankey showValues defaults true at the pinned schema: print each node max(incoming,outgoing), rounded to two decimal places with configured prefix/suffix",
+        "Sankey link geometry encodes relative endpoint-owned flow widths; hidden absolute link totals are not additional visible facts"
+      ]
     }
   },
   {
@@ -39907,19 +40027,20 @@
           {
             "source": "Electricity grid",
             "target": "Heating and cooling - homes",
-            "value": 113.726
+            "value": 0.22186889122130704
           },
           {
             "source": "Electricity grid",
             "target": "Industry",
-            "value": 342.165
+            "value": 0.6675322192351664
           },
           {
             "source": "Electricity grid",
             "target": "Losses",
-            "value": 56.691
+            "value": 0.1105988895435267
           }
-        ]
+        ],
+        "show-values": false
       },
       "nodes": [
         {
@@ -39949,10 +40070,14 @@
         "visible-labels",
         "node-identities-and-labels",
         "fact:authored-config",
-        "fact:links"
+        "fact:links",
+        "fact:show-values"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Sankey link geometry encodes relative endpoint-owned flow widths; hidden absolute link totals are not additional visible facts"
+      ]
     }
   },
   {
@@ -39980,19 +40105,20 @@
           {
             "source": "Electricity grid",
             "target": "Heating and cooling - homes",
-            "value": 113.726
+            "value": 0.22186889122130704
           },
           {
             "source": "Electricity grid",
             "target": "Industry",
-            "value": 342.165
+            "value": 0.6675322192351664
           },
           {
             "source": "Electricity grid",
             "target": "Losses",
-            "value": 56.691
+            "value": 0.1105988895435267
           }
-        ]
+        ],
+        "show-values": false
       },
       "nodes": [
         {
@@ -40022,10 +40148,14 @@
         "visible-labels",
         "node-identities-and-labels",
         "fact:authored-config",
-        "fact:links"
+        "fact:links",
+        "fact:show-values"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Sankey link geometry encodes relative endpoint-owned flow widths; hidden absolute link totals are not additional visible facts"
+      ]
     }
   },
   {
@@ -40056,19 +40186,20 @@
           {
             "source": "Electricity grid",
             "target": "Heating and cooling - homes",
-            "value": 113.726
+            "value": 0.22186889122130704
           },
           {
             "source": "Electricity grid",
             "target": "Industry",
-            "value": 342.165
+            "value": 0.6675322192351664
           },
           {
             "source": "Electricity grid",
             "target": "Losses",
-            "value": 56.691
+            "value": 0.1105988895435267
           }
-        ]
+        ],
+        "show-values": false
       },
       "nodes": [
         {
@@ -40098,10 +40229,14 @@
         "visible-labels",
         "node-identities-and-labels",
         "fact:authored-config",
-        "fact:links"
+        "fact:links",
+        "fact:show-values"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Sankey link geometry encodes relative endpoint-owned flow widths; hidden absolute link totals are not additional visible facts"
+      ]
     }
   },
   {
@@ -52230,20 +52365,61 @@
         ],
         "values": [
           {
+            "id": "Category A",
+            "value": 0.42857142857142855
+          },
+          {
             "id": "Category A/Item A1",
-            "value": 10
+            "value": 0.3333333333333333
           },
           {
             "id": "Category A/Item A2",
-            "value": 20
+            "value": 0.6666666666666666
+          },
+          {
+            "id": "Category B",
+            "value": 0.5714285714285714
           },
           {
             "id": "Category B/Item B1",
-            "value": 15
+            "value": 0.375
           },
           {
             "id": "Category B/Item B2",
-            "value": 25
+            "value": 0.625
+          }
+        ],
+        "show-values": true,
+        "displayed-values": [
+          {
+            "id": "Category A",
+            "value": 30,
+            "format": ","
+          },
+          {
+            "id": "Category A/Item A1",
+            "value": 10,
+            "format": ","
+          },
+          {
+            "id": "Category A/Item A2",
+            "value": 20,
+            "format": ","
+          },
+          {
+            "id": "Category B",
+            "value": 40,
+            "format": ","
+          },
+          {
+            "id": "Category B/Item B1",
+            "value": 15,
+            "format": ","
+          },
+          {
+            "id": "Category B/Item B2",
+            "value": 25,
+            "format": ","
           }
         ]
       },
@@ -52282,11 +52458,16 @@
       "requiredObligations": [
         "visible-labels",
         "node-identities-and-labels",
+        "fact:displayed-values",
         "fact:hierarchy",
+        "fact:show-values",
         "fact:values"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Treemap area encodes sibling weight fractions including independently derived subtree aggregates; showValues defaults true, so printed source values remain separate obligations unless explicitly disabled"
+      ]
     }
   },
   {
@@ -52343,24 +52524,79 @@
         ],
         "values": [
           {
+            "id": "Products",
+            "value": 1
+          },
+          {
+            "id": "Products/Electronics",
+            "value": 0.5555555555555556
+          },
+          {
             "id": "Products/Electronics/Phones",
-            "value": 50
+            "value": 0.5
           },
           {
             "id": "Products/Electronics/Computers",
-            "value": 30
+            "value": 0.3
           },
           {
             "id": "Products/Electronics/Accessories",
-            "value": 20
+            "value": 0.2
+          },
+          {
+            "id": "Products/Clothing",
+            "value": 0.4444444444444444
           },
           {
             "id": "Products/Clothing/Men's",
-            "value": 40
+            "value": 0.5
           },
           {
             "id": "Products/Clothing/Women's",
-            "value": 40
+            "value": 0.5
+          }
+        ],
+        "show-values": true,
+        "displayed-values": [
+          {
+            "id": "Products",
+            "value": 180,
+            "format": ","
+          },
+          {
+            "id": "Products/Electronics",
+            "value": 100,
+            "format": ","
+          },
+          {
+            "id": "Products/Electronics/Phones",
+            "value": 50,
+            "format": ","
+          },
+          {
+            "id": "Products/Electronics/Computers",
+            "value": 30,
+            "format": ","
+          },
+          {
+            "id": "Products/Electronics/Accessories",
+            "value": 20,
+            "format": ","
+          },
+          {
+            "id": "Products/Clothing",
+            "value": 80,
+            "format": ","
+          },
+          {
+            "id": "Products/Clothing/Men's",
+            "value": 40,
+            "format": ","
+          },
+          {
+            "id": "Products/Clothing/Women's",
+            "value": 40,
+            "format": ","
           }
         ]
       },
@@ -52407,11 +52643,16 @@
       "requiredObligations": [
         "visible-labels",
         "node-identities-and-labels",
+        "fact:displayed-values",
         "fact:hierarchy",
+        "fact:show-values",
         "fact:values"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Treemap area encodes sibling weight fractions including independently derived subtree aggregates; showValues defaults true, so printed source values remain separate obligations unless explicitly disabled"
+      ]
     }
   },
   {
@@ -52490,24 +52731,79 @@
         ],
         "values": [
           {
+            "id": "Section 1",
+            "value": 0.2962962962962963
+          },
+          {
             "id": "Section 1/Leaf 1.1",
-            "value": 12
+            "value": 0.5
+          },
+          {
+            "id": "Section 1/Section 1.2",
+            "value": 0.5
           },
           {
             "id": "Section 1/Section 1.2/Leaf 1.2.1",
-            "value": 12
+            "value": 1
+          },
+          {
+            "id": "Section 2",
+            "value": 0.7037037037037037
           },
           {
             "id": "Section 2/Leaf 2.1",
-            "value": 20
+            "value": 0.3508771929824561
           },
           {
             "id": "Section 2/Leaf 2.2",
-            "value": 25
+            "value": 0.43859649122807015
           },
           {
             "id": "Section 2/Leaf 2.3",
-            "value": 12
+            "value": 0.21052631578947367
+          }
+        ],
+        "show-values": true,
+        "displayed-values": [
+          {
+            "id": "Section 1",
+            "value": 24,
+            "format": ","
+          },
+          {
+            "id": "Section 1/Leaf 1.1",
+            "value": 12,
+            "format": ","
+          },
+          {
+            "id": "Section 1/Section 1.2",
+            "value": 12,
+            "format": ","
+          },
+          {
+            "id": "Section 1/Section 1.2/Leaf 1.2.1",
+            "value": 12,
+            "format": ","
+          },
+          {
+            "id": "Section 2",
+            "value": 57,
+            "format": ","
+          },
+          {
+            "id": "Section 2/Leaf 2.1",
+            "value": 20,
+            "format": ","
+          },
+          {
+            "id": "Section 2/Leaf 2.2",
+            "value": 25,
+            "format": ","
+          },
+          {
+            "id": "Section 2/Leaf 2.3",
+            "value": 12,
+            "format": ","
           }
         ]
       },
@@ -52555,11 +52851,16 @@
         "visible-labels",
         "node-identities-and-labels",
         "fact:authored-style",
+        "fact:displayed-values",
         "fact:hierarchy",
+        "fact:show-values",
         "fact:values"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Treemap area encodes sibling weight fractions including independently derived subtree aggregates; showValues defaults true, so printed source values remain separate obligations unless explicitly disabled"
+      ]
     }
   },
   {
@@ -52627,20 +52928,61 @@
         ],
         "values": [
           {
+            "id": "Main",
+            "value": 1
+          },
+          {
             "id": "Main/A",
-            "value": 20
+            "value": 0.4
+          },
+          {
+            "id": "Main/B",
+            "value": 0.5
           },
           {
             "id": "Main/B/B1",
-            "value": 10
+            "value": 0.4
           },
           {
             "id": "Main/B/B2",
-            "value": 15
+            "value": 0.6
           },
           {
             "id": "Main/C",
-            "value": 5
+            "value": 0.1
+          }
+        ],
+        "show-values": true,
+        "displayed-values": [
+          {
+            "id": "Main",
+            "value": 50,
+            "format": ","
+          },
+          {
+            "id": "Main/A",
+            "value": 20,
+            "format": ","
+          },
+          {
+            "id": "Main/B",
+            "value": 25,
+            "format": ","
+          },
+          {
+            "id": "Main/B/B1",
+            "value": 10,
+            "format": ","
+          },
+          {
+            "id": "Main/B/B2",
+            "value": 15,
+            "format": ","
+          },
+          {
+            "id": "Main/C",
+            "value": 5,
+            "format": ","
           }
         ]
       },
@@ -52680,11 +53022,16 @@
         "visible-labels",
         "node-identities-and-labels",
         "fact:authored-style",
+        "fact:displayed-values",
         "fact:hierarchy",
+        "fact:show-values",
         "fact:values"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Treemap area encodes sibling weight fractions including independently derived subtree aggregates; showValues defaults true, so printed source values remain separate obligations unless explicitly disabled"
+      ]
     }
   },
   {
@@ -52734,20 +53081,61 @@
         ],
         "values": [
           {
+            "id": "Category A",
+            "value": 0.42857142857142855
+          },
+          {
             "id": "Category A/Item A1",
-            "value": 10
+            "value": 0.3333333333333333
           },
           {
             "id": "Category A/Item A2",
-            "value": 20
+            "value": 0.6666666666666666
+          },
+          {
+            "id": "Category B",
+            "value": 0.5714285714285714
           },
           {
             "id": "Category B/Item B1",
-            "value": 15
+            "value": 0.375
           },
           {
             "id": "Category B/Item B2",
-            "value": 25
+            "value": 0.625
+          }
+        ],
+        "show-values": true,
+        "displayed-values": [
+          {
+            "id": "Category A",
+            "value": 30,
+            "format": ","
+          },
+          {
+            "id": "Category A/Item A1",
+            "value": 10,
+            "format": ","
+          },
+          {
+            "id": "Category A/Item A2",
+            "value": 20,
+            "format": ","
+          },
+          {
+            "id": "Category B",
+            "value": 40,
+            "format": ","
+          },
+          {
+            "id": "Category B/Item B1",
+            "value": 15,
+            "format": ","
+          },
+          {
+            "id": "Category B/Item B2",
+            "value": 25,
+            "format": ","
           }
         ]
       },
@@ -52787,11 +53175,16 @@
         "visible-labels",
         "node-identities-and-labels",
         "fact:authored-config",
+        "fact:displayed-values",
         "fact:hierarchy",
+        "fact:show-values",
         "fact:values"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Treemap area encodes sibling weight fractions including independently derived subtree aggregates; showValues defaults true, so printed source values remain separate obligations unless explicitly disabled"
+      ]
     }
   },
   {
@@ -52843,20 +53236,61 @@
         ],
         "values": [
           {
+            "id": "Category A",
+            "value": 0.42857142857142855
+          },
+          {
             "id": "Category A/Item A1",
-            "value": 10
+            "value": 0.3333333333333333
           },
           {
             "id": "Category A/Item A2",
-            "value": 20
+            "value": 0.6666666666666666
+          },
+          {
+            "id": "Category B",
+            "value": 0.5714285714285714
           },
           {
             "id": "Category B/Item B1",
-            "value": 15
+            "value": 0.375
           },
           {
             "id": "Category B/Item B2",
-            "value": 25
+            "value": 0.625
+          }
+        ],
+        "show-values": true,
+        "displayed-values": [
+          {
+            "id": "Category A",
+            "value": 30,
+            "format": ","
+          },
+          {
+            "id": "Category A/Item A1",
+            "value": 10,
+            "format": ","
+          },
+          {
+            "id": "Category A/Item A2",
+            "value": 20,
+            "format": ","
+          },
+          {
+            "id": "Category B",
+            "value": 40,
+            "format": ","
+          },
+          {
+            "id": "Category B/Item B1",
+            "value": 15,
+            "format": ","
+          },
+          {
+            "id": "Category B/Item B2",
+            "value": 25,
+            "format": ","
           }
         ]
       },
@@ -52896,11 +53330,16 @@
         "visible-labels",
         "node-identities-and-labels",
         "fact:authored-config",
+        "fact:displayed-values",
         "fact:hierarchy",
+        "fact:show-values",
         "fact:values"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Treemap area encodes sibling weight fractions including independently derived subtree aggregates; showValues defaults true, so printed source values remain separate obligations unless explicitly disabled"
+      ]
     }
   },
   {
@@ -52962,24 +53401,79 @@
         ],
         "values": [
           {
+            "id": "Budget",
+            "value": 1
+          },
+          {
+            "id": "Budget/Operations",
+            "value": 0.6666666666666666
+          },
+          {
             "id": "Budget/Operations/Salaries",
-            "value": 700000
+            "value": 0.7
           },
           {
             "id": "Budget/Operations/Equipment",
-            "value": 200000
+            "value": 0.2
           },
           {
             "id": "Budget/Operations/Supplies",
-            "value": 100000
+            "value": 0.1
+          },
+          {
+            "id": "Budget/Marketing",
+            "value": 0.3333333333333333
           },
           {
             "id": "Budget/Marketing/Advertising",
-            "value": 400000
+            "value": 0.8
           },
           {
             "id": "Budget/Marketing/Events",
-            "value": 100000
+            "value": 0.2
+          }
+        ],
+        "show-values": true,
+        "displayed-values": [
+          {
+            "id": "Budget",
+            "value": 1500000,
+            "format": "$0,0"
+          },
+          {
+            "id": "Budget/Operations",
+            "value": 1000000,
+            "format": "$0,0"
+          },
+          {
+            "id": "Budget/Operations/Salaries",
+            "value": 700000,
+            "format": "$0,0"
+          },
+          {
+            "id": "Budget/Operations/Equipment",
+            "value": 200000,
+            "format": "$0,0"
+          },
+          {
+            "id": "Budget/Operations/Supplies",
+            "value": 100000,
+            "format": "$0,0"
+          },
+          {
+            "id": "Budget/Marketing",
+            "value": 500000,
+            "format": "$0,0"
+          },
+          {
+            "id": "Budget/Marketing/Advertising",
+            "value": 400000,
+            "format": "$0,0"
+          },
+          {
+            "id": "Budget/Marketing/Events",
+            "value": 100000,
+            "format": "$0,0"
           }
         ]
       },
@@ -53027,11 +53521,16 @@
         "visible-labels",
         "node-identities-and-labels",
         "fact:authored-config",
+        "fact:displayed-values",
         "fact:hierarchy",
+        "fact:show-values",
         "fact:values"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Treemap area encodes sibling weight fractions including independently derived subtree aggregates; showValues defaults true, so printed source values remain separate obligations unless explicitly disabled"
+      ]
     }
   },
   {
@@ -53078,6 +53577,10 @@
         ],
         "values": [
           {
+            "id": "Market Share",
+            "value": 1
+          },
+          {
             "id": "Market Share/Company A",
             "value": 0.35
           },
@@ -53092,6 +53595,34 @@
           {
             "id": "Market Share/Others",
             "value": 0.25
+          }
+        ],
+        "show-values": true,
+        "displayed-values": [
+          {
+            "id": "Market Share",
+            "value": 1,
+            "format": "$.1%"
+          },
+          {
+            "id": "Market Share/Company A",
+            "value": 0.35,
+            "format": "$.1%"
+          },
+          {
+            "id": "Market Share/Company B",
+            "value": 0.25,
+            "format": "$.1%"
+          },
+          {
+            "id": "Market Share/Company C",
+            "value": 0.15,
+            "format": "$.1%"
+          },
+          {
+            "id": "Market Share/Others",
+            "value": 0.25,
+            "format": "$.1%"
           }
         ]
       },
@@ -53127,11 +53658,16 @@
         "visible-labels",
         "node-identities-and-labels",
         "fact:authored-config",
+        "fact:displayed-values",
         "fact:hierarchy",
+        "fact:show-values",
         "fact:values"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Treemap area encodes sibling weight fractions including independently derived subtree aggregates; showValues defaults true, so printed source values remain separate obligations unless explicitly disabled"
+      ]
     }
   },
   {

@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto'
 import { parse as parseYaml } from 'yaml'
 import { decodeHTML } from 'entities'
+import { projectVisualExpectation } from '../fidelity/visual-expectation.ts'
 import type { MeaningExpectation, MeaningJson } from '../fidelity/meaning.ts'
 import type { DocsDrawingReview, DocsInput } from './docs-drawings.ts'
 
@@ -14,6 +15,7 @@ export interface DocsSourceReview {
   requiredObligations: string[]
   unresolved: string[]
   excludedNonvisual: string[]
+  visualProjections?: string[]
 }
 export type SourceReviewedDrawing = DocsDrawingReview & { sourceReview: DocsSourceReview }
 export function requiredDocumentationObligations(expected?: MeaningExpectation) {
@@ -1094,12 +1096,14 @@ function zenuml(r: LiteralReview) {
 }
 
 /** Source interpretation only: no renderer, target parser or model executes. */
-export function reviewDocumentationSource(input: DocsInput): SourceReviewedDrawing {
+export function reviewDocumentationSource(input: DocsInput, options: { visual?: boolean } = {}): SourceReviewedDrawing {
   if (input.id === 'packages/mermaid/src/docs/syntax/gantt.md:291' && hash(input.source) === 'b651c090529ba2c6f4e065203d75ffb3f4638219d65b2474c41082ca106319d7') return { id: input.id, sourceSha256: hash(input.source), intent: 'configuration-only', family: 'gantt', review: 'The pinned source fence only declares dateFormat and axisFormat; it contains no tasks and supplies no drawing accuracy denominator.', sourceReview: { protocol: docsSourceReviewProtocol, sourcePin: docsSourcePin, method: 'Literal source inspection: no authored tasks or drawing content', expectedFactsComplete: true, requiredObligations: [], unresolved: [], excludedNonvisual: ['Configuration-only fence; no drawing is asserted'] } }
   const review = new LiteralReview(input)
   if (!numericCharts(review) && !orderedCharts(review) && !flowchart(review) && !stateDiagram(review) && !architecture(review) && !hierarchy(review) && !wardley(review) && !gitgraph(review) && !sequence(review) && !entityRelationship(review) && !requirements(review) && !c4(review) && !classes(review) && !gantt(review) && !flowchartDialects(review) && !kanban(review) && !eventModeling(review) && !railroad(review) && !zenuml(review)) {
     for (const line of review.lines.slice(1)) if (!review.title(line)) review.unknown(line)
     review.unresolved.push('This family has no complete independent source interpreter yet')
   }
-  return review.finish()
+  const result = review.finish()
+  if (options.visual !== false && result.expected) { const projected = projectVisualExpectation(result.family, result.expected); result.expected = projected.expected; result.sourceReview.requiredObligations = requiredDocumentationObligations(result.expected); if (projected.projections.length) result.sourceReview.visualProjections = projected.projections }
+  return result
 }
