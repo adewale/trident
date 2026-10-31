@@ -7,7 +7,9 @@ It is a coverage sample of project documentation, regressions and new features;
 it makes no claim about production traffic or feature frequency.
 
 The [committed inventory](../corpus/terminal-project-examples.json) has **120 distinct
-source byte strings** selected from **488 extracted candidates**. Exact-source
+source byte strings** selected from **488 extracted candidates**. Research covers
+18 repositories; 17 contribute selected sources. Grok's capped discovery found no
+selected concrete input, which is a discovery gap rather than a capability result. Exact-source
 repetitions retain all their origins. All participating renderers receive the same
 inventory; contributing a case supplies no project credit.
 
@@ -117,6 +119,22 @@ reproducers and PR-added features provide different kinds of coverage.
 | wevm/ondine | `439fc64aefdb` | 12 | 6 | 4 |
 | xai-org/grok-build | `2bdd1d6a6369` | 13 | 0 | 0 |
 
+## Terminal evidence versus supplemental robustness
+
+The [source-hash-keyed origin classification](../corpus/terminal-origin-classification.json)
+distinguishes **67 terminal-specific inputs** from **53 shared-renderer robustness
+inputs**. Fourteen diagram families have terminal-specific docs/regression evidence.
+Architecture, journey, kanban, mindmap, quadrant and ZenUML currently have only
+supplemental shared-renderer sources in this selection. Their presence does not
+establish terminal usage or demand.
+
+Latias94/merman issues [#231](https://github.com/Latias94/merman/issues/231) and
+[#232](https://github.com/Latias94/merman/issues/232) explicitly reproduce through
+`render_svg` with SVG/PNG and typed themes. They are shared-renderer reports,
+not terminal bug reports. Journey's AM layout fixture and Latias's generic bench
+fixtures are labelled in the same way. The classification supplements provenance
+without changing the frozen source bytes or original measurement receipts.
+
 ## Correctness is a separate review
 
 The initial freeze deliberately marks drawing expectations **unreviewed**.
@@ -125,6 +143,12 @@ can supply a drawing pass. Independently reviewed facts must bind the exact
 source hash, identify observer gaps and distinguish valid, invalid and dialect
 inputs. Unsupported families/layouts remain unknown against the full planned
 inventory. An unknown is a Trident measurement gap, not proof of a renderer defect.
+
+A [separate 22-contract source review](../corpus/terminal-project-reviews.json) now
+covers 20 drawings and two actual invalid-source tests. Sixteen drawing contracts
+can be attempted by the current observer; four retain explicit gaps. Another 98
+inputs remain unreviewed. The [dated qualification](terminal-results-2026-10-31.md)
+collects only that small drawing subset.
 
 The small Mermaid ASCII/Termaid cohort remains sufficient to improve observers.
 Mermaid is mandatory for source validation and has no terminal renderer score.

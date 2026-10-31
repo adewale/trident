@@ -20,13 +20,14 @@ later excluded from regular campaigns. The rolling overview uses the current
 
 ## Benchmarks
 
-Trident has two rendering workloads and an optional model/API workload. Drawing
+Trident has three rendering workloads and an optional model/API workload. Drawing
 checks and cost measurement are shared parts of those workloads.
 
 | Workload | What it measures | Results | Collector IDs |
 |---|---|---|---|
 | **Documentation Examples — DaveBench** | Accurate SVG and PNG rendering of the same pinned Mermaid documentation corpus, inspired by [Dave Kiss's benchmark](https://x.com/davekiss/status/2111512440106078554). | Separate output-return and reviewed-content tables for each format. Incorrect, unknown and configuration-only examples stay visible; speed requires qualified matched work. | `docs` |
 | **Mermaid Feature Cases** | Authored syntax, labels, relationships, chart values, grouping and scaling through public rendering interfaces. | Correct, incorrect, unsupported and unknown diagrams; feature/family details. Cost is reported on matched qualified inputs. | `community`, `fidelity`, `portable` |
+| **Terminal Rendering — Project Examples** | Node text, directed routes, captions and requested layout direction on real project inputs. Origins distinguish terminal examples from shared rendering tests. | All 120 planned inputs remain visible; 16 reviewed drawings get verified-correct count ranks. Complete accuracy and speed remain unqualified. | `bench --terminal` |
 | **Model and Editing Contracts — optional** | Public parsing, model inspection, edits and configuration changes. | Shared contracts separately from API-specific checks and missing bindings. | `native-fidelity` |
 
 Ordinary campaigns select `docs,fidelity`. Select expensive performance collection
@@ -56,8 +57,10 @@ Assertion Replay is retired as a comparative benchmark; Mermaid's own tests are
 an explicit reference-environment check (`--suites upstream-original`). The old
 nonblank-only PNG exporter is retired. The [reviewed fixed-PNG study](docs/davebench-png-seven-results.md)
 keeps its task-specific content review, performance results and limitations.
-Terminal drawing correctness currently has a [bounded prototype](docs/terminal-correctness.md),
-with Mermaid ASCII required and Mermaid supplying a separately identified source reference.
+Terminal Rendering has a [120 real inputs and 16 reviewed drawings](docs/terminal-correctness.md).
+Mermaid ASCII is required; Mermaid supplies an unscored source reference. Run
+`bench --terminal --plan` before collecting. The [retained results](docs/terminal-results-2026-10-31.md)
+rank verified counts, with incomplete accuracy and observer gaps visible.
 
 ### Where the benchmarks come from
 
@@ -72,7 +75,7 @@ to short summaries as well as saved tables; see [the reporting rule](REPORTING.m
 | Authored feature, model and cost cases | Fixtures developed in AM and Trident, with explicit expected facts in [fidelity/cases.ts](fidelity/cases.ts) and [portable/cohorts.ts](portable/cohorts.ts). Each run records its selection from these development fixtures. |
 | Legacy compatibility corpus | The [frozen AM corpus](corpus/community-corpus.json), imported from AM commit `de612cc08009cf8abbeae2d3795dac3baa0b5e36`. Its manifest also identifies upstream inputs. |
 | External repository examples | Examples and fixtures from the repositories and commits in [external-sources.json](corpus/external-sources.json), capped at 20 files per project. The frozen inventory retains file provenance, duplicates, licenses and extraction decisions. |
-| Terminal correctness pilot | Four flowcharts authored by Codex during Trident's benchmark repair: chain, branch, labelled edge and vertical edge. The [pilot's source facts and retained renderer outputs](docs/terminal-correctness.md) identify Mermaid ASCII and Termaid as the output producers. |
+| Terminal Rendering | [120 source inputs](corpus/terminal-project-examples.json) selected from research across 18 pinned terminal-project repositories; 17 contribute inputs. Origins include docs, fixtures, issues and PRs, with body/patch hashes and extraction steps. [Origin roles](corpus/terminal-origin-classification.json) separate 67 terminal-specific and 53 shared-renderer robustness cases. [22 independent contracts](corpus/terminal-project-reviews.json) support the 16 reviewed drawings drawing profile; 98 inputs remain unreviewed. The old four authored graphs are checker controls only. |
 | Reviewed fixed-PNG study | A [13-input common profile](docs/davebench-png-seven-results.md) selected from Mermaid's documentation after source-fact review of 20 candidates. Its full coverage phase retained all 548 documentation attempts. |
 
 **DaveBench** is inspired by [Dave Kiss's documentation benchmark](https://x.com/davekiss/status/2111512440106078554).

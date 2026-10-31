@@ -72,8 +72,11 @@ can support this work. Internal-only tests remain excluded with reasons; an
 unsupported public language feature stays in the eligible denominator. The
 replacement conformance comparison is not implemented by renaming old replay data.
 
-**Terminal Rendering:** a fixed corpus from renderer docs, regression fixtures,
-issues and PRs, with independent drawing contracts. A cell-grid observer checks
+**Terminal Rendering:** the [120-input source corpus](terminal-corpus.md) now
+retains docs, regression fixtures, issues and PRs from capped research across 18
+repositories (17 contribute selected inputs), with independent contracts for a
+16 reviewed drawings subset. Terminal-specific evidence is labelled separately from shared
+SVG/renderer robustness; none of these counts establish usage frequency. A cell-grid observer checks
 actual text layout and graph connections. Checker mutations are tests of the
 observer, outside the corpus score. Correctness and speed keep the same source
 population visible; unlike invocation boundaries do not share a speed ranking.
