@@ -71,3 +71,15 @@ test('unqualified note attachment withholds generic exact-inventory credit', asy
   const moved = `const e=[...document.querySelectorAll('foreignObject')].find(e=>e.textContent==='Requires an active session');const g=e.parentElement.parentElement;g.setAttribute('transform',(g.getAttribute('transform')||'')+' translate(0,300)')`
   expect(criterion((await inspect(487, moved, true)).checks, 'painted-node-ownership').status).not.toBe('passed')
 })
+
+test('tree annotations belong to the declared inventory without becoming hierarchy nodes', async () => {
+  const checks = (await inspect(455)).checks
+  expect(criterion(checks, 'source-fact:hierarchy').status).toBe('passed')
+  expect(criterion(checks, 'source-fact:decorations').status).toBe('unavailable')
+  const wrong = `const e=[...document.querySelectorAll('text')].find(e=>e.textContent==='app entry point');e.textContent='borrowed annotation'`
+  expect(criterion((await inspect(455, wrong)).checks, 'source-fact:hierarchy').status).toBe('failed')
+  const extra = `document.querySelector('svg').insertAdjacentHTML('beforeend','<text x="10" y="160">undeclared annotation</text>')`
+  expect(criterion((await inspect(455, extra)).checks, 'source-fact:hierarchy').status).toBe('failed')
+  const stem = `const e=[...document.querySelectorAll('line,path')].find(e=>{const b=e.getBoundingClientRect();return b.width<1&&b.height>10});e.remove()`
+  expect(criterion((await inspect(455, stem)).checks, 'source-fact:hierarchy').status).not.toBe('passed')
+})

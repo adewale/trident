@@ -158,7 +158,11 @@ test('railroad grammar uses actual alternatives, terminal/reference shapes and w
   expect(status(await inspect('railroad-ebnf-mermaid.svg', { change: kind }), 'grammar-rules')).toBe('failed')
   const wire = `document.querySelector('path.railroad-line').remove()`
   expect(status(await inspect('railroad-abnf-mermaid.svg', { change: wire }), 'grammar-rules')).not.toBe('passed')
-  expect(status(await inspect('railroad-mermaid.svg'), 'grammar-dialect')).toBe('unavailable')
+  expect(status(await inspect('railroad-mermaid.svg'), 'grammar-dialect')).toBeUndefined()
+  const entry = provenance.find(entry => entry.file === 'railroad-mermaid.svg')!, reviewed = documentation.find(item => item.id === entry.caseId)!
+  expect(reviewed.expected.facts['grammar-dialect']).toBeUndefined()
+  expect(reviewed.profileExpected.facts['grammar-dialect']).toBeDefined()
+  expect(reviewed.profileExpected.facts['grammar-rules']).toEqual(reviewed.expected.facts['grammar-rules'])
 })
 
 test('event frames require their kind, exact route inventory and source chronology', async () => {

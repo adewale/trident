@@ -371,7 +371,12 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
       if (h.length !== 1) available = false
       if (entry.depth > 0) { const parent = origins.find(parent => parent.id === hierarchy.find(node => node.id === entry.id)?.parent); if (!parent) available = false; else { const connected = lines.some(line => { const b = box(line); return b.width < 1 && Math.abs(b.x - (h[0] ? box(h[0]).x : NaN)) < 1 && b.y > parent.y && b.y < entry.y && b.y + b.height >= entry.y - 1 }); if (!connected) valid = false } }
     }
-    const labels = observations.map(entry => entry.label || '/'); if (label('/') && !labels.includes('/')) labels.unshift('/'); valid &&= exactText(labels)
+    const labels = observations.map(entry => entry.label || '/'); if (label('/') && !labels.includes('/')) labels.unshift('/')
+    // An authored annotation is a separate row decoration, not an extra tree
+    // node. Retain it in the exact text inventory without borrowing its text
+    // as evidence for the hierarchy's indentation or connector ownership.
+    const annotations: any[] = Array.isArray(facts.decorations) ? facts.decorations.filter((entry: any) => entry && typeof entry.annotation === 'string' && hierarchy.some(node => node.id === entry.id) && Object.keys(entry).every(key => ['id', 'annotation'].includes(key))) : []
+    valid &&= exactText([...labels, ...annotations.map(entry => entry.annotation)])
     // Directories have a physical bold distinction in this finite icon-free
     // representation; an icon-only alternative needs its own asset observer.
     const dirWeights = observations.filter(entry => entry.directory).map(entry => Number(entry.weight)), fileWeights = observations.filter(entry => !entry.directory).map(entry => Number(entry.weight))
