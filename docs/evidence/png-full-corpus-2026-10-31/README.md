@@ -1,33 +1,75 @@
-# Full documentation PNG image review
+# Full documentation PNG evidence
 
-The retained 2026-10-31 campaign has the same 548 literal documentation
-occurrences in both output lanes. Mermaid returned 547 PNGs; native
-`mermaid_flutter` 0.3.2 returned 449 and rejected 99 public requests. These return
-counts do not establish image correctness.
+The same 548 pinned literal Mermaid documentation occurrences remain in both
+format lanes. The original PNG campaign returned 547 Mermaid and 449 native
+`mermaid_flutter`0.3.2 images. Those historical return totals alone prove no
+image content.
 
-`native-legacy-ownership.json` revalidates all 449 original native returns using
-the exact retained literal job, original per-source native and transport JSONL,
-first/final PNG bytes, frozen launch/runtime/artifact identity, sealed original
-source inventory, and original project/round checkpoint. All 449 match; the
-remaining 99 have no successful image return. This source-only ownership proof
-does not create an invocation journal, a clock measurement, an SVG witness, or
-an image content review. It calls no project renderer.
+All 449 original native PNGs have narrowly qualified legacy content ownership:
+the exact retained literal job, original per-source native and emitted transport
+returns, original source inventory, first/final PNG bytes and frozen producer
+identity agree. `native-legacy-ownership.json` retains that audit. It supplies no
+invented invocation clock, SVG dependency or comparative timing provenance.
 
-The native transport fixture preserves the exact audited Trident wrapper bytes
-under this repository's MIT license. The source documentation is pinned to
-Mermaid commit `1fb7869866dd619168d840291c9c54b4f129758b` (MIT). Review packets are
-composites of actual retained output pixels at their original dimensions, with
-headers outside those images. A packet hash records the inspected presentation;
-the original PNG hash remains the image identity.
+A new Mermaid-only collection retained 548 raw per-call returns with exact
+same-call original SVG, exact rasterized SVG and PNG bytes, source/artifact
+invocation journals and frozen browser/resources/font identities.479 PNGs are
+byte-identical to reviewed originals;68 changed pixels and one newly returned
+image were separately inspected. Historical reviews of16 earlier examples
+supply no automatic content credit. Saved review hashes remain unchanged when a
+source contract changes; fresh decisions record any newly qualified projection.
 
-Full image review is being performed offline against each complete source
-contract. Historical reviews of 16 earlier drawings supply no new content
-judgment. A changed source contract invalidates its image review until that
-change is independently reviewed. Neither source-correct SVG nor agreement with
-a reference image qualifies an unreviewed actual raster.
+Every returned image in the two-project cohort was inspected offline at native
+size against its complete source-owned facts. Packets preserve original pixel
+dimensions, with headers outside the images. Raw receipts retain the literal
+source, exact reviewed source contract, image and packet hashes, reviewer
+provenance and specific full-fact or decisive-counterexample notes. Named static
+PNG projections retain their exact separately reviewed policy snapshot. The
+selection audit records current valid decisions, stale historical receipts and
+each remaining source or image-evidence uncertainty; unknowns never become
+passes. Native PNG remains a first-class content surface without an SVG API.
 
-Original Mermaid PNG collection lacks per-source raw public returns and both
-same-call conversion SVG witnesses. The native-only legacy proof deliberately
-does not admit that aggregate browser receipt. A new per-call collection can
-repair that ownership gap while exact reviewed-pixel aliases may reuse image
-reviews only when original reviewed bytes and every decoded sample match.
+The external favicon occurrence211 exposed a Trident exporter defect. Its
+retained public SVG paints the owned MIT favicon correctly, while an SVG decoded
+as an Image cannot fetch the unchanged nested external URL. The exporter now
+inlines only exact frozen owned image bytes into the raster SVG and retains the
+unmodified public SVG. Two narrowly requested211 repeats preserve both causal
+profile generations; the currentv2 repeat has exactly the independently reviewed
+repaired PNG bytes. This is550 actual Mermaid calls across the548 collection
+and two targeted exporter repairs, with no project version change or performance
+campaign. Both prior211 histories remain evidence, with correct attribution.
+
+The same-call static SVG bridge uses an independent actual-PNG source review to
+observe only the static painted rasterized-SVG frame on white. It requires exact
+source/image/format hashes, raw call ownership, frozen capture inputs, original
+and rasterized SVGs, and a bounded transformation audit. Strict XML namespace,
+attribute and text-tree equivalence is additionally needed for an original-SVG
+transfer; changed presentation stays a separate claim. Only existing unavailable
+painted criteria can be supplemented. Contrary checks, structural validity,
+security, resources, font identity, sizes, ARIA and motion remain independent.
+Historical SVG observations are retained for diagnosis; final current SVG
+qualification requires the final frozen observer over every declared source.
+This method is available to every eligible SVG-producing project. Native-only
+PNG cannot supply SVG evidence.
+
+This bridge does not establish independent resvg preservation. That separate
+metric still requires a frozen resvg/font profile, complete independently
+observed source-to-SVG facts and independently source-reviewed reference raster
+content. Neither decode/nonblank checks, a correct SVG, reference agreement nor
+a source echo supplies unreviewed PNG meaning.
+
+The large artifact is packaged once for the publication data branch by
+`scripts/package-png-review-evidence.py`. Its content-addressed index preserves
+all actual new raw witnesses and review histories, plus each reviewed original
+PNG and native-size packet. Exact bytes already in the immutable historical
+foundation are referenced rather than duplicated. Every object and reference is
+re-read and hashed before publication. Original source paths are provenance;
+logical archive paths provide relocation without rewriting raw receipts.
+
+Source documentation and the frozen favicon are pinned to Mermaid commit
+`1fb7869866dd619168d840291c9c54b4f129758b` under MIT. Mermaid12.2.0 and native
+`mermaid_flutter`0.3.2 preparation retain their declared MIT provenance. The exact
+audited Trident native transport fixture and review tooling use this repository's
+MIT license. No native engine or system font binary is redistributed in this
+content evidence package; font-file hashes and installed font-package copyright
+notices document the captured host inputs.

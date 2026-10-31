@@ -118,3 +118,12 @@ test('eligible SVG projects share the same evidence method and cannot borrow ano
   expect(rejected.receipt).toMatchObject({status:'unavailable'});expect(rejected.receipt.reason).toContain('already present')
   expect(()=>readBrowserPngCaptureProfile({root:f.root,completionFile:rejected.file})).toThrow()
 })
+
+
+test('one outer SVG can retain nested SVG icon content without accepting sibling roots or outside text',async()=>{
+ const originalSvg='<svg xmlns="http://www.w3.org/2000/svg" width="180" height="60"><svg x="5" y="5" width="20" height="20"><rect width="20" height="20" fill="red"/></svg><text x="30" y="35">Alpha</text></svg>'
+ const serialized=await page.evaluate(original=>{const host=document.createElement('div');host.innerHTML=original;const root=host.querySelector('svg')!;root.style.maxWidth='none';return new XMLSerializer().serializeToString(root)},originalSvg)
+ expect(await page.evaluate(auditDocsPngSvgSerialization,{originalSvg,rasterizedSvg:serialized})).toMatchObject({matched:true,originalTreeEquivalent:true})
+ expect((await page.evaluate(auditDocsPngSvgSerialization,{originalSvg:originalSvg+originalSvg,rasterizedSvg:serialized})).matched).toBe(false)
+ expect((await page.evaluate(auditDocsPngSvgSerialization,{originalSvg:'outside'+originalSvg,rasterizedSvg:serialized})).matched).toBe(false)
+})

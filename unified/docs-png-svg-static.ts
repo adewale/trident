@@ -79,8 +79,8 @@ export function readBrowserPngCaptureProfile(input: { root: string; fontsFile?: 
 export function auditDocsPngSvgSerialization(input: { originalSvg: string; rasterizedSvg: string; ownedImages?: { url: string; contentType: string; bytesBase64: string }[] }) {
   if (input.originalSvg.length > 4 * 1024 * 1024 || input.rasterizedSvg.length > 4 * 1024 * 1024) return { matched: false, reason: 'SVG exceeds bounded4MiB input', width: 0, height: 0, originalXmlWellFormed: false, unchangedIntrinsicSizing: false, originalTreeEquivalent: false }
   const document = globalThis.document, host = document.createElement('div'); host.innerHTML = input.originalSvg
-  const roots = host.querySelectorAll('svg'), root = host.querySelector('svg')
-  if (!root || roots.length !== 1 || host.children.length !== 1 || host.firstElementChild !== root) return { matched: false, reason: 'Not one standalone SVG root', width: 0, height: 0, originalXmlWellFormed: false, unchangedIntrinsicSizing: false, originalTreeEquivalent: false }
+  const root = host.querySelector('svg')
+  if (!root || host.children.length !== 1 || host.firstElementChild !== root || !Array.from(host.childNodes).every(node=>node===root || node.nodeType===Node.COMMENT_NODE || node.nodeType===Node.TEXT_NODE && !node.nodeValue?.trim())) return { matched: false, reason: 'Not one standalone SVG root', width: 0, height: 0, originalXmlWellFormed: false, unchangedIntrinsicSizing: false, originalTreeEquivalent: false }
   const box = root.getAttribute('viewBox')?.trim().split(/[\s,]+/).map(Number)
   const width = Math.ceil(box?.length === 4 ? box[2]! : Number.parseFloat(root.getAttribute('width') ?? '')), height = Math.ceil(box?.length === 4 ? box[3]! : Number.parseFloat(root.getAttribute('height') ?? ''))
   if (!Number.isFinite(width) || !Number.isFinite(height) || width < 1 || height < 1 || width > 16384 || height > 16384 || width * height > 64 * 1024 * 1024) return { matched: false, reason: 'No finite bounded intrinsic raster size', width, height, originalXmlWellFormed: false, unchangedIntrinsicSizing: false, originalTreeEquivalent: false }
