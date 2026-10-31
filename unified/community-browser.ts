@@ -566,8 +566,8 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                   if (typeof helper.inspectSvgText !== 'function') return ['Prepared qualification helper has no namespace-aware SVG text inspector']
                   const inspected = helper.inspectSvgText(tree(element), expected, markdownLabels)
                   if (helper.isRenderedSourceEcho(source, svg, 'svg', inspected.primaryRuns)) return ['Visible SVG source-echo fallback is not diagram ink']
-                  if (inspected.missingLabels.length && typeof inspected.uninspectableText !== 'boolean') return ['SVG qualification unavailable: prepared helper predates glyph-representation inspection']
-                  if (inspected.missingLabels.length && inspected.uninspectableText) return ['SVG qualification unavailable: path/image/use-only text has no qualified glyph/image observer']
+                  if (inspected.missingLabels.length && typeof inspected.opaqueLabelCandidates !== 'boolean') return ['SVG qualification unavailable: prepared helper predates glyph-representation inspection']
+                  if (inspected.missingLabels.length && inspected.opaqueLabelCandidates) return ['SVG qualification unavailable: missing DOM labels alongside path/image/use have no qualified glyph/image observer']
                   return inspected.missingLabels.map((label: string) => `Missing authored label: ${label}`)
                 }
                 const first = await call('_first')

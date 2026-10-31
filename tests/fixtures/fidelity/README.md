@@ -119,3 +119,9 @@ This control demonstrates an uninspectable representation, not a new renderer
 measurement or an OCR oracle. Its bounds/paint remain observable while
 source-owned labels and facts stay unknown. The generated SVG's SHA-256 is
 `f78df53074e7c5e12df1b83016b88333a617d7ca92446f011b9b99c6196a67cf`.
+
+`rs-mixed-labels.svg` keeps the original DOM-text A from `rs-flat-flowchart.svg`
+and the independently derived outlined B from `rs-outlined-labels.svg`. Node
+bodies and relationship are unchanged. It proves the mixed representation
+boundary must stay unknown rather than assigning a missing-label fault to B.
+Its SHA-256 is `5c6d0bfc624a21dd785782665afe6d9be563583368472e262bfd40646a0f0552`.

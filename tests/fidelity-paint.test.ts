@@ -101,7 +101,11 @@ test('collapsed or hidden source content cannot pass merely because the requeste
   const authored = { ...expected, forbiddenLabels: ['Beta'] }
   expect((await inspect(fixture, authored)).checks.find(item => item.criterion === 'hidden-authored-content')?.status).toBe('failed')
   const hidden = fixture.replace('x="154" y="30"', 'x="154" y="30" display="none"')
-  expect((await inspect(hidden, authored)).checks.find(item => item.criterion === 'hidden-authored-content')?.status).toBe('passed')
+  expect((await inspect(hidden, authored)).checks.find(item => item.criterion === 'hidden-authored-content')?.status).toBe('unavailable')
+  // Once potential outlined text is removed, the remaining text/rectangles
+  // provide an independent DOM-only absence control.
+  const domOnly = hidden.replace(/<path\b[^>]*(?:\/>|>[\s\S]*?<\/path>)/g, '')
+  expect((await inspect(domOnly, authored)).checks.find(item => item.criterion === 'hidden-authored-content')?.status).toBe('passed')
   const masked = fixture.replace('x="154" y="30"', 'x="154" y="30" style="mask-image:linear-gradient(black,transparent)"')
   expect((await inspect(masked, authored)).checks.find(item => item.criterion === 'hidden-authored-content')?.status).toBe('unavailable')
 })
@@ -113,7 +117,9 @@ test.each(['L0 0 L6 3 L0 6 Z', 'M0 0 L6 3 M0 6', 'M0 0 L6,,3 L0 6 Z'])('unprojec
 
 test('browser paint rejects hidden and clipped authored labels, not just missing SVG text', async () => {
   const hidden = await inspect(fixture.replace('x="154" y="30"', 'x="154" y="30" opacity="0"'))
-  expect(hidden.checks.find(item => item.criterion === 'visible-authored-labels')?.status).toBe('failed')
+  expect(hidden.checks.find(item => item.criterion === 'visible-authored-labels')?.status).toBe('unavailable')
+  const domOnlyHidden = fixture.replace(/<path\b[^>]*(?:\/>|>[\s\S]*?<\/path>)/g, '').replace('x="154" y="30"', 'x="154" y="30" opacity="0"')
+  expect((await inspect(domOnlyHidden)).checks.find(item => item.criterion === 'visible-authored-labels')?.status).toBe('failed')
   const clipped = await inspect(fixture.replace('viewBox="0 0 240 80"', 'viewBox="0 0 100 80"'))
   expect(clipped.checks.find(item => item.criterion === 'labels-within-canvas')?.status).toBe('failed')
   const selfClipped = await inspect(fixture.replace('</defs>', '<clipPath id="tiny"><rect x="0" y="0" width="1" height="1"/></clipPath></defs>').replace('x="154" y="30"', 'x="154" y="30" clip-path="url(#tiny)"'))

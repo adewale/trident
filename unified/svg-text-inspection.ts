@@ -148,8 +148,8 @@ export interface SvgTextInspection {
   /** Maximal text containers in document order, without duplicate child runs.
    * Source-echo admission uses these, rather than joining overlapping variants. */
   primaryRuns: string[]
-  /** No active DOM text; paths/image/use need a separately qualified glyph observer. */
-  uninspectableText: boolean
+  /** Path/image/use candidates cannot establish whether missing DOM labels are absent. */
+  opaqueLabelCandidates: boolean
   missingLabels: string[]
   scope: 'namespace-aware-authored-text-retention; CSS-and-paint-visibility-unmeasured'
 }
@@ -187,11 +187,11 @@ export function inspectSvgText(root: SvgInspectionElement, expectedLabels: reado
   const opaqueInk = (node: SvgInspectionNode): boolean => node.kind === 'element' && !excluded(node) && (node.namespaceURI === SVG_NAMESPACE && (node.localName === 'path' && !!node.attributes.d?.trim() || ['image', 'use'].includes(node.localName) && !!(node.attributes.href ?? node.attributes['xlink:href'])) || node.children.some(opaqueInk))
   // Paths/raster/use can encode glyphs without machine-readable text. Their
   // presence supplies neither a missing-label verdict nor positive OCR proof.
-  const uninspectableText = !primaryRuns.some(run => run.trim()) && opaqueInk(root)
+  const opaqueLabelCandidates = opaqueInk(root)
   return {
     runs: [...runs],
     primaryRuns,
-    uninspectableText,
+    opaqueLabelCandidates,
     missingLabels: expectedLabels.filter(label => ![...runs].some(run => containsAuthoredLabel(run, label, markdownLabels.includes(label)))),
     scope: 'namespace-aware-authored-text-retention; CSS-and-paint-visibility-unmeasured',
   }

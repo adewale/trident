@@ -11,6 +11,7 @@ import { qualifyOutput } from '../unified/qualification.ts'
 
 const svg = (body: string) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">${body}</svg>`
 const authored: { id: string; labels: string[]; output: string; accepted: boolean; unavailable?: boolean; source?: string; markdownLabels?: string[] }[] = [
+  { id: 'mixed-outlined-labels', labels: ['A', 'B'], output: svg('<text>A</text><path d="M30 10V40H40Q50 40 50 30Q50 25 40 25H30M40 25Q50 25 50 17Q50 10 40 10Z" fill="none" stroke="black"/>'), accepted: false, unavailable: true },
   { id: 'outlined-labels', labels: ['A'], output: svg('<path d="M10 40L20 10L30 40M15 30H25" fill="none" stroke="black"/>'), accepted: false, unavailable: true },
   { id: 'image-only-labels', labels: ['A'], output: svg('<image width="20" height="20" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2220%22%20height=%2220%22/%3E"/>'), accepted: false, unavailable: true },
   { id: 'literal-proto-lost', labels: ['__proto__'], output: svg('<text>proto</text>'), accepted: false },

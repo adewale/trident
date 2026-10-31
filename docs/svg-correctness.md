@@ -137,13 +137,15 @@ the YAML or CSS source does not demonstrate its visible effect. Unsupported
 configuration must retain an unknown obligation until a checked projection
 proves the corresponding output behavior.
 
-When no active DOM text is present, visible path/image/use representations may
-contain glyphs that this observer cannot inspect. Standalone label admission,
+When an authored label is missing from readable DOM text, visible
+path/image/use representations may contain glyphs that this observer cannot
+inspect, including a drawing that mixes ordinary text and outlined labels. Standalone label admission,
 source-owned facts and dependent quantitative checks remain unknown across
 collection, DaveBench, retained replay and timing qualification. Recognized
-wrong or hidden DOM text still fails its ordinary checks. This fallback does
-not supply OCR or positive drawing credit; mixed DOM/outline text has no
-qualified combined observer.
+wrong text still fails independent owned-role checks; hidden text without an
+opaque glyph alternative still fails visibility. This fallback supplies no OCR
+or positive drawing credit. Mixed DOM/outline labels remain unknown until a
+qualified combined observer exists.
 
 Exact decoded image references provide one bounded asset binding. A renderer
 may instead inline, reencode or vectorize the same asset, so an unmatched href

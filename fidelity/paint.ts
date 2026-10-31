@@ -170,7 +170,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const elements = visibleMatches(label)
     return { label, count: elements.length, boxes: elements.map(labelBox), inCanvas: elements.length > 0 && elements.every(element => contains(rootBox, labelBox(element))) }
   })
-  const uninspectableLabels = !labelElements.some(element => !element.closest('defs,metadata,title,desc,style,script')) && [...svg.querySelectorAll('path[d],image,use')].some(element => visible(element) && rect(element).width > 0 && rect(element).height > 0)
+  const uninspectableLabels = labelResults.some(label => label.count === 0) && [...svg.querySelectorAll('path[d],image,use')].some(element => visible(element) && rect(element).width + rect(element).height > 0)
   // A positive-alpha glyph can still be invisible against its own body. This
   // negative control proves exact colour camouflage only on an actual opaque
   // flat backdrop; it does not claim a general contrast/accessibility score.
@@ -212,8 +212,8 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const camouflagedElements = new Set(labelElements.filter(element => visible(element) && camouflage(element)))
   const camouflagedText = [...camouflagedElements].map(element => ({ text: normalize(labelText(element)), box: labelBox(element) }))
   const camouflaged = requiredLabels.filter(label => visibleMatches(label).some(element => camouflagedElements.has(element)))
-  check('visible-authored-labels', input.expected.labels, labelResults.map(item => ({ label: item.label, count: item.count, camouflaged: camouflaged.includes(item.label) })), uninspectableLabels ? null : labelResults.every(item => item.count > 0) && camouflaged.length === 0, uninspectableLabels ? 'Path/image/use-only labels need a qualified glyph/image observer; missing parseable text supplies no renderer failure or correctness credit' : 'Computed visibility and nonzero browser text bounds, rejecting glyphs proved identical to their own opaque flat backdrop. Metadata/title/defs text earns no credit; this is not general contrast or accessibility certification')
-  check('labels-within-canvas', 'every authored label fits the canvas', labelResults.filter(item => !item.inCanvas), uninspectableLabels ? null : labelResults.every(item => item.inCanvas), 'Actual rendered label bounds, with 1.5 CSS-pixel serialization tolerance')
+  check('visible-authored-labels', input.expected.labels, labelResults.map(item => ({ label: item.label, count: item.count, camouflaged: camouflaged.includes(item.label) })), camouflaged.length ? false : uninspectableLabels ? null : labelResults.every(item => item.count > 0), uninspectableLabels ? 'Missing DOM labels alongside path/image/use need a qualified glyph/image observer; missing parseable text supplies no renderer failure or correctness credit' : 'Computed visibility and nonzero browser text bounds, rejecting glyphs proved identical to their own opaque flat backdrop. Metadata/title/defs text earns no credit; this is not general contrast or accessibility certification')
+  check('labels-within-canvas', 'every authored label fits the canvas', labelResults.filter(item => !item.inCanvas), labelResults.some(item => item.count > 0 && !item.inCanvas) ? false : uninspectableLabels ? null : labelResults.every(item => item.inCanvas), 'Actual rendered label bounds, with 1.5 CSS-pixel serialization tolerance')
   if (input.expected.forbiddenLabels?.length) {
     const painted: string[] = [], uncertain: string[] = []
     for (const label of input.expected.forbiddenLabels) for (const element of visibleMatches(label)) {
