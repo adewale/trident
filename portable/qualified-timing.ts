@@ -48,14 +48,14 @@ export function admitTimingPlan(value: TimingPlan): Readonly<TimingPlan> {
 export function qualifyTiming(plan: TimingPlan, samples: readonly TimingSample[], readOutput: (output: NonNullable<InvocationEvidence['output']>) => Uint8Array, journal?: readonly InvocationEvidence[], grading?: TimingGrading) {
   plan = admitTimingPlan(plan)
   const active = grading ? admitTimingGrading(plan, samples, grading) : undefined, activeCases = active?.cases ?? plan.cases, activeObserver = active?.observerSha256 ?? plan.observerSha256
-  const planSha256 = evidenceDigest(plan)
+  const planSha256 = evidenceDigest(plan), collectionCases = new Map(plan.cases.map(contract => [contract.caseId, contract])), gradingCases = new Map(activeCases.map(contract => [contract.caseId, contract])), freshChecks = new Map(active?.checks.map(row => [row.attemptId, row.checked]) ?? [])
   const gaps = new Set<string>(), seen = new Set<string>(), attempts = new Set<string>()
   const durations = new Map<string, number>()
   const instances = new Map<string, string>(), instanceOwners = new Map<string, string>()
   const windows: { start: bigint; finish: bigint; sequence: number; domain: string }[] = []
   for (const sample of samples) {
     if (!Number.isSafeInteger(sample.round) || sample.round < 1 || sample.round > plan.rounds || !Number.isSafeInteger(sample.sample) || sample.sample < 0 || sample.sample >= plan.samplesPerRound || !replicas.includes(sample.replica)) fail('sample is outside the frozen plan')
-    const contract = plan.cases.find(input => input.caseId === sample.caseId)
+    const contract = collectionCases.get(sample.caseId)
     if (!contract) throw Error('Invalid qualified timing: sample source is outside the frozen corpus')
     const coordinate = JSON.stringify([sample.round, sample.replica, sample.caseId, sample.sample])
     if (seen.has(coordinate)) fail('duplicate sample coordinate')
@@ -76,7 +76,7 @@ export function qualifyTiming(plan: TimingPlan, samples: readonly TimingSample[]
     instances.set(replicaRound, clock.executionInstanceId); instanceOwners.set(clock.executionInstanceId, replicaRound)
     const bytes = readOutput(invocation.output)
     if (bytes.byteLength !== invocation.output.bytes || evidenceBytesDigest(bytes) !== invocation.output.sha256) fail('retained measured output changed')
-    const activeContract = activeCases.find(contract => contract.caseId === sample.caseId)!, fresh = active?.checks.find(row => row.attemptId === invocation.attemptId)?.checked
+    const activeContract = gradingCases.get(sample.caseId)!, fresh = freshChecks.get(invocation.attemptId)
     const checked = admitCheckedEvidence(activeContract, active ? fresh : sample.checked)
     if (checked.observerSha256 !== activeObserver) fail('sample was graded by a different observer')
     if (checked.outputSha256 !== invocation.output.sha256) fail('correctness evidence belongs to a different output')
@@ -99,10 +99,11 @@ export function qualifyTiming(plan: TimingPlan, samples: readonly TimingSample[]
   const planned = plan.rounds * replicas.length * plan.cases.length * plan.samplesPerRound
   if (!journal) gaps.add('Exhaustive raw invocation journal is required; selected successful samples alone cannot qualify timing')
   else {
-    const frames = journal.map(admitInvocationEvidence)
+    const frames = journal.map(admitInvocationEvidence), byAttempt = new Map<string, Readonly<InvocationEvidence>[]>()
+    for (const frame of frames) { const own = byAttempt.get(frame.attemptId) ?? []; own.push(frame); byAttempt.set(frame.attemptId, own) }
     if (frames.length !== samples.length * 2 || new Set(frames.map(frame => frame.attemptId + ':' + frame.state)).size !== frames.length) gaps.add('Raw journal includes missing, duplicated, extra or interrupted attempts')
     for (const sample of samples) {
-      const own = frames.filter(frame => frame.attemptId === sample.invocation.attemptId), start = own.find(frame => frame.state === 'started'), finish = own.find(frame => frame.state === 'returned')
+      const own = byAttempt.get(sample.invocation.attemptId) ?? [], start = own.find(frame => frame.state === 'started'), finish = own.find(frame => frame.state === 'returned')
       if (own.length !== 2 || !start || !finish || evidenceDigest(finish) !== evidenceDigest(sample.invocation) || finish.startedReceiptSha256 !== evidenceDigest(start) || start.startedAt !== finish.startedAt || start.recordedAt && finish.recordedAt && Date.parse(start.recordedAt) > Date.parse(finish.recordedAt) || evidenceDigest(start.identity) !== evidenceDigest(finish.identity) || evidenceDigest(start.measurement ?? null) !== evidenceDigest(finish.measurement ? { ...finish.measurement, monotonicFinishNs: null, apiStartNs: null, apiFinishNs: null } : null)) gaps.add('Selected sample lacks its exact durable causal start/return pair')
     }
   }

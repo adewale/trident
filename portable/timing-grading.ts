@@ -33,17 +33,18 @@ function admitPolicy(plan: TimingPlan, value: TimingGradingPolicy): Readonly<Tim
 export function admitTimingGrading(plan: TimingPlan, samples: readonly TimingSample[], value: TimingGrading): Readonly<TimingGrading> {
   const policy = admitPolicy(plan, value)
   if (!Array.isArray(value.checks) || value.checks.length !== samples.length || new Set(value.checks.map(row => row.attemptId)).size !== value.checks.length) fail('fresh checks must cover every original invocation exactly once')
-  const invocations = samples.map(sample => admitInvocationEvidence(sample.invocation))
+  const invocations = samples.map(sample => admitInvocationEvidence(sample.invocation)), byAttempt = new Map(invocations.map(invocation => [invocation.attemptId, invocation])), contracts = new Map(policy.cases.map(contract => [contract.caseId, contract]))
   const checks = value.checks.map(row => {
-    const invocation = invocations.find(invocation => invocation.attemptId === row.attemptId)
+    const invocation = byAttempt.get(row.attemptId)
     if (!invocation || !invocation.output) fail('fresh check belongs to no retained original return')
-    const contract = policy.cases.find(contract => contract.caseId === invocation.identity.caseId)
+    const contract = contracts.get(invocation.identity.caseId)
     if (!contract) fail('fresh check has no active source contract')
     const checked = admitCheckedEvidence(contract, row.checked)
     if (checked.observerSha256 !== policy.observerSha256 || checked.outputSha256 !== invocation.output.sha256) fail('fresh check belongs to a stale observer or different measured bytes')
     return Object.freeze({ attemptId: row.attemptId, checked })
   })
-  if (invocations.some(invocation => !checks.some(row => row.attemptId === invocation.attemptId))) fail('fresh grading omitted an original invocation')
+  const checkedAttempts = new Set(checks.map(row => row.attemptId))
+  if (invocations.some(invocation => !checkedAttempts.has(invocation.attemptId))) fail('fresh grading omitted an original invocation')
   return Object.freeze({ ...policy, checks: Object.freeze(checks) })
 }
 
@@ -57,11 +58,11 @@ export async function deriveTimingGrading(
   policy: TimingGradingPolicy,
   inspect: (input: { contract: CaseEvidenceContract; invocation: InvocationEvidence; bytes: Uint8Array; observerSha256: string }) => CheckedEvidence | Promise<CheckedEvidence>,
 ): Promise<Readonly<TimingGrading>> {
-  const admitted = admitPolicy(plan, policy), checks: { attemptId: string; checked: CheckedEvidence }[] = []
+  const admitted = admitPolicy(plan, policy), contracts = new Map(admitted.cases.map(contract => [contract.caseId, contract])), checks: { attemptId: string; checked: CheckedEvidence }[] = []
   for (const sample of samples) {
     const invocation = admitInvocationEvidence(sample.invocation)
     if (invocation.state !== 'returned' || !invocation.output) fail('cannot invent a fresh check for an absent original return')
-    const contract = admitted.cases.find(contract => contract.caseId === sample.caseId)
+    const contract = contracts.get(sample.caseId)
     if (!contract || invocation.identity.caseId !== contract.caseId || invocation.identity.sourceSha256 !== contract.sourceSha256) fail('measured source differs from the active grading contract')
     const bytes = readOutput(invocation.output)
     if (bytes.byteLength !== invocation.output.bytes || evidenceBytesDigest(bytes) !== invocation.output.sha256) fail('retained measured bytes changed before regrading')
