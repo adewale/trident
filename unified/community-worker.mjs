@@ -15,7 +15,8 @@ fs.writeFileSync(jsonl, '')
 const req = createRequire((artifact.root ?? job.harnessRoot) + '/package.json')
 const progress = message => { if (Number.isInteger(job.progressFd)) { try { fs.writeSync(job.progressFd, JSON.stringify(message) + '\n') } catch {} } }
 const append = (file, value) => { const fd = fs.openSync(file, 'a'); try { fs.writeSync(fd, JSON.stringify(value) + '\n'); fs.fsyncSync(fd) } finally { fs.closeSync(fd) } }
-const emit = row => { rows.push(row); append(jsonl, row); progress({ phase: 'result', id: row.id }) }
+let currentRaw
+const emit = row => { if(currentRaw&&row.id===currentRaw.identity.caseId)row={...row,invocationId:currentRaw.attemptId,measuredAt:currentRaw.finishedAt,rawInvocationDirectory:journal.directory,...(currentRaw.output?{outputFile:currentRaw.output.path}:{})}; rows.push(row); append(jsonl, row); progress({ phase: 'result', id: row.id }) }
 const journal = new InvocationJournal(job.out + '.invocations')
 const artifactSha256 = artifact.sha256 ?? artifact.files?.[0]?.sha256 ?? evidenceBytesDigest(fs.readFileSync(artifact.module))
 const bindingSha256 = evidenceDigest(JSON.parse(JSON.stringify({ config, output, module: artifact.module ?? null, kind: artifact.kind })))
@@ -167,11 +168,12 @@ function qualify(value, workload) {
 try {
   const render = await renderer(), importMs = performance.now() - start
   publicApiAvailable = true
+  const controlCall=async(source,caseId)=>{const identity={project:prepared.node.id,caseId,sourceSha256:evidenceBytesDigest(source),artifactSha256,bindingSha256,format:output},entry=journal.start(identity),clock=performance.now();let value,elapsed;try{value=render(source);if(thenable(value))value=await value;elapsed=performance.now()-clock;}catch(error){journal.failed(entry,error,performance.now()-clock);throw error;}try{journal.returned(entry,typeof value==='string'||value instanceof Uint8Array?value:JSON.stringify({returnType:typeof value,value:value===undefined?null:value}),elapsed);}catch(error){journal.failed(entry,error,elapsed,'interrupted');throw error;}return value;};
   if (config.adapter === 'mermaid' && output === 'parse') {
     parserAdmission = []
     for (const [index, source] of ['This is deliberately not a Mermaid diagram. @@@ {{{', 'graph LR\n --> -->'].entries()) {
       let value, rejection
-      try { value = render(source); if (thenable(value)) value = await value }
+      try { value = await controlCall(source, 'control:parser-negative-' + (index + 1)) }
       catch (error) { rejection = error instanceof Error ? String(error) : JSON.stringify(error) }
       const accepted = !rejection && value !== false && value?.ok !== false && value?.success !== false
       parserAdmission.push({ id: 'parser-negative-' + (index + 1), source, expectedAccepted: false, actualAccepted: accepted, status: accepted ? 'failed' : 'passed', detail: accepted ? 'Authored invalid source was accepted' : 'Authored invalid source was rejected', rejection, returnType: typeof value, value: value === undefined ? null : value })
@@ -185,7 +187,7 @@ try {
     diagnosticAdmission = []
     for (const [index, source] of ['This is deliberately not a Mermaid diagram. @@@ {{{', 'flowchart LR\n --> -->'].entries()) {
       let value, rejection
-      try { value = render(source); if (thenable(value)) value = await value }
+      try { value = await controlCall(source, 'control:diagnostic-negative-' + (index + 1)) }
       catch (error) { rejection = String(error) }
       let summary
       try { summary = rejection ? undefined : diagnosticHelpers.diagnosticSummary(value) }
@@ -200,8 +202,15 @@ try {
   progress({ phase: 'ready', importMs })
   for (const workload of workloads) {
     progress({ phase: 'case', id: workload.id })
+    currentRaw=undefined
     let firstMs, sink, returned, publicReturned = false
-    const invocation = journal.start({ project: prepared.node.id, caseId: workload.id, sourceSha256: evidenceBytesDigest(workload.source), artifactSha256, bindingSha256, format: output })
+    const identity = { project: prepared.node.id, caseId: workload.id, sourceSha256: evidenceBytesDigest(workload.source), artifactSha256, bindingSha256, format: output }
+    const prior = journal.forIdentity(identity)
+    if(prior.length){
+      const previous=prior.find(frame=>frame.state==='returned')??prior.find(frame=>frame.state!=='started')??prior[0];currentRaw=previous
+      emit({runtime:process.versions.bun?'Bun '+process.versions.bun:'Node '+process.versions.node,id:workload.id,family:workload.family,status:'blocked',firstMs:previous.durationMs,detail:'Recovered original invocation without repeating the public API; fresh qualification required',recoveredRaw:true});continue
+    }
+    const invocation = journal.start(identity)
     const firstStart = performance.now()
     try {
       let tick = performance.now(); sink = render(workload.source); if (thenable(sink)) sink = await sink
@@ -209,7 +218,7 @@ try {
       publicReturned = true
       // Bytes and the actual API clock survive any later observer/report crash.
       const raw = typeof sink === 'string' || sink instanceof Uint8Array ? sink : typeof sink?.svg === 'string' ? sink.svg : JSON.stringify({ returnType: typeof sink, value: sink === undefined ? null : sink })
-      returned = journal.returned(invocation, raw, firstMs)
+      returned = journal.returned(invocation, raw, firstMs);currentRaw=returned
       if (workload.intent === 'negative-admission') {
         let rejected;
         try { rejected = output === 'parse' && (sink === false || sink?.ok === false || sink?.success === false) || output === 'diagnostics' && diagnosticHelpers.diagnosticSummary(sink).accepted === false }
@@ -228,17 +237,18 @@ try {
         emit({ runtime: process.versions.bun ? 'Bun ' + process.versions.bun : 'Node ' + process.versions.node, surface: extraApi?.surface, apiBoundary: extraApi?.boundary, id: workload.id, family: workload.family, status: 'passed', firstMs, bytes, qualification, mode: 'feature-corpus-qualification', coverageOnly: true, ...(outputFile ? { outputFile } : {}), ...parserReturn(sink), ...(output === 'diagnostics' ? { diagnosticAdmissionFailed, diagnosticsCount: diagnosticHelpers.diagnosticSummary(sink).errorCount, diagnosticAccepted: diagnosticHelpers.diagnosticSummary(sink).accepted, diagnosticStatusScope: core ? 'independently-valid-core-admission' : 'operation-completion-without-positive-feature-oracle' } : {}) })
         continue
       }
+      const repeatedCall=async()=>{const entry=journal.start(identity),clock=performance.now();let value,elapsed;try{value=render(workload.source);if(thenable(value))value=await value;elapsed=performance.now()-clock;}catch(error){journal.failed(entry,error,performance.now()-clock);throw error;}const raw=typeof value==='string'||value instanceof Uint8Array?value:typeof value?.svg==='string'?value.svg:JSON.stringify({returnType:typeof value,value:value===undefined?null:value});journal.returned(entry,raw,elapsed);sink=value;return elapsed;};
       let calls = 0; const warm = performance.now()
-      do { sink = render(workload.source); if (thenable(sink)) sink = await sink; calls++ } while (core && (calls < 3 || performance.now() - warm < job.warmupMs))
+      do { await repeatedCall(); calls++ } while (core && (calls < 3 || performance.now() - warm < job.warmupMs))
       const perCall = (performance.now() - warm) / calls, iterations = core ? Math.max(1, Math.min(1024, Math.ceil(job.minSampleMs / Math.max(.001, perCall)))) : 1, samples = []
       for (let sample = 0; sample < (core ? job.samples : 3); sample++) {
-        tick = performance.now()
-        for (let iteration = 0; iteration < iterations; iteration++) { sink = render(workload.source); if (thenable(sink)) sink = await sink }
-        samples.push((performance.now() - tick) / iterations)
+        let duration=0
+        for (let iteration = 0; iteration < iterations; iteration++) duration+=await repeatedCall()
+        samples.push(duration / iterations)
       }
       qualify(sink, workload); globalThis.__communitySink = sink
-      emit({ runtime: process.versions.bun ? 'Bun ' + process.versions.bun : 'Node ' + process.versions.node, surface: extraApi?.surface, apiBoundary: extraApi?.boundary, id: workload.id, family: workload.family, status: 'passed', samplesMs: samples, medianMs: median(samples), firstMs, bytes, iterations, qualification, ...parserReturn(sink), ...(output === 'diagnostics' ? { diagnosticsCount: diagnosticHelpers.diagnosticSummary(sink).errorCount, diagnosticAccepted: diagnosticHelpers.diagnosticSummary(sink).accepted, diagnosticStatusScope: core ? 'independently-valid-core-admission' : 'operation-completion-without-positive-feature-oracle' } : {}) })
-    } catch (error) { if (!error || typeof error !== 'object') error = new Error(String(error)); if (publicReturned && !returned) error.observerUnavailable = true; if (!returned) { try { journal.failed(invocation, error, firstMs ?? performance.now() - firstStart, publicReturned ? 'interrupted' : 'public-error') } catch {} }; emit({ runtime: process.versions.bun ? 'Bun ' + process.versions.bun : 'Node ' + process.versions.node, surface: extraApi?.surface, apiBoundary: extraApi?.boundary, id: workload.id, family: workload.family, status: error.observerUnavailable ? 'blocked' : 'failed', rejected: !error.qualification && !error.observerUnavailable, ...(returned?.output ? { outputFile: returned.output.path } : {}), firstMs: firstMs ?? performance.now() - firstStart, detail: String(error) }) }
+      emit({ runtime: process.versions.bun ? 'Bun ' + process.versions.bun : 'Node ' + process.versions.node, surface: extraApi?.surface, apiBoundary: extraApi?.boundary, id: workload.id, family: workload.family, status: 'passed', timingQualified:false,timingProtocol:'legacy-adaptive-individually-retained-unqualified-v1',samplesMs: samples, medianMs: median(samples), firstMs, bytes, iterations, qualification, ...parserReturn(sink), ...(output === 'diagnostics' ? { diagnosticsCount: diagnosticHelpers.diagnosticSummary(sink).errorCount, diagnosticAccepted: diagnosticHelpers.diagnosticSummary(sink).accepted, diagnosticStatusScope: core ? 'independently-valid-core-admission' : 'operation-completion-without-positive-feature-oracle' } : {}) })
+    } catch (error) { if (!error || typeof error !== 'object') error = new Error(String(error)); if (publicReturned && !returned) error.observerUnavailable = true; if (!returned) { try { currentRaw=journal.failed(invocation, error, firstMs ?? performance.now() - firstStart, publicReturned ? 'interrupted' : 'public-error') } catch {} }; emit({ runtime: process.versions.bun ? 'Bun ' + process.versions.bun : 'Node ' + process.versions.node, surface: extraApi?.surface, apiBoundary: extraApi?.boundary, id: workload.id, family: workload.family, status: error.observerUnavailable ? 'blocked' : 'failed', rejected: !error.qualification && !error.observerUnavailable, ...(returned?.output ? { outputFile: returned.output.path } : {}), firstMs: firstMs ?? performance.now() - firstStart, detail: String(error) }) }
   }
   const memory = { rssBytes: process.memoryUsage().rss, peakRssBytes: process.resourceUsage().maxRSS * 1024 }
   for (const close of cleanups.reverse()) await close()

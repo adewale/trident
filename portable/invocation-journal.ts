@@ -33,6 +33,12 @@ export class InvocationJournal {
   pending(identity?: InvocationIdentity): Readonly<InvocationEvidence>[] {
     return this.checkpoint.entries<InvocationEvidence>().filter(([key, value]) => key.endsWith(':started') && (!identity || evidenceDigest(value.identity) === evidenceDigest(identity)) && !['returned', 'public-error', 'interrupted'].some(state => this.checkpoint.has(value.attemptId + ':' + state))).map(([_key, value]) => admitInvocationEvidence(value))
   }
+  records(): Readonly<InvocationEvidence>[] {
+    return this.checkpoint.entries<InvocationEvidence>().map(([_key, value]) => { const frame = admitInvocationEvidence(value); for (const output of [frame.output, frame.streams?.stdout, frame.streams?.stderr]) { if (!output) continue; const bytes = readFileSync(output.path); if (bytes.byteLength !== output.bytes || evidenceBytesDigest(bytes) !== output.sha256) throw Error('Retained invocation output bytes differ') }; return frame })
+  }
+  forIdentity(identity: InvocationIdentity): Readonly<InvocationEvidence>[] {
+    return this.records().filter(frame => evidenceDigest(frame.identity) === evidenceDigest(identity)).sort((a, b) => String(a.recordedAt ?? a.startedAt ?? '').localeCompare(String(b.recordedAt ?? b.startedAt ?? '')))
+  }
   adopt(raw: InvocationEvidence): Readonly<InvocationEvidence> {
     const value = admitInvocationEvidence(raw)
     const existingStart = this.checkpoint.get<InvocationEvidence>(value.attemptId + ':started')

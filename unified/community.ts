@@ -1,5 +1,5 @@
 import { InvocationJournal } from '../portable/invocation-journal.ts'
-import { evidenceBytesDigest, evidenceDigest } from '../portable/evidence-contract.ts'
+import { evidenceBytesDigest, evidenceDigest, type InvocationEvidence } from '../portable/evidence-contract.ts'
 import { checkCollectionBudget } from '../portable/checkpoint.ts'
 import { verifyNativePngArtifact } from '../native-flutter/community-launch.mjs'
 import { releaseBenchmarkSkip } from './benchmark-skip.ts'
@@ -454,58 +454,11 @@ function envelope(node: CommunityNode, output: string, workload: UnifiedWorkload
     metrics: { implementation: node.id, round, featureCount: workload.features.length },
   }
 }
-function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWorkload, round: number, out: string): BenchmarkObservation {
-  const artifact = prepared.artifact!,
-    row = envelope(prepared.node, output, workload, round)
-  row.surface = 'cli:end-to-end'
-  row.runtime = artifact.runtime ?? 'native'
-  row.mode = workload.features.includes('core-graph-batch') ? 'fresh-process' : 'feature-corpus-qualification'
-  if (artifact.sourceFallback === 'framed-source' && Array.isArray(artifact.supportedFamilies) && !artifact.supportedFamilies.includes(workload.family)) {
-    row.status = 'unsupported'
-    row.detail = 'Reviewed public renderer does not implement this family; its framed-source fallback is not diagram ink'
-    return row
-  }
-  const input = join(out, 'cli-input.mmd'),
-    destination = join(out, `cli-output.${output === 'png' ? 'png' : output === 'svg' ? 'svg' : 'txt'}`)
-  writeFileSync(input, workload.source)
-  if (existsSync(destination)) unlinkSync(destination)
-  const binding = artifact.outputBindings?.[output]
-  const args = (binding?.args ?? artifact.args ?? []).map(arg =>
-    arg
-      .replaceAll('{input}', input)
-      .replaceAll('{output}', destination)
-      .replaceAll('{format}', output === 'terminal' ? 'unicode' : output),
-  )
-  const journal = new InvocationJournal(join(out, 'raw-cli-invocations'))
-  const executable = artifact.executable!.includes('/') ? artifact.executable! : execFileSync('which', [artifact.executable!], { encoding: 'utf8' }).trim()
-  const invocation = journal.start({ project: prepared.node.id, caseId: workload.id, sourceSha256: evidenceBytesDigest(workload.source), artifactSha256: artifact.sha256 ?? evidenceBytesDigest(readFileSync(executable)), bindingSha256: evidenceDigest(JSON.parse(JSON.stringify({ executable, args, output, input: binding?.input ?? artifact.input ?? 'stdin' }))), format: output })
-  const started = performance.now(),
-    child = spawnSync(artifact.executable!, args, { input: (binding?.input ?? artifact.input) === 'file' ? undefined : workload.source, timeout: 30_000, maxBuffer: 16 * 1024 * 1024, env: { ...process.env, NO_COLOR: '1', TERM: 'dumb' } }),
-    ms = performance.now() - started
-  const streams = journal.streams(child.stdout ?? Buffer.alloc(0), child.stderr ?? Buffer.alloc(0))
-  row.metrics = { ...row.metrics, rawInvocationId: invocation.attemptId, rawInvocationDirectory: journal.directory, stdoutFile: streams.stdout.path, stderrFile: streams.stderr.path }
-  if (workload.features.includes('core-graph-batch')) row.samplesMs = [ms]
-  else row.metrics = { ...row.metrics, firstMs: ms, timingScope: 'one qualification call, not a repeated speed sample' }
-  if (child.status !== 0) {
-    const transportFailed = !!child.error || !!child.signal || child.status === null
-    journal.failed(invocation, child.error?.message ?? child.stderr?.toString() ?? 'Public command failed', ms, transportFailed ? 'interrupted' : 'public-error', streams)
-    row.status = transportFailed ? 'blocked' : 'failed'
-    row.detail = child.error?.message ?? child.stderr?.toString().slice(0, 1500)
-    row.metrics = { ...row.metrics, rejected: !transportFailed, failureStage: transportFailed ? 'transport' : 'public-command' }
-    return row
-  }
-  const fileOutput = (binding?.args ?? artifact.args)?.some(arg => arg.includes('{output}'))
-  if (fileOutput && !existsSync(destination)) {
-    journal.failed(invocation, 'CLI exited successfully without producing its declared output file', ms, 'public-error', streams)
-    row.status = 'failed'
-    row.detail = 'CLI exited successfully without producing its declared output file'
-    row.metrics = { ...row.metrics, rejected: false, failureStage: 'output' }
-    return row
-  }
-  const value = fileOutput ? readFileSync(destination) : child.stdout
-  const text = output === 'png' ? value : value.toString()
-  const raw = journal.returned(invocation, value, ms, streams)
-  row.metrics = { ...row.metrics, outputFile: raw.output!.path, rawInvocationId: raw.attemptId, rawInvocationDirectory: journal.directory }
+
+function gradeCliReturn(row: BenchmarkObservation, artifact: CommunityArtifact, workload: UnifiedWorkload, output: string, raw: InvocationEvidence): BenchmarkObservation {
+  if (raw.state !== 'returned' || !raw.output) throw Error('CLI grade needs an actual retained return')
+  const value = readFileSync(raw.output.path), text = output === 'png' ? value : value.toString()
+  row.metrics = { ...row.metrics, outputFile: raw.output.path, rawInvocationId: raw.attemptId, measuredAt: raw.finishedAt, measuredFrom: raw.startedAt, firstMs: raw.durationMs, timingQualified: false }
   if (workload.intent === 'negative-admission') {
     row.status = 'failed'
     row.detail = 'Public command accepted independently invalid source (exit 0)'
@@ -531,6 +484,70 @@ function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWo
   row.findings = qualification.findings
   row.metrics = { ...row.metrics, qualification: qualification.scope, version: artifact.version, boundary: 'spawn through drained stdout/file artifact; process startup included', ...(qualification.ok && !workload.features.includes('retain-output-witness') ? {} : { outputFile: raw.output!.path }) }
   return row
+}
+
+function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWorkload, round: number, out: string): BenchmarkObservation {
+  const artifact = prepared.artifact!,
+    row = envelope(prepared.node, output, workload, round)
+  row.surface = 'cli:end-to-end'
+  row.runtime = artifact.runtime ?? 'native'
+  row.mode = workload.features.includes('core-graph-batch') ? 'fresh-process' : 'feature-corpus-qualification'
+  if (artifact.sourceFallback === 'framed-source' && Array.isArray(artifact.supportedFamilies) && !artifact.supportedFamilies.includes(workload.family)) {
+    row.status = 'unsupported'
+    row.detail = 'Reviewed public renderer does not implement this family; its framed-source fallback is not diagram ink'
+    return row
+  }
+  const input = join(out, 'cli-input.mmd'),
+    destination = join(out, `cli-output.${output === 'png' ? 'png' : output === 'svg' ? 'svg' : 'txt'}`)
+  writeFileSync(input, workload.source)
+  if (existsSync(destination)) unlinkSync(destination)
+  const binding = artifact.outputBindings?.[output]
+  const args = (binding?.args ?? artifact.args ?? []).map(arg =>
+    arg
+      .replaceAll('{input}', input)
+      .replaceAll('{output}', destination)
+      .replaceAll('{format}', output === 'terminal' ? 'unicode' : output),
+  )
+  const journal = new InvocationJournal(join(out, 'raw-cli-invocations'))
+  const executable = artifact.executable!.includes('/') ? artifact.executable! : execFileSync('which', [artifact.executable!], { encoding: 'utf8' }).trim()
+  const identity = { coordinate: 'round:' + round, project: prepared.node.id, caseId: workload.id, sourceSha256: evidenceBytesDigest(workload.source), artifactSha256: artifact.sha256 ?? evidenceBytesDigest(readFileSync(executable)), bindingSha256: evidenceDigest(JSON.parse(JSON.stringify({ executable, args, output, input: binding?.input ?? artifact.input ?? 'stdin' }))), format: output }
+  const prior = journal.forIdentity(identity)
+  if (prior.length) {
+    const returned = prior.filter(frame => frame.state === 'returned')
+    if (returned.length === 1) return gradeCliReturn(row, artifact, workload, output, returned[0]!)
+    const previous = prior.find(frame => frame.state !== 'started') ?? prior[0]!
+    row.status = 'blocked'; row.detail = 'Original CLI invocation is incomplete or has multiple returns; no automatic retry or result is inferred'
+    row.metrics = { ...row.metrics, rawInvocationId: previous.attemptId, rawInvocationDirectory: journal.directory, measuredAt: previous.finishedAt, measuredFrom: previous.startedAt, firstMs: previous.durationMs, timingQualified: false }
+    return row
+  }
+  const invocation = journal.start(identity)
+  const started = performance.now(),
+    child = spawnSync(artifact.executable!, args, { input: (binding?.input ?? artifact.input) === 'file' ? undefined : workload.source, timeout: 30_000, maxBuffer: 16 * 1024 * 1024, env: { ...process.env, NO_COLOR: '1', TERM: 'dumb' } }),
+    ms = performance.now() - started
+  const streams = journal.streams(child.stdout ?? Buffer.alloc(0), child.stderr ?? Buffer.alloc(0))
+  row.metrics = { ...row.metrics, rawInvocationId: invocation.attemptId, rawInvocationDirectory: journal.directory, stdoutFile: streams.stdout.path, stderrFile: streams.stderr.path }
+  if (workload.features.includes('core-graph-batch')) row.samplesMs = [ms]
+  else row.metrics = { ...row.metrics, firstMs: ms, timingScope: 'one qualification call, not a repeated speed sample' }
+  if (child.status !== 0) {
+    const transportFailed = !!child.error || !!child.signal || child.status === null
+    journal.failed(invocation, child.error?.message ?? child.stderr?.toString() ?? 'Public command failed', ms, transportFailed ? 'interrupted' : 'public-error', streams)
+    row.status = transportFailed ? 'blocked' : 'failed'
+    row.detail = child.error?.message ?? child.stderr?.toString().slice(0, 1500)
+    row.metrics = { ...row.metrics, rejected: !transportFailed, failureStage: transportFailed ? 'transport' : 'public-command' }
+    return row
+  }
+  const fileOutput = (binding?.args ?? artifact.args)?.some(arg => arg.includes('{output}'))
+  if (fileOutput && !existsSync(destination)) {
+    journal.failed(invocation, 'CLI exited successfully without producing its declared output file', ms, 'public-error', streams)
+    row.status = 'failed'
+    row.detail = 'CLI exited successfully without producing its declared output file'
+    row.metrics = { ...row.metrics, rejected: false, failureStage: 'output' }
+    return row
+  }
+  const value = fileOutput ? readFileSync(destination) : child.stdout
+  const raw = journal.returned(invocation, value, ms, streams)
+  row.metrics = { ...row.metrics, outputFile: raw.output!.path, rawInvocationId: raw.attemptId, rawInvocationDirectory: journal.directory }
+  return gradeCliReturn(row, artifact, workload, output, raw)
 }
 
 function workerPreparedEntry(prepared: PreparedCommunity): PreparedCommunity {
@@ -571,6 +588,9 @@ async function nodeRound(prepared: PreparedCommunity, output: string, workloads:
     diagnosticsCount?: number
     rejected?: boolean
     outputFile?: string
+    invocationId?: string
+    rawInvocationDirectory?: string
+    measuredAt?: string | null
   }
   type DiagnosticControl = { id: string; source: string; expectedAccepted: false; actualAccepted: boolean | null; status: 'passed' | 'failed'; detail?: string; qualificationError?: string }
   type Raw = {
@@ -739,8 +759,20 @@ async function nodeRound(prepared: PreparedCommunity, output: string, workloads:
       }
     }
     for (const row of rows) if (remaining.some(workload => workload.id === row.id)) collected.set(row.id, { row, raw, attempt })
+    const rawDirectory = file + '.invocations'
+    if (existsSync(join(rawDirectory, 'checkpoint.json'))) {
+      const journal = new InvocationJournal(rawDirectory), frames = journal.records()
+      for (const workload of remaining) {
+        if (collected.has(workload.id)) continue
+        const own = frames.filter(frame => frame.identity.project === prepared.node.id && frame.identity.caseId === workload.id && frame.identity.format === output)
+        if (own.some(frame => frame.identity.sourceSha256 !== evidenceBytesDigest(workload.source))) throw Error('Retained Node invocation source changed; do not overwrite or silently repeat it')
+        const recovered = own.find(frame => frame.state === 'returned') ?? own.find(frame => frame.state !== 'started') ?? own[0]
+        if (!recovered) continue
+        collected.set(workload.id, { row: { id: workload.id, family: workload.family, status: 'blocked', detail: 'Recovered raw invocation without a complete grade; no API retry or renderer failure is inferred', outputFile: recovered.output?.path, firstMs: recovered.durationMs ?? undefined, invocationId: recovered.attemptId, rawInvocationDirectory: rawDirectory, measuredAt: recovered.finishedAt }, raw, attempt })
+      }
+    }
     attempts.push({ attempt, exitCode, timedOut, activeCase, detail: detail ?? raw?.detail })
-    if (activeCase && !collected.has(activeCase)) collected.set(activeCase, { row: { id: activeCase, family: remaining.find(workload => workload.id === activeCase)!.family, status: 'failed', detail: detail ?? `Worker stopped during workload (exit ${exitCode}): ${stderr.slice(-1500)}` }, raw, attempt })
+    if (activeCase && !collected.has(activeCase)) collected.set(activeCase, { row: { id: activeCase, family: remaining.find(workload => workload.id === activeCase)!.family, status: 'blocked', detail: detail ?? `Worker stopped during workload (exit ${exitCode}): ${stderr.slice(-1500)}` }, raw, attempt })
     const unresolved = remaining.filter(workload => !collected.has(workload.id))
     if (!unresolved.length) {
       if (exitCode !== 0 || raw?.status !== 'completed') lifecycleIssue = detail ?? raw?.detail ?? `Worker cleanup incomplete (exit ${exitCode})`
@@ -775,6 +807,11 @@ async function nodeRound(prepared: PreparedCommunity, output: string, workloads:
       version: prepared.artifact!.version,
       apiBoundary: result.apiBoundary ?? prepared.artifact?.apiBoundary ?? 'public package API',
       firstMs: result.firstMs ?? null,
+      measuredAt: typeof result.measuredAt === 'string' ? result.measuredAt : null,
+      measuredFrom: null,
+      rawInvocationId: result.invocationId ?? null,
+      rawInvocationDirectory: result.rawInvocationDirectory ?? null,
+      timingQualified: false,
       importMs: raw?.importMs ?? null,
       endRssBytes: raw?.rssBytes ?? null,
       peakProcessRssBytes: raw?.peakRssBytes ?? null,

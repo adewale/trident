@@ -23,7 +23,11 @@ describe('community benchmark artifact admission', () => {
       writeFileSync(
         executable,
         `#!/usr/bin/env node
-import fs from 'node:fs';const job=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));for(const w of job.workloads){if(w.source==='CRASH')process.exit(42);fs.appendFileSync(process.argv[3],JSON.stringify({workload:w.id,status:'ok',samplesMs:[1],outputBytes:2})+'\\n')}
+import fs from 'node:fs';
+import {InvocationJournal} from ${JSON.stringify(new URL('../portable/invocation-journal.ts', import.meta.url).href)};
+const job=JSON.parse(fs.readFileSync(process.argv[2],'utf8')),result=process.argv[3],journal=new InvocationJournal(result+'.fixture-journal');
+const emit=(file,value)=>{const fd=fs.openSync(file,'a');try{fs.writeSync(fd,JSON.stringify(value)+'\\n');fs.fsyncSync(fd)}finally{fs.closeSync(fd)}};
+for(const w of job.workloads){if(w.source==='CRASH')process.exit(42);const started=journal.start(w.invocationIdentity);emit(result+'.invocations.jsonl',started);const returned=journal.returned(started,'<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"><text>Start</text><text>End</text></svg>',1);emit(result+'.invocations.jsonl',returned);emit(result,{workload:w.id,invocationId:returned.attemptId,status:'ok',samplesMs:[1],outputBytes:returned.output.bytes})}
 `,
       )
       chmodSync(executable, 0o755)
@@ -111,7 +115,7 @@ import fs from 'node:fs';const job=JSON.parse(fs.readFileSync(process.argv[2],'u
         ['header-only', 'passed'],
         ['empty', 'failed'],
         ['source-echo', 'failed'],
-        ['crash', 'failed'],
+        ['crash', 'blocked'],
         ['after-crash', 'passed'],
       ])
       expect(rows.find(row => row.caseId === 'source-echo')?.detail).toContain('raw source/sidecars excluded')
