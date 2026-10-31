@@ -72,6 +72,8 @@ export async function main(argv = process.argv.slice(2)) {
   --suites upstream-original      explicit reference-environment validation only
   --rounds N --executable CHROMIUM --upstream-runner-root INSTALLED_VITEST_KIT
   --docs-review FILE             source-hashed drawing expectations (default: corpus/docs-reviewed.json)
+  --docs-formats svg,png         same corpus, separate output lanes (default: both)
+  --docs-png-review FILE         reviewed PNG/source/expectation hashes; absent images remain unknown
   --list --include-excluded-descendants
   --pilot-summary CONTROLLER_JSON --out DIR  reduce owning pilot reports without collection
 Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples} warm means and ${FULL_SAMPLING.coldSamples} fresh processes per replica/round/case. Missing bindings, failures and unqualified timing remain visible. Measurements run locally and serially. Budgets stop new work at collector checkpoints; active workers retain their deadlines.`)

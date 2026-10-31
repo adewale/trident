@@ -12,6 +12,8 @@ type Cell = string | number
 export interface SnapshotTable {
   id: string; suite: PublicSuite; measuredAt: string; historical: boolean; unit: string; caption: string
   artifactRole?: 'candidate'
+  /** Output lanes share a corpus, never a supersession or speed boundary. */
+  outputFormat?: 'svg' | 'png'
   /** A compact result table also shown on the ecosystem landing page. */
   summary?: boolean
   /** Same protocol, pinned input bytes and sampling; coverage comparisons only. */
@@ -32,6 +34,7 @@ export interface SnapshotAttempt {
   evidenceUrl?: string
   artifactRole?: 'candidate'
   cohort?: string
+  outputFormats?: ('svg' | 'png')[]
   groups: ReturnType<typeof campaignScorecards>
 }
 export interface ResultsSnapshot {
@@ -73,6 +76,7 @@ export function validateSnapshot(snapshot: ResultsSnapshot, catalog: LineageCata
     if (!validLink(entry.receipt.url) || !/^[a-f0-9]{64}$/.test(entry.receipt.sha256)) throw Error('Invalid evidence receipt')
   }
   for (const entry of snapshot.tables) {
+    if (entry.outputFormat !== undefined && !['svg', 'png'].includes(entry.outputFormat)) throw Error('Unknown table output lane')
     stamp(entry.measuredAt)
     if (entry.campaignUpdatedAt !== undefined) stamp(entry.campaignUpdatedAt)
     if (entry.comparisonKey !== undefined && !/^[a-f0-9]{64}$/.test(entry.comparisonKey)) throw Error('Invalid comparison key')
@@ -108,6 +112,7 @@ export function validateSnapshot(snapshot: ResultsSnapshot, catalog: LineageCata
     if (entry.ranking && (!entry.columns.includes(entry.ranking.column) || entry.ranking.column === 'Version' || !['ascending', 'descending'].includes(entry.ranking.direction) || entry.ranking.denominator && !entry.columns.includes(entry.ranking.denominator))) throw Error('Invalid ranking metric')
   }
   for (const attempt of snapshot.attempts) {
+    if (attempt.outputFormats !== undefined && (!Array.isArray(attempt.outputFormats) || !attempt.outputFormats.length || new Set(attempt.outputFormats).size !== attempt.outputFormats.length || attempt.outputFormats.some(format => !['svg', 'png'].includes(format)))) throw Error('Invalid attempt output lanes')
     if (attempt.artifactRole !== undefined && attempt.artifactRole !== 'candidate') throw Error('Unknown attempt artifact role')
     if (attempt.cohort !== undefined && (typeof attempt.cohort !== 'string' || !attempt.cohort.trim())) throw Error('Invalid attempt cohort')
     if (!projects.has(attempt.project) || stamp(attempt.updatedAt) < stamp(attempt.measuredFrom)) throw Error('Invalid campaign project or measurement interval')
@@ -121,7 +126,10 @@ export function validateSnapshot(snapshot: ResultsSnapshot, catalog: LineageCata
 /** Owning import records publish the table rather than supersede it. Order
  * later attempts against that publication window, retaining original clocks. */
 function supersedingAttempt(attempts: SnapshotAttempt[], entry: SnapshotTable, project: string) {
-  const eligible = attempts.filter(attempt => attempt.project === project && attempt.suite === entry.suite && attempt.artifactRole !== 'candidate')
+  // Historical docs tables predate PNG lanes and describe SVG. A PNG-only
+  // attempt cannot erase that SVG evidence, including when setup was blocked.
+  const output = entry.outputFormat ?? (entry.suite === 'docs' ? 'svg' : undefined)
+  const eligible = attempts.filter(attempt => attempt.project === project && attempt.suite === entry.suite && attempt.artifactRole !== 'candidate' && (!output || (attempt.outputFormats ?? (attempt.suite === 'docs' ? ['svg'] : [])).includes(output)))
   const row = entry.rows.find(row => row.project === project), receipt = row?.receipt ?? entry.receipt
   const updatedAt = row?.campaignUpdatedAt ?? entry.campaignUpdatedAt
   const publishedAt = stamp(updatedAt ?? entry.measuredAt)
@@ -181,9 +189,12 @@ export function importCampaign(snapshot: ResultsSnapshot, directory: string, evi
       // A failed multi-project process does not establish that every project failed.
       const own = Object.fromEntries([...new Set(groups.flatMap(group => Object.keys(group.dispositions)))].map(status => [status, groups.reduce((sum, group) => sum + (group.dispositions[status] ?? 0), 0)]))
       const boundaryFailure = scopes.length === 1 && ['failed', 'blocked'].includes(row.status) ? row.status : undefined
-      const status = boundaryFailure ?? (groups.length ? own.failed ? 'failed' : own.blocked ? 'blocked' : own.unsupported === groups.reduce((sum, group) => sum + group.recordedObservations, 0) ? 'unsupported' : 'recorded'
+      const status = boundaryFailure ?? (groups.length ? own.failed ? 'failed' : own.blocked ? 'blocked' : own['not-applicable'] === groups.reduce((sum, group) => sum + group.recordedObservations, 0) ? 'not-applicable' : own.unsupported === groups.reduce((sum, group) => sum + group.recordedObservations, 0) ? 'unsupported' : 'recorded'
         : row.project || scopes.length === 1 || row.status === 'blocked' ? row.status === 'passed' ? 'recorded' : row.status : 'unavailable')
-      attempts.push({ id: 'attempt-' + sha256(digest + project + row.suite + (row.cohort ?? '')).slice(0, 24), project, suite: row.suite as PublicSuite, ...(row.cohort !== undefined ? { cohort: row.cohort } : {}),
+      const outputFormats = row.suite === 'docs' ? [...new Set(groups.map(group => group.format).filter(format => ['svg', 'png'].includes(format)))] : []
+      const declaredFormats = (report as any).options?.docsFormats
+      if (row.suite === 'docs' && !outputFormats.length) outputFormats.push(...(Array.isArray(declaredFormats) ? declaredFormats : ['svg']))
+      attempts.push({ id: 'attempt-' + sha256(digest + project + row.suite + (row.cohort ?? '')).slice(0, 24), project, suite: row.suite as PublicSuite, ...(row.cohort !== undefined ? { cohort: row.cohort } : {}), ...(row.suite === 'docs' ? { outputFormats: outputFormats as ('svg' | 'png')[] } : {}),
         measuredFrom: report.startedAt, updatedAt: report.updatedAt, status,
         detail: [row.detail, row.disposition, ...(row.gaps ?? []), 'Campaign process status: ' + row.status, !groups.length ? 'No per-project observation table was available.' : 'Recorded observation dispositions; process completion does not establish benchmark qualification.'].filter(Boolean).join('; '),
         receipt: { url: evidenceUrl.replace(/\/$/, '') + '/report.json', sha256: digest }, ...(artifactRole ? { artifactRole } : {}),
@@ -197,6 +208,7 @@ export function importCampaign(snapshot: ResultsSnapshot, directory: string, evi
     if (['reference-only', 'project-unsupported', 'out-of-scope'].includes(projectSupport(node).suites[suite as PublicSuite].state)) continue
     attempts.push({
       id: 'attempt-' + sha256(digest + project + suite).slice(0, 24), project, suite: suite as PublicSuite,
+      ...(suite === 'docs' ? { outputFormats: ((report as any).options?.docsFormats ?? ['svg']) as ('svg' | 'png')[] } : {}),
       measuredFrom: report.startedAt, updatedAt: report.updatedAt, status: 'unavailable', detail: 'Requested boundary has no recorded result in this partial campaign.',
       receipt: { url: evidenceUrl.replace(/\/$/, '') + '/report.json', sha256: digest }, ...(artifactRole ? { artifactRole } : {}), groups: [],
     })

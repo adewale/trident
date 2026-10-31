@@ -15,9 +15,10 @@ export function parseOptions(argv: string[]): UnifiedRunOptions & { allowIncompl
     'community-inputs': 'communityInputsFile', 'community-browser-prepared': 'communityBrowserPreparedFile',
     'community-qualification-assets': 'communityQualificationAssetDir',
     'docs-review': 'docsReviewFile',
+    'docs-png-review': 'docsPngReviewFile',
   }
   const values = new Map<string, string>()
-  const allowed = new Set([...Object.keys(paths), 'profile', 'rounds', 'community-projects', 'projects', 'community-artifact-policy', 'community-coverage', 'community-outputs', 'community-qualification-protocol'])
+  const allowed = new Set([...Object.keys(paths), 'profile', 'rounds', 'community-projects', 'projects', 'community-artifact-policy', 'community-coverage', 'community-outputs', 'community-qualification-protocol', 'docs-formats'])
   for (let index = 0; index < argv.length; index++) {
     const flag = argv[index]!, key = flag.slice(2)
     if (values.has(key)) throw Error('Duplicate option ' + flag)
@@ -40,6 +41,11 @@ export function parseOptions(argv: string[]): UnifiedRunOptions & { allowIncompl
     communityProjects, communityForce: values.has('community-force'), allowIncomplete: values.has('allow-incomplete'),
     communityArtifactPolicy: policy as 'latest' | 'frozen', communityCoverageOnce: coverage === 'once',
     communityOutputs: values.get('community-outputs')?.split(','), communityQualificationProtocol: values.get('community-qualification-protocol'),
+  }
+  if (values.has('docs-formats')) {
+    const formats = values.get('docs-formats')!.split(',')
+    if (!formats.length || new Set(formats).size !== formats.length || formats.some(format => !['svg', 'png'].includes(format))) throw Error('--docs-formats requires unique svg,png lanes')
+    options.docsFormats = formats as ('svg' | 'png')[]
   }
   for (const [flag, property] of Object.entries(paths)) if (values.has(flag)) Object.assign(options, { [property]: resolve(values.get(flag)!) })
   admitSelectedArtifacts(options)
