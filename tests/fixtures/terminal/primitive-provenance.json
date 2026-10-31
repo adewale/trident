@@ -1,0 +1,79 @@
+[
+  {
+    "file": "lines-cli.txt",
+    "project": "AlexanderGrooff/mermaid-ascii",
+    "version": "1.6.1",
+    "caseId": "terminal:1c0f33b5035768f2",
+    "sha256": "88ca5364ec3d901490291ec61db5d03dde108744a92981f3a64f2e968ae538a4",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; geometry checker control"
+  },
+  {
+    "file": "lines-module.txt",
+    "project": "adewale/agentic-mermaid",
+    "version": "0.4.1",
+    "caseId": "terminal:1c0f33b5035768f2",
+    "sha256": "e6fcbcde0cbfebe36adca6baa91e5a87c3b1e3f7e39b8b20ab9264118da160c1",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; geometry checker control"
+  },
+  {
+    "file": "lines-python-literal-tags.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "caseId": "terminal:1c0f33b5035768f2",
+    "sha256": "c426faf231c434a0c6cd542f2af04743d04aed9ef255cbaeb0383b8c4878718f",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; geometry checker control"
+  },
+  {
+    "file": "primitive-cli-lost-decision.txt",
+    "project": "AlexanderGrooff/mermaid-ascii",
+    "version": "1.6.1",
+    "caseId": "terminal:87325fd383c3b1af",
+    "sha256": "ecef4fd94300e584ce8dde7cc76c1ef3fd40a69c50146b7be861efc05a65c014",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; geometry checker control"
+  },
+  {
+    "file": "primitive-python-midpoint.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "caseId": "terminal:87325fd383c3b1af",
+    "sha256": "e734d16e8bf935a21542de3bb034287d75f73d16b277574187617467e4da97ae",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; geometry checker control"
+  },
+  {
+    "file": "primitive-module-corners.txt",
+    "project": "adewale/agentic-mermaid",
+    "version": "0.4.1",
+    "caseId": "terminal:87325fd383c3b1af",
+    "sha256": "338d8996b3746f10474195ce3a50c14ef1d0de6d73ab87c9f8481a4c866d4572",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; geometry checker control"
+  },
+  {
+    "file": "primitive-circles-module.txt",
+    "project": "adewale/agentic-mermaid",
+    "version": "0.4.1",
+    "caseId": "terminal:89e9eb6aebb72128",
+    "sha256": "60c0298f31f7d792f7bc9b5daedd48dfb707d60cc5901a7ba972d8cffec410dd",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; geometry checker control"
+  }
+]

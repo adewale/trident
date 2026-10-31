@@ -1,3 +1,4 @@
+import { terminalRectangles } from './terminal-rectangles.ts'
 import { inspectTerminalKanban } from './terminal-kanban.ts'
 import { inspectTerminalSequence } from './terminal-sequence.ts'
 import { interpretTerminal, terminalTextWidth } from './terminal-display.ts'
@@ -21,10 +22,24 @@ export function inspectTerminalFacts(output: string, contract: TerminalSourceCon
       const title = contract.facts.find(fact => fact.criterion === 'title')?.expected, body = typeof title === 'string' ? lines.filter(line => line.trim() !== title).join('\n') : text
       const blank = !body.trim(); set('nodes', blank ? 'passed' : 'failed', 'An independently empty drawing must remain empty', text); set('relationships', blank ? 'passed' : 'failed', 'Empty source contains no relationships', text)
     } else if (!graph.edges.some(edge => (edge as any).directed === false || (edge as any).endMarker || (edge as any).stroke || (edge as any).visible === false)) {
-      const verdict = inspectTerminalMeaning(output, graph)
+      const verdict = inspectTerminalMeaning(output, graph, { primitiveShapes: contract.facts.some(fact => fact.criterion === 'node-shapes') })
       if (verdict.status === 'correct') for (const name of ['nodes', 'relationships', 'layout-order']) set(name, 'passed', verdict.reason)
       else if (verdict.status === 'incorrect') set(/node labelled/.test(verdict.reason) ? 'nodes' : /node order/.test(verdict.reason) ? 'layout-order' : 'relationships', 'failed', verdict.reason)
       else for (const name of ['nodes', 'relationships', 'layout-order']) set(name, 'unknown', verdict.reason)
+    }
+  }
+  if (graph && graph.nodes.length && graph.nodes.length <= 32 && display.cells.length <= 256 && display.cells.every(row => row.length <= 512) && [...text].filter(glyph => /[┌╭+◇◯◎(/▷⌜╟]/.test(glyph)).length <= 64) {
+    const containers = terminalRectangles(display.cells, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: true, ports: true }), normalize = (value: string) => value.replace(/\s+/g, ' ').trim().normalize('NFC')
+    const owned = (id: string) => { const node = graph.nodes.find(node => node.id === id); if (!node) return []; return containers.filter(box => normalize(box.lines.join(' ')) === normalize(node.label)) }
+    const shapes = contract.facts.find(fact => fact.criterion === 'node-shapes')?.expected as { id: string; shape: string }[] | undefined
+    if (shapes?.length && shapes.every(item => owned(item.id).length === 1)) {
+      const actual = shapes.map(item => ({ id: item.id, shape: owned(item.id)[0]!.shape })), unknown = actual.some(item => item.shape?.startsWith('unqualified-')), mismatch = actual.some((item, n) => !item.shape?.startsWith('unqualified-') && item.shape !== shapes[n]!.shape)
+      set('node-shapes', mismatch ? 'failed' : unknown ? 'unknown' : 'passed', 'Unique node containers retain explicit primitive boundaries or unambiguous matching shape glyphs; arbitrary decorations supply no shape credit', actual)
+    }
+    const breaks = contract.facts.find(fact => fact.criterion === 'node-line-breaks')?.expected as { id: string; lines: string[] }[] | undefined
+    if (breaks?.length && breaks.every(item => owned(item.id).length === 1 && item.lines.every(line => normalize(line)))) {
+      const actual = breaks.map(item => ({ id: item.id, lines: owned(item.id)[0]!.lines })), partitions = (rows: string[], wanted: string[]) => { const memo = new Map<string, boolean>(); const match = (row: number, at: number): boolean => { if (at === wanted.length) return row === rows.length; const key = row + ',' + at; if (memo.has(key)) return memo.get(key)!; for (let end = row + 1; end <= rows.length; end++) if (normalize(rows.slice(row, end).join(' ')) === normalize(wanted[at]!) && match(end, at + 1)) { memo.set(key, true); return true }; memo.set(key, false); return false }; return match(0, 0) }
+      set('node-line-breaks', actual.every((item, n) => partitions(item.lines, breaks[n]!.lines)) ? 'passed' : 'failed', 'Each authored line retains a distinct contiguous run of display rows; soft wrapping may add rows but cannot merge an authored break', actual)
     }
   }
   if (contract.family === 'class') {
@@ -85,7 +100,7 @@ export function inspectTerminalFacts(output: string, contract: TerminalSourceCon
  * from the full drawing inventory or supplies any output pass. */
 export function terminalSourceObservable(contract: TerminalSourceContract, graph?: TerminalMeaning) {
   if (contract.sourceUncertainties.length) return false
-  const supported = contract.family === 'flowchart' ? ['nodes', 'relationships', 'layout-order'] : contract.family === 'pie' ? ['title', 'slice-values'] : contract.family === 'journey' ? ['title', 'journey-tasks'] : contract.family === 'timeline' ? ['title', 'timeline-periods'] : contract.family === 'sequence' ? ['participants', 'ordered-messages', 'owned-notes', 'fragments'] : contract.family === 'kanban' ? ['kanban-hierarchy'] : contract.family === 'class' ? ['class-bodies', 'class-relations'] : []
+  const supported = contract.family === 'flowchart' ? ['nodes', 'relationships', 'layout-order', 'node-shapes', 'node-line-breaks'] : contract.family === 'pie' ? ['title', 'slice-values'] : contract.family === 'journey' ? ['title', 'journey-tasks'] : contract.family === 'timeline' ? ['title', 'timeline-periods'] : contract.family === 'sequence' ? ['participants', 'ordered-messages', 'owned-notes', 'fragments'] : contract.family === 'kanban' ? ['kanban-hierarchy'] : contract.family === 'class' ? ['class-bodies', 'class-relations'] : []
   if (contract.facts.some(fact => fact.required !== false && !supported.includes(fact.criterion))) return false
   if (contract.family === 'class') { const classes = contract.facts.find(fact => fact.criterion === 'class-bodies')?.expected as any[] ?? [], relations = contract.facts.find(fact => fact.criterion === 'class-relations')?.expected as any[] ?? []; if (!classes.length || classes.length > 32 || classes.some(item => item.members.length || !/^[\p{Letter}\p{Number}_.-]+$/u.test(item.id)) || relations.length) return false }
   if (contract.family === 'sequence' && (contract.facts.find(fact => fact.criterion === 'ordered-messages')?.expected as any[] ?? []).some(message => !['->>', '-->>'].includes(message.marker))) return false
