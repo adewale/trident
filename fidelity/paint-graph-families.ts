@@ -838,7 +838,16 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   if (input.family === 'class') {
     if (Array.isArray(facts.members) && (facts.annotations?.length || facts.generics?.length || facts.members.some((entry: any) => entry.values.some((value: string) => /[~$*]/.test(value))))) {
       const canonical = (value: string) => {
-        const member = normalize(value).replace(/~([^~]+)~/g, '<$1>').replace(/[$*]$/, '').replace(/^([+\-#~])\s+/, '$1').replace(/\)\s*:\s*/g, ') ').replace(/\s*:\s*/g, ':')
+        // A generic type opens immediately after its type name. Closing tildes
+        // unwind that nesting; a flat pair replacement corrupts List~List~T~~.
+        const source = normalize(value), chars = [...source]; let depth = 0, typed = ''
+        for (const [index, char] of chars.entries()) {
+          if (char !== '~' || index === 0) { typed += char; continue }
+          if (/[\p{L}\p{N}_.$]/u.test(chars[index - 1] ?? '') && /[\p{L}_$]/u.test(chars[index + 1] ?? '')) { typed += '<'; depth++ }
+          else if (depth) { typed += '>'; depth-- } else return null
+        }
+        if (depth) return null
+        const member = typed.replace(/[$*]$/, '').replace(/^([+\-#~])\s+/, '$1').replace(/\)\s*:\s*/g, ') ').replace(/\s*:\s*/g, ':')
         if (member.includes('(')) return member
         const access = /^([+\-#~])/.exec(member)?.[1] ?? '', body = member.slice(access.length), name = '[\\p{L}_$][\\p{L}\\p{N}_$]*', type = '[\\p{L}_$][\\p{L}\\p{N}_.$]*(?:<[\\p{L}\\p{N}_.$?,<>\\[\\] ]+>)?(?:\\[\\])*'
         const suffix = new RegExp('^(' + name + '):(' + type + ')$', 'u').exec(body), prefix = new RegExp('^(' + type + ')\\s+(' + name + ')$', 'u').exec(body)
@@ -852,7 +861,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
         const observed = content.map(element => { const css = getComputedStyle(element), children = [...element.querySelectorAll('*')], styles = [css, ...children.map(child => getComputedStyle(child))]; return { value: canonical(readText(element)), italic: styles.some(style => ['italic', 'oblique'].includes(style.fontStyle)), underline: styles.some(style => style.textDecorationLine.split(' ').includes('underline')), safe: safeText(element) } })
         const expected = entry.values.map((value: string) => ({ value: canonical(value), italic: /\*$/.test(value), underline: /\$$/.test(value) }))
         const key = (value: any) => JSON.stringify([value.value, value.italic, value.underline])
-        return { id: entry.id, expected, observed, ready: !!owner && !!elements && observed.every(value => value.safe), matches: same(expected.map(key).sort(), observed.map(key).sort()) }
+        return { id: entry.id, expected, observed, ready: !!owner && !!elements && expected.every((value: any) => value.value !== null) && observed.every(value => value.safe && value.value !== null), matches: same(expected.map(key).sort(), observed.map(key).sort()) }
       })
       fact('members', actual, actual.every((entry: any) => entry.ready) ? actual.every((entry: any) => entry.matches) : null, 'Complete owned class member rows preserve names, argument/return types, access and generic angle-bracket types. Source abstract/static suffixes require actual italic/underline glyph style, with exact decorated member multiplicity. Only the separately owned header and authored stereotype rows are excluded; clipping, covers and uncertain glyphs remain unknown.')
     }
@@ -865,12 +874,19 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       fact('generics', actual, actual.every((entry: any) => node.has(entry.id)) ? actual.every((entry: any) => entry.matches) : null, 'The class header must visibly print its authored generic parameter list inside the owned body. Source tilde syntax is rendered with angle brackets; a matching member row or parameter text in another class earns no credit.')
     }
     if (Array.isArray(facts.cardinalities)) {
+      const routeEnds = routes.flatMap(route => [{ route, id: route.source, point: route.start }, { route, id: route.target, point: route.end }]).filter(end => end.point)
       const actual = facts.cardinalities.map((entry: any) => {
         const candidates = relation(entry.from, entry.to), route = candidates.length === 1 ? candidates[0] : null
-        const values = ['left', 'right'].map(side => { const id = side === 'left' ? entry.from : entry.to, endpoint = route && ends(route, id), otherEndpoint = route && ends(route, side === 'left' ? entry.to : entry.from), owner = node.get(id), value = entry[side]; const found = value && endpoint && otherEndpoint ? label(value).filter(element => !nodes.some(n => contains(n.box, box(element))) && distance(center(box(element)), endpoint) <= Math.max(35, box(element).width + box(element).height) && distance(center(box(element)), endpoint) + 2 < distance(center(box(element)), otherEndpoint)) : []; return { side, value, occurrences: found.length, safe: found.every(safeText), owner: !!owner } })
+        const values = ['left', 'right'].map(side => { const id = side === 'left' ? entry.from : entry.to, endpoint = route && ends(route, id), otherEndpoint = route && ends(route, side === 'left' ? entry.to : entry.from), owner = node.get(id), value = entry[side]; let ambiguous = false; const found = value && endpoint && otherEndpoint ? label(value).filter(element => {
+          const b = box(element), p = center(b), d = distance(p, endpoint)
+          if (nodes.some(n => contains(n.box, b)) || d > Math.max(35, b.width + b.height) || d + 2 >= distance(p, otherEndpoint)) return false
+          const peers = routeEnds.filter(end => end.route !== route || end.id !== id).map(end => distance(p, end.point!)), nearest = Math.min(...peers)
+          if (Math.abs(d - nearest) <= 2) ambiguous = true
+          return d + 2 < nearest
+        }) : []; return { side, value, occurrences: found.length, safe: found.every(safeText), owner: !!owner, ambiguous } })
         return { from: entry.from, to: entry.to, route: !!route, values, matches: values.every(item => item.owner && item.safe && (!item.value || item.occurrences === 1)) }
       })
-      fact('cardinalities', actual, routesBound && actual.every((entry: any) => entry.route) ? actual.every((entry: any) => entry.matches) : null, 'Every nonempty class cardinality is a visible route-end caption outside node bodies, strictly nearer its own endpoint. Exact endpoint pairs and unique occurrences reject swapped, extra, and borrowed labels; crowded parallel routes remain unknown.')
+      fact('cardinalities', actual, routesBound && actual.every((entry: any) => entry.route && entry.values.every((value: any) => !value.ambiguous)) ? actual.every((entry: any) => entry.matches) : null, 'Every nonempty class cardinality is a visible route-end caption outside node bodies, uniquely nearer its own measured endpoint than all other actual relation ends. Exact endpoint pairs and unique occurrences reject swapped, extra, and borrowed labels; tied/crowded endpoint ownership remains unknown.')
     }
   }
 

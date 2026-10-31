@@ -180,6 +180,30 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const matches = (label: string) => {
     const exact = labelElements.filter(element => normalize(labelText(element)) === normalize(label))
     if (exact.length) return exact
+    // Sequence condition captions may add one outer bracket pair and soft-wrap
+    // across separate SVG text rows. Join only a unique adjacent complete block;
+    // the fragment observer still has to prove its frame and chronological scope.
+    const fragments = input.family === 'sequence' ? input.expected.facts?.fragments : null
+    if (Array.isArray(fragments) && fragments.some((entry: any) => normalize(String(entry.caption ?? entry.label ?? '')) === normalize(label))) {
+      const wanted = '[' + normalize(label) + ']', blocks: Element[] = []
+      const qualified = labelElements.filter(element => fragmentedLabels.has(element) && normalize(labelText(element)) === wanted)
+      if (qualified.length) return qualified
+      for (const start of labelElements.filter(element => visible(element) && wanted.startsWith(normalize(labelText(element))) && normalize(labelText(element)).startsWith('['))) {
+        const rows = [start]
+        while (rows.length <= 16) {
+          const combined = rows.map(element => normalize(labelText(element))).join(' ')
+          if (combined === wanted) {
+            const boxes = rows.map(rect), x = Math.min(...boxes.map(b => b.x)), y = Math.min(...boxes.map(b => b.y)), bounds = { x, y, width: Math.max(...boxes.map(b => b.x + b.width)) - x, height: Math.max(...boxes.map(b => b.y + b.height)) - y }
+            if (!labelElements.some(element => !rows.includes(element) && visible(element) && contains(bounds, rect(element), 0) && normalize(labelText(element)))) { fragmentedLabels.set(start, rows); blocks.push(start) }
+            break
+          }
+          const previous = rect(rows.at(-1)!), next = labelElements.filter(element => !rows.includes(element) && visible(element) && wanted.startsWith(combined + ' ' + normalize(labelText(element)))).filter(element => { const b = rect(element), gap = b.y - previous.y; return gap > Math.min(b.height, previous.height) * .4 && gap <= Math.max(b.height, previous.height) * 2 && Math.abs(b.x + b.width / 2 - previous.x - previous.width / 2) <= 2 })
+          if (next.length !== 1) break
+          rows.push(next[0]!)
+        }
+      }
+      if (blocks.length) return blocks
+    }
     const lines = label.split('\n').map(normalize)
     if (lines.length > 1 && lines.every(Boolean)) {
       const starts = labelElements.filter(element => normalize(labelText(element)) === lines[0] && visible(element)), blocks: Element[] = []
@@ -698,7 +722,8 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (!shapes.length) return { kind: 'none', point: endpoint }
     if (input.family === 'er') return { kind: 'decoration', point: endpoint, clearance: Math.min(8, Number(marker.getAttribute('markerWidth') ?? 3) / 2) }
     if (shapes.length !== 1 || shapes[0]!.hasAttribute('transform')) return { kind: 'unknown', point: endpoint, unknown: 'Compound or transformed marker needs a reviewed geometry projection' }
-    const shape = shapes[0]!, rawKind = shapeKind(shape), glyphStyle = getComputedStyle(shape), open = input.family === 'sequence' && rawKind === 'arrow' && shape.localName !== 'polygon' && !/z\s*$/i.test(shape.getAttribute('d') ?? '') && colorAlpha(glyphStyle.fill) === 0 && colorAlpha(glyphStyle.stroke) !== 0, kind = open ? 'open-arrow' : rawKind, polygon = vertices(shape), owner = marker as unknown as SVGMarkerElement
+    const shape = shapes[0]!, rawKind = shapeKind(shape), glyphStyle = getComputedStyle(shape), polygon = vertices(shape), chevron = input.family === 'sequence' && polygon && concaveArrowTip(polygon), open = input.family === 'sequence' && rawKind === 'arrow' && shape.localName !== 'polygon' && !/z\s*$/i.test(shape.getAttribute('d') ?? '') && colorAlpha(glyphStyle.fill) === 0 && colorAlpha(glyphStyle.stroke) !== 0, kind = chevron ? 'unknown' : open ? 'open-arrow' : rawKind, owner = marker as unknown as SVGMarkerElement
+    if (chevron) return { kind, point: endpoint, unknown: 'A filled concave sequence chevron is visibly distinct from a solid triangle, but this profile qualifies only an unfilled open V; its exact arrow ink remains unavailable' }
     if (!polygon || kind === 'unknown') return { kind, point: endpoint, unknown: 'Marker tip projection is unavailable' }
     const reference = { x: owner.refX.baseVal.value, y: owner.refY.baseVal.value }
     const directional = ['arrow', 'triangle', 'open-arrow'].includes(kind)
@@ -725,7 +750,8 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (!shapes.length) return { kind: 'none', point: endpoint }
     if (input.family === 'er') return { kind: 'decoration', point: endpoint, clearance: 4 }
     if (shapes.length !== 1) return { kind: 'unknown', point: endpoint, unknown: 'Compound inline decoration needs a reviewed projection' }
-    const shape = shapes[0]!, rawKind = shapeKind(shape), glyphStyle = getComputedStyle(shape), open = input.family === 'sequence' && rawKind === 'arrow' && shape.localName !== 'polygon' && !/z\s*$/i.test(shape.getAttribute('d') ?? '') && colorAlpha(glyphStyle.fill) === 0 && colorAlpha(glyphStyle.stroke) !== 0, kind = open ? 'open-arrow' : rawKind, points = vertices(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM()
+    const shape = shapes[0]!, rawKind = shapeKind(shape), glyphStyle = getComputedStyle(shape), points = vertices(shape), chevron = input.family === 'sequence' && points && concaveArrowTip(points), open = input.family === 'sequence' && rawKind === 'arrow' && shape.localName !== 'polygon' && !/z\s*$/i.test(shape.getAttribute('d') ?? '') && colorAlpha(glyphStyle.fill) === 0 && colorAlpha(glyphStyle.stroke) !== 0, kind = chevron ? 'unknown' : open ? 'open-arrow' : rawKind, matrix = (shape as SVGGraphicsElement).getScreenCTM()
+    if (chevron) return { kind, point: endpoint, unknown: 'A filled concave sequence chevron is visibly distinct from a solid triangle, but this profile qualifies only an unfilled open V; its exact arrow ink remains unavailable' }
     if (!points || !matrix || kind === 'unknown') return { kind, point: endpoint, unknown: 'Inline marker tip projection is unavailable' }
     const local = new DOMPoint(endpoint.x, endpoint.y).matrixTransform(matrix.inverse()), ink = shape as SVGGeometryElement, style = getComputedStyle(shape)
     const filled = style.fill !== 'none' && Number(style.fillOpacity) > 0 && colorAlpha(style.fill) !== 0
