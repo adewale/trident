@@ -1,6 +1,13 @@
 import { crc32, inflateSync } from 'node:zlib'
+import { createHash } from 'node:crypto'
 
-export interface PngInspection { unavailable?: boolean; findings: string[]; width?: number; height?: number; visiblePixels?: number; distinctCompositedColors?: number; scope: 'decoded-raster-content' | 'binary-envelope' }
+export interface PngPixelIdentity {
+  protocol: 'png-rgba16-and-display-metadata-v1'
+  sha256: string
+  width: number
+  height: number
+}
+export interface PngInspection { unavailable?: boolean; findings: string[]; width?: number; height?: number; visiblePixels?: number; distinctCompositedColors?: number; pixelIdentity?: PngPixelIdentity; scope: 'decoded-raster-content' | 'binary-envelope' }
 const paeth = (a: number, b: number, c: number) => { const p = a + b - c, pa = Math.abs(p - a), pb = Math.abs(p - b), pc = Math.abs(p - c); return pa <= pb && pa <= pc ? a : pb <= pc ? b : c }
 
 /** Decode actual PNG payloads after API clocks, rather than accepting an IHDR
@@ -13,6 +20,7 @@ export function inspectPng(output: unknown, requireContent: boolean): PngInspect
     if (output.length > 64 * 1024 * 1024) throw Error('PNG exceeds the declared 64 MiB encoded qualification budget')
     const bytes = output, view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength), chunks: Uint8Array[] = []
     let cursor = 8, width = 0, height = 0, depth = 0, color = 0, interlace = 0, ended = false, idatEnded = false, palette: Uint8Array | undefined, transparency: Uint8Array | undefined
+    const displayMetadata: { type: string; sha256: string }[] = []
     while (cursor < bytes.length) {
       if (cursor + 12 > bytes.length) throw Error('Truncated PNG chunk')
       const length = view.getUint32(cursor), end = cursor + length + 12
@@ -36,18 +44,30 @@ export function inspectPng(output: unknown, requireContent: boolean): PngInspect
         else if (type === 'PLTE') { if (chunks.length || palette || !length || length % 3 || length > 768) throw Error('PNG has invalid palette'); palette = data }
         else if (type === 'tRNS') { if (chunks.length || transparency || color === 3 && !palette) throw Error('PNG has invalid transparency order'); transparency = data }
         else if (type[0] === type[0]!.toUpperCase()) throw Error('Unknown critical PNG chunk: ' + type)
+        else {
+          // A static-image baseline cannot certify animation frames. Color
+          // profiles, EXIF orientation, physical aspect ratios and unknown
+          // ancillary extensions remain part of the identity. Only standard
+          // text/time annotations are known to leave the image unchanged.
+          if (['acTL', 'fcTL', 'fdAT'].includes(type)) { result.unavailable = true; throw Error('Animated PNG needs a frame-specific content observer') }
+          if (!['tEXt', 'zTXt', 'iTXt', 'tIME'].includes(type)) displayMetadata.push({ type, sha256: createHash('sha256').update(data).digest('hex') })
+        }
       }
       cursor = end
     }
     if (!ended || !chunks.length || color === 3 && !palette) throw Error('PNG is missing image data, palette or IEND')
     const channels = ({ 0: 1, 2: 3, 3: 1, 4: 2, 6: 4 } as Record<number, number>)[color]!, bits = channels * depth
     const passes = interlace ? [[0, 0, 8, 8], [4, 0, 8, 8], [0, 4, 4, 8], [2, 0, 4, 4], [0, 2, 2, 4], [1, 0, 2, 2], [0, 1, 1, 2]] : [[0, 0, 1, 1]]
-    const rows = passes.map(([x, y, dx, dy]) => ({ width: Math.max(0, Math.ceil((width - x!) / dx!)), height: Math.max(0, Math.ceil((height - y!) / dy!)) }))
+    const rows = passes.map(([x, y, dx, dy]) => ({ x: x!, y: y!, dx: dx!, dy: dy!, width: Math.max(0, Math.ceil((width - x!) / dx!)), height: Math.max(0, Math.ceil((height - y!) / dy!)) }))
     const expectedBytes = rows.reduce((sum, pass) => sum + (pass.width ? (Math.ceil(pass.width * bits / 8) + 1) * pass.height : 0), 0)
     if (!Number.isSafeInteger(expectedBytes) || expectedBytes > 256 * 1024 * 1024) throw Error('PNG exceeds the declared 256 MiB decoded qualification budget')
     const raw = inflateSync(Buffer.concat(chunks), { maxOutputLength: expectedBytes + 1 })
     if (raw.length !== expectedBytes) throw Error('PNG decompressed scanlines do not match dimensions')
     let offset = 0, visiblePixels = 0
+    // Canonical row-major RGBA16 preserves low bits of 16-bit images and
+    // independent alpha, unlike a thumbnail or white-composited color count.
+    // The existing 16-megapixel bound caps this buffer at 128 MiB.
+    const pixels = Buffer.alloc(width * height * 8)
     const colors = new Set<number>(), max = 2 ** depth - 1
     const convert = (value: number) => Math.round(value * 255 / max)
     const composite = (value: number, alpha: number) => Math.round((value * alpha + 255 * (255 - alpha)) / 255)
@@ -73,15 +93,21 @@ export function inspectPng(output: unknown, requireContent: boolean): PngInspect
         }
         for (let x = 0; x < pass.width; x++) {
           let r: number, g: number, b: number, alpha = 255
+          let r16: number, g16: number, b16: number, a16 = 65535
           if (color === 3) {
             const index = sample(x)
             if (index * 3 + 2 >= palette!.length) throw Error('PNG palette index is outside the declared palette')
             r = palette![index * 3]!; g = palette![index * 3 + 1]!; b = palette![index * 3 + 2]!; alpha = transparency?.[index] ?? 255
+            r16 = r * 257; g16 = g * 257; b16 = b * 257; a16 = alpha * 257
           } else {
             r = convert(sample(x)); g = color === 0 || color === 4 ? r : convert(sample(x, 1)); b = color === 0 || color === 4 ? r : convert(sample(x, 2))
-            if (color === 4 || color === 6) alpha = convert(sample(x, channels - 1))
-            else if (transparent && transparent.every((value, channel) => value === sample(x, channel))) alpha = 0
+            const full = (value: number) => Math.round(value * 65535 / max)
+            r16 = full(sample(x)); g16 = color === 0 || color === 4 ? r16 : full(sample(x, 1)); b16 = color === 0 || color === 4 ? r16 : full(sample(x, 2))
+            if (color === 4 || color === 6) { alpha = convert(sample(x, channels - 1)); a16 = full(sample(x, channels - 1)) }
+            else if (transparent && transparent.every((value, channel) => value === sample(x, channel))) { alpha = 0; a16 = 0 }
           }
+          const pixel = ((pass.y + y * pass.dy) * width + pass.x + x * pass.dx) * 8
+          pixels.writeUInt16BE(r16, pixel); pixels.writeUInt16BE(g16, pixel + 2); pixels.writeUInt16BE(b16, pixel + 4); pixels.writeUInt16BE(a16, pixel + 6)
           if (alpha) visiblePixels++
           // Every Adam7 pass contributes actual decoded pixels. Low-bit-depth
           // and interlaced blanks receive exactly the same content criterion.
@@ -91,6 +117,9 @@ export function inspectPng(output: unknown, requireContent: boolean): PngInspect
       }
     }
     result.scope = 'decoded-raster-content'; result.visiblePixels = visiblePixels; result.distinctCompositedColors = colors.size
+    const dimensions = Buffer.alloc(8); dimensions.writeUInt32BE(width); dimensions.writeUInt32BE(height, 4)
+    const protocol = 'png-rgba16-and-display-metadata-v1' as const
+    result.pixelIdentity = { protocol, width, height, sha256: createHash('sha256').update(protocol + '\n').update(dimensions).update(JSON.stringify(displayMetadata)).update(pixels).digest('hex') }
     if (requireContent && (!visiblePixels || colors.size < 2)) result.findings.push('PNG has no nonuniform visible diagram content despite declared authored labels')
   } catch (error) { const detail = error instanceof Error ? error.message : String(error); if (detail.startsWith('PNG exceeds the declared')) result.unavailable = true; result.findings.push(detail) }
   return result

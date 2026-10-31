@@ -5,6 +5,7 @@ export async function publicDocsPngAction(input: { source: string; id: string })
   const started = performance.now()
   let stage = 'public-svg',
     svg: string | undefined,
+    rasterizedSvg: string | undefined,
     url: string | undefined
   try {
     const value = await state.render(input.source, input.id)
@@ -35,6 +36,7 @@ export async function publicDocsPngAction(input: { source: string; id: string })
     root.setAttribute('height', String(height))
     root.style.maxWidth = 'none'
     const serialized = new XMLSerializer().serializeToString(root)
+    rasterizedSvg = serialized
     url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(serialized)
     stages.svgPreparationMs = performance.now() - t
     stage = 'svg-decode'
@@ -62,9 +64,9 @@ export async function publicDocsPngAction(input: { source: string; id: string })
     const outputBytes = bytes.byteLength
     stages.pngProductionMs = performance.now() - t
     const totalMs = performance.now() - started
-    return { status: 'ok', totalMs, stages, width, height, outputBytes, png: Array.from(bytes), svg }
+    return { status: 'ok', totalMs, stages, width, height, outputBytes, png: Array.from(bytes), svg, originalSvg: svg, rasterizedSvg }
   } catch (error) {
-    return { status: stage === 'raster-budget' ? 'blocked' : 'error', stage, detail: String(error), stages, svg }
+    return { status: stage === 'raster-budget' ? 'blocked' : 'error', stage, detail: String(error), stages, svg, originalSvg: svg, rasterizedSvg }
   } finally {
     ;(globalThis as any).__communityAfterCall?.()
     for (const node of document.querySelectorAll('body > div:not([data-community-host])')) node.remove()
