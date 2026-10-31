@@ -13,7 +13,7 @@ import { inspectFidelityPaint, type PaintCheck } from '../fidelity/paint.ts'
 import { inspectQuantitativePaint } from '../fidelity/paint-values.ts'
 import { inspectSourceFacts } from '../fidelity/paint-facts.ts'
 import { evidenceDigest } from '../portable/evidence-contract.ts'
-import { assessSvgCases, summarizeSvgCases } from '../fidelity/svg-assessment.ts'
+import { assessSvgCases, summarizeSvgCases, makeSvgObservationBinding, type SvgEvidenceBinding } from '../fidelity/svg-assessment.ts'
 import { admitDocsReviews, assessDocsDrawing, reviewedDocsCase, type DocsDrawingReview } from './docs-drawings.ts'
 import { admitPngReviews, assessDocsPng, type DocsPngReview } from './docs-png-drawings.ts'
 import { qualifyOutput } from './qualification.ts'
@@ -41,7 +41,7 @@ export function retainedPath(directory: string, out: string, aliases: string[], 
 
 /** Fresh paint evidence replaces every required paint observation. A missing
  * checker result or observer exception can never borrow an earlier pass. */
-export async function recheckFeaturePaint(input: AuthoredFidelityCase, project: string, observations: readonly BenchmarkObservation[], inspect: () => Promise<PaintCheck[]>, checkedAt: string, fontOptions = true, binding?: { svgSha256: string; observerSha256: string }) {
+export async function recheckFeaturePaint(input: AuthoredFidelityCase, project: string, observations: readonly BenchmarkObservation[], inspect: () => Promise<PaintCheck[]>, checkedAt: string, fontOptions = true, binding?: SvgEvidenceBinding) {
   const own = observations.filter(row => row.metrics?.authoredCase === input.id && row.surface === 'browser-owned-ink')
   let checks: PaintCheck[] = [], error: string | undefined
   try {
@@ -61,6 +61,18 @@ export async function recheckFeaturePaint(input: AuthoredFidelityCase, project: 
   // pass or failure under the identity of the new observer.
   for (const row of own.filter(row => !planned.some(item => item.criterion === row.operation))) fresh.push({ ...row, status: 'blocked', detail: 'Historical paint diagnostic is outside the current required observation plan', metrics: { ...row.metrics, originalCriterionStatus: row.status, recheckedAt: checkedAt, recheckObservation: 'unplanned-historical' } })
   return { completed: !error, ...(error ? { error } : {}), observations: observations.filter(row => !(row.metrics?.authoredCase === input.id && row.surface === 'browser-owned-ink')).concat(fresh) }
+}
+
+/** Public return and standalone bytes can be revalidated from their retained
+ * receipt. Prelude acceptance/rejection lacks a complete retained contract here
+ * and deliberately remains unknown rather than borrowing the old status. */
+export function recheckFeatureAdmission(input: AuthoredFidelityCase, project: string, observations: readonly BenchmarkObservation[], svg: string, publicKind: unknown, binding: SvgEvidenceBinding, checkedAt: string): BenchmarkObservation[] {
+  const qualification = qualifyOutput({ id: input.id, family: input.family, source: input.source, expectedLabels: input.expected.labels, features: [], provenance: 'Original authored inventory and retained public-return receipt' }, svg, 'svg')
+  return observations.map(row => {
+    if (row.metrics?.implementation !== project || row.metrics?.authoredCase !== input.id || row.surface !== 'browser-public-api' || !['public-svg-admission', 'standalone-svg-and-labels'].includes(row.operation)) return row
+    const receiptReturned = publicKind === 'returned', status: BenchmarkObservation['status'] = !receiptReturned ? 'blocked' : row.operation === 'public-svg-admission' ? 'passed' : qualification.unavailable ? 'blocked' : qualification.ok ? 'passed' : 'failed'
+    return { ...row, status, detail: !receiptReturned ? 'Retained receipt does not prove an actual public SVG return' : row.operation === 'public-svg-admission' ? 'Actual public returned SVG bytes and original authored source inventory revalidated; no new renderer call' : qualification.scope + ': ' + qualification.findings.join('; '), metrics: { ...row.metrics, ...binding, originalCriterionStatus: row.metrics?.originalCriterionStatus ?? row.status, recheckedAt: checkedAt, recheckObservation: receiptReturned ? 'retained-public-receipt-revalidated' : 'missing-public-return-receipt' } }
+  })
 }
 
 /** Reassess retained bytes only. No artifact acquisition, public render call or
@@ -133,7 +145,7 @@ export async function recheckRendering(directory: string, out: string, pngReview
             const authored = reviewedDocsCase(input, expected)
             const render = result.observations.find((item: any) => item.format === 'svg' && item.operation === 'render' && item.caseId === input.id && item.metrics?.project === row.metrics.project && item.metrics?.round === 1)
             const admission = qualifyOutput({ id: input.id, family: authored.family, source: input.source, expectedLabels: authored.expected.labels, features: [], provenance: expected.review }, svg, 'svg')
-            try { assessment = assessDocsDrawing(input, expected, render?.status ?? 'blocked', admission.ok, await inspect(row.metrics.project, svg, authored), { svgSha256: hash(svg), observerSha256 }); docsChecked++ }
+            try { assessment = assessDocsDrawing(input, expected, render?.status ?? 'blocked', admission.ok, await inspect(row.metrics.project, svg, authored), makeSvgObservationBinding(authored, hash(svg), observerSha256)); docsChecked++ }
             catch (error) { assessment = { status: 'unknown', reason: 'Retained SVG observer did not complete: ' + String(error) } }
           } else assessment = assessDocsDrawing(input, expected, 'blocked', false, [])
           row.metrics = { ...row.metrics, originalDrawingStatus: row.status, recheckedAt: began }
@@ -147,8 +159,15 @@ export async function recheckRendering(directory: string, out: string, pngReview
         const original = result.observations as BenchmarkObservation[]
         // Invalidate old paint evidence before loading any witnesses. Missing
         // receipts/witnesses therefore remain unknown instead of surviving as passes.
-        result.observations = original.map(row => row.surface === 'browser-owned-ink' ? { ...row, status: 'blocked', detail: 'No fresh retained SVG observation is available', metrics: { ...row.metrics, originalCriterionStatus: row.status, recheckedAt: began, recheckObservation: 'missing-witness' } } : row)
-        const witnessed = new Set<string>(), bindings: Record<string, Record<string, { svgSha256: string; observerSha256: string }>> = {}
+        result.observations = original.map(row => {
+          if (row.surface === 'native-public-api') return row
+          const metrics: NonNullable<BenchmarkObservation['metrics']> = { ...row.metrics, originalCriterionStatus: row.status, originalEvidenceBinding: JSON.stringify({ sourceSha256: row.metrics?.sourceSha256, expectationsSha256: row.metrics?.expectationsSha256, svgSha256: row.metrics?.svgSha256, observerSha256: row.metrics?.observerSha256 }), recheckedAt: began, recheckObservation: 'missing-witness' }
+          // A new observer may freshly validate retained bytes. It cannot relabel
+          // a historical API/prelude status as if that call had happened again.
+          delete metrics.svgSha256; delete metrics.observerSha256
+          return { ...row, status: 'blocked', detail: 'No freshly validated retained evidence is available; original status is preserved separately', metrics }
+        })
+        const witnessed = new Set<string>(), bindings: Record<string, Record<string, SvgEvidenceBinding>> = {}
         for (const receiptPath of result.artifacts ?? []) {
           if (!receiptPath.endsWith('community-fidelity-cases.json')) continue
           const receipt = read(remap(receiptPath))
@@ -161,8 +180,10 @@ export async function recheckRendering(directory: string, out: string, pngReview
             const coordinate = JSON.stringify([receipt.project, input.id])
             if (witnessed.has(coordinate)) throw Error('Duplicate retained SVG witness coordinate')
             witnessed.add(coordinate)
-            const binding = { svgSha256: hash(svg), observerSha256 }
+            if (entry.family !== undefined && entry.family !== input.family) throw Error('Retained SVG receipt contradicts the authored family')
+            const binding = makeSvgObservationBinding(input, hash(svg), observerSha256)
             ;(bindings[receipt.project] ??= {})[input.id] = binding
+            result.observations = recheckFeatureAdmission(input, receipt.project, result.observations, svg, entry.publicResult?.kind, binding, began)
             const assessed = await recheckFeaturePaint(input, receipt.project, result.observations.filter((row: BenchmarkObservation) => row.metrics?.implementation === receipt.project), () => inspect(receipt.project, svg, input), began, !!receipt.capabilities?.fontOptions, binding)
             result.observations = result.observations.filter((row: BenchmarkObservation) => row.metrics?.implementation !== receipt.project).concat(assessed.observations)
             if (assessed.completed) featureChecked++
