@@ -14,13 +14,24 @@ export interface DocsPngReview {
   review: string
   /** Derived from the reviewed original PNG, never a perceptual-image hash. */
   pixels?: PngPixelIdentity
+  /** Original reviewed bytes, required to replay a persisted pixel alias. */
+  reviewedPngBase64?: string
 }
 export const docsExpectationsHash = (review: DocsDrawingReview) => {
   const sourceReview = (review as DocsDrawingReview & { sourceReview?: unknown }).sourceReview
-  return sourceHash(JSON.stringify({ family: review.family, expected: review.expected, unverifiedFacts: review.unverifiedFacts ?? [], ...(sourceReview ? { sourceReview } : {}) }))
+  return sourceHash(JSON.stringify({ intent: review.intent, family: review.family, expected: review.expected, unverifiedFacts: review.unverifiedFacts ?? [], ...(sourceReview ? { sourceReview } : {}) }))
 }
 const validPixels = (pixels: PngPixelIdentity | undefined) => pixels === undefined || !!pixels && typeof pixels === 'object' && pixels.protocol === 'png-rgba16-and-display-metadata-v1' && /^[a-f0-9]{64}$/.test(pixels.sha256) && Number.isSafeInteger(pixels.width) && Number.isSafeInteger(pixels.height) && pixels.width > 0 && pixels.height > 0 && pixels.width * pixels.height <= 16 * 1024 * 1024
 const samePixels = (left: PngPixelIdentity, right: PngPixelIdentity) => left.protocol === right.protocol && left.width === right.width && left.height === right.height && left.sha256 === right.sha256
+/** A persisted pixel hash is a claim until the actual reviewed original is
+ * decoded again. Without its bytes, only direct reviewed-byte identity may pass. */
+const verifiedPixelAlias = (review: DocsPngReview) => {
+  if (!review.pixels || !validPixels(review.pixels) || typeof review.reviewedPngBase64 !== 'string' || review.reviewedPngBase64.length > Math.ceil(64 * 1024 * 1024 / 3) * 4 || review.reviewedPngBase64.length % 4 !== 0) return false
+  const bytes = Buffer.from(review.reviewedPngBase64, 'base64')
+  if (bytes.toString('base64') !== review.reviewedPngBase64 || createHash('sha256').update(bytes).digest('hex') !== review.pngSha256) return false
+  const decoded = inspectPng(bytes, false)
+  return !decoded.findings.length && !!decoded.pixelIdentity && samePixels(review.pixels, decoded.pixelIdentity)
+}
 export function admitPngReviews(inputs: readonly DocsInput[], sourceReviews: readonly DocsDrawingReview[], reviews: readonly DocsPngReview[]) {
   admitDocsReviews(inputs, sourceReviews)
   const seen = new Set<string>()
@@ -29,6 +40,7 @@ export function admitPngReviews(inputs: readonly DocsInput[], sourceReviews: rea
     const input = inputs.find(item => item.id === review.id), expected = sourceReviews.find(item => item.id === review.id)
     const key = JSON.stringify([review.id, review.pngSha256])
     if (!input || !expected || expected.intent !== 'drawing' || sourceHash(input.source) !== review.sourceSha256 || review.expectationsSha256 !== docsExpectationsHash(expected) || !/^[a-f0-9]{64}$/.test(review.pngSha256) || !['correct', 'incorrect'].includes(review.status) || !review.reviewedBy?.trim() || !review.review?.trim() || !validPixels(review.pixels) || seen.has(key)) throw Error('Missing, duplicate or stale PNG content review: ' + review.id)
+    if (review.reviewedPngBase64 !== undefined && !verifiedPixelAlias(review)) throw Error('PNG review pixel alias differs from its actual reviewed original image: ' + review.id)
     seen.add(key)
     if (review.pixels) {
       const identity = JSON.stringify([review.id, review.sourceSha256, review.expectationsSha256, review.pixels.protocol, review.pixels.width, review.pixels.height, review.pixels.sha256])
@@ -49,7 +61,7 @@ export function bindPngReviewPixels(input: DocsInput, expected: DocsDrawingRevie
   const decoded = inspectPng(originalPng, false)
   if (decoded.findings.length || !decoded.pixelIdentity) throw Error('Reviewed PNG baseline cannot be fully decoded: ' + decoded.findings.join('; '))
   if (review.pixels && !samePixels(review.pixels, decoded.pixelIdentity)) throw Error('PNG review pixel identity differs from its original image')
-  return { ...review, pixels: decoded.pixelIdentity }
+  return { ...review, pixels: decoded.pixelIdentity, reviewedPngBase64: Buffer.from(originalPng).toString('base64') }
 }
 
 export function assessDocsPng(input: DocsInput, expected: DocsDrawingReview | null, bytes: Uint8Array | undefined, reviews: readonly DocsPngReview[]) {
@@ -67,8 +79,9 @@ export function assessDocsPng(input: DocsInput, expected: DocsDrawingReview | nu
   if (expected.sourceReview?.expectedFactsComplete !== true || expected.sourceReview.unresolved.length || expected.unverifiedFacts?.length) return { status: 'unknown', reason: 'A validated complete source contract is required; a legacy or incomplete image review cannot supply full content credit' }
   const hash = createHash('sha256').update(bytes).digest('hex')
   const own = reviews.filter(item => item.id === input.id && item.sourceSha256 === sourceHash(input.source) && item.expectationsSha256 === docsExpectationsHash(expected))
+  for (const item of own) if (item.reviewedPngBase64 !== undefined && !verifiedPixelAlias(item)) throw Error('PNG review alias contradicts its reviewed original bytes')
   for (const item of own) if (item.pngSha256 === hash && item.pixels && (!validPixels(item.pixels) || !decoded.pixelIdentity || !samePixels(item.pixels, decoded.pixelIdentity))) throw Error('PNG review pixels contradict its actual reviewed bytes')
-  const review = own.find(item => ['correct', 'incorrect'].includes(item.status) && !!item.reviewedBy?.trim() && !!item.review?.trim() && validPixels(item.pixels) && (item.pngSha256 === hash || !!item.pixels && !!decoded.pixelIdentity && samePixels(item.pixels, decoded.pixelIdentity)))
+  const review = own.find(item => ['correct', 'incorrect'].includes(item.status) && !!item.reviewedBy?.trim() && !!item.review?.trim() && validPixels(item.pixels) && (item.pngSha256 === hash || !!item.pixels && !!decoded.pixelIdentity && samePixels(item.pixels, decoded.pixelIdentity) && verifiedPixelAlias(item)))
   if (!review) return { status: 'unknown', reason: 'Actual PNG lacks a complete content review bound to these source, expectation and image bytes or exact decoded pixels; SVG checks cannot supply raster correctness' }
   const sourceReview = (expected as DocsDrawingReview & { sourceReview?: { expectedFactsComplete?: boolean; unresolved?: unknown[] } }).sourceReview
   if (review.status === 'correct' && (expected.unverifiedFacts?.length || sourceReview && (sourceReview.expectedFactsComplete !== true || sourceReview.unresolved?.length))) return { status: 'unknown', reason: 'Required source facts remain unresolved; an image review cannot complete the source contract' }

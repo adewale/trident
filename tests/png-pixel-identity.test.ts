@@ -3,6 +3,7 @@ import { crc32, deflateSync } from 'node:zlib'
 import { createHash } from 'node:crypto'
 import { inspectPng } from '../unified/png-inspection.ts'
 import { admitPngReviews, assessDocsPng, bindPngReviewPixels, docsExpectationsHash, type DocsPngReview } from '../unified/docs-png-drawings.ts'
+import { requiredDocumentationObligations } from '../unified/docs-source-review.ts'
 import { sourceHash, type DocsDrawingReview } from '../unified/docs-drawings.ts'
 
 const chunk = (type: string, data: Uint8Array) => {
@@ -65,7 +66,8 @@ test('animation and unsupported or damaged pixels cannot acquire a static pixel 
 })
 
 const input = { id: 'pixel-trust-fixture', family: 'flowchart', source: 'flowchart LR\nA-->B' }
-const expected: DocsDrawingReview = { id: input.id, sourceSha256: sourceHash(input.source), family: 'flowchart', intent: 'drawing', expected: { labels: ['A', 'B'], nodes: [{ id: 'A', label: 'A' }, { id: 'B', label: 'B' }], edges: [{ source: 'A', target: 'B', directed: true }] }, review: 'Source contract; synthetic pixel trust tests do not claim that two pixels draw this graph.' }
+const complete = (review: DocsDrawingReview): DocsDrawingReview => ({ ...review, sourceReview: { protocol: 'literal-documentation-facts-v1', sourcePin: '1fb7869866dd619168d840291c9c54b4f129758b', method: 'Complete synthetic source contract outside benchmark scores', expectedFactsComplete: true, requiredObligations: requiredDocumentationObligations(review.expected), unresolved: [], excludedNonvisual: [] } })
+const expected: DocsDrawingReview = complete({ id: input.id, sourceSha256: sourceHash(input.source), family: 'flowchart', intent: 'drawing', expected: { labels: ['A', 'B'], nodes: [{ id: 'A', label: 'A' }, { id: 'B', label: 'B' }], edges: [{ source: 'A', target: 'B', directed: true }] }, review: 'Source contract; synthetic pixel trust tests do not claim that two pixels draw this graph.' })
 const review: DocsPngReview = { id: input.id, sourceSha256: expected.sourceSha256, expectationsSha256: docsExpectationsHash(expected), pngSha256: hash(baseline), status: 'correct', reviewedBy: 'synthetic trust-record fixture', review: 'Synthetic admission record outside benchmark scores.' }
 
 test('a reviewed original binds exact decoded ink without creating a new semantic review', () => {
@@ -81,11 +83,11 @@ test('a reviewed original binds exact decoded ink without creating a new semanti
 
 test('scope changes, unresolved facts and contradictory or malformed trust records cannot supply a pass', () => {
   const bound = bindPngReviewPixels(input, expected, review, baseline)
-  const added = { ...expected, expected: { ...expected.expected!, forbiddenLabels: ['hidden member'] } }
+  const added = complete({ ...expected, expected: { ...expected.expected!, forbiddenLabels: ['hidden member'] } })
   expect(assessDocsPng(input, added, baseline, [bound]).status).toBe('unknown')
-  const unresolved = { ...expected, unverifiedFacts: ['unobserved grouping'] }, sourceReview = { ...review, expectationsSha256: docsExpectationsHash(unresolved) }
+  const unresolved = { ...expected, unverifiedFacts: ['unobserved grouping'], sourceReview: { ...expected.sourceReview!, expectedFactsComplete: false, unresolved: ['unobserved grouping'] } }, sourceReview = { ...review, expectationsSha256: docsExpectationsHash(unresolved) }
   expect(assessDocsPng(input, unresolved, baseline, [sourceReview]).status).toBe('unknown')
-  expect(() => admitPngReviews([input], [expected], [bound, { ...bound, pngSha256: '1'.repeat(64), status: 'incorrect' }])).toThrow('Conflicting')
+  expect(() => admitPngReviews([input], [expected], [bound, { ...bound, reviewedPngBase64: undefined, pngSha256: '1'.repeat(64), status: 'incorrect' }])).toThrow('Conflicting')
   for (const pixels of [null, { ...bound.pixels!, width: 0 }, { ...bound.pixels!, protocol: 'perceptual-thumbnail' }]) {
     expect(() => admitPngReviews([input], [expected], [{ ...review, pixels } as any])).toThrow('Missing')
   }
@@ -94,8 +96,23 @@ test('scope changes, unresolved facts and contradictory or malformed trust recor
 
 test('explicitly empty drawings can replay a reviewed blank raster without a fictitious nonblank failure', () => {
   const empty = { ...input, source: 'gantt\n' }, blank = image(Uint8Array.from([0, 255, 255, 255, 255, 255, 255, 255, 255]))
-  const facts: DocsDrawingReview = { id: empty.id, sourceSha256: sourceHash(empty.source), family: 'gantt', intent: 'drawing', expected: { labels: [], nodes: [], edges: [], facts: { tasks: [] } }, review: 'Independent empty-source contract; no visible marks are required.' }
+  const facts: DocsDrawingReview = complete({ id: empty.id, sourceSha256: sourceHash(empty.source), family: 'gantt', intent: 'drawing', expected: { labels: [], nodes: [], edges: [], facts: { tasks: [] } }, review: 'Independent empty-source contract; no visible marks are required.' })
   const reviewed: DocsPngReview = { ...review, sourceSha256: facts.sourceSha256, expectationsSha256: docsExpectationsHash(facts), pngSha256: hash(blank) }
   expect(assessDocsPng(empty, facts, blank, [reviewed]).status).toBe('correct')
   expect(assessDocsPng(empty, facts, blank, []).status).toBe('unknown')
+})
+
+
+test('persisted pixel aliases cannot replace the actual reviewed original PNG', () => {
+  const bad = image(Uint8Array.from([0, ...pixels.slice(4), ...pixels.slice(0, 4)])), badPixels = identity(bad)
+  const forged = { ...review, pixels: badPixels }
+  expect(assessDocsPng(input, expected, bad, [forged]).status).toBe('unknown')
+  const bound = bindPngReviewPixels(input, expected, review, baseline)
+  expect(() => admitPngReviews([input], [expected], [{ ...bound, pixels: badPixels }])).toThrow('actual reviewed original')
+  expect(() => assessDocsPng(input, expected, bad, [{ ...bound, pixels: badPixels }])).toThrow('reviewed original')
+  const reencoded = image(raw, { level: 0, split: true })
+  const noOriginal = { ...bound, reviewedPngBase64: undefined }
+  expect(assessDocsPng(input, expected, reencoded, [noOriginal]).status).toBe('unknown')
+  expect(assessDocsPng(input, expected, baseline, [noOriginal]).status).toBe('correct')
+  expect(assessDocsPng(input, expected, reencoded, [bound]).status).toBe('correct')
 })
