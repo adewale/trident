@@ -1,0 +1,1362 @@
+{
+  "schema": "terminal-authored-state-adaptation-evidence-v1",
+  "scope": "The original 120 frozen research inputs are preserved. A fresh, independently reviewed authored control is the 121st entry. Active 116 unambiguous drawings, four invalid controls and one held ambiguous diagnostic are reported separately. No complete accuracy rank or performance claim.",
+  "population": {
+    "totalEntries": 121,
+    "originalResearchEntries": 120,
+    "authoredAdaptations": 1,
+    "activeUnambiguousDrawings": 116,
+    "invalidControls": 4,
+    "ambiguousSourceDiagnostics": 1
+  },
+  "source": {
+    "case": {
+      "id": "terminal-adaptation:3bf5fbf5ea7c5486",
+      "sourceSha256": "3bf5fbf5ea7c5486b4226df2205d1fa9256deebcb0d9d0519ec26ccbaca38c5a",
+      "source": "stateDiagram-v2\ndirection TB\nA --> B\nA --> C\nstate D {\n  state E {\n    state \"B\" as B_E\n    state \"F\" as F_E\n    B_E --> F_E\n  }\n  state \"B\" as B_D\n  state \"C\" as C_D\n  B_D --> C_D\n}\n",
+      "family": "state",
+      "features": [
+        "source-adaptation",
+        "unique-state-identities"
+      ],
+      "intent": "valid",
+      "expected": {
+        "status": "independently-reviewed",
+        "reason": "Independent source-only alias adaptation review; no renderer outcome supplies expected facts.",
+        "contract": {
+          "schema": "terminal-source-contract-v2",
+          "family": "state",
+          "facts": [
+            {
+              "criterion": "states",
+              "expected": [
+                {
+                  "id": "A",
+                  "label": "A",
+                  "scope": []
+                },
+                {
+                  "id": "B",
+                  "label": "B",
+                  "scope": []
+                },
+                {
+                  "id": "C",
+                  "label": "C",
+                  "scope": []
+                },
+                {
+                  "id": "D",
+                  "label": "D",
+                  "scope": []
+                },
+                {
+                  "id": "E",
+                  "label": "E",
+                  "scope": [
+                    "D"
+                  ]
+                },
+                {
+                  "id": "B_E",
+                  "label": "B",
+                  "scope": [
+                    "D",
+                    "E"
+                  ]
+                },
+                {
+                  "id": "F_E",
+                  "label": "F",
+                  "scope": [
+                    "D",
+                    "E"
+                  ]
+                },
+                {
+                  "id": "B_D",
+                  "label": "B",
+                  "scope": [
+                    "D"
+                  ]
+                },
+                {
+                  "id": "C_D",
+                  "label": "C",
+                  "scope": [
+                    "D"
+                  ]
+                }
+              ],
+              "scope": "State identities, including composite states"
+            },
+            {
+              "criterion": "transitions",
+              "expected": [
+                {
+                  "source": "A",
+                  "target": "B",
+                  "caption": "",
+                  "scope": []
+                },
+                {
+                  "source": "A",
+                  "target": "C",
+                  "caption": "",
+                  "scope": []
+                },
+                {
+                  "source": "B_E",
+                  "target": "F_E",
+                  "caption": "",
+                  "scope": [
+                    "D",
+                    "E"
+                  ]
+                },
+                {
+                  "source": "B_D",
+                  "target": "C_D",
+                  "caption": "",
+                  "scope": [
+                    "D"
+                  ]
+                }
+              ],
+              "scope": "Exact directed transitions/captions, initial/final pseudostates and lexical scopes"
+            },
+            {
+              "criterion": "direction",
+              "expected": "TB",
+              "scope": "State layout hint (pinned default TB when absent); source topology does not imply one geometric node order",
+              "required": false
+            },
+            {
+              "criterion": "state-enclosures",
+              "expected": [
+                {
+                  "id": "D",
+                  "parent": null
+                },
+                {
+                  "id": "E",
+                  "parent": "D"
+                }
+              ],
+              "scope": "Composite-state containment"
+            }
+          ],
+          "presentation": [],
+          "sourceUncertainties": []
+        },
+        "unverifiedFacts": []
+      },
+      "origins": [
+        {
+          "kind": "source-adaptation",
+          "repository": "anomalyco/opencode",
+          "url": "https://github.com/anomalyco/opencode/issues/48573",
+          "author": "OpenAI Codex (complete_terminal_graphs)",
+          "adaptedBy": "OpenAI Codex (complete_terminal_graphs)",
+          "createdAt": "2026-10-31T19:43:10.357541+00:00",
+          "line": 1,
+          "extraction": "source-only-explicit-identifier-adaptation",
+          "channel": "authored-qualification-control",
+          "researchSnapshotSha256": "7f19717610f63feb28ef55a0077f17c3ac29de1ebe14193ca4641dc4f01582ee",
+          "bodySha256": "3bf5fbf5ea7c5486b4226df2205d1fa9256deebcb0d9d0519ec26ccbaca38c5a",
+          "derivedFrom": "terminal:9972eaa8ca8692d8",
+          "adaptation": "Authored explicit B_E/F_E/B_D/C_D identifiers remove global-versus-lexical reuse ambiguity; displayed labels and four intended transitions retained. Parent literal issue author, line41, bytes and origin are retained separately under derivedFrom."
+        }
+      ]
+    },
+    "derivedFrom": {
+      "caseId": "terminal:9972eaa8ca8692d8",
+      "sourceSha256": "9972eaa8ca8692d847b516eaef201d8a03a6666830f62033b2c6b0e8b39c1186",
+      "source": "stateDiagram-v2\ndirection TB\nA --> B\nA --> C\nstate D {\n  state E {\n    B --> F\n  }\n  B --> C\n}\n",
+      "origins": [
+        {
+          "kind": "issue",
+          "repository": "anomalyco/opencode",
+          "number": 48573,
+          "url": "https://github.com/anomalyco/opencode/issues/48573",
+          "title": "tui: nested Mermaid states cause infinite allocation and OOM",
+          "author": "stevoland",
+          "state": "open",
+          "createdAt": "2026-09-11T23:56:05Z",
+          "updatedAt": "2026-10-28T13:38:03Z",
+          "closedAt": null,
+          "retrievedAt": "2026-10-31T02:04:59.486929+00:00",
+          "bodySha256": "39c891959a8ab6bf5acd47bdd46feeb982ade6ff757e4cfe4b7da3e70a113a87",
+          "discoveredVia": "uniform mermaid-source search",
+          "channel": "issue-reproducer",
+          "line": 41,
+          "extraction": "literal-fenced-source",
+          "researchSnapshotSha256": "7f19717610f63feb28ef55a0077f17c3ac29de1ebe14193ca4641dc4f01582ee"
+        }
+      ]
+    },
+    "review": {
+      "status": "independently-reviewed",
+      "reviewedBy": "OpenAI Codex source-review agent resolve_sources_and_tests (separate reader from adaptation implementer)",
+      "method": "Independent literal alias/scopes/transition review; no renderer or parser-model oracle",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "semanticReviewSha256": "7c74823a608575935cd189d61778ec1ad67ac0ed7b3b679fa8b87800d6041dc6",
+      "references": [
+        {
+          "path": "packages/mermaid/src/docs/syntax/stateDiagram.md",
+          "lines": [
+            104,
+            110
+          ],
+          "fact": "Quoted state description as explicit ID alias syntax"
+        },
+        {
+          "path": "packages/mermaid/src/docs/syntax/stateDiagram.md",
+          "lines": [
+            122,
+            125
+          ],
+          "fact": "Transitions implicitly declare ordinary states"
+        },
+        {
+          "path": "packages/mermaid/src/docs/syntax/stateDiagram.md",
+          "lines": [
+            153,
+            154
+          ],
+          "fact": "Composite state block syntax"
+        }
+      ],
+      "independence": "Separate source-only reader resolve_sources_and_tests reviewed complete literal source and hand-transcribed contract, recomputed both hashes, and requested authored provenance corrections; no renderer output or model supplies expectations.",
+      "provenanceFinding": {
+        "status": "resolved",
+        "detail": "New source origin explicitly names authored adaptation extraction/author/line1 and own bodyhash; original issue author stevoland/line41 remain only in derivedFrom."
+      }
+    }
+  },
+  "sourceDiff": [
+    "--- terminal:9972eaa8ca8692d8",
+    "+++ terminal-adaptation:3bf5fbf5ea7c5486",
+    "@@ -4,7 +4,11 @@",
+    " A --> C",
+    " state D {",
+    "   state E {",
+    "-    B --> F",
+    "+    state \"B\" as B_E",
+    "+    state \"F\" as F_E",
+    "+    B_E --> F_E",
+    "   }",
+    "-  B --> C",
+    "+  state \"B\" as B_D",
+    "+  state \"C\" as C_D",
+    "+  B_D --> C_D",
+    " }"
+  ],
+  "collection": {
+    "producerSource": "0eeb21788e68fcfcc438d66146204c0f9e1cd847",
+    "producers": [
+      "100644 blob 765607362e211bf0519f78a9ac50387ccbe21a90\tcatalog/mermaid-community.json",
+      "100644 blob 403ff7ba062a20a4610b46468f04a028222d4ca1\tci-policy-enforce.ts",
+      "100644 blob 46a6436ea29e11fa5d713b39ddb63acd9ae791cf\tci-policy.ts",
+      "100644 blob 827bc1e425f8ea8a4d7b529604a4b7a94ad506ba\tcorpus/terminal-source-adaptations.json",
+      "100644 blob 76493af5a41ade215744f829bd18d6c7981c8397\tfidelity/adapters.ts",
+      "100644 blob 9650cf38842937be6ce0506095b2019ddcb5013a\tfidelity/selection.ts",
+      "100644 blob 036dee616959223e7629fbcaa76cbb3d0569a55d\tfidelity/terminal-adaptations.ts",
+      "100644 blob 84fb8d17b98bcd868dc75946e9dc2e5a16834093\tfidelity/terminal-assessment.ts",
+      "100644 blob 1ba2006f56fc9e6aed7b1429a0e828e38845291c\tfidelity/terminal-class.ts",
+      "100644 blob 9540e6c163772c784d3b76671cd75731fccab2db\tfidelity/terminal-corpus.ts",
+      "100644 blob c6bd2e5bb66e9528e3e8476eaccdc913f451f658\tfidelity/terminal-display.ts",
+      "100644 blob 917897d51a795fcf779b92986f0036431084fa0f\tfidelity/terminal-er-routes.ts",
+      "100644 blob 4d99d9ed4592747db03410a07f5d3715108eb4a5\tfidelity/terminal-er-values.ts",
+      "100644 blob ad1b22798eee119a5488878a05e8ca8451fb7c66\tfidelity/terminal-er.ts",
+      "100644 blob 5948f0a2ddda625bc8013b7241e17608f6cab837\tfidelity/terminal-facts.ts",
+      "100644 blob 83e685e9e023475018afbae0d37274a7b2fe3d56\tfidelity/terminal-family-canvas.ts",
+      "100644 blob 401deb70518776625bb4f4cbe3d902ecd7f3e662\tfidelity/terminal-family-elements.ts",
+      "100644 blob 273536357245b5d57ea3249e11b4015cec620b33\tfidelity/terminal-family-facts.ts",
+      "100644 blob 60653dfb8a656cb36e412d9846fb15cbb9003f32\tfidelity/terminal-family-git.ts",
+      "100644 blob 1eb431f73c2612b65fffe90bdecc017cd4ae1f31\tfidelity/terminal-family-hierarchy.ts",
+      "100644 blob ff234ae1a33e905f302fa15e7f447bad0d483585\tfidelity/terminal-family-layout.ts",
+      "100644 blob 41586756a1122a0b350991048f8ba855cb535e2a\tfidelity/terminal-family-routes.ts",
+      "100644 blob 718609da69cde23186980af21a10e024118786b1\tfidelity/terminal-family-schedule.ts",
+      "100644 blob e8afaa94f256af282c726863ca94d02de8ad3227\tfidelity/terminal-family-xy.ts",
+      "100644 blob 5264816f5e66f1f145fb2c674cea9c177bea1e04\tfidelity/terminal-graph-facts.ts",
+      "100644 blob 5510efcb9b2c363f456888a8cad0ef5fc2f64e0e\tfidelity/terminal-groups.ts",
+      "100644 blob f0cfdff683aa76c85d4e7f10d0ef02a8b176cb93\tfidelity/terminal-kanban.ts",
+      "100644 blob 57f0d1a02c967bb0b3e8e7704654f1c3ed67f01a\tfidelity/terminal-rectangles.ts",
+      "100644 blob 158c8ad528851d034b3ec575e643a3b6fc1b4989\tfidelity/terminal-sequence.ts",
+      "100644 blob 941a827c0260158cb832da3c7b08d9fa58540d70\tfidelity/terminal-source-holds.ts",
+      "100644 blob b3fe08d29562a4e78e3ac4414dc568bafbcacd8d\tfidelity/terminal-source.ts",
+      "100644 blob 2fd1cc4bc1eca2293edad6c78ec5fc5b5a5053de\tfidelity/terminal-state.ts",
+      "100644 blob 8f82b7837da6959544d24663d4624ae1d4517f26\tfidelity/terminal-text.ts",
+      "100644 blob 29455fa78b1fb715987c741a4565c19deca0ddec\tfidelity/terminal.ts",
+      "100644 blob 3d90dd1334ebdfa75999dffa2d737aeae3133475\tnative-flutter/community-launch.mjs",
+      "100644 blob a865874cfc792441448bca480dc66e30de228524\tportable/artifact-dependencies.ts",
+      "100644 blob 188b51c409212e9d617d3881428237dbbb2d4235\tportable/checkpoint.ts",
+      "100644 blob 5813f9b7c09528e50b77f9003f16b828a625081c\tportable/ci-policy.ts",
+      "100644 blob 73da43d3fea40796d04fe7fe9906501d1d59d67a\tportable/cohorts.ts",
+      "100644 blob 050919dfdb8004485ac9cc2a651b81a0a5e3faab\tportable/evidence-contract.ts",
+      "100644 blob 734dd1cc4b0f006089598a461e8772fd4a7c8843\tportable/invocation-journal.ts",
+      "100644 blob 3c4999e57c8016ec651a548f0b8ba696165410ba\tportable/mermaid-oracle.ts",
+      "100644 blob b1731be5ead03172bf3015ca76513287e5973657\tportable/project-records.ts",
+      "100644 blob 2ded90e3f187b0bb2f2b648127551893e21df344\tportable/protocol.ts",
+      "100644 blob b6e2112969be7aefb804478246a1e84d36cf5b7d\tportable/time-observer.ts",
+      "100644 blob 00fae007c3b60e68457df89dcccfa1023dbb52b1\tscripts/qualify-terminal-state-adaptation.ts",
+      "100644 blob f95fb7a418cef16b70a50c63cbf10168e2a3a1dd\ttool-versions.json",
+      "100644 blob ff51e22ba9ca2e2a776934a86dec5c66317599c1\ttool-versions.ts",
+      "100644 blob 57f9c7caf187a31dd2721708321e532730cfd3ac\tunified/benchmark-skip.ts",
+      "100644 blob eacfa7f30a1a1925538ba704f73cb59f80fa44f3\tunified/browser-process-memory.ts",
+      "100644 blob b4b4ca9a7105aa04a60a0add90861e6237ff59b6\tunified/candidate-packages.ts",
+      "100644 blob aa10f449699fafb6430719483ddfd6a1079131e3\tunified/catalog-eligibility.ts",
+      "100644 blob 9cf11fbbab5c2ca8e8bdaf09481bda28c67ce796\tunified/community-artifact-prepare.ts",
+      "100644 blob b53cb6fcfb6772ba8542ab1f9ac1ef6f3fe990b2\tunified/community-browser.ts",
+      "100644 blob 24e5325acddbef7112485da1d757d31fc41911d9\tunified/community-cli-request.ts",
+      "100644 blob fc44b2a7c0f89d4110efe6d6d053a30cb087dd34\tunified/community-cli.ts",
+      "100644 blob 96fc9d3e581a458b36f156a8e936e63ed9a6b8f1\tunified/community-external.ts",
+      "100644 blob 19c946f793e79bfaa036c26db7cf26876f5f8ed1\tunified/community-extra-adapters.mjs",
+      "100644 blob 630557c945c9cb05c27272b7a41f7108869be905\tunified/community-extra-source.ts",
+      "100644 blob d9dfab66016cdc4bd0f89adc58ad1359b3944234\tunified/community-process.ts",
+      "100644 blob 564872525bdb7a9ff8baf861064f15773f9ee658\tunified/community-python-worker.py",
+      "100644 blob 114b71891d71dc30faa27e88aa7e4ca0ba3f0267\tunified/community-source-prepare.ts",
+      "100644 blob 5ef6354edf9d8f60eed95a51e4dd9253bfed2e90\tunified/community-worker-evidence.ts",
+      "100644 blob e2f37c7cb0f1a15bbe92e8affe14b9c427f12777\tunified/community-worker.mjs",
+      "100644 blob 6d1e5cb9bbb93bca761cd778451652e97d8463bf\tunified/community.ts",
+      "100644 blob ff13967087b5a60fb3037fc0b55eb9caa0041de0\tunified/corpus.ts",
+      "100644 blob 544f7ff011c74bd3eda0b4845456f7f4b5ae8c55\tunified/external-invocations.ts",
+      "100644 blob 2740a1a29fc5a3726e16f38ef6f522420e6285e7\tunified/failure-outputs.ts",
+      "100644 blob 9b4c6d41fcdff1e95f34584cae7699387b9ef24a\tunified/family-support.ts",
+      "100644 blob 6fdca45d96e84f46735cd8fe8926fe34e2889f1b\tunified/harness-paths.ts",
+      "100644 blob eb110035690a9ca42b94b19fb270c5ddb2835421\tunified/lineage.ts",
+      "100644 blob d50649b756b6334786b215c341776b37ace0cef1\tunified/oracle-labels.ts",
+      "100644 blob 5e508df049cb7a6f130d8a33e00c95395f23f532\tunified/png-inspection.ts",
+      "100644 blob 2f89b53ee3c54994dad9f7cecb0a5959ff96e5b7\tunified/protocol-identity.ts",
+      "100644 blob 368cb14d601ecda74fac76202831ae7bd1bd71f8\tunified/qualification-visible-source.ts",
+      "100644 blob b6666ce077a99de7bf13989b7c039ed22e07b5e5\tunified/qualification.ts",
+      "100644 blob 719c7a3ba6e57955fe11607cd3ca7443a6c536d7\tunified/release-cli.ts",
+      "100644 blob aea3fac2b7a31b4b5ce4e7fc74b979e526403eef\tunified/support.ts",
+      "100644 blob c4f18a219650acdfddc476454860ce6cdd3a0b2d\tunified/svg-text-inspection.ts",
+      "100644 blob 4e9d4fd12d4b73b390f3b850370128471e8ce35d\tunified/terminal-profile.ts",
+      "100644 blob 6a0b61c7dd23cd9ad0a6b408278b18e38b89521d\tunified/trident-paths.ts",
+      "100644 blob b4645079ec5f8b4a939360b735e7eb9ac7daf31a\tunified/workload-intent.ts"
+    ],
+    "from": "2026-10-31T19:49:40.512Z",
+    "to": "2026-10-31T19:49:41.968Z",
+    "actualPublicInvocations": 3,
+    "sourceReferenceCalls": 0,
+    "collectionFileSha256": "d49c4beb6998f1b074ee69a9830ae38ad0bed12be30d53a992e23ddfc85680d3",
+    "artifacts": [
+      {
+        "project": "AlexanderGrooff/mermaid-ascii",
+        "artifact": {
+          "kind": "cli",
+          "root": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41",
+          "executable": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii",
+          "args": [],
+          "input": "stdin",
+          "outputBindings": {
+            "terminal": {
+              "args": [],
+              "input": "stdin"
+            }
+          },
+          "version": "1.6.1",
+          "versionSource": "release-tag",
+          "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+          "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+          "files": [
+            {
+              "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii",
+              "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8"
+            },
+            {
+              "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii_Linux_x86_64.tar.gz",
+              "sha256": "9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41"
+            }
+          ],
+          "runtime": "linux-x64 public native CLI",
+          "apiBoundary": "public release executable; fresh process, stdin/file through drained output",
+          "detail": "Archive https://github.com/AlexanderGrooff/mermaid-ascii/releases/download/1.6.1/mermaid-ascii_Linux_x86_64.tar.gz; SHA-256 9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41. Version identity: release-tag. Source revision names the release tag, not a reproducible-build assertion."
+        }
+      },
+      {
+        "project": "fasouto/termaid",
+        "artifact": {
+          "kind": "python",
+          "python": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.10.0/venv/bin/python",
+          "executable": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.10.0/venv/bin/python",
+          "version": "0.10.0",
+          "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+          "files": [
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.10.0/wheels/termaid-0.10.0-py3-none-any.whl",
+              "sha256": "b884a616d30071643f8e93528b0ad68bd5696b41a7b5d31cd0554d2f990f28f2"
+            }
+          ],
+          "runtime": "Python public termaid.render API; process startup recorded separately",
+          "detail": "Exact PyPI version in an isolated venv; every resolved dependency wheel is retained and hashed. No Python model/provider integration is implied.; Version policy: resolved latest registry release. Recorded catalog versions remain separately available on the node."
+        }
+      },
+      {
+        "project": "adewale/agentic-mermaid",
+        "artifact": {
+          "kind": "node",
+          "root": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid",
+          "module": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/agent.js",
+          "version": "0.4.1",
+          "integrity": "sha512-zMtVJmT4HRE6hsVxI1VNQ+TWTjN/vR2JcGXob2tMzVlVFK1a7idXifMuabXFGn3wZahovBFiiTI7YWWEG9KJOw==",
+          "runtime": "Node",
+          "sha256": "ea798905f3e444816f78dd1b2b2ccaea893e2e53d4d661f2a3bcbb68454ee920",
+          "files": [
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/agent.js",
+              "sha256": "ea798905f3e444816f78dd1b2b2ccaea893e2e53d4d661f2a3bcbb68454ee920"
+            }
+          ],
+          "apiBoundary": "published package API",
+          "detail": "Version policy: recorded registry release. Recorded catalog versions remain separately available on the node."
+        }
+      }
+    ],
+    "policy": "Only the fresh authored source was called on Mermaid ASCII 1.6.1, Termaid 0.10.0 and Agentic Mermaid 0.4.1. Each durable journal binds exactly one start and one outcome to the exact source, artifact and public binding. No original input was recollected and no additional calls sought a passing project."
+  },
+  "regrade": {
+    "producerSource": "f3e834bdff2a4db9fd952a25ff509e93679af53c",
+    "observerSha256": "fbec076178dca757043e63c60fcf7fdc4ac81911491a6b66b03160ae4540ceda",
+    "newRendererInvocations": 0,
+    "sourceReferenceCalls": 0,
+    "sourceReviewFileSha256": "af4b9afa93eff3d2dbc60558ef61b0287f921e553d0b394f7e9a0709a929b29e",
+    "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "allEntriesSha256": "508346afbd5489a19f4a3e688cc2049b595c8c4d382ecc43065caa10e5fe4b06",
+    "resultSha256": "e133f0bc26000e2734ee28272cc6b94c403a6d1d0c7f1b65764dffa321ddb4d2",
+    "rawSha256": "f5defe605b3a289a857da90af44ce8d3215b656ab6f1c02d4099ab0fc027c0b9",
+    "assessmentSha256": "d96ce9bf2faaa66c35fa5f938c4f792bdc2102ddc5c68be970bba8168dc1a28e",
+    "path": "/workspace/trident-terminal-state-adaptation-final-2026-10-31"
+  },
+  "original120Preservation": {
+    "inventoryEntries": 120,
+    "drawingEntries": 116,
+    "originalOutputRows": 2160,
+    "allOriginalOutputHashesAndPublicStatusesPreserved": true,
+    "allOriginalDrawingVerdictsMatchHeldAudit": true,
+    "heldAuditReceiptSha256": "26b7abc4f34dcf388c96bdcabf5aa09b082f75aaa8ca03ecf60e90bc6125459d"
+  },
+  "original120": [
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "correct": 0,
+      "incorrect": 1,
+      "unknown": 115,
+      "planned": 116
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 116,
+      "planned": 116
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1",
+      "correct": 53,
+      "incorrect": 19,
+      "unknown": 44,
+      "planned": 116
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.10.2",
+      "correct": 52,
+      "incorrect": 11,
+      "unknown": 53,
+      "planned": 116
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "correct": 41,
+      "incorrect": 18,
+      "unknown": 57,
+      "planned": 116
+    },
+    {
+      "project": "anomalyco/opencode",
+      "version": "2.0.26",
+      "correct": 18,
+      "incorrect": 32,
+      "unknown": 66,
+      "planned": 116
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 116,
+      "planned": 116
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "correct": 16,
+      "incorrect": 40,
+      "unknown": 60,
+      "planned": 116
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "correct": 57,
+      "incorrect": 18,
+      "unknown": 41,
+      "planned": 116
+    },
+    {
+      "project": "kitlangton/merman",
+      "version": "0.2.1",
+      "correct": 14,
+      "incorrect": 31,
+      "unknown": 71,
+      "planned": 116
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.2",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 116,
+      "planned": 116
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "correct": 30,
+      "incorrect": 22,
+      "unknown": 64,
+      "planned": 116
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "version": "v0.4.3",
+      "correct": 14,
+      "incorrect": 21,
+      "unknown": 81,
+      "planned": 116
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "version": "0.0.6",
+      "correct": 7,
+      "incorrect": 6,
+      "unknown": 103,
+      "planned": 116
+    },
+    {
+      "project": "xai-org/grok-build",
+      "version": "git-2bdd1d6a6369",
+      "correct": 0,
+      "incorrect": 21,
+      "unknown": 95,
+      "planned": 116
+    },
+    {
+      "project": "Yassimba/loom",
+      "version": "0.10.0",
+      "correct": 36,
+      "incorrect": 23,
+      "unknown": 57,
+      "planned": 116
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "version": "0.1.0",
+      "correct": 27,
+      "incorrect": 32,
+      "unknown": 57,
+      "planned": 116
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "version": "git-a6b0c7657b94",
+      "correct": 34,
+      "incorrect": 21,
+      "unknown": 61,
+      "planned": 116
+    }
+  ],
+  "active116": [
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "correct": 0,
+      "incorrect": 1,
+      "unknown": 115,
+      "planned": 116
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 116,
+      "planned": 116
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1",
+      "correct": 53,
+      "incorrect": 20,
+      "unknown": 43,
+      "planned": 116
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.10.2",
+      "correct": 52,
+      "incorrect": 11,
+      "unknown": 53,
+      "planned": 116
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "correct": 41,
+      "incorrect": 18,
+      "unknown": 57,
+      "planned": 116
+    },
+    {
+      "project": "anomalyco/opencode",
+      "version": "2.0.26",
+      "correct": 18,
+      "incorrect": 32,
+      "unknown": 66,
+      "planned": 116
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 116,
+      "planned": 116
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "correct": 16,
+      "incorrect": 40,
+      "unknown": 60,
+      "planned": 116
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "correct": 57,
+      "incorrect": 19,
+      "unknown": 40,
+      "planned": 116
+    },
+    {
+      "project": "kitlangton/merman",
+      "version": "0.2.1",
+      "correct": 14,
+      "incorrect": 31,
+      "unknown": 71,
+      "planned": 116
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.2",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 116,
+      "planned": 116
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "correct": 30,
+      "incorrect": 22,
+      "unknown": 64,
+      "planned": 116
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "version": "v0.4.3",
+      "correct": 14,
+      "incorrect": 21,
+      "unknown": 81,
+      "planned": 116
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "version": "0.0.6",
+      "correct": 7,
+      "incorrect": 6,
+      "unknown": 103,
+      "planned": 116
+    },
+    {
+      "project": "xai-org/grok-build",
+      "version": "git-2bdd1d6a6369",
+      "correct": 0,
+      "incorrect": 21,
+      "unknown": 95,
+      "planned": 116
+    },
+    {
+      "project": "Yassimba/loom",
+      "version": "0.10.0",
+      "correct": 36,
+      "incorrect": 23,
+      "unknown": 57,
+      "planned": 116
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "version": "0.1.0",
+      "correct": 27,
+      "incorrect": 32,
+      "unknown": 57,
+      "planned": 116
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "version": "git-a6b0c7657b94",
+      "correct": 34,
+      "incorrect": 21,
+      "unknown": 61,
+      "planned": 116
+    }
+  ],
+  "ambiguousDiagnostic": {
+    "caseId": "terminal:9972eaa8ca8692d8",
+    "projects": 18,
+    "status": "unknown",
+    "reason": "Original global-versus-lexical identity interpretation is incomplete; no new-source grade is inherited."
+  },
+  "newSourceObservedOutcomes": [
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "publicStatus": "failed",
+      "drawingStatus": "unknown",
+      "checks": [],
+      "invocation": {
+        "directory": "/workspace/trident-terminal-state-adaptation-2026-10-31/collection/raw-cli-invocations",
+        "attemptId": "136ad87f-2313-424c-abea-47bb480f0b53",
+        "state": "public-error",
+        "startedAt": "2026-10-31T19:49:40.519Z",
+        "finishedAt": "2026-10-31T19:49:40.541Z",
+        "identity": {
+          "coordinate": "round:1",
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "caseId": "terminal-adaptation:3bf5fbf5ea7c5486",
+          "sourceSha256": "3bf5fbf5ea7c5486b4226df2205d1fa9256deebcb0d9d0519ec26ccbaca38c5a",
+          "artifactSha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+          "bindingSha256": "3ff1849388a94deaf15d68fe274064e0f286f4b90bd7fe47e26879df3f42b57a",
+          "format": "terminal"
+        },
+        "receiptSha256": "ce968e49a8d1aaf654b4419031e2de55e38b8bf88c97284fb8717f40d664c4eb",
+        "output": null,
+        "streams": {
+          "stdout": {
+            "path": "/workspace/trident-terminal-state-adaptation-2026-10-31/collection/raw-cli-invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          },
+          "stderr": {
+            "path": "/workspace/trident-terminal-state-adaptation-2026-10-31/collection/raw-cli-invocations/outputs/781b2337ee80c911a6030fd48ca064017247bbf1efb1f70726c1c9ae75f266ca",
+            "sha256": "781b2337ee80c911a6030fd48ca064017247bbf1efb1f70726c1c9ae75f266ca",
+            "bytes": 207
+          }
+        }
+      },
+      "measuredAt": "2026-10-31T19:49:40.519Z",
+      "measuredAtOrigin": "Actual public call-entry receipt; never the collection endpoint"
+    },
+    {
+      "project": "fasouto/termaid",
+      "publicStatus": "passed",
+      "drawingStatus": "incorrect",
+      "checks": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "A",
+              "label": "A",
+              "scope": []
+            },
+            {
+              "id": "B",
+              "label": "B",
+              "scope": []
+            },
+            {
+              "id": "C",
+              "label": "C",
+              "scope": []
+            },
+            {
+              "id": "D",
+              "label": "D",
+              "scope": []
+            },
+            {
+              "id": "E",
+              "label": "E",
+              "scope": [
+                "D"
+              ]
+            },
+            {
+              "id": "B_E",
+              "label": "B",
+              "scope": [
+                "D",
+                "E"
+              ]
+            },
+            {
+              "id": "F_E",
+              "label": "F",
+              "scope": [
+                "D",
+                "E"
+              ]
+            },
+            {
+              "id": "B_D",
+              "label": "B",
+              "scope": [
+                "D"
+              ]
+            },
+            {
+              "id": "C_D",
+              "label": "C",
+              "scope": [
+                "D"
+              ]
+            }
+          ],
+          "status": "failed",
+          "detail": "Each closed state and composite frame owns its label and exact lexical scope; equal labels in different scopes remain distinct obligations",
+          "actual": [
+            {
+              "label": "D",
+              "scope": []
+            },
+            {
+              "label": "A",
+              "scope": [
+                "D"
+              ]
+            },
+            {
+              "label": "B",
+              "scope": [
+                "D"
+              ]
+            },
+            {
+              "label": "B",
+              "scope": [
+                "D"
+              ]
+            },
+            {
+              "label": "C",
+              "scope": [
+                "D"
+              ]
+            },
+            {
+              "label": "C",
+              "scope": [
+                "D"
+              ]
+            },
+            {
+              "label": "E",
+              "scope": [
+                "D"
+              ]
+            },
+            {
+              "label": "B",
+              "scope": [
+                "D",
+                "E"
+              ]
+            },
+            {
+              "label": "F",
+              "scope": [
+                "D",
+                "E"
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "A",
+              "target": "B",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "A",
+              "target": "C",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "B_E",
+              "target": "F_E",
+              "caption": "",
+              "scope": [
+                "D",
+                "E"
+              ]
+            },
+            {
+              "source": "B_D",
+              "target": "C_D",
+              "caption": "",
+              "scope": [
+                "D"
+              ]
+            }
+          ],
+          "status": "unknown",
+          "detail": "State representation has no qualified scope/route projection"
+        },
+        {
+          "criterion": "state-enclosures",
+          "expected": [
+            {
+              "id": "D",
+              "parent": null
+            },
+            {
+              "id": "E",
+              "parent": "D"
+            }
+          ],
+          "status": "passed",
+          "detail": "Composite parents come from strict closed-frame containment, independently of source transitions",
+          "actual": [
+            {
+              "id": "D",
+              "parent": null
+            },
+            {
+              "id": "E",
+              "parent": "D"
+            }
+          ]
+        }
+      ],
+      "invocation": {
+        "directory": "/workspace/trident-terminal-state-adaptation-2026-10-31/collection/community-raw/fasouto_termaid-terminal-r1-features.invocations",
+        "attemptId": "61410cb5-093a-4ffc-be5c-38533df9f416",
+        "state": "returned",
+        "startedAt": "2026-10-31T19:49:40.725094Z",
+        "finishedAt": "2026-10-31T19:49:40.749568Z",
+        "identity": {
+          "project": "fasouto/termaid",
+          "caseId": "terminal-adaptation:3bf5fbf5ea7c5486",
+          "sourceSha256": "3bf5fbf5ea7c5486b4226df2205d1fa9256deebcb0d9d0519ec26ccbaca38c5a",
+          "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+          "bindingSha256": "ce8a7255d125244725c8785c6f3a6cf5ec5b427d957365a3d40df67c0009ba74",
+          "format": "terminal"
+        },
+        "receiptSha256": "e7df00da4d7738a519481f071ad68829a145a3abbda0dfa9ad2923e0ead4d330",
+        "output": {
+          "path": "/workspace/trident-terminal-state-adaptation-2026-10-31/collection/community-raw/fasouto_termaid-terminal-r1-features.invocations/outputs/58f5bc87cdb93557474f6ba05a5e80b2c3c7ebc0665e7bf2845d7f9ebd5a5923",
+          "sha256": "58f5bc87cdb93557474f6ba05a5e80b2c3c7ebc0665e7bf2845d7f9ebd5a5923",
+          "bytes": 2514
+        },
+        "streams": null
+      },
+      "measuredAt": "2026-10-31T19:49:40.725094Z",
+      "measuredAtOrigin": "Actual public call-entry receipt; never the collection endpoint"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "publicStatus": "passed",
+      "drawingStatus": "incorrect",
+      "checks": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "A",
+              "label": "A",
+              "scope": []
+            },
+            {
+              "id": "B",
+              "label": "B",
+              "scope": []
+            },
+            {
+              "id": "C",
+              "label": "C",
+              "scope": []
+            },
+            {
+              "id": "D",
+              "label": "D",
+              "scope": []
+            },
+            {
+              "id": "E",
+              "label": "E",
+              "scope": [
+                "D"
+              ]
+            },
+            {
+              "id": "B_E",
+              "label": "B",
+              "scope": [
+                "D",
+                "E"
+              ]
+            },
+            {
+              "id": "F_E",
+              "label": "F",
+              "scope": [
+                "D",
+                "E"
+              ]
+            },
+            {
+              "id": "B_D",
+              "label": "B",
+              "scope": [
+                "D"
+              ]
+            },
+            {
+              "id": "C_D",
+              "label": "C",
+              "scope": [
+                "D"
+              ]
+            }
+          ],
+          "status": "failed",
+          "detail": "Each closed state and composite frame owns its label and exact lexical scope; equal labels in different scopes remain distinct obligations",
+          "actual": [
+            {
+              "label": "D",
+              "scope": []
+            },
+            {
+              "label": "E",
+              "scope": [
+                "D"
+              ]
+            },
+            {
+              "label": "A",
+              "scope": []
+            },
+            {
+              "label": "B",
+              "scope": [
+                "D",
+                "E"
+              ]
+            },
+            {
+              "label": "B",
+              "scope": [
+                "D",
+                "E"
+              ]
+            },
+            {
+              "label": "B",
+              "scope": []
+            },
+            {
+              "label": "C",
+              "scope": [
+                "D",
+                "E"
+              ]
+            },
+            {
+              "label": "F",
+              "scope": [
+                "D",
+                "E"
+              ]
+            },
+            {
+              "label": "C",
+              "scope": [
+                "D"
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "A",
+              "target": "B",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "A",
+              "target": "C",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "B_E",
+              "target": "F_E",
+              "caption": "",
+              "scope": [
+                "D",
+                "E"
+              ]
+            },
+            {
+              "source": "B_D",
+              "target": "C_D",
+              "caption": "",
+              "scope": [
+                "D"
+              ]
+            }
+          ],
+          "status": "unknown",
+          "detail": "State representation has no qualified scope/route projection"
+        },
+        {
+          "criterion": "state-enclosures",
+          "expected": [
+            {
+              "id": "D",
+              "parent": null
+            },
+            {
+              "id": "E",
+              "parent": "D"
+            }
+          ],
+          "status": "passed",
+          "detail": "Composite parents come from strict closed-frame containment, independently of source transitions",
+          "actual": [
+            {
+              "id": "D",
+              "parent": null
+            },
+            {
+              "id": "E",
+              "parent": "D"
+            }
+          ]
+        }
+      ],
+      "invocation": {
+        "directory": "/workspace/trident-terminal-state-adaptation-2026-10-31/collection/community-raw/adewale_agentic-mermaid-terminal-r1-attempt1.json.invocations",
+        "attemptId": "b9e7dd7e-aa7a-47b4-b608-59dfd6467ce4",
+        "state": "returned",
+        "startedAt": "2026-10-31T19:49:41.622Z",
+        "finishedAt": "2026-10-31T19:49:41.930Z",
+        "identity": {
+          "project": "adewale/agentic-mermaid",
+          "caseId": "terminal-adaptation:3bf5fbf5ea7c5486",
+          "sourceSha256": "3bf5fbf5ea7c5486b4226df2205d1fa9256deebcb0d9d0519ec26ccbaca38c5a",
+          "artifactSha256": "ea798905f3e444816f78dd1b2b2ccaea893e2e53d4d661f2a3bcbb68454ee920",
+          "bindingSha256": "dc9f02121da8ec9b24e044186b76f157979e3f64179c7ac448633e6f1ff9ba57",
+          "format": "terminal"
+        },
+        "receiptSha256": "ebb5fb8167e4495865186ae2cdc02c3ecda9418575c7c5edf58cbc526b8b6892",
+        "output": {
+          "path": "/workspace/trident-terminal-state-adaptation-2026-10-31/collection/community-raw/adewale_agentic-mermaid-terminal-r1-attempt1.json.invocations/outputs/fcbfcc8dcdf6eb7205805148492cbcaa00bd9a2087d68e94da4507a12f53145f",
+          "sha256": "fcbfcc8dcdf6eb7205805148492cbcaa00bd9a2087d68e94da4507a12f53145f",
+          "bytes": 1713
+        },
+        "streams": null
+      },
+      "measuredAt": "2026-10-31T19:49:41.622Z",
+      "measuredAtOrigin": "Actual public call-entry receipt; never the collection endpoint"
+    }
+  ],
+  "uncollectedNewInputProjects": [
+    "Dicklesworthstone/frankenmermaid",
+    "wevm/ondine",
+    "dfadler/zombie-mermaid",
+    "anomalyco/opencode",
+    "crafter-station/mermaid",
+    "emtyty/merslim",
+    "kitlangton/merman",
+    "Latias94/merman",
+    "lukilabs/beautiful-mermaid",
+    "Mootikins/figurehead-rs",
+    "tariqshams/mermaidtui",
+    "xai-org/grok-build",
+    "Yassimba/loom",
+    "kais-radwan/ascii-mermaid",
+    "spacedock-dev/mermaidtext"
+  ],
+  "invalidControls": [
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    },
+    {
+      "project": "wevm/ondine",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    },
+    {
+      "project": "anomalyco/opencode",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    },
+    {
+      "project": "emtyty/merslim",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    },
+    {
+      "project": "fasouto/termaid",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    },
+    {
+      "project": "kitlangton/merman",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    },
+    {
+      "project": "Latias94/merman",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    },
+    {
+      "project": "xai-org/grok-build",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    },
+    {
+      "project": "Yassimba/loom",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 4,
+      "planned": 4
+    }
+  ],
+  "validation": {
+    "fixtureTests": 116,
+    "files": 15,
+    "assertions": 1145,
+    "failed": 0,
+    "strictTypes": "passed",
+    "publicCallsDuringTests": 0,
+    "positive": "Independent hand-authored nine-state, four-route, two-level diagram verifies full closed-frame ownership and alias translation.",
+    "counterexamples": "Reversed heads, changed labels and composites, identical labels in one scope, source echo, real AM/Termaid containment defects, and native ASCII unsupported receipt."
+  },
+  "paths": {
+    "original3callCollection": "/workspace/trident-terminal-state-adaptation-2026-10-31",
+    "finalOfflineRegrade": "/workspace/trident-terminal-state-adaptation-final-2026-10-31",
+    "priorStrictReplay": "/workspace/trident-terminal-state-adaptation-verified-2026-10-31"
+  }
+}
