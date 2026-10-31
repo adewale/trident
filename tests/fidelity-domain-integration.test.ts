@@ -75,3 +75,25 @@ test('qualified event identities require their own typed namespace rows and comp
   const wrong = `const e=[...document.querySelectorAll('text')].find(e=>e.textContent==='UI/A: Cart');e.textContent='UI/A: Other'`
   expect(status(await inspect(file, wrong, expected), 'source-fact:event-namespace-presentation')).toBe('failed')
 })
+
+test('the full observer preserves unsupported ZenUML events instead of indexing missing routes', async () => {
+  for (const file of ['zenuml-create-mermaid.svg', 'zenuml-external-comments-mermaid.svg']) {
+    const result = await inspect(file)
+    expect(status(result, 'source-fact:zenuml-event-order')).toBe('unavailable')
+    expect(result.complete).toBe(false)
+  }
+})
+
+test('packet MSB-first rows obey declared descending order and retain contradictory spans', async () => {
+  for (const file of ['packet-config-0-mermaid.svg', 'packet-config-0-pele.svg']) {
+    const actual = await inspect(file)
+    expect(status(actual, 'source-fact:fields')).toBe('passed')
+    expect(status(actual, 'painted-bit-field-spans')).toBe('passed')
+    const wrong = `const a=[...document.querySelectorAll('text')].find(e=>e.textContent==='DATA'),b=[...document.querySelectorAll('text')].find(e=>e.textContent==='TYPE');a.textContent='TYPE';b.textContent='DATA'`
+    const changed = await inspect(file, wrong)
+    expect(status(changed, 'source-fact:fields')).toBe('failed')
+    expect(status(changed, 'painted-bit-field-spans')).toBe('failed')
+  }
+  const wrongWidth = `const rects=[...document.querySelectorAll('rect')];const e=rects.sort((a,b)=>b.getBoundingClientRect().width-a.getBoundingClientRect().width)[0];e.setAttribute('width',String(Number(e.getAttribute('width'))*.7))`
+  expect(status(await inspect('packet-config-0-mermaid.svg', wrongWidth), 'painted-bit-field-spans')).toBe('failed')
+})

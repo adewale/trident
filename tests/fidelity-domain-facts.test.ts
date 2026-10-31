@@ -177,6 +177,21 @@ test('ZenUML events bind actual captions, arrows, stroke and chronology', async 
   expect(status(await inspect('zenuml-mermaid.svg', { change: caption }), 'zenuml-event-order')).toBe('failed')
 })
 
+test('unsupported ZenUML creation and external-call events remain explicit required unknowns', async () => {
+  for (const [file, count] of [['zenuml-create-mermaid.svg', 2], ['zenuml-external-comments-mermaid.svg', 1]] as const) {
+    const checks = await inspect(file), check = checks.find(check => check.criterion === 'source-fact:zenuml-event-order')!
+    expect(check.status).toBe('unavailable')
+    expect((check.expected as any[]).length).toBe(count)
+    expect((check.actual as any).declaredEventCount).toBe(count)
+    expect((check.actual as any).unprojectedSourceEvents.length).toBe(count)
+  }
+  const { expected } = contract('zenuml-mermaid.svg'), modified = structuredClone(expected)
+  ;(modified.facts!['zenuml-event-order'] as any[]).push({ kind: 'control', scope: ['loop'] })
+  const check = (await inspect('zenuml-mermaid.svg', { expected: modified })).find(check => check.criterion === 'source-fact:zenuml-event-order')!
+  expect(check.status).toBe('unavailable')
+  expect((check.actual as any).unprojectedSourceEvents.at(-1)).toMatchObject({ kind: 'control' })
+})
+
 test('opaque alternatives and later paint cannot gain domain credit from metadata or labels', async () => {
   expect(await inspect('wardley-mermaid.svg', { opaque: true })).toEqual([])
   const cover = `document.querySelector('svg').insertAdjacentHTML('beforeend','<rect x="-1000" y="-1000" width="5000" height="5000" fill="white" style="pointer-events:none"/>')`

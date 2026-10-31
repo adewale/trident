@@ -1309,5 +1309,25 @@
     "sourceSha256": "52660f1c2978e61b9556b3423cba4ac04342bbbec63a3440ef97db022e3e7777",
     "svgSha256": "7c0614ca852d0eeaa8a766fe6c179ddb341c88602734a41ffc71d84b31a7d5f0",
     "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-campaign/fidelity/b2JzaWRpYW5tZC9wZWxl/attempts/776363d0-9fc5-4dfd-b338-1d4914f591bf/26-features_eventmodeling_explicit-sources-data.svg.gz"
+  },
+  {
+    "file": "zenuml-create-mermaid.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/zenuml.md:100",
+    "family": "zenuml",
+    "project": "mermaid-js/mermaid",
+    "version": "12.2.0",
+    "sourceSha256": "dac67717be23eed18f620b8c167a596d0719ba0520a76f06a798572707345bbe",
+    "svgSha256": "fbbdbce39d52cb8fd76b00ea641105ae5cef9e198e93ec8fe14958cfb0f94563",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/fbbdbce39d52cb8fd76b00ea641105ae5cef9e198e93ec8fe14958cfb0f94563.svg.gz"
+  },
+  {
+    "file": "zenuml-external-comments-mermaid.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/zenuml.md:166",
+    "family": "zenuml",
+    "project": "mermaid-js/mermaid",
+    "version": "12.2.0",
+    "sourceSha256": "42e03255a8014dd486a96c4d40c709a0cbe9ae41d3d822bf7cfa53802a7af02a",
+    "svgSha256": "149253725f3472fd2ce765c43859ae84a5ac1c4f9a2ef1a7c98978af8b3b3fa6",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/149253725f3472fd2ce765c43859ae84a5ac1c4f9a2ef1a7c98978af8b3b3fa6.svg.gz"
   }
 ]

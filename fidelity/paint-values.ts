@@ -92,10 +92,10 @@ export function inspectQuantitativePaint(input: { family: string; expected: Mean
   }
   if (input.family === 'packet' && facts.fields) {
     const fields: { label: string; start: number; end: number }[] = facts.fields, actual = fields.map(field => ({ ...field, box: owned(field.label) }))
-    const available = actual.every(field => field.box)
-    const ordered = actual.every((field, index) => !index || !field.box || !actual[index - 1]!.box || field.box.y > actual[index - 1]!.box!.y + 2 || Math.abs(field.box.y - actual[index - 1]!.box!.y) <= 2 && field.box.x > actual[index - 1]!.box!.x)
+    const bitOrder = facts['authored-config']?.packet?.bitOrder ?? 'ascending', available = ['ascending', 'descending'].includes(bitOrder) && actual.every(field => field.box)
+    const ordered = actual.every((field, index) => !index || !field.box || !actual[index - 1]!.box || field.box.y > actual[index - 1]!.box!.y + 2 || Math.abs(field.box.y - actual[index - 1]!.box!.y) <= 2 && (bitOrder === 'descending' ? field.box.x < actual[index - 1]!.box!.x : field.box.x > actual[index - 1]!.box!.x))
     const ratios = actual.map(field => { const row = actual.filter(other => field.box && other.box && Math.abs(field.box.y - other.box.y) <= 2); return { label: field.label, actual: field.box ? field.box.width / row.reduce((sum, item) => sum + item.box!.width, 0) : null, expected: (field.end - field.start + 1) / row.reduce((sum, item) => sum + item.end - item.start + 1, 0) } })
-    add('painted-bit-field-spans', fields, { fields: actual, ratios, ordered }, available ? ordered && ratios.every(ratio => Math.abs(ratio.actual! - ratio.expected) <= .04) : null, 'Owned field rectangles retain bit order and within-row bit-span proportions; 4 percentage-point padding tolerance, not cross-renderer coordinates')
+    add('painted-bit-field-spans', fields, { fields: actual, ratios, ordered, bitOrder }, available ? ordered && ratios.every(ratio => Math.abs(ratio.actual! - ratio.expected) <= .04) : null, 'Owned field rectangles retain within-row bit-span proportions and the source-declared ascending or mirrored descending order (packet docs:75–94); rows still progress downward and declarations remain lowest-bit first. Unsupported order conventions remain unknown. Four percentage-point padding tolerance, not cross-renderer coordinates.')
   }
   if (input.family === 'quadrant' && facts.points) {
     const candidates = rectangles.filter(element => alpha(getComputedStyle(element).fill) > 0).map(box)
