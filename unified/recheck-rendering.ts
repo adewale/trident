@@ -6,6 +6,9 @@ import { execFileSync } from 'node:child_process'
 import { chromium } from 'playwright'
 import { readBenchmarkDocument } from '../portable/project-records.ts'
 import { expandedFidelityCases } from '../fidelity/cases.ts'
+import { completeCriterionLedger, planFidelityCriteria } from '../fidelity/ledger.ts'
+import type { AuthoredFidelityCase } from '../fidelity/meaning.ts'
+import type { BenchmarkObservation } from './types.ts'
 import { inspectFidelityPaint, type PaintCheck } from '../fidelity/paint.ts'
 import { inspectQuantitativePaint } from '../fidelity/paint-values.ts'
 import { assessSvgCases, summarizeSvgCases } from '../fidelity/svg-assessment.ts'
@@ -32,6 +35,30 @@ export function retainedPath(directory: string, out: string, aliases: string[], 
     if (!suffix.startsWith('..') && !suffix.startsWith('/')) return safe(out, suffix)
   }
   throw Error('Retained witness is outside its recorded campaign roots')
+}
+
+/** Fresh paint evidence replaces every required paint observation. A missing
+ * checker result or observer exception can never borrow an earlier pass. */
+export async function recheckFeaturePaint(input: AuthoredFidelityCase, project: string, observations: readonly BenchmarkObservation[], inspect: () => Promise<PaintCheck[]>, checkedAt: string, fontOptions = true) {
+  const own = observations.filter(row => row.metrics?.authoredCase === input.id && row.surface === 'browser-owned-ink')
+  let checks: PaintCheck[] = [], error: string | undefined
+  try {
+    checks = await inspect()
+    if (!Array.isArray(checks) || checks.some(check => !check || typeof check.criterion !== 'string' || !['passed', 'failed', 'unavailable'].includes(check.status)) || new Set(checks.map(check => check.criterion)).size !== checks.length) throw Error('Observer returned duplicate or invalid paint checks')
+  } catch (failure) { error = String(failure); checks = [] }
+  const planned = planFidelityCriteria([input]).filter(item => item.surface === 'browser-owned-ink')
+  const fresh = planned.map(item => {
+    const previous = own.find(row => row.operation === item.criterion), check = checks.find(check => check.criterion === item.criterion)
+    const unmappedFont = item.criterion === 'computed-authored-font-size' && !fontOptions
+    const status: BenchmarkObservation['status'] = error || !check || unmappedFont ? 'blocked' : check.status === 'unavailable' ? 'blocked' : check.status
+    return { ...(previous ?? { suite: 'fidelity', surface: item.surface, runtime: 'retained SVG observer', family: input.family, caseId: input.id + ':' + item.criterion, operation: item.criterion, format: 'svg', mode: 'independent-authored-criteria' }), status,
+      detail: error ? 'Retained SVG observer failed: ' + error : unmappedFont ? 'No reviewed public font option mapping; old checks supply no new credit' : !check ? 'Observer omitted a required paint criterion; old checks supply no new credit' : check.scope,
+      metrics: { ...previous?.metrics, implementation: project, authoredCase: input.id, originalCriterionStatus: previous?.metrics?.originalCriterionStatus ?? previous?.status ?? null, recheckedAt: checkedAt, recheckObservation: error ? 'observer-error' : unmappedFont || !check ? 'missing' : 'observed', ...(error ? { observerError: error } : {}) } } as BenchmarkObservation
+  })
+  // Unplanned old paint diagnostics are historical too; they must not retain a
+  // pass or failure under the identity of the new observer.
+  for (const row of own.filter(row => !planned.some(item => item.criterion === row.operation))) fresh.push({ ...row, status: 'blocked', detail: 'Historical paint diagnostic is outside the current required observation plan', metrics: { ...row.metrics, originalCriterionStatus: row.status, recheckedAt: checkedAt, recheckObservation: 'unplanned-historical' } })
+  return { completed: !error, ...(error ? { error } : {}), observations: observations.filter(row => !(row.metrics?.authoredCase === input.id && row.surface === 'browser-owned-ink')).concat(fresh) }
 }
 
 /** Reassess retained bytes only. No artifact acquisition, public render call or
@@ -92,11 +119,11 @@ export async function recheckRendering(directory: string, out: string, pngReview
         for (const row of result.observations) {
           if (row.operation !== 'drawing-checks') continue
           const input = docsInventory.cases.find((item: any) => item.id === row.caseId), expected = sourceReviews.find(item => item.id === row.caseId) ?? null
-          if (!input || !expected) continue
+          if (!input) throw Error('Retained drawing observation has no declared documentation input')
           const witness = row.metrics?.witness ? safe(join(out, 'docs'), row.metrics.witness) : undefined
           let assessment: any
           if (row.format === 'png') assessment = assessDocsPng(input, expected, witness && existsSync(witness) ? readFileSync(witness) : undefined, pngReviews)
-          else if (expected.intent === 'drawing' && witness && existsSync(witness)) {
+          else if (expected?.intent === 'drawing' && witness && existsSync(witness)) {
             const svg = gunzipSync(readFileSync(witness)).toString('utf8')
             if (witness.split('/').at(-1) !== hash(svg) + '.svg.gz') throw Error('Retained SVG content hash differs')
             const authored = reviewedDocsCase(input, expected)
@@ -104,7 +131,7 @@ export async function recheckRendering(directory: string, out: string, pngReview
             const admission = qualifyOutput({ id: input.id, family: authored.family, source: input.source, expectedLabels: authored.expected.labels, features: [], provenance: expected.review }, svg, 'svg')
             try { assessment = assessDocsDrawing(input, expected, render?.status ?? 'blocked', admission.ok, await inspect(row.metrics.project, svg, authored)); docsChecked++ }
             catch (error) { assessment = { status: 'unknown', reason: 'Retained SVG observer did not complete: ' + String(error) } }
-          } else continue
+          } else assessment = assessDocsDrawing(input, expected, 'blocked', false, [])
           row.metrics = { ...row.metrics, originalDrawingStatus: row.status, recheckedAt: began }
           row.status = assessment.status === 'correct' ? 'passed' : assessment.status === 'incorrect' ? 'failed' : assessment.status === 'not-applicable' ? 'not-applicable' : 'blocked'
           row.detail = JSON.stringify(assessment)
@@ -112,6 +139,12 @@ export async function recheckRendering(directory: string, out: string, pngReview
         const updatedInventory = { ...docsInventory, pngReviewSha256: hash(pngBytes), drawingObserver: producer }
         write(join(out, 'docs/inventory.json'), updatedInventory)
       } else if (boundary.suite === 'fidelity') {
+        const selected = authored.filter(item => result.selectedCaseIds.includes(item.id))
+        const original = result.observations as BenchmarkObservation[]
+        // Invalidate old paint evidence before loading any witnesses. Missing
+        // receipts/witnesses therefore remain unknown instead of surviving as passes.
+        result.observations = original.map(row => row.surface === 'browser-owned-ink' ? { ...row, status: 'blocked', detail: 'No fresh retained SVG observation is available', metrics: { ...row.metrics, originalCriterionStatus: row.status, recheckedAt: began, recheckObservation: 'missing-witness' } } : row)
+        const witnessed = new Set<string>()
         for (const receiptPath of result.artifacts ?? []) {
           if (!receiptPath.endsWith('community-fidelity-cases.json')) continue
           const receipt = read(remap(receiptPath))
@@ -121,20 +154,15 @@ export async function recheckRendering(directory: string, out: string, pngReview
             if (!input) throw Error('Retained SVG has no original authored contract')
             const svg = gunzipSync(readFileSync(remap(entry.svgEvidence.path))).toString('utf8')
             if (hash(svg) !== entry.svgEvidence.sha256) throw Error('Retained SVG content hash differs')
-            let checks: PaintCheck[]
-            try { checks = await inspect(receipt.project, svg, input) } catch { continue }
-            const own = result.observations.filter((row: any) => row.metrics?.implementation === receipt.project && row.metrics?.authoredCase === input.id && row.surface === 'browser-owned-ink')
-            for (const row of own) {
-              const check = checks.find(item => item.criterion === row.operation)
-              if (!check || row.operation === 'computed-authored-font-size' && !receipt.capabilities?.fontOptions) continue
-              row.metrics = { ...row.metrics, originalCriterionStatus: row.status, recheckedAt: began }
-              row.status = check.status === 'unavailable' ? 'blocked' : check.status
-              row.detail = check.scope
-            }
-            featureChecked++
+            const coordinate = JSON.stringify([receipt.project, input.id])
+            if (witnessed.has(coordinate)) throw Error('Duplicate retained SVG witness coordinate')
+            witnessed.add(coordinate)
+            const assessed = await recheckFeaturePaint(input, receipt.project, result.observations.filter((row: BenchmarkObservation) => row.metrics?.implementation === receipt.project), () => inspect(receipt.project, svg, input), began, !!receipt.capabilities?.fontOptions)
+            result.observations = result.observations.filter((row: BenchmarkObservation) => row.metrics?.implementation !== receipt.project).concat(assessed.observations)
+            if (assessed.completed) featureChecked++
           }
         }
-        const selected = authored.filter(item => result.selectedCaseIds.includes(item.id))
+        result.observations = result.svgAssessments.flatMap((assessment: any) => completeCriterionLedger(planFidelityCriteria(selected).filter(item => item.surface !== 'native-public-api'), result.observations.filter((row: BenchmarkObservation) => row.metrics?.implementation === assessment.project), assessment.project))
         result.svgAssessments = result.svgAssessments.map((assessment: any) => {
           const cases = assessSvgCases(selected, result.observations.filter((row: any) => row.metrics?.implementation === assessment.project))
           return { ...assessment, ...summarizeSvgCases(cases), cases }
