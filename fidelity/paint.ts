@@ -602,7 +602,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (!matrix || !offset) return undefined
     const a = item.getPointAtLength(side === 'start' ? 0 : length - offset), b = item.getPointAtLength(side === 'start' ? offset : length)
     const first = a.matrixTransform(matrix), last = b.matrixTransform(matrix), magnitude = Math.hypot(last.x - first.x, last.y - first.y), localMagnitude = Math.hypot(b.x - a.x, b.y - a.y)
-    return magnitude && localMagnitude ? { x: (last.x - first.x) / magnitude, y: (last.y - first.y) / magnitude, scale: magnitude / localMagnitude } : undefined
+    return magnitude && localMagnitude ? { x: (last.x - first.x) / magnitude, y: (last.y - first.y) / magnitude, scale: magnitude / localMagnitude, localPositiveX: b.x > a.x && Math.abs(b.y - a.y) <= localMagnitude * 1e-7 } : undefined
   }
   const inlineShape = (element: Element): boolean => {
     if (element.matches('[class$="-marker"],.arrowhead,.return-arrow,[data-role="marker"]') || element.closest('svg.arrow-head')) return true
@@ -641,11 +641,13 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (input.family === 'er') return { kind: 'decoration', point: endpoint, clearance: Math.min(8, Number(marker.getAttribute('markerWidth') ?? 3) / 2) }
     if (shapes.length !== 1 || shapes[0]!.hasAttribute('transform')) return { kind: 'unknown', point: endpoint, unknown: 'Compound or transformed marker needs a reviewed geometry projection' }
     const shape = shapes[0]!, rawKind = shapeKind(shape), glyphStyle = getComputedStyle(shape), open = input.family === 'sequence' && rawKind === 'arrow' && shape.localName !== 'polygon' && !/z\s*$/i.test(shape.getAttribute('d') ?? '') && colorAlpha(glyphStyle.fill) === 0 && colorAlpha(glyphStyle.stroke) !== 0, kind = open ? 'open-arrow' : rawKind, polygon = vertices(shape), owner = marker as unknown as SVGMarkerElement
-    if (!polygon || kind === 'unknown' || !['auto', 'auto-start-reverse', null].includes(marker.getAttribute('orient'))) return { kind, point: endpoint, unknown: 'Marker tip/rotation projection is unavailable' }
+    if (!polygon || kind === 'unknown') return { kind, point: endpoint, unknown: 'Marker tip projection is unavailable' }
     const reference = { x: owner.refX.baseVal.value, y: owner.refY.baseVal.value }
     const directional = ['arrow', 'triangle', 'open-arrow'].includes(kind)
     const tangent = tangentAt(element, side)
     if (!tangent) return { kind, point: endpoint, unknown: 'No stable endpoint tangent for marker placement' }
+    const orient = marker.getAttribute('orient'), automatic = ['auto', 'auto-start-reverse'].includes(orient ?? '')
+    if (!automatic && !((orient === null || /^0(?:deg)?$/.test(orient)) && tangent.localPositiveX)) return { kind, point: endpoint, unknown: 'Fixed/default marker rotation is qualified only where zero degrees equals the measured local positive-X tangent; omitted orient never implies automatic rotation' }
     const box = owner.viewBox.baseVal, viewScale = box.width && box.height ? Math.min(owner.markerWidth.baseVal.value / box.width, owner.markerHeight.baseVal.value / box.height) : 1
     const units = marker.getAttribute('markerUnits') === 'userSpaceOnUse' ? 1 : Number.parseFloat(getComputedStyle(element).strokeWidth)
     const reverse = side === 'start' && marker.getAttribute('orient') === 'auto-start-reverse' ? -1 : 1
