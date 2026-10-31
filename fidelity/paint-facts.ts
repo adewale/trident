@@ -45,7 +45,7 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
   const allText = svg ? [...svg.querySelectorAll('text,foreignObject p,foreignObject span,foreignObject div')] : []
   const text = allText.filter(element => visible(element) && ![...element.children].some(child => visible(child) && normalize(child.textContent ?? '') === normalize(element.textContent ?? '')))
   const label = (value: string) => text.filter(element => normalize(element.textContent ?? '') === normalize(value))
-  const nodes = input.paint.nodes as { id: string; label: string; box: { x: number; y: number; width: number; height: number } }[]
+  const nodes = input.paint.nodes as { id: string; label: string; box: { x: number; y: number; width: number; height: number }; outline?: { tag: string; vertices?: { x: number; y: number }[] | null; rx: number; ry: number }; style?: { fill: string; stroke: string; strokeWidth: number; dash: string } }[]
   const nodeById = new Map(nodes.map(node => [node.id, node]))
   const checkById = new Map([...input.paint.checks, ...input.quantitative].map(check => [check.criterion, check]))
   const inside = (outer: { x: number; y: number; width: number; height: number }, inner: DOMRect) => inner.x >= outer.x - 1.5 && inner.y >= outer.y - 1.5 && inner.right <= outer.x + outer.width + 1.5 && inner.bottom <= outer.y + outer.height + 1.5
@@ -54,12 +54,17 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
   // not prove that a member/type/key is visible through clipping or covers.
   const rowPaint = (elements: Element[]) => elements.every(element => {
     const box = element.getBoundingClientRect()
-    if (!svg || !inside(svg.getBoundingClientRect(), box)) return false
+    if (!svg || !inside(svg.getBoundingClientRect(), box) || !Array.isArray(input.paint.camouflagedText)) return false
+    if (input.paint.camouflagedText?.some(item => item.text === normalize(element.textContent ?? '') && Math.abs(item.box.x - box.x) <= 1.5 && Math.abs(item.box.y - box.y) <= 1.5)) return false
+    const style = getComputedStyle(element), foreground = element.namespaceURI === 'http://www.w3.org/2000/svg' ? style.fill : style.color
+    let opacity = Math.max((alpha(foreground) ?? 0) * Number(style.fillOpacity), (alpha(style.stroke) ?? 0) * Number(style.strokeOpacity))
     for (let parent: Element | null = element; parent; parent = parent.parentElement) {
       const css = getComputedStyle(parent), outer = parent.getBoundingClientRect()
+      opacity *= Number(css.opacity)
       if (css.clipPath !== 'none' || css.maskImage !== 'none' || css.filter !== 'none' || css.clip !== 'auto' || css.mixBlendMode !== 'normal' || ['hidden', 'clip'].includes(css.overflowX) && !inside(outer, box) || ['hidden', 'clip'].includes(css.overflowY) && !inside(outer, box)) return false
       if (parent === svg) break
     }
+    if (opacity < 1 / 255) return false
     for (const cover of svg.querySelectorAll('rect,circle,ellipse,polygon,path,image,use,foreignObject')) {
       if (cover.contains(element) || element.contains(cover) || !(element.compareDocumentPosition(cover) & Node.DOCUMENT_POSITION_FOLLOWING)) continue
       if (!visible(cover) && !uncertainElements.has(cover)) continue
@@ -80,8 +85,44 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
   }
   const ambiguousOwnedText = (id: string) => { const node = nodeById.get(id); return !node || allText.some(element => uncertainElements.has(element) && inside(node.box, element.getBoundingClientRect())) }
   const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b)
+  const actualShape = (id: string) => {
+    const node = nodeById.get(id), outline = node?.outline
+    if (!node || !outline) return null
+    if (outline.tag === 'rect') return outline.rx > 0 || outline.ry > 0 ? 'rounded' : 'rectangle'
+    if (['ellipse', 'circle'].includes(outline.tag)) return Math.abs(node.box.width - node.box.height) <= Math.max(1, node.box.width * .01) ? 'circle' : 'ellipse'
+    const points = outline.vertices, b = node.box
+    if (points?.length === 4) {
+      const near = (p: { x: number; y: number }, x: number, y: number) => Math.hypot(p.x - x, p.y - y) <= 1.5
+      if ([[b.x, b.y], [b.x + b.width, b.y], [b.x, b.y + b.height], [b.x + b.width, b.y + b.height]].every(([x, y]) => points.some(point => near(point, x!, y!)))) return 'rectangle'
+      if ([[b.x + b.width / 2, b.y], [b.x + b.width, b.y + b.height / 2], [b.x + b.width / 2, b.y + b.height], [b.x, b.y + b.height / 2]].every(([x, y]) => points.some(point => near(point, x!, y!)))) return 'diamond'
+    }
+    return null
+  }
   for (const key of Object.keys(facts).sort()) {
     if (!svg) { add(key, null, null, 'No mounted SVG is available for the required source fact'); continue }
+    if (key === 'node-shapes' && Array.isArray(facts[key])) {
+      const supported = ['rectangle', 'circle', 'ellipse', 'diamond', 'rounded'], observed = facts[key].map((entry: any) => ({ id: entry.id, expected: entry.shape, actual: actualShape(entry.id) }))
+      add(key, observed, observed.every((entry: any) => supported.includes(entry.expected) && entry.actual) ? observed.every((entry: any) => entry.expected === entry.actual) : null, 'Each source node owns its actual outline: SVG rectangle/rounded rectangle, circle/ellipse or four-vertex rectangle/diamond. IDs, class names and model shape strings supply no geometry; other and compound shapes remain unknown')
+      continue
+    }
+    if (key === 'node-attributes' && Array.isArray(facts[key])) {
+      const aliases: Record<string, string> = { rect: 'rectangle', rectangle: 'rectangle', round: 'rounded', rounded: 'rounded', circle: 'circle', ellipse: 'ellipse', diam: 'diamond', diamond: 'diamond' }
+      const observed = facts[key].map((entry: any) => ({ id: entry.id, attributes: entry.attributes, shape: actualShape(entry.id), label: nodeById.get(entry.id)?.label }))
+      const available = observed.every((entry: any) => entry.label !== undefined && Object.entries(entry.attributes).every(([attribute, value]) => attribute === 'label' ? typeof value === 'string' : attribute === 'shape' && typeof value === 'string' && aliases[value] && entry.shape))
+      add(key, observed, available ? observed.every((entry: any) => Object.entries(entry.attributes).every(([attribute, value]) => attribute === 'label' ? normalize(String(value)) === normalize(entry.label) : aliases[String(value)] === entry.shape)) : null, 'Literal label/primitive-shape attributes bind independently owned visible node bodies. Icons, images, wrapping, business roles, dimensions and other attributes remain required unknowns until their own full projection is qualified')
+      continue
+    }
+    if (key === 'edge-appearance' && Array.isArray(facts[key])) {
+      const connections = input.paint.connections as { source: string; target: string; startMarker: string; endMarker: string; strokeWidth?: number; dash?: string }[]
+      const observed = facts[key].map((entry: any) => {
+        const from = entry.source ?? entry.from, to = entry.target ?? entry.to, candidates = connections.filter(edge => edge.source === from && edge.target === to || edge.source === to && edge.target === from)
+        const edge = candidates.length === 1 ? candidates[0]! : null, reverse = edge?.source !== from
+        return { ...entry, actual: edge && { width: edge.strokeWidth, stroke: !edge.dash || edge.dash === 'none' || /^0(?:px)?(?:[ ,]+0(?:px)?)*$/.test(edge.dash) ? 'solid' : edge.dash.split(/[ ,]+/).every(value => Number.parseFloat(value) > 0) ? 'dotted' : null, markerStart: reverse ? edge.endMarker : edge.startMarker, markerEnd: reverse ? edge.startMarker : edge.endMarker } }
+      })
+      const ready = checkById.get('painted-relationships')?.status === 'passed' && observed.every((entry: any) => entry.actual && ['solid', 'dotted'].includes(entry.stroke) && entry.actual.stroke)
+      add(key, observed, ready ? observed.every((entry: any) => entry.stroke === entry.actual.stroke && (entry.markerStart === undefined || entry.markerStart === entry.actual.markerStart) && (entry.markerEnd === undefined || entry.markerEnd === entry.actual.markerEnd)) : null, 'Every declared solid/dotted edge owns a unique measured route and its actual start/end marker geometry. Parallel endpoint pairs, thick-style relative baselines, animation and compound dash grammars need further evidence')
+      continue
+    }
     if (['accessibility-title', 'accessibility-description'].includes(key) && typeof facts[key] === 'string') {
       const attribute = key === 'accessibility-title' ? 'aria-labelledby' : 'aria-describedby', direct = key === 'accessibility-title' ? 'aria-label' : 'aria-description'
       const references = (svg.getAttribute(attribute) ?? '').trim().split(/\s+/).filter(Boolean), targets = references.map(id => document.getElementById(id))
@@ -95,7 +136,7 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
       const found = label(facts.title), root = svg.getBoundingClientRect()
       const outsideContent = found.filter(element => {
         const b = element.getBoundingClientRect(), p = { x: b.x + b.width / 2, y: b.y + b.height / 2 }
-        return ![...nodes, ...(input.paint.groups ?? [])].some(owner => p.x >= owner.box.x - 1 && p.x <= owner.box.x + owner.box.width + 1 && p.y >= owner.box.y - 1 && p.y <= owner.box.y + owner.box.height + 1) && b.x >= root.x - 1.5 && b.y >= root.y - 1.5 && b.right <= root.right + 1.5 && b.bottom <= root.bottom + 1.5
+        return !input.paint.camouflagedText?.some(item => item.text === normalize(facts.title) && Math.abs(item.box.x - b.x) <= 1.5 && Math.abs(item.box.y - b.y) <= 1.5) && ![...nodes, ...(input.paint.groups ?? [])].some(owner => p.x >= owner.box.x - 1 && p.x <= owner.box.x + owner.box.width + 1 && p.y >= owner.box.y - 1 && p.y <= owner.box.y + owner.box.height + 1) && b.x >= root.x - 1.5 && b.y >= root.y - 1.5 && b.right <= root.right + 1.5 && b.bottom <= root.bottom + 1.5
       })
       add(key, { visibleOccurrences: found.length, unownedTitleOccurrences: outsideContent.length, clipped: clippedTitle }, clippedTitle ? false : clipping?.status !== 'passed' ? null : outsideContent.length === 1 ? true : uncertainPaint ? null : false, 'The literal title needs its own visible, unclipped occurrence inside the canvas and outside authored node/group bodies. SVG metadata, a borrowed node label, hidden text and positive but clipped bounds supply no title credit')
       continue

@@ -1,7 +1,7 @@
 import type { MeaningExpectation, PaintExpectation } from './meaning.ts'
 
 export interface PaintCheck { criterion: string; status: 'passed' | 'failed' | 'unavailable'; expected: unknown; actual: unknown; scope: string }
-export interface PaintEvidence { checks: PaintCheck[]; complete: boolean; passed: boolean; nodes: unknown[]; connections: unknown[]; viewBox: string | null; groups?: { id: string; label: string; box: { x: number; y: number; width: number; height: number } }[] }
+export interface PaintEvidence { checks: PaintCheck[]; complete: boolean; passed: boolean; nodes: unknown[]; connections: unknown[]; viewBox: string | null; groups?: { id: string; label: string; box: { x: number; y: number; width: number; height: number } }[]; camouflagedText?: { text: string; box: { x: number; y: number; width: number; height: number } }[] }
 export interface PaintInput { family: string; expected: MeaningExpectation; paint?: PaintExpectation }
 
 /** The authored request fixes the denominator before any renderer runs. */
@@ -69,8 +69,10 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const alpha = colorCanvas.getImageData(0, 0, 1, 1).data[3]! / 255; colors.set(color, alpha); return alpha
   }
   const visible = (element: Element, definitions = false) => {
+    let opacity = 1
     for (let current: Element | null = element; current; current = current.parentElement) {
       const style = getComputedStyle(current)
+      opacity *= Number(style.opacity)
       if ((!definitions && ['defs', 'marker', 'clipPath', 'mask', 'symbol'].includes(current.localName)) || ['none'].includes(style.display) || ['hidden', 'collapse'].includes(style.visibility) || Number(style.opacity) === 0) return false
       if (/opacity\(\s*0(?:\.0+)?%?\s*\)/.test(style.filter)) return false
       if (style.filter && style.filter !== 'none' && !preservesSourceGraphic(style.filter)) unknownPaint.add('filter:' + style.filter)
@@ -82,7 +84,10 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const fill = colorAlpha(style.fill), stroke = colorAlpha(style.stroke)
     const fillVisible = element.localName !== 'line' && (fill === null || fill * Number(style.fillOpacity) > 0)
     const strokeVisible = stroke === null || stroke * Number(style.strokeOpacity) > 0 && Number.parseFloat(style.strokeWidth) > 0
-    if (element.namespaceURI !== 'http://www.w3.org/2000/svg') { const color = colorAlpha(style.color); return color === null || color > 0 }
+    const paintedAlpha = Math.max(fillVisible ? (fill ?? 1) * Number(style.fillOpacity) : 0, strokeVisible ? (stroke ?? 1) * Number(style.strokeOpacity) : 0) * opacity
+    if (paintedAlpha > 0 && paintedAlpha < 1 / 255) unknownPaint.add('subpixel-alpha:' + element.localName)
+    if (strokeVisible && Number.parseFloat(style.strokeWidth) < 1 / 255) unknownPaint.add('subpixel-stroke:' + element.localName)
+    if (element.namespaceURI !== 'http://www.w3.org/2000/svg') { const color = colorAlpha(style.color); if (color !== null && color * opacity > 0 && color * opacity < 1 / 255) unknownPaint.add('subpixel-alpha:HTML'); return color === null || color > 0 }
     return (!['text', 'tspan'].includes(element.localName) || Number.parseFloat(style.fontSize) > 0) && (fillVisible || strokeVisible)
   }
   const rootBox = rect(svg)
@@ -116,12 +121,14 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   // A positive-alpha glyph can still be invisible against its own body. This
   // negative control proves exact colour camouflage only on an actual opaque
   // flat backdrop; it does not claim a general contrast/accessibility score.
-  const camouflaged: string[] = []
-  for (const label of requiredLabels.filter(Boolean)) for (const element of visibleMatches(label)) {
+  const measureCamouflage = (element: Element) => {
     const box = labelBox(element), css = getComputedStyle(element)
     const foreground = element.namespaceURI === 'http://www.w3.org/2000/svg' ? css.fill : css.color
     const strokeVisible = colorAlpha(css.stroke) !== 0 && Number(css.strokeOpacity) > 0 && Number.parseFloat(css.strokeWidth) > 0
-    if (strokeVisible || colorAlpha(foreground) !== 1) continue
+    const foregroundAlpha = colorAlpha(foreground), strokeAlpha = colorAlpha(css.stroke)
+    if (foregroundAlpha === null || strokeVisible && strokeAlpha === null) return false
+    const paints = [...(foregroundAlpha && Number(css.fillOpacity) > 0 ? [foreground] : []), ...(strokeVisible ? [css.stroke] : [])]
+    if (!paints.length) return false
     const backdrop = [...svg.querySelectorAll('rect,circle,ellipse,polygon,path')].filter(shape => {
       if (shape.contains(element) || !(shape.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING) || !visible(shape)) return false
       const style = getComputedStyle(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM?.()
@@ -129,8 +136,28 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       for (let parent: Element | null = shape; parent; parent = parent.parentElement) { const style = getComputedStyle(parent); if (Number(style.opacity) !== 1 || style.maskImage !== 'none' || style.clipPath !== 'none' || style.mixBlendMode !== 'normal' || style.filter !== 'none' && !preservesSourceGraphic(style.filter)) return false; if (parent === svg) break }
       return [[box.x, box.y], [box.x + box.width, box.y], [box.x, box.y + box.height], [box.x + box.width, box.y + box.height]].every(([x, y]) => (shape as SVGGeometryElement).isPointInFill?.(new DOMPoint(x, y).matrixTransform(matrix.inverse())))
     }).at(-1)
-    if (backdrop && foreground === getComputedStyle(backdrop).fill) camouflaged.push(label)
+    if (backdrop) return paints.every(color => color === getComputedStyle(backdrop).fill)
+    // The observer's browser canvas is white unless an opaque CSS background
+    // says otherwise. Use that only when no intervening ink can alter it.
+    const intervening = [...svg.querySelectorAll('rect,circle,ellipse,polygon,path,line,image,use,foreignObject')].some(shape => {
+      if (shape.contains(element) || !(shape.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING) || !visible(shape)) return false
+      const b = rect(shape), style = getComputedStyle(shape)
+      return Math.min(box.x + box.width, b.x + b.width) > Math.max(box.x, b.x) && Math.min(box.y + box.height, b.y + b.height) > Math.max(box.y, b.y) && (['image', 'use', 'foreignObject'].includes(shape.localName) || colorAlpha(style.fill) !== 0 || colorAlpha(style.stroke) !== 0 && Number.parseFloat(style.strokeWidth) > 0)
+    })
+    if (intervening) return false
+    let background = 'rgb(255, 255, 255)'
+    for (let parent: Element | null = element; parent; parent = parent.parentElement) {
+      const style = getComputedStyle(parent), alpha = colorAlpha(style.backgroundColor)
+      if (style.backgroundImage !== 'none' || alpha !== 0 && alpha !== 1) return false
+      if (alpha === 1) { background = style.backgroundColor; break }
+    }
+    return paints.every(color => color === background)
   }
+  const camouflageResults = new Map<Element, boolean>()
+  const camouflage = (element: Element) => { if (!camouflageResults.has(element)) camouflageResults.set(element, measureCamouflage(element)); return camouflageResults.get(element)! }
+  const camouflagedElements = new Set(labelElements.filter(element => visible(element) && camouflage(element)))
+  const camouflagedText = [...camouflagedElements].map(element => ({ text: normalize(labelText(element)), box: labelBox(element) }))
+  const camouflaged = requiredLabels.filter(label => visibleMatches(label).some(element => camouflagedElements.has(element)))
   check('visible-authored-labels', input.expected.labels, labelResults.map(item => ({ label: item.label, count: item.count, camouflaged: camouflaged.includes(item.label) })), imageBackedLabels ? null : labelResults.every(item => item.count > 0) && camouflaged.length === 0, imageBackedLabels ? 'Image-backed text needs reviewed image/OCR evidence, not a missing-label verdict' : 'Computed visibility and nonzero browser text bounds, rejecting glyphs proved identical to their own opaque flat backdrop. Metadata/title/defs text earns no credit; this is not general contrast or accessibility certification')
   check('labels-within-canvas', 'every authored label fits the canvas', labelResults.filter(item => !item.inCanvas), imageBackedLabels ? null : labelResults.every(item => item.inCanvas), 'Actual rendered label bounds, with 1.5 CSS-pixel serialization tolerance')
   if (input.expected.forbiddenLabels?.length) {
@@ -211,14 +238,15 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const retained = input.paint.images.every(requested => images.filter(image => image.href === requested.href).length === requested.count)
     check('embedded-images', input.paint.images, images, !retained || images.some(image => !image.loaded || !image.visible) ? false : images.some(image => image.clipUnknown) ? null : true, 'Every independently declared image must be emitted with its authored asset, decoded and visible. Missing images are failures; unprojected image masks/clips stay unavailable.')
   } else if (images.length) check('emitted-image-decoding', 'all unexpected emitted images decode', images, images.every(item => item.loaded && item.visible), 'Diagnostic only: decoding emitted images does not prove the renderer retained an author-requested image')
-  const geometry = [...svg.querySelectorAll('path,line,rect,circle,ellipse,polygon,polyline')].filter(element => visible(element) && rect(element).width + rect(element).height > 0)
-  check('visible-ink', 'nonempty visible diagram geometry', geometry.length, geometry.length > 0 ? true : svg.querySelector('use,foreignObject,image') ? null : false, 'Visible geometric elements; unprojected use/HTML/image-only ink remains unavailable, not a drawing defect')
+  const geometry = [...svg.querySelectorAll('path,line,rect,circle,ellipse,polygon,polyline')].filter(element => visible(element) && rect(element).width + rect(element).height > 0 && !camouflage(element))
+  const paintedText = labelElements.filter(element => visible(element) && !camouflage(element) && labelBox(element).width > 0 && labelBox(element).height > 0)
+  check('visible-ink', 'nonempty visible diagram geometry or text', { geometry: geometry.length, text: paintedText.length }, geometry.length + paintedText.length > 0 ? true : svg.querySelector('use,foreignObject,image') ? null : false, 'Actual non-camouflaged geometry/text, including browser-painted HTML labels; image/use-only ink needs a qualified image projection')
   const ownedBox = (element: Element, identity?: string, group = false): { owner: Element; shape: Element; box: Box; outlines?: Element[] } | undefined => {
     const point = center(rect(element))
     for (let current: Element | null = element.parentElement; current && current !== svg; current = current.parentElement) {
       const declaredGroup = current.matches('.cluster,.pele-cluster,[data-role="group"]')
       if (declaredGroup && !group) return undefined
-      const shapes = [...current.querySelectorAll('rect,circle,ellipse,polygon,path')].filter(child => visible(child))
+      const shapes = [...current.querySelectorAll('rect,circle,ellipse,polygon,path')].filter(child => visible(child) && !camouflage(child))
       const candidates = shapes.filter(child => { const box = rect(child); return box.width > 0 && box.height > 0 && contains(box, { ...point, width: 0, height: 0 }, 2) })
       // A compartment header is ink inside its node, not the node boundary.
       const shape = candidates.find(candidate => candidates.every(other => contains(rect(candidate), rect(other), 1)))
@@ -233,7 +261,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       // Require an authored SVG identity, a unique direct body outline, and
       // spatial agreement; an enclosing cluster is never their node body.
       if (identity && current.matches('g.node,g.pele-node,[data-role="node"],[data-role="actor"]') && ['data-id', 'data-node-id'].some(name => current.getAttribute(name) === identity)) {
-        const bodies = [...current.children].filter(child => ['rect', 'circle', 'ellipse', 'polygon', 'path'].includes(child.localName) && visible(child) && rect(child).width > 0 && rect(child).height > 0)
+        const bodies = [...current.children].filter(child => ['rect', 'circle', 'ellipse', 'polygon', 'path'].includes(child.localName) && visible(child) && !camouflage(child) && rect(child).width > 0 && rect(child).height > 0)
         if (bodies.length !== 1) return undefined
         const body = bodies[0]!, box = rect(body), label = labelBox(element), midpoint = center(label)
         const verticalGap = Math.max(box.y - label.y - label.height, label.y - box.y - box.height, 0)
@@ -515,7 +543,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const connections: Array<{ source: string; target: string; directed: boolean; startMarker: string; endMarker: string; startFilled?: boolean; endFilled?: boolean; element: Element }> = []
   const connectionLabels = new Map<Element, string[]>()
   const edgeSelector = '.edge path,.edgePath path,.edge-path,.edge-paths path,g[class$="-edge"] path,g[class*="-edge "] path,path.flowchart-link,path.relation,path.relationshipLine,path.transition,path.em-relation,g.message line,g.message path,g.return line,g.return path,[data-relationship="sequence-message"],line.messageLine0,line.messageLine1,path.messageLine0,path.messageLine1,[data-edge-id],polyline.class-relationship,polyline.er-relationship'
-  let paths = [...svg.querySelectorAll(edgeSelector)].filter(element => visible(element) && ['path', 'line', 'polyline'].includes(element.localName))
+  let paths = [...svg.querySelectorAll(edgeSelector)].filter(element => visible(element) && !camouflage(element) && ['path', 'line', 'polyline'].includes(element.localName))
   let unboundRelations = false, invalidMarker = false
   if (!paths.length) paths = geometry.filter(element => ['path', 'line', 'polyline'].includes(element.localName) && ![...anchors.values()].some(node => node.owner.contains(element)))
   paths = paths.filter(element => !inlineShape(element))
@@ -599,5 +627,5 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     check('painted-group:' + group.id, members, outside, available ? outside.length === 0 : null, 'Authored descendant nodes fit their actual owned group boundary; immediate membership is checked independently in the native model')
   }
   check('paint-opacity-and-color', 'resolved visible paint colors/alpha', [...unknownPaint], unknownPaint.size ? null : true, 'Unresolved paint servers/context colors cannot silently earn a visible-ink or complete-style claim')
-  return { checks, complete: checks.every(item => item.status !== 'unavailable'), passed: checks.length > 0 && checks.every(item => item.status === 'passed'), nodes: [...anchors.values()].map(({ owner: _, shape: __, outlines: ___, ...node }) => node), connections: connections.map(({ element, ...edge }) => ({ ...edge, box: rect(element), start: pointFor(element, false), end: pointFor(element, true), dash: getComputedStyle(element).strokeDasharray, labels: connectionLabels.get(element) ?? [] })), viewBox: svg.getAttribute('viewBox'), groups: groupBoxes }
+  return { checks, complete: checks.every(item => item.status !== 'unavailable'), passed: checks.length > 0 && checks.every(item => item.status === 'passed'), nodes: [...anchors.values()].map(({ owner: _, shape, outlines: ___, ...node }) => { const style = getComputedStyle(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM?.(); return { ...node, outline: { tag: shape.localName, vertices: matrix ? vertices(shape)?.map(p => { const point = new DOMPoint(p.x, p.y).matrixTransform(matrix); return { x: point.x, y: point.y } }) : null, rx: Number.parseFloat(style.rx), ry: Number.parseFloat(style.ry) }, style: { fill: style.fill, stroke: style.stroke, strokeWidth: Number.parseFloat(style.strokeWidth), dash: style.strokeDasharray } } }), connections: connections.map(({ element, ...edge }) => ({ ...edge, box: rect(element), start: pointFor(element, false), end: pointFor(element, true), stroke: getComputedStyle(element).stroke, strokeWidth: Number.parseFloat(getComputedStyle(element).strokeWidth), dash: getComputedStyle(element).strokeDasharray, labels: connectionLabels.get(element) ?? [] })), viewBox: svg.getAttribute('viewBox'), groups: groupBoxes, camouflagedText }
 }

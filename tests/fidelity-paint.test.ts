@@ -65,6 +65,12 @@ test('positive-alpha labels cannot earn visible credit when their opaque node ba
   const black = fixture.replaceAll('fill="white"', 'fill="black"')
   expect((await inspect(black)).checks.find(check => check.criterion === 'visible-authored-labels')?.status).toBe('failed')
   expect((await inspect(fixture)).checks.find(check => check.criterion === 'visible-authored-labels')?.status).toBe('passed')
+  const subpixel = fixture.replaceAll('<text ', '<text opacity="0.000000001" ')
+  expect((await inspect(subpixel)).checks.find(check => check.criterion === 'paint-opacity-and-color')?.status).toBe('unavailable')
+  const invisibleBody = fixture.replaceAll('fill="white" stroke="black"', 'fill="white" stroke="none"')
+  expect((await inspect(invisibleBody)).checks.find(check => check.criterion === 'painted-node-ownership')?.status).not.toBe('passed')
+  const invisibleEdge = fixture.replace('fill="none" stroke="black" marker-end', 'fill="none" stroke="white" marker-end')
+  expect((await inspect(invisibleEdge)).checks.find(check => check.criterion === 'painted-relationships')?.status).not.toBe('passed')
 })
 
 test('an extra explicitly identified but unbound route cannot earn exact multiplicity credit', async () => {

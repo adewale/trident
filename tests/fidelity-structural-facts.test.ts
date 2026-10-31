@@ -54,4 +54,8 @@ test('a repeated class header cannot conceal an additional member with the same 
   expect(status(await inspect(svg, 'features:class:namespace-members-cardinality'), 'members')).toBe('failed')
   const hiddenMember = svg.replace('<text x="230" y="60">Store</text>', '').replace('</svg>', '<rect x="15" y="45" width="130" height="20" fill="white" pointer-events="none"/></svg>')
   expect(status(await inspect(hiddenMember, 'features:class:namespace-members-cardinality'), 'members')).toBe('unavailable')
+  for (const style of ['fill="white"', 'opacity="0.000000001"']) {
+    const hidden = svg.replace('<text x="230" y="60">Store</text>', '').replace('<text x="20" y="60">', '<text x="20" y="60" ' + style + '>')
+    expect(status(await inspect(hidden, 'features:class:namespace-members-cardinality'), 'members')).not.toBe('passed')
+  }
 })

@@ -41,6 +41,13 @@ test('owned geometry verifies global direction without treating a public model o
   expect((await inspect(svg, { ...expected, edges: [...expected.edges!, { source: 'B', target: 'A', directed: true }] }))[0]?.status).toBe('unavailable')
   expect((await inspect(svg, expected, source + '\nsubgraph inner\ndirection TB\nend'))[0]?.status).toBe('unavailable')
 })
+test('primitive shapes and solid/dotted appearance are actual owned geometry rather than source/model echoes', async () => {
+  const shapes = { ...expected, facts: { 'node-shapes': [{ id: 'A', shape: 'rectangle' }, { id: 'B', shape: 'rectangle' }], 'node-attributes': [{ id: 'A', attributes: { shape: 'rect', label: 'Alpha' } }], 'edge-appearance': [{ source: 'A', target: 'B', stroke: 'solid', markerStart: 'none', markerEnd: 'arrow' }] } }
+  expect((await inspect(svg, shapes)).map(check => check.status)).toEqual(['passed', 'passed', 'passed'])
+  expect((await inspect(svg.replace('width="70" height="30" fill="white"', 'width="70" height="30" rx="8" fill="white"'), shapes)).find(check => check.criterion === 'source-fact:node-shapes')?.status).toBe('failed')
+  expect((await inspect(svg.replace('stroke="black" marker-end', 'stroke="black" stroke-dasharray="4 4" marker-end'), shapes)).find(check => check.criterion === 'source-fact:edge-appearance')?.status).toBe('failed')
+  expect((await inspect(svg, { ...shapes, facts: { 'node-shapes': [{ id: 'A', shape: 'manual-file' }] } }))[0]?.status).toBe('unavailable')
+})
 test('unsupported source semantics stay unknown despite matching nodes, labels and direction', async () => {
   const checks = await inspect(svg, { ...expected, facts: { direction: 'LR', members: [{ id: 'A', values: ['+secret()'] }] } })
   expect(checks.find(check => check.criterion === 'source-fact:direction')?.status).toBe('passed')
@@ -52,6 +59,8 @@ test('source title requires painted text rather than SVG metadata', async () => 
   const actual = svg.replace('</svg>', '<text x="60" y="18">The title</text></svg>')
   expect((await inspect(actual, e))[0]?.status).toBe('passed')
   expect((await inspect(actual.replace('x="60" y="18"', 'x="60" y="18" display="none"'), e))[0]?.status).toBe('failed')
+  const white = await inspect(actual.replace('x="60" y="18"', 'x="60" y="18" fill="white"'), e)
+  expect(white[0]?.status).not.toBe('passed')
 })
 
 test('transparent source titles and unbound accessibility metadata cannot supply fact credit', async () => {
