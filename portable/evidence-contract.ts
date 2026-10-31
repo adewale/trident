@@ -77,6 +77,8 @@ export function constructEvidenceVerdict(contract: CaseEvidenceContract, value?:
 }
 
 export interface InvocationIdentity {
+  /** Fixed sampling coordinate, when a journal spans multiple rounds. */
+  coordinate?: string
   project: string
   caseId: string
   sourceSha256: string
@@ -102,6 +104,7 @@ export interface InvocationEvidence {
 export function admitInvocationEvidence(value: unknown): Readonly<InvocationEvidence> {
   const item = value as InvocationEvidence
   if (!item || item.schema !== 'trident-invocation-evidence-v1' || !text(item.attemptId) || !item.identity || !text(item.identity.project) || !text(item.identity.caseId) || !text(item.identity.format) || !digest(item.identity.sourceSha256) || !digest(item.identity.artifactSha256) || !digest(item.identity.bindingSha256)) fail('invocation identity is missing')
+  if (item.identity.coordinate !== undefined && !text(item.identity.coordinate)) fail('invocation sampling coordinate is invalid')
   if (!['not-invoked', 'started', 'returned', 'public-error', 'interrupted'].includes(item.state) || typeof item.detail !== 'string') fail('invocation state is invalid')
   const validTime = (value: unknown) => value === null || typeof value === 'string' && Number.isFinite(Date.parse(value))
   if (item.recordedAt !== undefined && !validTime(item.recordedAt)) fail('invocation receipt time is invalid')
