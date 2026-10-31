@@ -1,0 +1,104 @@
+{
+  "scope": "Dated benchmark repair qualification. No full-ecosystem score or comparative speed claim.",
+  "svgArtifacts": 5,
+  "featureCasesPerArtifact": 30,
+  "reviewedDocumentationDrawings": 16,
+  "configurationOnlyDocumentation": 1,
+  "unreviewedDocumentationOccurrences": 531,
+  "features": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.5.1",
+      "correct": 23,
+      "incorrect": 1,
+      "unsupported": 0,
+      "unknown": 6,
+      "planned": 30,
+      "rankable": false,
+      "scope": "Every planned SVG check must pass. Unknown observations are measurement gaps; public-model criteria and API-specific checks are excluded."
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "correct": 6,
+      "incorrect": 3,
+      "unsupported": 0,
+      "unknown": 21,
+      "planned": 30,
+      "rankable": false,
+      "scope": "Every planned SVG check must pass. Unknown observations are measurement gaps; public-model criteria and API-specific checks are excluded."
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.12.0",
+      "correct": 23,
+      "incorrect": 1,
+      "unsupported": 1,
+      "unknown": 5,
+      "planned": 30,
+      "rankable": false,
+      "scope": "Every planned SVG check must pass. Unknown observations are measurement gaps; public-model criteria and API-specific checks are excluded."
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "version": "0.1.4",
+      "correct": 0,
+      "incorrect": 28,
+      "unsupported": 0,
+      "unknown": 2,
+      "planned": 30,
+      "rankable": false,
+      "scope": "Every planned SVG check must pass. Unknown observations are measurement gaps; public-model criteria and API-specific checks are excluded."
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "correct": 21,
+      "incorrect": 2,
+      "unsupported": 0,
+      "unknown": 7,
+      "planned": 30,
+      "rankable": false,
+      "scope": "Every planned SVG check must pass. Unknown observations are measurement gaps; public-model criteria and API-specific checks are excluded."
+    }
+  ],
+  "reviewedDocs": {
+    "adewale/agentic-mermaid": {
+      "correct": 15,
+      "incorrect": 1,
+      "unknown": 0
+    },
+    "lukilabs/beautiful-mermaid": {
+      "correct": 7,
+      "incorrect": 5,
+      "unknown": 4
+    },
+    "obsidianmd/pele": {
+      "correct": 15,
+      "incorrect": 0,
+      "unknown": 1
+    },
+    "sandyyst/dsh-plugin-mermaid-gb-svg": {
+      "correct": 2,
+      "incorrect": 14,
+      "unknown": 0
+    },
+    "mermaid-js/mermaid": {
+      "correct": 16,
+      "incorrect": 0,
+      "unknown": 0
+    }
+  },
+  "terminal": {
+    "AlexanderGrooff/mermaid-ascii": {
+      "correct": 4,
+      "incorrect": 0,
+      "unknown": 0
+    },
+    "fasouto/termaid": {
+      "correct": 3,
+      "incorrect": 0,
+      "unknown": 1
+    }
+  }
+}
