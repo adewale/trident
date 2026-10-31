@@ -19,7 +19,7 @@ export interface PublicParseBinding {
   detection?: { export: string; familyPath: string; kindPath?: string; acceptedKind?: string }
   render?: { export: string; options?: Record<string, unknown> }
 }
-export interface PublicConformanceOptions { source: string; out: string; bindings: PublicParseBinding[]; runnerRoot?: string; node?: string; timeoutMs?: number }
+export interface PublicConformanceOptions { source: string; out: string; bindings: PublicParseBinding[]; controlEvidence?: string; runnerRoot?: string; node?: string; timeoutMs?: number }
 const hash = (bytes: string | Uint8Array) => createHash('sha256').update(bytes).digest('hex')
 const read = (file: string): any => JSON.parse(readFileSync(file, 'utf8'))
 const write = (file: string, value: unknown) => writeFileSync(file, JSON.stringify(value, null, 2) + '\n')
@@ -58,6 +58,21 @@ export function qualifyPublicReference(cases: readonly PublicTestDeclaration[], 
   return { qualified: differences.length === 0, cases: cases.length, differences, scope: publicParseScope }
 }
 
+/** Reassessment may repair location mapping without rerunning unchanged
+ * controls. Actual source, host, parameter inventory, package and public binding
+ * identities must remain equal. Measurement provenance stays with its parent. */
+export function validateRetainedPublicControls(prior: any, inventory: any, current: any, cases: readonly PublicTestDeclaration[]) {
+  const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b)
+  for (const key of ['protocol', 'sourceCommit', 'sourceConfigSha256', 'originalJsdomHelperSha256', 'implementationSha256', 'detectionSha256', 'runnerVersion', 'runtimeQualification', 'node']) if (!same(prior[key], current[key])) throw Error('Retained control identity differs: ' + key)
+  const callbackIdentity = (rows: readonly PublicTestDeclaration[]) => rows.map(row => ({ id: row.id, declarationId: row.declarationId, sourceSha256: row.sourceSha256, callbackSha256: row.callbackSha256, name: row.fullName, operation: row.publicOperation, parameter: row.parameter }))
+  if (!same(callbackIdentity(inventory.callbacks ?? []), callbackIdentity(cases))) throw Error('Retained original callback/parameter inventory differs')
+  const reference = (context: any) => context.targets?.find((target: any) => target.binding?.project === 'mermaid-js/mermaid')
+  const before = reference(prior), after = reference(current)
+  if (!before || !after || !same(before, after)) throw Error('Retained public reference artifact or binding differs')
+  const binder = (context: any) => context.producers?.find((row: string) => row.endsWith('\tunified/public-conformance-binding.mjs'))
+  if (!binder(prior) || binder(prior) !== binder(current)) throw Error('Retained public boundary adapter changed')
+}
+
 /** The native Vitest runner executes the unchanged upstream spec. A Vite plugin
  * delegates only the public implementation method, never rewriting an assertion. */
 export async function runPublicConformance(options: PublicConformanceOptions): Promise<UnifiedSuiteResult> {
@@ -81,7 +96,15 @@ export async function runPublicConformance(options: PublicConformanceOptions): P
     return { binding, entry, version: pkg.version, entrySha256: hash(readFileSync(entry)), dependencies: captureInstalledDependencyClosure(binding.packageRoot) }
   })
   write(join(out, 'context.json'), { protocol: publicConformanceProtocol, sourceCommit: inventory.sourceCommit, sourceConfigSha256: hash(readFileSync(join(source, 'vite.config.ts'))), originalJsdomHelperSha256: hash(readFileSync(join(source, 'packages/mermaid/src/tests/util.ts'))), implementationSha256, detectionSha256, runtimeQualification, producers, runnerVersion, node, targets: targetIdentities, sampling: 'One execution per original callback/parameter. Original jsdomIt geometry mocks retained for structural render assertions; no speed comparison.', scope: publicParseScope })
-  const execute = (name: string, binding?: PublicParseBinding) => {
+  let retained: string | undefined
+  if (options.controlEvidence) {
+    retained = realpathSync(options.controlEvidence)
+    const prior = read(join(retained, 'context.json')), priorInventory = read(join(retained, 'inventory.json'))
+    const current = read(join(out, 'context.json'))
+    validateRetainedPublicControls(prior, priorInventory, current, cases)
+    write(join(out, 'retained-controls.json'), { directory: retained, contextSha256: hash(readFileSync(join(retained, 'context.json'))), inventorySha256: hash(readFileSync(join(retained, 'inventory.json'))), policy: 'No original/reference parser or renderer rerun. Native reports and invocation events are regraded against unchanged callbacks; prior measurement producer identities remain in their original context.' })
+  }
+  const execute = (name: string, binding?: PublicParseBinding, retainedControl?: string) => {
     const directory = join(out, name); mkdirSync(directory)
     const calls = join(directory, 'calls.jsonl'), raw = join(directory, 'vitest.json'), config = join(directory, 'config.mts'), setup = join(directory, 'setup.mjs')
     const prefix = `import base from ${JSON.stringify(join(source, 'vite.config.ts'))}\n`
@@ -95,7 +118,14 @@ export async function runPublicConformance(options: PublicConformanceOptions): P
     writeFileSync(config, prefix + plugin + `export default {...base,plugins:[...(base.plugins??[]),${binding ? 'boundary' : ''}],test:{...base.test,include:${JSON.stringify(publicParseFiles)},testNamePattern:${JSON.stringify(selected)},setupFiles:${JSON.stringify(setupFile ? [setupFile] : [])},fileParallelism:false,maxWorkers:1,minWorkers:1}}\n`)
     const args = [runner, 'run', '--config', config, '--includeTaskLocation', '--reporter', 'json', '--outputFile', raw]
     write(join(directory, 'invocation.json'), { node, args, cwd: source, binding: binding ?? 'unmodified-original-source', selectedCaseIds: cases.map(row => row.id), snapshotPolicy: 'CI mode; no updates', startedAt: new Date().toISOString() })
-    const child = spawnSync(node, args, { cwd: source, encoding: 'utf8', env: { ...process.env, CI: 'true' }, timeout: options.timeoutMs ?? 120_000, maxBuffer: 16 * 1024 * 1024 })
+    const child = retainedControl ? (() => {
+      const priorDirectory = join(retainedControl, name), receipt = read(join(priorDirectory, 'receipt.json'))
+      if (!receipt.frameworkComplete || receipt.originalImplementationSha256 !== implementationSha256 || receipt.originalDetectorSha256 !== detectionSha256 || publicParseFiles.some(file => receipt.originalSpecSha256[file] !== inventory.files.find(item => item.path === file)!.sha256)) throw Error('Retained original control source or framework evidence changed')
+      const retainedFiles = ['vitest.json', 'runner.log', 'invocation.json', ...(binding ? ['calls.jsonl', 'setup.mjs'] : []), 'config.mts']
+      const files = retainedFiles.map(file => { const bytes = readFileSync(join(priorDirectory, file)); writeFileSync(join(directory, file), bytes); return { file, sha256: hash(bytes) } })
+      write(join(directory, 'retained-parent.json'), { directory: priorDirectory, receiptSha256: hash(readFileSync(join(priorDirectory, 'receipt.json'))), files })
+      return { status: receipt.exitCode, signal: receipt.signal, error: receipt.error, stdout: readFileSync(join(directory, 'runner.log'), 'utf8'), stderr: '' }
+    })() : spawnSync(node, args, { cwd: source, encoding: 'utf8', env: { ...process.env, CI: 'true' }, timeout: options.timeoutMs ?? 120_000, maxBuffer: 16 * 1024 * 1024 })
     writeFileSync(join(directory, 'runner.log'), (child.stdout ?? '') + (child.stderr ?? ''))
     const native = existsSync(raw) ? read(raw) : undefined, callbacks: NativeCallback[] = native?.testResults?.flatMap((file: any) => file.assertionResults ?? []) ?? []
     const events: PublicCallEvent[] = existsSync(calls) ? readFileSync(calls, 'utf8').trim().split('\n').filter(Boolean).map(line => JSON.parse(line)) : []
@@ -103,14 +133,14 @@ export async function runPublicConformance(options: PublicConformanceOptions): P
     // is observed, but no actual public-call count is inferred.
     const snapshots = native?.snapshot
     if (snapshots && (snapshots.added || snapshots.updated || snapshots.filesAdded || snapshots.filesUpdated || snapshots.didUpdate)) throw Error('Original runner changed snapshots; conformance is blocked')
-    const complete = !child.error && !!native && !(native.numUnhandledErrors ?? 0) && !native.unhandledErrors?.length && native.testResults?.every((file: any) => !file.message || file.assertionResults?.length)
+    const complete = !child.error && child.signal === null && [0, 1].includes(child.status ?? -1) && !!native && !(native.numUnhandledErrors ?? 0) && !native.unhandledErrors?.length && native.testResults?.every((file: any) => !file.message || file.assertionResults?.length)
     const rows = reducePublicCallbacks(cases, callbacks, events, complete, !binding)
     const receipt = { mode: binding ? 'public-binding-original-assertions' : 'actual-original-control', exitCode: child.status, signal: child.signal, error: child.error ? String(child.error) : null, frameworkComplete: complete, rows, callbacks: callbacks.filter(row => cases.some(input => input.fullName === row.fullName)), originalSpecSha256: Object.fromEntries(publicParseFiles.map(file => [file, hash(readFileSync(join(source, file)))])), originalImplementationSha256: hash(readFileSync(implementation)), originalDetectorSha256: hash(readFileSync(detection)) }
     write(join(directory, 'receipt.json'), receipt)
     if (receipt.originalImplementationSha256 !== implementationSha256 || receipt.originalDetectorSha256 !== detectionSha256 || publicParseFiles.some(file => receipt.originalSpecSha256[file] !== inventory.files.find(item => item.path === file)!.sha256)) throw Error('Original source changed during conformance collection')
     return receipt
   }
-  const original = execute('original-control'), adaptedReference = execute('reference-public-binding', reference)
+  const original = execute('original-control', undefined, retained), adaptedReference = execute('reference-public-binding', reference, retained)
   const qualification = qualifyPublicReference(cases, original.rows, adaptedReference.rows)
   write(join(out, 'reference-qualification.json'), qualification)
   const targets: any[] = [], observations: BenchmarkObservation[] = []
@@ -128,13 +158,13 @@ export async function runPublicConformance(options: PublicConformanceOptions): P
 }
 
 if (import.meta.main) {
-  if (process.argv.includes('--help')) console.log('bun unified/public-conformance.ts --source PINNED_SOURCE --out FRESH_DIR [--bindings JSON_FILE --runner-root RUNTIME]\n--inventory-only writes every original declaration and the fixed public-parse scope without executing a parser. Otherwise native original callbacks and assertions execute unchanged, qualified against the original source runner. No drawing or speed score.')
+  if (process.argv.includes('--help')) console.log('bun unified/public-conformance.ts --source PINNED_SOURCE --out FRESH_DIR [--bindings JSON_FILE --runner-root RUNTIME --controls RETAINED_CONTROL_DIR]\n--inventory-only writes every original declaration and the fixed public-parse scope without executing a parser. Otherwise native original callbacks and assertions execute unchanged, qualified against the original source runner. No drawing or speed score.')
   else {
     const args = new Map<string, string>(); let inventoryOnly = false
-    for (let index = 2; index < process.argv.length; index++) { const key = process.argv[index]!; if (key === '--inventory-only') { inventoryOnly = true; continue }; const value = process.argv[++index]; if (!['--source', '--out', '--bindings', '--runner-root', '--node'].includes(key) || !value || args.has(key)) throw Error('Use --help'); args.set(key, value) }
+    for (let index = 2; index < process.argv.length; index++) { const key = process.argv[index]!; if (key === '--inventory-only') { inventoryOnly = true; continue }; const value = process.argv[++index]; if (!['--source', '--out', '--bindings', '--runner-root', '--node', '--controls'].includes(key) || !value || args.has(key)) throw Error('Use --help'); args.set(key, value) }
     const source = args.get('--source'), out = args.get('--out')
     if (!source || !out) throw Error('Use --help')
     if (inventoryOnly) { if (existsSync(out)) throw Error('Fresh output required'); mkdirSync(out, { recursive: true }); write(join(out, 'inventory.json'), inventoryPublicTests(source)) }
-    else { if (!args.get('--bindings')) throw Error('Explicit reviewed public bindings required'); console.log(JSON.stringify(await runPublicConformance({ source, out, bindings: read(args.get('--bindings')!), runnerRoot: args.get('--runner-root'), node: args.get('--node') }))) }
+    else { if (!args.get('--bindings')) throw Error('Explicit reviewed public bindings required'); console.log(JSON.stringify(await runPublicConformance({ source, out, bindings: read(args.get('--bindings')!), controlEvidence: args.get('--controls'), runnerRoot: args.get('--runner-root'), node: args.get('--node') }))) }
   }
 }

@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { replacePublicParseBody, replacePublicDetectBody, replacePublicRenderBody, expandPublicCallbacks, type PublicTestDeclaration } from '../unified/public-conformance-inventory.ts'
-import { qualifyPublicReference, reducePublicCallbacks, type PublicCallEvent } from '../unified/public-conformance.ts'
+import { qualifyPublicReference, reducePublicCallbacks, validateRetainedPublicControls, type PublicCallEvent } from '../unified/public-conformance.ts'
 import { bindPublicParse, bindPublicDetect, bindPublicRender } from '../unified/public-conformance-binding.mjs'
 import { useTempDirs } from './helpers/temp-dir.ts'
 const temp = useTempDirs('public-conformance-'), hash = (value: string) => createHash('sha256').update(value).digest('hex')
@@ -126,7 +126,7 @@ test('the structural render matrix preserves original callback bytes and freezes
   expect(new Set(render.map(input => input.callbackSha256)).size).toBe(1)
   expect(new Set(render.map(input => input.declarationId)).size).toBe(1)
   expect(new Set(render.map(input => input.fullName)).size).toBe(19)
-  expect(render.every(input => input.nativeRegistrationLine === 89 && input.parameter && input.fullName.includes(input.parameter))).toBe(true)
+  expect(render.every(input => input.nativeRegistrationLine === input.line && input.parameter && input.fullName.includes(input.parameter))).toBe(true)
   const declaration = { ...render[0]!, id: render[0]!.declarationId!, fullName: render[0]!.fullName.replace('classDiagram', '`${testedDiagram.textDiagramType}`') }
   expect(expandPublicCallbacks([declaration]).map(input => input.id)).toEqual(render.map(input => input.id))
   const original = 'const render=async function(id:string,text:string,svgContainingElement?:Element){return native(id,text,svgContainingElement)};const keep=1'
@@ -143,4 +143,14 @@ test('public render adaptation preserves the complete native SVG rather than man
   expect(events[0].returned.svg).toBe(svg)
   expect(events[0].inputMapping).toContain('no caller diagram-ID')
   expect(svg).not.toContain('chart-desc-caller-id')
+})
+
+test('retained original controls cannot change sources, parameters, host or public boundary to avoid rerunning', () => {
+  const original = { protocol: 'fixed', sourceCommit: 'pin', sourceConfigSha256: 'config', originalJsdomHelperSha256: 'host', implementationSha256: 'impl', detectionSha256: 'detect', runnerVersion: '3.2.7', runtimeQualification: { native: 'sealed' }, node: 'node', targets: [{ binding: { project: 'mermaid-js/mermaid' }, entrySha256: 'entry' }], producers: ['100644 blob digest\tunified/public-conformance-binding.mjs'] }
+  const inventory = { callbacks: cases }
+  expect(() => validateRetainedPublicControls(original, inventory, structuredClone(original), cases)).not.toThrow()
+  for (const key of ['protocol', 'sourceCommit', 'sourceConfigSha256', 'originalJsdomHelperSha256', 'implementationSha256', 'detectionSha256', 'runnerVersion', 'runtimeQualification', 'node']) expect(() => validateRetainedPublicControls(original, inventory, { ...original, [key]: 'changed' }, cases)).toThrow('identity differs')
+  expect(() => validateRetainedPublicControls(original, { callbacks: cases.slice(1) }, original, cases)).toThrow('inventory differs')
+  expect(() => validateRetainedPublicControls(original, inventory, { ...original, producers: [] }, cases)).toThrow('adapter changed')
+  expect(() => validateRetainedPublicControls(original, inventory, { ...original, targets: [] }, cases)).toThrow('artifact or binding differs')
 })

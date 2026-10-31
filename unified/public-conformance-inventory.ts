@@ -106,7 +106,7 @@ export function replacePublicDetectBody(source: string, expectedSha256: string) 
 export const publicRenderParameters = ['classDiagram', 'classDiagram-v2', 'erDiagram', 'graph', 'flowchart', 'gitGraph', 'gantt', 'journey', 'pie', 'packet', 'packet-beta', 'xychart-beta', 'xychart', 'requirementDiagram', 'sequenceDiagram', 'stateDiagram-v2', 'treeView-beta', 'radar-beta', 'architecture-beta'] as const
 export function expandPublicCallbacks(declarations: readonly PublicTestDeclaration[]): PublicTestDeclaration[] {
   return declarations.flatMap(input => input.publicOperation !== 'render' ? [{ ...input, declarationId: input.id }] : publicRenderParameters.map(parameter => ({
-    ...input, declarationId: input.id, id: input.id + '#parameter:' + parameter, parameter, nativeRegistrationLine: 89, fullName: input.fullName.replace('`${testedDiagram.textDiagramType}`', parameter),
+    ...input, declarationId: input.id, id: input.id + '#parameter:' + parameter, parameter, nativeRegistrationLine: input.line, fullName: input.fullName.replace('`${testedDiagram.textDiagramType}`', parameter),
     family: ({ classDiagram: 'class', 'classDiagram-v2': 'class', erDiagram: 'er', graph: 'flowchart', flowchart: 'flowchart', gitGraph: 'gitgraph', requirementDiagram: 'requirement', sequenceDiagram: 'sequence', 'stateDiagram-v2': 'state', 'treeView-beta': 'treeview', 'radar-beta': 'radar', 'architecture-beta': 'architecture', 'packet-beta': 'packet', 'xychart-beta': 'xychart' } as Record<string, string>)[parameter] ?? parameter,
   })))
 }

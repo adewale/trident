@@ -55,7 +55,12 @@ bun unified/public-conformance.ts --source PINNED_MERMAID_CHECKOUT \
 ```
 
 The source checkout and runtime must resolve the same original Vitest instance.
-`--inventory-only` needs no bindings and executes no parser.
+`--inventory-only` needs no bindings and executes no parser. `--controls DIR`
+reuses original/reference native reports and invocation events from a retained
+collection after verifying exact source, parameter, host, installed reference and
+public adapter identities. It regrades unchanged raw controls before invoking a
+peer. Original measurement provenance stays linked to that retained parent; an
+assessment repair does not invent another renderer invocation.
 
 ## What remains unqualified
 
