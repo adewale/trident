@@ -520,12 +520,22 @@ function architecture(r: LiteralReview) {
   return true
 }
 
+/** Bind the exact authored occurrence before a dialect removes its statement.
+ * Equal text elsewhere is not a substitute for this owner's formatting. */
+function ownLiteralMarkdown(r: LiteralReview, statement: string, owner: MeaningJson, from = 0) {
+  const offset = r.body.indexOf(statement, from), rows = r.expected.facts!['markdown-source-labels'] as any[] | undefined
+  if (offset < 0) { r.unresolved.push('Markdown owner source occurrence is unresolved: ' + statement); return from }
+  const matches = [...r.body.matchAll(/"`([\s\S]*?)`"/g)]
+  for (const [index, match] of matches.entries()) if (match.index! >= offset && match.index! < offset + statement.length && rows?.[index]) rows[index].owners = [...(rows[index].owners ?? []), owner]
+  return offset + statement.length
+}
+
 function hierarchy(r: LiteralReview) {
   if (!['treeview', 'mindmap'].includes(r.family)) return false
   const nodes: NonNullable<MeaningExpectation['nodes']> = [], edges: NonNullable<MeaningExpectation['edges']> = [], hierarchy: MeaningJson[] = [], stack: { indent: number; id: string }[] = [], decorations: MeaningJson[] = []
   const compound = statements(r.body), lines = r.family === 'mindmap' ? compound.values.slice(1) : r.lines.slice(1)
   // statements() deliberately trims; recover original indentation for mindmap's grammar.
-  const original = r.body.split(/\r?\n/).slice(1); let originalCursor = 0
+  const original = r.body.split(/\r?\n/).slice(1); let originalCursor = 0, markdownCursor = 0
   if (r.family === 'mindmap' && compound.unclosed && !r.lines.slice(1).every(line => /^\s*[\w.-]+\)\)?[\s\S]*?\(\(?\s*$/.test(line))) r.unresolved.push('Unclosed mindmap label')
   for (const text of lines) {
     let line = text
@@ -542,11 +552,13 @@ function hierarchy(r: LiteralReview) {
       const form = /^([\w.-]+)(\(\(|\[|\(|\{\{|\)\)|\))([\s\S]*?)(\)\)|\]|\)|\}\}|\(\(|\()$/.exec(label)
       if (form) { explicit = form[1]!; shape = ({ '((': 'circle', '[': 'rectangle', '(': 'rounded', '{{': 'hexagon', '))': 'bang', ')': 'cloud' } as Record<string, string>)[form[2]!]; label = form[3]! }
     }
+    const sourceLabel = label
     label = cleanLabel(label); const directory = r.family === 'treeview' && label.endsWith('/'); if (directory) label = label.slice(0, -1)
     while (stack.length && stack.at(-1)!.indent >= indent) stack.pop()
     const parent = stack.at(-1)?.id ?? '', id = explicit ?? (parent ? parent + '/' + label : label)
     if (nodes.some(node => node.id === id)) r.unresolved.push('Duplicate implicit hierarchical identity needs source disambiguation: ' + id)
     nodes.push({ id, label }); hierarchy.push({ id, parent, ...(r.family === 'treeview' ? { directory } : {}), ...(shape ? { shape } : {}) }); if (parent) edges.push({ source: parent, target: id, directed: false }); r.labels(label, annotation)
+    if (r.family === 'mindmap' && sourceLabel.startsWith('"`')) markdownCursor = ownLiteralMarkdown(r, sourceLabel, { kind: 'node', id }, markdownCursor)
     if (annotation || icon || classes) decorations.push({ id, ...(annotation ? { annotation } : {}), ...(icon ? { icon } : {}), ...(classes ? { classes } : {}) })
     stack.push({ indent, id })
   }
@@ -928,7 +940,7 @@ function flowchartDialects(r: LiteralReview) {
       continue
     }
     const note = /^note\s+for\s+([\w.-]+)\s+([\s\S]+)$/.exec(line)
-    if (note) { const text = cleanLabel(note[2]!); annotations.push({ target: note[1]!, text }); r.labels(text); continue }
+    if (note) { const text = cleanLabel(note[2]!); annotations.push({ target: note[1]!, text }); r.labels(text); if (note[2]!.startsWith('"`')) ownLiteralMarkdown(r, note[0], { kind: 'note', target: note[1]! }); continue }
     const actor = /^actor\s+/.test(line); if (actor) line = line.replace(/^actor\s+/, '')
     const stereotype = /\s*<<([^>]+)>>/.exec(line)
     if (stereotype) { const id = /^[\w.-]+/.exec(line)?.[0]; kinds.push({ id: id ?? '', kind: 'stereotype', value: stereotype[1]! }); r.labels(stereotype[1]!); line = line.replace(stereotype[0], '') }

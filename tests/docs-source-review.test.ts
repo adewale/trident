@@ -269,3 +269,11 @@ test('Mermaid named entities decode into their independently documented display 
   expect(review('sequenceDiagram\nA->>B: I #9829; you #infin; times more!').expected?.facts?.['message-order']).toEqual([{ from: 'A', to: 'B', text: 'I ♥ you ∞ times more!' }])
   expect(review('flowchart LR\nA["#quot;quoted#quot; &amp; #amp; #notAnEntity;"]').expected?.nodes).toEqual([{ id: 'A', label: '"quoted" & & #notAnEntity;' }])
 })
+
+test('dialect-owned Markdown binds exact note and mindmap occurrences before flow adaptation', () => {
+  const usecase = facts('usecase-beta\nA("`**same**`")\nnote for A "`**same**`"')
+  expect((usecase['markdown-source-labels'] as any[])[1].owners).toEqual([{ kind: 'note', target: 'A' }])
+  expect((usecase['markdown-source-labels'] as any[])[0].owners ?? []).not.toContainEqual({ kind: 'note', target: 'A' })
+  const mindmap = facts('mindmap\na["`**same**`"]\n  b["`**same**`"]')
+  expect((mindmap['markdown-source-labels'] as any[]).map(row => row.owners)).toEqual([[{ kind: 'node', id: 'a' }], [{ kind: 'node', id: 'b' }]])
+})
