@@ -44,6 +44,7 @@ test('missing geometry or unqualified scale cannot borrow the minimum or fit a r
 test('a mutated projection cannot lower the threshold or change the declared source metric',()=>{
   const geometry={width:700,height:600,pixelRatio:1,bounds:{left:199,top:200,right:500,bottom:400}}
   for(const change of [{requiredMinimum:199},{sourcePadding:199},{protocol:'forged'},{boundsPolicy:'fit-to-raster'},{pixelRatio:2},{sourceSemanticSha256:'0'.repeat(64)}])expect(inspectMinimumCanvasClearance({...projection,...change}as any,geometry).status).toBe('unknown')
+  expect(inspectMinimumCanvasClearance(null as any,geometry).status).toBe('unknown')
   const changed=structuredClone(projection)
   ;(changed.expected.facts!['minimum-canvas-clearance']as any).minimum=199
   expect(inspectMinimumCanvasClearance(changed,geometry).status).toBe('unknown')

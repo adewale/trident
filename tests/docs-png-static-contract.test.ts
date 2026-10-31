@@ -17,8 +17,8 @@ const reviews=reviewsJson as DocsDrawingReview[],inputs=JSON.parse(gunzipSync(re
 const legacyHash=(review:DocsDrawingReview)=>sourceHash(JSON.stringify({intent:review.intent,family:review.family,expected:review.expected,...(review.profileExpected?{profileExpected:review.profileExpected}:{}),...(review.expectedRejection?{expectedRejection:review.expectedRejection}:{}),unverifiedFacts:review.unverifiedFacts??[],...(review.sourceReview?{sourceReview:review.sourceReview}:{})}))
 const selected=reviews.find(row=>row.id.endsWith('flowchart.md:818'))!,input=inputs.find((row:any)=>row.id===selected.id)
 
-test('only the exact registered animation/ARIA contracts receive PNG-specific identities; SVG and native contracts remain complete',()=>{
-  expect(reviews.filter(row=>docsExpectationsHash(row)!==legacyHash(row)).map(row=>row.id)).toEqual(['flowchart.md:818','flowchart.md:832','flowchart.md:844','stateDiagram.md:399','stateDiagram.md:433','swimlanes.md:232','usecase.md:282','usecase.md:507','usecase.md:527'].map(suffix=>'packages/mermaid/src/docs/syntax/'+suffix))
+test('only exact registered animation/ARIA and minimum-clearance contracts receive PNG-specific identities; SVG and native contracts remain complete',()=>{
+  expect(reviews.filter(row=>docsExpectationsHash(row)!==legacyHash(row)).map(row=>row.id)).toEqual(['flowchart.md:818','flowchart.md:832','flowchart.md:844','stateDiagram.md:399','stateDiagram.md:433','swimlanes.md:232','treemap.md:133','usecase.md:282','usecase.md:507','usecase.md:527'].map(suffix=>'packages/mermaid/src/docs/syntax/'+suffix))
   for(const original of reviews.filter(row=>docsPngStaticProjection(row))){
     const before=JSON.stringify(original),projection=docsPngStaticProjection(original)!,stimulus=inputs.find((row:any)=>row.id===original.id),pngCase=reviewedDocsPngCase(stimulus,original),svgCase=reviewedDocsCase(stimulus,original)
     expect(JSON.stringify(original)).toBe(before)
@@ -27,6 +27,14 @@ test('only the exact registered animation/ARIA contracts receive PNG-specific id
     expect(pngCase.expected.nodes).toEqual(svgCase.expected.nodes)
     expect(pngCase.expected.edges).toEqual(svgCase.expected.edges)
     expect(pngCase.profileExpected).toEqual(original.profileExpected??original.expected)
+    if(projection.canvasClearance){
+      expect(projection.canvasClearance.requiredMinimum).toBe(200)
+      expect(pngCase.expected.facts!['minimum-canvas-clearance']).toEqual(projection.canvasClearance.expected.facts!['minimum-canvas-clearance'])
+      expect(pngCase.expected.facts!['authored-config']).toBeUndefined()
+      expect(svgCase.expected.facts!['authored-config']).toEqual({treemap:{diagramPadding:200}})
+      expect(projection.claim).toContain('Exact internal padding value is not inverse-inferred')
+      continue
+    }
     expect(projection.excludedTemporal.every(item=>['animate','animation','stroke-dashoffset'].includes(item.property))).toBe(true)
     expect(projection.claim).toContain('does not certify animation')
     expect(pngCase.expected.facts!['edge-attributes']).toBeUndefined()

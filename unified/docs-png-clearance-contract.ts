@@ -60,7 +60,7 @@ export interface OwnedCanvasGeometry {
 export function inspectMinimumCanvasClearance(projection:DocsPngClearanceProjection,actual:OwnedCanvasGeometry) {
   const diagnostic='minimum200px visible clearance; exact internal padding value not inverse-inferred'
   const registered=registry.cases.find(row=>row.id===sourceId)
-  const required=projection.expected?.facts?.['minimum-canvas-clearance'] as Record<string,unknown>|undefined
+  const required=projection?.expected?.facts?.['minimum-canvas-clearance'] as Record<string,unknown>|undefined
   if(!projection||projection.protocol!=='documentation-png-minimum-canvas-clearance-v1'||projection.sourcePadding!==200||projection.requiredMinimum!==200||projection.pixelRatio!==1||projection.boundsPolicy!=='owned-visible-geometry-excluding-stroke-outset'||projection.sourceSemanticSha256!==registered?.semanticSha256||required?.minimum!==200||required.unit!=='px-at-frozen-pixelRatio-1'||required.bounds!=='owned-visible-geometry-excluding-stroke-outset'||JSON.stringify(required.sides)!==JSON.stringify(['left','top','right','bottom']))return{status:'unknown' as const,diagnostic,reason:'Projection does not retain the exact registered200px minimum, bounds policy and frozen pixel ratio'}
   if(!actual||typeof actual!=='object'||!actual.bounds||typeof actual.bounds!=='object'||Array.isArray(actual.bounds))return{status:'unknown' as const,diagnostic,reason:'Missing independently owned canvas geometry'}
   const values=[actual.width,actual.height,actual.pixelRatio,actual.bounds.left,actual.bounds.top,actual.bounds.right,actual.bounds.bottom]

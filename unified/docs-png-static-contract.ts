@@ -4,6 +4,7 @@ import type {MeaningExpectation,MeaningJson,AuthoredFidelityCase} from '../fidel
 import {reviewedDocsCase,type DocsDrawingReview,type DocsInput} from './docs-drawings.ts'
 import {docsSourceSemanticHash} from './docs-source-admission.ts'
 import {requiredDocumentationObligations} from './docs-source-review.ts'
+import {docsPngClearanceProjection,type DocsPngClearanceProjection} from './docs-png-clearance-contract.ts'
 
 export const docsPngStaticProtocol='documentation-png-static-invariants-v1'
 const animatedIds=new Set([818,832,844].map(line=>'packages/mermaid/src/docs/syntax/flowchart.md:'+line))
@@ -16,6 +17,7 @@ export interface DocsPngStaticProjection {
   nativeProfileExpected:MeaningExpectation
   excludedTemporal:{owner:string;property:string;value:MeaningJson;reason:string}[]
   excludedMetadata?:{owner:string;property:string;value:MeaningJson;reason:string}[]
+  canvasClearance?:DocsPngClearanceProjection
   provenance:string[]
   claim:string
 }
@@ -24,6 +26,8 @@ export interface DocsPngStaticProjection {
  * Only the pinned registered animation/ARIA sources have a declared projection.
  * Unknown/custom syntax retains its full obligations. */
 export function docsPngStaticProjection(review:DocsDrawingReview):DocsPngStaticProjection|null{
+  const clearance=docsPngClearanceProjection(review)
+  if(clearance)return{protocol:docsPngStaticProtocol,sourceSemanticSha256:clearance.sourceSemanticSha256,originalExpectedSha256:clearance.originalExpectedSha256,expected:clearance.expected,nativeProfileExpected:clearance.nativeProfileExpected,excludedTemporal:[],excludedMetadata:[{owner:'diagram',property:'treemap.diagramPadding.exactInternalValue',value:200,reason:'The literal internal200 setting is retained in the original source/native/SVG contract. Extra public-adapter canvas margins prevent inverse-identifying it from PNG pixels; the required minimum200px effect remains explicit.'}],canvasClearance:clearance,provenance:clearance.provenance,claim:clearance.claim}
   const metadataKeys=['accessibility-title','accessibility-description'].filter(key=>Object.hasOwn(review.expected?.facts??{},key))
   if(!animatedIds.has(review.id)&&(!metadataKeys.length||!review.id.startsWith('packages/mermaid/src/docs/syntax/')))return null
   const entry=registry.cases.find(row=>row.id===review.id),semantic=docsSourceSemanticHash(review)
