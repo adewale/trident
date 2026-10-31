@@ -10,9 +10,10 @@ import { runExternalCommunity } from '../unified/community-external.ts'
 import { parseOptions } from '../unified/options.ts'
 import { verifyProvidedCommunityArtifact } from '../unified/community.ts'
 import type { CommunityArtifact } from '../unified/community-types.ts'
+import { InvocationJournal } from '../portable/invocation-journal.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 const temp = useTempDirs('trident-native-binding-')
-function fixture(settings: { delay?: number; pixelRatio?: number; startupExcluded?: boolean } = {}) {
+function fixture(settings: { delay?: number; pixelRatio?: number; startupExcluded?: boolean; perCallReceipts?: boolean } = {}) {
   const root = temp.dir(), bundle = join(root, 'bundle')
   mkdirSync(join(bundle, 'lib'), { recursive: true })
   writeFileSync(join(bundle, 'lib/libapp.so'), 'synthetic transport fixture, not a Flutter library')
@@ -27,6 +28,11 @@ const job=JSON.parse(fs.readFileSync(process.env.FLUTTER_COMMUNITY_JOB));const d
  const w=job.workloads[sequence];let row={sequence,workload:w.id,release:true};
  if(w.source.startsWith('This is deliberately')||w.source.includes('--> -->'))row={...row,status:'error',rejected:true,failureStage:'public-api',detail:'Synthetic source rejection'};
  else {const png=path.join(dir,'case-'+sequence+'.png');fs.writeFileSync(png,Buffer.from('${png}','base64'));row={...row,status:'ok',png,firstPng:png,firstMs:123,outputBytes:fs.statSync(png).size};}
+ if(${settings.perCallReceipts ?? false}){
+ const started={schema:'trident-invocation-evidence-v1',attemptId:job.invocationRunId+':'+sequence+':0',identity:w.invocationIdentity,state:'started',startedAt:new Date().toISOString(),finishedAt:null,recordedAt:new Date().toISOString(),durationMs:null,output:null,detail:'Synthetic scheduled native call'};
+ const ledger=path.join(dir,'public-invocations.jsonl'),append=value=>{const fd=fs.openSync(ledger,'a');fs.writeSync(fd,JSON.stringify(value)+'\\n');fs.fsyncSync(fd);fs.closeSync(fd)};
+ append(started);append({...started,state:row.status==='ok'?'returned':'public-error',durationMs:1,finishedAt:new Date().toISOString(),recordedAt:new Date().toISOString(),...(row.status==='ok'?{outputPath:row.png,outputBytes:row.outputBytes}:{}),detail:'Synthetic actual native outcome'});
+ }
  fs.appendFileSync(process.env.FLUTTER_COMMUNITY_RAW,JSON.stringify(row)+'\\n');
  while(!fs.existsSync(path.join(dir,'ack-'+sequence)))await new Promise(r=>setTimeout(r,5));
 }})().catch(e=>{console.error(e);process.exitCode=1});
@@ -89,3 +95,14 @@ test('native runtime facts may follow an empty startup ledger but must match cla
     expect(rows[0]!.status).toBe(settings.delay ? 'passed' : 'blocked')
   }
 }, 15_000)
+
+
+test('a native error receipt remains one real attempt instead of gaining a bridge-created phantom call', async () => {
+  const { root, bundle } = fixture({ perCallReceipts: true }), artifact = nativePngArtifact(bundle, join(root, 'launch.json')) as CommunityArtifact
+  const rows = await runExternalCommunity({ node: { id: 'fixture/native', outputs: ['png'], roles: ['renderer'] }, artifact }, [{ id: 'invalid', family: 'flowchart', source: 'graph LR; --> -->', features: [], intent: 'negative-admission', provenance: 'Synthetic per-call error ownership control' }], 'png', 1, parseOptions(['--out', join(root, 'job'), '--profile', 'smoke']))
+  const frames = new InvocationJournal(rows[0]!.metrics!.invocationDirectory as string).records()
+  expect(frames.filter(frame => frame.state === 'started')).toHaveLength(1)
+  expect(frames.filter(frame => frame.state === 'public-error')).toHaveLength(1)
+  expect(new Set(frames.map(frame => frame.attemptId)).size).toBe(1)
+  expect(rows[0]!.metrics!.invocationId).toBe(frames[0]!.attemptId)
+})

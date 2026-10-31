@@ -21,9 +21,9 @@ const raw=path.join(dir,'raw.jsonl');
 const fd=fs.openSync(resultPath,'wx');let emitted=0;
 const invocationFd=fs.openSync(resultPath+'.invocations.jsonl','wx');
 const journal=new InvocationJournal(resultPath+'.invocations');
-const invocationByCase=new Map(),writtenFrames=new Set();
+const invocationByCase=new Map(),outcomeByCase=new Map(),writtenFrames=new Set();
 const identities=new Map(job.workloads.map(w=>[w.id,w.invocationIdentity]));
-function nativeReceipts(){for(const frame of recoverNativeInvocations(resultPath,identities,journal)){const key=frame.attemptId+':'+frame.state;if(!writtenFrames.has(key)){fs.writeSync(invocationFd,JSON.stringify(frame)+'\n');fs.fsyncSync(invocationFd);writtenFrames.add(key);}if(frame.state==='returned'&&!invocationByCase.has(frame.identity.caseId))invocationByCase.set(frame.identity.caseId,frame);}}
+function nativeReceipts(){for(const frame of recoverNativeInvocations(resultPath,identities,journal)){const key=frame.attemptId+':'+frame.state;if(!writtenFrames.has(key)){fs.writeSync(invocationFd,JSON.stringify(frame)+'\n');fs.fsyncSync(invocationFd);writtenFrames.add(key);}if(frame.state!=='started'&&!outcomeByCase.has(frame.identity.caseId))outcomeByCase.set(frame.identity.caseId,frame);if(frame.state==='returned'&&!invocationByCase.has(frame.identity.caseId))invocationByCase.set(frame.identity.caseId,frame);}}
 function capture(w,bytes,durationMs,detail){
  const sha256=evidenceBytesDigest(bytes),outputPath=path.join(journal.directory,'outputs',sha256);
  writeDurableEvidence(outputPath,bytes);
@@ -62,8 +62,9 @@ function collect(){
    if(!q.ok||!first.ok){r.rejected=false;r.detail=[...first.findings,...q.findings].join('; ');}
   }
   if(!r.invocationId){
-   const frame=journal.adopt(admitInvocationEvidence({schema:'trident-invocation-evidence-v1',attemptId:randomUUID(),identity:w.invocationIdentity,state:r.failureStage==='public-api'?'public-error':'interrupted',startedAt:null,finishedAt:null,recordedAt:new Date().toISOString(),durationMs:null,output:null,detail:r.detail??'Native worker stopped without a returned artifact'}));
-   fs.writeSync(invocationFd,JSON.stringify(frame)+'\n');fs.fsyncSync(invocationFd);r.invocationId=frame.attemptId;r.measuredAt=null;
+   const known=outcomeByCase.get(w.id);
+   const frame=known??journal.adopt(admitInvocationEvidence({schema:'trident-invocation-evidence-v1',attemptId:randomUUID(),identity:w.invocationIdentity,state:r.failureStage==='public-api'?'public-error':'interrupted',startedAt:null,finishedAt:null,recordedAt:new Date().toISOString(),durationMs:null,output:null,detail:r.detail??'Native worker stopped without a returned artifact'}));
+   if(!known){fs.writeSync(invocationFd,JSON.stringify(frame)+'\n');fs.fsyncSync(invocationFd);}r.invocationId=frame.attemptId;r.measuredAt=frame.finishedAt;
   }
   fs.writeSync(fd,JSON.stringify(r)+'\n');fs.fsyncSync(fd);
   fs.writeFileSync(path.join(dir,`ack-${r.sequence}`),'qualified\n',{flag:'wx'});
