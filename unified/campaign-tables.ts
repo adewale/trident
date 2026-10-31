@@ -1,3 +1,4 @@
+import { documentationPopulation, documentationDrawingScore } from './docs-population.ts'
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -188,27 +189,36 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             ['Version', 'Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed', 'Planned', 'Measured'], project,
             [String(version), counts.passed, counts.failed, counts.unsupported, counts.blocked, counts.missing, counts.partial, inventory.cases.length, measuredAt(own, result.finishedAt)],
             { column: 'Returned in all rounds', denominator: 'Planned', direction: 'descending' },
-            { outputFormat: format as 'svg' | 'png', comparisonKey: hash(['docs', ...laneKey, cohort, laneProtocol, inventory.pin ?? null, inventory.cases, report.rounds]), unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed'] }, ...(candidate ? { artifactRole: 'candidate' } : format === 'svg' ? { overview: { numerator: 'Returned in all rounds', denominator: 'Planned', suffix: '%' } } : {}) }, unrankedReason)
-          const drawings = own.filter(row => row.operation === 'drawing-checks')
+            { outputFormat: format as 'svg' | 'png', comparisonKey: hash(['docs', ...laneKey, cohort, laneProtocol, inventory.pin ?? null, inventory.cases, report.rounds]), unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed'] }, ...(candidate ? { artifactRole: 'candidate' } : {}) }, unrankedReason)
+          const population = documentationPopulation(inventory.cases, inventory.drawingReview?.cases), drawings = own.filter(row => row.operation === 'drawing-checks' && population.drawings.has(row.caseId))
+          if (population.invalid.size) {
+            const controls = own.filter(row => row.operation === 'source-rejection' && population.invalid.has(row.caseId))
+            if (new Set(controls.map(row => row.caseId)).size !== controls.length) throw Error('Duplicate invalid-source controls')
+            const passed = controls.filter(row => row.status === 'passed').length, failed = controls.filter(row => row.status === 'failed').length
+            add(['docs-source-controls', ...laneKey, cohort, hash(inventory.cases), hash(inventory.drawingReview ?? null)], 'docs', measuredAt(controls, result.finishedAt),
+              `Corpus: ${population.invalid.size} invalid-source documentation example(s), retained verbatim in the ${inventory.cases.length}-occurrence inventory. A source-bound typed native rejection passes; an actual public return fails. Generic exceptions and missing evidence remain unknown.`,
+              ['Version', 'Correct rejection', 'Accepted invalid source', 'Unknown', 'Planned controls', 'Measured'], project,
+              [String(version), passed, failed, population.invalid.size - passed - failed, population.invalid.size, measuredAt(controls, result.finishedAt)],
+              { column: 'Correct rejection', direction: 'descending' }, { outputFormat: format as 'svg' | 'png', unit: 'invalid-source controls', population: { total: 'Planned controls', outcomes: ['Correct rejection', 'Accepted invalid source', 'Unknown'] } }, passed + failed ? undefined : 'No qualified source-control observation')
+          }
           if (drawings.length) {
             if (new Set(drawings.map(row => row.caseId)).size !== drawings.length || drawings.some(row => !inventory.cases.some((input: any) => input.id === row.caseId))) throw Error('Documentation drawing observations do not match the inventory')
-            const correct = drawings.filter(row => row.status === 'passed').length, incorrect = drawings.filter(row => row.status === 'failed').length, notDrawing = drawings.filter(row => row.status === 'not-applicable').length
-            const unknown = inventory.cases.length - correct - incorrect - notDrawing
+            const { correct, incorrect, unknown } = documentationDrawingScore(own, population)
             add(['docs-drawings', ...laneKey, cohort, hash(inventory.cases), hash(inventory.drawingReview ?? null), hash(inventory.producers ?? []), ...(format === 'png' ? [inventory.pngReviewSha256 ?? null] : [])], 'docs', measuredAt(drawings, result.finishedAt),
-              `Corpus: the same pinned Mermaid documentation inventory. First-round actual ${format.toUpperCase()} witnesses checked against source expectations. ${format === 'svg' ? 'Shared SVG paint/meaning observer.' : 'PNG content reviews bind actual image, source and expected-fact hashes; SVG and nonblank checks supply no raster correctness credit.'} Rank counts verified correct drawings; unknown sources/observers remain visible, and full accuracy and speed are unqualified.`,
-              ['Version', 'Correct', 'Incorrect', 'Unknown', 'Not a drawing', 'Planned', 'Measured'], project,
-              [String(version), correct, incorrect, unknown, notDrawing, inventory.cases.length, measuredAt(drawings, result.finishedAt)],
+              `Corpus: the same pinned Mermaid documentation inventory. First-round actual ${format.toUpperCase()} witnesses checked against source expectations. ${format === 'svg' ? 'Shared SVG paint/meaning observer.' : 'PNG content reviews bind actual image, source and expected-fact hashes; SVG and nonblank checks supply no raster correctness credit.'} Rank counts verified correct drawings out of ${population.drawings.size}; ${population.configuration} configuration example(s) and ${population.invalid.size} independently invalid-source control(s) are separate. Unknown sources/observers remain visible. Complete accuracy requires zero unknowns; speed requires its own qualified timing evidence.`,
+              ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned drawings', 'Measured'], project,
+              [String(version), correct, incorrect, unknown, population.drawings.size, measuredAt(drawings, result.finishedAt)],
               { column: 'Correct', direction: 'descending' },
-              { outputFormat: format as 'svg' | 'png', unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unknown', 'Not a drawing'] } }, correct + incorrect === 0 ? 'No verified drawing-content observations' : undefined)
+              { outputFormat: format as 'svg' | 'png', summary: true, overview: { numerator: 'Correct', denominator: 'Planned drawings', suffix: '' }, unit: 'documentation drawings', population: { total: 'Planned drawings', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, correct + incorrect === 0 ? 'No verified drawing-content observations' : undefined)
             const reviewedIds = new Set((inventory.drawingReview?.cases ?? []).filter((input: any) => input.registeredProfileEligible ?? input.intent === 'drawing').map((input: any) => input.id))
-            if (reviewedIds.size) {
+            if (reviewedIds.size && reviewedIds.size < population.drawings.size) {
               const subset = drawings.filter(row => reviewedIds.has(row.caseId)), passed = subset.filter(row => row.status === 'passed').length, failed = subset.filter(row => row.status === 'failed').length, missing = reviewedIds.size - passed - failed
               add(['docs-reviewed-profile', ...laneKey, cohort, hash(inventory.drawingReview), hash(inventory.producers ?? []), ...(format === 'png' ? [inventory.pngReviewSha256 ?? null] : [])], 'docs', measuredAt(subset, result.finishedAt),
                 `Corpus: reviewed ${reviewedIds.size}-occurrence subset of ${inventory.cases.length} Mermaid documentation occurrences, bound to exact source hashes; ${format.toUpperCase()} lane. This development-exposed profile ranks verified correct counts and keeps unresolved observations explicit. It supplies no full DaveBench accuracy, holdout or speed claim.`,
                 ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned reviewed', 'Measured'], project,
                 [String(version), passed, failed, missing, reviewedIds.size, measuredAt(subset, result.finishedAt)],
                 { column: 'Correct', denominator: 'Planned reviewed', direction: 'descending' },
-                { summary: true, outputFormat: format as 'svg' | 'png', overview: { numerator: 'Correct', denominator: 'Planned reviewed', suffix: '' }, unit: 'reviewed documentation occurrences', population: { total: 'Planned reviewed', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, passed + failed === 0 ? 'No verified drawing-content observations' : undefined)
+                { outputFormat: format as 'svg' | 'png', unit: 'reviewed documentation occurrences', population: { total: 'Planned reviewed', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, passed + failed === 0 ? 'No verified drawing-content observations' : undefined)
             }
           }
           }

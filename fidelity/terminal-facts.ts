@@ -1,3 +1,7 @@
+import { inspectTerminalGraphFacts, terminalGraphSourceObservable } from './terminal-graph-facts.ts'
+import { inspectTerminalClass, terminalClassSourceObservable } from './terminal-class.ts'
+import { inspectTerminalState, terminalStateSourceObservable } from './terminal-state.ts'
+import { inspectTerminalFamilyFacts, terminalFamilySourceObservable } from './terminal-family-facts.ts'
 import { terminalAuthoredLinesObserved } from './terminal-text.ts'
 import { inspectTerminalEr, terminalErSourceObservable } from './terminal-er.ts'
 import { inspectTerminalGrouping } from './terminal-groups.ts'
@@ -13,6 +17,11 @@ export interface TerminalFactCheck { criterion: string; status: 'passed' | 'fail
 /** Each source obligation receives a disposition. A missing family/representation
  * checker is an unknown, never an omitted obligation or a text-only pass. */
 export function inspectTerminalFacts(output: string, contract: TerminalSourceContract, graph?: TerminalMeaning): TerminalFactCheck[] {
+  if (contract.family === 'flowchart' && graph?.nodes.length) return inspectTerminalGraphFacts(output, contract, graph)
+  if (contract.family === 'class') return inspectTerminalClass(output, contract)
+  if (contract.family === 'state') return inspectTerminalState(output, contract)
+  const family = inspectTerminalFamilyFacts(output, contract)
+  if (family) return family
   if (contract.family === 'er') return inspectTerminalEr(output, contract).checks
   if (contract.family === 'sequence') return inspectTerminalSequence(output, contract)
   const display = interpretTerminal(output)
@@ -115,6 +124,10 @@ export function inspectTerminalFacts(output: string, contract: TerminalSourceCon
 /** This controls a labelled diagnostic subset only. It never removes a source
  * from the full drawing inventory or supplies any output pass. */
 export function terminalSourceObservable(contract: TerminalSourceContract, graph?: TerminalMeaning) {
+  if (contract.family === 'flowchart' && graph?.nodes.length) return terminalGraphSourceObservable(contract, graph)
+  if (contract.family === 'class') return terminalClassSourceObservable(contract)
+  if (contract.family === 'state') return terminalStateSourceObservable(contract)
+  if (terminalFamilySourceObservable(contract)) return true
   if (contract.sourceUncertainties.length) return false
   const supported = contract.family === 'flowchart' ? ['nodes', 'relationships', 'layout-order', 'node-shapes', 'node-line-breaks', 'groups'] : contract.family === 'pie' ? ['title', 'slice-values'] : contract.family === 'journey' ? ['title', 'journey-tasks'] : contract.family === 'timeline' ? ['title', 'timeline-periods'] : contract.family === 'sequence' ? ['participants', 'ordered-messages', 'owned-notes', 'fragments'] : contract.family === 'kanban' ? ['kanban-hierarchy'] : contract.family === 'class' ? ['class-bodies', 'class-relations'] : contract.family === 'er' ? ['entity-bodies', 'entity-relations'] : contract.family === 'state' ? ['states', 'transitions'] : []
   if (contract.facts.some(fact => fact.required !== false && !supported.includes(fact.criterion))) return false

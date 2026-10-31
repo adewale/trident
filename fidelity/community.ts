@@ -20,10 +20,7 @@ import { stableValue } from '../portable/project-records.ts'
 import type { BenchmarkObservation, UnifiedSuiteResult } from '../unified/types.ts'
 import { publicSvgBrowserAction } from '../unified/public-svg-browser.ts'
 import { planFidelityCriteria, completeCriterionLedger } from './ledger.ts'
-import { inspectFidelityPaint } from './paint.ts'
-import { inspectQuantitativePaint } from './paint-values.ts'
-import { inspectSourceFacts, mergePaintChecks } from './paint-facts.ts'
-import { inspectChartFacts } from './paint-chart-facts.ts'
+import { inspectSvgDrawing } from './inspect-svg.ts'
 import { expandedFidelityCases } from './cases.ts'
 import { reviewedFontSizePath } from '../portable/configuration.ts'
 import { assessSvgCases, summarizeSvgCases, makeSvgCaseContract } from './svg-assessment.ts'
@@ -188,12 +185,8 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
               details.svgEvidence = { path: svgPath, encoding: 'gzip', bytes: Buffer.byteLength(result.svg), sha256: createHash('sha256').update(result.svg).digest('hex'), scope: 'Lossless actual public SVG output, never an input/corpus digest' }
               if (observer.isClosed()) { observer = await context.newPage(); await observer.goto(origin + '/observer') }
               await observer.setContent(result.svg); await observer.evaluate(() => { document.body.style.margin = '0'; document.body.style.background = '#fff' })
-              const paint = await bounded<any>(observer.evaluate(inspectFidelityPaint, { family: testCase.family, expected: testCase.expected, paint: testCase.paint }), () => { void observer.close().catch(() => {}) })
+              const paint = await bounded(inspectSvgDrawing(observer, { family: testCase.family, expected: testCase.expected, source: testCase.source, paint: testCase.paint }), () => { void observer.close().catch(() => {}) })
               for (const item of paint.checks) { const unavailableOption = item.criterion === 'computed-authored-font-size' && !capabilities.fontOptions; add(testCase, 'browser-owned-ink', item.criterion, unavailableOption ? 'unavailable' : item.status, item.actual, item.expected, unavailableOption ? 'This prepared public adapter has no reviewed font-size option mapping; default matching font sizes do not earn configuration credit' : item.scope) }
-              const quantitative = await bounded<any>(observer.evaluate(inspectQuantitativePaint, { family: testCase.family, expected: testCase.expected, source: testCase.source, labelRepresentation: paint.labelRepresentation, nodes: paint.nodes }), () => { void observer.close().catch(() => {}) })
-              const facts = await bounded<any>(observer.evaluate(inspectSourceFacts, { family: testCase.family, source: testCase.source, expected: testCase.expected, paint, quantitative }), () => { void observer.close().catch(() => {}) })
-              const chartFacts = await bounded<any>(observer.evaluate(inspectChartFacts, { family: testCase.family, source: testCase.source, expected: testCase.expected, paint, quantitative }), () => { void observer.close().catch(() => {}) })
-              for (const item of mergePaintChecks(quantitative, facts, chartFacts)) add(testCase, 'browser-owned-ink', item.criterion, item.status, item.actual, item.expected, item.scope)
               if ((options.communityFidelityPng ?? 'basic-families') !== 'none' && testCase.id.startsWith('meaning:family:') && !testCase.id.includes(':configuration-reset') && await observer.locator('svg').count() > 0) {
                 const pngPath = join(directory, stem + '.png'); try { await observer.locator('svg').first().screenshot({ path: pngPath, timeout: 10_000 }); artifacts.push(pngPath) } catch (error) { details.screenshotError = String(error) }
               }

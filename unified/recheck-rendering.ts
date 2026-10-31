@@ -1,3 +1,4 @@
+import { assessDocsInvalidSource, docsPublicRejection } from './docs-invalid-source.ts'
 import { createHash } from 'node:crypto'
 import { cpSync, existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
 import { dirname, isAbsolute, join, relative, resolve } from 'node:path'
@@ -9,10 +10,9 @@ import { expandedFidelityCases } from '../fidelity/cases.ts'
 import { completeCriterionLedger, planFidelityCriteria } from '../fidelity/ledger.ts'
 import type { AuthoredFidelityCase } from '../fidelity/meaning.ts'
 import type { BenchmarkObservation } from './types.ts'
-import { inspectFidelityPaint, type PaintCheck } from '../fidelity/paint.ts'
-import { inspectQuantitativePaint } from '../fidelity/paint-values.ts'
-import { inspectSourceFacts, mergePaintChecks } from '../fidelity/paint-facts.ts'
-import { inspectChartFacts } from '../fidelity/paint-chart-facts.ts'
+import type { PaintCheck } from '../fidelity/paint.ts'
+import { inspectSvgDrawing } from '../fidelity/inspect-svg.ts'
+import { retainedLegacyNativePngContext, requireLegacyNativePngOwnership } from './docs-png-legacy.ts'
 import { evidenceDigest } from '../portable/evidence-contract.ts'
 import { assessSvgCases, summarizeSvgCases, makeSvgObservationBinding, type SvgEvidenceBinding } from '../fidelity/svg-assessment.ts'
 import { admitDocsReviews, assessDocsDrawing, reviewedDocsCase, type DocsDrawingReview } from './docs-drawings.ts'
@@ -168,14 +168,25 @@ export async function recheckRendering(directory: string, out: string, pngReview
     await page.goto('http://trident.invalid/observer')
     await page.setContent(svg, { waitUntil: 'domcontentloaded', timeout: 20_000 })
     await withDocsDeadline(() => page.evaluate(async () => { await document.fonts.ready }), () => { void page.close().catch(() => {}) })
-    const paint = await withDocsDeadline(() => page.evaluate(inspectFidelityPaint, { family: input.family, expected: input.expected, paint: input.paint }), () => { void page.close().catch(() => {}) })
-    const quantitative = await withDocsDeadline(() => page.evaluate(inspectQuantitativePaint, { family: input.family, expected: input.expected, source: input.source, labelRepresentation: paint.labelRepresentation, nodes: paint.nodes as NonNullable<Parameters<typeof inspectQuantitativePaint>[0]['nodes']> }), () => { void page.close().catch(() => {}) })
-    const facts = await withDocsDeadline(() => page.evaluate(inspectSourceFacts, { family: input.family, source: input.source, expected: input.expected, paint, quantitative }), () => { void page.close().catch(() => {}) })
-    const charts = await withDocsDeadline(() => page.evaluate(inspectChartFacts, { family: input.family, source: input.source, expected: input.expected, paint, quantitative }), () => { void page.close().catch(() => {}) })
+    const paint = await withDocsDeadline(() => inspectSvgDrawing(page, { family: input.family, expected: input.expected, source: input.source, paint: input.paint }), () => { void page.close().catch(() => {}) })
     if (resourceGaps.length) throw Error('Observer prerequisites unavailable: ' + resourceGaps.join('; '))
-    return mergePaintChecks(paint.checks, quantitative, facts, charts)
+    return paint.checks
   }
   let docsChecked = 0, featureChecked = 0, docsSvgOwnership: ReturnType<typeof retainedDocsSvgOwnershipContext> | undefined
+  let legacyPngOwnership: ReturnType<typeof retainedLegacyNativePngContext> | undefined
+  const ownPng = (row: any, input: any, bytes: Uint8Array) => {
+    const pngRoot = join(out, 'docs/png')
+    if (row.metrics.project === 'pub:mermaid_flutter' && typeof row.metrics.rawInvocationId !== 'string') {
+      legacyPngOwnership ??= retainedLegacyNativePngContext(out, pngRoot, remap)
+      return requireLegacyNativePngOwnership({ context: legacyPngOwnership, project: row.metrics.project, round: Number(row.metrics.round), source: input, actualPng: bytes })
+    }
+    const transportFile = join(pngRoot, 'transport-' + encodeURIComponent(row.metrics.project) + '-r' + Number(row.metrics.round) + '.json'), transport = existsSync(transportFile) ? read(transportFile) : []
+    if (!Array.isArray(transport)) throw Error('PNG transport receipt is malformed')
+    const own = transport.filter((entry: any) => entry.caseId === input.id && entry.metrics?.rawInvocationId === row.metrics.rawInvocationId)
+    if (own.length > 1) throw Error('PNG transport invocation ownership is ambiguous')
+    const directory = own[0]?.metrics?.rawInvocationDirectory, journalDirectory = typeof directory === 'string' ? remap(directory) : undefined
+    return requireRetainedPngOwnership({ root: pngRoot, project: row.metrics.project, round: Number(row.metrics.round), source: input, actualPng: bytes, attemptId: typeof row.metrics.rawInvocationId === 'string' ? row.metrics.rawInvocationId : undefined, journalDirectory })
+  }
   try {
     for (const boundary of report.results) {
       if (!boundary.out) continue
@@ -186,26 +197,19 @@ export async function recheckRendering(directory: string, out: string, pngReview
       mkdirSync(join(out, 'recheck-history/results'), { recursive: true })
       cpSync(source, join(out, 'recheck-history/results', originalSha256 + '.json'), { recursive: false })
       if (boundary.suite === 'docs') {
+        const controls: BenchmarkObservation[] = []
+        result.observations = result.observations.filter((row: any) => row.operation !== 'source-rejection')
         for (const row of result.observations) {
           if (row.operation !== 'drawing-checks') continue
           const input = docsInventory.cases.find((item: any) => item.id === row.caseId), expected = sourceReviews.find(item => item.id === row.caseId) ?? null
           if (!input) throw Error('Retained drawing observation has no declared documentation input')
           const witness = row.metrics?.witness ? safe(join(out, 'docs'), row.metrics.witness, out) : undefined
-          let assessment: any
+          let assessment: any, ownedInvalidReturn = false
           if (row.format === 'png') {
             const bytes = witness && existsSync(witness) ? readRetainedPng(join(out, 'docs'), row.metrics.witness) : undefined
             assessment = assessDocsPng(input, expected, bytes, pngReviews)
-            if (assessment.status === 'correct' && bytes) {
-              try {
-                const pngRoot = join(out, 'docs/png'), transportFile = join(pngRoot, 'transport-' + encodeURIComponent(row.metrics.project) + '-r' + Number(row.metrics.round) + '.json')
-                const transport = existsSync(transportFile) ? read(transportFile) : []
-                if (!Array.isArray(transport)) throw Error('PNG transport receipt is malformed')
-                const own = transport.filter((entry: any) => entry.caseId === input.id && entry.metrics?.rawInvocationId === row.metrics.rawInvocationId)
-                if (own.length > 1) throw Error('PNG transport invocation ownership is ambiguous')
-                const directory = own[0]?.metrics?.rawInvocationDirectory
-                const journalDirectory = typeof directory === 'string' ? remap(directory) : undefined
-                assessment = { ...assessment, publicReturn: requireRetainedPngOwnership({ root: pngRoot, project: row.metrics.project, round: Number(row.metrics.round), source: input, actualPng: bytes, attemptId: typeof row.metrics.rawInvocationId === 'string' ? row.metrics.rawInvocationId : undefined, journalDirectory }) }
-              }
+            if ((['correct', 'incorrect'].includes(assessment.status) || expected?.intent === 'invalid-source') && bytes) {
+              try { assessment = { ...assessment, publicReturn: ownPng(row, input, bytes) }; ownedInvalidReturn = expected?.intent === 'invalid-source' }
               catch (error) { assessment = { status: 'unknown', reason: 'Reviewed image lacks its owning raw PNG return: ' + String(error) } }
             }
             if (assessment.status === 'unknown' && raster && expected?.intent === 'drawing' && bytes && row.metrics?.transport === 'svg-conversion') {
@@ -222,22 +226,29 @@ export async function recheckRendering(directory: string, out: string, pngReview
               } catch (error) { assessment = { status: 'unknown', reason: 'Retained conversion proof did not complete: ' + String(error), originalContentAssessment: assessment } }
             }
           }
-          else if (expected?.intent === 'drawing' && witness && existsSync(witness)) {
+          else if (['drawing', 'invalid-source'].includes(expected?.intent ?? '') && witness && existsSync(witness)) {
             const svg = gunzipSync(readFileSync(witness)).toString('utf8')
             if (witness.split('/').at(-1) !== hash(svg) + '.svg.gz') throw Error('Retained SVG content hash differs')
-            const authored = reviewedDocsCase(input, expected)
-            const admission = qualifyOutput({ id: input.id, family: authored.family, source: input.source, expectedLabels: authored.expected.labels, features: [], provenance: expected.review }, svg, 'svg')
             try {
               docsSvgOwnership ??= retainedDocsSvgOwnershipContext(out)
               const publicReturn = requireRetainedDocsSvgReturn({ root: join(out, 'docs'), project: row.metrics.project, source: input, round: Number(row.metrics.round), variant: row.metrics.variant ?? 'primary', svg, attemptId: row.metrics.rawInvocationId, remap, ownership: docsSvgOwnership })
-              assessment = { ...assessDocsDrawing(input, expected, 'passed', admission.unavailable ? 'unavailable' : admission.ok, await inspect(row.metrics.project, svg, authored), makeSvgObservationBinding(authored, hash(svg), observerSha256)), publicReturn }; docsChecked++
+              if (expected?.intent === 'invalid-source') { ownedInvalidReturn = true; assessment = { ...assessDocsDrawing(input, expected, 'passed', false, []), publicReturn } }
+              else {
+                const authored = reviewedDocsCase(input, expected!), admission = qualifyOutput({ id: input.id, family: authored.family, source: input.source, expectedLabels: authored.expected.labels, features: [], provenance: expected!.review }, svg, 'svg')
+                assessment = { ...assessDocsDrawing(input, expected, 'passed', admission.unavailable ? 'unavailable' : admission.ok, await inspect(row.metrics.project, svg, authored), makeSvgObservationBinding(authored, hash(svg), observerSha256)), publicReturn }; docsChecked++
+              }
             }
             catch (error) { assessment = { status: 'unknown', reason: 'Retained SVG observer did not complete: ' + String(error) } }
           } else assessment = assessDocsDrawing(input, expected, 'blocked', false, [])
           row.metrics = { ...row.metrics, originalDrawingStatus: row.status, recheckedAt: began }
           row.status = assessment.status === 'correct' ? 'passed' : assessment.status === 'incorrect' ? 'failed' : assessment.status === 'not-applicable' ? 'not-applicable' : 'blocked'
           row.detail = JSON.stringify(assessment)
+          if (expected?.intent === 'invalid-source') {
+            const rejection = docsPublicRejection(input, ownedInvalidReturn), control = assessDocsInvalidSource(input, expected, rejection)
+            controls.push({ suite: 'docs', surface: 'public:source-control', runtime: 'retained owning return', family: input.family, caseId: input.id, operation: 'source-rejection', format: row.format, mode: 'reviewed-first-round-control', status: control.status === 'correct' ? 'passed' : control.status === 'incorrect' ? 'failed' : 'blocked', detail: JSON.stringify(control), metrics: { ...row.metrics, sourceSha256: rejection.sourceSha256, rejectionEvidence: JSON.stringify(rejection) } })
+          }
         }
+        result.observations.push(...controls)
         // Fresh grades cannot keep the old source/observer comparison identity.
         // The owning preparation/context remains untouched for raw-call replay.
         const updatedInventory = { ...docsInventory, drawingReview: { protocol: 'reviewed-docs-svg-content-v1', sha256: hash(sourceReviewBytes), cases: drawingInventory, observerSha256 }, pngReviewSha256: hash(pngBytes), drawingObserver: producer }

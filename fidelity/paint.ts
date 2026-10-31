@@ -1,9 +1,11 @@
 import type { MeaningExpectation, PaintExpectation } from './meaning.ts'
+import { plannedGraphFamilyCriteria } from './paint-graph-families.ts'
 
 export interface PaintCheck { criterion: string; status: 'passed' | 'failed' | 'unavailable'; expected: unknown; actual: unknown; scope: string }
 export interface PaintedTextLines { owner: Record<string, string | number>; label: string | null; lines: string[] | null; scope: string }
 export interface PaintEvidence { labelRepresentation?: 'uninspectable'; textLineBlocks?: PaintedTextLines[]; captions?: { label: string; box: { x: number; y: number; width: number; height: number } }[]; checks: PaintCheck[]; complete: boolean; passed: boolean; nodes: unknown[]; connections: unknown[]; viewBox: string | null; groups?: { id: string; label: string; box: { x: number; y: number; width: number; height: number } }[]; camouflagedText?: { text: string; box: { x: number; y: number; width: number; height: number } }[]; camouflagedGeometry?: { tag: string; box: { x: number; y: number; width: number; height: number } }[] }
-export interface PaintInput { family: string; expected: MeaningExpectation; paint?: PaintExpectation }
+export interface QualifiedNodeAnchor { id: string; label: string; box: { x: number; y: number; width: number; height: number }; anchorParts?: { tag: string; box: { x: number; y: number; width: number; height: number } }[]; outline?: { tag: string } }
+export interface PaintInput { family: string; expected: MeaningExpectation; paint?: PaintExpectation; qualifiedNodeAnchors?: QualifiedNodeAnchor[] }
 
 /** The authored request fixes the denominator before any renderer runs. */
 export function plannedPaintCriteria(input: PaintInput): string[] {
@@ -19,7 +21,8 @@ export function plannedPaintCriteria(input: PaintInput): string[] {
     ...(input.expected.edges?.some(edge => edge.label) ? ['painted-relationship-label-counts', 'painted-relationship-label-ownership'] : []),
     ...(input.expected.edges?.some(edge => edge.startMarker !== undefined || edge.endMarker !== undefined) ? ['painted-relationship-markers'] : []),
     ...(input.family === 'er' && input.expected.facts?.cardinalities ? ['painted-cardinality-decorations'] : []),
-    ...(input.expected.groups ?? []).map(group => 'painted-group:' + group.id)]
+    ...(input.expected.groups ?? []).map(group => 'painted-group:' + group.id),
+    ...plannedGraphFamilyCriteria(input)]
 }
 
 /** Runs in the actual browser after mounting the returned SVG. All geometry is
@@ -369,6 +372,30 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (owners.size === 1) { const owned = [...owners.values()][0]!; anchors.set(node.id, { ...node, ...owned }); elements.filter(element => { const candidate = ownedBox(element, node.id); return candidate?.shape === owned.shape }).forEach(element => nodeLabelElements.add(element)) }
     else missingNodes.push(node.id)
   }
+  // Only the independently measured graph observer supplies these anchors.
+  // Re-identify their actual visible ink; a source ID or caller-provided box
+  // without a unique matching physical glyph never supplies ownership.
+  for (const source of input.expected.nodes ?? []) if (!anchors.has(source.id)) {
+    const qualified = input.qualifiedNodeAnchors?.filter(node => node.id === source.id && node.label === source.label)
+    if (qualified?.length !== 1) continue
+    const candidate = qualified[0]!, descriptions = candidate.anchorParts ?? (candidate.outline ? [{ tag: candidate.outline.tag, box: candidate.box }] : [])
+    if (!descriptions.length) continue
+    const sameBox = (a: Box, b: Box) => ['x', 'y', 'width', 'height'].every(key => Math.abs(a[key as keyof Box] - b[key as keyof Box]) <= .25)
+    const parts = descriptions.map(part => geometry.filter(element => element.localName === part.tag && sameBox(rect(element), part.box)))
+    if (parts.some(matches => matches.length !== 1) || new Set(parts.map(matches => matches[0])).size !== parts.length) continue
+    const observed = parts.map(matches => matches[0]!), boxes = observed.map(rect), x = Math.min(...boxes.map(b => b.x)), y = Math.min(...boxes.map(b => b.y)), union = { x, y, width: Math.max(...boxes.map(b => b.x + b.width)) - x, height: Math.max(...boxes.map(b => b.y + b.height)) - y }
+    if (!sameBox(union, candidate.box)) continue
+    if (source.label) {
+      const labels = visibleMatches(source.label)
+      if (labels.length !== 1) continue
+      const label = labelBox(labels[0]!), middle = center(label), body = center(union)
+      const inside = contains(union, label)
+      const adjacent = Math.abs(middle.x - body.x) <= Math.max(12, union.width * .6) && Math.max(union.y - label.y - label.height, label.y - union.y - union.height, 0) <= Math.max(12, label.height * 1.5)
+      if (!inside && !adjacent) continue
+    }
+    anchors.set(source.id, { ...source, owner: observed[0]!, shape: observed[0]!, outlines: observed, box: union })
+    const index = missingNodes.indexOf(source.id); if (index >= 0) missingNodes.splice(index, 1)
+  }
   // A common ancestor can contain several unrelated labels. It is not a
   // unique ownership witness for two distinct authored nodes.
   const owners = new Map<Element, string[]>()
@@ -609,6 +636,23 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   let unboundRelations = false, invalidMarker = false
   if (!paths.length) paths = geometry.filter(element => ['path', 'line', 'polyline'].includes(element.localName) && ![...anchors.values()].some(node => node.owner.contains(element)))
   paths = paths.filter(element => !inlineShape(element))
+  if (['sequence', 'zenuml'].includes(input.family)) paths = paths.filter(element => {
+    const style = getComputedStyle(element), start = pointFor(element, false), end = pointFor(element, true)
+    if (!start || !end || style.markerStart !== 'none' || style.markerEnd !== 'none' || Math.abs(start.x - end.x) > 1 || Math.abs(start.y - end.y) < 4) return true
+    const column = (start.x + end.x) / 2
+    if (!pointsOn(element).every(point => Math.abs(point.x - column) <= 1)) return true
+    // An explicitly captioned self-message may be vertical and unheaded. Its
+    // independently visible, adjacent caption prevents lifeline elimination.
+    const captioned = (input.expected.edges ?? []).some(edge => edge.source === edge.target && edge.label && (() => {
+      const node = anchors.get(edge.source), labels = visibleMatches(edge.label!)
+      if (!node || Math.abs(center(node.box).x - column) > 2 || labels.length !== 1) return false
+      const box = labelBox(labels[0]!), middle = center(box)
+      return middle.y >= Math.min(start.y, end.y) && middle.y <= Math.max(start.y, end.y) && Math.max(box.x - column, column - box.x - box.width, 0) <= 12
+    })())
+    if (captioned) return true
+    return ![...anchors.values()].some(node => Math.abs(center(node.box).x - column) <= 2 && Math.abs(Math.min(start.y, end.y) - node.box.y - node.box.height) <= 2 && Math.max(start.y, end.y) > node.box.y + node.box.height + 4)
+  })
+
   for (const element of paths) {
     const start = pointFor(element, false), end = pointFor(element, true)
     if (!start || !end) continue

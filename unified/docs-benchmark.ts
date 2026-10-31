@@ -1,3 +1,4 @@
+import { documentationPopulation, documentationDrawingScore } from './docs-population.ts'
 import { InvocationJournal } from '../portable/invocation-journal.ts'
 import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
 import { docsArtifactServer, callDocsPage, withDocsDeadline, closeDocsContext, initializeDocsPage } from './docs-runtime.ts'
@@ -11,13 +12,11 @@ import { join, resolve } from 'node:path'
 import { chromium } from 'playwright'
 import { createHash } from 'node:crypto'
 import { gzipSync } from 'node:zlib'
-import { inspectFidelityPaint } from '../fidelity/paint.ts'
-import { inspectQuantitativePaint } from '../fidelity/paint-values.ts'
-import { inspectSourceFacts, mergePaintChecks } from '../fidelity/paint-facts.ts'
-import { inspectChartFacts } from '../fidelity/paint-chart-facts.ts'
+import { inspectSvgDrawing } from '../fidelity/inspect-svg.ts'
 import { evidenceDigest } from '../portable/evidence-contract.ts'
 import { makeSvgObservationBinding } from '../fidelity/svg-assessment.ts'
 import { admitDocsReviews, assessDocsDrawing, reviewedDocsCase, type DocsDrawingReview } from './docs-drawings.ts'
+import { assessDocsInvalidSource, docsPublicRejection } from './docs-invalid-source.ts'
 import { qualifyOutput } from './qualification.ts'
 import { tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
@@ -182,11 +181,8 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
                     assessment = await Promise.race([
                       (async () => {
                         await currentObserver.setContent(value.svg)
-                        const paint = await currentObserver.evaluate(inspectFidelityPaint, { family: authored.family, expected: authored.expected })
-                        const quantitative = await currentObserver.evaluate(inspectQuantitativePaint, { family: authored.family, expected: authored.expected, source: testCase.source, labelRepresentation: paint.labelRepresentation, nodes: paint.nodes })
-                        const facts = await currentObserver.evaluate(inspectSourceFacts, { family: authored.family, source: testCase.source, expected: authored.expected, paint, quantitative })
-                        const chartFacts = await currentObserver.evaluate(inspectChartFacts, { family: authored.family, source: testCase.source, expected: authored.expected, paint, quantitative })
-                        return assessDocsDrawing(testCase, review, value.status, admission.unavailable ? 'unavailable' : admission.ok, mergePaintChecks(paint.checks, quantitative, facts, chartFacts), makeSvgObservationBinding(authored, createHash('sha256').update(value.svg).digest('hex'), evidenceDigest(producers)))
+                        const paint = await inspectSvgDrawing(currentObserver, { family: authored.family, expected: authored.expected, source: testCase.source })
+                        return assessDocsDrawing(testCase, review, value.status, admission.unavailable ? 'unavailable' : admission.ok, paint.checks, makeSvgObservationBinding(authored, createHash('sha256').update(value.svg).digest('hex'), evidenceDigest(producers)))
                       })(),
                       new Promise<never>((_, reject) => { inspectionTimer = setTimeout(() => { void currentObserver.close().catch(() => {}); reject(Error('Drawing observer exceeded20s deadline')) }, 20_000) }),
                     ])
@@ -194,6 +190,10 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
                 } else assessment = assessDocsDrawing(testCase, review, value.status, false, [])
               } catch (error) { assessment = { status: 'unknown', reason: 'Drawing observer did not complete: ' + String(error) } }
               roundObservations.push({ suite: 'docs', surface: engine.kind === 'cli' ? 'public:svg' : 'browser:svg', runtime: engine.kind === 'cli' ? 'public CLI' : 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'drawing-checks', format: 'svg', mode: 'reviewed-first-round-output', status: assessment.status === 'correct' ? 'passed' : assessment.status === 'incorrect' ? 'failed' : assessment.status === 'not-applicable' ? 'not-applicable' : 'blocked', detail: JSON.stringify(assessment), metrics: { project: peer.node.id, version: engine.version, measuredAt: raw.measuredAt, rawInvocationId: raw.invocationId, round, variant: peer.artifact?.transportVariant ?? 'primary', reviewedSource: !!review, ...(witness ? { witness } : {}) } })
+              if (review?.intent === 'invalid-source') {
+                const rejection = docsPublicRejection(testCase, typeof value.svg === 'string', value.nativeError), control = assessDocsInvalidSource(testCase, review, rejection)
+                roundObservations.push({ suite: 'docs', surface: 'public:source-control', runtime: engine.kind === 'cli' ? 'public CLI' : 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'source-rejection', format: 'svg', mode: 'reviewed-first-round-control', status: control.status === 'correct' ? 'passed' : control.status === 'incorrect' ? 'failed' : 'blocked', detail: JSON.stringify(control), metrics: { project: peer.node.id, round, rawInvocationId: raw.invocationId, measuredAt: raw.measuredAt, sourceSha256: rejection.sourceSha256, rejectionEvidence: JSON.stringify(rejection) } })
+              }
             }
           }
         } catch (error) {
@@ -253,11 +253,7 @@ export async function qualifyCollectedDocsPng(options: UnifiedRunOptions, result
           return withDocsDeadline(async () => {
             await page.setContent(svg, { waitUntil: 'domcontentloaded' })
             await page.evaluate(async () => { await document.fonts.ready })
-            const paint = await page.evaluate(inspectFidelityPaint, { family: authored.family, expected: authored.expected })
-            const quantitative = await page.evaluate(inspectQuantitativePaint, { family: authored.family, expected: authored.expected, source: authored.source, labelRepresentation: paint.labelRepresentation, nodes: paint.nodes })
-            const facts = await page.evaluate(inspectSourceFacts, { family: authored.family, expected: authored.expected, source: authored.source, paint, quantitative })
-            const charts = await page.evaluate(inspectChartFacts, { family: authored.family, expected: authored.expected, source: authored.source, paint, quantitative })
-            return mergePaintChecks(paint.checks, quantitative, facts, charts)
+            return (await inspectSvgDrawing(page, { family: authored.family, expected: authored.expected, source: authored.source })).checks
           }, () => { void page.close().catch(() => {}) })
         } })
         const { referencePng, ...assessment } = qualification as typeof qualification & { referencePng?: Uint8Array }
@@ -334,8 +330,14 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
   }
   const result: UnifiedSuiteResult = { id: 'docs', startedAt: results.map(row => row.startedAt).sort()[0] ?? startedAt, finishedAt: new Date().toISOString(), status: budgetError ? 'blocked' : results.some(row => row.status === 'failed') ? 'failed' : results.some(row => row.status === 'blocked') ? 'blocked' : observations.length && observations.every(row => row.status === 'not-applicable') ? 'not-applicable' : 'passed', observations, gaps: results.flatMap(row => row.gaps), artifacts: [inventoryPath, ...formats.map(format => join(options.out, format))] }
   writeFileSync(join(options.out, 'result.json'), JSON.stringify(result))
-  const rows = formats.flatMap(format => projects.map(project => { const own = observations.filter(row => row.format === format && row.metrics?.project === project), returned = inventory.cases.filter(input => { const calls = own.filter(row => row.operation === 'render' && row.caseId === input.id); return calls.length === options.rounds && calls.every(row => row.status === 'passed') }).length, checked = own.filter(row => row.operation === 'drawing-checks'), correct = checked.filter(row => row.status === 'passed').length; return { format, project, returned, correct, incorrect: checked.filter(row => row.status === 'failed').length, notDrawing: checked.filter(row => row.status === 'not-applicable').length, unknown: inventory.occurrences - checked.filter(row => ['passed', 'failed', 'not-applicable'].includes(row.status)).length, measured: own.some(row => row.operation === 'render' || row.operation === 'drawing-checks') } })).sort((a, b) => a.format.localeCompare(b.format) || b.correct - a.correct || b.returned - a.returned || a.project.localeCompare(b.project))
-  writeFileSync(join(options.out, 'report.md'), '# DaveBench: documentation examples\n\nCorpus: Mermaid ' + inventory.pin.commit + '; ' + inventory.occurrences + ' occurrences / ' + inventory.pages.length + ' syntax pages; ' + options.rounds + ' rounds. Source paths, line numbers, reviews and producer hashes: inventory.json. Same sources in each output lane. Ranks count first-round verified correct drawings; unknowns remain visible and cannot supply complete accuracy.\n\n| Format | Rank | Project | Correct | Incorrect | Unknown | Not a drawing | Returned in all rounds | Planned |\n|---|---:|---|---:|---:|---:|---:|---:|---:|\n' + rows.map(row => `| ${row.format} | ${row.correct + row.incorrect > 0 ? 1 + rows.filter(other => other.format === row.format && other.correct > row.correct).length : '—'} | ${row.project} | ${row.measured ? row.correct : 'N/A'} | ${row.measured ? row.incorrect : 'N/A'} | ${row.measured ? row.unknown : 'N/A'} | ${row.measured ? row.notDrawing : 'N/A'} | ${row.measured ? row.returned : 'N/A'} | ${inventory.occurrences} |`).join('\n') + '\n\nPNG decode/nonblank and SVG witnesses do not establish PNG content. SVG return, native PNG and SVG-plus-conversion clocks retain their declared boundaries; all new timing is descriptive until correctness and calibration qualify a comparison.\n')
+  const population = documentationPopulation(inventory.cases)
+  const rows = formats.flatMap(format => projects.map(project => {
+    const own = observations.filter(row => row.format === format && row.metrics?.project === project)
+    const returned = inventory.cases.filter(input => { const calls = own.filter(row => row.operation === 'render' && row.caseId === input.id); return calls.length === options.rounds && calls.every(row => row.status === 'passed') }).length
+    const score = documentationDrawingScore(own, population), controls = own.filter(row => row.operation === 'source-rejection')
+    return { format, project, returned, ...score, rejected: controls.filter(row => row.status === 'passed').length, acceptedInvalid: controls.filter(row => row.status === 'failed').length, controlsUnknown: population.invalid.size - controls.filter(row => ['passed', 'failed'].includes(row.status)).length, measured: own.some(row => row.operation === 'render' || row.operation === 'drawing-checks') }
+  })).sort((a, b) => a.format.localeCompare(b.format) || b.correct - a.correct || a.project.localeCompare(b.project))
+  writeFileSync(join(options.out, 'report.md'), '# DaveBench: documentation drawings\n\nCorpus: Mermaid ' + inventory.pin.commit + '; ' + inventory.occurrences + ' literal occurrences / ' + inventory.pages.length + ' syntax pages; ' + options.rounds + ' rounds. Source paths, line numbers, reviews and producer hashes: inventory.json. Each format uses the same548 occurrences:546 drawings,1 configuration example and1 invalid-source control. Ranks count first-round verified correct drawings; ties share a rank. Unknowns remain visible.\n\n| Format | Rank | Project | Correct | Incorrect | Unknown | Planned drawings | Returned /548 |\n|---|---:|---|---:|---:|---:|---:|---:|\n' + rows.map(row => `| ${row.format} | ${row.correct + row.incorrect > 0 ? 1 + rows.filter(other => other.format === row.format && other.correct > row.correct).length : '—'} | ${row.project} | ${row.measured ? row.correct : 'N/A'} | ${row.measured ? row.incorrect : 'N/A'} | ${row.measured ? row.unknown : 'N/A'} | ${row.planned} | ${row.measured ? row.returned : 'N/A'} |`).join('\n') + '\n\nInvalid-source control, shown separately so accepting invalid input earns no drawing credit:\n\n| Format | Project | Correct rejection | Accepted invalid source | Unknown |\n|---|---|---:|---:|---:|\n' + rows.slice().sort((a, b) => a.format.localeCompare(b.format) || b.rejected - a.rejected || a.project.localeCompare(b.project)).map(row => `| ${row.format} | ${row.project} | ${row.rejected} | ${row.acceptedInvalid} | ${row.controlsUnknown} |`).join('\n') + '\n\nPNG decode/nonblank and SVG witnesses do not establish PNG content. Raw return counts are diagnostic. SVG return, native PNG and SVG-plus-conversion clocks retain their declared boundaries; speed requires correctness and matched timing calibration.\n')
   if (budgetError) throw budgetError
   return result
 }

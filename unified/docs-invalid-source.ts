@@ -11,6 +11,12 @@ export interface DocsPublicRejectionEvidence {
   nativeError?: { name: string; code?: string; message: string; identifier?: string }
 }
 
+/** Host-side envelope over the owning raw call. A return proves acceptance;
+ * absent typed native fields never turn a generic failure into rejection. */
+export function docsPublicRejection(input: DocsInput, returned: boolean, nativeError?: DocsPublicRejectionEvidence['nativeError']): DocsPublicRejectionEvidence {
+  return { protocol: 'docs-native-public-rejection-v1', sourceSha256: sourceHash(input.source), origin: 'native-public-api', outcome: returned ? 'returned' : nativeError ? 'rejected' : 'unavailable', ...(nativeError ? { nativeError } : {}) }
+}
+
 /** Invalid examples remain in acceptance, with their own source-bound control.
  * The narrow code vocabulary is deliberate: an arbitrary thrown Error cannot
  * establish that the public implementation recognized a duplicate identifier. */

@@ -15,10 +15,8 @@ import { expandedFidelityCases } from '../fidelity/cases.ts'
 import { admitPreparedFidelityEngine } from '../fidelity/community.ts'
 import { sourceContractComplete } from '../fidelity/source-contract.ts'
 import { makeSvgCaseContract } from '../fidelity/svg-assessment.ts'
-import { inspectFidelityPaint } from '../fidelity/paint.ts'
-import { inspectQuantitativePaint } from '../fidelity/paint-values.ts'
-import { inspectSourceFacts, mergePaintChecks } from '../fidelity/paint-facts.ts'
-import { inspectChartFacts } from '../fidelity/paint-chart-facts.ts'
+import { inspectSvgDrawing } from '../fidelity/inspect-svg.ts'
+import { mergePaintChecks } from '../fidelity/paint-facts.ts'
 import type { AuthoredFidelityCase } from '../fidelity/meaning.ts'
 import type { PreparedCommunityBrowser } from './community-browser.ts'
 import { defaultChromium, executableIdentity, deliveredArtifactIdentity } from './benchmark-context.ts'
@@ -81,11 +79,7 @@ export async function observeBrowserTimingSvg(page: any, authored: AuthoredFidel
   if (admission.ok) try {
     await page.setContent(svg, { waitUntil: 'domcontentloaded' })
     await page.evaluate(async () => { await document.fonts.ready })
-    const paint = await page.evaluate(inspectFidelityPaint, { family: authored.family, expected: authored.expected, paint: authored.paint })
-    const quantitative = await page.evaluate(inspectQuantitativePaint, { family: authored.family, source: authored.source, expected: authored.expected, labelRepresentation: paint.labelRepresentation, nodes: paint.nodes })
-    const facts = await page.evaluate(inspectSourceFacts, { family: authored.family, source: authored.source, expected: authored.expected, paint, quantitative })
-    const charts = await page.evaluate(inspectChartFacts, { family: authored.family, source: authored.source, expected: authored.expected, paint, quantitative })
-    observed = mergePaintChecks(paint.checks, quantitative, facts, charts)
+    observed = (await inspectSvgDrawing(page, { family: authored.family, source: authored.source, expected: authored.expected, paint: authored.paint })).checks
     const unplanned = observed.filter(check => check.status !== 'passed' && !contract.requiredChecks.some(item => item.surface === 'browser-owned-ink' && item.criterion === check.criterion))
     if (unplanned.length) observationError = 'Unplanned observer findings: ' + unplanned.map(check => check.criterion).join(', ')
   } catch (error) { observationError = 'Full SVG observer did not complete: ' + String(error) }

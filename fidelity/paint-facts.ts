@@ -195,6 +195,7 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
       continue
     }
     if (key === 'members' && input.family === 'class' && Array.isArray(facts.members)) {
+      if (facts.annotations?.length || facts.generics?.length) { add(key, null, null, 'Decorated and generic class rows need the complete graph-family ownership projection; the plain member-table profile does not apply'); continue }
       // The colon before a displayed return type is presentation punctuation;
       // visibility, names, argument/return types and access modifiers remain.
       const canonical = (value: string) => normalize(value).replace(/\)\s*:\s*/g, ') ').replace(/\s*:\s*/g, ':')

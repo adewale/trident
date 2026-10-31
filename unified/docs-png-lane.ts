@@ -19,6 +19,7 @@ import { assessDocsPng, type DocsPngReview } from './docs-png-drawings.ts'
 import { runCommunityCli, runCommunityNodeRound, verifyProvidedCommunityArtifact, communityModuleOutputSupported } from './community.ts'
 import { runExternalCommunity } from './community-external.ts'
 import type { DocsDrawingReview } from './docs-drawings.ts'
+import { assessDocsInvalidSource, docsPublicRejection, type DocsPublicRejectionEvidence } from './docs-invalid-source.ts'
 import type { PreparedCommunity } from './community-types.ts'
 import type { PreparedCommunityBrowser } from './community-browser.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult } from './types.ts'
@@ -87,8 +88,9 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
         for (const [index, input] of selectedCases.entries()) {
           checkCollectionBudget(options.collectionDeadline)
           const expected = sourceReviews.find(review => review.id === input.id) ?? null
-          let raw = checkpoint.get<{ bytesBase64?: string; status: BenchmarkObservation['status']; detail?: string; durationMs?: number; originalSvg?: string; rasterizedSvg?: string; measuredAt: string | null; invocationId?: string }>(rawKey(project, round, input.id))
+          let raw = checkpoint.get<{ bytesBase64?: string; status: BenchmarkObservation['status']; detail?: string; durationMs?: number; originalSvg?: string; rasterizedSvg?: string; nativeError?: DocsPublicRejectionEvidence['nativeError']; measuredAt: string | null; invocationId?: string }>(rawKey(project, round, input.id))
           if (!raw) {
+            let nativeError: DocsPublicRejectionEvidence['nativeError']
             let bytes: Uint8Array | undefined, status: BenchmarkObservation['status'] = 'blocked', detail: string | undefined, durationMs: number | undefined, originalSvg: string | undefined, rasterizedSvg: string | undefined, invocationId: string | undefined, invocationDirectory: string | undefined
             if (conversion) {
               const identity = { project, caseId: input.id, sourceSha256: evidenceBytesDigest(input.source), artifactSha256: browser!.browser!.artifactSha256, bindingSha256: evidenceDigest({ format: 'png', transport, engine: browser!.browser!, round }), format: 'png' }
@@ -98,6 +100,7 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
               try { value = await conversion.invoke(input.source, `docs_png_${round}_${index}`) }
               catch (error) { journal.failed(attempt, error, null, 'interrupted'); throw error }
               originalSvg = value.originalSvg ?? value.svg; rasterizedSvg = value.rasterizedSvg
+              nativeError = value.nativeError
               if (value.status === 'ok') { bytes = Uint8Array.from(value.png); durationMs = value.totalMs; status = 'passed'; journal.returned(attempt, bytes, Number.isFinite(durationMs) ? durationMs! : null) }
               else { status = value.status === 'blocked' ? 'blocked' : 'failed'; detail = value.detail; journal.failed(attempt, detail, null, status === 'blocked' ? 'interrupted' : 'public-error') }
             } else {
@@ -109,7 +112,7 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
               if (typeof row?.metrics?.rawInvocationId === 'string') invocationId = row.metrics.rawInvocationId
               if (typeof row?.metrics?.rawInvocationDirectory === 'string') invocationDirectory = row.metrics.rawInvocationDirectory
             }
-            raw = checkpoint.record(rawKey(project, round, input.id), { ...(bytes ? { bytesBase64: Buffer.from(bytes).toString('base64') } : {}), status, detail, durationMs, originalSvg, rasterizedSvg, measuredAt: invocationId && invocationDirectory ? new InvocationJournal(invocationDirectory).outcome(invocationId)?.finishedAt ?? null : null, recordedAt: new Date().toISOString(), invocationId })
+            raw = checkpoint.record(rawKey(project, round, input.id), { ...(bytes ? { bytesBase64: Buffer.from(bytes).toString('base64') } : {}), status, detail, durationMs, originalSvg, rasterizedSvg, nativeError, measuredAt: invocationId && invocationDirectory ? new InvocationJournal(invocationDirectory).outcome(invocationId)?.finishedAt ?? null : null, recordedAt: new Date().toISOString(), invocationId })
           }
           let { status, detail, durationMs } = raw
           const bytes = typeof raw.bytesBase64 === 'string' ? Buffer.from(raw.bytesBase64, 'base64') : undefined
@@ -128,6 +131,10 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
           if (round === 1) {
             const assessment = assessDocsPng(input, expected, bytes, imageReviews)
             own.push({ suite: 'docs', surface: 'png:reviewed-content', runtime: 'retained PNG', family: input.family, caseId: input.id, operation: 'drawing-checks', format: 'png', mode: 'reviewed-first-round-output', status: assessment.status === 'correct' ? 'passed' : assessment.status === 'incorrect' ? 'failed' : assessment.status === 'not-applicable' ? 'not-applicable' : 'blocked', detail: JSON.stringify(assessment), metrics: { ...metrics, reviewedSource: !!expected } })
+            if (expected?.intent === 'invalid-source') {
+              const rejection = docsPublicRejection(input, !!bytes || typeof raw.originalSvg === 'string', raw.nativeError), control = assessDocsInvalidSource(input, expected, rejection)
+              own.push({ suite: 'docs', surface: 'public:source-control', runtime: 'see owning raw return', family: input.family, caseId: input.id, operation: 'source-rejection', format: 'png', mode: 'reviewed-first-round-control', status: control.status === 'correct' ? 'passed' : control.status === 'incorrect' ? 'failed' : 'blocked', detail: JSON.stringify(control), metrics: { ...metrics, sourceSha256: rejection.sourceSha256, rejectionEvidence: JSON.stringify(rejection) } })
+            }
           }
         }
         if (browser && transport === 'svg-conversion') admitPreparedFidelityEngine(browser)

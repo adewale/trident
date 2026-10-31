@@ -65,8 +65,9 @@ export async function publicDocsPngAction(input: { source: string; id: string })
     stages.pngProductionMs = performance.now() - t
     const totalMs = performance.now() - started
     return { status: 'ok', totalMs, stages, width, height, outputBytes, png: Array.from(bytes), svg, originalSvg: svg, rasterizedSvg }
-  } catch (error) {
-    return { status: stage === 'raster-budget' ? 'blocked' : 'error', stage, detail: String(error), stages, svg, originalSvg: svg, rasterizedSvg }
+  } catch (error: any) {
+    const nativeError = stage === 'public-svg' ? { name: String(error?.name ?? 'Error'), message: String(error?.message ?? error), ...(typeof error?.code === 'string' ? { code: error.code } : {}), ...(typeof error?.identifier === 'string' ? { identifier: error.identifier } : {}) } : undefined
+    return { status: stage === 'raster-budget' ? 'blocked' : 'error', stage, detail: String(error), stages, svg, originalSvg: svg, rasterizedSvg, ...(nativeError ? { nativeError } : {}) }
   } finally {
     ;(globalThis as any).__communityAfterCall?.()
     for (const node of document.querySelectorAll('body > div:not([data-community-host])')) node.remove()

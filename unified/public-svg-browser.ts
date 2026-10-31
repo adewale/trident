@@ -50,14 +50,16 @@ export async function publicSvgBrowserAction(input: any): Promise<any> {
   if (input.type === 'configure') { if (state.kind === 'mermaid') state.api.initialize({ startOnLoad: false, securityLevel: 'strict', logLevel: 'fatal' }); return { configured: true } }
   if (input.type === 'measure-docs') {
     let timer: ReturnType<typeof setTimeout> | undefined
+    let nativeError: { name: string; code?: string; message: string; identifier?: string } | undefined
     const deadline = new Promise((_, reject) => { timer = setTimeout(() => reject(Error('Public render exceeded15s')), 15_000) })
     try {
       const started = performance.now()
-      const value = await Promise.race([Promise.resolve(state.render(input.source, input.id)), deadline])
+      const invocation = Promise.resolve().then(() => state.render(input.source, input.id)).catch((error: any) => { nativeError = { name: String(error?.name ?? 'Error'), message: String(error?.message ?? error), ...(typeof error?.code === 'string' ? { code: error.code } : {}), ...(typeof error?.identifier === 'string' ? { identifier: error.identifier } : {}) }; throw error })
+      const value = await Promise.race([invocation, deadline])
       const durationMs = performance.now() - started
       const svg = typeof value === 'string' ? value : (value as any)?.svg
       return typeof svg === 'string' && /<svg(?:\s|>)/i.test(svg) ? { status: 'passed', durationMs, bytes: new TextEncoder().encode(svg).byteLength, ...(input.retainSvg ? { svg } : {}) } : { status: 'failed', error: 'Public call did not return SVG' }
-    } catch (error) { return { status: 'failed', error: String(error) } }
+    } catch (error) { return { status: 'failed', error: String(error), ...(nativeError ? { nativeError } : {}) } }
     finally { if (timer) clearTimeout(timer); host.__communityAfterCall?.(); for (const node of document.querySelectorAll('body > div:not([data-community-host])')) node.remove() }
   }
   if (input.type === 'render') {
