@@ -185,12 +185,12 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
     }
     if (key === 'title' && typeof facts.title === 'string') {
       const clipping = checkById.get('unclipped-authored-labels'), clippedTitle = Array.isArray(clipping?.actual) && clipping.actual.includes(facts.title)
-      const found = label(facts.title), root = svg.getBoundingClientRect()
+      const found = label(facts.title), root = svg.getBoundingClientRect(), captionRoleUnknown = input.expected.edges?.some(edge => edge.label) && !Array.isArray(input.paint.captions)
       const outsideContent = found.filter(element => {
         const b = element.getBoundingClientRect(), p = { x: b.x + b.width / 2, y: b.y + b.height / 2 }
-        return !input.paint.camouflagedText?.some(item => item.text === normalize(facts.title) && Math.abs(item.box.x - b.x) <= 1.5 && Math.abs(item.box.y - b.y) <= 1.5) && ![...nodes, ...(input.paint.groups ?? [])].some(owner => p.x >= owner.box.x - 1 && p.x <= owner.box.x + owner.box.width + 1 && p.y >= owner.box.y - 1 && p.y <= owner.box.y + owner.box.height + 1) && b.x >= root.x - 1.5 && b.y >= root.y - 1.5 && b.right <= root.right + 1.5 && b.bottom <= root.bottom + 1.5
+        return !input.paint.captions?.some(caption => caption.label === normalize(facts.title) && Math.abs(caption.box.x - b.x) <= 1.5 && Math.abs(caption.box.y - b.y) <= 1.5) && !input.paint.camouflagedText?.some(item => item.text === normalize(facts.title) && Math.abs(item.box.x - b.x) <= 1.5 && Math.abs(item.box.y - b.y) <= 1.5) && ![...nodes, ...(input.paint.groups ?? [])].some(owner => p.x >= owner.box.x - 1 && p.x <= owner.box.x + owner.box.width + 1 && p.y >= owner.box.y - 1 && p.y <= owner.box.y + owner.box.height + 1) && b.x >= root.x - 1.5 && b.y >= root.y - 1.5 && b.right <= root.right + 1.5 && b.bottom <= root.bottom + 1.5
       })
-      add(key, { visibleOccurrences: found.length, unownedTitleOccurrences: outsideContent.length, clipped: clippedTitle }, clippedTitle ? false : clipping?.status !== 'passed' ? null : outsideContent.length === 1 ? true : uncertainPaint ? null : false, 'The literal title needs its own visible, unclipped occurrence inside the canvas and outside authored node/group bodies. SVG metadata, a borrowed node label, hidden text and positive but clipped bounds supply no title credit')
+      add(key, { visibleOccurrences: found.length, unownedTitleOccurrences: outsideContent.length, clipped: clippedTitle }, clippedTitle ? false : clipping?.status !== 'passed' || captionRoleUnknown ? null : outsideContent.length === 1 ? true : uncertainPaint ? null : false, 'The literal title needs its own visible, unclipped occurrence inside the canvas and outside authored node/group bodies and separately owned route captions. SVG metadata, a borrowed node/caption label, hidden text and positive but clipped bounds supply no title credit')
       continue
     }
     if (key === 'members' && input.family === 'class' && Array.isArray(facts.members)) {
