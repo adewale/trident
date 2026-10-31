@@ -8,7 +8,8 @@ import { createMeaningAdapter } from '../fidelity/adapters.ts'
 import { assessMeaning } from '../fidelity/meaning.ts'
 import { readTerminalCorpus, reviewedTerminalCases, type TerminalProjectCase } from '../fidelity/terminal-corpus.ts'
 import { assessTerminalDrawing } from '../fidelity/terminal-assessment.ts'
-import { runCommunityCli, runCommunityNodeRound, verifyProvidedCommunityArtifact } from './community.ts'
+import { communityModuleOutputSupported, runCommunityCli, runCommunityNodeRound, verifyProvidedCommunityArtifact } from './community.ts'
+import { verifyReleaseCli } from './release-cli.ts'
 import { runExternalCommunity } from './community-external.ts'
 import type { PreparedCommunity } from './community-types.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedWorkload } from './types.ts'
@@ -30,9 +31,14 @@ export async function collectTerminalWorkloads(prepared: PreparedCommunity[], wo
   const results: { peer: PreparedCommunity; rows: BenchmarkObservation[] }[] = []
   for (const peer of prepared) {
     const kind = peer.artifact?.kind
-    const rows = kind === 'python' ? await runExternalCommunity(peer, workloads, 'terminal', 1, options)
-      : kind === 'node' ? await runCommunityNodeRound(peer, 'terminal', workloads, 1, options)
-        : kind === 'cli' ? workloads.map(input => runCommunityCli(peer, 'terminal', input, 1, options.out)) : []
+    const nodeTerminal = (peer.node.benchmark?.outputs ?? peer.node.outputs).some(output => ['terminal', 'ascii-unicode', 'unicode', 'ascii'].includes(output)) && communityModuleOutputSupported(peer.node, 'terminal')
+    const extra = !nodeTerminal || !['node', 'global', 'franken'].includes(kind ?? '') ? peer.artifact?.additionalCli?.find(cli => cli.outputs.includes('terminal') && cli.artifact) : undefined
+    if (extra?.artifact) { verifyProvidedCommunityArtifact(extra.artifact); verifyReleaseCli(peer.node, peer.artifact!) }
+    const rows = extra?.artifact ? workloads.map(input => runCommunityCli({ ...peer, artifact: extra.artifact }, 'terminal', input, 1, options.out))
+      : kind === 'python' ? await runExternalCommunity(peer, workloads, 'terminal', 1, options)
+        : ['node', 'global', 'franken'].includes(kind ?? '') && nodeTerminal ? await runCommunityNodeRound(peer, 'terminal', workloads, 1, options)
+          : kind === 'cli' ? workloads.map(input => runCommunityCli(peer, 'terminal', input, 1, options.out))
+            : workloads.map(input => ({ suite: 'community', surface: 'public:terminal', runtime: 'not-invoked', family: input.family, caseId: input.id, operation: 'capability', format: 'terminal', mode: 'capability', status: 'blocked', detail: peer.error ?? 'No reviewed terminal transport for this frozen artifact; no renderer invocation or failure is inferred.', metrics: { implementation: peer.node.id, failureStage: 'transport' } }) as BenchmarkObservation)
     results.push({ peer, rows })
   }
   return results
@@ -104,8 +110,9 @@ export async function runTerminalProfile(argv: string[]) {
     if (eligible.length !== projects.length) throw Error('Terminal profile respects the catalog branding/selection policy; choose eligible renderer artifacts')
     const selected = prepared.filter(peer => projects.includes(peer.node.id))
     for (const peer of selected) if (peer.artifact) {
-      if (!peer.node.outputs.some(output => ['terminal', 'ascii-unicode', 'unicode', 'ascii'].includes(output)) || !['cli', 'python', 'node'].includes(peer.artifact.kind) || peer.artifact.kind === 'python' && peer.node.benchmark?.adapter !== 'termaid') throw Error('No reviewed terminal transport: ' + peer.node.id)
+      if (!peer.node.outputs.some(output => ['terminal', 'ascii-unicode', 'unicode', 'ascii'].includes(output))) throw Error('No declared terminal output: ' + peer.node.id)
       verifyProvidedCommunityArtifact(peer.artifact)
+      verifyReleaseCli(peer.node, peer.artifact)
     }
     const startedAt = new Date().toISOString(), referenceRoot = mermaidOracleDirectory(), reference = await createMeaningAdapter({ tool: 'mermaid', packageRoot: join(referenceRoot, 'node_modules/mermaid'), referenceRoot }), sourceReference: any[] = []
     for (const input of cases) {

@@ -1,6 +1,6 @@
 import { expect, test } from 'bun:test'
 import { createHash } from 'node:crypto'
-import { readFileSync, writeFileSync } from 'node:fs'
+import { chmodSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { assessTerminalRecord, terminalProfileId } from '../unified/terminal-profile.ts'
 import type { TerminalProjectCase } from '../fidelity/terminal-corpus.ts'
@@ -85,4 +85,18 @@ test('terminal profile reuses a sealed Node binding and skips browser-only capab
   expect(unavailable[0]?.rows[0]?.mode).toBe('capability')
   expect(unavailable[0]?.rows[0]?.metrics?.firstMs).toBeUndefined()
   expect(readFileSync(calls, 'utf8')).toBe('call\n')
+})
+
+test('terminal collection uses an admitted additional CLI for a browser-only primary instead of calling its SVG module', async () => {
+  const directory = temp.dir(), executable = join(directory, 'terminal.mjs')
+  const text = readFileSync(new URL('./fixtures/terminal/chain.txt', import.meta.url), 'utf8')
+  writeFileSync(executable, '#!/usr/bin/env node\nprocess.stdout.write('+JSON.stringify(text)+')')
+  chmodSync(executable, 0o755)
+  const cli = { kind: 'cli' as const, executable, args: [], input: 'stdin' as const, version: 'synthetic-fixture', sha256: hash(readFileSync(executable, 'utf8')) }
+  const peer = { node: { id: 'fixture/additional-terminal', roles: ['renderer'], outputs: ['svg', 'terminal'], benchmark: { adapter: 'declared', outputs: ['svg', 'terminal'], moduleOutputs: ['svg'] } }, artifact: { kind: 'node' as const, root: directory, module: join(directory, 'missing-svg.mjs'), version: 'synthetic-fixture', additionalCli: [{ id: 'native-release', outputs: ['terminal'], artifact: cli }] } }
+  const workloads = [{ id: 'transport-only', source: 'flowchart LR\nAlpha --> Beta\nBeta --> Gamma', family: 'flowchart', expectedLabels: ['Alpha', 'Beta', 'Gamma'], features: ['retain-output-witness'], provenance: 'Synthetic transport control outside scored corpus' }]
+  const records = await collectTerminalWorkloads([peer], workloads, { root: directory, out: directory, profile: 'full', rounds: 1 })
+  expect(records[0]?.rows[0]?.status).toBe('passed')
+  expect(readFileSync(records[0]!.rows[0]!.metrics!.outputFile as string, 'utf8')).toBe(text)
+  expect(records[0]?.rows[0]?.surface).toBe('cli:end-to-end')
 })
