@@ -30,7 +30,7 @@ for root in sorted(ws.glob('trident-png-*-2026-10-31')):
   if any(part in ['node_modules','.git']for part in file.parts):continue
   if file.name.startswith('reviews-0-')and file.suffix=='.json':continue
   if file.name.startswith('authoring-contracts')and file.suffix=='.json':continue
-  if file.suffix in ['.png','.json','.jsonl','.gz','.ts','.py','.log','.md','.txt','.svg']:add(file)
+  if file.suffix in ['.png','.json','.jsonl','.gz','.ts','.mjs','.js','.py','.log','.md','.txt','.svg']:add(file)
 for file in [ws/'trident-png-current-held-reason-audit.json',ws/'trident-png-frozen-remaining-plan.json']:
  add(file)
 # Original image bytes are separate from inspection-packet encoding. Preserve

@@ -65,7 +65,11 @@ all actual new raw witnesses and review histories, plus each reviewed original
 PNG and native-size packet. Exact bytes already in the immutable historical
 foundation are referenced rather than duplicated. Every object and reference is
 re-read and hashed before publication. Original source paths are provenance;
-logical archive paths provide relocation without rewriting raw receipts.
+logical archive paths provide relocation without rewriting raw receipts. The
+complete final materialized pixel-bound reviews and import receipt are retained.
+The original before/after exporter producer closures also retain their exact
+Git blob bytes and content hashes, so inspecting the original producer does not
+require an old cherry-picked commit to remain reachable remotely.
 
 Source documentation and the frozen favicon are pinned to Mermaid commit
 `1fb7869866dd619168d840291c9c54b4f129758b` under MIT. Mermaid12.2.0 and native
