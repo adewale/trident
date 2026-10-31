@@ -27,6 +27,8 @@ export function readPublicTestEvidence(directory: string) {
   const producers = Array.isArray(context.producers) ? context.producers.filter((row: unknown) => typeof row === 'string' && row.endsWith('\tunified/public-conformance-binding.mjs')) : []
   const producer = producers.length === 1 ? manifest.publicBindings.find(binding => binding.producer === producers[0]) : undefined
   if (!producer) throw Error('Public-test adapter producer differs from the qualified public boundary')
+  const collectors = context.producers.filter((row: unknown) => typeof row === 'string' && row.endsWith('\tunified/public-conformance.ts'))
+  if (collectors.length !== 1 || collectors[0] !== producer.collectorProducer) throw Error('Public-test collector producer differs from its reviewed capture implementation')
   const rawCapture = producer.rawCapture
   if (rawCapture === 'legacy-family-config-presence' ? context.rawCapture !== undefined : context.rawCapture?.protocol !== rawCapture) throw Error('Public-test raw capture metadata differs from its actual adapter producer')
   if (!Array.isArray(context.targets) || context.targets.some((target: any) => typeof target.binding?.project !== 'string' || !target.binding.project.trim() || typeof target.version !== 'string' || !target.version.trim()) || !context.targets.length || new Set(context.targets.map((target: any) => target.binding?.project)).size !== context.targets.length || !context.targets.some((target: any) => target.binding?.project === 'mermaid-js/mermaid' && target.binding.kind === 'mermaid-api')) throw Error('Public-test identities omit or duplicate the Mermaid reference')

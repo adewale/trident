@@ -49,12 +49,17 @@ test('raw-capture claims remain bound to reviewed actual producer bytes and cann
   const bytes = readFileSync(new URL('../unified/public-conformance-binding.mjs', import.meta.url)), blob = createHash('sha1').update('blob ' + bytes.length + '\0').update(bytes).digest('hex')
   const current = manifest.publicBindings.find(binding => binding.rawCapture === 'durable-public-return-json-v1')!
   expect(current.producer).toBe('100644 blob ' + blob + '\tunified/public-conformance-binding.mjs')
+  const collectorBytes = readFileSync(new URL('../unified/public-conformance.ts', import.meta.url)), collectorBlob = createHash('sha1').update('blob ' + collectorBytes.length + '\0').update(collectorBytes).digest('hex')
+  expect(current.collectorProducer).toBe('100644 blob ' + collectorBlob + '\tunified/public-conformance.ts')
   const falselyUpgraded = retained()
   change(falselyUpgraded, 'context.json', value => { value.rawCapture = { protocol: 'durable-public-return-json-v1' } })
   expect(() => readPublicTestEvidence(falselyUpgraded)).toThrow('raw capture metadata')
   const missingRaw = retained()
-  change(missingRaw, 'context.json', value => { value.producers = value.producers.map((row: string) => row.endsWith('\tunified/public-conformance-binding.mjs') ? current.producer : row); value.rawCapture = { protocol: 'durable-public-return-json-v1' } })
+  change(missingRaw, 'context.json', value => { value.producers = value.producers.map((row: string) => row.endsWith('\tunified/public-conformance-binding.mjs') ? current.producer : row.endsWith('\tunified/public-conformance.ts') ? current.collectorProducer : row); value.rawCapture = { protocol: 'durable-public-return-json-v1' } })
   expect(() => readPublicTestEvidence(missingRaw)).toThrow('actual return or explicit serialization loss')
+  const staleCollector = retained()
+  change(staleCollector, 'context.json', value => { value.producers = value.producers.map((row: string) => row.endsWith('\tunified/public-conformance.ts') ? current.collectorProducer : row) })
+  expect(() => readPublicTestEvidence(staleCollector)).toThrow('collector producer')
 })
 
 test('raw callback/event changes and inflated summaries cannot supply public-test passes', () => {
