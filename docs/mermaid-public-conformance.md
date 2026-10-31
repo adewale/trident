@@ -2,12 +2,26 @@
 
 This collector executes unchanged callbacks from Mermaid's own tests at
 [`1fb7869`](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b).
-The current scope is 41 callbacks: 16 public `parse` tests from
+The original retained scope is 41 callbacks: 16 public `parse` tests from
 `mermaidAPI.spec.ts`/`mermaid.spec.ts`, six public detector tests from
 `utils.spec.ts`, and 19 parameterized accessibility render callbacks from
 `mermaidAPI.spec.ts`. These correspond to 23 original test declarations. It tests public API compatibility: accepted input, rejection,
 `suppressErrors`, returned diagram family/configuration, and exact original
 error/return snapshots. It does not measure drawing accuracy or speed.
+
+The separately frozen `expanded-public` scope has **153 callbacks from 36
+declarations**: 102 parse, 32 detection and the same 19 accessibility render
+callbacks. It adds 26 direct detector callbacks, seven sequence/event-modeling
+parse callbacks and 79 static first-party registry examples. The original 41
+identities, callback bytes and old evidence remain available. Comparisons use
+one complete selected population; the two scopes are never pooled.
+
+The registry parameters come from literal TypeScript data read without executing
+its modules. Fixture-file and code hashes bind every expanded name. The registry
+test imports the public `mermaid` package; the controlled npm host resolves that
+import to the pinned checkout's public source entry for both original and
+delegated controls. This resolution and its source hash are explicit in context.
+No test body, assertion, snapshot or diagram literal is rewritten.
 
 The fixed denominator includes every selected callback. Unsupported validation,
 failed assertions, missing public fields and incomplete evidence remain distinct
@@ -51,8 +65,14 @@ Run explicitly with a fresh output directory and reviewed public bindings:
 
 ```sh
 bun unified/public-conformance.ts --source PINNED_MERMAID_CHECKOUT \
-  --runner-root ORIGINAL_RUNTIME --bindings BINDINGS.json --out FRESH_DIRECTORY
+  --runner-root ORIGINAL_RUNTIME --bindings BINDINGS.json --out FRESH_DIRECTORY \
+  --scope expanded-public
 ```
+
+Omit `--scope` or select `qualified-41` to collect the historical scope. Source-only
+regeneration is `bun scripts/review-public-test-scope.ts PINNED_SOURCE --check`;
+it invokes no parser or renderer. `corpus/mermaid-public-tests-expanded.json`
+freezes the expanded selection independently of the legacy manifest.
 
 The source checkout and runtime must resolve the same original Vitest instance.
 `--inventory-only` needs no bindings and executes no parser. `--controls DIR`
@@ -89,7 +109,11 @@ Broader conformance remains blocked on these separate contracts:
   require review before declaring any remaining test eligible or internal-only.
 
 The machine report keeps `wholeSuiteConformanceQualified: false`. A successful
-41-callback run does not clear those blockers.
+41-callback or 153-callback run does not clear those blockers. The expanded
+selection leaves 4,006 declarations outside its scored public scope. Eighteen
+upstream-disabled declarations are explicit exclusions; all other private,
+indirect or mixed contracts retain their review status. The source census does
+not claim those declarations have been fully excluded or ported.
 
 ## Publish retained results
 

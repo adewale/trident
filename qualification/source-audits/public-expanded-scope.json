@@ -1,0 +1,91 @@
+{
+  "schema": "trident-public-source-scope-review-v1",
+  "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "producerCommit": "3777350",
+  "selectionFrozenBeforeCandidateExecution": true,
+  "scope": "expanded-public",
+  "declarations": 4060,
+  "files": 368,
+  "eligibleDeclarations": 36,
+  "callbacks": 153,
+  "callbackOperations": {
+    "parse": 102,
+    "detectType": 32,
+    "render": 19
+  },
+  "historicalCallbacksPreserved": 41,
+  "additionalCallbacks": 112,
+  "additionalPureDetectorCallbacks": 26,
+  "additionalSequenceAndEventmodelingParseCallbacks": 7,
+  "staticRegistryExampleCallbacks": 79,
+  "censusRole": "Declaration census and conservative source review; not4060 expanded cases or whole-suite conformance",
+  "unresolvedOutsideScoredScope": 4006,
+  "explicitDisabledExclusions": 18,
+  "privateOrUnclassifiedCompleteExclusionsClaimed": false,
+  "sourceReader": "/root/resolve_sources_and_tests",
+  "independenceLimit": "Eligibility and fixture lowering were reviewed by one Trident source reader using unchanged upstream-authored tests. Selection froze before any candidate execution; original/native and installed-reference controls independently gate all peer scores. No source assertions were invented or normalized.",
+  "eligibleRule": "Original callback asserts only public parse/detect results or the existing public accessibility render contract. Static fixture imports and setup are preserved; private DB/model/spies, registration lifecycle, mixed documentation assertions and unavailable configuration or DOM APIs are not forced into peer interfaces.",
+  "sourceSpecs": [
+    {
+      "path": "packages/examples/src/example.spec.ts",
+      "fixture": "tests/fixtures/conformance/example.spec.ts.txt",
+      "sha256": "2ce67f8f40618fd2d4f28083404d715c8b397a156ee352d124cb1b9e01d3a15a"
+    },
+    {
+      "path": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+      "fixture": "tests/fixtures/conformance/diagram-orchestration.spec.ts.txt",
+      "sha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710"
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/eventmodeling/eventmodeling.spec.ts",
+      "fixture": "tests/fixtures/conformance/eventmodeling.spec.ts.txt",
+      "sha256": "784145fb25baae2af0d7f24642e420409f00a8e5d079d272c9b97a33b19a0cb7"
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
+      "fixture": "tests/fixtures/conformance/sequenceDiagram.spec.js.txt",
+      "sha256": "42892609fd6c7598f7a51b020e651330803313cec972c1c738ff2b17374ea125"
+    },
+    {
+      "path": "packages/mermaid/src/mermaid.spec.ts",
+      "fixture": "tests/fixtures/conformance/mermaid.spec.ts.txt",
+      "sha256": "f5fb1981bf886e83c3b3bed64f3d047dcc5864b4b56edc898e05284c6afde7ba"
+    },
+    {
+      "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+      "fixture": "tests/fixtures/conformance/mermaidAPI.spec.ts.txt",
+      "sha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884"
+    },
+    {
+      "path": "packages/mermaid/src/utils.spec.ts",
+      "fixture": "tests/fixtures/conformance/utils.spec.ts.txt",
+      "sha256": "f707dfcce66261c41914fe046e6e372a129894e6e1a10c8e1c954e3276fd33c5"
+    }
+  ],
+  "additionalDeclarations": [
+    "packages/examples/src/example.spec.ts:91",
+    "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17",
+    "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:46",
+    "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:53",
+    "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:60",
+    "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:67",
+    "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:91",
+    "packages/mermaid/src/diagrams/eventmodeling/eventmodeling.spec.ts:95",
+    "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js:2388",
+    "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js:2598",
+    "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js:2615",
+    "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js:2631",
+    "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js:913"
+  ],
+  "nativeHost": {
+    "publicImportResolution": {
+      "specifier": "mermaid",
+      "importer": "packages/examples/src/example.spec.ts",
+      "publicSourceEntry": "packages/mermaid/src/mermaid.ts",
+      "sha256": "a5b28e1131d0bf6d623f75674bd83d183f1aec212ef69b0f865e9e849fd1f75e"
+    },
+    "originalSetup": "Unchanged inherited hooks and original Vitest jsdom setup; static package fixtures hashed before target invocation",
+    "privateSetupLimit": "Private DB clears and original module-loading hooks are host prerequisites only; no private return supplies a candidate assertion answer"
+  },
+  "examples": "AST reads only literal arrays/objects/strings/booleans; dynamic initializers or changed source fail regeneration. All79 code hashes and their source file hashes are retained."
+}

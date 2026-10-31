@@ -56,7 +56,10 @@ export function expandReviewedPublicCallbacks(upstream:string,declarations:reado
     const base={...input,declarationId:input.id}
     if(input.id===expandedPublicFiles[0]+':17')return eachParameters(upstream,input).map(value=>{
       if(typeof value.text!=='string'||typeof value.expected!=='string')throw Error('Original detector parameter changed')
-      return {...base,id:input.id+'#parameter:'+encodeURIComponent(value.text),parameter:value.text,nativeRegistrationLine:input.line,fullName:input.fullName.replace('$text',value.text).replace('$expected',value.expected)}
+      // Vitest's object interpolation uses inspected string values, including
+      // their quotes. Its registrar is the second call at line39, after the
+      // original literal each(...) table; declaration/source identity stays17.
+      return {...base,id:input.id+'#parameter:'+encodeURIComponent(value.text),parameter:value.text,nativeRegistrationLine:39,fullName:input.fullName.replace('$text',"'"+value.text+"'").replace('$expected',"'"+value.expected+"'")}
     })
     if(input.id===expandedPublicFiles[2]+':2388')return eachParameters(upstream,input).map(value=>{
       if(typeof value!=='string')throw Error('Original actor parameter changed')
