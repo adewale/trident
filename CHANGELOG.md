@@ -23,7 +23,7 @@ publication remain pending.
 - Qualify 22 unchanged original Mermaid public parse/detector callbacks against
   both the source runner and substituted public reference. Preserve the complete
   4,060-declaration census separately; broader conformance remains unqualified.
-- Declare 318 required terminal source facts across the full 120-input corpus;
+- Declare required terminal source facts across the full 120-input corpus;
   keep 116 positive drawings and four invalid controls separate. Expand bounded display-cell observers; the
   diagnostic subset is not a verified-pass count or complete accuracy claim.
 - Verify 16 public execution paths across six complementary project artifacts,

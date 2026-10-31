@@ -68,10 +68,15 @@ bun commands.ts release:check --prepared PREPARATION.json \
   --out FRESH_DIRECTORY
 ```
 
-This builds once, extracts the kit and runs it from an empty directory. The owning
-receipt must include the archive hashes, actual worker attempts and output. Its
-public invocation, label change, configuration reset and invalid-input recovery
-checks are packaging evidence, not corpus accuracy or timing qualification.
+This builds once, extracts the kit and runs it from an empty directory. The same
+label-change, configuration-reset and invalid-input-recovery workflows run from
+source against the same frozen target artifact. Their owning worker inventories,
+inputs, expectations, outcomes and rejection controls must agree; a new failure
+or lost evidence in the kit fails packaging. Retained SVG admission is rechecked
+with the source observer and output hashes are recorded. Identical renderer
+failures and known unavailable option mappings remain findings. The receipt
+establishes preservation of those source outcomes, not that every workflow
+passed, corpus accuracy or timing qualification.
 Documentation-only edits need their relevant consistency checks, not collection.
 
 ## Publish

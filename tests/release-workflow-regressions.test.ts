@@ -2,11 +2,12 @@ import { expect, test } from 'bun:test'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { gzipSync } from 'node:zlib'
-import { verifyKitSmoke, verifySourceSmoke } from '../scripts/package-release.ts'
+import { verifyKitSmoke, verifySourceSmoke, verifyReleaseSmokeParity } from '../scripts/package-release.ts'
 import { PORTABLE_MEASUREMENT_PROTOCOL, type PortableWorkerResult } from '../portable/protocol.ts'
 import type { ProjectBenchmarkRecord } from '../portable/project-records.ts'
 import type { BenchmarkObservation } from '../unified/types.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
+import { portableCases, PORTABLE_COHORT_PROTOCOL, FAMILY_SUPPORT_PROTOCOL } from '../portable/cohorts.ts'
 import { communityCoreWorkloads } from '../unified/community.ts'
 import { runCommunityCliCohort, runCommunityResourceDiagnostic } from '../unified/community-cli.ts'
 
@@ -92,4 +93,64 @@ test('the resource deadline gates actual commands after unavailable observations
   const workload = communityCoreWorkloads()[0]!
   expect(runCommunityResourceDiagnostic(variant, 'terminal', workload, { path: '/missing', version: null, error: 'Observer unavailable' }, root, 0).status).toBe('blocked')
   expect(() => runCommunityResourceDiagnostic(variant, 'terminal', workload, { path: '/never-run', version: 'fixture GNU Time' }, root, 0)).toThrow('Collection budget exhausted')
+})
+
+
+function parityFixture() {
+  const fixture = kitFixture(), cases = structuredClone(portableCases(undefined, caseIds))
+  fixture.record.identity.protocol = { measurement: PORTABLE_MEASUREMENT_PROTOCOL, cohort: PORTABLE_COHORT_PROTOCOL, cases, familySupport: { protocol: FAMILY_SUPPORT_PROTOCOL } }
+  fixture.record.identity.artifact = { project: fixture.project, sha256: 'a'.repeat(64) }
+  fixture.record.identity.measurement = { environment: { runtime: { node: '24', executable: '/fixture/node' } }, sampling: { rounds: 1, samples: 1, coldSamples: 1, minSampleMs: 0 } }
+  for (const worker of fixture.results) {
+    const testCase = cases.find(row => row.id === worker.caseId)!
+    worker.prelude = (testCase.prelude ?? []).map(row => ({ source: row.source, expectedAccepted: row.accept, actualAccepted: row.accept, passed: true }))
+    if (worker.caseId === 'adversarial:configuration-reset') { worker.error = 'Error: Adapter gap: no reviewed public font-size configuration binding for declared'; continue }
+    if (worker.caseId !== 'family:flowchart') { worker.status = 'failed'; worker.error = 'Error: Renderer finding retained on the same frozen artifact' }
+  }
+  const svgPath = join(fixture.record.evidenceDirectory, 'svg', 'family_flowchart.svg'); mkdirSync(join(fixture.record.evidenceDirectory, 'svg'))
+  writeFileSync(svgPath, '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100"><text x="10" y="20">Alpha</text><text x="70" y="20">Beta</text><text x="120" y="20">Gamma</text></svg>')
+  fixture.record.evidenceFiles.push('svg/family_flowchart.svg')
+  fixture.save()
+  return { ...fixture, cases, svgPath }
+}
+
+test('release parity preserves identical renderer findings and known option gaps without calling them workflow passes', () => {
+  const source = parityFixture(), kit = parityFixture()
+  const result = verifyReleaseSmokeParity(source.file, kit.file, source.project, caseIds)
+  expect(result.status).toBe('source-and-kit-outcomes-preserved')
+  expect(result.sourceRecord.sha256).toHaveLength(64)
+  expect(result.kitWitnesses).toHaveLength(1)
+})
+
+test.each(['failed', 'blocked', 'partial'] as const)('shipped kit cannot turn a source workflow into a fresh %s result', changed => {
+  const source = parityFixture(), kit = parityFixture()
+  source.results[1]!.status = 'passed'; source.results[1]!.error = undefined; source.save()
+  kit.results[1]!.status = changed; kit.save()
+  expect(() => verifyReleaseSmokeParity(source.file, kit.file, source.project, caseIds)).toThrow()
+})
+
+test('release parity rejects changed artifact bytes, old source expectations and missing negative preludes', () => {
+  for (const mutation of ['artifact', 'expectation', 'prelude'] as const) {
+    const source = parityFixture(), kit = parityFixture()
+    if (mutation === 'artifact') (kit.record.identity.artifact as any).sha256 = 'b'.repeat(64)
+    else if (mutation === 'expectation') (kit.record.identity.protocol as any).cases[1].edit.expected.labels = ['Base label', 'Stable label']
+    else kit.results[3]!.prelude = []
+    kit.save()
+    expect(() => verifyReleaseSmokeParity(source.file, kit.file, source.project, caseIds)).toThrow()
+  }
+})
+
+test('equal worker summaries cannot hide an extracted kit witness missing declared source text', () => {
+  const source = parityFixture(), kit = parityFixture()
+  writeFileSync(kit.svgPath, '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100"><text>Alpha</text></svg>')
+  expect(() => verifyReleaseSmokeParity(source.file, kit.file, source.project, caseIds)).toThrow('independently rechecked')
+})
+
+test('contradictory rejection evidence and unqualified transport failures cannot get packaging parity', () => {
+  const source = parityFixture(), kit = parityFixture()
+  kit.results[3]!.prelude[0]!.actualAccepted = true; kit.results[3]!.prelude[0]!.passed = false; kit.save()
+  expect(() => verifyReleaseSmokeParity(source.file, kit.file, source.project, caseIds)).toThrow('workflow outcome')
+  source.results[1]!.status = 'blocked'; source.results[1]!.error = 'Error: Cannot import shipped driver'; source.save()
+  kit.results[1]!.status = 'blocked'; kit.results[1]!.error = 'Error: Cannot import shipped driver'; kit.save()
+  expect(() => verifyReleaseSmokeParity(source.file, kit.file, source.project, caseIds)).toThrow('unqualified harness failure')
 })

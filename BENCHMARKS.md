@@ -147,7 +147,7 @@ dates, commits, licenses, body/patch hashes and extraction changes remain attach
 to every input. The 67 terminal-specific cases and 53 shared-renderer robustness
 cases are development inputs, not a production-frequency sample.
 
-The full inventory now declares **318 required source facts**. The bounded
+Every input now declares its required source facts. The bounded
 [observer](docs/terminal-correctness.md) reads actual terminal state, including
 ANSI movement, erase and conceal, then checks supported node boxes, directed
 routes, captions and layout; supported pie rows, five-score-cell journey rows
