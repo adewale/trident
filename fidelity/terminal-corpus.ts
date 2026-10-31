@@ -59,7 +59,7 @@ export interface TerminalSourceReview { caseId: string; sourceSha256: string; in
 type AuditedSource = Pick<TerminalProjectCase, 'id' | 'sourceSha256' | 'family' | 'intent' | 'expected'>
 export interface TerminalSourceAudit {
   schema: 'terminal-independent-source-audit-v1'
-  cases: { caseId: string; sourceSha256: string; semanticReviewSha256: string; review: string; findingIds: string[] }[]
+  cases: { caseId: string; sourceSha256: string; family: string; intent: string; semanticReviewSha256: string; review: string; findingIds: string[] }[]
   findings: { id: string; status: string }[]
 }
 function contractGraph(contract?: TerminalSourceContract): TerminalMeaning | undefined {
@@ -77,7 +77,7 @@ export function terminalSourceAuditIdentity(input: AuditedSource) {
 export function readTerminalSourceAudit(file = resolve(import.meta.dir, '../docs/evidence/terminal-source-review-2026-10-31/receipt.json')): TerminalSourceAudit {
   const audit = JSON.parse(readFileSync(file, 'utf8')) as TerminalSourceAudit
   const digest = (value: unknown) => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value)
-  if (audit.schema !== 'terminal-independent-source-audit-v1' || !Array.isArray(audit.cases) || !Array.isArray(audit.findings) || new Set(audit.cases.map(row => row.caseId)).size !== audit.cases.length || new Set(audit.findings.map(row => row.id)).size !== audit.findings.length || audit.findings.some(row => !row.id || !row.status) || audit.cases.some(row => !row.caseId || !digest(row.sourceSha256) || !digest(row.semanticReviewSha256) || row.review !== 'full-literal-read' || !Array.isArray(row.findingIds) || row.findingIds.some(id => !audit.findings.some(finding => finding.id === id)))) throw Error('Terminal independent source audit is malformed or duplicate')
+  if (audit.schema !== 'terminal-independent-source-audit-v1' || !Array.isArray(audit.cases) || !Array.isArray(audit.findings) || new Set(audit.cases.map(row => row.caseId)).size !== audit.cases.length || new Set(audit.findings.map(row => row.id)).size !== audit.findings.length || audit.findings.some(row => !row.id || !row.status) || audit.cases.some(row => !row.caseId || !row.family || !['valid', 'invalid', 'dialect'].includes(row.intent) || !digest(row.sourceSha256) || !digest(row.semanticReviewSha256) || row.review !== 'full-literal-read' || !Array.isArray(row.findingIds) || row.findingIds.some(id => !audit.findings.some(finding => finding.id === id)))) throw Error('Terminal independent source audit is malformed or duplicate')
   return audit
 }
 export function terminalSourceAuditStatus(input: AuditedSource, audit = readTerminalSourceAudit()) {
@@ -104,6 +104,9 @@ export function reviewedTerminalCases(corpus = readTerminalCorpus(), reviewFile 
     if (!review) return input
     const candidate = { ...input, features: [...input.features.filter(feature => feature !== 'expected-empty-drawing'), ...(empty ? ['expected-empty-drawing'] : [])], intent: review.intent, expected: { status: 'independently-reviewed', reason: review.review, ...(graph ? { graph } : {}), ...(review.contract ? { contract: review.contract } : {}), unverifiedFacts: review.unverifiedFacts } }
     const admission = terminalSourceAuditStatus(candidate, audit)
-    return admission.admitted ? candidate : { ...candidate, expected: { ...candidate.expected, status: 'unreviewed', reason: admission.reason } }
+    // An unaudited intent change cannot move an existing drawing out of its
+    // denominator or turn a positive input into a rejection-control win.
+    const auditedIntent = audit.cases.find(row => row.caseId === input.id && row.sourceSha256 === input.sourceSha256 && row.family === input.family)?.intent ?? 'unreviewed'
+    return admission.admitted ? candidate : { ...candidate, intent: auditedIntent, expected: { ...candidate.expected, status: 'unreviewed', reason: admission.reason } }
   })
 }
