@@ -75,3 +75,11 @@ test('separate independent project receipt files preserve their own packet roots
     expect(()=>materializeOfflinePngReviews({campaign:root,receipts:files,out:join(root,'conflict.json'),contracts})).toThrow('conflict')
   } finally { rmSync(root,{recursive:true,force:true}) }
 })
+
+
+test('explicit review basis accepts ordinary human viewers and rejects derived claims even with a familiar tool name',()=>{
+ const human=structuredClone(receipt);human.schema='trident-offline-png-image-review-v2';human.inspection.basis='source-and-actual-image';human.inspection.method='Human viewed original PNG in Preview and compared every literal source fact'
+ expect(run([human]).reviews[0]!.status).toBe('incorrect')
+ const absent=structuredClone(human);delete absent.inspection.basis;expect(()=>run([absent])).toThrow('direct source-and-actual-image basis')
+ for(const basis of ['svg-derived','reference-preservation']as const){const derived=structuredClone(human);derived.inspection.basis=basis;derived.inspection.method='view_image';expect(()=>run([derived])).toThrow('direct source-and-actual-image basis')}
+})

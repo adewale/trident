@@ -4,7 +4,7 @@ import { evidenceBytesDigest, evidenceDigest } from '../portable/evidence-contra
 import type { PaintCheck } from '../fidelity/paint.ts'
 import { reviewedDocsCase, sourceHash, type DocsDrawingReview, type DocsInput } from './docs-drawings.ts'
 import { docsExpectationsHash } from './docs-png-drawings.ts'
-import { importOfflinePngReviews, type OfflinePngReviewReceipt } from './docs-png-offline-review.ts'
+import { hasDirectPngReviewBasis, importOfflinePngReviews, type LegacyPngDirectBasisAudit, type OfflinePngReviewReceipt } from './docs-png-offline-review.ts'
 import { bindDocsPngConversionReturn } from './docs-png-qualification.ts'
 import { inspectPng } from './png-inspection.ts'
 import { readCheckpointEntries } from '../portable/checkpoint.ts'
@@ -130,10 +130,10 @@ export interface OwnedPngSvgStaticFrame {
  * Same-call raw returns bind its exact pixels to this exact rasterized SVG.
  * No historical SVG verdict, generated reference raster or native PNG qualifies.
  */
-export async function observeOwnedPngSvgStaticFrame(input: { root: string; source: DocsInput; review: DocsDrawingReview; receipt: OfflinePngReviewReceipt; actualPng: Uint8Array; packet: Uint8Array; originalSvg: string; rasterizedSvg: string; attemptId: string; round: number; profile: Readonly<BrowserPngCaptureProfile>; evaluate: <T>(fn: typeof auditDocsPngSvgSerialization, value: Parameters<typeof auditDocsPngSvgSerialization>[0]) => Promise<T> }): Promise<Readonly<OwnedPngSvgStaticFrame>> {
+export async function observeOwnedPngSvgStaticFrame(input: { root: string; source: DocsInput; review: DocsDrawingReview; receipt: OfflinePngReviewReceipt; actualPng: Uint8Array; packet: Uint8Array; originalSvg: string; rasterizedSvg: string; attemptId: string; round: number; profile: Readonly<BrowserPngCaptureProfile>; legacyReviewBasis?: Readonly<LegacyPngDirectBasisAudit>; evaluate: <T>(fn: typeof auditDocsPngSvgSerialization, value: Parameters<typeof auditDocsPngSvgSerialization>[0]) => Promise<T> }): Promise<Readonly<OwnedPngSvgStaticFrame>> {
   if (!admittedProfiles.has(input.profile) || evidenceBytesDigest(readFileSync(join(input.root, 'context.json'))) !== input.profile.contextSha256) throw Error('Static SVG needs its actual admitted capture profile')
   const project = input.receipt.project
-  if (!project?.trim() || input.receipt.review.status !== 'correct' || !input.receipt.inspection.method.includes('view_image')) throw Error('Static SVG needs an independent complete actual-PNG image review from its SVG-producing project')
+  if (!project?.trim() || input.receipt.review.status !== 'correct' || !hasDirectPngReviewBasis(input.receipt,input.legacyReviewBasis)) throw Error('Static SVG needs an independent complete actual-PNG image review from its SVG-producing project')
   importOfflinePngReviews([input.source], [input.review], [input.receipt], () => input.actualPng, () => input.packet)
   if (input.receipt.review.pngSha256 !== evidenceBytesDigest(input.actualPng)) throw Error('Static SVG cannot borrow another image or decoded-pixel alias')
   if (input.profile.attemptIds && !input.profile.attemptIds.includes(input.attemptId)) throw Error('Static SVG invocation was not covered by this capture execution')

@@ -8,7 +8,7 @@ import { InvocationJournal } from '../portable/invocation-journal.ts'
 import { evidenceBytesDigest, evidenceDigest } from '../portable/evidence-contract.ts'
 import { reviewedDocsCase, sourceHash, type DocsDrawingReview } from '../unified/docs-drawings.ts'
 import { docsExpectationsHash } from '../unified/docs-png-drawings.ts'
-import type { OfflinePngReviewReceipt } from '../unified/docs-png-offline-review.ts'
+import { readLegacyPngDirectBasisAudit, type OfflinePngReviewReceipt } from '../unified/docs-png-offline-review.ts'
 import { auditDocsPngSvgSerialization, mergeOwnedPngSvgStaticChecks, observeOwnedPngSvgStaticFrame, readBrowserPngCaptureProfile } from '../unified/docs-png-svg-static.ts'
 import { beginDocsPngCapture, completeDocsPngCapture } from '../unified/docs-png-capture.ts'
 import { makeSvgCaseContract } from '../fidelity/svg-assessment.ts'
@@ -41,7 +41,7 @@ async function fixture(originalSvg = svg, project = 'synthetic/eligible-svg') {
   new CollectionCheckpoint(root, { schema: 'synthetic-static-control' }).record(JSON.stringify(['raw-png', project, 1, source.id]), { status: 'passed', invocationId: started.attemptId, bytesBase64: actualPng.toString('base64'), originalSvg, rasterizedSvg })
   const completionFile = completeDocsPngCapture(capture,[started.attemptId],snapshot).file
   const profile = readBrowserPngCaptureProfile({root,completionFile})
-  const receipt: OfflinePngReviewReceipt = { schema: 'trident-offline-png-image-review-v1', project, source: source.source, reviewedSourceContract: review, actualImage: { path: 'synthetic-box.png', sha256: evidenceBytesDigest(actualPng), width: 180, height: 60 }, inspection: { method: 'Synthetic view_image explicit full source/image control; not benchmark image evidence', packet: 'synthetic-packet.png', packetSha256: evidenceBytesDigest(actualPng), checkedAt: '2026-10-31T18:00:00Z' }, review: { id: source.id, sourceSha256: sourceHash(source.source), expectationsSha256: docsExpectationsHash(review), pngSha256: evidenceBytesDigest(actualPng), status: 'correct', reviewedBy: 'Independent synthetic full-source control author', review: 'Known authored control contains exactly one visible Alpha label in a stroked box. This tests evidence gates and does not claim a general image oracle or a benchmark image review.' } }
+  const receipt: OfflinePngReviewReceipt = { schema: 'trident-offline-png-image-review-v2', project, source: source.source, reviewedSourceContract: review, actualImage: { path: 'synthetic-box.png', sha256: evidenceBytesDigest(actualPng), width: 180, height: 60 }, inspection: { basis: 'source-and-actual-image', method: 'Human opened the exact PNG in Preview at native size and read the complete independent source facts', packet: 'synthetic-packet.png', packetSha256: evidenceBytesDigest(actualPng), checkedAt: '2026-10-31T18:00:00Z' }, review: { id: source.id, sourceSha256: sourceHash(source.source), expectationsSha256: docsExpectationsHash(review), pngSha256: evidenceBytesDigest(actualPng), status: 'correct', reviewedBy: 'Independent synthetic full-source control author', review: 'Known authored control contains exactly one visible Alpha label in a stroked box. This tests evidence gates and does not claim a general image oracle or a benchmark image review.' } }
   return { root, source, review, receipt, actualPng, packet: actualPng, originalSvg, rasterizedSvg, attemptId: started.attemptId, round: 1, profile, evaluate: <T>(fn: typeof auditDocsPngSvgSerialization, value: { originalSvg: string; rasterizedSvg: string }) => page.evaluate(fn, value) as Promise<T>, fontsFile, completionFile }
 }
 const unknown = (criterion: string): PaintCheck => ({ criterion, status: 'unavailable', expected: 'Full authored fact', actual: 'DOM representation unavailable', scope: 'Independent SVG observer' })
@@ -66,7 +66,7 @@ test('native PNGs, reference/preservation labels, unknown decisions and changed 
   const f = await fixture()
   for (const mutate of [
     (r: OfflinePngReviewReceipt) => { r.project = 'pub:mermaid_flutter' },
-    (r: OfflinePngReviewReceipt) => { r.inspection.method = 'Generated resvg reference agrees with SVG' },
+    (r: OfflinePngReviewReceipt) => { r.inspection.method = 'view_image generated reference agrees with SVG'; r.inspection.basis='reference-preservation' },
     (r: OfflinePngReviewReceipt) => { (r.review as any).status = 'unknown' },
     (r: OfflinePngReviewReceipt) => { r.source += '\nB[Beta]' },
     (r: OfflinePngReviewReceipt) => { r.review.expectationsSha256 = '0'.repeat(64) },
@@ -126,4 +126,19 @@ test('one outer SVG can retain nested SVG icon content without accepting sibling
  expect(await page.evaluate(auditDocsPngSvgSerialization,{originalSvg,rasterizedSvg:serialized})).toMatchObject({matched:true,originalTreeEquivalent:true})
  expect((await page.evaluate(auditDocsPngSvgSerialization,{originalSvg:originalSvg+originalSvg,rasterizedSvg:serialized})).matched).toBe(false)
  expect((await page.evaluate(auditDocsPngSvgSerialization,{originalSvg:'outside'+originalSvg,rasterizedSvg:serialized})).matched).toBe(false)
+})
+
+
+test('ordinary human image viewers qualify direct review, while spoofed tool names or unaudited legacy receipts do not',async()=>{
+ const f=await fixture(),human=await observeOwnedPngSvgStaticFrame(f)
+ expect(human.reviewReceiptSha256).toBe(evidenceDigest(f.receipt))
+ const derived=structuredClone(f.receipt);derived.inspection.method='view_image';derived.inspection.basis='svg-derived'
+ await expect(observeOwnedPngSvgStaticFrame({...f,receipt:derived})).rejects.toThrow('independent complete actual-PNG')
+ const legacy=structuredClone(f.receipt);legacy.schema='trident-offline-png-image-review-v1';delete legacy.inspection.basis
+ await expect(observeOwnedPngSvgStaticFrame({...f,receipt:legacy})).rejects.toThrow('independent complete actual-PNG')
+ const file=join(f.root,'legacy-direct-basis.json');writeFileSync(file,JSON.stringify({schema:'trident-legacy-direct-png-review-basis-v1',basis:'source-and-actual-image',auditedBy:'Independent synthetic provenance auditor',method:'Audit of actual retained direct source/image inspection receipts; no historical decisions restamped',receiptSha256s:[evidenceDigest(legacy)]}))
+ const legacyReviewBasis=readLegacyPngDirectBasisAudit(file)
+ expect((await observeOwnedPngSvgStaticFrame({...f,receipt:legacy,legacyReviewBasis})).pngSha256).toBe(evidenceBytesDigest(f.actualPng))
+ const spoofed=structuredClone(legacy);spoofed.inspection.method='view_image from SVG agreement'
+ await expect(observeOwnedPngSvgStaticFrame({...f,receipt:spoofed,legacyReviewBasis})).rejects.toThrow('independent complete actual-PNG')
 })

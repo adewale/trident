@@ -76,6 +76,42 @@ two projects retain separate inspection receipts; conflicting verdicts for the
 same source/image are rejected. The importer authors no image verdict and calls
 no project renderer or Codex/API.
 
+New human-authored receipts use `trident-offline-png-image-review-v2`. Their
+inspection section declares the basis explicitly; the viewer can be any ordinary
+image application. This is the inspection portion of a complete receipt, with
+placeholders replaced by actual recorded values:
+
+```json
+{
+  "schema": "trident-offline-png-image-review-v2",
+  "inspection": {
+    "basis": "source-and-actual-image",
+    "method": "Human compared the full source facts with the original PNG in Preview at native size",
+    "packet": "inspected-packet.png",
+    "packetSha256": "<actual packet SHA-256>",
+    "checkedAt": "<actual inspection ISO timestamp>"
+  }
+}
+```
+
+The complete receipt also needs the literal source, exact canonical source review,
+actual PNG identity/dimensions, explicitly authored verdict/reason and reviewer.
+For a named format projection, retain the exact projection reviewed. Computing
+metadata never authors the verdict. Materialize the completed human receipt with:
+
+```sh
+bun unified/import-png-reviews.ts --campaign RETAINED_RUN \
+  --contracts corpus/docs-reviewed.json --receipts human-review.jsonl \
+  --out FRESH_REVIEW_FILE.json
+```
+
+`svg-derived` and `reference-preservation` bases cannot qualify direct content or
+static-SVG evidence, even if their method text names an image viewer. Existingv1
+receipts are preserved without restamping. A separate audited direct-image basis
+record pins exact legacy receipt hashes; `readLegacyPngDirectBasisAudit` supplies
+it to the static bridge through `legacyReviewBasis`. No method/tool name supplies
+that provenance, and neither review consumption nor the benchmark requires Codex.
+
 Content and transport evidence have separate roles. Modern ownership binds the
 actual project, literal case, round, immutable raw return and causal invocation
 frames. An explicitly audited legacy native receipt can instead establish only
