@@ -494,9 +494,12 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (pattern.length % 2) pattern = [...pattern, ...pattern]
     const period = pattern.reduce((sum, value) => sum + value, 0)
     if (!period) return 'solid'
-    const geometry = element as SVGGeometryElement, measured = geometry.getTotalLength(), declared = Number(element.getAttribute('pathLength'))
-    const length = declared > 0 ? declared : measured, offset = Number.parseFloat(css.strokeDashoffset), cap = css.strokeLinecap === 'butt' ? 0 : Number.parseFloat(css.strokeWidth) / 2
-    if (!(length > 0) || !Number.isFinite(offset) || !Number.isFinite(cap)) return 'unavailable'
+    const geometry = element as SVGGeometryElement, measured = geometry.getTotalLength(), declared = geometry.pathLength?.animVal ?? 0
+    const length = declared > 0 && Number.isFinite(declared) ? declared : measured, offset = Number.parseFloat(css.strokeDashoffset)
+    // pathLength calibrates dash distances, while stroke width/cap radii remain
+    // in geometric user units. Compare both in the declared distance system.
+    const cap = css.strokeLinecap === 'butt' ? 0 : Number.parseFloat(css.strokeWidth) / 2 * length / measured
+    if (!(length > 0) || !Number.isFinite(length) || !Number.isFinite(offset) || !Number.isFinite(cap)) return 'unavailable'
     const phase = (offset % period + period) % period
     let paint = false, gap = false
     if (length >= period) {
