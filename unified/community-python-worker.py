@@ -90,6 +90,9 @@ for w in job['workloads']:
   stage='qualification'
   qualify(sink,w)
   r.update(status='ok',firstMs=first,samplesMs=samples,medianMs=statistics.median(samples),outputBytes=len(sink.encode()),timingQualified=False,timingProtocol='legacy-adaptive-individually-retained-unqualified-v1')
- except Exception as e:r.update(status='blocked' if isinstance(e,ObserverUnavailable) else 'error',rejected=stage=='public-api' and isinstance(e,SyntaxError),typedSourceOutcome=source_outcome(w,'syntax-rejection' if stage=='public-api' and isinstance(e,SyntaxError) else 'unavailable',str(e)),failureStage=stage,detail=str(e))
+ except Exception as e:
+  typed_rejection=stage=='public-api' and isinstance(e,SyntaxError)
+  unavailable=stage=='public-api' and not typed_rejection
+  r.update(status='blocked' if isinstance(e,ObserverUnavailable) or unavailable and w.get('intent')=='negative-admission' else 'error',rejected=True if typed_rejection else None if unavailable else False,typedSourceOutcome=r.get('typedSourceOutcome') if stage!='public-api' else source_outcome(w,'syntax-rejection' if typed_rejection else 'unavailable',str(e)),failureStage=stage,detail=str(e))
  emit(out,r)
 emit(out,dict(type='end',maxRssKiB=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss));raw.close();out.close()

@@ -1,13 +1,13 @@
 import { InvocationJournal } from '../portable/invocation-journal.ts'
 import { evidenceBytesDigest, evidenceDigest, type InvocationEvidence } from '../portable/evidence-contract.ts'
-import { checkCollectionBudget } from '../portable/checkpoint.ts'
+import { checkCollectionBudget, writeDurableEvidence } from '../portable/checkpoint.ts'
 import { verifyNativePngArtifact } from '../native-flutter/community-launch.mjs'
 import { releaseBenchmarkSkip } from './benchmark-skip.ts'
 import { verifyReleaseCli } from './release-cli.ts'
 import { captureInstalledDependencyClosure } from '../portable/artifact-dependencies.ts'
 import { readBenchmarkDocument, writeBenchmarkDocument } from '../portable/project-records.ts'
 import { execFileSync, spawn, spawnSync } from 'node:child_process'
-import { createHash } from 'node:crypto'
+import { createHash, randomUUID } from 'node:crypto'
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
@@ -509,8 +509,21 @@ function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWo
       .replaceAll('{format}', output === 'terminal' ? 'unicode' : output),
   )
   const journal = new InvocationJournal(join(out, 'raw-cli-invocations'))
-  const executable = artifact.executable!.includes('/') ? artifact.executable! : execFileSync('which', [artifact.executable!], { encoding: 'utf8' }).trim()
-  const identity = { coordinate: 'round:' + round, project: prepared.node.id, caseId: workload.id, sourceSha256: evidenceBytesDigest(workload.source), artifactSha256: artifact.sha256 ?? evidenceBytesDigest(readFileSync(executable)), bindingSha256: evidenceDigest(JSON.parse(JSON.stringify({ executable, args, output, input: binding?.input ?? artifact.input ?? 'stdin' }))), format: output }
+  let executable: string, artifactSha256: string
+  try {
+    executable = artifact.executable!.includes('/') ? artifact.executable! : execFileSync('which', [artifact.executable!], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim()
+    if (!existsSync(executable)) throw Error('Configured public command does not exist: ' + executable)
+    artifactSha256 = artifact.sha256 ?? evidenceBytesDigest(readFileSync(executable))
+  } catch (error) {
+    const attemptId = randomUUID(), record = join(out, 'raw-cli-not-invoked', attemptId + '.json')
+    // There is no binary digest or public-call clock to invent when preflight
+    // cannot locate the command. Keep this outside the actual-call journal.
+    writeDurableEvidence(record, Buffer.from(JSON.stringify({ schema: 'trident-cli-not-invoked-v1', attemptId, state: 'not-invoked', project: prepared.node.id, caseId: workload.id, sourceSha256: evidenceBytesDigest(workload.source), format: output, round, configuredExecutable: artifact.executable, expectedArtifactSha256: artifact.sha256 ?? null, actualArtifactSha256: null, recordedAt: new Date().toISOString(), startedAt: null, finishedAt: null, durationMs: null, detail: String(error) }) + '\n'))
+    row.status = 'blocked'; row.detail = 'Public command was not invoked: ' + String(error)
+    row.metrics = { ...row.metrics, measuredAt: null, measuredFrom: null, firstMs: null, rejected: null, failureStage: 'transport', invocationState: 'not-invoked', notInvokedEvidence: record, timingQualified: false }
+    return row
+  }
+  const identity = { coordinate: 'round:' + round, project: prepared.node.id, caseId: workload.id, sourceSha256: evidenceBytesDigest(workload.source), artifactSha256, bindingSha256: evidenceDigest(JSON.parse(JSON.stringify({ executable, args, output, input: binding?.input ?? artifact.input ?? 'stdin' }))), format: output }
   const prior = journal.forIdentity(identity)
   if (prior.length) {
     const returned = prior.filter(frame => frame.state === 'returned')

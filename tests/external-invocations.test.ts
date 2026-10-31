@@ -68,7 +68,8 @@ test('a generic Python ValueError cannot earn typed source-rejection credit', as
   const previous = process.env.PYTHONPATH; process.env.PYTHONPATH = modules
   try {
     const rows = await runExternalCommunity({ node: { id: 'fixture/python', roles: ['renderer'], outputs: ['terminal'] }, artifact: { kind: 'python', python: 'python3', version: 'fixture' } }, [{ id: 'invalid', family: 'invalid', source: 'invalid', intent: 'negative-admission', features: [], provenance: 'Synthetic generic exception control' }], 'terminal', 1, parseOptions(['--out', join(root, 'run'), '--profile', 'smoke']))
-    expect(rows[0]!.metrics!.rejected).toBe(false)
+    expect(rows[0]!.metrics!.rejected).toBeNull()
+    expect(rows[0]!.status).toBe('blocked')
     expect(JSON.parse(rows[0]!.metrics!.typedSourceOutcome as string).kind).toBe('unavailable')
   } finally { if (previous === undefined) delete process.env.PYTHONPATH; else process.env.PYTHONPATH = previous }
 })

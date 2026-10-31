@@ -86,6 +86,10 @@ test('invalid CLI controls distinguish completed command rejection from broken t
     const attempt = (executable: string, args: string[]) => partitionVerificationRows([runCommunityCli({ node, artifact: { kind: 'cli', version: 'fixture', executable, args } }, 'svg', supportControls[0]!, 1, root)])
     expect(attempt(process.execPath, ['-e', 'process.exit(2)']).controlCounts.passed).toBe(1)
     expect(attempt(join(root, 'missing-command'), []).controlCounts.blocked).toBe(1)
+    const missing = runCommunityCli({ node, artifact: { kind: 'cli', version: 'fixture', executable: join(root, 'missing-command'), args: [] } }, 'svg', supportControls[0]!, 2, root)
+    const diagnostic = JSON.parse(readFileSync(missing.metrics!.notInvokedEvidence as string, 'utf8'))
+    expect(diagnostic).toMatchObject({ state: 'not-invoked', actualArtifactSha256: null, durationMs: null, startedAt: null, finishedAt: null })
+    expect(missing.metrics!.measuredAt).toBeNull()
     expect(attempt(process.execPath, ['-e', 'process.kill(process.pid, "SIGTERM")']).controlCounts.blocked).toBe(1)
     expect(attempt(process.execPath, ['-e', 'process.exit(0)', '{output}']).controlCounts.failed).toBe(1)
     expect(attempt(process.execPath, ['-e', 'process.stdout.write("broken SVG")']).controlCounts.failed).toBe(1)
@@ -117,12 +121,12 @@ test('diagnostic response inspection cannot masquerade as source rejection', asy
   } finally { rmSync(root, { recursive: true, force: true }) }
 })
 
-test('Python controls separate public ValueError rejection, accepted returns and missing transport or API', async () => {
-  for (const behavior of ['reject', 'accept', 'missing-command', 'missing-api', 'import-error']) {
+test('Python controls require typed syntax rejection and keep generic errors or missing transports unknown', async () => {
+  for (const behavior of ['syntax-reject', 'generic-error', 'accept', 'missing-command', 'missing-api', 'import-error']) {
     const root = mkdtempSync(join(tmpdir(), 'trident-python-controls-'))
     try {
       const module = join(root, 'termaid.py'), executable = join(root, 'python-wrapper')
-      writeFileSync(module, behavior === 'missing-api' ? 'not_render = True' : behavior === 'import-error' ? 'raise RuntimeError("import failed")' : behavior === 'reject' ? 'def render(source):\n raise ValueError("source rejected")' : 'def render(source):\n return "not terminal ink"')
+      writeFileSync(module, behavior === 'missing-api' ? 'not_render = True' : behavior === 'import-error' ? 'raise RuntimeError("import failed")' : behavior === 'syntax-reject' ? 'def render(source):\n raise SyntaxError("source rejected")' : behavior === 'generic-error' ? 'def render(source):\n raise ValueError("generic runtime failure")' : 'def render(source):\n return "not terminal ink"')
       writeFileSync(executable, `#!/usr/bin/env python3
 import os, sys
 os.environ['PYTHONPATH']=${JSON.stringify(root)}
@@ -131,7 +135,7 @@ os.execvp('python3', ['python3', *sys.argv[1:]])
       chmodSync(executable, 0o755)
       const node = { id: 'fixture/python', outputs: ['terminal'], roles: ['renderer'] }
       const rows = await runExternalCommunity({ node, artifact: { kind: 'python', version: 'fixture', python: behavior === 'missing-command' ? join(root, 'missing') : executable } }, supportControls, 'terminal', 1, parseOptions(['--out', root, '--profile', 'smoke']))
-      expect(partitionVerificationRows(rows).controlCounts).toEqual({ planned: 2, passed: behavior === 'reject' ? 2 : 0, failed: behavior === 'accept' ? 2 : 0, blocked: behavior.startsWith('missing') || behavior === 'import-error' ? 2 : 0, missing: 0 })
+      expect(partitionVerificationRows(rows).controlCounts).toEqual({ planned: 2, passed: behavior === 'syntax-reject' ? 2 : 0, failed: behavior === 'accept' ? 2 : 0, blocked: behavior.startsWith('missing') || behavior === 'import-error' || behavior === 'generic-error' ? 2 : 0, missing: 0 })
     } finally { rmSync(root, { recursive: true, force: true }) }
   }
 })
