@@ -1,0 +1,145 @@
+[
+  {
+    "node": {
+      "id": "AlexanderGrooff/mermaid-ascii",
+      "categories": [
+        "renderer"
+      ],
+      "relation": "independent",
+      "repo": "https://github.com/AlexanderGrooff/mermaid-ascii",
+      "branch": "master",
+      "head": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+      "lastCommit": "2026-09-08T23:38:47+02:00",
+      "rootCommits": [
+        "cb28264cf4b3261836de8f6af2d8dc2e7d459552"
+      ],
+      "license": "MIT",
+      "release": {
+        "tag": "1.6.1",
+        "commit": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea"
+      },
+      "runtime": "Go",
+      "outputs": [
+        "ascii-unicode"
+      ],
+      "roles": [
+        "ancestor",
+        "terminal-peer"
+      ],
+      "notes": "docs/comparison.md records 1.4.0; latest tag is newer. Ancestor of the Beautiful/Agentic ASCII engine by port.",
+      "benchmark": {
+        "adapter": "source-cli",
+        "outputs": [
+          "terminal"
+        ],
+        "cliRelease": {
+          "repository": "AlexanderGrooff/mermaid-ascii",
+          "tag": "1.6.1",
+          "version": "1.6.1",
+          "versionSource": "release-tag",
+          "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+          "outputs": {
+            "terminal": {
+              "args": [],
+              "input": "stdin"
+            }
+          },
+          "platforms": {
+            "linux-x64": {
+              "asset": "mermaid-ascii_Linux_x86_64.tar.gz",
+              "sha256": "9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41",
+              "executable": "mermaid-ascii"
+            }
+          }
+        }
+      },
+      "benchmarkEligibility": {
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "reason": "Catalog declares terminal operations with adapter source-cli. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+      }
+    },
+    "artifact": {
+      "kind": "cli",
+      "executable": "/workspace/trident/node_modules/.cache/unified-community/AlexanderGrooff--mermaid-ascii@5f00e3d9ac9fc96a19859d502333e35b87d2ffea/bin/mermaid-ascii",
+      "args": [],
+      "input": "stdin",
+      "format": "terminal",
+      "defaults": "Public CLI stdin with default Unicode diagram output, non-TTY color policy.",
+      "version": "git-5f00e3d9ac9f",
+      "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+      "sha256": "42f116149cc3485a72bb4eea174a71ca52179d8eb8c6fdb9c87e62d62151f1e2",
+      "sourceRoot": "/workspace/trident/node_modules/.cache/unified-community/AlexanderGrooff--mermaid-ascii@5f00e3d9ac9fc96a19859d502333e35b87d2ffea/source",
+      "buildCommand": [
+        "go",
+        "build",
+        "-trimpath",
+        "-o",
+        "/workspace/trident/node_modules/.cache/unified-community/AlexanderGrooff--mermaid-ascii@5f00e3d9ac9fc96a19859d502333e35b87d2ffea/bin/mermaid-ascii",
+        "."
+      ],
+      "boundary": "cold-public-cli"
+    }
+  },
+  {
+    "node": {
+      "id": "fasouto/termaid",
+      "categories": [
+        "renderer"
+      ],
+      "relation": "independent",
+      "repo": "https://github.com/fasouto/termaid",
+      "branch": "main",
+      "head": "a10dfd506ec67dc11fce3f399c20a353202586ae",
+      "lastCommit": "2026-10-18T02:26:24+02:00",
+      "rootCommits": [
+        "7a150be2733d1fb0c9f26f4afba068c980779796"
+      ],
+      "license": "MIT",
+      "runtime": "Python",
+      "outputs": [
+        "ascii-unicode"
+      ],
+      "packages": [
+        {
+          "registry": "pypi",
+          "name": "termaid",
+          "version": "0.9.1",
+          "license": "MIT"
+        }
+      ],
+      "roles": [
+        "terminal-peer"
+      ],
+      "notes": "eval/benchmark/RESULTS.md measured it without recording a version.",
+      "benchmark": {
+        "adapter": "termaid",
+        "outputs": [
+          "terminal"
+        ]
+      },
+      "benchmarkEligibility": {
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "reason": "Catalog declares terminal operations with adapter termaid. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+      }
+    },
+    "artifact": {
+      "kind": "python",
+      "python": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.10.0/venv/bin/python",
+      "executable": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.10.0/venv/bin/python",
+      "version": "0.10.0",
+      "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+      "files": [
+        {
+          "path": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.10.0/wheels/termaid-0.10.0-py3-none-any.whl",
+          "sha256": "b884a616d30071643f8e93528b0ad68bd5696b41a7b5d31cd0554d2f990f28f2"
+        }
+      ],
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "detail": "Exact PyPI version in an isolated venv; every resolved dependency wheel is retained and hashed. No Python model/provider integration is implied."
+    }
+  }
+]

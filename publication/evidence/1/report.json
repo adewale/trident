@@ -1,10 +1,10 @@
 {
   "schema": "trident-campaign-v2",
   "options": {
-    "out": "/workspace/trident-terminal-real-qualification-2026-10-31/final-rechecked"
+    "out": "/workspace/trident-terminal-real-qualification-2026-10-31/release-recheck"
   },
   "startedAt": "2026-10-31T02:31:44.133Z",
-  "updatedAt": "2026-10-31T02:49:12.816Z",
+  "updatedAt": "2026-10-31T03:19:17.724Z",
   "projects": [
     "AlexanderGrooff/mermaid-ascii",
     "fasouto/termaid"
@@ -18,7 +18,7 @@
     {
       "suite": "community",
       "cohort": "terminal-project-corpus-v1",
-      "out": "/workspace/trident-terminal-real-qualification-2026-10-31/final-rechecked/terminal",
+      "out": "/workspace/trident-terminal-real-qualification-2026-10-31/release-recheck/terminal",
       "status": "blocked",
       "completed": true
     }

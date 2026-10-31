@@ -1,13 +1,14 @@
 # Benchmarks: tasks, evidence and limits
 
 Trident compares public rendering artifacts. The current workloads are
-Documentation Examples (DaveBench), Mermaid Feature Cases and optional Model and
-Editing Contracts. SVG inspection and cost measurement are shared machinery.
+Documentation Examples (DaveBench), Mermaid Feature Cases, Terminal Rendering
+and optional Model and Editing Contracts. SVG inspection and cost measurement are shared machinery.
 There is no combined renderer-quality score or validated production holdout.
 
 ```sh
 bun commands.ts bench --projects OWNER/TOOL,... --profile full --plan
 bun commands.ts bench --projects OWNER/TOOL,... --suites docs,fidelity --out FRESH_DIR
+bun commands.ts bench --projects OWNER/TOOL,... --suites docs --docs-formats png --out FRESH_PNG_DIR
 bun commands.ts bench --projects OWNER/TOOL,... --suites portable --plan
 bun commands.ts bench --list
 ```
@@ -20,7 +21,9 @@ Preparation freezes artifacts once; collection performs no latest-version lookup
 
 ## Documentation Examples — DaveBench
 
-Task: render the examples in the pinned Mermaid syntax documentation. The SVG
+Task: accurately render the examples in the pinned Mermaid syntax documentation
+as SVG and PNG, and measure completed rendering on matched verified work. Both
+formats use one literal source inventory. The
 inventory has 548 occurrences, 546 distinct sources and 34 pages. Repeated
 occurrences remain in the inventory. [Dave Kiss's documentation benchmark](https://x.com/davekiss/status/2111512440106078554)
 inspired this workload; its AM predecessor used a different wrapper and vendored
@@ -34,7 +37,8 @@ absence produces unknown evidence. Reference agreement supplies no automatic pas
 A review may explicitly retain source facts that the observer cannot yet verify.
 
 Tables show full return coverage, full-inventory content dispositions and the
-fixed reviewed subset separately. Unknown observations withhold correctness ranks.
+fixed reviewed subset separately for each format. Ranks order verified correct
+counts; unknown observations keep complete accuracy unresolved.
 A small reviewed subset cannot establish full DaveBench correctness. First-round
 inspection does not qualify every later timed return.
 
@@ -44,6 +48,22 @@ for N participants. Public-call clocks stop at SVG return, before validation and
 cleanup. These clocks lack A/A and per-call semantic qualification, so there is
 no qualified overall speed score. The [bounded repair campaign](docs/benchmark-repair-2026-10-30.md)
 uses one pass to improve the checks rather than repeat performance collection.
+
+`--docs-formats svg,png` is the default; either format can run alone. PNG collection
+uses frozen public Node/native/CLI PNG transports or a declared public SVG call
+followed by shared rasterization and PNG encoding. PNG-only artifacts require no
+SVG API, SVG preparation or Chromium conversion. Runtime and clock boundaries
+remain explicit; API-return, CLI startup and conversion costs are not interchangeable.
+
+Actual PNG bytes are retained. Decoding and nonblank checks establish mechanical
+output only. `--docs-png-review FILE` supplies complete content reviews bound to
+source, expectation and actual PNG hashes, with reviewer identity and notes.
+An unreviewed or changed image stays unknown; SVG checks cannot supply PNG content
+credit. Settings-only sources have no nonblank-drawing requirement. New PNG clocks
+are descriptive, without A/A or per-timed-output correctness qualification.
+
+The replaced v1 standalone PNG exporter and old studies retain their own protocols;
+their counts and timings are not silently imported into the new output lanes.
 
 ## Mermaid Feature Cases
 
@@ -78,9 +98,28 @@ cannot supply missing correctness evidence. No single-call p95/p99 or production
 forecast follows from batch means. CPU, RSS, JS heap and native/WASM memory keep
 their separate scopes. [Measurement rules](MEASUREMENT.md) give the clock details.
 
-Terminal content has a [bounded grid-observer prototype](docs/terminal-correctness.md).
-Current general terminal admission checks still establish format/text only. Native
-PNG decoding and nonblank checks likewise supply no label or topology evidence.
+## Terminal Rendering — Project Examples
+
+Task: preserve independently declared graph facts through public terminal output.
+[The corpus](docs/terminal-corpus.md) contains 120 real inputs from capped research
+across 18 repositories (17 contribute inputs), covering 20 diagram families plus
+invalid sources. It distinguishes 67 terminal-specific examples/regressions from
+53 shared-renderer robustness cases; these are not production-frequency samples.
+Issue/PR URLs, dates, body/patch hashes, repository commits and extraction changes
+remain attached to every input.
+
+`bench --terminal` uses existing CLI/Python transports. Mermaid is the mandatory
+unscored source reference, Mermaid ASCII the mandatory terminal participant.
+The default qualification invokes only the reviewed16 once each and retains all
+other cells as unknown. `--all-inputs` explicitly collects the full inventory.
+Saved-output rechecks require no renderer or Mermaid installation.
+
+Reviewed-subset ranks order verified correct counts only. Full accuracy remains
+unknown; the [dated results](docs/terminal-results-2026-10-31.md) retain observer
+gaps and failures. Cold ASCII CLI and warm Python API clocks have no shared speed
+rank. The old four authored graphs test the observer and supply no corpus score.
+Legacy general terminal admission still establishes format/text only. Native PNG
+decoding/nonblank checks likewise supply no label or topology evidence.
 
 ## Model and Editing Contracts — optional
 
@@ -128,3 +167,6 @@ through an explicit dependency under the same rules for every project.
 workload selection and misleading aggregates deserve more attention than a precise
 headline number. [Results](RESULTS.md) retain dates, interfaces, failed inputs and
 owning evidence; historical records are never relabelled as fresh qualification.
+
+See the [scope audit](docs/benchmark-scope-audit-2026-10-31.md) for which components
+belong inside corpus benchmarks, which are duplicated, and which belong in AM.

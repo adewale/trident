@@ -1,6 +1,6 @@
 # Trident benchmark evidence
 
-Published 2026-10-31T02:49:56.993Z. Measurement dates below belong to the original campaigns.
+Published 2026-10-31T03:19:17.795Z. Measurement dates below belong to the original campaigns.
 
 Suite evidence index. Comparative result tables stack-rank their named measure within compatible cohorts. Coverage, output correctness, optional model evidence, time and resources have different units. Missing adapters and unavailable observers receive no pass credit. No global winner or validated production holdout is claimed.
 
@@ -8,7 +8,7 @@ Evidence is copied below. Original absolute paths inside raw records remain prov
 
 | Campaign | Measured from | Last recorded update | Profile / rounds | Projects | Completion |
 |---|---|---|---|---:|---|
-| [1](evidence/1/report.json) | 2026-10-31T02:31:44.133Z | 2026-10-31T02:49:12.816Z | full / 1 | 2 | no completion receipt: partial |
+| [1](evidence/1/report.json) | 2026-10-31T02:31:44.133Z | 2026-10-31T03:19:17.724Z | full / 1 | 2 | no completion receipt: partial |
 
 ## Campaign 1
 

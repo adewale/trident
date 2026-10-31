@@ -47,7 +47,7 @@ sentence interpreting each result.
 | Benchmark | Row identifies | Result columns | Unit |
 |---|---|---|---|
 | Mermaid Compatibility | Project/version, within one format and runtime | Passed, failed, unsupported, blocked and missing inputs; planned total | Inputs |
-| DaveBench | Project/version on the complete documentation inventory | SVG return separately from reviewed content; correct, incorrect, unknown, configuration-only and planned occurrences | Occurrences |
+| DaveBench | Project/version on the same documentation inventory, separately for SVG and PNG | Output return separately from reviewed content; correct, incorrect, unknown, configuration-only and planned occurrences | Occurrences |
 | DaveBench timing | Project/version on one named input or an explicitly matched input set | Call time, sample count, qualification; failed output withholds time | ms |
 | Diagram Meaning | Project/version on the same authored SVG cases | Correct, incorrect, unsupported and unknown diagrams; per-criterion details separately | Diagrams |
 | Model and Editing Contracts | Project/version on shared criterion identities | Same criterion counts; API-specific checks in a separate table | Criteria |
@@ -61,10 +61,17 @@ observed coverage, not automatically better meaning or layout. More passed
 criteria cannot be turned into an overall renderer-quality score by adding
 unrelated checks.
 
-Unreviewed source expectations and unresolved observers withhold correctness ranks.
+Rank verified correct counts highest first, with ties sharing a rank, even when
+other cases remain unknown. Such a rank orders observed passes and does not certify
+complete accuracy. A wholly unobserved content population remains unranked.
+Unreviewed source expectations and unresolved observers keep full accuracy unknown.
 A bounded reviewed subset must name its size and cannot supply full-inventory
 correctness or qualify every timed call. Retired replay and reference-runner tables
 remain historical evidence, outside the current comparative benchmark lineup.
+
+SVG and PNG have separate tables, output reviews, timing boundaries and import
+histories. A newer PNG-only attempt cannot suppress retained SVG scores, or the
+reverse. Native PNG and SVG-plus-conversion paths are identified explicitly.
 
 ## Keep the full population visible
 

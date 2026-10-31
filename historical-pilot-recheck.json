@@ -1,0 +1,160 @@
+{
+  "scope": "Historical authored controls only; outside the real corpus score",
+  "rendererInvocations": 0,
+  "rows": [
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "role": "terminal-output",
+      "caseId": "chain",
+      "witness": "ascii-chain.txt",
+      "sha256": "4f6d7860d069e04e8322136fb561be10786ca2cabc336a16de33807b0d084eb4",
+      "status": "correct",
+      "reason": "Every declared node and directed route is present with its owned label",
+      "scope": "Rectangular flowcharts, single-cell ASCII labels, orthogonal directed routes with a unique drawn source and uniquely owned horizontal or vertical edge captions. ANSI terminal state, wide/combining text, groups and ambiguous junctions are unqualified.",
+      "edges": [
+        {
+          "source": "Alpha",
+          "target": "Beta"
+        },
+        {
+          "source": "Beta",
+          "target": "Gamma"
+        }
+      ]
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "role": "terminal-output",
+      "caseId": "branch",
+      "witness": "ascii-branch.txt",
+      "sha256": "3a7cd1cf9171addbb9c92b2e7b90f3aab36973e841361dfee66698fab5e27e1e",
+      "status": "correct",
+      "reason": "Every declared node and directed route is present with its owned label",
+      "scope": "Rectangular flowcharts, single-cell ASCII labels, orthogonal directed routes with a unique drawn source and uniquely owned horizontal or vertical edge captions. ANSI terminal state, wide/combining text, groups and ambiguous junctions are unqualified.",
+      "edges": [
+        {
+          "source": "Alpha",
+          "target": "Beta"
+        },
+        {
+          "source": "Alpha",
+          "target": "Gamma"
+        }
+      ]
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "role": "terminal-output",
+      "caseId": "labelled",
+      "witness": "ascii-labelled.txt",
+      "sha256": "0d3ba94e62dd4d5b1fa20ddbe19ccec04cd2284c0307c09893e01e690f7f2908",
+      "status": "correct",
+      "reason": "Every declared node and directed route is present with its owned label",
+      "scope": "Rectangular flowcharts, single-cell ASCII labels, orthogonal directed routes with a unique drawn source and uniquely owned horizontal or vertical edge captions. ANSI terminal state, wide/combining text, groups and ambiguous junctions are unqualified.",
+      "edges": [
+        {
+          "source": "Alpha",
+          "target": "Beta",
+          "label": "send"
+        }
+      ]
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "role": "terminal-output",
+      "caseId": "vertical",
+      "witness": "ascii-vertical.txt",
+      "sha256": "cb5823b12c89215a914896787e2c4a9752802dc5a4ef8140d1bc3547c0725d2a",
+      "status": "correct",
+      "reason": "Every declared node and directed route is present with its owned label",
+      "scope": "Rectangular flowcharts, single-cell ASCII labels, orthogonal directed routes with a unique drawn source and uniquely owned horizontal or vertical edge captions. ANSI terminal state, wide/combining text, groups and ambiguous junctions are unqualified.",
+      "edges": [
+        {
+          "source": "Alpha",
+          "target": "Beta"
+        }
+      ]
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "role": "terminal-output",
+      "caseId": "chain",
+      "witness": "termaid-chain.txt",
+      "sha256": "67eb4e6d2ae449bc45e292bd21ae1dcc311e21a0f89fbac37717288583bbb728",
+      "status": "correct",
+      "reason": "Every declared node and directed route is present with its owned label",
+      "scope": "Rectangular flowcharts, single-cell ASCII labels, orthogonal directed routes with a unique drawn source and uniquely owned horizontal or vertical edge captions. ANSI terminal state, wide/combining text, groups and ambiguous junctions are unqualified.",
+      "edges": [
+        {
+          "source": "Alpha",
+          "target": "Beta"
+        },
+        {
+          "source": "Beta",
+          "target": "Gamma"
+        }
+      ]
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "role": "terminal-output",
+      "caseId": "branch",
+      "witness": "termaid-branch.txt",
+      "sha256": "e9fc6004f8ffb51245ea1e3de5b3b4acb196cdac4d568d2556a3d8006846bb3a",
+      "status": "correct",
+      "reason": "Every declared node and directed route is present with its owned label",
+      "scope": "Rectangular flowcharts, single-cell ASCII labels, orthogonal directed routes with a unique drawn source and uniquely owned horizontal or vertical edge captions. ANSI terminal state, wide/combining text, groups and ambiguous junctions are unqualified.",
+      "edges": [
+        {
+          "source": "Alpha",
+          "target": "Beta"
+        },
+        {
+          "source": "Alpha",
+          "target": "Gamma"
+        }
+      ]
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "role": "terminal-output",
+      "caseId": "labelled",
+      "witness": "termaid-labelled.txt",
+      "sha256": "7d2350dd1d73fd9a6510a6bb60879c95f0befdd59c36f89ef49bad4b003328bd",
+      "status": "correct",
+      "reason": "Every declared node and directed route is present with its owned label",
+      "scope": "Rectangular flowcharts, single-cell ASCII labels, orthogonal directed routes with a unique drawn source and uniquely owned horizontal or vertical edge captions. ANSI terminal state, wide/combining text, groups and ambiguous junctions are unqualified.",
+      "edges": [
+        {
+          "source": "Alpha",
+          "target": "Beta",
+          "label": "send"
+        }
+      ]
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "role": "terminal-output",
+      "caseId": "vertical",
+      "witness": "termaid-vertical.txt",
+      "sha256": "040ce2a5bae66621cc2d90ea15e69c62d0fb3eae124a6a9521e761e05c491487",
+      "status": "correct",
+      "reason": "Every declared node and directed route is present with its owned label",
+      "scope": "Rectangular flowcharts, single-cell ASCII labels, orthogonal directed routes with a unique drawn source and uniquely owned horizontal or vertical edge captions. ANSI terminal state, wide/combining text, groups and ambiguous junctions are unqualified.",
+      "edges": [
+        {
+          "source": "Alpha",
+          "target": "Beta"
+        }
+      ]
+    }
+  ]
+}
