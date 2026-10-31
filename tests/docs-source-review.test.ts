@@ -219,3 +219,9 @@ test('logging and navigation configuration is frozen provenance rather than a pi
   expect(row.sourceReview.excludedNonvisual).toContain('Configuration affects logging or navigation, not the static drawing: logLevel="debug"')
   expect(row.sourceReview.excludedNonvisual).toContain('Configuration affects logging or navigation, not the static drawing: kanban.ticketBaseUrl="https://example.com/#TICKET#"')
 })
+
+
+test('authored radar legend intent and event fields after read dependencies remain explicit facts', () => {
+  expect(facts('radar-beta\naxis a["A"]\ncurve c["C"]{3}\nshowLegend true')['show-legend']).toBe(true)
+  expect(facts('eventmodeling\nrf 03 evt Cart.Added ->> 02 { productId: 7 }').frames).toEqual([{ id: '03', resets: true, kind: 'event', label: 'Cart.Added', dataReference: null, fields: [{ name: 'productId', value: '7' }], readsFrom: ['02'] }])
+})

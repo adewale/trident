@@ -200,6 +200,8 @@ function numericCharts(r: LiteralReview) {
       if (match) { const label = match[2] ?? match[1]!; curves.push({ id: match[1]!, label, values: match[3]!.split(',').map(Number) }); r.labels(label); continue }
       match = /^\s*(min|max)\s+([-+\d.]+)\s*$/.exec(line)
       if (match) { if (match[1] === 'min') min = Number(match[2]); else max = Number(match[2]); continue }
+      match = /^\s*showLegend\s+(true|false)\s*$/.exec(line)
+      if (match) { r.fact('show-legend', match[1] === 'true'); continue }
       match = /^\s*(graticule|ticks)\s+(.+)$/.exec(line)
       if (match) { r.fact(match[1]!, cleanLabel(match[2]!)); continue }
       r.unknown(line)
@@ -982,10 +984,10 @@ function eventModeling(r: LiteralReview) {
     if (current) { const field = /^([\w.-]+)\s*:\s*(.*)$/.exec(line); if (!field) { r.unknown(line); continue }; current.fields.push({ name: field[1]!, value: cleanLabel(field[2]!) }); r.labels(field[1]!, cleanLabel(field[2]!)); continue }
     const block = /^data\s+([\w.-]+)\s*\{$/.exec(line)
     if (block) { current = { id: block[1]!, fields: [] }; data.push(current); continue }
-    const frame = /^(tf|rf|timeframe|resetframe)\s+(\d+)\s+(\w+)\s+([\w.-]+)(?:\s*\[\[([^\]]+)\]\])?(?:\s*\{([^}]*)\})?\s*((?:->>\s*\d+\s*)*)$/.exec(line)
+    const frame = /^(tf|rf|timeframe|resetframe)\s+(\d+)\s+(\w+)\s+([\w.-]+)(?:\s*\[\[([^\]]+)\]\])?(?:\s*\{([^}]*)\})?\s*((?:->>\s*\d+\s*)*)(?:\{([^}]*)\})?$/.exec(line)
     if (!frame || !type[frame[3]!]) { r.unknown(line); continue }
     const fields: MeaningJson[] = []
-    if (frame[6]) for (const field of syntaxList(frame[6])) { const item = /^([\w.-]+)\s*:\s*(.+)$/.exec(field); if (!item) r.unknown(field); else { fields.push({ name: item[1]!, value: cleanLabel(item[2]!) }); r.labels(item[1]!, cleanLabel(item[2]!)) } }
+    if (frame[6] || frame[8]) for (const field of syntaxList([frame[6], frame[8]].filter(Boolean).join(', '))) { const item = /^([\w.-]+)\s*:\s*(.+)$/.exec(field); if (!item) r.unknown(field); else { fields.push({ name: item[1]!, value: cleanLabel(item[2]!) }); r.labels(item[1]!, cleanLabel(item[2]!)) } }
     frames.push({ id: frame[2]!, resets: frame[1] === 'rf' || frame[1] === 'resetframe', kind: type[frame[3]!]!, label: frame[4]!, dataReference: frame[5] ?? null, fields, readsFrom: [...frame[7]!.matchAll(/->>\s*(\d+)/g)].map(match => match[1]!) }); r.labels(frame[4]!)
   }
   if (current) r.unresolved.push('Unclosed event data block')
