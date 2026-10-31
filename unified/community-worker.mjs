@@ -5,14 +5,20 @@ import { createRequire } from 'node:module'
 import { pathToFileURL } from 'node:url'
 import { resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
+import { InvocationJournal } from '../portable/invocation-journal.ts'
+import { evidenceBytesDigest, evidenceDigest } from '../portable/evidence-contract.ts'
 const job = JSON.parse(fs.readFileSync(process.argv[2], 'utf8')), { prepared, workloads, output } = job, artifact = prepared.artifact, declaredConfig = prepared.node.benchmark, config = { ...declaredConfig, adapter: ['beautiful-source','beautiful-fork'].includes(declaredConfig.sourceAdapter) ? 'beautiful' : ['mermaid-source','mermaid-fork'].includes(declaredConfig.sourceAdapter) ? 'mermaid' : declaredConfig.adapter }
-const { qualifyOutput } = await import(new URL('./qualification.ts', import.meta.url).href), { retainFailedOutput } = await import(new URL('./failure-outputs.ts', import.meta.url).href)
+const { qualifyOutput } = await import(new URL('./qualification.ts', import.meta.url).href)
 let extraApi, diagnosticHelpers, diagnosticAdmission, diagnosticAdmissionFailed = false, publicApiAvailable = false, parserAdmission, parserAdmissionFailed = false
 const start = performance.now(), rows = [], cleanups = [], jsonl = job.out + '.jsonl'
 fs.writeFileSync(jsonl, '')
 const req = createRequire((artifact.root ?? job.harnessRoot) + '/package.json')
 const progress = message => { if (Number.isInteger(job.progressFd)) { try { fs.writeSync(job.progressFd, JSON.stringify(message) + '\n') } catch {} } }
-const emit = row => { rows.push(row); fs.appendFileSync(jsonl, JSON.stringify(row) + '\n'); progress({ phase: 'result', id: row.id }) }
+const append = (file, value) => { const fd = fs.openSync(file, 'a'); try { fs.writeSync(fd, JSON.stringify(value) + '\n'); fs.fsyncSync(fd) } finally { fs.closeSync(fd) } }
+const emit = row => { rows.push(row); append(jsonl, row); progress({ phase: 'result', id: row.id }) }
+const journal = new InvocationJournal(job.out + '.invocations')
+const artifactSha256 = artifact.sha256 ?? artifact.files?.[0]?.sha256 ?? evidenceBytesDigest(fs.readFileSync(artifact.module))
+const bindingSha256 = evidenceDigest(JSON.parse(JSON.stringify({ config, output, module: artifact.module ?? null, kind: artifact.kind })))
 function valueAt(module, names) { for (const name of names) { const value = name.split('.').reduce((x, key) => x?.[key], module); if (typeof value === 'function') return value } throw Error('Public API absent: ' + names.join(', ')) }
 async function renderer() {
   let module
@@ -194,11 +200,16 @@ try {
   progress({ phase: 'ready', importMs })
   for (const workload of workloads) {
     progress({ phase: 'case', id: workload.id })
-    let firstMs, sink
+    let firstMs, sink, returned, publicReturned = false
+    const invocation = journal.start({ project: prepared.node.id, caseId: workload.id, sourceSha256: evidenceBytesDigest(workload.source), artifactSha256, bindingSha256, format: output })
     const firstStart = performance.now()
     try {
       let tick = performance.now(); sink = render(workload.source); if (thenable(sink)) sink = await sink
       firstMs = performance.now() - tick
+      publicReturned = true
+      // Bytes and the actual API clock survive any later observer/report crash.
+      const raw = typeof sink === 'string' || sink instanceof Uint8Array ? sink : typeof sink?.svg === 'string' ? sink.svg : JSON.stringify({ returnType: typeof sink, value: sink === undefined ? null : sink })
+      returned = journal.returned(invocation, raw, firstMs)
       if (workload.intent === 'negative-admission') {
         let rejected;
         try { rejected = output === 'parse' && (sink === false || sink?.ok === false || sink?.success === false) || output === 'diagnostics' && diagnosticHelpers.diagnosticSummary(sink).accepted === false }
@@ -213,7 +224,7 @@ try {
       }
       if (!core && (job.coverageOnce || job.coverageOnly)) {
         globalThis.__communitySink = sink
-        const outputFile = workload.features.includes('retain-output-witness') ? retainFailedOutput(job.out + '.outputs', prepared.node.id, workload.id, output === 'png' ? 'png' : 'txt', sink) : undefined
+        const outputFile = returned.output.path
         emit({ runtime: process.versions.bun ? 'Bun ' + process.versions.bun : 'Node ' + process.versions.node, surface: extraApi?.surface, apiBoundary: extraApi?.boundary, id: workload.id, family: workload.family, status: 'passed', firstMs, bytes, qualification, mode: 'feature-corpus-qualification', coverageOnly: true, ...(outputFile ? { outputFile } : {}), ...parserReturn(sink), ...(output === 'diagnostics' ? { diagnosticAdmissionFailed, diagnosticsCount: diagnosticHelpers.diagnosticSummary(sink).errorCount, diagnosticAccepted: diagnosticHelpers.diagnosticSummary(sink).accepted, diagnosticStatusScope: core ? 'independently-valid-core-admission' : 'operation-completion-without-positive-feature-oracle' } : {}) })
         continue
       }
@@ -227,7 +238,7 @@ try {
       }
       qualify(sink, workload); globalThis.__communitySink = sink
       emit({ runtime: process.versions.bun ? 'Bun ' + process.versions.bun : 'Node ' + process.versions.node, surface: extraApi?.surface, apiBoundary: extraApi?.boundary, id: workload.id, family: workload.family, status: 'passed', samplesMs: samples, medianMs: median(samples), firstMs, bytes, iterations, qualification, ...parserReturn(sink), ...(output === 'diagnostics' ? { diagnosticsCount: diagnosticHelpers.diagnosticSummary(sink).errorCount, diagnosticAccepted: diagnosticHelpers.diagnosticSummary(sink).accepted, diagnosticStatusScope: core ? 'independently-valid-core-admission' : 'operation-completion-without-positive-feature-oracle' } : {}) })
-    } catch (error) { emit({ runtime: process.versions.bun ? 'Bun ' + process.versions.bun : 'Node ' + process.versions.node, surface: extraApi?.surface, apiBoundary: extraApi?.boundary, id: workload.id, family: workload.family, status: error.observerUnavailable ? 'blocked' : 'failed', rejected: !error.qualification && !error.observerUnavailable, ...(error.qualification ? { outputFile: retainFailedOutput(job.out + '.outputs', prepared.node.id, workload.id, output === 'png' ? 'png' : output === 'svg' ? 'svg' : 'txt', typeof sink === 'string' || sink instanceof Uint8Array ? sink : typeof sink?.svg === 'string' ? sink.svg : undefined) } : {}), firstMs: firstMs ?? performance.now() - firstStart, detail: String(error) }) }
+    } catch (error) { if (!error || typeof error !== 'object') error = new Error(String(error)); if (publicReturned && !returned) error.observerUnavailable = true; if (!returned) { try { journal.failed(invocation, error, firstMs ?? performance.now() - firstStart, publicReturned ? 'interrupted' : 'public-error') } catch {} }; emit({ runtime: process.versions.bun ? 'Bun ' + process.versions.bun : 'Node ' + process.versions.node, surface: extraApi?.surface, apiBoundary: extraApi?.boundary, id: workload.id, family: workload.family, status: error.observerUnavailable ? 'blocked' : 'failed', rejected: !error.qualification && !error.observerUnavailable, ...(returned?.output ? { outputFile: returned.output.path } : {}), firstMs: firstMs ?? performance.now() - firstStart, detail: String(error) }) }
   }
   const memory = { rssBytes: process.memoryUsage().rss, peakRssBytes: process.resourceUsage().maxRSS * 1024 }
   for (const close of cleanups.reverse()) await close()

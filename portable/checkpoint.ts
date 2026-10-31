@@ -1,6 +1,6 @@
 import { createHash, randomUUID } from 'node:crypto'
 import { closeSync, existsSync, fsyncSync, linkSync, mkdirSync, openSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import { gunzipSync, gzipSync } from 'node:zlib'
 
 export class CollectionBudgetExhausted extends Error {
@@ -26,6 +26,17 @@ function immutableWrite(file: string, bytes: string | Uint8Array, directory: str
   // and readers do not treat that unpublished fragment as completed evidence.
   try { linkSync(pending, file); syncDirectory(directory) } finally { if (existsSync(pending)) unlinkSync(pending) }
 }
+/** Content-addressed raw bytes can be referenced only after a durable write. */
+export function writeDurableEvidence(file: string, bytes: Uint8Array) {
+  const directory = dirname(file)
+  mkdirSync(directory, { recursive: true })
+  if (existsSync(file)) {
+    if (!readFileSync(file).equals(Buffer.from(bytes))) throw Error('Immutable evidence file already contains different bytes')
+    return
+  }
+  immutableWrite(file, bytes, directory)
+}
+
 /** Completed raw units are immutable atomic files, not one append-only gzip
  * stream that a torn final write can make wholly unreadable. Legacy v1 evidence
  * remains readable and unchanged; fresh units use the same keyed public API. */
@@ -61,6 +72,7 @@ export class CollectionCheckpoint {
     }
   }
   has(key: string) { return this.values.has(key) }
+  entries<T = unknown>(): [string, T][] { return [...this.values].map(([key, value]) => [key, structuredClone(value) as T]) }
   get<T>(key: string): T | undefined { return this.values.has(key) ? structuredClone(this.values.get(key)) as T : undefined }
   /** Call immediately after a raw return, before fallible grading/reporting.
    * Replaying identical evidence is idempotent; changing it requires a new key. */

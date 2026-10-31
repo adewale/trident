@@ -91,9 +91,12 @@ export interface InvocationEvidence {
   state: 'not-invoked' | 'started' | 'returned' | 'public-error' | 'interrupted'
   startedAt: string | null
   finishedAt: string | null
+  /** Receipt time is separate from unknown public-call clocks during recovery. */
+  recordedAt?: string
   /** Actual reported clock only; controller wall time is never substituted. */
   durationMs: number | null
   output: { sha256: string; bytes: number; path: string } | null
+  streams?: { stdout: { sha256: string; bytes: number; path: string }; stderr: { sha256: string; bytes: number; path: string } }
   detail: string
 }
 export function admitInvocationEvidence(value: unknown): Readonly<InvocationEvidence> {
@@ -101,11 +104,13 @@ export function admitInvocationEvidence(value: unknown): Readonly<InvocationEvid
   if (!item || item.schema !== 'trident-invocation-evidence-v1' || !text(item.attemptId) || !item.identity || !text(item.identity.project) || !text(item.identity.caseId) || !text(item.identity.format) || !digest(item.identity.sourceSha256) || !digest(item.identity.artifactSha256) || !digest(item.identity.bindingSha256)) fail('invocation identity is missing')
   if (!['not-invoked', 'started', 'returned', 'public-error', 'interrupted'].includes(item.state) || typeof item.detail !== 'string') fail('invocation state is invalid')
   const validTime = (value: unknown) => value === null || typeof value === 'string' && Number.isFinite(Date.parse(value))
+  if (item.recordedAt !== undefined && !validTime(item.recordedAt)) fail('invocation receipt time is invalid')
   if (!validTime(item.startedAt) || !validTime(item.finishedAt) || item.startedAt !== null && item.finishedAt !== null && Date.parse(item.finishedAt) < Date.parse(item.startedAt)) fail('invocation clocks are invalid')
   if (item.durationMs !== null && (typeof item.durationMs !== 'number' || !Number.isFinite(item.durationMs) || item.durationMs < 0)) fail('invocation duration must be an actual finite measurement or null')
   if (item.output !== null && (!digest(item.output.sha256) || !text(item.output.path) || !Number.isSafeInteger(item.output.bytes) || item.output.bytes < 0)) fail('invocation output reference is invalid')
+  if (item.streams && [item.streams.stdout, item.streams.stderr].some(stream => !stream || !digest(stream.sha256) || !text(stream.path) || !Number.isSafeInteger(stream.bytes) || stream.bytes < 0)) fail('invocation stream references are invalid')
   if (item.state === 'not-invoked' && (item.durationMs !== null || item.output !== null || item.startedAt !== null)) fail('uninvoked work cannot contain invocation evidence')
   if (item.state === 'returned' && !item.output) fail('returned invocation needs its actual retained output')
   if (item.state === 'started' && (!item.startedAt || item.finishedAt !== null || item.durationMs !== null || item.output !== null)) fail('started invocation is incomplete, not a finished sample')
-  return Object.freeze({ ...item, identity: Object.freeze({ ...item.identity }), output: item.output && Object.freeze({ ...item.output }) })
+  return Object.freeze({ ...item, identity: Object.freeze({ ...item.identity }), output: item.output && Object.freeze({ ...item.output }), ...(item.streams ? { streams: Object.freeze({ stdout: Object.freeze({ ...item.streams.stdout }), stderr: Object.freeze({ ...item.streams.stderr }) }) } : {}) })
 }

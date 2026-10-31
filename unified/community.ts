@@ -1,3 +1,5 @@
+import { InvocationJournal } from '../portable/invocation-journal.ts'
+import { evidenceBytesDigest, evidenceDigest } from '../portable/evidence-contract.ts'
 import { checkCollectionBudget } from '../portable/checkpoint.ts'
 import { verifyNativePngArtifact } from '../native-flutter/community-launch.mjs'
 import { releaseBenchmarkSkip } from './benchmark-skip.ts'
@@ -474,13 +476,19 @@ function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWo
       .replaceAll('{output}', destination)
       .replaceAll('{format}', output === 'terminal' ? 'unicode' : output),
   )
+  const journal = new InvocationJournal(join(out, 'raw-cli-invocations'))
+  const executable = artifact.executable!.includes('/') ? artifact.executable! : execFileSync('which', [artifact.executable!], { encoding: 'utf8' }).trim()
+  const invocation = journal.start({ project: prepared.node.id, caseId: workload.id, sourceSha256: evidenceBytesDigest(workload.source), artifactSha256: artifact.sha256 ?? evidenceBytesDigest(readFileSync(executable)), bindingSha256: evidenceDigest(JSON.parse(JSON.stringify({ executable, args, output, input: binding?.input ?? artifact.input ?? 'stdin' }))), format: output })
   const started = performance.now(),
     child = spawnSync(artifact.executable!, args, { input: (binding?.input ?? artifact.input) === 'file' ? undefined : workload.source, timeout: 30_000, maxBuffer: 16 * 1024 * 1024, env: { ...process.env, NO_COLOR: '1', TERM: 'dumb' } }),
     ms = performance.now() - started
+  const streams = journal.streams(child.stdout ?? Buffer.alloc(0), child.stderr ?? Buffer.alloc(0))
+  row.metrics = { ...row.metrics, rawInvocationId: invocation.attemptId, rawInvocationDirectory: journal.directory, stdoutFile: streams.stdout.path, stderrFile: streams.stderr.path }
   if (workload.features.includes('core-graph-batch')) row.samplesMs = [ms]
   else row.metrics = { ...row.metrics, firstMs: ms, timingScope: 'one qualification call, not a repeated speed sample' }
   if (child.status !== 0) {
     const transportFailed = !!child.error || !!child.signal || child.status === null
+    journal.failed(invocation, child.error?.message ?? child.stderr?.toString() ?? 'Public command failed', ms, transportFailed ? 'interrupted' : 'public-error', streams)
     row.status = transportFailed ? 'blocked' : 'failed'
     row.detail = child.error?.message ?? child.stderr?.toString().slice(0, 1500)
     row.metrics = { ...row.metrics, rejected: !transportFailed, failureStage: transportFailed ? 'transport' : 'public-command' }
@@ -488,19 +496,23 @@ function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWo
   }
   const fileOutput = (binding?.args ?? artifact.args)?.some(arg => arg.includes('{output}'))
   if (fileOutput && !existsSync(destination)) {
+    journal.failed(invocation, 'CLI exited successfully without producing its declared output file', ms, 'public-error', streams)
     row.status = 'failed'
     row.detail = 'CLI exited successfully without producing its declared output file'
     row.metrics = { ...row.metrics, rejected: false, failureStage: 'output' }
     return row
   }
+  const value = fileOutput ? readFileSync(destination) : child.stdout
+  const text = output === 'png' ? value : value.toString()
+  const raw = journal.returned(invocation, value, ms, streams)
+  row.metrics = { ...row.metrics, outputFile: raw.output!.path, rawInvocationId: raw.attemptId, rawInvocationDirectory: journal.directory }
   if (workload.intent === 'negative-admission') {
     row.status = 'failed'
     row.detail = 'Public command accepted independently invalid source (exit 0)'
     row.metrics = { ...row.metrics, rejected: false }
     return row
   }
-  const value = fileOutput ? readFileSync(destination) : child.stdout
-  const text = output === 'png' ? value : value.toString()
+
   if (output === 'terminal' && typeof text === 'string' && /^[\s]*[\[{]/.test(text)) {
     try {
       const encoded = JSON.parse(text)
@@ -517,7 +529,7 @@ function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWo
   row.status = qualification.unavailable ? 'blocked' : qualification.ok ? 'passed' : 'failed'
   row.bytes = value.byteLength
   row.findings = qualification.findings
-  row.metrics = { ...row.metrics, qualification: qualification.scope, version: artifact.version, boundary: 'spawn through drained stdout/file artifact; process startup included', ...(qualification.ok && !workload.features.includes('retain-output-witness') ? {} : { outputFile: retainFailedOutput(out, prepared.node.id, workload.id, output === 'png' ? 'png' : output === 'svg' ? 'svg' : 'txt', value) }) }
+  row.metrics = { ...row.metrics, qualification: qualification.scope, version: artifact.version, boundary: 'spawn through drained stdout/file artifact; process startup included', ...(qualification.ok && !workload.features.includes('retain-output-witness') ? {} : { outputFile: raw.output!.path }) }
   return row
 }
 
