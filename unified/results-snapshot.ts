@@ -194,7 +194,7 @@ export function importCampaign(snapshot: ResultsSnapshot, directory: string, evi
       // A failed multi-project process does not establish that every project failed.
       const own = Object.fromEntries([...new Set(groups.flatMap(group => Object.keys(group.dispositions)))].map(status => [status, groups.reduce((sum, group) => sum + (group.dispositions[status] ?? 0), 0)]))
       const boundaryFailure = scopes.length === 1 && ['failed', 'blocked'].includes(row.status) ? row.status : undefined
-      const status = boundaryFailure ?? (groups.length ? own.failed ? 'failed' : own.blocked ? 'blocked' : own.unsupported === groups.reduce((sum, group) => sum + group.recordedObservations, 0) ? 'unsupported' : 'recorded'
+      const status = boundaryFailure ?? (groups.length ? own.failed ? 'failed' : own.blocked ? 'blocked' : own['not-applicable'] === groups.reduce((sum, group) => sum + group.recordedObservations, 0) ? 'not-applicable' : own.unsupported === groups.reduce((sum, group) => sum + group.recordedObservations, 0) ? 'unsupported' : 'recorded'
         : row.project || scopes.length === 1 || row.status === 'blocked' ? row.status === 'passed' ? 'recorded' : row.status : 'unavailable')
       const outputFormats = row.suite === 'docs' ? [...new Set(groups.map(group => group.format).filter(format => ['svg', 'png'].includes(format)))] : []
       const declaredFormats = (report as any).options?.docsFormats

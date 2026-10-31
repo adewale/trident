@@ -76,6 +76,16 @@ test('newer PNG-only or unstarted PNG work cannot suppress retained SVG coverage
   expect(overview(importCampaign(after, unstarted, 'https://example.test/png-unstarted', catalog))).toEqual(overview(before))
 })
 
+test('an inapplicable output lane has no fabricated score or setup blocker', () => {
+  const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), file = join(root, 'docs/result.json')
+  const result = JSON.parse(readFileSync(file, 'utf8'))
+  result.observations = ['fixture/a', 'fixture/b'].map(project => ({ suite: 'docs', surface: 'declared-capability', runtime: 'not-invoked', family: '*', format: 'svg', caseId: project, operation: 'format-admission', mode: 'format-not-applicable', status: 'not-applicable', metrics: { project, version: '1' } }))
+  write(file, result)
+  const snapshot = importCampaign(empty(), root, 'https://example.test/not-applicable', catalog)
+  expect(snapshot.tables).toHaveLength(0)
+  expect(snapshot.attempts.every(attempt => attempt.status === 'not-applicable')).toBe(true)
+})
+
 function oneProjectRerun(options: { updatedAt: string; partial?: boolean; changedInput?: boolean }) {
   const root = campaign(temp(), options)
   const report = JSON.parse(readFileSync(join(root, 'report.json'), 'utf8'))

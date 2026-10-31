@@ -85,7 +85,7 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
             if (value.status === 'ok') { bytes = Uint8Array.from(value.png); durationMs = value.totalMs; status = 'passed' } else { status = value.status === 'blocked' ? 'blocked' : 'failed'; detail = value.detail }
           } else {
             const row = rendered.find(row => row.caseId === input.id)
-            status = row?.status ?? 'blocked'; detail = row?.detail ?? peer?.error ?? browser?.browserDetail ?? 'No frozen native PNG or SVG-to-PNG transport is available'
+            status = row?.status ?? 'blocked'; detail = row ? row.detail : peer?.error ?? browser?.browserDetail ?? 'No frozen native PNG or SVG-to-PNG transport is available'
             const file = row?.metrics?.outputFile
             if (typeof file === 'string' && existsSync(file)) bytes = readFileSync(file)
             if (typeof row?.metrics?.firstMs === 'number') durationMs = row.metrics.firstMs

@@ -22,6 +22,7 @@ test.skipIf(!!process.env.CI)('PNG-only public transport retains source-owned im
   const cases = [{ id: 'fixture:one', family: 'flowchart', source: 'flowchart LR\nA-->B' }], inventory = { pin: { commit: 'fixture' }, pages: ['fixture.md'], occurrences: 1, distinct: 1, cases } as any
   const result = await runDocsPngLane(options, inventory, [], [])
   expect(result.observations.find(row => row.operation === 'render')).toMatchObject({ status: 'passed', format: 'png' })
+  expect(result.observations.find(row => row.operation === 'render')!.detail).toBeUndefined()
   expect(result.observations.find(row => row.operation === 'drawing-checks')!.status).toBe('blocked')
   const witness = String(result.observations[0]!.metrics!.witness)
   expect(readFileSync(join(options.out, witness))).toEqual(png)

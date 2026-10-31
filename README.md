@@ -25,7 +25,7 @@ checks and cost measurement are shared parts of those workloads.
 
 | Workload | What it measures | Results | Collector IDs |
 |---|---|---|---|
-| **Documentation Examples — DaveBench** | The pinned Mermaid documentation examples, inspired by [Dave Kiss's benchmark](https://x.com/davekiss/status/2111512440106078554). | SVG returns separately from reviewed drawing content; incorrect, unknown and configuration-only examples stay visible. | `docs` |
+| **Documentation Examples — DaveBench** | Accurate SVG and PNG rendering of the same pinned Mermaid documentation corpus, inspired by [Dave Kiss's benchmark](https://x.com/davekiss/status/2111512440106078554). | Separate output-return and reviewed-content tables for each format. Incorrect, unknown and configuration-only examples stay visible; speed requires qualified matched work. | `docs` |
 | **Mermaid Feature Cases** | Authored syntax, labels, relationships, chart values, grouping and scaling through public rendering interfaces. | Correct, incorrect, unsupported and unknown diagrams; feature/family details. Cost is reported on matched qualified inputs. | `community`, `fidelity`, `portable` |
 | **Model and Editing Contracts — optional** | Public parsing, model inspection, edits and configuration changes. | Shared contracts separately from API-specific checks and missing bindings. | `native-fidelity` |
 
@@ -34,11 +34,22 @@ explicitly with `--suites portable`, and optional model checks with
 `--suites native-fidelity`. `full` means the full selected workload and sampling;
 it does not enable every collector. Use `--plan` before collecting.
 
+DaveBench defaults to both output formats. Use `--docs-formats svg` or
+`--docs-formats png` to collect them separately. PNG-only renderers need no SVG
+binding; other participants can deliver PNG through an explicitly identified
+SVG-to-PNG conversion path. The source inventory is identical in both lanes.
+
 Correctness qualification remains incomplete. [The bounded repair campaign](docs/benchmark-repair-2026-10-30.md)
 shows the current evidence and gaps. Full DaveBench return scores are not counts
 of correctly drawn diagrams. The [reviewed source expectations](corpus/docs-reviewed.json)
-bind exact input bytes; unreviewed sources earn no correctness credit. Every first-round
-returned SVG is retained for inspection and rechecking without rendering again.
+bind exact input bytes; unreviewed sources earn no correctness credit. First-round
+outputs are retained for inspection and rechecking without rendering again. PNG
+content reviews bind actual image bytes and expected source facts; SVG or nonblank
+checks alone cannot establish PNG accuracy. A `--docs-png-review FILE` supplies
+those image reviews. Qualified overall speed comparisons remain incomplete.
+
+The [suite scope audit](docs/benchmark-scope-audit-2026-10-31.md) distinguishes
+shared benchmark machinery, duplicate collection and AM-specific diagnostics.
 
 The [saved comparison tables](RESULTS.md) retain historical methods and dates.
 Assertion Replay is retired as a comparative benchmark; Mermaid's own tests are
