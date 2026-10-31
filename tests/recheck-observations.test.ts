@@ -18,6 +18,7 @@ import { inspectChartFacts } from '../fidelity/paint-chart-facts.ts'
 import { InvocationJournal } from '../portable/invocation-journal.ts'
 import { CollectionCheckpoint } from '../portable/checkpoint.ts'
 import { gzipSync, gunzipSync } from 'node:zlib'
+import { communityCliRequest, communityCliBinding } from '../unified/community-cli-request.ts'
 
 const input = expandedFidelityCases()[0]!, project = 'fixture/renderer'
 const binding = makeSvgObservationBinding(input, evidenceBytesDigest('synthetic retained output bytes'), evidenceBytesDigest('synthetic observer identity'))
@@ -216,6 +217,39 @@ test('DaveBench regrading requires the original literal-source public return, no
     const editedContext = { ...ownership, collectionIdentity: { ...ownership.collectionIdentity, context: { ...context, altered: true } } }
     expect(() => requireRetainedDocsSvgReturn({ ...request, ownership: editedContext })).toThrow('header identity')
   } finally { rmSync(campaign, { recursive: true, force: true }) }
+})
+
+test('native CLI SVG replay preserves the original subset render ID, inner process round and frozen output variant after moving', () => {
+  const base = mkdtempSync(join(tmpdir(), 'recheck-svg-cli-')), campaign = join(base, 'original'), moved = join(base, 'moved'), root = join(campaign, 'docs')
+  try {
+    const source = { id: 'docs:second-selected', source: 'flowchart LR\nA-->B' }, other = { id: 'docs:first-selected', source: 'flowchart LR\nX-->Y' }, svg = '<svg xmlns="http://www.w3.org/2000/svg"/>'
+    const native = { kind: 'cli' as const, root: '/original/native', executable: '/original/native/render', version: 'fixture-native', sha256: 'f'.repeat(64), outputBindings: { svg: { args: ['--format', '{format}', '--input', '{input}', '--output', '{output}'], input: 'file' as const } } }
+    const context = { selectedCaseIds: [other.id, source.id], artifacts: [{ project, admission: { root: native.root, entry: native.executable, version: native.version, artifactSha256: native.sha256 } }] }, inventory = { cases: [source, other] }
+    mkdirSync(join(campaign, 'preparation'), { recursive: true }); mkdirSync(root)
+    const files: Record<string, { path: string; sha256: string }> = {}
+    for (const [key, path, value] of [
+      ['inventories', 'preparation/inventories.json', { docs: inventory }],
+      ['browsers', 'preparation/browsers.json', [{ node: { id: project }, artifact: { kind: 'global', additionalCli: [{ id: 'native', outputs: ['svg', 'png'], artifact: native }] }, browser: { kind: 'function', root: '/different/browser', entry: 'public.js', artifactSha256: 'a'.repeat(64) } }]],
+      ['variants', 'preparation/variants.json', [{ project, output: 'svg', variant: 'native' }]],
+    ] as const) { const bytes = JSON.stringify(value); writeFileSync(join(campaign, path), bytes); files[key] = { path, sha256: evidenceBytesDigest(bytes) } }
+    writeFileSync(join(campaign, 'preparation.json'), JSON.stringify({ schema: 'trident-campaign-preparation-v1', files }))
+    writeFileSync(join(root, 'context.json'), JSON.stringify(context))
+    const request = communityCliRequest(native, 'svg', root)
+    expect(request).toMatchObject({ args: ['--format', 'svg', '--input', join(root, 'cli-input.mmd'), '--output', join(root, 'cli-output.svg')], inputMode: 'file', fileOutput: true })
+    const checkpoint = new CollectionCheckpoint(root, { context, inventory }), journal = new InvocationJournal(join(root, 'raw-cli-invocations'))
+    const start = journal.start({ coordinate: 'round:1', project, caseId: 'docs_2_1', sourceSha256: evidenceBytesDigest(source.source), artifactSha256: native.sha256, bindingSha256: communityCliBinding(native.executable, 'svg', request), format: 'svg' })
+    journal.returned(start, svg, null)
+    const raw = { value: { status: 'passed', svg, transportObservation: { metrics: { rawInvocationDirectory: journal.directory } } }, invocationId: start.attemptId }
+    checkpoint.record(JSON.stringify(['raw-svg', 2, project, 'native', source.id]), raw)
+    checkpoint.record(JSON.stringify(['raw-svg', 3, project, 'native', source.id]), raw)
+    cpSync(campaign, moved, { recursive: true }); rmSync(campaign, { recursive: true })
+    const ownership = retainedDocsSvgOwnershipContext(moved), input = { root: join(moved, 'docs'), project, source, round: 2, variant: 'native', svg, attemptId: start.attemptId, ownership, remap: (path: string) => path.replace(campaign, moved) }
+    expect(requireRetainedDocsSvgReturn(input)).toMatchObject({ invokedCaseId: 'docs_2_1', caseId: source.id, round: 2, variant: 'native', attemptId: start.attemptId })
+    expect(() => requireRetainedDocsSvgReturn({ ...input, round: 3 })).toThrow('round, variant')
+    expect(() => requireRetainedDocsSvgReturn({ ...input, variant: 'primary' })).toThrow('sealed original')
+    const wrongSubset = { ...ownership, collectionIdentity: { ...ownership.collectionIdentity, context: { ...context, selectedCaseIds: [source.id, other.id] } } }
+    expect(() => requireRetainedDocsSvgReturn({ ...input, ownership: wrongSubset })).toThrow('header identity')
+  } finally { rmSync(base, { recursive: true, force: true }) }
 })
 
 test('the real archive regrader reuses retained SVGs across contract enrichment and preserves every original view', async () => {

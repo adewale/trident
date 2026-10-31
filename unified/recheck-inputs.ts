@@ -1,5 +1,5 @@
 import { readFileSync, realpathSync } from 'node:fs'
-import { isAbsolute, join, relative, resolve } from 'node:path'
+import { dirname, isAbsolute, join, relative, resolve } from 'node:path'
 import type { Route } from 'playwright'
 import type { AuthoredFidelityCase } from '../fidelity/meaning.ts'
 import { makeSvgCaseContract } from '../fidelity/svg-assessment.ts'
@@ -7,6 +7,8 @@ import { admitInvocationEvidence, evidenceBytesDigest, evidenceDigest } from '..
 import { readCheckpointValue } from '../portable/checkpoint.ts'
 import { admitDocsResourceUrl } from './docs-resources.ts'
 import { docsObserverPolicy } from './docs-runtime.ts'
+import { communityCliRequest, communityCliBinding } from './community-cli-request.ts'
+import type { CommunityArtifact } from './community-types.ts'
 
 const normalized = <T>(value: T): T => JSON.parse(JSON.stringify(value))
 
@@ -148,18 +150,24 @@ export async function routeRetainedObserver(route: Route, assets: ReturnType<typ
  * collection context. A journal's self-declared artifact/binding is not its own
  * authority for a project, round or output variant. */
 export function retainedDocsSvgOwnershipContext(campaign: string) {
-  const prepared = JSON.parse(readRetainedPreparationInput(campaign, 'browsers').bytes.toString())
+  const browsers = readRetainedPreparationInput(campaign, 'browsers'), prepared = JSON.parse(browsers.bytes.toString())
   const inventory = JSON.parse(readRetainedPreparationInput(campaign, 'inventories').bytes.toString()).docs
   const context = JSON.parse(readFileSync(owned(campaign, 'docs/context.json'), 'utf8'))
+  const variants = browsers.manifest.files.variants ? JSON.parse(readRetainedPreparationInput(campaign, 'variants').bytes.toString()) : []
   if (!Array.isArray(prepared) || !inventory?.cases || !Array.isArray(context.artifacts) || new Set(context.artifacts.map((row: any) => row.project)).size !== context.artifacts.length || new Set(prepared.map((peer: any) => peer.node?.id)).size !== prepared.length) throw Error('Original documentation SVG artifact/source context is ambiguous')
-  const engines = new Map<string, { engine: any; variant: string }>()
+  if (!Array.isArray(variants) || new Set(variants.map((row: any) => JSON.stringify([row.project, row.output]))).size !== variants.length) throw Error('Original documentation output-variant context is ambiguous')
+  const engines = new Map<string, { engine: any; variant: string; cliArtifact?: CommunityArtifact }>()
   for (const artifact of context.artifacts) {
     const peer = prepared.find((peer: any) => peer.node?.id === artifact.project), admission = artifact.admission
     if (!peer || !admission?.artifactSha256) continue
-    let engine = peer.browser
-    if (!engine && peer.artifact?.kind === 'cli' && peer.artifact.executable === admission.entry && peer.artifact.version === admission.version && peer.artifact.sha256 === admission.artifactSha256) engine = { kind: 'cli', root: admission.root, entry: admission.entry, version: admission.version, artifactSha256: admission.artifactSha256 }
+    const variant = variants.find((row: any) => row.project === artifact.project && row.output === 'svg')?.variant ?? peer.artifact?.transportVariant ?? 'primary'
+    const extras = peer.artifact?.additionalCli?.filter((extra: any) => extra.id === variant && extra.outputs?.includes('svg') && !extra.error && extra.artifact?.kind === 'cli')
+    const selected = variant === 'primary' ? peer.artifact : extras?.length === 1 ? extras[0].artifact : undefined
+    let engine = selected?.kind === 'cli' ? undefined : variant === 'primary' ? peer.browser : undefined
+    const cliSha256 = selected?.sha256 ?? selected?.files?.find((file: any) => file.path === admission.entry)?.sha256
+    if (selected?.kind === 'cli' && selected.executable === admission.entry && (selected.root ?? dirname(selected.executable)) === admission.root && selected.version === admission.version && cliSha256 === admission.artifactSha256) engine = { kind: 'cli', root: admission.root, entry: admission.entry, version: admission.version, artifactSha256: admission.artifactSha256 }
     if (!engine || engine.root !== admission.root || resolve(engine.root, engine.entry) !== resolve(admission.entry) || engine.version !== admission.version || engine.artifactSha256 !== admission.artifactSha256) continue
-    engines.set(artifact.project, { engine, variant: peer.artifact?.transportVariant ?? 'primary' })
+    engines.set(artifact.project, { engine, variant, ...(selected?.kind === 'cli' ? { cliArtifact: selected as CommunityArtifact } : {}) })
   }
   return { collectionIdentity: { context, inventory }, engines }
 }
@@ -176,9 +184,19 @@ export function requireRetainedDocsSvgReturn(input: { root: string; project: str
   owned(input.root, relative(input.root, directory))
   const identity = { schema: 'trident-invocation-journal-v1' }
   const started = admitInvocationEvidence(readCheckpointValue(directory, raw.invocationId + ':started', identity)), returned = admitInvocationEvidence(readCheckpointValue(directory, raw.invocationId + ':returned', identity))
-  const bindingSha256 = evidenceDigest({ format: 'svg', engine: frozen.engine, round: input.round, variant: input.variant })
-  if (started.state !== 'started' || returned.state !== 'returned' || started.attemptId !== raw.invocationId || returned.attemptId !== raw.invocationId || evidenceDigest(started.identity) !== evidenceDigest(returned.identity) || returned.startedReceiptSha256 !== undefined && returned.startedReceiptSha256 !== evidenceDigest(started) || returned.identity.project !== input.project || returned.identity.caseId !== input.source.id || returned.identity.sourceSha256 !== evidenceBytesDigest(input.source.source) || returned.identity.artifactSha256 !== frozen.engine.artifactSha256 || returned.identity.bindingSha256 !== bindingSha256 || returned.identity.format !== 'svg' || returned.output?.sha256 !== evidenceBytesDigest(input.svg) || returned.output.bytes !== Buffer.byteLength(input.svg)) throw Error('SVG public invocation differs from the literal source, project, frozen engine, round, variant or actual bytes')
+  let bindingSha256: string, invokedCaseId = input.source.id
+  if (frozen.cliArtifact) {
+    const selected = input.ownership.collectionIdentity.context.selectedCaseIds
+    if (!Array.isArray(selected) || new Set(selected).size !== selected.length || !selected.includes(input.source.id) || typeof external !== 'string' || resolve(directory) !== resolve(input.root, 'raw-cli-invocations')) throw Error('CLI SVG has no original selected-case/render-ID association')
+    // The shared docs wrapper passes its original selected-case render ID to
+    // runCommunityCli. Its inner process round is 1; the outer docs round lives
+    // in that render ID, not a fabricated reinterpretation of the inner clock.
+    invokedCaseId = 'docs_' + input.round + '_' + selected.indexOf(input.source.id)
+    bindingSha256 = communityCliBinding(frozen.engine.entry, 'svg', communityCliRequest(frozen.cliArtifact, 'svg', dirname(external)))
+    if (returned.identity.coordinate !== 'round:1') throw Error('CLI SVG differs from its original public process coordinate')
+  } else bindingSha256 = evidenceDigest({ format: 'svg', engine: frozen.engine, round: input.round, variant: input.variant })
+  if (started.state !== 'started' || returned.state !== 'returned' || started.attemptId !== raw.invocationId || returned.attemptId !== raw.invocationId || evidenceDigest(started.identity) !== evidenceDigest(returned.identity) || returned.startedReceiptSha256 !== undefined && returned.startedReceiptSha256 !== evidenceDigest(started) || returned.identity.project !== input.project || returned.identity.caseId !== invokedCaseId || returned.identity.sourceSha256 !== evidenceBytesDigest(input.source.source) || returned.identity.artifactSha256 !== frozen.engine.artifactSha256 || returned.identity.bindingSha256 !== bindingSha256 || returned.identity.format !== 'svg' || returned.output?.sha256 !== evidenceBytesDigest(input.svg) || returned.output.bytes !== Buffer.byteLength(input.svg)) throw Error('SVG public invocation differs from the literal source, project, frozen engine, round, variant or actual bytes')
   const bytes = readFileSync(owned(input.root, relative(input.root, input.remap(returned.output.path))))
   if (evidenceBytesDigest(bytes) !== returned.output.sha256 || bytes.byteLength !== returned.output.bytes) throw Error('SVG public invocation output bytes changed')
-  return { schema: 'trident-owned-svg-return-v1' as const, project: input.project, caseId: input.source.id, round: input.round, variant: input.variant, artifactSha256: returned.identity.artifactSha256, bindingSha256, sourceSha256: returned.identity.sourceSha256, svgSha256: returned.output.sha256, attemptId: raw.invocationId, rawUnitSha256: evidenceDigest(raw), startedFrameSha256: evidenceDigest(started), returnedFrameSha256: evidenceDigest(returned) }
+  return { schema: 'trident-owned-svg-return-v1' as const, project: input.project, caseId: input.source.id, invokedCaseId, round: input.round, variant: input.variant, artifactSha256: returned.identity.artifactSha256, bindingSha256, sourceSha256: returned.identity.sourceSha256, svgSha256: returned.output.sha256, attemptId: raw.invocationId, rawUnitSha256: evidenceDigest(raw), startedFrameSha256: evidenceDigest(started), returnedFrameSha256: evidenceDigest(returned) }
 }

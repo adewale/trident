@@ -26,6 +26,7 @@ import { workloadAppliesToOutput } from './workload-intent.ts'
 import { communityCatalogFile } from './trident-paths.ts'
 import { retainFailedOutput } from './failure-outputs.ts'
 import { candidateKey, candidatePackage, verifyCandidateArchive, verifyCandidateDependencyPayload, type NpmCandidate } from './candidate-packages.ts'
+import { communityCliRequest, communityCliBinding } from './community-cli-request.ts'
 export { candidatePackage } from './candidate-packages.ts'
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -497,17 +498,9 @@ function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWo
     row.detail = 'Reviewed public renderer does not implement this family; its framed-source fallback is not diagram ink'
     return row
   }
-  const input = join(out, 'cli-input.mmd'),
-    destination = join(out, `cli-output.${output === 'png' ? 'png' : output === 'svg' ? 'svg' : 'txt'}`)
+  const request = communityCliRequest(artifact, output, out), { input, destination, args } = request
   writeFileSync(input, workload.source)
   if (existsSync(destination)) unlinkSync(destination)
-  const binding = artifact.outputBindings?.[output]
-  const args = (binding?.args ?? artifact.args ?? []).map(arg =>
-    arg
-      .replaceAll('{input}', input)
-      .replaceAll('{output}', destination)
-      .replaceAll('{format}', output === 'terminal' ? 'unicode' : output),
-  )
   const journal = new InvocationJournal(join(out, 'raw-cli-invocations'))
   let executable: string, artifactSha256: string
   try {
@@ -523,7 +516,7 @@ function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWo
     row.metrics = { ...row.metrics, measuredAt: null, measuredFrom: null, firstMs: null, rejected: null, failureStage: 'transport', invocationState: 'not-invoked', notInvokedEvidence: record, timingQualified: false }
     return row
   }
-  const identity = { coordinate: 'round:' + round, project: prepared.node.id, caseId: workload.id, sourceSha256: evidenceBytesDigest(workload.source), artifactSha256, bindingSha256: evidenceDigest(JSON.parse(JSON.stringify({ executable, args, output, input: binding?.input ?? artifact.input ?? 'stdin' }))), format: output }
+  const identity = { coordinate: 'round:' + round, project: prepared.node.id, caseId: workload.id, sourceSha256: evidenceBytesDigest(workload.source), artifactSha256, bindingSha256: communityCliBinding(executable, output, request), format: output }
   const prior = journal.forIdentity(identity)
   if (prior.length) {
     const returned = prior.filter(frame => frame.state === 'returned')
@@ -535,7 +528,7 @@ function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWo
   }
   const invocation = journal.start(identity)
   const started = performance.now(),
-    child = spawnSync(artifact.executable!, args, { input: (binding?.input ?? artifact.input) === 'file' ? undefined : workload.source, timeout: 30_000, maxBuffer: 16 * 1024 * 1024, env: { ...process.env, NO_COLOR: '1', TERM: 'dumb' } }),
+    child = spawnSync(artifact.executable!, args, { input: request.inputMode === 'file' ? undefined : workload.source, timeout: 30_000, maxBuffer: 16 * 1024 * 1024, env: { ...process.env, NO_COLOR: '1', TERM: 'dumb' } }),
     ms = performance.now() - started
   const streams = journal.streams(child.stdout ?? Buffer.alloc(0), child.stderr ?? Buffer.alloc(0))
   row.metrics = { ...row.metrics, rawInvocationId: invocation.attemptId, rawInvocationDirectory: journal.directory, stdoutFile: streams.stdout.path, stderrFile: streams.stderr.path }
@@ -549,7 +542,7 @@ function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWo
     row.metrics = { ...row.metrics, rejected: !transportFailed, failureStage: transportFailed ? 'transport' : 'public-command' }
     return row
   }
-  const fileOutput = (binding?.args ?? artifact.args)?.some(arg => arg.includes('{output}'))
+  const fileOutput = request.fileOutput
   if (fileOutput && !existsSync(destination)) {
     journal.failed(invocation, 'CLI exited successfully without producing its declared output file', ms, 'public-error', streams)
     row.status = 'failed'
