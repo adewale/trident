@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto'
 import { inspectPng, type PngPixelIdentity } from './png-inspection.ts'
-import { sourceHash, type DocsDrawingReview, type DocsInput } from './docs-drawings.ts'
+import { admitDocsReviews, sourceHash, type DocsDrawingReview, type DocsInput } from './docs-drawings.ts'
 
 /** A review of the actual image against the complete source expectations.
  * No renderer, SVG return or nonblank check can manufacture this review. */
@@ -22,6 +22,7 @@ export const docsExpectationsHash = (review: DocsDrawingReview) => {
 const validPixels = (pixels: PngPixelIdentity | undefined) => pixels === undefined || !!pixels && typeof pixels === 'object' && pixels.protocol === 'png-rgba16-and-display-metadata-v1' && /^[a-f0-9]{64}$/.test(pixels.sha256) && Number.isSafeInteger(pixels.width) && Number.isSafeInteger(pixels.height) && pixels.width > 0 && pixels.height > 0 && pixels.width * pixels.height <= 16 * 1024 * 1024
 const samePixels = (left: PngPixelIdentity, right: PngPixelIdentity) => left.protocol === right.protocol && left.width === right.width && left.height === right.height && left.sha256 === right.sha256
 export function admitPngReviews(inputs: readonly DocsInput[], sourceReviews: readonly DocsDrawingReview[], reviews: readonly DocsPngReview[]) {
+  admitDocsReviews(inputs, sourceReviews)
   const seen = new Set<string>()
   const pixelVerdicts = new Map<string, DocsPngReview['status']>()
   for (const review of reviews) {
@@ -53,6 +54,7 @@ export function bindPngReviewPixels(input: DocsInput, expected: DocsDrawingRevie
 
 export function assessDocsPng(input: DocsInput, expected: DocsDrawingReview | null, bytes: Uint8Array | undefined, reviews: readonly DocsPngReview[]) {
   if (expected && (expected.id !== input.id || expected.sourceSha256 !== sourceHash(input.source))) throw Error('Stale PNG source expectation')
+  if (expected) admitDocsReviews([input], [expected])
   if (expected?.intent === 'configuration-only') return { status: 'not-applicable', reason: expected.review }
   if (!bytes) return { status: 'unknown', reason: 'No inspectable PNG; see the separate output-return result' }
   // A drawing may deliberately contain no marks (for example an empty Gantt).
@@ -62,6 +64,7 @@ export function assessDocsPng(input: DocsInput, expected: DocsDrawingReview | nu
   if (decoded.unavailable) return { status: 'unknown', reason: decoded.findings.join('; ') }
   if (decoded.findings.length) return { status: 'incorrect', reason: decoded.findings.join('; ') }
   if (!expected) return { status: 'unknown', reason: 'No reviewed source expectation; PNG decoding supplies no correctness credit' }
+  if (expected.sourceReview?.expectedFactsComplete !== true || expected.sourceReview.unresolved.length || expected.unverifiedFacts?.length) return { status: 'unknown', reason: 'A validated complete source contract is required; a legacy or incomplete image review cannot supply full content credit' }
   const hash = createHash('sha256').update(bytes).digest('hex')
   const own = reviews.filter(item => item.id === input.id && item.sourceSha256 === sourceHash(input.source) && item.expectationsSha256 === docsExpectationsHash(expected))
   for (const item of own) if (item.pngSha256 === hash && item.pixels && (!validPixels(item.pixels) || !decoded.pixelIdentity || !samePixels(item.pixels, decoded.pixelIdentity))) throw Error('PNG review pixels contradict its actual reviewed bytes')

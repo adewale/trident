@@ -2,6 +2,7 @@ import { expect, test } from 'bun:test'
 import { crc32, deflateSync } from 'node:zlib'
 import { createHash } from 'node:crypto'
 import { assessDocsPng, admitPngReviews, docsExpectationsHash, type DocsPngReview } from '../unified/docs-png-drawings.ts'
+import { reviewDocumentationSource } from '../unified/docs-source-review.ts'
 import { sourceHash, type DocsDrawingReview } from '../unified/docs-drawings.ts'
 import { docsPngTransport } from '../unified/docs-png-lane.ts'
 import { parseOptions } from '../unified/options.ts'
@@ -9,7 +10,7 @@ import { projectSupport } from '../unified/support.ts'
 import { callDocsPage } from '../unified/docs-benchmark.ts'
 
 const input = { id: 'source', family: 'flowchart', source: 'flowchart LR\nA-->B' }
-const expected: DocsDrawingReview = { ...input, sourceSha256: sourceHash(input.source), intent: 'drawing', expected: { labels: ['A', 'B'], nodes: [{ id: 'A', label: 'A' }, { id: 'B', label: 'B' }], edges: [{ source: 'A', target: 'B', directed: true }] }, review: 'Independently declared A-to-B graph' }
+const expected: DocsDrawingReview = reviewDocumentationSource(input)
 function png(pixels: number[]) {
   const chunk = (type: string, data: Uint8Array) => { const b = Buffer.alloc(data.length + 12); b.writeUInt32BE(data.length); b.write(type, 4); b.set(data, 8); b.writeUInt32BE(crc32(b.subarray(4, -4)), b.length - 4); return b }
   const header = Buffer.alloc(13); header.writeUInt32BE(2); header.writeUInt32BE(1, 4); header[8] = 8; header[9] = 6
@@ -50,4 +51,23 @@ test('an initializer that never resolves is bounded and its page is closed', asy
   const page = { evaluate: () => new Promise(() => {}), close: async () => { closed = true } }
   await expect(callDocsPage(page as any, async () => {}, {}, 10)).rejects.toThrow('host deadline')
   expect(closed).toBe(true)
+})
+
+
+test('PNG full-content credit requires validated complete source metadata, including direct assessment', () => {
+  const { sourceReview: _metadata, ...legacy } = expected
+  const legacyImage = { ...review, expectationsSha256: docsExpectationsHash(legacy) }
+  expect(admitPngReviews([input], [legacy], [legacyImage])).toHaveLength(1)
+  expect(assessDocsPng(input, legacy, nonblank, [legacyImage]).status).toBe('unknown')
+  for (const metadata of [
+    { ...expected.sourceReview!, protocol: 'unreviewed-source-protocol' },
+    { ...expected.sourceReview!, sourcePin: '0'.repeat(40) },
+    { ...expected.sourceReview!, requiredObligations: ['visible-labels'] },
+    { ...expected.sourceReview!, unresolved: ['Unsettled source fact'] },
+  ]) {
+    const malformed = { ...expected, sourceReview: metadata } as DocsDrawingReview
+    const image = { ...review, expectationsSha256: docsExpectationsHash(malformed) }
+    expect(() => admitPngReviews([input], [malformed], [image])).toThrow('source contract')
+    expect(() => assessDocsPng(input, malformed, nonblank, [image])).toThrow('source contract')
+  }
 })
