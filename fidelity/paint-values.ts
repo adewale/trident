@@ -24,11 +24,19 @@ export function inspectQuantitativePaint(input: { family: string; expected: Mean
   const norm = (value: string) => value.normalize('NFC').replace(/\s+/g, ' ').trim()
   const uncertain = new Set<string>(), colorCanvas = document.createElement('canvas').getContext('2d')!
   const alpha = (color: string): number => { if (color === 'none' || color === 'transparent') return 0; if (/url\(/.test(color)) { const id = /#([^\s)"']+)/.exec(color)?.[1], gradient = id ? document.getElementById(decodeURIComponent(id)) : undefined, stops = gradient && ['linearGradient', 'radialGradient'].includes(gradient.localName) ? [...gradient.querySelectorAll('stop')] : []; if (stops.length && stops.every(stop => alpha(getComputedStyle(stop).stopColor) * Number(getComputedStyle(stop).stopOpacity) > 0)) return 1; uncertain.add('paint:' + color); return 1 }; if (/context-|var\(/.test(color)) { uncertain.add('paint:' + color); return 1 }; colorCanvas.clearRect(0, 0, 1, 1); colorCanvas.fillStyle = color; colorCanvas.fillRect(0, 0, 1, 1); return colorCanvas.getImageData(0, 0, 1, 1).data[3]! / 255 }
+  const simpleClip = (element: Element, owner: Element, setting: string): boolean | null => {
+    const id = /#([^\s)"']+)/.exec(setting)?.[1], clip = id ? document.getElementById(decodeURIComponent(id)) : null, children = clip ? [...clip.children] : [], shape = children.length === 1 && ['rect', 'circle', 'ellipse'].includes(children[0]!.localName) ? children[0] as SVGGeometryElement : null, matrix = (owner as SVGGraphicsElement).getScreenCTM?.()
+    if (!shape || !matrix || clip?.getAttribute('clipPathUnits') === 'objectBoundingBox' || shape.hasAttribute('transform') || clip?.hasAttribute('transform')) return null
+    const b = element.getBoundingClientRect()
+    return [[b.x, b.y], [b.right, b.y], [b.x, b.bottom], [b.right, b.bottom]].every(([x, y]) => shape.isPointInFill(new DOMPoint(x, y).matrixTransform(matrix.inverse())))
+  }
   const visible = (element: Element) => {
     for (let current: Element | null = element; current; current = current.parentElement) {
       const style = getComputedStyle(current)
       if (['defs', 'marker', 'clipPath', 'mask'].includes(current.localName) || style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0) return false
-      if (style.clipPath && style.clipPath !== 'none' || style.maskImage && style.maskImage !== 'none' || style.filter && style.filter !== 'none') uncertain.add('unprojected geometry clip/mask/filter')
+      const clipped = style.clipPath && style.clipPath !== 'none' ? simpleClip(element, current, style.clipPath) : true
+      if (clipped === false) return false
+      if (clipped === null || style.maskImage && style.maskImage !== 'none' || style.filter && style.filter !== 'none') uncertain.add('unprojected geometry clip/mask/filter')
       if (current === svg) break
     }
     const style = getComputedStyle(element)
@@ -141,14 +149,28 @@ export function inspectQuantitativePaint(input: { family: string; expected: Mean
   }
   if (input.family === 'treemap' && facts.values) {
     const values: { id: string; value: number }[] = facts.values, nodes = input.expected.nodes ?? [], actual = values.map(value => ({ ...value, box: input.nodes?.find(node => node.id === value.id)?.box ?? owned(nodes.find(node => node.id === value.id)?.label ?? value.id.split('/').at(-1)!) }))
-    const groups = [...new Set(values.map(value => value.id.split('/').slice(0, -1).join('/')))].map(parent => actual.filter(value => value.id.split('/').slice(0, -1).join('/') === parent)).filter(group => group.length > 1)
-    const available = groups.length > 0 && groups.flat().every(value => value.box)
-    const ratios = available ? groups.flatMap(group => { const total = group.reduce((sum, item) => sum + item.box!.width * item.box!.height, 0), expected = group.reduce((sum, item) => sum + item.value, 0); return group.map(item => ({ id: item.id, expected: item.value / expected, actual: item.box!.width * item.box!.height / total })) }) : []
-    add('painted-leaf-weights', facts.values, ratios, available ? ratios.every(value => Math.abs(value.expected - value.actual) <= .08) : null, 'Actual sibling leaf areas retain authored weight fractions within 8 percentage points for container padding; single-child and cross-level area claims are excluded')
+    const parentOf = (id: string) => (facts.hierarchy as { id: string; parent: string }[] | undefined)?.find(node => node.id === id)?.parent ?? id.split('/').slice(0, -1).join('/')
+    const groups = [...new Set(values.map(value => parentOf(value.id)))].map(parent => actual.filter(value => parentOf(value.id) === parent)).filter(group => group.length > 1)
+    let available = groups.length > 0 && groups.flat().every(value => value.box && Number.isFinite(value.value) && value.value >= 0)
+    const ratios = available ? groups.flatMap(group => {
+      const gaps: number[] = []
+      for (const a of group) for (const b of group) if (a !== b) {
+        const x = b.box!.x - a.box!.x - a.box!.width, y = b.box!.y - a.box!.y - a.box!.height
+        if (x >= -.25 && Math.min(a.box!.y + a.box!.height, b.box!.y + b.box!.height) - Math.max(a.box!.y, b.box!.y) > 1) gaps.push(Math.max(0, x))
+        if (y >= -.25 && Math.min(a.box!.x + a.box!.width, b.box!.x + b.box!.width) - Math.max(a.box!.x, b.box!.x) > 1) gaps.push(Math.max(0, y))
+      }
+      if (!gaps.length) { available = false; return [] }
+      const gap = Math.min(...gaps), cells = group.map(item => ({ ...item, x: item.box!.x - gap / 2, y: item.box!.y - gap / 2, width: item.box!.width + gap, height: item.box!.height + gap }))
+      const total = cells.reduce((sum, item) => sum + item.width * item.height, 0), expected = group.reduce((sum, item) => sum + item.value, 0), left = Math.min(...cells.map(item => item.x)), top = Math.min(...cells.map(item => item.y)), width = Math.max(...cells.map(item => item.x + item.width)) - left, height = Math.max(...cells.map(item => item.y + item.height)) - top
+      const overlap = cells.some((a, index) => cells.slice(index + 1).some(b => Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x) > .5 && Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y) > .5))
+      if (!expected || overlap || Math.abs(width * height - total) > Math.max(1, width + height)) available = false
+      return cells.map(item => ({ id: item.id, expected: item.value / expected, actual: item.width * item.height / total, inferredUniformGap: gap }))
+    }) : []
+    add('painted-leaf-weights', facts.values, ratios, available ? ratios.every(value => Math.abs(value.expected - value.actual) <= .005) : null, 'Sibling rectangles must form a complete nonoverlapping partition after independently measured uniform gaps are restored. Encoded area fractions then agree within0.5percentagepoints; arbitrary padding/error allowances and unqualified tilings cannot supply credit')
   }
   if (input.family === 'sankey' && facts.links) {
     const links: { source: string; target: string; value: number }[] = facts.links, paths = [...svg.querySelectorAll('path')].filter(element => visible(element) && /sankey-link|pele-sankey-link/.test(element.getAttribute('class') ?? '') || visible(element) && element.getAttribute('d')?.includes('C') && Number.parseFloat(getComputedStyle(element).strokeWidth) > 2)
-    const nodes = input.expected.nodes ?? [], ownedNodes = nodes.map(node => ({ id: node.id, box: owned(node.label) })), widths: { source?: string; target?: string; width: number }[] = []
+    const nodes = input.expected.nodes ?? [], ownedNodes = nodes.map(node => ({ id: node.id, box: input.nodes?.find(actual => actual.id === node.id)?.box ?? owned(node.label) })), widths: { source?: string; target?: string; width: number }[] = []
     for (const path of paths) {
       const p = sample(path), xs = p.map(value => value.x), left = Math.min(...xs), right = Math.max(...xs), filled = getComputedStyle(path).fill !== 'none'
       const leftPoints = p.filter(value => value.x <= left + .5), rightPoints = p.filter(value => value.x >= right - .5), start = { x: left, y: leftPoints.reduce((sum, value) => sum + value.y, 0) / leftPoints.length }, end = { x: right, y: rightPoints.reduce((sum, value) => sum + value.y, 0) / rightPoints.length }

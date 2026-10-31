@@ -1,6 +1,14 @@
 import { expect, test } from 'bun:test'
 import { projectVisualExpectation } from '../fidelity/visual-expectation.ts'
 
+test('global layout hints become normative order only for a defensible simple chain', () => {
+  const nodes = [{ id: 'A', label: 'A' }, { id: 'B', label: 'B' }, { id: 'C', label: 'C' }], chain = { labels: [], nodes, edges: [{ source: 'A', target: 'B', directed: true }, { source: 'B', target: 'C', directed: true }], facts: { direction: 'TD' } }
+  expect(projectVisualExpectation('flowchart', chain).expected.facts?.direction).toBe('TD')
+  const branching = projectVisualExpectation('flowchart', { ...chain, edges: [{ source: 'A', target: 'B', directed: true }, { source: 'A', target: 'C', directed: true }] }).expected
+  expect(branching.facts).not.toHaveProperty('direction')
+  expect(branching.advisoryFacts?.direction).toBe('TD')
+})
+
 test('unprinted pie totals project to fractions; showData retains explicit absolute values', () => {
   const raw = { labels: ['A', 'B'], facts: { slices: [{ label: 'A', value: 7 }, { label: 'B', value: 3 }], 'show-data': false } }
   const doubled = { ...raw, facts: { ...raw.facts, slices: [{ label: 'A', value: 14 }, { label: 'B', value: 6 }] } }

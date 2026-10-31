@@ -60,3 +60,15 @@ These qualify bounded fact profiles, not every class, ER or sequence feature.
 Static/abstract/generic member decorations, ER cardinality glyph meaning,
 notes/fragments and unsupported message arrow styles remain separate required
 obligations and cannot inherit credit from the passing rows.
+
+`mermaid-sankey-values.svg` and `mermaid-treemap-values.svg` are unchanged
+Mermaid 12.2.0 public outputs for `meaning:family:sankey` and
+`meaning:family:treemap`, retained in the same 31 October campaign. The source
+and original native expectations are in `fidelity/cases.ts`. New visual
+expectations derive from those literals and the pinned public defaults, not
+from these SVGs. Tests independently mutate printed quantities, borrow a
+correct value from unrelated text, hide/clamp value text and change source
+area ratios. A wrong printed number fails independently of correct geometry.
+
+- Sankey SHA-256: `aba95796af83af915d18a63801d38e71528857514d302b85a3ad9f5d6ed80ef4`.
+- Treemap SHA-256: `85c7d901c362a6c7e78b40868f9305b649b0862208e11c27da64707ba522f2e1`.

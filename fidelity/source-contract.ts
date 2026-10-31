@@ -1,6 +1,7 @@
 import { evidenceBytesDigest, evidenceDigest } from '../portable/evidence-contract.ts'
 import { reviewDocumentationSource, requiredDocumentationObligations } from '../unified/docs-source-review.ts'
 import type { AuthoredFidelityCase } from './meaning.ts'
+import { projectVisualExpectation } from './visual-expectation.ts'
 
 const stable = (value: unknown): string => JSON.stringify(value && typeof value === 'object' ? Array.isArray(value) ? value.map(item => JSON.parse(stable(item))) : Object.fromEntries(Object.entries(value).sort(([a], [b]) => a.localeCompare(b)).map(([key, item]) => [key, JSON.parse(stable(item))])) : value)
 const display = (value: string) => value.normalize('NFC').replace(/\s+/g, ' ').trim()
@@ -19,7 +20,7 @@ const canonical = (value: any, key = ''): any => {
  * An incompatible fact is retained and explicitly prevents a whole-source
  * certificate. Candidate render/model output never enters this function. */
 export function enrollAuthoredSource(input: AuthoredFidelityCase): AuthoredFidelityCase {
-  const review = reviewDocumentationSource({ id: input.id, family: input.family, source: input.source }), literal = structuredClone(review.expected), unresolved = [...review.sourceReview.unresolved]
+  const review = reviewDocumentationSource({ id: input.id, family: input.family, source: input.source }, { visual: false }), literal = structuredClone(review.expected), unresolved = [...review.sourceReview.unresolved]
   if (review.family !== input.family) unresolved.push('Authored family conflicts with literal source family: ' + input.family + ' / ' + review.family)
   if (!literal || review.intent !== 'drawing') unresolved.push('Authored drawing lacks an independently transcribed drawing source')
   const expected = structuredClone(input.expected), facts: Record<string, any> = expected.facts ??= {}
@@ -85,8 +86,9 @@ export function enrollAuthoredSource(input: AuthoredFidelityCase): AuthoredFidel
     for (const [key, value] of Object.entries(literal.facts ?? {})) facts[key] = Object.hasOwn(facts, key) ? merge(facts[key], value, 'facts/' + key) : structuredClone(value)
     if (facts['axis-labels'] && facts.axes && stable(facts['axis-labels']) !== stable([...(facts.axes.x ?? []), ...(facts.axes.y ?? [])])) unresolved.push('Authored flattened quadrant axes conflict with literal axis endpoints')
   }
-  const sourceReview = { protocol: 'authored-full-source-v1', sourceSha256: evidenceBytesDigest(input.source), expectedSha256: evidenceDigest(expected), expectedFactsComplete: review.sourceReview.expectedFactsComplete && unresolved.length === 0, requiredObligations: requiredDocumentationObligations(expected), unresolved: [...new Set(unresolved)], provenance: input.provenance + '; independent literal source transcriber; its documentation grammar pin is not the origin of this authored case' }
-  return { ...input, profileExpected: structuredClone(input.profileExpected ?? input.expected), expected, sourceReview }
+  const visual = projectVisualExpectation(input.family, expected)
+  const sourceReview = { protocol: 'authored-full-source-v1', sourceSha256: evidenceBytesDigest(input.source), expectedSha256: evidenceDigest(visual.expected), expectedFactsComplete: review.sourceReview.expectedFactsComplete && unresolved.length === 0, requiredObligations: requiredDocumentationObligations(visual.expected), unresolved: [...new Set(unresolved)], provenance: input.provenance + '; independent literal source transcriber; its documentation grammar pin is not the origin of this authored case', visualProjections: visual.projections }
+  return { ...input, profileExpected: structuredClone(input.profileExpected ?? input.expected), expected: visual.expected, sourceReview }
 }
 
 export function sourceContractComplete(input: AuthoredFidelityCase): boolean {

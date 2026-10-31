@@ -46,6 +46,8 @@ their physical contents while preserving convenient labels.
 | ER attributes | Complete entity-owned row/column type, name, key multiset and optional comment; wrong-type/key controls | Exact crow-foot/optional/identifying glyph meaning and ambiguous table grammar stay unknown |
 | Sequence messages | Chronological actual route heights, owned endpoints/captions and filled solid/dashed arrow style; order/style mutations | Other markers, lifecycles, participant kinds, note placement and fragment membership need their own evidence |
 | Pie | Owned arc fractions and explicitly requested absolute legend values | Fractions do not attest unprinted absolute totals; complete legends/configuration remain separate |
+| Sankey | Complete endpoint-owned flow proportions, adjacent node/value labels and requested value-printing behavior; wrong/borrowed numbers fail independently of geometry | Other label layouts, compound ribbons and unsupported appearance settings remain unknown |
+| Treemap | Exact immediate rectangle containment, independently reconstructed sibling area partitions and separately owned printed safe integers | Nonuniform/unqualified tilings and other numeric formats remain unknown |
 | XY, quadrant and radar | Actual numeric tick/category/legend/point/curve geometry and exact inventories; value/order/extra-series/borrowed-label/visibility controls | See retained chart fixtures: unprinted numeric bounds, annotations, grid variants and unsupported configuration remain unknown |
 | Accessibility metadata | Exact standalone SVG ARIA name/description references | This does not certify screen-reader behavior or visual accessibility |
 
@@ -56,6 +58,36 @@ Specialized observers may replace a generic unavailable projection. Conflicting
 decisive observations stop the assessment; a passing observer cannot hide a
 failed one.
 
+## Quantities in a drawing
+
+The visual contract distinguishes encoded proportions from printed quantities.
+Doubling every unprinted pie slice or Sankey flow leaves the same drawing and
+receives the same geometric result. Treemap sibling areas include independently
+derived subtree aggregates. The source inventory retains the original numbers;
+the projection records which visible encoding is required.
+
+Printed numbers remain separate checks. Pie needs them when `showData` is
+requested. Sankey and treemap default to `showValues: true`; explicitly disabling
+that option removes the absolute-value display obligation. Sankey prints each
+node's maximum incoming/outgoing total rounded to two decimals, with the
+requested prefix/suffix. Treemap currently qualifies default comma-formatted
+safe integers, including derived group totals. Unsupported formatting remains
+unknown. Configuration already represented by these checks does not create a
+second source-text equality requirement.
+
+Global direction also needs an explicit projection. A connected simple
+flowchart chain without groups/local overrides has a defensible node-order
+check. Branches, cycles and other families retain the literal enum in
+`advisoryFacts`; it does not manufacture per-edge precedence or affect the
+correctness denominator. The original native profile can still check its
+parser's direction enum. Advisory observations are reported separately as
+unknown until a qualified layout constraint exists.
+
+The pinned defaults are public source, not inferred SVG behavior: Mermaid
+[`config.schema.yaml`](https://github.com/mermaid-js/mermaid/blob/1fb7869866dd619168d840291c9c54b4f129758b/packages/mermaid/src/schemas/config.schema.yaml#L2701),
+[`sankeyRenderer.ts`](https://github.com/mermaid-js/mermaid/blob/1fb7869866dd619168d840291c9c54b4f129758b/packages/mermaid/src/diagrams/sankey/sankeyRenderer.ts#L174),
+and the treemap documentation's configuration table at the same source pin.
+
 ## Required work outside those profiles
 
 The ledger retains all independently declared facts below. Passing labels or a
@@ -64,7 +96,7 @@ credit. This matrix identifies proof gaps, not project defects.
 
 | Family | Facts still needing complete visible projections |
 | --- | --- |
-| Flowchart | Compound/new shapes, local layout constraints, image/icon ownership beyond decoded node-owned images, animation, configuration and authored styles |
+| Flowchart | Compound/new shapes, explicit local layout constraints, image/icon ownership beyond decoded node-owned images, animation, configuration and authored styles; broad global direction remains advisory |
 | Agentflow | Dialect shapes/kinds, role attributes, scope, configuration and layout |
 | Use case | Actor/business/icon variants, relationship conventions, note attachment, configuration and layout |
 | Swimlane | Exact lane order/membership, dialect kinds and lane-specific layout |
@@ -84,8 +116,8 @@ credit. This matrix identifies proof gaps, not project defects.
 | Timeline | Complete section/period/event grouping and chronology |
 | Journey | Complete section/task/actor/absolute-score ownership; relative score order alone is insufficient |
 | Gantt | Absolute calendar positions, exclusions, dependencies, milestones, status tags, sections and display mode; duration ratios alone are insufficient |
-| Sankey | Exact endpoint-owned quantities, complete inventory and scale; relative thickness alone cannot recover unprinted absolute totals |
-| Treemap | Complete hierarchy and value inventory; sibling area fractions do not attest unprinted absolute values |
+| Sankey | Unqualified ribbon/label representations, alternate appearance settings and value formats beyond the explicit printed-total profile |
+| Treemap | Nonuniform partitions, unsupported numeric formatting and layouts without independently owned node rectangles |
 | Packet | Absolute bit offsets, field spans and wrapped rows; relative cell widths alone are insufficient |
 | Kanban | Column order/membership and complete card metadata |
 | Pie | Full source styles/configuration and unsupported legend variants |

@@ -11,6 +11,8 @@ export interface MeaningExpectation {
   edges?: MeaningEdge[]
   groups?: MeaningGroup[]
   facts?: Record<string, MeaningJson>
+  /** Literal presentation hints without a qualified normative visual constraint. */
+  advisoryFacts?: Record<string, MeaningJson>
   unorderedFacts?: string[]
 }
 export interface AuthoredFidelityCase {
@@ -24,7 +26,7 @@ export interface AuthoredFidelityCase {
   /** Original authored public-model profile; source enrollment extends SVG
    * obligations without silently rewriting the native API contract. */
   profileExpected?: MeaningExpectation
-  sourceReview?: { protocol: string; sourceSha256: string; expectedSha256: string; expectedFactsComplete: boolean; requiredObligations: string[]; unresolved: string[]; provenance: string }
+  sourceReview?: { protocol: string; sourceSha256: string; expectedSha256: string; expectedFactsComplete: boolean; requiredObligations: string[]; unresolved: string[]; provenance: string; visualProjections?: string[] }
   renderOptions?: Record<string, MeaningJson>
   paint?: PaintExpectation
   prelude?: { source: string; accept: boolean }[]

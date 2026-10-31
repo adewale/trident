@@ -30,11 +30,19 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
   const uncertainElements = new Set<Element>()
   const color = document.createElement('canvas').getContext('2d')!
   const alpha = (value: string) => { if (value === 'none' || value === 'transparent') return 0; if (/url\(|var\(|context-/.test(value)) { uncertainPaint = true; return null }; color.clearRect(0, 0, 1, 1); color.fillStyle = value; color.fillRect(0, 0, 1, 1); return color.getImageData(0, 0, 1, 1).data[3]! / 255 }
+  const simpleClip = (element: Element, owner: Element, setting: string): boolean | null => {
+    const id = /#([^\s)"']+)/.exec(setting)?.[1], clip = id ? document.getElementById(decodeURIComponent(id)) : null, children = clip ? [...clip.children] : [], shape = children.length === 1 && ['rect', 'circle', 'ellipse'].includes(children[0]!.localName) ? children[0] as SVGGeometryElement : null, matrix = (owner as SVGGraphicsElement).getScreenCTM?.()
+    if (!shape || !matrix || clip?.getAttribute('clipPathUnits') === 'objectBoundingBox' || shape.hasAttribute('transform') || clip?.hasAttribute('transform')) return null
+    const b = element.getBoundingClientRect()
+    return [[b.x, b.y], [b.right, b.y], [b.x, b.bottom], [b.right, b.bottom]].every(([x, y]) => shape.isPointInFill(new DOMPoint(x, y).matrixTransform(matrix.inverse())))
+  }
   const visible = (element: Element) => {
     for (let parent: Element | null = element; parent; parent = parent.parentElement) {
       const css = getComputedStyle(parent)
       if (['defs', 'marker', 'clipPath', 'mask', 'title', 'desc'].includes(parent.localName) || css.display === 'none' || ['hidden', 'collapse'].includes(css.visibility) || Number(css.opacity) === 0) return false
-      if (css.filter !== 'none' || css.maskImage !== 'none' || css.clipPath !== 'none') { uncertainPaint = true; uncertainElements.add(element); return false }
+      const clipped = css.clipPath !== 'none' ? simpleClip(element, parent, css.clipPath) : true
+      if (clipped === false) return false
+      if (css.filter !== 'none' || css.maskImage !== 'none' || clipped === null) { uncertainPaint = true; uncertainElements.add(element); return false }
       if (parent === svg) break
     }
     const b = element.getBoundingClientRect(), css = getComputedStyle(element)
@@ -61,7 +69,7 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
     for (let parent: Element | null = element; parent; parent = parent.parentElement) {
       const css = getComputedStyle(parent), outer = parent.getBoundingClientRect()
       opacity *= Number(css.opacity)
-      if (css.clipPath !== 'none' || css.maskImage !== 'none' || css.filter !== 'none' || css.clip !== 'auto' || css.mixBlendMode !== 'normal' || ['hidden', 'clip'].includes(css.overflowX) && !inside(outer, box) || ['hidden', 'clip'].includes(css.overflowY) && !inside(outer, box)) return false
+      if (css.clipPath !== 'none' && simpleClip(element, parent, css.clipPath) !== true || css.maskImage !== 'none' || css.filter !== 'none' || css.clip !== 'auto' || css.mixBlendMode !== 'normal' || ['hidden', 'clip'].includes(css.overflowX) && !inside(outer, box) || ['hidden', 'clip'].includes(css.overflowY) && !inside(outer, box)) return false
       if (parent === svg) break
     }
     if (opacity < 1 / 255) return false
@@ -76,7 +84,7 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
   })
   const ownedText = (id: string) => {
     const node = nodeById.get(id)
-    return node ? text.filter(element => inside(node.box, element.getBoundingClientRect())) : null
+    return node ? text.filter(element => inside(node.box, element.getBoundingClientRect()) && !nodes.some(other => other.id !== id && other.box.width * other.box.height < node.box.width * node.box.height - 1 && inside(other.box, element.getBoundingClientRect()))) : null
   }
   const bodyText = (id: string, elements: Element[] | null) => {
     const node = nodeById.get(id)
@@ -197,12 +205,12 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
       const remaining = new Map(indegree), ready = [...remaining].filter(([, degree]) => !degree).map(([id]) => id)
       let visited = 0
       for (let index = 0; index < ready.length; index++) { const id = ready[index]!; visited++; for (const edge of edges.filter(edge => edge.source === id)) { const degree = (remaining.get(edge.target) ?? 0) - 1; remaining.set(edge.target, degree); if (!degree) ready.push(edge.target) } }
-      const supported = ['TB', 'TD', 'BT', 'LR', 'RL'].includes(direction) && edges.length > 0 && visited === indegree.size && !/^\s*direction\s+/im.test(input.source) && edges.every(edge => nodeById.has(edge.source) && nodeById.has(edge.target))
+      const supported = ['TB', 'TD', 'BT', 'LR', 'RL'].includes(direction) && edges.length === indegree.size - 1 && edges.length > 0 && visited === indegree.size && [...indegree.values()].every(degree => degree <= 1) && (input.expected.nodes ?? []).every(node => edges.filter(edge => edge.source === node.id).length <= 1) && !input.expected.groups?.length && !/^\s*(?:direction|subgraph)\s+/im.test(input.source) && edges.every(edge => nodeById.has(edge.source) && nodeById.has(edge.target))
       const actual = edges.map(edge => {
         const a = nodeById.get(edge.source)?.box, b = nodeById.get(edge.target)?.box
         return { source: edge.source, target: edge.target, dx: a && b ? b.x + b.width / 2 - a.x - a.width / 2 : null, dy: a && b ? b.y + b.height / 2 - a.y - a.height / 2 : null }
       })
-      add(key, actual, supported ? actual.every(edge => direction === 'LR' ? edge.dx! > 1 : direction === 'RL' ? edge.dx! < -1 : direction === 'BT' ? edge.dy! < -1 : edge.dy! > 1) : null, 'Owned node centers preserve the requested direction on an acyclic flowchart with no local direction override. Cycles, isolated nodes, unresolved bodies and local overrides need separate layout evidence')
+      add(key, actual, supported ? actual.every(edge => direction === 'LR' ? edge.dx! > 1 : direction === 'RL' ? edge.dx! < -1 : direction === 'BT' ? edge.dy! < -1 : edge.dy! > 1) : null, 'Owned node centers preserve requested order on a connected simple flowchart chain without subgraphs/local overrides. Branches, cycles, isolated nodes and broader global direction hints impose no invented per-edge precedence and remain advisory/unavailable')
       continue
     }
     if (key === 'slices' && input.family === 'pie') {
@@ -226,6 +234,56 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
       const actual = facts[key].map((request: any) => ({ ...request, node: nodeById.get(request.id), matches: images.filter(image => image.href === request.href) }))
       const available = imageCheck && actual.every((request: any) => request.node && request.matches.length === 1)
       add(key, actual, available ? imageCheck!.status === 'unavailable' ? null : imageCheck!.status === 'passed' && actual.every((request: any) => request.matches.every((image: any) => image.box.x >= request.node.box.x - 2 && image.box.y >= request.node.box.y - 2 && image.box.x + image.box.width <= request.node.box.x + request.node.box.width + 2 && image.box.y + image.box.height <= request.node.box.y + request.node.box.height + 2)) : null, 'Each exact source asset must decode and occupy its independently owned source node; a matching URL elsewhere or successful model parse supplies no image ownership credit')
+      continue
+    }
+    if (key === 'links' && input.family === 'sankey' && Array.isArray(facts.links)) {
+      const weights = checkById.get('painted-link-weights'), camouflage = input.paint.camouflagedGeometry?.some(item => ['path', 'line', 'polyline'].includes(item.tag))
+      add(key, weights?.actual ?? null, weights?.status === 'failed' ? false : weights?.status === 'passed' && input.paint.camouflagedGeometry && !camouflage && checkById.get('paint-opacity-and-color')?.status === 'passed' ? true : null, 'Complete endpoint-owned ribbon inventory preserves independently projected relative flow widths with qualified visible paint. Camouflaged or unprojected ribbon paint earns no credit. Unprinted absolute totals are visually equivalent under common scaling; displayed node totals remain separate required facts')
+      continue
+    }
+    if (key === 'values' && input.family === 'treemap' && Array.isArray(facts.values)) {
+      const weights = checkById.get('painted-leaf-weights'), owned = facts.values.every((entry: any) => nodeById.has(entry.id))
+      add(key, weights?.actual ?? null, owned && weights?.status === 'passed' ? true : weights?.status === 'failed' ? false : null, 'Independently projected sibling/subtree weight fractions bind actual owned areas. Printed values remain separate obligations; a native model total cannot substitute for either visible encoding')
+      continue
+    }
+    if (key === 'hierarchy' && input.family === 'treemap' && Array.isArray(facts.hierarchy)) {
+      const observed = facts.hierarchy.map((entry: any) => {
+        const node = nodeById.get(entry.id), parents = node ? nodes.filter(other => other.id !== entry.id && other.box.width * other.box.height > node.box.width * node.box.height + 1 && node.box.x >= other.box.x - 1.5 && node.box.y >= other.box.y - 1.5 && node.box.x + node.box.width <= other.box.x + other.box.width + 1.5 && node.box.y + node.box.height <= other.box.y + other.box.height + 1.5).sort((a, b) => a.box.width * a.box.height - b.box.width * b.box.height) : []
+        return { id: entry.id, expectedParent: entry.parent, actualParent: parents[0]?.id ?? '', owned: !!node }
+      })
+      add(key, observed, checkById.get('painted-node-ownership')?.status === 'passed' && observed.every((entry: any) => entry.owned) ? observed.every((entry: any) => entry.expectedParent === entry.actualParent) : null, 'Exact labelled treemap node inventory and smallest enclosing actual rectangle establish immediate parent containment. Logical native hierarchy edges do not require visible arrows; absent/ambiguous bodies remain unknown')
+      continue
+    }
+    if (key === 'displayed-node-values' && input.family === 'sankey' && Array.isArray(facts[key])) {
+      const observed = facts[key].map((entry: any) => {
+        const node = nodeById.get(entry.id), name = node?.label ?? (input.expected.nodes ?? []).find(node => node.id === entry.id)?.label
+        const named = text.filter(element => { const value = normalize(element.textContent ?? ''), b = element.getBoundingClientRect(), owner = node?.box; if (!owner || value !== normalize(String(name)) && !value.startsWith(normalize(String(name)) + ' ')) return false; const gap = Math.max(owner.x - b.right, b.x - owner.x - owner.width, 0), dy = Math.abs(owner.y + owner.height / 2 - b.y - b.height / 2); return gap <= Math.max(12, b.height * .75) && dy <= Math.max(3, b.height * .35) })
+        const combined = named.filter(element => normalize(element.textContent ?? '') === normalize(String(name) + ' ' + entry.display))
+        return { id: entry.id, display: entry.display, node: !!node, elements: named, namedOccurrences: named.length, occurrences: combined.length }
+      })
+      const available = observed.every((entry: any) => entry.node && entry.elements.every((element: Element) => rowPaint([element])))
+      add(key, observed.map(({ elements: _, ...entry }: any) => entry), available ? observed.every((entry: any) => entry.occurrences === 1 && entry.namedOccurrences === 1) : null, 'Each independently owned Sankey node has one spatially attached label/value block printing source-derived max(incoming,outgoing), rounded to two decimals with the requested prefix/suffix. Free matching numeric text, duplicate labels, source data and ribbon proportions supply no displayed-value credit')
+      continue
+    }
+    if (key === 'displayed-values' && input.family === 'treemap' && Array.isArray(facts[key])) {
+      const observed = facts[key].map((entry: any) => {
+        const elements = ownedText(entry.id), numeric = bodyText(entry.id, elements).filter(element => /^[-+\d,]+$/.test(normalize(element.textContent ?? '')))
+        return { id: entry.id, expected: entry.value, format: entry.format, elements, numeric, actual: numeric.map(element => Number(normalize(element.textContent ?? '').replaceAll(',', ''))) }
+      })
+      const available = observed.every((entry: any) => entry.elements && rowPaint(entry.elements) && entry.format === ',' && Number.isSafeInteger(entry.expected))
+      add(key, observed.map(({ elements: _, numeric: __, ...entry }: any) => entry), available ? observed.every((entry: any) => entry.actual.length === 1 && entry.actual[0] === entry.expected) : null, 'Each owned treemap node prints its independent source value or subtree aggregate. This profile qualifies the default comma-formatted safe integers; other D3/currency/percentage formats need exact formatting projections')
+      continue
+    }
+    if (key === 'show-values' && ['sankey', 'treemap'].includes(input.family) && typeof facts[key] === 'boolean') {
+      const displayKey = input.family === 'sankey' ? 'displayed-node-values' : 'displayed-values'
+      if (facts[key]) {
+        const printed = checks.find(check => check.criterion === 'source-fact:' + displayKey)
+        add(key, printed?.actual ?? null, printed?.status === 'passed' ? true : printed?.status === 'failed' ? false : null, 'Requested value printing requires the complete owned displayed-value proof; geometry proportions alone cannot establish printed values')
+      } else {
+        const extra = text.filter(element => /^[-+\d,.]+$/.test(normalize(element.textContent ?? '')) && !(input.expected.labels ?? []).some(value => normalize(value) === normalize(element.textContent ?? '')))
+        const combined = text.filter(element => (input.expected.nodes ?? []).some(node => normalize(element.textContent ?? '').startsWith(normalize(node.label) + ' ') && /^[-+\d,.]+$/.test(normalize(element.textContent ?? '').slice(normalize(node.label).length).trim())))
+        add(key, [...extra, ...combined].map(element => normalize(element.textContent ?? '')), combined.length ? false : extra.length === 0 ? true : null, 'Value printing was disabled; an owned node name with an extra numeric value violates that request. Unowned numeric text needs separate role evidence; authored numeric names remain distinct source labels')
+      }
       continue
     }
     add(key, null, null, 'No qualified SVG observer verifies this complete source fact: ' + input.family + '/' + key + '. Partial quantitative checks, labels and native models cannot silently satisfy it')
