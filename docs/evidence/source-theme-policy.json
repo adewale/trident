@@ -1,0 +1,885 @@
+{
+  "protocol": "independent-source-theme-paint-v1",
+  "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "method": "Independent literal/formula transcription plus standalone CSS HSL arithmetic in fidelity/theme-source-policy.ts; no Mermaid imports, renderer/model API, SVG, raster or receipt enters the derivation",
+  "sourceFiles": [
+    {
+      "path": "packages/mermaid/src/themes/theme-base.js",
+      "sha256": "c680265d95221e1639d8eb9e3c345a945b432aea3843f48b12ea1adcd3aeacf4"
+    },
+    {
+      "path": "packages/mermaid/src/themes/theme-default.js",
+      "sha256": "322992e004caf49cf8c21e5e8a01371af8bec116aeb24a7eadd872bcd3359d28"
+    },
+    {
+      "path": "packages/mermaid/src/themes/theme-forest.js",
+      "sha256": "3db01e30413f02613f19a125bc49e5efe06e9190cbe2af028fc3729200a641c1"
+    },
+    {
+      "path": "packages/mermaid/src/themes/theme-dark.js",
+      "sha256": "d22b8ab46292bd1406d8b8b28d42ea7b5dcebd0a7aba1dc10c392b9843d4a2bb"
+    },
+    {
+      "path": "packages/mermaid/src/themes/theme-neutral.js",
+      "sha256": "7a4d9eae887870469c3338c73564767bffa75b2cbc7af0f67b84a3c63539a092"
+    },
+    {
+      "path": "packages/mermaid/src/themes/theme-redux-color.js",
+      "sha256": "8979bb59dfbdf14b3290dfe1bfe96a755b2d637427939ff2396c9b76f3b86574"
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/timeline/styles.js",
+      "sha256": "c1bcc7d2d46b12b1740639b73c88a0dad034dcc58b57bfcb4dc6e455f0b617ad"
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/timeline/timelineRenderer.ts",
+      "sha256": "97569e84590735610f8aeda0f4b923c3baf3b8f6e2b6be6c5e37bb9fe0f87386"
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/timeline/svgDraw.js",
+      "sha256": "e9a0e849fd6172f731e6728f4a1f9dec3b9e88a73bc42a289ac53780b88c63f0"
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/treemap/renderer.ts",
+      "sha256": "c8d1d9d9a1bd6c8562879d05a340c242e0d9a9ce131019347aac71d1085ce6e8"
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/git/styles.js",
+      "sha256": "df465c755c73e8aae895f3dad8bb7e47c9e64dd62901f0e36c3ae0973e56d311"
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/usecase/styles.ts",
+      "sha256": "f59e061a502db8907ab4c9fc7dba720cf200b49190c587409353b67788fdf708"
+    },
+    {
+      "path": "packages/mermaid/src/docs/syntax/timeline.md",
+      "sha256": "787400fc48f737b77af84d9fef8ab713f52d5892542d6eb4357c7cf2ff93fa46"
+    },
+    {
+      "path": "packages/mermaid/src/docs/syntax/treemap.md",
+      "sha256": "a32940b952d87164dc18ce9d8ea679e94f4c0de0bf44a5669b40033170c70ce1"
+    },
+    {
+      "path": "packages/mermaid/src/docs/syntax/gitgraph.md",
+      "sha256": "6afef2eaa11254f051f826fc3a422507d21c8e7ea84c38b27054381566d81cec"
+    },
+    {
+      "path": "packages/mermaid/src/docs/syntax/usecase.md",
+      "sha256": "c6a7768a8af7b0b8dbaee1f9454ef654d93283e34e1cc339b689efe854fb052b"
+    }
+  ],
+  "palettes": {
+    "base": {
+      "theme": "base",
+      "fontFamily": "\"trebuchet ms\", verdana, arial, sans-serif",
+      "fontSize": 16,
+      "scale": [
+        {
+          "css": "hsl(40.58823529411768, 100%, 68.33333333333333%)",
+          "hex": "#ffcb5e",
+          "channels": [
+            255,
+            202.7500000000001,
+            93.50000000000001
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "css": "hsl(280.5882352941177, 100%, 68.33333333333333%)",
+          "hex": "#cb5eff",
+          "channels": [
+            202.75000000000006,
+            93.50000000000001,
+            255
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "css": "hsl(220.58823529411768, 100%, 73.33333333333334%)",
+          "hex": "#77a3ff",
+          "channels": [
+            119.00000000000003,
+            162.99999999999994,
+            255
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "css": "hsl(70.58823529411768, 100%, 68.33333333333333%)",
+          "hex": "#e2ff5e",
+          "channels": [
+            226.49999999999994,
+            255,
+            93.50000000000001
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "css": "hsl(100.58823529411768, 100%, 68.33333333333333%)",
+          "hex": "#92ff5e",
+          "channels": [
+            145.74999999999994,
+            255,
+            93.50000000000001
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "css": "hsl(130.58823529411768, 100%, 68.33333333333333%)",
+          "hex": "#5eff7a",
+          "channels": [
+            93.50000000000001,
+            255,
+            122.00000000000011
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "css": "hsl(160.58823529411768, 100%, 68.33333333333333%)",
+          "hex": "#5effcb",
+          "channels": [
+            93.50000000000001,
+            255,
+            202.75000000000014
+          ],
+          "foreground": "#333333"
+        }
+      ],
+      "git": [
+        {
+          "hex": "#ffcb5e",
+          "channels": [
+            255,
+            202.7500000000001,
+            93.50000000000001
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#cb5eff",
+          "channels": [
+            202.75000000000006,
+            93.50000000000001,
+            255
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#77a3ff",
+          "channels": [
+            119.00000000000003,
+            162.99999999999994,
+            255
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#ff7a5e",
+          "channels": [
+            255,
+            122.0000000000001,
+            93.50000000000001
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#ff5e92",
+          "channels": [
+            255,
+            93.50000000000001,
+            145.74999999999997
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#ff5ee2",
+          "channels": [
+            255,
+            93.50000000000001,
+            226.49999999999997
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#92ff5e",
+          "channels": [
+            145.74999999999994,
+            255,
+            93.50000000000001
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#5effcb",
+          "channels": [
+            93.50000000000001,
+            255,
+            202.75000000000014
+          ],
+          "foreground": "#333333"
+        }
+      ],
+      "eventBrightness": 1.2,
+      "quantizationTolerancePerChannel": 1
+    },
+    "forest": {
+      "theme": "forest",
+      "fontFamily": "\"trebuchet ms\", verdana, arial, sans-serif",
+      "fontSize": 16,
+      "scale": [
+        {
+          "css": "hsl(78.15789473684208, 58.461538461538474%, 64.50980392156863%)",
+          "hex": "#b9d970",
+          "channels": [
+            185.38461538461547,
+            217.40769230769232,
+            111.5923076923077
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "css": "hsl(98.96103896103898, 100%, 74.90196078431373%)",
+          "hex": "#acff7f",
+          "channels": [
+            171.88311688311686,
+            255,
+            127
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "css": "hsl(78.15789473684208, 58.461538461538474%, 74.50980392156863%)",
+          "hex": "#cde498",
+          "channels": [
+            205.00000000000003,
+            228,
+            152
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "css": "hsl(108.15789473684208, 58.461538461538474%, 64.50980392156863%)",
+          "hex": "#84d970",
+          "channels": [
+            132.47692307692316,
+            217.40769230769232,
+            111.5923076923077
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "css": "hsl(138.15789473684208, 58.461538461538474%, 64.50980392156863%)",
+          "hex": "#70d990",
+          "channels": [
+            111.5923076923077,
+            217.40769230769232,
+            143.61538461538458
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "css": "hsl(168.15789473684208, 58.461538461538474%, 64.50980392156863%)",
+          "hex": "#70d9c5",
+          "channels": [
+            111.5923076923077,
+            217.40769230769232,
+            196.52307692307693
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "css": "hsl(198.15789473684208, 58.461538461538474%, 64.50980392156863%)",
+          "hex": "#70b9d9",
+          "channels": [
+            111.5923076923077,
+            185.38461538461542,
+            217.40769230769232
+          ],
+          "foreground": "#000000"
+        }
+      ],
+      "git": [
+        {
+          "hex": "#9bc834",
+          "channels": [
+            155.38461538461544,
+            200.05769230769232,
+            52.44230769230768
+          ],
+          "foreground": "#ffffff"
+        },
+        {
+          "hex": "#7aff32",
+          "channels": [
+            122.20779220779215,
+            255,
+            50.49999999999999
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#b0d45b",
+          "channels": [
+            175.57692307692312,
+            212.1115384615385,
+            91.38846153846151
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#c8ab34",
+          "channels": [
+            200.05769230769232,
+            170.92307692307688,
+            52.44230769230768
+          ],
+          "foreground": "#ffffff"
+        },
+        {
+          "hex": "#c86134",
+          "channels": [
+            200.05769230769232,
+            97.11538461538456,
+            52.44230769230768
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#c83452",
+          "channels": [
+            200.05769230769232,
+            52.44230769230768,
+            81.57692307692311
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#34c861",
+          "channels": [
+            52.44230769230768,
+            200.05769230769232,
+            97.11538461538457
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#349bc8",
+          "channels": [
+            52.44230769230768,
+            155.38461538461544,
+            200.05769230769232
+          ],
+          "foreground": "#000000"
+        }
+      ],
+      "eventBrightness": 1.2,
+      "quantizationTolerancePerChannel": 1
+    },
+    "dark": {
+      "theme": "dark",
+      "fontFamily": "\"trebuchet ms\", verdana, arial, sans-serif",
+      "fontSize": 16,
+      "scale": [
+        {
+          "css": "hsl(180, 1.5873015873015872%, 12.352941176470589%)",
+          "hex": "#1f2020",
+          "channels": [
+            31.000000000000004,
+            32,
+            32
+          ],
+          "foreground": "#d3d3d3"
+        },
+        {
+          "css": "hsl(0, 100.00000000000009%, 2.156862745098039%)",
+          "hex": "#0b0000",
+          "channels": [
+            11,
+            0,
+            0
+          ],
+          "foreground": "#d3d3d3"
+        },
+        {
+          "css": "hsl(321.6393442622951, 65.59139784946235%, 18.235294117647058%)",
+          "hex": "#4d1037",
+          "channels": [
+            77,
+            16,
+            55
+          ],
+          "foreground": "#d3d3d3"
+        },
+        {
+          "css": "hsl(194.39999999999998, 16.556291390728475%, 29.607843137254903%)",
+          "hex": "#3f5258",
+          "channels": [
+            63,
+            82,
+            88
+          ],
+          "foreground": "#d3d3d3"
+        },
+        {
+          "css": "hsl(23.0769230769231, 49.0566037735849%, 20.784313725490197%)",
+          "hex": "#4f2f1b",
+          "channels": [
+            79,
+            47.00000000000002,
+            27.000000000000004
+          ],
+          "foreground": "#d3d3d3"
+        },
+        {
+          "css": "hsl(0, 83.33333333333334%, 23.52941176470588%)",
+          "hex": "#6e0a0a",
+          "channels": [
+            110,
+            9.999999999999993,
+            9.999999999999993
+          ],
+          "foreground": "#d3d3d3"
+        },
+        {
+          "css": "hsl(289.1666666666667, 100%, 14.117647058823529%)",
+          "hex": "#3b0048",
+          "channels": [
+            59.000000000000014,
+            0,
+            72
+          ],
+          "foreground": "#d3d3d3"
+        }
+      ],
+      "git": [
+        {
+          "hex": "#797d7d",
+          "channels": [
+            121.34285714285716,
+            125.25714285714287,
+            125.25714285714287
+          ],
+          "foreground": "#2c2c2c"
+        },
+        {
+          "hex": "#a12273",
+          "channels": [
+            161.4516129032258,
+            33.5483870967742,
+            115.3225806451614
+          ],
+          "foreground": "#d3d3d3"
+        },
+        {
+          "hex": "#6a8993",
+          "channels": [
+            105.55629139072848,
+            137.3907284768212,
+            147.44370860927154
+          ],
+          "foreground": "#d3d3d3"
+        },
+        {
+          "hex": "#9b5c35",
+          "channels": [
+            155.01886792452828,
+            92.22641509433966,
+            52.98113207547171
+          ],
+          "foreground": "#2c2c2c"
+        },
+        {
+          "hex": "#cc1212",
+          "channels": [
+            203.5,
+            18.49999999999999,
+            18.49999999999999
+          ],
+          "foreground": "#d3d3d3"
+        },
+        {
+          "hex": "#65007b",
+          "channels": [
+            100.79166666666681,
+            -7.077671781985373e-15,
+            123.00000000000001
+          ],
+          "foreground": "#d3d3d3"
+        },
+        {
+          "hex": "#cc7801",
+          "channels": [
+            203.66883116883116,
+            119.80519480519487,
+            1.3311688311688277
+          ],
+          "foreground": "#d3d3d3"
+        },
+        {
+          "hex": "#31a50e",
+          "channels": [
+            48.81818181818187,
+            165.05194805194805,
+            13.948051948051958
+          ],
+          "foreground": "#d3d3d3"
+        }
+      ],
+      "eventBrightness": 1.2,
+      "quantizationTolerancePerChannel": 1
+    },
+    "default": {
+      "theme": "default",
+      "fontFamily": "\"trebuchet ms\", verdana, arial, sans-serif",
+      "fontSize": 16,
+      "scale": [
+        {
+          "css": "hsl(240, 100%, 76.27450980392156%)",
+          "hex": "#8686ff",
+          "channels": [
+            133.99999999999997,
+            133.99999999999997,
+            255
+          ],
+          "foreground": "#ffffff"
+        },
+        {
+          "css": "hsl(60, 100%, 73.52941176470588%)",
+          "hex": "#ffff78",
+          "channels": [
+            255,
+            255,
+            120.00000000000003
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "css": "hsl(80, 100%, 76.27450980392156%)",
+          "hex": "#d7ff86",
+          "channels": [
+            214.66666666666666,
+            255,
+            133.99999999999997
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "css": "hsl(270, 100%, 76.27450980392156%)",
+          "hex": "#c386ff",
+          "channels": [
+            194.5,
+            133.99999999999997,
+            255
+          ],
+          "foreground": "#ffffff"
+        },
+        {
+          "css": "hsl(300, 100%, 76.27450980392156%)",
+          "hex": "#ff86ff",
+          "channels": [
+            255,
+            133.99999999999997,
+            255
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "css": "hsl(330, 100%, 76.27450980392156%)",
+          "hex": "#ff86c3",
+          "channels": [
+            255,
+            133.99999999999997,
+            194.5
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "css": "hsl(0, 100%, 76.27450980392156%)",
+          "hex": "#ff8686",
+          "channels": [
+            255,
+            133.99999999999997,
+            133.99999999999997
+          ],
+          "foreground": "#000000"
+        }
+      ],
+      "git": [
+        {
+          "hex": "#0000ec",
+          "channels": [
+            0,
+            0,
+            236
+          ],
+          "foreground": "#ffffff"
+        },
+        {
+          "hex": "#dede00",
+          "channels": [
+            222,
+            222,
+            0
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#9dec00",
+          "channels": [
+            157.33333333333337,
+            236,
+            0
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#0076ec",
+          "channels": [
+            0,
+            118,
+            236
+          ],
+          "foreground": "#ffffff"
+        },
+        {
+          "hex": "#00ecec",
+          "channels": [
+            0,
+            236,
+            236
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#00ec76",
+          "channels": [
+            0,
+            236,
+            118
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#ec00ec",
+          "channels": [
+            236,
+            0,
+            236
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#ec0000",
+          "channels": [
+            236,
+            0,
+            0
+          ],
+          "foreground": "#000000"
+        }
+      ],
+      "eventBrightness": 1.2,
+      "quantizationTolerancePerChannel": 1
+    },
+    "neutral": {
+      "theme": "neutral",
+      "fontFamily": "\"trebuchet ms\", verdana, arial, sans-serif",
+      "fontSize": 16,
+      "scale": [
+        {
+          "css": "hsl(0, 0%, 33.33333333333333%)",
+          "hex": "#555555",
+          "channels": [
+            85,
+            85,
+            85
+          ],
+          "foreground": "#f4f4f4"
+        },
+        {
+          "css": "hsl(0, 0%, 95.68627450980392%)",
+          "hex": "#f4f4f4",
+          "channels": [
+            244,
+            244,
+            244
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "css": "hsl(0, 0%, 33.33333333333333%)",
+          "hex": "#555555",
+          "channels": [
+            85,
+            85,
+            85
+          ],
+          "foreground": "#f4f4f4"
+        },
+        {
+          "css": "hsl(0, 0%, 73.33333333333333%)",
+          "hex": "#bbbbbb",
+          "channels": [
+            187,
+            187,
+            187
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "css": "hsl(0, 0%, 46.666666666666664%)",
+          "hex": "#777777",
+          "channels": [
+            119,
+            119,
+            119
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "css": "hsl(0, 0%, 60%)",
+          "hex": "#999999",
+          "channels": [
+            153,
+            153,
+            153
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "css": "hsl(0, 0%, 86.66666666666667%)",
+          "hex": "#dddddd",
+          "channels": [
+            221,
+            221,
+            221
+          ],
+          "foreground": "#333333"
+        }
+      ],
+      "git": [
+        {
+          "hex": "#b4b4b4",
+          "channels": [
+            180.25,
+            180.25,
+            180.25
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#555555",
+          "channels": [
+            85,
+            85,
+            85
+          ],
+          "foreground": "#ffffff"
+        },
+        {
+          "hex": "#bbbbbb",
+          "channels": [
+            187,
+            187,
+            187
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#777777",
+          "channels": [
+            119,
+            119,
+            119
+          ],
+          "foreground": "#ffffff"
+        },
+        {
+          "hex": "#999999",
+          "channels": [
+            153,
+            153,
+            153
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#dddddd",
+          "channels": [
+            221,
+            221,
+            221
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#ffffff",
+          "channels": [
+            255,
+            255,
+            255
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#dddddd",
+          "channels": [
+            221,
+            221,
+            221
+          ],
+          "foreground": "#333333"
+        }
+      ],
+      "eventBrightness": 1.2,
+      "quantizationTolerancePerChannel": 1
+    }
+  },
+  "reduxUsecase": {
+    "role": {
+      "actor": {
+        "fill": "#F5F3FF",
+        "stroke": "#A78BFA",
+        "width": 2
+      },
+      "usecase": {
+        "fill": "#F0FDFA",
+        "stroke": "#2DD4BF",
+        "width": 2
+      },
+      "include": "#38BDF8",
+      "extend": "#FB923C"
+    },
+    "rotation": [
+      {
+        "fill": "#FDF4FF",
+        "stroke": "#E879F9"
+      },
+      {
+        "fill": "#F0FDFA",
+        "stroke": "#2DD4BF"
+      },
+      {
+        "fill": "#FFF7ED",
+        "stroke": "#FB923C"
+      },
+      {
+        "fill": "#ECFEFF",
+        "stroke": "#22D3EE"
+      }
+    ],
+    "foreground": "#28253D",
+    "boundaryTitle": "#000000",
+    "fontFamily": "\"Recursive Variable\", arial, sans-serif",
+    "actorFontSize": 14,
+    "usecaseFontSize": 12,
+    "order": "Actors first in source declaration order, then use cases in their declaration order; boundaries use their own source-order palette cycle"
+  },
+  "visibleRoleRules": {
+    "timeline": "Unsectioned period ordinal or section ordinal selects cScale; events inherit that source ordinal and apply brightness120% to fill and foreground. disableMulticolor holds period ordinal0. Explicit cScale overrides win.",
+    "treemap": "Synthetic root takes transparent slot. Source section order takes cScale0 onward. Immediate children inherit parent section color; groupalpha0.6, leafalpha0.3, leafstroke3. ClassDef fill overrides color without removing inheritedalpha.",
+    "gitgraph": "Branch semantic order modulo8 selects paired git color/label foreground; commit fills/strokes, branch label backdrop and route stroke use git token. Explicit authored git paint overrides win.",
+    "usecase": "Default role scheme uses violetactor/tealusecase; boundaries cycle independently. rotate assigns source actors first, then source usecases; boundary cycle stays independent."
+  },
+  "scope": "Configuration identifiers remain source/native/advisory metadata; the owned foreground/background/alpha/font/spacing effects above remain required. This evidence does not itself register or discard source obligations."
+}
