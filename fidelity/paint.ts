@@ -44,6 +44,40 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   type Box = ReturnType<typeof rect>
   const center = (box: Box) => ({ x: box.x + box.width / 2, y: box.y + box.height / 2 })
   const contains = (outer: Box, inner: Box, epsilon = 1.5) => inner.x >= outer.x - epsilon && inner.y >= outer.y - epsilon && inner.x + inner.width <= outer.x + outer.width + epsilon && inner.y + inner.height <= outer.y + outer.height + epsilon
+  const textCanvas = document.createElement('canvas').getContext('2d')!
+  const glyphInk = new Map<Element, Box | null>()
+  // SVG text BCR/getBBox includes font ascent/descent, not only painted glyphs.
+  // Qualify a finite horizontal ASCII run using the identical computed font,
+  // Canvas glyph metrics, matching SVG advances and matching font-box height.
+  // The measured SVG font box locates the alphabetic baseline even when SVG
+  // dominant-baseline moves it relative to the authored y coordinate.
+  const labelInkBox = (element: Element): Box | null => {
+    if (glyphInk.has(element)) return glyphInk.get(element)!
+    glyphInk.set(element, null)
+    const parts = fragmentedLabels.get(element) ?? (element.children.length ? [...element.children] : undefined)
+    if (parts) {
+      if (parts.length > 16 || !fragmentedLabels.has(element) && [...element.childNodes].some(node => node.nodeType === Node.TEXT_NODE && node.textContent?.trim())) return null
+      const boxes = parts.map(part => part === element ? null : labelInkBox(part))
+      if (boxes.some(box => !box)) return null
+      const known = boxes as Box[], x = Math.min(...known.map(box => box.x)), y = Math.min(...known.map(box => box.y))
+      const box = { x, y, width: Math.max(...known.map(box => box.x + box.width)) - x, height: Math.max(...known.map(box => box.y + box.height)) - y }
+      glyphInk.set(element, box); return box
+    }
+    if (element.namespaceURI !== 'http://www.w3.org/2000/svg' || !['text', 'tspan'].includes(element.localName) || !/^[\x20-\x7e]+$/.test(element.textContent ?? '')) return null
+    const text = element as SVGTextPositioningElement, value = text.textContent!, style = getComputedStyle(text), matrix = text.getScreenCTM()
+    if (!style.font || style.direction !== 'ltr' || style.writingMode !== 'horizontal-tb' || style.textTransform !== 'none' || !['normal', '0px'].includes(style.letterSpacing) || !['normal', '0px'].includes(style.wordSpacing) || style.fontFeatureSettings !== 'normal' || style.fontVariationSettings !== 'normal' || style.fontVariant !== 'normal' || !['normal', '100%'].includes(style.fontStretch) || style.textDecorationLine !== 'none' || style.textShadow !== 'none' || style.stroke !== 'none' && Number(style.strokeOpacity) !== 0 && Number.parseFloat(style.strokeWidth) !== 0 || text.hasAttribute('textLength') || !matrix || ![matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f].every(Number.isFinite) || Math.abs(matrix.b) > 1e-6 || Math.abs(matrix.c) > 1e-6 || matrix.a <= 0 || matrix.d <= 0 || [text.x, text.y, text.dx, text.dy, text.rotate].some(list => list.baseVal.numberOfItems > 1)) return null
+    for (let parent: Element | null = element; parent; parent = parent.parentElement) { const css = getComputedStyle(parent); if (css.filter !== 'none' || parent.hasAttribute('textLength')) return null; if (parent === svg) break }
+    textCanvas.font = style.font; textCanvas.textAlign = 'left'; textCanvas.textBaseline = 'alphabetic'; textCanvas.direction = 'ltr'; textCanvas.fontKerning = style.fontKerning as CanvasFontKerning
+    const metric = textCanvas.measureText(value), fontBox = text.getBBox(), count = text.getNumberOfChars()
+    if (count !== value.length || !count) return null
+    const first = text.getStartPositionOfChar(0), last = text.getEndPositionOfChar(count - 1)
+    const values = [metric.width, metric.actualBoundingBoxLeft, metric.actualBoundingBoxRight, metric.actualBoundingBoxAscent, metric.actualBoundingBoxDescent, metric.fontBoundingBoxAscent, metric.fontBoundingBoxDescent]
+    if (!values.every(Number.isFinite) || metric.width <= 0 || metric.actualBoundingBoxAscent + metric.actualBoundingBoxDescent <= 0 || Math.abs(text.getComputedTextLength() - metric.width) > .1 || Math.abs(last.x - first.x - metric.width) > .1 || Math.abs(last.y - first.y) > .1 || Math.abs(fontBox.x - first.x) > .1 || Math.abs(fontBox.width - metric.width) > .1 || Math.abs(fontBox.height - metric.fontBoundingBoxAscent - metric.fontBoundingBoxDescent) > .25 || Array.from({ length: count }, (_, index) => text.getRotationOfChar(index)).some(angle => Math.abs(angle) > .001)) return null
+    const baseline = fontBox.y + metric.fontBoundingBoxAscent, x = first.x - metric.actualBoundingBoxLeft, y = baseline - metric.actualBoundingBoxAscent
+    const box = { x: matrix.a * x + matrix.e, y: matrix.d * y + matrix.f, width: matrix.a * (metric.actualBoundingBoxLeft + metric.actualBoundingBoxRight), height: matrix.d * (metric.actualBoundingBoxAscent + metric.actualBoundingBoxDescent) }
+    if (![box.x, box.y, box.width, box.height].every(Number.isFinite) || box.width <= 0 || box.height <= 0) return null
+    glyphInk.set(element, box); return box
+  }
   const colorCanvas = document.createElement('canvas').getContext('2d')!
   const colors = new Map<string, number | null>()
   const unknownPaint = new Set<string>()
@@ -187,7 +221,8 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const visibleMatches = (label: string) => matches(label).filter(element => visible(element) && labelBox(element).width > 0 && labelBox(element).height > 0)
   const labelResults = [...new Set(requiredLabels.filter(Boolean))].map(label => {
     const elements = visibleMatches(label)
-    return { label, count: elements.length, boxes: elements.map(labelBox), inCanvas: elements.length > 0 && elements.every(element => contains(rootBox, labelBox(element))) }
+    const bounds = elements.map(element => { const fontBox = labelBox(element), inkBox = labelInkBox(element); return { fontBox, inkBox, inCanvas: inkBox ? contains(rootBox, inkBox) : contains(rootBox, fontBox) ? true : null } })
+    return { label, count: elements.length, boxes: bounds.map(item => item.fontBox), glyphInkBoxes: bounds.map(item => item.inkBox), inCanvas: bounds.some(item => item.inCanvas === false) ? false : bounds.some(item => item.inCanvas === null) ? null : elements.length > 0 }
   })
   const uninspectableLabels = labelResults.some(label => label.count === 0) && [...svg.querySelectorAll('path[d],image,use')].some(element => visible(element) && rect(element).width + rect(element).height > 0)
   // A positive-alpha glyph can still be invisible against its own body. This
@@ -232,7 +267,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const camouflagedText = [...camouflagedElements].map(element => ({ text: normalize(labelText(element)), box: labelBox(element) }))
   const camouflaged = requiredLabels.filter(label => visibleMatches(label).some(element => camouflagedElements.has(element)))
   check('visible-authored-labels', input.expected.labels, labelResults.map(item => ({ label: item.label, count: item.count, camouflaged: camouflaged.includes(item.label) })), camouflaged.length ? false : uninspectableLabels ? null : labelResults.every(item => item.count > 0), uninspectableLabels ? 'Missing DOM labels alongside path/image/use need a qualified glyph/image observer; missing parseable text supplies no renderer failure or correctness credit' : 'Computed visibility and nonzero browser text bounds, rejecting glyphs proved identical to their own opaque flat backdrop. Metadata/title/defs text earns no credit; this is not general contrast or accessibility certification')
-  check('labels-within-canvas', 'every authored label fits the canvas', labelResults.filter(item => !item.inCanvas), labelResults.some(item => item.count > 0 && !item.inCanvas) ? false : uninspectableLabels ? null : labelResults.every(item => item.inCanvas), 'Actual rendered label bounds, with 1.5 CSS-pixel serialization tolerance')
+  check('labels-within-canvas', 'every authored label fits the canvas', labelResults, labelResults.some(item => item.count > 0 && item.inCanvas === false) ? false : uninspectableLabels || labelResults.some(item => item.inCanvas === null) ? null : labelResults.every(item => item.inCanvas), 'Measured plain-SVG glyph ink uses matching computed font, SVG advance/font-box metrics and axis-aligned transform; an unsupported overflowing font box alone remains unavailable. 1.5 CSS-pixel serialization tolerance')
   if (input.expected.forbiddenLabels?.length) {
     const painted: string[] = [], uncertain: string[] = []
     for (const label of input.expected.forbiddenLabels) for (const element of visibleMatches(label)) {
@@ -252,8 +287,8 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   for (const label of requiredLabels.filter(Boolean)) for (const element of visibleMatches(label)) {
     for (let parent: Element | null = element; parent; parent = parent.parentElement) {
       const style = getComputedStyle(parent)
-      const outer = rect(parent), ink = labelBox(element)
-      if (['hidden', 'clip'].includes(style.overflowX) && (ink.x < outer.x - 1.5 || ink.x + ink.width > outer.x + outer.width + 1.5) || ['hidden', 'clip'].includes(style.overflowY) && (ink.y < outer.y - 1.5 || ink.y + ink.height > outer.y + outer.height + 1.5)) clipped.push(label)
+      const outer = rect(parent), measuredInk = labelInkBox(element), ink = measuredInk ?? labelBox(element)
+      if (['hidden', 'clip'].includes(style.overflowX) && (ink.x < outer.x - 1.5 || ink.x + ink.width > outer.x + outer.width + 1.5) || ['hidden', 'clip'].includes(style.overflowY) && (ink.y < outer.y - 1.5 || ink.y + ink.height > outer.y + outer.height + 1.5)) { if (measuredInk) clipped.push(label); else unknownClipping = true }
       if (style.clip && style.clip !== 'auto') { unknownClipping = true; check('legacy-clip:' + label, 'label survives legacy CSS clipping', style.clip, null, 'Legacy CSS clip rectangles need a reviewed projection') }
       const clip = style.clipPath
       if (clip && clip !== 'none') {
@@ -262,8 +297,13 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
         const shape = shapes.length === 1 && ['rect', 'circle', 'ellipse'].includes(shapes[0]!.localName) ? shapes[0] as SVGGeometryElement : undefined
         const matrix = (parent as SVGGraphicsElement).getScreenCTM?.()
         if (shape && matrix && clipElement?.getAttribute('clipPathUnits') !== 'objectBoundingBox' && !shape.hasAttribute('transform') && !clipElement?.hasAttribute('transform')) {
-          const box = labelBox(element), inverse = matrix.inverse(), points = [[box.x, box.y], [box.x + box.width, box.y], [box.x, box.y + box.height], [box.x + box.width, box.y + box.height]]
-          if (!points.every(([x, y]) => shape.isPointInFill(new DOMPoint(x, y).matrixTransform(inverse)))) clipped.push(label)
+          const box = labelInkBox(element) ?? labelBox(element), inverse = matrix.inverse(), points = [[box.x, box.y], [box.x + box.width, box.y], [box.x, box.y + box.height], [box.x + box.width, box.y + box.height]]
+          const empty = shape.localName === 'rect' ? !(shape as SVGRectElement).width.baseVal.value || !(shape as SVGRectElement).height.baseVal.value : shape.localName === 'circle' ? !(shape as SVGCircleElement).r.baseVal.value : !(shape as SVGEllipseElement).rx.baseVal.value || !(shape as SVGEllipseElement).ry.baseVal.value
+          if (empty) clipped.push(label)
+          else if (!points.every(([x, y]) => shape.isPointInFill(new DOMPoint(x, y).matrixTransform(inverse)))) {
+            if (labelInkBox(element) && shape.localName === 'rect' && !(shape as SVGRectElement).rx.baseVal.value && !(shape as SVGRectElement).ry.baseVal.value) clipped.push(label)
+            else unknownClipping = true
+          }
         } else { unknownClipping = true; check('clip-path:' + label, 'label remains inside the actual clipping path', clip, null, 'Complex or object-bounding-box clipping requires a reviewed projection; no paint-complete credit') }
       }
       if (style.maskImage && style.maskImage !== 'none') { unknownClipping = true; check('mask:' + label, 'label survives its actual mask', style.maskImage, null, 'Mask alpha is not inferred from a positive text bounding box') }
@@ -289,7 +329,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       else { unknownClipping = true; check('occlusion:' + label, 'required text survives later overlapping paint', { cover: cover.localName, box: outer }, null, 'Partial, translucent, clipped or complex later paint can obscure authored glyphs; no visible-text completeness is inferred from its bounding box') }
     }
   }
-  check('unclipped-authored-labels', [], clipped, clipped.length ? false : uninspectableLabels || unknownClipping ? null : true, 'Actual clipping, overflow and later opaque covers; unprojected masks, partial occlusion and clip paths remain unavailable')
+  check('unclipped-authored-labels', [], clipped, clipped.length ? false : uninspectableLabels || unknownClipping ? null : true, 'Actual glyph-ink clipping, overflow and later opaque covers; unqualified overflowing font boxes, masks, partial occlusion and complex clip paths remain unavailable')
   if (input.paint?.fontSize !== undefined) {
     const sizes = requiredLabels.filter(Boolean).map(label => ({ label, values: visibleMatches(label).flatMap(element => {
       const descendants = [...element.querySelectorAll('tspan,span,p')].filter(child => normalize(labelText(child)) && visible(child))

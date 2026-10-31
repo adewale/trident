@@ -126,7 +126,8 @@ test('browser paint rejects hidden and clipped authored labels, not just missing
   const html = '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="80"><rect x="1" y="1" width="220" height="70" fill="white"/><foreignObject x="10" y="10" width="200" height="50"><div xmlns="http://www.w3.org/1999/xhtml" style="width:150px;white-space:nowrap;overflow-x:hidden;overflow-y:visible">A long authored label</div></foreignObject></svg>'
   expect((await inspect(html, { labels: ['A long authored label'] })).passed).toBe(true)
   const htmlClipped = await inspect(html.replace('width:150px', 'width:20px'), { labels: ['A long authored label'] })
-  expect(htmlClipped.checks.find(item => item.criterion === 'unclipped-authored-labels')?.status).toBe('failed')
+  // HTML range overflow is a font-box observation, not a qualified glyph-ink bound.
+  expect(htmlClipped.checks.find(item => item.criterion === 'unclipped-authored-labels')?.status).toBe('unavailable')
   expect(selfClipped.checks.find(item => item.criterion === 'unclipped-authored-labels')?.status).toBe('failed')
   const wrapped = fixture.replaceAll('width="60" height="30"', 'width="60" height="50"').replace('>Alpha</text>', '><tspan>Alpha</tspan><tspan x="14" dy="15">Beta</tspan></text>')
   const multiline = await inspect(wrapped, { ...expected, labels: ['Alpha Beta', 'Beta'], nodes: [{ id: 'A', label: 'Alpha Beta' }, { id: 'B', label: 'Beta' }] })
@@ -325,7 +326,7 @@ test('unwrapped public SVG binds labels to individual real outlines without borr
   const authored = { labels: ['A', 'B'], nodes: [{ id: 'A', label: 'A' }, { id: 'B', label: 'B' }], edges: [{ source: 'A', target: 'B', directed: true }] }
   for (const name of ['rs-flat-flowchart.svg', 'merslim-flat-flowchart.svg']) {
     const svg = retainedSvg(name)
-    expect((await inspect(svg, authored)).checks.filter(check => ['painted-node-ownership', 'painted-relationships'].includes(check.criterion)).map(check => [check.criterion, check.status])).toEqual([['painted-node-ownership', 'passed'], ['painted-relationships', 'passed']])
+    expect((await inspect(svg, authored)).checks.filter(check => ['painted-node-ownership', 'painted-relationships'].includes(check.criterion)).map(check => [check.criterion, check.status]).sort((a, b) => a[0]!.localeCompare(b[0]!))).toEqual([['painted-node-ownership', 'passed'], ['painted-relationships', 'passed']])
     const renamed = svg.replaceAll('edge-0', 'arbitrary-relation').replaceAll('edgePath', 'arbitrary-path')
     expect((await inspect(renamed, authored)).checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('passed')
     const extra = svg.replace('</svg>', '<rect x="10" y="67" width="60" height="10" fill="white" stroke="black"/><text x="12" y="75" font-size="8">Intruder</text></svg>')
