@@ -781,7 +781,7 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
     if (definitions.length) add('authored-style', observations, available && definitions.every(rule => rule.kind === 'classDef' && facts['point-appearance'].some((entry: any) => String(entry.classes).split(',').includes(rule.selection))) ? passed : null, 'Every source class definition must be exercised by a measured point-owned appearance projection; unused selectors or unsupported rule kinds remain required unknowns.')
   }
   if (facts['theme-paint']) {
-    const policy = facts['theme-paint'], roles: any[] = Array.isArray(policy.roles) ? policy.roles : []
+    const policy = facts['theme-paint'], roles: any[] = Array.isArray(policy.roles) ? policy.roles : [], tokenMode = policy.comparison === 'source-paint-tokens'
     const genericLabelsClear = input.paint.checks.some(check => check.criterion === 'unclipped-authored-labels' && check.status === 'passed') && input.paint.checks.some(check => check.criterion === 'visible-authored-labels' && check.status === 'passed')
     const measuredShape = (bounds: Box | undefined) => bounds ? [...svg.querySelectorAll('rect,circle,ellipse,path,polygon')].filter(e => !e.closest('defs,marker,clipPath,mask')).find(e => inside(bounds, box(e), .1) && inside(box(e), bounds, .1)) : undefined
     const nearestLabel = (owner: string, ordinal?: number, kind?: string) => {
@@ -802,9 +802,39 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
           if (s.clipPath && s.clipPath !== 'none' && !(property === 'foreground' && genericLabelsClear) || s.maskImage && s.maskImage !== 'none' || s.display === 'none' || ['hidden', 'collapse'].includes(s.visibility)) known = false
           if (e === svg) break
         }
-        return { channels: value.rgb.split(',').map(Number).map(channel => Math.min(255, channel * brightness)), opacity, brightness, known }
+        const rawChannels = value.rgb.split(',').map(Number), channels = rawChannels.map(channel => Math.min(255, channel * brightness))
+        return { rawChannels, channels, opacity, brightness, known: known && Number.isFinite(opacity) && Number.isFinite(brightness) && brightness > 0 }
       })
-      return paints.length && paints.every(paint => paint && paint.known && same(paint.channels, paints[0]?.channels) && Math.abs(paint.opacity - paints[0]!.opacity) < 1e-8) ? paints[0] : null
+      return paints.length && paints.every(paint => paint && paint.known && same(tokenMode ? paint.rawChannels : paint.channels, tokenMode ? paints[0]?.rawChannels : paints[0]?.channels) && (tokenMode || Math.abs(paint.opacity - paints[0]!.opacity) < 1e-8)) ? { ...paints[0]!, parts: paints as NonNullable<typeof paints[number]>[] } : null
+    }
+    const exposedCarrier = (element: Element | undefined, property: 'fill' | 'stroke' | 'foreground', paint: ReturnType<typeof effective>, ownerId: string): boolean => {
+      if (!element || !paint || !paint.parts.every(part => part.opacity >= 1 / 255) || box(element).width + box(element).height <= 0) return false
+      if (property === 'foreground') return genericLabelsClear && !input.paint.camouflagedText?.some(item => norm(item.text) === norm(element.textContent ?? '') && inside(item.box, box(element)) && inside(box(element), item.box))
+      if (!visible(element)) return false
+      if (property === 'stroke' && !(Number.parseFloat(getComputedStyle(element).strokeWidth) > 0)) return false
+      const visibility = input.paint.checks.find(check => check.criterion === 'painted-node-visibility'), owned = Array.isArray(visibility?.actual) ? (visibility.actual as any[]).find(row => row.id === ownerId) : undefined
+      if (owned && owned.exposed !== true) return false
+      if (!(element instanceof SVGGeometryElement)) return false
+      const matrix = element.getScreenCTM(), length = element.getTotalLength(), bounds = box(element)
+      if (!matrix || !(length > 0)) return false
+      const points: { x: number; y: number }[] = property === 'stroke' ? Array.from({ length: 257 }, (_, index) => element.getPointAtLength(length * index / 256).matrixTransform(matrix)) : []
+      if (property === 'fill') for (const x of [.1, .3, .5, .7, .9]) for (const y of [.1, .3, .5, .7, .9]) { const p = new DOMPoint(bounds.x + bounds.width * x, bounds.y + bounds.height * y), local = p.matrixTransform(matrix.inverse()); if (element.isPointInFill(local) && !element.isPointInStroke(local) && !text.some(e => inside(box(e), { x: p.x, y: p.y, width: 0, height: 0 }))) points.push(p) }
+      if (!points.length) return false
+      for (const cover of svg.querySelectorAll('rect,circle,ellipse,path,polygon,image,use,foreignObject')) {
+        if (cover === element || cover.contains(element) || element.contains(cover) || cover.closest('defs,marker,clipPath,mask') || !(element.compareDocumentPosition(cover) & Node.DOCUMENT_POSITION_FOLLOWING)) continue
+        const b = box(cover), css = getComputedStyle(cover), fill = color(css.fill), stroke = color(css.stroke); let opacity = 1, shown = true
+        for (let e: Element | null = cover; e; e = e.parentElement) { const css = getComputedStyle(e); opacity *= Number(css.opacity); if (css.display === 'none' || ['hidden', 'collapse'].includes(css.visibility)) shown = false; if (e === svg) break }
+        const fillAlpha = (fill?.alpha ?? 0) * Number(css.fillOpacity) * opacity, strokeAlpha = Number.parseFloat(css.strokeWidth) > 0 ? (stroke?.alpha ?? 0) * Number(css.strokeOpacity) * opacity : 0
+        const complex = ['image', 'use', 'foreignObject'].includes(cover.localName)
+        if (!shown || opacity <= 0 || !complex && Math.max(fillAlpha, strokeAlpha) < .999) continue
+        const sameBox = inside(bounds, b, .1) && inside(b, bounds, .1), equivalent = sameBox && fill?.rgb === color(getComputedStyle(element).fill)?.rgb && css.stroke === getComputedStyle(element).stroke && css.strokeWidth === getComputedStyle(element).strokeWidth
+        const child = (input.paint.nodes as any[]).some(node => node.id !== ownerId && inside(bounds, node.box) && inside(node.box, b, .1) && inside(b, node.box, .1)), caption = text.some(label => inside(b, box(label)) && b.width * b.height < bounds.width * bounds.height * .98)
+        if (equivalent || child || caption) continue
+        const transform = (cover as SVGGraphicsElement).getScreenCTM?.()
+        const padding = strokeAlpha >= .999 ? Number.parseFloat(css.strokeWidth) / 2 * (transform ? Math.hypot(transform.a, transform.b, transform.c, transform.d) : 1) : 0
+        if (points.some(p => inside(b, { x: p.x, y: p.y, width: 0, height: 0 }, padding) && (complex || !transform || !(cover instanceof SVGGeometryElement) || (() => { const local = new DOMPoint(p.x, p.y).matrixTransform(transform.inverse()); return fillAlpha >= .999 && cover.isPointInFill(local) || strokeAlpha >= .999 && cover.isPointInStroke(local) })()))) return false
+      }
+      return true
     }
     const observations = roles.map(role => {
       let e: Element | undefined, owner: Element | undefined, route: any
@@ -827,31 +857,35 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
       }
       if (input.family === 'usecase' && ['include', 'extend'].includes(role.kind)) {
         const [source, target] = String(role.owner).split('->'), matches = input.paint.connections.filter((edge: any) => edge.source === source && edge.target === target)
-        if (matches.length === 1) route = matches[0]
+        if (matches.length === 1) { route = matches[0]; const candidates = [...svg.querySelectorAll('path,line,polyline')].filter(element => { const geometry = element as SVGGeometryElement, matrix = geometry.getScreenCTM(), length = geometry.getTotalLength(); if (!route.box || !matrix || !(length > 0) || !inside(route.box, box(element), .1) || !inside(box(element), route.box, .1)) return false; const a = geometry.getPointAtLength(0).matrixTransform(matrix), b = geometry.getPointAtLength(length).matrixTransform(matrix); return route.start && route.end && Math.hypot(a.x-route.start.x,a.y-route.start.y)<.5 && Math.hypot(b.x-route.end.x,b.y-route.end.y)<.5 }); if (candidates.length === 1) owner = candidates[0] }
       }
+      const roleFill = owner ? effective(owner, 'fill') : null, roleStroke = owner ? effective(owner, 'stroke') : null, roleForeground = e ? effective(e, 'foreground') : null
+      const fillVisible = tokenMode ? exposedCarrier(owner, 'fill', roleFill, role.owner) : !!roleFill, strokeVisible = tokenMode ? exposedCarrier(owner, 'stroke', roleStroke, role.owner) : !!roleStroke, foregroundVisible = tokenMode ? exposedCarrier(e, 'foreground', roleForeground, role.owner) : !!roleForeground, bodyVisible = fillVisible || strokeVisible
       const properties = Object.entries(role).filter(([key]) => ['fill', 'stroke', 'foreground', 'fillOpacity', 'strokeOpacity', 'strokeWidth', 'brightness'].includes(key)).map(([property, wanted]) => {
-        const paintProperty = property === 'foreground' ? 'foreground' : property.startsWith('stroke') ? 'stroke' : 'fill', target = property === 'foreground' ? e : owner, paint = target ? effective(target, paintProperty) : null
+        const paintProperty = property === 'foreground' ? 'foreground' : property.startsWith('stroke') ? 'stroke' : 'fill', paint = paintProperty === 'foreground' ? roleForeground : paintProperty === 'stroke' ? roleStroke : roleFill, visible = paintProperty === 'foreground' ? foregroundVisible : paintProperty === 'stroke' ? strokeVisible : fillVisible
         let actual: unknown = paint
         let passed: boolean | null = null
         if (['fill', 'stroke', 'foreground'].includes(property)) {
-          const value = color(String(wanted)), actualChannels = paint?.channels ?? (route && property === 'stroke' ? color(route.stroke)?.rgb.split(',').map(Number) : undefined), factor = Number(role.brightness ?? 1), expectedChannels = value?.rgb.split(',').map(Number).map(channel => Math.min(255, channel * factor))
+          const value = color(String(wanted)), transformed = !tokenMode || role.brightness !== undefined, actualChannels = (transformed ? paint?.channels : paint?.rawChannels) ?? (!tokenMode && route && property === 'stroke' ? color(route.stroke)?.rgb.split(',').map(Number) : undefined), factor = transformed ? Number(role.brightness ?? 1) : 1, expectedChannels = value?.rgb.split(',').map(Number).map(channel => Math.min(255, channel * factor))
           actual = actualChannels ?? null
-          if (actualChannels && expectedChannels) { const expectedOpacity = value!.alpha * Number(property === 'fill' ? role.fillOpacity ?? 1 : property === 'stroke' ? role.strokeOpacity ?? 1 : 1); passed = (expectedOpacity === 0 && paint ? paint.opacity === 0 : actualChannels.every((channel: number, i: number) => Math.abs(channel - expectedChannels[i]!) <= 1.01)) && (!paint || Math.abs(paint.opacity - expectedOpacity) < 1 / 255) }
+          if (actualChannels && expectedChannels) { const scalar = property === 'fill' ? role.fillOpacity : property === 'stroke' ? role.strokeOpacity : undefined, explicitAlpha = /^(?:#[\da-f]{4}|#[\da-f]{8}|transparent)$/i.test(String(wanted)) || /^(?:rgba|hsla)\(/i.test(String(wanted)) || /\//.test(String(wanted)), expectedOpacity = value!.alpha * Number(scalar ?? 1), absence = expectedOpacity === 0, carrier = !tokenMode || absence ? !tokenMode || bodyVisible : visible, degenerate = tokenMode && !absence && paint?.parts.some(part => [0,255].some(end => part.channels.every(channel => Math.round(channel) === end) && !value!.rgb.split(',').map(Number).every(channel => channel === end)))
+            if (carrier && !degenerate) passed = (absence && paint ? paint.parts.every(part => part.opacity === 0) : actualChannels.every((channel: number, i: number) => Math.abs(channel - expectedChannels[i]!) <= 1.01)) && (!paint || tokenMode && scalar === undefined && !explicitAlpha || paint.parts.every(part => Math.abs(part.opacity - expectedOpacity) < 1 / 255)) }
         } else if (property === 'brightness') {
           // The observable contract is the resulting paint, so a renderer may
           // precompute brighter colors instead of retaining a CSS filter.
           const foreground = e ? effective(e, 'foreground') : null, fillExpected = color(String(role.fill ?? 'none')), foreExpected = color(String(role.foreground ?? 'none')), factor = Number(wanted)
           actual = { fill: paint?.channels ?? null, foreground: foreground?.channels ?? null }
-          if (paint && foreground && fillExpected && foreExpected) passed = [ [paint.channels, fillExpected.rgb.split(',').map(Number)], [foreground.channels, foreExpected.rgb.split(',').map(Number)] ].every(([channels, original]) => channels!.every((channel, i) => Math.abs(channel - Math.min(255, original![i]! * factor)) <= 1.01))
+          if (paint && foreground && fillExpected && foreExpected && (!tokenMode || fillVisible && foregroundVisible)) passed = [ [paint.channels, fillExpected.rgb.split(',').map(Number)], [foreground.channels, foreExpected.rgb.split(',').map(Number)] ].every(([channels, original]) => channels!.every((channel, i) => Math.abs(channel - Math.min(255, original![i]! * factor)) <= 1.01))
         }
-        else if (property === 'strokeWidth') { actual = owner ? Number.parseFloat(getComputedStyle(owner).strokeWidth) : route?.strokeWidth ?? null; if (typeof actual === 'number') passed = Math.abs(actual - Number(wanted)) < .1 }
-        else { actual = paint?.opacity ?? null; if (paint) passed = Math.abs(paint.opacity - Number(wanted)) < 1 / 255 }
+        else if (property === 'strokeWidth') { actual = owner ? Number.parseFloat(getComputedStyle(owner).strokeWidth) : route?.strokeWidth ?? null; if (typeof actual === 'number' && (!tokenMode || bodyVisible)) passed = Math.abs(actual - Number(wanted)) < .1 }
+        else { actual = paint?.opacity ?? null; if (paint && (!tokenMode || bodyVisible)) passed = paint.parts.every(part => Math.abs(part.opacity - Number(wanted)) < 1 / 255) }
         return { property, expected: wanted, actual, passed }
       })
-      return { kind: role.kind, owner: role.owner, body: owner ? box(owner) : route?.box ?? null, label: e ? box(e) : null, properties }
+      return { kind: role.kind, owner: role.owner, body: owner ? box(owner) : route?.box ?? null, label: e ? box(e) : null, properties, visibleCarrier: bodyVisible || foregroundVisible, equalityFill: roleFill && (fillVisible || roleFill.parts.every(part => part.opacity === 0) && bodyVisible) ? roleFill.parts.every(part => part.opacity === 0) ? 'none' : roleFill.rawChannels : null }
     })
-    const properties = observations.flatMap(role => role.properties), available = policy.family === input.family && roles.length > 0 && properties.length > 0 && properties.every(property => property.passed !== null), valid = properties.every(property => property.passed === true)
-    add('theme-paint', observations, properties.some(property => property.passed === false) ? false : available ? valid : null, 'An independently transcribed source policy supplies only concrete owned fill/stroke/foreground/alpha/width/brightness roles. Actual node, period, event, hierarchy and branch ownership selects measured ink before color comparison, allowing one RGB channel unit of serialization quantization. Theme identifiers, generated classes and renderer model echoes supply no credit; unbound or unsupported roles stay unknown.')
+    const equalities = tokenMode && Array.isArray(policy.equalities) ? policy.equalities.map((entry: any) => { const indices: any[] = entry.roleIndices ?? [], values = indices.map(index => Number.isInteger(index) ? observations[index]?.equalityFill ?? null : null), ready = entry.property === 'fill' && indices.length >= 2 && new Set(indices).size === indices.length && values.every(value => value !== null); return { property: entry.property, roleIndices: indices, actual: values, passed: ready ? values.every(value => same(value, values[0])) : null } }) : []
+    const properties = observations.flatMap(role => role.properties), results = [...properties, ...equalities], available = policy.family === input.family && roles.length > 0 && results.length > 0 && results.every(property => property.passed !== null), valid = results.every(property => property.passed === true)
+    add('theme-paint', tokenMode ? { roles: observations, equalities } : observations, results.some(property => property.passed === false) ? false : available ? valid : null, 'Source token mode compares independently measured base RGB without imposing unrequested default opacity, width or neutral brightness. Actual owned exposed carriers remain required; invisible, covered, degenerate all-white/all-black transformations and hue-changing unknown filters supply no token credit. Explicit alpha/width/brightness and same-kind fill equalities remain separate exact obligations. Legacy explicit effect policies retain composed paint comparison; identifiers, classes and model echoes earn no credit.')
   }
   let pieProfile: any = null
   if (input.family === 'pie' && facts['authored-config']) {
