@@ -55,9 +55,13 @@ export function projectSupport(node: CatalogMember) {
   const native = nativeAdapter(node)
     ? cell('configured', 'Reviewed public-model binding; family-specific projections and actual parse results remain separately qualified.')
     : cell('adapter-missing', 'No reviewed public-model projection in Trident; this does not establish absence of a project model API.')
+  const docs = svg ? renderer : !declared.includes('png') && !bound.includes('png')
+    ? cell('project-unsupported', 'DaveBench requests SVG or PNG; neither output is declared.')
+    : adapter && bound.includes('png') ? cell('conditional', 'PNG-only documentation lane; no SVG capability or binding is required.')
+      : cell('adapter-missing', 'PNG is declared but no public PNG transport is bound.')
   const suites: Record<PublicSuite, SuiteSupport> = {
     community: adapter && bound.length ? cell('configured', 'Declared output transport; build/install/API and family success are not inferred.') : cell('adapter-missing', 'Catalog metadata only; no community output transport is bound.'),
-    docs: renderer,
+    docs,
     fidelity: renderer,
     'native-fidelity': native,
     'upstream-fidelity': cell('out-of-scope', 'Retired comparative benchmark: private test/projection compatibility is not a renderer-quality score. Historical evidence remains readable.'),

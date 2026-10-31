@@ -35,8 +35,9 @@ test('documentation SVG return and reviewed drawing correctness retain separate 
   expect(drawings).toBeDefined()
   expect(drawings.chart).toBeUndefined()
   expect(drawings.rows.find(row => row.project === 'fixture/a')!.values.slice(1, 6)).toEqual([0, 1, 1, 0, 2])
-  expect(drawings.rows.every(row => !!row.unrankedReason)).toBe(true)
-  expect(rankedRows(drawings, value => value).every(row => row.rank === null)).toBe(true)
+  expect(rankedRows(drawings, value => value).map(row => row.project)).toEqual(['fixture/b', 'fixture/a'])
+  expect(rankedRows(drawings, value => value).map(row => row.rank)).toEqual([1, 2])
+  expect(drawings.caption).toContain('unknown')
   const returns = snapshot.tables.find(table => table.columns.includes('Returned in all rounds'))!
   expect(returns.rows.find(row => row.project === 'fixture/a')!.values[1]).toBe(2)
 })
@@ -58,6 +59,22 @@ function overview(snapshot: ResultsSnapshot, project = 'fixture/a') {
   const cells = row.split('|').map(value => value.trim())
   return { row, rank: cells[2], docs: cells[4] }
 }
+
+test('newer PNG-only or unstarted PNG work cannot suppress retained SVG coverage', () => {
+  const svg = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' })
+  const before = importCampaign(empty(), svg, 'https://example.test/svg', catalog)
+  const png = campaign(temp(), { updatedAt: '2026-03-01T00:00:00Z' })
+  const file = join(png, 'docs/result.json'), result = JSON.parse(readFileSync(file, 'utf8'))
+  for (const row of result.observations) { row.format = 'png'; row.surface = 'browser:png-export'; row.status = 'blocked' }
+  write(file, result)
+  const controller = JSON.parse(readFileSync(join(png, 'report.json'), 'utf8')); controller.options = { docsFormats: ['png'] }; write(join(png, 'report.json'), controller)
+  const after = importCampaign(before, png, 'https://example.test/png', catalog)
+  expect(overview(after)).toEqual(overview(before))
+  expect(after.attempts.filter(attempt => attempt.receipt.url.includes('/png/')).every(attempt => JSON.stringify(attempt.outputFormats) === '["png"]')).toBe(true)
+  const unstarted = campaign(temp(), { updatedAt: '2026-04-01T00:00:00Z', partial: true })
+  const partial = JSON.parse(readFileSync(join(unstarted, 'report.json'), 'utf8')); partial.options = { docsFormats: ['png'] }; write(join(unstarted, 'report.json'), partial)
+  expect(overview(importCampaign(after, unstarted, 'https://example.test/png-unstarted', catalog))).toEqual(overview(before))
+})
 
 function oneProjectRerun(options: { updatedAt: string; partial?: boolean; changedInput?: boolean }) {
   const root = campaign(temp(), options)

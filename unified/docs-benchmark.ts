@@ -20,6 +20,8 @@ import { publicSvgBrowserAction } from './public-svg-browser.ts'
 import { protocolIdentity } from './protocol-identity.ts'
 import type { UnifiedRunOptions, UnifiedSuiteResult, BenchmarkObservation } from './types.ts'
 import { mermaidOracleDirectory, mermaidUpstreamDirectory } from '../portable/mermaid-oracle.ts'
+import { runDocsPngLane } from './docs-png-lane.ts'
+import { admitPngReviews, type DocsPngReview } from './docs-png-drawings.ts'
 
 /** Serve the actual distribution with declared UTF-8. Classic scripts inherit
  * the document encoding: omitting it can turn Unicode regex ranges into syntax
@@ -63,12 +65,12 @@ export function docsRoundOrder<T>(targets: readonly T[], round: number): T[] {
   return round % 2 === 0 ? order.reverse() : order
 }
 
-export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<UnifiedSuiteResult> {
+async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory?: ReturnType<typeof docsInventory>): Promise<UnifiedSuiteResult> {
   assertBenchmarkExecutionAllowed()
   const startedAt = new Date().toISOString(), observations: BenchmarkObservation[] = [], gaps: string[] = []
   if (!options.communityBrowserPreparedFile) throw Error('Docs benchmark needs a frozen public browser preparation manifest')
   admitCurrentReference(options.mermaidDir ?? mermaidUpstreamDirectory(), options.referenceDir ?? mermaidOracleDirectory())
-  const inventory = docsInventory(options.mermaidDir)
+  const inventory = suppliedInventory ?? docsInventory(options.mermaidDir)
   const reviewFile = options.docsReviewFile ?? join(tridentDirectory, 'corpus/docs-reviewed.json')
   const reviewBytes = readFileSync(reviewFile), reviews = JSON.parse(reviewBytes.toString()) as DocsDrawingReview[]
   const drawingInventory = admitDocsReviews(inventory.cases, reviews)
@@ -199,6 +201,56 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
   }))
   writeFileSync(join(options.out, 'report.md'), '# Official documentation SVG return\n\n' + `${inventory.occurrences} occurrences; ${inventory.distinct} distinct inputs; ${inventory.pages.length} pinned syntax pages.\n\n` + '| Project | Round | SVG returned | Failed | Unexecuted |\n|---|---|---|---|---|\n' + rows.join('\n') + '\n\nA returned SVG is weak compatibility evidence. Timing samples are in result.json; compare only pairwise common successful inputs. No overall speed rank or calibrated performance pass.\n')
   writeFileSync(join(options.out, 'result.json'), JSON.stringify(result))
+  if (budgetError) throw budgetError
+  return result
+}
+
+/** One corpus, two independently selectable output lanes. A PNG-only artifact
+ * never goes through SVG admission. Raw output and correctness stay separate. */
+export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<UnifiedSuiteResult> {
+  assertBenchmarkExecutionAllowed()
+  admitCurrentReference(options.mermaidDir ?? mermaidUpstreamDirectory(), options.referenceDir ?? mermaidOracleDirectory())
+  const formats = options.docsFormats ?? ['svg', 'png']
+  if (!formats.length || new Set(formats).size !== formats.length || formats.some(format => !['svg', 'png'].includes(format))) throw Error('DaveBench formats must be unique svg,png lanes')
+  const inventory = docsInventory(options.mermaidDir), reviewBytes = readFileSync(options.docsReviewFile ?? join(tridentDirectory, 'corpus/docs-reviewed.json'))
+  const reviews = JSON.parse(reviewBytes.toString()) as DocsDrawingReview[], reviewed = admitDocsReviews(inventory.cases, reviews)
+  const pngBytes = formats.includes('png') && options.docsPngReviewFile ? readFileSync(options.docsPngReviewFile) : Buffer.from('[]')
+  const pngReviews = admitPngReviews(inventory.cases, reviews, JSON.parse(pngBytes.toString()) as DocsPngReview[])
+  const prepared = options.communityPreparedFile ? JSON.parse(readFileSync(options.communityPreparedFile, 'utf8')) : []
+  const browsers = options.communityBrowserPreparedFile ? JSON.parse(readFileSync(options.communityBrowserPreparedFile, 'utf8')) : []
+  for (const entries of [prepared, browsers]) if (!Array.isArray(entries) || new Set(entries.map((peer: any) => peer.node.id)).size !== entries.length) throw Error('DaveBench frozen identities must be unique')
+  const projects: string[] = options.communityProjects ?? [...new Set([...prepared, ...browsers].map((peer: any) => peer.node.id))] as string[]
+  if (!projects.length) throw Error('DaveBench requires selected frozen public artifacts')
+  const startedAt = new Date().toISOString(), results: UnifiedSuiteResult[] = []
+  mkdirSync(options.out, { recursive: true })
+  const producers = protocolIdentity(options.harnessRoot ?? options.root, ['unified/docs-benchmark.ts'])
+  const identity = { ...inventory, protocol: 'public-docs-output-lanes-v2', formats, producers, drawingReview: { protocol: 'reviewed-docs-svg-content-v1', sha256: createHash('sha256').update(reviewBytes).digest('hex'), cases: reviewed }, pngReviewSha256: createHash('sha256').update(pngBytes).digest('hex') }
+  const inventoryPath = join(options.out, 'inventory.json')
+  if (existsSync(inventoryPath) && JSON.stringify(JSON.parse(readFileSync(inventoryPath, 'utf8'))) !== JSON.stringify(identity)) throw Error('Documentation source, output lanes or review identity changed; use a fresh campaign')
+  writeFileSync(inventoryPath, JSON.stringify(identity, null, 2))
+  let budgetError: CollectionBudgetExhausted | undefined
+  for (const format of formats) {
+    const out = join(options.out, format)
+    try {
+      if (format === 'svg') {
+        const svgProjects = projects.filter(project => { const peer = [...prepared, ...browsers].find((peer: any) => peer.node.id === project); return !peer || peer.node.outputs.includes('svg') || peer.node.benchmark?.outputs?.includes('svg') })
+        if (svgProjects.length) results.push(await runSvgDocsBenchmark({ ...options, out, communityProjects: svgProjects }, inventory))
+      } else {
+        const pngProjects = projects.filter(project => { const peer = [...prepared, ...browsers].find((peer: any) => peer.node.id === project); return !peer || [...peer.node.outputs, ...(peer.node.benchmark?.outputs ?? [])].some(output => ['svg', 'png'].includes(output)) })
+        if (pngProjects.length) results.push(await runDocsPngLane({ ...options, out, communityProjects: pngProjects }, inventory, reviews, pngReviews))
+      }
+    } catch (error) {
+      if (!(error instanceof CollectionBudgetExhausted)) throw error
+      budgetError = error
+      if (existsSync(join(out, 'result.json'))) results.push(JSON.parse(readFileSync(join(out, 'result.json'), 'utf8')))
+      break
+    }
+  }
+  const observations = results.flatMap(result => result.observations.map(row => row.metrics?.witness ? { ...row, metrics: { ...row.metrics, witness: row.format + '/' + row.metrics.witness } } : row))
+  const result: UnifiedSuiteResult = { id: 'docs', startedAt: results.map(row => row.startedAt).sort()[0] ?? startedAt, finishedAt: new Date().toISOString(), status: budgetError ? 'blocked' : results.some(row => row.status === 'failed') ? 'failed' : results.some(row => row.status === 'blocked') ? 'blocked' : 'passed', observations, gaps: results.flatMap(row => row.gaps), artifacts: [inventoryPath, ...formats.map(format => join(options.out, format))] }
+  writeFileSync(join(options.out, 'result.json'), JSON.stringify(result))
+  const rows = formats.flatMap(format => projects.map(project => { const own = observations.filter(row => row.format === format && row.metrics?.project === project), returned = own.filter(row => row.operation === 'render' && row.status === 'passed').length, checked = own.filter(row => row.operation === 'drawing-checks'), correct = checked.filter(row => row.status === 'passed').length; return { format, project, returned, correct, incorrect: checked.filter(row => row.status === 'failed').length, unknown: inventory.occurrences - checked.filter(row => ['passed', 'failed', 'not-applicable'].includes(row.status)).length, measured: own.length > 0 } })).sort((a, b) => a.format.localeCompare(b.format) || b.correct - a.correct || b.returned - a.returned || a.project.localeCompare(b.project))
+  writeFileSync(join(options.out, 'report.md'), '# DaveBench: documentation examples\n\nCorpus: Mermaid ' + inventory.pin.commit + '; ' + inventory.occurrences + ' occurrences / ' + inventory.pages.length + ' syntax pages. Source paths, line numbers, reviews and producer hashes: inventory.json. Same sources in each output lane. Counts rank verified correct drawings first; unknowns remain visible and cannot supply a full correctness score.\n\n| Format | Project | Correct | Incorrect | Unknown | Returned calls | Planned per round |\n|---|---|---:|---:|---:|---:|---:|\n' + rows.map(row => `| ${row.format} | ${row.project} | ${row.measured ? row.correct : 'N/A'} | ${row.measured ? row.incorrect : 'N/A'} | ${row.measured ? row.unknown : 'N/A'} | ${row.measured ? row.returned : 'N/A'} | ${inventory.occurrences} |`).join('\n') + '\n\nPNG decode/nonblank and SVG witnesses do not establish PNG content. SVG return, native PNG and SVG-plus-conversion clocks retain their declared boundaries; all new timing is descriptive until correctness and calibration qualify a comparison.\n')
   if (budgetError) throw budgetError
   return result
 }
