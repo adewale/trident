@@ -13,10 +13,12 @@ export function inspectChartFacts(input: { family: string; source: string; expec
   const canvas = document.createElement('canvas').getContext('2d')!
   const color = (value: string) => { if (value === 'none' || value === 'transparent') return null; if (/url\(|var\(|context-/.test(value)) { uncertain = true; return null }; canvas.clearRect(0, 0, 1, 1); canvas.fillStyle = value; canvas.fillRect(0, 0, 1, 1); const rgba = canvas.getImageData(0, 0, 1, 1).data; return rgba[3] ? { rgb: [...rgba].slice(0, 3).join(','), alpha: rgba[3]! / 255 } : null }
   const visible = (element: Element) => {
+    let effectiveOpacity = 1
     for (let owner: Element | null = element; owner; owner = owner.parentElement) {
       const style = getComputedStyle(owner)
       if (['defs', 'marker', 'clipPath', 'mask', 'title', 'desc'].includes(owner.localName) || style.display === 'none' || ['hidden', 'collapse'].includes(style.visibility) || Number(style.opacity) === 0) return false
       if (style.clipPath && style.clipPath !== 'none' || style.maskImage && style.maskImage !== 'none' || style.filter && style.filter !== 'none') uncertain = true
+      effectiveOpacity *= Number(style.opacity)
       if (owner === svg) break
     }
     const bounds = element.getBoundingClientRect()
@@ -44,7 +46,26 @@ export function inspectChartFacts(input: { family: string; source: string; expec
       uncertain = true
     }
     const style = getComputedStyle(element), fill = color(style.fill), stroke = color(style.stroke)
-    return !!fill && fill.alpha * Number(style.fillOpacity) > 0 || !!stroke && stroke.alpha * Number(style.strokeOpacity) > 0 && Number.parseFloat(style.strokeWidth) > 0
+    const paints = [fill && fill.alpha * Number(style.fillOpacity) * effectiveOpacity > 0 ? { ...fill, effectiveAlpha: fill.alpha * Number(style.fillOpacity) * effectiveOpacity } : null, stroke && stroke.alpha * Number(style.strokeOpacity) * effectiveOpacity > 0 && Number.parseFloat(style.strokeWidth) > 0 ? { ...stroke, effectiveAlpha: stroke.alpha * Number(style.strokeOpacity) * effectiveOpacity } : null].filter((paint): paint is { rgb: string; alpha: number; effectiveAlpha: number } => !!paint)
+    if (!paints.length) return false
+    if (paints.every(paint => paint.effectiveAlpha < 1 / 255)) { uncertain = true; return false }
+    if (!fill && stroke && Number.parseFloat(style.strokeWidth) < .25) { uncertain = true; return false }
+    // A flat opaque rectangle establishes a bounded camouflage negative. Any
+    // intervening complex paint may make it visible, so withhold rather than
+    // inventing a semantic failure or a general contrast score.
+    for (const background of svg.querySelectorAll('rect')) {
+      if (background === element || !(background.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING) || background.closest('defs,marker,clipPath,mask')) continue
+      const b = background.getBoundingClientRect(), css = getComputedStyle(background), ink = color(css.fill)
+      if (!ink || ink.alpha * Number(css.fillOpacity) < 1 || b.x > bounds.x || b.y > bounds.y || b.right < bounds.right || b.bottom < bounds.bottom || !paints.every(paint => paint.rgb === ink.rgb)) continue
+      let opaque = true
+      for (let owner: Element | null = background; owner; owner = owner.parentElement) {
+        const css = getComputedStyle(owner)
+        if (Number(css.opacity) !== 1 || css.display === 'none' || ['hidden', 'collapse'].includes(css.visibility) || css.clipPath !== 'none' || css.maskImage !== 'none' || css.filter !== 'none') opaque = false
+        if (owner === svg) break
+      }
+      if (opaque) { uncertain = true; return false }
+    }
+    return true
   }
   const box = (element: Element) => { const b = element.getBoundingClientRect(); return { x: b.x, y: b.y, width: b.width, height: b.height } }
   type Box = ReturnType<typeof box>
@@ -135,7 +156,7 @@ export function inspectChartFacts(input: { family: string; source: string; expec
       }
     }
     if (bars.length !== series.filter(item => item.kind === 'bar').reduce((sum, item) => sum + item.values.filter(value => value !== Math.max(range[0]!, Math.min(range[1]!, 0))).length, 0) || lines.length !== expectedLines.length) available = false
-    const scope = 'Exact category/series inventory with label-to-legend color ownership for repeated series kinds, visible numeric tick calibration, value positions within3CSSpx and bounded baseline overhang. No series order or DOM class supplies ownership.'
+    const scope = 'Exact category/series inventory with label-to-legend color ownership for repeated series kinds, visible numeric tick calibration, value positions within 3 CSS pixels and bounded baseline overhang. No series order or DOM class supplies ownership.'
     add('series', observed, available ? passed : null, scope); quantitative('painted-series-values', facts.series, observed, available ? passed : null, scope)
     add('x-categories', positions, positioned ? increasing : null, 'Unique authored category labels occur in source order on the actual category axis; horizontal category charts progress top-to-bottom, vertical charts left-to-right')
     add('y-range', { low, high, minimum: minimum?.textContent, maximum: maximum?.textContent }, positioned && calibrated!.some(tick => tick.element === minimum) && calibrated!.some(tick => tick.element === maximum) ? horizontal ? high > low : high < low : null, 'The explicit numeric range binds visible min/max tick labels and their actual axis orientation')
@@ -162,7 +183,7 @@ export function inspectChartFacts(input: { family: string; source: string; expec
       return { label: p.label, actual, expected: p }
     })
     const ready = !!plot && observed.every((p: any) => p.actual), passed = ready && dots.length === observed.length && observed.every((p: any) => Math.abs(p.actual.x - p.expected.x) < .015 && Math.abs(p.actual.y - p.expected.y) < .015)
-    add('points', observed, ready ? passed : null, 'Every authored point uniquely owns an actual visible dot; exact point inventory and coordinates normalize to the four painted regions within1.5%')
+    add('points', observed, ready ? passed : null, 'Every authored point uniquely owns an actual visible dot; exact point inventory and coordinates normalize to the four painted regions within 1.5%')
     if (facts.points) quantitative('painted-quadrant-coordinates', facts.points, observed, ready ? passed : null, 'Complete owned point inventory and normalized quadrant coordinates')
     const axes = facts.axes ?? (Array.isArray(facts['axis-labels']) && facts['axis-labels'].length === 4 ? { x: facts['axis-labels'].slice(0, 2), y: facts['axis-labels'].slice(2) } : null)
     if (axes) {
@@ -227,7 +248,7 @@ export function inspectChartFacts(input: { family: string; source: string; expec
         observations.push({ curve: curve.id, label: curve.label ?? null, axis: axis.id, sourceValue: curve.values[index], radialCoordinate: intersections, expectedCoordinate: wanted })
       })
     }
-    const scope = 'Exact curve and axis inventory; every curve is sampled against its owned radial spokes and the authored scale within3CSSpx. Every named curve requires visible legend-to-color ownership; multiple curves need distinct ownership. Unlabelled radial rings do not independently prove a numeric range.'
+    const scope = 'Exact curve and axis inventory; every curve is sampled against its owned radial spokes and the authored scale within 3 CSS pixels. Every named curve requires visible legend-to-color ownership; multiple curves need distinct ownership. Unlabelled radial rings do not independently prove a numeric range.'
     add('curves', observations, available ? passed && ordered : null, scope)
     if (facts.curves) quantitative('painted-radar-values', facts.curves, observations, available ? passed && ordered : null, scope)
     add('range', null, null, 'Radial position checks use the authored scale, but unlabelled rings cannot independently attest numeric min/max values; a qualified numeric tick profile is required')

@@ -98,3 +98,11 @@ test('a named unique curve cannot borrow its label from unrelated text', async (
   const change = `document.querySelector('.radarLegendBox-0').remove()`
   expect(check(await inspect('radar', { change }), 'source-fact:curves')?.status).not.toBe('passed')
 })
+
+
+test('flat background camouflage and subpixel effective opacity cannot qualify chart values', async () => {
+  const whiteBars = `document.querySelectorAll('.bar-plot-0 rect').forEach(e=>{e.style.fill='white';e.style.stroke='white'})`
+  expect(check(await inspect('xychart', { change: whiteBars }), 'source-fact:series')?.status).not.toBe('passed')
+  expect(check(await inspect('xychart', { change: `document.querySelector('.line-plot-1 path').style.strokeOpacity='0.000000001'` }), 'source-fact:series')?.status).not.toBe('passed')
+  expect(check(await inspect('radar', { change: `const e=document.querySelector('.radarCurve-0');e.style.fill='white';e.style.stroke='white'` }), 'source-fact:curves')?.status).not.toBe('passed')
+})
