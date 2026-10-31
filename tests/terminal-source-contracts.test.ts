@@ -32,6 +32,17 @@ test('cyclic and grouped sources retain literal direction advisories without inv
     expect(input.contract.presentation.some(item => typeof item === 'object' && item !== null && 'direction' in item)).toBe(false)
   }
 })
+test('every explicit rectangle has a primitive obligation and generic parameters do not become class identity', () => {
+  const rectangle = analyseTerminalSource('flowchart LR\nA[Start] --> B[End]', 'flowchart')
+  expect(rectangle.contract.facts.find(fact => fact.criterion === 'node-shapes')?.expected).toEqual([{ id: 'A', shape: 'rectangle' }, { id: 'B', shape: 'rectangle' }])
+  const redefined = analyseTerminalSource('flowchart\nA[A]\nA((A))', 'flowchart')
+  expect(redefined.contract.facts.find(fact => fact.criterion === 'node-shapes')?.expected).toEqual([{ id: 'A', shape: 'circle' }])
+  const generic = source('c5455d2e2f5f8672').expected.contract!
+  expect(generic.facts.find(fact => fact.criterion === 'class-bodies')?.expected).toContainEqual({ id: 'Box', declaration: 'Box~T~', genericParameters: 'T', members: ['+value T', '+map(fn) Box~T~'] })
+  expect(generic.facts.find(fact => fact.criterion === 'class-relations')?.expected).toContainEqual({ source: 'Box', target: 'IntBox', marker: '<|--', leftCardinality: '', rightCardinality: '', caption: 'specializes' })
+  const key = source('f78157ede4e2d1ab').expected.contract?.facts.find(fact => fact.criterion === 'entity-bodies')?.expected
+  expect(key).toContainEqual({ id: 'BOOK', attributes: ['string *title', 'id *the_Primary_Key'], attributeFacts: [{ type: 'string', name: 'title', keys: ['PK'] }, { type: 'id', name: 'the_Primary_Key', keys: ['PK'] }] })
+})
 test('source contracts retain chart values, ER cardinality, packet bit ranges and hierarchy ownership', () => {
   expect(source('587429a5094fbb28').expected.contract?.facts.find(fact => fact.criterion === 'slice-values')?.expected).toContainEqual({ label: 'ML', value: 12.5 })
   expect(source('278dccc21dd27020').expected.contract?.facts.find(fact => fact.criterion === 'entity-relations')?.expected).toContainEqual({ source: 'ORDER', target: 'LINE-ITEM', sourceCardinality: '||', targetCardinality: '|{', identifying: true, caption: 'contains' })

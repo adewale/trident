@@ -37,6 +37,29 @@ of a renderer's language extensions. Accepting these controls cannot establish a
 correct drawing; rejecting them requires typed public source evidence. A generic
 process exit, missing dependency or unsupported family stays unknown.
 
+## Source meaning policies
+
+Every authored flowchart shape, including a rectangle, has an explicit primitive
+obligation. Bare node references retain a previously declared label/shape; they
+do not create another declaration. A later explicit declaration can update them.
+
+Class IDs are canonical: `Box~T~` declares class `Box` with generic parameters `T`.
+The raw declaration and member declarations remain available as source data;
+tildes are not an expected visible spelling or part of class identity.
+
+ER records retain both raw attribute declarations and `attributeFacts` containing
+semantic type, name and key values. A leading name `*` is the documented alternative
+PK marker: `string *title` means name `title` and key `PK`, not a literal name-only
+field. See the pinned [ER key documentation](https://github.com/mermaid-js/mermaid/blob/1fb7869866dd619168d840291c9c54b4f129758b/packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md#attribute-keys-and-comments).
+An observer must establish that key meaning, whether output uses `*` or `PK`.
+
+The finite corpus resolves duplicate group membership by first subgraph mention:
+a later reference to the same global node does not transfer it. In
+`terminal:22e97a0fc1fff023`, `E[render.lua]` belongs to Neovim and later bare `E`
+in Node.js refers to it. This is the declared profile policy, consistent with
+[pinned Mermaid's duplicate-member removal](https://github.com/mermaid-js/mermaid/blob/1fb7869866dd619168d840291c9c54b4f129758b/packages/mermaid/src/diagrams/flowchart/flowDb.ts),
+not a rule inferred from renderer output or asserted for every dialect.
+
 ## Run a small qualification
 
 Mermaid ASCII is mandatory; the default second implementation is Termaid. Mermaid

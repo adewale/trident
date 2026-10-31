@@ -1,5 +1,6 @@
 import { decodeHTML } from 'entities'
 import { parse as parseYaml } from 'yaml'
+import { terminalErSourceAttribute } from './terminal-er-values.ts'
 import type { TerminalMeaning } from './terminal.ts'
 
 export interface TerminalFact { criterion: string; expected: unknown; scope: string; required?: boolean }
@@ -33,10 +34,10 @@ export function analyseTerminalSource(source: string, family: string): TerminalS
     presentation.push(...parsed.presentation); sourceUncertainties.push(...parsed.uncertainties)
     fact('nodes', parsed.graph.nodes, 'Exact declared node identities and source-decoded labels')
     fact('relationships', parsed.graph.edges, 'Exact source/target multiplicity, captions and marker semantics')
-    if (parsed.groups.length) fact('groups', parsed.groups, 'Declared group labels, enclosure and membership')
+    if (parsed.groups.length) fact('groups', parsed.groups, 'Declared group labels/enclosure; bounded policy: the first subgraph mentioning a global node owns it, and later mentions reference it without transfer')
     if (parsed.graph.layout?.length) fact('layout-order', parsed.graph.layout, 'Acyclic source direction imposes relative drawn positions')
     else if (parsed.graph.edges.length || parsed.directions.length) fact('layout-direction', { root: parsed.direction, groups: parsed.directions }, 'Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups', false)
-    if (parsed.shapes.some(item => item.shape !== 'rectangle')) fact('node-shapes', parsed.shapes, 'Explicit node shape declarations')
+    if (parsed.shapes.length) fact('node-shapes', parsed.shapes, 'Explicit node shape declarations')
     if (parsed.lines.some(item => item.lines.length > 1)) fact('node-line-breaks', parsed.lines.filter(item => item.lines.length > 1), 'Explicit HTML/Markdown line breaks, not renderer wrapping')
     if (parsed.graph.nodes.some(node => /\x1b|[\x00-\x08\x0b-\x1f]/.test(node.label))) fact('literal-control-safety', 'escape-or-typed-reject', 'Source label controls must not become executable terminal state')
     return { intent: 'valid', contract, graph: parsed.graph }
@@ -83,21 +84,22 @@ export function analyseTerminalSource(source: string, family: string): TerminalS
     }
     fact('states', [...states.values()], 'State identities, including composite states')
     fact('transitions', transitions, 'Exact directed transitions/captions, initial/final pseudostates and lexical scopes')
-    fact('direction', direction, 'Authored state layout direction')
+    fact('direction', direction, 'State layout hint (pinned default TB when absent); source topology does not imply one geometric node order', false)
     if (groups.length) fact('state-enclosures', groups, 'Composite-state containment')
     return base()
   }
   if (family === 'class') {
     const classes: any[] = [], relations: any[] = []; let current: any
+    const identity = (raw: string) => raw.replace(/~.*~$/, '')
     for (const line of lines.slice(1)) {
       let m: RegExpExecArray | null
-      if ((m = /^\s*class\s+([^\s{]+)(?:\s*\{)?\s*$/.exec(line))) { current = { id: m[1], members: [] }; classes.push(current); if (!line.includes('{')) current = undefined }
+      if ((m = /^\s*class\s+([^\s{]+)(?:\s*\{)?\s*$/.exec(line))) { current = { id: identity(m[1]!), declaration: m[1], ...(m[1]!.includes('~') ? { genericParameters: /^.*?~(.*)~$/.exec(m[1]!)?.[1] } : {}), members: [] }; classes.push(current); if (!line.includes('{')) current = undefined }
       else if (line.trim() === '}') current = undefined
       else if (current && line.trim()) current.members.push(line.trim())
-      else if ((m = /^\s*(\S+?)(?:\s+"([^"]+)")?\s+(<\|--|\*--|o--|\.\.>|-->|--)(?:\s+"([^"]+)")?\s+(\S+?)(?:\s*:\s*(.+))?\s*$/.exec(line))) relations.push({ source: m[1], target: m[5], marker: m[3], leftCardinality: m[2] ?? '', rightCardinality: m[4] ?? '', caption: visibleTerminalLabel(m[6] ?? '') })
+      else if ((m = /^\s*(\S+?)(?:\s+"([^"]+)")?\s+(<\|--|\*--|o--|\.\.>|-->|--)(?:\s+"([^"]+)")?\s+(\S+?)(?:\s*:\s*(.+))?\s*$/.exec(line))) relations.push({ source: identity(m[1]!), target: identity(m[5]!), marker: m[3], leftCardinality: m[2] ?? '', rightCardinality: m[4] ?? '', caption: visibleTerminalLabel(m[6] ?? '') })
       else if (line.trim()) sourceUncertainties.push('Untranscribed class statement: ' + line.trim())
     }
-    fact('class-bodies', classes, 'Exact class identities, generic parameters, stereotypes and members/methods')
+    fact('class-bodies', classes, 'Canonical class identities and separate raw/generic declarations; stereotypes and member declarations remain literal source facts, not display strings')
     fact('class-relations', relations, 'Association/inheritance/composition/dependency markers, captions and cardinalities')
     return base()
   }
@@ -113,9 +115,10 @@ export function analyseTerminalSource(source: string, family: string): TerminalS
       else if ((m = /^\s*(\S+)\s+([|o}{]+)(--|\.\.)([|o}{]+)\s+(\S+)\s*:\s*(.+)\s*$/.exec(line))) { entity(m[1]!); entity(m[5]!); relations.push({ source: m[1], target: m[5], sourceCardinality: m[2], targetCardinality: m[4], identifying: m[3] === '--', caption: visibleTerminalLabel(m[6]!) }) }
       else if (line.trim()) sourceUncertainties.push('Untranscribed ER statement: ' + line.trim())
     }
-    fact('entity-bodies', entities, 'Entity identities and exact attribute/type/key declarations')
+    for (const entity of entities) { entity.attributeFacts = entity.attributes.map(terminalErSourceAttribute); if (entity.attributeFacts.some((attribute: unknown) => !attribute)) sourceUncertainties.push('Untranscribed ER attribute declaration: ' + entity.id) }
+    fact('entity-bodies', entities, 'Entity identities, raw attribute declarations and explicit semantic type/name/key/comment facts; a leading name asterisk is the documented PK alternative')
     fact('entity-relations', relations, 'Relationship endpoints, both cardinalities, captions and identifying status')
-    fact('direction', direction, 'Authored ER layout direction')
+    fact('direction', direction, 'ER layout hint (pinned default TB when absent); it supplies no entity/cardinality correctness proof', false)
     return base()
   }
   if (family === 'c4') {
@@ -288,7 +291,7 @@ export function analyseTerminalSource(source: string, family: string): TerminalS
 }
 
 function readFlowchart(source: string) {
-  type Node = { id: string; label: string; shape?: string }
+  type Node = { id: string; label: string; shape?: string; explicitShape?: boolean }
   const nodes = new Map<string, Node>(), edges: any[] = [], groups: { id: string; label: string; members: string[]; parent?: string }[] = [], stack: string[] = [], presentation: unknown[] = [], directions: { group: string | null; direction: string }[] = [], uncertainties: string[] = []
   const header = /^\s*(?:flowchart|graph)(?:\s+(LR|RL|TD|TB|BT))?/.exec(source), direction = header?.[1] ?? 'TD'
   let body = source.slice(header?.[0].length ?? 0), cursor = 0
@@ -298,9 +301,10 @@ function readFlowchart(source: string) {
   const node = (): Node | undefined => {
     const id = /^[\p{Letter}\p{Number}_][\p{Letter}\p{Number}_./]*/u.exec(body.slice(cursor))?.[0]
     if (!id) return
-    cursor += id.length; let label = id, shape = 'rectangle'
+    cursor += id.length; let label = id, shape = 'rectangle', explicitShape = false
     const open = body[cursor]
     if (open && '[({>'.includes(open)) {
+      explicitShape = true
       const start = cursor, pairs: Record<string, string> = { '[': ']', '(': ')', '{': '}', '>': ']' }, close = pairs[open]!, count = body[cursor + 2] === open && body[cursor + 1] === open ? 3 : body[cursor + 1] === open ? 2 : 1
       cursor += count; let quote = false, depth = count
       const contentStart = cursor
@@ -324,7 +328,7 @@ function readFlowchart(source: string) {
       else if (/^\[\//.test(shapeSource)) { raw = raw.replace(/^\//, '').replace(/\/$/, ''); shape = 'parallelogram' }
       label = visibleTerminalLabel(raw)
     }
-    const previous = nodes.get(id), value = { id, label: label === id && previous ? previous.label : label, shape: label === id && previous ? previous.shape : shape }
+    const previous = nodes.get(id), value = { id, label: !explicitShape && previous ? previous.label : label, shape: !explicitShape && previous ? previous.shape : shape, explicitShape: explicitShape || !!previous?.explicitShape }
     nodes.set(id, value); membership(id); return value
   }
   const arrow = (): { token: string; caption: string } | undefined => {
@@ -376,5 +380,5 @@ function readFlowchart(source: string) {
   const simpleChains = directed.every(edge => directed.filter(other => other.source === edge.source).length === 1 && directed.filter(other => other.target === edge.target).length === 1)
   if (acyclic && directed.length && simpleChains && !groups.length && !directions.length) graph.layout = directed.map(edge => ({ before: ['RL', 'BT'].includes(direction) ? edge.target : edge.source, after: ['RL', 'BT'].includes(direction) ? edge.source : edge.target, axis: ['LR', 'RL'].includes(direction) ? 'x' : 'y' }))
   if (groups.length) (graph as any).groups = groups
-  return { graph, groups, direction, directions, shapes: [...nodes.values()].map(({ id, shape }) => ({ id, shape })), lines: [...nodes.values()].map(({ id, label }) => ({ id, lines: label.split('\n') })), presentation, uncertainties }
+  return { graph, groups, direction, directions, shapes: [...nodes.values()].filter(node => node.explicitShape).map(({ id, shape }) => ({ id, shape })), lines: [...nodes.values()].map(({ id, label }) => ({ id, lines: label.split('\n') })), presentation, uncertainties }
 }
