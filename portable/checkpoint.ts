@@ -96,3 +96,51 @@ export class CollectionCheckpoint {
     return this.record(key, value)
   }
 }
+
+/** Read existing evidence without opening a collection or creating directories.
+ * The caller either supplies the original identity or independently validates
+ * each returned record's source/project/output context. Header hashes never
+ * establish that semantic context by themselves. */
+function readCheckpointHeader(directory: string, identity?: unknown) {
+  const file = join(directory, 'checkpoint.json')
+  if (!existsSync(file)) throw Error('Existing checkpoint has no owning header')
+  const header = JSON.parse(readFileSync(file, 'utf8'))
+  if (!header || !['collection-checkpoint-v1', 'collection-checkpoint-v2'].includes(header.schema) || !/^[a-f0-9]{64}$/.test(header.identitySha256) || typeof header.startedAt !== 'string' || !Number.isFinite(Date.parse(header.startedAt)) || identity !== undefined && header.identitySha256 !== digest(serialize(identity))) throw Error('Checkpoint header identity or schema differs')
+  return header
+}
+function admitCheckpointRow(raw: unknown) {
+  const row = raw as { key: string; value: unknown; sha256: string }
+  if (!row || typeof row.key !== 'string' || !row.key || row.sha256 !== digest(serialize(row.value))) throw Error('Checkpoint unit key or value hash differs')
+  return row
+}
+function checkpointLegacyRows(directory: string) {
+  const file = join(directory, 'checkpoint.jsonl.gz')
+  return existsSync(file) ? gunzipSync(readFileSync(file), { maxOutputLength: 128 * 1024 * 1024 }).toString().split('\n').filter(Boolean).map(line => admitCheckpointRow(JSON.parse(line))) : []
+}
+export function readCheckpointEntries<T = unknown>(directory: string, identity?: unknown): [string, T][] {
+  readCheckpointHeader(directory, identity)
+  const rows = checkpointLegacyRows(directory), units = join(directory, 'checkpoint-units')
+  if (existsSync(units)) for (const name of readdirSync(units).filter(name => name.endsWith('.json.gz')).sort()) {
+    const row = admitCheckpointRow(JSON.parse(gunzipSync(readFileSync(join(units, name)), { maxOutputLength: 128 * 1024 * 1024 }).toString()))
+    if (name !== digest(row.key) + '.json.gz') throw Error('Checkpoint unit filename differs from its owning key')
+    rows.push(row)
+  }
+  const seen = new Set<string>()
+  return rows.map(row => { if (seen.has(row.key)) throw Error('Checkpoint keys are duplicated'); seen.add(row.key); return [row.key, structuredClone(row.value) as T] })
+}
+/** V2 reads only the requested unit; exhaustive journal admission should use
+ * readCheckpointEntries so hidden attempts and corrupt sibling units remain seen. */
+export function readCheckpointValue<T = unknown>(directory: string, key: string, identity?: unknown): T | undefined {
+  readCheckpointHeader(directory, identity)
+  if (typeof key !== 'string' || !key) throw Error('Checkpoint read needs an owning key')
+  const legacy = checkpointLegacyRows(directory), seen = new Set<string>()
+  for (const row of legacy) { if (seen.has(row.key)) throw Error('Checkpoint keys are duplicated'); seen.add(row.key) }
+  const file = join(directory, 'checkpoint-units', digest(key) + '.json.gz'), matches = legacy.filter(row => row.key === key)
+  if (existsSync(file)) {
+    const row = admitCheckpointRow(JSON.parse(gunzipSync(readFileSync(file), { maxOutputLength: 128 * 1024 * 1024 }).toString()))
+    if (row.key !== key) throw Error('Checkpoint unit filename differs from its owning key')
+    matches.push(row)
+  }
+  if (matches.length > 1) throw Error('Checkpoint keys are duplicated')
+  return matches.length ? structuredClone(matches[0]!.value) as T : undefined
+}
