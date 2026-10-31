@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto'
 import { inspectPng, type PngPixelIdentity } from './png-inspection.ts'
 import { admitDocsReviews, sourceHash, type DocsDrawingReview, type DocsInput } from './docs-drawings.ts'
+import { docsSourceAdmission } from './docs-source-admission.ts'
 
 /** A review of the actual image against the complete source expectations.
  * No renderer, SVG return or nonblank check can manufacture this review. */
@@ -67,6 +68,8 @@ export function bindPngReviewPixels(input: DocsInput, expected: DocsDrawingRevie
 export function assessDocsPng(input: DocsInput, expected: DocsDrawingReview | null, bytes: Uint8Array | undefined, reviews: readonly DocsPngReview[]) {
   if (expected && (expected.id !== input.id || expected.sourceSha256 !== sourceHash(input.source))) throw Error('Stale PNG source expectation')
   if (expected) admitDocsReviews([input], [expected])
+  const admission = docsSourceAdmission(input, expected)
+  if (!admission.matched) return { status: 'unknown', reason: admission.reason }
   if (expected?.intent === 'configuration-only') return { status: 'not-applicable', reason: expected.review }
   if (!bytes) return { status: 'unknown', reason: 'No inspectable PNG; see the separate output-return result' }
   if (!expected) return { status: 'unknown', reason: 'No reviewed source expectation; PNG decoding supplies no correctness credit' }

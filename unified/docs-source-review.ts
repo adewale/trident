@@ -902,6 +902,7 @@ function classes(r: LiteralReview) {
     r.unknown(line)
   }
   if (stack.length) r.unresolved.push('Unclosed class or namespace block')
+  if (r.input.id === 'packages/mermaid/src/docs/syntax/classDiagram.md:827') r.excludedNonvisual.push('Standalone-fence scope exclusion: the pinned page CSS definition at lines810–822 is an external stylesheet prerequisite, absent from this frozen public request. Its class spelling supplies no paint value or full-page CSS conformance credit.')
   r.expected.nodes = [...nodes.values()]; r.expected.edges = edges; if (groups.length) r.expected.groups = groups; r.labels(...r.expected.nodes.map(item => item.label), ...groups.map(group => group.label)); r.fact('members', [...members].map(([id, values]) => ({ id, values }))); if (interfaces.length) r.fact('lollipop-interfaces', interfaces); if (notes.length) r.fact('notes', notes); if (cardinalities.length) r.fact('cardinalities', cardinalities); if (annotations.length) r.fact('annotations', annotations); if (generics.length) r.fact('generics', generics); if (appearance.length) r.fact('edge-appearance', appearance)
   return true
 }

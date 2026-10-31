@@ -11873,7 +11873,9 @@
         "fact:members"
       ],
       "unresolved": [],
-      "excludedNonvisual": [],
+      "excludedNonvisual": [
+        "Standalone-fence scope exclusion: the pinned page CSS definition at lines810–822 is an external stylesheet prerequisite, absent from this frozen public request. Its class spelling supplies no paint value or full-page CSS conformance credit."
+      ],
       "visualProjections": [
         "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
       ]

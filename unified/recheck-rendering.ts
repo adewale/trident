@@ -130,8 +130,8 @@ export async function recheckRendering(directory: string, out: string, pngReview
   const grading = { ...planRetainedSvgRegrade(sourceInventory.fidelity, authored), originalInventorySha256: inventory.sha256 }
   const gradingSha256 = evidenceDigest(grading)
   const docsInventory = read(join(directory, 'docs/inventory.json'))
-  const sourceReviews = read(join(tridentDirectory, 'corpus/docs-reviewed.json')) as DocsDrawingReview[]
-  admitDocsReviews(docsInventory.cases, sourceReviews)
+  const sourceReviewBytes = readFileSync(join(tridentDirectory, 'corpus/docs-reviewed.json')), sourceReviews = JSON.parse(sourceReviewBytes.toString()) as DocsDrawingReview[]
+  const drawingInventory = admitDocsReviews(docsInventory.cases, sourceReviews)
   const pngBytes = pngReviewFile ? readFileSync(pngReviewFile) : Buffer.from('[]')
   const pngReviews = admitPngReviews(docsInventory.cases, sourceReviews, JSON.parse(pngBytes.toString()) as DocsPngReview[])
   const raster = pngRasterProfileFile ? readDocsPngRasterProfile(pngRasterProfileFile) : undefined
@@ -238,7 +238,9 @@ export async function recheckRendering(directory: string, out: string, pngReview
           row.status = assessment.status === 'correct' ? 'passed' : assessment.status === 'incorrect' ? 'failed' : assessment.status === 'not-applicable' ? 'not-applicable' : 'blocked'
           row.detail = JSON.stringify(assessment)
         }
-        const updatedInventory = { ...docsInventory, pngReviewSha256: hash(pngBytes), drawingObserver: producer }
+        // Fresh grades cannot keep the old source/observer comparison identity.
+        // The owning preparation/context remains untouched for raw-call replay.
+        const updatedInventory = { ...docsInventory, drawingReview: { protocol: 'reviewed-docs-svg-content-v1', sha256: hash(sourceReviewBytes), cases: drawingInventory, observerSha256 }, pngReviewSha256: hash(pngBytes), drawingObserver: producer }
         write(join(out, 'docs/inventory.json'), updatedInventory)
       } else if (boundary.suite === 'fidelity') {
         const selected = authored.filter(item => result.selectedCaseIds.includes(item.id))

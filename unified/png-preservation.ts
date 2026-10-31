@@ -8,6 +8,7 @@ import { admitCaseEvidenceContract, constructEvidenceVerdict, evidenceDigest, ty
 import { planFidelityCriteria } from '../fidelity/ledger.ts'
 import { assessDocsPng, docsExpectationsHash, type DocsPngReview } from './docs-png-drawings.ts'
 import { admitDocsReviews, reviewedDocsCase, sourceHash, type DocsDrawingReview, type DocsInput } from './docs-drawings.ts'
+import { docsSourceAdmission } from './docs-source-admission.ts'
 import { inspectPng } from './png-inspection.ts'
 
 export interface FrozenRasterProfile {
@@ -50,6 +51,8 @@ export function assessSvgPngConversion(request: SvgPngConversionRequest) {
   const unknown = (reason: string) => ({ status: 'unknown' as const, reason })
   const sourceReview = (expected as DocsDrawingReview & { sourceReview?: { expectedFactsComplete?: boolean; unresolved?: unknown[] } }).sourceReview
   admitDocsReviews([input], [expected])
+  const admission = docsSourceAdmission(input, expected)
+  if (!admission.matched) return unknown(admission.reason)
   if (expected.intent !== 'drawing' || expected.id !== input.id || expected.sourceSha256 !== sourceHash(input.source)) throw Error('PNG conversion source contract is stale or not a drawing')
   if (sourceReview?.expectedFactsComplete !== true || sourceReview.unresolved?.length || expected.unverifiedFacts?.length) return unknown('Full source-fact obligations are not independently complete')
   const contract = admitCaseEvidenceContract(request.svgContract)

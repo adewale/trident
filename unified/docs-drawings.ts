@@ -5,6 +5,7 @@ import type { PaintCheck } from '../fidelity/paint.ts'
 import type { BenchmarkObservation } from './types.ts'
 import { docsSourcePin, docsSourceReviewProtocol, requiredDocumentationObligations, type DocsSourceReview } from './docs-source-review.ts'
 import { evidenceDigest } from '../portable/evidence-contract.ts'
+import { docsSourceAdmission } from './docs-source-admission.ts'
 
 export interface DocsDrawingReview { id: string; sourceSha256: string; intent: 'drawing' | 'configuration-only'; family: string; expected?: MeaningExpectation; unverifiedFacts?: string[]; review: string; sourceReview?: DocsSourceReview }
 export interface DocsInput { id: string; source: string; family: string }
@@ -21,17 +22,20 @@ export function admitDocsReviews(inputs: readonly DocsInput[], reviews: readonly
     if (byId.has(review.id) || !input || sourceHash(input.source) !== review.sourceSha256 || !review.review?.trim() || !['drawing', 'configuration-only'].includes(review.intent) || !review.family || review.intent === 'drawing' && (!Array.isArray(review.expected?.labels) || review.expected.labels.some(label => typeof label !== 'string') || !review.expected.labels.length && !review.expected.nodes?.length && !Object.keys(review.expected.facts ?? {}).length && source?.expectedFactsComplete !== false)) throw Error('Missing, duplicate or stale documentation drawing review: ' + review.id)
     byId.set(review.id, review)
   }
-  return inputs.map(input => { const review = byId.get(input.id); return { id: input.id, family: input.family, sourceSha256: sourceHash(input.source), intent: review?.sourceReview?.expectedFactsComplete === false ? 'source-review-pending' : review?.intent ?? 'unreviewed', review: review ?? null } })
+  return inputs.map(input => { const review = byId.get(input.id), admission = docsSourceAdmission(input, review ?? null); return { id: input.id, family: input.family, sourceSha256: sourceHash(input.source), intent: admission.canonical && !admission.matched || review?.sourceReview?.expectedFactsComplete === false ? 'source-review-pending' : review?.intent ?? 'unreviewed', ...(admission.canonical ? { registeredIntent: admission.registeredIntent, registeredProfileEligible: admission.registeredProfileEligible, sourceAdmission: admission } : {}), review: review ?? null } })
 }
 
 export function reviewedDocsCase(input: DocsInput, review: DocsDrawingReview): AuthoredFidelityCase {
   if (!review.expected || review.intent !== 'drawing' || review.id !== input.id || review.sourceSha256 !== sourceHash(input.source)) throw Error('Documentation source has no matching drawing expectation')
-  return { id: input.id, family: review.family, source: input.source, required: true, features: ['reviewed-documentation-content'], provenance: review.review, expected: review.expected, ...(review.sourceReview ? { sourceReview: { protocol: review.sourceReview.protocol, sourceSha256: review.sourceSha256, expectedSha256: evidenceDigest(review.expected), expectedFactsComplete: review.sourceReview.expectedFactsComplete, requiredObligations: review.sourceReview.requiredObligations, unresolved: review.sourceReview.unresolved, provenance: review.review } } : {}) }
+  const admission = docsSourceAdmission(input, review)
+  return { id: input.id, family: review.family, source: input.source, required: true, features: ['reviewed-documentation-content'], provenance: review.review, expected: review.expected, ...(review.sourceReview ? { sourceReview: { protocol: review.sourceReview.protocol, sourceSha256: review.sourceSha256, expectedSha256: evidenceDigest(review.expected), expectedFactsComplete: review.sourceReview.expectedFactsComplete && admission.matched, requiredObligations: review.sourceReview.requiredObligations, unresolved: [...review.sourceReview.unresolved, ...(admission.matched ? [] : [admission.reason])], provenance: review.review } } : {}) }
 }
 
 export function assessDocsDrawing(input: DocsInput, review: DocsDrawingReview | null, publicStatus: string, admissionPassed: boolean, checks: readonly PaintCheck[], binding?: SvgEvidenceBinding) {
   if (!review) return { status: 'unknown', reason: 'No reviewed source expectation; SVG return supplies no correctness credit' }
   if (review.id !== input.id || review.sourceSha256 !== sourceHash(input.source)) throw Error('Stale documentation source review')
+  const admission = docsSourceAdmission(input, review)
+  if (!admission.matched) return { status: 'unknown', reason: admission.reason }
   if (review.intent === 'configuration-only') return { status: 'not-applicable', reason: review.review }
   if (review.sourceReview?.expectedFactsComplete !== true) return { status: 'unknown', reason: 'Source expectations are incomplete or have no complete source contract: ' + (review.sourceReview?.unresolved.join('; ') ?? 'legacy review has no completeness metadata') }
   if (publicStatus !== 'passed') return { status: 'unknown', reason: 'Public call did not supply an inspectable SVG; see the separate render outcome' }

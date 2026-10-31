@@ -200,7 +200,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
               [String(version), correct, incorrect, unknown, notDrawing, inventory.cases.length, measuredAt(drawings, result.finishedAt)],
               { column: 'Correct', direction: 'descending' },
               { outputFormat: format as 'svg' | 'png', unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unknown', 'Not a drawing'] } }, correct + incorrect === 0 ? 'No verified drawing-content observations' : undefined)
-            const reviewedIds = new Set((inventory.drawingReview?.cases ?? []).filter((input: any) => input.intent === 'drawing').map((input: any) => input.id))
+            const reviewedIds = new Set((inventory.drawingReview?.cases ?? []).filter((input: any) => input.registeredProfileEligible ?? input.intent === 'drawing').map((input: any) => input.id))
             if (reviewedIds.size) {
               const subset = drawings.filter(row => reviewedIds.has(row.caseId)), passed = subset.filter(row => row.status === 'passed').length, failed = subset.filter(row => row.status === 'failed').length, missing = reviewedIds.size - passed - failed
               add(['docs-reviewed-profile', ...laneKey, cohort, hash(inventory.drawingReview), hash(inventory.producers ?? []), ...(format === 'png' ? [inventory.pngReviewSha256 ?? null] : [])], 'docs', measuredAt(subset, result.finishedAt),
