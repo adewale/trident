@@ -168,6 +168,8 @@ test('decorated class rows need actual generic text, italic abstract methods and
   const valid = await inspect(value, 'class', expected)
   expect(status(valid.checks, 'source-fact:generics')).toBe('passed')
   expect(status(valid.checks, 'source-fact:members')).toBe('passed')
+  expect(status((await inspect(value.replace('+int count', '+ count:int'), 'class', expected)).checks, 'source-fact:members')).toBe('passed')
+  expect(status((await inspect(value.replace('+int count', '+ count:long'), 'class', expected)).checks, 'source-fact:members')).toBe('failed')
   expect(status((await inspect(value.replace('font-style="italic"', 'font-style="normal"'), 'class', expected)).checks, 'source-fact:members')).toBe('failed')
   expect(status((await inspect(value.replace('text-decoration="underline"', 'text-decoration="none"'), 'class', expected)).checks, 'source-fact:members')).toBe('failed')
   const wrong = value.replace('Alpha&lt;T&gt;', 'Alpha&lt;U&gt;')
@@ -189,6 +191,14 @@ test('C4 elements own all visible properties, including a separate type and exac
   expect(status((await inspect(value.replace('Handles requests', 'Drops requests'), 'c4', expected)).checks, 'source-fact:elements')).not.toBe('passed')
   const extra = value.replace('</g>', '<text x="20" y="130">Invented field</text></g>')
   expect(status((await inspect(extra, 'c4', expected)).checks, 'source-fact:elements')).toBe('failed')
+})
+
+test('C4 type technology and description values cannot swap their visible field roles', async () => {
+  const value = svg('<g><rect x="10" y="20" width="240" height="140" fill="white" stroke="black"/><text x="20" y="45" font-weight="bold">Alpha</text><text x="20" y="70" font-size="12">[Container: TypeScript]</text><text x="20" y="100">Service</text></g>')
+  const expected = { labels: ['Alpha', 'TypeScript', 'Service'], nodes: [{ id: 'A', label: 'Alpha' }], facts: { elements: [{ id: 'A', kind: 'Container', label: 'Alpha', extraVisibleFields: ['TypeScript', 'Service'] }] } }
+  expect(status((await inspect(value, 'c4', expected)).checks, 'source-fact:elements')).toBe('passed')
+  const swapped = value.replace('[Container: TypeScript]', '[Container: Service]').replace('>Service</text>', '>TypeScript</text>')
+  expect(status((await inspect(swapped, 'c4', expected)).checks, 'source-fact:elements')).toBe('failed')
 })
 
 test('an external usecase actor label needs a real connected head, spine, arms and legs', async () => {

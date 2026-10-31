@@ -198,14 +198,21 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
       if (facts.annotations?.length || facts.generics?.length) { add(key, null, null, 'Decorated and generic class rows need the complete graph-family ownership projection; the plain member-table profile does not apply'); continue }
       // The colon before a displayed return type is presentation punctuation;
       // visibility, names, argument/return types and access modifiers remain.
-      const canonical = (value: string) => normalize(value).replace(/\)\s*:\s*/g, ') ').replace(/\s*:\s*/g, ':')
+      const canonical = (value: string) => {
+        const member = normalize(value).replace(/^([+\-#~])\s+/, '$1').replace(/\)\s*:\s*/g, ') ').replace(/\s*:\s*/g, ':')
+        if (member.includes('(')) return member
+        const access = /^([+\-#~])/.exec(member)?.[1] ?? '', body = member.slice(access.length), name = '[\\p{L}_$][\\p{L}\\p{N}_$]*', type = '[\\p{L}_$][\\p{L}\\p{N}_.$]*(?:<[\\p{L}\\p{N}_.$?,<>\\[\\] ]+>)?(?:\\[\\])*'
+        const suffix = new RegExp('^(' + name + '):(' + type + ')$', 'u').exec(body), prefix = new RegExp('^(' + type + ')\\s+(' + name + ')$', 'u').exec(body)
+        const compactType = (value: string) => value.replace(/\s*([<>,\[\]])\s*/g, '$1')
+        return suffix ? access + suffix[1] + ':' + compactType(suffix[2]!) : prefix ? access + prefix[2] + ':' + compactType(prefix[1]!) : member
+      }
       const actual = facts.members.map((entry: any) => {
         const elements = ownedText(entry.id)
         return { id: entry.id, elements, values: elements ? bodyText(entry.id, elements).map(element => normalize(element.textContent ?? '')).filter(Boolean).map(canonical).sort() : null }
       }).sort((a: any, b: any) => String(a.id).localeCompare(String(b.id)))
       const expected = facts.members.map((entry: any) => ({ id: entry.id, values: Array.isArray(entry.values) ? entry.values.map((value: any) => canonical(String(value))).sort() : null })).sort((a: any, b: any) => String(a.id).localeCompare(String(b.id)))
       const profile = expected.every((entry: any) => Array.isArray(entry.values) && entry.values.every((value: string) => !/[~$*]|<<|>>/.test(value))) && actual.every((entry: any) => entry.elements && !ambiguousOwnedText(entry.id) && rowPaint(entry.elements))
-      add(key, actual.map(({ elements: _, ...entry }: any) => entry), profile ? same(expected, actual.map(({ elements: _, ...entry }: any) => entry)) : null, 'Exact visible member multiset within each independently owned class body, including access, arguments and return types. Only return-type colon punctuation is normalized. Generic, abstract/static decorations, clipped/covered rows and unowned bodies need additional qualified projections')
+      add(key, actual.map(({ elements: _, ...entry }: any) => entry), profile ? same(expected, actual.map(({ elements: _, ...entry }: any) => entry)) : null, 'Exact visible member multiset within each independently owned class body, including access, arguments and return types. Standard UML Type name and name:Type field notation, visibility spacing and return-type colon punctuation are equivalent; names and types preserve case. Generic, abstract/static decorations, clipped/covered rows and unowned bodies need additional qualified projections')
       continue
     }
     if (key === 'attributes' && input.family === 'er' && Array.isArray(facts.attributes)) {
@@ -230,13 +237,13 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
       continue
     }
     if (['message-order', 'message-style'].includes(key) && input.family === 'sequence' && Array.isArray(facts[key])) {
-      const relations = input.paint.connections as { source: string; target: string; startMarker: string; endMarker: string; startFilled?: boolean; endFilled?: boolean; box?: { y: number; height: number }; labels?: string[]; dash?: string }[]
+      const relations = input.paint.connections as { source: string; target: string; startMarker: string; endMarker: string; startFilled?: boolean; endFilled?: boolean; box?: { y: number; height: number }; labels?: string[]; dash?: string; strokePattern?: string }[]
       const ordered = [...relations].sort((a, b) => (a.box?.y ?? Infinity) - (b.box?.y ?? Infinity))
       const bound = ['painted-relationships', 'painted-relationship-label-counts', 'painted-relationship-label-ownership'].every(criterion => checkById.get(criterion)?.status === 'passed') && ordered.every((edge, index) => edge.box && edge.labels?.length === 1 && (!index || edge.box.y - ordered[index - 1]!.box!.y > 1))
       const actual = ordered.map(edge => {
         const reverse = ['arrow', 'triangle', 'open-arrow'].includes(edge.startMarker) && edge.endMarker === 'none', unprinted = edge.startMarker === 'none' && edge.endMarker === 'none'
         const [from, to] = unprinted ? [edge.source, edge.target].sort() : reverse ? [edge.target, edge.source] : [edge.source, edge.target]
-        return { from, to, text: edge.labels?.[0] ?? null, direction: unprinted ? 'unprinted' : 'printed', dash: edge.dash, filled: reverse ? edge.startFilled : edge.endFilled }
+        return { from, to, text: edge.labels?.[0] ?? null, direction: unprinted ? 'unprinted' : 'printed', dash: edge.dash, strokePattern: edge.strokePattern, filled: reverse ? edge.startFilled : edge.endFilled }
       })
       if (key === 'message-order') {
         const project = (message: any, index: number) => ({ from: message.from, to: message.to, text: typeof message.text === 'string' ? normalize(message.text) : message.text ?? null, ...(facts[key][index]?.direction ? { direction: message.direction } : {}) })
@@ -244,8 +251,8 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
       }
       else {
         const supported = facts[key].every((style: any) => ['->>', '-->>', '->', '-->'].includes(style))
-        const actualStyle = actual.map(message => { const solid = !message.dash || message.dash === 'none' || /^0(?:px)?(?:[ ,]+0(?:px)?)*$/.test(message.dash), dashed = message.dash?.split(/[ ,]+/).every(value => Number.parseFloat(value) > 0); return message.direction === 'unprinted' ? solid ? '->' : dashed ? '-->' : null : message.filled === true ? solid ? '->>' : dashed ? '-->>' : null : null })
-        add(key, actualStyle, bound && supported && actualStyle.every(Boolean) ? same(facts[key], actualStyle) : null, 'Solid/dotted stroke and physical head absence or closed filled arrowhead are checked on every chronological route. Open, cross, asynchronous and compound markers remain separate unqualified glyph profiles')
+        const actualStyle = actual.map(message => { const legacy = message.strokePattern === undefined, solid = message.strokePattern === 'solid' || legacy && (!message.dash || message.dash === 'none' || /^0(?:px)?(?:[ ,]+0(?:px)?)*$/.test(message.dash)), dashed = message.strokePattern === 'dotted' || legacy && message.dash?.split(/[ ,]+/).every(value => Number.parseFloat(value) > 0); return message.direction === 'unprinted' ? solid ? '->' : dashed ? '-->' : null : message.filled === true ? solid ? '->>' : dashed ? '-->>' : null : null })
+        add(key, actualStyle, bound && supported && actualStyle.every(Boolean) ? same(facts[key], actualStyle) : null, 'The actual path-length/offset/cap-qualified visible stroke pattern and physical head absence or filled arrowhead are checked on every chronological route. A zero-gap mask is solid; unprojected masks remain unknown. Legacy observations admit only raw none/all-zero or strictly positive dash lists. Open, cross, asynchronous and compound markers remain separate glyph profiles')
       }
       continue
     }

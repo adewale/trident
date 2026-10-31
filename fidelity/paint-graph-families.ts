@@ -4,7 +4,7 @@ import type { PaintCheck, PaintEvidence } from './paint.ts'
 export const graphPaintFamilies = ['flowchart', 'agentflow', 'usecase', 'swimlane', 'class', 'er', 'sequence', 'state', 'block', 'c4', 'architecture']
 
 export function plannedGraphFamilyCriteria(input: { family: string; expected: MeaningExpectation }): string[] {
-  return graphPaintFamilies.includes(input.family) ? [...(input.expected.groups !== undefined ? ['painted-group-membership'] : []), ...(input.expected.edges?.length ? ['painted-route-visibility'] : [])] : []
+  return graphPaintFamilies.includes(input.family) ? [...(input.expected.nodes?.length ? ['painted-node-visibility'] : []), ...(input.expected.groups !== undefined ? ['painted-group-membership'] : []), ...(input.expected.edges?.length ? ['painted-route-visibility'] : [])] : []
 }
 
 /** Source facts are obligations, not shape/model metadata. This function runs
@@ -17,7 +17,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   const add = (criterion: string, expected: unknown, actual: unknown, passed: boolean | null, scope: string) => checks.push({ criterion, expected, actual, status: passed === null ? 'unavailable' : passed ? 'passed' : 'failed', scope })
   const fact = (key: string, actual: unknown, passed: boolean | null, scope: string) => { if (Object.hasOwn(facts, key)) add('source-fact:' + key, facts[key], actual, passed, scope) }
   if (!svg || input.paint.labelRepresentation === 'uninspectable') {
-    for (const criterion of [...(input.expected.groups !== undefined ? ['painted-group-membership'] : []), ...(input.expected.edges?.length ? ['painted-route-visibility'] : [])]) add(criterion, criterion === 'painted-group-membership' ? input.expected.groups : input.expected.edges, null, null, 'Source-owned glyph/body inspection is unavailable. Path, use and rasterized labels receive neither positive credit nor a false wrong-text failure.')
+    for (const criterion of [...(input.expected.nodes?.length ? ['painted-node-visibility'] : []), ...(input.expected.groups !== undefined ? ['painted-group-membership'] : []), ...(input.expected.edges?.length ? ['painted-route-visibility'] : [])]) add(criterion, criterion === 'painted-group-membership' ? input.expected.groups : criterion === 'painted-node-visibility' ? input.expected.nodes : input.expected.edges, null, null, 'Source-owned glyph/body inspection is unavailable. Path, use and rasterized labels receive neither positive credit nor a false wrong-text failure.')
     return { checks, nodes: input.paint.nodes, connections: input.paint.connections, groups: input.paint.groups ?? [] }
   }
   type Point = { x: number; y: number }
@@ -85,13 +85,14 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   }
   const bodies = (id: string) => { const owner = node.get(id) ?? group.get(id); return owner ? geometry.filter(element => nearBox(box(element), owner.box)) : [] }
   const parts = (id: string) => { const owner = node.get(id) ?? group.get(id); return owner ? geometry.filter(element => contains(owner.box, box(element)) && !nodes.some(other => other.id !== id && area(other.box) < area(owner.box) - 1 && contains(other.box, box(element)))) : [] }
+  const qualifiedParts = new Map<string, SVGGeometryElement[]>()
   if (input.family === 'c4') for (const entry of facts.elements ?? []) if (/^Person(?:_Ext)?$/.test(entry.kind)) {
     const owner = node.get(entry.id), torso = owner ? bodies(entry.id).filter(element => element.localName === 'rect') : []
     if (!owner || !torso.length) continue
     const heads = geometry.filter(element => ['circle', 'ellipse'].includes(element.localName) && Math.abs(box(element).width - box(element).height) <= 1 && box(element).width >= 4 && box(element).width < owner.box.width * .6 && Math.abs(center(box(element)).x - center(owner.box).x) <= 2 && center(box(element)).y < owner.box.y + 2 && Math.abs(box(element).y + box(element).height - owner.box.y) <= Math.max(4, box(element).height * .5))
     if (heads.length !== 1) continue
     const ink = [...torso, heads[0]!], boxes = ink.map(box), x = Math.min(...boxes.map(b => b.x)), y = Math.min(...boxes.map(b => b.y)), union = { x, y, width: Math.max(...boxes.map(b => b.x + b.width)) - x, height: Math.max(...boxes.map(b => b.y + b.height)) - y }
-    const actual: Owned = { ...owner, box: union, anchorParts: ink.map(element => ({ tag: element.localName, box: box(element) })) }; nodes[nodes.findIndex(node => node.id === owner.id)] = actual; node.set(owner.id, actual)
+    const actual: Owned = { ...owner, box: union, anchorParts: ink.map(element => ({ tag: element.localName, box: box(element) })) }; nodes[nodes.findIndex(node => node.id === owner.id)] = actual; node.set(owner.id, actual); qualifiedParts.set(owner.id, ink)
   }
   const samples = (element: SVGGeometryElement, count = 128): Point[] => {
     const matrix = element.getScreenCTM(), length = element.getTotalLength()
@@ -111,6 +112,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   const relation = (from: string, to: string, caption?: string) => routes.filter(route => (route.source === from && route.target === to || route.source === to && route.target === from) && (!caption || route.labels?.includes(normalize(caption))))
   const ends = (route: Route, id: string) => route.source === id ? route.start : route.target === id ? route.end : undefined
   const solid = (dash?: string) => !dash || dash === 'none' || dash.split(/[ ,]+/).every(value => Number.parseFloat(value) === 0)
+  const routePattern = (route: Route): 'solid' | 'dotted' | null => route.strokePattern === 'solid' || route.strokePattern === 'dotted' ? route.strokePattern : route.strokePattern ? null : solid(route.dash) ? 'solid' : route.dash?.split(/[ ,]+/).every(value => Number.parseFloat(value) > 0) ? 'dotted' : null
   const orderedRoutes = [...routes].sort((a, b) => (a.box?.y ?? Infinity) - (b.box?.y ?? Infinity))
   const routesBound = evidence.get('painted-relationships')?.status === 'passed' && routes.every(route => route.box && route.start && route.end)
   const messagesBound = routesBound && evidence.get('painted-relationship-label-ownership')?.status === 'passed' && orderedRoutes.every((route, i) => route.labels?.length === 1 && (!i || route.box!.y > orderedRoutes[i - 1]!.box!.y + 1))
@@ -126,7 +128,8 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     })
     const expected = (input.expected.groups ?? []).flatMap(parent => parent.members.map(id => ({ id, parent: parent.id }))).sort((a, b) => a.id.localeCompare(b.id))
     const actual = observed.filter(item => item.parent !== null).map(({ id, parent }) => ({ id, parent })).sort((a, b) => a.id.localeCompare(b.id))
-    const ready = exactNodes && groups.length === input.expected.groups.length && (input.expected.groups ?? []).every(item => group.has(item.id)) && !observed.some(item => item.ambiguous)
+    const coincident = all.some(item => groups.some(parent => parent.id !== item.id && nearBox(parent.box, item.box)))
+    const ready = exactNodes && groups.length === input.expected.groups.length && (input.expected.groups ?? []).every(item => group.has(item.id)) && !observed.some(item => item.ambiguous) && !coincident
     add('painted-group-membership', expected, actual, ready ? same(expected, actual) : null, 'Exact immediate parent ownership follows the smallest enclosing painted boundary, including nested groups and outsider nodes. Descendant containment alone cannot prove immediate membership. Anonymous/unbound containers and coincident boundaries remain unknown.')
   } }
 
@@ -164,6 +167,28 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     kept.push(...simplify(points, .3)); if (kept.length > 1 && distance(kept[0]!, kept.at(-1)!) < .5) kept.pop()
     return kept
   }
+  // Flat SVGs may have no group wrappers at all. A group is still observable
+  // through its own boundary, header and exact independently owned leaves.
+  if (input.expected.groups?.length) {
+    const descendants = (id: string, seen = new Set<string>()): string[] => { if (seen.has(id)) return []; const expected = input.expected.groups?.find(owner => owner.id === id); return expected ? expected.members.flatMap(member => [member, ...descendants(member, new Set([...seen, id]))]) : [] }
+    for (const expected of input.expected.groups) {
+      const ids = descendants(expected.id), leaves = ids.filter(id => !input.expected.groups?.some(owner => owner.id === id)), children = leaves.map(id => node.get(id))
+      if (!children.length || children.some(child => !child)) continue
+      const headers = expected.label ? label(expected.label).filter(element => safeText(element) && !children.some(child => contains(child!.box, box(element)))) : []
+      if (expected.label && headers.length !== 1) continue
+      const existing = group.get(expected.id)
+      if (existing && children.every(child => contains(existing.box, child!.box)) && (!expected.label || contains(existing.box, box(headers[0]!)))) continue
+      const candidates = geometry.filter(shape => {
+        const b = box(shape), closed = ['rect', 'polygon', 'circle', 'ellipse'].includes(shape.localName) || /z\s*$/i.test(shape.getAttribute('d') ?? '')
+        return closed && strokePaint(shape) && children.every(child => area(b) > area(child!.box) + 1 && contains(b, child!.box)) && (!expected.label || contains(b, box(headers[0]!))) && nodes.every(owner => owner.id === expected.id || ids.includes(owner.id) || !contains(b, owner.box))
+      }).sort((a, b) => area(box(a)) - area(box(b)))
+      if (!candidates[0] || candidates[1] && Math.abs(area(box(candidates[0])) - area(box(candidates[1]))) <= 1) continue
+      const actual = { id: expected.id, label: expected.label, box: box(candidates[0]) }, index = groups.findIndex(owner => owner.id === expected.id)
+      if (index < 0) groups.push(actual); else groups[index] = actual
+      group.set(expected.id, actual)
+      add('painted-group:' + expected.id, expected.members, actual, true, 'A flat group owns the unique smallest actual closed boundary containing its separate painted header and exact descendant bodies, excluding outsider nodes. Empty headers qualify through the same unique membership witness. Wrappers, data IDs and renderer group classes are not required; ambiguous/coincident enclosures remain unknown.')
+    }
+  }
   const actorProfiles = new Map<string, { kind: string; box: Box; ink: SVGGeometryElement[] }>()
   const actorKind = (ink: SVGGeometryElement[]): { kind: string; box: Box; ink: SVGGeometryElement[] } | null => {
     const contours = ink.flatMap(element => strokes(element).map(points => ({ element, points }))).filter(item => item.points.length > 3)
@@ -197,7 +222,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
         const ink = geometry.filter(element => ancestor!.contains(element) && box(element).y + box(element).height <= textBox.y + 2 && Math.abs(center(box(element)).x - center(textBox).x) <= Math.max(35, textBox.width / 2) && textBox.y - box(element).y - box(element).height <= 100)
         const observed = actorKind(ink)
         if (!observed || textBox.y - observed.box.y - observed.box.height > Math.max(20, textBox.height * 2)) continue
-        actorProfiles.set(expected.id, observed)
+        actorProfiles.set(expected.id, observed); qualifiedParts.set(expected.id, observed.ink)
         if (!node.has(expected.id)) { const actual: Owned = { ...expected, box: observed.box, anchorParts: observed.ink.map(element => ({ tag: element.localName, box: box(element) })), outline: { tag: 'compound-actor', vertices: null, rx: 0, ry: 0 } }; nodes.push(actual); node.set(expected.id, actual) }
         break
       }
@@ -271,10 +296,10 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   }
   if (input.family === 'state') {
     let compositeAdded = false
-    for (const entry of facts['state-kinds'] ?? []) if (entry.kind === 'composite-state' && !node.has(entry.id) && group.has(entry.id)) {
-      const owner = group.get(entry.id)!, ink = geometry.filter(shape => nearBox(box(shape), owner.box))
+    for (const entry of facts['state-kinds'] ?? []) if (entry.kind === 'composite-state' && group.has(entry.id) && (!node.has(entry.id) || !nearBox(node.get(entry.id)!.box, group.get(entry.id)!.box))) {
+      const owner = group.get(entry.id)!, previous = node.get(entry.id), ink = geometry.filter(shape => nearBox(box(shape), owner.box) || !!previous && nearBox(box(shape), previous.box))
       if (!ink.length || label(owner.label).filter(element => contains(owner.box, box(element)) && safeText(element)).length !== 1) continue
-      const actual: Owned = { id: entry.id, label: owner.label, box: owner.box, anchorParts: ink.map(element => ({ tag: element.localName, box: box(element) })), outline: { tag: ink[0]!.localName, vertices: vertices(ink[0]!), rx: 0, ry: 0 } }; node.set(entry.id, actual); nodes.push(actual); compositeAdded = true
+      const actual: Owned = { id: entry.id, label: owner.label, box: owner.box, anchorParts: ink.map(element => ({ tag: element.localName, box: box(element) })), outline: { tag: ink[0]!.localName, vertices: vertices(ink[0]!), rx: 0, ry: 0 } }; node.set(entry.id, actual); const index = nodes.findIndex(node => node.id === entry.id); if (index < 0) nodes.push(actual); else nodes[index] = actual; compositeAdded = true
     }
     const missing = (input.expected.nodes ?? []).filter(expected => !expected.label && !node.has(expected.id)), blankCandidates: { shape: SVGGeometryElement; parts: SVGGeometryElement[]; box: Box; kind: string; index: number }[] = []
     // Reconstruct bounded flat SVG paint at physical sample points. A black
@@ -357,7 +382,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     if (mappings.length === 1) {
       for (const [id, index] of mappings[0]!) {
         const candidate = blankCandidates[index]!, css = getComputedStyle(candidate.shape), outline = { tag: candidate.shape.localName, vertices: vertices(candidate.shape), rx: 0, ry: 0 }, observed: Owned = { id, label: '', box: candidate.box, anchorParts: candidate.parts.map(element => ({ tag: element.localName, box: box(element) })), outline, style: { fill: css.fill, fillOpacity: Number(css.fillOpacity), stroke: css.stroke, strokeOpacity: Number(css.strokeOpacity), strokeWidth: Number.parseFloat(css.strokeWidth), dash: css.strokeDasharray, opacity: Number(css.opacity) } }
-        nodes.push(observed); node.set(id, observed)
+        nodes.push(observed); node.set(id, observed); qualifiedParts.set(id, candidate.parts)
       }
       exactNodes = evidence.get('painted-node-ownership')?.status !== 'failed' && (input.expected.nodes ?? []).every(expected => node.has(expected.id)) && mappings[0]!.size === blankCandidates.length
       add('painted-node-ownership', input.expected.nodes, nodes, exactNodes ? true : null, 'Unlabelled state glyphs are first measured as filled discs, concentric final circles, diamonds or bars; a unique adjacency-and-smallest-scope matching then assigns source identities. No public ID or class string chooses a glyph. Extra, unbound or symmetric glyph assignments remain unknown.')
@@ -393,6 +418,16 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       if (!candidates[0] || candidates[1] && Math.abs(area(box(candidates[0])) - area(box(candidates[1]))) < 1) continue
       const selected = candidates[0], actual = { id: expected.id, label: '', box: box(selected) }; groups.push(actual); group.set(expected.id, actual); assigned.add(selected)
       add('painted-group:' + expected.id, expected.members, { box: actual.box, children: children.map(child => ({ id: child!.id, box: child!.box })) }, true, 'An anonymous block container owns the unique smallest visible closed boundary enclosing its exact independently owned descendants, including already bound child groups and excluding outsider nodes. Source group IDs are assigned only after this physical membership match; invisible layout rectangles and unbound/empty containers receive no credit.')
+    }
+    let compositeAdded = false
+    for (const expected of input.expected.nodes ?? []) if (!expected.label && !node.has(expected.id) && group.has(expected.id)) {
+      const owner = group.get(expected.id)!, ink = geometry.filter(shape => nearBox(box(shape), owner.box))
+      if (!ink.length) continue
+      const actual: Owned = { ...expected, box: owner.box, anchorParts: ink.map(element => ({ tag: element.localName, box: box(element) })), outline: { tag: ink[0]!.localName, vertices: vertices(ink[0]!), rx: 0, ry: 0 } }; node.set(expected.id, actual); nodes.push(actual); compositeAdded = true
+    }
+    if (compositeAdded && (input.expected.nodes ?? []).every(expected => node.has(expected.id))) {
+      exactNodes = evidence.get('painted-node-ownership')?.status !== 'failed'
+      add('painted-node-ownership', input.expected.nodes, nodes, exactNodes ? true : null, 'A source composite block can also serve as a graph endpoint. Its independently qualified anonymous enclosing boundary is the actual endpoint body, with exact descendant ownership; an empty source label needs no invented text or public SVG identity.')
     }
   }
   if (input.family === 'state' && Array.isArray(facts['parallel-regions'])) {
@@ -497,7 +532,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       }
       if (['include', 'extend', 'generalization'].includes(entry.kind)) {
         const candidates = relation(entry.source, entry.target, entry.kind === 'generalization' ? undefined : entry.kind), route = candidates.length === 1 ? candidates[0] : null, marker = route ? route.source === entry.source ? route.endMarker : route.startMarker : null
-        return { expected: entry, actual: route, matches: routesBound && route ? entry.kind === 'generalization' ? marker === 'triangle' && solid(route.dash) : ['arrow', 'triangle'].includes(marker ?? '') && !solid(route.dash) && route.labels?.includes(entry.kind) : null }
+        return { expected: entry, actual: route, matches: routesBound && route ? entry.kind === 'generalization' ? marker === 'triangle' && routePattern(route) === 'solid' : ['arrow', 'triangle'].includes(marker ?? '') && routePattern(route) === 'dotted' && route.labels?.includes(entry.kind) : null }
       }
       if (entry.kind === 'block-arrow') {
         const owner = node.get(entry.id), body = bodies(entry.id)[0], points = body ? vertices(body) : null, expected = [...new Set(entry.directions.flatMap((direction: string) => direction === 'x' ? ['left', 'right'] : direction === 'y' ? ['up', 'down'] : [direction]))].sort()
@@ -516,8 +551,10 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       const candidates = relation(entry.source ?? entry.from, entry.target ?? entry.to), route = candidates.length === 1 ? candidates[0] : null
       if (!route) { available = false; return { expected: entry, actual: null } }
       const forward = route.source === (entry.source ?? entry.from), startMarker = forward ? route.startMarker : route.endMarker, endMarker = forward ? route.endMarker : route.startMarker
-      const stroke = route.strokePattern === 'solid' || route.strokePattern === 'dotted' ? route.strokePattern : route.strokePattern ? null : solid(route.dash) ? 'solid' : route.dash?.split(/[ ,]+/).every((value: string) => Number.parseFloat(value) > 0) ? 'dotted' : null, thick = entry.stroke === 'thick'
-      const baseline = routes.filter(other => other !== route && solid(other.dash)).map(other => other.strokeWidth).filter((value): value is number => Number.isFinite(value))
+      const stroke = routePattern(route), thick = entry.stroke === 'thick'
+      if (stroke === null) available = false
+      const thickPeers = new Set<Route>(facts['edge-appearance'].filter((item: any) => item.stroke === 'thick').flatMap((item: any) => relation(item.source ?? item.from, item.target ?? item.to)))
+      const baseline = routes.filter(other => other !== route && routePattern(other) === 'solid' && !thickPeers.has(other)).map(other => other.strokeWidth).filter((value): value is number => Number.isFinite(value))
       if (thick && !baseline.length) available = false
       return { expected: entry, actual: { stroke, startMarker, endMarker, width: route.strokeWidth }, matches: (thick ? Number.isFinite(route.strokeWidth) && baseline.every(width => route.strokeWidth! > width + .1) : ['dashed', 'dotted'].includes(entry.stroke) ? stroke === 'dotted' : stroke === entry.stroke) && (entry.markerStart === undefined || startMarker === entry.markerStart) && (entry.markerEnd === undefined || endMarker === entry.markerEnd) }
     })
@@ -557,7 +594,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       const kind = unknown ? null : bars === 2 && !circles && !forks ? 'one-only' : bars === 1 && circles === 1 && !forks ? 'zero-or-one' : bars === 1 && !circles && forks === 1 ? 'one-or-many' : !bars && circles === 1 && forks === 1 ? 'zero-or-many' : null
       return { kind, bars, circles, forks }
     }
-    const actual = facts.cardinalities.map((entry: any) => { const candidates = relation(entry.from, entry.to), route = candidates.length === 1 ? candidates[0] : null; return { from: entry.from, to: entry.to, left: route ? glyph(route, entry.from) : null, right: route ? glyph(route, entry.to) : null, identifying: route ? solid(route.dash) : null } })
+    const actual = facts.cardinalities.map((entry: any) => { const candidates = relation(entry.from, entry.to), route = candidates.length === 1 ? candidates[0] : null; return { from: entry.from, to: entry.to, left: route ? glyph(route, entry.from) : null, right: route ? glyph(route, entry.to) : null, identifying: route && routePattern(route) !== null ? routePattern(route) === 'solid' : null } })
     const ready = exactNodes && actual.every((entry: any) => entry.left?.kind && entry.right?.kind && entry.identifying !== null)
     const passed = ready && actual.every((entry: any, i: number) => entry.left.kind === facts.cardinalities[i].left && entry.right.kind === facts.cardinalities[i].right && entry.identifying === facts.cardinalities[i].identifying)
     const scope = 'Each exact entity pair owns its measured stem and endpoint decorations. Two bars, optional circle, three-way foot topology and the identifying/nonidentifying dash are counted from actual marker content or physically adjacent inline glyphs; marker IDs and class names have no semantic meaning. Unprojected glyph topology stays unknown.'
@@ -576,7 +613,8 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     }
     if (Array.isArray(facts['message-style']) && facts['message-style'].some((style: string) => !['->>', '-->>', '->', '-->'].includes(style))) {
       const actual = orderedRoutes.map(route => {
-        const prefix = solid(route.dash) ? '-' : '--', a = route.startMarker, b = route.endMarker
+        const pattern = routePattern(route); if (pattern === null) return null
+        const prefix = pattern === 'solid' ? '-' : '--', a = route.startMarker, b = route.endMarker
         if (a === 'none' && b === 'none') return prefix + '>'
         if (a === 'none' && b === 'cross') return prefix + 'x'
         if (a === 'none' && b === 'open-arrow') return prefix + ')'
@@ -660,12 +698,14 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       // Infer pitch from different authored columns, then verify every cell.
       const pitches: number[] = []
       for (const a of ink) for (const b of ink) if (a.column !== b.column) pitches.push((b.body.x - a.body.x) / (b.column - a.column))
+      if (!pitches.length) for (const a of ink) for (const b of ink) if (a.span !== b.span) pitches.push((b.body.width - a.body.width) / (b.span - a.span))
       const pitch = pitches.length ? pitches.reduce((sum, value) => sum + value, 0) / pitches.length : null
       const gaps = pitch === null ? [] : ink.map((entry: any) => entry.span * pitch - entry.body.width), gap = gaps.length ? gaps.reduce((sum: number, value: number) => sum + value, 0) / gaps.length : null
       const origin = pitch === null ? null : ink[0].body.x - ink[0].column * pitch
       const rows = [...new Set(ink.map((entry: any) => entry.row))].map(row => ({ row, values: ink.filter((entry: any) => entry.row === row).map((entry: any) => entry.body) })) as { row: number; values: Box[] }[]
       const rowOkay = rows.every(row => row.values.every(b => Math.abs(center(b).y - center(row.values[0]!).y) <= 2)) && rows.every((row, i) => !i || Math.min(...row.values.map(b => b.y)) >= Math.max(...rows[i - 1]!.values.map(b => b.y + b.height)) - 1.5)
       const latticeOkay = pitch === null ? ink.every((entry: any) => entry.column === 0 && entry.span === columns) : pitch > 0 && gap! >= -1.5 && gaps.every((value: number) => Math.abs(value - gap!) <= 2) && ink.every((entry: any) => Math.abs(entry.body.x - origin! - entry.column * pitch) <= 2)
+      if (pitch === null && !latticeOkay) available = false
       if (!rowOkay || !latticeOkay) passed = false
       // A declared empty cell must occupy an actual unpainted slot. Unknown
       // unrelated artwork in that slot cannot become a positive gap proof.
@@ -682,6 +722,17 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     }
     const scope = 'Complete source grid traversal, explicit spans and empty slots bind actual owned cell/group rectangles. A measured common column pitch, cell-width/span equation and row separation establish order within two CSS pixels. Auto means one source row; anonymous/unbound containers and grids with no independent pitch evidence remain unknown.'
     fact('grid-cell-order', observations, available ? passed : null, scope); fact('grid-columns', observations, available ? passed : null, scope)
+    if (typeof facts.columns === 'number') {
+      const root = facts['grid-columns'].find((entry: any) => entry.group === null)
+      fact('columns', observations, !root || facts.columns !== root.value ? null : available ? passed : null, 'The authored root column-count profile uses the complete measured grid traversal, row wrapping and width/span lattice. A conflicting alias is unresolved rather than a renderer failure; no matching source number supplies geometry credit.')
+    }
+    if (Array.isArray(facts.spans)) {
+      const measured = facts.spans.map((entry: any) => {
+        const candidates = (observations as any[]).flatMap(observation => observation.cells?.filter((cell: any) => cell.id === entry.id).map((cell: any) => ({ cell, observation })) ?? []), selected = candidates.length === 1 ? candidates[0] : null, columns = selected?.cell.body && Number.isFinite(selected.observation.pitch) ? (selected.cell.body.width + selected.observation.gap) / selected.observation.pitch : selected?.cell.span === 1 && selected.observation.config.value === 1 ? 1 : null
+        return { id: entry.id, expected: entry.columns, measuredColumns: columns, matches: selected?.cell.span !== entry.columns ? null : columns !== null ? Math.abs(columns - entry.columns) <= .025 : null }
+      })
+      fact('spans', measured, available && measured.every((entry: any) => entry.matches !== null) ? measured.every((entry: any) => entry.matches) : null, 'Every original authored span independently binds its actual body width on the enclosing grid pitch after restoring the measured common gutter. Missing pitch evidence and conflicting aliases remain unknown; group IDs and source span numbers are not observations.')
+    }
   }
 
   if (Array.isArray(facts.alignments) && input.family === 'architecture') {
@@ -728,19 +779,23 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     if (Array.isArray(facts.elements)) {
       const typeName = (kind: string) => kind.replace(/_Ext$/, '').replace(/(?:Db|Queue)$/, '').replace(/_Boundary$/, '').toLowerCase()
       const actual = facts.elements.map((entry: any) => {
-        const owner = node.get(entry.id) ?? group.get(entry.id), values = ownedText(entry.id), fields = values?.map(element => ({ text: normalize(readText(element)), element })) ?? [], expectedType = typeName(entry.kind), typeRows = fields.filter(field => { const value = field.text.toLowerCase().replace(/^[«\[]|[»\]]$/g, '').replace(/^software\s+/, ''); return value === expectedType || value.startsWith(expectedType + ':') })
-        const header = fields.filter(field => field.text === normalize(entry.label)), contents = fields.filter(field => !header.includes(field) && !typeRows.includes(field)), technology = typeRows.flatMap(field => { const match = /:\s*(.+?)[»\]]?$/.exec(field.text); return match ? [match[1]!] : [] })
-        const observedFields = [...contents.map(field => field.text.replace(/^\[|\]$/g, '')), ...technology].sort(), expectedFields = entry.extraVisibleFields.map((value: string) => normalize(value)).sort()
+        const owner = node.get(entry.id) ?? group.get(entry.id), values = ownedText(entry.id), fields = values?.map(element => ({ text: normalize(readText(element)), element, weight: Number(getComputedStyle(element).fontWeight), size: Number.parseFloat(getComputedStyle(element).fontSize) })) ?? [], expectedType = typeName(entry.kind)
+        const typeCandidates = fields.filter(field => /^[«\[].*[»\]]$/.test(field.text) && /^(?:person|system|container|component|enterprise|boundary|deployment[ _]?node)(?::|$)/.test(field.text.toLowerCase().replace(/^[«\[]|[»\]]$/g, '').replace(/^(?:external\s+)?software\s+|^external\s+/, ''))), smallestType = Math.min(...typeCandidates.map(field => field.size)), typeRows = typeCandidates.filter(field => Math.abs(field.size - smallestType) < .1)
+        const nonType = fields.filter(field => !typeRows.includes(field)), greatestWeight = Math.max(...nonType.map(field => field.weight)), weighted = nonType.filter(field => field.weight === greatestWeight), largestHeading = Math.max(...weighted.map(field => field.size)), emphasized = weighted.filter(field => greatestWeight >= 600 && Math.abs(field.size - largestHeading) < .1), orderedFields = [...nonType].sort((a, b) => box(a.element).y - box(b.element).y), first = orderedFields[0], rowStack = orderedFields.every((field, i) => !i || box(field.element).y >= box(orderedFields[i - 1]!.element).y + box(orderedFields[i - 1]!.element).height - 1.5), header = emphasized.length === 1 ? emphasized : first && rowStack && first.text === normalize(entry.label) ? [first] : []
+        const boundary = /Boundary/.test(entry.kind), consumeType = !boundary || entry.extraVisibleFields.length === 0, contents = fields.filter(field => !header.includes(field) && (!consumeType || !typeRows.includes(field))), technology = consumeType ? typeRows.flatMap(field => { const match = /:\s*(.+?)[»\]]?$/.exec(field.text); return match ? [match[1]!] : [] }) : []
+        const observedFields = [...contents.map(field => boundary ? field.text.replace(/^[«\[]|[»\]]$/g, '') : field.text), ...technology].filter(Boolean).sort(), expectedFields = entry.extraVisibleFields.map((value: string) => normalize(value)).filter(Boolean).sort(), actualType = typeRows.length === 1 ? typeRows[0]!.text.toLowerCase().replace(/^[«\[]|[»\]]$/g, '').replace(/^(?:external\s+)?software\s+|^external\s+/, '').split(':')[0]!.trim() : null
+        const technologyKind = /^(?:Container|Component)/.test(entry.kind), expectedTechnology = normalize(entry.extraVisibleFields[0] ?? ''), firstContent = [...contents].sort((a, b) => box(a.element).y - box(b.element).y)[0], technologyMatches = !technologyKind ? true : technology.length === 1 ? normalize(technology[0]!) === expectedTechnology : !expectedTechnology ? technology.length === 0 : !technology.length && firstContent?.text === expectedTechnology ? true : null
         const ink = parts(entry.id), heads = ink.filter(shape => ['circle', 'ellipse'].includes(shape.localName) && ink.some(torso => torso.localName === 'rect' && box(torso).width > box(shape).width && center(box(shape)).y < box(torso).y + 2)), torsos = ink.filter(shape => shape.localName === 'rect' && heads.some(head => center(box(head)).y < box(shape).y + 2) && box(shape).width > 0 && box(shape).height > 0)
         let kind: boolean | null = expectedType === 'person' ? heads.length === 1 && torsos.length === 1 : entry.kind.includes('Boundary') ? !!group.get(entry.id) : /Db|Queue/.test(entry.kind) ? null : silhouette(entry.id, 'rectangle').matches
+        if (expectedType === 'person' && kind === true) qualifiedParts.set(entry.id, [...heads, ...torsos])
         if (/_Ext$/.test(entry.kind)) {
           const peers = facts.elements.filter((peer: any) => !/_Ext$/.test(peer.kind) && typeName(peer.kind) === expectedType).map((peer: any) => node.get(peer.id)).filter(Boolean), own = node.get(entry.id)
           const printed = fields.some(field => /external/i.test(field.text)), contrast = own?.style && peers.length ? peers.every((peer: Owned) => peer.style && !same([peer.style.fill, peer.style.stroke], [own.style.fill, own.style.stroke])) : null
           kind = kind === false ? false : printed || contrast === true ? kind : null
         }
-        return { id: entry.id, expectedKind: entry.kind, observedFields, typeRows: typeRows.map(field => field.text), shapeMatches: kind, safe: values?.every(safeText) ?? false, matches: !!owner && header.length === 1 && (typeRows.length === 1 || entry.kind.includes('Boundary')) && same(expectedFields, observedFields) && kind === true }
+        return { id: entry.id, expectedKind: entry.kind, header: header.map(field => field.text), observedFields, typeRows: typeRows.map(field => field.text), technologyMatches, shapeMatches: kind, safe: values?.every(safeText) ?? false, rolesReady: header.length === 1 && (typeRows.length === 1 || boundary) && technologyMatches !== null, matches: !!owner && header.length === 1 && header[0]!.text === normalize(entry.label) && (boundary || actualType === expectedType) && technologyMatches === true && same(expectedFields, observedFields) && kind === true }
       })
-      fact('elements', actual, actual.every((entry: any) => entry.safe && entry.shapeMatches !== null) ? actual.every((entry: any) => entry.matches) : null, 'Every C4 element independently owns its complete header, printed type/technology, description fields and actual person/box/boundary geometry. External variants need an explicit external caption or measured same-kind appearance distinction. Database/queue compound bodies require additional topology; source kind strings and native model fields earn no credit.')
+      fact('elements', actual, actual.every((entry: any) => entry.safe && entry.rolesReady && entry.shapeMatches !== null) ? actual.every((entry: any) => entry.matches) : null, 'Every C4 element owns its measured header, bracketed type/technology, exact remaining field inventory and actual person/box/boundary geometry. Unique weight/size hierarchy establishes the header before text comparison; a separated plain row stack additionally qualifies a matching first non-type header, while an ambiguous alternate order stays unknown. External variants without visible distinction and database/queue topology remain unknown; source/model kind strings earn no credit.')
     }
     if (Array.isArray(facts.relations)) {
       const actual = facts.relations.map((entry: any) => {
@@ -758,7 +813,14 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
 
   if (input.family === 'class') {
     if (Array.isArray(facts.members) && (facts.annotations?.length || facts.generics?.length || facts.members.some((entry: any) => entry.values.some((value: string) => /[~$*]/.test(value))))) {
-      const canonical = (value: string) => normalize(value).replace(/~([^~]+)~/g, '<$1>').replace(/[$*]$/, '').replace(/\)\s*:\s*/g, ') ').replace(/\s*:\s*/g, ':')
+      const canonical = (value: string) => {
+        const member = normalize(value).replace(/~([^~]+)~/g, '<$1>').replace(/[$*]$/, '').replace(/^([+\-#~])\s+/, '$1').replace(/\)\s*:\s*/g, ') ').replace(/\s*:\s*/g, ':')
+        if (member.includes('(')) return member
+        const access = /^([+\-#~])/.exec(member)?.[1] ?? '', body = member.slice(access.length), name = '[\\p{L}_$][\\p{L}\\p{N}_$]*', type = '[\\p{L}_$][\\p{L}\\p{N}_.$]*(?:<[\\p{L}\\p{N}_.$?,<>\\[\\] ]+>)?(?:\\[\\])*'
+        const suffix = new RegExp('^(' + name + '):(' + type + ')$', 'u').exec(body), prefix = new RegExp('^(' + type + ')\\s+(' + name + ')$', 'u').exec(body)
+        const compactType = (value: string) => value.replace(/\s*([<>,\[\]])\s*/g, '$1')
+        return suffix ? access + suffix[1] + ':' + compactType(suffix[2]!) : prefix ? access + prefix[2] + ':' + compactType(prefix[1]!) : member
+      }
       const actual = facts.members.map((entry: any) => {
         const owner = node.get(entry.id), elements = ownedText(entry.id), generic = facts.generics?.find((generic: any) => generic.id === entry.id), header = owner ? normalize(owner.label + (generic ? '<' + generic.parameter.replaceAll('~', '') + '>' : '')) : null
         const annotations = (facts.annotations ?? []).filter((annotation: any) => annotation.id === entry.id).map((annotation: any) => normalize(annotation.annotation))
@@ -843,6 +905,49 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       return { owner: entry.owner, lines, matches: lines && valid ? partition(entry.lines, lines) : null }
     })
     fact('text-line-breaks', actual, actual.some((entry: any) => entry.matches === false) ? false : actual.some((entry: any) => entry.matches === null) ? null : true, 'Every explicit note/fragment/box break partitions actual per-character glyph rows on its independently qualified physical owner. Existing qualified node/message rows are retained. Soft wrapping can add rows, while two authored lines cannot collapse together; ambiguous ownership and empty-line spacing remain unknown.')
+  }
+  if (input.expected.nodes?.length) {
+    const raw = [...svg.querySelectorAll('rect,circle,ellipse,polygon,polyline,path,line,image,use,foreignObject')].filter(paintable)
+    const layers = raw.map(element => { const css = getComputedStyle(element); let opacity = 1; for (let parent: Element | null = element; parent; parent = parent.parentElement) { opacity *= Number(getComputedStyle(parent).opacity); if (parent === svg) break }; return { element, box: box(element), matrix: (element as SVGGraphicsElement).getScreenCTM?.(), fill: rgba(css.fill), stroke: rgba(css.stroke), fillOpacity: Number(css.fillOpacity) * opacity, strokeOpacity: Number(css.strokeOpacity) * opacity, width: Number.parseFloat(css.strokeWidth) } })
+    const sameGeometry = (a: SVGGeometryElement, b: Element) => {
+      if (!nearBox(box(a), box(b), .25)) return false
+      if (a.localName === 'path' && b.localName === 'path') return a.getAttribute('d') === b.getAttribute('d') && same(a.getScreenCTM()?.toJSON(), (b as SVGGraphicsElement).getScreenCTM()?.toJSON())
+      if (a.localName !== b.localName) return false
+      return ['circle', 'ellipse'].includes(a.localName) || a.localName === 'rect' && (a as SVGRectElement).rx.baseVal.value === (b as SVGRectElement).rx.baseVal.value && (a as SVGRectElement).ry.baseVal.value === (b as SVGRectElement).ry.baseVal.value || ['polygon', 'polyline'].includes(a.localName) && a.getAttribute('points') === b.getAttribute('points')
+    }
+    const observations = (input.expected.nodes ?? []).map(expected => {
+      const owner = node.get(expected.id), declared = owner?.anchorParts?.flatMap(part => geometry.filter(element => element.localName === part.tag && nearBox(box(element), part.box, .25))), ink = declared?.length ? declared : qualifiedParts.get(expected.id) ?? bodies(expected.id).filter(element => !owner?.outline || element.localName === owner.outline.tag)
+      if (!owner || !ink.length) return { id: expected.id, exposed: null, coveredParts: [] }
+      const known = new Set(qualifiedParts.get(expected.id) ?? []), coveredParts: unknown[] = []
+      for (const shape of ink) {
+        const css = getComputedStyle(shape), fill = rgba(css.fill), stroke = rgba(css.stroke), strokeWidth = Number.parseFloat(css.strokeWidth), matrix = shape.getScreenCTM(), points = samples(shape, Math.min(8192, Math.max(128, Math.ceil(shape.getTotalLength() * (matrix ? Math.max(Math.hypot(matrix.a, matrix.b), Math.hypot(matrix.c, matrix.d)) : 1) * 2))))
+        const later = layers.filter(layer => layer.element !== shape && !!(shape.compareDocumentPosition(layer.element) & Node.DOCUMENT_POSITION_FOLLOWING) && !known.has(layer.element as SVGGeometryElement) && Math.min(layer.box.x + layer.box.width, owner.box.x + owner.box.width) >= Math.max(layer.box.x, owner.box.x) && Math.min(layer.box.y + layer.box.height, owner.box.y + owner.box.height) >= Math.max(layer.box.y, owner.box.y) && (['image', 'use', 'foreignObject'].includes(layer.element.localName) || layer.fill?.[3] === 255 && layer.fillOpacity >= .999))
+        const hits = later.map(layer => {
+          const unknown = ['image', 'use', 'foreignObject'].includes(layer.element.localName) || !layer.matrix || !(layer.element instanceof SVGGeometryElement), equivalent = !unknown && sameGeometry(shape, layer.element) && same(fill, layer.fill) && same(stroke, layer.stroke) && Math.abs(strokeWidth - layer.width) < .1
+          if (equivalent) return { layer, count: 0 }
+          const count = points.filter(point => {
+            if (point.x < layer.box.x - .25 || point.y < layer.box.y - .25 || point.x > layer.box.x + layer.box.width + .25 || point.y > layer.box.y + layer.box.height + .25) return false
+            if (unknown) return true
+            const local = new DOMPoint(point.x, point.y).matrixTransform(layer.matrix!.inverse()), item = layer.element as SVGGeometryElement
+            if (!item.isPointInFill(local)) return false
+            // A compartment cell may repaint exactly the same visible border.
+            return !(stroke?.[3] && layer.stroke?.[3] && layer.strokeOpacity >= .999 && same(stroke, layer.stroke) && Math.abs(strokeWidth - layer.width) < .1 && item.isPointInStroke(local))
+          }).length
+          return { layer, count }
+        }).filter(item => item.count > 0)
+        if (matrix && fill?.[3] && Number(css.fillOpacity) > 0) {
+          const bounds = box(shape), probes = [.03, .12, .3, .5, .7, .88, .97].flatMap(x => [.03, .12, .3, .5, .7, .88, .97].map(y => ({ x: bounds.x + x * bounds.width, y: bounds.y + y * bounds.height }))).filter(point => shape.isPointInFill(new DOMPoint(point.x, point.y).matrixTransform(matrix.inverse())) && !shape.isPointInStroke(new DOMPoint(point.x, point.y).matrixTransform(matrix.inverse())) && !paintedText.some(element => contains(box(element), { ...point, width: 0, height: 0 }, 0)))
+          const textBackground = (layer: typeof layers[number]) => area(layer.box) < area(owner.box) * .98 && ownedText(expected.id)?.some(element => contains(layer.box, box(element)))
+          const descendant = (layer: typeof layers[number]) => !!group.get(expected.id) && nodes.some(child => child.id !== expected.id && contains(owner.box, child.box) && nearBox(child.box, layer.box))
+          const routeHead = (layer: typeof layers[number]) => routesBound && !!layer.matrix && layer.element instanceof SVGGeometryElement && vertices(layer.element)?.length === 3 && routes.some(route => same(layer.fill, rgba((route as any).stroke ?? route.style?.stroke ?? 'none')) && [{ point: route.start, kind: route.startMarker }, { point: route.end, kind: route.endMarker }].some(end => end.point && ['arrow', 'triangle'].includes(end.kind) && (layer.element as SVGGeometryElement).isPointInFill(new DOMPoint(end.point.x, end.point.y).matrixTransform(layer.matrix!.inverse()))))
+          const unqualified = later.filter(layer => !known.has(layer.element as SVGGeometryElement) && !textBackground(layer) && !descendant(layer) && !routeHead(layer) && !same(fill, layer.fill)).filter(layer => probes.some(point => point.x >= layer.box.x && point.x <= layer.box.x + layer.box.width && point.y >= layer.box.y && point.y <= layer.box.y + layer.box.height && (!layer.matrix || !(layer.element instanceof SVGGeometryElement) || layer.element.isPointInFill(new DOMPoint(point.x, point.y).matrixTransform(layer.matrix.inverse())))))
+          if (unqualified.length || !probes.length) coveredParts.push({ part: { tag: shape.localName, box: bounds }, fillExposure: 'unqualified opaque overpaint or no unborrowed exposed fill sample', covers: unqualified.map(layer => ({ tag: layer.element.localName, box: layer.box })) })
+        }
+        if (hits.length) coveredParts.push({ part: { tag: shape.localName, box: box(shape) }, covers: hits.map(item => ({ tag: item.layer.element.localName, box: item.layer.box, contourSamples: item.count })) })
+      }
+      return { id: expected.id, exposed: coveredParts.length === 0, coveredParts }
+    })
+    add('painted-node-visibility', 'Every independently owned body/glyph has qualified exposed contour paint', observations, exactNodes && evidence.get('paint-opacity-and-color')?.status === 'passed' && observations.every(item => item.exposed === true) ? true : null, 'Actual owned contour samples reject credit beneath later opaque covers, including covers painted before the label. Exactly equivalent co-located fill/stroke layers and qualified same-owner compound glyph parts are allowed; matching compartment borders must preserve their actual stroke. Opaque/complex image, use and HTML covers or unresolved exposure stay unknown, without inventing a renderer failure or accepting source geometry that never reaches the canvas.')
   }
   if (input.expected.edges?.length) {
     const actual = routes.map(route => {

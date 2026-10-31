@@ -49,6 +49,58 @@
       "campaignArtifact": "fidelity/b2JzaWRpYW5tZC9wZWxl/attempts/776363d0-9fc5-4dfd-b338-1d4914f591bf/16-meaning_family_c4.svg.gz",
       "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
       "mutation": "none"
+    },
+    {
+      "file": "native-class-members.svg",
+      "project": "adewale/agentic-mermaid",
+      "caseId": "features:class:namespace-members-cardinality",
+      "sourceSha256": "6b833aa3d72b0deca689b83eb9cd4ed79fa2b194b02fc319617c09a5f562d064",
+      "svgSha256": "354ae319ccd6994e3cd118c5251cb95a029898d23e4be3a8d95bdb9efa496fad",
+      "svgBytes": 6949,
+      "retainedCompressedSha256": "8b36793468180b4125d355f02980e828c09226e6c7623ba12acb7314153b7f9b",
+      "campaign": "trident-ecosystem-2026-10-31-final",
+      "campaignArtifact": "fidelity/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/attempts/a3a8cb49-4701-4f67-bb59-7ef78beabbb0/31-features_class_namespace-members-cardinality.svg.gz",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "mutation": "none"
+    },
+    {
+      "file": "native-state-composite.svg",
+      "project": "adewale/agentic-mermaid",
+      "caseId": "features:state:nesting-reciprocal-alias",
+      "sourceSha256": "808f54a2924a554295c2beb1dc7148a49e683e830201303d5c1b32a6215a46b0",
+      "svgSha256": "2f66fe557527f2111f10b67c71b0198216b2f91b19a8a73754a54b937fd1271b",
+      "svgBytes": 6605,
+      "retainedCompressedSha256": "8d4b50a90222a9b0157a5df0f9287e2803daa89f647857e1f9cb917a85c27caf",
+      "campaign": "trident-ecosystem-2026-10-31-final",
+      "campaignArtifact": "fidelity/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/attempts/a3a8cb49-4701-4f67-bb59-7ef78beabbb0/33-features_state_nesting-reciprocal-alias.svg.gz",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "mutation": "none"
+    },
+    {
+      "file": "mermaid-block-composite.svg",
+      "project": "mermaid-js/mermaid",
+      "caseId": "features:block:composite-membership",
+      "sourceSha256": "d9074f78401e98cad44ec3e282e7d91070167d6b109bc0ad4693f4c326390a47",
+      "svgSha256": "f0ea1ec9bb0806047dd71ff21ff750ceeb2793ddd40f71d110d0b535b180e5c7",
+      "svgBytes": 12575,
+      "retainedCompressedSha256": "8be7d2429bbc8a28b6d26d9b071f0026c716dbd2a89cbe5301d7266302f5f4c0",
+      "campaign": "trident-ecosystem-2026-10-31-final",
+      "campaignArtifact": "fidelity/bWVybWFpZC1qcy9tZXJtYWlk/attempts/b3c67d52-d1c1-43c0-b2a4-939814d70f00/45-features_block_composite-membership.svg.gz",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "mutation": "none"
+    },
+    {
+      "file": "pele-block-composite.svg",
+      "project": "obsidianmd/pele",
+      "caseId": "features:block:composite-membership",
+      "sourceSha256": "d9074f78401e98cad44ec3e282e7d91070167d6b109bc0ad4693f4c326390a47",
+      "svgSha256": "3a60c603b623fe1cbb6a532a08c82d750f97036545a93701fe0122aa534610af",
+      "svgBytes": 2173,
+      "retainedCompressedSha256": "d8e41c5908c7e802ace9f41ecf70310c8b6f5035d9029f4246a18823bd419536",
+      "campaign": "trident-ecosystem-2026-10-31-final",
+      "campaignArtifact": "fidelity/b2JzaWRpYW5tZC9wZWxl/attempts/776363d0-9fc5-4dfd-b338-1d4914f591bf/45-features_block_composite-membership.svg.gz",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "mutation": "none"
     }
   ]
 }

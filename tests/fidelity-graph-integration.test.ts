@@ -30,10 +30,25 @@ test('retained graph integration bytes and their independent literal source rema
   }
 })
 
+test('owned node silhouettes cannot earn correctness beneath an opaque cover painted before the label', async () => {
+  const page = await browser.newPage()
+  try {
+    const body = '<path d="M20 40 A50 10 0 1 1 120 40 A50 10 0 1 1 20 40 L20 100 A50 10 0 0 0 120 100 L120 40" fill="white" stroke="black"/>'
+    const input = { family: 'flowchart', source: 'flowchart TB\nS@{shape:cyl,label:Store}', expected: { labels: ['Store'], nodes: [{ id: 'S', label: 'Store' }], facts: { 'node-shapes': [{ id: 'S', shape: 'cylinder' }] } } }
+    for (const cover of ['', '<rect x="20" y="30" width="100" height="80" fill="white" stroke="white" stroke-width="4"/>', '<rect x="21" y="42" width="98" height="55" fill="red"/>']) {
+      await page.setContent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="180"><g>' + body + cover + '<text x="40" y="80">Store</text></g></svg>')
+      const result = await inspectSvgDrawing(page, input)
+      expect(status(result, 'source-fact:node-shapes')).toBe('passed')
+      expect(status(result, 'painted-node-visibility')).toBe(cover ? 'unavailable' : 'passed')
+      if (cover) expect(result.passed).toBe(false)
+    }
+  } finally { await page.close() }
+})
+
 for (const renderer of ['mermaid', 'pele']) {
   test(renderer + ' retained state discs and multi-layer final rings survive the integrated route reinspection', async () => {
     const result = await inspect(renderer + '-state-pseudostates.svg', 'features:state:initial-final-pseudostates')
-    for (const criterion of ['painted-node-ownership', 'painted-relationships', 'source-fact:pseudostates', 'source-fact:state-kinds', 'painted-route-visibility']) expect(status(result, criterion)).toBe('passed')
+    for (const criterion of ['painted-node-ownership', 'painted-node-visibility', 'painted-relationships', 'source-fact:pseudostates', 'source-fact:state-kinds', 'painted-route-visibility']) expect(status(result, criterion)).toBe('passed')
     const wrong = await inspect(renderer + '-state-pseudostates.svg', 'features:state:initial-final-pseudostates', page => page.evaluate(() => {
       for (const element of document.querySelectorAll('circle,ellipse,path')) {
         if (element.closest('defs,marker,clipPath,mask')) continue
@@ -48,9 +63,17 @@ for (const renderer of ['mermaid', 'pele']) {
   test(renderer + ' retained C4 person owns its actual head and torso across different SVG classes', async () => {
     const result = await inspect(renderer + '-c4-elements.svg', 'meaning:family:c4')
     expect(status(result, 'painted-node-ownership')).toBe('passed')
+    expect(status(result, 'painted-node-visibility')).toBe('passed')
     expect(status(result, 'source-fact:elements')).toBe('passed')
     expect(status(result, 'source-fact:relations')).toBe('passed')
     expect(status(result, 'painted-relationships')).toBe('passed')
+    const swapped = await inspect(renderer + '-c4-elements.svg', 'meaning:family:c4', page => page.evaluate(() => {
+      for (const element of document.querySelectorAll('text')) {
+        if (element.textContent?.trim() === 'API') element.textContent = 'Service'
+        else if (element.textContent?.trim() === 'Service') element.textContent = 'API'
+      }
+    }))
+    expect(status(swapped, 'source-fact:elements')).toBe('failed')
     const wrong = await inspect(renderer + '-c4-elements.svg', 'meaning:family:c4', page => page.evaluate(() => {
       for (const element of document.querySelectorAll('circle,ellipse')) if (!element.closest('defs,marker')) element.setAttribute('opacity', '0')
     }))
@@ -58,3 +81,41 @@ for (const renderer of ['mermaid', 'pele']) {
     expect(wrong.passed).toBe(false)
   }, 30_000)
 }
+
+test('native retained UML field notation preserves actual name, type and access without requiring source spelling', async () => {
+  const result = await inspect('native-class-members.svg', 'features:class:namespace-members-cardinality')
+  expect(status(result, 'source-fact:members')).toBe('passed')
+  const wrong = await inspect('native-class-members.svg', 'features:class:namespace-members-cardinality', page => page.evaluate(() => {
+    let changed = 0
+    for (const element of document.querySelectorAll('text')) if (element.textContent?.replace(/\s+/g, '').includes('name:String')) for (const part of element.querySelectorAll('tspan')) if (part.textContent === 'String') { part.textContent = 'Int'; changed++ }
+    if (changed !== 1) throw Error('Immutable typed member control did not change exactly one visible type')
+  }))
+  expect(status(wrong, 'source-fact:members')).toBe('failed')
+})
+
+test('native composite header panels remain body ink when every renderer-specific class is removed', async () => {
+  const result = await inspect('native-state-composite.svg', 'features:state:nesting-reciprocal-alias')
+  expect(status(result, 'painted-relationships')).toBe('passed')
+  const flat = await inspect('native-state-composite.svg', 'features:state:nesting-reciprocal-alias', page => page.evaluate(() => {
+    for (const element of document.querySelectorAll('[class]')) element.removeAttribute('class')
+    for (const element of document.querySelectorAll('[data-role],[data-id],[data-from],[data-to],[data-relationship]')) for (const name of ['data-role', 'data-id', 'data-from', 'data-to', 'data-relationship']) element.removeAttribute(name)
+  }))
+  expect(status(flat, 'painted-relationships')).toBe('passed')
+})
+
+for (const renderer of ['mermaid', 'pele']) test(renderer + ' retained composite span calibration uses differing actual widths at the same column', async () => {
+  const result = await inspect(renderer + '-block-composite.svg', 'features:block:composite-membership')
+  for (const criterion of ['painted-node-ownership', 'painted-group-membership', 'source-fact:grid-cell-order', 'source-fact:grid-columns', 'source-fact:columns', 'source-fact:spans']) expect(status(result, criterion)).toBe('passed')
+  const wrong = await inspect(renderer + '-block-composite.svg', 'features:block:composite-membership', page => page.evaluate(() => {
+    const caption = [...document.querySelectorAll('text,foreignObject *')].find(element => element.textContent?.trim() === 'Gamma')
+    if (!caption) throw Error('Missing immutable Gamma caption')
+    let owner: Element | null = caption.parentElement
+    while (owner && owner.localName !== 'svg') {
+      const body = [...owner.children].find(element => element.localName === 'rect' && element.getBoundingClientRect().width > 1 && element.getBoundingClientRect().height > 1)
+      if (body) { body.setAttribute('width', String(Number(body.getAttribute('width')) * 3)); return }
+      owner = owner.parentElement
+    }
+    throw Error('No directly owned Gamma body')
+  }))
+  expect(status(wrong, 'source-fact:grid-cell-order')).not.toBe('passed')
+}, 30_000)
