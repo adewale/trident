@@ -1,0 +1,21 @@
+[
+  {
+    "url": "https://mermaid.js.org/favicon.svg",
+    "path": "docs-assets/mermaid-favicon.svg",
+    "sha256": "9f9f532d7d58439c63bd57069d708fc281765165b912719b9629a0f783a545c4",
+    "contentType": "image/svg+xml",
+    "source": {
+      "repository": "https://github.com/mermaid-js/mermaid",
+      "revision": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "path": "packages/mermaid/src/docs/public/favicon.svg"
+    },
+    "license": {
+      "spdx": "MIT",
+      "path": "docs-assets/MERMAID-LICENSE",
+      "sha256": "ec9fb67dcb25eccc416ed56e1aab819222c805a2a4bfe4cb19e7556bf2ffde80"
+    },
+    "cases": [
+      "packages/mermaid/src/docs/syntax/flowchart.md:674"
+    ]
+  }
+]
