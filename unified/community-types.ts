@@ -49,6 +49,7 @@ export interface CommunityNode {
   benchmark?: CommunityBenchmarkConfig
 }
 export interface CommunityArtifact {
+  transportVariant?: string
   kind: 'node' | 'global' | 'franken' | 'jsonl-worker' | 'cli' | 'python'
   root?: string
   module?: string

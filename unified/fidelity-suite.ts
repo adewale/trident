@@ -15,9 +15,10 @@ export async function runMermaidFidelitySuite(options: UnifiedRunOptions): Promi
   const startedAt = new Date().toISOString()
   if (!selectsCoreFidelity(options.communityProjects)) return { id: 'mermaid-fidelity', startedAt, finishedAt: startedAt, status: 'not-applicable', observations: [], artifacts: [], gaps: ['No core public-model project was selected; the native worker and its filesystem/runtime prerequisites were not prepared.'] }
   const root = options.harnessRoot ?? options.root, invocationId = randomUUID(), output = join(options.out, 'node-fidelity-result.json'), job = join(options.out, 'node-fidelity-job.json')
+  checkCollectionBudget(options.collectionDeadline)
   mkdirSync(options.out, { recursive: true }); rmSync(output, { force: true })
   writeFileSync(job, JSON.stringify({ invocationId, options, output }))
-  const child = spawnSync(options.nodeExecutable ?? 'node', [harnessFile(root, 'eval/benchmark/fidelity/worker.mjs'), job], { cwd: root, encoding: 'utf8', timeout: 3_600_000, maxBuffer: 4 * 1024 * 1024 })
+  const child = spawnSync(options.nodeExecutable ?? 'node', [harnessFile(root, 'eval/benchmark/fidelity/worker.mjs'), job], { cwd: root, encoding: 'utf8', timeout: Math.min(3_600_000, options.collectionDeadline === undefined ? Infinity : Math.max(1, options.collectionDeadline - Date.now())), maxBuffer: 4 * 1024 * 1024 })
   if (child.error || ![0, 1].includes(child.status ?? -1) || !existsSync(output)) {
     writeFileSync(join(options.out, 'node-fidelity-worker.log'), (child.stdout ?? '') + (child.stderr ?? ''))
     checkCollectionBudget(options.collectionDeadline)

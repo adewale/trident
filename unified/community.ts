@@ -1,11 +1,13 @@
-import { checkCollectionBudget } from '../portable/checkpoint.ts'
+import { InvocationJournal } from '../portable/invocation-journal.ts'
+import { evidenceBytesDigest, evidenceDigest, type InvocationEvidence } from '../portable/evidence-contract.ts'
+import { checkCollectionBudget, writeDurableEvidence } from '../portable/checkpoint.ts'
 import { verifyNativePngArtifact } from '../native-flutter/community-launch.mjs'
 import { releaseBenchmarkSkip } from './benchmark-skip.ts'
 import { verifyReleaseCli } from './release-cli.ts'
 import { captureInstalledDependencyClosure } from '../portable/artifact-dependencies.ts'
 import { readBenchmarkDocument, writeBenchmarkDocument } from '../portable/project-records.ts'
 import { execFileSync, spawn, spawnSync } from 'node:child_process'
-import { createHash } from 'node:crypto'
+import { createHash, randomUUID } from 'node:crypto'
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
@@ -24,6 +26,7 @@ import { workloadAppliesToOutput } from './workload-intent.ts'
 import { communityCatalogFile } from './trident-paths.ts'
 import { retainFailedOutput } from './failure-outputs.ts'
 import { candidateKey, candidatePackage, verifyCandidateArchive, verifyCandidateDependencyPayload, type NpmCandidate } from './candidate-packages.ts'
+import { communityCliRequest, communityCliBinding } from './community-cli-request.ts'
 export { candidatePackage } from './candidate-packages.ts'
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -452,55 +455,18 @@ function envelope(node: CommunityNode, output: string, workload: UnifiedWorkload
     metrics: { implementation: node.id, round, featureCount: workload.features.length },
   }
 }
-function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWorkload, round: number, out: string): BenchmarkObservation {
-  const artifact = prepared.artifact!,
-    row = envelope(prepared.node, output, workload, round)
-  row.surface = 'cli:end-to-end'
-  row.runtime = artifact.runtime ?? 'native'
-  row.mode = workload.features.includes('core-graph-batch') ? 'fresh-process' : 'feature-corpus-qualification'
-  if (artifact.sourceFallback === 'framed-source' && Array.isArray(artifact.supportedFamilies) && !artifact.supportedFamilies.includes(workload.family)) {
-    row.status = 'unsupported'
-    row.detail = 'Reviewed public renderer does not implement this family; its framed-source fallback is not diagram ink'
-    return row
-  }
-  const input = join(out, 'cli-input.mmd'),
-    destination = join(out, `cli-output.${output === 'png' ? 'png' : output === 'svg' ? 'svg' : 'txt'}`)
-  writeFileSync(input, workload.source)
-  if (existsSync(destination)) unlinkSync(destination)
-  const binding = artifact.outputBindings?.[output]
-  const args = (binding?.args ?? artifact.args ?? []).map(arg =>
-    arg
-      .replaceAll('{input}', input)
-      .replaceAll('{output}', destination)
-      .replaceAll('{format}', output === 'terminal' ? 'unicode' : output),
-  )
-  const started = performance.now(),
-    child = spawnSync(artifact.executable!, args, { input: (binding?.input ?? artifact.input) === 'file' ? undefined : workload.source, timeout: 30_000, maxBuffer: 16 * 1024 * 1024, env: { ...process.env, NO_COLOR: '1', TERM: 'dumb' } }),
-    ms = performance.now() - started
-  if (workload.features.includes('core-graph-batch')) row.samplesMs = [ms]
-  else row.metrics = { ...row.metrics, firstMs: ms, timingScope: 'one qualification call, not a repeated speed sample' }
-  if (child.status !== 0) {
-    const transportFailed = !!child.error || !!child.signal || child.status === null
-    row.status = transportFailed ? 'blocked' : 'failed'
-    row.detail = child.error?.message ?? child.stderr?.toString().slice(0, 1500)
-    row.metrics = { ...row.metrics, rejected: !transportFailed, failureStage: transportFailed ? 'transport' : 'public-command' }
-    return row
-  }
-  const fileOutput = (binding?.args ?? artifact.args)?.some(arg => arg.includes('{output}'))
-  if (fileOutput && !existsSync(destination)) {
-    row.status = 'failed'
-    row.detail = 'CLI exited successfully without producing its declared output file'
-    row.metrics = { ...row.metrics, rejected: false, failureStage: 'output' }
-    return row
-  }
+
+function gradeCliReturn(row: BenchmarkObservation, artifact: CommunityArtifact, workload: UnifiedWorkload, output: string, raw: InvocationEvidence): BenchmarkObservation {
+  if (raw.state !== 'returned' || !raw.output) throw Error('CLI grade needs an actual retained return')
+  const value = readFileSync(raw.output.path), text = output === 'png' ? value : value.toString()
+  row.metrics = { ...row.metrics, outputFile: raw.output.path, rawInvocationId: raw.attemptId, measuredAt: raw.finishedAt, measuredFrom: raw.startedAt, firstMs: raw.durationMs, timingQualified: false }
   if (workload.intent === 'negative-admission') {
     row.status = 'failed'
     row.detail = 'Public command accepted independently invalid source (exit 0)'
     row.metrics = { ...row.metrics, rejected: false }
     return row
   }
-  const value = fileOutput ? readFileSync(destination) : child.stdout
-  const text = output === 'png' ? value : value.toString()
+
   if (output === 'terminal' && typeof text === 'string' && /^[\s]*[\[{]/.test(text)) {
     try {
       const encoded = JSON.parse(text)
@@ -517,8 +483,77 @@ function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWo
   row.status = qualification.unavailable ? 'blocked' : qualification.ok ? 'passed' : 'failed'
   row.bytes = value.byteLength
   row.findings = qualification.findings
-  row.metrics = { ...row.metrics, qualification: qualification.scope, version: artifact.version, boundary: 'spawn through drained stdout/file artifact; process startup included', ...(qualification.ok && !workload.features.includes('retain-output-witness') ? {} : { outputFile: retainFailedOutput(out, prepared.node.id, workload.id, output === 'png' ? 'png' : output === 'svg' ? 'svg' : 'txt', value) }) }
+  row.metrics = { ...row.metrics, qualification: qualification.scope, version: artifact.version, boundary: 'spawn through drained stdout/file artifact; process startup included', ...(qualification.ok && !workload.features.includes('retain-output-witness') ? {} : { outputFile: raw.output!.path }) }
   return row
+}
+
+function runCli(prepared: PreparedCommunity, output: string, workload: UnifiedWorkload, round: number, out: string): BenchmarkObservation {
+  const artifact = prepared.artifact!,
+    row = envelope(prepared.node, output, workload, round)
+  row.surface = 'cli:end-to-end'
+  row.runtime = artifact.runtime ?? 'native'
+  row.mode = workload.features.includes('core-graph-batch') ? 'fresh-process' : 'feature-corpus-qualification'
+  if (artifact.sourceFallback === 'framed-source' && Array.isArray(artifact.supportedFamilies) && !artifact.supportedFamilies.includes(workload.family)) {
+    row.status = 'unsupported'
+    row.detail = 'Reviewed public renderer does not implement this family; its framed-source fallback is not diagram ink'
+    return row
+  }
+  const request = communityCliRequest(artifact, output, out), { input, destination, args } = request
+  writeFileSync(input, workload.source)
+  if (existsSync(destination)) unlinkSync(destination)
+  const journal = new InvocationJournal(join(out, 'raw-cli-invocations'))
+  let executable: string, artifactSha256: string
+  try {
+    executable = artifact.executable!.includes('/') ? artifact.executable! : execFileSync('which', [artifact.executable!], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim()
+    if (!existsSync(executable)) throw Error('Configured public command does not exist: ' + executable)
+    artifactSha256 = artifact.sha256 ?? evidenceBytesDigest(readFileSync(executable))
+  } catch (error) {
+    const attemptId = randomUUID(), record = join(out, 'raw-cli-not-invoked', attemptId + '.json')
+    // There is no binary digest or public-call clock to invent when preflight
+    // cannot locate the command. Keep this outside the actual-call journal.
+    writeDurableEvidence(record, Buffer.from(JSON.stringify({ schema: 'trident-cli-not-invoked-v1', attemptId, state: 'not-invoked', project: prepared.node.id, caseId: workload.id, sourceSha256: evidenceBytesDigest(workload.source), format: output, round, configuredExecutable: artifact.executable, expectedArtifactSha256: artifact.sha256 ?? null, actualArtifactSha256: null, recordedAt: new Date().toISOString(), startedAt: null, finishedAt: null, durationMs: null, detail: String(error) }) + '\n'))
+    row.status = 'blocked'; row.detail = 'Public command was not invoked: ' + String(error)
+    row.metrics = { ...row.metrics, measuredAt: null, measuredFrom: null, firstMs: null, rejected: null, failureStage: 'transport', invocationState: 'not-invoked', notInvokedEvidence: record, timingQualified: false }
+    return row
+  }
+  const identity = { coordinate: 'round:' + round, project: prepared.node.id, caseId: workload.id, sourceSha256: evidenceBytesDigest(workload.source), artifactSha256, bindingSha256: communityCliBinding(executable, output, request), format: output }
+  const prior = journal.forIdentity(identity)
+  if (prior.length) {
+    const returned = prior.filter(frame => frame.state === 'returned')
+    if (returned.length === 1) return gradeCliReturn(row, artifact, workload, output, returned[0]!)
+    const previous = prior.find(frame => frame.state !== 'started') ?? prior[0]!
+    row.status = 'blocked'; row.detail = 'Original CLI invocation is incomplete or has multiple returns; no automatic retry or result is inferred'
+    row.metrics = { ...row.metrics, rawInvocationId: previous.attemptId, rawInvocationDirectory: journal.directory, measuredAt: previous.finishedAt, measuredFrom: previous.startedAt, firstMs: previous.durationMs, timingQualified: false }
+    return row
+  }
+  const invocation = journal.start(identity)
+  const started = performance.now(),
+    child = spawnSync(artifact.executable!, args, { input: request.inputMode === 'file' ? undefined : workload.source, timeout: 30_000, maxBuffer: 16 * 1024 * 1024, env: { ...process.env, NO_COLOR: '1', TERM: 'dumb' } }),
+    ms = performance.now() - started
+  const streams = journal.streams(child.stdout ?? Buffer.alloc(0), child.stderr ?? Buffer.alloc(0))
+  row.metrics = { ...row.metrics, rawInvocationId: invocation.attemptId, rawInvocationDirectory: journal.directory, stdoutFile: streams.stdout.path, stderrFile: streams.stderr.path }
+  if (workload.features.includes('core-graph-batch')) row.samplesMs = [ms]
+  else row.metrics = { ...row.metrics, firstMs: ms, timingScope: 'one qualification call, not a repeated speed sample' }
+  if (child.status !== 0) {
+    const transportFailed = !!child.error || !!child.signal || child.status === null
+    journal.failed(invocation, child.error?.message ?? child.stderr?.toString() ?? 'Public command failed', ms, transportFailed ? 'interrupted' : 'public-error', streams)
+    row.status = transportFailed ? 'blocked' : 'failed'
+    row.detail = child.error?.message ?? child.stderr?.toString().slice(0, 1500)
+    row.metrics = { ...row.metrics, rejected: !transportFailed, failureStage: transportFailed ? 'transport' : 'public-command' }
+    return row
+  }
+  const fileOutput = request.fileOutput
+  if (fileOutput && !existsSync(destination)) {
+    journal.failed(invocation, 'CLI exited successfully without producing its declared output file', ms, 'public-error', streams)
+    row.status = 'failed'
+    row.detail = 'CLI exited successfully without producing its declared output file'
+    row.metrics = { ...row.metrics, rejected: false, failureStage: 'output' }
+    return row
+  }
+  const value = fileOutput ? readFileSync(destination) : child.stdout
+  const raw = journal.returned(invocation, value, ms, streams)
+  row.metrics = { ...row.metrics, outputFile: raw.output!.path, rawInvocationId: raw.attemptId, rawInvocationDirectory: journal.directory }
+  return gradeCliReturn(row, artifact, workload, output, raw)
 }
 
 function workerPreparedEntry(prepared: PreparedCommunity): PreparedCommunity {
@@ -559,6 +594,9 @@ async function nodeRound(prepared: PreparedCommunity, output: string, workloads:
     diagnosticsCount?: number
     rejected?: boolean
     outputFile?: string
+    invocationId?: string
+    rawInvocationDirectory?: string
+    measuredAt?: string | null
   }
   type DiagnosticControl = { id: string; source: string; expectedAccepted: false; actualAccepted: boolean | null; status: 'passed' | 'failed'; detail?: string; qualificationError?: string }
   type Raw = {
@@ -727,8 +765,20 @@ async function nodeRound(prepared: PreparedCommunity, output: string, workloads:
       }
     }
     for (const row of rows) if (remaining.some(workload => workload.id === row.id)) collected.set(row.id, { row, raw, attempt })
+    const rawDirectory = file + '.invocations'
+    if (existsSync(join(rawDirectory, 'checkpoint.json'))) {
+      const journal = new InvocationJournal(rawDirectory), frames = journal.records()
+      for (const workload of remaining) {
+        if (collected.has(workload.id)) continue
+        const own = frames.filter(frame => frame.identity.project === prepared.node.id && frame.identity.caseId === workload.id && frame.identity.format === output)
+        if (own.some(frame => frame.identity.sourceSha256 !== evidenceBytesDigest(workload.source))) throw Error('Retained Node invocation source changed; do not overwrite or silently repeat it')
+        const recovered = own.find(frame => frame.state === 'returned') ?? own.find(frame => frame.state !== 'started') ?? own[0]
+        if (!recovered) continue
+        collected.set(workload.id, { row: { id: workload.id, family: workload.family, status: 'blocked', detail: 'Recovered raw invocation without a complete grade; no API retry or renderer failure is inferred', outputFile: recovered.output?.path, firstMs: recovered.durationMs ?? undefined, invocationId: recovered.attemptId, rawInvocationDirectory: rawDirectory, measuredAt: recovered.finishedAt }, raw, attempt })
+      }
+    }
     attempts.push({ attempt, exitCode, timedOut, activeCase, detail: detail ?? raw?.detail })
-    if (activeCase && !collected.has(activeCase)) collected.set(activeCase, { row: { id: activeCase, family: remaining.find(workload => workload.id === activeCase)!.family, status: 'failed', detail: detail ?? `Worker stopped during workload (exit ${exitCode}): ${stderr.slice(-1500)}` }, raw, attempt })
+    if (activeCase && !collected.has(activeCase)) collected.set(activeCase, { row: { id: activeCase, family: remaining.find(workload => workload.id === activeCase)!.family, status: 'blocked', detail: detail ?? `Worker stopped during workload (exit ${exitCode}): ${stderr.slice(-1500)}` }, raw, attempt })
     const unresolved = remaining.filter(workload => !collected.has(workload.id))
     if (!unresolved.length) {
       if (exitCode !== 0 || raw?.status !== 'completed') lifecycleIssue = detail ?? raw?.detail ?? `Worker cleanup incomplete (exit ${exitCode})`
@@ -763,6 +813,11 @@ async function nodeRound(prepared: PreparedCommunity, output: string, workloads:
       version: prepared.artifact!.version,
       apiBoundary: result.apiBoundary ?? prepared.artifact?.apiBoundary ?? 'public package API',
       firstMs: result.firstMs ?? null,
+      measuredAt: typeof result.measuredAt === 'string' ? result.measuredAt : null,
+      measuredFrom: null,
+      rawInvocationId: result.invocationId ?? null,
+      rawInvocationDirectory: result.rawInvocationDirectory ?? null,
+      timingQualified: false,
       importMs: raw?.importMs ?? null,
       endRssBytes: raw?.rssBytes ?? null,
       peakProcessRssBytes: raw?.peakRssBytes ?? null,
@@ -854,7 +909,9 @@ function matchedRanks(observations: BenchmarkObservation[], rounds: number, byFa
         const selected = ids.map(id => relevant.filter(row => row.caseId === id && row.metrics?.round === index + 1))
         return ids.length && selected.every(matches => matches.length === 1 && matches[0]!.status === 'passed' && matches[0]!.samplesMs?.length && matches[0]!.samplesMs!.every(value => Number.isFinite(value) && value > 0)) ? selected.reduce((n, matches) => n + median(matches[0]!.samplesMs!), 0) : null
       })
-      const qualified = ids.length > 0 && relevant.length === ids.length * rounds && values.every(value => value !== null)
+      // Legacy adaptive means and one initial output witness cannot establish
+      // correctness for every timed public call. Keep raw samples in their own
+      // records, without promoting them into comparative latency rankings.
       return {
         implementation,
         surface,
@@ -865,9 +922,11 @@ function matchedRanks(observations: BenchmarkObservation[], rounds: number, byFa
         evidenceImplementation: rows[0]?.metrics?.evidenceImplementation ?? implementation,
         independentMeasurement: !rows.some(row => row.metrics?.evidenceReuse === true),
         requiredCaseIds: ids,
-        qualified,
-        perRoundMs: values,
-        medianMs: qualified ? median(values as number[]) : null,
+        qualified: false,
+        observedPerRoundMs: values,
+        perRoundMs: null,
+        medianMs: null as number | null,
+        qualificationGap: 'No per-call complete correctness and matched A/A timing bundle; use timing:qualify on retained invocation evidence',
         policy: byFamily
           ? 'Family scope of the existing fixed core only: flowchart2 inputs; other SVG/parser families1; terminal flowchart2/sequence1. All required cases must pass every round. This is not an invented broader workload or full-family feature score.'
           : 'Fixed core: SVG/PNG/parser6 inputs/5 families; terminal3/2. Every required case must qualify uniquely in every round; boundaries remain separate.',

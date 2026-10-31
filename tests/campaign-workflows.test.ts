@@ -1,6 +1,6 @@
 import { afterEach, expect, test } from 'bun:test'
 import { createHash } from 'node:crypto'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { execFileSync } from 'node:child_process'
@@ -60,9 +60,10 @@ test('a shared deadline retains complete units, resumes them once, and binds ide
   expect(resumed.startedAt).toBe(first.startedAt)
   expect(await resumed.collect('round-2', async () => ({ calls: ++calls }))).toEqual({ calls: 2 })
   expect(() => new CollectionCheckpoint(root, { ...identity, artifact: 'b' })).toThrow('identity changed')
-  const file = join(root, 'checkpoint.jsonl.gz'), data = gunzipSync(readFileSync(file)).toString().trim().split('\n').map(line => JSON.parse(line))
-  data[0].value.calls = 99
-  writeFileSync(file, gzipSync(data.map(row => JSON.stringify(row)).join('\n') + '\n'))
+  const unit = readdirSync(join(root, 'checkpoint-units')).find(file => file.endsWith('.json.gz'))!
+  const file = join(root, 'checkpoint-units', unit), data = JSON.parse(gunzipSync(readFileSync(file)).toString())
+  data.value.calls = 99
+  writeFileSync(file, gzipSync(JSON.stringify(data)))
   expect(() => new CollectionCheckpoint(root, identity)).toThrow('changed')
 })
 

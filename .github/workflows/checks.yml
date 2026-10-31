@@ -8,7 +8,8 @@ permissions:
 jobs:
   checks:
     name: Static checks and fixture tests
-    runs-on: ubuntu-latest
+    # Playwright 1.58's dependency installer supports Ubuntu 24.04.
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     env:
       MERMAID_REFERENCE_DIR: /nonexistent/trident-oracle
@@ -22,6 +23,8 @@ jobs:
         with:
           bun-version: '1.4.2'
       - run: bun install --frozen-lockfile
+      # Chromium inspects checked-in fixtures; no project or benchmark runs.
+      - run: bunx playwright install --with-deps chromium
       - run: bun run lint
       - run: bun run typecheck
       - run: bun commands.ts results:snapshot --check
@@ -45,4 +48,6 @@ jobs:
         with:
           bun-version: '1.4.2'
       - run: bun install --frozen-lockfile
+      # Chromium inspects checked-in fixtures; no project or benchmark runs.
+      - run: bunx playwright install --with-deps chromium
       - run: bun run test:ci

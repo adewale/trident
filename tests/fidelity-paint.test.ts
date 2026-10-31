@@ -59,6 +59,20 @@ test('actual painted endpoints and multiplicity are independent of correct label
   expect(invented.checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('failed')
 })
 
+test('positive-alpha labels cannot earn visible credit when their opaque node backdrop has the same colour', async () => {
+  const white = fixture.replaceAll('<text ', '<text fill="white" ')
+  expect((await inspect(white)).checks.find(check => check.criterion === 'visible-authored-labels')?.status).toBe('failed')
+  const black = fixture.replaceAll('fill="white"', 'fill="black"')
+  expect((await inspect(black)).checks.find(check => check.criterion === 'visible-authored-labels')?.status).toBe('failed')
+  expect((await inspect(fixture)).checks.find(check => check.criterion === 'visible-authored-labels')?.status).toBe('passed')
+  const subpixel = fixture.replaceAll('<text ', '<text opacity="0.000000001" ')
+  expect((await inspect(subpixel)).checks.find(check => check.criterion === 'paint-opacity-and-color')?.status).toBe('unavailable')
+  const invisibleBody = fixture.replaceAll('fill="white" stroke="black"', 'fill="white" stroke="none"')
+  expect((await inspect(invisibleBody)).checks.find(check => check.criterion === 'painted-node-ownership')?.status).not.toBe('passed')
+  const invisibleEdge = fixture.replace('fill="none" stroke="black" marker-end', 'fill="none" stroke="white" marker-end')
+  expect((await inspect(invisibleEdge)).checks.find(check => check.criterion === 'painted-relationships')?.status).not.toBe('passed')
+})
+
 test('an extra explicitly identified but unbound route cannot earn exact multiplicity credit', async () => {
   const extra = fixture.replace('</svg>', '<g class="edge"><path d="M20 70 L220 70" fill="none" stroke="black" marker-end="url(#arrow)"/></g></svg>')
   expect((await inspect(extra)).checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('unavailable')
@@ -87,7 +101,11 @@ test('collapsed or hidden source content cannot pass merely because the requeste
   const authored = { ...expected, forbiddenLabels: ['Beta'] }
   expect((await inspect(fixture, authored)).checks.find(item => item.criterion === 'hidden-authored-content')?.status).toBe('failed')
   const hidden = fixture.replace('x="154" y="30"', 'x="154" y="30" display="none"')
-  expect((await inspect(hidden, authored)).checks.find(item => item.criterion === 'hidden-authored-content')?.status).toBe('passed')
+  expect((await inspect(hidden, authored)).checks.find(item => item.criterion === 'hidden-authored-content')?.status).toBe('unavailable')
+  // Once potential outlined text is removed, the remaining text/rectangles
+  // provide an independent DOM-only absence control.
+  const domOnly = hidden.replace(/<path\b[^>]*(?:\/>|>[\s\S]*?<\/path>)/g, '')
+  expect((await inspect(domOnly, authored)).checks.find(item => item.criterion === 'hidden-authored-content')?.status).toBe('passed')
   const masked = fixture.replace('x="154" y="30"', 'x="154" y="30" style="mask-image:linear-gradient(black,transparent)"')
   expect((await inspect(masked, authored)).checks.find(item => item.criterion === 'hidden-authored-content')?.status).toBe('unavailable')
 })
@@ -99,7 +117,9 @@ test.each(['L0 0 L6 3 L0 6 Z', 'M0 0 L6 3 M0 6', 'M0 0 L6,,3 L0 6 Z'])('unprojec
 
 test('browser paint rejects hidden and clipped authored labels, not just missing SVG text', async () => {
   const hidden = await inspect(fixture.replace('x="154" y="30"', 'x="154" y="30" opacity="0"'))
-  expect(hidden.checks.find(item => item.criterion === 'visible-authored-labels')?.status).toBe('failed')
+  expect(hidden.checks.find(item => item.criterion === 'visible-authored-labels')?.status).toBe('unavailable')
+  const domOnlyHidden = fixture.replace(/<path\b[^>]*(?:\/>|>[\s\S]*?<\/path>)/g, '').replace('x="154" y="30"', 'x="154" y="30" opacity="0"')
+  expect((await inspect(domOnlyHidden)).checks.find(item => item.criterion === 'visible-authored-labels')?.status).toBe('failed')
   const clipped = await inspect(fixture.replace('viewBox="0 0 240 80"', 'viewBox="0 0 100 80"'))
   expect(clipped.checks.find(item => item.criterion === 'labels-within-canvas')?.status).toBe('failed')
   const selfClipped = await inspect(fixture.replace('</defs>', '<clipPath id="tiny"><rect x="0" y="0" width="1" height="1"/></clipPath></defs>').replace('x="154" y="30"', 'x="154" y="30" clip-path="url(#tiny)"'))
@@ -113,15 +133,37 @@ test('browser paint rejects hidden and clipped authored labels, not just missing
   expect(multiline.passed).toBe(true)
 })
 
-test('failed image decoding earns no paint credit and unsupported ownership remains unavailable', async () => {
+test('image representation/prerequisite gaps stay unknown while exact decoded nonvisible geometry fails', async () => {
   const broken = 'data:image/png;base64,invalid'
   const badImage = await inspect(fixture.replace('</svg>', `<image href="${broken}" width="20" height="20"/></svg>`), expected, { paint: { images: [{ href: broken, count: 1 }] } })
-  expect(badImage.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('failed')
+  expect(badImage.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('unavailable')
+  expect(badImage.passed).toBe(false)
   const red = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGP4z8DwHwAFAAH/iZk9HQAAAABJRU5ErkJggg=='
   const retained = fixture.replace('</svg>', `<image href="${red}" x="100" y="50" width="20" height="20"/></svg>`)
   expect((await inspect(retained, expected, { paint: { images: [{ href: red, count: 1 }] } })).passed).toBe(true)
+  const blocked = await inspect('<meta http-equiv="Content-Security-Policy" content="img-src &#39;none&#39;">' + retained, expected, { paint: { images: [{ href: red, count: 1 }] } })
+  expect(blocked.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('unavailable')
+  expect(blocked.passed).toBe(false)
+  const wrong = await inspect(retained.replace(red, broken), expected, { paint: { images: [{ href: red, count: 1 }] } })
+  expect(wrong.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('unavailable')
+  expect(wrong.checks.find(item => item.criterion === 'emitted-image-decoding')?.status).toBe('unavailable')
   const omitted = await inspect(fixture, expected, { paint: { images: [{ href: red, count: 1 }] } })
-  expect(omitted.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('failed')
+  expect(omitted.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('unavailable')
+  // Exactly the same existing PNG bytes have two legal URI encodings. The
+  // bounded href observer cannot call their equivalence a renderer failure or
+  // independently certify it merely because this fixture knows the bytes.
+  const equivalent = 'data:image/png,' + [...Buffer.from(red.split(',')[1]!, 'base64')].map(byte => '%' + byte.toString(16).padStart(2, '0')).join('')
+  const reencoded = await inspect(retained.replace(red, equivalent), expected, { paint: { images: [{ href: red, count: 1 }] } })
+  expect(reencoded.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('unavailable')
+  expect(reencoded.checks.find(item => item.criterion === 'emitted-image-decoding')?.status).toBe('passed')
+  expect(reencoded.passed).toBe(false)
+  // The same frozen red fixture can be inlined instead of retaining its
+  // source URL; URL spelling alone cannot establish wrong image contents.
+  const inlined = await inspect(retained, expected, { paint: { images: [{ href: 'https://fixture.invalid/frozen-red.png', count: 1 }] } })
+  expect(inlined.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('unavailable')
+  expect(inlined.checks.find(item => item.criterion === 'emitted-image-decoding')?.status).toBe('passed')
+  const indirect = fixture.replace('</svg>', `<defs><image id="red-asset" href="${red}" x="100" y="50" width="20" height="20"/></defs><use href="#red-asset"/></svg>`)
+  expect((await inspect(indirect, expected, { paint: { images: [{ href: red, count: 1 }] } })).checks.find(item => item.criterion === 'embedded-images')?.status).toBe('unavailable')
   const hiddenImage = await inspect(retained.replace('x="100" y="50" width="20"', 'x="100" y="50" opacity="0" width="20"'), expected, { paint: { images: [{ href: red, count: 1 }] } })
   expect(hiddenImage.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('failed')
   const ambiguous = await inspect(fixture.replace('</svg>', '<g><rect x="10" y="50" width="60" height="25"/><text x="14" y="68">Alpha</text></g></svg>'))
@@ -277,4 +319,30 @@ test('unclassed inline triangle geometry is observed without an implementation-s
   expect((await inspect(svg, facts)).passed).toBe(true)
   const backwards = svg.replace('129,33 121,37 121,29', '121,33 129,37 129,29')
   expect((await inspect(backwards, facts)).checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('failed')
+})
+
+test('unwrapped public SVG binds labels to individual real outlines without borrowing a canvas background', async () => {
+  const authored = { labels: ['A', 'B'], nodes: [{ id: 'A', label: 'A' }, { id: 'B', label: 'B' }], edges: [{ source: 'A', target: 'B', directed: true }] }
+  for (const name of ['rs-flat-flowchart.svg', 'merslim-flat-flowchart.svg']) {
+    const svg = retainedSvg(name)
+    expect((await inspect(svg, authored)).checks.filter(check => ['painted-node-ownership', 'painted-relationships'].includes(check.criterion)).map(check => [check.criterion, check.status])).toEqual([['painted-node-ownership', 'passed'], ['painted-relationships', 'passed']])
+    const renamed = svg.replaceAll('edge-0', 'arbitrary-relation').replaceAll('edgePath', 'arbitrary-path')
+    expect((await inspect(renamed, authored)).checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('passed')
+    const extra = svg.replace('</svg>', '<rect x="10" y="67" width="60" height="10" fill="white" stroke="black"/><text x="12" y="75" font-size="8">Intruder</text></svg>')
+    expect((await inspect(extra, authored)).checks.find(check => check.criterion === 'painted-node-ownership')?.status).toBe('failed')
+  }
+  const flat = '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="100"><rect width="240" height="100" fill="white"/><text x="14" y="30">Alpha</text></svg>'
+  expect((await inspect(flat, { labels: ['Alpha'], nodes: [{ id: 'A', label: 'Alpha' }], edges: [] })).checks.find(check => check.criterion === 'painted-node-ownership')?.status).toBe('unavailable')
+})
+
+test('a later opaque cover cannot preserve passing visible-label evidence through positive text bounds', async () => {
+  const opaque = fixture.replace('</svg>', '<rect x="0" y="0" width="240" height="80" fill="white" pointer-events="none"/></svg>')
+  const hidden = await inspect(opaque)
+  expect(hidden.checks.find(check => check.criterion === 'visible-authored-labels')?.status).toBe('passed')
+  expect(hidden.checks.find(check => check.criterion === 'unclipped-authored-labels')?.status).toBe('failed')
+  expect(hidden.passed).toBe(false)
+  const partial = await inspect(fixture.replace('</svg>', '<rect x="10" y="10" width="20" height="30" fill="white"/></svg>'))
+  expect(partial.checks.find(check => check.criterion === 'unclipped-authored-labels')?.status).toBe('unavailable')
+  const behind = fixture.replace('<defs>', '<rect x="0" y="0" width="240" height="80" fill="white"/><defs>')
+  expect((await inspect(behind)).passed).toBe(true)
 })

@@ -28,3 +28,100 @@ Tests retain the real drawing and perturb filter bounds, input and alpha.
 `bezel-inline-arrow.svg`: actual Bezel 0.2.21 public SVG from the 31 October 2026 campaign, Mermaid documentation `flowchart.md:686` at `1fb7869866dd619168d840291c9c54b4f129758b`; SHA-256 `6842029810a65d26758716992c4e973ca990a17cd1cca10252ae0f9e63f08119`. Unmodified output.
 
 `dart-inline-arrow.svg`: actual Mermaid Dart0.3.2 public SVG from the 31 October2026 campaign, Mermaid documentation `flowchart.md:686` at `1fb7869866dd619168d840291c9c54b4f129758b`; SHA-256 `13137b0758565e29ad7976cb57e3990dfe477638d2f3458dca18f7fc16d725ec`. Unmodified output.
+
+`rs-flat-flowchart.svg` and `merslim-flat-flowchart.svg` are unchanged public SVGs
+from Mermaid RS Renderer0.3.1 and Merslim0.2.3 in the31October2026 campaign,
+Mermaid documentation `flowchart.md:686` at
+`1fb7869866dd619168d840291c9c54b4f129758b`. They deliberately lack node wrapper
+classes. The tests bind real label/body geometry, perturb generic identifiers,
+and reject an extra visible node and a missing body with a canvas background.
+RS SHA256: `5f4dd1c9b0b321baf82eb495c68d99485c25cdb1eac5575c76a5647e530b2ce7`.
+Merslim SHA256: `66f920a4c07759a3b57dee24bcff60e2b77ca28576c782483ebb6e4d33f4f25e`.
+
+The `mermaid/pele-class-members`, `-er-attributes` and `-sequence-messages`
+fixtures are unchanged public Mermaid 12.2.0 and Pele 1.9.0 outputs retained
+in the 31 October 2026 ecosystem campaign for the authored cases
+`features:class:namespace-members-cardinality`,
+`features:er:attributes-identifying-cardinality` and
+`features:sequence:notes-loop-reciprocal`. Their source and literal expectations
+are committed in `fidelity/cases.ts`; they are not inferred from the SVGs.
+Tests inspect actual node-owned rows and endpoint-owned message routes, then
+change return types, attributes, keys, message order and dashed strokes.
+Fixture SHA-256 digests, in Mermaid/Pele order:
+
+- Class: `c648a838a916da52eee937666427660b09359ff7f18751f8b1006226b7404698`,
+  `579f478fa3009d871d364450fdb89ae6554425a8e29ff0933e7d01bc54765ea0`.
+- ER: `a083d0b5dcd72ca73a3ed0844df67113d2e134694813b933bb72684f91cb4a3a`,
+  `a39526c99197056517f19e67e58c8c83e53936eb6feca9591ea7ae1bfc3d2bc7`.
+- Sequence: `ae998ddda27010cf3d0fd43437926d595b63ba374ebf9a8a106941131e005654`,
+  `6395ad724bc2d55870ac3e2e31417690a841883a781928b6a33b90a5e96a1a7b`.
+
+These qualify bounded fact profiles, not every class, ER or sequence feature.
+Static/abstract/generic member decorations, ER cardinality glyph meaning,
+notes/fragments and unsupported message arrow styles remain separate required
+obligations and cannot inherit credit from the passing rows.
+
+`mermaid-sankey-values.svg` and `mermaid-treemap-values.svg` are unchanged
+Mermaid 12.2.0 public outputs for `meaning:family:sankey` and
+`meaning:family:treemap`, retained in the same 31 October campaign. The source
+and original native expectations are in `fidelity/cases.ts`. New visual
+expectations derive from those literals and the pinned public defaults, not
+from these SVGs. Tests independently mutate printed quantities, borrow a
+correct value from unrelated text, hide/clamp value text and change source
+area ratios. A wrong printed number fails independently of correct geometry.
+
+- Sankey SHA-256: `aba95796af83af915d18a63801d38e71528857514d302b85a3ad9f5d6ed80ef4`.
+- Treemap SHA-256: `85c7d901c362a6c7e78b40868f9305b649b0862208e11c27da64707ba522f2e1`.
+
+`mermaid-owned-styles.svg` and `pele-owned-styles.svg` retain unchanged
+Mermaid 12.2.0 and Pele 1.9.0 output for
+`features:flowchart:owned-style-effect` in that campaign. The independent
+source asks for both node fills `#ffcc00` and default route stroke `#225588`
+at `3px`. Tests change the actual colors and rename renderer CSS prefixes;
+neither source selectors nor a matching unrelated decoration supplies paint
+credit. Their SHA-256 digests are
+`f0d673370fd93927296bb304626cd8bec9246a6c47bce99c4481e2798c144879` and
+`6ffdf8b0566c5b9cb19a2d9d13cb707f527d595a025946a0da03f120b2d3bcc1`.
+
+`mermaid-four-shapes.svg` and `pele-four-shapes.svg` retain the unchanged
+Mermaid12.2.0 and Pele1.9.0 outputs for pinned Mermaid documentation
+`packages/mermaid/src/docs/syntax/examples.md:40` at
+`1fb7869866dd619168d840291c9c54b4f129758b`, from the same31October campaign.
+The source asks for an ordinary box, circle, rounded box and diamond. Pele's
+ordinary box has cosmetic4px corners; its explicitly rounded box has12px
+corners. Tests verify the geometric contrast rather than requiring one
+renderer skin's sharp-corner convention, then swap the source shapes and
+collapse the actual contrast. The SHA-256 digests are
+`a782b10ce8314d76c1685bb98eda70d9d2008baa25385b9f73020ec53653bb82` and
+`4600302dbb91083fa8b3096353cdeabb4c876ea39b8c64062e83972c72d00a77`.
+
+`mermaid-sequence-linebreak.svg` and `pele-sequence-linebreak.svg` are unchanged
+Mermaid12.2.0 and Pele1.9.0 outputs for documentation
+`packages/mermaid/src/docs/syntax/sequenceDiagram.md:464` at the same pin and
+campaign. The source explicitly asks for `Alice<br/>Johnson`, message
+`Hello John,<br/>how are you?` and a separate multiline note. The bounded
+line-break controls independently declare the participant/message facts;
+notes remain a separate unsupported ownership profile. Mermaid uses sibling
+`text` elements, while Pele uses `tspan` children. Their actual glyph rows
+satisfy the same line contract; SVG structure and CSS prefixes are immaterial.
+Mermaid's unrelated unresolved note-filter diagnostic still withholds a whole
+drawing certificate; passing this profile does not erase it. SHA-256 digests:
+`56841ada14d57582eecdc8b1596a770887bd00e77b352e43643ac9e508a36130` and
+`984ae4c3f3ce89c753e995b665539fd83e3f3fa86d205935c16192509f690083`.
+
+`rs-outlined-labels.svg` is an offline mutation of the retained
+`rs-flat-flowchart.svg` above, preserving its node bodies and relationship.
+Only its A/B text elements become DejaVu Sans glyph paths, centered at their
+original text anchors and scaled from the font's units per em to16px. The
+source font is `/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf`, SHA-256
+`57f73e11f51999432bf7ab22ce55b6f945d5eca1bf824404cfa9ec2e3718c84e`.
+This control demonstrates an uninspectable representation, not a new renderer
+measurement or an OCR oracle. Its bounds/paint remain observable while
+source-owned labels and facts stay unknown. The generated SVG's SHA-256 is
+`f78df53074e7c5e12df1b83016b88333a617d7ca92446f011b9b99c6196a67cf`.
+
+`rs-mixed-labels.svg` keeps the original DOM-text A from `rs-flat-flowchart.svg`
+and the independently derived outlined B from `rs-outlined-labels.svg`. Node
+bodies and relationship are unchanged. It proves the mixed representation
+boundary must stay unknown rather than assigning a missing-label fault to B.
+Its SHA-256 is `5c6d0bfc624a21dd785782665afe6d9be563583368472e262bfd40646a0f0552`.

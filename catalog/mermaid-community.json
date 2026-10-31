@@ -3910,6 +3910,30 @@
                 "-"
               ],
               "input": "stdin"
+            },
+            "svg": {
+              "args": [
+                "render",
+                "-",
+                "--format",
+                "svg",
+                "--output",
+                "-",
+                "--quiet"
+              ],
+              "input": "stdin"
+            },
+            "png": {
+              "args": [
+                "render",
+                "-",
+                "--format",
+                "png",
+                "--output",
+                "{output}",
+                "--quiet"
+              ],
+              "input": "stdin"
             }
           },
           "platforms": {

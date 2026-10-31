@@ -38,8 +38,21 @@ test('a relationship label belongs to its traced route, not an unrelated text oc
   expect(inspectTerminalMeaning(fixture('termaid-branch'), { nodes, edges: [{ source: 'Alpha', target: 'Beta' }, { source: 'Alpha', target: 'Gamma' }] }).status).toBe('correct')
 })
 
-test('ANSI concealment, cursor movement and wide or combining text cannot receive guessed cell coordinates', () => {
-  for (const drawing of ['\x1b[8m' + fixture('chain'), '\x1b[2J' + fixture('chain'), fixture('chain').replace('Beta', '工程'), fixture('chain').replace('Beta', 'Be\u0301ta')]) expect(inspectTerminalMeaning(drawing, chain).status).toBe('unknown')
+test('terminal-state interpretation observes cleared and concealed ink instead of stripping controls', () => {
+  expect(inspectTerminalMeaning('\x1b[2J' + fixture('chain'), chain).status).toBe('correct')
+  expect(inspectTerminalMeaning('\x1b[8m' + fixture('chain'), chain).status).not.toBe('correct')
+  const drawing = '┌──────┐    ┌──────┐\n│ 工程 │───►│ 終了 │\n└──────┘    └──────┘'
+  expect(inspectTerminalMeaning(drawing, { nodes: [{ id: 'A', label: '工程' }, { id: 'B', label: '終了' }], edges: [{ source: 'A', target: 'B' }] }).status).toBe('correct')
+})
+
+test('equal explicit SGR foreground/background cannot supply a complete graph or a hidden authored label', () => {
+  const drawing = fixture('chain'), invisible = ['\x1b[30;40m', '\x1b[90;100m', '\x1b[38;5;196;48;5;196m', '\x1b[38;2;21;84;147;48;2;21;84;147m']
+  for (const style of invisible) {
+    expect(inspectTerminalMeaning(style + drawing + '\x1b[0m', chain).status).not.toBe('correct')
+    expect(inspectTerminalMeaning(drawing.replace('Alpha', style + 'Alpha\x1b[0m'), chain).status).not.toBe('correct')
+    expect(inspectTerminalMeaning(drawing + '\x1b[2J\x1b[H' + style + drawing + '\x1b[0m', chain).status).not.toBe('correct')
+  }
+  expect(inspectTerminalMeaning('\x1b[31m' + drawing + '\x1b[0m', chain).status).toBe('correct')
 })
 
 

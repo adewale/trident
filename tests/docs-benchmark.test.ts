@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test'
-import { mkdtempSync, writeFileSync, rmSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { docsArtifactServer, docsRoundOrder } from '../unified/docs-benchmark.ts'
@@ -116,8 +116,12 @@ test('a repair selects missing literal documentation IDs without changing or reo
 
 import { retainedPath } from '../unified/recheck-rendering.ts'
 test('a copied recheck resolves original provenance roots only into its own output and rejects unowned paths', () => {
-  expect(retainedPath('/tmp/extracted', '/tmp/new', ['/workspace/collected', '/workspace/rechecked'], '/workspace/collected/fidelity/a.svg.gz')).toBe('/tmp/new/fidelity/a.svg.gz')
-  expect(retainedPath('/tmp/extracted', '/tmp/new', ['/workspace/collected'], '/tmp/extracted/docs/svg/a.svg.gz')).toBe('/tmp/new/docs/svg/a.svg.gz')
-  expect(() => retainedPath('/tmp/extracted', '/tmp/new', ['/workspace/collected'], '/workspace/other/secrets')).toThrow('outside its recorded')
-  expect(() => retainedPath('/tmp/extracted', '/tmp/new', ['/workspace/collected'], '../outside')).toThrow('outside its recorded')
+  const root = mkdtempSync(join(tmpdir(), 'trident-retained-path-')), extracted = join(root, 'extracted'), out = join(root, 'new')
+  mkdirSync(extracted); mkdirSync(out)
+  try {
+    expect(retainedPath(extracted, out, ['/workspace/collected', '/workspace/rechecked'], '/workspace/collected/fidelity/a.svg.gz')).toBe(join(out, 'fidelity/a.svg.gz'))
+    expect(retainedPath(extracted, out, ['/workspace/collected'], join(extracted, 'docs/svg/a.svg.gz'))).toBe(join(out, 'docs/svg/a.svg.gz'))
+    expect(() => retainedPath(extracted, out, ['/workspace/collected'], '/workspace/other/secrets')).toThrow('outside its recorded')
+    expect(() => retainedPath(extracted, out, ['/workspace/collected'], '../outside')).toThrow('outside its recorded')
+  } finally { rmSync(root, { recursive: true, force: true }) }
 })

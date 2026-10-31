@@ -1,0 +1,495 @@
+{
+  "schema": "trident-literal-source-audit-v1",
+  "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "reviewedCorpusCommit": "2cc55cf",
+  "scope": "All 42 sequence-family source/expectation pairs in the frozen 548-occurrence DaveBench inventory",
+  "reviewer": "Codex implement_docs; also the source transcriber author",
+  "method": "Each literal source and full declared expectation was read in six batches; documented syntax resolved semantics. Source IDs and hashes bind coverage. Findings were not inferred from candidate/reference output or a generator equality test.",
+  "independenceLimit": "This is a manual self-audit. Pair with the SVG observer author review and parent spot-review; do not describe it as an independent external sign-off or output qualification.",
+  "observerLimit": "Source fact retention does not qualify an output observer. Open arrows, lifecycle/group ownership, line breaks, numbering and unsupported facts remain unknown until their actual output obligations are qualified. Styles are audited separately.",
+  "sourceInventorySha256": "6de5237c3fa6e2387d4ea49fc5b5c975c1c882362a33a6592bf2dc1e7716749b",
+  "findings": [
+    {
+      "id": "sequence-default-kinds",
+      "evidence": "sequenceDiagram.md:83–99",
+      "detail": "Implicit participants have the documented default rectangle participant kind; absence from participant-kinds is not a complete kind contract."
+    },
+    {
+      "id": "sequence-nohead-marker",
+      "evidence": "sequenceDiagram.md:347–348",
+      "detail": "-> and --> are solid/dotted lines without arrowheads. Preserve literal sender/receiver in source/native facts; visual endpoints are unordered because direction is not printed."
+    },
+    {
+      "id": "sequence-open-arrow",
+      "evidence": "sequenceDiagram.md:355–356",
+      "detail": "-) and --) have open asynchronous arrowheads, which cannot be replaced by the generic filled-arrow expectation."
+    },
+    {
+      "id": "sequence-owned-linebreaks",
+      "evidence": "sequenceDiagram.md:452–469",
+      "detail": "HTML breaks in message, note and aliased actor labels need source-owned line arrays; whitespace-normalized text alone does not prove line breaks."
+    },
+    {
+      "id": "sequence-alias-input",
+      "evidence": "sequenceDiagram.md:225–239",
+      "detail": "Resolved type/alias syntax becomes effective kind/node-label facts; an overridden inline alias is provenance, not an additional painted value."
+    },
+    {
+      "id": "sequence-hidden-comment",
+      "evidence": "sequenceDiagram.md:680–689",
+      "detail": "The source comment must not be painted; excluding it from an inclusion-only label list is insufficient."
+    },
+    {
+      "id": "sequence-named-entity",
+      "evidence": "sequenceDiagram.md:692–703",
+      "detail": "Named Mermaid HTML entity #infin; denotes the infinity glyph, not the raw token."
+    }
+  ],
+  "entries": [
+    {
+      "id": "packages/mermaid/src/docs/syntax/examples.md:26",
+      "sourceSha256": "b8e52ce7d792978000b1909b6aa84cf3ba5943bdaf7769d8cfef92c09aa390a4",
+      "reviewedExpectationsSha256": "c5ba6192c411a979480acd222219d79322b90568e46cffab4915d8ff3f7726c3",
+      "updatedExpectationsSha256": "e2f9be298c2238097dc0a1f7e0fa075a5bab97056e399827223468e65f2c3b87",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Six messages checked in order Alice→Bob, Bob→John, Bob→Alice, Bob→John, Bob→Alice, Alice→John; distinct filled/cross/nohead styles, John right-note after message4, four note lines. Implicit kinds, nohead markers and explicit line breaks need correction.",
+      "findings": [
+        "sequence-default-kinds",
+        "sequence-nohead-marker",
+        "sequence-owned-linebreaks"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/examples.md:76",
+      "sourceSha256": "c6681aebec310400ed7c61ecc1869b7957a6eb8e8526bdb09b765fcf0a30e21d",
+      "reviewedExpectationsSha256": "ae73a941cb9c081c30f0b560f115e6d4680ba5902a9fdeb117f27f12e40fe80e",
+      "updatedExpectationsSha256": "4048eca9053b311c1eee846bc14a6e9d8af77584c9fd4124fd0a963adaef6414",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Loop spans messages0–4; alt spans1–3 with else beginning2; opt spans3–4 inside loop. Four message captions/endpoints and participant first appearance agree. Both implicit kinds were absent.",
+      "findings": [
+        "sequence-default-kinds"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/examples.md:94",
+      "sourceSha256": "e31e84a14d63985055ce1cdd577df24ef5b9f713079ade3701277b0015f86ce0",
+      "reviewedExpectationsSha256": "895e16521cc5fe08e13506bb29d01a3290e00560324052b869c6f783fbb928a6",
+      "updatedExpectationsSha256": "b346a171ae08c82ff22eaf1534b8302c9095e5d2d914804ab29d9e4fbdc3db67",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Explicit Alice/Bob precede implicit John; five messages include John self-message, loop1–2 and right-note after2 with two source lines. Missing implicit John kind and explicit note line breaks.",
+      "findings": [
+        "sequence-default-kinds",
+        "sequence-owned-linebreaks"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/examples.md:110",
+      "sourceSha256": "48067e3330977a84023ce4439d809df7bdb2c569f3f1fc9121039c6a433c8b57",
+      "reviewedExpectationsSha256": "250f14259124111903044f87f1591948e18c5e5d846d2476c5049fe26e28d5e6",
+      "updatedExpectationsSha256": "2cf013898de34224df034615a69c1155f194e6c61f41087468acbbb51bb13392",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Five explicit aliases and ten messages checked; alt3–10, else4–10, par7–10 and and9–10 reconstruct both branch memberships. Notes span web/db after0 and5; activation account1–5/blog6–10 is sender-correct. Two asynchronous open markers need distinction.",
+      "findings": [
+        "sequence-open-arrow"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:7",
+      "sourceSha256": "b2066a62d878a2b2b1ad49be0674b68d0fb78deed9c5def176cfcb2340403d25",
+      "reviewedExpectationsSha256": "3ae1b9a042e3459a6a0046dc3d65c34411a567e1c4018bb48939e9c8a123a464",
+      "updatedExpectationsSha256": "75d540bb861b2b0372356b15627ec913c7b75f0dac7a56e0a09b6fdadc426bc2",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Three messages Alice→John, John→Alice, Alice→John agree; third is open asynchronous -), not filled. Both implicit participant kinds absent.",
+      "findings": [
+        "sequence-default-kinds",
+        "sequence-open-arrow"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:30",
+      "sourceSha256": "b46ca8f030ae22c724720f00d238e528d416593c51d52a6e4f22d99b99f93b2d",
+      "reviewedExpectationsSha256": "77f26c05d928575365ca5e4002a2c300064c23a68e2ea1633345bb833a91e58e",
+      "updatedExpectationsSha256": "77f26c05d928575365ca5e4002a2c300064c23a68e2ea1633345bb833a91e58e",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Customer actor plus Web/API/Bank rectangle participants agree with source order/aliases. Six numbered messages, API activation after2/deactivation after5, spanning note after6 all retained.",
+      "findings": []
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:53",
+      "sourceSha256": "ab0098ce21b8fb1ae07229e642d40a225ed767cb4158ebd00657a54bda716531",
+      "reviewedExpectationsSha256": "d0476a6149579e51d7a2e902fb18deac37d5f4c97af5d682b11dbb979c0e1816",
+      "updatedExpectationsSha256": "d0476a6149579e51d7a2e902fb18deac37d5f4c97af5d682b11dbb979c0e1816",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Same six-message ordering/activation/note as :30, with explicit theme default/look classic retained as separate authored configuration obligations; no source mismatch found in those facts.",
+      "findings": []
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+      "sourceSha256": "469a26df510d0cc0bf5a2160f1b03054162ea125f3c5e7f84573f4f73f4c17f2",
+      "reviewedExpectationsSha256": "d105dcd9028fcc470c6b913dd0d088025a7ecdad769167100fda59bd073cb536",
+      "updatedExpectationsSha256": "d105dcd9028fcc470c6b913dd0d088025a7ecdad769167100fda59bd073cb536",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Explicit participant order Alice/Bob overrides first message Bob→Alice. Both filled messages and captions agree.",
+      "findings": []
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:101",
+      "sourceSha256": "2ae466706c787aa96a3f5e09de4710ce4ab41da116a15bf3733cae7b6d641f12",
+      "reviewedExpectationsSha256": "998b0c3182c8d7125741d209093e2fd790f1b923fe7271c5abb91eeed48c0baf",
+      "updatedExpectationsSha256": "998b0c3182c8d7125741d209093e2fd790f1b923fe7271c5abb91eeed48c0baf",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Explicit actor figures Alice/Bob, order, two filled messages and captions agree; actor kind retained.",
+      "findings": []
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:113",
+      "sourceSha256": "09a6b5bea4819db49acb43677db21085fda3a95b65528d60efb0b9f9b0919e6c",
+      "reviewedExpectationsSha256": "23b735ed8a535d73a4c2d5d1510764b67c7592bf5334d2247033dff3de12ea6e",
+      "updatedExpectationsSha256": "ad7198f1b1f075002f337d1f7cf6ff0b16bcb724fe793d2fc17b6ef23b152298",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Boundary Alice plus default participant Bob, request/response ownership, text and filled styles agree. Raw type is resolved by effective kind.",
+      "findings": []
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:125",
+      "sourceSha256": "969bb3ce641248b40d28f7e4dadd86818f031c45193930dfb96c555eacc1da74",
+      "reviewedExpectationsSha256": "76b222597b70c4bbf6fbfe3b542b2af24e34a198793e035c1d319175877f41ce",
+      "updatedExpectationsSha256": "65a784ca19bbc42df84060b2e069bd3fea0a076e6c57eb487a97325c0c0ff7b7",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Control Alice plus default participant Bob, request/response ownership, text and filled styles agree. Raw type is resolved by effective kind.",
+      "findings": []
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:137",
+      "sourceSha256": "c1a1ef0597c2a31357aef97c36cdf253592cb06f5af93a999c6490da0bb5c249",
+      "reviewedExpectationsSha256": "2fe012b2648791379e89916d1e63caffc9b289a5079211c7b4ce9cc45f139f90",
+      "updatedExpectationsSha256": "3eef2a25cd40289e42d73eac8de71ec553541e8f95b13f40088fb48bcf884859",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Entity Alice plus default participant Bob, request/response ownership, text and filled styles agree. Raw type is resolved by effective kind.",
+      "findings": []
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:149",
+      "sourceSha256": "f158c3d82a5bf4f7e1e05960ab5eb85e910c71ffd2feb37dcd76661a4795c102",
+      "reviewedExpectationsSha256": "77ab3d3a75522cf28fa5cf2e32f37a19297b29b9e059eb1adcfca6347b894c04",
+      "updatedExpectationsSha256": "f6336182af5530ce107be01daf6f3d01f2fb8b05d372679dd7f768c600e67c26",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Database Alice plus default participant Bob, query/result ownership, text and filled styles agree. Raw type is resolved by effective kind.",
+      "findings": []
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:161",
+      "sourceSha256": "bbb78a10baa2dc83bf66bea92a171455665a363e44d38c02951af0083296ba0c",
+      "reviewedExpectationsSha256": "6b79d77917c435ee1eb13f5667914b660667eef32867b520b85a4ed4081c03d1",
+      "updatedExpectationsSha256": "dc5f40b80fee3e9f0ab6c0b7cc13a9544df24e4e992df36269db5d89bf5d2e8b",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Collections Alice plus default participant Bob, request/response ownership, text and filled styles agree. Raw type is resolved by effective kind.",
+      "findings": []
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:173",
+      "sourceSha256": "c7329c9b4aba72a7a47adf93c67e032d78c927945b22a4cfb8b6c995af148efb",
+      "reviewedExpectationsSha256": "9427a170c2e391bc6af9eafc1047633e57fd1e68a627c2c2c6a41ff719eda849",
+      "updatedExpectationsSha256": "19c1c89b372d7631549a26575ae9dbf3a9b5bc73d5d1418cba2c64ee94bdaf65",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Queue Alice plus default participant Bob, message/response ownership, text and filled styles agree. Raw type is resolved by effective kind.",
+      "findings": []
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:189",
+      "sourceSha256": "b833048175d5418f3346650eac414112d00518cbef48e0aaa9ebfd0c874fa89d",
+      "reviewedExpectationsSha256": "a1c19c11dd1ef7ee08cd93056b031923e7693f0270edb370174889d3bfe6a74a",
+      "updatedExpectationsSha256": "a1c19c11dd1ef7ee08cd93056b031923e7693f0270edb370174889d3bfe6a74a",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Aliases A=Alice/J=John, explicit order A/J, two reciprocal filled messages and captions agree.",
+      "findings": []
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:199",
+      "sourceSha256": "be26e07607d48aa8e0514a845d98446f206f3728cdd4b6b42e9add3cced0bb13",
+      "reviewedExpectationsSha256": "f767b394129a228d037cf940594615ee64d4651527fe3092a413c34fe21c7982",
+      "updatedExpectationsSha256": "c27c26318227985dbdab33d593c41f243c93d6f84f7f7b49a679f97394217102",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "External aliases Public API/User Database/Auth Service and order API/DB/Svc agree; type database overrides actor DB keyword, boundary/control retained; four messages/styles correct.",
+      "findings": []
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:214",
+      "sourceSha256": "ed25c7aa66b7d0181e20fb015fd49edbf10d89db03bda3ec62031b9e7fdb1eb3",
+      "reviewedExpectationsSha256": "73ff6c59734ef199b74153c161cb31fa8ecf9fe63f87c12e20767020e9196848",
+      "updatedExpectationsSha256": "6a151f76c78147e11a2fd4c369ce2d0e88bf729b79655fff35c9fec492dd1e60",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Inline aliases resolve to Public API/Auth Service/User Database with boundary/control/database kinds and four correct ordered messages. Alias syntax should not become a second raw painted-value obligation.",
+      "findings": [
+        "sequence-alias-input"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:229",
+      "sourceSha256": "1371ae9ae607217a0c399c5f33fabdef706e03d30e317c252f34cd2c45467ae1",
+      "reviewedExpectationsSha256": "5cb1dbb923313d05a0d93065c009990760e39545177019e7c2b5e6e38ae7e9a4",
+      "updatedExpectationsSha256": "b0bf5b1bb81cb0a318f3127b1af9651c2ff1031481122c119650620a1ca1630c",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "External Name/External DB override inline Internal Name/Internal DB per pinned prose. Node labels are right but raw overridden alias attributes must not be required paint; two messages and kinds agree.",
+      "findings": [
+        "sequence-alias-input"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:250",
+      "sourceSha256": "5fa9f1e6f236b76b71424993a30eac3e12fa3c6b6f336ee7bc9d028c44914ccb",
+      "reviewedExpectationsSha256": "55a89699252b469afc7a5fba7defe4ab5d67c76ae81014dc579f20ea7752b185",
+      "updatedExpectationsSha256": "602c48b27090e91a76cba04991c56ba01cd26acebeb3eba5d0bf677321f05f91",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Six messages and four actors checked; create Carl before2/create actor Donald before3; destroy Carl before4 and sender Bob before5 agree. Implicit Alice/Bob kinds absent; terminal cross preserved.",
+      "findings": [
+        "sequence-default-kinds"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:315",
+      "sourceSha256": "93d3c0ff3d5d384a0044c0882501febf51d0ba59c26ca2c237eae58d27ad53aa",
+      "reviewedExpectationsSha256": "21cd697eb5886b79f8fe3a17c2849267e6a650f82a2ab1a52a3c35598e13d0e8",
+      "updatedExpectationsSha256": "21cd697eb5886b79f8fe3a17c2849267e6a650f82a2ab1a52a3c35598e13d0e8",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Purple box caption Alice & John contains A/J; uncolored Another Group contains B/C. Participant order, four messages and explicit Purple appearance agree; ampersand is visible text.",
+      "findings": []
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:392",
+      "sourceSha256": "a013ca4947e10afb33ed61e770258c8327297c14884d11e77fdd135b8a789411",
+      "reviewedExpectationsSha256": "15c18c9f86a76fc0a78a08ed5c1d5e5569770051e35cc603b26399bff8985436",
+      "updatedExpectationsSha256": "15c18c9f86a76fc0a78a08ed5c1d5e5569770051e35cc603b26399bff8985436",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Three filled messages have central connections respectively target, source, both; exact indices0/1/2 and actor order Alice/John agree.",
+      "findings": []
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:405",
+      "sourceSha256": "4a26f3e25a18453906201f05c271691d7c53a3fcb2d1b81bd47077b3f9e131c0",
+      "reviewedExpectationsSha256": "578ba10a1d3a36c87ea4a46cd92bd3516e34d03fbe74ad551b2fff8669b939c4",
+      "updatedExpectationsSha256": "9921aa1e996e13079d5b0fb5c28b3f1c00c7b73d88ee9709d948835e2eb99d73",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Two reciprocal messages bracket explicit John activation after1/deactivation after2. Both participants are implicit defaults and their kinds were absent.",
+      "findings": [
+        "sequence-default-kinds"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:415",
+      "sourceSha256": "028189a67587cce218844ff2f7e9ef4b97b49fb756b844a090ec5de9440469be",
+      "reviewedExpectationsSha256": "578ba10a1d3a36c87ea4a46cd92bd3516e34d03fbe74ad551b2fff8669b939c4",
+      "updatedExpectationsSha256": "9921aa1e996e13079d5b0fb5c28b3f1c00c7b73d88ee9709d948835e2eb99d73",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Shorthand + activates receiver John, - deactivates sender John at message boundaries1/2; both messages/styles correct, default kinds missing.",
+      "findings": [
+        "sequence-default-kinds"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:423",
+      "sourceSha256": "8a0283b4e38a5069c52d99c3d48bd613e409c3817082ee2687720d22fc765660",
+      "reviewedExpectationsSha256": "a84daea4190aa3a3f299533dc8fef1b67c3bb596c134673b728b8da23fd4cee8",
+      "updatedExpectationsSha256": "145729c207c25d48a211d05061b780bb518449cd4163dfa18a3dcbe15fb38ca0",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Two stacked John activations after1/2 and deactivations after3/4 agree with four captions/messages. Both implicit default kinds absent.",
+      "findings": [
+        "sequence-default-kinds"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:438",
+      "sourceSha256": "592325d67537970355724d77fa9fdd310904e33537cd0ec6c8fe02fd8885c7df",
+      "reviewedExpectationsSha256": "a2d0c1ca656da812c2c85b064d1bbf10138f4677af90773379d68d5ccfd75db6",
+      "updatedExpectationsSha256": "a2d0c1ca656da812c2c85b064d1bbf10138f4677af90773379d68d5ccfd75db6",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "One declared John participant with no messages; right-note Text in note after0 and zero edges agree.",
+      "findings": []
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:446",
+      "sourceSha256": "a9915542fa20e2bf5e76e2b294d59ad13565386a70e63d5faf10c7f033a81874",
+      "reviewedExpectationsSha256": "972de4e28bd336bedaa4573bb3693411768e15da231395d1376f36d8ca545196",
+      "updatedExpectationsSha256": "09ad0246c534a36e99d2109d31d412cb8f6e36030d6bf583672d38b927335ad9",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "One nohead Alice→John message plus spanning note after1; source direction must not manufacture a visible arrowhead. Both default kinds absent.",
+      "findings": [
+        "sequence-default-kinds",
+        "sequence-nohead-marker"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:456",
+      "sourceSha256": "c68e948fd0030ddd4f49b540a1b72fec5c4e88f5286c612a9f25ab77844d54c0",
+      "reviewedExpectationsSha256": "f66f8d4f95ec10c5ca9588ab173a91fd9832d9ba5fb6cfa339adcd09a2498bf5",
+      "updatedExpectationsSha256": "d82b43a6590fe84bfb828352bfc230c1c117d14824f9e61a9717f06507de2565",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "One nohead message and spanning note both contain explicit two-line HTML breaks; captions decoded correctly but linebreak ownership/default kinds/nohead marker needed correction.",
+      "findings": [
+        "sequence-default-kinds",
+        "sequence-nohead-marker",
+        "sequence-owned-linebreaks"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:464",
+      "sourceSha256": "40a5ae34a089954547d166bbe9b974aeb266cfcf0d724b1e32346261140e3984",
+      "reviewedExpectationsSha256": "22cc5337034a6bf8d6657e801959d5fb4797cb01acea47ba8f5a90fc12100ce3",
+      "updatedExpectationsSha256": "73ba4c1f878af4be84b73b5d7517f97f1d7cdceb9d7dae8c9cf38eacaa9c30aa",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Alice alias has two lines Alice/Johnson; implicit John, nohead two-line message and spanning two-line note after1 all read. Need owned linebreak facts, John's default kind, and nohead marker.",
+      "findings": [
+        "sequence-default-kinds",
+        "sequence-nohead-marker",
+        "sequence-owned-linebreaks"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:483",
+      "sourceSha256": "d042768225fc2a2c6aed87e913d293db64cb8da27b430259f3161a3f684888b3",
+      "reviewedExpectationsSha256": "add7957ebd38c91b6afa4a972786fe79da0173a3449d5a55de97fd9f1ead1142",
+      "updatedExpectationsSha256": "5a9fbc3f565dced86b8bf793bd63bfeca746af948ff52bda510b4e6fa15f1fac",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Initial nohead Alice→John then dotted nohead reply inside loop1–2; Every minute caption and endpoints agree. Both nohead markers and default kinds needed correction.",
+      "findings": [
+        "sequence-default-kinds",
+        "sequence-nohead-marker"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:513",
+      "sourceSha256": "5ba07f36cdf08b28445a16fd8f24d05afbf5cd349679847aab70f7fddf476084",
+      "reviewedExpectationsSha256": "437263e57451226438ad3cb42cf78faeffca7c64f7676f1fcf7b01761c7e04d8",
+      "updatedExpectationsSha256": "7cfad9715e017ec6d31e05f500ae5c5976f91309726bd75027c29262a859f180",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Alt1–3/else2–3 then opt3–4; four message captions and endpoints agree. Both implicit default kinds absent.",
+      "findings": [
+        "sequence-default-kinds"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:544",
+      "sourceSha256": "6c0cb8e242cbf8bdadf2c2cccad5c0b5b6938127e0c76574c3fcadf342055b84",
+      "reviewedExpectationsSha256": "d604a825054824c4a05d2fbe87d11a84c811093e5be3ad4ff680c20d61a11eab",
+      "updatedExpectationsSha256": "301fe70e360c7757afa20bcc4883a5d0bb3edd10b2a33eee3c26f79a747cbe10",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Parallel first branch0–1 and second1–2 followed by two dotted replies; duplicated Hello guys!/Hi Alice! captions remain distinct message indices/endpoints. Three default kinds absent.",
+      "findings": [
+        "sequence-default-kinds"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:557",
+      "sourceSha256": "af802c7e61fb411636f36a09caed92ea597c51fcae3f79976682ca3391962f3c",
+      "reviewedExpectationsSha256": "f3d90d70f95c61214d1f1d7063784443fec28b690405654094801cfe5ec92834",
+      "updatedExpectationsSha256": "be4169903cc66d1f6b7503bd946c7f89a49b118ede8a6a27e559e5f4a4727a8b",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Outer parallel branches0–1 and1–4, nested parallel2–4 with second nested branch3–4; four endpoints/captions retained and nesting reconstructs source. Five default kinds absent.",
+      "findings": [
+        "sequence-default-kinds"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:589",
+      "sourceSha256": "201a0912328e98f240b39c1412adc00d0bf51c483304d8078d4d8552dac24083",
+      "reviewedExpectationsSha256": "aefb46235a859df294230955c18e4eabcdf1be1ea15619f68e58ca9ac7dd8738",
+      "updatedExpectationsSha256": "4bd19f76a2bb563aac405e31fce4da216a643140cfc3acf288cf5e2b91e05bc7",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Critical container0–3 with first body0–1 and options1–2/2–3; dotted nohead connect plus two Service self-messages correct as source facts, but arrowheads/default kinds invented or absent.",
+      "findings": [
+        "sequence-default-kinds",
+        "sequence-nohead-marker"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:602",
+      "sourceSha256": "a74c5de6ef55136d555087cde5874e57a2742175012a00e31ff405b59157f9fe",
+      "reviewedExpectationsSha256": "39532e7679250a3f70e66dc5cc07cfb558349e37ace3199d9e327034553cc9f7",
+      "updatedExpectationsSha256": "bd7d4533be6c3dd59855f353b3d62cd4fe4e26e33fdf6a08b1559393210a0bf6",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Single critical0–1 contains one dotted nohead Service→DB connect. Both default kinds and lack of arrowhead need correction.",
+      "findings": [
+        "sequence-default-kinds",
+        "sequence-nohead-marker"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:625",
+      "sourceSha256": "07788f7e3ced9064c9d896e61f0fecbab9124f37b6e4eaed7d06dfb18044c9ca",
+      "reviewedExpectationsSha256": "0b6dadb70734ee6d4269810cc719c40d6420e23c14dec96577df70fa473392d7",
+      "updatedExpectationsSha256": "31394842ea29b7384699011d096070282359d292f75ff4aa67e9aa3811cfe198",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Four dotted nohead messages Consumer→API→BookingService, API→Consumer, API→BillingService; break2–3 only wraps show failure. Four default kinds and nohead markers need correction.",
+      "findings": [
+        "sequence-default-kinds",
+        "sequence-nohead-marker"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:661",
+      "sourceSha256": "5556fca9fd13c9cfd53edf7a0f37c9556b2f43098b4796ea409286a0b1f4c882",
+      "reviewedExpectationsSha256": "0a194e38843eb3de19dad97bfc71f2d7cf6946898e4c29cb40494d4f46fa2229",
+      "updatedExpectationsSha256": "0a194e38843eb3de19dad97bfc71f2d7cf6946898e4c29cb40494d4f46fa2229",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Two explicit participants, six filled/dotted messages, nested background rectangles0–4/1–3 with exact rgb colors and note right of Alice after0 agree. Three John activation/deactivation pairs remain balanced and sender-correct.",
+      "findings": []
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:684",
+      "sourceSha256": "c404e4ed538f9b3bae43c673dd0b698b15eace1eeaed6b1fb60622f621514e5a",
+      "reviewedExpectationsSha256": "f65eec281cee1b8150cfa4aaab0b814f496099e41697bbb2d8b8cd2379d37cd6",
+      "updatedExpectationsSha256": "5b054d99bc7d92208ce8b83478c4f6843695d458bbd97de1ff6df1f8fa6a39a8",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Two reciprocal messages agree; standalone %% this is a comment must remain invisible. Contract lacked explicit forbidden comment text and both implicit kinds.",
+      "findings": [
+        "sequence-default-kinds",
+        "sequence-hidden-comment"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:695",
+      "sourceSha256": "942c34f9cb6c3d14f51620085702449a986e34569759d1723ff02b6daec278c3",
+      "reviewedExpectationsSha256": "6e163c7428832ee05ebd91842a7a402b1ece2e6e6a9962c8e2a0eefd1a7af6af",
+      "updatedExpectationsSha256": "5a2573c005b1cc56b86e6a3dcc1780abd24c1cc92033c7467b8373d63e02364c",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Two reciprocal filled messages and first-appearance A/B agree; #9829; decodes ♥, but #infin; must decode ∞ rather than stay literal. Both default kinds absent.",
+      "findings": [
+        "sequence-default-kinds",
+        "sequence-named-entity"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:717",
+      "sourceSha256": "df13c1b9dfa701372a204f3e95e6e5a009848159943bfe7f348bea98d25ecf3e",
+      "reviewedExpectationsSha256": "8799409ecc19603f1808ac91fc8b1ae0d0f00fe1469bf5eec0b4f43407019991",
+      "updatedExpectationsSha256": "8ffe55a0b1d76de78c4549790f66d4b50a5adcf5e952e74a8e986686d094087b",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Autonumber covers five messages including self-message in loop1–2; right John note after2 and Alice/John/Bob first appearance agree. Three implicit default kinds absent.",
+      "findings": [
+        "sequence-default-kinds"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:750",
+      "sourceSha256": "a6b0082ad10a3227348a86637c56ff2f6ef95659a1321854edcade6a11affad9",
+      "reviewedExpectationsSha256": "69efcafd4a1945fa5cc49fa6114b415336bbecdf6e34ef6c80def5682a9dd0b6",
+      "updatedExpectationsSha256": "75d540bb861b2b0372356b15627ec913c7b75f0dac7a56e0a09b6fdadc426bc2",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Two explicit participants and three messages; link menu records correctly excluded from static drawing. Last -) must retain open arrow identity; navigation labels should not become static text.",
+      "findings": [
+        "sequence-open-arrow"
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:775",
+      "sourceSha256": "0f2f5747cfd486445e228641ccb9f7dbcb26dbfd5f5ef0ef4379c9d8a80a7e3d",
+      "reviewedExpectationsSha256": "69efcafd4a1945fa5cc49fa6114b415336bbecdf6e34ef6c80def5682a9dd0b6",
+      "updatedExpectationsSha256": "75d540bb861b2b0372356b15627ec913c7b75f0dac7a56e0a09b6fdadc426bc2",
+      "review": "Literal source and complete declared expectation read",
+      "notes": "Same static three-message drawing as :750; JSON menu navigation is correctly excluded. Last -) must retain open arrow identity.",
+      "findings": [
+        "sequence-open-arrow"
+      ]
+    }
+  ]
+}

@@ -9,8 +9,9 @@ import type { UnifiedWorkload } from './types.ts'
 import { assertMermaidOracle, mermaidVerdicts } from '../portable/mermaid-oracle.ts'
 import { censusDisplayText, referenceLabels } from './oracle-labels.ts'
 import { inspectPng } from './png-inspection.ts'
+import { interpretTerminal } from '../fidelity/terminal-display.ts'
 
-export const SVG_QUALIFICATION_PROTOCOL = 'svg-xml-namespaced-authored-text-v5'
+export const SVG_QUALIFICATION_PROTOCOL = 'svg-xml-namespaced-authored-text-v7'
 
 export interface Qualification {
   unavailable?: boolean
@@ -56,7 +57,7 @@ export function svgQualificationProvenance() {
     nodeXmlParser: observedSvgXmlParser!,
     browserXmlParser: 'native DOMParser',
     canvasPolicy: 'SVG namespace/root and positive finite viewBox or explicit finite width/height; percentage-only dimensions need a positive viewBox',
-    textPolicy: 'namespace-aware authored text retention excluding inert containers; sibling <text> rows of one wrapped label joined; markdown delimiters optional only for oracle/fixture-declared Markdown labels; CSS/paint visibility, referenced use/text paths and owned-label correspondence unmeasured',
+    textPolicy: 'namespace-aware authored text retention excluding inert containers; sibling <text> rows of one wrapped label joined; markdown delimiters optional only for oracle/fixture-declared Markdown labels; CSS/paint visibility, referenced use/text paths and owned-label correspondence unmeasured; missing DOM labels with path/image/use representations remain unavailable without a qualified glyph observer',
   }
 }
 function explicitSvgLength(value: string | undefined): number {
@@ -152,14 +153,24 @@ export function qualifyOutput(workload: UnifiedWorkload, output: unknown, format
     const inspected = inspectPng(output, !!workload.expectedLabels?.some(label => label.trim()))
     return { ok: !inspected.findings.length, findings: inspected.findings, scope: inspected.scope, ...(inspected.unavailable ? { unavailable: true } : {}) }
   }
+  if (['ascii', 'unicode', 'terminal'].includes(format) && workload.features?.includes('expected-empty-drawing')) {
+    if (workload.expectedLabels?.some(label => label.trim())) return { ok: false, findings: ['Empty-drawing contract conflicts with required labels'], scope: 'format-and-authored-labels' }
+    if (typeof output !== 'string') return { ok: false, findings: ['Expected an actual returned terminal string, including an empty string'], scope: 'format-only' }
+    const display = interpretTerminal(output)
+    if (display.status !== 'available') return { ok: false, unavailable: true, findings: [display.reason ?? 'Unqualified terminal display state'], scope: 'format-and-authored-labels' }
+    return { ok: !display.text.trim(), findings: display.text.trim() ? ['Source contract requires an empty drawing, but visible terminal ink remains'] : [], scope: 'format-and-authored-labels' }
+  }
   if (typeof output !== 'string' || !output.trim()) return { ok: false, findings: ['Expected a nonempty output string'], scope: 'format-only' }
   if (format === 'svg') {
     const xml = svgXmlInspection(output)
     if (xml.findings.length || !xml.root) return { ok: false, findings: xml.findings, scope: 'format-only' }
     const inspected = inspectSvgText(xml.root, workload.expectedLabels, workload.markdownLabels)
-    if (isRenderedSourceEcho(workload.source, output, 'svg', inspected.primaryRuns)) findings.push('Visible output echoes Mermaid source instead of an admitted diagram')
+    const sourceEcho = isRenderedSourceEcho(workload.source, output, 'svg', inspected.primaryRuns)
+    if (sourceEcho) findings.push('Visible output echoes Mermaid source instead of an admitted diagram')
+    const unavailable = !sourceEcho && inspected.missingLabels.length > 0 && inspected.opaqueLabelCandidates
+    if (unavailable) findings.push('SVG qualification unavailable: Missing DOM labels alongside path/image/use need an independently qualified glyph or image observer; no OCR or label absence is inferred')
     findings.push(...inspected.missingLabels.map(label => `Missing authored label: ${label}`))
-    return { ok: !findings.length, findings, scope: workload.expectedLabels?.length ? 'format-and-authored-labels' : 'format-only' }
+    return { ok: !findings.length, ...(unavailable ? { unavailable: true } : {}), findings, scope: workload.expectedLabels?.length ? 'format-and-authored-labels' : 'format-only' }
   }
   if (format === 'ascii' || format === 'unicode' || format === 'terminal') {
     if (isRenderedSourceEcho(workload.source, output, 'terminal')) findings.push('Visible output echoes Mermaid source instead of an admitted diagram')

@@ -10,12 +10,12 @@ export function parseOptions(argv: string[]): UnifiedRunOptions & { allowIncompl
   const flags = new Set(['--community-force', '--allow-incomplete'])
   const paths: Record<string, keyof UnifiedRunOptions> = {
     out: 'out', executable: 'executable', 'node-executable': 'nodeExecutable',
-    'community-artifacts': 'communityArtifacts', 'community-catalog': 'communityCatalogFile',
+    'community-artifact-variants': 'communityArtifactVariantsFile', 'community-artifacts': 'communityArtifacts', 'community-catalog': 'communityCatalogFile',
     'community-records': 'communityRecordStore', 'community-prepared': 'communityPreparedFile',
     'community-inputs': 'communityInputsFile', 'community-browser-prepared': 'communityBrowserPreparedFile',
     'community-qualification-assets': 'communityQualificationAssetDir',
     'docs-review': 'docsReviewFile', 'docs-cases': 'docsCasesFile',
-    'docs-png-review': 'docsPngReviewFile',
+    'docs-png-review': 'docsPngReviewFile', 'docs-png-raster-profile': 'docsPngRasterProfileFile',
   }
   const values = new Map<string, string>()
   const allowed = new Set([...Object.keys(paths), 'profile', 'rounds', 'community-projects', 'projects', 'community-artifact-policy', 'community-coverage', 'community-outputs', 'community-qualification-protocol', 'docs-formats'])

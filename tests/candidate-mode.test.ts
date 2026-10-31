@@ -307,7 +307,8 @@ test('candidate comparisons withhold browser times and case changes under differ
   const markdown = renderCandidateComparison(candidate, release)
   const browser = markdown.split('\n').find(line => line.startsWith('| browser API |'))!
   const node = markdown.split('\n').find(line => line.startsWith('| Node API |'))!
-  expect(node).toContain('30.00 ms → 12.00 ms')
+  expect(node).not.toContain('ms')
+  expect(node).toContain('— → —')
   expect(browser).not.toContain('ms')
   expect(markdown.split('### browser API, SVG')[1]).toContain('Case-level changes are withheld')
   expect(markdown.split('### Node API, SVG')[1]!.split('### browser API')[0]).toContain('Now failing (1): `a`')

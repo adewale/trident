@@ -3,9 +3,39 @@
 ## Unreleased
 
 The first public 0.1 release is still in preparation. The changes below describe
-current main; baseline reconciliation and release publication remain pending.
+the implementation and retained evidence; accuracy qualification and release
+publication remain pending.
 
 ### Benchmarks and measurement
+
+- Freeze all 548 DaveBench syntax-documentation occurrences, including 546
+  distinct sources, with exact source hashes and structured expectations. The
+  [source census](docs/docs-source-expectations.md) records drawing contracts,
+  configuration-only inputs, unresolved interpretations and review scope. Source
+  coverage supplies no output pass.
+- Require every declared drawing fact, actual output hash and observer identity
+  for correctness. Missing projections remain unknown instead of shrinking the
+  criterion denominator. Independent source audits fixed grammar, geometry,
+  containment, activation and source-order transcription defects.
+- Bind reviewed PNG evidence to exact canonical RGBA16 samples and display
+  metadata. Strict SVG-to-PNG preservation additionally requires the actual
+  rasterized SVG, frozen rasterizer/fonts and an independently reviewed reference
+  image. A native PNG without complete content evidence remains unknown.
+- Qualify 41 unchanged original Mermaid public parse/detector/accessibility
+  callbacks against both the source runner and substituted public reference. Preserve the complete
+  4,060-declaration census separately; broader conformance remains unqualified.
+- Declare required terminal source facts across the full 120-input corpus;
+  keep 116 positive drawings and four invalid controls separate. Expand bounded display-cell observers; the
+  diagnostic subset is not a verified-pass count or complete accuracy claim.
+- Verify 16 public execution paths across six complementary project artifacts,
+  using 56 output calls and separate model operations. Bound harness collection
+  to five minutes after preparation; invocation coverage is not a quality score.
+- Add first-use browser SVG collection from sealed artifact pairs, with fresh
+  contexts, actual fontconfig inputs, retained returns and a declared RPC/public
+  call boundary. Offline timing qualification checks every captured output and
+  A/A controls. Fresh grading reuses unchanged raw outputs and clocks, including
+  returns omitted by a crashed observer. Historical return-only clocks remain
+  unqualified.
 
 - Retain first-round DaveBench SVG witnesses and bind reviewed content checks to
   exact source bytes. Missing expectations remain unknown; successful SVG return
@@ -16,8 +46,8 @@ current main; baseline reconciliation and release publication remain pending.
 - Default campaigns to documentation and SVG correctness checks. Performance and
   optional model collection require explicit selection; retire Assertion Replay and
   the nonblank-only PNG exporter from new comparative runs. Keep reference tests explicit.
-- Prototype terminal flowchart correctness by tracing node boxes, continuous
-  directed routes and owned labels. ANSI state and unsupported cell layouts remain unknown.
+- Retain the earlier terminal flowchart prototype and its original results;
+  expanded terminal contracts do not rewrite that evidence.
 
 - Complete a targeted six-round Mermaid 12.2.0 DaveBench rerun: 547/548 SVG
   returns in every round, with the original image-decoding failure retained.
@@ -111,20 +141,23 @@ current main; baseline reconciliation and release publication remain pending.
 - `release:check` builds once and verifies source collection/reporting and the
   extracted shipped archive, producing one receipt alongside checksums. Separate
   manually coordinated smoke checks are no longer the documented release path.
-  Its format checks require actual SVG and terminal output, and every declared
-  kit case needs an owning worker attempt. Temporary build staging preserves
-  clean-source provenance when the chosen output directory is inside the checkout.
+  Its `package-parity-verified` receipt requires source/extracted-kit workflow
+  parity against the same frozen artifact and rechecked SVG admission. It
+  preserves witnessed renderer findings and rejects unclassified host failures;
+  it does not establish full source-harness or benchmark correctness. Temporary
+  build staging preserves clean-source provenance when the chosen output directory
+  is inside the checkout.
 - Peer admission uses each artifact's recorded version while retaining reference
   and tool pins. OpenCode seals its actual renderer runtime dependencies. Public
   release CLIs accept reviewed dot-prefixed archive members; versionless executables
   explicitly bind their version to a matching release tag and archive checksum.
   CLI resource passes preserve output-specific arguments and file/stdin bindings
   when GNU time wraps the command.
-- BASELINE.md defines the required initial ecosystem baseline, B0: all normally
-  selected brands and applicable benchmarks, uniform release cutoff, frozen
-  artifacts/inputs, a pilot before sampling/budget freeze, and immutable evidence.
-  B0 is not collected yet. Every later release must assess baseline compatibility
-  and retain any required fresh measurements or bridge runs.
+- BASELINE.md defines B0 as immutable evidence for the declared benchmark scopes,
+  with frozen artifacts, inputs, observers, raw witnesses and limits. It separates
+  six-project transport verification from correctness, matched timing and
+  packaging. B0 is not complete yet. Later releases reuse unchanged evidence and
+  recheck only affected claims; an ecosystem campaign is not an automatic gate.
 
 The original 0.1 invocation receipt exercised 37 of 42 selected entries. Later
 bindings and brand-specific verification are separate dated evidence in

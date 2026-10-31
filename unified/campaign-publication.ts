@@ -4,6 +4,7 @@ import { readBenchmarkDocument } from '../portable/project-records.ts'
 import { canonicalBenchmarkTool } from '../tool-versions.ts'
 import type { BenchmarkObservation, UnifiedSuiteResult } from './types.ts'
 import { PUBLIC_SUITES } from './support.ts'
+import { readPublicTestEvidence } from './public-test-reporting.ts'
 import { copyPublicationMethods } from './publication-methods.ts'
 
 export interface CampaignEnvelope {
@@ -11,8 +12,17 @@ export interface CampaignEnvelope {
   artifactRole?: 'candidate'
   results: { suite: string; project?: string; cohort?: string; status: string; disposition?: string; detail?: string; out?: string; observations?: number; counts?: Record<string, unknown>; gaps?: string[] }[]
 }
+export function campaignReportFile(directory: string) {
+  return existsSync(join(directory, 'report.json')) || existsSync(join(directory, 'report.json.gz')) ? 'report.json' : 'public-conformance-report.json'
+}
 export function readCampaign(directory: string): CampaignEnvelope {
-  const report = readBenchmarkDocument(join(directory, 'report.json')) as CampaignEnvelope
+  const file = campaignReportFile(directory), value = readBenchmarkDocument(join(directory, file)) as any
+  if (file === 'public-conformance-report.json') {
+    const evidence = readPublicTestEvidence(directory), context = evidence.context
+    if (value.result?.id !== 'public-conformance' || !Array.isArray(context.targets)) throw Error('Not retained public-test evidence: ' + directory)
+    return { startedAt: value.result.startedAt, updatedAt: value.result.finishedAt, projects: context.targets.map((target: any) => target.binding.project), profile: 'standalone public API diagnostic', rounds: 1, results: [{ suite: 'public-conformance', cohort: context.protocol, out: resolve(directory), status: evidence.qualification.qualified ? value.result.status : 'blocked', detail: 'Bounded original public API callbacks; no scheduler enrollment or whole-suite conformance', gaps: value.result.gaps }] }
+  }
+  const report = value as CampaignEnvelope
   if (!Array.isArray(report.projects) || !Array.isArray(report.results) || typeof report.startedAt !== 'string') throw Error('Not a public-artifact campaign: ' + directory)
   const originalRoot = (report as CampaignEnvelope & { options?: { out?: string } }).options?.out
   if (!originalRoot || !isAbsolute(originalRoot)) return report
@@ -27,6 +37,10 @@ const cell = (value: unknown) => String(value).replaceAll('|', '/').replaceAll('
 const link = (root: string, path: string) => encodeURI(relative(root, path)).replaceAll('#', '%23')
 export function campaignResults(row: CampaignEnvelope['results'][number]): UnifiedSuiteResult[] {
   if (!row.out) return []
+  if (row.suite === 'public-conformance') {
+    const evidence = readPublicTestEvidence(row.out), result = evidence.saved.result as UnifiedSuiteResult
+    return [{ ...result, ...(!evidence.qualification.qualified ? { status: 'blocked' as const, observations: [], gaps: [...result.gaps, 'Original/public reference qualification is unresolved; no peer score was imported.'] } : {}) }]
+  }
   const files = ['result.json', 'node-fidelity-result.json', 'community-fidelity-report.json', 'upstream-fidelity-report.json', 'upstream-original-report.json']
   for (const name of files) {
     const path = join(row.out, name)
@@ -105,7 +119,7 @@ export function publishCampaigns(directories: string[], out: string, settings: {
       cpSync(directory, target, { recursive: true, dereference: false, filter: source => { if (source === directory) return true; const part = relative(directory, source).split(/[\\/]/); if (part.some(name => ['node_modules', '.git'].includes(name))) return false; if (lstatSync(source).isSymbolicLink()) throw Error('Evidence symlinks need explicit admission before portable publication: ' + source); return true } })
     }
     const complete = existsSync(join(directory, 'completed.json')) ? 'collection completed; qualification may fail' : 'no completion receipt: partial'
-    lines.push(`| [${index + 1}](${link(out, join(target, 'report.json'))}) | ${cell(report.startedAt)} | ${cell(report.updatedAt)} | ${report.profile} / ${report.rounds} | ${report.projects.length} | ${complete} |`)
+    lines.push(`| [${index + 1}](${link(out, join(target, campaignReportFile(directory)))}) | ${cell(report.startedAt)} | ${cell(report.updatedAt)} | ${report.profile} / ${report.rounds} | ${report.projects.length} | ${complete} |`)
     manifest.push({ source: directory, selectedSuites: selectedSuites ?? 'all recorded suites', measuredFrom: report.startedAt, lastRecordedUpdate: report.updatedAt, profile: report.profile, rounds: report.rounds, projects: report.projects, complete, results: report.results })
   }
   for (const [index, { directory, report, selectedSuites }] of inputs.entries()) {

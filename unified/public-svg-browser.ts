@@ -73,8 +73,9 @@ export async function publicSvgBrowserAction(input: any): Promise<any> {
       if (state.kind === 'mermaid' && input.options && state.fontOptions) state.api.initialize({ startOnLoad: false, securityLevel: 'strict', logLevel: 'fatal', ...input.options, ...(input.options.fontSize !== undefined ? { themeVariables: { fontSize: String(input.options.fontSize) + 'px' } } : {}) })
       const value = await Promise.race([Promise.resolve().then(() => state.render(input.source, input.id, state.fontOptions ? options : undefined)), new Promise((_, reject) => { timer = setTimeout(() => { const error = Error('Public render did not settle within the declared15s collection deadline'); error.name = 'TimeoutError'; reject(error) }, 15_000) })])
       const svg = typeof value === 'string' ? value : (value as any)?.svg
+      if (input.returnSvgString) { if (typeof svg !== 'string') throw Error('Actual public render did not return an SVG string'); return svg }
       return typeof svg === 'string' ? { kind: 'returned', svg } : { kind: 'invalid-return', error: 'Actual public render did not return an SVG string', actualType: typeof value }
-    } catch (error: any) { return { kind: 'exception', error: String(error), errorName: error?.name ?? 'Error', errorCode: error?.code ?? null } }
+    } catch (error: any) { if (input.returnSvgString) throw error; return { kind: 'exception', error: String(error), errorName: error?.name ?? 'Error', errorCode: error?.code ?? null } }
     finally { if (timer) clearTimeout(timer); host.__communityAfterCall?.(); for (const node of document.querySelectorAll('body > div:not([data-community-host])')) node.remove() }
   }
   throw Error('Unknown community fidelity browser action')

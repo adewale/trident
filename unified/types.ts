@@ -18,6 +18,7 @@ export interface UnifiedRunOptions {
   bunExecutable?: string
   observerExecutable?: string
   nativeExecutable?: string
+  communityArtifactVariantsFile?: string
   communityArtifacts?: string
   /** An unreleased build standing in for one catalog project's release: an npm-pack tarball,
    * or a Git commit that Trident builds with the project's reviewed source recipe. */
@@ -45,6 +46,7 @@ export interface UnifiedRunOptions {
   communityInputsFile?: string
   communityBrowserPreparedFile?: string
   /** Optional reviewed source expectations; omitted means the committed docs reviews. */
+  docsResourcesFile?: string
   docsReviewFile?: string
   /** Optional repair selection; every other source remains in the planned corpus. */
   docsCasesFile?: string
@@ -52,6 +54,8 @@ export interface UnifiedRunOptions {
   /** Same documentation inventory, independently collected output lanes. */
   docsFormats?: ('svg' | 'png')[]
   docsPngReviewFile?: string
+  /** Optional frozen raster profile for strict retained SVG-to-PNG proof. */
+  docsPngRasterProfileFile?: string
   /** One shared absolute deadline for all cohorts and suites. Never measurement identity. */
   collectionDeadline?: number
   collectionResume?: boolean
