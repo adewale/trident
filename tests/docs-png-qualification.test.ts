@@ -1,5 +1,5 @@
 import { afterAll, expect, setDefaultTimeout, test } from 'bun:test'
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { gzipSync } from 'node:zlib'
@@ -105,4 +105,11 @@ test('native PNG review ownership cannot borrow another project or altered actua
   expect(() => requireRetainedPngOwnership({ ...owned, round: 2 })).toThrow('own project')
   expect(() => requireRetainedPngOwnership({ ...owned, actualPng: reference })).toThrow('own project')
   expect(() => requireRetainedPngOwnership({ ...owned, attemptId: 'borrowed-attempt' })).toThrow('own project')
+})
+
+
+test('retained SVG pointers cannot escape through an owned-looking symlink', () => {
+  const f = fixture(), other = fixture(), witness = String(f.result.observations[1]!.metrics!.originalSvgWitness)
+  rmSync(join(f.out, witness)); symlinkSync(join(other.out, witness), join(f.out, witness))
+  expect(() => readRetainedPngSvg(f.out, witness)).toThrow('symlink escapes')
 })

@@ -1,5 +1,5 @@
-import { readFileSync } from 'node:fs'
-import { basename, dirname, join, relative, resolve } from 'node:path'
+import { readFileSync, realpathSync } from 'node:fs'
+import { basename, dirname, isAbsolute, join, relative, resolve } from 'node:path'
 import { gunzipSync } from 'node:zlib'
 import { readCheckpointValue } from '../portable/checkpoint.ts'
 import { admitInvocationEvidence, evidenceDigest, evidenceBytesDigest, type CaseEvidenceContract, type CheckedEvidence } from '../portable/evidence-contract.ts'
@@ -27,20 +27,26 @@ export function readDocsPngRasterProfile(file: string) {
   return { profile, fileSha256: evidenceBytesDigest(bytes) }
 }
 
+const ownedWitness = (root: string, witness: string) => {
+  const file = resolve(root, witness), suffix = relative(resolve(root), file)
+  if (isAbsolute(suffix) || suffix === '..' || suffix.startsWith('../')) throw Error('PNG witness escapes its result directory')
+  const actual = relative(realpathSync(root), realpathSync(file))
+  if (isAbsolute(actual) || actual === '..' || actual.startsWith('../')) throw Error('PNG witness symlink escapes its result directory')
+  return file
+}
+
 /** Retained SVG names bind decompressed bytes. A sibling/escaping witness or
  * an encoded hash with different content is a corrupt receipt, never evidence. */
 export function readRetainedPngSvg(root: string, witness?: string) {
   if (!witness) return undefined
-  const file = resolve(root, witness), suffix = relative(root, file)
-  if (suffix.startsWith('..') || suffix.startsWith('/')) throw Error('PNG SVG witness escapes its result directory')
+  const file = ownedWitness(root, witness)
   const svg = gunzipSync(readFileSync(file), { maxOutputLength: 4 * 1024 * 1024 }).toString('utf8')
   if (basename(file) !== evidenceBytesDigest(svg) + '.svg.gz') throw Error('PNG SVG witness hash differs from retained bytes')
   return svg
 }
 
 export function readRetainedPng(root: string, witness: string) {
-  const file = resolve(root, witness), suffix = relative(root, file)
-  if (suffix.startsWith('..') || suffix.startsWith('/')) throw Error('PNG witness escapes its result directory')
+  const file = ownedWitness(root, witness)
   const bytes = readFileSync(file)
   if (basename(file) !== evidenceBytesDigest(bytes) + '.png') throw Error('PNG witness hash differs from retained bytes')
   return bytes
