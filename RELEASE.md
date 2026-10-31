@@ -4,17 +4,27 @@ Trident ships a GitHub source tag and portable Node kit. The package is private;
 there is no npm publish. Release qualification means checking the claims and
 shipped bytes at the intended revision. It does not mean rerunning every project.
 
-The 0.1 release remains blocked on the accuracy gaps in [the baseline](BASELINE.md).
-The six-project verification covers all 16 paths across two recorded phases,
-including label/pixel propagation and the scoped public-model postconditions.
-Those historical transport controls do not establish complete drawing semantics.
-Current qualification adds a 154-callback public API diagnostic, all active
-terminal source profiles, retained SVG regrading and independent inspection of
-all 997 returned PNGs in the minimum two-project cohort. Complete DaveBench
-accuracy, native-PNG accuracy, whole-suite conformance and terminal accuracy
-remain unresolved wherever source, representation or required output facts are
-held unknown. The new evidence package and final-head checks are still pending.
-[The verification evidence](https://github.com/adewale/trident/blob/79777b738e4bb5292a31b11dc405c42f6c90d323/qualification-evidence/README.md) includes the 18-call first-use check and source/extracted-kit preservation. The development archive was not released.
+The 0.1 release remains blocked on the initial [baseline](BASELINE.md) and its
+bounded accuracy claims. The [current qualification report](docs/qualification-results-2026-10-31.md)
+records active v3 terminal results, the 154-callback API diagnostic, retained SVG
+regrading and the minimum PNG cohort. PNG has 951 current content decisions,
+42 actual-image holds and 99 native no-image outcomes; the [summary](docs/evidence/png-full-corpus-2026-10-31/current-content-summary.json)
+and [all grades](docs/evidence/png-full-corpus-2026-10-31/current-content-grades.json.gz)
+preserve those separate populations. Full drawing accuracy and whole-suite
+conformance remain unresolved.
+
+Runtime revision `8aa1238a1a7b487fae42ff5c39a3f80dbe976bf2` passed the actual
+source/extracted-kit `package-parity-verified` check. Its archive SHA-256 is
+`d80afdf89ce70b10d232cb2880fc650e5048ab1604de7a8f3c6f192f5c43dbe9`.
+[Linux and macOS fixture CI](https://github.com/adewale/trident/actions/runs/41252220020)
+passed for that revision. Its browser-enabled full suite passed 1,243 tests with
+zero failures and 9,738 assertions across 167 files. Lint, typecheck, source/public
+manifest regeneration and snapshot checks also passed. Final evidence
+publication and the initial baseline remain open. These runtime checks
+do not assert CI for a later documentation revision or declare the 0.1 release
+ready. Earlier `1ba6f812` checks and the [published `79777b7` foundation](https://github.com/adewale/trident/blob/79777b738e4bb5292a31b11dc405c42f6c90d323/qualification-evidence/README.md)
+remain historical evidence with their original producers. The development
+archives were not released.
 Renderer failures are findings; a missing or incorrect Trident observer is a
 harness limitation and must not be reported as a renderer defect.
 
@@ -52,9 +62,8 @@ Before the first release, resolve or explicitly bound each advertised claim:
 A narrower supported claim must be stated as that exact scope in the README,
 results and release notes. It cannot be described as full-corpus support. The
 current gaps remain visible in the owning reports rather than being waived by
-another campaign or a passing packaging check. The published `79777b7` foundation
-receipts and earlier CI/package checks remain historical; they are not evidence
-that the current assembled revision or its new archive passed final checks.
+another campaign or a passing packaging check. Historical checks remain bound
+to their original revisions; current runtime checks are identified above.
 
 ## Check and package the intended revision
 

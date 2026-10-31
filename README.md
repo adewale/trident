@@ -1,6 +1,6 @@
 # Trident
 
-[Qualification work and remaining release gaps](qualification/README.md).
+[Qualification results and remaining release gaps](qualification/README.md).
 
 Trident compares Mermaid tools on input compatibility, diagram meaning and rendering cost. It tests rendering and the parser/model APIs exposed by renderers through their public interfaces.
 
@@ -21,6 +21,11 @@ against Mermaid. The [30 October campaign](https://github.com/adewale/trident/bl
 publishes the original 39-project results and raw download, including projects
 later excluded from regular campaigns. The rolling overview uses the current
 27-project selection.
+
+The [31 October minimum-cohort qualification](docs/qualification-results-2026-10-31.md)
+reports current verified counts, explicit unknowns and one qualified fixed-source
+timing comparison. It is separate from the 27-project campaign and does not
+declare a new baseline or a ready 0.1 release.
 
 ## Benchmarks
 
@@ -47,8 +52,9 @@ DaveBench defaults to both output formats. Use `--docs-formats svg` or
 binding; other participants can deliver PNG through an explicitly identified
 SVG-to-PNG conversion path. The source inventory is identical in both lanes.
 
-Correctness qualification remains incomplete. [The bounded repair campaign](docs/benchmark-repair-2026-10-30.md)
-shows the current evidence and gaps. Full DaveBench return scores are not counts
+The [qualification results](docs/qualification-results-2026-10-31.md) rank verified
+counts while complete drawing accuracy remains unresolved. [The bounded repair
+campaign](docs/benchmark-repair-2026-10-30.md) retains its earlier scope. Full DaveBench return scores are not counts
 of correctly drawn diagrams. The [reviewed source expectations](corpus/docs-reviewed.json)
 bind all 548 input occurrences. The [source census](docs/docs-source-expectations.md)
 records 547 complete contracts and one held duplicate-commit interpretation;
@@ -58,12 +64,14 @@ separate; a complete contract alone earns no correctness credit. First-round
 outputs are retained for inspection and rechecking without rendering again. PNG
 content reviews bind actual image bytes and expected source facts; SVG or nonblank
 checks alone cannot establish PNG accuracy. A `--docs-png-review FILE` supplies
-those image reviews. The minimum PNG cohort returned 997 actual images
-(548 Mermaid SVG conversions and 449 native Flutter images), all inspected at
-native dimensions. Changed contracts and unresolved facts still withhold grades;
-inspection coverage is not a correct-image count. [Current evidence](docs/evidence/png-full-corpus-2026-10-31/README.md)
-keeps repairs and held decisions explicit. Qualified overall speed comparisons
-remain incomplete.
+those image reviews. The minimum PNG cohort retains 997 returned coordinates
+(548 Mermaid conversions and 449 native Flutter images), all inspected at native
+dimensions: 951 current content decisions and 42 actual-image holds. Native also
+has 99 no-image outcomes. The [current summary](docs/evidence/png-full-corpus-2026-10-31/current-content-summary.json)
+and [all planned grades](docs/evidence/png-full-corpus-2026-10-31/current-content-grades.json.gz)
+keep decisions, held facts and no-image outcomes separate.
+[Owning evidence](docs/evidence/png-full-corpus-2026-10-31/README.md) preserves repairs
+and held facts. Qualified overall speed comparisons remain incomplete.
 
 The [suite scope audit](docs/benchmark-scope-audit-2026-10-31.md) distinguishes
 shared benchmark machinery, duplicate collection and AM-specific diagnostics.

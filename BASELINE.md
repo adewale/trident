@@ -9,6 +9,11 @@ original protocols; they are not the new accuracy baseline.
 [Release process](RELEASE.md) · [Benchmark definitions](BENCHMARKS.md) ·
 [Evidence and reports](REPORTING.md) · [Fair comparisons](FAIRNESS.md)
 
+The [31 October qualification report](docs/qualification-results-2026-10-31.md)
+records the completed minimum cohorts and their remaining unknown facts. It is
+current qualification evidence, not a new 27-project campaign, full-accuracy
+claim or frozen B0 baseline.
+
 ## Verify Trident with the smallest cohort
 
 The fixed [harness profile](qualification/harness-profile.json) covers six
@@ -53,10 +58,10 @@ it does not establish complete drawing facts or corpus accuracy.
 
 | Workload | Frozen input provenance | Evidence needed for a score | Current limit |
 |---|---|---|---|
-| DaveBench SVG and PNG | All 548 literal occurrences, 546 distinct sources, at Mermaid commit `1fb7869866dd619168d840291c9c54b4f129758b`; 546 drawings, one invalid control and one configuration-only occurrence. | Verified correct/incorrect/unknown drawing counts per format, bound to each actual output; invalid rejection separate. | [547 source contracts are complete and one is held](docs/docs-source-expectations.md). All 997 returned PNGs in the minimum Mermaid/Flutter cohort were viewed; current-contract gaps and unsupported output facts remain unknown. Source coverage and image-inspection coverage are not accuracy numerators. |
+| DaveBench SVG and PNG | All 548 literal occurrences at Mermaid commit `1fb7869866dd619168d840291c9c54b4f129758b`: 546 sources after boundary trimming, 547 exact bodies; 546 drawings, one invalid control and one configuration-only occurrence. | Verified correct/incorrect/unknown drawing counts per format, bound to each actual output; invalid rejection separate. | [547 contracts are complete and one is held](docs/docs-source-expectations.md). PNG has 951 current decisions, 42 actual-image holds and 99 native no-image outcomes. The [summary](docs/evidence/png-full-corpus-2026-10-31/current-content-summary.json) and [all grades](docs/evidence/png-full-corpus-2026-10-31/current-content-grades.json.gz) retain full denominators; complete accuracy remains unresolved. |
 | Mermaid public tests | 154 unchanged callbacks from 37 declarations at the same source pin; historical 41 scope retained separately. | Passed callbacks over the same selected population, with failed/unsupported/binding gaps shown. Both original and public-reference controls must pass all selected callbacks. | The retained `expanded-154-bundle-v2` owns both disjoint parent scopes. The [source manifest and controls](docs/mermaid-public-conformance.md) qualify this API diagnostic, not drawing accuracy or the 4,060-declaration upstream suite. |
 | Terminal project examples | [Named active v3](corpus/terminal-active-profile.json): 115 unchanged original drawings, one independently reviewed authored adaptation and four original invalid controls. Original 120 literal sources plus the authored adaptation retain 121 research entries, with the ambiguous original held as diagnostic. | Verified correct/incorrect/unknown counts over 116 drawings, with typed rejections over four controls separately. | Every active source profile has bounded observers. [Retained 18-project results](docs/evidence/terminal-state-adaptation-2026-10-31/README.md) keep missing/uninspectable outputs unknown; 15 projects were not called on the fresh adaptation. Saved v1/v2 rechecks retain the original corpus. |
-| Feature cases and public models | Independently authored cases and separately labelled AM-origin/external cohorts. | The same required drawing or public-operation postconditions for each compared project. | An unsupported observer, missing binding or failed prerequisite keeps the corresponding claim unresolved. |
+| Feature cases and public models | Independently specified cases and separately labelled AM-origin/external/public cohorts. | The same required drawing or public-operation postconditions for each compared project. | [Current qualification](docs/qualification-results-2026-10-31.md) regrades 100 SVG feature/edit cases for three frozen bindings. Unsupported facts, missing bindings and failed prerequisites remain explicit; public models have a separate scope. |
 
 The [source audit](docs/docs-source-expectations.md), [PNG proof rules](docs/png-correctness.md),
 [public-test scope](docs/mermaid-public-conformance.md) and

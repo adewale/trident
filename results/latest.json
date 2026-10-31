@@ -34932,6 +34932,10 @@
   ],
   "publications": [
     {
+      "title": "Current minimum-cohort verified counts — 31 October qualification; no repeated 27-project campaign",
+      "url": "docs/qualification-results-2026-10-31.md"
+    },
+    {
       "title": "31 October campaign: raw archive and checksums",
       "url": "https://github.com/adewale/trident/releases/tag/ecosystem-evidence-2026-10-31"
     },

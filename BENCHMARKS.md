@@ -5,6 +5,10 @@ Documentation Examples (DaveBench), Mermaid Public Tests, Mermaid Feature Cases,
 Terminal Rendering and optional Public Model Contracts. SVG inspection and cost measurement are shared machinery.
 There is no combined renderer-quality score or validated production holdout.
 
+The [current minimum-cohort qualification results](docs/qualification-results-2026-10-31.md)
+rank verified counts and the one qualified fixed-source timing comparison.
+They retain unknowns and do not replace the historical ecosystem baseline.
+
 ```sh
 bun commands.ts bench --projects OWNER/TOOL,... --profile full --plan
 bun commands.ts bench --projects OWNER/TOOL,... --suites docs,fidelity --out FRESH_DIR
@@ -84,13 +88,17 @@ and rasterized SVG bytes, actual PNG, capture inputs and invocation. HTML repair
 requires namespace/content equivalence before transferring to the original SVG.
 It preserves failed checks and cannot supply structural, font, resource,
 metadata or motion facts; it is not an SVG-to-PNG preservation certificate.
-Changed or unreviewed content stays unknown. Settings-only
+Content without an admissible current review stays unknown. Settings-only
 sources have no nonblank-drawing requirement. New PNG clocks remain descriptive
 unless every timed output and A/A calibration qualify. The minimum retained
-cohort returned 997 actual PNGs (548 Mermaid conversions and 449 native Flutter
-images); all were viewed at native dimensions. [Independent image evidence](docs/evidence/png-full-corpus-2026-10-31/README.md)
-retains current-contract gaps, repairs and non-drawing returns; 997 is an
-inspection count, not an accuracy numerator.
+cohort has 997 returned coordinates (548 Mermaid conversions and 449 native
+Flutter images), all inspected at native dimensions. There are 951 current
+content decisions and 42 actual-image holds; another 99 native coordinates have
+no image. The [current reducer summary](docs/evidence/png-full-corpus-2026-10-31/current-content-summary.json)
+and [all planned grades](docs/evidence/png-full-corpus-2026-10-31/current-content-grades.json.gz)
+retain every category. [Independent image evidence](docs/evidence/png-full-corpus-2026-10-31/README.md)
+preserves repairs and review histories. Every remaining hold identifies the
+required missing fact or evidence.
 
 The replaced v1 standalone PNG exporter and old studies retain their own protocols;
 their counts and timings are not silently imported into the new output lanes.
@@ -214,9 +222,10 @@ installation. The [ordinary-profile controls](docs/evidence/terminal-active-prof
 verify planning, regrading and separate diagnostic/control tables without SUT
 calls. Source capability declarations do not replace observed output.
 
-Tables rank verified correct counts over the same declared subset, keeping
+Tables rank verified correct counts over the full declared drawing population, keeping
 incorrect, unsupported and unknown cells visible. Full accuracy and comparative
-performance remain unqualified. Cold CLI and warm Python clocks have different
+performance remain unqualified. A diagnostic subset is shown only when its exact
+source IDs differ; active v3 therefore has one 116-drawing table. Cold CLI and warm Python clocks have different
 boundaries. The [18-project retained regrade](docs/evidence/terminal-state-adaptation-2026-10-31/README.md)
 keeps original and active populations separate, including the three fresh
 adaptation calls and 15 uncollected project coordinates. The [dated earlier

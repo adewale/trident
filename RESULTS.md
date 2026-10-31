@@ -6,6 +6,8 @@ Last recorded measurement/update: **2026-10-31**. 108 imported project/benchmark
 
 [Machine-readable results](results/latest.json) · [Benchmark methods](BENCHMARKS.md) · [Reading the tables](REPORTING.md) · [Update this page](results/README.md)
 
+[Current minimum-cohort verified counts — 31 October qualification; no repeated 27-project campaign](docs/qualification-results-2026-10-31.md)
+
 [31 October campaign: raw archive and checksums](https://github.com/adewale/trident/releases/tag/ecosystem-evidence-2026-10-31)
 
 [31 October campaign: sources, reviewed images and repair receipts](https://github.com/adewale/trident/tree/9a74e093893f45d5b1316912711c5314267acd69)
