@@ -1,6 +1,7 @@
 import type { MeaningExpectation } from './meaning.ts'
 import { compileVisualStyles } from './style-expectation.ts'
 import { projectSourceConfiguration } from './configuration-expectation.ts'
+import { projectSourceMetadata } from './source-metadata-expectation.ts'
 
 /** A drawing encodes proportions and printed values, not an invisible copy of
  * its input database. Literal source bytes remain in the corpus inventory. */
@@ -8,6 +9,8 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
   const expected = structuredClone(literal), facts: any = expected.facts ??= {}, projections: string[] = []
   let profileExpected:MeaningExpectation|undefined
   const excludedNonvisual:string[]=[]
+  const sourceMetadata=projectSourceMetadata(family,expected)
+  if(sourceMetadata.changed){profileExpected=structuredClone(literal);projections.push(...sourceMetadata.projections);excludedNonvisual.push(...sourceMetadata.excluded)}
   if(family==='flowchart'&&Array.isArray(facts['node-shapes'])){
     const glyphs=new Set(['sm-circ','start','small-circle','fr-circ','stop','framed-circle','fork','join','hourglass','collate','bolt','com-link','lightning-bolt','f-circ','junction','filled-circle','cross-circ','summary','crossed-circle'])
     const symbols:any[]=facts['node-shapes'].filter((row:any)=>glyphs.has(row.shape)),symbolIds=new Set(symbols.map(row=>row.id)),nativeLabels=(expected.nodes??[]).filter(node=>symbolIds.has(node.id)).map(node=>({id:node.id,label:node.label,shape:symbols.find(row=>row.id===node.id)!.shape}))

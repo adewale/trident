@@ -53,6 +53,8 @@ Named theme requests compile to exact source-derived owner colors, foregrounds, 
 
 Symbol-only flowchart shapes retain original captions natively/advisory while requiring unique actual glyph ownership and exact shapes. Venn quoted TITLE text retains literal quote glyphs under its own grammar. Scalar JSON arrays retain logical paths/indices but print a group key on their first row and blank continuation keys; strict independent JSON AST provenance prevents bracket-shaped object keys from being mistaken for arrays. Exact separately reviewed deltas are recorded in their source-audit ledgers.
 
+Raw Git operation history, railroad syntax dialect and only mindmap DFS traversal remain native/advisory metadata; ordered visible commits, parents, branch order, recursive grammar AST and rooted hierarchy stay required. Exactly two-part Event Modeling entity identifiers are checked through the owned basename and correct typed namespace lane, with full qualified identities still required and retained natively; multi-dot names stay literal. The independent source-metadata ledger records every admitted case.
+
 ## Pending source interpretation
 
 - **packages/mermaid/src/docs/syntax/gitgraph.md:471**: Duplicate Git commit identifier "Boston" has unresolved standalone drawing semantics: gitgraph.md39 requires each command occurrence on the timeline, while the pinned AST warns and overwrites the identifier map (gitGraphAst.ts128-132), potentially redirecting parent identities into cycles. Exact command/event and native-profile candidates remain diagnostic; neither separate-event counting nor last-write-map geometry is a qualified source oracle.

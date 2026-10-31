@@ -28,6 +28,11 @@ test('git colors obey source-defined branch order and keep special glyph request
   const paint:any=row.expected!.facts!['theme-paint']
   expect(paint.roles.filter((r:any)=>r.kind==='branch').map((r:any)=>[r.owner,r.fill])).toEqual([['develop','#ff0000'],['main','#00ff00']])
   expect(row.expected!.facts!['authored-config']).toEqual({gitGraph:{mainBranchOrder:2},themeVariables:{gitInv0:'#123456'}})
+  for(const body of ['commit\nbranch first\nbranch zero order:0','commit\n'+Array.from({length:10},(_,i)=>'branch b'+i).join('\n')]){
+    const unsupported=source('---\nconfig:\n  theme: base\n---\ngitGraph\n'+body)
+    expect(unsupported.expected!.facts!['theme-paint']).toBeUndefined()
+    expect(unsupported.expected!.facts!['authored-config']).toEqual({theme:'base'})
+  }
 })
 test('unsupported named themes and concrete variables fail closed rather than disappearing',()=>{
   const row=source('---\nconfig:\n  theme: forest\n  themeVariables:\n    arbitraryColor: red\n---\nflowchart LR\nA --> B')
@@ -45,6 +50,11 @@ test('unsupported named themes and concrete variables fail closed rather than di
   const roleOverride=source('---\nconfig:\n  theme: redux-color\n  themeVariables:\n    usecaseActorBkg: "#ff0000"\n---\nusecase-beta\nactor A')
   expect(roleOverride.expected!.facts!['theme-paint']).toBeUndefined()
   expect(roleOverride.expected!.facts!['authored-config']).toEqual({theme:'redux-color',themeVariables:{usecaseActorBkg:'#ff0000'}})
+  for(const value of ['red','rgb(255,0,0)','#ff000080']){
+    const color=source('---\nconfig:\n  theme: base\n  themeVariables:\n    cScale0: "'+value+'"\n---\ntimeline\n2020 : Event')
+    expect(color.expected!.facts!['theme-paint']).toBeUndefined()
+    expect(color.expected!.facts!['authored-config']).toEqual({theme:'base',themeVariables:{cScale0:value}})
+  }
 })
 test('redux role and rotation policies bind real node/group/route owners',()=>{
   const role=source('---\nconfig:\n  theme: redux-color\n---\nusecase-beta\nactor Customer\nsystemBoundary Catalogue\nBrowse[Browse]\nend\nCheckout[Checkout]\nCheckout ..> : include Browse')

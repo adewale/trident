@@ -47,10 +47,15 @@ export function projectSourceConfiguration(family:string,expected:MeaningExpecta
   // can change the entire palette, so adding default-derived colors would be
   // contradictory, even while retaining that unhandled variable as required.
   const classic=requestedLook===undefined||requestedLook==='classic',independentGitPaint=new Set(['commitLabelColor','commitLabelBackground','commitLabelFontSize','tagLabelColor','tagLabelBackground','tagLabelBorder','tagLabelFontSize'])
-  const supportedOverrides=Object.keys(variables).every(key=>/^(?:cScale(?:Peer|Label)?\d+|git(?:Inv|BranchLabel)?\d+)$/.test(key)||family==='gitgraph'&&independentGitPaint.has(key)||family==='radar'&&key==='radar')&&!(family==='treemap'&&Object.keys(variables).some(key=>/^cScale\d+$/.test(key)))
+  const supportedOverrides=Object.keys(variables).every(key=>/^(?:cScale(?:Peer|Label)?\d+|git(?:Inv|BranchLabel)?\d+)$/.test(key)||family==='gitgraph'&&independentGitPaint.has(key)||family==='radar'&&key==='radar')&&!(family==='treemap'&&Object.keys(variables).some(key=>/^cScale\d+$/.test(key)))&&Object.entries(variables).every(([key,value])=>!/^(?:cScale(?:Peer)?\d+|git(?:Inv)?\d+)$/.test(key)||typeof value==='string'&&/^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i.test(value))
+  // The finite documented positive-order profile agrees with the pinned
+  // decimal-ordinal action. Beyond ten branches or explicit nonpositive peer
+  // orders, that implementation can diverge from documented definition order;
+  // do not turn its quirk into an expected palette for an unqualified source.
+  const supportedGitOrder=family!=='gitgraph'||!Array.isArray(facts.branches)||facts.branches.length<=10&&facts.branches.slice(1).every((branch:any)=>!Object.hasOwn(branch,'order')||Number.isInteger(branch.order)&&branch.order>0)
   const token=(key:string)=>{if(Object.hasOwn(variables,key)){consumed.add(key);retain('themeVariables.'+key,variables[key]!,'Literal theme token is retained with its concrete owned paint projection')}}
   let paint:SourceThemePaint|undefined
-  if(named.has(theme)&&classic&&supportedOverrides){
+  if(named.has(theme)&&classic&&supportedOverrides&&supportedGitOrder){
     const palette=sourceThemePalette(theme as SourceThemeName,variables)
     if(family==='timeline'&&Array.isArray(facts.periods)){
       const sections:string[]=facts.sections??[],monochrome=config.timeline?.disableMulticolor===true
