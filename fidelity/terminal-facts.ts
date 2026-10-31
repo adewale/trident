@@ -29,13 +29,17 @@ export function inspectTerminalFacts(output: string, contract: TerminalSourceCon
   if (contract.family === 'pie') {
     const slices = contract.facts.find(fact => fact.criterion === 'slice-values')?.expected as { label: string; value: number }[] | undefined
     if (slices?.length) {
-      const rows = lines.flatMap(line => { const m = /^\s*(.+?)\s+([█▓▒░▉▊▋▌▍▎▏]+)\s+(\d+(?:\.\d+)?)%\s*$/.exec(line); return m ? [{ label: m[1]!.trim(), bar: [...m[2]!].length, percent: Number(m[3]), precision: m[3]!.includes('.') ? m[3]!.split('.')[1]!.length : 0 }] : [] })
+      const rows = lines.flatMap(line => { const m = /^\s*(.+?)\s+([█▓▒░▉▊▋▌▍▎▏]+)\s+(\d+(?:\.\d+)?)%\s*$/.exec(line); return m ? [{ label: m[1]!.trim(), bar: [...m[2]!].reduce((sum, glyph) => sum + (({ '▉': .875, '▊': .75, '▋': .625, '▌': .5, '▍': .375, '▎': .25, '▏': .125 } as Record<string, number>)[glyph] ?? 1), 0), quantum: /[▉▊▋▌▍▎▏]/.test(m[2]!) ? .125 : 1, percent: Number(m[3]), precision: m[3]!.includes('.') ? m[3]!.split('.')[1]!.length : 0 }] : [] })
       const unknownInk = lines.some(line => line.trim() && line.trim() !== title && !/^\s*(.+?)\s+([█▓▒░▉▊▋▌▍▎▏]+)\s+(\d+(?:\.\d+)?)%\s*$/.test(line))
       if (rows.length && !unknownInk) {
-        const total = slices.reduce((sum, item) => sum + item.value, 0), scale = rows[0]!.bar / (slices.find(slice => slice.label === rows[0]!.label)?.value ?? 0)
+        const total = slices.reduce((sum, item) => sum + item.value, 0)
         const exactLabels = rows.length === slices.length && rows.every(row => slices.filter(slice => slice.label === row.label).length === 1) && new Set(rows.map(row => row.label)).size === rows.length
-        const values = exactLabels && total > 0 && Number.isFinite(scale) && rows.every(row => { const expected = slices.find(slice => slice.label === row.label)!; return Math.abs(row.percent - 100 * expected.value / total) <= .5 * 10 ** -row.precision + 1e-8 && Math.abs(row.bar - expected.value * scale) <= 1 })
-        set('slice-values', values ? 'passed' : 'failed', 'Each owned bar row binds its slice label, displayed percentage and quantized drawn weight; one-cell rasterization allowance', rows)
+        const quantum = Math.min(...rows.map(row => row.quantum))
+        let lowerScale = 0, upperScale = Infinity
+        if (exactLabels) for (const row of rows) { const value = slices.find(slice => slice.label === row.label)!.value; if (!(value > 0)) { upperScale = -1; break }; lowerScale = Math.max(lowerScale, row.bar === quantum ? 0 : (row.bar - quantum / 2) / value); upperScale = Math.min(upperScale, (row.bar + quantum / 2) / value) }
+        const values = exactLabels && total > 0 && lowerScale <= upperScale && rows.every(row => { const expected = slices.find(slice => slice.label === row.label)!; return Math.abs(row.percent - 100 * expected.value / total) <= .5 * 10 ** -row.precision + 1e-8 })
+        const unresolvedWeight = values && new Set(slices.map(slice => slice.value)).size > 1 && new Set(rows.map(row => row.bar)).size === 1
+        set('slice-values', unresolvedWeight ? 'unknown' : values ? 'passed' : 'failed', 'Owned label/bar/percentage rows share one feasible scale, nearest displayed-quantum rounding and an explicit minimum visible bar (whole cell or eighth-block); unequal weights with indistinguishable bars cannot prove drawn proportions', rows)
       }
     }
   }
@@ -72,6 +76,8 @@ export function terminalSourceObservable(contract: TerminalSourceContract, graph
   if (contract.sourceUncertainties.length) return false
   const supported = contract.family === 'flowchart' ? ['nodes', 'relationships', 'layout-order'] : contract.family === 'pie' ? ['title', 'slice-values'] : contract.family === 'journey' ? ['title', 'journey-tasks'] : contract.family === 'timeline' ? ['title', 'timeline-periods'] : contract.family === 'sequence' ? ['participants', 'ordered-messages', 'owned-notes', 'fragments'] : []
   if (contract.facts.some(fact => fact.required !== false && !supported.includes(fact.criterion))) return false
+  if (contract.family === 'sequence' && (contract.facts.find(fact => fact.criterion === 'ordered-messages')?.expected as any[] ?? []).some(message => !['->>', '-->>'].includes(message.marker))) return false
+  if (contract.family === 'sequence' && (contract.facts.find(fact => fact.criterion === 'fragments')?.expected as any[] ?? []).some(fragment => fragment.nesting?.length)) return false
   if (graph && (graph.nodes.length > 32 || graph.edges.some(edge => (edge as any).directed === false || (edge as any).endMarker || (edge as any).stroke || (edge as any).visible === false))) return false
   return supported.length > 0
 }

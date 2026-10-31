@@ -62,6 +62,25 @@ test('notes require their actual actor span, authored lines, text and chronologi
   expect(start).toBeGreaterThan(0)
   expect(assess(name, lines.map((line, n) => n >= start && n < start + 4 ? ' '.repeat(40) + line : line).join('\n')).status).not.toBe('correct')
 })
+test('over-notes cannot include extra actors and side notes cannot borrow a more distant actor', () => {
+  const base = cases.find(input => input.id === 'terminal:df5eb5c9968bbb86')!, text = fixture('sequence-three-actors').trimEnd()
+  const note = (left: number, right: number) => [0, 1, 2].map(row => {
+    const cells = Array(45).fill(' ')
+    for (const x of [5, 21, 37]) cells[x] = '│'
+    cells[left] = row === 0 ? '┌' : row === 2 ? '└' : '│'; cells[right] = row === 0 ? '┐' : row === 2 ? '┘' : '│'
+    for (let x = left + 1; x < right; x++) cells[x] = row === 1 ? ' ' : '─'
+    if (row === 1) [...'Shared'].forEach((glyph, n) => cells[left + 2 + n] = glyph)
+    return cells.join('')
+  }).join('\n')
+  const score = (declaration: string, left: number, right: number) => {
+    const source = base.source + '\n' + declaration, contract = analyseTerminalSource(source, 'sequence').contract
+    return assessTerminalDrawing({ ...base, source, sourceSha256: createHash('sha256').update(source).digest('hex'), expected: { status: 'independently-reviewed', contract } }, text + '\n' + note(left, right)).status
+  }
+  expect(score('Note over Browser,Server: Shared', 3, 23)).toBe('correct')
+  expect(score('Note over Browser,Server: Shared', 3, 39)).toBe('incorrect')
+  expect(score('Note right of Browser: Shared', 8, 18)).toBe('correct')
+  expect(score('Note right of Browser: Shared', 24, 34)).toBe('incorrect')
+})
 test('cleared, concealed, discontinuous and unknown display state cannot supply sequence facts', () => {
   const name = 'sequence-ascii-simple', text = fixture(name)
   expect(assess(name, text + '\x1b[2J').status).not.toBe('correct')
@@ -70,4 +89,13 @@ test('cleared, concealed, discontinuous and unknown display state cannot supply 
   const rows = text.split('\n'), plainLifeline = rows.findIndex((row, n) => n > 2 && row.trim() === '│         │')
   expect(plainLifeline).toBeGreaterThan(2)
   expect(assess(name, rows.map((row, n) => n === plainLifeline ? row.replace('│', ' ') : row).join('\n')).status).not.toBe('correct')
+})
+test('open or ambiguous heads and nested frame profiles remain unknown rather than inventing style or enclosure evidence', () => {
+  const base = cases.find(input => input.id === 'terminal:54f7237ee5ab1a85')!, output = fixture('sequence-ascii-simple')
+  expect(assess('sequence-ascii-simple', output.replace('►', '>')).status).toBe('unknown')
+  expect(assess('sequence-ascii-simple', output.replace('►', '→')).status).toBe('unknown')
+  for (const source of ['sequenceDiagram\nA->B: x', 'sequenceDiagram\nalt outer\nopt inner\nA->>B: x\nend\nend']) {
+    const contract = analyseTerminalSource(source, 'sequence').contract
+    expect(assessTerminalDrawing({ ...base, source, sourceSha256: createHash('sha256').update(source).digest('hex'), expected: { status: 'independently-reviewed', contract } }, output).status).toBe('unknown')
+  }
 })

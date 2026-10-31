@@ -22,6 +22,12 @@ test('source ampersands inside labels do not become graph operators; real fan-in
   expect(compact.expected.graph?.edges).toEqual([{ source: 'A', target: 'B' }])
   expect(source('dbc553f665d05c10').expected.graph?.nodes).toHaveLength(100)
 })
+test('cyclic and grouped sources retain their direction obligations when simple node ordering is unavailable', () => {
+  for (const input of [analyseTerminalSource('flowchart RL\nA-->B\nB-->A', 'flowchart'), analyseTerminalSource('flowchart TD\nsubgraph G\n direction LR\n A-->B\nend', 'flowchart')]) {
+    expect(input.contract.facts.find(fact => fact.criterion === 'layout-direction')?.expected).toBeDefined()
+    expect(input.contract.presentation.some(item => typeof item === 'object' && item !== null && 'direction' in item)).toBe(false)
+  }
+})
 test('source contracts retain chart values, ER cardinality, packet bit ranges and hierarchy ownership', () => {
   expect(source('587429a5094fbb28').expected.contract?.facts.find(fact => fact.criterion === 'slice-values')?.expected).toContainEqual({ label: 'ML', value: 12.5 })
   expect(source('278dccc21dd27020').expected.contract?.facts.find(fact => fact.criterion === 'entity-relations')?.expected).toContainEqual({ source: 'ORDER', target: 'LINE-ITEM', sourceCardinality: '||', targetCardinality: '|{', identifying: true, caption: 'contains' })
@@ -47,6 +53,28 @@ test('actual pie bar values need owned weights, percentages and complete output,
   expect(assessTerminalDrawing(pie, valid.replace('B  █████  33.3%', 'B  █  33.3%')).status).toBe('incorrect')
   expect(assessTerminalDrawing(pie, valid.replace('C  █████  33.3%', 'C  █████  55.5%')).status).toBe('incorrect')
   expect(assessTerminalDrawing(pie, valid + '\nAdditional fake chart').status).toBe('unknown')
+})
+test('pie proportions use an order-independent feasible scale and cannot pass uninformative equal bars', () => {
+  const pie = source('587429a5094fbb28'), rows = [['Platform', 21, 42], ['Data', 13, 25], ['ML', 6, 12.5], ['Web', 4, 8], ['Mobile', 3, 6], ['QA', 2, 4], ['Docs', 1, 1.8], ['Misc', 1, .7]] as const
+  const chart = (items: typeof rows | readonly (typeof rows[number])[]) => 'Cloud spend by team\n' + items.map(([label, bar, percent]) => label + '  ' + '█'.repeat(bar) + '  ' + percent.toFixed(1) + '%').join('\n')
+  expect(assessTerminalDrawing(pie, chart(rows)).status).toBe('correct')
+  expect(assessTerminalDrawing(pie, chart([...rows].reverse())).status).toBe('correct')
+  expect(assessTerminalDrawing(pie, 'Cloud spend by team\n' + rows.map(([label, , percent]) => label + '  █  ' + percent.toFixed(1) + '%').join('\n')).status).not.toBe('correct')
+  expect(assessTerminalDrawing(pie, chart(rows).replace('Data  █████████████', 'Data  ██████████████████████████')).status).toBe('incorrect')
+})
+test('journey and timeline summaries retain section, actor, score, event and chronology ownership without orphan ink', () => {
+  const journey = source('a60c7e7b3b930353'), drawing = '私の一日の流れ\n[出勤前の準備]\n●●●●● お茶を入れる\nby 私\n●●●○○ メールを確認する\nby 私\n[帰宅]\n●●●●○ 夕食を作る\nby 私, 家族'
+  expect(assessTerminalDrawing(journey, drawing).status).toBe('correct')
+  expect(assessTerminalDrawing(journey, drawing.replace('●●●○○', '●●●●○')).status).toBe('incorrect')
+  expect(assessTerminalDrawing(journey, drawing.replace('by 私, 家族', 'by 家族')).status).toBe('incorrect')
+  expect(assessTerminalDrawing(journey, drawing + '\nby extra').status).not.toBe('correct')
+  expect(assessTerminalDrawing(journey, drawing + '\n[Extra section]').status).not.toBe('correct')
+  const timeline = source('da9198e1adbc1c14'), events = 'Project Roadmap\n[Phase 1]\n○ 2023\n│ ├─ Planning\n│ └─ Requirements\n○ 2024\n│ ├─ Development\n│ └─ Testing\n[Phase 2]\n○ 2025\n│ ├─ Launch\n│ └─ Support'
+  expect(assessTerminalDrawing(timeline, events).status).toBe('correct')
+  expect(assessTerminalDrawing(timeline, events.replace('2024', '2026')).status).toBe('incorrect')
+  expect(assessTerminalDrawing(timeline, events.replace('Planning', 'Testing').replace('│ └─ Testing', '│ └─ Planning')).status).toBe('incorrect')
+  expect(assessTerminalDrawing(timeline, '│ └─ Orphan\n' + events).status).not.toBe('correct')
+  expect(assessTerminalDrawing(timeline, events + '\n[Extra section]').status).not.toBe('correct')
 })
 test('invalid source rejection is separate and requires typed public evidence', () => {
   const invalid = source('486d9d241d7bf98f')

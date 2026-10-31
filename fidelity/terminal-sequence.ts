@@ -12,6 +12,7 @@ export function inspectTerminalSequence(output: string, contract: TerminalSource
   const result = required.map(fact => ({ criterion: fact.criterion, status: 'unknown' as TerminalFactCheck['status'], detail: 'Sequence representation has no qualified projection', expected: fact.expected }))
   const set = (criterion: string, status: TerminalFactCheck['status'], detail: string, actual?: unknown) => { const check = result.find(check => check.criterion === criterion); if (check) Object.assign(check, { status, detail, ...(actual === undefined ? {} : { actual }) }) }
   const display = interpretTerminal(output), expected = (criterion: string): any => required.find(fact => fact.criterion === criterion)?.expected
+  if ((expected('ordered-messages') ?? []).some((message: any) => !['->>', '-->>'].includes(message.marker)) || (expected('fragments') ?? []).some((fragment: any) => fragment.nesting?.length)) { for (const check of result) check.detail = 'Nested fragments or source arrow styles require a separately qualified sequence projection'; return result }
   if (display.status !== 'available') { for (const check of result) check.detail = display.reason!; return result }
   const grid = display.cells, cell = (x: number, y: number) => grid[y]?.[x] ?? ' ', used = new Set<string>(), key = (x: number, y: number) => x + ',' + y
   if (grid.length > 256 || grid.some(row => row.length > 512)) return result
@@ -47,6 +48,7 @@ export function inspectTerminalSequence(output: string, contract: TerminalSource
   for (let y = headerBottom + 1; y < grid.length; y++) for (let arrowX = 0; arrowX < grid[y]!.length; arrowX++) {
     const direction = arrows[cell(arrowX, y)]
     if (!direction || boxes.some(box => !frameBoxes.includes(box) && y >= box.y && y <= box.bottom && arrowX >= box.x && arrowX <= box.right)) continue
+    if (!['▶', '►', '◀', '◄'].includes(cell(arrowX, y))) { routeUnknown = true; continue }
     const target = actors.filter(actor => actor.x === arrowX || actor.x === arrowX + direction && lifeline.test(cell(actor.x, y)))
     if (target.length !== 1) { routeUnknown = true; continue }
     let x = arrowX - direction; const stem: string[] = []
@@ -80,12 +82,18 @@ export function inspectTerminalSequence(output: string, contract: TerminalSource
   if (notes) {
     const actual: any[] = []; let qualified = noteBoxes.length === notes.length
     for (const [index, box] of noteBoxes.sort((a, b) => a.y - b.y).entries()) {
-      const note = notes[index], owners = note?.actors.map(id => actors.find(actor => actor.id === id)) ?? []
-      if (!note || !owners.length || owners.some(owner => !owner)) { qualified = false; continue }
-      const columns = owners.map(owner => owner!.x), placement = note.position === 'over' ? box.x <= Math.min(...columns) && box.right >= Math.max(...columns) : note.position === 'right of' ? box.x > Math.max(...columns) : note.position === 'left of' ? box.right < Math.min(...columns) : false
-      actual.push({ position: note.position, actors: note.actors, text: box.lines.join('\n'), afterMessage: messages.filter(message => message.y < box.y).length, placement }); rectangle(box)
+      const note = notes[index]
+      if (!note || !note.actors.length || note.actors.some(id => !actors.some(actor => actor.id === id))) { qualified = false; continue }
+      const covered = actors.filter(actor => actor.x >= box.x && actor.x <= box.right)
+      const adjacent = note.position === 'right of' ? actors.filter(actor => actor.x < box.x).at(-1) : note.position === 'left of' ? actors.find(actor => actor.x > box.right) : undefined
+      const owners = note.position === 'over' ? covered.map(actor => actor.id) : adjacent ? [adjacent.id] : []
+      // Geometry supplies owners independently. An over-note cannot silently
+      // cover extra actors; a side note cannot borrow a more distant lifeline.
+      // Side notes crossing a lifeline have no qualified ownership projection.
+      if (note.position !== 'over' && covered.length) qualified = false
+      actual.push({ position: note.position, actors: owners, text: box.lines.join('\n'), afterMessage: messages.filter(message => message.y < box.y).length }); rectangle(box)
     }
-    if (qualified) set('owned-notes', actual.every((note, n) => note.placement && note.text === notes[n]!.text && note.afterMessage === notes[n]!.afterMessage) ? 'passed' : 'failed', 'Notes retain exact authored lines, chronology and geometric ownership by the named lifelines', actual)
+    if (qualified) set('owned-notes', actual.every((note, n) => JSON.stringify([...note.actors].sort()) === JSON.stringify([...notes[n]!.actors].sort()) && note.text === notes[n]!.text && note.afterMessage === notes[n]!.afterMessage) ? 'passed' : 'failed', 'Notes retain exact authored lines, chronology and geometric ownership by the named lifelines', actual)
   }
 
   const frames: { kind: string; label: string; top: number; bottom: number; branches: { label: string; y: number }[] }[] = []

@@ -31,6 +31,7 @@ export function analyseTerminalSource(source: string, family: string): TerminalS
     fact('relationships', parsed.graph.edges, 'Exact source/target multiplicity, captions and marker semantics')
     if (parsed.groups.length) fact('groups', parsed.groups, 'Declared group labels, enclosure and membership')
     if (parsed.graph.layout?.length) fact('layout-order', parsed.graph.layout, 'Acyclic source direction imposes relative drawn positions')
+    else if (parsed.graph.edges.length || parsed.directions.length) fact('layout-direction', { root: parsed.direction, groups: parsed.directions }, 'Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection')
     if (parsed.shapes.some(item => item.shape !== 'rectangle')) fact('node-shapes', parsed.shapes, 'Explicit node shape declarations')
     if (parsed.lines.some(item => item.lines.length > 1)) fact('node-line-breaks', parsed.lines.filter(item => item.lines.length > 1), 'Explicit HTML/Markdown line breaks, not renderer wrapping')
     if (parsed.graph.nodes.some(node => /\x1b|[\x00-\x08\x0b-\x1f]/.test(node.label))) fact('literal-control-safety', 'escape-or-typed-reject', 'Source label controls must not become executable terminal state')
@@ -284,7 +285,7 @@ export function analyseTerminalSource(source: string, family: string): TerminalS
 
 function readFlowchart(source: string) {
   type Node = { id: string; label: string; shape?: string }
-  const nodes = new Map<string, Node>(), edges: any[] = [], groups: { id: string; label: string; members: string[]; parent?: string }[] = [], stack: string[] = [], presentation: unknown[] = [], uncertainties: string[] = []
+  const nodes = new Map<string, Node>(), edges: any[] = [], groups: { id: string; label: string; members: string[]; parent?: string }[] = [], stack: string[] = [], presentation: unknown[] = [], directions: { group: string | null; direction: string }[] = [], uncertainties: string[] = []
   const header = /^\s*(?:flowchart|graph)(?:\s+(LR|RL|TD|TB|BT))?/.exec(source), direction = header?.[1] ?? 'TD'
   let body = source.slice(header?.[0].length ?? 0), cursor = 0
   const skip = () => { while (/\s|;/.test(body[cursor] ?? '') && cursor < body.length) cursor++ }
@@ -337,7 +338,7 @@ function readFlowchart(source: string) {
     skip(); if (cursor >= body.length) break
     const rest = body.slice(cursor)
     if (/^(?:classDef|class|style|linkStyle|click)\b/.test(rest)) { presentation.push(line().trim()); continue }
-    if (/^direction\b/.test(rest)) { presentation.push({ group: stack.at(-1), direction: line().trim() }); continue }
+    if (/^direction\b/.test(rest)) { const declaration = /^direction\s+(LR|RL|TD|TB|BT)\s*$/.exec(line().trim()); if (!declaration) uncertainties.push('Untranscribed group direction'); else directions.push({ group: stack.at(-1) ?? null, direction: declaration[1]! }); continue }
     if (/^subgraph\b/.test(rest)) {
       const declaration = line().replace(/^subgraph\s*/, '').trim(); const m = /^(\S+)\s*\[([^\]]+)\]$/.exec(declaration)
       const label = visibleTerminalLabel(m?.[2] ?? declaration), id = m?.[1] ?? label
@@ -370,5 +371,5 @@ function readFlowchart(source: string) {
   const directed = edges.filter(edge => edge.directed !== false && edge.visible !== false), acyclic = directed.every(edge => !reachable(edge.target, edge.source))
   if (acyclic && directed.length && !groups.length) graph.layout = directed.map(edge => ({ before: ['RL', 'BT'].includes(direction) ? edge.target : edge.source, after: ['RL', 'BT'].includes(direction) ? edge.source : edge.target, axis: ['LR', 'RL'].includes(direction) ? 'x' : 'y' }))
   if (groups.length) (graph as any).groups = groups
-  return { graph, groups, shapes: [...nodes.values()].map(({ id, shape }) => ({ id, shape })), lines: [...nodes.values()].map(({ id, label }) => ({ id, lines: label.split('\n') })), presentation, uncertainties }
+  return { graph, groups, direction, directions, shapes: [...nodes.values()].map(({ id, shape }) => ({ id, shape })), lines: [...nodes.values()].map(({ id, label }) => ({ id, lines: label.split('\n') })), presentation, uncertainties }
 }

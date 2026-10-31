@@ -337,6 +337,14 @@
             }
           ],
           "scope": "Declared group labels, enclosure and membership"
+        },
+        {
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "LR",
+            "groups": []
+          },
+          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
         }
       ],
       "presentation": [],
@@ -799,6 +807,14 @@
             }
           ],
           "scope": "Declared group labels, enclosure and membership"
+        },
+        {
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
         }
       ],
       "presentation": [],
@@ -2659,6 +2675,14 @@
           "scope": "Declared group labels, enclosure and membership"
         },
         {
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
+        },
+        {
           "criterion": "node-shapes",
           "expected": [
             {
@@ -2932,6 +2956,14 @@
             }
           ],
           "scope": "Exact source/target multiplicity, captions and marker semantics"
+        },
+        {
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
         }
       ],
       "presentation": [],
@@ -3371,6 +3403,14 @@
             }
           ],
           "scope": "Exact source/target multiplicity, captions and marker semantics"
+        },
+        {
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
         }
       ],
       "presentation": [],
@@ -3463,6 +3503,14 @@
             }
           ],
           "scope": "Declared group labels, enclosure and membership"
+        },
+        {
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
         }
       ],
       "presentation": [],
@@ -4752,6 +4800,14 @@
             }
           ],
           "scope": "Exact source/target multiplicity, captions and marker semantics"
+        },
+        {
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
         }
       ],
       "presentation": [],
@@ -5016,6 +5072,14 @@
             }
           ],
           "scope": "Exact source/target multiplicity, captions and marker semantics"
+        },
+        {
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "LR",
+            "groups": []
+          },
+          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
         },
         {
           "criterion": "node-shapes",
@@ -6953,6 +7017,14 @@
             }
           ],
           "scope": "Exact source/target multiplicity, captions and marker semantics"
+        },
+        {
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "LR",
+            "groups": []
+          },
+          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
         }
       ],
       "presentation": [],
@@ -8397,6 +8469,14 @@
             }
           ],
           "scope": "Exact source/target multiplicity, captions and marker semantics"
+        },
+        {
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
         }
       ],
       "presentation": [],
@@ -8493,6 +8573,14 @@
             }
           ],
           "scope": "Declared group labels, enclosure and membership"
+        },
+        {
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
         }
       ],
       "presentation": [],
@@ -8734,6 +8822,14 @@
             }
           ],
           "scope": "Exact source/target multiplicity, captions and marker semantics"
+        },
+        {
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
         }
       ],
       "presentation": [],
