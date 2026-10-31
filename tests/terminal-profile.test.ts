@@ -54,13 +54,14 @@ import { spawnSync } from 'node:child_process'
 import { readTerminalCorpus } from '../fidelity/terminal-corpus.ts'
 test('public saved-output launcher works in CI without oracle or renderer; collection remains guarded', () => {
   const directory = temp.dir(), out = join(temp.dir(), 'recheck'), corpus = readTerminalCorpus()
-  const record = { profile: terminalProfileId, inventory: corpus.cases.map(input => [input.id, input.sourceSha256]), artifacts: [{ project, version: 'synthetic archived fixture' }], outputs: [], transportObservations: [], sourceReference: corpus.cases.map(input => ({ project: 'mermaid-js/mermaid', caseId: input.id, sourceAccepted: null, declaredGraphMatches: null, role: 'source-reference-only' })), startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z' }
+  const record = { profile: terminalProfileId, inventory: corpus.cases.map(input => [input.id, input.sourceSha256]), artifacts: [{ project, version: 'synthetic archived fixture' }], outputs: [{ project, caseId: corpus.cases[0]!.id, publicStatus: 'blocked' }], transportObservations: [], sourceReference: corpus.cases.map(input => ({ project: 'mermaid-js/mermaid', caseId: input.id, sourceAccepted: null, declaredGraphMatches: null, role: 'source-reference-only' })), startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z' }
   writeFileSync(join(directory, 'raw.json'), JSON.stringify(record))
   const command = new URL('../commands.ts', import.meta.url).pathname, env = { ...process.env, CI: 'true', GITHUB_ACTIONS: 'true', MERMAID_REFERENCE_DIR: '/missing/terminal-reference', TRIDENT_MERMAID_ORACLE: '' }
   const recheck = spawnSync(process.execPath, [command, 'bench', '--terminal', '--saved-terminal', directory, '--out', out], { env, encoding: 'utf8', timeout: 20_000 })
   expect({ code: recheck.status, stderr: recheck.stderr }).toEqual({ code: 0, stderr: '' })
   const result = JSON.parse(readFileSync(join(out, 'terminal/result.json'), 'utf8'))
   expect(result.terminalAssessments[0]).toMatchObject({ correct: 0, unknown: 120, planned: 120 })
+  expect(result.terminalCoverage[0]).toMatchObject({ requested: 1, attempted: 0, notAttempted: 120 })
   expect(result.recheck.rendererInvocations).toBe(0)
   const collect = spawnSync(process.execPath, [command, 'bench', '--terminal', '--community-prepared', '/missing/prepared.json', '--out', join(temp.dir(), 'collection')], { env, encoding: 'utf8', timeout: 10_000 })
   expect(collect.status).not.toBe(0)
