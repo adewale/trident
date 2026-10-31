@@ -4,7 +4,8 @@ import { readTerminalCorpus, reviewedTerminalCases } from '../fidelity/terminal-
 import { assessTerminalDrawing, assessTerminalSourceRejection } from '../fidelity/terminal-assessment.ts'
 import { terminalSourceReviews } from '../scripts/review-terminal-contracts.ts'
 
-const source = (id: string) => reviewedTerminalCases().find(input => input.id === 'terminal:' + id)!
+const reviewed = reviewedTerminalCases()
+const source = (id: string) => reviewed.find(input => input.id === 'terminal:' + id)!
 test('all120 immutable source inputs have complete explicit obligations, with no renderer-output facts or silently omitted families', () => {
   const cases = readTerminalCorpus().cases, reviews = terminalSourceReviews()
   expect(reviews).toHaveLength(120)

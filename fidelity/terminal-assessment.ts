@@ -3,7 +3,7 @@ import { defineCaseEvidenceContract, constructEvidenceVerdict, evidenceBytesDige
 import { inspectTerminalFacts } from './terminal-facts.ts'
 import { inspectTerminalMeaning } from './terminal.ts'
 import type { TerminalProjectCase } from './terminal-corpus.ts'
-const observerSha256 = evidenceDigest(Object.fromEntries(['terminal-assessment.ts', 'terminal-display.ts', 'terminal-facts.ts', 'terminal-sequence.ts', 'terminal.ts', '../portable/evidence-contract.ts', '../portable/project-records.ts'].map(file => [file, evidenceBytesDigest(readFileSync(new URL(file, import.meta.url)))])))
+const observerSha256 = evidenceDigest(Object.fromEntries(['terminal-assessment.ts', 'terminal-display.ts', 'terminal-facts.ts', 'terminal-sequence.ts', 'terminal-kanban.ts', 'terminal-rectangles.ts', 'terminal.ts', '../portable/evidence-contract.ts', '../portable/project-records.ts'].map(file => [file, evidenceBytesDigest(readFileSync(new URL(file, import.meta.url)))])))
 /** Never infer whole-drawing correctness from text admission, source tags,
  * source-reference agreement or an absent observer for a different family. */
 export function assessTerminalDrawing(input: TerminalProjectCase, output?: string) {

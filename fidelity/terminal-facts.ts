@@ -1,5 +1,6 @@
+import { inspectTerminalKanban } from './terminal-kanban.ts'
 import { inspectTerminalSequence } from './terminal-sequence.ts'
-import { interpretTerminal } from './terminal-display.ts'
+import { interpretTerminal, terminalTextWidth } from './terminal-display.ts'
 import { inspectTerminalMeaning } from './terminal.ts'
 import type { TerminalSourceContract } from './terminal-source.ts'
 import type { TerminalMeaning } from './terminal.ts'
@@ -8,6 +9,7 @@ export interface TerminalFactCheck { criterion: string; status: 'passed' | 'fail
 /** Each source obligation receives a disposition. A missing family/representation
  * checker is an unknown, never an omitted obligation or a text-only pass. */
 export function inspectTerminalFacts(output: string, contract: TerminalSourceContract, graph?: TerminalMeaning): TerminalFactCheck[] {
+  if (contract.family === 'kanban') return [inspectTerminalKanban(output, contract)]
   if (contract.family === 'sequence') return inspectTerminalSequence(output, contract)
   const display = interpretTerminal(output)
   const checks = contract.facts.filter(fact => fact.required !== false).map(fact => ({ criterion: fact.criterion, expected: fact.expected, status: 'unknown' as TerminalFactCheck['status'], detail: 'No qualified observer for this source fact and output representation' }))
@@ -22,6 +24,13 @@ export function inspectTerminalFacts(output: string, contract: TerminalSourceCon
       if (verdict.status === 'correct') for (const name of ['nodes', 'relationships', 'layout-order']) set(name, 'passed', verdict.reason)
       else if (verdict.status === 'incorrect') set(/node labelled/.test(verdict.reason) ? 'nodes' : /node order/.test(verdict.reason) ? 'layout-order' : 'relationships', 'failed', verdict.reason)
       else for (const name of ['nodes', 'relationships', 'layout-order']) set(name, 'unknown', verdict.reason)
+    }
+  }
+  if (contract.family === 'class') {
+    const classes = contract.facts.find(fact => fact.criterion === 'class-bodies')?.expected as { id: string; members: string[] }[] | undefined, relations = contract.facts.find(fact => fact.criterion === 'class-relations')?.expected as unknown[] | undefined
+    if (classes?.length && classes.every(item => !item.members.length && /^[\p{Letter}\p{Number}_.-]+$/u.test(item.id)) && relations?.length === 0) {
+      const verdict = inspectTerminalMeaning(output, { nodes: classes.map(item => ({ id: item.id, label: item.id })), edges: [] })
+      if (verdict.status !== 'unknown') for (const criterion of ['class-bodies', 'class-relations']) set(criterion, verdict.status === 'correct' ? 'passed' : 'failed', 'Isolated empty classes require exact owned rectangles and no unexpected members or relationships: ' + verdict.reason)
     }
   }
   const title = contract.facts.find(fact => fact.criterion === 'title')?.expected
@@ -74,10 +83,11 @@ export function inspectTerminalFacts(output: string, contract: TerminalSourceCon
  * from the full drawing inventory or supplies any output pass. */
 export function terminalSourceObservable(contract: TerminalSourceContract, graph?: TerminalMeaning) {
   if (contract.sourceUncertainties.length) return false
-  const supported = contract.family === 'flowchart' ? ['nodes', 'relationships', 'layout-order'] : contract.family === 'pie' ? ['title', 'slice-values'] : contract.family === 'journey' ? ['title', 'journey-tasks'] : contract.family === 'timeline' ? ['title', 'timeline-periods'] : contract.family === 'sequence' ? ['participants', 'ordered-messages', 'owned-notes', 'fragments'] : []
+  const supported = contract.family === 'flowchart' ? ['nodes', 'relationships', 'layout-order'] : contract.family === 'pie' ? ['title', 'slice-values'] : contract.family === 'journey' ? ['title', 'journey-tasks'] : contract.family === 'timeline' ? ['title', 'timeline-periods'] : contract.family === 'sequence' ? ['participants', 'ordered-messages', 'owned-notes', 'fragments'] : contract.family === 'kanban' ? ['kanban-hierarchy'] : contract.family === 'class' ? ['class-bodies', 'class-relations'] : []
   if (contract.facts.some(fact => fact.required !== false && !supported.includes(fact.criterion))) return false
+  if (contract.family === 'class') { const classes = contract.facts.find(fact => fact.criterion === 'class-bodies')?.expected as any[] ?? [], relations = contract.facts.find(fact => fact.criterion === 'class-relations')?.expected as any[] ?? []; if (!classes.length || classes.length > 32 || classes.some(item => item.members.length || !/^[\p{Letter}\p{Number}_.-]+$/u.test(item.id)) || relations.length) return false }
   if (contract.family === 'sequence' && (contract.facts.find(fact => fact.criterion === 'ordered-messages')?.expected as any[] ?? []).some(message => !['->>', '-->>'].includes(message.marker))) return false
   if (contract.family === 'sequence' && (contract.facts.find(fact => fact.criterion === 'fragments')?.expected as any[] ?? []).some(fragment => fragment.nesting?.length)) return false
-  if (graph && (graph.nodes.length > 32 || graph.edges.some(edge => (edge as any).directed === false || (edge as any).endMarker || (edge as any).stroke || (edge as any).visible === false))) return false
+  if (graph && (graph.nodes.length > 32 || new Set(graph.nodes.map(node => node.label)).size !== graph.nodes.length || graph.nodes.some(node => !node.label || terminalTextWidth(node.label) > 510 || /[\x00-\x1f]/.test(node.label)) || graph.edges.some(edge => /[\n\r]/.test(edge.label ?? '') || (edge as any).directed === false || (edge as any).endMarker || (edge as any).stroke || (edge as any).visible === false))) return false
   return supported.length > 0
 }

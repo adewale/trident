@@ -1,0 +1,35 @@
+[
+  {
+    "file": "kanban-python-board.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "caseId": "terminal:43382cbc1379cf4c",
+    "sha256": "69776bbfa9f258ba3916020e1d263703e8fa6f2611db96b937f3ce32a14a66be",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; checker control only"
+  },
+  {
+    "file": "class-python-empty.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "caseId": "terminal:1468e1cf1186af65",
+    "sha256": "06c0fa21f95289d40b0fa998c0c1e82c44fbe4173f64d787655d5c973694a754",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; checker control only"
+  },
+  {
+    "file": "class-module-empty.txt",
+    "project": "adewale/agentic-mermaid",
+    "version": "0.4.1",
+    "caseId": "terminal:1468e1cf1186af65",
+    "sha256": "fd0f75fddfb9a6518f6a0deeb42d881088c3c1a4e5c116c13a9da6a8187d0b75",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; checker control only"
+  }
+]
