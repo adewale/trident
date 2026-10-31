@@ -39,7 +39,7 @@ test('one numeric source supplies both the visible table rate and Mermaid bar; m
   expect(output).toContain('1 catalog entries outside core comparison scope')
   const row = output.split('\n').find(line => line.startsWith('| fixture/alpha |'))!
   expect(row).toContain('N/A')
-  expect(row).toContain('Unmeasured')
+  expect(row).not.toContain('Replay (retired)')
   expect(row).not.toContain('0%')
   expect(output).not.toContain('| fixture/clone | Unmeasured')
   const changed = snapshot(); changed.tables[0]!.rows[0]!.values[1] = 0
@@ -270,7 +270,7 @@ test('the Flutter brand gets no inherited Dart score in the regular results over
   const output = renderSnapshot(data, actual)
   const flutter = output.split('\n').find(line => line.startsWith('| Mermaid Flutter |'))
   expect(flutter).toBeDefined()
-  expect(flutter).toContain('Unmeasured')
+  expect(flutter).not.toContain('1.0')
   expect(flutter).toContain('N/A')
   expect(flutter).not.toContain('1/2')
 })

@@ -73,6 +73,7 @@ export async function main(argv = process.argv.slice(2)) {
   --suites ${CAMPAIGN_SUITES.join(',')}  default: ${DEFAULT_SUITES.join(',')}
   --suites upstream-original      explicit reference-environment validation only
   --rounds N --executable CHROMIUM --upstream-runner-root INSTALLED_VITEST_KIT
+  --docs-cases FILE              optional repair IDs; unselected corpus inputs stay unmeasured
   --docs-review FILE             source-hashed drawing expectations (default: corpus/docs-reviewed.json)
   --docs-formats svg,png         same corpus, separate output lanes (default: both)
   --docs-png-review FILE         reviewed PNG/source/expectation hashes; absent images remain unknown

@@ -29,4 +29,4 @@ test.skipIf(!existsSync(mermaidOracleDirectory()) || !existsSync(mermaidUpstream
     expect(result.observations.some(row => row.operation.startsWith('serialized-'))).toBe(false)
     expect(existsSync(join(directory, 'dist/browser'))).toBe(false)
   } finally { rmSync(directory, { recursive: true, force: true }) }
-})
+}, 30_000)

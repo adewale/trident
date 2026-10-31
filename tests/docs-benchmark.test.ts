@@ -105,3 +105,11 @@ test('script loading and cleanup have host deadlines and close HTTP connections 
   expect(events[0]).toBe('connections')
   expect(events).toContain('server')
 })
+
+import { selectDocsCases } from '../unified/docs-selection.ts'
+test('a repair selects missing literal documentation IDs without changing or reordering the corpus', () => {
+  const cases = [{ id: 'a' }, { id: 'b' }, { id: 'c' }]
+  expect(selectDocsCases(cases, { docsCaseIds: ['c', 'a'] })).toEqual([cases[0]!, cases[2]!])
+  expect(cases).toHaveLength(3)
+  for (const ids of [[], ['a', 'a'], ['invented']]) expect(() => selectDocsCases(cases, { docsCaseIds: ids })).toThrow('literal IDs')
+})

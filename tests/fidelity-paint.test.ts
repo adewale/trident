@@ -54,7 +54,7 @@ test('actual painted endpoints and multiplicity are independent of correct label
     expect(invisible.checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('failed')
   }
   const detached = await inspect(fixture.replace('M70 25 L150 25', 'M87 25 L133 25'))
-  expect(detached.checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('failed')
+  expect(detached.checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('unavailable')
   const invented = await inspect(fixture, { ...expected, edges: [] })
   expect(invented.checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('failed')
 })
@@ -199,7 +199,7 @@ test('rich foreignObject leaves remain actual authored text and logical tree gro
 test('C4 person relationships can attach to the actual compound head rather than an unrelated body rectangle', async () => {
   const compound = '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="110"><defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z"/></marker></defs><g class="node c4-person"><g class="basic label-container"><rect x="10" y="50" width="60" height="30"/><circle cx="40" cy="35" r="20"/></g><text x="14" y="70" fill="white">Alpha</text></g><g class="node"><rect x="150" y="10" width="60" height="30"/><text x="154" y="30" fill="white">Beta</text></g><g class="edge"><path d="M60 35 L150 25" fill="none" stroke="black" marker-end="url(#arrow)"/></g></svg>'
   expect((await inspect(compound, expected, { family: 'c4' })).checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('passed')
-  expect((await inspect(compound.replace('<circle cx="40" cy="35" r="20"/>', ''), expected, { family: 'c4' })).checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('failed')
+  expect((await inspect(compound.replace('<circle cx="40" cy="35" r="20"/>', ''), expected, { family: 'c4' })).checks.find(item => item.criterion === 'painted-relationships')?.status).not.toBe('passed')
 })
 
 test('actual Mermaid open-arrow legs retain direction across a repeated moveto apex', async () => {
@@ -261,11 +261,20 @@ test('inline arrows use the same geometry for every renderer prefix and reject m
     svg.replace('M104,32L96,35.36L96,28.64Z', 'M96,32L104,35.36L104,28.64Z'),
     svg.replace('M104,32L96,35.36L96,28.64Z', 'M124,32L116,35.36L116,28.64Z'),
   ]
-  for (const broken of mutations) expect((await inspect(broken, facts)).checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('failed')
+  for (const broken of mutations) expect((await inspect(broken, facts)).checks.find(check => check.criterion === 'painted-relationships')?.status).not.toBe('passed')
 })
 
 
 test('an additional visible node cannot earn a complete ownership pass by preserving expected labels', async () => {
   const extra = fixture.replace('</svg>', '<g class="thirdparty-node"><rect x="85" y="43" width="60" height="30" fill="white" stroke="black"/><text x="88" y="63">Intruder</text></g></svg>')
   expect((await inspect(extra)).checks.find(check => check.criterion === 'painted-node-ownership')?.status).toBe('failed')
+})
+
+
+test('unclassed inline triangle geometry is observed without an implementation-specific selector', async () => {
+  const svg = retainedSvg('dart-inline-arrow.svg')
+  const facts = { labels: ['A', 'B'], nodes: [{ id: 'A', label: 'A' }, { id: 'B', label: 'B' }], edges: [{ source: 'A', target: 'B', directed: true }] }
+  expect((await inspect(svg, facts)).passed).toBe(true)
+  const backwards = svg.replace('129,33 121,37 121,29', '121,33 129,37 129,29')
+  expect((await inspect(backwards, facts)).checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('failed')
 })

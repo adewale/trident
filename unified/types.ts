@@ -46,6 +46,9 @@ export interface UnifiedRunOptions {
   communityBrowserPreparedFile?: string
   /** Optional reviewed source expectations; omitted means the committed docs reviews. */
   docsReviewFile?: string
+  /** Optional repair selection; every other source remains in the planned corpus. */
+  docsCasesFile?: string
+  docsCaseIds?: string[]
   /** Same documentation inventory, independently collected output lanes. */
   docsFormats?: ('svg' | 'png')[]
   docsPngReviewFile?: string

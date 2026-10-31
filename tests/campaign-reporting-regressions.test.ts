@@ -42,7 +42,7 @@ test('documentation SVG return and reviewed drawing correctness retain separate 
   expect(returns.rows.find(row => row.project === 'fixture/a')!.values[1]).toBe(2)
 })
 
-test('new SVG case verdicts replace fragmented criterion scorecards without inventing ranks for unknown diagrams', () => {
+test('new SVG case verdicts rank verified correct counts while retaining unknown diagrams', () => {
   const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' })
   const cases = [{ caseId: 'one', family: 'flowchart', status: 'correct' }, { caseId: 'two', family: 'flowchart', status: 'unknown' }]
   write(join(root, 'docs/result.json'), { id: 'mermaid-fidelity', startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z', observations: [], gaps: [], selectedCaseIds: ['one', 'two'], criteriaProtocol: { observer: 'fixture' }, svgAssessments: [{ project: 'fixture/a', version: '1.0.0', cases }] })
@@ -50,14 +50,16 @@ test('new SVG case verdicts replace fragmented criterion scorecards without inve
   const snapshot = importCampaign(empty(), root, 'https://example.test/svg', catalog)
   expect(snapshot.tables).toHaveLength(1)
   expect(snapshot.tables[0]!.rows[0]!.values.slice(1, 6)).toEqual([1, 0, 0, 1, 2])
-  expect(rankedRows(snapshot.tables[0]!, value => value)[0]!.rank).toBeNull()
+  expect(rankedRows(snapshot.tables[0]!, value => value)[0]!.rank).toBe(1)
   write(join(root, 'docs/result.json'), { id: 'mermaid-fidelity', observations: [], selectedCaseIds: ['one', 'two', 'three'], svgAssessments: [{ project: 'fixture/a', version: '1.0.0', cases }] })
   expect(() => importCampaign(empty(), root, 'https://example.test/svg', catalog)).toThrow('omit')
 })
 function overview(snapshot: ResultsSnapshot, project = 'fixture/a') {
-  const row = renderSnapshot(snapshot, catalog).split('\n').find(line => line.startsWith('| ' + project + ' |'))!
-  const cells = row.split('|').map(value => value.trim())
-  return { row, rank: cells[2], docs: cells[4] }
+  const output = renderSnapshot(snapshot, catalog), lines = output.split('\n')
+  const headers = lines.find(line => line.startsWith('| Project | Overview rank |'))!.split('|').map(value => value.trim())
+  const cells = lines.find(line => line.startsWith('| ' + project + ' |'))!.split('|').map(value => value.trim())
+  const docs = headers.findIndex(header => header.startsWith('DaveBench') && !header.endsWith('PNG'))
+  return { row: cells.join('|'), rank: cells[headers.indexOf('Overview rank')], docs: cells[docs] }
 }
 
 test('newer PNG-only or unstarted PNG work cannot suppress retained SVG coverage', () => {
@@ -69,11 +71,14 @@ test('newer PNG-only or unstarted PNG work cannot suppress retained SVG coverage
   write(file, result)
   const controller = JSON.parse(readFileSync(join(png, 'report.json'), 'utf8')); controller.options = { docsFormats: ['png'] }; write(join(png, 'report.json'), controller)
   const after = importCampaign(before, png, 'https://example.test/png', catalog)
-  expect(overview(after)).toEqual(overview(before))
+  expect(overview(after).rank).toEqual(overview(before).rank)
+  expect(overview(after).docs).toEqual(overview(before).docs)
   expect(after.attempts.filter(attempt => attempt.receipt.url.includes('/png/')).every(attempt => JSON.stringify(attempt.outputFormats) === '["png"]')).toBe(true)
   const unstarted = campaign(temp(), { updatedAt: '2026-04-01T00:00:00Z', partial: true })
   const partial = JSON.parse(readFileSync(join(unstarted, 'report.json'), 'utf8')); partial.options = { docsFormats: ['png'] }; write(join(unstarted, 'report.json'), partial)
-  expect(overview(importCampaign(after, unstarted, 'https://example.test/png-unstarted', catalog))).toEqual(overview(before))
+  const pending = overview(importCampaign(after, unstarted, 'https://example.test/png-unstarted', catalog))
+  expect(pending.rank).toEqual(overview(before).rank)
+  expect(pending.docs).toEqual(overview(before).docs)
 })
 
 test('an inapplicable output lane has no fabricated score or setup blocker', () => {

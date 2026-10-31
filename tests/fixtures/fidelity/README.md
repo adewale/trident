@@ -26,3 +26,5 @@ Its sole `feDropShadow` composites SourceGraphic without clipping its bounds.
 Tests retain the real drawing and perturb filter bounds, input and alpha.
 
 `bezel-inline-arrow.svg`: actual Bezel 0.2.21 public SVG from the 31 October 2026 campaign, Mermaid documentation `flowchart.md:686` at `1fb7869866dd619168d840291c9c54b4f129758b`; SHA-256 `6842029810a65d26758716992c4e973ca990a17cd1cca10252ae0f9e63f08119`. Unmodified output.
+
+`dart-inline-arrow.svg`: actual Mermaid Dart0.3.2 public SVG from the 31 October2026 campaign, Mermaid documentation `flowchart.md:686` at `1fb7869866dd619168d840291c9c54b4f129758b`; SHA-256 `13137b0758565e29ad7976cb57e3990dfe477638d2f3458dca18f7fc16d725ec`. Unmodified output.

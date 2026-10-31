@@ -276,7 +276,7 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
   const name = (id: string) => snapshot.projectNames?.[id] ?? nodes.get(id)?.comparisonBranding?.name ?? id
   const titles = snapshotBenchmarkNames(snapshot)
   const activeSuites = PUBLIC_SUITES.filter(suite => snapshot.tables.some(entry => entry.suite === suite) || snapshot.attempts.some(entry => entry.suite === suite))
-  const overviewColumns: { suite: PublicSuite; format?: 'svg' | 'png'; title: string }[] = activeSuites.flatMap(suite => suite === 'docs' && snapshot.tables.some(entry => entry.suite === 'docs' && entry.outputFormat === 'png') ? [{ suite, format: 'svg' as const, title: 'DaveBench SVG' }, { suite, format: 'png' as const, title: 'DaveBench PNG' }] : [{ suite, title: titles[suite] }])
+  const overviewColumns: { suite: PublicSuite; format?: 'svg' | 'png'; title: string }[] = activeSuites.flatMap<{ suite: PublicSuite; format?: 'svg' | 'png'; title: string }>(suite => suite === 'docs' && snapshot.tables.some(entry => entry.suite === 'docs' && entry.outputFormat === 'png') ? [{ suite, format: 'svg' as const, title: 'DaveBench SVG' }, { suite, format: 'png' as const, title: 'DaveBench PNG' }] : [{ suite, ...(suite === 'docs' ? { format: 'svg' as const } : {}), title: titles[suite] }])
   const alphabetical = <T extends { project: string }>(rows: T[]) => [...rows].sort((a, b) => name(a.project).localeCompare(name(b.project)))
   const primary = snapshot.tables.find(entry => entry.id === (snapshot.overviewRanking ?? 'docs-coverage'))
   if (snapshot.overviewRanking && !primary) throw Error('Unknown overview ranking table')
