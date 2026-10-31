@@ -9,16 +9,17 @@ export interface TerminalFactCheck { criterion: string; status: 'passed' | 'fail
 /** Each source obligation receives a disposition. A missing family/representation
  * checker is an unknown, never an omitted obligation or a text-only pass. */
 export function inspectTerminalFacts(output: string, contract: TerminalSourceContract, graph?: TerminalMeaning): TerminalFactCheck[] {
-  if (contract.family === 'kanban') return [inspectTerminalKanban(output, contract)]
   if (contract.family === 'sequence') return inspectTerminalSequence(output, contract)
   const display = interpretTerminal(output)
   const checks = contract.facts.filter(fact => fact.required !== false).map(fact => ({ criterion: fact.criterion, expected: fact.expected, status: 'unknown' as TerminalFactCheck['status'], detail: 'No qualified observer for this source fact and output representation' }))
+  if (contract.family === 'kanban') { const board = inspectTerminalKanban(output, contract); return checks.map(check => check.criterion === board.criterion ? board : check) }
   const set = (criterion: string, status: TerminalFactCheck['status'], detail: string, actual?: unknown) => { const target = checks.find(check => check.criterion === criterion); if (target) Object.assign(target, { status, detail, ...(actual === undefined ? {} : { actual }) }) }
   if (display.status !== 'available') { for (const check of checks) check.detail = display.reason ?? 'No qualified terminal state'; return checks }
   const text = display.text, lines = text.split('\n').map(line => line.trimEnd())
   if (graph) {
-    if (!graph.nodes.length && !graph.edges.length) {
-      const blank = !text.trim(); set('nodes', blank ? 'passed' : 'failed', 'An independently empty drawing must remain empty', text); set('relationships', blank ? 'passed' : 'failed', 'Empty source contains no relationships', text)
+    if (!graph.nodes.length && !graph.edges.length && contract.facts.every(fact => fact.required === false || ['nodes', 'relationships', 'title'].includes(fact.criterion))) {
+      const title = contract.facts.find(fact => fact.criterion === 'title')?.expected, body = typeof title === 'string' ? lines.filter(line => line.trim() !== title).join('\n') : text
+      const blank = !body.trim(); set('nodes', blank ? 'passed' : 'failed', 'An independently empty drawing must remain empty', text); set('relationships', blank ? 'passed' : 'failed', 'Empty source contains no relationships', text)
     } else if (!graph.edges.some(edge => (edge as any).directed === false || (edge as any).endMarker || (edge as any).stroke || (edge as any).visible === false)) {
       const verdict = inspectTerminalMeaning(output, graph)
       if (verdict.status === 'correct') for (const name of ['nodes', 'relationships', 'layout-order']) set(name, 'passed', verdict.reason)
@@ -30,7 +31,8 @@ export function inspectTerminalFacts(output: string, contract: TerminalSourceCon
     const classes = contract.facts.find(fact => fact.criterion === 'class-bodies')?.expected as { id: string; members: string[] }[] | undefined, relations = contract.facts.find(fact => fact.criterion === 'class-relations')?.expected as unknown[] | undefined
     if (classes?.length && classes.every(item => !item.members.length && /^[\p{Letter}\p{Number}_.-]+$/u.test(item.id)) && relations?.length === 0) {
       const verdict = inspectTerminalMeaning(output, { nodes: classes.map(item => ({ id: item.id, label: item.id })), edges: [] })
-      if (verdict.status !== 'unknown') for (const criterion of ['class-bodies', 'class-relations']) set(criterion, verdict.status === 'correct' ? 'passed' : 'failed', 'Isolated empty classes require exact owned rectangles and no unexpected members or relationships: ' + verdict.reason)
+      if (verdict.status === 'correct') for (const criterion of ['class-bodies', 'class-relations']) set(criterion, 'passed', 'Isolated empty classes require exact owned rectangles and no unexpected members or relationships: ' + verdict.reason)
+      else if (verdict.status === 'incorrect') set(/node labelled/.test(verdict.reason) ? 'class-bodies' : 'class-relations', 'failed', verdict.reason)
     }
   }
   const title = contract.facts.find(fact => fact.criterion === 'title')?.expected

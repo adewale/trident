@@ -58,13 +58,13 @@ export function assessTerminalRecord(record: any, directory: string, cases = rev
   }
   const assess = (project: string, input: TerminalProjectCase) => {
     const row = record.outputs.find((entry: any) => entry.project === project && entry.caseId === input.id)
-    let output: string | undefined
+    let output: Uint8Array | undefined
     if (row?.witness) {
       const path = resolve(directory, row.witness)
       if (relative(resolve(directory), path).startsWith('..') || !existsSync(path) || relative(realpathSync(directory), realpathSync(path)).startsWith('..')) throw Error('Terminal witness escapes its owning evidence directory')
       const bytes = readFileSync(path)
       if (hash(bytes) !== row.sha256) throw Error('Terminal witness bytes changed')
-      output = bytes.toString('utf8')
+      output = bytes
     }
     // The reference is a source diagnostic. Its optional model projection is
     // neither ground truth nor a veto over independently authored facts.
@@ -144,7 +144,7 @@ export async function runTerminalProfile(argv: string[]) {
     const startedAt = new Date().toISOString(), sourceReference = await collectTerminalSourceReference(cases)
     mkdirSync(out, { recursive: true })
     const targets = cases
-    const workloads = targets.map(input => ({ id: input.id, family: input.family, source: input.source, expectedLabels: input.expected.graph?.nodes.map(node => node.label) ?? [], features: ['terminal-project-example', 'retain-output-witness', ...(input.expected.graph?.nodes.length === 0 && input.expected.graph.edges.length === 0 ? ['expected-empty-drawing'] : [])], provenance: input.origins.map(origin => origin.url).join('; ') }))
+    const workloads = targets.map(input => ({ id: input.id, family: input.family, source: input.source, expectedLabels: input.expected.graph?.nodes.map(node => node.label) ?? [], features: ['terminal-project-example', 'retain-output-witness', ...(input.features.includes('expected-empty-drawing') ? ['expected-empty-drawing'] : [])], provenance: input.origins.map(origin => origin.url).join('; ') }))
     const outputs: any[] = [], transportObservations: BenchmarkObservation[] = []
     const collected = await collectTerminalWorkloads(selected, workloads, { root: tridentDirectory, harnessRoot: tridentDirectory, out, profile: 'full', rounds: 1, communityCoverageOnce: true })
     for (const { peer, rows: raw } of collected) {

@@ -92,8 +92,11 @@ The terminal interpreter observes cursor movement, carriage returns, erasure,
 saved positions, concealment, foreground/background contrast and owned alternate
 screens. It counts graphemes, combining text, emoji and wide characters in display
 cells. Nondefault background painting, unsupported and ambiguous controls stay unknown; stripping escape codes
-cannot recover text that is no longer visible. A valid empty diagram requires a
-real returned string with no visible ink. An absent output is unknown.
+cannot recover text that is no longer visible. The canonical `expected-empty-drawing` feature comes from a source contract with
+no nodes, relationships or other visible facts. It requires a real returned string
+with no visible ink. Zero-node diagrams with a title retain that title; group ink
+does not become an empty-source failure. Missing output and invalid UTF-8 stay
+unknown. Byte evidence binds the original bytes before any text decoding.
 
 | Source obligations | Qualified output representation | Remaining gaps |
 |---|---|---|
