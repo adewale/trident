@@ -66,8 +66,12 @@ export function bindRetainedAuthoredSvgReturn(original: AuthoredFidelityCase, en
 
 /** Fresh paint evidence replaces every required paint observation. A missing
  * checker result or observer exception can never borrow an earlier pass. */
-export async function recheckFeaturePaint(input: AuthoredFidelityCase, project: string, observations: readonly BenchmarkObservation[], inspect: () => Promise<PaintCheck[]>, checkedAt: string, fontOptions = true, binding?: SvgEvidenceBinding) {
-  const own = observations.filter(row => row.metrics?.authoredCase === input.id && row.surface === 'browser-owned-ink')
+export async function recheckFeaturePaint(input: AuthoredFidelityCase, project: string, observations: readonly BenchmarkObservation[], inspect: () => Promise<PaintCheck[]>, checkedAt: string, fontOptions: boolean, binding: SvgEvidenceBinding) {
+  if (!binding) throw Error('Fresh paint evidence requires its actual source/expectation/output/observer binding')
+  const expectedBinding = makeSvgObservationBinding(input, binding.svgSha256, binding.observerSha256)
+  if (binding.sourceSha256 !== expectedBinding.sourceSha256 || binding.expectationsSha256 !== expectedBinding.expectationsSha256) throw Error('Fresh paint evidence binding is stale for this source/expectation')
+  const owns = (row: BenchmarkObservation) => row.metrics?.implementation === project && row.metrics?.authoredCase === input.id && row.surface === 'browser-owned-ink'
+  const own = observations.filter(owns)
   let checks: PaintCheck[] = [], error: string | undefined
   try {
     checks = await inspect()
@@ -82,10 +86,11 @@ export async function recheckFeaturePaint(input: AuthoredFidelityCase, project: 
       detail: error ? 'Retained SVG observer failed: ' + error : unmappedFont ? 'No reviewed public font option mapping; old checks supply no new credit' : !check ? 'Observer omitted a required paint criterion; old checks supply no new credit' : check.scope,
       metrics: { ...previous?.metrics, implementation: project, authoredCase: input.id, originalCriterionStatus: previous?.metrics?.originalCriterionStatus ?? previous?.status ?? null, recheckedAt: checkedAt, recheckObservation: error ? 'observer-error' : unmappedFont || !check ? 'missing' : 'observed', ...(error ? { observerError: error } : {}), ...(binding ?? {}) } } as BenchmarkObservation
   })
-  // Unplanned old paint diagnostics are historical too; they must not retain a
-  // pass or failure under the identity of the new observer.
-  for (const row of own.filter(row => !planned.some(item => item.criterion === row.operation))) fresh.push({ ...row, status: 'blocked', detail: 'Historical paint diagnostic is outside the current required observation plan', metrics: { ...row.metrics, originalCriterionStatus: row.status, recheckedAt: checkedAt, recheckObservation: 'unplanned-historical' } })
-  return { completed: !error, ...(error ? { error } : {}), observations: observations.filter(row => !(row.metrics?.authoredCase === input.id && row.surface === 'browser-owned-ink')).concat(fresh) }
+  // Historical diagnostics live in the preserved collected/history files.
+  // Only the current observer's diagnostics belong in the active grade; its
+  // unplanned adverse findings must survive so the verdict cannot hide them.
+  for (const check of checks.filter(check => !planned.some(item => item.criterion === check.criterion))) fresh.push({ suite: 'fidelity', surface: 'browser-owned-ink', runtime: 'retained SVG observer', family: input.family, caseId: input.id + ':' + check.criterion, operation: check.criterion, format: 'svg', mode: 'independent-authored-criteria', status: check.status === 'unavailable' ? 'blocked' : check.status, detail: check.scope, metrics: { implementation: project, authoredCase: input.id, recheckedAt: checkedAt, recheckObservation: 'observed-unplanned', ...binding } })
+  return { completed: !error, ...(error ? { error } : {}), observations: observations.filter(row => !owns(row)).concat(fresh) }
 }
 
 /** Public return and standalone bytes can be revalidated from their retained

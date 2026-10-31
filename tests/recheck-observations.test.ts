@@ -64,6 +64,31 @@ test('fresh failing evidence replaces an earlier pass and missing previous rows 
 })
 
 
+
+const freshPaint = () => planFidelityCriteria([input]).filter(item => item.surface === 'browser-owned-ink').map(item => ({ criterion: item.criterion, status: 'passed' as const, expected: true, actual: true, scope: 'Independent checker protocol control' }))
+test('historical unplanned diagnostics do not contaminate a fresh grade or erase another project', async () => {
+  const old = { ...prior().find(row => row.surface === 'browser-owned-ink')!, operation: 'old-diagnostic', caseId: input.id + ':old-diagnostic', status: 'failed' as const }, other = { ...old, metrics: { ...old.metrics, implementation: 'fixture/other-project' } }, before = [...prior(), old, other], saved = JSON.stringify(before)
+  const result = await recheckFeaturePaint(input, project, before, async () => freshPaint(), at, true, binding)
+  expect(result.observations.filter(row => row.metrics?.implementation === project).some(row => row.operation === 'old-diagnostic')).toBe(false)
+  expect(result.observations.find(row => row.metrics?.implementation === 'fixture/other-project')).toEqual(other)
+  expect(assessSvgCases([input], result.observations.filter(row => row.metrics?.implementation === project), bindings)[0]!.status).toBe('correct')
+  expect(JSON.stringify(before)).toBe(saved)
+})
+test('fresh unplanned adverse findings withhold the certificate even when every required criterion passes', async () => {
+  for (const status of ['failed', 'unavailable'] as const) {
+    const result = await recheckFeaturePaint(input, project, prior(), async () => [...freshPaint(), { criterion: 'new-unplanned-adverse-finding', status, expected: 'Independent observed postcondition', actual: false, scope: 'Fresh adverse protocol control' }], at, true, binding)
+    const finding = result.observations.find(row => row.operation === 'new-unplanned-adverse-finding')!
+    expect(finding.status).toBe(status === 'unavailable' ? 'blocked' : 'failed')
+    expect(finding.metrics?.observerSha256).toBe(binding.observerSha256)
+    expect(finding.metrics?.recheckObservation).toBe('observed-unplanned')
+    expect(assessSvgCases([input], result.observations, bindings)[0]).toMatchObject({ status: 'unknown', profileStatus: 'correct', evidence: { status: 'unknown' } })
+  }
+})
+test('fresh paint cannot reuse historical identities when its binding is absent or stale', async () => {
+  await expect(recheckFeaturePaint(input, project, prior(), async () => freshPaint(), at, true, undefined as any)).rejects.toThrow('requires its actual')
+  await expect(recheckFeaturePaint(input, project, prior(), async () => freshPaint(), at, true, { ...binding, sourceSha256: '0'.repeat(64) })).rejects.toThrow('stale')
+})
+
 test('retained admission is newly checked from the actual receipt and source, while preludes receive no new evidence', () => {
   const testCase = expandedFidelityCases().find(item => item.prelude?.length)!, fresh = makeSvgObservationBinding(testCase, evidenceBytesDigest('retained SVG'), evidenceBytesDigest('current observer'))
   const rows = planFidelityCriteria([testCase]).filter(item => item.surface === 'browser-public-api').map(item => ({ suite: 'fidelity', surface: item.surface, runtime: 'fixture', family: testCase.family, caseId: testCase.id + ':' + item.criterion, operation: item.criterion, format: 'svg', mode: 'fixture', status: 'blocked', metrics: { implementation: project, authoredCase: testCase.id } }) as BenchmarkObservation)
