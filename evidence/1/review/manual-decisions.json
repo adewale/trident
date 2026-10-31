@@ -1,0 +1,395 @@
+{
+  "1jehuang/mermaid-rs-renderer": {
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      8,
+      9,
+      10,
+      11,
+      13,
+      15
+    ],
+    "incorrect": {
+      "4": "The B node is absent from the invisible-edge example.",
+      "6": "The authored title Node with text is absent.",
+      "7": "The retained 16 by 16 image is blank; stateId is absent.",
+      "12": "A and B are connected by a plain line without the required directed arrowhead.",
+      "16": "Collapsed group members A, B and C remain painted; an extra view: collapsed diamond appears."
+    },
+    "unknown": []
+  },
+  "adewale/agentic-mermaid": {
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      7,
+      8,
+      9,
+      10,
+      13
+    ],
+    "incorrect": {
+      "6": "The authored title Node with text is absent.",
+      "15": "Group one does not enclose a2, and group three does not enclose c1.",
+      "16": "Collapsed group members A, B and C remain visible."
+    },
+    "unknown": [
+      11,
+      12
+    ]
+  },
+  "crabtalk/bezel": {
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      15,
+      16
+    ],
+    "incorrect": {},
+    "unknown": []
+  },
+  "crafter-station/mermaid": {
+    "correct": [
+      1,
+      2,
+      3,
+      8,
+      9,
+      10
+    ],
+    "incorrect": {
+      "0": "Only an A-- node is drawn; B and the directed relation are absent.",
+      "4": "The B node is absent.",
+      "5": "Quotation delimiters remain painted as part of the Unicode node label.",
+      "7": "The retained image has no visible stateId node.",
+      "13": "The pie input becomes disconnected nodes without its title or slice proportions.",
+      "15": "Groups contain truncated a1--, b1-- and c1-- nodes; other declared nodes and edges are missing.",
+      "16": "Collapsed group members A, B and C remain painted."
+    },
+    "unknown": [
+      6,
+      11,
+      12
+    ]
+  },
+  "dfadler/zombie-mermaid": {
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      8,
+      9,
+      10,
+      13,
+      15
+    ],
+    "incorrect": {
+      "16": "Collapsed group members A, B and C remain visible."
+    },
+    "unknown": [
+      6,
+      7,
+      11,
+      12
+    ]
+  },
+  "Dicklesworthstone/frankenmermaid": {
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      13,
+      15
+    ],
+    "incorrect": {
+      "11": "An additional node labelled block appears alongside a, b and c.",
+      "12": "Additional nodes labelled block and space are painted; space should be an empty spacer.",
+      "16": "Collapsed members A, B and C remain visible."
+    },
+    "unknown": []
+  },
+  "emtyty/merslim": {
+    "correct": [
+      0,
+      1,
+      2,
+      5,
+      7,
+      8,
+      9,
+      10
+    ],
+    "incorrect": {
+      "3": "The undirected relation is drawn with a directed arrowhead.",
+      "4": "The invisible layout relation is drawn as a visible directed arrow.",
+      "13": "The authored pie title is absent.",
+      "15": "All three group labels and enclosures are absent.",
+      "16": "My Group is absent, A/B/C are visible and the requested Start/group/End connections are missing."
+    },
+    "unknown": [
+      6,
+      11,
+      12
+    ]
+  },
+  "evangwt/xmermaid": {
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      8,
+      13,
+      15
+    ],
+    "incorrect": {
+      "6": "The authored title Node with text is absent.",
+      "9": "The transition caption obscures the entire connection and arrowhead; no directed route is visible."
+    },
+    "unknown": [
+      7,
+      10,
+      11,
+      12,
+      16
+    ]
+  },
+  "KlangHaus/vitepress-plugin-diagram": {
+    "correct": [
+      3
+    ],
+    "incorrect": {
+      "0": "The source becomes a single A-- node; B and its arrow are missing.",
+      "1": "The directed Start to Stop relation has no arrowhead.",
+      "2": "The directed Start to Stop relation has no arrowhead.",
+      "4": "B is absent from the invisible-edge source.",
+      "5": "Quotation delimiters are painted as part of the Unicode label.",
+      "15": "Group nodes are truncated and the required edges and members are missing.",
+      "16": "The collapsed group is expanded and disconnected from Start and End."
+    },
+    "unknown": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ]
+  },
+  "lukilabs/beautiful-mermaid": {
+    "correct": [
+      1,
+      2,
+      3,
+      5,
+      8,
+      9,
+      10
+    ],
+    "incorrect": {
+      "0": "The source becomes one A-- node; B and the arrow are missing.",
+      "4": "B is absent.",
+      "15": "Group members are truncated, missing and clipped; the required graph is absent.",
+      "16": "Collapsed group members A, B and C remain visible."
+    },
+    "unknown": [
+      6,
+      7,
+      11,
+      12,
+      13
+    ]
+  },
+  "mermaid-js/mermaid": {
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      15,
+      16
+    ],
+    "incorrect": {},
+    "unknown": []
+  },
+  "obsidianmd/pele": {
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      15,
+      16
+    ],
+    "incorrect": {},
+    "unknown": []
+  },
+  "pub:mermaid_flutter": {
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      15
+    ],
+    "incorrect": {
+      "16": "Collapsed members A, B and C remain visible and the collapsed group connection is not preserved."
+    },
+    "unknown": []
+  },
+  "sandyyst/dsh-plugin-mermaid-gb-svg": {
+    "correct": [
+      1,
+      2,
+      4,
+      5
+    ],
+    "incorrect": {
+      "0": "Only A-- appears; B and its directed relation are absent.",
+      "3": "An arrowhead is painted on the undirected relation.",
+      "6": "The authored title Node with text is absent.",
+      "7": "An extra stateDiagram-v2 node is painted.",
+      "8": "An extra stateDiagram-v2 node is painted.",
+      "9": "An extra stateDiagram-v2 node is painted, and the transition caption is absent.",
+      "10": "An extra stateDiagram-v2 node appears and the required state description is absent.",
+      "11": "Only block and a are painted; b and c are missing.",
+      "12": "Extra block and A-- nodes appear; B and the required relation are absent.",
+      "13": "Only a pie-labelled node is painted; title, labels and slice proportions are absent.",
+      "15": "Groups contain truncated node labels and lack the declared members and connections.",
+      "16": "The requested collapsed My Group is absent; A, B and C remain visible."
+    },
+    "unknown": []
+  },
+  "wevm/ondine": {
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      15,
+      16
+    ],
+    "incorrect": {},
+    "unknown": []
+  },
+  "Latias94/merman": {
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      15,
+      16
+    ],
+    "incorrect": {},
+    "unknown": []
+  },
+  "orestesgaolin/mermaid": {
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      15
+    ],
+    "incorrect": {
+      "16": "Collapsed group members A, B and C remain painted; the collapsed My Group connection is not preserved."
+    },
+    "unknown": []
+  }
+}

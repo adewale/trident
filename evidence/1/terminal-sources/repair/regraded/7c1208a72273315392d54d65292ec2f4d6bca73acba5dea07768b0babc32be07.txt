@@ -1,0 +1,12 @@
+              ┌───┐
+              │ A │
+              └───┘
+               ||
+               has
+              many
+authored(bytes=11)="has<br>many"
+                │
+               o{
+              ┌───┐
+              │ B │
+              └───┘

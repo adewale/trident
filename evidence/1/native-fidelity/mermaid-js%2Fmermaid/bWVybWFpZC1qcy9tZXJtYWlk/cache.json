@@ -1,0 +1,7 @@
+{
+  "project": "mermaid-js/mermaid",
+  "lane": "public-model-contracts-v2",
+  "state": "incomplete",
+  "published": false,
+  "error": "Error: Benchmark identities must contain finite, acyclic JSON values"
+}

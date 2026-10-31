@@ -1,0 +1,12 @@
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ CUSTOMER                                                                             │    ┌───────┐    ┌─────────┐    ┌─────────┐    ┌───────────┐
+├──────────────────────────────────────────────────────────────────────────────────────┤    │ ORDER │    │ PAYMENT │    │ PRODUCT │    │ LINE_ITEM │
+│ type(bytes=6)="string" name(bytes=2)="id" keys=[bytes=2 "PK"] comment(bytes=0)=""    │    └───────┘    └─────────┘    └─────────┘    └───────────┘
+│ type(bytes=6)="string" name(bytes=5)="email" keys=[bytes=2 "UK"] comment(bytes=0)="" │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+relations:
+id(bytes=8)="CUSTOMER" ||--o{ id(bytes=5)="ORDER"     : places
+id(bytes=5)="ORDER"    ||--|{ id(bytes=9)="LINE_ITEM" : contains
+id(bytes=5)="ORDER"    ||--|| id(bytes=7)="PAYMENT"   : paid_by
+id(bytes=7)="PRODUCT"  ||--o{ id(bytes=9)="LINE_ITEM" : appears_in

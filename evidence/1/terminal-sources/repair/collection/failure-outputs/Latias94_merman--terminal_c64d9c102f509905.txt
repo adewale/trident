@@ -1,0 +1,5 @@
+gitGraph direction(bytes=2)="LR" current(bytes=4)="main"
+branches=[bytes=4 "main", bytes=7 "develop"]
+  - seq=0 branch(bytes=4)="main" id(bytes=1)="A" kind=normal message(bytes=0)=""
+  - seq=1 branch(bytes=7)="develop" id(bytes=1)="B" kind=normal message(bytes=0)="" parents=[bytes=1 "A"]
+  - seq=2 branch(bytes=4)="main" id(bytes=9)="2-5bffd6f" kind=cherry-pick message(bytes=24)="cherry-picked  into main" tags=[bytes=13 "cherry-pick:B"] parents=[bytes=1 "A", bytes=1 "B"]

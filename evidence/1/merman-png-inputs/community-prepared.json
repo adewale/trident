@@ -1,0 +1,102 @@
+[
+  {
+    "node": {
+      "id": "Latias94/merman",
+      "categories": [
+        "renderer"
+      ],
+      "relation": "independent",
+      "repo": "https://github.com/Latias94/merman",
+      "branch": "main",
+      "head": "252752f7029b67f6a6f22a35230ef2bdf9c605d0",
+      "lastCommit": "2026-10-18T20:14:25+08:00",
+      "rootCommits": [
+        "2c88bcc786cdb91f4c7c394398e10effbccae3b7"
+      ],
+      "license": "MIT OR Apache-2.0",
+      "release": {
+        "tag": "v0.9.1",
+        "commit": "f6202f702dbde0a75049b1a62b3124feae709b3d"
+      },
+      "runtime": "Rust (+ WASM, napi, Python bindings)",
+      "outputs": [
+        "svg",
+        "png",
+        "jpeg",
+        "pdf",
+        "ascii-unicode"
+      ],
+      "packages": [
+        {
+          "registry": "npm",
+          "name": "@mermanjs/node",
+          "version": "0.9.1",
+          "license": "MIT OR Apache-2.0",
+          "provenanceCommit": "f6202f702dbde0a75049b1a62b3124feae709b3d",
+          "publishedFromDefaultBranch": false
+        },
+        {
+          "registry": "npm",
+          "name": "@mermanjs/web",
+          "version": "0.9.1",
+          "license": "MIT OR Apache-2.0",
+          "provenanceCommit": "f6202f702dbde0a75049b1a62b3124feae709b3d",
+          "publishedFromDefaultBranch": false
+        },
+        {
+          "registry": "pypi",
+          "name": "merman",
+          "version": "0.9.1",
+          "license": "MIT OR Apache-2.0"
+        }
+      ],
+      "roles": [
+        "peer",
+        "terminal-peer"
+      ],
+      "notes": "docs/comparison.md records 0.9.0; 0.9.1 was published from branch release/0.9.1 on the check date. Cargo.toml at main head still says 0.9.0.",
+      "benchmark": {
+        "adapter": "merman",
+        "package": "@mermanjs/node",
+        "outputs": [
+          "svg",
+          "png"
+        ],
+        "portable": {
+          "adapter": "declared",
+          "binding": {
+            "factory": "createNodeEngine",
+            "export": "renderSvgSync",
+            "dispose": "dispose"
+          }
+        },
+        "moduleOutputs": [
+          "svg"
+        ]
+      },
+      "benchmarkEligibility": {
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "reason": "Catalog declares svg, png, jpeg, pdf, terminal operations with adapter merman. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+      }
+    },
+    "artifact": {
+      "kind": "node",
+      "root": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node",
+      "module": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node/dist/index.mjs",
+      "version": "0.9.2",
+      "integrity": "sha512-cYnkgZC9WYaHJ1bjHctobSkrheROGdqIUnHzZeJHuTq0sWyKWud2x4g3Ui95lsqooPF70Nb42p75QdKShTtCFw==",
+      "runtime": "Node",
+      "sha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099",
+      "files": [
+        {
+          "path": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node/dist/index.mjs",
+          "sha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099"
+        }
+      ],
+      "apiBoundary": "published package API",
+      "detail": "Version policy: resolved latest registry release. Recorded catalog versions remain separately available on the node."
+    }
+  }
+]

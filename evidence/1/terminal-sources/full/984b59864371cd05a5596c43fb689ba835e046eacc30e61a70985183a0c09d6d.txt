@@ -1,0 +1,6 @@
+```mermaid
+╭ mermaid: flowchart ──╮
+│ flowchart            │
+│                      │
+╰──────────────────────╯
+```

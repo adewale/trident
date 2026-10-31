@@ -1,0 +1,6 @@
+{
+  "status": "incomplete",
+  "project": "mermaid-js/mermaid",
+  "published": false,
+  "error": "Error: Benchmark identities must contain finite, acyclic JSON values"
+}

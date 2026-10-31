@@ -1,0 +1,12 @@
+●     (main) [v1.1.0] ⇐ develop
+├─┐
+● │   hotfix [v1.0.1]
+│ ●   (develop) ⇐ feature/ui
+│ ├─┐
+│ │ ● ui-polish (feature/ui)
+│ │ ● ui-draft
+│ ├─┘
+│ ●   feature-api
+├─┘
+●     scaffold
+●     init

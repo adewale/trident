@@ -1,0 +1,438 @@
+{
+  "publishedAt": "2026-10-31T10:07:21.653Z",
+  "copyEvidence": true,
+  "campaigns": [
+    {
+      "source": "/workspace/trident-ecosystem-2026-10-31-final",
+      "selectedSuites": "all recorded suites",
+      "measuredFrom": "2026-10-31T08:41:04.951Z",
+      "lastRecordedUpdate": "2026-10-31T10:06:52.125Z",
+      "profile": "full",
+      "rounds": 1,
+      "projects": [
+        "1jehuang/mermaid-rs-renderer",
+        "adewale/agentic-mermaid",
+        "AlexanderGrooff/mermaid-ascii",
+        "anomalyco/opencode",
+        "crabtalk/bezel",
+        "crafter-station/mermaid",
+        "dfadler/zombie-mermaid",
+        "Dicklesworthstone/frankenmermaid",
+        "emtyty/merslim",
+        "evangwt/xmermaid",
+        "fasouto/termaid",
+        "kais-radwan/ascii-mermaid",
+        "kitlangton/merman",
+        "KlangHaus/vitepress-plugin-diagram",
+        "Latias94/merman",
+        "lukilabs/beautiful-mermaid",
+        "mermaid-js/mermaid",
+        "Mootikins/figurehead-rs",
+        "obsidianmd/pele",
+        "orestesgaolin/mermaid",
+        "pub:mermaid_flutter",
+        "sandyyst/dsh-plugin-mermaid-gb-svg",
+        "spacedock-dev/mermaidtext",
+        "tariqshams/mermaidtui",
+        "wevm/ondine",
+        "xai-org/grok-build",
+        "Yassimba/loom"
+      ],
+      "complete": "collection completed; qualification may fail",
+      "results": [
+        {
+          "suite": "docs",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/docs",
+          "launched": true,
+          "elapsedSeconds": 1345.283,
+          "status": "failed",
+          "observations": 35524,
+          "counts": {
+            "passed": 12928,
+            "blocked": 18070,
+            "failed": 4473,
+            "not-applicable": 53
+          },
+          "gaps": [
+            "emtyty/merslim round 1: Error: Browser call exceeded its declared host deadline",
+            "SVG return and reviewed drawing content are separate results. First-round SVG witnesses are retained; missing source reviews and incomplete observers remain unknown. Timings are descriptive public return samples, without A/A or per-call semantic qualification; no speed ranking is supported.",
+            "PNG return/decode and reviewed source-content are separate. Native PNG needs no SVG. SVG conversion, native API and CLI clocks retain different boundaries; no qualified speed ranking."
+          ],
+          "completed": true
+        },
+        {
+          "suite": "fidelity",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/fidelity",
+          "launched": true,
+          "elapsedSeconds": 298.374,
+          "status": "failed",
+          "observations": 30833,
+          "counts": {
+            "blocked": 15319,
+            "passed": 13507,
+            "failed": 870,
+            "unsupported": 1137
+          },
+          "gaps": [
+            "Native public-model criteria are unavailable for this noncore peer; public SVG success supplies no model passes.",
+            "Quantitative and graph projections are bounded reviewed checks, not whole-family visual equivalence."
+          ],
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "Dicklesworthstone/frankenmermaid",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/Dicklesworthstone%2Ffrankenmermaid",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "wevm/ondine",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/wevm%2Fondine",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "orestesgaolin/mermaid",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/orestesgaolin%2Fmermaid",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "pub:mermaid_flutter",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/pub%3Amermaid_flutter",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "adewale/agentic-mermaid",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/model-retry/native-fidelity/adewale%2Fagentic-mermaid",
+          "launched": true,
+          "elapsedSeconds": 7.006,
+          "status": "blocked",
+          "observations": 623,
+          "counts": {
+            "passed": 383,
+            "unsupported": 239,
+            "blocked": 1
+          },
+          "gaps": [
+            "Authored public-model contracts do not establish painted drawing correctness."
+          ],
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "dfadler/zombie-mermaid",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/dfadler%2Fzombie-mermaid",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "1jehuang/mermaid-rs-renderer",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/1jehuang%2Fmermaid-rs-renderer",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/AlexanderGrooff%2Fmermaid-ascii",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "anomalyco/opencode",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/anomalyco%2Fopencode",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "crafter-station/mermaid",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/crafter-station%2Fmermaid",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "emtyty/merslim",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/emtyty%2Fmerslim",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "evangwt/xmermaid",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/evangwt%2Fxmermaid",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "fasouto/termaid",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/fasouto%2Ftermaid",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "kitlangton/merman",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/kitlangton%2Fmerman",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "KlangHaus/vitepress-plugin-diagram",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/KlangHaus%2Fvitepress-plugin-diagram",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "Latias94/merman",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/Latias94%2Fmerman",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "lukilabs/beautiful-mermaid",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/lukilabs%2Fbeautiful-mermaid",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "Mootikins/figurehead-rs",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/Mootikins%2Ffigurehead-rs",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "obsidianmd/pele",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/model-retry/native-fidelity/obsidianmd%2Fpele",
+          "launched": true,
+          "elapsedSeconds": 6.571,
+          "status": "blocked",
+          "observations": 623,
+          "counts": {
+            "passed": 589,
+            "unsupported": 33,
+            "blocked": 1
+          },
+          "gaps": [
+            "Authored public-model contracts do not establish painted drawing correctness."
+          ],
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/sandyyst%2Fdsh-plugin-mermaid-gb-svg",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "tariqshams/mermaidtui",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/tariqshams%2Fmermaidtui",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "xai-org/grok-build",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/xai-org%2Fgrok-build",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "Yassimba/loom",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/Yassimba%2Floom",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "kais-radwan/ascii-mermaid",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/kais-radwan%2Fascii-mermaid",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "spacedock-dev/mermaidtext",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/spacedock-dev%2Fmermaidtext",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "mermaid-js/mermaid",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/model-retry/native-fidelity/mermaid-js%2Fmermaid",
+          "launched": true,
+          "elapsedSeconds": 10.593,
+          "status": "blocked",
+          "observations": 623,
+          "counts": {
+            "passed": 569,
+            "blocked": 54
+          },
+          "gaps": [
+            "Authored public-model contracts do not establish painted drawing correctness."
+          ],
+          "completed": true
+        },
+        {
+          "suite": "native-fidelity",
+          "project": "crabtalk/bezel",
+          "cohort": "core",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/native-fidelity/crabtalk%2Fbezel",
+          "launched": true,
+          "elapsedSeconds": 0,
+          "status": "blocked",
+          "disposition": "adapter-missing",
+          "detail": "No reviewed public-model projection for this binding; no project capability failure is inferred.",
+          "completed": true
+        },
+        {
+          "suite": "community",
+          "cohort": "terminal-project-corpus-v1",
+          "out": "/workspace/trident-ecosystem-2026-10-31-final/terminal",
+          "status": "blocked",
+          "completed": true
+        }
+      ]
+    }
+  ]
+}

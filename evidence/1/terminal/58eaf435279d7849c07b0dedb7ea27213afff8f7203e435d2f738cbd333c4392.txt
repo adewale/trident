@@ -1,0 +1,12 @@
+main       develop    feature/ui
+●          │          │     id:init
+●          │          │     id:scaffold
+│          ┼          │     branch develop
+│          ●          │     id:feature-api
+│          │          ┼     branch feature/ui
+│          │          ●     id:ui-draft
+│          │          ●     id:ui-polish
+│          ●──────────●     merge from:feature/ui
+●          │          │     id:hotfix tag:v1.0.1
+●──────────●          │     merge from:develop tag:v1.1.0
+│          │          │

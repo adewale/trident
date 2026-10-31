@@ -1,0 +1,182 @@
+{
+  "protocol": "trident-campaign-plan-v1",
+  "comparisonSelection": {
+    "projects": [
+      {
+        "project": "adewale/agentic-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "Agentic Mermaid",
+          "evidence": "Published npm package agentic-mermaid; catalog package/provenance receipt."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 1223,
+          "behind": 0
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "agentic"
+      },
+      {
+        "project": "mermaid-js/mermaid",
+        "parent": null,
+        "relation": "root",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "root",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "mermaid"
+      },
+      {
+        "project": "obsidianmd/pele",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "pele"
+      }
+    ],
+    "included": [
+      "adewale/agentic-mermaid",
+      "mermaid-js/mermaid",
+      "obsidianmd/pele"
+    ],
+    "excluded": [],
+    "includeExcluded": false,
+    "policy": "Renderer benchmarks require a declared SVG, raster, PDF or terminal output. Validator, parser, formatter and conversion-only tools, applications and explicit catalog-only entries remain discovery records. The descendant override cannot enable them. Descendants without established distinct branding are excluded from normal comparisons, even with code changes. Owner/package scopes and runtime suffixes alone do not establish branding. Bindings and zero-ahead versions are also excluded. An explicit inclusion override retains these for version/runtime investigations. Selection guidance uses the recorded catalog snapshot, not a fresh upstream audit. Ports and changed forks remain separate. Zero-ahead descendants can be omitted from a current-engine comparison, but historical/build studies retain them. Measurement aliases require verified artifact, build, runtime and invocation equivalence through catalog-eligibility; lineage alone never supplies a score."
+  },
+  "selection": [
+    "adewale/agentic-mermaid",
+    "obsidianmd/pele",
+    "mermaid-js/mermaid"
+  ],
+  "suites": [
+    "native-fidelity"
+  ],
+  "rounds": 1,
+  "profile": "full",
+  "tools": {
+    "bun": "/workspace/.cloud-tools/node_modules/.bin/bun",
+    "node": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "npm": "/workspace/.cloud-tools/node_modules/.bin/npm",
+    "git": "/usr/local/bin/git",
+    "go": "/usr/bin/go",
+    "cargo": null,
+    "dart": "/workspace/.cloud-tools/flutter/bin/dart",
+    "chromium": "/usr/bin/chromium",
+    "gnuTime": null,
+    "oracle": "/workspace/.cloud-tools/mermaid-reference",
+    "originalRunner": null
+  },
+  "versions": {
+    "bun": "1.4.2",
+    "node": "v24.19.0",
+    "npm": "11.18.0",
+    "git": "git version 2.52.0",
+    "go": null,
+    "dart": "Dart SDK version: 3.13.7 (stable) (Thu Oct 22 14:28:57 2026 -0700) on \"linux_x64\"",
+    "chromium": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)"
+  },
+  "rows": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "configured",
+        "reason": "Reviewed public-model binding; family-specific projections and actual parse results remain separately qualified."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "obsidianmd/pele",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "configured",
+        "reason": "Reviewed public-model binding; family-specific projections and actual parse results remain separately qualified."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "configured",
+        "reason": "Reviewed public-model binding; family-specific projections and actual parse results remain separately qualified."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    }
+  ],
+  "estimatedMinutes": {
+    "low": 3,
+    "high": 90
+  },
+  "budgetMinutes": null,
+  "preparation": {
+    "estimatedMinutes": null,
+    "scope": "Acquisition, downloads and source builds are not included in the planning range. Their duration is unknown until artifacts/toolchains are admitted."
+  },
+  "budgetExceededByEstimate": false,
+  "policy": "Planning performs no acquisition or rendering. Estimates are deliberately broad and do not establish feasibility or a maximum. A runtime budget stops new work at collector checkpoints; an active worker retains its declared deadline. Missing external observers are unavailable counters, not free work.",
+  "pilot": false
+}

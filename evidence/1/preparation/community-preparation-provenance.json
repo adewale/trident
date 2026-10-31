@@ -1,0 +1,7 @@
+{
+  "source": "/workspace/trident-ecosystem-2026-10-31-inputs/community-prepared.json",
+  "sourceSha256": "6a6b44d756339e3889cb22746eadfe96a79ac7d26eb7d60cae184e6d952371ee",
+  "loadedAt": "2026-10-31T08:40:03.128Z",
+  "acquisition": "forbidden; frozen actual failures are retained without retry",
+  "invalidArtifacts": []
+}

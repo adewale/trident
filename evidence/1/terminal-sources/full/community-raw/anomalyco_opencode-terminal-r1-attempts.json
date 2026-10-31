@@ -1,0 +1,14 @@
+[
+  {
+    "attempt": 1,
+    "exitCode": null,
+    "timedOut": true,
+    "activeCase": "terminal:9972eaa8ca8692d8",
+    "detail": "Current workload exceeded 30000ms: terminal:9972eaa8ca8692d8"
+  },
+  {
+    "attempt": 2,
+    "exitCode": 0,
+    "timedOut": false
+  }
+]

@@ -1,0 +1,17 @@
+file:///workspace/trident-benchmark-cleanup/portable/project-records.ts:40
+    if (!item || typeof item !== 'object' || seen.has(item) || (!Array.isArray(item) && Object.getPrototypeOf(item) !== Object.prototype && Object.getPrototypeOf(item) !== null)) throw Error('Benchmark identities must contain finite, acyclic JSON values')
+                                                                                                                                                                                         ^
+
+Error: Benchmark identities must contain finite, acyclic JSON values
+    at normalize (file:///workspace/trident-benchmark-cleanup/portable/project-records.ts:40:186)
+    at file:///workspace/trident-benchmark-cleanup/portable/project-records.ts:47:31
+    at Array.map (<anonymous>)
+    at normalize (file:///workspace/trident-benchmark-cleanup/portable/project-records.ts:47:14)
+    at Array.map (<anonymous>)
+    at normalize (file:///workspace/trident-benchmark-cleanup/portable/project-records.ts:43:14)
+    at file:///workspace/trident-benchmark-cleanup/portable/project-records.ts:47:31
+    at Array.map (<anonymous>)
+    at normalize (file:///workspace/trident-benchmark-cleanup/portable/project-records.ts:47:14)
+    at stableValue (file:///workspace/trident-benchmark-cleanup/portable/project-records.ts:52:25)
+
+Node.js v24.19.0

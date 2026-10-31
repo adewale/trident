@@ -1,0 +1,26 @@
+System Context
+
+
+     ┌──────────────┐
+     │ User         │
+     │ «Person»     │
+     │ [A customer] │
+     └──────────────┘
+             │
+             │
+             │Uses
+             │
+   ┌─────────▼────────┐
+   │ Web App          │
+   │ «System»         │
+   │ [Serves content] │
+   └──────────────────┘
+             │
+             │
+             Sends emails using
+            ─┼
+ ┌──────────▼──────────┐
+ │ Email System        │
+ │ «System (external)» │
+ │ [Sends emails]      │
+ └─────────────────────┘

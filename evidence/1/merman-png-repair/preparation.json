@@ -1,0 +1,729 @@
+{
+  "schema": "trident-campaign-preparation-v1",
+  "preparedAt": "2026-10-31T09:39:34.174Z",
+  "cutoff": null,
+  "projects": [
+    "Latias94/merman"
+  ],
+  "profile": "full",
+  "rounds": 1,
+  "sampling": {
+    "protocol": "portable-svg-processes-v7",
+    "rounds": 1,
+    "samples": 31,
+    "coldSamples": 5
+  },
+  "producers": [
+    "100644 blob d58930992d87389085fd5f280c0a9a3325f01f21\tcatalog/mermaid-community.json",
+    "100644 blob 403ff7ba062a20a4610b46468f04a028222d4ca1\tci-policy-enforce.ts",
+    "100644 blob 46a6436ea29e11fa5d713b39ddb63acd9ae791cf\tci-policy.ts",
+    "100644 blob 05a5d4f8bf54c048e2b313b5b4b55f68028ef155\tdata/upstream-mermaid-policy.json",
+    "100644 blob 76493af5a41ade215744f829bd18d6c7981c8397\tfidelity/adapters.ts",
+    "100644 blob 843f76a062ffe0a0384ab1e8dda5b69fc18e2744\tfidelity/cases.ts",
+    "100644 blob 9228cb7cb9ee340c3b941f010d109f5194c7b1b8\tfidelity/community.ts",
+    "100644 blob 5a05968bd6842ed99d079d946c5221d4b0f88a5f\tfidelity/ledger.ts",
+    "100644 blob 27db6253ef4156d6b400326a37c6a61a0854e9f2\tfidelity/meaning.ts",
+    "100644 blob 3ce9c7dfbc444dbb811933508aff8aa2c22b553d\tfidelity/paint-values.ts",
+    "100644 blob a9a1497ff72fa721b5ac197e6b0a0693e9012be4\tfidelity/paint.ts",
+    "100644 blob c81659e30c133dfc6b65edc4470b0f06e9d3e8fa\tfidelity/protocol.ts",
+    "100644 blob 9650cf38842937be6ce0506095b2019ddcb5013a\tfidelity/selection.ts",
+    "100644 blob f8f2c519c07df76c603aae29de6c7c123933039e\tfidelity/svg-assessment.ts",
+    "100644 blob 7542e1efc7565017d2b386c16053af991734e5ad\tfidelity/terminal-assessment.ts",
+    "100644 blob ded140dbd176ee54fa5f39ffffb49e7d4b603a8b\tfidelity/terminal-corpus.ts",
+    "100644 blob 523c786a3b90002c61900916902c9cc8423959dd\tfidelity/terminal.ts",
+    "100644 blob 3d90dd1334ebdfa75999dffa2d737aeae3133475\tnative-flutter/community-launch.mjs",
+    "100644 blob 2b8a5fc70e8bfd218fc6352e005041ceca4ef541\tpackage.json",
+    "100644 blob a865874cfc792441448bca480dc66e30de228524\tportable/artifact-dependencies.ts",
+    "100644 blob 52dbeddf77b74d3c859812c9f4b55bcbda1e8138\tportable/artifacts.ts",
+    "100644 blob 2f2faf1ee051638f2dc67ea48661e6819700d239\tportable/checkpoint.ts",
+    "100644 blob 5813f9b7c09528e50b77f9003f16b828a625081c\tportable/ci-policy.ts",
+    "100644 blob 73da43d3fea40796d04fe7fe9906501d1d59d67a\tportable/cohorts.ts",
+    "100644 blob e3ec7de9b28f9f54be323560527fda0cf9f5a78f\tportable/configuration.ts",
+    "100644 blob 8c50aeb335a1057c7d2a6c4162b2ccc5f96a0380\tportable/costs.ts",
+    "100644 blob d808f7ec9e356de70b8b33d0805755cc577e62d1\tportable/environment.ts",
+    "100644 blob ac227150b7b46004ecac12ccf250ef775486c41f\tportable/execution.ts",
+    "100644 blob c2136325268d3c578fdc4f15e6bb7aaf478da6e5\tportable/help.ts",
+    "100644 blob 3c4999e57c8016ec651a548f0b8ba696165410ba\tportable/mermaid-oracle.ts",
+    "100644 blob b1731be5ead03172bf3015ca76513287e5973657\tportable/project-records.ts",
+    "100644 blob 2ded90e3f187b0bb2f2b648127551893e21df344\tportable/protocol.ts",
+    "100644 blob 4c550e9c2096117b8f3128b40afe7e3664d97ad5\tportable/report.ts",
+    "100644 blob 4bf3a9f7c69b742f8c2b48c8fde01a847bf70dee\tportable/run.ts",
+    "100644 blob 34d38e1e910058b5884f1fc26e959393f66e81ea\tportable/statistics.ts",
+    "100644 blob b6e2112969be7aefb804478246a1e84d36cf5b7d\tportable/time-observer.ts",
+    "100644 blob 0c32ab27bb57a0c4ba9ffb37863d2775ef4dfb72\treference/source.ts",
+    "100644 blob f95fb7a418cef16b70a50c63cbf10168e2a3a1dd\ttool-versions.json",
+    "100644 blob ff51e22ba9ca2e2a776934a86dec5c66317599c1\ttool-versions.ts",
+    "100644 blob 64b5529413c7909dd93668b79b9280dd36a5c36f\tunified/artifact-admission.ts",
+    "100644 blob 3a220a70e2d8305287fb83d7b27178745a22bb16\tunified/baseline-measurement-context.ts",
+    "100644 blob 4201a44529c5858c4b2296fe77baa92b94da4061\tunified/benchmark-context.ts",
+    "100644 blob 57f9c7caf187a31dd2721708321e532730cfd3ac\tunified/benchmark-skip.ts",
+    "100644 blob 096f919934095e1a4478f5da0969685dbff951da\tunified/benchmark.ts",
+    "100644 blob eacfa7f30a1a1925538ba704f73cb59f80fa44f3\tunified/browser-process-memory.ts",
+    "100644 blob d9536ec7e68e9d85a93f2e82b4b5b80c63c7563d\tunified/campaign-plan.ts",
+    "100644 blob 47f045f9b97552eddd5ad050eee12624d7137522\tunified/campaign-preparation.ts",
+    "100644 blob b4b4ca9a7105aa04a60a0add90861e6237ff59b6\tunified/candidate-packages.ts",
+    "100644 blob aa10f449699fafb6430719483ddfd6a1079131e3\tunified/catalog-eligibility.ts",
+    "100644 blob 9cf11fbbab5c2ca8e8bdaf09481bda28c67ce796\tunified/community-artifact-prepare.ts",
+    "100644 blob 1fcf1781f4bd80217906299b74efbe43c20c4707\tunified/community-browser.ts",
+    "100644 blob 5aa5d0be0f795aa3e1f77770b400e551d8fdec17\tunified/community-cli.ts",
+    "100644 blob 79e28791d255f0f332d83cbd3c6e4b7dc05d62ea\tunified/community-external.ts",
+    "100644 blob 19c946f793e79bfaa036c26db7cf26876f5f8ed1\tunified/community-extra-adapters.mjs",
+    "100644 blob 630557c945c9cb05c27272b7a41f7108869be905\tunified/community-extra-source.ts",
+    "100644 blob d9dfab66016cdc4bd0f89adc58ad1359b3944234\tunified/community-process.ts",
+    "100644 blob 692842733ae46444d33fda8dc39a092e604145b2\tunified/community-protocol-identity.ts",
+    "100644 blob 114b71891d71dc30faa27e88aa7e4ca0ba3f0267\tunified/community-source-prepare.ts",
+    "100644 blob 5ef6354edf9d8f60eed95a51e4dd9253bfed2e90\tunified/community-worker-evidence.ts",
+    "100644 blob 792584a3d98f201fbea4f56b62e73672e98b1573\tunified/community.ts",
+    "100644 blob ff13967087b5a60fb3037fc0b55eb9caa0041de0\tunified/corpus.ts",
+    "100644 blob e9b64848e5df51682e46ef0009dc12e2d8197172\tunified/docs-benchmark.ts",
+    "100644 blob e6fb0e40b3628f8cd2b21577861dbf3eee237c34\tunified/docs-drawings.ts",
+    "100644 blob 91cf53340a497a8d327649c2b5044ddf4b9ea5e9\tunified/docs-png-browser.ts",
+    "100644 blob f7851bbf27a80aebc2451c8be94cffebe63e3ced\tunified/docs-png-drawings.ts",
+    "100644 blob 2d4e1948b8d8967079695c6f8c0ba03e95b3a059\tunified/docs-png-lane.ts",
+    "100644 blob 2740a1a29fc5a3726e16f38ef6f522420e6285e7\tunified/failure-outputs.ts",
+    "100644 blob 9b4c6d41fcdff1e95f34584cae7699387b9ef24a\tunified/family-support.ts",
+    "100644 blob 440eca8dc0d4eb908c722fdfe664fb95fa49b27c\tunified/fidelity-suite.ts",
+    "100644 blob 6fdca45d96e84f46735cd8fe8926fe34e2889f1b\tunified/harness-paths.ts",
+    "100644 blob eb110035690a9ca42b94b19fb270c5ddb2835421\tunified/lineage.ts",
+    "100644 blob 961ff0943c96b65ad7b929d5dea7ea25aca06999\tunified/options.ts",
+    "100644 blob d50649b756b6334786b215c341776b37ace0cef1\tunified/oracle-labels.ts",
+    "100644 blob 9818827abd160a78cbe570d79ccb9db9ec02c503\tunified/pilot-summary.ts",
+    "100644 blob 7a8d7b3345485af80a7a95632a1dd59f40d8db93\tunified/png-inspection.ts",
+    "100644 blob be2b90e60c1c8585a7398985b88c6c6cb0c7428d\tunified/project-update.ts",
+    "100644 blob 2f89b53ee3c54994dad9f7cecb0a5959ff96e5b7\tunified/protocol-identity.ts",
+    "100644 blob aa84fd954167486bda38274cbd9a64ea80337d5b\tunified/public-svg-browser.ts",
+    "100644 blob 368cb14d601ecda74fac76202831ae7bd1bd71f8\tunified/qualification-visible-source.ts",
+    "100644 blob 861d3ecd711f27da243d4633e31d1408a30c9e48\tunified/qualification.ts",
+    "100644 blob 719c7a3ba6e57955fe11607cd3ca7443a6c536d7\tunified/release-cli.ts",
+    "100644 blob c5a8dfacd03c8c530ec5cd58ecb4cf437ee16314\tunified/release-selection.ts",
+    "100644 blob 526c92c6c3595fd943d2608301dee963d00123f8\tunified/result-ranking.ts",
+    "100644 blob 3dbd9c8edf12339b3762323306bae5ea298dd59b\tunified/retained-suite.ts",
+    "100644 blob 58fca2d6e0ea2fa8fd4cd4249d4f8c2021ee8252\tunified/support-verification.ts",
+    "100644 blob eb06999356586413156bcacb4441ee88a2f60718\tunified/support.ts",
+    "100644 blob ed051cbd9a8c3df3881ed07327e08fa3dba7976f\tunified/svg-text-inspection.ts",
+    "100644 blob 090bff1867c75257852fe96f73da46d5718ed218\tunified/terminal-profile.ts",
+    "100644 blob 6a0b61c7dd23cd9ad0a6b408278b18e38b89521d\tunified/trident-paths.ts",
+    "100644 blob 5f70ffddb13f3184f7c1d3c81e106775fbc8594d\tunified/upstream-fidelity-census.ts",
+    "100644 blob f79a19b8e370ee529a3fb83823d82b5454fb9a88\tunified/upstream-fidelity-original.ts",
+    "100644 blob 1a503830889cf1a70c402a8170e7d9133dcaeec9\tunified/upstream-fidelity.ts",
+    "100644 blob a9f121773ac3dff462b42a60369fbb6af1a50592\tunified/upstream-runtime-qualification.ts",
+    "100644 blob b4645079ec5f8b4a939360b735e7eb9ac7daf31a\tunified/workload-intent.ts",
+    "100644 blob b5ec976fb4fd4e9cb9bf5b1a13a12b42de578751\tversion.ts"
+  ],
+  "files": {
+    "catalog": {
+      "path": "preparation/catalog.json",
+      "sha256": "09da5636c2b0169883351ad57012d6b044f8819e18d85a698a44f591baafc02c"
+    },
+    "plan": {
+      "path": "preparation/plan.json",
+      "sha256": "856a7d093f06e58ae12954ee9f3f9f16ad7a24a229fac678265e96fe9d73db3f"
+    },
+    "artifact:89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099": {
+      "path": "preparation/blobs/89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099",
+      "sha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099"
+    },
+    "prepared": {
+      "path": "preparation/community-prepared.json",
+      "sha256": "c419745bb2861f20f96fac2b73d89350f30e1014ef4c48964656416c85f1936e"
+    },
+    "browsers": {
+      "path": "preparation/community-browser-prepared.json",
+      "sha256": "74ce5064e0d2f8358f282ea187ea7d8e3cbc16b4be66afbcd9feda3000bfe3ba"
+    },
+    "inputs": {
+      "path": "preparation/community-inputs.json",
+      "sha256": "5563c454e2b609ad3cd6ca936597d6b62dd1dbcaa18b4eb239ffe8ed4c918325"
+    },
+    "inventories": {
+      "path": "preparation/inventories.json",
+      "sha256": "49ab2ff087ec286c78ee6577d42e66284df40bdbd9ec2d7cedfd8db6abfb1837"
+    }
+  },
+  "artifacts": [
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.2",
+      "identity": {
+        "artifact": {
+          "kind": "node",
+          "root": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node",
+          "module": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node/dist/index.mjs",
+          "version": "0.9.2",
+          "integrity": "sha512-cYnkgZC9WYaHJ1bjHctobSkrheROGdqIUnHzZeJHuTq0sWyKWud2x4g3Ui95lsqooPF70Nb42p75QdKShTtCFw==",
+          "runtime": "Node",
+          "sha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099",
+          "files": [
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node/dist/index.mjs",
+              "sha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099"
+            }
+          ],
+          "apiBoundary": "published package API"
+        },
+        "files": [
+          {
+            "path": "CHANGELOG.md",
+            "sha256": "31466e40a0bcbed72ac0e0b30065aaabc8ce849928dee03e416e4a07e365efbe"
+          },
+          {
+            "path": "dist/bounded-executor.mjs",
+            "sha256": "4a30b228db0a9a9603625a6b697f044e24751f9a17f603d0f4467008563ffaef"
+          },
+          {
+            "path": "dist/candidates/native.mjs",
+            "sha256": "2f4356a8bff65e92c2fa561a2e2c2bbb71c3812e67fe8caaa1974f9955d5586e"
+          },
+          {
+            "path": "dist/candidates/wrap-engine.mjs",
+            "sha256": "a774ada7d9642bbd2658a216c2a6687555f0afc55ee27579f7f59eb3f2cbe09b"
+          },
+          {
+            "path": "dist/engine.mjs",
+            "sha256": "5a369775262a62034542e5ef803992212823e0a675aadd280ceaf2cab9e8cb9f"
+          },
+          {
+            "path": "dist/errors.mjs",
+            "sha256": "cb006256c8988aca47bada141c804ace9d7519911a931c45680b0a6bc3a8639c"
+          },
+          {
+            "path": "dist/generated/binding-contract.mjs",
+            "sha256": "6e25f91a810633c06d14d758f926370b40eab01840129c7c228452d1744124a5"
+          },
+          {
+            "path": "dist/generated/capability-surface.mjs",
+            "sha256": "e568dc3476eab46c8739a0d35ac9847b43d9e97efeff0ac078a83ff11f33070a"
+          },
+          {
+            "path": "dist/generated/node-wire-contract.json",
+            "sha256": "09f70201439ede4082546b99e97c8ce67bd9b83c68ad1a62f87d7949d33c1d32"
+          },
+          {
+            "path": "dist/index.d.ts",
+            "sha256": "12d93d0a871d64d2bf607cfde68b9e3c41c01d472f65a0b5a76853cd47992750"
+          },
+          {
+            "path": "dist/index.mjs",
+            "sha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099"
+          },
+          {
+            "path": "dist/native-loader.mjs",
+            "sha256": "2378a42146f52d750d4bdeca1922d8a31cc8595aeba5b4229b37e87343e725e1"
+          },
+          {
+            "path": "dist/transport-contract.mjs",
+            "sha256": "c5f201a7aeca0b54f5a979ca82c467d4322e82c795a4d0fe9a5becf790268173"
+          },
+          {
+            "path": "LICENSE-APACHE",
+            "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+          },
+          {
+            "path": "LICENSE-MIT",
+            "sha256": "645fe3acd17f0ec18b05a5cbc8071c16fc888bfa8356d9087c265df69464d893"
+          },
+          {
+            "path": "package.json",
+            "sha256": "5471d3e82a5453546b0b0434f56fe19200703c864a582f6d36bf1bb7bc777b12"
+          },
+          {
+            "path": "README.md",
+            "sha256": "cd7d0388811edac2dc3de8a12b7d8d0ef37939393a06b5ba6eeb8ac2b8b41bbb"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/beautiful-mermaid/LICENSE",
+            "sha256": "f05f5a4009eae7fadfd4a55f77ffe10948f621982d56076667e68afbb54de894"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/cose-base-v1/LICENSE",
+            "sha256": "5fb3cf4a14c3c5af6e473a192df8bca10c77754e3a0c6492c79fb92a76a5478a"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/cose-base-v2/LICENSE",
+            "sha256": "5fb3cf4a14c3c5af6e473a192df8bca10c77754e3a0c6492c79fb92a76a5478a"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/cytoscape/LICENSE",
+            "sha256": "eb319c6e6f233607f71e8e2f450391751883cfc0eeb3ca7ef574c13d1d9c2203"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/cytoscape-cose-bilkent/LICENSE",
+            "sha256": "440fc58a56a12814e417d2b341da89b050da052dc75bdb235607d37ec5fe74ef"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/cytoscape-fcose/LICENSE",
+            "sha256": "2837634f403949215760fcdd2fa1ed0c64875d02099ecc8318c704b852f1421d"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/d3-shape/LICENSE",
+            "sha256": "faa682e3e430941f958d26180458f5934a62f58dac4d70ccdd15608c15d0f884"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/dagre/LICENSE",
+            "sha256": "6a349742a6cb219d5a2fc8d0844f6d89a6efc62e20c664450d884fc7ff2d6015"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/dompurify/LICENSE",
+            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/eclipse-elk/LICENSE.md",
+            "sha256": "89591d4578fb1ebd91501312a3d25f021bd865a2e436641c1cf7b1bc7e3c1617"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/elkjs/LICENSE.md",
+            "sha256": "89591d4578fb1ebd91501312a3d25f021bd865a2e436641c1cf7b1bc7e3c1617"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/fmin/LICENSE",
+            "sha256": "e4503e78185bff178d3ee91835f082d05771da1b3a2d795f17e03a40251bab77"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/graphlib/LICENSE",
+            "sha256": "6a349742a6cb219d5a2fc8d0844f6d89a6efc62e20c664450d884fc7ff2d6015"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/katex-fonts/FONT_NOTICE.txt",
+            "sha256": "752ba9eff7a281f5ad789528ea078b46149b10e72296625108c26a94695ad03e"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/katex-fonts/OFL.txt",
+            "sha256": "f19c674290e5dc79f02e8efe16139ab56a06a7128876f5b1579ffd0db5bc897e"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/layout-base-v1/LICENSE",
+            "sha256": "eabb762d8a95109a39c9be3247325529a5239a7aca327d909c3ccdc41f3a06bf"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/layout-base-v2/LICENSE",
+            "sha256": "eabb762d8a95109a39c9be3247325529a5239a7aca327d909c3ccdc41f3a06bf"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/mermaid/LICENSE",
+            "sha256": "ec9fb67dcb25eccc416ed56e1aab819222c805a2a4bfe4cb19e7556bf2ffde80"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/mermaid-ascii/LICENSE",
+            "sha256": "2568bfc33918af28d45f8ba672c93c8fbdcdfbc430b8ba86228b8ea1c2469b31"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/mermaid-rs-renderer/LICENSE",
+            "sha256": "57ed7943c34463678a150769d4a4f6c95d2a190fe2c1977f74bc883492c94b86"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/non-layered-tidy-tree-layout/LICENSE",
+            "sha256": "9e618475934f16f1966a1f47cacea53ec0e8fbf7cb0054a5063b9446794a25df"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/ratex/LICENSE",
+            "sha256": "f65e10eaa978c50a58c5e792110b4be5014b865edcb2ade49076bfcc98fa92b0"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/ratex/THIRD_PARTY_NOTICES.txt",
+            "sha256": "e3cf753ddd8012543a3297b62b4cf5450db1d5a3ae7ddd7afae593db927c2980"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/rough-rs/LICENSE",
+            "sha256": "0bef4264af5b4af4de4b01700f27afb7bdaf7498949692ff272ebf24489b0531"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/roughjs/LICENSE",
+            "sha256": "dca9a392272606ac748ac0976a2a1133f14eef841c27beaa51a844d53c56a09d"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/rust-cargo-dependencies.json",
+            "sha256": "b5ae866a220a0d7cf5a7ac909fcf021d513c5b24bc8449a1f730e2de98da7bdc"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/sanitize-url/LICENSE",
+            "sha256": "0984740e0c3d725c8044dec7edcefe1dbce180ef5a7bc710c251e19607000158"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/tree-sitter/LICENSE",
+            "sha256": "c5cfb43042b6b72045f4ba997834d0a7786d2793d91680868b5815b39f14fc78"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/tree-sitter-mermaid-monaqa/LICENSE",
+            "sha256": "40e46efcec726e70cc95c553ac377674f0a5d2eec6089483ba237af7dae4c54c"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/tree-sitter-mermaid-pappasam/LICENSE",
+            "sha256": "66f5a051ab96d2bb3ecccf32f6db1d97245dfcee2f0563de3e3267e827717061"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/tree-sitter-mermaid-singularity/LICENSE",
+            "sha256": "601f9a3a5d582af11bd0386a3352435f8765b1d35bee882e5dc7ebb29cf3b540"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/unicode-linebreak/LICENSE",
+            "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/venn-js/LICENSE",
+            "sha256": "6a3508febf2cfccfee96597394543a6154a4bb0b1f91f28404be42c09e9fcb54"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/wasm-minimal-protocol/LICENSE",
+            "sha256": "6b0382b16279f26ff69014300541967a356a666eb0b91b422f6862f6b7dad17e"
+          },
+          {
+            "path": "THIRD_PARTY_LICENSES/zenuml-core/LICENSE",
+            "sha256": "d4a77cbf1dc0975cd4be7266972dc6d3a6c6d68d43235384d6e4b6f12934e978"
+          },
+          {
+            "path": "THIRD_PARTY_NOTICES.md",
+            "sha256": "3d8b292cb3c5d435481c91ee7e7aae7f4e8a74c9a805263e216f8a490b6504a0"
+          }
+        ],
+        "dependencies": {
+          "schemaVersion": 1,
+          "root": {
+            "logicalRoot": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node",
+            "realRoot": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node",
+            "name": "@mermanjs/node",
+            "version": "0.9.2"
+          },
+          "nodes": [
+            {
+              "realRoot": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node-linux-x64-gnu",
+              "logicalRoots": [
+                "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node-linux-x64-gnu"
+              ],
+              "name": "@mermanjs/node-linux-x64-gnu",
+              "version": "0.9.2",
+              "manifest": {
+                "name": "@mermanjs/node-linux-x64-gnu",
+                "version": "0.9.2",
+                "description": "Native Linux x64 glibc binary for @mermanjs/node.",
+                "engines": {
+                  "node": ">=22.0.0"
+                },
+                "main": "./merman.node",
+                "repository": {
+                  "type": "git",
+                  "url": "git+https://github.com/Latias94/merman.git"
+                },
+                "homepage": "https://github.com/Latias94/merman/tree/main/platforms/node#readme",
+                "publishConfig": {
+                  "access": "public"
+                },
+                "files": [
+                  "merman.node",
+                  "LICENSE-APACHE",
+                  "LICENSE-MIT",
+                  "README.md",
+                  "THIRD_PARTY_LICENSES",
+                  "THIRD_PARTY_NOTICES.md"
+                ],
+                "license": "MIT OR Apache-2.0",
+                "os": [
+                  "linux"
+                ],
+                "cpu": [
+                  "x64"
+                ],
+                "libc": [
+                  "glibc"
+                ]
+              },
+              "files": [
+                {
+                  "path": "LICENSE-APACHE",
+                  "kind": "file",
+                  "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+                  "bytes": 11357
+                },
+                {
+                  "path": "LICENSE-MIT",
+                  "kind": "file",
+                  "sha256": "645fe3acd17f0ec18b05a5cbc8071c16fc888bfa8356d9087c265df69464d893",
+                  "bytes": 1076
+                },
+                {
+                  "path": "README.md",
+                  "kind": "file",
+                  "sha256": "ab168be131101753884bedbb491cc54b8df55df72ff8b135549ff11b4a21763b",
+                  "bytes": 166
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/beautiful-mermaid/LICENSE",
+                  "kind": "file",
+                  "sha256": "f05f5a4009eae7fadfd4a55f77ffe10948f621982d56076667e68afbb54de894",
+                  "bytes": 1067
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/cose-base-v1/LICENSE",
+                  "kind": "file",
+                  "sha256": "5fb3cf4a14c3c5af6e473a192df8bca10c77754e3a0c6492c79fb92a76a5478a",
+                  "bytes": 1081
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/cose-base-v2/LICENSE",
+                  "kind": "file",
+                  "sha256": "5fb3cf4a14c3c5af6e473a192df8bca10c77754e3a0c6492c79fb92a76a5478a",
+                  "bytes": 1081
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/cytoscape-cose-bilkent/LICENSE",
+                  "kind": "file",
+                  "sha256": "440fc58a56a12814e417d2b341da89b050da052dc75bdb235607d37ec5fe74ef",
+                  "bytes": 1084
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/cytoscape-fcose/LICENSE",
+                  "kind": "file",
+                  "sha256": "2837634f403949215760fcdd2fa1ed0c64875d02099ecc8318c704b852f1421d",
+                  "bytes": 1079
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/cytoscape/LICENSE",
+                  "kind": "file",
+                  "sha256": "eb319c6e6f233607f71e8e2f450391751883cfc0eeb3ca7ef574c13d1d9c2203",
+                  "bytes": 1082
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/d3-shape/LICENSE",
+                  "kind": "file",
+                  "sha256": "faa682e3e430941f958d26180458f5934a62f58dac4d70ccdd15608c15d0f884",
+                  "bytes": 731
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/dagre/LICENSE",
+                  "kind": "file",
+                  "sha256": "6a349742a6cb219d5a2fc8d0844f6d89a6efc62e20c664450d884fc7ff2d6015",
+                  "bytes": 1062
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/dompurify/LICENSE",
+                  "kind": "file",
+                  "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+                  "bytes": 11358
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/eclipse-elk/LICENSE.md",
+                  "kind": "file",
+                  "sha256": "89591d4578fb1ebd91501312a3d25f021bd865a2e436641c1cf7b1bc7e3c1617",
+                  "bytes": 14480
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/elkjs/LICENSE.md",
+                  "kind": "file",
+                  "sha256": "89591d4578fb1ebd91501312a3d25f021bd865a2e436641c1cf7b1bc7e3c1617",
+                  "bytes": 14480
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/fmin/LICENSE",
+                  "kind": "file",
+                  "sha256": "e4503e78185bff178d3ee91835f082d05771da1b3a2d795f17e03a40251bab77",
+                  "bytes": 1475
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/graphlib/LICENSE",
+                  "kind": "file",
+                  "sha256": "6a349742a6cb219d5a2fc8d0844f6d89a6efc62e20c664450d884fc7ff2d6015",
+                  "bytes": 1062
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/katex-fonts/FONT_NOTICE.txt",
+                  "kind": "file",
+                  "sha256": "752ba9eff7a281f5ad789528ea078b46149b10e72296625108c26a94695ad03e",
+                  "bytes": 439
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/katex-fonts/OFL.txt",
+                  "kind": "file",
+                  "sha256": "f19c674290e5dc79f02e8efe16139ab56a06a7128876f5b1579ffd0db5bc897e",
+                  "bytes": 4069
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/layout-base-v1/LICENSE",
+                  "kind": "file",
+                  "sha256": "eabb762d8a95109a39c9be3247325529a5239a7aca327d909c3ccdc41f3a06bf",
+                  "bytes": 1069
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/layout-base-v2/LICENSE",
+                  "kind": "file",
+                  "sha256": "eabb762d8a95109a39c9be3247325529a5239a7aca327d909c3ccdc41f3a06bf",
+                  "bytes": 1069
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/mermaid-ascii/LICENSE",
+                  "kind": "file",
+                  "sha256": "2568bfc33918af28d45f8ba672c93c8fbdcdfbc430b8ba86228b8ea1c2469b31",
+                  "bytes": 1073
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/mermaid-rs-renderer/LICENSE",
+                  "kind": "file",
+                  "sha256": "57ed7943c34463678a150769d4a4f6c95d2a190fe2c1977f74bc883492c94b86",
+                  "bytes": 1089
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/mermaid/LICENSE",
+                  "kind": "file",
+                  "sha256": "ec9fb67dcb25eccc416ed56e1aab819222c805a2a4bfe4cb19e7556bf2ffde80",
+                  "bytes": 1089
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/non-layered-tidy-tree-layout/LICENSE",
+                  "kind": "file",
+                  "sha256": "9e618475934f16f1966a1f47cacea53ec0e8fbf7cb0054a5063b9446794a25df",
+                  "bytes": 1069
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/ratex/LICENSE",
+                  "kind": "file",
+                  "sha256": "f65e10eaa978c50a58c5e792110b4be5014b865edcb2ade49076bfcc98fa92b0",
+                  "bytes": 1301
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/ratex/THIRD_PARTY_NOTICES.txt",
+                  "kind": "file",
+                  "sha256": "e3cf753ddd8012543a3297b62b4cf5450db1d5a3ae7ddd7afae593db927c2980",
+                  "bytes": 717
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/rough-rs/LICENSE",
+                  "kind": "file",
+                  "sha256": "0bef4264af5b4af4de4b01700f27afb7bdaf7498949692ff272ebf24489b0531",
+                  "bytes": 1068
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/roughjs/LICENSE",
+                  "kind": "file",
+                  "sha256": "dca9a392272606ac748ac0976a2a1133f14eef841c27beaa51a844d53c56a09d",
+                  "bytes": 1068
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/rust-cargo-dependencies.json",
+                  "kind": "file",
+                  "sha256": "b5ae866a220a0d7cf5a7ac909fcf021d513c5b24bc8449a1f730e2de98da7bdc",
+                  "bytes": 795679
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/sanitize-url/LICENSE",
+                  "kind": "file",
+                  "sha256": "0984740e0c3d725c8044dec7edcefe1dbce180ef5a7bc710c251e19607000158",
+                  "bytes": 1066
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/tree-sitter-mermaid-monaqa/LICENSE",
+                  "kind": "file",
+                  "sha256": "40e46efcec726e70cc95c553ac377674f0a5d2eec6089483ba237af7dae4c54c",
+                  "bytes": 1072
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/tree-sitter-mermaid-pappasam/LICENSE",
+                  "kind": "file",
+                  "sha256": "66f5a051ab96d2bb3ecccf32f6db1d97245dfcee2f0563de3e3267e827717061",
+                  "bytes": 1069
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/tree-sitter-mermaid-singularity/LICENSE",
+                  "kind": "file",
+                  "sha256": "601f9a3a5d582af11bd0386a3352435f8765b1d35bee882e5dc7ebb29cf3b540",
+                  "bytes": 1103
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/tree-sitter/LICENSE",
+                  "kind": "file",
+                  "sha256": "c5cfb43042b6b72045f4ba997834d0a7786d2793d91680868b5815b39f14fc78",
+                  "bytes": 1080
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/unicode-linebreak/LICENSE",
+                  "kind": "file",
+                  "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+                  "bytes": 11357
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/venn-js/LICENSE",
+                  "kind": "file",
+                  "sha256": "6a3508febf2cfccfee96597394543a6154a4bb0b1f91f28404be42c09e9fcb54",
+                  "bytes": 1106
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/wasm-minimal-protocol/LICENSE",
+                  "kind": "file",
+                  "sha256": "6b0382b16279f26ff69014300541967a356a666eb0b91b422f6862f6b7dad17e",
+                  "bytes": 1211
+                },
+                {
+                  "path": "THIRD_PARTY_LICENSES/zenuml-core/LICENSE",
+                  "kind": "file",
+                  "sha256": "d4a77cbf1dc0975cd4be7266972dc6d3a6c6d68d43235384d6e4b6f12934e978",
+                  "bytes": 1066
+                },
+                {
+                  "path": "THIRD_PARTY_NOTICES.md",
+                  "kind": "file",
+                  "sha256": "3d8b292cb3c5d435481c91ee7e7aae7f4e8a74c9a805263e216f8a490b6504a0",
+                  "bytes": 38112
+                },
+                {
+                  "path": "merman.node",
+                  "kind": "file",
+                  "sha256": "42698dfc8f6ff85c81e082b1969e38ade98eaedb9cb93a63268d3d5e7efbb727",
+                  "bytes": 27050224
+                },
+                {
+                  "path": "package.json",
+                  "kind": "file",
+                  "sha256": "92b79bef77e7df4b483b82f9d0ed75a7d2f27b937a5956f690f20383372a8c13",
+                  "bytes": 706
+                }
+              ]
+            }
+          ],
+          "edges": [
+            {
+              "from": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node",
+              "name": "@mermanjs/node-darwin-arm64",
+              "kind": "optional",
+              "requested": "0.9.2",
+              "optional": true,
+              "resolution": null
+            },
+            {
+              "from": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node",
+              "name": "@mermanjs/node-darwin-x64",
+              "kind": "optional",
+              "requested": "0.9.2",
+              "optional": true,
+              "resolution": null
+            },
+            {
+              "from": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node",
+              "name": "@mermanjs/node-linux-x64-gnu",
+              "kind": "optional",
+              "requested": "0.9.2",
+              "optional": true,
+              "resolution": {
+                "logicalRoot": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node-linux-x64-gnu",
+                "realRoot": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node-linux-x64-gnu",
+                "search": "realpath"
+              }
+            },
+            {
+              "from": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node",
+              "name": "@mermanjs/node-linux-x64-musl",
+              "kind": "optional",
+              "requested": "0.9.2",
+              "optional": true,
+              "resolution": null
+            },
+            {
+              "from": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node",
+              "name": "@mermanjs/node-win32-x64-msvc",
+              "kind": "optional",
+              "requested": "0.9.2",
+              "optional": true,
+              "resolution": null
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

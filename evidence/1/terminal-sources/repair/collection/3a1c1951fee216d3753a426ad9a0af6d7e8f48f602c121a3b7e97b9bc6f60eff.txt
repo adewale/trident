@@ -1,0 +1,7 @@
+             o
+             |
+             |
++------------v------------+
+|                         |
+|   ManualRetryRequired   |   Retry fails again
++-------------------------<

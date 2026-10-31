@@ -1,0 +1,4 @@
+●   ⟲ B (main)
+│ ● B (develop)
+├─┘
+●   A

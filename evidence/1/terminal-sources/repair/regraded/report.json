@@ -1,0 +1,28 @@
+{
+  "schema": "trident-campaign-v2",
+  "options": {
+    "out": "/workspace/trident-ecosystem-2026-10-31-campaign/terminal-repair/regraded"
+  },
+  "startedAt": null,
+  "updatedAt": "2026-10-31T10:02:34.864Z",
+  "projects": [
+    "wevm/ondine",
+    "crafter-station/mermaid",
+    "Latias94/merman"
+  ],
+  "profile": "full",
+  "rounds": 1,
+  "requestedSuites": [
+    "community"
+  ],
+  "results": [
+    {
+      "suite": "community",
+      "cohort": "terminal-project-corpus-v1",
+      "out": "/workspace/trident-ecosystem-2026-10-31-campaign/terminal-repair/regraded/terminal",
+      "status": "blocked",
+      "completed": true
+    }
+  ],
+  "scope": "Real project examples; full inventory retains unmeasured/unknown cells. Reviewed subset is separately bounded. Mermaid reference is unscored. Unlike invocation boundaries are not compared."
+}

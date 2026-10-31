@@ -1,0 +1,258 @@
+{
+  "schema": "trident-terminal-accounting-audit-v1",
+  "createdAt": "2026-10-31T09:50:53.224795Z",
+  "scope": "Offline accounting correction only. No renderer/source-reference calls, score changes or edits to original raw/result files.",
+  "collection": {
+    "head": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
+    "startedAt": "2026-10-31T09:25:33.746Z",
+    "finishedAt": "2026-10-31T09:28:24.742Z",
+    "profile": "terminal-project-corpus-v1"
+  },
+  "originalEvidence": [
+    {
+      "path": "raw.json",
+      "sha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+      "bytes": 3760238
+    },
+    {
+      "path": "terminal/result.json",
+      "sha256": "032b85157b2d5abbfe7b6db1b8073529653762457ee8323ad4f10ebde9cad83d",
+      "bytes": 2495469
+    },
+    {
+      "path": "community-prepared.json",
+      "sha256": "89f5dbe9490750a93eb3c48635547098f62aacf8da12020b5c47ab36dfb388c1",
+      "bytes": 214978
+    }
+  ],
+  "sourceFiles": [
+    {
+      "path": "unified/terminal-profile.ts",
+      "sha256": "8485213208459515434315d0243aae4d098e4d6bfccffe5892abbae6bfd3110a"
+    },
+    {
+      "path": "corpus/terminal-project-examples.json",
+      "sha256": "e37fc22f33fe4966338a97aeca8add5a25ec68b8dd44152bd5218cd53d1f0497"
+    },
+    {
+      "path": "corpus/terminal-project-reviews.json",
+      "sha256": "a73ddd93169a17c6bb192d765a21d6e906e9a799117af6300b2fe08c859ba43d"
+    }
+  ],
+  "counts": {
+    "plannedDrawingCells": 2160,
+    "recordedInvocationObserved": 1734,
+    "additionalDemonstrablyStarted": 6,
+    "actualAttemptedDrawings": 1740,
+    "uninvokedCells": 420,
+    "unboundOrSetupCells": 360,
+    "preInvocationCapabilitySkips": 60,
+    "sourceReferenceCalls": 120,
+    "retainedTextReferences": 1391
+  },
+  "method": "Start with the original terminalCoverage attempted sum. Add only the six coordinates below that the current invocationObserved predicate excluded as transport failures or absent firstMs despite retained evidence of a started process/current workload. Do not add 120-cell unbound/setup cohorts or 60 CLI pre-invocation capability rows. Returned text includes diagnostics and is not a correctness score.",
+  "additionalStartedCoordinates": [
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "caseId": "terminal:ef20265c9ef84973",
+      "sourceSha256": "ef20265c9ef8497318904bbeaf4f7926baa1a674246f3ce92b5a4d9d46c012dd",
+      "recordedRuntimeExecuted": false,
+      "startedEvidence": "native process panicked after starting; stderr identifies Rust main and Unicode byte boundary",
+      "observationJsonPointer": "/transportObservations/117",
+      "observation": {
+        "suite": "community",
+        "surface": "cli:end-to-end",
+        "runtime": "linux-x64 public native CLI",
+        "family": "er",
+        "caseId": "terminal:ef20265c9ef84973",
+        "operation": "render",
+        "format": "terminal",
+        "mode": "feature-corpus-qualification",
+        "status": "blocked",
+        "metrics": {
+          "implementation": "Dicklesworthstone/frankenmermaid",
+          "round": 1,
+          "featureCount": 2,
+          "firstMs": 2.090914999999768,
+          "timingScope": "one qualification call, not a repeated speed sample",
+          "rejected": false,
+          "failureStage": "transport"
+        },
+        "detail": "\nthread 'main' (102232) panicked at crates/fm-parser/src/mermaid_parser.rs:10970:30:\nstart byte index 2 is not a char boundary; it is inside '顧' (bytes 0..3 of string)\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
+      }
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "caseId": "terminal:3042977d4e6d813b",
+      "sourceSha256": "3042977d4e6d813b0473b57c64bc799b6f1692b43ea1b2c18eb6a2fb27df564d",
+      "recordedRuntimeExecuted": false,
+      "startedEvidence": "spawned native process exceeded timeout",
+      "observationJsonPointer": "/transportObservations/1462",
+      "observation": {
+        "suite": "community",
+        "surface": "cli:end-to-end",
+        "runtime": "native",
+        "family": "state",
+        "caseId": "terminal:3042977d4e6d813b",
+        "operation": "render",
+        "format": "terminal",
+        "mode": "feature-corpus-qualification",
+        "status": "blocked",
+        "metrics": {
+          "implementation": "Mootikins/figurehead-rs",
+          "round": 1,
+          "featureCount": 2,
+          "firstMs": 31278.344831000002,
+          "timingScope": "one qualification call, not a repeated speed sample",
+          "rejected": false,
+          "failureStage": "transport"
+        },
+        "detail": "spawnSync /workspace/trident/node_modules/.cache/unified-community/Mootikins--figurehead-rs@34c47a93cd792f24e06b49b5196a1c876240f03a/bin/figurehead ETIMEDOUT"
+      }
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "caseId": "terminal:4ae5560b57ca0064",
+      "sourceSha256": "4ae5560b57ca00644f52af4a27dae7aff65b9f0cd9b72f84b22dbe63c3a334d4",
+      "recordedRuntimeExecuted": false,
+      "startedEvidence": "spawned native process exceeded timeout",
+      "observationJsonPointer": "/transportObservations/1479",
+      "observation": {
+        "suite": "community",
+        "surface": "cli:end-to-end",
+        "runtime": "native",
+        "family": "state",
+        "caseId": "terminal:4ae5560b57ca0064",
+        "operation": "render",
+        "format": "terminal",
+        "mode": "feature-corpus-qualification",
+        "status": "blocked",
+        "metrics": {
+          "implementation": "Mootikins/figurehead-rs",
+          "round": 1,
+          "featureCount": 2,
+          "firstMs": 31302.18020599999,
+          "timingScope": "one qualification call, not a repeated speed sample",
+          "rejected": false,
+          "failureStage": "transport"
+        },
+        "detail": "spawnSync /workspace/trident/node_modules/.cache/unified-community/Mootikins--figurehead-rs@34c47a93cd792f24e06b49b5196a1c876240f03a/bin/figurehead ETIMEDOUT"
+      }
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "caseId": "terminal:9972eaa8ca8692d8",
+      "sourceSha256": "9972eaa8ca8692d847b516eaef201d8a03a6666830f62033b2c6b0e8b39c1186",
+      "recordedRuntimeExecuted": false,
+      "startedEvidence": "spawned native process exceeded timeout",
+      "observationJsonPointer": "/transportObservations/1516",
+      "observation": {
+        "suite": "community",
+        "surface": "cli:end-to-end",
+        "runtime": "native",
+        "family": "state",
+        "caseId": "terminal:9972eaa8ca8692d8",
+        "operation": "render",
+        "format": "terminal",
+        "mode": "feature-corpus-qualification",
+        "status": "blocked",
+        "metrics": {
+          "implementation": "Mootikins/figurehead-rs",
+          "round": 1,
+          "featureCount": 2,
+          "firstMs": 30433.449588000018,
+          "timingScope": "one qualification call, not a repeated speed sample",
+          "rejected": false,
+          "failureStage": "transport"
+        },
+        "detail": "spawnSync /workspace/trident/node_modules/.cache/unified-community/Mootikins--figurehead-rs@34c47a93cd792f24e06b49b5196a1c876240f03a/bin/figurehead ETIMEDOUT"
+      }
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "caseId": "terminal:cd771fca2659a460",
+      "sourceSha256": "cd771fca2659a4602374e2056bf5c02e9fb82a3fe6ce9864b46a39d692f58ca0",
+      "recordedRuntimeExecuted": false,
+      "startedEvidence": "native process terminated after 23939ms; spawn timing retained, despite empty detail",
+      "observationJsonPointer": "/transportObservations/1538",
+      "observation": {
+        "suite": "community",
+        "surface": "cli:end-to-end",
+        "runtime": "native",
+        "family": "state",
+        "caseId": "terminal:cd771fca2659a460",
+        "operation": "render",
+        "format": "terminal",
+        "mode": "feature-corpus-qualification",
+        "status": "blocked",
+        "metrics": {
+          "implementation": "Mootikins/figurehead-rs",
+          "round": 1,
+          "featureCount": 2,
+          "firstMs": 23939.019591999997,
+          "timingScope": "one qualification call, not a repeated speed sample",
+          "rejected": false,
+          "failureStage": "transport"
+        },
+        "detail": ""
+      }
+    },
+    {
+      "project": "anomalyco/opencode",
+      "caseId": "terminal:9972eaa8ca8692d8",
+      "sourceSha256": "9972eaa8ca8692d847b516eaef201d8a03a6666830f62033b2c6b0e8b39c1186",
+      "recordedRuntimeExecuted": false,
+      "startedEvidence": "worker attempts receipt marks this as the active workload when its 30000ms deadline expired",
+      "observationJsonPointer": "/transportObservations/676",
+      "observation": {
+        "suite": "community",
+        "surface": "bun:public-api",
+        "runtime": "Bun 1.4.2",
+        "family": "state",
+        "caseId": "terminal:9972eaa8ca8692d8",
+        "operation": "render",
+        "format": "terminal",
+        "mode": "feature-corpus-qualification",
+        "status": "failed",
+        "metrics": {
+          "implementation": "anomalyco/opencode",
+          "round": 1,
+          "featureCount": 2,
+          "version": "2.0.26",
+          "apiBoundary": "public package API",
+          "firstMs": null,
+          "importMs": null,
+          "endRssBytes": null,
+          "peakProcessRssBytes": null,
+          "qualification": "unavailable",
+          "diagnosticsCount": null,
+          "rejected": null,
+          "outputFile": null,
+          "accepted": null,
+          "diagnosticAdmissionFailed": null,
+          "parserAdmissionFailed": null,
+          "publicParserReturnType": null,
+          "publicParserReturnValue": null,
+          "firstCallScope": "first workload call after public adapter initialization",
+          "statusScope": null,
+          "workerPortfolioCases": null,
+          "workerAttempt": 1,
+          "artifactIntegrity": null,
+          "boundary": "public API return/settled promise; validation excluded; memory includes worker/qualification; restarted workers remain separately identified"
+        },
+        "detail": "Current workload exceeded 30000ms: terminal:9972eaa8ca8692d8"
+      },
+      "additionalEvidence": {
+        "path": "community-raw/anomalyco_opencode-terminal-r1-attempts.json",
+        "sha256": "3857292036ed99326845bb99818e6f785e3379a1ea6d85a046cd5a09937f6f77",
+        "jsonPointer": "/0",
+        "activeCase": "terminal:9972eaa8ca8692d8"
+      }
+    }
+  ],
+  "limitations": [
+    "No performance comparison; public transport boundaries differ.",
+    "The generated coverage fields remain unchanged and retain their original 1734 value.",
+    "Unknown correctness verdicts remain unknown; accounting does not grade panic, timeout or diagnostic text."
+  ]
+}

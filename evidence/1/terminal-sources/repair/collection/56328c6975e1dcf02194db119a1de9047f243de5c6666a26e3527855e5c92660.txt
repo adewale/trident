@@ -1,0 +1,13 @@
+title(bytes=15)="Project Roadmap"
+direction: LR
+section(bytes=7)="Phase 1"
+  - task(bytes=5)="2023 "
+    * event(bytes=9)="Planning "
+    * event(bytes=12)="Requirements"
+  - task(bytes=5)="2024 "
+    * event(bytes=11)="Development"
+    * event(bytes=7)="Testing"
+section(bytes=7)="Phase 2"
+  - task(bytes=5)="2025 "
+    * event(bytes=7)="Launch "
+    * event(bytes=7)="Support"

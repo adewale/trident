@@ -1,0 +1,142 @@
+[
+  {
+    "project": "Latias94/merman",
+    "page": 1,
+    "sheet": "/workspace/trident-ecosystem-2026-10-31-campaign/review/Latias94--merman-1.png",
+    "panels": [
+      {
+        "number": 0,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+        "pngSha256": "88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+        "path": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/docs/png/drawings/88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968.png",
+        "originalVerdict": "blocked"
+      },
+      {
+        "number": 1,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+        "pngSha256": "729d81fe2f6d203460f8df9883ae9ad93f44bff1f233418f98cf75c25aefd4d2",
+        "path": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/docs/png/drawings/729d81fe2f6d203460f8df9883ae9ad93f44bff1f233418f98cf75c25aefd4d2.png",
+        "originalVerdict": "blocked"
+      },
+      {
+        "number": 2,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+        "pngSha256": "1177b5ea9608b3b5333bc1a825cb2f1507cf2ada4e1e7f25acbbb88fd9a97249",
+        "path": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/docs/png/drawings/1177b5ea9608b3b5333bc1a825cb2f1507cf2ada4e1e7f25acbbb88fd9a97249.png",
+        "originalVerdict": "blocked"
+      },
+      {
+        "number": 3,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:693",
+        "pngSha256": "412a37f6a497ff6dc31a9a4eefe825f0b6bf00207dca7fc0be29aa0167001e51",
+        "path": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/docs/png/drawings/412a37f6a497ff6dc31a9a4eefe825f0b6bf00207dca7fc0be29aa0167001e51.png",
+        "originalVerdict": "blocked"
+      }
+    ]
+  },
+  {
+    "project": "Latias94/merman",
+    "page": 2,
+    "sheet": "/workspace/trident-ecosystem-2026-10-31-campaign/review/Latias94--merman-2.png",
+    "panels": [
+      {
+        "number": 4,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+        "pngSha256": "e97715d2bcbf9b04adf2b16a787c9db7cdde628b453dadcf28c104aed8e53237",
+        "path": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/docs/png/drawings/e97715d2bcbf9b04adf2b16a787c9db7cdde628b453dadcf28c104aed8e53237.png",
+        "originalVerdict": "blocked"
+      },
+      {
+        "number": 5,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+        "pngSha256": "95d6b79c447b1151845ba5b251666b8bf7c5b59ba4a49d138e58b3d9ef45c001",
+        "path": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/docs/png/drawings/95d6b79c447b1151845ba5b251666b8bf7c5b59ba4a49d138e58b3d9ef45c001.png",
+        "originalVerdict": "blocked"
+      },
+      {
+        "number": 6,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:45",
+        "pngSha256": "6cd644cc10035b98f99f3f6645242830d647dc6ba72fcf9356a40ac6d8f15b06",
+        "path": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/docs/png/drawings/6cd644cc10035b98f99f3f6645242830d647dc6ba72fcf9356a40ac6d8f15b06.png",
+        "originalVerdict": "blocked"
+      },
+      {
+        "number": 7,
+        "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:99",
+        "pngSha256": "862a766fb24c5f93e44048637f4fd351cd008e0ead43381685a3e79b4998f742",
+        "path": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/docs/png/drawings/862a766fb24c5f93e44048637f4fd351cd008e0ead43381685a3e79b4998f742.png",
+        "originalVerdict": "blocked"
+      }
+    ]
+  },
+  {
+    "project": "Latias94/merman",
+    "page": 3,
+    "sheet": "/workspace/trident-ecosystem-2026-10-31-campaign/review/Latias94--merman-3.png",
+    "panels": [
+      {
+        "number": 8,
+        "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:125",
+        "pngSha256": "b3658f6b9f018386bb1aab47567cdb084e218ee66817943b0dda4335319cedc3",
+        "path": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/docs/png/drawings/b3658f6b9f018386bb1aab47567cdb084e218ee66817943b0dda4335319cedc3.png",
+        "originalVerdict": "blocked"
+      },
+      {
+        "number": 9,
+        "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+        "pngSha256": "219a8dd45e8306a66cd5a2d5bdad5d596a036855eac87859842aed40953211f2",
+        "path": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/docs/png/drawings/219a8dd45e8306a66cd5a2d5bdad5d596a036855eac87859842aed40953211f2.png",
+        "originalVerdict": "blocked"
+      },
+      {
+        "number": 10,
+        "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:113",
+        "pngSha256": "102db7ed506fe5eaf4a1e52f70a8c6563c51bb4435ea6a2a6d9c2585a7fa9ba6",
+        "path": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/docs/png/drawings/102db7ed506fe5eaf4a1e52f70a8c6563c51bb4435ea6a2a6d9c2585a7fa9ba6.png",
+        "originalVerdict": "blocked"
+      },
+      {
+        "number": 11,
+        "id": "packages/mermaid/src/docs/syntax/block.md:64",
+        "pngSha256": "97dc6a685f8414c74e34289b662578d60545498f19f37551b2dba5bf6e3d0e0e",
+        "path": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/docs/png/drawings/97dc6a685f8414c74e34289b662578d60545498f19f37551b2dba5bf6e3d0e0e.png",
+        "originalVerdict": "blocked"
+      }
+    ]
+  },
+  {
+    "project": "Latias94/merman",
+    "page": 4,
+    "sheet": "/workspace/trident-ecosystem-2026-10-31-campaign/review/Latias94--merman-4.png",
+    "panels": [
+      {
+        "number": 12,
+        "id": "packages/mermaid/src/docs/syntax/block.md:327",
+        "pngSha256": "6e1f0445ec8aa24b8088ca0fd71bf00529f54976b96dacb535a81180c28f6cbb",
+        "path": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/docs/png/drawings/6e1f0445ec8aa24b8088ca0fd71bf00529f54976b96dacb535a81180c28f6cbb.png",
+        "originalVerdict": "blocked"
+      },
+      {
+        "number": 13,
+        "id": "packages/mermaid/src/docs/syntax/pie.md:8",
+        "pngSha256": "0a73b64172b3a23e9d52e38f867b5829f6ec4e806c5a16c0b9a1992fa8fe2e7d",
+        "path": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/docs/png/drawings/0a73b64172b3a23e9d52e38f867b5829f6ec4e806c5a16c0b9a1992fa8fe2e7d.png",
+        "originalVerdict": "blocked"
+      },
+      {
+        "number": 15,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+        "pngSha256": "067bad1e3aef93b7eb498f26e9c28ec54dc1826db0e1b06b0b1069f3114f7703",
+        "path": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/docs/png/drawings/067bad1e3aef93b7eb498f26e9c28ec54dc1826db0e1b06b0b1069f3114f7703.png",
+        "originalVerdict": "blocked"
+      },
+      {
+        "number": 16,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+        "pngSha256": "44ce8d452513eb1609b7b237dcda912109cc932e4c31f9d752704e5f51cbcaee",
+        "path": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/docs/png/drawings/44ce8d452513eb1609b7b237dcda912109cc932e4c31f9d752704e5f51cbcaee.png",
+        "originalVerdict": "blocked"
+      }
+    ]
+  }
+]

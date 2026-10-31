@@ -1,0 +1,8 @@
+title(bytes=21)="私の一日の流れ"
+actors=[bytes=6 "家族", bytes=3 "私"]
+section(bytes=18)="出勤前の準備"
+  - task(bytes=22)="    お茶を入れる" score=5 people=[bytes=3 "私"]
+  - task(bytes=28)="    メールを確認する" score=3 people=[bytes=3 "私"]
+section(bytes=6)="帰宅"
+  - task(bytes=19)="    夕食を作る" score=4 people=[bytes=3 "私", bytes=6
+    "家族"]

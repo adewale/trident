@@ -1,0 +1,15 @@
+title(bytes=10)="Build Plan"
+dateFormat(bytes=11)=" YYYY-MM-DD"
+section(bytes=8)="Research"
+  - task(bytes=8)="Analyze " [id(bytes=2)="a1", order=0, range=2020-01-01 ->
+    2020-01-11, start(bytes=10)="2020-01-01", duration(bytes=3)="10d",
+    flags=done]
+  - task(bytes=10)="Prototype " [id(bytes=5)="task1", order=1, range=2020-01-11
+    -> 2020-01-18, after=[bytes=2 "a1"], duration(bytes=2)="7d", flags=active]
+section(bytes=8)="Delivery"
+  - task(bytes=10)="Implement " [id(bytes=2)="b1", order=2, range=2020-02-01 ->
+    2020-02-15, start(bytes=10)="2020-02-01", duration(bytes=3)="14d"]
+  - task(bytes=5)="Test " [id(bytes=5)="task2", order=3, range=2020-02-15 ->
+    2020-02-22, after=[bytes=2 "b1"], duration(bytes=2)="7d"]
+  - task(bytes=5)="Ship " [id(bytes=5)="task3", order=4, range=2020-02-15 ->
+    2020-02-16, after=[bytes=2 "b1"], duration(bytes=2)="1d", flags=milestone]

@@ -1,0 +1,138 @@
+{
+  "schema": "trident-campaign-v2",
+  "campaignId": "ef8bf0b1-ecc2-4288-afdc-cd8a67210d4b",
+  "pilot": false,
+  "includeExcluded": false,
+  "startedAt": "2026-10-31T09:56:10.763Z",
+  "updatedAt": "2026-10-31T09:56:22.115Z",
+  "projects": [
+    "emtyty/merslim"
+  ],
+  "profile": "full",
+  "rounds": 1,
+  "requestedSuites": [
+    "docs"
+  ],
+  "options": {
+    "root": "/workspace/trident-docs-repair-runner",
+    "harnessRoot": "/workspace/trident-docs-repair-runner",
+    "out": "/workspace/trident-ecosystem-2026-10-31-campaign/merslim-svg-repair",
+    "profile": "full",
+    "rounds": 1,
+    "communityProjects": [
+      "emtyty/merslim"
+    ],
+    "communityForce": false,
+    "allowIncomplete": false,
+    "communityArtifactPolicy": "frozen",
+    "communityCoverageOnce": true,
+    "docsFormats": [
+      "svg"
+    ],
+    "executable": "/usr/bin/chromium",
+    "docsCasesFile": "/workspace/trident-ecosystem-2026-10-31-campaign/merslim-missing-svg.json",
+    "communityCatalogFile": "/workspace/trident-ecosystem-2026-10-31-campaign/merslim-svg-repair/preparation/catalog.json",
+    "communityPreparedFile": "/workspace/trident-ecosystem-2026-10-31-campaign/merslim-svg-repair/preparation/community-prepared.json",
+    "communityBrowserPreparedFile": "/workspace/trident-ecosystem-2026-10-31-campaign/merslim-svg-repair/preparation/community-browser-prepared.json",
+    "communityInputsFile": "/workspace/trident-ecosystem-2026-10-31-campaign/merslim-svg-repair/preparation/community-inputs.json"
+  },
+  "preparationFile": "/workspace/trident-ecosystem-2026-10-31-campaign/merslim-svg-repair/preparation.json",
+  "preparationSha256": "e68cef60a8271bc49ad21726748d2189fb05d9a487dc9e97c1ce05fd8c84d3cd",
+  "runtime": {
+    "environment": {
+      "runtime": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "node": "24.19.0",
+        "v8": "13.6.233.17-node.51",
+        "platform": "linux",
+        "arch": "x64"
+      },
+      "nodeSha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12",
+      "host": "e751fd36fb35",
+      "cpu": [
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C"
+      ],
+      "kernel": "6.18.57",
+      "cpuLimit": "400000 100000",
+      "memoryLimit": "34359738368",
+      "environment": {
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null,
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_NUMERIC": null,
+        "AGENTIC_MERMAID_EXPERIMENTS": null
+      }
+    },
+    "driver": {
+      "status": "available",
+      "path": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+      "mode": 33216,
+      "version": "1.4.2",
+      "sha256": "a83d263767d839e4d2649ca8e35d07159c7afc99afdc96d731ced29e056dda0c",
+      "companions": []
+    },
+    "browser": {
+      "status": "available",
+      "path": "/usr/bin/chromium",
+      "mode": 33261,
+      "version": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)",
+      "sha256": "2c8d32d29dc6781c35ae196ea83299d507ac88fc339301abe74672feda299779",
+      "companions": [
+        {
+          "path": "/usr/lib/chromium/chromium",
+          "sha256": "4dc9f9f9b20e9bd95bf201f43d2d643f48938f36a70ddcb6fce3dd611a178180"
+        }
+      ]
+    },
+    "selectors": {
+      "LD_LIBRARY_PATH": "/workspace/trident-native-verification-2026-10-29/setup/sysroot/usr/lib/x86_64-linux-gnu:/workspace/trident-native-verification-2026-10-29/setup/sysroot/usr/lib/llvm-19/lib",
+      "DISPLAY": ":97",
+      "FONTCONFIG_FILE": null,
+      "FONTCONFIG_PATH": null,
+      "LIBGL_ALWAYS_SOFTWARE": "1",
+      "NODE_COMPILE_CACHE": null,
+      "UV_THREADPOOL_SIZE": null,
+      "NODE_BIN": null,
+      "BUN_BIN": null,
+      "BUN_OPTIONS": null,
+      "AM_BENCH_OBSERVER": null,
+      "MERMAID_REFERENCE_DIR": "/workspace/.cloud-tools/mermaid-reference",
+      "MERMAID_UPSTREAM_DIR": "/workspace/trident-pr21-review/mermaid-original-source",
+      "MERMAID_UPSTREAM_RUNNER_ROOT": null
+    }
+  },
+  "windows": [
+    {
+      "startedAt": "2026-10-31T09:56:10.763Z",
+      "budgetMinutes": null,
+      "deadline": null
+    }
+  ],
+  "results": [
+    {
+      "suite": "docs",
+      "cohort": "core",
+      "out": "/workspace/trident-ecosystem-2026-10-31-campaign/merslim-svg-repair/docs",
+      "launched": true,
+      "elapsedSeconds": 11.351,
+      "status": "failed",
+      "observations": 666,
+      "counts": {
+        "passed": 142,
+        "blocked": 329,
+        "failed": 194,
+        "not-applicable": 1
+      },
+      "gaps": [
+        "SVG return and reviewed drawing content are separate results. First-round SVG witnesses are retained; missing source reviews and incomplete observers remain unknown. Timings are descriptive public return samples, without A/A or per-call semantic qualification; no speed ranking is supported."
+      ],
+      "completed": true
+    }
+  ]
+}

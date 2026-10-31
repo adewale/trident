@@ -1,0 +1,11 @@
+                                         Build Plan
+
+ Research     │
+   Analyze    │░░░░░░░░░░░░
+   Prototype  │            ▓▓▓▓▓▓▓▓
+ Delivery     │
+   Implement  │                                      █████████████████
+   Test       │                                                       █████████
+   Ship       │                                                       ◆
+              └┬─────────┬──────────┬─────────┬──────────┬─────────┬──────────┬
+            Jan 01    Jan 09     Jan 18    Jan 27     Feb 04    Feb 13     Feb 22

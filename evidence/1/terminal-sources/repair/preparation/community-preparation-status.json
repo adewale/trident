@@ -1,0 +1,12 @@
+{
+  "complete": true,
+  "updatedAt": "2026-10-31T09:57:24.503Z",
+  "expectedIds": [
+    "wevm/ondine",
+    "crafter-station/mermaid",
+    "Latias94/merman"
+  ],
+  "attempted": 3,
+  "ready": 3,
+  "failures": []
+}

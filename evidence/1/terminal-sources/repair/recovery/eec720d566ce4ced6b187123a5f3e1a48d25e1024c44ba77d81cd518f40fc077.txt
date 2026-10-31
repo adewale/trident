@@ -1,0 +1,6 @@
+node(bytes=10)="Main Topic" id(bytes=4)="root" shape(bytes=13)="mindmapCircle"
+├── node(bytes=7)="Branch1" id(bytes=7)="Branch1" section=0
+│   ├── node(bytes=5)="Leaf1" id(bytes=5)="Leaf1" section=0
+│   └── node(bytes=5)="Leaf2" id(bytes=5)="Leaf2" section=0
+└── node(bytes=7)="Branch2" id(bytes=7)="Branch2" section=1
+    └── node(bytes=5)="Leaf3" id(bytes=5)="Leaf3" section=1

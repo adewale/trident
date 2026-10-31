@@ -1,0 +1,49 @@
+{
+  "schema": "trident-terminal-preparation-repair-v1",
+  "preparedAt": "2026-10-31T09:57:28.876Z",
+  "projects": [
+    "crafter-station/mermaid",
+    "wevm/ondine",
+    "Latias94/merman"
+  ],
+  "originalManifest": {
+    "path": "/workspace/trident-ecosystem-2026-10-31-campaign/preparation/community-prepared.json",
+    "sha256": "1a45f335ed44687a89ff5699be67ca7644915abb94971b39a6bfd90a4bbfba41"
+  },
+  "preparedManifest": {
+    "path": "/workspace/trident-ecosystem-2026-10-31-campaign/terminal-repair/preparation/community-prepared.json",
+    "sha256": "d99651410664ed354817ebd0961ebe088a0aea6374e3448419b12793a802ccba"
+  },
+  "publicReleaseSource": {
+    "repository": "Latias94/merman",
+    "tag": "v0.9.2",
+    "revision": "8e303a43b548c9e40e73f0bc657925d66e7d4fb5",
+    "url": "https://github.com/Latias94/merman/releases/download/v0.9.2/merman-cli-x86_64-unknown-linux-gnu.tar.xz",
+    "archiveSha256": "7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55"
+  },
+  "preparationCalls": {
+    "drawingCalls": 0,
+    "packageAcquisitions": 0,
+    "nativeReleaseDownloads": 1,
+    "nativeVersionChecks": 1
+  },
+  "sourceReceipts": [
+    {
+      "path": "source-receipts/latias-release-v0.9.2.json",
+      "sha256": "312768b0aa43c98cf2dc5e1f647861d81dc218d5c8d65c49bad63ae7e4a59fca"
+    },
+    {
+      "path": "source-receipts/latias-tag-v0.9.2.json",
+      "sha256": "b7f2957620abaf784a5805c9be0e43f983ae45653f4c6677eb0d99148df20699"
+    },
+    {
+      "path": "source-receipts/latias-cli-readme.json",
+      "sha256": "c61eff7c18808fc37ee695acafb19cb6781a4485cb510937e0fc199be6f0beba"
+    }
+  ],
+  "changes": [
+    "Crafter selects existing recipe cache with published CLI0.0.4; renderer0.0.3 bytes unchanged.",
+    "Ondine0.0.3 uses its existing public --ascii package CLI with sealed dependency closure.",
+    "Latias0.9.2 retains its Node artifact and adds the authenticated public native release CLI; no native/Node speed equivalence."
+  ]
+}

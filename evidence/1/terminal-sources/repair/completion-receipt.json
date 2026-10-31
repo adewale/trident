@@ -1,0 +1,174 @@
+{
+  "schema": "trident-terminal-repair-completion-v1",
+  "writtenAt": "2026-10-31T10:04:16.284576+00:00",
+  "executionSource": "d23d96a08a230ba60f29c3916adc7db3f82c3474",
+  "observerSource": "52035cacc2e91a4ae33432099478c4bf86810562",
+  "finalIntegrationSource": "87165581840efbe106b8cbe252f7569c3ebe39d7",
+  "collection": {
+    "exitCode": 1,
+    "failure": "Completed drawing collection was rejected by a second ASCII-cohort guard before the old raw checkpoint. No drawing calls were repeated.",
+    "originalDirectory": "collection",
+    "log": "collection.log",
+    "originalStartAndFinishClocks": null,
+    "retainedFileWriteWindowUtc": {
+      "first": "2026-10-31T09:58:02.767577+00:00",
+      "last": "2026-10-31T09:58:41.698360+00:00",
+      "meaning": "Filesystem write bounds only, not renderer measurement timestamps."
+    }
+  },
+  "invocations": {
+    "plannedDrawingCells": 360,
+    "retainedDirectInvocationEvidence": 328,
+    "unknownInvocationState": 32,
+    "knownUnattempted": 0,
+    "nodeWorkerDrawingRows": 120,
+    "nativeAndPackageCliOutputWitnesses": 208,
+    "originalCliTransportRowsLost": 240,
+    "terminalTextWitnessReferences": 299,
+    "repairSourceParseCalls": 120,
+    "repairSourceParseRecordsLost": true,
+    "sourceReferenceReusedFromOriginal120": true,
+    "repeatedDrawingCalls": 0,
+    "speedQualified": false
+  },
+  "reviewed16": [
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.2",
+      "correct": 10,
+      "incorrect": 4,
+      "unsupported": 0,
+      "unknown": 2,
+      "planned": 16
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "correct": 3,
+      "incorrect": 0,
+      "unsupported": 0,
+      "unknown": 13,
+      "planned": 16
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "correct": 0,
+      "incorrect": 0,
+      "unsupported": 0,
+      "unknown": 16,
+      "planned": 16
+    }
+  ],
+  "full120": [
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.2",
+      "correct": 10,
+      "incorrect": 4,
+      "unsupported": 0,
+      "unknown": 106,
+      "planned": 120
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "correct": 3,
+      "incorrect": 0,
+      "unsupported": 0,
+      "unknown": 117,
+      "planned": 120
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "correct": 0,
+      "incorrect": 0,
+      "unsupported": 0,
+      "unknown": 120,
+      "planned": 120
+    }
+  ],
+  "artifacts": [
+    {
+      "project": "wevm/ondine",
+      "primaryVersion": "0.0.3",
+      "primarySha256": "57edf049d726b8f4dd86443c75e0a18eff7fc18c3b3655d1fbb9fc5bb788834b",
+      "additionalCli": [
+        {
+          "id": "node-cli",
+          "version": "0.0.3",
+          "sha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12",
+          "boundary": "node:24.19.0 installed public CLI"
+        }
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "primaryVersion": "0.0.3",
+      "primarySha256": "c7a25a29f167eb88944f95536b13be8f62443a105a9e4e0c71d96f4fd7433837",
+      "additionalCli": []
+    },
+    {
+      "project": "Latias94/merman",
+      "primaryVersion": "0.9.2",
+      "primarySha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099",
+      "additionalCli": [
+        {
+          "id": "native-release",
+          "version": "0.9.2",
+          "sha256": "2acc6ae1cfd5bcb0308789f7276e09a82efba6c6dcae64d91ea47e653a6a8565",
+          "boundary": "public release executable; fresh process, stdin/file through drained output"
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "prepare.ts",
+      "sha256": "5f524e6b705c517afe9f9474c638cb9db36c26ed408b84701ca15f7496c3cdef"
+    },
+    {
+      "path": "recover.py",
+      "sha256": "eaca5ca2f6008763225b204f6fb414522222ef3b9fa187d95581c4a0e40f27c7"
+    },
+    {
+      "path": "collection.log",
+      "sha256": "c454c682132359710f8d154a8051d7cbf95b490d7322a10e35ddb487a47d2e96"
+    },
+    {
+      "path": "preparation/receipt.json",
+      "sha256": "f1c29d24584f75a87a90705bb1f8de5189608f835b8ff81d4b456108c66d3ee9"
+    },
+    {
+      "path": "preparation/community-prepared.json",
+      "sha256": "d99651410664ed354817ebd0961ebe088a0aea6374e3448419b12793a802ccba"
+    },
+    {
+      "path": "recovery/raw.json",
+      "sha256": "049c9dc4ec9e00ad2ef4b938ee3a5f04231a27dfbfd8aa1bb85ceedf4badd8d0"
+    },
+    {
+      "path": "regraded/raw.json",
+      "sha256": "049c9dc4ec9e00ad2ef4b938ee3a5f04231a27dfbfd8aa1bb85ceedf4badd8d0"
+    },
+    {
+      "path": "regraded/terminal/result.json",
+      "sha256": "f3817e177e54fc028d1cda8019183985c14d23fc0f4695a2d9f1943a82e9338c"
+    }
+  ],
+  "checks": {
+    "finalAffectedTestsPassed": 18,
+    "failed": 0,
+    "typecheck": "passed",
+    "lint": "passed",
+    "all299WitnessHashes": "verified",
+    "originalFullRawHash": "unchanged"
+  },
+  "limits": [
+    "Retained text can be graded independently even though CLI timings/status fields were lost. Those fields remain unknown.",
+    "The repair Mermaid parse records were lost; source evidence is explicitly reused from the original authenticated120 checks with identical source/review hashes.",
+    "No full120 accuracy or speed ranking is established.",
+    "Crafter primary version0.0.3 uses CLI companion0.0.4; Ondine0.0.3 is a cold Node CLI; Latias0.9.2 is a native release CLI."
+  ]
+}

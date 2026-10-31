@@ -1,0 +1,1 @@
+Error: Line 3: Invalid node syntax in edge: "B -- "first pointerenter or focus"" (Suggestion: Use 'ID' or 'ID[Label]')

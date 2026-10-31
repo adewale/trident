@@ -1,0 +1,1 @@
+agentic-mermaid renderMermaidPNG: warning PNG_FONT_COVERAGE: no known loaded face covers 1 emoji character (🤓) in one grapheme cluster. They may draw as tofu or fail to shape as one grapheme. Supply fontDirs (CLI: --font-dirs <dir>) with a face that covers the cluster.

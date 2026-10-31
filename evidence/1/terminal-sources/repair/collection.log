@@ -1,0 +1,12 @@
+46 | 
+47 | 
+48 | export function assessTerminalRecord(record: any, directory: string, cases = reviewedTerminalCases()) {
+49 |   const inventory = cases.map(input => [input.id, input.sourceSha256])
+50 |   if (record.profile !== terminalProfileId || JSON.stringify(record.inventory) !== JSON.stringify(inventory)) throw Error('Saved terminal source inventory differs; keep its original corpus/version')
+51 |   if (!Array.isArray(record.artifacts) || !Array.isArray(record.outputs) || !Array.isArray(record.sourceReference) || !record.artifacts.some((entry: any) => entry.project === ascii) || new Set(record.artifacts.map((entry: any) => entry.project)).size !== record.artifacts.length || record.artifacts.some((entry: any) => entry.project === 'mermaid-js/mermaid')) throw Error('Terminal profile needs unique terminal artifacts including Mermaid ASCII, with Mermaid reference unscored')
+                                                                                                                                                                                                                                                                                                                                                                                    ^
+error: Terminal profile needs unique terminal artifacts including Mermaid ASCII, with Mermaid reference unscored
+      at assessTerminalRecord (/workspace/trident-terminal-preparation-repair/unified/terminal-profile.ts:51:368)
+      at runTerminalProfile (/workspace/trident-terminal-preparation-repair/unified/terminal-profile.ts:142:23)
+
+Bun v1.4.2 (Linux x64)

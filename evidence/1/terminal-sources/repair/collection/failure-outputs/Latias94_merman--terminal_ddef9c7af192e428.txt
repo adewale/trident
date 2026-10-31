@@ -1,0 +1,7 @@
+row 1:
+  - range=[0..15] bits=16 label(bytes=11)="Source Port"
+  - range=[16..31] bits=16 label(bytes=16)="Destination Port"
+row 2:
+  - range=[32..63] bits=32 label(bytes=15)="Sequence Number"
+row 3:
+  - range=[64..95] bits=32 label(bytes=21)="Acknowledgment Number"

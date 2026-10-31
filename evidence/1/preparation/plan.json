@@ -1,0 +1,5448 @@
+{
+  "protocol": "trident-campaign-plan-v1",
+  "comparisonSelection": {
+    "projects": [
+      {
+        "project": "01colyncelestine-stack/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 23
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "1jehuang/mermaid-rs-renderer",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "source-cli"
+      },
+      {
+        "project": "2233admin/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 0
+        },
+        "selection": "same-parent-head-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "4nkitd/opencode-merman",
+        "parent": "anomalyco/opencode",
+        "relation": "port",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "OpenCode Merman",
+          "evidence": "Catalog records separately named opencode-merman port."
+        },
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Excluded by project selection: derived from the enrolled OpenCode Merman component; a separate renderer comparison is not currently justified."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "port",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Excluded by project selection: derived from the enrolled OpenCode Merman component; a separate renderer comparison is not currently justified.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "adewale/agentic-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "Agentic Mermaid",
+          "evidence": "Published npm package agentic-mermaid; catalog package/provenance receipt."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 1223,
+          "behind": 0
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "agentic"
+      },
+      {
+        "project": "aj-archipelago/merval",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Validator-only tool; no rendered output. Excluded from renderer benchmarks."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Validator-only tool; no rendered output. Excluded from renderer benchmarks.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "akashacms/mermaid-wasm-renderer",
+        "parent": "1jehuang/mermaid-rs-renderer",
+        "relation": "binding",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "shared-engine-runtime-binding"
+        ],
+        "catalogRelation": "binding",
+        "vsParent": null,
+        "selection": "runtime-variant",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "mermaid-rs-wasm"
+      },
+      {
+        "project": "AlexanderGrooff/mermaid-ascii",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "source-cli"
+      },
+      {
+        "project": "anomalyco/opencode",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "app-creative/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 128
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "Aurelian-Shuttleworth/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 128
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "blackst0ne/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 4,
+          "behind": 15471
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "mermaid"
+      },
+      {
+        "project": "CaptainCrouton89/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 12,
+          "behind": 114
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "catdevman/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 128
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "chenyanchen/mermaid-formatter",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Source formatter; no rendered output. Excluded from renderer benchmarks."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Source formatter; no rendered output. Excluded from renderer benchmarks.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "Chronostasys/mermaid-ascii",
+        "parent": "pgavlin/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 6,
+          "behind": 0
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "ColtWindy/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 126
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "crabtalk/bezel",
+        "parent": "obsidianmd/pele",
+        "relation": "port",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "Bezel",
+          "evidence": "Catalog repository/package identity is Bezel, separately named from Pele."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "port",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "bezel"
+      },
+      {
+        "project": "crafter-station/mermaid",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "dfadler/zombie-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "Zombie Mermaid",
+          "evidence": "README calls this a maintained Beautiful fork; published zombie-mermaid packages."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 4042,
+          "behind": 0
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "beautiful"
+      },
+      {
+        "project": "Dicklesworthstone/frankenmermaid",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "franken"
+      },
+      {
+        "project": "drunkhacker/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 19,
+          "behind": 128
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "dydoc/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 128
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "emtyty/merslim",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "enrimr/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "Merman",
+          "evidence": "Catalog records published package merman; brand does not remove historical-version exclusion."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 15015
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Omit from the current-engine comparison unless testing this version/build. No result is inherited.",
+        "adapter": "mermaid"
+      },
+      {
+        "project": "evangwt/xmermaid",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "excalidraw/mermaid-to-excalidraw",
+        "parent": null,
+        "relation": "unverified",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Editable conversion is outside the renderer campaign; retained for discovery and provenance."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "unverified",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Editable conversion is outside the renderer campaign; retained for discovery and provenance.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "fasouto/termaid",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "termaid"
+      },
+      {
+        "project": "fdotu/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 23
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "gmh5225/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 23
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "gotoailab/modern_mermaid",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "application",
+          "reason": "Whole-editor workflows are outside Trident core benchmarks. Retained for discovery; no IDE, webview or application UI driver is required."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "application-workflow"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Whole-editor workflows are outside Trident core benchmarks. Retained for discovery; no IDE, webview or application UI driver is required.",
+        "adapter": null
+      },
+      {
+        "project": "HealthSamurai/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 0
+        },
+        "selection": "same-parent-head-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "inkeep/visimer",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Parser/editing core; its DOM integration delegates rendering to Mermaid. Excluded from renderer benchmarks."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Parser/editing core; its DOM integration delegates rendering to Mermaid. Excluded from renderer benchmarks.",
+        "adapter": "visimer"
+      },
+      {
+        "project": "ioggstream/d3fend-mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "D3FEND Mermaid",
+          "evidence": "Catalog records separately named d3fend-mermaid package."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 780
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Omit from the current-engine comparison unless testing this version/build. No result is inherited.",
+        "adapter": "mermaid"
+      },
+      {
+        "project": "jacob-lcs/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 3,
+          "behind": 3092
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "jeis4wpi/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 128
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "jgraph/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 27,
+          "behind": 1940
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "justsml/rusty-mermaid",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "non-renderer",
+          "disabled-release"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skipped release 0.42.0: Published npm archive contains only README.md and package.json; its declared pkg/rusty_mermaid.js entry and WASM runtime are absent. Re-enable after a fixed release is verified. Explicit candidates remain separate.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "kais-radwan/ascii-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "port",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "ASCII Mermaid",
+          "evidence": "Catalog records separately named ascii-mermaid port of Beautiful Mermaid."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "port",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "kingsword09/mermansi",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Uses Merman parser and ASCII rendering; excluded from the regular campaign as an integration around an enrolled engine."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Uses Merman parser and ASCII rendering; excluded from the regular campaign as an integration around an enrolled engine.",
+        "adapter": "source-cli"
+      },
+      {
+        "project": "kitlangton/merman",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "KlangHaus/vitepress-plugin-diagram",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "ktrysmt/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 26,
+          "behind": 12
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "beautiful"
+      },
+      {
+        "project": "ktrysmt/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 1,
+          "behind": 128
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "Latias94/merman",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "merman"
+      },
+      {
+        "project": "leonj1/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 128
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "lishid/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 12752
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "lukilabs/beautiful-mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "derivative",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "Beautiful Mermaid",
+          "evidence": "Catalog records beautiful-mermaid package; only its ASCII component is a port of Mermaid ASCII."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "derivative",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "beautiful"
+      },
+      {
+        "project": "lyngai/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 13476
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "mermaid"
+      },
+      {
+        "project": "mbostock/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 11787
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "Mermaid-Chart/mermaid-develop",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 7450
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "mermaid-js/mermaid",
+        "parent": null,
+        "relation": "root",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "root",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "mermaid"
+      },
+      {
+        "project": "mermaid-js/mermaid-live-editor",
+        "parent": null,
+        "relation": "unverified",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "application",
+          "reason": "Whole-editor workflows are outside Trident core benchmarks. Retained for discovery; no IDE, webview or application UI driver is required."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "application-workflow"
+        ],
+        "catalogRelation": "unverified",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Whole-editor workflows are outside Trident core benchmarks. Retained for discovery; no IDE, webview or application UI driver is required.",
+        "adapter": null
+      },
+      {
+        "project": "Mootikins/figurehead-rs",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "source-cli"
+      },
+      {
+        "project": "mopi1402/termaid",
+        "parent": "fasouto/termaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 15
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "mopi1402/termaid-ts",
+        "parent": "fasouto/termaid",
+        "relation": "port",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "port",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "neongreen/mermaid-ast",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "AST interface using the Mermaid parser; no rendered output. Excluded from renderer benchmarks."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "AST interface using the Mermaid parser; no rendered output. Excluded from renderer benchmarks.",
+        "adapter": "mermaid-ast"
+      },
+      {
+        "project": "NicolasNewman/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 17,
+          "behind": 4341
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "npm:tui-mermaid",
+        "parent": "xai-org/grok-build",
+        "relation": "port",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "TUI Mermaid",
+          "evidence": "Catalog records published tui-mermaid package, derived from grok-build."
+        },
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Excluded by project selection: TypeScript Grok port overlaps the enrolled Grok lineage; no separate regular campaign."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "port",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Excluded by project selection: TypeScript Grok port overlaps the enrolled Grok lineage; no separate regular campaign.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "obsidianmd/pele",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "pele"
+      },
+      {
+        "project": "Orbiter/beautiful-mermaid-py",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 10,
+          "behind": 23
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "orestesgaolin/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "port",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "Mermaid Dart",
+          "evidence": "Maintainer confirms Mermaid Dart and Mermaid Flutter are distinct brands (2026-10-29). Mermaid Dart names the mermaid_core product."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "port",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "dart"
+      },
+      {
+        "project": "pgavlin/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 31,
+          "behind": 126
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "source-cli"
+      },
+      {
+        "project": "probelabs/maid",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Validator-only tool; no rendered output. Excluded from renderer benchmarks."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Validator-only tool; no rendered output. Excluded from renderer benchmarks.",
+        "adapter": "maid"
+      },
+      {
+        "project": "pub:mermaid_flutter",
+        "parent": "orestesgaolin/mermaid",
+        "relation": "native-renderer",
+        "scope": "shared Mermaid Dart parsing/layout; native Flutter painting and PNG",
+        "branding": {
+          "distinct": true,
+          "name": "Mermaid Flutter",
+          "evidence": "Maintainer confirms Flutter and Dart have distinct branding (2026-10-29); public package identity is mermaid_flutter at https://pub.dev/packages/mermaid_flutter."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "native-renderer",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "native-flutter"
+      },
+      {
+        "project": "ramtinJ95/pi-mermaid-tui",
+        "parent": "xai-org/grok-build",
+        "relation": "binding",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "Pi Mermaid TUI",
+          "evidence": "Catalog identifies pi-mermaid-tui binding of the grok-build engine."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "shared-engine-runtime-binding"
+        ],
+        "catalogRelation": "binding",
+        "vsParent": null,
+        "selection": "runtime-variant",
+        "comparison": "Test separately only for an explicit runtime/package question; do not count as another engine.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "rohitg00/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 2,
+          "behind": 23
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "sgryjp/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 128
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "songshaodong/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 15918
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "spacedock-dev/mermaidtext",
+        "parent": "xai-org/grok-build",
+        "relation": "port",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "MermaidText",
+          "evidence": "Catalog records separately named mermaidtext port of grok-build."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "port",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "Stars1233/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 0
+        },
+        "selection": "same-parent-head-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "taoche/mermaid-reactflow-render",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Graph conversion is outside the renderer campaign; retained for discovery and provenance."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Graph conversion is outside the renderer campaign; retained for discovery and provenance.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "tariqshams/mermaidtui",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "theletterf/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 14,
+          "behind": 23
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "beautiful"
+      },
+      {
+        "project": "thepanax/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 0
+        },
+        "selection": "same-parent-head-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "beautiful"
+      },
+      {
+        "project": "toeverything/mermaid-rs-renderer",
+        "parent": "1jehuang/mermaid-rs-renderer",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 6,
+          "behind": 179
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "tomoyukim/vscode-mermaid-editor",
+        "parent": null,
+        "relation": "unverified",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "application",
+          "reason": "Whole-editor workflows are outside Trident core benchmarks. Retained for discovery; no IDE, webview or application UI driver is required."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "application-workflow"
+        ],
+        "catalogRelation": "unverified",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Whole-editor workflows are outside Trident core benchmarks. Retained for discovery; no IDE, webview or application UI driver is required.",
+        "adapter": null
+      },
+      {
+        "project": "vercel-labs/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 16,
+          "behind": 23
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "beautiful"
+      },
+      {
+        "project": "wevm/ondine",
+        "parent": "obsidianmd/pele",
+        "relation": "port",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "Ondine",
+          "evidence": "Catalog records published ondine package and explicit Pele port attribution."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "port",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "ondine"
+      },
+      {
+        "project": "woxQAQ/mermaid-rs-render-js",
+        "parent": "1jehuang/mermaid-rs-renderer",
+        "relation": "binding",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "shared-engine-runtime-binding"
+        ],
+        "catalogRelation": "binding",
+        "vsParent": null,
+        "selection": "runtime-variant",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "xai-org/grok-build",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "xen3r0/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 2,
+          "behind": 15335
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "mermaid"
+      },
+      {
+        "project": "xeolabs/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 9209
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "xl0/lovely-mermaid",
+        "parent": "xai-org/grok-build",
+        "relation": "port",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "Lovely Mermaid",
+          "evidence": "Catalog records separately named lovely-mermaid port of grok-build."
+        },
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Excluded by project selection: TypeScript Grok port overlaps the enrolled Grok lineage; no separate regular campaign."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "port",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Excluded by project selection: TypeScript Grok port overlaps the enrolled Grok lineage; no separate regular campaign.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "Yassimba/loom",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": false,
+        "exclusionReasons": [],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Keep eligible; ancestry does not prove equivalent behavior.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "ysknsid25/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 6,
+          "behind": 19
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "zakaria-forks/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 6092
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "zhenhuaa/mdv",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "mdv",
+          "evidence": "Catalog identifies a terminal Markdown viewer and @zhenhuaa/mdv package."
+        },
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Excluded by project selection: Beautiful-derived viewer/library; renderer differentiation has not been established for a separate campaign."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 5,
+          "behind": 12
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Excluded by project selection: Beautiful-derived viewer/library; renderer differentiation has not been established for a separate campaign.",
+        "adapter": "published-extra"
+      }
+    ],
+    "included": [
+      "1jehuang/mermaid-rs-renderer",
+      "adewale/agentic-mermaid",
+      "AlexanderGrooff/mermaid-ascii",
+      "anomalyco/opencode",
+      "crabtalk/bezel",
+      "crafter-station/mermaid",
+      "dfadler/zombie-mermaid",
+      "Dicklesworthstone/frankenmermaid",
+      "emtyty/merslim",
+      "evangwt/xmermaid",
+      "fasouto/termaid",
+      "kais-radwan/ascii-mermaid",
+      "kitlangton/merman",
+      "KlangHaus/vitepress-plugin-diagram",
+      "Latias94/merman",
+      "lukilabs/beautiful-mermaid",
+      "mermaid-js/mermaid",
+      "Mootikins/figurehead-rs",
+      "obsidianmd/pele",
+      "orestesgaolin/mermaid",
+      "pub:mermaid_flutter",
+      "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "spacedock-dev/mermaidtext",
+      "tariqshams/mermaidtui",
+      "wevm/ondine",
+      "xai-org/grok-build",
+      "Yassimba/loom"
+    ],
+    "excluded": [
+      {
+        "project": "01colyncelestine-stack/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 23
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "2233admin/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 0
+        },
+        "selection": "same-parent-head-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "4nkitd/opencode-merman",
+        "parent": "anomalyco/opencode",
+        "relation": "port",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "OpenCode Merman",
+          "evidence": "Catalog records separately named opencode-merman port."
+        },
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Excluded by project selection: derived from the enrolled OpenCode Merman component; a separate renderer comparison is not currently justified."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "port",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Excluded by project selection: derived from the enrolled OpenCode Merman component; a separate renderer comparison is not currently justified.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "aj-archipelago/merval",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Validator-only tool; no rendered output. Excluded from renderer benchmarks."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Validator-only tool; no rendered output. Excluded from renderer benchmarks.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "akashacms/mermaid-wasm-renderer",
+        "parent": "1jehuang/mermaid-rs-renderer",
+        "relation": "binding",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "shared-engine-runtime-binding"
+        ],
+        "catalogRelation": "binding",
+        "vsParent": null,
+        "selection": "runtime-variant",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "mermaid-rs-wasm"
+      },
+      {
+        "project": "app-creative/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 128
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "Aurelian-Shuttleworth/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 128
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "blackst0ne/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 4,
+          "behind": 15471
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "mermaid"
+      },
+      {
+        "project": "CaptainCrouton89/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 12,
+          "behind": 114
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "catdevman/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 128
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "chenyanchen/mermaid-formatter",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Source formatter; no rendered output. Excluded from renderer benchmarks."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Source formatter; no rendered output. Excluded from renderer benchmarks.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "Chronostasys/mermaid-ascii",
+        "parent": "pgavlin/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 6,
+          "behind": 0
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "ColtWindy/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 126
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "drunkhacker/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 19,
+          "behind": 128
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "dydoc/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 128
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "enrimr/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "Merman",
+          "evidence": "Catalog records published package merman; brand does not remove historical-version exclusion."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 15015
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Omit from the current-engine comparison unless testing this version/build. No result is inherited.",
+        "adapter": "mermaid"
+      },
+      {
+        "project": "excalidraw/mermaid-to-excalidraw",
+        "parent": null,
+        "relation": "unverified",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Editable conversion is outside the renderer campaign; retained for discovery and provenance."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "unverified",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Editable conversion is outside the renderer campaign; retained for discovery and provenance.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "fdotu/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 23
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "gmh5225/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 23
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "gotoailab/modern_mermaid",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "application",
+          "reason": "Whole-editor workflows are outside Trident core benchmarks. Retained for discovery; no IDE, webview or application UI driver is required."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "application-workflow"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Whole-editor workflows are outside Trident core benchmarks. Retained for discovery; no IDE, webview or application UI driver is required.",
+        "adapter": null
+      },
+      {
+        "project": "HealthSamurai/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 0
+        },
+        "selection": "same-parent-head-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "inkeep/visimer",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Parser/editing core; its DOM integration delegates rendering to Mermaid. Excluded from renderer benchmarks."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Parser/editing core; its DOM integration delegates rendering to Mermaid. Excluded from renderer benchmarks.",
+        "adapter": "visimer"
+      },
+      {
+        "project": "ioggstream/d3fend-mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "D3FEND Mermaid",
+          "evidence": "Catalog records separately named d3fend-mermaid package."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 780
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Omit from the current-engine comparison unless testing this version/build. No result is inherited.",
+        "adapter": "mermaid"
+      },
+      {
+        "project": "jacob-lcs/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 3,
+          "behind": 3092
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "jeis4wpi/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 128
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "jgraph/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 27,
+          "behind": 1940
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "justsml/rusty-mermaid",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "non-renderer",
+          "disabled-release"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skipped release 0.42.0: Published npm archive contains only README.md and package.json; its declared pkg/rusty_mermaid.js entry and WASM runtime are absent. Re-enable after a fixed release is verified. Explicit candidates remain separate.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "kingsword09/mermansi",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Uses Merman parser and ASCII rendering; excluded from the regular campaign as an integration around an enrolled engine."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Uses Merman parser and ASCII rendering; excluded from the regular campaign as an integration around an enrolled engine.",
+        "adapter": "source-cli"
+      },
+      {
+        "project": "ktrysmt/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 26,
+          "behind": 12
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "beautiful"
+      },
+      {
+        "project": "ktrysmt/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 1,
+          "behind": 128
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "leonj1/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 128
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "lishid/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 12752
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "lyngai/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 13476
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "mermaid"
+      },
+      {
+        "project": "mbostock/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 11787
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "Mermaid-Chart/mermaid-develop",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 7450
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "mermaid-js/mermaid-live-editor",
+        "parent": null,
+        "relation": "unverified",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "application",
+          "reason": "Whole-editor workflows are outside Trident core benchmarks. Retained for discovery; no IDE, webview or application UI driver is required."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "application-workflow"
+        ],
+        "catalogRelation": "unverified",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Whole-editor workflows are outside Trident core benchmarks. Retained for discovery; no IDE, webview or application UI driver is required.",
+        "adapter": null
+      },
+      {
+        "project": "mopi1402/termaid",
+        "parent": "fasouto/termaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 15
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "mopi1402/termaid-ts",
+        "parent": "fasouto/termaid",
+        "relation": "port",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "port",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "neongreen/mermaid-ast",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "AST interface using the Mermaid parser; no rendered output. Excluded from renderer benchmarks."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "AST interface using the Mermaid parser; no rendered output. Excluded from renderer benchmarks.",
+        "adapter": "mermaid-ast"
+      },
+      {
+        "project": "NicolasNewman/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 17,
+          "behind": 4341
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "npm:tui-mermaid",
+        "parent": "xai-org/grok-build",
+        "relation": "port",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "TUI Mermaid",
+          "evidence": "Catalog records published tui-mermaid package, derived from grok-build."
+        },
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Excluded by project selection: TypeScript Grok port overlaps the enrolled Grok lineage; no separate regular campaign."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "port",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Excluded by project selection: TypeScript Grok port overlaps the enrolled Grok lineage; no separate regular campaign.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "Orbiter/beautiful-mermaid-py",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 10,
+          "behind": 23
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "pgavlin/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 31,
+          "behind": 126
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "source-cli"
+      },
+      {
+        "project": "probelabs/maid",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Validator-only tool; no rendered output. Excluded from renderer benchmarks."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Validator-only tool; no rendered output. Excluded from renderer benchmarks.",
+        "adapter": "maid"
+      },
+      {
+        "project": "ramtinJ95/pi-mermaid-tui",
+        "parent": "xai-org/grok-build",
+        "relation": "binding",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "Pi Mermaid TUI",
+          "evidence": "Catalog identifies pi-mermaid-tui binding of the grok-build engine."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "shared-engine-runtime-binding"
+        ],
+        "catalogRelation": "binding",
+        "vsParent": null,
+        "selection": "runtime-variant",
+        "comparison": "Test separately only for an explicit runtime/package question; do not count as another engine.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "rohitg00/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 2,
+          "behind": 23
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "sgryjp/mermaid-ascii",
+        "parent": "AlexanderGrooff/mermaid-ascii",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 128
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "songshaodong/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 15918
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "Stars1233/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 0
+        },
+        "selection": "same-parent-head-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "taoche/mermaid-reactflow-render",
+        "parent": null,
+        "relation": "independent",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Graph conversion is outside the renderer campaign; retained for discovery and provenance."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "independent",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Graph conversion is outside the renderer campaign; retained for discovery and provenance.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "theletterf/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 14,
+          "behind": 23
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "beautiful"
+      },
+      {
+        "project": "thepanax/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 0
+        },
+        "selection": "same-parent-head-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "beautiful"
+      },
+      {
+        "project": "toeverything/mermaid-rs-renderer",
+        "parent": "1jehuang/mermaid-rs-renderer",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 6,
+          "behind": 179
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "tomoyukim/vscode-mermaid-editor",
+        "parent": null,
+        "relation": "unverified",
+        "scope": null,
+        "branding": null,
+        "comparisonScope": {
+          "kind": "application",
+          "reason": "Whole-editor workflows are outside Trident core benchmarks. Retained for discovery; no IDE, webview or application UI driver is required."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "application-workflow"
+        ],
+        "catalogRelation": "unverified",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Whole-editor workflows are outside Trident core benchmarks. Retained for discovery; no IDE, webview or application UI driver is required.",
+        "adapter": null
+      },
+      {
+        "project": "vercel-labs/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 16,
+          "behind": 23
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "beautiful"
+      },
+      {
+        "project": "woxQAQ/mermaid-rs-render-js",
+        "parent": "1jehuang/mermaid-rs-renderer",
+        "relation": "binding",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "shared-engine-runtime-binding"
+        ],
+        "catalogRelation": "binding",
+        "vsParent": null,
+        "selection": "runtime-variant",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "xen3r0/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 2,
+          "behind": 15335
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "mermaid"
+      },
+      {
+        "project": "xeolabs/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 9209
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "xl0/lovely-mermaid",
+        "parent": "xai-org/grok-build",
+        "relation": "port",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "Lovely Mermaid",
+          "evidence": "Catalog records separately named lovely-mermaid port of grok-build."
+        },
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Excluded by project selection: TypeScript Grok port overlaps the enrolled Grok lineage; no separate regular campaign."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "port",
+        "vsParent": null,
+        "selection": "distinct-or-unresolved",
+        "comparison": "Excluded by project selection: TypeScript Grok port overlaps the enrolled Grok lineage; no separate regular campaign.",
+        "adapter": "published-extra"
+      },
+      {
+        "project": "ysknsid25/beautiful-mermaid",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 6,
+          "behind": 19
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "zakaria-forks/mermaid",
+        "parent": "mermaid-js/mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": false,
+          "name": null,
+          "evidence": "No distinct product brand established in the catalog snapshot. An owner/scope prefix, runtime suffix or renamed branch alone is not accepted as a new brand."
+        },
+        "comparisonScope": null,
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "no-distinct-branding",
+          "zero-ahead-version"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 0,
+          "behind": 6092
+        },
+        "selection": "historical-version-candidate",
+        "comparison": "Skip normal comparisons: no distinct brand established. Use the explicit inclusion override only for a named version/fork/runtime investigation. No result is inherited.",
+        "adapter": "extra-source"
+      },
+      {
+        "project": "zhenhuaa/mdv",
+        "parent": "lukilabs/beautiful-mermaid",
+        "relation": "fork",
+        "scope": null,
+        "branding": {
+          "distinct": true,
+          "name": "mdv",
+          "evidence": "Catalog identifies a terminal Markdown viewer and @zhenhuaa/mdv package."
+        },
+        "comparisonScope": {
+          "kind": "catalog-only",
+          "reason": "Excluded by project selection: Beautiful-derived viewer/library; renderer differentiation has not been established for a separate campaign."
+        },
+        "excludedFromComparison": true,
+        "exclusionReasons": [
+          "catalog-only"
+        ],
+        "catalogRelation": "fork",
+        "vsParent": {
+          "ahead": 5,
+          "behind": 12
+        },
+        "selection": "distinct-or-unresolved",
+        "comparison": "Excluded by project selection: Beautiful-derived viewer/library; renderer differentiation has not been established for a separate campaign.",
+        "adapter": "published-extra"
+      }
+    ],
+    "includeExcluded": false,
+    "policy": "Renderer benchmarks require a declared SVG, raster, PDF or terminal output. Validator, parser, formatter and conversion-only tools, applications and explicit catalog-only entries remain discovery records. The descendant override cannot enable them. Descendants without established distinct branding are excluded from normal comparisons, even with code changes. Owner/package scopes and runtime suffixes alone do not establish branding. Bindings and zero-ahead versions are also excluded. An explicit inclusion override retains these for version/runtime investigations. Selection guidance uses the recorded catalog snapshot, not a fresh upstream audit. Ports and changed forks remain separate. Zero-ahead descendants can be omitted from a current-engine comparison, but historical/build studies retain them. Measurement aliases require verified artifact, build, runtime and invocation equivalence through catalog-eligibility; lineage alone never supplies a score."
+  },
+  "selection": [
+    "Dicklesworthstone/frankenmermaid",
+    "wevm/ondine",
+    "orestesgaolin/mermaid",
+    "pub:mermaid_flutter",
+    "adewale/agentic-mermaid",
+    "dfadler/zombie-mermaid",
+    "1jehuang/mermaid-rs-renderer",
+    "AlexanderGrooff/mermaid-ascii",
+    "anomalyco/opencode",
+    "crafter-station/mermaid",
+    "emtyty/merslim",
+    "evangwt/xmermaid",
+    "fasouto/termaid",
+    "kitlangton/merman",
+    "KlangHaus/vitepress-plugin-diagram",
+    "Latias94/merman",
+    "lukilabs/beautiful-mermaid",
+    "Mootikins/figurehead-rs",
+    "obsidianmd/pele",
+    "sandyyst/dsh-plugin-mermaid-gb-svg",
+    "tariqshams/mermaidtui",
+    "xai-org/grok-build",
+    "Yassimba/loom",
+    "kais-radwan/ascii-mermaid",
+    "spacedock-dev/mermaidtext",
+    "mermaid-js/mermaid",
+    "crabtalk/bezel"
+  ],
+  "suites": [
+    "docs",
+    "fidelity",
+    "native-fidelity"
+  ],
+  "rounds": 1,
+  "profile": "full",
+  "tools": {
+    "bun": "/workspace/.cloud-tools/node_modules/.bin/bun",
+    "node": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "npm": "/workspace/.cloud-tools/node_modules/.bin/npm",
+    "git": "/usr/local/bin/git",
+    "go": "/usr/bin/go",
+    "cargo": null,
+    "dart": "/workspace/.cloud-tools/flutter/bin/dart",
+    "chromium": "/usr/bin/chromium",
+    "gnuTime": null,
+    "oracle": "/workspace/.cloud-tools/mermaid-reference",
+    "originalRunner": null
+  },
+  "versions": {
+    "bun": "1.4.2",
+    "node": "v24.19.0",
+    "npm": "11.18.0",
+    "git": "git version 2.52.0",
+    "go": null,
+    "dart": "Dart SDK version: 3.13.7 (stable) (Thu Oct 22 14:28:57 2026 -0700) on \"linux_x64\"",
+    "chromium": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)"
+  },
+  "rows": [
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "suite": "docs",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "chromium",
+        "oracle",
+        "cargo",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "suite": "fidelity",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "chromium",
+        "oracle",
+        "cargo",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "cargo",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "wevm/ondine",
+      "suite": "docs",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle",
+        "cargo"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "wevm/ondine",
+      "suite": "fidelity",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle",
+        "cargo"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "wevm/ondine",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle",
+        "cargo"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "suite": "docs",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "chromium",
+        "oracle",
+        "dart",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "suite": "fidelity",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "chromium",
+        "oracle",
+        "dart",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "dart",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "suite": "docs",
+      "capability": {
+        "state": "conditional",
+        "reason": "PNG-only documentation lane; no SVG capability or binding is required."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "dart"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "suite": "fidelity",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "No SVG capability is declared; terminal/parser evidence has its own output boundary."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "chromium",
+        "oracle",
+        "dart"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "dart"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "suite": "docs",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "suite": "fidelity",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "configured",
+        "reason": "Reviewed public-model binding; family-specific projections and actual parse results remain separately qualified."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "suite": "docs",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "suite": "fidelity",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "suite": "docs",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "chromium",
+        "oracle",
+        "cargo",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "suite": "fidelity",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "chromium",
+        "oracle",
+        "cargo",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "cargo",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "suite": "docs",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "DaveBench requests SVG or PNG; neither output is declared."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "go",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "suite": "fidelity",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "No SVG capability is declared; terminal/parser evidence has its own output boundary."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "chromium",
+        "oracle",
+        "go",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "go",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "anomalyco/opencode",
+      "suite": "docs",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "DaveBench requests SVG or PNG; neither output is declared."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "anomalyco/opencode",
+      "suite": "fidelity",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "No SVG capability is declared; terminal/parser evidence has its own output boundary."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "chromium",
+        "oracle",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "anomalyco/opencode",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "suite": "docs",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "suite": "fidelity",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "emtyty/merslim",
+      "suite": "docs",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "emtyty/merslim",
+      "suite": "fidelity",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "emtyty/merslim",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "suite": "docs",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle",
+        "cargo"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "suite": "fidelity",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle",
+        "cargo"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle",
+        "cargo"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "suite": "docs",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "DaveBench requests SVG or PNG; neither output is declared."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "suite": "fidelity",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "No SVG capability is declared; terminal/parser evidence has its own output boundary."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "kitlangton/merman",
+      "suite": "docs",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "DaveBench requests SVG or PNG; neither output is declared."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "kitlangton/merman",
+      "suite": "fidelity",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "No SVG capability is declared; terminal/parser evidence has its own output boundary."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "kitlangton/merman",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "suite": "docs",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "suite": "fidelity",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "Latias94/merman",
+      "suite": "docs",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle",
+        "cargo"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "Latias94/merman",
+      "suite": "fidelity",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle",
+        "cargo"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "Latias94/merman",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle",
+        "cargo"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "suite": "docs",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "suite": "fidelity",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "suite": "docs",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "DaveBench requests SVG or PNG; neither output is declared."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "cargo",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "suite": "fidelity",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "No SVG capability is declared; terminal/parser evidence has its own output boundary."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "chromium",
+        "oracle",
+        "cargo",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "cargo",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "obsidianmd/pele",
+      "suite": "docs",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "obsidianmd/pele",
+      "suite": "fidelity",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "obsidianmd/pele",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "configured",
+        "reason": "Reviewed public-model binding; family-specific projections and actual parse results remain separately qualified."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "suite": "docs",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "suite": "fidelity",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "suite": "docs",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "DaveBench requests SVG or PNG; neither output is declared."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "suite": "fidelity",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "No SVG capability is declared; terminal/parser evidence has its own output boundary."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "xai-org/grok-build",
+      "suite": "docs",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "DaveBench requests SVG or PNG; neither output is declared."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "cargo",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "xai-org/grok-build",
+      "suite": "fidelity",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "No SVG capability is declared; terminal/parser evidence has its own output boundary."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "chromium",
+        "oracle",
+        "cargo",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "xai-org/grok-build",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "cargo",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "Yassimba/loom",
+      "suite": "docs",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "DaveBench requests SVG or PNG; neither output is declared."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "Yassimba/loom",
+      "suite": "fidelity",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "No SVG capability is declared; terminal/parser evidence has its own output boundary."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "Yassimba/loom",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "suite": "docs",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "DaveBench requests SVG or PNG; neither output is declared."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "suite": "fidelity",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "No SVG capability is declared; terminal/parser evidence has its own output boundary."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "chromium",
+        "oracle",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "suite": "docs",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "DaveBench requests SVG or PNG; neither output is declared."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "go",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "suite": "fidelity",
+      "capability": {
+        "state": "project-unsupported",
+        "reason": "No SVG capability is declared; terminal/parser evidence has its own output boundary."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "chromium",
+        "oracle",
+        "go",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "go",
+        "declared project toolchain/build recipe"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "suite": "docs",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "suite": "fidelity",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "chromium",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "configured",
+        "reason": "Reviewed public-model binding; family-specific projections and actual parse results remain separately qualified."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "npm",
+        "oracle"
+      ],
+      "missing": [],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "crabtalk/bezel",
+      "suite": "docs",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "chromium",
+        "oracle",
+        "cargo"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "crabtalk/bezel",
+      "suite": "fidelity",
+      "capability": {
+        "state": "conditional",
+        "reason": "SVG binding is configured; browser build, artifact and output admission still require execution."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "chromium",
+        "oracle",
+        "cargo"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 1,
+        "high": 30,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    },
+    {
+      "project": "crabtalk/bezel",
+      "suite": "native-fidelity",
+      "capability": {
+        "state": "adapter-missing",
+        "reason": "No reviewed public-model projection in Trident; this does not establish absence of a project model API."
+      },
+      "prerequisites": [
+        "bun",
+        "node",
+        "git",
+        "oracle",
+        "cargo"
+      ],
+      "missing": [
+        "cargo"
+      ],
+      "acquisition": "not attempted",
+      "freshWorkers": 0,
+      "estimatedMinutes": {
+        "low": 0,
+        "high": 0,
+        "basis": "Planning allowance per suite boundary; not a project performance prediction."
+      }
+    }
+  ],
+  "estimatedMinutes": {
+    "low": 36,
+    "high": 1080
+  },
+  "budgetMinutes": null,
+  "preparation": {
+    "estimatedMinutes": null,
+    "scope": "Acquisition, downloads and source builds are not included in the planning range. Their duration is unknown until artifacts/toolchains are admitted."
+  },
+  "budgetExceededByEstimate": false,
+  "policy": "Planning performs no acquisition or rendering. Estimates are deliberately broad and do not establish feasibility or a maximum. A runtime budget stops new work at collector checkpoints; an active worker retains its declared deadline. Missing external observers are unavailable counters, not free work.",
+  "pilot": false
+}

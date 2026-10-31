@@ -1,0 +1,136 @@
+{
+  "schema": "trident-campaign-v2",
+  "campaignId": "e301b87b-02ec-4397-b1f9-c22c284f927a",
+  "pilot": false,
+  "includeExcluded": false,
+  "startedAt": "2026-10-31T09:39:36.577Z",
+  "updatedAt": "2026-10-31T09:41:09.612Z",
+  "projects": [
+    "Latias94/merman"
+  ],
+  "profile": "full",
+  "rounds": 1,
+  "requestedSuites": [
+    "docs"
+  ],
+  "options": {
+    "root": "/workspace/trident-terminal-campaign-runner",
+    "harnessRoot": "/workspace/trident-terminal-campaign-runner",
+    "out": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair",
+    "profile": "full",
+    "rounds": 1,
+    "communityProjects": [
+      "Latias94/merman"
+    ],
+    "communityForce": false,
+    "allowIncomplete": false,
+    "communityArtifactPolicy": "frozen",
+    "communityCoverageOnce": true,
+    "docsFormats": [
+      "png"
+    ],
+    "executable": "/usr/bin/chromium",
+    "communityPreparedFile": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/preparation/community-prepared.json",
+    "communityBrowserPreparedFile": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/preparation/community-browser-prepared.json",
+    "communityCatalogFile": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/preparation/catalog.json",
+    "communityInputsFile": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/preparation/community-inputs.json"
+  },
+  "preparationFile": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/preparation.json",
+  "preparationSha256": "a413711830b65635f4a34bb566732f44d10c24a97b7ab6137187faa6bc41931f",
+  "runtime": {
+    "environment": {
+      "runtime": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "node": "24.19.0",
+        "v8": "13.6.233.17-node.51",
+        "platform": "linux",
+        "arch": "x64"
+      },
+      "nodeSha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12",
+      "host": "e751fd36fb35",
+      "cpu": [
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C"
+      ],
+      "kernel": "6.18.57",
+      "cpuLimit": "400000 100000",
+      "memoryLimit": "34359738368",
+      "environment": {
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null,
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_NUMERIC": null,
+        "AGENTIC_MERMAID_EXPERIMENTS": null
+      }
+    },
+    "driver": {
+      "status": "available",
+      "path": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+      "mode": 33216,
+      "version": "1.4.2",
+      "sha256": "a83d263767d839e4d2649ca8e35d07159c7afc99afdc96d731ced29e056dda0c",
+      "companions": []
+    },
+    "browser": {
+      "status": "available",
+      "path": "/usr/bin/chromium",
+      "mode": 33261,
+      "version": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)",
+      "sha256": "2c8d32d29dc6781c35ae196ea83299d507ac88fc339301abe74672feda299779",
+      "companions": [
+        {
+          "path": "/usr/lib/chromium/chromium",
+          "sha256": "4dc9f9f9b20e9bd95bf201f43d2d643f48938f36a70ddcb6fce3dd611a178180"
+        }
+      ]
+    },
+    "selectors": {
+      "LD_LIBRARY_PATH": "/workspace/trident-native-verification-2026-10-29/setup/sysroot/usr/lib/x86_64-linux-gnu:/workspace/trident-native-verification-2026-10-29/setup/sysroot/usr/lib/llvm-19/lib",
+      "DISPLAY": ":97",
+      "FONTCONFIG_FILE": null,
+      "FONTCONFIG_PATH": null,
+      "LIBGL_ALWAYS_SOFTWARE": "1",
+      "NODE_COMPILE_CACHE": null,
+      "UV_THREADPOOL_SIZE": null,
+      "NODE_BIN": null,
+      "BUN_BIN": null,
+      "BUN_OPTIONS": null,
+      "AM_BENCH_OBSERVER": null,
+      "MERMAID_REFERENCE_DIR": "/workspace/.cloud-tools/mermaid-reference",
+      "MERMAID_UPSTREAM_DIR": "/workspace/trident-pr21-review/mermaid-original-source",
+      "MERMAID_UPSTREAM_RUNNER_ROOT": null
+    }
+  },
+  "windows": [
+    {
+      "startedAt": "2026-10-31T09:39:36.577Z",
+      "budgetMinutes": null,
+      "deadline": null
+    }
+  ],
+  "results": [
+    {
+      "suite": "docs",
+      "cohort": "core",
+      "out": "/workspace/trident-ecosystem-2026-10-31-campaign/merman-png-repair/docs",
+      "launched": true,
+      "elapsedSeconds": 93.031,
+      "status": "blocked",
+      "observations": 1096,
+      "counts": {
+        "passed": 548,
+        "blocked": 547,
+        "not-applicable": 1
+      },
+      "gaps": [
+        "PNG return/decode and reviewed source-content are separate. Native PNG needs no SVG. SVG conversion, native API and CLI clocks retain different boundaries; no qualified speed ranking."
+      ],
+      "completed": true
+    }
+  ]
+}

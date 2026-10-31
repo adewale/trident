@@ -1,0 +1,6 @@
+                                                                           ┌─────────────────────────┐    ┌─────────────────────────┐
+┌────────────┐    ┌─────────────────────────┐ first pointerenter or focus  │ Kobalte tooltip mounts, │    │ open delay, skip delay, │
+│ row mounts ├───▶│ trigger div, as Kobalte ├─────────────────────────────▶│ its Trigger adopts the  ├───▶│    presence, popper,    │
+└────────────┘    │    renders it closed    │                              │           div           │    │    dismiss: Kobalte,    │
+                  └─────────────────────────┘                              └─────────────────────────┘    │        unchanged        │
+                                                                                                          └─────────────────────────┘

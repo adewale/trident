@@ -1,0 +1,18 @@
+```mermaid
+╭ mermaid: erDiagram ─────────────────╮
+│ erDiagram                           │
+│   direction LR                      │
+│   USER ||--o{ MEMBERSHIP : joins    │
+│   TEAM ||--o{ MEMBERSHIP : includes │
+│   USER ||--o{ PROJECT : owns        │
+│   TEAM ||--o{ INVITE : sends        │
+│   USER {                            │
+│     string id PK                    │
+│     string email UK                 │
+│   }                                 │
+│   TEAM {                            │
+│     string id PK                    │
+│     string slug UK                  │
+│   }                                 │
+╰─────────────────────────────────────╯
+```

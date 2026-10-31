@@ -1,0 +1,4 @@
+title(bytes=26)="בְרֵא schedule ⚠️"
+section(bytes=3)="One"
+  - task(bytes=5)="Task " [id(bytes=2)="a1", order=0, range=2024-01-01 ->
+    2024-01-31, start(bytes=10)="2024-01-01", duration(bytes=3)="30d"]

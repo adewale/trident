@@ -1,0 +1,1420 @@
+[
+  {
+    "node": {
+      "id": "wevm/ondine",
+      "categories": [
+        "renderer"
+      ],
+      "relation": "port",
+      "repo": "https://github.com/wevm/ondine",
+      "homepage": "https://ondine.sh/",
+      "checkedAt": "2026-10-20",
+      "branch": "main",
+      "head": "439fc64aefdb06e3451fac6c44266e5965ea7265",
+      "lastCommit": "2026-10-20T13:31:21+11:00",
+      "license": "MIT",
+      "runtime": "Rust -> WASM (Node, browser, edge); build-time Vite/remark compiler",
+      "outputs": [
+        "svg",
+        "ascii-unicode"
+      ],
+      "packages": [
+        {
+          "registry": "npm",
+          "name": "ondine",
+          "version": "0.0.1",
+          "license": "MIT",
+          "provenanceCommit": "f662aa795b91bf2dfc7162f48035be3884201193",
+          "publishedFromDefaultBranch": true
+        }
+      ],
+      "roles": [
+        "peer"
+      ],
+      "notes": "Rust port of Pele: source comments explicitly attribute the flowchart, sequence, class, layered/compound layout and SVG builder implementations. Separate git root from Pele. Targets Mermaid 12.1.0 syntax. Node uses a speed-optimized all-types WASM module; browsers can load size-optimized per-family or all-types WASM. The mount-only runtime inserts precompiled SVG and is not a renderer. Image Worker also serves PNG via rasterization. Published 0.0.1 is pinned for benchmarks; source manifest is already 0.0.2. npm provenance commit was verified as an ancestor of the inspected main. Inspected 0.0.2 source adds CLI --ascii by projecting compiled SVG to cells; this unpublished terminal surface was not benchmarked.",
+      "parent": "obsidianmd/pele",
+      "rootCommits": [
+        "d6b8e4a44e512272f925e3b370ff28439f266fd0"
+      ],
+      "benchmark": {
+        "adapter": "ondine",
+        "package": "ondine",
+        "subpath": "compiler",
+        "outputs": [
+          "svg",
+          "terminal"
+        ],
+        "moduleOutputs": [
+          "svg"
+        ],
+        "cli": {
+          "bin": "ondine",
+          "args": [
+            "--ascii"
+          ],
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      "benchmarkEligibility": {
+        "classification": "port-implementation",
+        "engineScope": "derived-code-independent-runtime-implementation",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "reason": "Catalog declares svg, terminal operations with adapter ondine. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+      },
+      "comparisonBranding": {
+        "distinct": true,
+        "name": "Ondine",
+        "evidence": "Catalog records published ondine package and explicit Pele port attribution."
+      }
+    },
+    "artifact": {
+      "kind": "node",
+      "root": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine",
+      "module": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/index.js",
+      "version": "0.0.3",
+      "integrity": "sha512-O5lb0DvNhiQJQKitkTYEPRyR83uyGxB2SsLcyu1zD3zJeL+sWxAzW+kM+s8srliERxxx3fFUijEfs26EYXZ5OA==",
+      "runtime": "Node",
+      "sha256": "57edf049d726b8f4dd86443c75e0a18eff7fc18c3b3655d1fbb9fc5bb788834b",
+      "files": [
+        {
+          "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/index.js",
+          "sha256": "57edf049d726b8f4dd86443c75e0a18eff7fc18c3b3655d1fbb9fc5bb788834b"
+        }
+      ],
+      "apiBoundary": "published package API",
+      "detail": "Version policy: resolved latest registry release. Recorded catalog versions remain separately available on the node.; Version policy: provided actual artifact version/bytes frozen; no latest lookup. Recorded catalog versions remain separately available on the node.",
+      "additionalCli": [
+        {
+          "id": "node-cli",
+          "outputs": [
+            "terminal"
+          ],
+          "artifact": {
+            "kind": "cli",
+            "root": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine",
+            "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+            "sha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12",
+            "args": [
+              "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/cli/bin.js",
+              "--ascii"
+            ],
+            "input": "stdin",
+            "version": "0.0.3",
+            "runtime": "node:24.19.0 installed public CLI",
+            "files": [
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/LICENSE",
+                "sha256": "704bf8bb1b0c93194bac97dd27304b522eaecd29ff25b8e80fff4a22c57c6449"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/README.md",
+                "sha256": "ce0ba4ee82f328478b34b14eb0690232b38f6b06beee4b346cfba1bd33e85aeb"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/Mount.d.ts",
+                "sha256": "a2626afa7411d30e214199ce8bc41d288817715501633ca9a2831b0e49c280f8"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/Mount.d.ts.map",
+                "sha256": "ab59252f9b6d13a4c3bed2d8df694ad49e30b4f6b70b3098e1ed4ab1c99a10c7"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/Mount.js",
+                "sha256": "7c1a23547a2e2ba3895fe779e7b150fa68785c971e9d8384cd2002bde1a00fde"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/Mount.js.map",
+                "sha256": "fdceadeb244bd81883f16c1ce016b69fc738f401cc92e223de7d1fd533a9796c"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/Render.d.ts",
+                "sha256": "2b934ab1cff7704030318cb18e8a9c8fe7b7b01cbb03aedf65f93043d2875aa4"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/Render.d.ts.map",
+                "sha256": "883b348ae6be2864c70387c566244857edaa9cc4b1433793d8b1e96b5d353c5d"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/Render.js",
+                "sha256": "0a2d66d69ac46a668b72a943b2fac4da23628c819803ac1608d60b82d99f194a"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/Render.js.map",
+                "sha256": "349f3cb50a845ea3f30f5401c297a17c59fc06e53740aea842fc2a0280317a23"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/cli/Ascii.d.ts",
+                "sha256": "a6cfa3a5f01647815b373cacdfa2ba8228761522bd3d0e04dc88e2ae998ffb25"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/cli/Ascii.d.ts.map",
+                "sha256": "78d051a021a68fd21004fc72a3978489c454b75914198c6659b612cb7315893b"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/cli/Ascii.js",
+                "sha256": "eab389e7d777f38d86247a45da290580fb42ace5097e44419437df85cacba7ca"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/cli/Ascii.js.map",
+                "sha256": "0dcf93590685798f4ff1aae8a3a658916265496dfdc8212c2c33ee09e2ef8332"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/cli/Markdown.d.ts",
+                "sha256": "9f6635ff3c1ff724361e236f30e81020d025404522448a5b7005d16df2713496"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/cli/Markdown.d.ts.map",
+                "sha256": "674d8e01174c138eea4ca4d660807a76a4643bd46162a32bb34f1d7258b67c46"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/cli/Markdown.js",
+                "sha256": "e0d1c10030f694c23c187080153c7cc88a3cab0232cb01a9f7fa8c8c0e02b9c8"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/cli/Markdown.js.map",
+                "sha256": "d4925d298a9f351d81d28d7a9902177ce49ea80fa3f252272b9bb82b0960e3c2"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/cli/Terminal.d.ts",
+                "sha256": "14d28277ea67bda3df1b413f7857c41272d0de4fe0058f2b763fdff5e5852141"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/cli/Terminal.d.ts.map",
+                "sha256": "488f3ad102d4846cce99ec47dea218bc01decfd1fb8e50cbe06792faf552f2f5"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/cli/Terminal.js",
+                "sha256": "16c23b5075b07d91f1b622a32472f43e9075f63505502ac77d4bac22bb5f0bdb"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/cli/Terminal.js.map",
+                "sha256": "a1107aae61f6bcff398cc882d97583d994e0075e796c59519d45e3a13e550c31"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/cli/bin.d.ts",
+                "sha256": "eacba108ec9dd580caa5068fe681580d84c4afa3473d19fd2b5b607237f3a25c"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/cli/bin.d.ts.map",
+                "sha256": "08cc0a4cf3bb255be3b570db9c0d4e2ce6fbfad5eaf8f5d839af6eaffc9112c5"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/cli/bin.js",
+                "sha256": "c94f311ab7bd460d4dbb0ff72a7190a02e0cd7379185fa6d77a10e79bc6fc9cf"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/cli/bin.js.map",
+                "sha256": "1c6e71d4ec881fe8038957f48d439f86ffe8e92325925c7f061f06f5ffea0562"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/all.d.ts",
+                "sha256": "3f8eb43099b96281175ccb7dbd2f95ea4332734f311024884d32c310cc0247e3"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/all.d.ts.map",
+                "sha256": "391fee3f9db82e81e34dabfb5086289ca53d53c2fb85c661972ce8cb698ceda8"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/all.js",
+                "sha256": "dc5330e54613f5564b91b74a1ef750425564f9242c67cc46a343e7bdb771ed15"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/all.js.map",
+                "sha256": "24df3c4bf5b69454ccc2d058977f5f600f8ef94f26f53f713f0c855e740b16e3"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/index.d.ts",
+                "sha256": "4d26ed2c266076a6984a7866f3ebbce3e47fd28012a285ec5c0a431da8b00a0a"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/index.d.ts.map",
+                "sha256": "5f8380e58009a9f5b0923eb748717b4cbfd267470a986c9b214456f0f3ae4b6e"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/index.js",
+                "sha256": "57edf049d726b8f4dd86443c75e0a18eff7fc18c3b3655d1fbb9fc5bb788834b"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/index.js.map",
+                "sha256": "2b774fe2ccb62b76a16cf877334d388328b3646fc0a309b917c20fbc86f3c469"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/wasm.d.ts",
+                "sha256": "2543c2b4c29c5c963bb2963e5480c4b337039ae42f29f489922f11a6e6f6aa70"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/wasm.d.ts.map",
+                "sha256": "c50da7881159cdc3e5ba65f6ae50daaa246cf985c7dcf289226a1455a010982c"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/wasm.js",
+                "sha256": "3dbb5c6e3550c82e99e9e139ea2416ff62926d27ac418778301d79fff0ebe4f6"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/wasm.js.map",
+                "sha256": "dcfc34422f64c9fba2cf510e46d2e729f8580b44665809ff9b9b59e3e98c2042"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/index.d.ts",
+                "sha256": "505cd06c0e3ace4ca48a6aeded6df0ead95686562f5dadb66d17ebb7db48c19f"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/index.d.ts.map",
+                "sha256": "05b90c6ee9972e22d8899bf812f12420351b69a3b576462bcb31afc2470aaf5b"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/index.js",
+                "sha256": "ca81637284d5a18a592e31673195d1af93eaf4ae6e9352d96aeb240693c1b6ae"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/index.js.map",
+                "sha256": "b97e995ff259a34b28a44600bd68a84a882e87d9bdc1c51c4fba7ff60c3fc9cc"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/Wasm.d.ts",
+                "sha256": "ebd6a483d576dc8dc777501fa795142d2f662e4cb902e308f29d7e581f846161"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/Wasm.d.ts.map",
+                "sha256": "720fcc13b5f7a09728dcf0ebf31d1826417ca64499bd1cdf78ba4d399ab61033"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/Wasm.js",
+                "sha256": "995ed2b121d5395320f230435b6d236cc88f85a2a9d04bf504c390fab5f9e791"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/Wasm.js.map",
+                "sha256": "ce7514d06a1dfe2437c010c2b8bab8c09dd492d171cb20cee0329157c99f5a23"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/agentflow.generated.d.ts",
+                "sha256": "456d9099afd2c21debd6eefad94805b4e25ec919715dfa4d61e897dc0a58965f"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/agentflow.generated.d.ts.map",
+                "sha256": "ef4ea0b869e25cdf8637cf58ed4146fcb8bc376f4f15412a68b53005febfec35"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/agentflow.generated.js",
+                "sha256": "5dad74879b567636ced15d3090f9c5441fd1461b4902b95952e725d0ee6204ff"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/agentflow.generated.js.map",
+                "sha256": "10e70c25eb75b97946c77d848c591db32c0f37e4be07976c32ba74a7cb6f3263"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/agentflow.generated.wasm",
+                "sha256": "58ac746b733c7e7b9f92c966939938e9a31c636cde1f0abae9b1ca71f971685f"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/all.fast.generated.wasm",
+                "sha256": "90f5295b063318d9c22458dfac147ffd95ff1c402d4910dba448e82c7cdd7494"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/all.generated.d.ts",
+                "sha256": "e67a33c1e42c7f51fabc1e800fcf4966352f875d4f2de8977d0be18dd404b42c"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/all.generated.d.ts.map",
+                "sha256": "ddf550f2adf5fc1499ac7b81630d6548dbdc5c8d6c490255ab47247beab8d658"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/all.generated.js",
+                "sha256": "5d4d1a9333f31fb6ace1352203b51eaaad569fb9de4c8c0a5d8fa5d42b09e96d"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/all.generated.js.map",
+                "sha256": "6d1b0fc52382582bd46fc3ad1f872ae8224b905c19422d1379d48e94c1412dcb"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/all.generated.wasm",
+                "sha256": "dfc55a0542b71e496c5f7effbd3e02f7126c0012f8fd84ecb07d5ca7736e3890"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/architecture.generated.d.ts",
+                "sha256": "3a4420bcead09ebf23b4100050ab29de99f6ffc977a6c67d3a4a62efecb4f8c6"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/architecture.generated.d.ts.map",
+                "sha256": "78f11debc1f655f92d2ccae1e23cd4025c4f5d3595ecc19d94ac559ee8745019"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/architecture.generated.js",
+                "sha256": "432eee0626754394a5023bc37976fd659123ec138018ded96d7c6beb65e0a18e"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/architecture.generated.js.map",
+                "sha256": "ee8d9ddcd939292c2c36a608fb0912de4f95b25844cfec4e38381afe8dd9f36c"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/architecture.generated.wasm",
+                "sha256": "1fb7800ba98405a0c59f370ac8a1ab4ec84b25b3aa1c96d949f4d73a6c79b817"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/block.generated.d.ts",
+                "sha256": "2813f628fb405f74c6291149b425053682e97534dfb8eccd0e461ec56852ebfe"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/block.generated.d.ts.map",
+                "sha256": "c7f927f1f9663620a79766dcd73511ac5a85c424b594aca6b649efb8686d124a"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/block.generated.js",
+                "sha256": "ef8ba133e71bf1d38a65088188690b338fe02370fff0ebb605da66525f570e0f"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/block.generated.js.map",
+                "sha256": "3db0965c97657bb1f3eff2403c779e80b656bae8a0ecd7afe022ddddbeafa61c"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/block.generated.wasm",
+                "sha256": "3beea71e818d642e12e7a0f5dcc2e7e3defd2f3536401a9c4e968a7f4afe49d9"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/c4.generated.d.ts",
+                "sha256": "0185ae5316c5132e0be163449e3546cb10c60d26cf6b49105209b6423dfda03b"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/c4.generated.d.ts.map",
+                "sha256": "13fdff6c6fc2093aaaa3df45bcf98bdfc6950f6d05f465656d4397df9b75e7d8"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/c4.generated.js",
+                "sha256": "6ee9b99f63fa02333d261ef5a2dd9c472fa1e562f1642c278335a31e9fab94d2"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/c4.generated.js.map",
+                "sha256": "5486691c7de016c7736c5cab0037fcdc1715777f2ff28d73c599b0074d78b928"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/c4.generated.wasm",
+                "sha256": "deb0432fc8ac2c8c817d800651e94bd4d38c487c709886e9425adc55f0f05862"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/class.generated.d.ts",
+                "sha256": "957e9bbb524908d52952c778f9c4012c08b273b9caec0b99fea7b03298b152ec"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/class.generated.d.ts.map",
+                "sha256": "7242ed01691a0396ff36830a2f57582559c388b61de79de0fe8bc7133a6ccf8f"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/class.generated.js",
+                "sha256": "78170fafaf30e7026ec871b5356f84557479b0963fa03b87c3421f8366a2c4f1"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/class.generated.js.map",
+                "sha256": "625f34dd929d930ecf40ad3a61be3d34635ce46bf2265825a0911d68aef6ea57"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/class.generated.wasm",
+                "sha256": "daa1d957ab885a88e9d2d54e8453230b083d240008ad9b71a23c36a661941cca"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/cynefin.generated.d.ts",
+                "sha256": "1ea3217c9b8088f140d3b2c6b20682e152949893855ab049b7b8deb7635865ba"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/cynefin.generated.d.ts.map",
+                "sha256": "fc9cf2dee0051ae58335d2beb6b99ecbdf409e4e51c0d21d53145a680c28db76"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/cynefin.generated.js",
+                "sha256": "f557dfab39f779bb6a06b6f628a83db4c459212d04f1b8895b68710f615d00a5"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/cynefin.generated.js.map",
+                "sha256": "0f06860b545197844973d89a7aae3c533b01fd08c9fc0c45348e5bfe50a4db98"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/cynefin.generated.wasm",
+                "sha256": "b7264e38d7e4efbdd659cfdc860ad9f6d50e79fe3a0e9bce95b1c135f7a5bf8f"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/er.generated.d.ts",
+                "sha256": "49338ae32bbd6e8d709430a3d6ce086125fcd8b9ed28ce7e0b979b7d23e55069"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/er.generated.d.ts.map",
+                "sha256": "43d32474c16fe51c86dd42ef57d8712718c780abf68e4d690723cfc9ffe47243"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/er.generated.js",
+                "sha256": "5b9a65ca77cd400d66ff90bb8cb1d08d83fc6051b3347ad02e17f6bd237edba3"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/er.generated.js.map",
+                "sha256": "ce083cc054df2c1f233a31d090a541c2edc35ca4542d1ad01eec888a0dc24eb5"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/er.generated.wasm",
+                "sha256": "de1aac7b96e3f6da14933a67a04defe9d763c6dfb99dd5ffb47a3a3f392f87f8"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/eventmodeling.generated.d.ts",
+                "sha256": "cf223fc78568f881c77dd853d87066ba12dfb25c313287670692943cca3fbec2"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/eventmodeling.generated.d.ts.map",
+                "sha256": "a34a9d3da5aef60787b7d6c175972373de24de9e3b912b40c7ea683537d64874"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/eventmodeling.generated.js",
+                "sha256": "7959d89227aee4834639cd8d4dbc2c89c530766dfe61b0d07afb7129c0c55ae9"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/eventmodeling.generated.js.map",
+                "sha256": "5bc8ef8450191dea85fc90258b1cce0e418bbf0029049df453c261f22689b6dd"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/eventmodeling.generated.wasm",
+                "sha256": "71ff02c2436352e4e7262f42f9ccec5b43cabc169199d42dccf5becb7bd09be8"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/flowchart.generated.d.ts",
+                "sha256": "e957dc98ac8bbac47b0e416f63b3a4b0d6d6ca93c605c2bd1c34dfb5c0006392"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/flowchart.generated.d.ts.map",
+                "sha256": "533d620444c1cd91f19dcba8b0b327ab736f37bd0d6183f4f5089844b6a76dbf"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/flowchart.generated.js",
+                "sha256": "23c4f4fd75d49873db16523fd6a75248f0457043c666b6e5bd285607ab692502"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/flowchart.generated.js.map",
+                "sha256": "f4302ea2342ffdabbeab77cae1ca4f2575349932c8427d16a95672cbb13abe42"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/flowchart.generated.wasm",
+                "sha256": "7de70d1a4eb05f69ea58be803d3c8fb8e520a8929d9e6d2c0843a4fdbeba8935"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/gantt.generated.d.ts",
+                "sha256": "84e4a58b85f663294e4994f186f49b596effe65c9ff02feb511d7006294ac135"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/gantt.generated.d.ts.map",
+                "sha256": "a97483b1b8b55a844a2f52dce26c9622a8a08eb99fa173cfd3f8f32a7625efbc"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/gantt.generated.js",
+                "sha256": "ca056c776801a2b7e896ab138b0736756b629b58cb97f4eeb96a14960fed121b"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/gantt.generated.js.map",
+                "sha256": "da1acaff444df779be06c751dc9f257d2dc921bd3428f8d46667ca5d5b3384e9"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/gantt.generated.wasm",
+                "sha256": "8f6fec44edc35ed2eb7e44646883b5e6c1b05b2febf0e451c091ab50776ec274"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/git.generated.d.ts",
+                "sha256": "ab217636e084a7ebef9d1907c77959dc6188359d70bad2433dda3efc5a5fc216"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/git.generated.d.ts.map",
+                "sha256": "de3361d34db0b799399a39ce9de4afb2ac9e93964ffe50d992348ad42f6eac73"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/git.generated.js",
+                "sha256": "f2fd37744fa885bc12e13423b377b1d177e19864104c08f435af1a2338dd8931"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/git.generated.js.map",
+                "sha256": "bc5227f9dd93a22ba36a2e83f4fd6bfbc2c806bc19c98e51f32c2d17fab5588d"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/git.generated.wasm",
+                "sha256": "9bcee56df2cd20f89292be0583edf523506cabc9c25350884b19d7f778b58322"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/info.generated.d.ts",
+                "sha256": "5fe44ac25501fc9dc74e7bb66b7c19841257e81f40bb3bbec5cbacd4b1d32724"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/info.generated.d.ts.map",
+                "sha256": "6380de0b3886e6ed5eac0e03a6af8c8f2872b7308cfad7f50e42fdc55c84358f"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/info.generated.js",
+                "sha256": "5a15cdd247365d81ded9c502e9c9504dd347e94d764de92a0ce66608e0599e9e"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/info.generated.js.map",
+                "sha256": "f66a4d641ace70fba150bc47da451e4d6512f81e4d0bd3ec359a661ecad22bfb"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/info.generated.wasm",
+                "sha256": "6f8cae4f15ec1a8729d6b74063a999ded09982bb92200ae3a2182f5f471241ac"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/ishikawa.generated.d.ts",
+                "sha256": "9394c5c718820d7a85ac1e09eff30ff0c7c3cd8aee276e47480433485dc9f6a4"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/ishikawa.generated.d.ts.map",
+                "sha256": "df43054420eb5f95179b100ced82c71272e26d2f8e6c52d8c835f8ed51565694"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/ishikawa.generated.js",
+                "sha256": "693b9fdc5b5b871cfa93aff5998d55596df87fc6c2bf317829c085d200681399"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/ishikawa.generated.js.map",
+                "sha256": "3dc7c489d7d0e435c26c421b54744fadf7073fc811c994b4463c6e4d43a98aa3"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/ishikawa.generated.wasm",
+                "sha256": "3ebdd6e2a752e533cc3f0d4fadf10c3c703fd42ade36ff1b3c8a8aeb738622ca"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/journey.generated.d.ts",
+                "sha256": "9718a6fdf965f819a4a29c2ddd44fa9cbff2a06c717c1f3886f5bfe11f64f95e"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/journey.generated.d.ts.map",
+                "sha256": "d0a3a170f18c8c24b8638bb1ec269600ec3d913633e219cf11691efe1130df93"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/journey.generated.js",
+                "sha256": "d3ad6ae07ddc948a435dd12b38eb745e8b6e889f99d5cc4b79d2cc14f5ea9fae"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/journey.generated.js.map",
+                "sha256": "46de162fb7575cdeb7782ab2683f66f143f34b920b69c6d753e37c0ac54c3584"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/journey.generated.wasm",
+                "sha256": "8156b4dcef9121ef070a3440805be34eaac4b0f4d28e567739b981610a31fa2b"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/kanban.generated.d.ts",
+                "sha256": "cb24d7532f258c34b8cdda401777f45f9ebb2014bd93631fabcb23a5f0469801"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/kanban.generated.d.ts.map",
+                "sha256": "c8137ff0d5477fee0bf941b324bcb062b354305354eabe7013871c7bdcc0b7da"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/kanban.generated.js",
+                "sha256": "3da3e80957df396da6e7babe05811f32dd0e238a629e8eb55304a136fcefc4c9"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/kanban.generated.js.map",
+                "sha256": "15803765b2463d91992550baa5f8c68721a47a94dcb785230446f6a191d098ad"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/kanban.generated.wasm",
+                "sha256": "8959d35aeb90efc7da756fb5e6d47759997c8eecf1b3559559f528187fdee265"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/mindmap.generated.d.ts",
+                "sha256": "bf2cff028e86b004c2912ce04b6169439564f5aac550beb175267d353561e0ca"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/mindmap.generated.d.ts.map",
+                "sha256": "5bfa63cc10403b70d2b0d531a5e88914db969293b00d01c59fba46a160c47c3f"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/mindmap.generated.js",
+                "sha256": "646bbbf954a81afe24cfe2c505d1b7199d40b76d9da65c43a0c776d02c9f1de6"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/mindmap.generated.js.map",
+                "sha256": "940b9f6ab8a05ff5a93bf8a97b0f2eb9e6b936f870a745ac47094bcd5e299c58"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/mindmap.generated.wasm",
+                "sha256": "52e872b5d216a58861ce7460e8af2dbc62e240706a1c8e529431be7e2dfd8473"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/packet.generated.d.ts",
+                "sha256": "8aa14804ac399547665dcb2aa897d84785d0f3ecb07437bab1e51d2480aa4533"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/packet.generated.d.ts.map",
+                "sha256": "20965fe0898eb530c36967eba2227e25f06e978c41767c922969cef15f071ad3"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/packet.generated.js",
+                "sha256": "b729422dfd685d63bfef846d1c496e800ff97f7c59dc8dc03fa1e319b3c8ca92"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/packet.generated.js.map",
+                "sha256": "12098377d1527dd3f3f43db0d6ead1e5eb317e88bca642dc427f3c08a51e5671"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/packet.generated.wasm",
+                "sha256": "1462cc8c17ad8eceb4266908c6f929473f1df782e439c24f4789abc8531fe75e"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/pie.generated.d.ts",
+                "sha256": "33dfff2bbd6a989a1927110ee02f9e88884623a0f3955d3441f9c478887a9e46"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/pie.generated.d.ts.map",
+                "sha256": "f6faf780ca4f7a624f56bc45d4d5b63f394baa3cc1af4d3c4efddc951cf78886"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/pie.generated.js",
+                "sha256": "b3b20c6ebc43c8c8c1280595b1dd6d6608e3f0e027356971ad8aac056a2b1e8c"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/pie.generated.js.map",
+                "sha256": "c1197c18041815cec4f242eb0049dbabe285e3530f90f50691f4effed914b743"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/pie.generated.wasm",
+                "sha256": "c56c663e12b1f24aa60adc27accccdb6938b08d0503e47ac62e8035bce9ad86a"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/quadrant.generated.d.ts",
+                "sha256": "cc0b12c4d1f708f2e1d87692663bf00b3f8c427c0a7ea4105a68dd09e08e66ad"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/quadrant.generated.d.ts.map",
+                "sha256": "85b52f6bfcb525ce579e72f89130dec27910444a2ef4bd9764196c22bfa92866"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/quadrant.generated.js",
+                "sha256": "bdb9cd453053215cfae2eaeb0e8b6a4f4b27f683657c7c93a12e89f367945148"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/quadrant.generated.js.map",
+                "sha256": "1f9c2523856e7a1cce4b96eb18ee677277dc2552abab0eb47cd90c81f00a71a5"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/quadrant.generated.wasm",
+                "sha256": "54966b8a47be88bc00e010c041ba8c8db281fcb3cad2196a0dc98b4e2e9b5bf4"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/radar.generated.d.ts",
+                "sha256": "13cf0042c3acc2858799219a32f1f3a38209edda637ce34efcc4490ff3f9173a"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/radar.generated.d.ts.map",
+                "sha256": "4f3d669e61e6924fa8f6727d8d5ced8de8e21460368a2a45f411c6a23fb37aaa"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/radar.generated.js",
+                "sha256": "56c2b8350b4f36c166ffccb034cdb1742e8c5aabb742072a888b6ba0acc5ff09"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/radar.generated.js.map",
+                "sha256": "044944e3e52b703067298f4f31e8b1a702e5726c2cf51d7dc5aeafcbab7e065f"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/radar.generated.wasm",
+                "sha256": "4161af70d259469f00a1557a7312d6295387eee0939f706f4d4591aac3ee679e"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/railroad.generated.d.ts",
+                "sha256": "cae19a9ccd5ef769f1d4b8bf00fcbf8d1e374cd3151b87145702fd185d490a82"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/railroad.generated.d.ts.map",
+                "sha256": "adfc3c2062687f0e2d851b63a301499c9f155ce9c1f76d3eb33dbaa1747d660a"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/railroad.generated.js",
+                "sha256": "1c940f2a59bf6569ebe44d914e7db7bf91f429e941d5881b9d1f9716ec8cfe91"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/railroad.generated.js.map",
+                "sha256": "35ae3c6bb440d3f91fd023885c413592515b936f42a5f30a064dac327f7019e6"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/railroad.generated.wasm",
+                "sha256": "55a560ab97c1c861e3afbc710f0370616f1bee94c6842867fd5126098e33c7de"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/requirement.generated.d.ts",
+                "sha256": "7eafb7ae08485d5e164c333fd527997bf141d2c79fac7cd4855e52d38c0ab510"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/requirement.generated.d.ts.map",
+                "sha256": "02512f31ddbc7a627b196a514fb510e3df7aab3e17a80bdd00ce203aadb4a642"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/requirement.generated.js",
+                "sha256": "dc980177e812aaf686de7494b8e4152dc98f3d637bdc332c389b7da2df6cbd39"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/requirement.generated.js.map",
+                "sha256": "9ef0765c1ca20c1937f8746882771cb61edd6152dd150eecdae76bb71d0ef441"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/requirement.generated.wasm",
+                "sha256": "8f4007cf36bc8d0ebbb09729af756c1730bbf7ef32f28ce10abeafebe2cf1c35"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/sankey.generated.d.ts",
+                "sha256": "a7869122e427786753035f44c10a006f080d29d60be446662a1aae9724115e8b"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/sankey.generated.d.ts.map",
+                "sha256": "f8b1582ddfba08c2c5b75f418f01510a83d509e5a65e9510bdb558042ae2de1f"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/sankey.generated.js",
+                "sha256": "256695b7f6b6c83641338cef63028348a0d15dea3eaddf85d2e864ffb64ee079"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/sankey.generated.js.map",
+                "sha256": "de3c77c7f431c66888adb189bf2df18451d21495262c7be8bde89f530e1d450b"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/sankey.generated.wasm",
+                "sha256": "c5011ddfd4f2af335119e988497aa29ad073ff4d32ffe1f62eacd266e5a1ec6e"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/sequence.generated.d.ts",
+                "sha256": "7b8504679664e0335060fc7ea3e9691466b52d01e30565f5999f43ba4dd97637"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/sequence.generated.d.ts.map",
+                "sha256": "b0bac24f03f807e72d46d31c78cf5b931eebb721f9505d7cb7719cae06f645f7"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/sequence.generated.js",
+                "sha256": "ebb8ca5751443adc3625c34309faf31c3e12c36de9711f3c01f10d513aba132f"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/sequence.generated.js.map",
+                "sha256": "945f0f8ed06f4ff521162a6a6b8ba177d72120c31d456b6091b9ae7335cf167c"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/sequence.generated.wasm",
+                "sha256": "9b8e4bf3771f1fc521947ab29903c4b2a94c70a9a7c83c3f3b3610de19dff224"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/state.generated.d.ts",
+                "sha256": "1317f7654fa14a69b7869b5ba5320575dce7ab3f9f770678142dcda81e8998b3"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/state.generated.d.ts.map",
+                "sha256": "fceb85ef9d1f2cc7af915d323e865a0f97a6ce4bae7b7ece074a285d0edc9a2e"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/state.generated.js",
+                "sha256": "20cf42ee760e82f9c446bf61eeced83a15b87706f8b4f02348e0a27c31ba1195"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/state.generated.js.map",
+                "sha256": "99ddfaffca365f6721fe936f44293500cae9604942e4a00c777a88a75f1bc415"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/state.generated.wasm",
+                "sha256": "3d6a79222eb60408d0719a01b745486ed983a300acccf293319281e6f496db21"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/swimlane.generated.d.ts",
+                "sha256": "d02fe3794bf966162cb7e56444deae017c3a87e2f157a3c583de8852af19bd28"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/swimlane.generated.d.ts.map",
+                "sha256": "a3d1c281fbf2f05ef9ad3e0ad04c6df19a276f12144d3af9743097a66439a479"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/swimlane.generated.js",
+                "sha256": "afbdcab083d40ed032306466d1e9cf7134a0ef0dc69c96b093b540480ab94dd9"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/swimlane.generated.js.map",
+                "sha256": "e2c44afada1e1a542151a7740b4eac47009830cb4fb1d2fc22fba1b24d2e9e0c"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/swimlane.generated.wasm",
+                "sha256": "c36680773b6e520dac1f7e9f35a7579a2dff40412224d18246ffe026eec0591d"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/timeline.generated.d.ts",
+                "sha256": "f3fa37b236457a3cfae866b56f23d8c3887befdef357806799c6b0f3e6cf8545"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/timeline.generated.d.ts.map",
+                "sha256": "fd3dabe36184d577fd61b5328f0e2b4da5ab424202b396fc154caa3cde33a64d"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/timeline.generated.js",
+                "sha256": "193ad370868d34ac5228ca8aacc627c2d8cf609d56385411d8e267b124061fd2"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/timeline.generated.js.map",
+                "sha256": "d23d93d3af1beeb4a1254e36b8a82a2cbdf2d28928e6a60e9fe1605d0b7bd77f"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/timeline.generated.wasm",
+                "sha256": "7232c154309a897b5f0746c933a185dd3ff4f7cbbfa0515591a50899a6babae0"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/treemap.generated.d.ts",
+                "sha256": "eab4711f5396cc54c721537b3bda6345a0eec8157c3e48e38d9727dfe8cbecd1"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/treemap.generated.d.ts.map",
+                "sha256": "33b5d494c1a05c836a0f18c56ddc20cc2ab16af22245177253e089130b8b0c0d"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/treemap.generated.js",
+                "sha256": "611de838c2a97ce5fae7fbd495a709fee3ca5c47f40ddbb6c7bc3148445d5630"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/treemap.generated.js.map",
+                "sha256": "263757b37a2959c349b3656377199021e1f89ae5850c20fc8d919d98de261d3a"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/treemap.generated.wasm",
+                "sha256": "c820bf4a7a4ce998a75df37f2c3e05eb2059a47dd608a27da5c99ce4fe368a05"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/treeview.generated.d.ts",
+                "sha256": "0ef2e5b1457de59fd04045da0fb33edd0aa3e68a1a799bd82c52bc62b3b8273f"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/treeview.generated.d.ts.map",
+                "sha256": "cd835c8b1a103a252f31cd8234d8e1a7d586f4e5f776b1b612175a63ff520c86"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/treeview.generated.js",
+                "sha256": "44814ce94bb6723724d45a179b30b7f582fa09ea9a5270c3d045b447eaf13ac4"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/treeview.generated.js.map",
+                "sha256": "8404e7c99f7d6cffbb0940fcb042c741d105c4d0f8bae95da679df4ab53da27f"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/treeview.generated.wasm",
+                "sha256": "f40a6700ccf7513c9a4c78069acd79c5f59bba95a957bc424b5566b5d9b292c0"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/usecase.generated.d.ts",
+                "sha256": "97e01ce57d92e282cb480989e905c60a5f964ceae9f7b1f85b93894776bfd64c"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/usecase.generated.d.ts.map",
+                "sha256": "3cbb1d6ed76b75e3b64e64e260bf925caf557a50f7a3623dc7e01be613afbcf5"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/usecase.generated.js",
+                "sha256": "0cc7a342a79f6a2560ce148881dd3e132874fef8b985c649de6230e5e576ce14"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/usecase.generated.js.map",
+                "sha256": "b3e98226a198785581c34850b915c01861e860f06f608ab11d43299ce2c00a02"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/usecase.generated.wasm",
+                "sha256": "a3bedea7918db5cb8d37bff73d59576a5fc2806e5e2202f374ba2789641fe2d0"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/venn.generated.d.ts",
+                "sha256": "d28c05df3438fba52e07deba40da09d3a35f9e21fc57f3a45033742a69d1773f"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/venn.generated.d.ts.map",
+                "sha256": "18d72d99cc0851ac3dce28def3c023069ff37144b54717718c5ce0b75612b2b7"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/venn.generated.js",
+                "sha256": "cbf24cf3203c6926bab90e76e22eb1933db3c4026515b04efd0498d76ab114cb"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/venn.generated.js.map",
+                "sha256": "8f576d296ed7dabfda724cd4f96c2b0a32b254a3764791596e40e0c8990c768b"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/venn.generated.wasm",
+                "sha256": "e54f76bb4c9133d49555bbf9862567724498d92cb257382c8dab397149df0c50"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/wardley.generated.d.ts",
+                "sha256": "6783b1cd474a2b98088113b5b26cc0e1be996cce4c694e5e756b1aa243df47e6"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/wardley.generated.d.ts.map",
+                "sha256": "984a4e7e578f92b90778b232734b1d77556bdafdf81ec712bcffbe229397cec1"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/wardley.generated.js",
+                "sha256": "42ac91c2a3b889af163718b926e20b3b4a7cc0c85530f01880820ffa3dc36ed6"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/wardley.generated.js.map",
+                "sha256": "f76d327e51e4caaafa971e85a03fc785c600c6ecd0cdc6f6407fbf6db5f1ceea"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/wardley.generated.wasm",
+                "sha256": "2f417a1753b7cb22d7451637d7e23bffbfe4978350263704598da1d1303359cd"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/xychart.generated.d.ts",
+                "sha256": "b55d1032eaad251dc683f7ed0f7bc5e5b9704622ebf95cd3c744569d221b014d"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/xychart.generated.d.ts.map",
+                "sha256": "69a8c0e3e684a2c52773bcfe8c1ed8a59ac3b21044522ca24c9a37955cf4f146"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/xychart.generated.js",
+                "sha256": "d07900e95ae8f970ed422f7e417a1a324a9d2005d360ec35b7f0deb24b42e37b"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/xychart.generated.js.map",
+                "sha256": "c0df4aecb0d448fde16fe32dd14711f3137ce9e73085dcb796c469553539ddc6"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/internal/xychart.generated.wasm",
+                "sha256": "928f6fa62c07e5196fdf30638f958c65e939e5d953b580bd176eb13c89c5e8a1"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/remark/index.d.ts",
+                "sha256": "87bdeb103c90d47cfa6dcbc2eb71d2185d74fdd060de192e5adda7235b7bd1ac"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/remark/index.d.ts.map",
+                "sha256": "d9ded179c586f39d31a0f72cba5a56a037d8090580000ed1aeae5a12d7cc36b1"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/remark/index.js",
+                "sha256": "0b1a1ca80a5c4dbd401e06e00937c84f0f169f92b6d698c6fd827ba380556d48"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/remark/index.js.map",
+                "sha256": "7d8f5e30534cf2781bada91f45a47089002380fc8bd25c5cd7a18d31240f7935"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/vite/client.d.ts",
+                "sha256": "cb70a0a627f1c9b1a3b4ccbfe709672780c291ccb6baec113acb22b52eba3f30"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/vite/index.d.ts",
+                "sha256": "e94ec9574dfd876339929ab5701057e202ecea49e111028f60a49a9699d633c7"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/vite/index.d.ts.map",
+                "sha256": "90d07a39b20a3a5d9716179540aeb522625489fc756913c2717178e06a275fef"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/vite/index.js",
+                "sha256": "fd001b172ee1cf79a0d61a9923b5b41c67de43d7743b00260a6f9fddb3ae9238"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/vite/index.js.map",
+                "sha256": "bf21cd35aea9f110ff38d0de255ae2bbcaf161db4fd14ccd9cd93f9221a64577"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/package.json",
+                "sha256": "3fb42064c0536d13ced71b3845b963dde68ab3e7bb41ca58a4b303319d810016"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/src/Mount.ts",
+                "sha256": "90cf622a1adbd8a45c9a328e190cb67fe7b67bfcc28077b0605cc676149fd71e"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/src/Render.ts",
+                "sha256": "b41b6cb200e52b598c37c1629f0d810d3e7eb20663bc3c538be852d2e768ecc4"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/src/cli/Ascii.ts",
+                "sha256": "92c424aefc7d17b235783501a1b6c84ff0350d2b5e8f30e248e5702c58f13c52"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/src/cli/Markdown.ts",
+                "sha256": "c3b764dde780265ec660bd45e899f535bc08e4325d3c34a93e5838dc49696cf5"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/src/cli/Terminal.ts",
+                "sha256": "e79a3083ca0066e3c79986347307bc40ecd1ec54136a9fc9b12d9fbb17cd8962"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/src/cli/bin.ts",
+                "sha256": "934fef817473f33608676b115bc061f8a38e926c3a365898b35f510648269338"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/src/compiler/all.ts",
+                "sha256": "73908de970b1dd9525f2a6a73bd8821fe951aa13275f1bfcffe09ac151f7b532"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/src/compiler/index.ts",
+                "sha256": "7b32ea0478b6df316e472ecd8084fb91648091ab5827439554d3ba9f43f320d9"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/src/compiler/wasm.ts",
+                "sha256": "b8bf2b6bab458b17c6c2a64eed422badbb6afb7a6ab29f64a64fe4a05b55571e"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/src/index.ts",
+                "sha256": "a202872c8b5236e47a37a4b8499fb2c678137f925c2cd4b016b452cc439965c5"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/src/internal/Wasm.ts",
+                "sha256": "96655f85ebc25c449122d0c742be51cfbeb526da4d7065084cfdfe2abb1e7fdc"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/src/remark/index.ts",
+                "sha256": "4594feb981af1b84bf33b70afeb0835c4129803b44fbc2e0f48a6de2f9b4ad0f"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/src/vite/client.d.ts",
+                "sha256": "cb70a0a627f1c9b1a3b4ccbfe709672780c291ccb6baec113acb22b52eba3f30"
+              },
+              {
+                "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/src/vite/index.ts",
+                "sha256": "8955bf3df248b70f8219f46540ba4df71ab93aef9c8ab77eccd2f07067cbb84f"
+              }
+            ],
+            "adapterCompanions": [
+              {
+                "root": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine",
+                "name": "ondine",
+                "version": "0.0.3",
+                "integrity": "sha512-O5lb0DvNhiQJQKitkTYEPRyR83uyGxB2SsLcyu1zD3zJeL+sWxAzW+kM+s8srliERxxx3fFUijEfs26EYXZ5OA==",
+                "closureSha256": "159b6c9521868936f4ba47f093a6df76ceaf10c1e2d48437a9db48d068b87c76"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "node": {
+      "id": "crafter-station/mermaid",
+      "categories": [
+        "renderer",
+        "parser"
+      ],
+      "relation": "independent",
+      "repo": "https://github.com/crafter-station/mermaid",
+      "branch": "main",
+      "head": "1bac24116826233c3b0ad8da589d7223d77a451a",
+      "lastCommit": "2026-07-23T18:39:46-03:00",
+      "rootCommits": [
+        "4c782a54a6ed4113d6ec4c63ac4b606547e8a015"
+      ],
+      "runtime": "TypeScript",
+      "outputs": [
+        "svg",
+        "ascii-unicode"
+      ],
+      "packages": [
+        {
+          "registry": "npm",
+          "name": "@crafter/mermaid-parser",
+          "version": "0.0.4",
+          "license": null,
+          "gitHead": "a5b105412a714d3fe3681114d867f16c6603e9d5",
+          "provenanceCommit": "a5b105412a714d3fe3681114d867f16c6603e9d5",
+          "publishedFromDefaultBranch": true
+        },
+        {
+          "registry": "npm",
+          "name": "@crafter/mermaid-renderer",
+          "version": "0.0.3",
+          "license": null,
+          "gitHead": "03381fd83ed25b249862d4b4d5a8b005dde621ab",
+          "publishedFromDefaultBranch": true
+        }
+      ],
+      "roles": [
+        "observed"
+      ],
+      "evidence": [
+        "https://github.com/crafter-station/mermaid/blob/1bac24116826233c3b0ad8da589d7223d77a451a/README.md"
+      ],
+      "notes": "README claims 30.5KB min+gzip. No LICENSE file and no npm license field. Categories rechecked on 2026-10-23: independently published parser maps text to an AST with source spans; renderer maps positioned graphs to SVG. Existing package/head observations retain their dates.",
+      "benchmark": {
+        "adapter": "published-extra",
+        "package": "@crafter/mermaid-renderer",
+        "version": "0.0.3",
+        "versionPolicy": "recorded",
+        "outputs": [
+          "svg",
+          "parse",
+          "terminal"
+        ],
+        "operationPackages": [
+          {
+            "package": "@crafter/mermaid-parser",
+            "version": "0.0.4",
+            "operation": "parse"
+          },
+          {
+            "package": "@crafter/mermaid-layout",
+            "version": "0.0.3",
+            "operation": "layout"
+          },
+          {
+            "package": "@crafter/mermaid-renderer",
+            "version": "0.0.3",
+            "operation": "render"
+          },
+          {
+            "package": "@crafter/mermaid-cli",
+            "version": "0.0.4",
+            "operation": "terminal"
+          }
+        ],
+        "portable": {
+          "adapter": "public-package"
+        }
+      },
+      "benchmarkEligibility": {
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "reason": "Published @crafter/mermaid-parser@0.0.4, @crafter/mermaid-layout@0.0.3 and @crafter/mermaid-renderer@0.0.3 provide a parsing/layout/SVG pipeline. Reviewed renderer types expose SVG, DOM and interaction, with no terminal API: catalog terminal output remains explicitly unbound. The parser0.0.4 comparison stage is distinct from layout0.0.3 dependency parser0.0.3. Missing license fields are catalog metadata, not a callable-API blocker."
+      }
+    },
+    "artifact": {
+      "kind": "node",
+      "root": "/workspace/trident/node_modules/.cache/unified-community/_crafter_mermaid-renderer@0.0.3-recipe-98a994bab46743c1/node_modules/@crafter/mermaid-renderer",
+      "module": "/workspace/trident/node_modules/.cache/unified-community/_crafter_mermaid-renderer@0.0.3-recipe-98a994bab46743c1/node_modules/@crafter/mermaid-renderer/dist/index.js",
+      "version": "0.0.3",
+      "integrity": "sha512-CwJC9ygrnIXyMG0sPNVSJ9BWpwl1NK/fN3aMd1e7xHUTHj/bzfJS+8fS7bsNWoqUPn2KX5FgcBbKxcTGwnh8EQ==",
+      "runtime": "Node",
+      "sha256": "c7a25a29f167eb88944f95536b13be8f62443a105a9e4e0c71d96f4fd7433837",
+      "files": [
+        {
+          "path": "/workspace/trident/node_modules/.cache/unified-community/_crafter_mermaid-renderer@0.0.3-recipe-98a994bab46743c1/node_modules/@crafter/mermaid-renderer/dist/index.js",
+          "sha256": "c7a25a29f167eb88944f95536b13be8f62443a105a9e4e0c71d96f4fd7433837"
+        }
+      ],
+      "apiBoundary": "public parse → layout → renderToString pipeline",
+      "adapterCompanions": [
+        {
+          "root": "/workspace/trident/node_modules/.cache/unified-community/_crafter_mermaid-renderer@0.0.3-recipe-98a994bab46743c1/node_modules/@crafter/mermaid-parser",
+          "name": "@crafter/mermaid-parser",
+          "version": "0.0.4",
+          "integrity": "sha512-wyOjJlbR//q1UWkoo70xZ1sAt/XZBv+MsVSQO40F1uoEIZ6c8GscJr1QibOvNdwqrqOxJ+xWL6zw2tqswRevNA==",
+          "closureSha256": "37de1bad9ca5f074fc80121527dd57962dd46c48e697db5aec2b348fb11d3d17"
+        },
+        {
+          "root": "/workspace/trident/node_modules/.cache/unified-community/_crafter_mermaid-renderer@0.0.3-recipe-98a994bab46743c1/node_modules/@crafter/mermaid-layout",
+          "name": "@crafter/mermaid-layout",
+          "version": "0.0.3",
+          "integrity": "sha512-T9NGOvUrtWajPkTzWhYvzVOABNBlKtzTpqFt0TeG3d5YgAW9AG4ZXr1E9c8a4++Kzh9EKX1UL0xK1Yr0/T+HIg==",
+          "closureSha256": "1fff8daa1c3de87675fecbcf7d5527c499978355ff64c742273b3ea3edd8440e"
+        },
+        {
+          "root": "/workspace/trident/node_modules/.cache/unified-community/_crafter_mermaid-renderer@0.0.3-recipe-98a994bab46743c1/node_modules/@crafter/mermaid-themes",
+          "name": "@crafter/mermaid-themes",
+          "version": "0.0.3",
+          "integrity": "sha512-Wt+Pf2J30g7k7FHOgbmz8LLjkzAZyi1HZhQtOm4PBA/M5cX0iLD1pLMniT307RHCa1ANAcCDiFQA30BcW09Xeg==",
+          "closureSha256": "4926a26844e33731ce8d3e87190bc68a5f7e20549b585cc5c9393fbb01b7f997"
+        },
+        {
+          "root": "/workspace/trident/node_modules/.cache/unified-community/_crafter_mermaid-renderer@0.0.3-recipe-98a994bab46743c1/node_modules/@crafter/mermaid-cli",
+          "name": "@crafter/mermaid-cli",
+          "version": "0.0.4",
+          "integrity": "sha512-V3ZcvHMWFPCo9gxvewpsb7b7p1qLbVRK70G05qlYnwYsChiiWVs8gukH4aJxuH4rGj2PttnEFe8PvZeB86NsAQ==",
+          "closureSha256": "958494a597e64ccee097857cc750b197a5a02804cc04f0c085bba3f2c1bf32f3"
+        }
+      ],
+      "dependencyOverrides": {
+        "@crafter/mermaid-cli": {
+          "@crafter/mermaid-parser": "0.0.4",
+          "@crafter/mermaid-layout": "0.0.3",
+          "@crafter/mermaid-themes": "0.0.3"
+        }
+      },
+      "detail": "Version policy: recorded registry release. Recorded catalog versions remain separately available on the node."
+    }
+  },
+  {
+    "node": {
+      "id": "Latias94/merman",
+      "categories": [
+        "renderer"
+      ],
+      "relation": "independent",
+      "repo": "https://github.com/Latias94/merman",
+      "branch": "main",
+      "head": "252752f7029b67f6a6f22a35230ef2bdf9c605d0",
+      "lastCommit": "2026-10-18T20:14:25+08:00",
+      "rootCommits": [
+        "2c88bcc786cdb91f4c7c394398e10effbccae3b7"
+      ],
+      "license": "MIT OR Apache-2.0",
+      "release": {
+        "tag": "v0.9.1",
+        "commit": "f6202f702dbde0a75049b1a62b3124feae709b3d"
+      },
+      "runtime": "Rust (+ WASM, napi, Python bindings)",
+      "outputs": [
+        "svg",
+        "png",
+        "jpeg",
+        "pdf",
+        "ascii-unicode"
+      ],
+      "packages": [
+        {
+          "registry": "npm",
+          "name": "@mermanjs/node",
+          "version": "0.9.1",
+          "license": "MIT OR Apache-2.0",
+          "provenanceCommit": "f6202f702dbde0a75049b1a62b3124feae709b3d",
+          "publishedFromDefaultBranch": false
+        },
+        {
+          "registry": "npm",
+          "name": "@mermanjs/web",
+          "version": "0.9.1",
+          "license": "MIT OR Apache-2.0",
+          "provenanceCommit": "f6202f702dbde0a75049b1a62b3124feae709b3d",
+          "publishedFromDefaultBranch": false
+        },
+        {
+          "registry": "pypi",
+          "name": "merman",
+          "version": "0.9.1",
+          "license": "MIT OR Apache-2.0"
+        }
+      ],
+      "roles": [
+        "peer",
+        "terminal-peer"
+      ],
+      "notes": "docs/comparison.md records 0.9.0; 0.9.1 was published from branch release/0.9.1 on the check date. Cargo.toml at main head still says 0.9.0.",
+      "benchmark": {
+        "adapter": "merman",
+        "package": "@mermanjs/node",
+        "outputs": [
+          "svg",
+          "png"
+        ],
+        "portable": {
+          "adapter": "declared",
+          "binding": {
+            "factory": "createNodeEngine",
+            "export": "renderSvgSync",
+            "dispose": "dispose"
+          }
+        },
+        "moduleOutputs": [
+          "svg"
+        ],
+        "cliRelease": {
+          "repository": "Latias94/merman",
+          "tag": "v0.9.2",
+          "version": "0.9.2",
+          "revision": "8e303a43b548c9e40e73f0bc657925d66e7d4fb5",
+          "outputs": {
+            "terminal": {
+              "args": [
+                "render",
+                "-",
+                "--format",
+                "unicode",
+                "--ascii-color",
+                "plain",
+                "--ascii-max-width",
+                "120",
+                "--output",
+                "-"
+              ],
+              "input": "stdin"
+            }
+          },
+          "platforms": {
+            "linux-x64": {
+              "asset": "merman-cli-x86_64-unknown-linux-gnu.tar.xz",
+              "sha256": "7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55",
+              "executable": "merman-cli-x86_64-unknown-linux-gnu/merman-cli"
+            }
+          }
+        }
+      },
+      "benchmarkEligibility": {
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "reason": "Catalog declares svg, png, jpeg, pdf, terminal operations with adapter merman. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+      }
+    },
+    "artifact": {
+      "kind": "node",
+      "root": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node",
+      "module": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node/dist/index.mjs",
+      "version": "0.9.2",
+      "integrity": "sha512-cYnkgZC9WYaHJ1bjHctobSkrheROGdqIUnHzZeJHuTq0sWyKWud2x4g3Ui95lsqooPF70Nb42p75QdKShTtCFw==",
+      "runtime": "Node",
+      "sha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099",
+      "files": [
+        {
+          "path": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node/dist/index.mjs",
+          "sha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099"
+        }
+      ],
+      "apiBoundary": "published package API",
+      "detail": "Version policy: resolved latest registry release. Recorded catalog versions remain separately available on the node.; Version policy: provided actual artifact version/bytes frozen; no latest lookup. Recorded catalog versions remain separately available on the node.",
+      "additionalCli": [
+        {
+          "id": "native-release",
+          "outputs": [
+            "terminal"
+          ],
+          "artifact": {
+            "kind": "cli",
+            "root": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/Latias94--merman/v0.9.2/7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55",
+            "executable": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/Latias94--merman/v0.9.2/7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55/merman-cli-x86_64-unknown-linux-gnu/merman-cli",
+            "args": [
+              "render",
+              "-",
+              "--format",
+              "unicode",
+              "--ascii-color",
+              "plain",
+              "--ascii-max-width",
+              "120",
+              "--output",
+              "-"
+            ],
+            "input": "stdin",
+            "outputBindings": {
+              "terminal": {
+                "args": [
+                  "render",
+                  "-",
+                  "--format",
+                  "unicode",
+                  "--ascii-color",
+                  "plain",
+                  "--ascii-max-width",
+                  "120",
+                  "--output",
+                  "-"
+                ],
+                "input": "stdin"
+              }
+            },
+            "version": "0.9.2",
+            "versionSource": "command",
+            "revision": "8e303a43b548c9e40e73f0bc657925d66e7d4fb5",
+            "sha256": "2acc6ae1cfd5bcb0308789f7276e09a82efba6c6dcae64d91ea47e653a6a8565",
+            "files": [
+              {
+                "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/Latias94--merman/v0.9.2/7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55/merman-cli-x86_64-unknown-linux-gnu/merman-cli",
+                "sha256": "2acc6ae1cfd5bcb0308789f7276e09a82efba6c6dcae64d91ea47e653a6a8565"
+              },
+              {
+                "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/Latias94--merman/v0.9.2/7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55/merman-cli-x86_64-unknown-linux-gnu.tar.xz",
+                "sha256": "7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55"
+              }
+            ],
+            "runtime": "linux-x64 public native CLI",
+            "apiBoundary": "public release executable; fresh process, stdin/file through drained output",
+            "detail": "Archive https://github.com/Latias94/merman/releases/download/v0.9.2/merman-cli-x86_64-unknown-linux-gnu.tar.xz; SHA-256 7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55. Version identity: command. Source revision names the release tag, not a reproducible-build assertion."
+          }
+        }
+      ]
+    }
+  }
+]

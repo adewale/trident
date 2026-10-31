@@ -1,0 +1,82 @@
+[
+  {
+    "node": {
+      "id": "emtyty/merslim",
+      "categories": [
+        "renderer"
+      ],
+      "relation": "independent",
+      "repo": "https://github.com/emtyty/merslim",
+      "branch": "main",
+      "head": "746ddb4e71d7ebecbcfc98540dbf4dd9b5b54a61",
+      "lastCommit": "2026-08-19T21:36:02+07:00",
+      "rootCommits": [
+        "4e4fc2c24516c04135a0a04b2f80dbdffb23b2bb"
+      ],
+      "license": "MIT",
+      "runtime": "TypeScript (React, browser)",
+      "outputs": [
+        "svg",
+        "png",
+        "ascii-unicode",
+        "ast"
+      ],
+      "packages": [
+        {
+          "registry": "npm",
+          "name": "merslim",
+          "version": "0.2.3",
+          "license": "MIT",
+          "gitHead": "4514215108d79a5bc8d7d9215b41b70b8d2b1cc2",
+          "publishedFromDefaultBranch": true
+        }
+      ],
+      "roles": [
+        "observed"
+      ],
+      "benchmark": {
+        "adapter": "published-extra",
+        "package": "merslim",
+        "version": "0.2.3",
+        "versionPolicy": "recorded",
+        "outputs": [
+          "svg",
+          "png",
+          "terminal",
+          "parse"
+        ],
+        "portable": {
+          "adapter": "public-package"
+        },
+        "moduleOutputs": [
+          "svg",
+          "terminal",
+          "parse"
+        ]
+      },
+      "benchmarkEligibility": {
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "reason": "Published merslim@0.2.3 declares React/browser SVG, PNG and terminal outputs. Browser/React harness review is needed. Browser dependence is a boundary choice, not an N/A renderer verdict."
+      }
+    },
+    "artifact": {
+      "kind": "node",
+      "root": "/workspace/trident/node_modules/.cache/unified-community/merslim@0.2.3/node_modules/merslim",
+      "module": "/workspace/trident/node_modules/.cache/unified-community/merslim@0.2.3/node_modules/merslim/dist/index.js",
+      "version": "0.2.3",
+      "integrity": "sha512-LUmNFbtg5RBrtwyR3MkKSPaO6Cgr66j4HsTtqtLGRyzVtLKlcrfIc/I8gm5BHqcyhjGN1pHA7R6h7c8tDSaynA==",
+      "runtime": "Node",
+      "sha256": "2ef93d0283cc39361c0fb5d62926d870921618c1539f0044f4081a09b1a9cd7d",
+      "files": [
+        {
+          "path": "/workspace/trident/node_modules/.cache/unified-community/merslim@0.2.3/node_modules/merslim/dist/index.js",
+          "sha256": "2ef93d0283cc39361c0fb5d62926d870921618c1539f0044f4081a09b1a9cd7d"
+        }
+      ],
+      "apiBoundary": "published package API",
+      "detail": "Version policy: recorded registry release. Recorded catalog versions remain separately available on the node."
+    }
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "launchManifest": "/workspace/trident-brand-split-review/prepared/native-launch.json",
+  "version": "0.3.2",
+  "entrypoint": "mermaid_flutter.renderToPng",
+  "executable": "/workspace/trident/native-flutter/app/build/linux/x64/release/bundle/native_bench",
+  "sha256": "0a58bc26b9fe6444869c302acb831bb264aed8a7930163b17ec6ecc939be92ed",
+  "libappSha256": "cd5b303c1936fa2257b861dfc4fdc253cc0df6d261ce5c592c2e2aeea0fd96af"
+}

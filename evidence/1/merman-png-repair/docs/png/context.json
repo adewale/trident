@@ -1,0 +1,352 @@
+{
+  "format": "png",
+  "driver": {
+    "node": "26.3.0",
+    "bun": "1.4.2",
+    "boringssl": "41bf9b59c2ebf277a7aa427e1ecad5cc80dd4d4f",
+    "openssl": "1.1.0",
+    "llhttp": "9.3.0",
+    "libarchive": "ded82291ab41d5e355831b96b0e1ff49e24d8939",
+    "mimalloc": "6a64e1ba7f5b2130d4efccb67ec87fd0003f0f6a",
+    "picohttpparser": "066d2b1e9ab820703db0837a7255d92d30f0c9f5",
+    "uwebsockets": "744846f844374847c902b5e7fd59b4342a51ef99",
+    "webkit": "2e2aa2290fac856d6f451ceacb58f7f5b44dd057",
+    "zig": "04e7f6ac1e009525bc00934f20199c68f04e0a24",
+    "zlib": "12731092979c6d07f42da27da673a9f6c7b13586",
+    "tinycc": "05f0fafaa3be31e31d7b4b5c17dc60f62c991171",
+    "lolhtml": "725ce499aa9b71e38b7a2d0a9fbb6d7294a4079e",
+    "ares": "c7a3138dcfe3bb0eaaf10c0c24c36dc66dc790ab",
+    "libdeflate": "c8c56a20f8f621e6a966b716b31f1dedab6a41e3",
+    "usockets": "744846f844374847c902b5e7fd59b4342a51ef99",
+    "lshpack": "8905c024b6d052f083a3d11d0a169b3c2735c8a1",
+    "zstd": "f8745da6ff1ad1e7bab384bd1f9d742439278e99",
+    "v8": "14.6.202.34-node.20",
+    "uv": "1.48.0",
+    "napi": "10",
+    "icu": "78.3",
+    "unicode": "17.0",
+    "sqlite": "3.53.2",
+    "modules": "147"
+  },
+  "browser": {
+    "status": "available",
+    "path": "/usr/bin/chromium",
+    "mode": 33261,
+    "version": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)",
+    "sha256": "2c8d32d29dc6781c35ae196ea83299d507ac88fc339301abe74672feda299779",
+    "companions": [
+      {
+        "path": "/usr/lib/chromium/chromium",
+        "sha256": "4dc9f9f9b20e9bd95bf201f43d2d643f48938f36a70ddcb6fce3dd611a178180"
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "node": {
+        "id": "Latias94/merman",
+        "categories": [
+          "renderer"
+        ],
+        "relation": "independent",
+        "repo": "https://github.com/Latias94/merman",
+        "branch": "main",
+        "head": "252752f7029b67f6a6f22a35230ef2bdf9c605d0",
+        "lastCommit": "2026-10-18T20:14:25+08:00",
+        "rootCommits": [
+          "2c88bcc786cdb91f4c7c394398e10effbccae3b7"
+        ],
+        "license": "MIT OR Apache-2.0",
+        "release": {
+          "tag": "v0.9.1",
+          "commit": "f6202f702dbde0a75049b1a62b3124feae709b3d"
+        },
+        "runtime": "Rust (+ WASM, napi, Python bindings)",
+        "outputs": [
+          "svg",
+          "png",
+          "jpeg",
+          "pdf",
+          "ascii-unicode"
+        ],
+        "packages": [
+          {
+            "registry": "npm",
+            "name": "@mermanjs/node",
+            "version": "0.9.1",
+            "license": "MIT OR Apache-2.0",
+            "provenanceCommit": "f6202f702dbde0a75049b1a62b3124feae709b3d",
+            "publishedFromDefaultBranch": false
+          },
+          {
+            "registry": "npm",
+            "name": "@mermanjs/web",
+            "version": "0.9.1",
+            "license": "MIT OR Apache-2.0",
+            "provenanceCommit": "f6202f702dbde0a75049b1a62b3124feae709b3d",
+            "publishedFromDefaultBranch": false
+          },
+          {
+            "registry": "pypi",
+            "name": "merman",
+            "version": "0.9.1",
+            "license": "MIT OR Apache-2.0"
+          }
+        ],
+        "roles": [
+          "peer",
+          "terminal-peer"
+        ],
+        "notes": "docs/comparison.md records 0.9.0; 0.9.1 was published from branch release/0.9.1 on the check date. Cargo.toml at main head still says 0.9.0.",
+        "benchmark": {
+          "adapter": "merman",
+          "package": "@mermanjs/node",
+          "outputs": [
+            "svg",
+            "png"
+          ],
+          "portable": {
+            "adapter": "declared",
+            "binding": {
+              "factory": "createNodeEngine",
+              "export": "renderSvgSync",
+              "dispose": "dispose"
+            }
+          },
+          "moduleOutputs": [
+            "svg"
+          ]
+        },
+        "benchmarkEligibility": {
+          "classification": "independently-rooted-implementation",
+          "engineScope": "independent-engine-candidate",
+          "adapterReview": "existing-adapter; outcomes remain independent",
+          "reason": "Catalog declares svg, png, jpeg, pdf, terminal operations with adapter merman. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+        }
+      },
+      "artifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node/dist/index.mjs",
+        "version": "0.9.2",
+        "integrity": "sha512-cYnkgZC9WYaHJ1bjHctobSkrheROGdqIUnHzZeJHuTq0sWyKWud2x4g3Ui95lsqooPF70Nb42p75QdKShTtCFw==",
+        "runtime": "Node",
+        "sha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099",
+        "files": [
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node/dist/index.mjs",
+            "sha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099"
+          }
+        ],
+        "apiBoundary": "published package API",
+        "detail": "Version policy: resolved latest registry release. Recorded catalog versions remain separately available on the node."
+      }
+    }
+  ],
+  "preparedBrowsers": [
+    {
+      "node": {
+        "id": "Latias94/merman",
+        "categories": [
+          "renderer"
+        ],
+        "relation": "independent",
+        "repo": "https://github.com/Latias94/merman",
+        "branch": "main",
+        "head": "252752f7029b67f6a6f22a35230ef2bdf9c605d0",
+        "lastCommit": "2026-10-18T20:14:25+08:00",
+        "rootCommits": [
+          "2c88bcc786cdb91f4c7c394398e10effbccae3b7"
+        ],
+        "license": "MIT OR Apache-2.0",
+        "release": {
+          "tag": "v0.9.1",
+          "commit": "f6202f702dbde0a75049b1a62b3124feae709b3d"
+        },
+        "runtime": "Rust (+ WASM, napi, Python bindings)",
+        "outputs": [
+          "svg",
+          "png",
+          "jpeg",
+          "pdf",
+          "ascii-unicode"
+        ],
+        "packages": [
+          {
+            "registry": "npm",
+            "name": "@mermanjs/node",
+            "version": "0.9.1",
+            "license": "MIT OR Apache-2.0",
+            "provenanceCommit": "f6202f702dbde0a75049b1a62b3124feae709b3d",
+            "publishedFromDefaultBranch": false
+          },
+          {
+            "registry": "npm",
+            "name": "@mermanjs/web",
+            "version": "0.9.1",
+            "license": "MIT OR Apache-2.0",
+            "provenanceCommit": "f6202f702dbde0a75049b1a62b3124feae709b3d",
+            "publishedFromDefaultBranch": false
+          },
+          {
+            "registry": "pypi",
+            "name": "merman",
+            "version": "0.9.1",
+            "license": "MIT OR Apache-2.0"
+          }
+        ],
+        "roles": [
+          "peer",
+          "terminal-peer"
+        ],
+        "notes": "docs/comparison.md records 0.9.0; 0.9.1 was published from branch release/0.9.1 on the check date. Cargo.toml at main head still says 0.9.0.",
+        "benchmark": {
+          "adapter": "merman",
+          "package": "@mermanjs/node",
+          "outputs": [
+            "svg",
+            "png"
+          ],
+          "portable": {
+            "adapter": "declared",
+            "binding": {
+              "factory": "createNodeEngine",
+              "export": "renderSvgSync",
+              "dispose": "dispose"
+            }
+          },
+          "moduleOutputs": [
+            "svg"
+          ]
+        },
+        "benchmarkEligibility": {
+          "classification": "independently-rooted-implementation",
+          "engineScope": "independent-engine-candidate",
+          "adapterReview": "existing-adapter; outcomes remain independent",
+          "reason": "Catalog declares svg, png, jpeg, pdf, terminal operations with adapter merman. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+        }
+      },
+      "artifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node/dist/index.mjs",
+        "version": "0.9.2",
+        "integrity": "sha512-cYnkgZC9WYaHJ1bjHctobSkrheROGdqIUnHzZeJHuTq0sWyKWud2x4g3Ui95lsqooPF70Nb42p75QdKShTtCFw==",
+        "runtime": "Node",
+        "sha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099",
+        "files": [
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node/dist/index.mjs",
+            "sha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099"
+          }
+        ],
+        "apiBoundary": "published package API",
+        "detail": "Version policy: resolved latest registry release. Recorded catalog versions remain separately available on the node."
+      },
+      "browserStatus": "prepared",
+      "browser": {
+        "root": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web",
+        "entry": "./dist/package-entries/full.js",
+        "kind": "merman",
+        "version": "0.9.2",
+        "artifactSha256": "bd9fb1353799dcaaa0fc8f9e63441c1911aff486294c6de0f81fa8b02b33421c",
+        "qualificationHelper": "/workspace/trident/node_modules/.cache/unified-community-browser/qualification-visible-content-v3-0201ef6ba4287de67684b0ee65a3ee049be3140709c477262bf21e36c8de8901.js",
+        "integrity": "sha512-phFCmewQ+i9gpMD94G2edie9JSj2Kw7BaSA5UbwN1RqcAAayDTaJYN92AgdlMbmu2bPQa4aB5fXE3rUwsUPlYg==",
+        "files": [
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/THIRD_PARTY_LICENSES/rust-cargo-dependencies.json",
+            "sha256": "f532dba640b2ca11b741564887930dcd7890ce296355cb8f993f5c8db5464587"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/artifacts/provenance.json",
+            "sha256": "9706e036767b7658107f45231162ba0222277623e39d9e1b897c469eb5d8de63"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/artifacts/wasm/merman_wasm.js",
+            "sha256": "e2cbc24f34515edaea6302bfa1e7ddaac2e7de16f601478514595ac20af0146c"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/artifacts/wasm/merman_wasm_bg.wasm",
+            "sha256": "a2e15f88d4dfb9228d1211fdad4fe4053ef3ef357fdf6d2127652e933c64f463"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/dist/generated/binding-contract.js",
+            "sha256": "ddef4c3b7e69d7d363ad78bd9af7901f4cd6ac5de36ab587135bb42de8b88bcc"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/dist/generated/capability-surface.js",
+            "sha256": "44161b245a57674455bb3cae83592dbc7d7458f5a63d40203e3a1392771137c3"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/dist/generated/diagram-catalog.js",
+            "sha256": "9eea9739bf79d75d4f7659146a0e06c5ac9a79bc66001755ddade819c3dce85b"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/dist/generated/resource-contract.js",
+            "sha256": "27a8534caa2446ff3ea51d247897e568e0a67ea7e4f8813088428e1956e3e1ab"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/dist/generated/text-measurement-abi.js",
+            "sha256": "58088c5f4773a22d7a680f1d393ec4072ff1c50d5b4f24526761cfc28030be85"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/dist/package-entries/full.js",
+            "sha256": "bd9fb1353799dcaaa0fc8f9e63441c1911aff486294c6de0f81fa8b02b33421c"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/dist/public-catalog.js",
+            "sha256": "1ff5cd032b3cb4f55b704a9d69e23a3d230a134478c5fcd3e206f59a42ed0473"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/dist/runtime-analysis.js",
+            "sha256": "352a720143f78f72555e43410472d3d2d9c2989c9ad05f9df2767452983664af"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/dist/runtime-ascii.js",
+            "sha256": "51d1d3596269196c14f370d10281d7e31867948d91c82c8847b5aa67dd4b7d47"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/dist/runtime-core.js",
+            "sha256": "fec626bdde1d31da3055da47fdf60d7ac3003121cbbd2c7f528a4a0d8ac69046"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/dist/runtime-editor.js",
+            "sha256": "4d6ae4b87910555f1517c7a4ac31f79bf523e76fe2a98784ace4e91dc4c9ffaa"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/dist/runtime-render.js",
+            "sha256": "5f082a178ff438a29a1dcfae50ed41404a0ef9288b0cb1e0ba16ce33f73ef8fe"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/dist/runtime-state.js",
+            "sha256": "9dff3ec6216c56e8e816f253581e0b0b54ddadeb87ad2245b41f3a77669dae54"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/dist/surface-runtime.js",
+            "sha256": "ac226b6f892522c57ef7cf73b5b1a6dc57b9a80db54012b46ce006dac0c46c8d"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/dist/svg-safety-policy.js",
+            "sha256": "b00f956ac4ca0202e658357429b8906646f49c8b905f2f4b79064313e0449234"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/dist/svg-safety.js",
+            "sha256": "fc342c138884cf02e30a346f525a50a33b80a97b10ef80dd8ad8c11cab5eac0b"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/merman-web/0.9.2/node_modules/@mermanjs/web/package.json",
+            "sha256": "daa7fe4307efc5f8cf381e33e77cb4a6a5476afe5b5beffd89bfbdf2f82e477c"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community-browser/qualification-visible-content-v3-0201ef6ba4287de67684b0ee65a3ee049be3140709c477262bf21e36c8de8901.js",
+            "sha256": "0201ef6ba4287de67684b0ee65a3ee049be3140709c477262bf21e36c8de8901"
+          }
+        ]
+      }
+    }
+  ],
+  "rounds": 1,
+  "calls": "One actual output call per occurrence per round; no adaptive repetition or implicit artifact acquisition.",
+  "timing": "Descriptive only: browser includes public SVG render + serialization/raster/PNG encoding; native/Node API clocks exclude startup; CLI includes startup. Clocks with different boundaries do not share a speed ranking.",
+  "correctness": "Actual PNG/source/expectation hashes need a full content review. Decoding and nonblank checks alone never pass content."
+}

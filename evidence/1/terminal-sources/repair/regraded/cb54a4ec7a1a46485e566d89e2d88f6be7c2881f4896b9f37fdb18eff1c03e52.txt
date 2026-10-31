@@ -1,0 +1,7 @@
+┌────────────┐     ┌────────────────────────────────────┐                                ┌─────────────────────────────────────┐     ┌─────────────────────────────────────┐
+│            │     │                                    │                                │                                     │     │                                     │
+│            │     │ trigger div, as Kobalte renders it │                                │ Kobalte tooltip mounts, its Trigger │     │  open delay, skip delay, presence,  │
+│ row mounts ├────►│                                    ├──first pointerenter or focus──►│                                     ├────►│                                     │
+│            │     │               closed               │                                │            adopts the div           │     │ popper, dismiss: Kobalte, unchanged │
+│            │     │                                    │                                │                                     │     │                                     │
+└────────────┘     └────────────────────────────────────┘                                └─────────────────────────────────────┘     └─────────────────────────────────────┘

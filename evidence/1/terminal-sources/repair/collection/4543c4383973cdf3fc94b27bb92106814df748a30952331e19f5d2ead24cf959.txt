@@ -1,0 +1,32 @@
+┌──────────────┐
+│ Animal       │
+├──────────────┤
+│ +String name │
+│ +int age     │
+├──────────────┤
+│ +speak()     │
+└──────────────┘
+
+┌──────────┐
+│ Dog      │
+├──────────┤
+│ +fetch() │
+└──────────┘
+
+┌─────────┐
+│ Cat     │
+├─────────┤
+│ +purr() │
+└─────────┘
+
+┌─────────────────┐
+│ Kennel          │
+├─────────────────┤
+│ +List<Dog> dogs │
+└─────────────────┘
+
+relations:
+id(bytes=6)="Animal" <|-- id(bytes=3)="Dog"
+id(bytes=6)="Animal" <|-- id(bytes=3)="Cat"
+id(bytes=6)="Kennel" o--  id(bytes=3)="Dog" : houses
+id(bytes=3)="Dog"    ..>  id(bytes=3)="Cat" : chases

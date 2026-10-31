@@ -1,0 +1,6 @@
+◀── Main Topic ──▶
+◀ └─ Branch2
+◀    └─ Leaf3
+▶ └─ Branch1
+▶    ├─ Leaf1
+▶    └─ Leaf2

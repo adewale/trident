@@ -1,0 +1,96 @@
+{
+  "wevm/ondine": {
+    "kind": "node",
+    "root": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine",
+    "module": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/index.js",
+    "version": "0.0.3",
+    "integrity": "sha512-O5lb0DvNhiQJQKitkTYEPRyR83uyGxB2SsLcyu1zD3zJeL+sWxAzW+kM+s8srliERxxx3fFUijEfs26EYXZ5OA==",
+    "runtime": "Node",
+    "sha256": "57edf049d726b8f4dd86443c75e0a18eff7fc18c3b3655d1fbb9fc5bb788834b",
+    "files": [
+      {
+        "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/index.js",
+        "sha256": "57edf049d726b8f4dd86443c75e0a18eff7fc18c3b3655d1fbb9fc5bb788834b"
+      }
+    ],
+    "apiBoundary": "published package API",
+    "detail": "Version policy: resolved latest registry release. Recorded catalog versions remain separately available on the node."
+  },
+  "Latias94/merman": {
+    "kind": "node",
+    "root": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node",
+    "module": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node/dist/index.mjs",
+    "version": "0.9.2",
+    "integrity": "sha512-cYnkgZC9WYaHJ1bjHctobSkrheROGdqIUnHzZeJHuTq0sWyKWud2x4g3Ui95lsqooPF70Nb42p75QdKShTtCFw==",
+    "runtime": "Node",
+    "sha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099",
+    "files": [
+      {
+        "path": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node/dist/index.mjs",
+        "sha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099"
+      }
+    ],
+    "apiBoundary": "published package API",
+    "detail": "Version policy: resolved latest registry release. Recorded catalog versions remain separately available on the node.",
+    "additionalCli": [
+      {
+        "id": "native-release",
+        "outputs": [
+          "terminal"
+        ],
+        "artifact": {
+          "kind": "cli",
+          "root": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/Latias94--merman/v0.9.2/7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55",
+          "executable": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/Latias94--merman/v0.9.2/7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55/merman-cli-x86_64-unknown-linux-gnu/merman-cli",
+          "args": [
+            "render",
+            "-",
+            "--format",
+            "unicode",
+            "--ascii-color",
+            "plain",
+            "--ascii-max-width",
+            "120",
+            "--output",
+            "-"
+          ],
+          "input": "stdin",
+          "outputBindings": {
+            "terminal": {
+              "args": [
+                "render",
+                "-",
+                "--format",
+                "unicode",
+                "--ascii-color",
+                "plain",
+                "--ascii-max-width",
+                "120",
+                "--output",
+                "-"
+              ],
+              "input": "stdin"
+            }
+          },
+          "version": "0.9.2",
+          "versionSource": "command",
+          "revision": "8e303a43b548c9e40e73f0bc657925d66e7d4fb5",
+          "sha256": "2acc6ae1cfd5bcb0308789f7276e09a82efba6c6dcae64d91ea47e653a6a8565",
+          "files": [
+            {
+              "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/Latias94--merman/v0.9.2/7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55/merman-cli-x86_64-unknown-linux-gnu/merman-cli",
+              "sha256": "2acc6ae1cfd5bcb0308789f7276e09a82efba6c6dcae64d91ea47e653a6a8565"
+            },
+            {
+              "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/Latias94--merman/v0.9.2/7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55/merman-cli-x86_64-unknown-linux-gnu.tar.xz",
+              "sha256": "7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55"
+            }
+          ],
+          "runtime": "linux-x64 public native CLI",
+          "apiBoundary": "public release executable; fresh process, stdin/file through drained output",
+          "detail": "Archive https://github.com/Latias94/merman/releases/download/v0.9.2/merman-cli-x86_64-unknown-linux-gnu.tar.xz; SHA-256 7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55. Version identity: command. Source revision names the release tag, not a reproducible-build assertion."
+        }
+      }
+    ]
+  }
+}

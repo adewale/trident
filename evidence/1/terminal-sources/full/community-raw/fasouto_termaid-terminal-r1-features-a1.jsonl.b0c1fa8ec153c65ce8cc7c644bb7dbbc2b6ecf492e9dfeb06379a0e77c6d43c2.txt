@@ -1,0 +1,3 @@
+                     ╭─ Branch1 ──╭─ Leaf1
+root((Main Topic)) ──┤            ╰─ Leaf2
+                     ╰─ Branch2 ──── Leaf3

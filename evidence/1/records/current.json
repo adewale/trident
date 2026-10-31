@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "projects": [
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "lane": "community-fidelity",
+      "current": "bcf1cd04-9d56-4183-b4cb-d656078d606a",
+      "history": [
+        "bcf1cd04-9d56-4183-b4cb-d656078d606a"
+      ]
+    },
+    {
+      "project": "wevm/ondine",
+      "lane": "community-fidelity",
+      "current": "e61c447d-3fdf-4e41-9512-ff0d8341a3d1",
+      "history": [
+        "e61c447d-3fdf-4e41-9512-ff0d8341a3d1"
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "lane": "community-fidelity",
+      "current": "f37ed504-9b24-436d-9288-29b1328a9921",
+      "history": [
+        "f37ed504-9b24-436d-9288-29b1328a9921"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "lane": "community-fidelity",
+      "current": "a3a8cb49-4701-4f67-bb59-7ef78beabbb0",
+      "history": [
+        "a3a8cb49-4701-4f67-bb59-7ef78beabbb0"
+      ]
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "lane": "community-fidelity",
+      "current": "03519f25-d1bb-4e57-addd-179e140628e4",
+      "history": [
+        "03519f25-d1bb-4e57-addd-179e140628e4"
+      ]
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "lane": "community-fidelity",
+      "current": "ec22deb5-54fd-4e65-a8d4-bdda038f23e4",
+      "history": [
+        "ec22deb5-54fd-4e65-a8d4-bdda038f23e4"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "lane": "community-fidelity",
+      "current": "b22fa6d2-71d0-4d68-9b42-c35982e7d643",
+      "history": [
+        "b22fa6d2-71d0-4d68-9b42-c35982e7d643"
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "lane": "community-fidelity",
+      "current": "82584559-6c01-4d95-868c-73b9e31ba3bd",
+      "history": [
+        "82584559-6c01-4d95-868c-73b9e31ba3bd"
+      ]
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "lane": "community-fidelity",
+      "current": "37719d20-aa5c-4036-b3f2-236985d6b114",
+      "history": [
+        "37719d20-aa5c-4036-b3f2-236985d6b114"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "lane": "community-fidelity",
+      "current": "5c2a218b-9f06-4e7f-86ae-f9c31a13819d",
+      "history": [
+        "5c2a218b-9f06-4e7f-86ae-f9c31a13819d"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "lane": "community-fidelity",
+      "current": "5d6725c8-aef2-4183-8cee-40b580e7edf1",
+      "history": [
+        "5d6725c8-aef2-4183-8cee-40b580e7edf1"
+      ]
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "lane": "community-fidelity",
+      "current": "0efb0e81-857e-4852-89aa-b0634ce3ca07",
+      "history": [
+        "0efb0e81-857e-4852-89aa-b0634ce3ca07"
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "lane": "community-fidelity",
+      "current": "776363d0-9fc5-4dfd-b338-1d4914f591bf",
+      "history": [
+        "776363d0-9fc5-4dfd-b338-1d4914f591bf"
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "lane": "community-fidelity",
+      "current": "669218a6-4e00-46ac-957f-cde10ec98154",
+      "history": [
+        "669218a6-4e00-46ac-957f-cde10ec98154"
+      ]
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "lane": "community-fidelity",
+      "current": "b3c67d52-d1c1-43c0-b2a4-939814d70f00",
+      "history": [
+        "b3c67d52-d1c1-43c0-b2a4-939814d70f00"
+      ]
+    },
+    {
+      "project": "crabtalk/bezel",
+      "lane": "community-fidelity",
+      "current": "93dfea4c-e1bd-4add-a224-dc880d599cec",
+      "history": [
+        "93dfea4c-e1bd-4add-a224-dc880d599cec"
+      ]
+    }
+  ]
+}

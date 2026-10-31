@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "projects": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "lane": "public-model-contracts-v2",
+      "current": "728fb592-baa0-4b53-acf9-697955fbdf5c",
+      "history": [
+        "728fb592-baa0-4b53-acf9-697955fbdf5c"
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "lane": "public-model-contracts-v2",
+      "current": "dad533bb-9afc-40c2-8305-0c0390b7124a",
+      "history": [
+        "dad533bb-9afc-40c2-8305-0c0390b7124a"
+      ]
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "lane": "public-model-contracts-v2",
+      "current": "8e5a90de-d1a8-4bc1-a78d-90f5980068a3",
+      "history": [
+        "8e5a90de-d1a8-4bc1-a78d-90f5980068a3"
+      ]
+    }
+  ]
+}

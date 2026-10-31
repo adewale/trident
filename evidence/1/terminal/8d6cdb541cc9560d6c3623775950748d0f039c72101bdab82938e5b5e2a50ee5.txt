@@ -1,0 +1,1 @@
+Error: Line 2: Invalid node syntax in edge: "|Link text| B(Round edge)" (Suggestion: Use 'ID' or 'ID[Label]')

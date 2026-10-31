@@ -1,0 +1,9 @@
+titleDisplay: chart(bytes=15)="Monthly Revenue"
+values: █ series=0 type=bar title=none samples=[{index=0 x(bytes=3)="Jan" value=12 pointLabel=none clipped=false}, {index=1 x(bytes=3)="Feb" value=18 pointLabel=none clipped=false}, {index=2 x(bytes=3)="Mar" value=25 pointLabel=none clipped=false}, {index=3 x(bytes=3)="Apr" value=20 pointLabel=none clipped=false}, {index=4 x(bytes=3)="May" value=30 pointLabel=none clipped=false}, {index=5 x(bytes=3)="Jun" value=35 pointLabel=none clipped=false}] orphanPointLabels=[]
+  35 ┤                    ███
+30.4 ┤                ███ ███
+25.8 ┤        ███     ███ ███
+21.2 ┤        ███ ███ ███ ███
+16.6 ┤    ███ ███ ███ ███ ███
+  12 ┼─┬───┬───┬───┬───┬───┬─
+      Jan Feb Mar Apr May Jun

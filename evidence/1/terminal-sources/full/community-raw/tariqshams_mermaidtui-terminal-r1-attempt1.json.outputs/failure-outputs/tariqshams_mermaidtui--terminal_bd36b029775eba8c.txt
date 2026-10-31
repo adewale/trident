@@ -1,0 +1,1 @@
+Error: Line 1: Unsupported diagram type or missing direction (Suggestion: Use 'flowchart LR', 'flowchart RL', 'flowchart TB', or 'flowchart BT')

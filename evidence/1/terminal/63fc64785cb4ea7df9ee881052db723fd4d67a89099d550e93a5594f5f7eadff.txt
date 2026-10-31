@@ -1,0 +1,6 @@
+main    develop
+●       │     id:A
+│       ┼     branch develop
+│       ●     id:B
+◆       │     cherry-pick B
+│       │

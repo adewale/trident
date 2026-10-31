@@ -1,0 +1,11 @@
+Project Roadmap
+═══════════════
+
+═══ Phase 1 ═══════════════
+  2023  │  Planning
+  2023  │  Requirements
+  2024  │  Development
+
+═══ Phase 2 ═══════════════
+  2025  │  Launch
+  2025  │  Support

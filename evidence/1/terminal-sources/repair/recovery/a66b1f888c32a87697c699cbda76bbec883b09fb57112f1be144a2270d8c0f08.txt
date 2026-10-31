@@ -1,0 +1,7 @@
+group(bytes=5)="To Do" [id(bytes=4)="todo"]
+  - card(bytes=4)="Spec" [id(bytes=2)="t1"]
+  - card(bytes=6)="Design" [id(bytes=2)="t2"]
+group(bytes=11)="In Progress" [id(bytes=5)="doing"]
+  - card(bytes=9)="Implement" [id(bytes=2)="t3"]
+group(bytes=4)="Done" [id(bytes=4)="done"]
+  - card(bytes=4)="Test" [id(bytes=2)="t4"]

@@ -1,0 +1,1991 @@
+[
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+    "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+    "pngSha256": "fa6dba4200611bf6c62e382a44c0ceb24d3213ea757ac79d4d853a77b356a0fa",
+    "expectationsSha256": "23e82336a7c94d578be4587605f3256ea357b8b6e71bae638106f3882a8a8bd2",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet 1jehuang--mermaid-rs-renderer-1.png, panel 0. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+    "pngSha256": "5503abf9737807b720da82eb76114d52a0b91295bf4499cc16ddc6b3b76413fa",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet 1jehuang--mermaid-rs-renderer-1.png, panel 1. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+    "pngSha256": "21e09cd2183e7ca3ffcae4c0bd9a7e020423a1ba52d9a0bccec3e879089afa25",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet 1jehuang--mermaid-rs-renderer-1.png, panel 2. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:693",
+    "sourceSha256": "9733d593d7c58fd476fc1d9669504583efa270cc4823a54eecca11ffd03d4db3",
+    "pngSha256": "e59424d9425ed85cd5f6bbd4f8874607b4a76ff743127b29350dc1a2b774a45e",
+    "expectationsSha256": "756117cff8a5a948f167743b6502d7d2a7a6362430861506f89480c2c9ab43f5",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet 1jehuang--mermaid-rs-renderer-1.png, panel 3. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+    "sourceSha256": "30e40d14fabfa9e924f4ac0cf2fb3ae051149db61be7e4d84c13eed8a8365b88",
+    "pngSha256": "43342db82d805638fc419acd2df549c14cd99a2d0d3d7d40eee5cfdb45130c41",
+    "expectationsSha256": "1f5eeeaa5b88986f5aaf645b5232a759fa17ffcb964556c91e18fdbb44116f28",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet 1jehuang--mermaid-rs-renderer-2.png, panel 4. The B node is absent from the invisible-edge example."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "572cf7b971e38262e8b9947dc2e2136cd38d7d2f68496ba82954ad8e878a2e92",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet 1jehuang--mermaid-rs-renderer-2.png, panel 5. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:45",
+    "sourceSha256": "f4db835df6afe3f2a60fd530d101e862e7adee3fb9a13cbd63bb06fceb16af18",
+    "pngSha256": "103857cd9ac2c2d786ad21803935ee6b6d9c2838eb6c452231558ed336684ba8",
+    "expectationsSha256": "52a10d2e565f83ea9f2bc117dc3137553d8f193af24a914b090f27f211e6e002",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet 1jehuang--mermaid-rs-renderer-2.png, panel 6. The authored title Node with text is absent."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:99",
+    "sourceSha256": "bd780a3a2d167f1014a4c6e654d333d227057ffd42946970e533d61ea0907b37",
+    "pngSha256": "6d83510e1796cc72ca431e0c4a8ad20d2b573d8bfb7e4bcba04ae3c190e61e98",
+    "expectationsSha256": "ac6360af27eaa453b520c143f63c706107239d338d603ebe560a322b91c67392",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet 1jehuang--mermaid-rs-renderer-2.png, panel 7. The retained 16 by 16 image is blank; stateId is absent."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:125",
+    "sourceSha256": "ad45017122efa3019d856e560e060bf751cae87fb54770889a6c63623ca4a674",
+    "pngSha256": "6e530ccee8d28b941894f70eb17d983ce5a522786919d9613422465eea3cfb36",
+    "expectationsSha256": "fde14eb30f46a04a55c19f4106d9d5d9d6612c386316f52e812a3601e563ffc7",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet 1jehuang--mermaid-rs-renderer-3.png, panel 8. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "sourceSha256": "ad6754c39467d7b5deb867e48c2902a3d538af529f3306c00ee46f962911ab02",
+    "pngSha256": "652cc37d5e6f57d1fee1699e376969799402ff4bcac9bdd1f0780101b18bfd8e",
+    "expectationsSha256": "40bbf9939e2ef811bfa3d30db9c335311214ee8309ffca333958745c00baf471",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet 1jehuang--mermaid-rs-renderer-3.png, panel 9. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:113",
+    "sourceSha256": "e7475df8ff02639af8891e24b199160a17991b45bede216b2ebac89a8ed5afbe",
+    "pngSha256": "73b34fa98136a305e514078c10765038963f85c58918728ac4d855868507c4e0",
+    "expectationsSha256": "7deca4f0c0fd2f547cfe0c068666e6eab0d1bc9195acc78258a3731944eefdac",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet 1jehuang--mermaid-rs-renderer-3.png, panel 10. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:64",
+    "sourceSha256": "24e2536fc7a02abbc39c94baca52fcb055a4dd6c79fdd1e9733fba9faa2d823e",
+    "pngSha256": "65c69cd44d0d296ad48ece6626309361c1334a30c8895ab43819876fd2bff17f",
+    "expectationsSha256": "b11cd5a0fef0e5051cb46008e3f11b9a1ff67a39db8b0939b543eb915088e658",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet 1jehuang--mermaid-rs-renderer-3.png, panel 11. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:327",
+    "sourceSha256": "f84186409cf32f763577dc6df754dd5ff83e66c4082333724d19203aa6f5f9af",
+    "pngSha256": "562cf7b1e12e751d3a66ad0d327e954be4d883f6e5ca0c7fe2115f75f944b085",
+    "expectationsSha256": "c59c497862381541a3e1336e06a6099b13039f2a84e67175ce0891d8b81c0118",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet 1jehuang--mermaid-rs-renderer-4.png, panel 12. A and B are connected by a plain line without the required directed arrowhead."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/pie.md:8",
+    "sourceSha256": "f41484cd94dd84837056db4c681ce6119f533b643bed745c58116553acdebf27",
+    "pngSha256": "9ca858c5fe2627489e621017b7d9f37d67aa5523fac7f1366d8ff170b700aa01",
+    "expectationsSha256": "a51a60b74eb36a382b0c3819d1ebb25af85532b4c5bd3de685b9dab2648e486c",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet 1jehuang--mermaid-rs-renderer-4.png, panel 13. Title, three labelled slices and their visible proportions match the source (386:85:15; about 79%, 17%, 3%). No claim of hidden numeric readback."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "pngSha256": "3cf890b9ab0a70b8714f437fd89bb66dbf7c312bdf9701d841bdf1af3b46c0f3",
+    "expectationsSha256": "e851339663bfb71c8698148ea18fb6eef99fbfd3332368bb43883c06949e2707",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet 1jehuang--mermaid-rs-renderer-4.png, panel 15. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+    "pngSha256": "d62911414d90a43c9c45367bf43f4889a584aff67bd41ab2b071a9ac95078377",
+    "expectationsSha256": "1427bf5eca71410470ca9cd2c80ec18e27256ef0d0d277e1c2750994a31528c3",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet 1jehuang--mermaid-rs-renderer-4.png, panel 16. Collapsed group members A, B and C remain painted; an extra view: collapsed diamond appears."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+    "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+    "pngSha256": "4e1953ce05de07e5bf9835584449bc07c3ab1c3bac6ee2065cd6890f808230a9",
+    "expectationsSha256": "23e82336a7c94d578be4587605f3256ea357b8b6e71bae638106f3882a8a8bd2",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet adewale--agentic-mermaid-1.png, panel 0. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+    "pngSha256": "875d33f757d320a9aa0d148021c4a222d91fbbce5c1dcd556f4cf220c03bba5e",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet adewale--agentic-mermaid-1.png, panel 1. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+    "pngSha256": "ff6e68f97b1461a7e55ccb6880a6b1ae0caf2ca6e1e6a5aa1d320a32d6a23e68",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet adewale--agentic-mermaid-1.png, panel 2. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:693",
+    "sourceSha256": "9733d593d7c58fd476fc1d9669504583efa270cc4823a54eecca11ffd03d4db3",
+    "pngSha256": "f516768e34689521877de11099322fa540f8a9fbdf3a8603b0761805ec5eddfb",
+    "expectationsSha256": "756117cff8a5a948f167743b6502d7d2a7a6362430861506f89480c2c9ab43f5",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet adewale--agentic-mermaid-1.png, panel 3. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+    "sourceSha256": "30e40d14fabfa9e924f4ac0cf2fb3ae051149db61be7e4d84c13eed8a8365b88",
+    "pngSha256": "1c5c3c2cb685bce49c9cbc74f04e1597a6723580deade3413182e495f04a1c5f",
+    "expectationsSha256": "1f5eeeaa5b88986f5aaf645b5232a759fa17ffcb964556c91e18fdbb44116f28",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet adewale--agentic-mermaid-2.png, panel 4. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "bfdf52afba632000a9efb61ecbf3417fc40534ecdf6ddd70d4af51a3f698b9cc",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet adewale--agentic-mermaid-2.png, panel 5. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:45",
+    "sourceSha256": "f4db835df6afe3f2a60fd530d101e862e7adee3fb9a13cbd63bb06fceb16af18",
+    "pngSha256": "d1684f1c9d8a45a71c06cf14d25ea3e9970195de112f81f049a332606f23db44",
+    "expectationsSha256": "52a10d2e565f83ea9f2bc117dc3137553d8f193af24a914b090f27f211e6e002",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet adewale--agentic-mermaid-2.png, panel 6. The authored title Node with text is absent."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:99",
+    "sourceSha256": "bd780a3a2d167f1014a4c6e654d333d227057ffd42946970e533d61ea0907b37",
+    "pngSha256": "bb177d7db5e58319cd4a80aefe8ac72d878acfeb5bed72586597ef5ac1f07e68",
+    "expectationsSha256": "ac6360af27eaa453b520c143f63c706107239d338d603ebe560a322b91c67392",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet adewale--agentic-mermaid-2.png, panel 7. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:125",
+    "sourceSha256": "ad45017122efa3019d856e560e060bf751cae87fb54770889a6c63623ca4a674",
+    "pngSha256": "253bcb643e9db0013d33945103658142eeaa7fb4da795330e4b3f7c64b3e15ac",
+    "expectationsSha256": "fde14eb30f46a04a55c19f4106d9d5d9d6612c386316f52e812a3601e563ffc7",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet adewale--agentic-mermaid-3.png, panel 8. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "sourceSha256": "ad6754c39467d7b5deb867e48c2902a3d538af529f3306c00ee46f962911ab02",
+    "pngSha256": "e54dd6c1f7b525435002b7fb9ea635f0795d3fffd2d3147a4ef6b903432dd7ba",
+    "expectationsSha256": "40bbf9939e2ef811bfa3d30db9c335311214ee8309ffca333958745c00baf471",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet adewale--agentic-mermaid-3.png, panel 9. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:113",
+    "sourceSha256": "e7475df8ff02639af8891e24b199160a17991b45bede216b2ebac89a8ed5afbe",
+    "pngSha256": "9e7d5b2da3501d145fe9234439ef38084a9493f70fa5bed3870f17381338453e",
+    "expectationsSha256": "7deca4f0c0fd2f547cfe0c068666e6eab0d1bc9195acc78258a3731944eefdac",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet adewale--agentic-mermaid-3.png, panel 10. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/pie.md:8",
+    "sourceSha256": "f41484cd94dd84837056db4c681ce6119f533b643bed745c58116553acdebf27",
+    "pngSha256": "70bb4ca48e04b979ff5af270a2d3cd780675a01524394442ff9f7ce4a86e549e",
+    "expectationsSha256": "a51a60b74eb36a382b0c3819d1ebb25af85532b4c5bd3de685b9dab2648e486c",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet adewale--agentic-mermaid-4.png, panel 13. Title, three labelled slices and their visible proportions match the source (386:85:15; about 79%, 17%, 3%). No claim of hidden numeric readback."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "pngSha256": "60e916bc783aa157527c0cd02d991e58c5becac0fcd978b0b5d2b7f850a77ec3",
+    "expectationsSha256": "e851339663bfb71c8698148ea18fb6eef99fbfd3332368bb43883c06949e2707",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet adewale--agentic-mermaid-4.png, panel 15. Group one does not enclose a2, and group three does not enclose c1."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+    "pngSha256": "4dfdf05b12168d4f869a13fd9d3287de3de5ed8df88190e45f72b56a853d4519",
+    "expectationsSha256": "1427bf5eca71410470ca9cd2c80ec18e27256ef0d0d277e1c2750994a31528c3",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet adewale--agentic-mermaid-4.png, panel 16. Collapsed group members A, B and C remain visible."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+    "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+    "pngSha256": "fd78c08b5f394ec2c57e72f32c843bb5e71df8c5f7d22edfbaca0392a10113c6",
+    "expectationsSha256": "23e82336a7c94d578be4587605f3256ea357b8b6e71bae638106f3882a8a8bd2",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet obsidianmd--pele-1.png, panel 0. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+    "pngSha256": "5f9036288aa2734fa6ef77dcc29e79a043fafe80819dc1f98359b98219eaa747",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crabtalk--bezel-1.png, panel 1. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+    "pngSha256": "44b4cd9f69103647df4541a7d2447922f6c60a14b8a93497951ac70876af124c",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crabtalk--bezel-1.png, panel 2. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:693",
+    "sourceSha256": "9733d593d7c58fd476fc1d9669504583efa270cc4823a54eecca11ffd03d4db3",
+    "pngSha256": "47718fb3c58581473f711210375f17264f902454b07aa4dd7d03bdfc3e2ac825",
+    "expectationsSha256": "756117cff8a5a948f167743b6502d7d2a7a6362430861506f89480c2c9ab43f5",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet obsidianmd--pele-1.png, panel 3. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+    "sourceSha256": "30e40d14fabfa9e924f4ac0cf2fb3ae051149db61be7e4d84c13eed8a8365b88",
+    "pngSha256": "abf5481101ec4ce94498e2cd14ce3bfe4755dd21caec51900122753fe1383e96",
+    "expectationsSha256": "1f5eeeaa5b88986f5aaf645b5232a759fa17ffcb964556c91e18fdbb44116f28",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet obsidianmd--pele-2.png, panel 4. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "edc3de2322222f87da105cf7bffd899cb5104062f79e733488dd407570e2e9e0",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crabtalk--bezel-2.png, panel 5. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:45",
+    "sourceSha256": "f4db835df6afe3f2a60fd530d101e862e7adee3fb9a13cbd63bb06fceb16af18",
+    "pngSha256": "4d60d27014f80263c1c82b66423c8e902391741e9524c9a59c135854822bc435",
+    "expectationsSha256": "52a10d2e565f83ea9f2bc117dc3137553d8f193af24a914b090f27f211e6e002",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet obsidianmd--pele-2.png, panel 6. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:99",
+    "sourceSha256": "bd780a3a2d167f1014a4c6e654d333d227057ffd42946970e533d61ea0907b37",
+    "pngSha256": "de148f3a93a16ae7ea22b60978471024d8eb1ba2d3648a56693fae253adb25e6",
+    "expectationsSha256": "ac6360af27eaa453b520c143f63c706107239d338d603ebe560a322b91c67392",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet obsidianmd--pele-2.png, panel 7. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:125",
+    "sourceSha256": "ad45017122efa3019d856e560e060bf751cae87fb54770889a6c63623ca4a674",
+    "pngSha256": "79be61a18a892029c3ba378386d6ca9d69127e0233db7e43bb071ac96083fc4b",
+    "expectationsSha256": "fde14eb30f46a04a55c19f4106d9d5d9d6612c386316f52e812a3601e563ffc7",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet obsidianmd--pele-3.png, panel 8. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "sourceSha256": "ad6754c39467d7b5deb867e48c2902a3d538af529f3306c00ee46f962911ab02",
+    "pngSha256": "022d07d226cacdf00500fabe9c40e7585afbb366b9be30cb6ead360c3ff54e9f",
+    "expectationsSha256": "40bbf9939e2ef811bfa3d30db9c335311214ee8309ffca333958745c00baf471",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crabtalk--bezel-3.png, panel 9. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:113",
+    "sourceSha256": "e7475df8ff02639af8891e24b199160a17991b45bede216b2ebac89a8ed5afbe",
+    "pngSha256": "3d4ccc33a1c9c081cce09f184b002365c0ed55ed3bb1966e0cf8bbcdc6164780",
+    "expectationsSha256": "7deca4f0c0fd2f547cfe0c068666e6eab0d1bc9195acc78258a3731944eefdac",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crabtalk--bezel-3.png, panel 10. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:64",
+    "sourceSha256": "24e2536fc7a02abbc39c94baca52fcb055a4dd6c79fdd1e9733fba9faa2d823e",
+    "pngSha256": "8edbf64007ad22375c74697fbf08d16101c94f9ab48276e7f122393297963a80",
+    "expectationsSha256": "b11cd5a0fef0e5051cb46008e3f11b9a1ff67a39db8b0939b543eb915088e658",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet obsidianmd--pele-3.png, panel 11. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:327",
+    "sourceSha256": "f84186409cf32f763577dc6df754dd5ff83e66c4082333724d19203aa6f5f9af",
+    "pngSha256": "7819e3dc67ffbaa9b4b4700776d12f7b92e9b7400cfbb026d2ec18cb6094e701",
+    "expectationsSha256": "c59c497862381541a3e1336e06a6099b13039f2a84e67175ce0891d8b81c0118",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet obsidianmd--pele-4.png, panel 12. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/pie.md:8",
+    "sourceSha256": "f41484cd94dd84837056db4c681ce6119f533b643bed745c58116553acdebf27",
+    "pngSha256": "3cc27c3f49f5421fb2562460af2aca54f6f7a9d96d1f7ec1a6091f0ccbf732bb",
+    "expectationsSha256": "a51a60b74eb36a382b0c3819d1ebb25af85532b4c5bd3de685b9dab2648e486c",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet obsidianmd--pele-4.png, panel 13. Title, three labelled slices and their visible proportions match the source (386:85:15; about 79%, 17%, 3%). No claim of hidden numeric readback."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "pngSha256": "0c48a96ba27956edcb74f297b8382b5fae6d31e36a152257d310f4c273f707ec",
+    "expectationsSha256": "e851339663bfb71c8698148ea18fb6eef99fbfd3332368bb43883c06949e2707",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crabtalk--bezel-4.png, panel 15. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+    "pngSha256": "7e51c5583f36f9f803bfff3e32e3e642c40482aa575872faf70d48ba8ca50452",
+    "expectationsSha256": "1427bf5eca71410470ca9cd2c80ec18e27256ef0d0d277e1c2750994a31528c3",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crabtalk--bezel-4.png, panel 16. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+    "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+    "pngSha256": "1a1f06a3d23a526e093ea04b580443e11cd91be306bce9c8868e46ed0943c935",
+    "expectationsSha256": "23e82336a7c94d578be4587605f3256ea357b8b6e71bae638106f3882a8a8bd2",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crafter-station--mermaid-1.png, panel 0. Only an A-- node is drawn; B and the directed relation are absent."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+    "pngSha256": "8f5f609f0f4f09f4651c1e442260b983c6a5fdd7ba46c92d60226b6cb8557912",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crafter-station--mermaid-1.png, panel 1. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+    "pngSha256": "f18b3dddcd4b8d1a6fd4cdcad031e1940ae39ffe6040c9ffb2279da977a4c913",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crafter-station--mermaid-1.png, panel 2. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:693",
+    "sourceSha256": "9733d593d7c58fd476fc1d9669504583efa270cc4823a54eecca11ffd03d4db3",
+    "pngSha256": "77cb51f59100128bc66e438c9cfa9a9f66800fdffffbf58b2df14c128108941c",
+    "expectationsSha256": "756117cff8a5a948f167743b6502d7d2a7a6362430861506f89480c2c9ab43f5",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crafter-station--mermaid-1.png, panel 3. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+    "sourceSha256": "30e40d14fabfa9e924f4ac0cf2fb3ae051149db61be7e4d84c13eed8a8365b88",
+    "pngSha256": "9b3384912a63efcf9d4b3551bb207027769ed02febbede08e74d4c7c98491702",
+    "expectationsSha256": "1f5eeeaa5b88986f5aaf645b5232a759fa17ffcb964556c91e18fdbb44116f28",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crafter-station--mermaid-2.png, panel 4. The B node is absent."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "9252b51f0f62da970e4b564c985f939a17cc49e3ec3a03b2e57eb885656a0e64",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crafter-station--mermaid-2.png, panel 5. Quotation delimiters remain painted as part of the Unicode node label."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:99",
+    "sourceSha256": "bd780a3a2d167f1014a4c6e654d333d227057ffd42946970e533d61ea0907b37",
+    "pngSha256": "7ea8307226609b785a1f0ac692266c625824c12e6593ddaf7b91b474bf1e975f",
+    "expectationsSha256": "ac6360af27eaa453b520c143f63c706107239d338d603ebe560a322b91c67392",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crafter-station--mermaid-2.png, panel 7. The retained image has no visible stateId node."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:125",
+    "sourceSha256": "ad45017122efa3019d856e560e060bf751cae87fb54770889a6c63623ca4a674",
+    "pngSha256": "ea060fa6cf27fb2eb6f9fb50588cbe3c625fb454641fd7ed1b2219543b8f000f",
+    "expectationsSha256": "fde14eb30f46a04a55c19f4106d9d5d9d6612c386316f52e812a3601e563ffc7",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crafter-station--mermaid-3.png, panel 8. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "sourceSha256": "ad6754c39467d7b5deb867e48c2902a3d538af529f3306c00ee46f962911ab02",
+    "pngSha256": "abbe16d4a193f4fd7ba124de8c754f1396162c2adabf931481283db31caf5cf8",
+    "expectationsSha256": "40bbf9939e2ef811bfa3d30db9c335311214ee8309ffca333958745c00baf471",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crafter-station--mermaid-3.png, panel 9. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:113",
+    "sourceSha256": "e7475df8ff02639af8891e24b199160a17991b45bede216b2ebac89a8ed5afbe",
+    "pngSha256": "b31df60fdae8b1dab75eda9631855a9a3f0cd50f56cd56b04a169b962da89601",
+    "expectationsSha256": "7deca4f0c0fd2f547cfe0c068666e6eab0d1bc9195acc78258a3731944eefdac",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crafter-station--mermaid-3.png, panel 10. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/pie.md:8",
+    "sourceSha256": "f41484cd94dd84837056db4c681ce6119f533b643bed745c58116553acdebf27",
+    "pngSha256": "ae67255ed9bf078f788119ff58b630b8a436b43848b84e7777e273b02198bc2e",
+    "expectationsSha256": "a51a60b74eb36a382b0c3819d1ebb25af85532b4c5bd3de685b9dab2648e486c",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crafter-station--mermaid-4.png, panel 13. The pie input becomes disconnected nodes without its title or slice proportions."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "pngSha256": "5ef48a28952efe1c1b5c8169bb6ec20cdc535f3e0eaa8091f41574f108330d46",
+    "expectationsSha256": "e851339663bfb71c8698148ea18fb6eef99fbfd3332368bb43883c06949e2707",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crafter-station--mermaid-4.png, panel 15. Groups contain truncated a1--, b1-- and c1-- nodes; other declared nodes and edges are missing."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+    "pngSha256": "7c289e9a03b71298d847a3abe1a1d1e48ad87fcdd722631c4f6652a0ee80738c",
+    "expectationsSha256": "1427bf5eca71410470ca9cd2c80ec18e27256ef0d0d277e1c2750994a31528c3",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet crafter-station--mermaid-4.png, panel 16. Collapsed group members A, B and C remain painted."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+    "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+    "pngSha256": "2aa6b9e37e9cb43c117496f0afa6c1535f5195da2ae5953cb0c79804d548d4b8",
+    "expectationsSha256": "23e82336a7c94d578be4587605f3256ea357b8b6e71bae638106f3882a8a8bd2",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet dfadler--zombie-mermaid-1.png, panel 0. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+    "pngSha256": "b0791734adb55af7b08c02749f81a77d72b7962644d25181a5f4791f0d51e818",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet dfadler--zombie-mermaid-1.png, panel 1. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+    "pngSha256": "998ec115f658e4eb5340400710f304231ea4e8de9a9c7c4f2b85a90c062c8374",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet dfadler--zombie-mermaid-1.png, panel 2. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:693",
+    "sourceSha256": "9733d593d7c58fd476fc1d9669504583efa270cc4823a54eecca11ffd03d4db3",
+    "pngSha256": "e5ecf6a2691df3f5e9efd6df89616df2b823979a8aa68fdc8317aa72546e6042",
+    "expectationsSha256": "756117cff8a5a948f167743b6502d7d2a7a6362430861506f89480c2c9ab43f5",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet lukilabs--beautiful-mermaid-1.png, panel 3. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+    "sourceSha256": "30e40d14fabfa9e924f4ac0cf2fb3ae051149db61be7e4d84c13eed8a8365b88",
+    "pngSha256": "99a8a2619a1bb6112111e2a72c17a315a6e58f84f1b5892b592e2331e74067cc",
+    "expectationsSha256": "1f5eeeaa5b88986f5aaf645b5232a759fa17ffcb964556c91e18fdbb44116f28",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet dfadler--zombie-mermaid-2.png, panel 4. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "27ad6feeb8aaa394d3951fb218c3e5c69cfae430cef9fb3f45f52f689aee6438",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet dfadler--zombie-mermaid-2.png, panel 5. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:125",
+    "sourceSha256": "ad45017122efa3019d856e560e060bf751cae87fb54770889a6c63623ca4a674",
+    "pngSha256": "8d59e254e07af15b955fe8a5862e4294533087e67e08f7669da1f01685b65724",
+    "expectationsSha256": "fde14eb30f46a04a55c19f4106d9d5d9d6612c386316f52e812a3601e563ffc7",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet lukilabs--beautiful-mermaid-3.png, panel 8. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "sourceSha256": "ad6754c39467d7b5deb867e48c2902a3d538af529f3306c00ee46f962911ab02",
+    "pngSha256": "d5658f939842a76cf673678be16a0b6c6c7c2b31e596d0037467149bfff7df78",
+    "expectationsSha256": "40bbf9939e2ef811bfa3d30db9c335311214ee8309ffca333958745c00baf471",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet dfadler--zombie-mermaid-3.png, panel 9. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:113",
+    "sourceSha256": "e7475df8ff02639af8891e24b199160a17991b45bede216b2ebac89a8ed5afbe",
+    "pngSha256": "aa2841e62a3f8ada7edd4529221f62480c85c5d0c9438c8a5ba841825198124d",
+    "expectationsSha256": "7deca4f0c0fd2f547cfe0c068666e6eab0d1bc9195acc78258a3731944eefdac",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet dfadler--zombie-mermaid-3.png, panel 10. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/pie.md:8",
+    "sourceSha256": "f41484cd94dd84837056db4c681ce6119f533b643bed745c58116553acdebf27",
+    "pngSha256": "de943625406c5c5c40c8df809e8f02d90dcacdd66556bd996a9019379d247897",
+    "expectationsSha256": "a51a60b74eb36a382b0c3819d1ebb25af85532b4c5bd3de685b9dab2648e486c",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet dfadler--zombie-mermaid-4.png, panel 13. Title, three labelled slices and their visible proportions match the source (386:85:15; about 79%, 17%, 3%). No claim of hidden numeric readback."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "pngSha256": "8f34ba1472c4bc54dd5d5ef08d1f414d1d8c6d6b07a8c44c825d5aac8816cf51",
+    "expectationsSha256": "e851339663bfb71c8698148ea18fb6eef99fbfd3332368bb43883c06949e2707",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet dfadler--zombie-mermaid-4.png, panel 15. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+    "pngSha256": "95dd1ffaafc30bb4d87f977d793e5b0488b105cc56915cae91e3c0104d6cdf70",
+    "expectationsSha256": "1427bf5eca71410470ca9cd2c80ec18e27256ef0d0d277e1c2750994a31528c3",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet dfadler--zombie-mermaid-4.png, panel 16. Collapsed group members A, B and C remain visible."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+    "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+    "pngSha256": "6c380e0008f0bdaf721c079034b1b4127fe33574a39c06669c36acd2cf603862",
+    "expectationsSha256": "23e82336a7c94d578be4587605f3256ea357b8b6e71bae638106f3882a8a8bd2",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Dicklesworthstone--frankenmermaid-1.png, panel 0. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+    "pngSha256": "219ae3839cb7377055d9f06768cefda8c6929a2bec4edc24c8c378c8d10dc642",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Dicklesworthstone--frankenmermaid-1.png, panel 1. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+    "pngSha256": "b7f44c6de8f41b37b3b87d6e5bba661e4439e040c26865c7d18b6ae0a954d6c0",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Dicklesworthstone--frankenmermaid-1.png, panel 2. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:693",
+    "sourceSha256": "9733d593d7c58fd476fc1d9669504583efa270cc4823a54eecca11ffd03d4db3",
+    "pngSha256": "dbcd2e262347c4c034919a11892d01c2c46ee4dae361882576381cdd49e32269",
+    "expectationsSha256": "756117cff8a5a948f167743b6502d7d2a7a6362430861506f89480c2c9ab43f5",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Dicklesworthstone--frankenmermaid-1.png, panel 3. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+    "sourceSha256": "30e40d14fabfa9e924f4ac0cf2fb3ae051149db61be7e4d84c13eed8a8365b88",
+    "pngSha256": "90361490223290e67dcb55a931cdcd4540a5665ea60bf2d3737e286359ef3265",
+    "expectationsSha256": "1f5eeeaa5b88986f5aaf645b5232a759fa17ffcb964556c91e18fdbb44116f28",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Dicklesworthstone--frankenmermaid-2.png, panel 4. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "5442637f32aa97278cc00aff5418898207e22954cab4548f1356f73976b0bece",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Dicklesworthstone--frankenmermaid-2.png, panel 5. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:45",
+    "sourceSha256": "f4db835df6afe3f2a60fd530d101e862e7adee3fb9a13cbd63bb06fceb16af18",
+    "pngSha256": "d698a8356b26343e8598423108043b59720d49139d4f94660b44fd4deeefe0e0",
+    "expectationsSha256": "52a10d2e565f83ea9f2bc117dc3137553d8f193af24a914b090f27f211e6e002",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Dicklesworthstone--frankenmermaid-2.png, panel 6. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:99",
+    "sourceSha256": "bd780a3a2d167f1014a4c6e654d333d227057ffd42946970e533d61ea0907b37",
+    "pngSha256": "c5258d9a5eec4d0bb165ecfc0fe5634f0b4850d77a6aa906e3b9dea550a414e7",
+    "expectationsSha256": "ac6360af27eaa453b520c143f63c706107239d338d603ebe560a322b91c67392",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Dicklesworthstone--frankenmermaid-2.png, panel 7. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:125",
+    "sourceSha256": "ad45017122efa3019d856e560e060bf751cae87fb54770889a6c63623ca4a674",
+    "pngSha256": "fbe70f19648489f81ba57eb8c42211d59ecebba26593e1d183edfdace407cffe",
+    "expectationsSha256": "fde14eb30f46a04a55c19f4106d9d5d9d6612c386316f52e812a3601e563ffc7",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Dicklesworthstone--frankenmermaid-3.png, panel 8. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "sourceSha256": "ad6754c39467d7b5deb867e48c2902a3d538af529f3306c00ee46f962911ab02",
+    "pngSha256": "72b94af4e4b2097354d8ab1965780745a2a5062dfce94488debcf8d9427d4a4d",
+    "expectationsSha256": "40bbf9939e2ef811bfa3d30db9c335311214ee8309ffca333958745c00baf471",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Dicklesworthstone--frankenmermaid-3.png, panel 9. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:113",
+    "sourceSha256": "e7475df8ff02639af8891e24b199160a17991b45bede216b2ebac89a8ed5afbe",
+    "pngSha256": "9c4ae576878a6d52c395b7ff947f556c63de714bb2fca59a4acf0b113463e674",
+    "expectationsSha256": "7deca4f0c0fd2f547cfe0c068666e6eab0d1bc9195acc78258a3731944eefdac",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Dicklesworthstone--frankenmermaid-3.png, panel 10. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:64",
+    "sourceSha256": "24e2536fc7a02abbc39c94baca52fcb055a4dd6c79fdd1e9733fba9faa2d823e",
+    "pngSha256": "ad7d21131b4a090bc2cf0a948b8d21f7421710056cdaf8e99ea82ddddbdd4a84",
+    "expectationsSha256": "b11cd5a0fef0e5051cb46008e3f11b9a1ff67a39db8b0939b543eb915088e658",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Dicklesworthstone--frankenmermaid-3.png, panel 11. An additional node labelled block appears alongside a, b and c."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:327",
+    "sourceSha256": "f84186409cf32f763577dc6df754dd5ff83e66c4082333724d19203aa6f5f9af",
+    "pngSha256": "d3a2b70f0c34ebf3ca234548ca90334841a829f029d9c9860b6c18b5da5af133",
+    "expectationsSha256": "c59c497862381541a3e1336e06a6099b13039f2a84e67175ce0891d8b81c0118",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Dicklesworthstone--frankenmermaid-4.png, panel 12. Additional nodes labelled block and space are painted; space should be an empty spacer."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/pie.md:8",
+    "sourceSha256": "f41484cd94dd84837056db4c681ce6119f533b643bed745c58116553acdebf27",
+    "pngSha256": "b6b95eb35bd30eb520974b7ebd41d1fb6ba288ec21da77c8ac6a48ff091fb4eb",
+    "expectationsSha256": "a51a60b74eb36a382b0c3819d1ebb25af85532b4c5bd3de685b9dab2648e486c",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Dicklesworthstone--frankenmermaid-4.png, panel 13. Title, three labelled slices and their visible proportions match the source (386:85:15; about 79%, 17%, 3%). No claim of hidden numeric readback."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "pngSha256": "bd820d1fa1e604da678508ebf5560fcc118af44543d958d4e82ea3cc4a23a87f",
+    "expectationsSha256": "e851339663bfb71c8698148ea18fb6eef99fbfd3332368bb43883c06949e2707",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Dicklesworthstone--frankenmermaid-4.png, panel 15. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+    "pngSha256": "2cac180900ef4795c0821e56df9ae177e72c0c163501b5ee98dbea0ffcf20342",
+    "expectationsSha256": "1427bf5eca71410470ca9cd2c80ec18e27256ef0d0d277e1c2750994a31528c3",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Dicklesworthstone--frankenmermaid-4.png, panel 16. Collapsed members A, B and C remain visible."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+    "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+    "pngSha256": "14da1f84ec7c02ccf203e659a3e03656db5aae80ee27b85cad9c48550be6e06e",
+    "expectationsSha256": "23e82336a7c94d578be4587605f3256ea357b8b6e71bae638106f3882a8a8bd2",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet emtyty--merslim-1.png, panel 0. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+    "pngSha256": "eaeca4bb7d5206b6287015dc1b1583d697e282066828c440bfc67caa917d0960",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet emtyty--merslim-1.png, panel 1. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+    "pngSha256": "e02d7fb95633ea333ea1a1e758eeb74d4cc11e3981a50179142ce0cd25d7bf09",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet emtyty--merslim-1.png, panel 2. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:693",
+    "sourceSha256": "9733d593d7c58fd476fc1d9669504583efa270cc4823a54eecca11ffd03d4db3",
+    "pngSha256": "14da1f84ec7c02ccf203e659a3e03656db5aae80ee27b85cad9c48550be6e06e",
+    "expectationsSha256": "756117cff8a5a948f167743b6502d7d2a7a6362430861506f89480c2c9ab43f5",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet emtyty--merslim-1.png, panel 3. The undirected relation is drawn with a directed arrowhead."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+    "sourceSha256": "30e40d14fabfa9e924f4ac0cf2fb3ae051149db61be7e4d84c13eed8a8365b88",
+    "pngSha256": "14da1f84ec7c02ccf203e659a3e03656db5aae80ee27b85cad9c48550be6e06e",
+    "expectationsSha256": "1f5eeeaa5b88986f5aaf645b5232a759fa17ffcb964556c91e18fdbb44116f28",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet emtyty--merslim-2.png, panel 4. The invisible layout relation is drawn as a visible directed arrow."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "65555fd68515923d9d199d1c098f345075ccdb542eb7e38b74f74ad2c5b0ee31",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet emtyty--merslim-2.png, panel 5. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:99",
+    "sourceSha256": "bd780a3a2d167f1014a4c6e654d333d227057ffd42946970e533d61ea0907b37",
+    "pngSha256": "6e8ec03272d13f62a8724ca6a24768fee6e613bde11fcd6fd0092ea6f9c294cd",
+    "expectationsSha256": "ac6360af27eaa453b520c143f63c706107239d338d603ebe560a322b91c67392",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet emtyty--merslim-2.png, panel 7. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:125",
+    "sourceSha256": "ad45017122efa3019d856e560e060bf751cae87fb54770889a6c63623ca4a674",
+    "pngSha256": "b1783da40e53a788cec2e8d6563db3da8663ee0dbbc025adbc6fe59495b7eee2",
+    "expectationsSha256": "fde14eb30f46a04a55c19f4106d9d5d9d6612c386316f52e812a3601e563ffc7",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet emtyty--merslim-3.png, panel 8. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "sourceSha256": "ad6754c39467d7b5deb867e48c2902a3d538af529f3306c00ee46f962911ab02",
+    "pngSha256": "9cf138408ce33254a1d4b60532a5a56533371ad8f74b15d2b2b18be63b43844b",
+    "expectationsSha256": "40bbf9939e2ef811bfa3d30db9c335311214ee8309ffca333958745c00baf471",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet emtyty--merslim-3.png, panel 9. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:113",
+    "sourceSha256": "e7475df8ff02639af8891e24b199160a17991b45bede216b2ebac89a8ed5afbe",
+    "pngSha256": "26c3f59a921a132b968acc7c17ebb206cc0bcfb07ab1221cb36d4401cece6db0",
+    "expectationsSha256": "7deca4f0c0fd2f547cfe0c068666e6eab0d1bc9195acc78258a3731944eefdac",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet emtyty--merslim-3.png, panel 10. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/pie.md:8",
+    "sourceSha256": "f41484cd94dd84837056db4c681ce6119f533b643bed745c58116553acdebf27",
+    "pngSha256": "c8d6c73f5da92a59220550fd0f23a2d004ad2d856ff77bfaae044df56710bd5e",
+    "expectationsSha256": "a51a60b74eb36a382b0c3819d1ebb25af85532b4c5bd3de685b9dab2648e486c",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet emtyty--merslim-4.png, panel 13. The authored pie title is absent."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "pngSha256": "9898f6fc4039f2bb45233676402ca168d5c9175c9e6898f2b372a1a861519abf",
+    "expectationsSha256": "e851339663bfb71c8698148ea18fb6eef99fbfd3332368bb43883c06949e2707",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet emtyty--merslim-4.png, panel 15. All three group labels and enclosures are absent."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+    "pngSha256": "d05f2cc7a6069879bce5191acef1df5552e903e829723cffa2331caf331723fa",
+    "expectationsSha256": "1427bf5eca71410470ca9cd2c80ec18e27256ef0d0d277e1c2750994a31528c3",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet emtyty--merslim-4.png, panel 16. My Group is absent, A/B/C are visible and the requested Start/group/End connections are missing."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+    "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+    "pngSha256": "cb86f31c52fe61c2d52a580f6e689a9928b0a0137782762e486322c5fae81220",
+    "expectationsSha256": "23e82336a7c94d578be4587605f3256ea357b8b6e71bae638106f3882a8a8bd2",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet evangwt--xmermaid-1.png, panel 0. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+    "pngSha256": "31d186e3eef83cd6c9142b5ba0741003c3b46ce34e4a95aa95e8ef507e7102aa",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet evangwt--xmermaid-1.png, panel 1. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+    "pngSha256": "48d71115fd651c65eb75dd40ecbd862d6edab2a7bc99b0fd7897f588eb237901",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet evangwt--xmermaid-1.png, panel 2. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:693",
+    "sourceSha256": "9733d593d7c58fd476fc1d9669504583efa270cc4823a54eecca11ffd03d4db3",
+    "pngSha256": "407ef2789c0e779db62473ac1d66b2123e03e14b166fb708cfe7c9bea433ae3c",
+    "expectationsSha256": "756117cff8a5a948f167743b6502d7d2a7a6362430861506f89480c2c9ab43f5",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet evangwt--xmermaid-1.png, panel 3. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+    "sourceSha256": "30e40d14fabfa9e924f4ac0cf2fb3ae051149db61be7e4d84c13eed8a8365b88",
+    "pngSha256": "7bd2f87a19bddfe1f52dc226b5bd14d734a0833eafda630a0f449970c5c86568",
+    "expectationsSha256": "1f5eeeaa5b88986f5aaf645b5232a759fa17ffcb964556c91e18fdbb44116f28",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet evangwt--xmermaid-2.png, panel 4. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "a4f32fa6dca25eb4466aff83bafb15d4c01d90119a2bdb305c024aedbb62ae1b",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet evangwt--xmermaid-2.png, panel 5. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:45",
+    "sourceSha256": "f4db835df6afe3f2a60fd530d101e862e7adee3fb9a13cbd63bb06fceb16af18",
+    "pngSha256": "6791b3ee414f36ec13278a2dd8702beaeba40e50190738205a95d31c086ba5eb",
+    "expectationsSha256": "52a10d2e565f83ea9f2bc117dc3137553d8f193af24a914b090f27f211e6e002",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet evangwt--xmermaid-2.png, panel 6. The authored title Node with text is absent."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:125",
+    "sourceSha256": "ad45017122efa3019d856e560e060bf751cae87fb54770889a6c63623ca4a674",
+    "pngSha256": "4394c58c15be14fb8e88a1f89b529dc1a8e5f1bf1fc04625cfd25a0faa45a52e",
+    "expectationsSha256": "fde14eb30f46a04a55c19f4106d9d5d9d6612c386316f52e812a3601e563ffc7",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet evangwt--xmermaid-3.png, panel 8. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "sourceSha256": "ad6754c39467d7b5deb867e48c2902a3d538af529f3306c00ee46f962911ab02",
+    "pngSha256": "7e4efdaaac6fe8b8146132225d912ee5ec202021c712c6e9e6ede9273f3e2785",
+    "expectationsSha256": "40bbf9939e2ef811bfa3d30db9c335311214ee8309ffca333958745c00baf471",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet evangwt--xmermaid-3.png, panel 9. The transition caption obscures the entire connection and arrowhead; no directed route is visible."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/pie.md:8",
+    "sourceSha256": "f41484cd94dd84837056db4c681ce6119f533b643bed745c58116553acdebf27",
+    "pngSha256": "d8901defa834bae8cd426d834803849f96fa3362165ce3ceae45af106385d2d9",
+    "expectationsSha256": "a51a60b74eb36a382b0c3819d1ebb25af85532b4c5bd3de685b9dab2648e486c",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet evangwt--xmermaid-4.png, panel 13. Title, three labelled slices and their visible proportions match the source (386:85:15; about 79%, 17%, 3%). No claim of hidden numeric readback."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "pngSha256": "5b884d6ba48ff1d2a91023ea03b2637e92855803acb6ee8031e6d720bf0d3963",
+    "expectationsSha256": "e851339663bfb71c8698148ea18fb6eef99fbfd3332368bb43883c06949e2707",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet evangwt--xmermaid-4.png, panel 15. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+    "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+    "pngSha256": "2eadcbc4e3ff3a52c3f9d0c7d39a5847fb2796f3e4c4dc998d06a38b336f3ae2",
+    "expectationsSha256": "23e82336a7c94d578be4587605f3256ea357b8b6e71bae638106f3882a8a8bd2",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet KlangHaus--vitepress-plugin-diagram-1.png, panel 0. The source becomes a single A-- node; B and its arrow are missing."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+    "pngSha256": "d8e5b28e7abb8b6a828cf5732e5261c33ce9845afb78532eda1ded8a3d30935d",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet KlangHaus--vitepress-plugin-diagram-1.png, panel 1. The directed Start to Stop relation has no arrowhead."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+    "pngSha256": "4a8159d81a2cc32e06e8bac9741e4d82618c6bfec774c24c8751884d037f2afe",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet KlangHaus--vitepress-plugin-diagram-1.png, panel 2. The directed Start to Stop relation has no arrowhead."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:693",
+    "sourceSha256": "9733d593d7c58fd476fc1d9669504583efa270cc4823a54eecca11ffd03d4db3",
+    "pngSha256": "00bfaa54c95ece008c3d251b1f5a931723e519355bcf254d65e0f53aa64981e7",
+    "expectationsSha256": "756117cff8a5a948f167743b6502d7d2a7a6362430861506f89480c2c9ab43f5",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet KlangHaus--vitepress-plugin-diagram-1.png, panel 3. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+    "sourceSha256": "30e40d14fabfa9e924f4ac0cf2fb3ae051149db61be7e4d84c13eed8a8365b88",
+    "pngSha256": "f5da9b51511a2b795a2c464c48da523dfb7cd9659b6309c596f30150345940fc",
+    "expectationsSha256": "1f5eeeaa5b88986f5aaf645b5232a759fa17ffcb964556c91e18fdbb44116f28",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet KlangHaus--vitepress-plugin-diagram-2.png, panel 4. B is absent from the invisible-edge source."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "42ec7c3d59f7c53b7d83582b5709fe2fbe1c39dc4e9bdce93ac6b7b732c35fbf",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet KlangHaus--vitepress-plugin-diagram-2.png, panel 5. Quotation delimiters are painted as part of the Unicode label."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "pngSha256": "34aa26059da9b5c6859b10d0c44cc32b5a3d4c1e7ec8f1a054f9811201631a5c",
+    "expectationsSha256": "e851339663bfb71c8698148ea18fb6eef99fbfd3332368bb43883c06949e2707",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet KlangHaus--vitepress-plugin-diagram-4.png, panel 15. Group nodes are truncated and the required edges and members are missing."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+    "pngSha256": "1296952a1ffd98831cf87e2d756a23069e4cd1d307e7ff038e4fec08c9c0380a",
+    "expectationsSha256": "1427bf5eca71410470ca9cd2c80ec18e27256ef0d0d277e1c2750994a31528c3",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet KlangHaus--vitepress-plugin-diagram-4.png, panel 16. The collapsed group is expanded and disconnected from Start and End."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+    "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+    "pngSha256": "67f062a3c72d7b028103e5d9248f57fe6073bcfd224f367cc9cbadfd041d3613",
+    "expectationsSha256": "23e82336a7c94d578be4587605f3256ea357b8b6e71bae638106f3882a8a8bd2",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet lukilabs--beautiful-mermaid-1.png, panel 0. The source becomes one A-- node; B and the arrow are missing."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+    "pngSha256": "461aac8e1be362b3028877529289a9792915bbcaaf2b1c47b47ad4056fb3cf62",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet lukilabs--beautiful-mermaid-1.png, panel 1. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+    "pngSha256": "7eeeef06ef94c5d1bef6048fbe161bda5226a5445ac906cdbb1888ba0e96dae4",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet lukilabs--beautiful-mermaid-1.png, panel 2. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+    "sourceSha256": "30e40d14fabfa9e924f4ac0cf2fb3ae051149db61be7e4d84c13eed8a8365b88",
+    "pngSha256": "bfba3287bcdd20753616e5befd27d24e1077746e955312a54ab5ebd2a9516fb6",
+    "expectationsSha256": "1f5eeeaa5b88986f5aaf645b5232a759fa17ffcb964556c91e18fdbb44116f28",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet lukilabs--beautiful-mermaid-2.png, panel 4. B is absent."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "5915adf5eb862fa4a4a8d342c044773762ce5cd343023cd5b5272124359d3469",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet lukilabs--beautiful-mermaid-2.png, panel 5. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "sourceSha256": "ad6754c39467d7b5deb867e48c2902a3d538af529f3306c00ee46f962911ab02",
+    "pngSha256": "848f5a685a3ca26940ba0a849b9eb474e6c09ade6ba22ebb16534b9cddf790bb",
+    "expectationsSha256": "40bbf9939e2ef811bfa3d30db9c335311214ee8309ffca333958745c00baf471",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet lukilabs--beautiful-mermaid-3.png, panel 9. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:113",
+    "sourceSha256": "e7475df8ff02639af8891e24b199160a17991b45bede216b2ebac89a8ed5afbe",
+    "pngSha256": "4efd1a3aea421df9292e2492e6ba643b826c9245bbb8f2c668601e90df64430f",
+    "expectationsSha256": "7deca4f0c0fd2f547cfe0c068666e6eab0d1bc9195acc78258a3731944eefdac",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet lukilabs--beautiful-mermaid-3.png, panel 10. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "pngSha256": "9d8f02d7eace220cb374a60befdae0c6a1dcf6354240c155e86b1603d1427651",
+    "expectationsSha256": "e851339663bfb71c8698148ea18fb6eef99fbfd3332368bb43883c06949e2707",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet lukilabs--beautiful-mermaid-4.png, panel 15. Group members are truncated, missing and clipped; the required graph is absent."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+    "pngSha256": "838d269f439447b40b1e4bee761dd0defb597e06d787fdb3f7466a1fd277130b",
+    "expectationsSha256": "1427bf5eca71410470ca9cd2c80ec18e27256ef0d0d277e1c2750994a31528c3",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet lukilabs--beautiful-mermaid-4.png, panel 16. Collapsed group members A, B and C remain visible."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+    "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+    "pngSha256": "88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+    "expectationsSha256": "23e82336a7c94d578be4587605f3256ea357b8b6e71bae638106f3882a8a8bd2",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Latias94--merman-1.png, panel 0. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+    "pngSha256": "729d81fe2f6d203460f8df9883ae9ad93f44bff1f233418f98cf75c25aefd4d2",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Latias94--merman-1.png, panel 1. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+    "pngSha256": "1177b5ea9608b3b5333bc1a825cb2f1507cf2ada4e1e7f25acbbb88fd9a97249",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Latias94--merman-1.png, panel 2. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:693",
+    "sourceSha256": "9733d593d7c58fd476fc1d9669504583efa270cc4823a54eecca11ffd03d4db3",
+    "pngSha256": "412a37f6a497ff6dc31a9a4eefe825f0b6bf00207dca7fc0be29aa0167001e51",
+    "expectationsSha256": "756117cff8a5a948f167743b6502d7d2a7a6362430861506f89480c2c9ab43f5",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Latias94--merman-1.png, panel 3. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+    "sourceSha256": "30e40d14fabfa9e924f4ac0cf2fb3ae051149db61be7e4d84c13eed8a8365b88",
+    "pngSha256": "e97715d2bcbf9b04adf2b16a787c9db7cdde628b453dadcf28c104aed8e53237",
+    "expectationsSha256": "1f5eeeaa5b88986f5aaf645b5232a759fa17ffcb964556c91e18fdbb44116f28",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Latias94--merman-2.png, panel 4. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "95d6b79c447b1151845ba5b251666b8bf7c5b59ba4a49d138e58b3d9ef45c001",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Latias94--merman-2.png, panel 5. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:45",
+    "sourceSha256": "f4db835df6afe3f2a60fd530d101e862e7adee3fb9a13cbd63bb06fceb16af18",
+    "pngSha256": "d63361c3d966918d741fbb202ee91e916859fb7ac16c64e570497ba2d3f36cbb",
+    "expectationsSha256": "52a10d2e565f83ea9f2bc117dc3137553d8f193af24a914b090f27f211e6e002",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet mermaid-js--mermaid-2.png, panel 6. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:99",
+    "sourceSha256": "bd780a3a2d167f1014a4c6e654d333d227057ffd42946970e533d61ea0907b37",
+    "pngSha256": "862a766fb24c5f93e44048637f4fd351cd008e0ead43381685a3e79b4998f742",
+    "expectationsSha256": "ac6360af27eaa453b520c143f63c706107239d338d603ebe560a322b91c67392",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Latias94--merman-2.png, panel 7. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:125",
+    "sourceSha256": "ad45017122efa3019d856e560e060bf751cae87fb54770889a6c63623ca4a674",
+    "pngSha256": "b3658f6b9f018386bb1aab47567cdb084e218ee66817943b0dda4335319cedc3",
+    "expectationsSha256": "fde14eb30f46a04a55c19f4106d9d5d9d6612c386316f52e812a3601e563ffc7",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Latias94--merman-3.png, panel 8. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "sourceSha256": "ad6754c39467d7b5deb867e48c2902a3d538af529f3306c00ee46f962911ab02",
+    "pngSha256": "219a8dd45e8306a66cd5a2d5bdad5d596a036855eac87859842aed40953211f2",
+    "expectationsSha256": "40bbf9939e2ef811bfa3d30db9c335311214ee8309ffca333958745c00baf471",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Latias94--merman-3.png, panel 9. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:113",
+    "sourceSha256": "e7475df8ff02639af8891e24b199160a17991b45bede216b2ebac89a8ed5afbe",
+    "pngSha256": "102db7ed506fe5eaf4a1e52f70a8c6563c51bb4435ea6a2a6d9c2585a7fa9ba6",
+    "expectationsSha256": "7deca4f0c0fd2f547cfe0c068666e6eab0d1bc9195acc78258a3731944eefdac",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Latias94--merman-3.png, panel 10. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:64",
+    "sourceSha256": "24e2536fc7a02abbc39c94baca52fcb055a4dd6c79fdd1e9733fba9faa2d823e",
+    "pngSha256": "45140d14a6353755725146eac7aab8882f2f77d5f52bc0bd92d76a6a0c805cba",
+    "expectationsSha256": "b11cd5a0fef0e5051cb46008e3f11b9a1ff67a39db8b0939b543eb915088e658",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet mermaid-js--mermaid-3.png, panel 11. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:327",
+    "sourceSha256": "f84186409cf32f763577dc6df754dd5ff83e66c4082333724d19203aa6f5f9af",
+    "pngSha256": "bd25d59c76f8128e71cf8189d231850f760b5c2625d449894f23318df95159c3",
+    "expectationsSha256": "c59c497862381541a3e1336e06a6099b13039f2a84e67175ce0891d8b81c0118",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet mermaid-js--mermaid-4.png, panel 12. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/pie.md:8",
+    "sourceSha256": "f41484cd94dd84837056db4c681ce6119f533b643bed745c58116553acdebf27",
+    "pngSha256": "f37c631694ef837d6d0d2edd73a73a9589253bc847672aed4b6769a39550ea6f",
+    "expectationsSha256": "a51a60b74eb36a382b0c3819d1ebb25af85532b4c5bd3de685b9dab2648e486c",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet mermaid-js--mermaid-4.png, panel 13. Title, three labelled slices and their visible proportions match the source (386:85:15; about 79%, 17%, 3%). No claim of hidden numeric readback."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "pngSha256": "5533f3e3c12aa27d6c332945a678de03e2181c5497688af9c15d787bf4e536b2",
+    "expectationsSha256": "e851339663bfb71c8698148ea18fb6eef99fbfd3332368bb43883c06949e2707",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet mermaid-js--mermaid-4.png, panel 15. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+    "pngSha256": "cdd9b28b142d4e5290b5d505e4ceb384539b0a0b9f65453cdc0ce0fd0de10079",
+    "expectationsSha256": "1427bf5eca71410470ca9cd2c80ec18e27256ef0d0d277e1c2750994a31528c3",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet mermaid-js--mermaid-4.png, panel 16. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+    "pngSha256": "0ce8db1b8fe7a316678c2ee3db26579f1323a0629f66136e145c8c6732335648",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet obsidianmd--pele-1.png, panel 1. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+    "pngSha256": "10357edfb63ef6e48640c9253a1dcaafbb4211cb973bfd201f2130de99f56472",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet obsidianmd--pele-1.png, panel 2. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "73d616f8e695cb968e61c5b900cd19699cc8e257e96617ddd4d0aac5a77a4797",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet obsidianmd--pele-2.png, panel 5. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "sourceSha256": "ad6754c39467d7b5deb867e48c2902a3d538af529f3306c00ee46f962911ab02",
+    "pngSha256": "feafbd23b4bad97b7f16620f4a69603f93f31daa8466b64869616c82e34f3117",
+    "expectationsSha256": "40bbf9939e2ef811bfa3d30db9c335311214ee8309ffca333958745c00baf471",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet obsidianmd--pele-3.png, panel 9. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:113",
+    "sourceSha256": "e7475df8ff02639af8891e24b199160a17991b45bede216b2ebac89a8ed5afbe",
+    "pngSha256": "6c8dcb00490fd52d4d92b231f298cbec5d5647ecd77af337f5c2d5a75610dfde",
+    "expectationsSha256": "7deca4f0c0fd2f547cfe0c068666e6eab0d1bc9195acc78258a3731944eefdac",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet obsidianmd--pele-3.png, panel 10. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "pngSha256": "dcebdb5a218db8d28bafcf5957f1c492ca692b0d58d8fd6e1ebe5512ffb4604c",
+    "expectationsSha256": "e851339663bfb71c8698148ea18fb6eef99fbfd3332368bb43883c06949e2707",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet obsidianmd--pele-4.png, panel 15. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+    "pngSha256": "33fa419c12cc343270eb5d0594803b2b36f7bb3980367c031aa3f70e989fb832",
+    "expectationsSha256": "1427bf5eca71410470ca9cd2c80ec18e27256ef0d0d277e1c2750994a31528c3",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet obsidianmd--pele-4.png, panel 16. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+    "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+    "pngSha256": "e7ceba553fcebf8196e4bde312dbeafd444ab8f6ff11a564548a6af4c284df91",
+    "expectationsSha256": "23e82336a7c94d578be4587605f3256ea357b8b6e71bae638106f3882a8a8bd2",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet orestesgaolin--mermaid-1.png, panel 0. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+    "pngSha256": "0ef61cd4c4d81e36499a6118d870e313e62bfb0d7394cd4682d751be9ed37f90",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet orestesgaolin--mermaid-1.png, panel 1. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+    "pngSha256": "985d5c11136f5e2cb7263fd46b659c2be0f3122e2fce28c8243d57b905885c08",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet orestesgaolin--mermaid-1.png, panel 2. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:693",
+    "sourceSha256": "9733d593d7c58fd476fc1d9669504583efa270cc4823a54eecca11ffd03d4db3",
+    "pngSha256": "9d29e5bc68241acf411a5c3ed531115e77e312d422ba34ddfa620aa8552f27f4",
+    "expectationsSha256": "756117cff8a5a948f167743b6502d7d2a7a6362430861506f89480c2c9ab43f5",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet orestesgaolin--mermaid-1.png, panel 3. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+    "sourceSha256": "30e40d14fabfa9e924f4ac0cf2fb3ae051149db61be7e4d84c13eed8a8365b88",
+    "pngSha256": "fe944de3605381986a6fd2640beb92afcdec126f79b2aebfb1fb1063728e1cc2",
+    "expectationsSha256": "1f5eeeaa5b88986f5aaf645b5232a759fa17ffcb964556c91e18fdbb44116f28",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet orestesgaolin--mermaid-2.png, panel 4. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "0dcc34bb2790ba2937977eb052d6094accd50d66d2e456760985e937dfac7a13",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet orestesgaolin--mermaid-2.png, panel 5. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:45",
+    "sourceSha256": "f4db835df6afe3f2a60fd530d101e862e7adee3fb9a13cbd63bb06fceb16af18",
+    "pngSha256": "6ea74c3ea1d53cf1b7fbd3e77842a8d491d0dfc25da670a1bf34f717d2194ec4",
+    "expectationsSha256": "52a10d2e565f83ea9f2bc117dc3137553d8f193af24a914b090f27f211e6e002",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet orestesgaolin--mermaid-2.png, panel 6. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:99",
+    "sourceSha256": "bd780a3a2d167f1014a4c6e654d333d227057ffd42946970e533d61ea0907b37",
+    "pngSha256": "96df0470b8dab85b8905cd1ad0df9fa104ee6960ecf5927fdeca40deb8aa8b13",
+    "expectationsSha256": "ac6360af27eaa453b520c143f63c706107239d338d603ebe560a322b91c67392",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet orestesgaolin--mermaid-2.png, panel 7. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:125",
+    "sourceSha256": "ad45017122efa3019d856e560e060bf751cae87fb54770889a6c63623ca4a674",
+    "pngSha256": "a69b1c700bba511999ad617b3d88af5270c7bf86dab44a092a5b839c5edd32eb",
+    "expectationsSha256": "fde14eb30f46a04a55c19f4106d9d5d9d6612c386316f52e812a3601e563ffc7",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet orestesgaolin--mermaid-3.png, panel 8. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "sourceSha256": "ad6754c39467d7b5deb867e48c2902a3d538af529f3306c00ee46f962911ab02",
+    "pngSha256": "d6c58980c89014ecf299c7fd1c720526078a6dcfbbc1f6b8df0598cc9adb4de6",
+    "expectationsSha256": "40bbf9939e2ef811bfa3d30db9c335311214ee8309ffca333958745c00baf471",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet orestesgaolin--mermaid-3.png, panel 9. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:113",
+    "sourceSha256": "e7475df8ff02639af8891e24b199160a17991b45bede216b2ebac89a8ed5afbe",
+    "pngSha256": "8a0f717752de8dcd868398df2b57f26acd8afb486d3c732480685c877bd6fba9",
+    "expectationsSha256": "7deca4f0c0fd2f547cfe0c068666e6eab0d1bc9195acc78258a3731944eefdac",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet orestesgaolin--mermaid-3.png, panel 10. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:64",
+    "sourceSha256": "24e2536fc7a02abbc39c94baca52fcb055a4dd6c79fdd1e9733fba9faa2d823e",
+    "pngSha256": "053216696a229420b9e1ab667a04cdf21a99caba560b78cf7790743cba7d078e",
+    "expectationsSha256": "b11cd5a0fef0e5051cb46008e3f11b9a1ff67a39db8b0939b543eb915088e658",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet orestesgaolin--mermaid-3.png, panel 11. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:327",
+    "sourceSha256": "f84186409cf32f763577dc6df754dd5ff83e66c4082333724d19203aa6f5f9af",
+    "pngSha256": "6605463af7b6fa9ce3fb3eb3a218e1c05c16655f57cb9e5f1da0365615e54c0b",
+    "expectationsSha256": "c59c497862381541a3e1336e06a6099b13039f2a84e67175ce0891d8b81c0118",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet orestesgaolin--mermaid-4.png, panel 12. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/pie.md:8",
+    "sourceSha256": "f41484cd94dd84837056db4c681ce6119f533b643bed745c58116553acdebf27",
+    "pngSha256": "237fd8b51271dc97439978bada90fb98ffaa9401ce34016444b12cc2a6b9e460",
+    "expectationsSha256": "a51a60b74eb36a382b0c3819d1ebb25af85532b4c5bd3de685b9dab2648e486c",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet orestesgaolin--mermaid-4.png, panel 13. Title, three labelled slices and their visible proportions match the source (386:85:15; about 79%, 17%, 3%). No claim of hidden numeric readback."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "pngSha256": "5efc62da927a5d02046a79f51ff66fe37227e4aaeadf61973fbd8638fe1dc39f",
+    "expectationsSha256": "e851339663bfb71c8698148ea18fb6eef99fbfd3332368bb43883c06949e2707",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet orestesgaolin--mermaid-4.png, panel 15. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+    "pngSha256": "c70c004c408cfc8be45e4b0f17f15e759e5c10bed021bdd8b1b9ce5fcf262468",
+    "expectationsSha256": "1427bf5eca71410470ca9cd2c80ec18e27256ef0d0d277e1c2750994a31528c3",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet orestesgaolin--mermaid-4.png, panel 16. Collapsed group members A, B and C remain painted; the collapsed My Group connection is not preserved."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+    "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+    "pngSha256": "a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89",
+    "expectationsSha256": "23e82336a7c94d578be4587605f3256ea357b8b6e71bae638106f3882a8a8bd2",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet pub-mermaid_flutter-1.png, panel 0. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+    "pngSha256": "adddfb1f2b8833cfd6048c6ff44df5f6bd4ac9030931f979ba6ffede51666b57",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet pub-mermaid_flutter-1.png, panel 1. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+    "pngSha256": "c77b5a4145e09076017f849e04c852a974d561433083d5fae4d87f03d3994fa0",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet pub-mermaid_flutter-1.png, panel 2. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:693",
+    "sourceSha256": "9733d593d7c58fd476fc1d9669504583efa270cc4823a54eecca11ffd03d4db3",
+    "pngSha256": "d14b1c3145079711f4da017a91f9fa16f63eafafa0ac77d925330c77991bf104",
+    "expectationsSha256": "756117cff8a5a948f167743b6502d7d2a7a6362430861506f89480c2c9ab43f5",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet pub-mermaid_flutter-1.png, panel 3. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+    "sourceSha256": "30e40d14fabfa9e924f4ac0cf2fb3ae051149db61be7e4d84c13eed8a8365b88",
+    "pngSha256": "257e02207e2828061e54ddd7cc3559e5ec6a5c494eec4aa888e565db7f9825a9",
+    "expectationsSha256": "1f5eeeaa5b88986f5aaf645b5232a759fa17ffcb964556c91e18fdbb44116f28",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet pub-mermaid_flutter-2.png, panel 4. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "50d36cd92cb129b984a85ae25aeb37d0a5c9ff2e06ef6374fdb2f8770a4c797d",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet pub-mermaid_flutter-2.png, panel 5. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:45",
+    "sourceSha256": "f4db835df6afe3f2a60fd530d101e862e7adee3fb9a13cbd63bb06fceb16af18",
+    "pngSha256": "a135fe554fb7e68a1e625158c35e30dc3db8867f4fe6982d675015dcf315cd27",
+    "expectationsSha256": "52a10d2e565f83ea9f2bc117dc3137553d8f193af24a914b090f27f211e6e002",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet pub-mermaid_flutter-2.png, panel 6. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:99",
+    "sourceSha256": "bd780a3a2d167f1014a4c6e654d333d227057ffd42946970e533d61ea0907b37",
+    "pngSha256": "1e93872a9b9967411901830c2213881d6c5122ac547a27da8007741be7705ab8",
+    "expectationsSha256": "ac6360af27eaa453b520c143f63c706107239d338d603ebe560a322b91c67392",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet pub-mermaid_flutter-2.png, panel 7. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:125",
+    "sourceSha256": "ad45017122efa3019d856e560e060bf751cae87fb54770889a6c63623ca4a674",
+    "pngSha256": "f4dc9090aec2d645aed9df71003ec7b4249201010d32bc8e56d2583378b51a50",
+    "expectationsSha256": "fde14eb30f46a04a55c19f4106d9d5d9d6612c386316f52e812a3601e563ffc7",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet pub-mermaid_flutter-3.png, panel 8. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "sourceSha256": "ad6754c39467d7b5deb867e48c2902a3d538af529f3306c00ee46f962911ab02",
+    "pngSha256": "2aaf949225516642c3da928ea5df33bcb7c9e6dd62de152eff4cbb3dba4d5ecb",
+    "expectationsSha256": "40bbf9939e2ef811bfa3d30db9c335311214ee8309ffca333958745c00baf471",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet pub-mermaid_flutter-3.png, panel 9. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:113",
+    "sourceSha256": "e7475df8ff02639af8891e24b199160a17991b45bede216b2ebac89a8ed5afbe",
+    "pngSha256": "1077fd6219fcd836e38c0d7009e64db8b54dc3d52c30e163d441cca04e3342f0",
+    "expectationsSha256": "7deca4f0c0fd2f547cfe0c068666e6eab0d1bc9195acc78258a3731944eefdac",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet pub-mermaid_flutter-3.png, panel 10. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:64",
+    "sourceSha256": "24e2536fc7a02abbc39c94baca52fcb055a4dd6c79fdd1e9733fba9faa2d823e",
+    "pngSha256": "0ffd76dfe54838ee0e9fa067506f2797c47c358ffada19b40e37c01880faab2d",
+    "expectationsSha256": "b11cd5a0fef0e5051cb46008e3f11b9a1ff67a39db8b0939b543eb915088e658",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet pub-mermaid_flutter-3.png, panel 11. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:327",
+    "sourceSha256": "f84186409cf32f763577dc6df754dd5ff83e66c4082333724d19203aa6f5f9af",
+    "pngSha256": "2327f0d8ed00e96e2a1c6ce69829617f30a9956120e5f696c03b56393030b28b",
+    "expectationsSha256": "c59c497862381541a3e1336e06a6099b13039f2a84e67175ce0891d8b81c0118",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet pub-mermaid_flutter-4.png, panel 12. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/pie.md:8",
+    "sourceSha256": "f41484cd94dd84837056db4c681ce6119f533b643bed745c58116553acdebf27",
+    "pngSha256": "1da65df6bdf387a68465d1db294fdaf30a4b39715b5809925825407fe5854467",
+    "expectationsSha256": "a51a60b74eb36a382b0c3819d1ebb25af85532b4c5bd3de685b9dab2648e486c",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet pub-mermaid_flutter-4.png, panel 13. Title, three labelled slices and their visible proportions match the source (386:85:15; about 79%, 17%, 3%). No claim of hidden numeric readback."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "pngSha256": "8f9e421d5c4fb19672842d2a034e587377d10197f1fbafdffbe4732952cec176",
+    "expectationsSha256": "e851339663bfb71c8698148ea18fb6eef99fbfd3332368bb43883c06949e2707",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet pub-mermaid_flutter-4.png, panel 15. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+    "pngSha256": "97b8abd31ca48d9b4b6d159f3f260ef4eaddd9b7fa7e83b01387e31c9193b706",
+    "expectationsSha256": "1427bf5eca71410470ca9cd2c80ec18e27256ef0d0d277e1c2750994a31528c3",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet pub-mermaid_flutter-4.png, panel 16. Collapsed members A, B and C remain visible and the collapsed group connection is not preserved."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+    "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+    "pngSha256": "124a792e0cada614d0e815aecd0b50d11e71bd876d4b966db53870a55d1d8229",
+    "expectationsSha256": "23e82336a7c94d578be4587605f3256ea357b8b6e71bae638106f3882a8a8bd2",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet sandyyst--dsh-plugin-mermaid-gb-svg-1.png, panel 0. Only A-- appears; B and its directed relation are absent."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+    "pngSha256": "411a69ef4cc340e06f10f96e566d249cc1faae3b966afaade442d7da0bfda372",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet sandyyst--dsh-plugin-mermaid-gb-svg-1.png, panel 1. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+    "pngSha256": "84cdb8cc521fdf39522f4ca4ebceeee5b6874b1a95fde121e68d3f1aacf2cd8a",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet sandyyst--dsh-plugin-mermaid-gb-svg-1.png, panel 2. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:693",
+    "sourceSha256": "9733d593d7c58fd476fc1d9669504583efa270cc4823a54eecca11ffd03d4db3",
+    "pngSha256": "0ae26ca22be9abf60d701b95dc018ba2b214ead536a0012a188220c4e58425b8",
+    "expectationsSha256": "756117cff8a5a948f167743b6502d7d2a7a6362430861506f89480c2c9ab43f5",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet sandyyst--dsh-plugin-mermaid-gb-svg-1.png, panel 3. An arrowhead is painted on the undirected relation."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+    "sourceSha256": "30e40d14fabfa9e924f4ac0cf2fb3ae051149db61be7e4d84c13eed8a8365b88",
+    "pngSha256": "d47acd701249027fc55c121a5c7fb87aee6bb4814a9ee91436bc171f0fcb8a91",
+    "expectationsSha256": "1f5eeeaa5b88986f5aaf645b5232a759fa17ffcb964556c91e18fdbb44116f28",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet sandyyst--dsh-plugin-mermaid-gb-svg-2.png, panel 4. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "565d0dfa9e194bf89298a5e11c3bcb1684cfed78fac33fb554e55170398e4ace",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet sandyyst--dsh-plugin-mermaid-gb-svg-2.png, panel 5. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:45",
+    "sourceSha256": "f4db835df6afe3f2a60fd530d101e862e7adee3fb9a13cbd63bb06fceb16af18",
+    "pngSha256": "decf3837c7575a79c42b4b05b96f4df72e12e9620bdeb9131f3c19c2ba8d820b",
+    "expectationsSha256": "52a10d2e565f83ea9f2bc117dc3137553d8f193af24a914b090f27f211e6e002",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet sandyyst--dsh-plugin-mermaid-gb-svg-2.png, panel 6. The authored title Node with text is absent."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:99",
+    "sourceSha256": "bd780a3a2d167f1014a4c6e654d333d227057ffd42946970e533d61ea0907b37",
+    "pngSha256": "01cc033a021e1bb234142169bb2fdbe1ff4cc85d8b87639cc1fe96c237e994f1",
+    "expectationsSha256": "ac6360af27eaa453b520c143f63c706107239d338d603ebe560a322b91c67392",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet sandyyst--dsh-plugin-mermaid-gb-svg-2.png, panel 7. An extra stateDiagram-v2 node is painted."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:125",
+    "sourceSha256": "ad45017122efa3019d856e560e060bf751cae87fb54770889a6c63623ca4a674",
+    "pngSha256": "73867dae52349842ae3152086712eaa464b3b8c563910fc2e382226709668721",
+    "expectationsSha256": "fde14eb30f46a04a55c19f4106d9d5d9d6612c386316f52e812a3601e563ffc7",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet sandyyst--dsh-plugin-mermaid-gb-svg-3.png, panel 8. An extra stateDiagram-v2 node is painted."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "sourceSha256": "ad6754c39467d7b5deb867e48c2902a3d538af529f3306c00ee46f962911ab02",
+    "pngSha256": "73867dae52349842ae3152086712eaa464b3b8c563910fc2e382226709668721",
+    "expectationsSha256": "40bbf9939e2ef811bfa3d30db9c335311214ee8309ffca333958745c00baf471",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet sandyyst--dsh-plugin-mermaid-gb-svg-3.png, panel 9. An extra stateDiagram-v2 node is painted, and the transition caption is absent."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:113",
+    "sourceSha256": "e7475df8ff02639af8891e24b199160a17991b45bede216b2ebac89a8ed5afbe",
+    "pngSha256": "d24fdd2db49be853be82d6b36670d3cb965128680291cc61a56796cc4fa06a03",
+    "expectationsSha256": "7deca4f0c0fd2f547cfe0c068666e6eab0d1bc9195acc78258a3731944eefdac",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet sandyyst--dsh-plugin-mermaid-gb-svg-3.png, panel 10. An extra stateDiagram-v2 node appears and the required state description is absent."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:64",
+    "sourceSha256": "24e2536fc7a02abbc39c94baca52fcb055a4dd6c79fdd1e9733fba9faa2d823e",
+    "pngSha256": "d5c5ae61c9fb5b5adde9269c16838d03753d327c8f1ce46b7a44b403b3c2fd99",
+    "expectationsSha256": "b11cd5a0fef0e5051cb46008e3f11b9a1ff67a39db8b0939b543eb915088e658",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet sandyyst--dsh-plugin-mermaid-gb-svg-3.png, panel 11. Only block and a are painted; b and c are missing."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:327",
+    "sourceSha256": "f84186409cf32f763577dc6df754dd5ff83e66c4082333724d19203aa6f5f9af",
+    "pngSha256": "d8fb4a913cf7ebcbc152d99923651154db1e9d856a61a73875e831d411757914",
+    "expectationsSha256": "c59c497862381541a3e1336e06a6099b13039f2a84e67175ce0891d8b81c0118",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet sandyyst--dsh-plugin-mermaid-gb-svg-4.png, panel 12. Extra block and A-- nodes appear; B and the required relation are absent."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/pie.md:8",
+    "sourceSha256": "f41484cd94dd84837056db4c681ce6119f533b643bed745c58116553acdebf27",
+    "pngSha256": "ea041cced1e2ce35e193dc7f4d5c4e6ce989f2f21c97596a0c548246ea0e6247",
+    "expectationsSha256": "a51a60b74eb36a382b0c3819d1ebb25af85532b4c5bd3de685b9dab2648e486c",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet sandyyst--dsh-plugin-mermaid-gb-svg-4.png, panel 13. Only a pie-labelled node is painted; title, labels and slice proportions are absent."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "pngSha256": "1fe57963c3003315ab4248250584228f6518b5e073c162f18ab0f217707daca5",
+    "expectationsSha256": "e851339663bfb71c8698148ea18fb6eef99fbfd3332368bb43883c06949e2707",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet sandyyst--dsh-plugin-mermaid-gb-svg-4.png, panel 15. Groups contain truncated node labels and lack the declared members and connections."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+    "pngSha256": "616ff699353614eb662005fe6b81543cd37300066bf4e934faf70cc3bec62f06",
+    "expectationsSha256": "1427bf5eca71410470ca9cd2c80ec18e27256ef0d0d277e1c2750994a31528c3",
+    "status": "incorrect",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet sandyyst--dsh-plugin-mermaid-gb-svg-4.png, panel 16. The requested collapsed My Group is absent; A, B and C remain visible."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+    "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+    "pngSha256": "7493fe1face37f701ae8ec20ad6cd44db3aacec218d0dafb38acd8ac5b5359c3",
+    "expectationsSha256": "23e82336a7c94d578be4587605f3256ea357b8b6e71bae638106f3882a8a8bd2",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet wevm--ondine-1.png, panel 0. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:85",
+    "sourceSha256": "6686c2010c31ba664f0e247782e2ae54cae2e4d8e38e963d62c7680ec88d679b",
+    "pngSha256": "65d2ede8a4dfa821ef816834026792d7389b085bf189f1e0d98b586a08f6ecaf",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet wevm--ondine-1.png, panel 1. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:92",
+    "sourceSha256": "9221e419f59c0a81f59b17b5c407c5428062220007821d680d51a7e94ed896d2",
+    "pngSha256": "03e81c0ff356f5bb7884973ab3df4b956e688eca3fd39d850e8928cbb91f8c63",
+    "expectationsSha256": "7f9cdf2f7a5b30ddff2466f21ee2ac8d725fccef5c006b1c11616e54f069c2aa",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet wevm--ondine-1.png, panel 2. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:693",
+    "sourceSha256": "9733d593d7c58fd476fc1d9669504583efa270cc4823a54eecca11ffd03d4db3",
+    "pngSha256": "7d80f5144471f1c29cb5ecc87a39003ec320203ba3edc08adbe8fecb480249f0",
+    "expectationsSha256": "756117cff8a5a948f167743b6502d7d2a7a6362430861506f89480c2c9ab43f5",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet wevm--ondine-1.png, panel 3. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+    "sourceSha256": "30e40d14fabfa9e924f4ac0cf2fb3ae051149db61be7e4d84c13eed8a8365b88",
+    "pngSha256": "c271d3cee921fd5e99683269fe34ff1e9586104d1237055dc459876e5b0e0e5a",
+    "expectationsSha256": "1f5eeeaa5b88986f5aaf645b5232a759fa17ffcb964556c91e18fdbb44116f28",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet wevm--ondine-2.png, panel 4. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "eff927ed5295d63a7f9188c035947bfe260434cebf65d4ee1acb3820bd64d186",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet wevm--ondine-2.png, panel 5. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:45",
+    "sourceSha256": "f4db835df6afe3f2a60fd530d101e862e7adee3fb9a13cbd63bb06fceb16af18",
+    "pngSha256": "a618d0b974f7ddcc0cb227be8d15e20a20d64ff7535211c3ec4989d817bd1c8a",
+    "expectationsSha256": "52a10d2e565f83ea9f2bc117dc3137553d8f193af24a914b090f27f211e6e002",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet wevm--ondine-2.png, panel 6. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:99",
+    "sourceSha256": "bd780a3a2d167f1014a4c6e654d333d227057ffd42946970e533d61ea0907b37",
+    "pngSha256": "c42d142442dbd8da7af62dd4b28033ee6c6dff8cc0d4c3e5609b3f12591d8600",
+    "expectationsSha256": "ac6360af27eaa453b520c143f63c706107239d338d603ebe560a322b91c67392",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet wevm--ondine-2.png, panel 7. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:125",
+    "sourceSha256": "ad45017122efa3019d856e560e060bf751cae87fb54770889a6c63623ca4a674",
+    "pngSha256": "9d473dac40a6d95906e9e20236da8792d406917009eb091fc2e0e9fa2fafacff",
+    "expectationsSha256": "fde14eb30f46a04a55c19f4106d9d5d9d6612c386316f52e812a3601e563ffc7",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet wevm--ondine-3.png, panel 8. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:132",
+    "sourceSha256": "ad6754c39467d7b5deb867e48c2902a3d538af529f3306c00ee46f962911ab02",
+    "pngSha256": "fd46e7c4d66adc8b2c001612373a72c747089b293abbab674ed788f3cd907cc9",
+    "expectationsSha256": "40bbf9939e2ef811bfa3d30db9c335311214ee8309ffca333958745c00baf471",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet wevm--ondine-3.png, panel 9. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:113",
+    "sourceSha256": "e7475df8ff02639af8891e24b199160a17991b45bede216b2ebac89a8ed5afbe",
+    "pngSha256": "5cb2772292b6c28582ea60c841a81bf48a7f7db937d71c15c59f80e2e0baa2ca",
+    "expectationsSha256": "7deca4f0c0fd2f547cfe0c068666e6eab0d1bc9195acc78258a3731944eefdac",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet wevm--ondine-3.png, panel 10. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:64",
+    "sourceSha256": "24e2536fc7a02abbc39c94baca52fcb055a4dd6c79fdd1e9733fba9faa2d823e",
+    "pngSha256": "d71da853442a2860438fe14a05afd669e45836b50962e08fbb7687691995d076",
+    "expectationsSha256": "b11cd5a0fef0e5051cb46008e3f11b9a1ff67a39db8b0939b543eb915088e658",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet wevm--ondine-3.png, panel 11. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:327",
+    "sourceSha256": "f84186409cf32f763577dc6df754dd5ff83e66c4082333724d19203aa6f5f9af",
+    "pngSha256": "91be5637ed236d447551704a817e0d132084c5d02ff97f0a2582b5ba5595d4ee",
+    "expectationsSha256": "c59c497862381541a3e1336e06a6099b13039f2a84e67175ce0891d8b81c0118",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet wevm--ondine-4.png, panel 12. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/pie.md:8",
+    "sourceSha256": "f41484cd94dd84837056db4c681ce6119f533b643bed745c58116553acdebf27",
+    "pngSha256": "996751a0932a3a9a44c915e0c4829866acf73d98ca4c8d0c0e11bc1182a65f23",
+    "expectationsSha256": "a51a60b74eb36a382b0c3819d1ebb25af85532b4c5bd3de685b9dab2648e486c",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet wevm--ondine-4.png, panel 13. Title, three labelled slices and their visible proportions match the source (386:85:15; about 79%, 17%, 3%). No claim of hidden numeric readback."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "pngSha256": "fe83e30286287ccc858ada5715e24ff90fa59502e6f83c47da750410fafea10f",
+    "expectationsSha256": "e851339663bfb71c8698148ea18fb6eef99fbfd3332368bb43883c06949e2707",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet wevm--ondine-4.png, panel 15. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+    "pngSha256": "7a6e4f055287c033aca2684569c56503f0a75c79d3a105564bd9ccc5e8f30ba5",
+    "expectationsSha256": "1427bf5eca71410470ca9cd2c80ec18e27256ef0d0d277e1c2750994a31528c3",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet wevm--ondine-4.png, panel 16. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:45",
+    "sourceSha256": "f4db835df6afe3f2a60fd530d101e862e7adee3fb9a13cbd63bb06fceb16af18",
+    "pngSha256": "6cd644cc10035b98f99f3f6645242830d647dc6ba72fcf9356a40ac6d8f15b06",
+    "expectationsSha256": "52a10d2e565f83ea9f2bc117dc3137553d8f193af24a914b090f27f211e6e002",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Latias94--merman-2.png, panel 6. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:64",
+    "sourceSha256": "24e2536fc7a02abbc39c94baca52fcb055a4dd6c79fdd1e9733fba9faa2d823e",
+    "pngSha256": "97dc6a685f8414c74e34289b662578d60545498f19f37551b2dba5bf6e3d0e0e",
+    "expectationsSha256": "b11cd5a0fef0e5051cb46008e3f11b9a1ff67a39db8b0939b543eb915088e658",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Latias94--merman-3.png, panel 11. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/block.md:327",
+    "sourceSha256": "f84186409cf32f763577dc6df754dd5ff83e66c4082333724d19203aa6f5f9af",
+    "pngSha256": "6e1f0445ec8aa24b8088ca0fd71bf00529f54976b96dacb535a81180c28f6cbb",
+    "expectationsSha256": "c59c497862381541a3e1336e06a6099b13039f2a84e67175ce0891d8b81c0118",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Latias94--merman-4.png, panel 12. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/pie.md:8",
+    "sourceSha256": "f41484cd94dd84837056db4c681ce6119f533b643bed745c58116553acdebf27",
+    "pngSha256": "0a73b64172b3a23e9d52e38f867b5829f6ec4e806c5a16c0b9a1992fa8fe2e7d",
+    "expectationsSha256": "a51a60b74eb36a382b0c3819d1ebb25af85532b4c5bd3de685b9dab2648e486c",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Latias94--merman-4.png, panel 13. Title, three labelled slices and their visible proportions match the source (386:85:15; about 79%, 17%, 3%). No claim of hidden numeric readback."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:970",
+    "sourceSha256": "b9675066f5fb1cb73c137c788366fc5bcd334cccfbbbee56b2fbb505ab782fd3",
+    "pngSha256": "067bad1e3aef93b7eb498f26e9c28ec54dc1826db0e1b06b0b1069f3114f7703",
+    "expectationsSha256": "e851339663bfb71c8698148ea18fb6eef99fbfd3332368bb43883c06949e2707",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Latias94--merman-4.png, panel 15. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+    "sourceSha256": "011362669b9324c87459896a762674a757b0cb37a73b509b16481fe7d62c90e0",
+    "pngSha256": "44ce8d452513eb1609b7b237dcda912109cc932e4c31f9d752704e5f51cbcaee",
+    "expectationsSha256": "1427bf5eca71410470ca9cd2c80ec18e27256ef0d0d277e1c2750994a31528c3",
+    "status": "correct",
+    "reviewedBy": "Codex, actual retained PNG inspection, 2026-10-31",
+    "review": "Viewed the actual retained PNG against corpus/docs-reviewed.json, contact sheet Latias94--merman-4.png, panel 16. Visible source labels, required node bodies, relationships, direction and grouping agree with the complete source expectations. Typography and aesthetic preferences are outside this contract."
+  }
+]

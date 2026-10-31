@@ -1,0 +1,35 @@
+┌──────────┐
+│ CUSTOMER │
+└──────────┘
+
+┌───────┐
+│ ORDER │
+└───────┘
+
+┌───────────┐
+│ LINE_ITEM │
+└───────────┘
+
+┌─────────┐
+│ PRODUCT │
+└─────────┘
+
+┌─────────┐
+│ ADDRESS │
+└─────────┘
+
+┌─────────┐
+│ INVOICE │
+└─────────┘
+
+┌───────────┐
+│ WAREHOUSE │
+└───────────┘
+
+relations:
+id(bytes=8)="CUSTOMER"  ||--o{ id(bytes=5)="ORDER"     : places
+id(bytes=5)="ORDER"     ||--|{ id(bytes=9)="LINE_ITEM" : contains
+id(bytes=7)="PRODUCT"   ||--o{ id(bytes=9)="LINE_ITEM" : ordered in
+id(bytes=8)="CUSTOMER"  }|..|{ id(bytes=7)="ADDRESS"   : uses
+id(bytes=5)="ORDER"     }o--|| id(bytes=7)="INVOICE"   : billed by
+id(bytes=9)="WAREHOUSE" ||--o{ id(bytes=7)="PRODUCT"   : stocks

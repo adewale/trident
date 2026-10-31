@@ -1,0 +1,9 @@
+                                                                                             +---------------------+
+                   +---------------------+                       +----------------------+    |                     |
++-------------+    |   trigger div, as   |                       |    Kobalte tooltip   |    |   open delay, skip  |
+|             |    |                     | first pointerenter or |                      |    |   delay, presence,  |
+|  row mounts |----> Kobalte renders it  +--       focus       -->  mounts, its Trigger |---->                     |
++-------------+    |       closed        |                       |    adopts the div    |    |   popper, dismiss:  |
+                   |                     |                       |                      |    |  Kobalte, unchanged |
+                   +---------------------+                       +----------------------+    |                     |
+                                                                                             +---------------------+

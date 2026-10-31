@@ -1,0 +1,175 @@
+{
+  "schema": "trident-campaign-v2",
+  "campaignId": "ce859675-7ea9-48f5-a5c4-516e3b9f983c",
+  "pilot": false,
+  "includeExcluded": false,
+  "startedAt": "2026-10-31T09:31:29.975Z",
+  "updatedAt": "2026-10-31T09:31:54.148Z",
+  "projects": [
+    "adewale/agentic-mermaid",
+    "mermaid-js/mermaid",
+    "obsidianmd/pele"
+  ],
+  "profile": "full",
+  "rounds": 1,
+  "requestedSuites": [
+    "native-fidelity"
+  ],
+  "options": {
+    "root": "/workspace/trident-terminal-campaign-runner",
+    "harnessRoot": "/workspace/trident-terminal-campaign-runner",
+    "out": "/workspace/trident-ecosystem-2026-10-31-campaign/model-retry",
+    "profile": "full",
+    "rounds": 1,
+    "communityProjects": [
+      "adewale/agentic-mermaid",
+      "mermaid-js/mermaid",
+      "obsidianmd/pele"
+    ],
+    "communityForce": false,
+    "allowIncomplete": false,
+    "communityArtifactPolicy": "frozen",
+    "communityCoverageOnce": true,
+    "executable": "/usr/bin/chromium",
+    "communityCatalogFile": "/workspace/trident-ecosystem-2026-10-31-campaign/model-retry/preparation/catalog.json",
+    "communityPreparedFile": "/workspace/trident-ecosystem-2026-10-31-campaign/model-retry/preparation/community-prepared.json",
+    "communityBrowserPreparedFile": "/workspace/trident-ecosystem-2026-10-31-campaign/model-retry/preparation/community-browser-prepared.json",
+    "communityInputsFile": "/workspace/trident-ecosystem-2026-10-31-campaign/model-retry/preparation/community-inputs.json"
+  },
+  "preparationFile": "/workspace/trident-ecosystem-2026-10-31-campaign/model-retry/preparation.json",
+  "preparationSha256": "dd364a4781cd155dc1c2e8f98c6881077107d6f38dec6cee3846af9f8f99a0b4",
+  "runtime": {
+    "environment": {
+      "runtime": {
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "node": "24.19.0",
+        "v8": "13.6.233.17-node.51",
+        "platform": "linux",
+        "arch": "x64"
+      },
+      "nodeSha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12",
+      "host": "e751fd36fb35",
+      "cpu": [
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C",
+        "INTEL(R) XEON(R) PLATINUM 8573C"
+      ],
+      "kernel": "6.18.57",
+      "cpuLimit": "400000 100000",
+      "memoryLimit": "34359738368",
+      "environment": {
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null,
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_NUMERIC": null,
+        "AGENTIC_MERMAID_EXPERIMENTS": null
+      }
+    },
+    "driver": {
+      "status": "available",
+      "path": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+      "mode": 33216,
+      "version": "1.4.2",
+      "sha256": "a83d263767d839e4d2649ca8e35d07159c7afc99afdc96d731ced29e056dda0c",
+      "companions": []
+    },
+    "browser": {
+      "status": "available",
+      "path": "/usr/bin/chromium",
+      "mode": 33261,
+      "version": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)",
+      "sha256": "2c8d32d29dc6781c35ae196ea83299d507ac88fc339301abe74672feda299779",
+      "companions": [
+        {
+          "path": "/usr/lib/chromium/chromium",
+          "sha256": "4dc9f9f9b20e9bd95bf201f43d2d643f48938f36a70ddcb6fce3dd611a178180"
+        }
+      ]
+    },
+    "selectors": {
+      "LD_LIBRARY_PATH": "/workspace/trident-native-verification-2026-10-29/setup/sysroot/usr/lib/x86_64-linux-gnu:/workspace/trident-native-verification-2026-10-29/setup/sysroot/usr/lib/llvm-19/lib",
+      "DISPLAY": ":97",
+      "FONTCONFIG_FILE": null,
+      "FONTCONFIG_PATH": null,
+      "LIBGL_ALWAYS_SOFTWARE": "1",
+      "NODE_COMPILE_CACHE": null,
+      "UV_THREADPOOL_SIZE": null,
+      "NODE_BIN": null,
+      "BUN_BIN": null,
+      "BUN_OPTIONS": null,
+      "AM_BENCH_OBSERVER": null,
+      "MERMAID_REFERENCE_DIR": "/workspace/.cloud-tools/mermaid-reference",
+      "MERMAID_UPSTREAM_DIR": "/workspace/trident-pr21-review/mermaid-original-source",
+      "MERMAID_UPSTREAM_RUNNER_ROOT": null
+    }
+  },
+  "windows": [
+    {
+      "startedAt": "2026-10-31T09:31:29.975Z",
+      "budgetMinutes": null,
+      "deadline": null
+    }
+  ],
+  "results": [
+    {
+      "suite": "native-fidelity",
+      "project": "adewale/agentic-mermaid",
+      "cohort": "core",
+      "out": "/workspace/trident-ecosystem-2026-10-31-campaign/model-retry/native-fidelity/adewale%2Fagentic-mermaid",
+      "launched": true,
+      "elapsedSeconds": 7.006,
+      "status": "blocked",
+      "observations": 623,
+      "counts": {
+        "passed": 383,
+        "unsupported": 239,
+        "blocked": 1
+      },
+      "gaps": [
+        "Authored public-model contracts do not establish painted drawing correctness."
+      ],
+      "completed": true
+    },
+    {
+      "suite": "native-fidelity",
+      "project": "obsidianmd/pele",
+      "cohort": "core",
+      "out": "/workspace/trident-ecosystem-2026-10-31-campaign/model-retry/native-fidelity/obsidianmd%2Fpele",
+      "launched": true,
+      "elapsedSeconds": 6.571,
+      "status": "blocked",
+      "observations": 623,
+      "counts": {
+        "passed": 589,
+        "unsupported": 33,
+        "blocked": 1
+      },
+      "gaps": [
+        "Authored public-model contracts do not establish painted drawing correctness."
+      ],
+      "completed": true
+    },
+    {
+      "suite": "native-fidelity",
+      "project": "mermaid-js/mermaid",
+      "cohort": "core",
+      "out": "/workspace/trident-ecosystem-2026-10-31-campaign/model-retry/native-fidelity/mermaid-js%2Fmermaid",
+      "launched": true,
+      "elapsedSeconds": 10.593,
+      "status": "blocked",
+      "observations": 623,
+      "counts": {
+        "passed": 569,
+        "blocked": 54
+      },
+      "gaps": [
+        "Authored public-model contracts do not establish painted drawing correctness."
+      ],
+      "completed": true
+    }
+  ]
+}

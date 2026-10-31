@@ -1,0 +1,1 @@
+Error: Line 2: Invalid node syntax in edge: "|alpha| B" (Suggestion: Use 'ID' or 'ID[Label]')

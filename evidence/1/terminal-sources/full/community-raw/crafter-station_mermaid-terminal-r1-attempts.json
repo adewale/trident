@@ -1,0 +1,8 @@
+[
+  {
+    "attempt": 1,
+    "exitCode": 1,
+    "timedOut": false,
+    "detail": "Error: Installed companion package unavailable: @crafter/mermaid-cli"
+  }
+]

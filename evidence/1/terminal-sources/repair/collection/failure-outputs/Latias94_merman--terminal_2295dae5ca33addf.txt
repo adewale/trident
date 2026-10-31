@@ -1,0 +1,10 @@
+gitGraph direction(bytes=2)="LR" current(bytes=4)="main"
+branches=[bytes=4 "main", bytes=7 "develop", bytes=10 "feature/ui"]
+  - seq=0 branch(bytes=4)="main" id(bytes=4)="init" kind=normal message(bytes=0)=""
+  - seq=1 branch(bytes=4)="main" id(bytes=8)="scaffold" kind=normal message(bytes=0)="" parents=[bytes=4 "init"]
+  - seq=2 branch(bytes=7)="develop" id(bytes=11)="feature-api" kind=normal message(bytes=0)="" parents=[bytes=8 "scaffold"]
+  - seq=3 branch(bytes=10)="feature/ui" id(bytes=8)="ui-draft" kind=normal message(bytes=0)="" parents=[bytes=11 "feature-api"]
+  - seq=4 branch(bytes=10)="feature/ui" id(bytes=9)="ui-polish" kind=normal message(bytes=0)="" parents=[bytes=8 "ui-draft"]
+  - seq=5 branch(bytes=7)="develop" id(bytes=9)="5-e2b652c" kind=merge message(bytes=37)="merged branch feature/ui into develop" parents=[bytes=11 "feature-api", bytes=9 "ui-polish"]
+  - seq=6 branch(bytes=4)="main" id(bytes=6)="hotfix" kind=normal message(bytes=0)="" tags=[bytes=6 "v1.0.1"] parents=[bytes=8 "scaffold"]
+  - seq=7 branch(bytes=4)="main" id(bytes=9)="7-3550567" kind=merge message(bytes=31)="merged branch develop into main" tags=[bytes=6 "v1.1.0"] parents=[bytes=6 "hotfix", bytes=9 "5-e2b652c"]

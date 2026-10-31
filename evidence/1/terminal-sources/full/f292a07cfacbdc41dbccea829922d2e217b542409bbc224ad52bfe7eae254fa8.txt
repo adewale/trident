@@ -1,0 +1,12 @@
+╭ mermaid: erDiagram ─────────────────────╮
+│ erDiagram                               │
+│   direction LR                          │
+│   CUSTOMER ||--o{ ORDER : places        │
+│   ORDER ||--|{ LINE_ITEM : contains     │
+│   ORDER ||--|| PAYMENT : paid_by        │
+│   PRODUCT ||--o{ LINE_ITEM : appears_in │
+│   CUSTOMER {                            │
+│     string id PK                        │
+│     string email UK                     │
+│   }                                     │
+╰─────────────────────────────────────────╯
