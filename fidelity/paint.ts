@@ -428,27 +428,6 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const owners = new Map<Element, string[]>()
   for (const node of anchors.values()) owners.set(node.shape, [...(owners.get(node.shape) ?? []), node.id])
   for (const ids of owners.values()) if (ids.length > 1) for (const id of ids) { anchors.delete(id); missingNodes.push(id) }
-  const unexpectedNodes: string[] = []
-  if (input.expected.nodes?.length && !['sequence', 'zenuml'].includes(input.family)) {
-    const allowed = new Set(requiredLabels.map(normalize))
-    const candidates = [...svg.querySelectorAll('g.node,g[class$="-node"],g[class*="-node "],[data-role="node"]')].filter(owner => visible(owner))
-    for (const owner of candidates) {
-      if ([...anchors.values()].some(node => owner.contains(node.shape))) continue
-      const body = [...owner.querySelectorAll('rect,circle,ellipse,polygon,path')].some(shape => visible(shape) && rect(shape).width > 0 && rect(shape).height > 0)
-      const labels = labelElements.filter(element => owner.contains(element) && visible(element)).map(element => normalize(labelText(element))).filter(Boolean)
-      if (body && labels.some(label => !allowed.has(label))) unexpectedNodes.push(...labels)
-    }
-  }
-  if (input.expected.nodes?.length && !['sequence', 'zenuml'].includes(input.family)) {
-    const allowed = new Set(requiredLabels.map(normalize))
-    for (const [index, element] of labelElements.entries()) {
-      const label = normalize(labelText(element))
-      if (!label || allowed.has(label) || !visible(element)) continue
-      const owned = ownedBox(element, '__unrequested__:' + index)
-      if (owned && ![...anchors.values()].some(node => node.shape === owned.shape || node.owner.contains(owned.shape))) unexpectedNodes.push(label)
-    }
-  }
-  if (input.expected.nodes?.length) check('painted-node-ownership', input.expected.nodes.map(node => node.id), [...anchors.keys(), ...unexpectedNodes.map(label => 'unexpected:' + label)], unexpectedNodes.length ? false : missingNodes.length ? null : true, unexpectedNodes.length ? 'Additional visible node bodies carry undeclared labels: ' + unexpectedNodes.join(', ') : missingNodes.length ? 'Ambiguous or absent label-to-shape ownership: ' + missingNodes.join(', ') : 'Unique actual label-to-shape ownership, independently of native model identity; no additional declared node bodies carry unrelated labels')
   const rgba = (color: string): number[] | null => {
     if (!CSS.supports('color', color)) return null
     colorCanvas.clearRect(0, 0, 1, 1); colorCanvas.fillStyle = color; colorCanvas.fillRect(0, 0, 1, 1)
@@ -487,6 +466,37 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const distanceToInk = (point: Point, element: Element) => Math.min(...pointsOn(element).map(item => Math.hypot(point.x - item.x, point.y - item.y)))
   const distanceToNode = (point: Point, node: { shape: Element; outlines?: Element[] }) => Math.min(...(node.outlines ?? [node.shape]).map(shape => distanceToInk(point, shape)))
   let ambiguousEndpoints = false, unresolvedProjection = false
+  const dashPatterns = new Map<Element, 'solid' | 'dotted' | 'invisible' | 'unavailable'>()
+  const strokePattern = (element: Element): 'solid' | 'dotted' | 'invisible' | 'unavailable' => {
+    const previous = dashPatterns.get(element); if (previous) return previous
+    const css = getComputedStyle(element), raw = css.strokeDasharray
+    if (!raw || raw === 'none') return 'solid'
+    const tokens = raw.split(/[ ,]+/), unit = /^[-+]?(?:\d*\.)?\d+(?:px)?$/
+    if (tokens.length > 2048 || tokens.some(token => !unit.test(token)) || !unit.test(css.strokeDashoffset) || css.vectorEffect !== 'none') return 'unavailable'
+    let pattern = tokens.map(Number.parseFloat)
+    if (pattern.some(value => value < 0)) return 'unavailable'
+    if (pattern.length % 2) pattern = [...pattern, ...pattern]
+    const period = pattern.reduce((sum, value) => sum + value, 0)
+    if (!period) return 'solid'
+    const geometry = element as SVGGeometryElement, measured = geometry.getTotalLength(), declared = Number(element.getAttribute('pathLength'))
+    const length = declared > 0 ? declared : measured, offset = Number.parseFloat(css.strokeDashoffset), cap = css.strokeLinecap === 'butt' ? 0 : Number.parseFloat(css.strokeWidth) / 2
+    if (!(length > 0) || !Number.isFinite(offset) || !Number.isFinite(cap)) return 'unavailable'
+    const phase = (offset % period + period) % period
+    let paint = false, gap = false
+    if (length >= period) {
+      paint = pattern.some((value, index) => index % 2 === 0 && (value > 0 || cap > 0))
+      gap = pattern.some((value, index) => index % 2 === 1 && value > cap * 2 + 1e-7)
+    } else for (let cycle = 0; cycle <= 1; cycle++) {
+      let position = cycle * period - phase
+      for (const [index, value] of pattern.entries()) {
+        const end = position + value
+        if (index % 2 === 0) paint ||= end + cap > 0 && position - cap < length && (value > 0 || cap > 0)
+        else gap ||= Math.min(length, end - cap) - Math.max(0, position + cap) > 1e-7
+        position = end
+      }
+    }
+    const result = !paint ? 'invisible' : gap ? 'dotted' : 'solid'; dashPatterns.set(element, result); return result
+  }
   const bind = (point: Point, clearance = 2) => {
     const candidates = [...anchors.values()].map(node => {
       if (!['sequence', 'zenuml'].includes(input.family)) return { id: node.id, distance: distanceToNode(point, node) }
@@ -658,11 +668,18 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const connections: Array<{ source: string; target: string; directed: boolean; startMarker: string; endMarker: string; startFilled?: boolean; endFilled?: boolean; element: Element }> = []
   const connectionLabels = new Map<Element, string[]>()
   const connectionLabelElements = new Map<Element, { label: string; element: Element }[]>()
-  const edgeSelector = '.edge path,.edgePath path,.edge-path,.edge-paths path,g[class$="-edge"] path,g[class*="-edge "] path,path.flowchart-link,path.relation,path.relationshipLine,path.transition,path.em-relation,g.message line,g.message path,g.return line,g.return path,[data-relationship="sequence-message"],line.messageLine0,line.messageLine1,path.messageLine0,path.messageLine1,[data-edge-id],polyline.class-relationship,polyline.er-relationship'
+  const edgeSelector = '.edge path,.edgePath path,.edge-path,.edge-paths path,g[class$="-edge"] path,g[class*="-edge "] path,path.edge,line.edge,polyline.edge,path.flowchart-link,path.relation,path.relationshipLine,path.transition,path.em-relation,g.message line,g.message path,g.return line,g.return path,[data-relationship="sequence-message"],line.messageLine0,line.messageLine1,path.messageLine0,path.messageLine1,[data-edge-id],polyline.class-relationship,polyline.er-relationship'
   let paths = [...svg.querySelectorAll(edgeSelector)].filter(element => visible(element) && !camouflage(element) && ['path', 'line', 'polyline'].includes(element.localName))
   let unboundRelations = false, invalidMarker = false
   if (!paths.length) paths = geometry.filter(element => ['path', 'line', 'polyline'].includes(element.localName) && ![...anchors.values()].some(node => node.owner.contains(element)))
   paths = paths.filter(element => !inlineShape(element))
+  paths = paths.filter(element => {
+    if (input.family !== 'state' || element.localName !== 'path' || !/[zZ]\s*$/.test(element.getAttribute('d') ?? '') || !colorAlpha(getComputedStyle(element).fill)) return true
+    const panel = rect(element)
+    const header = [...anchors.values()].some(node => (input.expected.groups ?? []).some(group => group.id === node.id) && contains(node.box, panel) && Math.abs(panel.y - node.box.y) <= 2 && Math.abs(panel.width - node.box.width) <= 2 && panel.height < node.box.height * .6 && visibleMatches(node.label).some(label => contains(panel, labelBox(label))) && (input.expected.nodes ?? []).filter(other => other.id !== node.id).every(other => visibleMatches(other.label).every(label => !contains(panel, labelBox(label)))))
+    return !header
+  })
+  paths = paths.filter(element => { const pattern = strokePattern(element); if (pattern === 'unavailable') unresolvedProjection = true; return pattern !== 'invisible' })
   if (['sequence', 'zenuml'].includes(input.family)) paths = paths.filter(element => {
     const style = getComputedStyle(element), start = pointFor(element, false), end = pointFor(element, true)
     if (!start || !end || style.markerStart !== 'none' || style.markerEnd !== 'none' || Math.abs(start.x - end.x) > 1 || Math.abs(start.y - end.y) < 4) return true
@@ -763,6 +780,41 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const outside = members.filter(id => anchors.has(id) && !contains(owners[0]!.box, anchors.get(id)!.box, 2))
     check('painted-group:' + group.id, members, outside, available ? outside.length === 0 : null, 'Authored descendant nodes fit their actual owned group boundary; immediate membership is checked independently in the native model')
   }
+  const presentationRole = (element: Element) => {
+    if ([...connectionLabelElements.values()].flat().some(role => role.element === element || role.element.contains(element) || element.contains(role.element))) return true
+    if (input.family !== 'eventmodeling') return false
+    const frames = input.expected.facts?.frames
+    if (!Array.isArray(frames)) return false
+    const label = normalize(labelText(element)), owned = ownedBox(element, '__family-heading__')
+    if (!owned) return false
+    return frames.some((frame: any) => {
+      const lane = ['ui', 'processor'].includes(frame.kind) ? 'UI/Automation' : ['command', 'read-model'].includes(frame.kind) ? 'Command/Read Model' : frame.kind === 'event' ? 'Events' : null
+      if (!lane) return false
+      const namespace = frame.label.includes('.') ? frame.label.split('.')[0] : null, title = namespace ? ({ 'UI/Automation': 'UI/A: ', 'Command/Read Model': 'C/RM: ', Events: 'Stream: ' }[lane] ?? '') + namespace : lane
+      const node = anchors.get(frame.id)
+      return label === normalize(title) && !!node && contains(owned.box, node.box) && owned.box.width > node.box.width + 30 && center(labelBox(element)).x < node.box.x
+    })
+  }
+  const unexpectedNodes: string[] = []
+  if (input.expected.nodes?.length && !['sequence', 'zenuml'].includes(input.family)) {
+    const allowed = new Set(requiredLabels.map(normalize))
+    const candidates = [...svg.querySelectorAll('g.node,g[class$="-node"],g[class*="-node "],[data-role="node"]')].filter(owner => visible(owner))
+    for (const owner of candidates) {
+      if ([...anchors.values()].some(node => owner.contains(node.shape))) continue
+      const body = [...owner.querySelectorAll('rect,circle,ellipse,polygon,path')].some(shape => visible(shape) && rect(shape).width > 0 && rect(shape).height > 0)
+      if (body) unexpectedNodes.push(...labelElements.filter(element => owner.contains(element) && visible(element) && !presentationRole(element)).map(element => normalize(labelText(element))).filter(label => label && !allowed.has(label)))
+    }
+  }
+  if (input.expected.nodes?.length && !['sequence', 'zenuml'].includes(input.family)) {
+    const allowed = new Set(requiredLabels.map(normalize))
+    for (const [index, element] of labelElements.entries()) {
+      const label = normalize(labelText(element))
+      if (!label || allowed.has(label) || !visible(element) || presentationRole(element)) continue
+      const owned = ownedBox(element, '__unrequested__:' + index)
+      if (owned && ![...anchors.values()].some(node => node.shape === owned.shape || node.owner.contains(owned.shape))) unexpectedNodes.push(label)
+    }
+  }
+  if (input.expected.nodes?.length) check('painted-node-ownership', input.expected.nodes.map(node => node.id), [...anchors.keys(), ...unexpectedNodes.map(label => 'unexpected:' + label)], unexpectedNodes.length ? false : missingNodes.length ? null : true, unexpectedNodes.length ? 'Additional visible node bodies carry undeclared labels: ' + unexpectedNodes.join(', ') : missingNodes.length ? 'Ambiguous or absent label-to-shape ownership: ' + missingNodes.join(', ') : 'Unique actual label-to-shape ownership, independently of native model identity; no additional declared node bodies carry unrelated labels')
   if (input.family === 'flowchart' && input.expected.nodes?.length) {
     const consumed = new Set<Element>(), compound: { expected: string; actual: string }[] = []
     const consume = (element: Element, expected: string) => { const actual = normalize(labelText(element)); if (actual !== normalize(expected)) { compound.push({ expected, actual }); return }; consumed.add(element); for (const fragment of fragmentedLabels.get(element) ?? []) consumed.add(fragment) }
@@ -815,5 +867,5 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     textLineBlocks.push({ owner, label, lines: bound && safePaint && candidates.length === 1 ? paintedLines(candidates[0]!) : null, scope: 'Actual per-character browser rectangles establish displayed rows on a unique physical label owner. Unsupported note/fragment/box roles, ambiguous occurrences and unproved paint remain unavailable' })
   }
   const nodeStyle = (shape: Element) => { const style = getComputedStyle(shape); let opacity = 1; for (let parent: Element | null = shape; parent; parent = parent.parentElement) { opacity *= Number(getComputedStyle(parent).opacity); if (parent === svg) break }; return { fill: style.fill, fillOpacity: Number(style.fillOpacity), stroke: style.stroke, strokeOpacity: Number(style.strokeOpacity), strokeWidth: Number.parseFloat(style.strokeWidth), dash: style.strokeDasharray, opacity } }
-  return { ...(uninspectableLabels ? { labelRepresentation: 'uninspectable' as const } : {}), textLineBlocks, captions: [...connectionLabelElements.values()].flat().map(({ label, element }) => ({ label, box: labelBox(element) })), checks, complete: checks.every(item => item.status !== 'unavailable'), passed: checks.length > 0 && checks.every(item => item.status === 'passed'), nodes: [...anchors.values()].map(({ owner: _, shape, outlines: ___, ...node }) => { const style = getComputedStyle(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM?.(); return { ...node, outline: { tag: shape.localName, vertices: matrix ? vertices(shape)?.map(p => { const point = new DOMPoint(p.x, p.y).matrixTransform(matrix); return { x: point.x, y: point.y } }) : null, rx: (style.rx === 'auto' ? (shape as SVGRectElement).rx?.baseVal.value ?? 0 : /%/.test(style.rx) ? NaN : Number.parseFloat(style.rx)) * (matrix ? Math.hypot(matrix.a, matrix.b) : 1), ry: (style.ry === 'auto' ? style.rx === 'auto' ? (shape as SVGRectElement).ry?.baseVal.value ?? 0 : /%/.test(style.rx) ? NaN : Number.parseFloat(style.rx) : /%/.test(style.ry) ? NaN : Number.parseFloat(style.ry)) * (matrix ? Math.hypot(matrix.c, matrix.d) : 1) }, style: nodeStyle(shape) } }), connections: connections.map(({ element, ...edge }) => ({ ...edge, box: rect(element), start: pointFor(element, false), end: pointFor(element, true), stroke: getComputedStyle(element).stroke, strokeWidth: Number.parseFloat(getComputedStyle(element).strokeWidth), dash: getComputedStyle(element).strokeDasharray, labels: connectionLabels.get(element) ?? [], style: nodeStyle(element) })), viewBox: svg.getAttribute('viewBox'), groups: groupBoxes, camouflagedText, camouflagedGeometry }
+  return { ...(uninspectableLabels ? { labelRepresentation: 'uninspectable' as const } : {}), textLineBlocks, captions: [...connectionLabelElements.values()].flat().map(({ label, element }) => ({ label, box: labelBox(element) })), checks, complete: checks.every(item => item.status !== 'unavailable'), passed: checks.length > 0 && checks.every(item => item.status === 'passed'), nodes: [...anchors.values()].map(({ owner: _, shape, outlines: ___, ...node }) => { const style = getComputedStyle(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM?.(); return { ...node, outline: { tag: shape.localName, vertices: matrix ? vertices(shape)?.map(p => { const point = new DOMPoint(p.x, p.y).matrixTransform(matrix); return { x: point.x, y: point.y } }) : null, rx: (style.rx === 'auto' ? (shape as SVGRectElement).rx?.baseVal.value ?? 0 : /%/.test(style.rx) ? NaN : Number.parseFloat(style.rx)) * (matrix ? Math.hypot(matrix.a, matrix.b) : 1), ry: (style.ry === 'auto' ? style.rx === 'auto' ? (shape as SVGRectElement).ry?.baseVal.value ?? 0 : /%/.test(style.rx) ? NaN : Number.parseFloat(style.rx) : /%/.test(style.ry) ? NaN : Number.parseFloat(style.ry)) * (matrix ? Math.hypot(matrix.c, matrix.d) : 1) }, style: nodeStyle(shape) } }), connections: connections.map(({ element, ...edge }) => ({ ...edge, box: rect(element), start: pointFor(element, false), end: pointFor(element, true), stroke: getComputedStyle(element).stroke, strokeWidth: Number.parseFloat(getComputedStyle(element).strokeWidth), dash: getComputedStyle(element).strokeDasharray, strokePattern: strokePattern(element), labels: connectionLabels.get(element) ?? [], style: nodeStyle(element) })), viewBox: svg.getAttribute('viewBox'), groups: groupBoxes, camouflagedText, camouflagedGeometry }
 }

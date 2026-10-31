@@ -210,8 +210,9 @@ test('an interrupted docs round retains partial observations without a fabricate
   expect(row.values[table.columns.indexOf('Unexecuted')]).toBe(0)
   expect(row.unrankedReason).toBe('incomplete (1/2 complete rounds)')
   expect(rankedRows(table, id => id).map(row => [row.project, row.rank])).toEqual([['fixture/b', 1], ['fixture/a', null]])
-  expect(overview(data).rank).toBe('—')
-  expect(overview(data).docs).toContain('blocked')
+  // First-round content evidence remains valid; later raw-return gaps withhold return/timing claims.
+  expect(overview(data).rank).toBe('1')
+  expect(overview(data).docs).toContain('100.0%')
   const output = renderSnapshot(data, catalog)
   expect(output).toContain('bar [50]')
   expect(output).not.toContain('bar [50, 0]')

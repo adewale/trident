@@ -23,7 +23,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   type Point = { x: number; y: number }
   type Box = Point & { width: number; height: number }
   type Owned = { id: string; label: string; box: Box; anchorParts?: { tag: string; box: Box }[]; outline?: { tag: string; vertices?: Point[] | null; rx: number; ry: number }; style?: any }
-  type Route = { source: string; target: string; directed: boolean; startMarker: string; endMarker: string; startFilled?: boolean; endFilled?: boolean; box?: Box; start?: Point; end?: Point; dash?: string; strokeWidth?: number; labels?: string[]; style?: any }
+  type Route = { source: string; target: string; directed: boolean; startMarker: string; endMarker: string; startFilled?: boolean; endFilled?: boolean; box?: Box; start?: Point; end?: Point; dash?: string; strokePattern?: string; strokeWidth?: number; labels?: string[]; style?: any }
   const nodes = input.paint.nodes as Owned[], groups = input.paint.groups ?? [], routes = input.paint.connections as Route[], node = new Map(nodes.map(item => [item.id, item])), group = new Map(groups.map(item => [item.id, item]))
   const evidence = new Map([...input.paint.checks, ...(input.quantitative ?? [])].map(item => [item.criterion, item]))
   const normalize = (value: string) => value.normalize('NFC').replace(/\s+/g, ' ').trim()
@@ -479,7 +479,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       const candidates = relation(entry.source ?? entry.from, entry.target ?? entry.to), route = candidates.length === 1 ? candidates[0] : null
       if (!route) { available = false; return { expected: entry, actual: null } }
       const forward = route.source === (entry.source ?? entry.from), startMarker = forward ? route.startMarker : route.endMarker, endMarker = forward ? route.endMarker : route.startMarker
-      const stroke = solid(route.dash) ? 'solid' : 'dotted', thick = entry.stroke === 'thick'
+      const stroke = route.strokePattern === 'solid' || route.strokePattern === 'dotted' ? route.strokePattern : route.strokePattern ? null : solid(route.dash) ? 'solid' : route.dash?.split(/[ ,]+/).every((value: string) => Number.parseFloat(value) > 0) ? 'dotted' : null, thick = entry.stroke === 'thick'
       const baseline = routes.filter(other => other !== route && solid(other.dash)).map(other => other.strokeWidth).filter((value): value is number => Number.isFinite(value))
       if (thick && !baseline.length) available = false
       return { expected: entry, actual: { stroke, startMarker, endMarker, width: route.strokeWidth }, matches: (thick ? Number.isFinite(route.strokeWidth) && baseline.every(width => route.strokeWidth! > width + .1) : ['dashed', 'dotted'].includes(entry.stroke) ? stroke === 'dotted' : stroke === entry.stroke) && (entry.markerStart === undefined || startMarker === entry.markerStart) && (entry.markerEnd === undefined || endMarker === entry.markerEnd) }

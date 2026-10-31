@@ -51,7 +51,7 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
     return b.width > 0 && b.height > 0 && (fill !== null && fill * Number(css.fillOpacity) > 0 || stroke !== null && stroke * Number(css.strokeOpacity) > 0 && Number.parseFloat(css.strokeWidth) > 0)
   }
   const allText = svg ? [...svg.querySelectorAll('text,foreignObject p,foreignObject span,foreignObject div')] : []
-  const text = allText.filter(element => visible(element) && ![...element.children].some(child => visible(child) && normalize(child.textContent ?? '') === normalize(element.textContent ?? '')))
+  const text = allText.filter(element => visible(element) && ![...element.children].some(child => allText.includes(child) && visible(child) && normalize(child.textContent ?? '') === normalize(element.textContent ?? '')))
   const label = (value: string) => text.filter(element => normalize(element.textContent ?? '') === normalize(value))
   const nodes = input.paint.nodes as { id: string; label: string; box: { x: number; y: number; width: number; height: number }; outline?: { tag: string; vertices?: { x: number; y: number }[] | null; rx: number; ry: number }; style?: { fill: string; fillOpacity: number; stroke: string; strokeOpacity: number; strokeWidth: number; dash: string; opacity: number } }[]
   const nodeById = new Map(nodes.map(node => [node.id, node]))
@@ -166,11 +166,11 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
       continue
     }
     if (key === 'edge-appearance' && Array.isArray(facts[key])) {
-      const connections = input.paint.connections as { source: string; target: string; startMarker: string; endMarker: string; strokeWidth?: number; dash?: string }[]
+      const connections = input.paint.connections as { source: string; target: string; startMarker: string; endMarker: string; strokeWidth?: number; dash?: string; strokePattern?: string }[]
       const observed = facts[key].map((entry: any) => {
         const from = entry.source ?? entry.from, to = entry.target ?? entry.to, candidates = connections.filter(edge => edge.source === from && edge.target === to || edge.source === to && edge.target === from)
         const edge = candidates.length === 1 ? candidates[0]! : null, reverse = edge?.source !== from
-        return { ...entry, actual: edge && { width: edge.strokeWidth, stroke: !edge.dash || edge.dash === 'none' || /^0(?:px)?(?:[ ,]+0(?:px)?)*$/.test(edge.dash) ? 'solid' : edge.dash.split(/[ ,]+/).every(value => Number.parseFloat(value) > 0) ? 'dotted' : null, markerStart: reverse ? edge.endMarker : edge.startMarker, markerEnd: reverse ? edge.startMarker : edge.endMarker } }
+        return { ...entry, actual: edge && { width: edge.strokeWidth, stroke: edge.strokePattern === 'solid' || edge.strokePattern === 'dotted' ? edge.strokePattern : edge.strokePattern ? null : !edge.dash || edge.dash === 'none' || /^0(?:px)?(?:[ ,]+0(?:px)?)*$/.test(edge.dash) ? 'solid' : edge.dash.split(/[ ,]+/).every(value => Number.parseFloat(value) > 0) ? 'dotted' : null, markerStart: reverse ? edge.endMarker : edge.startMarker, markerEnd: reverse ? edge.startMarker : edge.endMarker } }
       })
       const ready = checkById.get('painted-relationships')?.status === 'passed' && observed.every((entry: any) => entry.actual && ['solid', 'dotted'].includes(entry.stroke) && entry.actual.stroke)
       add(key, observed, ready ? observed.every((entry: any) => entry.stroke === entry.actual.stroke && (entry.markerStart === undefined || entry.markerStart === entry.actual.markerStart) && (entry.markerEnd === undefined || entry.markerEnd === entry.actual.markerEnd)) : null, 'Every declared solid/dotted edge owns a unique measured route and its actual start/end marker geometry. Parallel endpoint pairs, thick-style relative baselines, animation and compound dash grammars need further evidence')
