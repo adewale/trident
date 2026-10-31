@@ -4,7 +4,7 @@ import { randomUUID } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { performance } from 'node:perf_hooks'
 import { join } from 'node:path'
-import type { BrowserContext, Page } from 'playwright'
+import type { BrowserContext, BrowserContextOptions, LaunchOptions, Page } from 'playwright'
 import { CollectionCheckpoint, writeDurableEvidence } from './checkpoint.ts'
 import { admitCheckedEvidence, evidenceBytesDigest, evidenceDigest, type CaseEvidenceContract, type CheckedEvidence, type InvocationEvidence } from './evidence-contract.ts'
 import { InvocationJournal } from './invocation-journal.ts'
@@ -38,6 +38,34 @@ export function qualifiedTimingCoordinates(plan: TimingPlan): TimingCoordinate[]
   return result
 }
 
+// A method-shaped object is not browser ownership. These capabilities are
+// minted only by this module's actual Playwright launch/context/page calls.
+const browserCapabilities = new WeakMap<BrowserContext, { page: Page; evaluate: (action: (request: any) => string | Promise<string>, request: any) => Promise<string>; close: () => Promise<void>; browserType: string; browserVersion: string }>()
+export async function launchOwnedTimingBrowser(options: LaunchOptions) {
+  const { chromium } = await import('playwright')
+  const browser = await chromium.launch({ ...options, timeout: options.timeout && options.timeout > 0 ? Math.min(options.timeout, 30_000) : 30_000 })
+  const newContext = browser.newContext.bind(browser), closeBrowser = browser.close.bind(browser)
+  return {
+    browser,
+    async newExecution(options: BrowserContextOptions, signal: AbortSignal, own: (execution: Extract<OwnedTimingExecution, { kind: 'browser-context' }>) => void) {
+      signal.throwIfAborted()
+      const context = await newContext(options), close = context.close.bind(context), newPage = context.newPage.bind(context)
+      const abort = () => { void close().catch(() => {}) }
+      signal.addEventListener('abort', abort, { once: true })
+      try {
+        signal.throwIfAborted()
+        const page = await newPage(), frame = page.mainFrame(), evaluate = frame.evaluate.bind(frame)
+        signal.throwIfAborted()
+        browserCapabilities.set(context, { page, evaluate, close, browserType: browser.browserType().name(), browserVersion: browser.version() })
+        const execution = { kind: 'browser-context' as const, handle: context, page }
+        own(execution)
+        return execution
+      } catch (error) { void close().catch(() => {}); throw error }
+    },
+    async close() { await closeBrowser() },
+  }
+}
+
 /** Install inside an already initialized fresh Worker. No source or public
  * render call is supplied during initialization. Exactly one call is accepted. */
 export function serveQualifiedTimingWorker(invoke: (source: string) => string | Uint8Array | Promise<string | Uint8Array>) {
@@ -58,7 +86,9 @@ function preparePublicCall(opened: OpenedTimingRuntime, attemptId: string, sourc
   const execution = opened.execution
   if (execution.kind === 'browser-context') {
     if (!('invokeInPage' in opened) || typeof opened.invokeInPage !== 'function') throw Error('Browser timing needs its public call serialized into the actual fresh page')
-    return { invoke: () => execution.page.evaluate(opened.invokeInPage, opened.request ? { ...opened.request, source } : source), cancel: () => {} }
+    const capability = browserCapabilities.get(execution.handle)
+    if (!capability || capability.page !== execution.page) throw Error('Browser timing runtime was not created by the owned actual-browser factory')
+    return { invoke: () => capability.evaluate(opened.invokeInPage, opened.request ? { ...opened.request, source } : source), cancel: () => {} }
   }
   const handle = execution.handle
   let resolve!: (value: string | Uint8Array) => void, reject!: (error: Error) => void
@@ -108,16 +138,17 @@ export async function collectQualifiedTiming(plan: TimingPlan, sources: readonly
       return { id: `child-process:${execution.handle.pid}:${randomUUID()}`, proof: { kind: execution.kind, pid: execution.handle.pid, executable: execution.handle.spawnfile } }
     }
     if (execution.kind === 'browser-context') {
-      const context = execution.handle
+      const context = execution.handle, capability = browserCapabilities.get(context)
+      if (!capability || capability.page !== execution.page) throw Error('Browser timing runtime was not created by the owned actual-browser factory')
       if (!context.browser()?.isConnected() || execution.page.isClosed() || execution.page.context() !== context || context.pages().length !== 1 || context.pages()[0] !== execution.page) throw Error('Timing driver needs one live page in a fresh isolated browser context')
       seenHandles.add(context)
-      return { id: 'browser-context:' + randomUUID(), proof: { kind: execution.kind, browserType: context.browser()!.browserType().name(), browserVersion: context.browser()!.version(), pages: 1 } }
+      return { id: 'browser-context:' + randomUUID(), proof: { kind: execution.kind, browserType: capability.browserType, browserVersion: capability.browserVersion, pages: 1 } }
     }
     throw Error('First-use needs an actual Worker, child process or isolated browser context; a renamed callback is insufficient')
   }
   const closeExecution = async (execution: OwnedTimingExecution) => {
     if (execution.kind === 'node-worker') { await execution.handle.terminate(); return }
-    if (execution.kind === 'browser-context') { await execution.handle.close(); return }
+    if (execution.kind === 'browser-context') { const capability = browserCapabilities.get(execution.handle); if (capability) await capability.close(); return }
     if (execution.handle.exitCode !== null || execution.handle.signalCode !== null) return
     await new Promise<void>(resolve => {
       const child = execution.handle, timer = setTimeout(() => { child.kill('SIGKILL') }, 2000)

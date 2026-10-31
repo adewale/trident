@@ -4,10 +4,11 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { once } from 'node:events'
 import { spawnSync } from 'node:child_process'
-import { collectQualifiedTiming, qualifiedTimingCoordinates, type QualifiedTimingPublicDriver, type ObserveTimedOutput } from '../portable/qualified-timing-collection.ts'
+import { collectQualifiedTiming, qualifiedTimingCoordinates, launchOwnedTimingBrowser, type QualifiedTimingPublicDriver, type ObserveTimedOutput } from '../portable/qualified-timing-collection.ts'
 import { defineCaseEvidenceContract, evidenceBytesDigest as hash, evidenceDigest } from '../portable/evidence-contract.ts'
 import { InvocationJournal } from '../portable/invocation-journal.ts'
 import { qualifyRetainedTiming } from '../unified/qualify-timing.ts'
+import { chromiumExecutable } from './helpers/environment.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 const temp = useTempDirs('qualified-timing-collection-')
 function fixture() {
@@ -157,4 +158,33 @@ test('a bounded failed observer can regrade every retained call without reopenin
   const fixed = await collectQualifiedTiming(f.plan, f.sources, { ...f.driver, async open() { throw Error('No regrading invocation') } }, f.observe, out, limits)
   expect(fixed.qualification.status).toBe('qualified')
   expect(readFileSync(f.calls, 'utf8')).toBe(before)
+})
+
+
+test('duck-typed browser objects cannot substitute a cached parent callback for a real browser', async () => {
+  const f = fixture(); let cached = 0
+  const driver: QualifiedTimingPublicDriver = { ...f.driver, async open({ artifact, own }) {
+    const page: any = { isClosed: () => false, context: () => context, evaluate: async () => { cached++; return 'cached parent result' } }
+    const context: any = { pages: () => [page], browser: () => ({ isConnected: () => true, browserType: () => ({ name: () => 'fake' }), version: () => 'fake' }), close: async () => {} }
+    const execution = { kind: 'browser-context' as const, handle: context, page }; own(execution)
+    return { artifact, execution, invokeInPage: () => 'actual page source' }
+  } }
+  const result = await collectQualifiedTiming(f.plan, f.sources, driver, f.observe, join(f.root, 'fake-browser'))
+  expect(result.qualification.status).toBe('unqualified')
+  expect(result.qualification.gaps.join(' ')).toContain('actual-browser factory')
+  expect(cached).toBe(0)
+})
+
+test('owned real-browser evaluation cannot be replaced by a parent callback on the exposed page', async () => {
+  const f = fixture(), session = await launchOwnedTimingBrowser({ executablePath: chromiumExecutable, headless: true }); let cached = 0
+  try {
+    const driver: QualifiedTimingPublicDriver = { ...f.driver, async open({ artifact, signal, own }) {
+      const execution = await session.newExecution({}, signal, own)
+      execution.page.evaluate = (async () => { cached++; return 'cached parent result' }) as any
+      return { artifact, execution, invokeInPage: (source: string) => 'fixture return: ' + source }
+    } }
+    const result = await collectQualifiedTiming(f.plan, f.sources, driver, f.observe, join(f.root, 'owned-browser'))
+    expect(result.qualification.status).toBe('qualified')
+    expect(cached).toBe(0)
+  } finally { await session.close() }
 })
