@@ -1,4 +1,5 @@
 import { expect, test } from 'bun:test'
+import { spawnSync } from 'node:child_process'
 import { expandedFidelityCases } from '../fidelity/cases.ts'
 import { assessMeaning, type AuthoredFidelityCase } from '../fidelity/meaning.ts'
 import { enrollAuthoredSource, sourceContractComplete } from '../fidelity/source-contract.ts'
@@ -40,4 +41,13 @@ test('indexed visible link styles use source declaration order while native unor
   expect(sourceContractComplete(enrolled)).toBe(true)
   expect(enrolled.profileExpected?.edges).toEqual(input.expected.edges)
   expect(enrolled.expected.facts?.['edge-paint']).toMatchObject([{ edge: { source: 'B', target: 'C' }, properties: { stroke: 'red' } }])
+})
+
+
+test('native Node imports the complete model-worker dependency chain and constructs source contracts without TypeScript transforms', () => {
+  const module = new URL('../fidelity/run.ts', import.meta.url).href, review = new URL('../unified/docs-source-review.ts', import.meta.url).href
+  const script = `const {expandedFidelityCases}=await import(${JSON.stringify(module)}); const {reviewDocumentationSource}=await import(${JSON.stringify(review)}); const row=reviewDocumentationSource({id:'native-node-source-control',family:'flowchart',source:'flowchart LR\\nA[Alpha] --> B[Beta]'}); console.log(JSON.stringify({count:expandedFidelityCases().length,id:row.id,family:row.family,nodes:row.expected.nodes,complete:row.sourceReview.expectedFactsComplete}));`
+  const child = spawnSync(process.env.NODE_BIN ?? 'node', ['--input-type=module', '-e', script], { encoding: 'utf8', timeout: 15_000 })
+  expect({ status: child.status, error: child.error?.message, stderr: child.stderr }).toMatchObject({ status: 0, error: undefined })
+  expect(JSON.parse(child.stdout)).toEqual({ count: 100, id: 'native-node-source-control', family: 'flowchart', nodes: [{ id: 'A', label: 'Alpha' }, { id: 'B', label: 'Beta' }], complete: true })
 })

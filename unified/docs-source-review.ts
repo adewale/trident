@@ -66,7 +66,9 @@ class LiteralReview {
   family = ''
   body = ''
   lines: string[] = []
-  constructor(readonly input: DocsInput) {
+  readonly input: DocsInput
+  constructor(input: DocsInput) {
+    this.input = input
     let source = input.source
     if (source.startsWith('---\n') || source.startsWith('---\r\n')) {
       const match = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(source)

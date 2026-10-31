@@ -129,7 +129,7 @@ test('unavailable positioned projection does not erase independently returned na
 })
 
 test('only reviewed source rejection earns negative credit; backend/resource faults retain unavailable evidence', () => {
-  class PublicPeleError extends Error { constructor(public code: string, message: string) { super(message) } }
+  class PublicPeleError extends Error { code: string; constructor(code: string, message: string) { super(message); this.code = code } }
   expect(classifyMeaningFailure('pele', new PublicPeleError('syntax', 'Invalid source'), PublicPeleError)).toMatchObject({ status: 'rejected', publicAccepted: false })
   expect(classifyMeaningFailure('pele', new PublicPeleError('unsupported-diagram', 'Unknown header'), PublicPeleError)).toMatchObject({ status: 'unsupported', publicAccepted: false })
   for (const error of [new PublicPeleError('resource-limit', 'Parser source budget exceeded'), new Error('Parser backend failed'), new TypeError('Cannot read parser'), Object.assign(new Error('Parse error on line 2: backend was unavailable'), { name: 'TimeoutError' })]) expect(classifyMeaningFailure('pele', error, PublicPeleError)).toMatchObject({ status: 'unavailable', publicAccepted: null })
