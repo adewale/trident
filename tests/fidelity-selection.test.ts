@@ -23,7 +23,7 @@ test.skipIf(!existsSync(mermaidOracleDirectory()) || !existsSync(mermaidUpstream
     mkdirSync(join(directory, 'dist'))
     writeFileSync(join(directory, 'package.json'), JSON.stringify({ name: 'agentic-mermaid', version: '0.4.1', type: 'module' }))
     writeFileSync(join(directory, 'dist/agent-core.js'), 'export function parseRegisteredMermaid(){return {ok:true,value:{body:{kind:"flowchart",nodes:[],edges:[]}}}};export function serializeMermaid(){throw Error("Product serializer must not run")}')
-    const result = await runFidelityCampaign({ root: process.cwd(), out: join(directory, 'evidence'), packageRoot: directory, communityProjects: ['adewale/agentic-mermaid'], profile: 'full', rounds: 1, fidelityDiagnostic: true, fidelityCaseIds: ['meaning:family:flowchart'], executable: join(directory, 'missing-browser') })
+    const result = await runFidelityCampaign({ root: process.cwd(), out: join(directory, 'evidence'), packageRoot: directory, communityProjects: ['adewale/agentic-mermaid'], profile: 'full', rounds: 1, fidelityCaseIds: ['meaning:family:flowchart'], executable: join(directory, 'missing-browser') })
     expect(result.observations.length).toBeGreaterThan(0)
     expect(result.observations.every(row => row.surface === 'native-public-api' && row.format === 'structured')).toBe(true)
     expect(result.observations.some(row => row.operation.startsWith('serialized-'))).toBe(false)

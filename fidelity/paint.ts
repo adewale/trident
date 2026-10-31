@@ -225,7 +225,18 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const owners = new Map<Element, string[]>()
   for (const node of anchors.values()) owners.set(node.shape, [...(owners.get(node.shape) ?? []), node.id])
   for (const ids of owners.values()) if (ids.length > 1) for (const id of ids) { anchors.delete(id); missingNodes.push(id) }
-  if (input.expected.nodes?.length) check('painted-node-ownership', input.expected.nodes.map(node => node.id), [...anchors.keys()], missingNodes.length ? null : true, missingNodes.length ? 'Ambiguous or absent label-to-shape ownership: ' + missingNodes.join(', ') : 'Unique actual label-to-shape ownership, independently of native model identity')
+  const unexpectedNodes: string[] = []
+  if (input.expected.nodes?.length && !['sequence', 'zenuml'].includes(input.family)) {
+    const allowed = new Set(input.expected.labels.map(normalize))
+    const candidates = [...svg.querySelectorAll('g.node,g[class$="-node"],g[class*="-node "],[data-role="node"]')].filter(owner => visible(owner))
+    for (const owner of candidates) {
+      if ([...anchors.values()].some(node => owner.contains(node.shape))) continue
+      const body = [...owner.querySelectorAll('rect,circle,ellipse,polygon,path')].some(shape => visible(shape) && rect(shape).width > 0 && rect(shape).height > 0)
+      const labels = labelElements.filter(element => owner.contains(element) && visible(element)).map(element => normalize(labelText(element))).filter(Boolean)
+      if (body && labels.some(label => !allowed.has(label))) unexpectedNodes.push(...labels)
+    }
+  }
+  if (input.expected.nodes?.length) check('painted-node-ownership', input.expected.nodes.map(node => node.id), [...anchors.keys(), ...unexpectedNodes.map(label => 'unexpected:' + label)], unexpectedNodes.length ? false : missingNodes.length ? null : true, unexpectedNodes.length ? 'Additional visible node bodies carry undeclared labels: ' + unexpectedNodes.join(', ') : missingNodes.length ? 'Ambiguous or absent label-to-shape ownership: ' + missingNodes.join(', ') : 'Unique actual label-to-shape ownership, independently of native model identity; no additional declared node bodies carry unrelated labels')
   const rgba = (color: string): number[] | null => {
     if (!CSS.supports('color', color)) return null
     colorCanvas.clearRect(0, 0, 1, 1); colorCanvas.fillStyle = color; colorCanvas.fillRect(0, 0, 1, 1)
@@ -353,7 +364,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     return magnitude && localMagnitude ? { x: (last.x - first.x) / magnitude, y: (last.y - first.y) / magnitude, scale: magnitude / localMagnitude } : undefined
   }
   const inlineShape = (element: Element): boolean => {
-    if (element.matches('.pele-marker,.arrowhead,.return-arrow,[data-role="marker"]') || element.closest('svg.arrow-head')) return true
+    if (element.matches('[class$="-marker"],.arrowhead,.return-arrow,[data-role="marker"]') || element.closest('svg.arrow-head')) return true
     const owner = element.closest('g.message,g.return'), viewport = element.closest('svg[viewBox]')
     if (!owner || !viewport || viewport === svg || !owner.contains(viewport)) return false
     const shapes = [...viewport.querySelectorAll('path,polygon,polyline,circle,line')].filter(shape => visible(shape))
@@ -396,7 +407,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     return { kind, point: { x: endpoint.x + tangent.x * dx - tangent.y * dy, y: endpoint.y + tangent.y * dx + tangent.x * dy }, clearance: Math.min(8, size / 2), ...(directional ? { orientation: (tip.x - base.x) * reverse * (side === 'start' ? -1 : 1) > 0 } : {}) }
   }
   const inlineMarker = (element: Element, side: 'start' | 'end', endpoint: Point, other: Point): Marker => {
-    const owner = element.closest('g.pele-edge,g.edge,[data-edge-id],g.message,g.return')
+    const owner = element.closest('g[class$="-edge"],g.edge,[data-edge-id],g.message,g.return')
     if (!owner) return { kind: 'none', point: endpoint }
     const shapes = [...owner.querySelectorAll('path,polygon,polyline,circle,line')].filter(shape => inlineShape(shape) && visible(shape) && shape !== element && Math.hypot(center(rect(shape)).x - endpoint.x, center(rect(shape)).y - endpoint.y) < Math.hypot(center(rect(shape)).x - other.x, center(rect(shape)).y - other.y))
     if (!shapes.length) return { kind: 'none', point: endpoint }
@@ -422,7 +433,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     return { kind, point: candidates[0]!.point }
   }
   const connections: Array<{ source: string; target: string; directed: boolean; startMarker: string; endMarker: string; element: Element }> = []
-  const edgeSelector = '.edge path,.edgePath path,.edge-path,.edge-paths path,.pele-edge path,path.flowchart-link,path.relation,path.relationshipLine,path.transition,path.em-relation,g.message line,g.message path,g.return line,g.return path,[data-relationship="sequence-message"],line.messageLine0,line.messageLine1,path.messageLine0,path.messageLine1,[data-edge-id],polyline.class-relationship,polyline.er-relationship'
+  const edgeSelector = '.edge path,.edgePath path,.edge-path,.edge-paths path,g[class$="-edge"] path,path.flowchart-link,path.relation,path.relationshipLine,path.transition,path.em-relation,g.message line,g.message path,g.return line,g.return path,[data-relationship="sequence-message"],line.messageLine0,line.messageLine1,path.messageLine0,path.messageLine1,[data-edge-id],polyline.class-relationship,polyline.er-relationship'
   let paths = [...svg.querySelectorAll(edgeSelector)].filter(element => visible(element) && ['path', 'line', 'polyline'].includes(element.localName))
   const explicitPaths = new Set(paths)
   let unboundRelations = false

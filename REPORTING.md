@@ -50,7 +50,7 @@ sentence interpreting each result.
 | DaveBench | Project/version on the same documentation inventory, separately for SVG and PNG | Output return separately from reviewed content; correct, incorrect, unknown, configuration-only and planned occurrences | Occurrences |
 | DaveBench timing | Project/version on one named input or an explicitly matched input set | Call time, sample count, qualification; failed output withholds time | ms |
 | Diagram Meaning | Project/version on the same authored SVG cases | Correct, incorrect, unsupported and unknown diagrams; per-criterion details separately | Diagrams |
-| Model and Editing Contracts | Project/version on shared criterion identities | Same criterion counts; API-specific checks in a separate table | Criteria |
+| Public Model Contracts | Project/version on the same authored sources | Correct, incorrect and unknown whole cases; raw criterion details remain in evidence | Cases |
 | Mermaid Assertion Replay | Project/version on the same source inventory | Declaration dispositions; expanded callback dispositions in a separate table | Declarations or callbacks |
 | Mermaid Reference Tests | Reference/version and original runner | Files, passed, failed, pending and todo callbacks | Files and callbacks |
 | Render Cost and Scaling | Project/version, case/size and one call mode | Median latency, samples, uncertainty, output checks and calibration | ms |
@@ -163,3 +163,15 @@ Read the dated campaign index, the comparable table and its failed cases, then
 the raw evidence. [BENCHMARKS.md](BENCHMARKS.md) explains each method;
 [FAIRNESS.md](FAIRNESS.md) defines comparison prerequisites. Public docs and
 repository examples are development-exposed; no production holdout is claimed.
+
+## Comparisons with the reference
+
+Each comparable count table includes a reference column. Higher and Lower compare
+only its named metric on the same planned population. Unknown-only observations
+are unresolved, not a lower zero. Returning more SVGs does not mean drawing more
+diagrams correctly. No unqualified timing is labelled faster or slower.
+
+Mermaid is the rendering and language reference. It has no terminal output;
+terminal tables compare with Mermaid ASCII and keep Mermaid's source-reference
+role unscored. A new current campaign can replace the landing-page snapshot while
+linking prior immutable reports rather than accumulating diagnostic tables there.

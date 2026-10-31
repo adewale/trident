@@ -3886,7 +3886,10 @@
             "export": "renderSvgSync",
             "dispose": "dispose"
           }
-        }
+        },
+        "moduleOutputs": [
+          "svg"
+        ]
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",

@@ -5,7 +5,7 @@ import { chromium } from 'playwright'
 import { checkCollectionBudget, CollectionCheckpoint, CollectionBudgetExhausted } from '../portable/checkpoint.ts'
 import { admitPreparedFidelityEngine } from '../fidelity/community.ts'
 import { defaultChromium, executableIdentity } from './benchmark-context.ts'
-import { callDocsPage, docsArtifactServer, docsRoundOrder, type docsInventory } from './docs-benchmark.ts'
+import { callDocsPage, closeDocsContext, withDocsDeadline, docsArtifactServer, docsRoundOrder, type docsInventory } from './docs-benchmark.ts'
 import { publicSvgBrowserAction } from './public-svg-browser.ts'
 import { publicDocsPngAction } from './docs-png-browser.ts'
 import { inspectPng } from './png-inspection.ts'
@@ -65,10 +65,10 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
           const context = await browserHost.newContext({ viewport: { width: 1400, height: 1000 } }), page = await context.newPage()
           context.setDefaultTimeout(20_000)
           await context.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort())
-          conversion = { close: async () => { await context.close(); await new Promise<void>(done => server.close(() => done())) }, invoke: (source, id) => callDocsPage(page, publicDocsPngAction, { source, id }) }
+          conversion = { close: () => closeDocsContext(context, server), invoke: (source, id) => callDocsPage(page, publicDocsPngAction, { source, id }) }
           await page.goto(origin + '/blank')
           if (engine.kind === 'franken' || engine.kind === 'merman') await callDocsPage(page, publicSvgBrowserAction, { type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: origin + '/' + engine.wasm })
-          else { await page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) }); await callDocsPage(page, publicSvgBrowserAction, { type: 'initialize-global', engine, addonUrl: engine.zenuml ? origin + '/__addon/' + engine.zenuml.entry : undefined }) }
+          else { await withDocsDeadline(() => page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) }), () => { void page.close().catch(() => {}) }); await callDocsPage(page, publicSvgBrowserAction, { type: 'initialize-global', engine, addonUrl: engine.zenuml ? origin + '/__addon/' + engine.zenuml.entry : undefined }) }
         } else if (transport !== 'unavailable') {
           verifyProvidedCommunityArtifact(peer!.artifact!)
           const workloads = inventory.cases.map(input => ({ id: input.id, family: input.family, source: input.source, expectedLabels: [], features: ['retain-output-witness'], provenance: 'Pinned Mermaid syntax documentation; source path/line in inventory.json' }))
@@ -107,7 +107,7 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
         if (error instanceof CollectionBudgetExhausted) { writeFileSync(join(options.out, `interrupted-${encodeURIComponent(project)}-r${round}.json`), JSON.stringify(own)); throw error }
         gaps.push(project + ': ' + String(error))
         own.push({ suite: 'docs', surface: 'public:png', runtime: transport, family: '*', caseId: project, operation: 'round', format: 'png', mode: 'not-completed', status: 'blocked', detail: String(error), metrics: { project, version, round, plannedOccurrences: inventory.occurrences } })
-      } finally { await conversion?.close() }
+      } finally { try { await conversion?.close() } catch (error) { gaps.push(project + ': bounded browser cleanup: ' + String(error)) } }
       writeFileSync(join(options.out, `transport-${encodeURIComponent(project)}-r${round}.json`), JSON.stringify(rendered))
       return own
       })

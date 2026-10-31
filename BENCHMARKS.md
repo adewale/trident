@@ -2,7 +2,7 @@
 
 Trident compares public rendering artifacts. The current workloads are
 Documentation Examples (DaveBench), Mermaid Feature Cases, Terminal Rendering
-and optional Model and Editing Contracts. SVG inspection and cost measurement are shared machinery.
+and optional Public Model Contracts. SVG inspection and cost measurement are shared machinery.
 There is no combined renderer-quality score or validated production holdout.
 
 ```sh
@@ -125,7 +125,7 @@ rank. The old four authored graphs test the observer and supply no corpus score.
 Legacy general terminal admission still establishes format/text only. Native PNG
 decoding/nonblank checks likewise supply no label or topology evidence.
 
-## Model and Editing Contracts — optional
+## Public Model Contracts — optional
 
 Task: preserve declared identities, relationships and values through public
 parsing, inspection, edits and configuration changes. Reviewed bindings currently

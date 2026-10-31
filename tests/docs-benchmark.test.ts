@@ -91,3 +91,17 @@ test('UTF-8 public bundles initialize before docs clocks await the real public r
     expect(addonRender.kind).toBe('returned')
   } finally { await browser.close(); await new Promise<void>(done => server.close(() => done())); rmSync(root, { recursive: true, force: true }) }
 })
+
+
+import { withDocsDeadline, closeDocsContext } from '../unified/docs-benchmark.ts'
+test('script loading and cleanup have host deadlines and close HTTP connections before awaiting context teardown', async () => {
+  let cancelled = 0
+  await expect(withDocsDeadline(() => new Promise<never>(() => {}), () => { cancelled++ }, 5)).rejects.toThrow('host deadline')
+  expect(cancelled).toBe(1)
+  const events: string[] = []
+  const context = { close: async () => { events.push('context'); await new Promise<never>(() => {}) } }
+  const server = { closeAllConnections: () => { events.push('connections') }, close: (done: () => void) => { events.push('server'); done() } }
+  await expect(closeDocsContext(context, server as any, 5)).rejects.toThrow('host deadline')
+  expect(events[0]).toBe('connections')
+  expect(events).toContain('server')
+})

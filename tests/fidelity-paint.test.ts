@@ -249,3 +249,23 @@ test('actual Pele external labels bind distinct service bodies without borrowing
   const unprojected = svg.replace('d="M108,60L100,63.36L100,56.64Z" fill="var(--_l)" stroke="none"', 'd="M100,56.64L108,60M100,63.36L108,60" fill="none" stroke="var(--_l)"')
   expect((await inspect(unprojected, authored, { family: 'architecture' })).checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('unavailable')
 })
+
+
+test('inline arrows use the same geometry for every renderer prefix and reject missing, reversed and detached heads', async () => {
+  const svg = retainedSvg('bezel-inline-arrow.svg')
+  const facts = { labels: ['A', 'B'], nodes: [{ id: 'A', label: 'A' }, { id: 'B', label: 'B' }], edges: [{ source: 'A', target: 'B', directed: true }] }
+  expect((await inspect(svg, facts)).passed).toBe(true)
+  expect((await inspect(svg.replaceAll('bezel-', 'independent-'), facts)).passed).toBe(true)
+  const mutations = [
+    svg.replace(/<path class="bezel-marker"[^>]*\/>/, ''),
+    svg.replace('M104,32L96,35.36L96,28.64Z', 'M96,32L104,35.36L104,28.64Z'),
+    svg.replace('M104,32L96,35.36L96,28.64Z', 'M124,32L116,35.36L116,28.64Z'),
+  ]
+  for (const broken of mutations) expect((await inspect(broken, facts)).checks.find(check => check.criterion === 'painted-relationships')?.status).toBe('failed')
+})
+
+
+test('an additional visible node cannot earn a complete ownership pass by preserving expected labels', async () => {
+  const extra = fixture.replace('</svg>', '<g class="thirdparty-node"><rect x="85" y="43" width="60" height="30" fill="white" stroke="black"/><text x="88" y="63">Intruder</text></g></svg>')
+  expect((await inspect(extra)).checks.find(check => check.criterion === 'painted-node-ownership')?.status).toBe('failed')
+})

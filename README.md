@@ -28,7 +28,7 @@ checks and cost measurement are shared parts of those workloads.
 | **Documentation Examples — DaveBench** | Accurate SVG and PNG rendering of the same pinned Mermaid documentation corpus, inspired by [Dave Kiss's benchmark](https://x.com/davekiss/status/2111512440106078554). | Separate output-return and reviewed-content tables for each format. Incorrect, unknown and configuration-only examples stay visible; speed requires qualified matched work. | `docs` |
 | **Mermaid Feature Cases** | Authored syntax, labels, relationships, chart values, grouping and scaling through public rendering interfaces. | Correct, incorrect, unsupported and unknown diagrams; feature/family details. Cost is reported on matched qualified inputs. | `community`, `fidelity`, `portable` |
 | **Terminal Rendering — Project Examples** | Node text, directed routes, captions and requested layout direction on real project inputs. Origins distinguish terminal examples from shared rendering tests. | All 120 planned inputs remain visible; 16 reviewed drawings get verified-correct count ranks. Complete accuracy and speed remain unqualified. | `bench --terminal` |
-| **Model and Editing Contracts — optional** | Public parsing, model inspection, edits and configuration changes. | Shared contracts separately from API-specific checks and missing bindings. | `native-fidelity` |
+| **Public Model Contracts — optional** | Public parsing and model inspection, including replacement sources and configuration reset. | Shared contracts separately from API-specific checks and missing bindings. | `native-fidelity` |
 
 Ordinary campaigns select `docs,fidelity`. Select expensive performance collection
 explicitly with `--suites portable`, and optional model checks with

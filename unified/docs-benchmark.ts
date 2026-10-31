@@ -68,9 +68,21 @@ export function docsRoundOrder<T>(targets: readonly T[], round: number): T[] {
 /** Includes asynchronous module/addon initialization, whose evaluate promises
  * have no Playwright timeout. A stalled renderer cannot hold the campaign open. */
 export async function callDocsPage(page: Pick<Page, 'evaluate' | 'close'>, action: (input: any) => Promise<any>, input: any, deadlineMs = 20_000): Promise<any> {
+  return withDocsDeadline(() => page.evaluate(action, input), () => { void page.close().catch(() => {}) }, deadlineMs)
+}
+
+export async function withDocsDeadline<T>(operation: () => Promise<T>, cancel: () => void, deadlineMs = 20_000): Promise<T> {
   let timer: ReturnType<typeof setTimeout> | undefined
-  try { return await Promise.race([page.evaluate(action, input), new Promise<never>((_, reject) => { timer = setTimeout(() => { void page.close().catch(() => {}); reject(Error('Browser call exceeded its declared host deadline')) }, deadlineMs) })]) }
+  try { return await Promise.race([operation(), new Promise<never>((_, reject) => { timer = setTimeout(() => { cancel(); reject(Error('Browser call exceeded its declared host deadline')) }, deadlineMs) })]) }
   finally { if (timer) clearTimeout(timer) }
+}
+
+/** Drop keep-alive requests before closing pages. A stuck close remains a
+ * recorded harness gap instead of holding every later project open. */
+export async function closeDocsContext(context: { close: () => Promise<void> }, server: ReturnType<typeof docsArtifactServer>, deadlineMs = 20_000) {
+  server.closeAllConnections?.()
+  try { await withDocsDeadline(() => context.close(), () => server.closeAllConnections?.(), deadlineMs) }
+  finally { server.closeAllConnections?.(); await withDocsDeadline(() => new Promise<void>(done => server.close(() => done())), () => server.closeAllConnections?.(), deadlineMs) }
 }
 
 async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory?: ReturnType<typeof docsInventory>): Promise<UnifiedSuiteResult> {
@@ -137,7 +149,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
           if (engine.kind === 'cli') { /* Public CLI is invoked below; Chromium only observes actual returned SVG. */ }
           else if (engine.kind === 'franken' || engine.kind === 'merman') await invoke({ type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: origin + '/' + engine.wasm })
           else {
-            await page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) })
+            await withDocsDeadline(() => page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) }), () => { void page.close().catch(() => {}) })
             await invoke({ type: 'initialize-global', engine, addonUrl: engine.zenuml ? origin + '/__addon/' + engine.zenuml.entry : undefined })
           }
           let warmupPassed = 0
@@ -189,7 +201,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
           }
           roundObservations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: '*', caseId: peer.node.id, operation: 'round', format: 'svg', mode: 'not-completed', status: 'blocked', detail: String(error), metrics: { project: peer.node.id, round, plannedOccurrences: inventory.occurrences } })
           gaps.push(`${peer.node.id} round ${round}: ${error}`)
-        } finally { await context.close(); await new Promise<void>(done => server.close(() => done())) }
+        } finally { try { await closeDocsContext(context, server) } catch (error) { gaps.push(peer.node.id + ': bounded browser cleanup: ' + String(error)) } }
         admitPreparedSvgEngine(peer)
         return roundObservations
         })

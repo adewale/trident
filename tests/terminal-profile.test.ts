@@ -100,3 +100,14 @@ test('terminal collection uses an admitted additional CLI for a browser-only pri
   expect(readFileSync(records[0]!.rows[0]!.metrics!.outputFile as string, 'utf8')).toBe(text)
   expect(records[0]?.rows[0]?.surface).toBe('cli:end-to-end')
 })
+
+
+test('all-project terminal planning follows normal renderer and branding eligibility without scoring Mermaid as a terminal renderer', () => {
+  const planned = spawnSync(process.execPath, [new URL('../commands.ts', import.meta.url).pathname, 'bench', '--terminal', '--all-projects', '--all-inputs', '--plan'], { encoding: 'utf8' })
+  expect(planned.status).toBe(0)
+  const plan = JSON.parse(planned.stdout)
+  expect(plan.selectedProjects).toHaveLength(18)
+  expect(plan.selectedProjects).toContain('AlexanderGrooff/mermaid-ascii')
+  expect(plan.selectedProjects).not.toContain('mermaid-js/mermaid')
+  expect(plan.plannedTerminalCalls).toBe(2160)
+})

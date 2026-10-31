@@ -78,20 +78,23 @@ export function assessTerminalRecord(record: any, directory: string, cases = rev
 }
 
 export async function runTerminalProfile(argv: string[]) {
-  if (argv.includes('--help')) { console.log('bench --terminal --community-prepared FILE --out FRESH_DIR [--projects ID,...] [--all-inputs]\nbench --terminal --saved-terminal DIR --out FRESH_DIR\nbench --terminal --plan\nDefault: Mermaid ASCII and Termaid; collect independently reviewed observable inputs once, retain all other planned cells as unknown. --all-inputs explicitly attempts every source. No acquisition, warmups or speed score. Mermaid is an unscored source reference.'); return }
+  if (argv.includes('--help')) { console.log('bench --terminal --community-prepared FILE --out FRESH_DIR [--projects ID,... | --all-projects] [--all-inputs]\nbench --terminal --saved-terminal DIR --out FRESH_DIR\nbench --terminal --plan\nDefault: Mermaid ASCII and Termaid; collect independently reviewed observable inputs once, retain all other planned cells as unknown. --all-inputs explicitly attempts every source. No acquisition, warmups or speed score. Mermaid is an unscored source reference.'); return }
   const options = new Map<string, string>(), flags = new Set<string>()
   for (let index = 0; index < argv.length; index++) {
     const key = argv[index]!
     if (options.has(key) || flags.has(key)) throw Error('Duplicate terminal option')
-    if (['--all-inputs', '--plan'].includes(key)) { flags.add(key); continue }
+    if (['--all-inputs', '--all-projects', '--plan'].includes(key)) { flags.add(key); continue }
     const value = argv[++index]
     if (!['--community-prepared', '--saved-terminal', '--out', '--projects'].includes(key) || !value || value.startsWith('--')) throw Error('Use bench --terminal --help')
     options.set(key, value)
   }
+  if (flags.has('--all-projects') && options.has('--projects')) throw Error('Choose --projects or --all-projects, not both')
+  const allTerminal = comparisonProjects(catalog as any, catalog.nodes.map(node => node.id)).included.filter(id => catalog.nodes.find(node => node.id === id)!.outputs.some(output => ['terminal', 'ascii-unicode', 'unicode', 'ascii'].includes(output)))
+  const projectSelection = options.get('--projects')?.split(',') ?? (flags.has('--all-projects') ? allTerminal : defaults)
   const cases = reviewedTerminalCases(), corpus = readTerminalCorpus(), planned = cases.filter(ready)
-  if (flags.has('--plan')) { const projects = options.get('--projects')?.split(',') ?? defaults; console.log(JSON.stringify({ profile: terminalProfileId, corpus: 'corpus/terminal-project-examples.json', sources: cases.length, sourceRepositories: corpus.projects.length, reviewedObservableDrawings: planned.length, plannedTerminalCalls: (flags.has('--all-inputs') ? cases.length : planned.length) * projects.length, sourceReferenceCalls: cases.length, selectedProjects: projects, timing: 'unqualified; CLI and warm Python API remain different boundaries' }, null, 2)); return }
+  if (flags.has('--plan')) { const projects = projectSelection; console.log(JSON.stringify({ profile: terminalProfileId, corpus: 'corpus/terminal-project-examples.json', sources: cases.length, sourceRepositories: corpus.projects.length, reviewedObservableDrawings: planned.length, plannedTerminalCalls: (flags.has('--all-inputs') ? cases.length : planned.length) * projects.length, sourceReferenceCalls: cases.length, selectedProjects: projects, timing: 'unqualified; CLI and warm Python API remain different boundaries' }, null, 2)); return }
   const target = options.get('--out'), saved = options.get('--saved-terminal'), preparedFile = options.get('--community-prepared')
-  if (!target || !!saved === !!preparedFile || saved && (options.has('--projects') || flags.has('--all-inputs'))) throw Error('Choose --out and exactly one frozen preparation or saved terminal directory; saved mode keeps the original cohort')
+  if (!target || !!saved === !!preparedFile || saved && (options.has('--projects') || flags.has('--all-inputs') || flags.has('--all-projects'))) throw Error('Choose --out and exactly one frozen preparation or saved terminal directory; saved mode keeps the original cohort')
   const out = resolve(target)
   if (existsSync(out)) throw Error('Choose a fresh terminal output directory')
   const source = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: tridentDirectory, encoding: 'utf8' }).trim()
@@ -104,7 +107,7 @@ export async function runTerminalProfile(argv: string[]) {
     for (const row of record.outputs) if (row.witness) { const bytes = readFileSync(resolve(directory, row.witness)), name = hash(bytes) + '.txt'; writeFileSync(join(out, name), bytes); row.witness = name }
   } else {
     assertBenchmarkExecutionAllowed()
-    const projects = options.get('--projects')?.split(',') ?? defaults, prepared = read(resolve(preparedFile!)) as PreparedCommunity[]
+    const projects = projectSelection, prepared = read(resolve(preparedFile!)) as PreparedCommunity[]
     if (!projects.includes(ascii) || new Set(projects).size !== projects.length || projects.includes('mermaid-js/mermaid') || !Array.isArray(prepared) || new Set(prepared.map(entry => entry.node.id)).size !== prepared.length || projects.some(project => !prepared.some(entry => entry.node.id === project))) throw Error('Choose unique frozen terminal identities including Mermaid ASCII; Mermaid reference is separate')
     const eligible = comparisonProjects(catalog as any, projects).included
     if (eligible.length !== projects.length) throw Error('Terminal profile respects the catalog branding/selection policy; choose eligible renderer artifacts')

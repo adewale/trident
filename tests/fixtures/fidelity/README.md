@@ -24,3 +24,5 @@ meaning or prove complete curve geometry.
 `fidelity/bWVybWFpZC1qcy9tZXJtYWlk/attempts/df248ac6-0311-47d9-abd7-e5d824146c53`.
 Its sole `feDropShadow` composites SourceGraphic without clipping its bounds.
 Tests retain the real drawing and perturb filter bounds, input and alpha.
+
+`bezel-inline-arrow.svg`: actual Bezel 0.2.21 public SVG from the 31 October 2026 campaign, Mermaid documentation `flowchart.md:686` at `1fb7869866dd619168d840291c9c54b4f129758b`; SHA-256 `6842029810a65d26758716992c4e973ca990a17cd1cca10252ae0f9e63f08119`. Unmodified output.

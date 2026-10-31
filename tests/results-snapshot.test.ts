@@ -4,7 +4,7 @@ import { mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSyn
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
-import { importCampaign, rankedRows, renderSnapshot, retainedTableValues, validateSnapshot, validateSnapshotReceipts, writeSnapshot, type ResultsSnapshot } from '../unified/results-snapshot.ts'
+import { baselineComparison, importCampaign, rankedRows, renderSnapshot, retainedTableValues, validateSnapshot, validateSnapshotReceipts, writeSnapshot, type ResultsSnapshot } from '../unified/results-snapshot.ts'
 import type { LineageCatalog } from '../unified/lineage.ts'
 
 const receipt = { url: 'https://example.org/evidence/report.json', sha256: 'a'.repeat(64) }
@@ -273,4 +273,25 @@ test('the Flutter brand gets no inherited Dart score in the regular results over
   expect(flutter).toContain('Unmeasured')
   expect(flutter).toContain('N/A')
   expect(flutter).not.toContain('1/2')
+})
+
+
+test('reference comparisons keep incomplete, unknown and unlike populations out of winner claims', () => {
+  const entry = snapshot().tables[0]!
+  entry.rows = [{ project: 'mermaid-js/mermaid', values: ['12', 9, 1, 10] }, { project: 'peer', values: ['1', 10, 0, 10] }]
+  expect(baselineComparison(entry, entry.rows[0]!)).toBe('Baseline')
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Higher (+1)')
+  entry.rows[1]!.values[1] = 8
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Lower (-1)')
+  entry.rows[1]!.values[1] = 9
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Tie')
+  entry.rows[1]!.values[3] = 20
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Different populations')
+  entry.rows[1]!.values[3] = 10; entry.rows[1]!.unrankedReason = 'partial collection'
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Unresolved')
+  entry.ranking = { column: 'Returned', direction: 'ascending' }
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Not comparable')
+  entry.columns = ['Version', 'Correct', 'Unknown', 'Planned']; entry.population = { total: 'Planned', outcomes: ['Correct', 'Unknown'] }; entry.ranking = { column: 'Correct', direction: 'descending' }
+  entry.rows[1]!.values = ['1', 0, 10, 10]
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Unresolved')
 })
