@@ -2,7 +2,7 @@ import { afterAll, beforeAll, expect, test } from 'bun:test'
 import { chromium } from 'playwright'
 import { inspectFidelityPaint, type PaintCheck } from '../fidelity/paint.ts'
 import { inspectQuantitativePaint } from '../fidelity/paint-values.ts'
-import { inspectSourceFacts, plannedSourceFactCriteria } from '../fidelity/paint-facts.ts'
+import { inspectSourceFacts, mergePaintChecks, plannedSourceFactCriteria } from '../fidelity/paint-facts.ts'
 import { planFidelityCriteria } from '../fidelity/ledger.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
 import type { MeaningExpectation } from '../fidelity/meaning.ts'
@@ -28,6 +28,12 @@ test('every source fact is fixed in the required SVG plan, including facts witho
   expect(plannedSourceFactCriteria({ expected: expectation })).toEqual(['source-fact:direction', 'source-fact:invented'])
   const plan = planFidelityCriteria([{ id: 'test', family: 'flowchart', source, expected: expectation, required: true, features: [], provenance: 'independent synthetic observer control' }])
   expect(plan.filter(check => check.surface === 'browser-owned-ink').map(check => check.criterion)).toContain('source-fact:invented')
+})
+test('a specialized observer may replace an unavailable projection but cannot hide a contrary check', () => {
+  const check = (status: PaintCheck['status']): PaintCheck => ({ criterion: 'source-fact:series', status, expected: [1, 2], actual: null, scope: status + ' projection' })
+  expect(mergePaintChecks([check('unavailable')], [check('passed')])[0]?.status).toBe('passed')
+  expect(mergePaintChecks([check('failed')], [check('unavailable')])[0]?.status).toBe('failed')
+  expect(() => mergePaintChecks([check('failed')], [check('passed')])).toThrow('observers disagree')
 })
 test('owned geometry verifies global direction without treating a public model or source echo as layout', async () => {
   expect((await inspect(svg))[0]?.status).toBe('passed')

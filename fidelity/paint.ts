@@ -440,7 +440,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     unresolvedProjection = true
     return false
   }
-  type Marker = { kind: string; point?: Point; unknown?: string; orientation?: boolean; clearance?: number }
+  type Marker = { kind: string; point?: Point; unknown?: string; orientation?: boolean; clearance?: number; filled?: boolean }
   const markerFor = (element: Element, side: 'start' | 'end', endpoint: Point): Marker => {
     const setting = getComputedStyle(element)[side === 'start' ? 'markerStart' : 'markerEnd']
     if (!setting || setting === 'none') return { kind: 'none', point: endpoint }
@@ -465,7 +465,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const dx = (tip.x - reference.x) * viewScale * units * tangent.scale * reverse, dy = (tip.y - reference.y) * viewScale * units * tangent.scale * reverse
     const others = polygon.filter(point => point !== tip), base = { x: others.reduce((sum, point) => sum + point.x, 0) / others.length, y: others.reduce((sum, point) => sum + point.y, 0) / others.length }
     const size = Math.max(...polygon.map(point => Math.hypot(point.x - tip.x, point.y - tip.y))) * viewScale * units * tangent.scale
-    return { kind, point: { x: endpoint.x + tangent.x * dx - tangent.y * dy, y: endpoint.y + tangent.y * dx + tangent.x * dy }, clearance: Math.min(8, size / 2), ...(directional ? { orientation: (tip.x - base.x) * reverse * (side === 'start' ? -1 : 1) > 0 } : {}) }
+    return { kind, filled: (shape.localName === 'polygon' || /z\s*$/i.test(shape.getAttribute('d') ?? '')) && getComputedStyle(shape).fill !== 'none' && Number(getComputedStyle(shape).fillOpacity) > 0 && colorAlpha(getComputedStyle(shape).fill) !== 0, point: { x: endpoint.x + tangent.x * dx - tangent.y * dy, y: endpoint.y + tangent.y * dx + tangent.x * dy }, clearance: Math.min(8, size / 2), ...(directional ? { orientation: (tip.x - base.x) * reverse * (side === 'start' ? -1 : 1) > 0 } : {}) }
   }
   const inlineMarker = (element: Element, side: 'start' | 'end', endpoint: Point, other: Point): Marker => {
     const parent = element.parentElement
@@ -487,15 +487,16 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       const tip = pointedVertex(screen), tangent = tangentAt(element, side)
       if (!tip || !tangent) return { kind, point: endpoint, unknown: 'Inline arrow has no uniquely projected tip/orientation' }
       const rest = screen.filter(point => point !== tip), base = { x: rest.reduce((sum, point) => sum + point.x, 0) / rest.length, y: rest.reduce((sum, point) => sum + point.y, 0) / rest.length }
-      return { kind, point: tip, clearance: Math.min(8, Math.max(...screen.map(point => Math.hypot(point.x - tip.x, point.y - tip.y))) / 2), orientation: ((tip.x - base.x) * tangent.x + (tip.y - base.y) * tangent.y) * (side === 'start' ? -1 : 1) > 0 }
+      return { kind, filled: (shape.localName === 'polygon' || /z\s*$/i.test(shape.getAttribute('d') ?? '')) && filled, point: tip, clearance: Math.min(8, Math.max(...screen.map(point => Math.hypot(point.x - tip.x, point.y - tip.y))) / 2), orientation: ((tip.x - base.x) * tangent.x + (tip.y - base.y) * tangent.y) * (side === 'start' ? -1 : 1) > 0 }
     }
     const candidates = screen.map(point => ({ point, distance: Math.min(...[...anchors.values()].map(node => distanceToNode(point, node))) })).sort((a, b) => a.distance - b.distance)
     if (!candidates.length || candidates[0]!.distance > 2) return { kind, point: endpoint, unknown: 'No inline marker point is attached to an owned node boundary' }
     void side
     return { kind, point: candidates[0]!.point }
   }
-  const connections: Array<{ source: string; target: string; directed: boolean; startMarker: string; endMarker: string; element: Element }> = []
-  const edgeSelector = '.edge path,.edgePath path,.edge-path,.edge-paths path,g[class$="-edge"] path,path.flowchart-link,path.relation,path.relationshipLine,path.transition,path.em-relation,g.message line,g.message path,g.return line,g.return path,[data-relationship="sequence-message"],line.messageLine0,line.messageLine1,path.messageLine0,path.messageLine1,[data-edge-id],polyline.class-relationship,polyline.er-relationship'
+  const connections: Array<{ source: string; target: string; directed: boolean; startMarker: string; endMarker: string; startFilled?: boolean; endFilled?: boolean; element: Element }> = []
+  const connectionLabels = new Map<Element, string[]>()
+  const edgeSelector = '.edge path,.edgePath path,.edge-path,.edge-paths path,g[class$="-edge"] path,g[class*="-edge "] path,path.flowchart-link,path.relation,path.relationshipLine,path.transition,path.em-relation,g.message line,g.message path,g.return line,g.return path,[data-relationship="sequence-message"],line.messageLine0,line.messageLine1,path.messageLine0,path.messageLine1,[data-edge-id],polyline.class-relationship,polyline.er-relationship'
   let paths = [...svg.querySelectorAll(edgeSelector)].filter(element => visible(element) && ['path', 'line', 'polyline'].includes(element.localName))
   let unboundRelations = false, invalidMarker = false
   if (!paths.length) paths = geometry.filter(element => ['path', 'line', 'polyline'].includes(element.localName) && ![...anchors.values()].some(node => node.owner.contains(element)))
@@ -512,7 +513,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (first.unknown || last.unknown) unresolvedProjection = true
     const source = bind(first.point ?? start, first.clearance), target = bind(last.point ?? end, last.clearance)
     if (!source || !target) { unboundRelations = true; continue }
-    connections.push({ source, target, directed: [first.kind, last.kind].some(kind => ['arrow', 'triangle'].includes(kind)), startMarker: first.kind, endMarker: last.kind, element })
+    connections.push({ source, target, directed: [first.kind, last.kind].some(kind => ['arrow', 'triangle'].includes(kind)), startMarker: first.kind, endMarker: last.kind, startFilled: first.filled, endFilled: last.filled, element })
   }
   unresolvedProjection ||= ambiguousEndpoints || unboundRelations
   if (input.paint?.edgeStroke !== undefined || input.paint?.edgeStrokeWidth !== undefined) {
@@ -559,6 +560,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
         const threshold = Math.max(6, rect(element).height * .75)
         const candidate = owned.length === 1 && owned[0]!.distance <= threshold && owned[0]!.distance <= (ranked[0]?.distance ?? Infinity) + 2 ? owned[0] : ranked[0] && ranked[0].distance <= threshold && (!ranked[1] || ranked[1].distance - ranked[0].distance > 2) ? ranked[0] : undefined
         if (!candidate) { ambiguous = true; continue }
+        connectionLabels.set(candidate.connection.element, [...(connectionLabels.get(candidate.connection.element) ?? []), normalize(label)])
         actualLabels.push(JSON.stringify([keyFor(candidate.connection), normalize(label)]))
       }
       actualLabels.sort()
@@ -579,5 +581,5 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     check('painted-group:' + group.id, members, outside, available ? outside.length === 0 : null, 'Authored descendant nodes fit their actual owned group boundary; immediate membership is checked independently in the native model')
   }
   check('paint-opacity-and-color', 'resolved visible paint colors/alpha', [...unknownPaint], unknownPaint.size ? null : true, 'Unresolved paint servers/context colors cannot silently earn a visible-ink or complete-style claim')
-  return { checks, complete: checks.every(item => item.status !== 'unavailable'), passed: checks.length > 0 && checks.every(item => item.status === 'passed'), nodes: [...anchors.values()].map(({ owner: _, shape: __, outlines: ___, ...node }) => node), connections: connections.map(({ element: _, ...edge }) => edge), viewBox: svg.getAttribute('viewBox'), groups: groupBoxes }
+  return { checks, complete: checks.every(item => item.status !== 'unavailable'), passed: checks.length > 0 && checks.every(item => item.status === 'passed'), nodes: [...anchors.values()].map(({ owner: _, shape: __, outlines: ___, ...node }) => node), connections: connections.map(({ element, ...edge }) => ({ ...edge, box: rect(element), start: pointFor(element, false), end: pointFor(element, true), dash: getComputedStyle(element).strokeDasharray, labels: connectionLabels.get(element) ?? [] })), viewBox: svg.getAttribute('viewBox'), groups: groupBoxes }
 }

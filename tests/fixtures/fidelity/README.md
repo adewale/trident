@@ -37,3 +37,26 @@ classes. The tests bind real label/body geometry, perturb generic identifiers,
 and reject an extra visible node and a missing body with a canvas background.
 RS SHA256: `5f4dd1c9b0b321baf82eb495c68d99485c25cdb1eac5575c76a5647e530b2ce7`.
 Merslim SHA256: `66f920a4c07759a3b57dee24bcff60e2b77ca28576c782483ebb6e4d33f4f25e`.
+
+The `mermaid/pele-class-members`, `-er-attributes` and `-sequence-messages`
+fixtures are unchanged public Mermaid 12.2.0 and Pele 1.9.0 outputs retained
+in the 31 October 2026 ecosystem campaign for the authored cases
+`features:class:namespace-members-cardinality`,
+`features:er:attributes-identifying-cardinality` and
+`features:sequence:notes-loop-reciprocal`. Their source and literal expectations
+are committed in `fidelity/cases.ts`; they are not inferred from the SVGs.
+Tests inspect actual node-owned rows and endpoint-owned message routes, then
+change return types, attributes, keys, message order and dashed strokes.
+Fixture SHA-256 digests, in Mermaid/Pele order:
+
+- Class: `c648a838a916da52eee937666427660b09359ff7f18751f8b1006226b7404698`,
+  `579f478fa3009d871d364450fdb89ae6554425a8e29ff0933e7d01bc54765ea0`.
+- ER: `a083d0b5dcd72ca73a3ed0844df67113d2e134694813b933bb72684f91cb4a3a`,
+  `a39526c99197056517f19e67e58c8c83e53936eb6feca9591ea7ae1bfc3d2bc7`.
+- Sequence: `ae998ddda27010cf3d0fd43437926d595b63ba374ebf9a8a106941131e005654`,
+  `6395ad724bc2d55870ac3e2e31417690a841883a781928b6a33b90a5e96a1a7b`.
+
+These qualify bounded fact profiles, not every class, ER or sequence feature.
+Static/abstract/generic member decorations, ER cardinality glyph meaning,
+notes/fragments and unsupported message arrow styles remain separate required
+obligations and cannot inherit credit from the passing rows.
