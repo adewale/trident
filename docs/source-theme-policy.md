@@ -48,7 +48,7 @@ paints an opaque canvas background.
 ## Treemap468–469
 
 `diagrams/treemap/renderer.ts:80–124,164–225,339–358` puts the synthetic root in
-the transparent palette slot, then assigns source section order to cScale0,1…;
+the transparent palette slot, then assigns stable descending-aggregate-weight section traversal order to cScale0,1… (`renderer.ts:144–147`);
 leaves inherit their immediate parent section's color. Group fill alpha is0.6,
 leaf fill alpha0.3 over that group, yielding combined alpha0.72 over white when
 there is one group level. Leaf border uses the parent color at width3. These

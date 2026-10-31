@@ -1,5 +1,6 @@
 import type { MeaningExpectation } from './meaning.ts'
 import { compileVisualStyles } from './style-expectation.ts'
+import { projectSourceConfiguration } from './configuration-expectation.ts'
 
 /** A drawing encodes proportions and printed values, not an invisible copy of
  * its input database. Literal source bytes remain in the corpus inventory. */
@@ -7,6 +8,22 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
   const expected = structuredClone(literal), facts: any = expected.facts ??= {}, projections: string[] = []
   let profileExpected:MeaningExpectation|undefined
   const excludedNonvisual:string[]=[]
+  if(family==='gitgraph'&&Array.isArray(facts.commits)){
+    const messages:any[]=[]
+    facts.commits=facts.commits.map((entry:any)=>{if(!Object.hasOwn(entry,'message'))return entry;const{message,...visual}=entry;messages.push({id:entry.id,message});return visual})
+    if(messages.length){profileExpected=structuredClone(literal);(expected.advisoryFacts??={})['nonvisual-commit-messages']=messages;excludedNonvisual.push('Git commit messages are carried native metadata distinct from displayed commit IDs/tags (gitGraphParser.ts50-57,gitGraph.spec.ts345-375,gitGraphRenderer.ts350/423): '+JSON.stringify(messages));projections.push('Git bare quoted commit messages remain exact owned advisory metadata and complete native profile facts; displayed custom id and tag text remain separate visible obligations')}
+  }
+  if(family==='wardley'&&Array.isArray(facts.pipelines)&&Array.isArray(facts.components)){
+    const originals:any[]=[]
+    facts.components=facts.components.map((component:any)=>{
+      const pipeline=facts.pipelines.find((row:any)=>row.component===component.name)
+      if(!pipeline||component.kind!=='component'||component.coordinates?.length!==2||!pipeline.members?.length||!pipeline.members.every((member:any)=>member.coordinates?.length===1))return component
+      originals.push({name:component.name,coordinates:structuredClone(component.coordinates)})
+      const{coordinates,...identity}=component
+      return{...identity,kind:'pipeline-group',visibility:coordinates[0]}
+    })
+    if(originals.length){profileExpected??=structuredClone(literal);(expected.advisoryFacts??={})['pipeline-parent-native-coordinates']=originals;excludedNonvisual.push('Wardley pipeline parent is a range/header group sharing source visibility, not an additional evolution point; exact authored parent coordinates remain native/advisory (wardley.md230-232): '+JSON.stringify(originals));projections.push('Pipeline parent label and member range encode the group; visibility and every named member evolution remain required, while the parent original evolution coordinate is preserved without manufacturing a separate point glyph')}
+  }
   if(family==='agentflow'&&Array.isArray(facts['node-attributes'])){
     const actedOn=new Set(['shape','label','labelType','view','algorithm','curve','animate','animation']),metadata:any[]=[]
     facts['node-attributes']=facts['node-attributes'].map((entry:any)=>{
@@ -91,6 +108,8 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
     projections.push('Treemap area encodes sibling weight fractions including independently derived subtree aggregates; showValues defaults true, so printed source values remain separate obligations unless explicitly disabled')
   }
   if (facts['authored-config'] && !Object.keys(configuration).length) delete facts['authored-config']
+  const configProjection=projectSourceConfiguration(family,expected)
+  if(configProjection.changed){profileExpected??=structuredClone(literal);projections.push(...configProjection.projections);excludedNonvisual.push(...configProjection.excluded)}
   const styles = compileVisualStyles(expected)
   if (styles.active && styles.complete) { projections.push('Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact'); return { expected: styles.expected, projections,...(profileExpected?{profileExpected,excludedNonvisual}:{}) } }
   return { expected, projections,...(profileExpected?{profileExpected,excludedNonvisual}:{}) }

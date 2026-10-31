@@ -1467,7 +1467,7 @@
   },
   "visibleRoleRules": {
     "timeline": "Unsectioned period ordinal or section ordinal selects cScale; events inherit that source ordinal and apply brightness120% to fill and foreground. disableMulticolor holds period ordinal0. Explicit cScale overrides win.",
-    "treemap": "Synthetic root takes transparent slot. Source section order takes cScale0 onward. Immediate children inherit parent section color; groupalpha0.6, leafalpha0.3, leafstroke3. ClassDef fill overrides color without removing inheritedalpha.",
+    "treemap": "Synthetic root takes transparent slot. Stable descending aggregate-weight hierarchy traversal (renderer.ts144–147), with source order breaking ties, takes cScale0 onward. Immediate children inherit parent section color; groupalpha0.6/groupstrokeopacity0.4/peerborder2, leafalpha0.3/opaqueleafstroke3. ClassDef fill overrides color without removing inheritedalpha.",
     "gitgraph": "Branch semantic order modulo8 selects paired git color/label foreground; commit fills/strokes, branch label backdrop and route stroke use git token. Explicit authored git paint overrides win.",
     "usecase": "Default role scheme uses violetactor/tealusecase; boundaries cycle independently. rotate assigns source actors first, then source usecases; boundary cycle stays independent."
   },

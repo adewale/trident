@@ -1,5 +1,24 @@
 import { expect, test } from 'bun:test'
 import { projectVisualExpectation } from '../fidelity/visual-expectation.ts'
+import type {MeaningExpectation} from '../fidelity/meaning.ts'
+
+test('Git commit message metadata never substitutes for displayed ID/tag text and remains complete native data',()=>{
+  const literal:MeaningExpectation={labels:['Shown','Tag'],facts:{commits:[{id:'commit:0',authoredId:'Shown',message:'private message',branch:'main',parents:[],type:'NORMAL',tags:['Tag']}]}}
+  const visual=projectVisualExpectation('gitgraph',literal)
+  expect(visual.expected.labels).toEqual(['Shown','Tag'])
+  expect((visual.expected.facts!.commits as any[])[0]).not.toHaveProperty('message')
+  expect(visual.expected.advisoryFacts!['nonvisual-commit-messages']).toEqual([{id:'commit:0',message:'private message'}])
+  expect(visual.profileExpected).toEqual(literal)
+})
+test('Wardley pipeline parent projects to shared visibility and exact member range while preserving original point data',()=>{
+  const literal:MeaningExpectation={labels:['Database','SQL','Cloud'],facts:{components:[{name:'Database',kind:'component',coordinates:[.4,.6]},{name:'Other',kind:'component',coordinates:[.8,.2]}],pipelines:[{component:'Database',members:[{name:'SQL',kind:'component',coordinates:[.25]},{name:'Cloud',kind:'component',coordinates:[.85]}]}]}}
+  const visual=projectVisualExpectation('wardley',literal)
+  expect((visual.expected.facts!.components as any[])[0]).toEqual({name:'Database',kind:'pipeline-group',visibility:.4})
+  expect((visual.expected.facts!.components as any[])[1]).toEqual({name:'Other',kind:'component',coordinates:[.8,.2]})
+  expect(visual.expected.facts!.pipelines).toEqual(literal.facts!.pipelines)
+  expect(visual.expected.advisoryFacts!['pipeline-parent-native-coordinates']).toEqual([{name:'Database',coordinates:[.4,.6]}])
+  expect(visual.profileExpected).toEqual(literal)
+})
 
 test('global layout hints become normative order only for a defensible simple chain', () => {
   const nodes = [{ id: 'A', label: 'A' }, { id: 'B', label: 'B' }, { id: 'C', label: 'C' }], chain = { labels: [], nodes, edges: [{ source: 'A', target: 'B', directed: true }, { source: 'B', target: 'C', directed: true }], facts: { direction: 'TD' } }

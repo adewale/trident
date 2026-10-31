@@ -182,7 +182,9 @@ test('Agentflow carried metadata stays in the native profile and literal provena
   expect(mutated.expected!.facts).toEqual(visual.expected!.facts)
   expect(mutated.profileExpected!.facts).not.toEqual(visual.profileExpected!.facts)
   const algorithm=reviewDocumentationSource(input('agentflow-beta LR\nflow group[Group]\na[A]\nend\ngroup@{ algorithm: elk.rectpacking }'))
-  expect((algorithm.expected!.facts!['node-attributes'] as any[]).find(entry=>entry.id==='group').attributes.algorithm).toBe('elk.rectpacking')
+  expect(algorithm.expected!.facts!['node-attributes']).toBeUndefined()
+  expect(algorithm.expected!.advisoryFacts!['configuration-identifiers-and-tokens']).toEqual({'node:group.algorithm':'elk.rectpacking'})
+  expect((algorithm.profileExpected!.facts!['node-attributes'] as any[]).find(entry=>entry.id==='group').attributes.algorithm).toBe('elk.rectpacking')
 })
 
 test('fontawesome glyph references are resource obligations rather than literal visible words', () => {
