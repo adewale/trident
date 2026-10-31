@@ -189,3 +189,8 @@ and unassigned ink. Their [provenance](../tests/fixtures/terminal/entity-provena
 retains the original artifact and collection interval; these checks add no renderer
 invocations or timing measurements. An observed entity body alone cannot supply
 relationship or cardinality credit.
+
+The [offline qualification receipt](evidence/terminal-observer-qualification-2026-10-31/README.md)
+publishes verified counts and remaining uncertainty for the retained 18-project
+collection. It includes per-case statuses and available output/evidence hashes
+without copying the historical raw witness directory or inventing call clocks.
