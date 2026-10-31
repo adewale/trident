@@ -1,3 +1,4 @@
+import { terminalRectangles } from './terminal-rectangles.ts'
 import { interpretTerminal, terminalTextWidth } from './terminal-display.ts'
 /** A bounded terminal observer: grapheme-aware labels in rectangular boxes joined
  * by orthogonal directed routes. Unsupported display/layout features are
@@ -17,23 +18,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   if (display.status !== 'available') return verdict('unknown', display.reason ?? 'No qualified terminal-state interpretation')
   const text = display.text, grid = display.cells, cell = (x: number, y: number) => grid[y]?.[x] ?? ' '
   if (grid.length > 256 || grid.some(line => line.length > 512) || [...text].filter(character => character === '┌' || character === '╭' || character === '+').length > 64 || expected.nodes.length > 32) return verdict('unknown', 'Output exceeds the bounded grid profile')
-  const boxes: Box[] = []
-  const horizontal = (line: string) => /^[─┬┴┼+\-]+$/.test(line)
-  const vertical = (character: string) => ['│', '|', '├', '┤', '┼', '+'].includes(character)
-  for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) {
-    const left = cell(x, y)
-    if (!['┌', '╭', '+'].includes(left)) continue
-    const corners = left === '+' ? ['+', '+', '+'] : left === '╭' ? ['╮', '╰', '╯'] : ['┐', '└', '┘']
-    for (let right = x + 2; right < grid[y]!.length; right++) {
-      if (cell(right, y) !== corners[0] || !horizontal(grid[y]!.slice(x + 1, right).join(''))) continue
-      for (let bottom = y + 2; bottom < grid.length; bottom++) {
-        if (cell(x, bottom) !== corners[1] || cell(right, bottom) !== corners[2] || !horizontal((grid[bottom] ?? []).slice(x + 1, right).join('')) || !Array.from({ length: bottom - y - 1 }, (_, index) => y + index + 1).every(row => vertical(cell(x, row)) && vertical(cell(right, row)))) continue
-        const label = grid.slice(y + 1, bottom).map(row => row.slice(x + 1, right).join('').trim()).filter(Boolean).join(' ')
-        boxes.push({ x, y, right, bottom, label })
-        break
-      }
-    }
-  }
+  const boxes: Box[] = terminalRectangles(grid).map(({ lines, ...box }) => ({ ...box, label: lines.join(' ') }))
   for (const node of expected.nodes) {
     const matches = boxes.filter(box => box.label.normalize('NFC') === node.label.normalize('NFC'))
     if (!matches.length && (text.includes(node.label) || boxes.some(box => box.label.replace(/\s/g, '') === node.label.replace(/\s/g, '')))) return verdict('unknown', 'Visible authored label lacks a qualified node-container or wrapping projection: ' + node.label)

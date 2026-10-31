@@ -1,3 +1,4 @@
+import { terminalRectangles } from './terminal-rectangles.ts'
 import { interpretTerminal } from './terminal-display.ts'
 import type { TerminalSourceContract } from './terminal-source.ts'
 import type { TerminalFactCheck } from './terminal-facts.ts'
@@ -15,22 +16,10 @@ export function inspectTerminalSequence(output: string, contract: TerminalSource
   if ((expected('ordered-messages') ?? []).some((message: any) => !['->>', '-->>'].includes(message.marker)) || (expected('fragments') ?? []).some((fragment: any) => fragment.nesting?.length)) { for (const check of result) check.detail = 'Nested fragments or source arrow styles require a separately qualified sequence projection'; return result }
   if (display.status !== 'available') { for (const check of result) check.detail = display.reason!; return result }
   const grid = display.cells, cell = (x: number, y: number) => grid[y]?.[x] ?? ' ', used = new Set<string>(), key = (x: number, y: number) => x + ',' + y
-  if (grid.length > 256 || grid.some(row => row.length > 512)) return result
+  if (grid.length > 256 || grid.some(row => row.length > 512) || [...display.text].filter(glyph => ['┌', '╭', '+'].includes(glyph)).length > 64) return result
   const mark = (left: number, right: number, y: number) => { for (let x = left; x <= right; x++) used.add(key(x, y)) }
   const rectangle = (box: Box) => { for (let y = box.y; y <= box.bottom; y++) mark(box.x, box.right, y) }
-  const horizontal = /^[─┬┴┼+\-]+$/, vertical = /^[│|├┤┼+]$/
-  const boxes: Box[] = []
-  for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) {
-    const corner = cell(x, y), corners = corner === '┌' ? ['┐', '└', '┘'] : corner === '╭' ? ['╮', '╰', '╯'] : corner === '+' ? ['+', '+', '+'] : undefined
-    if (!corners) continue
-    for (let right = x + 2; right < grid[y]!.length; right++) {
-      if (cell(right, y) !== corners[0] || !horizontal.test(grid[y]!.slice(x + 1, right).join(''))) continue
-      for (let bottom = y + 2; bottom < grid.length; bottom++) {
-        if (cell(x, bottom) !== corners[1] || cell(right, bottom) !== corners[2] || !horizontal.test(grid[bottom]!.slice(x + 1, right).join('')) || !Array.from({ length: bottom - y - 1 }, (_, n) => y + n + 1).every(row => vertical.test(cell(x, row)) && vertical.test(cell(right, row)))) continue
-        boxes.push({ x, y, right, bottom, lines: grid.slice(y + 1, bottom).map(row => row.slice(x + 1, right).join('').trim()).filter(Boolean) }); break
-      }
-    }
-  }
+  const vertical = /^[│|├┤┼+]$/, boxes = terminalRectangles(grid)
   if (!boxes.length) return result
   const top = Math.min(...boxes.map(box => box.y)), headers = boxes.filter(box => box.y === top).sort((a, b) => a.x - b.x), participants = expected('participants') as { id: string; label: string }[]
   if (!participants?.length || participants.length > 16 || new Set(participants.map(item => item.label)).size !== participants.length) return result

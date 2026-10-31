@@ -12,8 +12,8 @@ export function terminalSourceReviews() {
   })
 }
 if (import.meta.main) {
-  const bytes = JSON.stringify(terminalSourceReviews(), null, 2) + '\n'
+  const reviews = terminalSourceReviews(), bytes = JSON.stringify(reviews, null, 2) + '\n'
   if (process.argv.includes('--check')) { if (readFileSync(target, 'utf8') !== bytes) throw Error('Terminal source contracts are stale') }
   else writeFileSync(target, bytes)
-  console.log(JSON.stringify({ cases: terminalSourceReviews().length, sha256: createHash('sha256').update(bytes).digest('hex'), scope: 'Complete source obligations, not a claim that all output observers are implemented' }))
+  console.log(JSON.stringify({ cases: reviews.length, sha256: createHash('sha256').update(bytes).digest('hex'), scope: 'Complete source obligations, not a claim that all output observers are implemented' }))
 }
