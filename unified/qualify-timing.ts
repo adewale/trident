@@ -1,17 +1,23 @@
-import { readFileSync, writeFileSync } from 'node:fs'
+import { readFileSync, realpathSync, writeFileSync } from 'node:fs'
 import { dirname, isAbsolute, relative, resolve } from 'node:path'
 import { timingFromRetainedBundle } from '../portable/qualified-timing.ts'
+import { InvocationJournal } from '../portable/invocation-journal.ts'
 
 /** Offline reduction; collection and correctness observers own these inputs.
  * This command runs no renderer, substitutes no source and invents no clock. */
 export function qualifyRetainedTiming(file: string) {
   const root = dirname(resolve(file)), bundle = JSON.parse(readFileSync(file, 'utf8'))
   if (!bundle?.plan || !Array.isArray(bundle.samples)) throw Error('Timing bundle requires its frozen plan and every raw sample')
+  if (typeof bundle.journalDirectory !== 'string') throw Error('Timing bundle requires its owning exhaustive raw journal')
+  const journalDirectory = realpathSync(resolve(root, bundle.journalDirectory)), journalPath = relative(realpathSync(root), journalDirectory)
+  if (isAbsolute(journalPath) || journalPath === '..' || journalPath.startsWith('../')) throw Error('Timing journal is outside the owning bundle')
+  const journal = new InvocationJournal(journalDirectory)
   return timingFromRetainedBundle(bundle, output => {
     const path = resolve(root, output.path), owned = relative(root, path)
-    if (isAbsolute(owned) || owned === '..' || owned.startsWith('../')) throw Error('Timing output is outside the owning bundle')
+    const actual = relative(realpathSync(root), realpathSync(path))
+    if (isAbsolute(owned) || owned === '..' || owned.startsWith('../') || isAbsolute(actual) || actual === '..' || actual.startsWith('../')) throw Error('Timing output is outside the owning bundle')
     return readFileSync(path)
-  })
+  }, journal.records())
 }
 if (import.meta.main) {
   const args = process.argv.slice(2)

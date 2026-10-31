@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto'
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, realpathSync } from 'node:fs'
 import { isAbsolute, join, relative, resolve } from 'node:path'
 import { readBenchmarkDocument } from '../portable/project-records.ts'
 import { campaignResults, campaignProjectId, campaignArtifactRole, type CampaignEnvelope } from './campaign-publication.ts'
@@ -52,7 +52,8 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
         const bundle = result.qualifiedTimingBundles?.find((item: any) => item.plan?.cases?.length === 1 && item.plan.cases[0].caseId === row.caseId && item.plan.track === row.track)
         const timing = timingFromRetainedBundle(bundle, output => {
           const root = resolve(boundary.out!), file = resolve(root, output.path), path = relative(root, file)
-          if (isAbsolute(path) || path === '..' || path.startsWith('../')) throw Error('Timing output is outside the owning retained evidence')
+          const actual = relative(realpathSync(root), realpathSync(file))
+          if (isAbsolute(path) || path === '..' || path.startsWith('../') || isAbsolute(actual) || actual === '..' || actual.startsWith('../')) throw Error('Timing output is outside the owning retained evidence')
           return readFileSync(file)
         })
         const qualified = timing?.status === 'qualified'
@@ -99,7 +100,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             if (!Array.isArray(cases) || JSON.stringify(cases.map(input => input.caseId).sort()) !== JSON.stringify([...rejectionIds].sort()) || cases.some(input => !['correct', 'incorrect', 'unknown'].includes(input.status))) throw Error('Terminal rejection verdicts omit or duplicate planned controls')
             const count = (status: string) => cases.filter(input => input.status === status).length
             add(['terminal-source-rejections', cohort, hash(terminalProfile)], 'community', result.finishedAt,
-              'Four independently invalid sources in the full terminal inventory, checked for typed public grammar rejection. Process exits, missing ink and transport failures remain unknown. This is separate from drawing correctness and supplies no speed score.',
+              'Independently invalid sources in the full terminal inventory, checked for typed public grammar rejection. Process exits, missing ink and transport failures remain unknown. This is separate from drawing correctness and supplies no speed score.',
               ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned'], projectId(assessment.project), [assessment.version, count('correct'), count('incorrect'), count('unknown'), rejectionIds.length],
               { column: 'Correct', direction: 'descending' }, { cohort, unit: 'invalid-source controls', population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, count('correct') + count('incorrect') === 0 ? 'No typed source-rejection observations' : undefined)
           }

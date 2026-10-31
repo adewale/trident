@@ -37,6 +37,33 @@ export function harnessVerificationPlan() {
  if(new Set(profile.projects.map(p=>p.project)).size!==6||JSON.stringify(profile.jobs.map(job=>job.id).sort())!==JSON.stringify(required.sort())||profile.jobs.some(job=>!profile.projects.some(p=>p.project===job.project)))throw Error('Harness profile omits or duplicates a required execution path')
  return {...profile,controlSources:verificationControls,renderJobCount:profile.jobs.filter(job=>job.transport!=='model').length,plannedOutputCalls:profile.jobs.filter(job=>job.transport!=='model').length*verificationControls.length,modelCase:'meaning:family:flowchart',modelCallScope:'Existing public-model contract workflow; raw records retain its operations. Not included in output-call count.',sampling:'One call per control/output path, no performance warmups or repetitions',referenceTerminalScore:false}
 }
+/** Invocation controls have narrower claims than benchmark correctness. A
+ * changed source must at least change decoded output, never just metadata. */
+export function verifyHarnessControlOutputs(rows: BenchmarkObservation[], output: string, project: string) {
+ const gaps:string[]=[],witnesses=new Map<string,Buffer>()
+ for(const input of verificationControls.filter(input=>input.intent!=='negative-admission')){
+  const own=rows.filter(row=>row.caseId===input.id&&row.format===output&&(row.metrics?.project??row.metrics?.implementation)===project)
+  const file=own.length===1&&own[0]!.metrics?.outputFile
+  if(own.length!==1||own[0]!.status!=='passed'||typeof file!=='string'){gaps.push('Missing unique retained positive control: '+input.id);continue}
+  const bytes=readFileSync(file);witnesses.set(input.id,bytes)
+  const admission=output==='png'?inspectPng(bytes,true).findings.length===0:qualifyOutput(input,bytes.toString(),output).ok
+  if(!admission)gaps.push('Control output fails format/label admission: '+input.id)
+  if(output!=='png'){
+   const forbidden=input.id==='verification:changed'?'Beta':'Gamma'
+   if(qualifyOutput({...input,expectedLabels:[forbidden]},bytes.toString(),output).ok)gaps.push('Stale or extra label in input-propagation control: '+input.id)
+  }
+ }
+ const positive=witnesses.get('verification:positive'),changed=witnesses.get('verification:changed'),recovery=witnesses.get('verification:recovery')
+ if(output==='png'&&positive&&changed&&recovery){
+  const first=inspectPng(positive,true).pixelIdentity?.sha256,next=inspectPng(changed,true).pixelIdentity?.sha256,last=inspectPng(recovery,true).pixelIdentity?.sha256
+  if(!first||!next||!last||first===next||last===next)gaps.push('Changed source did not produce different decoded PNG pixels from both original-source controls')
+ }
+ return{passed:gaps.length===0,gaps,scope:output==='png'?'Actual decoded image changed with source; image meaning remains unqualified':'Authored control labels changed and recovered; diagram geometry remains unqualified'}
+}
+export function verifyHarnessModelRows(rows: BenchmarkObservation[],project:string){
+ const operations=['native-admission','family','identities','node-labels','relationships']
+ return operations.every(operation=>rows.filter(row=>row.operation===operation&&row.surface==='native-public-api'&&row.format==='structured'&&row.metrics?.authoredCase==='meaning:family:flowchart'&&(row.metrics?.project??row.metrics?.implementation)===project&&row.metrics?.evidenceRecorded===true&&row.status==='passed').length===1)
+}
 async function browserControls(peer:PreparedCommunityBrowser,output:string,options:UnifiedRunOptions) {
  admitPreparedFidelityEngine(peer)
  const engine=peer.browser!,server=docsArtifactServer(engine.root,engine.zenuml),resources=readDocsResources(options.docsResourcesFile)
@@ -87,9 +114,10 @@ export async function verifyHarness(preparedFile:string,browserFile:string,out:s
    }
   }catch(e){error=String(e)}
   write(join(directory,'result.json'),{job,rows,error,finishedAt:new Date().toISOString()})
-  const positive=job.transport==='model'?rows.some(row=>row.status==='passed'):verificationControls.filter(c=>c.intent!=='negative-admission').every(c=>rows.some(row=>row.caseId===c.id&&row.status==='passed'&&row.metrics?.outputFile))
+  const propagation=job.transport==='model'?undefined:verifyHarnessControlOutputs(rows,job.output,job.project)
+  const positive=job.transport==='model'?verifyHarnessModelRows(rows,job.project):propagation!.passed
   const accounted=job.transport==='model'?rows.length>0:verificationControls.every(c=>rows.some(row=>row.caseId===c.id))
-  results.push({job:job.id,project:job.project,output:job.output,transport:job.transport,execution:!error&&accounted&&positive?'verified':'blocked',error,observations:rows.length,scope:'Invocation/retention controls only; no corpus accuracy or speed qualification'})
+  results.push({job:job.id,project:job.project,output:job.output,transport:job.transport,execution:!error&&accounted&&positive?'verified':'blocked',error,observations:rows.length,inputPropagation:propagation,scope:'Invocation/retention controls only; no corpus accuracy or speed qualification'})
   write(join(out,'result.json'),{schema:'trident-harness-verification-v1',qualification:results.length===profile.jobs.length&&results.every(row=>row.execution==='verified')?'execution-paths-verified':'blocked',plan,producers,results})
  }
  return results

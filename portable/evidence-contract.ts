@@ -97,6 +97,13 @@ export interface InvocationEvidence {
   recordedAt?: string
   /** Actual reported clock only; controller wall time is never substituted. */
   durationMs: number | null
+  /** Controller-captured monotonic invocation envelope. Legacy or recovered
+   * records without this context cannot qualify comparative timing. */
+  measurement?: {
+    planSha256: string; environmentSha256: string; boundary: string; track: string
+    clockDomainId: string; executionInstanceId: string; sequence: number
+    monotonicStartNs: string; monotonicFinishNs: string | null
+  }
   output: { sha256: string; bytes: number; path: string } | null
   streams?: { stdout: { sha256: string; bytes: number; path: string }; stderr: { sha256: string; bytes: number; path: string } }
   detail: string
@@ -110,10 +117,16 @@ export function admitInvocationEvidence(value: unknown): Readonly<InvocationEvid
   if (item.recordedAt !== undefined && !validTime(item.recordedAt)) fail('invocation receipt time is invalid')
   if (!validTime(item.startedAt) || !validTime(item.finishedAt) || item.startedAt !== null && item.finishedAt !== null && Date.parse(item.finishedAt) < Date.parse(item.startedAt)) fail('invocation clocks are invalid')
   if (item.durationMs !== null && (typeof item.durationMs !== 'number' || !Number.isFinite(item.durationMs) || item.durationMs < 0)) fail('invocation duration must be an actual finite measurement or null')
+  if (item.measurement) {
+    const clock = item.measurement, ns = (value: unknown) => typeof value === 'string' && /^(0|[1-9][0-9]{0,29})$/.test(value)
+    if (!digest(clock.planSha256) || !digest(clock.environmentSha256) || !text(clock.boundary) || !text(clock.track) || !text(clock.clockDomainId) || !text(clock.executionInstanceId) || !Number.isSafeInteger(clock.sequence) || clock.sequence < 0 || !ns(clock.monotonicStartNs) || clock.monotonicFinishNs !== null && !ns(clock.monotonicFinishNs)) fail('invocation measurement context is invalid')
+    if (clock.monotonicFinishNs !== null && BigInt(clock.monotonicFinishNs) < BigInt(clock.monotonicStartNs)) fail('monotonic invocation envelope runs backwards')
+    if (item.state === 'started' && clock.monotonicFinishNs !== null) fail('started invocation has no finished clock')
+  }
   if (item.output !== null && (!digest(item.output.sha256) || !text(item.output.path) || !Number.isSafeInteger(item.output.bytes) || item.output.bytes < 0)) fail('invocation output reference is invalid')
   if (item.streams && [item.streams.stdout, item.streams.stderr].some(stream => !stream || !digest(stream.sha256) || !text(stream.path) || !Number.isSafeInteger(stream.bytes) || stream.bytes < 0)) fail('invocation stream references are invalid')
   if (item.state === 'not-invoked' && (item.durationMs !== null || item.output !== null || item.startedAt !== null)) fail('uninvoked work cannot contain invocation evidence')
   if (item.state === 'returned' && !item.output) fail('returned invocation needs its actual retained output')
   if (item.state === 'started' && (!item.startedAt || item.finishedAt !== null || item.durationMs !== null || item.output !== null)) fail('started invocation is incomplete, not a finished sample')
-  return Object.freeze({ ...item, identity: Object.freeze({ ...item.identity }), output: item.output && Object.freeze({ ...item.output }), ...(item.streams ? { streams: Object.freeze({ stdout: Object.freeze({ ...item.streams.stdout }), stderr: Object.freeze({ ...item.streams.stderr }) }) } : {}) })
+  return Object.freeze({ ...item, identity: Object.freeze({ ...item.identity }), output: item.output && Object.freeze({ ...item.output }), ...(item.measurement ? { measurement: Object.freeze({ ...item.measurement }) } : {}), ...(item.streams ? { streams: Object.freeze({ stdout: Object.freeze({ ...item.streams.stdout }), stderr: Object.freeze({ ...item.streams.stderr }) }) } : {}) })
 }
