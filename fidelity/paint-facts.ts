@@ -136,6 +136,19 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
     if (['node-paint', 'edge-paint'].includes(key) && Array.isArray(facts[key])) {
       const rgba = (value: string): number[] | null => { if (value === 'none') return [0, 0, 0, 0]; if (/url\(/.test(value)) { const id = /#([^\s)"']+)/.exec(value)?.[1], gradient = id ? document.getElementById(decodeURIComponent(id)) : null, stops = gradient && ['linearGradient', 'radialGradient'].includes(gradient.localName) ? [...gradient.querySelectorAll('stop')] : []; if (!stops.length || !stops.every(stop => getComputedStyle(stop).stopColor === getComputedStyle(stops[0]!).stopColor && Number(getComputedStyle(stop).stopOpacity) === 1)) return null; value = getComputedStyle(stops[0]!).stopColor }; if (!CSS.supports('color', value)) return null; color.clearRect(0, 0, 1, 1); color.fillStyle = value; color.fillRect(0, 0, 1, 1); return [...color.getImageData(0, 0, 1, 1).data] }
       const dash = (value: string) => { const entries = value === 'none' ? [] : value.split(/[ ,]+/).map(Number.parseFloat); if (entries.every(value => value === 0)) return []; return entries.length % 2 ? [...entries, ...entries] : entries }
+      // The same finite SVG shadow profile used by the generic paint observer:
+      // one feDropShadow composites the untouched SourceGraphic over its shadow.
+      const sourcePreservingShadow = (setting: string) => {
+        const match = /^url\(["']?#([^\s"')]+)["']?\)$/.exec(setting)
+        let filter: Element | null = null
+        try { filter = match ? document.getElementById(decodeURIComponent(match[1]!)) : null } catch { return false }
+        if (!filter || !svg.contains(filter) || filter.localName !== 'filter' || filter.children.length !== 1 || filter.hasAttribute('href') || filter.hasAttribute('filterRes')) return false
+        const shadow = filter.children[0]!
+        if (shadow.localName !== 'feDropShadow' || shadow.children.length || ['x','y','width','height'].some(name=>shadow.hasAttribute(name)) || !['','SourceGraphic'].includes(shadow.getAttribute('in')??'') || filter.hasAttribute('filterUnits') && filter.getAttribute('filterUnits') !== 'objectBoundingBox') return false
+        const fraction=(name:string,fallback:number)=>{const value=filter!.getAttribute(name);return value===null?fallback:/^[-+]?(?:\d*\.)?\d+%$/.test(value)?Number.parseFloat(value)/100:NaN}
+        const x=fraction('x',-.1),y=fraction('y',-.1),width=fraction('width',1.2),height=fraction('height',1.2)
+        return x<0&&y<0&&x+width>1&&y+height>1&&getComputedStyle(shadow).display!=='none'
+      }
       const carrier = (entry: any, property: 'fill' | 'stroke', style: any, absent: boolean, boundRoute?: any) => {
         if (!svg || checkById.get('paint-opacity-and-color')?.status !== 'passed') return false
         const target: any = key === 'node-paint' ? nodeById.get(entry.id) : boundRoute
@@ -147,19 +160,34 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
           if (absent ? anyInk < 1/255 : alpha < 1/255 || property === 'stroke' && !(Number.parseFloat(css.strokeWidth)>0)) return false
           if (input.paint.camouflagedGeometry?.some(item => item.tag === element.localName && near(item.box, target.box))) return false
           let brightness=1
-          for (let owner: Element | null = element; owner; owner = owner.parentElement) { const s=getComputedStyle(owner); if (s.display==='none'||['hidden','collapse'].includes(s.visibility)||Number(s.opacity)===0||s.maskImage!=='none'||s.clipPath!=='none') return false; if(s.filter!=='none'){const match=/^brightness\(([-+.\d]+)(%?)\)$/.exec(s.filter);if(match){const factor=Number(match[1])/(match[2]?100:1);if(!Number.isFinite(factor)||factor<=0)return false;brightness*=factor}else if(!/^drop-shadow\((?:rgba?\([^)]*\)|[^()])*\)$/.test(s.filter))return false}; if(owner===svg)break }
+          for (let owner: Element | null = element; owner; owner = owner.parentElement) { const s=getComputedStyle(owner); if (s.display==='none'||['hidden','collapse'].includes(s.visibility)||Number(s.opacity)===0||s.maskImage!=='none'||s.clipPath!=='none') return false; if(s.filter!=='none'){const match=/^brightness\(([-+.\d]+)(%?)\)$/.exec(s.filter);if(match){const factor=Number(match[1])/(match[2]?100:1);if(!Number.isFinite(factor)||factor<=0)return false;brightness*=factor}else if(!/^drop-shadow\((?:rgba?\([^)]*\)|[^()])*\)$/.test(s.filter)&&!sourcePreservingShadow(s.filter))return false}; if(owner===svg)break }
           if(!absent&&ink&&[0,255].some(end=>ink.slice(0,3).every(channel=>Math.round(Math.min(255,channel*brightness))===end)&&!ink.slice(0,3).every(channel=>channel===end)))return false
           const matrix=element.getScreenCTM(),length=element.getTotalLength(),bounds=element.getBoundingClientRect();if(!matrix||!(length>0))return false
           const points:{x:number;y:number}[]=property==='stroke'||absent?Array.from({length:129},(_,i)=>element.getPointAtLength(length*i/128).matrixTransform(matrix)):[]
           if(property==='fill'&&!absent)for(const x of [.1,.3,.5,.7,.9])for(const y of [.1,.3,.5,.7,.9]){const p=new DOMPoint(bounds.x+bounds.width*x,bounds.y+bounds.height*y),local=p.matrixTransform(matrix.inverse());if(element.isPointInFill(local)&&!element.isPointInStroke(local)&&!allText.some(e=>{const b=e.getBoundingClientRect();return p.x>=b.x&&p.x<=b.right&&p.y>=b.y&&p.y<=b.bottom}))points.push(p)}
           if(!points.length)return false
+          const contacts=new Map<Element,{point:{x:number;y:number};clearance:number}>()
+          if(key==='edge-paint'&&property==='stroke'&&checkById.get('painted-node-ownership')?.status==='passed'&&checkById.get('painted-relationships')?.status==='passed'&&checkById.get('painted-relationship-markers')?.status==='passed')for(const side of ['start','end'] as const){
+            const endpoint=boundRoute?.[side],owner=nodeById.get(side==='start'?boundRoute?.source:boundRoute?.target)
+            if(!endpoint)continue
+            for(const body of svg.querySelectorAll('rect,circle,ellipse,path,polygon')){const b=body.getBoundingClientRect(),s=getComputedStyle(body);if(owner?.outline&&body.localName===owner.outline.tag&&near(b,owner.box)&&s.fill===owner.style?.fill&&s.stroke===owner.style?.stroke)contacts.set(body,{point:endpoint,clearance:Math.min(8,Math.max(2,Number.parseFloat(s.strokeWidth)/2))})}
+            if(!['arrow','triangle'].includes(boundRoute?.[side==='start'?'startMarker':'endMarker'])||getComputedStyle(element)[side==='start'?'markerStart':'markerEnd']!=='none')continue
+            const markers=[...svg.querySelectorAll('polygon,path')].filter(shape=>shape!==element&&!shape.closest('defs,marker,clipPath,mask')).flatMap(shape=>{
+              const s=getComputedStyle(shape),m=(shape as SVGGraphicsElement).getScreenCTM(),raw=shape.localName==='polygon'?shape.getAttribute('points')??'':/^\s*M\s*[-+.\deE, ]+L\s*[-+.\deE, ]+L\s*[-+.\deE, ]+Z\s*$/.test(shape.getAttribute('d')??'')?(shape.getAttribute('d')??'').replace(/[MLZ]/g,' '):'',numbers=raw.match(/[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?/gi)?.map(Number)??[]
+              if(!m||numbers.length!==6||s.fill!==style.stroke||Number(s.fillOpacity)<.999||Number(s.opacity)<.999)return[]
+              const vertices=Array.from({length:3},(_,i)=>new DOMPoint(numbers[i*2],numbers[i*2+1]).matrixTransform(m)),distances=vertices.map(p=>Math.hypot(p.x-endpoint.x,p.y-endpoint.y)),local=new DOMPoint(endpoint.x,endpoint.y).matrixTransform(m.inverse())
+              return Math.max(...distances)<=16&&(shape as SVGGeometryElement).isPointInFill(local)?[{shape,clearance:Math.min(8,Math.max(2,Math.max(...distances)/2))}]:[]
+            })
+            if(markers.length===1)contacts.set(markers[0]!.shape,{point:endpoint,clearance:markers[0]!.clearance})
+          }
           for(const cover of svg.querySelectorAll('rect,circle,ellipse,path,polygon,image,use,foreignObject')){
             if(cover===element||cover.contains(element)||element.contains(cover)||cover.closest('defs,marker,clipPath,mask')||!(element.compareDocumentPosition(cover)&Node.DOCUMENT_POSITION_FOLLOWING))continue
             const s=getComputedStyle(cover),b=cover.getBoundingClientRect(),f=rgba(s.fill),st=rgba(s.stroke);let opacity=1,shown=true;for(let p:Element|null=cover;p;p=p.parentElement){const c=getComputedStyle(p);opacity*=Number(c.opacity);if(c.display==='none'||['hidden','collapse'].includes(c.visibility))shown=false;if(p===svg)break}
             const fa=(f?.[3]??0)/255*Number(s.fillOpacity)*opacity,sa=Number.parseFloat(s.strokeWidth)>0?(st?.[3]??0)/255*Number(s.strokeOpacity)*opacity:0,complex=['image','use','foreignObject'].includes(cover.localName);if(!shown||opacity===0||!complex&&Math.max(fa,sa)<.999)continue
             const caption=allText.some(e=>{const t=e.getBoundingClientRect();return t.width>0&&t.height>0&&t.x>=b.x&&t.y>=b.y&&t.right<=b.right&&t.bottom<=b.bottom&&b.width*b.height<bounds.width*bounds.height*.98});if(caption)continue
             const m=(cover as SVGGraphicsElement).getScreenCTM?.(),padding=sa>=.999?Number.parseFloat(s.strokeWidth)/2*(m?Math.hypot(m.a,m.b,m.c,m.d):1):0
-            if(points.some(p=>p.x>=b.x-padding&&p.x<=b.right+padding&&p.y>=b.y-padding&&p.y<=b.bottom+padding&&(complex||!m||!(cover instanceof SVGGeometryElement)||(()=>{const q=new DOMPoint(p.x,p.y).matrixTransform(m.inverse());return fa>=.999&&cover.isPointInFill(q)||sa>=.999&&cover.isPointInStroke(q)})())))return false
+            const contact=contacts.get(cover)
+            if(points.some(p=>(!contact||Math.hypot(p.x-contact.point.x,p.y-contact.point.y)>contact.clearance)&&p.x>=b.x-padding&&p.x<=b.right+padding&&p.y>=b.y-padding&&p.y<=b.bottom+padding&&(complex||!m||!(cover instanceof SVGGeometryElement)||(()=>{const q=new DOMPoint(p.x,p.y).matrixTransform(m.inverse());return fa>=.999&&cover.isPointInFill(q)||sa>=.999&&cover.isPointInStroke(q)})())))return false
           }
           return true
         })
