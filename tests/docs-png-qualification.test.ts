@@ -10,7 +10,7 @@ import { evidenceDigest, evidenceBytesDigest } from '../portable/evidence-contra
 import { sourceHash, type DocsDrawingReview } from '../unified/docs-drawings.ts'
 import { docsExpectationsHash, assessDocsPng, type DocsPngReview } from '../unified/docs-png-drawings.ts'
 import { qualifyCollectedDocsPng } from '../unified/docs-benchmark.ts'
-import { readDocsPngRasterProfile, readRetainedPngSvg } from '../unified/docs-png-qualification.ts'
+import { readDocsPngRasterProfile, readRetainedPngSvg, requireRetainedPngOwnership } from '../unified/docs-png-qualification.ts'
 import type { FrozenRasterProfile } from '../unified/png-preservation.ts'
 import type { UnifiedRunOptions, UnifiedSuiteResult } from '../unified/types.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
@@ -94,4 +94,15 @@ test('derived witness substitutions cannot claim another raw conversion return',
   const result = await qualifyCollectedDocsPng(f.options, f.result, f.inventory, [expected], [imageReview], { profile, fileSha256: 'a'.repeat(64) })
   expect(result.observations[1]!.status).toBe('blocked')
   expect(JSON.parse(result.observations[1]!.detail!).reason).toContain('owning raw PNG return')
+})
+
+
+test('native PNG review ownership cannot borrow another project or altered actual image', () => {
+  const f = fixture(), row = f.result.observations[1]!
+  const owned = { root: f.out, project: 'synthetic/control', round: 1, source: input, actualPng: f.actualPng, attemptId: String(row.metrics!.rawInvocationId) }
+  expect(requireRetainedPngOwnership(owned)).toMatchObject({ project: 'synthetic/control', pngSha256: evidenceBytesDigest(f.actualPng) })
+  expect(() => requireRetainedPngOwnership({ ...owned, project: 'borrowed/peer' })).toThrow('own project')
+  expect(() => requireRetainedPngOwnership({ ...owned, round: 2 })).toThrow('own project')
+  expect(() => requireRetainedPngOwnership({ ...owned, actualPng: reference })).toThrow('own project')
+  expect(() => requireRetainedPngOwnership({ ...owned, attemptId: 'borrowed-attempt' })).toThrow('own project')
 })

@@ -18,7 +18,7 @@ import { assessSvgCases, summarizeSvgCases, makeSvgObservationBinding, type SvgE
 import { admitDocsReviews, assessDocsDrawing, reviewedDocsCase, type DocsDrawingReview } from './docs-drawings.ts'
 import { admitPngReviews, assessDocsPng, type DocsPngReview } from './docs-png-drawings.ts'
 import { qualifyOutput } from './qualification.ts'
-import { readDocsPngRasterProfile, readRetainedPngSvg, readRetainedPng, bindDocsPngConversionReturn, qualifyRetainedDocsPngConversion } from './docs-png-qualification.ts'
+import { readDocsPngRasterProfile, readRetainedPngSvg, readRetainedPng, bindDocsPngConversionReturn, requireRetainedPngOwnership, qualifyRetainedDocsPngConversion } from './docs-png-qualification.ts'
 import { defaultChromium, executableIdentity } from './benchmark-context.ts'
 import { protocolIdentity } from './protocol-identity.ts'
 import { withDocsDeadline } from './docs-benchmark.ts'
@@ -145,6 +145,10 @@ export async function recheckRendering(directory: string, out: string, pngReview
           if (row.format === 'png') {
             const bytes = witness && existsSync(witness) ? readRetainedPng(join(out, 'docs'), row.metrics.witness) : undefined
             assessment = assessDocsPng(input, expected, bytes, pngReviews)
+            if (assessment.status === 'correct' && bytes) {
+              try { assessment = { ...assessment, publicReturn: requireRetainedPngOwnership({ root: join(out, 'docs/png'), project: row.metrics.project, round: Number(row.metrics.round), source: input, actualPng: bytes, attemptId: typeof row.metrics.rawInvocationId === 'string' ? row.metrics.rawInvocationId : undefined }) } }
+              catch (error) { assessment = { status: 'unknown', reason: 'Reviewed image lacks its owning raw PNG return: ' + String(error) } }
+            }
             if (assessment.status === 'unknown' && raster && expected?.intent === 'drawing' && bytes && row.metrics?.transport === 'svg-conversion') {
               try {
                 const root = join(out, 'docs'), originalSvg = readRetainedPngSvg(root, row.metrics.originalSvgWitness), rasterizedSvg = readRetainedPngSvg(root, row.metrics.rasterizedSvgWitness)

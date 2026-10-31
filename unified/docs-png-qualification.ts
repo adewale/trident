@@ -46,6 +46,15 @@ export function readRetainedPng(root: string, witness: string) {
   return bytes
 }
 
+/** Also used for native PNG: an image review establishes content, while the
+ * owning raw checkpoint establishes which project/case/round returned it. */
+export function requireRetainedPngOwnership(input: { root: string; project: string; round: number; source: DocsInput; actualPng: Uint8Array; attemptId?: string }) {
+  if (!input.project || !Number.isSafeInteger(input.round) || input.round < 1) throw Error('PNG has no owning project/case/round')
+  const raw = readCheckpointValue<any>(input.root, JSON.stringify(['raw-png', input.project, input.round, input.source.id]))
+  if (!raw || raw.status !== 'passed' || typeof raw.bytesBase64 !== 'string' || evidenceBytesDigest(Buffer.from(raw.bytesBase64, 'base64')) !== evidenceBytesDigest(input.actualPng) || input.attemptId !== undefined && raw.invocationId !== input.attemptId) throw Error('PNG witness differs from its own project/case/round raw return')
+  return { schema: 'trident-owned-png-return-v1' as const, project: input.project, caseId: input.source.id, round: input.round, sourceSha256: sourceHash(input.source.source), pngSha256: evidenceBytesDigest(input.actualPng), rawUnitSha256: evidenceDigest(raw), attemptId: typeof raw.invocationId === 'string' ? raw.invocationId : null }
+}
+
 export interface DocsPngConversionReturn {
   schema: 'trident-docs-png-return-v1'
   project: string; caseId: string; round: number; variant: string; attemptId: string
