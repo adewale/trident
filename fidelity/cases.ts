@@ -1,6 +1,7 @@
 import policy from '../data/upstream-mermaid-policy.json' with { type: 'json' }
 import { portableCases } from '../portable/cohorts.ts'
 import type { AuthoredFidelityCase, MeaningExpectation, MeaningEdge } from './meaning.ts'
+import { enrollAuthoredSource } from './source-contract.ts'
 
 const required = (family: string) => policy.families.some(item => item.id === family && item.maturity === 'stable') || ['eventmodeling', 'zenuml'].includes(family)
 const relation = (source: string, target: string, label = '', directed = true): MeaningEdge => ({ source, target, label, directed })
@@ -226,5 +227,5 @@ export function fidelityCases(): AuthoredFidelityCase[] {
 /** The edited source has its own authored expectations; it is never compared
  * with the implementation's previous answer. Preludes remain real operations. */
 export function expandedFidelityCases(): AuthoredFidelityCase[] {
-  return fidelityCases().flatMap(value => [value, ...(value.edit ? [{ ...value, id: value.id + ':edit', source: value.edit.source, expected: value.edit.expected, renderOptions: value.edit.renderOptions, paint: value.edit.paint, edit: undefined, prelude: [...(value.prelude ?? []), { source: value.source, accept: true, renderOptions: value.renderOptions }] }] : [])])
+  return fidelityCases().flatMap(value => [value, ...(value.edit ? [{ ...value, id: value.id + ':edit', source: value.edit.source, expected: value.edit.expected, renderOptions: value.edit.renderOptions, paint: value.edit.paint, edit: undefined, prelude: [...(value.prelude ?? []), { source: value.source, accept: true, renderOptions: value.renderOptions }] }] : [])]).map(enrollAuthoredSource)
 }

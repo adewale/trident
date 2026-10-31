@@ -1,12 +1,13 @@
 import { expect, test } from 'bun:test'
 import { admitDocsReviews, assessDocsDrawing, sourceHash, reviewedDocsCase, type DocsDrawingReview } from '../unified/docs-drawings.ts'
 import { makeSvgObservationBinding } from '../fidelity/svg-assessment.ts'
-import { plannedPaintCriteria } from '../fidelity/paint.ts'
+import { planFidelityCriteria } from '../fidelity/ledger.ts'
+import { reviewDocumentationSource } from '../unified/docs-source-review.ts'
 
 const input = { id: 'docs:flowchart', family: 'flowchart', source: 'flowchart LR\nA-->B' }
-const review: DocsDrawingReview = { id: input.id, sourceSha256: sourceHash(input.source), intent: 'drawing', family: 'flowchart', review: 'Independently authored A to B relationship.', expected: { labels: ['A', 'B'], nodes: [{ id: 'A', label: 'A' }, { id: 'B', label: 'B' }], edges: [{ source: 'A', target: 'B', directed: true }] } }
+const review: DocsDrawingReview = reviewDocumentationSource(input)
 const binding = makeSvgObservationBinding(reviewedDocsCase(input, review), 'a'.repeat(64), 'b'.repeat(64))
-const checks = () => plannedPaintCriteria({ family: review.family, expected: review.expected! }).map(criterion => ({ criterion, status: 'passed' as const, expected: null, actual: null, scope: 'test' }))
+const checks = () => planFidelityCriteria([reviewedDocsCase(input, review)]).filter(item => item.surface === 'browser-owned-ink').map(({ criterion }) => ({ criterion, status: 'passed' as const, expected: null, actual: null, scope: 'Declared fixture observation; tests exercise evidence assembly, not the browser observer' }))
 
 test('successful SVG return without source review never supplies a correctness pass; stale reviews fail admission', () => {
   expect(assessDocsDrawing(input, null, 'passed', true, checks(), binding).status).toBe('unknown')

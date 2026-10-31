@@ -12,6 +12,17 @@ credit. A passing authored feature profile does not prove that its expectations
 exhaust every visible property of the input. The documentation source reviews
 record completeness and unresolved syntax separately.
 
+All 100 authored cases also enroll through the independent literal source
+transcriber. Its additional direction, shape, participant, ordering, styling
+and family-content obligations enter the SVG ledger. `profileExpected` retains
+the original native API assertions; SVG enrichment cannot silently change
+those contracts. Compatible source aliases are explicit: authored commit names
+replace transcriber-local commit indices, and native parent-to-child mindmap
+hierarchy remains separate from its undirected visible connectors. A source
+or expectation conflict stays unresolved. Missing/stale source completeness
+metadata cannot produce a whole-source certificate even when every bounded
+profile observation passed.
+
 The observer uses browser text, actual outlines, measured endpoints, marker
 geometry, containment, numeric axes and legend ownership. Native model output,
 generated IDs, renderer names and agreement with Mermaid supply no visible

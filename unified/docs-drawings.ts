@@ -4,6 +4,7 @@ import { assessSvgCases, type SvgEvidenceBinding } from '../fidelity/svg-assessm
 import type { PaintCheck } from '../fidelity/paint.ts'
 import type { BenchmarkObservation } from './types.ts'
 import { docsSourcePin, docsSourceReviewProtocol, requiredDocumentationObligations, type DocsSourceReview } from './docs-source-review.ts'
+import { evidenceDigest } from '../portable/evidence-contract.ts'
 
 export interface DocsDrawingReview { id: string; sourceSha256: string; intent: 'drawing' | 'configuration-only'; family: string; expected?: MeaningExpectation; unverifiedFacts?: string[]; review: string; sourceReview?: DocsSourceReview }
 export interface DocsInput { id: string; source: string; family: string }
@@ -25,7 +26,7 @@ export function admitDocsReviews(inputs: readonly DocsInput[], reviews: readonly
 
 export function reviewedDocsCase(input: DocsInput, review: DocsDrawingReview): AuthoredFidelityCase {
   if (!review.expected || review.intent !== 'drawing' || review.id !== input.id || review.sourceSha256 !== sourceHash(input.source)) throw Error('Documentation source has no matching drawing expectation')
-  return { id: input.id, family: review.family, source: input.source, required: true, features: ['reviewed-documentation-content'], provenance: review.review, expected: review.expected }
+  return { id: input.id, family: review.family, source: input.source, required: true, features: ['reviewed-documentation-content'], provenance: review.review, expected: review.expected, ...(review.sourceReview ? { sourceReview: { protocol: review.sourceReview.protocol, sourceSha256: review.sourceSha256, expectedSha256: evidenceDigest(review.expected), expectedFactsComplete: review.sourceReview.expectedFactsComplete, requiredObligations: review.sourceReview.requiredObligations, unresolved: review.sourceReview.unresolved, provenance: review.review } } : {}) }
 }
 
 export function assessDocsDrawing(input: DocsInput, review: DocsDrawingReview | null, publicStatus: string, admissionPassed: boolean, checks: readonly PaintCheck[], binding?: SvgEvidenceBinding) {
