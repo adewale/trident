@@ -13,7 +13,9 @@ Trident compares Mermaid tools on input compatibility, diagram meaning and rende
 - [Comparison contracts](FAIRNESS.md): planning, independent inputs and comparable result rankings.
 - [Ecosystem results](RESULTS.md): benchmark tables and charts, measurement dates and missing results for every eligible project.
 
-The [30 October campaign](https://github.com/adewale/trident/blob/8b2404b0bf2940e571ca0e14e54eeff0517a98ca/README.md)
+The [31 October campaign](docs/ecosystem-campaign-2026-10-31.md) covers the current
+27-project selection, with separate return and content results and comparisons
+against Mermaid. The [30 October campaign](https://github.com/adewale/trident/blob/8b2404b0bf2940e571ca0e14e54eeff0517a98ca/README.md)
 publishes the original 39-project results and raw download, including projects
 later excluded from regular campaigns. The rolling overview uses the current
 27-project selection.

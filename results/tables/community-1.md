@@ -1,1461 +1,353 @@
-# Mermaid Compatibility · part 1
+# Terminal Rendering · part 1
 
 [Ecosystem overview](../../RESULTS.md) · [All parts](community.md)
 
-<a id="community-node-public-api"></a>
+<a id="run-68b184c4fd4c3c4e5f09a081"></a>
 
-**community-node:public-api** · 2026-10-28 · Historical · unit: inputs · [evidence](../../docs/evidence/benchmark-examples.json)
+**run-68b184c4fd4c3c4e5f09a081** · 2026-10-31 · unit: terminal input cases · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
-Selected smoke campaign; public Node SVG API; one round; 33 feature inputs. Six core inputs are separate. Output admission does not establish diagram meaning.
+Full planned terminal corpus, retaining unmeasured and unreviewed inputs. Corpus: 120 selected inputs from pinned terminal-project documentation, issues and PRs, without selection on renderer outcomes. Source/review hashes and all origins remain in the owning receipt. Full-inventory accuracy ranks are withheld for unknown work; reviewed-subset ranks order only verified counts. Mermaid source reference is unscored; no speed or aesthetics score.
 
-Ranked by **Passed inputs / Planned inputs**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Ranked by **Correct / Planned**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-| Project | Rank | Version | Passed inputs | Failed | Unsupported | Blocked | Planned inputs |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Pele | 1 | 1.9.0 | 32 | 0 | 1 | 0 | 33 |
-| Agentic Mermaid | 2 | 0.4.1 | 14 | 1 | 18 | 0 | 33 |
+“Higher” and “Lower” compare **Correct** on this population. Unknown evidence remains unresolved. Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.
 
-<a id="community-browser-public-api"></a>
-
-**community-browser:public-api** · 2026-10-28 · Historical · unit: inputs · [evidence](../../docs/evidence/benchmark-examples.json)
-
-Selected smoke campaign; browser SVG API; one round; 33 feature inputs. Six core inputs are separate. Mermaid.js is the language reference.
-
-Ranked by **Passed inputs / Planned inputs**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed inputs | Failed | Unsupported | Blocked | Planned inputs |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Mermaid.js | 1 | 12.2.0 | 33 | 0 | 0 | 0 | 33 |
-| Pele | 2 | 1.9.0 | 32 | 0 | 1 | 0 | 33 |
-| Agentic Mermaid | 3 | 0.4.1 | 14 | 1 | 18 | 0 | 33 |
-
-<a id="am-zm-compatibility-svg-2026-10-29"></a>
-
-**am-zm-compatibility-svg-2026-10-29** · 2026-10-29 · **Source candidates** · unit: positive feature inputs · [evidence](../../docs/evidence/am-zm-2026-10-29/receipt.json)
-
-AM 0.5.1 at c4a8eeb8 and ZM 5.11.3 at 51ed1cdf are unreleased source builds. Same 718 reference-accepted positive feature inputs, counted once. Node and browser SVG outcomes agree. Excludes parser-only and reference-rejected inputs and six separately timed core inputs. Qualification checks output structure and retained labels; it is not a complete visual correctness score.
-
-Ranked by **Passed / Planned**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Planned | Passed (%) |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 1 | 0.5.1 @ c4a8eeb8 | 595 | 17 | 106 | 718 | 82.9% |
-| Zombie Mermaid | 2 | 5.11.3 @ 51ed1cdf | 253 | 51 | 414 | 718 | 35.2% |
-
-```mermaid
-xychart-beta horizontal
-    title "Source candidates: SVG compatibility — 2026-10-29"
-    x-axis ["Agentic Mermaid 0.5.1 @ c4a8eeb8", "Zombie Mermaid 5.11.3 @ 51ed1cdf"]
-    y-axis "Passed (%)" 0 --> 100
-    bar [82.9, 35.2]
-```
-
-<a id="am-zm-compatibility-terminal-2026-10-29"></a>
-
-**am-zm-compatibility-terminal-2026-10-29** · 2026-10-29 · **Source candidates** · unit: positive feature inputs · [evidence](../../docs/evidence/am-zm-2026-10-29/receipt.json)
-
-AM 0.5.1 at c4a8eeb8 and ZM 5.11.3 at 51ed1cdf are unreleased source builds. Same 718 reference-accepted positive feature inputs through the public Node terminal APIs, counted once. Repeated core timing calls do not increase coverage. Qualification checks terminal output and retained labels.
-
-Ranked by **Passed / Planned**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Planned | Passed (%) |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 1 | 0.5.1 @ c4a8eeb8 | 563 | 49 | 106 | 718 | 78.4% |
-| Zombie Mermaid | 2 | 5.11.3 @ 51ed1cdf | 237 | 67 | 414 | 718 | 33.0% |
-
-```mermaid
-xychart-beta horizontal
-    title "Source candidates: Terminal compatibility — 2026-10-29"
-    x-axis ["Agentic Mermaid 0.5.1 @ c4a8eeb8", "Zombie Mermaid 5.11.3 @ 51ed1cdf"]
-    y-axis "Passed (%)" 0 --> 100
-    bar [78.4, 33]
-```
-
-<a id="run-fbd07bfce510885939064c38"></a>
-
-**run-fbd07bfce510885939064c38** · 2026-10-30 · unit: inputs · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; svg compatibility. The same recorded inputs are checked for output format and authored labels. Runtime boundaries are listed per row; this compares output checks, not speed or complete layout correctness.
-
-Ranked by **Passed / Planned inputs**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Interface | Runtime | Passed | Failed | Unsupported | Blocked | Other | Planned inputs |
+| Project | Rank | Version | Correct | Incorrect | Unsupported | Unknown | Planned | Measured | vs Mermaid ASCII | Ranking note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Bezel | 1 | 0.2.22 | node:public-api | Node 24.19.0 | 157 | 0 | 0 | 0 | 0 | 157 |
-| Ondine | 1 | 0.0.3 | node:public-api | Node 24.19.0 | 157 | 0 | 0 | 0 | 0 | 157 |
-| Pele | 1 | 1.12.0 | node:public-api | Node 24.19.0 | 157 | 0 | 0 | 0 | 0 | 157 |
-| Latias94/merman | 4 | 0.9.2 | node:public-api | Node 24.19.0 | 152 | 5 | 0 | 0 | 0 | 157 |
-| Frankenmermaid | 5 | 0.4.0 | node:public-api | Node 24.19.0 | 142 | 15 | 0 | 0 | 0 | 157 |
-| Agentic Mermaid | 6 | 0.5.1 | node:public-api | Node 24.19.0 | 130 | 3 | 24 | 0 | 0 | 157 |
-| Mermaid Dart | 7 | 0.3.2 | node:public-api | Node 24.19.0 | 128 | 7 | 22 | 0 | 0 | 157 |
-| Zombie Mermaid | 8 | 5.11.2 | node:public-api | Node 24.19.0 | 93 | 8 | 56 | 0 | 0 | 157 |
-| emtyty/merslim | 9 | 0.2.3 | node:public-api | Node 24.19.0 | 74 | 28 | 55 | 0 | 0 | 157 |
-| Beautiful Mermaid | 10 | 1.1.3 | node:public-api | Node 24.19.0 | 61 | 19 | 77 | 0 | 0 | 157 |
-| sandyyst/dsh-plugin-mermaid-gb-svg | 11 | 0.1.4 | node:public-api | Node 24.19.0 | 52 | 105 | 0 | 0 | 0 | 157 |
-| KlangHaus/vitepress-plugin-diagram | 12 | 0.3.2 | node:public-api | Node 24.19.0 | 45 | 22 | 90 | 0 | 0 | 157 |
-| crafter-station/mermaid | 13 | 0.0.3 | node:public-api | Node 24.19.0 | 0 | 91 | 66 | 0 | 0 | 157 |
+| Termaid | — | 0.10.0 | 12 | 1 | 0 | 107 | 120 | 2026-10-31T09:28:24.742Z | Higher (+1) | Terminal source/display/drawing evidence is incomplete |
+| Agentic Mermaid | — | 0.4.1 | 11 | 0 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Tie | Terminal source/display/drawing evidence is incomplete |
+| ASCII Mermaid | — | 0.1.0 | 11 | 2 | 0 | 107 | 120 | 2026-10-31T09:28:24.742Z | Tie | Terminal source/display/drawing evidence is incomplete |
+| Mermaid ASCII | — | 1.6.1 | 11 | 3 | 0 | 106 | 120 | 2026-10-31T09:28:24.742Z | Baseline | Terminal source/display/drawing evidence is incomplete |
+| Zombie Mermaid | — | 5.10.2 | 11 | 0 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Tie | Terminal source/display/drawing evidence is incomplete |
+| Latias Merman | — | 0.9.2 | 10 | 4 | 0 | 106 | 120 | Unknown; recovered text, see receipt | Lower (-1) | Terminal source/display/drawing evidence is incomplete |
+| MermaidText | — | git-a6b0c7657b94 | 10 | 0 | 0 | 110 | 120 | 2026-10-31T09:28:24.742Z | Lower (-1) | Terminal source/display/drawing evidence is incomplete |
+| Beautiful Mermaid | — | 1.1.3 | 9 | 2 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Lower (-2) | Terminal source/display/drawing evidence is incomplete |
+| Loom renderer | — | 0.10.0 | 9 | 0 | 0 | 111 | 120 | 2026-10-31T09:28:24.742Z | Lower (-2) | Terminal source/display/drawing evidence is incomplete |
+| OpenCode Merman | — | 2.0.26 | 9 | 2 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Lower (-2) | Terminal source/display/drawing evidence is incomplete |
+| Figurehead | — | v0.4.3 | 5 | 5 | 0 | 110 | 120 | 2026-10-31T09:28:24.742Z | Lower (-6) | Terminal source/display/drawing evidence is incomplete |
+| Kitlangton Merman | — | 0.2.1 | 4 | 2 | 0 | 114 | 120 | 2026-10-31T09:28:24.742Z | Lower (-7) | Terminal source/display/drawing evidence is incomplete |
+| MermaidTUI | — | 0.0.6 | 3 | 11 | 0 | 106 | 120 | 2026-10-31T09:28:24.742Z | Lower (-8) | Terminal source/display/drawing evidence is incomplete |
+| Ondine | — | 0.0.3 | 3 | 0 | 0 | 117 | 120 | Unknown; recovered text, see receipt | Lower (-8) | Terminal source/display/drawing evidence is incomplete |
+| Crafter Mermaid | — | 0.0.3 | 0 | 0 | 0 | 120 | 120 | Unknown; recovered text, see receipt | Unresolved | Terminal source/display/drawing evidence is incomplete |
+| Frankenmermaid | — | 0.4.0 | 0 | 0 | 0 | 120 | 120 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
+| Grok renderer | — | git-2bdd1d6a6369 | 0 | 0 | 0 | 120 | 120 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
+| Merslim | — | 0.2.3 | 0 | 0 | 0 | 120 | 120 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
 
-<a id="run-3c53a1691a4d1e41af040364"></a>
+<a id="run-a6fa463f6d3455d15e79a2d5"></a>
 
-**run-3c53a1691a4d1e41af040364** · 2026-10-30 · unit: inputs · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+**run-a6fa463f6d3455d15e79a2d5** · 2026-10-31 · unit: terminal input cases · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
-external; svg compatibility. The same recorded inputs are checked for output format and authored labels. Runtime boundaries are listed per row; this compares output checks, not speed or complete layout correctness.
+Independently reviewed drawing subset, ranked by verified correct count only. Unknown outcomes leave complete accuracy unresolved; this count rank cannot establish full-corpus correctness. Corpus: 120 selected inputs from pinned terminal-project documentation, issues and PRs, without selection on renderer outcomes. Source/review hashes and all origins remain in the owning receipt. Full-inventory accuracy ranks are withheld for unknown work; reviewed-subset ranks order only verified counts. Mermaid source reference is unscored; no speed or aesthetics score.
 
-Ranked by **Passed / Planned inputs**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-| Project | Rank | Version | Interface | Runtime | Passed | Failed | Unsupported | Blocked | Other | Planned inputs |
+“Higher” and “Lower” compare **Correct** on this population. Unknown evidence remains unresolved. Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.
+
+| Project | Rank | Version | Correct | Incorrect | Unsupported | Unknown | Planned | Measured | vs Mermaid ASCII | Ranking note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Bezel | 1 | 0.2.22 | browser:public-api | chromium | 157 | 0 | 0 | 0 | 0 | 157 |
-| Ondine | 1 | 0.0.3 | browser:public-api | chromium | 157 | 0 | 0 | 0 | 0 | 157 |
-| Pele | 1 | 1.12.0 | browser:public-api | chromium | 157 | 0 | 0 | 0 | 0 | 157 |
-| Mermaid.js | 4 | 12.2.0 | browser:public-api | chromium | 155 | 2 | 0 | 0 | 0 | 157 |
-| Latias94/merman | 5 | 0.9.2 | browser:public-api | chromium | 152 | 5 | 0 | 0 | 0 | 157 |
-| Frankenmermaid | 6 | 0.4.0 | browser:public-api | chromium | 142 | 15 | 0 | 0 | 0 | 157 |
-| Agentic Mermaid | 7 | 0.5.1 | browser:public-api | chromium | 130 | 3 | 24 | 0 | 0 | 157 |
-| Mermaid Dart | 8 | 0.3.2 | browser:public-api | chromium | 128 | 7 | 22 | 0 | 0 | 157 |
-| Zombie Mermaid | 9 | 5.11.2 | browser:public-api | chromium | 93 | 8 | 56 | 0 | 0 | 157 |
-| evangwt/xmermaid | 10 | 0.4.2 | browser:public-api | chromium | 90 | 43 | 24 | 0 | 0 | 157 |
-| Beautiful Mermaid | 11 | 1.1.3 | browser:public-api | chromium | 61 | 19 | 77 | 0 | 0 | 157 |
-| sandyyst/dsh-plugin-mermaid-gb-svg | 12 | 0.1.4 | browser:public-api | chromium | 52 | 105 | 0 | 0 | 0 | 157 |
-| KlangHaus/vitepress-plugin-diagram | 13 | 0.3.2 | browser:public-api | chromium | 45 | 22 | 90 | 0 | 0 | 157 |
+| Termaid | 1 | 0.10.0 | 12 | 1 | 0 | 3 | 16 | 2026-10-31T09:28:24.742Z | Higher (+1) |  |
+| Agentic Mermaid | 2 | 0.4.1 | 11 | 0 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Tie |  |
+| ASCII Mermaid | 2 | 0.1.0 | 11 | 2 | 0 | 3 | 16 | 2026-10-31T09:28:24.742Z | Tie |  |
+| Mermaid ASCII | 2 | 1.6.1 | 11 | 3 | 0 | 2 | 16 | 2026-10-31T09:28:24.742Z | Baseline |  |
+| Zombie Mermaid | 2 | 5.10.2 | 11 | 0 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Tie |  |
+| Latias Merman | 6 | 0.9.2 | 10 | 4 | 0 | 2 | 16 | Unknown; recovered text, see receipt | Lower (-1) |  |
+| MermaidText | 6 | git-a6b0c7657b94 | 10 | 0 | 0 | 6 | 16 | 2026-10-31T09:28:24.742Z | Lower (-1) |  |
+| Beautiful Mermaid | 8 | 1.1.3 | 9 | 2 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Lower (-2) |  |
+| Loom renderer | 8 | 0.10.0 | 9 | 0 | 0 | 7 | 16 | 2026-10-31T09:28:24.742Z | Lower (-2) |  |
+| OpenCode Merman | 8 | 2.0.26 | 9 | 2 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Lower (-2) |  |
+| Figurehead | 11 | v0.4.3 | 5 | 5 | 0 | 6 | 16 | 2026-10-31T09:28:24.742Z | Lower (-6) |  |
+| Kitlangton Merman | 12 | 0.2.1 | 4 | 2 | 0 | 10 | 16 | 2026-10-31T09:28:24.742Z | Lower (-7) |  |
+| MermaidTUI | 13 | 0.0.6 | 3 | 11 | 0 | 2 | 16 | 2026-10-31T09:28:24.742Z | Lower (-8) |  |
+| Ondine | 13 | 0.0.3 | 3 | 0 | 0 | 13 | 16 | Unknown; recovered text, see receipt | Lower (-8) |  |
+| Crafter Mermaid | — | 0.0.3 | 0 | 0 | 0 | 16 | 16 | Unknown; recovered text, see receipt | Unresolved | Terminal source/display/drawing evidence is incomplete |
+| Frankenmermaid | — | 0.4.0 | 0 | 0 | 0 | 16 | 16 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
+| Grok renderer | — | git-2bdd1d6a6369 | 0 | 0 | 0 | 16 | 16 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
+| Merslim | — | 0.2.3 | 0 | 0 | 0 | 16 | 16 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
+<a id="attempt-0741d58dbfedd9a14333b033"></a>
 
-<a id="run-f7b2d604a0895b928cae6b3d"></a>
+### Mermaid ASCII: Terminal Rendering (terminal-project-corpus-v1)
 
-**run-f7b2d604a0895b928cae6b3d** · 2026-10-30 · unit: inputs · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-external; png compatibility. The same recorded inputs are checked for output format and authored labels. Runtime boundaries are listed per row; this compares output checks, not speed or complete layout correctness.
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
 
-Ranked by **Passed / Planned inputs**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Interface | Runtime | Passed | Failed | Unsupported | Blocked | Other | Planned inputs |
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mermaid Flutter | 1 | 0.3.2 | native:in-process-api | Native Linux Flutter release | 131 | 1 | 22 | 3 | 0 | 157 |
+| 1.6.1 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 11 | 3 | 0 | 106 | {} | 120 |
 
-<a id="run-2b1bd1eb9d8070948cfdc1e1"></a>
+<a id="attempt-078cae822aa88e41cbe7c00e"></a>
 
-**run-2b1bd1eb9d8070948cfdc1e1** · 2026-10-30 · unit: inputs · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+### MermaidText: Terminal Rendering (terminal-project-corpus-v1)
 
-external; terminal compatibility. The same recorded inputs are checked for output format and authored labels. Runtime boundaries are listed per row; this compares output checks, not speed or complete layout correctness.
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-Ranked by **Passed / Planned inputs**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
 
-| Project | Rank | Version | Interface | Runtime | Passed | Failed | Unsupported | Blocked | Other | Planned inputs |
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 1 | 0.5.1 | node:public-api | Node 24.19.0 | 118 | 15 | 24 | 0 | 0 | 157 |
-| fasouto/termaid | 2 | 0.10.0 | python:public-api | Python public termaid.render API; process startup recorded separately | 115 | 42 | 0 | 0 | 0 | 157 |
-| Yassimba/loom | 3 | 0.10.0 | bun:published-renderer-component | Bun 1.4.2 | 82 | 8 | 67 | 0 | 0 | 157 |
-| Zombie Mermaid | 3 | 5.11.2 | node:public-api | Node 24.19.0 | 82 | 19 | 56 | 0 | 0 | 157 |
-| emtyty/merslim | 5 | 0.2.3 | node:public-api | Node 24.19.0 | 72 | 46 | 39 | 0 | 0 | 157 |
-| ASCII Mermaid | 6 | 0.1.0 | node:public-api | Node 24.19.0 | 67 | 23 | 67 | 0 | 0 | 157 |
-| Grok renderer | 7 | git-2bdd1d6a6369 | cli:end-to-end | native Rust (rustc 1.99.1 (58cf8f9c3 2026-10-13)); public Markdown host | 62 | 14 | 81 | 0 | 0 | 157 |
-| MermaidText | 7 | git-a6b0c7657b94 | cli:end-to-end | native Go (go version go1.27.3 linux/amd64) | 62 | 14 | 81 | 0 | 0 | 157 |
-| anomalyco/opencode | 9 | 2.0.26 | bun:opentui-headless-integration | Bun 1.4.2 | 54 | 13 | 90 | 0 | 0 | 157 |
-| AlexanderGrooff/mermaid-ascii | 10 | 1.6.1 | cli:end-to-end | linux-x64 public native CLI | 52 | 10 | 95 | 0 | 0 | 157 |
-| crafter-station/mermaid | 11 | 0.0.3 | node:public-api | Node 24.19.0 | 48 | 43 | 66 | 0 | 0 | 157 |
-| kitlangton/merman | 11 | 0.2.1 | bun:public-api | Bun 1.4.2 | 48 | 15 | 94 | 0 | 0 | 157 |
-| Mootikins/figurehead-rs | 13 | v0.4.3 | cli:end-to-end | native | 37 | 34 | 82 | 4 | 0 | 157 |
-| tariqshams/mermaidtui | 14 | 0.0.6 | node:public-api | Node 24.19.0 | 8 | 149 | 0 | 0 | 0 | 157 |
+| git-a6b0c7657b94 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 10 | 0 | 0 | 110 | {} | 120 |
 
-<a id="run-99e4544debe91fa4ad34db7e"></a>
+<a id="attempt-2642a209d1fda596900925b7"></a>
 
-**run-99e4544debe91fa4ad34db7e** · 2026-10-30 · unit: inputs · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+### OpenCode Merman: Terminal Rendering (terminal-project-corpus-v1)
 
-external; png compatibility. The same recorded inputs are checked for output format and authored labels. Runtime boundaries are listed per row; this compares output checks, not speed or complete layout correctness.
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-Ranked by **Passed / Planned inputs**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
 
-| Project | Rank | Version | Interface | Runtime | Passed | Failed | Unsupported | Blocked | Other | Planned inputs |
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 1 | 0.5.1 | node:public-api | Node 24.19.0 | 129 | 4 | 24 | 0 | 0 | 157 |
-| Latias94/merman | — | 0.9.2 | node:public-api | Node | 0 | 0 | 0 | 157 | 0 | 157 |
+| 2.0.26 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 9 | 2 | 0 | 109 | {} | 120 |
 
-<a id="run-fe3d99c34d6b65390d9d742e"></a>
+<a id="attempt-26674e6f1db1d1cc969c4fb2"></a>
 
-**run-fe3d99c34d6b65390d9d742e** · 2026-10-30 · unit: inputs · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+### Ondine: Terminal Rendering (terminal-project-corpus-v1)
 
-external; terminal compatibility. The same recorded inputs are checked for output format and authored labels. Runtime boundaries are listed per row; this compares output checks, not speed or complete layout correctness.
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-Ranked by **Passed / Planned inputs**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
 
-| Project | Rank | Version | Interface | Runtime | Passed | Failed | Unsupported | Blocked | Other | Planned inputs |
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Beautiful Mermaid | 1 | 1.1.3 | node:public-api | Node 24.19.0 | 49 | 28 | 77 | 0 | 0 | 154 |
+| 0.0.3 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 3 | 0 | 0 | 117 | {} | 120 |
 
-<a id="run-1cca62a764ce816420f19a9f"></a>
+<a id="attempt-2c39a469c416bacba55ad382"></a>
 
-**run-1cca62a764ce816420f19a9f** · 2026-10-30 · unit: inputs · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+### MermaidTUI: Terminal Rendering (terminal-project-corpus-v1)
 
-external; terminal compatibility. The same recorded inputs are checked for output format and authored labels. Runtime boundaries are listed per row; this compares output checks, not speed or complete layout correctness.
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-Ranked by **Passed / Planned inputs**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
 
-| Project | Rank | Version | Interface | Runtime | Passed | Failed | Unsupported | Blocked | Other | Planned inputs |
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Beautiful Mermaid | 1 | 1.1.3 | node:public-api | Node | 0 | 3 | 0 | 0 | 0 | 3 |
+| 0.0.6 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 3 | 11 | 0 | 106 | {} | 120 |
 
-<a id="run-1ff9086b84f118d96fae4081"></a>
+<a id="attempt-34be58276604baa1042b60c7"></a>
 
-**run-1ff9086b84f118d96fae4081** · 2026-10-30 · unit: inputs · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+### XMermaid: Terminal Rendering (terminal-project-corpus-v1)
 
-external; svg compatibility. The same recorded inputs are checked for output format and authored labels. Runtime boundaries are listed per row; this compares output checks, not speed or complete layout correctness.
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-Ranked by **Passed / Planned inputs**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Campaign process status: blocked; No per-project observation table was available.
 
-| Project | Rank | Version | Interface | Runtime | Passed | Failed | Unsupported | Blocked | Other | Planned inputs |
+<a id="attempt-3bff12ad2eaebfe862e1a996"></a>
+
+### Mermaid Flutter: Terminal Rendering (terminal-project-corpus-v1)
+
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
+
+Campaign process status: blocked; No per-project observation table was available.
+
+<a id="attempt-63afe662efc9be6eaaed0ca3"></a>
+
+### Mermaid RS Renderer: Terminal Rendering (terminal-project-corpus-v1)
+
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
+
+Campaign process status: blocked; No per-project observation table was available.
+
+<a id="attempt-63eb10ce1cbc1c74b3694c90"></a>
+
+### Frankenmermaid: Terminal Rendering (terminal-project-corpus-v1)
+
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
+
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
+
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1jehuang/mermaid-rs-renderer | 1 | 0.3.1 | cli:end-to-end | linux-x64 public native CLI | 120 | 35 | 2 | 0 | 0 | 157 |
+| 0.4.0 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 0 | 0 | 0 | 120 | {} | 120 |
 
-<a id="run-74b136d4fc74179d35656a36"></a>
+<a id="attempt-681f60abbbdd637094d40d9e"></a>
 
-**run-74b136d4fc74179d35656a36** · 2026-10-30 · unit: inputs · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+### VitePress Plugin Diagram: Terminal Rendering (terminal-project-corpus-v1)
 
-external; png compatibility. The same recorded inputs are checked for output format and authored labels. Runtime boundaries are listed per row; this compares output checks, not speed or complete layout correctness.
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-Ranked by **Passed / Planned inputs**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Campaign process status: blocked; No per-project observation table was available.
 
-| Project | Rank | Version | Interface | Runtime | Passed | Failed | Unsupported | Blocked | Other | Planned inputs |
+<a id="attempt-6f4934fb5dc705a89f4535fc"></a>
+
+### ASCII Mermaid: Terminal Rendering (terminal-project-corpus-v1)
+
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
+
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
+
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1jehuang/mermaid-rs-renderer | 1 | 0.3.1 | cli:end-to-end | linux-x64 public native CLI | 153 | 0 | 2 | 2 | 0 | 157 |
+| 0.1.0 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 11 | 2 | 0 | 107 | {} | 120 |
 
-<a id="run-d468cb6f73b5f80234b54ee8"></a>
+<a id="attempt-776d726d34a25e63867a66ec"></a>
 
-**run-d468cb6f73b5f80234b54ee8** · 2026-10-30 · unit: inputs · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+### Zombie Mermaid: Terminal Rendering (terminal-project-corpus-v1)
 
-external; svg compatibility. The same recorded inputs are checked for output format and authored labels. Runtime boundaries are listed per row; this compares output checks, not speed or complete layout correctness.
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-Ranked by **Passed / Planned inputs**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
 
-| Project | Rank | Version | Interface | Runtime | Passed | Failed | Unsupported | Blocked | Other | Planned inputs |
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| crafter-station/mermaid | 1 | 0.0.3 | browser:dom-svg-serialization | chromium | 59 | 32 | 66 | 0 | 0 | 157 |
+| 5.10.2 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 11 | 0 | 0 | 109 | {} | 120 |
 
-<a id="run-1b82fd73eeaa090f020c78a4"></a>
+<a id="attempt-7ad8009078df4a945bc623b2"></a>
 
-**run-1b82fd73eeaa090f020c78a4** · 2026-10-30 · unit: inputs · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+### Pele: Terminal Rendering (terminal-project-corpus-v1)
 
-external; svg compatibility. The same recorded inputs are checked for output format and authored labels. Runtime boundaries are listed per row; this compares output checks, not speed or complete layout correctness.
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-Ranked by **Passed / Planned inputs**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Campaign process status: blocked; No per-project observation table was available.
 
-| Project | Rank | Version | Interface | Runtime | Passed | Failed | Unsupported | Blocked | Other | Planned inputs |
+<a id="attempt-901ddca5fc2be4fbf3eff61b"></a>
+
+### Latias Merman: Terminal Rendering (terminal-project-corpus-v1)
+
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
+
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
+
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| emtyty/merslim | 1 | 0.2.3 | browser:react-component | chromium | 87 | 31 | 39 | 0 | 0 | 157 |
+| 0.9.2 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 10 | 4 | 0 | 106 | {} | 120 |
 
-<a id="run-5e2cefda4b79559566b2fc7e"></a>
+<a id="attempt-a8d5614d3c0a4d70c3568569"></a>
 
-**run-5e2cefda4b79559566b2fc7e** · 2026-10-30 · unit: inputs · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+### Mermaid: Terminal Rendering (terminal-project-corpus-v1)
 
-external; png compatibility. The same recorded inputs are checked for output format and authored labels. Runtime boundaries are listed per row; this compares output checks, not speed or complete layout correctness.
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-Ranked by **Passed / Planned inputs**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Campaign process status: blocked; No per-project observation table was available.
 
-| Project | Rank | Version | Interface | Runtime | Passed | Failed | Unsupported | Blocked | Other | Planned inputs |
+<a id="attempt-acc02b212f5037c1ed5c0fb5"></a>
+
+### Beautiful Mermaid: Terminal Rendering (terminal-project-corpus-v1)
+
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
+
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
+
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| emtyty/merslim | 1 | 0.2.3 | browser:react-component | chromium | 103 | 14 | 39 | 1 | 0 | 157 |
-
-<a id="run-3d555622080537ab9418f81e"></a>
+| 1.1.3 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 9 | 2 | 0 | 109 | {} | 120 |
 
-**run-3d555622080537ab9418f81e** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+<a id="attempt-aefedebab3481191fc7ec82b"></a>
 
-external; default; browser:public-api; chromium; svg; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
+### DSH Mermaid GB SVG: Terminal Rendering (terminal-project-corpus-v1)
 
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| crafter-station/mermaid | — | 0.0.3 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:27:55.602Z |
-| emtyty/merslim | — | 0.2.3 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:30:19.090Z |
+Campaign process status: blocked; No per-project observation table was available.
 
-<a id="run-a7f52c56a55d45a8e38be8cd"></a>
+<a id="attempt-b04db941aea2dea3439971af"></a>
 
-**run-a7f52c56a55d45a8e38be8cd** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+### Figurehead: Terminal Rendering (terminal-project-corpus-v1)
 
-external; default; catalog:capability; unmeasured; source; capability. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Frankenmermaid | — | 0.4.0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 1 | 2026-10-30T03:06:28.040Z |
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v0.4.3 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 5 | 5 | 0 | 110 | {} | 120 |
 
-<a id="run-416439694dcf3ef4f47b7e90"></a>
+<a id="attempt-b0a6ca22dca3d00eb4805969"></a>
 
-**run-416439694dcf3ef4f47b7e90** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+### Termaid: Terminal Rendering (terminal-project-corpus-v1)
 
-external; default; node:public-api; Node; svg; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1jehuang/mermaid-rs-renderer | — | 0.3.1 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:26:19.981Z |
-| Agentic Mermaid | — | 0.5.1 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:19:01.046Z |
-| Beautiful Mermaid | — | 1.1.3 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:36:05.323Z |
-| Bezel | — | 0.2.22 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:48:24.203Z |
-| crafter-station/mermaid | — | 0.0.3 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:27:55.602Z |
-| emtyty/merslim | — | 0.2.3 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:30:19.090Z |
-| evangwt/xmermaid | — | 0.4.2 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:30:43.113Z |
-| Frankenmermaid | — | 0.4.0 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:06:28.040Z |
-| KlangHaus/vitepress-plugin-diagram | — | 0.3.2 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:32:04.602Z |
-| Latias94/merman | — | 0.9.2 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:33:00.140Z |
-| Mermaid Dart | — | 0.3.2 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:07:53.175Z |
-| Mermaid.js | — | 12.2.0 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:47:21.598Z |
-| Ondine | — | 0.0.3 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:07:10.868Z |
-| Pele | — | 1.12.0 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:39:06.245Z |
-| sandyyst/dsh-plugin-mermaid-gb-svg | — | 0.1.4 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:39:50.114Z |
-| Zombie Mermaid | — | 5.11.2 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:20:07.282Z |
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.10.0 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 12 | 1 | 0 | 107 | {} | 120 |
 
-<a id="run-6fd0e537d2bdb28e899e2f9f"></a>
+<a id="attempt-bad0034ced3db0a895888a7c"></a>
 
-**run-6fd0e537d2bdb28e899e2f9f** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+### Merslim: Terminal Rendering (terminal-project-corpus-v1)
 
-external; default; node:public-api; Node 24.19.0; svg; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Bezel | 1 | 0.2.22 | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:48:24.203Z |
-| Frankenmermaid | 1 | 0.4.0 | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:06:28.040Z |
-| Latias94/merman | 1 | 0.9.2 | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:33:00.140Z |
-| Ondine | 1 | 0.0.3 | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:07:10.868Z |
-| Pele | 1 | 1.12.0 | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:39:06.245Z |
-| Mermaid Dart | 6 | 0.3.2 | 25 | 0 | 1 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:07:53.175Z |
-| Agentic Mermaid | 7 | 0.5.1 | 23 | 0 | 3 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:19:01.046Z |
-| Zombie Mermaid | 8 | 5.11.2 | 9 | 0 | 17 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:20:07.282Z |
-| emtyty/merslim | 9 | 0.2.3 | 8 | 3 | 15 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:30:19.090Z |
-| Beautiful Mermaid | 10 | 1.1.3 | 6 | 0 | 20 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:36:05.323Z |
-| sandyyst/dsh-plugin-mermaid-gb-svg | 11 | 0.1.4 | 5 | 21 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:39:50.114Z |
-| KlangHaus/vitepress-plugin-diagram | 12 | 0.3.2 | 3 | 0 | 23 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:32:04.602Z |
-| crafter-station/mermaid | 13 | 0.0.3 | 0 | 8 | 18 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:27:55.602Z |
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.2.3 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 0 | 0 | 0 | 120 | {} | 120 |
 
-<a id="run-9ca30ee698927d9cbbea4f88"></a>
+<a id="attempt-d6ea329fc91de0a64b22d144"></a>
 
-**run-9ca30ee698927d9cbbea4f88** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+### Crafter Mermaid: Terminal Rendering (terminal-project-corpus-v1)
 
-external; default; node:public-api; Node 24.19.0; svg; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Bezel | 1 | 0.2.22 | 193 | 0 | 0 | 0 | 0 | 0 | 0 | 193 | 2026-10-30T03:48:24.203Z |
-| Ondine | 1 | 0.0.3 | 193 | 0 | 0 | 0 | 0 | 0 | 0 | 193 | 2026-10-30T03:07:10.868Z |
-| Pele | 1 | 1.12.0 | 193 | 0 | 0 | 0 | 0 | 0 | 0 | 193 | 2026-10-30T03:39:06.245Z |
-| Latias94/merman | 4 | 0.9.2 | 188 | 5 | 0 | 0 | 0 | 0 | 0 | 193 | 2026-10-30T03:33:00.140Z |
-| Frankenmermaid | 5 | 0.4.0 | 178 | 15 | 0 | 0 | 0 | 0 | 0 | 193 | 2026-10-30T03:06:28.040Z |
-| Agentic Mermaid | 6 | 0.5.1 | 166 | 3 | 24 | 0 | 0 | 0 | 0 | 193 | 2026-10-30T03:19:01.046Z |
-| Mermaid Dart | 7 | 0.3.2 | 164 | 7 | 22 | 0 | 0 | 0 | 0 | 193 | 2026-10-30T03:07:53.175Z |
-| Zombie Mermaid | 8 | 5.11.2 | 129 | 8 | 56 | 0 | 0 | 0 | 0 | 193 | 2026-10-30T03:20:07.282Z |
-| emtyty/merslim | 9 | 0.2.3 | 98 | 28 | 67 | 0 | 0 | 0 | 0 | 193 | 2026-10-30T03:30:19.090Z |
-| Beautiful Mermaid | 10 | 1.1.3 | 97 | 19 | 77 | 0 | 0 | 0 | 0 | 193 | 2026-10-30T03:36:05.323Z |
-| sandyyst/dsh-plugin-mermaid-gb-svg | 11 | 0.1.4 | 76 | 117 | 0 | 0 | 0 | 0 | 0 | 193 | 2026-10-30T03:39:50.114Z |
-| KlangHaus/vitepress-plugin-diagram | 12 | 0.3.2 | 69 | 22 | 102 | 0 | 0 | 0 | 0 | 193 | 2026-10-30T03:32:04.602Z |
-| crafter-station/mermaid | 13 | 0.0.3 | 0 | 127 | 66 | 0 | 0 | 0 | 0 | 193 | 2026-10-30T03:27:55.602Z |
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.0.3 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 0 | 0 | 0 | 120 | {} | 120 |
 
-<a id="run-b90e83e9941478da96545b19"></a>
+<a id="attempt-d8f4fbe6146d4f5070d21a2c"></a>
 
-**run-b90e83e9941478da96545b19** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+### Mermaid Dart: Terminal Rendering (terminal-project-corpus-v1)
 
-external; default; node:public-api; Node 24.19.0; parse; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Campaign process status: blocked; No per-project observation table was available.
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 1 | 0.5.1 | 23 | 0 | 3 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:19:01.046Z |
-| Frankenmermaid | 2 | 0.4.0 | 21 | 5 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:06:28.040Z |
-| emtyty/merslim | 3 | 0.2.3 | 10 | 16 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:30:19.090Z |
-| crafter-station/mermaid | 4 | 0.0.3 | 6 | 2 | 18 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:27:55.602Z |
+<a id="attempt-dc5b22263fcb620278909f70"></a>
 
-<a id="run-5a81881f647ce12fdda8c8b0"></a>
+### Kitlangton Merman: Terminal Rendering (terminal-project-corpus-v1)
 
-**run-5a81881f647ce12fdda8c8b0** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-external; default; node:public-api; Node 24.19.0; parse; parse. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
 
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.2.1 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 4 | 2 | 0 | 114 | {} | 120 |
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Frankenmermaid | 1 | 0.4.0 | 167 | 35 | 0 | 0 | 0 | 0 | 0 | 202 | 2026-10-30T03:06:28.040Z |
-| Agentic Mermaid | 2 | 0.5.1 | 166 | 12 | 24 | 0 | 0 | 0 | 0 | 202 | 2026-10-30T03:19:01.046Z |
-| emtyty/merslim | 3 | 0.2.3 | 126 | 76 | 0 | 0 | 0 | 0 | 0 | 202 | 2026-10-30T03:30:19.090Z |
-| crafter-station/mermaid | 4 | 0.0.3 | 104 | 32 | 66 | 0 | 0 | 0 | 0 | 202 | 2026-10-30T03:27:55.602Z |
+<a id="attempt-dc635554e43fa9dc57989be5"></a>
 
-<a id="run-d70212d129dce6f5d3155b3b"></a>
+### Loom renderer: Terminal Rendering (terminal-project-corpus-v1)
 
-**run-d70212d129dce6f5d3155b3b** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-external; default; node:public-api; Node 24.19.0; diagnostics; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
 
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.10.0 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 9 | 0 | 0 | 111 | {} | 120 |
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Frankenmermaid | 1 | 0.4.0 | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:06:28.040Z |
+<a id="attempt-df2ef4280c90ef853e2dadff"></a>
 
-<a id="run-2df33d77ffd3975dee05becf"></a>
+### Bezel: Terminal Rendering (terminal-project-corpus-v1)
 
-**run-2df33d77ffd3975dee05becf** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-external; default; node:public-api; Node 24.19.0; diagnostics; diagnostics. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
+Campaign process status: blocked; No per-project observation table was available.
 
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+<a id="attempt-df646f119809e5ed1cda70a5"></a>
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Frankenmermaid | 1 | 0.4.0 | 166 | 36 | 0 | 0 | 0 | 0 | 0 | 202 | 2026-10-30T03:06:28.040Z |
+### Agentic Mermaid: Terminal Rendering (terminal-project-corpus-v1)
 
-<a id="run-593f4eaa51f3c5f9645a0f69"></a>
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-**run-593f4eaa51f3c5f9645a0f69** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
 
-external; default; node:public-api; Node 24.19.0; diagnostics; validator-negative-admission. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.4.1 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 11 | 0 | 0 | 109 | {} | 120 |
 
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+<a id="attempt-ec4598d36c17da7edc048519"></a>
 
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Frankenmermaid | 1 | 0.4.0 | 0 | 12 | 0 | 0 | 0 | 0 | 0 | 12 | 2026-10-30T03:06:28.040Z |
+### Grok renderer: Terminal Rendering (terminal-project-corpus-v1)
 
-<a id="run-26c1880a81c8809ef1e327f1"></a>
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/terminal/)
 
-**run-26c1880a81c8809ef1e327f1** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.
 
-external; default; node:public-api; Node; terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | — | 0.5.1 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:19:01.046Z |
-| AlexanderGrooff/mermaid-ascii | — | 1.6.1 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:26:39.034Z |
-| anomalyco/opencode | — | 2.0.26 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:27:09.013Z |
-| ASCII Mermaid | — | 0.1.0 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:41:26.677Z |
-| crafter-station/mermaid | — | 0.0.3 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:27:55.602Z |
-| emtyty/merslim | — | 0.2.3 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:30:19.090Z |
-| fasouto/termaid | — | 0.10.0 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:31:07.710Z |
-| Frankenmermaid | — | 0.4.0 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:06:28.040Z |
-| Grok renderer | — | git-2bdd1d6a6369 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:40:10.777Z |
-| kitlangton/merman | — | 0.2.1 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:31:34.914Z |
-| MermaidText | — | git-a6b0c7657b94 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:41:39.335Z |
-| Mootikins/figurehead-rs | — | v0.4.3 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:38:16.611Z |
-| Ondine | — | 0.0.3 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:07:10.868Z |
-| tariqshams/mermaidtui | — | 0.0.6 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:40:07.469Z |
-| Yassimba/loom | — | 0.10.0 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:40:16.588Z |
-| Zombie Mermaid | — | 5.11.2 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:20:07.282Z |
-
-<a id="run-c7386fff19e8f4f677bc2d56"></a>
-
-**run-c7386fff19e8f4f677bc2d56** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; node:public-api; Node; terminal; capability. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Frankenmermaid | — | 0.4.0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T03:06:28.040Z |
-| Ondine | — | 0.0.3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T03:07:10.868Z |
-
-<a id="run-c7055db4399a7ea700ef830b"></a>
-
-**run-c7055db4399a7ea700ef830b** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:public-api; chromium; svg; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Bezel | 1 | 0.2.22 | 193 | 0 | 0 | 0 | 9 | 0 | 0 | 202 | 2026-10-30T03:48:24.203Z |
-| Ondine | 1 | 0.0.3 | 193 | 0 | 0 | 0 | 9 | 0 | 0 | 202 | 2026-10-30T03:07:10.868Z |
-| Pele | 1 | 1.12.0 | 193 | 0 | 0 | 0 | 9 | 0 | 0 | 202 | 2026-10-30T03:39:06.245Z |
-| Mermaid.js | 4 | 12.2.0 | 191 | 2 | 0 | 0 | 9 | 0 | 0 | 202 | 2026-10-30T03:47:21.598Z |
-| Latias94/merman | 5 | 0.9.2 | 188 | 5 | 0 | 0 | 9 | 0 | 0 | 202 | 2026-10-30T03:33:00.140Z |
-| Frankenmermaid | 6 | 0.4.0 | 178 | 15 | 0 | 0 | 9 | 0 | 0 | 202 | 2026-10-30T03:06:28.040Z |
-| Agentic Mermaid | 7 | 0.5.1 | 166 | 3 | 24 | 0 | 9 | 0 | 0 | 202 | 2026-10-30T03:19:01.046Z |
-| Mermaid Dart | 8 | 0.3.2 | 164 | 7 | 22 | 0 | 9 | 0 | 0 | 202 | 2026-10-30T03:07:53.175Z |
-| Zombie Mermaid | 9 | 5.11.2 | 129 | 8 | 56 | 0 | 9 | 0 | 0 | 202 | 2026-10-30T03:20:07.282Z |
-| evangwt/xmermaid | 10 | 0.4.2 | 120 | 49 | 24 | 0 | 9 | 0 | 0 | 202 | 2026-10-30T03:30:43.113Z |
-| Beautiful Mermaid | 11 | 1.1.3 | 97 | 19 | 77 | 0 | 9 | 0 | 0 | 202 | 2026-10-30T03:36:05.323Z |
-| sandyyst/dsh-plugin-mermaid-gb-svg | 12 | 0.1.4 | 76 | 117 | 0 | 0 | 9 | 0 | 0 | 202 | 2026-10-30T03:39:50.114Z |
-| KlangHaus/vitepress-plugin-diagram | 13 | 0.3.2 | 69 | 22 | 102 | 0 | 9 | 0 | 0 | 202 | 2026-10-30T03:32:04.602Z |
-
-<a id="run-12939a735a1b3da914a68bd6"></a>
-
-**run-12939a735a1b3da914a68bd6** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:public-api; chromium; svg; load-and-initialize. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 1 | 0.5.1 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:19:01.046Z |
-| Beautiful Mermaid | 1 | 1.1.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:36:05.323Z |
-| Bezel | 1 | 0.2.22 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:48:24.203Z |
-| evangwt/xmermaid | 1 | 0.4.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:30:43.113Z |
-| Frankenmermaid | 1 | 0.4.0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:06:28.040Z |
-| KlangHaus/vitepress-plugin-diagram | 1 | 0.3.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:32:04.602Z |
-| Latias94/merman | 1 | 0.9.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:33:00.140Z |
-| Mermaid Dart | 1 | 0.3.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:07:53.175Z |
-| Mermaid.js | 1 | 12.2.0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:47:21.598Z |
-| Ondine | 1 | 0.0.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:07:10.868Z |
-| Pele | 1 | 1.12.0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:39:06.245Z |
-| sandyyst/dsh-plugin-mermaid-gb-svg | 1 | 0.1.4 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:39:50.114Z |
-| Zombie Mermaid | 1 | 5.11.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:20:07.282Z |
-
-<a id="run-abe3fa3dd3014c7f243f0216"></a>
-
-**run-abe3fa3dd3014c7f243f0216** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:public-api; chromium; svg; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Bezel | 1 | 0.2.22 | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:48:24.203Z |
-| Frankenmermaid | 1 | 0.4.0 | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:06:28.040Z |
-| Latias94/merman | 1 | 0.9.2 | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:33:00.140Z |
-| Mermaid.js | 1 | 12.2.0 | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:47:21.598Z |
-| Ondine | 1 | 0.0.3 | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:07:10.868Z |
-| Pele | 1 | 1.12.0 | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:39:06.245Z |
-| Mermaid Dart | 7 | 0.3.2 | 25 | 0 | 1 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:07:53.175Z |
-| Agentic Mermaid | 8 | 0.5.1 | 23 | 0 | 3 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:19:01.046Z |
-| evangwt/xmermaid | 9 | 0.4.2 | 20 | 3 | 3 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:30:43.113Z |
-| Zombie Mermaid | 10 | 5.11.2 | 9 | 0 | 17 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:20:07.282Z |
-| Beautiful Mermaid | 11 | 1.1.3 | 6 | 0 | 20 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:36:05.323Z |
-| sandyyst/dsh-plugin-mermaid-gb-svg | 12 | 0.1.4 | 5 | 21 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:39:50.114Z |
-| KlangHaus/vitepress-plugin-diagram | 13 | 0.3.2 | 3 | 0 | 23 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:32:04.602Z |
-
-<a id="run-099959d223548cf069355236"></a>
-
-**run-099959d223548cf069355236** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:public-api; chromium-v8; svg; memory. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 1 | 0.5.1 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:19:01.046Z |
-| Beautiful Mermaid | 1 | 1.1.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:36:05.323Z |
-| Bezel | 1 | 0.2.22 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:48:24.203Z |
-| evangwt/xmermaid | 1 | 0.4.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:30:43.113Z |
-| Frankenmermaid | 1 | 0.4.0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:06:28.040Z |
-| KlangHaus/vitepress-plugin-diagram | 1 | 0.3.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:32:04.602Z |
-| Latias94/merman | 1 | 0.9.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:33:00.140Z |
-| Mermaid Dart | 1 | 0.3.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:07:53.175Z |
-| Mermaid.js | 1 | 12.2.0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:47:21.598Z |
-| Ondine | 1 | 0.0.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:07:10.868Z |
-| Pele | 1 | 1.12.0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:39:06.245Z |
-| sandyyst/dsh-plugin-mermaid-gb-svg | 1 | 0.1.4 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:39:50.114Z |
-| Zombie Mermaid | 1 | 5.11.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:20:07.282Z |
-
-<a id="run-57f06a5f65498f10626e33e3"></a>
-
-**run-57f06a5f65498f10626e33e3** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:public-api; chromium-processes; svg; process-memory. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 1 | 0.5.1 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:19:01.046Z |
-| Beautiful Mermaid | 1 | 1.1.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:36:05.323Z |
-| Bezel | 1 | 0.2.22 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:48:24.203Z |
-| evangwt/xmermaid | 1 | 0.4.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:30:43.113Z |
-| Frankenmermaid | 1 | 0.4.0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:06:28.040Z |
-| KlangHaus/vitepress-plugin-diagram | 1 | 0.3.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:32:04.602Z |
-| Latias94/merman | 1 | 0.9.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:33:00.140Z |
-| Mermaid Dart | 1 | 0.3.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:07:53.175Z |
-| Mermaid.js | 1 | 12.2.0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:47:21.598Z |
-| Ondine | 1 | 0.0.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:07:10.868Z |
-| Pele | 1 | 1.12.0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:39:06.245Z |
-| sandyyst/dsh-plugin-mermaid-gb-svg | 1 | 0.1.4 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:39:50.114Z |
-| Zombie Mermaid | 1 | 5.11.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:20:07.282Z |
-
-<a id="run-15fb589d745f81ea44b53028"></a>
-
-**run-15fb589d745f81ea44b53028** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:public-api; chromium; js-wasm-fonts; delivery. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 1 | 0.5.1 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:19:01.046Z |
-| Beautiful Mermaid | 1 | 1.1.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:36:05.323Z |
-| Bezel | 1 | 0.2.22 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:48:24.203Z |
-| evangwt/xmermaid | 1 | 0.4.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:30:43.113Z |
-| Frankenmermaid | 1 | 0.4.0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:06:28.040Z |
-| KlangHaus/vitepress-plugin-diagram | 1 | 0.3.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:32:04.602Z |
-| Latias94/merman | 1 | 0.9.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:33:00.140Z |
-| Mermaid Dart | 1 | 0.3.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:07:53.175Z |
-| Mermaid.js | 1 | 12.2.0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:47:21.598Z |
-| Ondine | 1 | 0.0.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:07:10.868Z |
-| Pele | 1 | 1.12.0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:39:06.245Z |
-| sandyyst/dsh-plugin-mermaid-gb-svg | 1 | 0.1.4 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:39:50.114Z |
-| Zombie Mermaid | 1 | 5.11.2 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:20:07.282Z |
-
-<a id="run-b34b49f07b26513224f9e5de"></a>
-
-**run-b34b49f07b26513224f9e5de** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; node:public-api; Node; png; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1jehuang/mermaid-rs-renderer | — | 0.3.1 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:26:19.981Z |
-| Agentic Mermaid | — | 0.5.1 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:19:01.046Z |
-| emtyty/merslim | — | 0.2.3 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:30:19.090Z |
-| Mermaid Flutter | — | 0.3.2 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 9 | 2026-10-30T03:13:42.702Z |
-
-<a id="run-057be729894ea10e29b6e51f"></a>
-
-**run-057be729894ea10e29b6e51f** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; native:in-process-api; Native Linux Flutter release; png; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mermaid Flutter | 1 | 0.3.2 | 25 | 0 | 1 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:13:42.702Z |
-
-<a id="run-82219a89fdae34577b34002c"></a>
-
-**run-82219a89fdae34577b34002c** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; native:in-process-api; Native Linux Flutter release; png; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mermaid Flutter | 1 | 0.3.2 | 164 | 3 | 22 | 4 | 0 | 0 | 0 | 193 | 2026-10-30T03:13:42.702Z |
-
-<a id="run-8c4ac6029759ad523616f80d"></a>
-
-**run-8c4ac6029759ad523616f80d** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:public-api; chromium; svg; capability. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1jehuang/mermaid-rs-renderer | — | 0.3.1 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T03:26:19.981Z |
-| AlexanderGrooff/mermaid-ascii | — | 1.6.1 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T03:26:39.034Z |
-| anomalyco/opencode | — | 2.0.26 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T03:27:09.013Z |
-| ASCII Mermaid | — | 0.1.0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T03:41:26.677Z |
-| fasouto/termaid | — | 0.10.0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T03:31:07.710Z |
-| Grok renderer | — | git-2bdd1d6a6369 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T03:40:10.777Z |
-| kitlangton/merman | — | 0.2.1 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T03:31:34.914Z |
-| Mermaid Flutter | — | 0.3.2 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T03:13:42.702Z |
-| MermaidText | — | git-a6b0c7657b94 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T03:41:39.335Z |
-| Mootikins/figurehead-rs | — | v0.4.3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T03:38:16.611Z |
-| tariqshams/mermaidtui | — | 0.0.6 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T03:40:07.469Z |
-| Yassimba/loom | — | 0.10.0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T03:40:16.588Z |
-
-<a id="run-44ad8a348938d14aec988f3c"></a>
-
-**run-44ad8a348938d14aec988f3c** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; node:public-api; Node 24.19.0; terminal; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 1 | 0.5.1 | 23 | 0 | 3 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:19:01.046Z |
-| emtyty/merslim | 2 | 0.2.3 | 10 | 4 | 12 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:30:19.090Z |
-| Zombie Mermaid | 3 | 5.11.2 | 8 | 1 | 17 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:20:07.282Z |
-| ASCII Mermaid | 4 | 0.1.0 | 7 | 1 | 18 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:41:26.677Z |
-| crafter-station/mermaid | 4 | 0.0.3 | 7 | 1 | 18 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:27:55.602Z |
-| Beautiful Mermaid | 6 | 1.1.3 | 5 | 1 | 20 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:36:05.323Z |
-| tariqshams/mermaidtui | 7 | 0.0.6 | 1 | 25 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:40:07.469Z |
-
-<a id="run-fa01d22c1804ed767ada28cc"></a>
-
-**run-fa01d22c1804ed767ada28cc** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; node:public-api; Node 24.19.0; terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 1 | 0.5.1 | 136 | 15 | 24 | 0 | 0 | 0 | 0 | 175 | 2026-10-30T03:19:01.046Z |
-| Zombie Mermaid | 2 | 5.11.2 | 100 | 19 | 56 | 0 | 0 | 0 | 0 | 175 | 2026-10-30T03:20:07.282Z |
-| emtyty/merslim | 3 | 0.2.3 | 90 | 46 | 39 | 0 | 0 | 0 | 0 | 175 | 2026-10-30T03:30:19.090Z |
-| ASCII Mermaid | 4 | 0.1.0 | 85 | 23 | 67 | 0 | 0 | 0 | 0 | 175 | 2026-10-30T03:41:26.677Z |
-| crafter-station/mermaid | 5 | 0.0.3 | 60 | 49 | 66 | 0 | 0 | 0 | 0 | 175 | 2026-10-30T03:27:55.602Z |
-| tariqshams/mermaidtui | 6 | 0.0.6 | 8 | 167 | 0 | 0 | 0 | 0 | 0 | 175 | 2026-10-30T03:40:07.469Z |
-
-<a id="run-966ccdfb87bb423e4f0dc79b"></a>
-
-**run-966ccdfb87bb423e4f0dc79b** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; node:public-api; Node 24.19.0; png; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 1 | 0.5.1 | 23 | 0 | 3 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:19:01.046Z |
-
-<a id="run-e1e7b98bc0ae0beb909cd11d"></a>
-
-**run-e1e7b98bc0ae0beb909cd11d** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; node:public-api; Node 24.19.0; png; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 1 | 0.5.1 | 147 | 22 | 24 | 0 | 0 | 0 | 0 | 193 | 2026-10-30T03:19:01.046Z |
-
-<a id="run-e95e5a435b4e9d1decada6ff"></a>
-
-**run-e95e5a435b4e9d1decada6ff** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; cli:end-to-end; linux-x64 public native CLI; svg; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1jehuang/mermaid-rs-renderer | 1 | 0.3.1 | 20 | 4 | 2 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:26:19.981Z |
-
-<a id="run-7df32b1cb8be0e6191485e48"></a>
-
-**run-7df32b1cb8be0e6191485e48** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; cli:end-to-end; linux-x64 public native CLI; svg; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1jehuang/mermaid-rs-renderer | 1 | 0.3.1 | 156 | 35 | 2 | 0 | 0 | 0 | 0 | 193 | 2026-10-30T03:26:19.981Z |
-
-<a id="run-2be06d48a3e90f5d2f55c395"></a>
-
-**run-2be06d48a3e90f5d2f55c395** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; cli:end-to-end; linux-x64 public native CLI; png; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1jehuang/mermaid-rs-renderer | 1 | 0.3.1 | 24 | 0 | 2 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:26:19.981Z |
-
-<a id="run-dafae578b4e0e4bf3e8ba385"></a>
-
-**run-dafae578b4e0e4bf3e8ba385** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; cli:end-to-end; linux-x64 public native CLI; png; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1jehuang/mermaid-rs-renderer | 1 | 0.3.1 | 189 | 0 | 2 | 2 | 0 | 0 | 0 | 193 | 2026-10-30T03:26:19.981Z |
-
-<a id="run-f0f9488c166a6d609cd0d62d"></a>
-
-**run-f0f9488c166a6d609cd0d62d** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; cli:end-to-end; linux-x64 public native CLI; terminal; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AlexanderGrooff/mermaid-ascii | 1 | 1.6.1 | 3 | 0 | 23 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:26:39.034Z |
-
-<a id="run-722c8fe27f20960e99c3d737"></a>
-
-**run-722c8fe27f20960e99c3d737** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; cli:end-to-end; linux-x64 public native CLI; terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AlexanderGrooff/mermaid-ascii | 1 | 1.6.1 | 70 | 10 | 95 | 0 | 0 | 0 | 0 | 175 | 2026-10-30T03:26:39.034Z |
-
-<a id="run-ceb11d04779997a06df59f4a"></a>
-
-**run-ceb11d04779997a06df59f4a** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; bun:opentui-headless-integration; Bun 1.4.2; terminal; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| anomalyco/opencode | 1 | 2.0.26 | 5 | 0 | 21 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:27:09.013Z |
-
-<a id="run-6dc673a0bc431ec1228af727"></a>
-
-**run-6dc673a0bc431ec1228af727** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; bun:opentui-headless-integration; Bun 1.4.2; terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| anomalyco/opencode | 1 | 2.0.26 | 72 | 13 | 90 | 0 | 0 | 0 | 0 | 175 | 2026-10-30T03:27:09.013Z |
-
-<a id="run-106c4b5047d1fe54ac2ea581"></a>
-
-**run-106c4b5047d1fe54ac2ea581** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:dom-svg-serialization; chromium; svg; load-and-initialize. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| crafter-station/mermaid | 1 | 0.0.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:27:55.602Z |
-
-<a id="run-ebcced8551aca8af09b9b068"></a>
-
-**run-ebcced8551aca8af09b9b068** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:dom-svg-serialization; chromium; svg; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| crafter-station/mermaid | 1 | 0.0.3 | 7 | 1 | 18 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:27:55.602Z |
-
-<a id="run-692ed293b9e3f953a6559569"></a>
-
-**run-692ed293b9e3f953a6559569** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:dom-svg-serialization; chromium; svg; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| crafter-station/mermaid | 1 | 0.0.3 | 95 | 32 | 66 | 0 | 0 | 0 | 0 | 193 | 2026-10-30T03:27:55.602Z |
-
-<a id="run-2eaefe4475925f8302684d41"></a>
-
-**run-2eaefe4475925f8302684d41** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:dom-svg-serialization; chromium-v8; svg; memory. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| crafter-station/mermaid | 1 | 0.0.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:27:55.602Z |
-
-<a id="run-2ddae0ec4f64c31b02f525cc"></a>
-
-**run-2ddae0ec4f64c31b02f525cc** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:dom-svg-serialization; chromium-processes; svg; process-memory. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| crafter-station/mermaid | 1 | 0.0.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:27:55.602Z |
-
-<a id="run-867f34767d781ffe5bd5c819"></a>
-
-**run-867f34767d781ffe5bd5c819** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:dom-svg-serialization; chromium; js-wasm-fonts; delivery. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| crafter-station/mermaid | 1 | 0.0.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:27:55.602Z |
-
-<a id="run-0d210c0f8b4988a4e0451f56"></a>
-
-**run-0d210c0f8b4988a4e0451f56** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; node:public-api; Node; png; capability. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| emtyty/merslim | — | 0.2.3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T03:30:19.090Z |
-
-<a id="run-1059a5f60f15b922ece01855"></a>
-
-**run-1059a5f60f15b922ece01855** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:react-component; chromium; svg; load-and-initialize. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| emtyty/merslim | 1 | 0.2.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:30:19.090Z |
-
-<a id="run-cb21b91a5069de7aba1eba74"></a>
-
-**run-cb21b91a5069de7aba1eba74** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:react-component; chromium; svg; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| emtyty/merslim | 1 | 0.2.3 | 10 | 4 | 12 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:30:19.090Z |
-
-<a id="run-6b226e31c2d4ddad4235c99e"></a>
-
-**run-6b226e31c2d4ddad4235c99e** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:react-component; chromium; svg; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| emtyty/merslim | 1 | 0.2.3 | 123 | 31 | 39 | 0 | 0 | 0 | 0 | 193 | 2026-10-30T03:30:19.090Z |
-
-<a id="run-c61af8d603a051edefc50318"></a>
-
-**run-c61af8d603a051edefc50318** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:react-component; chromium-v8; svg; memory. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| emtyty/merslim | 1 | 0.2.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:30:19.090Z |
-
-<a id="run-9cf3398ed923c23cc4df2288"></a>
-
-**run-9cf3398ed923c23cc4df2288** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:react-component; chromium-processes; svg; process-memory. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| emtyty/merslim | 1 | 0.2.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:30:19.090Z |
-
-<a id="run-8da754d3ab7c6b985a41fcff"></a>
-
-**run-8da754d3ab7c6b985a41fcff** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:react-component; chromium; js-wasm-fonts; delivery. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| emtyty/merslim | 1 | 0.2.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:30:19.090Z |
-
-<a id="run-8905e2b454eab1aca6c317be"></a>
-
-**run-8905e2b454eab1aca6c317be** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:react-component; chromium; png; load-and-initialize. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| emtyty/merslim | 1 | 0.2.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:30:19.090Z |
-
-<a id="run-4dd136be3db70b239aef152f"></a>
-
-**run-4dd136be3db70b239aef152f** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:react-component; chromium; png; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| emtyty/merslim | 1 | 0.2.3 | 14 | 0 | 12 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:30:19.090Z |
-
-<a id="run-5a2097bac16c8112dea21da8"></a>
-
-**run-5a2097bac16c8112dea21da8** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:react-component; chromium; png; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| emtyty/merslim | 1 | 0.2.3 | 121 | 14 | 39 | 19 | 0 | 0 | 0 | 193 | 2026-10-30T03:30:19.090Z |
-
-<a id="run-a10a91732c2bb6e2344d8eca"></a>
-
-**run-a10a91732c2bb6e2344d8eca** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:react-component; chromium-v8; png; memory. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| emtyty/merslim | 1 | 0.2.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:30:19.090Z |
-
-<a id="run-a542e081da3bf506de7899e8"></a>
-
-**run-a542e081da3bf506de7899e8** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:react-component; chromium-processes; png; process-memory. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| emtyty/merslim | 1 | 0.2.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:30:19.090Z |
-
-<a id="run-b4f631df955d0c45f6723718"></a>
-
-**run-b4f631df955d0c45f6723718** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; browser:react-component; chromium; png:js-wasm-fonts; delivery. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| emtyty/merslim | 1 | 0.2.3 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:30:19.090Z |
-
-<a id="run-1dfed3dd69f3b84c545b02be"></a>
-
-**run-1dfed3dd69f3b84c545b02be** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; node:public-api; Node; svg; capability. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| evangwt/xmermaid | — | 0.4.2 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T03:30:43.113Z |
-| Mermaid.js | — | 12.2.0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 2026-10-30T03:47:21.598Z |
-
-<a id="run-c203020e21e442755a7ff3c3"></a>
-
-**run-c203020e21e442755a7ff3c3** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; python:public-api; Python public termaid.render API; process startup recorded separately; terminal; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| fasouto/termaid | 1 | 0.10.0 | 21 | 5 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:31:07.710Z |
-
-<a id="run-ee3fd2654edff4e2e29d48ac"></a>
-
-**run-ee3fd2654edff4e2e29d48ac** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; python:public-api; Python public termaid.render API; process startup recorded separately; terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| fasouto/termaid | 1 | 0.10.0 | 133 | 42 | 0 | 0 | 0 | 0 | 0 | 175 | 2026-10-30T03:31:07.710Z |
-
-<a id="run-005896ac55b02858efb1e9ed"></a>
-
-**run-005896ac55b02858efb1e9ed** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; cli:end-to-end; native; terminal; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mootikins/figurehead-rs | 1 | v0.4.3 | 4 | 1 | 21 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:38:16.611Z |
-
-<a id="run-32ea690ffec53d0ebe77b20d"></a>
-
-**run-32ea690ffec53d0ebe77b20d** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; cli:end-to-end; native; terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mootikins/figurehead-rs | 1 | v0.4.3 | 49 | 40 | 82 | 4 | 0 | 0 | 0 | 175 | 2026-10-30T03:38:16.611Z |
-
-<a id="run-e8c7734fb2eb6ffa46e0aa2d"></a>
-
-**run-e8c7734fb2eb6ffa46e0aa2d** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; bun:public-api; Bun 1.4.2; terminal; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| kitlangton/merman | 1 | 0.2.1 | 3 | 0 | 23 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:31:34.914Z |
-
-<a id="run-fa43bbcab364e0e2fb5b7833"></a>
-
-**run-fa43bbcab364e0e2fb5b7833** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; bun:public-api; Bun 1.4.2; terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| kitlangton/merman | 1 | 0.2.1 | 66 | 15 | 94 | 0 | 0 | 0 | 0 | 175 | 2026-10-30T03:31:34.914Z |
-
-<a id="run-ef3d072ad16ed8fbf717f739"></a>
-
-**run-ef3d072ad16ed8fbf717f739** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; catalog:capability; unmeasured; jpeg; capability. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Latias94/merman | — | 0.9.2 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 1 | 2026-10-30T03:33:00.140Z |
-
-<a id="run-bdc0c9642c592aeb00b99528"></a>
-
-**run-bdc0c9642c592aeb00b99528** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; catalog:capability; unmeasured; pdf; capability. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Latias94/merman | — | 0.9.2 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 1 | 2026-10-30T03:33:00.140Z |
-
-<a id="run-1f5d7bbdfc0a808dba8d8eab"></a>
-
-**run-1f5d7bbdfc0a808dba8d8eab** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; catalog:capability; unmeasured; terminal; capability. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Latias94/merman | — | 0.9.2 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 1 | 2026-10-30T03:33:00.140Z |
-
-<a id="run-55f5710bd4093b08494d1651"></a>
-
-**run-55f5710bd4093b08494d1651** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; node:public-api; Node; png; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Latias94/merman | — | 0.9.2 | 0 | 0 | 0 | 193 | 9 | 0 | 0 | 202 | 2026-10-30T03:33:00.140Z |
-
-<a id="run-404e43daf17993844bc2b5c8"></a>
-
-**run-404e43daf17993844bc2b5c8** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; node:public-api; Node; png; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Latias94/merman | — | 0.9.2 | 0 | 0 | 0 | 26 | 0 | 0 | 0 | 26 | 2026-10-30T03:33:00.140Z |
-
-<a id="run-628a804f9b3a18c855433b77"></a>
-
-**run-628a804f9b3a18c855433b77** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; node:public-api; Node; terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Beautiful Mermaid | 1 | 1.1.3 | 0 | 3 | 0 | 0 | 9 | 0 | 0 | 12 | 2026-10-30T03:36:05.323Z |
-
-<a id="run-c78582aac21d92ba5fbec57a"></a>
-
-**run-c78582aac21d92ba5fbec57a** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; node:public-api; Node 24.19.0; terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Beautiful Mermaid | 1 | 1.1.3 | 67 | 28 | 77 | 0 | 0 | 0 | 0 | 172 | 2026-10-30T03:36:05.323Z |
-
-<a id="run-0fddd3077c7fb617db0693aa"></a>
-
-**run-0fddd3077c7fb617db0693aa** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; cli:end-to-end; native Rust (rustc 1.99.1 (58cf8f9c3 2026-10-13)); public Markdown host; terminal; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Grok renderer | 1 | git-2bdd1d6a6369 | 5 | 0 | 21 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:40:10.777Z |
-
-<a id="run-180eda5d9726814c95948822"></a>
-
-**run-180eda5d9726814c95948822** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; cli:end-to-end; native Rust (rustc 1.99.1 (58cf8f9c3 2026-10-13)); public Markdown host; terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Grok renderer | 1 | git-2bdd1d6a6369 | 80 | 14 | 81 | 0 | 0 | 0 | 0 | 175 | 2026-10-30T03:40:10.777Z |
-
-<a id="run-4f98938563502047d8f19422"></a>
-
-**run-4f98938563502047d8f19422** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; bun:published-renderer-component; Bun 1.4.2; terminal; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Yassimba/loom | 1 | 0.10.0 | 10 | 0 | 16 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:40:16.588Z |
-
-<a id="run-17a38d7d75985e5bf6917196"></a>
-
-**run-17a38d7d75985e5bf6917196** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; bun:published-renderer-component; Bun 1.4.2; terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Yassimba/loom | 1 | 0.10.0 | 100 | 8 | 67 | 0 | 0 | 0 | 0 | 175 | 2026-10-30T03:40:16.588Z |
-
-<a id="run-335eee2e6657ec260032ab48"></a>
-
-**run-335eee2e6657ec260032ab48** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; cli:end-to-end; native Go (go version go1.27.3 linux/amd64); terminal; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| MermaidText | 1 | git-a6b0c7657b94 | 5 | 0 | 21 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:41:39.335Z |
-
-<a id="run-c2adc8cba91dfad0d574c030"></a>
-
-**run-c2adc8cba91dfad0d574c030** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; cli:end-to-end; native Go (go version go1.27.3 linux/amd64); terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| MermaidText | 1 | git-a6b0c7657b94 | 80 | 14 | 81 | 0 | 0 | 0 | 0 | 175 | 2026-10-30T03:41:39.335Z |
-
-<a id="run-d67fbe0ca1d20389b4d839bf"></a>
-
-**run-d67fbe0ca1d20389b4d839bf** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; node:public-parse-validation; Node 24.19.0; parse; family-support. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mermaid.js | 1 | 12.2.0 | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 26 | 2026-10-30T03:47:21.598Z |
-
-<a id="run-2b501319d0737cb76acec5bf"></a>
-
-**run-2b501319d0737cb76acec5bf** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; node:public-parse-validation; Node 24.19.0; parse; parse. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mermaid.js | 1 | 12.2.0 | 193 | 9 | 0 | 0 | 0 | 0 | 0 | 202 | 2026-10-30T03:47:21.598Z |
-
-<a id="run-c06bcd2ee8ed15320744b9c1"></a>
-
-**run-c06bcd2ee8ed15320744b9c1** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; default; node:public-parse-validation; Node 24.19.0; parse; parser-negative-admission. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mermaid.js | 1 | 12.2.0 | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 12 | 2026-10-30T03:47:21.598Z |
-
-<a id="run-90ad9dc3ec09f4f2a2b021c6"></a>
-
-**run-90ad9dc3ec09f4f2a2b021c6** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; native-release; cli:end-to-end; linux-x64 public native CLI; terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Frankenmermaid | 1 | 0.4.0 | 12 | 6 | 0 | 0 | 0 | 0 | 0 | 18 | 2026-10-30T03:06:28.040Z |
-
-<a id="run-51e27cc944e2f20a9e5cd972"></a>
-
-**run-51e27cc944e2f20a9e5cd972** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; native-release; cli:end-to-end; linux-x64 public native CLI; terminal; resource-diagnostic. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Frankenmermaid | 1 | 0.4.0 | 2 | 1 | 0 | 0 | 0 | 0 | 0 | 3 | 2026-10-30T03:06:28.040Z |
-
-<a id="run-d6962d6c4c3773ed268211f1"></a>
-
-**run-d6962d6c4c3773ed268211f1** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; node-cli; cli:end-to-end; node:24.19.0 installed public CLI; terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 1 | 0.5.1 | 18 | 0 | 0 | 0 | 0 | 0 | 0 | 18 | 2026-10-30T03:19:01.046Z |
-| Ondine | 1 | 0.0.3 | 18 | 0 | 0 | 0 | 0 | 0 | 0 | 18 | 2026-10-30T03:07:10.868Z |
-
-<a id="run-fa2170bd6cceed59a4337ed8"></a>
-
-**run-fa2170bd6cceed59a4337ed8** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; node-cli; cli:end-to-end; node:24.19.0 installed public CLI; terminal; resource-diagnostic. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 1 | 0.5.1 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 2026-10-30T03:19:01.046Z |
-| Ondine | 1 | 0.0.3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 2026-10-30T03:07:10.868Z |
-
-<a id="run-2c14045e68228659afc8c970"></a>
-
-**run-2c14045e68228659afc8c970** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; node-cli; cli:end-to-end; node:24.19.0 installed public CLI; svg; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 1 | 0.5.1 | 36 | 0 | 0 | 0 | 0 | 0 | 0 | 36 | 2026-10-30T03:19:01.046Z |
-
-<a id="run-28e8503e1abc6205990cea01"></a>
-
-**run-28e8503e1abc6205990cea01** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; node-cli; cli:end-to-end; node:24.19.0 installed public CLI; svg; resource-diagnostic. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Agentic Mermaid | 1 | 0.5.1 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:19:01.046Z |
-
-<a id="run-9a049b526f8bcf856dc8004c"></a>
-
-**run-9a049b526f8bcf856dc8004c** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; public-cli; cli:end-to-end; linux-x64 public native CLI; svg; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1jehuang/mermaid-rs-renderer | 1 | 0.3.1 | 36 | 0 | 0 | 0 | 0 | 0 | 0 | 36 | 2026-10-30T03:26:19.981Z |
-
-<a id="run-11dc6b9051b706d551f94590"></a>
-
-**run-11dc6b9051b706d551f94590** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; public-cli; cli:end-to-end; linux-x64 public native CLI; svg; resource-diagnostic. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1jehuang/mermaid-rs-renderer | 1 | 0.3.1 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 2026-10-30T03:26:19.981Z |
-
-<a id="run-0eb925f956ef9316d12aa39d"></a>
-
-**run-0eb925f956ef9316d12aa39d** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; public-cli; cli:end-to-end; linux-x64 public native CLI; terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AlexanderGrooff/mermaid-ascii | 1 | 1.6.1 | 18 | 0 | 0 | 0 | 0 | 0 | 0 | 18 | 2026-10-30T03:26:39.034Z |
-
-<a id="run-8e8e3e1a7719a67d554a2077"></a>
-
-**run-8e8e3e1a7719a67d554a2077** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; public-cli; cli:end-to-end; linux-x64 public native CLI; terminal; resource-diagnostic. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AlexanderGrooff/mermaid-ascii | 1 | 1.6.1 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 2026-10-30T03:26:39.034Z |
-
-<a id="run-5da2991132a1945e3bd2ee91"></a>
-
-**run-5da2991132a1945e3bd2ee91** · 2026-10-30 · unit: observations · [evidence](https://github.com/adewale/trident/tree/7d8c71a8a1307ba2834b803be24cee0270591ccf/evidence/1/report.json)
-
-external; public-cli; cli:end-to-end; native:compiled-public-cli (embedded runtime version unreported); terminal; render. Compared rows have the same recorded check coordinates. Counts are observations, not inferred diagram passes or full-inventory coverage. Missing bindings remain in campaign attempts.
-
-Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-| Project | Rank | Version | Passed | Failed | Unsupported | Blocked | Not applicable | Skipped | Unavailable | Recorded | Measured |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mootikins/figurehead-rs | 1 | v0.4.3 | 12 | 6 | 0 | 0 | 0 | 0 | 0 | 18 | 2026-10-30T03:38:16.611Z |
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| git-2bdd1d6a6369 / default | terminal:cell-grid / retained terminal text | terminal / graph-correctness | terminal-project-corpus-v1 / not round-based | 120 | 0 | 0 | 0 | 120 | {} | 120 |
 

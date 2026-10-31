@@ -281,3 +281,14 @@ test('latest core and external cohort statuses are both visible and a newer part
     expect(latest).not.toContain('external:')
   }
 })
+
+test('recovered terminal content keeps a lost measurement clock unknown instead of borrowing another collection time', () => {
+  const root = temp(), out = join(root, 'terminal'); mkdirSync(out)
+  const verdict = { project: 'fixture/a', version: '1', correct: 1, incorrect: 0, unsupported: 0, unknown: 0, planned: 1, cases: [{ caseId: 'one', status: 'correct' }] }
+  write(join(out, 'result.json'), { finishedAt: '2026-01-01T00:00:00Z', terminalProfile: { id: 'terminal-project-corpus-v1', cases: [{ id: 'one' }], reviewedCaseIds: ['one'], producers: ['synthetic-observer'] }, terminalAssessments: [verdict], terminalReviewedAssessments: [verdict], observations: [{ suite: 'community', format: 'terminal', operation: 'graph-correctness', caseId: 'one', surface: 'terminal:cell-grid', runtime: 'retained text', mode: 'terminal-project-corpus-v1', status: 'passed', metrics: { project: 'fixture/a', version: '1', measuredAt: null } }] })
+  write(join(root, 'report.json'), { schema: 'trident-campaign-v2', startedAt: '2026-01-01T00:00:00Z', updatedAt: '2026-02-01T00:00:00Z', profile: 'full', rounds: 1, projects: ['fixture/a'], requestedSuites: ['community'], results: [{ suite: 'community', cohort: 'terminal-project-corpus-v1', out, status: 'blocked' }] })
+  const data = importCampaign(empty(), root, 'https://example.org/recovered', catalog)
+  const table = data.tables.find(entry => entry.summary)!
+  expect(table.rows[0]!.values[table.columns.indexOf('Measured')]).toBe('Unknown; recovered text, see receipt')
+  expect(table.rows[0]!.values[table.columns.indexOf('Correct')]).toBe(1)
+})

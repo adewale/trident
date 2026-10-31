@@ -303,7 +303,8 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
   for (const { project } of projects) {
     const support = projectSupport(nodes.get(project)!)
     const cells = overviewColumns.map(({ suite, format }) => {
-      if (format === 'svg' && !support.declaredOutputs.includes('svg')) return 'N/A'
+      if ((format === 'svg' || suite === 'fidelity') && !support.declaredOutputs.includes('svg')) return 'N/A'
+      if (format === 'png' && !support.declaredOutputs.some(output => ['svg', 'png'].includes(output))) return 'N/A'
       if (suite === 'community' && terminalOnly(snapshot) && !support.declaredOutputs.includes('terminal')) return 'N/A'
       const attempts = attemptsFor(project, suite, format)
       const entries = snapshot.tables.filter(entry => entry.artifactRole !== 'candidate' && entry.suite === suite && entry.overview && (!format || (entry.outputFormat ?? 'svg') === format) && (suite !== primary?.suite || format && format !== (primary.outputFormat ?? 'svg') || entry.id === primary.id) && entry.rows.some(row => row.project === project)).sort((a, b) => stamp(b.measuredAt) - stamp(a.measuredAt) || a.id.localeCompare(b.id))
