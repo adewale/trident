@@ -15,6 +15,7 @@ import { docsRoundOrder, type docsInventory } from './docs-benchmark.ts'
 import { callDocsPage, closeDocsContext, docsArtifactServer, initializeDocsPage } from './docs-runtime.ts'
 import { publicDocsPngAction } from './docs-png-browser.ts'
 import { inspectPng } from './png-inspection.ts'
+import { externalPngInvocation } from './docs-png-transport-ownership.ts'
 import { assessDocsPng, type DocsPngReview } from './docs-png-drawings.ts'
 import { runCommunityCli, runCommunityNodeRound, verifyProvidedCommunityArtifact, communityModuleOutputSupported } from './community.ts'
 import { runExternalCommunity } from './community-external.ts'
@@ -109,8 +110,9 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
               const file = row?.metrics?.outputFile
               if (typeof file === 'string' && existsSync(file)) bytes = readFileSync(file)
               if (typeof row?.metrics?.firstMs === 'number') durationMs = row.metrics.firstMs
-              if (typeof row?.metrics?.rawInvocationId === 'string') invocationId = row.metrics.rawInvocationId
-              if (typeof row?.metrics?.rawInvocationDirectory === 'string') invocationDirectory = row.metrics.rawInvocationDirectory
+              const invocation = externalPngInvocation(row?.metrics)
+              invocationId = invocation.invocationId
+              invocationDirectory = invocation.invocationDirectory
             }
             raw = checkpoint.record(rawKey(project, round, input.id), { ...(bytes ? { bytesBase64: Buffer.from(bytes).toString('base64') } : {}), status, detail, durationMs, originalSvg, rasterizedSvg, nativeError, measuredAt: invocationId && invocationDirectory ? new InvocationJournal(invocationDirectory).outcome(invocationId)?.finishedAt ?? null : null, recordedAt: new Date().toISOString(), invocationId })
           }
