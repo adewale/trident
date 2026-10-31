@@ -11,12 +11,14 @@ import type { AuthoredFidelityCase } from '../fidelity/meaning.ts'
 import type { BenchmarkObservation } from './types.ts'
 import { inspectFidelityPaint, type PaintCheck } from '../fidelity/paint.ts'
 import { inspectQuantitativePaint } from '../fidelity/paint-values.ts'
-import { inspectSourceFacts } from '../fidelity/paint-facts.ts'
+import { inspectSourceFacts, mergePaintChecks } from '../fidelity/paint-facts.ts'
+import { inspectChartFacts } from '../fidelity/paint-chart-facts.ts'
 import { evidenceDigest } from '../portable/evidence-contract.ts'
 import { assessSvgCases, summarizeSvgCases, makeSvgObservationBinding, type SvgEvidenceBinding } from '../fidelity/svg-assessment.ts'
 import { admitDocsReviews, assessDocsDrawing, reviewedDocsCase, type DocsDrawingReview } from './docs-drawings.ts'
 import { admitPngReviews, assessDocsPng, type DocsPngReview } from './docs-png-drawings.ts'
 import { qualifyOutput } from './qualification.ts'
+import { readDocsPngRasterProfile, readRetainedPngSvg, readRetainedPng, qualifyRetainedDocsPngConversion } from './docs-png-qualification.ts'
 import { defaultChromium, executableIdentity } from './benchmark-context.ts'
 import { protocolIdentity } from './protocol-identity.ts'
 import { withDocsDeadline } from './docs-benchmark.ts'
@@ -77,7 +79,7 @@ export function recheckFeatureAdmission(input: AuthoredFidelityCase, project: st
 
 /** Reassess retained bytes only. No artifact acquisition, public render call or
  * reference parser call occurs here; every original result remains alongside it. */
-export async function recheckRendering(directory: string, out: string, pngReviewFile?: string, executable?: string) {
+export async function recheckRendering(directory: string, out: string, pngReviewFile?: string, executable?: string, pngRasterProfileFile?: string) {
   directory = resolve(directory); out = resolve(out)
   if (existsSync(out) || !relative(directory, out).startsWith('..')) throw Error('Choose a fresh output outside the input campaign')
   const recorded = read(join(directory, 'report.json'))
@@ -94,7 +96,8 @@ export async function recheckRendering(directory: string, out: string, pngReview
   admitDocsReviews(docsInventory.cases, sourceReviews)
   const pngBytes = pngReviewFile ? readFileSync(pngReviewFile) : Buffer.from('[]')
   const pngReviews = admitPngReviews(docsInventory.cases, sourceReviews, JSON.parse(pngBytes.toString()) as DocsPngReview[])
-  const producer = { source: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: tridentDirectory, encoding: 'utf8' }).trim(), producers: protocolIdentity(tridentDirectory, ['unified/recheck-rendering.ts']), browser: executableIdentity(executable ?? defaultChromium(chromium)), rendererInvocations: 0, environment: Object.fromEntries(['LANG', 'LC_ALL', 'LD_LIBRARY_PATH', 'FONTCONFIG_FILE', 'FONTCONFIG_PATH'].map(name => [name, process.env[name] ?? null])), fontReadiness: 'Await document.fonts.ready; only frozen campaign font assets can load', startedAt: began }
+  const raster = pngRasterProfileFile ? readDocsPngRasterProfile(pngRasterProfileFile) : undefined
+  const producer = { source: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: tridentDirectory, encoding: 'utf8' }).trim(), producers: protocolIdentity(tridentDirectory, ['unified/recheck-rendering.ts']), browser: executableIdentity(executable ?? defaultChromium(chromium)), rendererInvocations: 0, environment: Object.fromEntries(['LANG', 'LC_ALL', 'LD_LIBRARY_PATH', 'FONTCONFIG_FILE', 'FONTCONFIG_PATH'].map(name => [name, process.env[name] ?? null])), fontReadiness: 'Await document.fonts.ready; only frozen campaign font assets can load', ...(raster ? { pngRasterProfileSha256: raster.fileSha256, pngRasterProfile: raster.profile, referenceRasterizerMode: 'Offline resvg preservation only; no project API calls' } : {}), startedAt: began }
   const observerSha256 = evidenceDigest({ producers: producer.producers, browser: producer.browser, environment: producer.environment, fontReadiness: producer.fontReadiness })
   cpSync(directory, out, { recursive: true, dereference: false, filter: path => !['node_modules', '.git'].includes(path.split('/').at(-1)!) })
   const remap = (path: string) => retainedPath(directory, out, aliases, path)
@@ -121,7 +124,8 @@ export async function recheckRendering(directory: string, out: string, pngReview
     const paint = await withDocsDeadline(() => page.evaluate(inspectFidelityPaint, { family: input.family, expected: input.expected, paint: input.paint }), () => { void page.close().catch(() => {}) })
     const quantitative = await withDocsDeadline(() => page.evaluate(inspectQuantitativePaint, { family: input.family, expected: input.expected, source: input.source, nodes: paint.nodes as NonNullable<Parameters<typeof inspectQuantitativePaint>[0]['nodes']> }), () => { void page.close().catch(() => {}) })
     const facts = await withDocsDeadline(() => page.evaluate(inspectSourceFacts, { family: input.family, source: input.source, expected: input.expected, paint, quantitative }), () => { void page.close().catch(() => {}) })
-    return [...paint.checks, ...quantitative, ...facts]
+    const charts = await withDocsDeadline(() => page.evaluate(inspectChartFacts, { family: input.family, source: input.source, expected: input.expected, paint, quantitative }), () => { void page.close().catch(() => {}) })
+    return mergePaintChecks(paint.checks, quantitative, facts, charts)
   }
   let docsChecked = 0, featureChecked = 0
   try {
@@ -138,7 +142,24 @@ export async function recheckRendering(directory: string, out: string, pngReview
           if (!input) throw Error('Retained drawing observation has no declared documentation input')
           const witness = row.metrics?.witness ? safe(join(out, 'docs'), row.metrics.witness) : undefined
           let assessment: any
-          if (row.format === 'png') assessment = assessDocsPng(input, expected, witness && existsSync(witness) ? readFileSync(witness) : undefined, pngReviews)
+          if (row.format === 'png') {
+            const bytes = witness && existsSync(witness) ? readRetainedPng(join(out, 'docs'), row.metrics.witness) : undefined
+            assessment = assessDocsPng(input, expected, bytes, pngReviews)
+            if (assessment.status === 'unknown' && raster && expected?.intent === 'drawing' && bytes && row.metrics?.transport === 'svg-conversion') {
+              try {
+                const root = join(out, 'docs'), originalSvg = readRetainedPngSvg(root, row.metrics.originalSvgWitness), rasterizedSvg = readRetainedPngSvg(root, row.metrics.rasterizedSvgWitness)
+                const render = result.observations.find((item: any) => item.operation === 'render' && item.format === 'png' && item.caseId === row.caseId && item.metrics?.project === row.metrics.project && item.metrics?.round === row.metrics.round && item.metrics?.variant === row.metrics.variant)
+                const qualification = await qualifyRetainedDocsPngConversion({ source: input, review: expected, actualPng: bytes, originalSvg, rasterizedSvg, publicOutputReturned: render?.status === 'passed', profile: raster.profile, pngReviews, observerSha256, inspectSvg: (svg, authored) => inspect(row.metrics.project, svg, authored) })
+                const { referencePng, ...verdict } = qualification as typeof qualification & { referencePng?: Uint8Array }
+                if (referencePng) {
+                  const path = 'png/referencePng/' + hash(referencePng) + '.png'
+                  mkdirSync(join(root, 'png/referencePng'), { recursive: true }); writeFileSync(join(root, path), referencePng)
+                  row.metrics.referencePngWitness = path
+                }
+                assessment = { ...verdict, originalContentAssessment: assessment }
+              } catch (error) { assessment = { status: 'unknown', reason: 'Retained conversion proof did not complete: ' + String(error), originalContentAssessment: assessment } }
+            }
+          }
           else if (expected?.intent === 'drawing' && witness && existsSync(witness)) {
             const svg = gunzipSync(readFileSync(witness)).toString('utf8')
             if (witness.split('/').at(-1) !== hash(svg) + '.svg.gz') throw Error('Retained SVG content hash differs')
@@ -202,18 +223,18 @@ export async function recheckRendering(directory: string, out: string, pngReview
       write(destination, result)
     }
   } finally { await context.close(); await browser.close() }
-  const updated = { ...report, options: { ...(report as any).options, out }, updatedAt: new Date().toISOString(), results: report.results.map(boundary => ({ ...boundary, ...(boundary.out ? { out: remap(boundary.out) } : {}) })), recheck: { ...producer, recordedSourceRoots: aliases, originalReportSha256: hash(readFileSync(join(directory, 'report.json'))), pngReviewSha256: hash(pngBytes), docsSvgChecked: docsChecked, featureSvgChecked: featureChecked }, scope: 'Coverage receipts with current retained-output checks. Original measurements and collected results remain present; SVG/PNG checks call no renderer. Clock comparisons remain unqualified.' }
+  const updated = { ...report, options: { ...(report as any).options, out }, updatedAt: new Date().toISOString(), results: report.results.map(boundary => ({ ...boundary, ...(boundary.out ? { out: remap(boundary.out) } : {}) })), recheck: { ...producer, recordedSourceRoots: aliases, originalReportSha256: hash(readFileSync(join(directory, 'report.json'))), pngReviewSha256: hash(pngBytes), docsSvgChecked: docsChecked, featureSvgChecked: featureChecked }, scope: 'Coverage receipts with current retained-output checks. Original measurements and collected results remain present; SVG/PNG checks call no project renderer; optional offline resvg preservation is recorded separately. Clock comparisons remain unqualified.' }
   write(join(out, 'report.collected.json'), report); write(join(out, 'report.json'), updated)
   write(join(out, 'recheck-receipt.json'), updated.recheck)
   return updated.recheck
 }
 
 if (import.meta.main) {
-  if (process.argv.includes('--help')) console.log('bun unified/recheck-rendering.ts --campaign DIR --out FRESH_DIR [--png-reviews FILE] [--executable CHROMIUM]\nRechecks retained SVGs and reviewed PNGs without renderer or reference-parser calls. Original results remain alongside the new verdicts.')
+  if (process.argv.includes('--help')) console.log('bun unified/recheck-rendering.ts --campaign DIR --out FRESH_DIR [--png-reviews FILE] [--png-raster-profile FILE] [--executable CHROMIUM]\nRechecks retained SVGs and reviewed PNGs without project renderer or reference-parser calls. Original results remain alongside the new verdicts.')
   else {
     const args = new Map<string, string>()
-    for (let index = 2; index < process.argv.length; index += 2) { const key = process.argv[index]!, value = process.argv[index + 1]; if (!['--campaign', '--out', '--png-reviews', '--executable'].includes(key) || !value || args.has(key)) throw Error('Use --help'); args.set(key, value) }
+    for (let index = 2; index < process.argv.length; index += 2) { const key = process.argv[index]!, value = process.argv[index + 1]; if (!['--campaign', '--out', '--png-reviews', '--png-raster-profile', '--executable'].includes(key) || !value || args.has(key)) throw Error('Use --help'); args.set(key, value) }
     if (!args.has('--campaign') || !args.has('--out')) throw Error('Use --help')
-    console.log(JSON.stringify(await recheckRendering(args.get('--campaign')!, args.get('--out')!, args.get('--png-reviews'), args.get('--executable'))))
+    console.log(JSON.stringify(await recheckRendering(args.get('--campaign')!, args.get('--out')!, args.get('--png-reviews'), args.get('--executable'), args.get('--png-raster-profile'))))
   }
 }

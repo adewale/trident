@@ -54,6 +54,8 @@ export interface UnifiedRunOptions {
   /** Same documentation inventory, independently collected output lanes. */
   docsFormats?: ('svg' | 'png')[]
   docsPngReviewFile?: string
+  /** Optional frozen raster profile for strict retained SVG-to-PNG proof. */
+  docsPngRasterProfileFile?: string
   /** One shared absolute deadline for all cohorts and suites. Never measurement identity. */
   collectionDeadline?: number
   collectionResume?: boolean

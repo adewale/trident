@@ -32,6 +32,8 @@ import type { UnifiedRunOptions, UnifiedSuiteResult, BenchmarkObservation } from
 import { mermaidOracleDirectory, mermaidUpstreamDirectory } from '../portable/mermaid-oracle.ts'
 import { runDocsPngLane } from './docs-png-lane.ts'
 import { admitPngReviews, type DocsPngReview } from './docs-png-drawings.ts'
+import { readDocsPngRasterProfile, readRetainedPngSvg, readRetainedPng, qualifyRetainedDocsPngConversion } from './docs-png-qualification.ts'
+import type { FrozenRasterProfile } from './png-preservation.ts'
 
 /** Every occurrence from every syntax page of the pinned upstream release.
  * Duplicates remain in the acceptance denominator; no product registry chooses it. */
@@ -222,6 +224,60 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
   return result
 }
 
+/** Optional post-collection proof inspects only retained exact conversion
+ * inputs. It invokes neither a renderer nor another project's SVG lane. */
+export async function qualifyCollectedDocsPng(options: UnifiedRunOptions, result: UnifiedSuiteResult, inventory: ReturnType<typeof docsInventory>, reviews: readonly DocsDrawingReview[], pngReviews: readonly DocsPngReview[], raster: { profile: FrozenRasterProfile; fileSha256: string }) {
+  const candidates = result.observations.filter(row => row.operation === 'drawing-checks' && row.format === 'png' && row.metrics?.transport === 'svg-conversion' && row.status === 'blocked')
+  if (!candidates.length) return result
+  const executable = options.executable ?? defaultChromium(chromium), producers = protocolIdentity(options.harnessRoot ?? options.root, ['unified/docs-benchmark.ts'])
+  const observerSha256 = evidenceDigest({ producers, browser: executableIdentity(executable), profileSha256: raster.fileSha256, mode: 'isolated retained conversion SVG; no network or project scripts' })
+  const browser = await chromium.launch({ headless: true, executablePath: executable })
+  const context = await browser.newContext({ viewport: { width: 1400, height: 1000 }, serviceWorkers: 'block' })
+  await context.route('**/*', route => route.request().url() === 'http://trident.invalid/observer' ? route.fulfill({ contentType: 'text/html', headers: { 'content-security-policy': "default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data: blob:; font-src data: blob:; connect-src 'none'; object-src 'none'" }, body: '<!doctype html><meta charset="utf-8"><body>' }) : route.abort())
+  let page: any = await context.newPage()
+  let correct = 0
+  try {
+    for (const row of candidates) {
+      const input = inventory.cases.find(item => item.id === row.caseId), review = reviews.find(item => item.id === row.caseId)
+      if (!input || !review || review.intent !== 'drawing' || typeof row.metrics?.witness !== 'string') continue
+      const originalAssessment = row.detail
+      try {
+        checkCollectionBudget(options.collectionDeadline)
+        const originalSvg = readRetainedPngSvg(options.out, typeof row.metrics.originalSvgWitness === 'string' ? row.metrics.originalSvgWitness : undefined), rasterizedSvg = readRetainedPngSvg(options.out, typeof row.metrics.rasterizedSvgWitness === 'string' ? row.metrics.rasterizedSvgWitness : undefined)
+        const returned = result.observations.find(item => item.operation === 'render' && item.format === 'png' && item.caseId === row.caseId && item.metrics?.project === row.metrics?.project && item.metrics?.round === row.metrics?.round && item.metrics?.variant === row.metrics?.variant)
+        const qualification = await qualifyRetainedDocsPngConversion({ source: input, review, actualPng: readRetainedPng(options.out, row.metrics.witness), originalSvg, rasterizedSvg, publicOutputReturned: returned?.status === 'passed', profile: raster.profile, pngReviews, observerSha256, inspectSvg: async (svg, authored) => {
+          if (page.isClosed()) page = await context.newPage()
+          await page.goto('http://trident.invalid/observer')
+          return withDocsDeadline(async () => {
+            await page.setContent(svg, { waitUntil: 'domcontentloaded' })
+            await page.evaluate(async () => { await document.fonts.ready })
+            const paint = await page.evaluate(inspectFidelityPaint, { family: authored.family, expected: authored.expected })
+            const quantitative = await page.evaluate(inspectQuantitativePaint, { family: authored.family, expected: authored.expected, source: authored.source, nodes: paint.nodes })
+            const facts = await page.evaluate(inspectSourceFacts, { family: authored.family, expected: authored.expected, source: authored.source, paint, quantitative })
+            const charts = await page.evaluate(inspectChartFacts, { family: authored.family, expected: authored.expected, source: authored.source, paint, quantitative })
+            return mergePaintChecks(paint.checks, quantitative, facts, charts)
+          }, () => { void page.close().catch(() => {}) })
+        } })
+        const { referencePng, ...assessment } = qualification as typeof qualification & { referencePng?: Uint8Array }
+        if (referencePng) {
+          const witness = 'referencePng/' + createHash('sha256').update(referencePng).digest('hex') + '.png'
+          mkdirSync(join(options.out, 'referencePng'), { recursive: true }); writeFileSync(join(options.out, witness), referencePng)
+          row.metrics.referencePngWitness = witness
+        }
+        row.detail = JSON.stringify({ ...assessment, originalContentAssessment: originalAssessment })
+        row.status = assessment.status === 'correct' ? 'passed' : assessment.status === 'incorrect' ? 'failed' : 'blocked'
+        row.metrics = { ...row.metrics, preservationObserverSha256: observerSha256, rasterProfileSha256: raster.fileSha256 }
+        if (assessment.status === 'correct') correct++
+      } catch (error) { if (error instanceof CollectionBudgetExhausted) throw error; row.detail = JSON.stringify({ status: 'unknown', reason: 'Retained conversion proof did not complete: ' + String(error), originalContentAssessment: originalAssessment }); row.status = 'blocked' }
+    }
+  } finally { await context.close(); await browser.close() }
+  const receipt = join(options.out, 'png-preservation-receipt.json')
+  writeFileSync(receipt, JSON.stringify({ schema: 'trident-docs-png-preservation-run-v1', observerSha256, rasterProfileSha256: raster.fileSha256, profile: raster.profile, projectRendererInvocations: 0, referenceRasterizerMode: 'Offline deterministic reference only', attempted: candidates.length, correct, unknownOrIncorrect: candidates.length - correct }))
+  const qualified = { ...result, status: result.observations.some(row => row.status === 'failed') ? 'failed' as const : result.observations.some(row => row.status === 'blocked') ? 'blocked' as const : 'passed' as const, artifacts: [...(result.artifacts ?? []), receipt], gaps: [...result.gaps, 'Optional conversion proof freshly checks exact retained raster input and requires an independent full PNG content review of its reference image. Native PNG remains independently reviewed.'] }
+  writeFileSync(join(options.out, 'result.json'), JSON.stringify(qualified))
+  return qualified
+}
+
 /** One corpus, two independently selectable output lanes. A PNG-only artifact
  * never goes through SVG admission. Raw output and correctness stay separate. */
 export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<UnifiedSuiteResult> {
@@ -234,6 +290,7 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
   const reviews = JSON.parse(reviewBytes.toString()) as DocsDrawingReview[], reviewed = admitDocsReviews(inventory.cases, reviews)
   const pngBytes = formats.includes('png') && options.docsPngReviewFile ? readFileSync(options.docsPngReviewFile) : Buffer.from('[]')
   const pngReviews = admitPngReviews(inventory.cases, reviews, JSON.parse(pngBytes.toString()) as DocsPngReview[])
+  const raster = formats.includes('png') && options.docsPngRasterProfileFile ? readDocsPngRasterProfile(options.docsPngRasterProfileFile) : undefined
   const prepared = options.communityPreparedFile ? JSON.parse(readFileSync(options.communityPreparedFile, 'utf8')) : []
   const browsers = options.communityBrowserPreparedFile ? JSON.parse(readFileSync(options.communityBrowserPreparedFile, 'utf8')) : []
   for (const entries of [prepared, browsers]) if (!Array.isArray(entries) || new Set(entries.map((peer: any) => peer.node.id)).size !== entries.length) throw Error('DaveBench frozen identities must be unique')
@@ -242,7 +299,7 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
   const startedAt = new Date().toISOString(), results: UnifiedSuiteResult[] = []
   mkdirSync(options.out, { recursive: true })
   const producers = protocolIdentity(options.harnessRoot ?? options.root, ['unified/docs-benchmark.ts'])
-  const identity = { ...inventory, protocol: 'public-docs-output-lanes-v2', formats, producers, selectedCaseIds: options.docsCaseIds, drawingReview: { protocol: 'reviewed-docs-svg-content-v1', sha256: createHash('sha256').update(reviewBytes).digest('hex'), cases: reviewed }, pngReviewSha256: createHash('sha256').update(pngBytes).digest('hex') }
+  const identity = { ...inventory, protocol: 'public-docs-output-lanes-v2', formats, producers, selectedCaseIds: options.docsCaseIds, drawingReview: { protocol: 'reviewed-docs-svg-content-v1', sha256: createHash('sha256').update(reviewBytes).digest('hex'), cases: reviewed }, pngReviewSha256: createHash('sha256').update(pngBytes).digest('hex'), ...(raster ? { pngRasterProfile: raster } : {}) }
   const inventoryPath = join(options.out, 'inventory.json')
   if (existsSync(inventoryPath) && JSON.stringify(JSON.parse(readFileSync(inventoryPath, 'utf8'))) !== JSON.stringify(identity)) throw Error('Documentation source, output lanes or review identity changed; use a fresh campaign')
   writeFileSync(inventoryPath, JSON.stringify(identity, null, 2))
@@ -255,7 +312,10 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
         if (svgProjects.length) results.push(await runSvgDocsBenchmark({ ...options, out, communityProjects: svgProjects }, inventory))
       } else {
         const pngProjects = projects.filter(project => { const peer = [...prepared, ...browsers].find((peer: any) => peer.node.id === project); return !peer || [...peer.node.outputs, ...(peer.node.benchmark?.outputs ?? [])].some(output => ['svg', 'png'].includes(output)) })
-        if (pngProjects.length) results.push(await runDocsPngLane({ ...options, out, communityProjects: pngProjects }, inventory, reviews, pngReviews))
+        if (pngProjects.length) {
+          const pngOptions = { ...options, out, communityProjects: pngProjects }, collected = await runDocsPngLane(pngOptions, inventory, reviews, pngReviews)
+          results.push(raster ? await qualifyCollectedDocsPng(pngOptions, collected, inventory, reviews, pngReviews, raster) : collected)
+        }
       }
     } catch (error) {
       if (!(error instanceof CollectionBudgetExhausted)) throw error
@@ -264,7 +324,7 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
       break
     }
   }
-  const observations: BenchmarkObservation[] = results.flatMap(result => result.observations.map(row => row.metrics?.witness ? { ...row, metrics: { ...row.metrics, witness: row.format + '/' + row.metrics.witness } } : row))
+  const observations: BenchmarkObservation[] = results.flatMap(result => result.observations.map(row => ({ ...row, metrics: row.metrics ? { ...row.metrics, ...Object.fromEntries(['witness', 'originalSvgWitness', 'rasterizedSvgWitness', 'referencePngWitness'].flatMap(key => typeof row.metrics?.[key] === 'string' ? [[key, row.format + '/' + row.metrics[key]]] : [])) } : row.metrics })))
   for (const project of projects) for (const format of formats) {
     const peer = [...prepared, ...browsers].find((peer: any) => peer.node.id === project)
     if (!peer) continue
