@@ -24,3 +24,12 @@ test('exact pinned image URLs are served from authenticated local bytes and othe
  expect(hash(response.body)).toBe(row.sha256);expect(aborted).toBe(false)
  await routeDocsResource({request:()=>({url:()=>row.url+'?unfrozen'}),abort:async()=>{aborted=true}} as any,'http://127.0.0.1:123',resources);expect(aborted).toBe(true)
 })
+
+import { harnessVerificationPlan } from '../unified/harness-verification.ts'
+test('the unscored verification plan covers every required mechanism with six projects',()=>{
+ const plan=harnessVerificationPlan()
+ expect(plan.projects).toHaveLength(6);expect(plan.jobs).toHaveLength(16)
+ expect(plan.plannedOutputCalls).toBe(56);expect(plan.referenceTerminalScore).toBe(false)
+ expect(plan.jobs.filter(job=>job.project==='Latias94/merman').map(job=>job.id).sort()).toEqual(['wasm-svg','native-node-engine','native-svg-cli','native-png-cli','native-terminal-cli'].sort())
+ expect(plan.purpose).toContain('not ecosystem ranking')
+})

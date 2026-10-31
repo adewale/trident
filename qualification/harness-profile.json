@@ -1,0 +1,30 @@
+{
+  "schema": "trident-harness-profile-v1",
+  "purpose": "Unscored verification of public execution paths; not ecosystem ranking, corpus accuracy or timing qualification",
+  "projects": [
+    {"project":"mermaid-js/mermaid","version":"12.2.0"},
+    {"project":"AlexanderGrooff/mermaid-ascii","version":"1.6.1"},
+    {"project":"adewale/agentic-mermaid","version":"0.4.1"},
+    {"project":"pub:mermaid_flutter","version":"0.3.2"},
+    {"project":"Latias94/merman","version":"0.9.2"},
+    {"project":"fasouto/termaid","version":"0.10.0"}
+  ],
+  "jobs": [
+    {"id":"reference-svg","project":"mermaid-js/mermaid","output":"svg","transport":"browser"},
+    {"id":"reference-png-conversion","project":"mermaid-js/mermaid","output":"png","transport":"browser"},
+    {"id":"reference-model","project":"mermaid-js/mermaid","output":"structured","transport":"model"},
+    {"id":"terminal-baseline","project":"AlexanderGrooff/mermaid-ascii","output":"terminal","transport":"primary"},
+    {"id":"node-svg","project":"adewale/agentic-mermaid","output":"svg","transport":"primary"},
+    {"id":"node-png","project":"adewale/agentic-mermaid","output":"png","transport":"primary"},
+    {"id":"node-terminal","project":"adewale/agentic-mermaid","output":"terminal","transport":"primary"},
+    {"id":"alternate-model","project":"adewale/agentic-mermaid","output":"structured","transport":"model"},
+    {"id":"package-cli","project":"adewale/agentic-mermaid","output":"svg","transport":"node-cli"},
+    {"id":"png-only-worker","project":"pub:mermaid_flutter","output":"png","transport":"primary"},
+    {"id":"wasm-svg","project":"Latias94/merman","output":"svg","transport":"browser"},
+    {"id":"native-node-engine","project":"Latias94/merman","output":"svg","transport":"primary"},
+    {"id":"native-svg-cli","project":"Latias94/merman","output":"svg","transport":"native-release"},
+    {"id":"native-png-cli","project":"Latias94/merman","output":"png","transport":"native-release"},
+    {"id":"native-terminal-cli","project":"Latias94/merman","output":"terminal","transport":"native-release"},
+    {"id":"python-api","project":"fasouto/termaid","output":"terminal","transport":"primary"}
+  ]
+}
