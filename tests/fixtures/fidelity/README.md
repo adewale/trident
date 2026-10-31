@@ -82,3 +82,15 @@ neither source selectors nor a matching unrelated decoration supplies paint
 credit. Their SHA-256 digests are
 `f0d673370fd93927296bb304626cd8bec9246a6c47bce99c4481e2798c144879` and
 `6ffdf8b0566c5b9cb19a2d9d13cb707f527d595a025946a0da03f120b2d3bcc1`.
+
+`mermaid-four-shapes.svg` and `pele-four-shapes.svg` retain the unchanged
+Mermaid12.2.0 and Pele1.9.0 outputs for pinned Mermaid documentation
+`packages/mermaid/src/docs/syntax/examples.md:40` at
+`1fb7869866dd619168d840291c9c54b4f129758b`, from the same31October campaign.
+The source asks for an ordinary box, circle, rounded box and diamond. Pele's
+ordinary box has cosmetic4px corners; its explicitly rounded box has12px
+corners. Tests verify the geometric contrast rather than requiring one
+renderer skin's sharp-corner convention, then swap the source shapes and
+collapse the actual contrast. The SHA-256 digests are
+`a782b10ce8314d76c1685bb98eda70d9d2008baa25385b9f73020ec53653bb82` and
+`4600302dbb91083fa8b3096353cdeabb4c876ea39b8c64062e83972c72d00a77`.

@@ -96,7 +96,7 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
   const actualShape = (id: string) => {
     const node = nodeById.get(id), outline = node?.outline
     if (!node || !outline) return null
-    if (outline.tag === 'rect') return outline.rx > 0 || outline.ry > 0 ? 'rounded' : 'rectangle'
+    if (outline.tag === 'rect') return 'rectangle'
     if (['ellipse', 'circle'].includes(outline.tag)) return Math.abs(node.box.width - node.box.height) <= Math.max(1, node.box.width * .01) ? 'circle' : 'ellipse'
     const points = outline.vertices, b = node.box
     if (points?.length === 4) {
@@ -105,6 +105,22 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
       if ([[b.x + b.width / 2, b.y], [b.x + b.width, b.y + b.height / 2], [b.x + b.width / 2, b.y + b.height], [b.x, b.y + b.height / 2]].every(([x, y]) => points.some(point => near(point, x!, y!)))) return 'diamond'
     }
     return null
+  }
+  const cornerRatio = (id: string) => { const node = nodeById.get(id), outline = node?.outline; if (!node || outline?.tag !== 'rect') return null; const values = [outline.rx / node.box.width, outline.ry / node.box.height].filter(Number.isFinite); return values.length === 2 ? Math.max(...values) : null }
+  const declaredShapes = [...(Array.isArray(facts['node-shapes']) ? facts['node-shapes'] : []), ...(Array.isArray(facts['node-attributes']) ? facts['node-attributes'].flatMap((entry: any) => typeof entry.attributes?.shape === 'string' ? [{ id: entry.id, shape: ({ rect: 'rectangle', round: 'rounded' } as Record<string, string>)[entry.attributes.shape] ?? entry.attributes.shape }] : []) : [])]
+  const shapeMatches = (id: string, wanted: string): boolean | null => {
+    const actual = actualShape(id)
+    if (!actual) return null
+    if (!['rectangle', 'rounded'].includes(wanted)) return actual === wanted
+    if (actual !== 'rectangle') return false
+    const ratio = cornerRatio(id)
+    if (ratio === null) return wanted === 'rectangle' ? true : null
+    // A box skin may round ordinary corners. Preserve the authored contrast
+    // when rounded and ordinary boxes coexist; a capsule is a different shape.
+    if (ratio >= .49) return false
+    const opposite = declaredShapes.filter((entry: any) => entry.shape === (wanted === 'rounded' ? 'rectangle' : 'rounded') && entry.id !== id).map((entry: any) => cornerRatio(entry.id))
+    if (opposite.some((value: number | null) => value === null)) return null
+    return wanted === 'rounded' ? ratio > .01 && opposite.every(value => value !== null && ratio > value + .01) : opposite.every(value => value !== null && ratio + .01 < value)
   }
   for (const key of Object.keys(facts).sort()) {
     if (!svg) { add(key, null, null, 'No mounted SVG is available for the required source fact'); continue }
@@ -129,15 +145,15 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
       continue
     }
     if (key === 'node-shapes' && Array.isArray(facts[key])) {
-      const supported = ['rectangle', 'circle', 'ellipse', 'diamond', 'rounded'], observed = facts[key].map((entry: any) => ({ id: entry.id, expected: entry.shape, actual: actualShape(entry.id) }))
-      add(key, observed, observed.every((entry: any) => supported.includes(entry.expected) && entry.actual) ? observed.every((entry: any) => entry.expected === entry.actual) : null, 'Each source node owns its actual outline: SVG rectangle/rounded rectangle, circle/ellipse or four-vertex rectangle/diamond. IDs, class names and model shape strings supply no geometry; other and compound shapes remain unknown')
+      const supported = ['rectangle', 'circle', 'ellipse', 'diamond', 'rounded'], observed = facts[key].map((entry: any) => ({ id: entry.id, expected: entry.shape, actual: actualShape(entry.id), cornerRatio: cornerRatio(entry.id), matches: shapeMatches(entry.id, entry.shape) }))
+      add(key, observed, observed.every((entry: any) => supported.includes(entry.expected) && entry.matches !== null) ? observed.every((entry: any) => entry.matches) : null, 'Each source node owns actual rectangle-family, circle/ellipse or four-vertex diamond geometry. Cosmetic rectangle corners are permitted; authored ordinary/rounded boxes must retain a distinct measured radius ratio (0.01 margin), and capsules do not count as rectangles. IDs, CSS class names and model shape strings supply no shape credit; other and compound profiles remain unknown')
       continue
     }
     if (key === 'node-attributes' && Array.isArray(facts[key])) {
       const aliases: Record<string, string> = { rect: 'rectangle', rectangle: 'rectangle', round: 'rounded', rounded: 'rounded', circle: 'circle', ellipse: 'ellipse', diam: 'diamond', diamond: 'diamond' }
       const observed = facts[key].map((entry: any) => ({ id: entry.id, attributes: entry.attributes, shape: actualShape(entry.id), label: nodeById.get(entry.id)?.label }))
-      const available = observed.every((entry: any) => entry.label !== undefined && Object.entries(entry.attributes).every(([attribute, value]) => attribute === 'label' ? typeof value === 'string' : attribute === 'shape' && typeof value === 'string' && aliases[value] && entry.shape))
-      add(key, observed, available ? observed.every((entry: any) => Object.entries(entry.attributes).every(([attribute, value]) => attribute === 'label' ? normalize(String(value)) === normalize(entry.label) : aliases[String(value)] === entry.shape)) : null, 'Literal label/primitive-shape attributes bind independently owned visible node bodies. Icons, images, wrapping, business roles, dimensions and other attributes remain required unknowns until their own full projection is qualified')
+      const available = observed.every((entry: any) => entry.label !== undefined && Object.entries(entry.attributes).every(([attribute, value]) => attribute === 'label' ? typeof value === 'string' : attribute === 'shape' && typeof value === 'string' && aliases[value] && shapeMatches(entry.id, aliases[value]!) !== null))
+      add(key, observed, available ? observed.every((entry: any) => Object.entries(entry.attributes).every(([attribute, value]) => attribute === 'label' ? normalize(String(value)) === normalize(entry.label) : shapeMatches(entry.id, aliases[String(value)]!) === true)) : null, 'Literal label/primitive-shape attributes bind independently owned visible node bodies. Icons, images, wrapping, business roles, dimensions and other attributes remain required unknowns until their own full projection is qualified')
       continue
     }
     if (key === 'edge-appearance' && Array.isArray(facts[key])) {

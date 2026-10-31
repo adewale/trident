@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import { afterAll, beforeAll, expect, test } from 'bun:test'
 import { chromium } from 'playwright'
 import { inspectFidelityPaint, type PaintCheck } from '../fidelity/paint.ts'
@@ -44,7 +45,8 @@ test('owned geometry verifies global direction without treating a public model o
 test('primitive shapes and solid/dotted appearance are actual owned geometry rather than source/model echoes', async () => {
   const shapes = { ...expected, facts: { 'node-shapes': [{ id: 'A', shape: 'rectangle' }, { id: 'B', shape: 'rectangle' }], 'node-attributes': [{ id: 'A', attributes: { shape: 'rect', label: 'Alpha' } }], 'edge-appearance': [{ source: 'A', target: 'B', stroke: 'solid', markerStart: 'none', markerEnd: 'arrow' }] } }
   expect((await inspect(svg, shapes)).map(check => check.status)).toEqual(['passed', 'passed', 'passed'])
-  expect((await inspect(svg.replace('width="70" height="30" fill="white"', 'width="70" height="30" rx="8" fill="white"'), shapes)).find(check => check.criterion === 'source-fact:node-shapes')?.status).toBe('failed')
+  expect((await inspect(svg.replace('width="70" height="30" fill="white"', 'width="70" height="30" rx="3" fill="white"'), shapes)).find(check => check.criterion === 'source-fact:node-shapes')?.status).toBe('passed')
+  expect((await inspect(svg.replace('width="70" height="30" fill="white"', 'width="70" height="30" rx="15" ry="15" fill="white"'), shapes)).find(check => check.criterion === 'source-fact:node-shapes')?.status).toBe('failed')
   expect((await inspect(svg.replace('stroke="black" marker-end', 'stroke="black" stroke-dasharray="4 4" marker-end'), shapes)).find(check => check.criterion === 'source-fact:edge-appearance')?.status).toBe('failed')
   expect((await inspect(svg, { ...shapes, facts: { 'node-shapes': [{ id: 'A', shape: 'manual-file' }] } }))[0]?.status).toBe('unavailable')
 })
@@ -87,4 +89,14 @@ test('a source title cannot borrow an identically named node or survive a proved
   expect((await inspect(valid, borrowed))[0]?.status).toBe('passed')
   const clipped = valid.replace('</defs>', '<clipPath id="empty"><rect width="0" height="0"/></clipPath></defs>').replace('x="60" y="18"', 'x="60" y="18" clip-path="url(#empty)"')
   expect((await inspect(clipped, borrowed))[0]?.status).toBe('failed')
+})
+
+for (const renderer of ['mermaid', 'pele']) test(renderer + ' real ordinary and rounded boxes retain source distinction despite skin corner rounding', async () => {
+  const e: MeaningExpectation = { labels: ['Square Rect', 'Circle', 'Round Rect', 'Rhombus'], nodes: [{ id: 'A', label: 'Square Rect' }, { id: 'B', label: 'Circle' }, { id: 'C', label: 'Round Rect' }, { id: 'D', label: 'Rhombus' }], facts: { 'node-shapes': [{ id: 'A', shape: 'rectangle' }, { id: 'B', shape: 'circle' }, { id: 'C', shape: 'rounded' }, { id: 'D', shape: 'diamond' }] } }
+  const actual = readFileSync(new URL('./fixtures/fidelity/' + renderer + '-four-shapes.svg', import.meta.url), 'utf8')
+  expect((await inspect(actual, e))[0]?.status).toBe('passed')
+  const swapped = { ...e, facts: { 'node-shapes': (e.facts!['node-shapes'] as any[]).map((entry: any) => ({ ...entry, shape: entry.id === 'A' ? 'rounded' : entry.id === 'C' ? 'rectangle' : entry.shape })) } }
+  expect((await inspect(actual, swapped))[0]?.status).toBe('failed')
+  const collapsed = renderer === 'pele' ? actual.replace('rx="12"', 'rx="4"') : actual.replace('rx="12" ry="12"', 'rx="0" ry="0"')
+  expect((await inspect(collapsed, e))[0]?.status).toBe('failed')
 })
