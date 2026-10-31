@@ -36,3 +36,11 @@ test('git special glyph colors preserve source first-pass inverse initialization
   expect(sourceThemePalette('default').gitSpecial).toMatchObject({ innerFill: '#ececff', reverseStrokeWidth: 3, commitLabelOpacity: .5 })
   expect(sourceThemePalette('neutral').gitSpecial.innerFill).toBe('#eeeeee')
 })
+
+test('unqualified arithmetic color syntaxes never produce invented NaN palette colors', () => {
+  for (const value of ['red', 'rgb(255, 0, 0)', '#abcd', '#gg0000']) {
+    expect(() => sourceColorChannels(value)).toThrow(RangeError)
+    expect(() => sourceThemePalette('base', { cScale0: value })).toThrow(RangeError)
+  }
+  expect(sourceThemePalette('base', { cScaleLabel0: 'black' }).scale[0]!.foreground).toBe('black')
+})

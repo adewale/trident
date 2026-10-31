@@ -6,6 +6,7 @@ export type SourceThemeName = 'base' | 'default' | 'forest' | 'dark' | 'neutral'
 type Hsl = { h: number; s: number; l: number }
 const clamp = (value: number, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, value))
 const hsl = (hex: string): Hsl => {
+  if (!/^#(?:[\da-f]{3}|[\da-f]{6})$/i.test(hex)) throw new RangeError('Independent palette arithmetic requires #RGB or #RRGGBB colors')
   const full = hex.length === 4 ? '#' + [...hex.slice(1)].map(c => c + c).join('') : hex
   const [r, g, b] = [1, 3, 5].map(at => Number.parseInt(full.slice(at, at + 2), 16) / 255) as [number, number, number]
   const max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min, l = (max + min) / 2
