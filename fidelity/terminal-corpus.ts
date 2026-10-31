@@ -45,3 +45,18 @@ export function readTerminalCorpus(file = resolve(import.meta.dir, '../corpus/te
   }
   return corpus
 }
+
+export interface TerminalSourceReview { caseId: string; sourceSha256: string; intent: 'valid' | 'invalid' | 'dialect'; review: string; graph?: TerminalMeaning; unverifiedFacts: string[] }
+export function reviewedTerminalCases(corpus = readTerminalCorpus(), reviewFile = resolve(import.meta.dir, '../corpus/terminal-project-reviews.json')) {
+  const reviews = JSON.parse(readFileSync(reviewFile, 'utf8')) as TerminalSourceReview[], byId = new Map<string, TerminalSourceReview>()
+  for (const review of reviews) {
+    const input = corpus.cases.find(item => item.id === review.caseId)
+    if (!input || byId.has(review.caseId) || review.sourceSha256 !== input.sourceSha256 || !review.review.trim() || !['valid', 'invalid', 'dialect'].includes(review.intent) || !Array.isArray(review.unverifiedFacts)) throw Error('Terminal review is duplicate, stale or has no matching source')
+    if (review.intent === 'valid' && (!review.graph?.nodes.length || new Set(review.graph.nodes.map(node => node.id)).size !== review.graph.nodes.length || review.graph.edges.some(edge => !review.graph!.nodes.some(node => node.id === edge.source) || !review.graph!.nodes.some(node => node.id === edge.target)))) throw Error('Terminal graph review has missing or ambiguous identities')
+    byId.set(review.caseId, review)
+  }
+  return corpus.cases.map(input => {
+    const review = byId.get(input.id)
+    return review ? { ...input, intent: review.intent, expected: { status: 'independently-reviewed', reason: review.review, graph: review.graph, unverifiedFacts: review.unverifiedFacts } } : input
+  })
+}

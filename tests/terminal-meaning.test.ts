@@ -35,9 +35,26 @@ test('a relationship label belongs to its traced route, not an unrelated text oc
   expect(inspectTerminalMeaning(fixture('termaid-labelled').replace('send', '    '), expected).status).toBe('incorrect')
   const misplaced = fixture('chain').split('\n').map((line, index) => index === 1 ? line.replace('│     │', '│send │') : line).join('\n')
   expect(inspectTerminalMeaning(misplaced, { nodes, edges: [{ source: 'Alpha', target: 'Beta' }, { source: 'Beta', target: 'Gamma', label: 'send' }] }).status).toBe('incorrect')
-  expect(inspectTerminalMeaning(fixture('termaid-branch'), { nodes, edges: [{ source: 'Alpha', target: 'Beta' }, { source: 'Alpha', target: 'Gamma' }] }).status).toBe('unknown')
+  expect(inspectTerminalMeaning(fixture('termaid-branch'), { nodes, edges: [{ source: 'Alpha', target: 'Beta' }, { source: 'Alpha', target: 'Gamma' }] }).status).toBe('correct')
 })
 
 test('ANSI concealment, cursor movement and wide or combining text cannot receive guessed cell coordinates', () => {
   for (const drawing of ['\x1b[8m' + fixture('chain'), '\x1b[2J' + fixture('chain'), fixture('chain').replace('Beta', '工程'), fixture('chain').replace('Beta', 'Be\u0301ta')]) expect(inspectTerminalMeaning(drawing, chain).status).toBe('unknown')
+})
+
+
+test('shared stems require one actual source and cannot borrow expected topology', () => {
+  const expected = { nodes, edges: [{ source: 'Alpha', target: 'Beta' }, { source: 'Alpha', target: 'Gamma' }] }, drawing = fixture('termaid-branch')
+  expect(inspectTerminalMeaning(drawing, expected).status).toBe('correct')
+  expect(inspectTerminalMeaning(drawing.replace('╰►', '╰◄'), expected).status).toBe('incorrect')
+  expect(inspectTerminalMeaning(drawing.replace('├──┬►', '├  ┬►'), expected).status).toBe('incorrect')
+  expect(inspectTerminalMeaning(drawing.replace('┬►', '┬─'), expected).status).toBe('unknown')
+})
+test('floating captions containing arrow-like letters retain owned-label and layout requirements', () => {
+  const expected = { nodes: nodes.slice(0, 2), edges: [{ source: 'Alpha', target: 'Beta', label: 'save' }] }, drawing = fixture('termaid-labelled').replace('send', 'save')
+  expect(inspectTerminalMeaning(drawing, expected).status).toBe('correct')
+  expect(inspectTerminalMeaning(drawing.replace('save', '    '), expected).status).toBe('incorrect')
+  expect(inspectTerminalMeaning('save\n\n' + drawing.replace('save', '    '), expected).status).toBe('unknown')
+  expect(inspectTerminalMeaning(fixture('chain'), { ...chain, layout: [{ before: 'Alpha', after: 'Beta', axis: 'x' }] }).status).toBe('correct')
+  expect(inspectTerminalMeaning(fixture('chain'), { ...chain, layout: [{ before: 'Beta', after: 'Alpha', axis: 'x' }] }).status).toBe('incorrect')
 })

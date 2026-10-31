@@ -23,3 +23,15 @@ test('committed real corpus has authenticated source bytes, research snapshots a
   const features = new Set(corpus.cases.flatMap(input => input.features))
   for (const feature of ['direction:LR', 'direction:RL', 'direction:TD', 'direction:TB', 'direction:BT', 'groups', 'multiline-labels', 'wide-labels', 'combining-labels', 'escaping', 'terminal-controls', 'cycle', 'merging', 'branching', 'large-source']) expect(features.has(feature)).toBe(true)
 })
+
+import { reviewedTerminalCases } from '../fidelity/terminal-corpus.ts'
+import { assessTerminalDrawing } from '../fidelity/terminal-assessment.ts'
+test('independent reviews bind exact source facts and unobserved facts withhold whole-drawing credit', () => {
+  const cases = reviewedTerminalCases(), reviewed = cases.filter(input => input.expected.status === 'independently-reviewed')
+  expect(reviewed).toHaveLength(22)
+  expect(reviewed.filter(input => input.intent === 'valid' && !input.expected.unverifiedFacts?.length)).toHaveLength(16)
+  const unicode = reviewed.find(input => input.id === 'terminal:94ac61fd1311d5bc')!
+  expect(assessTerminalDrawing(unicode, '日本語テスト 終了').status).toBe('unknown')
+  expect(assessTerminalDrawing(cases.find(input => input.family === 'sequence')!, 'source labels only').status).toBe('unknown')
+  expect(assessTerminalDrawing(reviewed.find(input => input.intent === 'invalid')!, 'renderer threw').status).toBe('unknown')
+})

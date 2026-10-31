@@ -29,7 +29,7 @@ export async function runExternalCommunity(prepared: PreparedCommunity, workload
         job = join(root, stem + '.job.json'),
         result = join(root, stem + '.jsonl')
       if (existsSync(result)) unlinkSync(result)
-      writeFileSync(job, JSON.stringify({ output, coverageOnly: !core && (options.communityCoverageOnce ?? true), timing: { warmCalls: core ? 3 : 1, warmupMs: core ? 50 : 0, minSampleMs: core ? 10 : 0, maxCaseMs: 10_000, samples: core ? 5 : 3 }, workloads: remaining.map(w => ({ id: w.id, source: w.source, expected: w.expectedLabels ?? [], intent: w.intent })) }))
+      writeFileSync(job, JSON.stringify({ output, retainOutputWitness: output === 'terminal' && selected.some(w => w.features.includes('retain-output-witness')), frozenPython: artifact.kind === 'python' ? { version: artifact.version, files: artifact.files } : undefined, coverageOnly: !core && (options.communityCoverageOnce ?? true), timing: { warmCalls: core ? 3 : 1, warmupMs: core ? 50 : 0, minSampleMs: core ? 10 : 0, maxCaseMs: 10_000, samples: core ? 5 : 3 }, workloads: remaining.map(w => ({ id: w.id, source: w.source, expected: w.expectedLabels ?? [], intent: w.intent })) }))
       const command = artifact.kind === 'python' ? [artifact.python ?? artifact.executable!, join(dirname(fileURLToPath(import.meta.url)), 'community-python-worker.py'), job, result] : [artifact.executable!, ...(artifact.args ?? []), job, result]
       let text = '',
         stderr = '',
@@ -124,6 +124,7 @@ export async function runExternalCommunity(prepared: PreparedCommunity, workload
         metrics: {
           implementation: prepared.node.id,
           version: artifact.version,
+          ...(typeof r?.png === 'string' ? { outputFile: r.png } : {}),
           round,
           workerAttempt: (r?.workerAttempt as number) ?? null,
           firstMs: (r?.firstMs as number) ?? null,
