@@ -4,7 +4,10 @@ import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
 import { sourceHash, type DocsDrawingReview } from '../unified/docs-drawings.ts'
 import { assessDocsPng, docsExpectationsHash } from '../unified/docs-png-drawings.ts'
 import { importOfflinePngReviews, type OfflinePngReviewReceipt } from '../unified/docs-png-offline-review.ts'
-import { readFileSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { materializeOfflinePngReviews } from '../unified/import-png-reviews.ts'
 import { gunzipSync } from 'node:zlib'
 import { docsPngStaticProjection } from '../unified/docs-png-static-contract.ts'
 
@@ -57,4 +60,18 @@ test('a newly authored canonical static-frame review must retain its exact named
   expect(importOfflinePngReviews([canonical], [current], [fresh], () => png, () => png).reviews[0]!.status).toBe('incorrect')
   fresh.reviewedStaticProjection!.expected.labels = []
   expect(() => importOfflinePngReviews([canonical], [current], [fresh], () => png, () => png)).toThrow('static format claim')
+})
+
+
+test('separate independent project receipt files preserve their own packet roots and shared exact image bytes', () => {
+  const root = mkdtempSync(join(tmpdir(), 'trident-offline-import-'))
+  try {
+    mkdirSync(join(root,'docs/png/drawings'),{recursive:true}); writeFileSync(join(root,'docs/inventory.json'),JSON.stringify({cases:[input]}))
+    const contracts = join(root,'contracts.json');writeFileSync(contracts,JSON.stringify([contract]));writeFileSync(join(root,'docs/png/drawings',receipt.review.pngSha256+'.png'),png)
+    const files = ['first','second'].map((name,index) => { const dir=join(root,name);mkdirSync(dir);writeFileSync(join(dir,'packet.png'),png);const row=structuredClone(receipt);row.project='synthetic/project-'+index;const path=join(dir,'review.jsonl');writeFileSync(path,JSON.stringify(row)+'\n');return path })
+    const result=materializeOfflinePngReviews({campaign:root,receipts:files,out:join(root,'bound.json'),contracts})
+    expect(result).toMatchObject({reviews:1,inspections:2,rendererInvocations:0,codexApiInvocations:0})
+    const conflicting=structuredClone(receipt);conflicting.review.status='correct';writeFileSync(files[1]!,JSON.stringify(conflicting)+'\n')
+    expect(()=>materializeOfflinePngReviews({campaign:root,receipts:files,out:join(root,'conflict.json'),contracts})).toThrow('conflict')
+  } finally { rmSync(root,{recursive:true,force:true}) }
 })

@@ -21,17 +21,20 @@ export function materializeOfflinePngReviews(options: { campaign: string; receip
   if (existsSync(out) || existsSync(out + '.receipt.json')) throw Error('Offline PNG review output and receipt must be fresh files')
   const inputs = JSON.parse(read(join(campaign, 'docs/inventory.json'))).cases
   const contractsFile = options.contracts ?? join(tridentDirectory, 'corpus/docs-reviewed.json'), contracts = JSON.parse(read(contractsFile))
-  const imported = options.receipts.map(file => {
-    const receipts = read(file).trim().split('\n').filter(Boolean).map(line => JSON.parse(line)) as OfflinePngReviewReceipt[]
-    return importOfflinePngReviews(inputs, contracts, receipts,
-      receipt => readFileSync(own(join(campaign, 'docs/png'), 'drawings/' + receipt.review.pngSha256 + '.png')),
-      receipt => readFileSync(own(dirname(resolve(file)), receipt.inspection.packet)))
+  const origins = new Map<OfflinePngReviewReceipt, string>(), receipts = options.receipts.flatMap(file => {
+    const rows = read(file).trim().split('\n').filter(Boolean).map(line => JSON.parse(line)) as OfflinePngReviewReceipt[]
+    for (const row of rows) origins.set(row, dirname(resolve(file)))
+    return rows
   })
-  const reviews = imported.flatMap(result => result.reviews)
-  const keys = reviews.map(review => JSON.stringify([review.id, review.pngSha256]))
-  if (new Set(keys).size !== keys.length) throw Error('Separate offline review files duplicate the same image/source judgment')
+  // Import together so identical actual bytes independently returned by two
+  // projects retain both receipts even when authored in separate review files.
+  // Contradictory verdicts for the same source/image still throw in the importer.
+  const imported = importOfflinePngReviews(inputs, contracts, receipts,
+    receipt => readFileSync(own(join(campaign, 'docs/png'), 'drawings/' + receipt.review.pngSha256 + '.png')),
+    receipt => readFileSync(own(origins.get(receipt)!, receipt.inspection.packet)))
+  const reviews = imported.reviews
   mkdirSync(dirname(out), { recursive: true }); writeFileSync(out, JSON.stringify(reviews) + '\n', { flag: 'wx' })
-  const receipt = { schema: 'trident-offline-png-review-import-v1', contractsSha256: evidenceBytesDigest(readFileSync(contractsFile)), reviewFileSha256: evidenceBytesDigest(readFileSync(out)), imported: imported.flatMap(result => result.imported), rendererInvocations: 0, codexApiInvocations: 0, reviewSources: options.receipts.map(file => ({ path: resolve(file), sha256: evidenceBytesDigest(readFileSync(file)) })) }
+  const receipt = { schema: 'trident-offline-png-review-import-v1', contractsSha256: evidenceBytesDigest(readFileSync(contractsFile)), reviewFileSha256: evidenceBytesDigest(readFileSync(out)), imported: imported.imported, rendererInvocations: 0, codexApiInvocations: 0, reviewSources: options.receipts.map(file => ({ path: resolve(file), sha256: evidenceBytesDigest(readFileSync(file)) })) }
   writeFileSync(out + '.receipt.json', JSON.stringify(receipt, null, 2) + '\n', { flag: 'wx' })
   return { out, reviews: reviews.length, inspections: receipt.imported.length, rendererInvocations: 0, codexApiInvocations: 0 }
 }
