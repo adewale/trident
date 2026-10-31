@@ -13,7 +13,8 @@ import { createHash } from 'node:crypto'
 import { gzipSync } from 'node:zlib'
 import { inspectFidelityPaint } from '../fidelity/paint.ts'
 import { inspectQuantitativePaint } from '../fidelity/paint-values.ts'
-import { inspectSourceFacts } from '../fidelity/paint-facts.ts'
+import { inspectSourceFacts, mergePaintChecks } from '../fidelity/paint-facts.ts'
+import { inspectChartFacts } from '../fidelity/paint-chart-facts.ts'
 import { evidenceDigest } from '../portable/evidence-contract.ts'
 import { makeSvgObservationBinding } from '../fidelity/svg-assessment.ts'
 import { admitDocsReviews, assessDocsDrawing, reviewedDocsCase, type DocsDrawingReview } from './docs-drawings.ts'
@@ -182,7 +183,8 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
                         const paint = await currentObserver.evaluate(inspectFidelityPaint, { family: authored.family, expected: authored.expected })
                         const quantitative = await currentObserver.evaluate(inspectQuantitativePaint, { family: authored.family, expected: authored.expected, source: testCase.source, nodes: paint.nodes })
                         const facts = await currentObserver.evaluate(inspectSourceFacts, { family: authored.family, source: testCase.source, expected: authored.expected, paint, quantitative })
-                        return assessDocsDrawing(testCase, review, value.status, admission.ok, [...paint.checks, ...quantitative, ...facts], makeSvgObservationBinding(authored, createHash('sha256').update(value.svg).digest('hex'), evidenceDigest(producers)))
+                        const chartFacts = await currentObserver.evaluate(inspectChartFacts, { family: authored.family, source: testCase.source, expected: authored.expected, paint, quantitative })
+                        return assessDocsDrawing(testCase, review, value.status, admission.ok, mergePaintChecks(paint.checks, quantitative, facts, chartFacts), makeSvgObservationBinding(authored, createHash('sha256').update(value.svg).digest('hex'), evidenceDigest(producers)))
                       })(),
                       new Promise<never>((_, reject) => { inspectionTimer = setTimeout(() => { void currentObserver.close().catch(() => {}); reject(Error('Drawing observer exceeded20s deadline')) }, 20_000) }),
                     ])
