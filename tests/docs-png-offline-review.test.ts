@@ -1,0 +1,46 @@
+import { expect, test } from 'bun:test'
+import { Resvg } from '@resvg/resvg-js'
+import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
+import { sourceHash, type DocsDrawingReview } from '../unified/docs-drawings.ts'
+import { assessDocsPng, docsExpectationsHash } from '../unified/docs-png-drawings.ts'
+import { importOfflinePngReviews, type OfflinePngReviewReceipt } from '../unified/docs-png-offline-review.ts'
+
+const input = { id: 'synthetic/offline-raster-control', family: 'flowchart', source: 'flowchart LR\nA[Alpha]-->B[Beta]' }
+const contract: DocsDrawingReview = { id: input.id, sourceSha256: sourceHash(input.source), family: 'flowchart', intent: 'drawing', expected: { labels: ['Alpha', 'Beta'], nodes: [{ id: 'A', label: 'Alpha' }, { id: 'B', label: 'Beta' }], edges: [{ source: 'A', target: 'B', directed: true }] }, review: 'Independent literal synthetic control; not a benchmark judgment.', sourceReview: { protocol: 'literal-documentation-facts-v1', sourcePin: '1fb7869866dd619168d840291c9c54b4f129758b', method: 'Literal source control', expectedFactsComplete: true, requiredObligations: ['visible-labels', 'node-identities-and-labels', 'relationship-endpoints-directions-labels'], unresolved: [], excludedNonvisual: [] } }
+const png = new Resvg('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="30"><rect width="120" height="30" fill="white"/><path d="M10 15H110" stroke="black"/></svg>').render().asPng()
+// Deliberately incorrect image: the synthetic review identifies missing labels,
+// boxes and arrowhead. This test never grants correctness from SVG generation.
+const receipt: OfflinePngReviewReceipt = { schema: 'trident-offline-png-image-review-v1', project: 'synthetic/native-png-only', source: input.source, reviewedSourceContract: contract, actualImage: { path: 'image.png', sha256: evidenceBytesDigest(png), width: 120, height: 30 }, inspection: { method: 'Synthetic independent negative image control', packetSha256: evidenceBytesDigest(png), packet: 'packet.png', checkedAt: '2026-10-31T18:00:00Z' }, review: { id: input.id, sourceSha256: sourceHash(input.source), pngSha256: evidenceBytesDigest(png), expectationsSha256: docsExpectationsHash(contract), status: 'incorrect', reviewedBy: 'Synthetic independent negative control author', review: 'Source requires Alpha and Beta labeled boxes with an arrow; actual control image contains only a horizontal line.' } }
+const run = (rows: OfflinePngReviewReceipt[] = [receipt], current = contract, image = png, packet = png) => importOfflinePngReviews([input], [current], rows, () => image, () => packet)
+
+test('offline receipt retains source-grounded judgment and reviewed original bytes for exact-pixel replay', () => {
+  const result = run(), imported = result.reviews[0]!
+  expect(imported.status).toBe('incorrect')
+  expect(imported.reviewedPngBase64).toBe(Buffer.from(png).toString('base64'))
+  expect(assessDocsPng(input, contract, png, result.reviews).status).toBe('incorrect')
+  expect(result.imported[0]).toMatchObject({ project: receipt.project, pngSha256: receipt.review.pngSha256, expectationsSha256: docsExpectationsHash(contract) })
+})
+test('extended source facts cannot silently upgrade an existing image judgment', () => {
+  const changed = structuredClone(contract); changed.expected!.facts = { direction: 'LR' }; changed.sourceReview!.requiredObligations.push('fact:direction')
+  expect(() => run([receipt], changed)).toThrow('changed source or source contract')
+  const upgraded = structuredClone(receipt); upgraded.reviewedSourceContract = changed
+  expect(() => run([upgraded], changed)).toThrow('changed source or source contract')
+})
+test('actual image, packet, dimensions, source and reviewer provenance remain checked', () => {
+  expect(() => run([receipt], contract, Buffer.from('changed actual PNG'))).toThrow('image or inspection packet changed')
+  expect(() => run([receipt], contract, png, Buffer.from('different packet'))).toThrow('image or inspection packet changed')
+  const dimensions = structuredClone(receipt); dimensions.actualImage.width++
+  expect(() => run([dimensions])).toThrow('dimensions differ')
+  const source = structuredClone(receipt); source.source += '\nB-->C'
+  expect(() => run([source])).toThrow('changed source')
+  const anonymous = structuredClone(receipt); anonymous.review.reviewedBy = ''
+  expect(() => run([anonymous])).toThrow('content review')
+})
+test('identical project images keep separate inspection receipts and cannot carry conflicting verdicts', () => {
+  const peer = structuredClone(receipt); peer.project = 'synthetic/second-native'
+  const result = run([receipt, peer])
+  expect(result.reviews).toHaveLength(1)
+  expect(result.imported).toHaveLength(2)
+  peer.review.status = 'correct'
+  expect(() => run([receipt, peer])).toThrow('conflict')
+})
