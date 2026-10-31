@@ -198,7 +198,7 @@ export async function runTerminalProfile(argv: string[]) {
   const sameDrawingPopulation = drawingIds.size === reviewedIds.size && [...drawingIds].every(id => reviewedIds.has(id))
   for (const scope of sameDrawingPopulation ? ['full'] as const : ['full', 'reviewed'] as const) {
     lines.push('## ' + (scope === 'full' ? 'Positive drawing population (all planned valid inputs)' : 'Observable-source diagnostic subset'), '', '| Verified-count rank | Project | Version | Correct | Incorrect | Unsupported | Unknown | Planned |', '|---:|---|---|---:|---:|---:|---:|---:|')
-    const ranked = rankResults(assessments, { direction: 'descending', name: project => project.project, score: project => { const row = project[scope]; return row.correct || row.incorrect || row.unsupported ? row.correct : null } })
+    const ranked = rankResults<any>(assessments, { direction: 'descending', name: project => project.project, score: project => { const row = project[scope]; return row.correct || row.incorrect || row.unsupported ? row.correct : null } })
     for (const { row: project, rank } of ranked) { const row = project[scope]; lines.push(`| ${rank ?? '—'} | ${project.project} | ${project.version} | ${row.correct} | ${row.incorrect} | ${row.unsupported} | ${row.unknown} | ${row.planned} |`) }
     lines.push('')
   }
