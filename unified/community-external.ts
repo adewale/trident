@@ -124,7 +124,7 @@ export async function runExternalCommunity(prepared: PreparedCommunity, workload
         metrics: {
           implementation: prepared.node.id,
           version: artifact.version,
-          ...(typeof r?.png === 'string' ? { outputFile: r.png } : {}),
+          ...(typeof r?.outputFile === 'string' ? { outputFile: r.outputFile } : typeof r?.png === 'string' ? { outputFile: r.png } : {}),
           round,
           workerAttempt: (r?.workerAttempt as number) ?? null,
           firstMs: (r?.firstMs as number) ?? null,

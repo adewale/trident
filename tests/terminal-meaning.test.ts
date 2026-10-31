@@ -53,8 +53,22 @@ test('shared stems require one actual source and cannot borrow expected topology
 test('floating captions containing arrow-like letters retain owned-label and layout requirements', () => {
   const expected = { nodes: nodes.slice(0, 2), edges: [{ source: 'Alpha', target: 'Beta', label: 'save' }] }, drawing = fixture('termaid-labelled').replace('send', 'save')
   expect(inspectTerminalMeaning(drawing, expected).status).toBe('correct')
+  expect(inspectTerminalMeaning(fixture('labelled').replace('send', 'save'), expected).status).toBe('correct')
   expect(inspectTerminalMeaning(drawing.replace('save', '    '), expected).status).toBe('incorrect')
   expect(inspectTerminalMeaning('save\n\n' + drawing.replace('save', '    '), expected).status).toBe('unknown')
   expect(inspectTerminalMeaning(fixture('chain'), { ...chain, layout: [{ before: 'Alpha', after: 'Beta', axis: 'x' }] }).status).toBe('correct')
   expect(inspectTerminalMeaning(fixture('chain'), { ...chain, layout: [{ before: 'Beta', after: 'Alpha', axis: 'x' }] }).status).toBe('incorrect')
+})
+
+test('actual vertical captions belong to a continuous route and missing captions cannot pass', () => {
+  const graph = { nodes: ['A', 'B', 'C', 'D'].map(id => ({ id, label: id })), edges: [{ source: 'A', target: 'B', label: 'alpha' }, { source: 'A', target: 'C', label: 'beta' }, { source: 'A', target: 'D', label: 'gamma' }] }
+  const drawing = fixture('ascii-vertical-captions')
+  expect(inspectTerminalMeaning(drawing, graph).status).toBe('correct')
+  expect(inspectTerminalMeaning(drawing.replace('alpha', '     '), graph).status).toBe('incorrect')
+  expect(inspectTerminalMeaning(drawing.replace('beta', 'lost'), graph).status).not.toBe('correct')
+})
+test('caption spaces painted over by route ink stay unknown while a reversed arrow still fails', () => {
+  const graph = { nodes: ['A', 'B'].map(id => ({ id, label: id })), edges: [{ source: 'A', target: 'B', label: 'Save & Exit' }] }, drawing = fixture('ascii-overlaid-caption')
+  expect(inspectTerminalMeaning(drawing, graph).status).toBe('unknown')
+  expect(inspectTerminalMeaning(drawing.replace('►', '◄'), graph).status).toBe('incorrect')
 })

@@ -57,7 +57,7 @@ async function main() {
 const own: Record<string, string> = { 'release:check': 'scripts/package-release.ts', 'docs:png': 'unified/docs-png-benchmark.ts', 'upstream:prepare': 'unified/prepare-upstream.ts', 'support:verify': 'unified/support-verification.ts', support: 'unified/support-command.ts', bench: 'unified/benchmark.ts', 'corpus:freeze': 'unified/external-corpus.ts', 'results:campaign': 'unified/campaign-publication.ts', 'results:snapshot': 'unified/results-snapshot.ts', 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
   const checks: Record<string, string[]> = {
     test: ['test', '--timeout', '30000', resolve(directory, 'tests')],
-    'test:ci': ['test', '--timeout', '30000', ...['commands', 'ci-commands', 'png-launchers', 'lineage', 'results-snapshot', 'portable-family-paint', 'campaign-workflows', 'campaign-preparation-regressions', 'campaign-reporting-regressions', 'campaign-resume-regressions', 'release-workflow-regressions', 'physical-paths', 'terminal-meaning', 'svg-assessment', 'docs-drawings', 'docs-png-drawings', 'docs-png-lane'].map(name => resolve(directory, `tests/${name}.test.ts`))],
+    'test:ci': ['test', '--timeout', '30000', ...['commands', 'ci-commands', 'png-launchers', 'lineage', 'results-snapshot', 'portable-family-paint', 'campaign-workflows', 'campaign-preparation-regressions', 'campaign-reporting-regressions', 'campaign-resume-regressions', 'release-workflow-regressions', 'physical-paths', 'terminal-meaning', 'terminal-corpus', 'terminal-profile', 'terminal-reporting', 'svg-assessment', 'docs-drawings', 'docs-png-drawings', 'docs-png-lane'].map(name => resolve(directory, `tests/${name}.test.ts`))],
     typecheck: ['x', '--no-install', 'tsc', '--noEmit', '-p', resolve(directory, 'tsconfig.json')],
     lint: ['x', '--no-install', 'biome', 'lint', '--config-path', resolve(directory, 'biome.json'), directory],
   }
@@ -116,7 +116,7 @@ const own: Record<string, string> = { 'release:check': 'scripts/package-release.
     argv = checks[selected]!
   } else throw Error(`Unknown Trident command ${command}; use --help`)
   const offline = ['test:ci', 'typecheck', 'lint', 'results:snapshot', 'support', 'results:campaign', 'build', 'fidelity:report', 'results:publish', 'results:compare']
-  const inspectOnly = args.includes('--help') || selected === 'bench' && (args.includes('--list') || args.includes('--plan') || args.includes('--pilot-summary'))
+  const inspectOnly = args.includes('--help') || selected === 'bench' && (args.includes('--list') || args.includes('--plan') || args.includes('--pilot-summary') || args.includes('--terminal') && args.includes('--saved-terminal') && !args.includes('--community-prepared'))
   // community:update --plan acquires artifacts, unlike bench --plan.
   if (!offline.includes(selected) && !inspectOnly) assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !['upstream:prepare', 'docs:png'].includes(selected) })
   if (selected === 'docs:png' && !args.includes('--help')) throw Error('DaveBench PNG export v1 is retired: its nonblank gate did not establish correct drawings. Retained evidence and the fixed PNG profile are in docs/isolated-png-results.md.')

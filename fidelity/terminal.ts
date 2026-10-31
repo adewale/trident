@@ -7,7 +7,7 @@ export interface TerminalMeaning {
   layout?: readonly { before: string; after: string; axis: 'x' | 'y' }[]
 }
 type Box = { x: number; y: number; right: number; bottom: number; label: string; id?: string }
-const scope = 'Rectangular flowcharts, single-cell ASCII labels, orthogonal directed routes with a unique drawn source and uniquely owned horizontal edge labels. ANSI terminal state, wide/combining text, groups and ambiguous junctions are unqualified.'
+const scope = 'Rectangular flowcharts, single-cell ASCII labels, orthogonal directed routes with a unique drawn source and uniquely owned horizontal or vertical edge captions. ANSI terminal state, wide/combining text, groups and ambiguous junctions are unqualified.'
 
 export function inspectTerminalMeaning(output: string, expected: TerminalMeaning) {
   const verdict = (status: 'correct' | 'incorrect' | 'unknown', reason: string, edges: { source: string; target: string; label?: string }[] = []) => ({ status, reason, scope, edges })
@@ -44,24 +44,37 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   const points: Record<string, number[]> = { '─': [1, 3], '-': [1, 3], '│': [0, 2], '|': [0, 2], '┌': [1, 2], '┐': [2, 3], '└': [0, 1], '┘': [0, 3], '╭': [1, 2], '╮': [2, 3], '╰': [0, 1], '╯': [0, 3], '┬': [1, 2, 3], '┴': [0, 1, 3], '├': [0, 1, 2], '┤': [0, 2, 3], '┼': [0, 1, 2, 3], '+': [0, 1, 2, 3] }
   const arrows: Record<string, number> = { '▲': 0, '^': 0, '↑': 0, '►': 1, '▶': 1, '>': 1, '→': 1, '▼': 2, 'v': 2, '↓': 2, '◄': 3, '◀': 3, '<': 3, '←': 3 }
   const dx = [0, 1, 0, -1], dy = [-1, 0, 1, 0], key = (x: number, y: number) => x + ',' + y
-  const captions = new Map<string, { label: string; token: string }>()
-  const floating: { label: string; x: number; y: number; width: number }[] = [], floatingCells = new Set<string>()
+  const captions = new Map<string, { label: string; token: string; exits: number[] }>(), captionCells = new Set<string>(), captionSpans = new Map<string, string[]>()
+  const floating: { label: string; x: number; y: number; width: number }[] = []
+  let uncertainCaption = false
   for (const label of new Set(expected.edges.map(edge => edge.label).filter((value): value is string => !!value))) {
     if (/[^\x20-\x7e]/.test(label)) return verdict('unknown', 'Edge label is outside the display-cell scope')
     for (let y = 0; y < grid.length; y++) {
-      const line = grid[y]!.join('')
-      for (let x = line.indexOf(label); x >= 0; x = line.indexOf(label, x + 1)) {
-        if (Array.from({ length: label.length }, (_, offset) => inside(x + offset, y)).some(Boolean)) continue
-        if (!(points[cell(x - 1, y)]?.includes(1)) || !(points[cell(x + label.length, y)]?.includes(3) || arrows[cell(x + label.length, y)] === 1)) {
-          floating.push({ label, x, y, width: label.length })
-          for (let offset = 0; offset < label.length; offset++) floatingCells.add(key(x + offset, y))
+      const line = grid[y]!.join(''), hits: { x: number; width: number; uncertain: boolean }[] = []
+      for (let x = line.indexOf(label); x >= 0; x = line.indexOf(label, x + 1)) hits.push({ x, width: label.length, uncertain: false })
+      if (!hits.length && /\s/.test(label)) {
+        const escaped = label.split(/(\s+)/).map(part => /^\s+$/.test(part) ? '[ ─-]+' : part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('')
+        for (const match of line.matchAll(new RegExp(escaped, 'g'))) hits.push({ x: match.index!, width: match[0].length, uncertain: true })
+      }
+      for (const hit of hits) {
+        const { x, width } = hit
+        if (Array.from({ length: width }, (_, offset) => inside(x + offset, y)).some(Boolean)) continue
+        uncertainCaption ||= hit.uncertain
+        const token = key(x, y), span = Array.from({ length: width }, (_, offset) => key(x + offset, y))
+        for (const coordinate of span) captionCells.add(coordinate)
+        captionSpans.set(token, span)
+        const horizontal = points[cell(x - 1, y)]?.includes(1) && (points[cell(x + width, y)]?.includes(3) || arrows[cell(x + width, y)] === 1)
+        if (horizontal) {
+          for (const coordinate of span) {
+            if (captions.has(coordinate)) return verdict('unknown', 'Overlapping edge-label spans are ambiguous')
+            captions.set(coordinate, { label, token, exits: [1, 3] })
+          }
           continue
         }
-        for (let offset = 0; offset < label.length; offset++) {
-          const coordinate = key(x + offset, y)
-          if (captions.has(coordinate)) return verdict('unknown', 'Overlapping edge-label spans are ambiguous')
-          captions.set(coordinate, { label, token: key(x, y) })
-        }
+        const midpoint = x + (width - 1) / 2
+        const vertical = Array.from({ length: width }, (_, offset) => x + offset).filter(column => Math.abs(column - midpoint) <= .5 && points[cell(column, y - 1)]?.includes(2) && points[cell(column, y + 1)]?.includes(0))
+        if (vertical.length === 1) { captions.set(key(vertical[0]!, y), { label, token, exits: [0, 2] }); continue }
+        floating.push({ label, x, y, width })
       }
     }
   }
@@ -69,7 +82,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   const paths: { x: number; y: number }[][] = []
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) {
     const heading = arrows[cell(x, y)]
-    if (heading === undefined || inside(x, y) || captions.has(key(x, y)) || floatingCells.has(key(x, y))) continue
+    if (heading === undefined || inside(x, y) || captionCells.has(key(x, y))) continue
     const target = boundary(x + dx[heading]!, y + dy[heading]!)
     if (!target?.id) return verdict('incorrect', 'Arrowhead does not meet a drawn target node', actual)
     used.add(key(x, y))
@@ -84,8 +97,8 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
       if (source) { sources.push({ source, path: cursor.path, labels: cursor.labels }); continue }
       const coordinate = key(cursor.x, cursor.y)
       if (cursor.path.has(coordinate)) { cycle = true; continue }
-      if (arrows[cell(cursor.x, cursor.y)] !== undefined) continue
-      const caption = captions.get(coordinate), exits = caption ? [1, 3] : points[cell(cursor.x, cursor.y)]
+      if (arrows[cell(cursor.x, cursor.y)] !== undefined && !captions.has(coordinate)) continue
+      const caption = captions.get(coordinate), exits = caption?.exits ?? points[cell(cursor.x, cursor.y)]
       if (!exits?.includes(cursor.towardPrevious)) continue
       const path = new Set(cursor.path); path.add(coordinate)
       const labels = new Map(cursor.labels)
@@ -97,6 +110,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
     if (!found) return verdict('incorrect', 'Arrow stem is disconnected from its source node', actual)
     if (!found.source.id || found.labels.size > 1) return verdict('unknown', 'Source or relationship label ownership is ambiguous', actual)
     for (const coordinate of found.path) used.add(coordinate)
+    for (const token of found.labels.keys()) for (const coordinate of captionSpans.get(token) ?? []) used.add(coordinate)
     actual.push({ source: found.source.id, target: target.id, ...(found.labels.size ? { label: [...found.labels.values()][0]! } : {}) })
     paths.push([{ x, y }, ...[...found.path].map(coordinate => { const [x, y] = coordinate.split(',').map(Number); return { x: x!, y: y! } })])
   }
@@ -116,5 +130,6 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
     const coordinate = (box: Box) => constraint.axis === 'x' ? (box.x + box.right) / 2 : (box.y + box.bottom) / 2
     if (!(coordinate(before) < coordinate(after))) return verdict('incorrect', 'Drawn node order violates an independently declared layout relation', actual)
   }
+  if (uncertainCaption) return verdict('unknown', 'Caption whitespace overlaps route ink; exact text projection is unqualified', actual)
   return verdict('correct', 'Every declared node and directed route is present with its owned label', actual)
 }

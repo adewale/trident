@@ -39,3 +39,30 @@ test('changed witnesses, duplicate coordinates, missing reference and changed in
   record.inventory = []
   expect(() => assessTerminalRecord(record, directory, cases)).toThrow('inventory')
 })
+
+import { runExternalCommunity } from '../unified/community-external.ts'
+test('existing external transport forwards an opt-in raw terminal witness from its completed worker record', async () => {
+  const directory = temp.dir(), worker = join(directory, 'synthetic-worker.cjs')
+  writeFileSync(worker, `const fs=require('node:fs');const [job,out]=process.argv.slice(2);const tasks=JSON.parse(fs.readFileSync(job));fs.writeFileSync(out,'');for(const w of tasks.workloads){const file=out+'.txt';fs.writeFileSync(file,'retained synthetic transport text');fs.appendFileSync(out,JSON.stringify({workload:w.id,status:'ok',outputFile:file})+'\\n')}`)
+  const rows = await runExternalCommunity({ node: { id: 'fixture/terminal-transport', roles: [], outputs: ['terminal'] }, artifact: { kind: 'jsonl-worker', executable: process.execPath, args: [worker], version: 'synthetic-fixture' } }, [{ id: 'transport-only', source: 'source', family: 'flowchart', expectedLabels: [], features: ['retain-output-witness'], provenance: 'synthetic transport test, outside scored corpus' }], 'terminal', 1, { root: directory, out: directory, profile: 'full', rounds: 1, communityCoverageOnce: true })
+  expect(rows[0]?.status).toBe('passed')
+  expect(typeof rows[0]?.metrics?.outputFile).toBe('string')
+  expect(readFileSync(rows[0]!.metrics!.outputFile as string, 'utf8')).toBe('retained synthetic transport text')
+})
+
+import { spawnSync } from 'node:child_process'
+import { readTerminalCorpus } from '../fidelity/terminal-corpus.ts'
+test('public saved-output launcher works in CI without oracle or renderer; collection remains guarded', () => {
+  const directory = temp.dir(), out = join(temp.dir(), 'recheck'), corpus = readTerminalCorpus()
+  const record = { profile: terminalProfileId, inventory: corpus.cases.map(input => [input.id, input.sourceSha256]), artifacts: [{ project, version: 'synthetic archived fixture' }], outputs: [], transportObservations: [], sourceReference: corpus.cases.map(input => ({ project: 'mermaid-js/mermaid', caseId: input.id, sourceAccepted: null, declaredGraphMatches: null, role: 'source-reference-only' })), startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z' }
+  writeFileSync(join(directory, 'raw.json'), JSON.stringify(record))
+  const command = new URL('../commands.ts', import.meta.url).pathname, env = { ...process.env, CI: 'true', GITHUB_ACTIONS: 'true', MERMAID_REFERENCE_DIR: '/missing/terminal-reference', TRIDENT_MERMAID_ORACLE: '' }
+  const recheck = spawnSync(process.execPath, [command, 'bench', '--terminal', '--saved-terminal', directory, '--out', out], { env, encoding: 'utf8', timeout: 20_000 })
+  expect({ code: recheck.status, stderr: recheck.stderr }).toEqual({ code: 0, stderr: '' })
+  const result = JSON.parse(readFileSync(join(out, 'terminal/result.json'), 'utf8'))
+  expect(result.terminalAssessments[0]).toMatchObject({ correct: 0, unknown: 120, planned: 120 })
+  expect(result.recheck.rendererInvocations).toBe(0)
+  const collect = spawnSync(process.execPath, [command, 'bench', '--terminal', '--community-prepared', '/missing/prepared.json', '--out', join(temp.dir(), 'collection')], { env, encoding: 'utf8', timeout: 10_000 })
+  expect(collect.status).not.toBe(0)
+  expect(collect.stderr).toContain('excluded from CI')
+})
