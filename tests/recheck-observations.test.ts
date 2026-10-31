@@ -5,7 +5,7 @@ import { assessSvgCases, makeSvgObservationBinding } from '../fidelity/svg-asses
 import { recheckRendering, recheckFeaturePaint, recheckFeatureAdmission, invalidateRetainedSvgChecks, bindRetainedAuthoredSvgReturn } from '../unified/recheck-rendering.ts'
 import { evidenceBytesDigest, evidenceDigest } from '../portable/evidence-contract.ts'
 import type { BenchmarkObservation } from '../unified/types.ts'
-import { planRetainedSvgRegrade, retainedSvgStimulus, readRetainedPreparationInput, retainedObserverAssets, retainedImagePrerequisites, retainedSvgResourcePolicy, routeRetainedObserver, requireRetainedDocsSvgReturn } from '../unified/recheck-inputs.ts'
+import { planRetainedSvgRegrade, retainedSvgStimulus, readRetainedPreparationInput, retainedObserverAssets, retainedImagePrerequisites, retainedSvgResourcePolicy, routeRetainedObserver, requireRetainedDocsSvgReturn, retainedDocsSvgOwnershipContext } from '../unified/recheck-inputs.ts'
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync, cpSync, symlinkSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -180,20 +180,42 @@ test('old absolute font URLs require sealed peer bytes and exact policy sources'
 })
 
 test('DaveBench regrading requires the original literal-source public return, not another project or round witness', () => {
-  const root = mkdtempSync(join(tmpdir(), 'recheck-svg-return-'))
+  const campaign = mkdtempSync(join(tmpdir(), 'recheck-svg-return-')), root = join(campaign, 'docs')
   try {
     const source = { id: 'docs:fixture', source: 'flowchart LR\nA-->B' }, svg = '<svg xmlns="http://www.w3.org/2000/svg"/>'
-    const checkpoint = new CollectionCheckpoint(root, { fixture: 'synthetic retained capture' }), journal = new InvocationJournal(join(root, 'invocations'))
-    const start = journal.start({ project, caseId: source.id, sourceSha256: evidenceBytesDigest(source.source), artifactSha256: 'a'.repeat(64), bindingSha256: 'b'.repeat(64), format: 'svg' })
+    const engine = { kind: 'function', root: '/original/renderer', entry: 'api.js', version: 'fixture', artifactSha256: 'a'.repeat(64) }
+    const context = { artifacts: [{ project, admission: { root: engine.root, entry: '/original/renderer/api.js', version: engine.version, artifactSha256: engine.artifactSha256 } }] }, inventory = { cases: [source] }
+    mkdirSync(join(campaign, 'preparation'), { recursive: true }); mkdirSync(root)
+    const files: Record<string, { path: string; sha256: string }> = {}
+    for (const [key, path, value] of [['inventories', 'preparation/inventories.json', { docs: inventory }], ['browsers', 'preparation/browsers.json', [{ node: { id: project }, artifact: { transportVariant: 'primary' }, browser: engine }]]] as const) {
+      const bytes = JSON.stringify(value); writeFileSync(join(campaign, path), bytes); files[key] = { path, sha256: evidenceBytesDigest(bytes) }
+    }
+    writeFileSync(join(campaign, 'preparation.json'), JSON.stringify({ schema: 'trident-campaign-preparation-v1', files }))
+    writeFileSync(join(root, 'context.json'), JSON.stringify(context))
+    const ownership = retainedDocsSvgOwnershipContext(campaign)
+    const checkpoint = new CollectionCheckpoint(root, { context, inventory }), journal = new InvocationJournal(join(root, 'invocations'))
+    const start = journal.start({ project, caseId: source.id, sourceSha256: evidenceBytesDigest(source.source), artifactSha256: engine.artifactSha256, bindingSha256: evidenceDigest({ format: 'svg', engine, round: 1, variant: 'primary' }), format: 'svg' })
     journal.returned(start, svg, null)
-    checkpoint.record(JSON.stringify(['raw-svg', 1, project, 'primary', source.id]), { value: { status: 'passed', svg }, invocationId: start.attemptId })
-    const request = { root, project, source, round: 1, variant: 'primary', svg, attemptId: start.attemptId, remap: (path: string) => path }
+    const raw = { value: { status: 'passed', svg }, invocationId: start.attemptId }
+    checkpoint.record(JSON.stringify(['raw-svg', 1, project, 'primary', source.id]), raw)
+    const request = { root, project, source, round: 1, variant: 'primary', svg, attemptId: start.attemptId, remap: (path: string) => path, ownership }
     expect(requireRetainedDocsSvgReturn(request).attemptId).toBe(start.attemptId)
     expect(() => requireRetainedDocsSvgReturn({ ...request, source: { ...source, source: source.source + '\nB-->A' } })).toThrow('literal source')
     expect(() => requireRetainedDocsSvgReturn({ ...request, round: 2 })).toThrow('own source/project/round')
-    expect(() => requireRetainedDocsSvgReturn({ ...request, project: 'foreign/project' })).toThrow('own source/project/round')
+    expect(() => requireRetainedDocsSvgReturn({ ...request, project: 'foreign/project' })).toThrow('sealed original')
     expect(() => requireRetainedDocsSvgReturn({ ...request, svg: svg + ' ' })).toThrow('own source/project/round')
-  } finally { rmSync(root, { recursive: true, force: true }) }
+    // A copied raw row is not proof that its return occurred at that coordinate.
+    checkpoint.record(JSON.stringify(['raw-svg', 2, project, 'primary', source.id]), raw)
+    expect(() => requireRetainedDocsSvgReturn({ ...request, round: 2 })).toThrow('frozen engine, round, variant')
+    checkpoint.record(JSON.stringify(['raw-svg', 2, project, 'foreign-variant', source.id]), raw)
+    expect(() => requireRetainedDocsSvgReturn({ ...request, round: 2, variant: 'foreign-variant' })).toThrow('sealed original')
+    const wrongArtifact = journal.start({ ...start.identity, artifactSha256: 'f'.repeat(64), bindingSha256: evidenceDigest({ format: 'svg', engine, round: 3, variant: 'primary' }) })
+    journal.returned(wrongArtifact, svg, null)
+    checkpoint.record(JSON.stringify(['raw-svg', 3, project, 'primary', source.id]), { ...raw, invocationId: wrongArtifact.attemptId })
+    expect(() => requireRetainedDocsSvgReturn({ ...request, round: 3, attemptId: wrongArtifact.attemptId })).toThrow('frozen engine')
+    const editedContext = { ...ownership, collectionIdentity: { ...ownership.collectionIdentity, context: { ...context, altered: true } } }
+    expect(() => requireRetainedDocsSvgReturn({ ...request, ownership: editedContext })).toThrow('header identity')
+  } finally { rmSync(campaign, { recursive: true, force: true }) }
 })
 
 test('the real archive regrader reuses retained SVGs across contract enrichment and preserves every original view', async () => {

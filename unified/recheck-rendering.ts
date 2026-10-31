@@ -24,7 +24,7 @@ import { protocolIdentity } from './protocol-identity.ts'
 import { withDocsDeadline } from './docs-benchmark.ts'
 import { tridentDirectory } from './trident-paths.ts'
 import { readCampaign } from './campaign-publication.ts'
-import { planRetainedSvgRegrade, readRetainedPreparationInput, retainedObserverAssets, retainedImagePrerequisites, retainedSvgResourcePolicy, routeRetainedObserver, requireRetainedDocsSvgReturn } from './recheck-inputs.ts'
+import { planRetainedSvgRegrade, readRetainedPreparationInput, retainedObserverAssets, retainedImagePrerequisites, retainedSvgResourcePolicy, routeRetainedObserver, requireRetainedDocsSvgReturn, retainedDocsSvgOwnershipContext } from './recheck-inputs.ts'
 
 const hash = (bytes: string | Uint8Array) => createHash('sha256').update(bytes).digest('hex')
 const read = (file: string): any => readBenchmarkDocument(file)
@@ -160,7 +160,7 @@ export async function recheckRendering(directory: string, out: string, pngReview
     if (resourceGaps.length) throw Error('Observer prerequisites unavailable: ' + resourceGaps.join('; '))
     return mergePaintChecks(paint.checks, quantitative, facts, charts)
   }
-  let docsChecked = 0, featureChecked = 0
+  let docsChecked = 0, featureChecked = 0, docsSvgOwnership: ReturnType<typeof retainedDocsSvgOwnershipContext> | undefined
   try {
     for (const boundary of report.results) {
       if (!boundary.out) continue
@@ -213,7 +213,8 @@ export async function recheckRendering(directory: string, out: string, pngReview
             const authored = reviewedDocsCase(input, expected)
             const admission = qualifyOutput({ id: input.id, family: authored.family, source: input.source, expectedLabels: authored.expected.labels, features: [], provenance: expected.review }, svg, 'svg')
             try {
-              const publicReturn = requireRetainedDocsSvgReturn({ root: join(out, 'docs'), project: row.metrics.project, source: input, round: Number(row.metrics.round), variant: row.metrics.variant ?? 'primary', svg, attemptId: row.metrics.rawInvocationId, remap })
+              docsSvgOwnership ??= retainedDocsSvgOwnershipContext(out)
+              const publicReturn = requireRetainedDocsSvgReturn({ root: join(out, 'docs'), project: row.metrics.project, source: input, round: Number(row.metrics.round), variant: row.metrics.variant ?? 'primary', svg, attemptId: row.metrics.rawInvocationId, remap, ownership: docsSvgOwnership })
               assessment = { ...assessDocsDrawing(input, expected, 'passed', admission.ok, await inspect(row.metrics.project, svg, authored), makeSvgObservationBinding(authored, hash(svg), observerSha256)), publicReturn }; docsChecked++
             }
             catch (error) { assessment = { status: 'unknown', reason: 'Retained SVG observer did not complete: ' + String(error) } }
