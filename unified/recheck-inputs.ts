@@ -184,6 +184,7 @@ export function requireRetainedDocsSvgReturn(input: { root: string; project: str
   owned(input.root, relative(input.root, directory))
   const identity = { schema: 'trident-invocation-journal-v1' }
   const started = admitInvocationEvidence(readCheckpointValue(directory, raw.invocationId + ':started', identity)), returned = admitInvocationEvidence(readCheckpointValue(directory, raw.invocationId + ':returned', identity))
+  for (const terminal of ['public-error', 'interrupted']) if (readCheckpointValue(directory, raw.invocationId + ':' + terminal, identity)) throw Error('SVG public invocation has contradictory terminal outcomes')
   let bindingSha256: string, invokedCaseId = input.source.id
   if (frozen.cliArtifact) {
     const selected = input.ownership.collectionIdentity.context.selectedCaseIds
