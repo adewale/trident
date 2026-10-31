@@ -227,11 +227,47 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       const frame = normalized.length >= 4 && polygonTemplates.rectangle!.every(p => normalized.some(q => Math.abs(p.x - q.x) < .02 && Math.abs(p.y - q.y) < .02))
       return { matches: normalized.length ? frame && (wanted === 'subroutine' ? vertical.length === 2 : wanted === 'lined-rectangle' ? vertical.length === 1 : wanted === 'divided-rectangle' ? horizontal.length === 1 : horizontal.length === 1 && vertical.length === 1) : null, actual }
     }
+    if (['cylinder', 'lined-cylinder', 'document', 'lined-document', 'paper-tape', 'flag', 'delay', 'curved-trapezoid', 'bowtie-rectangle', 'das'].includes(wanted)) {
+      const points = samples(body, 2048).map(p => ({ x: (p.x - b.x) / b.width, y: (p.y - b.y) / b.height }))
+      const intersections = (axis: 'x' | 'y', at: number) => {
+        const other = axis === 'x' ? 'y' : 'x', values: number[] = []
+        for (let i = 1; i < points.length; i++) { const a = points[i - 1]!, c = points[i]!, span = c[axis] - a[axis]; if (Math.abs(span) < 1e-8 || at < Math.min(a[axis], c[axis]) || at > Math.max(a[axis], c[axis])) continue; const value = a[other] + (at - a[axis]) / span * (c[other] - a[other]); if (!values.some(other => Math.abs(other - value) < .008)) values.push(value) }
+        return values.sort((a, b) => a - b)
+      }
+      const ticks = Array.from({ length: 9 }, (_, i) => (i + 1) / 10), xs = ticks.map(value => intersections('x', value)), ys = ticks.map(value => intersections('y', value)), top = xs.map(values => values[0]!), bottom = xs.map(values => values.at(-1)!), left = ys.map(values => values[0]!), right = ys.map(values => values.at(-1)!)
+      if ([...xs, ...ys].some(values => values.length < 2)) return { actual: { ...actual, xs, ys }, matches: null }
+      const range = (values: number[]) => Math.max(...values) - Math.min(...values), symmetric = (values: number[]) => values.every((value, i) => Math.abs(value - values[values.length - 1 - i]!) <= .025), flat = (values: number[]) => range(values) < .012
+      const wave = (values: number[]) => { const changes = values.slice(1, -1).map((value, i) => values[i]! - 2 * value + values[i + 2]!); return range(values) > .035 && changes.some(value => value > .003) && changes.some(value => value < -.003) }
+      const verticalRuns: { x: number; span: number }[] = []
+      for (const element of ink.filter(strokePaint)) for (const stroke of strokes(element)) {
+        let start = 0
+        for (let i = 1; i <= stroke.length; i++) if (i === stroke.length || Math.abs(stroke[i]!.x - stroke[i - 1]!.x) > .1) {
+          const run = stroke.slice(start, i), span = run.length ? Math.max(...run.map(p => p.y)) - Math.min(...run.map(p => p.y)) : 0
+          if (span > b.height * .4) verticalRuns.push({ x: (run[0]!.x - b.x) / b.width, span: span / b.height }); start = i
+        }
+      }
+      const interiorVertical = [...new Set(verticalRuns.filter(run => run.x > .015 && run.x < .3).map(run => Math.round(run.x * 100)))].length, cylinder = symmetric(top) && symmetric(bottom) && top[4]! < Math.min(top[0]!, top[8]!) - .02 && bottom[4]! > Math.max(bottom[0]!, bottom[8]!) + .02 && flat(left.slice(2, -2)) && flat(right.slice(2, -2)) && xs.slice(2, -2).every(values => values.length >= 3)
+      let measured: string | null = null
+      if (cylinder) measured = interiorVertical ? 'lined-cylinder' : 'cylinder'
+      else if (flat(top) && wave(bottom) && flat(left.slice(2, -2)) && flat(right.slice(2, -2))) measured = interiorVertical ? 'lined-document' : 'document'
+      else if (wave(top) && wave(bottom) && flat(left.slice(2, -2)) && flat(right.slice(2, -2))) measured = 'paper-tape'
+      else if (flat(top.slice(0, 3)) && flat(bottom.slice(0, 3)) && flat(left) && symmetric(right) && right[4]! > Math.max(right[0]!, right[8]!) + .02) measured = 'delay'
+      else if (symmetric(left) && symmetric(right) && left[4]! < Math.min(left[0]!, left[8]!) - .02 && right[4]! > Math.max(right[0]!, right[8]!) + .02 && ys.slice(2, -2).every(values => values.length >= 3)) measured = 'das'
+      else if (flat(top) && flat(bottom) && symmetric(left) && symmetric(right) && left[4]! > Math.max(left[0]!, left[8]!) + .015 && right[4]! < Math.min(right[0]!, right[8]!) - .015) measured = 'bowtie-rectangle'
+      const requested = wanted === 'flag' ? 'paper-tape' : wanted, recognizedOther = ['rect', 'circle', 'ellipse'].includes(body.localName) || normalized.length > 0 && normalized.length <= 6
+      return { actual: { ...actual, measured, top, bottom, left, right, interiorVertical }, matches: measured ? measured === requested : recognizedOther ? false : null }
+    }
     // Curved compound/symbolic profiles require explicit topology evidence;
     // a bounding box or source shape string cannot silently satisfy them.
     return { matches: null, actual }
   }
   if (input.family === 'state') {
+    let compositeAdded = false
+    for (const entry of facts['state-kinds'] ?? []) if (entry.kind === 'composite-state' && !node.has(entry.id) && group.has(entry.id)) {
+      const owner = group.get(entry.id)!, ink = geometry.filter(shape => nearBox(box(shape), owner.box))
+      if (!ink.length || label(owner.label).filter(element => contains(owner.box, box(element)) && safeText(element)).length !== 1) continue
+      const actual: Owned = { id: entry.id, label: owner.label, box: owner.box, anchorParts: ink.map(element => ({ tag: element.localName, box: box(element) })), outline: { tag: ink[0]!.localName, vertices: vertices(ink[0]!), rx: 0, ry: 0 } }; node.set(entry.id, actual); nodes.push(actual); compositeAdded = true
+    }
     const missing = (input.expected.nodes ?? []).filter(expected => !expected.label && !node.has(expected.id)), blankCandidates: { shape: SVGGeometryElement; parts: SVGGeometryElement[]; box: Box; kind: string; index: number }[] = []
     const round = (element: SVGGeometryElement) => { const b = box(element), points = samples(element, 128); return b.width > 2 && b.width <= 50 && Math.abs(b.width - b.height) < 1.5 && points.length > 20 && points.every(p => Math.abs(((p.x - b.x) / b.width - .5) ** 2 * 4 + ((p.y - b.y) / b.height - .5) ** 2 * 4 - 1) < .07) }
     for (const shape of geometry) {
@@ -289,12 +325,16 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       exactNodes = (input.expected.nodes ?? []).every(expected => node.has(expected.id)) && mappings[0]!.size === blankCandidates.length
       add('painted-node-ownership', input.expected.nodes, nodes, exactNodes ? true : null, 'Unlabelled state glyphs are first measured as filled discs, concentric final circles, diamonds or bars; a unique adjacency-and-smallest-scope matching then assigns source identities. No public ID or class string chooses a glyph. Extra, unbound or symmetric glyph assignments remain unknown.')
     }
+    if (!missing.length && compositeAdded && (input.expected.nodes ?? []).every(expected => node.has(expected.id))) {
+      exactNodes = evidence.get('painted-node-ownership')?.status !== 'failed'
+      add('painted-node-ownership', input.expected.nodes, nodes, exactNodes ? true : null, 'A composite state has a unique painted state header and the same actual enclosing boundary used for independently qualified group membership. The source identity is assigned only after this visible dual role is established; no surrounding unrelated cluster can become an ordinary state body.')
+    }
     const actual = (facts['state-kinds'] ?? []).map((entry: any) => {
       const owner = node.get(entry.id), mapped = mappings[0]?.get(entry.id), candidate = mapped !== undefined && mappings.length === 1 ? blankCandidates[mapped] : null
-      const shape = entry.kind === 'state' ? silhouette(entry.id, 'rounded') : null
+      const shape = entry.kind === 'state' ? silhouette(entry.id, 'rectangle') : null
       return { id: entry.id, expected: entry.kind, actual: candidate?.kind ?? (group.has(entry.id) ? 'composite-state' : shape?.matches === true ? 'state' : null), box: owner?.box ?? null }
     })
-    fact('state-kinds', actual, actual.every((entry: any) => entry.actual !== null) ? actual.every((entry: any) => entry.expected === entry.actual || ['fork', 'join'].includes(entry.expected) && entry.actual === 'bar') : null, 'Every ordinary/composite state and blank pseudostate owns its actual measured body. Start/final/choice/bar topology is independent of labels and renderer names; fork versus join additionally remains constrained by the complete source-owned directed route proof.')
+    fact('state-kinds', actual, actual.every((entry: any) => entry.actual !== null && (entry.actual !== 'bar' || routesBound)) ? actual.every((entry: any) => entry.expected === entry.actual || ['fork', 'join'].includes(entry.expected) && entry.actual === 'bar') : null, 'Every ordinary/composite state and blank pseudostate owns its actual measured body. Ordinary states allow rectangle-family cosmetic corners. Start/final/choice/bar topology is independent of labels and renderer names; fork versus join additionally requires the complete source-owned directed route proof.')
     if (Array.isArray(facts.pseudostates)) {
       const actual = facts.pseudostates.map((entry: any) => { const owner = node.get(entry.id), parents = owner ? groups.filter(parent => contains(parent.box, owner.box)).sort((a, b) => area(a.box) - area(b.box)) : []; return { id: entry.id, kind: actualStateKind(entry.id), scope: parents[0]?.id ?? 'root', bound: !!owner } })
       function actualStateKind(id: string) { const index = mappings[0]?.get(id); return index !== undefined && mappings.length === 1 ? blankCandidates[index]!.kind.replace('pseudostate-', '') : null }

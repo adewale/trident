@@ -38,6 +38,17 @@ test('new polygon and compound outlines require actual silhouette and internal s
   expect(status((await inspect(value.replace('<circle cx="310" cy="45" r="26" fill="none" stroke="black"/>', ''), 'agentflow', expected)).checks, 'source-fact:node-shapes')).toBe('failed')
 })
 
+test('curved document and cylinder silhouettes require their real waves and cap topology', async () => {
+  const cylinder = svg('<g><path d="M20 40 A50 10 0 1 1 120 40 A50 10 0 1 1 20 40 L20 100 A50 10 0 0 0 120 100 L120 40" fill="white" stroke="black"/><text x="40" y="80">Store</text></g>'), document = svg('<g><path d="M20 30 H120 V100 C95 120 80 80 60 100 C45 115 30 110 20 100 Z" fill="white" stroke="black"/><text x="40" y="65">Store</text></g>')
+  const expected = { labels: ['Store'], nodes: [{ id: 'S', label: 'Store' }], facts: { 'node-shapes': [{ id: 'S', shape: 'cylinder' }] } }
+  expect(status((await inspect(cylinder, 'flowchart', expected)).checks, 'source-fact:node-shapes')).toBe('passed')
+  const doc = structuredClone(expected); doc.facts['node-shapes'][0]!.shape = 'doc'
+  expect(status((await inspect(document, 'flowchart', doc)).checks, 'source-fact:node-shapes')).toBe('passed')
+  expect(status((await inspect(cylinder, 'flowchart', doc)).checks, 'source-fact:node-shapes')).toBe('failed')
+  const plain = svg(rect('Store', 20, 30, 100, 80))
+  expect(status((await inspect(plain, 'flowchart', doc)).checks, 'source-fact:node-shapes')).toBe('failed')
+})
+
 test('nested containers prove exact immediate members and reject borrowed descendant membership', async () => {
   const value = svg('<g class="cluster"><rect x="5" y="5" width="350" height="180" fill="white" stroke="black"/><text x="15" y="25">Outer</text><g class="cluster"><rect x="15" y="35" width="140" height="130" fill="white" stroke="black"/><text x="25" y="55">Inner</text>' + rect('Alpha', 35, 80) + '</g>' + rect('Beta', 220, 80) + '</g>')
   const expected = { labels: ['Alpha', 'Beta', 'Outer', 'Inner'], nodes: [{ id: 'A', label: 'Alpha' }, { id: 'B', label: 'Beta' }], groups: [{ id: 'outer', label: 'Outer', members: ['inner', 'B'] }, { id: 'inner', label: 'Inner', members: ['A'] }] }
@@ -100,6 +111,27 @@ test('block grid order and spans use one measured column lattice', async () => {
   expect(status((await inspect(value.replace('width="130"', 'width="90"'), 'block', expected)).checks, 'source-fact:grid-cell-order')).toBe('failed')
   const wrong = structuredClone(expected); wrong.facts['grid-cell-order'] = [wrong.facts['grid-cell-order'][1]!, wrong.facts['grid-cell-order'][0]!, ...wrong.facts['grid-cell-order'].slice(2)]
   expect(status((await inspect(value, 'block', wrong)).checks, 'source-fact:grid-cell-order')).toBe('failed')
+})
+
+test('anonymous block boundaries bind exact descendant ink before receiving a source identity', async () => {
+  const value = svg('<g><rect x="10" y="10" width="300" height="100" fill="white" stroke="black"/>' + rect('Alpha', 30, 35) + rect('Beta', 160, 35) + '</g>')
+  const expected = { labels: ['Alpha', 'Beta'], nodes: [{ id: 'A', label: 'Alpha' }, { id: 'B', label: 'Beta' }], groups: [{ id: 'anonymous:0', label: '', members: ['A', 'B'] }], facts: { 'grid-cell-order': [{ kind: 'group', id: 'anonymous:0', parent: null, span: 1 }, { kind: 'node', id: 'A', parent: 'anonymous:0', span: 1 }, { kind: 'node', id: 'B', parent: 'anonymous:0', span: 1 }], 'grid-columns': [{ group: null, value: 1 }, { group: 'anonymous:0', value: 'auto' }] } }
+  const valid = await inspect(value, 'block', expected)
+  expect(status(valid.checks, 'painted-group:anonymous:0')).toBe('passed')
+  expect(status(valid.checks, 'painted-group-membership')).toBe('passed')
+  expect(status(valid.checks, 'source-fact:grid-cell-order')).toBe('passed')
+  expect(status((await inspect(value.replace('width="300"', 'width="130"'), 'block', expected)).checks, 'source-fact:grid-cell-order')).not.toBe('passed')
+})
+
+test('state parallel regions require real dashed partitions and exact member ownership', async () => {
+  const value = svg('<g class="cluster"><rect x="10" y="10" width="400" height="200" fill="white" stroke="black"/><text x="20" y="32">Active</text>' + rect('Alpha', 40, 55, 100) + rect('Beta', 40, 145, 100) + '<path d="M20 120H400" fill="none" stroke="black" stroke-dasharray="4 4"/></g>')
+  const expected = { labels: ['Active', 'Alpha', 'Beta'], nodes: [{ id: 'Active', label: 'Active' }, { id: 'A', label: 'Alpha' }, { id: 'B', label: 'Beta' }], groups: [{ id: 'Active', label: 'Active', members: ['A', 'B'] }], facts: { 'state-kinds': [{ id: 'Active', kind: 'composite-state' }, { id: 'A', kind: 'state' }, { id: 'B', kind: 'state' }], 'parallel-regions': [{ scope: 'Active', region: 0, members: ['A'] }, { scope: 'Active', region: 1, members: ['B'] }] } }
+  const valid = await inspect(value, 'state', expected)
+  expect(status(valid.checks, 'source-fact:parallel-regions')).toBe('passed')
+  expect(status(valid.checks, 'painted-node-ownership')).toBe('passed')
+  const wrong = structuredClone(expected); wrong.facts['parallel-regions'][0]!.members = ['B']; wrong.facts['parallel-regions'][1]!.members = ['A']
+  expect(status((await inspect(value, 'state', wrong)).checks, 'source-fact:parallel-regions')).toBe('failed')
+  expect(status((await inspect(value.replace('stroke-dasharray="4 4"', 'stroke-dasharray="none"'), 'state', expected)).checks, 'source-fact:parallel-regions')).not.toBe('passed')
 })
 
 test('unlabelled state roles are assigned only after unique actual glyph adjacency and scope', async () => {
