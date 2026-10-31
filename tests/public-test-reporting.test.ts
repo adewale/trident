@@ -10,6 +10,7 @@ import { publishCampaigns, readCampaign } from '../unified/campaign-publication.
 import { projectSupport } from '../unified/support.ts'
 import type { LineageCatalog } from '../unified/lineage.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
+import manifest from '../corpus/mermaid-public-tests.json' with { type: 'json' }
 
 const temp = useTempDirs('public-test-reporting-')
 const reference = 'mermaid-js/mermaid', peer = 'adewale/agentic-mermaid'
@@ -40,6 +41,20 @@ test('actual retained native controls produce one diagnostic table with the elig
   expect(rows[1]!.values.slice(0, 6)).toEqual(['0.4.1', 6, 21, 9, 5, 41])
   expect(baselineComparison(table!, rows[1]!)).toBe('Lower (-35)')
   expect(table!.caption).toContain('23 eligible declarations')
+  expect(evidence.rawCapture).toBe('legacy-family-config-presence')
+  expect(table!.caption).toContain('rather than complete returned configuration')
+})
+
+test('raw-capture claims remain bound to reviewed actual producer bytes and cannot upgrade old partial receipts', () => {
+  const bytes = readFileSync(new URL('../unified/public-conformance-binding.mjs', import.meta.url)), blob = createHash('sha1').update('blob ' + bytes.length + '\0').update(bytes).digest('hex')
+  const current = manifest.publicBindings.find(binding => binding.rawCapture === 'durable-public-return-json-v1')!
+  expect(current.producer).toBe('100644 blob ' + blob + '\tunified/public-conformance-binding.mjs')
+  const falselyUpgraded = retained()
+  change(falselyUpgraded, 'context.json', value => { value.rawCapture = { protocol: 'durable-public-return-json-v1' } })
+  expect(() => readPublicTestEvidence(falselyUpgraded)).toThrow('raw capture metadata')
+  const missingRaw = retained()
+  change(missingRaw, 'context.json', value => { value.producers = value.producers.map((row: string) => row.endsWith('\tunified/public-conformance-binding.mjs') ? current.producer : row); value.rawCapture = { protocol: 'durable-public-return-json-v1' } })
+  expect(() => readPublicTestEvidence(missingRaw)).toThrow('actual return or explicit serialization loss')
 })
 
 test('raw callback/event changes and inflated summaries cannot supply public-test passes', () => {

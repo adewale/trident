@@ -4,7 +4,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { replacePublicParseBody, replacePublicDetectBody, replacePublicRenderBody, expandPublicCallbacks, type PublicTestDeclaration } from '../unified/public-conformance-inventory.ts'
 import { qualifyPublicReference, reducePublicCallbacks, validateRetainedPublicControls, type PublicCallEvent } from '../unified/public-conformance.ts'
-import { bindPublicParse, bindPublicDetect, bindPublicRender } from '../unified/public-conformance-binding.mjs'
+import { bindPublicParse, bindPublicDetect, bindPublicRender, appendPublicEvent, capturePublicValue, publicReturnCaptureProtocol } from '../unified/public-conformance-binding.mjs'
 import { useTempDirs } from './helpers/temp-dir.ts'
 const temp = useTempDirs('public-conformance-'), hash = (value: string) => createHash('sha256').update(value).digest('hex')
 const manifest = JSON.parse(readFileSync(new URL('../corpus/mermaid-public-tests.json', import.meta.url), 'utf8'))
@@ -89,6 +89,44 @@ test('a public Result binding never reads the source with a reference parser or 
   expect(events[0].missingFields).toEqual(['config'])
   await expect(bound.parse('preserved', {})).rejects.toThrow('does not validate')
   expect(events[1].disposition).toBe('unsupported')
+  expect(events[0].rawPublicReturn).toEqual({ protocol: publicReturnCaptureProtocol, complete: true, value: { ok: true, value: { kind: 'flowchart' } } })
+  expect(events[1].rawPublicReturn.value.value.body.kind).toBe('preserved')
+})
+
+test('actual native parse results and configuration are durably snapshotted before original assertions can inspect or mutate them', async () => {
+  const root = temp.dir(), file = join(root, 'calls.jsonl')
+  writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'native-parse-capture-fixture', type: 'module', exports: './index.mjs' }))
+  writeFileSync(join(root, 'index.mjs'), 'export default {initialize(){},async parse(source){if(source==="reject")throw Error("actual native rejection");return {diagramType:"flowchart",config:{theme:"dark",nested:{value:7}}}}}')
+  const target = await bindPublicParse({ packageRoot: root, publicImport: 'native-parse-capture-fixture', kind: 'mermaid-api' }, (event: any) => appendPublicEvent(file, event))
+  const value = await target.parse('literal source', {})
+  const captured = JSON.parse(readFileSync(file, 'utf8').trim())
+  expect(captured.rawPublicReturn).toEqual({ protocol: publicReturnCaptureProtocol, complete: true, value })
+  value.config.nested.value = 99
+  expect(captured.rawPublicReturn.value.config.nested.value).toBe(7)
+  await expect(target.parse('reject', {})).rejects.toThrow('actual native rejection')
+  const rejection = JSON.parse(readFileSync(file, 'utf8').trim().split('\n')[1]!)
+  expect(rejection.thrown.message).toBe('actual native rejection')
+  expect(rejection.thrown.stack).toContain('actual native rejection')
+  expect(rejection.rawPublicThrown).toMatchObject({ protocol: publicReturnCaptureProtocol, complete: false, valueRetained: false })
+})
+
+test('raw parse capture preserves JSON data and declares loss instead of silently invoking or replacing unsupported values', () => {
+  const value = JSON.parse('{"__proto__":{"label":"literal"},"config":{"theme":"dark","numbers":[1,2,null]}}')
+  const raw = capturePublicValue(value)
+  expect(raw).toEqual({ protocol: publicReturnCaptureProtocol, complete: true, value })
+  expect(JSON.parse(JSON.stringify(raw)).value.__proto__).toEqual({ label: 'literal' })
+  let getterCalls = 0
+  const accessor = Object.defineProperty({}, 'secret', { enumerable: true, get() { getterCalls++; return 'must not invoke' } })
+  const cyclic: any = {}; cyclic.self = cyclic
+  const shared = { value: 1 }
+  expect(capturePublicValue({ a: shared, b: shared }).complete).toBe(true)
+  for (const unsafe of [new Map([['answer', 42]]), { callback() {} }, cyclic, accessor, [1, , 3], { value: undefined }, { value: Infinity }]) {
+    const result = capturePublicValue(unsafe)
+    expect(result).toMatchObject({ protocol: publicReturnCaptureProtocol, complete: false, valueRetained: false })
+    expect(result.loss).toBeString()
+    expect(Object.hasOwn(result, 'value')).toBe(false)
+  }
+  expect(getterCalls).toBe(0)
 })
 
 import { classifyPublicScope } from '../unified/public-conformance-scope.ts'
@@ -149,7 +187,7 @@ test('retained original controls cannot change sources, parameters, host or publ
   const original = { protocol: 'fixed', sourceCommit: 'pin', sourceConfigSha256: 'config', originalJsdomHelperSha256: 'host', implementationSha256: 'impl', detectionSha256: 'detect', runnerVersion: '3.2.7', runtimeQualification: { native: 'sealed' }, node: 'node', targets: [{ binding: { project: 'mermaid-js/mermaid' }, entrySha256: 'entry' }], producers: ['100644 blob digest\tunified/public-conformance-binding.mjs'] }
   const inventory = { callbacks: cases }
   expect(() => validateRetainedPublicControls(original, inventory, structuredClone(original), cases)).not.toThrow()
-  for (const key of ['protocol', 'sourceCommit', 'sourceConfigSha256', 'originalJsdomHelperSha256', 'implementationSha256', 'detectionSha256', 'runnerVersion', 'runtimeQualification', 'node']) expect(() => validateRetainedPublicControls(original, inventory, { ...original, [key]: 'changed' }, cases)).toThrow('identity differs')
+  for (const key of ['protocol', 'sourceCommit', 'sourceConfigSha256', 'originalJsdomHelperSha256', 'implementationSha256', 'detectionSha256', 'runnerVersion', 'runtimeQualification', 'rawCapture', 'node']) expect(() => validateRetainedPublicControls(original, inventory, { ...original, [key]: 'changed' }, cases)).toThrow('identity differs')
   expect(() => validateRetainedPublicControls(original, { callbacks: cases.slice(1) }, original, cases)).toThrow('inventory differs')
   expect(() => validateRetainedPublicControls(original, inventory, { ...original, producers: [] }, cases)).toThrow('adapter changed')
   expect(() => validateRetainedPublicControls(original, inventory, { ...original, targets: [] }, cases)).toThrow('artifact or binding differs')

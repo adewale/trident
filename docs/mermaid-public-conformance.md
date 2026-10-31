@@ -114,3 +114,17 @@ unmeasured; no scores follow from their catalogue entries.
 The campaign scheduler does not enroll this suite yet. Every project has the same
 unreviewed campaign-binding state until its source/runtime and public interfaces
 are frozen through the regular preparation process.
+
+Future public parse captures retain the actual JSON-safe returned result and
+configuration before the original assertion runs. Values that cannot be retained
+without changing their meaning receive an explicit serialization-loss marker;
+getters and custom JSON conversion methods are not invoked. Each invocation event
+is fsynced before control returns to the original callback. The original source
+control remains uninstrumented and retains its native assertion report.
+
+The first 41-callback campaign predates that capture change. Its parse receipts
+retain family/configuration presence and native assertion verdicts, rather than
+the full returned configuration. Retained tables disclose that limit. Producer
+identity prevents those old receipts from being presented as full raw captures
+or reused as controls for the new capture protocol. No project rerun is needed to
+preserve the existing, explicitly partial API comparison.
