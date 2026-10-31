@@ -3,6 +3,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, relative, resolve } from 'node:path'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { evidenceBytesDigest, evidenceDigest } from '../portable/evidence-contract.ts'
+import { InvocationJournal } from '../portable/invocation-journal.ts'
 import { readTerminalSourceAdaptations } from '../fidelity/terminal-adaptations.ts'
 import { reviewedTerminalCases } from '../fidelity/terminal-corpus.ts'
 import { terminalSourceInterpretationHold } from '../fidelity/terminal-source-holds.ts'
@@ -62,8 +63,14 @@ const copyWitness = (path: string, expectedHash?: string) => {
 }
 const originalOutputs = original.outputs.map((row: any) => ({ ...row, ...(row.witness ? copyWitness(resolve(originalDirectory, row.witness), row.sha256) : {}), collectionId: 'original-120', originalProducerSource: original.source, originalRawSha256: evidenceBytesDigest(originalBytes) }))
 const addedOutputs = collection.observations.map((row: any) => {
-  const path = row.metrics?.outputFile
-  return { project: row.metrics?.implementation ?? row.metrics?.project, caseId: row.caseId, measuredAt: row.metrics?.measuredAt ?? null, ...(typeof path === 'string' ? copyWitness(path) : {}), runtimeExecuted: row.metrics?.failureStage !== 'transport' && (typeof row.metrics?.firstMs === 'number' || row.metrics?.failureStage === 'public-api'), publicStatus: row.status, detail: row.detail, collectionId: 'authored-adaptation', producerSource: collection.producerSource }
+  const path = row.metrics?.outputFile, project = row.metrics?.implementation ?? row.metrics?.project
+  const directory = row.metrics?.rawInvocationDirectory ?? row.metrics?.invocationDirectory, attemptId = row.metrics?.rawInvocationId ?? row.metrics?.invocationId
+  if (typeof directory !== 'string' || typeof attemptId !== 'string') throw Error('New public call lacks its durable invocation receipt; collection is retained for inspection')
+  const records = new InvocationJournal(directory).records(), starts = records.filter(frame => frame.state === 'started'), outcome = records.find(frame => frame.attemptId === attemptId && frame.state !== 'started')
+  const artifact = selected.find(peer => peer.node.id === project)?.artifact
+  if (starts.length !== 1 || starts[0]!.attemptId !== attemptId || !outcome || outcome.identity.project !== project || outcome.identity.caseId !== row.caseId || outcome.identity.sourceSha256 !== adaptations[0]!.sourceSha256 || outcome.identity.artifactSha256 !== artifact?.sha256 || outcome.identity.format !== 'terminal') throw Error('New call receipt does not bind one exact source/artifact/public invocation')
+  if (typeof path === 'string' && (!outcome.output || outcome.output.sha256 !== evidenceBytesDigest(readFileSync(path)))) throw Error('New witness differs from its original public return receipt')
+  return { project, caseId: row.caseId, measuredAt: outcome.startedAt, measuredAtOrigin: 'Actual public call-entry receipt; never the collection endpoint', ...(typeof path === 'string' ? copyWitness(path) : {}), runtimeExecuted: true, publicStatus: row.status, detail: row.detail, collectionId: 'authored-adaptation', producerSource: collection.producerSource, invocation: { directory, attemptId, state: outcome.state, startedAt: outcome.startedAt, finishedAt: outcome.finishedAt, identity: outcome.identity, receiptSha256: evidenceDigest(outcome), output: outcome.output, streams: outcome.streams ?? null } }
 })
 if (addedOutputs.length !== 3 || projects.some(project => addedOutputs.filter((row: any) => row.project === project && row.caseId === adaptations[0]!.id).length !== 1)) throw Error('Adaptation collection omitted or duplicated a requested coordinate')
 const cases = [...originalCases, ...adaptations]
