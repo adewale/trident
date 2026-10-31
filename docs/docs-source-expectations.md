@@ -6,51 +6,52 @@ Expectations come from an independent literal-source transcriber, not SVGs, cand
 
 Regenerate with `bun scripts/review-docs-sources.ts /path/to/pinned/mermaid-source`. Use `--check` to verify that committed source and expectations match those Git objects. The command reads source only; it does not render or benchmark anything. The source-audit ledgers in `qualification/source-audits` record all 548 literal-source reviews, the exact reviewed hashes, findings and reviewer independence limits. Sequence began as an author self-audit; flowcharts and the remaining families received separate readers. Structural invariants cover every occurrence. Source review is not output qualification. Source-specific mutation and regression controls live in `tests/docs-source-review.test.ts`.
 
-| Family | Occurrences | Transcribed drawing contracts | Pending source facts | Configuration only |
-|---|---:|---:|---:|---:|
-| agentflow | 12 | 12 | 0 | 0 |
-| architecture | 6 | 6 | 0 | 0 |
-| block | 30 | 29 | 1 | 0 |
-| c4 | 6 | 6 | 0 | 0 |
-| class | 38 | 38 | 0 | 0 |
-| cynefin | 3 | 3 | 0 | 0 |
-| er | 25 | 25 | 0 | 0 |
-| eventmodeling | 13 | 13 | 0 | 0 |
-| flowchart | 116 | 115 | 1 | 0 |
-| gantt | 11 | 9 | 1 | 1 |
-| gitgraph | 36 | 36 | 0 | 0 |
-| ishikawa | 1 | 1 | 0 | 0 |
-| journey | 1 | 1 | 0 | 0 |
-| kanban | 3 | 2 | 1 | 0 |
-| mindmap | 15 | 15 | 0 | 0 |
-| packet | 4 | 4 | 0 | 0 |
-| pie | 4 | 4 | 0 | 0 |
-| quadrant | 3 | 3 | 0 | 0 |
-| radar | 3 | 3 | 0 | 0 |
-| railroad | 1 | 1 | 0 | 0 |
-| railroad-abnf | 2 | 2 | 0 | 0 |
-| railroad-ebnf | 9 | 9 | 0 | 0 |
-| railroad-peg | 2 | 2 | 0 | 0 |
-| requirement | 9 | 9 | 0 | 0 |
-| sankey | 8 | 8 | 0 | 0 |
-| sequence | 42 | 42 | 0 | 0 |
-| state | 22 | 22 | 0 | 0 |
-| swimlane | 13 | 13 | 0 | 0 |
-| timeline | 14 | 14 | 0 | 0 |
-| treemap | 8 | 8 | 0 | 0 |
-| treeview | 13 | 13 | 0 | 0 |
-| usecase | 24 | 24 | 0 | 0 |
-| venn | 8 | 8 | 0 | 0 |
-| wardley | 19 | 19 | 0 | 0 |
-| xychart | 8 | 8 | 0 | 0 |
-| zenuml | 16 | 16 | 0 | 0 |
+| Family | Occurrences | Transcribed drawing contracts | Pending source facts | Configuration only | Invalid source controls |
+|---|---:|---:|---:|---:|---:|
+| agentflow | 12 | 12 | 0 | 0 | 0 |
+| architecture | 6 | 6 | 0 | 0 | 0 |
+| block | 30 | 30 | 0 | 0 | 0 |
+| c4 | 6 | 6 | 0 | 0 | 0 |
+| class | 38 | 38 | 0 | 0 | 0 |
+| cynefin | 3 | 3 | 0 | 0 | 0 |
+| er | 25 | 25 | 0 | 0 | 0 |
+| eventmodeling | 13 | 13 | 0 | 0 | 0 |
+| flowchart | 116 | 116 | 0 | 0 | 0 |
+| gantt | 11 | 10 | 0 | 1 | 0 |
+| gitgraph | 36 | 36 | 0 | 0 | 0 |
+| ishikawa | 1 | 1 | 0 | 0 | 0 |
+| journey | 1 | 1 | 0 | 0 | 0 |
+| kanban | 3 | 2 | 0 | 0 | 1 |
+| mindmap | 15 | 15 | 0 | 0 | 0 |
+| packet | 4 | 4 | 0 | 0 | 0 |
+| pie | 4 | 4 | 0 | 0 | 0 |
+| quadrant | 3 | 3 | 0 | 0 | 0 |
+| radar | 3 | 3 | 0 | 0 | 0 |
+| railroad | 1 | 1 | 0 | 0 | 0 |
+| railroad-abnf | 2 | 2 | 0 | 0 | 0 |
+| railroad-ebnf | 9 | 9 | 0 | 0 | 0 |
+| railroad-peg | 2 | 2 | 0 | 0 | 0 |
+| requirement | 9 | 9 | 0 | 0 | 0 |
+| sankey | 8 | 8 | 0 | 0 | 0 |
+| sequence | 42 | 42 | 0 | 0 | 0 |
+| state | 22 | 22 | 0 | 0 | 0 |
+| swimlane | 13 | 13 | 0 | 0 | 0 |
+| timeline | 14 | 14 | 0 | 0 | 0 |
+| treemap | 8 | 8 | 0 | 0 | 0 |
+| treeview | 13 | 13 | 0 | 0 | 0 |
+| usecase | 24 | 24 | 0 | 0 | 0 |
+| venn | 8 | 8 | 0 | 0 | 0 |
+| wardley | 19 | 19 | 0 | 0 | 0 |
+| xychart | 8 | 8 | 0 | 0 | 0 |
+| zenuml | 16 | 16 | 0 | 0 | 0 |
+
+## Resolved source interpretation
+
+The four former pending examples retain their exact bytes. Block 488 discards the malformed CSS token `fill#969` and applies no authored fill override. Flowchart 844 keeps an edge class with `stroke-dasharray:9` (the odd-length CSS pattern repeats as 9,9), `stroke-dashoffset:900` and `animation:dash 25s linear infinite`; the unescaped comma creates a separate invalid declaration `5`, which is discarded rather than repaired. Gantt 519 uses the pinned `js-yaml@4.3.0` JSON schema for literal frontmatter, including its accepted multiline closing quote. Its chart title overrides the frontmatter title, and the explicitly unsupported `1decade` tick interval falls back to automatic ticks. The Kanban full example violates its own documented unique-identifier rule by repeating `id3`; it is an independently invalid source control requiring a typed native duplicate-identifier rejection. A generic exception, transport failure or accepted drawing never satisfies that control. The occurrence stays in acceptance; it supplies no drawing denominator. Provenance and independent review are retained in `qualification/source-audits/pending-four-resolution.json`.
 
 ## Pending source interpretation
 
-- **packages/mermaid/src/docs/syntax/block.md:488**: Style declaration has no property/value separator: fill#969
-- **packages/mermaid/src/docs/syntax/flowchart.md:844**: Style declaration has no property/value separator: 5
-- **packages/mermaid/src/docs/syntax/gantt.md:519**: Frontmatter syntax requires review: YAMLParseError: Missing closing "quote at line 12, column 73:              text[id^=workaround] { fill: red; y: 100%; font-size: 15px;}                                                                         ^ 
-- **packages/mermaid/src/docs/syntax/kanban.md:83**: Kanban identifiers must be unique; duplicate source identity needs clarification: id3
+No uninterpreted source constructs remain. The separate observer qualification ledger still determines which drawing facts can be scored.
 
 ## Resource prerequisite
 

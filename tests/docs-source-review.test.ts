@@ -103,12 +103,15 @@ test('accessibility title and description are metadata obligations, distinct fro
   expect(row.expected!.labels).toEqual(['A', 'B'])
 })
 
-test('unknown syntax, malformed styles and stale or contradictory review contracts cannot qualify', () => {
+test('unknown syntax and stale or contradictory review contracts cannot qualify; malformed CSS never invents a property', () => {
   const stimulus = input('pie\n"One": 1\nmystery unsupported syntax'), row = reviewDocumentationSource(stimulus)
   expect(row.sourceReview.expectedFactsComplete).toBe(false)
   expect(admitDocsReviews([stimulus], [row])[0]!.intent).toBe('source-review-pending')
   expect(assessDocsDrawing(stimulus, row, 'passed', true, []).status).toBe('unknown')
-  expect(review('block\nA\nstyle A fill#969').sourceReview.expectedFactsComplete).toBe(false)
+  const malformed = reviewDocumentationSource(input('block\nA\nstyle A fill#969'))
+  expect(malformed.sourceReview.expectedFactsComplete).toBe(true)
+  expect(malformed.expected!.facts!['node-paint']).toBeUndefined()
+  expect(malformed.sourceReview.excludedNonvisual.join(' ')).toContain('fill#969')
   expect(() => admitDocsReviews([stimulus], [{ ...row, sourceReview: { ...row.sourceReview, expectedFactsComplete: true } }])).toThrow('contradictory')
   expect(() => admitDocsReviews([stimulus], [{ ...row, sourceReview: { ...row.sourceReview, sourcePin: '0'.repeat(40) } }])).toThrow('stale')
   expect(() => admitDocsReviews([stimulus], [{ ...row, sourceReview: { ...row.sourceReview, requiredObligations: [] } }])).toThrow('contradictory')
@@ -160,6 +163,13 @@ test('shared agentflow nodes stay at top level when referenced inside multiple f
   expect(row.expected!.facts!['global-node-scope']).toEqual(['corpus'])
 })
 
+test('Agentflow uses its shipped rounded default for unshaped nodes and connectors without overwriting explicit domain shapes',()=>{
+  const row=review('agentflow-beta LR\nconnector api[API]\na[A] --> b[B]\nb --> c[C]@{ shape: tool }\nd[D]@{ shape: input }')
+  expect(row.expected!.facts!['node-shapes']).toEqual([{id:'api',shape:'rounded'},{id:'a',shape:'rounded'},{id:'b',shape:'rounded'},{id:'c',shape:'tool'},{id:'d',shape:'input'}])
+  const mutated=review('agentflow-beta LR\na[A]@{ shape: decision } --> b[B]')
+  expect(mutated.expected!.facts!['node-shapes']).toEqual([{id:'a',shape:'decision'},{id:'b',shape:'rounded'}])
+})
+
 test('fontawesome glyph references are resource obligations rather than literal visible words', () => {
   const row = review('flowchart TD\nA["fa:fa-twitter for peace"] --> B(fa:fa-spinner)')
   expect(row.expected!.nodes).toEqual([{ id: 'A', label: 'for peace' }, { id: 'B', label: '' }])
@@ -175,9 +185,10 @@ test('the full pinned corpus keeps all 548 occurrences and 546 distinct literal 
   expect(inventory.distinct).toBe(546)
   expect(audit.reviews).toEqual(committed)
   expect(audit.admitted).toHaveLength(548)
-  expect(audit.pending.map(row => row.id)).toEqual(['packages/mermaid/src/docs/syntax/block.md:488', 'packages/mermaid/src/docs/syntax/flowchart.md:844', 'packages/mermaid/src/docs/syntax/gantt.md:519', 'packages/mermaid/src/docs/syntax/kanban.md:83'])
+  expect(audit.pending).toEqual([])
   expect(audit.reviews.filter(row => row.intent === 'configuration-only').map(row => row.id)).toEqual(['packages/mermaid/src/docs/syntax/gantt.md:291'])
-  expect(audit.reviews.filter(row => row.intent === 'drawing' && row.sourceReview.expectedFactsComplete)).toHaveLength(543)
+  expect(audit.reviews.filter(row => row.intent === 'drawing' && row.sourceReview.expectedFactsComplete)).toHaveLength(546)
+  expect(audit.reviews.filter(row => row.intent === 'invalid-source').map(row => row.id)).toEqual(['packages/mermaid/src/docs/syntax/kanban.md:83'])
   for (const row of audit.reviews) if (row.intent === 'drawing') expect(row.sourceReview.requiredObligations.length).toBeGreaterThan(0)
   const shared = new Map<string, string[]>()
   for (const row of inventory.cases) { const ids = shared.get(row.source.trim()) ?? []; ids.push(row.id); shared.set(row.source.trim(), ids) }
@@ -366,10 +377,51 @@ test('usecase generalization keeps its triangle without rewriting dashed include
   expect(review('usecase-beta\nA --> B\nA --|> B').sourceReview.expectedFactsComplete).toBe(false)
 })
 
-test('duplicate Kanban task IDs remain a source ambiguity instead of silently demanding two complete cards', () => {
+test('duplicate Kanban task IDs are documented invalid-source controls and repair does not happen implicitly', () => {
   const row = review('kanban\nTodo\n  task[First]\nDone\n  task[Second]')
-  expect(row.sourceReview.expectedFactsComplete).toBe(false)
-  expect(row.sourceReview.unresolved.join(' ')).toContain('duplicate source identity')
+  expect(row.intent).toBe('invalid-source')
+  expect(row.expected).toBeUndefined()
+  expect(row.sourceReview.expectedFactsComplete).toBe(true)
+  expect(row.expectedRejection).toMatchObject({category:'duplicate-identifier',identifiers:['task']})
+  expect(row.sourceReview.requiredObligations).toEqual(['typed-rejection:duplicate-identifier'])
+  const repaired = review('kanban\nTodo\n  task[First]\nDone\n  other[Second]')
+  expect(repaired.intent).toBe('drawing')
+  expect(repaired.expectedRejection).toBeUndefined()
+  expect((repaired.expected!.facts!.columns as any[]).flatMap(column=>column.tasks).map(task=>task.id)).toEqual(['task','other'])
+})
+
+test('the exact malformed animation fence keeps its edge owner, literal comma recovery and every active CSS property', () => {
+  const source = 'flowchart LR\nA e1@--> B\nclassDef animate stroke-dasharray: 9,5,stroke-dashoffset: 900,animation: dash 25s linear infinite;\nclass e1 animate'
+  const row = reviewDocumentationSource(input(source))
+  expect(row.expected!.nodes!.map(node=>node.id)).toEqual(['A','B'])
+  expect(row.expected!.facts!['edge-appearance']).toEqual([{source:'A',target:'B',id:'e1',stroke:'solid',markerStart:'none',markerEnd:'arrow'}])
+  expect(row.expected!.facts!['authored-style']).toEqual([{kind:'classDef',selection:'animate',attributes:[{property:'stroke-dasharray',value:'9'},{property:'stroke-dashoffset',value:'900'},{property:'animation',value:'dash 25s linear infinite'}]},{kind:'class',selection:'e1',attributes:[{class:'animate'}]}])
+  expect(row.sourceReview.requiredObligations).toContain('fact:authored-style')
+  expect(row.sourceReview.excludedNonvisual.join(' ')).toContain('discarded without repair: 5')
+  const escaped = review(source.replace('9,5','9\\,5'))
+  expect((escaped.expected!.facts!['authored-style'] as any[])[0].attributes[0].value).toBe('9\\,5')
+  expect(escaped.sourceReview.excludedNonvisual).toEqual([])
+  const offset = review(source.replace('900','123'))
+  expect((offset.expected!.facts!['authored-style'] as any[])[0].attributes[1].value).toBe('123')
+})
+
+test('Gantt frontmatter uses the declared YAML dialect without changing literal bytes, title precedence or fallback ticks', () => {
+  const inventory = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString())
+  const original = inventory.cases.find((row:any)=>row.id.endsWith('gantt.md:519'))
+  const row = reviewDocumentationSource(original,{visual:false})
+  expect(row.intent).toBe('drawing')
+  expect(row.sourceReview.expectedFactsComplete).toBe(true)
+  expect(row.expected!.facts!.title).toBe('Timeline - Gantt Sampler')
+  expect(row.expected!.labels).not.toContain('Ignored if specified in chart')
+  expect(row.expected!.facts!['authored-config']).toMatchObject({gantt:{useWidth:400,rightPadding:0,topAxis:true,numberSectionStyles:2}})
+  expect((row.expected!.facts!['authored-config'] as any).themeCSS).toContain('#item36 { fill: CadetBlue }')
+  expect((row.expected!.facts!['calendar-settings'] as any).tickInterval).toBe('auto')
+  expect(row.sourceReview.excludedNonvisual.join(' ')).toContain('1decade')
+  const mutated = reviewDocumentationSource({...original,source:original.source.replace('useWidth: 400','useWidth: 401').replace('tickInterval 1decade','tickInterval 2month')},{visual:false})
+  expect((mutated.expected!.facts!['authored-config'] as any).gantt.useWidth).toBe(401)
+  expect((mutated.expected!.facts!['calendar-settings'] as any).tickInterval).toBe('2month')
+  expect(mutated.sourceSha256).not.toBe(row.sourceSha256)
+  expect(reviewDocumentationSource({...original,source:original.source.replace('        "\n        gantt:', '        gantt:')}).sourceReview.expectedFactsComplete).toBe(false)
 })
 
 test('printed XY values are separately owned by bar, index, category and placement; line magnitudes are not invented bar labels', () => {

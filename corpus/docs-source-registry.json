@@ -1,7 +1,7 @@
 {
   "schema": "trident-docs-source-registry-v1",
   "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-  "reviewedCorpusSha256": "74497db12cb888f3532be00a8e0c22d5a01b42382e5066822df95342294c6cc0",
+  "reviewedCorpusSha256": "eb3d9020e299918eec0bd123176752f3b2b62c27892db09e8e90c15aa97915fd",
   "provenance": {
     "literalAuditBaseline": "2cc55cf",
     "structuralFix": "c9dd0b5",
@@ -11,7 +11,9 @@
     "scope": "Exact canonical semantic identities after source fixes and explicit visual projections. Per-case audit receipts preserve their original reviewed hashes and reviewer roles. This registry is scoring admission data, not a claim that every projection or output observer has independent qualification.",
     "inlineClassAssignmentFix": "d6a262f",
     "quadrantClassRetentionFix": "3877461",
-    "standaloneClassCssScope": "classDiagram.md:827 excludes the adjacent page stylesheet; literal source unchanged"
+    "standaloneClassCssScope": "classDiagram.md:827 excludes the adjacent page stylesheet; literal source unchanged",
+    "pendingFourResolution": "qualification/source-audits/pending-four-resolution.json; independent root review of literal documentation and grammar, no renderer output",
+    "agentflowDefaultShapeFix": "qualification/source-audits/agentflow-rounded-default.json; DEFAULT_SHAPE roundedRect and explicit normalization; independent root review"
   },
   "cases": [
     {
@@ -74,21 +76,21 @@
       "id": "packages/mermaid/src/docs/syntax/agentflow.md:279",
       "sourceSha256": "2a44766f654fd6811d69edf862cfd708f35b41cd446e1c93875ddb80e17b67d9",
       "intent": "drawing",
-      "semanticSha256": "bced316f76c72532ad4ed4eb20596ac9d9f70df56a3e16f2032c434c8c0fa7aa",
+      "semanticSha256": "2e30b49036cd4fb75ba5bbe5aa8852d1898bea9ee3f799f6bff4eab5b1167e43",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/agentflow.md:294",
       "sourceSha256": "4c546d7812fae4ab7b644b5a7ec339bb9724a468c3794cae1633231f19bee9cf",
       "intent": "drawing",
-      "semanticSha256": "27fb91a885c2e8580cc073e53233e855e6b795a19ca205df3b9b1419faeba15f",
+      "semanticSha256": "42cc04c125580d40f46e5d150655a8fb36e02442ca861965318d8520288dbe71",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/agentflow.md:331",
       "sourceSha256": "475c7f21f53077e4bf0838d062c24a14adabac7ee33073076243a40e350c4ecf",
       "intent": "drawing",
-      "semanticSha256": "7817c8ed39d28b97f000ba397a779d4175ecfdd48217be52ff9b559e983a80ae",
+      "semanticSha256": "f18730f235e0a218a878ee1c6d5fc57b701c49811697da2362031ac91d2c3b0a",
       "profileEligible": true
     },
     {
@@ -340,8 +342,8 @@
       "id": "packages/mermaid/src/docs/syntax/block.md:488",
       "sourceSha256": "6a5c5e673d9bdb2e5baef29b3ec41459e1e9cc2ca998715b43e252643f6a1b61",
       "intent": "drawing",
-      "semanticSha256": "fc7516f843ff177f0d1b8e265ad3dbaa608f9fcd60321feeb962a5f53c071e9b",
-      "profileEligible": false
+      "semanticSha256": "6f00a61172692c4d6bf87623571298becc1c2ca319629b91170964c728d77580",
+      "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/block.md:497",
@@ -1628,8 +1630,8 @@
       "id": "packages/mermaid/src/docs/syntax/flowchart.md:844",
       "sourceSha256": "b03ea11e4f024eb7f3b176d9dc7a5e2a363c11503302f52c63be6fc1666b15de",
       "intent": "drawing",
-      "semanticSha256": "b3f99e900423ee7009a652756d1c2cbbfb466efed9c3862a53bbb55bbb15fda9",
-      "profileEligible": false
+      "semanticSha256": "832a266d0b3ed2718c3fed61831af88c5efc1d17e7ec88343fa0cd6d7abcaf46",
+      "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/flowchart.md:869",
@@ -1880,8 +1882,8 @@
       "id": "packages/mermaid/src/docs/syntax/gantt.md:519",
       "sourceSha256": "15ddee045061b8dfc286609f16abd649f7cb7816cae2b2d578c6527447eec1dc",
       "intent": "drawing",
-      "semanticSha256": "94d675efb82a47e71ac0fe9698b55a64416a7e03acdf382a8e6735e946576fb6",
-      "profileEligible": false
+      "semanticSha256": "a7f579b605dcc545ff346213e5d20577fe9857e3339312716dd0a35ef544d623",
+      "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:9",
@@ -2152,8 +2154,8 @@
     {
       "id": "packages/mermaid/src/docs/syntax/kanban.md:83",
       "sourceSha256": "1463e787daaa07b25d3c55218d958a02fb0f7cf9fdec59a5aacdffb1758521e0",
-      "intent": "drawing",
-      "semanticSha256": "604e8fd386d72fb38067a98b2a5d47ca4da72fff2a74b4a3e5daec9a876fbb95",
+      "intent": "invalid-source",
+      "semanticSha256": "7a2f1c8e4c2cf4780aed64bedb0b1ca1eec82731964c2e157382c9440e4bdb56",
       "profileEligible": false
     },
     {

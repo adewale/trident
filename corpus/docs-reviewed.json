@@ -1361,7 +1361,7 @@
         "node-shapes": [
           {
             "id": "github",
-            "shape": "rectangle"
+            "shape": "rounded"
           },
           {
             "id": "title",
@@ -1470,7 +1470,7 @@
         "node-shapes": [
           {
             "id": "llm",
-            "shape": "rectangle"
+            "shape": "rounded"
           },
           {
             "id": "city",
@@ -1704,11 +1704,11 @@
         "node-shapes": [
           {
             "id": "a",
-            "shape": "rectangle"
+            "shape": "rounded"
           },
           {
             "id": "b",
-            "shape": "rectangle"
+            "shape": "rounded"
           }
         ]
       },
@@ -6042,17 +6042,6 @@
         "A"
       ],
       "facts": {
-        "authored-style": [
-          {
-            "kind": "style",
-            "selection": "A",
-            "attributes": [
-              {
-                "class": "fill#969"
-              }
-            ]
-          }
-        ],
         "node-shapes": [],
         "grid-cell-order": [
           {
@@ -6080,29 +6069,26 @@
         "direction": "TB"
       }
     },
-    "unverifiedFacts": [
-      "Style declaration has no property/value separator: fill#969"
-    ],
     "sourceReview": {
       "protocol": "literal-documentation-facts-v1",
       "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
       "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": false,
+      "expectedFactsComplete": true,
       "requiredObligations": [
         "visible-labels",
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
-        "fact:authored-style",
         "fact:grid-cell-order",
         "fact:grid-columns",
         "fact:node-shapes"
       ],
-      "unresolved": [
-        "Style declaration has no property/value separator: fill#969"
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Invalid CSS declaration discarded without repair: fill#969 (style A); no authored property override; the configured theme/default remains applicable"
       ],
-      "excludedNonvisual": [],
       "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
+        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
       ]
     }
   },
@@ -23196,9 +23182,6 @@
                 "value": "9"
               },
               {
-                "class": "5"
-              },
-              {
                 "property": "stroke-dashoffset",
                 "value": "900"
               },
@@ -23249,14 +23232,11 @@
         }
       ]
     },
-    "unverifiedFacts": [
-      "Style declaration has no property/value separator: 5"
-    ],
     "sourceReview": {
       "protocol": "literal-documentation-facts-v1",
       "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
       "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": false,
+      "expectedFactsComplete": true,
       "requiredObligations": [
         "visible-labels",
         "node-identities-and-labels",
@@ -23265,10 +23245,10 @@
         "fact:direction",
         "fact:edge-appearance"
       ],
-      "unresolved": [
-        "Style declaration has no property/value separator: 5"
-      ],
-      "excludedNonvisual": []
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Invalid CSS declaration discarded without repair: 5 (classDef animate); no authored property override; the configured theme/default remains applicable"
+      ]
     }
   },
   {
@@ -26586,6 +26566,16 @@
       ],
       "facts": {
         "title": "Timeline - Gantt Sampler",
+        "authored-config": {
+          "themeCSS": " // YAML supports multiline strings using a newline markers: \n #item36 { fill: CadetBlue }       \n\n// Custom marker workaround CSS from forum (below)    \n rect[id^=workaround] { height: calc(100% - 50px) ; transform: translate(9px, 25px); y: 0; width: 1.5px; stroke: none; fill: red; }   \n text[id^=workaround] { fill: red; y: 100%; font-size: 15px;} ",
+          "gantt": {
+            "useWidth": 400,
+            "rightPadding": 0,
+            "topAxis": true,
+            "numberSectionStyles": 2
+          }
+        },
+        "frontmatter:displayMode": "compact",
         "tasks": [
           {
             "id": "item71",
@@ -26656,29 +26646,29 @@
         "calendar-settings": {
           "dateFormat": "YYYY",
           "axisFormat": "%y",
-          "tickInterval": "1decade"
+          "tickInterval": "auto"
         }
       }
     },
-    "unverifiedFacts": [
-      "Frontmatter syntax requires review: YAMLParseError: Missing closing \"quote at line 12, column 73:\n\n            text[id^=workaround] { fill: red; y: 100%; font-size: 15px;}\n                                                                        ^\n"
-    ],
     "sourceReview": {
       "protocol": "literal-documentation-facts-v1",
       "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
       "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": false,
+      "expectedFactsComplete": true,
       "requiredObligations": [
         "visible-labels",
+        "fact:authored-config",
         "fact:calendar-settings",
+        "fact:frontmatter:displayMode",
         "fact:sections",
         "fact:tasks",
         "fact:title"
       ],
-      "unresolved": [
-        "Frontmatter syntax requires review: YAMLParseError: Missing closing \"quote at line 12, column 73:\n\n            text[id^=workaround] { fill: red; y: 100%; font-size: 15px;}\n                                                                        ^\n"
-      ],
-      "excludedNonvisual": []
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Chart title overrides frontmatter title without painting the superseded value: \"Ignored if specified in chart\"",
+        "Unsupported authored tickInterval \"1decade\" is ignored; automatic ticks remain in effect (gantt.md:275-287 and the source comment at gantt.md:544)"
+      ]
     }
   },
   {
@@ -34660,158 +34650,29 @@
   {
     "id": "packages/mermaid/src/docs/syntax/kanban.md:83",
     "sourceSha256": "1463e787daaa07b25d3c55218d958a02fb0f7cf9fdec59a5aacdffb1758521e0",
-    "intent": "drawing",
+    "intent": "invalid-source",
     "family": "kanban",
-    "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
-    "expected": {
-      "labels": [
-        "Todo",
-        "Create Documentation",
-        "Create Blog about the new diagram",
-        "In progress",
-        "Create renderer so that it works in all cases. We also add some extra text here for testing purposes. And some more just for the extra flare.",
-        "Ready for deploy",
-        "Design grammar",
-        "knsv",
-        "Ready for test",
-        "Create parsing tests",
-        "MC-2038",
-        "K.Sveidqvist",
-        "High",
-        "last item",
-        "Very Low",
-        "Done",
-        "define getData",
-        "Title of diagram is more than 100 chars when user duplicates diagram with 100 char",
-        "MC-2036",
-        "Very High",
-        "Update DB function",
-        "MC-2037",
-        "Can't reproduce",
-        "Weird flickering in Firefox"
+    "review": "The literal source violates the pinned documentation requirement that Kanban identifiers be unique. It remains in the acceptance denominator as a typed duplicate-identifier rejection control, with no corrected drawing or generic-exception pass.",
+    "expectedRejection": {
+      "category": "duplicate-identifier",
+      "identifiers": [
+        "id3"
       ],
-      "facts": {
-        "columns": [
-          {
-            "id": "Todo",
-            "label": "Todo",
-            "tasks": [
-              {
-                "id": "anonymous:1:0",
-                "label": "Create Documentation",
-                "attributes": {}
-              },
-              {
-                "id": "docs",
-                "label": "Create Blog about the new diagram",
-                "attributes": {}
-              }
-            ]
-          },
-          {
-            "id": "anonymous:1:2",
-            "label": "In progress",
-            "tasks": [
-              {
-                "id": "id6",
-                "label": "Create renderer so that it works in all cases. We also add some extra text here for testing purposes. And some more just for the extra flare.",
-                "attributes": {}
-              }
-            ]
-          },
-          {
-            "id": "id9",
-            "label": "Ready for deploy",
-            "tasks": [
-              {
-                "id": "id8",
-                "label": "Design grammar",
-                "attributes": {
-                  "assigned": "knsv"
-                }
-              }
-            ]
-          },
-          {
-            "id": "id10",
-            "label": "Ready for test",
-            "tasks": [
-              {
-                "id": "id4",
-                "label": "Create parsing tests",
-                "attributes": {
-                  "ticket": "MC-2038",
-                  "assigned": "K.Sveidqvist",
-                  "priority": "High"
-                }
-              },
-              {
-                "id": "id66",
-                "label": "last item",
-                "attributes": {
-                  "priority": "Very Low",
-                  "assigned": "knsv"
-                }
-              }
-            ]
-          },
-          {
-            "id": "id11",
-            "label": "Done",
-            "tasks": [
-              {
-                "id": "id5",
-                "label": "define getData",
-                "attributes": {}
-              },
-              {
-                "id": "id2",
-                "label": "Title of diagram is more than 100 chars when user duplicates diagram with 100 char",
-                "attributes": {
-                  "ticket": "MC-2036",
-                  "priority": "Very High"
-                }
-              },
-              {
-                "id": "id3",
-                "label": "Update DB function",
-                "attributes": {
-                  "ticket": "MC-2037",
-                  "assigned": "knsv",
-                  "priority": "High"
-                }
-              }
-            ]
-          },
-          {
-            "id": "id12",
-            "label": "Can't reproduce",
-            "tasks": [
-              {
-                "id": "id3",
-                "label": "Weird flickering in Firefox",
-                "attributes": {}
-              }
-            ]
-          }
-        ]
-      }
+      "rule": "Kanban columns and tasks require unique identifiers",
+      "provenance": [
+        "packages/mermaid/src/docs/syntax/kanban.md:17-43",
+        "packages/mermaid/src/docs/syntax/kanban.md:113-117"
+      ]
     },
-    "unverifiedFacts": [
-      "Kanban identifiers must be unique; duplicate source identity needs clarification: id3"
-    ],
     "sourceReview": {
       "protocol": "literal-documentation-facts-v1",
       "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
       "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": false,
+      "expectedFactsComplete": true,
       "requiredObligations": [
-        "visible-labels",
-        "fact:columns"
+        "typed-rejection:duplicate-identifier"
       ],
-      "unresolved": [
-        "Kanban identifiers must be unique; duplicate source identity needs clarification: id3"
-      ],
+      "unresolved": [],
       "excludedNonvisual": [
         "Configuration affects logging or navigation, not the static drawing: kanban.ticketBaseUrl=\"https://mermaidchart.atlassian.net/browse/#TICKET#\""
       ]

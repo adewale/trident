@@ -1,9 +1,10 @@
 import { createHash } from 'node:crypto'
 import { parse as parseYaml } from 'yaml'
+import { load as loadFrontmatter, JSON_SCHEMA } from 'js-yaml'
 import { decodeHTML, decodeHTMLStrict } from 'entities'
 import { projectVisualExpectation } from '../fidelity/visual-expectation.ts'
 import type { MeaningExpectation, MeaningJson } from '../fidelity/meaning.ts'
-import type { DocsDrawingReview, DocsInput } from './docs-drawings.ts'
+import type { DocsDrawingReview, DocsInput, DocsRejectionExpectation } from './docs-drawings.ts'
 
 export const docsSourcePin = '1fb7869866dd619168d840291c9c54b4f129758b'
 export const docsSourceReviewProtocol = 'literal-documentation-facts-v1'
@@ -18,7 +19,8 @@ export interface DocsSourceReview {
   visualProjections?: string[]
 }
 export type SourceReviewedDrawing = DocsDrawingReview & { sourceReview: DocsSourceReview }
-export function requiredDocumentationObligations(expected?: MeaningExpectation) {
+export function requiredDocumentationObligations(expected?: MeaningExpectation, rejection?: DocsRejectionExpectation) {
+  if (rejection) return ['typed-rejection:' + rejection.category]
   return [
     ...(expected?.labels.length ? ['visible-labels'] : []),
     ...(expected?.forbiddenLabels?.length ? ['hidden-authored-content'] : []),
@@ -67,6 +69,7 @@ class LiteralReview {
   body = ''
   lines: string[] = []
   readonly input: DocsInput
+  rejection?: DocsRejectionExpectation
   constructor(input: DocsInput) {
     this.input = input
     let source = input.source
@@ -75,7 +78,10 @@ class LiteralReview {
       if (!match) this.unresolved.push('Unterminated frontmatter')
       else {
         try {
-          const front = parseYaml(match[1]!) as any
+          // The pinned documentation declares the js-yaml JSON_SCHEMA dialect.
+          // This independent dependency reads literal frontmatter only; no
+          // Mermaid implementation, parser or renderer is invoked.
+          const front = loadFrontmatter(match[1]!, { schema: JSON_SCHEMA }) as any
           if (front?.title !== undefined) this.fact('title', String(front.title))
           // Configuration is explicit source intent, never an inferred render option.
           if (front?.config !== undefined) {
@@ -103,7 +109,7 @@ class LiteralReview {
   fact(key: string, value: MeaningJson) { this.expected.facts![key] = value }
   labels(...values: string[]) { for (const value of values) if (value && !this.expected.labels.includes(value)) this.expected.labels.push(value) }
   unknown(line: string) { this.unresolved.push('Uninterpreted ' + this.family + ' construct: ' + line.trim()) }
-  title(line: string) { const match = /^\s*title\s+(.+)$/.exec(line); if (!match) return false; const title = cleanLabel(match[1]!); this.fact('title', title); this.labels(title); return true }
+  title(line: string) { const match = /^\s*title\s+(.+)$/.exec(line); if (!match) return false; const title = cleanLabel(match[1]!); if (typeof this.expected.facts!.title === 'string' && this.expected.facts!.title !== title) this.excludedNonvisual.push('Chart title overrides frontmatter title without painting the superseded value: ' + JSON.stringify(this.expected.facts!.title)); this.fact('title', title); this.labels(title); return true }
   style(line: string) {
     const match = /^\s*(classDef|style|linkStyle|class)\s+(.+?)\s*;?\s*$/.exec(line)
     if (!match) return false
@@ -111,18 +117,28 @@ class LiteralReview {
     const styles = (this.expected.facts!['authored-style'] ?? []) as MeaningJson[]
     const classDirective = match[1] === 'class' ? /^(.+)\s+([\w,-]+)$/.exec(match[2]!) : null
     const [selected = '', ...rest] = match[2]!.split(/\s+/), selection = classDirective ? classDirective[1]!.replace(/\s/g, '') : selected, expression = classDirective ? classDirective[2]! : rest.join(' ')
-    const attributes: MeaningJson[] = expression.split(/(?<!\\),/).filter(Boolean).map((value): MeaningJson => { const index = value.indexOf(':'); if (index < 0 && match[1] !== 'class') this.unresolved.push('Style declaration has no property/value separator: ' + value.trim()); return index < 0 ? { class: value.trim() } : { property: value.slice(0, index).trim(), value: value.slice(index + 1).trim() } })
+    const attributes: MeaningJson[] = expression.split(/(?<!\\),/).filter(Boolean).flatMap((value): MeaningJson[] => {
+      const index = value.indexOf(':')
+      if (index < 0 && match[1] !== 'class') {
+        // Mermaid's documented comma delimiter produces separate CSS
+        // declarations. CSS recovery discards a declaration without a colon;
+        // it never supplies the missing colon or rejoins a comma-separated value.
+        this.excludedNonvisual.push('Invalid CSS declaration discarded without repair: ' + value.trim() + ' (' + match[1] + ' ' + selection + '); no authored property override; the configured theme/default remains applicable')
+        return []
+      }
+      return [index < 0 ? { class: value.trim() } : { property: value.slice(0, index).trim(), value: value.slice(index + 1).trim() }]
+    })
     styles.push({ kind: match[1]!, selection, attributes }); this.fact('authored-style', styles); return true
   }
   finish(): SourceReviewedDrawing {
     const facts = this.expected.facts!
     if (typeof facts.title === 'string') this.labels(facts.title)
-    const requiredObligations = requiredDocumentationObligations(this.expected)
+    const requiredObligations = requiredDocumentationObligations(this.rejection ? undefined : this.expected, this.rejection)
     const unresolved = [...new Set(this.unresolved)]
     return {
-      id: this.input.id, sourceSha256: hash(this.input.source), intent: 'drawing', family: this.family,
-      review: 'Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.',
-      expected: this.expected,
+      id: this.input.id, sourceSha256: hash(this.input.source), intent: this.rejection ? 'invalid-source' : 'drawing', family: this.family,
+      review: this.rejection ? 'The literal source violates the pinned documentation requirement that Kanban identifiers be unique. It remains in the acceptance denominator as a typed duplicate-identifier rejection control, with no corrected drawing or generic-exception pass.' : 'Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.',
+      ...(this.rejection ? { expectedRejection: this.rejection } : { expected: this.expected }),
       ...(unresolved.length ? { unverifiedFacts: unresolved } : {}),
       sourceReview: { protocol: docsSourceReviewProtocol, sourcePin: docsSourcePin, method: 'Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts', expectedFactsComplete: unresolved.length === 0 && requiredObligations.length > 0, requiredObligations, unresolved, excludedNonvisual: this.excludedNonvisual },
     }
@@ -925,7 +941,12 @@ function gantt(r: LiteralReview) {
     let match = /^section\s+(.+)$/.exec(line)
     if (match) { section = cleanLabel(match[1]!); sections.push(section); r.labels(section); continue }
     match = /^(dateFormat|axisFormat|tickInterval|weekday|excludes|includes|todayMarker|displayMode|weekend|inclusiveEndDates|topAxis)\b\s*(.*)$/.exec(line)
-    if (match) { settings[match[1]!] = match[2]!.trim() || true; continue }
+    if (match) {
+      const value = match[2]!.trim() || true
+      if (match[1] === 'tickInterval' && typeof value === 'string' && !/^([1-9][0-9]*)(millisecond|second|minute|hour|day|week|month)$/.test(value)) { settings.tickInterval = 'auto'; r.excludedNonvisual.push('Unsupported authored tickInterval ' + JSON.stringify(value) + ' is ignored; automatic ticks remain in effect (gantt.md:275-287 and the source comment at gantt.md:544)') }
+      else settings[match[1]!] = value
+      continue
+    }
     match = /^([^:]+)\s*:\s*(.+)$/.exec(line)
     if (match) {
       const label = cleanLabel(match[1]!), tokens = csv(match[2]!), tags: string[] = []
@@ -1042,6 +1063,15 @@ function flowchartDialects(r: LiteralReview) {
   r.body = adapted.join('\n'); r.family = 'flowchart'; flowchart(r); r.body = originalBody; r.family = originalFamily
   const globalIds = new Set(kinds.filter((kind: any) => kind.kind === 'shared-global-scope').map((kind: any) => kind.id)), globalNodes = new Set((r.expected.groups ?? []).filter(group => globalIds.has(group.id)).flatMap(group => group.members))
   if (globalIds.size) { r.expected.groups = (r.expected.groups ?? []).filter(group => !globalIds.has(group.id)).map(group => ({ ...group, members: group.members.filter(id => !globalNodes.has(id) && !globalIds.has(id)) })); extra['global-node-scope'] = [...globalNodes] }
+  if (originalFamily === 'agentflow') {
+    // Agentflow's shipped shape vocabulary explicitly normalizes absent,
+    // square/rect and legacy round shapes to roundedRect (shapes.ts:84,119-124).
+    // Flowchart's square-bracket lowering cannot define this dialect's default.
+    const shapes = new Map(((r.expected.facts!['node-shapes'] ?? []) as any[]).map(item => [item.id, item.shape]))
+    const flows = new Set(kinds.filter((item:any)=>item.kind === 'agent-flow').map((item:any)=>item.id))
+    for (const node of r.expected.nodes ?? []) if (!flows.has(node.id) && (!shapes.has(node.id) || ['rectangle', 'rect', 'squareRect', 'round'].includes(shapes.get(node.id)))) shapes.set(node.id, 'rounded')
+    r.fact('node-shapes', [...shapes].map(([id, shape]) => ({ id, shape })))
+  }
   if (originalFamily === 'usecase') {
     const shapes = new Map(((r.expected.facts!['node-shapes'] ?? []) as any[]).map(item => [item.id, item.shape]))
     const attrs = new Map(((r.expected.facts!['node-attributes'] ?? []) as any[]).map(item => [item.id, item.attributes]))
@@ -1078,7 +1108,10 @@ function kanban(r: LiteralReview) {
     const match = /^(?:([\w.-]+))?(?:\[([^\]]*)\])?\s*(@\{[\s\S]*\})?$/.exec(line)
     if (!match || !match[1] && match[2] === undefined) { r.unknown(line); continue }
     const label = cleanLabel(match[2] ?? match[1]!), id = match[1] ?? 'anonymous:' + columns.length + ':' + (current?.tasks.length ?? 0)
-    if (identities.has(id)) r.unresolved.push('Kanban identifiers must be unique; duplicate source identity needs clarification: ' + id)
+    if (identities.has(id)) {
+      r.rejection ??= { category: 'duplicate-identifier', identifiers: [], rule: 'Kanban columns and tasks require unique identifiers', provenance: ['packages/mermaid/src/docs/syntax/kanban.md:17-43', 'packages/mermaid/src/docs/syntax/kanban.md:113-117'] }
+      if (!r.rejection.identifiers.includes(id)) r.rejection.identifiers.push(id)
+    }
     identities.add(id)
     if (baseIndent === undefined) baseIndent = indent
     if (indent <= baseIndent) { current = { id, label, tasks: [] }; columns.push(current); r.labels(label); continue }

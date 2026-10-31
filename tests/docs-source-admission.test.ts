@@ -16,7 +16,7 @@ test('all548 canonical source roles and exact semantic contracts match registere
  expect(registry.cases).toHaveLength(548)
  const admitted=admitDocsReviews(inputs,reviews)
  expect(admitted.filter(row=>row.sourceAdmission?.matched)).toHaveLength(548)
- expect(admitted.filter(row=>row.registeredProfileEligible)).toHaveLength(543)
+ expect(admitted.filter(row=>row.registeredProfileEligible)).toHaveLength(546)
  expect(admitted.filter(row=>row.registeredIntent==='configuration-only')).toHaveLength(1)
  const standalone=reviews.find(row=>row.id==='packages/mermaid/src/docs/syntax/classDiagram.md:827')!
  expect(standalone.sourceReview!.excludedNonvisual.some(reason=>reason.includes('external stylesheet prerequisite'))).toBe(true)

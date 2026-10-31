@@ -20,7 +20,7 @@ export interface DocsPngReview {
 }
 export const docsExpectationsHash = (review: DocsDrawingReview) => {
   const sourceReview = (review as DocsDrawingReview & { sourceReview?: unknown }).sourceReview
-  return sourceHash(JSON.stringify({ intent: review.intent, family: review.family, expected: review.expected, unverifiedFacts: review.unverifiedFacts ?? [], ...(sourceReview ? { sourceReview } : {}) }))
+  return sourceHash(JSON.stringify({ intent: review.intent, family: review.family, expected: review.expected, ...(review.expectedRejection ? { expectedRejection: review.expectedRejection } : {}), unverifiedFacts: review.unverifiedFacts ?? [], ...(sourceReview ? { sourceReview } : {}) }))
 }
 const validPixels = (pixels: PngPixelIdentity | undefined) => pixels === undefined || !!pixels && typeof pixels === 'object' && pixels.protocol === 'png-rgba16-and-display-metadata-v1' && /^[a-f0-9]{64}$/.test(pixels.sha256) && Number.isSafeInteger(pixels.width) && Number.isSafeInteger(pixels.height) && pixels.width > 0 && pixels.height > 0 && pixels.width * pixels.height <= 16 * 1024 * 1024
 const samePixels = (left: PngPixelIdentity, right: PngPixelIdentity) => left.protocol === right.protocol && left.width === right.width && left.height === right.height && left.sha256 === right.sha256
@@ -71,6 +71,7 @@ export function assessDocsPng(input: DocsInput, expected: DocsDrawingReview | nu
   const admission = docsSourceAdmission(input, expected)
   if (!admission.matched) return { status: 'unknown', reason: admission.reason }
   if (expected?.intent === 'configuration-only') return { status: 'not-applicable', reason: expected.review }
+  if (expected?.intent === 'invalid-source') return { status: 'not-applicable', reason: 'Independently invalid documentation source; use the separate typed public rejection control' }
   if (!bytes) return { status: 'unknown', reason: 'No inspectable PNG; see the separate output-return result' }
   if (!expected) return { status: 'unknown', reason: 'No reviewed source expectation; PNG decoding supplies no correctness credit' }
   if (expected.sourceReview?.expectedFactsComplete !== true || expected.sourceReview.unresolved.length || expected.unverifiedFacts?.length) return { status: 'unknown', reason: 'A validated complete source contract is required; a legacy or incomplete image review cannot supply full content credit' }
