@@ -347,7 +347,7 @@
     "originalFinishedAt": "2026-10-31T09:28:24.742Z",
     "originalCallStartedAt": null,
     "originalCallFinishedAt": null,
-    "role": "representation-ambiguous",
+    "role": "positive",
     "controlOnly": true
   },
   {
@@ -369,7 +369,7 @@
     "originalFinishedAt": "2026-10-31T09:28:24.742Z",
     "originalCallStartedAt": null,
     "originalCallFinishedAt": null,
-    "role": "representation-ambiguous",
+    "role": "positive",
     "controlOnly": true
   },
   {

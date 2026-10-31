@@ -7,8 +7,8 @@ No renderer, AST, source-reference agreement, model or network access is used by
 the checker. Sources and required facts are unchanged.
 
 The [receipt](receipt.json) rereads all 342 original retained outputs for these
-19 inputs across the same 18 projects. It records 17 correct, 14 incorrect and
-311 unknown outputs. Thirteen inputs have at least one genuine retained positive.
+19 inputs across the same 18 projects. It records 19 correct, 14 incorrect and
+309 unknown outputs. Fifteen inputs have at least one genuine retained positive.
 These counts belong to this extension, not the full 116-input drawing population.
 No new renderer or performance calls were made. Original collection clocks stay
 separate from missing original per-call clocks, which remain null.
@@ -28,8 +28,11 @@ The qualified representations are:
 - Gitgraph: vertical commit/branch/merge stems with owned IDs/tags and branch-head
   names; horizontal tracks with continuous branch/cherry-pick provenance. Checkout
   operations are projected through the resulting branch heads and commit parents.
-- Block: dense unit rows expose column capacity; full and partial rows must align
-  to the same unit boundaries, including database primitives and enclosing groups.
+- Block: full literal capacities/spans project occupied logical rows and rational
+  slot intervals. Shared source starts/ends require aligned walls; slot ordering,
+  overlap, primitives and enclosure are checked. Physical column widths may vary.
+  Unused capacity has no required painted marks; a one-box drawing does not claim
+  that its literal source capacity can be uniquely recovered from its pixels.
 - Architecture: framed groups, explicit icon labels, service containers and traced
   routes whose contact walls establish both ports.
 - Mindmap: explicit circle root and a continuous ordered elbow/tee tree.
@@ -46,7 +49,7 @@ The qualified representations are:
 - ZenUML: role compartments, continuous lifelines, synchronous filled heads,
   recipient activation bars and returns establish method arguments and stack depth.
 
-Six inputs have no qualified real positive in the retained collection:
+Four inputs have no qualified real positive in the retained collection:
 
 | Case | What the retained evidence establishes |
 |---|---|
@@ -54,12 +57,19 @@ Six inputs have no qualified real positive in the retained collection:
 | `terminal:b1428b5b59888938` | Inspectable architecture drawings omit or break requested routes, and some omit the title or icons. |
 | `terminal:d7362afef7c26051` | No genuine ZenUML drawing is retained. Termaid boxes source statements; other outputs are absent/errors or outside the qualified representation. |
 | `terminal:276c8474274911fa` | Visible schedule rows omit dependency provenance and the milestone's duration/instant. Coincident dates do not establish these facts. |
-| `terminal:39d5de95eb42396b` | One small block cannot expose an unused capacity of 1000 columns. The capacity obligation stays unknown. |
-| `terminal:a181524246065697` | Uniformly spanned outer rows do not distinguish four columns with spans of two from two columns with spans of one. The absolute capacity obligation stays unknown. |
 
-The three additional files ending in `-synthetic.txt` are explicitly authored
+The six additional files ending in `-synthetic.txt` are explicitly authored
 checker controls. The UML sequence and proportional treemap are standalone drawn
 examples; the schedule adds visible dependency/milestone annotations to a retained
 chart. They are not attributed to a renderer, have no fabricated invocation clocks
 or artifact identity, and never enter the retained-output receipt or real corpus
 score. Their negative controls independently alter semantic content and geometry.
+
+The block projection was independently reviewed against the literal sources by
+the source-review agent before qualification. `39d5de95eb42396b` retains capacity
+1000 with one occupied [0/1000,1/1000] slot. `a181524246065697` retains four root
+columns and spans of two, plus its nested two-column scope. The check establishes
+their visible occupied constraints, not a uniquely invertible absolute capacity.
+Three hand-drawn grid controls use unequal column widths and repeated boundaries;
+wrong shared-end widths, row placement, relative spans and nested child order fail.
+Duplicate source IDs/scopes and cyclic parentage remain unqualified.

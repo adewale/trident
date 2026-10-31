@@ -10,12 +10,12 @@
     "terminal-family-facts.ts": "2f98841e6fed92fb802fe2c217e76d63eb09905e97ca49ac00a8f018b1f7e953",
     "terminal-family-git.ts": "c97d9d0b113f2fea4318f266c28654cf4c9796439f0bf1935b8757272fb00f71",
     "terminal-family-hierarchy.ts": "24e569fcfb7ebafa68bf59c1d1ae39eadeacce2064509803b82dddd317f84307",
-    "terminal-family-layout.ts": "292b336c78238e266d0d77cb74fe306ea97f21f39b9f2af6b33c7a3191a4a4fe",
+    "terminal-family-layout.ts": "2a1aef43d97f46bb60b7d0827a2f7b1492afe6e35925438f57052ed27b9ac539",
     "terminal-family-routes.ts": "f12bfe31ff460b7db741997e19713e953ffd521bb3f28fb641a7332a7cc0b1d9",
     "terminal-family-schedule.ts": "da8d8e24373f3d938311fed76f3fccf7618a68e2b5c7d77ed5911fae387bc577",
     "terminal-family-xy.ts": "1fa30851646e7ceb8b466af4657a7e53f25aeababb828e0bf7c29955e1861c27"
   },
-  "observerSha256": "cf0b1a547789361aa015215bbf12c6469d50912fb8838a6267f0c0b584ee4c80",
+  "observerSha256": "5dfa45c53bb4dc1dafe3aca2a7eb2d995a202cd51f96b6cca9de6dba45306fae",
   "retainedPopulation": {
     "cases": 19,
     "projects": 18,
@@ -89,9 +89,9 @@
     {
       "caseId": "terminal:39d5de95eb42396b",
       "family": "block",
-      "correct": 0,
+      "correct": 1,
       "incorrect": 0,
-      "unknown": 18,
+      "unknown": 17,
       "noBytes": 15
     },
     {
@@ -113,9 +113,9 @@
     {
       "caseId": "terminal:a181524246065697",
       "family": "block",
-      "correct": 0,
+      "correct": 1,
       "incorrect": 0,
-      "unknown": 18,
+      "unknown": 17,
       "noBytes": 15
     },
     {
@@ -2605,13 +2605,13 @@
       "originalPublicStatus": "passed",
       "originalCallStartedAt": null,
       "originalCallFinishedAt": null,
-      "status": "unknown",
-      "reason": "Underfilled or uniformly spanned rows do not expose the declared column capacity; the source keeps this obligation",
+      "status": "correct",
+      "reason": "Every required fact passed",
       "checks": [
         {
           "criterion": "block-layout",
-          "status": "unknown",
-          "detail": "Underfilled or uniformly spanned rows do not expose the declared column capacity; the source keeps this obligation"
+          "status": "passed",
+          "detail": "Full source capacities/spans project occupied row order, rational slot intervals, shared boundary alignment and nesting; unused capacity has no visible marks and column widths may vary"
         }
       ]
     },
@@ -2863,7 +2863,7 @@
         {
           "criterion": "block-layout",
           "status": "passed",
-          "detail": "Dense unit rows establish column capacity; every node/group owns exact aligned column spans, primitive and enclosure"
+          "detail": "Full source capacities/spans project occupied row order, rational slot intervals, shared boundary alignment and nesting; unused capacity has no visible marks and column widths may vary"
         }
       ]
     },
@@ -3420,13 +3420,13 @@
       "originalPublicStatus": "passed",
       "originalCallStartedAt": null,
       "originalCallFinishedAt": null,
-      "status": "unknown",
-      "reason": "Underfilled or uniformly spanned rows do not expose the declared column capacity; the source keeps this obligation",
+      "status": "correct",
+      "reason": "Every required fact passed",
       "checks": [
         {
           "criterion": "block-layout",
-          "status": "unknown",
-          "detail": "Underfilled or uniformly spanned rows do not expose the declared column capacity; the source keeps this obligation"
+          "status": "passed",
+          "detail": "Full source capacities/spans project occupied row order, rational slot intervals, shared boundary alignment and nesting; unused capacity has no visible marks and column widths may vary"
         }
       ]
     },

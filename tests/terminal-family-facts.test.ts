@@ -3,6 +3,8 @@ import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { reviewedTerminalCases } from '../fidelity/terminal-corpus.ts'
 import { inspectTerminalFamilyFacts, terminalFamilySourceObservable } from '../fidelity/terminal-family-facts.ts'
+import { analyseTerminalSource } from '../fidelity/terminal-source.ts'
+import { inspectTerminalBlock, projectTerminalBlockLayout } from '../fidelity/terminal-family-layout.ts'
 import provenance from './fixtures/terminal/family-provenance.json'
 const cases = reviewedTerminalCases(), fixture = (name: string) => readFileSync(new URL('./fixtures/terminal/' + name + '.txt', import.meta.url), 'utf8')
 const input = (name: string) => cases.find(input => input.id === provenance.find(row => row.file === name + '.txt')!.caseId)!
@@ -25,9 +27,9 @@ test('nineteen finite family cases retain original source, artifact, output and 
   }
   expect(new Set(provenance.map(row => row.caseId)).size).toBe(19)
 })
-test('thirteen authenticated positive drawings establish every required family fact', () => {
+test('fifteen authenticated positive drawings establish every required family fact', () => {
   for (const row of provenance.filter(row => row.role === 'positive')) expect(passed(inspect(row.file.slice(0, -4)))).toBe(true)
-  expect(provenance.filter(row => row.role === 'positive')).toHaveLength(13)
+  expect(provenance.filter(row => row.role === 'positive')).toHaveLength(15)
 })
 test('source echoes, label inventories, empty strings and concealed drawings never establish whole drawing meaning', () => {
   for (const row of provenance) {
@@ -68,13 +70,13 @@ test('quadrant legends must independently agree with uniquely positioned plot do
   expect(passed(inspect('family-quadrant', text.replace('bottom: Low value', 'bottom: High value')))).toBe(false)
   expect(passed(inspect('family-quadrant', lines.filter(line => /^●/.test(line)).join('\n')))).toBe(false)
 })
-test('block dense rows establish spans and primitives while truly hidden column capacity stays unknown', () => {
+test('block literal capacities project occupied rows and shared boundaries without inventing unused tail cells', () => {
   const text = fixture('family-block-dense')
   expect(passed(inspect('family-block-dense', text.replace('Postgres', 'Redis   ')))).toBe(false)
   expect(passed(inspect('family-block-dense', text.replace('Web Frontend', 'CLI Tool    ')))).toBe(false)
-  expect(inspect('family-block-underfilled')[0]!.status).toBe('unknown')
-  expect(inspect('family-block-underfilled')[0]!.detail).toContain('column capacity')
-  expect(inspect('family-block-nested')[0]!.status).toBe('unknown')
+  expect(inspect('family-block-underfilled')[0]!.status).toBe('passed')
+  expect((inspect('family-block-underfilled')[0]!.expected as any).columns[0].columns).toBe(1000)
+  expect(inspect('family-block-nested')[0]!.status).toBe('passed')
   expect(passed(inspect('family-block-nested', fixture('family-block-nested').replace('inner1', 'other1')))).toBe(false)
 })
 test('architecture roles, enclosures and exact requested ports are separately observed', () => {
@@ -116,4 +118,28 @@ test('synthetic schedule annotations retain provenance and milestone instant wit
   expect(passed(inspect('family-gantt-dependencies', text.replace('after=a1', 'after=b1')))).toBe(false)
   expect(passed(inspect('family-gantt-dependencies', text.replace('12:00:00.000Z', '00:00:00.000Z')))).toBe(false)
   expect(inspect('family-gantt-dependencies').find(check => check.criterion === 'gantt-tasks')!.detail).toContain('dependency provenance')
+})
+
+// Hand-authored drawings, not renderer outputs or generated decoder round trips.
+test('independent block grid controls reject wrong relative boundaries, rows, spans and containment', () => {
+  const contract = analyseTerminalSource('block-beta\ncolumns 3\nA B C\nW:2 D\nE F G\n', 'block').contract
+  const positive = fixture('family-block-grid-synthetic')
+  expect(passed(inspectTerminalBlock(positive, contract))).toBe(true)
+  expect(passed(inspectTerminalBlock(fixture('family-block-grid-wrong-width-synthetic'), contract))).toBe(false)
+  expect(passed(inspectTerminalBlock(fixture('family-block-grid-wrong-row-synthetic'), contract))).toBe(false)
+  expect(passed(inspectTerminalBlock(positive, analyseTerminalSource('block-beta\ncolumns 3\nA B C\nW D:2\nE F G\n', 'block').contract))).toBe(false)
+  const nested = input('family-block-nested').expected.contract!, layout = nested.facts.find(f => f.criterion === 'block-layout')!.expected as any
+  expect(projectTerminalBlockLayout(layout)).toEqual([
+    { scope: null, columns: 4, items: [{ id: 'a', kind: 'node', span: 2, row: 0, start: 0, end: 2 }, { id: 'b', kind: 'node', span: 2, row: 0, start: 2, end: 4 }, { id: 'inner1', kind: 'group', span: 2, row: 1, start: 0, end: 2 }] },
+    { scope: 'inner1', columns: 2, items: [{ id: 'c', kind: 'node', span: 1, row: 0, start: 0, end: 1 }, { id: 'd', kind: 'node', span: 1, row: 0, start: 1, end: 2 }] },
+  ])
+  // Swapping C/D ownership keeps their letters and boxes but changes geometry.
+  expect(passed(inspect('family-block-nested', fixture('family-block-nested').replace('    C     ', '    X     ').replace('    D     ', '    C     ').replace('    X     ', '    D     ')))).toBe(false)
+})
+
+test('block projection rejects conflicting IDs, duplicate scopes and cyclic parentage', () => {
+  const source = analyseTerminalSource('block-beta\ncolumns 2\nA B\n', 'block').contract.facts[0]!.expected as any
+  expect(projectTerminalBlockLayout({ ...source, nodes: [...source.nodes, source.nodes[0]] })).toBeUndefined()
+  expect(projectTerminalBlockLayout({ ...source, columns: [...source.columns, source.columns[0]] })).toBeUndefined()
+  expect(projectTerminalBlockLayout({ nodes: [], groups: [{ id: 'a', parent: 'b', span: 1 }, { id: 'b', parent: 'a', span: 1 }], columns: [{ scope: null, columns: 2 }] })).toBeUndefined()
 })
