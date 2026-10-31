@@ -72,11 +72,11 @@ test('public planning defaults to active120 and keeps original120 as an explicit
 }, 30_000)
 
 test('active recheck emits one verified-count drawing table, ranks observed positives despite unknowns and keeps controls separate', () => {
-  const directory = mkdtempSync(join(tmpdir(), 'terminal-active-recheck-')), out = join(directory, 'rechecked'), active = readActiveTerminalCorpus(), project = 'AlexanderGrooff/mermaid-ascii', observed = 'fasouto/termaid'
+  const directory = mkdtempSync(join(tmpdir(), 'terminal-active-recheck-')), out = join(directory, 'rechecked'), active = readActiveTerminalCorpus(), project = 'AlexanderGrooff/mermaid-ascii', observed = 'fixture/observed-terminal'
   try {
-    // Retained known glyphs exercise reporting, not a new renderer invocation or
-    // benchmark score. Every other drawing and all controls remain uncollected.
-    const text = readFileSync(new URL('./fixtures/terminal/state-adaptation-termaid.txt', import.meta.url))
+    // An existing independent hand-drawn positive exercises reporting, not a SUT
+    // output or benchmark score. Every other drawing/control stays uncollected.
+    const text = readFileSync(new URL('./fixtures/terminal/state-alias-adaptation-synthetic.txt', import.meta.url))
     writeFileSync(join(directory, 'known-state.txt'), text)
     const record = { profile: terminalActiveProfileId, corpusVersion: active.version, corpusFile: active.corpusFile, corpusSha256: active.corpusSha256, inventory: active.cases.map(input => [input.id, input.sourceSha256]), artifacts: [{ project, version: 'synthetic uncollected active cohort' }, { project: observed, version: 'synthetic retained reporting control' }], outputs: [{ project: observed, caseId: adaptationId, witness: 'known-state.txt', sha256: createHash('sha256').update(text).digest('hex') }], transportObservations: [], sourceReference: active.cases.map(input => ({ project: 'mermaid-js/mermaid', caseId: input.id, role: 'source-reference-only', sourceAccepted: null })), startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z' }
     writeFileSync(join(directory, 'raw.json'), JSON.stringify(record))
@@ -89,7 +89,8 @@ test('active recheck emits one verified-count drawing table, ranks observed posi
     expect(report.terminalProfile.drawingCaseIds).toContain(adaptationId)
     expect(report.terminalProfile.drawingCaseIds).not.toContain(diagnosticId)
     expect(report.terminalAssessments[0]).toMatchObject({ planned: 116, correct: 0, incorrect: 0, unknown: 116 })
-    expect(report.terminalAssessments[1]).toMatchObject({ planned: 116, correct: 1, incorrect: 0, unknown: 115 })
+    const { planned, correct, incorrect, unknown } = report.terminalAssessments[1]
+    expect({ planned, correct, incorrect, unknown }).toEqual({ planned: 116, correct: 1, incorrect: 0, unknown: 115 })
     expect(report.terminalRejectionAssessments[0]).toMatchObject({ planned: 4, correct: 0, unknown: 4 })
     expect(report.observations.some((row: any) => row.caseId === diagnosticId)).toBe(false)
     expect(report.recheck).toMatchObject({ rendererInvocations: 0, sourceReferenceCalls: 0, originalProfile: terminalActiveProfileId })
@@ -106,8 +107,8 @@ test('active recheck emits one verified-count drawing table, ranks observed posi
     expect(markdown.match(/\| Verified-count rank \|/g)).toHaveLength(2)
     expect(markdown).not.toContain('Observable-source diagnostic subset')
     expect(markdown).not.toContain('Accuracy rank')
-    expect(markdown).toContain('| 1 | fasouto/termaid | synthetic retained reporting control | 1 | 0 | 0 | 115 | 116 |')
-    expect(markdown.indexOf('| 1 | fasouto/termaid |')).toBeLessThan(markdown.indexOf('| — | AlexanderGrooff/mermaid-ascii |'))
+    expect(markdown).toContain('| 1 | fixture/observed-terminal | synthetic retained reporting control | 1 | 0 | 0 | 115 | 116 |')
+    expect(markdown.indexOf('| 1 | fixture/observed-terminal |')).toBeLessThan(markdown.indexOf('| — | AlexanderGrooff/mermaid-ascii |'))
     expect(markdown).toContain('unknown outcomes leave complete accuracy unresolved')
     // Population identity is set membership, not storage order or just length.
     report.terminalProfile.reviewedCaseIds.reverse()
