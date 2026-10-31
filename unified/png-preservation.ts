@@ -10,6 +10,7 @@ import { assessDocsPng, docsExpectationsHash, type DocsPngReview } from './docs-
 import { admitDocsReviews, reviewedDocsCase, sourceHash, type DocsDrawingReview, type DocsInput } from './docs-drawings.ts'
 import { docsSourceAdmission } from './docs-source-admission.ts'
 import { inspectPng } from './png-inspection.ts'
+import { reviewedDocsPngCase, docsPngStaticProjection } from './docs-png-static-contract.ts'
 
 export interface FrozenRasterProfile {
   schema: 'trident-raster-profile-v1'
@@ -57,7 +58,7 @@ export function assessSvgPngConversion(request: SvgPngConversionRequest) {
   if (sourceReview?.expectedFactsComplete !== true || sourceReview.unresolved?.length || expected.unverifiedFacts?.length) return unknown('Full source-fact obligations are not independently complete')
   const contract = admitCaseEvidenceContract(request.svgContract)
   if (contract.caseId !== input.id || contract.sourceSha256 !== sourceHash(input.source) || contract.expectationsSha256 !== docsExpectationsHash(expected)) throw Error('PNG conversion SVG evidence differs from the source expectations')
-  const required = planFidelityCriteria([reviewedDocsCase(input, expected)]).filter(item => item.surface !== 'native-public-api').map(coordinate).sort()
+  const required = planFidelityCriteria([reviewedDocsPngCase(input, expected)]).filter(item => item.surface !== 'native-public-api').map(coordinate).sort()
   if (JSON.stringify(contract.requiredChecks.map(coordinate).sort()) !== JSON.stringify(required)) throw Error('PNG conversion SVG contract omits or changes a required source check')
   const svgVerdict = constructEvidenceVerdict(contract, svgEvidence)
   if (svgVerdict.status !== 'correct') return unknown('The exact rasterized SVG lacks complete passing semantic evidence')
@@ -91,6 +92,7 @@ export function assessSvgPngConversion(request: SvgPngConversionRequest) {
       originalSvgSha256: bytesHash(originalSvg), rasterizedSvgSha256: bytesHash(rasterizedSvg), actualPngSha256: bytesHash(actualPng), referencePngSha256: bytesHash(referencePng),
       pixels: actual.pixelIdentity, svgVerdict, rasterizer, profile: { ...profile, fontFiles: profile.fontFiles.map(({ path, sha256 }) => ({ path, sha256 })) }, profileSha256: evidenceDigest({ ...profile, fontFiles: profile.fontFiles.map(file => ({ sha256: file.sha256 })) }),
       independentReferenceReview: independentContent,
+      ...(docsPngStaticProjection(expected)?{formatProjection:docsPngStaticProjection(expected)}:{}),
     },
   }
 }

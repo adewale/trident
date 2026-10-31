@@ -5,6 +5,31 @@ A decoded PNG, a nonblank canvas, or a correct SVG supplies no PNG meaning pass.
 complete declared expected facts. The review author remains the authority for
 those facts; hashes establish identity, not the truth of the review.
 
+## Static PNG obligations
+
+`docsPngStaticProjection` derives a named PNG contract from the exact registered
+original source review. A single raster cannot establish animation activation,
+absence, duration, progression or elapsed dash phase. Fast/slow animated edges
+still require their source-owned static dash pattern and round caps; the malformed
+flowchart class example keeps its literal `9` dash pattern (equivalent to `9,9`),
+without repairing the discarded `5`. All labels, endpoints, markers, thickness,
+other styles and colors remain required. The complete original native/SVG
+expectations remain available and canonical admission stays on the original review.
+
+PNG pixels also cannot expose SVG `<title>`/`<desc>` and ARIA relationships.
+Only the two accessibility metadata facts are excluded from PNG obligations;
+authored visible titles and labels remain required. Exact metadata values and
+animation properties stay in projection provenance and the complete native
+profile. Correct PNG results disclose the named exclusions and certify only the
+complete static frame, never animation or accessible DOM behavior.
+
+Nine canonical source occurrences currently need this format projection; the
+other 539 PNG expectation identities remain unchanged. Both direct PNG review and
+the strong SVG-preservation path use the projected static contract. The strong
+path freshly inspects that contract against its exact retained raster-input SVG;
+it cannot omit static paint checks or import an SVG lane's temporal verdict.
+Unknown/custom animation syntax receives no implicit weaker contract.
+
 ## Exact reviewed pixels
 
 `bindPngReviewPixels` imports an existing review using the actual PNG whose raw

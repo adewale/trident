@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto'
 import { inspectPng, type PngPixelIdentity } from './png-inspection.ts'
 import { admitDocsReviews, sourceHash, type DocsDrawingReview, type DocsInput } from './docs-drawings.ts'
 import { docsSourceAdmission } from './docs-source-admission.ts'
+import { docsPngStaticProjection } from './docs-png-static-contract.ts'
 
 /** A review of the actual image against the complete source expectations.
  * No renderer, SVG return or nonblank check can manufacture this review. */
@@ -20,7 +21,8 @@ export interface DocsPngReview {
 }
 export const docsExpectationsHash = (review: DocsDrawingReview) => {
   const sourceReview = (review as DocsDrawingReview & { sourceReview?: unknown }).sourceReview
-  return sourceHash(JSON.stringify({ intent: review.intent, family: review.family, expected: review.expected, ...(review.profileExpected?{profileExpected:review.profileExpected}:{}), ...(review.expectedRejection ? { expectedRejection: review.expectedRejection } : {}), unverifiedFacts: review.unverifiedFacts ?? [], ...(sourceReview ? { sourceReview } : {}) }))
+  const projection=docsPngStaticProjection(review)
+  return sourceHash(JSON.stringify({ intent: review.intent, family: review.family, expected: review.expected, ...(review.profileExpected?{profileExpected:review.profileExpected}:{}), ...(review.expectedRejection ? { expectedRejection: review.expectedRejection } : {}), unverifiedFacts: review.unverifiedFacts ?? [], ...(sourceReview ? { sourceReview } : {}),...(projection?{pngStaticProjection:projection}:{}) }))
 }
 const validPixels = (pixels: PngPixelIdentity | undefined) => pixels === undefined || !!pixels && typeof pixels === 'object' && pixels.protocol === 'png-rgba16-and-display-metadata-v1' && /^[a-f0-9]{64}$/.test(pixels.sha256) && Number.isSafeInteger(pixels.width) && Number.isSafeInteger(pixels.height) && pixels.width > 0 && pixels.height > 0 && pixels.width * pixels.height <= 16 * 1024 * 1024
 const samePixels = (left: PngPixelIdentity, right: PngPixelIdentity) => left.protocol === right.protocol && left.width === right.width && left.height === right.height && left.sha256 === right.sha256
@@ -75,6 +77,7 @@ export function assessDocsPng(input: DocsInput, expected: DocsDrawingReview | nu
   if (!bytes) return { status: 'unknown', reason: 'No inspectable PNG; see the separate output-return result' }
   if (!expected) return { status: 'unknown', reason: 'No reviewed source expectation; PNG decoding supplies no correctness credit' }
   if (expected.sourceReview?.expectedFactsComplete !== true || expected.sourceReview.unresolved.length || expected.unverifiedFacts?.length) return { status: 'unknown', reason: 'A validated complete source contract is required; a legacy or incomplete image review cannot supply full content credit' }
+  const projection=docsPngStaticProjection(expected)
   // Empty diagrams need no ink; authored visible facts set that obligation.
   const requiresInk = !!expected.expected && (!!expected.expected.labels.some(label => label.trim()) || !!expected.expected.nodes?.length || !!expected.expected.edges?.length || !!expected.expected.groups?.length)
   const decoded = inspectPng(bytes, requiresInk)
@@ -86,6 +89,6 @@ export function assessDocsPng(input: DocsInput, expected: DocsDrawingReview | nu
   for (const item of own) if (item.pngSha256 === hash && item.pixels && (!validPixels(item.pixels) || !decoded.pixelIdentity || !samePixels(item.pixels, decoded.pixelIdentity))) throw Error('PNG review pixels contradict its actual reviewed bytes')
   const review = own.find(item => ['correct', 'incorrect'].includes(item.status) && !!item.reviewedBy?.trim() && !!item.review?.trim() && validPixels(item.pixels) && (item.pngSha256 === hash || !!item.pixels && !!decoded.pixelIdentity && samePixels(item.pixels, decoded.pixelIdentity) && verifiedPixelAlias(item)))
   if (!review) return { status: 'unknown', reason: 'Actual PNG lacks a complete content review bound to these source, expectation and image bytes or exact decoded pixels; SVG checks cannot supply raster correctness' }
-  return { status: review.status, reason: review.review, reviewedBy: review.reviewedBy, evidence: { method: itemMethod(review, hash), reviewedPngSha256: review.pngSha256, actualPngSha256: hash, ...(decoded.pixelIdentity ? { pixels: decoded.pixelIdentity } : {}) } }
+  return { status: review.status, reason: review.review, reviewedBy: review.reviewedBy,...(projection?{diagnostics:[projection.claim],excludedTemporal:projection.excludedTemporal,...(projection.excludedMetadata?{excludedMetadata:projection.excludedMetadata}:{})}:{}), evidence: { method: itemMethod(review, hash), reviewedPngSha256: review.pngSha256, actualPngSha256: hash, ...(decoded.pixelIdentity ? { pixels: decoded.pixelIdentity } : {}),...(projection?{formatProjection:projection}:{}) } }
 }
 const itemMethod = (review: DocsPngReview, actualSha256: string) => review.pngSha256 === actualSha256 ? 'reviewed-exact-png-bytes' : 'reviewed-exact-decoded-pixels'

@@ -11,6 +11,7 @@ import { docsExpectationsHash, type DocsPngReview } from './docs-png-drawings.ts
 import { reviewedDocsCase, sourceHash, type DocsInput, type DocsDrawingReview } from './docs-drawings.ts'
 import { qualifyOutput } from './qualification.ts'
 import { assessSvgPngConversion, type FrozenRasterProfile } from './png-preservation.ts'
+import { reviewedDocsPngCase } from './docs-png-static-contract.ts'
 
 /** File names are provenance; declared font bytes are the rendering identity.
  * Relative paths resolve against the explicit profile, never the working dir. */
@@ -128,7 +129,7 @@ export async function qualifyRetainedDocsPngConversion(input: {
   if (!/^[a-f0-9]{64}$/.test(input.observerSha256)) throw Error('Conversion observer has no frozen identity')
   const owned = input.returnEvidence
   if (!owned || owned.schema !== 'trident-docs-png-return-v1' || owned.caseId !== input.source.id || owned.sourceSha256 !== sourceHash(input.source.source) || owned.originalSvgSha256 !== evidenceBytesDigest(input.originalSvg) || owned.rasterizedSvgSha256 !== evidenceBytesDigest(input.rasterizedSvg) || owned.pngSha256 !== evidenceBytesDigest(input.actualPng)) return unknown('No matching raw public conversion return binds the exact source, PNG and both SVG witnesses')
-  const authored = reviewedDocsCase(input.source, input.review)
+  const authored = reviewedDocsPngCase(input.source, input.review)
   const admission = qualifyOutput({ id: input.source.id, family: authored.family, source: input.source.source, expectedLabels: authored.expected.labels, features: [], provenance: input.review.review }, input.rasterizedSvg, 'svg')
   const publicAdmission = qualifyOutput({ id: input.source.id, family: authored.family, source: input.source.source, expectedLabels: [], features: [], provenance: input.review.review }, input.originalSvg, 'svg')
   if (!admission.ok || !publicAdmission.ok) return unknown('The exact retained public/rasterized SVG does not satisfy its standalone output admission')
