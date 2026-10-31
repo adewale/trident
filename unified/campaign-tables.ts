@@ -209,7 +209,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
               ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned drawings', 'Measured'], project,
               [String(version), correct, incorrect, unknown, population.drawings.size, measuredAt(drawings, result.finishedAt)],
               { column: 'Correct', direction: 'descending' },
-              { outputFormat: format as 'svg' | 'png', summary: true, overview: { numerator: 'Correct', denominator: 'Planned drawings', suffix: '' }, unit: 'documentation drawings', population: { total: 'Planned drawings', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, correct + incorrect === 0 ? 'No verified drawing-content observations' : undefined)
+              { outputFormat: format as 'svg' | 'png', summary: true, overview: { numerator: 'Correct', denominator: 'Planned drawings', suffix: '%' }, unit: 'documentation drawings', population: { total: 'Planned drawings', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, correct + incorrect === 0 ? 'No verified drawing-content observations' : undefined)
             const reviewedIds = new Set((inventory.drawingReview?.cases ?? []).filter((input: any) => input.registeredProfileEligible ?? input.intent === 'drawing').map((input: any) => input.id))
             if (reviewedIds.size && reviewedIds.size < population.drawings.size) {
               const subset = drawings.filter(row => reviewedIds.has(row.caseId)), passed = subset.filter(row => row.status === 'passed').length, failed = subset.filter(row => row.status === 'failed').length, missing = reviewedIds.size - passed - failed

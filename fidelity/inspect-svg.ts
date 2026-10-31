@@ -3,6 +3,7 @@ import { inspectGraphFamilyPaint } from './paint-graph-families.ts'
 import { inspectQuantitativePaint } from './paint-values.ts'
 import { inspectSourceFacts, mergePaintChecks } from './paint-facts.ts'
 import { inspectChartFacts } from './paint-chart-facts.ts'
+import { inspectDomainFacts } from './paint-domain-facts.ts'
 
 /** One source-owned SVG observer for collection, replay and timed outputs.
  * Each browser function inspects actual mounted ink. Graph-specific compound
@@ -22,6 +23,7 @@ export async function inspectSvgDrawing(page: { evaluate: (fn: any, input: any) 
   const quantitative = await page.evaluate(inspectQuantitativePaint, { ...input, labelRepresentation: paint.labelRepresentation, nodes: paint.nodes })
   const facts = await page.evaluate(inspectSourceFacts, { ...input, paint, quantitative })
   const charts = await page.evaluate(inspectChartFacts, { ...input, paint, quantitative })
-  const checks = mergePaintChecks(paint.checks, initialGraphChecks, graph.checks, quantitative, facts, charts)
+  const domains = await page.evaluate(inspectDomainFacts, { ...input, paint, quantitative: [...quantitative, ...charts] })
+  const checks = mergePaintChecks(paint.checks, initialGraphChecks, graph.checks, quantitative, facts, charts, domains)
   return { ...paint, checks, complete: checks.every(check => check.status !== 'unavailable'), passed: checks.every(check => check.status === 'passed') }
 }

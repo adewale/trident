@@ -1,3 +1,4 @@
+import { inspectSvgDrawing } from '../fidelity/inspect-svg.ts'
 import { expect, test } from 'bun:test'
 import { expandedFidelityCases } from '../fidelity/cases.ts'
 import { planFidelityCriteria } from '../fidelity/ledger.ts'
@@ -153,11 +154,8 @@ test('old partial contracts receive only freshly observed full-source SVG checks
   try {
     const page: any = await browser.newPage()
     await page.setContent(svg)
-    const paint = await page.evaluate(inspectFidelityPaint, { family: input.family, expected: input.expected, paint: input.paint })
-    const quantitative = await page.evaluate(inspectQuantitativePaint, { family: input.family, expected: input.expected, source: input.source, nodes: paint.nodes as NonNullable<Parameters<typeof inspectQuantitativePaint>[0]['nodes']> })
-    const facts = await page.evaluate(inspectSourceFacts, { family: input.family, source: input.source, expected: input.expected, paint, quantitative })
-    const charts = await page.evaluate(inspectChartFacts, { family: input.family, source: input.source, expected: input.expected, paint, quantitative })
-    const checked = await recheckFeaturePaint(input, project, rows, async () => mergePaintChecks(paint.checks, quantitative, facts, charts), at, true, freshBinding)
+    const paint = await inspectSvgDrawing(page, { family: input.family, expected: input.expected, source: input.source, paint: input.paint })
+    const checked = await recheckFeaturePaint(input, project, rows, async () => paint.checks, at, true, freshBinding)
     expect(assessSvgCases([input], checked.observations, { [input.id]: freshBinding })[0]!.status).toBe('correct')
     expect(checked.observations.find(row => row.operation === 'source-fact:direction')?.metrics?.expectationsSha256).toBe(freshBinding.expectationsSha256)
     expect(checked.observations.filter(row => row.metrics?.rawInvocationId).every(row => row.metrics?.rawInvocationId === attemptId)).toBe(true)

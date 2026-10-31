@@ -17,6 +17,7 @@ function campaign(directory: string, options: { updatedAt: string; measuredAt?: 
   const out = join(directory, 'docs'); mkdirSync(out, { recursive: true })
   const observations = ['fixture/a', 'fixture/b'].flatMap((project, projectIndex) => ['one', 'two'].map(caseId => ({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', format: 'svg', family: 'flowchart', operation: 'render', mode: 'one-public-call', caseId,
     status: options.blocked ? 'blocked' : projectIndex === 1 && caseId === 'two' ? 'failed' : 'passed', metrics: { project, version: '1.0.0', round: 1, measuredAt: options.measuredAt ?? '2026-01-01T00:00:00Z', ...(options.candidate && projectIndex === 0 ? { artifactRole: 'candidate' } : {}) } })))
+  observations.push(...observations.map(row => ({ ...row, operation: 'drawing-checks', mode: 'reviewed-first-round-output', status: row.status === 'passed' ? 'passed' : 'blocked' })))
   if (!options.partial) {
     write(join(out, 'inventory.json'), { cases: [{ id: 'one' }, { id: 'two' }] })
     write(join(out, 'result.json'), { id: 'docs', startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z', observations, gaps: [] })
@@ -28,13 +29,14 @@ function campaign(directory: string, options: { updatedAt: string; measuredAt?: 
 test('documentation SVG return and reviewed drawing correctness retain separate populations and ranks', () => {
   const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), file = join(root, 'docs/result.json')
   const result = JSON.parse(readFileSync(file, 'utf8'))
+  result.observations = result.observations.filter((row: any) => row.operation !== 'drawing-checks')
   for (const project of ['fixture/a', 'fixture/b']) for (const caseId of ['one', 'two']) result.observations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: 'flowchart', operation: 'drawing-checks', mode: 'reviewed-first-round-output', format: 'svg', caseId, status: caseId === 'two' ? 'blocked' : project === 'fixture/a' ? 'failed' : 'passed', metrics: { project, version: '1.0.0', round: 1 } })
   write(file, result)
   const snapshot = importCampaign(empty(), root, 'https://example.test/drawings', catalog)
   const drawings = snapshot.tables.find(table => table.columns.includes('Correct'))!
   expect(drawings).toBeDefined()
   expect(drawings.chart).toBeUndefined()
-  expect(drawings.rows.find(row => row.project === 'fixture/a')!.values.slice(1, 6)).toEqual([0, 1, 1, 0, 2])
+  expect(drawings.rows.find(row => row.project === 'fixture/a')!.values.slice(1, 5)).toEqual([0, 1, 1, 2])
   expect(rankedRows(drawings, value => value).map(row => row.project)).toEqual(['fixture/b', 'fixture/a'])
   expect(rankedRows(drawings, value => value).map(row => row.rank)).toEqual([1, 2])
   expect(drawings.caption).toContain('unknown')
@@ -209,7 +211,7 @@ test('an interrupted docs round retains partial observations without a fabricate
   expect(row.unrankedReason).toBe('incomplete (1/2 complete rounds)')
   expect(rankedRows(table, id => id).map(row => [row.project, row.rank])).toEqual([['fixture/b', 1], ['fixture/a', null]])
   expect(overview(data).rank).toBe('—')
-  expect(overview(data).docs).toContain('incomplete')
+  expect(overview(data).docs).toContain('blocked')
   const output = renderSnapshot(data, catalog)
   expect(output).toContain('bar [50]')
   expect(output).not.toContain('bar [50, 0]')
