@@ -1,0 +1,101 @@
+[
+  {
+    "file": "sequence-ascii-simple.txt",
+    "project": "AlexanderGrooff/mermaid-ascii",
+    "version": "1.6.1",
+    "caseId": "terminal:54f7237ee5ab1a85",
+    "sha256": "44931b0eef53dd18d90652251cfaf96dbb1e03dae2f1cb052fea3132c6c48b96",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Retained unmodified public terminal output; observer control, not new measurement"
+  },
+  {
+    "file": "sequence-module-simple.txt",
+    "project": "adewale/agentic-mermaid",
+    "version": "0.4.1",
+    "caseId": "terminal:54f7237ee5ab1a85",
+    "sha256": "499ee8bd31008e388d5a86945df883f5e3ffd351033ea8ca869fbdd59dbead13",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Retained unmodified public terminal output; observer control, not new measurement"
+  },
+  {
+    "file": "sequence-python-simple.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "caseId": "terminal:54f7237ee5ab1a85",
+    "sha256": "c57b5b2c202f649c76e3742136d3e3d11f92082e404d6a6b991d76a9a9301c6e",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Retained unmodified public terminal output; observer control, not new measurement"
+  },
+  {
+    "file": "sequence-ascii-alt.txt",
+    "project": "AlexanderGrooff/mermaid-ascii",
+    "version": "1.6.1",
+    "caseId": "terminal:d3cc8b77d097ec56",
+    "sha256": "611008da122bdcba9eb518dc273b5276a3888fe11380aaa2c7341acbec82c984",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Retained unmodified public terminal output; observer control, not new measurement"
+  },
+  {
+    "file": "sequence-module-alt.txt",
+    "project": "adewale/agentic-mermaid",
+    "version": "0.4.1",
+    "caseId": "terminal:d3cc8b77d097ec56",
+    "sha256": "c16a934cc75a083227fa047fca832d4db656bc18b63feefc060f40bb19069d6d",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Retained unmodified public terminal output; observer control, not new measurement"
+  },
+  {
+    "file": "sequence-python-alt.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "caseId": "terminal:d3cc8b77d097ec56",
+    "sha256": "b6731be546932fba90de6e698de17173c5c4d9a8ff8658ce82cd343f3c0bde55",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Retained unmodified public terminal output; observer control, not new measurement"
+  },
+  {
+    "file": "sequence-python-notes.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "caseId": "terminal:75a4be6507dd75fe",
+    "sha256": "e15cd8edc424140d01adb8a283d7d8380f223068df24a597ec4578429fde06d0",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Retained unmodified public terminal output; observer control, not new measurement"
+  },
+  {
+    "file": "sequence-solid-return.txt",
+    "project": "kitlangton/merman",
+    "version": "0.2.1",
+    "caseId": "terminal:d3cc8b77d097ec56",
+    "sha256": "971dc682066874fa1b9b9aff5521fd95d6d2114942c570a197d05e6bc7d1e5da",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Retained unmodified public terminal output; observer control, not new measurement"
+  },
+  {
+    "file": "sequence-three-actors.txt",
+    "project": "AlexanderGrooff/mermaid-ascii",
+    "version": "1.6.1",
+    "caseId": "terminal:df5eb5c9968bbb86",
+    "sha256": "c6704966e08e09d2500454ef09e84b57440329a8db3b9f28b2f4d9b027b76598",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Retained unmodified public terminal output; observer control, not new measurement"
+  }
+]

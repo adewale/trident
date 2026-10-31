@@ -1,3 +1,4 @@
+import { inspectTerminalSequence } from './terminal-sequence.ts'
 import { interpretTerminal } from './terminal-display.ts'
 import { inspectTerminalMeaning } from './terminal.ts'
 import type { TerminalSourceContract } from './terminal-source.ts'
@@ -7,6 +8,7 @@ export interface TerminalFactCheck { criterion: string; status: 'passed' | 'fail
 /** Each source obligation receives a disposition. A missing family/representation
  * checker is an unknown, never an omitted obligation or a text-only pass. */
 export function inspectTerminalFacts(output: string, contract: TerminalSourceContract, graph?: TerminalMeaning): TerminalFactCheck[] {
+  if (contract.family === 'sequence') return inspectTerminalSequence(output, contract)
   const display = interpretTerminal(output)
   const checks = contract.facts.filter(fact => fact.required !== false).map(fact => ({ criterion: fact.criterion, expected: fact.expected, status: 'unknown' as TerminalFactCheck['status'], detail: 'No qualified observer for this source fact and output representation' }))
   const set = (criterion: string, status: TerminalFactCheck['status'], detail: string, actual?: unknown) => { const target = checks.find(check => check.criterion === criterion); if (target) Object.assign(target, { status, detail, ...(actual === undefined ? {} : { actual }) }) }
@@ -68,7 +70,7 @@ export function inspectTerminalFacts(output: string, contract: TerminalSourceCon
  * from the full drawing inventory or supplies any output pass. */
 export function terminalSourceObservable(contract: TerminalSourceContract, graph?: TerminalMeaning) {
   if (contract.sourceUncertainties.length) return false
-  const supported = contract.family === 'flowchart' ? ['nodes', 'relationships', 'layout-order'] : contract.family === 'pie' ? ['title', 'slice-values'] : contract.family === 'journey' ? ['title', 'journey-tasks'] : contract.family === 'timeline' ? ['title', 'timeline-periods'] : []
+  const supported = contract.family === 'flowchart' ? ['nodes', 'relationships', 'layout-order'] : contract.family === 'pie' ? ['title', 'slice-values'] : contract.family === 'journey' ? ['title', 'journey-tasks'] : contract.family === 'timeline' ? ['title', 'timeline-periods'] : contract.family === 'sequence' ? ['participants', 'ordered-messages', 'owned-notes', 'fragments'] : []
   if (contract.facts.some(fact => fact.required !== false && !supported.includes(fact.criterion))) return false
   if (graph && (graph.nodes.length > 32 || graph.edges.some(edge => (edge as any).directed === false || (edge as any).endMarker || (edge as any).stroke || (edge as any).visible === false))) return false
   return supported.length > 0

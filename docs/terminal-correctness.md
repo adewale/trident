@@ -19,9 +19,9 @@ required to qualify this transcription and its observers.
 
 The v2 profile separates **116 positive drawing inputs** from **four invalid-source
 controls**. Every positive input keeps its full obligations, including those with
-no implemented output observer. Forty-six sources use facts for which an observer
+no implemented output observer. Fifty sources use facts for which an observer
 exists in at least one bounded display representation. This diagnostic subset is
-not a claim that 46 outputs pass, or a replacement for the 116-input denominator.
+not a claim that 50 outputs pass, or a replacement for the 116-input denominator.
 
 The four invalid controls are `terminal:321aee6efed4a803` (unquoted pie label),
 `terminal:955cacf9438d691d` (unquoted Unicode Git branch references), and
@@ -101,8 +101,16 @@ real returned string with no visible ink. An absent output is unknown.
 | Pie labels and numeric weights | Owned label/bar/percentage rows, complete slice set, percentage precision and one-cell bar quantization | Circular/other chart representations and unassigned output ink |
 | Journey tasks, scores, actors and sections | Ordered section/task rows with five explicit score cells and an owned actor row | Other representations and unassigned summary graphics |
 | Timeline periods, events and sections | Ordered section headings, period bullets and owned event-tree rows | Other representations |
-| C4, class, ER, Gitgraph, mindmap, quadrant, treemap, Gantt, state, block, Kanban, sequence, architecture, XY, ZenUML and packet obligations | Source facts are explicit | Output observers have not been qualified; text/number presence cannot pass these facts |
-| Invalid source controls | Typed outcome API binds project, case, source hash, public boundary and observer identity | Per-project typed rejection classifiers have not been qualified; retained ordinary error exits get no rejection credit |
+| Sequence participants, ordered messages, notes and fragment spans | Header boxes with continuous lifelines; straight solid/dashed message stems; owned adjacent captions; framed branch regions; exact multiline notes with actor span and chronology | Self-calls, diagonal or wrapped messages, nested fragments and other unqualified representations |
+| C4, class, ER, Gitgraph, mindmap, quadrant, treemap, Gantt, state, block, Kanban, architecture, XY, ZenUML and packet obligations | Source facts are explicit | Output observers have not been qualified; text/number presence cannot pass these facts |
+| Invalid source controls | Typed outcome API binds project, case, source hash, public boundary and observer identity | Python SyntaxError and Dart MermaidParseException retain typed public evidence; generic errors, UnsupportedError and CLI exits get no rejection credit |
+
+[Sequence observer controls](../tests/terminal-sequence.test.ts) authenticate retained
+outputs from three invocation boundaries and perturb endpoints, stroke, chronology,
+branch membership, note ownership, extra content, lifeline continuity and ANSI state.
+Their [provenance](../tests/fixtures/terminal/sequence-provenance.json) preserves
+source, artifact, output and original receipt identities. These are checker tests,
+not a new timing campaign.
 
 Every required fact receives passed, failed or unknown evidence. A positive case
 passes only when all of its obligations pass. Evidence binds the exact source,

@@ -153,7 +153,10 @@ export async function runTerminalProfile(argv: string[]) {
         const observation = raw.find(row => row.caseId === input.id), path = observation?.metrics?.outputFile
         const bytes = typeof path === 'string' ? readFileSync(path) : undefined, witness = bytes ? hash(bytes) + '.txt' : undefined
         if (bytes) writeFileSync(join(out, witness!), bytes)
-        outputs.push({ project: peer.node.id, caseId: input.id, witness, sha256: bytes ? hash(bytes) : undefined, runtimeExecuted: invocationObserved(observation), publicStatus: observation?.status ?? 'blocked', detail: observation?.detail ?? peer.error })
+        const typed = observation?.metrics?.typedSourceOutcome
+        const typedSourceOutcome = typeof typed === 'string' ? JSON.parse(typed) : undefined
+        if (typedSourceOutcome && input.intent === 'invalid') assessTerminalSourceRejection(input, typedSourceOutcome, peer.node.id)
+        outputs.push({ project: peer.node.id, caseId: input.id, ...(typedSourceOutcome ? { typedSourceOutcome } : {}), witness, sha256: bytes ? hash(bytes) : undefined, runtimeExecuted: invocationObserved(observation), publicStatus: observation?.status ?? 'blocked', detail: observation?.detail ?? peer.error })
       }
     }
     record = { profile: terminalProfileId, source, producers, startedAt, finishedAt: new Date().toISOString(), inventory: cases.map(input => [input.id, input.sourceSha256]), corpusFile: 'corpus/terminal-project-examples.json', corpusSha256: hash(readFileSync(join(tridentDirectory, 'corpus/terminal-project-examples.json'))), reviewsSha256: hash(readFileSync(join(tridentDirectory, 'corpus/terminal-project-reviews.json'))), selectedCaseIds: targets.map(input => input.id), allInputs: true, targetedExtension: options.has('--projects'), artifacts: selected.map(peer => ({ project: peer.node.id, version: peer.artifact?.version ?? 'unavailable', artifact: peer.artifact ?? null, error: peer.error })), sourceReference, outputs, transportObservations }
