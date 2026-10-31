@@ -1,4 +1,5 @@
 import type { MeaningExpectation } from './meaning.ts'
+import { compileVisualStyles } from './style-expectation.ts'
 
 /** A drawing encodes proportions and printed values, not an invisible copy of
  * its input database. Literal source bytes remain in the corpus inventory. */
@@ -64,5 +65,7 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
     projections.push('Treemap area encodes sibling weight fractions including independently derived subtree aggregates; showValues defaults true, so printed source values remain separate obligations unless explicitly disabled')
   }
   if (facts['authored-config'] && !Object.keys(configuration).length) delete facts['authored-config']
+  const styles = compileVisualStyles(expected)
+  if (styles.active && styles.complete) { projections.push('Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact'); return { expected: styles.expected, projections } }
   return { expected, projections }
 }

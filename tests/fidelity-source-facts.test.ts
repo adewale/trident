@@ -48,6 +48,13 @@ test('primitive shapes and solid/dotted appearance are actual owned geometry rat
   expect((await inspect(svg.replace('stroke="black" marker-end', 'stroke="black" stroke-dasharray="4 4" marker-end'), shapes)).find(check => check.criterion === 'source-fact:edge-appearance')?.status).toBe('failed')
   expect((await inspect(svg, { ...shapes, facts: { 'node-shapes': [{ id: 'A', shape: 'manual-file' }] } }))[0]?.status).toBe('unavailable')
 })
+test('compiled node paint uses owned effective colors, widths and dashes rather than CSS class spelling', async () => {
+  const e = { ...expected, facts: { 'node-paint': [{ id: 'A', properties: { fill: 'white', stroke: 'black', 'stroke-width': '1px', 'stroke-dasharray': 'none' } }] } }
+  expect((await inspect(svg, e))[0]?.status).toBe('passed')
+  expect((await inspect(svg.replace('width="70" height="30" fill="white"', 'width="70" height="30" fill="red"'), e))[0]?.status).toBe('failed')
+  expect((await inspect(svg.replace('width="70" height="30" fill="white" stroke="black"', 'width="70" height="30" fill="white" fill-opacity="0" stroke="black"'), e))[0]?.status).toBe('failed')
+  expect((await inspect(svg.replace('width="70" height="30" fill="white" stroke="black"', 'width="70" height="30" fill="white" stroke="black" stroke-dasharray="4 4"'), e))[0]?.status).toBe('failed')
+})
 test('unsupported source semantics stay unknown despite matching nodes, labels and direction', async () => {
   const checks = await inspect(svg, { ...expected, facts: { direction: 'LR', members: [{ id: 'A', values: ['+secret()'] }] } })
   expect(checks.find(check => check.criterion === 'source-fact:direction')?.status).toBe('passed')

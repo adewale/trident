@@ -77,11 +77,12 @@ export function enrollAuthoredSource(input: AuthoredFidelityCase): AuthoredFidel
       }
     }
     if (literal.edges) {
-      const edges = expected.edges ??= []
+      const edges = expected.edges ??= [], ordered: typeof edges = []
       const coordinate = (edge: any) => stable([edge.source, edge.target, edge.directed, edge.label === undefined ? null : display(edge.label)])
-      const available = [...literal.edges]
-      for (const edge of edges) { const index = available.findIndex(value => value.source === edge.source && value.target === edge.target && value.directed === edge.directed && (edge.label === undefined || display(edge.label) === display(value.label ?? ''))); if (index < 0) unresolved.push('Authored relationship absent from literal source: ' + coordinate(edge)); else Object.assign(edge, merge(edge, available.splice(index, 1)[0], 'relationships/' + coordinate(edge))) }
-      edges.push(...available)
+      const available = [...edges]
+      for (const source of literal.edges) { const index = available.findIndex(edge => source.source === edge.source && source.target === edge.target && source.directed === edge.directed && (edge.label === undefined || display(edge.label) === display(source.label ?? ''))); ordered.push(index < 0 ? structuredClone(source) : merge(available.splice(index, 1)[0], source, 'relationships/' + coordinate(source))) }
+      for (const edge of available) unresolved.push('Authored relationship absent from literal source: ' + coordinate(edge))
+      expected.edges = [...ordered, ...available]
     }
     for (const [key, value] of Object.entries(literal.facts ?? {})) facts[key] = Object.hasOwn(facts, key) ? merge(facts[key], value, 'facts/' + key) : structuredClone(value)
     if (facts['axis-labels'] && facts.axes && stable(facts['axis-labels']) !== stable([...(facts.axes.x ?? []), ...(facts.axes.y ?? [])])) unresolved.push('Authored flattened quadrant axes conflict with literal axis endpoints')

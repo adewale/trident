@@ -53,7 +53,7 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
   const allText = svg ? [...svg.querySelectorAll('text,foreignObject p,foreignObject span,foreignObject div')] : []
   const text = allText.filter(element => visible(element) && ![...element.children].some(child => visible(child) && normalize(child.textContent ?? '') === normalize(element.textContent ?? '')))
   const label = (value: string) => text.filter(element => normalize(element.textContent ?? '') === normalize(value))
-  const nodes = input.paint.nodes as { id: string; label: string; box: { x: number; y: number; width: number; height: number }; outline?: { tag: string; vertices?: { x: number; y: number }[] | null; rx: number; ry: number }; style?: { fill: string; stroke: string; strokeWidth: number; dash: string } }[]
+  const nodes = input.paint.nodes as { id: string; label: string; box: { x: number; y: number; width: number; height: number }; outline?: { tag: string; vertices?: { x: number; y: number }[] | null; rx: number; ry: number }; style?: { fill: string; fillOpacity: number; stroke: string; strokeOpacity: number; strokeWidth: number; dash: string; opacity: number } }[]
   const nodeById = new Map(nodes.map(node => [node.id, node]))
   const checkById = new Map([...input.paint.checks, ...input.quantitative].map(check => [check.criterion, check]))
   const inside = (outer: { x: number; y: number; width: number; height: number }, inner: DOMRect) => inner.x >= outer.x - 1.5 && inner.y >= outer.y - 1.5 && inner.right <= outer.x + outer.width + 1.5 && inner.bottom <= outer.y + outer.height + 1.5
@@ -108,6 +108,26 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
   }
   for (const key of Object.keys(facts).sort()) {
     if (!svg) { add(key, null, null, 'No mounted SVG is available for the required source fact'); continue }
+    if (['node-paint', 'edge-paint'].includes(key) && Array.isArray(facts[key])) {
+      const rgba = (value: string): number[] | null => { if (value === 'none') return [0, 0, 0, 0]; if (/url\(/.test(value)) { const id = /#([^\s)"']+)/.exec(value)?.[1], gradient = id ? document.getElementById(decodeURIComponent(id)) : null, stops = gradient && ['linearGradient', 'radialGradient'].includes(gradient.localName) ? [...gradient.querySelectorAll('stop')] : []; if (!stops.length || !stops.every(stop => getComputedStyle(stop).stopColor === getComputedStyle(stops[0]!).stopColor && Number(getComputedStyle(stop).stopOpacity) === 1)) return null; value = getComputedStyle(stops[0]!).stopColor }; if (!CSS.supports('color', value)) return null; color.clearRect(0, 0, 1, 1); color.fillStyle = value; color.fillRect(0, 0, 1, 1); return [...color.getImageData(0, 0, 1, 1).data] }
+      const dash = (value: string) => { const entries = value === 'none' ? [] : value.split(/[ ,]+/).map(Number.parseFloat); if (entries.every(value => value === 0)) return []; return entries.length % 2 ? [...entries, ...entries] : entries }
+      let available = true, passed = true
+      const observed = facts[key].map((entry: any) => {
+        const canonicalEdge = (edge: any) => { let source = edge.source, target = edge.target; const arrow = (marker: any) => ['arrow', 'triangle'].includes(marker); if (edge.directed && arrow(edge.startMarker) && !arrow(edge.endMarker)) [source, target] = [target, source]; else if ((!edge.directed || arrow(edge.startMarker) && arrow(edge.endMarker)) && source > target) [source, target] = [target, source]; return JSON.stringify([source, target, edge.directed]) }
+        const connections = input.paint.connections as any[], candidates = key === 'edge-paint' ? connections.filter(edge => canonicalEdge(edge) === canonicalEdge(entry.edge) && (!entry.edge.label || edge.labels?.includes(normalize(entry.edge.label)))) : []
+        const style = key === 'node-paint' ? nodeById.get(entry.id)?.style : candidates.length === 1 ? candidates[0].style : undefined
+        if (!style) { available = false; return { id: entry.id ?? entry.edge, actual: null } }
+        const properties = Object.entries(entry.properties).map(([property, expected]: any) => {
+          if (['fill', 'stroke'].includes(property)) { const actual = rgba(property === 'fill' ? style.fill : style.stroke), wanted = rgba(expected), multiplier = style.opacity * (property === 'fill' ? style.fillOpacity : style.strokeOpacity); if (!actual || !wanted || !Number.isFinite(multiplier)) { available = false; return { property, expected, actual } }; const effective = [...actual.slice(0, 3), Math.round(actual[3]! * multiplier)]; if (effective.some((value, index) => Math.abs(value - wanted[index]!) > 1)) passed = false; return { property, expected: wanted, actual: effective } }
+          if (property === 'stroke-width') { const wanted = Number.parseFloat(expected); if (!Number.isFinite(style.strokeWidth)) available = false; else if (Math.abs(style.strokeWidth - wanted) > .1) passed = false; return { property, expected: wanted, actual: style.strokeWidth } }
+          if (property === 'stroke-dasharray') { const actual = dash(style.dash), wanted = dash(expected); if ([...actual, ...wanted].some(value => !Number.isFinite(value))) available = false; else if (!same(actual, wanted)) passed = false; return { property, expected: wanted, actual } }
+          available = false; return { property, expected, actual: null }
+        })
+        return { id: entry.id ?? entry.edge, properties }
+      })
+      add(key, observed, available ? passed : null, 'Compiled source class/default/inline requests bind actual owned body/route paint, independent of renderer CSS class names. Effective RGBA, source-unit stroke width within0.1 and exact dash patterns are checked; unsupported properties, unbound bodies and ambiguous parallel routes remain unknown')
+      continue
+    }
     if (key === 'node-shapes' && Array.isArray(facts[key])) {
       const supported = ['rectangle', 'circle', 'ellipse', 'diamond', 'rounded'], observed = facts[key].map((entry: any) => ({ id: entry.id, expected: entry.shape, actual: actualShape(entry.id) }))
       add(key, observed, observed.every((entry: any) => supported.includes(entry.expected) && entry.actual) ? observed.every((entry: any) => entry.expected === entry.actual) : null, 'Each source node owns its actual outline: SVG rectangle/rounded rectangle, circle/ellipse or four-vertex rectangle/diamond. IDs, class names and model shape strings supply no geometry; other and compound shapes remain unknown')

@@ -72,3 +72,13 @@ area ratios. A wrong printed number fails independently of correct geometry.
 
 - Sankey SHA-256: `aba95796af83af915d18a63801d38e71528857514d302b85a3ad9f5d6ed80ef4`.
 - Treemap SHA-256: `85c7d901c362a6c7e78b40868f9305b649b0862208e11c27da64707ba522f2e1`.
+
+`mermaid-owned-styles.svg` and `pele-owned-styles.svg` retain unchanged
+Mermaid 12.2.0 and Pele 1.9.0 output for
+`features:flowchart:owned-style-effect` in that campaign. The independent
+source asks for both node fills `#ffcc00` and default route stroke `#225588`
+at `3px`. Tests change the actual colors and rename renderer CSS prefixes;
+neither source selectors nor a matching unrelated decoration supplies paint
+credit. Their SHA-256 digests are
+`f0d673370fd93927296bb304626cd8bec9246a6c47bce99c4481e2798c144879` and
+`6ffdf8b0566c5b9cb19a2d9d13cb707f527d595a025946a0da03f120b2d3bcc1`.

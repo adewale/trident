@@ -34,3 +34,10 @@ test('source conflicts and absent or stale completeness metadata cannot turn pas
   expect(sourceContractComplete(changed)).toBe(false)
   expect(assessSvgCases([changed], rows(changed))[0]?.status).toBe('unknown')
 })
+test('indexed visible link styles use source declaration order while native unordered assertions retain their original order', () => {
+  const input = { ...raw, source: 'flowchart LR\nA[Alpha] --> B[Beta]\nB --> C[Gamma]\nA --> C\nlinkStyle 1 stroke:red', expected: { labels: ['Alpha', 'Beta', 'Gamma'], nodes: [...raw.expected.nodes!, { id: 'C', label: 'Gamma' }], edges: [{ source: 'A', target: 'C', directed: true }, { source: 'A', target: 'B', directed: true }, { source: 'B', target: 'C', directed: true }] } }
+  const enrolled = enrollAuthoredSource(input)
+  expect(sourceContractComplete(enrolled)).toBe(true)
+  expect(enrolled.profileExpected?.edges).toEqual(input.expected.edges)
+  expect(enrolled.expected.facts?.['edge-paint']).toMatchObject([{ edge: { source: 'B', target: 'C' }, properties: { stroke: 'red' } }])
+})
