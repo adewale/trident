@@ -1,10 +1,11 @@
 import { expect, test } from 'bun:test'
-import { admitDocsReviews, assessDocsDrawing, sourceHash, type DocsDrawingReview } from '../unified/docs-drawings.ts'
+import { admitDocsReviews, assessDocsDrawing, sourceHash, reviewedDocsCase, type DocsDrawingReview } from '../unified/docs-drawings.ts'
+import { makeSvgObservationBinding } from '../fidelity/svg-assessment.ts'
 import { plannedPaintCriteria } from '../fidelity/paint.ts'
 
 const input = { id: 'docs:flowchart', family: 'flowchart', source: 'flowchart LR\nA-->B' }
 const review: DocsDrawingReview = { id: input.id, sourceSha256: sourceHash(input.source), intent: 'drawing', family: 'flowchart', review: 'Independently authored A to B relationship.', expected: { labels: ['A', 'B'], nodes: [{ id: 'A', label: 'A' }, { id: 'B', label: 'B' }], edges: [{ source: 'A', target: 'B', directed: true }] } }
-const binding = { svgSha256: 'a'.repeat(64), observerSha256: 'b'.repeat(64) }
+const binding = makeSvgObservationBinding(reviewedDocsCase(input, review), 'a'.repeat(64), 'b'.repeat(64))
 const checks = () => plannedPaintCriteria({ family: review.family, expected: review.expected! }).map(criterion => ({ criterion, status: 'passed' as const, expected: null, actual: null, scope: 'test' }))
 
 test('successful SVG return without source review never supplies a correctness pass; stale reviews fail admission', () => {
@@ -27,4 +28,10 @@ test('drawing correctness requires all planned content checks, with wrong arrows
 test('a configuration-only example has no nonblank-image requirement or correctness credit', () => {
   const empty = { ...review, intent: 'configuration-only' as const, expected: undefined }
   expect(assessDocsDrawing(input, empty, 'passed', false, []).status).toBe('not-applicable')
+})
+
+
+test('a source-bound checker receipt cannot be reused after changing documentation expectations', () => {
+  const reversed = { ...review, expected: { ...review.expected!, edges: [{ source: 'B', target: 'A', directed: true }] } }
+  expect(() => assessDocsDrawing(input, reversed, 'passed', true, checks(), binding)).toThrow('stale')
 })

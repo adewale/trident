@@ -47,3 +47,22 @@ test('source title requires painted text rather than SVG metadata', async () => 
   expect((await inspect(actual, e))[0]?.status).toBe('passed')
   expect((await inspect(actual.replace('x="60" y="18"', 'x="60" y="18" display="none"'), e))[0]?.status).toBe('failed')
 })
+
+test('transparent source titles and unbound accessibility metadata cannot supply fact credit', async () => {
+  const e = { ...expected, facts: { title: 'The title' } }
+  const transparent = svg.replace('</svg>', '<text x="60" y="18" fill="none" stroke="none">The title</text></svg>')
+  expect((await inspect(transparent, e))[0]?.status).toBe('failed')
+  const accessible = svg.replace('<svg ', '<svg aria-labelledby="arbitrary-name" aria-describedby="arbitrary-description" ').replace('<defs>', '<title id="arbitrary-name">The title</title><desc id="arbitrary-description">A description</desc><defs>')
+  const facts = { 'accessibility-title': 'The title', 'accessibility-description': 'A description' }
+  expect((await inspect(accessible, { ...expected, facts })).map(check => check.status)).toEqual(['passed', 'passed'])
+  expect((await inspect(accessible.replace('aria-labelledby="arbitrary-name"', 'aria-labelledby="missing"'), { ...expected, facts })).find(check => check.criterion === 'source-fact:accessibility-title')?.status).toBe('failed')
+})
+
+test('a source title cannot borrow an identically named node or survive a proved empty clip', async () => {
+  const borrowed = { ...expected, facts: { title: 'Alpha' } }
+  expect((await inspect(svg, borrowed))[0]?.status).toBe('failed')
+  const valid = svg.replace('</svg>', '<text x="60" y="18">Alpha</text></svg>')
+  expect((await inspect(valid, borrowed))[0]?.status).toBe('passed')
+  const clipped = valid.replace('</defs>', '<clipPath id="empty"><rect width="0" height="0"/></clipPath></defs>').replace('x="60" y="18"', 'x="60" y="18" clip-path="url(#empty)"')
+  expect((await inspect(clipped, borrowed))[0]?.status).toBe('failed')
+})

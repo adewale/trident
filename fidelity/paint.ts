@@ -1,7 +1,7 @@
 import type { MeaningExpectation, PaintExpectation } from './meaning.ts'
 
 export interface PaintCheck { criterion: string; status: 'passed' | 'failed' | 'unavailable'; expected: unknown; actual: unknown; scope: string }
-export interface PaintEvidence { checks: PaintCheck[]; complete: boolean; passed: boolean; nodes: unknown[]; connections: unknown[]; viewBox: string | null }
+export interface PaintEvidence { checks: PaintCheck[]; complete: boolean; passed: boolean; nodes: unknown[]; connections: unknown[]; viewBox: string | null; groups?: { id: string; label: string; box: { x: number; y: number; width: number; height: number } }[] }
 export interface PaintInput { family: string; expected: MeaningExpectation; paint?: PaintExpectation }
 
 /** The authored request fixes the denominator before any renderer runs. */
@@ -31,6 +31,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const ids = [...(svg.id ? [svg.id] : []), ...[...svg.querySelectorAll('[id]')].map(element => element.id)]
   check('svg-unique-ids', ids.length, new Set(ids).size, ids.length === new Set(ids).size, 'Duplicate SVG identities can change marker, clip and owned-label references')
   await document.fonts.ready
+  const requiredLabels = [...new Set([...input.expected.labels, ...(typeof input.expected.facts?.title === 'string' && input.expected.facts.title ? [input.expected.facts.title] : [])])]
   const normalize = (value: string) => value.normalize('NFC').replace(/\s+/g, ' ').trim()
   const rect = (element: Element) => { const b = element.getBoundingClientRect(); return { x: b.x, y: b.y, width: b.width, height: b.height } }
   const labelBox = (element: Element) => { if (element.namespaceURI === 'http://www.w3.org/2000/svg') return rect(element); const range = document.createRange(); range.selectNodeContents(element); const b = range.getBoundingClientRect(); return { x: b.x, y: b.y, width: b.width, height: b.height } }
@@ -107,7 +108,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     return labelElements.filter(element => pattern.test(normalize(labelText(element))))
   }
   const visibleMatches = (label: string) => matches(label).filter(element => visible(element) && labelBox(element).width > 0 && labelBox(element).height > 0)
-  const labelResults = [...new Set(input.expected.labels.filter(Boolean))].map(label => {
+  const labelResults = [...new Set(requiredLabels.filter(Boolean))].map(label => {
     const elements = visibleMatches(label)
     return { label, count: elements.length, boxes: elements.map(labelBox), inCanvas: elements.length > 0 && elements.every(element => contains(rootBox, labelBox(element))) }
   })
@@ -130,7 +131,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   }
   const clipped: string[] = []
   let unknownClipping = false
-  for (const label of input.expected.labels.filter(Boolean)) for (const element of visibleMatches(label)) {
+  for (const label of requiredLabels.filter(Boolean)) for (const element of visibleMatches(label)) {
     for (let parent: Element | null = element; parent; parent = parent.parentElement) {
       const style = getComputedStyle(parent)
       const outer = rect(parent), ink = labelBox(element)
@@ -151,9 +152,28 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       if (parent === svg) break
     }
   }
-  check('unclipped-authored-labels', [], clipped, clipped.length ? false : unknownClipping ? null : true, 'Actual self/ancestor clipping and overflow; unprojected masks/clip paths remain unavailable')
+  // Computed visibility is insufficient when later opaque SVG paint hides the
+  // label. Prove full occlusion only for simple convex filled primitives; an
+  // overlapping unprojected cover withholds completeness instead of passing.
+  for (const label of requiredLabels.filter(Boolean)) for (const element of visibleMatches(label)) {
+    const ink = labelBox(element)
+    for (const cover of svg.querySelectorAll('rect,circle,ellipse,polygon,path,image,use,foreignObject')) {
+      if (cover.contains(element) || element.contains(cover) || !(element.compareDocumentPosition(cover) & Node.DOCUMENT_POSITION_FOLLOWING) || !visible(cover)) continue
+      const outer = rect(cover), overlap = Math.min(ink.x + ink.width, outer.x + outer.width) - Math.max(ink.x, outer.x) > .5 && Math.min(ink.y + ink.height, outer.y + outer.height) - Math.max(ink.y, outer.y) > .5
+      if (!overlap) continue
+      const style = getComputedStyle(cover)
+      if (!['image', 'use', 'foreignObject'].includes(cover.localName) && (colorAlpha(style.fill) === 0 || Number(style.fillOpacity) === 0)) continue
+      let simple = ['rect', 'circle', 'ellipse'].includes(cover.localName) && colorAlpha(style.fill) === 1 && Number(style.fillOpacity) === 1
+      for (let parent: Element | null = cover; parent; parent = parent.parentElement) { const css = getComputedStyle(parent); if (Number(css.opacity) !== 1 || css.clipPath !== 'none' || css.maskImage !== 'none' || css.filter !== 'none' || css.mixBlendMode !== 'normal' || !['auto', '0'].includes(css.zIndex)) simple = false; if (parent === svg) break }
+      const matrix = (cover as SVGGraphicsElement).getScreenCTM?.()
+      const corners = [[ink.x, ink.y], [ink.x + ink.width, ink.y], [ink.x, ink.y + ink.height], [ink.x + ink.width, ink.y + ink.height]]
+      if (simple && matrix && corners.every(([x, y]) => (cover as SVGGeometryElement).isPointInFill?.(new DOMPoint(x, y).matrixTransform(matrix.inverse())))) clipped.push(label)
+      else { unknownClipping = true; check('occlusion:' + label, 'required text survives later overlapping paint', { cover: cover.localName, box: outer }, null, 'Partial, translucent, clipped or complex later paint can obscure authored glyphs; no visible-text completeness is inferred from its bounding box') }
+    }
+  }
+  check('unclipped-authored-labels', [], clipped, clipped.length ? false : unknownClipping ? null : true, 'Actual clipping, overflow and later opaque covers; unprojected masks, partial occlusion and clip paths remain unavailable')
   if (input.paint?.fontSize !== undefined) {
-    const sizes = input.expected.labels.filter(Boolean).map(label => ({ label, values: visibleMatches(label).flatMap(element => {
+    const sizes = requiredLabels.filter(Boolean).map(label => ({ label, values: visibleMatches(label).flatMap(element => {
       const descendants = [...element.querySelectorAll('tspan,span,p')].filter(child => normalize(labelText(child)) && visible(child))
       return (descendants.length ? descendants : [element]).map(child => Number.parseFloat(getComputedStyle(child).fontSize))
     }) }))
@@ -249,7 +269,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   for (const ids of owners.values()) if (ids.length > 1) for (const id of ids) { anchors.delete(id); missingNodes.push(id) }
   const unexpectedNodes: string[] = []
   if (input.expected.nodes?.length && !['sequence', 'zenuml'].includes(input.family)) {
-    const allowed = new Set(input.expected.labels.map(normalize))
+    const allowed = new Set(requiredLabels.map(normalize))
     const candidates = [...svg.querySelectorAll('g.node,g[class$="-node"],g[class*="-node "],[data-role="node"]')].filter(owner => visible(owner))
     for (const owner of candidates) {
       if ([...anchors.values()].some(node => owner.contains(node.shape))) continue
@@ -259,7 +279,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     }
   }
   if (input.expected.nodes?.length && !['sequence', 'zenuml'].includes(input.family)) {
-    const allowed = new Set(input.expected.labels.map(normalize))
+    const allowed = new Set(requiredLabels.map(normalize))
     for (const [index, element] of labelElements.entries()) {
       const label = normalize(labelText(element))
       if (!label || allowed.has(label) || !visible(element)) continue
@@ -546,16 +566,18 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     }
     if (input.family === 'er' && input.expected.facts?.cardinalities) check('painted-cardinality-decorations', input.expected.facts.cardinalities, connections.map(({ element: _, ...item }) => item), null, 'Owned endpoints are measured, but exact crow-foot/optional-circle combinations need a reviewed per-marker paint projection; native cardinalities alone earn no paint credit')
   }
+  const groupBoxes: { id: string; label: string; box: Box }[] = []
   for (const group of input.expected.groups ?? []) {
     if (input.family === 'mindmap') { check('painted-group:' + group.id, group, null, null, 'Mindmap parent/child membership is a logical hierarchy, not an authored enclosing container; native membership is checked separately and connector ownership needs a reviewed paint projection'); continue }
     if (!group.label) { check('painted-group:' + group.id, group, null, null, 'Anonymous group needs a reviewed SVG identity projection'); continue }
     const owners = visibleMatches(group.label).map(element => ownedBox(element, undefined, true)).filter((item): item is NonNullable<typeof item> => !!item)
     if (owners.length !== 1) { check('painted-group:' + group.id, group, null, null, 'Group-to-owned-container projection is ambiguous or missing'); continue }
+    groupBoxes.push({ id: group.id, label: group.label, box: owners[0]!.box })
     const descendantIds = (id: string, visiting: Set<string>): string[] => { if (visiting.has(id)) return []; const found = input.expected.groups?.find(candidate => candidate.id === id); return found ? found.members.flatMap(member => descendantIds(member, new Set([...visiting, id]))) : [id] }
     const members = descendantIds(group.id, new Set()), available = members.every(id => anchors.has(id))
     const outside = members.filter(id => anchors.has(id) && !contains(owners[0]!.box, anchors.get(id)!.box, 2))
     check('painted-group:' + group.id, members, outside, available ? outside.length === 0 : null, 'Authored descendant nodes fit their actual owned group boundary; immediate membership is checked independently in the native model')
   }
   check('paint-opacity-and-color', 'resolved visible paint colors/alpha', [...unknownPaint], unknownPaint.size ? null : true, 'Unresolved paint servers/context colors cannot silently earn a visible-ink or complete-style claim')
-  return { checks, complete: checks.every(item => item.status !== 'unavailable'), passed: checks.length > 0 && checks.every(item => item.status === 'passed'), nodes: [...anchors.values()].map(({ owner: _, shape: __, outlines: ___, ...node }) => node), connections: connections.map(({ element: _, ...edge }) => edge), viewBox: svg.getAttribute('viewBox') }
+  return { checks, complete: checks.every(item => item.status !== 'unavailable'), passed: checks.length > 0 && checks.every(item => item.status === 'passed'), nodes: [...anchors.values()].map(({ owner: _, shape: __, outlines: ___, ...node }) => node), connections: connections.map(({ element: _, ...edge }) => edge), viewBox: svg.getAttribute('viewBox'), groups: groupBoxes }
 }

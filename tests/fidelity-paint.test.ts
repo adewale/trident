@@ -292,3 +292,15 @@ test('unwrapped public SVG binds labels to individual real outlines without borr
   const flat = '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="100"><rect width="240" height="100" fill="white"/><text x="14" y="30">Alpha</text></svg>'
   expect((await inspect(flat, { labels: ['Alpha'], nodes: [{ id: 'A', label: 'Alpha' }], edges: [] })).checks.find(check => check.criterion === 'painted-node-ownership')?.status).toBe('unavailable')
 })
+
+test('a later opaque cover cannot preserve passing visible-label evidence through positive text bounds', async () => {
+  const opaque = fixture.replace('</svg>', '<rect x="0" y="0" width="240" height="80" fill="white" pointer-events="none"/></svg>')
+  const hidden = await inspect(opaque)
+  expect(hidden.checks.find(check => check.criterion === 'visible-authored-labels')?.status).toBe('passed')
+  expect(hidden.checks.find(check => check.criterion === 'unclipped-authored-labels')?.status).toBe('failed')
+  expect(hidden.passed).toBe(false)
+  const partial = await inspect(fixture.replace('</svg>', '<rect x="10" y="10" width="20" height="30" fill="white"/></svg>'))
+  expect(partial.checks.find(check => check.criterion === 'unclipped-authored-labels')?.status).toBe('unavailable')
+  const behind = fixture.replace('<defs>', '<rect x="0" y="0" width="240" height="80" fill="white"/><defs>')
+  expect((await inspect(behind)).passed).toBe(true)
+})

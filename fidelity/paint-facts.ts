@@ -11,14 +11,19 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
   const svg = document.querySelector('svg'), checks: PaintCheck[] = [], facts: any = input.expected.facts ?? {}
   const add = (key: string, actual: unknown, passed: boolean | null, scope: string) => checks.push({ criterion: 'source-fact:' + key, expected: facts[key], actual, status: passed === null ? 'unavailable' : passed ? 'passed' : 'failed', scope })
   const normalize = (value: string) => value.normalize('NFC').replace(/\s+/g, ' ').trim()
+  let uncertainPaint = false
+  const color = document.createElement('canvas').getContext('2d')!
+  const alpha = (value: string) => { if (value === 'none' || value === 'transparent') return 0; if (/url\(|var\(|context-/.test(value)) { uncertainPaint = true; return null }; color.clearRect(0, 0, 1, 1); color.fillStyle = value; color.fillRect(0, 0, 1, 1); return color.getImageData(0, 0, 1, 1).data[3]! / 255 }
   const visible = (element: Element) => {
     for (let parent: Element | null = element; parent; parent = parent.parentElement) {
       const css = getComputedStyle(parent)
       if (['defs', 'marker', 'clipPath', 'mask', 'title', 'desc'].includes(parent.localName) || css.display === 'none' || ['hidden', 'collapse'].includes(css.visibility) || Number(css.opacity) === 0) return false
+      if (css.filter !== 'none' || css.maskImage !== 'none' || css.clipPath !== 'none') { uncertainPaint = true; return false }
       if (parent === svg) break
     }
-    const b = element.getBoundingClientRect()
-    return b.width > 0 && b.height > 0
+    const b = element.getBoundingClientRect(), css = getComputedStyle(element)
+    const fill = alpha(element.namespaceURI === 'http://www.w3.org/2000/svg' ? css.fill : css.color), stroke = alpha(css.stroke)
+    return b.width > 0 && b.height > 0 && (fill !== null && fill * Number(css.fillOpacity) > 0 || stroke !== null && stroke * Number(css.strokeOpacity) > 0 && Number.parseFloat(css.strokeWidth) > 0)
   }
   const text = svg ? [...svg.querySelectorAll('text,foreignObject p,foreignObject span,foreignObject div')].filter(element => visible(element) && ![...element.children].some(child => visible(child) && normalize(child.textContent ?? '') === normalize(element.textContent ?? ''))) : []
   const label = (value: string) => text.filter(element => normalize(element.textContent ?? '') === normalize(value))
@@ -27,9 +32,22 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
   const checkById = new Map([...input.paint.checks, ...input.quantitative].map(check => [check.criterion, check]))
   for (const key of Object.keys(facts).sort()) {
     if (!svg) { add(key, null, null, 'No mounted SVG is available for the required source fact'); continue }
+    if (['accessibility-title', 'accessibility-description'].includes(key) && typeof facts[key] === 'string') {
+      const attribute = key === 'accessibility-title' ? 'aria-labelledby' : 'aria-describedby', direct = key === 'accessibility-title' ? 'aria-label' : 'aria-description'
+      const references = (svg.getAttribute(attribute) ?? '').trim().split(/\s+/).filter(Boolean), targets = references.map(id => document.getElementById(id))
+      const resolved = references.length ? targets.every(target => target && svg.contains(target)) : svg.hasAttribute(direct)
+      const actual = references.length && resolved ? targets.map(target => target!.textContent ?? '').join(' ') : !references.length ? svg.getAttribute(direct) : null
+      add(key, { attribute: references.length ? attribute : direct, references, text: actual }, resolved ? normalize(actual ?? '') === normalize(facts[key]) : false, 'The actual standalone SVG accessibility name/description must resolve through its own ARIA references or direct attribute. Arbitrary generated IDs and unrelated metadata earn no credit; this is not a screen-reader compatibility certification')
+      continue
+    }
     if (key === 'title' && typeof facts.title === 'string') {
-      const found = label(facts.title)
-      add(key, found.length, found.length > 0, 'The literal source title must be actual visible drawing text; SVG title/desc metadata, hidden text and zero-sized text supply no credit')
+      const clipping = checkById.get('unclipped-authored-labels'), clippedTitle = Array.isArray(clipping?.actual) && clipping.actual.includes(facts.title)
+      const found = label(facts.title), root = svg.getBoundingClientRect()
+      const outsideContent = found.filter(element => {
+        const b = element.getBoundingClientRect(), p = { x: b.x + b.width / 2, y: b.y + b.height / 2 }
+        return ![...nodes, ...(input.paint.groups ?? [])].some(owner => p.x >= owner.box.x - 1 && p.x <= owner.box.x + owner.box.width + 1 && p.y >= owner.box.y - 1 && p.y <= owner.box.y + owner.box.height + 1) && b.x >= root.x - 1.5 && b.y >= root.y - 1.5 && b.right <= root.right + 1.5 && b.bottom <= root.bottom + 1.5
+      })
+      add(key, { visibleOccurrences: found.length, unownedTitleOccurrences: outsideContent.length, clipped: clippedTitle }, clippedTitle ? false : clipping?.status !== 'passed' ? null : outsideContent.length === 1 ? true : uncertainPaint ? null : false, 'The literal title needs its own visible, unclipped occurrence inside the canvas and outside authored node/group bodies. SVG metadata, a borrowed node label, hidden text and positive but clipped bounds supply no title credit')
       continue
     }
     if (key === 'direction' && input.family === 'flowchart') {

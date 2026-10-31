@@ -25,7 +25,7 @@ import { inspectQuantitativePaint } from './paint-values.ts'
 import { inspectSourceFacts } from './paint-facts.ts'
 import { expandedFidelityCases } from './cases.ts'
 import { reviewedFontSizePath } from '../portable/configuration.ts'
-import { assessSvgCases, summarizeSvgCases } from './svg-assessment.ts'
+import { assessSvgCases, summarizeSvgCases, makeSvgCaseContract } from './svg-assessment.ts'
 import { assessPrelude } from './meaning.ts'
 import { evidenceDigest } from '../portable/evidence-contract.ts'
 import type { FidelityRunOptions } from './run.ts'
@@ -145,7 +145,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
         const context = await (await getBrowser()).newContext({ viewport: { width: 1400, height: 1000 }, serviceWorkers: 'block' }); let page = await context.newPage(), observer = await context.newPage(), healthy = false
         await context.route('**/*', async (route: any) => { const url = route.request().url(); if (url.startsWith(origin + '/') || /^(?:data:|blob:|about:blank)/.test(url)) await route.continue(); else { blockedRequests.add(url); await route.abort() } })
         page.setDefaultTimeout(20_000)
-        const diagnostics = new Map<string, any[]>(), outputBindings: Record<string, { svgSha256: string; observerSha256: string }> = Object.create(null)
+        const diagnostics = new Map<string, any[]>(), outputBindings: Record<string, { sourceSha256: string; expectationsSha256: string; svgSha256: string; observerSha256: string }> = Object.create(null)
         const observerSha256 = evidenceDigest(identity().protocol)
         const add = (testCase: typeof selectedCases[number], surface: string, criterion: string, status: string, actual: unknown, _expected: unknown, scope: string) => {
           if (status !== 'passed') { const findings = diagnostics.get(testCase.id) ?? []; findings.push({ criterion, status, actual, scope }); diagnostics.set(testCase.id, findings) }
@@ -182,7 +182,8 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
               const qualification = qualifyOutput({ id: testCase.id, family: testCase.family, source: testCase.source, expectedLabels: testCase.expected.labels, features: testCase.features, provenance: testCase.provenance }, result.svg, 'svg')
               add(testCase, 'browser-public-api', 'standalone-svg-and-labels', qualification.ok ? 'passed' : 'failed', qualification.findings, [], qualification.scope)
               const stem = `${index}-${testCase.id.replace(/[^a-zA-Z0-9_.-]/g, '_')}`, svgPath = join(directory, stem + '.svg.gz'); writeFileSync(svgPath, gzipSync(result.svg)); artifacts.push(svgPath)
-              outputBindings[testCase.id] = { svgSha256: createHash('sha256').update(result.svg).digest('hex'), observerSha256 }
+              const contract = makeSvgCaseContract(testCase)
+              outputBindings[testCase.id] = { sourceSha256: contract.sourceSha256, expectationsSha256: contract.expectationsSha256, svgSha256: createHash('sha256').update(result.svg).digest('hex'), observerSha256 }
               details.svgEvidence = { path: svgPath, encoding: 'gzip', bytes: Buffer.byteLength(result.svg), sha256: createHash('sha256').update(result.svg).digest('hex'), scope: 'Lossless actual public SVG output, never an input/corpus digest' }
               if (observer.isClosed()) { observer = await context.newPage(); await observer.goto(origin + '/observer') }
               await observer.setContent(result.svg); await observer.evaluate(() => { document.body.style.margin = '0'; document.body.style.background = '#fff' })
