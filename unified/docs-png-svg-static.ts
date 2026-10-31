@@ -7,6 +7,8 @@ import { docsExpectationsHash } from './docs-png-drawings.ts'
 import { importOfflinePngReviews, type OfflinePngReviewReceipt } from './docs-png-offline-review.ts'
 import { bindDocsPngConversionReturn } from './docs-png-qualification.ts'
 import { inspectPng } from './png-inspection.ts'
+import { readCheckpointEntries } from '../portable/checkpoint.ts'
+import { admitInvocationEvidence } from '../portable/evidence-contract.ts'
 import { makeSvgCaseContract } from '../fidelity/svg-assessment.ts'
 
 const hash = (value: unknown): value is string => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value)
@@ -34,9 +36,15 @@ export function readBrowserPngCaptureProfile(input: { root: string; fontsFile?: 
   const contextBytes = readFileSync(join(input.root, 'context.json')), context = JSON.parse(contextBytes.toString())
   const completionBytes = readFileSync(input.completionFile), completion = JSON.parse(completionBytes.toString())
   let fontManifestSha256: string, fontFiles: BrowserPngCaptureProfile['fontFiles'], configuration: any[] = [], producerClosure: string[], attemptIds: string[] | undefined, legacyCheckpointSha256: string | undefined
-  if (completion.schema === 'trident-browser-png-capture-v1') {
+  if (completion.schema === 'trident-browser-png-capture-v2') {
     const beforeBytes = readFileSync(join(dirname(input.completionFile), 'before.json')), before = JSON.parse(beforeBytes.toString())
     if (completion.status !== 'available' || before.status !== 'available' || completion.beforeSha256 !== evidenceBytesDigest(beforeBytes) || completion.contextSha256 !== evidenceBytesDigest(contextBytes) || before.contextSha256 !== completion.contextSha256 || completion.afterEnvironmentSha256 !== evidenceDigest(before.environment) || !Array.isArray(completion.attemptIds) || new Set(completion.attemptIds).size !== completion.attemptIds.length) throw Error('Static SVG capture lacks unchanged before/after environment and actual invocation coverage')
+    if (before.schema !== 'trident-browser-png-capture-before-v2' || !Array.isArray(before.baselineAttemptIds) || !hash(before.baselineJournalSha256) || !Array.isArray(completion.coverage) || completion.coverage.length !== completion.attemptIds.length) throw Error('Static SVG capture lacks its durable pre-call journal baseline')
+    const journal = readCheckpointEntries(join(input.root,'invocations'), {schema:'trident-invocation-journal-v1'}).map(([_key,frame])=>admitInvocationEvidence(frame))
+    for (const attemptId of completion.attemptIds) {
+      const own = completion.coverage.filter((item:any)=>item.attemptId===attemptId), rows=journal.filter(frame=>frame.attemptId===attemptId), starts=rows.filter(frame=>frame.state==='started'),outcomes=rows.filter(frame=>['returned','public-error','interrupted'].includes(frame.state))
+      if (before.baselineAttemptIds.includes(attemptId) || own.length!==1 || starts.length!==1 || outcomes.length!==1 || own[0].startedFrameSha256!==evidenceDigest(starts[0]) || own[0].outcomeFrameSha256!==evidenceDigest(outcomes[0]) || outcomes[0]!.startedReceiptSha256!==evidenceDigest(starts[0])) throw Error('Static SVG capture coverage differs from actual new invocation frames')
+    }
     fontManifestSha256 = evidenceBytesDigest(beforeBytes); fontFiles = before.environment?.fonts; configuration = before.environment?.configuration; producerClosure = before.producers; attemptIds = completion.attemptIds
   } else {
     // Compatibility for the already executed externally audited collection.
@@ -46,8 +54,12 @@ export function readBrowserPngCaptureProfile(input: { root: string; fontsFile?: 
     const fontBytes = readFileSync(input.fontsFile), fonts = JSON.parse(fontBytes.toString()), proof = JSON.parse(readFileSync(input.legacyProducerProofFile, 'utf8')), checkpointBytes = readFileSync(join(input.root, 'checkpoint.json')), checkpoint = JSON.parse(checkpointBytes.toString())
     if (proof.schema !== 'trident-audited-external-png-capture-producer-v1' || proof.identitySha256 !== evidenceBytesDigest(JSON.stringify(proof.identity)) || proof.identitySha256 !== checkpoint.identitySha256 || evidenceDigest(proof.identity.context) !== evidenceDigest(context) || proof.completionSha256 !== evidenceBytesDigest(completionBytes) || proof.fontManifestSha256 !== evidenceBytesDigest(fontBytes) || proof.externalCollector?.sha256 !== evidenceBytesDigest(readFileSync(join(dirname(input.legacyProducerProofFile), proof.externalCollector.path))) || !proof.identity.projects.includes(completion.project) || completion.fontsSha256 !== evidenceBytesDigest(fontBytes)) throw Error('External PNG capture producer/checkpoint or font proof differs')
     fontManifestSha256 = evidenceBytesDigest(fontBytes); fontFiles = fonts.files; producerClosure = proof.identity.producers; legacyCheckpointSha256 = evidenceBytesDigest(checkpointBytes)
+    const rows = JSON.parse(readFileSync(join(input.root,'result.json'),'utf8')).observations
+    if (!Array.isArray(rows)) throw Error('External PNG capture has no exact result invocation coverage')
+    attemptIds = rows.filter((row:any)=>row.operation==='render' && row.metrics?.transport==='svg-conversion').map((row:any)=>row.metrics.rawInvocationId)
+    if (!attemptIds?.length || attemptIds.some(id=>typeof id!=='string'||!id.trim()) || new Set(attemptIds).size!==attemptIds.length) throw Error('External PNG capture has incomplete or duplicated result invocation coverage')
   }
-  if (completion.resultSha256 !== evidenceBytesDigest(readFileSync(join(input.root, 'result.json'))) || !Array.isArray(fontFiles) || !fontFiles.length || !Array.isArray(configuration) || !Array.isArray(producerClosure) || !producerClosure.length || producerClosure.some(item => typeof item !== 'string' || !item.trim())) throw Error('Static SVG capture lacks its exact result, fonts or producer closure')
+  if (completion.resultSha256 !== evidenceBytesDigest(readFileSync(join(input.root, 'result.json'))) || !Array.isArray(fontFiles) || !fontFiles.length || !Array.isArray(configuration) || !Array.isArray(producerClosure) || !producerClosure.length || producerClosure.some(item => typeof item !== 'string' || !/^[0-9]{6} blob [a-f0-9]{40}\t.+$/.test(item))) throw Error('Static SVG capture lacks its exact result, fonts or producer closure')
   const browser = context.browser
   if (browser?.status !== 'available' || !browser.version || !browser.path || !hash(browser.sha256) || evidenceBytesDigest(readFileSync(browser.path)) !== browser.sha256 || !Array.isArray(browser.companions) || !browser.companions.length) throw Error('Static SVG capture lacks its frozen browser bytes')
   for (const file of [...browser.companions, ...fontFiles, ...configuration, ...(context.resources?.files ?? [])]) {
