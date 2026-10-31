@@ -48,3 +48,13 @@ test('a mutated projection cannot lower the threshold or change the declared sou
   ;(changed.expected.facts!['minimum-canvas-clearance']as any).minimum=199
   expect(inspectMinimumCanvasClearance(changed,geometry).status).toBe('unknown')
 })
+
+test('every named owned bound must be present; absent evidence never becomes a successful comparison',()=>{
+  const good={width:700,height:600,pixelRatio:1,bounds:{left:200,top:200,right:500,bottom:400}}
+  for(const side of ['left','top','right','bottom']){
+    const missing=structuredClone(good)
+    delete(missing.bounds as any)[side]
+    expect(inspectMinimumCanvasClearance(projection,missing).status).toBe('unknown')
+  }
+  for(const incomplete of [{...good,bounds:{}},{width:700,height:600,pixelRatio:1},{...good,bounds:null},null,undefined])expect(inspectMinimumCanvasClearance(projection,incomplete as any).status).toBe('unknown')
+})
