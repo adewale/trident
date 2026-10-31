@@ -12,6 +12,7 @@ test('complete class signature facts replace brittle literal signature display l
   const expected = projectVisualExpectation('class', { labels: ['User', '+save() bool', '+String name'], facts: { members: [{ id: 'User', values: ['+save() bool', '+String name'] }] } }).expected
   expect(expected.labels).toEqual(['User'])
   expect(expected.facts?.members).toEqual([{ id: 'User', values: ['+save() bool', '+String name'] }])
+  expect(projectVisualExpectation('class', { labels: ['IdCard'], nodes: [{ id: 'IdCard', label: 'IdCard' }], facts: { members: [{ id: 'Other', values: ['IdCard'] }] } }).expected.labels).toEqual(['IdCard'])
 })
 
 test('unprinted pie totals project to fractions; showData retains explicit absolute values', () => {

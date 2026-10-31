@@ -8,7 +8,8 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
   if (family === 'class' && Array.isArray(facts.members)) {
     const signature = (value: string) => value.normalize('NFC').replace(/\s+/g, ' ').trim().replace(/\)\s*:\s*/g, ') ').replace(/\s*:\s*/g, ':')
     const members = new Set(facts.members.flatMap((entry: any) => entry.values.map((value: string) => signature(value))))
-    const labels = expected.labels.filter(label => !members.has(signature(label)))
+    const owned = new Set([...(expected.nodes ?? []).map(node => node.label), ...(expected.edges ?? []).flatMap(edge => edge.label ? [edge.label] : []), ...(expected.groups ?? []).map(group => group.label), ...(typeof facts.title === 'string' ? [facts.title] : [])].map(signature))
+    const labels = expected.labels.filter(label => owned.has(signature(label)) || !members.has(signature(label)))
     if (labels.length !== expected.labels.length) { expected.labels = labels; projections.push('Class member signatures are checked as complete owned member facts; syntax punctuation is not a second literal display-label obligation') }
   }
   if (Object.hasOwn(facts, 'direction')) {
