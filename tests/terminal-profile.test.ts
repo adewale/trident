@@ -76,6 +76,7 @@ test('public saved-output launcher works in CI without oracle or renderer; colle
 
 import { collectTerminalWorkloads } from '../unified/terminal-profile.ts'
 import { prepareCommunity, verifyProvidedCommunityArtifact } from '../unified/community.ts'
+import { packageCliVariants } from '../unified/community-cli.ts'
 test('preparation freezes the declared package CLI and its dependency closure for terminal-only repair', async () => {
   const directory = temp.dir(), root = join(directory, 'node_modules/fixture-diagram'), dependency = join(directory, 'node_modules/terminal-helper')
   mkdirSync(root, { recursive: true }); mkdirSync(dependency, { recursive: true })
@@ -94,6 +95,7 @@ test('preparation freezes the declared package CLI and its dependency closure fo
   const [peer] = await prepareCommunity({ root: directory, out: join(directory, 'preparation'), rounds: 1, profile: 'smoke', communityProjects: [node.id], communityCatalogFile: catalog, communityArtifacts: artifacts, communityArtifactPolicy: 'frozen' })
   expect(peer?.error).toBeUndefined()
   expect(peer?.artifact?.additionalCli?.[0]).toMatchObject({ id: 'node-cli', outputs: ['terminal'], artifact: { version: '1.0.0', input: 'stdin' } })
+  expect(packageCliVariants([peer!])).toHaveLength(1)
   verifyProvidedCommunityArtifact(peer!.artifact!)
   const rows = await collectTerminalWorkloads([peer!], [{ id: 'fixture-only', source: 'flowchart LR\nAlpha --> Beta\nBeta --> Gamma', family: 'flowchart', expectedLabels: ['Alpha', 'Beta', 'Gamma'], features: ['retain-output-witness'], provenance: 'Synthetic transport control outside scored corpus' }], { root: directory, out: join(directory, 'collection'), rounds: 1, profile: 'smoke' })
   expect(rows[0]?.rows[0]?.status).toBe('passed')
