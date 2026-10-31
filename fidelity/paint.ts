@@ -565,6 +565,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const distanceToNode = (point: Point, node: { shape: Element; outlines?: Element[] }) => Math.min(...(node.outlines ?? [node.shape]).map(shape => distanceToInk(point, shape)))
   let ambiguousEndpoints = false, unresolvedProjection = false
   const dashPatterns = new Map<Element, 'solid' | 'dotted' | 'invisible' | 'unavailable'>()
+  const finiteMarkerMaskedPatterns=new Set<Element>()
   const strokePattern = (element: Element): 'solid' | 'dotted' | 'invisible' | 'unavailable' => {
     const previous = dashPatterns.get(element); if (previous) return previous
     const css = getComputedStyle(element), raw = css.strokeDasharray
@@ -596,7 +597,33 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
         position = end
       }
     }
-    const result = !paint ? 'invisible' : gap ? 'dotted' : 'solid'; dashPatterns.set(element, result); return result
+    let result:'solid'|'dotted'|'invisible'|'unavailable'=!paint?'invisible':gap?'dotted':'solid'
+    // A finite terminal reveal-mask gap can sit beneath the actual marker.
+    // Its dash declaration alone does not prove a visible dotted shaft. Use
+    // only measured marker geometry as an uncertainty gate, never as a solid
+    // claim. Interior gaps and unmarked terminal gaps remain real negatives.
+    if(paint&&gap&&length<period*3){
+      const gaps:{from:number;to:number}[]=[]
+      for(let cycle=0;cycle<=Math.ceil((length+phase)/period);cycle++){
+        let position=cycle*period-phase
+        for(const[index,value]of pattern.entries()){
+          const end=position+value,from=Math.max(0,position+cap),to=Math.min(length,end-cap)
+          if(index%2===1&&to-from>1e-7)gaps.push({from,to})
+          position=end
+        }
+      }
+      const reach=(side:'start'|'end')=>{
+        const setting=css[side==='start'?'markerStart':'markerEnd'],endpoint=pointFor(element,side==='end'),tangent=tangentAt(element,side)
+        if(!setting||setting==='none'||!endpoint||!tangent||!(tangent.scale>0))return 0
+        const marker=markerFor(element,side,endpoint)
+        if(marker.kind==='none')return 0
+        if(marker.unknown||!marker.point||!Number.isFinite(marker.clearance)||marker.clearance!>=8)return Infinity
+        return(marker.clearance!*2+Math.hypot(marker.point.x-endpoint.x,marker.point.y-endpoint.y))/tangent.scale*length/measured
+      }
+      const start=reach('start'),end=reach('end')
+      if(gaps.length&&gaps.every(interval=>interval.from<=1e-7&&interval.to<=start+1e-7||interval.to>=length-1e-7&&length-interval.from<=end+1e-7)){result='unavailable';finiteMarkerMaskedPatterns.add(element)}
+    }
+    dashPatterns.set(element,result);return result
   }
   const bind = (point: Point, clearance = 2) => {
     const candidates = [...anchors.values()].map(node => {
@@ -784,7 +811,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const header = [...anchors.values()].some(node => (input.expected.groups ?? []).some(group => group.id === node.id) && contains(node.box, panel) && Math.abs(panel.y - node.box.y) <= 2 && Math.abs(panel.width - node.box.width) <= 2 && panel.height < node.box.height * .6 && visibleMatches(node.label).some(label => contains(panel, labelBox(label))) && (input.expected.nodes ?? []).filter(other => other.id !== node.id).every(other => visibleMatches(other.label).every(label => !contains(panel, labelBox(label)))))
     return !header
   })
-  paths = paths.filter(element => { const pattern = strokePattern(element); if (pattern === 'unavailable') unresolvedProjection = true; return pattern !== 'invisible' })
+  paths = paths.filter(element => { const pattern = strokePattern(element); if (pattern === 'unavailable'&&!finiteMarkerMaskedPatterns.has(element)) unresolvedProjection = true; return pattern !== 'invisible' })
   if (['sequence', 'zenuml'].includes(input.family)) paths = paths.filter(element => {
     const style = getComputedStyle(element), start = pointFor(element, false), end = pointFor(element, true)
     if (!start || !end || style.markerStart !== 'none' || style.markerEnd !== 'none' || Math.abs(start.x - end.x) > 1 || Math.abs(start.y - end.y) < 4) return true

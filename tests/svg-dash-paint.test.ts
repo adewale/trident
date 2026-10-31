@@ -37,6 +37,24 @@ test('unresolved percentage dash lengths cannot certify relationships', async ()
   expect(paint.checks.find(row => row.criterion === 'painted-relationships')?.status).toBe('unavailable')
 })
 
+test('a possible actual marker mask makes only terminal dash gaps unknown, preserving exposed gap negatives',async()=>{
+  const page=await browser.newPage()
+  const drawing=(dash:string,marker=true)=>`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100"><defs><marker id="tip" viewBox="0 0 12 12" markerWidth="12" markerHeight="12" refX="12" refY="6" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L12 6L0 12Z" fill="black"/></marker></defs><rect x="20" y="20" width="60" height="60" fill="white" stroke="black"/><text x="50" y="55" text-anchor="middle">A</text><rect x="200" y="20" width="60" height="60" fill="white" stroke="black"/><text x="230" y="55" text-anchor="middle">B</text><path class="relation" d="M80 50H200" fill="none" stroke="black" stroke-width="2" stroke-dasharray="${dash}" ${marker?'marker-end="url(#tip)"':''}/></svg>`
+  const inspectMarked=async(dash:string,marker=true)=>{await page.setContent(drawing(dash,marker));return await page.evaluate(inspectFidelityPaint,{family:'flowchart',expected:marker?{...expected,edges:[{source:'A',target:'B',directed:true,endMarker:'arrow'}]}:expected}) as PaintEvidence}
+  try{
+    const terminal=await inspectMarked('0 0 116 4')
+    expect((terminal.connections[0] as any)?.strokePattern).toBe('unavailable')
+    // The finite visible stem/marker can still establish topology. Only its
+    // solid/dotted appearance is unqualified; no solid claim is manufactured.
+    expect(terminal.checks.find(check=>check.criterion==='painted-relationships')?.status).toBe('passed')
+    expect(((await inspectMarked('0 0 116 4',false)).connections[0] as any)?.strokePattern).toBe('dotted')
+    expect(((await inspectMarked('0 0 50 8 58 4')).connections[0] as any)?.strokePattern).toBe('dotted')
+    const invisible=await inspectMarked('0 120')
+    expect(invisible.connections).toHaveLength(0)
+    expect(invisible.checks.find(check=>check.criterion==='painted-relationships')?.status).toBe('failed')
+  }finally{await page.close()}
+})
+
 test('an omitted marker orient cannot borrow automatic rotation on a vertical edge', async () => {
   const page = await browser.newPage()
   try {
