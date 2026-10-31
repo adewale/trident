@@ -655,7 +655,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       for (const top of horizontal) for (const bottom of horizontal) {
         const x = Math.min(top.a.x, top.b.x), right = Math.max(top.a.x, top.b.x), y = top.a.y, lower = bottom.a.y
         if (lower <= y + 20 || Math.abs(Math.min(bottom.a.x, bottom.b.x) - x) > 1 || Math.abs(Math.max(bottom.a.x, bottom.b.x) - right) > 1) continue
-        if ([x, right].every(side => vertical.some(line => Math.abs(line.a.x - side) < 1 && Math.min(line.a.y, line.b.y) <= y + 1 && Math.max(line.a.y, line.b.y) >= lower - 1))) frames.push({ x, y, width: right - x, height: lower - y })
+        if ([x, right].every(side => vertical.some(line => Math.abs(line.a.x - side) < 1 && Math.abs(Math.min(line.a.y, line.b.y) - y) <= 1 && Math.abs(Math.max(line.a.y, line.b.y) - lower) <= 1))) frames.push({ x, y, width: right - x, height: lower - y })
       }
       const unique = frames.filter((candidate, i) => !frames.slice(0, i).some(other => nearBox(candidate, other)))
       const caption = (value: string) => paintedText.filter(element => normalize(readText(element)).replace(/^\[\s*|\s*\]$/g, '') === normalize(value) && safeText(element))
