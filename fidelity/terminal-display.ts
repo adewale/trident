@@ -17,6 +17,7 @@ export function interpretTerminal(output: string, bounds = { columns: 1024, rows
   const cells: string[][] = [], result = (status: TerminalDisplay['status'], reason?: string): TerminalDisplay => ({ status, ...(reason ? { reason } : {}), cells, text: cells.map(row => row.join('')).join('\n'), protocol: 'terminal-cells-v1' })
   if (Buffer.byteLength(output) > bounds.inputBytes) return result('unavailable', 'Terminal input exceeds the bounded byte profile')
   let x = 0, y = 0, saved = { x: 0, y: 0 }, foreground = palette[7]!, background = palette[0]!, concealed = false, inverse = false
+  let backgroundPainted = false
   let alternate: { cells: string[][]; x: number; y: number; foreground: string; background: string; concealed: boolean; inverse: boolean } | undefined
   const row = () => { while (cells.length <= y) cells.push([]); return cells[y]! }
   const blank = (column: number, target = row()) => {
@@ -34,6 +35,7 @@ export function interpretTerminal(output: string, bounds = { columns: 1024, rows
     const target = row(); while (target.length < x) target.push(' ')
     blank(x, target); if (width === 2) blank(x + 1, target)
     const fg = inverse ? background : foreground, bg = inverse ? foreground : background
+    if (bg !== palette[0]) backgroundPainted = true
     target[x] = concealed || fg === bg ? ' '.repeat(width) : grapheme.normalize('NFC')
     if (width === 2) target[x + 1] = ''
     x += width
@@ -121,13 +123,13 @@ export function interpretTerminal(output: string, bounds = { columns: 1024, rows
       if (character === '\b') { x = Math.max(0, x - 1); index++; continue }
       if (character === '\t') { x += 8 - x % 8; position(); index++; continue }
       if (/[\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/u.test(character)) throw Error('Bidirectional formatting controls require a reviewed display-order profile')
-      if (character < ' ' || character === '\x7f') throw Error('Unqualified terminal control character')
-      const stop = output.slice(index).search(/[\x00-\x1f\x7f]/), run = stop < 0 ? output.slice(index) : output.slice(index, index + stop)
+      if (character < ' ' || /[\x7f-\x9f]/.test(character)) throw Error('Unqualified terminal control character')
+      const stop = output.slice(index).search(/[\x00-\x1f\x7f-\x9f]/), run = stop < 0 ? output.slice(index) : output.slice(index, index + stop)
       if (/[\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/u.test(run)) throw Error('Bidirectional formatting controls require a reviewed display-order profile')
       for (const part of segmenter.segment(run)) write(part.segment)
       index += run.length
     }
     while (cells.length && !cells.at(-1)!.some(character => character && character.trim())) cells.pop()
-    return result('available')
+    return backgroundPainted ? result('unavailable', 'Nondefault background paint needs an explicit viewport and colour-cell projection') : result('available')
   } catch (error) { return result('unavailable', String(error)) }
 }

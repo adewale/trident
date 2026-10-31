@@ -23,7 +23,7 @@ test('concealed and matching-colour ink cannot supply visible labels', () => {
 test('style and hyperlink metadata do not become drawing text; unsupported state remains unknown', () => {
   expect(interpretTerminal('\x1b[31mRed\x1b[0m').text).toBe('Red')
   expect(interpretTerminal('\x1b]8;;https://example.test\x07Link\x1b]8;;\x07').text).toBe('Link')
-  for (const source of ['\x1b[9999999C', '\x1b[5mBlink', '\x1b]52;clipboard\x07', '\x1b[2']) expect(interpretTerminal(source).status).toBe('unavailable')
+  for (const source of ['\x1b[9999999C', '\x1b[5mBlink', '\x1b]52;clipboard\x07', '\x1b[2', '\u009b2J']) expect(interpretTerminal(source).status).toBe('unavailable')
 })
 test('wide cells overwritten through either half cannot leave an orphan glyph', () => {
   expect(interpretTerminal('日本\rA').cells[0]).toEqual(['A', ' ', '本', ''])
@@ -35,4 +35,17 @@ test('an exited alternate screen cannot supply ink that is no longer displayed',
   expect(interpretTerminal('\x1b[?1049l').status).toBe('unavailable')
   expect(interpretTerminal('\x1b[20;1H\x1b[8mHidden').text).toBe('')
   expect(interpretTerminal('a\u202eb').status).toBe('unavailable')
+})
+
+import { qualifyOutput } from '../unified/qualification.ts'
+test('explicit empty-drawing contracts admit real blank strings, reject extra ink and preserve unknown controls', () => {
+  const workload = { id: 'synthetic-empty', source: 'flowchart', family: 'flowchart', expectedLabels: [], features: ['expected-empty-drawing'], provenance: 'Independently empty source control, not a source-ID whitelist' }
+  expect(qualifyOutput(workload, '', 'terminal').ok).toBe(true)
+  expect(qualifyOutput(workload, '\x1b[2J\x1b[H', 'terminal').ok).toBe(true)
+  expect(qualifyOutput(workload, 'extra', 'terminal').ok).toBe(false)
+  expect(qualifyOutput(workload, '\x1b[41m   ', 'terminal').ok).toBe(false)
+  expect(qualifyOutput(workload, undefined, 'terminal').ok).toBe(false)
+  expect(qualifyOutput(workload, '\x1b[5m', 'terminal').unavailable).toBe(true)
+  expect(qualifyOutput({ ...workload, expectedLabels: ['A'] }, '', 'terminal').ok).toBe(false)
+  expect(qualifyOutput({ ...workload, features: [] }, '', 'terminal').ok).toBe(false)
 })
