@@ -60,7 +60,7 @@ for file in [canonical/'corpus/docs-reviewed.json',canonical/'corpus/docs-source
 for file in (canonical/'qualification/source-audits').glob('*.json'):
  add(file,'canonical/'+str(file.relative_to(canonical)))
 repo=ws/'trident-png-qualification'
-for file in [repo/'LICENSE',repo/'corpus/docs-assets/mermaid-favicon.svg',repo/'corpus/docs-assets/MERMAID-LICENSE',repo/'corpus/docs-assets.json',repo/'scripts/package-png-review-evidence.py']:
+for file in [repo/'LICENSE',repo/'corpus/docs-assets/mermaid-favicon.svg',repo/'corpus/docs-assets/MERMAID-LICENSE',repo/'corpus/docs-assets.json',repo/'scripts/package-png-review-evidence.py',repo/'scripts/restore-png-review-evidence.py']:
  add(file,'source/'+str(file.relative_to(repo)))
 for file in (repo/'docs/evidence/png-full-corpus-2026-10-31').glob('*'):
  if file.is_file():add(file,'source/'+str(file.relative_to(repo)))

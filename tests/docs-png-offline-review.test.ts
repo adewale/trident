@@ -7,6 +7,8 @@ import { importOfflinePngReviews, type OfflinePngReviewReceipt } from '../unifie
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { materializeSelectedPngReviews } from '../unified/import-png-review-selection.ts'
+import { evidenceDigest } from '../portable/evidence-contract.ts'
 import { materializeOfflinePngReviews } from '../unified/import-png-reviews.ts'
 import { gunzipSync } from 'node:zlib'
 import { docsPngStaticProjection } from '../unified/docs-png-static-contract.ts'
@@ -82,4 +84,23 @@ test('explicit review basis accepts ordinary human viewers and rejects derived c
  expect(run([human]).reviews[0]!.status).toBe('incorrect')
  const absent=structuredClone(human);delete absent.inspection.basis;expect(()=>run([absent])).toThrow('direct source-and-actual-image basis')
  for(const basis of ['svg-derived','reference-preservation']as const){const derived=structuredClone(human);derived.inspection.basis=basis;derived.inspection.method='view_image';expect(()=>run([derived])).toThrow('direct source-and-actual-image basis')}
+})
+
+
+test('selected heterogeneous imports verify untouched origins, retain each packet root and reject changed selection',()=>{
+ const root=mkdtempSync(join(tmpdir(),'trident-selected-png-'))
+ try{
+  mkdirSync(join(root,'images/drawings'),{recursive:true});writeFileSync(join(root,'inventory.json'),JSON.stringify({cases:[input]}));writeFileSync(join(root,'contracts.json'),JSON.stringify([contract]));writeFileSync(join(root,'images/drawings',receipt.review.pngSha256+'.png'),png)
+  const records=['first','second'].map((name,index)=>{const dir=join(root,name);mkdirSync(dir);writeFileSync(join(dir,'packet.png'),png);const row=structuredClone(receipt);row.project='synthetic/selected-'+index;const file=join(dir,'reviews.jsonl');writeFileSync(file,JSON.stringify(row)+'\n');return{origin:{file,line:1,directory:dir},receiptSha256:evidenceBytesDigest(JSON.stringify(row)),receipt:row}})
+  const origins=join(root,'origins.jsonl');writeFileSync(origins,records.map(row=>JSON.stringify(row)).join('\n')+'\n')
+  const options={inventoryFile:join(root,'inventory.json'),contractsFile:join(root,'contracts.json'),originsFile:origins,imageRoots:[join(root,'images')],out:join(root,'selected.json')}
+  expect(materializeSelectedPngReviews(options)).toMatchObject({reviews:1,inspections:2,rendererInvocations:0,codexApiInvocations:0})
+  const restore=join(root,'restored');mkdirSync(restore);const paths:Record<string,string>={}
+  for(const[file,name]of [[options.inventoryFile,'inventory.json'],[options.contractsFile,'contracts.json'],[origins,'origins.jsonl'],[join(root,'images/drawings',receipt.review.pngSha256+'.png'),'png.png'],...records.flatMap((row,index)=>[[row.origin.file,'original-'+index+'.jsonl'],[join(row.origin.directory,'packet.png'),'packet-'+index+'.png']])]){paths[file!]=name!;writeFileSync(join(restore,name!),readFileSync(file!))}
+  const pathMapFile=join(restore,'path-map.json');writeFileSync(pathMapFile,JSON.stringify({schema:'trident-png-restored-path-map-v1',paths}))
+  writeFileSync(records[1]!.origin.file,JSON.stringify({...records[1]!.receipt,source:'changed literal source'})+'\n')
+  expect(()=>materializeSelectedPngReviews({...options,out:join(root,'changed.json')})).toThrow('untouched original')
+  expect(materializeSelectedPngReviews({...options,pathMapFile,out:join(root,'restored-bound.json')})).toMatchObject({reviews:1,inspections:2})
+  paths[options.inventoryFile]='../inventory.json';writeFileSync(pathMapFile,JSON.stringify({schema:'trident-png-restored-path-map-v1',paths}));expect(()=>materializeSelectedPngReviews({...options,pathMapFile,out:join(root,'escape.json')})).toThrow('escapes')
+ }finally{rmSync(root,{recursive:true,force:true})}
 })

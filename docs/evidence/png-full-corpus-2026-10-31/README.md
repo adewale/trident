@@ -37,7 +37,8 @@ unmodified public SVG. Two narrowly requested211 repeats preserve both causal
 profile generations; the currentv2 repeat has exactly the independently reviewed
 repaired PNG bytes. This is550 actual Mermaid calls across the548 collection
 and two targeted exporter repairs, with no project version change or performance
-campaign. Both prior211 histories remain evidence, with correct attribution.
+campaign. Five Mermaid and one native neutral C4 style-control calls were
+collected separately; the initial native GTK failure entered no public API. Both prior211 histories remain evidence, with correct attribution.
 
 The same-call static SVG bridge uses an independent actual-PNG source review to
 observe only the static painted rasterized-SVG frame on white. It requires exact
@@ -73,3 +74,12 @@ audited Trident native transport fixture and review tooling use this repository'
 MIT license. No native engine or system font binary is redistributed in this
 content evidence package; font-file hashes and installed font-package copyright
 notices document the captured host inputs.
+
+Restore the verified logical tree with `scripts/restore-png-review-evidence.py`
+using the archive and immutable foundation directory. Its path map preserves old
+absolute names as provenance while resolving actual files inside the restored
+evidence tree. `unified/import-png-review-selection.ts` checks each selected
+receipt against its untouched original file/line and resolves its own packet
+directory, then imports original images from explicitly declared PNG roots. It
+can consume that restored path map without rewriting any receipt. Both commands
+run without a project renderer or Codex/API.

@@ -24,6 +24,7 @@ export interface LegacyPngDirectBasisAudit {
   basis: 'source-and-actual-image'
   auditedBy: string
   method: string
+  /** evidenceDigest of each exact receipt object (stable JSON identity). */
   receiptSha256s: readonly string[]
 }
 const admittedBasisAudits = new WeakSet<object>()
