@@ -58,3 +58,15 @@ export function terminalProfileCorpusForRecord(record: { profile: string; corpus
   if (record.corpusVersion !== active.version || record.corpusSha256 !== active.corpusSha256 || JSON.stringify(record.inventory) !== JSON.stringify(active.cases.map(input => [input.id, input.sourceSha256]))) throw Error('Active terminal record has stale corpus membership or source identities')
   return active
 }
+
+/** Preserve a research union separately from the ordinary active benchmark.
+ * Only the exact original120 plus reviewed authored sources may be projected;
+ * this does not relabel, edit or erase the caller's121-entry raw record. */
+export function activeTerminalGradeRecord(research: any) {
+  const active = readActiveTerminalCorpus(), expected = [...active.originals, ...readTerminalSourceAdaptations()].map(input => [input.id, input.sourceSha256])
+  if (JSON.stringify(research.inventory) !== JSON.stringify(expected)) throw Error('Terminal research inventory differs from the exact original and reviewed authored sources')
+  const ids = new Set(active.cases.map(input => input.id)), researchIds = new Set(expected.map(([id]) => id)), diagnostics = new Set(active.diagnostics.map(input => input.id))
+  if (!Array.isArray(research.outputs) || !Array.isArray(research.sourceReference) || research.outputs.some((row: any) => !researchIds.has(row.caseId)) || research.sourceReference.some((row: any) => !researchIds.has(row.caseId))) throw Error('Terminal research has undeclared output or source-reference coordinates')
+  const { schema: researchSchema, ...record } = research
+  return { ...record, researchSchema, profile: active.profile, corpusFile: active.corpusFile, corpusVersion: active.version, corpusSha256: active.corpusSha256, sourceInventorySha256: active.sourceInventorySha256, inventory: active.cases.map(input => [input.id, input.sourceSha256]), selectedCaseIds: active.cases.map(input => input.id), diagnosticSources: active.diagnostics, outputs: research.outputs.filter((row: any) => ids.has(row.caseId)), sourceReference: research.sourceReference.filter((row: any) => ids.has(row.caseId)), transportObservations: (research.transportObservations ?? []).filter((row: any) => !diagnostics.has(row.caseId)) }
+}

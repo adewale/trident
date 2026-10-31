@@ -4,15 +4,37 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { createHash } from 'node:crypto'
-import { readActiveTerminalCorpus, terminalActiveProfileId, terminalProfileCorpusForRecord } from '../fidelity/terminal-active-corpus.ts'
+import { activeTerminalGradeRecord, readActiveTerminalCorpus, terminalActiveProfileId, terminalProfileCorpusForRecord } from '../fidelity/terminal-active-corpus.ts'
 import { readTerminalCorpus } from '../fidelity/terminal-corpus.ts'
-import { terminalSourceAdaptationStatus } from '../fidelity/terminal-adaptations.ts'
+import { readTerminalSourceAdaptations, terminalSourceAdaptationStatus } from '../fidelity/terminal-adaptations.ts'
 import { assessTerminalRecord } from '../unified/terminal-profile.ts'
 import { readCampaign } from '../unified/campaign-publication.ts'
 import { campaignTables } from '../unified/campaign-tables.ts'
 import { rankedRows } from '../unified/results-snapshot.ts'
+import { evidenceDigest } from '../portable/evidence-contract.ts'
 
 const adaptationId = 'terminal-adaptation:3bf5fbf5ea7c5486', diagnosticId = 'terminal:9972eaa8ca8692d8'
+
+test('saved research121 projects a separately bound active120 grade record without relabelling or losing its original diagnostic', () => {
+  const active = readActiveTerminalCorpus(), cases = [...active.originals, ...readTerminalSourceAdaptations()]
+  const research = { schema: 'terminal-authored-state-adaptation-research-v1', originalProfile: 'terminal-project-corpus-v2', inventory: cases.map(input => [input.id, input.sourceSha256]), artifacts: [{ project: 'AlexanderGrooff/mermaid-ascii', version: 'synthetic missing-output control' }], sourceReference: cases.map(input => ({ project: 'mermaid-js/mermaid', caseId: input.id })), outputs: [diagnosticId, adaptationId].map(caseId => ({ project: 'AlexanderGrooff/mermaid-ascii', caseId, publicStatus: 'blocked' })), transportObservations: [diagnosticId, adaptationId].map(caseId => ({ caseId })) }
+  const original = evidenceDigest(research)
+  expect(() => assessTerminalRecord({ ...research, profile: terminalActiveProfileId }, '.')).toThrow('stale corpus membership')
+  const grade = activeTerminalGradeRecord(research)
+  expect(evidenceDigest(research)).toBe(original)
+  expect(research.inventory).toHaveLength(121)
+  expect(grade.inventory).toHaveLength(120)
+  expect(grade.outputs.map((row: any) => row.caseId)).toEqual([adaptationId])
+  expect(grade.sourceReference).toHaveLength(120)
+  expect(grade.transportObservations.map((row: any) => row.caseId)).toEqual([adaptationId])
+  expect(grade.researchSchema).toBe(research.schema)
+  expect(grade).toMatchObject({ profile: terminalActiveProfileId, corpusVersion: active.version, corpusSha256: active.corpusSha256 })
+  expect(assessTerminalRecord(grade, '.')[0]!.full).toMatchObject({ planned: 116, correct: 0, incorrect: 0, unknown: 116 })
+  const altered = structuredClone(research); altered.inventory[0]![1] = '0'.repeat(64)
+  expect(() => activeTerminalGradeRecord(altered)).toThrow('research inventory differs')
+  const foreign = structuredClone(research); foreign.outputs[0]!.caseId = 'foreign-source'
+  expect(() => activeTerminalGradeRecord(foreign)).toThrow('undeclared output')
+})
 
 test('ordinary active corpus preserves all original research and admits only the independently reviewed fresh source identity', () => {
   const original = readTerminalCorpus(), active = readActiveTerminalCorpus()
