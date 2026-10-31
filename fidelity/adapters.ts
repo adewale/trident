@@ -8,7 +8,7 @@ import type { MeaningEdge, MeaningGroup, MeaningJson, MeaningNode, NormalizedMea
 
 export type MeaningTool = 'agentic' | 'pele' | 'mermaid'
 export interface MeaningAcquisition { status: 'accepted' | 'rejected' | 'unsupported' | 'unavailable'; publicAccepted: boolean | null; family?: string; raw?: any; meaning?: NormalizedMeaning; error?: string; errorName?: string; errorCode?: string; scope: string }
-export interface MeaningAdapter { tool: MeaningTool; version: string; entry: string; acquireRaw: (source: string, family: string) => Promise<MeaningAcquisition>; parse: (source: string, family: string) => Promise<MeaningAcquisition>; serialize?: (source: string) => Promise<string> }
+export interface MeaningAdapter { tool: MeaningTool; version: string; entry: string; acquireRaw: (source: string, family: string) => Promise<MeaningAcquisition>; parse: (source: string, family: string) => Promise<MeaningAcquisition> }
 const entries = (value: any): [string, any][] => value instanceof Map ? [...value.entries()] : Array.isArray(value) ? value.map((item, i) => [String(item.id ?? item.name ?? i), item]) : value && typeof value === 'object' ? Object.entries(value) : []
 const array = (value: any): any[] => Array.isArray(value) ? value : entries(value).map(([, item]) => item)
 const text = (value: any): string => String(value?.text ?? value ?? '').normalize('NFC').replace(/\s+/g, ' ').trim()
@@ -390,6 +390,5 @@ export async function createMeaningAdapter(options: { tool: MeaningTool; package
     catch (error) { return { ...acquired, meaning: { family: actualFamily, facts: {}, unavailable: { projection: String(error) } }, error: String(error), scope: 'Public parse accepted; reviewed semantic projection unavailable, no semantic pass' } }
   }
   const adapter: MeaningAdapter = { tool, version: manifest.version, entry, acquireRaw, parse }
-  if (tool === 'agentic' && typeof api.serializeMermaid === 'function') adapter.serialize = async source => { const parsed = await api.parseRegisteredMermaid(source); if (!parsed.ok) throw Error('Cannot serialize a rejected source'); const result = await api.serializeMermaid(parsed.value); if (typeof result !== 'string') throw Error('Public serializer did not return Mermaid text'); return result }
   return adapter
 }

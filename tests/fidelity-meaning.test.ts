@@ -96,7 +96,7 @@ test('declared unordered fact collections allow authored rename order changes wi
   expect(assessMeaning(source, model).passed).toBe(false)
 })
 
-test('actual adapter family and public serializer return are observed rather than supplied by the requested case', async () => {
+test('actual adapter family is observed rather than supplied by the requested case', async () => {
   const root = mkdtempSync(join(tmpdir(), 'fidelity-public-return-'))
   try {
     mkdirSync(join(root, 'dist'))
@@ -110,7 +110,6 @@ test('actual adapter family and public serializer return are observed rather tha
     const result = await adapter.parse('flowchart LR\nA-->B', 'flowchart')
     expect(result.meaning?.family).toBe('class')
     expect(assessMeaning(witness, result.meaning).passed).toBe(false)
-    expect(await adapter.serialize?.('classDiagram\nclass C')).toBe('classDiagram\nclass C')
   } finally { rmSync(root, { recursive: true, force: true }) }
 })
 

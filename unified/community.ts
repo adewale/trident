@@ -609,7 +609,7 @@ async function nodeRound(prepared: PreparedCommunity, output: string, workloads:
       timer: ReturnType<typeof setTimeout> | undefined
     assertCommunityNotInterrupted()
     const runtimeCommand = /bun/i.test(prepared.artifact?.runtime ?? '') ? (process.env.BUN_BIN ?? 'bun') : 'node'
-    const child = spawn(runtimeCommand, [join(here, 'community-worker.mjs'), jobPath], { detached: process.platform !== 'win32', stdio: ['ignore', 'pipe', 'pipe', 'pipe'], env: { ...process.env, AGENTIC_MERMAID_ELK_CACHE: '1', AGENTIC_MERMAID_SCENE_ASSERTIONS: '0' } })
+    const child = spawn(runtimeCommand, [join(here, 'community-worker.mjs'), jobPath], { detached: process.platform !== 'win32', stdio: ['ignore', 'pipe', 'pipe', 'pipe'], env: process.env })
     trackCommunityProcess(child)
     const terminate = () => {
       try {

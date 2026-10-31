@@ -42,7 +42,8 @@ counts; unknown observations keep complete accuracy unresolved.
 A small reviewed subset cannot establish full DaveBench correctness. First-round
 inspection does not qualify every later timed return.
 
-The full return protocol uses 30 warmups and six rounds. Project order reverses
+A one-round coverage run makes one call per occurrence with no warmups.
+The repeated return protocol uses 30 warmups and six rounds. Project order reverses
 after each round, then rotates after each pair; positions balance over 2N rounds
 for N participants. Public-call clocks stop at SVG return, before validation and
 cleanup. These clocks lack A/A and per-call semantic qualification, so there is
@@ -108,7 +109,7 @@ invalid sources. It distinguishes 67 terminal-specific examples/regressions from
 Issue/PR URLs, dates, body/patch hashes, repository commits and extraction changes
 remain attached to every input.
 
-`bench --terminal` uses existing CLI/Python transports. Mermaid is the mandatory
+`bench --terminal` uses existing CLI, Python and Node transports. Mermaid is the mandatory
 unscored source reference, Mermaid ASCII the mandatory terminal participant.
 The default qualification invokes only the 16 reviewed drawings once each and retains all
 other cells as unknown. `--all-inputs` explicitly collects the full inventory.
@@ -127,7 +128,8 @@ Task: preserve declared identities, relationships and values through public
 parsing, inspection, edits and configuration changes. Reviewed bindings currently
 exist for Mermaid, Pele and Agentic Mermaid. Missing Trident bindings remain
 unmeasured capabilities. Compare shared case/operation contracts; serializers and
-other API-specific checks stay separate. A failed prerequisite prevents workflow
+other product-specific workflows belong in their owning projects. This collector
+uses only public Node models and performs no duplicate SVG rendering. A failed prerequisite prevents workflow
 credit for later postconditions. Model results do not establish painted meaning.
 
 ## Fixed PNG export profiles

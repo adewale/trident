@@ -105,7 +105,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
   }
   writeFileSync(join(options.out, 'context.json'), JSON.stringify({
     protocol: 'public-docs-svg-return-v1', producers, drawingReview, browser: executableIdentity(executable), driver: process.versions,
-    rounds: options.rounds, warmupAttemptsPerRound: 30, pinnedSource: inventory.pin,
+    rounds: options.rounds, warmupAttemptsPerRound: options.rounds === 1 ? 0 : 30, pinnedSource: inventory.pin,
     projectOrderByRound: Array.from({ length: options.rounds }, (_, index) => docsRoundOrder(targets, index + 1).map(peer => peer.node.id)),
     artifacts: targets.map(peer => ({ project: peer.node.id, admission: admitPreparedFidelityEngine(peer) })),
     timing: 'Elapsed browser public call through awaited return; output check and cleanup after stopped clock. No A/A performance qualification.',
@@ -140,7 +140,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
             await invoke({ type: 'initialize-global', engine, addonUrl: engine.zenuml ? origin + '/__addon/' + engine.zenuml.entry : undefined })
           }
           let warmupPassed = 0
-          for (let index = 0; index < 30; index++) {
+          for (let index = 0; index < (options.rounds === 1 ? 0 : 30); index++) {
             checkCollectionBudget(options.collectionDeadline)
             const value = await invoke({ type: 'measure-docs', source: inventory.cases[index % inventory.cases.length]!.source, id: `warmup_${round}_${index}` })
             if (value.status === 'passed') warmupPassed++
@@ -148,7 +148,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
           for (const [index, testCase] of inventory.cases.entries()) {
             checkCollectionBudget(options.collectionDeadline)
             const value = await invoke({ type: 'measure-docs', source: testCase.source, id: `docs_${round}_${index}`, retainSvg: round === 1 })
-            roundObservations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'render', format: 'svg', mode: 'one-public-call', status: value.status, ...(value.status === 'passed' ? { samplesMs: [value.durationMs] } : { detail: value.error }), metrics: { project: peer.node.id, version: engine.version, measuredAt: new Date().toISOString(), round, bytes: value.bytes ?? null, warmupAttempts: 30, warmupPassed } })
+            roundObservations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'render', format: 'svg', mode: 'one-public-call', status: value.status, ...(value.status === 'passed' ? { samplesMs: [value.durationMs] } : { detail: value.error }), metrics: { project: peer.node.id, version: engine.version, measuredAt: new Date().toISOString(), round, bytes: value.bytes ?? null, warmupAttempts: options.rounds === 1 ? 0 : 30, warmupPassed } })
             if (round === 1) {
               const review = drawingInventory[index]!.review
               let witness: string | undefined, assessment: ReturnType<typeof assessDocsDrawing>

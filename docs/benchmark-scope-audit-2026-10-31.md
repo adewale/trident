@@ -100,3 +100,17 @@ reviews for 531 unreviewed documentation occurrences, infer PNG content from SVG
 or qualify descriptive clocks as speed results. Shared model collection,
 AM-specific worker settings and upstream-conformance eligibility remain explicit
 follow-up work identified by this audit.
+
+## Cleanup following this audit
+
+The follow-on cleanup removes the AM serializer binding and both serializer/readback
+operations, removes forced AM cache/assertion settings from neutral workers, and
+makes model contracts Node-only. They no longer repeat the SVG collector or require
+a browser bundle. The old standalone PNG collector and its AM-specific worker are
+deleted; shared PNG conversion and the dated evidence remain. The retired command
+points to DaveBench's PNG lane.
+
+One-round documentation coverage skips performance warmups. Broader repeated cost,
+cache, memory and scaling profiles remain optional diagnostics; their sampling is
+not silently reduced or presented as full performance qualification. Upstream test
+conformance remains an unimplemented benchmark, rather than old replay under a new name.
