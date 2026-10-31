@@ -1,12 +1,12 @@
 import { execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { extname, join, resolve } from 'node:path'
-import { chromium, type Browser, type Route } from 'playwright'
+import { chromium, type Route } from 'playwright'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { writeDurableEvidence } from '../portable/checkpoint.ts'
 import { environmentIdentity } from '../portable/environment.ts'
 import { evidenceBytesDigest, evidenceDigest, admitCheckedEvidence, type CheckedEvidence } from '../portable/evidence-contract.ts'
-import { collectQualifiedTiming, type QualifiedTimingPublicDriver, type ObserveTimedOutput, type TimingCoordinate } from '../portable/qualified-timing-collection.ts'
+import { collectQualifiedTiming, launchOwnedTimingBrowser, type QualifiedTimingPublicDriver, type ObserveTimedOutput, type TimingCoordinate } from '../portable/qualified-timing-collection.ts'
 import { admitTimingPlan, type TimingPlan } from '../portable/qualified-timing.ts'
 import { expandedFidelityCases } from '../fidelity/cases.ts'
 import { admitPreparedFidelityEngine } from '../fidelity/community.ts'
@@ -126,9 +126,9 @@ export async function runBrowserSvgTiming(options: BrowserSvgTimingOptions) {
   for (const configuration of frozen.fontConfiguration) { const body = readFileSync(configuration.path); if (evidenceBytesDigest(body) !== configuration.sha256) throw Error('Frozen font configuration changed before retention'); writeDurableEvidence(join(options.out, 'browser-assets', configuration.sha256), body) }
   for (const resource of frozen.resources.resources) writeDurableEvidence(join(options.out, 'browser-assets', resource.sha256), resource.body)
   writeFileSync(join(options.out, 'browser-inputs.json'), JSON.stringify(frozen.provenance, null, 2) + '\n')
-  let browser: Browser | undefined, launch: Promise<Browser> | undefined, disposing = false
+  let browser: Awaited<ReturnType<typeof launchOwnedTimingBrowser>> | undefined, launch: Promise<Awaited<ReturnType<typeof launchOwnedTimingBrowser>>> | undefined, disposing = false
   const servers = new Map<string, { server: ReturnType<typeof docsArtifactServer>; origin: string }>(), audits = new Map<string, string[]>()
-  const getBrowser = () => launch ??= chromium.launch({ headless: true, executablePath: frozen.executable, timeout: 20_000 }).then(async opened => { browser = opened; if (disposing) { await opened.close(); throw Error('Browser timing capture already closed') }; return opened })
+  const getBrowser = () => launch ??= launchOwnedTimingBrowser({ headless: true, executablePath: frozen.executable, timeout: 20_000 }).then(async opened => { browser = opened; if (disposing) { await opened.close(); throw Error('Browser timing capture already closed') }; return opened })
   const runtime = async (project: string) => {
     const target = frozen.selected.get(project)!
     admitPreparedFidelityEngine(target.peer)
@@ -151,22 +151,16 @@ export async function runBrowserSvgTiming(options: BrowserSvgTimingOptions) {
     if (url.origin !== target.origin || !asset) { gaps.push('Unfrozen browser resource: ' + url.href); return request.abort() }
     const cached = frozen.assetBodies.get(asset.path), bytes = cached?.body
     if (!bytes || cached?.sha256 !== asset.sha256) { gaps.push('Frozen browser resource changed: ' + asset.path); return request.abort() }
-    return request.fulfill({ body: bytes, contentType: ({ '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.wasm': 'application/wasm', '.css': 'text/css; charset=utf-8', '.woff2': 'font/woff2', '.woff': 'font/woff', '.ttf': 'font/ttf', '.json': 'application/json' } as Record<string, string>)[extname(asset.path)] ?? 'application/octet-stream' })
+    return request.fulfill({ body: bytes, contentType: ({ '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.wasm': 'application/wasm', '.css': 'text/css; charset=utf-8', '.woff2': 'font/woff2', '.woff': 'font/woff', '.ttf': 'font/ttf', '.otf': 'font/otf', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.webp': 'image/webp', '.avif': 'image/avif', '.json': 'application/json' } as Record<string, string>)[extname(asset.path)] ?? 'application/octet-stream' })
   }
   const driver: QualifiedTimingPublicDriver = { context: { boundary: frozen.plan.boundary, format: frozen.plan.format, track: frozen.plan.track, environmentSha256: frozen.plan.environmentSha256, artifacts: frozen.plan.artifacts }, open: async coordinate => {
     if (evidenceDigest(coordinate.artifact) !== evidenceDigest(frozen.plan.artifacts[coordinate.replica])) throw Error('Browser timing artifact differs from its frozen replica')
     if (coordinate.signal.aborted) throw Error('Browser timing factory was cancelled')
     const target = await runtime(coordinate.artifact.project), host = await getBrowser()
     if (coordinate.signal.aborted) throw Error('Browser timing factory was cancelled')
-    const context = await host.newContext(frozen.rendering), gaps: string[] = []
-    if (coordinate.signal.aborted) { await context.close(); throw Error('Browser timing factory was cancelled') }
+    const execution = await host.newExecution(frozen.rendering, coordinate.signal, coordinate.own), context = execution.handle, page = execution.page, gaps: string[] = []
     audits.set(key(coordinate), gaps)
-    const abort = () => { void context.close().catch(() => {}) }
-    coordinate.signal.addEventListener('abort', abort, { once: true }); context.on('close', () => coordinate.signal.removeEventListener('abort', abort))
     try {
-      const page = await context.newPage()
-      const execution = { kind: 'browser-context' as const, handle: context, page }
-      coordinate.own(execution)
       if (coordinate.signal.aborted) throw Error('Browser timing factory was cancelled')
       if (evidenceDigest(browserFontInputStamp()) !== evidenceDigest(frozen.fontInputStamp)) throw Error('Actual browser font inputs changed before a timed call')
       await context.route('**/*', request => route(request, target, gaps))
@@ -182,7 +176,7 @@ export async function runBrowserSvgTiming(options: BrowserSvgTimingOptions) {
     if (evidenceDigest(browserFontInputStamp()) !== evidenceDigest(frozen.fontInputStamp)) throw Error('Actual browser font inputs changed before timed-output grading')
     const authored = frozen.cases.find(item => item.id === input.contract.caseId)!
     if (!authored || input.invocation.identity.project !== frozen.plan.artifacts[input.coordinate.replica].project || input.invocation.output?.sha256 !== evidenceBytesDigest(input.bytes)) throw Error('SVG observer received another source/project/output')
-    const target = await runtime(input.invocation.identity.project), context = await (await getBrowser()).newContext(frozen.rendering), gaps = [...(audits.get(key(input.coordinate)) ?? [])]
+    const target = await runtime(input.invocation.identity.project), context = await (await getBrowser()).browser.newContext(frozen.rendering), gaps = [...(audits.get(key(input.coordinate)) ?? [])]
     const abort = () => { void context.close().catch(() => {}) }
     input.signal.addEventListener('abort', abort, { once: true }); context.on('close', () => input.signal.removeEventListener('abort', abort))
     try {
@@ -221,6 +215,6 @@ export function parseBrowserSvgTimingOptions(argv: string[]): BrowserSvgTimingOp
   return { preparedFile: resolve(values.get('--prepared')!), baseline: values.get('--baseline')!, candidate: values.get('--candidate')!, out: resolve(values.get('--out')!), ...(values.has('--cases') ? { caseIds: values.get('--cases')!.split(',') } : {}), ...(values.has('--rounds') ? { rounds: Number(values.get('--rounds')) } : {}), ...(values.has('--samples') ? { samplesPerRound: Number(values.get('--samples')) } : {}), ...(values.has('--maximum-control-spread') ? { maximumControlSpread: Number(values.get('--maximum-control-spread')) } : {}), ...(values.has('--resources') ? { resourcesFile: resolve(values.get('--resources')!) } : {}), ...(values.has('--executable') ? { executable: resolve(values.get('--executable')!) } : {}), ...(values.has('--budget-minutes') ? { collectionBudgetMs: Number(values.get('--budget-minutes')) * 60_000 } : {}) }
 }
 if (import.meta.main) {
-  if (process.argv.slice(2).join(' ') === '--help') console.log('timing:browser --prepared FILE --baseline PROJECT --candidate PROJECT --out FRESH_DIR [--cases ID,...] [--rounds 6] [--samples 1] [--resources FILE] [--executable CHROMIUM] [--budget-minutes 5]\nFirst-use public SVG calls in fresh browser contexts. Includes controller/page RPC; initialization and full output grading are outside the clock. Uses frozen versions, source contracts, fonts and assets. Missing correctness or A/A evidence withholds speed. No Codex required.')
+  if (process.argv.slice(2).join(' ') === '--help') console.log('timing:browser --prepared FILE --baseline PROJECT --candidate PROJECT --out FRESH_DIR [--cases ID,...] [--rounds 6] [--samples 1] [--resources FILE] [--executable CHROMIUM] [--budget-minutes 5]\nFirst-use public SVG calls in fresh browser contexts. Includes controller/page RPC; initialization and full output grading are outside the clock. Uses frozen versions, source contracts, fonts and assets. Missing correctness or A/A evidence withholds speed. Requires Chromium, fontconfig (fc-list/fc-conflist) and existing sealed browser preparation. No Codex required.')
   else { const result = await runBrowserSvgTiming(parseBrowserSvgTimingOptions(process.argv.slice(2))); console.log(JSON.stringify({ bundleFile: result.bundleFile, qualification: result.qualification })); if (result.qualification.status !== 'qualified') process.exitCode = 2 }
 }
