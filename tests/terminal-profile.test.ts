@@ -61,13 +61,20 @@ test('changed witnesses, duplicate coordinates, missing reference and changed in
 })
 
 import { runExternalCommunity } from '../unified/community-external.ts'
+import { InvocationJournal } from '../portable/invocation-journal.ts'
+import { syntheticExternalWorkerSource } from './helpers/synthetic-external-worker.ts'
 test('existing external transport forwards an opt-in raw terminal witness from its completed worker record', async () => {
-  const directory = temp.dir(), worker = join(directory, 'synthetic-worker.cjs')
-  writeFileSync(worker, `const fs=require('node:fs');const [job,out]=process.argv.slice(2);const tasks=JSON.parse(fs.readFileSync(job));fs.writeFileSync(out,'');for(const w of tasks.workloads){const file=out+'.txt';fs.writeFileSync(file,'retained synthetic transport text');fs.appendFileSync(out,JSON.stringify({workload:w.id,status:'ok',outputFile:file})+'\\n')}`)
-  const rows = await runExternalCommunity({ node: { id: 'fixture/terminal-transport', roles: [], outputs: ['terminal'] }, artifact: { kind: 'jsonl-worker', executable: process.execPath, args: [worker], version: 'synthetic-fixture' } }, [{ id: 'transport-only', source: 'source', family: 'flowchart', expectedLabels: [], features: ['retain-output-witness'], provenance: 'synthetic transport test, outside scored corpus' }], 'terminal', 1, { root: directory, out: directory, profile: 'full', rounds: 1, communityCoverageOnce: true })
+  const directory = temp.dir(), worker = join(directory, 'synthetic-worker.mjs')
+  writeFileSync(worker, syntheticExternalWorkerSource({ output: 'terminal', terminalText: 'retained synthetic transport text' }))
+  chmodSync(worker, 0o755)
+  const rows = await runExternalCommunity({ node: { id: 'fixture/terminal-transport', roles: [], outputs: ['terminal'] }, artifact: { kind: 'jsonl-worker', executable: worker, version: 'synthetic-fixture' } }, [{ id: 'transport-only', source: 'source', family: 'flowchart', expectedLabels: [], features: ['retain-output-witness'], provenance: 'synthetic transport test, outside scored corpus' }], 'terminal', 1, { root: directory, out: directory, profile: 'full', rounds: 1, communityCoverageOnce: true })
   expect(rows[0]?.status).toBe('passed')
   expect(typeof rows[0]?.metrics?.outputFile).toBe('string')
   expect(readFileSync(rows[0]!.metrics!.outputFile as string, 'utf8')).toBe('retained synthetic transport text')
+  const journal = new InvocationJournal(rows[0]!.metrics!.invocationDirectory as string)
+  expect(journal.records().filter(frame => frame.state === 'started')).toHaveLength(1)
+  expect(journal.outcome(rows[0]!.metrics!.invocationId as string)).toMatchObject({ state: 'returned', identity: { caseId: 'transport-only', sourceSha256: hash('source') } })
+  expect(rows[0]!.metrics!.firstMs).toBeGreaterThan(0)
 })
 
 import { spawnSync } from 'node:child_process'
