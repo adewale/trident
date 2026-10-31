@@ -21,9 +21,9 @@ required to qualify this transcription and its observers.
 
 The v2 profile separates **116 positive drawing inputs** from **four invalid-source
 controls**. Every positive input keeps its full obligations, including those with
-no implemented output observer. Sixty-three sources use facts for which an observer
+no implemented output observer. Sixty-seven sources use facts for which an observer
 exists in at least one bounded display representation. This diagnostic subset is
-not a claim that 63 outputs pass, or a replacement for the 116-input denominator.
+not a claim that 67 outputs pass, or a replacement for the 116-input denominator.
 
 The four invalid controls are `terminal:321aee6efed4a803` (unquoted pie label),
 `terminal:955cacf9438d691d` (unquoted Unicode Git branch references), and
@@ -102,7 +102,8 @@ unknown. Byte evidence binds the original bytes before any text decoding.
 
 | Source obligations | Qualified output representation | Remaining gaps |
 |---|---|---|
-| Basic flowchart node identities, exact directed relationships, captions and direction | Rectangular boxes; continuous orthogonal routes; uniquely owned captions; at most 32 nodes, 512 columns and 256 rows | Groups, undirected or styled links, ambiguous junctions and larger drawings; broad direction hints remain separate advisories |
+| Basic flowchart node identities, exact directed relationships, captions and direction | Rectangular boxes; continuous orthogonal routes; uniquely owned captions; at most 32 nodes, 512 columns and 256 rows | Undirected or styled links, ambiguous junctions and larger drawings; broad direction hints remain separate advisories |
+| Grouping and containment | Closed labelled frames, direct leaf membership and nested group parentage; real group endpoints and perpendicular wall crossings | Overlapping non-nested frames, ambiguous shared ports and unfamiliar border/label representations |
 | Explicit node primitives and line breaks | Unique closed containers; unambiguous matching diamond/circle markers at corners or border midpoints; rounded/stadium boundaries; each authored line owns contiguous display rows | Arbitrary shape decorations, unfamiliar silhouettes and ambiguous repeated labels; blank authored lines need a padding projection |
 | Pie labels and numeric weights | Owned label/bar/percentage rows, complete slice set, percentage precision and explicit displayed-quantum rounding | Circular/other chart representations and unassigned output ink |
 | Journey tasks, scores, actors and sections | Ordered section/task rows with five explicit score cells and an owned actor row | Other representations and unassigned summary graphics |
@@ -119,6 +120,11 @@ branch membership, note ownership, extra content, lifeline continuity and ANSI s
 Their [provenance](../tests/fixtures/terminal/sequence-provenance.json) preserves
 source, artifact, output and original receipt identities. These are checker tests,
 not a new timing campaign.
+
+[Group ownership controls](../tests/terminal-groups.test.ts) check actual
+Mermaid ASCII, Termaid and Agentic Mermaid enclosure walls. A crossed wall cannot
+supply source identity; a group endpoint needs its own drawn port. Nested parents
+and overlapping frames have separate controls.
 
 The [primitive and line-break controls](../tests/terminal-primitives.test.ts) use
 authenticated Mermaid ASCII, Termaid and Agentic Mermaid output. They change

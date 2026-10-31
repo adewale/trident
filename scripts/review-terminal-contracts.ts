@@ -8,7 +8,7 @@ export function terminalSourceReviews() {
   return readTerminalCorpus().cases.map(input => {
     const analysis = analyseTerminalSource(input.source, input.family)
     if (analysis.contract.sourceUncertainties.length) throw Error('Unreviewed source syntax: ' + input.id + ' ' + analysis.contract.sourceUncertainties.join('; '))
-    return { caseId: input.id, sourceSha256: input.sourceSha256, reviewedBy: 'Codex; literal source transcription, 2026-10-31', review: 'Independent source-token transcription; no candidate output, renderer AST or reference render defines these facts. Diagram data/relationships/layout are required; CSS/theme configuration and accessibility metadata are retained separately from visible terminal-content requirements. Original source provenance remains in terminal-project-examples.json.', intent: analysis.intent, contract: analysis.contract, unverifiedFacts: [] }
+    return { caseId: input.id, sourceSha256: input.sourceSha256, reviewedBy: 'Codex; literal source transcription, 2026-10-31', review: 'Independent source-token transcription; no candidate output, renderer AST or reference render defines these facts. Diagram data, relationships and qualified source geometry are required. Broad global/subgraph layout hints, CSS/theme configuration and accessibility metadata are retained separately from the core terminal-content requirements. Original source provenance remains in terminal-project-examples.json.', intent: analysis.intent, contract: analysis.contract, unverifiedFacts: [] }
   })
 }
 if (import.meta.main) {

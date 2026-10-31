@@ -1,3 +1,4 @@
+import { inspectTerminalGrouping } from './terminal-groups.ts'
 import { terminalRectangles } from './terminal-rectangles.ts'
 import { inspectTerminalKanban } from './terminal-kanban.ts'
 import { inspectTerminalSequence } from './terminal-sequence.ts'
@@ -17,6 +18,7 @@ export function inspectTerminalFacts(output: string, contract: TerminalSourceCon
   const set = (criterion: string, status: TerminalFactCheck['status'], detail: string, actual?: unknown) => { const target = checks.find(check => check.criterion === criterion); if (target) Object.assign(target, { status, detail, ...(actual === undefined ? {} : { actual }) }) }
   if (display.status !== 'available') { for (const check of checks) check.detail = display.reason ?? 'No qualified terminal state'; return checks }
   const text = display.text, lines = text.split('\n').map(line => line.trimEnd())
+  if (graph?.groups?.length) { const grouping = inspectTerminalGrouping(output, graph.nodes, graph.groups); set('groups', grouping.status, grouping.reason, grouping.actual) }
   if (graph) {
     if (!graph.nodes.length && !graph.edges.length && contract.facts.every(fact => fact.required === false || ['nodes', 'relationships', 'title'].includes(fact.criterion))) {
       const title = contract.facts.find(fact => fact.criterion === 'title')?.expected, body = typeof title === 'string' ? lines.filter(line => line.trim() !== title).join('\n') : text
@@ -100,8 +102,10 @@ export function inspectTerminalFacts(output: string, contract: TerminalSourceCon
  * from the full drawing inventory or supplies any output pass. */
 export function terminalSourceObservable(contract: TerminalSourceContract, graph?: TerminalMeaning) {
   if (contract.sourceUncertainties.length) return false
-  const supported = contract.family === 'flowchart' ? ['nodes', 'relationships', 'layout-order', 'node-shapes', 'node-line-breaks'] : contract.family === 'pie' ? ['title', 'slice-values'] : contract.family === 'journey' ? ['title', 'journey-tasks'] : contract.family === 'timeline' ? ['title', 'timeline-periods'] : contract.family === 'sequence' ? ['participants', 'ordered-messages', 'owned-notes', 'fragments'] : contract.family === 'kanban' ? ['kanban-hierarchy'] : contract.family === 'class' ? ['class-bodies', 'class-relations'] : []
+  const supported = contract.family === 'flowchart' ? ['nodes', 'relationships', 'layout-order', 'node-shapes', 'node-line-breaks', 'groups'] : contract.family === 'pie' ? ['title', 'slice-values'] : contract.family === 'journey' ? ['title', 'journey-tasks'] : contract.family === 'timeline' ? ['title', 'timeline-periods'] : contract.family === 'sequence' ? ['participants', 'ordered-messages', 'owned-notes', 'fragments'] : contract.family === 'kanban' ? ['kanban-hierarchy'] : contract.family === 'class' ? ['class-bodies', 'class-relations'] : []
   if (contract.facts.some(fact => fact.required !== false && !supported.includes(fact.criterion))) return false
+  const primitiveTypes = ['rectangle', 'rounded', 'stadium', 'diamond', 'circle', 'double-circle', 'asymmetric', 'parallelogram', 'database', 'subroutine']
+  if ((contract.facts.find(fact => fact.criterion === 'node-shapes')?.expected as any[] ?? []).some(item => !primitiveTypes.includes(item.shape))) return false
   if (contract.family === 'class') { const classes = contract.facts.find(fact => fact.criterion === 'class-bodies')?.expected as any[] ?? [], relations = contract.facts.find(fact => fact.criterion === 'class-relations')?.expected as any[] ?? []; if (!classes.length || classes.length > 32 || classes.some(item => item.members.length || !/^[\p{Letter}\p{Number}_.-]+$/u.test(item.id)) || relations.length) return false }
   if (contract.family === 'sequence' && (contract.facts.find(fact => fact.criterion === 'ordered-messages')?.expected as any[] ?? []).some(message => !['->>', '-->>'].includes(message.marker))) return false
   if (contract.family === 'sequence' && (contract.facts.find(fact => fact.criterion === 'fragments')?.expected as any[] ?? []).some(fragment => fragment.nesting?.length)) return false
