@@ -5,7 +5,7 @@ import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, join, relative, resolve, sep } from 'node:path'
-import { communityCoreWorkloads, normalizeCommunityOutput, runCommunityCli } from './community.ts'
+import { adapterCompanionIdentity, communityCoreWorkloads, normalizeCommunityOutput, runCommunityCli } from './community.ts'
 import { defaultTimeObserver, isGnuTime } from '../portable/time-observer.ts'
 import type { CommunityArtifact, PreparedCommunity } from './community-types.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedSuiteResult, UnifiedWorkload } from './types.ts'
@@ -96,7 +96,7 @@ export function packageCliVariants(prepared: PreparedCommunity[]): Variant[] {
       const node = JSON.parse(execFileSync(process.env.NODE_BIN ?? 'node', ['-p', 'JSON.stringify({executable:process.execPath,version:process.versions.node})'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }))
       return { variantOf: base.node.id, variant, outputs: binding.outputs,
         prepared: { node: { ...base.node, id: `${base.node.id}#${variant}`, benchmark: { ...base.node.benchmark!, outputs: binding.outputs } },
-          artifact: { kind: 'cli', executable: node.executable, sha256: digest(node.executable), args: [cli, ...binding.args], input: 'stdin', version: pkg.version, runtime: `node:${node.version} installed public CLI`, files: shippedFiles(root) } } }
+          artifact: { kind: 'cli', root, executable: node.executable, sha256: digest(node.executable), args: [cli, ...binding.args], input: 'stdin', version: pkg.version, runtime: `node:${node.version} installed public CLI`, files: shippedFiles(root), ...(base.artifact.integrity ? { adapterCompanions: [{ root, name: pkg.name, version: pkg.version, integrity: base.artifact.integrity, closureSha256: createHash('sha256').update(JSON.stringify(adapterCompanionIdentity(root))).digest('hex') }] } : {}) } } }
     } catch (error) { return unavailable(String(error)) }
   })
   const releases: Variant[] = prepared.flatMap(base => (base.artifact?.additionalCli ?? []).map(extra => ({ variantOf: base.node.id, variant: extra.id, outputs: extra.outputs, ...(extra.error ? { error: extra.error } : {}), prepared: { node: { ...base.node, id: `${base.node.id}#${extra.id}`, benchmark: { ...base.node.benchmark!, outputs: extra.outputs } }, artifact: extra.artifact, error: extra.error } })))

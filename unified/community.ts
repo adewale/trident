@@ -413,6 +413,10 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
         verifyReleaseCli(node, artifact)
       }
       if (node.benchmark.cliRelease && node.benchmark.adapter !== 'source-cli' && !(provided[node.id] && options.communityArtifactPolicy === 'frozen')) artifact = { ...artifact, additionalCli: [await (await import('./release-cli.ts')).prepareReleaseCli(node, cache)] }
+      if (node.benchmark.cli && !(artifact.additionalCli ?? []).some(cli => cli.id === 'node-cli')) {
+        const cli = (await import('./community-cli.ts')).packageCliVariants([{ node, artifact }]).find(variant => variant.variant === 'node-cli')
+        if (cli) artifact = { ...artifact, additionalCli: [...(artifact.additionalCli ?? []), { id: cli.variant, outputs: cli.outputs, artifact: cli.prepared.artifact, error: cli.error }] }
+      }
       artifact.detail = `${artifact.detail ?? ''}${artifact.detail ? '; ' : ''}Version policy: ${artifact.candidate ? ('revision' in artifact.candidate ? `unreleased candidate revision ${artifact.candidate.revision}, built with the reviewed source recipe; the catalog source pin does not apply` : 'unreleased candidate tarball; the catalog version pin does not apply') : provided[node.id] && options.communityArtifactPolicy === 'frozen' ? 'provided actual artifact version/bytes frozen; no latest lookup' : node.id === 'mermaid-js/mermaid' ? 'pinned current Mermaid' : node.benchmark.adapter === 'source-cli' || node.benchmark.adapter === 'extra-source' || node.benchmark.adapter === 'franken' ? 'recorded immutable source/distribution' : node.benchmark.version || node.benchmark.versionPolicy === 'recorded' || process.env.AM_COMMUNITY_VERSION_POLICY === 'recorded' ? 'recorded registry release' : 'resolved latest registry release'}. Recorded catalog versions remain separately available on the node.`
       prepared.push({ node, artifact })
     } catch (error) {

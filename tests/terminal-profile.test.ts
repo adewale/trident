@@ -1,6 +1,6 @@
 import { expect, test } from 'bun:test'
 import { createHash } from 'node:crypto'
-import { chmodSync, readFileSync, writeFileSync } from 'node:fs'
+import { chmodSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { assessTerminalRecord, terminalProfileId } from '../unified/terminal-profile.ts'
 import type { TerminalProjectCase } from '../fidelity/terminal-corpus.ts'
@@ -69,6 +69,32 @@ test('public saved-output launcher works in CI without oracle or renderer; colle
 })
 
 import { collectTerminalWorkloads } from '../unified/terminal-profile.ts'
+import { prepareCommunity, verifyProvidedCommunityArtifact } from '../unified/community.ts'
+test('preparation freezes the declared package CLI and its dependency closure for terminal-only repair', async () => {
+  const directory = temp.dir(), root = join(directory, 'node_modules/fixture-diagram'), dependency = join(directory, 'node_modules/terminal-helper')
+  mkdirSync(root, { recursive: true }); mkdirSync(dependency, { recursive: true })
+  const text = readFileSync(new URL('./fixtures/terminal/chain.txt', import.meta.url), 'utf8')
+  writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'fixture-diagram', version: '1.0.0', type: 'module', bin: { 'fixture-diagram': './cli.js' }, dependencies: { 'terminal-helper': '1.0.0' } }))
+  writeFileSync(join(root, 'index.js'), 'export function draw(){throw Error("SVG binding must not be invoked")}')
+  writeFileSync(join(root, 'cli.js'), 'import output from "terminal-helper";if(process.argv[2]!=="--ascii")throw Error("binding args missing");process.stdout.write(output)')
+  writeFileSync(join(dependency, 'package.json'), JSON.stringify({ name: 'terminal-helper', version: '1.0.0', type: 'module', main: 'index.js' }))
+  writeFileSync(join(dependency, 'index.js'), 'export default '+JSON.stringify(text))
+  const integrity = 'sha512-synthetic-fixture-lock'
+  writeFileSync(join(directory, 'package-lock.json'), JSON.stringify({ packages: { 'node_modules/fixture-diagram': { version: '1.0.0', integrity } } }))
+  const node = { id: 'fixture/terminal-package-cli', roles: ['renderer'], outputs: ['svg', 'terminal'], benchmark: { adapter: 'declared', package: 'fixture-diagram', version: '1.0.0', outputs: ['svg'], moduleOutputs: ['svg'], api: { svg: { export: 'draw' } }, cli: { bin: 'fixture-diagram', args: ['--ascii'], outputs: ['terminal'] } } }
+  const catalog = join(directory, 'catalog.json'), artifacts = join(directory, 'provided.json')
+  writeFileSync(catalog, JSON.stringify({ nodes: [node] }))
+  writeFileSync(artifacts, JSON.stringify({ [node.id]: { kind: 'node', root, module: join(root, 'index.js'), version: '1.0.0', integrity, sha256: hash(readFileSync(join(root, 'index.js'), 'utf8')) } }))
+  const [peer] = await prepareCommunity({ root: directory, out: join(directory, 'preparation'), rounds: 1, profile: 'smoke', communityProjects: [node.id], communityCatalogFile: catalog, communityArtifacts: artifacts, communityArtifactPolicy: 'frozen' })
+  expect(peer?.error).toBeUndefined()
+  expect(peer?.artifact?.additionalCli?.[0]).toMatchObject({ id: 'node-cli', outputs: ['terminal'], artifact: { version: '1.0.0', input: 'stdin' } })
+  verifyProvidedCommunityArtifact(peer!.artifact!)
+  const rows = await collectTerminalWorkloads([peer!], [{ id: 'fixture-only', source: 'flowchart LR\nAlpha --> Beta\nBeta --> Gamma', family: 'flowchart', expectedLabels: ['Alpha', 'Beta', 'Gamma'], features: ['retain-output-witness'], provenance: 'Synthetic transport control outside scored corpus' }], { root: directory, out: join(directory, 'collection'), rounds: 1, profile: 'smoke' })
+  expect(rows[0]?.rows[0]?.status).toBe('passed')
+  expect(rows[0]?.rows[0]?.surface).toBe('cli:end-to-end')
+  writeFileSync(join(dependency, 'index.js'), 'export default "changed dependency"')
+  expect(() => verifyProvidedCommunityArtifact(peer!.artifact!)).toThrow('closure changed')
+})
 test('terminal profile reuses a sealed Node binding and skips browser-only capability rows', async () => {
   const directory = temp.dir(), module = join(directory, 'renderer.mjs'), calls = join(directory, 'calls.txt')
   const text = readFileSync(new URL('./fixtures/terminal/chain.txt', import.meta.url), 'utf8')
@@ -110,4 +136,7 @@ test('all-project terminal planning follows normal renderer and branding eligibi
   expect(plan.selectedProjects).toContain('AlexanderGrooff/mermaid-ascii')
   expect(plan.selectedProjects).not.toContain('mermaid-js/mermaid')
   expect(plan.plannedTerminalCalls).toBe(2160)
+  const targeted = spawnSync(process.execPath, [new URL('../commands.ts', import.meta.url).pathname, 'bench', '--terminal', '--projects', 'crafter-station/mermaid,wevm/ondine,Latias94/merman', '--all-inputs', '--plan'], { encoding: 'utf8' })
+  expect(targeted.status).toBe(0)
+  expect(JSON.parse(targeted.stdout).plannedTerminalCalls).toBe(360)
 })

@@ -108,7 +108,7 @@ export async function runTerminalProfile(argv: string[]) {
   } else {
     assertBenchmarkExecutionAllowed()
     const projects = projectSelection, prepared = read(resolve(preparedFile!)) as PreparedCommunity[]
-    if (!projects.includes(ascii) || new Set(projects).size !== projects.length || projects.includes('mermaid-js/mermaid') || !Array.isArray(prepared) || new Set(prepared.map(entry => entry.node.id)).size !== prepared.length || projects.some(project => !prepared.some(entry => entry.node.id === project))) throw Error('Choose unique frozen terminal identities including Mermaid ASCII; Mermaid reference is separate')
+    if (!projects.length || new Set(projects).size !== projects.length || projects.includes('mermaid-js/mermaid') || !Array.isArray(prepared) || new Set(prepared.map(entry => entry.node.id)).size !== prepared.length || projects.some(project => !prepared.some(entry => entry.node.id === project))) throw Error('Choose unique frozen terminal identities; Mermaid reference is separate. Default/full cohorts include Mermaid ASCII; explicit projects select a targeted extension.')
     const eligible = comparisonProjects(catalog as any, projects).included
     if (eligible.length !== projects.length) throw Error('Terminal profile respects the catalog branding/selection policy; choose eligible renderer artifacts')
     const selected = prepared.filter(peer => projects.includes(peer.node.id))
