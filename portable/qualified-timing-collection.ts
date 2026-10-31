@@ -2,10 +2,11 @@ import { ChildProcess } from 'node:child_process'
 import { Worker, parentPort } from 'node:worker_threads'
 import { randomUUID } from 'node:crypto'
 import { readFileSync } from 'node:fs'
+import { performance } from 'node:perf_hooks'
 import { join } from 'node:path'
 import type { BrowserContext, Page } from 'playwright'
 import { CollectionCheckpoint, writeDurableEvidence } from './checkpoint.ts'
-import { admitCheckedEvidence, admitInvocationEvidence, evidenceBytesDigest, evidenceDigest, type CaseEvidenceContract, type CheckedEvidence, type InvocationEvidence } from './evidence-contract.ts'
+import { admitCheckedEvidence, evidenceBytesDigest, evidenceDigest, type CaseEvidenceContract, type CheckedEvidence, type InvocationEvidence } from './evidence-contract.ts'
 import { InvocationJournal } from './invocation-journal.ts'
 import { admitTimingPlan, qualifyTiming, type TimingPlan, type TimingSample } from './qualified-timing.ts'
 
@@ -15,21 +16,23 @@ export interface TimingSource { caseId: string; source: string; provenance?: str
 export type OwnedTimingExecution = { kind: 'node-worker'; handle: Worker } | { kind: 'child-process'; handle: ChildProcess } | { kind: 'browser-context'; handle: BrowserContext; page: Page }
 export interface TimingCoordinate { round: number; replica: Replica; caseId: string; sample: number }
 export type OpenedTimingRuntime = { artifact: Artifact } & ({ execution: Extract<OwnedTimingExecution, { kind: 'node-worker' | 'child-process' }> } | { execution: Extract<OwnedTimingExecution, { kind: 'browser-context' }>; request?: Readonly<Record<string, unknown>>; invokeInPage: (request: any) => string | Promise<string> })
+export interface TimingCollectionLimits { collectionBudgetMs?: number; openTimeoutMs?: number; closeTimeoutMs?: number; observerTimeoutMs?: number }
 export interface QualifiedTimingPublicDriver {
   /** Produced by the reviewed public binding, not inferred from a plan label.
    * For RPC drivers the boundary includes request/return transport overhead. */
   context: Pick<TimingPlan, 'boundary' | 'format' | 'track' | 'environmentSha256' | 'artifacts'>
   /** Initializes/imports a fresh runtime, without a render call or warmup.
    * The collector owns and closes the actual handle after exactly one call. */
-  open(coordinate: TimingCoordinate & { artifact: Artifact }): Promise<OpenedTimingRuntime>
+  open(coordinate: TimingCoordinate & { artifact: Artifact; signal: AbortSignal; own(execution: OwnedTimingExecution): void }): Promise<OpenedTimingRuntime>
 }
-export type ObserveTimedOutput = (input: { contract: CaseEvidenceContract; bytes: Uint8Array; invocation: Readonly<InvocationEvidence>; coordinate: TimingCoordinate }) => CheckedEvidence | Promise<CheckedEvidence>
+export type ObserveTimedOutput = (input: { contract: CaseEvidenceContract; bytes: Uint8Array; invocation: Readonly<InvocationEvidence>; coordinate: TimingCoordinate; signal: AbortSignal }) => CheckedEvidence | Promise<CheckedEvidence>
 const replicaPermutations: readonly (readonly Replica[])[] = [['A0', 'A1', 'B'], ['B', 'A1', 'A0'], ['A1', 'B', 'A0'], ['A0', 'B', 'A1'], ['B', 'A0', 'A1'], ['A1', 'A0', 'B']]
 const callTimeoutMs = 30_000
 
 /** Six paired orders put every replica in every position twice. Matching
  * case calls stay adjacent; no result can alter the predeclared schedule. */
 export function qualifiedTimingCoordinates(plan: TimingPlan): TimingCoordinate[] {
+  plan = admitTimingPlan(plan)
   const result: TimingCoordinate[] = []
   for (let round = 1; round <= plan.rounds; round++) for (const [index, input] of plan.cases.entries()) for (let sample = 0; sample < plan.samplesPerRound; sample++) for (const replica of replicaPermutations[(round - 1 + index + sample) % 6]!) result.push({ round, replica, caseId: input.caseId, sample })
   return result
@@ -69,7 +72,14 @@ function preparePublicCall(opened: OpenedTimingRuntime, attemptId: string, sourc
 /** Fixed first-use collection. No adaptive loops, selection on outcomes or
  * hidden retries. A grader crash can replay the complete retained raw phase;
  * an interrupted raw phase stays incomplete instead of mixing controller runs. */
-export async function collectQualifiedTiming(plan: TimingPlan, sources: readonly TimingSource[], invokePublic: QualifiedTimingPublicDriver, observeOutput: ObserveTimedOutput, out: string) {
+export async function collectQualifiedTiming(plan: TimingPlan, sources: readonly TimingSource[], invokePublic: QualifiedTimingPublicDriver, observeOutput: ObserveTimedOutput, out: string, limits: TimingCollectionLimits = {}) {
+  const budget = { collectionBudgetMs: limits.collectionBudgetMs ?? 300_000, openTimeoutMs: limits.openTimeoutMs ?? 30_000, closeTimeoutMs: limits.closeTimeoutMs ?? 5000, observerTimeoutMs: limits.observerTimeoutMs ?? 30_000 }
+  if (Object.values(budget).some(value => !Number.isSafeInteger(value) || value < 1 || value > 2_147_483_647)) throw Error('Timing phase limits must be positive finite integer milliseconds')
+  const deadline = performance.now() + budget.collectionBudgetMs, remainingBudget = () => Math.max(0, deadline - performance.now())
+  const bounded = async <T>(work: Promise<T>, milliseconds: number, phase: string, abort?: () => void): Promise<T> => {
+    let timer: ReturnType<typeof setTimeout> | undefined
+    try { return await Promise.race([work, new Promise<never>((_resolve, reject) => { timer = setTimeout(() => { abort?.(); reject(Error(phase + ' exceeded its ' + Math.ceil(milliseconds) + 'ms deadline')) }, Math.max(1, milliseconds)) })]) } finally { clearTimeout(timer) }
+  }
   plan = admitTimingPlan(plan)
   if (plan.rounds % 6 !== 0) throw Error('This collector needs complete six-round blocks for balanced first-use ordering and finite median-ratio uncertainty')
   if (plan.track !== 'first-use') throw Error('This collector supports first-use only; warm/adaptive tracks need their own reviewed execution policy')
@@ -77,7 +87,7 @@ export async function collectQualifiedTiming(plan: TimingPlan, sources: readonly
   if (evidenceDigest(invokePublic.context) !== evidenceDigest(context)) throw Error('Actual public driver context differs from the frozen timing plan')
   const sourceMap = new Map(sources.map(input => [input.caseId, input.source]))
   if (sourceMap.size !== sources.length || sourceMap.size !== plan.cases.length || plan.cases.some(input => typeof sourceMap.get(input.caseId) !== 'string' || evidenceBytesDigest(sourceMap.get(input.caseId)!) !== input.sourceSha256)) throw Error('Timing sources must match the complete frozen corpus exactly')
-  const planSha256 = evidenceDigest(plan), coordinates = qualifiedTimingCoordinates(plan), captureProtocol = { name: 'fresh-instance-per-call-six-orders-v1', coordinateScheduleSha256: evidenceDigest(coordinates), maximumCallMs: callTimeoutMs, imports: 'Initialized before timing without public calls', measuredBoundary: 'Controller request through returned public bytes; declared RPC overhead included' }
+  const planSha256 = evidenceDigest(plan), coordinates = qualifiedTimingCoordinates(plan), captureProtocol = { name: 'fresh-instance-per-call-six-orders-v1', coordinateScheduleSha256: evidenceDigest(coordinates), maximumCallMs: callTimeoutMs, ...budget, imports: 'Initialized before timing without public calls', measuredBoundary: 'Controller request through returned public bytes; declared RPC overhead included' }
   const checkpoint = new CollectionCheckpoint(join(out, 'collection'), { schema: 'trident-qualified-timing-collection-v1', planSha256, captureProtocol }), journal = new InvocationJournal(join(out, 'raw'))
   writeDurableEvidence(join(out, 'plan.json'), Buffer.from(JSON.stringify(plan, null, 2) + '\n'))
   writeDurableEvidence(join(out, 'sources.json'), Buffer.from(JSON.stringify(plan.cases.map(input => ({ ...sources.find(source => source.caseId === input.caseId)!, sourceSha256: input.sourceSha256 })), null, 2) + '\n'))
@@ -116,21 +126,46 @@ export async function collectQualifiedTiming(plan: TimingPlan, sources: readonly
   }
   // Reopening a partially captured run cannot restore its old runtime state or
   // manufacture one monotonic controller domain. Existing calls are never rerun.
-  if (!checkpoint.has('raw-complete') && journal.records().length === 0) {
+  if (!checkpoint.has('capture-started') && journal.records().length === 0) {
     const clockDomainId = randomUUID()
+    checkpoint.record('capture-started', { recordedAt: new Date().toISOString(), clockDomainId })
+    let rawCompleted = true
     for (const [sequence, coordinate] of coordinates.entries()) {
+      if (!remainingBudget()) { errors.push({ phase: 'collection-budget', detail: 'Collection budget exhausted before the next planned call', coordinate }); rawCompleted = false; break }
       const contract = plan.cases.find(input => input.caseId === coordinate.caseId)!, artifact = plan.artifacts[coordinate.replica], identity = { ...artifact, caseId: coordinate.caseId, sourceSha256: contract.sourceSha256, format: plan.format, coordinate: key(coordinate) }
-      let opened: Awaited<ReturnType<QualifiedTimingPublicDriver['open']>> | undefined, started: Readonly<InvocationEvidence> | undefined
+      const controller = new AbortController(), owned = new Map<object, OwnedTimingExecution>(), closing = new Map<object, Promise<void>>()
+      let opened: OpenedTimingRuntime | undefined, started: Readonly<InvocationEvidence> | undefined, stopped = false
+      const dispose = (execution: OwnedTimingExecution) => {
+        if (closing.has(execution.handle)) return closing.get(execution.handle)!
+        const promise = bounded(closeExecution(execution), budget.closeTimeoutMs, 'Runtime close', () => {
+          controller.abort()
+          if (execution.kind === 'node-worker') { execution.handle.unref(); void Worker.prototype.terminate.call(execution.handle).catch(() => {}) }
+          if (execution.kind === 'child-process') { execution.handle.kill('SIGKILL'); execution.handle.unref() }
+        })
+        closing.set(execution.handle, promise); return promise
+      }
+      const own = (execution: OwnedTimingExecution) => {
+        if (!execution?.handle) throw Error('A timing factory must register its actual runtime before awaiting initialization')
+        owned.set(execution.handle, execution)
+        if (controller.signal.aborted) { void dispose(execution).catch(error => checkpoint.record('late-open-cleanup:' + randomUUID(), { coordinate, detail: String(error) })); throw Error('Timing initialization was already aborted; late runtime is being closed without a public call') }
+      }
       try {
-        opened = await invokePublic.open({ ...coordinate, artifact })
+        const opening = Promise.resolve().then(() => invokePublic.open({ ...coordinate, artifact, signal: controller.signal, own }))
+        // Even a factory that ignores cancellation cannot make a late public call.
+        void opening.then(late => { if (controller.signal.aborted) { owned.set(late.execution.handle, late.execution); void dispose(late.execution).catch(error => checkpoint.record('late-open-cleanup:' + randomUUID(), { coordinate, detail: String(error) })) } }, () => {})
+        opened = await bounded(opening, Math.min(budget.openTimeoutMs, remainingBudget()), 'Runtime initialization', () => controller.abort())
+        if (owned.size !== 1 || !owned.has(opened.execution.handle)) throw Error('Timing factory must register exactly its actual fresh runtime before initialization')
         if (evidenceDigest(opened.artifact) !== evidenceDigest(artifact)) throw Error('Opened runtime uses a different actual artifact or binding')
         if (opened.execution.kind === 'browser-context' && plan.format === 'png') throw Error('This first-use browser collector supports text outputs only; PNG needs an explicit reviewed byte transport')
         const instance = inspectExecution(opened.execution)
         proofs.push({ ...coordinate, executionInstanceId: instance.id, ...instance.proof })
+        if (!remainingBudget()) throw Error('Collection budget exhausted before the public call; no API invocation occurred')
         started = journal.start(identity, { captureProtocolSha256: evidenceDigest(captureProtocol), planSha256, environmentSha256: plan.environmentSha256, boundary: plan.boundary, track: plan.track, clockDomainId, executionInstanceId: instance.id, sequence })
+        if (!remainingBudget()) { journal.failed(started, 'Collection budget exhausted after the durable start and before public invocation', null, 'interrupted'); throw Error('Collection budget exhausted before the public call; the scheduled entry remains explicitly incomplete') }
         let timer: ReturnType<typeof setTimeout> | undefined
         const pending = preparePublicCall(opened, started.attemptId, sourceMap.get(coordinate.caseId)!)
-        const timeout = new Promise<never>((_resolve, reject) => { timer = setTimeout(() => reject(Error('Public timing boundary exceeded its fixed 30000ms deadline')), callTimeoutMs) })
+        const maximumCallMs = Math.min(callTimeoutMs, remainingBudget())
+        const timeout = new Promise<never>((_resolve, reject) => { timer = setTimeout(() => reject(Error('Public timing boundary exceeded its ' + Math.ceil(maximumCallMs) + 'ms deadline')), Math.max(1, maximumCallMs)) })
         const apiStartNs = process.hrtime.bigint()
         try {
           const value = await Promise.race([pending.invoke(), timeout])
@@ -139,30 +174,32 @@ export async function collectQualifiedTiming(plan: TimingPlan, sources: readonly
           journal.returned(started, value, Number(apiFinishNs - apiStartNs) / 1e6, undefined, { apiStartNs, apiFinishNs })
         } catch (error) {
           const apiFinishNs = process.hrtime.bigint(); clearTimeout(timer)
-          // A controller timeout or retention/type failure is no source rejection.
           if (!journal.outcome(started.attemptId)) journal.failed(started, error, null, 'interrupted', undefined, { apiStartNs, apiFinishNs })
-          errors.push({ phase: 'public-call-or-retention', detail: String(error), coordinate, attemptId: started.attemptId })
+          errors.push({ phase: 'public-call-or-retention', detail: String(error), coordinate, attemptId: started.attemptId }); stopped = true; controller.abort()
         } finally { pending.cancel() }
       } catch (error) {
-        errors.push({ phase: 'runtime-preflight', detail: String(error), coordinate })
-        if (!started) journal.adopt(admitInvocationEvidence({ schema: 'trident-invocation-evidence-v1', attemptId: randomUUID(), identity, state: 'not-invoked', startedAt: null, finishedAt: null, recordedAt: new Date().toISOString(), durationMs: null, output: null, detail: 'Expected artifact was not invoked: ' + String(error) }))
+        errors.push({ phase: 'runtime-preflight', detail: String(error), coordinate }); stopped = true; controller.abort()
       } finally {
-        if (opened) try { await closeExecution(opened.execution) } catch (error) { errors.push({ phase: 'runtime-close', detail: String(error), coordinate }) }
+        if (opened && !owned.has(opened.execution.handle)) owned.set(opened.execution.handle, opened.execution)
+        for (const execution of owned.values()) try { await dispose(execution) } catch (error) { errors.push({ phase: 'runtime-close', detail: String(error), coordinate }); stopped = true; controller.abort() }
       }
+      if (stopped) { rawCompleted = false; break }
     }
     checkpoint.record('capture-errors', errors)
     checkpoint.record('instances', proofs)
-    checkpoint.record('raw-complete', { planned: coordinates.length, attempts: journal.records().filter(frame => frame.state === 'started').length, clockDomainId })
+    if (rawCompleted) checkpoint.record('raw-complete', { planned: coordinates.length, attempts: journal.records().filter(frame => frame.state === 'started').length, clockDomainId })
   } else if (!checkpoint.has('raw-complete')) errors.push({ phase: 'recovery', detail: 'Raw capture was interrupted; original invocations are preserved and no public calls are repeated or silently added' })
   const samples: TimingSample[] = []
   for (const coordinate of coordinates) {
+    if (!remainingBudget()) { errors.push({ phase: 'grading-budget', detail: 'Collection budget exhausted; remaining retained outputs have no invented grade' }); break }
     const contract = plan.cases.find(input => input.caseId === coordinate.caseId)!, frames = journal.records().filter(frame => frame.identity.coordinate === key(coordinate)), returned = frames.filter(frame => frame.state === 'returned')
     if (returned.length > 1) throw Error('A timing coordinate has multiple actual returns; selection is forbidden')
     const invocation = returned[0]
     if (!invocation?.output) continue
     try {
       const checkKey = 'checked:' + key(coordinate), bytes = readFileSync(invocation.output.path)
-      const checked = admitCheckedEvidence(contract, checkpoint.get<CheckedEvidence>(checkKey) ?? await observeOutput({ contract, bytes, invocation, coordinate }))
+      const controller = new AbortController()
+      const checked = admitCheckedEvidence(contract, checkpoint.get<CheckedEvidence>(checkKey) ?? await bounded(Promise.resolve().then(() => observeOutput({ contract, bytes, invocation, coordinate, signal: controller.signal })), Math.min(budget.observerTimeoutMs, remainingBudget()), 'Output observer', () => controller.abort()))
       if (checked.outputSha256 !== invocation.output.sha256 || checked.observerSha256 !== plan.observerSha256) throw Error('Observer evidence does not bind the actual timed output and frozen observer')
       checkpoint.record(checkKey, checked)
       samples.push({ ...coordinate, invocation, checked })
