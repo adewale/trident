@@ -10,7 +10,7 @@ It is separate from an ecosystem benchmark campaign.
 
 | Plan step | Implemented | Remaining evidence or work |
 |---|---|---|
-| 0. Minimum cohort | Six frozen projects, 16 paths, 56 output calls and two model workflows; five-minute collection budget. | Record the assembled implementation's bounded verification result. This does not qualify full drawing accuracy. |
+| 0. Minimum cohort | Six frozen projects, 16 paths, 56 output calls and two model workflows; five-minute collection budget. | All 16 paths verified across two explicit phases; the completed 56 output calls were reused. Full drawing accuracy remains separate. |
 | 1. Safe regrading | Fresh checks replace old checks; old reports remain historical. Missing checks, wrong bindings and foreign witnesses cannot inherit a pass. | No blanket upgrade of historical results. |
 | 2. Evidence records | Source, expectations, output and observer hashes; actual invocation IDs, clocks and typed outcomes. | Historical missing call clocks remain null. |
 | 3. Durable collection | Raw returns precede grading; interrupted calls stay incomplete; observer retries reuse retained bytes. | A new invocation is required only when original collection is missing or invalid. |

@@ -41,10 +41,12 @@ There are no performance warmups or repetitions. These ordinary commands require
 no Codex or model API; source reviews and fixtures are retained inputs, not
 runtime-generated answers. The collection budget is five
 minutes after preparation. Expiry leaves uncompleted paths blocked; it cannot
-create a pass. The retained six-artifact run verified all 16 invocation paths.
-That result establishes executable transports only, under its recorded producer.
-It does not establish correct input propagation, complete drawing facts or a
-final-head release check.
+create a pass. The retained verification covers all 16 paths in two explicit
+phases: 14 output paths passed label or decoded-pixel propagation, then both model
+paths passed their five scoped postconditions after a Node import compatibility
+fix. The 56 completed output calls were reused. Original failed model attempts
+remain recorded. This establishes those execution and input-propagation controls;
+it does not establish complete drawing facts or corpus accuracy.
 
 ## Establish accuracy before collecting comparative timings
 

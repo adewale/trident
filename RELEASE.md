@@ -5,8 +5,9 @@ there is no npm publish. Release qualification means checking the claims and
 shipped bytes at the intended revision. It does not mean rerunning every project.
 
 The 0.1 release remains blocked on the accuracy gaps in [the baseline](BASELINE.md).
-All 16 paths in the first six-project harness run were invoked successfully.
-That receipt alone does not establish correct input propagation or semantics. Full
+The six-project verification covers all 16 paths across two recorded phases,
+including label/pixel propagation and the scoped public-model postconditions.
+Those controls do not establish complete drawing semantics. Full
 DaveBench drawing accuracy, full native-PNG correctness, broader original-test
 conformance and complete terminal accuracy have not thereby been established.
 Renderer failures are findings; a missing or incorrect Trident observer is a
