@@ -10,11 +10,11 @@ The original retained scope is 41 callbacks: 16 public `parse` tests from
 error/return snapshots. It does not measure drawing accuracy or speed.
 
 The separately frozen `expanded-public` scope has **154 callbacks from 37
-declarations**: 102 parse, 32 detection 19 accessibility render and one generic SVG-return
-callbacks. It adds 26 direct detector callbacks, seven sequence/event-modeling
+declarations**: 102 parse, 32 detection, 19 accessibility render and one generic SVG-return
+callback. It adds 26 direct detector callbacks, seven sequence/event-modeling
 parse callbacks and 79 static first-party registry examples, plus one original callback over the 24 canonical use-case examples. Inner calls remain operations inside one callback. The original 41
 identities, callback bytes and old evidence remain available. Comparisons use
-one complete selected population; the two scopes are never pooled.
+one complete selected population; the historical41 and expanded154 populations are never pooled.
 
 The registry parameters come from literal TypeScript data read without executing
 its modules. Fixture-file and code hashes bind every expanded name. The registry
@@ -27,7 +27,7 @@ The fixed denominator includes every selected callback. Unsupported validation,
 failed assertions, missing public fields and incomplete evidence remain distinct
 nonpasses. A binding that preserves unknown syntax cannot earn rejection credit
 by throwing an adapter error. Counts refer to callbacks, not individual matchers.
-Any table must rank by passes over the same 41 planned callbacks and show all
+Any table must rank by passes over the same selected41 or154 planned callbacks and show all
 nonpass counts. It must label this parse/detector/structural render scope, never “Mermaid conformance” for
 the entire test suite.
 
@@ -72,7 +72,7 @@ bun unified/public-conformance.ts --source PINNED_MERMAID_CHECKOUT \
 Omit `--scope` or select `qualified-41` to collect the historical scope. Source-only
 regeneration is `bun scripts/review-public-test-scope.ts PINNED_SOURCE --check`;
 it invokes no parser or renderer. `corpus/mermaid-public-tests-expanded.json`
-freezes the expanded selection independently of the legacy manifest. The initial 153-callback raw controls remain bound to `corpus/mermaid-public-tests-expanded-153.json`. The use-case callback is collected with `--scope usecase-supplement`; `bun unified/public-conformance-union.ts RETAINED_153 RETAINED_SUPPLEMENT` regrades both disjoint scopes, verifies identical source/host/artifact/binding identities and combines all 154 callback outcomes without rerunning the 153 working callbacks.
+freezes the expanded selection independently of the legacy manifest. The initial 153-callback raw controls remain bound to `corpus/mermaid-public-tests-expanded-153.json`. The use-case callback is collected with `--scope usecase-supplement`; `bun commands.ts mermaid:public-tests:union RETAINED_153 RETAINED_SUPPLEMENT --bundle FRESH_DIRECTORY` regrades both disjoint scopes, verifies identical source/host/artifact/binding identities and combines all154 callback outcomes without rerunning the153 working callbacks. The resulting directory is accepted directly by the normal campaign and snapshot reporters. It owns portable copies of both raw parents; every read regrades their native reports and invocation streams, validates parent context/inventory/report hashes, and checks the complete aggregate. Relocation preserves validation. `--out FRESH_JSON` retains the earlier summary-only export when desired.
 
 The source checkout and runtime must resolve the same original Vitest instance.
 `--inventory-only` needs no bindings and executes no parser. `--controls DIR`

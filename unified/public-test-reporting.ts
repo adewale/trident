@@ -7,13 +7,15 @@ import expanded153Manifest from '../corpus/mermaid-public-tests-expanded-153.jso
 import { qualifyPublicReference, reducePublicCallbacks, type PublicCallEvent } from './public-conformance.ts'
 import type { PublicTestDeclaration } from './public-conformance-inventory.ts'
 import type { SnapshotTable } from './results-snapshot.ts'
+import {readPublicScopeUnionBundle} from './public-conformance-union.ts'
 
-interface PublicTestTarget { project: string; version: string; planned: number; rows: ReturnType<typeof reducePublicCallbacks>; counts: Record<'passed' | 'failed' | 'unsupported' | 'blocked', number> }
+export interface PublicTestTarget { project: string; version: string; planned: number; rows: ReturnType<typeof reducePublicCallbacks>; counts: Record<'passed' | 'failed' | 'unsupported' | 'blocked', number> }
+export interface PublicTestEvidence {saved:any;context:any;manifest:typeof legacyManifest;cases:PublicTestDeclaration[];rawCapture:string;qualification:{qualified:boolean;cases:number;differences:any[];scope?:string};targets:PublicTestTarget[];scope:string}
 const digest = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex')
 const same = (left: unknown, right: unknown) => JSON.stringify(left) === JSON.stringify(right)
 /** Read-only reduction of original native callbacks. Summary counts and a saved
  * qualified flag cannot substitute for the owning reports and public calls. */
-export function readPublicTestEvidence(directory: string) {
+export function readPublicTestEvidence(directory: string):PublicTestEvidence {
   const root = realpathSync(directory)
   const bytes = (name: string) => {
     const path = realpathSync(join(root, name)), own = relative(root, path)
@@ -22,6 +24,7 @@ export function readPublicTestEvidence(directory: string) {
   }
   const read = (name: string): any => JSON.parse(bytes(name).toString())
   const saved = read('public-conformance-report.json'), inventory = read('inventory.json'), context = read('context.json')
+  if(context.publicScopeUnion)return readPublicScopeUnionBundle(root,{saved,inventory,context},readPublicTestEvidence)
   const supplementalId='packages/mermaid/src/diagrams/usecase/usecase.docs.spec.ts:31'
   const manifest = (context.scopeSelection==='usecase-supplement'?{...expandedManifest,eligible:expandedManifest.eligible.filter(row=>row.id===supplementalId),sourceSpecs:expandedManifest.sourceSpecs.filter(row=>row.path===supplementalId.slice(0,supplementalId.lastIndexOf(':'))),counts:{...expandedManifest.counts,eligible:1,eligibleDeclarations:1,outsideScope:4041}}:context.scopeSelection==='expanded-public'?inventory.counts?.eligible===153?expanded153Manifest:expandedManifest:legacyManifest) as typeof legacyManifest
   if(context.scopeSelection==='expanded-public'||context.scopeSelection==='usecase-supplement')for(const [key,value] of Object.entries(expandedManifest.publicModuleResolution))if(context.publicModuleResolution?.[key]!==value)throw Error('Expanded public package resolution differs from its pinned source host')
@@ -76,8 +79,12 @@ export function readPublicTestEvidence(directory: string) {
   })
   return { saved, context, manifest, cases, rawCapture, qualification, targets, scope: scopeName(cases) }
 }
-function scopeName(cases: readonly PublicTestDeclaration[]) {
-  return ['parse', 'detectType', 'render'].map(operation => cases.filter(input => input.publicOperation === operation).length + ' ' + ({ parse: 'parse', detectType: 'detection', render: 'accessibility render' } as Record<string, string>)[operation]).join('; ')
+export function scopeName(cases: readonly PublicTestDeclaration[]) {
+  const counts=['parse','detectType'].map(operation=>cases.filter(input=>input.publicOperation===operation).length+' '+(operation==='parse'?'parse':'detection'))
+  const renders=cases.filter(input=>input.publicOperation==='render'),generic=renders.filter(input=>input.innerCorpus)
+  counts.push((renders.length-generic.length)+' accessibility render')
+  if(generic.length)counts.push(generic.length+' generic SVG render ('+generic.reduce((sum,input)=>sum+(input.innerCorpus?.declaredOccurrences??0),0)+' inner sources)')
+  return counts.join('; ')
 }
 export function publicTestTables(directory: string, receipt: SnapshotTable['receipt'], updatedAt: string): SnapshotTable[] {
   const input = readPublicTestEvidence(directory), manifest=input.manifest
@@ -86,7 +93,7 @@ export function publicTestTables(directory: string, receipt: SnapshotTable['rece
   return [{
     id: 'public-tests-' + digest([receipt.sha256, comparisonKey]).slice(0, 24), suite: 'public-conformance', diagnostic: true, summary: true,
     measuredAt: input.saved.result.finishedAt, campaignUpdatedAt: updatedAt, historical: false, unit: 'original public test callbacks', cohort: manifest.protocol, comparisonKey, receipt,
-    caption: `Diagnostic public API subset: ${input.cases.length} expanded callbacks from ${manifest.counts.eligibleDeclarations} eligible declarations; ${manifest.counts.declarations} original declarations in ${manifest.counts.files} files. Corpus: unchanged Mermaid tests at ${manifest.sourceCommit}. Original and delegated public Mermaid controls both pass every selected callback. Original assertions retain exact diagnostic wording, configuration expectations, accessibility roles and caller-ID conventions, including upstream jsdom geometry mocks. ${input.rawCapture === 'legacy-family-config-presence' ? 'These original v4 parse receipts retain family/configuration presence rather than complete returned configuration; the native assertions retain those verdicts.' : 'Public parse returns/configuration are snapshotted as JSON before assertions, with explicit loss for unserializable values; invocation events are fsynced. The uninstrumented original control retains native callback outcomes.'} This is strict API compatibility, not drawing accuracy, speed or whole-suite conformance. Binding gaps include unavailable public fields and incomplete invocation evidence. Unmeasured projects receive no zero.`,
+    caption: `Diagnostic public API subset: ${input.cases.length} expanded callbacks from ${manifest.counts.eligibleDeclarations} eligible declarations; ${manifest.counts.declarations} original declarations in ${manifest.counts.files} files. Corpus: unchanged Mermaid tests at ${manifest.sourceCommit}. Original and delegated public Mermaid controls both pass every selected callback. ${input.context.publicScopeUnion?'This complete selected scope joins disjoint retained callback scopes; every parent native receipt, callback, producer and public invocation is revalidated without new API calls. ':''}Original assertions retain exact diagnostic wording, configuration expectations, accessibility roles and caller-ID conventions, including upstream jsdom geometry mocks. ${input.rawCapture === 'legacy-family-config-presence' ? 'These original v4 parse receipts retain family/configuration presence rather than complete returned configuration; the native assertions retain those verdicts.' : 'Public parse returns/configuration are snapshotted as JSON before assertions, with explicit loss for unserializable values; invocation events are fsynced. The uninstrumented original control retains native callback outcomes.'} This is strict API compatibility, not drawing accuracy, speed or whole-suite conformance. Binding gaps include unavailable public fields and incomplete invocation evidence. Unmeasured projects receive no zero.`,
     columns: ['Version', 'Passed', 'Failed', 'Unsupported', 'Binding gaps', 'Planned eligible', 'Public scope', 'Total declarations'],
     rows: input.targets.map(target => ({ project: target.project, values: [target.version, target.counts.passed, target.counts.failed, target.counts.unsupported, target.counts.blocked, target.planned, input.scope, manifest.counts.declarations], ...(target.counts.blocked === target.planned ? { unrankedReason: 'All planned callbacks have binding/evidence gaps' } : {}) })),
     population: { total: 'Planned eligible', outcomes: ['Passed', 'Failed', 'Unsupported', 'Binding gaps'] },
