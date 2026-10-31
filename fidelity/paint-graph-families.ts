@@ -99,14 +99,14 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     const matrix = element.getScreenCTM(), length = element.getTotalLength()
     return matrix && length > 0 ? Array.from({ length: count + 1 }, (_, index) => { const p = element.getPointAtLength(length * index / count).matrixTransform(matrix); return { x: p.x, y: p.y } }) : []
   }
-  const strokes = (element: SVGGeometryElement): Point[][] => {
+  const strokes = (element: SVGGeometryElement, count = 96): Point[][] => {
     const matrix = element.getScreenCTM(); if (!matrix) return []
-    if (element.localName !== 'path') return [samples(element, 96)]
+    if (element.localName !== 'path') return [samples(element, count)]
     const d = element.getAttribute('d') ?? '', paths = d.match(/[mM][^mM]*/g)
     if (!paths || paths.some(path => path[0] === 'm')) return []
     return paths.map(d => {
       const path = document.createElementNS('http://www.w3.org/2000/svg', 'path'); path.setAttribute('d', d)
-      try { const length = path.getTotalLength(); return length > 0 ? Array.from({ length: 97 }, (_, i) => { const point = path.getPointAtLength(length * i / 96).matrixTransform(matrix); return { x: point.x, y: point.y } }) : [] } catch { return [] }
+      try { const length = path.getTotalLength(); return length > 0 ? Array.from({ length: count + 1 }, (_, i) => { const point = path.getPointAtLength(length * i / count).matrixTransform(matrix); return { x: point.x, y: point.y } }) : [] } catch { return [] }
     })
   }
   const straight = (points: Point[]) => points.length > 1 && points.every(p => { const a = points[0]!, b = points.at(-1)!; return Math.abs((b.y - a.y) * p.x - (b.x - a.x) * p.y + b.x * a.y - b.y * a.x) / Math.max(.01, distance(a, b)) <= .6 })
@@ -128,10 +128,13 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       return { id: item.id, parent: parents[0]?.id ?? null, ambiguous: parents.length > 1 && Math.abs(area(parents[0]!.box) - area(parents[1]!.box)) <= 1 }
     })
     const expected = (input.expected.groups ?? []).flatMap(parent => parent.members.map(id => ({ id, parent: parent.id }))).sort((a, b) => a.id.localeCompare(b.id))
-    const actual = observed.filter(item => item.parent !== null).map(({ id, parent }) => ({ id, parent })).sort((a, b) => a.id.localeCompare(b.id))
+    const declaredGroups = new Map((input.expected.groups ?? []).map(owner => [owner.id, owner])), closure = (id: string, seen = new Set<string>()): string[] | null => { if (seen.has(id)) return null; const owner = declaredGroups.get(id); if (!owner) return [id]; const next = new Set([...seen, id]), descendants = owner.members.map(member => closure(member, next)); return descendants.some(values => values === null) ? null : [...new Set(owner.members.flatMap((member, index) => [member, ...descendants[index]!]))].sort() }
+    const inclusions = expected.map(pair => { const parent = group.get(pair.parent), member = all.find(item => item.id === pair.id); return { ...pair, contained: parent && member ? contains(parent.box, member.box) : null } })
+    const scopes = (input.expected.groups ?? []).map(owner => ({ id: owner.id, expectedDescendants: closure(owner.id), actualDescendants: group.has(owner.id) ? all.filter(item => item.id !== owner.id && contains(group.get(owner.id)!.box, item.box)).map(item => item.id).sort() : null }))
+    const actual = { inclusions, scopes, immediateParents: observed.filter(item => item.parent !== null).map(({ id, parent }) => ({ id, parent })).sort((a, b) => a.id.localeCompare(b.id)) }
     const coincident = all.some(item => groups.some(parent => parent.id !== item.id && nearBox(parent.box, item.box)))
-    const ready = exactNodes && groups.length === input.expected.groups.length && (input.expected.groups ?? []).every(item => group.has(item.id)) && !observed.some(item => item.ambiguous) && !coincident
-    add('painted-group-membership', expected, actual, ready ? same(expected, actual) : null, 'Exact immediate parent ownership follows the smallest enclosing painted boundary, including nested groups and outsider nodes. Descendant containment alone cannot prove immediate membership. Anonymous/unbound containers and coincident boundaries remain unknown.')
+    const ready = exactNodes && groups.length === input.expected.groups.length && (input.expected.groups ?? []).every(item => group.has(item.id)) && inclusions.every(pair => pair.contained !== null) && scopes.every(scope => scope.expectedDescendants !== null && scope.actualDescendants !== null) && !observed.some(item => item.ambiguous) && !coincident
+    add('painted-group-membership', expected, actual, ready ? inclusions.every(pair => pair.contained) && scopes.every(scope => same(scope.expectedDescendants, scope.actualDescendants)) : null, 'Every original source inclusion pair must hold in actual measured containment, and each group must own exactly the complete source-reachable descendant inventory. Source references may include the same node through an ancestor and a nested subgroup; both obligations remain required instead of inventing two exclusive immediate parents. Smallest-enclosure immediate parents are diagnostic only. Extra/misplaced descendants, ambiguous boundaries and unbound groups cannot earn a pass.')
   } }
 
   // Symbol classification uses measured silhouettes, independent of element
@@ -155,7 +158,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   }
   const vertices = (element: SVGGeometryElement): Point[] | null => {
     const matrix = element.getScreenCTM(); if (!matrix) return null
-    if (element.localName === 'polygon' || element.localName === 'polyline') return [...(element as SVGPolygonElement).points].map(p => { const point = new DOMPoint(p.x, p.y).matrixTransform(matrix); return { x: point.x, y: point.y } })
+    if (element.localName === 'polygon' || element.localName === 'polyline') { const points = [...(element as SVGPolygonElement).points].map(p => { const point = new DOMPoint(p.x, p.y).matrixTransform(matrix); return { x: point.x, y: point.y } }); if (element.localName === 'polygon' && points.length > 1 && distance(points[0]!, points.at(-1)!) <= .25) points.pop(); return points }
     if (element.localName === 'rect' && (element as SVGRectElement).rx.baseVal.value === 0 && (element as SVGRectElement).ry.baseVal.value === 0) { const b = box(element); return [{ x: b.x, y: b.y }, { x: b.x + b.width, y: b.y }, { x: b.x + b.width, y: b.y + b.height }, { x: b.x, y: b.y + b.height }] }
     if (element.localName !== 'path' || /[a-cqstv]/i.test((element.getAttribute('d') ?? '').replace(/[eE][-+]?\d+/g, ''))) return null
     const points = samples(element, 1024), kept: Point[] = []
@@ -257,15 +260,16 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     }
     if (wanted === 'subroutine' || wanted === 'lined-rectangle' || wanted === 'divided-rectangle' || wanted === 'window-pane') {
       const segments = ink.filter(strokePaint).flatMap(element => { const points = element.localName === 'path' && (element.getAttribute('d')?.match(/[mM]/g)?.length ?? 0) > 1 ? null : vertices(element), closed = ['polygon', 'rect'].includes(element.localName) || /z\s*$/i.test(element.getAttribute('d') ?? ''); return points ? points.slice(0, closed ? points.length : -1).map((p, i) => [p, points[(i + 1) % points.length]!]) : strokes(element).filter(straight).map(points => [points[0]!, points.at(-1)!]) })
-      const vertical = segments.filter(([a, c]) => Math.abs(a!.x - c!.x) < 1 && Math.abs(a!.y - c!.y) > b.height * .65 && a!.x > b.x + 1 && a!.x < b.x + b.width - 1), horizontal = segments.filter(([a, c]) => Math.abs(a!.y - c!.y) < 1 && Math.abs(a!.x - c!.x) > b.width * .65 && a!.y > b.y + 1 && a!.y < b.y + b.height - 1)
+      const unique = segments.filter(([a, c], index) => !segments.slice(0, index).some(([p, q]) => distance(a!, p!) <= .5 && distance(c!, q!) <= .5 || distance(a!, q!) <= .5 && distance(c!, p!) <= .5))
+      const vertical = unique.filter(([a, c]) => Math.abs(a!.x - c!.x) < 1 && Math.abs(a!.y - c!.y) > b.height * .65 && a!.x > b.x + 1 && a!.x < b.x + b.width - 1), horizontal = unique.filter(([a, c]) => Math.abs(a!.y - c!.y) < 1 && Math.abs(a!.x - c!.x) > b.width * .65 && a!.y > b.y + 1 && a!.y < b.y + b.height - 1)
       const frame = normalized.length >= 4 && polygonTemplates.rectangle!.every(p => normalized.some(q => Math.abs(p.x - q.x) < .02 && Math.abs(p.y - q.y) < .02))
       return { matches: normalized.length ? frame && (wanted === 'subroutine' ? vertical.length === 2 : wanted === 'lined-rectangle' ? vertical.length === 1 : wanted === 'divided-rectangle' ? horizontal.length === 1 : horizontal.length === 1 && vertical.length === 1) : null, actual }
     }
     if (['cylinder', 'lined-cylinder', 'document', 'lined-document', 'paper-tape', 'flag', 'delay', 'curved-trapezoid', 'bowtie-rectangle', 'das'].includes(wanted)) {
-      const points = samples(body, 2048).map(p => ({ x: (p.x - b.x) / b.width, y: (p.y - b.y) / b.height }))
+      const contours = strokes(body, 2048).map(points => points.map(p => ({ x: (p.x - b.x) / b.width, y: (p.y - b.y) / b.height })))
       const intersections = (axis: 'x' | 'y', at: number) => {
         const other = axis === 'x' ? 'y' : 'x', values: number[] = []
-        for (let i = 1; i < points.length; i++) { const a = points[i - 1]!, c = points[i]!, span = c[axis] - a[axis]; if (Math.abs(span) < 1e-8 || at < Math.min(a[axis], c[axis]) || at > Math.max(a[axis], c[axis])) continue; const value = a[other] + (at - a[axis]) / span * (c[other] - a[other]); if (!values.some(other => Math.abs(other - value) < .008)) values.push(value) }
+        for (const points of contours) for (let i = 1; i < points.length; i++) { const a = points[i - 1]!, c = points[i]!, span = c[axis] - a[axis]; if (Math.abs(span) < 1e-8 || at < Math.min(a[axis], c[axis]) || at > Math.max(a[axis], c[axis])) continue; const value = a[other] + (at - a[axis]) / span * (c[other] - a[other]); if (!values.some(other => Math.abs(other - value) < .008)) values.push(value) }
         return values.sort((a, b) => a - b)
       }
       const ticks = Array.from({ length: 9 }, (_, i) => (i + 1) / 10), xs = ticks.map(value => intersections('x', value)), ys = ticks.map(value => intersections('y', value)), top = xs.map(values => values[0]!), bottom = xs.map(values => values.at(-1)!), left = ys.map(values => values[0]!), right = ys.map(values => values.at(-1)!)
@@ -282,14 +286,15 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       }
       const interiorVertical = [...new Set(verticalRuns.filter(run => run.x > .015 && run.x < .3).map(run => Math.round(run.x * 100)))].length, cylinder = symmetric(top) && symmetric(bottom) && top[4]! < Math.min(top[0]!, top[8]!) - .02 && bottom[4]! > Math.max(bottom[0]!, bottom[8]!) + .02 && flat(left.slice(2, -2)) && flat(right.slice(2, -2)) && xs.slice(2, -2).every(values => values.length >= 3)
       let measured: string | null = null
-      if (cylinder) measured = interiorVertical ? 'lined-cylinder' : 'cylinder'
+      const capShifts = xs.slice(2, -2).map(values => values.length === 4 ? values[2]! - values[1]! : NaN), capRidge = capShifts.every(Number.isFinite) && Math.min(...capShifts) > 1.5 / b.height && range(capShifts) < Math.max(.012, 1.5 / b.height)
+      if (cylinder) measured = capRidge ? 'lined-cylinder' : xs.slice(2, -2).every(values => values.length === 3) ? 'cylinder' : null
       else if (flat(top) && wave(bottom) && flat(left.slice(2, -2)) && flat(right.slice(2, -2))) measured = interiorVertical ? 'lined-document' : 'document'
       else if (wave(top) && wave(bottom) && flat(left.slice(2, -2)) && flat(right.slice(2, -2))) measured = 'paper-tape'
       else if (flat(top.slice(0, 3)) && flat(bottom.slice(0, 3)) && flat(left) && symmetric(right) && right[4]! > Math.max(right[0]!, right[8]!) + .02) measured = 'delay'
       else if (symmetric(left) && symmetric(right) && left[4]! < Math.min(left[0]!, left[8]!) - .02 && right[4]! > Math.max(right[0]!, right[8]!) + .02 && ys.slice(2, -2).every(values => values.length >= 3)) measured = 'das'
       else if (flat(top) && flat(bottom) && symmetric(left) && symmetric(right) && left[4]! > Math.max(left[0]!, left[8]!) + .015 && right[4]! < Math.min(right[0]!, right[8]!) - .015) measured = 'bowtie-rectangle'
       const requested = wanted === 'flag' ? 'paper-tape' : wanted, recognizedOther = ['rect', 'circle', 'ellipse'].includes(body.localName) || normalized.length > 0 && normalized.length <= 6
-      return { actual: { ...actual, measured, top, bottom, left, right, interiorVertical }, matches: measured ? measured === requested : recognizedOther ? false : null }
+      return { actual: { ...actual, measured, top, bottom, left, right, interiorVertical, capRidge, capShifts }, matches: measured ? measured === requested : recognizedOther ? false : null }
     }
     // Curved compound/symbolic profiles require explicit topology evidence;
     // a bounding box or source shape string cannot silently satisfy them.
@@ -512,6 +517,18 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     fact('global-node-scope', actual, actual.every((entry: any) => entry.box && entry.containers) ? actual.every((entry: any) => entry.containers.length === 0) : null, 'Every authored global node owns actual ink outside every flow boundary. A global keyword, source scope or model flag cannot substitute for physical scope containment.')
   }
   if (Array.isArray(facts['dialect-kinds'])) {
+    let stereotypeRows: { text: string; box: Box; safe: boolean }[] | undefined
+    const quotedRows = () => stereotypeRows ??= paintedText.flatMap(element => {
+      const rows: { text: string; box: Box; safe: boolean }[] = [], walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
+      for (let child = walker.nextNode(); child; child = walker.nextNode()) { let offset = 0; for (const character of child.textContent ?? '') {
+        const range = document.createRange(); range.setStart(child, offset); offset += character.length; range.setEnd(child, offset)
+        const rects = [...range.getClientRects()].filter(b => b.width > 0 && b.height > 0); if (rects.length !== 1) continue
+        const b = rects[0]!, row = rows.find(row => Math.abs(center(row.box).y - (b.y + b.height / 2)) < Math.min(row.box.height, b.height) * .35)
+        if (!row) rows.push({ text: character, box: { x: b.x, y: b.y, width: b.width, height: b.height }, safe: safeText(element) })
+        else { row.text += character; const right = Math.max(row.box.x + row.box.width, b.x + b.width), bottom = Math.max(row.box.y + row.box.height, b.y + b.height); row.box.x = Math.min(row.box.x, b.x); row.box.y = Math.min(row.box.y, b.y); row.box.width = right - row.box.x; row.box.height = bottom - row.box.y }
+      } }
+      return rows.filter(row => /^[«<]+[^«»<>]+[»>]+$/.test(normalize(row.text)))
+    }).filter((row, index, all) => !all.slice(0, index).some(other => normalize(other.text) === normalize(row.text) && nearBox(other.box, row.box, .25)))
     const actual = facts['dialect-kinds'].map((entry: any) => {
       if (entry.kind === 'lane') { const owner = input.expected.groups?.[entry.declaration]; return { expected: entry, actual: owner ? group.get(owner.id) ?? null : null, matches: owner ? group.has(owner.id) : null } }
       if (['agent-flow', 'system-boundary'].includes(entry.kind)) return { expected: entry, actual: group.get(entry.id) ?? null, matches: group.has(entry.id) ? true : null }
@@ -519,8 +536,13 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       if (entry.kind === 'actor') { const actor = actorProfiles.get(entry.id); return { expected: entry, actual: actor ? { kind: actor.kind, box: actor.box } : null, matches: actor ? true : null } }
       if (entry.kind === 'anonymous-use-case') { const shape = silhouette(entry.id, 'ellipse'); return { expected: entry, actual: shape.actual, matches: shape.matches } }
       if (entry.kind === 'stereotype') {
-        const owner = node.get(entry.id), values = ownedText(entry.id), candidates = values?.filter(element => normalize(readText(element)).replace(/^[«<]+|[»>]+$/g, '') === normalize(entry.value)) ?? []
-        return { expected: entry, actual: candidates.map(element => normalize(readText(element))), matches: owner && values?.every(safeText) ? candidates.length === 1 : null }
+        const owner = node.get(entry.id), values = ownedText(entry.id), inside = values?.filter(element => normalize(readText(element)).replace(/^[«<]+|[»>]+$/g, '') === normalize(entry.value)) ?? []
+        const rows = quotedRows().filter(row => normalize(row.text).replace(/^[«<]+|[»>]+$/g, '') === normalize(entry.value)).map(row => {
+          const candidates = nodes.map(owner => { const a = owner.box, b = row.box, gap = Math.max(a.y - b.y - b.height, b.y - a.y - a.height, 0), horizontal = Math.abs(center(a).x - center(b).x), distance = Math.hypot(Math.max(a.x - b.x - b.width, b.x - a.x - a.width, 0), gap); return { id: owner.id, distance, qualifies: contains(a, b) || horizontal <= Math.max(2, a.width * .15) && gap <= b.height * 2 } }).filter(owner => owner.qualifies).sort((a, b) => a.distance - b.distance)
+          return { text: normalize(row.text), box: row.box, safe: row.safe, owner: candidates[0] && (!candidates[1] || candidates[1].distance > candidates[0].distance + 1.5) ? candidates[0].id : null }
+        })
+        const attached = rows.filter(row => row.owner === entry.id), complete = !!owner && rows.length > 0 && rows.every(row => row.safe && row.owner !== null)
+        return { expected: entry, actual: { inside: inside.map(element => normalize(readText(element))), glyphRows: rows }, matches: rows.length ? complete ? attached.length === 1 : null : owner && inside.length && inside.every(safeText) ? inside.length === 1 : null }
       }
       if (entry.kind === 'json-table') {
         const values = ownedText(entry.id), owner = node.get(entry.id), rows: { y: number; height: number; cells: { x: number; value: string }[] }[] = []
@@ -529,7 +551,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
           if (row) row.cells.push(cell); else rows.push({ y, height: b.height, cells: [cell] })
         }
         const observed = rows.sort((a, b) => a.y - b.y).map(row => { const cells = row.cells.sort((a, b) => a.x - b.x); return { path: cells[0]?.value, value: cells[1]?.value, unresolved: cells.length !== 2 } }), expected = entry.rows.map((row: any) => ({ path: normalize(String(row.path)), value: normalize(String(row.value)), unresolved: false }))
-        return { expected: entry, actual: observed, matches: owner && values?.every(safeText) && observed.every(row => !row.unresolved) ? same(expected, observed) : null }
+        return { expected: entry, actual: observed, matches: owner && values?.every(safeText) && observed.length > 0 && observed.every(row => !row.unresolved) ? same(expected, observed) : null }
       }
       if (['include', 'extend', 'generalization'].includes(entry.kind)) {
         const candidates = relation(entry.source, entry.target, entry.kind === 'generalization' ? undefined : entry.kind), route = candidates.length === 1 ? candidates[0] : null, marker = route ? route.source === entry.source ? route.endMarker : route.startMarker : null

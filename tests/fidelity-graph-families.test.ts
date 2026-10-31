@@ -59,6 +59,33 @@ test('nested containers prove exact immediate members and reject borrowed descen
   expect((await inspect(extra, 'flowchart', expected)).paint.checks.find((check: PaintCheck) => check.criterion === 'painted-node-ownership')?.status).toBe('failed')
 })
 
+test('a source node may be included by both its ancestor group and its nested subgroup', async () => {
+  const value = svg('<g class="cluster"><rect x="5" y="5" width="350" height="180" fill="white" stroke="black"/><text x="15" y="25">Outer</text><g class="cluster"><rect x="15" y="35" width="140" height="130" fill="white" stroke="black"/><text x="25" y="55">Inner</text>' + rect('Alpha', 35, 80) + '</g>' + rect('Beta', 220, 80) + '</g>')
+  const expected = { labels: ['Alpha', 'Beta', 'Outer', 'Inner'], nodes: [{ id: 'A', label: 'Alpha' }, { id: 'B', label: 'Beta' }], groups: [{ id: 'outer', label: 'Outer', members: ['inner', 'A', 'B'] }, { id: 'inner', label: 'Inner', members: ['A'] }] }
+  expect(status((await inspect(value, 'flowchart', expected)).checks, 'painted-group-membership')).toBe('passed')
+  const omitted = structuredClone(expected); omitted.groups[0]!.members = ['inner', 'A']
+  expect(status((await inspect(value, 'flowchart', omitted)).checks, 'painted-group-membership')).toBe('failed')
+})
+
+test('usecase stereotypes own actual glyph rows outside bare bodies and within combined text elements', async () => {
+  const value = svg('<g><rect x="20" y="70" width="100" height="45" fill="white" stroke="black"/><text x="32" y="62">«Record»<tspan x="32" y="98">Archive</tspan></text></g>' + rect('Other', 220, 70, 100, 45))
+  const expected = { labels: ['Archive', 'Other', 'Record'], nodes: [{ id: 'A', label: 'Archive' }, { id: 'B', label: 'Other' }], facts: { 'dialect-kinds': [{ id: 'A', kind: 'stereotype', value: 'Record' }] } }
+  const result = await inspect(value, 'usecase', expected)
+  expect(status(result.checks, 'source-fact:dialect-kinds')).toBe('passed')
+  const wrong = value.replace('x="32" y="62"', 'x="232" y="62"')
+  expect(status((await inspect(wrong, 'usecase', expected)).checks, 'source-fact:dialect-kinds')).not.toBe('passed')
+})
+
+test('a JSON title header cannot prove its data rows absent from an unowned table body', async () => {
+  const expected = { labels: ['Data', 'status', 'ok'], nodes: [{ id: 'A', label: 'Data' }], facts: { 'dialect-kinds': [{ id: 'A', kind: 'json-table', rows: [{ path: 'status', value: 'ok' }] }] } }
+  const header = svg(rect('Data', 20, 20, 200, 30) + '<text x="25" y="80">status</text><text x="145" y="80">ok</text>')
+  expect(status((await inspect(header, 'usecase', expected)).checks, 'source-fact:dialect-kinds')).toBe('unavailable')
+  const complete = svg('<g><rect x="20" y="20" width="200" height="85" fill="white" stroke="black"/><text x="25" y="45">Data</text><text x="25" y="80">status</text><text x="145" y="80">ok</text></g>')
+  expect(status((await inspect(complete, 'usecase', expected)).checks, 'source-fact:dialect-kinds')).toBe('passed')
+  const wrong = structuredClone(expected); wrong.facts['dialect-kinds'][0]!.rows[0]!.value = 'bad'
+  expect(status((await inspect(complete, 'usecase', wrong)).checks, 'source-fact:dialect-kinds')).toBe('failed')
+})
+
 for (const renderer of ['mermaid', 'pele']) test(renderer + ' retained sequence headers and complete loop interval use physical ownership', async () => {
   const input = expandedFidelityCases().find(item => item.id === 'features:sequence:notes-loop-reciprocal')!
   const value = fixture(renderer + '-sequence-messages'), result = await inspect(value, input.family, input.expected, input.source)
