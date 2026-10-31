@@ -71,3 +71,13 @@ test('PNG full-content credit requires validated complete source metadata, inclu
     expect(() => assessDocsPng(input, malformed, nonblank, [image])).toThrow('source contract')
   }
 })
+
+
+test('unsettled source intent cannot become a nonblank-image failure', () => {
+  const partialInput = { id: 'ambiguous', family: 'pie', source: 'pie\n"Known": 1\nUnsettled source construct' }, partial = reviewDocumentationSource(partialInput)
+  const blank = png([255, 255, 255, 255, 255, 255, 255, 255])
+  expect(partial.sourceReview.expectedFactsComplete).toBe(false)
+  expect(assessDocsPng(partialInput, partial, blank, []).status).toBe('unknown')
+  const { sourceReview: _metadata, ...legacy } = expected
+  expect(assessDocsPng(input, legacy, blank, []).status).toBe('unknown')
+})

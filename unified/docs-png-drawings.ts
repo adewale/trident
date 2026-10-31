@@ -69,22 +69,19 @@ export function assessDocsPng(input: DocsInput, expected: DocsDrawingReview | nu
   if (expected) admitDocsReviews([input], [expected])
   if (expected?.intent === 'configuration-only') return { status: 'not-applicable', reason: expected.review }
   if (!bytes) return { status: 'unknown', reason: 'No inspectable PNG; see the separate output-return result' }
-  // A drawing may deliberately contain no marks (for example an empty Gantt).
-  // Only explicit visible labels/bodies/routes justify a nonblank requirement.
-  const requiresInk = !!expected?.expected && (!!expected.expected.labels.some(label => label.trim()) || !!expected.expected.nodes?.length || !!expected.expected.edges?.length || !!expected.expected.groups?.length)
+  if (!expected) return { status: 'unknown', reason: 'No reviewed source expectation; PNG decoding supplies no correctness credit' }
+  if (expected.sourceReview?.expectedFactsComplete !== true || expected.sourceReview.unresolved.length || expected.unverifiedFacts?.length) return { status: 'unknown', reason: 'A validated complete source contract is required; a legacy or incomplete image review cannot supply full content credit' }
+  // Empty diagrams need no ink; authored visible facts set that obligation.
+  const requiresInk = !!expected.expected && (!!expected.expected.labels.some(label => label.trim()) || !!expected.expected.nodes?.length || !!expected.expected.edges?.length || !!expected.expected.groups?.length)
   const decoded = inspectPng(bytes, requiresInk)
   if (decoded.unavailable) return { status: 'unknown', reason: decoded.findings.join('; ') }
   if (decoded.findings.length) return { status: 'incorrect', reason: decoded.findings.join('; ') }
-  if (!expected) return { status: 'unknown', reason: 'No reviewed source expectation; PNG decoding supplies no correctness credit' }
-  if (expected.sourceReview?.expectedFactsComplete !== true || expected.sourceReview.unresolved.length || expected.unverifiedFacts?.length) return { status: 'unknown', reason: 'A validated complete source contract is required; a legacy or incomplete image review cannot supply full content credit' }
   const hash = createHash('sha256').update(bytes).digest('hex')
   const own = reviews.filter(item => item.id === input.id && item.sourceSha256 === sourceHash(input.source) && item.expectationsSha256 === docsExpectationsHash(expected))
   for (const item of own) if (item.reviewedPngBase64 !== undefined && !verifiedPixelAlias(item)) throw Error('PNG review alias contradicts its reviewed original bytes')
   for (const item of own) if (item.pngSha256 === hash && item.pixels && (!validPixels(item.pixels) || !decoded.pixelIdentity || !samePixels(item.pixels, decoded.pixelIdentity))) throw Error('PNG review pixels contradict its actual reviewed bytes')
   const review = own.find(item => ['correct', 'incorrect'].includes(item.status) && !!item.reviewedBy?.trim() && !!item.review?.trim() && validPixels(item.pixels) && (item.pngSha256 === hash || !!item.pixels && !!decoded.pixelIdentity && samePixels(item.pixels, decoded.pixelIdentity) && verifiedPixelAlias(item)))
   if (!review) return { status: 'unknown', reason: 'Actual PNG lacks a complete content review bound to these source, expectation and image bytes or exact decoded pixels; SVG checks cannot supply raster correctness' }
-  const sourceReview = (expected as DocsDrawingReview & { sourceReview?: { expectedFactsComplete?: boolean; unresolved?: unknown[] } }).sourceReview
-  if (review.status === 'correct' && (expected.unverifiedFacts?.length || sourceReview && (sourceReview.expectedFactsComplete !== true || sourceReview.unresolved?.length))) return { status: 'unknown', reason: 'Required source facts remain unresolved; an image review cannot complete the source contract' }
   return { status: review.status, reason: review.review, reviewedBy: review.reviewedBy, evidence: { method: itemMethod(review, hash), reviewedPngSha256: review.pngSha256, actualPngSha256: hash, ...(decoded.pixelIdentity ? { pixels: decoded.pixelIdentity } : {}) } }
 }
 const itemMethod = (review: DocsPngReview, actualSha256: string) => review.pngSha256 === actualSha256 ? 'reviewed-exact-png-bytes' : 'reviewed-exact-decoded-pixels'
