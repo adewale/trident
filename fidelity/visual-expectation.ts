@@ -8,8 +8,8 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
   if (family === 'class' && Array.isArray(facts.members)) {
     const signature = (value: string) => value.normalize('NFC').replace(/\s+/g, ' ').trim().replace(/\)\s*:\s*/g, ') ').replace(/\s*:\s*/g, ':')
     const members = new Set(facts.members.flatMap((entry: any) => entry.values.map((value: string) => signature(value))))
-    expected.labels = expected.labels.filter(label => !members.has(signature(label)))
-    projections.push('Class member signatures are checked as complete owned member facts; syntax punctuation is not a second literal display-label obligation')
+    const labels = expected.labels.filter(label => !members.has(signature(label)))
+    if (labels.length !== expected.labels.length) { expected.labels = labels; projections.push('Class member signatures are checked as complete owned member facts; syntax punctuation is not a second literal display-label obligation') }
   }
   if (Object.hasOwn(facts, 'direction')) {
     const edges = expected.edges ?? [], nodes = expected.nodes ?? [], indegree = new Map(nodes.map(node => [node.id, 0])), outdegree = new Map(indegree)
