@@ -23,6 +23,8 @@ import { planFidelityCriteria, completeCriterionLedger } from './ledger.ts'
 import { inspectFidelityPaint } from './paint.ts'
 import { inspectQuantitativePaint } from './paint-values.ts'
 import { expandedFidelityCases } from './cases.ts'
+import { reviewedFontSizePath } from '../portable/configuration.ts'
+import { assessSvgCases, summarizeSvgCases } from './svg-assessment.ts'
 import { assessPrelude } from './meaning.ts'
 import type { FidelityRunOptions } from './run.ts'
 import { communityCatalogFile } from '../unified/trident-paths.ts'
@@ -93,8 +95,9 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
   try {
     for (const target of targets) {
       const { peer, admission } = target, engine = peer.browser!, project = peer.node.id, projectOut = join(out, Buffer.from(project).toString('base64url'))
-      const aliasKey = stableValue({ addon: admission.addon ? { version: admission.addon.version, entry: relative(admission.addon.root, admission.addon.entry), files: admission.files.filter(file => file.path.startsWith(admission.addon!.root + sep)).map(file => ({ path: relative(admission.addon!.root, file.path), sha256: file.sha256 })) } : null, kind: engine.kind, global: engine.global ?? null, version: engine.version, legacy: engine.legacyMermaid ?? false, syncLegacy: engine.synchronousLegacyRender ?? false, scriptType: engine.scriptType ?? null, entry: engine.entry, wasm: engine.wasm ?? null, files: admission.files.filter(file => file.path.startsWith(admission.root + sep)).map(file => ({ path: relative(admission.root, file.path), sha256: file.sha256 })).sort((a, b) => a.path.localeCompare(b.path)) })
-      const identity = () => JSON.parse(JSON.stringify({ project, lane: 'community-fidelity', protocol: producerContext(), artifact: admitPreparedFidelityEngine(peer), measurement: { kind: engine.kind, global: engine.global ?? null, entry: engine.entry, scriptType: engine.scriptType ?? null, legacyMermaid: engine.legacyMermaid ?? false, synchronousLegacyRender: engine.synchronousLegacyRender ?? false, wasm: engine.wasm ?? null, cases: selectedCases.map(value => value.id), browser: executableIdentity(executable), screenshots: options.communityFidelityPng ?? 'basic-families', deadlineMs: 20000 } }))
+      const fontSizePath = reviewedFontSizePath(peer.node.benchmark?.adapter ?? '', peer.node.benchmark?.api?.svg)
+      const aliasKey = stableValue({ fontSizePath: fontSizePath ?? null, addon: admission.addon ? { version: admission.addon.version, entry: relative(admission.addon.root, admission.addon.entry), files: admission.files.filter(file => file.path.startsWith(admission.addon!.root + sep)).map(file => ({ path: relative(admission.addon!.root, file.path), sha256: file.sha256 })) } : null, kind: engine.kind, global: engine.global ?? null, version: engine.version, legacy: engine.legacyMermaid ?? false, syncLegacy: engine.synchronousLegacyRender ?? false, scriptType: engine.scriptType ?? null, entry: engine.entry, wasm: engine.wasm ?? null, files: admission.files.filter(file => file.path.startsWith(admission.root + sep)).map(file => ({ path: relative(admission.root, file.path), sha256: file.sha256 })).sort((a, b) => a.path.localeCompare(b.path)) })
+      const identity = () => JSON.parse(JSON.stringify({ project, lane: 'community-fidelity', protocol: producerContext(), artifact: admitPreparedFidelityEngine(peer), measurement: { kind: engine.kind, fontSizePath: fontSizePath ?? null, global: engine.global ?? null, entry: engine.entry, scriptType: engine.scriptType ?? null, legacyMermaid: engine.legacyMermaid ?? false, synchronousLegacyRender: engine.synchronousLegacyRender ?? false, wasm: engine.wasm ?? null, cases: selectedCases.map(value => value.id), browser: executableIdentity(executable), screenshots: options.communityFidelityPng ?? 'basic-families', deadlineMs: 20000 } }))
       const measure = async (directory: string): Promise<UnifiedSuiteResult> => {
         mkdirSync(directory, { recursive: true })
         const prior = aliases.get(aliasKey)
@@ -128,7 +131,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
           if (page.isClosed() || !healthy && initialized) { void page.close().catch(() => {}); page = await context.newPage() }
           await page.goto(origin + '/blank')
           if (engine.kind === 'franken' || engine.kind === 'merman') capabilities = await bounded(page.evaluate(publicSvgBrowserAction, { type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: engine.wasm ? origin + '/' + engine.wasm : undefined }), () => { void page.close().catch(() => {}) })
-          else { await page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) }); capabilities = await bounded(page.evaluate(publicSvgBrowserAction, { type: 'initialize-global', engine, addonUrl: engine.zenuml ? origin + '/__addon/' + engine.zenuml.entry : undefined }), () => { void page.close().catch(() => {}) }) }
+          else { await page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) }); capabilities = await bounded(page.evaluate(publicSvgBrowserAction, { type: 'initialize-global', engine, fontSizePath, addonUrl: engine.zenuml ? origin + '/__addon/' + engine.zenuml.entry : undefined }), () => { void page.close().catch(() => {}) }) }
           initialized = healthy = true
         }
         const render = async (input: any): Promise<any> => { try { if (!healthy || page.isClosed()) await initialize(); return await bounded<any>(page.evaluate(publicSvgBrowserAction, input), () => { healthy = false; void page.close().catch(() => {}) }) } catch (error: any) { return { kind: 'exception', error: String(error), errorName: error?.name ?? 'Error' } } }
@@ -179,7 +182,12 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
       write(join(out, 'community-fidelity-progress.json'), { completed: results.length, selected: targets.length, project, observations: result.observations.length })
     }
   } finally { await browser?.close() }
-  const observations = results.flatMap(result => result.observations), report = { id: 'mermaid-fidelity', status: observations.some(row => row.status === 'failed') ? 'failed' : 'blocked', startedAt, finishedAt: new Date().toISOString(), observations, artifacts: results.flatMap(result => result.artifacts ?? []), gaps: [...new Set(results.flatMap(result => result.gaps))], toolVersions, criteriaProtocol: options.fidelityDiagnostic ? null : fidelityCriteriaProtocol(root, executable), catalogFile, preparedFile, boundaries, selectedCaseIds: selectedCases.map(value => value.id), scope: 'Public SVG functionality on all selected frozen prepared artifacts; no timing/startup/memory claims. Native model criteria remain unavailable in this SVG-only collection.' }
+  const observations = results.flatMap(result => result.observations)
+  const svgAssessments = targets.map(({ peer }) => {
+    const cases = assessSvgCases(selectedCases, observations.filter(row => row.metrics?.implementation === peer.node.id))
+    return { project: peer.node.id, version: peer.browser!.version, ...summarizeSvgCases(cases), cases }
+  })
+  const report = { id: 'mermaid-fidelity', status: observations.some(row => row.status === 'failed') ? 'failed' : 'blocked', startedAt, finishedAt: new Date().toISOString(), observations, svgAssessments, artifacts: results.flatMap(result => result.artifacts ?? []), gaps: [...new Set(results.flatMap(result => result.gaps))], toolVersions, criteriaProtocol: options.fidelityDiagnostic ? null : fidelityCriteriaProtocol(root, executable), catalogFile, preparedFile, boundaries, selectedCaseIds: selectedCases.map(value => value.id), scope: 'Public SVG functionality on all selected frozen prepared artifacts; no timing/startup/memory claims. Native model criteria remain unavailable in this SVG-only collection.' }
   writeBenchmarkDocument(join(out, 'community-fidelity-report.json'), report)
   return report as UnifiedSuiteResult
 }

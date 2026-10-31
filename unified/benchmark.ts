@@ -20,7 +20,7 @@ import { runIncrementalCommunitySuite } from './project-update.ts'
 import { parseOptions } from './options.ts'
 import { communityCatalogFile } from './trident-paths.ts'
 import type { UnifiedSuiteResult } from './types.ts'
-import { PUBLIC_SUITES, coreScopeReason, nativeAdapter, portableAdapter, portableBinding, projectSupport, type CatalogMember, type PublicSuite } from './support.ts'
+import { PUBLIC_SUITES, CAMPAIGN_SUITES, DEFAULT_SUITES, coreScopeReason, nativeAdapter, portableAdapter, portableBinding, projectSupport, type CatalogMember, type PublicSuite } from './support.ts'
 import { comparisonProjects } from './lineage.ts'
 import { campaignPlan } from './campaign-plan.ts'
 import { loadCampaignPreparation, prepareCampaign } from './campaign-preparation.ts'
@@ -68,8 +68,10 @@ export async function main(argv = process.argv.slice(2)) {
   --prepared FILE                use one preparation.json; no latest lookups
   --external-inputs FILE          separate frozen compatibility cohort, collected first
   --budget-minutes N --resume     add an explicitly recorded allowance to a paused campaign
-  --suites ${PUBLIC_SUITES.join(',')}
+  --suites ${CAMPAIGN_SUITES.join(',')}  default: ${DEFAULT_SUITES.join(',')}
+  --suites upstream-original      explicit reference-environment validation only
   --rounds N --executable CHROMIUM --upstream-runner-root INSTALLED_VITEST_KIT
+  --docs-review FILE             source-hashed drawing expectations (default: corpus/docs-reviewed.json)
   --list --include-excluded-descendants
   --pilot-summary CONTROLLER_JSON --out DIR  reduce owning pilot reports without collection
 Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples} warm means and ${FULL_SAMPLING.coldSamples} fresh processes per replica/round/case. Missing bindings, failures and unqualified timing remain visible. Measurements run locally and serially. Budgets stop new work at collector checkpoints; active workers retain their deadlines.`)
@@ -101,6 +103,7 @@ Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples}
     if (!['--community-force', '--allow-incomplete'].includes(flag)) forwarded.push(take(index++))
   }
   if (selected.some(id => !PUBLIC_SUITES.includes(id as PublicSuite)) || new Set(selected).size !== selected.length) throw Error('Unknown or duplicate suite')
+  if (selected.includes('upstream-fidelity')) throw Error('Mermaid Assertion Replay is retired as a comparative benchmark. Read its retained evidence or use explicit model/feature contracts.')
   if (cutoff && (!Number.isFinite(Date.parse(cutoff)) || Date.parse(cutoff) > Date.now())) throw Error('Cutoff must be a valid past timestamp')
   if (!forwarded.includes('--profile')) forwarded.push('--profile', 'full')
   let options = parseOptions(forwarded)
@@ -126,7 +129,7 @@ Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples}
     cutoff ??= frozen.manifest.cutoff ?? undefined
   }
   if (pilotOnly && selected.length) throw Error('--pilot selects its diagnostic portable cases; do not supply --suites')
-  const chosen = previous?.requestedSuites ?? (pilotOnly ? ['portable'] : selected.length ? selected : [...PUBLIC_SUITES])
+  const chosen = previous?.requestedSuites ?? (pilotOnly ? ['portable'] : selected.length ? selected : [...DEFAULT_SUITES])
   if (allProjects && options.communityProjects && !preparedFile) throw Error('Use --projects or --all-projects, not both')
   if (!list && !options.communityProjects && !allProjects) throw Error('Choose --projects OWNER/TOOL,..., explicitly --all-projects, or --prepared before starting')
   let catalog = read(options.communityCatalogFile ?? communityCatalogFile)

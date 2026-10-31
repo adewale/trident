@@ -19,7 +19,6 @@ Benchmark catalog projects (Bun):
   bun commands.ts community:update --help
   bun commands.ts results:publish --records DIR --out DIR
   bun commands.ts results:compare --records DIR --project OWNER/TOOL [--out FILE]
-  bun commands.ts docs:png --out FRESH_DIR [--rounds 5] [--native-bundle DIR]
   bun commands.ts results:campaign --campaign DIR --out FRESH_DIR [--copy-evidence]
   bun commands.ts results:snapshot [--campaign DIR --evidence-url HTTPS_DIRECTORY] [--check]
   bun commands.ts corpus:freeze --policy FILE --out FRESH_FILE
@@ -58,7 +57,7 @@ async function main() {
 const own: Record<string, string> = { 'release:check': 'scripts/package-release.ts', 'docs:png': 'unified/docs-png-benchmark.ts', 'upstream:prepare': 'unified/prepare-upstream.ts', 'support:verify': 'unified/support-verification.ts', support: 'unified/support-command.ts', bench: 'unified/benchmark.ts', 'corpus:freeze': 'unified/external-corpus.ts', 'results:campaign': 'unified/campaign-publication.ts', 'results:snapshot': 'unified/results-snapshot.ts', 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
   const checks: Record<string, string[]> = {
     test: ['test', '--timeout', '30000', resolve(directory, 'tests')],
-    'test:ci': ['test', '--timeout', '30000', ...['commands', 'ci-commands', 'png-launchers', 'lineage', 'results-snapshot', 'portable-family-paint', 'campaign-workflows', 'campaign-preparation-regressions', 'campaign-reporting-regressions', 'campaign-resume-regressions', 'release-workflow-regressions', 'physical-paths'].map(name => resolve(directory, `tests/${name}.test.ts`))],
+    'test:ci': ['test', '--timeout', '30000', ...['commands', 'ci-commands', 'png-launchers', 'lineage', 'results-snapshot', 'portable-family-paint', 'campaign-workflows', 'campaign-preparation-regressions', 'campaign-reporting-regressions', 'campaign-resume-regressions', 'release-workflow-regressions', 'physical-paths', 'terminal-meaning', 'svg-assessment', 'docs-drawings'].map(name => resolve(directory, `tests/${name}.test.ts`))],
     typecheck: ['x', '--no-install', 'tsc', '--noEmit', '-p', resolve(directory, 'tsconfig.json')],
     lint: ['x', '--no-install', 'biome', 'lint', '--config-path', resolve(directory, 'biome.json'), directory],
   }
@@ -119,7 +118,8 @@ const own: Record<string, string> = { 'release:check': 'scripts/package-release.
   const offline = ['test:ci', 'typecheck', 'lint', 'results:snapshot', 'support', 'results:campaign', 'build', 'fidelity:report', 'results:publish', 'results:compare']
   const inspectOnly = args.includes('--help') || selected === 'bench' && (args.includes('--list') || args.includes('--plan') || args.includes('--pilot-summary'))
   // community:update --plan acquires artifacts, unlike bench --plan.
-  if (!offline.includes(selected) && !inspectOnly) assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !['upstream:prepare'].includes(selected) })
+  if (!offline.includes(selected) && !inspectOnly) assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !['upstream:prepare', 'docs:png'].includes(selected) })
+  if (selected === 'docs:png' && !args.includes('--help')) throw Error('DaveBench PNG export v1 is retired: its nonblank gate did not establish correct drawings. Retained evidence and the fixed PNG profile are in docs/isolated-png-results.md.')
   const result = spawnSync(executable, [...argv, ...args], { cwd, stdio: 'inherit' })
   if (result.error) throw result.error
   process.exitCode = result.status ?? 1

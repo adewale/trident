@@ -24,6 +24,35 @@ function campaign(directory: string, options: { updatedAt: string; measuredAt?: 
   write(join(directory, 'report.json'), { schema: 'trident-campaign-v2', startedAt: '2026-01-01T00:00:00Z', updatedAt: options.updatedAt, profile: 'full', rounds: 1, projects: ['fixture/a', 'fixture/b'], requestedSuites: ['docs'], ...(options.candidate ? { artifactRole: 'candidate' } : {}), results: options.partial ? [] : [{ suite: 'docs', status: options.blocked ? 'blocked' : 'failed', out }] })
   return directory
 }
+
+test('documentation SVG return and reviewed drawing correctness retain separate populations and ranks', () => {
+  const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), file = join(root, 'docs/result.json')
+  const result = JSON.parse(readFileSync(file, 'utf8'))
+  for (const project of ['fixture/a', 'fixture/b']) for (const caseId of ['one', 'two']) result.observations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: 'flowchart', operation: 'drawing-checks', mode: 'reviewed-first-round-output', format: 'svg', caseId, status: caseId === 'two' ? 'blocked' : project === 'fixture/a' ? 'failed' : 'passed', metrics: { project, version: '1.0.0', round: 1 } })
+  write(file, result)
+  const snapshot = importCampaign(empty(), root, 'https://example.test/drawings', catalog)
+  const drawings = snapshot.tables.find(table => table.columns.includes('Correct'))!
+  expect(drawings).toBeDefined()
+  expect(drawings.chart).toBeUndefined()
+  expect(drawings.rows.find(row => row.project === 'fixture/a')!.values.slice(1, 6)).toEqual([0, 1, 1, 0, 2])
+  expect(drawings.rows.every(row => !!row.unrankedReason)).toBe(true)
+  expect(rankedRows(drawings, value => value).every(row => row.rank === null)).toBe(true)
+  const returns = snapshot.tables.find(table => table.columns.includes('Returned in all rounds'))!
+  expect(returns.rows.find(row => row.project === 'fixture/a')!.values[1]).toBe(2)
+})
+
+test('new SVG case verdicts replace fragmented criterion scorecards without inventing ranks for unknown diagrams', () => {
+  const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' })
+  const cases = [{ caseId: 'one', family: 'flowchart', status: 'correct' }, { caseId: 'two', family: 'flowchart', status: 'unknown' }]
+  write(join(root, 'docs/result.json'), { id: 'mermaid-fidelity', startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z', observations: [], gaps: [], selectedCaseIds: ['one', 'two'], criteriaProtocol: { observer: 'fixture' }, svgAssessments: [{ project: 'fixture/a', version: '1.0.0', cases }] })
+  const controller = JSON.parse(readFileSync(join(root, 'report.json'), 'utf8')); controller.requestedSuites = ['fidelity']; controller.results[0].suite = 'fidelity'; write(join(root, 'report.json'), controller)
+  const snapshot = importCampaign(empty(), root, 'https://example.test/svg', catalog)
+  expect(snapshot.tables).toHaveLength(1)
+  expect(snapshot.tables[0]!.rows[0]!.values.slice(1, 6)).toEqual([1, 0, 0, 1, 2])
+  expect(rankedRows(snapshot.tables[0]!, value => value)[0]!.rank).toBeNull()
+  write(join(root, 'docs/result.json'), { id: 'mermaid-fidelity', observations: [], selectedCaseIds: ['one', 'two', 'three'], svgAssessments: [{ project: 'fixture/a', version: '1.0.0', cases }] })
+  expect(() => importCampaign(empty(), root, 'https://example.test/svg', catalog)).toThrow('omit')
+})
 function overview(snapshot: ResultsSnapshot, project = 'fixture/a') {
   const row = renderSnapshot(snapshot, catalog).split('\n').find(line => line.startsWith('| ' + project + ' |'))!
   const cells = row.split('|').map(value => value.trim())

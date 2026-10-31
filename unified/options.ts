@@ -14,6 +14,7 @@ export function parseOptions(argv: string[]): UnifiedRunOptions & { allowIncompl
     'community-records': 'communityRecordStore', 'community-prepared': 'communityPreparedFile',
     'community-inputs': 'communityInputsFile', 'community-browser-prepared': 'communityBrowserPreparedFile',
     'community-qualification-assets': 'communityQualificationAssetDir',
+    'docs-review': 'docsReviewFile',
   }
   const values = new Map<string, string>()
   const allowed = new Set([...Object.keys(paths), 'profile', 'rounds', 'community-projects', 'projects', 'community-artifact-policy', 'community-coverage', 'community-outputs', 'community-qualification-protocol'])

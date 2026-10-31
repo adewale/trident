@@ -7,6 +7,7 @@ export interface PaintInput { family: string; expected: MeaningExpectation; pain
 /** The authored request fixes the denominator before any renderer runs. */
 export function plannedPaintCriteria(input: PaintInput): string[] {
   return ['svg-root', 'svg-unique-ids', 'canvas', 'visible-authored-labels', 'labels-within-canvas', 'unclipped-authored-labels', 'visible-ink', 'paint-opacity-and-color',
+    ...(input.expected.forbiddenLabels?.length ? ['hidden-authored-content'] : []),
     ...(input.paint?.images?.length ? ['embedded-images'] : []),
     ...(input.paint?.fontSize !== undefined ? ['computed-authored-font-size'] : []),
     ...(input.paint?.nodeFill !== undefined ? ['computed-owned-node-fill'] : []),
@@ -39,6 +40,26 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const colorCanvas = document.createElement('canvas').getContext('2d')!
   const colors = new Map<string, number | null>()
   const unknownPaint = new Set<string>()
+  // A single SVG drop shadow composites SourceGraphic over its shadow. Admit
+  // only that bounded form: arbitrary filter graphs or a clipped filter region
+  // can remove the authored ink and must remain unobserved.
+  const preservesSourceGraphic = (setting: string): boolean => {
+    const match = /^url\(["']?#([^\s"')]+)["']?\)$/.exec(setting)
+    if (!match) return false
+    let filter: Element | null
+    try { filter = document.getElementById(decodeURIComponent(match[1]!)) } catch { return false }
+    if (!filter || !svg.contains(filter) || filter.localName !== 'filter' || filter.children.length !== 1 || filter.hasAttribute('href') || filter.hasAttribute('filterRes')) return false
+    const shadow = filter.children[0]!
+    if (shadow.localName !== 'feDropShadow' || shadow.children.length || shadow.hasAttribute('x') || shadow.hasAttribute('y') || shadow.hasAttribute('width') || shadow.hasAttribute('height') || !['', 'SourceGraphic'].includes(shadow.getAttribute('in') ?? '')) return false
+    if (filter.getAttribute('filterUnits') && filter.getAttribute('filterUnits') !== 'objectBoundingBox') return false
+    const fraction = (name: string, fallback: number) => {
+      const value = filter.getAttribute(name)
+      if (value === null) return fallback
+      return /^[-+]?(?:\d*\.)?\d+%$/.test(value) ? Number.parseFloat(value) / 100 : NaN
+    }
+    const x = fraction('x', -.1), y = fraction('y', -.1), width = fraction('width', 1.2), height = fraction('height', 1.2)
+    return x < 0 && y < 0 && x + width > 1 && y + height > 1 && getComputedStyle(shadow).display !== 'none'
+  }
   const colorAlpha = (color: string): number | null => {
     if (['none', 'transparent'].includes(color)) return 0
     if (/url\(|context-|var\(/.test(color)) { unknownPaint.add(color); return null }
@@ -51,7 +72,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       const style = getComputedStyle(current)
       if ((!definitions && ['defs', 'marker', 'clipPath', 'mask', 'symbol'].includes(current.localName)) || ['none'].includes(style.display) || ['hidden', 'collapse'].includes(style.visibility) || Number(style.opacity) === 0) return false
       if (/opacity\(\s*0(?:\.0+)?%?\s*\)/.test(style.filter)) return false
-      if (style.filter && style.filter !== 'none') unknownPaint.add('filter:' + style.filter)
+      if (style.filter && style.filter !== 'none' && !preservesSourceGraphic(style.filter)) unknownPaint.add('filter:' + style.filter)
       if (style.mixBlendMode && style.mixBlendMode !== 'normal') unknownPaint.add('blend:' + style.mixBlendMode)
       if (current === svg) break
     }
@@ -93,6 +114,20 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const imageBackedLabels = labelElements.length === 0 && !!svg.querySelector('image')
   check('visible-authored-labels', input.expected.labels, labelResults.map(item => ({ label: item.label, count: item.count })), imageBackedLabels ? null : labelResults.every(item => item.count > 0), imageBackedLabels ? 'Image-backed text needs reviewed image/OCR evidence, not a missing-label verdict' : 'Computed visibility and nonzero browser text bounds; metadata/title/defs text earns no credit')
   check('labels-within-canvas', 'every authored label fits the canvas', labelResults.filter(item => !item.inCanvas), imageBackedLabels ? null : labelResults.every(item => item.inCanvas), 'Actual rendered label bounds, with 1.5 CSS-pixel serialization tolerance')
+  if (input.expected.forbiddenLabels?.length) {
+    const painted: string[] = [], uncertain: string[] = []
+    for (const label of input.expected.forbiddenLabels) for (const element of visibleMatches(label)) {
+      const box = labelBox(element)
+      let unresolved = !contains(rootBox, box)
+      for (let parent: Element | null = element; parent; parent = parent.parentElement) {
+        const style = getComputedStyle(parent)
+        if (style.clipPath !== 'none' || style.maskImage !== 'none' || style.clip !== 'auto' || ['hidden', 'clip'].includes(style.overflowX) && !contains(rect(parent), box) || ['hidden', 'clip'].includes(style.overflowY) && !contains(rect(parent), box)) unresolved = true
+        if (parent === svg) break
+      }
+      ;(unresolved ? uncertain : painted).push(label)
+    }
+    check('hidden-authored-content', input.expected.forbiddenLabels, { painted, uncertain }, painted.length ? false : uncertain.length ? null : true, 'Explicitly hidden source labels must not be drawn; metadata and display:none text are excluded, unprojected clipping remains unknown')
+  }
   const clipped: string[] = []
   let unknownClipping = false
   for (const label of input.expected.labels.filter(Boolean)) for (const element of visibleMatches(label)) {
@@ -140,10 +175,11 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   } else if (images.length) check('emitted-image-decoding', 'all unexpected emitted images decode', images, images.every(item => item.loaded && item.visible), 'Diagnostic only: decoding emitted images does not prove the renderer retained an author-requested image')
   const geometry = [...svg.querySelectorAll('path,line,rect,circle,ellipse,polygon,polyline')].filter(element => visible(element) && rect(element).width + rect(element).height > 0)
   check('visible-ink', 'nonempty visible diagram geometry', geometry.length, geometry.length > 0 ? true : svg.querySelector('use,foreignObject,image') ? null : false, 'Visible geometric elements; unprojected use/HTML/image-only ink remains unavailable, not a drawing defect')
-  const ownedBox = (element: Element, identity?: string): { owner: Element; shape: Element; box: Box; outlines?: Element[] } | undefined => {
+  const ownedBox = (element: Element, identity?: string, group = false): { owner: Element; shape: Element; box: Box; outlines?: Element[] } | undefined => {
     const point = center(rect(element))
     for (let current: Element | null = element.parentElement; current && current !== svg; current = current.parentElement) {
-      if (current.matches('.cluster,.pele-cluster,[data-role="group"]')) return undefined
+      const declaredGroup = current.matches('.cluster,.pele-cluster,[data-role="group"]')
+      if (declaredGroup && !group) return undefined
       const shapes = [...current.querySelectorAll('rect,circle,ellipse,polygon,path')].filter(child => visible(child))
       const candidates = shapes.filter(child => { const box = rect(child); return box.width > 0 && box.height > 0 && contains(box, { ...point, width: 0, height: 0 }, 2) })
       // A compartment header is ink inside its node, not the node boundary.
@@ -154,6 +190,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
         if (parts.length > 1) { const boxes = parts.map(rect), x = Math.min(...boxes.map(b => b.x)), y = Math.min(...boxes.map(b => b.y)); return { owner: current, shape, outlines: parts, box: { x, y, width: Math.max(...boxes.map(b => b.x + b.width)) - x, height: Math.max(...boxes.map(b => b.y + b.height)) - y } } }
         return { owner: current, shape, box: rect(shape) }
       }
+      if (declaredGroup && group) return undefined
       // Some public SVG nodes place their label immediately below the body.
       // Require an authored SVG identity, a unique direct body outline, and
       // spatial agreement; an enclosing cluster is never their node body.
@@ -458,7 +495,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   for (const group of input.expected.groups ?? []) {
     if (input.family === 'mindmap') { check('painted-group:' + group.id, group, null, null, 'Mindmap parent/child membership is a logical hierarchy, not an authored enclosing container; native membership is checked separately and connector ownership needs a reviewed paint projection'); continue }
     if (!group.label) { check('painted-group:' + group.id, group, null, null, 'Anonymous group needs a reviewed SVG identity projection'); continue }
-    const owners = visibleMatches(group.label).map(element => ownedBox(element)).filter((item): item is NonNullable<typeof item> => !!item)
+    const owners = visibleMatches(group.label).map(element => ownedBox(element, undefined, true)).filter((item): item is NonNullable<typeof item> => !!item)
     if (owners.length !== 1) { check('painted-group:' + group.id, group, null, null, 'Group-to-owned-container projection is ambiguous or missing'); continue }
     const descendantIds = (id: string, visiting: Set<string>): string[] => { if (visiting.has(id)) return []; const found = input.expected.groups?.find(candidate => candidate.id === id); return found ? found.members.flatMap(member => descendantIds(member, new Set([...visiting, id]))) : [id] }
     const members = descendantIds(group.id, new Set()), available = members.every(id => anchors.has(id))

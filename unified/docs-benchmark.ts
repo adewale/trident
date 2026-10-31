@@ -3,6 +3,13 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createServer } from 'node:http'
 import { extname, join, resolve, sep } from 'node:path'
 import { chromium } from 'playwright'
+import { createHash } from 'node:crypto'
+import { gzipSync } from 'node:zlib'
+import { inspectFidelityPaint } from '../fidelity/paint.ts'
+import { inspectQuantitativePaint } from '../fidelity/paint-values.ts'
+import { admitDocsReviews, assessDocsDrawing, reviewedDocsCase, type DocsDrawingReview } from './docs-drawings.ts'
+import { qualifyOutput } from './qualification.ts'
+import { tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { CollectionBudgetExhausted, CollectionCheckpoint, checkCollectionBudget } from '../portable/checkpoint.ts'
 import { admitCurrentReference, currentReferencePin } from '../reference/source.ts'
@@ -21,7 +28,7 @@ export function docsArtifactServer(root: string, addon?: { root: string }) {
   root = resolve(root)
   return createServer((request, response) => {
     const url = new URL(request.url ?? '/', 'http://localhost')
-    if (url.pathname === '/blank') { response.setHeader('content-type', 'text/html; charset=utf-8'); response.end('<!doctype html><meta charset="utf-8"><body>'); return }
+    if (url.pathname === '/blank' || url.pathname === '/observer') { response.setHeader('content-type', 'text/html; charset=utf-8'); if (url.pathname === '/observer') response.setHeader('content-security-policy', "default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data: blob:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'"); response.end('<!doctype html><meta charset="utf-8"><body>'); return }
     const backend = addon && url.pathname.startsWith('/__addon/')
     const base = backend ? resolve(addon.root) : root
     let file: string
@@ -62,6 +69,10 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
   if (!options.communityBrowserPreparedFile) throw Error('Docs benchmark needs a frozen public browser preparation manifest')
   admitCurrentReference(options.mermaidDir ?? mermaidUpstreamDirectory(), options.referenceDir ?? mermaidOracleDirectory())
   const inventory = docsInventory(options.mermaidDir)
+  const reviewFile = options.docsReviewFile ?? join(tridentDirectory, 'corpus/docs-reviewed.json')
+  const reviewBytes = readFileSync(reviewFile), reviews = JSON.parse(reviewBytes.toString()) as DocsDrawingReview[]
+  const drawingInventory = admitDocsReviews(inventory.cases, reviews)
+  const drawingReview = { protocol: 'reviewed-docs-svg-content-v1', sha256: createHash('sha256').update(reviewBytes).digest('hex'), cases: drawingInventory }
   const prepared = JSON.parse(readFileSync(options.communityBrowserPreparedFile, 'utf8')) as PreparedCommunityBrowser[]
   if (!Array.isArray(prepared) || new Set(prepared.map(peer => peer.node.id)).size !== prepared.length) throw Error('Prepared project identities must be a unique array')
   for (const project of options.communityProjects ?? []) if (!prepared.some(peer => peer.node.id === project)) {
@@ -71,7 +82,7 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
   const selected = prepared.filter(peer => !options.communityProjects || options.communityProjects.includes(peer.node.id))
   const producers = protocolIdentity(options.harnessRoot ?? options.root, ['unified/docs-benchmark.ts'])
   mkdirSync(options.out, { recursive: true })
-  writeFileSync(join(options.out, 'inventory.json'), JSON.stringify({ ...inventory, protocol: 'public-docs-svg-return-v1', producers }, null, 2))
+  writeFileSync(join(options.out, 'inventory.json'), JSON.stringify({ ...inventory, protocol: 'public-docs-svg-return-v1', producers, drawingReview }, null, 2))
   const executable = options.executable ?? defaultChromium(chromium)
   const targets: PreparedCommunityBrowser[] = []
   for (const peer of selected) {
@@ -83,7 +94,7 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
     }
   }
   writeFileSync(join(options.out, 'context.json'), JSON.stringify({
-    protocol: 'public-docs-svg-return-v1', producers, browser: executableIdentity(executable), driver: process.versions,
+    protocol: 'public-docs-svg-return-v1', producers, drawingReview, browser: executableIdentity(executable), driver: process.versions,
     rounds: options.rounds, warmupAttemptsPerRound: 30, pinnedSource: inventory.pin,
     projectOrderByRound: Array.from({ length: options.rounds }, (_, index) => docsRoundOrder(targets, index + 1).map(peer => peer.node.id)),
     artifacts: targets.map(peer => ({ project: peer.node.id, admission: admitPreparedFidelityEngine(peer) })),
@@ -105,7 +116,9 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
         const server = docsArtifactServer(root, engine.zenuml)
         await new Promise<void>(done => server.listen(0, '127.0.0.1', done))
         const origin = 'http://127.0.0.1:' + (server.address() as { port: number }).port
-        const context = await browser!.newContext(), page = await context.newPage()
+        const context = await browser!.newContext({ viewport: { width: 1400, height: 1000 } }), page = await context.newPage()
+        let observer: any = await context.newPage()
+        await observer.goto(origin + '/observer')
         const invoke = async (input: any) => {
           let timer: ReturnType<typeof setTimeout> | undefined
           try { return await Promise.race([page.evaluate(publicSvgBrowserAction, input), new Promise<never>((_, reject) => { timer = setTimeout(() => { void page.close().catch(() => {}); reject(Error('Browser call exceeded20s host deadline')) }, 20_000) })]) }
@@ -128,8 +141,39 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
           }
           for (const [index, testCase] of inventory.cases.entries()) {
             checkCollectionBudget(options.collectionDeadline)
-            const value = await invoke({ type: 'measure-docs', source: testCase.source, id: `docs_${round}_${index}` })
+            const value = await invoke({ type: 'measure-docs', source: testCase.source, id: `docs_${round}_${index}`, retainSvg: round === 1 })
             roundObservations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'render', format: 'svg', mode: 'one-public-call', status: value.status, ...(value.status === 'passed' ? { samplesMs: [value.durationMs] } : { detail: value.error }), metrics: { project: peer.node.id, version: engine.version, measuredAt: new Date().toISOString(), round, bytes: value.bytes ?? null, warmupAttempts: 30, warmupPassed } })
+            if (round === 1) {
+              const review = drawingInventory[index]!.review
+              let witness: string | undefined, assessment: ReturnType<typeof assessDocsDrawing>
+              try {
+                if (typeof value.svg === 'string') {
+                  const hash = createHash('sha256').update(value.svg).digest('hex')
+                  mkdirSync(join(options.out, 'drawings'), { recursive: true })
+                  witness = 'drawings/' + hash + '.svg.gz'
+                  if (!existsSync(join(options.out, witness))) writeFileSync(join(options.out, witness), gzipSync(value.svg))
+                }
+                if (review?.intent === 'drawing' && typeof value.svg === 'string') {
+                  const authored = reviewedDocsCase(testCase, review)
+                  const admission = qualifyOutput({ id: testCase.id, family: authored.family, source: testCase.source, expectedLabels: authored.expected.labels, features: [], provenance: review.review }, value.svg, 'svg')
+                  if (observer.isClosed()) { observer = await context.newPage(); await observer.goto(origin + '/observer') }
+                  const currentObserver = observer
+                  let inspectionTimer: ReturnType<typeof setTimeout> | undefined
+                  try {
+                    assessment = await Promise.race([
+                      (async () => {
+                        await currentObserver.setContent(value.svg)
+                        const paint = await currentObserver.evaluate(inspectFidelityPaint, { family: authored.family, expected: authored.expected })
+                        const quantitative = await currentObserver.evaluate(inspectQuantitativePaint, { family: authored.family, expected: authored.expected, source: testCase.source, nodes: paint.nodes })
+                        return assessDocsDrawing(testCase, review, value.status, admission.ok, [...paint.checks, ...quantitative])
+                      })(),
+                      new Promise<never>((_, reject) => { inspectionTimer = setTimeout(() => { void currentObserver.close().catch(() => {}); reject(Error('Drawing observer exceeded20s deadline')) }, 20_000) }),
+                    ])
+                  } finally { if (inspectionTimer) clearTimeout(inspectionTimer) }
+                } else assessment = assessDocsDrawing(testCase, review, value.status, false, [])
+              } catch (error) { assessment = { status: 'unknown', reason: 'Drawing observer did not complete: ' + String(error) } }
+              roundObservations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'drawing-checks', format: 'svg', mode: 'reviewed-first-round-output', status: assessment.status === 'correct' ? 'passed' : assessment.status === 'incorrect' ? 'failed' : assessment.status === 'not-applicable' ? 'not-applicable' : 'blocked', detail: JSON.stringify(assessment), metrics: { project: peer.node.id, version: engine.version, measuredAt: new Date().toISOString(), round, reviewedSource: !!review, ...(witness ? { witness } : {}) } })
+            }
           }
         } catch (error) {
           if (error instanceof CollectionBudgetExhausted) {
@@ -147,7 +191,7 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
       }
     }
   } catch (error) { if (error instanceof CollectionBudgetExhausted) { budgetError = error; gaps.push(error.message) } else throw error } finally { await browser?.close() }
-  const result: UnifiedSuiteResult = { id: 'docs', status: budgetError ? 'blocked' : observations.some(value => value.status === 'failed') ? 'failed' : observations.some(value => value.status === 'blocked') ? 'blocked' : observations.length && observations.every(value => value.status === 'unsupported') ? 'not-applicable' : 'passed', startedAt: checkpoint.startedAt, finishedAt: new Date().toISOString(), observations, gaps: [...gaps, 'SVG return only; no meaning/paint qualification. Distinct protocol from historical AM Davebench: complete pinned upstream syntax directory, all catalog browser bindings. Latency comparisons require pairwise common successes; no overall speed score.'], artifacts: [join(options.out, 'inventory.json'), join(options.out, 'observations.json')] }
+  const result: UnifiedSuiteResult = { id: 'docs', status: budgetError ? 'blocked' : observations.some(value => value.status === 'failed') ? 'failed' : observations.some(value => value.status === 'blocked') ? 'blocked' : observations.length && observations.every(value => value.status === 'unsupported') ? 'not-applicable' : 'passed', startedAt: checkpoint.startedAt, finishedAt: new Date().toISOString(), observations, gaps: [...gaps, 'SVG return and reviewed drawing content are separate results. First-round SVG witnesses are retained; missing source reviews and incomplete observers remain unknown. Timings are descriptive public return samples, without A/A or per-call semantic qualification; no speed ranking is supported.'], artifacts: [join(options.out, 'inventory.json'), join(options.out, 'observations.json'), join(options.out, 'drawings')] }
   const rows = selected.flatMap(peer => Array.from({ length: options.rounds }, (_, index) => {
     const own = observations.filter(row => row.metrics?.project === peer.node.id && row.metrics?.round === index + 1 && row.operation === 'render')
     const passed = own.filter(row => row.status === 'passed').length

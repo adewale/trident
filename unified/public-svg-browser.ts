@@ -12,7 +12,8 @@ export async function publicSvgBrowserAction(input: any): Promise<any> {
   if (input.type === 'initialize-global') {
     const api = host[input.engine.global], kind = input.engine.kind
     if (!api) throw Error('Prepared public global is unavailable: ' + input.engine.global)
-    let render: (source: string, id: string, options?: any) => any, fontOptions = false
+    const fontSizePath = Array.isArray(input.fontSizePath) && input.fontSizePath.length && input.fontSizePath.every((key: unknown) => typeof key === 'string' && !!key && !['__proto__', 'prototype', 'constructor'].includes(key)) ? input.fontSizePath : undefined
+    let render: (source: string, id: string, options?: any) => any, fontOptions = !!fontSizePath
     if (kind === 'mermaid') {
       api.initialize({ startOnLoad: false, securityLevel: 'strict', logLevel: 'fatal' })
       if (input.addonUrl) {
@@ -32,19 +33,16 @@ export async function publicSvgBrowserAction(input: any): Promise<any> {
           else if (input.engine.synchronousLegacyRender && !callback) reject(Error('Synchronous public Mermaid render returned no SVG and did not invoke its SVG callback'))
         } catch (error) { reject(error) }
       }) : (source, id) => owner.render(id, source)
-    } else if (kind === 'extra') { const publicRender = await api.createRenderer(); render = (source, id) => publicRender(source, id, 'svg') }
-    else if (kind === 'ondine') { const compiler = await api(); render = source => compiler.render(source).svg }
-    else if (kind === 'function') render = source => api(source)
-    else if (kind === 'pele') render = source => api.render(source).svg
+    } else if (kind === 'extra') { const publicRender = await api.createRenderer(); fontOptions = false; render = (source, id) => publicRender(source, id, 'svg') }
+    else if (kind === 'ondine') { const compiler = await api(); render = (source, _id, options) => compiler.render(source, options).svg }
+    else if (kind === 'function') render = (source, _id, options) => api(source, options)
+    else if (kind === 'pele') render = (source, _id, options) => api.render(source, options).svg
     else {
       const publicRender = api.renderMermaidSVG ?? api.renderMermaidSVGAsync ?? api.renderMermaidSync ?? api.renderMermaid
       if (typeof publicRender !== 'function') throw Error('Published Beautiful SVG API unavailable')
-      // The modern documented renderMermaidSVG options include fontSize. Older
-      // similarly named sync/async facades do not establish that capability.
-      fontOptions = typeof api.renderMermaidSVG === 'function' || typeof api.renderMermaidSVGAsync === 'function'
       render = (source, _id, options) => publicRender.call(api, source, options)
     }
-    host.__fidelityCommunity = { kind, api, render, fontOptions }
+    host.__fidelityCommunity = { kind, api, render, fontOptions, fontSizePath }
     return { fontOptions }
   }
   const state = host.__fidelityCommunity
@@ -58,15 +56,22 @@ export async function publicSvgBrowserAction(input: any): Promise<any> {
       const value = await Promise.race([Promise.resolve(state.render(input.source, input.id)), deadline])
       const durationMs = performance.now() - started
       const svg = typeof value === 'string' ? value : (value as any)?.svg
-      return typeof svg === 'string' && /<svg(?:\s|>)/i.test(svg) ? { status: 'passed', durationMs, bytes: new TextEncoder().encode(svg).byteLength } : { status: 'failed', error: 'Public call did not return SVG' }
+      return typeof svg === 'string' && /<svg(?:\s|>)/i.test(svg) ? { status: 'passed', durationMs, bytes: new TextEncoder().encode(svg).byteLength, ...(input.retainSvg ? { svg } : {}) } : { status: 'failed', error: 'Public call did not return SVG' }
     } catch (error) { return { status: 'failed', error: String(error) } }
     finally { if (timer) clearTimeout(timer); host.__communityAfterCall?.(); for (const node of document.querySelectorAll('body > div:not([data-community-host])')) node.remove() }
   }
   if (input.type === 'render') {
     let timer: ReturnType<typeof setTimeout> | undefined
     try {
+      if (input.options && (!state.fontOptions || Object.keys(input.options).some(key => key !== 'fontSize') || !Number.isFinite(input.options.fontSize) || input.options.fontSize <= 0)) return { kind: 'unavailable', errorName: 'AdapterGap', error: 'No reviewed public configuration translation for this request; no render call executed' }
+      let options = input.options
+      if (input.options && state.kind !== 'mermaid') {
+        options = {}; let target = options
+        for (const key of state.fontSizePath.slice(0, -1)) target = target[key] = {}
+        target[state.fontSizePath.at(-1)] = input.options.fontSize
+      }
       if (state.kind === 'mermaid' && input.options && state.fontOptions) state.api.initialize({ startOnLoad: false, securityLevel: 'strict', logLevel: 'fatal', ...input.options, ...(input.options.fontSize !== undefined ? { themeVariables: { fontSize: String(input.options.fontSize) + 'px' } } : {}) })
-      const value = await Promise.race([Promise.resolve().then(() => state.render(input.source, input.id, state.fontOptions ? input.options : undefined)), new Promise((_, reject) => { timer = setTimeout(() => { const error = Error('Public render did not settle within the declared15s collection deadline'); error.name = 'TimeoutError'; reject(error) }, 15_000) })])
+      const value = await Promise.race([Promise.resolve().then(() => state.render(input.source, input.id, state.fontOptions ? options : undefined)), new Promise((_, reject) => { timer = setTimeout(() => { const error = Error('Public render did not settle within the declared15s collection deadline'); error.name = 'TimeoutError'; reject(error) }, 15_000) })])
       const svg = typeof value === 'string' ? value : (value as any)?.svg
       return typeof svg === 'string' ? { kind: 'returned', svg } : { kind: 'invalid-return', error: 'Actual public render did not return an SVG string', actualType: typeof value }
     } catch (error: any) { return { kind: 'exception', error: String(error), errorName: error?.name ?? 'Error', errorCode: error?.code ?? null } }

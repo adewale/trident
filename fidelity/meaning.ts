@@ -5,6 +5,8 @@ export interface MeaningGroup { id: string; label: string; members: string[] }
 export interface PaintExpectation { fontSize?: number; nodeFill?: string; edgeStroke?: string; edgeStrokeWidth?: number; images?: { href: string; count: number }[] }
 export interface MeaningExpectation {
   labels: string[]
+  /** Explicitly hidden source content, such as a collapsed group's members. */
+  forbiddenLabels?: string[]
   nodes?: MeaningNode[]
   edges?: MeaningEdge[]
   groups?: MeaningGroup[]

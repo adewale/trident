@@ -3,7 +3,7 @@
 Start with a comparison table for the question you want answered. Put projects
 and versions in rows, measurements in columns, and units in the column headings.
 Link each row's failures and receipt so readers can inspect what happened.
-The [comparison tables](RESULTS.md#results-by-benchmark) cover all seven benchmarks;
+The [comparison tables](RESULTS.md#results-by-benchmark) retain current and historical collectors;
 [the research notes](docs/reporting-research.md) explain the examples we learned from.
 
 The repository's [ecosystem results](RESULTS.md) provide a single entry point.
@@ -22,6 +22,22 @@ smoke workload must be labelled as such. Published releases, source candidates
 and the Mermaid reference keep their identities. Node, browser and CLI results
 have separate tables unless their interfaces and work have been shown equivalent.
 
+Every benchmark description and results report must name the corpus origin next
+to the results, including conversational summaries. Link the originating repository
+or document and its exact commit/version, state the selected files and input count,
+and describe extraction, sampling, deduplication, exclusions or edits. For authored
+cases, name the originating project or author and link the committed inputs. For
+generated inputs, disclose the generator and seed when known. State who defined
+or reviewed the expected content, including any renderer-generated answers, and
+identify output witnesses separately from inputs. Reuse the existing inventories
+and receipts rather than create another provenance registry.
+
+For a subset, identify both its parent corpus and the selection rule. Distinguish
+the corpus's origin from the benchmark's inspiration and the renderer versions.
+A compact caption is sufficient: **Corpus: SOURCE at PIN; SELECTED INPUTS / PARENT
+TOTAL; SELECTION OR EDITS; EXPECTATIONS; inventory link.** Keep the original source
+pin when rechecking retained output; record the new observer separately.
+
 Keep metadata shared by every row in a caption. Repeat version and artifact role
 in rows when they vary. A table should remain understandable without a prose
 sentence interpreting each result.
@@ -31,9 +47,9 @@ sentence interpreting each result.
 | Benchmark | Row identifies | Result columns | Unit |
 |---|---|---|---|
 | Mermaid Compatibility | Project/version, within one format and runtime | Passed, failed, unsupported, blocked and missing inputs; planned total | Inputs |
-| DaveBench | Project/version on the complete documentation inventory | SVG returned, failed, unexecuted, planned occurrences, return rate | Occurrences and % |
+| DaveBench | Project/version on the complete documentation inventory | SVG return separately from reviewed content; correct, incorrect, unknown, configuration-only and planned occurrences | Occurrences |
 | DaveBench timing | Project/version on one named input or an explicitly matched input set | Call time, sample count, qualification; failed output withholds time | ms |
-| Diagram Meaning | Project/version on the same SVG criteria | Passed, failed, unsupported, blocked and missing criteria; planned total | Criteria |
+| Diagram Meaning | Project/version on the same authored SVG cases | Correct, incorrect, unsupported and unknown diagrams; per-criterion details separately | Diagrams |
 | Model and Editing Contracts | Project/version on shared criterion identities | Same criterion counts; API-specific checks in a separate table | Criteria |
 | Mermaid Assertion Replay | Project/version on the same source inventory | Declaration dispositions; expanded callback dispositions in a separate table | Declarations or callbacks |
 | Mermaid Reference Tests | Reference/version and original runner | Files, passed, failed, pending and todo callbacks | Files and callbacks |
@@ -44,6 +60,11 @@ For timing tables, less time means less cost. More accepted inputs means broader
 observed coverage, not automatically better meaning or layout. More passed
 criteria cannot be turned into an overall renderer-quality score by adding
 unrelated checks.
+
+Unreviewed source expectations and unresolved observers withhold correctness ranks.
+A bounded reviewed subset must name its size and cannot supply full-inventory
+correctness or qualify every timed call. Retired replay and reference-runner tables
+remain historical evidence, outside the current comparative benchmark lineup.
 
 ## Keep the full population visible
 
