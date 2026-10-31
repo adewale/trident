@@ -2,8 +2,9 @@
 
 This collector executes unchanged callbacks from Mermaid's own tests at
 [`1fb7869`](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b).
-The current scope is 16 public `parse` callbacks from `mermaidAPI.spec.ts` and
-`mermaid.spec.ts`. It tests public API compatibility: accepted input, rejection,
+The current scope is 22 callbacks: 16 public `parse` tests from
+`mermaidAPI.spec.ts`/`mermaid.spec.ts` and six public detector tests from
+`utils.spec.ts`. It tests public API compatibility: accepted input, rejection,
 `suppressErrors`, returned diagram family/configuration, and exact original
 error/return snapshots. It does not measure drawing accuracy or speed.
 
@@ -11,9 +12,14 @@ The fixed denominator includes every selected callback. Unsupported validation,
 failed assertions, missing public fields and incomplete evidence remain distinct
 nonpasses. A binding that preserves unknown syntax cannot earn rejection credit
 by throwing an adapter error. Counts refer to callbacks, not individual matchers.
-Any table must rank by passes over the same 16 planned callbacks and show all
-nonpass counts. It must label this parse scope, never “Mermaid conformance” for
+Any table must rank by passes over the same 22 planned callbacks and show all
+nonpass counts. It must label this parse/detector scope, never “Mermaid conformance” for
 the entire test suite.
+
+Detection tests call the actual public detector. They never substitute a parser
+or a source recognizer implemented by Trident. Tests that also assert private
+preprocessing output remain pending rather than crediting untouched reference
+code to peers.
 
 ## Reference qualification
 
@@ -58,10 +64,10 @@ Broader conformance remains blocked on these separate contracts:
   different project model and still called original-test conformance.
 - Registration and DOM lifecycle: external diagrams, loaders, icon packs, host DOM
   execution and parse-error handlers need their own reviewed public contracts.
-- Detection: the root public detector requires its own boundary and initialization
-  qualification; substituting the parser would change the operation under test.
+- Further detection tests: callbacks mixing private preprocessing or private
+  registration setup require separate review; they cannot inherit this scope.
 - Inventory review: indirect helpers, inherited hooks and parameter expansion
   require review before declaring any remaining test eligible or internal-only.
 
 The machine report keeps `wholeSuiteConformanceQualified: false`. A successful
-16-callback run does not clear those blockers.
+22-callback run does not clear those blockers.

@@ -3,7 +3,7 @@ import type { PublicTestDeclaration } from './public-conformance-inventory.ts'
 
 export interface PublicScopeReview {
   disposition: 'eligible' | 'excluded' | 'review-required'
-  category: 'qualified-public-parse' | 'upstream-disabled' | 'private-implementation' | 'public-render' | 'public-configuration' | 'public-model' | 'public-parser-or-detection' | 'public-registration' | 'public-dom-api' | 'unclassified-contract'
+  category: 'qualified-public-parse' | 'qualified-public-detection' | 'upstream-disabled' | 'private-implementation' | 'public-render' | 'public-configuration' | 'public-model' | 'public-parser-or-detection' | 'public-registration' | 'public-dom-api' | 'unclassified-contract'
   publicOperations: string[]; privateOperands: string[]; reason: string
 }
 const publicObjects = new Set(['mermaid', 'mermaidAPI'])
@@ -42,7 +42,7 @@ export function classifyPublicScopes(text: string, inputs: readonly PublicTestDe
   }
   locate(tree)
   return inputs.map(input => {
-    if (input.disposition === 'eligible') return { disposition: 'eligible', category: 'qualified-public-parse', publicOperations: ['parse'], privateOperands: [], reason: input.reason }
+    if (input.disposition === 'eligible') return { disposition: 'eligible', category: input.publicOperation === 'detectType' ? 'qualified-public-detection' : 'qualified-public-parse', publicOperations: [input.publicOperation], privateOperands: [], reason: input.reason }
     if (input.disposition === 'upstream-disabled') return { disposition: 'excluded', category: 'upstream-disabled', publicOperations: [], privateOperands: [], reason: input.reason }
     const privateOperands = new Set<string>(), publicOperations = new Set<string>(), seenHelpers = new Set<string>()
     const callback = callbacks.get(input.line + ':' + input.endLine)

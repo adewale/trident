@@ -6,16 +6,16 @@ import ts from 'typescript'
 import { currentReferencePin } from '../reference/source.ts'
 import { classifyPublicScopes } from './public-conformance-scope.ts'
 
-export const publicConformanceProtocol = 'original-public-parse-tests-v2'
-export const publicParseScope = 'Unmodified original Mermaid parse callbacks at the public parse boundary. Original assertions, snapshots, diagnostic wording and return-value/config expectations remain unchanged. This is public-API compatibility, not drawing accuracy or whole Mermaid test-suite conformance.'
+export const publicConformanceProtocol = 'original-public-api-tests-v3'
+export const publicParseScope = 'Unmodified original Mermaid parse and detector callbacks at their public boundaries. Original assertions, snapshots, diagnostic wording and return-value/config expectations remain unchanged. This is public-API compatibility, not drawing accuracy or whole Mermaid test-suite conformance.'
 export const publicParseFile = 'packages/mermaid/src/mermaidAPI.spec.ts'
-export const publicParseFiles = [publicParseFile, 'packages/mermaid/src/mermaid.spec.ts'] as const
+export const publicParseFiles = [publicParseFile, 'packages/mermaid/src/mermaid.spec.ts', 'packages/mermaid/src/utils.spec.ts'] as const
 const hash = (value: string) => createHash('sha256').update(value).digest('hex')
 export interface PublicTestDeclaration {
   id: string; path: string; family: string; name: string; fullName: string; line: number; endLine: number
   registrar: string; modifiers: string[]; callbackSha256: string; sourceSha256: string
   disposition: 'eligible' | 'upstream-disabled' | 'outside-public-parse-scope'
-  reason: string; requiredReturnFields: string[]
+  reason: string; requiredReturnFields: string[]; publicOperation: 'parse' | 'detectType'
 }
 const testRegistrars = new Set(['it', 'test', 'jsdomIt'])
 const modifiers = new Set(['only', 'skip', 'todo', 'each', 'fails', 'concurrent', 'sequential', 'runIf', 'skipIf', 'for'])
@@ -37,23 +37,24 @@ export function inventoryPublicTests(upstream: string) {
   for (const path of paths) {
     const text = readFileSync(join(upstream, path), 'utf8'), sourceSha256 = hash(text), source = ts.createSourceFile(path, text, ts.ScriptTarget.Latest, true)
     const family = /\/diagrams\/([^/]+)\//.exec(path)?.[1] ?? '<shared>', before = declarations.length
-    const visit = (node: ts.Node, parents: string[]) => {
+    const visit = (node: ts.Node, parents: string[], inheritedDisabled = false) => {
       if (ts.isCallExpression(node)) {
         const chain = callee(node.expression), label = title(node.arguments[0]), callback = node.arguments.find(argument => ts.isArrowFunction(argument) || ts.isFunctionExpression(argument))
-        if (chain?.[0] === 'describe' && label && callback) { ts.forEachChild(callback, child => visit(child, [...parents, label])); return }
+        if (chain?.[0] === 'describe' && label && callback) { ts.forEachChild(callback, child => visit(child, [...parents, label], inheritedDisabled || chain.includes('skip') || chain.includes('todo'))); return }
         if (chain && testRegistrars.has(chain[0]!) && chain.slice(1).every(item => modifiers.has(item)) && label && (callback || chain.includes('todo'))) {
           const line = source.getLineAndCharacterOfPosition(node.getStart(source)).line + 1
-          const fullName = [...parents, label].join(' '), body = callback?.getText(source) ?? '', disabled = chain.includes('skip') || chain.includes('todo')
+          const fullName = [...parents, label].join(' '), body = callback?.getText(source) ?? '', disabled = inheritedDisabled || chain.includes('skip') || chain.includes('todo')
           const coreParse = path === publicParseFile && parents.length === 2 && parents[0] === 'mermaidAPI' && parents[1] === 'parse'
           const publicWrapperParse = path === publicParseFiles[1] && parents.length === 2 && parents[0] === 'when using mermaid and ' && parents[1] === 'checking validity of input ' && !body.includes('setParseErrorHandler')
-          const eligible = (coreParse || publicWrapperParse) && !disabled
+          const publicDetection = path === publicParseFiles[2] && parents.length === 1 && parents[0] === 'when detecting chart type ' && /\bdetectType\(/.test(body) && !/\bpreprocessDiagram\(/.test(body)
+          const eligible = (coreParse || publicWrapperParse || publicDetection) && !disabled
           // No snapshot is rewritten. These fields only prevent a missing binding
           // from being mislabeled as a renderer failure or accidental callback pass.
           const requiredReturnFields = eligible && /toMatchInlineSnapshot/.test(body) ? ['diagramType', 'config'] : []
-          declarations.push({ id: path + ':' + line, path, family, name: label, fullName, line, endLine: source.getLineAndCharacterOfPosition(node.end).line + 1, registrar: chain[0]!, modifiers: chain.slice(1), callbackSha256: hash(body), sourceSha256, disposition: disabled ? 'upstream-disabled' : eligible ? 'eligible' : 'outside-public-parse-scope', reason: disabled ? 'Disabled by the original upstream declaration.' : eligible ? 'Original direct public parse callback; test body and assertions execute unchanged.' : 'Not a callback of the predeclared public parse API scope. It is not scored or claimed as covered by this benchmark.', requiredReturnFields })
+          declarations.push({ id: path + ':' + line, path, family, name: label, fullName, line, endLine: source.getLineAndCharacterOfPosition(node.end).line + 1, registrar: chain[0]!, modifiers: chain.slice(1), callbackSha256: hash(body), sourceSha256, disposition: disabled ? 'upstream-disabled' : eligible ? 'eligible' : 'outside-public-parse-scope', reason: disabled ? 'Disabled by the original upstream declaration or enclosing suite.' : eligible ? 'Original direct public operation callback; test body and assertions execute unchanged.' : 'Not a callback of the predeclared public parse/detection API scope. It is not scored or claimed as covered by this benchmark.', requiredReturnFields, publicOperation: publicDetection ? 'detectType' : 'parse' })
         }
       }
-      ts.forEachChild(node, child => visit(child, parents))
+      ts.forEachChild(node, child => visit(child, parents, inheritedDisabled))
     }
     visit(source, [])
     files.push({ path, sha256: sourceSha256, declarations: declarations.length - before })
@@ -61,7 +62,7 @@ export function inventoryPublicTests(upstream: string) {
   const scopeReview = files.flatMap(file => { const own = declarations.filter(input => input.path === file.path); return classifyPublicScopes(readFileSync(join(upstream, file.path), 'utf8'), own).map((review, index) => ({ id: own[index]!.id, ...review })) })
   const scopeCounts = Object.fromEntries([...new Set(scopeReview.map(row => row.category))].map(category => [category, scopeReview.filter(row => row.category === category).length]))
   const eligible = declarations.filter(row => row.disposition === 'eligible')
-  if (eligible.length !== 16 || new Set(declarations.map(row => row.id)).size !== declarations.length) throw Error('Pinned public-parse test inventory changed or duplicate declaration IDs')
+  if (eligible.length !== 22 || new Set(declarations.map(row => row.id)).size !== declarations.length) throw Error('Pinned public-parse test inventory changed or duplicate declaration IDs')
   return { schema: 'trident-original-public-test-inventory-v1', protocol: publicConformanceProtocol, sourceCommit: pin, scope: publicParseScope, files, declarations, scopeReview, scopeCounts, counts: { files: files.length, declarations: declarations.length, eligible: eligible.length, upstreamDisabled: declarations.filter(row => row.disposition === 'upstream-disabled').length, outsideScope: declarations.filter(row => row.disposition === 'outside-public-parse-scope').length }, wholeSuiteConformanceQualified: false, wholeSuiteBlocker: 'Public render, configuration, model and other original-test surfaces have not been qualified through peer-equivalent public bindings. Outside-scope declarations cannot receive inferred passes.' }
 }
 /** Replace exactly one public implementation boundary; never alter tests,
@@ -77,4 +78,22 @@ export function replacePublicParseBody(source: string, expectedSha256: string) {
   if (declaration.parameters.length !== 2 || declaration.parameters[0]?.name.getText(tree) !== 'text' || declaration.parameters[1]?.name.getText(tree) !== 'parseOptions') throw Error('Original public parse signature changed')
   const body = declaration.body!
   return source.slice(0, body.getStart(tree)) + '{ return (globalThis as any).__tridentPublicParse(text, parseOptions) }' + source.slice(body.end)
+}
+
+/** A second independently pinned public boundary; original detector callbacks and
+ * their assertions are not changed. Unselected internal startup calls retain the
+ * original implementation and cannot supply scored invocation evidence. */
+export function replacePublicDetectBody(source: string, expectedSha256: string) {
+  if (hash(source) !== expectedSha256) throw Error('Original public detector hash changed')
+  const tree = ts.createSourceFile('detectType.ts', source, ts.ScriptTarget.Latest, true), found: ts.FunctionExpression[] = []
+  const visit = (node: ts.Node) => {
+    if (ts.isVariableDeclaration(node) && ts.isIdentifier(node.name) && node.name.text === 'detectType' && node.initializer && ts.isFunctionExpression(node.initializer)) found.push(node.initializer)
+    ts.forEachChild(node, visit)
+  }
+  visit(tree)
+  if (found.length !== 1) throw Error('Expected exactly one original public detector implementation')
+  const declaration = found[0]!
+  if (declaration.parameters.length !== 2 || declaration.parameters[0]?.name.getText(tree) !== 'text' || declaration.parameters[1]?.name.getText(tree) !== 'config') throw Error('Original public detector signature changed')
+  const body = declaration.body
+  return source.slice(0, body.getStart(tree)) + '{ if ((globalThis as any).__tridentPublicOperation === "detectType") return (globalThis as any).__tridentPublicDetect(text, config);' + source.slice(body.getStart(tree) + 1)
 }

@@ -47,3 +47,29 @@ export const publicBindingManifest = binding => {
   const require = createRequire(join(binding.packageRoot, 'package.json'))
   return { package: JSON.parse(fs.readFileSync(join(binding.packageRoot, 'package.json'), 'utf8')), entry: require.resolve(binding.publicImport) }
 }
+
+/** Detector calls use the actual public detector, never the parser or a source
+ * recognizer supplied by Trident. Family aliases translate declared vocabulary. */
+export async function bindPublicDetect(binding, observe) {
+  const require = createRequire(join(binding.packageRoot, 'package.json')), entry = require.resolve(binding.publicImport), module = await import(pathToFileURL(entry).href)
+  if (binding.kind === 'mermaid-api') {
+    const api = module.default ?? module
+    return { detect: (source, config) => {
+      if (typeof api.detectType !== 'function') { observe({ source, disposition: 'binding-unavailable', missingFields: [] }); throw Error('Public detector unavailable') }
+      try { const family = api.detectType(source, config); observe({ source, disposition: 'observed', missingFields: [], returned: family }); return family }
+      catch (error) { observe({ source, disposition: 'observed', missingFields: [], thrown: { name: error?.name, message: error?.message } }); throw error }
+    } }
+  }
+  const description = binding.detection, target = description && valueAt(module, description.export)
+  return { detect: (source, config) => {
+    if (!description || typeof target !== 'function') { observe({ source, disposition: 'binding-unavailable', missingFields: [] }); throw Error('No reviewed public detector binding') }
+    const owner = description.export.includes('.') ? valueAt(module, description.export.slice(0, description.export.lastIndexOf('.'))) : module
+    let value
+    try { value = target.call(owner, source, config) }
+    catch (error) { observe({ source, disposition: 'observed', missingFields: [], thrown: { name: error?.name, message: error?.message } }); throw error }
+    const family = valueAt(value, description.familyPath), kind = description.kindPath ? valueAt(value, description.kindPath) : undefined
+    if (typeof family !== 'string' || description.kindPath && kind !== description.acceptedKind) { observe({ source, disposition: 'unsupported', missingFields: [], returned: value }); throw Error('Public detector does not recognize this input') }
+    const canonical = binding.familyAliases?.[family] ?? family
+    observe({ source, disposition: 'observed', missingFields: [], returned: canonical }); return canonical
+  } }
+}

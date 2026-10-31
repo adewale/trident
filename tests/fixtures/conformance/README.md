@@ -1,14 +1,14 @@
-`mermaidAPI.spec.ts.txt` and `mermaid.spec.ts.txt` are the unmodified original
+`mermaidAPI.spec.ts.txt`, `mermaid.spec.ts.txt` and `utils.spec.ts.txt` are the unmodified original
 MIT-licensed Mermaid files under `packages/mermaid/src/` at
-`1fb7869866dd619168d840291c9c54b4f129758b`. SHA256 values and the 16 selected
+`1fb7869866dd619168d840291c9c54b4f129758b`. SHA256 values and the 22 selected
 callback IDs, locations and hashes are in `corpus/mermaid-public-tests.json`.
 They are stored as text so Trident can verify source identity without importing a
 renderer or executing unrelated upstream tests. Original copyright/license
 remains Mermaid's.
 
 The production runner executes the actual files in the pinned source checkout
-under original Vitest plugins. It changes one SHA-bound public implementation
-body, never the callbacks, assertions or snapshots. Tests of the boundary
+under original Vitest plugins. It changes SHA-bound public implementation
+bodies, never the callbacks, assertions or snapshots. Tests of the boundary
 transform use synthetic source and supply no ecosystem benchmark result.
 
 The complete census contains 4,060 test declarations in 368 files. Its static

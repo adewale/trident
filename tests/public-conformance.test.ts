@@ -2,9 +2,9 @@ import { expect, test } from 'bun:test'
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { replacePublicParseBody, type PublicTestDeclaration } from '../unified/public-conformance-inventory.ts'
+import { replacePublicParseBody, replacePublicDetectBody, type PublicTestDeclaration } from '../unified/public-conformance-inventory.ts'
 import { qualifyPublicReference, reducePublicCallbacks, type PublicCallEvent } from '../unified/public-conformance.ts'
-import { bindPublicParse } from '../unified/public-conformance-binding.mjs'
+import { bindPublicParse, bindPublicDetect } from '../unified/public-conformance-binding.mjs'
 import { useTempDirs } from './helpers/temp-dir.ts'
 const temp = useTempDirs('public-conformance-'), hash = (value: string) => createHash('sha256').update(value).digest('hex')
 const manifest = JSON.parse(readFileSync(new URL('../corpus/mermaid-public-tests.json', import.meta.url), 'utf8'))
@@ -19,14 +19,14 @@ test('the pinned inventory retains all original source files and preserves the e
     expect(hash(original)).toBe(spec.sha256)
     sources.set(spec.path, original)
   }
-  expect(manifest.counts).toEqual({ files: 368, declarations: 4060, eligible: 16, upstreamDisabled: 15, outsideScope: 4029 })
+  expect(manifest.counts).toEqual({ files: 368, declarations: 4060, eligible: 22, upstreamDisabled: 18, outsideScope: 4020 })
   expect(manifest.censusFiles).toHaveLength(368)
   expect(manifest.censusFiles.reduce((total: number, file: any) => total + file.declarations, 0)).toBe(4060)
-  expect(cases).toHaveLength(16)
+  expect(cases).toHaveLength(22)
   for (const input of cases) {
     const text = sources.get(input.path)!.split('\n').slice(input.line - 1, input.endLine).join('\n')
     expect(text).toContain(input.name)
-    expect(text).toMatch(/mermaid(?:API)?\.parse\(/)
+    expect(text).toMatch(input.publicOperation === 'detectType' ? /\bdetectType\(/ : /mermaid(?:API)?\.parse\(/)
     expect(input.callbackSha256).toMatch(/^[a-f0-9]{64}$/)
   }
   expect(manifest.wholeSuiteConformanceQualified).toBe(false)
@@ -95,4 +95,24 @@ test('public-surface review does not disguise pending public tests or shadowed i
   expect(classify("import {parse} from './privateParser.js';\nit('private',()=>{parse('source')});")).toMatchObject({ disposition: 'review-required', category: 'private-implementation' })
   expect(classify("import {parse} from './privateParser.js';\nit('shadow',()=>{const parse=(s:string)=>s;parse('source')});")).toMatchObject({ disposition: 'review-required', category: 'unclassified-contract' })
   expect(classify("import {helper} from './tests/util.js';\nit('unknown helper',()=>{helper()});")).toMatchObject({ disposition: 'review-required', category: 'unclassified-contract' })
+})
+
+test('public detector delegation is separately SHA-bound and never substitutes the parser', async () => {
+  const source = 'export const detectType=function(text:string,config?:any){return original(text,config)};const keep=1'
+  const adapted = replacePublicDetectBody(source, hash(source))
+  expect(adapted).toContain('__tridentPublicOperation === "detectType"')
+  expect(adapted).toContain('__tridentPublicDetect(text, config)')
+  expect(adapted).toContain('return original(text,config)};const keep=1')
+  expect(() => replacePublicDetectBody(source + ' ', hash(source))).toThrow('hash changed')
+  const root = temp.dir()
+  writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'public-detector-fixture', type: 'module', exports: './index.mjs' }))
+  writeFileSync(join(root, 'index.mjs'), 'export function detect(source){return source==="known"?{kind:"registered",familyId:"flowchart"}:{kind:"unknown"}};export function parse(){throw Error("must not parse")}')
+  const events: any[] = [], binding = { packageRoot: root, publicImport: 'public-detector-fixture', kind: 'result-parser', export: 'parse', detection: { export: 'detect', familyPath: 'familyId', kindPath: 'kind', acceptedKind: 'registered' }, familyAliases: { flowchart: 'flowchart-v2' } }
+  const target = await bindPublicDetect(binding, (event: any) => events.push(event))
+  expect(target.detect('known')).toBe('flowchart-v2')
+  expect(() => target.detect('unknown')).toThrow('does not recognize')
+  expect(events.map(row => row.disposition)).toEqual(['observed', 'unsupported'])
+  const missing = await bindPublicDetect({ ...binding, detection: undefined }, (event: any) => events.push(event))
+  expect(() => missing.detect('known')).toThrow('No reviewed')
+  expect(events.at(-1).disposition).toBe('binding-unavailable')
 })
