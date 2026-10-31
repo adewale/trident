@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { gunzipSync } from 'node:zlib'
+import { evidenceDigest } from '../portable/evidence-contract.ts'
 import type { TerminalMeaning } from './terminal.ts'
 import type { TerminalSourceContract } from './terminal-source.ts'
 export interface TerminalProjectCase {
@@ -55,7 +56,38 @@ export function readTerminalCorpus(file = resolve(import.meta.dir, '../corpus/te
 }
 
 export interface TerminalSourceReview { caseId: string; sourceSha256: string; intent: 'valid' | 'invalid' | 'dialect'; review: string; graph?: TerminalMeaning; contract?: TerminalSourceContract; unverifiedFacts: string[] }
-export function reviewedTerminalCases(corpus = readTerminalCorpus(), reviewFile = resolve(import.meta.dir, '../corpus/terminal-project-reviews.json')) {
+type AuditedSource = Pick<TerminalProjectCase, 'id' | 'sourceSha256' | 'family' | 'intent' | 'expected'>
+export interface TerminalSourceAudit {
+  schema: 'terminal-independent-source-audit-v1'
+  cases: { caseId: string; sourceSha256: string; semanticReviewSha256: string; review: string; findingIds: string[] }[]
+  findings: { id: string; status: string }[]
+}
+function contractGraph(contract?: TerminalSourceContract): TerminalMeaning | undefined {
+  if (contract?.family !== 'flowchart') return
+  const value = (criterion: string) => contract.facts.find(fact => fact.criterion === criterion)?.expected
+  return { nodes: value('nodes') as TerminalMeaning['nodes'], edges: value('relationships') as TerminalMeaning['edges'], ...(value('layout-order') ? { layout: value('layout-order') as TerminalMeaning['layout'] } : {}), ...(value('groups') ? { groups: value('groups') as TerminalMeaning['groups'] } : {}) }
+}
+/** The full-read receipt binds meaning, not review wording or origin metadata.
+ * Scope prose is explanatory; criterion, expected value and required status bind
+ * each obligation. A generator cannot confer independent review on new facts. */
+export function terminalSourceAuditIdentity(input: AuditedSource) {
+  const contract = input.expected.contract
+  return evidenceDigest({ sourceSha256: input.sourceSha256, family: input.family, intent: input.intent, contract: contract ? { schema: contract.schema, family: contract.family, facts: contract.facts.map(fact => ({ criterion: fact.criterion, expected: fact.expected, required: fact.required !== false })), presentation: contract.presentation, sourceUncertainties: contract.sourceUncertainties } : null, unverifiedFacts: input.expected.unverifiedFacts ?? [] })
+}
+export function readTerminalSourceAudit(file = resolve(import.meta.dir, '../docs/evidence/terminal-source-review-2026-10-31/receipt.json')): TerminalSourceAudit {
+  const audit = JSON.parse(readFileSync(file, 'utf8')) as TerminalSourceAudit
+  const digest = (value: unknown) => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value)
+  if (audit.schema !== 'terminal-independent-source-audit-v1' || !Array.isArray(audit.cases) || !Array.isArray(audit.findings) || new Set(audit.cases.map(row => row.caseId)).size !== audit.cases.length || new Set(audit.findings.map(row => row.id)).size !== audit.findings.length || audit.findings.some(row => !row.id || !row.status) || audit.cases.some(row => !row.caseId || !digest(row.sourceSha256) || !digest(row.semanticReviewSha256) || row.review !== 'full-literal-read' || !Array.isArray(row.findingIds) || row.findingIds.some(id => !audit.findings.some(finding => finding.id === id)))) throw Error('Terminal independent source audit is malformed or duplicate')
+  return audit
+}
+export function terminalSourceAuditStatus(input: AuditedSource, audit = readTerminalSourceAudit()) {
+  const row = audit.cases.find(row => row.caseId === input.id)
+  if (!row || row.sourceSha256 !== input.sourceSha256 || row.semanticReviewSha256 !== terminalSourceAuditIdentity(input)) return { admitted: false, reason: 'No independent full read binds this exact terminal source and semantic expectation contract' }
+  if (evidenceDigest(input.expected.graph ?? null) !== evidenceDigest(contractGraph(input.expected.contract) ?? null)) return { admitted: false, reason: 'Terminal observer graph differs from the independently reviewed source contract' }
+  if (row.findingIds.some(id => !['resolved', 'policy-resolved'].includes(audit.findings.find(finding => finding.id === id)!.status))) return { admitted: false, reason: 'The independent source review retains an unresolved expectation finding' }
+  return { admitted: true, reason: 'Independent full read binds this exact source and semantic expectation contract' }
+}
+export function reviewedTerminalCases(corpus = readTerminalCorpus(), reviewFile = resolve(import.meta.dir, '../corpus/terminal-project-reviews.json'), audit = readTerminalSourceAudit()) {
   const reviews = JSON.parse(readFileSync(reviewFile, 'utf8')) as TerminalSourceReview[], byId = new Map<string, TerminalSourceReview>()
   for (const review of reviews) {
     const input = corpus.cases.find(item => item.id === review.caseId)
@@ -67,12 +99,11 @@ export function reviewedTerminalCases(corpus = readTerminalCorpus(), reviewFile 
   }
   return corpus.cases.map(input => {
     const review = byId.get(input.id)
-    let graph = review?.graph
-    if (!graph && review?.contract?.family === 'flowchart') {
-      const value = (criterion: string) => review.contract!.facts.find(fact => fact.criterion === criterion)?.expected
-      graph = { nodes: value('nodes') as TerminalMeaning['nodes'], edges: value('relationships') as TerminalMeaning['edges'], ...(value('layout-order') ? { layout: value('layout-order') as TerminalMeaning['layout'] } : {}), ...(value('groups') ? { groups: value('groups') as TerminalMeaning['groups'] } : {}) }
-    }
+    const graph = review?.contract ? contractGraph(review.contract) : review?.graph
     const empty = graph?.nodes.length === 0 && graph.edges.length === 0 && review?.contract?.facts.every(fact => fact.required === false || ['nodes', 'relationships'].includes(fact.criterion))
-    return review ? { ...input, features: [...input.features.filter(feature => feature !== 'expected-empty-drawing'), ...(empty ? ['expected-empty-drawing'] : [])], intent: review.intent, expected: { status: 'independently-reviewed', reason: review.review, ...(graph ? { graph } : {}), ...(review.contract ? { contract: review.contract } : {}), unverifiedFacts: review.unverifiedFacts } } : input
+    if (!review) return input
+    const candidate = { ...input, features: [...input.features.filter(feature => feature !== 'expected-empty-drawing'), ...(empty ? ['expected-empty-drawing'] : [])], intent: review.intent, expected: { status: 'independently-reviewed', reason: review.review, ...(graph ? { graph } : {}), ...(review.contract ? { contract: review.contract } : {}), unverifiedFacts: review.unverifiedFacts } }
+    const admission = terminalSourceAuditStatus(candidate, audit)
+    return admission.admitted ? candidate : { ...candidate, expected: { ...candidate.expected, status: 'unreviewed', reason: admission.reason } }
   })
 }
