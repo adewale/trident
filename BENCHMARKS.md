@@ -1,8 +1,8 @@
 # Benchmarks: tasks, evidence and limits
 
 Trident compares public rendering artifacts. The current workloads are
-Documentation Examples (DaveBench), Mermaid Feature Cases and optional Model and
-Editing Contracts. SVG inspection and cost measurement are shared machinery.
+Documentation Examples (DaveBench), Mermaid Feature Cases, Terminal Rendering
+and optional Model and Editing Contracts. SVG inspection and cost measurement are shared machinery.
 There is no combined renderer-quality score or validated production holdout.
 
 ```sh
@@ -98,9 +98,28 @@ cannot supply missing correctness evidence. No single-call p95/p99 or production
 forecast follows from batch means. CPU, RSS, JS heap and native/WASM memory keep
 their separate scopes. [Measurement rules](MEASUREMENT.md) give the clock details.
 
-Terminal content has a [bounded grid-observer prototype](docs/terminal-correctness.md).
-Current general terminal admission checks still establish format/text only. Native
-PNG decoding and nonblank checks likewise supply no label or topology evidence.
+## Terminal Rendering — Project Examples
+
+Task: preserve independently declared graph facts through public terminal output.
+[The corpus](docs/terminal-corpus.md) contains 120 real inputs from capped research
+across 18 repositories (17 contribute inputs), covering 20 diagram families plus
+invalid sources. It distinguishes 67 terminal-specific examples/regressions from
+53 shared-renderer robustness cases; these are not production-frequency samples.
+Issue/PR URLs, dates, body/patch hashes, repository commits and extraction changes
+remain attached to every input.
+
+`bench --terminal` uses existing CLI/Python transports. Mermaid is the mandatory
+unscored source reference, Mermaid ASCII the mandatory terminal participant.
+The default qualification invokes only the 16 reviewed drawings once each and retains all
+other cells as unknown. `--all-inputs` explicitly collects the full inventory.
+Saved-output rechecks require no renderer or Mermaid installation.
+
+Reviewed-subset ranks order verified correct counts only. Full accuracy remains
+unknown; the [dated results](docs/terminal-results-2026-10-31.md) retain observer
+gaps and failures. Cold ASCII CLI and warm Python API clocks have no shared speed
+rank. The old four authored graphs test the observer and supply no corpus score.
+Legacy general terminal admission still establishes format/text only. Native PNG
+decoding/nonblank checks likewise supply no label or topology evidence.
 
 ## Model and Editing Contracts — optional
 

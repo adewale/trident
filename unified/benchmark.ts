@@ -60,10 +60,12 @@ export async function collectCampaignBoundary(results: any[], deadline: number |
 
 /** Prepare once, then collect/resume with one frozen manifest and shared budget. */
 export async function main(argv = process.argv.slice(2)) {
+  if (argv.includes('--terminal')) return (await import('./terminal-profile.ts')).runTerminalProfile(argv.filter(flag => flag !== '--terminal'))
   if (argv.includes('--help')) {
     console.log(`bun commands.ts bench --projects OWNER/TOOL,... [--all-projects instead] --profile full --out DIR
   --plan                         inspect selection without acquisition or rendering
   --prepare [--cutoff UTC]        freeze release selection, artifacts and inputs only
+  --terminal                     real terminal-project corpus profile; --terminal --help
   --pilot                        diagnostic flowchart/scaling pilot; never ecosystem scores
   --prepared FILE                use one preparation.json; no latest lookups
   --external-inputs FILE          separate frozen compatibility cohort, collected first

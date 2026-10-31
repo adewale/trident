@@ -12,6 +12,8 @@ type Cell = string | number
 export interface SnapshotTable {
   id: string; suite: PublicSuite; measuredAt: string; historical: boolean; unit: string; caption: string
   artifactRole?: 'candidate'
+  /** Named profiles cannot supersede broad compatibility or unrelated profiles. */
+  cohort?: string
   /** Output lanes share a corpus, never a supersession or speed boundary. */
   outputFormat?: 'svg' | 'png'
   /** A compact result table also shown on the ecosystem landing page. */
@@ -129,7 +131,7 @@ function supersedingAttempt(attempts: SnapshotAttempt[], entry: SnapshotTable, p
   // Historical docs tables predate PNG lanes and describe SVG. A PNG-only
   // attempt cannot erase that SVG evidence, including when setup was blocked.
   const output = entry.outputFormat ?? (entry.suite === 'docs' ? 'svg' : undefined)
-  const eligible = attempts.filter(attempt => attempt.project === project && attempt.suite === entry.suite && attempt.artifactRole !== 'candidate' && (!output || (attempt.outputFormats ?? (attempt.suite === 'docs' ? ['svg'] : [])).includes(output)))
+  const eligible = attempts.filter(attempt => attempt.project === project && attempt.suite === entry.suite && attempt.artifactRole !== 'candidate' && (entry.cohort !== undefined ? (attempt.cohort ?? 'core') === entry.cohort : attempt.cohort === undefined || ['core', 'external'].includes(attempt.cohort)) && (!output || (attempt.outputFormats ?? (attempt.suite === 'docs' ? ['svg'] : [])).includes(output)))
   const row = entry.rows.find(row => row.project === project), receipt = row?.receipt ?? entry.receipt
   const updatedAt = row?.campaignUpdatedAt ?? entry.campaignUpdatedAt
   const publishedAt = stamp(updatedAt ?? entry.measuredAt)
@@ -148,7 +150,7 @@ const attemptCell = (attempt: SnapshotAttempt, label = '') => `[${md(label)}${md
 /** Shared competition ranks (1, 1, 3); unavailable measurements never become zero. */
 export function rankedRows(entry: SnapshotTable, name: (id: string) => string) {
   const numeric = (value: Cell | undefined) => measurementNumber(value) ?? NaN
-  return rankResults(entry.rows, { direction: entry.ranking?.direction ?? 'descending', name: row => name(row.project), score: row => {
+  const ranked = rankResults(entry.rows, { direction: entry.ranking?.direction ?? 'descending', name: row => name(row.project), score: row => {
     if (row.unrankedReason) return null
     const metric = entry.ranking
     const numerator = metric ? numeric(row.values[entry.columns.indexOf(metric.column)]) : NaN
@@ -158,6 +160,9 @@ export function rankedRows(entry: SnapshotTable, name: (id: string) => string) {
     const value = numerator / denominator
     return Number.isFinite(numerator) && Number.isFinite(denominator) && denominator > 0 && Number.isFinite(value) && !(total > 0 && unobserved >= total) ? value : null
   } }).map(({ row, ...rank }) => ({ ...row, ...rank }))
+  // Verified counts remain readable best-first even where unknown evidence
+  // withholds a formal correctness rank. Ranking eligibility is unchanged.
+  return entry.ranking?.column === 'Correct' ? ranked.sort((a, b) => numeric(b.values[entry.columns.indexOf('Correct')]) - numeric(a.values[entry.columns.indexOf('Correct')]) || name(a.project).localeCompare(name(b.project))) : ranked
 }
 function chartValue(entry: SnapshotTable, row: SnapshotTable['rows'][number]) {
   const chart = entry.chart!, numerator = measurementNumber(row.values[entry.columns.indexOf(chart.numerator)])
@@ -248,7 +253,7 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
   const primary = snapshot.tables.find(entry => entry.id === (snapshot.overviewRanking ?? 'docs-coverage'))
   if (snapshot.overviewRanking && !primary) throw Error('Unknown overview ranking table')
   if (primary && !primary.ranking) throw Error('Overview ranking table needs a named metric')
-  const attemptsFor = (project: string, suite: PublicSuite) => snapshot.attempts.filter(attempt => attempt.project === project && attempt.suite === suite && attempt.artifactRole !== 'candidate').sort((a, b) => stamp(b.updatedAt) - stamp(a.updatedAt) || b.id.localeCompare(a.id))
+  const attemptsFor = (project: string, suite: PublicSuite) => snapshot.attempts.filter(attempt => attempt.project === project && attempt.suite === suite && attempt.artifactRole !== 'candidate' && (suite !== 'community' || attempt.cohort === undefined || ['core', 'external'].includes(attempt.cohort))).sort((a, b) => stamp(b.updatedAt) - stamp(a.updatedAt) || b.id.localeCompare(a.id))
   const currentPrimary = primary ? { ...primary, rows: primary.rows.filter(row => visible(row.project) && !supersedingAttempt(snapshot.attempts, primary, row.project) && !currentCohorts(attemptsFor(row.project, primary.suite), primary).length) } : undefined
   const primaryRanks = new Map(currentPrimary ? rankedRows(currentPrimary, name).map(row => [row.project, row.rank]) : [])
   const recorded = new Set(snapshot.attempts.map(attempt => attempt.project))

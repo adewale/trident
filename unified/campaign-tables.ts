@@ -59,6 +59,29 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
     }
     const results = campaignResults(boundary)
     for (const result of results) {
+      const terminal = (result as any).terminalAssessments, terminalProfile = (result as any).terminalProfile
+      if (boundary.suite === 'community' && Array.isArray(terminal)) {
+        if (!terminalProfile?.id || !Array.isArray(terminalProfile.cases) || !terminalProfile.cases.length || !Array.isArray(terminalProfile.producers) || !terminalProfile.producers.length) throw Error('Terminal profile lacks source/observer identity')
+        const allIds = terminalProfile.cases.map((input: any) => input.id), reviewedIds = terminalProfile.reviewedCaseIds
+        if (new Set(allIds).size !== allIds.length || !Array.isArray(reviewedIds) || new Set(reviewedIds).size !== reviewedIds.length || reviewedIds.some((id: string) => !allIds.includes(id))) throw Error('Terminal profile has an invalid planned inventory')
+        for (const [scope, assessments, planned] of [['full', terminal, allIds], ['reviewed', (result as any).terminalReviewedAssessments, reviewedIds]] as const) {
+          if (!Array.isArray(assessments)) throw Error('Terminal result omitted a declared profile')
+          for (const assessment of assessments) {
+            const cases = assessment.cases
+            if (!Array.isArray(cases) || JSON.stringify(cases.map((input: any) => input.caseId).sort()) !== JSON.stringify([...planned].sort()) || cases.some((input: any) => !['correct', 'incorrect', 'unsupported', 'unknown'].includes(input.status))) throw Error('Terminal verdicts omit or duplicate planned inputs')
+            const project = projectId(assessment.project), count = (status: string) => cases.filter((input: any) => input.status === status).length, unknown = count('unknown')
+            if (project === 'mermaid-js/mermaid') throw Error('Mermaid source reference cannot receive a terminal renderer score')
+            const own = result.observations.filter(row => projectId(row.metrics?.project) === project && row.format === 'terminal' && row.operation === 'graph-correctness')
+            add(['terminal-case-verdicts', cohort, scope, hash(terminalProfile)], 'community', measuredAt(own, result.finishedAt),
+              (scope === 'full' ? 'Full planned terminal corpus, retaining unmeasured and unreviewed inputs.' : 'Independently reviewed drawing subset, ranked by verified correct count only. Unknown outcomes leave complete accuracy unresolved; this count rank cannot establish full-corpus correctness.') + ` Corpus: ${allIds.length} selected inputs from pinned terminal-project documentation, issues and PRs, without selection on renderer outcomes. Source/review hashes and all origins remain in the owning receipt. Full-inventory accuracy ranks are withheld for unknown work; reviewed-subset ranks order only verified counts. Mermaid source reference is unscored; no speed or aesthetics score.`,
+              ['Version', 'Correct', 'Incorrect', 'Unsupported', 'Unknown', 'Planned', 'Measured'], project,
+              [assessment.version, count('correct'), count('incorrect'), count('unsupported'), unknown, planned.length, measuredAt(own, result.finishedAt)],
+              scope === 'reviewed' ? { column: 'Correct', direction: 'descending' } : { column: 'Correct', denominator: 'Planned', direction: 'descending' },
+              { cohort, unit: 'terminal input cases', population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unsupported', 'Unknown'] } }, !planned.length || scope === 'full' && unknown || scope === 'reviewed' && !count('correct') && !count('incorrect') && !count('unsupported') ? 'Terminal source/display/drawing evidence is incomplete' : undefined)
+          }
+        }
+        continue
+      }
       const svg = (result as any).svgAssessments
       if (boundary.suite === 'fidelity' && Array.isArray(svg)) {
         for (const assessment of svg) {
