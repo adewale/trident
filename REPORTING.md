@@ -53,7 +53,7 @@ sentence interpreting each result.
 | Mermaid Feature Cases | Project/version on the same authored SVG cases | Correct, incorrect, unsupported and unknown diagrams; per-criterion details separately | Diagrams |
 | Public Model Contracts | Project/version on the same authored sources | Correct, incorrect and unknown whole cases; raw criterion details remain in evidence | Cases |
 | Terminal Rendering | Project/version on the same pinned project corpus | Correct, incorrect, unsupported, unknown, planned and measured inputs; reviewed and full populations separately | Diagrams |
-| Mermaid Public Tests | Project/version on the same selected unchanged original callbacks | Passed, failed, unsupported, binding gaps and planned expanded callbacks; exact public scope | Callbacks |
+| Mermaid Public API Tests — diagnostic | Project/version on the same selected unchanged original callbacks | Passed, failed, unsupported, binding gaps and planned expanded callbacks; exact public scope | Callbacks |
 | Reference environment validation | Reference/version and original runner | Files, passed, failed, pending and todo callbacks; no peer-project score | Files and callbacks |
 | Legacy fixed-core/adaptive cost diagnostics | Project/version, case/size and one call mode | Descriptive samples/means and original limits; no current qualified speed rank | ms |
 | Render resources | Project/version, case and resource checkpoint | CPU, process RSS, JS heap, retained output; separate scopes | ms, MiB or bytes |

@@ -58,7 +58,7 @@ painted labels. Literal punctuation stays literal unless the source declares
 Markdown; a pie label such as `__proto__` keeps its underscores.
 
 A correct drawing requires every planned visible fact against the actual retained
-output: identities, labels, relationships, direction, grouping, quantities,
+output: identities, labels, relationships, defensible directional constraints, grouping, quantities,
 visibility and other declared source obligations. Missing observers stay unknown
 and cannot shrink the denominator. One established violation can reject a case;
 unknown checks alone cannot. Public-model facts and painted evidence remain
@@ -68,7 +68,9 @@ preservation proof, not an SVG pass alone.
 Unknown resources, option mappings or host setup remain setup/observation gaps.
 Do not turn an untyped process exception into a syntax-rejection pass. A supported
 bounded projection is not a claim to understand arbitrary CSS, filters, fonts or
-every member of its diagram family.
+every member of its diagram family. Global layout/style hints remain advisory;
+hard geometric ordering needs an independently justified source constraint,
+such as a simple chain or explicitly ordered tiers.
 
 ## Timing and retained evidence
 

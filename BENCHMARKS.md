@@ -117,10 +117,10 @@ cannot supply missing correctness evidence. No single-call p95/p99 or production
 forecast follows from batch means. CPU, RSS, JS heap and native/WASM memory keep
 their separate scopes. [Measurement rules](MEASUREMENT.md) give the clock details.
 
-## Mermaid Public Tests
+## Mermaid Public API Tests — diagnostic
 
 Task: pass the unchanged public-behaviour assertions in Mermaid's own tests.
-The current [qualified scope](docs/mermaid-public-conformance.md) is **41 callbacks**:
+The current independently checked [diagnostic scope](docs/mermaid-public-conformance.md) is **41 callbacks**:
 16 public parse callbacks, six detector callbacks and 19 parameterized
 accessibility render callbacks from 23 original declarations in the pinned
 Mermaid source. It checks acceptance/rejection, suppressed errors, returned family
@@ -135,11 +135,14 @@ bun commands.ts mermaid:public-tests --help
 
 Tables stack-rank passes over the same 41 planned callbacks, with assertion
 failures, unsupported operations, binding gaps and unrun work separate. A Trident
-adapter exception cannot earn syntax-rejection credit. This benchmark measures
+adapter exception cannot earn syntax-rejection credit. This diagnostic measures
 that exact API scope; it does not measure drawing accuracy, speed or all Mermaid
 behaviour. The full census has 4,060 declarations in 368 files, including
 parameterized/wrapped declarations. They require public-contract review and
 expanded callback identities before they can become additional peer tests.
+Retained standalone results can enter the normal results snapshot; collection is
+explicit through `mermaid:public-tests` until source/runtime/binding prerequisites
+are frozen for campaign scheduling.
 
 ## Terminal Rendering — Project Examples
 
@@ -212,7 +215,7 @@ reference environment. Run them explicitly when that pin/runtime changes, with
 read-only snapshots and the actual runner. They provide no peer-project score.
 Existing owning evidence can be reused without rerunning every campaign. These
 reference-runner results are separate from the qualified public-callback
-comparison above.
+diagnostic above.
 
 AM owns its product invocation/MCP matrices, editor/session flows, release budgets,
 stage diagnostics and private corpus. Trident provides shared measurement code

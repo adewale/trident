@@ -38,7 +38,8 @@ selection when the planning range exceeds the available window.
 
 Every admitted SVG receives the same format/text admission checks. Optional
 public parse-model evidence and reviewed painted-meaning projections have their
-own dispositions. A renderer without a model API can pass output admission;
+own dispositions. Global layout/style hints remain advisory; hard geometric
+ordering requires a defensible source constraint. A renderer without a model API can pass output admission;
 that does not establish topology or full painted fidelity. Model failures cannot
 be hidden by correct labels, and model facts never substitute for missing ink.
 
