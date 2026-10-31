@@ -674,6 +674,7 @@ function gitgraph(r: LiteralReview) {
     return out
   }
   const addCommit = (attr: Record<string, string>, parents: string[], extra: Record<string, MeaningJson> = {}) => {
+    if(attr.id&&commits.some(commit=>commit.authoredId===attr.id))r.unresolved.push('Duplicate Git commit identifier '+JSON.stringify(attr.id)+' has unresolved standalone drawing semantics: gitgraph.md39 requires each command occurrence on the timeline, while the pinned AST warns and overwrites the identifier map (gitGraphAst.ts128-132), potentially redirecting parent identities into cycles. Exact command/event and native-profile candidates remain diagnostic; neither separate-event counting nor last-write-map geometry is a qualified source oracle.')
     const id = 'commit:' + commits.length, item = { id, ...(attr.id ? { authoredId: attr.id } : {}), ...(attr.message ? { message: attr.message } : {}), branch: current, parents, type: attr.type ?? 'NORMAL', tags: attr.tag ? [attr.tag] : [], ...extra }; commits.push(item); branches.get(current)!.head = id; if (attr.id && config.showCommitLabel !== false) r.labels(attr.id); if (attr.tag) r.labels(attr.tag); return id
   }
   const headerDirection = /^\s*gitGraph\s+(LR|TB|BT)\s*:?/i.exec(r.lines[0]!); if (headerDirection) r.fact('direction', headerDirection[1]!); else r.fact('direction', 'LR')

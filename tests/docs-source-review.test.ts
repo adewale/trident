@@ -9,6 +9,18 @@ const input = (source: string, id = 'source-control') => ({ id, family: 'source-
 const review = (source: string) => reviewDocumentationSource(input(source), { visual: false })
 const facts = (source: string) => review(source).expected!.facts!
 
+test('duplicate Git IDs hold drawing identity semantics without forcing event count, overwrite or invalid-source rejection',()=>{
+  const source=input('gitGraph\ncommit id:"Same"\ncommit id:"Same"'),row=reviewDocumentationSource(source)
+  expect(row.intent).toBe('drawing')
+  expect(row.sourceReview.expectedFactsComplete).toBe(false)
+  expect(row.sourceReview.unresolved.join(' ')).toContain('Duplicate Git commit identifier "Same"')
+  expect((row.expected!.facts!.commits as any[])).toHaveLength(2)
+  expect(row.expectedRejection).toBeUndefined()
+  expect(admitDocsReviews([source],[row])[0]!.intent).toBe('source-review-pending')
+  expect(assessDocsDrawing(source,row,'passed',true,[]).status).toBe('unknown')
+  expect(reviewDocumentationSource({...source,source:'gitGraph\ncommit id:"Same"\ncommit id:"Different"'}).sourceReview.expectedFactsComplete).toBe(true)
+})
+
 test('Venn title uses the raw TITLE terminal while quoted set/union labels use delimiters',()=>{
   const row=review('venn-beta\ntitle "Team overlap"\nset Frontend\nset Backend\nunion Frontend,Backend["APIs"]')
   expect(row.expected!.facts!.title).toBe('"Team overlap"')
@@ -219,9 +231,11 @@ test('the full pinned corpus keeps all 548 occurrences and 546 distinct literal 
   expect(inventory.distinct).toBe(546)
   expect(audit.reviews).toEqual(committed)
   expect(audit.admitted).toHaveLength(548)
-  expect(audit.pending).toEqual([])
+  expect(audit.pending.map(row=>row.id)).toEqual(['packages/mermaid/src/docs/syntax/gitgraph.md:471'])
   expect(audit.reviews.filter(row => row.intent === 'configuration-only').map(row => row.id)).toEqual(['packages/mermaid/src/docs/syntax/gantt.md:291'])
-  expect(audit.reviews.filter(row => row.intent === 'drawing' && row.sourceReview.expectedFactsComplete)).toHaveLength(546)
+  expect(audit.reviews.filter(row => row.intent === 'drawing')).toHaveLength(546)
+  expect(audit.reviews.filter(row => row.intent === 'drawing' && row.sourceReview.expectedFactsComplete)).toHaveLength(545)
+  expect(audit.admitted.find(row=>row.id==='packages/mermaid/src/docs/syntax/gitgraph.md:471')).toMatchObject({intent:'source-review-pending',registeredIntent:'drawing',registeredProfileEligible:true})
   expect(audit.reviews.filter(row => row.intent === 'invalid-source').map(row => row.id)).toEqual(['packages/mermaid/src/docs/syntax/kanban.md:83'])
   for (const row of audit.reviews) if (row.intent === 'drawing') expect(row.sourceReview.requiredObligations.length).toBeGreaterThan(0)
   const shared = new Map<string, string[]>()

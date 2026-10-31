@@ -18,7 +18,7 @@ Regenerate with `bun scripts/review-docs-sources.ts /path/to/pinned/mermaid-sour
 | eventmodeling | 13 | 13 | 0 | 0 | 0 |
 | flowchart | 116 | 116 | 0 | 0 | 0 |
 | gantt | 11 | 10 | 0 | 1 | 0 |
-| gitgraph | 36 | 36 | 0 | 0 | 0 |
+| gitgraph | 36 | 35 | 1 | 0 | 0 |
 | ishikawa | 1 | 1 | 0 | 0 | 0 |
 | journey | 1 | 1 | 0 | 0 | 0 |
 | kanban | 3 | 2 | 0 | 0 | 1 |
@@ -55,7 +55,7 @@ Symbol-only flowchart shapes retain original captions natively/advisory while re
 
 ## Pending source interpretation
 
-No uninterpreted source constructs remain. The separate observer qualification ledger still determines which drawing facts can be scored.
+- **packages/mermaid/src/docs/syntax/gitgraph.md:471**: Duplicate Git commit identifier "Boston" has unresolved standalone drawing semantics: gitgraph.md39 requires each command occurrence on the timeline, while the pinned AST warns and overwrites the identifier map (gitGraphAst.ts128-132), potentially redirecting parent identities into cycles. Exact command/event and native-profile candidates remain diagnostic; neither separate-event counting nor last-write-map geometry is a qualified source oracle.
 
 ## Resource prerequisite
 

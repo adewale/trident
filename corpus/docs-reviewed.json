@@ -33400,11 +33400,14 @@
         }
       }
     },
+    "unverifiedFacts": [
+      "Duplicate Git commit identifier \"Boston\" has unresolved standalone drawing semantics: gitgraph.md39 requires each command occurrence on the timeline, while the pinned AST warns and overwrites the identifier map (gitGraphAst.ts128-132), potentially redirecting parent identities into cycles. Exact command/event and native-profile candidates remain diagnostic; neither separate-event counting nor last-write-map geometry is a qualified source oracle."
+    ],
     "sourceReview": {
       "protocol": "literal-documentation-facts-v1",
       "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
       "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
+      "expectedFactsComplete": false,
       "requiredObligations": [
         "visible-labels",
         "fact:authored-config",
@@ -33413,7 +33416,9 @@
         "fact:git-operation-order",
         "fact:theme-paint"
       ],
-      "unresolved": [],
+      "unresolved": [
+        "Duplicate Git commit identifier \"Boston\" has unresolved standalone drawing semantics: gitgraph.md39 requires each command occurrence on the timeline, while the pinned AST warns and overwrites the identifier map (gitGraphAst.ts128-132), potentially redirecting parent identities into cycles. Exact command/event and native-profile candidates remain diagnostic; neither separate-event counting nor last-write-map geometry is a qualified source oracle."
+      ],
       "excludedNonvisual": [
         "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\"",
         "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"base\""

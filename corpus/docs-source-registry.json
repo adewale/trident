@@ -1,7 +1,7 @@
 {
   "schema": "trident-docs-source-registry-v1",
   "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-  "reviewedCorpusSha256": "417b7888653a88a22e10f9bae15a0255ab4a593a6c9f07165cb6ae96132db720",
+  "reviewedCorpusSha256": "38594e182a1e8358f00ffabd2f6685583c6a8c4432c6e1676b8a145562b16fc9",
   "provenance": {
     "literalAuditBaseline": "2cc55cf",
     "structuralFix": "c9dd0b5",
@@ -21,7 +21,8 @@
     "symbol-only-flowchart-glyphs": "qualification/source-audits/symbol-only-flowchart-glyphs.json; independently approved exact source delta before admission",
     "venn-literal-title-quotes": "qualification/source-audits/venn-literal-title-quotes.json; independently approved exact source delta before admission",
     "json-scalar-array-display": "qualification/source-audits/json-scalar-array-display.json; independently approved exact source delta before admission",
-    "unprintedEmptyGitHeads": "qualification/source-audits/unprinted-empty-git-heads.json; independent exactthree-case review"
+    "unprintedEmptyGitHeads": "qualification/source-audits/unprinted-empty-git-heads.json; independent exactthree-case review",
+    "bostonDuplicateIdentityHold": "qualification/source-audits/boston-duplicate-identity-hold.json; exactsourceambiguity stays in full drawing population asunknown"
   },
   "cases": [
     {
@@ -1995,7 +1996,7 @@
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:471",
       "sourceSha256": "2ea996869e041ddfc44828a6b284b1d67c52d5470d14746fa975632b7e5af975",
       "intent": "drawing",
-      "semanticSha256": "21f58f9dc765e3669583e2917e698966206fd2109c5e4caf50d225a52f96734f",
+      "semanticSha256": "46cc1842d64d60e37217858586bc4480e767874a604095039f7646afd0862abd",
       "profileEligible": true
     },
     {
