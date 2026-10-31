@@ -4,6 +4,9 @@ The implementation makes unsupported evidence visible and prevents it from
 earning correctness or speed credit. It has not finished qualifying every
 benchmark. **The 0.1 release remains blocked.**
 
+[Published verification evidence](https://github.com/adewale/trident/blob/79777b738e4bb5292a31b11dc405c42f6c90d323/qualification-evidence/README.md) preserves original failures,
+explicit repairs, actual outputs, clocks and producer identities.
+
 The [six-project profile](harness-profile.json) verifies execution mechanisms.
 [BASELINE.md](../BASELINE.md) explains the selection, frozen versions and budget.
 It is separate from an ecosystem benchmark campaign.
@@ -20,10 +23,10 @@ It is separate from an ecosystem benchmark campaign.
 | 7. PNG correctness | Decoded-pixel identity, witnessed reviews and exact frozen SVG-conversion proof; native PNG stays separate. | Complete independent image evidence for the full native-PNG workload is absent. |
 | 8. Terminal correctness | Full 120-input source audit; 81 drawing profiles with bounded projections, typed rejection controls and honest clocks. | 35 of 116 drawing profiles lack complete observers. [Offline evidence](../docs/evidence/terminal-observer-qualification-2026-10-31/README.md) preserves every unknown. |
 | 9. Mermaid public tests | 41 unchanged expanded callbacks with original-source and installed-reference controls; all exclusions visible. | This diagnostic scope is not the 4,060-declaration upstream suite. |
-| 10. Timing | Fixed balanced first-use schedule, fresh runtimes, per-call correctness, exhaustive causal journal, A/A controls and durable finalization. | Record a bounded production-path check; do not extrapolate one graph to ecosystem performance. |
+| 10. Timing | Fixed balanced first-use schedule, fresh runtimes, per-call correctness, exhaustive causal journal, A/A controls and durable finalization. | The 18-call production check passed output checks, A/A calibration and finalization. Its one portable literal is a verification case, not ecosystem performance. |
 | 11. Reports | Derived tables, best-first named metrics, shared ties, unknowns and partial-accuracy caveats. | Historical tables retain their original corpus and observer identities. |
-| 12. Adversarial audit | Cross-agent source and observer reviews, substituted-output probes, ownership and timing failure injections. | Run assembled checks after integrating the confirmed fixes. |
-| 13. Release | Baseline, claim prerequisites and source-versus-extracted-kit checks documented. | Full benchmark qualification and a valid initial accuracy baseline remain prerequisites. |
+| 12. Adversarial audit | Cross-agent source and observer reviews, substituted-output probes, ownership and timing failure injections. | Assembled static checks and affected tests pass; Linux and macOS fixture CI passed at the recorded code revision. |
+| 13. Release | Baseline, claim prerequisites and source-versus-extracted-kit checks documented. | The actual source/extracted archive preserved four workflows and 33 jobs. Full benchmark qualification and the initial accuracy baseline remain prerequisites. |
 
 The [source ledgers](source-audits/) retain reviewer roles, exact hashes and
 findings. A generator reproducing its own answers is not an independent review.

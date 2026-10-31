@@ -30,3 +30,5 @@ The source ledger contains 360 fact rows: 310 required and 50 separate advisorie
 [The JSON receipt](result.json) records source/observer/collection identities, artifact versions, all per-case statuses, available output/evidence hashes and failed/unknown obligations. It preserves the historical collection interval. Individual call clocks were absent from the original raw record and remain null. Output hashes identify the original witnesses; this compact receipt does not contain or replace the full raw witness archive.
 
 This evidence qualifies the named observer representations and makes the remaining gaps visible. It does not establish a release-ready complete Terminal benchmark or current comparative performance.
+
+The exact [observer source revision](https://github.com/adewale/trident/tree/325c6f8024307d95c1e32287bc282a311789f2a9) is retained as an archival parent of the [qualification evidence branch](https://github.com/adewale/trident/tree/79777b738e4bb5292a31b11dc405c42f6c90d323). It is historical observer provenance, not a release candidate.

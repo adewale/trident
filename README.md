@@ -1,5 +1,7 @@
 # Trident
 
+[Qualification work and remaining release gaps](qualification/README.md).
+
 Trident compares Mermaid tools on input compatibility, diagram meaning and rendering cost. It tests rendering and the parser/model APIs exposed by renderers through their public interfaces.
 
 - [Benchmarks and their value](BENCHMARKS.md): what each workload measures, how to run it, and when to trust it.

@@ -47,6 +47,7 @@ paths passed their five scoped postconditions after a Node import compatibility
 fix. The 56 completed output calls were reused. Original failed model attempts
 remain recorded. This establishes those execution and input-propagation controls;
 it does not establish complete drawing facts or corpus accuracy.
+[The published receipts](https://github.com/adewale/trident/blob/79777b738e4bb5292a31b11dc405c42f6c90d323/qualification-evidence/README.md) retain both phases and their exact producers.
 
 ## Establish accuracy before collecting comparative timings
 

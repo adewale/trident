@@ -10,6 +10,7 @@ including label/pixel propagation and the scoped public-model postconditions.
 Those controls do not establish complete drawing semantics. Full
 DaveBench drawing accuracy, full native-PNG correctness, broader original-test
 conformance and complete terminal accuracy have not thereby been established.
+[The verification evidence](https://github.com/adewale/trident/blob/79777b738e4bb5292a31b11dc405c42f6c90d323/qualification-evidence/README.md) includes the 18-call first-use check and source/extracted-kit preservation. The development archive was not released.
 Renderer failures are findings; a missing or incorrect Trident observer is a
 harness limitation and must not be reported as a renderer defect.
 
