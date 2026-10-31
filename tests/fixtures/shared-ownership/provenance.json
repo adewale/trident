@@ -1,0 +1,182 @@
+[
+  {
+    "file": "424.svg",
+    "index": 424,
+    "caseId": "packages/mermaid/src/docs/syntax/swimlanes.md:26",
+    "family": "swimlane",
+    "sourceSha256": "7677982d4cd415d8df8d49845f61e162f3f2d81532c4c566556396e69300b330",
+    "svgSha256": "fbe4afaaaf412667cdda00f9e2395c606b9a8bcf0ed1a7667e4d2b3a90f0bee3",
+    "capture": "trident-png-full-2026-10-31/svg-observation/424.json"
+  },
+  {
+    "file": "425.svg",
+    "index": 425,
+    "caseId": "packages/mermaid/src/docs/syntax/swimlanes.md:50",
+    "family": "swimlane",
+    "sourceSha256": "168c3ccf3a723485eac81692d140ac0d9fd6656f0116333bb801aba31b936c14",
+    "svgSha256": "79973e9d08faa26ceb98f8c380c3d229e522e392b4358996f35fdcede40038d0",
+    "capture": "trident-png-full-2026-10-31/svg-observation/425.json"
+  },
+  {
+    "file": "426.svg",
+    "index": 426,
+    "caseId": "packages/mermaid/src/docs/syntax/swimlanes.md:80",
+    "family": "swimlane",
+    "sourceSha256": "867cca281590bce55e2203afaa79899f556b2af97075e5b4da927b463ceaa584",
+    "svgSha256": "b1454a935ce6857f647ad46c7773bfb6a632300aa6e12982b476ce09c5335188",
+    "capture": "trident-png-full-2026-10-31/svg-observation/426.json"
+  },
+  {
+    "file": "427.svg",
+    "index": 427,
+    "caseId": "packages/mermaid/src/docs/syntax/swimlanes.md:132",
+    "family": "swimlane",
+    "sourceSha256": "8dfe9a424d0b625f1340496a8d8f9c28368a304c0b5298c840ef3fdd5f1e294e",
+    "svgSha256": "8c5ab8128e2b62165cbd83eacf8046cb6a5f0be350b9141cf0240eb54b12b020",
+    "capture": "trident-png-full-2026-10-31/svg-observation/427.json"
+  },
+  {
+    "file": "428.svg",
+    "index": 428,
+    "caseId": "packages/mermaid/src/docs/syntax/swimlanes.md:142",
+    "family": "swimlane",
+    "sourceSha256": "60c192d9e1edf6ad5e7028ac4876cf104f64ecd4f3eeb2c2ced45b5b36ad8c99",
+    "svgSha256": "ec598dae375a7f99437fd015c2e74e90b57e928aca5f0a84180fb50c3556e5f9",
+    "capture": "trident-png-full-2026-10-31/svg-observation/428.json"
+  },
+  {
+    "file": "429.svg",
+    "index": 429,
+    "caseId": "packages/mermaid/src/docs/syntax/swimlanes.md:161",
+    "family": "swimlane",
+    "sourceSha256": "aa3016964e4787fc4f09e0f38d9255cc0906cdd7c32aded850d5bab023f22491",
+    "svgSha256": "e8d7a01f60d2e2731d3072fc6fc5d89be4733e03b6f3ffee2a07943210859159",
+    "capture": "trident-png-full-2026-10-31/svg-observation/429.json"
+  },
+  {
+    "file": "430.svg",
+    "index": 430,
+    "caseId": "packages/mermaid/src/docs/syntax/swimlanes.md:199",
+    "family": "swimlane",
+    "sourceSha256": "c97fe4d378535c6bfa50cb0c5de07708acf8bbd06599522821741f0ca55e8c32",
+    "svgSha256": "c172f749186c6785c7dbb27231feeb800469fce9423fbab634cf8845f91cf2e8",
+    "capture": "trident-png-full-2026-10-31/svg-observation/430.json"
+  },
+  {
+    "file": "431.svg",
+    "index": 431,
+    "caseId": "packages/mermaid/src/docs/syntax/swimlanes.md:232",
+    "family": "swimlane",
+    "sourceSha256": "4eca0116897bbb8d96b5c102c167221adeb219c2aaba771dce943425f247c463",
+    "svgSha256": "4a17de7e9027469f8928e0f3ee6bd24af56b6eb25cf4db43dca74fc893a438d0",
+    "capture": "trident-png-full-2026-10-31/svg-observation/431.json"
+  },
+  {
+    "file": "432.svg",
+    "index": 432,
+    "caseId": "packages/mermaid/src/docs/syntax/swimlanes.md:258",
+    "family": "swimlane",
+    "sourceSha256": "d35379f671d80f98c430091e13cecce24d657bb3ac106933b573cff7eef5bf0c",
+    "svgSha256": "b530dc705dd0325f36744ae4f8cf4672ef217a2dee74a5c935cfb3280c98816e",
+    "capture": "trident-png-full-2026-10-31/svg-observation/432.json"
+  },
+  {
+    "file": "433.svg",
+    "index": 433,
+    "caseId": "packages/mermaid/src/docs/syntax/swimlanes.md:282",
+    "family": "swimlane",
+    "sourceSha256": "eaf819cfb8594d42a67a17ec34ad73bb0699dac6c71e610208c8d353940ecbd6",
+    "svgSha256": "277df35605bf87801345144652d886609bfe95d02dc84a1b7527648569cfb597",
+    "capture": "trident-png-full-2026-10-31/svg-observation/433.json"
+  },
+  {
+    "file": "434.svg",
+    "index": 434,
+    "caseId": "packages/mermaid/src/docs/syntax/swimlanes.md:309",
+    "family": "swimlane",
+    "sourceSha256": "27ad3133a24aae1a3133c343fc71299eaa4021a3ba9524742ae87c917db633be",
+    "svgSha256": "217cdc0fe6c2269f95a65120692d27935f702d1e35ffbc94544487e59df7dff3",
+    "capture": "trident-png-full-2026-10-31/svg-observation/434.json"
+  },
+  {
+    "file": "435.svg",
+    "index": 435,
+    "caseId": "packages/mermaid/src/docs/syntax/swimlanes.md:335",
+    "family": "swimlane",
+    "sourceSha256": "3328f094a66a6a947e4e2ba71c58ce478cff19d361d32345c9aea33bf780245b",
+    "svgSha256": "85b2cd8d7606a1f679ddd633fe98ec9e1200414d7df57a166a8fedfc6ec77d96",
+    "capture": "trident-png-full-2026-10-31/svg-observation/435.json"
+  },
+  {
+    "file": "436.svg",
+    "index": 436,
+    "caseId": "packages/mermaid/src/docs/syntax/swimlanes.md:356",
+    "family": "swimlane",
+    "sourceSha256": "74df22ac9f981a34ffc429d0ac9b77ffbe0bb953a902187d0e1aeaf913d91e9c",
+    "svgSha256": "bbceafb16c5a5c543832598cbc84dea5a08ff838ba9d20c17c6c3cc65e0a35b2",
+    "capture": "trident-png-full-2026-10-31/svg-observation/436.json"
+  },
+  {
+    "file": "477.svg",
+    "index": 477,
+    "caseId": "packages/mermaid/src/docs/syntax/usecase.md:131",
+    "family": "usecase",
+    "sourceSha256": "5e2ceaa9a657fdc265a773b88450996615c1d7cde6c96448cb0f313529f8aec4",
+    "svgSha256": "3177ed13dfc7d4d28d38cdc1eaa5b06baff64e6e188c8709a9ad6758eb66807c",
+    "capture": "trident-png-full-2026-10-31/svg-observation/477.json"
+  },
+  {
+    "file": "479.svg",
+    "index": 479,
+    "caseId": "packages/mermaid/src/docs/syntax/usecase.md:161",
+    "family": "usecase",
+    "sourceSha256": "cc7884f2722a02607d0942262daddfdef1b9ea0c9763d3b181a8a028487f4364",
+    "svgSha256": "6cc9ab048e39905c6a1a16d4e1e6cd52d917f64faf45faaad7c52cd826ee4491",
+    "capture": "trident-png-full-2026-10-31/svg-observation/479.json"
+  },
+  {
+    "file": "481.svg",
+    "index": 481,
+    "caseId": "packages/mermaid/src/docs/syntax/usecase.md:197",
+    "family": "usecase",
+    "sourceSha256": "b4b9e11d329da958d48fa139faa67236df6a49a4904a3cf93f0c8d51d6b73bc4",
+    "svgSha256": "1c1e7e3cf94fd9e15d6efac86ab11c4fe108d991932d6d7fd9edef3157924eff",
+    "capture": "trident-png-full-2026-10-31/svg-observation/481.json"
+  },
+  {
+    "file": "482.svg",
+    "index": 482,
+    "caseId": "packages/mermaid/src/docs/syntax/usecase.md:213",
+    "family": "usecase",
+    "sourceSha256": "2d94b58bf0c1709c9fff10a49dee0e1cd1201901ae305443f04340fa6282c80b",
+    "svgSha256": "8513b5e8771814ad8c6c5eb688244439845de7009c19f088877efede805f16fd",
+    "capture": "trident-png-full-2026-10-31/svg-observation/482.json"
+  },
+  {
+    "file": "487.svg",
+    "index": 487,
+    "caseId": "packages/mermaid/src/docs/syntax/usecase.md:306",
+    "family": "usecase",
+    "sourceSha256": "ddec036429b837799e8f06afee06ca9a14aab1b0f54138fddec561d3667276fb",
+    "svgSha256": "6d0a22f70edf95ee05f4d84233570f83ba05f6fa989c776e549e8e857b2e7ac9",
+    "capture": "trident-png-full-2026-10-31/svg-observation/487.json"
+  },
+  {
+    "file": "494.svg",
+    "index": 494,
+    "caseId": "packages/mermaid/src/docs/syntax/usecase.md:527",
+    "family": "usecase",
+    "sourceSha256": "e4fb4f72cd84fab78673e2b844b78727eab6143008b3fcdf4d85d7cbfb126070",
+    "svgSha256": "2383497ca98165f158a9a628e37cc68a350b49fd6974926be8054a2cc313ddc3",
+    "capture": "trident-png-full-2026-10-31/svg-observation/494.json"
+  },
+  {
+    "file": "455.svg",
+    "index": 455,
+    "caseId": "packages/mermaid/src/docs/syntax/treeView.md:95",
+    "family": "treeview",
+    "sourceSha256": "04e61b50f48a3523a42e357b1355c89b701033838f1d7168598d60d8903a6829",
+    "svgSha256": "be340a6747b49c384990270a24ea718f01a0bd62f05d60840a1da82d5a38142c",
+    "capture": "trident-png-full-2026-10-31/svg-observation/455.json"
+  }
+]

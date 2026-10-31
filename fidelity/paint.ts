@@ -367,6 +367,24 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       // A compartment header is ink inside its node, not the node boundary.
       const shape = candidates.find(candidate => candidates.every(other => contains(rect(candidate), rect(other), 1)))
       if (shape) {
+        if (group && shape.localName === 'rect') {
+          const header = rect(shape), style = getComputedStyle(shape)
+          const larger = shapes.filter(other => other !== shape && other.localName === 'rect' && rect(other).width * rect(other).height > header.width * header.height + 1 && !contains(rect(other), header, 1))
+          const bodies = larger.filter(other => {
+            const b = rect(other), css = getComputedStyle(other), samePaint = ['fill', 'fillOpacity', 'stroke', 'strokeOpacity', 'strokeWidth', 'opacity'].every(key => style[key as keyof CSSStyleDeclaration] === css[key as keyof CSSStyleDeclaration])
+            const border = colorAlpha(style.stroke), square = [shape, other].every(element => !(element as SVGRectElement).rx.baseVal.value && !(element as SVGRectElement).ry.baseVal.value)
+            const leftStrip = Math.abs(header.x + header.width - b.x) <= 1.5 && Math.abs(header.y - b.y) <= 1.5 && Math.abs(header.y + header.height - b.y - b.height) <= 1.5 && b.width > header.width * 2
+            const topTab = Math.abs(header.y + header.height - b.y) <= 1.5 && Math.abs(header.x - b.x) <= 1.5 && header.x + header.width <= b.x + b.width + 1.5 && b.height > header.height * 2
+            return samePaint && border !== null && border > 0 && Number.parseFloat(style.strokeWidth) > 0 && square && (leftStrip || topTab)
+          })
+          // The visible caption panel and main enclosure share an actual
+          // painted edge and matching border/fill. Choose this association
+          // before inspecting any requested group members. Membership uses
+          // the main body, so a node cannot borrow a package tab or its blank
+          // bounding-box corner as if it were inside the enclosure.
+          if (bodies.length === 1) return { owner: current, shape: bodies[0]!, outlines: [shape, bodies[0]!], box: rect(bodies[0]!) }
+          if (larger.length) return undefined
+        }
         const body = current.matches('.c4-person') ? current.querySelector(':scope > g.basic.label-container') : null
         const parts = body ? [...body.children].filter(child => ['rect', 'circle', 'ellipse'].includes(child.localName) && visible(child) && rect(child).width > 0 && rect(child).height > 0) : []
         if (parts.length > 1) { const boxes = parts.map(rect), x = Math.min(...boxes.map(b => b.x)), y = Math.min(...boxes.map(b => b.y)); return { owner: current, shape, outlines: parts, box: { x, y, width: Math.max(...boxes.map(b => b.x + b.width)) - x, height: Math.max(...boxes.map(b => b.y + b.height)) - y } } }
@@ -841,8 +859,45 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const outside = members.filter(id => anchors.has(id) && !contains(owners[0]!.box, anchors.get(id)!.box, 2))
     check('painted-group:' + group.id, members, outside, available ? outside.length === 0 : null, 'Authored descendant nodes fit their actual owned group boundary; immediate membership is checked independently in the native model')
   }
+  // A fragment has a presentation role only through its complete visible
+  // block. A bold word or stereotype token by itself never grants an exemption
+  // to another body. Unsupported block attachment withholds exact inventory
+  // credit rather than inventing an additional node from nested HTML spans.
+  const presentationBlocks: { element: Element; qualified: boolean }[] = []
+  const completeBlocks = (value: string) => {
+    const found = labelElements.filter(element => visible(element) && normalize(labelText(element)) === normalize(value))
+    return found.filter(element => !found.some(other => other !== element && other.contains(element)))
+  }
+  const actualRoutes = [...svg.querySelectorAll('path,line,polyline')].filter(element => !element.closest('defs,marker,clipPath,mask') && visible(element) && getComputedStyle(element).fill === 'none' && colorAlpha(getComputedStyle(element).stroke) !== 0 && pointsOn(element).length > 1)
+  const blockRoute = (element: Element) => {
+    const bounds = labelBox(element), distance = (route: Element) => Math.min(...pointsOn(route).map(point => Math.hypot(Math.max(bounds.x - point.x, 0, point.x - bounds.x - bounds.width), Math.max(bounds.y - point.y, 0, point.y - bounds.y - bounds.height))))
+    const ranked = actualRoutes.map(route => ({ route, distance: distance(route) })).sort((a, b) => a.distance - b.distance)
+    return ranked[0] && ranked[0].distance <= Math.max(6, bounds.height * .75) && (!ranked[1] || ranked[1].distance > ranked[0].distance + 2) ? ranked[0].route : undefined
+  }
+  for (const edge of input.expected.edges ?? []) if (edge.label) for (const element of completeBlocks(edge.label)) presentationBlocks.push({ element, qualified: !!blockRoute(element) })
+  const notes: any = input.expected.facts?.notes
+  if (Array.isArray(notes)) for (const note of notes) if (typeof note.text === 'string') for (const element of completeBlocks(note.text)) {
+    const own = ownedBox(element, '__presentation-note__'), target = anchors.get(note.target)
+    const separate = own && ![...anchors.values()].some(node => node.shape === own.shape || node.owner.contains(own.shape))
+    const bridges = separate && target ? actualRoutes.filter(route => { const a = pointFor(route, false), b = pointFor(route, true); return a && b && (distanceToInk(a, own.shape) <= 3 && distanceToNode(b, target) <= 6 || distanceToInk(b, own.shape) <= 3 && distanceToNode(a, target) <= 6) }) : []
+    presentationBlocks.push({ element, qualified: !!separate && bridges.length === 1 })
+  }
+  const dialect: any = input.expected.facts?.['dialect-kinds']
+  if (Array.isArray(dialect)) for (const entry of dialect) if (entry.kind === 'stereotype' && typeof entry.value === 'string') {
+    const value = normalize(entry.value), rowPattern = /^(?:«(.*)»|<<(.*)>>)$/u
+    for (const element of labelElements.filter(element => visible(element) && normalize(labelText(element)).match(rowPattern)?.slice(1).some(text => normalize(text ?? '') === value))) {
+      const row = labelBox(element), captions = (input.expected.nodes ?? []).flatMap(node => completeBlocks(node.label).map(element => ({ id: node.id, element, box: labelBox(element) }))).filter(item => {
+        const gap = item.box.y - row.y - row.height
+        return gap >= -1 && gap <= Math.max(row.height, item.box.height) && Math.abs(center(item.box).x - center(row).x) <= 2
+      })
+      presentationBlocks.push({ element, qualified: captions.length === 1 && captions[0]!.id === entry.id })
+    }
+  }
+  let unresolvedPresentation = false
   const presentationRole = (element: Element) => {
     if ([...connectionLabelElements.values()].flat().some(role => role.element === element || role.element.contains(element) || element.contains(role.element))) return true
+    const blocks = presentationBlocks.filter(role => role.element === element || role.element.contains(element))
+    if (blocks.length) { if (!blocks.some(role => role.qualified)) unresolvedPresentation = true; return true }
     if (input.family !== 'eventmodeling') return false
     const frames = input.expected.facts?.frames
     if (!Array.isArray(frames)) return false
@@ -875,7 +930,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       if (owned && ![...anchors.values()].some(node => node.shape === owned.shape || node.owner.contains(owned.shape))) unexpectedNodes.push(label)
     }
   }
-  if (input.expected.nodes?.length) check('painted-node-ownership', input.expected.nodes.map(node => node.id), [...anchors.keys(), ...unexpectedNodes.map(label => 'unexpected:' + label)], unexpectedNodes.length ? false : missingNodes.length ? null : true, unexpectedNodes.length ? 'Additional visible node bodies carry undeclared labels: ' + unexpectedNodes.join(', ') : missingNodes.length ? 'Ambiguous or absent label-to-shape ownership: ' + missingNodes.join(', ') : 'Unique actual label-to-shape ownership, independently of native model identity; no additional declared node bodies carry unrelated labels')
+  if (input.expected.nodes?.length) check('painted-node-ownership', input.expected.nodes.map(node => node.id), [...anchors.keys(), ...unexpectedNodes.map(label => 'unexpected:' + label)], unexpectedNodes.length ? false : missingNodes.length || unresolvedPresentation ? null : true, unexpectedNodes.length ? 'Additional visible node bodies carry undeclared labels: ' + unexpectedNodes.join(', ') : missingNodes.length ? 'Ambiguous or absent label-to-shape ownership: ' + missingNodes.join(', ') : unresolvedPresentation ? 'Complete declared presentation blocks have unqualified attachment; their nested spans do not prove additional node bodies' : 'Unique actual label-to-shape ownership, independently of native model identity; no additional declared node bodies carry unrelated labels')
   if (input.family === 'flowchart' && input.expected.nodes?.length) {
     const consumed = new Set<Element>(), compound: { expected: string; actual: string }[] = []
     const consume = (element: Element, expected: string) => { const actual = normalize(labelText(element)); if (actual !== normalize(expected)) { compound.push({ expected, actual }); return }; consumed.add(element); for (const fragment of fragmentedLabels.get(element) ?? []) consumed.add(fragment) }
