@@ -14,7 +14,7 @@ export function parseOptions(argv: string[]): UnifiedRunOptions & { allowIncompl
     'community-records': 'communityRecordStore', 'community-prepared': 'communityPreparedFile',
     'community-inputs': 'communityInputsFile', 'community-browser-prepared': 'communityBrowserPreparedFile',
     'community-qualification-assets': 'communityQualificationAssetDir',
-    'docs-review': 'docsReviewFile',
+    'docs-review': 'docsReviewFile', 'docs-cases': 'docsCasesFile',
     'docs-png-review': 'docsPngReviewFile',
   }
   const values = new Map<string, string>()

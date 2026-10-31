@@ -4,7 +4,7 @@ These public-artifact campaigns collect meaning and painted-output evidence. The
 
 | Lane | Observable boundary | Main limits |
 | --- | --- | --- |
-| `mermaid-fidelity` | Actual public Node models and browser SVG for pinned Mermaid, Agentic and Pele; 100 expanded authored cases across 25 families | Finite feature combinations; ambiguous native/paint projections stay unavailable. |
+| `mermaid-fidelity` | Actual public Node models for pinned Mermaid, Agentic and Pele; 100 expanded authored cases across 25 families | Finite feature combinations; ambiguous native/paint projections stay unavailable. |
 | `community-fidelity` | The same authored cases and actual Chromium paint checks on frozen prepared community SVG artifacts | No acquisition, old timing reruns or inferred native-model passes. Terminal/parser/editor tools retain their separate boundaries. |
 | `upstream-original` | Genuine Mermaid 12.2.0 source core Vite/Vitest project, unchanged expectations and read-only snapshots | Excludes the docs-site and browser/e2e workspaces. Expanded callbacks are not individual assertions. |
 | `upstream-fidelity` | Original source callbacks/expectations through reviewed actual public parser/models | Private helpers, imports, state and matchers are unavailable; diagnostic/representation mismatches do not automatically establish a drawing defect. |
@@ -31,7 +31,7 @@ fidelity collectors. Start by inspecting available suites:
 
 ```sh
 bun commands.ts bench --projects OWNER/TOOL,... --profile full --rounds 5 \
-  --suites fidelity,native-fidelity,upstream-fidelity,upstream-original --out /evidence/fidelity
+  --suites fidelity,native-fidelity --out /evidence/fidelity
 ```
 
 The campaign prepares actual catalog artifacts and applies reviewed public
@@ -45,7 +45,7 @@ identity, relationship, value and paint requirement. Missing results remain
 blocked or unsupported. Reports reconstruct that plan even if producers omit
 rows for every tool, and retain wholly missing admitted projects. They show
 three dimensions separately: public SVG/API behavior, actual owned paint and
-native models. Serializer-specific operations remain unranked capabilities.
+native models. AM-only serializer operations have been removed. Historical serializer observations remain readable and unranked.
 
 The raw denominator and baseline-unqualified criteria are always visible.
 Reference-qualified comparisons admit criteria pinned Mermaid actually passes;

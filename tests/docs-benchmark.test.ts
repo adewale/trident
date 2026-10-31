@@ -91,3 +91,33 @@ test('UTF-8 public bundles initialize before docs clocks await the real public r
     expect(addonRender.kind).toBe('returned')
   } finally { await browser.close(); await new Promise<void>(done => server.close(() => done())); rmSync(root, { recursive: true, force: true }) }
 })
+
+
+import { withDocsDeadline, closeDocsContext } from '../unified/docs-benchmark.ts'
+test('script loading and cleanup have host deadlines and close HTTP connections before awaiting context teardown', async () => {
+  let cancelled = 0
+  await expect(withDocsDeadline(() => new Promise<never>(() => {}), () => { cancelled++ }, 5)).rejects.toThrow('host deadline')
+  expect(cancelled).toBe(1)
+  const events: string[] = []
+  const context = { close: async () => { events.push('context'); await new Promise<never>(() => {}) } }
+  const server = { closeAllConnections: () => { events.push('connections') }, close: (done: () => void) => { events.push('server'); done() } }
+  await expect(closeDocsContext(context, server as any, 5)).rejects.toThrow('host deadline')
+  expect(events[0]).toBe('connections')
+  expect(events).toContain('server')
+})
+
+import { selectDocsCases } from '../unified/docs-selection.ts'
+test('a repair selects missing literal documentation IDs without changing or reordering the corpus', () => {
+  const cases = [{ id: 'a' }, { id: 'b' }, { id: 'c' }]
+  expect(selectDocsCases(cases, { docsCaseIds: ['c', 'a'] })).toEqual([cases[0]!, cases[2]!])
+  expect(cases).toHaveLength(3)
+  for (const ids of [[], ['a', 'a'], ['invented']]) expect(() => selectDocsCases(cases, { docsCaseIds: ids })).toThrow('literal IDs')
+})
+
+import { retainedPath } from '../unified/recheck-rendering.ts'
+test('a copied recheck resolves original provenance roots only into its own output and rejects unowned paths', () => {
+  expect(retainedPath('/tmp/extracted', '/tmp/new', ['/workspace/collected', '/workspace/rechecked'], '/workspace/collected/fidelity/a.svg.gz')).toBe('/tmp/new/fidelity/a.svg.gz')
+  expect(retainedPath('/tmp/extracted', '/tmp/new', ['/workspace/collected'], '/tmp/extracted/docs/svg/a.svg.gz')).toBe('/tmp/new/docs/svg/a.svg.gz')
+  expect(() => retainedPath('/tmp/extracted', '/tmp/new', ['/workspace/collected'], '/workspace/other/secrets')).toThrow('outside its recorded')
+  expect(() => retainedPath('/tmp/extracted', '/tmp/new', ['/workspace/collected'], '../outside')).toThrow('outside its recorded')
+})

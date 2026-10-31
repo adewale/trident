@@ -1,3 +1,4 @@
+import { selectDocsCases } from './docs-selection.ts'
 import { execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createServer } from 'node:http'
@@ -13,7 +14,7 @@ import { tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { CollectionBudgetExhausted, CollectionCheckpoint, checkCollectionBudget } from '../portable/checkpoint.ts'
 import { admitCurrentReference, currentReferencePin } from '../reference/source.ts'
-import { admitPreparedFidelityEngine } from '../fidelity/community.ts'
+import { admitPreparedSvgEngine, isSvgCli, preparedSvgInvocation, renderPreparedSvgCli } from '../fidelity/community.ts'
 import { defaultChromium, executableIdentity } from './benchmark-context.ts'
 import type { PreparedCommunityBrowser } from './community-browser.ts'
 import { publicSvgBrowserAction } from './public-svg-browser.ts'
@@ -68,9 +69,21 @@ export function docsRoundOrder<T>(targets: readonly T[], round: number): T[] {
 /** Includes asynchronous module/addon initialization, whose evaluate promises
  * have no Playwright timeout. A stalled renderer cannot hold the campaign open. */
 export async function callDocsPage(page: Pick<Page, 'evaluate' | 'close'>, action: (input: any) => Promise<any>, input: any, deadlineMs = 20_000): Promise<any> {
+  return withDocsDeadline(() => page.evaluate(action, input), () => { void page.close().catch(() => {}) }, deadlineMs)
+}
+
+export async function withDocsDeadline<T>(operation: () => Promise<T>, cancel: () => void, deadlineMs = 20_000): Promise<T> {
   let timer: ReturnType<typeof setTimeout> | undefined
-  try { return await Promise.race([page.evaluate(action, input), new Promise<never>((_, reject) => { timer = setTimeout(() => { void page.close().catch(() => {}); reject(Error('Browser call exceeded its declared host deadline')) }, deadlineMs) })]) }
+  try { return await Promise.race([operation(), new Promise<never>((_, reject) => { timer = setTimeout(() => { cancel(); reject(Error('Browser call exceeded its declared host deadline')) }, deadlineMs) })]) }
   finally { if (timer) clearTimeout(timer) }
+}
+
+/** Drop keep-alive requests before closing pages. A stuck close remains a
+ * recorded harness gap instead of holding every later project open. */
+export async function closeDocsContext(context: { close: () => Promise<void> }, server: ReturnType<typeof docsArtifactServer>, deadlineMs = 20_000) {
+  server.closeAllConnections?.()
+  try { await withDocsDeadline(() => context.close(), () => server.closeAllConnections?.(), deadlineMs) }
+  finally { server.closeAllConnections?.(); await withDocsDeadline(() => new Promise<void>(done => server.close(() => done())), () => server.closeAllConnections?.(), deadlineMs) }
 }
 
 async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory?: ReturnType<typeof docsInventory>): Promise<UnifiedSuiteResult> {
@@ -82,6 +95,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
   const reviewFile = options.docsReviewFile ?? join(tridentDirectory, 'corpus/docs-reviewed.json')
   const reviewBytes = readFileSync(reviewFile), reviews = JSON.parse(reviewBytes.toString()) as DocsDrawingReview[]
   const drawingInventory = admitDocsReviews(inventory.cases, reviews)
+  const selectedCases = selectDocsCases(inventory.cases, options)
   const drawingReview = { protocol: 'reviewed-docs-svg-content-v1', sha256: createHash('sha256').update(reviewBytes).digest('hex'), cases: drawingInventory }
   const prepared = JSON.parse(readFileSync(options.communityBrowserPreparedFile, 'utf8')) as PreparedCommunityBrowser[]
   if (!Array.isArray(prepared) || new Set(prepared.map(peer => peer.node.id)).size !== prepared.length) throw Error('Prepared project identities must be a unique array')
@@ -96,7 +110,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
   const executable = options.executable ?? defaultChromium(chromium)
   const targets: PreparedCommunityBrowser[] = []
   for (const peer of selected) {
-    try { admitPreparedFidelityEngine(peer); targets.push(peer) }
+    try { admitPreparedSvgEngine(peer); targets.push(peer) }
     catch (error) {
       const detail = String(error), status = !peer.node.outputs.includes('svg') ? 'unsupported' as const : 'blocked' as const
       observations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: '*', caseId: peer.node.id, operation: 'artifact-admission', format: 'svg', mode: 'not-executed', status, detail, metrics: { project: peer.node.id, plannedOccurrences: inventory.occurrences, runtimeExecuted: false } })
@@ -105,10 +119,10 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
   }
   writeFileSync(join(options.out, 'context.json'), JSON.stringify({
     protocol: 'public-docs-svg-return-v1', producers, drawingReview, browser: executableIdentity(executable), driver: process.versions,
-    rounds: options.rounds, warmupAttemptsPerRound: 30, pinnedSource: inventory.pin,
+    selectedCaseIds: selectedCases.map(input => input.id), rounds: options.rounds, warmupAttemptsPerRound: options.rounds === 1 ? 0 : 30, pinnedSource: inventory.pin,
     projectOrderByRound: Array.from({ length: options.rounds }, (_, index) => docsRoundOrder(targets, index + 1).map(peer => peer.node.id)),
-    artifacts: targets.map(peer => ({ project: peer.node.id, admission: admitPreparedFidelityEngine(peer) })),
-    timing: 'Elapsed browser public call through awaited return; output check and cleanup after stopped clock. No A/A performance qualification.',
+    artifacts: targets.map(peer => ({ project: peer.node.id, admission: admitPreparedSvgEngine(peer) })),
+    timing: 'Public SVG call through returned output. Browser API excludes process startup; CLI includes spawn through drained output. Unlike boundaries have no shared speed ranking. Output observation follows the clock; no A/A performance qualification.',
     hostDeadlineMs: 20000, network: 'Prepared artifact origin only',
   }, null, 2))
   const checkpoint = new CollectionCheckpoint(options.out, { context: JSON.parse(readFileSync(join(options.out, 'context.json'), 'utf8')), inventory }, options.collectionDeadline)
@@ -121,36 +135,46 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
         const key = JSON.stringify([round, peer.node.id])
         const recorded = await checkpoint.collect(key, async () => {
         const roundObservations: BenchmarkObservation[] = []
-        const engine = peer.browser!, root = resolve(engine.root)
+        const engine = preparedSvgInvocation(peer, admitPreparedSvgEngine(peer)), root = resolve(engine.root)
         console.log(`docs round ${round}/${options.rounds}: ${peer.node.id} (${inventory.occurrences} occurrences)`)
         const server = docsArtifactServer(root, engine.zenuml)
         await new Promise<void>(done => server.listen(0, '127.0.0.1', done))
         const origin = 'http://127.0.0.1:' + (server.address() as { port: number }).port
-        const context = await browser!.newContext({ viewport: { width: 1400, height: 1000 } }), page = await context.newPage()
+        const context = await browser!.newContext({ viewport: { width: 1400, height: 1000 } })
+        let page = await context.newPage(), healthy = false
         let observer: any = await context.newPage()
         await observer.goto(origin + '/observer')
-        const invoke = (input: any) => callDocsPage(page, publicSvgBrowserAction, input)
+        const invoke = async (input: any) => isSvgCli(peer) ? renderPreparedSvgCli(peer, input.source, input.id, options.out) : callDocsPage(page, publicSvgBrowserAction, input)
         page.setDefaultTimeout(20_000)
         await context.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort())
-        try {
+        const initialize = async () => {
+          if (page.isClosed() || !healthy) { void page.close().catch(() => {}); page = await context.newPage(); page.setDefaultTimeout(20_000) }
           await page.goto(origin + '/blank')
-          if (engine.kind === 'franken' || engine.kind === 'merman') await invoke({ type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: origin + '/' + engine.wasm })
+          if (engine.kind === 'cli') { /* Public CLI is invoked below; Chromium only observes actual returned SVG. */ }
+          else if (engine.kind === 'franken' || engine.kind === 'merman') await invoke({ type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: origin + '/' + engine.wasm })
           else {
-            await page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) })
+            await withDocsDeadline(() => page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) }), () => { void page.close().catch(() => {}) })
             await invoke({ type: 'initialize-global', engine, addonUrl: engine.zenuml ? origin + '/__addon/' + engine.zenuml.entry : undefined })
           }
+          healthy = true
+        }
+        try {
+          await initialize()
           let warmupPassed = 0
-          for (let index = 0; index < 30; index++) {
+          for (let index = 0; index < (options.rounds === 1 ? 0 : 30); index++) {
             checkCollectionBudget(options.collectionDeadline)
             const value = await invoke({ type: 'measure-docs', source: inventory.cases[index % inventory.cases.length]!.source, id: `warmup_${round}_${index}` })
             if (value.status === 'passed') warmupPassed++
           }
-          for (const [index, testCase] of inventory.cases.entries()) {
+          for (const [index, testCase] of selectedCases.entries()) {
             checkCollectionBudget(options.collectionDeadline)
-            const value = await invoke({ type: 'measure-docs', source: testCase.source, id: `docs_${round}_${index}`, retainSvg: round === 1 })
-            roundObservations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'render', format: 'svg', mode: 'one-public-call', status: value.status, ...(value.status === 'passed' ? { samplesMs: [value.durationMs] } : { detail: value.error }), metrics: { project: peer.node.id, version: engine.version, measuredAt: new Date().toISOString(), round, bytes: value.bytes ?? null, warmupAttempts: 30, warmupPassed } })
+            if (!healthy || page.isClosed()) await initialize()
+            let value: any
+            try { value = await invoke({ type: 'measure-docs', source: testCase.source, id: `docs_${round}_${index}`, retainSvg: round === 1 }) }
+            catch (error) { healthy = false; server.closeAllConnections?.(); value = { status: 'blocked', error: 'Host transport deadline/closure: ' + String(error) } }
+            roundObservations.push({ suite: 'docs', surface: engine.kind === 'cli' ? 'public:svg' : 'browser:svg', runtime: engine.kind === 'cli' ? 'public CLI' : 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'render', format: 'svg', mode: 'one-public-call', status: value.status, ...(value.status === 'passed' ? { samplesMs: [value.durationMs] } : { detail: value.error }), metrics: { project: peer.node.id, version: engine.version, measuredAt: new Date().toISOString(), round, bytes: value.bytes ?? null, warmupAttempts: options.rounds === 1 ? 0 : 30, warmupPassed, ...(value.transportObservation ? { transportObservation: value.transportObservation } : {}) } })
             if (round === 1) {
-              const review = drawingInventory[index]!.review
+              const review = drawingInventory.find(input => input.id === testCase.id)!.review
               let witness: string | undefined, assessment: ReturnType<typeof assessDocsDrawing>
               try {
                 if (typeof value.svg === 'string') {
@@ -178,7 +202,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
                   } finally { if (inspectionTimer) clearTimeout(inspectionTimer) }
                 } else assessment = assessDocsDrawing(testCase, review, value.status, false, [])
               } catch (error) { assessment = { status: 'unknown', reason: 'Drawing observer did not complete: ' + String(error) } }
-              roundObservations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'drawing-checks', format: 'svg', mode: 'reviewed-first-round-output', status: assessment.status === 'correct' ? 'passed' : assessment.status === 'incorrect' ? 'failed' : assessment.status === 'not-applicable' ? 'not-applicable' : 'blocked', detail: JSON.stringify(assessment), metrics: { project: peer.node.id, version: engine.version, measuredAt: new Date().toISOString(), round, reviewedSource: !!review, ...(witness ? { witness } : {}) } })
+              roundObservations.push({ suite: 'docs', surface: engine.kind === 'cli' ? 'public:svg' : 'browser:svg', runtime: engine.kind === 'cli' ? 'public CLI' : 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'drawing-checks', format: 'svg', mode: 'reviewed-first-round-output', status: assessment.status === 'correct' ? 'passed' : assessment.status === 'incorrect' ? 'failed' : assessment.status === 'not-applicable' ? 'not-applicable' : 'blocked', detail: JSON.stringify(assessment), metrics: { project: peer.node.id, version: engine.version, measuredAt: new Date().toISOString(), round, reviewedSource: !!review, ...(witness ? { witness } : {}) } })
             }
           }
         } catch (error) {
@@ -188,8 +212,8 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
           }
           roundObservations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: '*', caseId: peer.node.id, operation: 'round', format: 'svg', mode: 'not-completed', status: 'blocked', detail: String(error), metrics: { project: peer.node.id, round, plannedOccurrences: inventory.occurrences } })
           gaps.push(`${peer.node.id} round ${round}: ${error}`)
-        } finally { await context.close(); await new Promise<void>(done => server.close(() => done())) }
-        admitPreparedFidelityEngine(peer)
+        } finally { try { await closeDocsContext(context, server) } catch (error) { gaps.push(peer.node.id + ': bounded browser cleanup: ' + String(error)) } }
+        admitPreparedSvgEngine(peer)
         return roundObservations
         })
         observations.push(...recorded)
@@ -217,6 +241,7 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
   const formats = options.docsFormats ?? ['svg', 'png']
   if (!formats.length || new Set(formats).size !== formats.length || formats.some(format => !['svg', 'png'].includes(format))) throw Error('DaveBench formats must be unique svg,png lanes')
   const inventory = docsInventory(options.mermaidDir), reviewBytes = readFileSync(options.docsReviewFile ?? join(tridentDirectory, 'corpus/docs-reviewed.json'))
+  options = { ...options, docsCaseIds: selectDocsCases(inventory.cases, options).map(input => input.id) }
   const reviews = JSON.parse(reviewBytes.toString()) as DocsDrawingReview[], reviewed = admitDocsReviews(inventory.cases, reviews)
   const pngBytes = formats.includes('png') && options.docsPngReviewFile ? readFileSync(options.docsPngReviewFile) : Buffer.from('[]')
   const pngReviews = admitPngReviews(inventory.cases, reviews, JSON.parse(pngBytes.toString()) as DocsPngReview[])
@@ -228,7 +253,7 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
   const startedAt = new Date().toISOString(), results: UnifiedSuiteResult[] = []
   mkdirSync(options.out, { recursive: true })
   const producers = protocolIdentity(options.harnessRoot ?? options.root, ['unified/docs-benchmark.ts'])
-  const identity = { ...inventory, protocol: 'public-docs-output-lanes-v2', formats, producers, drawingReview: { protocol: 'reviewed-docs-svg-content-v1', sha256: createHash('sha256').update(reviewBytes).digest('hex'), cases: reviewed }, pngReviewSha256: createHash('sha256').update(pngBytes).digest('hex') }
+  const identity = { ...inventory, protocol: 'public-docs-output-lanes-v2', formats, producers, selectedCaseIds: options.docsCaseIds, drawingReview: { protocol: 'reviewed-docs-svg-content-v1', sha256: createHash('sha256').update(reviewBytes).digest('hex'), cases: reviewed }, pngReviewSha256: createHash('sha256').update(pngBytes).digest('hex') }
   const inventoryPath = join(options.out, 'inventory.json')
   if (existsSync(inventoryPath) && JSON.stringify(JSON.parse(readFileSync(inventoryPath, 'utf8'))) !== JSON.stringify(identity)) throw Error('Documentation source, output lanes or review identity changed; use a fresh campaign')
   writeFileSync(inventoryPath, JSON.stringify(identity, null, 2))

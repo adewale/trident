@@ -6,7 +6,7 @@ import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { createServer } from 'node:http'
 import { createRequire } from 'node:module'
-import { extname, join, relative, resolve, sep } from 'node:path'
+import { dirname, extname, join, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
@@ -28,10 +28,33 @@ import { assessSvgCases, summarizeSvgCases } from './svg-assessment.ts'
 import { assessPrelude } from './meaning.ts'
 import type { FidelityRunOptions } from './run.ts'
 import { communityCatalogFile } from '../unified/trident-paths.ts'
+import { runCommunityCli, verifyProvidedCommunityArtifact } from '../unified/community.ts'
+import { verifyReleaseCli } from '../unified/release-cli.ts'
 
 export interface CommunityFidelityOptions extends FidelityRunOptions { communityFidelityPng?: 'basic-families' | 'none' }
 const write = (path: string, value: unknown) => writeFileSync(path, JSON.stringify(value) + '\n')
 const digest = (path: string) => createHash('sha256').update(readFileSync(path)).digest('hex')
+export const isSvgCli = (peer: PreparedCommunityBrowser) => peer.artifact?.kind === 'cli' && peer.node.benchmark?.outputs?.includes('svg') === true
+
+/** The SVG observer consumes actual output independently of the public transport. */
+export function admitPreparedSvgEngine(peer: PreparedCommunityBrowser): ReturnType<typeof admitPreparedFidelityEngine> {
+  if (!isSvgCli(peer)) return admitPreparedFidelityEngine(peer)
+  const artifact = peer.artifact!
+  verifyProvidedCommunityArtifact(artifact); verifyReleaseCli(peer.node, artifact)
+  const entry = resolve(artifact.executable!), root = artifact.root ?? dirname(entry)
+  assertBenchmarkSetVersions([{ tool: peer.node.id, version: artifact.version, source: entry }])
+  return { root, entry, version: artifact.version, manifests: [], files: (artifact.files ?? []).map(file => ({ ...file, bytes: statSync(file.path).size })), artifactSha256: digest(entry), revision: artifact.revision ?? null, integrity: null, versionScope: 'Authenticated public CLI; Chromium observes its retained SVG and does not execute the renderer.' }
+}
+
+export function preparedSvgInvocation(peer: PreparedCommunityBrowser, admission: ReturnType<typeof admitPreparedSvgEngine>): Omit<CommunityBrowserEngine, 'kind'> & { kind: CommunityBrowserEngine['kind'] | 'cli' } {
+  return isSvgCli(peer) ? { kind: 'cli', root: admission.root, entry: admission.entry, version: admission.version, artifactSha256: admission.artifactSha256 } : peer.browser!
+}
+
+export function renderPreparedSvgCli(peer: PreparedCommunityBrowser, source: string, id: string, out: string) {
+  const raw = runCommunityCli(peer, 'svg', { id, source, family: 'declared-source', expectedLabels: [], features: ['retain-output-witness'], provenance: 'Frozen benchmark inventory; original source retained by the owning collector.' }, 1, out)
+  const path = raw.metrics?.outputFile, svg = typeof path === 'string' && existsSync(path) ? readFileSync(path, 'utf8') : undefined
+  return { kind: raw.status === 'passed' && svg ? 'returned' : 'exception', status: raw.status, svg, error: raw.detail, durationMs: raw.metrics?.firstMs, bytes: svg ? Buffer.byteLength(svg) : 0, transportObservation: raw }
+}
 async function bounded<T>(operation: Promise<T>, cancel: () => void, milliseconds = 20_000): Promise<T> { let timer: ReturnType<typeof setTimeout> | undefined; try { return await Promise.race([operation, new Promise<never>((_, reject) => { timer = setTimeout(() => { cancel(); const error = Error('Browser transport exceeded its declared20s deadline'); error.name = 'TimeoutError'; reject(error) }, milliseconds) })]) } finally { if (timer) clearTimeout(timer) } }
 
 /** Admission checks frozen shipped bytes before any peer code executes. */
@@ -80,9 +103,9 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
     let status = 'blocked', reason = peer?.browserDetail ?? peer?.error ?? 'No frozen prepared public SVG browser artifact; no acquisition attempted'
     if (!selected) { status = 'not-selected'; reason = 'Project selection limits execution before loading any peer code' }
     else if (!node.outputs.includes('svg')) { status = 'not-applicable'; reason = 'Catalog boundary exposes terminal/parser/text/other outputs, not a public SVG engine' }
-    else if (peer?.browserStatus === 'not-applicable') { status = 'not-applicable'; reason = peer.browserDetail ?? reason }
-    else if (peer?.browserStatus === 'prepared') {
-      try { const admission = admitPreparedFidelityEngine(peer); targets.push({ peer, admission }); status = 'admitted'; reason = 'Actual frozen public SVG artifact and sealed file bytes verified' } catch (error) { reason = String(error) }
+    else if (peer?.browserStatus === 'not-applicable' && !isSvgCli(peer)) { status = 'not-applicable'; reason = peer.browserDetail ?? reason }
+    else if (peer && (peer.browserStatus === 'prepared' || isSvgCli(peer))) {
+      try { const admission = admitPreparedSvgEngine(peer); targets.push({ peer, admission }); status = 'admitted'; reason = 'Actual frozen public SVG artifact and sealed file bytes verified' } catch (error) { reason = String(error) }
     }
     boundaries.push({ project: node.id, selected, catalogOutputs: node.outputs, status, reason, ...(peer?.browser ? { kind: peer.browser.kind, version: peer.browser.version, artifactSha256: peer.browser.artifactSha256 } : {}) })
   }
@@ -94,10 +117,10 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
   const producerContext = () => baselineMeasurementContext(root, options.nodeExecutable ?? process.execPath, ['eval/benchmark/fidelity/community.ts'])
   try {
     for (const target of targets) {
-      const { peer, admission } = target, engine = peer.browser!, project = peer.node.id, projectOut = join(out, Buffer.from(project).toString('base64url'))
+      const { peer, admission } = target, engine = preparedSvgInvocation(peer, admission), project = peer.node.id, projectOut = join(out, Buffer.from(project).toString('base64url'))
       const fontSizePath = reviewedFontSizePath(peer.node.benchmark?.adapter ?? '', peer.node.benchmark?.api?.svg)
       const aliasKey = stableValue({ fontSizePath: fontSizePath ?? null, addon: admission.addon ? { version: admission.addon.version, entry: relative(admission.addon.root, admission.addon.entry), files: admission.files.filter(file => file.path.startsWith(admission.addon!.root + sep)).map(file => ({ path: relative(admission.addon!.root, file.path), sha256: file.sha256 })) } : null, kind: engine.kind, global: engine.global ?? null, version: engine.version, legacy: engine.legacyMermaid ?? false, syncLegacy: engine.synchronousLegacyRender ?? false, scriptType: engine.scriptType ?? null, entry: engine.entry, wasm: engine.wasm ?? null, files: admission.files.filter(file => file.path.startsWith(admission.root + sep)).map(file => ({ path: relative(admission.root, file.path), sha256: file.sha256 })).sort((a, b) => a.path.localeCompare(b.path)) })
-      const identity = () => JSON.parse(JSON.stringify({ project, lane: 'community-fidelity', protocol: producerContext(), artifact: admitPreparedFidelityEngine(peer), measurement: { kind: engine.kind, fontSizePath: fontSizePath ?? null, global: engine.global ?? null, entry: engine.entry, scriptType: engine.scriptType ?? null, legacyMermaid: engine.legacyMermaid ?? false, synchronousLegacyRender: engine.synchronousLegacyRender ?? false, wasm: engine.wasm ?? null, cases: selectedCases.map(value => value.id), browser: executableIdentity(executable), screenshots: options.communityFidelityPng ?? 'basic-families', deadlineMs: 20000 } }))
+      const identity = () => JSON.parse(JSON.stringify({ project, lane: 'community-fidelity', protocol: producerContext(), artifact: admitPreparedSvgEngine(peer), measurement: { kind: engine.kind, fontSizePath: fontSizePath ?? null, global: engine.global ?? null, entry: engine.entry, scriptType: engine.scriptType ?? null, legacyMermaid: engine.legacyMermaid ?? false, synchronousLegacyRender: engine.synchronousLegacyRender ?? false, wasm: engine.wasm ?? null, cases: selectedCases.map(value => value.id), browser: executableIdentity(executable), screenshots: options.communityFidelityPng ?? 'basic-families', deadlineMs: 20000 } }))
       const measure = async (directory: string): Promise<UnifiedSuiteResult> => {
         mkdirSync(directory, { recursive: true })
         const prior = aliases.get(aliasKey)
@@ -123,25 +146,26 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
         const diagnostics = new Map<string, any[]>()
         const add = (testCase: typeof selectedCases[number], surface: string, criterion: string, status: string, actual: unknown, _expected: unknown, scope: string) => {
           if (status !== 'passed') { const findings = diagnostics.get(testCase.id) ?? []; findings.push({ criterion, status, actual, scope }); diagnostics.set(testCase.id, findings) }
-          observations.push({ suite: 'mermaid-fidelity', surface, runtime: 'Chromium', family: testCase.family, caseId: testCase.id + ':' + criterion, operation: criterion, format: 'svg', mode: 'independent-authored-criteria', status: status === 'unavailable' ? 'blocked' : status as BenchmarkObservation['status'], metrics: { implementation: project, criterion, authoredCase: testCase.id, required: testCase.required } })
+          observations.push({ suite: 'mermaid-fidelity', surface, runtime: engine.kind === 'cli' ? 'public CLI + Chromium SVG observer' : 'Chromium', family: testCase.family, caseId: testCase.id + ':' + criterion, operation: criterion, format: 'svg', mode: 'independent-authored-criteria', status: status === 'unavailable' ? 'blocked' : status as BenchmarkObservation['status'], metrics: { implementation: project, criterion, authoredCase: testCase.id, required: testCase.required } })
         }
         const classify = (result: any) => result.kind === 'returned' ? 'passed' : result.kind === 'invalid-return' ? 'failed' : /^(?:UnknownDiagramError:|Error: Unsupported diagram|(?:Error: )?Unsupported (?:diagram|Mermaid)|(?:PeleError|Error): No diagram type)/.test(result.error ?? '') ? 'unsupported' : /^(?:Error: (?:Parse error on line|Lexical error on line|Parsing failed|Parser rejected source:))/.test(result.error ?? '') ? 'failed' : 'unavailable'
         let initialized = false, capabilities: any, initializationError: string | undefined
         const initialize = async () => {
+          if (engine.kind === 'cli') { capabilities = { fontOptions: false }; initialized = healthy = true; return }
           if (page.isClosed() || !healthy && initialized) { void page.close().catch(() => {}); page = await context.newPage() }
           await page.goto(origin + '/blank')
           if (engine.kind === 'franken' || engine.kind === 'merman') capabilities = await bounded(page.evaluate(publicSvgBrowserAction, { type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: engine.wasm ? origin + '/' + engine.wasm : undefined }), () => { void page.close().catch(() => {}) })
           else { await page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) }); capabilities = await bounded(page.evaluate(publicSvgBrowserAction, { type: 'initialize-global', engine, fontSizePath, addonUrl: engine.zenuml ? origin + '/__addon/' + engine.zenuml.entry : undefined }), () => { void page.close().catch(() => {}) }) }
           initialized = healthy = true
         }
-        const render = async (input: any): Promise<any> => { try { if (!healthy || page.isClosed()) await initialize(); return await bounded<any>(page.evaluate(publicSvgBrowserAction, input), () => { healthy = false; void page.close().catch(() => {}) }) } catch (error: any) { return { kind: 'exception', error: String(error), errorName: error?.name ?? 'Error' } } }
+        const render = async (input: any): Promise<any> => { try { if (engine.kind === 'cli') return renderPreparedSvgCli(peer, input.source, input.id, directory); if (!healthy || page.isClosed()) await initialize(); return await bounded<any>(page.evaluate(publicSvgBrowserAction, input), () => { healthy = false; void page.close().catch(() => {}) }) } catch (error: any) { return { kind: 'exception', error: String(error), errorName: error?.name ?? 'Error' } } }
         try {
           await initialize(); await observer.goto(origin + '/observer')
           for (const [index, testCase] of selectedCases.entries()) {
             checkCollectionBudget(options.collectionDeadline)
             try {
             if (!healthy || page.isClosed()) await initialize()
-            await bounded(page.evaluate(publicSvgBrowserAction, { type: 'configure' }), () => { healthy = false; void page.close().catch(() => {}) })
+            if (engine.kind !== 'cli') await bounded(page.evaluate(publicSvgBrowserAction, { type: 'configure' }), () => { healthy = false; void page.close().catch(() => {}) })
             const preludes: any[] = []
             for (const [number, prelude] of (testCase.prelude ?? []).entries()) {
               const result = await render({ type: 'render', source: prelude.source, id: `community-prelude-${index}-${number}`, options: (prelude as any).renderOptions })
@@ -149,8 +173,8 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
               add(testCase, 'browser-public-api', 'prelude-' + number, result.kind === 'invalid-return' && prelude.accept ? 'failed' : assessPrelude(prelude.accept, admission), { kind: result.kind, error: result.error }, prelude.accept, 'Actual public configured-source prelude; unsupported capabilities and unknown runtime errors earn no rejection credit'); preludes.push({ kind: result.kind, error: result.error })
             }
             const result = await render({ type: 'render', source: testCase.source, id: `community-fidelity-${index}`, options: testCase.renderOptions })
-            add(testCase, 'browser-public-api', 'public-svg-admission', classify(result), result.error ?? result.kind, 'actual public SVG string', 'Actual frozen public browser API invocation; generic exceptions/timeouts remain unavailable, not grammar rejection')
-            const details: any = { caseId: testCase.id, family: testCase.family, publicResult: { kind: result.kind, error: result.error }, preludes }
+            add(testCase, 'browser-public-api', 'public-svg-admission', classify(result), result.error ?? result.kind, 'actual public SVG string', 'Actual frozen public SVG transport invocation; generic exceptions/timeouts remain unavailable, not grammar rejection')
+            const details: any = { caseId: testCase.id, family: testCase.family, publicResult: { kind: result.kind, error: result.error }, preludes, ...(result.transportObservation ? { transportObservation: result.transportObservation } : {}) }
             if (result.kind === 'returned') {
               const qualification = qualifyOutput({ id: testCase.id, family: testCase.family, source: testCase.source, expectedLabels: testCase.expected.labels, features: testCase.features, provenance: testCase.provenance }, result.svg, 'svg')
               add(testCase, 'browser-public-api', 'standalone-svg-and-labels', qualification.ok ? 'passed' : 'failed', qualification.findings, [], qualification.scope)
@@ -185,7 +209,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
   const observations = results.flatMap(result => result.observations)
   const svgAssessments = targets.map(({ peer }) => {
     const cases = assessSvgCases(selectedCases, observations.filter(row => row.metrics?.implementation === peer.node.id))
-    return { project: peer.node.id, version: peer.browser!.version, ...summarizeSvgCases(cases), cases }
+    return { project: peer.node.id, version: peer.browser?.version ?? peer.artifact!.version, ...summarizeSvgCases(cases), cases }
   })
   const report = { id: 'mermaid-fidelity', status: observations.some(row => row.status === 'failed') ? 'failed' : 'blocked', startedAt, finishedAt: new Date().toISOString(), observations, svgAssessments, artifacts: results.flatMap(result => result.artifacts ?? []), gaps: [...new Set(results.flatMap(result => result.gaps))], toolVersions, criteriaProtocol: options.fidelityDiagnostic ? null : fidelityCriteriaProtocol(root, executable), catalogFile, preparedFile, boundaries, selectedCaseIds: selectedCases.map(value => value.id), scope: 'Public SVG functionality on all selected frozen prepared artifacts; no timing/startup/memory claims. Native model criteria remain unavailable in this SVG-only collection.' }
   writeBenchmarkDocument(join(out, 'community-fidelity-report.json'), report)

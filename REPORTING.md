@@ -49,9 +49,9 @@ sentence interpreting each result.
 | Mermaid Compatibility | Project/version, within one format and runtime | Passed, failed, unsupported, blocked and missing inputs; planned total | Inputs |
 | DaveBench | Project/version on the same documentation inventory, separately for SVG and PNG | Output return separately from reviewed content; correct, incorrect, unknown, configuration-only and planned occurrences | Occurrences |
 | DaveBench timing | Project/version on one named input or an explicitly matched input set | Call time, sample count, qualification; failed output withholds time | ms |
-| Diagram Meaning | Project/version on the same authored SVG cases | Correct, incorrect, unsupported and unknown diagrams; per-criterion details separately | Diagrams |
-| Model and Editing Contracts | Project/version on shared criterion identities | Same criterion counts; API-specific checks in a separate table | Criteria |
-| Mermaid Assertion Replay | Project/version on the same source inventory | Declaration dispositions; expanded callback dispositions in a separate table | Declarations or callbacks |
+| Mermaid Feature Cases | Project/version on the same authored SVG cases | Correct, incorrect, unsupported and unknown diagrams; per-criterion details separately | Diagrams |
+| Public Model Contracts | Project/version on the same authored sources | Correct, incorrect and unknown whole cases; raw criterion details remain in evidence | Cases |
+| Terminal Rendering | Project/version on the same pinned project corpus | Correct, incorrect, unsupported, unknown, planned and measured inputs; reviewed and full populations separately | Diagrams |
 | Mermaid Reference Tests | Reference/version and original runner | Files, passed, failed, pending and todo callbacks | Files and callbacks |
 | Render Cost and Scaling | Project/version, case/size and one call mode | Median latency, samples, uncertainty, output checks and calibration | ms |
 | Render resources | Project/version, case and resource checkpoint | CPU, process RSS, JS heap, retained output; separate scopes | ms, MiB or bytes |
@@ -68,6 +68,12 @@ Unreviewed source expectations and unresolved observers keep full accuracy unkno
 A bounded reviewed subset must name its size and cannot supply full-inventory
 correctness or qualify every timed call. Retired replay and reference-runner tables
 remain historical evidence, outside the current comparative benchmark lineup.
+
+Each comparative count table includes its difference from Mermaid on that exact
+metric and population. A lower verified count is not proof that every unknown
+case is incorrect. Terminal comparisons use Mermaid ASCII: Mermaid has no terminal
+output and remains an unscored source reference. Timing receives no better/worse
+label without equivalent work and qualification.
 
 SVG and PNG have separate tables, output reviews, timing boundaries and import
 histories. A newer PNG-only attempt cannot suppress retained SVG scores, or the
@@ -163,3 +169,15 @@ Read the dated campaign index, the comparable table and its failed cases, then
 the raw evidence. [BENCHMARKS.md](BENCHMARKS.md) explains each method;
 [FAIRNESS.md](FAIRNESS.md) defines comparison prerequisites. Public docs and
 repository examples are development-exposed; no production holdout is claimed.
+
+## Comparisons with the reference
+
+Each comparable count table includes a reference column. Higher and Lower compare
+only its named metric on the same planned population. Unknown-only observations
+are unresolved, not a lower zero. Returning more SVGs does not mean drawing more
+diagrams correctly. No unqualified timing is labelled faster or slower.
+
+Mermaid is the rendering and language reference. It has no terminal output;
+terminal tables compare with Mermaid ASCII and keep Mermaid's source-reference
+role unscored. A new current campaign can replace the landing-page snapshot while
+linking prior immutable reports rather than accumulating diagnostic tables there.

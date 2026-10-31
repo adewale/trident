@@ -13,7 +13,9 @@ Trident compares Mermaid tools on input compatibility, diagram meaning and rende
 - [Comparison contracts](FAIRNESS.md): planning, independent inputs and comparable result rankings.
 - [Ecosystem results](RESULTS.md): benchmark tables and charts, measurement dates and missing results for every eligible project.
 
-The [30 October campaign](https://github.com/adewale/trident/blob/8b2404b0bf2940e571ca0e14e54eeff0517a98ca/README.md)
+The [31 October campaign](docs/ecosystem-campaign-2026-10-31.md) covers the current
+27-project selection, with separate return and content results and comparisons
+against Mermaid. The [30 October campaign](https://github.com/adewale/trident/blob/8b2404b0bf2940e571ca0e14e54eeff0517a98ca/README.md)
 publishes the original 39-project results and raw download, including projects
 later excluded from regular campaigns. The rolling overview uses the current
 27-project selection.
@@ -28,7 +30,7 @@ checks and cost measurement are shared parts of those workloads.
 | **Documentation Examples — DaveBench** | Accurate SVG and PNG rendering of the same pinned Mermaid documentation corpus, inspired by [Dave Kiss's benchmark](https://x.com/davekiss/status/2111512440106078554). | Separate output-return and reviewed-content tables for each format. Incorrect, unknown and configuration-only examples stay visible; speed requires qualified matched work. | `docs` |
 | **Mermaid Feature Cases** | Authored syntax, labels, relationships, chart values, grouping and scaling through public rendering interfaces. | Correct, incorrect, unsupported and unknown diagrams; feature/family details. Cost is reported on matched qualified inputs. | `community`, `fidelity`, `portable` |
 | **Terminal Rendering — Project Examples** | Node text, directed routes, captions and requested layout direction on real project inputs. Origins distinguish terminal examples from shared rendering tests. | All 120 planned inputs remain visible; 16 reviewed drawings get verified-correct count ranks. Complete accuracy and speed remain unqualified. | `bench --terminal` |
-| **Model and Editing Contracts — optional** | Public parsing, model inspection, edits and configuration changes. | Shared contracts separately from API-specific checks and missing bindings. | `native-fidelity` |
+| **Public Model Contracts — optional** | Public parsing and model inspection, including replacement sources and configuration reset. | Shared contracts separately from API-specific checks and missing bindings. | `native-fidelity` |
 
 Ordinary campaigns select `docs,fidelity`. Select expensive performance collection
 explicitly with `--suites portable`, and optional model checks with
@@ -57,7 +59,7 @@ Assertion Replay is retired as a comparative benchmark; Mermaid's own tests are
 an explicit reference-environment check (`--suites upstream-original`). The old
 nonblank-only PNG exporter is retired. The [reviewed fixed-PNG study](docs/davebench-png-seven-results.md)
 keeps its task-specific content review, performance results and limitations.
-Terminal Rendering has a [120 real inputs and 16 reviewed drawings](docs/terminal-correctness.md).
+Terminal Rendering has [120 real inputs and 16 reviewed drawings](docs/terminal-correctness.md).
 Mermaid ASCII is required; Mermaid supplies an unscored source reference. Run
 `bench --terminal --plan` before collecting. The [retained results](docs/terminal-results-2026-10-31.md)
 rank verified counts, with incomplete accuracy and observer gaps visible.
@@ -75,7 +77,7 @@ to short summaries as well as saved tables; see [the reporting rule](REPORTING.m
 | Authored feature, model and cost cases | Fixtures developed in AM and Trident, with explicit expected facts in [fidelity/cases.ts](fidelity/cases.ts) and [portable/cohorts.ts](portable/cohorts.ts). Each run records its selection from these development fixtures. |
 | Legacy compatibility corpus | The [frozen AM corpus](corpus/community-corpus.json), imported from AM commit `de612cc08009cf8abbeae2d3795dac3baa0b5e36`. Its manifest also identifies upstream inputs. |
 | External repository examples | Examples and fixtures from the repositories and commits in [external-sources.json](corpus/external-sources.json), capped at 20 files per project. The frozen inventory retains file provenance, duplicates, licenses and extraction decisions. |
-| Terminal Rendering | [120 source inputs](corpus/terminal-project-examples.json) selected from research across 18 pinned terminal-project repositories; 17 contribute inputs. Origins include docs, fixtures, issues and PRs, with body/patch hashes and extraction steps. [Origin roles](corpus/terminal-origin-classification.json) separate 67 terminal-specific and 53 shared-renderer robustness cases. [22 independent contracts](corpus/terminal-project-reviews.json) support the 16 reviewed drawings drawing profile; 98 inputs remain unreviewed. The old four authored graphs are checker controls only. |
+| Terminal Rendering | [120 source inputs](corpus/terminal-project-examples.json) selected from research across 18 pinned terminal-project repositories; 17 contribute inputs. Origins include docs, fixtures, issues and PRs, with body/patch hashes and extraction steps. [Origin roles](corpus/terminal-origin-classification.json) separate 67 terminal-specific and 53 shared-renderer robustness cases. [22 independent contracts](corpus/terminal-project-reviews.json) support the 16 reviewed drawings profile; 98 inputs remain unreviewed. The old four authored graphs are checker controls only. |
 | Reviewed fixed-PNG study | A [13-input common profile](docs/davebench-png-seven-results.md) selected from Mermaid's documentation after source-fact review of 20 candidates. Its full coverage phase retained all 548 documentation attempts. |
 
 **DaveBench** is inspired by [Dave Kiss's documentation benchmark](https://x.com/davekiss/status/2111512440106078554).
@@ -88,22 +90,10 @@ and accepts prepared public project artifacts. Its recorded inventory and protoc
 define each run; its counts and timings are not interchangeable with historical
 DaveBench results. The linked AM methods document the inherited implementation.
 
-**Mermaid Assertion Replay** and **Mermaid Reference Tests** reuse Mermaid's
-original tests at that same pin. Replay translates reviewed public API boundaries;
-the reference benchmark executes the genuine original core runner. Their scopes
-and exclusions are documented in [the fidelity guide](fidelity/README.md).
-
-**Mermaid Compatibility** uses an [AM-origin frozen corpus](corpus/community-corpus.json)
-and can run explicitly selected inputs, including [examples from pinned external projects](corpus/external-sources.json).
-Input provenance and licenses travel with the frozen inventory. **Diagram Meaning**,
-**Model and Editing Contracts**, and **Render Cost and Scaling** use authored cases
-developed in AM and Trident; they are not external benchmark standards or production
-traffic. Public examples and development fixtures are not a validated holdout.
-
-See [methods, commands and limitations](BENCHMARKS.md) for each benchmark. The
-`support:verify` check uses six positive inputs and two separate invalid-source
-controls to test invocation readiness; it is not an eighth
-benchmark or a substitute for a complete campaign.
+Public examples and development fixtures are not a validated holdout. See
+[methods, commands and limitations](BENCHMARKS.md) for the current workloads.
+`support:verify` uses six positive inputs and two invalid-source controls to
+check invocation readiness; it is not a comparative benchmark.
 
 ## Supported projects
 

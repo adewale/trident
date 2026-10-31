@@ -2,7 +2,7 @@
 
 Trident compares public rendering artifacts. The current workloads are
 Documentation Examples (DaveBench), Mermaid Feature Cases, Terminal Rendering
-and optional Model and Editing Contracts. SVG inspection and cost measurement are shared machinery.
+and optional Public Model Contracts. SVG inspection and cost measurement are shared machinery.
 There is no combined renderer-quality score or validated production holdout.
 
 ```sh
@@ -29,6 +29,9 @@ occurrences remain in the inventory. [Dave Kiss's documentation benchmark](https
 inspired this workload; its AM predecessor used a different wrapper and vendored
 page set and cannot supply interchangeable input counts or clocks.
 
+Public SVG CLIs use the same retained-output observer as browser APIs. CLI clocks
+include process startup; browser API clocks do not. They have no shared speed rank.
+
 SVG return (`public-docs-svg-return-v1`) remains a weak compatibility diagnostic.
 The collector now retains each first-round SVG and separately applies
 `reviewed-docs-svg-content-v1`. [Source expectations](corpus/docs-reviewed.json)
@@ -42,7 +45,8 @@ counts; unknown observations keep complete accuracy unresolved.
 A small reviewed subset cannot establish full DaveBench correctness. First-round
 inspection does not qualify every later timed return.
 
-The full return protocol uses 30 warmups and six rounds. Project order reverses
+A one-round coverage run makes one call per occurrence with no warmups.
+The repeated return protocol uses 30 warmups and six rounds. Project order reverses
 after each round, then rotates after each pair; positions balance over 2N rounds
 for N participants. Public-call clocks stop at SVG return, before validation and
 cleanup. These clocks lack A/A and per-call semantic qualification, so there is
@@ -108,8 +112,9 @@ invalid sources. It distinguishes 67 terminal-specific examples/regressions from
 Issue/PR URLs, dates, body/patch hashes, repository commits and extraction changes
 remain attached to every input.
 
-`bench --terminal` uses existing CLI/Python transports. Mermaid is the mandatory
-unscored source reference, Mermaid ASCII the mandatory terminal participant.
+`bench --terminal` uses existing CLI, Python and Node transports. Mermaid is the mandatory
+unscored source reference, Mermaid ASCII the default terminal participant. A targeted repair may select a
+smaller explicit cohort and reuse the original ASCII receipts.
 The default qualification invokes only the 16 reviewed drawings once each and retains all
 other cells as unknown. `--all-inputs` explicitly collects the full inventory.
 Saved-output rechecks require no renderer or Mermaid installation.
@@ -121,13 +126,14 @@ rank. The old four authored graphs test the observer and supply no corpus score.
 Legacy general terminal admission still establishes format/text only. Native PNG
 decoding/nonblank checks likewise supply no label or topology evidence.
 
-## Model and Editing Contracts — optional
+## Public Model Contracts — optional
 
 Task: preserve declared identities, relationships and values through public
 parsing, inspection, edits and configuration changes. Reviewed bindings currently
 exist for Mermaid, Pele and Agentic Mermaid. Missing Trident bindings remain
 unmeasured capabilities. Compare shared case/operation contracts; serializers and
-other API-specific checks stay separate. A failed prerequisite prevents workflow
+other product-specific workflows belong in their owning projects. This collector
+uses only public Node models and performs no duplicate SVG rendering. A failed prerequisite prevents workflow
 credit for later postconditions. Model results do not establish painted meaning.
 
 ## Fixed PNG export profiles

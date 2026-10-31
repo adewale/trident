@@ -32,6 +32,13 @@ this profile performs no acquisition, build, warmup or repeated timing campaign.
 Source-reference refusal does not automatically turn a dialect input into an
 independently established invalid-source test.
 
+An explicit `--projects ID,...` selection collects a targeted extension without
+repeating the default cohort. Default and `--all-projects` runs include Mermaid
+ASCII; every collection retains Mermaid as its unscored source reference. Keep a
+repair's earlier evidence alongside the new attempt. Preparation freezes declared
+installed package CLIs and authenticated release CLIs as separate transports;
+their process boundaries do not imply speed equivalence with warm module APIs.
+
 After fixing an observer, reuse the retained text:
 
 ```sh

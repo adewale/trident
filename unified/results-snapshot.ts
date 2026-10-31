@@ -48,8 +48,8 @@ export interface ResultsSnapshot {
   attempts: SnapshotAttempt[]
 }
 export const benchmarkNames: Record<PublicSuite, string> = {
-  community: 'Mermaid Compatibility', docs: 'DaveBench: Documentation Examples', fidelity: 'Diagram Meaning',
-  'native-fidelity': 'Model and Editing Contracts', 'upstream-fidelity': 'Mermaid Assertion Replay',
+  community: 'Mermaid Compatibility', docs: 'DaveBench: Documentation Examples', fidelity: 'Mermaid Feature Cases',
+  'native-fidelity': 'Public Model Contracts', 'upstream-fidelity': 'Mermaid Assertion Replay',
   'upstream-original': 'Mermaid Reference Tests', portable: 'Render Cost and Scaling',
 }
 const sha256 = (value: string | Buffer) => createHash('sha256').update(value).digest('hex')
@@ -147,6 +147,31 @@ function currentCohorts(attempts: SnapshotAttempt[], entry?: SnapshotTable) {
   return new Set(group.map(attempt => attempt.cohort ?? 'core')).size > 1 ? group.sort((a, b) => (a.cohort ?? 'core').localeCompare(b.cohort ?? 'core')) : []
 }
 const attemptCell = (attempt: SnapshotAttempt, label = '') => `[${md(label)}${md(attempt.status)} · ${date(attempt.updatedAt)}](#${anchor(attempt.id)})`
+function terminalOnly(snapshot: ResultsSnapshot) {
+  const community = [...snapshot.tables, ...snapshot.attempts].filter(entry => entry.suite === 'community')
+  return community.length > 0 && community.every(entry => entry.cohort?.startsWith('terminal-'))
+}
+const snapshotBenchmarkNames = (snapshot: ResultsSnapshot) => ({ ...benchmarkNames, ...(terminalOnly(snapshot) ? { community: 'Terminal Rendering' } : {}) })
+
+/** Compare the named count only. Unknown work and unlike populations cannot
+ * become a claim that a project is worse, or an unqualified speed comparison. */
+export function baselineComparison(entry: SnapshotTable, row: SnapshotTable['rows'][number], baseline = 'mermaid-js/mermaid'): string {
+  const reference = entry.rows.find(item => item.project === baseline)
+  if (!reference) return 'No reference score'
+  if (row.project === baseline) return 'Baseline'
+  const column = entry.ranking?.column
+  if (!column || entry.ranking?.direction !== 'descending' || !entry.population) return 'Not comparable'
+  const number = (item: typeof row, name: string) => measurementNumber(item.values[entry.columns.indexOf(name)])
+  const total = number(row, entry.population.total), referenceTotal = number(reference, entry.population.total)
+  if (!(total && referenceTotal) || total !== referenceTotal) return 'Different populations'
+  const unknown = (item: typeof row) => entry.population!.outcomes.filter(name => /^(Unknown|Blocked|Unavailable|Unexecuted|Unmeasured|Missing|N\/A|Skipped)$/.test(name)).reduce((sum, name) => sum + (number(item, name) ?? 0), 0)
+  if (unknown(reference) >= referenceTotal || column !== 'Correct' && reference.unrankedReason) return 'Reference unresolved'
+  if (unknown(row) >= total || column !== 'Correct' && row.unrankedReason) return 'Unresolved'
+  const value = number(row, column), referenceValue = number(reference, column)
+  if (value === null || referenceValue === null) return 'Unresolved'
+  const difference = value - referenceValue
+  return difference === 0 ? 'Tie' : `${difference > 0 ? 'Higher' : 'Lower'} (${difference > 0 ? '+' : ''}${difference})`
+}
 /** Shared competition ranks (1, 1, 3); unavailable measurements never become zero. */
 export function rankedRows(entry: SnapshotTable, name: (id: string) => string) {
   const numeric = (value: Cell | undefined) => measurementNumber(value) ?? NaN
@@ -223,7 +248,7 @@ export function importCampaign(snapshot: ResultsSnapshot, directory: string, evi
   const tables = new Map(snapshot.tables.map(table => [table.id, table]))
   const generated = campaignTables(report, { url: evidenceUrl.replace(/\/$/, '') + '/report.json', sha256: digest })
   for (const table of generated) tables.set(table.id, table)
-  let overview = generated.find(table => table.overview)
+  let overview = generated.find(table => table.outputFormat === 'svg' && table.unit === 'reviewed documentation occurrences' && table.overview) ?? generated.find(table => table.overview)
   if (overview?.comparisonKey) {
     const key = overview.comparisonKey
     const comparable = [...tables.values()].filter(table => table.comparisonKey === key && !table.rolling && table.artifactRole !== 'candidate')
@@ -249,11 +274,14 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
   const nodes = new Map(catalog.nodes.map(node => [node.id, node]))
   const visible = (project: string) => includeRecordedProjects || !coreScopeReason(nodes.get(project)!)
   const name = (id: string) => snapshot.projectNames?.[id] ?? nodes.get(id)?.comparisonBranding?.name ?? id
+  const titles = snapshotBenchmarkNames(snapshot)
+  const activeSuites = PUBLIC_SUITES.filter(suite => snapshot.tables.some(entry => entry.suite === suite) || snapshot.attempts.some(entry => entry.suite === suite))
+  const overviewColumns: { suite: PublicSuite; format?: 'svg' | 'png'; title: string }[] = activeSuites.flatMap<{ suite: PublicSuite; format?: 'svg' | 'png'; title: string }>(suite => suite === 'docs' && snapshot.tables.some(entry => entry.suite === 'docs' && entry.outputFormat === 'png') ? [{ suite, format: 'svg' as const, title: 'DaveBench SVG' }, { suite, format: 'png' as const, title: 'DaveBench PNG' }] : [{ suite, ...(suite === 'docs' ? { format: 'svg' as const } : {}), title: titles[suite] }])
   const alphabetical = <T extends { project: string }>(rows: T[]) => [...rows].sort((a, b) => name(a.project).localeCompare(name(b.project)))
   const primary = snapshot.tables.find(entry => entry.id === (snapshot.overviewRanking ?? 'docs-coverage'))
   if (snapshot.overviewRanking && !primary) throw Error('Unknown overview ranking table')
   if (primary && !primary.ranking) throw Error('Overview ranking table needs a named metric')
-  const attemptsFor = (project: string, suite: PublicSuite) => snapshot.attempts.filter(attempt => attempt.project === project && attempt.suite === suite && attempt.artifactRole !== 'candidate' && (suite !== 'community' || attempt.cohort === undefined || ['core', 'external'].includes(attempt.cohort))).sort((a, b) => stamp(b.updatedAt) - stamp(a.updatedAt) || b.id.localeCompare(a.id))
+  const attemptsFor = (project: string, suite: PublicSuite, format?: 'svg' | 'png') => snapshot.attempts.filter(attempt => (!format || (attempt.outputFormats ?? ['svg']).includes(format)) && attempt.project === project && attempt.suite === suite && attempt.artifactRole !== 'candidate' && (suite !== 'community' || terminalOnly(snapshot) || attempt.cohort === undefined || ['core', 'external'].includes(attempt.cohort))).sort((a, b) => stamp(b.updatedAt) - stamp(a.updatedAt) || b.id.localeCompare(a.id))
   const currentPrimary = primary ? { ...primary, rows: primary.rows.filter(row => visible(row.project) && !supersedingAttempt(snapshot.attempts, primary, row.project) && !currentCohorts(attemptsFor(row.project, primary.suite), primary).length) } : undefined
   const primaryRanks = new Map(currentPrimary ? rankedRows(currentPrimary, name).map(row => [row.project, row.rank]) : [])
   const recorded = new Set(snapshot.attempts.map(attempt => attempt.project))
@@ -269,14 +297,17 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
     '## Ecosystem overview', '',
     includeRecordedProjects ? `${projects.length} originally recorded projects are listed below, including projects later excluded from regular campaigns. This archive preserves the measured selection; it does not change current benchmark eligibility.` : `${projects.length} eligible projects are listed below. ${lineage.excludedProjects.length} catalog entries outside core comparison scope are listed separately. Results are never inherited through lineage.`, '',
     'Each cell links its latest recorded attempt, or a dated retained table. New failed, blocked and partial attempts take precedence over earlier tables. Different suites have different units; there is no combined score. “Unmeasured” is missing evidence; “N/A” follows the declared output or reference scope, not a measured failure.', '',
-    `Overview order: ${primary ? benchmarkNames[primary.suite] + ', ' + (primary.ranking?.direction === 'ascending' ? 'lowest' : 'highest') + ' ' + primary.ranking?.column + (primary.ranking?.denominator ? ' / ' + primary.ranking.denominator : '') + ' first (' + date(primary.measuredAt) + ').' : 'No comparable ranking measure is available.'} Ties share a rank. Projects with no result for this measure, or a newer superseding attempt, remain unranked below. Each benchmark has its own ranking. The overview’s ranked benchmark cell uses this same table and population.`, '',
-    '| Project | Overview rank | Compatibility | DaveBench | Meaning | Models / editing | Replay (retired) | Reference validation | Render cost |',
-    '|---|---|---|---|---|---|---|---|---|']
+    `Overview order: ${primary ? titles[primary.suite] + ', ' + (primary.ranking?.direction === 'ascending' ? 'lowest' : 'highest') + ' ' + primary.ranking?.column + (primary.ranking?.denominator ? ' / ' + primary.ranking.denominator : '') + ' first (' + date(primary.measuredAt) + ').' : 'No comparable ranking measure is available.'} Ties share a rank. Projects with no result for this measure, or a newer superseding attempt, remain unranked below. Each benchmark has its own ranking. The overview’s ranked benchmark cell uses this same table and population.`, '',
+    '| Project | Overview rank | ' + overviewColumns.map(column => column.title).join(' | ') + ' |',
+    '|---|---|' + overviewColumns.map(() => '---|').join('')]
   for (const { project } of projects) {
     const support = projectSupport(nodes.get(project)!)
-    const cells = PUBLIC_SUITES.map(suite => {
-      const attempts = attemptsFor(project, suite)
-      const entries = snapshot.tables.filter(entry => entry.artifactRole !== 'candidate' && entry.suite === suite && entry.overview && (suite !== primary?.suite || entry.id === primary.id) && entry.rows.some(row => row.project === project)).sort((a, b) => stamp(b.measuredAt) - stamp(a.measuredAt) || a.id.localeCompare(b.id))
+    const cells = overviewColumns.map(({ suite, format }) => {
+      if ((format === 'svg' || suite === 'fidelity') && !support.declaredOutputs.includes('svg')) return 'N/A'
+      if (format === 'png' && !support.declaredOutputs.some(output => ['svg', 'png'].includes(output))) return 'N/A'
+      if (suite === 'community' && terminalOnly(snapshot) && !support.declaredOutputs.includes('terminal')) return 'N/A'
+      const attempts = attemptsFor(project, suite, format)
+      const entries = snapshot.tables.filter(entry => entry.artifactRole !== 'candidate' && entry.suite === suite && entry.overview && (!format || (entry.outputFormat ?? 'svg') === format) && (suite !== primary?.suite || format && format !== (primary.outputFormat ?? 'svg') || entry.id === primary.id) && entry.rows.some(row => row.project === project)).sort((a, b) => stamp(b.measuredAt) - stamp(a.measuredAt) || a.id.localeCompare(b.id))
       const entry = entries[0], attempt = entry ? supersedingAttempt(attempts, entry, project) : attempts[0]
       const cohorts = currentCohorts(attempts, entry)
       if (cohorts.length) return cohorts.map(attempt => attemptCell(attempt, (attempt.cohort ?? 'core') + ': ')).join('; ')
@@ -302,10 +333,10 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
   const candidates = snapshot.tables.filter(entry => entry.artifactRole === 'candidate' && entry.rows.some(row => visible(row.project)))
   if (candidates.length) lines.push('', '## Source candidate comparisons', '',
     'These tables compare unreleased builds within the named workload. Their dates and source commits belong to each table; they do not update release scores or ranks above.', '',
-    table(['Benchmark', 'Comparison', 'Measured'], candidates.map(entry => [benchmarkNames[entry.suite], `[${entry.id}](#${anchor(entry.id)})`, date(entry.measuredAt)])), '')
+    table(['Benchmark', 'Comparison', 'Measured'], candidates.map(entry => [titles[entry.suite], `[${entry.id}](#${anchor(entry.id)})`, date(entry.measuredAt)])), '')
   lines.push('', '## Results by benchmark', '', 'Tables retain the full recorded populations. Charts show one named measure from the adjacent table; blocked, unavailable and failed checks remain visible in that table. Linked publications provide raw downloads; each table’s receipt identifies its owning evidence.', '')
-  for (const suite of PUBLIC_SUITES) {
-    lines.push(`### ${benchmarkNames[suite]}`, '')
+  for (const suite of activeSuites) {
+    lines.push(`### ${titles[suite]}`, '')
     const entries = snapshot.tables.filter(entry => entry.suite === suite).map(entry => ({ ...entry, rows: entry.rows.filter(row => visible(row.project) && (!entry.rolling || !supersedingAttempt(snapshot.attempts, entry, row.project))) })).filter(entry => entry.rows.length)
     if (!entries.length) lines.push('No comparative result table has been published.', '')
     if (detailLinks) lines.push(`[All ${entries.length} ranked tables and recorded attempts](${detailLinks.get('suite:' + suite)})`, '')
@@ -315,7 +346,10 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
       lines.push(entry.ranking ? `Ranked by **${md(entry.ranking.column)}${entry.ranking.denominator ? ' / ' + md(entry.ranking.denominator) : ''}**, ${entry.ranking.direction === 'ascending' ? 'lowest' : 'highest'} first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.` : 'No comparable numeric ranking measure is available.', '')
       const rate = entry.chart?.denominator
       const notes = rows.some(row => row.unrankedReason)
-      lines.push(table(['Project', 'Rank', ...entry.columns, ...(rate ? [entry.chart!.axis] : []), ...(notes ? ['Ranking note'] : []), ...(entry.rolling ? ['Row evidence'] : [])], rows.map(row => [name(row.project), row.rank ?? '—', ...row.values, ...(rate ? [row.rank === null ? '—' : chartValue(entry, row).toFixed(1) + '%'] : []), ...(notes ? [row.unrankedReason ?? ''] : []), ...(entry.rolling ? [receiptLink(row.receipt!)] : [])])), '')
+      const reference = entry.cohort?.startsWith('terminal-') ? 'AlexanderGrooff/mermaid-ascii' : 'mermaid-js/mermaid'
+      const compare = entry.population && entry.ranking?.direction === 'descending' && entry.rows.some(row => row.project === reference)
+      if (compare) lines.push(`“Higher” and “Lower” compare **${md(entry.ranking!.column)}** on this population. Unknown evidence remains unresolved. ${reference === 'AlexanderGrooff/mermaid-ascii' ? 'Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.' : 'This is a comparison of the named metric, not overall project quality.'}`, '')
+      lines.push(table(['Project', 'Rank', ...entry.columns, ...(compare ? [reference === 'mermaid-js/mermaid' ? 'vs Mermaid' : 'vs Mermaid ASCII'] : []), ...(rate ? [entry.chart!.axis] : []), ...(notes ? ['Ranking note'] : []), ...(entry.rolling ? ['Row evidence'] : [])], rows.map(row => [name(row.project), row.rank ?? '—', ...row.values, ...(compare ? [baselineComparison(entry, row, reference)] : []), ...(rate ? [row.rank === null ? '—' : chartValue(entry, row).toFixed(1) + '%'] : []), ...(notes ? [row.unrankedReason ?? ''] : []), ...(entry.rolling ? [receiptLink(row.receipt!)] : [])])), '')
       const chartRows = rows.filter(row => row.rank !== null)
       if (entry.chart && chartRows.length) {
         const quote = (value: string) => JSON.stringify(value.replace(/[\r\n]/g, ' '))
@@ -330,7 +364,7 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
   if (!snapshot.attempts.length) lines.push('No campaign attempt has been imported into this snapshot yet. Comparative tables above retain their own dates, artifact roles and evidence receipts.', '')
   if (detailLinks && snapshot.attempts.length) lines.push('Per-project attempts, original failures and observation counts appear on each benchmark’s linked detail pages.', '')
   for (const attempt of snapshot.attempts.filter(attempt => !detailLinks && visible(attempt.project)).sort((a, b) => stamp(b.updatedAt) - stamp(a.updatedAt) || a.id.localeCompare(b.id))) {
-    lines.push(`<a id="${anchor(attempt.id)}"></a>`, '', `### ${md(name(attempt.project))}: ${benchmarkNames[attempt.suite]}${attempt.cohort !== undefined ? ' (' + md(attempt.cohort) + ')' : ''}`, '',
+    lines.push(`<a id="${anchor(attempt.id)}"></a>`, '', `### ${md(name(attempt.project))}: ${titles[attempt.suite]}${attempt.cohort !== undefined ? ' (' + md(attempt.cohort) + ')' : ''}`, '',
       `Campaign invocation: ${attempt.measuredFrom} → ${attempt.updatedAt} · **${attempt.status}**${attempt.artifactRole === 'candidate' ? ' · **Source candidate study**' : ''} · ${receiptLink(attempt.receipt)}${attempt.evidenceUrl ? ` · [owning results and failures](${attempt.evidenceUrl})` : ''}`, '', md(attempt.detail), '')
     if (attempt.groups.length) lines.push(table(['Version / artifact role', 'Interface / runtime', 'Format / operation', 'Mode / round', 'Distinct case IDs', 'Passed observations', 'Failed', 'Unsupported', 'Blocked', 'Other dispositions', 'Recorded observations'], attempt.groups.map(group => [group.version + ' / ' + group.variant, group.surface + ' / ' + group.runtime, group.format + ' / ' + group.operation, group.mode + ' / ' + group.round, group.caseIds, group.dispositions.passed ?? 0, group.dispositions.failed ?? 0, group.dispositions.unsupported ?? 0, group.dispositions.blocked ?? 0, JSON.stringify(Object.fromEntries(Object.entries(group.dispositions).filter(([key]) => !['passed', 'failed', 'unsupported', 'blocked'].includes(key)))), group.recordedObservations])), '')
   }
@@ -352,7 +386,8 @@ export function writeSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalog
   const split = Buffer.byteLength(full) > 120000
   if (split) {
     for (const suite of PUBLIC_SUITES) {
-      const heading = `### ${benchmarkNames[suite]}\n\n`, start = full.indexOf(heading, full.indexOf('## Results by benchmark'))
+      const heading = `### ${snapshotBenchmarkNames(snapshot)[suite]}\n\n`, start = full.indexOf(heading, full.indexOf('## Results by benchmark'))
+      if (start < 0) continue
       const next = full.indexOf('\n### ', start + heading.length), end = Math.min(next < 0 ? Infinity : next, full.indexOf('\n## Campaign attempts', start))
       const tables = full.slice(start + heading.length, end)
       const ids = new Set(snapshot.attempts.filter(attempt => attempt.suite === suite).map(attempt => anchor(attempt.id)))
@@ -367,13 +402,13 @@ export function writeSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalog
       }
       const index = `results/tables/${suite}.md`
       links.set('suite:' + suite, index)
-      const indexLines = [`# ${benchmarkNames[suite]}`, '', '[Ecosystem overview](../../RESULTS.md)', '', 'Ranked tables and original attempt details. Each table names its own interface, input population and measurement date.', '']
+      const indexLines = [`# ${snapshotBenchmarkNames(snapshot)[suite]}`, '', '[Ecosystem overview](../../RESULTS.md)', '', 'Ranked tables and original attempt details. Each table names its own interface, input population and measurement date.', '']
       for (const [part, chunk] of chunks.entries()) {
         const file = `results/tables/${suite}-${part + 1}.md`
         const content = chunk.join('').replace(/\]\((docs\/[^)]+)\)/g, '](../../$1)')
         for (const match of content.matchAll(/<a id="([^"]+)"/g)) links.set(match[1]!, file)
         indexLines.push(`- [Part ${part + 1}](${suite}-${part + 1}.md)`)
-        outputs.push([join(root, file), `# ${benchmarkNames[suite]} · part ${part + 1}\n\n[Ecosystem overview](../../RESULTS.md) · [All parts](${suite}.md)\n\n` + content])
+        outputs.push([join(root, file), `# ${snapshotBenchmarkNames(snapshot)[suite]} · part ${part + 1}\n\n[Ecosystem overview](../../RESULTS.md) · [All parts](${suite}.md)\n\n` + content])
       }
       outputs.push([join(root, index), indexLines.join('\n') + '\n'])
     }

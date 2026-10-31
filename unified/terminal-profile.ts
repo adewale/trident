@@ -8,7 +8,8 @@ import { createMeaningAdapter } from '../fidelity/adapters.ts'
 import { assessMeaning } from '../fidelity/meaning.ts'
 import { readTerminalCorpus, reviewedTerminalCases, type TerminalProjectCase } from '../fidelity/terminal-corpus.ts'
 import { assessTerminalDrawing } from '../fidelity/terminal-assessment.ts'
-import { runCommunityCli, runCommunityNodeRound, verifyProvidedCommunityArtifact } from './community.ts'
+import { communityModuleOutputSupported, runCommunityCli, runCommunityNodeRound, verifyProvidedCommunityArtifact } from './community.ts'
+import { verifyReleaseCli } from './release-cli.ts'
 import { runExternalCommunity } from './community-external.ts'
 import type { PreparedCommunity } from './community-types.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedWorkload } from './types.ts'
@@ -30,9 +31,14 @@ export async function collectTerminalWorkloads(prepared: PreparedCommunity[], wo
   const results: { peer: PreparedCommunity; rows: BenchmarkObservation[] }[] = []
   for (const peer of prepared) {
     const kind = peer.artifact?.kind
-    const rows = kind === 'python' ? await runExternalCommunity(peer, workloads, 'terminal', 1, options)
-      : kind === 'node' ? await runCommunityNodeRound(peer, 'terminal', workloads, 1, options)
-        : kind === 'cli' ? workloads.map(input => runCommunityCli(peer, 'terminal', input, 1, options.out)) : []
+    const nodeTerminal = (peer.node.benchmark?.outputs ?? peer.node.outputs).some(output => ['terminal', 'ascii-unicode', 'unicode', 'ascii'].includes(output)) && communityModuleOutputSupported(peer.node, 'terminal')
+    const extra = !nodeTerminal || !['node', 'global', 'franken'].includes(kind ?? '') ? peer.artifact?.additionalCli?.find(cli => cli.outputs.includes('terminal') && cli.artifact) : undefined
+    if (extra?.artifact) { verifyProvidedCommunityArtifact(extra.artifact); verifyReleaseCli(peer.node, peer.artifact!) }
+    const rows = extra?.artifact ? workloads.map(input => runCommunityCli({ ...peer, artifact: extra.artifact }, 'terminal', input, 1, options.out))
+      : kind === 'python' ? await runExternalCommunity(peer, workloads, 'terminal', 1, options)
+        : ['node', 'global', 'franken'].includes(kind ?? '') && nodeTerminal ? await runCommunityNodeRound(peer, 'terminal', workloads, 1, options)
+          : kind === 'cli' ? workloads.map(input => runCommunityCli(peer, 'terminal', input, 1, options.out))
+            : workloads.map(input => ({ suite: 'community', surface: 'public:terminal', runtime: 'not-invoked', family: input.family, caseId: input.id, operation: 'capability', format: 'terminal', mode: 'capability', status: 'blocked', detail: peer.error ?? 'No reviewed terminal transport for this frozen artifact; no renderer invocation or failure is inferred.', metrics: { implementation: peer.node.id, failureStage: 'transport' } }) as BenchmarkObservation)
     results.push({ peer, rows })
   }
   return results
@@ -42,7 +48,7 @@ export async function collectTerminalWorkloads(prepared: PreparedCommunity[], wo
 export function assessTerminalRecord(record: any, directory: string, cases = reviewedTerminalCases()) {
   const inventory = cases.map(input => [input.id, input.sourceSha256])
   if (record.profile !== terminalProfileId || JSON.stringify(record.inventory) !== JSON.stringify(inventory)) throw Error('Saved terminal source inventory differs; keep its original corpus/version')
-  if (!Array.isArray(record.artifacts) || !Array.isArray(record.outputs) || !Array.isArray(record.sourceReference) || !record.artifacts.some((entry: any) => entry.project === ascii) || new Set(record.artifacts.map((entry: any) => entry.project)).size !== record.artifacts.length || record.artifacts.some((entry: any) => entry.project === 'mermaid-js/mermaid')) throw Error('Terminal profile needs unique terminal artifacts including Mermaid ASCII, with Mermaid reference unscored')
+  if (!Array.isArray(record.artifacts) || !record.artifacts.length || !Array.isArray(record.outputs) || !Array.isArray(record.sourceReference) || (!record.targetedExtension && !record.artifacts.some((entry: any) => entry.project === ascii)) || new Set(record.artifacts.map((entry: any) => entry.project)).size !== record.artifacts.length || record.artifacts.some((entry: any) => entry.project === 'mermaid-js/mermaid')) throw Error('Terminal profile needs unique terminal artifacts, including Mermaid ASCII outside explicit targeted extensions, with Mermaid reference unscored')
   if (record.sourceReference.length !== cases.length || cases.some(input => record.sourceReference.filter((row: any) => row.caseId === input.id && row.project === 'mermaid-js/mermaid').length !== 1)) throw Error('Terminal profile omitted mandatory Mermaid source-reference evidence')
   const keys = new Set<string>()
   for (const row of record.outputs) {
@@ -72,20 +78,23 @@ export function assessTerminalRecord(record: any, directory: string, cases = rev
 }
 
 export async function runTerminalProfile(argv: string[]) {
-  if (argv.includes('--help')) { console.log('bench --terminal --community-prepared FILE --out FRESH_DIR [--projects ID,...] [--all-inputs]\nbench --terminal --saved-terminal DIR --out FRESH_DIR\nbench --terminal --plan\nDefault: Mermaid ASCII and Termaid; collect independently reviewed observable inputs once, retain all other planned cells as unknown. --all-inputs explicitly attempts every source. No acquisition, warmups or speed score. Mermaid is an unscored source reference.'); return }
+  if (argv.includes('--help')) { console.log('bench --terminal --community-prepared FILE --out FRESH_DIR [--projects ID,... | --all-projects] [--all-inputs]\nbench --terminal --saved-terminal DIR --out FRESH_DIR\nbench --terminal --plan\nDefault: Mermaid ASCII and Termaid; collect independently reviewed observable inputs once, retain all other planned cells as unknown. --all-inputs explicitly attempts every source. No acquisition, warmups or speed score. Mermaid is an unscored source reference.'); return }
   const options = new Map<string, string>(), flags = new Set<string>()
   for (let index = 0; index < argv.length; index++) {
     const key = argv[index]!
     if (options.has(key) || flags.has(key)) throw Error('Duplicate terminal option')
-    if (['--all-inputs', '--plan'].includes(key)) { flags.add(key); continue }
+    if (['--all-inputs', '--all-projects', '--plan'].includes(key)) { flags.add(key); continue }
     const value = argv[++index]
     if (!['--community-prepared', '--saved-terminal', '--out', '--projects'].includes(key) || !value || value.startsWith('--')) throw Error('Use bench --terminal --help')
     options.set(key, value)
   }
+  if (flags.has('--all-projects') && options.has('--projects')) throw Error('Choose --projects or --all-projects, not both')
+  const allTerminal = comparisonProjects(catalog as any, catalog.nodes.map(node => node.id)).included.filter(id => catalog.nodes.find(node => node.id === id)!.outputs.some(output => ['terminal', 'ascii-unicode', 'unicode', 'ascii'].includes(output)))
+  const projectSelection = options.get('--projects')?.split(',') ?? (flags.has('--all-projects') ? allTerminal : defaults)
   const cases = reviewedTerminalCases(), corpus = readTerminalCorpus(), planned = cases.filter(ready)
-  if (flags.has('--plan')) { const projects = options.get('--projects')?.split(',') ?? defaults; console.log(JSON.stringify({ profile: terminalProfileId, corpus: 'corpus/terminal-project-examples.json', sources: cases.length, sourceRepositories: corpus.projects.length, reviewedObservableDrawings: planned.length, plannedTerminalCalls: (flags.has('--all-inputs') ? cases.length : planned.length) * projects.length, sourceReferenceCalls: cases.length, selectedProjects: projects, timing: 'unqualified; CLI and warm Python API remain different boundaries' }, null, 2)); return }
+  if (flags.has('--plan')) { const projects = projectSelection; console.log(JSON.stringify({ profile: terminalProfileId, corpus: 'corpus/terminal-project-examples.json', sources: cases.length, sourceRepositories: corpus.projects.length, reviewedObservableDrawings: planned.length, plannedTerminalCalls: (flags.has('--all-inputs') ? cases.length : planned.length) * projects.length, sourceReferenceCalls: cases.length, selectedProjects: projects, timing: 'unqualified; CLI and warm Python API remain different boundaries' }, null, 2)); return }
   const target = options.get('--out'), saved = options.get('--saved-terminal'), preparedFile = options.get('--community-prepared')
-  if (!target || !!saved === !!preparedFile || saved && (options.has('--projects') || flags.has('--all-inputs'))) throw Error('Choose --out and exactly one frozen preparation or saved terminal directory; saved mode keeps the original cohort')
+  if (!target || !!saved === !!preparedFile || saved && (options.has('--projects') || flags.has('--all-inputs') || flags.has('--all-projects'))) throw Error('Choose --out and exactly one frozen preparation or saved terminal directory; saved mode keeps the original cohort')
   const out = resolve(target)
   if (existsSync(out)) throw Error('Choose a fresh terminal output directory')
   const source = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: tridentDirectory, encoding: 'utf8' }).trim()
@@ -98,14 +107,15 @@ export async function runTerminalProfile(argv: string[]) {
     for (const row of record.outputs) if (row.witness) { const bytes = readFileSync(resolve(directory, row.witness)), name = hash(bytes) + '.txt'; writeFileSync(join(out, name), bytes); row.witness = name }
   } else {
     assertBenchmarkExecutionAllowed()
-    const projects = options.get('--projects')?.split(',') ?? defaults, prepared = read(resolve(preparedFile!)) as PreparedCommunity[]
-    if (!projects.includes(ascii) || new Set(projects).size !== projects.length || projects.includes('mermaid-js/mermaid') || !Array.isArray(prepared) || new Set(prepared.map(entry => entry.node.id)).size !== prepared.length || projects.some(project => !prepared.some(entry => entry.node.id === project))) throw Error('Choose unique frozen terminal identities including Mermaid ASCII; Mermaid reference is separate')
+    const projects = projectSelection, prepared = read(resolve(preparedFile!)) as PreparedCommunity[]
+    if (!projects.length || new Set(projects).size !== projects.length || projects.includes('mermaid-js/mermaid') || !Array.isArray(prepared) || new Set(prepared.map(entry => entry.node.id)).size !== prepared.length || projects.some(project => !prepared.some(entry => entry.node.id === project))) throw Error('Choose unique frozen terminal identities; Mermaid reference is separate. Default/full cohorts include Mermaid ASCII; explicit projects select a targeted extension.')
     const eligible = comparisonProjects(catalog as any, projects).included
     if (eligible.length !== projects.length) throw Error('Terminal profile respects the catalog branding/selection policy; choose eligible renderer artifacts')
     const selected = prepared.filter(peer => projects.includes(peer.node.id))
     for (const peer of selected) if (peer.artifact) {
-      if (!peer.node.outputs.some(output => ['terminal', 'ascii-unicode', 'unicode', 'ascii'].includes(output)) || !['cli', 'python', 'node'].includes(peer.artifact.kind) || peer.artifact.kind === 'python' && peer.node.benchmark?.adapter !== 'termaid') throw Error('No reviewed terminal transport: ' + peer.node.id)
+      if (!peer.node.outputs.some(output => ['terminal', 'ascii-unicode', 'unicode', 'ascii'].includes(output))) throw Error('No declared terminal output: ' + peer.node.id)
       verifyProvidedCommunityArtifact(peer.artifact)
+      verifyReleaseCli(peer.node, peer.artifact)
     }
     const startedAt = new Date().toISOString(), referenceRoot = mermaidOracleDirectory(), reference = await createMeaningAdapter({ tool: 'mermaid', packageRoot: join(referenceRoot, 'node_modules/mermaid'), referenceRoot }), sourceReference: any[] = []
     for (const input of cases) {
@@ -127,16 +137,18 @@ export async function runTerminalProfile(argv: string[]) {
         outputs.push({ project: peer.node.id, caseId: input.id, witness, sha256: bytes ? hash(bytes) : undefined, runtimeExecuted: invocationObserved(observation), publicStatus: observation?.status ?? 'blocked', detail: observation?.detail ?? peer.error })
       }
     }
-    record = { profile: terminalProfileId, source, producers, startedAt, finishedAt: new Date().toISOString(), inventory: cases.map(input => [input.id, input.sourceSha256]), corpusFile: 'corpus/terminal-project-examples.json', corpusSha256: hash(readFileSync(join(tridentDirectory, 'corpus/terminal-project-examples.json'))), reviewsSha256: hash(readFileSync(join(tridentDirectory, 'corpus/terminal-project-reviews.json'))), selectedCaseIds: targets.map(input => input.id), allInputs: flags.has('--all-inputs'), artifacts: selected.map(peer => ({ project: peer.node.id, version: peer.artifact?.version ?? 'unavailable', artifact: peer.artifact ?? null, error: peer.error })), sourceReference, outputs, transportObservations }
+    record = { profile: terminalProfileId, source, producers, startedAt, finishedAt: new Date().toISOString(), inventory: cases.map(input => [input.id, input.sourceSha256]), corpusFile: 'corpus/terminal-project-examples.json', corpusSha256: hash(readFileSync(join(tridentDirectory, 'corpus/terminal-project-examples.json'))), reviewsSha256: hash(readFileSync(join(tridentDirectory, 'corpus/terminal-project-reviews.json'))), selectedCaseIds: targets.map(input => input.id), allInputs: flags.has('--all-inputs'), targetedExtension: options.has('--projects'), artifacts: selected.map(peer => ({ project: peer.node.id, version: peer.artifact?.version ?? 'unavailable', artifact: peer.artifact ?? null, error: peer.error })), sourceReference, outputs, transportObservations }
   }
+  // Preserve completed collection even if the observer or report reducer fails.
+  writeFileSync(join(out, 'raw.json'), JSON.stringify(record, null, 2) + '\n')
   const assessments = assessTerminalRecord(record, out, cases), updatedAt = new Date().toISOString()
-  const terminalCoverage = record.artifacts.map((artifact: any) => { const own = record.outputs.filter((row: any) => row.project === artifact.project), attempted = own.filter((row: any) => row.runtimeExecuted ?? invocationObserved(record.transportObservations?.find((observation: any) => observation.metrics?.implementation === row.project && observation.caseId === row.caseId))).length; return { project: artifact.project, requested: own.length, attempted, returnedText: own.filter((row: any) => row.witness).length, publicFailed: own.filter((row: any) => row.publicStatus === 'failed').length, publicBlocked: own.filter((row: any) => row.publicStatus === 'blocked').length, notAttempted: cases.length - attempted, planned: cases.length } })
+  const terminalCoverage = record.artifacts.map((artifact: any) => { const own = record.outputs.filter((row: any) => row.project === artifact.project), invocationUnknown = own.filter((row: any) => row.runtimeExecuted === null).length, attempted = own.filter((row: any) => row.runtimeExecuted ?? invocationObserved(record.transportObservations?.find((observation: any) => observation.metrics?.implementation === row.project && observation.caseId === row.caseId))).length; return { project: artifact.project, requested: own.length, attempted, returnedText: own.filter((row: any) => row.witness).length, publicFailed: own.filter((row: any) => row.publicStatus === 'failed').length, publicBlocked: own.filter((row: any) => row.publicStatus === 'blocked').length, invocationUnknown, notAttempted: cases.length - attempted - invocationUnknown, planned: cases.length } })
   const observations: BenchmarkObservation[] = assessments.flatMap((project: any) => project.full.cases.map((input: any) => ({ suite: 'community', surface: 'terminal:cell-grid', runtime: 'retained terminal text', family: input.family, caseId: input.caseId, operation: 'graph-correctness', format: 'terminal', mode: terminalProfileId, status: input.status === 'correct' ? 'passed' : input.status === 'incorrect' ? 'failed' : 'blocked', detail: input.reason, metrics: { project: project.project, version: project.version, measuredAt: record.finishedAt, observerCheckedAt: updatedAt } })))
   const suite = join(out, 'terminal'); mkdirSync(suite)
   const result = { suite: 'community', terminalCoverage, startedAt: record.startedAt, finishedAt: record.finishedAt, observations, artifacts: ['../raw.json'], terminalProfile: { id: terminalProfileId, sourceRepositories: corpus.projects.map(project => ({ repository: project.repository, commit: project.commit })), cases: cases.map(input => ({ id: input.id, sourceSha256: input.sourceSha256, family: input.family })), reviewedCaseIds: planned.map(input => input.id), producers, corpusFile: record.corpusFile, corpusSha256: record.corpusSha256, reviewsSha256: hash(readFileSync(join(tridentDirectory, 'corpus/terminal-project-reviews.json'))) }, terminalAssessments: assessments.map((project: any) => ({ project: project.project, version: project.version, ...project.full })), terminalReviewedAssessments: assessments.map((project: any) => ({ project: project.project, version: project.version, ...project.reviewed })), sourceReference: record.sourceReference, recheck: parentSha256 ? { parentSha256, originalSource: record.source, observerSource: source, checkedAt: updatedAt, rendererInvocations: 0 } : null }
-  writeFileSync(join(out, 'raw.json'), JSON.stringify(record, null, 2) + '\n'); writeFileSync(join(suite, 'result.json'), JSON.stringify(result, null, 2) + '\n')
+  writeFileSync(join(suite, 'result.json'), JSON.stringify(result, null, 2) + '\n')
   writeFileSync(join(out, 'report.json'), JSON.stringify({ schema: 'trident-campaign-v2', options: { out }, startedAt: record.startedAt, updatedAt, projects: assessments.map((project: any) => project.project), profile: 'full', rounds: 1, requestedSuites: ['community'], results: [{ suite: 'community', cohort: terminalProfileId, out: suite, status: 'blocked', completed: true }], scope: 'Real project examples; full inventory retains unmeasured/unknown cells. Reviewed subset is separately bounded. Mermaid reference is unscored. Unlike invocation boundaries are not compared.' }, null, 2) + '\n')
-  const lines = ['# Terminal project corpus qualification', '', `Research: ${corpus.projects.length} frozen terminal-project repositories; ${cases.length} inputs from ${new Set(cases.flatMap(input => input.origins.map(origin => origin.repository))).size} contributors, mixing terminal-specific and shared-renderer robustness sources. No usage-frequency claim. Original collection ${record.startedAt} to ${record.finishedAt}; observer checked ${updatedAt}. Mermaid reference receives no terminal score.`, '']
+  const lines = ['# Terminal project corpus qualification', '', `Research: ${corpus.projects.length} frozen terminal-project repositories; ${cases.length} inputs from ${new Set(cases.flatMap(input => input.origins.map(origin => origin.repository))).size} contributors, mixing terminal-specific and shared-renderer robustness sources. No usage-frequency claim. Original collection ${record.startedAt && record.finishedAt ? record.startedAt + ' to ' + record.finishedAt : 'timestamps not retained (offline recovery)'}; observer checked ${updatedAt}. Mermaid reference receives no terminal score.`, '']
   for (const scope of ['full', 'reviewed'] as const) {
     lines.push('## ' + (scope === 'full' ? 'Full planned inventory' : 'Independently reviewed observable subset'), '', scope === 'reviewed' ? '| Verified-count rank | Project | Version | Correct | Incorrect | Unsupported | Unknown | Planned |' : '| Accuracy rank | Project | Version | Correct | Incorrect | Unsupported | Unknown | Planned |', '|---:|---|---|---:|---:|---:|---:|---:|')
     const sorted = [...assessments].sort((a: any, b: any) => b[scope].correct - a[scope].correct || a.project.localeCompare(b.project))

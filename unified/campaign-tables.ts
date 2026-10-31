@@ -72,12 +72,13 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             const project = projectId(assessment.project), count = (status: string) => cases.filter((input: any) => input.status === status).length, unknown = count('unknown')
             if (project === 'mermaid-js/mermaid') throw Error('Mermaid source reference cannot receive a terminal renderer score')
             const own = result.observations.filter(row => projectId(row.metrics?.project) === project && row.format === 'terminal' && row.operation === 'graph-correctness')
+            const clock = own.length && own.every(row => row.metrics?.measuredAt === null) ? 'Unknown; recovered text, see receipt' : measuredAt(own, result.finishedAt)
             add(['terminal-case-verdicts', cohort, scope, hash(terminalProfile)], 'community', measuredAt(own, result.finishedAt),
               (scope === 'full' ? 'Full planned terminal corpus, retaining unmeasured and unreviewed inputs.' : 'Independently reviewed drawing subset, ranked by verified correct count only. Unknown outcomes leave complete accuracy unresolved; this count rank cannot establish full-corpus correctness.') + ` Corpus: ${allIds.length} selected inputs from pinned terminal-project documentation, issues and PRs, without selection on renderer outcomes. Source/review hashes and all origins remain in the owning receipt. Full-inventory accuracy ranks are withheld for unknown work; reviewed-subset ranks order only verified counts. Mermaid source reference is unscored; no speed or aesthetics score.`,
               ['Version', 'Correct', 'Incorrect', 'Unsupported', 'Unknown', 'Planned', 'Measured'], project,
-              [assessment.version, count('correct'), count('incorrect'), count('unsupported'), unknown, planned.length, measuredAt(own, result.finishedAt)],
+              [assessment.version, count('correct'), count('incorrect'), count('unsupported'), unknown, planned.length, clock],
               scope === 'reviewed' ? { column: 'Correct', direction: 'descending' } : { column: 'Correct', denominator: 'Planned', direction: 'descending' },
-              { cohort, unit: 'terminal input cases', population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unsupported', 'Unknown'] } }, !planned.length || scope === 'full' && unknown || scope === 'reviewed' && !count('correct') && !count('incorrect') && !count('unsupported') ? 'Terminal source/display/drawing evidence is incomplete' : undefined)
+              { cohort, unit: 'terminal input cases', ...(scope === 'reviewed' ? { summary: true, overview: { numerator: 'Correct', denominator: 'Planned', suffix: '' } } : {}), population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unsupported', 'Unknown'] } }, !planned.length || scope === 'full' && unknown || scope === 'reviewed' && !count('correct') && !count('incorrect') && !count('unsupported') ? 'Terminal source/display/drawing evidence is incomplete' : undefined)
           }
         }
         continue
@@ -93,12 +94,35 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
           const protocol = (result as any).criteriaProtocol
           const own = result.observations.filter(row => projectId(row.metrics?.project ?? row.metrics?.implementation) === project)
           add(['svg-case-verdicts', cohort, hash([...selected].sort()), hash(protocol ?? null)], 'fidelity', measuredAt(own, result.finishedAt),
-            'Whole-diagram outcomes for the same authored case inventory and planned SVG checks. Public-model APIs confer no drawing credit. Unknown observations withhold a correctness rank; raw criterion evidence remains in the owning report.',
+            'Whole-diagram outcomes for the same authored case inventory and planned SVG checks. Public-model APIs confer no drawing credit. Ranks count verified correct diagrams; unknown observations leave complete accuracy unresolved. Raw criterion evidence remains in the owning report.',
             ['Version', 'Correct', 'Incorrect', 'Unsupported', 'Unknown', 'Planned', 'Measured'], project,
             [assessment.version, summary.correct, summary.incorrect, summary.unsupported, summary.unknown, summary.planned, measuredAt(own, result.finishedAt)],
-            { column: 'Correct', denominator: 'Planned', direction: 'descending' },
-            { summary: true, unit: 'authored diagrams', population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unsupported', 'Unknown'] } },
-            summary.unknown ? 'Required SVG observations are unknown' : !protocol ? 'Observer protocol is unqualified' : undefined)
+            { column: 'Correct', direction: 'descending' },
+            { summary: true, unit: 'authored diagrams', overview: { numerator: 'Correct', denominator: 'Planned', suffix: '' }, population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unsupported', 'Unknown'] } },
+            summary.correct + summary.incorrect + summary.unsupported === 0 ? 'No verified SVG observations' : !protocol ? 'Observer protocol is unqualified' : undefined)
+        }
+        continue
+      }
+      if (boundary.suite === 'native-fidelity' && (result as any).criteriaProtocol?.mode === 'public-model-contracts-v2') {
+        const protocol = (result as any).criteriaProtocol, planned = protocol.planned as { caseId: string; criterion: string; surface: string }[]
+        if (!Array.isArray(planned) || !planned.length || planned.some(item => item.surface !== 'native-public-api')) throw Error('Public-model summary needs its complete native-only plan')
+        const caseIds = [...new Set(planned.map(item => item.caseId))].sort()
+        for (const project of new Set(result.observations.map(row => projectId(row.metrics?.implementation)))) {
+          const own = result.observations.filter(row => projectId(row.metrics?.implementation) === project)
+          let correct = 0, incorrect = 0, unknown = 0
+          for (const caseId of caseIds) {
+            const criteria = planned.filter(item => item.caseId === caseId), rows = own.filter(row => row.metrics?.authoredCase === caseId && row.surface === 'native-public-api')
+            if (new Set(criteria.map(item => item.criterion)).size !== criteria.length || new Set(rows.map(row => row.operation)).size !== rows.length) throw Error('Duplicate public-model criterion')
+            if (rows.some(row => row.status === 'failed')) incorrect++
+            else if (criteria.every(item => rows.some(row => row.operation === item.criterion && row.status === 'passed'))) correct++
+            else unknown++
+          }
+          const version = result.toolVersions?.find(row => projectId(row.tool) === project)?.version ?? 'unavailable'
+          add(['public-model-contracts-v2', cohort, hash(protocol)], 'native-fidelity', measuredAt(own, result.finishedAt),
+            'Corpus: the same AM/Trident-authored feature cases, evaluated through public Node models. One correct case requires every declared native criterion. Missing projections remain unknown. These are optional model contracts, not drawing accuracy, editor integration or an overall renderer score.',
+            ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned', 'Measured'], project,
+            [version, correct, incorrect, unknown, caseIds.length, measuredAt(own, result.finishedAt)], { column: 'Correct', direction: 'descending' },
+            { summary: true, unit: 'public-model cases', overview: { numerator: 'Correct', denominator: 'Planned', suffix: '' }, population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, correct + incorrect === 0 ? 'No verified model observations' : undefined)
         }
         continue
       }
@@ -160,7 +184,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
                 ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned reviewed', 'Measured'], project,
                 [String(version), passed, failed, missing, reviewedIds.size, measuredAt(subset, result.finishedAt)],
                 { column: 'Correct', denominator: 'Planned reviewed', direction: 'descending' },
-                { outputFormat: format as 'svg' | 'png', unit: 'reviewed documentation occurrences', population: { total: 'Planned reviewed', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, passed + failed === 0 ? 'No verified drawing-content observations' : undefined)
+                { summary: true, outputFormat: format as 'svg' | 'png', overview: { numerator: 'Correct', denominator: 'Planned reviewed', suffix: '' }, unit: 'reviewed documentation occurrences', population: { total: 'Planned reviewed', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, passed + failed === 0 ? 'No verified drawing-content observations' : undefined)
             }
           }
           }

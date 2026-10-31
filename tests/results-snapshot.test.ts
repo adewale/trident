@@ -4,7 +4,7 @@ import { mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSyn
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
-import { importCampaign, rankedRows, renderSnapshot, retainedTableValues, validateSnapshot, validateSnapshotReceipts, writeSnapshot, type ResultsSnapshot } from '../unified/results-snapshot.ts'
+import { baselineComparison, importCampaign, rankedRows, renderSnapshot, retainedTableValues, validateSnapshot, validateSnapshotReceipts, writeSnapshot, type ResultsSnapshot } from '../unified/results-snapshot.ts'
 import type { LineageCatalog } from '../unified/lineage.ts'
 
 const receipt = { url: 'https://example.org/evidence/report.json', sha256: 'a'.repeat(64) }
@@ -39,7 +39,7 @@ test('one numeric source supplies both the visible table rate and Mermaid bar; m
   expect(output).toContain('1 catalog entries outside core comparison scope')
   const row = output.split('\n').find(line => line.startsWith('| fixture/alpha |'))!
   expect(row).toContain('N/A')
-  expect(row).toContain('Unmeasured')
+  expect(row).not.toContain('Replay (retired)')
   expect(row).not.toContain('0%')
   expect(output).not.toContain('| fixture/clone | Unmeasured')
   const changed = snapshot(); changed.tables[0]!.rows[0]!.values[1] = 0
@@ -149,7 +149,7 @@ test('large snapshots publish linked GitHub detail pages without dropping tables
 
 test('canonical historical values match their provenance digest without a second copy of the rows', () => {
   const root = resolve(import.meta.dir, '..')
-  const data = JSON.parse(readFileSync(join(root, 'results/latest.json'), 'utf8')) as ResultsSnapshot
+  const data = JSON.parse(readFileSync(join(root, 'results/historical-examples.json'), 'utf8')) as ResultsSnapshot
   const bytes = readFileSync(join(root, 'docs/evidence/benchmark-examples.json'))
   const examples = JSON.parse(bytes.toString()) as { tables?: unknown; tableData: { ids: string[]; valuesSha256: string }; originalTableReceipt: { url: string; sha256: string } }
   const digest = createHash('sha256').update(bytes).digest('hex')
@@ -162,7 +162,6 @@ test('canonical historical values match their provenance digest without a second
     expect(entry.receipt.sha256).toBe(digest)
   }
   validateSnapshotReceipts(data, root)
-  writeSnapshot(data, JSON.parse(readFileSync(join(root, 'catalog/mermaid-community.json'), 'utf8')), root, true)
   const docs = data.tables.find(entry => entry.id === 'docs-coverage')!
   docs.rows[0]!.values[1] = Number(docs.rows[0]!.values[1]) + 1
   docs.rows[0]!.values[2] = Number(docs.rows[0]!.values[2]) - 1
@@ -270,7 +269,28 @@ test('the Flutter brand gets no inherited Dart score in the regular results over
   const output = renderSnapshot(data, actual)
   const flutter = output.split('\n').find(line => line.startsWith('| Mermaid Flutter |'))
   expect(flutter).toBeDefined()
-  expect(flutter).toContain('Unmeasured')
+  expect(flutter).not.toContain('1.0')
   expect(flutter).toContain('N/A')
   expect(flutter).not.toContain('1/2')
+})
+
+
+test('reference comparisons keep incomplete, unknown and unlike populations out of winner claims', () => {
+  const entry = snapshot().tables[0]!
+  entry.rows = [{ project: 'mermaid-js/mermaid', values: ['12', 9, 1, 10] }, { project: 'peer', values: ['1', 10, 0, 10] }]
+  expect(baselineComparison(entry, entry.rows[0]!)).toBe('Baseline')
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Higher (+1)')
+  entry.rows[1]!.values[1] = 8
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Lower (-1)')
+  entry.rows[1]!.values[1] = 9
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Tie')
+  entry.rows[1]!.values[3] = 20
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Different populations')
+  entry.rows[1]!.values[3] = 10; entry.rows[1]!.unrankedReason = 'partial collection'
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Unresolved')
+  entry.ranking = { column: 'Returned', direction: 'ascending' }
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Not comparable')
+  entry.columns = ['Version', 'Correct', 'Unknown', 'Planned']; entry.population = { total: 'Planned', outcomes: ['Correct', 'Unknown'] }; entry.ranking = { column: 'Correct', direction: 'descending' }
+  entry.rows[1]!.values = ['1', 0, 10, 10]
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Unresolved')
 })

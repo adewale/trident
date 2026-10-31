@@ -1,10 +1,10 @@
 # Publishing benchmark results
 
 [RESULTS.md](../RESULTS.md) is the repository's ecosystem overview. It lists all
-eligible projects, the latest imported attempts and dated result tables for all
-seven benchmarks. It includes the 30 October 2026 full campaign and retains older
-dated evidence. The linked campaign archive preserves all 39 originally measured
-projects; the rolling page applies the current 27-project selection.
+eligible projects and the latest corpus comparisons. The 31 October campaign
+separates DaveBench SVG/PNG returns and content, authored SVG feature cases,
+Terminal Rendering and optional public model contracts. Historical studies and
+the previous overview remain linked at immutable revisions.
 
 [`latest.json`](latest.json) stores the table values, dates, interfaces,
 qualification notes, receipt hashes and campaign attempts. The generator uses
@@ -21,9 +21,9 @@ withheld rather than shown as zero.
 Results are stack-ranked by the metric named above each table. Coverage and
 passed-check rates run highest first; latency and memory run lowest first.
 Ties share a rank. Unavailable measurements are unranked below measured rows.
-The ecosystem overview uses DaveBench's SVG return rate; each other benchmark
-keeps its own ranking. The charts follow their table order. Historical values are maintained only in
-`latest.json`; the provenance receipt stores their digest and original source links.
+The ecosystem overview uses DaveBench's reviewed SVG correct count; each other benchmark
+keeps its own ranking. The charts follow their table order. The small historical examples snapshot keeps its original provenance digest;
+older campaign views remain available at their immutable links.
 
 Regenerate or check the tracked page without acquiring projects or running benchmarks:
 

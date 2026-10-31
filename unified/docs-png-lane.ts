@@ -1,3 +1,4 @@
+import { selectDocsCases } from './docs-selection.ts'
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -5,7 +6,7 @@ import { chromium } from 'playwright'
 import { checkCollectionBudget, CollectionCheckpoint, CollectionBudgetExhausted } from '../portable/checkpoint.ts'
 import { admitPreparedFidelityEngine } from '../fidelity/community.ts'
 import { defaultChromium, executableIdentity } from './benchmark-context.ts'
-import { callDocsPage, docsArtifactServer, docsRoundOrder, type docsInventory } from './docs-benchmark.ts'
+import { callDocsPage, closeDocsContext, withDocsDeadline, docsArtifactServer, docsRoundOrder, type docsInventory } from './docs-benchmark.ts'
 import { publicSvgBrowserAction } from './public-svg-browser.ts'
 import { publicDocsPngAction } from './docs-png-browser.ts'
 import { inspectPng } from './png-inspection.ts'
@@ -32,6 +33,7 @@ export function docsPngTransport(peer?: PreparedCommunity, browser?: PreparedCom
  * PNG producers are admitted without an SVG API or SVG browser preparation. */
 export async function runDocsPngLane(options: UnifiedRunOptions, inventory: ReturnType<typeof docsInventory>, sourceReviews: readonly DocsDrawingReview[], imageReviews: readonly DocsPngReview[]): Promise<UnifiedSuiteResult> {
   assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: false })
+  const selectedCases = selectDocsCases(inventory.cases, options)
   const startedAt = new Date().toISOString(), observations: BenchmarkObservation[] = [], gaps: string[] = []
   const prepared: PreparedCommunity[] = options.communityPreparedFile ? JSON.parse(readFileSync(options.communityPreparedFile, 'utf8')) : []
   const browsers: PreparedCommunityBrowser[] = options.communityBrowserPreparedFile ? JSON.parse(readFileSync(options.communityBrowserPreparedFile, 'utf8')) : []
@@ -41,7 +43,7 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
   writeFileSync(join(options.out, 'community-prepared.json'), JSON.stringify(prepared))
   const retained = join(options.out, 'drawings'); mkdirSync(retained, { recursive: true })
   const conversionRequired = projects.some(project => docsPngTransport(prepared.find(row => row.node.id === project), browsers.find(row => row.node.id === project)) === 'svg-conversion')
-  const context = { format: 'png', driver: process.versions, browser: conversionRequired ? executableIdentity(options.executable ?? defaultChromium(chromium)) : null, artifacts: prepared, preparedBrowsers: browsers, rounds: options.rounds, calls: 'One actual output call per occurrence per round; no adaptive repetition or implicit artifact acquisition.', timing: 'Descriptive only: browser includes public SVG render + serialization/raster/PNG encoding; native/Node API clocks exclude startup; CLI includes startup. Clocks with different boundaries do not share a speed ranking.', correctness: 'Actual PNG/source/expectation hashes need a full content review. Decoding and nonblank checks alone never pass content.' }
+  const context = { format: 'png', driver: process.versions, browser: conversionRequired ? executableIdentity(options.executable ?? defaultChromium(chromium)) : null, artifacts: prepared, preparedBrowsers: browsers, rounds: options.rounds, selectedCaseIds: selectedCases.map(input => input.id), calls: 'One actual output call per occurrence per round; no adaptive repetition or implicit artifact acquisition.', timing: 'Descriptive only: browser includes public SVG render + serialization/raster/PNG encoding; native/Node API clocks exclude startup; CLI includes startup. Clocks with different boundaries do not share a speed ranking.', correctness: 'Actual PNG/source/expectation hashes need a full content review. Decoding and nonblank checks alone never pass content.' }
   writeFileSync(join(options.out, 'context.json'), JSON.stringify(context, null, 2))
   const checkpoint = new CollectionCheckpoint(options.out, { inventory, sourceReviews, imageReviews, context, projects, rounds: options.rounds, producers: protocolIdentity(options.harnessRoot ?? options.root, ['unified/docs-png-lane.ts', 'unified/community-worker.mjs']) }, options.collectionDeadline)
   let budgetError: CollectionBudgetExhausted | undefined
@@ -65,16 +67,16 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
           const context = await browserHost.newContext({ viewport: { width: 1400, height: 1000 } }), page = await context.newPage()
           context.setDefaultTimeout(20_000)
           await context.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort())
-          conversion = { close: async () => { await context.close(); await new Promise<void>(done => server.close(() => done())) }, invoke: (source, id) => callDocsPage(page, publicDocsPngAction, { source, id }) }
+          conversion = { close: () => closeDocsContext(context, server), invoke: (source, id) => callDocsPage(page, publicDocsPngAction, { source, id }) }
           await page.goto(origin + '/blank')
           if (engine.kind === 'franken' || engine.kind === 'merman') await callDocsPage(page, publicSvgBrowserAction, { type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: origin + '/' + engine.wasm })
-          else { await page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) }); await callDocsPage(page, publicSvgBrowserAction, { type: 'initialize-global', engine, addonUrl: engine.zenuml ? origin + '/__addon/' + engine.zenuml.entry : undefined }) }
+          else { await withDocsDeadline(() => page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) }), () => { void page.close().catch(() => {}) }); await callDocsPage(page, publicSvgBrowserAction, { type: 'initialize-global', engine, addonUrl: engine.zenuml ? origin + '/__addon/' + engine.zenuml.entry : undefined }) }
         } else if (transport !== 'unavailable') {
           verifyProvidedCommunityArtifact(peer!.artifact!)
-          const workloads = inventory.cases.map(input => ({ id: input.id, family: input.family, source: input.source, expectedLabels: [], features: ['retain-output-witness'], provenance: 'Pinned Mermaid syntax documentation; source path/line in inventory.json' }))
+          const workloads = selectedCases.map(input => ({ id: input.id, family: input.family, source: input.source, expectedLabels: [], features: ['retain-output-witness'], provenance: 'Pinned Mermaid syntax documentation; source path/line in inventory.json' }))
           rendered = transport === 'native' ? await runExternalCommunity(peer!, workloads, 'png', round, { ...options, communityCoverageOnce: true }) : transport === 'node' ? await runCommunityNodeRound(peer!, 'png', workloads, round, { ...options, communityCoverageOnce: true }) : workloads.map(input => runCommunityCli(peer!, 'png', input, round, options.out))
         }
-        for (const [index, input] of inventory.cases.entries()) {
+        for (const [index, input] of selectedCases.entries()) {
           checkCollectionBudget(options.collectionDeadline)
           const expected = sourceReviews.find(review => review.id === input.id) ?? null
           let bytes: Uint8Array | undefined, status: BenchmarkObservation['status'] = 'blocked', detail: string | undefined, durationMs: number | undefined
@@ -107,7 +109,7 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
         if (error instanceof CollectionBudgetExhausted) { writeFileSync(join(options.out, `interrupted-${encodeURIComponent(project)}-r${round}.json`), JSON.stringify(own)); throw error }
         gaps.push(project + ': ' + String(error))
         own.push({ suite: 'docs', surface: 'public:png', runtime: transport, family: '*', caseId: project, operation: 'round', format: 'png', mode: 'not-completed', status: 'blocked', detail: String(error), metrics: { project, version, round, plannedOccurrences: inventory.occurrences } })
-      } finally { await conversion?.close() }
+      } finally { try { await conversion?.close() } catch (error) { gaps.push(project + ': bounded browser cleanup: ' + String(error)) } }
       writeFileSync(join(options.out, `transport-${encodeURIComponent(project)}-r${round}.json`), JSON.stringify(rendered))
       return own
       })
