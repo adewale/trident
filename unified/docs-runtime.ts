@@ -30,7 +30,12 @@ export function docsArtifactServer(root: string, addon?: { root: string }, image
 /** Includes asynchronous module/addon initialization, whose evaluate promises
  * have no Playwright timeout. A stalled renderer cannot hold the campaign open. */
 export async function callDocsPage(page: Pick<Page, 'evaluate' | 'close'>, action: (input: any) => Promise<any>, input: any, deadlineMs = 20_000): Promise<any> {
-  return withDocsDeadline(() => page.evaluate(action, input), () => { void page.close().catch(() => {}) }, deadlineMs)
+  const value = await withDocsDeadline(() => page.evaluate(action, input), () => { void page.close().catch(() => {}) }, deadlineMs)
+  if (value?.collectionDeadlineExceeded === true) {
+    try { await withDocsDeadline(() => page.close(), () => {}, Math.min(deadlineMs, 1_000)) }
+    catch (error) { return { ...value, pageDisposalError: String(error) } }
+  }
+  return value
 }
 
 export async function withDocsDeadline<T>(operation: () => Promise<T>, cancel: () => void, deadlineMs = 20_000): Promise<T> {

@@ -134,7 +134,9 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
           let warmupPassed = 0
           for (let index = 0; index < (options.rounds === 1 ? 0 : 30); index++) {
             checkCollectionBudget(options.collectionDeadline)
+            if (!healthy || page.isClosed()) await initialize()
             const value = await invoke({ type: 'measure-docs', source: inventory.cases[index % inventory.cases.length]!.source, id: `warmup_${round}_${index}` })
+            if (value.collectionDeadlineExceeded === true) healthy = false
             if (value.status === 'passed') warmupPassed++
           }
           for (const [index, testCase] of selectedCases.entries()) {
@@ -149,6 +151,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
               const attempt = engine.kind === 'cli' ? undefined : journal.start(identity)
               try { value = await invoke({ type: 'measure-docs', source: testCase.source, id: `docs_${round}_${index}`, retainSvg: true }) }
               catch (error) { healthy = false; server.closeAllConnections?.(); value = { status: 'blocked', error: 'Host transport deadline/closure: ' + String(error) } }
+              if (value.collectionDeadlineExceeded === true) healthy = false
               if (attempt) {
                 if (typeof value.svg === 'string') journal.returned(attempt, value.svg, Number.isFinite(value.durationMs) ? value.durationMs : null)
                 else journal.failed(attempt, value.error ?? 'Public call returned no SVG witness', null, value.status === 'blocked' ? 'interrupted' : 'public-error')
