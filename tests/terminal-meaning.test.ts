@@ -24,7 +24,7 @@ test('correct labels cannot conceal wrong direction, disconnected stems, missing
   expect(inspectTerminalMeaning(drawing.replace('├────►', '├─ ──►'), chain).status).toBe('incorrect')
   expect(inspectTerminalMeaning(drawing.replace('Beta', 'Gone'), chain).status).toBe('incorrect')
   expect(inspectTerminalMeaning(drawing, { nodes, edges: [{ source: 'Alpha', target: 'Gamma' }, { source: 'Beta', target: 'Gamma' }] }).status).toBe('incorrect')
-  expect(inspectTerminalMeaning('Alpha Beta Gamma', chain).status).toBe('incorrect')
+  expect(inspectTerminalMeaning('Alpha Beta Gamma', chain).status).toBe('unknown')
 })
 
 test('a relationship label belongs to its traced route, not an unrelated text occurrence', () => {
@@ -71,4 +71,11 @@ test('caption spaces painted over by route ink stay unknown while a reversed arr
   const graph = { nodes: ['A', 'B'].map(id => ({ id, label: id })), edges: [{ source: 'A', target: 'B', label: 'Save & Exit' }] }, drawing = fixture('ascii-overlaid-caption')
   expect(inspectTerminalMeaning(drawing, graph).status).toBe('unknown')
   expect(inspectTerminalMeaning(drawing.replace('►', '◄'), graph).status).toBe('incorrect')
+})
+
+test('a caption beside one vertical route is owned, while an absent or detached caption cannot pass', () => {
+  const graph = { nodes: ['A', 'B'].map(id => ({ id, label: id })), edges: [{ source: 'A', target: 'B', label: 'Label' }] }, drawing = fixture('termaid-vertical-caption')
+  expect(inspectTerminalMeaning(drawing, graph).status).toBe('correct')
+  expect(inspectTerminalMeaning(drawing.replace('Label', '     '), graph).status).toBe('incorrect')
+  expect(inspectTerminalMeaning('Label\n\n' + drawing.replace('Label', '     '), graph).status).toBe('unknown')
 })

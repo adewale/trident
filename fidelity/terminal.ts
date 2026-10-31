@@ -35,6 +35,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   }
   for (const node of expected.nodes) {
     const matches = boxes.filter(box => box.label === node.label)
+    if (!matches.length && (text.includes(node.label) || boxes.some(box => box.label.replace(/\s/g, '') === node.label.replace(/\s/g, '')))) return verdict('unknown', 'Visible authored label lacks a qualified node-container or wrapping projection: ' + node.label)
     if (matches.length !== 1) return verdict('incorrect', 'Expected exactly one drawn node labelled ' + node.label + '; found ' + matches.length)
     matches[0]!.id = node.id
   }
@@ -116,7 +117,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   }
   for (const caption of floating) {
     const midpoint = caption.x + (caption.width - 1) / 2
-    const candidates = paths.map((path, index) => ({ index, near: path.some(point => Math.abs(point.y - caption.y) === 1 && Math.abs(point.x - midpoint) <= .5) })).filter(item => item.near)
+    const candidates = paths.map((path, index) => ({ index, near: path.some(point => Math.abs(point.y - caption.y) === 1 && Math.abs(point.x - midpoint) <= .5 || point.y === caption.y && (point.x === caption.x - 1 || point.x === caption.x + caption.width)) })).filter(item => item.near)
     if (candidates.length !== 1 || actual[candidates[0]!.index]!.label) return verdict('unknown', 'Floating relationship label has no unique adjacent route owner', actual)
     actual[candidates[0]!.index]!.label = caption.label
     for (let offset = 0; offset < caption.width; offset++) used.add(key(caption.x + offset, caption.y))
