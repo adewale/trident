@@ -47,10 +47,10 @@ SVG-to-PNG conversion path. The source inventory is identical in both lanes.
 Correctness qualification remains incomplete. [The bounded repair campaign](docs/benchmark-repair-2026-10-30.md)
 shows the current evidence and gaps. Full DaveBench return scores are not counts
 of correctly drawn diagrams. The [reviewed source expectations](corpus/docs-reviewed.json)
-bind all 548 input occurrences: 544 drawing contracts, one configuration-only
-example and three unresolved source interpretations. Source transcription and
-output-observer qualification are separate; a complete contract alone earns no
-correctness credit. First-round
+bind all 548 input occurrences. The [source census](docs/docs-source-expectations.md)
+lists drawing contracts, configuration-only inputs, unresolved interpretations
+and review scope. Source transcription and output-observer qualification are
+separate; a complete contract alone earns no correctness credit. First-round
 outputs are retained for inspection and rechecking without rendering again. PNG
 content reviews bind actual image bytes and expected source facts; SVG or nonblank
 checks alone cannot establish PNG accuracy. A `--docs-png-review FILE` supplies
@@ -121,12 +121,17 @@ and binds each verdict to its source, expectations, output and observer. Unknown
 clocks remain unknown. Reuse output when an observer changes; call a renderer
 again only for missing or invalid collection evidence.
 
-Comparative timing also needs a complete correctness verdict for **every timed
-output**, fixed matched sources and boundaries, serialized calls and A/A
-calibration. `timing:qualify --bundle FILE --out FRESH_FILE` checks that evidence
-offline. Legacy adaptive means and a passing initial output cannot qualify later
-samples. All commands run without Codex; building expectations and reviewing
-unfamiliar output still require human or contributor judgment.
+For first-use SVG timing, `timing:browser` takes an existing sealed browser
+preparation and an explicit baseline/candidate pair. It requires Chromium and
+fontconfig, freezes font identities and resources, and opens a fresh context for
+each timed call. See the [command and clock boundary](BENCHMARKS.md#qualification-and-collection).
+A complete correctness verdict for **every timed output**, fixed matched sources,
+serialized calls and A/A calibration are required for a speed comparison.
+`timing:qualify --bundle FILE --out FRESH_FILE` checks retained evidence offline;
+a repaired observer can regrade the same captured outputs and clocks. Legacy
+adaptive means and a passing initial output cannot qualify later samples.
+All commands run without Codex; source review and unfamiliar output still
+require human or contributor judgment.
 
 ## Supported projects
 
@@ -266,8 +271,12 @@ browser bundle and candidate record. Frozen preparation seals the dependency
 payloads and rejects later changes. This does not prove the archives came from
 one commit: retain the source commits and build receipts with the campaign.
 
-The [AM/ZM source comparison](docs/comparison-2026-10-29.md) includes an example
-of the resulting stack-ranked tables and explains the observed failures.
+Results are stack-ranked by the named metric within comparable input, format and
+runtime groups. Verified counts sort highest first; qualified time sorts lowest
+first. Ties share a rank, and missing or withheld values have no numeric rank.
+[Reporting rules](REPORTING.md) explain denominators and uncertainty; the
+[AM/ZM source comparison](docs/comparison-2026-10-29.md) shows dated example tables
+with their original method and observed failures.
 
 ## Native Flutter entrypoints
 
@@ -276,8 +285,8 @@ measures `mermaid_flutter` 0.3.2 widgets and PNG export in a native Linux releas
 application alongside Pele 1.9.0 in Chromium. It separates new instances,
 unchanged calls, source updates and first use in new processes, and retains
 painted output and failures. It is not registered in the standard CLI or catalog;
-its timing boundaries differ from the Node SVG suites. Generated evidence stays
-outside source commits. [Audited result tables and withheld comparisons](docs/native-flutter-comparison.md) explain the retained campaign.
+its timing boundaries differ from the Node SVG suites and first-use browser
+collector. Generated evidence stays outside source commits. [Audited result tables and withheld comparisons](docs/native-flutter-comparison.md) explain the retained campaign.
 
 The [seven-implementation DaveBench PNG campaign](docs/davebench-png-seven-results.md) reports warm fixed-canvas export timings on 13 common reviewed inputs and PNG-contract coverage on all 548 documentation occurrences. It measures native Dart and native Flutter release separately, alongside Mermaid, Agentic, Beautiful, Zombie and Pele in Chromium, using fresh process blocks and launch-round uncertainty. The close Dart/Pele and Zombie/Beautiful ordering is unresolved. The [earlier 20-input Pele/Flutter follow-up](docs/isolated-png-results.md), [initial controlled observations](docs/controlled-png-results.md) and [withdrawn v1 comparison](docs/davebench-png-results.md) remain separate campaigns.
 

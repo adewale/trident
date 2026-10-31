@@ -36,12 +36,10 @@ SVG return (`public-docs-svg-return-v1`) remains a weak compatibility diagnostic
 The collector now retains each first-round SVG and separately applies
 `reviewed-docs-svg-content-v1`. [Source expectations](corpus/docs-reviewed.json)
 bind exact bytes, literal drawing facts and configuration-only examples. Their
-absence produces unknown evidence. The frozen corpus now has 544 transcribed
-drawing contracts, one configuration-only fence and three pending source
-interpretations across 36 normalized diagram families. The
-[source audit](docs/docs-source-expectations.md) retains every occurrence and
-blocker. Independent reviewers sampled every family and audited the structural
-ledger; they have not manually signed off every one of the 548 sources.
+absence produces unknown evidence. The [source census](docs/docs-source-expectations.md)
+lists each drawing contract, configuration-only input and unresolved interpretation
+across 36 normalized families. It retains review scope and per-source blockers;
+source transcription and source review remain separate from output qualification.
 Reference agreement supplies no automatic pass. Every required source fact needs
 a qualified observer bound to the actual output; unsupported facts remain unknown.
 
@@ -53,7 +51,7 @@ small qualified subset supplies a score only for that named subset. First-round
 inspection does not qualify every later timed return.
 
 A one-round coverage run makes one call per occurrence with no warmups.
-The repeated return protocol uses 30 warmups and six rounds. Project order reverses
+The repeated return diagnostic uses 30 warmups and six rounds. Project order reverses
 after each round, then rotates after each pair; positions balance over 2N rounds
 for N participants. Public-call clocks stop at SVG return, before validation and
 cleanup. These clocks lack A/A and per-call semantic qualification, so there is
@@ -239,14 +237,40 @@ It supplies no benchmark score or timing rank. Correctness work starts with
 retained bytes and independent controls; an observer fix normally needs an
 offline recheck rather than another collection campaign.
 
-Performance qualification is also an offline reduction:
+For a new first-use browser SVG comparison, select two artifacts from an existing
+sealed browser preparation. Acquisition and builds precede this step:
+
+```sh
+bun commands.ts timing:browser --prepared /evidence/preparation/community-browser-prepared.json \
+  --baseline mermaid-js/mermaid --candidate OWNER/TOOL \
+  --cases meaning:family:flowchart --rounds 6 --samples 1 \
+  --executable /path/to/chromium --budget-minutes 5 --out FRESH_DIRECTORY
+```
+
+Chromium, Playwright and fontconfig (`fc-list`, `fc-conflist`) must be installed.
+The command seals artifact/dependency bytes, actual font files and configuration,
+resources, source contracts and observer identity before public calls. A fresh
+browser context makes one call after initialization. Its clock includes the
+controller/page RPC, public render and returned SVG consumption; imports, context
+startup, source review and output grading are outside that clock. The `--cases`
+list selects authored inputs from [fidelity/cases.ts](fidelity/cases.ts); the example
+measures one flowchart case in fresh contexts. Six-round blocks balance the
+baseline A/A and candidate order.
+Every raw return is retained before grading; budget expiry keeps incomplete
+work visible and withholds the comparison.
+
+Performance qualification reduces retained evidence offline:
 
 ```sh
 bun commands.ts timing:qualify --bundle FILE --out FRESH_FILE
 ```
 
-It requires a frozen matched task plan, original invocation receipts, every timed
-output's complete checked facts and passing A/A samples. Missing evidence
-withholds timing; a new label cannot upgrade historical return-only clocks.
+It requires the frozen plan and complete capture receipts, every timed output's
+complete checked facts and passing A/A samples. A source-contract or observer
+repair may derive fresh checks from the same raw outputs, preserving the original
+plan, source IDs, invocation UUIDs, clocks and old checks. It may recover a durable
+return omitted by a crashed observer; it cannot invent a missing call or select
+away a failure. Missing evidence withholds timing. Historical return-only clocks
+remain unqualified.
 [The release process](RELEASE.md) keeps transport verification, comparative
 collection and packaging tied to their actual claims and affected code.

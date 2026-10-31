@@ -26,7 +26,9 @@ facts stay unknown. Source extraction coverage and a passing reference renderer
 are not independent correctness proof.
 
 For performance claims, the actual timed samples must have matching invocation
-receipts and checked output, equivalent work and a passing A/A calibration. Run
+receipts and checked output, equivalent work and a passing A/A calibration.
+[First-use browser collection](BENCHMARKS.md#qualification-and-collection) uses a
+sealed artifact pair, Chromium and frozen fontconfig inputs. Run
 `bun commands.ts timing:qualify --bundle FILE --out FRESH_FILE` on the retained
 bundle. No new timing collection is needed to discover that an existing bundle
 lacks those prerequisites. No overall speed rank is published for such a bundle.
@@ -35,7 +37,7 @@ Before the first release, resolve or explicitly bound each advertised claim:
 
 | Claim | Concrete prerequisite |
 |---|---|
-| Full DaveBench accuracy | Settle the three pending source interpretations; qualify every required drawing fact on actual SVG/PNG output. Keep the configuration-only example separate. |
+| Full DaveBench accuracy | Settle the pending interpretations listed in the [source census](docs/docs-source-expectations.md); qualify every required drawing fact across the frozen SVG/PNG inventory. Keep configuration-only inputs separate. |
 | Mermaid test compatibility | Publish the exact qualified public-callback scope and all nonpasses. Broader assertions require their own original-source contract and reference qualification. |
 | Terminal accuracy | Qualify every required fact for the 116 positive drawings, with four typed invalid controls separate. An unavailable family observer supplies no correctness pass. |
 | PNG correctness | Independently review exact decoded pixels against complete source facts, or satisfy the strict exact-SVG conversion proof. A decoded image or correct SVG alone is insufficient. |
@@ -70,14 +72,18 @@ bun commands.ts release:check --prepared PREPARATION.json \
 
 This builds once, extracts the kit and runs it from an empty directory. The same
 label-change, configuration-reset and invalid-input-recovery workflows run from
-source against the same frozen target artifact. Their owning worker inventories,
-inputs, expectations, outcomes and rejection controls must agree; a new failure
+source against the same frozen target artifact. Choose the portable SVG project
+first and a distinct terminal project second; the preparation must contain both
+reviewed bindings. Target artifacts and the pinned reference are installed
+separately from the kit. Owning worker inventories, inputs, expectations,
+outcomes and rejection controls must agree; a new failure
 or lost evidence in the kit fails packaging. Retained SVG admission is rechecked
-with the source observer and output hashes are recorded. An unchanged failed workflow needs an independently confirmed violation in its
-actual returned SVG; unclassified host/public-call errors fail packaging. Known
-unavailable option mappings remain gaps. The `package-parity-verified` receipt
-establishes preservation of those source outcomes, not that every workflow
-passed, corpus accuracy or timing qualification.
+with the source observer and output hashes are recorded. An unchanged failed
+workflow needs an independently confirmed violation in its actual returned SVG;
+unclassified host/public-call errors fail packaging. Unavailable option mappings
+remain gaps. The `package-parity-verified` receipt
+establishes preservation of those source outcomes. It does not certify that
+every workflow passed or supply missing harness, accuracy or timing proof.
 Documentation-only edits need their relevant consistency checks, not collection.
 
 ## Publish

@@ -134,7 +134,8 @@ native/WASM memory have different scopes; missing counters remain unavailable.
 Relative-time columns name the baseline and direction. Populate ratios and
 uncertainty only after the strict per-call [measurement proof](MEASUREMENT.md):
 the exhaustive raw journal, exact captured clocks and independent execution
-instances, every actual retained output and all required facts, plus A/A controls.
+instances, owned capture-completion and cleanup receipts, every retained output and all
+required facts, plus A/A controls.
 A representative SVG, output-admission flag or batch mean is insufficient.
 Insufficient rounds, incomplete qualification or noisy controls withhold the
 comparison. Descriptive historical samples may be shown with that status in the
@@ -147,8 +148,9 @@ lowest first. State the sorting metric above the table and keep charts in the
 same order. Equal values share a rank (1, 1, 3); names only order tied rows.
 Missing, blocked and withheld measurements stay visible below measured rows
 without a numeric rank. Historical timing ranks describe the retained samples
-and keep their qualification limits visible. Optional API checks have their own
-ranking and cannot improve a project's shared-check rank.
+and keep their qualification limits visible. The first-use browser/RPC boundary
+has its own table; it cannot share a speed rank with warm calls, whole-process CLI
+or PNG conversion tasks. Optional API checks have their own ranking and cannot improve a project's shared-check rank.
 
 The ecosystem overview uses its named DaveBench measure for ordering; other
 benchmarks have independent ranks. A newer superseding attempt removes the old
