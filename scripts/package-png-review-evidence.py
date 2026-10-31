@@ -70,7 +70,7 @@ for key in ['inventories',*(['docsResources']if 'docsResources'in preparation['f
  add(file)
 add(ws/'.cloud-tools/flutter/LICENSE','licenses/native-bundle/Flutter-LICENSE')
 canonical=ws/'trident-qualification'
-for file in [canonical/'corpus/docs-reviewed.json',canonical/'corpus/docs-source-registry.json',canonical/'corpus/docs-source-inventory.json.gz',canonical/'docs/evidence/source-theme-policy.json',canonical/'docs/source-theme-policy.md']:
+for file in [canonical/'corpus/docs-reviewed.json',canonical/'corpus/docs-source-registry.json',canonical/'corpus/docs-source-inventory.json.gz',canonical/'docs/evidence/png-full-corpus-2026-10-31/legacy-direct-review-basis.json.gz',canonical/'docs/evidence/source-theme-policy.json',canonical/'docs/source-theme-policy.md']:
  add(file,'canonical/'+str(file.relative_to(canonical)))
 for file in (canonical/'qualification/source-audits').glob('*.json'):
  add(file,'canonical/'+str(file.relative_to(canonical)))
