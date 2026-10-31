@@ -12,11 +12,28 @@ let browser: any
 beforeAll(async () => { browser = await chromium.launch({ headless: true, executablePath: chromiumExecutable }) })
 afterAll(async () => { await browser?.close() })
 const fixtures = (name: string) => readFileSync(new URL('./fixtures/fidelity/' + name + '.svg', import.meta.url), 'utf8')
-async function inspect(svg: string, id: string, override: Partial<Pick<AuthoredFidelityCase, 'source' | 'expected'>> = {}) {
+async function inspect(svg: string, id: string, override: Partial<Pick<AuthoredFidelityCase, 'source' | 'expected'>> & { domOnly?: boolean } = {}) {
   const testCase = { ...expandedFidelityCases().find(item => item.id === id)!, ...override }
   const page = await browser.newPage()
   try {
     await page.setContent(svg)
+    if (override.domOnly) await page.evaluate(() => {
+      // Preserve each retained rectangular body while eliminating all possible
+      // glyph paths. Mermaid's rough skin uses paths for its table faces;
+      // deleting those faces would invalidate ownership rather than test data.
+      for (const path of document.querySelectorAll('path')) {
+        if (path.closest('defs,marker,clipPath,mask') || getComputedStyle(path).fill === 'none' || /[CQASTcqast]/.test(path.getAttribute('d') ?? '')) continue
+        const box = (path as SVGGraphicsElement).getBBox()
+        if (box.width <= 2 || box.height <= 2) continue
+        const body = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+        for (const [key, value] of Object.entries({ x: box.x, y: box.y, width: box.width, height: box.height })) body.setAttribute(key, String(value))
+        body.setAttribute('fill', 'white'); body.setAttribute('stroke', 'black')
+        if (path.hasAttribute('transform')) body.setAttribute('transform', path.getAttribute('transform')!)
+        path.replaceWith(body)
+      }
+      for (const path of document.querySelectorAll('path')) path.remove()
+      if (document.querySelector('path,image,use')) throw Error('DOM-only table control still has opaque label candidates')
+    })
     const paint = await page.evaluate(inspectFidelityPaint, { family: testCase.family, expected: testCase.expected })
     return await page.evaluate(inspectSourceFacts, { family: testCase.family, source: testCase.source, expected: testCase.expected, paint, quantitative: [] }) as PaintCheck[]
   } finally { await page.close() }
@@ -27,14 +44,22 @@ for (const renderer of ['mermaid', 'pele']) {
     const svg = fixtures(renderer + '-class-members'), id = 'features:class:namespace-members-cardinality'
     expect(status(await inspect(svg, id), 'members')).toBe('passed')
     expect(status(await inspect(svg.replaceAll('bool', 'int'), id), 'members')).toBe('failed')
-    expect(status(await inspect(svg.replaceAll('+String name', '+String age'), id), 'members')).toBe('failed')
+    const renamedMember = svg.replaceAll('+String name', '+String age')
+    expect(status(await inspect(renamedMember, id), 'members')).toBe('unavailable')
+    // The DOM-only control preserves table bounds and all text while removing
+    // uninterpreted path alternatives; wrong complete member data can fail.
+    expect(status(await inspect(svg, id, { domOnly: true }), 'members')).toBe('passed')
+    expect(status(await inspect(renamedMember, id, { domOnly: true }), 'members')).toBe('failed')
     expect(status(await inspect(svg.replaceAll('pele', 'garden').replaceAll('community-fidelity', 'unrelated-prefix'), id), 'members')).toBe('passed')
   })
   test(renderer + ' retained ER attributes bind types, names and keys to complete entity rows', async () => {
     const svg = fixtures(renderer + '-er-attributes'), id = 'features:er:attributes-identifying-cardinality'
     expect(status(await inspect(svg, id), 'attributes')).toBe('passed')
     expect(status(await inspect(svg.replaceAll('PK', 'FK'), id), 'attributes')).toBe('failed')
-    expect(status(await inspect(svg.replaceAll('>string<', '>int<'), id), 'attributes')).toBe('failed')
+    const changedType = svg.replaceAll('>string<', '>int<')
+    expect(status(await inspect(changedType, id), 'attributes')).toBe('unavailable')
+    expect(status(await inspect(svg, id, { domOnly: true }), 'attributes')).toBe('passed')
+    expect(status(await inspect(changedType, id, { domOnly: true }), 'attributes')).toBe('failed')
   })
   test(renderer + ' retained sequence order and styles come from owned painted routes', async () => {
     const svg = fixtures(renderer + '-sequence-messages'), id = 'features:sequence:notes-loop-reciprocal'

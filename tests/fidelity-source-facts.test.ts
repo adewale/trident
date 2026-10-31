@@ -11,6 +11,7 @@ import type { MeaningExpectation } from '../fidelity/meaning.ts'
 let browser: any
 beforeAll(async () => { browser = await chromium.launch({ headless: true, executablePath: chromiumExecutable }) })
 afterAll(async () => { await browser?.close() })
+const withoutPaths = (value: string) => value.replace(/<path\b[^>]*(?:\/>|>[\s\S]*?<\/path>)/g, '')
 const source = 'flowchart LR\nA[Alpha] --> B[Beta]'
 const expected: MeaningExpectation = { labels: ['Alpha', 'Beta'], nodes: [{ id: 'A', label: 'Alpha' }, { id: 'B', label: 'Beta' }], edges: [{ source: 'A', target: 'B', directed: true }], facts: { direction: 'LR' } }
 const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="100"><defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z"/></marker></defs><g><rect x="10" y="30" width="70" height="30" fill="white" stroke="black"/><text x="14" y="50">Alpha</text></g><g><rect x="150" y="30" width="70" height="30" fill="white" stroke="black"/><text x="154" y="50">Beta</text></g><path d="M80 45 L150 45" fill="none" stroke="black" marker-end="url(#arrow)"/></svg>'
@@ -64,10 +65,16 @@ test('unsupported source semantics stay unknown despite matching nodes, labels a
 })
 test('source title requires painted text rather than SVG metadata', async () => {
   const e = { ...expected, facts: { title: 'The title' } }
-  expect((await inspect(svg.replace('<defs>', '<title>The title</title><defs>'), e))[0]?.status).toBe('failed')
+  const metadataOnly = svg.replace('<defs>', '<title>The title</title><defs>')
+  expect((await inspect(metadataOnly, e))[0]?.status).toBe('unavailable')
+  // Without potential glyph paths, metadata alone definitively supplies no
+  // painted title. The original diagram paths remain an unknown alternative.
+  expect((await inspect(withoutPaths(metadataOnly), e))[0]?.status).toBe('failed')
   const actual = svg.replace('</svg>', '<text x="60" y="18">The title</text></svg>')
   expect((await inspect(actual, e))[0]?.status).toBe('passed')
-  expect((await inspect(actual.replace('x="60" y="18"', 'x="60" y="18" display="none"'), e))[0]?.status).toBe('failed')
+  const hidden = actual.replace('x="60" y="18"', 'x="60" y="18" display="none"')
+  expect((await inspect(hidden, e))[0]?.status).toBe('unavailable')
+  expect((await inspect(withoutPaths(hidden), e))[0]?.status).toBe('failed')
   const white = await inspect(actual.replace('x="60" y="18"', 'x="60" y="18" fill="white"'), e)
   expect(white[0]?.status).not.toBe('passed')
 })
@@ -75,7 +82,8 @@ test('source title requires painted text rather than SVG metadata', async () => 
 test('transparent source titles and unbound accessibility metadata cannot supply fact credit', async () => {
   const e = { ...expected, facts: { title: 'The title' } }
   const transparent = svg.replace('</svg>', '<text x="60" y="18" fill="none" stroke="none">The title</text></svg>')
-  expect((await inspect(transparent, e))[0]?.status).toBe('failed')
+  expect((await inspect(transparent, e))[0]?.status).toBe('unavailable')
+  expect((await inspect(withoutPaths(transparent), e))[0]?.status).toBe('failed')
   const accessible = svg.replace('<svg ', '<svg aria-labelledby="arbitrary-name" aria-describedby="arbitrary-description" ').replace('<defs>', '<title id="arbitrary-name">The title</title><desc id="arbitrary-description">A description</desc><defs>')
   const facts = { 'accessibility-title': 'The title', 'accessibility-description': 'A description' }
   expect((await inspect(accessible, { ...expected, facts })).map(check => check.status)).toEqual(['passed', 'passed'])
