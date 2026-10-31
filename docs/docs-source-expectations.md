@@ -21,7 +21,7 @@ Regenerate with `bun scripts/review-docs-sources.ts /path/to/pinned/mermaid-sour
 | gitgraph | 36 | 36 | 0 | 0 |
 | ishikawa | 1 | 1 | 0 | 0 |
 | journey | 1 | 1 | 0 | 0 |
-| kanban | 3 | 3 | 0 | 0 |
+| kanban | 3 | 2 | 1 | 0 |
 | mindmap | 15 | 15 | 0 | 0 |
 | packet | 4 | 4 | 0 | 0 |
 | pie | 4 | 4 | 0 | 0 |
@@ -50,6 +50,7 @@ Regenerate with `bun scripts/review-docs-sources.ts /path/to/pinned/mermaid-sour
 - **packages/mermaid/src/docs/syntax/block.md:488**: Style declaration has no property/value separator: fill#969
 - **packages/mermaid/src/docs/syntax/flowchart.md:844**: Style declaration has no property/value separator: 5
 - **packages/mermaid/src/docs/syntax/gantt.md:519**: Frontmatter syntax requires review: YAMLParseError: Missing closing "quote at line 12, column 73:              text[id^=workaround] { fill: red; y: 100%; font-size: 15px;}                                                                         ^ 
+- **packages/mermaid/src/docs/syntax/kanban.md:83**: Kanban identifiers must be unique; duplicate source identity needs clarification: id3
 
 ## Resource prerequisite
 

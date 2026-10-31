@@ -166,10 +166,10 @@ test('the full pinned corpus keeps all 548 occurrences and 546 distinct literal 
   expect(inventory.distinct).toBe(546)
   expect(audit.reviews).toEqual(committed)
   expect(audit.admitted).toHaveLength(548)
-  expect(audit.pending.map(row => row.id)).toEqual(['packages/mermaid/src/docs/syntax/block.md:488', 'packages/mermaid/src/docs/syntax/flowchart.md:844', 'packages/mermaid/src/docs/syntax/gantt.md:519'])
+  expect(audit.pending.map(row => row.id)).toEqual(['packages/mermaid/src/docs/syntax/block.md:488', 'packages/mermaid/src/docs/syntax/flowchart.md:844', 'packages/mermaid/src/docs/syntax/gantt.md:519', 'packages/mermaid/src/docs/syntax/kanban.md:83'])
   expect(audit.reviews.filter(row => row.intent === 'configuration-only').map(row => row.id)).toEqual(['packages/mermaid/src/docs/syntax/gantt.md:291'])
-  expect(audit.reviews.filter(row => row.intent === 'drawing' && row.sourceReview.expectedFactsComplete)).toHaveLength(544)
-  for (const row of audit.reviews) if (row.intent === 'drawing') { expect(Object.keys(row.expected!.facts!).length).toBeGreaterThan(0); expect(row.sourceReview.requiredObligations.some(obligation => obligation.startsWith('fact:'))).toBe(true) }
+  expect(audit.reviews.filter(row => row.intent === 'drawing' && row.sourceReview.expectedFactsComplete)).toHaveLength(543)
+  for (const row of audit.reviews) if (row.intent === 'drawing') expect(row.sourceReview.requiredObligations.length).toBeGreaterThan(0)
   const shared = new Map<string, string[]>()
   for (const row of inventory.cases) { const ids = shared.get(row.source.trim()) ?? []; ids.push(row.id); shared.set(row.source.trim(), ids) }
   expect([...shared.values()].filter(ids => ids.length > 1).map(ids => ids.length).sort()).toEqual([2, 2])
@@ -272,8 +272,8 @@ test('Mermaid named entities decode into their independently documented display 
 
 test('dialect-owned Markdown binds exact note and mindmap occurrences before flow adaptation', () => {
   const usecase = facts('usecase-beta\nA("`**same**`")\nnote for A "`**same**`"')
-  expect((usecase['markdown-source-labels'] as any[])[1].owners).toEqual([{ kind: 'note', target: 'A' }])
-  expect((usecase['markdown-source-labels'] as any[])[0].owners ?? []).not.toContainEqual({ kind: 'note', target: 'A' })
+  expect((usecase['markdown-source-labels'] as any[])[1].owners).toEqual([{ kind: 'note', target: 'A', index: 0 }])
+  expect((usecase['markdown-source-labels'] as any[])[0].owners ?? []).not.toContainEqual({ kind: 'note', target: 'A', index: 0 })
   const mindmap = facts('mindmap\na["`**same**`"]\n  b["`**same**`"]')
   expect((mindmap['markdown-source-labels'] as any[]).map(row => row.owners)).toEqual([[{ kind: 'node', id: 'a' }], [{ kind: 'node', id: 'b' }]])
 })
@@ -293,4 +293,83 @@ test('flowchart Markdown facts bind exact node, group and edge owners despite du
   expect(row.expected?.facts?.['markdown-source-labels']).toEqual([{ source: '**Group**', text: 'Group', owners: [{ kind: 'group', id: 'Group' }] }, { source: '**same**', text: 'same', owners: [{ kind: 'node', id: 'A' }] }, { source: '**same**', text: 'same', owners: [{ kind: 'edge', index: 0, source: 'A', target: 'B' }] }, { source: '**same**', text: 'same', owners: [{ kind: 'node', id: 'B' }] }])
   const expanded = review('flowchart LR\nA & B -->|"`**same**`"| C')
   expect((expanded.expected?.facts?.['markdown-source-labels'] as any[])[0].owners).toEqual([{ kind: 'edge', index: 0, source: 'A', target: 'C' }, { kind: 'edge', index: 1, source: 'B', target: 'C' }])
+})
+
+test('Ishikawa distinguishes the problem from same-indent causes and nested causes', () => {
+  const value = facts('ishikawa-beta\n    Problem\n    People\n        Training\n    Process')
+  expect(value.effect).toEqual({ id: 'Problem', label: 'Problem' })
+  expect(value['cause-hierarchy']).toEqual([{ id: 'Problem', label: 'Problem', parent: '', kind: 'effect' }, { id: 'Problem/People', label: 'People', parent: 'Problem', kind: 'cause' }, { id: 'Problem/People/Training', label: 'Training', parent: 'Problem/People', kind: 'cause' }, { id: 'Problem/Process', label: 'Process', parent: 'Problem', kind: 'cause' }])
+})
+
+test('empty Cynefin and Wardley sources retain their diagram frameworks as mandatory domain facts', () => {
+  const cynefin = facts('cynefin-beta\ntitle Framework\ncomplex\ncomplicated\nclear\nchaotic')
+  expect(cynefin['framework-domains']).toEqual([{ id: 'complex', position: 'top-left' }, { id: 'complicated', position: 'top-right' }, { id: 'clear', position: 'bottom-right' }, { id: 'chaotic', position: 'bottom-left' }, { id: 'confusion', position: 'center', shape: 'ellipse' }])
+  expect(facts('wardley-beta\ntitle Map\nsize [800,1000]')['map-axes']).toEqual([{ axis: 'x', quantity: 'evolution', range: [0, 1], increases: 'right' }, { axis: 'y', quantity: 'visibility', range: [0, 1], increases: 'up' }])
+})
+
+test('C4 named navigation and tag metadata never becomes a required painted label', () => {
+  const row = review('C4Container\nPerson(p, "Customer", "Description", $tags="v1.0", $link="https://example.org")')
+  expect(row.expected!.labels).toEqual(['Customer', 'Description'])
+  expect((row.expected!.facts!.elements as any[])[0].extraVisibleFields).toEqual(['Description'])
+  expect(row.sourceReview.excludedNonvisual).toHaveLength(2)
+  expect(review('C4Container\nPerson(p, "Customer", $unknown="Unreviewed")').sourceReview.expectedFactsComplete).toBe(false)
+})
+
+test('class namespace paths preserve intermediate and syntactically nested containment while explicit flat mode stays flat', () => {
+  const dotted = review('classDiagram\nnamespace Company.Engineering.Backend {\nclass Developer\n}\nnamespace Company.Engineering {\nclass Lead\n}')
+  expect(dotted.expected!.groups).toEqual([{ id: 'Company', label: 'Company', members: ['Company.Engineering'] }, { id: 'Company.Engineering', label: 'Engineering', members: ['Company.Engineering.Backend', 'Lead'] }, { id: 'Company.Engineering.Backend', label: 'Backend', members: ['Developer'] }])
+  const nested = review('classDiagram\nnamespace Platform {\nnamespace Auth {\nclass User\n}\nclass Gateway\n}')
+  expect(nested.expected!.groups).toEqual([{ id: 'Platform', label: 'Platform', members: ['Platform.Auth', 'Gateway'] }, { id: 'Platform.Auth', label: 'Auth', members: ['User'] }])
+  const flat = review('---\nconfig:\n  class:\n    hierarchicalNamespaces: false\n---\nclassDiagram\nnamespace Company.Engineering {\nclass User\n}')
+  expect(flat.expected!.groups).toEqual([{ id: 'Company.Engineering', label: 'Company.Engineering', members: ['User'] }])
+})
+
+test('same-named lollipop interfaces remain separate occurrences owned by their classes', () => {
+  const row = review('classDiagram\nClass01 --() bar\nClass02 --() bar\nfoo ()-- Class01')
+  expect(row.expected!.nodes!.filter(node => node.label === 'bar')).toHaveLength(2)
+  expect(row.expected!.facts!['lollipop-interfaces']).toEqual([{ id: 'lollipop:0:bar', label: 'bar', owner: 'Class01', side: 'right' }, { id: 'lollipop:1:bar', label: 'bar', owner: 'Class02', side: 'right' }, { id: 'lollipop:2:foo', label: 'foo', owner: 'Class01', side: 'left' }])
+  expect((row.expected!.facts!.members as any[]).map(item => item.id)).toEqual(['Class01', 'Class02'])
+})
+
+test('ER and requirement quoted Markdown separates raw IDs from owned displayed names and field text', () => {
+  const entity = review('erDiagram\n"This **is** _Markdown_"')
+  expect(entity.expected!.nodes).toEqual([{ id: 'This **is** _Markdown_', label: 'This is Markdown' }])
+  expect((entity.expected!.facts!['markdown-source-labels'] as any[])[0].owners).toEqual([{ kind: 'node', id: 'This **is** _Markdown_' }])
+  const requirement = review('requirementDiagram\nrequirement "__test_req__" {\nid: 1\ntext: "*italicized text* **bold text**"\nrisk: high\nverifymethod: test\n}')
+  expect(requirement.expected!.nodes).toEqual([{ id: '__test_req__', label: 'test_req' }])
+  expect((requirement.expected!.facts!.definitions as any[])[0].fields.text).toBe('italicized text bold text')
+  expect((requirement.expected!.facts!['markdown-source-labels'] as any[])[1].owners).toEqual([{ kind: 'requirement-field', id: '__test_req__', field: 'text' }])
+})
+
+test('state composite reopening preserves captions, special pseudostates omit ID paint, and concurrent region membership stays scoped', () => {
+  const row = review('stateDiagram-v2\nOuter: Caption\nstate Outer {\n[*] --> A\n--\nstate Nested {\n[*] --> B\n}\nNested --> C\n}\nstate decision <<choice>>\nstate fork <<fork>>\nstate join <<join>>')
+  expect(row.expected!.groups!.find(group => group.id === 'Outer')!.label).toBe('Caption')
+  expect(row.expected!.nodes!.filter(node => ['decision', 'fork', 'join'].includes(node.id)).map(node => node.label)).toEqual(['', '', ''])
+  expect(row.expected!.facts!['parallel-regions']).toEqual([{ scope: 'Outer', region: 0, members: ['[start:Outer]', 'A'] }, { scope: 'Outer', region: 1, members: ['Nested', 'C'] }])
+  expect(row.expected!.nodes!.find(node => node.id === '[start:Nested]')).toBeDefined()
+})
+
+test('usecase generalization keeps its triangle without rewriting dashed include or extend arrows', () => {
+  const row = review('usecase-beta\nactor Admin\nactor Person\nAdmin --|> Person\nAdmin ..> : include Person')
+  expect(row.expected!.edges!.map(edge => [edge.label ?? '', edge.endMarker])).toEqual([['', 'triangle'], ['include', 'arrow']])
+  expect(review('usecase-beta\nA --> B\nA --|> B').sourceReview.expectedFactsComplete).toBe(false)
+})
+
+test('duplicate Kanban task IDs remain a source ambiguity instead of silently demanding two complete cards', () => {
+  const row = review('kanban\nTodo\n  task[First]\nDone\n  task[Second]')
+  expect(row.sourceReview.expectedFactsComplete).toBe(false)
+  expect(row.sourceReview.unresolved.join(' ')).toContain('duplicate source identity')
+})
+
+test('printed XY values are separately owned by bar, index, category and placement; line magnitudes are not invented bar labels', () => {
+  const source = '---\nconfig:\n  xyChart:\n    showDataLabel: true\n    showDataLabelOutsideBar: true\n---\nxychart\nx-axis [A,B]\nbar [12,7]\nline [99,88]'
+  expect(facts(source)['displayed-bar-values']).toEqual([{ series: 0, index: 0, category: 'A', value: 12, placement: 'outside' }, { series: 0, index: 1, category: 'B', value: 7, placement: 'outside' }])
+  expect(facts(source.replace('showDataLabel: true', 'showDataLabel: false'))['displayed-bar-values']).toBeUndefined()
+})
+
+test('Git hidden labels have negative and owned visibility obligations without forbidding a same-text visible tag', () => {
+  const row = review('---\nconfig:\n  gitGraph:\n    showBranches: false\n    showCommitLabel: false\n---\ngitGraph\ncommit id:"hidden" tag:"main"\nbranch feature\ncommit')
+  expect(row.expected!.forbiddenLabels).toEqual(['feature', 'hidden'])
+  expect(row.expected!.facts!['hidden-git-labels']).toEqual([{ kind: 'branch', id: 'main' }, { kind: 'branch', id: 'feature' }, { kind: 'commit', id: 'commit:0', authoredId: 'hidden' }])
+  expect(row.expected!.labels).toEqual(['main'])
 })

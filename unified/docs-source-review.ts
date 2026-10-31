@@ -190,7 +190,13 @@ function numericCharts(r: LiteralReview) {
       }
       r.unknown(line)
     }
-    r.fact('series', series); if (annotations.length) r.fact('series-annotations', annotations); return true
+    r.fact('series', series); if (annotations.length) r.fact('series-annotations', annotations)
+    const settings = (r.expected.facts!['authored-config'] as any)?.xyChart ?? {}
+    if (settings.showDataLabel === true) {
+      const categories = r.expected.facts!['x-categories'] as string[] | undefined
+      r.fact('displayed-bar-values', series.flatMap((entry: any, series) => entry.kind !== 'bar' ? [] : entry.values.map((value: number, index: number) => ({ series, index, ...(categories?.[index] !== undefined ? { category: categories[index]! } : {}), value, placement: settings.showDataLabelOutsideBar === true ? 'outside' : 'inside' }))))
+    }
+    return true
   }
   if (r.family === 'radar') {
     const axes: MeaningJson[] = [], curves: MeaningJson[] = []; let min = 0, max: number | undefined
@@ -266,10 +272,13 @@ function orderedCharts(r: LiteralReview) {
   }
   if (r.family === 'ishikawa') {
     const hierarchy: MeaningJson[] = [], stack: { indent: number; path: string }[] = []
-    for (const line of r.lines.slice(1)) {
-      const label = cleanLabel(line.trim()), indent = /^\s*/.exec(line)![0].length; while (stack.length && stack.at(-1)!.indent >= indent) stack.pop()
-      const parent = stack.at(-1)?.path ?? '', path = parent ? parent + '/' + label : label; hierarchy.push({ id: path, label, parent }); r.labels(label); stack.push({ indent, path })
+    for (const [index, line] of r.lines.slice(1).entries()) {
+      const label = cleanLabel(line.trim()), indent = /^\s*/.exec(line)![0].length
+      if (index === 0) { r.fact('effect', { id: label, label }); hierarchy.push({ id: label, label, parent: '', kind: 'effect' }); r.labels(label); stack.push({ indent: -1, path: label }); continue }
+      while (stack.length > 1 && stack.at(-1)!.indent >= indent) stack.pop()
+      const parent = stack.at(-1)?.path ?? '', path = parent ? parent + '/' + label : label; hierarchy.push({ id: path, label, parent, kind: 'cause' }); r.labels(label); stack.push({ indent, path })
     }
+    if (!stack.length) r.unresolved.push('Ishikawa source has no effect/problem')
     r.fact('cause-hierarchy', hierarchy); return true
   }
   if (r.family === 'cynefin') {
@@ -283,7 +292,7 @@ function orderedCharts(r: LiteralReview) {
       if (edge) { const caption = cleanLabel(edge[3]!); transitions.push({ source: edge[1]!, target: edge[2]!, label: caption }); r.labels(caption); continue }
       r.unknown(line)
     }
-    r.fact('domain-entries', entries); r.fact('domain-transitions', transitions); return true
+    r.fact('framework-domains', [{ id: 'complex', position: 'top-left' }, { id: 'complicated', position: 'top-right' }, { id: 'clear', position: 'bottom-right' }, { id: 'chaotic', position: 'bottom-left' }, { id: 'confusion', position: 'center', shape: 'ellipse' }]); r.fact('domain-entries', entries); r.fact('domain-transitions', transitions); return true
   }
   if (r.family === 'venn') {
     const sets: MeaningJson[] = [], unions: MeaningJson[] = [], textNodes: MeaningJson[] = []; let owner: MeaningJson = null
@@ -473,11 +482,18 @@ function flowchart(r: LiteralReview) {
 function stateDiagram(r: LiteralReview) {
   if (r.family !== 'state') return false
   const nodes = new Map<string, { id: string; label: string }>(), groups: NonNullable<MeaningExpectation['groups']> = [], edges: NonNullable<MeaningExpectation['edges']> = [], stack: string[] = [], pseudostates: MeaningJson[] = [], kinds: MeaningJson[] = [], notes: MeaningJson[] = [], regions: MeaningJson[] = [], directions: MeaningJson[] = []
-  let region = 0
-  const add = (id: string, label?: string) => { if (!nodes.has(id)) nodes.set(id, { id, label: label ?? id }); else if (label !== undefined) nodes.get(id)!.label = label; const group = groups.find(group => group.id === stack.at(-1)); if (group && !group.members.includes(id)) group.members.push(id) }
+  const regionNumbers = new Map<string, number>(), regionMembers = new Map<string, Map<number, string[]>>()
+  const add = (id: string, label?: string) => {
+    if (!nodes.has(id)) nodes.set(id, { id, label: label ?? id }); else if (label !== undefined) nodes.get(id)!.label = label
+    const scope = stack.at(-1) ?? 'root', group = groups.find(group => group.id === scope)
+    if (group && !group.members.includes(id)) group.members.push(id)
+    const number = regionNumbers.get(scope) ?? 0, own = regionMembers.get(scope) ?? new Map<number, string[]>(), members = own.get(number) ?? []
+    if (!members.includes(id)) members.push(id)
+    own.set(number, members); regionMembers.set(scope, own)
+  }
   const endpoint = (text: string, side: 'start' | 'end') => {
     if (text !== '[*]') { add(text); return text }
-    const scope = stack.at(-1) ?? 'root', id = `[${side}:${scope}${region ? ':region-' + region : ''}]`; add(id, ''); if (!pseudostates.some((item: any) => item.id === id)) pseudostates.push({ id, kind: side, scope }); return id
+    const scope = stack.at(-1) ?? 'root', region = regionNumbers.get(scope) ?? 0, id = `[${side}:${scope}${region ? ':region-' + region : ''}]`; add(id, ''); if (!pseudostates.some((item: any) => item.id === id)) pseudostates.push({ id, kind: side, scope }); return id
   }
   const lines = r.lines.slice(1)
   for (let index = 0; index < lines.length; index++) {
@@ -486,13 +502,14 @@ function stateDiagram(r: LiteralReview) {
     if (/^acc(?:Title|Descr)\s*:/.test(line)) { r.excludedNonvisual.push('Accessibility metadata outside visible drawing content: ' + line); continue }
     let match = /^direction\s+(LR|RL|TB|TD|BT)$/.exec(line)
     if (match) { if (!stack.length) r.fact('direction', match[1]!); else directions.push({ group: stack.at(-1)!, direction: match[1]! }); continue }
-    if (line === '}') { if (!stack.pop()) r.unknown(line); region = 0; continue }
-    if (line === '--') { region++; regions.push({ scope: stack.at(-1) ?? 'root', region }); continue }
+    if (line === '}') { if (!stack.pop()) r.unknown(line); continue }
+    if (line === '--') { const scope = stack.at(-1) ?? 'root'; regionNumbers.set(scope, (regionNumbers.get(scope) ?? 0) + 1); continue }
     match = /^state\s+(?:"([^"]*)"\s+as\s+)?([\w.-]+)(?:\s+<<(\w+)>>)?\s*(\{)?$/.exec(line)
     if (match) {
-      const id = match[2]!, label = match[1] !== undefined ? cleanLabel('"' + match[1] + '"') : id; add(id, label)
+      const id = match[2]!, special = ['choice', 'fork', 'join'].includes(match[3] ?? ''), label = match[1] !== undefined ? cleanLabel('"' + match[1] + '"') : special ? '' : nodes.get(id)?.label ?? id; add(id, label)
+      if (special && match[1] !== undefined) r.unresolved.push('Explicit special pseudostate caption requires review: ' + line)
       if (match[3]) kinds.push({ id, kind: match[3] })
-      if (match[4]) { groups.push({ id, label, members: [] }); stack.push(id); region = 0 }
+      if (match[4]) { groups.push({ id, label, members: [] }); stack.push(id) }
       continue
     }
     match = /^note\s+(left|right)\s+of\s+([\w.-]+)(?:\s*:\s*(.*))?$/.exec(line)
@@ -509,6 +526,7 @@ function stateDiagram(r: LiteralReview) {
     r.unknown(line)
   }
   if (stack.length) r.unresolved.push('Unclosed composite state')
+  for (const [scope, last] of regionNumbers) if (last > 0) for (let region = 0; region <= last; region++) regions.push({ scope, region, members: regionMembers.get(scope)?.get(region) ?? [] })
   for (const group of groups) group.label = nodes.get(group.id)?.label ?? group.label
   r.expected.nodes = [...nodes.values()]; r.expected.edges = edges; if (groups.length) r.expected.groups = groups
   for (const node of r.expected.nodes) if (!kinds.some((item: any) => item.id === node.id)) { const pseudo = pseudostates.find((item: any) => item.id === node.id) as any; kinds.push({ id: node.id, kind: pseudo ? 'pseudostate-' + pseudo.kind : groups.some(group => group.id === node.id) ? 'composite-state' : 'state' }) }
@@ -614,6 +632,7 @@ function wardley(r: LiteralReview) {
     r.unknown(line)
   }
   if (pipeline) r.unresolved.push('Unclosed Wardley pipeline')
+  r.fact('map-axes', [{ axis: 'x', quantity: 'evolution', range: [0, 1], increases: 'right' }, { axis: 'y', quantity: 'visibility', range: [0, 1], increases: 'up' }])
   r.fact('components', components); r.fact('links', links); if (evolution.length) r.fact('evolution', evolution); if (notes.length) r.fact('notes', notes); if (pipelines.length) r.fact('pipelines', pipelines); if (annotations.length) r.fact('annotations', annotations)
   return true
 }
@@ -660,6 +679,10 @@ function gitgraph(r: LiteralReview) {
     addCommit({ type: 'CHERRY_PICK', ...(attr.tag ? { tag: attr.tag } : {}) }, [head], { cherryPickSource: original.id, ...(parent ? { cherryPickParent: parent } : {}) }); operations.push({ kind: 'cherry-pick', commit: commits.at(-1).id })
   }
   if (config.showBranches !== false) r.labels(...branches.keys())
+  const hidden: MeaningJson[] = []
+  if (config.showBranches === false) for (const id of branches.keys()) { hidden.push({ kind: 'branch', id }); if (!r.expected.labels.includes(id)) (r.expected.forbiddenLabels ??= []).push(id) }
+  if (config.showCommitLabel === false) for (const commit of commits) if (commit.authoredId) { hidden.push({ kind: 'commit', id: commit.id, authoredId: commit.authoredId }); if (!r.expected.labels.includes(commit.authoredId)) (r.expected.forbiddenLabels ??= []).push(commit.authoredId) }
+  if (hidden.length) r.fact('hidden-git-labels', hidden)
   r.fact('commits', commits); r.fact('branches', [...branches.values()]); r.fact('git-operation-order', operations)
   return true
 }
@@ -735,20 +758,31 @@ function entityRelationship(r: LiteralReview) {
     match = /^direction\s+(LR|RL|TB|TD|BT)$/.exec(line)
     if (match) { if (!stack.length) r.fact('direction', match[1]!); else directions.push({ group: stack.at(-1)!, direction: match[1]! }); continue }
     match = new RegExp('^' + endpoint + '(?:\\s*\\[([^\\]]*)\\])?(?::::([\\w,-]+))?\\s*(\\{)?$', 'u').exec(line)
-    if (match) { const id = cleanLabel(match[1]!); node(id, match[2] === undefined ? undefined : cleanLabel(match[2])); if (match[3]) r.fact('entity-classes', [...(r.expected.facts!['entity-classes'] as MeaningJson[] ?? []), { id, classes: match[3] }]); if (match[4]) owner = id; continue }
+    if (match) { const id = cleanLabel(match[1]!); node(id, quotedDiagramMarkdown(r, match[2] ?? match[1]!, { kind: 'node', id })); if (match[3]) r.fact('entity-classes', [...(r.expected.facts!['entity-classes'] as MeaningJson[] ?? []), { id, classes: match[3] }]); if (match[4]) owner = id; continue }
     // Natural-language aliases are documented spellings of the cardinality tokens.
     let relation: string[] | null = symbolic.exec(line)
     if (!relation) {
       const aliases = new RegExp('^' + endpoint + '\\s+(one or zero|zero or one|only one|one or more|one or many|zero or more|zero or many|many\\([01]\\)|[01]\\+|1)\\s+(optionally to|to)\\s+(one or zero|zero or one|only one|one or more|one or many|zero or more|zero or many|many\\([01]\\)|[01]\\+|1)\\s+' + endpoint + '\\s*:\\s*(.+)$', 'u').exec(line)
       if (aliases) relation = [aliases[0], aliases[1]!, aliases[2]!, aliases[3] === 'optionally to' ? '..' : '--', aliases[4]!, aliases[5]!, aliases[6]!]
     }
-    if (relation) { const source = cleanLabel(relation[1]!), target = cleanLabel(relation[5]!), label = cleanLabel(relation[6]!); node(source); node(target); edges.push({ source, target, directed: false, label }); cardinalities.push({ from: source, to: target, left: cardinality(relation[2]!), right: cardinality(relation[4]!), identifying: relation[3] === '--' }); r.labels(label); continue }
+    if (relation) { const source = cleanLabel(relation[1]!), target = cleanLabel(relation[5]!), label = quotedDiagramMarkdown(r, relation[6]!, { kind: 'edge', index: edges.length, source, target }); node(source, nodes.has(source) ? undefined : quotedDiagramMarkdown(r, relation[1]!, { kind: 'node', id: source })); node(target, nodes.has(target) ? undefined : quotedDiagramMarkdown(r, relation[5]!, { kind: 'node', id: target })); edges.push({ source, target, directed: false, label }); cardinalities.push({ from: source, to: target, left: cardinality(relation[2]!), right: cardinality(relation[4]!), identifying: relation[3] === '--' }); r.labels(label); continue }
     r.unknown(line)
   }
   if (owner) r.unresolved.push('Unclosed entity attribute block'); if (stack.length) r.unresolved.push('Unclosed ER group')
   for (const group of groups) nodes.delete(group.id)
   r.expected.nodes = [...nodes.values()]; r.expected.edges = edges; if (groups.length) r.expected.groups = groups; r.labels(...r.expected.nodes.map(item => item.label), ...groups.map(item => item.label)); r.fact('attributes', [...attributes].filter(([id]) => nodes.has(id)).map(([id, values]) => ({ id, values }))); r.fact('cardinalities', cardinalities); if (directions.length) r.fact('layout-constraints', directions)
   return true
+}
+
+/** ER and requirement quoted strings explicitly support Markdown without the
+ * flowchart backtick opt-in. Raw identifiers stay separate from displayed text. */
+function quotedDiagramMarkdown(r: LiteralReview, raw: string, owner: MeaningJson) {
+  const source = raw.trim(), quoted = source.startsWith('"') && source.endsWith('"'), content = quoted ? source.slice(1, -1) : source
+  if (!quoted) return cleanLabel(source)
+  const strongUnderscores = content.replace(/(^|[^\p{L}\p{N}_])__(?=\S)([\s\S]*?\S)__(?=$|[^\p{L}\p{N}_])/gu, '$1$2')
+  const text = cleanLabel('`' + strongUnderscores + '`')
+  if (text !== cleanLabel(source)) r.fact('markdown-source-labels', [...(r.expected.facts!['markdown-source-labels'] as MeaningJson[] ?? []), { source: content, text, owners: [owner] }])
+  return text
 }
 
 function requirements(r: LiteralReview) {
@@ -760,8 +794,8 @@ function requirements(r: LiteralReview) {
     const direction = /^direction\s+(LR|RL|TB|TD|BT)$/.exec(line); if (direction) { r.fact('direction', direction[1]!); continue }
     if (line === '}') { if (!current) r.unknown(line); current = undefined; continue }
     let match = /^(requirement|functionalRequirement|interfaceRequirement|performanceRequirement|physicalRequirement|designConstraint|element)\s+("[^"]*"|[\w.-]+)(?::::([\w,-]+))?\s*\{$/i.exec(line)
-    if (match) { const id = cleanLabel(match[2]!); current = { name: id, kind: match[1]!, fields: {}, ...(match[3] ? { classes: match[3] } : {}) }; definitions.push(current); nodes.push({ id, label: id }); r.labels(id); continue }
-    if (current) { match = /^(id|text|risk|verifymethod|type|docref)\s*:\s*(.*)$/i.exec(line); if (!match) { r.unknown(line); continue }; const value = cleanLabel(match[2]!); current.fields[match[1]!.toLowerCase()] = value; r.labels(value); continue }
+    if (match) { const id = cleanLabel(match[2]!), label = quotedDiagramMarkdown(r, match[2]!, { kind: 'node', id }); current = { name: id, kind: match[1]!, fields: {}, ...(match[3] ? { classes: match[3] } : {}) }; definitions.push(current); nodes.push({ id, label }); r.labels(label); continue }
+    if (current) { match = /^(id|text|risk|verifymethod|type|docref)\s*:\s*(.*)$/i.exec(line); if (!match) { r.unknown(line); continue }; const field = match[1]!.toLowerCase(), value = quotedDiagramMarkdown(r, match[2]!, { kind: 'requirement-field', id: current.name, field }); current.fields[field] = value; r.labels(value); continue }
     match = /^([\w.-]+)\s+-(\s*(?:contains|copies|derives|satisfies|verifies|refines|traces)\s*)->\s+([\w.-]+)$/i.exec(line)
     if (match) { const label = match[2]!.trim(); edges.push({ source: match[1]!, target: match[3]!, directed: true, label }); r.labels(label); continue }
     match = /^([\w.-]+)\s+<-\s*(contains|copies|derives|satisfies|verifies|refines|traces)\s*-\s+([\w.-]+)$/i.exec(line)
@@ -782,7 +816,12 @@ function c4(r: LiteralReview) {
     if (line === '}') { if (!stack.pop()) r.unknown(line); continue }
     const call = /^(\w+)\((.*)\)\s*(\{)?\s*$/.exec(line)
     if (!call) { r.unknown(line); continue }
-    const name = call[1]!, args = syntaxList(call[2]!).map(cleanLabel)
+    const name = call[1]!, args = syntaxList(call[2]!).map(cleanLabel).filter(arg => {
+      if (/^Update/.test(name) || !arg.startsWith('$')) return true
+      if (/^\$(?:tags|link)=/.test(arg)) r.excludedNonvisual.push('C4 named metadata is not static label text: ' + name + ':' + arg)
+      else r.unresolved.push('C4 named argument requires explicit field interpretation: ' + name + ':' + arg)
+      return false
+    })
     if (/^(?:Enterprise_Boundary|System_Boundary|Container_Boundary|Boundary|Deployment_Node)$/.test(name)) {
       const id = args[0]!, label = args[1] ?? id; const group = { id, label, members: [] as string[] }; groups.push(group); r.labels(label, ...args.slice(2)); elements.push({ id, kind: name, label, extraVisibleFields: args.slice(2) }); if (stack.length) groups.find(item => item.id === stack.at(-1))!.members.push(id); if (call[3]) stack.push(id); continue
     }
@@ -807,6 +846,27 @@ function classes(r: LiteralReview) {
   const node = (raw: string, label?: string) => { const id = idValue(raw); if (!nodes.has(id)) nodes.set(id, { id, label: label ?? id }); else if (label !== undefined) nodes.get(id)!.label = label; if (!members.has(id)) members.set(id, []); const group = stack.filter(item => item.kind === 'namespace').at(-1); if (group) { const namespace = groups.find(item => item.id === group.id)!; if (!namespace.members.includes(id)) namespace.members.push(id) }; return id }
   const idPattern = '(?:`[^`]+`|[\\w.-]+)', edgePattern = new RegExp('^(' + idPattern + ')\\s*(?:"([^"]*)"\\s*)?(<\\|--\\|>|<\\|\\.\\.|<\\|--|--\\|>|\\.\\.\\|>|\\(\\)--|--\\(\\)|\\*--|--\\*|o--|--o|<--|-->|<\\.\\.|\\.\\.>|--|\\.\\.)\\s*(?:"([^"]*)"\\s*)?(' + idPattern + ')(?:\\s*:\\s*(.*))?$')
   const marker = (symbol: string) => /<\||\|>/.test(symbol) ? 'triangle' : /\*/.test(symbol) ? 'diamond' : /o/.test(symbol) ? 'open-diamond' : /\(\)/.test(symbol) ? 'circle' : /[<>]/.test(symbol) ? 'arrow' : 'none'
+  const hierarchical = (r.expected.facts!['authored-config'] as any)?.class?.hierarchicalNamespaces !== false, interfaces: MeaningJson[] = []
+  const namespace = (name: string, display?: string) => {
+    const containing = stack.filter(item => item.kind === 'namespace').at(-1)?.id
+    if (!hierarchical && containing) r.unresolved.push('Explicit nesting with hierarchicalNamespaces:false requires review')
+    const path = hierarchical && containing && !name.startsWith(containing + '.') ? containing + '.' + name : name
+    const segments = hierarchical ? path.split('.') : [path]
+    let parent: string | undefined, id = ''
+    for (const [index, part] of segments.entries()) {
+      id = hierarchical ? segments.slice(0, index + 1).join('.') : path
+      let group = groups.find(item => item.id === id)
+      if (!group) { group = { id, label: index === segments.length - 1 && display !== undefined ? cleanLabel(display) : part, members: [] }; groups.push(group) }
+      else if (index === segments.length - 1 && display !== undefined) group.label = cleanLabel(display)
+      if (parent) { const outer = groups.find(item => item.id === parent)!; if (!outer.members.includes(id)) outer.members.push(id) }
+      parent = id
+    }
+    return id
+  }
+  const lollipop = (raw: string, owner: string, side: string) => {
+    const label = idValue(raw), id = 'lollipop:' + interfaces.length + ':' + label
+    nodes.set(id, { id, label }); interfaces.push({ id, label, owner, side }); return id
+  }
   for (const raw of r.lines.slice(1)) {
     const line = raw.trim().replace(/;$/, '')
     if (line === '}') { if (!stack.pop()) r.unknown(line); continue }
@@ -819,7 +879,7 @@ function classes(r: LiteralReview) {
     let match = /^direction\s+(LR|RL|TB|TD|BT)$/.exec(line)
     if (match) { r.fact('direction', match[1]!); continue }
     match = /^namespace\s+([\w.-]+)(?:\s*\[([^\]]+)\])?\s*\{$/.exec(line)
-    if (match) { const id = match[1]!, label = cleanLabel(match[2] ?? id); groups.push({ id, label, members: [] }); r.labels(label); stack.push({ kind: 'namespace', id }); continue }
+    if (match) { stack.push({ kind: 'namespace', id: namespace(match[1]!, match[2]) }); continue }
     const inlineAnnotation = /^class\s+([\w.-]+)\s+<<([^>]+)>>$/.exec(line); if (inlineAnnotation) { annotations.push({ id: node(inlineAnnotation[1]!), annotation: inlineAnnotation[2]! }); r.labels(inlineAnnotation[2]!); continue }
     const classShorthand = /^class\s+([\w.-]+):::([\w,-]+)\s*(\{)?$/.exec(line); if (classShorthand) { const id = node(classShorthand[1]!); appearance.push({ id, classes: classShorthand[2]! }); if (classShorthand[3]) stack.push({ kind: 'class', id }); continue }
     match = new RegExp('^class\\s+(' + idPattern + ')(?:~([^~]+)~)?(?:\\[(.*?)\\])?\\s*(\\{)?$').exec(line)
@@ -828,7 +888,7 @@ function classes(r: LiteralReview) {
     if (match) { const text = cleanLabel('"' + match[2] + '"'); notes.push({ target: match[1] ? node(match[1]) : '', text }); r.labels(text); continue }
     match = edgePattern.exec(line)
     if (match) {
-      const source = node(match[1]!), target = node(match[5]!), token = match[3]!, label = cleanLabel(match[6] ?? ''), boundary = token.indexOf('--') >= 0 ? token.indexOf('--') : token.indexOf('..'), a = marker(token.slice(0, boundary)), b = marker(token.slice(boundary + 2))
+      const token = match[3]!, source = token === '()--' ? lollipop(match[1]!, idValue(match[5]!), 'left') : node(match[1]!), target = token === '--()' ? lollipop(match[5]!, source, 'right') : node(match[5]!), label = cleanLabel(match[6] ?? ''), boundary = token.indexOf('--') >= 0 ? token.indexOf('--') : token.indexOf('..'), a = marker(token.slice(0, boundary)), b = marker(token.slice(boundary + 2))
       edges.push({ source, target, directed: [a, b].some(value => value === 'arrow' || value === 'triangle'), ...(label ? { label } : {}), startMarker: a, endMarker: b }); if (match[2] !== undefined || match[4] !== undefined) { cardinalities.push({ from: source, to: target, left: match[2] ?? '', right: match[4] ?? '' }); r.labels(match[2] ?? '', match[4] ?? '') }; appearance.push({ from: source, to: target, stroke: token.includes('..') ? 'dashed' : 'solid' }); r.labels(label); continue
     }
     match = new RegExp('^(' + idPattern + ')\\s*:\\s*(.+)$').exec(line)
@@ -840,7 +900,7 @@ function classes(r: LiteralReview) {
     r.unknown(line)
   }
   if (stack.length) r.unresolved.push('Unclosed class or namespace block')
-  r.expected.nodes = [...nodes.values()]; r.expected.edges = edges; if (groups.length) r.expected.groups = groups; r.labels(...r.expected.nodes.map(item => item.label)); r.fact('members', [...members].map(([id, values]) => ({ id, values }))); if (notes.length) r.fact('notes', notes); if (cardinalities.length) r.fact('cardinalities', cardinalities); if (annotations.length) r.fact('annotations', annotations); if (generics.length) r.fact('generics', generics); if (appearance.length) r.fact('edge-appearance', appearance)
+  r.expected.nodes = [...nodes.values()]; r.expected.edges = edges; if (groups.length) r.expected.groups = groups; r.labels(...r.expected.nodes.map(item => item.label), ...groups.map(group => group.label)); r.fact('members', [...members].map(([id, values]) => ({ id, values }))); if (interfaces.length) r.fact('lollipop-interfaces', interfaces); if (notes.length) r.fact('notes', notes); if (cardinalities.length) r.fact('cardinalities', cardinalities); if (annotations.length) r.fact('annotations', annotations); if (generics.length) r.fact('generics', generics); if (appearance.length) r.fact('edge-appearance', appearance)
   return true
 }
 
@@ -848,7 +908,14 @@ function gantt(r: LiteralReview) {
   if (r.family !== 'gantt') return false
   const tasks: MeaningJson[] = [], sections: string[] = [], settings: Record<string, MeaningJson> = {}; let section = '', previousId = ''
   for (const raw of r.lines.slice(1)) {
-    const line = raw.trim()
+    let quote = '', limit = raw.length
+    for (let index = 0; index < raw.length; index++) {
+      const char = raw[index]!
+      if (quote) { if (char === quote && raw[index - 1] !== '\\') quote = ''; continue }
+      if (char === '"' || char === "'") { quote = char; continue }
+      if (char === '%' && raw[index + 1] === '%' && (index === 0 || /\s/.test(raw[index - 1]!))) { limit = index; break }
+    }
+    const line = raw.slice(0, limit).trim()
     if (r.title(line)) continue
     let match = /^section\s+(.+)$/.exec(line)
     if (match) { section = cleanLabel(match[1]!); sections.push(section); r.labels(section); continue }
@@ -955,7 +1022,7 @@ function flowchartDialects(r: LiteralReview) {
       continue
     }
     const note = /^note\s+for\s+([\w.-]+)\s+([\s\S]+)$/.exec(line)
-    if (note) { const text = cleanLabel(note[2]!); annotations.push({ target: note[1]!, text }); r.labels(text); if (note[2]!.startsWith('"`')) ownLiteralMarkdown(r, note[0], { kind: 'note', target: note[1]! }); continue }
+    if (note) { const text = cleanLabel(note[2]!); annotations.push({ target: note[1]!, text }); r.labels(text); if (note[2]!.startsWith('"`')) ownLiteralMarkdown(r, note[0], { kind: 'note', target: note[1]!, index: annotations.length - 1 }); continue }
     const actor = /^actor\s+/.test(line); if (actor) line = line.replace(/^actor\s+/, '')
     const stereotype = /\s*<<([^>]+)>>/.exec(line)
     if (stereotype) { const id = /^[\w.-]+/.exec(line)?.[0]; kinds.push({ id: id ?? '', kind: 'stereotype', value: stereotype[1]! }); r.labels(stereotype[1]!); line = line.replace(stereotype[0], '') }
@@ -980,6 +1047,11 @@ function flowchartDialects(r: LiteralReview) {
       else { const shape = shapes.get(node.id); if (shape && !['rounded', 'rectangle'].includes(shape)) r.unresolved.push('Usecase shape is not defined by the source dialect: ' + shape); shapes.set(node.id, shape === 'rectangle' ? 'rectangle' : 'ellipse') }
     }
     r.fact('node-shapes', [...shapes].map(([id, shape]) => ({ id, shape })))
+    for (const kind of kinds as any[]) if (kind.kind === 'generalization') {
+      const matches = (r.expected.edges ?? []).filter(edge => edge.source === kind.source && edge.target === kind.target && !edge.label)
+      if (matches.length !== 1) r.unresolved.push('Parallel unlabeled usecase generalization needs per-edge source identity: ' + kind.source + '→' + kind.target)
+      else matches[0]!.endMarker = 'triangle'
+    }
   }
   if (originalFamily === 'block') {
     const arrows = new Set(kinds.filter((item: any) => item.kind === 'block-arrow').map((item: any) => item.id))
@@ -995,12 +1067,14 @@ function flowchartDialects(r: LiteralReview) {
 
 function kanban(r: LiteralReview) {
   if (r.family !== 'kanban') return false
-  const columns: MeaningJson[] = []; let current: { id: string; label: string; tasks: MeaningJson[] } | undefined, baseIndent: number | undefined
+  const columns: MeaningJson[] = [], identities = new Set<string>(); let current: { id: string; label: string; tasks: MeaningJson[] } | undefined, baseIndent: number | undefined
   for (const raw of r.lines.slice(1)) {
     const indent = raw.match(/^\s*/)![0].length, line = raw.trim()
     const match = /^(?:([\w.-]+))?(?:\[([^\]]*)\])?\s*(@\{[\s\S]*\})?$/.exec(line)
     if (!match || !match[1] && match[2] === undefined) { r.unknown(line); continue }
     const label = cleanLabel(match[2] ?? match[1]!), id = match[1] ?? 'anonymous:' + columns.length + ':' + (current?.tasks.length ?? 0)
+    if (identities.has(id)) r.unresolved.push('Kanban identifiers must be unique; duplicate source identity needs clarification: ' + id)
+    identities.add(id)
     if (baseIndent === undefined) baseIndent = indent
     if (indent <= baseIndent) { current = { id, label, tasks: [] }; columns.push(current); r.labels(label); continue }
     if (!current) { r.unknown(line); continue }
@@ -1135,7 +1209,7 @@ function zenuml(r: LiteralReview) {
 
 /** Source interpretation only: no renderer, target parser or model executes. */
 export function reviewDocumentationSource(input: DocsInput, options: { visual?: boolean } = {}): SourceReviewedDrawing {
-  if (input.id === 'packages/mermaid/src/docs/syntax/gantt.md:291' && hash(input.source) === 'b651c090529ba2c6f4e065203d75ffb3f4638219d65b2474c41082ca106319d7') return { id: input.id, sourceSha256: hash(input.source), intent: 'configuration-only', family: 'gantt', review: 'The pinned source fence only declares dateFormat and axisFormat; it contains no tasks and supplies no drawing accuracy denominator.', sourceReview: { protocol: docsSourceReviewProtocol, sourcePin: docsSourcePin, method: 'Literal source inspection: no authored tasks or drawing content', expectedFactsComplete: true, requiredObligations: [], unresolved: [], excludedNonvisual: ['Configuration-only fence; no drawing is asserted'] } }
+  if (input.id === 'packages/mermaid/src/docs/syntax/gantt.md:291' && hash(input.source) === 'b651c090529ba2c6f4e065203d75ffb3f4638219d65b2474c41082ca106319d7') return { id: input.id, sourceSha256: hash(input.source), intent: 'configuration-only', family: 'gantt', review: 'The pinned source fence only declares tickInterval and weekday; it contains no tasks and supplies no drawing accuracy denominator.', sourceReview: { protocol: docsSourceReviewProtocol, sourcePin: docsSourcePin, method: 'Literal source inspection: no authored tasks or drawing content', expectedFactsComplete: true, requiredObligations: [], unresolved: [], excludedNonvisual: ['Configuration-only fence; no drawing is asserted'] } }
   const review = new LiteralReview(input)
   if (!numericCharts(review) && !orderedCharts(review) && !flowchart(review) && !stateDiagram(review) && !architecture(review) && !hierarchy(review) && !wardley(review) && !gitgraph(review) && !sequence(review) && !entityRelationship(review) && !requirements(review) && !c4(review) && !classes(review) && !gantt(review) && !flowchartDialects(review) && !kanban(review) && !eventModeling(review) && !railroad(review) && !zenuml(review)) {
     for (const line of review.lines.slice(1)) if (!review.title(line)) review.unknown(line)

@@ -7051,7 +7051,6 @@
         "Container diagram for Internet Banking System",
         "E-Mail System",
         "The internal Microsoft Exchange system",
-        "$tags=\"v1.0\"",
         "Customer",
         "A customer of the bank, with personal bank accounts",
         "Internet Banking",
@@ -7091,8 +7090,7 @@
             "kind": "System_Ext",
             "label": "E-Mail System",
             "extraVisibleFields": [
-              "The internal Microsoft Exchange system",
-              "$tags=\"v1.0\""
+              "The internal Microsoft Exchange system"
             ]
           },
           {
@@ -7100,8 +7098,7 @@
             "kind": "Person",
             "label": "Customer",
             "extraVisibleFields": [
-              "A customer of the bank, with personal bank accounts",
-              "$tags=\"v1.0\""
+              "A customer of the bank, with personal bank accounts"
             ]
           },
           {
@@ -7437,7 +7434,10 @@
         "fact:title"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "C4 named metadata is not static label text: System_Ext:$tags=\"v1.0\"",
+        "C4 named metadata is not static label text: Person:$tags=\"v1.0\""
+      ]
     }
   },
   {
@@ -10172,17 +10172,21 @@
       "facts": {
         "members": [
           {
-            "id": "bar",
-            "values": []
-          },
-          {
             "id": "foo",
             "values": []
           }
         ],
+        "lollipop-interfaces": [
+          {
+            "id": "lollipop:0:bar",
+            "label": "bar",
+            "owner": "foo",
+            "side": "left"
+          }
+        ],
         "edge-appearance": [
           {
-            "from": "bar",
+            "from": "lollipop:0:bar",
             "to": "foo",
             "stroke": "solid"
           }
@@ -10190,7 +10194,7 @@
       },
       "nodes": [
         {
-          "id": "bar",
+          "id": "lollipop:0:bar",
           "label": "bar"
         },
         {
@@ -10200,7 +10204,7 @@
       ],
       "edges": [
         {
-          "source": "bar",
+          "source": "lollipop:0:bar",
           "target": "foo",
           "directed": false,
           "startMarker": "circle",
@@ -10218,6 +10222,7 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "fact:edge-appearance",
+        "fact:lollipop-interfaces",
         "fact:members"
       ],
       "unresolved": [],
@@ -10247,31 +10252,43 @@
             ]
           },
           {
-            "id": "bar",
-            "values": []
-          },
-          {
             "id": "Class02",
             "values": []
+          }
+        ],
+        "lollipop-interfaces": [
+          {
+            "id": "lollipop:0:bar",
+            "label": "bar",
+            "owner": "Class01",
+            "side": "right"
           },
           {
-            "id": "foo",
-            "values": []
+            "id": "lollipop:1:bar",
+            "label": "bar",
+            "owner": "Class02",
+            "side": "right"
+          },
+          {
+            "id": "lollipop:2:foo",
+            "label": "foo",
+            "owner": "Class01",
+            "side": "left"
           }
         ],
         "edge-appearance": [
           {
             "from": "Class01",
-            "to": "bar",
+            "to": "lollipop:0:bar",
             "stroke": "solid"
           },
           {
             "from": "Class02",
-            "to": "bar",
+            "to": "lollipop:1:bar",
             "stroke": "solid"
           },
           {
-            "from": "foo",
+            "from": "lollipop:2:foo",
             "to": "Class01",
             "stroke": "solid"
           }
@@ -10283,7 +10300,7 @@
           "label": "Class01"
         },
         {
-          "id": "bar",
+          "id": "lollipop:0:bar",
           "label": "bar"
         },
         {
@@ -10291,27 +10308,31 @@
           "label": "Class02"
         },
         {
-          "id": "foo",
+          "id": "lollipop:1:bar",
+          "label": "bar"
+        },
+        {
+          "id": "lollipop:2:foo",
           "label": "foo"
         }
       ],
       "edges": [
         {
           "source": "Class01",
-          "target": "bar",
+          "target": "lollipop:0:bar",
           "directed": false,
           "startMarker": "none",
           "endMarker": "circle"
         },
         {
           "source": "Class02",
-          "target": "bar",
+          "target": "lollipop:1:bar",
           "directed": false,
           "startMarker": "none",
           "endMarker": "circle"
         },
         {
-          "source": "foo",
+          "source": "lollipop:2:foo",
           "target": "Class01",
           "directed": false,
           "startMarker": "circle",
@@ -10329,6 +10350,7 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "fact:edge-appearance",
+        "fact:lollipop-interfaces",
         "fact:members"
       ],
       "unresolved": [],
@@ -10343,9 +10365,9 @@
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
       "labels": [
-        "BaseShapes",
         "Triangle",
-        "Rectangle"
+        "Rectangle",
+        "BaseShapes"
       ],
       "facts": {
         "members": [
@@ -10408,8 +10430,8 @@
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
       "labels": [
-        "Authentication Service",
-        "UserService"
+        "UserService",
+        "Authentication Service"
       ],
       "facts": {
         "members": [
@@ -10463,13 +10485,14 @@
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
       "labels": [
-        "Company.Engineering.Backend",
-        "Company.Engineering.Frontend",
-        "Company.Engineering",
         "leads",
         "Developer",
         "Designer",
-        "TechLead"
+        "TechLead",
+        "Company",
+        "Engineering",
+        "Backend",
+        "Frontend"
       ],
       "facts": {
         "members": [
@@ -10539,24 +10562,33 @@
       ],
       "groups": [
         {
+          "id": "Company",
+          "label": "Company",
+          "members": [
+            "Company.Engineering"
+          ]
+        },
+        {
+          "id": "Company.Engineering",
+          "label": "Engineering",
+          "members": [
+            "Company.Engineering.Backend",
+            "Company.Engineering.Frontend",
+            "TechLead"
+          ]
+        },
+        {
           "id": "Company.Engineering.Backend",
-          "label": "Company.Engineering.Backend",
+          "label": "Backend",
           "members": [
             "Developer"
           ]
         },
         {
           "id": "Company.Engineering.Frontend",
-          "label": "Company.Engineering.Frontend",
+          "label": "Frontend",
           "members": [
             "Designer"
-          ]
-        },
-        {
-          "id": "Company.Engineering",
-          "label": "Company.Engineering",
-          "members": [
-            "TechLead"
           ]
         }
       ]
@@ -10586,13 +10618,13 @@
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
       "labels": [
-        "Platform",
-        "Auth",
-        "Data",
         "delegates",
         "UserService",
         "Repository",
-        "Gateway"
+        "Gateway",
+        "Platform",
+        "Auth",
+        "Data"
       ],
       "facts": {
         "members": [
@@ -10667,18 +10699,20 @@
           "id": "Platform",
           "label": "Platform",
           "members": [
+            "Platform.Auth",
+            "Platform.Data",
             "Gateway"
           ]
         },
         {
-          "id": "Auth",
+          "id": "Platform.Auth",
           "label": "Auth",
           "members": [
             "UserService"
           ]
         },
         {
-          "id": "Data",
+          "id": "Platform.Data",
           "label": "Data",
           "members": [
             "Repository"
@@ -10711,13 +10745,13 @@
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
       "labels": [
-        "Company.Engineering.Backend",
-        "Company.Engineering.Frontend",
-        "Company",
         "oversees",
         "Developer",
         "Designer",
-        "CEO"
+        "CEO",
+        "Company.Engineering.Backend",
+        "Company.Engineering.Frontend",
+        "Company"
       ],
       "facts": {
         "authored-config": {
@@ -11985,6 +12019,29 @@
       ],
       "facts": {
         "title": "Incident Response",
+        "framework-domains": [
+          {
+            "id": "complex",
+            "position": "top-left"
+          },
+          {
+            "id": "complicated",
+            "position": "top-right"
+          },
+          {
+            "id": "clear",
+            "position": "bottom-right"
+          },
+          {
+            "id": "chaotic",
+            "position": "bottom-left"
+          },
+          {
+            "id": "confusion",
+            "position": "center",
+            "shape": "ellipse"
+          }
+        ],
         "domain-entries": [
           {
             "domain": "complex",
@@ -12031,6 +12088,7 @@
         "visible-labels",
         "fact:domain-entries",
         "fact:domain-transitions",
+        "fact:framework-domains",
         "fact:title"
       ],
       "unresolved": [],
@@ -12057,6 +12115,29 @@
       ],
       "facts": {
         "title": "Strategy Categorization",
+        "framework-domains": [
+          {
+            "id": "complex",
+            "position": "top-left"
+          },
+          {
+            "id": "complicated",
+            "position": "top-right"
+          },
+          {
+            "id": "clear",
+            "position": "bottom-right"
+          },
+          {
+            "id": "chaotic",
+            "position": "bottom-left"
+          },
+          {
+            "id": "confusion",
+            "position": "center",
+            "shape": "ellipse"
+          }
+        ],
         "domain-entries": [
           {
             "domain": "complex",
@@ -12108,6 +12189,7 @@
         "visible-labels",
         "fact:domain-entries",
         "fact:domain-transitions",
+        "fact:framework-domains",
         "fact:title"
       ],
       "unresolved": [],
@@ -12126,6 +12208,29 @@
       ],
       "facts": {
         "title": "Cynefin Framework",
+        "framework-domains": [
+          {
+            "id": "complex",
+            "position": "top-left"
+          },
+          {
+            "id": "complicated",
+            "position": "top-right"
+          },
+          {
+            "id": "clear",
+            "position": "bottom-right"
+          },
+          {
+            "id": "chaotic",
+            "position": "bottom-left"
+          },
+          {
+            "id": "confusion",
+            "position": "center",
+            "shape": "ellipse"
+          }
+        ],
         "domain-entries": [],
         "domain-transitions": []
       }
@@ -12139,6 +12244,7 @@
         "visible-labels",
         "fact:domain-entries",
         "fact:domain-transitions",
+        "fact:framework-domains",
         "fact:title"
       ],
       "unresolved": [],
@@ -12804,9 +12910,21 @@
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
       "labels": [
-        "This **is** _Markdown_"
+        "This is Markdown"
       ],
       "facts": {
+        "markdown-source-labels": [
+          {
+            "source": "This **is** _Markdown_",
+            "text": "This is Markdown",
+            "owners": [
+              {
+                "kind": "node",
+                "id": "This **is** _Markdown_"
+              }
+            ]
+          }
+        ],
         "attributes": [
           {
             "id": "This **is** _Markdown_",
@@ -12818,7 +12936,7 @@
       "nodes": [
         {
           "id": "This **is** _Markdown_",
-          "label": "This **is** _Markdown_"
+          "label": "This is Markdown"
         }
       ],
       "edges": []
@@ -12833,7 +12951,8 @@
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "fact:attributes",
-        "fact:cardinalities"
+        "fact:cardinalities",
+        "fact:markdown-source-labels"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -26248,7 +26367,7 @@
     "sourceSha256": "b651c090529ba2c6f4e065203d75ffb3f4638219d65b2474c41082ca106319d7",
     "intent": "configuration-only",
     "family": "gantt",
-    "review": "The pinned source fence only declares dateFormat and axisFormat; it contains no tasks and supplies no drawing accuracy denominator.",
+    "review": "The pinned source fence only declares tickInterval and weekday; it contains no tasks and supplies no drawing accuracy denominator.",
     "sourceReview": {
       "protocol": "literal-documentation-facts-v1",
       "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
@@ -26569,7 +26688,7 @@
             "label": "9",
             "section": "Issue1300",
             "start": "1906",
-            "end": "1s   %% not yet official",
+            "end": "1s",
             "tags": [
               "vert"
             ]
@@ -26579,7 +26698,7 @@
             "label": "64",
             "section": "Issue1300",
             "start": "1923",
-            "end": "1s   %% custom CSS object https://github.com/mermaid-js/mermaid/issues/3250",
+            "end": "1s",
             "tags": []
           }
         ],
@@ -28152,6 +28271,32 @@
             "showBranches": false
           }
         },
+        "hidden-git-labels": [
+          {
+            "kind": "branch",
+            "id": "main"
+          },
+          {
+            "kind": "branch",
+            "id": "hotfix"
+          },
+          {
+            "kind": "branch",
+            "id": "develop"
+          },
+          {
+            "kind": "branch",
+            "id": "featureB"
+          },
+          {
+            "kind": "branch",
+            "id": "featureA"
+          },
+          {
+            "kind": "branch",
+            "id": "release"
+          }
+        ],
         "commits": [
           {
             "id": "commit:0",
@@ -28525,6 +28670,14 @@
           }
         ]
       },
+      "forbiddenLabels": [
+        "main",
+        "hotfix",
+        "develop",
+        "featureB",
+        "featureA",
+        "release"
+      ],
       "advisoryFacts": {
         "direction": "LR"
       }
@@ -28536,10 +28689,12 @@
       "expectedFactsComplete": true,
       "requiredObligations": [
         "visible-labels",
+        "hidden-authored-content",
         "fact:authored-config",
         "fact:branches",
         "fact:commits",
-        "fact:git-operation-order"
+        "fact:git-operation-order",
+        "fact:hidden-git-labels"
       ],
       "unresolved": [],
       "excludedNonvisual": [
@@ -29022,6 +29177,37 @@
             "showCommitLabel": false
           }
         },
+        "hidden-git-labels": [
+          {
+            "kind": "branch",
+            "id": "main"
+          },
+          {
+            "kind": "branch",
+            "id": "hotfix"
+          },
+          {
+            "kind": "branch",
+            "id": "develop"
+          },
+          {
+            "kind": "branch",
+            "id": "featureB"
+          },
+          {
+            "kind": "branch",
+            "id": "featureA"
+          },
+          {
+            "kind": "branch",
+            "id": "release"
+          },
+          {
+            "kind": "commit",
+            "id": "commit:2",
+            "authoredId": "ash"
+          }
+        ],
         "commits": [
           {
             "id": "commit:0",
@@ -29393,6 +29579,15 @@
           }
         ]
       },
+      "forbiddenLabels": [
+        "main",
+        "hotfix",
+        "develop",
+        "featureB",
+        "featureA",
+        "release",
+        "ash"
+      ],
       "advisoryFacts": {
         "direction": "LR"
       }
@@ -29403,10 +29598,12 @@
       "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
       "expectedFactsComplete": true,
       "requiredObligations": [
+        "hidden-authored-content",
         "fact:authored-config",
         "fact:branches",
         "fact:commits",
-        "fact:git-operation-order"
+        "fact:git-operation-order",
+        "fact:hidden-git-labels"
       ],
       "unresolved": [],
       "excludedNonvisual": [
@@ -34291,101 +34488,124 @@
         "Too dark"
       ],
       "facts": {
+        "effect": {
+          "id": "Blurry Photo",
+          "label": "Blurry Photo"
+        },
         "cause-hierarchy": [
           {
             "id": "Blurry Photo",
             "label": "Blurry Photo",
-            "parent": ""
+            "parent": "",
+            "kind": "effect"
           },
           {
-            "id": "Process",
+            "id": "Blurry Photo/Process",
             "label": "Process",
-            "parent": ""
+            "parent": "Blurry Photo",
+            "kind": "cause"
           },
           {
-            "id": "Process/Out of focus",
+            "id": "Blurry Photo/Process/Out of focus",
             "label": "Out of focus",
-            "parent": "Process"
+            "parent": "Blurry Photo/Process",
+            "kind": "cause"
           },
           {
-            "id": "Process/Shutter speed too slow",
+            "id": "Blurry Photo/Process/Shutter speed too slow",
             "label": "Shutter speed too slow",
-            "parent": "Process"
+            "parent": "Blurry Photo/Process",
+            "kind": "cause"
           },
           {
-            "id": "Process/Protective film not removed",
+            "id": "Blurry Photo/Process/Protective film not removed",
             "label": "Protective film not removed",
-            "parent": "Process"
+            "parent": "Blurry Photo/Process",
+            "kind": "cause"
           },
           {
-            "id": "Process/Beautification filter applied",
+            "id": "Blurry Photo/Process/Beautification filter applied",
             "label": "Beautification filter applied",
-            "parent": "Process"
+            "parent": "Blurry Photo/Process",
+            "kind": "cause"
           },
           {
-            "id": "User",
+            "id": "Blurry Photo/User",
             "label": "User",
-            "parent": ""
+            "parent": "Blurry Photo",
+            "kind": "cause"
           },
           {
-            "id": "User/Shaky hands",
+            "id": "Blurry Photo/User/Shaky hands",
             "label": "Shaky hands",
-            "parent": "User"
+            "parent": "Blurry Photo/User",
+            "kind": "cause"
           },
           {
-            "id": "Equipment",
+            "id": "Blurry Photo/Equipment",
             "label": "Equipment",
-            "parent": ""
+            "parent": "Blurry Photo",
+            "kind": "cause"
           },
           {
-            "id": "Equipment/LENS",
+            "id": "Blurry Photo/Equipment/LENS",
             "label": "LENS",
-            "parent": "Equipment"
+            "parent": "Blurry Photo/Equipment",
+            "kind": "cause"
           },
           {
-            "id": "Equipment/LENS/Inappropriate lens",
+            "id": "Blurry Photo/Equipment/LENS/Inappropriate lens",
             "label": "Inappropriate lens",
-            "parent": "Equipment/LENS"
+            "parent": "Blurry Photo/Equipment/LENS",
+            "kind": "cause"
           },
           {
-            "id": "Equipment/LENS/Damaged lens",
+            "id": "Blurry Photo/Equipment/LENS/Damaged lens",
             "label": "Damaged lens",
-            "parent": "Equipment/LENS"
+            "parent": "Blurry Photo/Equipment/LENS",
+            "kind": "cause"
           },
           {
-            "id": "Equipment/LENS/Dirty lens",
+            "id": "Blurry Photo/Equipment/LENS/Dirty lens",
             "label": "Dirty lens",
-            "parent": "Equipment/LENS"
+            "parent": "Blurry Photo/Equipment/LENS",
+            "kind": "cause"
           },
           {
-            "id": "Equipment/SENSOR",
+            "id": "Blurry Photo/Equipment/SENSOR",
             "label": "SENSOR",
-            "parent": "Equipment"
+            "parent": "Blurry Photo/Equipment",
+            "kind": "cause"
           },
           {
-            "id": "Equipment/SENSOR/Damaged sensor",
+            "id": "Blurry Photo/Equipment/SENSOR/Damaged sensor",
             "label": "Damaged sensor",
-            "parent": "Equipment/SENSOR"
+            "parent": "Blurry Photo/Equipment/SENSOR",
+            "kind": "cause"
           },
           {
-            "id": "Equipment/SENSOR/Dirty sensor",
+            "id": "Blurry Photo/Equipment/SENSOR/Dirty sensor",
             "label": "Dirty sensor",
-            "parent": "Equipment/SENSOR"
+            "parent": "Blurry Photo/Equipment/SENSOR",
+            "kind": "cause"
           },
           {
-            "id": "Environment",
+            "id": "Blurry Photo/Environment",
             "label": "Environment",
-            "parent": ""
+            "parent": "Blurry Photo",
+            "kind": "cause"
           },
           {
-            "id": "Environment/Subject moved too quickly",
+            "id": "Blurry Photo/Environment/Subject moved too quickly",
             "label": "Subject moved too quickly",
-            "parent": "Environment"
+            "parent": "Blurry Photo/Environment",
+            "kind": "cause"
           },
           {
-            "id": "Environment/Too dark",
+            "id": "Blurry Photo/Environment/Too dark",
             "label": "Too dark",
-            "parent": "Environment"
+            "parent": "Blurry Photo/Environment",
+            "kind": "cause"
           }
         ]
       }
@@ -34397,7 +34617,8 @@
       "expectedFactsComplete": true,
       "requiredObligations": [
         "visible-labels",
-        "fact:cause-hierarchy"
+        "fact:cause-hierarchy",
+        "fact:effect"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -34630,16 +34851,21 @@
         ]
       }
     },
+    "unverifiedFacts": [
+      "Kanban identifiers must be unique; duplicate source identity needs clarification: id3"
+    ],
     "sourceReview": {
       "protocol": "literal-documentation-facts-v1",
       "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
       "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
+      "expectedFactsComplete": false,
       "requiredObligations": [
         "visible-labels",
         "fact:columns"
       ],
-      "unresolved": [],
+      "unresolved": [
+        "Kanban identifiers must be unique; duplicate source identity needs clarification: id3"
+      ],
       "excludedNonvisual": [
         "Configuration affects logging or navigation, not the static drawing: kanban.ticketBaseUrl=\"https://mermaidchart.atlassian.net/browse/#TICKET#\""
       ]
@@ -39153,20 +39379,43 @@
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
       "labels": [
-        "__test_req__",
+        "test_req",
         "1",
-        "*italicized text* **bold text**",
+        "italicized text bold text",
         "high",
         "test"
       ],
       "facts": {
+        "markdown-source-labels": [
+          {
+            "source": "__test_req__",
+            "text": "test_req",
+            "owners": [
+              {
+                "kind": "node",
+                "id": "__test_req__"
+              }
+            ]
+          },
+          {
+            "source": "*italicized text* **bold text**",
+            "text": "italicized text bold text",
+            "owners": [
+              {
+                "kind": "requirement-field",
+                "id": "__test_req__",
+                "field": "text"
+              }
+            ]
+          }
+        ],
         "definitions": [
           {
             "name": "__test_req__",
             "kind": "requirement",
             "fields": {
               "id": "1",
-              "text": "*italicized text* **bold text**",
+              "text": "italicized text bold text",
               "risk": "high",
               "verifymethod": "test"
             }
@@ -39176,7 +39425,7 @@
       "nodes": [
         {
           "id": "__test_req__",
-          "label": "__test_req__"
+          "label": "test_req"
         }
       ],
       "edges": []
@@ -39190,7 +39439,8 @@
         "visible-labels",
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
-        "fact:definitions"
+        "fact:definitions",
+        "fact:markdown-source-labels"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -46663,7 +46913,7 @@
       "labels": [
         "First",
         "second",
-        "NamedComposite",
+        "Another Composite",
         "Another simple"
       ],
       "facts": {
@@ -46756,7 +47006,7 @@
         },
         {
           "id": "NamedComposite",
-          "label": "NamedComposite"
+          "label": "Another Composite"
         },
         {
           "id": "[start:NamedComposite]",
@@ -46815,7 +47065,7 @@
         },
         {
           "id": "NamedComposite",
-          "label": "NamedComposite",
+          "label": "Another Composite",
           "members": [
             "[start:NamedComposite]",
             "namedSimple",
@@ -47312,7 +47562,6 @@
       "labels": [
         "if n < 0",
         "if n >= 0",
-        "if_state",
         "IsPositive",
         "False",
         "True"
@@ -47351,7 +47600,7 @@
       "nodes": [
         {
           "id": "if_state",
-          "label": "if_state"
+          "label": ""
         },
         {
           "id": "[start:root]",
@@ -47419,10 +47668,8 @@
     "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
     "expected": {
       "labels": [
-        "fork_state",
         "State2",
         "State3",
-        "join_state",
         "State4"
       ],
       "facts": {
@@ -47472,7 +47719,7 @@
       "nodes": [
         {
           "id": "fork_state",
-          "label": "fork_state"
+          "label": ""
         },
         {
           "id": "[start:root]",
@@ -47488,7 +47735,7 @@
         },
         {
           "id": "join_state",
-          "label": "join_state"
+          "label": ""
         },
         {
           "id": "State4",
@@ -47715,11 +47962,30 @@
         "parallel-regions": [
           {
             "scope": "Active",
-            "region": 1
+            "region": 0,
+            "members": [
+              "[start:Active]",
+              "NumLockOff",
+              "NumLockOn"
+            ]
           },
           {
             "scope": "Active",
-            "region": 2
+            "region": 1,
+            "members": [
+              "[start:Active:region-1]",
+              "CapsLockOff",
+              "CapsLockOn"
+            ]
+          },
+          {
+            "scope": "Active",
+            "region": 2,
+            "members": [
+              "[start:Active:region-2]",
+              "ScrollLockOff",
+              "ScrollLockOn"
+            ]
           }
         ]
       },
@@ -56491,7 +56757,7 @@
           "target": "Person",
           "directed": true,
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "triangle"
         },
         {
           "source": "Checkout",
@@ -56514,7 +56780,7 @@
           "target": "Checkout",
           "directed": true,
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "triangle"
         }
       ],
       "advisoryFacts": {
@@ -56742,7 +57008,8 @@
             "owners": [
               {
                 "kind": "note",
-                "target": "Login"
+                "target": "Login",
+                "index": 0
               }
             ]
           }
@@ -57714,7 +57981,8 @@
             "owners": [
               {
                 "kind": "note",
-                "target": "Checkout"
+                "target": "Checkout",
+                "index": 0
               }
             ]
           }
@@ -58819,6 +59087,26 @@
       ],
       "facts": {
         "title": "Tea Shop Value Chain",
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
+          }
+        ],
         "components": [
           {
             "name": "Business",
@@ -58932,6 +59220,7 @@
         "fact:components",
         "fact:evolution",
         "fact:links",
+        "fact:map-axes",
         "fact:notes",
         "fact:title"
       ],
@@ -58955,6 +59244,26 @@
           1100,
           600
         ],
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
+          }
+        ],
         "components": [],
         "links": []
       }
@@ -58968,6 +59277,7 @@
         "visible-labels",
         "fact:components",
         "fact:links",
+        "fact:map-axes",
         "fact:size",
         "fact:title"
       ],
@@ -58990,6 +59300,26 @@
       ],
       "facts": {
         "title": "Coordinate Examples",
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
+          }
+        ],
         "components": [
           {
             "name": "Infrastructure",
@@ -59028,6 +59358,7 @@
         "visible-labels",
         "fact:components",
         "fact:links",
+        "fact:map-axes",
         "fact:title"
       ],
       "unresolved": [],
@@ -59049,6 +59380,26 @@
       ],
       "facts": {
         "title": "Components",
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
+          }
+        ],
         "components": [
           {
             "name": "API",
@@ -59091,6 +59442,7 @@
         "visible-labels",
         "fact:components",
         "fact:links",
+        "fact:map-axes",
         "fact:title"
       ],
       "unresolved": [],
@@ -59111,6 +59463,26 @@
       ],
       "facts": {
         "title": "Hyphenated Names",
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
+          }
+        ],
         "components": [
           {
             "name": "real-time processing",
@@ -59148,6 +59520,7 @@
         "visible-labels",
         "fact:components",
         "fact:links",
+        "fact:map-axes",
         "fact:title"
       ],
       "unresolved": [],
@@ -59169,6 +59542,26 @@
       ],
       "facts": {
         "title": "Anchors",
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
+          }
+        ],
         "components": [
           {
             "name": "Customer",
@@ -59220,6 +59613,7 @@
         "visible-labels",
         "fact:components",
         "fact:links",
+        "fact:map-axes",
         "fact:title"
       ],
       "unresolved": [],
@@ -59240,6 +59634,26 @@
       ],
       "facts": {
         "title": "Inertia",
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
+          }
+        ],
         "components": [
           {
             "name": "Legacy System",
@@ -59278,6 +59692,7 @@
         "visible-labels",
         "fact:components",
         "fact:links",
+        "fact:map-axes",
         "fact:title"
       ],
       "unresolved": [],
@@ -59301,6 +59716,26 @@
       ],
       "facts": {
         "title": "Sourcing Strategy",
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
+          }
+        ],
         "components": [
           {
             "name": "Customer",
@@ -59384,6 +59819,7 @@
         "visible-labels",
         "fact:components",
         "fact:links",
+        "fact:map-axes",
         "fact:title"
       ],
       "unresolved": [],
@@ -59408,6 +59844,26 @@
       ],
       "facts": {
         "title": "Link Types",
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
+          }
+        ],
         "components": [
           {
             "name": "User",
@@ -59493,6 +59949,7 @@
         "visible-labels",
         "fact:components",
         "fact:links",
+        "fact:map-axes",
         "fact:title"
       ],
       "unresolved": [],
@@ -59513,6 +59970,26 @@
       ],
       "facts": {
         "title": "Evolution",
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
+          }
+        ],
         "components": [
           {
             "name": "Database",
@@ -59561,6 +60038,7 @@
         "fact:components",
         "fact:evolution",
         "fact:links",
+        "fact:map-axes",
         "fact:title"
       ],
       "unresolved": [],
@@ -59584,6 +60062,26 @@
       ],
       "facts": {
         "title": "Pipeline Evolution",
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
+          }
+        ],
         "components": [
           {
             "name": "Database",
@@ -59641,6 +60139,7 @@
         "visible-labels",
         "fact:components",
         "fact:links",
+        "fact:map-axes",
         "fact:pipelines",
         "fact:title"
       ],
@@ -59679,6 +60178,26 @@
           },
           {
             "label": "Modelled"
+          }
+        ],
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
           }
         ],
         "components": [
@@ -59720,6 +60239,7 @@
         "fact:components",
         "fact:evolution-stages",
         "fact:links",
+        "fact:map-axes",
         "fact:title"
       ],
       "unresolved": [],
@@ -59758,6 +60278,26 @@
           },
           {
             "label": "Commodity / Accepted"
+          }
+        ],
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
           }
         ],
         "components": [
@@ -59807,6 +60347,7 @@
         "fact:components",
         "fact:evolution-stages",
         "fact:links",
+        "fact:map-axes",
         "fact:title"
       ],
       "unresolved": [],
@@ -59848,6 +60389,26 @@
           {
             "label": "Commodity",
             "position": 1
+          }
+        ],
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
           }
         ],
         "components": [
@@ -59897,6 +60458,7 @@
         "fact:components",
         "fact:evolution-stages",
         "fact:links",
+        "fact:map-axes",
         "fact:title"
       ],
       "unresolved": [],
@@ -59919,6 +60481,26 @@
       ],
       "facts": {
         "title": "Notes",
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
+          }
+        ],
         "components": [
           {
             "name": "API",
@@ -59972,6 +60554,7 @@
         "visible-labels",
         "fact:components",
         "fact:links",
+        "fact:map-axes",
         "fact:notes",
         "fact:title"
       ],
@@ -60003,6 +60586,26 @@
         "annotation-legend-position": [
           0.1,
           0.9
+        ],
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
+          }
         ],
         "components": [
           {
@@ -60086,6 +60689,7 @@
         "fact:annotations",
         "fact:components",
         "fact:links",
+        "fact:map-axes",
         "fact:title"
       ],
       "unresolved": [],
@@ -60109,6 +60713,26 @@
       ],
       "facts": {
         "title": "Forces",
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
+          }
+        ],
         "components": [
           {
             "name": "Legacy",
@@ -60179,6 +60803,7 @@
         "fact:annotations",
         "fact:components",
         "fact:links",
+        "fact:map-axes",
         "fact:title"
       ],
       "unresolved": [],
@@ -60201,6 +60826,26 @@
           800,
           1000
         ],
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
+          }
+        ],
         "components": [],
         "links": []
       }
@@ -60214,6 +60859,7 @@
         "visible-labels",
         "fact:components",
         "fact:links",
+        "fact:map-axes",
         "fact:size",
         "fact:title"
       ],
@@ -60279,6 +60925,26 @@
         "annotation-legend-position": [
           0.1,
           0.2
+        ],
+        "map-axes": [
+          {
+            "axis": "x",
+            "quantity": "evolution",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "right"
+          },
+          {
+            "axis": "y",
+            "quantity": "visibility",
+            "range": [
+              0,
+              1
+            ],
+            "increases": "up"
+          }
         ],
         "components": [
           {
@@ -60479,6 +61145,7 @@
         "fact:evolution",
         "fact:evolution-stages",
         "fact:links",
+        "fact:map-axes",
         "fact:notes",
         "fact:size",
         "fact:title"
@@ -60830,6 +61497,50 @@
               24
             ]
           }
+        ],
+        "displayed-bar-values": [
+          {
+            "series": 0,
+            "index": 0,
+            "category": "comedy",
+            "value": 12,
+            "placement": "inside"
+          },
+          {
+            "series": 0,
+            "index": 1,
+            "category": "romance",
+            "value": 2,
+            "placement": "inside"
+          },
+          {
+            "series": 0,
+            "index": 2,
+            "category": "mystery",
+            "value": 20,
+            "placement": "inside"
+          },
+          {
+            "series": 0,
+            "index": 3,
+            "category": "crime",
+            "value": 25,
+            "placement": "inside"
+          },
+          {
+            "series": 0,
+            "index": 4,
+            "category": "non fiction",
+            "value": 17,
+            "placement": "inside"
+          },
+          {
+            "series": 0,
+            "index": 5,
+            "category": "other",
+            "value": 24,
+            "placement": "inside"
+          }
         ]
       }
     },
@@ -60841,6 +61552,7 @@
       "requiredObligations": [
         "visible-labels",
         "fact:authored-config",
+        "fact:displayed-bar-values",
         "fact:orientation",
         "fact:series",
         "fact:title",
@@ -60903,6 +61615,50 @@
               24
             ]
           }
+        ],
+        "displayed-bar-values": [
+          {
+            "series": 0,
+            "index": 0,
+            "category": "comedy",
+            "value": 12,
+            "placement": "outside"
+          },
+          {
+            "series": 0,
+            "index": 1,
+            "category": "romance",
+            "value": 2,
+            "placement": "outside"
+          },
+          {
+            "series": 0,
+            "index": 2,
+            "category": "mystery",
+            "value": 20,
+            "placement": "outside"
+          },
+          {
+            "series": 0,
+            "index": 3,
+            "category": "crime",
+            "value": 25,
+            "placement": "outside"
+          },
+          {
+            "series": 0,
+            "index": 4,
+            "category": "non fiction",
+            "value": 17,
+            "placement": "outside"
+          },
+          {
+            "series": 0,
+            "index": 5,
+            "category": "other",
+            "value": 24,
+            "placement": "outside"
+          }
         ]
       }
     },
@@ -60914,6 +61670,7 @@
       "requiredObligations": [
         "visible-labels",
         "fact:authored-config",
+        "fact:displayed-bar-values",
         "fact:orientation",
         "fact:series",
         "fact:title",
@@ -61175,6 +61932,92 @@
               6000
             ]
           }
+        ],
+        "displayed-bar-values": [
+          {
+            "series": 0,
+            "index": 0,
+            "category": "jan",
+            "value": 5000,
+            "placement": "inside"
+          },
+          {
+            "series": 0,
+            "index": 1,
+            "category": "feb",
+            "value": 6000,
+            "placement": "inside"
+          },
+          {
+            "series": 0,
+            "index": 2,
+            "category": "mar",
+            "value": 7500,
+            "placement": "inside"
+          },
+          {
+            "series": 0,
+            "index": 3,
+            "category": "apr",
+            "value": 8200,
+            "placement": "inside"
+          },
+          {
+            "series": 0,
+            "index": 4,
+            "category": "may",
+            "value": 9500,
+            "placement": "inside"
+          },
+          {
+            "series": 0,
+            "index": 5,
+            "category": "jun",
+            "value": 10500,
+            "placement": "inside"
+          },
+          {
+            "series": 0,
+            "index": 6,
+            "category": "jul",
+            "value": 11000,
+            "placement": "inside"
+          },
+          {
+            "series": 0,
+            "index": 7,
+            "category": "aug",
+            "value": 10200,
+            "placement": "inside"
+          },
+          {
+            "series": 0,
+            "index": 8,
+            "category": "sep",
+            "value": 9200,
+            "placement": "inside"
+          },
+          {
+            "series": 0,
+            "index": 9,
+            "category": "oct",
+            "value": 8500,
+            "placement": "inside"
+          },
+          {
+            "series": 0,
+            "index": 10,
+            "category": "nov",
+            "value": 7000,
+            "placement": "inside"
+          },
+          {
+            "series": 0,
+            "index": 11,
+            "category": "dec",
+            "value": 6000,
+            "placement": "inside"
+          }
         ]
       }
     },
@@ -61186,6 +62029,7 @@
       "requiredObligations": [
         "visible-labels",
         "fact:authored-config",
+        "fact:displayed-bar-values",
         "fact:orientation",
         "fact:series",
         "fact:title",
