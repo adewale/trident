@@ -3,8 +3,9 @@ import type { AuthoredFidelityCase, MeaningExpectation } from '../fidelity/meani
 import { assessSvgCases } from '../fidelity/svg-assessment.ts'
 import type { PaintCheck } from '../fidelity/paint.ts'
 import type { BenchmarkObservation } from './types.ts'
+import { docsSourcePin, docsSourceReviewProtocol, requiredDocumentationObligations, type DocsSourceReview } from './docs-source-review.ts'
 
-export interface DocsDrawingReview { id: string; sourceSha256: string; intent: 'drawing' | 'configuration-only'; family: string; expected?: MeaningExpectation; unverifiedFacts?: string[]; review: string }
+export interface DocsDrawingReview { id: string; sourceSha256: string; intent: 'drawing' | 'configuration-only'; family: string; expected?: MeaningExpectation; unverifiedFacts?: string[]; review: string; sourceReview?: DocsSourceReview }
 export interface DocsInput { id: string; source: string; family: string }
 export const sourceHash = (source: string) => createHash('sha256').update(source).digest('hex')
 
@@ -14,10 +15,12 @@ export function admitDocsReviews(inputs: readonly DocsInput[], reviews: readonly
   const byId = new Map<string, DocsDrawingReview>()
   for (const review of reviews) {
     const input = inputs.find(item => item.id === review.id)
-    if (byId.has(review.id) || !input || sourceHash(input.source) !== review.sourceSha256 || !review.review?.trim() || !['drawing', 'configuration-only'].includes(review.intent) || !review.family || review.intent === 'drawing' && (!Array.isArray(review.expected?.labels) || review.expected.labels.some(label => typeof label !== 'string') || !review.expected.labels.length && !review.expected.nodes?.length && !Object.keys(review.expected.facts ?? {}).length)) throw Error('Missing, duplicate or stale documentation drawing review: ' + review.id)
+    const source = review.sourceReview
+    if (source && (source.protocol !== docsSourceReviewProtocol || source.sourcePin !== docsSourcePin || !source.method?.trim() || typeof source.expectedFactsComplete !== 'boolean' || !Array.isArray(source.requiredObligations) || !Array.isArray(source.unresolved) || !Array.isArray(source.excludedNonvisual) || [...source.requiredObligations, ...source.unresolved, ...source.excludedNonvisual].some(value => typeof value !== 'string' || !value.trim()) || new Set(source.requiredObligations).size !== source.requiredObligations.length || JSON.stringify(source.requiredObligations) !== JSON.stringify(requiredDocumentationObligations(review.expected)) || source.expectedFactsComplete && (source.unresolved.length > 0 || !!review.unverifiedFacts?.length || review.intent === 'drawing' && !source.requiredObligations.length))) throw Error('Incomplete, contradictory or stale documentation source contract: ' + review.id)
+    if (byId.has(review.id) || !input || sourceHash(input.source) !== review.sourceSha256 || !review.review?.trim() || !['drawing', 'configuration-only'].includes(review.intent) || !review.family || review.intent === 'drawing' && (!Array.isArray(review.expected?.labels) || review.expected.labels.some(label => typeof label !== 'string') || !review.expected.labels.length && !review.expected.nodes?.length && !Object.keys(review.expected.facts ?? {}).length && source?.expectedFactsComplete !== false)) throw Error('Missing, duplicate or stale documentation drawing review: ' + review.id)
     byId.set(review.id, review)
   }
-  return inputs.map(input => ({ id: input.id, family: input.family, sourceSha256: sourceHash(input.source), intent: byId.get(input.id)?.intent ?? 'unreviewed', review: byId.get(input.id) ?? null }))
+  return inputs.map(input => { const review = byId.get(input.id); return { id: input.id, family: input.family, sourceSha256: sourceHash(input.source), intent: review?.sourceReview?.expectedFactsComplete === false ? 'source-review-pending' : review?.intent ?? 'unreviewed', review: review ?? null } })
 }
 
 export function reviewedDocsCase(input: DocsInput, review: DocsDrawingReview): AuthoredFidelityCase {
@@ -29,6 +32,7 @@ export function assessDocsDrawing(input: DocsInput, review: DocsDrawingReview | 
   if (!review) return { status: 'unknown', reason: 'No reviewed source expectation; SVG return supplies no correctness credit' }
   if (review.id !== input.id || review.sourceSha256 !== sourceHash(input.source)) throw Error('Stale documentation source review')
   if (review.intent === 'configuration-only') return { status: 'not-applicable', reason: review.review }
+  if (review.sourceReview?.expectedFactsComplete === false) return { status: 'unknown', reason: 'Source expectations are incomplete: ' + review.sourceReview.unresolved.join('; ') }
   if (publicStatus !== 'passed') return { status: 'unknown', reason: 'Public call did not supply an inspectable SVG; see the separate render outcome' }
   const authored = reviewedDocsCase(input, review)
   const row = (surface: string, operation: string, status: BenchmarkObservation['status']): BenchmarkObservation => ({ suite: 'docs', surface, runtime: 'Chromium', family: authored.family, caseId: input.id + ':' + operation, operation, format: 'svg', mode: 'reviewed-documentation-content', status, metrics: { authoredCase: input.id } })
