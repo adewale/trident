@@ -23,12 +23,14 @@ animation properties stay in projection provenance and the complete native
 profile. Correct PNG results disclose the named exclusions and certify only the
 complete static frame, never animation or accessible DOM behavior.
 
-Nine canonical source occurrences currently need this format projection; the
-other 539 PNG expectation identities remain unchanged. Both direct PNG review and
-the strong SVG-preservation path use the projected static contract. The strong
-path freshly inspects that contract against its exact retained raster-input SVG;
-it cannot omit static paint checks or import an SVG lane's temporal verdict.
-Unknown/custom animation syntax receives no implicit weaker contract.
+Named projections apply only to their exact registered source contracts. The
+nine animation/ARIA occurrences retain their pinned static invariants; any further
+source-specific geometry projection must have its own independently reviewed
+policy and hash. Both direct PNG review and the strong SVG-preservation path use
+the projected static contract. The strong path freshly inspects that contract
+against its exact retained raster-input SVG; it cannot omit static paint checks
+or import an SVG lane's temporal verdict. Unknown/custom syntax receives no
+implicit weaker contract.
 
 ## Exact reviewed pixels
 
@@ -58,6 +60,74 @@ No Codex/API call occurs during replay. Changed images still need a qualified
 content checker or a new independent source-grounded review. These changes do not
 implement a general native-PNG semantic oracle, OCR validation or aesthetic score.
 
+## Offline image review and transport ownership
+
+`importOfflinePngReviews` admits independently authored full-source image review
+receipts. Each retains the literal input, exact reviewed source contract, saved
+PNG expectation hash, actual original PNG hash/dimensions, the native-size
+inspection-packet hash and reviewer provenance. A named format projection must
+also retain its exact explicitly reviewed policy snapshot. Recomputing a new
+hash over an old source object cannot upgrade the old saved review hash.
+
+`unified/import-png-reviews.ts` materializes only supplied current receipts,
+checking actual retained image and packet bytes. Packet names resolve inside
+each receipt file's own evidence directory. Identical actual bytes returned by
+two projects retain separate inspection receipts; conflicting verdicts for the
+same source/image are rejected. The importer authors no image verdict and calls
+no project renderer or Codex/API.
+
+Content and transport evidence have separate roles. Modern ownership binds the
+actual project, literal case, round, immutable raw return and causal invocation
+frames. An explicitly audited legacy native receipt can instead establish only
+content ownership from the sealed source inventory, exact literal input job,
+original per-source returns and PNG bytes. It never invents a clock or an SVG.
+A complete independent native PNG image review remains sufficient for content;
+SVG capability is not a prerequisite.
+
+## Same-call static SVG observation
+
+`observeOwnedPngSvgStaticFrame` can use a complete positive independent PNG review
+to observe the static painted frame of its exact same-call rasterized SVG. It
+requires current source/PNG expectation hashes, original inspected bytes, actual
+raw SVG-to-PNG ownership, both exact SVG witnesses and a qualified capture
+profile. It accepts every eligible SVG-producing project through that project's
+frozen browser entry and actual journal; a native-only PNG or a generated
+reference image supplies no SVG credit.
+
+The normal PNG collector records optional font and fontconfig bytes before and
+after collection, exact context/result identities and the committed producer
+closure. Capturev2 freezes the pre-call journal baseline, then covers only actual
+new starts and their causal outcomes. A resumed or appended old return cannot
+borrow a later font snapshot. Missing fontconfig withholds this extra profile
+while raw calls and outputs remain retained. The audited original548 external
+collection has separate compatibility evidence reconstructing its exact original
+checkpoint identity and finite returned-attempt list; no timestamps are added.
+
+A disconnected browser document audits the exact bounded HTML-to-XML
+serialization, intrinsic sizing and frozen owned-image inlining used for that
+capture. The original public SVG stays retained without edits. Nested SVG icons
+are permitted within one standalone outer root. Transfer to original-SVG paint
+additionally requires unchanged intrinsic sizing and strict namespace,
+attribute and text-tree equivalence; valid XML alone is insufficient because HTML
+repair can move text into a differently styled element.
+
+`mergeOwnedPngSvgStaticChecks` supplements only existing unavailable criteria on
+an explicit static painted checklist and the current source's planned ledger.
+Every contrary check remains a conflict. Missing structural, security, resource,
+font-identity, size/configuration, ARIA and motion evidence remains independently
+required. Historical observer checks retain their original provenance; final
+current SVG qualification requires a fresh final-observer pass over the entire
+declared corpus. This is a rasterized-SVG static-frame claim, with any qualified
+original transfer stated separately. It never supplies an independent resvg
+preservation certificate.
+
+The exporter inlines only exact collector-owned image-resource bytes before
+rasterization. This repairs the external-image case where the original SVG paints
+correctly in a normal browser DOM but SVG decoded as an Image cannot fetch its
+nested external URL. The explicit conversion policy, resource identity and
+inlining stage are retained; an exporter repair does not imply a project engine
+improvement.
+
 ## SVG-to-PNG preservation
 
 The browser exporter returns both the original public SVG and the exact SVG
@@ -85,13 +155,16 @@ alongside it. Pixel inequality withholds this preservation certificate; it does
 not automatically prove a semantic error, since different rasterizers may paint
 valid SVG differently. Direct reviewed-PNG evidence remains independent.
 
-## Required qualification still outstanding
+## Coverage and remaining qualification
 
-Full-corpus PNG accuracy is blocked until the complete source obligations and
-image evidence cover that corpus. The canonical decoder and preservation
-constructor enforce evidence requirements; they do not create missing independent
-content judgments. Native PNG-only implementations never require an SVG API to
-supply their own independently checked image evidence.
+The full548 documentation workload now has retained native-size image inspection
+receipts for the minimum two-project cohort, with per-case current-hash selection
+and explicit unresolved facts. The current selection audit and published evidence
+manifest define the actual covered decisions; inspection totals alone do not make
+every image correct or the corpus rankable. Source-policy changes, conflicting
+observations and incomplete source/image facts remain visible unknowns until
+independently resolved. The decoder, binding and preservation constructors enforce
+evidence requirements; they never create missing content judgments.
 
 ## Running the preservation check
 
@@ -140,13 +213,11 @@ The rechecker needs both exact conversion SVG witnesses in the original receipt.
 An older run that retained only a PNG cannot acquire a conversion proof from an
 unrelated SVG run. It can still replay its own complete image review.
 
-The initial retained image collection contains 221 reviews across 16 reviewed source
-drawings. Those reviews establish only their original source/expectation profile;
-they do not cover all 548 documentation occurrences, and adding newly inventoried
-facts changes their expectation identity. Extending source reviews does not
-silently upgrade any old image review. There is still no independent general
-native-raster observer for labels, arrows, chart values, grouping and clipping
-across the full documentation corpus. Each unreviewed or changed actual image
-therefore needs a qualified checker or an independent complete image review.
-Exact pixel replay and strict conversion proof reduce repeated review work; they
-do not remove this remaining content-oracle gap or make a full PNG accuracy claim.
+The initial221 reviews across16 drawings remain historical. Full-corpus offline
+review receipts and their actual image/packet witnesses are retained separately;
+only exact current source/image/format contracts can select them. There is no
+independent general native-raster oracle for arbitrary diagrams. Changed actual
+pixels or newly qualified facts still require a qualified checker or a fresh
+complete source-grounded image decision. The published archive and selection
+audit enumerate every remaining case and reason. Exact pixel replay and strict
+conversion proof reduce repeated review work without replacing that evidence.
