@@ -3,9 +3,35 @@
 ## Unreleased
 
 The first public 0.1 release is still in preparation. The changes below describe
-current main; baseline reconciliation and release publication remain pending.
+the implementation and retained evidence; accuracy qualification and release
+publication remain pending.
 
 ### Benchmarks and measurement
+
+- Freeze all 548 DaveBench syntax-documentation occurrences, including 546
+  distinct sources, with exact source hashes and structured expectations. Retain
+  544 transcribed drawing contracts, one configuration-only fence and three
+  unresolved source interpretations. Source coverage supplies no output pass.
+- Require every declared drawing fact, actual output hash and observer identity
+  for correctness. Missing projections remain unknown instead of shrinking the
+  criterion denominator. Independent source audits fixed grammar, geometry,
+  containment, activation and source-order transcription defects.
+- Bind reviewed PNG evidence to exact canonical RGBA16 samples and display
+  metadata. Strict SVG-to-PNG preservation additionally requires the actual
+  rasterized SVG, frozen rasterizer/fonts and an independently reviewed reference
+  image. A native PNG without complete content evidence remains unknown.
+- Qualify 22 unchanged original Mermaid public parse/detector callbacks against
+  both the source runner and substituted public reference. Preserve the complete
+  4,060-declaration census separately; broader conformance remains unqualified.
+- Declare 318 required terminal source facts across the full 120-input corpus;
+  keep 116 positive drawings and four invalid controls separate. Expand bounded display-cell observers; the
+  46-source diagnostic subset is not a 46-pass result or complete accuracy claim.
+- Verify 16 public execution paths across six complementary project artifacts,
+  using 56 output calls and separate model operations. Bound harness collection
+  to five minutes after preparation; invocation coverage is not a quality score.
+- Add offline timing qualification over original per-call receipts, checked
+  outputs, equivalent matched work and A/A controls. Historical return-only
+  clocks remain unqualified.
 
 - Retain first-round DaveBench SVG witnesses and bind reviewed content checks to
   exact source bytes. Missing expectations remain unknown; successful SVG return
@@ -16,8 +42,8 @@ current main; baseline reconciliation and release publication remain pending.
 - Default campaigns to documentation and SVG correctness checks. Performance and
   optional model collection require explicit selection; retire Assertion Replay and
   the nonblank-only PNG exporter from new comparative runs. Keep reference tests explicit.
-- Prototype terminal flowchart correctness by tracing node boxes, continuous
-  directed routes and owned labels. ANSI state and unsupported cell layouts remain unknown.
+- Retain the earlier terminal flowchart prototype and its original results;
+  expanded terminal contracts do not rewrite that evidence.
 
 - Complete a targeted six-round Mermaid 12.2.0 DaveBench rerun: 547/548 SVG
   returns in every round, with the original image-decoding failure retained.
