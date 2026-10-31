@@ -97,12 +97,15 @@ export interface InvocationEvidence {
   recordedAt?: string
   /** Actual reported clock only; controller wall time is never substituted. */
   durationMs: number | null
+  /** Causal link to the exact durable pre-call frame, not array/file order. */
+  startedReceiptSha256?: string
   /** Controller-captured monotonic invocation envelope. Legacy or recovered
    * records without this context cannot qualify comparative timing. */
   measurement?: {
     planSha256: string; environmentSha256: string; boundary: string; track: string
     clockDomainId: string; executionInstanceId: string; sequence: number
     monotonicStartNs: string; monotonicFinishNs: string | null
+    apiStartNs: string | null; apiFinishNs: string | null
   }
   output: { sha256: string; bytes: number; path: string } | null
   streams?: { stdout: { sha256: string; bytes: number; path: string }; stderr: { sha256: string; bytes: number; path: string } }
@@ -117,10 +120,13 @@ export function admitInvocationEvidence(value: unknown): Readonly<InvocationEvid
   if (item.recordedAt !== undefined && !validTime(item.recordedAt)) fail('invocation receipt time is invalid')
   if (!validTime(item.startedAt) || !validTime(item.finishedAt) || item.startedAt !== null && item.finishedAt !== null && Date.parse(item.finishedAt) < Date.parse(item.startedAt)) fail('invocation clocks are invalid')
   if (item.durationMs !== null && (typeof item.durationMs !== 'number' || !Number.isFinite(item.durationMs) || item.durationMs < 0)) fail('invocation duration must be an actual finite measurement or null')
+  if (item.startedReceiptSha256 !== undefined && (!digest(item.startedReceiptSha256) || item.state === 'started' || item.state === 'not-invoked')) fail('terminal invocation start-receipt identity is invalid')
   if (item.measurement) {
     const clock = item.measurement, ns = (value: unknown) => typeof value === 'string' && /^(0|[1-9][0-9]{0,29})$/.test(value)
     if (!digest(clock.planSha256) || !digest(clock.environmentSha256) || !text(clock.boundary) || !text(clock.track) || !text(clock.clockDomainId) || !text(clock.executionInstanceId) || !Number.isSafeInteger(clock.sequence) || clock.sequence < 0 || !ns(clock.monotonicStartNs) || clock.monotonicFinishNs !== null && !ns(clock.monotonicFinishNs)) fail('invocation measurement context is invalid')
     if (clock.monotonicFinishNs !== null && BigInt(clock.monotonicFinishNs) < BigInt(clock.monotonicStartNs)) fail('monotonic invocation envelope runs backwards')
+    if (clock.apiStartNs !== null && !ns(clock.apiStartNs) || clock.apiFinishNs !== null && !ns(clock.apiFinishNs) || (clock.apiStartNs === null) !== (clock.apiFinishNs === null)) fail('public API clock bounds must be an actual complete pair or null')
+    if (item.state === 'started' && clock.apiStartNs !== null) fail('started invocation cannot contain a finished public API clock')
     if (item.state === 'started' && clock.monotonicFinishNs !== null) fail('started invocation has no finished clock')
   }
   if (item.output !== null && (!digest(item.output.sha256) || !text(item.output.path) || !Number.isSafeInteger(item.output.bytes) || item.output.bytes < 0)) fail('invocation output reference is invalid')

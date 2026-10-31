@@ -62,8 +62,10 @@ test('Pele 1.9 publishes with corrected raw medians; source pins and dependency 
   publishProjectRecord(store, record)
   const result = publishResults(store, out)
   expect(result.lanes[0]!.version).toBe('1.9.0')
-  expect(result.lanes[0]!.coreFirstMs).toBe(30)
-  expect(result.lanes[0]!.coreMedianMs).toBe(30)
+  expect(result.lanes[0]!.coreFirstMs).toBeNull()
+  expect(result.lanes[0]!.observedCoreFirstMs).toBe(30)
+  expect(result.lanes[0]!.coreMedianMs).toBeNull()
+  expect(result.lanes[0]!.observedCoreMedianMs).toBe(30)
   expect(readFileSync(join(out, 'README.md'), 'utf8')).toContain('| 1.9.0 |')
 })
 

@@ -68,7 +68,7 @@ export function qualifyTiming(plan: TimingPlan, samples: readonly TimingSample[]
     if (clock.environmentSha256 !== plan.environmentSha256 || clock.boundary !== plan.boundary || clock.track !== plan.track) fail('actual sample context differs from the declared host, boundary or track')
     if (clock.planSha256 !== planSha256) fail('actual sample belongs to a different predeclared plan')
     if (invocation.identity.coordinate !== JSON.stringify([planSha256, sample.round, sample.replica, sample.caseId, sample.sample])) fail('actual invocation belongs to a different planned sampling coordinate')
-    const replicaRound = JSON.stringify([sample.replica, sample.round]), owner = instanceOwners.get(clock.executionInstanceId)
+    const replicaRound = plan.track === 'first-use' ? coordinate : JSON.stringify([sample.replica, sample.round]), owner = instanceOwners.get(clock.executionInstanceId)
     if (owner && owner !== replicaRound) gaps.add('Independent replicas and rounds cannot share an execution instance')
     if (instances.has(replicaRound) && instances.get(replicaRound) !== clock.executionInstanceId) gaps.add('A replica/round cannot silently mix execution instances')
     instances.set(replicaRound, clock.executionInstanceId); instanceOwners.set(clock.executionInstanceId, replicaRound)
@@ -84,6 +84,9 @@ export function qualifyTiming(plan: TimingPlan, samples: readonly TimingSample[]
     if (invocation.durationMs > finish - start + 2) fail('API duration exceeds its invocation interval')
     const monoStart = BigInt(clock.monotonicStartNs), monoFinish = BigInt(clock.monotonicFinishNs)
     if (monoFinish <= monoStart || invocation.durationMs > Number(monoFinish - monoStart) / 1e6 + .000001) fail('API duration exceeds its monotonic invocation envelope')
+    if (clock.apiStartNs === null || clock.apiFinishNs === null) { gaps.add('The public API clock must be captured by the timed-call producer, not an arbitrary reported duration'); continue }
+    const apiStart = BigInt(clock.apiStartNs), apiFinish = BigInt(clock.apiFinishNs)
+    if (apiStart < monoStart || apiFinish > monoFinish || apiFinish <= apiStart || Math.abs(invocation.durationMs - Number(apiFinish - apiStart) / 1e6) > .000001) fail('reported duration differs from the captured public API clock')
     windows.push({ start: monoStart, finish: monoFinish, sequence: clock.sequence, domain: clock.clockDomainId })
     durations.set(coordinate, invocation.durationMs)
   }
@@ -97,7 +100,7 @@ export function qualifyTiming(plan: TimingPlan, samples: readonly TimingSample[]
     if (frames.length !== samples.length * 2 || new Set(frames.map(frame => frame.attemptId + ':' + frame.state)).size !== frames.length) gaps.add('Raw journal includes missing, duplicated, extra or interrupted attempts')
     for (const sample of samples) {
       const own = frames.filter(frame => frame.attemptId === sample.invocation.attemptId), start = own.find(frame => frame.state === 'started'), finish = own.find(frame => frame.state === 'returned')
-      if (own.length !== 2 || !start || !finish || evidenceDigest(finish) !== evidenceDigest(sample.invocation) || evidenceDigest(start.identity) !== evidenceDigest(finish.identity) || evidenceDigest(start.measurement ?? null) !== evidenceDigest(finish.measurement ? { ...finish.measurement, monotonicFinishNs: null } : null)) gaps.add('Selected sample lacks its exact durable raw start/return pair')
+      if (own.length !== 2 || !start || !finish || evidenceDigest(finish) !== evidenceDigest(sample.invocation) || finish.startedReceiptSha256 !== evidenceDigest(start) || start.startedAt !== finish.startedAt || start.recordedAt && finish.recordedAt && Date.parse(start.recordedAt) > Date.parse(finish.recordedAt) || evidenceDigest(start.identity) !== evidenceDigest(finish.identity) || evidenceDigest(start.measurement ?? null) !== evidenceDigest(finish.measurement ? { ...finish.measurement, monotonicFinishNs: null, apiStartNs: null, apiFinishNs: null } : null)) gaps.add('Selected sample lacks its exact durable causal start/return pair')
     }
   }
   if (samples.length !== planned || durations.size !== planned) gaps.add('The fixed case/replica/round/sample population is incomplete')
@@ -111,7 +114,7 @@ export function qualifyTiming(plan: TimingPlan, samples: readonly TimingSample[]
   const calibration = calibrate(rounds, plan.samplesPerRound, plan.maximumControlSpread)
   for (const gap of calibration.gaps) gaps.add(gap)
   const qualified = gaps.size === 0
-  return Object.freeze({ schema: 'trident-qualified-timing-v1' as const, status: qualified ? 'qualified' as const : 'unqualified' as const, planSha256: evidenceDigest(plan), samplesSha256: evidenceDigest(samples), comparisonKey: evidenceDigest({ cases: plan.cases, boundary: plan.boundary, format: plan.format, track: plan.track, environment: plan.environmentSha256, observer: plan.observerSha256, baseline: plan.artifacts.A0, rounds: plan.rounds, samples: plan.samplesPerRound }), project: plan.artifacts.B.project, caseIds: plan.cases.map(input => input.caseId), boundary: plan.boundary, format: plan.format, track: plan.track, environmentSha256: plan.environmentSha256, planned, checked: durations.size, gaps: [...gaps], perRoundMs: qualified ? rounds.map(round => median(round.B)) : null, medianMs: qualified ? median(rounds.flatMap(round => round.B)) : null, calibration, interpretation: 'Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim.' })
+  return Object.freeze({ schema: 'trident-qualified-timing-v1' as const, status: qualified ? 'qualified' as const : 'unqualified' as const, planSha256: evidenceDigest(plan), samplesSha256: evidenceDigest(samples), comparisonKey: evidenceDigest({ cases: plan.cases, boundary: plan.boundary, format: plan.format, track: plan.track, environment: plan.environmentSha256, observer: plan.observerSha256, baseline: plan.artifacts.A0, maximumControlSpread: plan.maximumControlSpread, rounds: plan.rounds, samples: plan.samplesPerRound }), project: plan.artifacts.B.project, caseIds: plan.cases.map(input => input.caseId), boundary: plan.boundary, format: plan.format, track: plan.track, environmentSha256: plan.environmentSha256, planned, checked: durations.size, gaps: [...gaps], perRoundMs: qualified ? rounds.map(round => median(round.B)) : null, medianMs: qualified ? median(rounds.flatMap(round => round.B)) : null, calibration, interpretation: 'Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim.' })
 }
 
 /** Consumers must recompute qualification from owned raw evidence. Never trust

@@ -1,12 +1,12 @@
 import { createHash } from 'node:crypto'
-import { existsSync, readFileSync, realpathSync } from 'node:fs'
-import { isAbsolute, join, relative, resolve } from 'node:path'
+import { existsSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { readBenchmarkDocument } from '../portable/project-records.ts'
 import { campaignResults, campaignProjectId, campaignArtifactRole, type CampaignEnvelope } from './campaign-publication.ts'
 import type { SnapshotTable } from './results-snapshot.ts'
 import type { PublicSuite } from './support.ts'
 import { summarizeSvgCases } from '../fidelity/svg-assessment.ts'
-import { timingFromRetainedBundle } from '../portable/qualified-timing.ts'
+import { qualifyRetainedTimingBundle } from './qualify-timing.ts'
 
 const measuredAt = (rows: any[], fallback: string): string => rows.map(row => row.metrics?.measuredAt).filter((value): value is string => typeof value === 'string' && Number.isFinite(Date.parse(value))).sort((a, b) => Date.parse(a) - Date.parse(b)).at(-1) ?? fallback
 const hash = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex')
@@ -50,12 +50,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
       for (const row of result.summary.timing) {
         if (!row.expectedAccepted) continue
         const bundle = result.qualifiedTimingBundles?.find((item: any) => item.plan?.cases?.length === 1 && item.plan.cases[0].caseId === row.caseId && item.plan.track === row.track)
-        const timing = timingFromRetainedBundle(bundle, output => {
-          const root = resolve(boundary.out!), file = resolve(root, output.path), path = relative(root, file)
-          const actual = relative(realpathSync(root), realpathSync(file))
-          if (isAbsolute(path) || path === '..' || path.startsWith('../') || isAbsolute(actual) || actual === '..' || actual.startsWith('../')) throw Error('Timing output is outside the owning retained evidence')
-          return readFileSync(file)
-        })
+        const timing = bundle ? qualifyRetainedTimingBundle(bundle, boundary.out) : null
         const qualified = timing?.status === 'qualified'
         add(['portable', cohort, row.caseId, row.track, result.protocol, result.sampling], 'portable', result.finishedAt,
           `${row.caseId}; ${row.track}. ${row.scope} Comparative latency requires complete source correctness for every retained timed output, a fixed corpus and binding, serialized calls and A/A calibration. Legacy output-only or first-output checks cannot qualify later samples.`,
