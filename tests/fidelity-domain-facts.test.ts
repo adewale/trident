@@ -215,3 +215,15 @@ test('Wardley label offsets bind the actual painted first-glyph baseline to its 
     expect(status(await inspect(file, { change: wrong }), 'components')).not.toBe('passed')
   }
 })
+
+test('empty Git branches retain owned names and documented lane order without invented native head dots', async () => {
+  for (const file of ['git-empty-order-mermaid.svg', 'git-empty-order-pele.svg', 'git-main-order-mermaid.svg', 'git-main-order-pele.svg', 'git-empty-branches-mermaid.svg', 'git-empty-branches-pele.svg']) {
+    const { expected } = contract(file), projected = structuredClone(expected)
+    for (const branch of projected.facts!.branches as any[]) if (!(projected.facts!.commits as any[]).some(commit => commit.branch === branch.id)) delete branch.head
+    expect(status(await inspect(file, { expected: projected }), 'branches')).toBe('passed')
+    if (file.startsWith('git-empty-order')) {
+      const wrong = `const a=[...document.querySelectorAll('text')].find(e=>e.textContent==='test1'),b=[...document.querySelectorAll('text')].find(e=>e.textContent==='test3');a.textContent='test3';b.textContent='test1'`
+      expect(status(await inspect(file, { expected: projected, change: wrong }), 'branches')).toBe('failed')
+    }
+  }
+})

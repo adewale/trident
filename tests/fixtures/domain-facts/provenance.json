@@ -1229,5 +1229,65 @@
     "sourceSha256": "09c79b2048641faa2d0103891e7e23e6c786d29fb7c9affd7a4f2831348a882a",
     "svgSha256": "732802cf12ce6fd64f09939171a24aaf714c69b673a524f87b2e5e3e5eb3e372",
     "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-campaign/fidelity/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/attempts/a3a8cb49-4701-4f67-bb59-7ef78beabbb0/14-meaning_family_radar.svg.gz"
+  },
+  {
+    "file": "git-empty-order-mermaid.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/gitgraph.md:521",
+    "family": "gitgraph",
+    "project": "mermaid-js/mermaid",
+    "version": "12.2.0",
+    "sourceSha256": "c3ee031fd6b06262a1f93cd39d93cf7a6c0d7463f4ff5a71ed01f61c8f0be01d",
+    "svgSha256": "a277ce5dde5c69888322b6e97e1f4942fb0d24eb2ffd4f2c0102dc09773aba4d",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/a277ce5dde5c69888322b6e97e1f4942fb0d24eb2ffd4f2c0102dc09773aba4d.svg.gz"
+  },
+  {
+    "file": "git-empty-order-pele.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/gitgraph.md:521",
+    "family": "gitgraph",
+    "project": "obsidianmd/pele",
+    "version": "1.9.0",
+    "sourceSha256": "c3ee031fd6b06262a1f93cd39d93cf7a6c0d7463f4ff5a71ed01f61c8f0be01d",
+    "svgSha256": "83ccda08bb47e998f61501681a9df571a56b24ef5c441923b9697120837e73ad",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/83ccda08bb47e998f61501681a9df571a56b24ef5c441923b9697120837e73ad.svg.gz"
+  },
+  {
+    "file": "git-main-order-mermaid.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/gitgraph.md:542",
+    "family": "gitgraph",
+    "project": "mermaid-js/mermaid",
+    "version": "12.2.0",
+    "sourceSha256": "f4cb5e4a6b1f525d45fdf295a707e08356c285f9088a5af16d2948943d63520c",
+    "svgSha256": "550fd6cb88ff99893d5e3eac21f96ac701d1d5c05e321a580e0ad564d055e2a7",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/550fd6cb88ff99893d5e3eac21f96ac701d1d5c05e321a580e0ad564d055e2a7.svg.gz"
+  },
+  {
+    "file": "git-main-order-pele.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/gitgraph.md:542",
+    "family": "gitgraph",
+    "project": "obsidianmd/pele",
+    "version": "1.9.0",
+    "sourceSha256": "f4cb5e4a6b1f525d45fdf295a707e08356c285f9088a5af16d2948943d63520c",
+    "svgSha256": "8d6f03e9f3277d93fd222df54e78d8b2fedb0a35bc6a3468ca9c0a2459593564",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/8d6f03e9f3277d93fd222df54e78d8b2fedb0a35bc6a3468ca9c0a2459593564.svg.gz"
+  },
+  {
+    "file": "git-empty-branches-mermaid.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/gitgraph.md:1049",
+    "family": "gitgraph",
+    "project": "mermaid-js/mermaid",
+    "version": "12.2.0",
+    "sourceSha256": "34f436ae888763914dd350b891ff6422dd5119216223b819bd595915dc3e74f9",
+    "svgSha256": "1ff7bce9fcc38e639e9710bceaaa3a59405f0c1ee7a1ac3fc6c97eaaffd2411e",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/1ff7bce9fcc38e639e9710bceaaa3a59405f0c1ee7a1ac3fc6c97eaaffd2411e.svg.gz"
+  },
+  {
+    "file": "git-empty-branches-pele.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/gitgraph.md:1049",
+    "family": "gitgraph",
+    "project": "obsidianmd/pele",
+    "version": "1.9.0",
+    "sourceSha256": "34f436ae888763914dd350b891ff6422dd5119216223b819bd595915dc3e74f9",
+    "svgSha256": "3ae6eed09fa0767e1482029fdb1181016e7356ba168f341189d0ae0907bd1060",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/3ae6eed09fa0767e1482029fdb1181016e7356ba168f341189d0ae0907bd1060.svg.gz"
   }
 ]
