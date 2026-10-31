@@ -1,5 +1,5 @@
 import { admitCaseEvidenceContract, admitCheckedEvidence, admitInvocationEvidence, constructEvidenceVerdict, evidenceBytesDigest, evidenceDigest, type CaseEvidenceContract, type CheckedEvidence, type InvocationEvidence } from './evidence-contract.ts'
-import { admitTimingGrading, type TimingGrading } from './timing-grading.ts'
+import { admitTimingGrading, materializeTimingSamples, type TimingGrading } from './timing-grading.ts'
 import { calibrate, median } from './statistics.ts'
 
 type Replica = 'A0' | 'A1' | 'B'
@@ -47,13 +47,14 @@ export function admitTimingPlan(value: TimingPlan): Readonly<TimingPlan> {
  * This never promotes first-output qualification to later calls. */
 export function qualifyTiming(plan: TimingPlan, samples: readonly TimingSample[], readOutput: (output: NonNullable<InvocationEvidence['output']>) => Uint8Array, journal?: readonly InvocationEvidence[], grading?: TimingGrading) {
   plan = admitTimingPlan(plan)
-  const active = grading ? admitTimingGrading(plan, samples, grading) : undefined, activeCases = active?.cases ?? plan.cases, activeObserver = active?.observerSha256 ?? plan.observerSha256
+  const active = grading ? admitTimingGrading(plan, samples, grading, journal) : undefined, measured = active ? materializeTimingSamples(plan, samples, journal) : samples, activeCases = active?.cases ?? plan.cases, activeObserver = active?.observerSha256 ?? plan.observerSha256
+  const originalAttempts = new Set(samples.map(sample => sample.invocation.attemptId))
   const planSha256 = evidenceDigest(plan), collectionCases = new Map(plan.cases.map(contract => [contract.caseId, contract])), gradingCases = new Map(activeCases.map(contract => [contract.caseId, contract])), freshChecks = new Map(active?.checks.map(row => [row.attemptId, row.checked]) ?? [])
   const gaps = new Set<string>(), seen = new Set<string>(), attempts = new Set<string>()
   const durations = new Map<string, number>()
   const instances = new Map<string, string>(), instanceOwners = new Map<string, string>()
   const windows: { start: bigint; finish: bigint; sequence: number; domain: string }[] = []
-  for (const sample of samples) {
+  for (const sample of measured) {
     if (!Number.isSafeInteger(sample.round) || sample.round < 1 || sample.round > plan.rounds || !Number.isSafeInteger(sample.sample) || sample.sample < 0 || sample.sample >= plan.samplesPerRound || !replicas.includes(sample.replica)) fail('sample is outside the frozen plan')
     const contract = collectionCases.get(sample.caseId)
     if (!contract) throw Error('Invalid qualified timing: sample source is outside the frozen corpus')
@@ -101,13 +102,13 @@ export function qualifyTiming(plan: TimingPlan, samples: readonly TimingSample[]
   else {
     const frames = journal.map(admitInvocationEvidence), byAttempt = new Map<string, Readonly<InvocationEvidence>[]>()
     for (const frame of frames) { const own = byAttempt.get(frame.attemptId) ?? []; own.push(frame); byAttempt.set(frame.attemptId, own) }
-    if (frames.length !== samples.length * 2 || new Set(frames.map(frame => frame.attemptId + ':' + frame.state)).size !== frames.length) gaps.add('Raw journal includes missing, duplicated, extra or interrupted attempts')
-    for (const sample of samples) {
+    if (frames.length !== measured.length * 2 || new Set(frames.map(frame => frame.attemptId + ':' + frame.state)).size !== frames.length) gaps.add('Raw journal includes missing, duplicated, extra or interrupted attempts')
+    for (const sample of measured) {
       const own = byAttempt.get(sample.invocation.attemptId) ?? [], start = own.find(frame => frame.state === 'started'), finish = own.find(frame => frame.state === 'returned')
       if (own.length !== 2 || !start || !finish || evidenceDigest(finish) !== evidenceDigest(sample.invocation) || finish.startedReceiptSha256 !== evidenceDigest(start) || start.startedAt !== finish.startedAt || start.recordedAt && finish.recordedAt && Date.parse(start.recordedAt) > Date.parse(finish.recordedAt) || evidenceDigest(start.identity) !== evidenceDigest(finish.identity) || evidenceDigest(start.measurement ?? null) !== evidenceDigest(finish.measurement ? { ...finish.measurement, monotonicFinishNs: null, apiStartNs: null, apiFinishNs: null } : null)) gaps.add('Selected sample lacks its exact durable causal start/return pair')
     }
   }
-  if (samples.length !== planned || durations.size !== planned) gaps.add('The fixed case/replica/round/sample population is incomplete')
+  if (measured.length !== planned || durations.size !== planned) gaps.add('The fixed case/replica/round/sample population is incomplete')
   const rounds = Array.from({ length: plan.rounds }, (_, index) => {
     const values = (replica: Replica) => Array.from({ length: plan.samplesPerRound }, (_, sample) => {
       const calls = plan.cases.map(input => durations.get(JSON.stringify([index + 1, replica, input.caseId, sample])))
@@ -118,7 +119,7 @@ export function qualifyTiming(plan: TimingPlan, samples: readonly TimingSample[]
   const calibration = calibrate(rounds, plan.samplesPerRound, plan.maximumControlSpread)
   for (const gap of calibration.gaps) gaps.add(gap)
   const qualified = gaps.size === 0
-  return Object.freeze({ schema: 'trident-qualified-timing-v1' as const, status: qualified ? 'qualified' as const : 'unqualified' as const, planSha256: evidenceDigest(plan), samplesSha256: evidenceDigest(samples), ...(active ? { gradingSha256: evidenceDigest(active), activeGrading: active, gradingHistory: { collectionPlan: structuredClone(plan), originalChecks: samples.map(sample => ({ attemptId: sample.invocation.attemptId, checked: structuredClone(sample.checked) })) } } : {}), comparisonKey: evidenceDigest({ grading: { cases: activeCases, observerSha256: activeObserver }, boundary: plan.boundary, format: plan.format, track: plan.track, environment: plan.environmentSha256, baseline: plan.artifacts.A0, maximumControlSpread: plan.maximumControlSpread, rounds: plan.rounds, samples: plan.samplesPerRound }), project: plan.artifacts.B.project, caseIds: plan.cases.map(input => input.caseId), boundary: plan.boundary, format: plan.format, track: plan.track, environmentSha256: plan.environmentSha256, planned, checked: durations.size, gaps: [...gaps], perRoundMs: qualified ? rounds.map(round => median(round.B)) : null, medianMs: qualified ? median(rounds.flatMap(round => round.B)) : null, calibration, interpretation: 'Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim.' })
+  return Object.freeze({ schema: 'trident-qualified-timing-v1' as const, status: qualified ? 'qualified' as const : 'unqualified' as const, planSha256: evidenceDigest(plan), samplesSha256: evidenceDigest(samples), ...(active ? { gradingSha256: evidenceDigest(active), activeGrading: active, recoveredInvocations: measured.filter(sample => !originalAttempts.has(sample.invocation.attemptId)).map(sample => sample.invocation.attemptId), gradingHistory: { collectionPlan: structuredClone(plan), originalChecks: samples.map(sample => ({ attemptId: sample.invocation.attemptId, checked: structuredClone(sample.checked) })) } } : {}), comparisonKey: evidenceDigest({ grading: { cases: activeCases, observerSha256: activeObserver }, boundary: plan.boundary, format: plan.format, track: plan.track, environment: plan.environmentSha256, baseline: plan.artifacts.A0, maximumControlSpread: plan.maximumControlSpread, rounds: plan.rounds, samples: plan.samplesPerRound }), project: plan.artifacts.B.project, caseIds: plan.cases.map(input => input.caseId), boundary: plan.boundary, format: plan.format, track: plan.track, environmentSha256: plan.environmentSha256, planned, checked: durations.size, gaps: [...gaps], perRoundMs: qualified ? rounds.map(round => median(round.B)) : null, medianMs: qualified ? median(rounds.flatMap(round => round.B)) : null, calibration, interpretation: 'Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim.' })
 }
 
 /** Consumers must recompute qualification from owned raw evidence. Never trust

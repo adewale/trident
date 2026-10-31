@@ -139,7 +139,7 @@ test('derived grading rejects nonempty subsets, new source bytes and collection-
     { ...policy, collectionPlanSha256: hash('different sampling plan') },
     { ...policy, rounds: 1 },
   ]) await expect(deriveTimingGrading(plan, samples, () => bytes, changed, freshlyInspect)).rejects.toThrow('derived timing grading')
-  const grading = await deriveTimingGrading(plan, samples, () => bytes, policy, freshlyInspect), journal = journalOf(samples)
+  const journal = journalOf(samples), grading = await deriveTimingGrading(plan, samples, () => bytes, policy, freshlyInspect)
   const result = qualifyTiming(plan, samples, () => bytes, journal, grading)
   expect(result).toMatchObject({ status: 'qualified', planned: 72, checked: 72 })
   const changed = structuredClone(samples); changed[2]!.invocation.attemptId = 'replacement UUID'
@@ -157,12 +157,72 @@ test('public offline timing reduction consumes explicit derived grading and pres
   const root = temp.dir(), file = join(root, 'derived-bundle.json'), output = join(root, 'actual.svg'), directory = join(root, 'journal'), data = fixture()
   writeFileSync(output, bytes)
   for (const sample of data.samples) sample.invocation.output!.path = output
-  const journal = new CollectionCheckpoint(directory, { schema: 'trident-invocation-journal-v1' })
-  for (const frame of journalOf(data.samples)) journal.record(frame.attemptId + ':' + frame.state, frame)
-  const grading = await deriveTimingGrading(data.plan, data.samples, () => bytes, freshPolicy(data.plan), freshlyInspect)
-  writeFileSync(file, JSON.stringify({ ...data, journalDirectory: 'journal', grading }))
+  const journal = new CollectionCheckpoint(directory, { schema: 'trident-invocation-journal-v1' }), frames = journalOf(data.samples)
+  for (const frame of frames) journal.record(frame.attemptId + ':' + frame.state, frame)
+  const partial = data.samples.slice(4), grading = await deriveTimingGrading(data.plan, partial, () => bytes, freshPolicy(data.plan), freshlyInspect, frames)
+  writeFileSync(file, JSON.stringify({ ...data, samples: partial, journalDirectory: 'journal', grading }))
   const before = readdirSync(root, { recursive: true }).sort(), result = qualifyRetainedTiming(file)
   expect(result).toMatchObject({ status: 'qualified', planSha256: evidenceDigest(data.plan), medianMs: 5 })
   expect(result?.activeGrading?.observerSha256).toBe(grading.observerSha256)
+  expect(result?.recoveredInvocations).toHaveLength(4)
   expect(readdirSync(root, { recursive: true }).sort()).toEqual(before)
+})
+
+
+test('derived grading binds original clocks and raw checks, including mutation during async inspection', async () => {
+  const { plan, samples } = fixture(), journal = journalOf(samples), grading = await deriveTimingGrading(plan, samples, () => bytes, freshPolicy(plan), freshlyInspect)
+  const changed = structuredClone(samples); changed[0]!.invocation.durationMs = 1
+  expect(() => qualifyTiming(plan, changed, () => bytes, journal, grading)).toThrow('original invocation clocks')
+  const oldCheckChanged = structuredClone(samples); oldCheckChanged[0]!.checked.checks = []
+  expect(() => qualifyTiming(plan, oldCheckChanged, () => bytes, journal, grading)).toThrow('collected checks changed')
+  await expect(deriveTimingGrading(plan, samples, () => bytes, freshPolicy(plan), input => { samples[0]!.invocation.durationMs = 1; return freshlyInspect(input) })).rejects.toThrow('original invocation clocks')
+})
+
+
+test('fresh grading recovers raw returns omitted by a crashed old observer without calling a renderer', async () => {
+  const { plan, samples } = fixture(), journal = journalOf(samples), missing = samples[17]!, partial = samples.filter(sample => sample !== missing), original = JSON.stringify({ plan, partial, journal }), inspected: string[] = []
+  // The old observer threw after the raw return had already been durably saved.
+  expect(qualifyTiming(plan, partial, () => bytes, journal).status).toBe('unqualified')
+  const grading = await deriveTimingGrading(plan, partial, () => bytes, freshPolicy(plan), input => { inspected.push(input.invocation.attemptId); return freshlyInspect(input) }, journal)
+  const result = qualifyTiming(plan, partial, () => bytes, journal, grading)
+  expect(result).toMatchObject({ status: 'qualified', planned: 36, checked: 36, medianMs: 5, samplesSha256: evidenceDigest(partial), recoveredInvocations: [missing.invocation.attemptId] })
+  expect(inspected.sort()).toEqual(samples.map(sample => sample.invocation.attemptId).sort())
+  expect(result.gradingHistory?.originalChecks).toHaveLength(35)
+  expect(result.gradingHistory?.originalChecks.some(row => row.attemptId === missing.invocation.attemptId)).toBe(false)
+  expect(JSON.stringify({ plan, partial, journal })).toBe(original)
+  expect(timingFromRetainedBundle({ plan, samples: partial, grading }, () => bytes, journal)?.status).toBe('qualified')
+  expect(() => qualifyTiming(plan, partial, () => bytes, journal, { ...grading, checks: grading.checks.filter(row => row.attemptId !== missing.invocation.attemptId) })).toThrow('every original invocation')
+  expect(() => qualifyTiming(plan, partial, () => bytes, journal, { ...grading, collectionJournalSha256: undefined })).toThrow('exact original exhaustive journal')
+  await expect(deriveTimingGrading(plan, partial, () => bytes, freshPolicy(plan), input => { if (input.invocation.attemptId === missing.invocation.attemptId) throw Error('replacement observer also crashed'); return freshlyInspect(input) }, journal)).rejects.toThrow('replacement observer also crashed')
+})
+
+test('recovery rejects changed raw history, contradictory rows and replaced sources or UUID coordinates', async () => {
+  const { plan, samples } = fixture(), journal = journalOf(samples), partial = samples.slice(1), grading = await deriveTimingGrading(plan, partial, () => bytes, freshPolicy(plan), freshlyInspect, journal)
+  const rawChanged = structuredClone(journal); rawChanged[0]!.detail = 'post-grading changed start receipt'
+  expect(() => qualifyTiming(plan, partial, () => bytes, rawChanged, grading)).toThrow('exact original exhaustive journal')
+  const contradict = structuredClone(partial); contradict[0]!.invocation.durationMs = 1
+  await expect(deriveTimingGrading(plan, contradict, () => bytes, freshPolicy(plan), freshlyInspect, journal)).rejects.toThrow('contradicts its raw invocation')
+  for (const mutate of [
+    (frame: InvocationEvidence) => { frame.identity.sourceSha256 = hash('substituted source') },
+    (frame: InvocationEvidence) => { frame.identity.coordinate = JSON.stringify([evidenceDigest(plan), 99, 'A0', plan.cases[0]!.caseId, 0]) },
+    (frame: InvocationEvidence) => { frame.measurement!.planSha256 = hash('different collection') },
+  ]) {
+    const changed = structuredClone(journal); mutate(changed[1]!)
+    await expect(deriveTimingGrading(plan, partial, () => bytes, freshPolicy(plan), freshlyInspect, changed)).rejects.toThrow('derived timing grading')
+  }
+  await expect(deriveTimingGrading(plan, partial, () => bytes, freshPolicy(plan), input => { journal[0]!.detail = 'modified during async grading'; return freshlyInspect(input) }, journal)).rejects.toThrow('exact original exhaustive journal')
+})
+
+test('raw recovery cannot select away missing, duplicate or interrupted public attempts', async () => {
+  const { plan, samples } = fixture(), journal = journalOf(samples), partial = samples.slice(1)
+  const missing = journal.slice(2), missingGrading = await deriveTimingGrading(plan, partial, () => bytes, freshPolicy(plan), freshlyInspect, missing)
+  expect(qualifyTiming(plan, partial, () => bytes, missing, missingGrading).status).toBe('unqualified')
+  const interrupted = [...journal, { ...journal[0]!, attemptId: 'extra-interrupted-public-attempt' }]
+  const interruptedGrading = await deriveTimingGrading(plan, partial, () => bytes, freshPolicy(plan), freshlyInspect, interrupted)
+  expect(qualifyTiming(plan, partial, () => bytes, interrupted, interruptedGrading).gaps.join(' ')).toContain('interrupted attempts')
+  const duplicate = [...journal, journal[1]!]
+  await expect(deriveTimingGrading(plan, partial, () => bytes, freshPolicy(plan), freshlyInspect, duplicate)).rejects.toThrow('every original invocation')
+  const extra = [...journal, { ...journal[1]!, attemptId: 'extra-return-same-source-and-coordinate' }]
+  const extraGrading = await deriveTimingGrading(plan, partial, () => bytes, freshPolicy(plan), freshlyInspect, extra)
+  expect(() => qualifyTiming(plan, partial, () => bytes, extra, extraGrading)).toThrow('duplicate sample coordinate')
 })

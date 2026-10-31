@@ -18,8 +18,12 @@ A repaired source contract or observer can derive new grading from the same
 collection. The policy names its original collection-plan hash, complete new
 contracts, observer, reason and grading-source identity. It keeps every source
 ID and source hash, artifact, sampling coordinate, invocation ID and clock.
-Fresh checks use the actual retained bytes; old checks stay in history. A subset,
-replacement diagram or changed clock needs another collection, not regrading.
+Fresh checks use the actual retained bytes; old checks stay in history. If the old
+observer crashed after a durable return, regrading recovers that invocation from
+the exhaustive journal and checks it too. Both the original partial sample list
+and full journal stay hash-bound; missing calls and interrupted attempts still
+withhold timing. A subset, replacement diagram or changed clock needs another
+collection, not regrading.
 Comparison keys include the active grading scope. Old passed rows cannot be
 promoted by replacing their hashes.
 
