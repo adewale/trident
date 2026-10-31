@@ -4,7 +4,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { once } from 'node:events'
 import { spawnSync } from 'node:child_process'
-import { collectQualifiedTiming, qualifiedTimingCoordinates, launchOwnedTimingBrowser, type QualifiedTimingPublicDriver, type ObserveTimedOutput } from '../portable/qualified-timing-collection.ts'
+import { collectQualifiedTiming, qualifiedTimingCoordinates, launchOwnedTimingBrowser, forkOwnedTimingProcess, type QualifiedTimingPublicDriver, type ObserveTimedOutput } from '../portable/qualified-timing-collection.ts'
 import { defineCaseEvidenceContract, evidenceBytesDigest as hash, evidenceDigest } from '../portable/evidence-contract.ts'
 import { InvocationJournal } from '../portable/invocation-journal.ts'
 import { qualifyRetainedTiming } from '../unified/qualify-timing.ts'
@@ -78,24 +78,17 @@ test('interrupted raw capture remains incomplete without rerunning or silently f
 })
 
 
-test('runtime close failures persist through grader-only recovery and keep timing withheld', async () => {
-  const f = fixture(), out = join(f.root, 'close-error'), original = f.driver.open
+test('exposed Worker cleanup overrides cannot fabricate a close result', async () => {
+  const f = fixture(), out = join(f.root, 'close-override'), original = f.driver.open; let fakeClose = 0
   const driver: QualifiedTimingPublicDriver = { ...f.driver, async open(coordinate) {
     const opened = await original(coordinate)
-    if (opened.execution.kind === 'node-worker') {
-      const worker = opened.execution.handle, terminate = worker.terminate.bind(worker)
-      worker.terminate = async () => { await terminate(); throw Error('Injected teardown receipt failure after actual Worker termination') }
-    }
+    if (opened.execution.kind === 'node-worker') opened.execution.handle.terminate = async () => { fakeClose++; throw Error('Fake parent cleanup callback') }
     return opened
   } }
-  const first = await collectQualifiedTiming(f.plan, f.sources, driver, f.observe, out)
-  expect(first.qualification.status).toBe('unqualified')
-  expect(first.qualification.gaps.join(' ')).toContain('runtime-close')
-  const resumed = await collectQualifiedTiming(f.plan, f.sources, { ...f.driver, async open() { throw Error('A grading replay cannot open a runtime') } }, f.observe, out)
-  expect(resumed.qualification.status).toBe('unqualified')
-  expect(resumed.qualification.gaps.join(' ')).toContain('teardown receipt failure')
+  const result = await collectQualifiedTiming(f.plan, f.sources, driver, f.observe, out)
+  expect(result.qualification.status).toBe('qualified')
+  expect(fakeClose).toBe(0)
 })
-
 
 test('the fixed six-round schedule balances every replica position on every source', () => {
   const f = fixture(), schedule = qualifiedTimingCoordinates(f.plan)
@@ -123,14 +116,14 @@ test('a timed-out factory cannot issue a late public call and its late runtime i
   expect(new InvocationJournal(join(f.root, 'late-open/raw')).records()).toHaveLength(0)
 })
 
-test('a stuck disposal is bounded, stops further calls and preserves its failure on resume', async () => {
-  const f = fixture(), original = f.driver.open
-  const driver: QualifiedTimingPublicDriver = { ...f.driver, async open(coordinate) {
-    const opened = await original(coordinate)
-    if (opened.execution.kind === 'node-worker') opened.execution.handle.terminate = () => new Promise<number>(() => {})
-    return opened
+test('a real child process ignoring termination is bounded and blocks subsequent planned calls', async () => {
+  const f = fixture(), child = join(f.root, 'stubborn-child.mjs')
+  writeFileSync(child, `import {appendFileSync} from 'node:fs';import {serveQualifiedTimingProcess} from ${JSON.stringify(new URL('../portable/qualified-timing-collection.ts', import.meta.url).href)};process.on('SIGTERM',()=>{});serveQualifiedTimingProcess(source=>{appendFileSync(${JSON.stringify(f.calls)},source+'\\n');return 'fixture return: '+source;});`)
+  const driver: QualifiedTimingPublicDriver = { ...f.driver, async open({ artifact, own }) {
+    const handle = forkOwnedTimingProcess(child, [], { stdio: ['ignore', 'ignore', 'ignore', 'ipc'] }); own({ kind: 'child-process', handle })
+    await once(handle, 'message'); return { artifact, execution: { kind: 'child-process', handle } }
   } }
-  const out = join(f.root, 'stuck-close'), limits = { closeTimeoutMs: 5, collectionBudgetMs: 1000 }
+  const out = join(f.root, 'stuck-close'), limits = { closeTimeoutMs: 5, collectionBudgetMs: 5000 }
   const result = await collectQualifiedTiming(f.plan, f.sources, driver, f.observe, out, limits)
   expect(result.qualification.status).toBe('unqualified')
   expect(result.rawComplete).toBe(false)
@@ -187,4 +180,32 @@ test('owned real-browser evaluation cannot be replaced by a parent callback on t
     expect(result.qualification.status).toBe('qualified')
     expect(cached).toBe(0)
   } finally { await session.close() }
+})
+
+
+test('a real Worker postMessage override cannot route the measured call to cached parent code', async () => {
+  const f = fixture(), original = f.driver.open; let cached = 0
+  const driver: QualifiedTimingPublicDriver = { ...f.driver, async open(coordinate) {
+    const opened = await original(coordinate)
+    if (opened.execution.kind === 'node-worker') opened.execution.handle.postMessage = () => { cached++; throw Error('Cached parent code must never be called') }
+    return opened
+  } }
+  const result = await collectQualifiedTiming(f.plan, f.sources, driver, f.observe, join(f.root, 'worker-send-override'))
+  expect(result.qualification.status).toBe('qualified')
+  expect(cached).toBe(0)
+  expect(readFileSync(f.calls, 'utf8').trim().split('\n')).toHaveLength(36)
+})
+
+test('owned child IPC send cannot be replaced by cached parent code', async () => {
+  const f = fixture(), child = join(f.root, 'child.mjs'); let cached = 0
+  writeFileSync(child, `import {appendFileSync} from 'node:fs';import {serveQualifiedTimingProcess} from ${JSON.stringify(new URL('../portable/qualified-timing-collection.ts', import.meta.url).href)};serveQualifiedTimingProcess(source=>{appendFileSync(${JSON.stringify(f.calls)},source+'\\n');return 'fixture return: '+source;});`)
+  const driver: QualifiedTimingPublicDriver = { ...f.driver, async open({ artifact, own }) {
+    const handle = forkOwnedTimingProcess(child, [], { stdio: ['ignore', 'ignore', 'ignore', 'ipc'] }); own({ kind: 'child-process', handle })
+    await once(handle, 'message'); handle.send = (() => { cached++; throw Error('Cached parent send cannot be the timing boundary') }) as any
+    return { artifact, execution: { kind: 'child-process', handle } }
+  } }
+  const result = await collectQualifiedTiming(f.plan, f.sources, driver, f.observe, join(f.root, 'child-send-override'))
+  expect(result.qualification.status).toBe('qualified')
+  expect(cached).toBe(0)
+  expect(readFileSync(f.calls, 'utf8').trim().split('\n')).toHaveLength(36)
 })

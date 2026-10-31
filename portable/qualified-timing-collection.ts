@@ -1,4 +1,5 @@
-import { ChildProcess } from 'node:child_process'
+import { ChildProcess, fork, type ForkOptions } from 'node:child_process'
+import { EventEmitter } from 'node:events'
 import { Worker, parentPort } from 'node:worker_threads'
 import { randomUUID } from 'node:crypto'
 import { readFileSync } from 'node:fs'
@@ -66,21 +67,41 @@ export async function launchOwnedTimingBrowser(options: LaunchOptions) {
   }
 }
 
-/** Install inside an already initialized fresh Worker. No source or public
- * render call is supplied during initialization. Exactly one call is accepted. */
-export function serveQualifiedTimingWorker(invoke: (source: string) => string | Uint8Array | Promise<string | Uint8Array>) {
-  const channel = parentPort
-  if (!channel) throw Error('Qualified timing Worker service must run in a Worker')
+const nativeOn = EventEmitter.prototype.on, nativeRemove = EventEmitter.prototype.removeListener
+const nativeWorkerPost = Worker.prototype.postMessage, nativeWorkerTerminate = Worker.prototype.terminate, nativeChildKill = ChildProcess.prototype.kill
+const processCapabilities = new WeakMap<ChildProcess, { send: (request: any) => void; pid: number }>()
+/** The actual fork/send boundary is captured before the factory exposes the
+ * handle. An arbitrary mutable send callback cannot stand in for IPC. */
+export function forkOwnedTimingProcess(modulePath: string | URL, args: readonly string[] = [], options: ForkOptions = {}) {
+  const handle = fork(modulePath, [...args], { ...options, serialization: 'advanced' })
+  if (!handle.pid || !handle.send) throw Error('Timing process did not create its actual IPC channel')
+  processCapabilities.set(handle, { send: handle.send.bind(handle), pid: handle.pid })
+  return handle
+}
+const servedChannels = new WeakSet<object>()
+function serveTimingSource(channel: object, subscribe: (handler: (request: any) => void) => void, reply: (response: unknown) => void, invoke: (source: string) => string | Uint8Array | Promise<string | Uint8Array>) {
+  if (servedChannels.has(channel)) throw Error('A fresh timing runtime can install only one public source binding')
+  servedChannels.add(channel)
   let called = false
-  channel.on('message', async request => {
+  subscribe(async request => {
     if (request?.schema !== 'trident-qualified-timing-call-v1') return
-    const reply = (value: unknown) => channel.postMessage(value)
-    if (called || typeof request.attemptId !== 'string' || typeof request.source !== 'string') { reply({ schema: 'trident-qualified-timing-error-v1', attemptId: request.attemptId, detail: 'Fresh timing Worker accepts exactly one source call' }); return }
+    if (called || typeof request.attemptId !== 'string' || typeof request.source !== 'string') { reply({ schema: 'trident-qualified-timing-error-v1', attemptId: request.attemptId, detail: 'Fresh timing runtime accepts exactly one source call' }); return }
     called = true
     try { reply({ schema: 'trident-qualified-timing-return-v1', attemptId: request.attemptId, output: await invoke(request.source) }) }
     catch (error) { reply({ schema: 'trident-qualified-timing-error-v1', attemptId: request.attemptId, detail: String(error) }) }
   })
-  channel.postMessage({ schema: 'trident-qualified-timing-ready-v1' })
+  reply({ schema: 'trident-qualified-timing-ready-v1' })
+}
+/** Install after module initialization, before any public render call. */
+export function serveQualifiedTimingWorker(invoke: (source: string) => string | Uint8Array | Promise<string | Uint8Array>) {
+  const channel = parentPort
+  if (!channel) throw Error('Qualified timing Worker service must run in a Worker')
+  serveTimingSource(channel, handler => channel.on('message', handler), response => channel.postMessage(response), invoke)
+}
+export function serveQualifiedTimingProcess(invoke: (source: string) => string | Uint8Array | Promise<string | Uint8Array>) {
+  if (!process.send) throw Error('Qualified timing process service needs its actual IPC channel')
+  const send = process.send.bind(process)
+  serveTimingSource(process, handler => { process.on('message', handler) }, response => { send(response as any) }, invoke)
 }
 function preparePublicCall(opened: OpenedTimingRuntime, attemptId: string, source: string) {
   const execution = opened.execution
@@ -95,8 +116,8 @@ function preparePublicCall(opened: OpenedTimingRuntime, attemptId: string, sourc
   const result = new Promise<string | Uint8Array>((done, fail) => { resolve = done; reject = fail })
   const message = (reply: any) => { if (reply?.attemptId !== attemptId) return; if (reply.schema === 'trident-qualified-timing-return-v1') resolve(reply.output); else if (reply.schema === 'trident-qualified-timing-error-v1') reject(Error(reply.detail || 'Public timing request failed')) }
   const error = (failure: Error) => reject(failure), exit = () => reject(Error('Fresh timing runtime exited before its owned return'))
-  handle.on('message', message); handle.once('error', error); handle.once('exit', exit)
-  return { invoke: () => { const request = { schema: 'trident-qualified-timing-call-v1', attemptId, source }; if (execution.kind === 'node-worker') execution.handle.postMessage(request); else execution.handle.send(request); return result }, cancel: () => { handle.off('message', message); handle.off('error', error); handle.off('exit', exit) } }
+  nativeOn.call(handle, 'message', message); nativeOn.call(handle, 'error', error); nativeOn.call(handle, 'exit', exit)
+  return { invoke: () => { const request = { schema: 'trident-qualified-timing-call-v1', attemptId, source }; if (execution.kind === 'node-worker') nativeWorkerPost.call(execution.handle, request); else { const capability = processCapabilities.get(execution.handle); if (!capability) throw Error('Timing child process was not created by the owned actual-fork factory'); capability.send(request) }; return result }, cancel: () => { nativeRemove.call(handle, 'message', message); nativeRemove.call(handle, 'error', error); nativeRemove.call(handle, 'exit', exit) } }
 }
 
 /** Fixed first-use collection. No adaptive loops, selection on outcomes or
@@ -133,7 +154,8 @@ export async function collectQualifiedTiming(plan: TimingPlan, sources: readonly
       return { id: `node-worker:${process.pid}:${execution.handle.threadId}`, proof: { kind: execution.kind, controllerPid: process.pid, threadId: execution.handle.threadId } }
     }
     if (execution.kind === 'child-process') {
-      if (!(execution.handle instanceof ChildProcess) || !execution.handle.pid || execution.handle.exitCode !== null || execution.handle.signalCode !== null || execution.handle.killed || !execution.handle.connected) throw Error('Timing driver did not open a live fresh child process with IPC')
+      const capability = processCapabilities.get(execution.handle)
+      if (!capability || !(execution.handle instanceof ChildProcess) || execution.handle.pid !== capability.pid || execution.handle.exitCode !== null || execution.handle.signalCode !== null || execution.handle.killed || !execution.handle.connected) throw Error('Timing driver did not open a live fresh child process with IPC')
       seenHandles.add(execution.handle)
       return { id: `child-process:${execution.handle.pid}:${randomUUID()}`, proof: { kind: execution.kind, pid: execution.handle.pid, executable: execution.handle.spawnfile } }
     }
@@ -147,12 +169,12 @@ export async function collectQualifiedTiming(plan: TimingPlan, sources: readonly
     throw Error('First-use needs an actual Worker, child process or isolated browser context; a renamed callback is insufficient')
   }
   const closeExecution = async (execution: OwnedTimingExecution) => {
-    if (execution.kind === 'node-worker') { await execution.handle.terminate(); return }
+    if (execution.kind === 'node-worker') { await nativeWorkerTerminate.call(execution.handle); return }
     if (execution.kind === 'browser-context') { const capability = browserCapabilities.get(execution.handle); if (capability) await capability.close(); return }
     if (execution.handle.exitCode !== null || execution.handle.signalCode !== null) return
     await new Promise<void>(resolve => {
-      const child = execution.handle, timer = setTimeout(() => { child.kill('SIGKILL') }, 2000)
-      child.once('close', () => { clearTimeout(timer); resolve() }); child.kill('SIGTERM')
+      const child = execution.handle, timer = setTimeout(() => { nativeChildKill.call(child, 'SIGKILL') }, 2000)
+      nativeOn.call(child, 'close', () => { clearTimeout(timer); resolve() }); nativeChildKill.call(child, 'SIGTERM')
     })
   }
   // Reopening a partially captured run cannot restore its old runtime state or
@@ -170,8 +192,8 @@ export async function collectQualifiedTiming(plan: TimingPlan, sources: readonly
         if (closing.has(execution.handle)) return closing.get(execution.handle)!
         const promise = bounded(closeExecution(execution), budget.closeTimeoutMs, 'Runtime close', () => {
           controller.abort()
-          if (execution.kind === 'node-worker') { execution.handle.unref(); void Worker.prototype.terminate.call(execution.handle).catch(() => {}) }
-          if (execution.kind === 'child-process') { execution.handle.kill('SIGKILL'); execution.handle.unref() }
+          if (execution.kind === 'node-worker') { execution.handle.unref(); void nativeWorkerTerminate.call(execution.handle).catch(() => {}) }
+          if (execution.kind === 'child-process') { nativeChildKill.call(execution.handle, 'SIGKILL'); execution.handle.unref() }
         })
         closing.set(execution.handle, promise); return promise
       }
