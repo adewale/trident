@@ -4,13 +4,15 @@ import { dirname, join, resolve } from 'node:path'
 import ts from 'typescript'
 import type { PublicTestDeclaration } from './public-conformance-inventory.ts'
 
-export const reviewedPublicExpansionScope = 'Unchanged original public parse/detection callbacks, including static first-party registry examples, plus the original structural accessibility render matrix. Private DB assertions, native registration/configuration lifecycle and mixed documentation tests have no equivalent reviewed peer contract. Source eligibility is independent of candidate outcomes; native original and installed-reference controls must qualify the complete selected scope before peer scores.'
+export const reviewedPublicExpansionScope = 'Unchanged original public parse/detection callbacks, including static first-party registry examples, the original structural accessibility render matrix and the generic SVG-return documentation callback. Private DB assertions, native registration/configuration lifecycle and mixed documentation tests have no equivalent reviewed peer contract. Source eligibility is independent of candidate outcomes; native original and installed-reference controls must qualify the complete selected scope before peer scores.'
+export const usecasePublicSupplementId='packages/mermaid/src/diagrams/usecase/usecase.docs.spec.ts:31'
 export const expandedPublicFiles = ['packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts', 'packages/mermaid/src/diagrams/eventmodeling/eventmodeling.spec.ts', 'packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js', 'packages/examples/src/example.spec.ts'] as const
 const additions = new Map<string, PublicTestDeclaration['publicOperation']>([
   ...[17,46,53,60,67,91].map(line=>[expandedPublicFiles[0]+':'+line,'detectType'] as const),
   [expandedPublicFiles[1]+':95','parse'],
   ...[913,2388,2598,2615,2631].map(line=>[expandedPublicFiles[2]+':'+line,'parse'] as const),
   [expandedPublicFiles[3]+':91','parse'],
+  [usecasePublicSupplementId,'render'],
 ])
 export const reviewedAdditionalPublicOperation = (id:string)=>additions.get(id)
 const hash=(value:string)=>createHash('sha256').update(value).digest('hex')
@@ -66,6 +68,11 @@ export function expandReviewedPublicCallbacks(upstream:string,declarations:reado
       return {...base,id:input.id+'#parameter:'+value,parameter:value,nativeRegistrationLine:input.line,fullName:input.fullName.replace('%s',value)}
     })
     if(input.id===expandedPublicFiles[3]+':91')return readStaticExampleRegistry(upstream).map(value=>({...base,id:input.id+'#parameter:'+value.id+':'+value.index,parameter:value.id+':'+value.index,nativeRegistrationLine:input.line,fullName:input.fullName.replace('`${diagram.name}: ${example.title}`',value.name+': '+value.title),parameterSourcePath:value.path,parameterSourceSha256:value.sourceSha256,parameterCodeSha256:value.codeSha256,registrySourceSha256:value.registrySha256,family:value.id}))
+    if(input.id===usecasePublicSupplementId){
+      const path='packages/mermaid/src/docs/syntax/usecase.md',text=readFileSync(join(upstream,path),'utf8'),sources=[...text.matchAll(/^```mermaid-example[^\n]*\r?\n([\S\s]*?)\r?\n```$/gm)].map(match=>match[1]!)
+      if(sources.length!==24)throw Error('Pinned inner documentation fence census changed')
+      return[{...base,innerCorpus:{path,sourceSha256:hash(text),declaredOccurrences:24,publicArgumentSha256:sources.map(hash),execution:'One unchanged original callback;24 public calls remain inner operations rather than24 invented callback passes'}}]
+    }
     return [base]
   })
 }

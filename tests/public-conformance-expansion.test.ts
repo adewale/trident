@@ -9,17 +9,21 @@ import legacy from '../corpus/mermaid-public-tests.json' with {type:'json'}
 import {useTempDirs} from './helpers/temp-dir.ts'
 const temp=useTempDirs('public-expansion-'),hash=(bytes:Uint8Array|string)=>createHash('sha256').update(bytes).digest('hex')
 
-test('expanded scope preserves every historical callback and all4060 declarations while freezing153 unchanged callbacks',()=>{
-  expect(manifest.counts).toEqual({files:368,declarations:4060,eligible:153,eligibleDeclarations:36,upstreamDisabled:18,outsideScope:4006})
+test('expanded scope preserves every historical callback and all4060 declarations while freezing154 unchanged callbacks',()=>{
+  expect(manifest.counts).toEqual({files:368,declarations:4060,eligible:154,eligibleDeclarations:37,upstreamDisabled:18,outsideScope:4005})
   expect(legacy.counts.eligible).toBe(41)
   expect(manifest.eligible.filter(row=>row.publicOperation==='parse')).toHaveLength(102)
   expect(manifest.eligible.filter(row=>row.publicOperation==='detectType')).toHaveLength(32)
-  expect(manifest.eligible.filter(row=>row.publicOperation==='render')).toHaveLength(19)
+  expect(manifest.eligible.filter(row=>row.publicOperation==='render')).toHaveLength(20)
   for(const original of legacy.eligible)expect(manifest.eligible.find(row=>row.id===original.id)).toEqual(original)
   for(const spec of manifest.sourceSpecs)expect(hash(readFileSync(new URL('../'+spec.fixture,import.meta.url)))).toBe(spec.sha256)
-  expect(new Set(manifest.eligible.map(row=>row.id)).size).toBe(153)
-  expect(new Set(manifest.eligible.map(row=>row.fullName)).size).toBe(153)
+  expect(new Set(manifest.eligible.map(row=>row.id)).size).toBe(154)
+  expect(new Set(manifest.eligible.map(row=>row.fullName)).size).toBe(154)
   expect(manifest.wholeSuiteConformanceQualified).toBe(false)
+  const detector=manifest.eligible.find(row=>row.id==='packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:graph%20TD%3B')!
+  expect(detector.fullName).toBe("diagram-orchestration proper diagram types should be detected should 'graph TD;' be detected as 'flowchart-v2'")
+  expect(detector.nativeRegistrationLine).toBe(39)
+  expect(detector.line).toBe(17)
 })
 
 test('static registry fixture expansion executes no modules, keeps exact names/code hashes and refuses dynamic data',()=>{

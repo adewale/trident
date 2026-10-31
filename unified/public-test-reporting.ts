@@ -3,6 +3,7 @@ import { existsSync, readFileSync, realpathSync } from 'node:fs'
 import { isAbsolute, join, relative } from 'node:path'
 import legacyManifest from '../corpus/mermaid-public-tests.json' with { type: 'json' }
 import expandedManifest from '../corpus/mermaid-public-tests-expanded.json' with { type: 'json' }
+import expanded153Manifest from '../corpus/mermaid-public-tests-expanded-153.json' with { type: 'json' }
 import { qualifyPublicReference, reducePublicCallbacks, type PublicCallEvent } from './public-conformance.ts'
 import type { PublicTestDeclaration } from './public-conformance-inventory.ts'
 import type { SnapshotTable } from './results-snapshot.ts'
@@ -21,8 +22,9 @@ export function readPublicTestEvidence(directory: string) {
   }
   const read = (name: string): any => JSON.parse(bytes(name).toString())
   const saved = read('public-conformance-report.json'), inventory = read('inventory.json'), context = read('context.json')
-  const manifest = context.scopeSelection === 'expanded-public' ? expandedManifest : legacyManifest
-  if(context.scopeSelection==='expanded-public')for(const [key,value] of Object.entries(expandedManifest.publicModuleResolution))if(context.publicModuleResolution?.[key]!==value)throw Error('Expanded public package resolution differs from its pinned source host')
+  const supplementalId='packages/mermaid/src/diagrams/usecase/usecase.docs.spec.ts:31'
+  const manifest = (context.scopeSelection==='usecase-supplement'?{...expandedManifest,eligible:expandedManifest.eligible.filter(row=>row.id===supplementalId),sourceSpecs:expandedManifest.sourceSpecs.filter(row=>row.path===supplementalId.slice(0,supplementalId.lastIndexOf(':'))),counts:{...expandedManifest.counts,eligible:1,eligibleDeclarations:1,outsideScope:4041}}:context.scopeSelection==='expanded-public'?inventory.counts?.eligible===153?expanded153Manifest:expandedManifest:legacyManifest) as typeof legacyManifest
+  if(context.scopeSelection==='expanded-public'||context.scopeSelection==='usecase-supplement')for(const [key,value] of Object.entries(expandedManifest.publicModuleResolution))if(context.publicModuleResolution?.[key]!==value)throw Error('Expanded public package resolution differs from its pinned source host')
   const cases = manifest.eligible as PublicTestDeclaration[]
   const identity = (rows: readonly PublicTestDeclaration[]) => rows.map(row => [row.id, row.fullName, row.sourceSha256, row.callbackSha256, row.publicOperation])
   if (saved.result?.id !== 'public-conformance' || context.protocol !== manifest.protocol || inventory.protocol !== manifest.protocol || context.sourceCommit !== manifest.sourceCommit || inventory.sourceCommit !== manifest.sourceCommit || !same(identity(inventory.callbacks ?? []), identity(cases)) || !same(inventory.files, manifest.censusFiles) || !same(inventory.counts, manifest.counts) || !same(saved.inventory, manifest.counts)) throw Error('Public-test source, scope or declaration census differs from its frozen protocol')
@@ -60,7 +62,7 @@ export function readPublicTestEvidence(directory: string) {
     return reducePublicCallbacks(cases, callbacks, events, !!complete, original)
   }
   const original = receiptRows('original-control', true), reference = receiptRows('reference-public-binding')
-  const qualification = qualifyPublicReference(cases, original, reference)
+  const qualification = qualifyPublicReference(cases, original, reference,manifest.scope)
   if (!saved.qualification?.qualified || !qualification.qualified) return { saved, context, manifest, cases, rawCapture, qualification: { ...qualification, qualified: false }, targets: [], scope: scopeName(cases) }
   if (!Array.isArray(saved.targets) || saved.targets.length !== context.targets.length || new Set(saved.targets.map((target: any) => target.project)).size !== saved.targets.length) throw Error('Qualified public-test report omitted or duplicated a planned target')
   const targets: PublicTestTarget[] = context.targets.map((target: any) => {

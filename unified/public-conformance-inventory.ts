@@ -5,13 +5,13 @@ import { join } from 'node:path'
 import ts from 'typescript'
 import { currentReferencePin } from '../reference/source.ts'
 import { classifyPublicScopes } from './public-conformance-scope.ts'
-import { expandReviewedPublicCallbacks, reviewedAdditionalPublicOperation, reviewedPublicExpansionScope } from './public-conformance-expansion.ts'
+import { expandReviewedPublicCallbacks, reviewedAdditionalPublicOperation, reviewedPublicExpansionScope, usecasePublicSupplementId } from './public-conformance-expansion.ts'
 
 export const publicConformanceProtocol = 'original-public-api-tests-v4'
 export const publicParseScope = 'Unmodified original Mermaid parse, detector and structural render callbacks at their public boundaries. Original assertions, snapshots, diagnostic wording and return-value/config expectations remain unchanged. The render scope preserves upstream jsdomIt geometry mocks and exact accessibility identifier assertions. This is public-API compatibility, not drawing accuracy or whole Mermaid test-suite conformance.'
 export const publicParseFile = 'packages/mermaid/src/mermaidAPI.spec.ts'
 export const publicParseFiles = [publicParseFile, 'packages/mermaid/src/mermaid.spec.ts', 'packages/mermaid/src/utils.spec.ts'] as const
-export type PublicScopeSelection = 'qualified-41' | 'expanded-public'
+export type PublicScopeSelection = 'qualified-41' | 'expanded-public' | 'usecase-supplement'
 const hash = (value: string) => createHash('sha256').update(value).digest('hex')
 export interface PublicTestDeclaration {
   id: string; path: string; family: string; name: string; fullName: string; line: number; endLine: number
@@ -19,6 +19,7 @@ export interface PublicTestDeclaration {
   disposition: 'eligible' | 'upstream-disabled' | 'outside-public-parse-scope'
   reason: string; requiredReturnFields: string[]; publicOperation: 'parse' | 'detectType' | 'render'; declarationId?: string; parameter?: string; nativeRegistrationLine?: number
   parameterSourcePath?: string; parameterSourceSha256?: string; parameterCodeSha256?: string; registrySourceSha256?: string
+  innerCorpus?:{path:string;sourceSha256:string;declaredOccurrences:number;publicArgumentSha256:string[];execution:string}
 }
 const testRegistrars = new Set(['it', 'test', 'jsdomIt'])
 const modifiers = new Set(['only', 'skip', 'todo', 'each', 'fails', 'concurrent', 'sequential', 'runIf', 'skipIf', 'for'])
@@ -32,7 +33,7 @@ const title = (node: ts.Node | undefined) => node && (ts.isStringLiteral(node) |
 /** Complete Git-tracked spec/test declaration census, including jsdomIt wrappers.
  * The scoring surface is fixed independently of the candidate's results. */
 export function inventoryPublicTests(upstream: string, scopeSelection:PublicScopeSelection='qualified-41') {
-  if(!['qualified-41','expanded-public'].includes(scopeSelection))throw Error('Unknown public scope selection')
+  if(!['qualified-41','expanded-public','usecase-supplement'].includes(scopeSelection))throw Error('Unknown public scope selection')
   const pin = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: upstream, encoding: 'utf8' }).trim()
   if (pin !== currentReferencePin.commit) throw Error('Public conformance requires the pinned upstream source ' + currentReferencePin.commit)
   if (execFileSync('git', ['status', '--porcelain', '--untracked-files=no'], { cwd: upstream, encoding: 'utf8' }).trim()) throw Error('Original upstream tracked sources changed')
@@ -52,8 +53,8 @@ export function inventoryPublicTests(upstream: string, scopeSelection:PublicScop
           const publicWrapperParse = path === publicParseFiles[1] && parents.length === 2 && parents[0] === 'when using mermaid and ' && parents[1] === 'checking validity of input ' && !body.includes('setParseErrorHandler')
           const publicDetection = path === publicParseFiles[2] && parents.length === 1 && parents[0] === 'when detecting chart type ' && /\bdetectType\(/.test(body) && !/\bpreprocessDiagram\(/.test(body)
           const publicRender = path === publicParseFile && parents.length === 4 && parents[0] === 'mermaidAPI' && parents[1] === 'render' && parents[2] === 'accessibility' && label === 'should set aria-roledescription to the diagram type AND should call addSVGa11yTitleDescription'
-          const additional = scopeSelection==='expanded-public' ? reviewedAdditionalPublicOperation(path+':'+line) : undefined
-          const eligible = (coreParse || publicWrapperParse || publicDetection || publicRender || !!additional) && !disabled
+          const additional = scopeSelection==='expanded-public'||scopeSelection==='usecase-supplement'&&path+':'+line===usecasePublicSupplementId ? reviewedAdditionalPublicOperation(path+':'+line) : undefined
+          const eligible = ((scopeSelection!=='usecase-supplement'&&(coreParse || publicWrapperParse || publicDetection || publicRender)) || !!additional) && !disabled
           // No snapshot is rewritten. These fields only prevent a missing binding
           // from being mislabeled as a renderer failure or accidental callback pass.
           const requiredReturnFields = eligible && /toMatchInlineSnapshot/.test(body) ? ['diagramType', 'config'] : []
@@ -68,10 +69,10 @@ export function inventoryPublicTests(upstream: string, scopeSelection:PublicScop
   const scopeReview = files.flatMap(file => { const own = declarations.filter(input => input.path === file.path); return classifyPublicScopes(readFileSync(join(upstream, file.path), 'utf8'), own).map((review, index) => ({ id: own[index]!.id, ...review })) })
   const scopeCounts = Object.fromEntries([...new Set(scopeReview.map(row => row.category))].map(category => [category, scopeReview.filter(row => row.category === category).length]))
   const eligible = declarations.filter(row => row.disposition === 'eligible')
-  if (eligible.length !== (scopeSelection==='expanded-public'?36:23) || new Set(declarations.map(row => row.id)).size !== declarations.length) throw Error('Pinned public-parse test inventory changed or duplicate declaration IDs')
+  if (eligible.length !== (scopeSelection==='expanded-public'?37:scopeSelection==='usecase-supplement'?1:23) || new Set(declarations.map(row => row.id)).size !== declarations.length) throw Error('Pinned public-parse test inventory changed or duplicate declaration IDs')
   const callbacks = eligible.flatMap(input=>reviewedAdditionalPublicOperation(input.id)?expandReviewedPublicCallbacks(upstream,[input]):expandPublicCallbacks([input]))
   if(new Set(callbacks.map(row=>row.id)).size!==callbacks.length||new Set(callbacks.map(row=>row.fullName)).size!==callbacks.length)throw Error('Expanded original callbacks duplicate an identity or native name')
-  return { schema: 'trident-original-public-test-inventory-v1', protocol: publicConformanceProtocol, sourceCommit: pin, scope: scopeSelection==='expanded-public'?reviewedPublicExpansionScope:publicParseScope, ...(scopeSelection==='expanded-public'?{scopeSelection}:{}), files, declarations, callbacks, host: { environment: 'Original Vitest jsdom environment plus original jsdomIt wrapper', jsdomHelper: { path: 'packages/mermaid/src/tests/util.ts', sha256: hash(readFileSync(join(upstream, 'packages/mermaid/src/tests/util.ts'), 'utf8')), registrationCallLine: 89, geometry: 'Original MOCKED_BBOX 666x666 and getComputedTextLength 200; structural assertions only' } }, scopeReview, scopeCounts, counts: { files: files.length, declarations: declarations.length, eligible: callbacks.length, eligibleDeclarations: eligible.length, upstreamDisabled: declarations.filter(row => row.disposition === 'upstream-disabled').length, outsideScope: declarations.filter(row => row.disposition === 'outside-public-parse-scope').length }, wholeSuiteConformanceQualified: false, wholeSuiteBlocker: 'Remaining public render, configuration, model and other original-test surfaces have not been qualified through peer-equivalent public bindings. Outside-scope declarations cannot receive inferred passes.' }
+  return { schema: 'trident-original-public-test-inventory-v1', protocol: publicConformanceProtocol, sourceCommit: pin, scope: scopeSelection==='usecase-supplement'?'One unchanged original generic SVG-return callback over24pinned usecase documentation inputs; supplemental source scope, no drawing accuracy or speed claim':scopeSelection==='expanded-public'?reviewedPublicExpansionScope:publicParseScope, ...(scopeSelection!=='qualified-41'?{scopeSelection}:{}), files, declarations, callbacks, host: { environment: 'Original Vitest jsdom environment plus original jsdomIt wrapper', jsdomHelper: { path: 'packages/mermaid/src/tests/util.ts', sha256: hash(readFileSync(join(upstream, 'packages/mermaid/src/tests/util.ts'), 'utf8')), registrationCallLine: 89, geometry: 'Original MOCKED_BBOX 666x666 and getComputedTextLength 200; structural assertions only' } }, scopeReview, scopeCounts, counts: { files: files.length, declarations: declarations.length, eligible: callbacks.length, eligibleDeclarations: eligible.length, upstreamDisabled: declarations.filter(row => row.disposition === 'upstream-disabled').length, outsideScope: declarations.filter(row => row.disposition === 'outside-public-parse-scope').length }, wholeSuiteConformanceQualified: false, wholeSuiteBlocker: 'Remaining public render, configuration, model and other original-test surfaces have not been qualified through peer-equivalent public bindings. Outside-scope declarations cannot receive inferred passes.' }
 }
 /** Replace exactly one public implementation boundary; never alter tests,
  * assertions, literals, snapshots or the surrounding original configuration. */
