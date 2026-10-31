@@ -23,6 +23,16 @@
           "criterion": "relationships",
           "expected": [],
           "scope": "Exact source/target multiplicity, captions and marker semantics"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -181,6 +191,24 @@
           },
           "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
           "required": false
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "Mermaid",
+              "shape": "rectangle"
+            },
+            {
+              "id": "Beautiful",
+              "shape": "rectangle"
+            },
+            {
+              "id": "ASCII",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -233,6 +261,20 @@
             }
           ],
           "scope": "Acyclic source direction imposes relative drawn positions"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -255,14 +297,16 @@
           "expected": [
             {
               "id": "Foo",
+              "declaration": "Foo",
               "members": []
             },
             {
               "id": "Bar",
+              "declaration": "Bar",
               "members": []
             }
           ],
-          "scope": "Exact class identities, generic parameters, stereotypes and members/methods"
+          "scope": "Canonical class identities and separate raw/generic declarations; stereotypes and member declarations remain literal source facts, not display strings"
         },
         {
           "criterion": "class-relations",
@@ -329,7 +373,7 @@
               ]
             }
           ],
-          "scope": "Declared group labels, enclosure and membership"
+          "scope": "Declared group labels/enclosure; bounded policy: the first subgraph mentioning a global node owns it, and later mentions reference it without transfer"
         },
         {
           "criterion": "layout-direction",
@@ -392,6 +436,20 @@
           "scope": "Acyclic source direction imposes relative drawn positions"
         },
         {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
+        },
+        {
           "criterion": "node-line-breaks",
           "expected": [
             {
@@ -433,14 +491,16 @@
           "expected": [
             {
               "id": "A",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             },
             {
               "id": "B",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             }
           ],
-          "scope": "Entity identities and exact attribute/type/key declarations"
+          "scope": "Entity identities, raw attribute declarations and explicit semantic type/name/key/comment facts; a leading name asterisk is the documented PK alternative"
         },
         {
           "criterion": "entity-relations",
@@ -459,7 +519,8 @@
         {
           "criterion": "direction",
           "expected": "TB",
-          "scope": "Authored ER layout direction"
+          "scope": "ER layout hint (pinned default TB when absent); it supplies no entity/cardinality correctness proof",
+          "required": false
         }
       ],
       "presentation": [],
@@ -529,6 +590,28 @@
           },
           "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
           "required": false
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C",
+              "shape": "rectangle"
+            },
+            {
+              "id": "D",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -783,7 +866,7 @@
               ]
             }
           ],
-          "scope": "Declared group labels, enclosure and membership"
+          "scope": "Declared group labels/enclosure; bounded policy: the first subgraph mentioning a global node owns it, and later mentions reference it without transfer"
         },
         {
           "criterion": "layout-direction",
@@ -793,6 +876,44 @@
           },
           "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
           "required": false
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C",
+              "shape": "rectangle"
+            },
+            {
+              "id": "D",
+              "shape": "rectangle"
+            },
+            {
+              "id": "E",
+              "shape": "rectangle"
+            },
+            {
+              "id": "F",
+              "shape": "rectangle"
+            },
+            {
+              "id": "G",
+              "shape": "rectangle"
+            },
+            {
+              "id": "H",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -995,10 +1116,6 @@
             {
               "id": "D",
               "shape": "asymmetric"
-            },
-            {
-              "id": "E",
-              "shape": "rectangle"
             }
           ],
           "scope": "Explicit node shape declarations"
@@ -1266,18 +1383,21 @@
           "expected": [
             {
               "id": "CUSTOMER",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             },
             {
               "id": "ORDER",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             },
             {
               "id": "LINE-ITEM",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             }
           ],
-          "scope": "Entity identities and exact attribute/type/key declarations"
+          "scope": "Entity identities, raw attribute declarations and explicit semantic type/name/key/comment facts; a leading name asterisk is the documented PK alternative"
         },
         {
           "criterion": "entity-relations",
@@ -1304,7 +1424,8 @@
         {
           "criterion": "direction",
           "expected": "TB",
-          "scope": "Authored ER layout direction"
+          "scope": "ER layout hint (pinned default TB when absent); it supplies no entity/cardinality correctness proof",
+          "required": false
         }
       ],
       "presentation": [],
@@ -1483,6 +1604,28 @@
             }
           ],
           "scope": "Acyclic source direction imposes relative drawn positions"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C",
+              "shape": "rectangle"
+            },
+            {
+              "id": "D",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -1577,7 +1720,8 @@
         {
           "criterion": "direction",
           "expected": "LR",
-          "scope": "Authored state layout direction"
+          "scope": "State layout hint (pinned default TB when absent); source topology does not imply one geometric node order",
+          "required": false
         }
       ],
       "presentation": [],
@@ -1650,6 +1794,20 @@
             }
           ],
           "scope": "Acyclic source direction imposes relative drawn positions"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -1681,6 +1839,16 @@
           "criterion": "relationships",
           "expected": [],
           "scope": "Exact source/target multiplicity, captions and marker semantics"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         },
         {
           "criterion": "node-line-breaks",
@@ -1809,6 +1977,28 @@
             }
           ],
           "scope": "Acyclic source direction imposes relative drawn positions"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C",
+              "shape": "rectangle"
+            },
+            {
+              "id": "D",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -1840,6 +2030,16 @@
           "criterion": "relationships",
           "expected": [],
           "scope": "Exact source/target multiplicity, captions and marker semantics"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -2025,6 +2225,28 @@
           },
           "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
           "required": false
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C",
+              "shape": "rectangle"
+            },
+            {
+              "id": "D",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -2315,6 +2537,20 @@
             }
           ],
           "scope": "Acyclic source direction imposes relative drawn positions"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -2366,6 +2602,20 @@
             }
           ],
           "scope": "Acyclic source direction imposes relative drawn positions"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -2469,7 +2719,8 @@
         {
           "criterion": "direction",
           "expected": "TB",
-          "scope": "Authored state layout direction"
+          "scope": "State layout hint (pinned default TB when absent); source topology does not imply one geometric node order",
+          "required": false
         }
       ],
       "presentation": [],
@@ -2600,7 +2851,7 @@
               ]
             }
           ],
-          "scope": "Declared group labels, enclosure and membership"
+          "scope": "Declared group labels/enclosure; bounded policy: the first subgraph mentioning a global node owns it, and later mentions reference it without transfer"
         },
         {
           "criterion": "layout-direction",
@@ -2710,7 +2961,8 @@
         {
           "criterion": "direction",
           "expected": "TB",
-          "scope": "Authored state layout direction"
+          "scope": "State layout hint (pinned default TB when absent); source topology does not imply one geometric node order",
+          "required": false
         }
       ],
       "presentation": [],
@@ -2794,6 +3046,32 @@
           },
           "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
           "required": false
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C",
+              "shape": "rectangle"
+            },
+            {
+              "id": "D",
+              "shape": "rectangle"
+            },
+            {
+              "id": "E",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -2867,6 +3145,16 @@
           },
           "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
           "required": false
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -3181,6 +3469,16 @@
           "scope": "Acyclic source direction imposes relative drawn positions"
         },
         {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
+        },
+        {
           "criterion": "literal-control-safety",
           "expected": "escape-or-typed-reject",
           "scope": "Source label controls must not become executable terminal state"
@@ -3253,6 +3551,28 @@
           },
           "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
           "required": false
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C",
+              "shape": "rectangle"
+            },
+            {
+              "id": "D",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -3389,7 +3709,7 @@
               "parent": "Outer"
             }
           ],
-          "scope": "Declared group labels, enclosure and membership"
+          "scope": "Declared group labels/enclosure; bounded policy: the first subgraph mentioning a global node owns it, and later mentions reference it without transfer"
         },
         {
           "criterion": "layout-direction",
@@ -3503,6 +3823,20 @@
             }
           ],
           "scope": "Acyclic source direction imposes relative drawn positions"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -3534,6 +3868,16 @@
           "criterion": "relationships",
           "expected": [],
           "scope": "Exact source/target multiplicity, captions and marker semantics"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         },
         {
           "criterion": "node-line-breaks",
@@ -3772,34 +4116,41 @@
           "expected": [
             {
               "id": "CUSTOMER",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             },
             {
               "id": "ORDER",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             },
             {
               "id": "LINE_ITEM",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             },
             {
               "id": "PRODUCT",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             },
             {
               "id": "ADDRESS",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             },
             {
               "id": "INVOICE",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             },
             {
               "id": "WAREHOUSE",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             }
           ],
-          "scope": "Entity identities and exact attribute/type/key declarations"
+          "scope": "Entity identities, raw attribute declarations and explicit semantic type/name/key/comment facts; a leading name asterisk is the documented PK alternative"
         },
         {
           "criterion": "entity-relations",
@@ -3858,7 +4209,8 @@
         {
           "criterion": "direction",
           "expected": "TB",
-          "scope": "Authored ER layout direction"
+          "scope": "ER layout hint (pinned default TB when absent); it supplies no entity/cardinality correctness proof",
+          "required": false
         }
       ],
       "presentation": [],
@@ -3933,6 +4285,7 @@
           "expected": [
             {
               "id": "Animal",
+              "declaration": "Animal",
               "members": [
                 "+String name",
                 "+int age",
@@ -3941,24 +4294,27 @@
             },
             {
               "id": "Dog",
+              "declaration": "Dog",
               "members": [
                 "+fetch()"
               ]
             },
             {
               "id": "Cat",
+              "declaration": "Cat",
               "members": [
                 "+purr()"
               ]
             },
             {
               "id": "Kennel",
+              "declaration": "Kennel",
               "members": [
                 "+List~Dog~ dogs"
               ]
             }
           ],
-          "scope": "Exact class identities, generic parameters, stereotypes and members/methods"
+          "scope": "Canonical class identities and separate raw/generic declarations; stereotypes and member declarations remain literal source facts, not display strings"
         },
         {
           "criterion": "class-relations",
@@ -4079,26 +4435,46 @@
               "attributes": [
                 "string id PK",
                 "string email UK"
+              ],
+              "attributeFacts": [
+                {
+                  "type": "string",
+                  "name": "id",
+                  "keys": [
+                    "PK"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "name": "email",
+                  "keys": [
+                    "UK"
+                  ]
+                }
               ]
             },
             {
               "id": "ORDER",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             },
             {
               "id": "LINE_ITEM",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             },
             {
               "id": "PAYMENT",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             },
             {
               "id": "PRODUCT",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             }
           ],
-          "scope": "Entity identities and exact attribute/type/key declarations"
+          "scope": "Entity identities, raw attribute declarations and explicit semantic type/name/key/comment facts; a leading name asterisk is the documented PK alternative"
         },
         {
           "criterion": "entity-relations",
@@ -4141,7 +4517,8 @@
         {
           "criterion": "direction",
           "expected": "LR",
-          "scope": "Authored ER layout direction"
+          "scope": "ER layout hint (pinned default TB when absent); it supplies no entity/cardinality correctness proof",
+          "required": false
         }
       ],
       "presentation": [],
@@ -4276,6 +4653,20 @@
             }
           ],
           "scope": "Acyclic source direction imposes relative drawn positions"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "Foo",
+              "shape": "rectangle"
+            },
+            {
+              "id": "Bar",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [
@@ -4311,6 +4702,20 @@
               "attributes": [
                 "string id PK",
                 "string name"
+              ],
+              "attributeFacts": [
+                {
+                  "type": "string",
+                  "name": "id",
+                  "keys": [
+                    "PK"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "name": "name",
+                  "keys": []
+                }
               ]
             },
             {
@@ -4318,10 +4723,26 @@
               "attributes": [
                 "string id PK",
                 "string customer_id FK"
+              ],
+              "attributeFacts": [
+                {
+                  "type": "string",
+                  "name": "id",
+                  "keys": [
+                    "PK"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "name": "customer_id",
+                  "keys": [
+                    "FK"
+                  ]
+                }
               ]
             }
           ],
-          "scope": "Entity identities and exact attribute/type/key declarations"
+          "scope": "Entity identities, raw attribute declarations and explicit semantic type/name/key/comment facts; a leading name asterisk is the documented PK alternative"
         },
         {
           "criterion": "entity-relations",
@@ -4340,7 +4761,8 @@
         {
           "criterion": "direction",
           "expected": "TB",
-          "scope": "Authored ER layout direction"
+          "scope": "ER layout hint (pinned default TB when absent); it supplies no entity/cardinality correctness proof",
+          "required": false
         }
       ],
       "presentation": [],
@@ -4708,6 +5130,20 @@
             }
           ],
           "scope": "Acyclic source direction imposes relative drawn positions"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -4759,6 +5195,20 @@
             }
           ],
           "scope": "Acyclic source direction imposes relative drawn positions"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -4784,6 +5234,20 @@
               "attributes": [
                 "string name",
                 "string id PK"
+              ],
+              "attributeFacts": [
+                {
+                  "type": "string",
+                  "name": "name",
+                  "keys": []
+                },
+                {
+                  "type": "string",
+                  "name": "id",
+                  "keys": [
+                    "PK"
+                  ]
+                }
               ]
             },
             {
@@ -4791,18 +5255,34 @@
               "attributes": [
                 "int orderNumber PK",
                 "date created"
+              ],
+              "attributeFacts": [
+                {
+                  "type": "int",
+                  "name": "orderNumber",
+                  "keys": [
+                    "PK"
+                  ]
+                },
+                {
+                  "type": "date",
+                  "name": "created",
+                  "keys": []
+                }
               ]
             },
             {
               "id": "LINE-ITEM",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             },
             {
               "id": "PRODUCT",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             }
           ],
-          "scope": "Entity identities and exact attribute/type/key declarations"
+          "scope": "Entity identities, raw attribute declarations and explicit semantic type/name/key/comment facts; a leading name asterisk is the documented PK alternative"
         },
         {
           "criterion": "entity-relations",
@@ -4837,7 +5317,8 @@
         {
           "criterion": "direction",
           "expected": "TB",
-          "scope": "Authored ER layout direction"
+          "scope": "ER layout hint (pinned default TB when absent); it supplies no entity/cardinality correctness proof",
+          "required": false
         }
       ],
       "presentation": [],
@@ -5184,7 +5665,8 @@
         {
           "criterion": "direction",
           "expected": "TB",
-          "scope": "Authored state layout direction"
+          "scope": "State layout hint (pinned default TB when absent); source topology does not imply one geometric node order",
+          "required": false
         },
         {
           "criterion": "state-enclosures",
@@ -5363,7 +5845,8 @@
         {
           "criterion": "direction",
           "expected": "TB",
-          "scope": "Authored state layout direction"
+          "scope": "State layout hint (pinned default TB when absent); source topology does not imply one geometric node order",
+          "required": false
         }
       ],
       "presentation": [],
@@ -5831,16 +6314,24 @@
           "expected": [
             {
               "id": "CUSTOMER",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             },
             {
               "id": "ORDER",
               "attributes": [
                 "int id"
+              ],
+              "attributeFacts": [
+                {
+                  "type": "int",
+                  "name": "id",
+                  "keys": []
+                }
               ]
             }
           ],
-          "scope": "Entity identities and exact attribute/type/key declarations"
+          "scope": "Entity identities, raw attribute declarations and explicit semantic type/name/key/comment facts; a leading name asterisk is the documented PK alternative"
         },
         {
           "criterion": "entity-relations",
@@ -5859,7 +6350,8 @@
         {
           "criterion": "direction",
           "expected": "TB",
-          "scope": "Authored ER layout direction"
+          "scope": "ER layout hint (pinned default TB when absent); it supplies no entity/cardinality correctness proof",
+          "required": false
         }
       ],
       "presentation": [],
@@ -5933,6 +6425,32 @@
           },
           "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
           "required": false
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C",
+              "shape": "rectangle"
+            },
+            {
+              "id": "D",
+              "shape": "rectangle"
+            },
+            {
+              "id": "E",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -6050,7 +6568,8 @@
         {
           "criterion": "direction",
           "expected": "TB",
-          "scope": "Authored state layout direction"
+          "scope": "State layout hint (pinned default TB when absent); source topology does not imply one geometric node order",
+          "required": false
         }
       ],
       "presentation": [],
@@ -6273,29 +6792,64 @@
               "attributes": [
                 "string id PK",
                 "string email UK"
+              ],
+              "attributeFacts": [
+                {
+                  "type": "string",
+                  "name": "id",
+                  "keys": [
+                    "PK"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "name": "email",
+                  "keys": [
+                    "UK"
+                  ]
+                }
               ]
             },
             {
               "id": "MEMBERSHIP",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             },
             {
               "id": "TEAM",
               "attributes": [
                 "string id PK",
                 "string slug UK"
+              ],
+              "attributeFacts": [
+                {
+                  "type": "string",
+                  "name": "id",
+                  "keys": [
+                    "PK"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "name": "slug",
+                  "keys": [
+                    "UK"
+                  ]
+                }
               ]
             },
             {
               "id": "PROJECT",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             },
             {
               "id": "INVITE",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             }
           ],
-          "scope": "Entity identities and exact attribute/type/key declarations"
+          "scope": "Entity identities, raw attribute declarations and explicit semantic type/name/key/comment facts; a leading name asterisk is the documented PK alternative"
         },
         {
           "criterion": "entity-relations",
@@ -6338,7 +6892,8 @@
         {
           "criterion": "direction",
           "expected": "LR",
-          "scope": "Authored ER layout direction"
+          "scope": "ER layout hint (pinned default TB when absent); it supplies no entity/cardinality correctness proof",
+          "required": false
         }
       ],
       "presentation": [],
@@ -6360,7 +6915,9 @@
           "criterion": "class-bodies",
           "expected": [
             {
-              "id": "Box~T~",
+              "id": "Box",
+              "declaration": "Box~T~",
+              "genericParameters": "T",
               "members": [
                 "+value T",
                 "+map(fn) Box~T~"
@@ -6368,16 +6925,17 @@
             },
             {
               "id": "IntBox",
+              "declaration": "IntBox",
               "members": []
             }
           ],
-          "scope": "Exact class identities, generic parameters, stereotypes and members/methods"
+          "scope": "Canonical class identities and separate raw/generic declarations; stereotypes and member declarations remain literal source facts, not display strings"
         },
         {
           "criterion": "class-relations",
           "expected": [
             {
-              "source": "Box~T~",
+              "source": "Box",
               "target": "IntBox",
               "marker": "<|--",
               "leftCardinality": "",
@@ -6627,7 +7185,8 @@
         {
           "criterion": "direction",
           "expected": "TB",
-          "scope": "Authored state layout direction"
+          "scope": "State layout hint (pinned default TB when absent); source topology does not imply one geometric node order",
+          "required": false
         }
       ],
       "presentation": [],
@@ -6650,6 +7209,7 @@
           "expected": [
             {
               "id": "Animal",
+              "declaration": "Animal",
               "members": [
                 "<<abstract>>",
                 "+String name",
@@ -6660,6 +7220,7 @@
             },
             {
               "id": "Dog",
+              "declaration": "Dog",
               "members": [
                 "+String breed",
                 "+speak() String",
@@ -6668,6 +7229,7 @@
             },
             {
               "id": "Cat",
+              "declaration": "Cat",
               "members": [
                 "+bool indoor",
                 "+speak() String"
@@ -6675,13 +7237,14 @@
             },
             {
               "id": "Owner",
+              "declaration": "Owner",
               "members": [
                 "+String name",
                 "+adopt(Animal a)"
               ]
             }
           ],
-          "scope": "Exact class identities, generic parameters, stereotypes and members/methods"
+          "scope": "Canonical class identities and separate raw/generic declarations; stereotypes and member declarations remain literal source facts, not display strings"
         },
         {
           "criterion": "class-relations",
@@ -8216,6 +8779,412 @@
           },
           "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
           "required": false
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "C0",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C1",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C2",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C3",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C4",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C5",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C6",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C7",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C8",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C9",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C10",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C11",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C12",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C13",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C14",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C15",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C16",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C17",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C18",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C19",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C20",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C21",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C22",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C23",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C24",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C25",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C26",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C27",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C28",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C29",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C30",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C31",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C32",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C33",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C34",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C35",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C36",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C37",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C38",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C39",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C40",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C41",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C42",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C43",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C44",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C45",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C46",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C47",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C48",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C49",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C50",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C51",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C52",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C53",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C54",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C55",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C56",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C57",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C58",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C59",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C60",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C61",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C62",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C63",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C64",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C65",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C66",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C67",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C68",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C69",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C70",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C71",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C72",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C73",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C74",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C75",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C76",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C77",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C78",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C79",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C80",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C81",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C82",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C83",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C84",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C85",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C86",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C87",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C88",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C89",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C90",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C91",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C92",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C93",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C94",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C95",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C96",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C97",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C98",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C99",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -8311,7 +9280,7 @@
               ]
             }
           ],
-          "scope": "Declared group labels, enclosure and membership"
+          "scope": "Declared group labels/enclosure; bounded policy: the first subgraph mentioning a global node owns it, and later mentions reference it without transfer"
         },
         {
           "criterion": "layout-direction",
@@ -8625,7 +9594,8 @@
         {
           "criterion": "direction",
           "expected": "TB",
-          "scope": "Authored state layout direction"
+          "scope": "State layout hint (pinned default TB when absent); source topology does not imply one geometric node order",
+          "required": false
         }
       ],
       "presentation": [],
@@ -8779,6 +9749,24 @@
             }
           ],
           "scope": "Acyclic source direction imposes relative drawn positions"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         }
       ],
       "presentation": [],
@@ -8948,17 +9936,32 @@
           "expected": [
             {
               "id": "顧客",
-              "attributes": []
+              "attributes": [],
+              "attributeFacts": []
             },
             {
               "id": "注文",
               "attributes": [
                 "int 番号 PK",
                 "string 状態"
+              ],
+              "attributeFacts": [
+                {
+                  "type": "int",
+                  "name": "番号",
+                  "keys": [
+                    "PK"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "name": "状態",
+                  "keys": []
+                }
               ]
             }
           ],
-          "scope": "Entity identities and exact attribute/type/key declarations"
+          "scope": "Entity identities, raw attribute declarations and explicit semantic type/name/key/comment facts; a leading name asterisk is the documented PK alternative"
         },
         {
           "criterion": "entity-relations",
@@ -8977,7 +9980,8 @@
         {
           "criterion": "direction",
           "expected": "TB",
-          "scope": "Authored ER layout direction"
+          "scope": "ER layout hint (pinned default TB when absent); it supplies no entity/cardinality correctness proof",
+          "required": false
         }
       ],
       "presentation": [],
@@ -9003,10 +10007,26 @@
               "attributes": [
                 "string *title",
                 "id *the_Primary_Key"
+              ],
+              "attributeFacts": [
+                {
+                  "type": "string",
+                  "name": "title",
+                  "keys": [
+                    "PK"
+                  ]
+                },
+                {
+                  "type": "id",
+                  "name": "the_Primary_Key",
+                  "keys": [
+                    "PK"
+                  ]
+                }
               ]
             }
           ],
-          "scope": "Entity identities and exact attribute/type/key declarations"
+          "scope": "Entity identities, raw attribute declarations and explicit semantic type/name/key/comment facts; a leading name asterisk is the documented PK alternative"
         },
         {
           "criterion": "entity-relations",
@@ -9016,7 +10036,8 @@
         {
           "criterion": "direction",
           "expected": "TB",
-          "scope": "Authored ER layout direction"
+          "scope": "ER layout hint (pinned default TB when absent); it supplies no entity/cardinality correctness proof",
+          "required": false
         }
       ],
       "presentation": [],
@@ -9081,6 +10102,24 @@
             }
           ],
           "scope": "Acyclic source direction imposes relative drawn positions"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C",
+              "shape": "rectangle"
+            }
+          ],
+          "scope": "Explicit node shape declarations"
         },
         {
           "criterion": "node-line-breaks",
