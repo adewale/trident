@@ -31,7 +31,7 @@ export function reviewedDocsCase(input: DocsInput, review: DocsDrawingReview): A
   return { id: input.id, family: review.family, source: input.source, required: true, features: ['reviewed-documentation-content'], provenance: review.review, expected: review.expected, ...(review.sourceReview ? { sourceReview: { protocol: review.sourceReview.protocol, sourceSha256: review.sourceSha256, expectedSha256: evidenceDigest(review.expected), expectedFactsComplete: review.sourceReview.expectedFactsComplete && admission.matched, requiredObligations: review.sourceReview.requiredObligations, unresolved: [...review.sourceReview.unresolved, ...(admission.matched ? [] : [admission.reason])], provenance: review.review } } : {}) }
 }
 
-export function assessDocsDrawing(input: DocsInput, review: DocsDrawingReview | null, publicStatus: string, admissionPassed: boolean, checks: readonly PaintCheck[], binding?: SvgEvidenceBinding) {
+export function assessDocsDrawing(input: DocsInput, review: DocsDrawingReview | null, publicStatus: string, admissionPassed: boolean | 'unavailable', checks: readonly PaintCheck[], binding?: SvgEvidenceBinding) {
   if (!review) return { status: 'unknown', reason: 'No reviewed source expectation; SVG return supplies no correctness credit' }
   if (review.id !== input.id || review.sourceSha256 !== sourceHash(input.source)) throw Error('Stale documentation source review')
   const admission = docsSourceAdmission(input, review)
@@ -41,7 +41,7 @@ export function assessDocsDrawing(input: DocsInput, review: DocsDrawingReview | 
   if (publicStatus !== 'passed') return { status: 'unknown', reason: 'Public call did not supply an inspectable SVG; see the separate render outcome' }
   const authored = reviewedDocsCase(input, review)
   const row = (surface: string, operation: string, status: BenchmarkObservation['status']): BenchmarkObservation => ({ suite: 'docs', surface, runtime: 'Chromium', family: authored.family, caseId: input.id + ':' + operation, operation, format: 'svg', mode: 'reviewed-documentation-content', status, metrics: { authoredCase: input.id, ...(binding ? binding : {}) } })
-  const observations = [row('browser-public-api', 'public-svg-admission', 'passed'), row('browser-public-api', 'standalone-svg-and-labels', admissionPassed ? 'passed' : 'failed'), ...checks.map(check => row('browser-owned-ink', check.criterion, check.status === 'unavailable' ? 'blocked' : check.status))]
+  const observations = [row('browser-public-api', 'public-svg-admission', 'passed'), row('browser-public-api', 'standalone-svg-and-labels', admissionPassed === 'unavailable' ? 'blocked' : admissionPassed ? 'passed' : 'failed'), ...checks.map(check => row('browser-owned-ink', check.criterion, check.status === 'unavailable' ? 'blocked' : check.status))]
   const verdict = assessSvgCases([authored], observations, binding ? { [input.id]: binding } : undefined)[0]!
   if (verdict.status === 'correct' && review.unverifiedFacts?.length) return { ...verdict, status: 'unknown', reason: 'Required source facts lack an observer: ' + review.unverifiedFacts.join('; ') }
   return { ...verdict, reason: 'Reviewed authored content; layout, paint ownership and quantitative checks use the shared SVG observer' }

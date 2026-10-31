@@ -5,7 +5,7 @@ import type { PaintCheck, PaintEvidence } from './paint.ts'
  * ownership; renderer IDs/classes and source/model metadata supply no facts. */
 export function inspectChartFacts(input: { family: string; source: string; expected: MeaningExpectation; paint: PaintEvidence; quantitative: PaintCheck[] }): PaintCheck[] {
   const svg = document.querySelector('svg'), facts: any = input.expected.facts ?? {}, checks: PaintCheck[] = []
-  if (!svg || !['xychart', 'quadrant', 'radar'].includes(input.family)) return checks
+  if (!svg || input.paint.labelRepresentation === 'uninspectable' || !['xychart', 'quadrant', 'radar'].includes(input.family)) return checks
   let uncertain = false
   const add = (key: string, actual: unknown, passed: boolean | null, scope: string) => { if (Object.hasOwn(facts, key)) checks.push({ criterion: 'source-fact:' + key, expected: facts[key], actual, status: passed === null || passed && uncertain ? 'unavailable' : passed ? 'passed' : 'failed', scope }) }
   const quantitative = (criterion: string, expected: unknown, actual: unknown, passed: boolean | null, scope: string) => checks.push({ criterion, expected, actual, status: passed === null || passed && uncertain ? 'unavailable' : passed ? 'passed' : 'failed', scope })

@@ -17,9 +17,9 @@ export function plannedQuantitativeCriteria(input: Pick<AuthoredFidelityCase, 'f
 
 /** Browser-side quantitative checks use each chart's actual coordinate system
  * and independently authored values. No renderer supplies expected geometry. */
-export function inspectQuantitativePaint(input: { family: string; expected: MeaningExpectation; source?: string; nodes?: { id: string; label: string; box: { x: number; y: number; width: number; height: number } }[] }): PaintCheck[] {
+export function inspectQuantitativePaint(input: { family: string; expected: MeaningExpectation; source?: string; labelRepresentation?: 'uninspectable'; nodes?: { id: string; label: string; box: { x: number; y: number; width: number; height: number } }[] }): PaintCheck[] {
   const svg = document.querySelector('svg'), facts: any = input.expected.facts ?? {}, checks: PaintCheck[] = []
-  if (!svg) return checks
+  if (!svg || input.labelRepresentation === 'uninspectable') return checks
   const add = (criterion: string, expected: unknown, actual: unknown, passed: boolean | null, scope: string) => checks.push({ criterion, expected, actual, status: passed === null ? 'unavailable' : passed ? 'passed' : 'failed', scope })
   const norm = (value: string) => value.normalize('NFC').replace(/\s+/g, ' ').trim()
   const uncertain = new Set<string>(), colorCanvas = document.createElement('canvas').getContext('2d')!

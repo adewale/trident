@@ -169,7 +169,7 @@ export async function recheckRendering(directory: string, out: string, pngReview
     await page.setContent(svg, { waitUntil: 'domcontentloaded', timeout: 20_000 })
     await withDocsDeadline(() => page.evaluate(async () => { await document.fonts.ready }), () => { void page.close().catch(() => {}) })
     const paint = await withDocsDeadline(() => page.evaluate(inspectFidelityPaint, { family: input.family, expected: input.expected, paint: input.paint }), () => { void page.close().catch(() => {}) })
-    const quantitative = await withDocsDeadline(() => page.evaluate(inspectQuantitativePaint, { family: input.family, expected: input.expected, source: input.source, nodes: paint.nodes as NonNullable<Parameters<typeof inspectQuantitativePaint>[0]['nodes']> }), () => { void page.close().catch(() => {}) })
+    const quantitative = await withDocsDeadline(() => page.evaluate(inspectQuantitativePaint, { family: input.family, expected: input.expected, source: input.source, labelRepresentation: paint.labelRepresentation, nodes: paint.nodes as NonNullable<Parameters<typeof inspectQuantitativePaint>[0]['nodes']> }), () => { void page.close().catch(() => {}) })
     const facts = await withDocsDeadline(() => page.evaluate(inspectSourceFacts, { family: input.family, source: input.source, expected: input.expected, paint, quantitative }), () => { void page.close().catch(() => {}) })
     const charts = await withDocsDeadline(() => page.evaluate(inspectChartFacts, { family: input.family, source: input.source, expected: input.expected, paint, quantitative }), () => { void page.close().catch(() => {}) })
     if (resourceGaps.length) throw Error('Observer prerequisites unavailable: ' + resourceGaps.join('; '))
@@ -230,7 +230,7 @@ export async function recheckRendering(directory: string, out: string, pngReview
             try {
               docsSvgOwnership ??= retainedDocsSvgOwnershipContext(out)
               const publicReturn = requireRetainedDocsSvgReturn({ root: join(out, 'docs'), project: row.metrics.project, source: input, round: Number(row.metrics.round), variant: row.metrics.variant ?? 'primary', svg, attemptId: row.metrics.rawInvocationId, remap, ownership: docsSvgOwnership })
-              assessment = { ...assessDocsDrawing(input, expected, 'passed', admission.ok, await inspect(row.metrics.project, svg, authored), makeSvgObservationBinding(authored, hash(svg), observerSha256)), publicReturn }; docsChecked++
+              assessment = { ...assessDocsDrawing(input, expected, 'passed', admission.unavailable ? 'unavailable' : admission.ok, await inspect(row.metrics.project, svg, authored), makeSvgObservationBinding(authored, hash(svg), observerSha256)), publicReturn }; docsChecked++
             }
             catch (error) { assessment = { status: 'unknown', reason: 'Retained SVG observer did not complete: ' + String(error) } }
           } else assessment = assessDocsDrawing(input, expected, 'blocked', false, [])

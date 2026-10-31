@@ -108,3 +108,14 @@ Mermaid's unrelated unresolved note-filter diagnostic still withholds a whole
 drawing certificate; passing this profile does not erase it. SHA-256 digests:
 `56841ada14d57582eecdc8b1596a770887bd00e77b352e43643ac9e508a36130` and
 `984ae4c3f3ce89c753e995b665539fd83e3f3fa86d205935c16192509f690083`.
+
+`rs-outlined-labels.svg` is an offline mutation of the retained
+`rs-flat-flowchart.svg` above, preserving its node bodies and relationship.
+Only its A/B text elements become DejaVu Sans glyph paths, centered at their
+original text anchors and scaled from the font's units per em to16px. The
+source font is `/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf`, SHA-256
+`57f73e11f51999432bf7ab22ce55b6f945d5eca1bf824404cfa9ec2e3718c84e`.
+This control demonstrates an uninspectable representation, not a new renderer
+measurement or an OCR oracle. Its bounds/paint remain observable while
+source-owned labels and facts stay unknown. The generated SVG's SHA-256 is
+`f78df53074e7c5e12df1b83016b88333a617d7ca92446f011b9b99c6196a67cf`.

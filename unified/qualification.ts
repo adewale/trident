@@ -11,7 +11,7 @@ import { censusDisplayText, referenceLabels } from './oracle-labels.ts'
 import { inspectPng } from './png-inspection.ts'
 import { interpretTerminal } from '../fidelity/terminal-display.ts'
 
-export const SVG_QUALIFICATION_PROTOCOL = 'svg-xml-namespaced-authored-text-v5'
+export const SVG_QUALIFICATION_PROTOCOL = 'svg-xml-namespaced-authored-text-v6'
 
 export interface Qualification {
   unavailable?: boolean
@@ -57,7 +57,7 @@ export function svgQualificationProvenance() {
     nodeXmlParser: observedSvgXmlParser!,
     browserXmlParser: 'native DOMParser',
     canvasPolicy: 'SVG namespace/root and positive finite viewBox or explicit finite width/height; percentage-only dimensions need a positive viewBox',
-    textPolicy: 'namespace-aware authored text retention excluding inert containers; sibling <text> rows of one wrapped label joined; markdown delimiters optional only for oracle/fixture-declared Markdown labels; CSS/paint visibility, referenced use/text paths and owned-label correspondence unmeasured',
+    textPolicy: 'namespace-aware authored text retention excluding inert containers; sibling <text> rows of one wrapped label joined; markdown delimiters optional only for oracle/fixture-declared Markdown labels; CSS/paint visibility, referenced use/text paths and owned-label correspondence unmeasured; zero-DOM-text path/image/use representations remain unavailable without a qualified glyph observer',
   }
 }
 function explicitSvgLength(value: string | undefined): number {
@@ -166,8 +166,10 @@ export function qualifyOutput(workload: UnifiedWorkload, output: unknown, format
     if (xml.findings.length || !xml.root) return { ok: false, findings: xml.findings, scope: 'format-only' }
     const inspected = inspectSvgText(xml.root, workload.expectedLabels, workload.markdownLabels)
     if (isRenderedSourceEcho(workload.source, output, 'svg', inspected.primaryRuns)) findings.push('Visible output echoes Mermaid source instead of an admitted diagram')
+    const unavailable = inspected.missingLabels.length > 0 && inspected.uninspectableText
+    if (unavailable) findings.push('SVG qualification unavailable: path/image/use-only text needs an independently qualified glyph or image observer; no OCR or label absence is inferred')
     findings.push(...inspected.missingLabels.map(label => `Missing authored label: ${label}`))
-    return { ok: !findings.length, findings, scope: workload.expectedLabels?.length ? 'format-and-authored-labels' : 'format-only' }
+    return { ok: !findings.length, ...(unavailable ? { unavailable: true } : {}), findings, scope: workload.expectedLabels?.length ? 'format-and-authored-labels' : 'format-only' }
   }
   if (format === 'ascii' || format === 'unicode' || format === 'terminal') {
     if (isRenderedSourceEcho(workload.source, output, 'terminal')) findings.push('Visible output echoes Mermaid source instead of an admitted diagram')

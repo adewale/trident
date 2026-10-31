@@ -82,7 +82,7 @@ export async function observeBrowserTimingSvg(page: any, authored: AuthoredFidel
     await page.setContent(svg, { waitUntil: 'domcontentloaded' })
     await page.evaluate(async () => { await document.fonts.ready })
     const paint = await page.evaluate(inspectFidelityPaint, { family: authored.family, expected: authored.expected, paint: authored.paint })
-    const quantitative = await page.evaluate(inspectQuantitativePaint, { family: authored.family, source: authored.source, expected: authored.expected, nodes: paint.nodes })
+    const quantitative = await page.evaluate(inspectQuantitativePaint, { family: authored.family, source: authored.source, expected: authored.expected, labelRepresentation: paint.labelRepresentation, nodes: paint.nodes })
     const facts = await page.evaluate(inspectSourceFacts, { family: authored.family, source: authored.source, expected: authored.expected, paint, quantitative })
     const charts = await page.evaluate(inspectChartFacts, { family: authored.family, source: authored.source, expected: authored.expected, paint, quantitative })
     observed = mergePaintChecks(paint.checks, quantitative, facts, charts)
@@ -90,7 +90,7 @@ export async function observeBrowserTimingSvg(page: any, authored: AuthoredFidel
     if (unplanned.length) observationError = 'Unplanned observer findings: ' + unplanned.map(check => check.criterion).join(', ')
   } catch (error) { observationError = 'Full SVG observer did not complete: ' + String(error) }
   return admitCheckedEvidence(contract, { schema: 'trident-checked-evidence-v1', caseId: authored.id, sourceSha256: contract.sourceSha256, expectationsSha256: contract.expectationsSha256, outputSha256, observerSha256, checks: contract.requiredChecks.map(item => {
-    if (item.surface === 'browser-public-api') return { ...item, status: resourceGaps.length || observationError ? 'unknown' : item.criterion === 'public-svg-admission' ? 'passed' : item.criterion === 'standalone-svg-and-labels' ? admission.ok ? 'passed' : 'failed' : 'unknown', detail: resourceGaps.length ? resourceGaps.join('; ') : observationError ?? (admission.ok ? 'Actual retained timed SVG return and independent standalone admission' : admission.findings.join('; ')) }
+    if (item.surface === 'browser-public-api') return { ...item, status: resourceGaps.length || observationError ? 'unknown' : item.criterion === 'public-svg-admission' ? 'passed' : item.criterion === 'standalone-svg-and-labels' ? admission.unavailable ? 'unknown' : admission.ok ? 'passed' : 'failed' : 'unknown', detail: resourceGaps.length ? resourceGaps.join('; ') : observationError ?? (admission.ok ? 'Actual retained timed SVG return and independent standalone admission' : admission.findings.join('; ')) }
     const check = observed.find(check => check.criterion === item.criterion)
     return { ...item, status: observationError ? 'unknown' : check?.status === 'passed' ? 'passed' : check?.status === 'failed' ? 'failed' : 'unknown', detail: observationError ?? (check ? check.scope + ' Evidence: ' + JSON.stringify({ expected: check.expected, actual: check.actual }) : 'No qualified observer for this complete source criterion') }
   }) })

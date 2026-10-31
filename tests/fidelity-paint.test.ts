@@ -156,6 +156,8 @@ test('image representation/prerequisite gaps stay unknown while exact decoded no
   const inlined = await inspect(retained, expected, { paint: { images: [{ href: 'https://fixture.invalid/frozen-red.png', count: 1 }] } })
   expect(inlined.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('unavailable')
   expect(inlined.checks.find(item => item.criterion === 'emitted-image-decoding')?.status).toBe('passed')
+  const indirect = fixture.replace('</svg>', `<defs><image id="red-asset" href="${red}" x="100" y="50" width="20" height="20"/></defs><use href="#red-asset"/></svg>`)
+  expect((await inspect(indirect, expected, { paint: { images: [{ href: red, count: 1 }] } })).checks.find(item => item.criterion === 'embedded-images')?.status).toBe('unavailable')
   const hiddenImage = await inspect(retained.replace('x="100" y="50" width="20"', 'x="100" y="50" opacity="0" width="20"'), expected, { paint: { images: [{ href: red, count: 1 }] } })
   expect(hiddenImage.checks.find(item => item.criterion === 'embedded-images')?.status).toBe('failed')
   const ambiguous = await inspect(fixture.replace('</svg>', '<g><rect x="10" y="50" width="60" height="25"/><text x="14" y="68">Alpha</text></g></svg>'))

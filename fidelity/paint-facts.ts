@@ -124,6 +124,7 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
   }
   for (const key of Object.keys(facts).sort()) {
     if (!svg) { add(key, null, null, 'No mounted SVG is available for the required source fact'); continue }
+    if (input.paint.labelRepresentation === 'uninspectable') { add(key, null, null, 'Path/image/use-only text has no qualified source-owned glyph observer; every declared source fact remains required and unknown'); continue }
     if (key === 'text-line-breaks' && Array.isArray(facts[key])) {
       const ownerKey = (owner: any) => JSON.stringify([owner?.kind, owner?.id ?? null, owner?.index ?? null])
       const partition = (expected: string[], actual: string[]) => { const memo = new Map<string, boolean>(); const visit = (line: number, row: number): boolean => { if (line === expected.length) return row === actual.length; const key = line + ':' + row; if (memo.has(key)) return memo.get(key)!; const matches = actual.slice(row).some((_, offset) => normalize(actual.slice(row, row + offset + 1).join(' ')) === normalize(expected[line]!) && visit(line + 1, row + offset + 1)); memo.set(key, matches); return matches }; return visit(0, 0) }

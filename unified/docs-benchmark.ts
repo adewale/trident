@@ -183,10 +183,10 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
                       (async () => {
                         await currentObserver.setContent(value.svg)
                         const paint = await currentObserver.evaluate(inspectFidelityPaint, { family: authored.family, expected: authored.expected })
-                        const quantitative = await currentObserver.evaluate(inspectQuantitativePaint, { family: authored.family, expected: authored.expected, source: testCase.source, nodes: paint.nodes })
+                        const quantitative = await currentObserver.evaluate(inspectQuantitativePaint, { family: authored.family, expected: authored.expected, source: testCase.source, labelRepresentation: paint.labelRepresentation, nodes: paint.nodes })
                         const facts = await currentObserver.evaluate(inspectSourceFacts, { family: authored.family, source: testCase.source, expected: authored.expected, paint, quantitative })
                         const chartFacts = await currentObserver.evaluate(inspectChartFacts, { family: authored.family, source: testCase.source, expected: authored.expected, paint, quantitative })
-                        return assessDocsDrawing(testCase, review, value.status, admission.ok, mergePaintChecks(paint.checks, quantitative, facts, chartFacts), makeSvgObservationBinding(authored, createHash('sha256').update(value.svg).digest('hex'), evidenceDigest(producers)))
+                        return assessDocsDrawing(testCase, review, value.status, admission.unavailable ? 'unavailable' : admission.ok, mergePaintChecks(paint.checks, quantitative, facts, chartFacts), makeSvgObservationBinding(authored, createHash('sha256').update(value.svg).digest('hex'), evidenceDigest(producers)))
                       })(),
                       new Promise<never>((_, reject) => { inspectionTimer = setTimeout(() => { void currentObserver.close().catch(() => {}); reject(Error('Drawing observer exceeded20s deadline')) }, 20_000) }),
                     ])
@@ -254,7 +254,7 @@ export async function qualifyCollectedDocsPng(options: UnifiedRunOptions, result
             await page.setContent(svg, { waitUntil: 'domcontentloaded' })
             await page.evaluate(async () => { await document.fonts.ready })
             const paint = await page.evaluate(inspectFidelityPaint, { family: authored.family, expected: authored.expected })
-            const quantitative = await page.evaluate(inspectQuantitativePaint, { family: authored.family, expected: authored.expected, source: authored.source, nodes: paint.nodes })
+            const quantitative = await page.evaluate(inspectQuantitativePaint, { family: authored.family, expected: authored.expected, source: authored.source, labelRepresentation: paint.labelRepresentation, nodes: paint.nodes })
             const facts = await page.evaluate(inspectSourceFacts, { family: authored.family, expected: authored.expected, source: authored.source, paint, quantitative })
             const charts = await page.evaluate(inspectChartFacts, { family: authored.family, expected: authored.expected, source: authored.source, paint, quantitative })
             return mergePaintChecks(paint.checks, quantitative, facts, charts)

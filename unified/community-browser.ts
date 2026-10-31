@@ -566,13 +566,15 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                   if (typeof helper.inspectSvgText !== 'function') return ['Prepared qualification helper has no namespace-aware SVG text inspector']
                   const inspected = helper.inspectSvgText(tree(element), expected, markdownLabels)
                   if (helper.isRenderedSourceEcho(source, svg, 'svg', inspected.primaryRuns)) return ['Visible SVG source-echo fallback is not diagram ink']
+                  if (inspected.missingLabels.length && typeof inspected.uninspectableText !== 'boolean') return ['SVG qualification unavailable: prepared helper predates glyph-representation inspection']
+                  if (inspected.missingLabels.length && inspected.uninspectableText) return ['SVG qualification unavailable: path/image/use-only text has no qualified glyph/image observer']
                   return inspected.missingLabels.map((label: string) => `Missing authored label: ${label}`)
                 }
                 const first = await call('_first')
                 if (negative) return { status: first.error ? 'ok' : 'qualification-failed', accepted: !first.error, firstMs: first.ms, bytes: 0, findings: first.error ? [] : ['Converter accepted independently invalid source'], error: first.error }
                 if (first.error) return { status: 'error', error: first.error, firstMs: first.ms }
                 const firstFindings = await validate(first.svg)
-                if (firstFindings.length) return { status: firstFindings.some(finding => /^(?:PNG|Conversion) qualification unavailable:/.test(finding)) ? 'qualification-unavailable' : 'qualification-failed', findings: firstFindings, firstMs: first.ms, xmlWellFormed, failedOutput: typeof first.svg === 'string' ? first.svg : undefined }
+                if (firstFindings.length) return { status: firstFindings.some(finding => /^(?:SVG|PNG|Conversion) qualification unavailable:/.test(finding)) ? 'qualification-unavailable' : 'qualification-failed', findings: firstFindings, firstMs: first.ms, xmlWellFormed, failedOutput: typeof first.svg === 'string' ? first.svg : undefined }
                 const bytes = first.svg instanceof Uint8Array ? first.svg.byteLength : new TextEncoder().encode(first.svg).length
                 if (!core && coverageOnly) return { status: 'ok', firstMs: first.ms, bytes, findings: [], hasLabelOracle: output !== 'png' && expected.length > 0, coverageOnly: true, xmlWellFormed }
                 let iterations = 1
@@ -603,7 +605,7 @@ export async function runCommunityBrowserSuite(prepared: readonly PreparedCommun
                   samples.push(elapsed / iterations)
                 }
                 const findings = await validate(last.svg)
-                return { status: findings.some(finding => /^(?:PNG|Conversion) qualification unavailable:/.test(finding)) ? 'qualification-unavailable' : findings.length ? 'qualification-failed' : 'ok', samples, iterations, firstMs: first.ms, bytes, findings, hasLabelOracle: output !== 'png' && expected.length > 0, xmlWellFormed, ...(findings.length && typeof last.svg === 'string' ? { failedOutput: last.svg } : {}) }
+                return { status: findings.some(finding => /^(?:SVG|PNG|Conversion) qualification unavailable:/.test(finding)) ? 'qualification-unavailable' : findings.length ? 'qualification-failed' : 'ok', samples, iterations, firstMs: first.ms, bytes, findings, hasLabelOracle: output !== 'png' && expected.length > 0, xmlWellFormed, ...(findings.length && typeof last.svg === 'string' ? { failedOutput: last.svg } : {}) }
               },
               { source: workload.source, negative: workload.intent === 'negative-admission', relationships: workload.expectedRelationships, expected: [...(workload.expectedLabels ?? [])], markdownLabels: [...(workload.markdownLabels ?? [])], id: `unified_${round}_${record.samples.length}`, core: workload.features.includes('core-graph-batch'), output: engine.output ?? 'svg', coverageOnly: options.communityCoverageOnce ?? true },
             )

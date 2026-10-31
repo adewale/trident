@@ -136,3 +136,17 @@ Common visual configuration is a required fact wherever authored. Preserving
 the YAML or CSS source does not demonstrate its visible effect. Unsupported
 configuration must retain an unknown obligation until a checked projection
 proves the corresponding output behavior.
+
+When no active DOM text is present, visible path/image/use representations may
+contain glyphs that this observer cannot inspect. Standalone label admission,
+source-owned facts and dependent quantitative checks remain unknown across
+collection, DaveBench, retained replay and timing qualification. Recognized
+wrong or hidden DOM text still fails its ordinary checks. This fallback does
+not supply OCR or positive drawing credit; mixed DOM/outline text has no
+qualified combined observer.
+
+Exact decoded image references provide one bounded asset binding. A renderer
+may instead inline, reencode or vectorize the same asset, so an unmatched href
+or absent image element alone cannot prove wrong image contents. Those cases
+remain unknown. A matched decoded requested image with nonvisible geometry
+still fails. No image-equivalence or generic image-content oracle is claimed.
