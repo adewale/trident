@@ -1,3 +1,5 @@
+import { InvocationJournal } from '../portable/invocation-journal.ts'
+import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
 import { docsArtifactServer, callDocsPage, withDocsDeadline, closeDocsContext, initializeDocsPage } from './docs-runtime.ts'
 export { docsArtifactServer, callDocsPage, withDocsDeadline, closeDocsContext } from './docs-runtime.ts'
 import { readDocsResources, routeDocsResource } from './docs-resources.ts'
@@ -96,6 +98,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
     hostDeadlineMs: 20000, network: 'Prepared artifact origin only',
   }, null, 2))
   const checkpoint = new CollectionCheckpoint(options.out, { context: JSON.parse(readFileSync(join(options.out, 'context.json'), 'utf8')), inventory }, options.collectionDeadline)
+  const journal = new InvocationJournal(join(options.out, 'invocations'))
   let budgetError: CollectionBudgetExhausted | undefined
   const browser = targets.length ? await chromium.launch({ headless: true, executablePath: executable }) : undefined
   try {
@@ -134,10 +137,27 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
           for (const [index, testCase] of selectedCases.entries()) {
             checkCollectionBudget(options.collectionDeadline)
             if (!healthy || page.isClosed()) await initialize()
-            let value: any
-            try { value = await invoke({ type: 'measure-docs', source: testCase.source, id: `docs_${round}_${index}`, retainSvg: round === 1 }) }
-            catch (error) { healthy = false; server.closeAllConnections?.(); value = { status: 'blocked', error: 'Host transport deadline/closure: ' + String(error) } }
-            roundObservations.push({ suite: 'docs', surface: engine.kind === 'cli' ? 'public:svg' : 'browser:svg', runtime: engine.kind === 'cli' ? 'public CLI' : 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'render', format: 'svg', mode: 'one-public-call', status: value.status, ...(value.status === 'passed' ? { samplesMs: [value.durationMs] } : { detail: value.error }), metrics: { project: peer.node.id, version: engine.version, measuredAt: new Date().toISOString(), round, variant: peer.artifact?.transportVariant ?? 'primary', bytes: value.bytes ?? null, warmupAttempts: options.rounds === 1 ? 0 : 30, warmupPassed, ...(value.transportObservation ? { transportObservation: value.transportObservation } : {}) } })
+            const rawKey = JSON.stringify(['raw-svg', round, peer.node.id, peer.artifact?.transportVariant ?? 'primary', testCase.id])
+            let raw = checkpoint.get<{ value: any; measuredAt: string | null; invocationId: string | null }>(rawKey)
+            if (!raw) {
+              let value: any
+              const identity = { project: peer.node.id, caseId: testCase.id, sourceSha256: evidenceBytesDigest(testCase.source), artifactSha256: engine.artifactSha256!, bindingSha256: evidenceDigest({ format: 'svg', engine, round, variant: peer.artifact?.transportVariant ?? 'primary' }), format: 'svg' }
+              if (engine.kind !== 'cli') for (const pending of journal.pending(identity)) journal.failed(pending, 'Prior invocation has no recorded return; resumed with a new attempt', null, 'interrupted')
+              const attempt = engine.kind === 'cli' ? undefined : journal.start(identity)
+              try { value = await invoke({ type: 'measure-docs', source: testCase.source, id: `docs_${round}_${index}`, retainSvg: true }) }
+              catch (error) { healthy = false; server.closeAllConnections?.(); value = { status: 'blocked', error: 'Host transport deadline/closure: ' + String(error) } }
+              if (attempt) {
+                if (typeof value.svg === 'string') journal.returned(attempt, value.svg, Number.isFinite(value.durationMs) ? value.durationMs : null)
+                else journal.failed(attempt, value.error ?? 'Public call returned no SVG witness', null, value.status === 'blocked' ? 'interrupted' : 'public-error')
+              }
+              const inner = value.transportObservation?.metrics
+              const invocationId = attempt?.attemptId ?? (typeof inner?.rawInvocationId === 'string' ? inner.rawInvocationId : null)
+              const owner = attempt ? journal : typeof inner?.rawInvocationDirectory === 'string' ? new InvocationJournal(inner.rawInvocationDirectory) : undefined
+              const measuredAt = invocationId ? owner?.outcome(invocationId)?.finishedAt ?? null : null
+              raw = checkpoint.record(rawKey, { value, measuredAt, invocationId, recordedAt: new Date().toISOString() })
+            }
+            const { value } = raw
+            roundObservations.push({ suite: 'docs', surface: engine.kind === 'cli' ? 'public:svg' : 'browser:svg', runtime: engine.kind === 'cli' ? 'public CLI' : 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'render', format: 'svg', mode: 'one-public-call', status: value.status, ...(value.status === 'passed' ? { samplesMs: [value.durationMs] } : { detail: value.error }), metrics: { project: peer.node.id, version: engine.version, measuredAt: raw.measuredAt, rawInvocationId: raw.invocationId, round, variant: peer.artifact?.transportVariant ?? 'primary', bytes: value.bytes ?? null, warmupAttempts: options.rounds === 1 ? 0 : 30, warmupPassed, ...(value.transportObservation ? { transportObservation: value.transportObservation } : {}) } })
             if (round === 1) {
               const review = drawingInventory.find(input => input.id === testCase.id)!.review
               let witness: string | undefined, assessment: ReturnType<typeof assessDocsDrawing>
@@ -168,7 +188,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
                   } finally { if (inspectionTimer) clearTimeout(inspectionTimer) }
                 } else assessment = assessDocsDrawing(testCase, review, value.status, false, [])
               } catch (error) { assessment = { status: 'unknown', reason: 'Drawing observer did not complete: ' + String(error) } }
-              roundObservations.push({ suite: 'docs', surface: engine.kind === 'cli' ? 'public:svg' : 'browser:svg', runtime: engine.kind === 'cli' ? 'public CLI' : 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'drawing-checks', format: 'svg', mode: 'reviewed-first-round-output', status: assessment.status === 'correct' ? 'passed' : assessment.status === 'incorrect' ? 'failed' : assessment.status === 'not-applicable' ? 'not-applicable' : 'blocked', detail: JSON.stringify(assessment), metrics: { project: peer.node.id, version: engine.version, measuredAt: new Date().toISOString(), round, variant: peer.artifact?.transportVariant ?? 'primary', reviewedSource: !!review, ...(witness ? { witness } : {}) } })
+              roundObservations.push({ suite: 'docs', surface: engine.kind === 'cli' ? 'public:svg' : 'browser:svg', runtime: engine.kind === 'cli' ? 'public CLI' : 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'drawing-checks', format: 'svg', mode: 'reviewed-first-round-output', status: assessment.status === 'correct' ? 'passed' : assessment.status === 'incorrect' ? 'failed' : assessment.status === 'not-applicable' ? 'not-applicable' : 'blocked', detail: JSON.stringify(assessment), metrics: { project: peer.node.id, version: engine.version, measuredAt: raw.measuredAt, rawInvocationId: raw.invocationId, round, variant: peer.artifact?.transportVariant ?? 'primary', reviewedSource: !!review, ...(witness ? { witness } : {}) } })
             }
           }
         } catch (error) {

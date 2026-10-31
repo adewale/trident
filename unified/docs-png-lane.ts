@@ -1,3 +1,6 @@
+import { InvocationJournal } from '../portable/invocation-journal.ts'
+import { evidenceDigest, evidenceBytesDigest } from '../portable/evidence-contract.ts'
+import { gzipSync } from 'node:zlib'
 import { readDocsResources, routeDocsResource } from './docs-resources.ts'
 import { artifactVariants, selectArtifactVariant } from './artifact-variants.ts'
 import { selectDocsCases } from './docs-selection.ts'
@@ -51,6 +54,8 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
   const context = { format: 'png', resources: { manifestSha256: resources.manifestSha256, files: resources.identity }, driver: process.versions, browser: conversionRequired ? executableIdentity(options.executable ?? defaultChromium(chromium)) : null, artifacts: prepared, preparedBrowsers: browsers, rounds: options.rounds, selectedCaseIds: selectedCases.map(input => input.id), calls: 'One actual output call per occurrence per round; no adaptive repetition or implicit artifact acquisition.', timing: 'Descriptive only: browser includes public SVG render + serialization/raster/PNG encoding; native/Node API clocks exclude startup; CLI includes startup. Clocks with different boundaries do not share a speed ranking.', correctness: 'Actual PNG/source/expectation hashes need a full content review. Decoding and nonblank checks alone never pass content.' }
   writeFileSync(join(options.out, 'context.json'), JSON.stringify(context, null, 2))
   const checkpoint = new CollectionCheckpoint(options.out, { inventory, sourceReviews, imageReviews, context, projects, rounds: options.rounds, producers: protocolIdentity(options.harnessRoot ?? options.root, ['unified/docs-png-lane.ts', 'unified/community-worker.mjs']) }, options.collectionDeadline)
+  const journal = new InvocationJournal(join(options.out, 'invocations'))
+  const rawKey = (project: string, round: number, id: string) => JSON.stringify(['raw-png', project, round, id])
   let budgetError: CollectionBudgetExhausted | undefined
   let browserHost: Awaited<ReturnType<typeof chromium.launch>> | undefined
   try {
@@ -76,22 +81,41 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
           await initializeDocsPage(page, engine, origin)
         } else if (transport !== 'unavailable') {
           verifyProvidedCommunityArtifact(peer!.artifact!)
-          const workloads = selectedCases.map(input => ({ id: input.id, family: input.family, source: input.source, expectedLabels: [], features: ['retain-output-witness'], provenance: 'Pinned Mermaid syntax documentation; source path/line in inventory.json' }))
+          const workloads = selectedCases.filter(input => !checkpoint.has(rawKey(project, round, input.id))).map(input => ({ id: input.id, family: input.family, source: input.source, expectedLabels: [], features: ['retain-output-witness'], provenance: 'Pinned Mermaid syntax documentation; source path/line in inventory.json' }))
           rendered = transport === 'native' ? await runExternalCommunity(peer!, workloads, 'png', round, { ...options, communityCoverageOnce: true }) : transport === 'node' ? await runCommunityNodeRound(peer!, 'png', workloads, round, { ...options, communityCoverageOnce: true }) : workloads.map(input => runCommunityCli(peer!, 'png', input, round, options.out))
         }
         for (const [index, input] of selectedCases.entries()) {
           checkCollectionBudget(options.collectionDeadline)
           const expected = sourceReviews.find(review => review.id === input.id) ?? null
-          let bytes: Uint8Array | undefined, status: BenchmarkObservation['status'] = 'blocked', detail: string | undefined, durationMs: number | undefined
-          if (conversion) {
-            const value = await conversion.invoke(input.source, `docs_png_${round}_${index}`)
-            if (value.status === 'ok') { bytes = Uint8Array.from(value.png); durationMs = value.totalMs; status = 'passed' } else { status = value.status === 'blocked' ? 'blocked' : 'failed'; detail = value.detail }
-          } else {
-            const row = rendered.find(row => row.caseId === input.id)
-            status = row?.status ?? 'blocked'; detail = row ? row.detail : peer?.error ?? browser?.browserDetail ?? 'No frozen native PNG or SVG-to-PNG transport is available'
-            const file = row?.metrics?.outputFile
-            if (typeof file === 'string' && existsSync(file)) bytes = readFileSync(file)
-            if (typeof row?.metrics?.firstMs === 'number') durationMs = row.metrics.firstMs
+          let raw = checkpoint.get<{ bytesBase64?: string; status: BenchmarkObservation['status']; detail?: string; durationMs?: number; originalSvg?: string; rasterizedSvg?: string; measuredAt: string | null; invocationId?: string }>(rawKey(project, round, input.id))
+          if (!raw) {
+            let bytes: Uint8Array | undefined, status: BenchmarkObservation['status'] = 'blocked', detail: string | undefined, durationMs: number | undefined, originalSvg: string | undefined, rasterizedSvg: string | undefined, invocationId: string | undefined, invocationDirectory: string | undefined
+            if (conversion) {
+              const identity = { project, caseId: input.id, sourceSha256: evidenceBytesDigest(input.source), artifactSha256: browser!.browser!.artifactSha256, bindingSha256: evidenceDigest({ format: 'png', transport, engine: browser!.browser!, round }), format: 'png' }
+              for (const pending of journal.pending(identity)) journal.failed(pending, 'Prior conversion has no recorded return; resumed with new attempt', null, 'interrupted')
+              const attempt = journal.start(identity); invocationId = attempt.attemptId; invocationDirectory = journal.directory
+              let value: any
+              try { value = await conversion.invoke(input.source, `docs_png_${round}_${index}`) }
+              catch (error) { journal.failed(attempt, error, null, 'interrupted'); throw error }
+              originalSvg = value.originalSvg ?? value.svg; rasterizedSvg = value.rasterizedSvg
+              if (value.status === 'ok') { bytes = Uint8Array.from(value.png); durationMs = value.totalMs; status = 'passed'; journal.returned(attempt, bytes, Number.isFinite(durationMs) ? durationMs! : null) }
+              else { status = value.status === 'blocked' ? 'blocked' : 'failed'; detail = value.detail; journal.failed(attempt, detail, null, status === 'blocked' ? 'interrupted' : 'public-error') }
+            } else {
+              const row = rendered.find(row => row.caseId === input.id)
+              status = row?.status ?? 'blocked'; detail = row ? row.detail : peer?.error ?? browser?.browserDetail ?? 'No frozen native PNG or SVG-to-PNG transport is available'
+              const file = row?.metrics?.outputFile
+              if (typeof file === 'string' && existsSync(file)) bytes = readFileSync(file)
+              if (typeof row?.metrics?.firstMs === 'number') durationMs = row.metrics.firstMs
+              if (typeof row?.metrics?.rawInvocationId === 'string') invocationId = row.metrics.rawInvocationId
+              if (typeof row?.metrics?.rawInvocationDirectory === 'string') invocationDirectory = row.metrics.rawInvocationDirectory
+            }
+            raw = checkpoint.record(rawKey(project, round, input.id), { ...(bytes ? { bytesBase64: Buffer.from(bytes).toString('base64') } : {}), status, detail, durationMs, originalSvg, rasterizedSvg, measuredAt: invocationId && invocationDirectory ? new InvocationJournal(invocationDirectory).outcome(invocationId)?.finishedAt ?? null : null, recordedAt: new Date().toISOString(), invocationId })
+          }
+          let { status, detail, durationMs } = raw
+          const bytes = typeof raw.bytesBase64 === 'string' ? Buffer.from(raw.bytesBase64, 'base64') : undefined
+          const svgWitnesses: Record<string, string> = {}
+          for (const [role, value] of [['originalSvg', raw.originalSvg], ['rasterizedSvg', raw.rasterizedSvg]] as const) if (typeof value === 'string') {
+            const name = role + '/' + evidenceBytesDigest(value) + '.svg.gz'; mkdirSync(join(options.out, role), { recursive: true }); if (!existsSync(join(options.out, name))) writeFileSync(join(options.out, name), gzipSync(value)); svgWitnesses[role + 'Witness'] = name
           }
           if (bytes) {
             const inspection = inspectPng(bytes, false)
@@ -99,7 +123,7 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
           }
           const witness = bytes ? 'drawings/' + createHash('sha256').update(bytes).digest('hex') + '.png' : undefined
           if (bytes && witness && !existsSync(join(options.out, witness))) writeFileSync(join(options.out, witness), bytes)
-          const metrics = { project, version, round, variant: peer?.artifact?.transportVariant ?? 'primary', measuredAt: new Date().toISOString(), transport, timingQualified: false, ...(witness ? { witness } : {}) }
+          const metrics = { project, version, round, variant: peer?.artifact?.transportVariant ?? 'primary', measuredAt: raw.measuredAt, rawInvocationId: raw.invocationId ?? null, ...svgWitnesses, transport, timingQualified: false, ...(witness ? { witness } : {}) }
           own.push({ suite: 'docs', surface: transport === 'svg-conversion' ? 'browser:png-export' : 'public:png', runtime: transport === 'svg-conversion' ? 'Chromium' : 'see retained transport observations', family: input.family, caseId: input.id, operation: 'render', format: 'png', mode: 'one-public-output-call', status, detail, ...(status === 'passed' && durationMs !== undefined ? { samplesMs: [durationMs] } : {}), metrics: { ...metrics, bytes: bytes?.length ?? null } })
           if (round === 1) {
             const assessment = assessDocsPng(input, expected, bytes, imageReviews)

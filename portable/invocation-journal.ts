@@ -32,6 +32,11 @@ export class InvocationJournal {
   pending(identity?: InvocationIdentity): Readonly<InvocationEvidence>[] {
     return this.checkpoint.entries<InvocationEvidence>().filter(([key, value]) => key.endsWith(':started') && (!identity || evidenceDigest(value.identity) === evidenceDigest(identity)) && !['returned', 'public-error', 'interrupted'].some(state => this.checkpoint.has(value.attemptId + ':' + state))).map(([_key, value]) => admitInvocationEvidence(value))
   }
+  outcome(attemptId: string): Readonly<InvocationEvidence> | undefined {
+    const frames = ['returned', 'public-error', 'interrupted'].flatMap(state => { const frame = this.checkpoint.get<InvocationEvidence>(attemptId + ':' + state); return frame ? [admitInvocationEvidence(frame)] : [] })
+    if (frames.length > 1) throw Error('Invocation has contradictory terminal outcomes')
+    return frames[0]
+  }
   streams(stdout: Uint8Array, stderr: Uint8Array): NonNullable<InvocationEvidence['streams']> { return { stdout: this.retain(stdout), stderr: this.retain(stderr) } }
   private retain(bytes: Uint8Array) {
     const sha256 = evidenceBytesDigest(bytes), path = join(this.directory, 'outputs', sha256)
