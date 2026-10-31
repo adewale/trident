@@ -45,16 +45,21 @@ export function analyseTerminalSource(source: string, family: string): TerminalS
     return base()
   }
   if (family === 'sequence') {
-    const participants: { id: string; label: string }[] = [], messages: { source: string; target: string; marker: string; label: string }[] = [], notes: any[] = [], fragments: any[] = []
+    const participants: { id: string; label: string }[] = [], messages: { source: string; target: string; marker: string; label: string }[] = [], notes: any[] = [], fragments: any[] = [], stack: number[] = []
     const participant = (id: string, label = id) => { if (!participants.some(item => item.id === id)) participants.push({ id, label: visibleTerminalLabel(label) }) }
     for (const line of lines.slice(1)) {
       let m: RegExpExecArray | null
       if ((m = /^\s*participant\s+(\S+)(?:\s+as\s+(.+))?\s*$/.exec(line))) participant(m[1]!, m[2] ?? m[1])
       else if ((m = /^\s*(\S+?)\s*(--?>>?|--?x|--?\))\s*(\S+?)\s*:\s*(.+)$/.exec(line))) { participant(m[1]!); participant(m[3]!); messages.push({ source: m[1]!, target: m[3]!, marker: m[2]!, label: visibleTerminalLabel(m[4]!) }) }
-      else if ((m = /^\s*Note\s+(right of|left of|over)\s+([^:]+):\s*(.+)$/i.exec(line))) notes.push({ position: m[1]!.toLowerCase(), actors: m[2]!.split(',').map(x => x.trim()), text: visibleTerminalLabel(m[3]!) })
-      else if ((m = /^\s*(alt|else|loop|opt|par)\s*(.*)$/.exec(line))) fragments.push({ kind: m[1], label: visibleTerminalLabel(m[2]!), beforeMessage: messages.length })
-      else if (line.trim() && line.trim() !== 'end') sourceUncertainties.push('Untranscribed sequence statement: ' + line.trim())
+      else if ((m = /^\s*Note\s+(right of|left of|over)\s+([^:]+):\s*(.+)$/i.exec(line))) notes.push({ position: m[1]!.toLowerCase(), actors: m[2]!.split(',').map(x => x.trim()), text: visibleTerminalLabel(m[3]!), afterMessage: messages.length })
+      else if ((m = /^\s*(alt|else|loop|opt|par)\s*(.*)$/.exec(line))) {
+        if (m[1] === 'else') { const parent = stack.at(-1); if (parent === undefined) sourceUncertainties.push('Sequence else has no fragment'); const previous = fragments.at(-1); if (previous?.kind === 'else') previous.afterMessage = messages.length; fragments.push({ kind: m[1], label: visibleTerminalLabel(m[2]!), beforeMessage: messages.length, parent }) }
+        else { fragments.push({ kind: m[1], label: visibleTerminalLabel(m[2]!), beforeMessage: messages.length, nesting: [...stack] }); stack.push(fragments.length - 1) }
+      }
+      else if (line.trim() === 'end') { const index = stack.pop(); if (index === undefined) sourceUncertainties.push('Sequence end has no fragment'); else { fragments[index].afterMessage = messages.length; for (const fragment of fragments) if (fragment.parent === index && fragment.afterMessage === undefined) fragment.afterMessage = messages.length } }
+      else if (line.trim()) sourceUncertainties.push('Untranscribed sequence statement: ' + line.trim())
     }
+    if (stack.length) sourceUncertainties.push('Sequence fragment has no end')
     fact('participants', participants, 'Declared and implicit participant identities/labels')
     fact('ordered-messages', messages, 'Chronological directed messages, captions and solid/dashed marker semantics')
     if (notes.length) fact('owned-notes', notes, 'Note text, actor ownership and explicit line breaks')

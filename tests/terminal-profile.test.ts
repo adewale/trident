@@ -40,6 +40,14 @@ test('omitted work stays in the denominator and unverifiable facts cannot receiv
   cases[0]!.expected.unverifiedFacts = ['Source requires a display-width observer']
   expect(assessTerminalRecord(record, directory, cases)[0].reviewed.planned).toBe(0)
 })
+test('typed rejection keeps its own denominator and rejects stale project/source evidence', () => {
+  const { directory, cases, record } = fixture(), source = 'not a diagram', invalid = { ...cases[0]!, id: 'fixture:invalid', family: 'invalid', source, sourceSha256: hash(source), intent: 'invalid', expected: { status: 'independently-reviewed', reason: 'Independently no Mermaid family header' } }
+  const inputs = [...cases, invalid], typedSourceOutcome = { project, caseId: invalid.id, sourceSha256: invalid.sourceSha256, kind: 'unknown-family', publicBoundary: 'Synthetic typed public parser control', detail: 'UnknownDiagramError', observerSha256: 'b'.repeat(64) }
+  const retained = { ...record, inventory: inputs.map(input => [input.id, input.sourceSha256]), outputs: [...record.outputs, { project, caseId: invalid.id, typedSourceOutcome }], sourceReference: [...record.sourceReference, { ...record.sourceReference[0]!, caseId: invalid.id }] }
+  expect(assessTerminalRecord(retained, directory, inputs)[0]).toMatchObject({ full: { correct: 1, planned: 1 }, rejection: { correct: 1, planned: 1 } })
+  typedSourceOutcome.project = 'different/project'
+  expect(() => assessTerminalRecord(retained, directory, inputs)).toThrow('stale')
+})
 test('changed witnesses, duplicate coordinates, missing reference and changed inventory reject regrading', () => {
   const { directory, cases, record } = fixture()
   record.outputs.push(record.outputs[0]!)

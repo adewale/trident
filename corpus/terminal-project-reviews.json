@@ -3819,7 +3819,8 @@
               "actors": [
                 "Alice"
               ],
-              "text": "Line 1\nLine 2\nLine 3"
+              "text": "Line 1\nLine 2\nLine 3",
+              "afterMessage": 1
             },
             {
               "position": "over",
@@ -3827,7 +3828,8 @@
                 "Alice",
                 "Bob"
               ],
-              "text": "Shared\nnote"
+              "text": "Shared\nnote",
+              "afterMessage": 2
             }
           ],
           "scope": "Note text, actor ownership and explicit line breaks"
@@ -7012,12 +7014,16 @@
             {
               "kind": "alt",
               "label": "Success",
-              "beforeMessage": 1
+              "beforeMessage": 1,
+              "nesting": [],
+              "afterMessage": 3
             },
             {
               "kind": "else",
               "label": "Failure",
-              "beforeMessage": 2
+              "beforeMessage": 2,
+              "parent": 0,
+              "afterMessage": 3
             }
           ],
           "scope": "Branch/fragment labels and message spans"
@@ -8564,12 +8570,16 @@
             {
               "kind": "alt",
               "label": "cached",
-              "beforeMessage": 3
+              "beforeMessage": 3,
+              "nesting": [],
+              "afterMessage": 5
             },
             {
               "kind": "else",
               "label": "fresh",
-              "beforeMessage": 4
+              "beforeMessage": 4,
+              "parent": 0,
+              "afterMessage": 5
             }
           ],
           "scope": "Branch/fragment labels and message spans"
