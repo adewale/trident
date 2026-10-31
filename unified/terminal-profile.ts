@@ -24,6 +24,18 @@ const invocationObserved = (row?: BenchmarkObservation) => !!row && row.metrics?
 const ready = (input: TerminalProjectCase) => input.intent !== 'invalid' && input.expected.status === 'independently-reviewed' && !input.expected.unverifiedFacts?.length && (input.expected.contract ? terminalSourceObservable(input.expected.contract, input.expected.graph) : input.family === 'flowchart' && !!input.expected.graph)
 export const terminalProfileId = 'terminal-project-corpus-v2'
 
+/** A collection interval is not a per-call clock. Retained legacy cases without
+ * their own timestamp remain null when regraded. */
+export function terminalCaseMeasuredAt(record: any, project: string, caseId: string): string | null {
+  const valid = (value: unknown): value is string => typeof value === 'string' && /^\d{4}-\d\d-\d\dT/.test(value) && Number.isFinite(Date.parse(value))
+  const own = record.outputs?.find((row: any) => row.project === project && row.caseId === caseId)
+  if (valid(own?.measuredAt)) return own.measuredAt
+  if (valid(own?.typedSourceOutcome?.measuredAt)) return own.typedSourceOutcome.measuredAt
+  const clocks = [...new Set((record.transportObservations ?? []).filter((row: any) => row.caseId === caseId && (row.metrics?.implementation === project || row.metrics?.project === project)).map((row: any) => row.metrics?.measuredAt).filter(valid))]
+  return clocks.length === 1 ? clocks[0] as string : null
+}
+
+
 /** Reuse existing public transports and their frozen-artifact worker proof. */
 export async function collectTerminalWorkloads(prepared: PreparedCommunity[], workloads: UnifiedWorkload[], options: UnifiedRunOptions) {
   mkdirSync(options.out, { recursive: true })
@@ -69,14 +81,14 @@ export function assessTerminalRecord(record: any, directory: string, cases = rev
     // The reference is a source diagnostic. Its optional model projection is
     // neither ground truth nor a veto over independently authored facts.
     const verdict = assessTerminalDrawing(input, output)
-    return { caseId: input.id, family: input.family, ...verdict, ...(row?.witness ? { witness: row.witness, sha256: row.sha256 } : {}) }
+    return { caseId: input.id, family: input.family, ...verdict, measuredAt: terminalCaseMeasuredAt(record, project, input.id), ...(row?.witness ? { witness: row.witness, sha256: row.sha256 } : {}) }
   }
   return record.artifacts.map((artifact: any) => {
     const full = cases.filter(input => input.intent !== 'invalid').map(input => assess(artifact.project, input)), reviewed = full.filter(input => cases.some(source => source.id === input.caseId && ready(source)))
     const summary = (rows: typeof full) => { const count = (status: string) => rows.filter(input => input.status === status).length; return { correct: count('correct'), incorrect: count('incorrect'), unsupported: count('unsupported'), unknown: count('unknown'), planned: rows.length, cases: rows } }
     const rejection = cases.filter(input => input.intent === 'invalid').map(input => {
       const retained = record.outputs.find((row: any) => row.project === artifact.project && row.caseId === input.id)
-      return { family: input.family, ...assessTerminalSourceRejection(input, retained?.typedSourceOutcome, artifact.project) }
+      return { family: input.family, ...assessTerminalSourceRejection(input, retained?.typedSourceOutcome, artifact.project), caseId: input.id, measuredAt: terminalCaseMeasuredAt(record, artifact.project, input.id) }
     })
     return { project: artifact.project, version: artifact.version, full: summary(full), reviewed: summary(reviewed), rejection: summary(rejection) }
   })
@@ -156,7 +168,7 @@ export async function runTerminalProfile(argv: string[]) {
         const typed = observation?.metrics?.typedSourceOutcome
         const typedSourceOutcome = typeof typed === 'string' ? JSON.parse(typed) : undefined
         if (typedSourceOutcome && input.intent === 'invalid') assessTerminalSourceRejection(input, typedSourceOutcome, peer.node.id)
-        outputs.push({ project: peer.node.id, caseId: input.id, ...(typedSourceOutcome ? { typedSourceOutcome } : {}), witness, sha256: bytes ? hash(bytes) : undefined, runtimeExecuted: invocationObserved(observation), publicStatus: observation?.status ?? 'blocked', detail: observation?.detail ?? peer.error })
+        outputs.push({ project: peer.node.id, caseId: input.id, measuredAt: typeof observation?.metrics?.measuredAt === 'string' ? observation.metrics.measuredAt : null, ...(typedSourceOutcome ? { typedSourceOutcome } : {}), witness, sha256: bytes ? hash(bytes) : undefined, runtimeExecuted: invocationObserved(observation), publicStatus: observation?.status ?? 'blocked', detail: observation?.detail ?? peer.error })
       }
     }
     record = { profile: terminalProfileId, source, producers, startedAt, finishedAt: new Date().toISOString(), inventory: cases.map(input => [input.id, input.sourceSha256]), corpusFile: 'corpus/terminal-project-examples.json', corpusSha256: hash(readFileSync(join(tridentDirectory, 'corpus/terminal-project-examples.json'))), reviewsSha256: hash(readFileSync(join(tridentDirectory, 'corpus/terminal-project-reviews.json'))), selectedCaseIds: targets.map(input => input.id), allInputs: true, targetedExtension: options.has('--projects'), artifacts: selected.map(peer => ({ project: peer.node.id, version: peer.artifact?.version ?? 'unavailable', artifact: peer.artifact ?? null, error: peer.error })), sourceReference, outputs, transportObservations }
@@ -165,8 +177,8 @@ export async function runTerminalProfile(argv: string[]) {
   writeFileSync(join(out, 'raw.json'), JSON.stringify(record, null, 2) + '\n')
   const assessments = assessTerminalRecord(record, out, cases), updatedAt = new Date().toISOString()
   const terminalCoverage = record.artifacts.map((artifact: any) => { const own = record.outputs.filter((row: any) => row.project === artifact.project), invocationUnknown = own.filter((row: any) => row.runtimeExecuted === null).length, attempted = own.filter((row: any) => row.runtimeExecuted ?? invocationObserved(record.transportObservations?.find((observation: any) => observation.metrics?.implementation === row.project && observation.caseId === row.caseId))).length; return { project: artifact.project, requested: own.length, attempted, returnedText: own.filter((row: any) => row.witness).length, publicFailed: own.filter((row: any) => row.publicStatus === 'failed').length, publicBlocked: own.filter((row: any) => row.publicStatus === 'blocked').length, invocationUnknown, notAttempted: cases.length - attempted - invocationUnknown, planned: cases.length } })
-  const observations: BenchmarkObservation[] = assessments.flatMap((project: any) => project.full.cases.map((input: any) => ({ suite: 'community', surface: 'terminal:cell-grid', runtime: 'retained terminal text', family: input.family, caseId: input.caseId, operation: 'graph-correctness', format: 'terminal', mode: terminalProfileId, status: input.status === 'correct' ? 'passed' : input.status === 'incorrect' ? 'failed' : 'blocked', detail: input.reason, metrics: { project: project.project, version: project.version, measuredAt: record.finishedAt, observerCheckedAt: updatedAt } })))
-  for (const project of assessments) for (const input of project.rejection.cases) observations.push({ suite: 'community', surface: 'terminal:public-rejection', runtime: 'retained typed public outcome', family: input.family, caseId: input.caseId, operation: 'typed-source-rejection', format: 'terminal', mode: terminalProfileId, status: input.status === 'correct' ? 'passed' : input.status === 'incorrect' ? 'failed' : 'blocked', detail: input.reason, metrics: { project: project.project, version: project.version, measuredAt: record.finishedAt, observerCheckedAt: updatedAt } })
+  const observations: BenchmarkObservation[] = assessments.flatMap((project: any) => project.full.cases.map((input: any) => ({ suite: 'community', surface: 'terminal:cell-grid', runtime: 'retained terminal text', family: input.family, caseId: input.caseId, operation: 'graph-correctness', format: 'terminal', mode: terminalProfileId, status: input.status === 'correct' ? 'passed' : input.status === 'incorrect' ? 'failed' : 'blocked', detail: input.reason, metrics: { project: project.project, version: project.version, measuredAt: input.measuredAt, collectionFrom: record.startedAt ?? null, collectionTo: record.finishedAt ?? null, observerCheckedAt: updatedAt } })))
+  for (const project of assessments) for (const input of project.rejection.cases) observations.push({ suite: 'community', surface: 'terminal:public-rejection', runtime: 'retained typed public outcome', family: input.family, caseId: input.caseId, operation: 'typed-source-rejection', format: 'terminal', mode: terminalProfileId, status: input.status === 'correct' ? 'passed' : input.status === 'incorrect' ? 'failed' : 'blocked', detail: input.reason, metrics: { project: project.project, version: project.version, measuredAt: input.measuredAt, collectionFrom: record.startedAt ?? null, collectionTo: record.finishedAt ?? null, observerCheckedAt: updatedAt } })
   const suite = join(out, 'terminal'); mkdirSync(suite)
   const result = { suite: 'community', terminalCoverage, startedAt: record.startedAt, finishedAt: record.finishedAt, observations, artifacts: ['../raw.json'], terminalProfile: { id: terminalProfileId, sourceRepositories: corpus.projects.map(project => ({ repository: project.repository, commit: project.commit })), cases: cases.map(input => ({ id: input.id, sourceSha256: input.sourceSha256, family: input.family, intent: input.intent })), drawingCaseIds: cases.filter(input => input.intent !== 'invalid').map(input => input.id), rejectionCaseIds: cases.filter(input => input.intent === 'invalid').map(input => input.id), reviewedCaseIds: planned.map(input => input.id), producers, corpusFile: record.corpusFile, corpusSha256: record.corpusSha256, reviewsSha256: hash(readFileSync(join(tridentDirectory, 'corpus/terminal-project-reviews.json'))) }, terminalAssessments: assessments.map((project: any) => ({ project: project.project, version: project.version, ...project.full })), terminalReviewedAssessments: assessments.map((project: any) => ({ project: project.project, version: project.version, ...project.reviewed })), terminalRejectionAssessments: assessments.map((project: any) => ({ project: project.project, version: project.version, ...project.rejection })), sourceReference: record.sourceReference, recheck: parentSha256 ? { parentSha256, originalSource: record.source, observerSource: source, checkedAt: updatedAt, rendererInvocations: 0, sourceReferenceCalls: flags.has('--refresh-source-reference') ? cases.length : 0, originalProfile: record.profile } : null }
   writeFileSync(join(suite, 'result.json'), JSON.stringify(result, null, 2) + '\n')

@@ -74,7 +74,11 @@ import { spawnSync } from 'node:child_process'
 import { readTerminalCorpus } from '../fidelity/terminal-corpus.ts'
 test('public saved-output launcher works in CI without oracle or renderer; collection remains guarded', () => {
   const directory = temp.dir(), out = join(temp.dir(), 'recheck'), corpus = readTerminalCorpus()
-  const record = { profile: 'terminal-project-corpus-v1', inventory: corpus.cases.map(input => [input.id, input.sourceSha256]), artifacts: [{ project, version: 'synthetic archived fixture' }], outputs: [{ project, caseId: corpus.cases[0]!.id, publicStatus: 'blocked' }], transportObservations: [], sourceReference: corpus.cases.map(input => ({ project: 'mermaid-js/mermaid', caseId: input.id, sourceAccepted: null, declaredGraphMatches: null, role: 'source-reference-only' })), startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z' }
+  const record: any = { profile: 'terminal-project-corpus-v1', inventory: corpus.cases.map(input => [input.id, input.sourceSha256]), artifacts: [{ project, version: 'synthetic archived fixture' }], outputs: [{ project, caseId: corpus.cases[0]!.id, publicStatus: 'blocked' }], transportObservations: [], sourceReference: corpus.cases.map(input => ({ project: 'mermaid-js/mermaid', caseId: input.id, sourceAccepted: null, declaredGraphMatches: null, role: 'source-reference-only' })), startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z' }
+  const known = '2026-01-01T00:00:00.250Z', transport = '2026-01-01T00:00:00.500Z'
+  record.outputs[0].measuredAt = known
+  record.outputs.push({ project, caseId: corpus.cases[1]!.id, measuredAt: null, publicStatus: 'blocked' }, { project, caseId: corpus.cases[2]!.id, publicStatus: 'blocked' })
+  record.transportObservations.push({ caseId: corpus.cases[2]!.id, metrics: { implementation: project, measuredAt: transport } })
   writeFileSync(join(directory, 'raw.json'), JSON.stringify(record))
   const command = new URL('../commands.ts', import.meta.url).pathname, env = { ...process.env, CI: 'true', GITHUB_ACTIONS: 'true', MERMAID_REFERENCE_DIR: '/missing/terminal-reference', TRIDENT_MERMAID_ORACLE: '' }
   const recheck = spawnSync(process.execPath, [command, 'bench', '--terminal', '--saved-terminal', directory, '--out', out], { env, encoding: 'utf8', timeout: 20_000 })
@@ -85,7 +89,13 @@ test('public saved-output launcher works in CI without oracle or renderer; colle
   expect(result.terminalProfile.cases).toHaveLength(120)
   expect(result.terminalProfile.drawingCaseIds).toHaveLength(116)
   expect(result.terminalProfile.rejectionCaseIds).toHaveLength(4)
-  expect(result.terminalCoverage[0]).toMatchObject({ requested: 1, attempted: 0, notAttempted: 120 })
+  expect(result.terminalCoverage[0]).toMatchObject({ requested: 3, attempted: 0, notAttempted: 120 })
+  const clocks = new Map(result.observations.map((row: any) => [row.caseId, row.metrics.measuredAt]))
+  expect(clocks.get(corpus.cases[0]!.id)).toBe(known)
+  expect(clocks.get(corpus.cases[1]!.id)).toBeNull()
+  expect(clocks.get(corpus.cases[2]!.id)).toBe(transport)
+  expect(result.observations.filter((row: any) => ![corpus.cases[0]!.id, corpus.cases[2]!.id].includes(row.caseId)).every((row: any) => row.metrics.measuredAt === null)).toBe(true)
+  expect(result.observations.every((row: any) => row.metrics.collectionFrom === record.startedAt && row.metrics.collectionTo === record.finishedAt && row.metrics.observerCheckedAt)).toBe(true)
   expect(result.recheck).toMatchObject({ rendererInvocations: 0, sourceReferenceCalls: 0, originalProfile: 'terminal-project-corpus-v1' })
   expect(result.terminalProfile.id).toBe('terminal-project-corpus-v2')
   expect(result.startedAt).toBe(record.startedAt)
