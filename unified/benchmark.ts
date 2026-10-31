@@ -76,6 +76,7 @@ export async function main(argv = process.argv.slice(2)) {
   --docs-cases FILE              optional repair IDs; unselected corpus inputs stay unmeasured
   --docs-review FILE             source-hashed drawing expectations (default: corpus/docs-reviewed.json)
   --docs-formats svg,png         same corpus, separate output lanes (default: both)
+  --community-artifact-variants FILE frozen per-project/output transport selections
   --docs-png-review FILE         reviewed PNG/source/expectation hashes; absent images remain unknown
   --list --include-excluded-descendants
   --pilot-summary CONTROLLER_JSON --out DIR  reduce owning pilot reports without collection

@@ -1,3 +1,4 @@
+import { readDocsResources, defaultDocsResources } from './docs-resources.ts'
 import { createHash } from 'node:crypto'
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { dirname, join, relative, resolve } from 'node:path'
@@ -72,7 +73,7 @@ export function loadCampaignPreparation(file: string): { manifest: PreparationMa
     const entry = prepared.find(entry => entry.node.id === receipt.project)
     if (!entry || stableValue(projectPackageIdentity(entry)) !== stableValue(receipt.identity)) throw Error('Prepared runtime bytes or dependency closure changed: ' + receipt.project)
   }
-  return { manifest, options: { communityCatalogFile: files.catalog, communityPreparedFile: files.prepared, communityBrowserPreparedFile: files.browsers, communityInputsFile: files.inputs, communityArtifactPolicy: 'frozen' }, externalInputs: files.externalInputs }
+  return { manifest, options: { communityCatalogFile: files.catalog, communityPreparedFile: files.prepared, communityBrowserPreparedFile: files.browsers, communityInputsFile: files.inputs, communityArtifactPolicy: 'frozen', ...(files.variants ? { communityArtifactVariantsFile: files.variants } : {}), ...(files.docsResources ? { docsResourcesFile: files.docsResources } : {}) }, externalInputs: files.externalInputs }
 }
 /** One immutable preparation index; component files are owning evidence, never
  * competing "final" manifests. Acquisition and input admission finish before clocks. */
@@ -125,6 +126,8 @@ export async function prepareCampaign(options: UnifiedRunOptions, catalog: unkno
     for (const companion of artifact.additionalCli ?? []) if (companion.artifact) retain(companion.artifact)
   }
   for (const entry of prepared) if (entry.artifact) retain(entry.artifact)
+  const resources = readDocsResources(options.docsResourcesFile)
+  write('docsResources', 'docs-resources.json', resources.resources.map(({ body: _body, ...row }: any) => { retainFile(row.path); const name = 'blobs/' + row.sha256; let license = row.license; if (license?.path) { const path = resolve(dirname(options.docsResourcesFile ?? defaultDocsResources), license.path); retainFile(path); license = { ...license, path: 'blobs/' + hash(path) } } return { ...row, path: name, ...(license ? { license } : {}) } }))
   write('prepared', 'community-prepared.json', prepared)
   write('browsers', 'community-browser-prepared.json', browsers)
   if (options.communityInputsFile) write('inputs', 'community-inputs.json', readBenchmarkDocument(options.communityInputsFile))
@@ -132,6 +135,7 @@ export async function prepareCampaign(options: UnifiedRunOptions, catalog: unkno
     const enriched = await withReferenceLabels([...corpusWorkloads(options.profile), ...supportControls], { root: options.harnessRoot ?? options.root })
     write('inputs', 'community-inputs.json', { workloads: [...communityCoreWorkloads(), ...enriched.workloads], reference: enriched.provenance ?? null, gaps: enriched.gaps })
   }
+  if (options.communityArtifactVariantsFile) write('variants', 'artifact-variants.json', readBenchmarkDocument(options.communityArtifactVariantsFile))
   if (settings.externalInputs) write('externalInputs', 'external-inputs.json', readBenchmarkDocument(settings.externalInputs))
   const fidelity = expandedFidelityCases()
   write('inventories', 'inventories.json', { portable: portableCases(), fidelity, criteria: planFidelityCriteria(fidelity), docs: docsInventory(options.mermaidDir), original: inventoryOriginalDeclarations(options.mermaidDir ?? mermaidUpstreamDirectory()) })

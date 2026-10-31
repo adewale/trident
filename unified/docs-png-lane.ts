@@ -1,3 +1,5 @@
+import { readDocsResources, routeDocsResource } from './docs-resources.ts'
+import { artifactVariants, selectArtifactVariant } from './artifact-variants.ts'
 import { selectDocsCases } from './docs-selection.ts'
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
@@ -34,8 +36,11 @@ export function docsPngTransport(peer?: PreparedCommunity, browser?: PreparedCom
 export async function runDocsPngLane(options: UnifiedRunOptions, inventory: ReturnType<typeof docsInventory>, sourceReviews: readonly DocsDrawingReview[], imageReviews: readonly DocsPngReview[]): Promise<UnifiedSuiteResult> {
   assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: false })
   const selectedCases = selectDocsCases(inventory.cases, options)
+  const resources = readDocsResources(options.docsResourcesFile)
   const startedAt = new Date().toISOString(), observations: BenchmarkObservation[] = [], gaps: string[] = []
-  const prepared: PreparedCommunity[] = options.communityPreparedFile ? JSON.parse(readFileSync(options.communityPreparedFile, 'utf8')) : []
+  const original: PreparedCommunity[] = options.communityPreparedFile ? JSON.parse(readFileSync(options.communityPreparedFile, 'utf8')) : []
+  const selections = artifactVariants(options, original)
+  const prepared = original.map(peer => selectArtifactVariant(peer, 'png', selections))
   const browsers: PreparedCommunityBrowser[] = options.communityBrowserPreparedFile ? JSON.parse(readFileSync(options.communityBrowserPreparedFile, 'utf8')) : []
   for (const rows of [prepared, browsers]) if (!Array.isArray(rows) || new Set(rows.map(row => row.node.id)).size !== rows.length) throw Error('PNG preparation requires unique frozen project identities')
   const projects = options.communityProjects ?? [...new Set([...prepared, ...browsers].map(row => row.node.id))]
@@ -43,7 +48,7 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
   writeFileSync(join(options.out, 'community-prepared.json'), JSON.stringify(prepared))
   const retained = join(options.out, 'drawings'); mkdirSync(retained, { recursive: true })
   const conversionRequired = projects.some(project => docsPngTransport(prepared.find(row => row.node.id === project), browsers.find(row => row.node.id === project)) === 'svg-conversion')
-  const context = { format: 'png', driver: process.versions, browser: conversionRequired ? executableIdentity(options.executable ?? defaultChromium(chromium)) : null, artifacts: prepared, preparedBrowsers: browsers, rounds: options.rounds, selectedCaseIds: selectedCases.map(input => input.id), calls: 'One actual output call per occurrence per round; no adaptive repetition or implicit artifact acquisition.', timing: 'Descriptive only: browser includes public SVG render + serialization/raster/PNG encoding; native/Node API clocks exclude startup; CLI includes startup. Clocks with different boundaries do not share a speed ranking.', correctness: 'Actual PNG/source/expectation hashes need a full content review. Decoding and nonblank checks alone never pass content.' }
+  const context = { format: 'png', resources: { manifestSha256: resources.manifestSha256, files: resources.identity }, driver: process.versions, browser: conversionRequired ? executableIdentity(options.executable ?? defaultChromium(chromium)) : null, artifacts: prepared, preparedBrowsers: browsers, rounds: options.rounds, selectedCaseIds: selectedCases.map(input => input.id), calls: 'One actual output call per occurrence per round; no adaptive repetition or implicit artifact acquisition.', timing: 'Descriptive only: browser includes public SVG render + serialization/raster/PNG encoding; native/Node API clocks exclude startup; CLI includes startup. Clocks with different boundaries do not share a speed ranking.', correctness: 'Actual PNG/source/expectation hashes need a full content review. Decoding and nonblank checks alone never pass content.' }
   writeFileSync(join(options.out, 'context.json'), JSON.stringify(context, null, 2))
   const checkpoint = new CollectionCheckpoint(options.out, { inventory, sourceReviews, imageReviews, context, projects, rounds: options.rounds, producers: protocolIdentity(options.harnessRoot ?? options.root, ['unified/docs-png-lane.ts', 'unified/community-worker.mjs']) }, options.collectionDeadline)
   let budgetError: CollectionBudgetExhausted | undefined
@@ -66,7 +71,7 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
           const origin = 'http://127.0.0.1:' + (server.address() as any).port
           const context = await browserHost.newContext({ viewport: { width: 1400, height: 1000 } }), page = await context.newPage()
           context.setDefaultTimeout(20_000)
-          await context.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort())
+          await context.route('**/*', route => routeDocsResource(route, origin, resources))
           conversion = { close: () => closeDocsContext(context, server), invoke: (source, id) => callDocsPage(page, publicDocsPngAction, { source, id }) }
           await page.goto(origin + '/blank')
           if (engine.kind === 'franken' || engine.kind === 'merman') await callDocsPage(page, publicSvgBrowserAction, { type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: origin + '/' + engine.wasm })
@@ -96,7 +101,7 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
           }
           const witness = bytes ? 'drawings/' + createHash('sha256').update(bytes).digest('hex') + '.png' : undefined
           if (bytes && witness && !existsSync(join(options.out, witness))) writeFileSync(join(options.out, witness), bytes)
-          const metrics = { project, version, round, measuredAt: new Date().toISOString(), transport, timingQualified: false, ...(witness ? { witness } : {}) }
+          const metrics = { project, version, round, variant: peer?.artifact?.transportVariant ?? 'primary', measuredAt: new Date().toISOString(), transport, timingQualified: false, ...(witness ? { witness } : {}) }
           own.push({ suite: 'docs', surface: transport === 'svg-conversion' ? 'browser:png-export' : 'public:png', runtime: transport === 'svg-conversion' ? 'Chromium' : 'see retained transport observations', family: input.family, caseId: input.id, operation: 'render', format: 'png', mode: 'one-public-output-call', status, detail, ...(status === 'passed' && durationMs !== undefined ? { samplesMs: [durationMs] } : {}), metrics: { ...metrics, bytes: bytes?.length ?? null } })
           if (round === 1) {
             const assessment = assessDocsPng(input, expected, bytes, imageReviews)
