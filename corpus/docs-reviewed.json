@@ -12042,6 +12042,26 @@
             "shape": "ellipse"
           }
         ],
+        "framework-boundaries": [
+          {
+            "kind": "wavy",
+            "unordered": [
+              "complex",
+              "chaotic"
+            ],
+            "ordered": [
+              "complicated",
+              "clear"
+            ]
+          },
+          {
+            "kind": "cliff",
+            "domains": [
+              "clear",
+              "chaotic"
+            ]
+          }
+        ],
         "domain-entries": [
           {
             "domain": "complex",
@@ -12088,6 +12108,7 @@
         "visible-labels",
         "fact:domain-entries",
         "fact:domain-transitions",
+        "fact:framework-boundaries",
         "fact:framework-domains",
         "fact:title"
       ],
@@ -12136,6 +12157,26 @@
             "id": "confusion",
             "position": "center",
             "shape": "ellipse"
+          }
+        ],
+        "framework-boundaries": [
+          {
+            "kind": "wavy",
+            "unordered": [
+              "complex",
+              "chaotic"
+            ],
+            "ordered": [
+              "complicated",
+              "clear"
+            ]
+          },
+          {
+            "kind": "cliff",
+            "domains": [
+              "clear",
+              "chaotic"
+            ]
           }
         ],
         "domain-entries": [
@@ -12189,6 +12230,7 @@
         "visible-labels",
         "fact:domain-entries",
         "fact:domain-transitions",
+        "fact:framework-boundaries",
         "fact:framework-domains",
         "fact:title"
       ],
@@ -12231,6 +12273,26 @@
             "shape": "ellipse"
           }
         ],
+        "framework-boundaries": [
+          {
+            "kind": "wavy",
+            "unordered": [
+              "complex",
+              "chaotic"
+            ],
+            "ordered": [
+              "complicated",
+              "clear"
+            ]
+          },
+          {
+            "kind": "cliff",
+            "domains": [
+              "clear",
+              "chaotic"
+            ]
+          }
+        ],
         "domain-entries": [],
         "domain-transitions": []
       }
@@ -12244,6 +12306,7 @@
         "visible-labels",
         "fact:domain-entries",
         "fact:domain-transitions",
+        "fact:framework-boundaries",
         "fact:framework-domains",
         "fact:title"
       ],

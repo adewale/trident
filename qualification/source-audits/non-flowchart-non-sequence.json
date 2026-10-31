@@ -194,6 +194,17 @@
       "kind": "already-pending-source",
       "detail": "Malformed fill#969 property/value syntax is explicitly unresolved. No source accuracy pass is warranted until clarified.",
       "resolution": "Source ambiguity explicitly remains pending; no accuracy pass inferred"
+    },
+    {
+      "id": "cynefin-signature-boundaries",
+      "cases": [
+        "packages/mermaid/src/docs/syntax/cynefin.md:93",
+        "packages/mermaid/src/docs/syntax/cynefin.md:118",
+        "packages/mermaid/src/docs/syntax/cynefin.md:144"
+      ],
+      "kind": "missing-domain-obligation",
+      "detail": "Independent delta reviewer identified pinned prose line17 signature wavy ordered/unordered boundary and Clear/Chaotic cliff, beyond region identities/positions.",
+      "resolution": "Added mandatory framework-boundaries with ordered/unordered domain ownership and Clear/Chaotic cliff; output observer qualification remains separate."
     }
   ],
   "entries": [
@@ -1848,9 +1859,10 @@
       ],
       "sourceUnresolved": [],
       "findings": [
-        "cynefin-domain-regions"
+        "cynefin-domain-regions",
+        "cynefin-signature-boundaries"
       ],
-      "updatedExpectationsSha256": "52be3b8b69befbec628fcad31641f3465ed6ec3936d1a31724ec087a9d8201cf",
+      "updatedExpectationsSha256": "9870eb99951463fdd260e4eaa0d1712136b05165eb57d7c15f1c689b32967694",
       "updatedSourceUnresolved": []
     },
     {
@@ -1868,9 +1880,10 @@
       ],
       "sourceUnresolved": [],
       "findings": [
-        "cynefin-domain-regions"
+        "cynefin-domain-regions",
+        "cynefin-signature-boundaries"
       ],
-      "updatedExpectationsSha256": "30a1b3b2cce31555d9c72f986bc4dd75331409860f303a23c832ef7bbcacdf27",
+      "updatedExpectationsSha256": "fc178e34a5df25a468dfae8991569ab00401161a34d49a67065e8613f7120e49",
       "updatedSourceUnresolved": []
     },
     {
@@ -1888,9 +1901,10 @@
       ],
       "sourceUnresolved": [],
       "findings": [
-        "cynefin-domain-regions"
+        "cynefin-domain-regions",
+        "cynefin-signature-boundaries"
       ],
-      "updatedExpectationsSha256": "912cee4e7a884663ac465783c5d83da7b5145c97841d191485bc763734de0ffc",
+      "updatedExpectationsSha256": "a87beb4b2f9aebe0c5e2d4733e19ff56793a362852901ae220db09fe23e89114",
       "updatedSourceUnresolved": []
     },
     {
@@ -7196,6 +7210,6 @@
       "Independent stdlib arithmetic reconciles152 numeric items across20 pie/sankey/treemap sources"
     ],
     "rendererCalls": 0,
-    "independentFixDelta": "Pending PNG-agent review; these updated hashes identify code output rather than claim an independent approval"
+    "independentFixDelta": "PNG reviewer independently read every56 delta; Cynefin signature-boundary follow-up is awaiting reviewer confirmation"
   }
 }

@@ -292,7 +292,9 @@ function orderedCharts(r: LiteralReview) {
       if (edge) { const caption = cleanLabel(edge[3]!); transitions.push({ source: edge[1]!, target: edge[2]!, label: caption }); r.labels(caption); continue }
       r.unknown(line)
     }
-    r.fact('framework-domains', [{ id: 'complex', position: 'top-left' }, { id: 'complicated', position: 'top-right' }, { id: 'clear', position: 'bottom-right' }, { id: 'chaotic', position: 'bottom-left' }, { id: 'confusion', position: 'center', shape: 'ellipse' }]); r.fact('domain-entries', entries); r.fact('domain-transitions', transitions); return true
+    r.fact('framework-domains', [{ id: 'complex', position: 'top-left' }, { id: 'complicated', position: 'top-right' }, { id: 'clear', position: 'bottom-right' }, { id: 'chaotic', position: 'bottom-left' }, { id: 'confusion', position: 'center', shape: 'ellipse' }])
+    r.fact('framework-boundaries', [{ kind: 'wavy', unordered: ['complex', 'chaotic'], ordered: ['complicated', 'clear'] }, { kind: 'cliff', domains: ['clear', 'chaotic'] }])
+    r.fact('domain-entries', entries); r.fact('domain-transitions', transitions); return true
   }
   if (r.family === 'venn') {
     const sets: MeaningJson[] = [], unions: MeaningJson[] = [], textNodes: MeaningJson[] = []; let owner: MeaningJson = null

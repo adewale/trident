@@ -304,6 +304,8 @@ test('Ishikawa distinguishes the problem from same-indent causes and nested caus
 test('empty Cynefin and Wardley sources retain their diagram frameworks as mandatory domain facts', () => {
   const cynefin = facts('cynefin-beta\ntitle Framework\ncomplex\ncomplicated\nclear\nchaotic')
   expect(cynefin['framework-domains']).toEqual([{ id: 'complex', position: 'top-left' }, { id: 'complicated', position: 'top-right' }, { id: 'clear', position: 'bottom-right' }, { id: 'chaotic', position: 'bottom-left' }, { id: 'confusion', position: 'center', shape: 'ellipse' }])
+  expect(cynefin['framework-boundaries']).toEqual([{ kind: 'wavy', unordered: ['complex', 'chaotic'], ordered: ['complicated', 'clear'] }, { kind: 'cliff', domains: ['clear', 'chaotic'] }])
+  expect(review('cynefin-beta\ncomplex').sourceReview.requiredObligations).toContain('fact:framework-boundaries')
   expect(facts('wardley-beta\ntitle Map\nsize [800,1000]')['map-axes']).toEqual([{ axis: 'x', quantity: 'evolution', range: [0, 1], increases: 'right' }, { axis: 'y', quantity: 'visibility', range: [0, 1], increases: 'up' }])
 })
 
