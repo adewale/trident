@@ -28,6 +28,10 @@ export function compileVisualStyles(input: MeaningExpectation): { complete: bool
     }
     else complete = false
   }
+  // Point classes target chart marks, not graph nodes. Until that independent
+  // lowering exists, retain definitions and assignments as required facts;
+  // an empty graph-node set is not proof that an authored class is unused.
+  if (definitions.length && Object.hasOwn(facts, 'point-appearance') && (!Array.isArray(facts['point-appearance']) || facts['point-appearance'].some((entry: any) => names(entry.classes).length))) complete = false
   const supported = new Set(['fill', 'stroke', 'stroke-width', 'stroke-dasharray']), rules = new Map<string, Record<string, string>>()
   const properties = (attributes: any[]) => {
     const rule: Record<string, string> = {}
