@@ -22,6 +22,22 @@ smoke workload must be labelled as such. Published releases, source candidates
 and the Mermaid reference keep their identities. Node, browser and CLI results
 have separate tables unless their interfaces and work have been shown equivalent.
 
+Every benchmark description and results report must name the corpus origin next
+to the results, including conversational summaries. Link the originating repository
+or document and its exact commit/version, state the selected files and input count,
+and describe extraction, sampling, deduplication, exclusions or edits. For authored
+cases, name the originating project or author and link the committed inputs. For
+generated inputs, disclose the generator and seed when known. State who defined
+or reviewed the expected content, including any renderer-generated answers, and
+identify output witnesses separately from inputs. Reuse the existing inventories
+and receipts rather than create another provenance registry.
+
+For a subset, identify both its parent corpus and the selection rule. Distinguish
+the corpus's origin from the benchmark's inspiration and the renderer versions.
+A compact caption is sufficient: **Corpus: SOURCE at PIN; SELECTED INPUTS / PARENT
+TOTAL; SELECTION OR EDITS; EXPECTATIONS; inventory link.** Keep the original source
+pin when rechecking retained output; record the new observer separately.
+
 Keep metadata shared by every row in a caption. Repeat version and artifact role
 in rows when they vary. A table should remain understandable without a prose
 sentence interpreting each result.

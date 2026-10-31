@@ -50,6 +50,20 @@ with Mermaid ASCII required and Mermaid supplying a separately identified source
 
 ### Where the benchmarks come from
 
+Every benchmark description and results report names its corpus origin, source
+revision, selection or edits, and the origin of its expected answers. This applies
+to short summaries as well as saved tables; see [the reporting rule](REPORTING.md#what-belongs-above-a-table).
+
+| Corpus or profile | Where the inputs come from |
+|---|---|
+| DaveBench | Mermaid's [syntax documentation at commit `1fb7869`](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b/packages/mermaid/src/docs/syntax): 548 fenced occurrences, 546 distinct sources, 34 pages. Trident's [reviewed expectations](corpus/docs-reviewed.json) bind exact source bytes; 16 drawings are reviewed and one occurrence is configuration-only. |
+| Mermaid conformance and reference validation | Mermaid's [original tests at that same commit](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b). An eligible public-behaviour conformance comparison still needs qualification; the original reference runner and historical replay retain their own inventories and exclusions. |
+| Authored feature, model and cost cases | Fixtures developed in AM and Trident, with explicit expected facts in [fidelity/cases.ts](fidelity/cases.ts) and [portable/cohorts.ts](portable/cohorts.ts). Each run records its selection from these development fixtures. |
+| Legacy compatibility corpus | The [frozen AM corpus](corpus/community-corpus.json), imported from AM commit `de612cc08009cf8abbeae2d3795dac3baa0b5e36`. Its manifest also identifies upstream inputs. |
+| External repository examples | Examples and fixtures from the repositories and commits in [external-sources.json](corpus/external-sources.json), capped at 20 files per project. The frozen inventory retains file provenance, duplicates, licenses and extraction decisions. |
+| Terminal correctness pilot | Four flowcharts authored by Codex during Trident's benchmark repair: chain, branch, labelled edge and vertical edge. The [pilot's source facts and retained renderer outputs](docs/terminal-correctness.md) identify Mermaid ASCII and Termaid as the output producers. |
+| Reviewed fixed-PNG study | A [13-input common profile](docs/davebench-png-seven-results.md) selected from Mermaid's documentation after source-fact review of 20 candidates. Its full coverage phase retained all 548 documentation attempts. |
+
 **DaveBench** is inspired by [Dave Kiss's documentation benchmark](https://x.com/davekiss/status/2111512440106078554).
 Its implementation entered Trident through [Agentic Mermaid's documentation benchmark](https://github.com/adewale/agentic-mermaid/blob/main/eval/benchmark/docs/davebench.md).
 That historical runner used 1,095 occurrences from AM's vendored Mermaid docs,
