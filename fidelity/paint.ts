@@ -375,15 +375,42 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   // Only the independently measured graph observer supplies these anchors.
   // Re-identify their actual visible ink; a source ID or caller-provided box
   // without a unique matching physical glyph never supplies ownership.
-  for (const source of input.expected.nodes ?? []) if (!anchors.has(source.id)) {
+  for (const source of input.expected.nodes ?? []) {
     const qualified = input.qualifiedNodeAnchors?.filter(node => node.id === source.id && node.label === source.label)
     if (qualified?.length !== 1) continue
     const candidate = qualified[0]!, descriptions = candidate.anchorParts ?? (candidate.outline ? [{ tag: candidate.outline.tag, box: candidate.box }] : [])
     if (!descriptions.length) continue
     const sameBox = (a: Box, b: Box) => ['x', 'y', 'width', 'height'].every(key => Math.abs(a[key as keyof Box] - b[key as keyof Box]) <= .25)
     const parts = descriptions.map(part => geometry.filter(element => element.localName === part.tag && sameBox(rect(element), part.box)))
-    if (parts.some(matches => matches.length !== 1) || new Set(parts.map(matches => matches[0])).size !== parts.length) continue
-    const observed = parts.map(matches => matches[0]!), boxes = observed.map(rect), x = Math.min(...boxes.map(b => b.x)), y = Math.min(...boxes.map(b => b.y)), union = { x, y, width: Math.max(...boxes.map(b => b.x + b.width)) - x, height: Math.max(...boxes.map(b => b.y + b.height)) - y }
+    // Coincident fill/stroke layers may be one physical glyph. Sharing a box
+    // alone is insufficient: compare the complete measured screen contours.
+    const contours = new Map<Element, { points: Point[]; length: number; cells: Map<string, Point[]> }>()
+    const contour = (element: Element) => {
+      if (contours.has(element)) return contours.get(element)!
+      const item = element as SVGGeometryElement, matrix = item.getScreenCTM(), local = item.getTotalLength()
+      if (!matrix || !local) return null
+      const count = Math.min(16384, Math.max(32, Math.ceil(local * Math.hypot(matrix.a, matrix.b, matrix.c, matrix.d) / .1)))
+      const points = Array.from({ length: count + 1 }, (_, index) => { const p = item.getPointAtLength(local * index / count).matrixTransform(matrix); return { x: p.x, y: p.y } })
+      const cells = new Map<string, Point[]>(); let length = 0
+      points.forEach((point, index) => { const key = Math.floor(point.x / .2) + ':' + Math.floor(point.y / .2); cells.set(key, [...(cells.get(key) ?? []), point]); if (index) length += Math.hypot(point.x - points[index - 1]!.x, point.y - points[index - 1]!.y) })
+      const observed = { points, length, cells }; contours.set(element, observed); return observed
+    }
+    const equivalent = (a: Element, b: Element) => {
+      if (a === b) return true
+      const first = contour(a), second = contour(b)
+      if (!first || !second || Math.abs(first.length - second.length) > .25) return false
+      const covered = (from: NonNullable<typeof first>, to: NonNullable<typeof second>) => from.points.every(point => {
+        const x = Math.floor(point.x / .2), y = Math.floor(point.y / .2)
+        for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) if (to.cells.get((x + dx) + ':' + (y + dy))?.some(other => Math.hypot(point.x - other.x, point.y - other.y) <= .2)) return true
+        return false
+      })
+      return covered(first, second) && covered(second, first)
+    }
+    if (parts.some(matches => !matches.length || !matches.every(element => equivalent(matches[0]!, element)))) continue
+    const observed = [...new Set(parts.flat())].filter((element, index, all) => !all.slice(0, index).some(other => equivalent(element, other)))
+    const existing = anchors.get(source.id)
+    if (existing && !observed.some(element => equivalent(element, existing.shape))) continue
+    const boxes = observed.map(rect), x = Math.min(...boxes.map(b => b.x)), y = Math.min(...boxes.map(b => b.y)), union = { x, y, width: Math.max(...boxes.map(b => b.x + b.width)) - x, height: Math.max(...boxes.map(b => b.y + b.height)) - y }
     if (!sameBox(union, candidate.box)) continue
     if (source.label) {
       const labels = visibleMatches(source.label)
