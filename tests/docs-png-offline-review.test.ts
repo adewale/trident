@@ -3,7 +3,7 @@ import { Resvg } from '@resvg/resvg-js'
 import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
 import { sourceHash, type DocsDrawingReview } from '../unified/docs-drawings.ts'
 import { assessDocsPng, docsExpectationsHash } from '../unified/docs-png-drawings.ts'
-import { importOfflinePngReviews, type OfflinePngReviewReceipt } from '../unified/docs-png-offline-review.ts'
+import { importOfflinePngReviews,readLegacyPngDirectBasisAudit, type OfflinePngReviewReceipt } from '../unified/docs-png-offline-review.ts'
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -18,7 +18,7 @@ const contract: DocsDrawingReview = { id: input.id, sourceSha256: sourceHash(inp
 const png = new Resvg('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="30"><rect width="120" height="30" fill="white"/><path d="M10 15H110" stroke="black"/></svg>').render().asPng()
 // Deliberately incorrect image: the synthetic review identifies missing labels,
 // boxes and arrowhead. This test never grants correctness from SVG generation.
-const receipt: OfflinePngReviewReceipt = { schema: 'trident-offline-png-image-review-v1', project: 'synthetic/native-png-only', source: input.source, reviewedSourceContract: contract, actualImage: { path: 'image.png', sha256: evidenceBytesDigest(png), width: 120, height: 30 }, inspection: { method: 'Synthetic independent negative image control', packetSha256: evidenceBytesDigest(png), packet: 'packet.png', checkedAt: '2026-10-31T18:00:00Z' }, review: { id: input.id, sourceSha256: sourceHash(input.source), pngSha256: evidenceBytesDigest(png), expectationsSha256: docsExpectationsHash(contract), status: 'incorrect', reviewedBy: 'Synthetic independent negative control author', review: 'Source requires Alpha and Beta labeled boxes with an arrow; actual control image contains only a horizontal line.' } }
+const receipt: OfflinePngReviewReceipt = { schema: 'trident-offline-png-image-review-v2', project: 'synthetic/native-png-only', source: input.source, reviewedSourceContract: contract, actualImage: { path: 'image.png', sha256: evidenceBytesDigest(png), width: 120, height: 30 }, inspection: { basis:'source-and-actual-image', method: 'Synthetic independent negative image control', packetSha256: evidenceBytesDigest(png), packet: 'packet.png', checkedAt: '2026-10-31T18:00:00Z' }, review: { id: input.id, sourceSha256: sourceHash(input.source), pngSha256: evidenceBytesDigest(png), expectationsSha256: docsExpectationsHash(contract), status: 'incorrect', reviewedBy: 'Synthetic independent negative control author', review: 'Source requires Alpha and Beta labeled boxes with an arrow; actual control image contains only a horizontal line.' } }
 const run = (rows: OfflinePngReviewReceipt[] = [receipt], current = contract, image = png, packet = png) => importOfflinePngReviews([input], [current], rows, () => image, () => packet)
 
 test('offline receipt retains source-grounded judgment and reviewed original bytes for exact-pixel replay', () => {
@@ -102,5 +102,28 @@ test('selected heterogeneous imports verify untouched origins, retain each packe
   expect(()=>materializeSelectedPngReviews({...options,out:join(root,'changed.json')})).toThrow('untouched original')
   expect(materializeSelectedPngReviews({...options,pathMapFile,out:join(root,'restored-bound.json')})).toMatchObject({reviews:1,inspections:2})
   paths[options.inventoryFile]='../inventory.json';writeFileSync(pathMapFile,JSON.stringify({schema:'trident-png-restored-path-map-v1',paths}));expect(()=>materializeSelectedPngReviews({...options,pathMapFile,out:join(root,'escape.json')})).toThrow('escapes')
+ }finally{rmSync(root,{recursive:true,force:true})}
+})
+
+test('legacy imports require an exact separately admitted direct-image audit and both materializers pin it',()=>{
+ const root=mkdtempSync(join(tmpdir(),'trident-legacy-basis-import-'))
+ try{
+  const legacy=structuredClone(receipt);legacy.schema='trident-offline-png-image-review-v1';delete legacy.inspection.basis
+  expect(()=>run([legacy])).toThrow('direct source-and-actual-image basis')
+  const auditFile=join(root,'basis.json'),audit={schema:'trident-legacy-direct-png-review-basis-v1',basis:'source-and-actual-image',auditedBy:'Independent synthetic audit author',method:'Exact historical direct source/image inspection receipt classified without changing its decision',receiptSha256s:[evidenceDigest(legacy)]}
+  writeFileSync(auditFile,JSON.stringify(audit));const admitted=readLegacyPngDirectBasisAudit(auditFile)
+  const imported=importOfflinePngReviews([input],[contract],[legacy],()=>png,()=>png,admitted)
+  expect(imported.imported[0]!.directImageBasis).toEqual({basis:'source-and-actual-image',protocol:'audited-legacy-direct-image-v1',auditSha256:evidenceDigest(admitted)})
+  mkdirSync(join(root,'docs/png/drawings'),{recursive:true});writeFileSync(join(root,'docs/inventory.json'),JSON.stringify({cases:[input]}));writeFileSync(join(root,'contracts.json'),JSON.stringify([contract]));writeFileSync(join(root,'docs/png/drawings',legacy.review.pngSha256+'.png'),png);writeFileSync(join(root,'packet.png'),png)
+  const file=join(root,'reviews.jsonl'),line=JSON.stringify(legacy);writeFileSync(file,line+'\n')
+  const options={campaign:root,receipts:[file],out:join(root,'plain.json'),contracts:join(root,'contracts.json')}
+  expect(()=>materializeOfflinePngReviews(options)).toThrow('direct source-and-actual-image basis')
+  expect(materializeOfflinePngReviews({...options,legacyBasisFile:auditFile}).inspections).toBe(1)
+  expect(JSON.parse(readFileSync(options.out+'.receipt.json','utf8')).legacyDirectBasis).toMatchObject({fileSha256:evidenceBytesDigest(readFileSync(auditFile)),auditSha256:evidenceDigest(admitted)})
+  const origins=join(root,'origins.jsonl');writeFileSync(origins,JSON.stringify({origin:{file,line:1,directory:root},receiptSha256:evidenceBytesDigest(line),receipt:legacy})+'\n')
+  const selected={inventoryFile:join(root,'docs/inventory.json'),contractsFile:options.contracts,originsFile:origins,imageRoots:[join(root,'docs/png')],out:join(root,'selected.json')}
+  expect(()=>materializeSelectedPngReviews(selected)).toThrow('direct source-and-actual-image basis')
+  expect(materializeSelectedPngReviews({...selected,legacyBasisFile:auditFile}).inspections).toBe(1)
+  expect(JSON.parse(readFileSync(selected.out+'.receipt.json','utf8')).legacyDirectBasis).toMatchObject({fileSha256:evidenceBytesDigest(readFileSync(auditFile)),auditSha256:evidenceDigest(admitted)})
  }finally{rmSync(root,{recursive:true,force:true})}
 })

@@ -257,3 +257,9 @@ pixels or newly qualified facts still require a qualified checker or a fresh
 complete source-grounded image decision. The published archive and selection
 audit enumerate every remaining case and reason. Exact pixel replay and strict
 conversion proof reduce repeated review work without replacing that evidence.
+
+Both offline import commands require `--legacy-basis AUDIT_FILE` for unchanged
+v1 receipts. The exact audit classifies historical direct image provenance; its
+file and semantic hashes are pinned in the import receipt. A v1 method name or
+newly inserted basis field cannot substitute for exact audited membership. New
+v2 receipts declare `source-and-actual-image` explicitly and need no legacy audit.

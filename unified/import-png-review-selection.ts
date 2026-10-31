@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from
 import { dirname, isAbsolute, join, relative, resolve } from 'node:path'
 import { gunzipSync } from 'node:zlib'
 import { evidenceBytesDigest, evidenceDigest } from '../portable/evidence-contract.ts'
-import { importOfflinePngReviews, type OfflinePngReviewReceipt } from './docs-png-offline-review.ts'
+import { importOfflinePngReviews,readLegacyPngDirectBasisAudit, type OfflinePngReviewReceipt } from './docs-png-offline-review.ts'
 
 const decode = (file: string) => { const bytes = readFileSync(file); return (file.endsWith('.gz') ? gunzipSync(bytes) : bytes).toString() }
 const owned = (root: string, file: string) => { const path = resolve(root,file), suffix=relative(realpathSync(root),realpathSync(path)); if(isAbsolute(suffix)||suffix==='..'||suffix.startsWith('../'))throw Error('Selected PNG evidence escapes its declared root');return path }
@@ -12,7 +12,7 @@ export interface SelectedPngReviewOrigin { origin: { file: string; line: number;
  * retained corpus. Origin checks and per-file packet roots survive selection.
  * A restored archive can map old provenance paths without rewriting receipts.
  * No image judgment, source-contract upgrade, renderer or API call occurs. */
-export function materializeSelectedPngReviews(options: { inventoryFile: string; contractsFile: string; originsFile: string; imageRoots: readonly string[]; out: string; pathMapFile?: string }) {
+export function materializeSelectedPngReviews(options: { inventoryFile: string; contractsFile: string; originsFile: string; imageRoots: readonly string[]; out: string; pathMapFile?: string; legacyBasisFile?: string }) {
   if(!options.imageRoots.length||existsSync(options.out)||existsSync(options.out+'.receipt.json'))throw Error('Selected PNG import needs image roots and fresh output files')
   const map = options.pathMapFile ? JSON.parse(decode(options.pathMapFile)) : null
   if(map && (map.schema!=='trident-png-restored-path-map-v1'||!map.paths))throw Error('Invalid restored PNG evidence path map')
@@ -25,6 +25,7 @@ export function materializeSelectedPngReviews(options: { inventoryFile: string; 
     if(!original||evidenceBytesDigest(original)!==row.receiptSha256||evidenceDigest(JSON.parse(original))!==evidenceDigest(row.receipt))throw Error('Selected PNG receipt differs from its untouched original file/line')
     originByReceipt.set(row.receipt,row)
   }
+  const legacyReviewBasis=options.legacyBasisFile?readLegacyPngDirectBasisAudit(locate(options.legacyBasisFile)):undefined
   const images=new Map<string,string>()
   const imported=importOfflinePngReviews(inventory.cases,contracts,selected.map(row=>row.receipt),receipt=>{
     if(!images.has(receipt.review.pngSha256)){
@@ -38,13 +39,13 @@ export function materializeSelectedPngReviews(options: { inventoryFile: string; 
     const origin=originByReceipt.get(receipt)!,originalPacket=resolve(origin.origin.directory,receipt.inspection.packet),suffix=relative(resolve(origin.origin.directory),originalPacket)
     if(isAbsolute(suffix)||suffix==='..'||suffix.startsWith('../'))throw Error('Selected inspection packet escapes its original evidence directory')
     return readFileSync(map?locate(originalPacket):owned(origin.origin.directory,receipt.inspection.packet))
-  })
+  },legacyReviewBasis)
   mkdirSync(dirname(resolve(options.out)),{recursive:true});writeFileSync(options.out,JSON.stringify(imported.reviews)+'\n',{flag:'wx'})
-  const receipt={schema:'trident-selected-png-review-import-v1',reviews:imported.reviews.length,inspections:imported.imported.length,inventorySha256:evidenceBytesDigest(readFileSync(locate(options.inventoryFile))),contractsSha256:evidenceBytesDigest(readFileSync(locate(options.contractsFile))),originsSha256:evidenceBytesDigest(readFileSync(locate(options.originsFile))),reviewFileSha256:evidenceBytesDigest(readFileSync(options.out)),imported:imported.imported,rendererInvocations:0,codexApiInvocations:0,...(options.pathMapFile?{pathMapSha256:evidenceBytesDigest(readFileSync(options.pathMapFile))}:{})}
+  const receipt={schema:'trident-selected-png-review-import-v1',reviews:imported.reviews.length,inspections:imported.imported.length,inventorySha256:evidenceBytesDigest(readFileSync(locate(options.inventoryFile))),contractsSha256:evidenceBytesDigest(readFileSync(locate(options.contractsFile))),originsSha256:evidenceBytesDigest(readFileSync(locate(options.originsFile))),reviewFileSha256:evidenceBytesDigest(readFileSync(options.out)),imported:imported.imported,rendererInvocations:0,codexApiInvocations:0,...(legacyReviewBasis?{legacyDirectBasis:{path:options.legacyBasisFile,fileSha256:evidenceBytesDigest(readFileSync(locate(options.legacyBasisFile!))),auditSha256:evidenceDigest(legacyReviewBasis)}}:{}),...(options.pathMapFile?{pathMapSha256:evidenceBytesDigest(readFileSync(options.pathMapFile))}:{})}
   writeFileSync(options.out+'.receipt.json',JSON.stringify(receipt,null,2)+'\n',{flag:'wx'});return{out:options.out,reviews:receipt.reviews,inspections:receipt.inspections,rendererInvocations:0,codexApiInvocations:0}
 }
 if(import.meta.main){
  const args=process.argv.slice(2),values=new Map<string,string>(),imageRoots:string[]=[]
- if(args.includes('--help'))console.log('bun unified/import-png-review-selection.ts --inventory FILE --contracts FILE --origins FILE --image-root PNG_ROOT [--image-root PNG_ROOT ...] --out FRESH_JSON [--path-map RESTORED_MAP]\nVerifies exact unchanged selected review origins and their own packet directories; no renderer, Codex or API needed.')
- else{for(let i=0;i<args.length;i+=2){const key=args[i]!,value=args[i+1];if(!['--inventory','--contracts','--origins','--image-root','--out','--path-map'].includes(key)||!value||key!=='--image-root'&&values.has(key))throw Error('Use --help');if(key==='--image-root')imageRoots.push(value);else values.set(key,value)}for(const key of ['--inventory','--contracts','--origins','--out'])if(!values.has(key))throw Error('Use --help');console.log(JSON.stringify(materializeSelectedPngReviews({inventoryFile:values.get('--inventory')!,contractsFile:values.get('--contracts')!,originsFile:values.get('--origins')!,out:values.get('--out')!,imageRoots,pathMapFile:values.get('--path-map')})))}
+ if(args.includes('--help'))console.log('bun unified/import-png-review-selection.ts --inventory FILE --contracts FILE --origins FILE --image-root PNG_ROOT [--image-root PNG_ROOT ...] --out FRESH_JSON [--path-map RESTORED_MAP] [--legacy-basis AUDIT_FILE]\nVerifies exact unchanged selected review origins and their own packet directories; no renderer, Codex or API needed.')
+ else{for(let i=0;i<args.length;i+=2){const key=args[i]!,value=args[i+1];if(!['--inventory','--contracts','--origins','--image-root','--out','--path-map','--legacy-basis'].includes(key)||!value||key!=='--image-root'&&values.has(key))throw Error('Use --help');if(key==='--image-root')imageRoots.push(value);else values.set(key,value)}for(const key of ['--inventory','--contracts','--origins','--out'])if(!values.has(key))throw Error('Use --help');console.log(JSON.stringify(materializeSelectedPngReviews({inventoryFile:values.get('--inventory')!,contractsFile:values.get('--contracts')!,originsFile:values.get('--origins')!,out:values.get('--out')!,imageRoots,pathMapFile:values.get('--path-map'),legacyBasisFile:values.get('--legacy-basis')})))}
 }

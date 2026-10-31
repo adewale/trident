@@ -85,5 +85,7 @@ absolute names as provenance while resolving actual files inside the restored
 evidence tree. `unified/import-png-review-selection.ts` checks each selected
 receipt against its untouched original file/line and resolves its own packet
 directory, then imports original images from explicitly declared PNG roots. It
-can consume that restored path map without rewriting any receipt. Both commands
+can consume that restored path map without rewriting any receipt. For unchanged
+v1 reviews, pass `--legacy-basis` with the retained exact direct-image audit; both
+materializers pin that audit and reject unaudited legacy decisions. Both commands
 run without a project renderer or Codex/API.
