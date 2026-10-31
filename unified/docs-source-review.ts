@@ -328,7 +328,15 @@ function statements(source: string) {
 function flowchart(r: LiteralReview) {
   if (r.family !== 'flowchart') return false
   const parsed = statements(r.body), nodes = new Map<string, { id: string; label: string }>(), shapes = new Map<string, string>(), attributes = new Map<string, MeaningJson>(), groups: { id: string; label: string; members: string[] }[] = [], stack: typeof groups = [], edges: NonNullable<MeaningExpectation['edges']> = [], layouts: MeaningJson[] = [], edgeAppearance: MeaningJson[] = []
-  const groupById = new Map<string, (typeof groups)[number]>()
+  const groupById = new Map<string, (typeof groups)[number]>(), rankRequests: MeaningJson[] = []
+  const markdown = (r.expected.facts!['markdown-source-labels'] ?? []) as { source: string; text: string; owners?: MeaningJson[] }[], reservedMarkdown = new Set(markdown.flatMap((item, index) => item.owners?.length ? [index] : []))
+  const reserveMarkdown = (raw: string) => {
+    const match = /^["']?`([\s\S]*?)`["']?$/.exec(raw.trim()); if (!match) return undefined
+    const index = markdown.findIndex((item, index) => !reservedMarkdown.has(index) && item.source === match[1])
+    if (index < 0) { r.unresolved.push('Markdown label lacks its literal source occurrence: ' + raw); return undefined }
+    reservedMarkdown.add(index); return index
+  }
+  const ownMarkdown = (index: number | undefined, owner: MeaningJson) => { if (index !== undefined) (markdown[index]!.owners ??= []).push(owner) }
   if (parsed.unclosed) r.unresolved.push('Unclosed flowchart label, quote or attribute syntax')
   const addNode = (id: string, label?: string) => {
     if (!nodes.has(id)) nodes.set(id, { id, label: label ?? id }); else if (label !== undefined) nodes.get(id)!.label = label
@@ -340,7 +348,7 @@ function flowchart(r: LiteralReview) {
     if (!idMatch) return
     // A, B and an edge identifier are separate tokens; never consume the arrow.
     const boundary = idMatch[0].search(/:::|--|-\./), id = (boundary < 0 ? idMatch[0] : idMatch[0].slice(0, boundary)).replace(/[-.]+$/, ''); if (!id) return
-    at += id.length; let label: string | undefined, shape: string | undefined
+    at += id.length; let label: string | undefined, shape: string | undefined, markdownIndex: number | undefined
     const forms: [string, string, string][] = [['(((', ')))', 'double-circle'], ['([', '])', 'stadium'], ['[[', ']]', 'subroutine'], ['[(', ')]', 'cylinder'], ['((', '))', 'circle'], ['{{', '}}', 'hexagon'], ['[', ']', 'rectangle'], ['(', ')', 'rounded'], ['{', '}', 'diamond'], ['>', ']', 'asymmetric']]
     const form = forms.find(([opening]) => source.startsWith(opening, at))
     if (form) {
@@ -356,7 +364,7 @@ function flowchart(r: LiteralReview) {
       if (form[0] === '[' && /^[\/\\]/.test(content) && /[\/\\]$/.test(content)) {
         const first = content[0], last = content.at(-1); shape = first === '/' ? last === '/' ? 'parallelogram' : 'trapezoid' : last === '\\' ? 'parallelogram-alt' : 'trapezoid-alt'; content = content.slice(1, -1)
       }
-      label = cleanLabel(content); const embeddedIcons = [...label.matchAll(/\b(?:fa|fab|fas|far|fal|fad|fak):fa-[\w-]+/g)].map(match => ({ reference: match[0], textOffset: match.index! })); if (embeddedIcons.length) { r.fact('embedded-icons', [...(r.expected.facts!['embedded-icons'] as MeaningJson[] ?? []), { id, icons: embeddedIcons }]); label = label.replace(/\b(?:fa|fab|fas|far|fal|fad|fak):fa-[\w-]+/g, '').replace(/\s+/g, ' ').trim() }; at = end + form[1].length
+      markdownIndex = reserveMarkdown(content); label = cleanLabel(content); const embeddedIcons = [...label.matchAll(/\b(?:fa|fab|fas|far|fal|fad|fak):fa-[\w-]+/g)].map(match => ({ reference: match[0], textOffset: match.index! })); if (embeddedIcons.length) { r.fact('embedded-icons', [...(r.expected.facts!['embedded-icons'] as MeaningJson[] ?? []), { id, icons: embeddedIcons }]); label = label.replace(/\b(?:fa|fab|fas|far|fal|fad|fak):fa-[\w-]+/g, '').replace(/\s+/g, ' ').trim() }; at = end + form[1].length
     }
     while (/\s/.test(source[at] ?? '') && at < source.length) at++
     if (source.startsWith('@{', at)) {
@@ -366,30 +374,31 @@ function flowchart(r: LiteralReview) {
       try {
         const attr = parseYaml(source.slice(at + 1, end + 1)) as Record<string, MeaningJson>
         if (!attr || typeof attr !== 'object' || Array.isArray(attr)) return
-        if (typeof attr.label === 'string') label = cleanLabel(attr.label)
+        if (typeof attr.label === 'string') { markdownIndex = reserveMarkdown(attr.label); label = cleanLabel(attr.label) }
         if (typeof attr.shape === 'string') shape = attr.shape
         attributes.set(id, { ...(attributes.get(id) as any ?? {}), ...attr }); at = end + 1
       } catch { return }
     }
     if (source.startsWith(':::', at)) { const classes = /^:::([\w,-]+)/.exec(source.slice(at)); if (!classes) return; const edgeBoundary = classes[1]!.search(/--|-\./), value = edgeBoundary < 0 ? classes[1]! : classes[1]!.slice(0, edgeBoundary); if (!value) return; attributes.set(id, { ...(attributes.get(id) as any ?? {}), classes: value }); at += 3 + value.length }
-    addNode(id, label); if (shape) shapes.set(id, shape)
+    addNode(id, label); ownMarkdown(markdownIndex, { kind: 'node', id }); if (shape) shapes.set(id, shape)
     return { id, end: at }
   }
   const edgeAt = (source: string, offset: number) => {
     const tail = source.slice(offset); const match = /^\s*(?:(\w+)@)?((?:<)?[ox]?(?:-{2,}|={2,}|-\.+-?|~{3,})(?:[>ox])?)\s*(?:\|([^|]*)\|\s*)?/.exec(tail)
     if (!match) return
-    let token = match[2]!, label = match[3] === undefined ? undefined : cleanLabel(match[3]), end = offset + match[0].length
+    let token = match[2]!, lengthToken = token, labelSource = match[3], label = labelSource === undefined ? undefined : cleanLabel(labelSource), end = offset + match[0].length
     // Captions can be delimited by the two halves of a long arrow.
     if (!/[>ox]$/.test(token) && !/^~~~/.test(token)) {
       const split = /^(.+?)\s+(-{2,}|={2,}|\.->)([>ox])?\s+/.exec(source.slice(end))
-      if (split && !/^[\w]+\s*(?:\[|\(|@\{|&|$)/.test(split[1]!)) { label = cleanLabel(split[1]!); token += split[2]! + (split[3] ?? ''); end += split[0].length }
+      if (split && !/^[\w]+\s*(?:\[|\(|@\{|&|$)/.test(split[1]!)) { labelSource = split[1]!; label = cleanLabel(labelSource); lengthToken = split[2]! + (split[3] ?? ''); token += lengthToken; end += split[0].length }
       else {
         const caption = /^(.+?)\s+(-{2,}>?|-{3,}|==>|\.->|--x|--o)\s*/.exec(source.slice(end))
-        if (caption) { label = cleanLabel(caption[1]!); token += caption[2]!; end += caption[0].length }
+        if (caption) { labelSource = caption[1]!; label = cleanLabel(labelSource); lengthToken = caption[2]!; token += lengthToken; end += caption[0].length }
       }
     }
     const marker = (char?: string) => char === 'o' ? 'circle' : char === 'x' ? 'cross' : char === '<' || char === '>' ? 'arrow' : 'none'
-    return { end, token, label, id: match[1], startMarker: marker(token[0]), endMarker: marker(token.at(-1)) }
+    const markdownIndex = labelSource === undefined ? undefined : reserveMarkdown(labelSource), marked = /^[<ox]|[>ox]$/.test(lengthToken), minimumRanks = lengthToken.includes('.') ? (lengthToken.match(/\./g)?.length ?? 0) : (lengthToken.match(lengthToken.includes('=') ? /=/g : /-/g)?.length ?? 0) - (marked ? 1 : 2)
+    return { end, token, lengthToken, minimumRanks, markdownIndex, label, id: match[1], startMarker: marker(token[0]), endMarker: marker(token.at(-1)) }
   }
   for (const statement of parsed.values) {
     if (/^\s*%%/.test(statement)) continue
@@ -406,7 +415,7 @@ function flowchart(r: LiteralReview) {
     if (subgraph) {
       const text = subgraph[1]!.trim(), match = /^([\w.-]+)\s*\[(.*)\]$/.exec(text), id = match?.[1] ?? cleanLabel(text), label = cleanLabel(match?.[2] ?? text)
       if (groupById.has(id)) { r.unresolved.push('Duplicate subgraph declaration needs explicit source review: ' + id); continue }
-      const group = { id, label, members: [] as string[] }; groups.push(group); groupById.set(id, group); if (stack.length) stack.at(-1)!.members.push(id); stack.push(group); continue
+      const group = { id, label, members: [] as string[] }; ownMarkdown(reserveMarkdown(match?.[2] ?? text), { kind: 'group', id }); groups.push(group); groupById.set(id, group); if (stack.length) stack.at(-1)!.members.push(id); stack.push(group); continue
     }
     let cursor = 0, first = nodeAt(line, cursor)
     if (!first) { r.unknown(line); continue }
@@ -423,6 +432,8 @@ function flowchart(r: LiteralReview) {
       for (const source of left) for (const target of right) {
         if (/^~~~/.test(relation.token)) layouts.push({ source, target, relation: 'invisible' })
         else {
+          ownMarkdown(relation.markdownIndex, { kind: 'edge', index: edges.length, source, target });
+          if (relation.minimumRanks > 1) rankRequests.push({ index: edges.length, source, target, minimumRanks: relation.minimumRanks, controllingDelimiter: relation.lengthToken });
           edges.push({ source, target, directed: relation.startMarker === 'arrow' || relation.endMarker === 'arrow', ...(relation.label !== undefined ? { label: relation.label } : {}), startMarker: relation.startMarker, endMarker: relation.endMarker })
           if (/=|\./.test(relation.token) || relation.id || /x|o/.test(relation.token)) edgeAppearance.push({ source, target, ...(relation.id ? { id: relation.id } : {}), stroke: relation.token.includes('=') ? 'thick' : relation.token.includes('.') ? 'dotted' : 'solid', markerStart: relation.startMarker, markerEnd: relation.endMarker })
         }
@@ -450,7 +461,11 @@ function flowchart(r: LiteralReview) {
   r.labels(...r.expected.nodes.map(node => node.label), ...r.expected.edges.map(edge => edge.label ?? ''), ...(r.expected.groups ?? []).map(group => group.label))
   if (shapes.size) r.fact('node-shapes', [...shapes].filter(([id]) => nodes.has(id)).map(([id, shape]) => ({ id, shape })))
   if (attributes.size) r.fact('node-attributes', [...attributes].map(([id, value]) => ({ id, attributes: value })))
-  if (layouts.length) r.fact('layout-constraints', layouts)
+  const directionRequests = layouts.filter((item: any) => item.direction !== undefined), remainingLayouts = layouts.filter((item: any) => item.direction === undefined)
+  if (remainingLayouts.length) r.fact('layout-constraints', remainingLayouts)
+  if (directionRequests.length) (r.expected.advisoryFacts ??= {})['subgraph-direction-requests'] = directionRequests
+  if (rankRequests.length) (r.expected.advisoryFacts ??= {})['edge-length-requests'] = rankRequests
+  for (const item of markdown) if (!item.owners?.length) r.unresolved.push('Markdown source label has no proven node, edge or group owner: ' + item.source)
   if (edgeAppearance.length) r.fact('edge-appearance', edgeAppearance)
   return true
 }

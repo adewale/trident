@@ -277,3 +277,20 @@ test('dialect-owned Markdown binds exact note and mindmap occurrences before flo
   const mindmap = facts('mindmap\na["`**same**`"]\n  b["`**same**`"]')
   expect((mindmap['markdown-source-labels'] as any[]).map(row => row.owners)).toEqual([[{ kind: 'node', id: 'a' }], [{ kind: 'node', id: 'b' }]])
 })
+
+
+test('flowchart edge length requests use the right caption delimiter and stay advisory', () => {
+  const row = review('flowchart TD\nA -- ordinary --> B\nB -- No ----> C\nC ---> D\nD -...-> E\nE ====> F\nF ----- G')
+  expect(row.expected?.advisoryFacts?.['edge-length-requests']).toEqual([{ index: 1, source: 'B', target: 'C', minimumRanks: 3, controllingDelimiter: '---->' }, { index: 2, source: 'C', target: 'D', minimumRanks: 2, controllingDelimiter: '--->' }, { index: 3, source: 'D', target: 'E', minimumRanks: 3, controllingDelimiter: '-...->' }, { index: 4, source: 'E', target: 'F', minimumRanks: 3, controllingDelimiter: '====>' }, { index: 5, source: 'F', target: 'G', minimumRanks: 3, controllingDelimiter: '-----' }])
+  expect(row.sourceReview.requiredObligations).not.toContain('fact:edge-length-requests')
+  const groups = review('flowchart LR\nsubgraph a\ndirection TB\nx-->y\nend\noutside-->x')
+  expect(groups.expected?.advisoryFacts?.['subgraph-direction-requests']).toEqual([{ group: 'a', direction: 'TB' }])
+  expect(groups.expected?.facts).not.toHaveProperty('layout-constraints')
+})
+
+test('flowchart Markdown facts bind exact node, group and edge owners despite duplicate text', () => {
+  const row = review('flowchart LR\nsubgraph "`**Group**`"\nA["`**same**`"] -- "`**same**`" --> B["`**same**`"]\nC["same"]\nend')
+  expect(row.expected?.facts?.['markdown-source-labels']).toEqual([{ source: '**Group**', text: 'Group', owners: [{ kind: 'group', id: 'Group' }] }, { source: '**same**', text: 'same', owners: [{ kind: 'node', id: 'A' }] }, { source: '**same**', text: 'same', owners: [{ kind: 'edge', index: 0, source: 'A', target: 'B' }] }, { source: '**same**', text: 'same', owners: [{ kind: 'node', id: 'B' }] }])
+  const expanded = review('flowchart LR\nA & B -->|"`**same**`"| C')
+  expect((expanded.expected?.facts?.['markdown-source-labels'] as any[])[0].owners).toEqual([{ kind: 'edge', index: 0, source: 'A', target: 'C' }, { kind: 'edge', index: 1, source: 'B', target: 'C' }])
+})
