@@ -11054,10 +11054,7 @@
         "carries",
         "rides",
         "Student",
-        "-idCard",
         "IdCard",
-        "-id",
-        "-name",
         "Bike"
       ],
       "facts": {
@@ -11065,35 +11062,23 @@
         "members": [
           {
             "id": "Student",
-            "values": []
-          },
-          {
-            "id": "-idCard",
             "values": [
-              "IdCard"
+              "-idCard : IdCard"
             ]
           },
           {
             "id": "IdCard",
-            "values": []
-          },
-          {
-            "id": "-id",
             "values": [
-              "int",
-              "int"
-            ]
-          },
-          {
-            "id": "-name",
-            "values": [
-              "string",
-              "string"
+              "-id : int",
+              "-name : string"
             ]
           },
           {
             "id": "Bike",
-            "values": []
+            "values": [
+              "-id : int",
+              "-name : string"
+            ]
           }
         ],
         "cardinalities": [
@@ -11129,20 +11114,8 @@
           "label": "Student"
         },
         {
-          "id": "-idCard",
-          "label": "-idCard"
-        },
-        {
           "id": "IdCard",
           "label": "IdCard"
-        },
-        {
-          "id": "-id",
-          "label": "-id"
-        },
-        {
-          "id": "-name",
-          "label": "-name"
         },
         {
           "id": "Bike",

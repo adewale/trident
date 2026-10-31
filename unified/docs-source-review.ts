@@ -773,9 +773,13 @@ function classes(r: LiteralReview) {
   const marker = (symbol: string) => /<\||\|>/.test(symbol) ? 'triangle' : /\*/.test(symbol) ? 'diamond' : /o/.test(symbol) ? 'open-diamond' : /\(\)/.test(symbol) ? 'circle' : /[<>]/.test(symbol) ? 'arrow' : 'none'
   for (const raw of r.lines.slice(1)) {
     const line = raw.trim().replace(/;$/, '')
+    if (line === '}') { if (!stack.pop()) r.unknown(line); continue }
+    // A colon in a class block belongs to its member signature. It is not the
+    // top-level `Class: member` shorthand and must never invent another class.
+    const owner = stack.at(-1)
+    if (owner?.kind === 'class') { const annotation = /^<<([^>]+)>>$/.exec(line); if (annotation) { annotations.push({ id: owner.id, annotation: annotation[1]! }); r.labels(annotation[1]!) } else members.get(owner.id)!.push(line); continue }
     if (r.title(line) || r.style(line)) continue
     if (/^(?:click|callback|link)\s/.test(line)) { r.excludedNonvisual.push('Class click/callback/navigation behavior outside a static drawing: ' + line); continue }
-    if (line === '}') { if (!stack.pop()) r.unknown(line); continue }
     let match = /^direction\s+(LR|RL|TB|TD|BT)$/.exec(line)
     if (match) { r.fact('direction', match[1]!); continue }
     match = /^namespace\s+([\w.-]+)(?:\s*\[([^\]]+)\])?\s*\{$/.exec(line)
@@ -795,8 +799,6 @@ function classes(r: LiteralReview) {
     if (match) { const id = node(match[1]!); members.get(id)!.push(match[2]!.trim()); continue }
     match = /^<<(\w+)>>\s+(`[^`]+`|[\w.-]+)$/.exec(line)
     if (match) { annotations.push({ id: node(match[2]!), annotation: match[1]! }); r.labels(match[1]!); continue }
-    const owner = stack.filter(item => item.kind === 'class').at(-1)
-    if (owner) { const annotation = /^<<([^>]+)>>$/.exec(line); if (annotation) { annotations.push({ id: owner.id, annotation: annotation[1]! }); r.labels(annotation[1]!) } else members.get(owner.id)!.push(line); continue }
     match = /^cssClass\s+"([^"]+)"\s+(.+)$/.exec(line)
     if (match) { r.fact('css-classes', [...(r.expected.facts!['css-classes'] as MeaningJson[] ?? []), { ids: match[1]!.split(/,\s*/), class: match[2]! }]); continue }
     r.unknown(line)
