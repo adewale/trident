@@ -32,7 +32,7 @@ test.skipIf(!!process.env.CI)('PNG-only public transport retains source-owned im
   expect(readFileSync(counter, 'utf8')).toBe(calls)
 })
 
-test('one documentation corpus reduces into separate SVG/PNG tables without double-counting or replacing SVG overview', () => {
+test('one documentation corpus separates SVG/PNG return diagnostics without fabricating correctness overview', () => {
   const out = temp.dir(), cases = [{ id: 'one' }, { id: 'two' }], date = '2026-10-31T00:00:00Z'
   writeFileSync(join(out, 'inventory.json'), JSON.stringify({ protocol: 'public-docs-output-lanes-v2', pin: { commit: 'pinned' }, cases }))
   const observations = ['svg', 'png'].flatMap(format => cases.map(input => ({ suite: 'docs', format, surface: format, runtime: 'fixture', family: 'flowchart', mode: 'one-call', caseId: input.id, operation: 'render', status: format === 'png' && input.id === 'two' ? 'failed' : 'passed', metrics: { project: 'fixture/a', version: '1', round: 1, measuredAt: date } })))
@@ -42,6 +42,6 @@ test('one documentation corpus reduces into separate SVG/PNG tables without doub
   expect(tables).toHaveLength(2)
   expect(tables.find(table => table.caption.includes('SVG output lane'))!.rows[0]!.values.slice(1, 3)).toEqual([2, 0])
   expect(tables.find(table => table.caption.includes('PNG output lane'))!.rows[0]!.values.slice(1, 3)).toEqual([1, 1])
-  expect(tables.filter(table => table.overview)).toHaveLength(1)
-  expect(tables.find(table => table.overview)!.caption).toContain('SVG')
+  expect(tables.filter(table => table.overview)).toHaveLength(0)
+  expect(tables.every(table => table.unit === 'documentation occurrences')).toBe(true)
 })

@@ -92,7 +92,7 @@ function docsFixture(root: string) {
   return { out, observations, report }
 }
 
-test('campaign imports generate ranked tables and charts from the full docs inventory without transcription', () => {
+test('campaign imports retain ranked return diagnostics without promoting them to correctness overview', () => {
   const root = temp(), { report } = docsFixture(root)
   const tables = campaignTables(report, receipt), entry = tables[0]!
   expect(tables).toHaveLength(1)
@@ -104,7 +104,8 @@ test('campaign imports generate ranked tables and charts from the full docs inve
   const imported = importCampaign({ schema: 'trident-results-snapshot-v1', tables: [], attempts: [] }, root, 'https://example.org/evidence', catalog)
   expect(imported.tables).toHaveLength(1)
   expect(imported.attempts.find(attempt => attempt.project === 'Fixture/A')!.groups.length).toBeGreaterThan(0)
-  expect(imported.overviewRanking).toBe(imported.tables[0]!.id)
+  expect(imported.overviewRanking).toBeUndefined()
+  expect(imported.tables[0]!.overview).toBeUndefined()
   expect(() => validateSnapshot(imported, catalog)).not.toThrow()
   report.pilot = true; write(join(root, 'report.json'), report)
   expect(() => importCampaign(imported, root, 'https://example.org/evidence', catalog)).toThrow('Pilot')
