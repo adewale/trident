@@ -28,8 +28,9 @@ import { reviewedTerminalCases } from '../fidelity/terminal-corpus.ts'
 import { assessTerminalDrawing } from '../fidelity/terminal-assessment.ts'
 test('independent reviews bind exact source facts and unobserved facts withhold whole-drawing credit', () => {
   const cases = reviewedTerminalCases(), reviewed = cases.filter(input => input.expected.status === 'independently-reviewed')
-  expect(reviewed).toHaveLength(22)
-  expect(reviewed.filter(input => input.intent === 'valid' && !input.expected.unverifiedFacts?.length)).toHaveLength(16)
+  expect(reviewed).toHaveLength(120)
+  expect(reviewed.filter(input => input.intent === 'valid')).toHaveLength(116)
+  expect(reviewed.every(input => input.expected.contract?.facts.length && !input.expected.contract.sourceUncertainties.length)).toBe(true)
   const unicode = reviewed.find(input => input.id === 'terminal:94ac61fd1311d5bc')!
   expect(assessTerminalDrawing(unicode, '日本語テスト 終了').status).toBe('unknown')
   expect(assessTerminalDrawing(cases.find(input => input.family === 'sequence')!, 'source labels only').status).toBe('unknown')

@@ -9,6 +9,7 @@ import type { UnifiedWorkload } from './types.ts'
 import { assertMermaidOracle, mermaidVerdicts } from '../portable/mermaid-oracle.ts'
 import { censusDisplayText, referenceLabels } from './oracle-labels.ts'
 import { inspectPng } from './png-inspection.ts'
+import { interpretTerminal } from '../fidelity/terminal-display.ts'
 
 export const SVG_QUALIFICATION_PROTOCOL = 'svg-xml-namespaced-authored-text-v5'
 
@@ -151,6 +152,13 @@ export function qualifyOutput(workload: UnifiedWorkload, output: unknown, format
   if (format === 'png') {
     const inspected = inspectPng(output, !!workload.expectedLabels?.some(label => label.trim()))
     return { ok: !inspected.findings.length, findings: inspected.findings, scope: inspected.scope, ...(inspected.unavailable ? { unavailable: true } : {}) }
+  }
+  if (['ascii', 'unicode', 'terminal'].includes(format) && workload.features?.includes('expected-empty-drawing')) {
+    if (workload.expectedLabels?.some(label => label.trim())) return { ok: false, findings: ['Empty-drawing contract conflicts with required labels'], scope: 'format-and-authored-labels' }
+    if (typeof output !== 'string') return { ok: false, findings: ['Expected an actual returned terminal string, including an empty string'], scope: 'format-only' }
+    const display = interpretTerminal(output)
+    if (display.status !== 'available') return { ok: false, unavailable: true, findings: [display.reason ?? 'Unqualified terminal display state'], scope: 'format-and-authored-labels' }
+    return { ok: !display.text.trim(), findings: display.text.trim() ? ['Source contract requires an empty drawing, but visible terminal ink remains'] : [], scope: 'format-and-authored-labels' }
   }
   if (typeof output !== 'string' || !output.trim()) return { ok: false, findings: ['Expected a nonempty output string'], scope: 'format-only' }
   if (format === 'svg') {

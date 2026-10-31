@@ -144,16 +144,19 @@ source hash, identify observer gaps and distinguish valid, invalid and dialect
 inputs. Unsupported families/layouts remain unknown against the full planned
 inventory. An unknown is a Trident measurement gap, not proof of a renderer defect.
 
-A [separate 22-contract source review](../corpus/terminal-project-reviews.json) now
-covers 20 drawings and two actual invalid-source tests. Sixteen drawing contracts
-can be attempted by the current observer; four retain explicit gaps. Another 98
-inputs remain unreviewed. The [dated qualification](terminal-results-2026-10-31.md)
-collects only that small drawing subset.
+The [separate source contract ledger](../corpus/terminal-project-reviews.json)
+now transcribes all 120 source inputs without using renderer output. The v2
+profile separates 116 positive drawings from four invalid-source controls.
+[Observer coverage](terminal-correctness.md) remains incomplete: complete source
+facts do not establish that every family can yet be checked in terminal output.
+The [dated qualification](terminal-results-2026-10-31.md) preserves its earlier v1
+scope rather than presenting new expectations as old measurement evidence.
 
 The small Mermaid ASCII/Termaid cohort remains sufficient to improve observers.
-Mermaid is mandatory for source validation and has no terminal renderer score.
-A broad all-project rerun is unnecessary while expected facts and observers are
-incomplete. There is no comprehensive correctness league table from this freeze.
+Mermaid is mandatory for source acquisition diagnostics and has no terminal score.
+A broad all-project rerun is unnecessary while observers and typed rejection
+classifiers remain incomplete. The original research snapshots and measurement
+receipts retain their identities when a new source contract ledger is applied.
 
 To reproduce source extraction without network or renderer invocations, expand
 the project snapshots into `RESEARCH/projects/OWNER--REPO/receipt.json`, write

@@ -8,16 +8,37 @@ plus invalid sources. It is a coverage sample, not production-frequency evidence
 with terminal-specific evidence from 53 shared-renderer robustness inputs. Those
 shared cases do not establish terminal user demand for their diagram families.
 
-[Independent source review](../corpus/terminal-project-reviews.json) currently binds
-22 contracts to exact source bytes: 20 drawing contracts and two real invalid-input
-tests. Sixteen drawings have enough independently declared facts for the current
-observer. The other 98 inputs have no independent drawing contract; four reviewed
-drawings retain observer gaps. Typed negative-input rejection is also unmeasured.
+[Source contracts](../corpus/terminal-project-reviews.json) now bind all 120
+sources to literal source bytes. They declare 318 required facts across the full
+inventory: node and relationship identities, group membership, captions,
+direction, chart values, dates, hierarchy, cardinality and other family semantics.
+The transcription reads source tokens; candidate output and renderer ASTs never
+define expected facts. [The regeneration check](../scripts/review-terminal-contracts.ts)
+reproduces the ledger without a renderer. Independent conformance review is still
+required to qualify this transcription and its observers.
+
+The v2 profile separates **116 positive drawing inputs** from **four invalid-source
+controls**. Every positive input keeps its full obligations, including those with
+no implemented output observer. Forty-six sources use facts for which an observer
+exists in at least one bounded display representation. This diagnostic subset is
+not a claim that 46 outputs pass, or a replacement for the 116-input denominator.
+
+The four invalid controls are `terminal:321aee6efed4a803` (unquoted pie label),
+`terminal:955cacf9438d691d` (unquoted Unicode Git branch references), and
+`terminal:486d9d241d7bf98f` / `terminal:c8082a89c0a3e258` (no diagram family).
+The source policy is pinned Mermaid syntax: pie sections require a quoted
+[STRING label](https://github.com/mermaid-js/mermaid/blob/1fb7869866dd619168d840291c9c54b4f129758b/packages/parser/src/language/pie/pie.langium),
+and bare Git
+[references](https://github.com/mermaid-js/mermaid/blob/1fb7869866dd619168d840291c9c54b4f129758b/packages/parser/src/language/gitGraph/reference.langium)
+use an ASCII `\w` grammar. This controls source compatibility, not the usefulness
+of a renderer's language extensions. Accepting these controls cannot establish a
+correct drawing; rejecting them requires typed public source evidence. A generic
+process exit, missing dependency or unsupported family stays unknown.
 
 ## Run a small qualification
 
 Mermaid ASCII is mandatory; the default second implementation is Termaid. Mermaid
-validates source grammar and checks agreement with the independent graph contracts.
+checks source acquisition independently of the authored contracts.
 It is an unscored source reference, never a fictional terminal renderer.
 
 ```sh
@@ -25,9 +46,8 @@ bun commands.ts bench --terminal --plan
 bun commands.ts bench --terminal --community-prepared FROZEN.json --out FRESH_DIR
 ```
 
-The default collects the 16 reviewed drawings once per terminal renderer and
-retains every other planned cell as unknown. `--all-inputs` explicitly attempts the
-whole source inventory. Preparation must already contain the selected artifacts:
+The default collects all 120 source inputs once per terminal renderer.
+`--all-inputs` is an explicit alias for that inventory. Preparation must already contain the selected artifacts:
 this profile performs no acquisition, build, warmup or repeated timing campaign.
 Source-reference refusal does not automatically turn a dialect input into an
 independently established invalid-source test.
@@ -48,7 +68,12 @@ bun commands.ts bench --terminal --saved-terminal SAVED_DIR --out NEW_DIR
 Saved mode authenticates source identities, research origins, witnesses and the
 recorded reference role. It requires neither Mermaid nor a terminal renderer and
 can run in CI. Original collection clocks and producers stay separate from the
-current observer. Results use the existing campaign publication and snapshot path.
+current observer. Add `--refresh-source-reference` for 120 parser-only reference
+checks: old reference rows remain in history, and the result reports the new call
+count separately from its zero renderer invocations. Saved v1 evidence may be
+regraded into v2 only when the exact 120 source identities match. Its original
+profile and collection clocks remain recorded. Results use the existing campaign
+publication and snapshot path.
 
 ## What correctness establishes
 
@@ -63,13 +88,32 @@ arrows, break stems, change topology and detach captions. These are observer
 controls, outside the real corpus score. The original four authored demonstration
 graphs survive only as historical controls and fixtures.
 
-The bounded observer handles single-cell ASCII labels and supported box/route
-glyphs, up to 32 nodes, 512 columns and 256 rows. Unprojected node ownership,
-ambiguous merges, shared-stem captions, route ink over caption spaces, ANSI state,
-wide/combining text and other families stay unknown. Text admission alone cannot
-supply a correctness pass.
+The terminal interpreter observes cursor movement, carriage returns, erasure,
+saved positions, concealment, foreground/background contrast and owned alternate
+screens. It counts graphemes, combining text, emoji and wide characters in display
+cells. Nondefault background painting, unsupported and ambiguous controls stay unknown; stripping escape codes
+cannot recover text that is no longer visible. A valid empty diagram requires a
+real returned string with no visible ink. An absent output is unknown.
 
-[The qualification results](terminal-results-2026-10-31.md) show verified-correct
-count ranks for the 16 reviewed drawings. Complete accuracy remains unknown. The full-corpus
-accuracy rank is withheld, and unlike CLI/Python boundaries have no shared speed
-rank. This profile does not judge typography, spacing, beauty or overall renderer quality.
+| Source obligations | Qualified output representation | Remaining gaps |
+|---|---|---|
+| Basic flowchart node identities, exact directed relationships, captions and direction | Rectangular boxes; continuous orthogonal routes; uniquely owned captions; at most 32 nodes, 512 columns and 256 rows | Groups, explicit shapes/line breaks, undirected or styled links, ambiguous junctions and larger drawings |
+| Pie labels and numeric weights | Owned label/bar/percentage rows, complete slice set, percentage precision and one-cell bar quantization | Circular/other chart representations and unassigned output ink |
+| Journey tasks, scores, actors and sections | Ordered section/task rows with five explicit score cells and an owned actor row | Other representations and unassigned summary graphics |
+| Timeline periods, events and sections | Ordered section headings, period bullets and owned event-tree rows | Other representations |
+| C4, class, ER, Gitgraph, mindmap, quadrant, treemap, Gantt, state, block, Kanban, sequence, architecture, XY, ZenUML and packet obligations | Source facts are explicit | Output observers have not been qualified; text/number presence cannot pass these facts |
+| Invalid source controls | Typed outcome API binds project, case, source hash, public boundary and observer identity | Per-project typed rejection classifiers have not been qualified; retained ordinary error exits get no rejection credit |
+
+Every required fact receives passed, failed or unknown evidence. A positive case
+passes only when all of its obligations pass. Evidence binds the exact source,
+expectations, terminal bytes and observer. A decisive observed failure can make a
+case incorrect while other obligations remain unknown. Missing observers never
+shrink the population.
+
+Terminal Rendering is **not yet a qualified overall benchmark**. The dated
+[qualification results](terminal-results-2026-10-31.md) describe their original
+v1 scope and remain historical. Current v2 reports keep the positive and rejection
+populations separate; diagnostic ranks order verified correct counts only.
+Complete accuracy and comparable performance remain blocked by the missing
+observers and unlike public invocation boundaries. This profile does not judge
+typography, spacing, beauty or overall renderer quality.
