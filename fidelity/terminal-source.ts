@@ -6,8 +6,12 @@ export interface TerminalFact { criterion: string; expected: unknown; scope: str
 export interface TerminalSourceContract { schema: 'terminal-source-contract-v2'; family: string; facts: TerminalFact[]; presentation: unknown[]; sourceUncertainties: string[] }
 export interface TerminalSourceAnalysis { intent: 'valid' | 'invalid' | 'dialect'; contract: TerminalSourceContract; graph?: TerminalMeaning }
 export function visibleTerminalLabel(raw: string) {
-  return decodeHTML(raw.trim().replace(/^"|"$/g, '').replace(/^`|`$/g, '').replace(/<br\s*\/?\s*>/gi, '\n').replace(/\*\*([^*]+)\*\*/g, '$1').replace(/\*([^*]+)\*/g, '$1')).normalize('NFC')
+  let text = raw.trim()
+  if (text.startsWith('"') && text.endsWith('"')) text = text.slice(1, -1)
+  if (text.startsWith('`') && text.endsWith('`')) text = text.slice(1, -1).replace(/\*\*([^*]+)\*\*/g, '$1').replace(/\*([^*]+)\*/g, '$1')
+  return decodeHTML(text.replace(/<br\s*\/?\s*>/gi, '\n')).normalize('NFC')
 }
+
 function bodySource(source: string) {
   let body = source.replace(/^\s*---\r?\n[\s\S]*?\r?\n---\s*\r?\n/, '')
   body = body.replace(/^\s*%%[^\n]*(?:\n|$)/gm, '')
@@ -31,7 +35,7 @@ export function analyseTerminalSource(source: string, family: string): TerminalS
     fact('relationships', parsed.graph.edges, 'Exact source/target multiplicity, captions and marker semantics')
     if (parsed.groups.length) fact('groups', parsed.groups, 'Declared group labels, enclosure and membership')
     if (parsed.graph.layout?.length) fact('layout-order', parsed.graph.layout, 'Acyclic source direction imposes relative drawn positions')
-    else if (parsed.graph.edges.length || parsed.directions.length) fact('layout-direction', { root: parsed.direction, groups: parsed.directions }, 'Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection')
+    else if (parsed.graph.edges.length || parsed.directions.length) fact('layout-direction', { root: parsed.direction, groups: parsed.directions }, 'Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups', false)
     if (parsed.shapes.some(item => item.shape !== 'rectangle')) fact('node-shapes', parsed.shapes, 'Explicit node shape declarations')
     if (parsed.lines.some(item => item.lines.length > 1)) fact('node-line-breaks', parsed.lines.filter(item => item.lines.length > 1), 'Explicit HTML/Markdown line breaks, not renderer wrapping')
     if (parsed.graph.nodes.some(node => /\x1b|[\x00-\x08\x0b-\x1f]/.test(node.label))) fact('literal-control-safety', 'escape-or-typed-reject', 'Source label controls must not become executable terminal state')
@@ -145,8 +149,8 @@ export function analyseTerminalSource(source: string, family: string): TerminalS
       const values = tokens.filter(token => !status.includes(token)); let id: string | null = null
       if (values[0] && !/^(?:after\s|\d{4}-\d{2}-\d{2}|\d+(?:\.\d+)?d$)/.test(values[0])) id = values.shift()!
       const start = values[0]?.startsWith('after ') ? ends.get(values[0].slice(6).trim()) : values[0], duration = values[1] && /^(\d+)d$/.exec(values[1]), startMs = typeof start === 'string' ? Date.parse(start + 'T00:00:00Z') : NaN
-      const end = startMs !== undefined && Number.isFinite(startMs) && duration ? new Date(startMs + (status.includes('milestone') ? 0 : Number(duration[1])) * 86_400_000).toISOString().slice(0, 10) : undefined
-      Object.assign(task, { id, status, startDate: start ?? null, endDate: end ?? null, durationDays: duration ? Number(duration[1]) : null, ...(values[0]?.startsWith('after ') ? { after: values[0].slice(6).trim() } : {}) }); delete task.declaration
+      const end = startMs !== undefined && Number.isFinite(startMs) && duration ? new Date(startMs + Number(duration[1]) * 86_400_000).toISOString().slice(0, 10) : undefined
+      Object.assign(task, { id, status, startDate: start ?? null, endDate: end ?? null, durationDays: duration ? Number(duration[1]) : null, ...(status.includes('milestone') && duration && Number.isFinite(startMs) ? { milestoneAt: new Date(startMs + Number(duration[1]) / 2 * 86_400_000).toISOString() } : {}), ...(values[0]?.startsWith('after ') ? { after: values[0].slice(6).trim() } : {}) }); delete task.declaration
       if (id && end) ends.set(id, end)
       if (!start || !end) sourceUncertainties.push('Unresolved Gantt date declaration: ' + task.label)
     }
@@ -369,7 +373,8 @@ function readFlowchart(source: string) {
   const graph: TerminalMeaning = { nodes: [...nodes.values()].map(({ id, label }) => ({ id, label: label.replace(/\s+/g, ' ').trim() })), edges }
   const reachable = (from: string, to: string, seen = new Set<string>()): boolean => { if (from === to) return true; if (seen.has(from)) return false; seen.add(from); return edges.filter(edge => edge.source === from).some(edge => reachable(edge.target, to, new Set(seen))) }
   const directed = edges.filter(edge => edge.directed !== false && edge.visible !== false), acyclic = directed.every(edge => !reachable(edge.target, edge.source))
-  if (acyclic && directed.length && !groups.length) graph.layout = directed.map(edge => ({ before: ['RL', 'BT'].includes(direction) ? edge.target : edge.source, after: ['RL', 'BT'].includes(direction) ? edge.source : edge.target, axis: ['LR', 'RL'].includes(direction) ? 'x' : 'y' }))
+  const simpleChains = directed.every(edge => directed.filter(other => other.source === edge.source).length === 1 && directed.filter(other => other.target === edge.target).length === 1)
+  if (acyclic && directed.length && simpleChains && !groups.length && !directions.length) graph.layout = directed.map(edge => ({ before: ['RL', 'BT'].includes(direction) ? edge.target : edge.source, after: ['RL', 'BT'].includes(direction) ? edge.source : edge.target, axis: ['LR', 'RL'].includes(direction) ? 'x' : 'y' }))
   if (groups.length) (graph as any).groups = groups
   return { graph, groups, direction, directions, shapes: [...nodes.values()].map(({ id, shape }) => ({ id, shape })), lines: [...nodes.values()].map(({ id, label }) => ({ id, lines: label.split('\n') })), presentation, uncertainties }
 }

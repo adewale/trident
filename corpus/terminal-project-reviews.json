@@ -174,20 +174,13 @@
           "scope": "Exact source/target multiplicity, captions and marker semantics"
         },
         {
-          "criterion": "layout-order",
-          "expected": [
-            {
-              "before": "Mermaid",
-              "after": "Beautiful",
-              "axis": "y"
-            },
-            {
-              "before": "ASCII",
-              "after": "Beautiful",
-              "axis": "y"
-            }
-          ],
-          "scope": "Acyclic source direction imposes relative drawn positions"
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -344,7 +337,8 @@
             "root": "LR",
             "groups": []
           },
-          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -528,30 +522,13 @@
           "scope": "Exact source/target multiplicity, captions and marker semantics"
         },
         {
-          "criterion": "layout-order",
-          "expected": [
-            {
-              "before": "A",
-              "after": "B",
-              "axis": "x"
-            },
-            {
-              "before": "A",
-              "after": "C",
-              "axis": "x"
-            },
-            {
-              "before": "B",
-              "after": "D",
-              "axis": "x"
-            },
-            {
-              "before": "C",
-              "after": "D",
-              "axis": "x"
-            }
-          ],
-          "scope": "Acyclic source direction imposes relative drawn positions"
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "LR",
+            "groups": []
+          },
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -814,7 +791,8 @@
             "root": "TD",
             "groups": []
           },
-          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -991,30 +969,13 @@
           "scope": "Exact source/target multiplicity, captions and marker semantics"
         },
         {
-          "criterion": "layout-order",
-          "expected": [
-            {
-              "before": "A",
-              "after": "E",
-              "axis": "x"
-            },
-            {
-              "before": "B",
-              "after": "E",
-              "axis": "x"
-            },
-            {
-              "before": "C",
-              "after": "E",
-              "axis": "x"
-            },
-            {
-              "before": "D",
-              "after": "E",
-              "axis": "x"
-            }
-          ],
-          "scope": "Acyclic source direction imposes relative drawn positions"
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "LR",
+            "groups": []
+          },
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         },
         {
           "criterion": "node-shapes",
@@ -1275,8 +1236,9 @@
                   "milestone"
                 ],
                 "startDate": "2020-02-15",
-                "endDate": "2020-02-15",
+                "endDate": "2020-02-16",
                 "durationDays": 1,
+                "milestoneAt": "2020-02-15T12:00:00.000Z",
                 "after": "b1"
               }
             ]
@@ -2056,30 +2018,13 @@
           "scope": "Exact source/target multiplicity, captions and marker semantics"
         },
         {
-          "criterion": "layout-order",
-          "expected": [
-            {
-              "before": "A",
-              "after": "B",
-              "axis": "y"
-            },
-            {
-              "before": "A",
-              "after": "C",
-              "axis": "y"
-            },
-            {
-              "before": "B",
-              "after": "D",
-              "axis": "y"
-            },
-            {
-              "before": "C",
-              "after": "D",
-              "axis": "y"
-            }
-          ],
-          "scope": "Acyclic source direction imposes relative drawn positions"
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TB",
+            "groups": []
+          },
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -2213,30 +2158,13 @@
           "scope": "Exact source/target multiplicity, captions and marker semantics"
         },
         {
-          "criterion": "layout-order",
-          "expected": [
-            {
-              "before": "A",
-              "after": "B",
-              "axis": "x"
-            },
-            {
-              "before": "B",
-              "after": "C",
-              "axis": "x"
-            },
-            {
-              "before": "C",
-              "after": "D",
-              "axis": "x"
-            },
-            {
-              "before": "C",
-              "after": "E",
-              "axis": "x"
-            }
-          ],
-          "scope": "Acyclic source direction imposes relative drawn positions"
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "LR",
+            "groups": []
+          },
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         },
         {
           "criterion": "node-shapes",
@@ -2680,7 +2608,8 @@
             "root": "TD",
             "groups": []
           },
-          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         },
         {
           "criterion": "node-shapes",
@@ -2858,40 +2787,13 @@
           "scope": "Exact source/target multiplicity, captions and marker semantics"
         },
         {
-          "criterion": "layout-order",
-          "expected": [
-            {
-              "before": "A",
-              "after": "B",
-              "axis": "y"
-            },
-            {
-              "before": "B",
-              "after": "C",
-              "axis": "y"
-            },
-            {
-              "before": "C",
-              "after": "D",
-              "axis": "y"
-            },
-            {
-              "before": "A",
-              "after": "D",
-              "axis": "y"
-            },
-            {
-              "before": "B",
-              "after": "E",
-              "axis": "y"
-            },
-            {
-              "before": "E",
-              "after": "D",
-              "axis": "y"
-            }
-          ],
-          "scope": "Acyclic source direction imposes relative drawn positions"
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -2963,7 +2865,8 @@
             "root": "TD",
             "groups": []
           },
-          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -3343,30 +3246,13 @@
           "scope": "Exact source/target multiplicity, captions and marker semantics"
         },
         {
-          "criterion": "layout-order",
-          "expected": [
-            {
-              "before": "A",
-              "after": "B",
-              "axis": "x"
-            },
-            {
-              "before": "A",
-              "after": "C",
-              "axis": "x"
-            },
-            {
-              "before": "B",
-              "after": "D",
-              "axis": "x"
-            },
-            {
-              "before": "C",
-              "after": "D",
-              "axis": "x"
-            }
-          ],
-          "scope": "Acyclic source direction imposes relative drawn positions"
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "LR",
+            "groups": []
+          },
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -3410,7 +3296,8 @@
             "root": "TD",
             "groups": []
           },
-          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -3510,7 +3397,8 @@
             "root": "TD",
             "groups": []
           },
-          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -3557,20 +3445,13 @@
           "scope": "Exact source/target multiplicity, captions and marker semantics"
         },
         {
-          "criterion": "layout-order",
-          "expected": [
-            {
-              "before": "A",
-              "after": "B",
-              "axis": "y"
-            },
-            {
-              "before": "A",
-              "after": "B",
-              "axis": "y"
-            }
-          ],
-          "scope": "Acyclic source direction imposes relative drawn positions"
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -3761,25 +3642,13 @@
           "scope": "Exact source/target multiplicity, captions and marker semantics"
         },
         {
-          "criterion": "layout-order",
-          "expected": [
-            {
-              "before": "A",
-              "after": "B",
-              "axis": "y"
-            },
-            {
-              "before": "A",
-              "after": "C",
-              "axis": "y"
-            },
-            {
-              "before": "A",
-              "after": "D",
-              "axis": "y"
-            }
-          ],
-          "scope": "Acyclic source direction imposes relative drawn positions"
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TB",
+            "groups": []
+          },
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -4178,20 +4047,13 @@
           "scope": "Exact source/target multiplicity, captions and marker semantics"
         },
         {
-          "criterion": "layout-order",
-          "expected": [
-            {
-              "before": "A",
-              "after": "B",
-              "axis": "y"
-            },
-            {
-              "before": "A",
-              "after": "C",
-              "axis": "y"
-            }
-          ],
-          "scope": "Acyclic source direction imposes relative drawn positions"
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -4678,40 +4540,13 @@
           "scope": "Exact source/target multiplicity, captions and marker semantics"
         },
         {
-          "criterion": "layout-order",
-          "expected": [
-            {
-              "before": "A",
-              "after": "C",
-              "axis": "y"
-            },
-            {
-              "before": "A",
-              "after": "D",
-              "axis": "y"
-            },
-            {
-              "before": "B",
-              "after": "C",
-              "axis": "y"
-            },
-            {
-              "before": "B",
-              "after": "D",
-              "axis": "y"
-            },
-            {
-              "before": "C",
-              "after": "E",
-              "axis": "y"
-            },
-            {
-              "before": "D",
-              "after": "E",
-              "axis": "y"
-            }
-          ],
-          "scope": "Acyclic source direction imposes relative drawn positions"
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -4807,7 +4642,8 @@
             "root": "TD",
             "groups": []
           },
-          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -5079,7 +4915,8 @@
             "root": "LR",
             "groups": []
           },
-          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         },
         {
           "criterion": "node-shapes",
@@ -5440,40 +5277,13 @@
           "scope": "Exact source/target multiplicity, captions and marker semantics"
         },
         {
-          "criterion": "layout-order",
-          "expected": [
-            {
-              "before": "A",
-              "after": "B",
-              "axis": "y"
-            },
-            {
-              "before": "B",
-              "after": "C",
-              "axis": "y"
-            },
-            {
-              "before": "B",
-              "after": "D",
-              "axis": "y"
-            },
-            {
-              "before": "C",
-              "after": "E",
-              "axis": "y"
-            },
-            {
-              "before": "D",
-              "after": "E",
-              "axis": "y"
-            },
-            {
-              "before": "E",
-              "after": "F",
-              "axis": "y"
-            }
-          ],
-          "scope": "Acyclic source direction imposes relative drawn positions"
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         },
         {
           "criterion": "node-shapes",
@@ -5695,35 +5505,13 @@
           "scope": "Exact source/target multiplicity, captions and marker semantics"
         },
         {
-          "criterion": "layout-order",
-          "expected": [
-            {
-              "before": "A",
-              "after": "B",
-              "axis": "y"
-            },
-            {
-              "before": "B",
-              "after": "C",
-              "axis": "y"
-            },
-            {
-              "before": "B",
-              "after": "D",
-              "axis": "y"
-            },
-            {
-              "before": "C",
-              "after": "E",
-              "axis": "y"
-            },
-            {
-              "before": "D",
-              "after": "E",
-              "axis": "y"
-            }
-          ],
-          "scope": "Acyclic source direction imposes relative drawn positions"
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         },
         {
           "criterion": "node-shapes",
@@ -6138,30 +5926,13 @@
           "scope": "Exact source/target multiplicity, captions and marker semantics"
         },
         {
-          "criterion": "layout-order",
-          "expected": [
-            {
-              "before": "A",
-              "after": "B",
-              "axis": "x"
-            },
-            {
-              "before": "A",
-              "after": "C",
-              "axis": "x"
-            },
-            {
-              "before": "B",
-              "after": "D",
-              "axis": "x"
-            },
-            {
-              "before": "C",
-              "after": "E",
-              "axis": "x"
-            }
-          ],
-          "scope": "Acyclic source direction imposes relative drawn positions"
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "LR",
+            "groups": []
+          },
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -6350,30 +6121,13 @@
           "scope": "Exact source/target multiplicity, captions and marker semantics"
         },
         {
-          "criterion": "layout-order",
-          "expected": [
-            {
-              "before": "SourceA",
-              "after": "Merge",
-              "axis": "y"
-            },
-            {
-              "before": "SourceB",
-              "after": "Merge",
-              "axis": "y"
-            },
-            {
-              "before": "Fanout",
-              "after": "TargetA",
-              "axis": "y"
-            },
-            {
-              "before": "Fanout",
-              "after": "TargetB",
-              "axis": "y"
-            }
-          ],
-          "scope": "Acyclic source direction imposes relative drawn positions"
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -6436,30 +6190,13 @@
           "scope": "Exact source/target multiplicity, captions and marker semantics"
         },
         {
-          "criterion": "layout-order",
-          "expected": [
-            {
-              "before": "A",
-              "after": "B",
-              "axis": "y"
-            },
-            {
-              "before": "A",
-              "after": "C",
-              "axis": "y"
-            },
-            {
-              "before": "B",
-              "after": "D",
-              "axis": "y"
-            },
-            {
-              "before": "C",
-              "after": "D",
-              "axis": "y"
-            }
-          ],
-          "scope": "Acyclic source direction imposes relative drawn positions"
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -7024,7 +6761,8 @@
             "root": "LR",
             "groups": []
           },
-          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -8476,7 +8214,8 @@
             "root": "TD",
             "groups": []
           },
-          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -8580,7 +8319,8 @@
             "root": "TD",
             "groups": []
           },
-          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -8829,7 +8569,8 @@
             "root": "TD",
             "groups": []
           },
-          "scope": "Requested root/subgraph direction remains an obligation when cycles or grouping prevent the simple per-edge node-order projection"
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         }
       ],
       "presentation": [],
@@ -8945,25 +8686,13 @@
           "scope": "Exact source/target multiplicity, captions and marker semantics"
         },
         {
-          "criterion": "layout-order",
-          "expected": [
-            {
-              "before": "A",
-              "after": "B",
-              "axis": "y"
-            },
-            {
-              "before": "B",
-              "after": "C",
-              "axis": "y"
-            },
-            {
-              "before": "B",
-              "after": "D",
-              "axis": "y"
-            }
-          ],
-          "scope": "Acyclic source direction imposes relative drawn positions"
+          "criterion": "layout-direction",
+          "expected": {
+            "root": "TD",
+            "groups": []
+          },
+          "scope": "Literal global/subgraph layout hint; topology alone does not define a unique geometric ordering for cycles, branches, cross edges or groups",
+          "required": false
         },
         {
           "criterion": "node-shapes",

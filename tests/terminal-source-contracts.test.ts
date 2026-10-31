@@ -17,6 +17,7 @@ test('all120 immutable source inputs have complete explicit obligations, with no
 })
 test('source ampersands inside labels do not become graph operators; real fan-in expands independently', () => {
   const literal = analyseTerminalSource('graph LR\nA[Track & Commit] & B(Author & Skill) --> E', 'flowchart')
+  expect(analyseTerminalSource('flowchart\nA["*literal*"] --> B["`*formatted*`"]', 'flowchart').graph?.nodes.map(node => node.label)).toEqual(['*literal*', 'formatted'])
   expect(literal.graph?.nodes.map(node => node.label)).toEqual(['Track & Commit', 'Author & Skill', 'E'])
   expect(literal.graph?.edges).toEqual([{ source: 'A', target: 'E' }, { source: 'B', target: 'E' }])
   const compact = source('c18237e0a535bdb7')
@@ -24,9 +25,10 @@ test('source ampersands inside labels do not become graph operators; real fan-in
   expect(compact.expected.graph?.edges).toEqual([{ source: 'A', target: 'B' }])
   expect(source('dbc553f665d05c10').expected.graph?.nodes).toHaveLength(100)
 })
-test('cyclic and grouped sources retain their direction obligations when simple node ordering is unavailable', () => {
+test('cyclic and grouped sources retain literal direction advisories without inventing node ordering', () => {
   for (const input of [analyseTerminalSource('flowchart RL\nA-->B\nB-->A', 'flowchart'), analyseTerminalSource('flowchart TD\nsubgraph G\n direction LR\n A-->B\nend', 'flowchart')]) {
-    expect(input.contract.facts.find(fact => fact.criterion === 'layout-direction')?.expected).toBeDefined()
+    expect(input.contract.facts.find(fact => fact.criterion === 'layout-direction')).toMatchObject({ required: false })
+    expect(input.graph?.layout).toBeUndefined()
     expect(input.contract.presentation.some(item => typeof item === 'object' && item !== null && 'direction' in item)).toBe(false)
   }
 })
@@ -34,6 +36,7 @@ test('source contracts retain chart values, ER cardinality, packet bit ranges an
   expect(source('587429a5094fbb28').expected.contract?.facts.find(fact => fact.criterion === 'slice-values')?.expected).toContainEqual({ label: 'ML', value: 12.5 })
   expect(source('278dccc21dd27020').expected.contract?.facts.find(fact => fact.criterion === 'entity-relations')?.expected).toContainEqual({ source: 'ORDER', target: 'LINE-ITEM', sourceCardinality: '||', targetCardinality: '|{', identifying: true, caption: 'contains' })
   expect(source('ddef9c7af192e428').expected.contract?.facts[0]?.expected).toContainEqual({ firstBit: 32, lastBit: 63, label: 'Sequence Number' })
+  expect(source('276c8474274911fa').expected.contract?.facts.find(fact => fact.criterion === 'gantt-tasks')?.expected).toMatchObject({ tasks: expect.arrayContaining([expect.objectContaining({ label: 'Ship', startDate: '2020-02-15', endDate: '2020-02-16', durationDays: 1, milestoneAt: '2020-02-15T12:00:00.000Z' })]) })
   expect(source('2598092a6e404821').expected.contract?.facts[0]?.expected).toContainEqual({ id: 'Leaf3', label: 'Leaf3', parent: 'Branch2', order: 5 })
 })
 test('empty valid source is not subject to a nonblank drawing requirement', () => {

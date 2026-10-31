@@ -9,9 +9,11 @@ with terminal-specific evidence from 53 shared-renderer robustness inputs. Those
 shared cases do not establish terminal user demand for their diagram families.
 
 [Source contracts](../corpus/terminal-project-reviews.json) now bind all 120
-sources to literal source bytes. They declare 330 required facts across the full
-inventory: node and relationship identities, group membership, captions,
+sources to literal source bytes. They retain the complete source-fact ledger, including: node and relationship identities, group membership, captions,
 direction, chart values, dates, hierarchy, cardinality and other family semantics.
+Global and subgraph direction hints stay visible as unknown advisories. Only
+simple directed chains establish required node-order constraints; branches, cross
+edges, cycles and compact grouping do not imply a universal per-edge ordering.
 The transcription reads source tokens; candidate output and renderer ASTs never
 define expected facts. [The regeneration check](../scripts/review-terminal-contracts.ts)
 reproduces the ledger without a renderer. Independent conformance review is still
@@ -19,9 +21,9 @@ required to qualify this transcription and its observers.
 
 The v2 profile separates **116 positive drawing inputs** from **four invalid-source
 controls**. Every positive input keeps its full obligations, including those with
-no implemented output observer. Forty-eight sources use facts for which an observer
+no implemented output observer. Sixty-three sources use facts for which an observer
 exists in at least one bounded display representation. This diagnostic subset is
-not a claim that 48 outputs pass, or a replacement for the 116-input denominator.
+not a claim that 63 outputs pass, or a replacement for the 116-input denominator.
 
 The four invalid controls are `terminal:321aee6efed4a803` (unquoted pie label),
 `terminal:955cacf9438d691d` (unquoted Unicode Git branch references), and
@@ -100,7 +102,8 @@ unknown. Byte evidence binds the original bytes before any text decoding.
 
 | Source obligations | Qualified output representation | Remaining gaps |
 |---|---|---|
-| Basic flowchart node identities, exact directed relationships, captions and direction | Rectangular boxes; continuous orthogonal routes; uniquely owned captions; at most 32 nodes, 512 columns and 256 rows | Groups, explicit shapes/line breaks, undirected or styled links, cyclic/grouped direction hints, ambiguous junctions and larger drawings |
+| Basic flowchart node identities, exact directed relationships, captions and direction | Rectangular boxes; continuous orthogonal routes; uniquely owned captions; at most 32 nodes, 512 columns and 256 rows | Groups, undirected or styled links, ambiguous junctions and larger drawings; broad direction hints remain separate advisories |
+| Explicit node primitives and line breaks | Unique closed containers; unambiguous matching diamond/circle markers at corners or border midpoints; rounded/stadium boundaries; each authored line owns contiguous display rows | Arbitrary shape decorations, unfamiliar silhouettes and ambiguous repeated labels; blank authored lines need a padding projection |
 | Pie labels and numeric weights | Owned label/bar/percentage rows, complete slice set, percentage precision and explicit displayed-quantum rounding | Circular/other chart representations and unassigned output ink |
 | Journey tasks, scores, actors and sections | Ordered section/task rows with five explicit score cells and an owned actor row | Other representations and unassigned summary graphics |
 | Timeline periods, events and sections | Ordered section headings, period bullets and owned event-tree rows | Other representations |
@@ -117,7 +120,15 @@ Their [provenance](../tests/fixtures/terminal/sequence-provenance.json) preserve
 source, artifact, output and original receipt identities. These are checker tests,
 not a new timing campaign.
 
-Every required fact receives passed, failed or unknown evidence. A positive case
+The [primitive and line-break controls](../tests/terminal-primitives.test.ts) use
+authenticated Mermaid ASCII, Termaid and Agentic Mermaid output. They change
+shape markers, merge authored lines, break port stems and reverse boundary
+arrowheads. Symbolic shape annotations measure explicit shape meaning; they do
+not establish a geometrically faithful silhouette or aesthetic quality.
+
+Every required core fact receives passed, failed or unknown evidence. Unqualified
+layout/style advisories remain unknown in a separate `advisories` field and
+contribute no core correctness credit. A positive case
 passes only when all of its obligations pass. Evidence binds the exact source,
 expectations, terminal bytes and observer. A decisive observed failure can make a
 case incorrect while other obligations remain unknown. Missing observers never

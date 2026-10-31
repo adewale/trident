@@ -11,14 +11,14 @@ export interface TerminalMeaning {
 type Box = { x: number; y: number; right: number; bottom: number; label: string; id?: string }
 const scope = 'Rectangular flowcharts in bounded display cells, NFC grapheme labels, qualified terminal-state controls and orthogonal directed routes with a unique drawn source and uniquely owned captions. Groups, other family facts and ambiguous junctions require their own qualified projections.'
 
-export function inspectTerminalMeaning(output: string, expected: TerminalMeaning) {
+export function inspectTerminalMeaning(output: string, expected: TerminalMeaning, options = { primitiveShapes: false }) {
   const verdict = (status: 'correct' | 'incorrect' | 'unknown', reason: string, edges: { source: string; target: string; label?: string }[] = []) => ({ status, reason, scope, edges })
   if (!expected.nodes.length || new Set(expected.nodes.map(node => node.id)).size !== expected.nodes.length || new Set(expected.nodes.map(node => node.label)).size !== expected.nodes.length || expected.nodes.some(node => !node.label || /[\n\r\x00-\x1f]/.test(node.label)) || expected.edges.some(edge => !expected.nodes.some(node => node.id === edge.source) || !expected.nodes.some(node => node.id === edge.target))) return verdict('unknown', 'Expected identities/labels are ambiguous or outside the declared display scope')
   const display = interpretTerminal(output)
   if (display.status !== 'available') return verdict('unknown', display.reason ?? 'No qualified terminal-state interpretation')
   const text = display.text, grid = display.cells, cell = (x: number, y: number) => grid[y]?.[x] ?? ' '
-  if (grid.length > 256 || grid.some(line => line.length > 512) || [...text].filter(character => character === '┌' || character === '╭' || character === '+').length > 64 || expected.nodes.length > 32) return verdict('unknown', 'Output exceeds the bounded grid profile')
-  const boxes: Box[] = terminalRectangles(grid).map(({ lines, ...box }) => ({ ...box, label: lines.join(' ') }))
+  if (grid.length > 256 || grid.some(line => line.length > 512) || [...text].filter(character => (options.primitiveShapes ? ['┌', '╭', '+', '◇', '◯', '◎', '(', '/', '▷', '⌜', '╟'] : ['┌', '╭', '+']).includes(character)).length > (options.primitiveShapes ? 256 : 64) || expected.nodes.length > 32) return verdict('unknown', 'Output exceeds the bounded grid profile')
+  const boxes: Box[] = terminalRectangles(grid, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: options.primitiveShapes, ports: true }).map(({ lines, ...box }) => ({ ...box, label: lines.join(' ').replace(/\s+/g, ' ').trim() }))
   for (const node of expected.nodes) {
     const matches = boxes.filter(box => box.label.normalize('NFC') === node.label.normalize('NFC'))
     if (!matches.length && (text.includes(node.label) || boxes.some(box => box.label.replace(/\s/g, '') === node.label.replace(/\s/g, '')))) return verdict('unknown', 'Visible authored label lacks a qualified node-container or wrapping projection: ' + node.label)
@@ -72,8 +72,9 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   const paths: { x: number; y: number }[][] = []
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) {
     const heading = arrows[cell(x, y)]
-    if (heading === undefined || inside(x, y) || captionCells.has(key(x, y))) continue
-    const target = boundary(x + dx[heading]!, y + dy[heading]!)
+    if (heading === undefined || boxes.some(box => x > box.x && x < box.right && y > box.y && y < box.bottom) || captionCells.has(key(x, y))) continue
+    const port = boundary(x, y), inward = port && (x === port.x && heading === 1 || x === port.right && heading === 3 || y === port.y && heading === 2 || y === port.bottom && heading === 0)
+    const target = inward ? port : boundary(x + dx[heading]!, y + dy[heading]!)
     if (!target?.id) return verdict('incorrect', 'Arrowhead does not meet a drawn target node', actual)
     used.add(key(x, y))
     // Do not use expected edges to choose a branch. A shared outgoing stem is
