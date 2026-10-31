@@ -66,24 +66,24 @@ Independently reviewed drawing subset, ranked by verified correct count only. Un
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-“Higher” and “Lower” compare **Correct** on this population. Unknown evidence remains unresolved. Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.
+Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.
 
 | Project | Rank | Version | Correct | Incorrect | Unsupported | Unknown | Planned | Measured | vs Mermaid ASCII | Ranking note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Termaid | 1 | 0.10.0 | 12 | 1 | 0 | 3 | 16 | 2026-10-31T09:28:24.742Z | Higher (+1) |  |
-| Agentic Mermaid | 2 | 0.4.1 | 11 | 0 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Tie |  |
-| ASCII Mermaid | 2 | 0.1.0 | 11 | 2 | 0 | 3 | 16 | 2026-10-31T09:28:24.742Z | Tie |  |
+| Termaid | 1 | 0.10.0 | 12 | 1 | 0 | 3 | 16 | 2026-10-31T09:28:24.742Z | More verified (+1); accuracy unresolved |  |
+| Agentic Mermaid | 2 | 0.4.1 | 11 | 0 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Same verified count; accuracy unresolved |  |
+| ASCII Mermaid | 2 | 0.1.0 | 11 | 2 | 0 | 3 | 16 | 2026-10-31T09:28:24.742Z | Same verified count; accuracy unresolved |  |
 | Mermaid ASCII | 2 | 1.6.1 | 11 | 3 | 0 | 2 | 16 | 2026-10-31T09:28:24.742Z | Baseline |  |
-| Zombie Mermaid | 2 | 5.10.2 | 11 | 0 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Tie |  |
-| Latias Merman | 6 | 0.9.2 | 10 | 4 | 0 | 2 | 16 | Unknown; recovered text, see receipt | Lower (-1) |  |
-| MermaidText | 6 | git-a6b0c7657b94 | 10 | 0 | 0 | 6 | 16 | 2026-10-31T09:28:24.742Z | Lower (-1) |  |
-| Beautiful Mermaid | 8 | 1.1.3 | 9 | 2 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Lower (-2) |  |
-| Loom renderer | 8 | 0.10.0 | 9 | 0 | 0 | 7 | 16 | 2026-10-31T09:28:24.742Z | Lower (-2) |  |
-| OpenCode Merman | 8 | 2.0.26 | 9 | 2 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Lower (-2) |  |
-| Figurehead | 11 | v0.4.3 | 5 | 5 | 0 | 6 | 16 | 2026-10-31T09:28:24.742Z | Lower (-6) |  |
-| Kitlangton Merman | 12 | 0.2.1 | 4 | 2 | 0 | 10 | 16 | 2026-10-31T09:28:24.742Z | Lower (-7) |  |
-| MermaidTUI | 13 | 0.0.6 | 3 | 11 | 0 | 2 | 16 | 2026-10-31T09:28:24.742Z | Lower (-8) |  |
-| Ondine | 13 | 0.0.3 | 3 | 0 | 0 | 13 | 16 | Unknown; recovered text, see receipt | Lower (-8) |  |
+| Zombie Mermaid | 2 | 5.10.2 | 11 | 0 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Same verified count; accuracy unresolved |  |
+| Latias Merman | 6 | 0.9.2 | 10 | 4 | 0 | 2 | 16 | Unknown; recovered text, see receipt | Fewer verified (-1); accuracy unresolved |  |
+| MermaidText | 6 | git-a6b0c7657b94 | 10 | 0 | 0 | 6 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-1); accuracy unresolved |  |
+| Beautiful Mermaid | 8 | 1.1.3 | 9 | 2 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-2); accuracy unresolved |  |
+| Loom renderer | 8 | 0.10.0 | 9 | 0 | 0 | 7 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-2); accuracy unresolved |  |
+| OpenCode Merman | 8 | 2.0.26 | 9 | 2 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-2); accuracy unresolved |  |
+| Figurehead | 11 | v0.4.3 | 5 | 5 | 0 | 6 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-6); accuracy unresolved |  |
+| Kitlangton Merman | 12 | 0.2.1 | 4 | 2 | 0 | 10 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-7); accuracy unresolved |  |
+| MermaidTUI | 13 | 0.0.6 | 3 | 11 | 0 | 2 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-8); accuracy unresolved |  |
+| Ondine | 13 | 0.0.3 | 3 | 0 | 0 | 13 | 16 | Unknown; recovered text, see receipt | Fewer verified (-8); accuracy unresolved |  |
 | Crafter Mermaid | — | 0.0.3 | 0 | 0 | 0 | 16 | 16 | Unknown; recovered text, see receipt | Unresolved | Terminal source/display/drawing evidence is incomplete |
 | Frankenmermaid | — | 0.4.0 | 0 | 0 | 0 | 16 | 16 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
 | Grok renderer | — | git-2bdd1d6a6369 | 0 | 0 | 0 | 16 | 16 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
@@ -101,26 +101,26 @@ Corpus: reviewed 16-occurrence subset of 548 Mermaid documentation occurrences, 
 
 Ranked by **Correct / Planned reviewed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-“Higher” and “Lower” compare **Correct** on this population. Unknown evidence remains unresolved. This is a comparison of the named metric, not overall project quality.
+Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. This is a comparison of the named metric, not overall project quality.
 
 | Project | Rank | Version | Correct | Incorrect | Unknown | Planned reviewed | Measured | vs Mermaid |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Mermaid | 1 | 12.2.0 | 16 | 0 | 0 | 16 | 2026-10-31T08:46:07.611Z | Baseline |
-| Bezel | 2 | 0.2.21 | 15 | 0 | 1 | 16 | 2026-10-31T08:46:18.869Z | Lower (-1) |
+| Bezel | 2 | 0.2.21 | 15 | 0 | 1 | 16 | 2026-10-31T08:46:18.869Z | Fewer verified (-1); accuracy unresolved |
 | Latias Merman | 2 | 0.9.2 | 15 | 1 | 0 | 16 | 2026-10-31T08:45:34.623Z | Lower (-1) |
-| Ondine | 2 | 0.0.3 | 15 | 0 | 1 | 16 | 2026-10-31T08:41:13.074Z | Lower (-1) |
-| Pele | 2 | 1.9.0 | 15 | 0 | 1 | 16 | 2026-10-31T08:45:41.483Z | Lower (-1) |
-| Mermaid Dart | 6 | 0.3.2 | 13 | 1 | 2 | 16 | 2026-10-31T08:41:15.946Z | Lower (-3) |
-| Frankenmermaid | 7 | 0.4.0 | 12 | 3 | 1 | 16 | 2026-10-31T08:41:10.316Z | Lower (-4) |
-| Agentic Mermaid | 8 | 0.4.1 | 11 | 3 | 2 | 16 | 2026-10-31T08:41:23.617Z | Lower (-5) |
-| Zombie Mermaid | 9 | 5.10.2 | 10 | 3 | 3 | 16 | 2026-10-31T08:41:27.995Z | Lower (-6) |
-| Beautiful Mermaid | 10 | 1.1.3 | 7 | 5 | 4 | 16 | 2026-10-31T08:45:38.577Z | Lower (-9) |
-| Crafter Mermaid | 10 | 0.0.3 | 7 | 6 | 3 | 16 | 2026-10-31T08:41:37.803Z | Lower (-9) |
-| XMermaid | 12 | 0.4.2 | 3 | 1 | 12 | 16 | 2026-10-31T08:45:26.846Z | Lower (-13) |
+| Ondine | 2 | 0.0.3 | 15 | 0 | 1 | 16 | 2026-10-31T08:41:13.074Z | Fewer verified (-1); accuracy unresolved |
+| Pele | 2 | 1.9.0 | 15 | 0 | 1 | 16 | 2026-10-31T08:45:41.483Z | Fewer verified (-1); accuracy unresolved |
+| Mermaid Dart | 6 | 0.3.2 | 13 | 1 | 2 | 16 | 2026-10-31T08:41:15.946Z | Fewer verified (-3); accuracy unresolved |
+| Frankenmermaid | 7 | 0.4.0 | 12 | 3 | 1 | 16 | 2026-10-31T08:41:10.316Z | Fewer verified (-4); accuracy unresolved |
+| Agentic Mermaid | 8 | 0.4.1 | 11 | 3 | 2 | 16 | 2026-10-31T08:41:23.617Z | Fewer verified (-5); accuracy unresolved |
+| Zombie Mermaid | 9 | 5.10.2 | 10 | 3 | 3 | 16 | 2026-10-31T08:41:27.995Z | Fewer verified (-6); accuracy unresolved |
+| Beautiful Mermaid | 10 | 1.1.3 | 7 | 5 | 4 | 16 | 2026-10-31T08:45:38.577Z | Fewer verified (-9); accuracy unresolved |
+| Crafter Mermaid | 10 | 0.0.3 | 7 | 6 | 3 | 16 | 2026-10-31T08:41:37.803Z | Fewer verified (-9); accuracy unresolved |
+| XMermaid | 12 | 0.4.2 | 3 | 1 | 12 | 16 | 2026-10-31T08:45:26.846Z | Fewer verified (-13); accuracy unresolved |
 | DSH Mermaid GB SVG | 13 | 0.1.4 | 2 | 14 | 0 | 16 | 2026-10-31T08:45:43.786Z | Lower (-14) |
-| Mermaid RS Renderer | 14 | 0.3.1 | 0 | 4 | 12 | 16 | 2026-10-31T08:41:33.205Z | Lower (-16) |
-| Merslim | 14 | 0.2.3 | 0 | 3 | 13 | 16 | 2026-10-31T09:56:18.944Z | Lower (-16) |
-| VitePress Plugin Diagram | 14 | 0.3.2 | 0 | 7 | 9 | 16 | 2026-10-31T08:45:28.688Z | Lower (-16) |
+| Mermaid RS Renderer | 14 | 0.3.1 | 0 | 4 | 12 | 16 | 2026-10-31T08:41:33.205Z | Fewer verified (-16); accuracy unresolved |
+| Merslim | 14 | 0.2.3 | 0 | 3 | 13 | 16 | 2026-10-31T09:56:18.944Z | Fewer verified (-16); accuracy unresolved |
+| VitePress Plugin Diagram | 14 | 0.3.2 | 0 | 7 | 9 | 16 | 2026-10-31T08:45:28.688Z | Fewer verified (-16); accuracy unresolved |
 
 <a id="run-87c7d06be3ec5a0cad582f61"></a>
 
@@ -130,7 +130,7 @@ Corpus: reviewed 16-occurrence subset of 548 Mermaid documentation occurrences, 
 
 Ranked by **Correct / Planned reviewed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-“Higher” and “Lower” compare **Correct** on this population. Unknown evidence remains unresolved. This is a comparison of the named metric, not overall project quality.
+Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. This is a comparison of the named metric, not overall project quality.
 
 | Project | Rank | Version | Correct | Incorrect | Unknown | Planned reviewed | Measured | vs Mermaid |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -142,15 +142,15 @@ Ranked by **Correct / Planned reviewed**, highest first. Equal values share a ra
 | Mermaid Dart | 6 | 0.3.2 | 15 | 1 | 0 | 16 | 2026-10-31T08:59:37.784Z | Lower (-1) |
 | Mermaid Flutter | 6 | 0.3.2 | 15 | 1 | 0 | 16 | 2026-10-31T09:01:36.559Z | Lower (-1) |
 | Frankenmermaid | 8 | 0.4.0 | 13 | 3 | 0 | 16 | 2026-10-31T08:52:02.823Z | Lower (-3) |
-| Agentic Mermaid | 9 | 0.4.1 | 11 | 3 | 2 | 16 | 2026-10-31T08:48:12.663Z | Lower (-5) |
+| Agentic Mermaid | 9 | 0.4.1 | 11 | 3 | 2 | 16 | 2026-10-31T08:48:12.663Z | Fewer verified (-5); accuracy unresolved |
 | Mermaid RS Renderer | 9 | 0.3.1 | 11 | 5 | 0 | 16 | 2026-10-31T08:47:02.466Z | Lower (-5) |
-| Zombie Mermaid | 9 | 5.10.2 | 11 | 1 | 4 | 16 | 2026-10-31T08:50:12.754Z | Lower (-5) |
-| XMermaid | 12 | 0.4.2 | 9 | 2 | 5 | 16 | 2026-10-31T08:54:07.922Z | Lower (-7) |
-| Merslim | 13 | 0.2.3 | 8 | 5 | 3 | 16 | 2026-10-31T08:53:21.531Z | Lower (-8) |
-| Beautiful Mermaid | 14 | 1.1.3 | 7 | 4 | 5 | 16 | 2026-10-31T08:54:45.143Z | Lower (-9) |
-| Crafter Mermaid | 15 | 0.0.3 | 6 | 7 | 3 | 16 | 2026-10-31T08:49:40.606Z | Lower (-10) |
+| Zombie Mermaid | 9 | 5.10.2 | 11 | 1 | 4 | 16 | 2026-10-31T08:50:12.754Z | Fewer verified (-5); accuracy unresolved |
+| XMermaid | 12 | 0.4.2 | 9 | 2 | 5 | 16 | 2026-10-31T08:54:07.922Z | Fewer verified (-7); accuracy unresolved |
+| Merslim | 13 | 0.2.3 | 8 | 5 | 3 | 16 | 2026-10-31T08:53:21.531Z | Fewer verified (-8); accuracy unresolved |
+| Beautiful Mermaid | 14 | 1.1.3 | 7 | 4 | 5 | 16 | 2026-10-31T08:54:45.143Z | Fewer verified (-9); accuracy unresolved |
+| Crafter Mermaid | 15 | 0.0.3 | 6 | 7 | 3 | 16 | 2026-10-31T08:49:40.606Z | Fewer verified (-10); accuracy unresolved |
 | DSH Mermaid GB SVG | 16 | 0.1.4 | 4 | 12 | 0 | 16 | 2026-10-31T09:02:06.668Z | Lower (-12) |
-| VitePress Plugin Diagram | 17 | 0.3.2 | 1 | 7 | 8 | 16 | 2026-10-31T08:54:29.717Z | Lower (-15) |
+| VitePress Plugin Diagram | 17 | 0.3.2 | 1 | 7 | 8 | 16 | 2026-10-31T08:54:29.717Z | Fewer verified (-15); accuracy unresolved |
 
 ### Mermaid Feature Cases
 
@@ -164,26 +164,26 @@ Whole-diagram outcomes for the same authored case inventory and planned SVG chec
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-“Higher” and “Lower” compare **Correct** on this population. Unknown evidence remains unresolved. This is a comparison of the named metric, not overall project quality.
+Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. This is a comparison of the named metric, not overall project quality.
 
 | Project | Rank | Version | Correct | Incorrect | Unsupported | Unknown | Planned | Measured | vs Mermaid |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Mermaid | 1 | 12.2.0 | 62 | 6 | 0 | 32 | 100 | 2026-10-31T09:08:18.381Z | Baseline |
-| Pele | 1 | 1.9.0 | 62 | 5 | 5 | 28 | 100 | 2026-10-31T09:07:54.583Z | Tie |
-| Bezel | 3 | 0.2.21 | 57 | 5 | 0 | 38 | 100 | 2026-10-31T09:08:26.640Z | Lower (-5) |
-| Ondine | 3 | 0.0.3 | 57 | 5 | 0 | 38 | 100 | 2026-10-31T09:03:51.945Z | Lower (-5) |
-| Frankenmermaid | 5 | 0.4.0 | 45 | 9 | 0 | 46 | 100 | 2026-10-31T09:03:43.264Z | Lower (-17) |
-| Latias Merman | 6 | 0.9.2 | 40 | 31 | 0 | 29 | 100 | 2026-10-31T09:07:41.590Z | Lower (-22) |
-| Agentic Mermaid | 7 | 0.4.1 | 38 | 5 | 0 | 57 | 100 | 2026-10-31T09:04:09.631Z | Lower (-24) |
-| Mermaid Dart | 8 | 0.3.2 | 29 | 14 | 0 | 57 | 100 | 2026-10-31T09:04:00.316Z | Lower (-33) |
-| Mermaid RS Renderer | 9 | 0.3.1 | 19 | 14 | 0 | 67 | 100 | 2026-10-31T09:04:24.304Z | Lower (-43) |
-| Zombie Mermaid | 10 | 5.10.2 | 13 | 6 | 0 | 81 | 100 | 2026-10-31T09:04:15.951Z | Lower (-49) |
-| XMermaid | 11 | 0.4.2 | 11 | 29 | 0 | 60 | 100 | 2026-10-31T09:07:27.517Z | Lower (-51) |
-| Beautiful Mermaid | 12 | 1.1.3 | 8 | 5 | 0 | 87 | 100 | 2026-10-31T09:07:46.020Z | Lower (-54) |
-| Crafter Mermaid | 13 | 0.0.3 | 7 | 85 | 0 | 8 | 100 | 2026-10-31T09:04:28.670Z | Lower (-55) |
-| Merslim | 14 | 0.2.3 | 6 | 26 | 0 | 68 | 100 | 2026-10-31T09:07:19.800Z | Lower (-56) |
-| DSH Mermaid GB SVG | 15 | 0.1.4 | 0 | 94 | 0 | 6 | 100 | 2026-10-31T09:08:01.704Z | Lower (-62) |
-| VitePress Plugin Diagram | 15 | 0.3.2 | 0 | 15 | 82 | 3 | 100 | 2026-10-31T09:07:30.915Z | Lower (-62) |
+| Pele | 1 | 1.9.0 | 62 | 5 | 5 | 28 | 100 | 2026-10-31T09:07:54.583Z | Same verified count; accuracy unresolved |
+| Bezel | 3 | 0.2.21 | 57 | 5 | 0 | 38 | 100 | 2026-10-31T09:08:26.640Z | Fewer verified (-5); accuracy unresolved |
+| Ondine | 3 | 0.0.3 | 57 | 5 | 0 | 38 | 100 | 2026-10-31T09:03:51.945Z | Fewer verified (-5); accuracy unresolved |
+| Frankenmermaid | 5 | 0.4.0 | 45 | 9 | 0 | 46 | 100 | 2026-10-31T09:03:43.264Z | Fewer verified (-17); accuracy unresolved |
+| Latias Merman | 6 | 0.9.2 | 40 | 31 | 0 | 29 | 100 | 2026-10-31T09:07:41.590Z | Fewer verified (-22); accuracy unresolved |
+| Agentic Mermaid | 7 | 0.4.1 | 38 | 5 | 0 | 57 | 100 | 2026-10-31T09:04:09.631Z | Fewer verified (-24); accuracy unresolved |
+| Mermaid Dart | 8 | 0.3.2 | 29 | 14 | 0 | 57 | 100 | 2026-10-31T09:04:00.316Z | Fewer verified (-33); accuracy unresolved |
+| Mermaid RS Renderer | 9 | 0.3.1 | 19 | 14 | 0 | 67 | 100 | 2026-10-31T09:04:24.304Z | Fewer verified (-43); accuracy unresolved |
+| Zombie Mermaid | 10 | 5.10.2 | 13 | 6 | 0 | 81 | 100 | 2026-10-31T09:04:15.951Z | Fewer verified (-49); accuracy unresolved |
+| XMermaid | 11 | 0.4.2 | 11 | 29 | 0 | 60 | 100 | 2026-10-31T09:07:27.517Z | Fewer verified (-51); accuracy unresolved |
+| Beautiful Mermaid | 12 | 1.1.3 | 8 | 5 | 0 | 87 | 100 | 2026-10-31T09:07:46.020Z | Fewer verified (-54); accuracy unresolved |
+| Crafter Mermaid | 13 | 0.0.3 | 7 | 85 | 0 | 8 | 100 | 2026-10-31T09:04:28.670Z | Fewer verified (-55); accuracy unresolved |
+| Merslim | 14 | 0.2.3 | 6 | 26 | 0 | 68 | 100 | 2026-10-31T09:07:19.800Z | Fewer verified (-56); accuracy unresolved |
+| DSH Mermaid GB SVG | 15 | 0.1.4 | 0 | 94 | 0 | 6 | 100 | 2026-10-31T09:08:01.704Z | Fewer verified (-62); accuracy unresolved |
+| VitePress Plugin Diagram | 15 | 0.3.2 | 0 | 15 | 82 | 3 | 100 | 2026-10-31T09:07:30.915Z | Fewer verified (-62); accuracy unresolved |
 
 ### Public Model Contracts
 
@@ -197,13 +197,13 @@ Corpus: the same AM/Trident-authored feature cases, evaluated through public Nod
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-“Higher” and “Lower” compare **Correct** on this population. Unknown evidence remains unresolved. This is a comparison of the named metric, not overall project quality.
+Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. This is a comparison of the named metric, not overall project quality.
 
 | Project | Rank | Version | Correct | Incorrect | Unknown | Planned | Measured | vs Mermaid |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Pele | 1 | 1.9.0 | 94 | 0 | 6 | 100 | 2026-10-31T09:31:40.068Z | Higher (+4) |
+| Pele | 1 | 1.9.0 | 94 | 0 | 6 | 100 | 2026-10-31T09:31:40.068Z | More verified (+4); accuracy unresolved |
 | Mermaid | 2 | 12.2.0 | 90 | 0 | 10 | 100 | 2026-10-31T09:31:49.523Z | Baseline |
-| Agentic Mermaid | 3 | 0.4.1 | 59 | 0 | 41 | 100 | 2026-10-31T09:31:33.634Z | Lower (-31) |
+| Agentic Mermaid | 3 | 0.4.1 | 59 | 0 | 41 | 100 | 2026-10-31T09:31:33.634Z | Fewer verified (-31); accuracy unresolved |
 
 ## Campaign attempts
 

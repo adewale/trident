@@ -174,6 +174,7 @@ export function baselineComparison(entry: SnapshotTable, row: SnapshotTable['row
   const value = number(row, column), referenceValue = number(reference, column)
   if (value === null || referenceValue === null) return 'Unresolved'
   const difference = value - referenceValue
+  if (column === 'Correct' && (unknown(reference) > 0 || unknown(row) > 0)) return difference === 0 ? 'Same verified count; accuracy unresolved' : `${difference > 0 ? 'More' : 'Fewer'} verified (${difference > 0 ? '+' : ''}${difference}); accuracy unresolved`
   return difference === 0 ? 'Tie' : `${difference > 0 ? 'Higher' : 'Lower'} (${difference > 0 ? '+' : ''}${difference})`
 }
 /** Shared competition ranks (1, 1, 3); unavailable measurements never become zero. */
@@ -191,7 +192,7 @@ export function rankedRows(entry: SnapshotTable, name: (id: string) => string) {
   } }).map(({ row, ...rank }) => ({ ...row, ...rank }))
   // Verified counts remain readable best-first even where unknown evidence
   // withholds a formal correctness rank. Ranking eligibility is unchanged.
-  return entry.ranking?.column === 'Correct' ? ranked.sort((a, b) => numeric(b.values[entry.columns.indexOf('Correct')]) - numeric(a.values[entry.columns.indexOf('Correct')]) || name(a.project).localeCompare(name(b.project))) : ranked
+  return entry.ranking?.column === 'Correct' ? rankResults(ranked, { direction: entry.ranking.direction, name: row => name(row.project), score: row => measurementNumber(row.values[entry.columns.indexOf('Correct')]) }).map(({ row }) => row) : ranked
 }
 function chartValue(entry: SnapshotTable, row: SnapshotTable['rows'][number]) {
   const chart = entry.chart!, numerator = measurementNumber(row.values[entry.columns.indexOf(chart.numerator)])
@@ -352,7 +353,7 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
       const notes = rows.some(row => row.unrankedReason)
       const reference = entry.cohort?.startsWith('terminal-') ? 'AlexanderGrooff/mermaid-ascii' : 'mermaid-js/mermaid'
       const compare = entry.population && entry.ranking?.direction === 'descending' && entry.rows.some(row => row.project === reference)
-      if (compare) lines.push(`“Higher” and “Lower” compare **${md(entry.ranking!.column)}** on this population. Unknown evidence remains unresolved. ${reference === 'AlexanderGrooff/mermaid-ascii' ? 'Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.' : 'This is a comparison of the named metric, not overall project quality.'}`, '')
+      if (compare) lines.push(`${entry.ranking!.column === 'Correct' ? 'Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes.' : `“Higher” and “Lower” compare **${md(entry.ranking!.column)}** on this population. Unknown evidence remains unresolved.`} ${reference === 'AlexanderGrooff/mermaid-ascii' ? 'Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.' : 'This is a comparison of the named metric, not overall project quality.'}`, '')
       lines.push(table(['Project', 'Rank', ...entry.columns, ...(compare ? [reference === 'mermaid-js/mermaid' ? 'vs Mermaid' : 'vs Mermaid ASCII'] : []), ...(rate ? [entry.chart!.axis] : []), ...(notes ? ['Ranking note'] : []), ...(entry.rolling ? ['Row evidence'] : [])], rows.map(row => [name(row.project), row.rank ?? '—', ...row.values, ...(compare ? [baselineComparison(entry, row, reference)] : []), ...(rate ? [row.rank === null ? '—' : chartValue(entry, row).toFixed(1) + '%'] : []), ...(notes ? [row.unrankedReason ?? ''] : []), ...(entry.rolling ? [receiptLink(row.receipt!)] : [])])), '')
       const chartRows = rows.filter(row => row.rank !== null)
       if (entry.chart && chartRows.length) {

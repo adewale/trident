@@ -73,8 +73,11 @@ comparative lineup. Original-runner environment validation stays separate from
 the qualified public-callback comparison.
 
 Each comparative count table includes its difference from Mermaid on that exact
-metric and population. A lower verified count is not proof that every unknown
-case is incorrect. Terminal comparisons use Mermaid ASCII: Mermaid has no terminal
+metric and population. If either row has unknown outcomes, a Correct comparison
+reads `More verified (+n); accuracy unresolved`, `Fewer verified (-n); accuracy unresolved`
+or `Same verified count; accuracy unresolved`. These compare verified counts;
+they do not establish an accuracy lead. Missing numeric values sort after observed
+counts, including zero, and remain unranked. Terminal comparisons use Mermaid ASCII: Mermaid has no terminal
 output and remains an unscored source reference. Timing receives no better/worse
 label without equivalent work and qualification.
 

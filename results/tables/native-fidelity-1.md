@@ -10,13 +10,13 @@ Corpus: the same AM/Trident-authored feature cases, evaluated through public Nod
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-“Higher” and “Lower” compare **Correct** on this population. Unknown evidence remains unresolved. This is a comparison of the named metric, not overall project quality.
+Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. This is a comparison of the named metric, not overall project quality.
 
 | Project | Rank | Version | Correct | Incorrect | Unknown | Planned | Measured | vs Mermaid |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Pele | 1 | 1.9.0 | 94 | 0 | 6 | 100 | 2026-10-31T09:31:40.068Z | Higher (+4) |
+| Pele | 1 | 1.9.0 | 94 | 0 | 6 | 100 | 2026-10-31T09:31:40.068Z | More verified (+4); accuracy unresolved |
 | Mermaid | 2 | 12.2.0 | 90 | 0 | 10 | 100 | 2026-10-31T09:31:49.523Z | Baseline |
-| Agentic Mermaid | 3 | 0.4.1 | 59 | 0 | 41 | 100 | 2026-10-31T09:31:33.634Z | Lower (-31) |
+| Agentic Mermaid | 3 | 0.4.1 | 59 | 0 | 41 | 100 | 2026-10-31T09:31:33.634Z | Fewer verified (-31); accuracy unresolved |
 <a id="attempt-016de9af9b4f74ad3eb22810"></a>
 
 ### Mermaid RS Renderer: Public Model Contracts (core)

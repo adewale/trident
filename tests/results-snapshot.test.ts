@@ -190,6 +190,23 @@ test('result ranks use the named metric, share ties, put missing values last and
   expect(rankedRows(entry, id => id).at(-1)?.rank).toBeNull()
 })
 
+test('verified-count order puts missing values after positive and zero counts without changing shared ranks', () => {
+  const entry = snapshot().tables[0]!
+  entry.columns = ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned']
+  entry.population = { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unknown'] }
+  entry.ranking = { column: 'Correct', direction: 'descending' }
+  entry.rows = [
+    { project: 'a-missing', values: ['1', 'N/A', 'N/A', 'N/A', 'N/A'], unrankedReason: 'No public output' },
+    { project: 'd-best', values: ['1', 4, 0, 1, 5] },
+    { project: 'b-tied', values: ['1', 4, 1, 0, 5] },
+    { project: 'c-zero', values: ['1', 0, 5, 0, 5] },
+    { project: 'e-withheld', values: ['1', 'Withheld', 'N/A', 'N/A', 'N/A'] },
+  ]
+  expect(rankedRows(entry, id => id).map(row => [row.project, row.rank])).toEqual([['b-tied', 1], ['d-best', 1], ['c-zero', 3], ['a-missing', null], ['e-withheld', null]])
+  entry.rows[1]!.unrankedReason = 'Incomplete full accuracy'
+  expect(rankedRows(entry, id => id).map(row => [row.project, row.rank])).toEqual([['b-tied', 1], ['d-best', null], ['c-zero', 2], ['a-missing', null], ['e-withheld', null]])
+})
+
 test('table and Mermaid chart use the same best-first project order', () => {
   const data = snapshot()
   data.tables[0]!.rows.unshift({ project: 'fixture/alpha', values: ['1.0', 2, 0, 2] })
@@ -293,4 +310,27 @@ test('reference comparisons keep incomplete, unknown and unlike populations out 
   entry.columns = ['Version', 'Correct', 'Unknown', 'Planned']; entry.population = { total: 'Planned', outcomes: ['Correct', 'Unknown'] }; entry.ranking = { column: 'Correct', direction: 'descending' }
   entry.rows[1]!.values = ['1', 0, 10, 10]
   expect(baselineComparison(entry, entry.rows[1]!)).toBe('Unresolved')
+})
+
+test('partial correctness compares verified counts without claiming an accuracy lead, including ties and unknown reference outcomes', () => {
+  const entry = snapshot().tables[0]!
+  entry.columns = ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned']
+  entry.population = { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unknown'] }
+  entry.ranking = { column: 'Correct', direction: 'descending' }
+  entry.rows = [{ project: 'mermaid-js/mermaid', values: ['12', 5, 5, 0, 10] }, { project: 'peer', values: ['1', 6, 1, 3, 10] }]
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('More verified (+1); accuracy unresolved')
+  entry.rows[1]!.values = ['1', 4, 3, 3, 10]
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Fewer verified (-1); accuracy unresolved')
+  entry.rows[1]!.values = ['1', 5, 2, 3, 10]
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Same verified count; accuracy unresolved')
+  entry.rows[0]!.values = ['12', 5, 2, 3, 10]; entry.rows[1]!.values = ['1', 6, 4, 0, 10]
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('More verified (+1); accuracy unresolved')
+  entry.rows[0]!.values = ['12', 5, 5, 0, 10]
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Higher (+1)')
+  entry.rows[1]!.values = ['1', 'N/A', 4, 0, 10]
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Unresolved')
+  const rules = readFileSync(new URL('../REPORTING.md', import.meta.url), 'utf8')
+  expect(rules).toContain('More verified (+n); accuracy unresolved')
+  expect(rules).toContain('Fewer verified (-n); accuracy unresolved')
+  expect(rules).toContain('Same verified count; accuracy unresolved')
 })

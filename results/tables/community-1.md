@@ -10,24 +10,24 @@ Full planned terminal corpus, retaining unmeasured and unreviewed inputs. Corpus
 
 Ranked by **Correct / Planned**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-“Higher” and “Lower” compare **Correct** on this population. Unknown evidence remains unresolved. Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.
+Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.
 
 | Project | Rank | Version | Correct | Incorrect | Unsupported | Unknown | Planned | Measured | vs Mermaid ASCII | Ranking note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Termaid | — | 0.10.0 | 12 | 1 | 0 | 107 | 120 | 2026-10-31T09:28:24.742Z | Higher (+1) | Terminal source/display/drawing evidence is incomplete |
-| Agentic Mermaid | — | 0.4.1 | 11 | 0 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Tie | Terminal source/display/drawing evidence is incomplete |
-| ASCII Mermaid | — | 0.1.0 | 11 | 2 | 0 | 107 | 120 | 2026-10-31T09:28:24.742Z | Tie | Terminal source/display/drawing evidence is incomplete |
+| Termaid | — | 0.10.0 | 12 | 1 | 0 | 107 | 120 | 2026-10-31T09:28:24.742Z | More verified (+1); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
+| Agentic Mermaid | — | 0.4.1 | 11 | 0 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Same verified count; accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
+| ASCII Mermaid | — | 0.1.0 | 11 | 2 | 0 | 107 | 120 | 2026-10-31T09:28:24.742Z | Same verified count; accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
 | Mermaid ASCII | — | 1.6.1 | 11 | 3 | 0 | 106 | 120 | 2026-10-31T09:28:24.742Z | Baseline | Terminal source/display/drawing evidence is incomplete |
-| Zombie Mermaid | — | 5.10.2 | 11 | 0 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Tie | Terminal source/display/drawing evidence is incomplete |
-| Latias Merman | — | 0.9.2 | 10 | 4 | 0 | 106 | 120 | Unknown; recovered text, see receipt | Lower (-1) | Terminal source/display/drawing evidence is incomplete |
-| MermaidText | — | git-a6b0c7657b94 | 10 | 0 | 0 | 110 | 120 | 2026-10-31T09:28:24.742Z | Lower (-1) | Terminal source/display/drawing evidence is incomplete |
-| Beautiful Mermaid | — | 1.1.3 | 9 | 2 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Lower (-2) | Terminal source/display/drawing evidence is incomplete |
-| Loom renderer | — | 0.10.0 | 9 | 0 | 0 | 111 | 120 | 2026-10-31T09:28:24.742Z | Lower (-2) | Terminal source/display/drawing evidence is incomplete |
-| OpenCode Merman | — | 2.0.26 | 9 | 2 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Lower (-2) | Terminal source/display/drawing evidence is incomplete |
-| Figurehead | — | v0.4.3 | 5 | 5 | 0 | 110 | 120 | 2026-10-31T09:28:24.742Z | Lower (-6) | Terminal source/display/drawing evidence is incomplete |
-| Kitlangton Merman | — | 0.2.1 | 4 | 2 | 0 | 114 | 120 | 2026-10-31T09:28:24.742Z | Lower (-7) | Terminal source/display/drawing evidence is incomplete |
-| MermaidTUI | — | 0.0.6 | 3 | 11 | 0 | 106 | 120 | 2026-10-31T09:28:24.742Z | Lower (-8) | Terminal source/display/drawing evidence is incomplete |
-| Ondine | — | 0.0.3 | 3 | 0 | 0 | 117 | 120 | Unknown; recovered text, see receipt | Lower (-8) | Terminal source/display/drawing evidence is incomplete |
+| Zombie Mermaid | — | 5.10.2 | 11 | 0 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Same verified count; accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
+| Latias Merman | — | 0.9.2 | 10 | 4 | 0 | 106 | 120 | Unknown; recovered text, see receipt | Fewer verified (-1); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
+| MermaidText | — | git-a6b0c7657b94 | 10 | 0 | 0 | 110 | 120 | 2026-10-31T09:28:24.742Z | Fewer verified (-1); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
+| Beautiful Mermaid | — | 1.1.3 | 9 | 2 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Fewer verified (-2); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
+| Loom renderer | — | 0.10.0 | 9 | 0 | 0 | 111 | 120 | 2026-10-31T09:28:24.742Z | Fewer verified (-2); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
+| OpenCode Merman | — | 2.0.26 | 9 | 2 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Fewer verified (-2); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
+| Figurehead | — | v0.4.3 | 5 | 5 | 0 | 110 | 120 | 2026-10-31T09:28:24.742Z | Fewer verified (-6); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
+| Kitlangton Merman | — | 0.2.1 | 4 | 2 | 0 | 114 | 120 | 2026-10-31T09:28:24.742Z | Fewer verified (-7); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
+| MermaidTUI | — | 0.0.6 | 3 | 11 | 0 | 106 | 120 | 2026-10-31T09:28:24.742Z | Fewer verified (-8); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
+| Ondine | — | 0.0.3 | 3 | 0 | 0 | 117 | 120 | Unknown; recovered text, see receipt | Fewer verified (-8); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
 | Crafter Mermaid | — | 0.0.3 | 0 | 0 | 0 | 120 | 120 | Unknown; recovered text, see receipt | Unresolved | Terminal source/display/drawing evidence is incomplete |
 | Frankenmermaid | — | 0.4.0 | 0 | 0 | 0 | 120 | 120 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
 | Grok renderer | — | git-2bdd1d6a6369 | 0 | 0 | 0 | 120 | 120 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
@@ -41,24 +41,24 @@ Independently reviewed drawing subset, ranked by verified correct count only. Un
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
-“Higher” and “Lower” compare **Correct** on this population. Unknown evidence remains unresolved. Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.
+Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.
 
 | Project | Rank | Version | Correct | Incorrect | Unsupported | Unknown | Planned | Measured | vs Mermaid ASCII | Ranking note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Termaid | 1 | 0.10.0 | 12 | 1 | 0 | 3 | 16 | 2026-10-31T09:28:24.742Z | Higher (+1) |  |
-| Agentic Mermaid | 2 | 0.4.1 | 11 | 0 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Tie |  |
-| ASCII Mermaid | 2 | 0.1.0 | 11 | 2 | 0 | 3 | 16 | 2026-10-31T09:28:24.742Z | Tie |  |
+| Termaid | 1 | 0.10.0 | 12 | 1 | 0 | 3 | 16 | 2026-10-31T09:28:24.742Z | More verified (+1); accuracy unresolved |  |
+| Agentic Mermaid | 2 | 0.4.1 | 11 | 0 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Same verified count; accuracy unresolved |  |
+| ASCII Mermaid | 2 | 0.1.0 | 11 | 2 | 0 | 3 | 16 | 2026-10-31T09:28:24.742Z | Same verified count; accuracy unresolved |  |
 | Mermaid ASCII | 2 | 1.6.1 | 11 | 3 | 0 | 2 | 16 | 2026-10-31T09:28:24.742Z | Baseline |  |
-| Zombie Mermaid | 2 | 5.10.2 | 11 | 0 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Tie |  |
-| Latias Merman | 6 | 0.9.2 | 10 | 4 | 0 | 2 | 16 | Unknown; recovered text, see receipt | Lower (-1) |  |
-| MermaidText | 6 | git-a6b0c7657b94 | 10 | 0 | 0 | 6 | 16 | 2026-10-31T09:28:24.742Z | Lower (-1) |  |
-| Beautiful Mermaid | 8 | 1.1.3 | 9 | 2 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Lower (-2) |  |
-| Loom renderer | 8 | 0.10.0 | 9 | 0 | 0 | 7 | 16 | 2026-10-31T09:28:24.742Z | Lower (-2) |  |
-| OpenCode Merman | 8 | 2.0.26 | 9 | 2 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Lower (-2) |  |
-| Figurehead | 11 | v0.4.3 | 5 | 5 | 0 | 6 | 16 | 2026-10-31T09:28:24.742Z | Lower (-6) |  |
-| Kitlangton Merman | 12 | 0.2.1 | 4 | 2 | 0 | 10 | 16 | 2026-10-31T09:28:24.742Z | Lower (-7) |  |
-| MermaidTUI | 13 | 0.0.6 | 3 | 11 | 0 | 2 | 16 | 2026-10-31T09:28:24.742Z | Lower (-8) |  |
-| Ondine | 13 | 0.0.3 | 3 | 0 | 0 | 13 | 16 | Unknown; recovered text, see receipt | Lower (-8) |  |
+| Zombie Mermaid | 2 | 5.10.2 | 11 | 0 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Same verified count; accuracy unresolved |  |
+| Latias Merman | 6 | 0.9.2 | 10 | 4 | 0 | 2 | 16 | Unknown; recovered text, see receipt | Fewer verified (-1); accuracy unresolved |  |
+| MermaidText | 6 | git-a6b0c7657b94 | 10 | 0 | 0 | 6 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-1); accuracy unresolved |  |
+| Beautiful Mermaid | 8 | 1.1.3 | 9 | 2 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-2); accuracy unresolved |  |
+| Loom renderer | 8 | 0.10.0 | 9 | 0 | 0 | 7 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-2); accuracy unresolved |  |
+| OpenCode Merman | 8 | 2.0.26 | 9 | 2 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-2); accuracy unresolved |  |
+| Figurehead | 11 | v0.4.3 | 5 | 5 | 0 | 6 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-6); accuracy unresolved |  |
+| Kitlangton Merman | 12 | 0.2.1 | 4 | 2 | 0 | 10 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-7); accuracy unresolved |  |
+| MermaidTUI | 13 | 0.0.6 | 3 | 11 | 0 | 2 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-8); accuracy unresolved |  |
+| Ondine | 13 | 0.0.3 | 3 | 0 | 0 | 13 | 16 | Unknown; recovered text, see receipt | Fewer verified (-8); accuracy unresolved |  |
 | Crafter Mermaid | — | 0.0.3 | 0 | 0 | 0 | 16 | 16 | Unknown; recovered text, see receipt | Unresolved | Terminal source/display/drawing evidence is incomplete |
 | Frankenmermaid | — | 0.4.0 | 0 | 0 | 0 | 16 | 16 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
 | Grok renderer | — | git-2bdd1d6a6369 | 0 | 0 | 0 | 16 | 16 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
