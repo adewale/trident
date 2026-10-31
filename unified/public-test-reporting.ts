@@ -1,7 +1,8 @@
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync, realpathSync } from 'node:fs'
 import { isAbsolute, join, relative } from 'node:path'
-import manifest from '../corpus/mermaid-public-tests.json' with { type: 'json' }
+import legacyManifest from '../corpus/mermaid-public-tests.json' with { type: 'json' }
+import expandedManifest from '../corpus/mermaid-public-tests-expanded.json' with { type: 'json' }
 import { qualifyPublicReference, reducePublicCallbacks, type PublicCallEvent } from './public-conformance.ts'
 import type { PublicTestDeclaration } from './public-conformance-inventory.ts'
 import type { SnapshotTable } from './results-snapshot.ts'
@@ -20,21 +21,23 @@ export function readPublicTestEvidence(directory: string) {
   }
   const read = (name: string): any => JSON.parse(bytes(name).toString())
   const saved = read('public-conformance-report.json'), inventory = read('inventory.json'), context = read('context.json')
+  const manifest = context.scopeSelection === 'expanded-public' ? expandedManifest : legacyManifest
+  if(context.scopeSelection==='expanded-public')for(const [key,value] of Object.entries(expandedManifest.publicModuleResolution))if(context.publicModuleResolution?.[key]!==value)throw Error('Expanded public package resolution differs from its pinned source host')
   const cases = manifest.eligible as PublicTestDeclaration[]
   const identity = (rows: readonly PublicTestDeclaration[]) => rows.map(row => [row.id, row.fullName, row.sourceSha256, row.callbackSha256, row.publicOperation])
   if (saved.result?.id !== 'public-conformance' || context.protocol !== manifest.protocol || inventory.protocol !== manifest.protocol || context.sourceCommit !== manifest.sourceCommit || inventory.sourceCommit !== manifest.sourceCommit || !same(identity(inventory.callbacks ?? []), identity(cases)) || !same(inventory.files, manifest.censusFiles) || !same(inventory.counts, manifest.counts) || !same(saved.inventory, manifest.counts)) throw Error('Public-test source, scope or declaration census differs from its frozen protocol')
   if (context.sourceConfigSha256 !== manifest.host.sourceConfigSha256 || context.runnerVersion !== manifest.host.runnerVersion || context.implementationSha256 !== manifest.publicBoundaries['packages/mermaid/src/mermaidAPI.ts'] || context.detectionSha256 !== manifest.publicBoundaries['packages/mermaid/src/diagram-api/detectType.ts'] || context.originalJsdomHelperSha256 !== manifest.host.jsdomHelper.sha256) throw Error('Original public boundary or jsdom host differs from the pinned source')
   const producers = Array.isArray(context.producers) ? context.producers.filter((row: unknown) => typeof row === 'string' && row.endsWith('\tunified/public-conformance-binding.mjs')) : []
-  const producer = producers.length === 1 ? manifest.publicBindings.find(binding => binding.producer === producers[0]) : undefined
-  if (!producer) throw Error('Public-test adapter producer differs from the qualified public boundary')
   const collectors = context.producers.filter((row: unknown) => typeof row === 'string' && row.endsWith('\tunified/public-conformance.ts'))
+  const producer = producers.length === 1 && collectors.length===1 ? manifest.publicBindings.find(binding => binding.producer === producers[0] && binding.collectorProducer === collectors[0]) : undefined
+  if (!producer) throw Error('Public-test adapter producer or collector producer differs from the qualified public boundary')
   if (collectors.length !== 1 || collectors[0] !== producer.collectorProducer) throw Error('Public-test collector producer differs from its reviewed capture implementation')
   const rawCapture = producer.rawCapture
   if (rawCapture === 'legacy-family-config-presence' ? context.rawCapture !== undefined : context.rawCapture?.protocol !== rawCapture) throw Error('Public-test raw capture metadata differs from its actual adapter producer')
   if (!Array.isArray(context.targets) || context.targets.some((target: any) => typeof target.binding?.project !== 'string' || !target.binding.project.trim() || typeof target.version !== 'string' || !target.version.trim()) || !context.targets.length || new Set(context.targets.map((target: any) => target.binding?.project)).size !== context.targets.length || !context.targets.some((target: any) => target.binding?.project === 'mermaid-js/mermaid' && target.binding.kind === 'mermaid-api')) throw Error('Public-test identities omit or duplicate the Mermaid reference')
   if (!saved.qualification?.qualified) {
     if (saved.targets?.length || saved.result.observations?.length || saved.result.status !== 'blocked') throw Error('Unqualified public-test controls cannot supply peer scores')
-    return { saved, context, cases, rawCapture, qualification: { qualified: false, cases: cases.length, differences: [] }, targets: [] as PublicTestTarget[], scope: scopeName(cases) }
+    return { saved, context, manifest, cases, rawCapture, qualification: { qualified: false, cases: cases.length, differences: [] }, targets: [] as PublicTestTarget[], scope: scopeName(cases) }
   }
   const receiptRows = (name: string, original = false) => {
     const receipt = read(name + '/receipt.json'), native = read(name + '/vitest.json')
@@ -58,7 +61,7 @@ export function readPublicTestEvidence(directory: string) {
   }
   const original = receiptRows('original-control', true), reference = receiptRows('reference-public-binding')
   const qualification = qualifyPublicReference(cases, original, reference)
-  if (!saved.qualification?.qualified || !qualification.qualified) return { saved, context, cases, rawCapture, qualification: { ...qualification, qualified: false }, targets: [], scope: scopeName(cases) }
+  if (!saved.qualification?.qualified || !qualification.qualified) return { saved, context, manifest, cases, rawCapture, qualification: { ...qualification, qualified: false }, targets: [], scope: scopeName(cases) }
   if (!Array.isArray(saved.targets) || saved.targets.length !== context.targets.length || new Set(saved.targets.map((target: any) => target.project)).size !== saved.targets.length) throw Error('Qualified public-test report omitted or duplicated a planned target')
   const targets: PublicTestTarget[] = context.targets.map((target: any) => {
     const project = target.binding.project, own = saved.targets.find((row: any) => row.project === project)
@@ -69,13 +72,13 @@ export function readPublicTestEvidence(directory: string) {
     if (observations.length !== rows.length || rows.some(row => observations.filter((observation: any) => observation.caseId === row.caseId && observation.status === row.status && observation.metrics?.originalCallbackSha256 === row.callbackSha256).length !== 1)) throw Error('Public-test observations omit, duplicate or contradict native callback outcomes')
     return { project, version: target.version as string, planned: cases.length, rows, counts }
   })
-  return { saved, context, cases, rawCapture, qualification, targets, scope: scopeName(cases) }
+  return { saved, context, manifest, cases, rawCapture, qualification, targets, scope: scopeName(cases) }
 }
 function scopeName(cases: readonly PublicTestDeclaration[]) {
   return ['parse', 'detectType', 'render'].map(operation => cases.filter(input => input.publicOperation === operation).length + ' ' + ({ parse: 'parse', detectType: 'detection', render: 'accessibility render' } as Record<string, string>)[operation]).join('; ')
 }
 export function publicTestTables(directory: string, receipt: SnapshotTable['receipt'], updatedAt: string): SnapshotTable[] {
-  const input = readPublicTestEvidence(directory)
+  const input = readPublicTestEvidence(directory), manifest=input.manifest
   if (!input.qualification.qualified) return []
   const comparisonKey = digest({ protocol: manifest.protocol, sourceCommit: manifest.sourceCommit, callbacks: input.cases.map(row => [row.id, row.callbackSha256]), publicBoundaries: manifest.publicBoundaries, originalHost: manifest.host, runner: input.context.runnerVersion, sourceConfig: input.context.sourceConfigSha256, adapter: input.context.producers?.find((row: string) => row.endsWith('\tunified/public-conformance-binding.mjs')) })
   return [{

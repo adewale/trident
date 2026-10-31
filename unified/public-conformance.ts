@@ -9,7 +9,7 @@ import { captureInstalledDependencyClosure } from '../portable/artifact-dependen
 import { protocolIdentity } from './protocol-identity.ts'
 import { qualifyOriginalRuntime } from './upstream-runtime-qualification.ts'
 import { tridentDirectory } from './trident-paths.ts'
-import { replacePublicRenderBody, inventoryPublicTests, publicConformanceProtocol, publicParseFiles, publicParseScope, type PublicTestDeclaration } from './public-conformance-inventory.ts'
+import { replacePublicRenderBody, inventoryPublicTests, publicConformanceProtocol, publicParseFiles, publicParseScope, type PublicScopeSelection, type PublicTestDeclaration } from './public-conformance-inventory.ts'
 import type { BenchmarkObservation, UnifiedSuiteResult } from './types.ts'
 
 export interface PublicParseBinding {
@@ -19,7 +19,7 @@ export interface PublicParseBinding {
   detection?: { export: string; familyPath: string; kindPath?: string; acceptedKind?: string }
   render?: { export: string; options?: Record<string, unknown> }
 }
-export interface PublicConformanceOptions { source: string; out: string; bindings: PublicParseBinding[]; controlEvidence?: string; runnerRoot?: string; node?: string; timeoutMs?: number }
+export interface PublicConformanceOptions { source: string; out: string; bindings: PublicParseBinding[]; controlEvidence?: string; runnerRoot?: string; node?: string; timeoutMs?: number; scopeSelection?:PublicScopeSelection }
 const hash = (bytes: string | Uint8Array) => createHash('sha256').update(bytes).digest('hex')
 const read = (file: string): any => JSON.parse(readFileSync(file, 'utf8'))
 const write = (file: string, value: unknown) => writeFileSync(file, JSON.stringify(value, null, 2) + '\n')
@@ -49,13 +49,13 @@ export function reducePublicCallbacks(cases: readonly PublicTestDeclaration[], c
     return { caseId: input.id, name: input.fullName, path: input.path, line: input.line, callbackSha256: input.callbackSha256, status, reason, publicCalls: originalSourceControl ? null : calls.length, nativeStatus: matches[0]?.status ?? null }
   })
 }
-export function qualifyPublicReference(cases: readonly PublicTestDeclaration[], original: ReturnType<typeof reducePublicCallbacks>, adapted: ReturnType<typeof reducePublicCallbacks>) {
+export function qualifyPublicReference(cases: readonly PublicTestDeclaration[], original: ReturnType<typeof reducePublicCallbacks>, adapted: ReturnType<typeof reducePublicCallbacks>, scope = publicParseScope) {
   if (!cases.length || original.length !== cases.length || adapted.length !== cases.length || new Set(original.map(row => row.caseId)).size !== cases.length || new Set(adapted.map(row => row.caseId)).size !== cases.length) throw Error('Reference qualification omitted or duplicated original cases')
   const differences = cases.flatMap(input => {
     const baseline = original.find(row => row.caseId === input.id), publicApi = adapted.find(row => row.caseId === input.id)
     return !baseline || !publicApi || baseline.status !== 'passed' || publicApi.status !== baseline.status || baseline.callbackSha256 !== input.callbackSha256 || publicApi.callbackSha256 !== input.callbackSha256 ? [{ caseId: input.id, original: baseline?.status ?? 'missing', adapted: publicApi?.status ?? 'missing' }] : []
   })
-  return { qualified: differences.length === 0, cases: cases.length, differences, scope: publicParseScope }
+  return { qualified: differences.length === 0, cases: cases.length, differences, scope }
 }
 
 /** Reassessment may repair location mapping without rerunning unchanged
@@ -63,8 +63,8 @@ export function qualifyPublicReference(cases: readonly PublicTestDeclaration[], 
  * identities must remain equal. Measurement provenance stays with its parent. */
 export function validateRetainedPublicControls(prior: any, inventory: any, current: any, cases: readonly PublicTestDeclaration[]) {
   const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b)
-  for (const key of ['protocol', 'sourceCommit', 'sourceConfigSha256', 'originalJsdomHelperSha256', 'implementationSha256', 'detectionSha256', 'runnerVersion', 'runtimeQualification', 'rawCapture', 'node']) if (!same(prior[key], current[key])) throw Error('Retained control identity differs: ' + key)
-  const callbackIdentity = (rows: readonly PublicTestDeclaration[]) => rows.map(row => ({ id: row.id, declarationId: row.declarationId, sourceSha256: row.sourceSha256, callbackSha256: row.callbackSha256, name: row.fullName, operation: row.publicOperation, parameter: row.parameter }))
+  for (const key of ['protocol', 'sourceCommit', 'sourceConfigSha256', 'originalJsdomHelperSha256', 'implementationSha256', 'detectionSha256', 'runnerVersion', 'runtimeQualification', 'rawCapture', 'node', 'scopeSelection', 'publicModuleResolution']) if (!same(prior[key], current[key])) throw Error('Retained control identity differs: ' + key)
+  const callbackIdentity = (rows: readonly PublicTestDeclaration[]) => rows.map(row => ({ id: row.id, declarationId: row.declarationId, sourceSha256: row.sourceSha256, callbackSha256: row.callbackSha256, name: row.fullName, operation: row.publicOperation, parameter: row.parameter, parameterSourceSha256:row.parameterSourceSha256, parameterCodeSha256:row.parameterCodeSha256, registrySourceSha256:row.registrySourceSha256 }))
   if (!same(callbackIdentity(inventory.callbacks ?? []), callbackIdentity(cases))) throw Error('Retained original callback/parameter inventory differs')
   const reference = (context: any) => context.targets?.find((target: any) => target.binding?.project === 'mermaid-js/mermaid')
   const before = reference(prior), after = reference(current)
@@ -81,7 +81,11 @@ export async function runPublicConformance(options: PublicConformanceOptions): P
   if (existsSync(out) || !options.bindings.length || new Set(options.bindings.map(binding => binding.project)).size !== options.bindings.length) throw Error('Choose a fresh output and unique public target bindings')
   const reference = options.bindings.find(binding => binding.project === 'mermaid-js/mermaid' && binding.kind === 'mermaid-api')
   if (!reference) throw Error('Original public-test conformance requires the actual Mermaid reference binding')
-  const inventory = inventoryPublicTests(source), cases = inventory.callbacks
+  const inventory = inventoryPublicTests(source,options.scopeSelection), cases = inventory.callbacks, scope=inventory.scope
+  const selectedFiles=[...new Set(cases.map(row=>row.path))]
+  const publicModuleResolution=options.scopeSelection==='expanded-public'?{specifier:'mermaid',importer:'packages/examples/src/example.spec.ts',publicSourceEntry:'packages/mermaid/src/mermaid.ts',sha256:hash(readFileSync(join(source,'packages/mermaid/src/mermaid.ts'))),reason:'The original monorepo workspace resolves its public Mermaid package. This controlled npm runtime maps that same public import to the pinned checkout source, so the native control executes source rather than a different installed bundle. Both original and delegated runs use identical module resolution.'}:undefined
+  const assertParameterFixtures=()=>{for(const row of cases)if(row.parameterSourcePath&&hash(readFileSync(join(source,row.parameterSourcePath)))!==row.parameterSourceSha256)throw Error('Original static example fixture changed: '+row.parameterSourcePath);if(publicModuleResolution&&hash(readFileSync(join(source,publicModuleResolution.publicSourceEntry)))!==publicModuleResolution.sha256)throw Error('Original public source entry changed')}
+  assertParameterFixtures()
   const sourceRequire = createRequire(join(source, 'package.json')), runtime = options.runnerRoot ?? source
   const runnerPackage = createRequire(join(runtime, 'package.json')).resolve('vitest/package.json'), sourceRunnerPackage = sourceRequire.resolve('vitest/package.json')
   if (realpathSync(runnerPackage) !== realpathSync(sourceRunnerPackage)) throw Error('Original source and selected runner must resolve the same Vitest instance')
@@ -95,7 +99,7 @@ export async function runPublicConformance(options: PublicConformanceOptions): P
     if (binding.publicImport !== pkg.name && !binding.publicImport.startsWith(pkg.name + '/') || !existsSync(entry)) throw Error('Binding does not resolve its installed public package export')
     return { binding, entry, version: pkg.version, entrySha256: hash(readFileSync(entry)), dependencies: captureInstalledDependencyClosure(binding.packageRoot) }
   })
-  write(join(out, 'context.json'), { protocol: publicConformanceProtocol, sourceCommit: inventory.sourceCommit, sourceConfigSha256: hash(readFileSync(join(source, 'vite.config.ts'))), originalJsdomHelperSha256: hash(readFileSync(join(source, 'packages/mermaid/src/tests/util.ts'))), implementationSha256, detectionSha256, runtimeQualification, producers, runnerVersion, node, rawCapture: { protocol: 'durable-public-return-json-v1', parserReturns: 'Actual JSON-safe native result/config retained; unserializable loss explicitly marked', eventPersistence: 'Fsynced complete event before original assertions', originalSourceControl: 'Native callbacks only; original source return values are not instrumented' }, targets: targetIdentities, sampling: 'One execution per original callback/parameter. Original jsdomIt geometry mocks retained for structural render assertions; no speed comparison.', scope: publicParseScope })
+  write(join(out, 'context.json'), { protocol: publicConformanceProtocol, ...(options.scopeSelection?{scopeSelection:options.scopeSelection}:{}), ...(publicModuleResolution?{publicModuleResolution}:{}), sourceCommit: inventory.sourceCommit, sourceConfigSha256: hash(readFileSync(join(source, 'vite.config.ts'))), originalJsdomHelperSha256: hash(readFileSync(join(source, 'packages/mermaid/src/tests/util.ts'))), implementationSha256, detectionSha256, runtimeQualification, producers, runnerVersion, node, rawCapture: { protocol: 'durable-public-return-json-v1', parserReturns: 'Actual JSON-safe native result/config retained; unserializable loss explicitly marked', eventPersistence: 'Fsynced complete event before original assertions', originalSourceControl: 'Native callbacks only; original source return values are not instrumented' }, targets: targetIdentities, sampling: 'One execution per original callback/parameter. Original jsdomIt geometry mocks retained for structural render assertions; no speed comparison.', scope })
   let retained: string | undefined
   if (options.controlEvidence) {
     retained = realpathSync(options.controlEvidence)
@@ -107,7 +111,7 @@ export async function runPublicConformance(options: PublicConformanceOptions): P
   const execute = (name: string, binding?: PublicParseBinding, retainedControl?: string) => {
     const directory = join(out, name); mkdirSync(directory)
     const calls = join(directory, 'calls.jsonl'), raw = join(directory, 'vitest.json'), config = join(directory, 'config.mts'), setup = join(directory, 'setup.mjs')
-    const prefix = `import base from ${JSON.stringify(join(source, 'vite.config.ts'))}\n`
+    const prefix = `import base from ${JSON.stringify(join(source, 'vite.config.ts'))}\n` + (publicModuleResolution?`const publicSourceResolution={name:'trident-original-public-package-resolution',enforce:'pre',resolveId(id,importer){if(id==='mermaid'&&importer?.split('?')[0]===${JSON.stringify(join(source,publicModuleResolution.importer))})return ${JSON.stringify(join(source,publicModuleResolution.publicSourceEntry))}}};\n`:'')
     let plugin = '', setupFile = ''
     if (binding) {
       setupFile = setup
@@ -115,12 +119,12 @@ export async function runPublicConformance(options: PublicConformanceOptions): P
       plugin = `import fs from 'node:fs';\nimport {replacePublicParseBody,replacePublicDetectBody,replacePublicRenderBody} from ${JSON.stringify(join(tridentDirectory, 'unified/public-conformance-inventory.ts'))};\nconst boundary={name:'trident-sha-bound-public-parse',enforce:'pre',load(id){if(id.split('?')[0]===${JSON.stringify(detection)})return {code:replacePublicDetectBody(fs.readFileSync(${JSON.stringify(detection)},'utf8'),${JSON.stringify(detectionSha256)}),map:null};if(id.split('?')[0]!==${JSON.stringify(implementation)})return;return {code:replacePublicParseBody(replacePublicRenderBody(fs.readFileSync(${JSON.stringify(implementation)},'utf8'),${JSON.stringify(implementationSha256)}),${JSON.stringify(delegatedRenderSha256)}),map:null}}};\n`
     }
     const selected = '^(' + cases.map(row => regex(row.fullName)).join('|') + ')$'
-    writeFileSync(config, prefix + plugin + `export default {...base,plugins:[...(base.plugins??[]),${binding ? 'boundary' : ''}],test:{...base.test,include:${JSON.stringify(publicParseFiles)},testNamePattern:${JSON.stringify(selected)},setupFiles:${JSON.stringify(setupFile ? [setupFile] : [])},fileParallelism:false,maxWorkers:1,minWorkers:1}}\n`)
+    writeFileSync(config, prefix + plugin + `export default {...base,plugins:[...(base.plugins??[]),${publicModuleResolution?'publicSourceResolution,':''}${binding ? 'boundary' : ''}],test:{...base.test,include:${JSON.stringify(selectedFiles)},testNamePattern:${JSON.stringify(selected)},setupFiles:${JSON.stringify(setupFile ? [setupFile] : [])},fileParallelism:false,maxWorkers:1,minWorkers:1}}\n`)
     const args = [runner, 'run', '--config', config, '--includeTaskLocation', '--reporter', 'json', '--outputFile', raw]
     write(join(directory, 'invocation.json'), { node, args, cwd: source, binding: binding ?? 'unmodified-original-source', selectedCaseIds: cases.map(row => row.id), snapshotPolicy: 'CI mode; no updates', startedAt: new Date().toISOString() })
     const child = retainedControl ? (() => {
       const priorDirectory = join(retainedControl, name), receipt = read(join(priorDirectory, 'receipt.json'))
-      if (!receipt.frameworkComplete || receipt.originalImplementationSha256 !== implementationSha256 || receipt.originalDetectorSha256 !== detectionSha256 || publicParseFiles.some(file => receipt.originalSpecSha256[file] !== inventory.files.find(item => item.path === file)!.sha256)) throw Error('Retained original control source or framework evidence changed')
+      if (!receipt.frameworkComplete || receipt.originalImplementationSha256 !== implementationSha256 || receipt.originalDetectorSha256 !== detectionSha256 || selectedFiles.some(file => receipt.originalSpecSha256[file] !== inventory.files.find(item => item.path === file)!.sha256)) throw Error('Retained original control source or framework evidence changed')
       const retainedFiles = ['vitest.json', 'runner.log', 'invocation.json', ...(binding ? ['calls.jsonl', 'setup.mjs'] : []), 'config.mts']
       const files = retainedFiles.map(file => { const bytes = readFileSync(join(priorDirectory, file)); writeFileSync(join(directory, file), bytes); return { file, sha256: hash(bytes) } })
       write(join(directory, 'retained-parent.json'), { directory: priorDirectory, receiptSha256: hash(readFileSync(join(priorDirectory, 'receipt.json'))), files })
@@ -135,13 +139,14 @@ export async function runPublicConformance(options: PublicConformanceOptions): P
     if (snapshots && (snapshots.added || snapshots.updated || snapshots.filesAdded || snapshots.filesUpdated || snapshots.didUpdate)) throw Error('Original runner changed snapshots; conformance is blocked')
     const complete = !child.error && child.signal === null && [0, 1].includes(child.status ?? -1) && !!native && !(native.numUnhandledErrors ?? 0) && !native.unhandledErrors?.length && native.testResults?.every((file: any) => !file.message || file.assertionResults?.length)
     const rows = reducePublicCallbacks(cases, callbacks, events, complete, !binding)
-    const receipt = { mode: binding ? 'public-binding-original-assertions' : 'actual-original-control', exitCode: child.status, signal: child.signal, error: child.error ? String(child.error) : null, frameworkComplete: complete, rows, callbacks: callbacks.filter(row => cases.some(input => input.fullName === row.fullName)), originalSpecSha256: Object.fromEntries(publicParseFiles.map(file => [file, hash(readFileSync(join(source, file)))])), originalImplementationSha256: hash(readFileSync(implementation)), originalDetectorSha256: hash(readFileSync(detection)) }
+    const receipt = { mode: binding ? 'public-binding-original-assertions' : 'actual-original-control', exitCode: child.status, signal: child.signal, error: child.error ? String(child.error) : null, frameworkComplete: complete, rows, callbacks: callbacks.filter(row => cases.some(input => input.fullName === row.fullName)), originalSpecSha256: Object.fromEntries(selectedFiles.map(file => [file, hash(readFileSync(join(source, file)))])), originalImplementationSha256: hash(readFileSync(implementation)), originalDetectorSha256: hash(readFileSync(detection)) }
     write(join(directory, 'receipt.json'), receipt)
-    if (receipt.originalImplementationSha256 !== implementationSha256 || receipt.originalDetectorSha256 !== detectionSha256 || publicParseFiles.some(file => receipt.originalSpecSha256[file] !== inventory.files.find(item => item.path === file)!.sha256)) throw Error('Original source changed during conformance collection')
+    if (receipt.originalImplementationSha256 !== implementationSha256 || receipt.originalDetectorSha256 !== detectionSha256 || selectedFiles.some(file => receipt.originalSpecSha256[file] !== inventory.files.find(item => item.path === file)!.sha256)) throw Error('Original source changed during conformance collection')
     return receipt
   }
   const original = execute('original-control', undefined, retained), adaptedReference = execute('reference-public-binding', reference, retained)
-  const qualification = qualifyPublicReference(cases, original.rows, adaptedReference.rows)
+  assertParameterFixtures()
+  const qualification = qualifyPublicReference(cases, original.rows, adaptedReference.rows,scope)
   write(join(out, 'reference-qualification.json'), qualification)
   const targets: any[] = [], observations: BenchmarkObservation[] = []
   if (qualification.qualified) for (const identity of targetIdentities) {
@@ -151,20 +156,20 @@ export async function runPublicConformance(options: PublicConformanceOptions): P
     for (const row of result.rows) observations.push({ suite: 'public-conformance', surface: 'public:' + cases.find(input => input.id === row.caseId)!.publicOperation, runtime: 'Node + original Vitest', family: cases.find(input => input.id === row.caseId)!.family, caseId: row.caseId, operation: 'original-public-test-callback', format: 'assertions', mode: publicConformanceProtocol, status: row.status, detail: row.reason, metrics: { project: identity.binding.project, version: identity.version, measuredAt: new Date().toISOString(), individualAssertionCountAvailable: false, originalCallbackSha256: row.callbackSha256, sourceCommit: inventory.sourceCommit, publicCalls: row.publicCalls } })
     if (hash(readFileSync(identity.entry)) !== identity.entrySha256 || JSON.stringify(captureInstalledDependencyClosure(identity.binding.packageRoot)) !== JSON.stringify(identity.dependencies)) throw Error('Public target entry changed during original-test execution')
   }
-  const result: UnifiedSuiteResult = { id: 'public-conformance', status: !qualification.qualified ? 'blocked' : observations.some(row => row.status === 'failed' || row.status === 'unsupported') ? 'failed' : observations.some(row => row.status === 'blocked') ? 'blocked' : 'passed', startedAt, finishedAt: new Date().toISOString(), observations, gaps: [publicParseScope, inventory.wholeSuiteBlocker, ...(!qualification.qualified ? ['Original/source public-reference equivalence is unqualified; no peer score was constructed.'] : [])], artifacts: ['inventory.json', 'context.json', 'reference-qualification.json', 'public-conformance-report.json'] }
+  const result: UnifiedSuiteResult = { id: 'public-conformance', status: !qualification.qualified ? 'blocked' : observations.some(row => row.status === 'failed' || row.status === 'unsupported') ? 'failed' : observations.some(row => row.status === 'blocked') ? 'blocked' : 'passed', startedAt, finishedAt: new Date().toISOString(), observations, gaps: [scope, inventory.wholeSuiteBlocker, ...(!qualification.qualified ? ['Original/source public-reference equivalence is unqualified; no peer score was constructed.'] : [])], artifacts: ['inventory.json', 'context.json', 'reference-qualification.json', 'public-conformance-report.json'] }
   write(join(out, 'public-conformance-report.json'), { inventory: inventory.counts, qualification, targets, wholeSuiteConformanceQualified: false, result })
   write(join(out, 'result.json'), result)
   return result
 }
 
 if (import.meta.main) {
-  if (process.argv.includes('--help')) console.log('bun unified/public-conformance.ts --source PINNED_SOURCE --out FRESH_DIR [--bindings JSON_FILE --runner-root RUNTIME --controls RETAINED_CONTROL_DIR]\n--inventory-only writes every original declaration and the fixed public-parse scope without executing a parser. Otherwise native original callbacks and assertions execute unchanged, qualified against the original source runner. No drawing or speed score.')
+  if (process.argv.includes('--help')) console.log('bun unified/public-conformance.ts --source PINNED_SOURCE --out FRESH_DIR [--bindings JSON_FILE --runner-root RUNTIME --controls RETAINED_CONTROL_DIR --scope qualified-41|expanded-public]\n--inventory-only writes every original declaration and the fixed public-parse scope without executing a parser. Otherwise native original callbacks and assertions execute unchanged, qualified against the original source runner. No drawing or speed score.')
   else {
     const args = new Map<string, string>(); let inventoryOnly = false
-    for (let index = 2; index < process.argv.length; index++) { const key = process.argv[index]!; if (key === '--inventory-only') { inventoryOnly = true; continue }; const value = process.argv[++index]; if (!['--source', '--out', '--bindings', '--runner-root', '--node', '--controls'].includes(key) || !value || args.has(key)) throw Error('Use --help'); args.set(key, value) }
+    for (let index = 2; index < process.argv.length; index++) { const key = process.argv[index]!; if (key === '--inventory-only') { inventoryOnly = true; continue }; const value = process.argv[++index]; if (!['--source', '--out', '--bindings', '--runner-root', '--node', '--controls', '--scope'].includes(key) || !value || args.has(key)) throw Error('Use --help'); args.set(key, value) }
     const source = args.get('--source'), out = args.get('--out')
     if (!source || !out) throw Error('Use --help')
-    if (inventoryOnly) { if (existsSync(out)) throw Error('Fresh output required'); mkdirSync(out, { recursive: true }); write(join(out, 'inventory.json'), inventoryPublicTests(source)) }
-    else { if (!args.get('--bindings')) throw Error('Explicit reviewed public bindings required'); console.log(JSON.stringify(await runPublicConformance({ source, out, bindings: read(args.get('--bindings')!), controlEvidence: args.get('--controls'), runnerRoot: args.get('--runner-root'), node: args.get('--node') }))) }
+    if (inventoryOnly) { if (existsSync(out)) throw Error('Fresh output required'); mkdirSync(out, { recursive: true }); write(join(out, 'inventory.json'), inventoryPublicTests(source,args.get('--scope') as PublicScopeSelection|undefined)) }
+    else { if (!args.get('--bindings')) throw Error('Explicit reviewed public bindings required'); console.log(JSON.stringify(await runPublicConformance({ source, out, bindings: read(args.get('--bindings')!), controlEvidence: args.get('--controls'), runnerRoot: args.get('--runner-root'), node: args.get('--node'),scopeSelection:args.get('--scope') as PublicScopeSelection|undefined }))) }
   }
 }

@@ -47,7 +47,7 @@ test('actual retained native controls produce one diagnostic table with the elig
 
 test('raw-capture claims remain bound to reviewed actual producer bytes and cannot upgrade old partial receipts', () => {
   const bytes = readFileSync(new URL('../unified/public-conformance-binding.mjs', import.meta.url)), blob = createHash('sha1').update('blob ' + bytes.length + '\0').update(bytes).digest('hex')
-  const current = manifest.publicBindings.find(binding => binding.rawCapture === 'durable-public-return-json-v1')!
+  const current = manifest.publicBindings.filter(binding => binding.rawCapture === 'durable-public-return-json-v1').at(-1)!
   expect(current.producer).toBe('100644 blob ' + blob + '\tunified/public-conformance-binding.mjs')
   const collectorBytes = readFileSync(new URL('../unified/public-conformance.ts', import.meta.url)), collectorBlob = createHash('sha1').update('blob ' + collectorBytes.length + '\0').update(collectorBytes).digest('hex')
   expect(current.collectorProducer).toBe('100644 blob ' + collectorBlob + '\tunified/public-conformance.ts')
