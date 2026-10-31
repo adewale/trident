@@ -32,7 +32,7 @@ import type { UnifiedRunOptions, UnifiedSuiteResult, BenchmarkObservation } from
 import { mermaidOracleDirectory, mermaidUpstreamDirectory } from '../portable/mermaid-oracle.ts'
 import { runDocsPngLane } from './docs-png-lane.ts'
 import { admitPngReviews, type DocsPngReview } from './docs-png-drawings.ts'
-import { readDocsPngRasterProfile, readRetainedPngSvg, readRetainedPng, qualifyRetainedDocsPngConversion } from './docs-png-qualification.ts'
+import { readDocsPngRasterProfile, readRetainedPngSvg, readRetainedPng, bindDocsPngConversionReturn, qualifyRetainedDocsPngConversion } from './docs-png-qualification.ts'
 import type { FrozenRasterProfile } from './png-preservation.ts'
 
 /** Every occurrence from every syntax page of the pinned upstream release.
@@ -245,7 +245,9 @@ export async function qualifyCollectedDocsPng(options: UnifiedRunOptions, result
         checkCollectionBudget(options.collectionDeadline)
         const originalSvg = readRetainedPngSvg(options.out, typeof row.metrics.originalSvgWitness === 'string' ? row.metrics.originalSvgWitness : undefined), rasterizedSvg = readRetainedPngSvg(options.out, typeof row.metrics.rasterizedSvgWitness === 'string' ? row.metrics.rasterizedSvgWitness : undefined)
         const returned = result.observations.find(item => item.operation === 'render' && item.format === 'png' && item.caseId === row.caseId && item.metrics?.project === row.metrics?.project && item.metrics?.round === row.metrics?.round && item.metrics?.variant === row.metrics?.variant)
-        const qualification = await qualifyRetainedDocsPngConversion({ source: input, review, actualPng: readRetainedPng(options.out, row.metrics.witness), originalSvg, rasterizedSvg, publicOutputReturned: returned?.status === 'passed', profile: raster.profile, pngReviews, observerSha256, inspectSvg: async (svg, authored) => {
+        const actualPng = readRetainedPng(options.out, row.metrics.witness)
+        const returnEvidence = returned?.status === 'passed' ? bindDocsPngConversionReturn({ root: options.out, project: String(row.metrics.project), round: Number(row.metrics.round), variant: typeof row.metrics.variant === 'string' ? row.metrics.variant : undefined, source: input, actualPng, originalSvg, rasterizedSvg, attemptId: typeof row.metrics.rawInvocationId === 'string' ? row.metrics.rawInvocationId : undefined }) : undefined
+        const qualification = await qualifyRetainedDocsPngConversion({ source: input, review, actualPng, originalSvg, rasterizedSvg, returnEvidence, profile: raster.profile, pngReviews, observerSha256, inspectSvg: async (svg, authored) => {
           if (page.isClosed()) page = await context.newPage()
           await page.goto('http://trident.invalid/observer')
           return withDocsDeadline(async () => {

@@ -18,7 +18,7 @@ import { assessSvgCases, summarizeSvgCases, makeSvgObservationBinding, type SvgE
 import { admitDocsReviews, assessDocsDrawing, reviewedDocsCase, type DocsDrawingReview } from './docs-drawings.ts'
 import { admitPngReviews, assessDocsPng, type DocsPngReview } from './docs-png-drawings.ts'
 import { qualifyOutput } from './qualification.ts'
-import { readDocsPngRasterProfile, readRetainedPngSvg, readRetainedPng, qualifyRetainedDocsPngConversion } from './docs-png-qualification.ts'
+import { readDocsPngRasterProfile, readRetainedPngSvg, readRetainedPng, bindDocsPngConversionReturn, qualifyRetainedDocsPngConversion } from './docs-png-qualification.ts'
 import { defaultChromium, executableIdentity } from './benchmark-context.ts'
 import { protocolIdentity } from './protocol-identity.ts'
 import { withDocsDeadline } from './docs-benchmark.ts'
@@ -149,7 +149,8 @@ export async function recheckRendering(directory: string, out: string, pngReview
               try {
                 const root = join(out, 'docs'), originalSvg = readRetainedPngSvg(root, row.metrics.originalSvgWitness), rasterizedSvg = readRetainedPngSvg(root, row.metrics.rasterizedSvgWitness)
                 const render = result.observations.find((item: any) => item.operation === 'render' && item.format === 'png' && item.caseId === row.caseId && item.metrics?.project === row.metrics.project && item.metrics?.round === row.metrics.round && item.metrics?.variant === row.metrics.variant)
-                const qualification = await qualifyRetainedDocsPngConversion({ source: input, review: expected, actualPng: bytes, originalSvg, rasterizedSvg, publicOutputReturned: render?.status === 'passed', profile: raster.profile, pngReviews, observerSha256, inspectSvg: (svg, authored) => inspect(row.metrics.project, svg, authored) })
+                const returnEvidence = render?.status === 'passed' ? bindDocsPngConversionReturn({ root: join(root, 'png'), project: row.metrics.project, round: Number(row.metrics.round), variant: row.metrics.variant, source: input, actualPng: bytes, originalSvg, rasterizedSvg, attemptId: row.metrics.rawInvocationId }) : undefined
+                const qualification = await qualifyRetainedDocsPngConversion({ source: input, review: expected, actualPng: bytes, originalSvg, rasterizedSvg, returnEvidence, profile: raster.profile, pngReviews, observerSha256, inspectSvg: (svg, authored) => inspect(row.metrics.project, svg, authored) })
                 const { referencePng, ...verdict } = qualification as typeof qualification & { referencePng?: Uint8Array }
                 if (referencePng) {
                   const path = 'png/referencePng/' + hash(referencePng) + '.png'

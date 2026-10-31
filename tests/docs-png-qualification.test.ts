@@ -4,7 +4,9 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { gzipSync } from 'node:zlib'
 import { Resvg } from '@resvg/resvg-js'
-import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
+import { CollectionCheckpoint } from '../portable/checkpoint.ts'
+import { InvocationJournal } from '../portable/invocation-journal.ts'
+import { evidenceDigest, evidenceBytesDigest } from '../portable/evidence-contract.ts'
 import { sourceHash, type DocsDrawingReview } from '../unified/docs-drawings.ts'
 import { docsExpectationsHash, assessDocsPng, type DocsPngReview } from '../unified/docs-png-drawings.ts'
 import { qualifyCollectedDocsPng } from '../unified/docs-benchmark.ts'
@@ -35,7 +37,13 @@ function fixture(rasterized = svg) {
   mkdirSync(join(out, 'drawings')); mkdirSync(join(out, 'originalSvg')); mkdirSync(join(out, 'rasterizedSvg'))
   const actualPng = reencode(reference), witness = 'drawings/' + evidenceBytesDigest(actualPng) + '.png', originalSvgWitness = 'originalSvg/' + evidenceBytesDigest(svg) + '.svg.gz', rasterizedSvgWitness = 'rasterizedSvg/' + evidenceBytesDigest(rasterized) + '.svg.gz'
   writeFileSync(join(out, witness), actualPng); writeFileSync(join(out, originalSvgWitness), gzipSync(svg)); writeFileSync(join(out, rasterizedSvgWitness), gzipSync(rasterized))
-  const metrics = { project: 'synthetic/control', round: 1, transport: 'svg-conversion', witness, originalSvgWitness, rasterizedSvgWitness }
+  const engine = { artifactSha256: 'c'.repeat(64), kind: 'synthetic-control' }, identity = { project: 'synthetic/control', caseId: input.id, sourceSha256: sourceHash(input.source), artifactSha256: engine.artifactSha256, bindingSha256: evidenceDigest({ format: 'png', transport: 'svg-conversion', engine, round: 1 }), format: 'png' }
+  writeFileSync(join(out, 'context.json'), JSON.stringify({ preparedBrowsers: [{ node: { id: identity.project }, browser: engine }] }))
+  const journal = new InvocationJournal(join(out, 'invocations')), started = journal.start(identity)
+  journal.returned(started, actualPng, 1)
+  const raw = new CollectionCheckpoint(out, { schema: 'synthetic-owned-png', sourceSha256: identity.sourceSha256 })
+  raw.record(JSON.stringify(['raw-png', identity.project, 1, input.id]), { status: 'passed', invocationId: started.attemptId, bytesBase64: actualPng.toString('base64'), originalSvg: svg, rasterizedSvg: rasterized })
+  const metrics = { rawInvocationId: started.attemptId, project: 'synthetic/control', round: 1, transport: 'svg-conversion', witness, originalSvgWitness, rasterizedSvgWitness }
   const observations = [{ suite: 'docs', surface: 'browser:png-export', runtime: 'control', family: 'flowchart', caseId: input.id, operation: 'render', format: 'png', mode: 'control', status: 'passed', metrics }, { suite: 'docs', surface: 'png:reviewed-content', runtime: 'control', family: 'flowchart', caseId: input.id, operation: 'drawing-checks', format: 'png', mode: 'control', status: 'blocked', detail: JSON.stringify(assessDocsPng(input, expected, actualPng, [imageReview])), metrics: { ...metrics } }] as UnifiedSuiteResult['observations']
   const result: UnifiedSuiteResult = { id: 'docs', status: 'blocked', startedAt: '', finishedAt: '', observations, artifacts: [], gaps: [] }
   const options: UnifiedRunOptions = { root: resolve(import.meta.dir, '..'), harnessRoot: resolve(import.meta.dir, '..'), out, rounds: 1, profile: 'smoke', executable: chromiumExecutable }
@@ -76,4 +84,14 @@ test('profile fonts and retained exact SVG hashes cannot be silently substituted
   writeFileSync(join(f.out, witness), gzipSync(svg + ' '))
   expect(() => readRetainedPngSvg(f.out, witness)).toThrow('hash differs')
   expect(() => readRetainedPngSvg(f.out, '../outside.svg.gz')).toThrow('escapes')
+})
+
+
+test('derived witness substitutions cannot claim another raw conversion return', async () => {
+  const f = fixture(), alternate = svg.replace('fill="white"', 'fill="#ffffff"'), witness = 'rasterizedSvg/' + evidenceBytesDigest(alternate) + '.svg.gz'
+  writeFileSync(join(f.out, witness), gzipSync(alternate))
+  f.result.observations[1]!.metrics!.rasterizedSvgWitness = witness
+  const result = await qualifyCollectedDocsPng(f.options, f.result, f.inventory, [expected], [imageReview], { profile, fileSha256: 'a'.repeat(64) })
+  expect(result.observations[1]!.status).toBe('blocked')
+  expect(JSON.parse(result.observations[1]!.detail!).reason).toContain('owning raw PNG return')
 })
