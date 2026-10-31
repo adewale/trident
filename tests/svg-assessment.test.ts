@@ -32,6 +32,13 @@ test('status rows cannot construct a correct verdict without actual output and o
   const stale = rows(); stale.find(row => row.surface !== 'native-public-api')!.metrics!.observerSha256 = 'c'.repeat(64)
   expect(() => assessSvgCases([authored], stale)).toThrow('different output/observer')
 })
+test('unplanned adverse findings withhold the certificate itself as well as the displayed disposition', () => {
+  const observed = rows(), control = observed.find(row => row.surface === 'browser-owned-ink')!
+  observed.push({ ...control, operation: 'extra-occlusion-finding', caseId: control.caseId + ':extra', status: 'failed' })
+  expect(assessSvgCases([authored], observed)[0]).toMatchObject({ status: 'unknown', profileStatus: 'correct', evidence: { status: 'unknown' } })
+  observed.find(row => row.operation === 'painted-relationships')!.status = 'failed'
+  expect(assessSvgCases([authored], observed)[0]).toMatchObject({ status: 'incorrect', evidence: { status: 'incorrect' } })
+})
 
 
 test('old checks cannot be relabelled with changed source or expectations', () => {
