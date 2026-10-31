@@ -32,6 +32,8 @@ for root in sorted(ws.glob('trident-png-*-2026-10-31')):
   if file.name.startswith('reviews-0-')and file.suffix=='.json':continue
   if file.name.startswith('authoring-contracts')and file.suffix=='.json':continue
   if file.suffix in ['.png','.json','.jsonl','.gz','.ts','.py','.log','.md','.txt','.svg']:add(file)
+for file in [ws/'trident-png-current-held-reason-audit.json',ws/'trident-png-frozen-remaining-plan.json']:
+ add(file)
 # Original image bytes are separate from inspection-packet encoding. Preserve
 # every reviewed original, including old bytes superseded by the69 changed PNGs.
 manifest=ws/'trident-png-image-review-2026-10-31/manifest.json'
