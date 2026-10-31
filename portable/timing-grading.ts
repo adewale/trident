@@ -33,7 +33,7 @@ function admitPolicy(plan: TimingPlan, value: TimingGradingPolicy): Readonly<Tim
 }
 
 export type TimingCapturedSample = Omit<TimingSample, 'checked'> & { checked?: CheckedEvidence }
-const journalDigest = (journal: readonly InvocationEvidence[]) => evidenceDigest(journal.map(admitInvocationEvidence).sort((left, right) => (left.attemptId + ':' + left.state).localeCompare(right.attemptId + ':' + right.state)))
+const journalDigest = (journal: readonly InvocationEvidence[]) => evidenceDigest(journal.map(admitInvocationEvidence).sort((left, right) => { const a = left.attemptId + ':' + left.state, b = right.attemptId + ':' + right.state; return a < b ? -1 : a > b ? 1 : 0 }))
 
 /** Recover coordinate rows from actual raw returns, never from an old pass or
  * an inferred clock. Existing samples must agree with their owning raw return.
