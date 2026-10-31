@@ -9,8 +9,8 @@ export async function bindPublicParse(binding, observe) {
   const require = createRequire(join(binding.packageRoot, 'package.json'))
   const entry = require.resolve(binding.publicImport), module = await import(pathToFileURL(entry).href)
   if (binding.kind === 'mermaid-api') {
-    const api = module.default?.mermaidAPI ?? module.mermaidAPI
-    if (typeof api?.parse !== 'function') throw Error('Frozen public mermaidAPI.parse binding is unavailable')
+    const api = module.default ?? module
+    if (typeof api?.parse !== 'function') throw Error('Frozen public mermaid.parse binding is unavailable')
     return { entry, reset: () => api.initialize({ startOnLoad: false, securityLevel: 'strict', logLevel: 'fatal' }), parse: async (source, options) => {
       try { const value = await api.parse(source, options); observe({ source, disposition: 'observed', missingFields: [], returned: value === false ? false : { diagramType: value?.diagramType, configPresent: Object.hasOwn(value ?? {}, 'config') } }); return value }
       catch (error) { observe({ source, disposition: 'observed', missingFields: [], thrown: { name: error?.name, message: error?.message } }); throw error }
