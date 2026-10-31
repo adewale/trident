@@ -3,7 +3,7 @@ import { plannedGraphFamilyCriteria } from './paint-graph-families.ts'
 
 export interface PaintCheck { criterion: string; status: 'passed' | 'failed' | 'unavailable'; expected: unknown; actual: unknown; scope: string }
 export interface PaintedTextLines { owner: Record<string, string | number>; label: string | null; lines: string[] | null; scope: string }
-export interface PaintEvidence { labelRepresentation?: 'uninspectable'; textLineBlocks?: PaintedTextLines[]; captions?: { label: string; box: { x: number; y: number; width: number; height: number } }[]; checks: PaintCheck[]; complete: boolean; passed: boolean; nodes: unknown[]; connections: unknown[]; viewBox: string | null; groups?: { id: string; label: string; box: { x: number; y: number; width: number; height: number } }[]; camouflagedText?: { text: string; box: { x: number; y: number; width: number; height: number } }[]; camouflagedGeometry?: { tag: string; box: { x: number; y: number; width: number; height: number } }[] }
+export interface PaintEvidence { textInkBoxes?: { text: string; layoutBox: { x: number; y: number; width: number; height: number }; inkBox: { x: number; y: number; width: number; height: number } }[]; labelRepresentation?: 'uninspectable'; textLineBlocks?: PaintedTextLines[]; captions?: { label: string; box: { x: number; y: number; width: number; height: number } }[]; checks: PaintCheck[]; complete: boolean; passed: boolean; nodes: unknown[]; connections: unknown[]; viewBox: string | null; groups?: { id: string; label: string; box: { x: number; y: number; width: number; height: number } }[]; camouflagedText?: { text: string; box: { x: number; y: number; width: number; height: number } }[]; camouflagedGeometry?: { tag: string; box: { x: number; y: number; width: number; height: number } }[] }
 export interface QualifiedNodeAnchor { id: string; label: string; box: { x: number; y: number; width: number; height: number }; anchorParts?: { tag: string; box: { x: number; y: number; width: number; height: number } }[]; outline?: { tag: string } }
 export interface PaintInput { family: string; expected: MeaningExpectation; paint?: PaintExpectation; qualifiedNodeAnchors?: QualifiedNodeAnchor[] }
 
@@ -865,7 +865,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   // credit rather than inventing an additional node from nested HTML spans.
   const presentationBlocks: { element: Element; qualified: boolean }[] = []
   const completeBlocks = (value: string) => {
-    const found = labelElements.filter(element => visible(element) && normalize(labelText(element)) === normalize(value))
+    const found = visibleMatches(value).filter(element => normalize(labelText(element)) === normalize(value))
     return found.filter(element => !found.some(other => other !== element && other.contains(element)))
   }
   const actualRoutes = [...svg.querySelectorAll('path,line,polyline')].filter(element => !element.closest('defs,marker,clipPath,mask') && visible(element) && getComputedStyle(element).fill === 'none' && colorAlpha(getComputedStyle(element).stroke) !== 0 && pointsOn(element).length > 1)
@@ -893,10 +893,31 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       presentationBlocks.push({ element, qualified: captions.length === 1 && captions[0]!.id === entry.id })
     }
   }
+  if (input.family === 'c4') {
+    const elements: any = input.expected.facts?.elements, relations: any = input.expected.facts?.relations
+    // Brackets present an independently declared kind/technology, not a new
+    // logical node. A complete source-derived row must sit immediately below
+    // its actual caption; a matching token elsewhere has no presentation role.
+    const below = (header: Element, row: Element) => { const a = labelBox(header), b = labelBox(row), gap = b.y - a.y - a.height; return gap >= -1.5 && gap <= Math.max(a.height, b.height) * 2 && (Math.abs(center(a).x - center(b).x) <= 3 || Math.abs(a.x - b.x) <= 3) }
+    if (Array.isArray(elements)) for (const entry of elements) {
+      const kind = String(entry.kind ?? '').replace(/_Ext$/, '').replace(/(?:Db|Queue)$/, ''), extra = entry.extraVisibleFields ?? [], values = /Boundary$/.test(kind) ? ['[' + (kind === 'Boundary' ? extra[0] ?? 'boundary' : kind.replace(/_Boundary$/, '').toUpperCase()) + ']'] : kind === 'Deployment_Node' ? typeof extra[0] === 'string' ? ['[' + extra[0] + ']'] : [] : ['Container', 'Component'].includes(kind) ? ['[' + kind + (extra[0] ? ': ' + extra[0] : '') + ']'] : kind === 'System' ? ['[Software System]'] : kind === 'Person' ? ['[Person]'] : []
+      const headers = completeBlocks(entry.label), boundary = (input.expected.groups ?? []).some(group => group.id === entry.id)
+      for (const value of values) for (const element of completeBlocks(value)) {
+        const adjacent = headers.filter(header => below(header, element))
+        if (adjacent.length !== 1) continue
+        const owned = ownedBox(adjacent[0]!, entry.id, boundary), actual = ownedBox(element, undefined, boundary)
+        presentationBlocks.push({ element, qualified: !!owned && !!actual && owned.shape === actual.shape && contains(owned.box, labelBox(element), 2) })
+      }
+    }
+    if (Array.isArray(relations)) for (const relation of relations) if (relation.technology) for (const element of completeBlocks('[' + relation.technology + ']')) {
+      const captions = completeBlocks(relation.label).filter(header => below(header, element))
+      if (captions.length === 1) presentationBlocks.push({ element, qualified: !!blockRoute(element) && !!blockRoute(captions[0]!) })
+    }
+  }
   let unresolvedPresentation = false
   const presentationRole = (element: Element) => {
     if ([...connectionLabelElements.values()].flat().some(role => role.element === element || role.element.contains(element) || element.contains(role.element))) return true
-    const blocks = presentationBlocks.filter(role => role.element === element || role.element.contains(element))
+    const blocks = presentationBlocks.filter(role => [role.element, ...(fragmentedLabels.get(role.element) ?? [])].some(block => block === element || block.contains(element)))
     if (blocks.length) { if (!blocks.some(role => role.qualified)) unresolvedPresentation = true; return true }
     if (input.family !== 'eventmodeling') return false
     const frames = input.expected.facts?.frames
@@ -983,5 +1004,6 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     textLineBlocks.push({ owner, label, lines: bound && safePaint && candidates.length === 1 ? paintedLines(candidates[0]!) : null, scope: 'Actual per-character browser rectangles establish displayed rows on a unique physical label owner. Unsupported note/fragment/box roles, ambiguous occurrences and unproved paint remain unavailable' })
   }
   const nodeStyle = (shape: Element) => { const style = getComputedStyle(shape); let opacity = 1; for (let parent: Element | null = shape; parent; parent = parent.parentElement) { opacity *= Number(getComputedStyle(parent).opacity); if (parent === svg) break }; return { fill: style.fill, fillOpacity: Number(style.fillOpacity), stroke: style.stroke, strokeOpacity: Number(style.strokeOpacity), strokeWidth: Number.parseFloat(style.strokeWidth), dash: style.strokeDasharray, opacity } }
-  return { ...(uninspectableLabels ? { labelRepresentation: 'uninspectable' as const } : {}), textLineBlocks, captions: [...connectionLabelElements.values()].flat().map(({ label, element }) => ({ label, box: labelBox(element) })), checks, complete: checks.every(item => item.status !== 'unavailable'), passed: checks.length > 0 && checks.every(item => item.status === 'passed'), nodes: [...anchors.values()].map(({ owner: _, shape, outlines: ___, ...node }) => { const style = getComputedStyle(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM?.(); return { ...node, outline: { tag: shape.localName, vertices: matrix ? vertices(shape)?.map(p => { const point = new DOMPoint(p.x, p.y).matrixTransform(matrix); return { x: point.x, y: point.y } }) : null, rx: (style.rx === 'auto' ? (shape as SVGRectElement).rx?.baseVal.value ?? 0 : /%/.test(style.rx) ? NaN : Number.parseFloat(style.rx)) * (matrix ? Math.hypot(matrix.a, matrix.b) : 1), ry: (style.ry === 'auto' ? style.rx === 'auto' ? (shape as SVGRectElement).ry?.baseVal.value ?? 0 : /%/.test(style.rx) ? NaN : Number.parseFloat(style.rx) : /%/.test(style.ry) ? NaN : Number.parseFloat(style.ry)) * (matrix ? Math.hypot(matrix.c, matrix.d) : 1) }, style: nodeStyle(shape) } }), connections: connections.map(({ element, ...edge }) => ({ ...edge, box: rect(element), start: pointFor(element, false), end: pointFor(element, true), stroke: getComputedStyle(element).stroke, strokeWidth: Number.parseFloat(getComputedStyle(element).strokeWidth), dash: getComputedStyle(element).strokeDasharray, strokePattern: strokePattern(element), labels: connectionLabels.get(element) ?? [], style: nodeStyle(element) })), viewBox: svg.getAttribute('viewBox'), groups: groupBoxes, camouflagedText, camouflagedGeometry }
+  const textInkBoxes = labelElements.flatMap(element => { const inkBox = visible(element) && !camouflage(element) ? labelInkBox(element) : null; return inkBox ? [{ text: normalize(labelText(element)), layoutBox: labelBox(element), inkBox }] : [] })
+  return { ...(uninspectableLabels ? { labelRepresentation: 'uninspectable' as const } : {}), textInkBoxes, textLineBlocks, captions: [...connectionLabelElements.values()].flat().map(({ label, element }) => ({ label, box: labelBox(element) })), checks, complete: checks.every(item => item.status !== 'unavailable'), passed: checks.length > 0 && checks.every(item => item.status === 'passed'), nodes: [...anchors.values()].map(({ owner: _, shape, outlines: ___, ...node }) => { const style = getComputedStyle(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM?.(); return { ...node, outline: { tag: shape.localName, vertices: matrix ? vertices(shape)?.map(p => { const point = new DOMPoint(p.x, p.y).matrixTransform(matrix); return { x: point.x, y: point.y } }) : null, rx: (style.rx === 'auto' ? (shape as SVGRectElement).rx?.baseVal.value ?? 0 : /%/.test(style.rx) ? NaN : Number.parseFloat(style.rx)) * (matrix ? Math.hypot(matrix.a, matrix.b) : 1), ry: (style.ry === 'auto' ? style.rx === 'auto' ? (shape as SVGRectElement).ry?.baseVal.value ?? 0 : /%/.test(style.rx) ? NaN : Number.parseFloat(style.rx) : /%/.test(style.ry) ? NaN : Number.parseFloat(style.ry)) * (matrix ? Math.hypot(matrix.c, matrix.d) : 1) }, style: nodeStyle(shape) } }), connections: connections.map(({ element, ...edge }) => ({ ...edge, box: rect(element), start: pointFor(element, false), end: pointFor(element, true), stroke: getComputedStyle(element).stroke, strokeWidth: Number.parseFloat(getComputedStyle(element).strokeWidth), dash: getComputedStyle(element).strokeDasharray, strokePattern: strokePattern(element), labels: connectionLabels.get(element) ?? [], style: nodeStyle(element) })), viewBox: svg.getAttribute('viewBox'), groups: groupBoxes, camouflagedText, camouflagedGeometry }
 }
