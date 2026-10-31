@@ -73,8 +73,9 @@ label-change, configuration-reset and invalid-input-recovery workflows run from
 source against the same frozen target artifact. Their owning worker inventories,
 inputs, expectations, outcomes and rejection controls must agree; a new failure
 or lost evidence in the kit fails packaging. Retained SVG admission is rechecked
-with the source observer and output hashes are recorded. Identical renderer
-failures and known unavailable option mappings remain findings. The receipt
+with the source observer and output hashes are recorded. An unchanged failed workflow needs an independently confirmed violation in its
+actual returned SVG; unclassified host/public-call errors fail packaging. Known
+unavailable option mappings remain gaps. The `package-parity-verified` receipt
 establishes preservation of those source outcomes, not that every workflow
 passed, corpus accuracy or timing qualification.
 Documentation-only edits need their relevant consistency checks, not collection.

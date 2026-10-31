@@ -69,6 +69,15 @@ export function verifyReleaseSmokeParity(sourceFile: string, kitFile: string, pr
       const testCase = frozenCases.find(row => row.id === worker.caseId)!
       if (worker.status === 'blocked' && !(worker.caseId === 'adversarial:configuration-reset' && worker.error?.startsWith('Error: Adapter gap: no reviewed public font-size configuration binding for '))) throw Error('Release smoke contains an unqualified harness failure: ' + worker.caseId)
       if (stableValue(worker.prelude.map(row => ({ source: row.source, accept: row.expectedAccepted }))) !== stableValue(testCase.prelude ?? [])) throw Error('Release smoke lost or changed a workflow prelude')
+      if (worker.status === 'passed' && (!worker.qualification?.passed || worker.prelude.some(row => !row.passed))) throw Error('Release smoke has contradictory passing worker evidence')
+      if (worker.status === 'failed') {
+        const path = join(record.evidenceDirectory, 'svg', worker.caseId.replaceAll(':', '_') + '.svg'), relativePath = relative(record.evidenceDirectory, path)
+        if (!record.evidenceFiles.includes(relativePath) || !existsSync(path)) throw Error('Failed release workflow has no independent returned-output witness')
+        const bytes = readFileSync(path), observed = qualifyPortable(testCase, { svg: bytes.toString(), adapter: (provenance as any).artifact?.adapter })
+        const confirmed = observed.checks.filter(check => check.status === 'failed' && !['acceptance', 'qualification-protocol'].includes(check.name)).some(check => worker.qualification?.checks.some(reported => reported.name === check.name && reported.status === 'failed'))
+        if (!confirmed) throw Error('Failed release workflow has no independently confirmed output violation; cause remains unclassified')
+        witnesses.push({ caseId: worker.caseId, path, sha256: digest(bytes) })
+      }
       if (worker.qualification?.evidence?.outputAdmission === 'passed') {
         const relativePath = 'svg/' + worker.caseId.replaceAll(':', '_') + '.svg', path = join(record.evidenceDirectory, relativePath)
         if (!record.evidenceFiles.includes(relativePath) || !existsSync(path)) throw Error('Release smoke lost its retained SVG witness')
@@ -108,11 +117,11 @@ export function verifyReleaseSmokeParity(sourceFile: string, kitFile: string, pr
   })
   for (const [key, worker] of source.workers) if (stableValue(outcome(worker)) !== stableValue(outcome(kit.workers.get(key)!))) throw Error('Shipped kit changed a source workflow outcome: ' + worker.caseId + '/' + worker.mode)
   return {
-    schema: 'trident-release-smoke-parity-v1', status: 'source-and-kit-outcomes-preserved', project,
+    schema: 'trident-release-smoke-parity-v1', status: 'package-parity-verified', project,
     sourceRecord: { path: source.recordFile, sha256: digest(readFileSync(source.recordFile)) }, kitRecord: { path: kit.recordFile, sha256: digest(readFileSync(kit.recordFile)) },
     workflowsSha256: digest(Buffer.from(stableValue(frozenCases))), artifactSha256: digest(Buffer.from(stableValue(source.record.identity.artifact))),
     cases: caseIds.length, workerJobs: source.workers.size, sourceWitnesses: source.witnesses, kitWitnesses: kit.witnesses,
-    limits: 'Exact frozen workflow and reported outcome preservation, with independent retained-SVG admission rechecks. Identical renderer failures and known unavailable option mappings remain findings; no corpus accuracy or timing qualification is supplied.',
+    limits: 'Exact frozen workflow and reported outcome preservation, with independent retained-SVG admission rechecks. Independently witnessed identical output violations and known unavailable option mappings remain findings. Shared source defects are outside this preservation proof; source-harness, accuracy and timing qualification remain separate release gates.',
   }
 }
 export async function packageRelease(argv: string[]) {
@@ -179,10 +188,10 @@ export async function packageRelease(argv: string[]) {
     const result = verifyKitSmoke(join(verification, 'kit/report.json'), svg.node.id, caseIds)
     const parity = verifyReleaseSmokeParity(join(verification, 'source-kit/report.json'), join(verification, 'kit/report.json'), svg.node.id, caseIds)
     writeFileSync(join(verification, 'source-kit-parity.json'), JSON.stringify(parity, null, 2) + '\n')
-    writeFileSync(join(out, 'release-check.json'), JSON.stringify({ sourceRevision: manifest.sourceRevision, version: TRIDENT_VERSION, archive, sha256, status: 'harness-smoke-passed', projects,
+    writeFileSync(join(out, 'release-check.json'), JSON.stringify({ sourceRevision: manifest.sourceRevision, version: TRIDENT_VERSION, archive, sha256, status: 'package-parity-verified', projects,
       sourceWorkflowCommand: sourceKitArgs, sourceWorkflowExitCode: sourceChecked.status, workflowParity: join(verification, 'source-kit-parity.json'),
       sourceCommand: sourceArgs, sourceExitCode: collected.status, sourceCampaign: join(source, 'report.json'), kitCommand: kitArgs, kitExitCode: checked.status,
-      kitRecord: join(result.evidenceDirectory, 'result.json.gz'), kitCases: result.summary.cases, limits: 'Source-versus-extracted-kit preservation of exact frozen workflow inputs and outcomes; retained SVG admission is independently rechecked. Identical renderer findings remain visible. Renderer findings and blocked option mappings remain in owning reports; this is not B0, a full support claim or timing qualification.' }, null, 2) + '\n')
+      kitRecord: join(result.evidenceDirectory, 'result.json.gz'), kitCases: result.summary.cases, limits: 'Source-versus-extracted-kit preservation of exact frozen workflow inputs and outcomes; retained SVG admission is independently rechecked. Independently witnessed identical output violations remain visible; this is preservation, not full source-harness qualification. Renderer findings and blocked option mappings remain in owning reports; this is not B0, a full support claim or timing qualification.' }, null, 2) + '\n')
   } else verifyReleaseArchive(archive, sha256, join(out, 'archive-check'), TRIDENT_VERSION, node)
   return { version: TRIDENT_VERSION, archive, sha256, checksums: shaFile, ...(args.has('--prepared') ? { verification: join(out, 'release-check.json') } : {}) }
 }
