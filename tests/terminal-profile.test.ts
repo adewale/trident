@@ -21,6 +21,12 @@ test('terminal regrading uses retained ink and independent facts, not the old ad
   writeFileSync(join(directory, 'chain.txt'), text); record.outputs[0]!.sha256 = hash(text)
   expect(assessTerminalRecord(record, directory, cases)[0].full).toMatchObject({ correct: 0, incorrect: 1, planned: 1 })
 })
+test('a targeted extension regrades without rerunning ASCII while an unmarked cohort still requires it', () => {
+  const { directory, cases, record } = fixture(), target = 'fixture/targeted-repair'
+  const extension = { ...record, targetedExtension: true, artifacts: [{ project: target, version: 'synthetic fixture' }], outputs: record.outputs.map(output => ({ ...output, project: target })) }
+  expect(assessTerminalRecord(extension, directory, cases)[0].full).toMatchObject({ correct: 1, planned: 1 })
+  expect(() => assessTerminalRecord({ ...extension, targetedExtension: false }, directory, cases)).toThrow('including Mermaid ASCII')
+})
 test('omitted work stays in the denominator and unverifiable facts cannot receive a pass', () => {
   const { directory, cases, record } = fixture()
   record.outputs = []
