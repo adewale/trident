@@ -34,7 +34,8 @@ const admittedBasisAudits = new WeakSet<object>()
 export function readLegacyPngDirectBasisAudit(file: string): Readonly<LegacyPngDirectBasisAudit> {
   const bytes = readFileSync(file), audit = JSON.parse((file.endsWith('.gz') ? gunzipSync(bytes, { maxOutputLength: 8 * 1024 * 1024 }) : bytes).toString()) as LegacyPngDirectBasisAudit
   if (audit.schema !== 'trident-legacy-direct-png-review-basis-v1' || audit.basis !== 'source-and-actual-image' || !audit.auditedBy?.trim() || !audit.method?.trim() || !Array.isArray(audit.receiptSha256s) || !audit.receiptSha256s.length || audit.receiptSha256s.some(sha=>!/^[a-f0-9]{64}$/.test(sha)) || new Set(audit.receiptSha256s).size !== audit.receiptSha256s.length) throw Error('Legacy PNG direct-image basis audit is incomplete')
-  Object.freeze(audit.receiptSha256s); Object.freeze(audit); admittedBasisAudits.add(audit); return audit
+  const freeze = (value: unknown) => { if (value && typeof value === 'object') { for (const child of Object.values(value)) freeze(child); Object.freeze(value) } }
+  freeze(audit); admittedBasisAudits.add(audit); return audit
 }
 export function hasDirectPngReviewBasis(receipt: OfflinePngReviewReceipt, legacy?: Readonly<LegacyPngDirectBasisAudit>) {
   if (receipt.inspection?.basis !== undefined) return receipt.inspection.basis === 'source-and-actual-image'

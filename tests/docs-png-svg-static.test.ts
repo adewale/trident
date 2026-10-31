@@ -131,14 +131,14 @@ test('one outer SVG can retain nested SVG icon content without accepting sibling
 
 test('ordinary human image viewers qualify direct review, while spoofed tool names or unaudited legacy receipts do not',async()=>{
  const f=await fixture(),human=await observeOwnedPngSvgStaticFrame(f)
- expect(human.reviewReceiptSha256).toBe(evidenceDigest(f.receipt))
+ expect(human.reviewReceiptSha256).toBe(evidenceDigest(f.receipt));expect(human.directImageBasis.protocol).toBe('receipt-declared-direct-image-v1')
  const derived=structuredClone(f.receipt);derived.inspection.method='view_image';derived.inspection.basis='svg-derived'
  await expect(observeOwnedPngSvgStaticFrame({...f,receipt:derived})).rejects.toThrow('independent complete actual-PNG')
  const legacy=structuredClone(f.receipt);legacy.schema='trident-offline-png-image-review-v1';delete legacy.inspection.basis
  await expect(observeOwnedPngSvgStaticFrame({...f,receipt:legacy})).rejects.toThrow('independent complete actual-PNG')
  const file=join(f.root,'legacy-direct-basis.json');writeFileSync(file,JSON.stringify({schema:'trident-legacy-direct-png-review-basis-v1',basis:'source-and-actual-image',auditedBy:'Independent synthetic provenance auditor',method:'Audit of actual retained direct source/image inspection receipts; no historical decisions restamped',receiptSha256s:[evidenceDigest(legacy)]}))
  const legacyReviewBasis=readLegacyPngDirectBasisAudit(file)
- expect((await observeOwnedPngSvgStaticFrame({...f,receipt:legacy,legacyReviewBasis})).pngSha256).toBe(evidenceBytesDigest(f.actualPng))
+ const legacyFrame=await observeOwnedPngSvgStaticFrame({...f,receipt:legacy,legacyReviewBasis});expect(legacyFrame.pngSha256).toBe(evidenceBytesDigest(f.actualPng));expect(legacyFrame.directImageBasis).toMatchObject({protocol:'audited-legacy-direct-image-v1',auditSha256:evidenceDigest(legacyReviewBasis)})
  const spoofed=structuredClone(legacy);spoofed.inspection.method='view_image from SVG agreement'
  await expect(observeOwnedPngSvgStaticFrame({...f,receipt:spoofed,legacyReviewBasis})).rejects.toThrow('independent complete actual-PNG')
 })
