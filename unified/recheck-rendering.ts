@@ -146,7 +146,16 @@ export async function recheckRendering(directory: string, out: string, pngReview
             const bytes = witness && existsSync(witness) ? readRetainedPng(join(out, 'docs'), row.metrics.witness) : undefined
             assessment = assessDocsPng(input, expected, bytes, pngReviews)
             if (assessment.status === 'correct' && bytes) {
-              try { assessment = { ...assessment, publicReturn: requireRetainedPngOwnership({ root: join(out, 'docs/png'), project: row.metrics.project, round: Number(row.metrics.round), source: input, actualPng: bytes, attemptId: typeof row.metrics.rawInvocationId === 'string' ? row.metrics.rawInvocationId : undefined }) } }
+              try {
+                const pngRoot = join(out, 'docs/png'), transportFile = join(pngRoot, 'transport-' + encodeURIComponent(row.metrics.project) + '-r' + Number(row.metrics.round) + '.json')
+                const transport = existsSync(transportFile) ? read(transportFile) : []
+                if (!Array.isArray(transport)) throw Error('PNG transport receipt is malformed')
+                const own = transport.filter((entry: any) => entry.caseId === input.id && entry.metrics?.rawInvocationId === row.metrics.rawInvocationId)
+                if (own.length > 1) throw Error('PNG transport invocation ownership is ambiguous')
+                const directory = own[0]?.metrics?.rawInvocationDirectory
+                const journalDirectory = typeof directory === 'string' ? remap(directory) : undefined
+                assessment = { ...assessment, publicReturn: requireRetainedPngOwnership({ root: pngRoot, project: row.metrics.project, round: Number(row.metrics.round), source: input, actualPng: bytes, attemptId: typeof row.metrics.rawInvocationId === 'string' ? row.metrics.rawInvocationId : undefined, journalDirectory }) }
+              }
               catch (error) { assessment = { status: 'unknown', reason: 'Reviewed image lacks its owning raw PNG return: ' + String(error) } }
             }
             if (assessment.status === 'unknown' && raster && expected?.intent === 'drawing' && bytes && row.metrics?.transport === 'svg-conversion') {

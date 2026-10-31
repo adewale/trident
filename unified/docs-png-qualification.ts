@@ -67,11 +67,16 @@ export function retainPngReference(root: string, png: Uint8Array) {
 
 /** Also used for native PNG: an image review establishes content, while the
  * owning raw checkpoint establishes which project/case/round returned it. */
-export function requireRetainedPngOwnership(input: { root: string; project: string; round: number; source: DocsInput; actualPng: Uint8Array; attemptId?: string }) {
+export function requireRetainedPngOwnership(input: { root: string; project: string; round: number; source: DocsInput; actualPng: Uint8Array; attemptId?: string; journalDirectory?: string }) {
   if (!input.project || !Number.isSafeInteger(input.round) || input.round < 1) throw Error('PNG has no owning project/case/round')
   const raw = readCheckpointValue<any>(input.root, JSON.stringify(['raw-png', input.project, input.round, input.source.id]))
   if (!raw || raw.status !== 'passed' || typeof raw.bytesBase64 !== 'string' || evidenceBytesDigest(Buffer.from(raw.bytesBase64, 'base64')) !== evidenceBytesDigest(input.actualPng) || input.attemptId !== undefined && raw.invocationId !== input.attemptId) throw Error('PNG witness differs from its own project/case/round raw return')
-  return { schema: 'trident-owned-png-return-v1' as const, project: input.project, caseId: input.source.id, round: input.round, sourceSha256: sourceHash(input.source.source), pngSha256: evidenceBytesDigest(input.actualPng), rawUnitSha256: evidenceDigest(raw), attemptId: typeof raw.invocationId === 'string' ? raw.invocationId : null }
+  if (typeof raw.invocationId !== 'string') throw Error('PNG raw return has no literal-source invocation identity')
+  const directory = input.journalDirectory ?? join(input.root, 'invocations'), owned = relative(realpathSync(input.root), realpathSync(directory))
+  if (isAbsolute(owned) || owned === '..' || owned.startsWith('../')) throw Error('PNG invocation journal escapes its result bundle')
+  const journalIdentity = { schema: 'trident-invocation-journal-v1' }, started = admitInvocationEvidence(readCheckpointValue(directory, raw.invocationId + ':started', journalIdentity)), returned = admitInvocationEvidence(readCheckpointValue(directory, raw.invocationId + ':returned', journalIdentity))
+  if (started.state !== 'started' || returned.state !== 'returned' || started.attemptId !== raw.invocationId || returned.attemptId !== raw.invocationId || evidenceDigest(started.identity) !== evidenceDigest(returned.identity) || returned.identity.project !== input.project || returned.identity.caseId !== input.source.id || returned.identity.sourceSha256 !== sourceHash(input.source.source) || returned.identity.format !== 'png' || returned.output?.sha256 !== evidenceBytesDigest(input.actualPng) || returned.output.bytes !== input.actualPng.byteLength) throw Error('PNG invocation differs from its literal source, project or returned bytes')
+  return { schema: 'trident-owned-png-return-v1' as const, project: input.project, caseId: input.source.id, round: input.round, sourceSha256: returned.identity.sourceSha256, pngSha256: returned.output.sha256, rawUnitSha256: evidenceDigest(raw), attemptId: raw.invocationId, startedFrameSha256: evidenceDigest(started), returnedFrameSha256: evidenceDigest(returned) }
 }
 
 export interface DocsPngConversionReturn {

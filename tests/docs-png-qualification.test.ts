@@ -105,6 +105,7 @@ test('native PNG review ownership cannot borrow another project or altered actua
   expect(() => requireRetainedPngOwnership({ ...owned, round: 2 })).toThrow('own project')
   expect(() => requireRetainedPngOwnership({ ...owned, actualPng: reference })).toThrow('own project')
   expect(() => requireRetainedPngOwnership({ ...owned, attemptId: 'borrowed-attempt' })).toThrow('own project')
+  expect(() => requireRetainedPngOwnership({ ...owned, source: { ...input, source: input.source.replace('-->', '<--') } })).toThrow('literal source')
 })
 
 
