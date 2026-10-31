@@ -60,6 +60,22 @@ function overview(snapshot: ResultsSnapshot, project = 'fixture/a') {
   return { row, rank: cells[2], docs: cells[4] }
 }
 
+test('newer PNG-only or unstarted PNG work cannot suppress retained SVG coverage', () => {
+  const svg = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' })
+  const before = importCampaign(empty(), svg, 'https://example.test/svg', catalog)
+  const png = campaign(temp(), { updatedAt: '2026-03-01T00:00:00Z' })
+  const file = join(png, 'docs/result.json'), result = JSON.parse(readFileSync(file, 'utf8'))
+  for (const row of result.observations) { row.format = 'png'; row.surface = 'browser:png-export'; row.status = 'blocked' }
+  write(file, result)
+  const controller = JSON.parse(readFileSync(join(png, 'report.json'), 'utf8')); controller.options = { docsFormats: ['png'] }; write(join(png, 'report.json'), controller)
+  const after = importCampaign(before, png, 'https://example.test/png', catalog)
+  expect(overview(after)).toEqual(overview(before))
+  expect(after.attempts.filter(attempt => attempt.receipt.url.includes('/png/')).every(attempt => JSON.stringify(attempt.outputFormats) === '["png"]')).toBe(true)
+  const unstarted = campaign(temp(), { updatedAt: '2026-04-01T00:00:00Z', partial: true })
+  const partial = JSON.parse(readFileSync(join(unstarted, 'report.json'), 'utf8')); partial.options = { docsFormats: ['png'] }; write(join(unstarted, 'report.json'), partial)
+  expect(overview(importCampaign(after, unstarted, 'https://example.test/png-unstarted', catalog))).toEqual(overview(before))
+})
+
 function oneProjectRerun(options: { updatedAt: string; partial?: boolean; changedInput?: boolean }) {
   const root = campaign(temp(), options)
   const report = JSON.parse(readFileSync(join(root, 'report.json'), 'utf8'))

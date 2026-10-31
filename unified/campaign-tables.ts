@@ -117,7 +117,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             ['Version', 'Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed', 'Planned', 'Measured'], project,
             [String(version), counts.passed, counts.failed, counts.unsupported, counts.blocked, counts.missing, counts.partial, inventory.cases.length, measuredAt(own, result.finishedAt)],
             { column: 'Returned in all rounds', denominator: 'Planned', direction: 'descending' },
-            { comparisonKey: hash(['docs', ...laneKey, cohort, laneProtocol, inventory.pin ?? null, inventory.cases, report.rounds]), unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed'] }, ...(candidate ? { artifactRole: 'candidate' } : format === 'svg' ? { overview: { numerator: 'Returned in all rounds', denominator: 'Planned', suffix: '%' } } : {}) }, unrankedReason)
+            { outputFormat: format as 'svg' | 'png', comparisonKey: hash(['docs', ...laneKey, cohort, laneProtocol, inventory.pin ?? null, inventory.cases, report.rounds]), unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed'] }, ...(candidate ? { artifactRole: 'candidate' } : format === 'svg' ? { overview: { numerator: 'Returned in all rounds', denominator: 'Planned', suffix: '%' } } : {}) }, unrankedReason)
           const drawings = own.filter(row => row.operation === 'drawing-checks')
           if (drawings.length) {
             if (new Set(drawings.map(row => row.caseId)).size !== drawings.length || drawings.some(row => !inventory.cases.some((input: any) => input.id === row.caseId))) throw Error('Documentation drawing observations do not match the inventory')
@@ -128,7 +128,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
               ['Version', 'Correct', 'Incorrect', 'Unknown', 'Not a drawing', 'Planned', 'Measured'], project,
               [String(version), correct, incorrect, unknown, notDrawing, inventory.cases.length, measuredAt(drawings, result.finishedAt)],
               { column: 'Correct', direction: 'descending' },
-              { unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unknown', 'Not a drawing'] } }, correct + incorrect === 0 ? 'No verified drawing-content observations' : undefined)
+              { outputFormat: format as 'svg' | 'png', unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unknown', 'Not a drawing'] } }, correct + incorrect === 0 ? 'No verified drawing-content observations' : undefined)
             const reviewedIds = new Set((inventory.drawingReview?.cases ?? []).filter((input: any) => input.intent === 'drawing').map((input: any) => input.id))
             if (reviewedIds.size) {
               const subset = drawings.filter(row => reviewedIds.has(row.caseId)), passed = subset.filter(row => row.status === 'passed').length, failed = subset.filter(row => row.status === 'failed').length, missing = reviewedIds.size - passed - failed
@@ -137,7 +137,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
                 ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned reviewed', 'Measured'], project,
                 [String(version), passed, failed, missing, reviewedIds.size, measuredAt(subset, result.finishedAt)],
                 { column: 'Correct', denominator: 'Planned reviewed', direction: 'descending' },
-                { unit: 'reviewed documentation occurrences', population: { total: 'Planned reviewed', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, passed + failed === 0 ? 'No verified drawing-content observations' : undefined)
+                { outputFormat: format as 'svg' | 'png', unit: 'reviewed documentation occurrences', population: { total: 'Planned reviewed', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, passed + failed === 0 ? 'No verified drawing-content observations' : undefined)
             }
           }
           }
