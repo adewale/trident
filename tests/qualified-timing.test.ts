@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test'
 import { defineCaseEvidenceContract, evidenceBytesDigest as hash, evidenceDigest, type CheckedEvidence, type InvocationEvidence } from '../portable/evidence-contract.ts'
-import { deriveTimingGrading, type TimingGrading, type TimingGradingPolicy } from '../portable/timing-grading.ts'
-import { qualifyTiming, timingFromRetainedBundle, type TimingPlan, type TimingSample } from '../portable/qualified-timing.ts'
+import { deriveTimingGrading, timingJournalDigest, type TimingGrading, type TimingGradingPolicy } from '../portable/timing-grading.ts'
+import { qualifyTiming, timingFromRetainedBundle, timingDriverFinalizationChecks, type TimingDriverFinalization, type TimingPlan, type TimingSample } from '../portable/qualified-timing.ts'
 import { CollectionCheckpoint } from '../portable/checkpoint.ts'
 import { qualifyRetainedTiming } from '../unified/qualify-timing.ts'
 import { readdirSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs'
@@ -25,6 +25,26 @@ function fixture(reference = 'reference artifact', caseCount = 1) {
 }
 function journalOf(samples:TimingSample[]) { return samples.flatMap(sample=>{ const start:InvocationEvidence={...sample.invocation,state:'started',startedAt:sample.invocation.startedAt??'2026-10-31T00:00:00.000Z',finishedAt:null,durationMs:null,output:null,...(sample.invocation.measurement?{measurement:{...sample.invocation.measurement,monotonicFinishNs:null,apiStartNs:null,apiFinishNs:null}}:{})}; delete start.startedReceiptSha256; sample.invocation.startedReceiptSha256=evidenceDigest(start);return[start,sample.invocation] }) }
 const qualify=(plan:TimingPlan,samples:TimingSample[],reader:()=>Uint8Array)=>qualifyTiming(plan,samples,reader,journalOf(samples))
+test('retained reduction shares the finalization gate and never exposes marked timing without its exact passed receipt', async () => {
+  const { plan, samples } = fixture(), captureProtocol = { name: 'synthetic frozen finalization control' }
+  plan.driverFinalization = { protocol: 'browser-svg-first-use-v1', producerSha256: hash('synthetic finalization producer') }
+  const planSha256 = evidenceDigest(plan)
+  for (const sample of samples) { sample.invocation.measurement!.planSha256 = planSha256; sample.invocation.measurement!.captureProtocolSha256 = evidenceDigest(captureProtocol); sample.invocation.identity.coordinate = JSON.stringify([planSha256, sample.round, sample.replica, sample.caseId, sample.sample]) }
+  const journal = journalOf(samples), bundle = { plan, samples, captureProtocol }
+  const receipt: TimingDriverFinalization = { schema: 'trident-timing-driver-finalization-v1', planSha256, policySha256: evidenceDigest(plan.driverFinalization), captureProtocolSha256: evidenceDigest(captureProtocol), journalSha256: timingJournalDigest(journal), checks: Object.fromEntries(timingDriverFinalizationChecks.map(check => [check, true])) as TimingDriverFinalization['checks'], status: 'passed', errors: [], completedAt: '2026-10-31T01:00:00.000Z' }
+  expect(qualifyTiming(plan, samples, () => bytes, journal).status).toBe('qualified')
+  expect(timingFromRetainedBundle(bundle, () => bytes, journal)).toMatchObject({ status: 'unqualified', medianMs: null, perRoundMs: null })
+  expect(timingFromRetainedBundle(bundle, () => bytes, journal, receipt)).toMatchObject({ status: 'qualified', medianMs: 5 })
+  for (const changed of [
+    { ...receipt, status: 'failed' }, { ...receipt, errors: ['Actual outer cleanup failed'] },
+    { ...receipt, checks: { ...receipt.checks, artifacts: false } }, { ...receipt, checks: { ...receipt.checks, cleanup: undefined } },
+    { ...receipt, planSha256: hash('different capture plan') }, { ...receipt, journalSha256: hash('different actual calls') },
+    { ...receipt, captureProtocolSha256: hash('different frozen capture protocol') }, { ...receipt, policySha256: hash('different driver') },
+  ]) expect(timingFromRetainedBundle(bundle, () => bytes, journal, changed)).toMatchObject({ status: 'unqualified', medianMs: null, perRoundMs: null })
+  const grading = await deriveTimingGrading(plan, samples, () => bytes, freshPolicy(plan), freshlyInspect, journal)
+  expect(timingFromRetainedBundle({ ...bundle, grading }, () => bytes, journal, receipt)?.status).toBe('qualified')
+  expect(timingFromRetainedBundle({ ...bundle, grading }, () => bytes, journal)?.status).toBe('unqualified')
+})
 test('timing requires a checked actual output for every fixed-plan invocation', () => {
   const { plan, samples } = fixture(), result = qualify(plan, samples, () => bytes)
   expect(result).toMatchObject({ status: 'qualified', planned: 36, checked: 36, medianMs: 5 })

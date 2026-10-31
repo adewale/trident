@@ -1,7 +1,6 @@
 import { existsSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
 import { basename, dirname, isAbsolute, relative, resolve } from 'node:path'
-import { browserSvgFirstUseTimingBoundary, timingFromRetainedBundle, timingDriverFinalizationChecks, type TimingDriverFinalization } from '../portable/qualified-timing.ts'
-import { timingJournalDigest } from '../portable/timing-grading.ts'
+import { timingFromRetainedBundle } from '../portable/qualified-timing.ts'
 import { readCheckpointEntries } from '../portable/checkpoint.ts'
 import { admitInvocationEvidence, evidenceBytesDigest, evidenceDigest, type InvocationEvidence } from '../portable/evidence-contract.ts'
 import { qualifiedTimingCoordinates } from '../portable/qualified-timing-collection.ts'
@@ -38,27 +37,23 @@ export function qualifyRetainedTimingBundle(bundle: any, root: string) {
     const bytes = readOwned(output)
     if (bytes.byteLength !== output.bytes || evidenceBytesDigest(bytes) !== output.sha256) throw Error('Raw timing journal output bytes changed')
   }
-  const result = timingFromRetainedBundle(bundle, readOwned, frames)!
+  let driverFinalization: unknown, driverFinalizationSha256: string | undefined
+  if (bundle.plan.driverFinalization) {
+    const file = resolve(root, 'driver-finalization.json')
+    if (existsSync(file)) {
+      const owned = relative(realpathSync(root), realpathSync(file))
+      if (isAbsolute(owned) || owned === '..' || owned.startsWith('../')) throw Error('Timing driver finalization is outside the owning bundle')
+      const bytes = readFileSync(file)
+      driverFinalization = JSON.parse(bytes.toString()); driverFinalizationSha256 = evidenceBytesDigest(bytes)
+    }
+  }
+  const result = timingFromRetainedBundle(bundle, readOwned, frames, driverFinalization)!
   if (!bundle.captureProtocol || typeof bundle.collectionDirectory !== 'string') return { ...result, status: 'unqualified' as const, medianMs: null, perRoundMs: null, gaps: [...result.gaps, 'Owned capture protocol and collection lifecycle receipts are required'] }
   const collectionDirectory = realpathSync(resolve(root, bundle.collectionDirectory)), ownedCollection = relative(realpathSync(root), collectionDirectory)
   if (isAbsolute(ownedCollection) || ownedCollection === '..' || ownedCollection.startsWith('../')) throw Error('Timing collection receipts are outside the owning bundle')
   const units = new Map(readCheckpointEntries<any>(collectionDirectory, { schema: 'trident-qualified-timing-collection-v1', planSha256: result.planSha256, captureProtocol: bundle.captureProtocol }))
   const complete = units.get('raw-complete'), errors = units.get('capture-errors'), schedule = qualifiedTimingCoordinates(bundle.plan)
   const gaps = [...result.gaps]
-  let driverFinalizationSha256: string | undefined
-  if (bundle.plan.boundary === browserSvgFirstUseTimingBoundary && !bundle.plan.driverFinalization) gaps.push('The browser driver boundary requires its predeclared finalization policy; historical unmarked captures are unqualified')
-  if (bundle.plan.driverFinalization) {
-    const file = resolve(root, 'driver-finalization.json')
-    if (!existsSync(file)) gaps.push('Required driver finalization receipt is missing')
-    else {
-      const owned = relative(realpathSync(root), realpathSync(file))
-      if (isAbsolute(owned) || owned === '..' || owned.startsWith('../')) throw Error('Timing driver finalization is outside the owning bundle')
-      const bytes = readFileSync(file), receipt = JSON.parse(bytes.toString()) as TimingDriverFinalization
-      driverFinalizationSha256 = evidenceBytesDigest(bytes)
-      if (receipt.schema !== 'trident-timing-driver-finalization-v1' || receipt.planSha256 !== result.planSha256 || receipt.policySha256 !== evidenceDigest(bundle.plan.driverFinalization) || receipt.captureProtocolSha256 !== evidenceDigest(bundle.captureProtocol) || receipt.journalSha256 !== timingJournalDigest(frames)) gaps.push('Driver finalization does not bind this original plan, capture protocol and exhaustive journal')
-      if (receipt.status !== 'passed' || !Array.isArray(receipt.errors) || receipt.errors.length || !receipt.checks || timingDriverFinalizationChecks.some(check => receipt.checks[check] !== true) || typeof receipt.completedAt !== 'string' || !Number.isFinite(Date.parse(receipt.completedAt))) gaps.push('Driver validation, resource retention or outer cleanup did not complete successfully')
-    }
-  }
   if (!complete || complete.planned !== result.planned || complete.attempts !== result.planned) gaps.push('Raw timing capture did not complete its full fixed schedule')
   if (!Array.isArray(errors)) gaps.push('Capture and cleanup outcomes were not retained')
   else if (errors.length) gaps.push(...errors.map(error => 'Capture ' + String(error.phase) + ': ' + String(error.detail)))

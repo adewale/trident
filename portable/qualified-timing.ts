@@ -1,5 +1,5 @@
 import { admitCaseEvidenceContract, admitCheckedEvidence, admitInvocationEvidence, constructEvidenceVerdict, evidenceBytesDigest, evidenceDigest, type CaseEvidenceContract, type CheckedEvidence, type InvocationEvidence } from './evidence-contract.ts'
-import { admitTimingGrading, materializeTimingSamples, type TimingGrading } from './timing-grading.ts'
+import { admitTimingGrading, materializeTimingSamples, timingJournalDigest, type TimingGrading } from './timing-grading.ts'
 import { calibrate, median } from './statistics.ts'
 
 type Replica = 'A0' | 'A1' | 'B'
@@ -139,8 +139,20 @@ export function qualifyTiming(plan: TimingPlan, samples: readonly TimingSample[]
   return Object.freeze({ schema: 'trident-qualified-timing-v1' as const, status: qualified ? 'qualified' as const : 'unqualified' as const, planSha256: evidenceDigest(plan), samplesSha256: evidenceDigest(samples), ...(active ? { gradingSha256: evidenceDigest(active), activeGrading: active, recoveredInvocations: measured.filter(sample => !originalAttempts.has(sample.invocation.attemptId)).map(sample => sample.invocation.attemptId), gradingHistory: { collectionPlan: structuredClone(plan), originalChecks: samples.map(sample => ({ attemptId: sample.invocation.attemptId, checked: structuredClone(sample.checked) })) } } : {}), comparisonKey: evidenceDigest({ grading: { cases: activeCases, observerSha256: activeObserver }, boundary: plan.boundary, format: plan.format, track: plan.track, environment: plan.environmentSha256, baseline: plan.artifacts.A0, maximumControlSpread: plan.maximumControlSpread, rounds: plan.rounds, samples: plan.samplesPerRound }), project: plan.artifacts.B.project, caseIds: plan.cases.map(input => input.caseId), boundary: plan.boundary, format: plan.format, track: plan.track, environmentSha256: plan.environmentSha256, planned, checked: durations.size, gaps: [...gaps], perRoundMs: qualified ? rounds.map(round => median(round.B)) : null, medianMs: qualified ? median(rounds.flatMap(round => round.B)) : null, calibration, interpretation: 'Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim.' })
 }
 
-/** Consumers must recompute qualification from owned raw evidence. Never trust
- * an imported boolean or a summary stamped "qualified" by itself. */
-export function timingFromRetainedBundle(bundle: { plan: TimingPlan; samples: TimingSample[]; grading?: TimingGrading } | undefined, readOutput: (output: NonNullable<InvocationEvidence['output']>) => Uint8Array, journal?: readonly InvocationEvidence[]) {
-  return bundle ? qualifyTiming(bundle.plan, bundle.samples, readOutput, journal, bundle.grading) : null
+/** Pure postcondition validation shared by retained reductions. File ownership
+ * and reading belong to the caller; no lower API silently waives this proof. */
+export function timingDriverFinalizationGaps(plan: TimingPlan, captureProtocol: unknown, journal: readonly InvocationEvidence[] | undefined, value?: unknown): string[] {
+  if (!plan.driverFinalization) return plan.boundary === browserSvgFirstUseTimingBoundary ? ['The browser driver boundary requires its predeclared finalization policy; historical unmarked captures are unqualified'] : []
+  if (!value || typeof value !== 'object') return ['Required driver finalization receipt is missing']
+  const receipt = value as TimingDriverFinalization, gaps: string[] = []
+  if (!captureProtocol || !journal || receipt.schema !== 'trident-timing-driver-finalization-v1' || receipt.planSha256 !== evidenceDigest(plan) || receipt.policySha256 !== evidenceDigest(plan.driverFinalization) || receipt.captureProtocolSha256 !== evidenceDigest(captureProtocol) || receipt.journalSha256 !== timingJournalDigest(journal)) gaps.push('Driver finalization does not bind this original plan, capture protocol and exhaustive journal')
+  if (receipt.status !== 'passed' || !Array.isArray(receipt.errors) || receipt.errors.length || !receipt.checks || timingDriverFinalizationChecks.some(check => receipt.checks[check] !== true) || typeof receipt.completedAt !== 'string' || !Number.isFinite(Date.parse(receipt.completedAt))) gaps.push('Driver validation, resource retention or outer cleanup did not complete successfully')
+  return gaps
+}
+/** Recompute from raw evidence and the required finalization receipt. An
+ * imported boolean or a summary stamped "qualified" supplies no proof. */
+export function timingFromRetainedBundle(bundle: { plan: TimingPlan; samples: TimingSample[]; grading?: TimingGrading; captureProtocol?: unknown } | undefined, readOutput: (output: NonNullable<InvocationEvidence['output']>) => Uint8Array, journal?: readonly InvocationEvidence[], driverFinalization?: unknown) {
+  if (!bundle) return null
+  const result = qualifyTiming(bundle.plan, bundle.samples, readOutput, journal, bundle.grading), gaps = timingDriverFinalizationGaps(bundle.plan, bundle.captureProtocol, journal, driverFinalization)
+  return gaps.length ? { ...result, status: 'unqualified' as const, medianMs: null, perRoundMs: null, gaps: [...new Set([...result.gaps, ...gaps])] } : result
 }
