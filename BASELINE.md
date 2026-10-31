@@ -42,7 +42,9 @@ no Codex or model API; source reviews and fixtures are retained inputs, not
 runtime-generated answers. The collection budget is five
 minutes after preparation. Expiry leaves uncompleted paths blocked; it cannot
 create a pass. The retained six-artifact run verified all 16 invocation paths.
-That result establishes executable transports only, under its recorded producer; it is not a final-head release check.
+That result establishes executable transports only, under its recorded producer.
+It does not establish correct input propagation, complete drawing facts or a
+final-head release check.
 
 ## Establish accuracy before collecting comparative timings
 
@@ -50,7 +52,7 @@ That result establishes executable transports only, under its recorded producer;
 |---|---|---|---|
 | DaveBench SVG and PNG | All 548 syntax-documentation occurrences, 546 distinct sources, at Mermaid commit `1fb7869866dd619168d840291c9c54b4f129758b`. | A complete source contract and every required fact checked against each actual output. | 544 drawing contracts and one configuration-only fence are transcribed; three source interpretations remain pending. Many complete contracts still need qualified output observers. |
 | Mermaid public tests | Unchanged callbacks from the same pinned Mermaid source. | The original source and substituted public reference must both pass before peer comparison. | The qualified scope is 22 parse/detector callbacks. The 4,060-declaration census is not 4,060 executable or qualified peer tests. |
-| Terminal project examples | 120 frozen inputs from project docs, tests, issues and PRs, with licenses and source changes retained. | All required terminal facts observed on actual display cells; invalid rejection controls counted separately. | The full inventory declares 318 required facts across 116 positive drawings and four rejection controls. The 46-source diagnostic subset has supported representations, not 46 verified passes. |
+| Terminal project examples | 120 frozen inputs from project docs, tests, issues and PRs, with licenses and source changes retained. | All required terminal facts observed on actual display cells; invalid rejection controls counted separately. | The full inventory declares 318 required facts across 116 positive drawings and four rejection controls. A diagnostic subset has supported representations; its size is not a count of verified passes. |
 | Feature cases and public models | Independently authored cases and separately labelled AM-origin/external cohorts. | The same required drawing or public-operation postconditions for each compared project. | An unsupported observer, missing binding or failed prerequisite keeps the corresponding claim unresolved. |
 
 The [source audit](docs/docs-source-expectations.md), [PNG proof rules](docs/png-correctness.md),

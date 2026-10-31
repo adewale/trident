@@ -25,7 +25,7 @@ publication remain pending.
   4,060-declaration census separately; broader conformance remains unqualified.
 - Declare 318 required terminal source facts across the full 120-input corpus;
   keep 116 positive drawings and four invalid controls separate. Expand bounded display-cell observers; the
-  46-source diagnostic subset is not a 46-pass result or complete accuracy claim.
+  diagnostic subset is not a verified-pass count or complete accuracy claim.
 - Verify 16 public execution paths across six complementary project artifacts,
   using 56 output calls and separate model operations. Bound harness collection
   to five minutes after preparation; invocation coverage is not a quality score.

@@ -155,9 +155,9 @@ and timeline trees have their own required facts. Missing family observers,
 unknown controls or unsupported background paint keep correctness unknown.
 
 `bench --terminal` uses CLI, Python and Node transports. Mermaid is the mandatory
-unscored source reference; Mermaid ASCII is the terminal baseline. The 46-source
-diagnostic subset has supported facts for at least one declared representation.
-It is neither 46 passes nor full-corpus qualification. Collection uses all 120
+unscored source reference; Mermaid ASCII is the terminal baseline. The diagnostic
+subset identifies sources with supported facts for at least one declared
+representation. Its size is neither a pass count nor full-corpus qualification. Collection uses all 120
 inputs once per selected renderer; `--all-inputs` is an explicit alias for that
 inventory. Saved-output rechecks need no renderer or Mermaid
 installation. Source capability declarations do not replace observed output.
