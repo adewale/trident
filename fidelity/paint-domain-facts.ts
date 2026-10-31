@@ -15,7 +15,7 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
   const quantitative = (criterion: string, expected: unknown, actual: unknown, passed: boolean | null, scope: string) => checks.push({ criterion, expected, actual, status: passed === null || passed && uncertain ? 'unavailable' : passed ? 'passed' : 'failed', scope })
   const norm = (value: string) => value.normalize('NFC').replace(/\s+/g, ' ').trim()
   const canvas = document.createElement('canvas').getContext('2d')!
-  const color = (value: string) => { if (value === 'none' || value === 'transparent') return null; if (/url\(|var\(|context-/.test(value)) { uncertain = true; return null }; canvas.clearRect(0, 0, 1, 1); canvas.fillStyle = value; canvas.fillRect(0, 0, 1, 1); const rgba = canvas.getImageData(0, 0, 1, 1).data; return rgba[3] ? { rgb: [...rgba].slice(0, 3).join(','), alpha: rgba[3]! / 255 } : null }
+  const color = (value: string) => { if (value === 'none' || value === 'transparent') return null; if (/url\(|var\(|context-|currentcolor/i.test(value) || !CSS.supports('color', value)) { uncertain = true; return null }; canvas.clearRect(0, 0, 1, 1); canvas.fillStyle = value; canvas.fillRect(0, 0, 1, 1); const rgba = canvas.getImageData(0, 0, 1, 1).data; return rgba[3] ? { rgb: [...rgba].slice(0, 3).join(','), alpha: rgba[3]! / 255 } : null }
   const preservesSourceGraphic = (setting: string): boolean => {
     if (/^brightness\((?:[1-9]\d*(?:\.\d*)?|0?\.\d*[1-9]\d*)%?\)$/.test(setting)) return true
     if (/^drop-shadow\((?:rgba?\([^)]*\)|[^()])*\)$/.test(setting)) return true

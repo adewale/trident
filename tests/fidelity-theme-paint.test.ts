@@ -57,8 +57,9 @@ function expected(file: string) {
   facts['theme-paint'] = { theme, family: entry.family, quantizationTolerancePerChannel: 1, roles }
   return { entry, expected: result, source: sources.find(c => c.id === entry.caseId).source }
 }
-async function inspect(file: string, change?: string) {
+async function inspect(file: string, change?: string, foreground?: string) {
   const input = expected(file), page = await browser.newPage({ viewport: { width: 1600, height: 1200 } })
+  if (foreground !== undefined) input.expected.facts['theme-paint'].roles[0].foreground = foreground
   try {
     await page.setContent(readFileSync(new URL(file, directory), 'utf8'))
     if (change) await page.evaluate(change)
@@ -77,6 +78,9 @@ test('zero-alpha curve fill compares the composed visible effect and retains str
   expect((await inspect('radar-zero-alpha-mermaid.svg', equivalent))?.status).toBe('passed')
   const wrong = `document.querySelectorAll('path').forEach(e=>{if(getComputedStyle(e).stroke==='rgb(255, 0, 0)')e.style.stroke='#00ffff'})`
   expect((await inspect('radar-zero-alpha-mermaid.svg', wrong))?.status).not.toBe('passed')
+})
+test('unqualified foreground colors cannot reuse a previous canvas paint as evidence', async () => {
+  for (const value of ['not-a-color', 'currentColor']) expect((await inspect('timeline-base-mermaid.svg', undefined, value))?.status).toBe('unavailable')
 })
 test('theme role captions cannot lend credit to wrong owned body paint or alpha', async () => {
   const wrongFill = `document.querySelector('path.node-bkg').style.fill='#00ff00'`
