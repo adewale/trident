@@ -5,7 +5,7 @@ import { chromium } from 'playwright'
 import { checkCollectionBudget, CollectionCheckpoint, CollectionBudgetExhausted } from '../portable/checkpoint.ts'
 import { admitPreparedFidelityEngine } from '../fidelity/community.ts'
 import { defaultChromium, executableIdentity } from './benchmark-context.ts'
-import { docsArtifactServer, docsRoundOrder, type docsInventory } from './docs-benchmark.ts'
+import { callDocsPage, docsArtifactServer, docsRoundOrder, type docsInventory } from './docs-benchmark.ts'
 import { publicSvgBrowserAction } from './public-svg-browser.ts'
 import { publicDocsPngAction } from './docs-png-browser.ts'
 import { inspectPng } from './png-inspection.ts'
@@ -63,14 +63,12 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
           await new Promise<void>(done => server.listen(0, '127.0.0.1', done))
           const origin = 'http://127.0.0.1:' + (server.address() as any).port
           const context = await browserHost.newContext({ viewport: { width: 1400, height: 1000 } }), page = await context.newPage()
+          context.setDefaultTimeout(20_000)
           await context.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort())
-          conversion = { close: async () => { await context.close(); await new Promise<void>(done => server.close(() => done())) }, invoke: async (source, id) => {
-            let timer: ReturnType<typeof setTimeout> | undefined
-            try { return await Promise.race([page.evaluate(publicDocsPngAction, { source, id }), new Promise<never>((_, reject) => { timer = setTimeout(() => { void page.close().catch(() => {}); reject(Error('PNG conversion exceeded20s host deadline')) }, 20_000) })]) } finally { if (timer) clearTimeout(timer) }
-          } }
+          conversion = { close: async () => { await context.close(); await new Promise<void>(done => server.close(() => done())) }, invoke: (source, id) => callDocsPage(page, publicDocsPngAction, { source, id }) }
           await page.goto(origin + '/blank')
-          if (engine.kind === 'franken' || engine.kind === 'merman') await page.evaluate(publicSvgBrowserAction, { type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: origin + '/' + engine.wasm })
-          else { await page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) }); await page.evaluate(publicSvgBrowserAction, { type: 'initialize-global', engine, addonUrl: engine.zenuml ? origin + '/__addon/' + engine.zenuml.entry : undefined }) }
+          if (engine.kind === 'franken' || engine.kind === 'merman') await callDocsPage(page, publicSvgBrowserAction, { type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: origin + '/' + engine.wasm })
+          else { await page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) }); await callDocsPage(page, publicSvgBrowserAction, { type: 'initialize-global', engine, addonUrl: engine.zenuml ? origin + '/__addon/' + engine.zenuml.entry : undefined }) }
         } else if (transport !== 'unavailable') {
           verifyProvidedCommunityArtifact(peer!.artifact!)
           const workloads = inventory.cases.map(input => ({ id: input.id, family: input.family, source: input.source, expectedLabels: [], features: ['retain-output-witness'], provenance: 'Pinned Mermaid syntax documentation; source path/line in inventory.json' }))

@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createServer } from 'node:http'
 import { extname, join, resolve, sep } from 'node:path'
-import { chromium } from 'playwright'
+import { chromium, type Page } from 'playwright'
 import { createHash } from 'node:crypto'
 import { gzipSync } from 'node:zlib'
 import { inspectFidelityPaint } from '../fidelity/paint.ts'
@@ -65,6 +65,14 @@ export function docsRoundOrder<T>(targets: readonly T[], round: number): T[] {
   return round % 2 === 0 ? order.reverse() : order
 }
 
+/** Includes asynchronous module/addon initialization, whose evaluate promises
+ * have no Playwright timeout. A stalled renderer cannot hold the campaign open. */
+export async function callDocsPage(page: Pick<Page, 'evaluate' | 'close'>, action: (input: any) => Promise<any>, input: any, deadlineMs = 20_000): Promise<any> {
+  let timer: ReturnType<typeof setTimeout> | undefined
+  try { return await Promise.race([page.evaluate(action, input), new Promise<never>((_, reject) => { timer = setTimeout(() => { void page.close().catch(() => {}); reject(Error('Browser call exceeded its declared host deadline')) }, deadlineMs) })]) }
+  finally { if (timer) clearTimeout(timer) }
+}
+
 async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory?: ReturnType<typeof docsInventory>): Promise<UnifiedSuiteResult> {
   assertBenchmarkExecutionAllowed()
   const startedAt = new Date().toISOString(), observations: BenchmarkObservation[] = [], gaps: string[] = []
@@ -121,11 +129,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
         const context = await browser!.newContext({ viewport: { width: 1400, height: 1000 } }), page = await context.newPage()
         let observer: any = await context.newPage()
         await observer.goto(origin + '/observer')
-        const invoke = async (input: any) => {
-          let timer: ReturnType<typeof setTimeout> | undefined
-          try { return await Promise.race([page.evaluate(publicSvgBrowserAction, input), new Promise<never>((_, reject) => { timer = setTimeout(() => { void page.close().catch(() => {}); reject(Error('Browser call exceeded20s host deadline')) }, 20_000) })]) }
-          finally { if (timer) clearTimeout(timer) }
-        }
+        const invoke = (input: any) => callDocsPage(page, publicSvgBrowserAction, input)
         page.setDefaultTimeout(20_000)
         await context.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort())
         try {
