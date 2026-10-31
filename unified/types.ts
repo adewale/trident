@@ -46,6 +46,9 @@ export interface UnifiedRunOptions {
   communityBrowserPreparedFile?: string
   /** Optional reviewed source expectations; omitted means the committed docs reviews. */
   docsReviewFile?: string
+  /** Same documentation inventory, independently collected output lanes. */
+  docsFormats?: ('svg' | 'png')[]
+  docsPngReviewFile?: string
   /** One shared absolute deadline for all cohorts and suites. Never measurement identity. */
   collectionDeadline?: number
   collectionResume?: boolean

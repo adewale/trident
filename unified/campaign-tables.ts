@@ -86,7 +86,9 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
         if (!Array.isArray(inventory.cases) || new Set(inventory.cases.map((c: any) => c.id)).size !== inventory.cases.length) throw Error('Docs inventory IDs are missing or duplicated')
         const projects = new Set(result.observations.map(row => projectId(String(row.metrics?.project ?? row.metrics?.implementation ?? boundary.project))))
         for (const project of projects) {
-          const own = result.observations.filter(row => projectId(String(row.metrics?.project ?? row.metrics?.implementation ?? boundary.project)) === project)
+          for (const format of [...new Set(result.observations.map(row => row.format ?? 'svg'))]) {
+          const own = result.observations.filter(row => projectId(String(row.metrics?.project ?? row.metrics?.implementation ?? boundary.project)) === project && (row.format ?? 'svg') === format)
+          if (!['svg', 'png'].includes(format)) throw Error('Unexpected documentation output format')
           if (!own.some(row => row.operation === 'render' || row.status === 'blocked')) continue
           const coordinates = new Set<string>(), byCase = new Map<string, typeof own>()
           for (const row of own.filter(row => row.operation === 'render')) {
@@ -108,33 +110,36 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
           const incomplete = coordinates.size !== inventory.cases.length * report.rounds || counts.blocked > 0
           const unrankedReason = incomplete ? `${counts.blocked === inventory.cases.length ? 'blocked' : 'incomplete'} (${completeRounds}/${report.rounds} complete rounds)` : undefined
           const version = own.find(row => typeof row.metrics?.version === 'string')?.metrics?.version ?? result.toolVersions?.find(row => projectId(row.tool) === project)?.version ?? 'unavailable'
-          add(['docs', cohort, hash(inventory.cases), report.rounds], 'docs', measuredAt(own, result.finishedAt),
-            `Pinned documentation occurrences; Chromium public SVG calls. Returned means the occurrence returned SVG in all ${report.rounds} declared rounds. Failures and unexecuted work retain the full inventory. SVG return does not certify meaning or paint.`,
+          const laneKey = format === 'svg' ? [] : ['png']
+          const laneProtocol = inventory.protocol === 'public-docs-output-lanes-v2' ? (format === 'svg' ? 'public-docs-svg-return-v1' : 'public-docs-png-return-v2') : inventory.protocol ?? 'public-docs-svg-return-v1'
+          add(['docs', ...laneKey, cohort, hash(inventory.cases), report.rounds], 'docs', measuredAt(own, result.finishedAt),
+            `Corpus: Mermaid syntax documentation at ${inventory.pin?.commit ?? 'the owning inventory pin'}; ${inventory.cases.length} occurrences, retaining duplicates. ${format.toUpperCase()} output lane. Returned means the occurrence returned ${format.toUpperCase()} in all ${report.rounds} declared rounds. Failures and unexecuted work retain the full inventory. Output return does not certify drawing content.`,
             ['Version', 'Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed', 'Planned', 'Measured'], project,
             [String(version), counts.passed, counts.failed, counts.unsupported, counts.blocked, counts.missing, counts.partial, inventory.cases.length, measuredAt(own, result.finishedAt)],
             { column: 'Returned in all rounds', denominator: 'Planned', direction: 'descending' },
-            { comparisonKey: hash(['docs', cohort, inventory.protocol ?? 'public-docs-svg-return-v1', inventory.pin ?? null, inventory.cases, report.rounds]), unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed'] }, ...(candidate ? { artifactRole: 'candidate' } : { overview: { numerator: 'Returned in all rounds', denominator: 'Planned', suffix: '%' } }) }, unrankedReason)
+            { comparisonKey: hash(['docs', ...laneKey, cohort, laneProtocol, inventory.pin ?? null, inventory.cases, report.rounds]), unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed'] }, ...(candidate ? { artifactRole: 'candidate' } : format === 'svg' ? { overview: { numerator: 'Returned in all rounds', denominator: 'Planned', suffix: '%' } } : {}) }, unrankedReason)
           const drawings = own.filter(row => row.operation === 'drawing-checks')
           if (drawings.length) {
             if (new Set(drawings.map(row => row.caseId)).size !== drawings.length || drawings.some(row => !inventory.cases.some((input: any) => input.id === row.caseId))) throw Error('Documentation drawing observations do not match the inventory')
             const correct = drawings.filter(row => row.status === 'passed').length, incorrect = drawings.filter(row => row.status === 'failed').length, notDrawing = drawings.filter(row => row.status === 'not-applicable').length
             const unknown = inventory.cases.length - correct - incorrect - notDrawing
-            add(['docs-drawings', cohort, hash(inventory.cases), hash(inventory.drawingReview ?? null), hash(inventory.producers ?? [])], 'docs', measuredAt(drawings, result.finishedAt),
-              'First-round actual SVG witnesses checked against reviewed source expectations and the shared paint observer. Unreviewed sources and unresolved observations stay unknown; unknown work withholds a correctness rank. SVG-return coverage is a separate table. No per-call semantic timing qualification.',
+            add(['docs-drawings', ...laneKey, cohort, hash(inventory.cases), hash(inventory.drawingReview ?? null), hash(inventory.producers ?? []), ...(format === 'png' ? [inventory.pngReviewSha256 ?? null] : [])], 'docs', measuredAt(drawings, result.finishedAt),
+              `Corpus: the same pinned Mermaid documentation inventory. First-round actual ${format.toUpperCase()} witnesses checked against source expectations. ${format === 'svg' ? 'Shared SVG paint/meaning observer.' : 'PNG content reviews bind actual image, source and expected-fact hashes; SVG and nonblank checks supply no raster correctness credit.'} Rank counts verified correct drawings; unknown sources/observers remain visible, and full accuracy and speed are unqualified.`,
               ['Version', 'Correct', 'Incorrect', 'Unknown', 'Not a drawing', 'Planned', 'Measured'], project,
               [String(version), correct, incorrect, unknown, notDrawing, inventory.cases.length, measuredAt(drawings, result.finishedAt)],
               { column: 'Correct', direction: 'descending' },
-              { unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unknown', 'Not a drawing'] } }, unknown ? 'Required documentation content evidence is unknown' : undefined)
+              { unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unknown', 'Not a drawing'] } }, correct + incorrect === 0 ? 'No verified drawing-content observations' : undefined)
             const reviewedIds = new Set((inventory.drawingReview?.cases ?? []).filter((input: any) => input.intent === 'drawing').map((input: any) => input.id))
             if (reviewedIds.size) {
               const subset = drawings.filter(row => reviewedIds.has(row.caseId)), passed = subset.filter(row => row.status === 'passed').length, failed = subset.filter(row => row.status === 'failed').length, missing = reviewedIds.size - passed - failed
-              add(['docs-reviewed-profile', cohort, hash(inventory.drawingReview), hash(inventory.producers ?? [])], 'docs', measuredAt(subset, result.finishedAt),
-                `Reviewed ${reviewedIds.size}-occurrence subset of ${inventory.cases.length} documentation occurrences, bound to exact source hashes. This development-exposed content profile is not full DaveBench correctness or a holdout. Unknown evidence withholds a rank.`,
+              add(['docs-reviewed-profile', ...laneKey, cohort, hash(inventory.drawingReview), hash(inventory.producers ?? []), ...(format === 'png' ? [inventory.pngReviewSha256 ?? null] : [])], 'docs', measuredAt(subset, result.finishedAt),
+                `Corpus: reviewed ${reviewedIds.size}-occurrence subset of ${inventory.cases.length} Mermaid documentation occurrences, bound to exact source hashes; ${format.toUpperCase()} lane. This development-exposed profile ranks verified correct counts and keeps unresolved observations explicit. It supplies no full DaveBench accuracy, holdout or speed claim.`,
                 ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned reviewed', 'Measured'], project,
                 [String(version), passed, failed, missing, reviewedIds.size, measuredAt(subset, result.finishedAt)],
                 { column: 'Correct', denominator: 'Planned reviewed', direction: 'descending' },
-                { unit: 'reviewed documentation occurrences', population: { total: 'Planned reviewed', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, missing ? 'Reviewed drawing evidence is unknown' : undefined)
+                { unit: 'reviewed documentation occurrences', population: { total: 'Planned reviewed', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, passed + failed === 0 ? 'No verified drawing-content observations' : undefined)
             }
+          }
           }
         }
         continue
@@ -188,7 +193,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
   // Charts use exactly the table's verified numeric rows. Fully unobserved rows
   // stay visible and unranked in the table, without a fabricated zero bar.
   for (const table of tables.values()) {
-    if (table.suite === 'docs' && table.columns.includes('Returned in all rounds')) table.chart = { numerator: 'Returned in all rounds', denominator: 'Planned', title: 'Documentation SVG return', axis: '%', maximum: 100 }
+    if (table.suite === 'docs' && table.columns.includes('Returned in all rounds')) table.chart = { numerator: 'Returned in all rounds', denominator: 'Planned', title: table.caption.includes('PNG output lane') ? 'Documentation PNG return' : 'Documentation SVG return', axis: '%', maximum: 100 }
   }
   return [...tables.values()]
 }

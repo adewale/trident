@@ -35,8 +35,9 @@ test('documentation SVG return and reviewed drawing correctness retain separate 
   expect(drawings).toBeDefined()
   expect(drawings.chart).toBeUndefined()
   expect(drawings.rows.find(row => row.project === 'fixture/a')!.values.slice(1, 6)).toEqual([0, 1, 1, 0, 2])
-  expect(drawings.rows.every(row => !!row.unrankedReason)).toBe(true)
-  expect(rankedRows(drawings, value => value).every(row => row.rank === null)).toBe(true)
+  expect(rankedRows(drawings, value => value).map(row => row.project)).toEqual(['fixture/b', 'fixture/a'])
+  expect(rankedRows(drawings, value => value).map(row => row.rank)).toEqual([1, 2])
+  expect(drawings.caption).toContain('unknown')
   const returns = snapshot.tables.find(table => table.columns.includes('Returned in all rounds'))!
   expect(returns.rows.find(row => row.project === 'fixture/a')!.values[1]).toBe(2)
 })
