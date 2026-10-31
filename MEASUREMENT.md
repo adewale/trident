@@ -14,6 +14,15 @@ extra, interrupted or unchecked calls withhold comparison. A/A calibration measu
 noise; it cannot supply missing correctness or establish an effect by itself.
 `timing:qualify` validates retained evidence offline and makes no renderer calls.
 
+A repaired source contract or observer can derive new grading from the same
+collection. The policy names its original collection-plan hash, complete new
+contracts, observer, reason and grading-source identity. It keeps every source
+ID and source hash, artifact, sampling coordinate, invocation ID and clock.
+Fresh checks use the actual retained bytes; old checks stay in history. A subset,
+replacement diagram or changed clock needs another collection, not regrading.
+Comparison keys include the active grading scope. Old passed rows cannot be
+promoted by replacing their hashes.
+
 API clocks stop after consuming the requested return. Whole CLI clocks include
 process startup. Preparation, acquisition, independent output inspection and
 cleanup stay outside the API clock. First use, repeated source, changed source,

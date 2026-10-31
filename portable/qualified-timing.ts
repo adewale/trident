@@ -1,4 +1,5 @@
 import { admitCaseEvidenceContract, admitCheckedEvidence, admitInvocationEvidence, constructEvidenceVerdict, evidenceBytesDigest, evidenceDigest, type CaseEvidenceContract, type CheckedEvidence, type InvocationEvidence } from './evidence-contract.ts'
+import { admitTimingGrading, type TimingGrading } from './timing-grading.ts'
 import { calibrate, median } from './statistics.ts'
 
 type Replica = 'A0' | 'A1' | 'B'
@@ -44,8 +45,9 @@ export function admitTimingPlan(value: TimingPlan): Readonly<TimingPlan> {
 /** Regrade every measured return, including repeats, outside its API clock.
  * readOutput must read the retained bytes named by the invocation receipt.
  * This never promotes first-output qualification to later calls. */
-export function qualifyTiming(plan: TimingPlan, samples: readonly TimingSample[], readOutput: (output: NonNullable<InvocationEvidence['output']>) => Uint8Array, journal?: readonly InvocationEvidence[]) {
+export function qualifyTiming(plan: TimingPlan, samples: readonly TimingSample[], readOutput: (output: NonNullable<InvocationEvidence['output']>) => Uint8Array, journal?: readonly InvocationEvidence[], grading?: TimingGrading) {
   plan = admitTimingPlan(plan)
+  const active = grading ? admitTimingGrading(plan, samples, grading) : undefined, activeCases = active?.cases ?? plan.cases, activeObserver = active?.observerSha256 ?? plan.observerSha256
   const planSha256 = evidenceDigest(plan)
   const gaps = new Set<string>(), seen = new Set<string>(), attempts = new Set<string>()
   const durations = new Map<string, number>()
@@ -74,10 +76,11 @@ export function qualifyTiming(plan: TimingPlan, samples: readonly TimingSample[]
     instances.set(replicaRound, clock.executionInstanceId); instanceOwners.set(clock.executionInstanceId, replicaRound)
     const bytes = readOutput(invocation.output)
     if (bytes.byteLength !== invocation.output.bytes || evidenceBytesDigest(bytes) !== invocation.output.sha256) fail('retained measured output changed')
-    const checked = admitCheckedEvidence(contract, sample.checked)
-    if (checked.observerSha256 !== plan.observerSha256) fail('sample was graded by a different observer')
+    const activeContract = activeCases.find(contract => contract.caseId === sample.caseId)!, fresh = active?.checks.find(row => row.attemptId === invocation.attemptId)?.checked
+    const checked = admitCheckedEvidence(activeContract, active ? fresh : sample.checked)
+    if (checked.observerSha256 !== activeObserver) fail('sample was graded by a different observer')
     if (checked.outputSha256 !== invocation.output.sha256) fail('correctness evidence belongs to a different output')
-    if (constructEvidenceVerdict(contract, checked).status !== 'correct') { gaps.add('Every timed output must satisfy the complete source contract'); continue }
+    if (constructEvidenceVerdict(activeContract, checked).status !== 'correct') { gaps.add('Every timed output must satisfy the complete source contract'); continue }
     const start = Date.parse(invocation.startedAt), finish = Date.parse(invocation.finishedAt)
     // Millisecond UTC stamps may round sub-ms calls; they still bind the actual
     // host interval. Monotonic API duration must fit with that rounding margin.
@@ -114,11 +117,11 @@ export function qualifyTiming(plan: TimingPlan, samples: readonly TimingSample[]
   const calibration = calibrate(rounds, plan.samplesPerRound, plan.maximumControlSpread)
   for (const gap of calibration.gaps) gaps.add(gap)
   const qualified = gaps.size === 0
-  return Object.freeze({ schema: 'trident-qualified-timing-v1' as const, status: qualified ? 'qualified' as const : 'unqualified' as const, planSha256: evidenceDigest(plan), samplesSha256: evidenceDigest(samples), comparisonKey: evidenceDigest({ cases: plan.cases, boundary: plan.boundary, format: plan.format, track: plan.track, environment: plan.environmentSha256, observer: plan.observerSha256, baseline: plan.artifacts.A0, maximumControlSpread: plan.maximumControlSpread, rounds: plan.rounds, samples: plan.samplesPerRound }), project: plan.artifacts.B.project, caseIds: plan.cases.map(input => input.caseId), boundary: plan.boundary, format: plan.format, track: plan.track, environmentSha256: plan.environmentSha256, planned, checked: durations.size, gaps: [...gaps], perRoundMs: qualified ? rounds.map(round => median(round.B)) : null, medianMs: qualified ? median(rounds.flatMap(round => round.B)) : null, calibration, interpretation: 'Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim.' })
+  return Object.freeze({ schema: 'trident-qualified-timing-v1' as const, status: qualified ? 'qualified' as const : 'unqualified' as const, planSha256: evidenceDigest(plan), samplesSha256: evidenceDigest(samples), ...(active ? { gradingSha256: evidenceDigest(active), activeGrading: active, gradingHistory: { collectionPlan: structuredClone(plan), originalChecks: samples.map(sample => ({ attemptId: sample.invocation.attemptId, checked: structuredClone(sample.checked) })) } } : {}), comparisonKey: evidenceDigest({ grading: { cases: activeCases, observerSha256: activeObserver }, boundary: plan.boundary, format: plan.format, track: plan.track, environment: plan.environmentSha256, baseline: plan.artifacts.A0, maximumControlSpread: plan.maximumControlSpread, rounds: plan.rounds, samples: plan.samplesPerRound }), project: plan.artifacts.B.project, caseIds: plan.cases.map(input => input.caseId), boundary: plan.boundary, format: plan.format, track: plan.track, environmentSha256: plan.environmentSha256, planned, checked: durations.size, gaps: [...gaps], perRoundMs: qualified ? rounds.map(round => median(round.B)) : null, medianMs: qualified ? median(rounds.flatMap(round => round.B)) : null, calibration, interpretation: 'Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim.' })
 }
 
 /** Consumers must recompute qualification from owned raw evidence. Never trust
  * an imported boolean or a summary stamped "qualified" by itself. */
-export function timingFromRetainedBundle(bundle: { plan: TimingPlan; samples: TimingSample[] } | undefined, readOutput: (output: NonNullable<InvocationEvidence['output']>) => Uint8Array, journal?: readonly InvocationEvidence[]) {
-  return bundle ? qualifyTiming(bundle.plan, bundle.samples, readOutput, journal) : null
+export function timingFromRetainedBundle(bundle: { plan: TimingPlan; samples: TimingSample[]; grading?: TimingGrading } | undefined, readOutput: (output: NonNullable<InvocationEvidence['output']>) => Uint8Array, journal?: readonly InvocationEvidence[]) {
+  return bundle ? qualifyTiming(bundle.plan, bundle.samples, readOutput, journal, bundle.grading) : null
 }
