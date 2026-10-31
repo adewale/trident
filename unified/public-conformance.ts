@@ -30,8 +30,13 @@ export function reducePublicCallbacks(cases: readonly PublicTestDeclaration[], c
   return cases.map(input => {
     const matches = callbacks.filter(row => row.fullName === input.fullName && row.location?.line === input.line)
     const own = events.filter(row => row.caseId === input.id), calls = own.filter(row => row.type === 'call-result')
+    const starts = own.filter(row => row.type === 'case-start'), ends = own.filter(row => row.type === 'case-end')
+    const completeEvents = starts.length === 1 && ends.length === 1 && own[0]?.type === 'case-start' && own.at(-1)?.type === 'case-end' && calls.length > 0 && own.filter(row => row.type === 'call-start').length === calls.length
+    let outstanding = 0, orderedEvents = true
+    for (const event of own) { if (event.type === 'call-start') outstanding++; if (event.type === 'call-result' && --outstanding < 0) orderedEvents = false }
+    const observedCalls = completeEvents && orderedEvents && outstanding === 0
     let status: 'passed' | 'failed' | 'unsupported' | 'blocked', reason: string
-    if (!frameworkComplete || matches.length !== 1 || !['passed', 'failed'].includes(matches[0]!.status) || !originalSourceControl && (!own.some(row => row.type === 'case-start') || !own.some(row => row.type === 'case-end') || !calls.length || own.filter(row => row.type === 'call-start').length !== calls.length)) {
+    if (!frameworkComplete || matches.length !== 1 || !['passed', 'failed'].includes(matches[0]!.status) || !originalSourceControl && !observedCalls) {
       status = 'blocked'; reason = 'Native callback, public invocation or terminal evidence is incomplete; no inferred pass.'
     } else if (calls.some(row => row.disposition === 'binding-unavailable')) {
       status = 'blocked'; reason = 'Public binding could not establish its reviewed return contract.'
