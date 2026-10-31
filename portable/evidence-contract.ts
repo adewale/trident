@@ -102,6 +102,7 @@ export interface InvocationEvidence {
   /** Controller-captured monotonic invocation envelope. Legacy or recovered
    * records without this context cannot qualify comparative timing. */
   measurement?: {
+    captureProtocolSha256?: string
     planSha256: string; environmentSha256: string; boundary: string; track: string
     clockDomainId: string; executionInstanceId: string; sequence: number
     monotonicStartNs: string; monotonicFinishNs: string | null
@@ -123,6 +124,7 @@ export function admitInvocationEvidence(value: unknown): Readonly<InvocationEvid
   if (item.startedReceiptSha256 !== undefined && (!digest(item.startedReceiptSha256) || item.state === 'started' || item.state === 'not-invoked')) fail('terminal invocation start-receipt identity is invalid')
   if (item.measurement) {
     const clock = item.measurement, ns = (value: unknown) => typeof value === 'string' && /^(0|[1-9][0-9]{0,29})$/.test(value)
+    if (clock.captureProtocolSha256 !== undefined && !digest(clock.captureProtocolSha256)) fail('invocation capture protocol identity is invalid')
     if (!digest(clock.planSha256) || !digest(clock.environmentSha256) || !text(clock.boundary) || !text(clock.track) || !text(clock.clockDomainId) || !text(clock.executionInstanceId) || !Number.isSafeInteger(clock.sequence) || clock.sequence < 0 || !ns(clock.monotonicStartNs) || clock.monotonicFinishNs !== null && !ns(clock.monotonicFinishNs)) fail('invocation measurement context is invalid')
     if (clock.monotonicFinishNs !== null && BigInt(clock.monotonicFinishNs) < BigInt(clock.monotonicStartNs)) fail('monotonic invocation envelope runs backwards')
     if (clock.apiStartNs !== null && !ns(clock.apiStartNs) || clock.apiFinishNs !== null && !ns(clock.apiFinishNs) || (clock.apiStartNs === null) !== (clock.apiFinishNs === null)) fail('public API clock bounds must be an actual complete pair or null')

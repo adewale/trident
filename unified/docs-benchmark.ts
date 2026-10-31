@@ -114,7 +114,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
         const roundObservations: BenchmarkObservation[] = []
         const engine = preparedSvgInvocation(peer, admitPreparedSvgEngine(peer)), root = resolve(engine.root)
         console.log(`docs round ${round}/${options.rounds}: ${peer.node.id} (${inventory.occurrences} occurrences)`)
-        const server = docsArtifactServer(root, engine.zenuml)
+        const server = docsArtifactServer(root, engine.zenuml, resources.resources.map((resource: any) => resource.url))
         await new Promise<void>(done => server.listen(0, '127.0.0.1', done))
         const origin = 'http://127.0.0.1:' + (server.address() as { port: number }).port
         const context = await browser!.newContext({ viewport: { width: 1400, height: 1000 } })

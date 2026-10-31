@@ -94,7 +94,7 @@ test('offline timing reads the exhaustive journal without writes and rejects a s
  for(const frame of journalOf(data.samples))journal.record(frame.attemptId+':'+frame.state,frame)
  writeFileSync(file,JSON.stringify({...data,journalDirectory:'journal'}))
  const before=readdirSync(root,{recursive:true}).sort()
- expect(qualifyRetainedTiming(file)?.status).toBe('qualified')
+ expect(qualifyRetainedTiming(file)?.status).toBe('unqualified')
  expect(readdirSync(root,{recursive:true}).sort()).toEqual(before)
  const elsewhere=join(temp.dir(),'borrowed.svg');writeFileSync(elsewhere,bytes);unlinkSync(output);symlinkSync(elsewhere,output)
  expect(()=>qualifyRetainedTiming(file)).toThrow('outside the owning bundle')

@@ -3,14 +3,20 @@ import { createServer } from 'node:http'
 import { extname, resolve, sep } from 'node:path'
 import type { Page } from 'playwright'
 import { publicSvgBrowserAction } from './public-svg-browser.ts'
+import { admitDocsResourceUrl } from './docs-resources.ts'
+export function docsObserverPolicy(imageUrls: readonly string[] = []) {
+  const images = [...new Set(imageUrls.map(admitDocsResourceUrl))]
+  return "default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src 'self' data: blob:" + (images.length ? ' ' + images.join(' ') : '') + "; font-src 'self' data: blob:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'"
+}
 /** Serve the actual distribution with declared UTF-8. Classic scripts inherit
  * the document encoding: omitting it can turn Unicode regex ranges into syntax
  * errors before the package's public global is assigned. */
-export function docsArtifactServer(root: string, addon?: { root: string }) {
+export function docsArtifactServer(root: string, addon?: { root: string }, imageUrls: readonly string[] = []) {
   root = resolve(root)
+  const observerPolicy = docsObserverPolicy(imageUrls)
   return createServer((request, response) => {
     const url = new URL(request.url ?? '/', 'http://localhost')
-    if (url.pathname === '/blank' || url.pathname === '/observer') { response.setHeader('content-type', 'text/html; charset=utf-8'); if (url.pathname === '/observer') response.setHeader('content-security-policy', "default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data: blob:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'"); response.end('<!doctype html><meta charset="utf-8"><body>'); return }
+    if (url.pathname === '/blank' || url.pathname === '/observer') { response.setHeader('content-type', 'text/html; charset=utf-8'); if (url.pathname === '/observer') response.setHeader('content-security-policy', observerPolicy); response.end('<!doctype html><meta charset="utf-8"><body>'); return }
     const backend = addon && url.pathname.startsWith('/__addon/')
     const base = backend ? resolve(addon.root) : root
     let file: string
