@@ -36806,6 +36806,54 @@
             }
           }
         ],
+        "authored-style": [
+          {
+            "kind": "classDef",
+            "selection": "class1",
+            "attributes": [
+              {
+                "property": "color",
+                "value": "#109060"
+              }
+            ]
+          },
+          {
+            "kind": "classDef",
+            "selection": "class2",
+            "attributes": [
+              {
+                "property": "color",
+                "value": "#908342"
+              },
+              {
+                "property": "radius",
+                "value": "10"
+              },
+              {
+                "property": "stroke-color",
+                "value": "#310085"
+              },
+              {
+                "property": "stroke-width",
+                "value": "10px"
+              }
+            ]
+          },
+          {
+            "kind": "classDef",
+            "selection": "class3",
+            "attributes": [
+              {
+                "property": "color",
+                "value": "#f00fff"
+              },
+              {
+                "property": "radius",
+                "value": "10"
+              }
+            ]
+          }
+        ],
         "points": [
           {
             "label": "Campaign A",
@@ -36875,6 +36923,7 @@
       "expectedFactsComplete": true,
       "requiredObligations": [
         "visible-labels",
+        "fact:authored-style",
         "fact:axes",
         "fact:point-appearance",
         "fact:points",
@@ -36882,10 +36931,7 @@
         "fact:title"
       ],
       "unresolved": [],
-      "excludedNonvisual": [],
-      "visualProjections": [
-        "Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact"
-      ]
+      "excludedNonvisual": []
     }
   },
   {
