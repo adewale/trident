@@ -76,11 +76,13 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
         const rejectionIds = terminalProfile.rejectionCaseIds
         if (terminalProfile.drawingCaseIds && (!Array.isArray(rejectionIds) || rejectionIds.some((id: string) => !rawIds.includes(id) || allIds.includes(id)) || new Set(rejectionIds).size !== rejectionIds.length || allIds.length + rejectionIds.length !== rawIds.length)) throw Error('Terminal drawing and rejection populations must partition the source inventory')
         if (new Set(allIds).size !== allIds.length || !Array.isArray(reviewedIds) || new Set(reviewedIds).size !== reviewedIds.length || reviewedIds.some((id: string) => !allIds.includes(id))) throw Error('Terminal profile has an invalid planned inventory')
+        const reviewedSet = new Set(reviewedIds), sameDrawingPopulation = allIds.length === reviewedSet.size && allIds.every((id: string) => reviewedSet.has(id))
         for (const [scope, assessments, planned] of [['full', terminal, allIds], ['reviewed', (result as any).terminalReviewedAssessments, reviewedIds]] as const) {
           if (!Array.isArray(assessments)) throw Error('Terminal result omitted a declared profile')
           for (const assessment of assessments) {
             const cases = assessment.cases
             if (!Array.isArray(cases) || JSON.stringify(cases.map((input: any) => input.caseId).sort()) !== JSON.stringify([...planned].sort()) || cases.some((input: any) => !['correct', 'incorrect', 'unsupported', 'unknown'].includes(input.status))) throw Error('Terminal verdicts omit or duplicate planned inputs')
+            if (scope === 'reviewed' && sameDrawingPopulation) continue
             const project = projectId(assessment.project), count = (status: string) => cases.filter((input: any) => input.status === status).length, unknown = count('unknown')
             if (project === 'mermaid-js/mermaid') throw Error('Mermaid source reference cannot receive a terminal renderer score')
             const own = result.observations.filter(row => projectId(row.metrics?.project) === project && row.format === 'terminal' && row.operation === 'graph-correctness')

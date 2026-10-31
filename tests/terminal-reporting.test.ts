@@ -24,9 +24,9 @@ test('the same terminal profile supersedes its old primary rank; another profile
   data.attempts.push(attempt('terminal-project-corpus-v1', '03'))
   expect(renderSnapshot(data, catalog).split('\n').find(line => line.startsWith('| fixture/terminal |'))).toContain('| fixture/terminal | — |')
 })
-test('correctness counts display best-first while unknowns still withhold formal ranks', () => {
+test('an explicit metric-qualification blocker stays unranked while verified counts display best-first', () => {
   const table = snapshot().tables[0]!
   table.columns = ['Correct', 'Planned']; table.ranking = { column: 'Correct', denominator: 'Planned', direction: 'descending' }
-  table.rows = [{ project: 'known', values: [5, 10] }, { project: 'unknown', values: [6, 10], unrankedReason: 'Unobserved display facts' }]
-  expect(rankedRows(table, value => value).map(row => [row.project, row.rank])).toEqual([['unknown', null], ['known', 1]])
+  table.rows = [{ project: 'known', values: [5, 10] }, { project: 'unqualified', values: [6, 10], unrankedReason: 'Observer protocol is unqualified' }]
+  expect(rankedRows(table, value => value).map(row => [row.project, row.rank])).toEqual([['unqualified', null], ['known', 1]])
 })

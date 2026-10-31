@@ -3,12 +3,14 @@ import { spawnSync } from 'node:child_process'
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { createHash } from 'node:crypto'
 import { readActiveTerminalCorpus, terminalActiveProfileId, terminalProfileCorpusForRecord } from '../fidelity/terminal-active-corpus.ts'
 import { readTerminalCorpus } from '../fidelity/terminal-corpus.ts'
 import { terminalSourceAdaptationStatus } from '../fidelity/terminal-adaptations.ts'
 import { assessTerminalRecord } from '../unified/terminal-profile.ts'
 import { readCampaign } from '../unified/campaign-publication.ts'
 import { campaignTables } from '../unified/campaign-tables.ts'
+import { rankedRows } from '../unified/results-snapshot.ts'
 
 const adaptationId = 'terminal-adaptation:3bf5fbf5ea7c5486', diagnosticId = 'terminal:9972eaa8ca8692d8'
 
@@ -69,10 +71,14 @@ test('public planning defaults to active120 and keeps original120 as an explicit
   }
 }, 30_000)
 
-test('public active saved recheck runs without renderers and publishes diagnostics outside every scored population', () => {
-  const directory = mkdtempSync(join(tmpdir(), 'terminal-active-recheck-')), out = join(directory, 'rechecked'), active = readActiveTerminalCorpus(), project = 'AlexanderGrooff/mermaid-ascii'
+test('active recheck emits one verified-count drawing table, ranks observed positives despite unknowns and keeps controls separate', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'terminal-active-recheck-')), out = join(directory, 'rechecked'), active = readActiveTerminalCorpus(), project = 'AlexanderGrooff/mermaid-ascii', observed = 'fasouto/termaid'
   try {
-    const record = { profile: terminalActiveProfileId, corpusVersion: active.version, corpusFile: active.corpusFile, corpusSha256: active.corpusSha256, inventory: active.cases.map(input => [input.id, input.sourceSha256]), artifacts: [{ project, version: 'synthetic uncollected active cohort' }], outputs: [], transportObservations: [], sourceReference: active.cases.map(input => ({ project: 'mermaid-js/mermaid', caseId: input.id, role: 'source-reference-only', sourceAccepted: null })), startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z' }
+    // Retained known glyphs exercise reporting, not a new renderer invocation or
+    // benchmark score. Every other drawing and all controls remain uncollected.
+    const text = readFileSync(new URL('./fixtures/terminal/state-adaptation-termaid.txt', import.meta.url))
+    writeFileSync(join(directory, 'known-state.txt'), text)
+    const record = { profile: terminalActiveProfileId, corpusVersion: active.version, corpusFile: active.corpusFile, corpusSha256: active.corpusSha256, inventory: active.cases.map(input => [input.id, input.sourceSha256]), artifacts: [{ project, version: 'synthetic uncollected active cohort' }, { project: observed, version: 'synthetic retained reporting control' }], outputs: [{ project: observed, caseId: adaptationId, witness: 'known-state.txt', sha256: createHash('sha256').update(text).digest('hex') }], transportObservations: [], sourceReference: active.cases.map(input => ({ project: 'mermaid-js/mermaid', caseId: input.id, role: 'source-reference-only', sourceAccepted: null })), startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z' }
     writeFileSync(join(directory, 'raw.json'), JSON.stringify(record))
     const command = new URL('../commands.ts', import.meta.url).pathname
     const result = spawnSync(process.execPath, [command, 'bench', '--terminal', '--saved-terminal', directory, '--out', out], { env: { ...process.env, CI: 'true', GITHUB_ACTIONS: 'true', TRIDENT_MERMAID_ORACLE: '', MERMAID_REFERENCE_DIR: '/missing/terminal-reference' }, encoding: 'utf8', timeout: 20_000 })
@@ -83,15 +89,33 @@ test('public active saved recheck runs without renderers and publishes diagnosti
     expect(report.terminalProfile.drawingCaseIds).toContain(adaptationId)
     expect(report.terminalProfile.drawingCaseIds).not.toContain(diagnosticId)
     expect(report.terminalAssessments[0]).toMatchObject({ planned: 116, correct: 0, incorrect: 0, unknown: 116 })
+    expect(report.terminalAssessments[1]).toMatchObject({ planned: 116, correct: 1, incorrect: 0, unknown: 115 })
     expect(report.terminalRejectionAssessments[0]).toMatchObject({ planned: 4, correct: 0, unknown: 4 })
     expect(report.observations.some((row: any) => row.caseId === diagnosticId)).toBe(false)
     expect(report.recheck).toMatchObject({ rendererInvocations: 0, sourceReferenceCalls: 0, originalProfile: terminalActiveProfileId })
     const tables = campaignTables(readCampaign(out), { url: 'https://example.invalid/synthetic-active-corpus', sha256: '0'.repeat(64) })
+    expect(tables.filter(table => table.unit === 'terminal input cases')).toHaveLength(1)
     const drawing = tables.find(table => table.summary)!
     expect(drawing.rows[0]!.values[drawing.columns.indexOf('Planned')]).toBe(116)
     expect(drawing.caption).toContain('1 source diagnostics are retained separately')
     expect(drawing.rows[0]!.unrankedReason).toBe('No verified terminal drawing observations')
+    expect(rankedRows(drawing, id => id).map(row => [row.project, row.rank])).toEqual([[observed, 1], [project, null]])
     const invalid = tables.find(table => table.unit === 'invalid-source controls')!
     expect(invalid.rows[0]!.values[invalid.columns.indexOf('Planned')]).toBe(4)
+    const markdown = readFileSync(join(out, 'README.md'), 'utf8')
+    expect(markdown.match(/\| Verified-count rank \|/g)).toHaveLength(2)
+    expect(markdown).not.toContain('Observable-source diagnostic subset')
+    expect(markdown).not.toContain('Accuracy rank')
+    expect(markdown).toContain('| 1 | fasouto/termaid | synthetic retained reporting control | 1 | 0 | 0 | 115 | 116 |')
+    expect(markdown.indexOf('| 1 | fasouto/termaid |')).toBeLessThan(markdown.indexOf('| — | AlexanderGrooff/mermaid-ascii |'))
+    expect(markdown).toContain('unknown outcomes leave complete accuracy unresolved')
+    // Population identity is set membership, not storage order or just length.
+    report.terminalProfile.reviewedCaseIds.reverse()
+    for (const row of report.terminalReviewedAssessments) row.cases.reverse()
+    writeFileSync(join(out, 'terminal/result.json'), JSON.stringify(report))
+    expect(campaignTables(readCampaign(out), { url: 'https://example.invalid/reordered-active', sha256: '1'.repeat(64) }).filter(table => table.unit === 'terminal input cases')).toHaveLength(1)
+    report.terminalProfile.reviewedCaseIds[0] = 'same-count-but-different-input'
+    writeFileSync(join(out, 'terminal/result.json'), JSON.stringify(report))
+    expect(() => campaignTables(readCampaign(out), { url: 'https://example.invalid/changed-active', sha256: '2'.repeat(64) })).toThrow('invalid planned inventory')
   } finally { rmSync(directory, { recursive: true, force: true }) }
 }, 30_000)

@@ -3,6 +3,8 @@ import { createHash } from 'node:crypto'
 import { chmodSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { assessTerminalRecord, terminalLegacyProfileId as terminalProfileId } from '../unified/terminal-profile.ts'
+import { readCampaign } from '../unified/campaign-publication.ts'
+import { campaignTables } from '../unified/campaign-tables.ts'
 import type { TerminalProjectCase } from '../fidelity/terminal-corpus.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 const temp = useTempDirs('terminal-record-'), project = 'AlexanderGrooff/mermaid-ascii'
@@ -105,6 +107,14 @@ test('public saved-output launcher works in CI without oracle or renderer; colle
   expect(result.observations.every((row: any) => row.metrics.collectionFrom === record.startedAt && row.metrics.collectionTo === record.finishedAt && row.metrics.observerCheckedAt)).toBe(true)
   expect(result.recheck).toMatchObject({ rendererInvocations: 0, sourceReferenceCalls: 0, originalProfile: 'terminal-project-corpus-v1' })
   expect(result.terminalProfile.id).toBe('terminal-project-corpus-v2')
+  expect(result.terminalReviewedAssessments[0].planned).toBe(115)
+  const markdown = readFileSync(join(out, 'README.md'), 'utf8')
+  expect(markdown).toContain('Observable-source diagnostic subset')
+  expect(markdown.match(/\| Verified-count rank \|/g)).toHaveLength(3)
+  expect(markdown).not.toContain('Accuracy rank')
+  const tables = campaignTables(readCampaign(out), { url: 'https://example.invalid/synthetic-original-corpus', sha256: '0'.repeat(64) })
+  expect(tables.filter(table => table.unit === 'terminal input cases').map(table => table.rows[0]!.values[table.columns.indexOf('Planned')])).toEqual([116, 115])
+  expect(tables.find(table => table.unit === 'invalid-source controls')!.rows[0]!.values[4]).toBe(4)
   expect(result.startedAt).toBe(record.startedAt)
   expect(result.finishedAt).toBe(record.finishedAt)
   const collect = spawnSync(process.execPath, [command, 'bench', '--terminal', '--community-prepared', '/missing/prepared.json', '--out', join(temp.dir(), 'collection')], { env, encoding: 'utf8', timeout: 10_000 })
