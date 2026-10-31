@@ -1,4 +1,5 @@
-/** A bounded terminal observer: single-cell labels in rectangular boxes joined
+import { interpretTerminal, terminalTextWidth } from './terminal-display.ts'
+/** A bounded terminal observer: grapheme-aware labels in rectangular boxes joined
  * by orthogonal directed routes. Unsupported display/layout features are
  * unknown. Text presence alone never establishes a relationship. */
 export interface TerminalMeaning {
@@ -7,14 +8,14 @@ export interface TerminalMeaning {
   layout?: readonly { before: string; after: string; axis: 'x' | 'y' }[]
 }
 type Box = { x: number; y: number; right: number; bottom: number; label: string; id?: string }
-const scope = 'Rectangular flowcharts, single-cell ASCII labels, orthogonal directed routes with a unique drawn source and uniquely owned horizontal or vertical edge captions. ANSI terminal state, wide/combining text, groups and ambiguous junctions are unqualified.'
+const scope = 'Rectangular flowcharts in bounded display cells, NFC grapheme labels, qualified terminal-state controls and orthogonal directed routes with a unique drawn source and uniquely owned captions. Groups, other family facts and ambiguous junctions require their own qualified projections.'
 
 export function inspectTerminalMeaning(output: string, expected: TerminalMeaning) {
   const verdict = (status: 'correct' | 'incorrect' | 'unknown', reason: string, edges: { source: string; target: string; label?: string }[] = []) => ({ status, reason, scope, edges })
-  if (!expected.nodes.length || new Set(expected.nodes.map(node => node.id)).size !== expected.nodes.length || new Set(expected.nodes.map(node => node.label)).size !== expected.nodes.length || expected.nodes.some(node => !node.label || /[^\x20-\x7e]/.test(node.label)) || expected.edges.some(edge => !expected.nodes.some(node => node.id === edge.source) || !expected.nodes.some(node => node.id === edge.target))) return verdict('unknown', 'Expected identities/labels are ambiguous or outside the declared display scope')
-  const text = output.replaceAll('\r\n', '\n')
-  if (text.length > 200_000 || /[^\x20-\x7e\n┌┐└┘╭╮╰╯┬┴┼├┤─│►◄▼▲▶◀→←↓↑]/u.test(text)) return verdict('unknown', 'Output needs terminal-state or display-cell interpretation outside this profile')
-  const grid = text.split('\n').map(line => [...line]), cell = (x: number, y: number) => grid[y]?.[x] ?? ' '
+  if (!expected.nodes.length || new Set(expected.nodes.map(node => node.id)).size !== expected.nodes.length || new Set(expected.nodes.map(node => node.label)).size !== expected.nodes.length || expected.nodes.some(node => !node.label || /[\n\r\x00-\x1f]/.test(node.label)) || expected.edges.some(edge => !expected.nodes.some(node => node.id === edge.source) || !expected.nodes.some(node => node.id === edge.target))) return verdict('unknown', 'Expected identities/labels are ambiguous or outside the declared display scope')
+  const display = interpretTerminal(output)
+  if (display.status !== 'available') return verdict('unknown', display.reason ?? 'No qualified terminal-state interpretation')
+  const text = display.text, grid = display.cells, cell = (x: number, y: number) => grid[y]?.[x] ?? ' '
   if (grid.length > 256 || grid.some(line => line.length > 512) || [...text].filter(character => character === '┌' || character === '╭' || character === '+').length > 64 || expected.nodes.length > 32) return verdict('unknown', 'Output exceeds the bounded grid profile')
   const boxes: Box[] = []
   const horizontal = (line: string) => /^[─┬┴┼+\-]+$/.test(line)
@@ -34,7 +35,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
     }
   }
   for (const node of expected.nodes) {
-    const matches = boxes.filter(box => box.label === node.label)
+    const matches = boxes.filter(box => box.label.normalize('NFC') === node.label.normalize('NFC'))
     if (!matches.length && (text.includes(node.label) || boxes.some(box => box.label.replace(/\s/g, '') === node.label.replace(/\s/g, '')))) return verdict('unknown', 'Visible authored label lacks a qualified node-container or wrapping projection: ' + node.label)
     if (matches.length !== 1) return verdict('incorrect', 'Expected exactly one drawn node labelled ' + node.label + '; found ' + matches.length)
     matches[0]!.id = node.id
@@ -49,13 +50,16 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   const floating: { label: string; x: number; y: number; width: number }[] = []
   let uncertainCaption = false
   for (const label of new Set(expected.edges.map(edge => edge.label).filter((value): value is string => !!value))) {
-    if (/[^\x20-\x7e]/.test(label)) return verdict('unknown', 'Edge label is outside the display-cell scope')
+    if (/[\n\r\x00-\x1f]/.test(label)) return verdict('unknown', 'Multiline edge labels need a qualified route ownership projection')
     for (let y = 0; y < grid.length; y++) {
       const line = grid[y]!.join(''), hits: { x: number; width: number; uncertain: boolean }[] = []
-      for (let x = line.indexOf(label); x >= 0; x = line.indexOf(label, x + 1)) hits.push({ x, width: label.length, uncertain: false })
+      for (let offset = line.indexOf(label.normalize('NFC')); offset >= 0; offset = line.indexOf(label.normalize('NFC'), offset + 1)) {
+        const prefix = line.slice(0, offset), column = terminalTextWidth(prefix)
+        hits.push({ x: column, width: terminalTextWidth(label), uncertain: false })
+      }
       if (!hits.length && /\s/.test(label)) {
         const escaped = label.split(/(\s+)/).map(part => /^\s+$/.test(part) ? '[ ─-]+' : part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('')
-        for (const match of line.matchAll(new RegExp(escaped, 'g'))) hits.push({ x: match.index!, width: match[0].length, uncertain: true })
+        for (const match of line.matchAll(new RegExp(escaped, 'g'))) hits.push({ x: terminalTextWidth(line.slice(0, match.index!)), width: terminalTextWidth(match[0]), uncertain: true })
       }
       for (const hit of hits) {
         const { x, width } = hit

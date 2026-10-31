@@ -38,8 +38,11 @@ test('a relationship label belongs to its traced route, not an unrelated text oc
   expect(inspectTerminalMeaning(fixture('termaid-branch'), { nodes, edges: [{ source: 'Alpha', target: 'Beta' }, { source: 'Alpha', target: 'Gamma' }] }).status).toBe('correct')
 })
 
-test('ANSI concealment, cursor movement and wide or combining text cannot receive guessed cell coordinates', () => {
-  for (const drawing of ['\x1b[8m' + fixture('chain'), '\x1b[2J' + fixture('chain'), fixture('chain').replace('Beta', '工程'), fixture('chain').replace('Beta', 'Be\u0301ta')]) expect(inspectTerminalMeaning(drawing, chain).status).toBe('unknown')
+test('terminal-state interpretation observes cleared and concealed ink instead of stripping controls', () => {
+  expect(inspectTerminalMeaning('\x1b[2J' + fixture('chain'), chain).status).toBe('correct')
+  expect(inspectTerminalMeaning('\x1b[8m' + fixture('chain'), chain).status).not.toBe('correct')
+  const drawing = '┌──────┐    ┌──────┐\n│ 工程 │───►│ 終了 │\n└──────┘    └──────┘'
+  expect(inspectTerminalMeaning(drawing, { nodes: [{ id: 'A', label: '工程' }, { id: 'B', label: '終了' }], edges: [{ source: 'A', target: 'B' }] }).status).toBe('correct')
 })
 
 
