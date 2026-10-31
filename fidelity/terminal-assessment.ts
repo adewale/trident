@@ -2,12 +2,13 @@ import { readFileSync } from 'node:fs'
 import { defineCaseEvidenceContract, constructEvidenceVerdict, evidenceBytesDigest, evidenceDigest } from '../portable/evidence-contract.ts'
 import { inspectTerminalFacts } from './terminal-facts.ts'
 import { inspectTerminalMeaning } from './terminal.ts'
-import type { TerminalProjectCase } from './terminal-corpus.ts'
-const observerSha256 = evidenceDigest(Object.fromEntries(['terminal-assessment.ts', 'terminal-display.ts', 'terminal-facts.ts', 'terminal-sequence.ts', 'terminal-kanban.ts', 'terminal-rectangles.ts', 'terminal-groups.ts', 'terminal.ts', '../portable/evidence-contract.ts', '../portable/project-records.ts'].map(file => [file, evidenceBytesDigest(readFileSync(new URL(file, import.meta.url)))])))
+import { terminalSourceAuditStatus, type TerminalProjectCase } from './terminal-corpus.ts'
+const observerSha256 = evidenceDigest(Object.fromEntries(['terminal-assessment.ts', 'terminal-corpus.ts', '../docs/evidence/terminal-source-review-2026-10-31/receipt.json', 'terminal-display.ts', 'terminal-facts.ts', 'terminal-sequence.ts', 'terminal-kanban.ts', 'terminal-rectangles.ts', 'terminal-groups.ts', 'terminal-er.ts', 'terminal-er-values.ts', 'terminal-text.ts', 'terminal.ts', '../portable/evidence-contract.ts', '../portable/project-records.ts'].map(file => [file, evidenceBytesDigest(readFileSync(new URL(file, import.meta.url)))])))
 /** Never infer whole-drawing correctness from text admission, source tags,
  * source-reference agreement or an absent observer for a different family. */
 export function assessTerminalDrawing(input: TerminalProjectCase, output?: string | Uint8Array) {
   if (evidenceBytesDigest(input.source) !== input.sourceSha256 || input.expected.contract && input.expected.contract.family !== input.family) throw Error('Terminal source identity or family is stale')
+  if (input.id.startsWith('terminal:')) { const audit = terminalSourceAuditStatus(input); if (!audit.admitted) return { caseId: input.id, status: 'unknown', reason: audit.reason } }
   let terminal: string | undefined, decodingError: string | undefined
   if (typeof output === 'string' || output === undefined) terminal = output
   else { try { terminal = new TextDecoder('utf-8', { fatal: true }).decode(output) } catch { decodingError = 'Retained terminal bytes are not valid UTF-8; replacement decoding cannot establish displayed labels' } }
@@ -41,6 +42,7 @@ export interface TerminalTypedSourceOutcome {
  * drawing correctness. A caller without the reviewed classification stays unknown. */
 export function assessTerminalSourceRejection(input: TerminalProjectCase, outcome?: TerminalTypedSourceOutcome, expectedProject?: string) {
   if (evidenceBytesDigest(input.source) !== input.sourceSha256) throw Error('Terminal source identity is stale')
+  if (input.id.startsWith('terminal:')) { const audit = terminalSourceAuditStatus(input); if (!audit.admitted) return { caseId: input.id, status: 'unknown', reason: audit.reason } }
   if (input.intent !== 'invalid') throw Error('Typed rejection control requires independently invalid source')
   const contract = defineCaseEvidenceContract({ caseId: input.id, source: input.source, expectations: { expected: 'typed-source-rejection', sourceContract: input.expected.contract ?? input.expected.reason }, requiredChecks: [{ surface: 'terminal:public-rejection', criterion: 'typed-source-rejection' }] })
   if (!outcome) return { ...constructEvidenceVerdict(contract), reason: 'No reviewed typed public rejection; CLI exit and missing output supply no grammar credit' }

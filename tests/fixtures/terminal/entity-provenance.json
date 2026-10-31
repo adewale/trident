@@ -1,0 +1,145 @@
+[
+  {
+    "file": "er-cli-literal-stars.txt",
+    "project": "AlexanderGrooff/mermaid-ascii",
+    "version": "1.6.1",
+    "caseId": "terminal:f78157ede4e2d1ab",
+    "sha256": "f00860a6c4b502fc212494e7200128bd058b150a82deef04ef9e019c770d577d",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; entity/state data checker control"
+  },
+  {
+    "file": "er-python-literal-stars.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "caseId": "terminal:f78157ede4e2d1ab",
+    "sha256": "d49ea8d861dc883adf46d85ca2acd700bc4e94734a549df040205f555e4af8a4",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; entity/state data checker control"
+  },
+  {
+    "file": "er-module-literal-stars.txt",
+    "project": "adewale/agentic-mermaid",
+    "version": "0.4.1",
+    "caseId": "terminal:f78157ede4e2d1ab",
+    "sha256": "e2cd20bd1ef0fbd52ce03c3a0636158dec66281c24ebf719ccfd7a79b89d70d1",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; entity/state data checker control"
+  },
+  {
+    "file": "er-cli-key-columns.txt",
+    "project": "AlexanderGrooff/mermaid-ascii",
+    "version": "1.6.1",
+    "caseId": "terminal:89be4f2885fb74a9",
+    "sha256": "923e38b74d6c780f612a92d829ebd6a8e917be18f414175089c5207bad8600e7",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; entity/state data checker control"
+  },
+  {
+    "file": "er-module-key-prefix.txt",
+    "project": "adewale/agentic-mermaid",
+    "version": "0.4.1",
+    "caseId": "terminal:89be4f2885fb74a9",
+    "sha256": "8bb8a1728d4cb9e48399df8f6f8fae0adf242df481943ca6731581bc0c76c7c8",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; entity/state data checker control"
+  },
+  {
+    "file": "state-python-cycle.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "caseId": "terminal:bd36b029775eba8c",
+    "sha256": "705d6c6d895084c717a1efaf779c27746ab1e403214e83d4439688cead402011",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; entity/state data checker control"
+  },
+  {
+    "file": "state-module-cycle.txt",
+    "project": "adewale/agentic-mermaid",
+    "version": "0.4.1",
+    "caseId": "terminal:bd36b029775eba8c",
+    "sha256": "4cb132006bdff1dc770bd7c2e09982a7d55cb31d45f09b124255eabd8daf4ee1",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; entity/state data checker control"
+  },
+  {
+    "file": "er-python-cardinalities.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "caseId": "terminal:278dccc21dd27020",
+    "sha256": "5b1c3dcca91e6d128a581f3287e03661f5cc47227e19e2ed338915079a116033",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; numeric-cardinality relation observer control"
+  },
+  {
+    "file": "er-python-identifying.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "caseId": "terminal:b23c0856e157b1f2",
+    "sha256": "07aaf87fedb2cdc175019da254cb2d96c39ed9e639ca709324ec4ea4b563f785",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; numeric-cardinality relation observer control"
+  },
+  {
+    "file": "er-python-keys-relations.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "caseId": "terminal:ef20265c9ef84973",
+    "sha256": "29a35fbf4feb9c3d8269faf9b808aa9f5d8536005d2086669e885598c4236033",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; numeric-cardinality relation observer control"
+  },
+  {
+    "file": "er-python-literal-break-caption.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "caseId": "terminal:206a9307ba8592b1",
+    "sha256": "a410568c37aac9e8c27d9597d7dbd680b66f3954e1288f94033ee82920fe3d5b",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; numeric-cardinality relation observer control"
+  },
+  {
+    "file": "state-python-initial.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "caseId": "terminal:4f96b68984c54c5a",
+    "sha256": "174f9627bb2a4c34bc9dfd1c4e68747d64820ae9eb10d918711585b8032797fa",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; initial pseudostate observer control"
+  },
+  {
+    "file": "state-python-cjk.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "caseId": "terminal:e84af4bd39ddf3eb",
+    "sha256": "5b4e92ad214446b07d2022ec06f038f0ef2e569b27f95886bedacc37829d03ed",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; initial pseudostate observer control"
+  }
+]

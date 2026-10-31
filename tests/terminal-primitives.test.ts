@@ -50,7 +50,7 @@ test('global direction does not invent mandatory precedence for a branched DAG',
   expect(chain.graph?.layout).toEqual([{ before: 'B', after: 'A', axis: 'x' }, { before: 'C', after: 'B', axis: 'x' }])
 })
 test('isolated parentheses, disconnected nested curves and misaligned inner walls cannot supply a primitive', () => {
-  const score = (source: string, output: string) => { const analysis = analyseTerminalSource(source, 'flowchart'); return assessTerminalDrawing({ ...cases[0]!, source, sourceSha256: createHash('sha256').update(source).digest('hex'), family: 'flowchart', expected: { status: 'independently-reviewed', graph: analysis.graph, contract: analysis.contract } }, output).status }
+  const score = (source: string, output: string) => { const analysis = analyseTerminalSource(source, 'flowchart'); return assessTerminalDrawing({ ...cases[0]!, id: 'synthetic:source-control', source, sourceSha256: createHash('sha256').update(source).digest('hex'), family: 'flowchart', expected: { status: 'independently-reviewed', graph: analysis.graph, contract: analysis.contract } }, output).status }
   expect(score('flowchart\nA([Alpha])', '┌───────┐\n( Alpha │\n└───────┘')).not.toBe('correct')
   expect(score('flowchart\nA([Alpha])', '╭───────╮\n( Alpha )\n╰───────╯')).toBe('correct')
   expect(score('flowchart\nA(((Alpha)))', '╭─────────╮\n│ ╭─╮     │\n│ Alpha   │\n│   ╰───╯ │\n╰─────────╯')).not.toBe('correct')

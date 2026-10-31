@@ -82,7 +82,8 @@ export function inspectTerminalSequence(output: string, contract: TerminalSource
       if (note.position !== 'over' && covered.length) qualified = false
       actual.push({ position: note.position, actors: owners, text: box.lines.join('\n'), afterMessage: messages.filter(message => message.y < box.y).length }); rectangle(box)
     }
-    if (qualified) set('owned-notes', actual.every((note, n) => JSON.stringify([...note.actors].sort()) === JSON.stringify([...notes[n]!.actors].sort()) && note.text === notes[n]!.text && note.afterMessage === notes[n]!.afterMessage) ? 'passed' : 'failed', 'Notes retain exact authored lines, chronology and geometric ownership by the named lifelines', actual)
+    const expectedOwners = (note: NonNullable<typeof notes>[number]) => { const endpoints = actors.filter(actor => note.actors.includes(actor.id)); return note.position === 'over' && endpoints.length ? actors.filter(actor => actor.x >= Math.min(...endpoints.map(endpoint => endpoint.x)) && actor.x <= Math.max(...endpoints.map(endpoint => endpoint.x))).map(actor => actor.id) : note.actors }
+    if (qualified) set('owned-notes', actual.every((note, n) => JSON.stringify([...note.actors].sort()) === JSON.stringify([...expectedOwners(notes[n]!)].sort()) && note.text === notes[n]!.text && note.afterMessage === notes[n]!.afterMessage) ? 'passed' : 'failed', 'Notes retain exact authored lines, chronology and geometric ownership; over-note endpoints include intervening lifelines', actual)
   }
 
   const frames: { kind: string; label: string; top: number; bottom: number; branches: { label: string; y: number }[] }[] = []

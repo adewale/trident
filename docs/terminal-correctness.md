@@ -16,14 +16,18 @@ simple directed chains establish required node-order constraints; branches, cros
 edges, cycles and compact grouping do not imply a universal per-edge ordering.
 The transcription reads source tokens; candidate output and renderer ASTs never
 define expected facts. [The regeneration check](../scripts/review-terminal-contracts.ts)
-reproduces the ledger without a renderer. Independent conformance review is still
-required to qualify this transcription and its observers.
+reproduces the ledger without a renderer. An independent reviewer read all 120
+literal source/contract pairs, including the changed shape, generic and primary-key
+facts. The [per-case receipt](evidence/terminal-source-review-2026-10-31/receipt.json)
+binds the admitted semantic hashes. Changed sources or answers remain unknown until
+reviewed; a generator check alone cannot refresh that admission. Output observers
+still need independent qualification within each declared representation.
 
 The v2 profile separates **116 positive drawing inputs** from **four invalid-source
 controls**. Every positive input keeps its full obligations, including those with
-no implemented output observer. Sixty-seven sources use facts for which an observer
+no implemented output observer. Eighty-one sources use facts for which an observer
 exists in at least one bounded display representation. This diagnostic subset is
-not a claim that 67 outputs pass, or a replacement for the 116-input denominator.
+not a claim that 81 outputs pass, or a replacement for the 116-input denominator.
 
 The four invalid controls are `terminal:321aee6efed4a803` (unquoted pie label),
 `terminal:955cacf9438d691d` (unquoted Unicode Git branch references), and
@@ -92,7 +96,9 @@ bun commands.ts bench --terminal --saved-terminal SAVED_DIR --out NEW_DIR
 
 Saved mode authenticates source identities, research origins, witnesses and the
 recorded reference role. It requires neither Mermaid nor a terminal renderer and
-can run in CI. Original collection clocks and producers stay separate from the
+can run in CI. Each output retains its own recorded call timestamp; missing legacy
+call clocks remain null. The collection interval cannot substitute for a call clock.
+Original collection clocks and producers stay separate from the
 current observer. Add `--refresh-source-reference` for 120 parser-only reference
 checks: old reference rows remain in history, and the result reports the new call
 count separately from its zero renderer invocations. Saved v1 evidence may be
@@ -137,7 +143,9 @@ unknown. Byte evidence binds the original bytes before any text decoding.
 | Sequence participants, ordered messages, notes and fragment spans | Header boxes with continuous lifelines; straight solid/dashed message stems with filled triangle heads; owned adjacent captions; framed branch regions; exact multiline notes with actor span and chronology | Self-calls, diagonal or wrapped messages, nested fragments and other unqualified representations |
 | Kanban column and card hierarchy | Column containers with a header/divider and independently enclosed cards; exact membership and order | Deeper nesting, repeated labels and other board representations |
 | Isolated empty class bodies | Exact rectangular class containers with no members or relationships | Member compartments, generics and class relation markers |
-| C4, ER, Gitgraph, mindmap, quadrant, treemap, Gantt, state, block, architecture, XY, ZenUML and packet obligations | Source facts are explicit | Output observers have not been qualified; text/number presence cannot pass these facts |
+| ER entity identities, attributes and relationships | Header/attribute compartments with independently observed type/name/key/comment fields; documented name-star PK markers; explicit key columns or unambiguous inline PK/FK/UK; straight vertical links with owned numeric endpoint cardinalities, captions and identifying strokes | Crow-foot symbols, branches, nonvertical routes, ambiguous inline field roles and style-only key encoding remain unqualified |
+| State identities, initial/final roles and transitions | Closed state graphs with owned rectangles, explicit filled initial / bullseye final markers and directed transition captions | Self-loops, nested state scopes and unfamiliar state representations |
+| C4, Gitgraph, mindmap, quadrant, treemap, Gantt, block, architecture, XY, ZenUML and packet obligations | Source facts are explicit | Output observers have not been qualified; text/number presence cannot pass these facts |
 | Invalid source controls | Typed outcome API binds project, case, source hash, public boundary and observer identity | Python SyntaxError and Dart MermaidParseException retain typed public evidence; generic errors, UnsupportedError and CLI exits get no rejection credit |
 
 [Sequence observer controls](../tests/terminal-sequence.test.ts) authenticate retained
@@ -173,3 +181,11 @@ populations separate; diagnostic ranks order verified correct counts only.
 Complete accuracy and comparable performance remain blocked by the missing
 observers and unlike public invocation boundaries. This profile does not judge
 typography, spacing, beauty or overall renderer quality.
+
+[Entity and state controls](../tests/terminal-entities.test.ts) authenticate original
+Mermaid ASCII, Termaid and Agentic Mermaid output. They perturb attribute types,
+names, key meaning, endpoint cardinalities, transition direction, caption ownership
+and unassigned ink. Their [provenance](../tests/fixtures/terminal/entity-provenance.json)
+retains the original artifact and collection interval; these checks add no renderer
+invocations or timing measurements. An observed entity body alone cannot supply
+relationship or cardinality credit.
