@@ -72,6 +72,7 @@ export function reviewedTerminalCases(corpus = readTerminalCorpus(), reviewFile 
       const value = (criterion: string) => review.contract!.facts.find(fact => fact.criterion === criterion)?.expected
       graph = { nodes: value('nodes') as TerminalMeaning['nodes'], edges: value('relationships') as TerminalMeaning['edges'], ...(value('layout-order') ? { layout: value('layout-order') as TerminalMeaning['layout'] } : {}), ...(value('groups') ? { groups: value('groups') } : {}) }
     }
-    return review ? { ...input, intent: review.intent, expected: { status: 'independently-reviewed', reason: review.review, ...(graph ? { graph } : {}), ...(review.contract ? { contract: review.contract } : {}), unverifiedFacts: review.unverifiedFacts } } : input
+    const empty = graph?.nodes.length === 0 && graph.edges.length === 0 && review?.contract?.facts.every(fact => fact.required === false || ['nodes', 'relationships'].includes(fact.criterion))
+    return review ? { ...input, features: [...input.features.filter(feature => feature !== 'expected-empty-drawing'), ...(empty ? ['expected-empty-drawing'] : [])], intent: review.intent, expected: { status: 'independently-reviewed', reason: review.review, ...(graph ? { graph } : {}), ...(review.contract ? { contract: review.contract } : {}), unverifiedFacts: review.unverifiedFacts } } : input
   })
 }

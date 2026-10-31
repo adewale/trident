@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { expect, test } from 'bun:test'
 import { analyseTerminalSource } from '../fidelity/terminal-source.ts'
 import { readTerminalCorpus, reviewedTerminalCases } from '../fidelity/terminal-corpus.ts'
@@ -37,10 +38,26 @@ test('source contracts retain chart values, ER cardinality, packet bit ranges an
 })
 test('empty valid source is not subject to a nonblank drawing requirement', () => {
   const empty = source('a5204531005bef25')
+  expect(() => assessTerminalDrawing({ ...empty, source: empty.source + '\nA' }, '')).toThrow('stale')
   expect(empty.intent).toBe('valid')
+  expect(empty.features).toContain('expected-empty-drawing')
   expect(assessTerminalDrawing(empty, '').status).toBe('correct')
   expect(assessTerminalDrawing(empty, 'unexpected node').status).toBe('incorrect')
   expect(assessTerminalDrawing(empty).status).toBe('unknown')
+})
+test('zero-node title drawings stay meaningful and unsupported group ink is not misclassified as an empty-source defect', () => {
+  const text = '---\ntitle: Still a title\n---\nflowchart', analysis = analyseTerminalSource(text, 'flowchart'), base = source('a5204531005bef25'), item = { ...base, source: text, sourceSha256: createHash('sha256').update(text).digest('hex'), expected: { status: 'independently-reviewed', contract: analysis.contract, graph: analysis.graph } }
+  expect(assessTerminalDrawing(item, 'Still a title').status).toBe('correct')
+  expect(assessTerminalDrawing(item, '').status).toBe('unknown')
+  const groups = analyseTerminalSource('flowchart\nsubgraph G\nend', 'flowchart')
+  expect(assessTerminalDrawing({ ...item, source: 'flowchart\nsubgraph G\nend', sourceSha256: createHash('sha256').update('flowchart\nsubgraph G\nend').digest('hex'), expected: { status: 'independently-reviewed', contract: groups.contract, graph: groups.graph } }, '┌───┐\n│ G │\n└───┘').status).toBe('unknown')
+})
+test('raw invalid UTF-8 stays unknown and binds actual bytes instead of replacement-decoded label evidence', () => {
+  const text = 'flowchart\nA["�"]', analysis = analyseTerminalSource(text, 'flowchart'), base = source('a5204531005bef25'), item = { ...base, source: text, sourceSha256: createHash('sha256').update(text).digest('hex'), expected: { status: 'independently-reviewed', contract: analysis.contract, graph: analysis.graph } }, drawing = '┌───┐\n│ � │\n└───┘'
+  expect(assessTerminalDrawing(item, Buffer.from(drawing)).status).toBe('correct')
+  const [prefix, suffix] = drawing.split('�'), bytes = Buffer.concat([Buffer.from(prefix!), Buffer.from([255]), Buffer.from(suffix!)]), verdict = assessTerminalDrawing(item, bytes)
+  expect(verdict.status).toBe('unknown')
+  expect('checks' in verdict && verdict.checks?.every(check => check.status === 'unknown' && check.detail.includes('UTF-8'))).toBe(true)
 })
 test('unimplemented family facts remain unknown even when every source label and number is echoed', () => {
   const er = source('278dccc21dd27020')
