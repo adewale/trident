@@ -45,6 +45,21 @@ test('owned node silhouettes cannot earn correctness beneath an opaque cover pai
   } finally { await page.close() }
 })
 
+test('an unowned camouflaged cover over a connector stem withholds the integrated route pass', async () => {
+  const page = await browser.newPage()
+  try {
+    const input = { family: 'flowchart', source: 'flowchart LR\nA[Alpha]-->B[Beta]', expected: { labels: ['Alpha', 'Beta'], nodes: [{ id: 'A', label: 'Alpha' }, { id: 'B', label: 'Beta' }], edges: [{ source: 'A', target: 'B', directed: true, startMarker: 'none', endMarker: 'arrow' }], facts: { direction: 'LR', 'node-shapes': [{ id: 'A', shape: 'rectangle' }, { id: 'B', shape: 'rectangle' }] } } }
+    for (const cover of ['', '<rect x="90" y="40" width="100" height="20" fill="white"/>', '<path d="M90 40 H190 V60 H90 Z" fill="white"/>']) {
+      await page.setContent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="160"><defs><marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="black"/></marker></defs><path class="edge" d="M80 50 H200" stroke="black" fill="none" marker-end="url(#arrow)"/>' + cover + '<g><rect x="20" y="30" width="60" height="40" fill="white" stroke="black"/><text x="25" y="55">Alpha</text></g><g><rect x="200" y="30" width="60" height="40" fill="white" stroke="black"/><text x="205" y="55">Beta</text></g></svg>')
+      const result = await inspectSvgDrawing(page, input)
+      expect(status(result, 'painted-node-ownership')).toBe('passed')
+      expect(status(result, 'painted-node-visibility')).toBe('passed')
+      expect(status(result, 'painted-route-visibility')).toBe(cover ? 'unavailable' : 'passed')
+      expect(result.passed).toBe(!cover)
+    }
+  } finally { await page.close() }
+})
+
 for (const renderer of ['mermaid', 'pele']) {
   test(renderer + ' retained state discs and multi-layer final rings survive the integrated route reinspection', async () => {
     const result = await inspect(renderer + '-state-pseudostates.svg', 'features:state:initial-final-pseudostates')

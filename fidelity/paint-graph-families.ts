@@ -950,10 +950,15 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     add('painted-node-visibility', 'Every independently owned body/glyph has qualified exposed contour paint', observations, exactNodes && evidence.get('paint-opacity-and-color')?.status === 'passed' && observations.every(item => item.exposed === true) ? true : null, 'Actual owned contour samples reject credit beneath later opaque covers, including covers painted before the label. Exactly equivalent co-located fill/stroke layers and qualified same-owner compound glyph parts are allowed; matching compartment borders must preserve their actual stroke. Opaque/complex image, use and HTML covers or unresolved exposure stay unknown, without inventing a renderer failure or accepting source geometry that never reaches the canvas.')
   }
   if (input.expected.edges?.length) {
+    const covers = [...svg.querySelectorAll('rect,circle,ellipse,polygon,polyline,path,image,use,foreignObject')].filter(paintable).map(element => {
+      const css = getComputedStyle(element); let opacity = Number(css.fillOpacity)
+      for (let parent: Element | null = element; parent; parent = parent.parentElement) { opacity *= Number(getComputedStyle(parent).opacity); if (parent === svg) break }
+      return { element, box: box(element), matrix: (element as SVGGraphicsElement).getScreenCTM?.(), fill: rgba(css.fill), opacity }
+    }).filter(cover => ['image', 'use', 'foreignObject'].includes(cover.element.localName) || cover.fill && cover.fill[3]! * cover.opacity >= 254)
     const actual = routes.map(route => {
       const candidates = geometry.filter(element => route.box && nearBox(box(element), route.box) && ['path', 'line', 'polyline'].includes(element.localName) && (() => { const p = samples(element, 1); return p.length === 2 && route.start && route.end && distance(p[0]!, route.start) < 1 && distance(p[1]!, route.end) < 1 })())
       if (candidates.length !== 1) return { source: route.source, target: route.target, obscuredBy: null }
-      const stem = candidates[0]!, points = samples(stem, 512), blockers: { id: string; points: number }[] = []
+      const stem = candidates[0]!, matrix = stem.getScreenCTM(), points = samples(stem, Math.min(16384, Math.max(512, Math.ceil(stem.getTotalLength() * (matrix ? Math.max(Math.hypot(matrix.a, matrix.b), Math.hypot(matrix.c, matrix.d)) : 1) * 2)))), blockers: { id: string; points: number }[] = []
       for (const other of nodes.filter(owner => owner.id !== route.source && owner.id !== route.target)) {
         for (const body of bodies(other.id)) {
           if (!(stem.compareDocumentPosition(body) & Node.DOCUMENT_POSITION_FOLLOWING)) continue
@@ -965,9 +970,24 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
           if (hidden > 1) blockers.push({ id: other.id, points: hidden })
         }
       }
-      return { source: route.source, target: route.target, obscuredBy: blockers }
+      const endpointParts = [route.source, route.target].flatMap(id => [...parts(id), ...bodies(id), ...(qualifiedParts.get(id) ?? [])]), routeLabels = evidence.get('painted-relationship-label-ownership')?.status === 'passed' ? paintedText.filter(element => route.labels?.includes(normalize(readText(element))) && safeText(element)) : []
+      const unqualified = covers.filter(cover => cover.element !== stem && !!(stem.compareDocumentPosition(cover.element) & Node.DOCUMENT_POSITION_FOLLOWING) && !endpointParts.includes(cover.element as SVGGeometryElement)).filter(cover => {
+        const equivalentEndpointFill = [route.source, route.target].some(id => { const owner = node.get(id); return owner && contains(owner.box, cover.box) && same(cover.fill, rgba(owner.style?.fill ?? 'none')) })
+        if (equivalentEndpointFill) return false
+        const head = cover.matrix && cover.element instanceof SVGGeometryElement && vertices(cover.element)?.length === 3 && same(cover.fill, rgba(getComputedStyle(stem).stroke)) && [{ point: route.start, kind: route.startMarker }, { point: route.end, kind: route.endMarker }].some(end => end.point && ['arrow', 'triangle'].includes(end.kind) && (cover.element as SVGGeometryElement).isPointInFill(new DOMPoint(end.point.x, end.point.y).matrixTransform(cover.matrix!.inverse())))
+        if (head) return false
+        // An actual, uniquely owned route caption may have a compact backdrop.
+        // Its matching string alone cannot excuse an arbitrary large cover.
+        const captionBackdrop = routeLabels.some(element => { const b = box(element), font = Number.parseFloat(getComputedStyle(element).fontSize); return contains(cover.box, b) && cover.box.width <= b.width + font * 2 && cover.box.height <= b.height + font })
+        if (captionBackdrop) return false
+        return points.some(point => {
+          if (!contains(cover.box, { ...point, width: 0, height: 0 }, 0)) return false
+          return !cover.matrix || !(cover.element instanceof SVGGeometryElement) || cover.element.isPointInFill(new DOMPoint(point.x, point.y).matrixTransform(cover.matrix.inverse()))
+        })
+      }).map(cover => ({ tag: cover.element.localName, box: cover.box }))
+      return { source: route.source, target: route.target, obscuredBy: blockers, unqualifiedCovers: unqualified }
     })
-    add('painted-route-visibility', 'Every required owned route has a visible stem between its endpoint bodies', actual, actual.some(route => route.obscuredBy?.length) ? false : routesBound && evidence.get('paint-opacity-and-color')?.status === 'passed' && actual.length === input.expected.edges.length && actual.every(route => route.obscuredBy !== null) ? true : null, 'Actual stem samples reject portions proved hidden beneath later opaque unrelated node interiors. Endpoint bodies and owned caption backdrops are permitted. This is bounded opaque-body occlusion evidence; arbitrary masks, filters, glyph paths and unresolved ownership cannot supply a route-visibility pass.')
+    add('painted-route-visibility', 'Every required owned route has a visible stem between its endpoint bodies', actual, actual.some(route => route.obscuredBy?.length) ? false : routesBound && evidence.get('paint-opacity-and-color')?.status === 'passed' && actual.length === input.expected.edges.length && actual.every(route => route.obscuredBy !== null && !route.unqualifiedCovers?.length) ? true : null, 'Actual dense stem samples reject portions proved hidden beneath later opaque unrelated node interiors. Any unqualified opaque primitive, image, use or HTML layer over the stem withholds a pass, including camouflaged covers painted before labels. Endpoint bodies and compact independently owned caption backdrops are permitted. This is bounded opaque stem exposure evidence; arbitrary masks, filters, glyph paths and unresolved ownership cannot supply a route-visibility pass.')
   }
   checkGroupMembership()
   return { checks, nodes, connections: routes, groups }
