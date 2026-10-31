@@ -15,14 +15,26 @@ export function terminalRectangles(grid: string[][], profile: ContainerProfile =
       if (cell(right, y) !== form[1] || !horizontal(grid[y]!.slice(x + 1, right).join(''), 'top')) continue
       for (let bottom = y + 2; bottom < grid.length; bottom++) {
         if (cell(x, bottom) !== form[2] || cell(right, bottom) !== form[3] || !horizontal(grid[bottom]!.slice(x + 1, right).join(''), 'bottom') || !Array.from({ length: bottom - y - 1 }, (_, n) => y + n + 1).every(row => (profile.vertical.test(cell(x, row)) || profile.ports && /^[▶►>→]$/.test(cell(x, row)) || profile.primitives && cell(x, row) === '(') && (profile.vertical.test(cell(right, row)) || profile.ports && /^[◀◄<←]$/.test(cell(right, row)) || profile.primitives && cell(right, row) === ')'))) continue
-        let lines = grid.slice(y + 1, bottom).map(row => row.slice(x + 1, right).join('').trim()), shape = form[4]!
+        const rawLines = grid.slice(y + 1, bottom).map(row => row.slice(x + 1, right).join(''))
+        let lines = rawLines.map(line => line.trim()), shape = form[4]!
         if (profile.primitives) {
           const upper = grid[y]!.slice(x + 1, right), lower = grid[bottom]!.slice(x + 1, right), markers = ['◇', '◯', '◎'].filter(glyph => upper.includes(glyph) || lower.includes(glyph))
           if (markers.length) { const glyph = markers[0]!, top = upper.filter(value => value === glyph), down = lower.filter(value => value === glyph); shape = markers.length === 1 && top.length === 1 && down.length === 1 && upper.indexOf(glyph) === lower.indexOf(glyph) ? ({ '◇': 'diamond', '◯': 'circle', '◎': 'double-circle' } as Record<string, string>)[glyph]! : 'unqualified-primitive' }
-          if (Array.from({ length: bottom - y - 1 }, (_, n) => y + n + 1).some(row => cell(x, row) === '(' || cell(right, row) === ')')) shape = 'stadium'
-          if (shape === 'rounded' && lines.length >= 2 && /^╭─+╮$/.test(lines[0]!) && /^╰─+╯$/.test(lines.at(-1)!)) { shape = 'double-circle'; lines = lines.slice(1, -1) }
-          else if (shape === 'rounded' && /^╰─+╯$/.test(lines[0] ?? '')) { shape = 'database'; lines = lines.slice(1) }
-          else if (lines.length && lines.every(line => /^│.*│$/.test(line))) { shape = 'subroutine'; lines = lines.map(line => line.slice(1, -1).trim()) }
+          const bodyRows = Array.from({ length: bottom - y - 1 }, (_, n) => y + n + 1)
+          if (bodyRows.some(row => cell(x, row) === '(' || cell(right, row) === ')')) {
+            const paired = bodyRows.some(row => cell(x, row) === '(' && cell(right, row) === ')'), complete = bodyRows.every(row => /^[(▶►>→├┼]$/.test(cell(x, row)) && /^[)◀◄<←┤┼]$/.test(cell(right, row)))
+            shape = paired && complete ? 'stadium' : 'unqualified-primitive'
+          }
+          // Nested curves do not establish an inner ring: its vertical walls
+          // must also be connected. Until that whole profile is observed, keep
+          // the curve ink in the label and withhold shape evidence.
+          if (shape === 'rounded' && /^╭─+╮$/.test(lines[0] ?? '')) shape = 'unqualified-nested-boundary'
+          else if (shape === 'rounded' && /^╰─+╯$/.test(rawLines[0] ?? '')) { shape = 'database'; lines = lines.slice(1) }
+          else if (lines.length && lines.every(line => /^│.*│$/.test(line))) {
+            const leftWall = rawLines[0]!.indexOf('│'), rightWall = rawLines[0]!.lastIndexOf('│'), complete = leftWall >= 0 && rightWall > leftWall && rawLines.every(line => line[leftWall] === '│' && line[rightWall] === '│' && !line.slice(0, leftWall).trim() && !line.slice(rightWall + 1).trim())
+            if (complete) { shape = 'subroutine'; lines = rawLines.map(line => line.slice(leftWall + 1, rightWall).trim()) } else shape = 'unqualified-inner-walls'
+          }
+
         }
         while (lines.length && !lines[0]) lines.shift()
         while (lines.length && !lines.at(-1)) lines.pop()
