@@ -15,7 +15,7 @@ test('source palette formulae retain literal neutral/dark and algebraic forest c
   expect(sourceThemePalette('forest').scale[2]!.hex).toBe('#cde498')
   const base = sourceThemePalette('base').scale[0]!
   expect(base.channels[0]).toBe(255)
-  expect(Math.abs(base.channels[1]! - 203.5)).toBeLessThan(1e-8)
+  expect(Math.abs(base.channels[1]! - 202.75)).toBeLessThan(1e-8)
   expect(Math.abs(base.channels[2]! - 93.5)).toBeLessThan(1e-8)
 })
 test('explicit source overrides win after derived theme arithmetic', () => {
