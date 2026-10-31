@@ -39,15 +39,15 @@ their physical contents while preserving convenient labels.
 | Profile | Evidence and controls | Remaining boundary |
 | --- | --- | --- |
 | Labels and titles | Actual browser paint, canvas bounds, clipping, opaque covers, separate title occurrence, exact flat-background camouflage and negligible alpha | Complex masks, filters, partial occlusion and general contrast need further projection; this is not an accessibility/aesthetics score |
-| Graph nodes | Independent label/body ownership, extra-node checks, flat SVGs without wrapper classes, primitive rectangle-family/circle/ellipse/diamond outlines; ordinary/rounded boxes preserve a measured source distinction across cosmetic skins | Compound/symbolic shapes and external labels without geometric ownership stay unknown |
+| Graph nodes and groups | Independent label/body or unique glyph/topology ownership; measured polygon, cap/wave and inset silhouettes; qualified actor/person/state compound parts; exact immediate group membership without renderer IDs/classes | Unsupported silhouettes, unbound symbols, coincident groups and external labels without geometric ownership stay unknown |
 | Explicit label breaks | Source-owned node/participant, route/message, group and title rows measured from actual character rectangles; sibling text and tspans share one physical text-block contract; collapsed, hidden and borrowed-line controls | Note/fragment/box ownership, empty-line spacing and ambiguous glyph layouts remain unknown; this does not claim general typography correctness |
 | Flowchart text inventory | Every actual visible text block has its unique authored node/group/route/title role; extra captions, annotations and repeated headers fail; a title cannot borrow a route caption | Unsupported text-bearing node attributes and ambiguous ownership remain unknown; other families need their own complete inventories |
-| Graph relationships | Actual endpoint attachment, marker shape/orientation, exact multiplicity and route-owned labels; missing/reversed/detached/extra-route controls | Unbound, compound or unprojected glyphs stay unknown; physical-touch tolerances are explicit in each observation |
-| Edge appearance | Solid/dotted stroke and actual marker semantics on a uniquely owned route | Parallel ambiguous pairs, thick-style baselines and animation stay unknown |
+| Graph relationships and exposure | Actual endpoint attachment, marker shape/orientation, exact multiplicity and owned labels; body/stem/marker exposure controls reject opaque pre-label covers, erased arrow wings and hidden routes | Unbound glyphs, unprojected marker settings and complex occlusion stay unknown; endpoint and compact owned-caption backdrops have explicit qualified exceptions |
+| Edge appearance | Actual path-length/offset/cap-qualified solid/dotted paint and marker semantics; zero-gap masks stay solid; thick requests require measured contrast against ordinary peers | Unresolved dash units, ambiguous parallel pairs, missing thick baselines and animation stay unknown |
 | Authored styles | Source class/default/inline node and link styles compile to owned fill/stroke RGBA, width and dash requests; actual Mermaid/Pele colors and renamed-prefix controls | Unsupported properties, unbound selectors, unresolved source style rules and ambiguous parallel routes retain unknown obligations |
-| Class members | Complete body-owned access/name/type/argument/return signatures; type/name mutations, extra duplicate-header member, hidden/covered row controls | Generic, static/abstract decorations, annotations, cardinalities and note attachment require more observers |
-| ER attributes | Complete entity-owned row/column type, name, key multiset and optional comment; wrong-type/key controls | Exact crow-foot/optional/identifying glyph meaning and ambiguous table grammar stay unknown |
-| Sequence messages | Chronological actual route heights, owned endpoints/captions and filled solid/dashed or unheaded solid/dotted line style; order/style mutations | Other markers, lifecycles, participant kinds, note placement and fragment membership need their own evidence |
+| Class members and roles | Body-owned access/name/type/argument/return signatures; equivalent UML Type name and name:Type fields; actual generic headers, stereotypes, italic/underlined abstract/static members and attached cardinality labels | Unsupported member grammar, ambiguous endpoint captions, clipping/covers and unqualified note/style variants stay unknown |
+| ER attributes and endpoints | Complete owned type/name/key/comment rows; actual bar, circle and three-way foot topology with exact identifying/nonidentifying stroke paint | Unprojected decoration topology, ambiguous row grammar, covers and entity class/layout variants stay unknown |
+| Sequence messages and regions | Actual chronological routes, owned captions and measured head/dash styles; participant order; bounded activation/deactivation slots, closed fragment intervals, note position and owned glyph rows | Symbolic participant attributes, creation/destruction, ambiguous self routes, intermediate/nested branch geometry and unprojected marker forms stay unknown |
 | Pie | Owned arc fractions and explicitly requested absolute legend values | Fractions do not attest unprinted absolute totals; complete legends/configuration remain separate |
 | Sankey | Complete endpoint-owned flow proportions, adjacent node/value labels and requested value-printing behavior; wrong/borrowed numbers fail independently of geometry | Other label layouts, compound ribbons and unsupported appearance settings remain unknown |
 | Treemap | Exact immediate rectangle containment, independently reconstructed sibling area partitions and separately owned printed safe integers | Nonuniform/unqualified tilings and other numeric formats remain unknown |
@@ -57,6 +57,11 @@ their physical contents while preserving convenient labels.
 Fixture provenance and immutable hashes are in
 [`tests/fixtures/fidelity/README.md`](../tests/fixtures/fidelity/README.md) and
 [`tests/fixtures/qualified-charts/README.md`](../tests/fixtures/qualified-charts/README.md).
+Graph witnesses and immutable source/SVG hashes are also retained in
+[`tests/fixtures/graph-families/provenance.json`](../tests/fixtures/graph-families/provenance.json).
+Their integration controls preserve actual Mermaid/Pele/native bytes, remove
+renderer classes, mutate class field types and C4 field roles, change block
+spans, and cover node/route/marker paint while preserving its source metadata.
 Specialized observers may replace a generic unavailable projection. Conflicting
 decisive observations stop the assessment; a passing observer cannot hide a
 failed one.
@@ -99,17 +104,17 @@ credit. This matrix identifies proof gaps, not project defects.
 
 | Family | Facts still needing complete visible projections |
 | --- | --- |
-| Flowchart | Compound/new shapes, explicit local layout constraints, image/icon ownership beyond decoded node-owned images, animation, configuration and authored styles; broad global direction remains advisory |
-| Agentflow | Dialect shapes/kinds, role attributes, scope, configuration and layout |
-| Use case | Actor/business/icon variants, relationship conventions, note attachment, configuration and layout |
-| Swimlane | Exact lane order/membership, dialect kinds and lane-specific layout |
-| Class | Generic/abstract/static/annotation semantics, exact cardinality label ownership, notes and namespace/style variants |
-| ER | Exact cardinality/identification decorations, entity classes and constrained layouts |
-| Sequence | Participant kinds/order, lifecycle markers, other arrow styles, complete notes and nested fragment/branch membership |
-| State | Start/end/choice/fork/history glyphs, composite/parallel regions, state kinds, notes and local directions |
-| Block | Full grid order, columns, row/column spans, anonymous groups and block arrows |
-| C4 | Complete element properties and relation properties, person/container/component variants |
-| Architecture | Exact side ports, junctions, icon identity and alignments |
+| Flowchart | Shapes outside measured polygon/cap/wave/inset profiles, unbound symbol-only nodes, explicit local layout constraints, image/icon equivalence, animation and unqualified configuration/style properties; broad global direction remains advisory |
+| Agentflow | Role attributes and dialect glyphs outside measured silhouettes, unsupported scope/configuration and local layout constraints |
+| Use case | Business/icon actors outside qualified compound silhouettes, ambiguous relation captions/notes and unsupported configuration/layout; qualified include/extend/generalization routes retain independent ownership and dash/head checks |
+| Swimlane | Unbound lane boundaries or members, dialect-specific glyphs and layout outside measured lane order/containment |
+| Class | Member grammar and header layouts outside qualified signatures, ambiguous cardinality/namespace/note ownership and unsupported style properties |
+| ER | Endpoint glyphs outside qualified bar/circle/foot topology, ambiguous entity tables/classes and constrained layouts |
+| Sequence | Symbolic participant kinds/attributes without qualified contours, creation/destruction and ambiguous activation slots, unsupported heads, ambiguous note/fragment/branch ownership and message numbering |
+| State | History and unbound symbols outside unique disc/final-ring/diamond/bar profiles, ambiguous composite/parallel regions or notes, and local directions |
+| Block | Uncalibrated or ambiguous row/column/span lattices, anonymous groups without unique descendant enclosures and arrows outside measured directions |
+| C4 | Ambiguous header/type/technology/description roles, database/queue and indistinguishable external variants, unbound relation technology, and source-relative label offsets without a qualified anchor; paired PNG offset evidence is separately versioned |
+| Architecture | Junction topology, icon identity, ambiguous side-port attachment and alignments without independently owned service centers |
 | Requirement | Complete typed requirement/element definitions and relation variants |
 | Event modeling | Complete frame order/content and data definitions |
 | ZenUML | Complete event order, calls/returns, control regions, participant kinds and comments |
