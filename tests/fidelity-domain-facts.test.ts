@@ -251,4 +251,13 @@ test('qualified event identity and data bind the measured caption and enclosing 
   expect(status(await inspect(file, { expected: projected, change: wrongNamespace }), 'event-namespace-presentation')).toBe('failed')
   const wrongField = `const e=[...document.querySelectorAll('foreignObject')].find(e=>e.querySelector('b')?.textContent==='Add');e.querySelector('div').innerHTML=e.querySelector('div').innerHTML.replace('7','8')`
   expect(status(await inspect(file, { expected: projected, change: wrongField }), 'frame-content')).toBe('failed')
+  const resolved = structuredClone(projected)
+  for (const frame of resolved.facts!['frame-content'] as any[]) {
+    frame.fields = (resolved.facts!.frames as any[]).find(canonical => canonical.id === frame.id).fields
+    delete frame.data
+    delete frame.dataReference
+  }
+  expect(status(await inspect(file, { expected: resolved }), 'frame-content')).toBe('passed')
+  ;(resolved.facts!['frame-content'] as any[])[1].fields = [{ name: 'productId', value: '8' }]
+  expect(status(await inspect(file, { expected: resolved }), 'frame-content')).toBe('failed')
 })
