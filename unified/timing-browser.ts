@@ -1,0 +1,190 @@
+import { execFileSync } from 'node:child_process'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { extname, join, resolve } from 'node:path'
+import { chromium, type Browser, type Route } from 'playwright'
+import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
+import { environmentIdentity } from '../portable/environment.ts'
+import { evidenceBytesDigest, evidenceDigest, admitCheckedEvidence, type CheckedEvidence } from '../portable/evidence-contract.ts'
+import { collectQualifiedTiming, type QualifiedTimingPublicDriver, type ObserveTimedOutput, type TimingCoordinate } from '../portable/qualified-timing-collection.ts'
+import { admitTimingPlan, type TimingPlan } from '../portable/qualified-timing.ts'
+import { expandedFidelityCases } from '../fidelity/cases.ts'
+import { admitPreparedFidelityEngine } from '../fidelity/community.ts'
+import { sourceContractComplete } from '../fidelity/source-contract.ts'
+import { makeSvgCaseContract } from '../fidelity/svg-assessment.ts'
+import { inspectFidelityPaint } from '../fidelity/paint.ts'
+import { inspectQuantitativePaint } from '../fidelity/paint-values.ts'
+import { inspectSourceFacts, mergePaintChecks } from '../fidelity/paint-facts.ts'
+import { inspectChartFacts } from '../fidelity/paint-chart-facts.ts'
+import type { AuthoredFidelityCase } from '../fidelity/meaning.ts'
+import type { PreparedCommunityBrowser } from './community-browser.ts'
+import { defaultChromium, executableIdentity } from './benchmark-context.ts'
+import { docsArtifactServer, initializeDocsPage, withDocsDeadline, closeDocsContext } from './docs-runtime.ts'
+import { readDocsResources } from './docs-resources.ts'
+import { publicSvgBrowserAction } from './public-svg-browser.ts'
+import { qualifyOutput } from './qualification.ts'
+import { protocolIdentity } from './protocol-identity.ts'
+import { tridentDirectory } from './trident-paths.ts'
+
+export const browserSvgTimingBoundary = 'Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded'
+const viewport = { width: 1400, height: 1000 }
+export interface BrowserSvgTimingOptions {
+  preparedFile: string
+  baseline: string
+  candidate: string
+  out: string
+  caseIds?: string[]
+  rounds?: number
+  samplesPerRound?: number
+  maximumControlSpread?: number
+  resourcesFile?: string
+  executable?: string
+}
+export function browserSvgTimingCases(ids = ['meaning:family:flowchart']) {
+  if (!ids.length || new Set(ids).size !== ids.length) throw Error('Browser timing needs unique nonempty authored case IDs')
+  const all = expandedFidelityCases()
+  return ids.map(id => {
+    const input = all.find(item => item.id === id)
+    if (!input || !sourceContractComplete(input)) throw Error('Browser timing needs an independently complete authored source contract: ' + id)
+    if (input.prelude?.length || input.renderOptions && Object.keys(input.renderOptions).length) throw Error('First-use source timing excludes prelude and API-configuration workflows: ' + id)
+    return input
+  })
+}
+/** Font fallback is an actual rendering input. Missing font inventory blocks
+ * this host profile instead of substituting a label such as "default fonts". */
+export function browserTimingFonts() {
+  const paths = [...new Set(execFileSync('fc-list', ['-f', '%{file}\n'], { encoding: 'utf8', timeout: 10_000 }).split('\n').filter(Boolean))].sort()
+  if (!paths.length) throw Error('Browser timing needs an actual fontconfig font inventory')
+  return paths.map(path => ({ path, sha256: evidenceBytesDigest(readFileSync(path)) }))
+}
+const key = (coordinate: TimingCoordinate) => JSON.stringify([coordinate.round, coordinate.replica, coordinate.caseId, coordinate.sample])
+
+/** Offline SVG observation of every timed return. A full source contract and
+ * all its planned observations are required; source/model echoes give no pass. */
+export async function observeBrowserTimingSvg(page: any, authored: AuthoredFidelityCase, contract: TimingPlan['cases'][number], bytes: Uint8Array, observerSha256: string, resourceGaps: readonly string[] = []): Promise<CheckedEvidence> {
+  if (!sourceContractComplete(authored) || evidenceDigest(contract) !== evidenceDigest(makeSvgCaseContract(authored))) throw Error('Timed SVG observation does not own this complete source contract')
+  const svg = Buffer.from(bytes).toString('utf8'), outputSha256 = evidenceBytesDigest(bytes)
+  const admission = qualifyOutput({ id: authored.id, family: authored.family, source: authored.source, expectedLabels: authored.expected.labels, features: [], provenance: authored.provenance }, svg, 'svg')
+  let observed: ReturnType<typeof mergePaintChecks> = [], observationError: string | undefined
+  if (admission.ok) try {
+    await page.setContent(svg, { waitUntil: 'domcontentloaded' })
+    await page.evaluate(async () => { await document.fonts.ready })
+    const paint = await page.evaluate(inspectFidelityPaint, { family: authored.family, expected: authored.expected, paint: authored.paint })
+    const quantitative = await page.evaluate(inspectQuantitativePaint, { family: authored.family, source: authored.source, expected: authored.expected, nodes: paint.nodes })
+    const facts = await page.evaluate(inspectSourceFacts, { family: authored.family, source: authored.source, expected: authored.expected, paint, quantitative })
+    const charts = await page.evaluate(inspectChartFacts, { family: authored.family, source: authored.source, expected: authored.expected, paint, quantitative })
+    observed = mergePaintChecks(paint.checks, quantitative, facts, charts)
+    const unplanned = observed.filter(check => check.status !== 'passed' && !contract.requiredChecks.some(item => item.surface === 'browser-owned-ink' && item.criterion === check.criterion))
+    if (unplanned.length) observationError = 'Unplanned observer findings: ' + unplanned.map(check => check.criterion).join(', ')
+  } catch (error) { observationError = 'Full SVG observer did not complete: ' + String(error) }
+  return admitCheckedEvidence(contract, { schema: 'trident-checked-evidence-v1', caseId: authored.id, sourceSha256: contract.sourceSha256, expectationsSha256: contract.expectationsSha256, outputSha256, observerSha256, checks: contract.requiredChecks.map(item => {
+    if (item.surface === 'browser-public-api') return { ...item, status: resourceGaps.length || observationError ? 'unknown' : item.criterion === 'public-svg-admission' ? 'passed' : item.criterion === 'standalone-svg-and-labels' ? admission.ok ? 'passed' : 'failed' : 'unknown', detail: resourceGaps.length ? resourceGaps.join('; ') : observationError ?? (admission.ok ? 'Actual retained timed SVG return and independent standalone admission' : admission.findings.join('; ')) }
+    const check = observed.find(check => check.criterion === item.criterion)
+    return { ...item, status: observationError ? 'unknown' : check?.status === 'passed' ? 'passed' : check?.status === 'failed' ? 'failed' : 'unknown', detail: observationError ?? check?.scope ?? 'No qualified observer for this complete source criterion' }
+  }) })
+}
+
+/** Freezes versions, executable assets, host/fonts/resources, source plans and
+ * observer before any public render call. It does not acquire or render peers. */
+export function prepareBrowserSvgTiming(options: BrowserSvgTimingOptions) {
+  const preparedBytes = readFileSync(options.preparedFile), prepared = JSON.parse(preparedBytes.toString()) as PreparedCommunityBrowser[]
+  if (!Array.isArray(prepared) || new Set(prepared.map(peer => peer.node.id)).size !== prepared.length) throw Error('Browser timing preparation identities must be a unique array')
+  const selected = new Map([options.baseline, options.candidate].map(project => {
+    const peer = prepared.find(item => item.node.id === project)
+    if (!peer || peer.browserStatus !== 'prepared' || !peer.browser) throw Error('Selected project has no frozen browser SVG artifact: ' + project)
+    if (peer.node.benchmark?.skip?.version === peer.browser.version) throw Error('Selected artifact is skipped by its frozen benchmark configuration: ' + peer.node.benchmark.skip.reason)
+    return [project, { peer, admission: admitPreparedFidelityEngine(peer) }] as const
+  }))
+  const cases = browserSvgTimingCases(options.caseIds), resources = readDocsResources(options.resourcesFile), executable = options.executable ?? defaultChromium(chromium)
+  const executableProof = executableIdentity(executable)
+  if (executableProof.status !== 'available') throw Error('Browser timing executable is unavailable')
+  const fonts = browserTimingFonts(), producers = protocolIdentity(tridentDirectory, ['unified/timing-browser.ts'])
+  const rendering = { viewport, deviceScaleFactor: 1, locale: 'en-US', timezoneId: 'UTC', colorScheme: 'light' as const, serviceWorkers: 'block' as const }
+  const environment = { host: environmentIdentity(process.execPath), browser: executableProof, driver: process.versions, fonts, fontconfig: Object.fromEntries(['FONTCONFIG_FILE', 'FONTCONFIG_PATH', 'LANG', 'LC_ALL'].map(name => [name, process.env[name] ?? null])), rendering, resourceManifestSha256: resources.manifestSha256, resources: resources.identity }
+  const observerSha256 = evidenceDigest({ protocol: 'complete-source-svg-observer-v1', producers, environment }), environmentSha256 = evidenceDigest(environment)
+  const artifact = (project: string) => { const { peer, admission } = selected.get(project)!; return { project, artifactSha256: admission.artifactSha256, bindingSha256: evidenceDigest({ protocol: 'shared-public-browser-svg-first-use-v1', engine: peer.browser, admission, producers, request: { type: 'render', id: 'trident_timed_svg', returnSvgString: true } }) } }
+  const baseline = artifact(options.baseline)
+  const plan = admitTimingPlan({ schema: 'trident-qualified-timing-plan-v1', boundary: browserSvgTimingBoundary, format: 'svg', track: 'first-use', environmentSha256, observerSha256, rounds: options.rounds ?? 6, samplesPerRound: options.samplesPerRound ?? 1, maximumControlSpread: options.maximumControlSpread ?? .25, cases: cases.map(makeSvgCaseContract), artifacts: { A0: baseline, A1: baseline, B: artifact(options.candidate) } })
+  return { plan, cases, selected, resources, executable, fonts, rendering, provenance: { schema: 'trident-browser-svg-timing-inputs-v1', preparedSha256: evidenceBytesDigest(preparedBytes), environment, producers, selected: [...selected].map(([project, { admission }]) => ({ project, admission })), sources: cases.map(input => ({ id: input.id, source: input.source, provenance: input.provenance, sourceReview: input.sourceReview })), scope: browserSvgTimingBoundary } }
+}
+
+export async function runBrowserSvgTiming(options: BrowserSvgTimingOptions) {
+  assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: false })
+  if (existsSync(options.out)) throw Error('Browser timing needs a fresh output directory')
+  const frozen = prepareBrowserSvgTiming(options)
+  mkdirSync(options.out, { recursive: true })
+  writeFileSync(join(options.out, 'browser-inputs.json'), JSON.stringify(frozen.provenance, null, 2) + '\n')
+  let browser: Browser | undefined
+  const servers = new Map<string, { server: ReturnType<typeof docsArtifactServer>; origin: string }>(), audits = new Map<string, string[]>()
+  const getBrowser = async () => browser ??= await chromium.launch({ headless: true, executablePath: frozen.executable })
+  const runtime = async (project: string) => {
+    const target = frozen.selected.get(project)!
+    admitPreparedFidelityEngine(target.peer)
+    if (!servers.has(project)) {
+      const server = docsArtifactServer(target.peer.browser!.root, target.peer.browser!.zenuml)
+      await new Promise<void>(done => server.listen(0, '127.0.0.1', done))
+      servers.set(project, { server, origin: 'http://127.0.0.1:' + (server.address() as { port: number }).port })
+    }
+    return { ...target, ...servers.get(project)! }
+  }
+  const route = async (request: Route, target: Awaited<ReturnType<typeof runtime>>, gaps: string[]) => {
+    const url = new URL(request.request().url()), resource = frozen.resources.resources.find((item: any) => item.url === url.href)
+    if (resource) return request.fulfill({ body: resource.body, contentType: resource.contentType })
+    if (['data:', 'blob:'].includes(url.protocol)) return request.continue()
+    if (url.origin === target.origin && ['/blank', '/observer'].includes(url.pathname)) return request.continue()
+    const engine = target.peer.browser!, addon = url.pathname.startsWith('/__addon/'), root = addon ? engine.zenuml?.root : engine.root
+    let decoded: string
+    try { decoded = decodeURIComponent(url.pathname.slice(addon ? '/__addon'.length : 0)) } catch { gaps.push('Invalid browser resource URL: ' + url.href); return request.abort() }
+    const file = root && resolve(root, '.' + decoded), asset = [...target.admission.files, ...target.admission.manifests, ...(target.admission.addon ? [{ path: join(target.admission.addon.root, 'package.json'), sha256: target.admission.addon.manifestSha256 }] : [])].find(item => item.path === file)
+    if (url.origin !== target.origin || !asset) { gaps.push('Unfrozen browser resource: ' + url.href); return request.abort() }
+    const bytes = readFileSync(asset.path)
+    if (evidenceBytesDigest(bytes) !== asset.sha256) { gaps.push('Frozen browser resource changed: ' + asset.path); return request.abort() }
+    return request.fulfill({ body: bytes, contentType: ({ '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.wasm': 'application/wasm', '.css': 'text/css; charset=utf-8', '.woff2': 'font/woff2', '.woff': 'font/woff', '.ttf': 'font/ttf', '.json': 'application/json' } as Record<string, string>)[extname(asset.path)] ?? 'application/octet-stream' })
+  }
+  const driver: QualifiedTimingPublicDriver = { context: { boundary: frozen.plan.boundary, format: frozen.plan.format, track: frozen.plan.track, environmentSha256: frozen.plan.environmentSha256, artifacts: frozen.plan.artifacts }, open: async coordinate => {
+    if (evidenceDigest(coordinate.artifact) !== evidenceDigest(frozen.plan.artifacts[coordinate.replica])) throw Error('Browser timing artifact differs from its frozen replica')
+    if (evidenceDigest(browserTimingFonts()) !== evidenceDigest(frozen.fonts)) throw Error('Actual browser font inputs changed before a timed call')
+    const target = await runtime(coordinate.artifact.project), context = await (await getBrowser()).newContext(frozen.rendering), gaps: string[] = []
+    audits.set(key(coordinate), gaps)
+    try {
+      await context.route('**/*', request => route(request, target, gaps))
+      const page = await context.newPage()
+      context.on('page', () => gaps.push('Additional page created inside the first-use execution context'))
+      await initializeDocsPage(page, target.peer.browser!, target.origin)
+      if (gaps.length) throw Error(gaps.join('; '))
+      return { artifact: frozen.plan.artifacts[coordinate.replica], execution: { kind: 'browser-context' as const, handle: context, page }, request: { type: 'render', id: 'trident_timed_svg', returnSvgString: true }, invokeInPage: publicSvgBrowserAction }
+    } catch (error) { await context.close(); throw error }
+  } }
+  const observer: ObserveTimedOutput = async input => {
+    if (evidenceDigest(browserTimingFonts()) !== evidenceDigest(frozen.fonts)) throw Error('Actual browser font inputs changed before timed-output grading')
+    const authored = frozen.cases.find(item => item.id === input.contract.caseId)!
+    if (!authored || input.invocation.identity.project !== frozen.plan.artifacts[input.coordinate.replica].project || input.invocation.output?.sha256 !== evidenceBytesDigest(input.bytes)) throw Error('SVG observer received another source/project/output')
+    const target = await runtime(input.invocation.identity.project), context = await (await getBrowser()).newContext(frozen.rendering), gaps = [...(audits.get(key(input.coordinate)) ?? [])]
+    try {
+      await context.route('**/*', request => route(request, target, gaps))
+      const page = await context.newPage(); await page.goto(target.origin + '/observer')
+      const checked = await withDocsDeadline(() => observeBrowserTimingSvg(page, authored, input.contract, input.bytes, frozen.plan.observerSha256, gaps), () => { void context.close().catch(() => {}) })
+      return checked
+    } finally { await context.close() }
+  }
+  try {
+    const result = await collectQualifiedTiming(frozen.plan, frozen.cases.map(input => ({ caseId: input.id, source: input.source, provenance: input.provenance })), driver, observer, options.out)
+    for (const { peer } of frozen.selected.values()) admitPreparedFidelityEngine(peer)
+    if (evidenceDigest(browserTimingFonts()) !== evidenceDigest(frozen.fonts)) throw Error('Actual browser font inputs changed during collection')
+    return result
+  } finally {
+    writeFileSync(join(options.out, 'browser-resource-audits.json'), JSON.stringify({ schema: 'trident-timed-browser-resources-v1', coordinates: [...audits].map(([coordinate, gaps]) => ({ coordinate: JSON.parse(coordinate), gaps })) }, null, 2) + '\n')
+    for (const { server } of servers.values()) await closeDocsContext({ close: async () => {} }, server)
+    await browser?.close()
+  }
+}
+
+export function parseBrowserSvgTimingOptions(argv: string[]): BrowserSvgTimingOptions {
+  const values = new Map<string, string>(), allowed = ['--prepared', '--baseline', '--candidate', '--out', '--cases', '--rounds', '--samples', '--maximum-control-spread', '--resources', '--executable']
+  for (let i = 0; i < argv.length; i += 2) { const key = argv[i]!, value = argv[i + 1]; if (!allowed.includes(key) || !value || value.startsWith('--') || values.has(key)) throw Error('Use timing:browser --help'); values.set(key, value) }
+  for (const required of ['--prepared', '--baseline', '--candidate', '--out']) if (!values.has(required)) throw Error('Missing ' + required)
+  return { preparedFile: resolve(values.get('--prepared')!), baseline: values.get('--baseline')!, candidate: values.get('--candidate')!, out: resolve(values.get('--out')!), ...(values.has('--cases') ? { caseIds: values.get('--cases')!.split(',') } : {}), ...(values.has('--rounds') ? { rounds: Number(values.get('--rounds')) } : {}), ...(values.has('--samples') ? { samplesPerRound: Number(values.get('--samples')) } : {}), ...(values.has('--maximum-control-spread') ? { maximumControlSpread: Number(values.get('--maximum-control-spread')) } : {}), ...(values.has('--resources') ? { resourcesFile: resolve(values.get('--resources')!) } : {}), ...(values.has('--executable') ? { executable: resolve(values.get('--executable')!) } : {}) }
+}
+if (import.meta.main) {
+  if (process.argv.slice(2).join(' ') === '--help') console.log('timing:browser --prepared FILE --baseline PROJECT --candidate PROJECT --out FRESH_DIR [--cases ID,...] [--rounds 6] [--samples 1] [--resources FILE] [--executable CHROMIUM]\nFirst-use public SVG calls in fresh browser contexts. Includes controller/page RPC; initialization and full output grading are outside the clock. Uses frozen versions, source contracts, fonts and assets. Missing correctness or A/A evidence withholds speed. No Codex required.')
+  else { const result = await runBrowserSvgTiming(parseBrowserSvgTimingOptions(process.argv.slice(2))); console.log(JSON.stringify({ bundleFile: result.bundleFile, qualification: result.qualification })); if (result.qualification.status !== 'qualified') process.exitCode = 2 }
+}
