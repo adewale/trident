@@ -49,3 +49,12 @@ test('global direction does not invent mandatory precedence for a branched DAG',
   const chain = analyseTerminalSource('flowchart RL\nA-->B\nB-->C', 'flowchart')
   expect(chain.graph?.layout).toEqual([{ before: 'B', after: 'A', axis: 'x' }, { before: 'C', after: 'B', axis: 'x' }])
 })
+test('isolated parentheses, disconnected nested curves and misaligned inner walls cannot supply a primitive', () => {
+  const score = (source: string, output: string) => { const analysis = analyseTerminalSource(source, 'flowchart'); return assessTerminalDrawing({ ...cases[0]!, source, sourceSha256: createHash('sha256').update(source).digest('hex'), family: 'flowchart', expected: { status: 'independently-reviewed', graph: analysis.graph, contract: analysis.contract } }, output).status }
+  expect(score('flowchart\nA([Alpha])', '┌───────┐\n( Alpha │\n└───────┘')).not.toBe('correct')
+  expect(score('flowchart\nA([Alpha])', '╭───────╮\n( Alpha )\n╰───────╯')).toBe('correct')
+  expect(score('flowchart\nA(((Alpha)))', '╭─────────╮\n│ ╭─╮     │\n│ Alpha   │\n│   ╰───╯ │\n╰─────────╯')).not.toBe('correct')
+  expect(score('flowchart\nA[(Alpha)]', '╭───────╮\n│╰─────╯│\n│ Alpha │\n╰───────╯')).toBe('correct')
+  expect(score('flowchart\nA[(Alpha)]', '╭─────────╮\n│ ╰─╯     │\n│ Alpha   │\n╰─────────╯')).not.toBe('correct')
+  expect(score('flowchart\nA[[Alpha]]', '┌─────────┐\n│ │Alpha│ │\n│  │   │  │\n└─────────┘')).not.toBe('correct')
+})
