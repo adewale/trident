@@ -59,6 +59,14 @@ test('actual painted endpoints and multiplicity are independent of correct label
   expect(invented.checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('failed')
 })
 
+test('positive-alpha labels cannot earn visible credit when their opaque node backdrop has the same colour', async () => {
+  const white = fixture.replaceAll('<text ', '<text fill="white" ')
+  expect((await inspect(white)).checks.find(check => check.criterion === 'visible-authored-labels')?.status).toBe('failed')
+  const black = fixture.replaceAll('fill="white"', 'fill="black"')
+  expect((await inspect(black)).checks.find(check => check.criterion === 'visible-authored-labels')?.status).toBe('failed')
+  expect((await inspect(fixture)).checks.find(check => check.criterion === 'visible-authored-labels')?.status).toBe('passed')
+})
+
 test('an extra explicitly identified but unbound route cannot earn exact multiplicity credit', async () => {
   const extra = fixture.replace('</svg>', '<g class="edge"><path d="M20 70 L220 70" fill="none" stroke="black" marker-end="url(#arrow)"/></g></svg>')
   expect((await inspect(extra)).checks.find(item => item.criterion === 'painted-relationships')?.status).toBe('unavailable')

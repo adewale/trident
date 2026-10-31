@@ -113,7 +113,25 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     return { label, count: elements.length, boxes: elements.map(labelBox), inCanvas: elements.length > 0 && elements.every(element => contains(rootBox, labelBox(element))) }
   })
   const imageBackedLabels = labelElements.length === 0 && !!svg.querySelector('image')
-  check('visible-authored-labels', input.expected.labels, labelResults.map(item => ({ label: item.label, count: item.count })), imageBackedLabels ? null : labelResults.every(item => item.count > 0), imageBackedLabels ? 'Image-backed text needs reviewed image/OCR evidence, not a missing-label verdict' : 'Computed visibility and nonzero browser text bounds; metadata/title/defs text earns no credit')
+  // A positive-alpha glyph can still be invisible against its own body. This
+  // negative control proves exact colour camouflage only on an actual opaque
+  // flat backdrop; it does not claim a general contrast/accessibility score.
+  const camouflaged: string[] = []
+  for (const label of requiredLabels.filter(Boolean)) for (const element of visibleMatches(label)) {
+    const box = labelBox(element), css = getComputedStyle(element)
+    const foreground = element.namespaceURI === 'http://www.w3.org/2000/svg' ? css.fill : css.color
+    const strokeVisible = colorAlpha(css.stroke) !== 0 && Number(css.strokeOpacity) > 0 && Number.parseFloat(css.strokeWidth) > 0
+    if (strokeVisible || colorAlpha(foreground) !== 1) continue
+    const backdrop = [...svg.querySelectorAll('rect,circle,ellipse,polygon,path')].filter(shape => {
+      if (shape.contains(element) || !(shape.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING) || !visible(shape)) return false
+      const style = getComputedStyle(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM?.()
+      if (!matrix || colorAlpha(style.fill) !== 1 || Number(style.fillOpacity) !== 1) return false
+      for (let parent: Element | null = shape; parent; parent = parent.parentElement) { const style = getComputedStyle(parent); if (Number(style.opacity) !== 1 || style.maskImage !== 'none' || style.clipPath !== 'none' || style.mixBlendMode !== 'normal' || style.filter !== 'none' && !preservesSourceGraphic(style.filter)) return false; if (parent === svg) break }
+      return [[box.x, box.y], [box.x + box.width, box.y], [box.x, box.y + box.height], [box.x + box.width, box.y + box.height]].every(([x, y]) => (shape as SVGGeometryElement).isPointInFill?.(new DOMPoint(x, y).matrixTransform(matrix.inverse())))
+    }).at(-1)
+    if (backdrop && foreground === getComputedStyle(backdrop).fill) camouflaged.push(label)
+  }
+  check('visible-authored-labels', input.expected.labels, labelResults.map(item => ({ label: item.label, count: item.count, camouflaged: camouflaged.includes(item.label) })), imageBackedLabels ? null : labelResults.every(item => item.count > 0) && camouflaged.length === 0, imageBackedLabels ? 'Image-backed text needs reviewed image/OCR evidence, not a missing-label verdict' : 'Computed visibility and nonzero browser text bounds, rejecting glyphs proved identical to their own opaque flat backdrop. Metadata/title/defs text earns no credit; this is not general contrast or accessibility certification')
   check('labels-within-canvas', 'every authored label fits the canvas', labelResults.filter(item => !item.inCanvas), imageBackedLabels ? null : labelResults.every(item => item.inCanvas), 'Actual rendered label bounds, with 1.5 CSS-pixel serialization tolerance')
   if (input.expected.forbiddenLabels?.length) {
     const painted: string[] = [], uncertain: string[] = []
