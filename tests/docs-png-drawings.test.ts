@@ -6,6 +6,7 @@ import { sourceHash, type DocsDrawingReview } from '../unified/docs-drawings.ts'
 import { docsPngTransport } from '../unified/docs-png-lane.ts'
 import { parseOptions } from '../unified/options.ts'
 import { projectSupport } from '../unified/support.ts'
+import { callDocsPage } from '../unified/docs-benchmark.ts'
 
 const input = { id: 'source', family: 'flowchart', source: 'flowchart LR\nA-->B' }
 const expected: DocsDrawingReview = { ...input, sourceSha256: sourceHash(input.source), intent: 'drawing', expected: { labels: ['A', 'B'], nodes: [{ id: 'A', label: 'A' }, { id: 'B', label: 'B' }], edges: [{ source: 'A', target: 'B', directed: true }] }, review: 'Independently declared A-to-B graph' }
@@ -42,4 +43,11 @@ test('PNG-only artifacts are applicable to DaveBench without any SVG binding or 
   expect(parseOptions(['--docs-formats', 'png']).docsFormats).toEqual(['png'])
   expect(() => parseOptions(['--docs-formats', 'png,png'])).toThrow('unique')
   expect(() => parseOptions(['--docs-formats', 'jpeg'])).toThrow('unique')
+})
+
+test('an initializer that never resolves is bounded and its page is closed', async () => {
+  let closed = false
+  const page = { evaluate: () => new Promise(() => {}), close: async () => { closed = true } }
+  await expect(callDocsPage(page as any, async () => {}, {}, 10)).rejects.toThrow('host deadline')
+  expect(closed).toBe(true)
 })
