@@ -8,10 +8,10 @@ import { createMeaningAdapter } from '../fidelity/adapters.ts'
 import { assessMeaning } from '../fidelity/meaning.ts'
 import { readTerminalCorpus, reviewedTerminalCases, type TerminalProjectCase } from '../fidelity/terminal-corpus.ts'
 import { assessTerminalDrawing } from '../fidelity/terminal-assessment.ts'
-import { runCommunityCli, verifyProvidedCommunityArtifact } from './community.ts'
+import { runCommunityCli, runCommunityNodeRound, verifyProvidedCommunityArtifact } from './community.ts'
 import { runExternalCommunity } from './community-external.ts'
 import type { PreparedCommunity } from './community-types.ts'
-import type { BenchmarkObservation } from './types.ts'
+import type { BenchmarkObservation, UnifiedRunOptions, UnifiedWorkload } from './types.ts'
 import { protocolIdentity } from './protocol-identity.ts'
 import { tridentDirectory } from './trident-paths.ts'
 import { comparisonProjects } from './lineage.ts'
@@ -22,6 +22,22 @@ const hash = (bytes: string | Buffer) => createHash('sha256').update(bytes).dige
 const invocationObserved = (row?: BenchmarkObservation) => !!row && row.metrics?.failureStage !== 'transport' && (typeof row.metrics?.firstMs === 'number' || row.metrics?.failureStage === 'public-api')
 const ready = (input: TerminalProjectCase) => input.family === 'flowchart' && input.intent === 'valid' && input.expected.status === 'independently-reviewed' && !!input.expected.graph && !input.expected.unverifiedFacts?.length
 export const terminalProfileId = 'terminal-project-corpus-v1'
+
+/** Reuse existing public transports and their frozen-artifact worker proof. */
+export async function collectTerminalWorkloads(prepared: PreparedCommunity[], workloads: UnifiedWorkload[], options: UnifiedRunOptions) {
+  mkdirSync(options.out, { recursive: true })
+  writeFileSync(join(options.out, 'community-prepared.json'), JSON.stringify(prepared, null, 2) + '\n')
+  const results: { peer: PreparedCommunity; rows: BenchmarkObservation[] }[] = []
+  for (const peer of prepared) {
+    const kind = peer.artifact?.kind
+    const rows = kind === 'python' ? await runExternalCommunity(peer, workloads, 'terminal', 1, options)
+      : kind === 'node' ? await runCommunityNodeRound(peer, 'terminal', workloads, 1, options)
+        : kind === 'cli' ? workloads.map(input => runCommunityCli(peer, 'terminal', input, 1, options.out)) : []
+    results.push({ peer, rows })
+  }
+  return results
+}
+
 
 export function assessTerminalRecord(record: any, directory: string, cases = reviewedTerminalCases()) {
   const inventory = cases.map(input => [input.id, input.sourceSha256])
@@ -73,7 +89,7 @@ export async function runTerminalProfile(argv: string[]) {
   const out = resolve(target)
   if (existsSync(out)) throw Error('Choose a fresh terminal output directory')
   const source = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: tridentDirectory, encoding: 'utf8' }).trim()
-  const producers = protocolIdentity(tridentDirectory, ['unified/terminal-profile.ts', 'unified/community-python-worker.py', 'corpus/terminal-project-examples.json', 'corpus/terminal-project-reviews.json'])
+  const producers = protocolIdentity(tridentDirectory, ['unified/terminal-profile.ts', 'unified/community-python-worker.py', 'unified/community-worker.mjs', 'corpus/terminal-project-examples.json', 'corpus/terminal-project-reviews.json'])
   let record: any, parentSha256: string | undefined
   if (saved) {
     const directory = resolve(saved), bytes = readFileSync(join(directory, 'raw.json')); record = JSON.parse(bytes.toString()); parentSha256 = hash(bytes)
@@ -88,7 +104,7 @@ export async function runTerminalProfile(argv: string[]) {
     if (eligible.length !== projects.length) throw Error('Terminal profile respects the catalog branding/selection policy; choose eligible renderer artifacts')
     const selected = prepared.filter(peer => projects.includes(peer.node.id))
     for (const peer of selected) if (peer.artifact) {
-      if (!peer.node.outputs.some(output => ['terminal', 'ascii-unicode', 'unicode', 'ascii'].includes(output)) || !['cli', 'python'].includes(peer.artifact.kind) || peer.artifact.kind === 'python' && peer.node.benchmark?.adapter !== 'termaid') throw Error('No reviewed terminal transport: ' + peer.node.id)
+      if (!peer.node.outputs.some(output => ['terminal', 'ascii-unicode', 'unicode', 'ascii'].includes(output)) || !['cli', 'python', 'node'].includes(peer.artifact.kind) || peer.artifact.kind === 'python' && peer.node.benchmark?.adapter !== 'termaid') throw Error('No reviewed terminal transport: ' + peer.node.id)
       verifyProvidedCommunityArtifact(peer.artifact)
     }
     const startedAt = new Date().toISOString(), referenceRoot = mermaidOracleDirectory(), reference = await createMeaningAdapter({ tool: 'mermaid', packageRoot: join(referenceRoot, 'node_modules/mermaid'), referenceRoot }), sourceReference: any[] = []
@@ -101,9 +117,8 @@ export async function runTerminalProfile(argv: string[]) {
     const targets = (flags.has('--all-inputs') ? cases : planned).filter(input => !ready(input) || sourceReference.find(row => row.caseId === input.id).declaredGraphMatches === true)
     const workloads = targets.map(input => ({ id: input.id, family: input.family, source: input.source, expectedLabels: input.expected.graph?.nodes.map(node => node.label) ?? [], features: ['terminal-project-example', 'retain-output-witness'], provenance: input.origins.map(origin => origin.url).join('; ') }))
     const outputs: any[] = [], transportObservations: BenchmarkObservation[] = []
-    for (const peer of selected) {
-      const artifact = peer.artifact
-      const raw = artifact?.kind === 'python' ? await runExternalCommunity(peer, workloads, 'terminal', 1, { root: tridentDirectory, out, profile: 'full', rounds: 1, communityCoverageOnce: true }) : artifact?.kind === 'cli' ? workloads.map(input => runCommunityCli(peer, 'terminal', input, 1, out)) : []
+    const collected = await collectTerminalWorkloads(selected, workloads, { root: tridentDirectory, harnessRoot: tridentDirectory, out, profile: 'full', rounds: 1, communityCoverageOnce: true })
+    for (const { peer, rows: raw } of collected) {
       transportObservations.push(...raw)
       for (const input of targets) {
         const observation = raw.find(row => row.caseId === input.id), path = observation?.metrics?.outputFile
@@ -121,7 +136,7 @@ export async function runTerminalProfile(argv: string[]) {
   const result = { suite: 'community', terminalCoverage, startedAt: record.startedAt, finishedAt: record.finishedAt, observations, artifacts: ['../raw.json'], terminalProfile: { id: terminalProfileId, sourceRepositories: corpus.projects.map(project => ({ repository: project.repository, commit: project.commit })), cases: cases.map(input => ({ id: input.id, sourceSha256: input.sourceSha256, family: input.family })), reviewedCaseIds: planned.map(input => input.id), producers, corpusFile: record.corpusFile, corpusSha256: record.corpusSha256, reviewsSha256: hash(readFileSync(join(tridentDirectory, 'corpus/terminal-project-reviews.json'))) }, terminalAssessments: assessments.map((project: any) => ({ project: project.project, version: project.version, ...project.full })), terminalReviewedAssessments: assessments.map((project: any) => ({ project: project.project, version: project.version, ...project.reviewed })), sourceReference: record.sourceReference, recheck: parentSha256 ? { parentSha256, originalSource: record.source, observerSource: source, checkedAt: updatedAt, rendererInvocations: 0 } : null }
   writeFileSync(join(out, 'raw.json'), JSON.stringify(record, null, 2) + '\n'); writeFileSync(join(suite, 'result.json'), JSON.stringify(result, null, 2) + '\n')
   writeFileSync(join(out, 'report.json'), JSON.stringify({ schema: 'trident-campaign-v2', options: { out }, startedAt: record.startedAt, updatedAt, projects: assessments.map((project: any) => project.project), profile: 'full', rounds: 1, requestedSuites: ['community'], results: [{ suite: 'community', cohort: terminalProfileId, out: suite, status: 'blocked', completed: true }], scope: 'Real project examples; full inventory retains unmeasured/unknown cells. Reviewed subset is separately bounded. Mermaid reference is unscored. CLI and Python clocks are not compared.' }, null, 2) + '\n')
-  const lines = ['# Terminal project corpus qualification', '', `Corpus: ${corpus.projects.length} frozen terminal-project repositories, documentation/issues/PRs; ${cases.length} selected inputs, no usage-frequency claim. Original collection ${record.startedAt} to ${record.finishedAt}; observer checked ${updatedAt}. Mermaid reference receives no terminal score.`, '']
+  const lines = ['# Terminal project corpus qualification', '', `Research: ${corpus.projects.length} frozen terminal-project repositories; ${cases.length} inputs from ${new Set(cases.flatMap(input => input.origins.map(origin => origin.repository))).size} contributors, mixing terminal-specific and shared-renderer robustness sources. No usage-frequency claim. Original collection ${record.startedAt} to ${record.finishedAt}; observer checked ${updatedAt}. Mermaid reference receives no terminal score.`, '']
   for (const scope of ['full', 'reviewed'] as const) {
     lines.push('## ' + (scope === 'full' ? 'Full planned inventory' : 'Independently reviewed observable subset'), '', scope === 'reviewed' ? '| Verified-count rank | Project | Version | Correct | Incorrect | Unsupported | Unknown | Planned |' : '| Accuracy rank | Project | Version | Correct | Incorrect | Unsupported | Unknown | Planned |', '|---:|---|---|---:|---:|---:|---:|---:|')
     const sorted = [...assessments].sort((a: any, b: any) => b[scope].correct - a[scope].correct || a.project.localeCompare(b.project))

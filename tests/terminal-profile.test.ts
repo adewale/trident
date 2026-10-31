@@ -67,3 +67,22 @@ test('public saved-output launcher works in CI without oracle or renderer; colle
   expect(collect.status).not.toBe(0)
   expect(collect.stderr).toContain('excluded from CI')
 })
+
+import { collectTerminalWorkloads } from '../unified/terminal-profile.ts'
+test('terminal profile reuses a sealed Node binding and skips browser-only capability rows', async () => {
+  const directory = temp.dir(), module = join(directory, 'renderer.mjs'), calls = join(directory, 'calls.txt')
+  const text = readFileSync(new URL('./fixtures/terminal/chain.txt', import.meta.url), 'utf8')
+  writeFileSync(module, `import fs from 'node:fs';export function draw(){fs.appendFileSync(${JSON.stringify(calls)},'call\\n');return ${JSON.stringify(text)}}`)
+  const peer = { node: { id: 'fixture/terminal-node', roles: ['renderer'], outputs: ['terminal'], benchmark: { adapter: 'declared', api: { terminal: { export: 'draw' } }, moduleOutputs: ['terminal'] } }, artifact: { kind: 'node' as const, root: directory, module, version: 'synthetic-fixture', sha256: hash(readFileSync(module, 'utf8')) } }
+  const workloads = [{ id: 'transport-only', source: 'flowchart LR\nAlpha --> Beta\nBeta --> Gamma', family: 'flowchart', expectedLabels: ['Alpha', 'Beta', 'Gamma'], features: ['retain-output-witness'], provenance: 'Synthetic transport control outside scored corpus' }]
+  const records = await collectTerminalWorkloads([peer], workloads, { root: directory, harnessRoot: new URL('..', import.meta.url).pathname, out: directory, profile: 'full', rounds: 1, communityCoverageOnce: true })
+  expect(records[0]?.rows[0]?.status).toBe('passed')
+  expect(readFileSync(calls, 'utf8')).toBe('call\n')
+  expect(readFileSync(records[0]!.rows[0]!.metrics!.outputFile as string, 'utf8')).toBe(text)
+  expect(JSON.parse(readFileSync(join(directory, 'community-prepared.json'), 'utf8'))[0].artifact.sha256).toBe(peer.artifact.sha256)
+  peer.node.benchmark.moduleOutputs = ['svg']
+  const unavailable = await collectTerminalWorkloads([peer], workloads, { root: directory, out: directory, profile: 'full', rounds: 1, communityCoverageOnce: true })
+  expect(unavailable[0]?.rows[0]?.mode).toBe('capability')
+  expect(unavailable[0]?.rows[0]?.metrics?.firstMs).toBeUndefined()
+  expect(readFileSync(calls, 'utf8')).toBe('call\n')
+})
