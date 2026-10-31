@@ -21,7 +21,7 @@ test('first-use selection requires full independently authored source contracts 
   expect(browserSvgTimingBoundary).toContain('RPC serialization')
 })
 test('CLI accepts explicit frozen prepared identities and rejects duplicate or unknown switches', () => {
-  expect(parseBrowserSvgTimingOptions(['--prepared', 'input.json', '--baseline', 'fixture/a', '--candidate', 'fixture/b', '--out', 'new-dir', '--cases', 'meaning:family:flowchart', '--rounds', '6'])).toMatchObject({ baseline: 'fixture/a', candidate: 'fixture/b', rounds: 6, caseIds: ['meaning:family:flowchart'] })
+  expect(parseBrowserSvgTimingOptions(['--prepared', 'input.json', '--baseline', 'fixture/a', '--candidate', 'fixture/b', '--out', 'new-dir', '--cases', 'meaning:family:flowchart', '--rounds', '6', '--budget-minutes', '2'])).toMatchObject({ baseline: 'fixture/a', candidate: 'fixture/b', rounds: 6, collectionBudgetMs: 120000, caseIds: ['meaning:family:flowchart'] })
   expect(() => parseBrowserSvgTimingOptions(['--prepared', 'one', '--prepared', 'two'])).toThrow('help')
   expect(() => parseBrowserSvgTimingOptions(['--community-force', 'true'])).toThrow('help')
 })
@@ -70,6 +70,7 @@ test('static preparation freezes selected artifact versions, real fonts/resource
     expect(frozen.plan).toMatchObject({ format: 'svg', track: 'first-use', rounds: 6, samplesPerRound: 1 })
     expect(frozen.plan.artifacts.A0).toEqual(frozen.plan.artifacts.A1)
     expect(frozen.provenance.environment.fonts.length).toBeGreaterThan(0)
+    expect(frozen.provenance.retainedAssets).toHaveLength(4)
     expect(frozen.provenance.preparedSha256).toBe(evidenceBytesDigest(readFileSync(preparedFile)))
     writeFileSync(join(directory, 'candidate/entry.js'), 'changed sealed bytes')
     expect(() => prepareBrowserSvgTiming(options)).toThrow('entry bytes changed')
