@@ -177,3 +177,35 @@ test('a preserved output failure needs both actual returned bytes and an indepen
   writeFileSync(join(kit.record.evidenceDirectory, 'svg', 'adversarial_label-edit.svg'), '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100"><text>Base label</text><text>Stable label</text></svg>')
   expect(() => verifyReleaseSmokeParity(source.file, kit.file, source.project, caseIds)).toThrow('cause remains unclassified')
 })
+
+
+test('release artifact parity ignores only runtime-dependent file gzip estimates and preserves original records', () => {
+  const source = parityFixture(), kit = parityFixture()
+  const identity = { project: source.project, entrySha256: 'b'.repeat(64), packageMetadata: { name: 'fixture/svg', version: '1.0.0', gzipBytes: 'published metadata is retained' }, files: [{ path: 'dist/renderer.js', sha256: 'c'.repeat(64), bytes: 1000, gzipBytes: 300, mode: 'file' }] }
+  source.record.identity.artifact = structuredClone(identity)
+  kit.record.identity.artifact = { ...structuredClone(identity), files: [{ ...identity.files[0]!, gzipBytes: 301 }] }
+  source.save(); kit.save()
+  const result = verifyReleaseSmokeParity(source.file, kit.file, source.project, caseIds)
+  expect(result.status).toBe('package-parity-verified')
+  expect(result.artifactIdentityScope).toContain('files[].gzipBytes')
+  expect(result.artifactSha256).toBe(verifyReleaseSmokeParity(kit.file, source.file, source.project, caseIds).artifactSha256)
+  expect((source.record.identity.artifact as typeof identity).files[0]!.gzipBytes).toBe(300)
+  expect((kit.record.identity.artifact as typeof identity).files[0]!.gzipBytes).toBe(301)
+})
+
+test('excluding gzip estimates does not excuse changed file hashes, raw sizes, paths, inventories or metadata', () => {
+  for (const mutate of [
+    (artifact: any) => { artifact.files[0].sha256 = 'd'.repeat(64) },
+    (artifact: any) => { artifact.files[0].bytes++ },
+    (artifact: any) => { artifact.files[0].path = 'dist/other.js' },
+    (artifact: any) => { artifact.files = [] },
+    (artifact: any) => { artifact.files[0].mode = 'symlink' },
+    (artifact: any) => { artifact.packageMetadata.gzipBytes++ },
+  ]) {
+    const source = parityFixture(), kit = parityFixture()
+    const identity = { project: source.project, packageMetadata: { name: 'fixture/svg', gzipBytes: 1 }, files: [{ path: 'dist/renderer.js', sha256: 'c'.repeat(64), bytes: 1000, gzipBytes: 300, mode: 'file' }] }
+    source.record.identity.artifact = structuredClone(identity); kit.record.identity.artifact = structuredClone(identity)
+    mutate(kit.record.identity.artifact); source.save(); kit.save()
+    expect(() => verifyReleaseSmokeParity(source.file, kit.file, source.project, caseIds)).toThrow('differ in artifact')
+  }
+})

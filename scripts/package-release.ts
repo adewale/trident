@@ -50,6 +50,17 @@ export function verifyKitSmoke(file: string, project: string, caseIds: readonly 
   if (cases.find(row => row.id === 'family:flowchart')?.outputAdmission !== 'passed' || !attempted.some(worker => worker.caseId === 'family:flowchart' && worker.qualification?.evidence?.outputAdmission === 'passed')) throw Error('Shipped kit did not independently admit the flowchart output')
   return report
 }
+/** Compression sizes depend on the runtime compressor. They describe
+ * estimated delivery cost, not artifact identity; all other metadata and every
+ * file's path, raw byte count and SHA-256 remain in the comparison. */
+function artifactParityIdentity(artifact: any) {
+  if (!artifact || typeof artifact !== 'object' || !Array.isArray(artifact.files)) return artifact
+  return { ...artifact, files: artifact.files.map((file: any) => {
+    if (!file || typeof file !== 'object' || Array.isArray(file)) return file
+    const { gzipBytes: _estimate, ...identity } = file
+    return identity
+  }) }
+}
 /** Packaging is a preservation check against the same artifact and frozen
  * workflows. It neither requires renderer perfection nor turns attempted jobs
  * into passing edit/reset/recovery contracts. */
@@ -101,7 +112,7 @@ export function verifyReleaseSmokeParity(sourceFile: string, kitFile: string, pr
   }
   const source = load(sourceFile), kit = load(kitFile)
   for (const [scope, left, right] of [
-    ['artifact', source.record.identity.artifact, kit.record.identity.artifact],
+    ['artifact', artifactParityIdentity(source.record.identity.artifact), artifactParityIdentity(kit.record.identity.artifact)],
     ['sampling', source.measurement.sampling, kit.measurement.sampling],
     ['runtime', source.measurement.environment, kit.measurement.environment],
     ['cohort', source.protocol.cohort, kit.protocol.cohort],
@@ -119,7 +130,8 @@ export function verifyReleaseSmokeParity(sourceFile: string, kitFile: string, pr
   return {
     schema: 'trident-release-smoke-parity-v1', status: 'package-parity-verified', project,
     sourceRecord: { path: source.recordFile, sha256: digest(readFileSync(source.recordFile)) }, kitRecord: { path: kit.recordFile, sha256: digest(readFileSync(kit.recordFile)) },
-    workflowsSha256: digest(Buffer.from(stableValue(frozenCases))), artifactSha256: digest(Buffer.from(stableValue(source.record.identity.artifact))),
+    workflowsSha256: digest(Buffer.from(stableValue(frozenCases))), artifactSha256: digest(Buffer.from(stableValue(artifactParityIdentity(source.record.identity.artifact)))),
+    artifactIdentityScope: 'All original artifact fields except files[].gzipBytes, a runtime-dependent compression-size estimate',
     cases: caseIds.length, workerJobs: source.workers.size, sourceWitnesses: source.witnesses, kitWitnesses: kit.witnesses,
     limits: 'Exact frozen workflow and reported outcome preservation, with independent retained-SVG admission rechecks. Independently witnessed identical output violations and known unavailable option mappings remain findings. Shared source defects are outside this preservation proof; source-harness, accuracy and timing qualification remain separate release gates.',
   }
