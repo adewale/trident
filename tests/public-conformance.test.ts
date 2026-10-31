@@ -13,16 +13,20 @@ const passed = () => cases.map(input => ({ fullName: input.fullName, status: 'pa
 const evidence = (): PublicCallEvent[] => cases.flatMap(input => ['case-start', 'call-start', 'call-result', 'case-end'].map(type => ({ type, caseId: input.id, ...(type === 'call-result' ? { disposition: 'observed', missingFields: [] } : {}) })))
 
 test('the pinned inventory retains all original source files and preserves the exact upstream public test bytes', () => {
-  const original = readFileSync(new URL('./fixtures/conformance/mermaidAPI.spec.ts.txt', import.meta.url), 'utf8')
-  expect(hash(original)).toBe(manifest.sourceSpec.sha256)
-  expect(manifest.counts).toEqual({ files: 368, declarations: 4060, eligible: 11, upstreamDisabled: 15, outsideScope: 4034 })
+  const sources = new Map<string, string>()
+  for (const spec of manifest.sourceSpecs) {
+    const original = readFileSync(new URL('../' + spec.fixture, import.meta.url), 'utf8')
+    expect(hash(original)).toBe(spec.sha256)
+    sources.set(spec.path, original)
+  }
+  expect(manifest.counts).toEqual({ files: 368, declarations: 4060, eligible: 16, upstreamDisabled: 15, outsideScope: 4029 })
   expect(manifest.censusFiles).toHaveLength(368)
   expect(manifest.censusFiles.reduce((total: number, file: any) => total + file.declarations, 0)).toBe(4060)
-  expect(cases).toHaveLength(11)
+  expect(cases).toHaveLength(16)
   for (const input of cases) {
-    const text = original.split('\n').slice(input.line - 1, input.endLine).join('\n')
+    const text = sources.get(input.path)!.split('\n').slice(input.line - 1, input.endLine).join('\n')
     expect(text).toContain(input.name)
-    expect(text).toContain('mermaidAPI.parse(')
+    expect(text).toMatch(/mermaid(?:API)?\.parse\(/)
     expect(input.callbackSha256).toMatch(/^[a-f0-9]{64}$/)
   }
   expect(manifest.wholeSuiteConformanceQualified).toBe(false)
@@ -34,11 +38,13 @@ test('the implementation transform changes one public body and refuses stale or 
   expect(changed).toBe('const keep="public contract";\nasync function parse(text:string, parseOptions?:any):Promise<any>{ return (globalThis as any).__tridentPublicParse(text, parseOptions) }\nexport const mermaidAPI={parse};')
   expect(() => replacePublicParseBody(source + '\n', hash(source))).toThrow('hash changed')
   expect(() => replacePublicParseBody('export const parse=()=>true', hash('export const parse=()=>true'))).toThrow('exactly one')
+  const staleSignature = 'async function parse(input:string){return input}'
+  expect(() => replacePublicParseBody(staleSignature, hash(staleSignature))).toThrow('signature changed')
 })
 
 test('missing callbacks, lost call results and duplicate callbacks cannot supply conformance passes', () => {
   const complete = reducePublicCallbacks(cases, passed(), evidence(), true)
-  expect(complete.filter(row => row.status === 'passed')).toHaveLength(11)
+  expect(complete.filter(row => row.status === 'passed')).toHaveLength(cases.length)
   expect(reducePublicCallbacks(cases, [], evidence(), true).every(row => row.status === 'blocked')).toBe(true)
   expect(reducePublicCallbacks(cases, passed(), evidence().filter(row => row.type !== 'call-result'), true).every(row => row.status === 'blocked')).toBe(true)
   expect(reducePublicCallbacks(cases, [...passed(), passed()[0]!], evidence(), true)[0]!.status).toBe('blocked')
@@ -51,8 +57,8 @@ test('a candidate cannot pass by throwing unsupported syntax into an original re
   const events = evidence().map(row => row.type === 'call-result' && row.caseId === cases[0]!.id ? { ...row, disposition: 'unsupported' } : row)
   const rows = reducePublicCallbacks(cases, passed(), events, true)
   expect(rows[0]!.status).toBe('unsupported')
-  expect(rows).toHaveLength(11)
-  expect(rows.filter(row => row.status === 'passed')).toHaveLength(10)
+  expect(rows).toHaveLength(cases.length)
+  expect(rows.filter(row => row.status === 'passed')).toHaveLength(cases.length - 1)
 })
 
 test('missing asserted config is a binding gap; generic successful parse assertions do not require an invented config', () => {
@@ -80,4 +86,13 @@ test('a public Result binding never reads the source with a reference parser or 
   expect(events[0].missingFields).toEqual(['config'])
   await expect(bound.parse('preserved', {})).rejects.toThrow('does not validate')
   expect(events[1].disposition).toBe('unsupported')
+})
+
+import { classifyPublicScope } from '../unified/public-conformance-scope.ts'
+test('public-surface review does not disguise pending public tests or shadowed identifiers as internal-only exclusions', () => {
+  const classify = (source: string) => classifyPublicScope(source, { ...cases[0]!, path: 'packages/mermaid/src/example.spec.ts', line: 2, endLine: 2, disposition: 'outside-public-parse-scope' })
+  expect(classify("import mermaid from './mermaid.js';\nit('render',async()=>{await mermaid.render('id','flowchart LR\\nA-->B')});")).toMatchObject({ disposition: 'review-required', category: 'public-render' })
+  expect(classify("import {parse} from './privateParser.js';\nit('private',()=>{parse('source')});")).toMatchObject({ disposition: 'review-required', category: 'private-implementation' })
+  expect(classify("import {parse} from './privateParser.js';\nit('shadow',()=>{const parse=(s:string)=>s;parse('source')});")).toMatchObject({ disposition: 'review-required', category: 'unclassified-contract' })
+  expect(classify("import {helper} from './tests/util.js';\nit('unknown helper',()=>{helper()});")).toMatchObject({ disposition: 'review-required', category: 'unclassified-contract' })
 })
