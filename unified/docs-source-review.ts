@@ -691,7 +691,7 @@ function gitgraph(r: LiteralReview) {
 
 function sequence(r: LiteralReview) {
   if (r.family !== 'sequence') return false
-  const nodes = new Map<string, { id: string; label: string }>(), actorKinds = new Map<string, MeaningJson>(), edges: NonNullable<MeaningExpectation['edges']> = [], messages: MeaningJson[] = [], styles: string[] = [], fragments: MeaningJson[] = [], notes: MeaningJson[] = [], lifecycles: MeaningJson[] = [], boxes: NonNullable<MeaningExpectation['groups']> = [], stack: { kind: string; index: number }[] = []
+  const nodes = new Map<string, { id: string; label: string }>(), actorKinds = new Map<string, MeaningJson>(), edges: NonNullable<MeaningExpectation['edges']> = [], messages: MeaningJson[] = [], styles: string[] = [], fragments: MeaningJson[] = [], notes: MeaningJson[] = [], lifecycles: MeaningJson[] = [], boxes: NonNullable<MeaningExpectation['groups']> = [], stack: { kind: string; index: number; branch?: number }[] = []
   const node = (id: string, label?: string) => { if (!nodes.has(id)) { nodes.set(id, { id, label: label ?? id }); actorKinds.set(id, { id, kind: 'participant' }) } else if (label !== undefined) nodes.get(id)!.label = label; const box = stack.filter(item => item.kind === 'box').at(-1); if (box && !boxes[box.index]!.members.includes(id)) boxes[box.index]!.members.push(id) }
   for (let index = 1; index < r.lines.length; index++) {
     const line = r.lines[index]!.trim()
@@ -711,7 +711,7 @@ function sequence(r: LiteralReview) {
     match = /^(activate|deactivate|destroy)\s+([\w.-]+)$/.exec(line)
     if (match) { node(match[2]!); lifecycles.push({ kind: match[1]!, actor: match[2]!, beforeMessage: messages.length }); continue }
     match = /^Note\s+(over|left of|right of)\s+([^:]+)\s*:\s*(.*)$/i.exec(line)
-    if (match) { const actors = match[2]!.split(',').map(item => item.trim()), text = cleanLabel(match[3]!); actors.forEach(id => node(id)); notes.push({ side: match[1]!.toLowerCase(), actors, text, afterMessage: messages.length }); r.labels(text); continue }
+    if (match) { const actors = match[2]!.split(',').map(item => item.trim()), text = cleanLabel(match[3]!); actors.forEach(id => node(id)); notes.push({ side: match[1]!.toLowerCase(), actors, text, afterMessage: messages.length, fragmentScope: stack.filter(open => open.kind !== 'box').map(open => ({ fragment: open.index, ...(open.branch !== undefined ? { branch: open.branch } : {}) })) }); r.labels(text); continue }
     match = /^(loop|alt|opt|par|critical|break|rect|box)\b\s*(.*)$/.exec(line)
     if (match) {
       const kind = match[1]!, caption = cleanLabel(match[2]!)
@@ -721,7 +721,7 @@ function sequence(r: LiteralReview) {
     }
     if (line === 'end') { const open = stack.pop(); if (!open) { r.unknown(line); continue }; if (open.kind !== 'box') { (fragments[open.index] as any).endMessage = messages.length; for (const fragment of fragments as any[]) if (fragment.parent === open.index && fragment.endMessage === undefined) fragment.endMessage = messages.length }; continue }
     match = /^(else|and|option)\b\s*(.*)$/.exec(line)
-    if (match && stack.length) { for (const fragment of fragments as any[]) if (fragment.parent === stack.at(-1)!.index && fragment.endMessage === undefined) fragment.endMessage = messages.length; const caption = cleanLabel(match[2]!); fragments.push({ kind: match[1]!, caption, beginMessage: messages.length, parent: stack.at(-1)!.index }); r.labels(caption); continue }
+    if (match && stack.length) { for (const fragment of fragments as any[]) if (fragment.parent === stack.at(-1)!.index && fragment.endMessage === undefined) fragment.endMessage = messages.length; const caption = cleanLabel(match[2]!); stack.at(-1)!.branch = fragments.length; fragments.push({ kind: match[1]!, caption, beginMessage: messages.length, parent: stack.at(-1)!.index }); r.labels(caption); continue }
     match = /^autonumber(?:\s+(.*))?$/.exec(line)
     if (match) { r.fact('autonumber', match[1]?.trim() || true); continue }
     r.unknown(line)

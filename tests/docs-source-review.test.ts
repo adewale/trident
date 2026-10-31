@@ -55,7 +55,7 @@ test('sequence order, aliases, notes and activation retain more than common labe
   const row = review('sequenceDiagram\nparticipant A as Alice\nactor B as Bob\nA->>+B: request\nNote right of B: waiting\nB-->>-A: response')
   expect(row.expected!.facts!['message-order']).toEqual([{ from: 'A', to: 'B', text: 'request' }, { from: 'B', to: 'A', text: 'response' }])
   expect(row.expected!.facts!['message-style']).toEqual(['->>', '-->>'])
-  expect(row.expected!.facts!.notes).toEqual([{ side: 'right of', actors: ['B'], text: 'waiting', afterMessage: 1 }])
+  expect(row.expected!.facts!.notes).toEqual([{ side: 'right of', actors: ['B'], text: 'waiting', afterMessage: 1, fragmentScope: [] }])
   expect(row.expected!.facts!.lifecycles).toEqual([{ kind: 'activate', actor: 'B', beforeMessage: 1 }, { kind: 'deactivate', actor: 'B', beforeMessage: 2 }])
 })
 

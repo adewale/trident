@@ -16530,7 +16530,8 @@
               "John"
             ],
             "text": "Bob thinks a long\nlong time, so long\nthat the text does\nnot fit on a row.",
-            "afterMessage": 4
+            "afterMessage": 4,
+            "fragmentScope": []
           }
         ],
         "text-line-breaks": [
@@ -17294,7 +17295,8 @@
               "John"
             ],
             "text": "Rational thoughts\nprevail...",
-            "afterMessage": 2
+            "afterMessage": 2,
+            "fragmentScope": []
           }
         ],
         "text-line-breaks": [
@@ -17552,7 +17554,8 @@
               "db"
             ],
             "text": "The user must be logged in to submit blog posts",
-            "afterMessage": 0
+            "afterMessage": 0,
+            "fragmentScope": []
           },
           {
             "side": "over",
@@ -17561,7 +17564,13 @@
               "db"
             ],
             "text": "When the user is authenticated, they can now submit new posts",
-            "afterMessage": 5
+            "afterMessage": 5,
+            "fragmentScope": [
+              {
+                "fragment": 0,
+                "branch": 1
+              }
+            ]
           }
         ],
         "lifecycles": [
@@ -41344,7 +41353,8 @@
               "Bank"
             ],
             "text": "One order, one transaction",
-            "afterMessage": 6
+            "afterMessage": 6,
+            "fragmentScope": []
           }
         ],
         "lifecycles": [
@@ -41548,7 +41558,8 @@
               "Bank"
             ],
             "text": "One order, one transaction",
-            "afterMessage": 6
+            "afterMessage": 6,
+            "fragmentScope": []
           }
         ],
         "lifecycles": [
@@ -43724,7 +43735,8 @@
               "John"
             ],
             "text": "Text in note",
-            "afterMessage": 0
+            "afterMessage": 0,
+            "fragmentScope": []
           }
         ]
       },
@@ -43802,7 +43814,8 @@
               "John"
             ],
             "text": "A typical interaction",
-            "afterMessage": 1
+            "afterMessage": 1,
+            "fragmentScope": []
           }
         ]
       },
@@ -43896,7 +43909,8 @@
               "John"
             ],
             "text": "A typical interaction\nBut now in two lines",
-            "afterMessage": 1
+            "afterMessage": 1,
+            "fragmentScope": []
           }
         ],
         "text-line-breaks": [
@@ -44013,7 +44027,8 @@
               "John"
             ],
             "text": "A typical interaction\nBut now in two lines",
-            "afterMessage": 1
+            "afterMessage": 1,
+            "fragmentScope": []
           }
         ],
         "text-line-breaks": [
@@ -45178,7 +45193,12 @@
               "Alice"
             ],
             "text": "Alice calls John.",
-            "afterMessage": 0
+            "afterMessage": 0,
+            "fragmentScope": [
+              {
+                "fragment": 0
+              }
+            ]
           }
         ],
         "lifecycles": [
@@ -45576,7 +45596,8 @@
               "John"
             ],
             "text": "Rational thoughts!",
-            "afterMessage": 2
+            "afterMessage": 2,
+            "fragmentScope": []
           }
         ]
       },
