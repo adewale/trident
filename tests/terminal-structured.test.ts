@@ -20,7 +20,7 @@ test('board column and nested-card geometry establish exact membership and card 
   expect(assess(name, text + '\nSpec Design Implement Test').status).toBe('unknown')
   expect(assess(name, 'To Do Spec Design In Progress Implement Done Test').status).toBe('unknown')
   const source = 'kanban\n  todo[To Do]\n    t2[Design]\n  doing[In Progress]\n    t3[Implement]\n  done[Done]\n    t4[Test]\n    t1[Spec]', contract = analyseTerminalSource(source, 'kanban').contract
-  expect(assessTerminalDrawing({ ...input(name), source, sourceSha256: createHash('sha256').update(source).digest('hex'), expected: { status: 'independently-reviewed', contract } }, text).status).toBe('incorrect')
+  expect(assessTerminalDrawing({ ...input(name), id: 'synthetic:kanban-membership', source, sourceSha256: createHash('sha256').update(source).digest('hex'), expected: { status: 'independently-reviewed', contract } }, text).status).toBe('incorrect')
 })
 test('empty isolated class bodies need exact drawn containers and no members or relationships', () => {
   for (const name of ['class-python-empty', 'class-module-empty']) {
