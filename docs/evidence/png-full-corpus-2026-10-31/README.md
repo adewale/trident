@@ -71,9 +71,13 @@ Source documentation and the frozen favicon are pinned to Mermaid commit
 `1fb7869866dd619168d840291c9c54b4f129758b` under MIT. Mermaid12.2.0 and native
 `mermaid_flutter`0.3.2 preparation retain their declared MIT provenance. The exact
 audited Trident native transport fixture and review tooling use this repository's
-MIT license. No native engine or system font binary is redistributed in this
-content evidence package; font-file hashes and installed font-package copyright
-notices document the captured host inputs.
+MIT license. The exact original sealed native producer bundle is included for
+content-ownership replay with MermaidFlutter's MIT license, Flutter's BSD license
+and the bundle's original `NOTICES.Z` third-party notices, including its bundled
+font notice. The archive also retains the original preparation manifest, sealed
+source inventory and transport bytes. System browser and host font binaries are
+prerequisites pinned by hashes; installed font-package copyright notices document
+the captured host inputs.
 
 Restore the verified logical tree with `scripts/restore-png-review-evidence.py`
 using the archive and immutable foundation directory. Its path map preserves old

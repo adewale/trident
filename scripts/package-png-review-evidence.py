@@ -39,7 +39,7 @@ for entry in json.loads(manifest.read_text()):
  for image in entry['images'].values():
   if image.get('path'):add(image['path'])
 old=ws/'trident-ecosystem-2026-10-31-campaign/docs/png'
-for file in [old/'context.json',old/'checkpoint.json',old/'checkpoint.jsonl.gz',old/'transport-pub%3Amermaid_flutter-r1.json',old/'community-prepared.json']:
+for file in [old/'context.json',old/'observations.json',old/'checkpoint.json',old/'checkpoint.jsonl.gz',old/'transport-pub%3Amermaid_flutter-r1.json',old/'community-prepared.json']:
  add(file)
 for pattern in ['community-raw/pub_mermaid_flutter-png-r1-features-a1*']:
  for file in old.glob(pattern):add(file)
@@ -50,10 +50,21 @@ if raw.exists():
    row=json.loads(line)
    for key in ['png','firstPng']:
     if row.get(key):add(row[key])
-# Sealed source inventory and source/artifact ownership metadata; native binary
-# or system font bytes are not redistributed by this content evidence archive.
+# Preserve the finite sealed native producer closure as well as the literal
+# input. Native ownership can then be checked against original bytes, rather
+# than relying on a derived certificate alone. The bundle retains NOTICES.Z.
 for file in [ws/'trident-ecosystem-2026-10-31-campaign/docs/inventory.json',ws/'trident-brand-split-review/prepared/native-launch.json',ws/'trident-native-per-call-2026-10-31/prepared/native-launch.json',ws/'trident-native-verification-2026-10-29/setup/pub-cache/hosted/pub.dev/mermaid_flutter-0.3.2/LICENSE']:
  add(file)
+campaign=ws/'trident-ecosystem-2026-10-31-campaign'
+preparation=json.loads((campaign/'preparation.json').read_text());add(campaign/'preparation.json')
+native=next(row['identity']['artifact']for row in preparation['artifacts']if row['project']=='pub:mermaid_flutter')
+for key in ['inventories',*(['docsResources']if 'docsResources'in preparation['files']else[]),*['artifact:'+row['sha256']for row in [native,*native['files']]]]:
+ receipt=preparation['files'].get(key)
+ if not receipt:raise ValueError('Missing sealed native/source preparation component: '+key)
+ file=campaign/receipt['path']
+ if not file.resolve().is_relative_to(campaign.resolve())or sha(file.read_bytes())!=receipt['sha256']:raise ValueError('Sealed native/source preparation component changed: '+key)
+ add(file)
+add(ws/'.cloud-tools/flutter/LICENSE','licenses/native-bundle/Flutter-LICENSE')
 canonical=ws/'trident-qualification'
 for file in [canonical/'corpus/docs-reviewed.json',canonical/'corpus/docs-source-registry.json',canonical/'corpus/docs-source-inventory.json.gz',canonical/'docs/evidence/source-theme-policy.json',canonical/'docs/source-theme-policy.md']:
  add(file,'canonical/'+str(file.relative_to(canonical)))
@@ -68,7 +79,7 @@ for file in (repo/'docs/evidence/png-full-corpus-2026-10-31').glob('*'):
 for file in sorted(P('/usr/share/doc').glob('fonts*/copyright')):
  if file.is_file() and not file.is_symlink():
   data=file.read_bytes();logical='licenses/system-font-packages/'+file.parent.name+'-copyright';files[logical]={'path':logical,'sourcePath':str(file),'sha256':sha(data),'bytes':len(data),'storage':'archive-object'}
-index={'schema':'trident-full-png-evidence-object-archive-v1','literalDocumentationOccurrences':548,'sourcePin':'1fb7869866dd619168d840291c9c54b4f129758b','sourceLicense':'MIT','foundation':{'gitCommit':args.foundation_commit,'path':'qualification-evidence','scope':'Already published56-case/package/timing evidence; unchanged bytes referenced rather than duplicated.'},'scope':'Retained actual source/PNG/image-review and same-callSVG evidence; all raw review history preserved. Flat correctness needs the selected current source/image hash receipts. No renderer, API, comparative timing, synthetic baseline or automated content approval is performed by packaging. Original filesystem paths are provenance; extract logical paths through this index. Systemfontbytes/nativeengines are not redistributed.','files':[files[k]for k in sorted(files)]}
+index={'schema':'trident-full-png-evidence-object-archive-v1','literalDocumentationOccurrences':548,'sourcePin':'1fb7869866dd619168d840291c9c54b4f129758b','sourceLicense':'MIT','nativeBundle':{'project':'pub:mermaid_flutter','version':'0.3.2','artifactSha256':native['sha256'],'license':'MermaidFlutter MIT, Flutter BSD-3-Clause and bundled NOTICES.Z for third-party components','scope':'Exact original sealed artifact files for legacy content ownership, not new runtime calls or timing.'},'foundation':{'gitCommit':args.foundation_commit,'path':'qualification-evidence','scope':'Already published56-case/package/timing evidence; unchanged bytes referenced rather than duplicated.'},'scope':'Retained actual source/PNG/image-review and same-callSVG evidence; all raw review history preserved. Flat correctness needs the selected current source/image hash receipts. No renderer, API, comparative timing, synthetic baseline or automated content approval is performed by packaging. Original filesystem paths are provenance; extract logical paths through this index. The exact MIT/BSD native producer bundle and its bundled third-party notices are included for ownership replay. System browser and host font bytes are prerequisites pinned by hashes, not redistributed.','files':[files[k]for k in sorted(files)]}
 objects={}
 for row in index['files']:
  if row['storage']=='archive-object':objects.setdefault(row['sha256'],row['sourcePath'])
