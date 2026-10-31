@@ -1,14 +1,16 @@
 # Independent terminal source review
 
-The review read **all 120 literal sources and all 333 source-fact rows** at commit
-`31ff662`. The [receipt](receipt.json) records a separate meaning note, source hash,
+The review read **all 120 literal sources and all 333 original source-fact rows**
+at commit `31ff662`, then separately read every changed fact and scope in the
+54-case correction at `aef0c9f`. The admitted ledger has **360 facts: 310 required
+and 50 advisories**. The [receipt](receipt.json) records a separate meaning note, source hash,
 contract hash and review hash for every case. It covers all 17,794 source bytes,
 including the 100-node, 195-edge cyclic stress graph. This was a full read, not a
 sample or a check that the generator reproduces its own answers.
 
-The review found three expectation problems:
+The review found and resolved three expectation problems:
 
-| Finding | Affected source | Required correction |
+| Finding | Affected source | Resolved change |
 | --- | --- | --- |
 | Missing rectangular-shape obligations | 27 all-rectangle flowcharts with explicit shape declarations | Retain every authored shape, even when all shapes are rectangles. Bare implicit nodes can retain their separate default-style policy. |
 | Generic declaration used as identity | `terminal:c5455d2e2f5f8672` | Identify the class as `Box`, retain parameter `T` and the original `Box~T~` declaration separately. |
@@ -46,7 +48,20 @@ literal strings. Its exact bytes match the retained source. Origin snapshots and
 body hashes passed the existing corpus reader. Static extraction establishes
 provenance; it does not establish the expected diagram meaning.
 
-This receipt records the reviewed version and its outstanding findings. It must
-be refreshed after the fixes receive a separate delta review. It supplies no claim
-about output correctness, observer completeness or speed. No renderer, public
-parser, reference render, candidate AST or performance collection was used.
+The correction ledger hashes to
+`ce222101f36d4d7b71d6b658815c8879c437bcda403acb7f491a3eb8d6a453ac`, matching
+the exact delta read before it was committed. Each changed case retains its
+previous reviewed contract hash. No source byte changed. All five findings and
+policy points are resolved.
+
+The canonical benchmark admits each case only when its source, family, intent
+and semantic expectation hash match this completed review. Generated contracts
+cannot declare themselves independently reviewed. Changed or missing obligations
+remain unknown, while all 120 collection inputs stay present. A later unaudited
+intent change cannot remove a known drawing from its denominator. Review wording,
+explanatory scope prose and origin annotations do not change this semantic hash.
+The full contract hashes remain available for inspection.
+
+This receipt supplies no claim about output correctness, observer completeness
+or speed. No renderer, public parser, reference render, candidate AST or
+performance collection was used.
