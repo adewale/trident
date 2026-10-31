@@ -26,3 +26,12 @@ test('a start without an outcome remains incomplete, while missing clocks stay n
   expect(journal.pending(identity)).toEqual([])
   expect(() => journal.returned({ ...start, identity: { ...identity, project: 'another' } }, 'forged', 1)).toThrow('matching durable start')
 })
+
+test('external returned frames retain explicit unknown clocks and cannot contradict an earlier outcome',()=>{
+ const directory=temp.dir(),journal=new InvocationJournal(directory),owner=new InvocationJournal(temp.dir())
+ const started=owner.start(identity),returned=owner.returned(started,'actual bytes',null)
+ const adopted=journal.adopt({...returned,startedAt:null,finishedAt:null})
+ expect(adopted.startedAt).toBeNull();expect(adopted.finishedAt).toBeNull();expect(adopted.output?.sha256).toBe(returned.output?.sha256)
+ expect(journal.outcome(adopted.attemptId)?.state).toBe('returned')
+ expect(()=>journal.adopt({...adopted,state:'public-error',output:null})).toThrow('contradictory')
+})

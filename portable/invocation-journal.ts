@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import { randomUUID } from 'node:crypto'
 import { join } from 'node:path'
 import { CollectionCheckpoint, writeDurableEvidence } from './checkpoint.ts'
@@ -31,6 +32,17 @@ export class InvocationJournal {
    * returned or even crossed the public API boundary. A retry gets a new UUID. */
   pending(identity?: InvocationIdentity): Readonly<InvocationEvidence>[] {
     return this.checkpoint.entries<InvocationEvidence>().filter(([key, value]) => key.endsWith(':started') && (!identity || evidenceDigest(value.identity) === evidenceDigest(identity)) && !['returned', 'public-error', 'interrupted'].some(state => this.checkpoint.has(value.attemptId + ':' + state))).map(([_key, value]) => admitInvocationEvidence(value))
+  }
+  adopt(raw: InvocationEvidence): Readonly<InvocationEvidence> {
+    const value = admitInvocationEvidence(raw)
+    const existingStart = this.checkpoint.get<InvocationEvidence>(value.attemptId + ':started')
+    if (existingStart && evidenceDigest(existingStart.identity) !== evidenceDigest(value.identity)) throw Error('External invocation identity differs from its durable start')
+    const previous = this.outcome(value.attemptId)
+    if (previous && previous.state !== value.state) throw Error('External invocation has contradictory outcomes')
+    const own = (reference: NonNullable<InvocationEvidence['output']>) => { const bytes = readFileSync(reference.path); if (bytes.byteLength !== reference.bytes || evidenceBytesDigest(bytes) !== reference.sha256) throw Error('External invocation output bytes differ'); return this.retain(bytes) }
+    const frame = admitInvocationEvidence({ ...value, output: value.output ? own(value.output) : null, ...(value.streams ? { streams: { stdout: own(value.streams.stdout), stderr: own(value.streams.stderr) } } : {}) })
+    this.checkpoint.record(frame.attemptId + ':' + frame.state, frame)
+    return frame
   }
   outcome(attemptId: string): Readonly<InvocationEvidence> | undefined {
     const frames = ['returned', 'public-error', 'interrupted'].flatMap(state => { const frame = this.checkpoint.get<InvocationEvidence>(attemptId + ':' + state); return frame ? [admitInvocationEvidence(frame)] : [] })
