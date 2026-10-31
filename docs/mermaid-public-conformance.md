@@ -2,9 +2,10 @@
 
 This collector executes unchanged callbacks from Mermaid's own tests at
 [`1fb7869`](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b).
-The current scope is 22 callbacks: 16 public `parse` tests from
-`mermaidAPI.spec.ts`/`mermaid.spec.ts` and six public detector tests from
-`utils.spec.ts`. It tests public API compatibility: accepted input, rejection,
+The current scope is 41 callbacks: 16 public `parse` tests from
+`mermaidAPI.spec.ts`/`mermaid.spec.ts`, six public detector tests from
+`utils.spec.ts`, and 19 parameterized accessibility render callbacks from
+`mermaidAPI.spec.ts`. These correspond to 23 original test declarations. It tests public API compatibility: accepted input, rejection,
 `suppressErrors`, returned diagram family/configuration, and exact original
 error/return snapshots. It does not measure drawing accuracy or speed.
 
@@ -12,14 +13,28 @@ The fixed denominator includes every selected callback. Unsupported validation,
 failed assertions, missing public fields and incomplete evidence remain distinct
 nonpasses. A binding that preserves unknown syntax cannot earn rejection credit
 by throwing an adapter error. Counts refer to callbacks, not individual matchers.
-Any table must rank by passes over the same 22 planned callbacks and show all
-nonpass counts. It must label this parse/detector scope, never “Mermaid conformance” for
+Any table must rank by passes over the same 41 planned callbacks and show all
+nonpass counts. It must label this parse/detector/structural render scope, never “Mermaid conformance” for
 the entire test suite.
 
 Detection tests call the actual public detector. They never substitute a parser
 or a source recognizer implemented by Trident. Tests that also assert private
 preprocessing output remain pending rather than crediting untouched reference
 code to peers.
+
+The render matrix executes the original `jsdomIt` wrapper under the original
+Vitest `jsdom` environment. That helper supplies its own DOM and its original
+mocked geometry (`getBBox` 666×666, text length 200). Tests assert accessibility
+role, title, description and exact caller-ID associations; they cannot establish
+layout quality or painted geometry. A source-defined list of 19 parameter values
+freezes expanded callback identities before execution. The literal callback and
+all five original assertions remain unchanged.
+
+Peer SVG strings are never edited to match Mermaid metadata. The matrix requires
+Mermaid's exact caller-supplied identifier convention. A peer can produce an
+accessible drawing and fail this strict public API compatibility requirement.
+Its receipt identifies whether the native API accepts a caller ID/container;
+Trident never invents that missing input or adds matching SVG attributes.
 
 ## Reference qualification
 
@@ -53,10 +68,9 @@ candidate, not proof that inherited setup or a helper has no public contract.
 
 Broader conformance remains blocked on these separate contracts:
 
-- Public rendering: original assertions need a complete render binding, controlled
-  browser environment and reviewed distinction between API/SVG structure and
-  renderer-independent drawing facts. The accessibility matrix also needs frozen
-  parameterized callback identities.
+- Further rendering: sanitization, rendering failures, non-accessibility SVG
+  contracts and browser lifecycle tests still need reviewed peer-equivalent
+  bindings. The qualified accessibility matrix supplies no drawing-accuracy pass.
 - Configuration: site configuration, reset and deprecated private getters must be
   separated from configuration accepted or returned by a peer's public interface.
 - Models: `getDiagramFromText` tests mix public entry points with private DB shapes
@@ -70,4 +84,4 @@ Broader conformance remains blocked on these separate contracts:
   require review before declaring any remaining test eligible or internal-only.
 
 The machine report keeps `wholeSuiteConformanceQualified: false`. A successful
-22-callback run does not clear those blockers.
+41-callback run does not clear those blockers.

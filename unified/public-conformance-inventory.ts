@@ -6,8 +6,8 @@ import ts from 'typescript'
 import { currentReferencePin } from '../reference/source.ts'
 import { classifyPublicScopes } from './public-conformance-scope.ts'
 
-export const publicConformanceProtocol = 'original-public-api-tests-v3'
-export const publicParseScope = 'Unmodified original Mermaid parse and detector callbacks at their public boundaries. Original assertions, snapshots, diagnostic wording and return-value/config expectations remain unchanged. This is public-API compatibility, not drawing accuracy or whole Mermaid test-suite conformance.'
+export const publicConformanceProtocol = 'original-public-api-tests-v4'
+export const publicParseScope = 'Unmodified original Mermaid parse, detector and structural render callbacks at their public boundaries. Original assertions, snapshots, diagnostic wording and return-value/config expectations remain unchanged. The render scope preserves upstream jsdomIt geometry mocks and exact accessibility identifier assertions. This is public-API compatibility, not drawing accuracy or whole Mermaid test-suite conformance.'
 export const publicParseFile = 'packages/mermaid/src/mermaidAPI.spec.ts'
 export const publicParseFiles = [publicParseFile, 'packages/mermaid/src/mermaid.spec.ts', 'packages/mermaid/src/utils.spec.ts'] as const
 const hash = (value: string) => createHash('sha256').update(value).digest('hex')
@@ -15,7 +15,7 @@ export interface PublicTestDeclaration {
   id: string; path: string; family: string; name: string; fullName: string; line: number; endLine: number
   registrar: string; modifiers: string[]; callbackSha256: string; sourceSha256: string
   disposition: 'eligible' | 'upstream-disabled' | 'outside-public-parse-scope'
-  reason: string; requiredReturnFields: string[]; publicOperation: 'parse' | 'detectType'
+  reason: string; requiredReturnFields: string[]; publicOperation: 'parse' | 'detectType' | 'render'; declarationId?: string; parameter?: string; nativeRegistrationLine?: number
 }
 const testRegistrars = new Set(['it', 'test', 'jsdomIt'])
 const modifiers = new Set(['only', 'skip', 'todo', 'each', 'fails', 'concurrent', 'sequential', 'runIf', 'skipIf', 'for'])
@@ -47,11 +47,12 @@ export function inventoryPublicTests(upstream: string) {
           const coreParse = path === publicParseFile && parents.length === 2 && parents[0] === 'mermaidAPI' && parents[1] === 'parse'
           const publicWrapperParse = path === publicParseFiles[1] && parents.length === 2 && parents[0] === 'when using mermaid and ' && parents[1] === 'checking validity of input ' && !body.includes('setParseErrorHandler')
           const publicDetection = path === publicParseFiles[2] && parents.length === 1 && parents[0] === 'when detecting chart type ' && /\bdetectType\(/.test(body) && !/\bpreprocessDiagram\(/.test(body)
-          const eligible = (coreParse || publicWrapperParse || publicDetection) && !disabled
+          const publicRender = path === publicParseFile && parents.length === 4 && parents[0] === 'mermaidAPI' && parents[1] === 'render' && parents[2] === 'accessibility' && label === 'should set aria-roledescription to the diagram type AND should call addSVGa11yTitleDescription'
+          const eligible = (coreParse || publicWrapperParse || publicDetection || publicRender) && !disabled
           // No snapshot is rewritten. These fields only prevent a missing binding
           // from being mislabeled as a renderer failure or accidental callback pass.
           const requiredReturnFields = eligible && /toMatchInlineSnapshot/.test(body) ? ['diagramType', 'config'] : []
-          declarations.push({ id: path + ':' + line, path, family, name: label, fullName, line, endLine: source.getLineAndCharacterOfPosition(node.end).line + 1, registrar: chain[0]!, modifiers: chain.slice(1), callbackSha256: hash(body), sourceSha256, disposition: disabled ? 'upstream-disabled' : eligible ? 'eligible' : 'outside-public-parse-scope', reason: disabled ? 'Disabled by the original upstream declaration or enclosing suite.' : eligible ? 'Original direct public operation callback; test body and assertions execute unchanged.' : 'Not a callback of the predeclared public parse/detection API scope. It is not scored or claimed as covered by this benchmark.', requiredReturnFields, publicOperation: publicDetection ? 'detectType' : 'parse' })
+          declarations.push({ id: path + ':' + line, path, family, name: label, fullName, line, endLine: source.getLineAndCharacterOfPosition(node.end).line + 1, registrar: chain[0]!, modifiers: chain.slice(1), callbackSha256: hash(body), sourceSha256, disposition: disabled ? 'upstream-disabled' : eligible ? 'eligible' : 'outside-public-parse-scope', reason: disabled ? 'Disabled by the original upstream declaration or enclosing suite.' : eligible ? 'Original direct public operation callback; test body and assertions execute unchanged.' : 'Not a callback of the predeclared public parse/detection API scope. It is not scored or claimed as covered by this benchmark.', requiredReturnFields, publicOperation: publicRender ? 'render' : publicDetection ? 'detectType' : 'parse' })
         }
       }
       ts.forEachChild(node, child => visit(child, parents, inheritedDisabled))
@@ -62,8 +63,9 @@ export function inventoryPublicTests(upstream: string) {
   const scopeReview = files.flatMap(file => { const own = declarations.filter(input => input.path === file.path); return classifyPublicScopes(readFileSync(join(upstream, file.path), 'utf8'), own).map((review, index) => ({ id: own[index]!.id, ...review })) })
   const scopeCounts = Object.fromEntries([...new Set(scopeReview.map(row => row.category))].map(category => [category, scopeReview.filter(row => row.category === category).length]))
   const eligible = declarations.filter(row => row.disposition === 'eligible')
-  if (eligible.length !== 22 || new Set(declarations.map(row => row.id)).size !== declarations.length) throw Error('Pinned public-parse test inventory changed or duplicate declaration IDs')
-  return { schema: 'trident-original-public-test-inventory-v1', protocol: publicConformanceProtocol, sourceCommit: pin, scope: publicParseScope, files, declarations, scopeReview, scopeCounts, counts: { files: files.length, declarations: declarations.length, eligible: eligible.length, upstreamDisabled: declarations.filter(row => row.disposition === 'upstream-disabled').length, outsideScope: declarations.filter(row => row.disposition === 'outside-public-parse-scope').length }, wholeSuiteConformanceQualified: false, wholeSuiteBlocker: 'Public render, configuration, model and other original-test surfaces have not been qualified through peer-equivalent public bindings. Outside-scope declarations cannot receive inferred passes.' }
+  if (eligible.length !== 23 || new Set(declarations.map(row => row.id)).size !== declarations.length) throw Error('Pinned public-parse test inventory changed or duplicate declaration IDs')
+  const callbacks = expandPublicCallbacks(eligible)
+  return { schema: 'trident-original-public-test-inventory-v1', protocol: publicConformanceProtocol, sourceCommit: pin, scope: publicParseScope, files, declarations, callbacks, host: { environment: 'Original Vitest jsdom environment plus original jsdomIt wrapper', jsdomHelper: { path: 'packages/mermaid/src/tests/util.ts', sha256: hash(readFileSync(join(upstream, 'packages/mermaid/src/tests/util.ts'), 'utf8')), nativeRegistrationLine: 89, geometry: 'Original MOCKED_BBOX 666x666 and getComputedTextLength 200; structural assertions only' } }, scopeReview, scopeCounts, counts: { files: files.length, declarations: declarations.length, eligible: callbacks.length, eligibleDeclarations: eligible.length, upstreamDisabled: declarations.filter(row => row.disposition === 'upstream-disabled').length, outsideScope: declarations.filter(row => row.disposition === 'outside-public-parse-scope').length }, wholeSuiteConformanceQualified: false, wholeSuiteBlocker: 'Public render, configuration, model and other original-test surfaces have not been qualified through peer-equivalent public bindings. Outside-scope declarations cannot receive inferred passes.' }
 }
 /** Replace exactly one public implementation boundary; never alter tests,
  * assertions, literals, snapshots or the surrounding original configuration. */
@@ -96,4 +98,28 @@ export function replacePublicDetectBody(source: string, expectedSha256: string) 
   if (declaration.parameters.length !== 2 || declaration.parameters[0]?.name.getText(tree) !== 'text' || declaration.parameters[1]?.name.getText(tree) !== 'config') throw Error('Original public detector signature changed')
   const body = declaration.body
   return source.slice(0, body.getStart(tree)) + '{ if ((globalThis as any).__tridentPublicOperation === "detectType") return (globalThis as any).__tridentPublicDetect(text, config);' + source.slice(body.getStart(tree) + 1)
+}
+
+/** Reviewed parameter values are literal entries of the pinned original matrix.
+ * Expansion freezes callback identities before any target executes. It does not
+ * synthesize test bodies or weaken the unchanged original callback. */
+export const publicRenderParameters = ['classDiagram', 'classDiagram-v2', 'erDiagram', 'graph', 'flowchart', 'gitGraph', 'gantt', 'journey', 'pie', 'packet', 'packet-beta', 'xychart-beta', 'xychart', 'requirementDiagram', 'sequenceDiagram', 'stateDiagram-v2', 'treeView-beta', 'radar-beta', 'architecture-beta'] as const
+export function expandPublicCallbacks(declarations: readonly PublicTestDeclaration[]): PublicTestDeclaration[] {
+  return declarations.flatMap(input => input.publicOperation !== 'render' ? [{ ...input, declarationId: input.id }] : publicRenderParameters.map(parameter => ({
+    ...input, declarationId: input.id, id: input.id + '#parameter:' + parameter, parameter, nativeRegistrationLine: 89, fullName: input.fullName.replace('`${testedDiagram.textDiagramType}`', parameter),
+    family: ({ classDiagram: 'class', 'classDiagram-v2': 'class', erDiagram: 'er', graph: 'flowchart', flowchart: 'flowchart', gitGraph: 'gitgraph', requirementDiagram: 'requirement', sequenceDiagram: 'sequence', 'stateDiagram-v2': 'state', 'treeView-beta': 'treeview', 'radar-beta': 'radar', 'architecture-beta': 'architecture', 'packet-beta': 'packet', 'xychart-beta': 'xychart' } as Record<string, string>)[parameter] ?? parameter,
+  })))
+}
+export function replacePublicRenderBody(source: string, expectedSha256: string) {
+  if (hash(source) !== expectedSha256) throw Error('Original public render hash changed')
+  const tree = ts.createSourceFile('mermaidAPI.ts', source, ts.ScriptTarget.Latest, true), found: ts.FunctionExpression[] = []
+  const visit = (node: ts.Node) => {
+    if (ts.isVariableDeclaration(node) && ts.isIdentifier(node.name) && node.name.text === 'render' && node.initializer && ts.isFunctionExpression(node.initializer)) found.push(node.initializer)
+    ts.forEachChild(node, visit)
+  }
+  visit(tree)
+  if (found.length !== 1) throw Error('Expected exactly one original public render implementation')
+  const declaration = found[0]!
+  if (declaration.parameters.length !== 3 || declaration.parameters.map(parameter => parameter.name.getText(tree)).join(',') !== 'id,text,svgContainingElement') throw Error('Original public render signature changed')
+  return source.slice(0, declaration.body.getStart(tree)) + '{ return (globalThis as any).__tridentPublicRender(id, text, svgContainingElement) }' + source.slice(declaration.body.end)
 }

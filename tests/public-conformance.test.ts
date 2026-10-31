@@ -2,14 +2,14 @@ import { expect, test } from 'bun:test'
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { replacePublicParseBody, replacePublicDetectBody, type PublicTestDeclaration } from '../unified/public-conformance-inventory.ts'
+import { replacePublicParseBody, replacePublicDetectBody, replacePublicRenderBody, expandPublicCallbacks, type PublicTestDeclaration } from '../unified/public-conformance-inventory.ts'
 import { qualifyPublicReference, reducePublicCallbacks, type PublicCallEvent } from '../unified/public-conformance.ts'
-import { bindPublicParse, bindPublicDetect } from '../unified/public-conformance-binding.mjs'
+import { bindPublicParse, bindPublicDetect, bindPublicRender } from '../unified/public-conformance-binding.mjs'
 import { useTempDirs } from './helpers/temp-dir.ts'
 const temp = useTempDirs('public-conformance-'), hash = (value: string) => createHash('sha256').update(value).digest('hex')
 const manifest = JSON.parse(readFileSync(new URL('../corpus/mermaid-public-tests.json', import.meta.url), 'utf8'))
 const cases: PublicTestDeclaration[] = manifest.eligible
-const passed = () => cases.map(input => ({ fullName: input.fullName, status: 'passed', location: { line: input.line }, failureMessages: [] }))
+const passed = () => cases.map(input => ({ fullName: input.fullName, status: 'passed', location: { line: input.nativeRegistrationLine ?? input.line }, failureMessages: [] }))
 const evidence = (): PublicCallEvent[] => cases.flatMap(input => ['case-start', 'call-start', 'call-result', 'case-end'].map(type => ({ type, caseId: input.id, ...(type === 'call-result' ? { disposition: 'observed', missingFields: [] } : {}) })))
 
 test('the pinned inventory retains all original source files and preserves the exact upstream public test bytes', () => {
@@ -19,14 +19,14 @@ test('the pinned inventory retains all original source files and preserves the e
     expect(hash(original)).toBe(spec.sha256)
     sources.set(spec.path, original)
   }
-  expect(manifest.counts).toEqual({ files: 368, declarations: 4060, eligible: 22, upstreamDisabled: 18, outsideScope: 4020 })
+  expect(manifest.counts).toEqual({ files: 368, declarations: 4060, eligible: 41, eligibleDeclarations: 23, upstreamDisabled: 18, outsideScope: 4019 })
   expect(manifest.censusFiles).toHaveLength(368)
   expect(manifest.censusFiles.reduce((total: number, file: any) => total + file.declarations, 0)).toBe(4060)
-  expect(cases).toHaveLength(22)
+  expect(cases).toHaveLength(41)
   for (const input of cases) {
     const text = sources.get(input.path)!.split('\n').slice(input.line - 1, input.endLine).join('\n')
     expect(text).toContain(input.name)
-    expect(text).toMatch(input.publicOperation === 'detectType' ? /\bdetectType\(/ : /mermaid(?:API)?\.parse\(/)
+    expect(text).toMatch(input.publicOperation === 'detectType' ? /\bdetectType\(/ : input.publicOperation === 'render' ? /mermaidAPI\.render\(/ : /mermaid(?:API)?\.parse\(/)
     expect(input.callbackSha256).toMatch(/^[a-f0-9]{64}$/)
   }
   expect(manifest.wholeSuiteConformanceQualified).toBe(false)
@@ -118,4 +118,29 @@ test('public detector delegation is separately SHA-bound and never substitutes t
   const missing = await bindPublicDetect({ ...binding, detection: undefined }, (event: any) => events.push(event))
   expect(() => missing.detect('known')).toThrow('No reviewed')
   expect(events.at(-1).disposition).toBe('binding-unavailable')
+})
+
+test('the structural render matrix preserves original callback bytes and freezes all nineteen source parameters', () => {
+  const render = cases.filter(input => input.publicOperation === 'render')
+  expect(render).toHaveLength(19)
+  expect(new Set(render.map(input => input.callbackSha256)).size).toBe(1)
+  expect(new Set(render.map(input => input.declarationId)).size).toBe(1)
+  expect(new Set(render.map(input => input.fullName)).size).toBe(19)
+  expect(render.every(input => input.nativeRegistrationLine === 89 && input.parameter && input.fullName.includes(input.parameter))).toBe(true)
+  const declaration = { ...render[0]!, id: render[0]!.declarationId!, fullName: render[0]!.fullName.replace('classDiagram', '`${testedDiagram.textDiagramType}`') }
+  expect(expandPublicCallbacks([declaration]).map(input => input.id)).toEqual(render.map(input => input.id))
+  const original = 'const render=async function(id:string,text:string,svgContainingElement?:Element){return native(id,text,svgContainingElement)};const keep=1'
+  const changed = replacePublicRenderBody(original, hash(original))
+  expect(changed).toBe('const render=async function(id:string,text:string,svgContainingElement?:Element){ return (globalThis as any).__tridentPublicRender(id, text, svgContainingElement) };const keep=1')
+  expect(() => replacePublicRenderBody(original + ' ', hash(original))).toThrow('hash changed')
+})
+test('public render adaptation preserves the complete native SVG rather than manufacturing accessibility attributes', async () => {
+  const root = temp.dir(), svg = '<svg aria-roledescription="native-role"><title>Native</title></svg>'
+  writeFileSync(join(root, 'package.json'), JSON.stringify({ name: 'public-svg-fixture', type: 'module', exports: './index.mjs' }))
+  writeFileSync(join(root, 'index.mjs'), 'export function render(source,options){if(source!=="exact source"||options.security!=="strict")throw Error("wrong public input");return ' + JSON.stringify(svg) + '}')
+  const events: any[] = [], target = await bindPublicRender({ packageRoot: root, publicImport: 'public-svg-fixture', kind: 'result-parser', render: { export: 'render', options: { security: 'strict' } } }, (event: any) => events.push(event))
+  expect(await target.render('caller-id', 'exact source', undefined)).toEqual({ svg })
+  expect(events[0].returned.svg).toBe(svg)
+  expect(events[0].inputMapping).toContain('no caller diagram-ID')
+  expect(svg).not.toContain('chart-desc-caller-id')
 })

@@ -9,7 +9,7 @@ import { captureInstalledDependencyClosure } from '../portable/artifact-dependen
 import { protocolIdentity } from './protocol-identity.ts'
 import { qualifyOriginalRuntime } from './upstream-runtime-qualification.ts'
 import { tridentDirectory } from './trident-paths.ts'
-import { inventoryPublicTests, publicConformanceProtocol, publicParseFiles, publicParseScope, type PublicTestDeclaration } from './public-conformance-inventory.ts'
+import { replacePublicRenderBody, inventoryPublicTests, publicConformanceProtocol, publicParseFiles, publicParseScope, type PublicTestDeclaration } from './public-conformance-inventory.ts'
 import type { BenchmarkObservation, UnifiedSuiteResult } from './types.ts'
 
 export interface PublicParseBinding {
@@ -17,6 +17,7 @@ export interface PublicParseBinding {
   kind: 'mermaid-api' | 'result-parser'
   export?: string; familyPath?: string; configPath?: string; familyAliases?: Record<string, string>
   detection?: { export: string; familyPath: string; kindPath?: string; acceptedKind?: string }
+  render?: { export: string; options?: Record<string, unknown> }
 }
 export interface PublicConformanceOptions { source: string; out: string; bindings: PublicParseBinding[]; runnerRoot?: string; node?: string; timeoutMs?: number }
 const hash = (bytes: string | Uint8Array) => createHash('sha256').update(bytes).digest('hex')
@@ -28,7 +29,7 @@ export interface NativeCallback { fullName: string; status: string; location?: {
 export interface PublicCallEvent { type: string; caseId?: string; disposition?: string; missingFields?: string[]; [key: string]: unknown }
 export function reducePublicCallbacks(cases: readonly PublicTestDeclaration[], callbacks: NativeCallback[], events: PublicCallEvent[], frameworkComplete: boolean, originalSourceControl = false) {
   return cases.map(input => {
-    const matches = callbacks.filter(row => row.fullName === input.fullName && row.location?.line === input.line)
+    const matches = callbacks.filter(row => row.fullName === input.fullName && row.location?.line === (input.nativeRegistrationLine ?? input.line))
     const own = events.filter(row => row.caseId === input.id), calls = own.filter(row => row.type === 'call-result')
     const starts = own.filter(row => row.type === 'case-start'), ends = own.filter(row => row.type === 'case-end')
     const completeEvents = starts.length === 1 && ends.length === 1 && own[0]?.type === 'case-start' && own.at(-1)?.type === 'case-end' && calls.length > 0 && own.filter(row => row.type === 'call-start').length === calls.length
@@ -65,13 +66,13 @@ export async function runPublicConformance(options: PublicConformanceOptions): P
   if (existsSync(out) || !options.bindings.length || new Set(options.bindings.map(binding => binding.project)).size !== options.bindings.length) throw Error('Choose a fresh output and unique public target bindings')
   const reference = options.bindings.find(binding => binding.project === 'mermaid-js/mermaid' && binding.kind === 'mermaid-api')
   if (!reference) throw Error('Original public-test conformance requires the actual Mermaid reference binding')
-  const inventory = inventoryPublicTests(source), cases = inventory.declarations.filter(row => row.disposition === 'eligible')
+  const inventory = inventoryPublicTests(source), cases = inventory.callbacks
   const sourceRequire = createRequire(join(source, 'package.json')), runtime = options.runnerRoot ?? source
   const runnerPackage = createRequire(join(runtime, 'package.json')).resolve('vitest/package.json'), sourceRunnerPackage = sourceRequire.resolve('vitest/package.json')
   if (realpathSync(runnerPackage) !== realpathSync(sourceRunnerPackage)) throw Error('Original source and selected runner must resolve the same Vitest instance')
   const runnerDirectory = dirname(runnerPackage), runner = join(runnerDirectory, 'vitest.mjs')
   const runnerVersion = read(runnerPackage).version, implementation = join(source, 'packages/mermaid/src/mermaidAPI.ts'), implementationSha256 = hash(readFileSync(implementation)), detection = join(source, 'packages/mermaid/src/diagram-api/detectType.ts'), detectionSha256 = hash(readFileSync(detection))
-  const runtimeQualification = qualifyOriginalRuntime(source, runtime, node)
+  const runtimeQualification = qualifyOriginalRuntime(source, runtime, node), delegatedRenderSha256 = hash(replacePublicRenderBody(readFileSync(implementation, 'utf8'), implementationSha256))
   const producers = protocolIdentity(tridentDirectory, ['unified/public-conformance.ts', 'unified/public-conformance-binding.mjs'])
   mkdirSync(out, { recursive: true }); write(join(out, 'inventory.json'), inventory)
   const targetIdentities = options.bindings.map(binding => {
@@ -79,7 +80,7 @@ export async function runPublicConformance(options: PublicConformanceOptions): P
     if (binding.publicImport !== pkg.name && !binding.publicImport.startsWith(pkg.name + '/') || !existsSync(entry)) throw Error('Binding does not resolve its installed public package export')
     return { binding, entry, version: pkg.version, entrySha256: hash(readFileSync(entry)), dependencies: captureInstalledDependencyClosure(binding.packageRoot) }
   })
-  write(join(out, 'context.json'), { protocol: publicConformanceProtocol, sourceCommit: inventory.sourceCommit, sourceConfigSha256: hash(readFileSync(join(source, 'vite.config.ts'))), implementationSha256, detectionSha256, runtimeQualification, producers, runnerVersion, node, targets: targetIdentities, sampling: 'One execution of each original callback per target; no renderers or speed comparison.', scope: publicParseScope })
+  write(join(out, 'context.json'), { protocol: publicConformanceProtocol, sourceCommit: inventory.sourceCommit, sourceConfigSha256: hash(readFileSync(join(source, 'vite.config.ts'))), originalJsdomHelperSha256: hash(readFileSync(join(source, 'packages/mermaid/src/tests/util.ts'))), implementationSha256, detectionSha256, runtimeQualification, producers, runnerVersion, node, targets: targetIdentities, sampling: 'One execution per original callback/parameter. Original jsdomIt geometry mocks retained for structural render assertions; no speed comparison.', scope: publicParseScope })
   const execute = (name: string, binding?: PublicParseBinding) => {
     const directory = join(out, name); mkdirSync(directory)
     const calls = join(directory, 'calls.jsonl'), raw = join(directory, 'vitest.json'), config = join(directory, 'config.mts'), setup = join(directory, 'setup.mjs')
@@ -87,8 +88,8 @@ export async function runPublicConformance(options: PublicConformanceOptions): P
     let plugin = '', setupFile = ''
     if (binding) {
       setupFile = setup
-      writeFileSync(setup, `import fs from 'node:fs';\nimport {beforeEach,afterEach} from ${JSON.stringify(pathToFileURL(join(runnerDirectory, 'dist/index.js')).href)};\nimport {getTestName} from ${JSON.stringify(pathToFileURL(sourceRequire.resolve('@vitest/runner/utils')).href)};\nimport {bindPublicParse,bindPublicDetect} from ${JSON.stringify(pathToFileURL(join(tridentDirectory, 'unified/public-conformance-binding.mjs')).href)};\nconst bindings=${JSON.stringify(binding)},cases=${JSON.stringify(cases.map(row => ({ id: row.id, name: row.fullName, operation: row.publicOperation })))},file=${JSON.stringify(calls)};let current,sequence=0;const append=v=>fs.appendFileSync(file,JSON.stringify({...v,caseId:current?.id})+'\\n');\nconst target=await bindPublicParse(bindings,event=>append({type:'call-result',...event})),detector=await bindPublicDetect(bindings,event=>append({type:'call-result',...event}));\nbeforeEach(context=>{const name=getTestName(context.task,' ');current=cases.find(row=>row.name===name);if(current){globalThis.__tridentPublicOperation=current.operation;append({type:'case-start'});target.reset()}else append({type:'unmapped-case',nativeName:name})});\nafterEach(()=>{if(current)append({type:'case-end'})});\nglobalThis.__tridentPublicParse=async(text,options)=>{append({type:'call-start',invocation:++sequence,source:text});return target.parse(text,options)};\nglobalThis.__tridentPublicDetect=(text,config)=>{append({type:'call-start',invocation:++sequence,source:text});return detector.detect(text,config)};\n`)
-      plugin = `import fs from 'node:fs';\nimport {replacePublicParseBody,replacePublicDetectBody} from ${JSON.stringify(join(tridentDirectory, 'unified/public-conformance-inventory.ts'))};\nconst boundary={name:'trident-sha-bound-public-parse',enforce:'pre',load(id){if(id.split('?')[0]===${JSON.stringify(detection)})return {code:replacePublicDetectBody(fs.readFileSync(${JSON.stringify(detection)},'utf8'),${JSON.stringify(detectionSha256)}),map:null};if(id.split('?')[0]!==${JSON.stringify(implementation)})return;return {code:replacePublicParseBody(fs.readFileSync(${JSON.stringify(implementation)},'utf8'),${JSON.stringify(implementationSha256)}),map:null}}};\n`
+      writeFileSync(setup, `import fs from 'node:fs';\nimport {beforeEach,afterEach} from ${JSON.stringify(pathToFileURL(join(runnerDirectory, 'dist/index.js')).href)};\nimport {getTestName} from ${JSON.stringify(pathToFileURL(sourceRequire.resolve('@vitest/runner/utils')).href)};\nimport {bindPublicParse,bindPublicDetect,bindPublicRender} from ${JSON.stringify(pathToFileURL(join(tridentDirectory, 'unified/public-conformance-binding.mjs')).href)};\nconst bindings=${JSON.stringify(binding)},cases=${JSON.stringify(cases.map(row => ({ id: row.id, name: row.fullName, operation: row.publicOperation })))},file=${JSON.stringify(calls)};let current,sequence=0;const append=v=>fs.appendFileSync(file,JSON.stringify({...v,caseId:current?.id})+'\\n');\nconst target=await bindPublicParse(bindings,event=>append({type:'call-result',...event})),detector=await bindPublicDetect(bindings,event=>append({type:'call-result',...event})),renderer=await bindPublicRender(bindings,event=>append({type:'call-result',...event}));\nbeforeEach(context=>{const name=getTestName(context.task,' ');current=cases.find(row=>row.name===name);if(current){globalThis.__tridentPublicOperation=current.operation;append({type:'case-start'});target.reset()}else append({type:'unmapped-case',nativeName:name})});\nafterEach(()=>{if(current)append({type:'case-end'})});\nglobalThis.__tridentPublicParse=async(text,options)=>{append({type:'call-start',invocation:++sequence,source:text});return target.parse(text,options)};\nglobalThis.__tridentPublicDetect=(text,config)=>{append({type:'call-start',invocation:++sequence,source:text});return detector.detect(text,config)};\nglobalThis.__tridentPublicRender=async(id,text,container)=>{append({type:'call-start',invocation:++sequence,source:text,renderId:id});return renderer.render(id,text,container)};\n`)
+      plugin = `import fs from 'node:fs';\nimport {replacePublicParseBody,replacePublicDetectBody,replacePublicRenderBody} from ${JSON.stringify(join(tridentDirectory, 'unified/public-conformance-inventory.ts'))};\nconst boundary={name:'trident-sha-bound-public-parse',enforce:'pre',load(id){if(id.split('?')[0]===${JSON.stringify(detection)})return {code:replacePublicDetectBody(fs.readFileSync(${JSON.stringify(detection)},'utf8'),${JSON.stringify(detectionSha256)}),map:null};if(id.split('?')[0]!==${JSON.stringify(implementation)})return;return {code:replacePublicParseBody(replacePublicRenderBody(fs.readFileSync(${JSON.stringify(implementation)},'utf8'),${JSON.stringify(implementationSha256)}),${JSON.stringify(delegatedRenderSha256)}),map:null}}};\n`
     }
     const selected = '^(' + cases.map(row => regex(row.fullName)).join('|') + ')$'
     writeFileSync(config, prefix + plugin + `export default {...base,plugins:[...(base.plugins??[]),${binding ? 'boundary' : ''}],test:{...base.test,include:${JSON.stringify(publicParseFiles)},testNamePattern:${JSON.stringify(selected)},setupFiles:${JSON.stringify(setupFile ? [setupFile] : [])},fileParallelism:false,maxWorkers:1,minWorkers:1}}\n`)

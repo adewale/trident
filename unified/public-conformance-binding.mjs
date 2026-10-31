@@ -73,3 +73,22 @@ export async function bindPublicDetect(binding, observe) {
     observe({ source, disposition: 'observed', missingFields: [], returned: canonical }); return canonical
   } }
 }
+
+/** Retain native SVG bytes. No title/description/IDs/roles are added, rewritten or
+ * inferred from source. The returned envelope translates only public call shape. */
+export async function bindPublicRender(binding, observe) {
+  const require = createRequire(join(binding.packageRoot, 'package.json')), entry = require.resolve(binding.publicImport), module = await import(pathToFileURL(entry).href)
+  const api = module.default ?? module, description = binding.render
+  return { render: async (id, source, container) => {
+    const target = binding.kind === 'mermaid-api' ? api.render : description && valueAt(module, description.export)
+    if (typeof target !== 'function') { observe({ source, disposition: 'binding-unavailable', missingFields: [] }); throw Error('No reviewed public SVG render binding') }
+    const owner = binding.kind === 'mermaid-api' ? api : description.export.includes('.') ? valueAt(module, description.export.slice(0, description.export.lastIndexOf('.'))) : module
+    let result
+    try { result = binding.kind === 'mermaid-api' ? await target.call(owner, id, source, container) : await target.call(owner, source, description.options) }
+    catch (error) { observe({ source, disposition: 'observed', missingFields: [], thrown: { name: error?.name, message: error?.message } }); throw error }
+    const svg = binding.kind === 'mermaid-api' ? result?.svg : result
+    if (typeof svg !== 'string') { observe({ source, disposition: 'binding-unavailable', missingFields: ['svg'] }); throw Error('Public render did not return its reviewed SVG string contract') }
+    observe({ source, disposition: 'observed', missingFields: [], returned: { svg }, inputMapping: binding.kind === 'mermaid-api' ? 'caller id, source, optional DOM container' : 'source and reviewed native options; public API has no caller diagram-ID/DOM-container parameter' })
+    return binding.kind === 'mermaid-api' ? result : { svg }
+  } }
+}
