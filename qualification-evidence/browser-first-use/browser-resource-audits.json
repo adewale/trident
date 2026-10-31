@@ -1,0 +1,167 @@
+{
+  "schema": "trident-timed-browser-resources-v1",
+  "coordinates": [
+    {
+      "coordinate": [
+        1,
+        "A0",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    },
+    {
+      "coordinate": [
+        1,
+        "A1",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    },
+    {
+      "coordinate": [
+        1,
+        "B",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    },
+    {
+      "coordinate": [
+        2,
+        "B",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    },
+    {
+      "coordinate": [
+        2,
+        "A1",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    },
+    {
+      "coordinate": [
+        2,
+        "A0",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    },
+    {
+      "coordinate": [
+        3,
+        "A1",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    },
+    {
+      "coordinate": [
+        3,
+        "B",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    },
+    {
+      "coordinate": [
+        3,
+        "A0",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    },
+    {
+      "coordinate": [
+        4,
+        "A0",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    },
+    {
+      "coordinate": [
+        4,
+        "B",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    },
+    {
+      "coordinate": [
+        4,
+        "A1",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    },
+    {
+      "coordinate": [
+        5,
+        "B",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    },
+    {
+      "coordinate": [
+        5,
+        "A0",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    },
+    {
+      "coordinate": [
+        5,
+        "A1",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    },
+    {
+      "coordinate": [
+        6,
+        "A1",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    },
+    {
+      "coordinate": [
+        6,
+        "A0",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    },
+    {
+      "coordinate": [
+        6,
+        "B",
+        "meaning:family:flowchart",
+        0
+      ],
+      "gaps": []
+    }
+  ]
+}

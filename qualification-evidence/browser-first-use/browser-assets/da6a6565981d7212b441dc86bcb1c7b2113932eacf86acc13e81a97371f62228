@@ -1,0 +1,1 @@
+function g(r,n,s,t,e){let i={};return e?(i.role="img",i["aria-roledescription"]=e):(r||n)&&(i.role="img"),r&&(i["aria-labelledby"]=s),n&&(i["aria-describedby"]=t),i}export{g as a};

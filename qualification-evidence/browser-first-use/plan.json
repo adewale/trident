@@ -1,0 +1,106 @@
+{
+  "schema": "trident-qualified-timing-plan-v1",
+  "boundary": "Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded",
+  "format": "svg",
+  "track": "first-use",
+  "environmentSha256": "7955f3144e1d7a256d03117794a571cdca4f9ba3a9eb74332b46a9a687b5c1d1",
+  "observerSha256": "d8ff2bb70272a0a4c6a3850b1efc92c2ba7e96340144cb9f7a04404e27d1e3f8",
+  "rounds": 6,
+  "samplesPerRound": 1,
+  "maximumControlSpread": 0.25,
+  "cases": [
+    {
+      "schema": "trident-case-evidence-v1",
+      "caseId": "meaning:family:flowchart",
+      "sourceSha256": "feda1279ae97f89657702f65c779ff06c669a5cbfb05f2e8f3fc2a3c73b347eb",
+      "expectationsSha256": "3da2ac2d35259477af22d21026004aa7ec0f38dba8e074aca420cea8b704fcdf",
+      "requiredChecks": [
+        {
+          "surface": "browser-public-api",
+          "criterion": "public-svg-admission"
+        },
+        {
+          "surface": "browser-public-api",
+          "criterion": "standalone-svg-and-labels"
+        },
+        {
+          "surface": "browser-owned-ink",
+          "criterion": "svg-root"
+        },
+        {
+          "surface": "browser-owned-ink",
+          "criterion": "svg-unique-ids"
+        },
+        {
+          "surface": "browser-owned-ink",
+          "criterion": "canvas"
+        },
+        {
+          "surface": "browser-owned-ink",
+          "criterion": "visible-authored-labels"
+        },
+        {
+          "surface": "browser-owned-ink",
+          "criterion": "labels-within-canvas"
+        },
+        {
+          "surface": "browser-owned-ink",
+          "criterion": "unclipped-authored-labels"
+        },
+        {
+          "surface": "browser-owned-ink",
+          "criterion": "visible-ink"
+        },
+        {
+          "surface": "browser-owned-ink",
+          "criterion": "paint-opacity-and-color"
+        },
+        {
+          "surface": "browser-owned-ink",
+          "criterion": "painted-node-ownership"
+        },
+        {
+          "surface": "browser-owned-ink",
+          "criterion": "painted-text-inventory"
+        },
+        {
+          "surface": "browser-owned-ink",
+          "criterion": "painted-relationships"
+        },
+        {
+          "surface": "browser-owned-ink",
+          "criterion": "painted-relationship-markers"
+        },
+        {
+          "surface": "browser-owned-ink",
+          "criterion": "source-fact:direction"
+        },
+        {
+          "surface": "browser-owned-ink",
+          "criterion": "source-fact:node-shapes"
+        }
+      ]
+    }
+  ],
+  "artifacts": {
+    "A0": {
+      "project": "mermaid-js/mermaid",
+      "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+      "bindingSha256": "b56cea564d4bb7ccf0336506b86138a23c8314faa4d43c991aa3247bb8f4d25f"
+    },
+    "A1": {
+      "project": "mermaid-js/mermaid",
+      "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+      "bindingSha256": "b56cea564d4bb7ccf0336506b86138a23c8314faa4d43c991aa3247bb8f4d25f"
+    },
+    "B": {
+      "project": "adewale/agentic-mermaid",
+      "artifactSha256": "eda60aa893b4167535a99faf47eca8e5437ea3e33c685dd0b35dbfec751a4b31",
+      "bindingSha256": "572778ffb7bb40e31c2463ff4febb164d484ff036bf6a851c8b207e26825c24e"
+    }
+  },
+  "driverFinalization": {
+    "protocol": "browser-svg-first-use-v1",
+    "producerSha256": "4e85e88aa8b0d85beb70ff09ea74a765b80dd89c34aa8f32c4f6ffe8cd25d599"
+  }
+}

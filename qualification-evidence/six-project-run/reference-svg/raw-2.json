@@ -1,0 +1,4 @@
+{
+  "status": "failed",
+  "error": "UnknownDiagramError: No diagram type detected matching given configuration for text: This is deliberately not a Mermaid diagram. @@@ {{{"
+}

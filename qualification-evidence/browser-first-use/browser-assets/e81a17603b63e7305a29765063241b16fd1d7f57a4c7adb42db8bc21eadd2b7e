@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+import {
+  runMcpCli
+} from "./chunk-GGXCNCNA.js";
+import "./chunk-JDMRPUAG.js";
+import "./chunk-IVD4NXNE.js";
+import "./chunk-RWMZRUIC.js";
+import "./chunk-LCGBT32P.js";
+
+// src/mcp/mcp-bin.ts
+var code = await runMcpCli(process.argv.slice(2));
+if (code !== 0) process.exit(code);
+//# sourceMappingURL=agentic-mermaid-mcp.js.map

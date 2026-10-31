@@ -1,0 +1,7 @@
+{
+  "source": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/adewale%2Fagentic-mermaid/prepared.json",
+  "sourceSha256": "fc9f1e8473dbb5ed6c70b5f9e536af02497994e1620dc678375179520dbc30f3",
+  "loadedAt": "2026-10-31T15:07:36.039Z",
+  "acquisition": "forbidden; frozen actual failures are retained without retry",
+  "invalidArtifacts": []
+}

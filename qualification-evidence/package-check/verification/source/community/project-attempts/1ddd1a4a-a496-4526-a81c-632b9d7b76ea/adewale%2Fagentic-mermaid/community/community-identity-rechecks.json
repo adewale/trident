@@ -1,0 +1,12 @@
+[
+  {
+    "implementation": "adewale/agentic-mermaid",
+    "boundary": "node-cli-declared-artifacts",
+    "status": "passed"
+  },
+  {
+    "implementation": "adewale/agentic-mermaid",
+    "boundary": "browser-artifacts",
+    "status": "passed"
+  }
+]

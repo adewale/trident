@@ -1,0 +1,126 @@
+{
+  "target": {
+    "tool": "agentic",
+    "project": "adewale/agentic-mermaid",
+    "packageRoot": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid",
+    "version": "0.4.1"
+  },
+  "sourcePin": {
+    "version": "12.2.0",
+    "commit": "1fb7869866dd619168d840291c9c54b4f129758b",
+    "tags": [
+      "@mermaid-js/tiny@12.2.0",
+      "mermaid@12.2.0"
+    ],
+    "parserVersion": "2.0.1",
+    "domVersion": "26.1.0"
+  },
+  "rows": [
+    {
+      "caseId": "meaning:family:flowchart",
+      "family": "flowchart",
+      "required": true,
+      "source": "flowchart LR\nA[Alpha] --> B[Beta]\nB --> C[Gamma]",
+      "provenance": "Original independent portable literal, supplemented with reviewed canonical semantic expectations",
+      "native": {
+        "status": "accepted",
+        "entry": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/agent-core.js",
+        "meaning": {
+          "family": "flowchart",
+          "facts": {
+            "direction": "LR",
+            "image-requests": []
+          },
+          "unavailable": {},
+          "nodes": [
+            {
+              "id": "A",
+              "label": "Alpha"
+            },
+            {
+              "id": "B",
+              "label": "Beta"
+            },
+            {
+              "id": "C",
+              "label": "Gamma"
+            }
+          ],
+          "edges": [
+            {
+              "source": "A",
+              "target": "B",
+              "directed": true,
+              "label": "",
+              "startMarker": "none",
+              "endMarker": "arrow"
+            },
+            {
+              "source": "B",
+              "target": "C",
+              "directed": true,
+              "label": "",
+              "startMarker": "none",
+              "endMarker": "arrow"
+            }
+          ],
+          "groups": []
+        },
+        "scope": "Canonical projection of actual public parser return/getDiagramFromText DB; Event Modeling inferred endpoints and ZenUML assignment messages use actual public layoutMermaid output when available. Native parsed fields survive unavailable positioning. Authored expectations are independent",
+        "checks": [
+          {
+            "criterion": "family",
+            "status": "passed",
+            "expected": "flowchart",
+            "actual": "flowchart",
+            "scope": "Returned native family; a source-preservation envelope is not native admission."
+          },
+          {
+            "criterion": "identities",
+            "status": "passed",
+            "expected": [
+              "\"A\"",
+              "\"B\"",
+              "\"C\""
+            ],
+            "actual": [
+              "\"A\"",
+              "\"B\"",
+              "\"C\""
+            ],
+            "scope": "Exact authored identity multiset, including duplicate and omitted identities."
+          },
+          {
+            "criterion": "node-labels",
+            "status": "passed",
+            "expected": [
+              "{\"id\":\"A\",\"label\":\"Alpha\"}",
+              "{\"id\":\"B\",\"label\":\"Beta\"}",
+              "{\"id\":\"C\",\"label\":\"Gamma\"}"
+            ],
+            "actual": [
+              "{\"id\":\"A\",\"label\":\"Alpha\"}",
+              "{\"id\":\"B\",\"label\":\"Beta\"}",
+              "{\"id\":\"C\",\"label\":\"Gamma\"}"
+            ],
+            "scope": "Authored identity-to-label binding; NFC/whitespace normalization applies to display labels, never identity strings."
+          },
+          {
+            "criterion": "relationships",
+            "status": "passed",
+            "expected": [
+              "{\"directed\":true,\"source\":\"A\",\"target\":\"B\"}",
+              "{\"directed\":true,\"source\":\"B\",\"target\":\"C\"}"
+            ],
+            "actual": [
+              "{\"directed\":true,\"source\":\"A\",\"target\":\"B\"}",
+              "{\"directed\":true,\"source\":\"B\",\"target\":\"C\"}"
+            ],
+            "scope": "Exact endpoint/direction/declared-marker/label multiset; parallel and reciprocal relationships remain distinct."
+          }
+        ]
+      }
+    }
+  ],
+  "scope": "Public Node model contracts only; no SVG rendering or AM serializer workflows."
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+<fontconfig>
+  <!-- Strong bindings also apply to mixed-script text when LANG is English.
+       Keep Noto and the distro's remaining script-specific fallbacks installed. -->
+  <alias binding="strong">
+    <family>sans-serif</family>
+    <prefer>
+      <family>OpenAI Sans</family>
+      <family>OpenAI Sans Greek</family>
+      <family>OpenAI Sans Cyrillic</family>
+      <family>Noto Sans</family>
+      <family>Noto Sans Arabic</family>
+      <family>Noto Sans Hebrew</family>
+      <family>Noto Sans Kannada</family>
+      <family>Noto Sans Gujarati</family>
+      <family>Noto Sans Sinhala</family>
+      <family>Noto Sans Lao</family>
+      <family>Noto Sans Armenian</family>
+      <family>Noto Sans Georgian</family>
+      <family>Noto Sans Mongolian</family>
+      <family>Noto Color Emoji</family>
+    </prefer>
+  </alias>
+  <alias binding="strong">
+    <family>OpenAI Sans</family>
+    <accept>
+      <family>OpenAI Sans Greek</family>
+      <family>OpenAI Sans Cyrillic</family>
+      <family>Noto Sans</family>
+      <family>Noto Sans Arabic</family>
+      <family>Noto Sans Hebrew</family>
+      <family>Noto Sans Kannada</family>
+      <family>Noto Sans Gujarati</family>
+      <family>Noto Sans Sinhala</family>
+      <family>Noto Sans Lao</family>
+      <family>Noto Sans Armenian</family>
+      <family>Noto Sans Georgian</family>
+      <family>Noto Sans Mongolian</family>
+      <family>Noto Color Emoji</family>
+    </accept>
+  </alias>
+</fontconfig>

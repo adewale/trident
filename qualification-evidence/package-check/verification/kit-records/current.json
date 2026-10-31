@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "projects": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "lane": "portable-svg-subset",
+      "current": "a6e3bc21-248a-4f18-9601-e3a904db9acd",
+      "history": [
+        "a6e3bc21-248a-4f18-9601-e3a904db9acd"
+      ]
+    }
+  ]
+}

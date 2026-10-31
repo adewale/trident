@@ -1,0 +1,1 @@
+function o(n){let r=n.known&&n.known.length>0?` (known: ${n.known.join(", ")})`:"";return new Error(`${n.what} \u2014 expected ${n.expectedForm}, e.g. ${n.example}${r}`)}export{o as a};

@@ -1,0 +1,2913 @@
+$ bun run commands.ts test
+bun test v1.4.2 (744846f84)
+
+tests/unified-community-reconciliation.test.ts:
+(pass) strict qualification partition reconciliation > input-file provenance paths may differ but literal sources, labels and reference cannot [1.73ms]
+(pass) strict qualification partition reconciliation > refreshesSVG andIR plusSVG delivery/heap while preserving untouchedPNG/terminal/parser/source objects [0.93ms]
+(pass) strict qualification partition reconciliation > feature-once comparison tolerates outcome-dependent legacy mode without altering either raw mode [0.23ms]
+(pass) strict qualification partition reconciliation > rejects missing/duplicate/runtime-mismatched selected work and any timed unaffected lane [0.21ms]
+(pass) strict qualification partition reconciliation > recovers actual failure-only round associations from raw sidecars without modifying original rows [1.14ms]
+
+tests/portable-fidelity.test.ts:
+(pass) qualifies declared graph meaning through both the public model and owned path geometry [7.73ms]
+(pass) malformed or disconnected owned paths cannot certify their apparent endpoint relationship [5.07ms]
+(pass) continuous owned paths retain their valid number separators and move boundaries [1.25ms]
+(pass) discarded characters cannot fabricate a visible owned target marker [1.15ms]
+(pass) unprojected valid path and marker grammars remain unmeasured [1.81ms]
+(pass) malformed transform and polygon lists cannot fabricate geometry evidence [2.04ms]
+(pass) a target marker must touch its actual stem and aim into the target box [0.84ms]
+(pass) nonfinite derived geometry cannot qualify finite coordinate tokens [0.47ms]
+(pass) correct labels and model do not hide a path attached to the wrong place [0.77ms]
+(pass) a duplicate painted edge fails even with unchanged labels and native graph [0.40ms]
+(pass) swapping labels between the correct node IDs loses authored meaning [0.46ms]
+(pass) a public model with reversed endpoints fails independently of the SVG label census [0.46ms]
+(pass) edge IDs and marker ink alone do not substitute for an actual connecting path [0.21ms]
+(pass) group membership must also be reflected in painted containment [1.29ms]
+(pass) missing public parse evidence remains unmeasured and cannot qualify semantic equivalence [0.35ms]
+(pass) numeric public-model fidelity is independent of labels and does not certify chart geometry [1.21ms]
+(pass) invalid-source rejection requires a public exception, rather than an empty successful return [0.10ms]
+(pass) font configuration must be emitted, rather than merely accepted as an unused option [4.79ms]
+(pass) namespace, duplicate document IDs and hidden source text are independent admission failures [2.46ms]
+(pass) an uninspectable public result fails its own qualification without aborting the campaign [0.40ms]
+
+tests/portable-family-paint.test.ts:
+(pass) Agentic class: actual typed Result and independently owned visible ink qualify [2.27ms]
+(pass) Agentic class: typed identities and exact endpoint multiplicity cannot be replaced by labels [6.98ms]
+(pass) Agentic class: unchanged metadata cannot hide missing, invisible or redirected route geometry [5.23ms]
+(pass) Agentic er: actual typed Result and independently owned visible ink qualify [3.91ms]
+(pass) Agentic er: typed identities and exact endpoint multiplicity cannot be replaced by labels [149.63ms]
+(pass) Agentic er: unchanged metadata cannot hide missing, invisible or redirected route geometry [7.93ms]
+(pass) Agentic Class direction needs a referenced, visible and correctly oriented open arrow [1.60ms]
+(pass) Agentic ER exact glyph meaning and identifying appearance reject credible substitutions [7.64ms]
+(pass) Agentic parallel and reciprocal relations retain exact multiplicity independently of SVG DOM order [3.07ms]
+(pass) Agentic ER distinguishes all four reviewed cardinality glyphs and dashed identifying intent [0.88ms]
+(pass) published Pele ER cardinality bars remain separate painted strokes, not a connecting relation [4.87ms]
+(pass) class: owned geometry binds authored relations without guessing generated IDs [0.93ms]
+(pass) class: correct public model and labels cannot hide an edge redirected to another node [0.35ms]
+(pass) class: dropped relation ink fails despite unchanged labels and native graph [0.35ms]
+(pass) class: body paths without endpoint marker ink cannot certify the declared relation [0.31ms]
+(pass) state: owned geometry binds authored relations without guessing generated IDs [0.64ms]
+(pass) state: correct public model and labels cannot hide an edge redirected to another node [0.22ms]
+(pass) state: dropped relation ink fails despite unchanged labels and native graph [0.19ms]
+(pass) state: body paths without endpoint marker ink cannot certify the declared relation [0.21ms]
+(pass) er: owned geometry binds authored relations without guessing generated IDs [0.73ms]
+(pass) er: correct public model and labels cannot hide an edge redirected to another node [0.22ms]
+(pass) er: dropped relation ink fails despite unchanged labels and native graph [0.19ms]
+(pass) er: body paths without endpoint marker ink cannot certify the declared relation [0.25ms]
+(pass) duplicate relation owner IDs fail even when all expected geometric endpoint pairs are present [0.37ms]
+(pass) a degenerate move-only path is not a connecting segment [0.27ms]
+(pass) a failed canvas or authored-label criterion withholds semantic completion despite correct topology [0.60ms]
+(pass) unreviewed class marker profiles remain unmeasured rather than pretending to cover all relationship kinds [0.26ms]
+(pass) simple sequence messages bind to actor lifelines while legitimate footer duplicates stay distinct [1.22ms]
+(pass) sequence message paint redirected to a third actor fails with correct labels and unchanged native messages [0.74ms]
+(pass) duplicating a message label cannot be hidden by an unowned global copy of the missing text [0.55ms]
+(pass) sequence chronology comes from painted rows, not DOM order or native endpoint multiset alone [0.47ms]
+(pass) a duplicated actor header cannot impersonate a legitimate footer [0.51ms]
+(pass) unreviewed sequence signal styles stay unmeasured even when their labels and endpoints match [0.50ms]
+(pass) Agentic Class marker presentation cannot hide or add arrows behind valid SVG attributes [3.51ms]
+
+tests/physical-paths.test.ts:
+(pass) campaign publication copies evidence named through a symlink and refuses output inside it [5.62ms]
+(pass) a native launch refuses a manifest inside its bundle through a symlink and accepts its executable through one [1.78ms]
+(pass) a candidate directory reached through a symlink keeps its bundled dependencies [541.65ms]
+
+tests/fidelity-source-facts.test.ts:
+(pass) every source fact is fixed in the required SVG plan, including facts without a qualified observer [1.79ms]
+(pass) a specialized observer may replace an unavailable projection but cannot hide a contrary check [0.43ms]
+(pass) owned geometry verifies global direction without treating a public model or source echo as layout [1416.17ms]
+(pass) primitive shapes and solid/dotted appearance are actual owned geometry rather than source/model echoes [1574.19ms]
+(pass) compiled node paint uses owned effective colors, widths and dashes rather than CSS class spelling [1314.73ms]
+(pass) unsupported source semantics stay unknown despite matching nodes, labels and direction [298.02ms]
+(pass) source title requires painted text rather than SVG metadata [1245.95ms]
+(pass) transparent source titles and unbound accessibility metadata cannot supply fact credit [874.23ms]
+(pass) a source title cannot borrow an identically named node or survive a proved empty clip [861.38ms]
+(pass) mermaid real ordinary and rounded boxes retain source distinction despite skin corner rounding [1110.40ms]
+(pass) pele real ordinary and rounded boxes retain source distinction despite skin corner rounding [938.48ms]
+
+tests/external-invocations.test.ts:
+(pass) Python crash after return preserves exact bytes, real API clock and stable attempt without retry [113.07ms]
+(pass) native raw receipt survives bridge loss; timestamps are not manufactured [1.68ms]
+(pass) a complete stale external frame is rejected instead of silently dropped [0.43ms]
+(pass) a completed Python grade uses the terminal return frame and preserves valid empty drawing semantics [99.62ms]
+(pass) a generic Python ValueError cannot earn typed source-rejection credit [96.56ms]
+
+tests/campaign-resume-regressions.test.ts:
+(pass) a force-fresh resume reuses this campaign only, keeping old and other-cohort cache entries fresh [21.08ms]
+(pass) release lookup excludes applications and unbranded descendants but may reconsider a paused version [2.07ms]
+{"phase":"family-support","project":"fixture/witness","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/witness","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+(pass) early admission failure retains the actual SVG from the first scheduled replica [369.37ms]
+(pass) forced retained-suite resume keeps same-campaign history and original dates [15.12ms]
+(pass) resumed boundary collection adds active windows without counting idle pause time [0.90ms]
+{"phase":"family-support","project":"fixture/later-witness","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/later-witness","round":1,"caseId":"fixture:witness","completedCasesInRound":1}
+(pass) a later warm failure retains its actual SVG without replacing the representative (process 3) [574.64ms]
+{"phase":"family-support","project":"fixture/later-witness","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/later-witness","round":1,"caseId":"fixture:witness","completedCasesInRound":1}
+{"phase":"warm","project":"fixture/later-witness","round":2,"caseId":"fixture:witness","completedCasesInRound":1}
+(pass) a later warm failure retains its actual SVG without replacing the representative (process 5) [884.98ms]
+
+tests/unified-community-worker-evidence.test.ts:
+(pass) worker crash evidence contract > a real interrupted writer retains committed prefix and ignores even parseable uncommitted tail [11.05ms]
+(pass) worker crash evidence contract > malformed committed data cannot erase independent earlier or later committed results [0.30ms]
+(pass) worker crash evidence contract > contradictory duplicate ledgers withhold that case timing and remain failed after later repeats [0.45ms]
+(pass) worker crash evidence contract > identical incremental/completed duplicates agree despite harmless object member order [0.10ms]
+
+tests/visual-expectation.test.ts:
+(pass) global layout hints become normative order only for a defensible simple chain [1.79ms]
+(pass) complete class signature facts replace brittle literal signature display labels [0.33ms]
+(pass) unprinted pie totals project to fractions; showData retains explicit absolute values [0.22ms]
+(pass) unheaded sequence messages preserve endpoints and chronology without claiming an invisible sender [0.10ms]
+(pass) Sankey geometry permits common rescaling only when printed values are disabled [0.72ms]
+(pass) treemap sibling areas include aggregate subtree weights; default printed values remain absolute [1.05ms]
+(pass) explicit owned source breaks become obligations independently of family text representation [0.17ms]
+
+tests/terminal-reporting.test.ts:
+(pass) new named terminal attempts preserve broad community evidence and its overview cell [3.16ms]
+(pass) the same terminal profile supersedes its old primary rank; another profile cannot hide it [0.69ms]
+(pass) correctness counts display best-first while unknowns still withhold formal ranks [0.12ms]
+
+tests/browser-png-inspection.test.ts:
+(pass) native browser PNG admission decodes real content and rejects blank/transparent/fabricated envelopes [572.82ms]
+
+tests/campaign-preparation-regressions.test.ts:
+(pass) release resolution retains observed-only catalog entries without acquisition or a crash [1.60ms]
+(pass) a source-only CLI retains the actual reviewed head when GitHub has no releases [1.87ms]
+(pass) canonical preparation blocks an independently valid browser from another primary release [2.71ms]
+(pass) canonical browser reconciliation preserves separate SDK versions and non-browser dispositions [0.92ms]
+(pass) a loaded canonical manifest rejects stale browser ownership and changed live browser bytes [3.85ms]
+(pass) identical browser metadata cannot bypass a missing or failed primary identity receipt [10.32ms]
+(pass) preparation freezes source/PNG reviews and profile fonts without borrowing mutable input paths [8.88ms]
+(pass) moved preparation restores fonts and reviews from its own archive after original paths disappear [5.35ms]
+(pass) prepared raster profiles cannot borrow absolute unowned fonts, even with a matching profile digest [4.38ms]
+(pass) changed frozen proof bytes fail admission instead of silently using live replacement inputs [1.67ms]
+
+tests/community-protocol-identity.test.ts:
+(pass) producer and transitively imported helper changes invalidate retained community clocks [111.37ms]
+(pass) dirty and committed reports, tests, documentation and independent suites retain the identity [71.28ms]
+(pass) a new runtime helper is bound immediately, including dynamic imports; type-only dependencies are excluded [80.37ms]
+
+tests/portable-public-bindings.test.ts:
+(pass) portable admission uses a declared factory and disposes its real receiver [166.35ms]
+(pass) portable public-pipeline identity includes separately installed companion bytes [43.09ms]
+(pass) a diagnostic package cannot enter the public SVG pipeline by omitting its output contract [3.45ms]
+
+tests/ci-policy.test.ts:
+(pass) CI execution is rejected even when the generic indicator is explicitly false [0.28ms]
+(pass) a benchmark run refuses without exactly the pinned Mermaid oracle, and runs with it [2.25ms]
+
+tests/results-snapshot.test.ts:
+(pass) one numeric source supplies both the visible table rate and Mermaid bar; missing observations stay missing [4.80ms]
+(pass) catalogue-only projects leave current tables and ranks while their original observations are retained [0.49ms]
+(pass) latest failed or partial attempt overrides historical success without deleting its dated evidence [7.84ms]
+(pass) multi-project process failure is not assigned to every project; individual counts and versions remain visible [3.20ms]
+(pass) snapshot rejects invented numeric chart values, unknown projects and broken population counts [0.35ms]
+(pass) campaign groups keep formats and operations separate and retain qualification failures after successful output [1.10ms]
+(pass) snapshot check detects stale Markdown without rewriting it; reads need no Mermaid oracle [382.71ms]
+(pass) large snapshots publish linked GitHub detail pages without dropping tables or missing stale pages [112.25ms]
+(pass) canonical historical values match their provenance digest without a second copy of the rows [7.04ms]
+(pass) result ranks use the named metric, share ties, put missing values last and reverse direction for cost [0.59ms]
+(pass) table and Mermaid chart use the same best-first project order [1.17ms]
+(pass) an entirely blocked population is unranked while an observed zero retains its rank [0.48ms]
+(pass) charts and ranking share numeric parsing without coercing unavailable strings to zero [0.85ms]
+(pass) partial historical campaigns do not manufacture new core blockers for application workflows [0.44ms]
+(pass) source candidate tables rank within their cohort and cannot replace published-release overview scores [2.81ms]
+(pass) the Flutter brand gets no inherited Dart score in the regular results overview [7.12ms]
+(pass) reference comparisons keep incomplete, unknown and unlike populations out of winner claims [0.55ms]
+
+tests/lineage.test.ts:
+(pass) non-renderers and explicit catalogue exclusions cannot be enabled as descendant investigations [4.43ms]
+(pass) the measured diagram covers every selected renderer and omits the twelve removals and validator-only Rusty [15.79ms]
+(pass) lineage distinguishes historical versions, exact heads, changed forks, ports and dependencies [0.27ms]
+(pass) invalid ancestry cannot silently vanish from the tree [0.31ms]
+(pass) the complete catalog tree contains every entity once and retains changed comparison projects [5.70ms]
+(pass) branding excludes even changed descendants; explicit investigation override is visible [0.37ms]
+(pass) application workflows stay outside core comparisons even under the descendant override [0.31ms]
+(pass) catalog scope retains discovery while selecting only the 27 requested renderers [1.25ms]
+(pass) explicit application support verification fails before preparation or oracle acquisition [2.40ms]
+(pass) both public CLIs enforce exclusions before preparation and the plan records the override [8773.01ms]
+(pass) maintainer lineage corrections preserve a derivative relationship and the Mermaid Dart brand [2.57ms]
+(pass) Dart and Flutter are distinct eligible brands with separate outputs and shared-core ancestry [4.91ms]
+
+tests/upstream-fidelity-executor.test.ts:
+(pass) original callback projection checks actual endpoints, expands tables, and retains private/disabled outcomes [192.38ms]
+(pass) infrastructure and unsupported assertion capabilities never satisfy original negative assertions [19.98ms]
+(pass) original date assertions compare actual timestamps instead of empty object representations [12.81ms]
+(pass) pure helpers and sync matchers around async calls cannot manufacture public parser evidence [9.34ms]
+(pass) original rejects assertions invoke async functions and retain actual public rejection evidence [14.75ms]
+(pass) strict private prototypes cannot become a passing structural-only assertion [6.94ms]
+(pass) Vitest diagnostic messages do not negate assertions and public parses cannot invent cumulative private DB state [9.56ms]
+
+tests/docs-benchmark.test.ts:
+(pass) docs rounds balance pairwise order after each round pair and positions over a full rotation [1.20ms]
+(pass) a method name supplies no option contract; reviewed browser mappings reach the actual public renderer [591.29ms]
+(pass) UTF-8 public bundles initialize before docs clocks await the real public return and exclude post-call cleanup; failures earn no successful sample [897.55ms]
+(pass) script loading and cleanup have host deadlines and close HTTP connections before awaiting context teardown [11.44ms]
+(pass) a repair selects missing literal documentation IDs without changing or reordering the corpus [0.44ms]
+(pass) a copied recheck resolves original provenance roots only into its own output and rejects unowned paths [0.20ms]
+
+tests/checkpoint-durability.test.ts:
+(pass) raw return survives a grading exception and resumes without calling the renderer again [1.19ms]
+(pass) a torn unpublished unit cannot destroy previously completed units [0.63ms]
+(pass) recorded units reject mutation, duplicate overwrite and nonfinite clocks [0.53ms]
+(pass) legacy gzip journals remain readable and new units do not rewrite them [1.20ms]
+(pass) committed corruption is rejected rather than silently recollected [1.17ms]
+
+tests/fair-comparisons.test.ts:
+(pass) project support distinguishes a missing observer from absent output and does not grant a fork reference evidence [0.24ms]
+(pass) campaign planning never installs a target or runs a renderer and execution requires explicit selection [3264.54ms]
+(pass) identical SVG receives identical output admission regardless of tool name or optional parse API [3.74ms]
+(pass) a declared public SVG adapter preserves its receiver and awaits its returned field in both transports [192.34ms]
+(pass) optional model failures do not erase a qualified SVG-only timing while full-check qualification remains failed [8.36ms]
+(pass) external corpus selection reads pinned source, retains duplicates and empty contributors, and ignores renderer results [71.75ms]
+(pass) campaign publication preserves dates, failed criteria and raw samples in a portable unranked bundle [1.78ms]
+(pass) a later model-only failure cannot erase an earlier bad SVG return in a warm worker [267.54ms]
+
+tests/fidelity-paint-values.test.ts:
+(pass) pie weights bind actual wedge areas to authored legend labels instead of trusting correct native numbers [4302.70ms]
+(pass) bar positions must encode independently authored values even when every expected label and bar remains [760.95ms]
+(pass) packet fields preserve actual owned width and bit order, not just field names [464.61ms]
+(pass) quadrant coordinates come from uniquely owned dots in four distinct actual regions [709.61ms]
+55 | })
+56 | 
+57 | test('treemap sibling areas and gantt durations reject wrong geometry even with retained labels', async () => {
+58 |   const fixture = '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="100"><g><rect x="5" y="5" width="140" height="40" fill="pink"/><text x="10" y="25">Alpha</text></g><g><rect x="150" y="5" width="60" height="40" fill="cyan"/><text x="155" y="25">Beta</text></g></svg>'
+59 |   const expected = { labels: ['Alpha', 'Beta'], nodes: [{ id: 'Root/Alpha', label: 'Alpha' }, { id: 'Root/Beta', label: 'Beta' }], facts: { values: [{ id: 'Root/Alpha', value: 7 }, { id: 'Root/Beta', value: 3 }] } }
+60 |   expect((await inspect(fixture, 'treemap', expected))[0]?.status).toBe('passed')
+                                                                        ^
+error: expect(received).toBe(expected)
+
+Expected: "passed"
+Received: "failed"
+
+      at <anonymous> (/workspace/trident-qualification/tests/fidelity-paint-values.test.ts:60:68)
+(fail) treemap sibling areas and gantt durations reject wrong geometry even with retained labels [241.22ms]
+(pass) weighted Sankey edges require bounded owned endpoints and distinct weighted paint [789.16ms]
+(pass) journey relative scores observe actual task-owned glyph order [474.51ms]
+(pass) radar values measure drawn curve intersections rather than retained legend or model values [531.80ms]
+
+tests/terminal-source-contracts.test.ts:
+(pass) all120 immutable source inputs have complete explicit obligations, with no renderer-output facts or silently omitted families [123.24ms]
+(pass) source ampersands inside labels do not become graph operators; real fan-in expands independently [0.64ms]
+(pass) cyclic and grouped sources retain literal direction advisories without inventing node ordering [0.56ms]
+(pass) every explicit rectangle has a primitive obligation and generic parameters do not become class identity [0.42ms]
+(pass) source contracts retain chart values, ER cardinality, packet bit ranges and hierarchy ownership [0.41ms]
+(pass) empty valid source is not subject to a nonblank drawing requirement [5.76ms]
+(pass) zero-node title drawings stay meaningful and unsupported group ink is not misclassified as an empty-source defect [4.72ms]
+(pass) raw invalid UTF-8 stays unknown and binds actual bytes instead of replacement-decoded label evidence [2.02ms]
+(pass) unimplemented family facts remain unknown even when every source label and number is echoed [1.99ms]
+(pass) actual pie bar values need owned weights, percentages and complete output, not a source echo [5.51ms]
+(pass) pie proportions use an order-independent feasible scale and cannot pass uninformative equal bars [6.06ms]
+(pass) journey and timeline summaries retain section, actor, score, event and chronology ownership without orphan ink [13.40ms]
+(pass) invalid source rejection is separate and requires typed public evidence [4.78ms]
+(pass) canonical drawing and rejection verdicts require the exact independently audited source contract [4.22ms]
+
+tests/upstream-fidelity-original.test.ts:
+(pass) native Vitest callback accounting preserves module failures and never reports callbacks as assertion counts [0.88ms]
+(pass) an actual missing Canvas environment blocks fidelity credit without hiding unrelated assertion failures [0.09ms]
+(pass) snapshotting a public Mermaid DB keeps earlier prepared source independent of singleton resets [0.78ms]
+(pass) source transform admission binds an ESM-only installed package without requiring a CommonJS export [5.67ms]
+(pass) selecting only a peer never prepares or executes the unrelated Mermaid original runner [0.61ms]
+(pass) selecting a community-only peer skips original public projection before source, runtime and output admission [8.10ms]
+
+tests/terminal-corpus.test.ts:
+(pass) literal Mermaid source and golden input sections preserve bytes and exclude output [0.68ms]
+(pass) static source extraction rejects test titles, type names, interpolation and dynamic fragments [2.35ms]
+(pass) source metadata describes feature strata without becoming drawing expectations [0.86ms]
+(pass) committed real corpus has authenticated source bytes, research snapshots and explicit missing correctness evidence [320.81ms]
+(pass) independent reviews bind exact source facts and unobserved facts withhold whole-drawing credit [73.46ms]
+(pass) a plausible hash string cannot replace the actual authenticated origin body [50.92ms]
+
+tests/unified-native-storage.test.ts:
+(pass) compiled executable restores byte-for-byte with permissions and runs directly [14.80ms]
+
+tests/public-conformance.test.ts:
+(pass) the pinned inventory retains all original source files and preserves the exact upstream public test bytes [2.82ms]
+(pass) the implementation transform changes one public body and refuses stale or ambiguous source; it never changes tests [2.40ms]
+(pass) missing callbacks, lost call results and duplicate callbacks cannot supply conformance passes [4.46ms]
+(pass) a candidate cannot pass by throwing unsupported syntax into an original rejection expectation [0.50ms]
+(pass) missing asserted config is a binding gap; generic successful parse assertions do not require an invented config [1.55ms]
+(pass) reference equivalence requires every unchanged callback to pass on both actual original and public-boundary execution [2.44ms]
+(pass) a public Result binding never reads the source with a reference parser or fabricates absent config [2.60ms]
+(pass) actual native parse results and configuration are durably snapshotted before original assertions can inspect or mutate them [1.71ms]
+(pass) raw parse capture preserves JSON data and declares loss instead of silently invoking or replacing unsupported values [0.64ms]
+(pass) public-surface review does not disguise pending public tests or shadowed identifiers as internal-only exclusions [10.00ms]
+(pass) public detector delegation is separately SHA-bound and never substitutes the parser [2.14ms]
+(pass) the structural render matrix preserves original callback bytes and freezes all nineteen source parameters [1.32ms]
+(pass) public render adaptation preserves the complete native SVG rather than manufacturing accessibility attributes [1.25ms]
+(pass) retained original controls cannot change sources, parameters, host or public boundary to avoid rerunning [0.97ms]
+
+tests/artifact-dependencies.test.ts:
+(pass) actual installed dependency closure > retains empty legacy dependencies arrays as no edges but rejects nonempty arrays [2.15ms]
+(pass) actual installed dependency closure > retains empty legacy optionalDependencies arrays as no edges but rejects nonempty arrays [2.01ms]
+(pass) actual installed dependency closure > retains empty legacy peerDependencies arrays as no edges but rejects nonempty arrays [0.33ms]
+(pass) actual installed dependency closure > captures same-version implementation changes without relying on a lockfile or hashing the candidate [1.03ms]
+(pass) actual installed dependency closure > resolves symlinked packages and their actual nested dependencies and file targets [0.76ms]
+(pass) actual installed dependency closure > terminates dependency cycles and excludes nested node_modules and Git storage from file scans [1.24ms]
+(pass) actual installed dependency closure > records missing optional and peer packages and invalidates when an optional package appears [0.79ms]
+(pass) actual installed dependency closure > captures linked directories without following cycles or aliases into Git storage [1.37ms]
+(pass) actual installed dependency closure > fails closed for a missing required package and prevents dependency paths from hashing candidate source [0.39ms]
+(pass) actual installed dependency closure > rejects a dependency file symlink into candidate-owned source [0.26ms]
+
+tests/release-workflow-regressions.test.ts:
+(pass) source smoke requires the selected SVG and terminal interfaces independently [0.28ms]
+(pass) kit smoke retains blocked mapping attempts even when they have no qualification-bearing workers [3.90ms]
+(pass) planned kit cases cannot replace execution with missing evidence [4.85ms]
+(pass) planned kit cases cannot replace execution with probe evidence [1.51ms]
+(pass) planned kit cases cannot replace execution with baseline evidence [0.96ms]
+(pass) kit smoke binds exact case identities and the owning attempt rather than inventory length [0.59ms]
+(pass) a passing derived flowchart row still needs actual output admission in its worker evidence [0.83ms]
+(pass) an expired allowance can retain unavailable CLI views without starting a child [50.18ms]
+(pass) the resource deadline gates actual commands after unavailable observations are recorded [0.19ms]
+(pass) release parity preserves identical renderer findings and known option gaps without calling them workflow passes [9.06ms]
+(pass) shipped kit cannot turn a source workflow into a fresh failed result [6.47ms]
+(pass) shipped kit cannot turn a source workflow into a fresh blocked result [6.04ms]
+(pass) shipped kit cannot turn a source workflow into a fresh partial result [4.44ms]
+(pass) release parity rejects changed artifact bytes, old source expectations and missing negative preludes [12.03ms]
+(pass) equal worker summaries cannot hide an extracted kit witness missing declared source text [3.60ms]
+(pass) contradictory rejection evidence and unqualified transport failures cannot get packaging parity [5.82ms]
+(pass) an identical failed host error cannot become a renderer finding through packaging parity [3.80ms]
+(pass) a preserved output failure needs both actual returned bytes and an independently confirmed violated fact [6.66ms]
+
+tests/franken-diagnostics.test.ts:
+(pass) Franken diagnostics preserve public warnings without inventing syntax rejection [220.86ms]
+(pass) a public snake-case rejection flag cannot become successful validation [0.27ms]
+
+tests/terminal-groups.test.ts:
+(pass) group controls preserve literal retained bytes, source and artifact identity [1.36ms]
+(pass) real module, CLI and Python group contours establish containment and pass-through routes [67.75ms]
+(pass) group labels and direct membership cannot be replaced by text presence [8.62ms]
+(pass) a source group is an actual route endpoint, while a crossed wall cannot supply source identity [5.45ms]
+(pass) nested parentage is independent of routes; group-to-group edges retain real boundary ownership [9.32ms]
+(pass) overlapping non-nested group frames cannot assign their shared member by expected ownership or area ties [1.68ms]
+
+tests/docs-png-benchmark.test.ts:
+(pass) PNG docs export awaits actual encoded bytes, retains intrinsic dimensions and rejects invalid SVG [1040.80ms]
+
+tests/adapter-companion-identity.test.ts:
+(pass) changing an executed companion invalidates the owning public artifact [1.16ms]
+
+tests/campaign-reporting-regressions.test.ts:
+(pass) documentation SVG return and reviewed drawing correctness retain separate populations and ranks [2.74ms]
+(pass) new SVG case verdicts rank verified correct counts while retaining unknown diagrams [4.59ms]
+(pass) newer PNG-only or unstarted PNG work cannot suppress retained SVG coverage [8.43ms]
+(pass) an inapplicable output lane has no fabricated score or setup blocker [0.78ms]
+(pass) a one-project docs rerun updates its row while comparable peer scores, dates and owning receipts survive [8.50ms]
+(pass) equal-sized docs inventories with changed input bytes cannot join a rolling comparison [1.83ms]
+(pass) a newer multi-project run cannot keep an omitted project score alive through another row’s publication date [4.27ms]
+(pass) fresh generated docs tables supply their own overview rank and literal percentage [2.12ms]
+(pass) a genuinely later partial attempt hides older scores, but a later owning import restores reused dated evidence [3.58ms]
+(pass) candidate study tables and attempts cannot replace or suppress release scores, including unstarted boundaries [4.11ms]
+(pass) fully blocked generated docs data stays blocked and unranked rather than showing zero percent [1.69ms]
+(pass) an interrupted docs round retains partial observations without a fabricated zero rank or chart bar [2.03ms]
+(pass) CLI variants belong to their catalogue project while terminal compatibility shares only identical input populations [2.23ms]
+(pass) copied campaign evidence reads its own reports even while the original directory still exists [1.74ms]
+(pass) an extracted native pilot reads owning reports relative to its controller and retains usable report paths [0.80ms]
+(pass) latest core and external cohort statuses are both visible and a newer partial campaign supersedes the pair [3.78ms]
+(pass) recovered terminal content keeps a lost measurement clock unknown instead of borrowing another collection time [0.78ms]
+
+tests/evidence-contract.test.ts:
+(pass) a correct verdict is constructed only from the complete bound observation set [0.81ms]
+(pass) stale source/expectations, duplicate or unplanned checks cannot earn passing credit [0.51ms]
+(pass) admitted evidence is immutable and cannot be upgraded after validation [0.14ms]
+(pass) recovered output can retain unknown clocks without inventing zero or a measurement window [0.28ms]
+
+tests/terminal-primitives.test.ts:
+(pass) primitive controls preserve retained source, artifact, output and collection identities [0.62ms]
+(pass) explicit break boundaries survive multiline CLI and module output; printed HTML does not stand for a line break [8.57ms]
+(pass) diamond shape annotations have matching ownership across corner and midpoint conventions [17.95ms]
+(pass) circle and double-circle primitives keep distinct glyphs and authored lines [5.09ms]
+(pass) arrowheads painted on node boundaries retain their actual source and target [0.66ms]
+(pass) global direction does not invent mandatory precedence for a branched DAG [0.27ms]
+(pass) isolated parentheses, disconnected nested curves and misaligned inner walls cannot supply a primitive [3.33ms]
+
+tests/unified-declared-adapter.test.ts:
+community round 1/1: fixture/declared 1.0.0
+community preparation 1/1: fixture/declared
+(pass) a tool declared only in its catalog entry is benchmarked through its named public export [2502.21ms]
+
+tests/baseline-measurement-context.test.ts:
+(pass) an unrelated tool pin preserves an admitted artifact clock while worker changes invalidate it [2896.10ms]
+
+tests/unified-workload-intent.test.ts:
+(pass) a parser-owned fragment never promises drawable output despite a generated layout assertion [0.31ms]
+(pass) pinned rejection is an observed input boundary, not a positive renderer failure or an intentional-invalid declaration [0.04ms]
+(pass) positive rendering scores preserve every excluded or unavailable population and do not rewrite historical rows [0.53ms]
+(pass) unknown serialized intent values cannot shrink the positive denominator as diagnostics [0.08ms]
+
+tests/fidelity-ledger.test.ts:
+(pass) a reference render failure keeps planned ink evidence in the denominator and prevents a complete case claim [1.45ms]
+(pass) an omitted peer criterion cannot disappear from a common baseline-qualified comparison [0.68ms]
+(pass) failed workflow setup withholds qualified postcondition credit while preserving the observed fact [0.39ms]
+(pass) capability-specific serializers remain visible without creating a fictitious Mermaid API denominator [0.36ms]
+(pass) authored nodes, relationships and font configuration declare checks before observation [0.61ms]
+
+tests/browser-process-memory.test.ts:
+(pass) Chromium RSS/PSS ownership deduplicates process IDs and refuses a partial total [1.55ms]
+(pass) unsupported platform, invalid counters and failed CDP are explicit unavailable evidence [0.79ms]
+
+tests/unified-community-admission.test.ts:
+(pass) community benchmark artifact admission > preserves external JSONL results, blocks an unproven crash and restarts untouched inputs [292.92ms]
+(pass) community benchmark artifact admission > binds physical npm lock keys and rejects ambiguous or malformed integrity [0.91ms]
+(pass) community benchmark artifact admission > never admits source/metadata JSON as terminal ink or a missing file as stdout [325.04ms]
+(pass) community benchmark artifact admission > rejects empty/echo ASTs and resumes remaining cases after a crashing worker [428.99ms]
+(pass) matched family evidence and artifact alias guards > legacy output-only samples cannot qualify speed even when every initial output passed [1.16ms]
+(pass) matched family evidence and artifact alias guards > same Git pin and equal bytes never alias interpreted programs or different reviewed protocols [2.22ms]
+(pass) negative admission survives crashed workers > retains first-attempt sidecar and withholds earlier core pass after contradictory restarted admission [1667.85ms]
+
+tests/docs-png-qualification.test.ts:
+(pass) the collection path builds a real exact-SVG proof, independent raster review and retained reference artifact [1954.27ms]
+(pass) changed rasterized arrow direction cannot borrow original SVG or approved PNG facts [1476.58ms]
+(pass) conversion cannot replace independent raster content review, and native PNG never borrows SVG proof [2142.08ms]
+(pass) profile fonts and retained exact SVG hashes cannot be silently substituted [15.41ms]
+(pass) derived witness substitutions cannot claim another raw conversion return [1492.47ms]
+(pass) native PNG review ownership cannot borrow another project or altered actual image [12.47ms]
+(pass) retained SVG pointers cannot escape through an owned-looking symlink [22.17ms]
+(pass) saving derived reference PNGs preserves prior bytes and cannot write through a copied symlink [28.51ms]
+
+tests/unified-svg-browser-qualification.test.ts:
+(pass) Node and real browser XML adapters agree on independently authored text-retention cases [1113.80ms]
+(pass) pinned Mermaid loads its sealed ZenUML addon and draws authored required labels [2551.60ms]
+
+tests/fidelity-classification.test.ts:
+(pass) docs coverage keeps required support, beta coverage, deliberate CSS rejection and environment failures distinct [0.95ms]
+(pass) reference failures and missing paint remain in the ledger rather than creating peer fidelity credit [1.13ms]
+
+tests/fidelity-visual-quantities.test.ts:
+(pass) retained Sankey separately proves proportional ribbons and default printed node totals [2005.18ms]
+(pass) common rescaling is equivalent when Sankey value printing is explicitly disabled [1243.27ms]
+(pass) retained treemap areas and printed values are separate independent obligations [2283.64ms]
+
+tests/qualified-timing.test.ts:
+(pass) timing requires a checked actual output for every fixed-plan invocation [19.93ms]
+(pass) one passing initial output cannot qualify missing, failed or changed repeated outputs [7.53ms]
+(pass) stale expectations, observer, artifacts, duplicate calls and invalid A/A controls reject [9.60ms]
+(pass) unknown clocks and overlapping measured calls withhold speed [10.96ms]
+(pass) host and boundary relabelling and zero-width cloned clocks cannot qualify [12.88ms]
+(pass) post-hoc plan tuning and a selected subset of an exhaustive journal cannot qualify [9.59ms]
+(pass) first use cannot reuse an execution instance or accept an invented shorter duration [11.96ms]
+(pass) different A/A baselines cannot share a comparative timing key [11.31ms]
+(pass) offline timing reads the exhaustive journal without writes and rejects a symlinked output owner [31.65ms]
+(pass) derived grading reuses exact original clocks while freshly checking every retained output against new facts [28.16ms]
+(pass) derived grading cannot borrow old checks or omit a required fresh observation [24.42ms]
+(pass) derived grading rejects nonempty subsets, new source bytes and collection-plan overrides [36.74ms]
+(pass) fresh grading failure and changed actual bytes withhold timing without changing raw history [63.14ms]
+160 |   const journal = new CollectionCheckpoint(directory, { schema: 'trident-invocation-journal-v1' }), frames = journalOf(data.samples)
+161 |   for (const frame of frames) journal.record(frame.attemptId + ':' + frame.state, frame)
+162 |   const partial = data.samples.slice(4), grading = await deriveTimingGrading(data.plan, partial, () => bytes, freshPolicy(data.plan), freshlyInspect, frames)
+163 |   writeFileSync(file, JSON.stringify({ ...data, samples: partial, journalDirectory: 'journal', grading }))
+164 |   const before = readdirSync(root, { recursive: true }).sort(), result = qualifyRetainedTiming(file)
+165 |   expect(result).toMatchObject({ status: 'qualified', planSha256: evidenceDigest(data.plan), medianMs: 5 })
+                       ^
+error: expect(received).toMatchObject(expected)
+
+  {
+-   "medianMs": 5,
++   "activeGrading": {
++     "cases": [
++       {
++         "caseId": "source:chain",
++         "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++         "requiredChecks": [
++           {
++             "criterion": "complete-chain",
++             "surface": "paint",
++           },
++           {
++             "criterion": "new-required-source-fact",
++             "surface": "paint",
++           },
++         ],
++         "schema": "trident-case-evidence-v1",
++         "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++       },
++     ],
++     "checks": [
++       {
++         "attemptId": "actual-fixture-call-0",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-1",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-2",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-3",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-4",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-5",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-6",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-7",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-8",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-9",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-10",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-11",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-12",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-13",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-14",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-15",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-16",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-17",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-18",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-19",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-20",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-21",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-22",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-23",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-24",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-25",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-26",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-27",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-28",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-29",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-30",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-31",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-32",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-33",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-34",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-35",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++             {
++               "criterion": "new-required-source-fact",
++               "detail": "Fresh byte inspection of this synthetic trust-record control; no renderer accuracy claim",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "bb75721d50bb5fd8dedf99667068548ff0310261eb33134aa48a5980c15c0cb8",
++           "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++     ],
++     "collectionJournalSha256": "c33977d3a9d9c86298c2561c2fdcd2a703180d1a8f713e283d51a283d54f86b0",
++     "collectionPlanSha256": "f559e409b354e4be4f71e7abc3fba3001427a2f64cc6ab20ea87c6e57ec20aed",
++     "collectionSamplesSha256": "c3dc165f6146a34aa828644e1aec5895f53fbf0731aa49f9bd0c945df073e872",
++     "observerSha256": "5d3b94ea9b0ef146531737e4ab511ff8f0b973ebef0857c2088384e7d5fdcdaa",
++     "provenance": {
++       "sha256": "77b47e287baa9ae1119d02d607528749a87204e8961c0104dc44bfb1c8ddff8a",
++       "source": "Synthetic source-grading control, not benchmark evidence",
++     },
++     "reason": "Correct the source contract and observer using retained output; keep every original captured call.",
++     "schema": "trident-derived-timing-grading-v1",
++   },
++   "boundary": "public SVG API through returned bytes; import excluded",
++   "calibration": {
++     "candidateRatio": 0.5,
++     "candidateRatios": [
++       0.5,
++       0.5,
++       0.5,
++       0.5,
++       0.5,
++       0.5,
++     ],
++     "controlBand": {
++       "lower": 1,
++       "upper": 1,
++     },
++     "controlRatios": [
++       1,
++       1,
++       1,
++       1,
++       1,
++       1,
++     ],
++     "gaps": [],
++     "interpretation": "below observed control band; advisory",
++     "roundRatioUncertainty": {
++       "controls": {
++         "detail": "A finite interval does not remove systematic host, workload or artifact differences.",
++         "independentRounds": 6,
++         "interval": {
++           "confidence": 0.96875,
++           "lower": 1,
++           "upper": 1,
++         },
++         "medianRatio": 1,
++         "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
++       },
++       "replicaB": {
++         "detail": "A finite interval does not remove systematic host, workload or artifact differences.",
++         "independentRounds": 6,
++         "interval": {
++           "confidence": 0.96875,
++           "lower": 0.5,
++           "upper": 0.5,
++         },
++         "medianRatio": 0.5,
++         "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
++       },
++     },
++     "status": "calibrated",
++   },
++   "caseIds": [
++     "source:chain",
++   ],
++   "checked": 36,
++   "comparisonKey": "14d9a584b2aed92065f3d67faf2b88f9175efa5ad8d0966c32c2050f7d137671",
++   "environmentSha256": "d5cc4b1b9daebb45ae7aa0bb269855cdcdeecfebdb57ac707b22f688641abd9b",
++   "format": "svg",
++   "gaps": [
++     "Owned capture protocol and collection lifecycle receipts are required",
++   ],
++   "gradingHistory": {
++     "collectionPlan": {
++       "artifacts": {
++         "A0": {
++           "artifactSha256": "b1319ad853ed3f7267e6b8dbb02a6d2bae9ff8404247d7ccae494fe33779d9a5",
++           "bindingSha256": "81ad40ab35af6f7da7fd59a522a8a01d9604866cfd35c228dd85cba71670c4a0",
++           "project": "fixture/reference",
++         },
++         "A1": {
++           "artifactSha256": "b1319ad853ed3f7267e6b8dbb02a6d2bae9ff8404247d7ccae494fe33779d9a5",
++           "bindingSha256": "81ad40ab35af6f7da7fd59a522a8a01d9604866cfd35c228dd85cba71670c4a0",
++           "project": "fixture/reference",
++         },
++         "B": {
++           "artifactSha256": "d4098c5af352d387ac130a01c56f5c3dfe0a9c2a2d321b30b8191eb888d68ca8",
++           "bindingSha256": "81ad40ab35af6f7da7fd59a522a8a01d9604866cfd35c228dd85cba71670c4a0",
++           "project": "fixture/candidate",
++         },
++       },
++       "boundary": "public SVG API through returned bytes; import excluded",
++       "cases": [
++         {
++           "caseId": "source:chain",
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "requiredChecks": [
++             {
++               "criterion": "complete-chain",
++               "surface": "paint",
++             },
++           ],
++           "schema": "trident-case-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       ],
++       "environmentSha256": "d5cc4b1b9daebb45ae7aa0bb269855cdcdeecfebdb57ac707b22f688641abd9b",
++       "format": "svg",
++       "maximumControlSpread": 0.25,
++       "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++       "rounds": 6,
++       "samplesPerRound": 2,
++       "schema": "trident-qualified-timing-plan-v1",
++       "track": "first-use",
++     },
++     "originalChecks": [
++       {
++         "attemptId": "actual-fixture-call-4",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-5",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-6",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-7",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-8",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-9",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-10",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-11",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-12",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-13",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-14",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-15",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-16",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-17",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-18",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-19",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-20",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-21",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-22",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-23",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-24",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-25",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-26",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-27",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-28",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-29",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-30",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-31",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-32",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-33",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-34",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++       {
++         "attemptId": "actual-fixture-call-35",
++         "checked": {
++           "caseId": "source:chain",
++           "checks": [
++             {
++               "criterion": "complete-chain",
++               "detail": "Independent authored fixture observation",
++               "status": "passed",
++               "surface": "paint",
++             },
++           ],
++           "expectationsSha256": "1afcc5d877b5f1c8b9664e48ffd3f63b21d1418ff146600e5913bfed6c6fc204",
++           "observerSha256": "f0cea9317e853701ed613a42f17db00f2428a0769889bc3d9ac82ba65fe21d05",
++           "outputSha256": "62a567d89837d6b8f055e73e837b7e4eafbfb7390ac7df0d31d7a08d65fe2bcb",
++           "schema": "trident-checked-evidence-v1",
++           "sourceSha256": "327526847b44ed9ece9402e82ae2a7ddf04b1304343c5d435347a9158f87f4f2",
++         },
++       },
++     ],
++   },
++   "gradingSha256": "e951ce67f194d6ec3363e8566a0d86ef882e9edf16eb820ffcacadd3ae4e0bb2",
++   "interpretation": "Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim.",
++   "medianMs": null,
++   "perRoundMs": null,
+    "planSha256": "f559e409b354e4be4f71e7abc3fba3001427a2f64cc6ab20ea87c6e57ec20aed",
+-   "status": "qualified",
++   "planned": 36,
++   "project": "fixture/candidate",
++   "recoveredInvocations": [
++     "actual-fixture-call-3",
++     "actual-fixture-call-2",
++     "actual-fixture-call-1",
++     "actual-fixture-call-0",
++   ],
++   "samplesSha256": "c3dc165f6146a34aa828644e1aec5895f53fbf0731aa49f9bd0c945df073e872",
++   "schema": "trident-qualified-timing-v1",
++   "status": "unqualified",
++   "track": "first-use",
+  }
+
+- Expected  - 2
++ Received  + 1663
+
+      at <anonymous> (/workspace/trident-qualification/tests/qualified-timing.test.ts:165:18)
+(fail) public offline timing reduction consumes explicit derived grading and preserves the collection files [81.73ms]
+(pass) derived grading binds original clocks and raw checks, including mutation during async inspection [14.51ms]
+(pass) fresh grading recovers raw returns omitted by a crashed old observer without calling a renderer [46.86ms]
+(pass) recovery rejects changed raw history, contradictory rows and replaced sources or UUID coordinates [28.82ms]
+(pass) raw recovery cannot select away missing, duplicate or interrupted public attempts [72.72ms]
+
+tests/invocation-journal.test.ts:
+(pass) actual return and clock survive a later grading exception [6.08ms]
+(pass) a start without an outcome remains incomplete, while missing clocks stay null [1.19ms]
+(pass) external returned frames retain explicit unknown clocks and cannot contradict an earlier outcome [1.29ms]
+
+tests/upstream-runtime-dependencies.test.ts:
+(pass) the original runner uses the locked ZenUML engine rather than its semver minimum [5.62ms]
+(pass) direct source operands select the actual locked uuid override, not a declared range minimum or another importer [0.16ms]
+(pass) receipt keeps peer/patch-qualified operands and source overrides while npm receives only a registry version [0.12ms]
+(pass) jsdom requires the Canvas adapter selected by its actual locked peer snapshot [0.16ms]
+(pass) installed versions and tarball integrity must agree with selected operands, not merely the requested manifest [1.60ms]
+(pass) original runner records the installed Vitest version and refuses another tool version for a pinned runner [0.34ms]
+(pass) a symlink ancestor cannot route a supposedly external runtime into the pinned source [0.94ms]
+(pass) renaming a runtime never bypasses the sealed original baseline dependency or byte checks [1.36ms]
+(pass) the external runtime link stays outside source changes without hiding new or modified source [85.43ms]
+
+tests/portable-configuration.test.ts:
+(pass) semantic configuration uses each reviewed public path and keeps declared options immutable [0.65ms]
+(pass) font checks follow actual authored labels rather than the root or unrelated text [1.23ms]
+(pass) the real Node worker translates seed and edited font options; unavailable bindings remain blocked [696.45ms]
+
+tests/qualified-timing-collection.test.ts:
+(pass) real per-call capture qualifies through the public offline CLI and never includes grading in API clocks [2035.32ms]
+(pass) grading crash resumes complete raw output with stable attempts, original clocks and zero new calls [2121.79ms]
+(pass) a renamed cached callback cannot claim a fresh runtime, and changed sources or warm tracks cannot invoke [3.52ms]
+(pass) interrupted raw capture remains incomplete without rerunning or silently filling planned calls [3.43ms]
+(pass) exposed Worker cleanup overrides cannot fabricate a close result [1672.13ms]
+(pass) the fixed six-round schedule balances every replica position on every source [1.94ms]
+(pass) a timed-out factory cannot issue a late public call and its late runtime is closed [67.39ms]
+(pass) a real child process ignoring termination is bounded and blocks subsequent planned calls [61.45ms]
+(pass) a global collection budget leaves unmeasured cells without manufacturing attempts [25.40ms]
+(pass) a bounded failed observer can regrade every retained call without reopening runtimes [1889.88ms]
+(pass) duck-typed browser objects cannot substitute a cached parent callback for a real browser [2.70ms]
+(pass) owned real-browser evaluation cannot be replaced by a parent callback on the exposed page [7805.86ms]
+(pass) a real Worker postMessage override cannot route the measured call to cached parent code [1502.78ms]
+(pass) owned child IPC send cannot be replaced by cached parent code [1504.00ms]
+
+tests/docs-png-drawings.test.ts:
+(pass) PNG decode/nonblank and a reviewed SVG cannot supply PNG content credit [0.94ms]
+(pass) image content reviews bind actual PNG, exact source and all declared expectations [1.48ms]
+(pass) PNG-only artifacts are applicable to DaveBench without any SVG binding or browser [5.48ms]
+(pass) an initializer that never resolves is bounded and its page is closed [11.06ms]
+(pass) PNG full-content credit requires validated complete source metadata, including direct assessment [0.57ms]
+(pass) unsettled source intent cannot become a nonblank-image failure [0.86ms]
+
+tests/report-variants.test.ts:
+(pass) coverage keeps explicit artifact variants separate when suite and case names match [2.49ms]
+(pass) report admits observed versions without treating catalog declarations as executions [1.60ms]
+
+tests/harness-controls.test.ts:
+(pass) a static valid nonblank PNG cannot verify input propagation [1.95ms]
+(pass) a changed SVG must contain the new control label without retaining the stale one [2.60ms]
+(pass) one unrelated passing model row cannot satisfy the public model control [0.19ms]
+
+tests/fidelity-paint.test.ts:
+(pass) actual Mermaid drop shadow preserves source ink without granting arbitrary filters paint credit [1851.43ms]
+(pass) actual painted endpoints and multiplicity are independent of correct labels and model expectations [2132.56ms]
+(pass) positive-alpha labels cannot earn visible credit when their opaque node backdrop has the same colour [1548.46ms]
+(pass) an extra explicitly identified but unbound route cannot earn exact multiplicity credit [250.67ms]
+(pass) one missing node body cannot borrow a surrounding cluster while another body remains distinct [248.21ms]
+(pass) group labels bind their own containers without letting nodes borrow the same group outline [812.05ms]
+(pass) collapsed or hidden source content cannot pass merely because the requested outer labels are present [732.28ms]
+(pass) unprojected marker grammar cannot invent an arrow: L0 0 L6 3 L0 6 Z [291.54ms]
+(pass) unprojected marker grammar cannot invent an arrow: M0 0 L6 3 M0 6 [264.16ms]
+(pass) unprojected marker grammar cannot invent an arrow: M0 0 L6,,3 L0 6 Z [244.42ms]
+(pass) browser paint rejects hidden and clipped authored labels, not just missing SVG text [1507.22ms]
+(pass) image prerequisites stay unknown while missing/wrong assets and nonvisible requested geometry fail [2869.70ms]
+(pass) every relationship label belongs to its actual owned route, even when all endpoints and text counts are correct [1025.80ms]
+(pass) marker ownership distinguishes inheritance, composition and inline arrowheads without classifying decorations as directed arrows [1928.34ms]
+(pass) requested font size is checked on every authored text run rather than one convenient element [896.67ms]
+(pass) owned node fill and edge stroke effects cannot be satisfied by unrelated matching decorations [1881.14ms]
+(pass) barbed four-vertex arrows are concave directional heads rather than convex cardinality diamonds [793.21ms]
+(pass) actual sequence messages exclude painted actor lifelines and nested outlines retain node ownership [1444.90ms]
+(pass) rich foreignObject leaves remain actual authored text and logical tree groups do not imply enclosure [784.60ms]
+(pass) C4 person relationships can attach to the actual compound head rather than an unrelated body rectangle [972.68ms]
+(pass) actual Mermaid open-arrow legs retain direction across a repeated moveto apex [1762.82ms]
+(pass) actual ZenUML inline SVG heads and reflected arrows determine reciprocal physical direction [981.70ms]
+(pass) actual ZenUML activations, self calls, and return polylines stay owned by their drawn actors [1244.90ms]
+(pass) actual Pele external labels bind distinct service bodies without borrowing their common cluster [812.77ms]
+(pass) inline arrows use the same geometry for every renderer prefix and reject missing, reversed and detached heads [1423.50ms]
+(pass) an additional visible node cannot earn a complete ownership pass by preserving expected labels [236.35ms]
+(pass) unclassed inline triangle geometry is observed without an implementation-specific selector [568.36ms]
+(pass) unwrapped public SVG binds labels to individual real outlines without borrowing a canvas background [2809.35ms]
+(pass) a later opaque cover cannot preserve passing visible-label evidence through positive text bounds [1432.05ms]
+
+tests/newer-families.test.ts:
+(pass) the historical family mark stays fixed while the current portable cohort exercises both required additions [3.84ms]
+(pass) the pinned oracle accepts every newer probe and reads back exactly its labels [2907.22ms]
+(pass) the committed corpus carries every documented example of the newer families at the oracle release [1.80ms]
+(pass) a re-import from the tagged Mermaid checkout reproduces the committed examples [36.48ms]
+(pass) Event Modeling label expectations survive the oracle layout getter failing [1154.87ms]
+(pass) the pinned Mermaid baseline accepts every imported documented example before benchmarking [2701.01ms]
+(pass) ZenUML refuses an addon version outside this benchmark set before loading it [0.65ms]
+(pass) the pinned first-party addon admits the authored required ZenUML source [1710.11ms]
+
+tests/portable-measurement.test.ts:
+(pass) explicit case selection retains corpus order and refuses unknown, empty or excluded cases [9.66ms]
+(pass) subset family counts describe exercised positive families and keep canonical representatives separate [1.85ms]
+(pass) sampling and independent A/A noise govern calibration rather than successful process exit [2.10ms]
+(pass) missing provider evidence and censored zero CPU counters never become free observed work [0.40ms]
+(pass) portable CLI keeps insufficient sampling explicit and rejects ambiguous selection [2.26ms]
+(pass) architecture scale preserves authored group membership [0.57ms]
+(pass) prepared fresh processes execute first-use API windows serially [1013.44ms]
+(pass) Agentic native qualification uses its actual root parser outside render clocks and memory snapshots [1038.94ms]
+(pass) an edited native parse failure stays separate from a valid consumed SVG result [349.96ms]
+(pass) Agentic source variants cannot reuse another source native qualification merely because SVG bytes match [443.32ms]
+(pass) a failed memory-measured call is not hidden by later successful qualification [425.06ms]
+(pass) retention captures intermediate faults and warm timing rejects transient bad SVG [792.94ms]
+(pass) a worker deadline reaps the child before another launch [373.21ms]
+(pass) a valid result followed by failed worker cleanup never qualifies [619.77ms]
+(pass) cancellation aborts the current worker and latches against subsequent launches [147.12ms]
+(pass) the direct worker entry rejects CI before reading a job or loading a target [277.81ms]
+(pass) missing execution never becomes a vacuous acceptance or semantic pass [0.74ms]
+(pass) duplicated fresh-process identities cannot replace missing samples [6.04ms]
+(pass) dedicated result pipe retains large Unicode errors despite renderer stdout noise [386.19ms]
+(pass) resource counters use a terminal observer frame without per-worker files [831.36ms]
+(pass) an import failure retains its terminal blocked payload without first-use credit [292.73ms]
+(pass) a later cold worker cleanup failure does not lose earlier completed worker evidence [424.97ms]
+(pass) unserializable jobs are rejected before any serial or batch worker can be left alive [73.85ms]
+{"phase":"family-support","project":"fixture/family-support","family":"flowchart","supported":true}
+{"phase":"family-support","project":"fixture/family-support","family":"sequence","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"state","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"class","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"er","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"timeline","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"journey","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"architecture","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"xychart","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"pie","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"quadrant","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"gantt","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"mindmap","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"gitgraph","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"radar","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"sankey","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"c4","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"packet","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"kanban","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"requirement","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"treemap","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"ishikawa","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"block","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"eventmodeling","supported":false}
+{"phase":"family-support","project":"fixture/family-support","family":"zenuml","supported":false}
+{"phase":"warm","project":"fixture/family-support","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"first-use","project":"fixture/family-support","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"memory","project":"fixture/family-support","round":1,"caseId":"family:flowchart"}
+{"phase":"family-support","project":"fixture/family-support","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/family-support","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"first-use","project":"fixture/family-support","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"memory","project":"fixture/family-support","round":1,"caseId":"family:flowchart"}
+(pass) a family whose canonical source the renderer rejects is unsupported and none of its cases run [8756.09ms]
+(pass) v7 admits its declared five-process median profile without upgrading historical v6 qualification [2.81ms]
+{"phase":"warm","project":"fixture/api","round":1,"caseId":"invalid:unknown-header","completedCasesInRound":1}
+{"phase":"warm","project":"fixture/api","round":1,"caseId":"invalid:unknown-header","completedCasesInRound":1}
+(pass) invalid controls retain one real public invocation without repeated timing or resource workers [529.06ms]
+{"phase":"warm","project":"fixture/api","round":1,"caseId":"invalid:unknown-header","completedCasesInRound":1}
+(pass) a budget-paused portable invocation resumes its existing attempt directory [3598.69ms]
+
+tests/commands.test.ts:
+(pass) public help and artifact help require no product checkout, oracle or compiled kit [1436.34ms]
+(pass) project-specific source commands are rejected by the public CLI [94.73ms]
+(pass) a product source environment cannot relocate Trident oracle defaults [0.45ms]
+(pass) release version needs no renderer, oracle or compiled kit [22.69ms]
+
+tests/unified-cli-resource-observer.test.ts:
+(pass) explicit observer retains the default command binding and actual costs without qualifying invalid output [76.50ms]
+(pass) explicit observer retains the stdout-binding command binding and actual costs without qualifying invalid output [76.29ms]
+(pass) explicit observer retains the file-binding command binding and actual costs without qualifying invalid output [80.06ms]
+(pass) a configured observer is the one community updates bind and run, not the host default [69.60ms]
+(pass) an unavailable declared package CLI retains its preparation error without aborting other project identities [5.10ms]
+
+tests/unified-extra-adapter-qualification.test.ts:
+(pass) native React Flow edge labels retain authored edge text without source sidecars [1.22ms]
+(pass) the Rusty public qualifier receives the independently valid core workload [0.22ms]
+
+tests/png-launchers.test.ts:
+(pass) both PNG entrypoints share container isolation, preserve runner arguments and write the runtime receipt [181.79ms]
+
+tests/terminal-entities.test.ts:
+(pass) entity/state controls retain exact source, output, artifact and collection identities [0.65ms]
+(pass) documented attribute stars preserve primary-key semantics; all three public output layouts preserve the isolated ER table [20.39ms]
+(pass) column and prefix keys retain field roles; missing or changed keys cannot receive body credit [9.16ms]
+(pass) ambiguous unlabelled inline key placement stays unknown instead of borrowing source field roles [3.00ms]
+(pass) ordinary state cycles need exact states and real directed transitions; global direction remains advisory [18.67ms]
+(pass) numeric cardinalities, relationship identity and complete captions belong to their actual straight links [22.49ms]
+(pass) pseudostates require observed initial and final marker roles and connected owned routes [18.26ms]
+
+tests/campaign-workflows.test.ts:
+(pass) default collection excludes expensive clocks, optional models and retired replay [3.02ms]
+(pass) pilot headlines use owning counts, reconcile pauses, and reject foreign/duplicate evidence [1.56ms]
+(pass) a shared deadline retains complete units, resumes them once, and binds identity and bytes [2.15ms]
+(pass) full sampling has independent-round uncertainty with 70 percent fewer cold launch slots [7.23ms]
+(pass) campaign imports generate ranked tables and charts from the full docs inventory without transcription [12.28ms]
+(pass) missing docs rounds retain partial observations without a rank, and duplicates cannot inflate a return rate [1.66ms]
+(pass) observation counts compare equal populations and keep incompatible populations separate [1.07ms]
+(pass) release selection respects the cutoff and refuses a new CLI release without an archive binding [1.59ms]
+(pass) one preparation index rejects modified or escaping component files [0.62ms]
+(pass) release verification checks the actual archive, extracted manifest and executable version [98.77ms]
+(pass) portable tables keep invalid rejection separate and never rank unmeasured output as zero [1.16ms]
+(pass) inapplicable and skipped observations keep their own counts and receive no rank [0.71ms]
+
+tests/internal-invocations.test.ts:
+(pass) Node resume preserves an actual return without silently repeating the renderer [561.83ms]
+(pass) Node death before an awaited return is unknown and cannot become renderer failure or an implicit retry [419.67ms]
+(pass) CLI resume regrades exact retained output, while a different round gets a distinct invocation [1123.03ms]
+(pass) every legacy Node warm and sample public call has its own retained return [340.79ms]
+
+tests/checkpoint-reader.test.ts:
+(pass) readonly checkpoint readers admit all attempts and preserve files; keyed reads retain exact values [1.69ms]
+(pass) legacy gzip units, duplicate keys and missing headers are handled without creating evidence [0.85ms]
+
+tests/fidelity-report.test.ts:
+(pass) matching case names cannot compose evidence from changed expectations or observers [1.07ms]
+(pass) report restores jointly omitted criteria and an entirely omitted admitted project [5.40ms]
+(pass) a matching default font cannot earn configured font credit from an export name [0.17ms]
+
+tests/project-records.test.ts:
+(pass) immutable project benchmark records > different benchmark lanes retain independent current records for the same project [4.18ms]
+(pass) immutable project benchmark records > reuses the same full identity and invalidates artifact, protocol and measurement changes [1.70ms]
+(pass) immutable project benchmark records > updates one project without rewriting another project or erasing history [1.62ms]
+(pass) immutable project benchmark records > reactivates an earlier version without rewriting attempts or duplicating history [2.60ms]
+(pass) immutable project benchmark records > retains failed results without treating them as passes [0.78ms]
+(pass) immutable project benchmark records > missing retained evidence cannot be reused or ranked [0.70ms]
+(pass) immutable project benchmark records > reports missing peer evidence while allowing an independent project update [2.09ms]
+(pass) immutable project benchmark records > immutable collisions and a concurrent writer leave the published index unchanged [0.84ms]
+(pass) immutable project benchmark records > project paths are collision free and cannot escape the record store [1.79ms]
+(pass) immutable project benchmark records > a failed index publication retains the previous snapshot and releases the writer lock [2.65ms]
+(pass) immutable project benchmark records > truncated evidence, mismatched identities and duplicate rows are rejected [0.78ms]
+(pass) immutable project benchmark records > new entries reference one compressed canonical record and reject changed payload bytes [3.39ms]
+(pass) immutable project benchmark records > derived documents share the gzip/reference codec without imposing a suite schema or changing legacy JSON [1.07ms]
+
+tests/terminal-profile.test.ts:
+(pass) terminal regrading uses retained ink and independent facts, not the old admission status [3.70ms]
+(pass) source-reference diagnostics cannot replace or veto independently authored drawing facts [0.63ms]
+(pass) a targeted extension regrades without rerunning ASCII while an unmarked cohort still requires it [1.11ms]
+(pass) omitted work stays in the denominator and unverifiable facts cannot receive a pass [0.38ms]
+(pass) typed rejection keeps its own denominator and rejects stale project/source evidence [1.80ms]
+(pass) changed witnesses, duplicate coordinates, missing reference and changed inventory reject regrading [0.46ms]
+(pass) existing external transport forwards an opt-in raw terminal witness from its completed worker record [157.40ms]
+(pass) public saved-output launcher works in CI without oracle or renderer; collection remains guarded [1558.99ms]
+community preparation 1/1: fixture/terminal-package-cli
+(pass) preparation freezes the declared package CLI and its dependency closure for terminal-only repair [879.05ms]
+(pass) terminal profile reuses a sealed Node binding and skips browser-only capability rows [224.18ms]
+(pass) terminal collection uses an admitted additional CLI for a browser-only primary instead of calling its SVG module [71.35ms]
+(pass) all-project terminal planning follows normal renderer and branding eligibility without scoring Mermaid as a terminal renderer [1682.98ms]
+
+tests/benchmark-skip.test.ts:
+(pass) a release pause skips before acquisition, survives descendant overrides, and permits a separately selected candidate [2243.66ms]
+
+tests/unified-family-support.test.ts:
+community round 1/1: fixture/flow-only 1.0.0
+(pass) a community tool that rejects a family canonical source runs none of that family, and keeps failures elsewhere [1364.63ms]
+community round 1/1: fixture/flow-only-api 1.0.0
+(pass) an error that says unsupported, inside a supported family, is a failure [1700.25ms]
+
+tests/release-cli.test.ts:
+(pass) public CLI archive member tool retains archive ownership, version and binding checks [20.76ms]
+(pass) public CLI archive member ./tool retains archive ownership, version and binding checks [21.62ms]
+(pass) a versionless CLI requires an explicit matching release-tag identity [13.05ms]
+
+tests/mermaid-community-discovery.test.ts:
+(pass) retains an unpublished editor as a candidate without assuming renderer ownership [0.68ms]
+(pass) combines registry and GitHub discoveries while retaining their query provenance and curated categories [0.78ms]
+(pass) recognises a curated npm package without repository search metadata and merges its provenance [0.19ms]
+(pass) matches the curated repository from npm URL https://github.com:443/Example/Editor.git [0.10ms]
+(pass) matches the curated repository from npm URL ssh://git@github.com:22/Example/Editor.git [0.03ms]
+(pass) matches the curated repository from npm URL git+ssh://git@github.com:22/Example/Editor.git [0.03ms]
+(pass) matches the curated repository from npm URL git://github.com:9418/Example/Editor.git [0.02ms]
+(pass) matches the curated repository from npm URL git@github.com:Example/Editor.git [0.02ms]
+(pass) retains conflicting repository for source review [0.09ms]
+(pass) retains known repository with conflicting ownership for source review [0.03ms]
+(pass) retains ambiguous package ownership for source review [0.02ms]
+(pass) retains each repository observation when https://gitlab.com/one/editor precedes https://bitbucket.org/two/editor for the same package [0.35ms]
+(pass) retains each repository observation when https://bitbucket.org/two/editor precedes https://gitlab.com/one/editor for the same package [0.09ms]
+(pass) preserves explicit npm repository metadata from https://gitlab.com/other/editor before matching a curated package [0.12ms]
+(pass) preserves explicit npm repository metadata from https://bitbucket.org/other/editor before matching a curated package [0.01ms]
+(pass) preserves explicit npm repository metadata from git+ssh://git@example.org/other/editor.git before matching a curated package [0.01ms]
+(pass) preserves explicit npm repository metadata from https://github.com:invalid/example/editor.git before matching a curated package [0.05ms]
+(pass) preserves explicit npm repository metadata from ssh://git@github.com:70000/example/editor.git before matching a curated package [0.02ms]
+(pass) preserves explicit npm repository metadata from https://github.com.example.org/example/editor.git before matching a curated package [0.01ms]
+
+tests/terminal-structured.test.ts:
+(pass) structured controls bind exact retained bytes, source cases, artifacts and original measurement clocks [0.44ms]
+(pass) board column and nested-card geometry establish exact membership and card order [13.26ms]
+(pass) empty isolated class bodies need exact drawn containers and no members or relationships [10.83ms]
+
+tests/fidelity-community.test.ts:
+(pass) community admission checks actual executable bytes, missing assets, installed versions and reference pins [1.47ms]
+(pass) project selection precedes admission and returned SVG cannot forge observer labels with event handlers [3071.85ms]
+(pass) budget expiry escapes paint collection without publishing a completed report [4667.04ms]
+(pass) a frozen SVG CLI reaches the same paint observer without a browser bundle or invented API clock [1701.00ms]
+
+tests/project-report-view.test.ts:
+(pass) two retained project views keep their canonical owner without mutating cached raw evidence [0.75ms]
+(pass) legacy project metadata is attributed consistently in coverage and exported CSV [1.81ms]
+(pass) stack-ranked scorecards order passed inputs first and compare costs only within each invocation surface [39.48ms]
+(pass) stable Event Modeling changes the current mark while beta additions leave the historical mark intact [6.45ms]
+(pass) portable reports retain every failure without duplicating oversized rendered evidence [6.73ms]
+(pass) portable reports preserve oracle caveats and separate pinned-accepted authored-label checks from raw results [11.30ms]
+(pass) raw first-call diagnostics preserve arithmetic medians without qualifying speed [4.83ms]
+(pass) positive-render diagnostics retain their planned population without ranking projects [22.78ms]
+
+tests/docs-png-lane.test.ts:
+(pass) PNG-only public transport retains source-owned images and completed resume units without SVG or Chromium [936.43ms]
+(pass) one documentation corpus reduces into separate SVG/PNG tables without double-counting or replacing SVG overview [1.16ms]
+
+tests/docs-resource-policy.test.ts:
+(pass) the isolated observer can decode exact pinned images while scripts and other remote assets remain blocked [844.20ms]
+(pass) resource policy sources cannot introduce another CSP directive [0.20ms]
+
+tests/excalidraw-inspection.test.ts:
+(pass) editable conversion must retain authored labels and exact directed relationships [0.90ms]
+(pass) editable geometry, endpoint identity and image-only fallbacks retain different dispositions [0.75ms]
+
+tests/fidelity-meaning.test.ts:
+(pass) semantic admission rejects wrong endpoints, collapsed parallel edges, direction loss, identity relabeling and wrong immediate ownership [2.08ms]
+(pass) missing evidence cannot pass, while available wrong values fail separately from unavailable projections [0.60ms]
+(pass) numeric values and relationship markers remain independently checked even when all labels survive [0.19ms]
+(pass) reviewed public model projections preserve nesting and sequence order without reparsing authored input [3.04ms]
+(pass) Mermaid public Event Modeling getter transport preserves actual frame identities and endpoints [0.28ms]
+(pass) native Event Modeling projection preserves qualified payloads and reads inferred endpoints from public layout output [0.64ms]
+(pass) native ZenUML call-stack projection retains ordered endpoints and observes assignment returns without inventing a second reply [0.88ms]
+(pass) declared unordered fact collections allow authored rename order changes without discarding duplicates [0.19ms]
+(pass) actual adapter family is observed rather than supplied by the requested case [3.33ms]
+(pass) unavailable positioned projection does not erase independently returned native frame facts [1.41ms]
+(pass) only reviewed source rejection earns negative credit; backend/resource faults retain unavailable evidence [0.82ms]
+(pass) native Mermaid registers the declared addon without inventing its missing public semantic model [8.09ms]
+
+tests/recheck-observations.test.ts:
+(pass) an observer exception cannot preserve a prior correct SVG verdict [3.93ms]
+(pass) an omitted new criterion cannot borrow the old passing check [2.87ms]
+(pass) duplicate checker coordinates invalidate the whole new observation [0.59ms]
+(pass) fresh failing evidence replaces an earlier pass and missing previous rows are constructed [2.95ms]
+(pass) retained admission is newly checked from the actual receipt and source, while preludes receive no new evidence [37.86ms]
+(pass) fresh grading permits enriched contracts but freezes every public source/options/prelude stimulus [30.79ms]
+(pass) old partial contracts receive only freshly observed full-source SVG checks, preserving bytes and original attempt IDs [746.34ms]
+(pass) moved archives load exact frozen image bytes under an image-only CSP and never borrow unowned resources [659.76ms]
+(pass) old absolute font URLs require sealed peer bytes and exact policy sources [1.96ms]
+(pass) DaveBench regrading requires the original literal-source public return, not another project or round witness [10.20ms]
+(pass) native CLI SVG replay preserves the original subset render ID, inner process round and frozen output variant after moving [5.29ms]
+(pass) the real archive regrader reuses retained SVGs across contract enrichment and preserves every original view [3288.91ms]
+
+tests/timing-browser.test.ts:
+(pass) first-use selection requires full independently authored source contracts and excludes API/prelude workflows [96.07ms]
+(pass) CLI accepts explicit frozen prepared identities and rejects duplicate or unknown switches [0.40ms]
+(pass) shared transport string mode returns one actual result and preserves invalid/exception behavior [399.99ms]
+(pass) every retained timed SVG is independently observed; altered arrows, source bindings and resource gaps cannot qualify [594.88ms]
+(pass) static preparation freezes selected artifact versions, real fonts/resources and complete first-use contracts without rendering [2422.11ms]
+
+tests/unified-svg-text-qualification.test.ts:
+(pass) inert metadata and unused definitions do not satisfy authored labels [0.96ms]
+(pass) actual SVG namespaces admit prefixed text and reject foreign lookalikes [1.70ms]
+(pass) decorations retain whole authored tokens without admitting prefix collisions [1.30ms]
+(pass) line-positioned tspans preserve words without joining unrelated text elements [1.34ms]
+(pass) namespace support never admits a prefixed source-echo fallback [0.36ms]
+(pass) reads XHTML foreign-object lines and literal CDATA without another entity decoding pass [2.20ms]
+
+tests/native-community.test.ts:
+(pass) an explicit native launch rejects changed bundle bytes and conflicting ambient executables before launch [238.31ms]
+{"project":"pub:mermaid_flutter","state":"partially-verified","outputs":[{"output":"png","state":"invocation-verified","passed":6}]}
+(pass) native binding flows through the ordinary frozen support collector with raster scope and separate invalid controls [2797.73ms]
+(pass) repointing a saved native manifest cannot launch a bundle outside its artifact seal [90.29ms]
+(pass) native runtime facts may follow an empty startup ledger but must match claimed options before rows are accepted [1495.76ms]
+(pass) a native error receipt remains one real attempt instead of gaining a bridge-created phantom call [493.01ms]
+
+tests/terminal-display.test.ts:
+(pass) display cells distinguish graphemes, CJK width, variation and combining marks [0.54ms]
+(pass) cursor moves, carriage return, erasure and saved positions change the actual display [0.71ms]
+(pass) concealed and matching-colour ink cannot supply visible labels [0.34ms]
+(pass) style and hyperlink metadata do not become drawing text; unsupported state remains unknown [0.18ms]
+(pass) wide cells overwritten through either half cannot leave an orphan glyph [0.12ms]
+(pass) an exited alternate screen cannot supply ink that is no longer displayed [0.26ms]
+(pass) explicit empty-drawing contracts admit real blank strings, reject extra ink and preserve unknown controls [0.25ms]
+
+tests/terminal-source-admission.test.ts:
+(pass) canonical source admission preserves all inputs when a full read is missing [89.01ms]
+(pass) a generator review string cannot admit changed values, removed checks or downgraded requirements [210.73ms]
+(pass) changed source, family and intent cannot inherit an existing source review [129.98ms]
+(pass) review wording, scope prose and provenance annotations do not invalidate unchanged semantics [85.66ms]
+(pass) a second observer graph cannot replace the reviewed contract meaning [86.87ms]
+(pass) duplicate receipts and unresolved expectation findings cannot confer source admission [37.74ms]
+
+tests/fidelity-selection.test.ts:
+(pass) peer-only selection skips direct campaign before reference, executable and output preparation [0.88ms]
+(pass) peer-only selection skips native worker bridge before reference, executable and output preparation [0.22ms]
+(pass) public model contracts need no browser bundle and invoke no product serializer [5149.20ms]
+
+tests/retained-suite.test.ts:
+(pass) publication preserves raw clocks, separates actual samples and metadata, and rejects duplicated clocks [0.80ms]
+(pass) publication preserves explicitly unknown recovered clocks instead of borrowing controller times [0.07ms]
+(pass) explicit recovery publishes completed matching raw evidence without measuring; cancellation or changed identity cannot recover [5.34ms]
+(pass) retained selected-project results reuse clocks and dates; changed identity only measures that project [9.34ms]
+(pass) changed owning observations cannot be reused and do not replace the published pointer [5.44ms]
+(pass) identity changes during collection retain incomplete evidence without publishing [2.49ms]
+(pass) cancellation during final identity validation cannot publish a completed measurement [1.48ms]
+(pass) an artifact change during cached-evidence validation cannot activate the cached result [2.45ms]
+(pass) producer identity follows runtime dependencies and spawned roots without binding reports or type-only imports [86.13ms]
+(pass) new retained attempts store observations once and resolve both compressed and reference result APIs [11.67ms]
+(pass) completed canonical output can recover publication without being rewritten or measured again [3.97ms]
+(pass) an actual legacy inline record reuses original results without migration or remeasurement [1.93ms]
+(pass) queued OS cancellation during fresh identity validation is delivered before publication [1.82ms]
+(pass) queued OS cancellation during cached identity validation is delivered before publication [1.56ms]
+(pass) a failure receipt anchors the original completed output rather than corruption discovered at publication [2.23ms]
+
+tests/community-external-disposition.test.ts:
+(pass) external observer blocks and raster scopes survive collection without label credit [141.79ms]
+(pass) JSONL interruption retains explicit API failures and blocks an uncertain next case [141.31ms]
+
+tests/terminal-sequence.test.ts:
+(pass) retained public sequence controls retain original bytes, artifacts, source identities and measurement clocks [0.68ms]
+(pass) independent source obligations retain fragment spans and note chronology [0.63ms]
+(pass) participant boxes, lifelines and owned routes qualify across CLI, module and Python sequence layouts [22.08ms]
+(pass) matching participant and message words cannot hide wrong direction, broken stems or wrong stroke [28.79ms]
+(pass) missing or duplicated messages, swapped order and detached captions receive no correctness credit [10.09ms]
+(pass) fragment labels, branch boundaries and enclosure own the exact messages [15.97ms]
+(pass) notes require their actual actor span, authored lines, text and chronological owner [5.41ms]
+(pass) over-notes cannot include extra actors and side notes cannot borrow a more distant actor [18.07ms]
+(pass) cleared, concealed, discontinuous and unknown display state cannot supply sequence facts [3.43ms]
+(pass) open or ambiguous heads and nested frame profiles remain unknown rather than inventing style or enclosure evidence [2.63ms]
+
+tests/portable-kit.test.ts:
+(pass) a copied Trident package builds relative outputs and runs its compiled worker without Agentic source, docs or Git [10920.89ms]
+
+tests/baseline-browser.test.ts:
+(pass) full browser case identity admits optional edit preludes before collection and reuses the completed record [73.38ms]
+(pass) baseline public-result gate checks authored SVG independently and never treats infrastructure failure as expected rejection [1.62ms]
+(pass) counterbalancing rotates all four roles and keeps sample order deterministic [0.20ms]
+(pass) real browser consumer includes module initialization and traverses Map/Set sidecars, while recording excluded callbacks [870.95ms]
+(pass) only reviewed canonical source refusals establish unsupported families; infrastructure stays failed [0.60ms]
+(pass) explicit browser cases reject invalid selections and preserve corpus order [7.35ms]
+(pass) invalid browser stages and launch arguments fail before reference preparation [10.78ms]
+(pass) first-party ZenUML binding is lazy, registered once, and included in the first public-call clock [821.10ms]
+
+tests/artifact-variants.test.ts:
+(pass) explicit frozen CLI selection preserves project identity and never substitutes a primary transport [337.68ms]
+(pass) variant manifest rejects duplicate lane choices [0.66ms]
+(pass) exact pinned image URLs are served from authenticated local bytes and other remote requests stay blocked [0.62ms]
+(pass) the unscored verification plan covers every required mechanism with six projects [0.54ms]
+
+tests/docs-drawings.test.ts:
+(pass) successful SVG return without source review never supplies a correctness pass; stale reviews fail admission [2.00ms]
+(pass) drawing correctness requires all planned content checks, with wrong arrows and missing evidence kept distinct [10.62ms]
+(pass) a configuration-only example has no nonblank-image requirement or correctness credit [0.06ms]
+(pass) a source-bound checker receipt cannot be reused after changing documentation expectations [0.59ms]
+
+tests/benchmark-context.test.ts:
+(pass) private transport dependency byte changes invalidate context without a package-version change [865.23ms]
+
+tests/current-report-version-admission.test.ts:
+(pass) current publisher rejects later-observation before touching prior output; raw history stays readable [3.94ms]
+(pass) current publisher rejects artifact-conflict before touching prior output; raw history stays readable [3.08ms]
+(pass) an unpinned tool cannot conceal disagreement between owning artifact and observed release [1.69ms]
+(pass) Pele 1.9 publishes with corrected raw medians; source pins and dependency releases are not tool versions [5.39ms]
+(pass) missing owning artifact evidence remains visible and unranked instead of inventing a version [4.85ms]
+(pass) explicit candidate versions are checked against their owning artifact for every project [11.68ms]
+(pass) results:compare CLI rejects a hidden mismatched observation before replacing its output [169.84ms]
+(pass) a browser artifact cannot hide an older release behind the valid Node artifact [2.57ms]
+(pass) explicitly unexecuted metadata is not a tool-version claim or a new render [6.46ms]
+(pass) release publication reconciles canonical aliases beautiful-mermaid and lukilabs/beautiful-mermaid before replacing output [8.42ms]
+(pass) release publication reconciles canonical aliases SomeOrg/Renderer and someorg/renderer before replacing output [3.40ms]
+(pass) same-release canonical aliases remain independently visible without a mixed-version error [12.69ms]
+(pass) a consistent owning Pele 1.8.0 artifact publishes independently of the legacy default pin [369.01ms]
+(pass) a consistent owning Pele 1.12.0 artifact publishes independently of the legacy default pin [13.21ms]
+(pass) catalog admission accepts selected peer releases and rejects a mismatched reference before acquisition [2.72ms]
+
+tests/terminal-meaning.test.ts:
+(pass) real terminal boxes, continuous routes and arrowheads establish directed relationships across layouts [49.54ms]
+(pass) correct labels cannot conceal wrong direction, disconnected stems, missing nodes or incorrect topology [4.99ms]
+(pass) a relationship label belongs to its traced route, not an unrelated text occurrence [5.54ms]
+(pass) terminal-state interpretation observes cleared and concealed ink instead of stripping controls [2.65ms]
+(pass) equal explicit SGR foreground/background cannot supply a complete graph or a hidden authored label [5.40ms]
+(pass) shared stems require one actual source and cannot borrow expected topology [2.64ms]
+(pass) floating captions containing arrow-like letters retain owned-label and layout requirements [3.31ms]
+(pass) actual vertical captions belong to a continuous route and missing captions cannot pass [4.22ms]
+(pass) caption spaces painted over by route ink stay unknown while a reversed arrow still fails [1.07ms]
+(pass) a caption beside one vertical route is owned, while an absent or detached caption cannot pass [1.30ms]
+
+tests/parser-timing.test.ts:
+(pass) sampling preserves authored source and separates first, warmup and repeated calls [0.62ms]
+(pass) rejected sources retain timings and distinguish false returns from exceptions [0.49ms]
+(pass) invalid sample count %s refuses before parser execution [0.12ms]
+(pass) invalid sample count %s refuses before parser execution
+(pass) invalid sample count %s refuses before parser execution
+(pass) invalid sample count %s refuses before parser execution
+
+tests/public-test-reporting.test.ts:
+(pass) actual retained native controls produce one diagnostic table with the eligible scope and full census distinct [296.53ms]
+(pass) raw-capture claims remain bound to reviewed actual producer bytes and cannot upgrade old partial receipts [1021.67ms]
+(pass) raw callback/event changes and inflated summaries cannot supply public-test passes [752.07ms]
+(pass) unqualified original controls yield no comparative table or inferred peer failure [216.29ms]
+(pass) standalone evidence uses normal publication and snapshot imports without assigning zeros to unmeasured projects [684.34ms]
+(pass) public-test ties share ranks, all-gap rows stay unranked, and diagnostics cannot replace the ecosystem primary [571.44ms]
+(pass) blocked standalone controls stay importable without invented native evidence or scheduler enrollment [1418.41ms]
+
+tests/support-verification.test.ts:
+{"project":"fixture/renderer","state":"partially-verified","outputs":[{"output":"svg","state":"invocation-verified","passed":2},{"output":"svg","state":"invocation-verified","passed":2}]}
+(pass) support admission retains its narrow scope, strips timing claims and rejects changed artifact bytes [5353.55ms]
+(pass) support denominators keep controls separate and withhold duplicate input credit [0.69ms]
+(pass) a browser-only output never executes a guessed module API [1.88ms]
+(pass) support controls keep source rejection, accepted output, observer failures and missing evidence distinct [0.85ms]
+(pass) invalid CLI controls distinguish completed command rejection from broken transport and missing output [589.39ms]
+(pass) invalid public parser controls admit explicit false returns without requiring a positive model [233.86ms]
+(pass) diagnostic response inspection cannot masquerade as source rejection [198.51ms]
+(pass) Python controls require typed syntax rejection and keep generic errors or missing transports unknown [843.60ms]
+
+tests/candidate-mode.test.ts:
+community preparation 1/1: owner/fixture-renderer
+community preparation 1/1: owner/fixture-renderer
+community preparation 1/1: owner/fixture-renderer
+(pass) a candidate tarball stands in for the pinned release, verified by its SHA-256 [1888.29ms]
+(pass) candidate mode takes one project, a tarball for npm and a revision for a source build, and checks it before acquisition [1297.14ms]
+(pass) a source candidate is one Git commit, from GitHub by default or from a named remote or clean clone [94.11ms]
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+(pass) a source candidate is built with the release recipe from its own commit, and frozen preparation keeps it [523.74ms]
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+(pass) source cache keeps release and candidate labels separate in candidate-first order [479.39ms]
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+community preparation 1/1: AlexanderGrooff/mermaid-ascii
+(pass) source cache keeps release and candidate labels separate in release-first order [122.81ms]
+(pass) a candidate record is keyed by its bytes in its own lane, so it never reuses or replaces the release [10.41ms]
+(pass) results:publish leaves candidates out of the league and refuses a candidate in the release lane [10.17ms]
+(pass) a candidate comparison keeps failures as failures and withholds times that do not compare [4.83ms]
+(pass) candidate comparisons withhold browser times and case changes under different visible-output checks [4.41ms]
+(pass) a Merman Node candidate cannot silently acquire the released browser SDK [26.02ms]
+(pass) same-project candidates need the same API binding and declared outputs before comparing [3.70ms]
+(pass) candidate case changes retain blocked, unsupported, missing and newly measured outcomes [0.92ms]
+(pass) resource diagnostics never become newly measured diagram cases in a candidate comparison [0.98ms]
+community preparation 1/1: owner/fixture-renderer
+(pass) a disabled published release still admits an explicitly supplied candidate package [1243.29ms]
+community preparation 1/1: owner/fixture-renderer
+community preparation 1/1: owner/fixture-renderer
+community preparation 1/1: owner/fixture-renderer
+community preparation 1/1: owner/fixture-renderer
+community preparation 1/1: owner/fixture-renderer
+(pass) workspace candidates install source archives together, isolate dependency-only changes and reject changed frozen payloads [5679.29ms]
+community preparation 1/1: owner/fixture-renderer
+(pass) candidate archives accept npm-valid scoped underscore names in the root and its dependencies [1457.69ms]
+(pass) candidate package names cannot escape their installed package path [69.82ms]
+community preparation 1/1: owner/fixture-renderer
+community preparation 1/1: owner/fixture-renderer
+(pass) candidate cache and browser paths admit long npm names while dependency-only changes remain isolated [2185.88ms]
+community preparation 1/1: owner/fixture-renderer
+community preparation 1/1: owner/fixture-renderer
+(pass) workspace dependency archives verify and seal their bundled files alongside separate dependencies [2420.33ms]
+
+tests/unified-style-qualification.test.ts:
+(pass) registered style display admission > requires the declared uniform uppercase display instead of accepting untransformed text [18.72ms]
+(pass) registered style display admission > admits only declared mixed-role variants and explicitly leaves role correspondence unmeasured [4.46ms]
+(pass) registered style display admission > unchanged public style tokens do not permit arbitrary case changes [0.82ms]
+(pass) registered style display admission > projects supported Unicode capitalization and lowercase without reading renderer output [2.42ms]
+(pass) registered style display admission > retains visible-text and identity boundaries after applying a style transform [4.00ms]
+(pass) registered style display admission > honors left-to-right public role token overrides [1.07ms]
+(pass) registered style display admission > reports missing or unsupported public transform inputs rather than silently weakening expectations [0.20ms]
+(pass) style projection carries an explicit Markdown label type without weakening literal punctuation [4.24ms]
+
+tests/ci-commands.test.ts:
+(pass) CI runs deterministic checks, help, support and a no-acquisition campaign plan without an oracle [41252.15ms]
+(pass) CI still rejects measurement, artifact acquisition and the local full suite before creating output [2885.87ms]
+
+tests/fidelity-line-breaks.test.ts:
+(pass) owned glyph rows, not DOM newlines, prove explicit source breaks [12725.11ms]
+(pass) mermaid real sibling text/tspan actor lines qualify the same owned source contract [3661.80ms]
+(pass) pele real sibling text/tspan actor lines qualify the same owned source contract [2881.61ms]
+(pass) a route caption equal to a node title remains a separate physically owned text occurrence [1118.64ms]
+
+tests/project-update.test.ts:
+(pass) unchanged projects never reach the measurement callback; updating one preserves its peer [20.97ms]
+(pass) refuses duplicate project jobs and measurement results for another identity [0.81ms]
+(pass) project selection rejects unknown and repeated IDs before preparation [0.40ms]
+(pass) Markdown retains historical prose and measurement dates and updates just its marked section [7.76ms]
+(pass) different project adapters share a comparison cohort, while differing protocols remain separate [3.43ms]
+(pass) retained CLI results must belong to this controller invocation [1.11ms]
+(pass) forced measurements retain new attempts without changing previous observations [3.42ms]
+(pass) an API-only project has no CLI resource prerequisite or latency measurement [79.68ms]
+(pass) source-built mermaid-source identity uses admitted runtime bytes, while npm still requires its declared installation [50.46ms]
+(pass) source-built beautiful-source identity uses admitted runtime bytes, while npm still requires its declared installation [57.86ms]
+(pass) installed CLI bindings apply equally to every project and never discover a local native binary [4820.73ms]
+community preparation 1/2: adewale/agentic-mermaid
+community preparation 2/2: owner/another-renderer
+(pass) community acquisition never substitutes a local checkout for a catalog release, including Agentic Mermaid [4.36ms]
+
+tests/fidelity-style-facts.test.ts:
+(pass) mermaid retained authored node and route styles retain complete owned paint requests [2498.32ms]
+(pass) pele retained authored node and route styles retain complete owned paint requests [1605.64ms]
+
+tests/fidelity-chart-facts.test.ts:
+(pass) retained real XY, quadrant and radar drawings pass their owned chart value checks [2354.27ms]
+(pass) changed XY bar, line and source category order cannot retain correct fact credit [1051.51ms]
+(pass) extra XY series and invisible or ambiguously owned chart content are not correct [1022.49ms]
+(pass) actual quadrant points, exact inventory and axis roles are independently checked [2188.23ms]
+(pass) radar detects altered radial values, swapped labels, extra curves and hidden geometry [2901.08ms]
+(pass) renderer IDs, metadata and CSS class names cannot supply ownership [1667.55ms]
+(pass) multiple named lines use legend ownership; swapping names cannot preserve credit [667.60ms]
+(pass) later opaque rectangles cannot leave hidden chart semantics qualified [1610.05ms]
+(pass) an extra partial line cannot disappear from the XY series inventory [893.08ms]
+(pass) numeric range and category labels must own actual ticks rather than borrow other text [2586.26ms]
+(pass) a named unique curve cannot borrow its label from unrelated text [954.87ms]
+(pass) flat background camouflage and subpixel effective opacity cannot qualify chart values [2262.69ms]
+
+tests/unified-label-rules.test.ts:
+(pass) retained mermaid-js/mermaid output passes once markdown labels are read as drawn: corpus:mermaid-upstream-suite-bench:flowchart-upstream-markdown-formatting-in-nodes-and-labels [6.05ms]
+(pass) retained mermaid-js/mermaid output passes once markdown labels are read as drawn: corpus:mermaid-requirement-bench:requirement-docs-4 [2.17ms]
+(pass) retained mermaid-js/mermaid output passes once markdown labels are read as drawn: editor:mindmap [16.40ms]
+(pass) retained mermaid-js/mermaid output passes once wrapped labels are read as drawn: corpus:mermaid-upstream-suite-bench:sequence-upstream-should-draw-two-actors-notes-to-the-left-with-text-wrapped-inline [2.86ms]
+(pass) retained mermaid-js/mermaid output passes once wrapped labels are read as drawn: corpus:mermaid-upstream-suite-bench:sequence-upstream-should-handle-different-line-breaks [2.30ms]
+(pass) retained obsidianmd/pele output passes once wrapped labels are read as drawn: corpus:mermaid-kanban-bench:kanban-render-2 [1.11ms]
+(pass) retained adewale/agentic-mermaid output passes once wrapped labels are read as drawn: corpus:mermaid-gantt-bench:db-end-on-31st [1.29ms]
+(pass) markdown strong and emphasis markers are optional, never the words they wrap [0.95ms]
+(pass) marker syntax that markdown leaves alone is still required literally [1.07ms]
+(pass) combining marks remain part of a complete authored token [3.88ms]
+(pass) terminal output reads markdown labels the same way [0.79ms]
+(pass) stacked <text> rows of one wrapped label join in reading order [0.74ms]
+(pass) rows that are not one wrapped label stay separate [1.36ms]
+(pass) wrapped rows do not ignore inherited font size [0.11ms]
+(pass) wrapped rows do not ignore nested positioned spans [0.10ms]
+(pass) wrapped rows do not ignore first span font size [0.06ms]
+(pass) inherited and first-span font sizes allow adjacent rows at their own scale [0.15ms]
+(pass) a source echo stacked as rows is still not a diagram [0.58ms]
+(pass) literal punctuation is required in SVG and terminal labels, including pie __proto__ [2.92ms]
+(pass) the pinned oracle distinguishes literal labels from actual Markdown before measurement [1749.88ms]
+
+tests/stable-support.test.ts:
+(pass) stable support requires executed positive evidence for the exact public work and declared criteria [1.77ms]
+(pass) a passing case cannot hide another failed, blocked or unsupported positive on the same interface [1.61ms]
+(pass) native functionality does not stand in for rendering, and separate partial cases cannot manufacture complete criteria [0.19ms]
+(pass) optional beta and experimental families remain visible without excusing missing stable support [0.12ms]
+(pass) ambiguous excluded families are required until reviewed and cannot turn a policy-only result into a certificate [0.42ms]
+(pass) reviewed upstream stability may add a requirement, but a policy-stable requirement cannot be removed by relabeling [0.11ms]
+(pass) maturity input uncertainty and unknown positive runtime families prevent a complete-library claim [0.15ms]
+
+tests/fresh-process.test.ts:
+(pass) child milestone decoder preserves Unicode split across stdout buffers and ignores unframed output [64.72ms]
+(pass) GNU time readings preserve resolution and reject missing counters [0.62ms]
+
+tests/png-preservation.test.ts:
+(pass) conversion certificate binds the exact fully checked SVG, independently checked raster, profile and actual PNG [22.35ms]
+(pass) matching raster bytes and a complete SVG alone cannot manufacture PNG content evidence [5.84ms]
+(pass) peer SVGs, missing source checks, stale expected facts and guessed fonts cannot receive certificates [3.25ms]
+(pass) pixel inequality with a trusted reference withholds a preservation claim rather than inventing semantic failure [2.65ms]
+
+tests/svg-assessment.test.ts:
+(pass) complete SVG evidence survives unavailable public-model APIs; one missing drawing check withholds a rank [6.55ms]
+(pass) an incorrect drawing cannot hide behind unknown observations, and explicit unsupported admission stays distinct [1.81ms]
+(pass) status rows cannot construct a correct verdict without actual output and observer identities [2.20ms]
+(pass) unplanned adverse findings withhold the certificate itself as well as the displayed disposition [2.03ms]
+(pass) old checks cannot be relabelled with changed source or expectations [1.63ms]
+
+tests/style-expectation.test.ts:
+(pass) source class selectors compile independently to owned paint, and inline styles override class rules [1.00ms]
+(pass) default applies to unassigned nodes and inline class metadata becomes its visible effect [0.39ms]
+(pass) unknown properties and unbound selectors retain every raw required style fact [0.23ms]
+(pass) source edge defaults and indexed overrides bind endpoints rather than renderer edge order [0.19ms]
+
+tests/compiled-artifact-version.test.ts:
+(pass) an explicit dart release cutoff survives a newer registry latest and ambient latest policy [4.14ms]
+(pass) an explicit bezel release cutoff survives a newer registry latest and ambient latest policy [0.15ms]
+(pass) an explicit termaid release cutoff survives a newer registry latest and ambient latest policy [0.14ms]
+
+tests/committed-data-identity.test.ts:
+(pass) vendored TypeScript corpus inputs bind their own bytes without resolving original parser imports [83.13ms]
+
+tests/fidelity-source-contract.test.ts:
+(pass) all100 authored sources enroll complete literal obligations while retaining their original native contracts [35.64ms]
+(pass) source conflicts and absent or stale completeness metadata cannot turn passed profile rows into whole-source correctness [5.85ms]
+(pass) indexed visible link styles use source declaration order while native unordered assertions retain their original order [0.83ms]
+
+tests/unified-output-qualification.test.ts:
+(pass) benchmark output admission at reader-facing text > admits literal authored labels inside decorated visible text runs [1.92ms]
+(pass) benchmark output admission at reader-facing text > does not infer an authored identity from a longer identifier [0.49ms]
+(pass) benchmark output admission at reader-facing text > metadata, source echoes and attributes do not substitute for visible labels [0.56ms]
+(pass) benchmark output admission at reader-facing text > keeps interleaved values and separate text runs outside generic matching [0.95ms]
+(pass) benchmark output admission at reader-facing text > reads escaped literal angle brackets and positioned line breaks [0.53ms]
+(pass) benchmark output admission at reader-facing text > accepts a declared empty SVG envelope but never supplies a missing label [0.30ms]
+(pass) benchmark output admission at reader-facing text > rejects malformed XML, unescaped CSS URLs and foreign or absent SVG namespaces [0.71ms]
+(pass) benchmark output admission at reader-facing text > requires a positive finite viewBox or explicit dimensions [0.46ms]
+(pass) source code fallbacks never qualify as rendered SVG or terminal diagrams [0.79ms]
+(pass) community labels refuse to load without the pinned Mermaid oracle, instead of passing cases unchecked [0.43ms]
+(pass) wide terminal gutters cannot stall source-echo admission [21.48ms]
+(pass) PNG admission requires complete decodable pixels and content, not an invented IHDR envelope [3.82ms]
+(pass) PNG inspection limits block module and CLI qualification without blaming the renderer [508.72ms]
+
+tests/fidelity-structural-facts.test.ts:
+(pass) mermaid retained class members require complete owned signatures, not matching method names [3183.93ms]
+(pass) mermaid retained ER attributes bind types, names and keys to complete entity rows [1305.06ms]
+(pass) mermaid retained sequence order and styles come from owned painted routes [1526.89ms]
+(pass) pele retained class members require complete owned signatures, not matching method names [1815.97ms]
+(pass) pele retained ER attributes bind types, names and keys to complete entity rows [1167.29ms]
+(pass) pele retained sequence order and styles come from owned painted routes [1518.45ms]
+(pass) a repeated class header cannot conceal an additional member with the same spelling [1301.69ms]
+(pass) unheaded sequence routes qualify physical endpoint pairs independently of SVG path-writing direction [705.75ms]
+
+tests/mermaid-oracle.test.ts:
+(pass) the pinned Mermaid refuses authored expectations it contradicts and types the sources it accepts [2518.70ms]
+
+tests/docs-source-review.test.ts:
+(pass) literal IDs and labels do not inherit JavaScript object properties or unintended Markdown [3.15ms]
+(pass) written endpoints, reversed markers, multiplicity, hidden edges and grouping remain separate obligations [0.48ms]
+(pass) edge attribute updates never invent a visible node for the edge identifier [1.21ms]
+(pass) state triple-colon classes are neither labels nor transition captions [0.39ms]
+(pass) class declarations and members do not get consumed as CSS class directives [0.42ms]
+(pass) entity cardinality aliases, attributes, groups and layout remain explicit [1.27ms]
+(pass) sequence order, aliases, notes and activation retain more than common labels [0.44ms]
+(pass) numeric chart contracts preserve exact source quantities and authored axes [1.36ms]
+(pass) ordered chart and hierarchy controls preserve values and ancestry [0.96ms]
+(pass) new dialects retain domain obligations rather than masquerading as simple flowcharts [1.70ms]
+(pass) railroad contracts retain expression structure and grammar dialect [1.45ms]
+(pass) accessibility title and description are metadata obligations, distinct from painted title [0.22ms]
+(pass) unknown syntax, malformed styles and stale or contradictory review contracts cannot qualify [1.06ms]
+(pass) a source quantity mutation changes its independent expected answer and bound obligations [0.09ms]
+(pass) sequence box colors are separate from labels, while ordinary multiword labels remain intact [0.40ms]
+(pass) ordered JSON tables keep integer-key source order, nested paths and last duplicate values [2.88ms]
+(pass) point styles, Venn region membership and Wardley annotation coordinates stay in expected facts [1.67ms]
+(pass) ZenUML sync nesting, explicit async senders, returns and control regions preserve order [0.35ms]
+(pass) shared agentflow nodes stay at top level when referenced inside multiple flows [0.83ms]
+(pass) fontawesome glyph references are resource obligations rather than literal visible words [0.39ms]
+(pass) the full pinned corpus keeps all 548 occurrences and 546 distinct literal diagrams [220.30ms]
+(pass) usecase label delimiters do not replace actor geometry or default ellipse semantics [1.08ms]
+(pass) ABNF prefix repetition cannot be consumed as postfix repetition on the preceding item [0.39ms]
+(pass) inline classes and compact edge tokens are grammar boundaries rather than node IDs [0.32ms]
+(pass) sequence fragments and branches bind their exact message ranges [0.16ms]
+(pass) ZenUML source-first explicit callers, bare returns and painted message comments remain explicit [0.16ms]
+(pass) a sequence box with only a color does not invent a visible caption [0.27ms]
+(pass) logging and navigation configuration is frozen provenance rather than a pixel obligation [0.70ms]
+(pass) authored radar legend intent and event fields after read dependencies remain explicit facts [0.49ms]
+(pass) visual contracts project unprinted ratios once while raw literal contracts preserve source quantities [0.40ms]
+(pass) class block colon members retain their owning class instead of inventing nodes [0.40ms]
+(pass) sequence arrow kinds follow the literal documentation table without invented arrowheads [0.26ms]
+(pass) sequence defaults, effective aliases and source-owned line breaks remain explicit [1.00ms]
+(pass) Mermaid named entities decode into their independently documented display characters [0.26ms]
+(pass) dialect-owned Markdown binds exact note and mindmap occurrences before flow adaptation [0.45ms]
+(pass) flowchart edge length requests use the right caption delimiter and stay advisory [0.45ms]
+(pass) flowchart Markdown facts bind exact node, group and edge owners despite duplicate text [0.47ms]
+(pass) Ishikawa distinguishes the problem from same-indent causes and nested causes [0.12ms]
+(pass) empty Cynefin and Wardley sources retain their diagram frameworks as mandatory domain facts [0.33ms]
+(pass) C4 named navigation and tag metadata never becomes a required painted label [0.21ms]
+(pass) class namespace paths preserve intermediate and syntactically nested containment while explicit flat mode stays flat [0.93ms]
+(pass) same-named lollipop interfaces remain separate occurrences owned by their classes [0.28ms]
+(pass) ER and requirement quoted Markdown separates raw IDs from owned displayed names and field text [0.19ms]
+(pass) state composite reopening preserves captions, special pseudostates omit ID paint, and concurrent region membership stays scoped [0.42ms]
+(pass) usecase generalization keeps its triangle without rewriting dashed include or extend arrows [0.31ms]
+(pass) duplicate Kanban task IDs remain a source ambiguity instead of silently demanding two complete cards [0.07ms]
+(pass) printed XY values are separately owned by bar, index, category and placement; line magnitudes are not invented bar labels [0.47ms]
+(pass) Git hidden labels have negative and owned visibility obligations without forbidding a same-text visible tag [0.46ms]
+
+tests/png-pixel-identity.test.ts:
+(pass) canonical pixel identity ignores IDAT compression, chunk boundaries, filters and nonvisual annotations [10.99ms]
+(pass) palette, grayscale and 16-bit encodings agree only on identical full RGBA samples [1.24ms]
+(pass) Adam7 placement reconstructs row-major pixels rather than hashing the pass or color histogram [0.80ms]
+(pass) dimensions, alpha, color interpretation and unrecognized display metadata remain bound [1.56ms]
+(pass) animation and unsupported or damaged pixels cannot acquire a static pixel certificate [0.25ms]
+(pass) a reviewed original binds exact decoded ink without creating a new semantic review [1.37ms]
+(pass) scope changes, unresolved facts and contradictory or malformed trust records cannot supply a pass [0.91ms]
+(pass) explicitly empty drawings can replay a reviewed blank raster without a fictitious nonblank failure [0.65ms]
+(pass) persisted pixel aliases cannot replace the actual reviewed original PNG [1.06ms]
+(pass) display metadata placement and encoding-dependent interpretation cannot alias different display semantics [1.40ms]
+
+2 tests failed:
+(fail) treemap sibling areas and gantt durations reject wrong geometry even with retained labels [241.22ms]
+(fail) public offline timing reduction consumes explicit derived grading and preserves the collection files [81.73ms]
+
+ 890 pass
+ 2 fail
+ 6050 expect() calls
+Ran 892 tests across 120 files. [355.88s]
+error: script "test" exited with code 1

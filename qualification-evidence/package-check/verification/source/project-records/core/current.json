@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "projects": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "current": "69074b54-1ef8-4b60-b184-3b153aeeda0b",
+      "history": [
+        "69074b54-1ef8-4b60-b184-3b153aeeda0b"
+      ]
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "current": "1cf1b64c-08fa-483f-a915-da9b0973ab2c",
+      "history": [
+        "1cf1b64c-08fa-483f-a915-da9b0973ab2c"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "launchManifest": "/workspace/trident-native-per-call-2026-10-31/prepared/native-launch-v2.json",
+  "version": "0.3.2",
+  "entrypoint": "mermaid_flutter.renderToPng",
+  "executable": "/workspace/trident-native-per-call-2026-10-31/bundle/native_bench",
+  "sha256": "621aa9273929f104508b6caae823f3d6294021df3f299fb42a755b25bcd7c75b",
+  "libappSha256": "82af3ba3d22f6501512c7d6f657a9f02624d37607cd3bb1acdc52209e1c818e2"
+}

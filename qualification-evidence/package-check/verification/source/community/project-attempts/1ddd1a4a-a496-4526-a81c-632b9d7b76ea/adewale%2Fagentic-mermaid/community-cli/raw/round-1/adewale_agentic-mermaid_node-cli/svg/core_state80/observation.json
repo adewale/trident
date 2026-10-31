@@ -1,0 +1,36 @@
+{
+  "suite": "community-cli",
+  "surface": "cli:end-to-end",
+  "runtime": "node:24.19.0 installed public CLI",
+  "family": "state",
+  "caseId": "core:state80",
+  "operation": "render",
+  "format": "svg",
+  "mode": "fresh-process",
+  "status": "passed",
+  "metrics": {
+    "implementation": "adewale/agentic-mermaid#node-cli",
+    "round": 1,
+    "featureCount": 1,
+    "rawInvocationId": "8d84b0c4-d070-4675-bb3f-a4816e6c3893",
+    "rawInvocationDirectory": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/adewale%2Fagentic-mermaid/community-cli/raw/round-1/adewale_agentic-mermaid_node-cli/svg/core_state80/raw-cli-invocations",
+    "stdoutFile": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/adewale%2Fagentic-mermaid/community-cli/raw/round-1/adewale_agentic-mermaid_node-cli/svg/core_state80/raw-cli-invocations/outputs/37ad265e77431040c510731ebe1a0c6bc864ce90378f52ac51a9b611f296369f",
+    "stderrFile": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/adewale%2Fagentic-mermaid/community-cli/raw/round-1/adewale_agentic-mermaid_node-cli/svg/core_state80/raw-cli-invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outputFile": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/adewale%2Fagentic-mermaid/community-cli/raw/round-1/adewale_agentic-mermaid_node-cli/svg/core_state80/raw-cli-invocations/outputs/37ad265e77431040c510731ebe1a0c6bc864ce90378f52ac51a9b611f296369f",
+    "measuredAt": "2026-10-31T15:09:49.263Z",
+    "measuredFrom": "2026-10-31T15:09:44.873Z",
+    "firstMs": 4381.994845999987,
+    "timingQualified": false,
+    "qualification": "format-and-authored-labels",
+    "version": "0.4.1",
+    "boundary": "spawn through drained stdout/file artifact; process startup included",
+    "variantOf": "adewale/agentic-mermaid",
+    "variant": "node-cli",
+    "metricId": "adewale/agentic-mermaid#node-cli:cli:svg"
+  },
+  "samplesMs": [
+    4381.994845999987
+  ],
+  "bytes": 141568,
+  "findings": []
+}

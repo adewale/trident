@@ -1,0 +1,1 @@
+function t(n,r,u,e,m){let $=b(m,u/2,e);return $===0?`M${n},${r} H${n+u} V${r+e} H${n} Z`:[`M${n+$},${r}`,`H${n+u-$}`,`A${$},${$} 0 0 1 ${n+u},${r+$}`,`V${r+e}`,`H${n}`,`V${r+$}`,`A${$},${$} 0 0 1 ${n+$},${r}`,"Z"].join(" ")}function b(n,r,u){return Math.max(0,Math.min(n,r,u))}export{t as a};

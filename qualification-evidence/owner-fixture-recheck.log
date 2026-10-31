@@ -1,0 +1,14 @@
+bun test v1.4.2 (744846f84)
+
+tests/docs-benchmark.test.ts:
+(pass) docs rounds balance pairwise order after each round pair and positions over a full rotation [1.10ms]
+(pass) a method name supplies no option contract; reviewed browser mappings reach the actual public renderer [689.73ms]
+(pass) UTF-8 public bundles initialize before docs clocks await the real public return and exclude post-call cleanup; failures earn no successful sample [987.17ms]
+(pass) script loading and cleanup have host deadlines and close HTTP connections before awaiting context teardown [11.13ms]
+(pass) a repair selects missing literal documentation IDs without changing or reordering the corpus [0.26ms]
+(pass) a copied recheck resolves original provenance roots only into its own output and rejects unowned paths [0.68ms]
+
+ 6 pass
+ 0 fail
+ 202 expect() calls
+Ran 6 tests across 1 file. [2.56s]

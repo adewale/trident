@@ -1,0 +1,49 @@
+{
+  "startedAt": "2026-10-31T15:07:34.027Z",
+  "finishedAt": "2026-10-31T15:10:15.565Z",
+  "attempt": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea",
+  "store": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/project-records/core",
+  "context": "bd08c807-721a-4a37-93fd-8a998e528160.json",
+  "plan": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "lane": "community",
+      "action": "measure",
+      "record": null
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "lane": "community",
+      "action": "measure",
+      "record": null
+    }
+  ],
+  "updates": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "action": "measured",
+      "id": "69074b54-1ef8-4b60-b184-3b153aeeda0b",
+      "measuredAt": "2026-10-31T15:10:10.050Z",
+      "status": "failed"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "action": "measured",
+      "id": "1cf1b64c-08fa-483f-a915-da9b0973ab2c",
+      "measuredAt": "2026-10-31T15:10:15.296Z",
+      "status": "passed"
+    }
+  ],
+  "records": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "id": "69074b54-1ef8-4b60-b184-3b153aeeda0b",
+      "finishedAt": "2026-10-31T15:10:10.050Z"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "id": "1cf1b64c-08fa-483f-a915-da9b0973ab2c",
+      "finishedAt": "2026-10-31T15:10:15.296Z"
+    }
+  ]
+}

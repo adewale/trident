@@ -1,0 +1,1 @@
+time="2026-10-31T15:01:25Z" level=fatal msg="failed to parse graph diagram: unsupported graph type 'This is deliberately not a Mermaid diagram. @@@ {{{'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)"

@@ -1,0 +1,4118 @@
+import {
+  projectKnownRenderErrorDiagnostic,
+  projectRenderErrorDiagnostic
+} from "./chunk-JDMRPUAG.js";
+import {
+  renderMermaidPNG,
+  renderMermaidPNGWithReceipt
+} from "./chunk-IVD4NXNE.js";
+import {
+  analyzeMermaid,
+  analyzeMermaidSource,
+  buildChecked,
+  buildMermaid,
+  checkMermaid,
+  checkMermaidSource,
+  configWarningsForMermaid,
+  createMermaid,
+  describeMermaid,
+  describeMermaidFacts,
+  describeMermaidFactsSource,
+  describeMermaidSource,
+  describeOps,
+  hasOpSchema,
+  layoutMermaidWithReceipt,
+  mutate,
+  mutateChecked,
+  opSignatures,
+  renderMermaidASCII,
+  renderMermaidASCIIWithReceipt,
+  renderMermaidSVG,
+  renderMermaidSVGWithReceipt,
+  verifyMermaid,
+  verifySummary
+} from "./chunk-RWMZRUIC.js";
+import {
+  BUILTIN_FAMILY_METADATA,
+  PACKAGE_VERSION,
+  ParsedDiagramFamilyMismatchError,
+  RENDER_CONTRACT_VERSION,
+  RENDER_OUTPUT_DESCRIPTORS,
+  RenderCapabilityError,
+  architectureVisualOverridesTypeScriptDeclaration,
+  asArchitecture,
+  asClass,
+  asEr,
+  asFlowchart,
+  asGantt,
+  asGitGraph,
+  asJourney,
+  asMindmap,
+  asPie,
+  asQuadrant,
+  asRadar,
+  asSequence,
+  asState,
+  asTimeline,
+  asXyChart,
+  knownBuiltinFamilies,
+  limitJsonConfigDiagnostics,
+  normalizePortablePngBackground,
+  parseRegisteredMermaid,
+  pngOutputOptionsJsonSchema,
+  projectNativePngOutputPolicyInput,
+  resolveStyleStack,
+  safeCssColor,
+  safeCssFontFamily,
+  safeCssPaint,
+  serializeMermaid,
+  sharedRenderOptionsJsonSchema,
+  sharedRenderOptionsTypeScriptDeclaration,
+  styleSpecTypeScriptDeclaration,
+  validateJsonConfigAdmission,
+  validateSerializableRenderOptions
+} from "./chunk-LCGBT32P.js";
+
+// src/mcp/server.ts
+import { randomUUID as randomUUID2 } from "crypto";
+import { createServer } from "http";
+import { URL } from "url";
+
+// src/mcp/sandbox.ts
+import vm from "vm";
+
+// src/mcp/facade.ts
+import { parse as parseJavaScript } from "acorn";
+function createTracingMermaid(trace, makeSandboxError, isClosed, hostPolicy, beforeSdkCall) {
+  const diagramIds = /* @__PURE__ */ new WeakMap();
+  const trusted = /* @__PURE__ */ new WeakSet();
+  const hardened = /* @__PURE__ */ new WeakMap();
+  const raw = /* @__PURE__ */ new WeakMap();
+  let nextId = 1;
+  const forbidden = (prop) => prop === "constructor" || prop === "__proto__" || prop === "prototype";
+  const protoFor = (target) => Object.isExtensible(target) ? null : Reflect.getPrototypeOf(target);
+  const sandboxError = (message) => makeSandboxError ? makeSandboxError(message) : new Error(message);
+  const assertOpen = () => {
+    if (isClosed?.()) throw sandboxError("Code Mode SDK calls are not allowed while returning results");
+    const blocked = beforeSdkCall?.();
+    if (blocked) throw sandboxError(blocked);
+  };
+  const readonly = () => {
+    throw sandboxError("Code Mode SDK results are read-only; use mermaid.mutate(...) for structured edits");
+  };
+  const arrayMutators = /* @__PURE__ */ new Set(["copyWithin", "fill", "pop", "push", "reverse", "shift", "sort", "splice", "unshift"]);
+  const arrayCallbackMethods = /* @__PURE__ */ new Set(["forEach", "map", "filter", "find", "findIndex", "findLast", "findLastIndex", "some", "every", "flatMap"]);
+  const rawOf = (value) => value && (typeof value === "object" || typeof value === "function") && raw.has(value) ? raw.get(value) : value;
+  const isMap = (value) => value instanceof Map || Object.prototype.toString.call(value) === "[object Map]";
+  const isSet = (value) => value instanceof Set || Object.prototype.toString.call(value) === "[object Set]";
+  const structuredErrorMetadata = /* @__PURE__ */ new WeakMap();
+  const structuredErrorFields = (error) => {
+    if (typeof error !== "object" || error === null) return void 0;
+    const carried = structuredErrorMetadata.get(error);
+    if (carried) return carried;
+    let fields;
+    if (error instanceof RenderCapabilityError) {
+      fields = {
+        name: error.name,
+        code: error.code,
+        output: error.output,
+        family: error.family,
+        decision: error.decision
+      };
+    } else if (error instanceof ParsedDiagramFamilyMismatchError) {
+      fields = {
+        name: error.name,
+        code: error.code,
+        expectedFamilyId: error.expectedFamilyId,
+        detectedFamilyId: error.detectedFamilyId
+      };
+    } else {
+      const renderDiagnostic = projectKnownRenderErrorDiagnostic(error);
+      if (!renderDiagnostic) return void 0;
+      fields = {
+        name: renderDiagnostic.code === "ASCII_TARGET_WIDTH_IMPOSSIBLE" ? "AsciiWidthError" : "MermaidFamilyDetectionError",
+        ...renderDiagnostic
+      };
+    }
+    if (!fields) return void 0;
+    const encoded = JSON.stringify(fields);
+    return encoded === void 0 ? void 0 : JSON.parse(encoded);
+  };
+  const extensibleDataEnvelope = (value) => {
+    if (Object.isExtensible(value)) return value;
+    if (Array.isArray(value)) return value.slice();
+    const prototype = Reflect.getPrototypeOf(value);
+    return prototype === Object.prototype || prototype === null ? Object.assign(Object.create(prototype), value) : value;
+  };
+  const hostCall = (fn, genericRenderFailure = false) => {
+    try {
+      return fn();
+    } catch (e) {
+      const fields = structuredErrorFields(e) ?? (genericRenderFailure ? { name: "RenderError", ...projectRenderErrorDiagnostic(e) } : void 0);
+      const wrapped = sandboxError(fields?.message ?? e.message);
+      if (fields) {
+        structuredErrorMetadata.set(wrapped, fields);
+        for (const [field, value] of Object.entries(fields)) {
+          Object.defineProperty(wrapped, field, {
+            value: harden(value),
+            enumerable: true,
+            writable: false,
+            configurable: false
+          });
+        }
+      }
+      throw wrapped;
+    }
+  };
+  const jsonClone = (value) => hostCall(() => {
+    if (!value || typeof value !== "object" && typeof value !== "function") return value;
+    const encoded = JSON.stringify(value);
+    return encoded === void 0 ? void 0 : JSON.parse(encoded);
+  });
+  const iteratorOf = (items) => {
+    let index = 0;
+    const iterator = {
+      [Symbol.iterator]() {
+        return this;
+      },
+      next() {
+        return index < items.length ? { value: items[index++], done: false } : { value: void 0, done: true };
+      }
+    };
+    return harden(iterator);
+  };
+  function descriptorFor(target, prop) {
+    if (forbidden(prop)) return void 0;
+    const desc = Reflect.getOwnPropertyDescriptor(target, prop);
+    if (!desc) return void 0;
+    if ("value" in desc) return { ...desc, value: harden(desc.value) };
+    return { ...desc, get: desc.get ? harden(desc.get) : void 0, set: desc.set ? harden(readonly) : void 0 };
+  }
+  const isDiagramLike = (value) => Boolean(value && typeof value === "object" && "body" in value && "canonicalSource" in value);
+  const idOf = (value) => {
+    value = rawOf(value);
+    if (!isDiagramLike(value)) return void 0;
+    const obj = value;
+    let id = diagramIds.get(obj);
+    if (!id) {
+      id = nextId++;
+      diagramIds.set(obj, id);
+    }
+    return id;
+  };
+  const trustDiagram = (value) => {
+    value = rawOf(value);
+    if (isDiagramLike(value)) trusted.add(value);
+  };
+  const requireTrustedDiagram = (value, verb) => {
+    value = rawOf(value);
+    if (value && (typeof value === "object" || typeof value === "function") && !trusted.has(value)) {
+      throw sandboxError(`Code Mode ${verb} input must come from mermaid.parseRegisteredMermaid(...) or mermaid.mutate(...)`);
+    }
+  };
+  const rememberRaw = (proxy2, target) => {
+    raw.set(proxy2, target);
+    if (isDiagramLike(target)) diagramIds.set(proxy2, idOf(target));
+    return proxy2;
+  };
+  const harden = (value) => {
+    if (!value || typeof value !== "object" && typeof value !== "function") return value;
+    const unwrapped = rawOf(value);
+    if (unwrapped !== value) return harden(unwrapped);
+    const obj = value;
+    const cached = hardened.get(obj);
+    if (cached) return cached;
+    if (isMap(value)) {
+      let proxy3;
+      proxy3 = new Proxy(value, {
+        get(target, prop) {
+          if (forbidden(prop)) return void 0;
+          if (prop === "size") return target.size;
+          if (prop === "get") return harden((key) => harden(target.get(rawOf(key))));
+          if (prop === "set" || prop === "delete" || prop === "clear" || prop === "getOrInsert" || prop === "getOrInsertComputed") return harden(readonly);
+          if (prop === "has") return harden((key) => target.has(rawOf(key)));
+          if (prop === Symbol.iterator || prop === "entries") return harden(() => iteratorOf(Array.from(target.entries(), ([k, v]) => harden([harden(k), harden(v)]))));
+          if (prop === "values") return harden(() => iteratorOf(Array.from(target.values(), (v) => harden(v))));
+          if (prop === "keys") return harden(() => iteratorOf(Array.from(target.keys(), (k) => harden(k))));
+          if (prop === "forEach") return harden((cb, thisArg) => {
+            for (const [k, v] of target.entries()) cb.call(thisArg, harden(v), harden(k), proxy3);
+          });
+          const got = hostCall(() => Reflect.get(target, prop, target));
+          return typeof got === "function" ? void 0 : harden(got);
+        },
+        set() {
+          return readonly();
+        },
+        deleteProperty() {
+          return readonly();
+        },
+        defineProperty() {
+          return readonly();
+        },
+        setPrototypeOf() {
+          return readonly();
+        },
+        getOwnPropertyDescriptor(target, prop) {
+          return descriptorFor(target, prop);
+        },
+        preventExtensions() {
+          return readonly();
+        },
+        getPrototypeOf(target) {
+          return protoFor(target);
+        }
+      });
+      hardened.set(obj, proxy3);
+      return rememberRaw(proxy3, value);
+    }
+    if (isSet(value)) {
+      let proxy3;
+      proxy3 = new Proxy(value, {
+        get(target, prop) {
+          if (forbidden(prop)) return void 0;
+          if (prop === "size") return target.size;
+          if (prop === "add" || prop === "delete" || prop === "clear") return harden(readonly);
+          if (prop === "has") return harden((val) => target.has(rawOf(val)));
+          if (prop === Symbol.iterator || prop === "values" || prop === "keys") return harden(() => iteratorOf(Array.from(target.values(), (v) => harden(v))));
+          if (prop === "entries") return harden(() => iteratorOf(Array.from(target.values(), (v) => harden([harden(v), harden(v)]))));
+          if (prop === "forEach") return harden((cb, thisArg) => {
+            for (const v of target.values()) cb.call(thisArg, harden(v), harden(v), proxy3);
+          });
+          const got = hostCall(() => Reflect.get(target, prop, target));
+          return typeof got === "function" ? void 0 : harden(got);
+        },
+        set() {
+          return readonly();
+        },
+        deleteProperty() {
+          return readonly();
+        },
+        defineProperty() {
+          return readonly();
+        },
+        setPrototypeOf() {
+          return readonly();
+        },
+        getOwnPropertyDescriptor(target, prop) {
+          return descriptorFor(target, prop);
+        },
+        preventExtensions() {
+          return readonly();
+        },
+        getPrototypeOf(target) {
+          return protoFor(target);
+        }
+      });
+      hardened.set(obj, proxy3);
+      return rememberRaw(proxy3, value);
+    }
+    if (typeof value === "function") {
+      const original = value;
+      const callable = (...args) => harden(hostCall(() => Reflect.apply(original, void 0, args)));
+      const proxy3 = new Proxy(callable, {
+        apply(_target, thisArg, args) {
+          return harden(hostCall(() => Reflect.apply(original, thisArg, args)));
+        },
+        get(_target, prop, receiver) {
+          if (forbidden(prop)) return void 0;
+          if (!Reflect.getOwnPropertyDescriptor(original, prop)) return void 0;
+          return harden(hostCall(() => Reflect.get(original, prop, receiver)));
+        },
+        set() {
+          return readonly();
+        },
+        deleteProperty() {
+          return readonly();
+        },
+        defineProperty() {
+          return readonly();
+        },
+        setPrototypeOf() {
+          return readonly();
+        },
+        getOwnPropertyDescriptor(_target, prop) {
+          return descriptorFor(original, prop);
+        },
+        preventExtensions() {
+          return readonly();
+        },
+        getPrototypeOf() {
+          return protoFor(original);
+        }
+      });
+      hardened.set(obj, proxy3);
+      return rememberRaw(proxy3, value);
+    }
+    const proxyTarget = extensibleDataEnvelope(value);
+    let proxy2;
+    proxy2 = new Proxy(proxyTarget, {
+      get(target, prop, receiver) {
+        if (forbidden(prop)) return void 0;
+        if (Array.isArray(target)) {
+          if (typeof prop === "string" && arrayMutators.has(prop)) return harden(readonly);
+          if (prop === Symbol.iterator || prop === "values") return harden(() => iteratorOf(Array.prototype.map.call(target, (v) => harden(v))));
+          if (prop === "entries") return harden(() => iteratorOf(Array.prototype.map.call(target, (v, i) => harden([i, harden(v)]))));
+          if (prop === "keys") return harden(() => iteratorOf(Array.from({ length: target.length }, (_, i) => i)));
+          if (typeof prop === "string" && arrayCallbackMethods.has(prop)) {
+            return harden((cb, thisArg) => {
+              const values = Array.prototype.map.call(target, (v) => harden(v));
+              const call = (v, i) => cb.call(thisArg, v, i, proxy2);
+              if (prop === "forEach") {
+                values.forEach(call);
+                return void 0;
+              }
+              if (prop === "map") return values.map(call);
+              if (prop === "filter") return values.filter((v, i) => call(v, i));
+              if (prop === "find") return values.find((v, i) => Boolean(call(v, i)));
+              if (prop === "findIndex") return values.findIndex((v, i) => Boolean(call(v, i)));
+              if (prop === "findLast") {
+                for (let i = values.length - 1; i >= 0; i--) if (call(values[i], i)) return values[i];
+                return void 0;
+              }
+              if (prop === "findLastIndex") {
+                for (let i = values.length - 1; i >= 0; i--) if (call(values[i], i)) return i;
+                return -1;
+              }
+              if (prop === "some") return values.some((v, i) => Boolean(call(v, i)));
+              if (prop === "every") return values.every((v, i) => Boolean(call(v, i)));
+              if (prop === "flatMap") return values.flatMap(call);
+            });
+          }
+          if (prop === "toSorted") {
+            return harden((compare) => {
+              const values = Array.prototype.map.call(target, (v) => harden(v));
+              return compare ? values.slice().sort((a, b) => compare(a, b)) : values.slice().sort();
+            });
+          }
+          if (prop === "toReversed") return harden(() => Array.prototype.map.call(target, (v) => harden(v)).reverse());
+          if (prop === "toSpliced") return harden(function(start, deleteCount, ...items) {
+            const values = Array.prototype.map.call(target, (v) => harden(v));
+            const copy = values.slice();
+            if (arguments.length === 1) copy.splice(start);
+            else copy.splice(start, deleteCount ?? 0, ...items.map((item) => harden(rawOf(item))));
+            return copy;
+          });
+          if (prop === "with") return harden((index, item) => {
+            const values = Array.prototype.map.call(target, (v) => harden(v));
+            const normalized = index < 0 ? values.length + index : index;
+            if (normalized < 0 || normalized >= values.length) throw sandboxError("Invalid array index");
+            const copy = values.slice();
+            copy[normalized] = harden(rawOf(item));
+            return copy;
+          });
+          if (prop === "reduce" || prop === "reduceRight") {
+            return harden(function(cb, initial) {
+              const values = Array.prototype.map.call(target, (v) => harden(v));
+              const reducer = (previous, current, index) => cb(previous, current, index, proxy2);
+              return arguments.length >= 2 ? prop === "reduce" ? values.reduce(reducer, initial) : values.reduceRight(reducer, initial) : prop === "reduce" ? values.reduce(reducer) : values.reduceRight(reducer);
+            });
+          }
+        }
+        if (!Reflect.getOwnPropertyDescriptor(target, prop)) return void 0;
+        const got = hostCall(() => Reflect.get(target, prop, receiver));
+        return typeof got === "function" ? void 0 : harden(got);
+      },
+      set() {
+        return readonly();
+      },
+      deleteProperty() {
+        return readonly();
+      },
+      defineProperty() {
+        return readonly();
+      },
+      setPrototypeOf() {
+        return readonly();
+      },
+      has(target, prop) {
+        return forbidden(prop) ? false : Reflect.has(target, prop);
+      },
+      getOwnPropertyDescriptor(target, prop) {
+        return descriptorFor(target, prop);
+      },
+      preventExtensions() {
+        return readonly();
+      },
+      getPrototypeOf(target) {
+        return protoFor(target);
+      }
+    });
+    hardened.set(obj, proxy2);
+    if (proxyTarget !== obj) hardened.set(proxyTarget, proxy2);
+    return rememberRaw(proxy2, value);
+  };
+  const fingerprint = (value) => fingerprintDiagram(rawOf(value));
+  const bodyKind = (value) => {
+    const kind = value?.body?.kind;
+    return kind != null && FAMILY_KINDS.has(kind) ? kind : "opaque";
+  };
+  const push = (call) => {
+    trace?.push(call);
+  };
+  const sdkTarget = {
+    parseRegisteredMermaid,
+    createMermaid,
+    buildMermaid,
+    asFlowchart,
+    asState,
+    asSequence,
+    asTimeline,
+    asClass,
+    asEr,
+    asJourney,
+    asArchitecture,
+    asXyChart,
+    asPie,
+    asQuadrant,
+    asGantt,
+    asMindmap,
+    asGitGraph,
+    asRadar,
+    mutate,
+    verifyMermaid,
+    analyzeMermaid,
+    analyzeMermaidSource,
+    describeMermaidFacts,
+    describeMermaidFactsSource,
+    checkMermaid,
+    checkMermaidSource,
+    serializeMermaid,
+    renderMermaidSVG,
+    renderMermaidSVGWithReceipt,
+    renderMermaidASCII,
+    renderMermaidASCIIWithReceipt,
+    layoutMermaidWithReceipt,
+    // Read-only op discovery: field shapes / enum values / constraint notes and
+    // compact signatures for a family's ops, so a Code Mode script can look up
+    // exact op shapes at runtime instead of guessing (or triggering INVALID_OP).
+    describeOps,
+    opSignatures
+  };
+  const sdkProps = new Set(Reflect.ownKeys(sdkTarget));
+  const sdkValues = /* @__PURE__ */ new Map();
+  const sdkValue = (target, prop) => {
+    if (forbidden(prop) || !sdkProps.has(prop)) return void 0;
+    if (sdkValues.has(prop)) return sdkValues.get(prop);
+    let value;
+    if (prop === "parseRegisteredMermaid") value = harden((source) => {
+      assertOpen();
+      if (typeof source !== "string") throw sandboxError(`Code Mode ${prop} source must be a string`);
+      const r = hostCall(() => target.parseRegisteredMermaid(source));
+      if (r.ok) trustDiagram(r.value);
+      const diagram = r.ok ? idOf(r.value) : void 0;
+      push({ verb: "parse", diagram, source: r.ok ? r.value.body.kind === "opaque" ? r.value.body.source : r.value.canonicalSource : void 0 });
+      return harden(r);
+    });
+    else if (prop === "createMermaid") value = harden((kind, opts) => {
+      assertOpen();
+      const r = hostCall(() => target.createMermaid(kind, jsonClone(opts)));
+      trustDiagram(r);
+      push({ verb: "create", family: FAMILY_KINDS.has(kind) ? kind : void 0, diagram: idOf(r), ok: true });
+      return harden(r);
+    });
+    else if (prop === "buildMermaid") value = harden((kind, ops, opts) => {
+      assertOpen();
+      const opsForHost = jsonClone(ops);
+      const r = hostCall(() => buildChecked(kind, opsForHost, jsonClone(opts)));
+      if (r.ok) trustDiagram(r.value);
+      push({
+        verb: "create",
+        family: FAMILY_KINDS.has(kind) ? kind : void 0,
+        diagram: r.ok ? idOf(r.value) : void 0,
+        ops: Array.isArray(ops) ? ops.length : void 0,
+        ok: r.ok
+      });
+      return harden(r);
+    });
+    else if (typeof prop === "string" && prop.startsWith("as") && prop in target) {
+      value = harden((d) => {
+        assertOpen();
+        requireTrustedDiagram(d, String(prop));
+        const input = idOf(d);
+        const r = hostCall(() => target[prop](rawOf(d)));
+        if (r) trustDiagram(r);
+        push({ verb: "narrow", family: narrowerFamily(prop), input, ok: r !== null });
+        return harden(r);
+      });
+    } else if (prop === "mutate") value = harden((d, op) => {
+      assertOpen();
+      requireTrustedDiagram(d, "mutate");
+      const opForHost = jsonClone(op);
+      const call = {
+        verb: "mutate",
+        body: bodyKind(rawOf(d)),
+        input: idOf(d),
+        opKind: typeof opForHost === "object" && opForHost && "kind" in opForHost ? String(opForHost.kind) : void 0
+      };
+      push(call);
+      const r = hostCall(() => mutateChecked(rawOf(d), opForHost));
+      if (r.ok) {
+        trustDiagram(r.value);
+        call.output = idOf(r.value);
+        call.fingerprint = fingerprint(r.value);
+      }
+      return harden(r);
+    });
+    else if (prop === "verifyMermaid") value = harden((input, opts) => {
+      assertOpen();
+      requireTrustedDiagram(input, "verifyMermaid");
+      const r = hostCall(() => target.verifyMermaid(rawOf(input), opts));
+      const diagram = idOf(input);
+      push({ verb: "verify", diagram, ok: r.ok, inspected: false, fingerprint: fingerprint(input) });
+      return harden(new Proxy(r, {
+        get(verifyTarget, verifyProp, verifyReceiver) {
+          if (isClosed?.()) throw sandboxError("Code Mode SDK calls are not allowed while returning results");
+          if (verifyProp === "ok" || verifyProp === "warnings" || verifyProp === "layout") {
+            push({ verb: "verify_inspect", diagram, property: verifyProp });
+          }
+          if (forbidden(verifyProp)) return void 0;
+          return harden(hostCall(() => Reflect.get(verifyTarget, verifyProp, verifyReceiver)));
+        },
+        set() {
+          return readonly();
+        },
+        deleteProperty() {
+          return readonly();
+        },
+        defineProperty() {
+          return readonly();
+        },
+        setPrototypeOf() {
+          return readonly();
+        },
+        getOwnPropertyDescriptor(target2, prop2) {
+          return descriptorFor(target2, prop2);
+        },
+        preventExtensions() {
+          return readonly();
+        },
+        getPrototypeOf(target2) {
+          return protoFor(target2);
+        }
+      }));
+    });
+    else if (prop === "analyzeMermaid") value = harden((d) => {
+      assertOpen();
+      requireTrustedDiagram(d, "analyzeMermaid");
+      const r = hostCall(() => target.analyzeMermaid(rawOf(d)));
+      push({ verb: "analyze", diagram: idOf(d), ok: true, fingerprint: fingerprint(d) });
+      return harden(r);
+    });
+    else if (prop === "analyzeMermaidSource") value = harden((source) => {
+      assertOpen();
+      if (typeof source !== "string") throw sandboxError("Code Mode analyzeMermaidSource source must be a string");
+      const r = hostCall(() => target.analyzeMermaidSource(source));
+      push({ verb: "analyze", source, ok: r.ok });
+      return harden(r);
+    });
+    else if (prop === "describeMermaidFacts") value = harden((d) => {
+      assertOpen();
+      requireTrustedDiagram(d, "describeMermaidFacts");
+      const r = hostCall(() => target.describeMermaidFacts(rawOf(d)));
+      push({ verb: "facts", diagram: idOf(d), ok: true, fingerprint: fingerprint(d) });
+      return harden(r);
+    });
+    else if (prop === "describeMermaidFactsSource") value = harden((source) => {
+      assertOpen();
+      if (typeof source !== "string") throw sandboxError("Code Mode describeMermaidFactsSource source must be a string");
+      const r = hostCall(() => target.describeMermaidFactsSource(source));
+      push({ verb: "facts", source, ok: r.ok });
+      return harden(r);
+    });
+    else if (prop === "checkMermaid") value = harden((d, spec) => {
+      assertOpen();
+      requireTrustedDiagram(d, "checkMermaid");
+      const r = hostCall(() => target.checkMermaid(rawOf(d), jsonClone(spec)));
+      push({ verb: "check", diagram: idOf(d), ok: r.ok, fingerprint: fingerprint(d) });
+      return harden(r);
+    });
+    else if (prop === "checkMermaidSource") value = harden((source, spec) => {
+      assertOpen();
+      if (typeof source !== "string") throw sandboxError("Code Mode checkMermaidSource source must be a string");
+      const r = hostCall(() => target.checkMermaidSource(source, jsonClone(spec)));
+      push({ verb: "check", source, ok: r.ok ? r.value.ok : false });
+      return harden(r);
+    });
+    else if (prop === "serializeMermaid") value = harden((d) => {
+      assertOpen();
+      requireTrustedDiagram(d, "serializeMermaid");
+      const source = hostCall(() => target.serializeMermaid(rawOf(d)));
+      push({ verb: "serialize", diagram: idOf(d), source, fingerprint: fingerprint(d) });
+      return source;
+    });
+    else if (prop === "renderMermaidSVG" || prop === "renderMermaidSVGWithReceipt" || prop === "renderMermaidASCII" || prop === "renderMermaidASCIIWithReceipt" || prop === "layoutMermaidWithReceipt") value = harden((input, opts) => {
+      assertOpen();
+      if (input && typeof input === "object") requireTrustedDiagram(input, String(prop));
+      const isAscii = prop === "renderMermaidASCII" || prop === "renderMermaidASCIIWithReceipt";
+      const configCallback = opts?.onConfigDiagnostic;
+      const projectionCallback = isAscii ? opts?.onProjectionDiagnostic : void 0;
+      if (configCallback !== void 0 && typeof configCallback !== "function") {
+        throw sandboxError(`Code Mode ${String(prop)} onConfigDiagnostic must be a function`);
+      }
+      if (projectionCallback !== void 0 && typeof projectionCallback !== "function") {
+        throw sandboxError(`Code Mode ${String(prop)} onProjectionDiagnostic must be a function`);
+      }
+      let cloned = jsonClone(opts);
+      if (hostPolicy) cloned = { ...cloned ?? {}, ...hostPolicy.render };
+      const configDiagnostics = [];
+      const projectionDiagnostics = [];
+      if (configCallback || projectionCallback) cloned ??= {};
+      if (configCallback) {
+        cloned.onConfigDiagnostic = (diagnostic) => configDiagnostics.push(diagnostic);
+      }
+      if (projectionCallback) {
+        cloned.onProjectionDiagnostic = (diagnostic) => projectionDiagnostics.push(diagnostic);
+      }
+      const rendered = hostCall(
+        () => target[prop](rawOf(input), cloned),
+        true
+      );
+      for (const diagnostic of configDiagnostics) configCallback(harden(jsonClone(diagnostic)));
+      for (const diagnostic of projectionDiagnostics) projectionCallback(harden(jsonClone(diagnostic)));
+      return jsonClone(rendered);
+    });
+    else if (prop === "describeOps" || prop === "opSignatures") value = harden((family) => {
+      assertOpen();
+      if (typeof family !== "string") throw sandboxError(`Code Mode ${String(prop)} family must be a string`);
+      if (!hasOpSchema(family)) {
+        const families = knownBuiltinFamilies().filter(hasOpSchema);
+        throw sandboxError(`Code Mode ${String(prop)} family must be one of: ${families.join(", ")}`);
+      }
+      return harden(hostCall(() => target[prop](family)));
+    });
+    sdkValues.set(prop, value);
+    return value;
+  };
+  const marshalResult = (value) => {
+    try {
+      const rawObj = rawOf(value);
+      const candidate = rawObj && typeof rawObj === "object" && !Array.isArray(rawObj) && rawObj.ok === true && "value" in rawObj ? rawOf(rawObj.value) : rawObj;
+      if (isDiagramLike(candidate) && trusted.has(candidate)) {
+        const d = candidate;
+        const verification = verifyMermaid(d);
+        const summary = verifySummary(verification);
+        if (!verification.ok) {
+          return {
+            ok: false,
+            family: d.kind,
+            error: {
+              code: "VERIFY_FAILED",
+              message: "returned diagram failed verify; source was not emitted",
+              details: summary.warnings
+            }
+          };
+        }
+        return { ok: true, family: d.kind, source: serializeMermaid(d), verify: summary };
+      }
+    } catch {
+    }
+    return value;
+  };
+  const proxy = new Proxy(sdkTarget, {
+    get(target, prop) {
+      return sdkValue(target, prop);
+    },
+    set() {
+      return readonly();
+    },
+    deleteProperty() {
+      return readonly();
+    },
+    defineProperty() {
+      return readonly();
+    },
+    setPrototypeOf() {
+      return readonly();
+    },
+    getOwnPropertyDescriptor(target, prop) {
+      if (!sdkProps.has(prop) || forbidden(prop)) return void 0;
+      const desc = Reflect.getOwnPropertyDescriptor(target, prop);
+      return desc && "value" in desc ? { ...desc, value: sdkValue(target, prop) } : void 0;
+    },
+    preventExtensions() {
+      return readonly();
+    },
+    getPrototypeOf(target) {
+      return protoFor(target);
+    },
+    has(_target, prop) {
+      return sdkProps.has(prop) && !forbidden(prop);
+    },
+    ownKeys() {
+      return Array.from(sdkProps);
+    }
+  });
+  resultMarshallers.set(proxy, marshalResult);
+  return proxy;
+}
+var resultMarshallers = /* @__PURE__ */ new WeakMap();
+function marshalCodeModeResult(sdk, value) {
+  const fn = sdk && typeof sdk === "object" ? resultMarshallers.get(sdk) : void 0;
+  return fn ? fn(value) : value;
+}
+var CODE_MODE_RETURN_HINT = "return plain data instead \u2014 e.g. serializeMermaid(d) for a diagram, or read the fields you need (verifyMermaid(d).ok, .warnings); the declarative mutate/build tools return a ready { ok, family, source, verify } envelope";
+function fingerprintDiagram(value) {
+  if (!value || typeof value !== "object") return void 0;
+  if (!("body" in value) || !("canonicalSource" in value)) return void 0;
+  try {
+    return JSON.stringify(value, jsonReplacer);
+  } catch {
+    return void 0;
+  }
+}
+var FAMILY_KINDS = new Set(BUILTIN_FAMILY_METADATA.map((m) => m.id));
+var NARROWER_TO_FAMILY = new Map(
+  BUILTIN_FAMILY_METADATA.map((m) => [m.narrower, m.id])
+);
+function narrowerFamily(prop) {
+  const family = NARROWER_TO_FAMILY.get(String(prop));
+  if (!family) throw new Error(`Unknown Code Mode narrower: ${String(prop)}`);
+  return family;
+}
+function expressionFirstWraps(code) {
+  const t = code.trim();
+  const stripped = t.replace(/;\s*$/, "");
+  const expressionWrapped = `(() => { return (
+${stripped}
+) })()`;
+  const statementWrapped = `(() => { ${code} })()`;
+  try {
+    new Function(`return (
+${stripped}
+)`);
+    return [expressionWrapped];
+  } catch {
+    return [statementWrapped];
+  }
+}
+function unsupportedCodeReason(code) {
+  const ast = parseCodeModeAst(code);
+  if (!ast) return void 0;
+  let usesAsync = false;
+  let usesRealm = false;
+  walkJavaScriptAst(ast, (node, parent, parentKey) => {
+    if (node.type === "ImportExpression" || node.type === "AwaitExpression") usesAsync = true;
+    if ("async" in node && node.async === true) usesAsync = true;
+    if (node.type !== "Identifier" || !("name" in node) || typeof node.name !== "string") return;
+    const propertyNameOnly = parentKey === "key" && parent?.computed !== true || parent?.type === "MemberExpression" && parentKey === "property" && parent.computed === false;
+    if (propertyNameOnly && !(node.name === "fromAsync" && parent?.type === "MemberExpression" && parent.object?.type === "Identifier" && parent.object.name === "Array")) return;
+    if (SYNC_UNSUPPORTED_IDENTIFIERS.has(node.name)) usesAsync = true;
+    if (REALM_UNSUPPORTED_IDENTIFIERS.has(node.name)) usesRealm = true;
+  });
+  if (usesAsync) {
+    return "Code Mode is synchronous; async/await, Promise jobs, finalizers, queueMicrotask, Array.fromAsync, and dynamic import are not supported";
+  }
+  if (usesRealm) {
+    return "Code Mode does not expose blocking or realm-creating globals";
+  }
+  return void 0;
+}
+var SYNC_UNSUPPORTED_IDENTIFIERS = /* @__PURE__ */ new Set([
+  "async",
+  "await",
+  "Promise",
+  "AsyncDisposableStack",
+  "FinalizationRegistry",
+  "WeakRef",
+  "fromAsync",
+  "queueMicrotask"
+]);
+var REALM_UNSUPPORTED_IDENTIFIERS = /* @__PURE__ */ new Set(["Atomics", "SharedArrayBuffer", "ShadowRealm", "WebAssembly"]);
+function parseCodeModeAst(code) {
+  const stripped = code.trim().replace(/;\s*$/, "");
+  const candidates = [
+    `(${stripped})`,
+    `function __agent_code__(){
+${code}
+}`,
+    // Parse otherwise-invalid top-level await so it is rejected before an
+    // isolate/CPU budget is allocated and telemetry remains truthful.
+    `async function __agent_code__(){
+${code}
+}`
+  ];
+  for (const candidate of candidates) {
+    try {
+      return parseJavaScript(candidate, { ecmaVersion: "latest", sourceType: "script" });
+    } catch {
+    }
+  }
+  return void 0;
+}
+function walkJavaScriptAst(node, visit, parent, parentKey) {
+  const record = node;
+  visit(record, parent, parentKey);
+  for (const [key, value] of Object.entries(record)) {
+    if (key === "start" || key === "end" || key === "type") continue;
+    if (Array.isArray(value)) {
+      for (const child of value) if (isAcornNode(child)) walkJavaScriptAst(child, visit, record, key);
+    } else if (isAcornNode(value)) {
+      walkJavaScriptAst(value, visit, record, key);
+    }
+  }
+}
+function isAcornNode(value) {
+  return Boolean(value && typeof value === "object" && "type" in value && typeof value.type === "string");
+}
+function jsonReplacer(_k, v) {
+  if (v instanceof Map) return Object.fromEntries(v);
+  if (v instanceof Set) return Array.from(v);
+  return v;
+}
+
+// src/mcp/execute-limits.ts
+var DEFAULT_EXECUTE_TIMEOUT_MS = 5e3;
+var DEFAULT_EXECUTE_OUTPUT_LIMITS = Object.freeze({
+  maxResultBytes: 2 * 1024 * 1024,
+  maxLogEntries: 1e3,
+  maxLogBytes: 256 * 1024
+});
+var LOGS_TRUNCATED_MARKER = "\u2026[logs truncated: hosted execute caps console output]";
+function normalizeExecuteOutputLimits(value) {
+  if (value === void 0) return DEFAULT_EXECUTE_OUTPUT_LIMITS;
+  for (const field of ["maxResultBytes", "maxLogEntries", "maxLogBytes"]) {
+    if (!Number.isSafeInteger(value[field]) || value[field] <= 0) {
+      throw new TypeError(`Code Mode ${field} must be a positive safe integer`);
+    }
+  }
+  return Object.freeze({ ...value });
+}
+function utf8ByteLength(value) {
+  let bytes = 0;
+  for (const char of value) {
+    const code = char.codePointAt(0);
+    bytes += code <= 127 ? 1 : code <= 2047 ? 2 : code <= 65535 ? 3 : 4;
+  }
+  return bytes;
+}
+
+// src/mcp/sandbox.ts
+var MIN_BUN_SDK_TIMEOUT_MS = 1e3;
+var SAFE_GLOBALS = {};
+async function executeInSandbox(code, opts = {}) {
+  try {
+    return runInSandbox(code, opts);
+  } finally {
+    await new Promise((resolve2) => setTimeout(resolve2, 0));
+  }
+}
+function runInSandbox(code, opts = {}) {
+  const timeoutMs = opts.timeoutMs ?? DEFAULT_EXECUTE_TIMEOUT_MS;
+  const outputLimits = normalizeExecuteOutputLimits(opts.outputLimits);
+  const startedAt = performance.now();
+  const remainingBudgetMs = () => Math.floor(timeoutMs - (performance.now() - startedAt));
+  const trace = [];
+  const early = (error) => opts.trace ? { ok: false, error, logs: [], trace } : { ok: false, error, logs: [] };
+  const unsupported = unsupportedCodeReason(code);
+  if (unsupported) return early(unsupported);
+  const sandbox = {
+    ...SAFE_GLOBALS,
+    eval: void 0,
+    Function: void 0
+  };
+  const context = vm.createContext(sandbox, {
+    name: "agentic-mermaid-codemode",
+    microtaskMode: "afterEvaluate",
+    codeGeneration: { strings: false, wasm: false }
+  });
+  vm.runInContext(`
+    (() => {
+      const logs = []
+      let logBytes = 0
+      let logsTruncated = false
+      const maxLogEntries = ${outputLimits.maxLogEntries}
+      const maxLogBytes = ${outputLimits.maxLogBytes}
+      const truncationMarker = ${JSON.stringify(LOGS_TRUNCATED_MARKER)}
+      const safeString = String
+      const safeStringify = JSON.stringify.bind(JSON)
+      const objectToString = Object.prototype.toString
+      const safeToStringTag = (v) => objectToString.call(v)
+      const safeFromEntries = Object.fromEntries.bind(Object)
+      const safeArrayFrom = Array.from.bind(Array)
+      const utf8Bytes = (value) => {
+        let bytes = 0
+        for (const char of value) {
+          const code = char.codePointAt(0)
+          bytes += code <= 0x7f ? 1 : code <= 0x7ff ? 2 : code <= 0xffff ? 3 : 4
+        }
+        return bytes
+      }
+      const truncateUtf8 = (value, maximum) => {
+        let bytes = 0
+        let output = ''
+        for (const char of value) {
+          const code = char.codePointAt(0)
+          const width = code <= 0x7f ? 1 : code <= 0x7ff ? 2 : code <= 0xffff ? 3 : 4
+          if (bytes + width > maximum) break
+          output += char
+          bytes += width
+        }
+        return output
+      }
+      const str = (v) => {
+        if (typeof v === 'string') return v
+        try {
+          const json = safeStringify(v)
+          return typeof json === 'string' ? json : safeString(v)
+        } catch {
+          try { return safeString(v) } catch { return '[unprintable]' }
+        }
+      }
+      const appendLog = (args) => {
+        if (logsTruncated) return
+        if (logs.length >= maxLogEntries || logBytes >= maxLogBytes) {
+          logsTruncated = true
+          logs.push(truncationMarker)
+          return
+        }
+        let line = args.map(str).join(' ')
+        const remaining = maxLogBytes - logBytes
+        if (utf8Bytes(line) > remaining) {
+          line = truncateUtf8(line, remaining)
+          logsTruncated = true
+        }
+        logBytes += utf8Bytes(line)
+        logs.push(line)
+        if (logsTruncated) logs.push(truncationMarker)
+      }
+      Object.defineProperty(globalThis, '__pi_read_logs', {
+        value: () => safeStringify(logs),
+        writable: false,
+        configurable: false,
+      })
+      Object.defineProperty(globalThis, '__pi_result', { value: undefined, writable: true, configurable: false })
+      Object.defineProperty(globalThis, '__pi_error', { value: undefined, writable: true, configurable: false })
+      Object.defineProperty(globalThis, '__pi_format_error', {
+        value: (err) => {
+          try {
+            if (typeof err === 'string') return err
+            if (err && (typeof err === 'object' || typeof err === 'function')) {
+              const message = err.message
+              if (typeof message === 'string') return message
+            }
+            return safeString(err)
+          } catch { return 'sandbox error' }
+        },
+        writable: false,
+        configurable: false,
+      })
+      Object.defineProperty(globalThis, '__pi_stringify_result', {
+        value: (value) => safeStringify(value, (_k, v) => {
+          const tag = safeToStringTag(v)
+          if (tag === '[object Map]') return safeFromEntries(v)
+          if (tag === '[object Set]') return safeArrayFrom(v)
+          return v
+        }),
+        writable: false,
+        configurable: false,
+      })
+      Object.defineProperty(globalThis, 'console', {
+        value: Object.freeze({
+          log: (...a) => appendLog(a),
+          error: (...a) => appendLog(a),
+          warn: (...a) => appendLog(a),
+        }),
+        writable: false,
+        configurable: false,
+      })
+      try {
+        Object.defineProperty(Error, 'prepareStackTrace', { value: undefined, writable: false, configurable: false })
+        Object.freeze(Error)
+        Object.freeze(Error.prototype)
+      } catch {}
+      try { Object.defineProperty(Array, 'fromAsync', { value: undefined, writable: false, configurable: false }) } catch {}
+      try { Object.freeze(Promise.prototype); Object.freeze(Promise) } catch {}
+      for (const name of [
+        'constructor', '__proto__', 'eval', 'Function', 'Promise',
+        'Atomics', 'SharedArrayBuffer', 'ShadowRealm', 'WebAssembly',
+        'queueMicrotask', 'setTimeout', 'setInterval', 'setImmediate',
+        'fetch', 'process', 'require', 'Bun', 'Worker', 'MessageChannel', 'MessagePort',
+        'AsyncDisposableStack', 'DisposableStack', 'SuppressedError', 'FinalizationRegistry', 'WeakRef',
+      ]) {
+        try { Object.defineProperty(globalThis, name, { value: undefined, writable: false, configurable: false }) } catch {}
+      }
+      try { Object.setPrototypeOf(globalThis, null) } catch {}
+    })()
+  `, context);
+  const makeSandboxError = vm.runInContext(`(message) => new Error(String(message))`, context);
+  let sdkClosed = false;
+  let sdkCallOccurred = false;
+  sandbox.mermaid = createTracingMermaid(
+    opts.trace ? trace : void 0,
+    makeSandboxError,
+    () => sdkClosed,
+    void 0,
+    () => {
+      sdkCallOccurred = true;
+      if (typeof Bun === "undefined") return void 0;
+      const remaining = remainingBudgetMs();
+      return remaining < MIN_BUN_SDK_TIMEOUT_MS ? `Code Mode SDK calls under Bun require at least ${MIN_BUN_SDK_TIMEOUT_MS}ms of remaining timeout budget (timeoutMs >= ${MIN_BUN_SDK_TIMEOUT_MS})` : void 0;
+    }
+  );
+  const readLogs = () => {
+    try {
+      const encoded = vm.runInContext(`__pi_read_logs()`, context, { timeout: 50 });
+      if (typeof encoded !== "string") return [];
+      const value = JSON.parse(encoded);
+      return Array.isArray(value) ? value.filter((v) => typeof v === "string") : [];
+    } catch {
+      return [];
+    }
+  };
+  const errorMessage = (err) => {
+    try {
+      sandbox.__pi_error = err;
+      const message = vm.runInContext(`__pi_format_error(__pi_error)`, context, { timeout: 50 });
+      return typeof message === "string" ? message : "sandbox error";
+    } catch (e) {
+      return e instanceof Error ? e.message : "sandbox error";
+    } finally {
+      try {
+        sandbox.__pi_error = void 0;
+      } catch {
+      }
+    }
+  };
+  const wraps = expressionFirstWraps(code);
+  let result;
+  let runErr = null;
+  for (const wrapped of wraps) {
+    let script;
+    try {
+      script = new vm.Script(wrapped, { filename: "codemode.ts" });
+    } catch (e) {
+      runErr = e;
+      break;
+    }
+    try {
+      const remainingMs = remainingBudgetMs();
+      if (remainingMs <= 0) throw new Error(`Code Mode execution timed out after ${timeoutMs}ms`);
+      result = script.runInContext(context, { timeout: remainingMs });
+      runErr = null;
+      break;
+    } catch (e) {
+      runErr = e;
+      break;
+    }
+  }
+  const withTrace = (r) => opts.trace ? { ...r, trace } : r;
+  if (runErr) {
+    sdkClosed = true;
+    return withTrace({ ok: false, error: errorMessage(runErr), logs: readLogs() });
+  }
+  if (result === void 0) {
+    sdkClosed = true;
+    return withTrace({ ok: true, value: null, logs: readLogs() });
+  }
+  sdkClosed = true;
+  let marshalled = result;
+  const resultMayContainSdkValue = sdkCallOccurred && result !== null && (typeof result === "object" || typeof result === "function");
+  if (resultMayContainSdkValue) {
+    const remainingMs = remainingBudgetMs();
+    if (remainingMs <= 0 || typeof Bun !== "undefined" && remainingMs < MIN_BUN_SDK_TIMEOUT_MS) {
+      return withTrace({ ok: false, error: `Code Mode execution timed out after ${timeoutMs}ms while committing the result`, logs: readLogs() });
+    }
+    const marshalKey = `__pi_marshal_${Date.now().toString(36)}_${Math.random().toString(36).slice(2)}`;
+    const marshalTarget = () => marshalCodeModeResult(sandbox.mermaid, result);
+    const safeMarshal = new Proxy(marshalTarget, {
+      apply: (target) => Reflect.apply(target, void 0, []),
+      get(target, prop, receiver) {
+        if (prop === "constructor" || prop === "__proto__" || prop === "prototype") return void 0;
+        return Object.prototype.hasOwnProperty.call(target, prop) ? Reflect.get(target, prop, receiver) : void 0;
+      },
+      getPrototypeOf: () => null,
+      has: (target, prop) => Object.prototype.hasOwnProperty.call(target, prop) && prop !== "constructor" && prop !== "__proto__" && prop !== "prototype",
+      set: () => false,
+      defineProperty: () => false,
+      deleteProperty: () => false,
+      setPrototypeOf: () => false
+    });
+    try {
+      if (!Reflect.defineProperty(sandbox, marshalKey, {
+        value: safeMarshal,
+        enumerable: false,
+        writable: false,
+        configurable: true
+      })) throw new Error("could not install the result commit guard");
+      marshalled = vm.runInContext(`globalThis[${JSON.stringify(marshalKey)}]()`, context, { timeout: remainingMs });
+    } catch (e) {
+      const message = errorMessage(e);
+      return withTrace({
+        ok: false,
+        error: /timed out/i.test(message) ? `Code Mode execution timed out after ${timeoutMs}ms while committing the result` : `could not commit Code Mode result: ${message}`,
+        logs: readLogs()
+      });
+    } finally {
+      try {
+        Reflect.deleteProperty(sandbox, marshalKey);
+      } catch {
+      }
+    }
+  }
+  let stringified;
+  try {
+    const stringifyTimeoutMs = remainingBudgetMs();
+    if (stringifyTimeoutMs <= 0) {
+      return withTrace({ ok: false, error: `Code Mode execution timed out after ${timeoutMs}ms while serializing the result`, logs: readLogs() });
+    }
+    sandbox.__pi_result = marshalled;
+    stringified = vm.runInContext("__pi_stringify_result(__pi_result)", context, { timeout: stringifyTimeoutMs });
+  } catch (e) {
+    return withTrace({ ok: false, error: `non-serializable: ${errorMessage(e)} \u2014 ${CODE_MODE_RETURN_HINT}`, logs: readLogs() });
+  } finally {
+    try {
+      sandbox.__pi_result = void 0;
+    } catch {
+    }
+  }
+  if (stringified === void 0) return withTrace({ ok: true, value: null, logs: readLogs() });
+  if (typeof stringified !== "string") return withTrace({ ok: false, error: "non-serializable: result did not stringify to JSON text", logs: readLogs() });
+  if (utf8ByteLength(stringified) > outputLimits.maxResultBytes) {
+    return withTrace({ ok: false, error: `sandbox result exceeded ${outputLimits.maxResultBytes} bytes; reduce console output or returned data`, logs: readLogs() });
+  }
+  try {
+    return withTrace({ ok: true, value: JSON.parse(stringified), logs: readLogs() });
+  } catch (e) {
+    return withTrace({ ok: false, error: `non-serializable: ${e instanceof Error ? e.message : "invalid JSON"}`, logs: readLogs() });
+  }
+}
+
+// src/mcp/protocol.ts
+function preserveExactJsonRpcIds(body) {
+  const replacements = [];
+  const stack = [];
+  let i = 0;
+  const stringEnd = (start) => {
+    let j = start + 1;
+    while (j < body.length) {
+      if (body[j] === "\\") {
+        j += 2;
+        continue;
+      }
+      if (body[j] === '"') return j + 1;
+      j++;
+    }
+    return j;
+  };
+  while (i < body.length) {
+    const ch = body[i];
+    if (ch === '"') {
+      const end = stringEnd(i);
+      let key;
+      try {
+        key = JSON.parse(body.slice(i, end));
+      } catch {
+        i = end;
+        continue;
+      }
+      const rpcObject = stack.length === 1 && stack[0] === "{" || stack.length === 2 && stack[0] === "[" && stack[1] === "{";
+      let cursor = end;
+      while (/\s/.test(body[cursor] ?? "")) cursor++;
+      if (rpcObject && key === "id" && body[cursor] === ":") {
+        cursor++;
+        while (/\s/.test(body[cursor] ?? "")) cursor++;
+        const number = body.slice(cursor).match(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/)?.[0];
+        if (number && isIntegerNumberToken(number) && !isSafelyRoundTrippableInteger(number)) {
+          let sentinel = `__agentic_mermaid_exact_id_${replacements.length}__`;
+          while (body.includes(sentinel)) sentinel += "_";
+          replacements.push({ sentinel, raw: number, start: cursor, end: cursor + number.length });
+        }
+      }
+      i = end;
+      continue;
+    }
+    if (ch === "{" || ch === "[") stack.push(ch);
+    else if (ch === "}" || ch === "]") stack.pop();
+    i++;
+  }
+  let protectedBody = body;
+  for (const replacement of replacements.slice().reverse()) {
+    protectedBody = protectedBody.slice(0, replacement.start) + JSON.stringify(replacement.sentinel) + protectedBody.slice(replacement.end);
+  }
+  return { body: protectedBody, ids: replacements.map(({ sentinel, raw }) => ({ sentinel, raw })) };
+}
+function isIntegerNumberToken(token) {
+  const value = Number(token);
+  return Number.isFinite(value) && Number.isInteger(value);
+}
+function isSafelyRoundTrippableInteger(token) {
+  if (!/^-?(?:0|[1-9]\d*)$/.test(token)) return false;
+  if (token === "-0") return false;
+  try {
+    const value = BigInt(token);
+    return value <= BigInt(Number.MAX_SAFE_INTEGER) && value >= BigInt(Number.MIN_SAFE_INTEGER);
+  } catch {
+    return false;
+  }
+}
+function isJsonContentType(value) {
+  if (!value) return false;
+  const token = String.raw`[!#$%&'*+.^_\x60|~0-9A-Za-z-]+`;
+  const quoted = String.raw`"(?:[^"\\]|\\.)*"`;
+  return new RegExp(String.raw`^\s*application/json\s*(?:;\s*${token}\s*=\s*(?:${token}|${quoted}))*\s*$`, "i").test(value);
+}
+function stringifyJsonRpc(payload, exactIds = []) {
+  let body = JSON.stringify(payload);
+  for (const { sentinel, raw } of exactIds) {
+    body = body.replace(`"id":${JSON.stringify(sentinel)}`, `"id":${raw}`);
+  }
+  return body;
+}
+function reply(id, result) {
+  return { jsonrpc: "2.0", id, result };
+}
+function rpcError(id, code, message, data) {
+  return { jsonrpc: "2.0", id, error: data === void 0 ? { code, message } : { code, message, data } };
+}
+function toolResult(id, payload, isError) {
+  return reply(id, { content: [{ type: "text", text: JSON.stringify(payload) }], isError });
+}
+
+// src/mcp/protocol-versions.ts
+var LEGACY_PROTOCOL_VERSIONS = ["2024-11-05", "2025-03-26", "2025-06-18", "2025-11-25"];
+var MODERN_PROTOCOL_VERSIONS = ["2026-07-28"];
+var META_PROTOCOL_VERSION = "io.modelcontextprotocol/protocolVersion";
+var META_CLIENT_INFO = "io.modelcontextprotocol/clientInfo";
+var META_CLIENT_CAPABILITIES = "io.modelcontextprotocol/clientCapabilities";
+var META_LOG_LEVEL = "io.modelcontextprotocol/logLevel";
+var META_SERVER_INFO = "io.modelcontextprotocol/serverInfo";
+var HEADER_MISMATCH = -32020;
+var UNSUPPORTED_PROTOCOL_VERSION = -32022;
+var TOOL_ERROR_VALIDATION_SINCE = "2025-11-25";
+function isModernProtocolVersion(version) {
+  return typeof version === "string" && MODERN_PROTOCOL_VERSIONS.includes(version);
+}
+function isLegacyProtocolVersion(version) {
+  return typeof version === "string" && LEGACY_PROTOCOL_VERSIONS.includes(version);
+}
+function usesToolErrorForInvalidArguments(version) {
+  return typeof version === "string" && version >= TOOL_ERROR_VALIDATION_SINCE;
+}
+function paramsMeta(req) {
+  const params = req.params;
+  if (!params || typeof params !== "object" || Array.isArray(params)) return void 0;
+  const meta = params._meta;
+  if (!meta || typeof meta !== "object" || Array.isArray(meta)) return void 0;
+  return meta;
+}
+function requestMetaProtocolVersion(req) {
+  const claim = requestMetaProtocolVersionClaim(req);
+  const value = claim.present ? claim.value : void 0;
+  return typeof value === "string" ? value : void 0;
+}
+function requestMetaProtocolVersionClaim(req) {
+  const meta = paramsMeta(req);
+  if (!meta || !Object.prototype.hasOwnProperty.call(meta, META_PROTOCOL_VERSION)) return { present: false };
+  return { present: true, value: meta[META_PROTOCOL_VERSION] };
+}
+function mcpImplementationProblems(value, path) {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    return [`${path} is required and must be an object with name and version`];
+  }
+  const problems = [];
+  const info = value;
+  if (typeof info.name !== "string") problems.push(`${path}.name is required and must be a string`);
+  if (typeof info.version !== "string") problems.push(`${path}.version is required and must be a string`);
+  for (const key of ["title", "description", "websiteUrl"]) {
+    if (info[key] !== void 0 && typeof info[key] !== "string") {
+      problems.push(`${path}.${key} must be a string when present`);
+    }
+  }
+  if (info.icons !== void 0) {
+    if (!Array.isArray(info.icons)) {
+      problems.push(`${path}.icons must be an array when present`);
+    } else {
+      for (const [index, icon] of info.icons.entries()) {
+        if (!icon || typeof icon !== "object" || Array.isArray(icon)) {
+          problems.push(`${path}.icons[${index}] must be an object`);
+          continue;
+        }
+        const record = icon;
+        if (typeof record.src !== "string") problems.push(`${path}.icons[${index}].src is required and must be a string`);
+        if (record.mimeType !== void 0 && typeof record.mimeType !== "string") problems.push(`${path}.icons[${index}].mimeType must be a string when present`);
+        if (record.sizes !== void 0 && (!Array.isArray(record.sizes) || record.sizes.some((size) => typeof size !== "string"))) {
+          problems.push(`${path}.icons[${index}].sizes must be an array of strings when present`);
+        }
+        if (record.theme !== void 0 && record.theme !== "light" && record.theme !== "dark") {
+          problems.push(`${path}.icons[${index}].theme must be light or dark when present`);
+        }
+      }
+    }
+  }
+  return problems;
+}
+function mcpClientCapabilitiesProblems(value, path) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return [`${path} is required and must be an object (an empty object declares no optional capabilities)`];
+  }
+  const problems = [];
+  const record = value;
+  const objectMember = (key) => {
+    const member = record[key];
+    if (member === void 0) return void 0;
+    if (typeof member !== "object" || member === null || Array.isArray(member)) {
+      problems.push(`${path}.${key} must be an object when present`);
+      return void 0;
+    }
+    return member;
+  };
+  const roots = objectMember("roots");
+  if (roots?.listChanged !== void 0 && typeof roots.listChanged !== "boolean") {
+    problems.push(`${path}.roots.listChanged must be a boolean when present`);
+  }
+  const sampling = objectMember("sampling");
+  for (const key of ["context", "tools"]) {
+    const member = sampling?.[key];
+    if (member !== void 0 && (typeof member !== "object" || member === null || Array.isArray(member))) {
+      problems.push(`${path}.sampling.${key} must be an object when present`);
+    }
+  }
+  const elicitation = objectMember("elicitation");
+  for (const key of ["form", "url"]) {
+    const member = elicitation?.[key];
+    if (member !== void 0 && (typeof member !== "object" || member === null || Array.isArray(member))) {
+      problems.push(`${path}.elicitation.${key} must be an object when present`);
+    }
+  }
+  for (const key of ["experimental", "extensions"]) {
+    const entries = objectMember(key);
+    if (!entries) continue;
+    for (const [name, member] of Object.entries(entries)) {
+      if (key === "extensions" && !/^[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?\/.+/.test(name)) {
+        problems.push(`${path}.extensions.${name} must use a namespaced key with a prefix`);
+      }
+      if (typeof member !== "object" || member === null || Array.isArray(member)) {
+        problems.push(`${path}.${key}.${name} must be an object`);
+      }
+    }
+  }
+  return problems;
+}
+function modernRequestMetaProblems(req) {
+  const meta = paramsMeta(req);
+  if (!meta) return [`params._meta is required and must carry ${META_PROTOCOL_VERSION} and ${META_CLIENT_CAPABILITIES}`];
+  const problems = [];
+  const clientInfo = meta[META_CLIENT_INFO];
+  if (clientInfo !== void 0) {
+    problems.push(...mcpImplementationProblems(clientInfo, `params._meta.${META_CLIENT_INFO}`));
+  }
+  const logLevel = meta[META_LOG_LEVEL];
+  if (logLevel !== void 0 && (typeof logLevel !== "string" || !["debug", "info", "notice", "warning", "error", "critical", "alert", "emergency"].includes(logLevel))) {
+    problems.push(`params._meta.${META_LOG_LEVEL} must be a valid logging level when present`);
+  }
+  const capabilities = meta[META_CLIENT_CAPABILITIES];
+  problems.push(...mcpClientCapabilitiesProblems(capabilities, `params._meta.${META_CLIENT_CAPABILITIES}`));
+  return problems;
+}
+
+// src/mcp/admission.ts
+var admittedMcpMessage = /* @__PURE__ */ Symbol("AdmittedMcpMessage");
+function responseId(raw, validId) {
+  const value = raw.id;
+  return validId && value !== void 0 ? value : null;
+}
+function rejection(kind, notification, response, protocol, requestedEra) {
+  return {
+    ok: false,
+    kind,
+    response: notification ? null : response,
+    ...protocol ? { protocol } : {},
+    ...requestedEra ? { requestedEra } : {}
+  };
+}
+function acceptance(request, id, notification, protocol) {
+  const base = { request, id, protocol, [admittedMcpMessage]: true };
+  return notification ? { ok: true, message: { ...base, notification: true } } : { ok: true, message: { ...base, notification: false } };
+}
+function admitMcpMessage(rawMessage, options) {
+  const raw = rawMessage;
+  const hasId = Boolean(raw && Object.prototype.hasOwnProperty.call(raw, "id"));
+  const rawId = raw?.id;
+  const validId = rawId === void 0 || typeof rawId === "string" || typeof rawId === "number" && Number.isSafeInteger(rawId);
+  const validEnvelope = Boolean(raw && !Array.isArray(raw) && raw.jsonrpc === "2.0" && typeof raw.method === "string" && validId);
+  if (!validEnvelope) {
+    return { ok: false, kind: "invalid-request", response: rpcError(null, -32600, "invalid JSON-RPC request") };
+  }
+  const request = rawMessage;
+  const id = responseId(raw, validId);
+  const notification = !hasId;
+  const versionClaim = requestMetaProtocolVersionClaim(request);
+  const declaredVersion = requestMetaProtocolVersion(request);
+  const requestedEra = versionClaim.present ? "modern" : "legacy";
+  const supportedVersions = options.protocolEra === "legacy" ? options.supportedVersions.filter(isLegacyProtocolVersion) : options.protocolEra === "modern" ? options.supportedVersions.filter(isModernProtocolVersion) : [...options.supportedVersions];
+  const effectiveTransportVersion = options.negotiatedVersion ?? options.headerVersion ?? void 0;
+  const provisionalProtocol = isModernProtocolVersion(declaredVersion) ? { era: "modern", version: declaredVersion, supportedVersions } : { era: "legacy", version: declaredVersion ?? effectiveTransportVersion, supportedVersions };
+  if (versionClaim.present && typeof versionClaim.value !== "string") {
+    return rejection(
+      "invalid-modern-metadata",
+      notification,
+      rpcError(id, -32602, `Invalid params: params._meta.${META_PROTOCOL_VERSION} is required and must be a string`),
+      void 0,
+      "modern"
+    );
+  }
+  if (options.headerVersion != null && !supportedVersions.includes(options.headerVersion)) {
+    return rejection(
+      "unsupported-version",
+      notification,
+      rpcError(
+        id,
+        UNSUPPORTED_PROTOCOL_VERSION,
+        `Unsupported protocol version: ${options.headerVersion}`,
+        { supported: [...supportedVersions], requested: options.headerVersion }
+      ),
+      provisionalProtocol,
+      requestedEra
+    );
+  }
+  if (options.negotiatedVersion != null && !supportedVersions.includes(options.negotiatedVersion)) {
+    return rejection(
+      "unsupported-version",
+      notification,
+      rpcError(
+        id,
+        UNSUPPORTED_PROTOCOL_VERSION,
+        `Unsupported protocol version: ${options.negotiatedVersion}`,
+        { supported: [...supportedVersions], requested: options.negotiatedVersion }
+      ),
+      provisionalProtocol,
+      requestedEra
+    );
+  }
+  if (declaredVersion !== void 0 && options.headerVersion != null && declaredVersion !== options.headerVersion) {
+    return rejection(
+      "header-mismatch",
+      notification,
+      rpcError(
+        id,
+        HEADER_MISMATCH,
+        `Header mismatch: MCP-Protocol-Version header value '${options.headerVersion}' does not match body value '${declaredVersion}'`
+      ),
+      provisionalProtocol,
+      requestedEra
+    );
+  }
+  if (options.protocolEra !== void 0 && requestedEra !== options.protocolEra) {
+    const requested = declaredVersion ?? effectiveTransportVersion ?? "unversioned";
+    return rejection(
+      "unsupported-version",
+      notification,
+      rpcError(
+        id,
+        UNSUPPORTED_PROTOCOL_VERSION,
+        `Unsupported protocol version: ${requested}`,
+        { supported: [...supportedVersions], requested }
+      ),
+      provisionalProtocol,
+      requestedEra
+    );
+  }
+  if (requestedEra === "modern" && isLegacyProtocolVersion(declaredVersion) && (!options.requireModernVersionHeader || options.headerVersion != null)) {
+    const modernSupportedVersions = supportedVersions.filter(isModernProtocolVersion);
+    return rejection(
+      "unsupported-version",
+      notification,
+      rpcError(
+        id,
+        UNSUPPORTED_PROTOCOL_VERSION,
+        `Unsupported protocol version: ${declaredVersion}`,
+        { supported: modernSupportedVersions, requested: declaredVersion }
+      ),
+      provisionalProtocol,
+      requestedEra
+    );
+  }
+  if (declaredVersion !== void 0 && !supportedVersions.includes(declaredVersion)) {
+    return rejection(
+      "unsupported-version",
+      notification,
+      rpcError(
+        id,
+        UNSUPPORTED_PROTOCOL_VERSION,
+        `Unsupported protocol version: ${declaredVersion}`,
+        { supported: [...supportedVersions], requested: declaredVersion }
+      ),
+      provisionalProtocol,
+      requestedEra
+    );
+  }
+  const era = options.protocolEra ?? (isModernProtocolVersion(options.headerVersion) || isModernProtocolVersion(options.negotiatedVersion) ? "modern" : requestedEra);
+  if (era === "modern") {
+    if (!isModernProtocolVersion(declaredVersion)) {
+      const problem = `params._meta.${META_PROTOCOL_VERSION} is required and must match the MCP-Protocol-Version header (${options.headerVersion})`;
+      return rejection(
+        "invalid-modern-metadata",
+        notification,
+        rpcError(id, -32602, `Invalid params: ${problem}`),
+        provisionalProtocol,
+        requestedEra
+      );
+    }
+    const protocol2 = { era: "modern", version: declaredVersion, supportedVersions };
+    const metaProblems = modernRequestMetaProblems(request);
+    if (metaProblems.length > 0) {
+      return rejection(
+        "invalid-modern-metadata",
+        notification,
+        rpcError(id, -32602, `Invalid params: ${metaProblems.join("; ")}`),
+        protocol2,
+        requestedEra
+      );
+    }
+    if (options.requireModernVersionHeader && options.headerVersion == null) {
+      return rejection(
+        "header-mismatch",
+        notification,
+        rpcError(
+          id,
+          HEADER_MISMATCH,
+          `Header mismatch: MCP-Protocol-Version header is required for protocol version ${declaredVersion}`
+        ),
+        protocol2,
+        requestedEra
+      );
+    }
+    const transportProblem = options.modernTransportProblem?.(request) ?? null;
+    if (transportProblem !== null) {
+      return rejection(
+        "header-mismatch",
+        notification,
+        rpcError(id, HEADER_MISMATCH, `Header mismatch: ${transportProblem}`),
+        protocol2,
+        requestedEra
+      );
+    }
+    return acceptance(request, id, notification, protocol2);
+  }
+  const protocol = {
+    era: "legacy",
+    version: declaredVersion ?? effectiveTransportVersion,
+    supportedVersions
+  };
+  return acceptance(request, id, notification, protocol);
+}
+
+// src/mcp/tool-surface.ts
+function withClosedMcpInputSchema(tool) {
+  return { ...tool, inputSchema: { ...tool.inputSchema, additionalProperties: false } };
+}
+var MCP_SERVER_NAME = "agentic-mermaid-mcp";
+var MCP_SERVER_VERSION = PACKAGE_VERSION;
+var SERVER_CAPABILITIES = { tools: {} };
+var PURE_COMPUTE_ANNOTATIONS = {
+  readOnlyHint: true,
+  destructiveHint: false,
+  idempotentHint: true,
+  openWorldHint: false
+};
+var SANDBOX_EXECUTE_ANNOTATIONS = {
+  readOnlyHint: true,
+  destructiveHint: false,
+  idempotentHint: false,
+  openWorldHint: false
+};
+var MANAGED_ARTIFACT_ANNOTATIONS = {
+  // output=file/url creates a managed file and repeated calls can create
+  // different time-addressed artifacts, so the tool as a whole is neither
+  // read-only nor idempotent even though output=base64 is pure.
+  readOnlyHint: false,
+  destructiveHint: false,
+  idempotentHint: false,
+  openWorldHint: false
+};
+var EXECUTE_TIMEOUT_ERROR = "execute timeoutMs must be a positive integer";
+function isValidExecuteTimeout(value) {
+  return typeof value === "number" && Number.isSafeInteger(value) && value > 0;
+}
+function mcpRenderOptionSchemaProperties(optionsDescription) {
+  return {
+    options: { ...sharedRenderOptionsJsonSchema(), description: optionsDescription }
+  };
+}
+function projectMcpRenderOptions(args) {
+  const nested = args.options === void 0 ? {} : args.options;
+  const nestedProblems = validateSerializableRenderOptions(nested);
+  if (nestedProblems.length > 0) throw new Error(`invalid render options: ${nestedProblems.join("; ")}`);
+  const projected = { ...nested };
+  const problems = validateSerializableRenderOptions(projected);
+  if (problems.length > 0) throw new Error(`invalid render options: ${problems.join("; ")}`);
+  return projected;
+}
+var FORBIDDEN_JSON_KEYS = /* @__PURE__ */ new Set(["__proto__", "prototype", "constructor"]);
+function plainJsonObject(value) {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
+  const prototype = Object.getPrototypeOf(value);
+  return prototype === Object.prototype || prototype === null;
+}
+function schemaRecord(value) {
+  return plainJsonObject(value) ? value : void 0;
+}
+function dereferenceSchema(schema, root) {
+  const reference = schema.$ref;
+  if (typeof reference !== "string" || !reference.startsWith("#/")) return void 0;
+  let cursor = root;
+  for (const encoded of reference.slice(2).split("/")) {
+    if (!plainJsonObject(cursor)) return void 0;
+    cursor = cursor[encoded.replaceAll("~1", "/").replaceAll("~0", "~")];
+  }
+  return schemaRecord(cursor);
+}
+function validateSchemaValue(value, schema, inheritedRoot, path, ancestors) {
+  const root = schemaRecord(schema.$defs) ? schema : inheritedRoot;
+  if (schema.$ref !== void 0) {
+    const resolved = dereferenceSchema(schema, root);
+    return resolved ? validateSchemaValue(value, resolved, root, path, ancestors) : [{ path, message: `uses unresolved schema reference ${String(schema.$ref)}` }];
+  }
+  const anyOf = Array.isArray(schema.anyOf) ? schema.anyOf.map(schemaRecord).filter((entry) => entry !== void 0) : [];
+  if (anyOf.length > 0) {
+    const alternatives = anyOf.map((candidate) => validateSchemaValue(value, candidate, root, path, new Set(ancestors)));
+    if (!alternatives.some((problems) => problems.length === 0)) {
+      const expectation = schema["x-agentic-mermaid-validation-expectation"];
+      if (typeof expectation === "string") return [{ path, message: `must be ${expectation}` }];
+      return alternatives.sort((left, right) => left.length - right.length)[0] ?? [{ path, message: "must match an allowed shape" }];
+    }
+  }
+  const oneOf = Array.isArray(schema.oneOf) ? schema.oneOf.map(schemaRecord).filter((entry) => entry !== void 0) : [];
+  if (oneOf.length > 0) {
+    const matching = oneOf.filter((candidate) => validateSchemaValue(value, candidate, root, path, new Set(ancestors)).length === 0);
+    if (matching.length !== 1) {
+      return [{ path, message: `must match exactly one allowed shape (matched ${matching.length})` }];
+    }
+  }
+  if (Object.prototype.hasOwnProperty.call(schema, "const") && !Object.is(value, schema.const)) {
+    return [{ path, message: `must equal ${String(schema.const)}` }];
+  }
+  if (Array.isArray(schema.enum) && !schema.enum.some((candidate) => Object.is(candidate, value))) {
+    return [{ path, message: `must be one of ${schema.enum.map(String).join(" | ")}` }];
+  }
+  const type = schema.type;
+  const typeIsValid = type === void 0 || type === "null" && value === null || type === "string" && typeof value === "string" || type === "number" && typeof value === "number" && Number.isFinite(value) || type === "integer" && typeof value === "number" && Number.isFinite(value) && Number.isInteger(value) || type === "boolean" && typeof value === "boolean" || type === "array" && Array.isArray(value) || type === "object" && plainJsonObject(value);
+  if (!typeIsValid) {
+    const expected = type === "number" ? "a finite number" : type === "integer" ? "a finite integer" : type === "object" ? "a plain JSON object" : type === "array" ? "an array" : type === "null" ? "null" : `a ${String(type)}`;
+    return [{ path, message: `must be ${expected}` }];
+  }
+  if (typeof value === "number") {
+    if (typeof schema.minimum === "number" && value < schema.minimum) return [{ path, message: `must be at least ${schema.minimum}` }];
+    if (typeof schema.exclusiveMinimum === "number" && value <= schema.exclusiveMinimum) return [{ path, message: `must be greater than ${schema.exclusiveMinimum}` }];
+    if (typeof schema.maximum === "number" && value > schema.maximum) return [{ path, message: `must be at most ${schema.maximum}` }];
+  }
+  if (typeof value === "string") {
+    if (typeof schema.minLength === "number" && value.length < schema.minLength) {
+      return [{ path, message: `must contain at least ${schema.minLength} character${schema.minLength === 1 ? "" : "s"}` }];
+    }
+    if (typeof schema.pattern === "string") {
+      try {
+        if (!new RegExp(schema.pattern, "u").test(value)) {
+          if (schema["x-agentic-mermaid-runtime-validator"] === "portablePngBackground") {
+            return [{ path, message: "must be a portable basic color keyword or 3, 4, 6, or 8 digit hex color" }];
+          }
+          return [{ path, message: `must match ${schema.pattern}` }];
+        }
+      } catch {
+        return [{ path, message: "uses an invalid schema pattern" }];
+      }
+    }
+    if (typeof schema.maxLength === "number" && value.length > schema.maxLength) {
+      return [{ path, message: `must contain at most ${schema.maxLength} characters` }];
+    }
+  }
+  if (Array.isArray(value) && type === "array") {
+    if (typeof schema.minItems === "number" && value.length < schema.minItems) {
+      return [{ path, message: `must contain at least ${schema.minItems} item${schema.minItems === 1 ? "" : "s"}` }];
+    }
+    if (typeof schema.maxItems === "number" && value.length > schema.maxItems) {
+      return [{ path, message: `must contain at most ${schema.maxItems} items` }];
+    }
+    if (ancestors.has(value)) return [{ path, message: "must be acyclic" }];
+    const itemSchema = schemaRecord(schema.items);
+    if (itemSchema) {
+      ancestors.add(value);
+      try {
+        const problems = value.flatMap((item, index) => validateSchemaValue(item, itemSchema, root, [...path, index], ancestors));
+        if (problems.length > 0) return problems;
+      } finally {
+        ancestors.delete(value);
+      }
+    }
+  }
+  if (plainJsonObject(value) && (type === "object" || schema.properties !== void 0 || schema.required !== void 0 || schema.additionalProperties !== void 0)) {
+    if (ancestors.has(value)) return [{ path, message: "must be acyclic" }];
+    ancestors.add(value);
+    try {
+      const properties = schemaRecord(schema.properties) ?? {};
+      const required = Array.isArray(schema.required) ? schema.required.filter((entry) => typeof entry === "string") : [];
+      const problems = [];
+      for (const key of required) {
+        if (!Object.prototype.hasOwnProperty.call(value, key)) {
+          problems.push({ path: [...path, key], message: "is required" });
+        }
+      }
+      for (const [key, child] of Object.entries(value)) {
+        if (FORBIDDEN_JSON_KEYS.has(key)) {
+          problems.push({ path: [...path, key], message: "uses a forbidden prototype key" });
+          continue;
+        }
+        const propertySchema = schemaRecord(properties[key]);
+        if (propertySchema) {
+          problems.push(...validateSchemaValue(child, propertySchema, root, [...path, key], ancestors));
+          continue;
+        }
+        if (schema.additionalProperties === false) {
+          problems.push({ path: [...path, key], message: "is not allowed" });
+          continue;
+        }
+        const additionalSchema = schemaRecord(schema.additionalProperties);
+        if (additionalSchema) {
+          problems.push(...validateSchemaValue(child, additionalSchema, root, [...path, key], ancestors));
+        }
+      }
+      if (problems.length > 0) return problems;
+    } finally {
+      ancestors.delete(value);
+    }
+  }
+  const runtimeValidator = schema["x-agentic-mermaid-runtime-validator"];
+  if (runtimeValidator === "safeCssColor" && safeCssColor(value) === void 0) {
+    return [{ path, message: "must be a safe, non-fetching CSS color" }];
+  }
+  if (runtimeValidator === "portablePngBackground" && normalizePortablePngBackground(value) === void 0) {
+    return [{ path, message: "must be a portable basic color keyword or 3, 4, 6, or 8 digit hex color" }];
+  }
+  if (runtimeValidator === "safeCssPaint" && safeCssPaint(value) === void 0) {
+    return [{ path, message: "must be a safe, non-fetching CSS paint" }];
+  }
+  if (runtimeValidator === "safeCssFontFamily" && safeCssFontFamily(value) === void 0) {
+    return [{ path, message: "must be a safe, non-fetching CSS font family or stack" }];
+  }
+  if (runtimeValidator === "styleInput") {
+    try {
+      resolveStyleStack(value);
+    } catch (error) {
+      return [{ path, message: `is invalid: ${error instanceof Error ? error.message : String(error)}` }];
+    }
+  }
+  return [];
+}
+function formatSchemaPath(path) {
+  if (path.length === 0) return "arguments";
+  return path.reduce((formatted, part) => typeof part === "number" ? `${formatted}[${part}]` : `${formatted}.${part}`, "arguments");
+}
+function validateMcpToolArguments(tool, value) {
+  if (!plainJsonObject(value)) return ["arguments must be a plain JSON object"];
+  const admissionProblems = validateJsonConfigAdmission(value);
+  if (admissionProblems.length > 0) {
+    return limitJsonConfigDiagnostics(admissionProblems.map((problem) => `${formatSchemaPath(problem.path)} ${problem.message}`), "arguments");
+  }
+  const problems = validateSchemaValue(value, tool.inputSchema, tool.inputSchema, [], /* @__PURE__ */ new Set()).map((problem) => `${formatSchemaPath(problem.path)} ${problem.message}`);
+  return limitJsonConfigDiagnostics(problems, "arguments");
+}
+function surfaceSupportedVersions(surface, options = {}) {
+  const surfaceVersions = surface.supportedVersions ?? (typeof surface.protocolVersion === "string" ? [surface.protocolVersion] : []);
+  if (!options.supportedVersions) return surfaceVersions;
+  return surfaceVersions.filter((version) => options.supportedVersions.includes(version));
+}
+function discoverResult(surface, supportedVersions) {
+  return {
+    supportedVersions: [...supportedVersions],
+    capabilities: SERVER_CAPABILITIES,
+    instructions: surface.instructions
+  };
+}
+function initializeParamsProblems(params) {
+  if (!plainJsonObject(params)) return ["params is required and must be an object"];
+  const problems = [];
+  if (typeof params.protocolVersion !== "string") {
+    problems.push("params.protocolVersion is required and must be a string");
+  }
+  problems.push(...mcpClientCapabilitiesProblems(params.capabilities, "params.capabilities"));
+  problems.push(...mcpImplementationProblems(params.clientInfo, "params.clientInfo"));
+  return problems;
+}
+async function dispatchAdmittedMcpRequest(message, context, surface) {
+  const { request: req, id, notification, protocol } = message;
+  const { era, version, supportedVersions: servedVersions } = protocol;
+  let response;
+  switch (req.method) {
+    // initialize / notifications/initialized / ping are REMOVED in the modern
+    // era. Under a modern request they are simply unknown methods; a legacy
+    // request keeps the handshake it depends on.
+    case "initialize": {
+      if (era === "modern") {
+        response = unknownMethod(id, req.method);
+        break;
+      }
+      const problems = initializeParamsProblems(req.params);
+      if (problems.length > 0) {
+        response = rpcError(id, -32602, `Invalid params: ${problems.join("; ")}`);
+        break;
+      }
+      const offered = req.params?.protocolVersion;
+      const legacyServedVersions = servedVersions.filter(isLegacyProtocolVersion);
+      const fallbackLegacyVersion = legacyServedVersions.at(-1) ?? (typeof surface.protocolVersion === "function" ? surface.protocolVersion(req.params) : surface.protocolVersion);
+      const protocolVersion = isLegacyProtocolVersion(offered) && legacyServedVersions.includes(offered) ? offered : fallbackLegacyVersion;
+      response = reply(id, {
+        protocolVersion,
+        serverInfo: { name: surface.serverName ?? MCP_SERVER_NAME, version: MCP_SERVER_VERSION },
+        capabilities: SERVER_CAPABILITIES,
+        instructions: surface.instructions
+      });
+      break;
+    }
+    case "notifications/initialized":
+      response = era === "modern" ? unknownMethod(id, req.method) : null;
+      break;
+    case "ping":
+      response = era === "modern" ? unknownMethod(id, req.method) : reply(id, {});
+      break;
+    case "server/discover":
+      response = era === "modern" ? reply(id, discoverResult(surface, servedVersions)) : unknownMethod(id, req.method);
+      break;
+    case "tools/list":
+      response = reply(id, { tools: surface.tools });
+      break;
+    case "tools/call": {
+      if (!plainJsonObject(req.params)) {
+        response = rpcError(id, -32602, "Invalid params: tools/call requires an object");
+        break;
+      }
+      const name = req.params.name;
+      if (typeof name !== "string") {
+        response = rpcError(id, -32602, "Invalid params: tools/call requires `name` (string)");
+        break;
+      }
+      const tool = surface.tools.find((candidate) => candidate.name === name);
+      if (!tool) {
+        response = rpcError(id, -32602, `Unknown tool: ${name}`);
+        break;
+      }
+      const args = req.params.arguments ?? {};
+      const problems = validateMcpToolArguments(tool, args);
+      if (problems.length > 0) {
+        const message2 = `Invalid arguments for ${name}: ${problems.join("; ")}`;
+        response = usesToolErrorForInvalidArguments(version) ? toolResult(id, { ok: false, error: { code: "INVALID_ARGUMENTS", message: message2 } }, true) : rpcError(id, -32602, message2);
+        break;
+      }
+      response = await surface.handleToolCall(id, { ...req.params, arguments: args }, context);
+      break;
+    }
+    default:
+      response = unknownMethod(id, req.method);
+  }
+  return notification ? null : decorateMcpResult(response, req.method, era, surface.serverName ?? MCP_SERVER_NAME);
+}
+var LIST_RESULT_TTL_MS = 3e5;
+var CACHEABLE_METHODS = /* @__PURE__ */ new Set(["server/discover", "tools/list"]);
+function decorateMcpResult(response, method, era, serverName) {
+  if (era !== "modern" || !response || !plainJsonObject(response.result)) return response;
+  const existingMeta = plainJsonObject(response.result._meta) ? response.result._meta : {};
+  const result = {
+    resultType: "complete",
+    ...response.result,
+    _meta: {
+      ...existingMeta,
+      [META_SERVER_INFO]: { name: serverName, version: MCP_SERVER_VERSION }
+    }
+  };
+  if (CACHEABLE_METHODS.has(method)) {
+    result.ttlMs = LIST_RESULT_TTL_MS;
+    result.cacheScope = "public";
+  }
+  return { ...response, result };
+}
+function unknownMethod(id, method) {
+  return rpcError(id, -32601, `Method not found: ${method}`);
+}
+function createExecuteTool(options) {
+  const hostedNote = options.hosted ? `Hosted note: execute runs in an on-demand isolate and costs more than the direct
+render_svg/render_ascii/render_png/verify/describe tools \u2014 prefer those for plain
+render/verify calls. For straightforward structured edits, prefer the declarative
+mutate/build tools; reserve execute for logic the ops don't express.
+Hosted mermaid.renderMermaidSVG*, renderMermaidASCII*, and
+layoutMermaidWithReceipt calls force security:'strict' and
+embedFontImport:false; caller code cannot weaken that host policy.
+
+` : "";
+  const timeoutDescription = options.hosted ? "Optional CPU-time budget (default 5000ms, max 30000ms)." : "Optional hard timeout (default 5000ms).";
+  const runtime = options.hosted ? "an isolated sandbox" : "a sandboxed node:vm context";
+  return {
+    name: "execute",
+    title: "Execute Mermaid SDK code",
+    description: `Run JavaScript in ${runtime}; return a value.
+One call composes edits. Submit JavaScript; declaration types are guidance.
+No promises, async/await, dynamic import, or type annotations.
+${hostedNote}SDK declaration:
+${options.sdkDeclaration}`,
+    inputSchema: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        code: { type: "string", description: "JavaScript to execute; mermaid.* SDK is global." },
+        timeoutMs: { type: "integer", minimum: 1, description: timeoutDescription }
+      },
+      required: ["code"]
+    },
+    annotations: SANDBOX_EXECUTE_ANNOTATIONS
+  };
+}
+function createRenderPngTool(mode) {
+  const hosted = mode === "hosted";
+  const pngSchema = pngOutputOptionsJsonSchema(hosted ? "portable" : "native");
+  const pngProperties = pngSchema.properties;
+  return {
+    name: "render_png",
+    title: "Render Mermaid as PNG",
+    description: hosted ? `Rasterize a Mermaid source string to PNG. Returns { ok, png_base64 }.
+Hosted rendering uses resvg-wasm with bundled fonts; bytes may differ from the
+local napi renderer, so hosted PNG is a convenience surface, not part of the
+byte-determinism contract. For file/URL artifacts use the local stdio server.` : `Rasterize a Mermaid source string to PNG. By default returns base64-encoded PNG bytes.
+Set output to "file" or "url" to write a managed artifact instead; artifact responses include
+{path?, url?, mimeType, bytes, sha256}. File/URL artifacts are generated under the MCP server's
+artifact directory with safe names, size limits, and TTL cleanup.
+Uses bundled resvg + Inter (DejaVu Sans fallback) for same-machine cross-runtime determinism where verified.
+Agentic Mermaid outputs SVG, PNG, ASCII, Unicode, and JSON layout. For non-PNG output, use execute() with mermaid.renderMermaidSVG, mermaid.renderMermaidASCII (useAscii true for ASCII, false for Unicode), or verifyMermaid(...).layout \u2014 those are streaming text/data and don't need a dedicated tool.`,
+    inputSchema: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        source: { type: "string", description: "Mermaid source." },
+        ...pngProperties,
+        ...mcpRenderOptionSchemaProperties("Shared advanced RenderOptions object."),
+        ...hosted ? {} : {
+          output: { type: "string", enum: ["base64", "file", "url"], description: "PNG return mode (default base64)." }
+        }
+      },
+      required: ["source"]
+    },
+    annotations: hosted ? PURE_COMPUTE_ANNOTATIONS : MANAGED_ARTIFACT_ANNOTATIONS
+  };
+}
+function createDescribeTool() {
+  return {
+    name: "describe",
+    title: "Describe Mermaid diagram",
+    description: `Describe a Mermaid diagram. format=text returns { ok, text } with
+one or two summary sentences; format=json returns { ok, tree } with the AX tree;
+format=facts returns { ok, facts } with deterministic semantic fact lines for
+machine checking (for example edge A -> B : label, member Duck +quack()).`,
+    inputSchema: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        source: { type: "string", description: "Mermaid source." },
+        format: { type: "string", enum: ["text", "json", "facts"], description: "text (default), json AX tree, or facts semantic read-back." }
+      },
+      required: ["source"]
+    },
+    annotations: PURE_COMPUTE_ANNOTATIONS
+  };
+}
+
+// src/mcp/sdk-decl.ts
+function sdkFamilyTypeStem(family) {
+  return family.narrower.slice(2);
+}
+function sdkFamilyBodyType(family) {
+  return family.id === "flowchart" ? `{ kind: 'flowchart'; graph: FlowchartGraph }` : `${sdkFamilyTypeStem(family)}Body`;
+}
+var SDK_DIAGRAM_KIND_DECLARATION = `type DiagramKind = ${BUILTIN_FAMILY_METADATA.map((family) => `'${family.id}'`).join(" | ")}`;
+var SDK_DIAGRAM_BODY_MEMBERS = BUILTIN_FAMILY_METADATA.map((family) => `    | ${sdkFamilyBodyType(family)}`).join("\n");
+var SDK_VALID_DIAGRAM_ALIASES = BUILTIN_FAMILY_METADATA.map((family) => `type ${sdkFamilyTypeStem(family)}ValidDiagram = ValidDiagram & { body: ${sdkFamilyBodyType(family)} }`).join("\n");
+var SDK_NARROWER_METHOD_DECLARATIONS = BUILTIN_FAMILY_METADATA.map((family) => `  ${family.narrower}(d: ValidDiagram): ${sdkFamilyTypeStem(family)}ValidDiagram | null`).join("\n");
+var SDK_MUTATE_METHOD_DECLARATIONS = BUILTIN_FAMILY_METADATA.map((family) => {
+  const stem = sdkFamilyTypeStem(family);
+  return `  mutate(d: ${stem}ValidDiagram, op: ${stem}MutationOp): Result<${stem}ValidDiagram, { code: string; message: string }>`;
+}).join("\n");
+var SDK_ANY_MUTATION_OP_DECLARATION = `type AnyMutationOp = ${BUILTIN_FAMILY_METADATA.map((family) => `${sdkFamilyTypeStem(family)}MutationOp`).join(" | ")}`;
+var SDK_FAMILY_CONVENTION = `// 3. mutate works on ${BUILTIN_FAMILY_METADATA.map((family) => family.id).join(", ")}. Narrow via
+//    ${BUILTIN_FAMILY_METADATA.map((family) => family.narrower).join("/")}.`;
+function codeModeRenderMethodDeclarations() {
+  const methods = /* @__PURE__ */ new Map();
+  for (const descriptor of RENDER_OUTPUT_DESCRIPTORS) {
+    const transport = descriptor.transports.codeMode;
+    if (transport.availability !== "direct" && transport.availability !== "projected") continue;
+    const output = `${descriptor.id}: ${transport.selector ?? transport.availability}`;
+    const existing = methods.get(transport.method);
+    if (existing) {
+      if (existing.optionsType !== transport.optionsType || existing.returnType !== transport.returnType) {
+        throw new Error(`Code Mode render contract for ${transport.method} has incompatible signatures`);
+      }
+      existing.outputs.push(output);
+    } else {
+      methods.set(transport.method, {
+        optionsType: transport.optionsType,
+        returnType: transport.returnType,
+        outputs: [output]
+      });
+    }
+  }
+  return [...methods].map(
+    ([method, declaration]) => `  // ${declaration.outputs.join("; ")}
+  ${method}(input: ParsedDiagram | string, opts?: ${declaration.optionsType}): ${declaration.returnType}`
+  ).join("\n");
+}
+var CODE_MODE_SHARED_RENDER_OPTIONS_DECLARATION = sharedRenderOptionsTypeScriptDeclaration();
+var CODE_MODE_OUTPUT_RENDER_OPTION_DECLARATIONS = `interface ConfigDiagnostic { code: 'INEFFECTIVE_CONFIG'; field: string; message: string }
+interface TerminalProjectionDiagnostic { code: string; feature: string; message: string }
+
+interface SvgRenderOptions extends SharedRenderOptions {
+  onConfigDiagnostic?: (diagnostic: ConfigDiagnostic) => void
+}
+
+interface AsciiRenderOptions extends SharedRenderOptions {
+  useAscii?: boolean
+  paddingX?: number
+  paddingY?: number
+  boxBorderPadding?: number
+  colorMode?: 'auto' | 'none' | 'ansi16' | 'ansi256' | 'truecolor' | 'html'
+  theme?: { fg?: string; border?: string; line?: string; arrow?: string; accent?: string; bg?: string; corner?: string; junction?: string }
+  maxWidth?: number
+  targetWidth?: number
+  onConfigDiagnostic?: (diagnostic: ConfigDiagnostic) => void
+  onProjectionDiagnostic?: (diagnostic: TerminalProjectionDiagnostic) => void
+}
+
+interface LayoutRenderOptions extends SharedRenderOptions {
+  debug?: boolean
+  regions?: boolean
+  actions?: boolean
+  onConfigDiagnostic?: (diagnostic: ConfigDiagnostic) => void
+}`;
+var CODE_MODE_RENDER_RECEIPT_DECLARATIONS = `interface RenderArtifactDiagnostic { code: string; message?: string; reference?: string; feature?: string; input?: string; canonicalId?: string; removal?: { release: string; date: string } }
+interface CapabilityResolution { readonly id: \`\${string}:\${string}\`; readonly range: string; readonly level: 'required' | 'preferred' | 'optional'; readonly status: 'selected' | 'unsupported' | 'incompatible'; readonly version?: string }
+interface CapabilityDecision { readonly version: 1; readonly accepted: boolean; readonly resolutions: readonly CapabilityResolution[] }
+interface RenderExecutionDecision {
+  readonly family: { readonly id: string; readonly version: string }
+  readonly backend: { readonly mode: 'scene'; readonly requestedId: string; readonly selectedId: string; readonly version: string; readonly hostPolicy: boolean } | { readonly mode: 'family-svg' }
+  readonly digest: string
+}
+interface RenderRequestReceipt { version: ${RENDER_CONTRACT_VERSION}; output: 'svg' | 'png' | 'ascii' | 'unicode' | 'html' | 'layout'; sharedRequestDigest: string; requestDigest: string; appearanceDigest: string; capabilityDecision: CapabilityDecision; diagnostics?: readonly RenderArtifactDiagnostic[]; graphicalProjectionDigest?: string; executionDecision?: RenderExecutionDecision }`;
+function compactInterfaceDeclarations(declaration) {
+  let compact = "";
+  for (const sourceLine of declaration.split("\n")) {
+    const line = sourceLine.trim();
+    if (!line) continue;
+    if (line.startsWith("interface ") && line.endsWith("}")) {
+      compact += `${line}
+`;
+    } else if (line.endsWith("{")) {
+      compact += `${line} `;
+    } else if (line === "}") {
+      compact += `}
+`;
+    } else {
+      compact += `${line.replaceAll("?: ", "?:")};`;
+    }
+  }
+  return compact.trimEnd();
+}
+var CODE_MODE_CORE_SHARED_RENDER_OPTIONS_DECLARATION = compactInterfaceDeclarations(
+  CODE_MODE_SHARED_RENDER_OPTIONS_DECLARATION
+);
+var CODE_MODE_CORE_OUTPUT_RENDER_OPTION_DECLARATIONS = compactInterfaceDeclarations(
+  CODE_MODE_OUTPUT_RENDER_OPTION_DECLARATIONS
+);
+var CODE_MODE_CORE_RENDER_RECEIPT_DECLARATIONS = compactInterfaceDeclarations(
+  CODE_MODE_RENDER_RECEIPT_DECLARATIONS
+);
+var CODE_MODE_RENDER_OPTION_DECLARATIONS = `${styleSpecTypeScriptDeclaration()}
+
+${architectureVisualOverridesTypeScriptDeclaration()}
+
+${CODE_MODE_SHARED_RENDER_OPTIONS_DECLARATION}
+
+${CODE_MODE_OUTPUT_RENDER_OPTION_DECLARATIONS}
+
+${CODE_MODE_RENDER_RECEIPT_DECLARATIONS}
+
+interface TerminalConnectorProjection {
+  id: string
+  role: string
+  realization: 'native' | 'emulated' | 'projected' | 'lossy' | 'unsupported'
+  topology: 'line' | 'polyline' | 'path'
+  direction: 'forward' | 'reverse' | 'bidirectional' | 'undirected' | 'self'
+  relationship: string
+  markers: { start?: { id: string; shape: string }; mid: readonly { id: string; shape: string }[]; end?: { id: string; shape: string } }
+  labels: readonly { id?: string; text: string }[]
+  lineStyle: 'solid' | 'dotted' | 'dashed' | 'thick' | 'invisible'
+  strokeLosses: readonly string[]
+  diagnostics: readonly string[]
+}
+interface ResolvedTerminalStyle {
+  version: 1
+  colorMode: 'none' | 'ansi16' | 'ansi256' | 'truecolor' | 'html'
+  theme: Readonly<{ fg: string; border: string; line: string; arrow: string; accent?: string; bg?: string; corner?: string; junction?: string }>
+  diagnostics: readonly TerminalProjectionDiagnostic[]
+  connectorProjection: { evidence: 'scene' | 'unavailable' | 'not-evaluated'; count: number; topologies: Readonly<Record<'line' | 'polyline' | 'path', number>>; realizations: Readonly<Record<string, number>>; relationships: readonly string[]; directions: readonly string[]; markerPositions: Readonly<{ start: number; mid: number; end: number }>; labelCount: number; connectors: readonly TerminalConnectorProjection[]; digest: string }
+  digest: string
+}
+interface ResolvedTerminalOutputPolicy {
+  version: 1
+  useAscii: boolean
+  paddingX: number
+  paddingY: number
+  boxBorderPadding: number
+  colorMode: 'none' | 'ansi16' | 'ansi256' | 'truecolor' | 'html'
+  theme: Readonly<{ fg?: string; border?: string; line?: string; arrow?: string; accent?: string; bg?: string; corner?: string; junction?: string }>
+  maxWidth?: number
+  targetWidth?: number
+}
+interface RenderedSvg { svg: string; receipt: RenderRequestReceipt }
+interface RenderedAscii { text: string; receipt: RenderRequestReceipt; terminalStyle: ResolvedTerminalStyle; outputPolicy: ResolvedTerminalOutputPolicy }
+interface RenderedLayoutArtifact { layout: VerifyResult['layout']; receipt: RenderRequestReceipt }`;
+var CODE_MODE_CORE_STYLE_SPEC_DECLARATION = styleSpecTypeScriptDeclaration({ compact: true }).replaceAll(" | ", "|").replaceAll(", ", ",");
+var CODE_MODE_CORE_RENDER_OPTION_DECLARATIONS = `${CODE_MODE_CORE_STYLE_SPEC_DECLARATION}
+type ArchitectureVisualOverrides = Readonly<Record<string, unknown>>
+
+${CODE_MODE_CORE_SHARED_RENDER_OPTIONS_DECLARATION}
+
+${CODE_MODE_CORE_OUTPUT_RENDER_OPTION_DECLARATIONS}
+
+${CODE_MODE_CORE_RENDER_RECEIPT_DECLARATIONS}
+
+interface RenderedSvg { svg: string; receipt: RenderRequestReceipt }
+interface RenderedAscii { text: string; receipt: RenderRequestReceipt; terminalStyle: Record<string, unknown>; outputPolicy: Record<string, unknown> }
+interface RenderedLayoutArtifact { layout: VerifyResult['layout']; receipt: RenderRequestReceipt }`;
+var CODE_MODE_RENDER_METHOD_DECLARATIONS = codeModeRenderMethodDeclarations();
+var SDK_DECLARATION = `// Mermaid agent SDK available as the global \`mermaid\`. All calls are
+// synchronous and pure. Compose multi-step edits in one execute() call.
+// Code Mode is synchronous: async/await, Promise jobs, and dynamic import are not supported.
+
+type Result<T, E> = { ok: true; value: T } | { ok: false; error: E }
+type CheckMermaidSpec = string[] | {
+  include?: string[]; expected?: string[]; required?: string[]; require?: string[]
+  exclude?: string[]; absent?: string[]; forbidden?: string[]; forbid?: string[]; unexpected?: string[]
+  exact?: boolean
+}
+interface CheckMermaidResult { ok: boolean; missing: string[]; unexpected: string[]; facts: string[] }
+
+type MermaidConfigScalar = string | number | boolean | null
+type MermaidConfigValue = MermaidConfigScalar | MermaidConfigValue[] | { [key: string]: MermaidConfigValue | undefined }
+type MermaidRuntimeConfig = {
+  [key: string]: MermaidConfigValue | undefined
+  theme?: string
+  fontFamily?: string
+  themeVariables?: { [key: string]: MermaidConfigValue | undefined; fontFamily?: string }
+  timeline?: { [key: string]: MermaidConfigValue | undefined; disableMulticolor?: boolean; sectionFills?: string[]; sectionColours?: string[] }
+  journey?: { [key: string]: MermaidConfigValue | undefined; diagramMarginX?: number; diagramMarginY?: number; leftMargin?: number; maxLabelWidth?: number; taskMargin?: number; actorColours?: string[]; sectionFills?: string[]; sectionColours?: string[]; useMaxWidth?: boolean }
+  flowchart?: { [key: string]: MermaidConfigValue | undefined; nodeSpacing?: number; rankSpacing?: number; wrappingWidth?: number }
+  // State geometry consumes the faithful ELK/measured-text equivalents;
+  // legacy Dagre calibration keys remain typed and emit INEFFECTIVE_CONFIG.
+  state?: { [key: string]: MermaidConfigValue | undefined; titleTopMargin?: number; arrowMarkerAbsolute?: boolean; dividerMargin?: number; sizeUnit?: number; padding?: number; textHeight?: number; titleShift?: number; noteMargin?: number; nodeSpacing?: number; rankSpacing?: number; forkWidth?: number; forkHeight?: number; miniPadding?: number; fontSizeFactor?: number; fontSize?: number; labelHeight?: number; edgeLengthFactor?: string; compositTitleSize?: number; radius?: number; defaultRenderer?: 'dagre-d3' | 'dagre-wrapper' | 'elk' }
+  class?: { [key: string]: MermaidConfigValue | undefined; nodeSpacing?: number; rankSpacing?: number }
+  er?: { [key: string]: MermaidConfigValue | undefined; layoutDirection?: string; nodeSpacing?: number; rankSpacing?: number }
+  architecture?: { [key: string]: MermaidConfigValue | undefined; padding?: number; iconSize?: number; fontSize?: number; nodeSeparation?: number; idealEdgeLengthMultiplier?: number }
+  xyChart?: { [key: string]: MermaidConfigValue | undefined }
+  pie?: { [key: string]: MermaidConfigValue | undefined; textPosition?: number; donutHole?: number; legendPosition?: 'top' | 'bottom' | 'left' | 'right' | 'center' }
+  quadrantChart?: { [key: string]: MermaidConfigValue | undefined; chartWidth?: number; chartHeight?: number; pointRadius?: number; useMaxWidth?: boolean }
+  gantt?: { [key: string]: MermaidConfigValue | undefined; displayMode?: string }
+  mindmap?: { [key: string]: MermaidConfigValue | undefined; padding?: number; maxNodeWidth?: number }
+  gitGraph?: { [key: string]: MermaidConfigValue | undefined; showBranches?: boolean; showCommitLabel?: boolean; mainBranchName?: string; mainBranchOrder?: number; parallelCommits?: boolean; rotateCommitLabel?: boolean }
+  radar?: { [key: string]: MermaidConfigValue | undefined; width?: number; height?: number; marginTop?: number; marginRight?: number; marginBottom?: number; marginLeft?: number; axisScaleFactor?: number; axisLabelFactor?: number; curveTension?: number; useMaxWidth?: boolean; tickLabels?: boolean }
+  // Wired sequence keys (unlisted documented keys are accepted and named by
+  // verify's INEFFECTIVE_CONFIG lint \u2014 see src/sequence/config.ts).
+  sequence?: { [key: string]: MermaidConfigValue | undefined; actorMargin?: number; width?: number; height?: number; diagramMarginX?: number; diagramMarginY?: number; messageMargin?: number; noteMargin?: number; activationWidth?: number; showSequenceNumbers?: boolean }
+  useMaxWidth?: boolean
+  useWidth?: number
+  /** Recognized for upstream accounting but public renderers reject raw CSS; use StyleSpec. */
+  themeCSS?: string
+}
+
+${CODE_MODE_RENDER_OPTION_DECLARATIONS}
+
+${SDK_DIAGRAM_KIND_DECLARATION}
+type ExternalFamilyId = \`family:\${string}\`
+
+interface ExtensionCompatibility {
+  readonly [contract: string]: string | undefined
+  readonly core?: string
+  readonly scene?: string
+}
+
+interface ExtensionProvenance {
+  readonly owner: string
+  readonly source: string
+  readonly reference?: string
+}
+
+interface ExtensionIdentity<Kind extends string = string> {
+  readonly id: \`\${Kind}:\${string}\`
+  readonly kind: Kind
+  readonly version: string
+  readonly compatibility: ExtensionCompatibility
+  readonly provenance: ExtensionProvenance
+}
+
+interface SourceSpanPoint {
+  /** UTF-16 offset in the exact authored source; line and col are one-based. */
+  readonly offset: number
+  readonly line: number
+  readonly col: number
+}
+
+interface SourceSpan {
+  readonly start: SourceSpanPoint
+  readonly end: SourceSpanPoint
+}
+
+interface PreservedSourceSpans {
+  readonly source: SourceSpan
+  readonly wrapper?: SourceSpan
+  readonly frontmatter?: SourceSpan
+  readonly initDirectives?: readonly SourceSpan[]
+  readonly accessibilityDirectives?: readonly SourceSpan[]
+  readonly header: SourceSpan
+  readonly body: SourceSpan
+}
+
+interface SourceLocation { readonly line: number; readonly col: number }
+interface SourceMapSpans {
+  readonly preserved: PreservedSourceSpans
+  readonly nodes: ReadonlyMap<string, SourceSpan>
+  readonly edges: ReadonlyMap<string, SourceSpan>
+  readonly groups: ReadonlyMap<string, SourceSpan>
+  readonly labels: ReadonlyMap<string, SourceSpan>
+}
+interface SourceMap {
+  readonly nodes: ReadonlyMap<string, SourceLocation>
+  readonly edges: ReadonlyMap<string, SourceLocation>
+  readonly groups: ReadonlyMap<string, SourceLocation>
+  readonly labels: ReadonlyMap<string, SourceLocation>
+  readonly spans?: SourceMapSpans
+}
+
+interface SourcePreservationReceipt {
+  readonly version: 1
+  readonly classification: 'unsupported' | 'inventory-only' | 'unknown'
+  /** Exact authored bytes supplied to the parser. */
+  readonly source: string
+  readonly header: string
+  readonly upstreamFamilyId?: string
+  readonly mermaidVersion: string
+  readonly spans?: PreservedSourceSpans
+}
+
+interface ParseError {
+  readonly code: string
+  readonly message: string
+  readonly line?: number
+  readonly col?: number
+  readonly preservation?: SourcePreservationReceipt
+  readonly help?: string
+}
+
+interface ValidDiagram {
+  readonly kind: DiagramKind
+  readonly source: SourceMap
+  readonly meta: {
+    frontmatter?: Record<string, unknown>
+    initDirectives: { raw: string; parsed: Record<string, unknown> }[]
+    comments: { text: string; line: number }[]
+    wrapperSource?: string   // exact bytes before the family header; parsed diagrams always set it, even as ''
+    droppedComments?: { text: string; line: number }[]   // line indexes the artifact the loss happened in, not canonicalSource
+    accessibility: { title?: string; descr?: string }
+  }
+  readonly body:
+${SDK_DIAGRAM_BODY_MEMBERS}
+    | { kind: 'opaque'; family: DiagramKind; source: string }
+  readonly canonicalSource: string   // normalized renderer input; opaque fidelity uses body.source
+}
+
+interface ExtensionDiagramBody {
+  readonly kind: 'extension'
+  readonly family: ExternalFamilyId
+  readonly source: string
+  readonly data?: unknown
+}
+
+interface ExtensionValidDiagram {
+  readonly kind: ExternalFamilyId
+  readonly descriptorIdentity: ExtensionIdentity<'family'>
+  readonly meta: ValidDiagram['meta']
+  readonly body: ExtensionDiagramBody
+  readonly source: SourceMap
+  readonly canonicalSource: string
+}
+
+interface PreservedValidDiagram {
+  readonly kind: ExternalFamilyId
+  readonly meta: ValidDiagram['meta']
+  readonly body: {
+    readonly kind: 'preserved'
+    readonly representation: 'opaque' | 'unknown'
+    readonly source: string
+    readonly preservation: SourcePreservationReceipt
+    readonly spans: PreservedSourceSpans
+    readonly diagnostic: {
+      readonly code: 'UNSUPPORTED_FAMILY' | 'UNKNOWN_HEADER' | 'FAMILY_DESCRIPTOR_MISMATCH'
+      readonly message: string
+      readonly help: string
+    }
+  }
+  readonly source: SourceMap
+  readonly canonicalSource: string
+}
+
+type ParsedDiagram = ValidDiagram | ExtensionValidDiagram | PreservedValidDiagram
+
+${SDK_VALID_DIAGRAM_ALIASES}
+
+interface FlowchartGraph {
+  direction: 'TD' | 'TB' | 'LR' | 'BT' | 'RL'
+  // semanticShape/authoredShape carry Mermaid v11 @{ shape } metadata: shape
+  // stays the drawn geometry, semanticShape the canonical v11 id, and
+  // authoredShape the exact spelling that serializes back.
+  nodes: Map<string, { id: string; label: string; shape: string; semanticShape?: string; authoredShape?: string; markdownLabel?: true; icon?: string; image?: string; iconForm?: 'square' | 'circle' | 'rounded'; href?: string }>
+  edges: {
+    // id = authored v11.6 edge ID ('e1@-->'): round-trips verbatim and is a
+    // valid remove_edge/set_label target selector.
+    id?: string
+    source: string; target: string; label?: string; style: string
+    hasArrowStart?: boolean; hasArrowEnd?: boolean; startMarker?: string; endMarker?: string
+    curve?: string; animate?: boolean; animation?: 'fast' | 'slow'; length?: number
+  }[]
+  subgraphs: { id: string; label: string; nodeIds: string[]; children: FlowchartGraph['subgraphs']; direction?: FlowchartGraph['direction']; concurrencyRegion?: true }[]
+  classDefs: Map<string, Record<string, string>>
+  classAssignments: Map<string, string>
+  nodeStyles: Map<string, Record<string, string>>
+  linkStyles: Map<number | 'default', Record<string, string>>
+}
+
+interface StateNode { id: string; label?: string; declaredBare?: true; stereotype?: 'fork' | 'join' | 'choice' | 'history' | 'deep-history'; states?: StateNode[]; transitions?: StateTransition[]; regions?: StateRegion[]; className?: string; style?: Record<string, string>; direction?: 'TD' | 'TB' | 'LR' | 'BT' | 'RL' }
+interface StateRegion { states: StateNode[]; transitions: StateTransition[]; direction?: 'TD' | 'TB' | 'LR' | 'BT' | 'RL' }
+interface StateTransition { from: string; to: string; label?: string; style?: Record<string, string> }   // from/to may be '[*]' or a history ref ('[H]', 'X[H*]')
+interface StateNote { target: string; side: 'left' | 'right'; text: string }
+interface StateBody { kind: 'state'; states: StateNode[]; transitions: StateTransition[]; notes?: StateNote[]; direction?: 'TD' | 'TB' | 'LR' | 'BT' | 'RL'; classDefs?: Record<string, Record<string, string>>; defaultTransitionStyle?: Record<string, string> }
+
+type SeqParticipantKind = 'participant' | 'actor' | 'boundary' | 'control' | 'entity' | 'database' | 'collections' | 'queue'
+interface SeqParticipant { id: string; label: string; kind: SeqParticipantKind; declaration?: 'participant' | 'actor'; links?: Record<string, string> }
+interface SeqMessage { from: string; to: string; text: string; style: string; arrow?: string; centralStart?: boolean; centralEnd?: boolean; activate?: boolean; deactivate?: boolean }
+type SeqFragmentKind = 'alt' | 'opt' | 'loop' | 'par'
+interface SeqFragmentBranch { label?: string; messages: SeqMessage[] }
+interface SeqFragment { fragmentKind: SeqFragmentKind; label?: string; branches: SeqFragmentBranch[]; rawLines?: string[] }
+// BUILD-18: ordered statement list. participant/message refs index into the
+// participants/messages arrays; direct-message common fragments are typed;
+// opaque-block carries all remaining unmodeled lines verbatim.
+type SequenceStatement =
+  | { kind: 'participant'; ref: number }
+  | { kind: 'message'; ref: number }
+  | { kind: 'actor-links'; actorId: string; links: Record<string, string> }
+  | { kind: 'fragment'; fragment: SeqFragment }
+  | { kind: 'opaque-block'; lines: string[] }
+interface SequenceBody { kind: 'sequence'; participants: SeqParticipant[]; messages: SeqMessage[]; statements: SequenceStatement[] }
+
+interface TimelineEvent { id: string; text: string }
+interface TimelinePeriod { id: string; label: string; events: TimelineEvent[] }
+interface TimelineSection { id: string; label?: string; periods: TimelinePeriod[] }
+// direction: explicit \`timeline TD\`/\`timeline LR\` header token (TD = vertical, upstream PR #7270); undefined = LR default.
+interface TimelineBody { kind: 'timeline'; direction?: 'LR' | 'TD'; title?: string; accessibilityTitle?: string; accessibilityDescription?: string; sections: TimelineSection[] }
+
+interface ClassNode { id: string; generic?: string; label?: string; members: string[]; namespace?: string; className?: string; style?: Record<string, string>; href?: string }
+type ClassRelationKind = 'inheritance' | 'composition' | 'aggregation' | 'association' | 'dependency' | 'realization' | 'link-solid' | 'link-dashed' | 'lollipop'
+interface ClassRelation { from: string; to: string; kind: ClassRelationKind; label?: string; fromCardinality?: string; toCardinality?: string; markerAt?: 'from' | 'to' | 'both'; fromKind?: ClassRelationKind; toKind?: ClassRelationKind }
+interface ClassNote { text: string; for?: string }
+// namespace paths are dot-joined (e.g. 'Platform.Auth'); namespaces render as
+// compound boxes and serialize to "namespace path { ... }" blocks.
+interface ClassNamespaceDecl { name: string; label?: string }
+interface ClassBody { kind: 'class'; title?: string; classes: ClassNode[]; relations: ClassRelation[]; notes: ClassNote[]; namespaces?: ClassNamespaceDecl[]; classDefs?: Record<string, Record<string, string>> }
+
+type ErCardinality = 'one-only' | 'zero-or-one' | 'zero-or-many' | 'one-or-many'
+interface ErAttribute { text: string }
+interface ErEntity { id: string; label?: string; attributes: ErAttribute[]; className?: string; style?: Record<string, string>; groupId?: string }
+interface ErGroup { id: string; label: string; parentId?: string; direction?: 'TD' | 'TB' | 'LR' | 'BT' | 'RL' }
+interface ErRelation { from: string; to: string; leftCard: ErCardinality; rightCard: ErCardinality; dashed: boolean; label?: string }
+type ErStatement = { kind: 'entity'; id: string } | { kind: 'relation'; ref: number } | { kind: 'direction'; groupId?: string } | { kind: 'group-open'; id: string } | { kind: 'group-close'; id: string } | { kind: 'opaque'; lines: string[] }
+interface ErBody { kind: 'er'; entities: ErEntity[]; relations: ErRelation[]; groups?: ErGroup[]; direction?: 'TD' | 'TB' | 'LR' | 'BT' | 'RL'; classDefs?: Record<string, Record<string, string>>; statements?: ErStatement[] }
+
+interface JourneyTask { id: string; text: string; score: number; actors: string[] }
+interface JourneySection { id: string; label?: string; tasks: JourneyTask[] }
+interface JourneyBody { kind: 'journey'; title?: string; accessibilityTitle?: string; accessibilityDescription?: string; sections: JourneySection[] }
+
+type ArchitectureSide = 'L' | 'R' | 'T' | 'B'
+type ArchitectureEndpointBoundary = 'item' | 'group'
+interface ArchitectureGroup { id: string; label: string; icon?: string; parentId?: string }
+interface ArchitectureService { id: string; label: string; icon?: string; parentId?: string }
+interface ArchitectureJunction { id: string; parentId?: string }
+interface ArchitectureEndpoint { id: string; side: ArchitectureSide; boundary?: ArchitectureEndpointBoundary }
+interface ArchitectureEdge { source: ArchitectureEndpoint; target: ArchitectureEndpoint; label?: string; hasArrowStart: boolean; hasArrowEnd: boolean }
+// alignments: upstream v11.16.0 "align row|column" directives, preserved
+// losslessly and honored as deterministic center-coordinate constraints.
+interface ArchitectureAlignment { axis: 'row' | 'column'; members: string[] }
+interface ArchitectureBody { kind: 'architecture'; title?: string; accessibilityTitle?: string; accessibilityDescription?: string; groups: ArchitectureGroup[]; services: ArchitectureService[]; junctions: ArchitectureJunction[]; edges: ArchitectureEdge[]; alignments?: ArchitectureAlignment[] }
+
+interface XyChartAxis { name?: string; categories?: string[]; range?: { min: number; max: number } }
+interface XyChartSeries { id: string; kind: 'bar' | 'line'; name?: string; values: number[]; pointLabels?: Array<string | undefined> }
+interface XyChartBody { kind: 'xychart'; accessibilityTitle?: string; accessibilityDescription?: string; title?: string; horizontal?: boolean; xAxis?: XyChartAxis; yAxis?: XyChartAxis; series: XyChartSeries[] }
+
+interface PieSlice { id: string; label: string; value: number }   // value > 0
+interface PieBody { kind: 'pie'; accessibilityTitle?: string; accessibilityDescription?: string; title?: string; showData: boolean; slices: PieSlice[] }
+
+interface QuadrantAxis { near: string; far?: string }
+// Upstream per-point styling (direct \`radius:/color:/stroke-color:/stroke-width:\`
+// tails, \`classDef\` tables, \`:::class\` assignments) is structured content:
+// preserved by every op and serialized canonically. strokeWidth may carry px.
+interface QuadrantPointStyle { radius?: number; color?: string; strokeColor?: string; strokeWidth?: string; extra?: string[] }
+interface QuadrantPoint { label: string; x: number; y: number; className?: string; style?: QuadrantPointStyle }   // x,y in [0,1]
+// quadrants indexed 0-based; index n-1 holds Mermaid quadrant-n
+// (1=top-right, 2=top-left, 3=bottom-left, 4=bottom-right)
+interface QuadrantBody { kind: 'quadrant'; accessibilityTitle?: string; accessibilityDescription?: string; title?: string; xAxis?: QuadrantAxis; yAxis?: QuadrantAxis; quadrants: [string?, string?, string?, string?]; points: QuadrantPoint[]; classDefs?: Record<string, QuadrantPointStyle> }
+
+// Radar (spider) chart: axes = spokes; curves = one value per axis (axis order).
+interface RadarBodyAxis { id: string; label: string }
+interface RadarBodyCurve { id: string; label: string; values: number[] }
+interface RadarBody { kind: 'radar'; title?: string; axes: RadarBodyAxis[]; curves: RadarBodyCurve[]; min: number; max?: number; ticks: number; graticule: 'circle' | 'polygon'; showLegend: boolean }
+
+type GanttTaskTag = 'active' | 'done' | 'crit' | 'milestone' | 'vert'
+// start: a date in the diagram's dateFormat or 'after id\u2026'; undefined = previous task's end.
+// end: a date, a duration token ('3d', '2w'), or 'until id\u2026'.
+interface GanttTask { id: string; taskId?: string; label: string; tags: GanttTaskTag[]; start?: string; end: string }
+interface GanttSection { id: string; label?: string; tasks: GanttTask[] }
+// Segment-preserving body: calendar directives (dateFormat, excludes, weekend\u2026),
+// click lines, and comments ride along VERBATIM as opaque-block segments \u2014 they
+// are preserved, not typed-editable. Tasks inside opaque segments are invisible
+// to mutation ops.
+type GanttStatement =
+  | { kind: 'title' }
+  | { kind: 'section'; ref: number }
+  | { kind: 'task'; section: number; ref: number }
+  | { kind: 'opaque-block'; lines: string[] }
+interface GanttBody { kind: 'gantt'; title?: string; sections: GanttSection[]; statements?: GanttStatement[] }
+
+type MindmapShape = 'default' | 'rect' | 'rounded' | 'circle' | 'cloud' | 'bang' | 'hexagon'
+interface MindmapNode { id: string; label: string; shape: MindmapShape; markdown?: true; icon?: string; className?: string; children: MindmapNode[] }
+interface MindmapBody { kind: 'mindmap'; root: MindmapNode; accessibilityTitle?: string; accessibilityDescription?: string }
+
+type GitGraphCommitType = 'NORMAL' | 'REVERSE' | 'HIGHLIGHT' | 'MERGE' | 'CHERRY_PICK'
+interface GitGraphCommit { id: string; message?: string; type: GitGraphCommitType; customType?: 'NORMAL' | 'REVERSE' | 'HIGHLIGHT'; tags: string[]; parents: string[]; branch: string; sequence: number; source: 'commit' | 'merge' | 'cherry-pick'; mergeBranch?: string; cherrySource?: string; cherryParent?: string; syntheticCherryTag?: string; customId: boolean }
+interface GitGraphBranch { name: string; order: number; sequence: number; head?: string }
+type GitGraphStatement = { kind: 'commit'; ref: string } | { kind: 'branch'; name: string; order?: number } | { kind: 'checkout'; branch: string; keyword: 'checkout' | 'switch' } | { kind: 'merge'; ref: string; branch: string } | { kind: 'cherry-pick'; ref: string; source: string; parent?: string }
+interface GitGraphBody { kind: 'gitgraph'; direction: 'LR' | 'TB' | 'BT'; mainBranchName: string; title?: string; commits: GitGraphCommit[]; branches: GitGraphBranch[]; statements: GitGraphStatement[]; accessibilityTitle?: string; accessibilityDescription?: string }
+
+type FlowchartMutationOp =
+  // shape also accepts any Mermaid v11 @{ shape } name/alias (e.g. 'manual-input')
+  | { kind: 'add_node'; id: string; label: string; shape?: string; parent?: string }
+  | { kind: 'remove_node'; id: string }
+  | { kind: 'rename_node'; from: string; to: string }
+  | { kind: 'set_label'; target: string; label: string }   // target: node id, authored edge ID (e1), or 'from->to'/'from->to#k'
+  | { kind: 'add_edge'; from: string; to: string; label?: string; style?: 'solid' | 'dotted' | 'thick' | 'invisible' }
+  | { kind: 'remove_edge'; id: string }                    // id: authored edge ID (e1), or 'from->to'/'from->to#k'
+  | { kind: 'set_shape'; id: string; shape: string }       // geometry name or v11 @{ shape } name/alias
+  | { kind: 'set_direction'; direction: 'TD' | 'TB' | 'LR' | 'BT' | 'RL'; subgraph?: string }   // omit subgraph = diagram direction
+  | { kind: 'add_subgraph'; id: string; label?: string; parent?: string; members?: string[] }   // members MOVE into the new subgraph
+  | { kind: 'remove_subgraph'; id: string; removeMembers?: boolean }   // default dissolves; true deletes members + their edges
+  | { kind: 'move_node'; id: string; subgraph: string | null }         // null = top level
+  | { kind: 'define_class'; name: string; style: string }              // CSS-like pairs 'fill:#f96,stroke:#333'
+  | { kind: 'set_node_class'; id: string; className: string | null }   // null removes the assignment
+  | { kind: 'set_node_style'; id: string; style: string | null }       // null clears the inline style
+
+type StateMutationOp =
+  | { kind: 'add_state'; id: string; label?: string | null; parent?: string | null; region?: number }
+  | { kind: 'remove_state'; id: string; recursive?: boolean }   // recursive: true removes a non-empty composite's whole subtree
+  | { kind: 'rename_state'; from: string; to: string }
+  | { kind: 'set_state_label'; id: string; label: string | null }
+  | { kind: 'add_transition'; from: string; to: string; label?: string | null; parent?: string | null; region?: number }   // from/to may be '[*]' or a history ref ('X[H]')
+  | { kind: 'remove_transition'; index?: number; from?: string; to?: string; parent?: string | null; region?: number }
+  | { kind: 'set_transition_label'; index?: number; from?: string; to?: string; label: string | null; parent?: string | null; region?: number }
+  | { kind: 'make_composite'; id: string; members: string[]; label?: string | null }
+  | { kind: 'set_direction'; direction: 'TD' | 'TB' | 'LR' | 'BT' | 'RL'; state?: string | null }   // omit state = diagram direction; composite id = its override
+  | { kind: 'move_state'; id: string; parent: string | null; region?: number }   // null = top level; region addresses a concurrent composite
+  | { kind: 'dissolve_composite'; id: string }                  // hoists children + inner transitions; rejects while referenced
+  | { kind: 'add_note'; target: string; side?: 'left' | 'right'; text: string }   // side defaults to 'right'
+  | { kind: 'remove_note'; index: number }
+  | { kind: 'set_note_text'; index: number; text: string }
+  | { kind: 'define_class'; name: string; style: string }
+  | { kind: 'set_state_class'; id: string; className: string | null }
+  | { kind: 'set_state_style'; id: string; style: string | null }
+  | { kind: 'set_transition_style'; index?: number; default?: boolean; style: string | null; parent?: string | null; region?: number }
+
+type SequenceMutationOp =
+  | { kind: 'add_participant'; id: string; label?: string; participantKind?: 'participant' | 'actor' }
+  | { kind: 'remove_participant'; id: string }
+  | { kind: 'add_message'; from: string; to: string; text: string; style?: 'sync' | 'reply' | 'async' | 'async-dashed' | 'lost' | 'lost-dashed'; index?: number }   // index = top-level insert position; omitted = append
+  | { kind: 'remove_message'; index: number }
+  | { kind: 'set_message_text'; index: number; text: string }
+  | { kind: 'move_message'; from: number; to: number }   // top-level indices
+  | { kind: 'set_participant_label'; id: string; label: string }
+  | { kind: 'add_fragment'; fragmentKind: SeqFragmentKind; label?: string; index?: number }
+  | { kind: 'remove_fragment'; index: number }
+  | { kind: 'set_fragment_label'; index: number; label: string | null }
+  | { kind: 'add_fragment_branch'; fragmentIndex: number; label?: string }
+  | { kind: 'set_fragment_branch_label'; fragmentIndex: number; branchIndex: number; label: string | null }
+  | { kind: 'add_fragment_message'; fragmentIndex: number; branchIndex?: number; from: string; to: string; text: string; style?: 'sync' | 'reply' | 'async' | 'async-dashed' | 'lost' | 'lost-dashed'; index?: number }
+  | { kind: 'remove_fragment_message'; fragmentIndex: number; branchIndex?: number; index: number }
+  | { kind: 'set_fragment_message_text'; fragmentIndex: number; branchIndex?: number; index: number; text: string }
+
+type TimelineMutationOp =
+  | { kind: 'set_title'; title: string | null }
+  | { kind: 'add_section'; label: string; index?: number }             // index = insert position; omit to append
+  | { kind: 'remove_section'; index: number }
+  | { kind: 'set_section_label'; index: number; label: string }
+  | { kind: 'add_period'; sectionIndex: number; label: string; events?: string[]; index?: number }
+  | { kind: 'remove_period'; sectionIndex: number; periodIndex: number }
+  | { kind: 'set_period_label'; sectionIndex: number; periodIndex: number; label: string }
+  | { kind: 'add_event'; sectionIndex: number; periodIndex: number; text: string; index?: number }
+  | { kind: 'remove_event'; sectionIndex: number; periodIndex: number; eventIndex: number }
+  | { kind: 'set_event_text'; sectionIndex: number; periodIndex: number; eventIndex: number; text: string }
+  // Chronology reorder (journey move_task/move_section convention): toIndex is
+  // the insert position in the target container, applied after removal.
+  | { kind: 'move_period'; fromSection: number; fromIndex: number; toSection: number; toIndex: number }
+  | { kind: 'move_event'; fromSection: number; fromPeriod: number; fromIndex: number; toSection: number; toPeriod: number; toIndex: number }
+  | { kind: 'move_section'; from: number; to: number }
+  | { kind: 'set_accessibility_title'; title: string | null }
+  | { kind: 'set_accessibility_description'; description: string | null }
+
+type ClassMutationOp =
+  | { kind: 'set_title'; title: string | null }
+  | { kind: 'add_class'; id: string; label?: string; generic?: string; members?: string[]; namespace?: string }
+  | { kind: 'remove_class'; id: string }
+  | { kind: 'rename_class'; from: string; to: string }
+  | { kind: 'set_class_generic'; class: string; generic: string | null }
+  | { kind: 'add_member'; class: string; text: string }
+  | { kind: 'remove_member'; class: string; index: number }
+  | { kind: 'add_relation'; from: string; to: string; relKind: ClassRelationKind; label?: string }
+  | { kind: 'remove_relation'; index: number }
+  | { kind: 'add_note'; text: string; for?: string }
+  | { kind: 'remove_note'; index: number }
+  | { kind: 'set_class_namespace'; class: string; namespace: string | null }
+  | { kind: 'define_class'; name: string; style: string }
+  | { kind: 'set_css_class'; class: string; className: string | null }
+  | { kind: 'set_class_style'; class: string; style: string | null }
+
+type ErMutationOp =
+  | { kind: 'add_entity'; id: string; label?: string; attributes?: string[] }
+  | { kind: 'remove_entity'; id: string }
+  | { kind: 'rename_entity'; from: string; to: string }
+  | { kind: 'set_entity_label'; entity: string; label: string | null }
+  | { kind: 'add_attribute'; entity: string; text: string }
+  | { kind: 'remove_attribute'; entity: string; index: number }
+  | { kind: 'add_relation'; from: string; to: string; leftCard: ErCardinality; rightCard: ErCardinality; dashed?: boolean; label?: string }
+  | { kind: 'remove_relation'; index: number }
+  | { kind: 'set_direction'; direction: 'TD' | 'TB' | 'LR' | 'BT' | 'RL' }
+  | { kind: 'define_class'; name: string; style: string }
+  | { kind: 'set_entity_class'; entity: string; className: string | null }
+  | { kind: 'set_entity_style'; entity: string; style: string | null }
+
+type JourneyMutationOp =
+  | { kind: 'set_title'; title: string | null }
+  | { kind: 'add_section'; label: string; index?: number }
+  | { kind: 'remove_section'; index: number }
+  | { kind: 'set_section_label'; index: number; label: string }
+  | { kind: 'add_task'; sectionIndex: number; text: string; score: number; actors?: string[]; index?: number }
+  | { kind: 'remove_task'; sectionIndex: number; taskIndex: number }
+  | { kind: 'set_task_text'; sectionIndex: number; taskIndex: number; text: string }
+  | { kind: 'set_task_score'; sectionIndex: number; taskIndex: number; score: number }
+  | { kind: 'set_task_actors'; sectionIndex: number; taskIndex: number; actors: string[] }
+  | { kind: 'rename_actor'; from: string; to: string }
+  | { kind: 'move_task'; fromSection: number; fromIndex: number; toSection: number; toIndex: number }
+  | { kind: 'move_section'; from: number; to: number }
+  | { kind: 'set_accessibility_title'; title: string | null }
+  | { kind: 'set_accessibility_description'; description: string | null }
+
+type ArchitectureMutationOp =
+  | { kind: 'set_title'; title: string | null }
+  | { kind: 'set_accessibility_title'; title: string | null }
+  | { kind: 'set_accessibility_description'; description: string | null }
+  | { kind: 'add_service'; id: string; label?: string; icon?: string | null; group?: string | null }
+  | { kind: 'remove_service'; id: string }
+  | { kind: 'rename_service'; from: string; to: string }
+  | { kind: 'set_service_label'; id: string; label: string }
+  | { kind: 'set_service_icon'; id: string; icon: string | null }
+  | { kind: 'move_service'; id: string; group: string | null }
+  | { kind: 'add_junction'; id: string; group?: string | null }
+  | { kind: 'remove_junction'; id: string }
+  | { kind: 'rename_junction'; from: string; to: string }
+  | { kind: 'move_junction'; id: string; group: string | null }
+  | { kind: 'add_group'; id: string; label?: string; icon?: string | null; parent?: string | null }
+  | { kind: 'set_group_label'; id: string; label: string }
+  | { kind: 'remove_group'; id: string }
+  | { kind: 'add_edge'; from: string; to: string; fromSide: ArchitectureSide; toSide: ArchitectureSide; fromBoundary?: ArchitectureEndpointBoundary; toBoundary?: ArchitectureEndpointBoundary; label?: string | null; hasArrowStart?: boolean; hasArrowEnd?: boolean }
+  | { kind: 'update_edge'; index: number; from?: string; to?: string; fromSide?: ArchitectureSide; toSide?: ArchitectureSide; fromBoundary?: ArchitectureEndpointBoundary; toBoundary?: ArchitectureEndpointBoundary; label?: string | null; hasArrowStart?: boolean; hasArrowEnd?: boolean }
+  | { kind: 'remove_edge'; index?: number; id?: string }
+
+type XyChartAxisSpec = { name?: string | null; categories?: string[]; range?: { min: number; max: number } }
+type XyChartMutationOp =
+  | { kind: 'set_title'; title: string | null }
+  | { kind: 'set_x_axis'; axis: XyChartAxisSpec | null }
+  | { kind: 'set_y_axis'; axis: XyChartAxisSpec | null }
+  | { kind: 'add_series'; kind2: 'bar' | 'line'; name?: string | null; values: number[] }
+  | { kind: 'remove_series'; index: number }
+  | { kind: 'set_series_values'; index: number; values: number[] }
+  | { kind: 'set_series_name'; index: number; name: string | null }
+  | { kind: 'reorder_series'; from: number; to: number }
+  | { kind: 'set_orientation'; horizontal: boolean }
+  | { kind: 'set_data_point'; seriesIndex: number; index: number; value: number }
+
+type PieMutationOp =
+  | { kind: 'set_title'; title: string | null }
+  | { kind: 'set_show_data'; showData: boolean }
+  | { kind: 'add_slice'; label: string; value: number }   // value > 0
+  | { kind: 'remove_slice'; label: string }
+  | { kind: 'rename_slice'; from: string; to: string }
+  | { kind: 'set_slice_value'; label: string; value: number }
+  | { kind: 'reorder_slice'; from: number; to: number }
+
+type QuadrantMutationOp =
+  | { kind: 'set_title'; title: string | null }
+  | { kind: 'set_axis_labels'; axis: 'x' | 'y'; near: string | null; far?: string | null }
+  | { kind: 'set_quadrant_label'; quadrant: number; label: string | null }   // quadrant 1..4
+  | { kind: 'add_point'; label: string; x: number; y: number }   // x,y in [0,1]
+  | { kind: 'remove_point'; label: string }
+  | { kind: 'move_point'; label: string; x: number; y: number }
+  | { kind: 'rename_point'; from: string; to: string }
+
+type MindmapMutationOp =
+  | { kind: 'add_node'; id: string; label: string; parent: string; shape?: MindmapShape; index?: number }
+  | { kind: 'remove_node'; id: string; recursive?: boolean }
+  | { kind: 'rename_node'; from: string; to: string }
+  | { kind: 'set_label'; id: string; label: string }
+  | { kind: 'move_node'; id: string; parent: string; index?: number }
+  | { kind: 'set_shape'; id: string; shape: MindmapShape }
+  | { kind: 'set_icon'; id: string; icon: string | null }
+  | { kind: 'set_node_class'; id: string; className: string | null }
+  | { kind: 'set_accessibility_title'; title: string | null }
+  | { kind: 'set_accessibility_description'; description: string | null }
+
+type GitGraphMutationOp =
+  | { kind: 'append_commit'; id?: string; message?: string; type?: 'NORMAL' | 'REVERSE' | 'HIGHLIGHT'; tags?: string[] }
+  | { kind: 'create_branch'; name: string; order?: number }
+  | { kind: 'checkout_branch'; name: string }
+  | { kind: 'merge_branch'; name: string; id?: string; type?: 'NORMAL' | 'REVERSE' | 'HIGHLIGHT'; tags?: string[] }
+  | { kind: 'cherry_pick'; id: string; parent?: string; tags?: string[] }
+  | { kind: 'set_commit_message'; id: string; message: string | null }
+  | { kind: 'set_commit_type'; id: string; type: 'NORMAL' | 'REVERSE' | 'HIGHLIGHT' }
+  | { kind: 'set_commit_tags'; id: string; tags: string[] }
+  | { kind: 'rename_branch'; from: string; to: string }
+  | { kind: 'set_accessibility_title'; title: string | null }
+  | { kind: 'set_accessibility_description'; description: string | null }
+
+type RadarMutationOp =
+  | { kind: 'set_title'; title: string | null }
+  | { kind: 'add_axis'; id: string; label?: string | null; index?: number; fill?: number }
+  | { kind: 'remove_axis'; id: string }
+  | { kind: 'rename_axis'; from: string; to: string }
+  | { kind: 'set_axis_label'; id: string; label: string | null }
+  | { kind: 'reorder_axis'; from: number; to: number }
+  | { kind: 'add_curve'; id: string; label?: string | null; values: number[]; index?: number }
+  | { kind: 'remove_curve'; id: string }
+  | { kind: 'set_curve_values'; id: string; values: number[] }
+  | { kind: 'set_curve_value'; curve: string; axis: string; value: number }
+  | { kind: 'set_curve_label'; id: string; label: string | null }
+  | { kind: 'rename_curve'; from: string; to: string }
+  | { kind: 'reorder_curve'; from: number; to: number }
+  | { kind: 'set_config'; max?: number | null; min?: number | null; ticks?: number | null; graticule?: 'circle' | 'polygon' | null; showLegend?: boolean | null }
+
+type GanttMutationOp =
+  | { kind: 'set_title'; title: string | null }
+  | { kind: 'add_section'; label: string }
+  | { kind: 'rename_section'; index: number; label: string }
+  | { kind: 'remove_section'; index: number }
+  | { kind: 'add_task'; sectionIndex: number; label: string; taskId?: string; tags?: GanttTaskTag[]; start?: string; end: string; index?: number }
+  | { kind: 'remove_task'; sectionIndex: number; taskIndex: number }
+  | { kind: 'rename_task'; sectionIndex: number; taskIndex: number; label: string }
+  | { kind: 'set_task_status'; sectionIndex: number; taskIndex: number; status: 'active' | 'done' | 'crit' | null }
+  | { kind: 'set_task_dates'; sectionIndex: number; taskIndex: number; start?: string | null; end?: string }
+  | { kind: 'set_task_flags'; sectionIndex: number; taskIndex: number; milestone?: boolean; vert?: boolean }
+  // set_task_id rewrites structured after/until references on rename; rejects
+  // while referenced from opaque lines (click/comments), and null rejects
+  // while referenced at all.
+  | { kind: 'set_task_id'; sectionIndex: number; taskIndex: number; taskId: string | null }
+  // Source order IS gantt scheduling semantics: moves are rejected with a
+  // prescriptive error when they would change an implicit-start task's
+  // predecessor (materialize an explicit start via set_task_dates first).
+  | { kind: 'move_task'; fromSection: number; fromIndex: number; toSection: number; toIndex: number }
+  | { kind: 'move_section'; from: number; to: number }
+
+// Tier 1 (structural, reliable): EMPTY_DIAGRAM, EDGE_MISANCHORED, OFF_CANVAS,
+//   GROUP_BREACH, UNKNOWN_SHAPE, LABEL_OVERFLOW (rendered-line char count:
+//   <br> splits lines, XML entities decode to one char),
+//   UNRESOLVABLE_SCHEDULE (gantt: parses but schedule cannot resolve; render would fail),
+//   RENDER_FAILED (strict renderer rejected the canonical source).
+// Tier 2 (geometric, advisory): NODE_OVERLAP, ROUTE_SELF_CROSS, and the
+// route-contract tripwires ROUTE_HITCH, ROUTE_UNEXPLAINED_BEND,
+// ROUTE_LABEL_ON_SHARED_TRUNK, ROUTE_SELF_LOOP_OCCUPANCY, ROUTE_CONTAINER_MISANCHOR,
+// ROUTE_SHAPE_MISANCHOR, ROUTE_STALE_AFTER_NODE_MOVE.
+// Tier 3 (lint, advisory): DUPLICATE_EDGE, UNREACHABLE_NODE,
+// DECISION_BRANCH_UNLABELED, COMMENT_DROPPED, UNSUPPORTED_SYNTAX,
+// CONTENT_DROPPED_ON_ROUNDTRIP, INEFFECTIVE_CONFIG, LOW_CONTRAST,
+// BRAND_CONSTRAINT_WARNING. BRAND_CONSTRAINT_ERROR is inspect-only policy
+// selected explicitly by a Style constraint with action "error".
+type RenderedRegionKind='node'|'edge'|'label'|'canvas'|'group'|'cluster'|'lane'|'band'|'compartment'|'plot'|'ring'
+type DiagramActionSecurity='safe'|'unsafe'|'source-only'|'unsupported'
+interface RenderedRegion { id:string;kind:RenderedRegionKind;elementId?:string;parentId?:string;bounds:{x:number;y:number;w:number;h:number};sourceLine?:number }
+interface DiagramActionRecord { id?:string;regionId?:string;family:DiagramKind;target:string;action:'href'|'call'|'callback';raw:string;line?:number;href?:string;security:DiagramActionSecurity;executable:false;message?:string }
+interface RenderedLayout { version: 1; kind: DiagramKind | ExternalFamilyId; nodes: unknown[]; edges: unknown[]; groups: unknown[]; regions?: RenderedRegion[]; actions?: DiagramActionRecord[]; bounds: { w: number; h: number } }
+
+type WarningCode =
+  | 'EMPTY_DIAGRAM' | 'EDGE_MISANCHORED' | 'OFF_CANVAS' | 'GROUP_BREACH'
+  | 'UNKNOWN_SHAPE' | 'LABEL_OVERFLOW' | 'UNRESOLVABLE_SCHEDULE' | 'RENDER_FAILED'
+  | 'NODE_OVERLAP' | 'ROUTE_SELF_CROSS' | 'ROUTE_HITCH'
+  | 'ROUTE_UNEXPLAINED_BEND' | 'ROUTE_LABEL_ON_SHARED_TRUNK' | 'ROUTE_SELF_LOOP_OCCUPANCY' | 'ROUTE_CONTAINER_MISANCHOR'
+  | 'ROUTE_SHAPE_MISANCHOR' | 'ROUTE_STALE_AFTER_NODE_MOVE'
+  | 'DUPLICATE_EDGE' | 'UNREACHABLE_NODE' | 'DECISION_BRANCH_UNLABELED' | 'COMMENT_DROPPED' | 'UNSUPPORTED_SYNTAX'
+  | 'CONTENT_DROPPED_ON_ROUNDTRIP' | 'INEFFECTIVE_CONFIG' | 'LOW_CONTRAST'
+  | 'BRAND_CONSTRAINT_WARNING' | 'BRAND_CONSTRAINT_ERROR'
+
+interface VerifyResult {
+  ok: boolean
+  warnings: { code: WarningCode; [field: string]: unknown }[]
+  layout: RenderedLayout
+}
+
+interface DiagramAnalysis {
+  kind: DiagramKind | ExternalFamilyId
+  feedbackEdges: Array<{ edgeIndex: number; from: string; to: string; label?: string; routeClass: string }>
+  actions: Array<{ id?: string; regionId?: string; family: DiagramKind; target: string; action: 'href' | 'call' | 'callback'; raw: string; line?: number; href?: string; security: 'safe' | 'unsafe' | 'source-only' | 'unsupported'; executable: false; message?: string }>
+  gantt?: { criticalPathTaskIds: string[]; slackByTaskId: Record<string, number>; projectStart: number; projectEnd: number; entryTaskIds: string[]; sinkTaskIds: string[] }
+}
+
+${SDK_ANY_MUTATION_OP_DECLARATION}
+
+declare const mermaid: {
+  parseRegisteredMermaid(source: string): Result<ParsedDiagram, ParseError[]>
+  // Blank-slate authoring: createMermaid returns an empty structured diagram
+  // for any DiagramKind (already narrowed \u2014 pass it straight to mutate).
+  // buildMermaid folds a typed op list over that empty diagram; on failure the
+  // error carries opIndex of the op that failed. direction applies to
+  // flowchart/state only.
+  createMermaid(kind: DiagramKind, opts?: { direction?: 'TD' | 'TB' | 'LR' | 'BT' | 'RL' }): ValidDiagram
+  buildMermaid(kind: DiagramKind, ops: AnyMutationOp[], opts?: { direction?: 'TD' | 'TB' | 'LR' | 'BT' | 'RL' }): Result<ValidDiagram, { code: string; message: string; opIndex: number }>
+${SDK_NARROWER_METHOD_DECLARATIONS}
+${SDK_MUTATE_METHOD_DECLARATIONS}
+  verifyMermaid(input: ParsedDiagram | string, opts?: { suppress?: WarningCode[]; labelCharCap?: number; renderOptions?: SharedRenderOptions }): VerifyResult
+  analyzeMermaid(d: ValidDiagram): DiagramAnalysis
+  analyzeMermaidSource(source: string): Result<DiagramAnalysis, { code: string; message: string }[]>
+  describeMermaidFacts(d: ValidDiagram): string[]
+  describeMermaidFactsSource(source: string): Result<string[], { code: string; message: string }[]>
+  checkMermaid(d: ValidDiagram, spec: CheckMermaidSpec): CheckMermaidResult
+  checkMermaidSource(source: string, spec: CheckMermaidSpec): Result<CheckMermaidResult, { code: string; message: string }[]>
+  serializeMermaid(d: ParsedDiagram): string
+  // Compatibility conveniences return only bytes/text; use the receipt-aware
+  // methods below for transport parity and projection/security evidence.
+  renderMermaidSVG(input: ParsedDiagram | string, opts?: SvgRenderOptions): string
+  renderMermaidASCII(input: ParsedDiagram | string, opts?: AsciiRenderOptions): string
+${CODE_MODE_RENDER_METHOD_DECLARATIONS}
+  // Op discovery \u2014 look up exact op shapes at runtime instead of guessing.
+  // describeOps returns every op's field names, required-ness, inlined enum
+  // values, and constraint/default notes (e.g. score "integer 1..5", shape
+  // "default: rectangle"); opSignatures returns compact one-liners like
+  // "add_point(label, x, y)". Read these before authoring an unfamiliar op.
+  describeOps(family: DiagramKind): Record<string, { name: string; required: boolean; type: string; note?: string }[]>
+  opSignatures(family: DiagramKind): string[]
+}
+
+// Conventions:
+// 1. For new diagrams, use buildMermaid(kind, ops) \u2014 or createMermaid(kind)
+//    then mutate step by step \u2014 and verify/render the result. Hand-author
+//    Mermaid source only for syntax the typed ops do not model.
+// 2. For existing structured diagrams, use mutate() + verify + serializeMermaid();
+//    do not regenerate/concatenate source when a typed op exists.
+${SDK_FAMILY_CONVENTION}
+//    State owns a dedicated body (BUILD-19); asFlowchart returns null on it.
+//    Gantt bodies are segment-preserving: directives/click/comment lines ride
+//    along verbatim as opaque-block segments and are edited as source only.
+//    Opaque-fallback
+//    bodies (unmodeled syntax) are source-level only; if explicitly edited as
+//    text, re-parse and verify before returning.
+// 4. verify.ok is structural, not a visual-quality score; inspect warnings/layout or render artifacts for layout quality.
+//    For semantic task correctness, read back deterministic facts or check them:
+//    checkMermaid(d, ['edge Processing -> [*] : done', 'member Duck +quack()']).
+// 5. Layout is deterministic and never seeded. The render option seed only
+//    re-rolls stochastic ink of styled looks (render option style: a name,
+//    an inline style record, or a stack merged left-to-right; a colors-only
+//    style is a theme); geometry is identical for identical input. Gantt
+//    never reads the wall clock; pass render option ganttToday to draw a
+//    deterministic today marker.
+`;
+
+// src/mcp/sdk-discovery.ts
+var SDK_FAMILIES = BUILTIN_FAMILY_METADATA.map((family) => family.id);
+var SDK_FAMILY_SET = new Set(SDK_FAMILIES);
+var DIAGRAM_KIND = SDK_FAMILIES.map((family) => `'${family}'`).join(" | ");
+var NARROWERS = BUILTIN_FAMILY_METADATA.map((family) => `  ${family.narrower}(diagram: ValidDiagram): ValidDiagram | null`).join("\n");
+var SDK_CORE_DECLARATION = `type DiagramKind = ${DIAGRAM_KIND}
+type MutationOp = { kind: string; [field: string]: unknown }
+type Result<T, E = { code: string; message: string }> = { ok: true; value: T } | { ok: false; error: E }
+interface SourceLocation { readonly line: number; readonly col: number }
+interface SourceMapSpans { readonly preserved: PreservedSourceSpans; readonly nodes: ReadonlyMap<string, SourceSpan>; readonly edges: ReadonlyMap<string, SourceSpan>; readonly groups: ReadonlyMap<string, SourceSpan>; readonly labels: ReadonlyMap<string, SourceSpan> }
+interface SourceMap { readonly nodes: ReadonlyMap<string, SourceLocation>; readonly edges: ReadonlyMap<string, SourceLocation>; readonly groups: ReadonlyMap<string, SourceLocation>; readonly labels: ReadonlyMap<string, SourceLocation>; readonly spans?: SourceMapSpans }
+interface ValidDiagram { readonly kind: DiagramKind; readonly source: SourceMap }
+type ExternalFamilyId = \`family:\${string}\`
+interface ExtensionCompatibility {
+  readonly [contract: string]: string | undefined
+  readonly core?: string
+  readonly scene?: string
+}
+interface ExtensionProvenance { readonly owner: string; readonly source: string; readonly reference?: string }
+interface ExtensionIdentity<Kind extends string = string> {
+  readonly id: \`\${Kind}:\${string}\`
+  readonly kind: Kind
+  readonly version: string
+  readonly compatibility: ExtensionCompatibility
+  readonly provenance: ExtensionProvenance
+}
+interface SourceSpanPoint { readonly offset: number; readonly line: number; readonly col: number }
+interface SourceSpan { readonly start: SourceSpanPoint; readonly end: SourceSpanPoint }
+interface PreservedSourceSpans {
+  readonly source: SourceSpan
+  readonly wrapper?: SourceSpan
+  readonly frontmatter?: SourceSpan
+  readonly initDirectives?: readonly SourceSpan[]
+  readonly accessibilityDirectives?: readonly SourceSpan[]
+  readonly header: SourceSpan
+  readonly body: SourceSpan
+}
+interface SourcePreservationReceipt {
+  readonly version: 1
+  readonly classification: 'unsupported' | 'inventory-only' | 'unknown'
+  readonly source: string
+  readonly header: string
+  readonly upstreamFamilyId?: string
+  readonly mermaidVersion: string
+  readonly spans?: PreservedSourceSpans
+}
+interface ParseError {
+  readonly code: string
+  readonly message: string
+  readonly line?: number
+  readonly col?: number
+  readonly preservation?: SourcePreservationReceipt
+  readonly help?: string
+}
+interface ExtensionValidDiagram {
+  readonly kind: ExternalFamilyId
+  readonly descriptorIdentity: ExtensionIdentity<'family'>
+  readonly source: SourceMap
+}
+interface PreservedValidDiagram {
+  readonly kind: ExternalFamilyId
+  readonly source: SourceMap
+  readonly body: {
+    readonly kind: 'preserved'
+    readonly representation: 'opaque' | 'unknown'
+    readonly source: string
+    readonly preservation: SourcePreservationReceipt
+    readonly spans: PreservedSourceSpans
+    readonly diagnostic: {
+      readonly code: 'UNSUPPORTED_FAMILY' | 'UNKNOWN_HEADER' | 'FAMILY_DESCRIPTOR_MISMATCH'
+      readonly message: string
+      readonly help: string
+    }
+  }
+}
+type ParsedDiagram = ValidDiagram | ExtensionValidDiagram | PreservedValidDiagram
+type RenderedRegionKind='node'|'edge'|'label'|'canvas'|'group'|'cluster'|'lane'|'band'|'compartment'|'plot'|'ring'
+type DiagramActionSecurity='safe'|'unsafe'|'source-only'|'unsupported'
+interface RenderedRegion { id:string;kind:RenderedRegionKind;elementId?:string;parentId?:string;bounds:{x:number;y:number;w:number;h:number};sourceLine?:number }
+interface DiagramActionRecord { id?:string;regionId?:string;family:DiagramKind;target:string;action:'href'|'call'|'callback';raw:string;line?:number;href?:string;security:DiagramActionSecurity;executable:false;message?:string }
+interface RenderedLayout { version: 1; kind: DiagramKind | ExternalFamilyId; bounds: { w: number; h: number }; nodes: unknown[]; edges: unknown[]; groups: unknown[]; regions?: RenderedRegion[]; actions?: DiagramActionRecord[] }
+interface VerifyResult { ok: boolean; warnings: unknown[]; layout: RenderedLayout }
+type CheckMermaidSpec = string[] | { include?: string[]; exclude?: string[]; exact?: boolean }
+interface CheckMermaidResult { ok: boolean; missing: string[]; unexpected: string[]; facts: string[] }
+type MermaidConfigScalar = string | number | boolean | null
+type MermaidConfigValue = MermaidConfigScalar | MermaidConfigValue[] | { [key: string]: MermaidConfigValue | undefined }
+type MermaidRuntimeConfig = { [key: string]: MermaidConfigValue | undefined }
+
+${CODE_MODE_CORE_RENDER_OPTION_DECLARATIONS}
+
+declare const mermaid: {
+  parseRegisteredMermaid(source: string): Result<ParsedDiagram, ParseError[]>
+  createMermaid(kind: DiagramKind, opts?: { direction?: 'TD' | 'TB' | 'LR' | 'BT' | 'RL' }): ValidDiagram
+  buildMermaid(kind: DiagramKind, ops: MutationOp[], opts?: { direction?: 'TD' | 'TB' | 'LR' | 'BT' | 'RL' }): Result<ValidDiagram, { code: string; message: string; opIndex: number }>
+${NARROWERS}
+  mutate(diagram: ValidDiagram, op: MutationOp): Result<ValidDiagram>
+  verifyMermaid(input: ParsedDiagram | string, opts?: { suppress?: string[]; labelCharCap?: number; renderOptions?: SharedRenderOptions }): VerifyResult
+  analyzeMermaid(diagram: ValidDiagram): Record<string, unknown>
+  analyzeMermaidSource(source: string): Result<Record<string, unknown>>
+  describeMermaidFacts(diagram: ValidDiagram): string[]
+  describeMermaidFactsSource(source: string): Result<string[]>
+  checkMermaid(diagram: ValidDiagram, spec: CheckMermaidSpec): CheckMermaidResult
+  checkMermaidSource(source: string, spec: CheckMermaidSpec): Result<CheckMermaidResult>
+  serializeMermaid(diagram: ParsedDiagram): string
+  renderMermaidSVG(input: ParsedDiagram | string, opts?: SvgRenderOptions): string
+  renderMermaidSVGWithReceipt(input: ParsedDiagram | string, opts?: SvgRenderOptions): RenderedSvg
+  renderMermaidASCII(input: ParsedDiagram | string, opts?: AsciiRenderOptions): string
+  renderMermaidASCIIWithReceipt(input: ParsedDiagram | string, opts?: AsciiRenderOptions): RenderedAscii
+  layoutMermaidWithReceipt(input: ParsedDiagram | string, opts?: LayoutRenderOptions): RenderedLayoutArtifact
+  describeOps(family: DiagramKind): Record<string, { name: string; required: boolean; type: string; note?: string }[]>
+  opSignatures(family: DiagramKind): string[]
+}`;
+function createDescribeSdkTool() {
+  return {
+    name: "describe_sdk",
+    title: "Describe Mermaid SDK operations",
+    description: `Return version-matched mutation operations for one diagram family.
+Use detail=signatures for the compact op menu or detail=fields (default) for exact
+field types, required flags, enum values, defaults, and constraints. Call this
+before build, mutate, or execute when the family schema is not already known.`,
+    inputSchema: {
+      type: "object",
+      properties: {
+        family: { type: "string", enum: [...SDK_FAMILIES], description: "Diagram family whose mutation operations are needed." },
+        detail: { type: "string", enum: ["signatures", "fields"], description: "signatures for a compact menu; fields for the complete schema (default)." }
+      },
+      required: ["family"]
+    },
+    annotations: PURE_COMPUTE_ANNOTATIONS
+  };
+}
+function describeSdkPayload(args) {
+  const family = args.family;
+  if (typeof family !== "string" || !SDK_FAMILY_SET.has(family)) {
+    throw new Error(`describe_sdk family must be one of: ${SDK_FAMILIES.join(", ")}`);
+  }
+  const detail = args.detail ?? "fields";
+  if (detail !== "signatures" && detail !== "fields") {
+    throw new Error("describe_sdk detail must be one of: signatures, fields");
+  }
+  if (detail === "signatures") {
+    return { ok: true, family, detail, signatures: opSignatures(family) };
+  }
+  return { ok: true, family, detail, ops: describeOps(family) };
+}
+
+// src/mcp/describe-payload.ts
+var EXTERNAL_FAMILY_DESCRIBE_UNAVAILABLE_CODE = "EXTERNAL_FAMILY_DESCRIBE_UNAVAILABLE";
+function externalFamilyDescribeUnavailable(family) {
+  return Object.freeze({
+    code: EXTERNAL_FAMILY_DESCRIBE_UNAVAILABLE_CODE,
+    capability: "describe",
+    family,
+    message: `Registered external family "${family}" has no semantic describe contract in FamilyDescriptor v2.`
+  });
+}
+function isExtensionDiagram(diagram) {
+  return diagram.body.kind === "extension";
+}
+function isPreservedDiagram(diagram) {
+  return diagram.body.kind === "preserved";
+}
+function mcpDescribeFormat(args) {
+  const format = args.format ?? "text";
+  if (format === "text" || format === "json" || format === "facts") return format;
+  throw new Error("describe format must be one of: text, json, facts");
+}
+function mcpDescribePayload(source, args) {
+  const format = mcpDescribeFormat(args);
+  const parsed = parseRegisteredMermaid(source);
+  if (!parsed.ok) {
+    if (format === "text") return { ok: true, text: describeMermaidSource(source) };
+    return { ok: false, errors: parsed.error };
+  }
+  const diagram = parsed.value;
+  if (isPreservedDiagram(diagram)) {
+    return {
+      ok: false,
+      family: diagram.body.preservation.upstreamFamilyId ?? diagram.kind,
+      error: {
+        ...diagram.body.diagnostic,
+        preservation: diagram.body.preservation
+      }
+    };
+  }
+  if (isExtensionDiagram(diagram)) {
+    return {
+      ok: false,
+      family: diagram.kind,
+      error: externalFamilyDescribeUnavailable(diagram.kind)
+    };
+  }
+  const verification = verifyMermaid(diagram);
+  if (!verification.ok) {
+    return {
+      ok: false,
+      family: diagram.kind,
+      warnings: verification.warnings
+    };
+  }
+  if (format === "text") return { ok: true, text: describeMermaid(diagram), warnings: verification.warnings };
+  if (format === "facts") return { ok: true, facts: describeMermaidFacts(diagram), warnings: verification.warnings };
+  return { ok: true, tree: JSON.parse(describeMermaid(diagram, { format: "json" })), warnings: verification.warnings };
+}
+
+// src/mcp/artifacts.ts
+import { createHash, randomUUID } from "crypto";
+import {
+  closeSync,
+  existsSync,
+  fstatSync,
+  fsyncSync,
+  lstatSync,
+  mkdirSync,
+  openSync,
+  readFileSync,
+  readdirSync,
+  renameSync,
+  rmdirSync,
+  unlinkSync,
+  writeFileSync,
+  writeSync
+} from "fs";
+import { hostname, tmpdir } from "os";
+import { basename, join, resolve, sep } from "path";
+var DEFAULT_MAX_BYTES = 20 * 1024 * 1024;
+var DEFAULT_MAX_TOTAL_BYTES = 200 * 1024 * 1024;
+var DEFAULT_MAX_ARTIFACTS = 1e3;
+var DEFAULT_TTL_MS = 60 * 60 * 1e3;
+var MANIFEST_NAME = ".agentic-mermaid-artifacts-v1.json";
+var LOCK_NAME = ".agentic-mermaid-artifacts-v1.lock";
+var MAX_MANIFEST_BYTES = 1024 * 1024;
+var MAX_LOCK_BYTES = 4096;
+var MANAGED_NAME = /^[0-9a-z]+-[0-9a-f-]{36}\.[a-z0-9_-]+$/;
+var IMPLICIT_NAMESPACE = /^store-[1-9][0-9]*-[0-9a-f-]{36}$/;
+var LEGACY_IMPLICIT_NAMESPACE = /^agentic-mermaid-mcp-artifacts-[1-9][0-9]*-[0-9a-f-]{36}$/;
+var IMPLICIT_REAP_GRACE_MS = 3e4;
+var DEFAULT_ARTIFACT_ROOT = join(tmpdir(), "agentic-mermaid-mcp-artifacts");
+function positiveSafeInteger(value, field) {
+  if (!Number.isSafeInteger(value) || value <= 0) throw new Error(`artifact ${field} must be a positive safe integer`);
+  return value;
+}
+var ArtifactStore = class {
+  dir;
+  maxBytes;
+  maxTotalBytes;
+  maxArtifacts;
+  ttlMs;
+  baseUrl;
+  now;
+  records = /* @__PURE__ */ new Map();
+  manifestPath;
+  lockPath;
+  lockToken = randomUUID();
+  lockFd = -1;
+  closed = false;
+  constructor(opts = {}) {
+    if (opts.dir !== void 0 && opts.namespaceRoot !== void 0) {
+      throw new Error("artifact dir and namespaceRoot are mutually exclusive");
+    }
+    this.baseUrl = normalizeBaseUrl(opts.baseUrl);
+    this.maxBytes = positiveSafeInteger(opts.maxBytes ?? DEFAULT_MAX_BYTES, "maxBytes");
+    this.maxTotalBytes = positiveSafeInteger(opts.maxTotalBytes ?? DEFAULT_MAX_TOTAL_BYTES, "maxTotalBytes");
+    this.maxArtifacts = positiveSafeInteger(opts.maxArtifacts ?? DEFAULT_MAX_ARTIFACTS, "maxArtifacts");
+    this.ttlMs = positiveSafeInteger(opts.ttlMs ?? DEFAULT_TTL_MS, "ttlMs");
+    if (this.maxBytes > this.maxTotalBytes) throw new Error("artifact maxBytes must not exceed maxTotalBytes");
+    this.now = opts.now ?? (() => Date.now());
+    if (opts.dir !== void 0) {
+      this.dir = resolve(opts.dir);
+      mkdirSync(this.dir, { recursive: true, mode: 448 });
+    } else {
+      const root = resolve(opts.namespaceRoot ?? DEFAULT_ARTIFACT_ROOT);
+      mkdirSync(root, { recursive: true, mode: 448 });
+      const rootStat = lstatSync(root);
+      if (!rootStat.isDirectory() || rootStat.isSymbolicLink()) {
+        throw new Error("artifact namespace root must be a real directory");
+      }
+      if (opts.namespaceRoot === void 0) {
+        reapImplicitArtifactNamespaces(resolve(tmpdir()), this.now(), LEGACY_IMPLICIT_NAMESPACE);
+      }
+      reapImplicitArtifactNamespaces(root, this.now());
+      this.dir = join(root, `store-${process.pid}-${randomUUID()}`);
+      mkdirSync(this.dir, { mode: 448 });
+    }
+    this.manifestPath = join(this.dir, MANIFEST_NAME);
+    this.lockPath = join(this.dir, LOCK_NAME);
+    this.acquireOwnership();
+    try {
+      this.loadManifest();
+      this.reconcileManagedFiles();
+      this.cleanupExpired();
+    } catch (error) {
+      this.close();
+      throw error;
+    }
+  }
+  setBaseUrl(baseUrl) {
+    this.baseUrl = normalizeBaseUrl(baseUrl);
+  }
+  hasBaseUrl() {
+    return typeof this.baseUrl === "string" && this.baseUrl.length > 0;
+  }
+  write(bytes, opts) {
+    this.assertOpen();
+    if (bytes.byteLength > this.maxBytes) throw new Error(`artifact exceeds maxBytes (${bytes.byteLength} > ${this.maxBytes})`);
+    if (bytes.byteLength > this.maxTotalBytes) throw new Error(`artifact exceeds maxTotalBytes (${bytes.byteLength} > ${this.maxTotalBytes})`);
+    this.cleanupExpired();
+    if (this.records.size >= this.maxArtifacts) throw new Error(`artifact store exceeds maxArtifacts (${this.records.size + 1} > ${this.maxArtifacts})`);
+    const totalBytes = [...this.records.values()].reduce((total, record) => total + record.bytes, 0);
+    if (totalBytes + bytes.byteLength > this.maxTotalBytes) {
+      throw new Error(`artifact store exceeds maxTotalBytes (${totalBytes + bytes.byteLength} > ${this.maxTotalBytes})`);
+    }
+    const buffer = Buffer.from(bytes);
+    const sha256 = digest(buffer);
+    const ext = sanitizeExtension(opts.extension);
+    const createdAt = this.now();
+    const name = `${createdAt.toString(36)}-${randomUUID()}${ext}`;
+    const path = safePath(this.dir, name);
+    const temp = safePath(this.dir, `.${name}.${randomUUID()}.tmp`);
+    const tracked = {
+      name,
+      path,
+      mimeType: opts.mimeType,
+      bytes: buffer.length,
+      sha256,
+      createdAt,
+      expiresAt: createdAt + this.ttlMs
+    };
+    try {
+      writeFileSync(temp, buffer, { mode: 384 });
+      renameSync(temp, path);
+      this.records.set(name, tracked);
+      this.persistManifest();
+    } catch (error) {
+      this.records.delete(name);
+      try {
+        unlinkSync(temp);
+      } catch {
+      }
+      try {
+        unlinkSync(path);
+      } catch {
+      }
+      throw error;
+    }
+    return this.publicRecord(tracked);
+  }
+  read(name) {
+    this.assertOpen();
+    let path;
+    try {
+      path = safePath(this.dir, name);
+    } catch {
+      return null;
+    }
+    const record = this.records.get(name);
+    if (!record || record.path !== path) return null;
+    const now = this.now();
+    if (record.expiresAt <= now) {
+      this.deleteRecord(name, path, true);
+      return null;
+    }
+    if (!existsSync(path)) {
+      this.records.delete(name);
+      this.persistManifest();
+      return null;
+    }
+    const st = lstatSync(path);
+    if (!st.isFile() || st.isSymbolicLink() || st.size !== record.bytes) {
+      this.deleteRecord(name, path, true);
+      return null;
+    }
+    const bytes = readFileSync(path);
+    if (digest(bytes) !== record.sha256) {
+      this.deleteRecord(name, path, true);
+      return null;
+    }
+    return {
+      path,
+      bytes,
+      mimeType: record.mimeType,
+      expiresAt: record.expiresAt,
+      cacheMaxAgeSeconds: Math.max(0, Math.floor((record.expiresAt - now) / 1e3))
+    };
+  }
+  cleanupExpired() {
+    this.assertOpen();
+    const cutoff = this.now();
+    let changed = false;
+    for (const [name, record] of this.records) {
+      if (record.expiresAt <= cutoff) {
+        this.deleteRecord(name, record.path, false);
+        changed = true;
+      }
+    }
+    if (changed) this.persistManifest();
+  }
+  /** Release exclusive ownership of the artifact directory. Idempotent. */
+  close() {
+    if (this.closed) return;
+    this.closed = true;
+    const fd = this.lockFd;
+    this.lockFd = -1;
+    try {
+      if (fd < 0 || !existsSync(this.lockPath)) return;
+      const held = fstatSync(fd);
+      const current = lstatSync(this.lockPath);
+      if (!current.isFile() || current.isSymbolicLink() || held.dev !== current.dev || held.ino !== current.ino) return;
+      const marker = JSON.parse(readFileSync(this.lockPath, "utf8"));
+      if (marker.token === this.lockToken) unlinkSync(this.lockPath);
+    } catch {
+    } finally {
+      if (fd >= 0) try {
+        closeSync(fd);
+      } catch {
+      }
+    }
+  }
+  assertOpen() {
+    if (this.closed || this.lockFd < 0) throw new Error("artifact store is closed");
+  }
+  acquireOwnership() {
+    let fd = -1;
+    try {
+      fd = openSync(this.lockPath, "wx", 384);
+      const marker = JSON.stringify({ schemaVersion: 1, pid: process.pid, host: hostname(), token: this.lockToken });
+      writeSync(fd, marker);
+      fsyncSync(fd);
+      this.lockFd = fd;
+    } catch (error) {
+      if (fd >= 0) {
+        try {
+          closeSync(fd);
+        } catch {
+        }
+        try {
+          unlinkSync(this.lockPath);
+        } catch {
+        }
+      }
+      const code = error.code;
+      if (code === "EEXIST") {
+        throw new Error(`artifact directory is already owned; remove ${LOCK_NAME} only after confirming no server is using it`);
+      }
+      throw error;
+    }
+  }
+  reconcileManagedFiles() {
+    for (const name of readdirSync(this.dir)) {
+      if (!MANAGED_NAME.test(name) || this.records.has(name)) continue;
+      const path = safePath(this.dir, name);
+      try {
+        const entry = lstatSync(path);
+        if (entry.isFile() || entry.isSymbolicLink()) unlinkSync(path);
+      } catch {
+      }
+    }
+  }
+  publicRecord(record) {
+    const output = {
+      name: record.name,
+      path: record.path,
+      mimeType: record.mimeType,
+      bytes: record.bytes,
+      sha256: record.sha256
+    };
+    if (this.baseUrl) output.url = `${this.baseUrl}/${encodeURIComponent(record.name)}`;
+    return output;
+  }
+  loadManifest() {
+    if (!existsSync(this.manifestPath)) return;
+    const stat = lstatSync(this.manifestPath);
+    if (!stat.isFile() || stat.isSymbolicLink() || stat.size > MAX_MANIFEST_BYTES) {
+      throw new Error("artifact manifest must be a bounded regular file");
+    }
+    let manifest;
+    try {
+      manifest = JSON.parse(readFileSync(this.manifestPath, "utf8"));
+    } catch {
+      throw new Error("artifact manifest is not valid JSON");
+    }
+    if (manifest?.schemaVersion !== 1 || !Array.isArray(manifest.records) || manifest.records.length > this.maxArtifacts) {
+      throw new Error("artifact manifest has an unsupported or oversized shape");
+    }
+    let totalBytes = 0;
+    for (const candidate of manifest.records) {
+      if (!isManifestRecord(candidate)) {
+        throw new Error("artifact manifest contains an invalid record");
+      }
+      const path = safePath(this.dir, candidate.name);
+      if (!existsSync(path)) continue;
+      const file = lstatSync(path);
+      if (!file.isFile() || file.isSymbolicLink() || file.size !== candidate.bytes) {
+        throw new Error(`artifact manifest record ${candidate.name} does not match a regular file`);
+      }
+      const bytes = readFileSync(path);
+      if (digest(bytes) !== candidate.sha256) throw new Error(`artifact manifest record ${candidate.name} failed integrity verification`);
+      totalBytes += candidate.bytes;
+      if (totalBytes > this.maxTotalBytes) throw new Error("artifact manifest exceeds maxTotalBytes");
+      this.records.set(candidate.name, { ...candidate, path });
+    }
+    if (this.records.size !== manifest.records.length) this.persistManifest();
+  }
+  persistManifest() {
+    const records = [...this.records.values()].sort((a, b) => a.createdAt - b.createdAt || (a.name < b.name ? -1 : a.name > b.name ? 1 : 0)).map(({ name, mimeType, bytes, sha256, createdAt, expiresAt }) => ({ name, mimeType, bytes, sha256, createdAt, expiresAt }));
+    const body = JSON.stringify({ schemaVersion: 1, records });
+    if (Buffer.byteLength(body) > MAX_MANIFEST_BYTES) throw new Error("artifact manifest exceeds its byte budget");
+    const temp = join(this.dir, `.${MANIFEST_NAME}.${process.pid}.${randomUUID()}.tmp`);
+    try {
+      writeFileSync(temp, body, { mode: 384 });
+      renameSync(temp, this.manifestPath);
+    } finally {
+      try {
+        unlinkSync(temp);
+      } catch {
+      }
+    }
+  }
+  deleteRecord(name, path, persist) {
+    this.records.delete(name);
+    try {
+      unlinkSync(path);
+    } catch {
+    }
+    if (persist) this.persistManifest();
+  }
+};
+function reapImplicitArtifactNamespaces(root, now, namespacePattern = IMPLICIT_NAMESPACE) {
+  let entries;
+  try {
+    entries = readdirSync(root);
+  } catch {
+    return;
+  }
+  for (const name of entries) {
+    if (!namespacePattern.test(name)) continue;
+    const dir = safePath(root, name);
+    try {
+      const namespace = lstatSync(dir);
+      if (!namespace.isDirectory() || namespace.isSymbolicLink()) continue;
+      if (now - namespace.mtimeMs < IMPLICIT_REAP_GRACE_MS) continue;
+      const lockPath = join(dir, LOCK_NAME);
+      if (existsSync(lockPath)) {
+        const lock = lstatSync(lockPath);
+        if (!lock.isFile() || lock.isSymbolicLink() || lock.size > MAX_LOCK_BYTES) continue;
+        const marker = JSON.parse(readFileSync(lockPath, "utf8"));
+        if (marker.host !== hostname() || !Number.isSafeInteger(marker.pid) || marker.pid <= 0) continue;
+        if (processIsAlive(marker.pid)) continue;
+        const current = lstatSync(lockPath);
+        if (current.dev !== lock.dev || current.ino !== lock.ino) continue;
+        unlinkSync(lockPath);
+      }
+      reapClosedNamespace(dir, now);
+    } catch {
+    }
+  }
+}
+function processIsAlive(pid) {
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch (error) {
+    return error.code !== "ESRCH";
+  }
+}
+function reapClosedNamespace(dir, now) {
+  const manifestPath = join(dir, MANIFEST_NAME);
+  let records = [];
+  if (existsSync(manifestPath)) {
+    const stat = lstatSync(manifestPath);
+    if (!stat.isFile() || stat.isSymbolicLink() || stat.size > MAX_MANIFEST_BYTES) return;
+    const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+    if (manifest?.schemaVersion !== 1 || !Array.isArray(manifest.records) || manifest.records.some((record) => !isManifestRecord(record))) return;
+    records = manifest.records;
+  }
+  const live = [];
+  for (const record of records) {
+    const path = safePath(dir, record.name);
+    if (record.expiresAt <= now) {
+      try {
+        unlinkSync(path);
+      } catch {
+      }
+      continue;
+    }
+    try {
+      const file = lstatSync(path);
+      if (file.isFile() && !file.isSymbolicLink() && file.size === record.bytes) live.push(record);
+      else if (file.isFile() || file.isSymbolicLink()) unlinkSync(path);
+    } catch {
+    }
+  }
+  const liveNames = new Set(live.map((record) => record.name));
+  for (const name of readdirSync(dir)) {
+    if (!MANAGED_NAME.test(name) || liveNames.has(name)) continue;
+    const path = safePath(dir, name);
+    try {
+      const file = lstatSync(path);
+      if (file.isFile() || file.isSymbolicLink()) unlinkSync(path);
+    } catch {
+    }
+  }
+  if (live.length > 0) {
+    if (live.length !== records.length) persistManifestRecords(dir, live);
+    return;
+  }
+  try {
+    const manifest = lstatSync(manifestPath);
+    if (manifest.isFile() && !manifest.isSymbolicLink()) unlinkSync(manifestPath);
+  } catch {
+  }
+  try {
+    rmdirSync(dir);
+  } catch {
+  }
+}
+function persistManifestRecords(dir, records) {
+  const path = join(dir, MANIFEST_NAME);
+  const temp = join(dir, `.${MANIFEST_NAME}.${process.pid}.${randomUUID()}.tmp`);
+  try {
+    writeFileSync(temp, JSON.stringify({ schemaVersion: 1, records }), { mode: 384 });
+    renameSync(temp, path);
+  } finally {
+    try {
+      unlinkSync(temp);
+    } catch {
+    }
+  }
+}
+function isManifestRecord(candidate) {
+  if (!candidate || typeof candidate !== "object") return false;
+  const record = candidate;
+  return typeof record.name === "string" && MANAGED_NAME.test(record.name) && typeof record.mimeType === "string" && record.mimeType.length > 0 && Number.isSafeInteger(record.bytes) && record.bytes >= 0 && typeof record.sha256 === "string" && /^[a-f0-9]{64}$/.test(record.sha256) && Number.isSafeInteger(record.createdAt) && Number.isSafeInteger(record.expiresAt) && record.expiresAt > record.createdAt;
+}
+function createArtifactStore(opts = {}) {
+  return new ArtifactStore(opts);
+}
+function digest(bytes) {
+  return createHash("sha256").update(bytes).digest("hex");
+}
+function normalizeBaseUrl(url) {
+  if (!url) return void 0;
+  return url.replace(/\/+$/, "");
+}
+function sanitizeExtension(extension) {
+  const ext = extension.startsWith(".") ? extension : `.${extension}`;
+  const safe = ext.toLowerCase().replace(/[^.a-z0-9_-]/g, "");
+  return safe && safe !== "." ? safe : ".bin";
+}
+function safePath(root, name) {
+  const leaf = basename(name);
+  if (!leaf || leaf !== name || leaf.includes("..")) throw new Error("invalid artifact name");
+  const path = resolve(root, leaf);
+  const prefix = root.endsWith(sep) ? root : `${root}${sep}`;
+  if (!path.startsWith(prefix)) throw new Error("artifact path escaped root");
+  return path;
+}
+
+// src/mcp/server.ts
+var PROTOCOL_VERSION = "2024-11-05";
+var STDIO_PROTOCOL_VERSIONS = ["2024-11-05", "2025-06-18", "2025-11-25", "2026-07-28"];
+var HTTP_SSE_PROTOCOL_VERSIONS = ["2024-11-05"];
+var HTTP_SSE_DISPATCH = { supportedVersions: HTTP_SSE_PROTOCOL_VERSIONS };
+var MAX_RPC_BODY_BYTES = 1024 * 1024;
+var MAX_SANDBOX_TIMEOUT_MS = 3e4;
+var MAX_SSE_SESSIONS = 32;
+var HttpStatusError = class extends Error {
+  constructor(status, message) {
+    super(message);
+    this.status = status;
+  }
+  status;
+};
+var LOCAL_TOOLS = [
+  createExecuteTool({ sdkDeclaration: SDK_CORE_DECLARATION }),
+  withClosedMcpInputSchema(createDescribeSdkTool()),
+  createRenderPngTool("local"),
+  createDescribeTool()
+];
+var defaultArtifactStore;
+var defaultArtifactStoreExitHook = false;
+var MCP_NARROWERS = BUILTIN_FAMILY_METADATA.map((f) => f.narrower).join("/");
+var LOCAL_INSTRUCTIONS = `agentic-mermaid Code Mode server. Primary tool execute runs synchronous JavaScript against the typed mermaid.* SDK in a sandbox; async/await and Promise jobs are not supported. describe_sdk progressively discloses one family's version-matched mutation schema; call it before authoring unfamiliar ops. render_png and describe are narrow helpers. render_png can return base64, managed file paths, or managed URLs when the transport config provides an artifact store. There is no mutate tool on this server: structured edits go through the SDK's mermaid.mutate(...) inside execute; narrow via ${MCP_NARROWERS}. Every built-in renderable family ships a typed path when the body narrows; only opaque fallback bodies are source-level only. Layout is deterministic; there is no layout seed (the optional style seed only re-rolls ink of styled looks, never geometry).`;
+var LOCAL_SURFACE = {
+  protocolVersion: PROTOCOL_VERSION,
+  supportedVersions: STDIO_PROTOCOL_VERSIONS,
+  tools: LOCAL_TOOLS,
+  instructions: LOCAL_INSTRUCTIONS,
+  handleToolCall
+};
+function admitLocalRequest(req, options = {}) {
+  return admitMcpMessage(req, {
+    supportedVersions: surfaceSupportedVersions(LOCAL_SURFACE, options),
+    negotiatedVersion: options.protocolVersion,
+    protocolEra: options.protocolEra
+  });
+}
+async function handleRequest(req, context = {}, options = {}) {
+  const admission = admitLocalRequest(req, options);
+  return admission.ok ? dispatchAdmittedMcpRequest(admission.message, context, LOCAL_SURFACE) : admission.response;
+}
+async function handleToolCall(id, params, context) {
+  const p = params;
+  const name = p?.name;
+  const args = p?.arguments ?? {};
+  if (name === "describe_sdk") {
+    try {
+      const payload = describeSdkPayload(args);
+      return reply(id, { content: [{ type: "text", text: JSON.stringify(payload) }], isError: false });
+    } catch (e) {
+      return rpcError(id, -32602, e instanceof Error ? e.message : String(e));
+    }
+  }
+  if (name === "execute") {
+    const code = args.code;
+    const requestedTimeoutMs = args.timeoutMs;
+    if (requestedTimeoutMs !== void 0 && !isValidExecuteTimeout(requestedTimeoutMs)) {
+      return rpcError(id, -32602, EXECUTE_TIMEOUT_ERROR);
+    }
+    const timeoutMs = Math.min(
+      requestedTimeoutMs ?? DEFAULT_EXECUTE_TIMEOUT_MS,
+      context.maxSandboxTimeoutMs ?? MAX_SANDBOX_TIMEOUT_MS
+    );
+    if (typeof code !== "string") return rpcError(id, -32602, "execute requires `code` (string)");
+    const r = await executeInSandbox(code, { timeoutMs });
+    return reply(id, { content: [{ type: "text", text: JSON.stringify(r) }], isError: !r.ok });
+  }
+  if (name === "render_png") return handleRenderPng(id, args, context);
+  if (name === "describe") {
+    const source = args.source;
+    if (typeof source !== "string") return rpcError(id, -32602, "describe requires `source` (string)");
+    try {
+      const payload = mcpDescribePayload(source, args);
+      return reply(id, { content: [{ type: "text", text: JSON.stringify(payload) }], isError: !payload.ok });
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      const payload = { ok: false, error: { code: "DESCRIBE_FAILED", message: msg } };
+      return reply(id, { content: [{ type: "text", text: JSON.stringify(payload) }], isError: true });
+    }
+  }
+  return rpcError(id, -32602, `Unknown tool: ${name ?? "<none>"}`);
+}
+function handleRenderPng(id, args, context) {
+  const source = args.source;
+  const output = args.output ?? "base64";
+  if (typeof source !== "string") return rpcError(id, -32602, "render_png requires `source` (string)");
+  if (!["base64", "file", "url"].includes(output)) return rpcError(id, -32602, "render_png output must be one of: base64, file, url");
+  try {
+    const fontWarnings = [];
+    const pngOutput = projectNativePngOutputPolicyInput(args);
+    const rendered = renderMermaidPNGWithReceipt(source, {
+      ...projectMcpRenderOptions(args),
+      ...pngOutput,
+      onWarning: (warning) => fontWarnings.push(warning)
+    });
+    const warnings = [...configWarningsForMermaid(source), ...fontWarnings].filter((warning, index, all) => all.findIndex((candidate) => JSON.stringify(candidate) === JSON.stringify(warning)) === index);
+    if (output === "base64") {
+      const png_base64 = Buffer.from(rendered.png).toString("base64");
+      const payload2 = { ok: true, png_base64, receipt: rendered.receipt, runtime: rendered.runtime, warnings };
+      return reply(id, { content: [{ type: "text", text: JSON.stringify(payload2) }], isError: false });
+    }
+    const store = context.artifactStore ?? getDefaultArtifactStore();
+    if (output === "url" && !store.hasBaseUrl()) return rpcError(id, -32602, "render_png output=url requires an HTTP/SSE artifact base URL");
+    const artifact = store.write(rendered.png, { extension: ".png", mimeType: "image/png" });
+    const payload = { ok: true, artifact: artifactPayload(artifact, output), receipt: rendered.receipt, runtime: rendered.runtime, warnings };
+    return reply(id, { content: [{ type: "text", text: JSON.stringify(payload) }], isError: false });
+  } catch (e) {
+    const payload = {
+      ok: false,
+      error: projectRenderErrorDiagnostic(e)
+    };
+    return reply(id, { content: [{ type: "text", text: JSON.stringify(payload) }], isError: true });
+  }
+}
+function artifactPayload(artifact, output) {
+  const base = { mimeType: artifact.mimeType, bytes: artifact.bytes, sha256: artifact.sha256 };
+  if (output === "url") return { ...base, url: artifact.url };
+  return { ...base, path: artifact.path };
+}
+function getDefaultArtifactStore() {
+  defaultArtifactStore ??= createArtifactStore();
+  if (!defaultArtifactStoreExitHook) {
+    defaultArtifactStoreExitHook = true;
+    process.once("exit", () => defaultArtifactStore?.close());
+  }
+  return defaultArtifactStore;
+}
+function warmUpPngRenderer() {
+  try {
+    renderMermaidPNG("flowchart LR\n  A --> B");
+  } catch {
+  }
+}
+function stdioCancellationTarget(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return void 0;
+  const request = value;
+  if (request.jsonrpc !== "2.0" || request.method !== "notifications/cancelled" || Object.prototype.hasOwnProperty.call(request, "id")) return void 0;
+  const params = request.params;
+  if (!params || typeof params !== "object" || Array.isArray(params)) return void 0;
+  const requestId = params.requestId;
+  return typeof requestId === "string" || typeof requestId === "number" && Number.isSafeInteger(requestId) ? requestId : void 0;
+}
+function stdioRequestId(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return void 0;
+  const request = value;
+  if (request.jsonrpc !== "2.0" || typeof request.method !== "string" || !Object.prototype.hasOwnProperty.call(request, "id")) return void 0;
+  const requestId = request.id;
+  return typeof requestId === "string" || typeof requestId === "number" && Number.isSafeInteger(requestId) ? requestId : void 0;
+}
+function stdioRequestKey(id) {
+  return `${typeof id}:${String(id)}`;
+}
+function createStdioMessageProcessor(context, write, dispatch = dispatchAdmittedMcpRequest) {
+  let negotiatedProtocolVersion = null;
+  let negotiatedEra = null;
+  let admissionGate = Promise.resolve();
+  const tasks = /* @__PURE__ */ new Set();
+  const inFlight = /* @__PURE__ */ new Map();
+  const register = (id, controller) => {
+    if (id === void 0) return;
+    const key = stdioRequestKey(id);
+    const controllers = inFlight.get(key) ?? /* @__PURE__ */ new Set();
+    controllers.add(controller);
+    inFlight.set(key, controllers);
+  };
+  const unregister = (id, controller) => {
+    if (id === void 0) return;
+    const key = stdioRequestKey(id);
+    const controllers = inFlight.get(key);
+    controllers?.delete(controller);
+    if (controllers?.size === 0) inFlight.delete(key);
+  };
+  const emit = (response, exactIds, signal) => {
+    if (response && !signal?.aborted) write(stringifyJsonRpc(response, exactIds) + "\n");
+  };
+  const accept = (line) => {
+    let exact;
+    let request;
+    try {
+      exact = preserveExactJsonRpcIds(line);
+      request = JSON.parse(exact.body);
+    } catch (cause) {
+      write(JSON.stringify(rpcError(null, -32700, `parse error: ${cause instanceof Error ? cause.message : String(cause)}`)) + "\n");
+      return;
+    }
+    const cancellationTarget = stdioCancellationTarget(request);
+    if (cancellationTarget !== void 0) {
+      for (const controller2 of inFlight.get(stdioRequestKey(cancellationTarget)) ?? []) controller2.abort();
+      return;
+    }
+    const requestId = stdioRequestId(request);
+    const controller = new AbortController();
+    register(requestId, controller);
+    const preparation = admissionGate.then(async () => {
+      const dispatchOptions = negotiatedEra === "legacy" ? { protocolEra: "legacy", protocolVersion: negotiatedProtocolVersion, supportedVersions: negotiatedProtocolVersion ? [negotiatedProtocolVersion] : void 0 } : negotiatedEra === "modern" ? { protocolEra: "modern", supportedVersions: STDIO_PROTOCOL_VERSIONS } : {};
+      const admission = admitLocalRequest(request, dispatchOptions);
+      if (admission.ok && negotiatedEra === null && request.method === "initialize") {
+        const response = controller.signal.aborted ? null : await dispatch(admission.message, { ...context, signal: controller.signal }, LOCAL_SURFACE);
+        if (!controller.signal.aborted && response?.result && typeof response.result === "object") {
+          const selected = response.result.protocolVersion;
+          if (typeof selected === "string" && STDIO_PROTOCOL_VERSIONS.includes(selected)) {
+            negotiatedProtocolVersion = selected;
+            negotiatedEra = "legacy";
+          }
+        }
+        emit(response, exact.ids, controller.signal);
+        return { handled: true, admission };
+      }
+      if (admission.ok && negotiatedEra === null && admission.message.protocol.era === "modern") {
+        negotiatedEra = "modern";
+      }
+      return { handled: false, admission };
+    });
+    admissionGate = preparation.then(() => void 0, () => void 0);
+    let task;
+    task = preparation.then(async (prepared) => {
+      if (prepared.handled) return;
+      const response = prepared.admission.ok ? controller.signal.aborted ? null : await dispatch(prepared.admission.message, { ...context, signal: controller.signal }, LOCAL_SURFACE) : prepared.admission.response;
+      emit(response, exact.ids, controller.signal);
+    }).catch((cause) => {
+      emit(
+        rpcError(requestId ?? null, -32603, `internal error: ${cause instanceof Error ? cause.message : String(cause)}`),
+        exact.ids,
+        controller.signal
+      );
+    }).finally(() => {
+      unregister(requestId, controller);
+      tasks.delete(task);
+    });
+    tasks.add(task);
+  };
+  return {
+    accept,
+    async drain() {
+      await admissionGate;
+      while (tasks.size > 0) await Promise.allSettled([...tasks]);
+    }
+  };
+}
+async function runStdio(options = {}) {
+  warmUpPngRenderer();
+  const artifactStore = createArtifactStore({
+    dir: options.artifactDir,
+    maxBytes: options.maxArtifactBytes,
+    maxTotalBytes: options.maxArtifactTotalBytes,
+    maxArtifacts: options.maxArtifacts,
+    ttlMs: options.artifactTtlMs
+  });
+  const processor = createStdioMessageProcessor(
+    { artifactStore, maxSandboxTimeoutMs: options.maxSandboxTimeoutMs },
+    (line) => process.stdout.write(line)
+  );
+  process.stdin.setEncoding("utf8");
+  let buf = "";
+  process.stdin.on("data", (chunk) => {
+    buf += chunk;
+    let nl;
+    while ((nl = buf.indexOf("\n")) >= 0) {
+      const line = buf.slice(0, nl).trim();
+      buf = buf.slice(nl + 1);
+      if (!line) continue;
+      processor.accept(line);
+    }
+  });
+  try {
+    await new Promise((resolve2) => {
+      process.stdin.on("end", () => resolve2());
+      process.stdin.on("close", () => resolve2());
+    });
+    await processor.drain();
+  } finally {
+    artifactStore.close();
+  }
+}
+async function startHttpServer(options = {}) {
+  warmUpPngRenderer();
+  const host = options.host ?? "127.0.0.1";
+  const port = options.port ?? 3e3;
+  if (!isLoopbackHost(host) && !options.authToken) throw new Error("HTTP MCP remote bind requires --auth-token");
+  const sessions = /* @__PURE__ */ new Map();
+  let baseUrl = "";
+  const maxRpcBodyBytes = options.maxRpcBodyBytes ?? MAX_RPC_BODY_BYTES;
+  const maxSseSessions = options.maxSseSessions ?? MAX_SSE_SESSIONS;
+  const publicOrigin = httpOrigin(options.publicUrl, "publicUrl");
+  if (!Number.isInteger(maxSseSessions) || maxSseSessions <= 0) throw new Error("maxSseSessions must be a positive integer");
+  const artifactStore = createArtifactStore({
+    dir: options.artifactDir,
+    maxBytes: options.maxArtifactBytes,
+    maxTotalBytes: options.maxArtifactTotalBytes,
+    maxArtifacts: options.maxArtifacts,
+    ttlMs: options.artifactTtlMs
+  });
+  const context = { artifactStore, maxSandboxTimeoutMs: options.maxSandboxTimeoutMs };
+  const server = createServer(async (req, res) => {
+    try {
+      const u = new URL(req.url ?? "/", baseUrl || `http://${host}:${port || 0}`);
+      if (req.method === "GET" && u.pathname === "/health") return sendJson(res, 200, { ok: true });
+      if (req.method === "GET" && u.pathname === "/sse") {
+        if (!authorizeHttpAccess(req, res, baseUrl, publicOrigin, options.authToken)) return;
+        return openSse(req, res, sessions, publicOrigin ?? baseUrl, maxSseSessions);
+      }
+      if (req.method === "POST" && u.pathname === "/message") {
+        if (!authorizeHttpRpc(req, res, baseUrl, publicOrigin, options.authToken)) return;
+        return await postSseMessage(req, res, sessions, context, maxRpcBodyBytes);
+      }
+      if (req.method === "POST" && u.pathname === "/rpc") {
+        if (!authorizeHttpRpc(req, res, baseUrl, publicOrigin, options.authToken)) return;
+        return await postRpc(req, res, context, maxRpcBodyBytes);
+      }
+      if (req.method === "GET" && u.pathname.startsWith("/artifacts/")) {
+        if (!authorizeHttpAccess(req, res, baseUrl, publicOrigin, options.authToken)) return;
+        return serveArtifact(res, artifactStore, decodeURIComponent(u.pathname.slice("/artifacts/".length)));
+      }
+      return sendJson(res, 404, { ok: false, error: "not found" });
+    } catch (e) {
+      if (e instanceof HttpStatusError) return sendJson(res, e.status, { ok: false, error: e.message });
+      return sendJson(res, 500, { ok: false, error: e instanceof Error ? e.message : String(e) });
+    }
+  });
+  try {
+    await new Promise((resolve2, reject) => {
+      server.once("error", reject);
+      server.listen(port, host, () => {
+        server.off("error", reject);
+        resolve2();
+      });
+    });
+    const address = server.address();
+    if (!address || typeof address === "string") throw new Error("HTTP MCP server did not expose a TCP address");
+    baseUrl = `http://${host}:${address.port}`;
+    artifactStore.setBaseUrl(options.publicUrl ?? `${baseUrl}/artifacts`);
+  } catch (error) {
+    artifactStore.close();
+    try {
+      server.close();
+    } catch {
+    }
+    throw error;
+  }
+  return {
+    server,
+    url: baseUrl,
+    artifactStore,
+    close: () => new Promise((resolve2, reject) => {
+      for (const sse of sessions.values()) sse.end();
+      sessions.clear();
+      server.close((err) => {
+        artifactStore.close();
+        if (err) reject(err);
+        else resolve2();
+      });
+    })
+  };
+}
+async function runHttp(options = {}) {
+  const started = await startHttpServer(options);
+  process.stderr.write(`agentic-mermaid-mcp HTTP/SSE listening at ${started.url} (SSE: ${started.url}/sse, plain JSON-RPC: ${started.url}/rpc)
+`);
+  return new Promise((resolve2) => {
+    const shutdown = () => {
+      started.close().finally(resolve2);
+    };
+    process.once("SIGINT", shutdown);
+    process.once("SIGTERM", shutdown);
+  });
+}
+function isLoopbackHost(host) {
+  return host === "127.0.0.1" || host === "localhost" || host === "::1";
+}
+function httpOrigin(value, label) {
+  if (!value) return void 0;
+  let parsed;
+  try {
+    parsed = new URL(value);
+  } catch {
+    throw new Error(`${label} must be an absolute http(s) URL`);
+  }
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+    throw new Error(`${label} must be an absolute http(s) URL`);
+  }
+  return parsed.origin;
+}
+function authorizeHttpAccess(req, res, baseUrl, publicOrigin, authToken) {
+  const origin = req.headers.origin;
+  if (origin && origin !== baseUrl && origin !== publicOrigin) {
+    sendJson(res, 403, { ok: false, error: "origin not allowed" });
+    return false;
+  }
+  if (authToken && req.headers.authorization !== `Bearer ${authToken}`) {
+    sendJson(res, 401, { ok: false, error: "missing or invalid bearer token" });
+    return false;
+  }
+  return true;
+}
+function authorizeHttpRpc(req, res, baseUrl, publicOrigin, authToken) {
+  if (!authorizeHttpAccess(req, res, baseUrl, publicOrigin, authToken)) return false;
+  if (!isJsonContentType(String(req.headers["content-type"] ?? ""))) {
+    sendJson(res, 415, { ok: false, error: "HTTP MCP JSON-RPC requires content-type application/json" });
+    return false;
+  }
+  return true;
+}
+function openSse(req, res, sessions, baseUrl, maxSessions) {
+  if (sessions.size >= maxSessions) {
+    sendJson(res, 503, { ok: false, error: `SSE session limit reached (${maxSessions})` });
+    return;
+  }
+  const sessionId = randomUUID2();
+  sessions.set(sessionId, res);
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream; charset=utf-8",
+    "Cache-Control": "no-cache, no-transform",
+    Connection: "keep-alive",
+    "X-Accel-Buffering": "no"
+  });
+  res.write(`event: endpoint
+data: ${baseUrl}/message?sessionId=${encodeURIComponent(sessionId)}
+
+`);
+  const heartbeat = setInterval(() => res.write(": keepalive\n\n"), 25e3);
+  req.on("close", () => {
+    clearInterval(heartbeat);
+    sessions.delete(sessionId);
+  });
+}
+async function postSseMessage(req, res, sessions, context, maxBytes) {
+  const u = new URL(req.url ?? "/", "http://localhost");
+  const sessionId = u.searchParams.get("sessionId") ?? "";
+  const sse = sessions.get(sessionId);
+  if (!sse) return sendJson(res, 404, { ok: false, error: "unknown sessionId" });
+  const body = await readRequestBody(req, maxBytes);
+  const exact = preserveExactJsonRpcIds(body);
+  let parsed;
+  try {
+    parsed = JSON.parse(exact.body);
+  } catch {
+    throw new HttpStatusError(400, "invalid JSON-RPC body");
+  }
+  const response = await handleRequest(parsed, context, HTTP_SSE_DISPATCH);
+  if (response) {
+    sse.write(`event: message
+data: ${stringifyJsonRpc(response, exact.ids)}
+
+`);
+    return sendJson(res, 202, { ok: true });
+  }
+  res.writeHead(202);
+  res.end();
+}
+async function postRpc(req, res, context, maxBytes) {
+  const body = await readRequestBody(req, maxBytes);
+  const exact = preserveExactJsonRpcIds(body);
+  let parsed;
+  try {
+    parsed = JSON.parse(exact.body);
+  } catch {
+    throw new HttpStatusError(400, "invalid JSON-RPC body");
+  }
+  const response = await handleRequest(parsed, context, HTTP_SSE_DISPATCH);
+  if (response === null) {
+    res.writeHead(202);
+    res.end();
+    return;
+  }
+  sendJson(res, 200, response, exact.ids);
+}
+function serveArtifact(res, store, name) {
+  const artifact = store.read(name);
+  if (!artifact) return sendJson(res, 404, { ok: false, error: "artifact not found" });
+  res.writeHead(200, {
+    "Content-Type": artifact.mimeType,
+    "Content-Length": artifact.bytes.length,
+    "Cache-Control": `private, max-age=${artifact.cacheMaxAgeSeconds}, immutable`
+  });
+  res.end(artifact.bytes);
+}
+function sendJson(res, status, payload, exactIds = []) {
+  const body = stringifyJsonRpc(payload, exactIds);
+  res.writeHead(status, { "Content-Type": "application/json; charset=utf-8", "Content-Length": Buffer.byteLength(body) });
+  res.end(body);
+}
+async function readRequestBody(req, maxBytes = MAX_RPC_BODY_BYTES) {
+  const declared = Number(req.headers["content-length"] ?? 0);
+  if (Number.isFinite(declared) && declared > maxBytes) throw new HttpStatusError(413, `request body exceeds ${maxBytes} bytes`);
+  const chunks = [];
+  let bytes = 0;
+  for await (const chunk of req) {
+    const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(String(chunk));
+    bytes += buffer.byteLength;
+    if (bytes > maxBytes) throw new HttpStatusError(413, `request body exceeds ${maxBytes} bytes`);
+    chunks.push(buffer);
+  }
+  return Buffer.concat(chunks).toString("utf8");
+}
+
+// src/mcp/mcp-cli.ts
+var MCP_CLI_HELP = `agentic-mermaid-mcp [--transport stdio|http] [--host 127.0.0.1] [--port 3000]
+
+Options:
+  --transport stdio|http         Transport to run (default stdio).
+  --host <host>                  HTTP/SSE bind host (default 127.0.0.1).
+  --port <port>                  HTTP/SSE bind port (default 3000, 0 = ephemeral).
+  --artifact-dir <dir>           Managed artifact directory for file/url outputs.
+  --public-url <url>             Public artifact prefix; its origin is allowed by HTTP/SSE.
+  --max-artifact-bytes <n>       Maximum bytes in one artifact (default 20MiB).
+  --max-artifact-total-bytes <n> Aggregate managed artifact bytes (default 200MiB).
+  --max-artifacts <n>            Maximum managed artifact count (default 1000).
+  --artifact-ttl-ms <n>          Artifact cleanup TTL (default 1h).
+  --max-rpc-body-bytes <n>       Max HTTP JSON-RPC body size (default 1MiB).
+  --auth-token <token>           Bearer token required for every non-health HTTP route.
+  --max-sandbox-timeout-ms <n>   Max execute timeout (default 30000).
+  --help                         Show this help.
+`;
+var MCP_FLAG_SPECS = Object.freeze({
+  help: { kind: "boolean", applicability: "both" },
+  transport: { kind: "string", applicability: "both" },
+  host: { kind: "string", applicability: "http" },
+  port: { kind: "integer", applicability: "http", min: 0, max: 65535 },
+  "artifact-dir": { kind: "string", applicability: "both" },
+  "public-url": { kind: "string", applicability: "http" },
+  "max-artifact-bytes": { kind: "integer", applicability: "both", min: 1 },
+  "max-artifact-total-bytes": { kind: "integer", applicability: "both", min: 1 },
+  "max-artifacts": { kind: "integer", applicability: "both", min: 1 },
+  "artifact-ttl-ms": { kind: "integer", applicability: "both", min: 1 },
+  "max-rpc-body-bytes": { kind: "integer", applicability: "http", min: 1 },
+  "auth-token": { kind: "string", applicability: "http" },
+  "max-sandbox-timeout-ms": { kind: "integer", applicability: "both", min: 1 }
+});
+function parseMcpFlags(argv) {
+  const flags = {};
+  for (let index = 0; index < argv.length; index++) {
+    let token = argv[index];
+    if (token === "-h") token = "--help";
+    if (!token.startsWith("--")) throw new Error(`unexpected positional argument: ${token}`);
+    const equals = token.indexOf("=");
+    const name = token.slice(2, equals < 0 ? void 0 : equals);
+    const spec = MCP_FLAG_SPECS[name];
+    if (!spec) throw new Error(`unknown option: --${name}`);
+    if (Object.hasOwn(flags, name)) throw new Error(`duplicate flag: --${name}`);
+    const inline = equals < 0 ? void 0 : token.slice(equals + 1);
+    if (spec.kind === "boolean") {
+      if (inline !== void 0) throw new Error(`--${name} does not accept a value`);
+      flags[name] = true;
+      continue;
+    }
+    const value = inline ?? argv[++index];
+    if (value === void 0 || value.length === 0 || value.startsWith("-")) {
+      throw new Error(`--${name} requires a value`);
+    }
+    flags[name] = value;
+  }
+  return Object.freeze(flags);
+}
+function stringFlag(flags, name) {
+  const value = flags[name];
+  return typeof value === "string" ? value : void 0;
+}
+function integerFlag(flags, name) {
+  const raw = stringFlag(flags, name);
+  if (raw === void 0) return void 0;
+  const candidate = MCP_FLAG_SPECS[name];
+  if (candidate.kind !== "integer") throw new Error(`internal MCP flag authority mismatch for --${name}`);
+  const spec = candidate;
+  const value = Number(raw);
+  if (!Number.isSafeInteger(value) || value < spec.min || spec.max !== void 0 && value > spec.max) {
+    throw new Error(`--${name} must be an integer${spec.max === void 0 ? ` >= ${spec.min}` : ` between ${spec.min} and ${spec.max}`}`);
+  }
+  return value;
+}
+function parseMcpCliOptions(argv) {
+  const flags = parseMcpFlags(argv);
+  const explicitTransport = stringFlag(flags, "transport");
+  if (explicitTransport !== void 0 && explicitTransport !== "stdio" && explicitTransport !== "http") {
+    throw new Error(`unknown transport: ${explicitTransport}`);
+  }
+  const transport = explicitTransport === "http" ? "http" : "stdio";
+  if (transport === "stdio") {
+    const invalid = Object.keys(flags).filter((name) => MCP_FLAG_SPECS[name]?.applicability === "http");
+    if (invalid.length > 0) throw new Error(`${invalid.map((name) => `--${name}`).join(", ")} ${invalid.length === 1 ? "is" : "are"} valid only with HTTP transport`);
+  }
+  return {
+    transport,
+    httpOptions: {
+      host: stringFlag(flags, "host"),
+      port: integerFlag(flags, "port"),
+      artifactDir: stringFlag(flags, "artifact-dir"),
+      publicUrl: stringFlag(flags, "public-url"),
+      maxArtifactBytes: integerFlag(flags, "max-artifact-bytes"),
+      maxArtifactTotalBytes: integerFlag(flags, "max-artifact-total-bytes"),
+      maxArtifacts: integerFlag(flags, "max-artifacts"),
+      artifactTtlMs: integerFlag(flags, "artifact-ttl-ms"),
+      maxRpcBodyBytes: integerFlag(flags, "max-rpc-body-bytes"),
+      authToken: stringFlag(flags, "auth-token"),
+      maxSandboxTimeoutMs: integerFlag(flags, "max-sandbox-timeout-ms")
+    }
+  };
+}
+async function runMcpCli(argv = process.argv.slice(2), io = {}) {
+  const stdout = io.stdout ?? process.stdout;
+  const stderr = io.stderr ?? process.stderr;
+  try {
+    if (argv.includes("--help") || argv.includes("-h")) {
+      stdout.write(MCP_CLI_HELP);
+      return 0;
+    }
+    const { transport, httpOptions } = parseMcpCliOptions(argv);
+    if (transport === "http") {
+      await runHttp(httpOptions);
+      return 0;
+    }
+    await runStdio({
+      artifactDir: httpOptions.artifactDir,
+      maxArtifactBytes: httpOptions.maxArtifactBytes,
+      maxArtifactTotalBytes: httpOptions.maxArtifactTotalBytes,
+      maxArtifacts: httpOptions.maxArtifacts,
+      artifactTtlMs: httpOptions.artifactTtlMs,
+      maxSandboxTimeoutMs: httpOptions.maxSandboxTimeoutMs
+    });
+    return 0;
+  } catch (err) {
+    stderr.write(`agentic-mermaid-mcp: ${err instanceof Error ? err.message : String(err)}
+`);
+    return 1;
+  }
+}
+
+export {
+  MCP_CLI_HELP,
+  MCP_FLAG_SPECS,
+  parseMcpCliOptions,
+  runMcpCli
+};
+//# sourceMappingURL=chunk-GGXCNCNA.js.map

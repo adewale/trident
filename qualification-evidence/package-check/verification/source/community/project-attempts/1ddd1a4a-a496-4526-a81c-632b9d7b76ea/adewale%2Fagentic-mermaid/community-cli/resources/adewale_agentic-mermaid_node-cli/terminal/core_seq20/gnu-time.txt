@@ -1,0 +1,3 @@
+user_seconds=1.06
+system_seconds=0.20
+peak_rss_kib=95424

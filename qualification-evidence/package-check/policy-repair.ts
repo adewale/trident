@@ -1,0 +1,11 @@
+import {readFileSync,writeFileSync} from 'node:fs'
+import {join} from 'node:path'
+import {verifyReleaseArchive,verifyReleaseSmokeParity} from '/workspace/trident-qualification/scripts/package-release.ts'
+import {evidenceBytesDigest} from '/workspace/trident-qualification/portable/evidence-contract.ts'
+import {protocolIdentity} from '/workspace/trident-qualification/unified/protocol-identity.ts'
+const out='/workspace/trident-qualification-package-check-2026-10-31',archive=join(out,'trident-0.1.0-node24.tar.gz'),sha256=evidenceBytesDigest(readFileSync(archive)),at=new Date().toISOString()
+verifyReleaseArchive(archive,sha256,join(out,'policy-repair-archive-check'),'0.1.0')
+const parity=verifyReleaseSmokeParity(join(out,'verification/source-kit/report.json'),join(out,'verification/kit/report.json'),'adewale/agentic-mermaid',['family:flowchart','adversarial:label-edit','adversarial:configuration-reset','adversarial:invalid-recovery'])
+const result={schema:'trident-package-policy-repair-v1',status:'package-parity-verified',checkedAt:at,archiveSha256:sha256,archiveSourceRevision:JSON.parse(readFileSync(join(out,'trident-0.1.0/harness-artifact.json'),'utf8')).sourceRevision,policy:protocolIdentity('/workspace/trident-qualification',['scripts/package-release.ts']),runnerSha256:evidenceBytesDigest(readFileSync(import.meta.filename)),originalFailure:'Original package run completed source and actual extracted-kit workflows, then rejected identical raw target files because Bun and Node estimated different gzip sizes. Only that derived diagnostic is now excluded from identity comparison; every file path, SHA, raw size and other metadata remains checked.',originalLogSha256:evidenceBytesDigest(readFileSync('/tmp/trident-qualification-package-check.log')),newProjectCalls:0,newBuilds:0,parity,scope:'Preservation of four frozen source workflows by the actual extracted archive; not full corpus accuracy, a final product release, or timing qualification.'}
+writeFileSync(join(out,'package-policy-repair.json'),JSON.stringify(result,null,2)+'\n',{flag:'wx'})
+console.log(JSON.stringify({status:result.status,archiveSourceRevision:result.archiveSourceRevision,workerJobs:parity.workerJobs}))

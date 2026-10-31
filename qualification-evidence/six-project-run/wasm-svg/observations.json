@@ -1,0 +1,74 @@
+[
+  {
+    "suite": "harness-verification",
+    "surface": "browser:svg",
+    "runtime": "Chromium",
+    "family": "flowchart",
+    "caseId": "verification:positive",
+    "operation": "render",
+    "format": "svg",
+    "mode": "unscored-invocation-control",
+    "status": "passed",
+    "metrics": {
+      "project": "Latias94/merman",
+      "version": "0.9.2",
+      "measuredAt": "2026-10-31T15:01:44.153Z",
+      "outputFile": "/workspace/trident-six-project-qualification/run-2/wasm-svg/da3bc2c9560514363ec6296f873543a7b34de5308ec1f3961497c41b1e0f3a5f.svg",
+      "timingQualified": false
+    }
+  },
+  {
+    "suite": "harness-verification",
+    "surface": "browser:svg",
+    "runtime": "Chromium",
+    "family": "flowchart",
+    "caseId": "verification:changed",
+    "operation": "render",
+    "format": "svg",
+    "mode": "unscored-invocation-control",
+    "status": "passed",
+    "metrics": {
+      "project": "Latias94/merman",
+      "version": "0.9.2",
+      "measuredAt": "2026-10-31T15:01:44.176Z",
+      "outputFile": "/workspace/trident-six-project-qualification/run-2/wasm-svg/f6161ac71922e4629086786df3b0c15673730b855229af979c2120e640274823.svg",
+      "timingQualified": false
+    }
+  },
+  {
+    "suite": "harness-verification",
+    "surface": "browser:svg",
+    "runtime": "Chromium",
+    "family": "invalid-source",
+    "caseId": "verification:invalid",
+    "operation": "negative-admission",
+    "format": "svg",
+    "mode": "unscored-invocation-control",
+    "status": "blocked",
+    "detail": "Renderer acceptance/rejection is a finding, not a harness-quality score",
+    "metrics": {
+      "project": "Latias94/merman",
+      "version": "0.9.2",
+      "measuredAt": "2026-10-31T15:01:44.191Z",
+      "timingQualified": false
+    }
+  },
+  {
+    "suite": "harness-verification",
+    "surface": "browser:svg",
+    "runtime": "Chromium",
+    "family": "flowchart",
+    "caseId": "verification:recovery",
+    "operation": "render",
+    "format": "svg",
+    "mode": "unscored-invocation-control",
+    "status": "passed",
+    "metrics": {
+      "project": "Latias94/merman",
+      "version": "0.9.2",
+      "measuredAt": "2026-10-31T15:01:44.207Z",
+      "outputFile": "/workspace/trident-six-project-qualification/run-2/wasm-svg/da3bc2c9560514363ec6296f873543a7b34de5308ec1f3961497c41b1e0f3a5f.svg",
+      "timingQualified": false
+    }
+  }
+]

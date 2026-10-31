@@ -1,0 +1,7 @@
+{
+  "source": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/AlexanderGrooff%2Fmermaid-ascii/prepared.json",
+  "sourceSha256": "dfb34f2845a9d55af477c7dd52aa9a5fb4819a7e008f1143ac1aa04a5d479849",
+  "loadedAt": "2026-10-31T15:10:11.574Z",
+  "acquisition": "forbidden; frozen actual failures are retained without retry",
+  "invalidArtifacts": []
+}

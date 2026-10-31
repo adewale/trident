@@ -1,0 +1,7 @@
+{
+  "caseId": "verification:recovery",
+  "startedAt": "2026-10-31T15:01:24.740Z",
+  "project": "mermaid-js/mermaid",
+  "output": "png",
+  "transport": "browser"
+}

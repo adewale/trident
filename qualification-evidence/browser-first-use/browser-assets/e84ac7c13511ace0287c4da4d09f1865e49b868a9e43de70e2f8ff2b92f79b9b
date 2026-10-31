@@ -1,0 +1,149 @@
+import {
+  renderMermaidPNG
+} from "./chunk-IVD4NXNE.js";
+import {
+  collectActionRecords,
+  layoutMermaid,
+  renderMermaidASCIIWithMeta,
+  renderMermaidSVG
+} from "./chunk-RWMZRUIC.js";
+import {
+  SHARED_RENDER_OPTION_FIELDS,
+  decodedSvgAttributeValue,
+  inspectPngDimensions,
+  parseRegisteredMermaid,
+  prepareRenderInput,
+  scanSvgStartTags,
+  toFinite
+} from "./chunk-LCGBT32P.js";
+
+// src/agent/index.ts
+function sharedRenderOptions(options) {
+  const result = {};
+  for (const field of SHARED_RENDER_OPTION_FIELDS) {
+    if (options[field] !== void 0) result[field] = options[field];
+  }
+  return result;
+}
+function terminalRegionId(region) {
+  if (region.kind === "node") return `node:${region.id}`;
+  if (region.kind === "edge") return `edge:${region.id}`;
+  if (region.kind === "label") return `label:${region.id}`;
+  return `group:${region.id}`;
+}
+function terminalRegionKind(kind) {
+  return kind === "subgraph" ? "cluster" : kind;
+}
+function terminalRegion(region) {
+  return {
+    id: terminalRegionId(region),
+    kind: terminalRegionKind(region.kind),
+    elementId: region.id,
+    bounds: {
+      x: toFinite(region.canvasColStart),
+      y: toFinite(region.canvasRow),
+      w: toFinite(Math.max(1, region.canvasColEnd - region.canvasColStart)),
+      h: toFinite(Math.max(1, region.rowSpan ?? 1))
+    },
+    ...region.sourceLine !== void 0 ? { sourceLine: region.sourceLine } : {}
+  };
+}
+function actionSurface(format, coordinateSpace, actions, regions, embeddedSvgActions = /* @__PURE__ */ new Set()) {
+  const byId = new Map(regions.map((region) => [region.id, region]));
+  const rendererActions = actions.map((action) => {
+    const region = action.regionId ? byId.get(action.regionId) : void 0;
+    return {
+      ...action,
+      surface: format,
+      disposition: format === "svg" && region && action.href !== void 0 && embeddedSvgActions.has(`${action.target}\0${action.href}`) ? "embedded-inert" : "sidecar-only",
+      ...region ? { region } : {}
+    };
+  });
+  const referencedIds = new Set(rendererActions.flatMap((action) => action.region ? [action.region.id] : []));
+  return {
+    version: 1,
+    format,
+    coordinateSpace,
+    regions: regions.filter((region) => referencedIds.has(region.id)),
+    actions: rendererActions
+  };
+}
+function embeddedSvgActionKeys(svg) {
+  const result = /* @__PURE__ */ new Set();
+  for (const tag of scanSvgStartTags(svg)) {
+    const href = decodedSvgAttributeValue(tag, "data-href");
+    const targets = [decodedSvgAttributeValue(tag, "data-task"), decodedSvgAttributeValue(tag, "data-id")];
+    if (href !== void 0) {
+      for (const target2 of targets) if (target2 !== void 0) result.add(`${target2}\0${href}`);
+    }
+    const links = decodedSvgAttributeValue(tag, "data-links");
+    const target = targets.find((candidate) => candidate !== void 0);
+    if (links === void 0 || target === void 0) continue;
+    try {
+      const menu = JSON.parse(links);
+      if (!menu || typeof menu !== "object" || Array.isArray(menu)) continue;
+      for (const value of Object.values(menu)) {
+        if (typeof value === "string") result.add(`${target}\0${value}`);
+      }
+    } catch {
+    }
+  }
+  return result;
+}
+function scalePixelRegions(regions, scaleX, scaleY) {
+  return regions.map((region) => ({
+    ...region,
+    bounds: {
+      x: toFinite(region.bounds.x * scaleX),
+      y: toFinite(region.bounds.y * scaleY),
+      w: toFinite(region.bounds.w * scaleX),
+      h: toFinite(region.bounds.h * scaleY)
+    }
+  }));
+}
+function renderMermaidWithActions(input, request) {
+  const source = prepareRenderInput(input).source;
+  if (request.format === "ascii" || request.format === "unicode") {
+    const meta = renderMermaidASCIIWithMeta(input, {
+      ...request.options ?? {},
+      useAscii: request.format === "ascii"
+    });
+    const failure = meta.warnings.find((warning) => warning.code === "ASCII_RENDER_FAILED");
+    if (failure) throw new Error(failure.message);
+    const regions2 = meta.regions.map(terminalRegion);
+    return {
+      format: request.format,
+      output: meta.ascii,
+      actionSurface: actionSurface(request.format, "cell", meta.actions, regions2),
+      warnings: meta.warnings
+    };
+  }
+  const options = request.options ?? {};
+  const shared = sharedRenderOptions(options);
+  const parsed = parseRegisteredMermaid(source);
+  if (!parsed.ok) throw new Error(parsed.error.map((error) => error.message).join("; "));
+  const diagram = typeof input === "string" ? parsed.value : input;
+  const layout = layoutMermaid(diagram, { ...shared, regions: true });
+  const actions = collectActionRecords(parsed.value);
+  if (request.format === "svg") {
+    const output2 = renderMermaidSVG(input, options);
+    return {
+      format: "svg",
+      output: output2,
+      actionSurface: actionSurface("svg", "pixel", actions, layout.regions ?? [], embeddedSvgActionKeys(output2))
+    };
+  }
+  const output = renderMermaidPNG(input, options);
+  const dimensions = inspectPngDimensions(output);
+  const regions = scalePixelRegions(
+    layout.regions ?? [],
+    layout.bounds.w > 0 ? dimensions.width / layout.bounds.w : 1,
+    layout.bounds.h > 0 ? dimensions.height / layout.bounds.h : 1
+  );
+  return { format: "png", output, actionSurface: actionSurface("png", "pixel", actions, regions) };
+}
+
+export {
+  renderMermaidWithActions
+};
+//# sourceMappingURL=chunk-JWAAW3FH.js.map

@@ -1,0 +1,8 @@
+[
+  {
+    "caseId": "meaning:family:flowchart",
+    "source": "flowchart LR\nA[Alpha] --> B[Beta]\nB --> C[Gamma]",
+    "provenance": "Original independent portable literal, supplemented with reviewed canonical semantic expectations",
+    "sourceSha256": "feda1279ae97f89657702f65c779ff06c669a5cbfb05f2e8f3fc2a3c73b347eb"
+  }
+]

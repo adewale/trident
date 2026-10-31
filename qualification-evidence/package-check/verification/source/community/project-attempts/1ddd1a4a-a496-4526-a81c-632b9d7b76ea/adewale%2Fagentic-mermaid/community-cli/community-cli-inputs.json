@@ -1,0 +1,2062 @@
+{
+  "sourceRun": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/adewale%2Fagentic-mermaid/community",
+  "resourceOnly": false,
+  "resourcePasses": 1,
+  "latencyMeasured": true,
+  "baselineCli": null,
+  "outputSelection": null,
+  "scope": "all-bound-CLI-outputs",
+  "preparedFile": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/adewale%2Fagentic-mermaid/community/community-prepared.json",
+  "inputsFile": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/adewale%2Fagentic-mermaid/community/community-inputs.json",
+  "harness": {
+    "root": "/workspace/trident-qualification",
+    "head": "0df0170a1ddadf407872fcb4240d7077e4644306",
+    "dirty": false,
+    "status": []
+  },
+  "target": {
+    "root": "/workspace/trident-qualification",
+    "packageRoot": "/workspace/trident-qualification",
+    "head": "0df0170a1ddadf407872fcb4240d7077e4644306",
+    "dirty": false,
+    "status": []
+  },
+  "cohort": [
+    {
+      "id": "core:flow5",
+      "family": "flowchart",
+      "source": "flowchart TD\n  A[Start] --> B{Check}\n  B -->|yes| C[Do it]\n  B -->|no| D[Skip]\n  C --> E[End]\n  D --> E",
+      "features": [
+        "core-graph-batch"
+      ],
+      "provenance": "eval/benchmark/micro-bench-cases.ts; independently declared fixture labels",
+      "expectedLabels": [
+        "Start",
+        "Check",
+        "Do it",
+        "Skip",
+        "End"
+      ],
+      "intent": "render",
+      "intentReason": "Owning fixture declares a positive diagram/render workload"
+    },
+    {
+      "id": "core:tree50",
+      "family": "flowchart",
+      "source": "flowchart TD\n  n0[Node 0] --> n1[Node 1]\n  n0[Node 0] --> n2[Node 2]\n  n0[Node 0] --> n3[Node 3]\n  n1[Node 1] --> n4[Node 4]\n  n1[Node 1] --> n5[Node 5]\n  n1[Node 1] --> n6[Node 6]\n  n2[Node 2] --> n7[Node 7]\n  n2[Node 2] --> n8[Node 8]\n  n2[Node 2] --> n9[Node 9]\n  n3[Node 3] --> n10[Node 10]\n  n3[Node 3] --> n11[Node 11]\n  n3[Node 3] --> n12[Node 12]\n  n4[Node 4] --> n13[Node 13]\n  n4[Node 4] --> n14[Node 14]\n  n4[Node 4] --> n15[Node 15]\n  n5[Node 5] --> n16[Node 16]\n  n5[Node 5] --> n17[Node 17]\n  n5[Node 5] --> n18[Node 18]\n  n6[Node 6] --> n19[Node 19]\n  n6[Node 6] --> n20[Node 20]\n  n6[Node 6] --> n21[Node 21]\n  n7[Node 7] --> n22[Node 22]\n  n7[Node 7] --> n23[Node 23]\n  n7[Node 7] --> n24[Node 24]\n  n8[Node 8] --> n25[Node 25]\n  n8[Node 8] --> n26[Node 26]\n  n8[Node 8] --> n27[Node 27]\n  n9[Node 9] --> n28[Node 28]\n  n9[Node 9] --> n29[Node 29]\n  n9[Node 9] --> n30[Node 30]\n  n10[Node 10] --> n31[Node 31]\n  n10[Node 10] --> n32[Node 32]\n  n10[Node 10] --> n33[Node 33]\n  n11[Node 11] --> n34[Node 34]\n  n11[Node 11] --> n35[Node 35]\n  n11[Node 11] --> n36[Node 36]\n  n12[Node 12] --> n37[Node 37]\n  n12[Node 12] --> n38[Node 38]\n  n12[Node 12] --> n39[Node 39]\n  n13[Node 13] --> n40[Node 40]\n  n13[Node 13] --> n41[Node 41]\n  n13[Node 13] --> n42[Node 42]\n  n14[Node 14] --> n43[Node 43]\n  n14[Node 14] --> n44[Node 44]\n  n14[Node 14] --> n45[Node 45]\n  n15[Node 15] --> n46[Node 46]\n  n15[Node 15] --> n47[Node 47]\n  n15[Node 15] --> n48[Node 48]\n  n16[Node 16] --> n49[Node 49]",
+      "features": [
+        "core-graph-batch"
+      ],
+      "provenance": "eval/benchmark/micro-bench-cases.ts; independently declared fixture labels",
+      "expectedLabels": [
+        "Node 0",
+        "Node 1",
+        "Node 2",
+        "Node 3",
+        "Node 4",
+        "Node 5",
+        "Node 6",
+        "Node 7",
+        "Node 8",
+        "Node 9",
+        "Node 10",
+        "Node 11",
+        "Node 12",
+        "Node 13",
+        "Node 14",
+        "Node 15",
+        "Node 16",
+        "Node 17",
+        "Node 18",
+        "Node 19",
+        "Node 20",
+        "Node 21",
+        "Node 22",
+        "Node 23",
+        "Node 24",
+        "Node 25",
+        "Node 26",
+        "Node 27",
+        "Node 28",
+        "Node 29",
+        "Node 30",
+        "Node 31",
+        "Node 32",
+        "Node 33",
+        "Node 34",
+        "Node 35",
+        "Node 36",
+        "Node 37",
+        "Node 38",
+        "Node 39",
+        "Node 40",
+        "Node 41",
+        "Node 42",
+        "Node 43",
+        "Node 44",
+        "Node 45",
+        "Node 46",
+        "Node 47",
+        "Node 48",
+        "Node 49"
+      ],
+      "intent": "render",
+      "intentReason": "Owning fixture declares a positive diagram/render workload"
+    },
+    {
+      "id": "core:seq20",
+      "family": "sequence",
+      "source": "sequenceDiagram\n  P0->>P1: message 0\n  P1->>P4: message 1\n  P2->>P2: message 2\n  P3->>P0: message 3\n  P4->>P3: message 4\n  P0->>P1: message 5\n  P1->>P4: message 6\n  P2->>P2: message 7\n  P3->>P0: message 8\n  P4->>P3: message 9\n  P0->>P1: message 10\n  P1->>P4: message 11\n  P2->>P2: message 12\n  P3->>P0: message 13\n  P4->>P3: message 14\n  P0->>P1: message 15\n  P1->>P4: message 16\n  P2->>P2: message 17\n  P3->>P0: message 18\n  P4->>P3: message 19",
+      "features": [
+        "core-graph-batch"
+      ],
+      "provenance": "eval/benchmark/micro-bench-cases.ts; independently declared fixture labels",
+      "expectedLabels": [
+        "message 0",
+        "message 1",
+        "message 2",
+        "message 3",
+        "message 4",
+        "message 5",
+        "message 6",
+        "message 7",
+        "message 8",
+        "message 9",
+        "message 10",
+        "message 11",
+        "message 12",
+        "message 13",
+        "message 14",
+        "message 15",
+        "message 16",
+        "message 17",
+        "message 18",
+        "message 19"
+      ],
+      "intent": "render",
+      "intentReason": "Owning fixture declares a positive diagram/render workload"
+    },
+    {
+      "id": "core:class80",
+      "family": "class",
+      "source": "classDiagram\n  class C0 {\n    +int field0\n    +method0()\n  }\n  class C1 {\n    +int field1\n    +method1()\n  }\n  C0 <|-- C1\n  class C2 {\n    +int field2\n    +method2()\n  }\n  C0 <|-- C2\n  class C3 {\n    +int field3\n    +method3()\n  }\n  C1 <|-- C3\n  class C4 {\n    +int field4\n    +method4()\n  }\n  C1 <|-- C4\n  class C5 {\n    +int field5\n    +method5()\n  }\n  C2 <|-- C5\n  class C6 {\n    +int field6\n    +method6()\n  }\n  C2 <|-- C6\n  class C7 {\n    +int field7\n    +method7()\n  }\n  C3 <|-- C7\n  class C8 {\n    +int field8\n    +method8()\n  }\n  C3 <|-- C8\n  class C9 {\n    +int field9\n    +method9()\n  }\n  C4 <|-- C9\n  class C10 {\n    +int field10\n    +method10()\n  }\n  C4 <|-- C10\n  class C11 {\n    +int field11\n    +method11()\n  }\n  C5 <|-- C11\n  class C12 {\n    +int field12\n    +method12()\n  }\n  C5 <|-- C12\n  class C13 {\n    +int field13\n    +method13()\n  }\n  C6 <|-- C13\n  class C14 {\n    +int field14\n    +method14()\n  }\n  C6 <|-- C14\n  class C15 {\n    +int field15\n    +method15()\n  }\n  C7 <|-- C15\n  class C16 {\n    +int field16\n    +method16()\n  }\n  C7 <|-- C16\n  class C17 {\n    +int field17\n    +method17()\n  }\n  C8 <|-- C17\n  class C18 {\n    +int field18\n    +method18()\n  }\n  C8 <|-- C18\n  class C19 {\n    +int field19\n    +method19()\n  }\n  C9 <|-- C19\n  class C20 {\n    +int field20\n    +method20()\n  }\n  C9 <|-- C20\n  class C21 {\n    +int field21\n    +method21()\n  }\n  C10 <|-- C21\n  class C22 {\n    +int field22\n    +method22()\n  }\n  C10 <|-- C22\n  class C23 {\n    +int field23\n    +method23()\n  }\n  C11 <|-- C23\n  class C24 {\n    +int field24\n    +method24()\n  }\n  C11 <|-- C24\n  class C25 {\n    +int field25\n    +method25()\n  }\n  C12 <|-- C25\n  class C26 {\n    +int field26\n    +method26()\n  }\n  C12 <|-- C26\n  class C27 {\n    +int field27\n    +method27()\n  }\n  C13 <|-- C27\n  class C28 {\n    +int field28\n    +method28()\n  }\n  C13 <|-- C28\n  class C29 {\n    +int field29\n    +method29()\n  }\n  C14 <|-- C29\n  class C30 {\n    +int field30\n    +method30()\n  }\n  C14 <|-- C30\n  class C31 {\n    +int field31\n    +method31()\n  }\n  C15 <|-- C31\n  class C32 {\n    +int field32\n    +method32()\n  }\n  C15 <|-- C32\n  class C33 {\n    +int field33\n    +method33()\n  }\n  C16 <|-- C33\n  class C34 {\n    +int field34\n    +method34()\n  }\n  C16 <|-- C34\n  class C35 {\n    +int field35\n    +method35()\n  }\n  C17 <|-- C35\n  class C36 {\n    +int field36\n    +method36()\n  }\n  C17 <|-- C36\n  class C37 {\n    +int field37\n    +method37()\n  }\n  C18 <|-- C37\n  class C38 {\n    +int field38\n    +method38()\n  }\n  C18 <|-- C38\n  class C39 {\n    +int field39\n    +method39()\n  }\n  C19 <|-- C39\n  class C40 {\n    +int field40\n    +method40()\n  }\n  C19 <|-- C40\n  class C41 {\n    +int field41\n    +method41()\n  }\n  C20 <|-- C41\n  class C42 {\n    +int field42\n    +method42()\n  }\n  C20 <|-- C42\n  class C43 {\n    +int field43\n    +method43()\n  }\n  C21 <|-- C43\n  class C44 {\n    +int field44\n    +method44()\n  }\n  C21 <|-- C44\n  class C45 {\n    +int field45\n    +method45()\n  }\n  C22 <|-- C45\n  class C46 {\n    +int field46\n    +method46()\n  }\n  C22 <|-- C46\n  class C47 {\n    +int field47\n    +method47()\n  }\n  C23 <|-- C47\n  class C48 {\n    +int field48\n    +method48()\n  }\n  C23 <|-- C48\n  class C49 {\n    +int field49\n    +method49()\n  }\n  C24 <|-- C49\n  class C50 {\n    +int field50\n    +method50()\n  }\n  C24 <|-- C50\n  class C51 {\n    +int field51\n    +method51()\n  }\n  C25 <|-- C51\n  class C52 {\n    +int field52\n    +method52()\n  }\n  C25 <|-- C52\n  class C53 {\n    +int field53\n    +method53()\n  }\n  C26 <|-- C53\n  class C54 {\n    +int field54\n    +method54()\n  }\n  C26 <|-- C54\n  class C55 {\n    +int field55\n    +method55()\n  }\n  C27 <|-- C55\n  class C56 {\n    +int field56\n    +method56()\n  }\n  C27 <|-- C56\n  class C57 {\n    +int field57\n    +method57()\n  }\n  C28 <|-- C57\n  class C58 {\n    +int field58\n    +method58()\n  }\n  C28 <|-- C58\n  class C59 {\n    +int field59\n    +method59()\n  }\n  C29 <|-- C59\n  class C60 {\n    +int field60\n    +method60()\n  }\n  C29 <|-- C60\n  class C61 {\n    +int field61\n    +method61()\n  }\n  C30 <|-- C61\n  class C62 {\n    +int field62\n    +method62()\n  }\n  C30 <|-- C62\n  class C63 {\n    +int field63\n    +method63()\n  }\n  C31 <|-- C63\n  class C64 {\n    +int field64\n    +method64()\n  }\n  C31 <|-- C64\n  class C65 {\n    +int field65\n    +method65()\n  }\n  C32 <|-- C65\n  class C66 {\n    +int field66\n    +method66()\n  }\n  C32 <|-- C66\n  class C67 {\n    +int field67\n    +method67()\n  }\n  C33 <|-- C67\n  class C68 {\n    +int field68\n    +method68()\n  }\n  C33 <|-- C68\n  class C69 {\n    +int field69\n    +method69()\n  }\n  C34 <|-- C69\n  class C70 {\n    +int field70\n    +method70()\n  }\n  C34 <|-- C70\n  class C71 {\n    +int field71\n    +method71()\n  }\n  C35 <|-- C71\n  class C72 {\n    +int field72\n    +method72()\n  }\n  C35 <|-- C72\n  class C73 {\n    +int field73\n    +method73()\n  }\n  C36 <|-- C73\n  class C74 {\n    +int field74\n    +method74()\n  }\n  C36 <|-- C74\n  class C75 {\n    +int field75\n    +method75()\n  }\n  C37 <|-- C75\n  class C76 {\n    +int field76\n    +method76()\n  }\n  C37 <|-- C76\n  class C77 {\n    +int field77\n    +method77()\n  }\n  C38 <|-- C77\n  class C78 {\n    +int field78\n    +method78()\n  }\n  C38 <|-- C78\n  class C79 {\n    +int field79\n    +method79()\n  }\n  C39 <|-- C79",
+      "features": [
+        "core-graph-batch"
+      ],
+      "provenance": "eval/benchmark/micro-bench-cases.ts; independently declared fixture labels",
+      "expectedLabels": [
+        "C0",
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "C7",
+        "C8",
+        "C9",
+        "C10",
+        "C11",
+        "C12",
+        "C13",
+        "C14",
+        "C15",
+        "C16",
+        "C17",
+        "C18",
+        "C19",
+        "C20",
+        "C21",
+        "C22",
+        "C23",
+        "C24",
+        "C25",
+        "C26",
+        "C27",
+        "C28",
+        "C29",
+        "C30",
+        "C31",
+        "C32",
+        "C33",
+        "C34",
+        "C35",
+        "C36",
+        "C37",
+        "C38",
+        "C39",
+        "C40",
+        "C41",
+        "C42",
+        "C43",
+        "C44",
+        "C45",
+        "C46",
+        "C47",
+        "C48",
+        "C49",
+        "C50",
+        "C51",
+        "C52",
+        "C53",
+        "C54",
+        "C55",
+        "C56",
+        "C57",
+        "C58",
+        "C59",
+        "C60",
+        "C61",
+        "C62",
+        "C63",
+        "C64",
+        "C65",
+        "C66",
+        "C67",
+        "C68",
+        "C69",
+        "C70",
+        "C71",
+        "C72",
+        "C73",
+        "C74",
+        "C75",
+        "C76",
+        "C77",
+        "C78",
+        "C79"
+      ],
+      "intent": "render",
+      "intentReason": "Owning fixture declares a positive diagram/render workload"
+    },
+    {
+      "id": "core:er40",
+      "family": "er",
+      "source": "erDiagram\n  E0 {\n    int id PK\n    string name0\n  }\n  E1 {\n    int id PK\n    string name1\n  }\n  E0 ||--o{ E1 : has\n  E2 {\n    int id PK\n    string name2\n  }\n  E0 ||--o{ E2 : has\n  E3 {\n    int id PK\n    string name3\n  }\n  E1 ||--o{ E3 : has\n  E4 {\n    int id PK\n    string name4\n  }\n  E1 ||--o{ E4 : has\n  E5 {\n    int id PK\n    string name5\n  }\n  E2 ||--o{ E5 : has\n  E6 {\n    int id PK\n    string name6\n  }\n  E2 ||--o{ E6 : has\n  E7 {\n    int id PK\n    string name7\n  }\n  E3 ||--o{ E7 : has\n  E8 {\n    int id PK\n    string name8\n  }\n  E3 ||--o{ E8 : has\n  E9 {\n    int id PK\n    string name9\n  }\n  E4 ||--o{ E9 : has\n  E10 {\n    int id PK\n    string name10\n  }\n  E4 ||--o{ E10 : has\n  E11 {\n    int id PK\n    string name11\n  }\n  E5 ||--o{ E11 : has\n  E12 {\n    int id PK\n    string name12\n  }\n  E5 ||--o{ E12 : has\n  E13 {\n    int id PK\n    string name13\n  }\n  E6 ||--o{ E13 : has\n  E14 {\n    int id PK\n    string name14\n  }\n  E6 ||--o{ E14 : has\n  E15 {\n    int id PK\n    string name15\n  }\n  E7 ||--o{ E15 : has\n  E16 {\n    int id PK\n    string name16\n  }\n  E7 ||--o{ E16 : has\n  E17 {\n    int id PK\n    string name17\n  }\n  E8 ||--o{ E17 : has\n  E18 {\n    int id PK\n    string name18\n  }\n  E8 ||--o{ E18 : has\n  E19 {\n    int id PK\n    string name19\n  }\n  E9 ||--o{ E19 : has\n  E20 {\n    int id PK\n    string name20\n  }\n  E9 ||--o{ E20 : has\n  E21 {\n    int id PK\n    string name21\n  }\n  E10 ||--o{ E21 : has\n  E22 {\n    int id PK\n    string name22\n  }\n  E10 ||--o{ E22 : has\n  E23 {\n    int id PK\n    string name23\n  }\n  E11 ||--o{ E23 : has\n  E24 {\n    int id PK\n    string name24\n  }\n  E11 ||--o{ E24 : has\n  E25 {\n    int id PK\n    string name25\n  }\n  E12 ||--o{ E25 : has\n  E26 {\n    int id PK\n    string name26\n  }\n  E12 ||--o{ E26 : has\n  E27 {\n    int id PK\n    string name27\n  }\n  E13 ||--o{ E27 : has\n  E28 {\n    int id PK\n    string name28\n  }\n  E13 ||--o{ E28 : has\n  E29 {\n    int id PK\n    string name29\n  }\n  E14 ||--o{ E29 : has\n  E30 {\n    int id PK\n    string name30\n  }\n  E14 ||--o{ E30 : has\n  E31 {\n    int id PK\n    string name31\n  }\n  E15 ||--o{ E31 : has\n  E32 {\n    int id PK\n    string name32\n  }\n  E15 ||--o{ E32 : has\n  E33 {\n    int id PK\n    string name33\n  }\n  E16 ||--o{ E33 : has\n  E34 {\n    int id PK\n    string name34\n  }\n  E16 ||--o{ E34 : has\n  E35 {\n    int id PK\n    string name35\n  }\n  E17 ||--o{ E35 : has\n  E36 {\n    int id PK\n    string name36\n  }\n  E17 ||--o{ E36 : has\n  E37 {\n    int id PK\n    string name37\n  }\n  E18 ||--o{ E37 : has\n  E38 {\n    int id PK\n    string name38\n  }\n  E18 ||--o{ E38 : has\n  E39 {\n    int id PK\n    string name39\n  }\n  E19 ||--o{ E39 : has",
+      "features": [
+        "core-graph-batch"
+      ],
+      "provenance": "eval/benchmark/micro-bench-cases.ts; independently declared fixture labels",
+      "expectedLabels": [
+        "E0",
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8",
+        "E9",
+        "E10",
+        "E11",
+        "E12",
+        "E13",
+        "E14",
+        "E15",
+        "E16",
+        "E17",
+        "E18",
+        "E19",
+        "E20",
+        "E21",
+        "E22",
+        "E23",
+        "E24",
+        "E25",
+        "E26",
+        "E27",
+        "E28",
+        "E29",
+        "E30",
+        "E31",
+        "E32",
+        "E33",
+        "E34",
+        "E35",
+        "E36",
+        "E37",
+        "E38",
+        "E39"
+      ],
+      "intent": "render",
+      "intentReason": "Owning fixture declares a positive diagram/render workload"
+    },
+    {
+      "id": "core:state80",
+      "family": "state",
+      "source": "stateDiagram-v2\n  S0 --> S1: e0\n  S1 --> S0\n  S1 --> S2: e1\n  S2 --> S3: e2\n  S3 --> S4: e3\n  S4 --> S5: e4\n  S5 --> S6: e5\n  S6 --> S2\n  S6 --> S7: e6\n  S7 --> S8: e7\n  S8 --> S9: e8\n  S9 --> S10: e9\n  S10 --> S11: e10\n  S11 --> S7\n  S11 --> S12: e11\n  S12 --> S13: e12\n  S13 --> S14: e13\n  S14 --> S15: e14\n  S15 --> S16: e15\n  S16 --> S12\n  S16 --> S17: e16\n  S17 --> S18: e17\n  S18 --> S19: e18\n  S19 --> S20: e19\n  S20 --> S21: e20\n  S21 --> S17\n  S21 --> S22: e21\n  S22 --> S23: e22\n  S23 --> S24: e23\n  S24 --> S25: e24\n  S25 --> S26: e25\n  S26 --> S22\n  S26 --> S27: e26\n  S27 --> S28: e27\n  S28 --> S29: e28\n  S29 --> S30: e29\n  S30 --> S31: e30\n  S31 --> S27\n  S31 --> S32: e31\n  S32 --> S33: e32\n  S33 --> S34: e33\n  S34 --> S35: e34\n  S35 --> S36: e35\n  S36 --> S32\n  S36 --> S37: e36\n  S37 --> S38: e37\n  S38 --> S39: e38\n  S39 --> S40: e39\n  S40 --> S41: e40\n  S41 --> S37\n  S41 --> S42: e41\n  S42 --> S43: e42\n  S43 --> S44: e43\n  S44 --> S45: e44\n  S45 --> S46: e45\n  S46 --> S42\n  S46 --> S47: e46\n  S47 --> S48: e47\n  S48 --> S49: e48\n  S49 --> S50: e49\n  S50 --> S51: e50\n  S51 --> S47\n  S51 --> S52: e51\n  S52 --> S53: e52\n  S53 --> S54: e53\n  S54 --> S55: e54\n  S55 --> S56: e55\n  S56 --> S52\n  S56 --> S57: e56\n  S57 --> S58: e57\n  S58 --> S59: e58\n  S59 --> S60: e59\n  S60 --> S61: e60\n  S61 --> S57\n  S61 --> S62: e61\n  S62 --> S63: e62\n  S63 --> S64: e63\n  S64 --> S65: e64\n  S65 --> S66: e65\n  S66 --> S62\n  S66 --> S67: e66\n  S67 --> S68: e67\n  S68 --> S69: e68\n  S69 --> S70: e69\n  S70 --> S71: e70\n  S71 --> S67\n  S71 --> S72: e71\n  S72 --> S73: e72\n  S73 --> S74: e73\n  S74 --> S75: e74\n  S75 --> S76: e75\n  S76 --> S72\n  S76 --> S77: e76\n  S77 --> S78: e77\n  S78 --> S79: e78\n  S79 --> S80: e79",
+      "features": [
+        "core-graph-batch"
+      ],
+      "provenance": "eval/benchmark/micro-bench-cases.ts; independently declared fixture labels",
+      "expectedLabels": [
+        "S0",
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6",
+        "S7",
+        "S8",
+        "S9",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14",
+        "S15",
+        "S16",
+        "S17",
+        "S18",
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27",
+        "S28",
+        "S29",
+        "S30",
+        "S31",
+        "S32",
+        "S33",
+        "S34",
+        "S35",
+        "S36",
+        "S37",
+        "S38",
+        "S39",
+        "S40",
+        "S41",
+        "S42",
+        "S43",
+        "S44",
+        "S45",
+        "S46",
+        "S47",
+        "S48",
+        "S49",
+        "S50",
+        "S51",
+        "S52",
+        "S53",
+        "S54",
+        "S55",
+        "S56",
+        "S57",
+        "S58",
+        "S59",
+        "S60",
+        "S61",
+        "S62",
+        "S63",
+        "S64",
+        "S65",
+        "S66",
+        "S67",
+        "S68",
+        "S69",
+        "S70",
+        "S71",
+        "S72",
+        "S73",
+        "S74",
+        "S75",
+        "S76",
+        "S77",
+        "S78",
+        "S79",
+        "S80"
+      ],
+      "intent": "render",
+      "intentReason": "Owning fixture declares a positive diagram/render workload"
+    }
+  ],
+  "catalogNodes": 1,
+  "comparatorNodes": 1,
+  "catalogTools": [
+    "adewale/agentic-mermaid"
+  ],
+  "variants": [
+    {
+      "variantOf": "adewale/agentic-mermaid",
+      "variant": "node-cli",
+      "outputs": [
+        "svg",
+        "terminal"
+      ],
+      "prepared": {
+        "node": {
+          "id": "adewale/agentic-mermaid#node-cli",
+          "categories": [
+            "renderer",
+            "parser",
+            "editor"
+          ],
+          "relation": "fork",
+          "parent": "lukilabs/beautiful-mermaid",
+          "repo": "https://github.com/adewale/agentic-mermaid",
+          "branch": "main",
+          "head": "d18c718d0253f45d279a9c12e60a96ee8cc9283c",
+          "lastCommit": "2026-10-18T14:30:00-07:00",
+          "rootCommits": [
+            "3185b9b6911e3b0a9f0d51fcebda5e0f69785ff0"
+          ],
+          "vsParent": {
+            "ahead": 1223,
+            "behind": 0
+          },
+          "license": "MIT",
+          "runtime": "TypeScript (Node >=22, Bun >=1.4, browser)",
+          "outputs": [
+            "svg",
+            "png",
+            "ascii-unicode"
+          ],
+          "packages": [
+            {
+              "registry": "npm",
+              "name": "agentic-mermaid",
+              "version": "0.4.1",
+              "license": "MIT",
+              "provenanceCommit": "d2d821cb07f46d39770c3b731c346ef0c22ea773",
+              "publishedFromDefaultBranch": true
+            }
+          ],
+          "roles": [
+            "self"
+          ],
+          "inForkSnapshot": true,
+          "evidence": [
+            "https://github.com/adewale/agentic-mermaid/blob/d18c718d0253f45d279a9c12e60a96ee8cc9283c/README.md#L13",
+            "https://github.com/adewale/agentic-mermaid/blob/d18c718d0253f45d279a9c12e60a96ee8cc9283c/README.md#L150-L167"
+          ],
+          "notes": "Categories rechecked on 2026-10-24: README links the interactive browser editor and demonstrates public parsing, structured mutation, verification and serialization APIs. Existing package/head observations retain their dates.",
+          "benchmark": {
+            "adapter": "agentic",
+            "outputs": [
+              "svg",
+              "terminal"
+            ],
+            "package": "agentic-mermaid",
+            "subpath": "agent",
+            "version": "0.4.1",
+            "cli": {
+              "bin": "am",
+              "args": [
+                "render",
+                "-",
+                "--format",
+                "{format}"
+              ],
+              "outputs": [
+                "svg",
+                "terminal"
+              ]
+            }
+          },
+          "benchmarkEligibility": {
+            "classification": "diverged-fork",
+            "engineScope": "unreviewed-fork-delta",
+            "adapterReview": "existing-adapter; outcomes remain independent",
+            "reason": "Recorded fork of lukilabs/beautiful-mermaid: 1223 commits ahead/0 behind; exact head d18c718d0253f45d279a9c12e60a96ee8cc9283c. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence."
+          },
+          "comparisonBranding": {
+            "distinct": true,
+            "name": "Agentic Mermaid",
+            "evidence": "Published npm package agentic-mermaid; catalog package/provenance receipt."
+          }
+        },
+        "artifact": {
+          "kind": "cli",
+          "root": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid",
+          "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "sha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12",
+          "args": [
+            "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/am.js",
+            "render",
+            "-",
+            "--format",
+            "{format}"
+          ],
+          "input": "stdin",
+          "version": "0.4.1",
+          "runtime": "node:24.19.0 installed public CLI",
+          "files": [
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/AGENT_NATIVE.md",
+              "sha256": "5e2e6da27e29fbb8cd525db9a89f4662d8bd7ce55fa5bb1c50450a8ca0812252"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/CHANGELOG.md",
+              "sha256": "7ca9703f5bd094d788edfe64800db504e19b89154524465238f6745f44a4c53c"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/Instructions_for_agents.md",
+              "sha256": "3387ce5d0be036774ce8eb5690999fdce7f60103022ce1c33ec51df960eb77fe"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/LICENSE",
+              "sha256": "f05f5a4009eae7fadfd4a55f77ffe10948f621982d56076667e68afbb54de894"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/LICENSES/Apache-2.0.txt",
+              "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/README.md",
+              "sha256": "6d801e927117260a506ab34ea589d3850372c0bd24d078091bf844f1dbd49518"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/SECURITY.md",
+              "sha256": "fb46fd46144e657e6029a45806081513f7cf62e3ed26d4de16a78897a9be5e8f"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/THIRD_PARTY_NOTICES.md",
+              "sha256": "776f15e6f68ae06ffc17fb2c5f0e191ddd4ce6268deeb8b32f261a4c48424620"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/ArchitectsDaughter.ttf",
+              "sha256": "6159718a08898e34bc1cb7354086141a5f9a70b73e54dbec27ead0d59a697359"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/Caveat.ttf",
+              "sha256": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/DejaVuSans-Bold.ttf",
+              "sha256": "5c1247acef7f2b8522a31742c76d6adcb5569bacc0be7ceaa4dc39dd252ce895"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/DejaVuSans.ttf",
+              "sha256": "ae7b7855e115a5966d8b1b3f80f254ccc117ec86f9965e202ee2940453837280"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/EBGaramond.ttf",
+              "sha256": "ef9512f92f6d579e5dc75af59a5a4b1b8b47d2eda89e00b954d44520e5369027"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/FONT-LICENSES.md",
+              "sha256": "8807f61d88872332dc72c4eae6d6434368f8e0ac59b0307478b35af259a8f472"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/Inter-Bold.ttf",
+              "sha256": "b37284b5701b6b168dfc770aa1a4ac492106422fd3ba76bc7641e37434e8019c"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/Inter-Medium.ttf",
+              "sha256": "8c883f63b2c4157d997319f2c8bc6995ed4357ef371940d31ca159004a4aae63"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/Inter-Regular.ttf",
+              "sha256": "1b08e7fc267a5c7e1d614100f604b83e7e8a0be241f0f288faa2b3ac93a683ba"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/Inter-SemiBold.ttf",
+              "sha256": "e7a1aaf7eda9f2fad4131725fa556265ec75ca7b2d756260173a040363e8d4f7"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/ShareTechMono.ttf",
+              "sha256": "9ceab1f87414829af259c0f537573ae03ef7dd3147c0b27a36a1a0beb6732677"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/hero.png",
+              "sha256": "c4d8cd7d178f28366ebe55b8f94ad792ef76ac3ab081d6171ebc41cd1f08348b"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/agent-core.d.ts",
+              "sha256": "60d37e093ba294f756a89642ab5cebb1826ca7da42aeaabc443bc5abe600db37"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/agent-core.js",
+              "sha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/agent.d.ts",
+              "sha256": "b5533a4c1c72623a9f06f7a611e292935bd179f6c3599350635345e7d1833a60"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/agent.js",
+              "sha256": "ea798905f3e444816f78dd1b2b2ccaea893e2e53d4d661f2a3bcbb68454ee920"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/agentic-mermaid-mcp.js",
+              "sha256": "e81a17603b63e7305a29765063241b16fd1d7f57a4c7adb42db8bc21eadd2b7e"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/am.js",
+              "sha256": "5828f681b89158dfdf9dd4c1036961c585ad1fb13e70445e0e6aaa45397d5528"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/architecture-KTHE2HX3.js",
+              "sha256": "153826ad67d8f37f5be13dbc3f197c31f02ce0b35256c473872cfcb89e96ab02"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-2XCPFAD5.js",
+              "sha256": "9d77a8b07e7c6328200e09920fc4daa35088117d79b6dfbcf2cc5b861532639d"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-3H4F7RBT.js",
+              "sha256": "b3b709e7b9c983c1dc82cc58e6b15d949d6489618db13e115d8450a154487a22"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-4EVLW2NJ.js",
+              "sha256": "aa1c01b30620e4f5109f738298fba06e6d86bc2fa597f2ad4b28d54b50975fa4"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-5Q4S74UO.js",
+              "sha256": "65206747ac1ce864533106145608591f1ad7627eaee39142981ee4b199aa2c8d"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-6OAPWSDO.js",
+              "sha256": "ae9f4cb86d34f4893ff0e6c48500d37d5bb6bde7f2e71754760815b6a147c28b"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-A7L4WWVW.js",
+              "sha256": "eca167d6c7e01b661aec27d293fd68c2bd863a4327819bf7777f368db15dd070"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-C7FJO2I3.js",
+              "sha256": "ed8ec29cd4bf93a39e2103d1c7d6f82804174f31a69de3d6f8637e995ae96acc"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-D3XXDKIO.js",
+              "sha256": "54f830b49ea14fe02a63e20670db633dc7ad8c996a7f6c34c8b2640e7fd6252d"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-DXA5WL7H.js",
+              "sha256": "714580ea184798edbaed6342c835192e5ae0b52f95b8c8e2df4574a15966f047"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-EPFMQPXX.js",
+              "sha256": "e1ef57d114be08cfe262acf39943928f875e1d355bc89d38bff7b8e86feb26a3"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-FFOHLPDA.js",
+              "sha256": "627868f3ade1cbe0dfbfc8cd34cae4de73bee06c4fe0b85826f42c9ac6c7f6e5"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-FLD63DXE.js",
+              "sha256": "c49d4751cdf6b2f17ad392a928e627c8f6c96c219255b93a08c753d2f2e4d691"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-G6OLSHRG.js",
+              "sha256": "6581607fc690fa0be65b47129f7e1cbf5de7f2990b0712f7fcca3904282d52d3"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-GRXCKTHX.js",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-I6VE56S7.js",
+              "sha256": "c6ec80358c6f8f72d5a71129c4bd802bca25913511b77f5af9554387d5768cfc"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-KJVNXJ5Y.js",
+              "sha256": "93d1c775cedb98a5edb8da4e6adca9544a871eee893ea65f7fc506acf6ecb495"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-L227EPFP.js",
+              "sha256": "479fe28dec15f6b590ef3491036e891434a73c14745fcabbe46cd18ee47c76dd"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-LNIHDJSF.js",
+              "sha256": "9ed1e8012dc96f56d9d3a042730886f04f5836d9e996660ec47817b4de749640"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-M6BT2HIP.js",
+              "sha256": "427f4a62ffd038c1a69ffa8fceb507deb2ff18f8ec3f80cc8aec59d23863af41"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-NZRUMODH.js",
+              "sha256": "fb858c759dc5eabc74c570dcdc998f5542bbc4aee518136761430bda8224aaca"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-OFRMKQA6.js",
+              "sha256": "da6a6565981d7212b441dc86bcb1c7b2113932eacf86acc13e81a97371f62228"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-P7HMSKHJ.js",
+              "sha256": "0bc0d70764c08aca6e8b9155dcc22233501ffdabf9437bf14bba1d1af472cbd0"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-PXKL3O6H.js",
+              "sha256": "1916a27043a8d3c168c6521e35b70d48a9b42750e1c43d49849c860d5f19b571"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-PZEWZT35.js",
+              "sha256": "d40dd85b826ed051e71a6db6e0cf6923381005d440c51914ae71b76f9a356273"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-STQRDZ67.js",
+              "sha256": "00f62a6afde6d4e833f8ceef5f87cfa183dca406bf2840a27713170e9935f729"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-SUFMSWTX.js",
+              "sha256": "75aa92862deacef2ff95fdc277a1550afeada04166160a2da8941f3ab2afbbd1"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-T7IJ6V4B.js",
+              "sha256": "cf9cf70eef29c8933422dbbb90b492a50e9ac0d60ae431a30c340fcba530bead"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-UAEZO5VL.js",
+              "sha256": "b6285f6bc13a484882aff4d6c9d7e3c0913725c8a5566de63d0366a20c62b629"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-WEUWIFG3.js",
+              "sha256": "313987774cbb0a401d8962e66b22401f1427e439026eee0c1e2b4c499fbb3d02"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-X64T74C5.js",
+              "sha256": "e6538bd6966b94ae97c7179ca792cad246836ac438015bd667b628b459485807"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/class-F7R6TJ73.js",
+              "sha256": "66213d6d56bacc4c4b1b752e76e967f9fe6eaeaf8833941aab87f2d7f3e6a91d"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/er-BDK7CM5L.js",
+              "sha256": "db310d466bab7ede5bc6eb781b31fa1237e0a7ab0aa7de171e9a860c94ca6502"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/flowchart-KFU6XV7S.js",
+              "sha256": "af5665c5f843fbec3f6b2f3051d1a5f3f3da9df12db8154c627c3e9fb8ba6d70"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/gantt-I64VVDSP.js",
+              "sha256": "93c439efe20026529034ceaaccd717fa7f23491ad5db9973ad5cb9347401c8f0"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/gitgraph-EDUVJ5IJ.js",
+              "sha256": "47c35888c87051efe57b3ae7302652e78452e28cb93f3b6da44178811352e835"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/journey-TLO2RNM3.js",
+              "sha256": "b770e97b259fdceef5d0ac56d07b3b52efa1e16b2c90108122f876fd57996d3d"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/mindmap-OJCNDYPM.js",
+              "sha256": "f2da06c914dd96da230537dab61aba17d34864b981b4126f17be8a8baa06b001"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/pie-HVG6XO7K.js",
+              "sha256": "08b4c29e21cb261a1d2f29aa301f3324cfbcb6edb365c009f888f5e9e4ae2f6b"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/quadrant-U6S2L4MJ.js",
+              "sha256": "267a1d12de937cfc1f7d1ab0bdc7ee946345e20880c5312bd384d2edb7bbc579"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/radar-ZDLOBTVG.js",
+              "sha256": "99c0e8cfe232b557934160d6aff617b57e013a492b1c1f9b3f5538f972a9ac8c"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/render-core-Y2DFNMQG.js",
+              "sha256": "0c991cfeca8788f1f4ecf639e99ceec361dc84a0403bc8338b80c262f3aac15a"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/sequence-Z4WFS3VB.js",
+              "sha256": "d35616031ca9d258fe6f3cc338e3bea10381d19376cb0eba1f40a2a69d704f11"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/state-2HV2YGN3.js",
+              "sha256": "7c3b74ce748bf744a5b9f150f88470ebc63b327ba52279795dd852611aa5f7f1"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/timeline-XM4UFPOC.js",
+              "sha256": "15c39872910278aeff0c535d4c9e15e1c8b048ff7554ff99985308d063f5ddf4"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/xychart-7JDHWTQY.js",
+              "sha256": "9bf6cf53d583e3c8e4450191abd32f0ffc3f192c76dc6540e3b8ca14bfbf9283"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/index.d.ts",
+              "sha256": "c8919e57bb31b3b4298d81f7b5e5bc8c86fd5f803a7a858af85ba09899d028b2"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/index.js",
+              "sha256": "07f62400f34e7a68b6a738db49bdf01d35d6f991ac7a5b900d0db14b4665abe4"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser.global.js",
+              "sha256": "eda60aa893b4167535a99faf47eca8e5437ea3e33c685dd0b35dbfec751a4b31"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-GGXCNCNA.js",
+              "sha256": "7a64cb42824c260d5210f791f13ec20f28c9a0746f5b25a1e05ddebdaa964a1e"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-IVD4NXNE.js",
+              "sha256": "94c0c9a4651916c5a4178ba2a989018955ee878f05de6160f4abd55b8deb08dd"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-JDMRPUAG.js",
+              "sha256": "293f5eaeb449c83d1059492e9a80f0c2d042684c9e51aeede8379bb58c1e3ebb"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-JWAAW3FH.js",
+              "sha256": "e84ac7c13511ace0287c4da4d09f1865e49b868a9e43de70e2f8ff2b92f79b9b"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-LCGBT32P.js",
+              "sha256": "8ed26093199b9db8ff993e4ec63c3c2d6402694357ee0c1b882ed2586cc1936b"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-RWMZRUIC.js",
+              "sha256": "f9fa6f0939c10745f6bba93a2e93ed9e250e3adc6cd9544614bacffbb91b80c0"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/index-BGA_-6LV.d.ts",
+              "sha256": "dc61540a501def8e09aca364e9bb62addcd8c501bfc3078668c6051e078c7918"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/index.d.ts",
+              "sha256": "f6eac4ea805c51248071dc3adef3cc161ffc143b3b4f0146504e351a1991e11d"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/index.js",
+              "sha256": "2366fbfb1143237b8ddb961d87a6461b54a2755bd8a6a2de72b4022663f1adb8"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/mcp-cli-4MLKC3ZH.js",
+              "sha256": "f25b2014ae82bc401fd6599884efa62f154e45efb900c14520c1e23c657c5999"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/MCP-DIRECTORY-LISTINGS.md",
+              "sha256": "db4b96c06a48a1d9efef7ed13d53c21f86e2d05efbd740df428830efc964a453"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/MCP-PRIVACY.md",
+              "sha256": "71cf7b3aacd03573eb3b9ebd167cd2c8185bda3a768b1773bbdfbdd15c6fb2ac"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/README.md",
+              "sha256": "fcc6524a1eded2fedcfd29f149b7ce13d683d67546df89d10043b3227aa431d9"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/agent-api-cookbook.md",
+              "sha256": "5e8708b574c9c1e3ab3700bb7ba6784047470ae27df4152ccb6f06b3fecc1a9f"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/agent-mutation-policy.md",
+              "sha256": "c40322a0ffb8237241728ef504dc4724f9a198d2ba7ce766e6ade4b654551126"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/agent-workflow-examples.md",
+              "sha256": "22192ca20bce40c769ef810b042a24a886edadad2e77e76a728ecd2ff8db7c89"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/api.md",
+              "sha256": "95e7b7bc999fde236e1e79c58d2483cbd0acc0aaebdaba44dff68c02df6f144c"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/ascii.md",
+              "sha256": "f1a1af826eb3d54f56b8c6615fe8d92580f1550b104d326fa8b97b2bb91ddd9a"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/browser.md",
+              "sha256": "5462787dc151255dcff2379002fbfb38414c944eb38ca041ae396bf937314163"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/code-mode-impact.md",
+              "sha256": "e1b6d7d1446f853a478ca6da3952e65960b436c169631d26edb616f50a89bdc2"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/comparison.md",
+              "sha256": "0ab499f080664f5b22846c263d0bf8b2b71949b4d4dc3db1448eae38e030bee9"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/computational-aesthetics-prototype-plan.md",
+              "sha256": "1cf73b52167e998e2f99936d4bdf9e6c2c57c36c678533d4570543df1b2f0f87"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/config.md",
+              "sha256": "9ccbfd657c955866a206c46ad52a8f132805a8912ee4d16e1222d05958fc11f6"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/custom-fonts.md",
+              "sha256": "721d27e789459ffde460f1f248ced3f8395462380f2a4b20305189e9eb6a8fcf"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/custom-style-cookbook.md",
+              "sha256": "8e3641e7f0a53fa06f1700825c83d39d706d9f0ccc2444ddc392aaf3b402c7f2"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/diagram-families.md",
+              "sha256": "062f6c9f42a6ec22c65c16a0d20f1641423ddf3b279e7b0e17451ea4cc06ce32"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/features.md",
+              "sha256": "26c6a60e81cc6a3deef57ba2ad37369797b2aba536f6019f5ff3e9a022554d34"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/fork-differences.md",
+              "sha256": "7723dc8c68f517698ecc6a476e6de3a6eca3aff21681a63321876fe305b51d2e"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/getting-started.md",
+              "sha256": "bd8480d5cd705bb52173ff655bb7ae420eaee96d5306b97b720c44dcb76b6a38"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/issue-derived-test-cases.md",
+              "sha256": "3ac0271e4676d1697168a95dd5204c49599430a5757132bd5b834388b3797ce1"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/mcp-code-mode-rationale.md",
+              "sha256": "1686756cd44badbb8a77c689ab511ab15a7ee3786d9f325c162de59b32648561"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/mcp-http-transport.md",
+              "sha256": "ab703f5b87ccbdceb00f7f13c34b51d4eb54da60c92441f9ba9b96990c4227f4"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/mermaid-layout-complaints.md",
+              "sha256": "07d214b8c2917c388f1809869276c9cb98467bd0832ca032deafadb9a900a4b9"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/mutation-testing.md",
+              "sha256": "7548e98bd3ee05eb7cb10ee33111a2ba33f17ead978130b789faeb19f35b70e4"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/quality.md",
+              "sha256": "f2c3add718aa8609dc226b1818b6a3ecadac45dfc595c78d3dbd5a35520de37d"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/react.md",
+              "sha256": "59f97d6cf2738385f066a62489579a910e784491e4ffdef9752baf2a068863e2"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/schemas/style-spec.schema.json",
+              "sha256": "c250629413c83c8c5d6b0c37bf1e454ff334f58687fbd673f1489cd667913c88"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/style-authoring.md",
+              "sha256": "d3b44d3fa69c395f5102c551b434222eb8baa1e2d6c3e2751937253c6c4b76ce"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/svg-semantic-contract.md",
+              "sha256": "d3cfdd20e977f7cef99fd32c7f2e54b7ef43751c1a2f73adac615d491742021e"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/testing-strategy.md",
+              "sha256": "6bb00076b4db83999cc9042aa4c3d99f225e7a08c8951ec89832be4564e1f49e"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/theming.md",
+              "sha256": "84cb38dbee6f4824ff70edf2c64e248e205073d9f046dd3e174a4ad9d4cbcf8a"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/catalog.json",
+              "sha256": "ee8f18a52a8c19ab5a8ba425c2293103a5106eb196ef6ba7d197235e24176f91"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/cloudflare-workers-inspired-prototype.mmd",
+              "sha256": "aa32a96b2b1326a422d921c388d065a428f932bc3e05541ef4423cbee7fec557"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/cloudflare-workers-inspired-prototype.style.json",
+              "sha256": "23b3b3bcb95d51278f26290b79ac496f9875dd985228a12790b5060d55431688"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/cupertino-prototype.mmd",
+              "sha256": "dc4e5019ae01ab196fc9b3c4323020d0fcd7f7ca743ead96cb31ee6f42b03026"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/cupertino-prototype.style.json",
+              "sha256": "74719239f52c815642ac7cf830d3a763e08aa3687fedfeec56cf88316a33892d"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/mid-century-report.style.json",
+              "sha256": "0c6ac884690457b006bdc64c6b90b22b6eef3c9c868be92bd47dc5abb6511c22"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/star-chart-atlas.style.json",
+              "sha256": "96a7ef08fe3469c7c58e1d141770c9a426ddd89b11c6ff44d9e0d01cf0f49524"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/transit-route-map.style.json",
+              "sha256": "f36be65d20a2f489b605fa9ee6ecae044a54b62f37f4f0ae2e1ce408a7ff7322"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/vercel-inspired-prototype.mmd",
+              "sha256": "cbf34369efc7e284b653e18696888d4f383b46f37953c9762acd4fede8b4f9c2"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/vercel-inspired-prototype.style.json",
+              "sha256": "bb69c555cad57895f5f29a6ccd71d4f9e222439953cedc36ca8a577e1334d9e5"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/package.json",
+              "sha256": "887860aaf83e1035310c8252d8ce6822ccdda0506e2d18ea5eac69c3b5e55547"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/server.json",
+              "sha256": "d2fc13eb55223034ba6a6f614948d24a4b6729c6955de7eb4e89db5689182527"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/README.md",
+              "sha256": "6782050ba84e24c411609fdafb8efa19cc47f0f4626632efc022fffc09fe4a5f"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/SKILL.md",
+              "sha256": "12fc3e029de31448702dc3c675ef0ffd35b0c0add91045e10501c90412095640"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/cli.md",
+              "sha256": "0c0e2b4282ee979f2af848a638292c677d0ff028f35f9b29499dc08bd08f3e15"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/code-mode.md",
+              "sha256": "6a7d8c673b1b0235922a0c14858e716bf6b50d6dfa2c98f0e2f47b1c9c985cff"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/flowchart.md",
+              "sha256": "c3c954735657f45af744f9c5f86e20684f73341e2a8f96398ec0e591dccdbda3"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/hosted-mcp.md",
+              "sha256": "f6ab1434fed8ffa31650ac6b193b2e32e041ef440c8cfef010d6f8398667b6cf"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/sequence.md",
+              "sha256": "57e5b481a0554f08944969c11c170541c174041b90d14b70c63e0d7dfbe17de4"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/timeline.md",
+              "sha256": "f0f90d88ba516eeffed268c4eb965bf8a1f17f496fa23191260949f089cb561f"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/architecture.md",
+              "sha256": "b79c518fd0a9661157731b99091e987a8010ffa9522a179f30099236699ca8ad"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/block.md",
+              "sha256": "803a2975a94d25e1bcb41ff60d9d9653514e2a833df360c36382cca804809e7f"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/c4.md",
+              "sha256": "f12badd3ae2c972a3b6cc5a882f03f34249997a2b48ee66ad5e98bb40309dff4"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/classDiagram.md",
+              "sha256": "178370ab11242580ee431c1f9ba14810a8617a7a6b0473a4eee8fb465a037087"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/cynefin.md",
+              "sha256": "fc8d2718505fe027c367b6dd063f261dfcbc6e5ade73efa1678d9f46d925cca1"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/entityRelationshipDiagram.md",
+              "sha256": "6dae5e32f9048d944b336d2edfb093b11aba45e775d02d0cf4979f51a5d1d931"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/eventmodeling.md",
+              "sha256": "87a44dbb80ff96d9cbaba5c81a237555f5503c87d01e9027556aa73a276e6421"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/examples.md",
+              "sha256": "ecc783fd48ca132bb0440ff4891aaca254d25166554a1ebef3d2e8975576a48b"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/flowchart.md",
+              "sha256": "b93d95e801310da61a2b68db2612f86c050defc53bed5f13c4cb3504d80706f9"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/gantt.md",
+              "sha256": "8f77fca811ebc1978fa094bf3a464d7ffc7520ac30b05cf86534ab1d673a9448"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/gitgraph.md",
+              "sha256": "e59433a1aa25d19e4cd841e749c968b099f2c90f07a37e844ae795f53c0b027d"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/ishikawa.md",
+              "sha256": "146435981aae5e448262be2a54640bdcac3a61d46b7c0cbd9d49aaf35d6a5889"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/kanban.md",
+              "sha256": "77a3966aee10b313694178ef835818b42da5c7e358ac3073d14a05c5850771c2"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/mindmap.md",
+              "sha256": "69d0338a34563fd3d29230d138e3960bac64f8a9df761b0bc8baaf0326884a3c"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/packet.md",
+              "sha256": "7644f30c54c2c69800f3b93cddc3e623376d45cb6b8f8ca84bcbb943a490a4a8"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/pie.md",
+              "sha256": "0e21ba69d9946c98aec1846f22f6c699414f8cd49d4e50a3753714bf4c48aa1d"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/quadrantChart.md",
+              "sha256": "6beef7a8950f651aafc83295051398e1ca08715e89ac261efcb3e2daed4d2cab"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/radar.md",
+              "sha256": "fc8f477b64ff2ffea8cd0a1e553df3e05cc04bf9512a4860cd441344c4c0a267"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/railroad.md",
+              "sha256": "24e70804e588b2a8e0dd6253dbd275390ed5b8810b8c4a4701aec1c0109b760e"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/requirementDiagram.md",
+              "sha256": "61b0028ecb5ca2f5e00da081955e80c0d819f0dfe875b9185660fb1677dfe650"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/sankey.md",
+              "sha256": "26f097e48cc1d2289b52043d756201df6298dbcd8c7abf8678b24f3332547502"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/sequenceDiagram.md",
+              "sha256": "5d7d5e93d5f40f9a50d1819302c050d40a299a710c7de92691f5c263c391f8d0"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/stateDiagram.md",
+              "sha256": "881747c2df82dca4b7b286566f931859e9f0e275ef0a3dbae517c26a0bcca004"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/swimlanes.md",
+              "sha256": "d4c80462f1b91dc865112b3345cf158236530a144f6245248a60afe8a25718c0"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/timeline.md",
+              "sha256": "16a407d5468b307dc4481bf56f130d8b88b2b5913b8409194205e8fffcd1b41e"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/treeView.md",
+              "sha256": "c3d6bc4111a1d80e305bd5b69555a8804fefdfbcc6f6be978c4b02877c33fc5c"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/treemap.md",
+              "sha256": "9754cf6a29e373ff9f5c43ea2b03e3e7330c4f0bc0056c51aa174b92eefa443e"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/userJourney.md",
+              "sha256": "6dd8531973c855733938f9df064c0f5d4a402978bae250e5b0f143f2500a0df9"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/venn.md",
+              "sha256": "01deb071e281243e05a872ed875cc1c17c8c9cdbbf2e70aac4fca5c3c7d55aa0"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/wardley.md",
+              "sha256": "1a346388c7e84d1566650c383f43dbf769590c7d22e81cc4ac86235749677118"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/xyChart.md",
+              "sha256": "ecb54b3639e6009e860a1ae65135620faacac3f4f882468cf4c440103da06438"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/zenuml.md",
+              "sha256": "2db6da951451717f3de2f22370bb4a0c89a826970f71969bce8586891a61e4c8"
+            },
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-live-editor/SKILL.md",
+              "sha256": "c2a0f2854399bc9843a59aa7ce45f5019ecfad0c89053d1d25f940edeeb1fb32"
+            }
+          ],
+          "adapterCompanions": [
+            {
+              "root": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid",
+              "name": "agentic-mermaid",
+              "version": "0.4.1",
+              "integrity": "sha512-zMtVJmT4HRE6hsVxI1VNQ+TWTjN/vR2JcGXob2tMzVlVFK1a7idXifMuabXFGn3wZahovBFiiTI7YWWEG9KJOw==",
+              "closureSha256": "43286b91b53c3a16980eec1137bd47d43133f5c295f51cee086228b823b75e99"
+            }
+          ]
+        }
+      },
+      "identity": {
+        "executable": {
+          "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "sha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12",
+          "bytes": 125989464
+        },
+        "delivery": {
+          "executableBytes": 125989464,
+          "scope": "external Node runtime executable; not npm package or dependency closure"
+        },
+        "files": [
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/AGENT_NATIVE.md",
+            "sha256": "5e2e6da27e29fbb8cd525db9a89f4662d8bd7ce55fa5bb1c50450a8ca0812252",
+            "bytes": 70325
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/CHANGELOG.md",
+            "sha256": "7ca9703f5bd094d788edfe64800db504e19b89154524465238f6745f44a4c53c",
+            "bytes": 103339
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/Instructions_for_agents.md",
+            "sha256": "3387ce5d0be036774ce8eb5690999fdce7f60103022ce1c33ec51df960eb77fe",
+            "bytes": 15701
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/LICENSE",
+            "sha256": "f05f5a4009eae7fadfd4a55f77ffe10948f621982d56076667e68afbb54de894",
+            "bytes": 1067
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/LICENSES/Apache-2.0.txt",
+            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "bytes": 11358
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/README.md",
+            "sha256": "6d801e927117260a506ab34ea589d3850372c0bd24d078091bf844f1dbd49518",
+            "bytes": 12167
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/SECURITY.md",
+            "sha256": "fb46fd46144e657e6029a45806081513f7cf62e3ed26d4de16a78897a9be5e8f",
+            "bytes": 5197
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/THIRD_PARTY_NOTICES.md",
+            "sha256": "776f15e6f68ae06ffc17fb2c5f0e191ddd4ce6268deeb8b32f261a4c48424620",
+            "bytes": 1370
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/ArchitectsDaughter.ttf",
+            "sha256": "6159718a08898e34bc1cb7354086141a5f9a70b73e54dbec27ead0d59a697359",
+            "bytes": 43352
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/Caveat.ttf",
+            "sha256": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988",
+            "bytes": 403648
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/DejaVuSans-Bold.ttf",
+            "sha256": "5c1247acef7f2b8522a31742c76d6adcb5569bacc0be7ceaa4dc39dd252ce895",
+            "bytes": 708920
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/DejaVuSans.ttf",
+            "sha256": "ae7b7855e115a5966d8b1b3f80f254ccc117ec86f9965e202ee2940453837280",
+            "bytes": 759720
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/EBGaramond.ttf",
+            "sha256": "ef9512f92f6d579e5dc75af59a5a4b1b8b47d2eda89e00b954d44520e5369027",
+            "bytes": 851176
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/FONT-LICENSES.md",
+            "sha256": "8807f61d88872332dc72c4eae6d6434368f8e0ac59b0307478b35af259a8f472",
+            "bytes": 6252
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/Inter-Bold.ttf",
+            "sha256": "b37284b5701b6b168dfc770aa1a4ac492106422fd3ba76bc7641e37434e8019c",
+            "bytes": 326468
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/Inter-Medium.ttf",
+            "sha256": "8c883f63b2c4157d997319f2c8bc6995ed4357ef371940d31ca159004a4aae63",
+            "bytes": 325304
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/Inter-Regular.ttf",
+            "sha256": "1b08e7fc267a5c7e1d614100f604b83e7e8a0be241f0f288faa2b3ac93a683ba",
+            "bytes": 324820
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/Inter-SemiBold.ttf",
+            "sha256": "e7a1aaf7eda9f2fad4131725fa556265ec75ca7b2d756260173a040363e8d4f7",
+            "bytes": 326048
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/fonts/ShareTechMono.ttf",
+            "sha256": "9ceab1f87414829af259c0f537573ae03ef7dd3147c0b27a36a1a0beb6732677",
+            "bytes": 43272
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/assets/hero.png",
+            "sha256": "c4d8cd7d178f28366ebe55b8f94ad792ef76ac3ab081d6171ebc41cd1f08348b",
+            "bytes": 84509
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/agent-core.d.ts",
+            "sha256": "60d37e093ba294f756a89642ab5cebb1826ca7da42aeaabc443bc5abe600db37",
+            "bytes": 42493
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/agent-core.js",
+            "sha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bytes": 9583
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/agent.d.ts",
+            "sha256": "b5533a4c1c72623a9f06f7a611e292935bd179f6c3599350635345e7d1833a60",
+            "bytes": 17042
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/agent.js",
+            "sha256": "ea798905f3e444816f78dd1b2b2ccaea893e2e53d4d661f2a3bcbb68454ee920",
+            "bytes": 9868
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/agentic-mermaid-mcp.js",
+            "sha256": "e81a17603b63e7305a29765063241b16fd1d7f57a4c7adb42db8bc21eadd2b7e",
+            "bytes": 348
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/am.js",
+            "sha256": "5828f681b89158dfdf9dd4c1036961c585ad1fb13e70445e0e6aaa45397d5528",
+            "bytes": 1263565
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/architecture-KTHE2HX3.js",
+            "sha256": "153826ad67d8f37f5be13dbc3f197c31f02ce0b35256c473872cfcb89e96ab02",
+            "bytes": 48144
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-2XCPFAD5.js",
+            "sha256": "9d77a8b07e7c6328200e09920fc4daa35088117d79b6dfbcf2cc5b861532639d",
+            "bytes": 172929
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-3H4F7RBT.js",
+            "sha256": "b3b709e7b9c983c1dc82cc58e6b15d949d6489618db13e115d8450a154487a22",
+            "bytes": 246
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-4EVLW2NJ.js",
+            "sha256": "aa1c01b30620e4f5109f738298fba06e6d86bc2fa597f2ad4b28d54b50975fa4",
+            "bytes": 2116
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-5Q4S74UO.js",
+            "sha256": "65206747ac1ce864533106145608591f1ad7627eaee39142981ee4b199aa2c8d",
+            "bytes": 800
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-6OAPWSDO.js",
+            "sha256": "ae9f4cb86d34f4893ff0e6c48500d37d5bb6bde7f2e71754760815b6a147c28b",
+            "bytes": 9084
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-A7L4WWVW.js",
+            "sha256": "eca167d6c7e01b661aec27d293fd68c2bd863a4327819bf7777f368db15dd070",
+            "bytes": 110630
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-C7FJO2I3.js",
+            "sha256": "ed8ec29cd4bf93a39e2103d1c7d6f82804174f31a69de3d6f8637e995ae96acc",
+            "bytes": 1549
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-D3XXDKIO.js",
+            "sha256": "54f830b49ea14fe02a63e20670db633dc7ad8c996a7f6c34c8b2640e7fd6252d",
+            "bytes": 6136
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-DXA5WL7H.js",
+            "sha256": "714580ea184798edbaed6342c835192e5ae0b52f95b8c8e2df4574a15966f047",
+            "bytes": 27741
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-EPFMQPXX.js",
+            "sha256": "e1ef57d114be08cfe262acf39943928f875e1d355bc89d38bff7b8e86feb26a3",
+            "bytes": 209
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-FFOHLPDA.js",
+            "sha256": "627868f3ade1cbe0dfbfc8cd34cae4de73bee06c4fe0b85826f42c9ac6c7f6e5",
+            "bytes": 4412
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-FLD63DXE.js",
+            "sha256": "c49d4751cdf6b2f17ad392a928e627c8f6c96c219255b93a08c753d2f2e4d691",
+            "bytes": 1505
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-G6OLSHRG.js",
+            "sha256": "6581607fc690fa0be65b47129f7e1cbf5de7f2990b0712f7fcca3904282d52d3",
+            "bytes": 1120
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-GRXCKTHX.js",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-I6VE56S7.js",
+            "sha256": "c6ec80358c6f8f72d5a71129c4bd802bca25913511b77f5af9554387d5768cfc",
+            "bytes": 400
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-KJVNXJ5Y.js",
+            "sha256": "93d1c775cedb98a5edb8da4e6adca9544a871eee893ea65f7fc506acf6ecb495",
+            "bytes": 863
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-L227EPFP.js",
+            "sha256": "479fe28dec15f6b590ef3491036e891434a73c14745fcabbe46cd18ee47c76dd",
+            "bytes": 26592
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-LNIHDJSF.js",
+            "sha256": "9ed1e8012dc96f56d9d3a042730886f04f5836d9e996660ec47817b4de749640",
+            "bytes": 36993
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-M6BT2HIP.js",
+            "sha256": "427f4a62ffd038c1a69ffa8fceb507deb2ff18f8ec3f80cc8aec59d23863af41",
+            "bytes": 293
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-NZRUMODH.js",
+            "sha256": "fb858c759dc5eabc74c570dcdc998f5542bbc4aee518136761430bda8224aaca",
+            "bytes": 2070
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-OFRMKQA6.js",
+            "sha256": "da6a6565981d7212b441dc86bcb1c7b2113932eacf86acc13e81a97371f62228",
+            "bytes": 181
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-P7HMSKHJ.js",
+            "sha256": "0bc0d70764c08aca6e8b9155dcc22233501ffdabf9437bf14bba1d1af472cbd0",
+            "bytes": 8332
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-PXKL3O6H.js",
+            "sha256": "1916a27043a8d3c168c6521e35b70d48a9b42750e1c43d49849c860d5f19b571",
+            "bytes": 641
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-PZEWZT35.js",
+            "sha256": "d40dd85b826ed051e71a6db6e0cf6923381005d440c51914ae71b76f9a356273",
+            "bytes": 186
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-STQRDZ67.js",
+            "sha256": "00f62a6afde6d4e833f8ceef5f87cfa183dca406bf2840a27713170e9935f729",
+            "bytes": 7369
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-SUFMSWTX.js",
+            "sha256": "75aa92862deacef2ff95fdc277a1550afeada04166160a2da8941f3ab2afbbd1",
+            "bytes": 2787
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-T7IJ6V4B.js",
+            "sha256": "cf9cf70eef29c8933422dbbb90b492a50e9ac0d60ae431a30c340fcba530bead",
+            "bytes": 19519
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-UAEZO5VL.js",
+            "sha256": "b6285f6bc13a484882aff4d6c9d7e3c0913725c8a5566de63d0366a20c62b629",
+            "bytes": 3900
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-WEUWIFG3.js",
+            "sha256": "313987774cbb0a401d8962e66b22401f1427e439026eee0c1e2b4c499fbb3d02",
+            "bytes": 450
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/chunk-X64T74C5.js",
+            "sha256": "e6538bd6966b94ae97c7179ca792cad246836ac438015bd667b628b459485807",
+            "bytes": 1625383
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/class-F7R6TJ73.js",
+            "sha256": "66213d6d56bacc4c4b1b752e76e967f9fe6eaeaf8833941aab87f2d7f3e6a91d",
+            "bytes": 26453
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/er-BDK7CM5L.js",
+            "sha256": "db310d466bab7ede5bc6eb781b31fa1237e0a7ab0aa7de171e9a860c94ca6502",
+            "bytes": 29604
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/flowchart-KFU6XV7S.js",
+            "sha256": "af5665c5f843fbec3f6b2f3051d1a5f3f3da9df12db8154c627c3e9fb8ba6d70",
+            "bytes": 5209
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/gantt-I64VVDSP.js",
+            "sha256": "93c439efe20026529034ceaaccd717fa7f23491ad5db9973ad5cb9347401c8f0",
+            "bytes": 43878
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/gitgraph-EDUVJ5IJ.js",
+            "sha256": "47c35888c87051efe57b3ae7302652e78452e28cb93f3b6da44178811352e835",
+            "bytes": 22190
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/journey-TLO2RNM3.js",
+            "sha256": "b770e97b259fdceef5d0ac56d07b3b52efa1e16b2c90108122f876fd57996d3d",
+            "bytes": 34797
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/mindmap-OJCNDYPM.js",
+            "sha256": "f2da06c914dd96da230537dab61aba17d34864b981b4126f17be8a8baa06b001",
+            "bytes": 15545
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/pie-HVG6XO7K.js",
+            "sha256": "08b4c29e21cb261a1d2f29aa301f3324cfbcb6edb365c009f888f5e9e4ae2f6b",
+            "bytes": 18125
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/quadrant-U6S2L4MJ.js",
+            "sha256": "267a1d12de937cfc1f7d1ab0bdc7ee946345e20880c5312bd384d2edb7bbc579",
+            "bytes": 23205
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/radar-ZDLOBTVG.js",
+            "sha256": "99c0e8cfe232b557934160d6aff617b57e013a492b1c1f9b3f5538f972a9ac8c",
+            "bytes": 26860
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/render-core-Y2DFNMQG.js",
+            "sha256": "0c991cfeca8788f1f4ecf639e99ceec361dc84a0403bc8338b80c262f3aac15a",
+            "bytes": 101710
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/sequence-Z4WFS3VB.js",
+            "sha256": "d35616031ca9d258fe6f3cc338e3bea10381d19376cb0eba1f40a2a69d704f11",
+            "bytes": 37306
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/state-2HV2YGN3.js",
+            "sha256": "7c3b74ce748bf744a5b9f150f88470ebc63b327ba52279795dd852611aa5f7f1",
+            "bytes": 4530
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/timeline-XM4UFPOC.js",
+            "sha256": "15c39872910278aeff0c535d4c9e15e1c8b048ff7554ff99985308d063f5ddf4",
+            "bytes": 22885
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/chunks/xychart-7JDHWTQY.js",
+            "sha256": "9bf6cf53d583e3c8e4450191abd32f0ffc3f192c76dc6540e3b8ca14bfbf9283",
+            "bytes": 39455
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/index.d.ts",
+            "sha256": "c8919e57bb31b3b4298d81f7b5e5bc8c86fd5f803a7a858af85ba09899d028b2",
+            "bytes": 39982
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser-lazy/index.js",
+            "sha256": "07f62400f34e7a68b6a738db49bdf01d35d6f991ac7a5b900d0db14b4665abe4",
+            "bytes": 3027
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/browser.global.js",
+            "sha256": "eda60aa893b4167535a99faf47eca8e5437ea3e33c685dd0b35dbfec751a4b31",
+            "bytes": 2986097
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-GGXCNCNA.js",
+            "sha256": "7a64cb42824c260d5210f791f13ec20f28c9a0746f5b25a1e05ddebdaa964a1e",
+            "bytes": 191345
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-IVD4NXNE.js",
+            "sha256": "94c0c9a4651916c5a4178ba2a989018955ee878f05de6160f4abd55b8deb08dd",
+            "bytes": 24709
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-JDMRPUAG.js",
+            "sha256": "293f5eaeb449c83d1059492e9a80f0c2d042684c9e51aeede8379bb58c1e3ebb",
+            "bytes": 955
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-JWAAW3FH.js",
+            "sha256": "e84ac7c13511ace0287c4da4d09f1865e49b868a9e43de70e2f8ff2b92f79b9b",
+            "bytes": 5372
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-LCGBT32P.js",
+            "sha256": "8ed26093199b9db8ff993e4ec63c3c2d6402694357ee0c1b882ed2586cc1936b",
+            "bytes": 2649576
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/chunk-RWMZRUIC.js",
+            "sha256": "f9fa6f0939c10745f6bba93a2e93ed9e250e3adc6cd9544614bacffbb91b80c0",
+            "bytes": 203828
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/index-BGA_-6LV.d.ts",
+            "sha256": "dc61540a501def8e09aca364e9bb62addcd8c501bfc3078668c6051e078c7918",
+            "bytes": 293507
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/index.d.ts",
+            "sha256": "f6eac4ea805c51248071dc3adef3cc161ffc143b3b4f0146504e351a1991e11d",
+            "bytes": 11366
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/index.js",
+            "sha256": "2366fbfb1143237b8ddb961d87a6461b54a2755bd8a6a2de72b4022663f1adb8",
+            "bytes": 8902
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/mcp-cli-4MLKC3ZH.js",
+            "sha256": "f25b2014ae82bc401fd6599884efa62f154e45efb900c14520c1e23c657c5999",
+            "bytes": 351
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/MCP-DIRECTORY-LISTINGS.md",
+            "sha256": "db4b96c06a48a1d9efef7ed13d53c21f86e2d05efbd740df428830efc964a453",
+            "bytes": 3734
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/MCP-PRIVACY.md",
+            "sha256": "71cf7b3aacd03573eb3b9ebd167cd2c8185bda3a768b1773bbdfbdd15c6fb2ac",
+            "bytes": 2261
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/README.md",
+            "sha256": "fcc6524a1eded2fedcfd29f149b7ce13d683d67546df89d10043b3227aa431d9",
+            "bytes": 11611
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/agent-api-cookbook.md",
+            "sha256": "5e8708b574c9c1e3ab3700bb7ba6784047470ae27df4152ccb6f06b3fecc1a9f",
+            "bytes": 15313
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/agent-mutation-policy.md",
+            "sha256": "c40322a0ffb8237241728ef504dc4724f9a198d2ba7ce766e6ade4b654551126",
+            "bytes": 6117
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/agent-workflow-examples.md",
+            "sha256": "22192ca20bce40c769ef810b042a24a886edadad2e77e76a728ecd2ff8db7c89",
+            "bytes": 2564
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/api.md",
+            "sha256": "95e7b7bc999fde236e1e79c58d2483cbd0acc0aaebdaba44dff68c02df6f144c",
+            "bytes": 33405
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/ascii.md",
+            "sha256": "f1a1af826eb3d54f56b8c6615fe8d92580f1550b104d326fa8b97b2bb91ddd9a",
+            "bytes": 4913
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/browser.md",
+            "sha256": "5462787dc151255dcff2379002fbfb38414c944eb38ca041ae396bf937314163",
+            "bytes": 20764
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/code-mode-impact.md",
+            "sha256": "e1b6d7d1446f853a478ca6da3952e65960b436c169631d26edb616f50a89bdc2",
+            "bytes": 12137
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/comparison.md",
+            "sha256": "0ab499f080664f5b22846c263d0bf8b2b71949b4d4dc3db1448eae38e030bee9",
+            "bytes": 7965
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/computational-aesthetics-prototype-plan.md",
+            "sha256": "1cf73b52167e998e2f99936d4bdf9e6c2c57c36c678533d4570543df1b2f0f87",
+            "bytes": 15851
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/config.md",
+            "sha256": "9ccbfd657c955866a206c46ad52a8f132805a8912ee4d16e1222d05958fc11f6",
+            "bytes": 4302
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/custom-fonts.md",
+            "sha256": "721d27e789459ffde460f1f248ced3f8395462380f2a4b20305189e9eb6a8fcf",
+            "bytes": 10125
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/custom-style-cookbook.md",
+            "sha256": "8e3641e7f0a53fa06f1700825c83d39d706d9f0ccc2444ddc392aaf3b402c7f2",
+            "bytes": 10533
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/diagram-families.md",
+            "sha256": "062f6c9f42a6ec22c65c16a0d20f1641423ddf3b279e7b0e17451ea4cc06ce32",
+            "bytes": 11096
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/features.md",
+            "sha256": "26c6a60e81cc6a3deef57ba2ad37369797b2aba536f6019f5ff3e9a022554d34",
+            "bytes": 10286
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/fork-differences.md",
+            "sha256": "7723dc8c68f517698ecc6a476e6de3a6eca3aff21681a63321876fe305b51d2e",
+            "bytes": 11345
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/getting-started.md",
+            "sha256": "bd8480d5cd705bb52173ff655bb7ae420eaee96d5306b97b720c44dcb76b6a38",
+            "bytes": 6003
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/issue-derived-test-cases.md",
+            "sha256": "3ac0271e4676d1697168a95dd5204c49599430a5757132bd5b834388b3797ce1",
+            "bytes": 15042
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/mcp-code-mode-rationale.md",
+            "sha256": "1686756cd44badbb8a77c689ab511ab15a7ee3786d9f325c162de59b32648561",
+            "bytes": 8604
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/mcp-http-transport.md",
+            "sha256": "ab703f5b87ccbdceb00f7f13c34b51d4eb54da60c92441f9ba9b96990c4227f4",
+            "bytes": 10070
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/mermaid-layout-complaints.md",
+            "sha256": "07d214b8c2917c388f1809869276c9cb98467bd0832ca032deafadb9a900a4b9",
+            "bytes": 51488
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/mutation-testing.md",
+            "sha256": "7548e98bd3ee05eb7cb10ee33111a2ba33f17ead978130b789faeb19f35b70e4",
+            "bytes": 16710
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/quality.md",
+            "sha256": "f2c3add718aa8609dc226b1818b6a3ecadac45dfc595c78d3dbd5a35520de37d",
+            "bytes": 13079
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/react.md",
+            "sha256": "59f97d6cf2738385f066a62489579a910e784491e4ffdef9752baf2a068863e2",
+            "bytes": 2894
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/schemas/style-spec.schema.json",
+            "sha256": "c250629413c83c8c5d6b0c37bf1e454ff334f58687fbd673f1489cd667913c88",
+            "bytes": 36542
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/style-authoring.md",
+            "sha256": "d3b44d3fa69c395f5102c551b434222eb8baa1e2d6c3e2751937253c6c4b76ce",
+            "bytes": 18546
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/svg-semantic-contract.md",
+            "sha256": "d3cfdd20e977f7cef99fd32c7f2e54b7ef43751c1a2f73adac615d491742021e",
+            "bytes": 2768
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/testing-strategy.md",
+            "sha256": "6bb00076b4db83999cc9042aa4c3d99f225e7a08c8951ec89832be4564e1f49e",
+            "bytes": 26479
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/docs/theming.md",
+            "sha256": "84cb38dbee6f4824ff70edf2c64e248e205073d9f046dd3e174a4ad9d4cbcf8a",
+            "bytes": 4313
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/catalog.json",
+            "sha256": "ee8f18a52a8c19ab5a8ba425c2293103a5106eb196ef6ba7d197235e24176f91",
+            "bytes": 2609
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/cloudflare-workers-inspired-prototype.mmd",
+            "sha256": "aa32a96b2b1326a422d921c388d065a428f932bc3e05541ef4423cbee7fec557",
+            "bytes": 282
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/cloudflare-workers-inspired-prototype.style.json",
+            "sha256": "23b3b3bcb95d51278f26290b79ac496f9875dd985228a12790b5060d55431688",
+            "bytes": 3012
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/cupertino-prototype.mmd",
+            "sha256": "dc4e5019ae01ab196fc9b3c4323020d0fcd7f7ca743ead96cb31ee6f42b03026",
+            "bytes": 301
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/cupertino-prototype.style.json",
+            "sha256": "74719239f52c815642ac7cf830d3a763e08aa3687fedfeec56cf88316a33892d",
+            "bytes": 1666
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/mid-century-report.style.json",
+            "sha256": "0c6ac884690457b006bdc64c6b90b22b6eef3c9c868be92bd47dc5abb6511c22",
+            "bytes": 520
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/star-chart-atlas.style.json",
+            "sha256": "96a7ef08fe3469c7c58e1d141770c9a426ddd89b11c6ff44d9e0d01cf0f49524",
+            "bytes": 612
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/transit-route-map.style.json",
+            "sha256": "f36be65d20a2f489b605fa9ee6ecae044a54b62f37f4f0ae2e1ce408a7ff7322",
+            "bytes": 511
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/vercel-inspired-prototype.mmd",
+            "sha256": "cbf34369efc7e284b653e18696888d4f383b46f37953c9762acd4fede8b4f9c2",
+            "bytes": 157
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/examples/styles/vercel-inspired-prototype.style.json",
+            "sha256": "bb69c555cad57895f5f29a6ccd71d4f9e222439953cedc36ca8a577e1334d9e5",
+            "bytes": 2258
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/package.json",
+            "sha256": "887860aaf83e1035310c8252d8ce6822ccdda0506e2d18ea5eac69c3b5e55547",
+            "bytes": 11504
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/server.json",
+            "sha256": "d2fc13eb55223034ba6a6f614948d24a4b6729c6955de7eb4e89db5689182527",
+            "bytes": 985
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/README.md",
+            "sha256": "6782050ba84e24c411609fdafb8efa19cc47f0f4626632efc022fffc09fe4a5f",
+            "bytes": 1619
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/SKILL.md",
+            "sha256": "12fc3e029de31448702dc3c675ef0ffd35b0c0add91045e10501c90412095640",
+            "bytes": 9741
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/cli.md",
+            "sha256": "0c0e2b4282ee979f2af848a638292c677d0ff028f35f9b29499dc08bd08f3e15",
+            "bytes": 2341
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/code-mode.md",
+            "sha256": "6a7d8c673b1b0235922a0c14858e716bf6b50d6dfa2c98f0e2f47b1c9c985cff",
+            "bytes": 5906
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/flowchart.md",
+            "sha256": "c3c954735657f45af744f9c5f86e20684f73341e2a8f96398ec0e591dccdbda3",
+            "bytes": 805
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/hosted-mcp.md",
+            "sha256": "f6ab1434fed8ffa31650ac6b193b2e32e041ef440c8cfef010d6f8398667b6cf",
+            "bytes": 5125
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/sequence.md",
+            "sha256": "57e5b481a0554f08944969c11c170541c174041b90d14b70c63e0d7dfbe17de4",
+            "bytes": 1289
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/timeline.md",
+            "sha256": "f0f90d88ba516eeffed268c4eb965bf8a1f17f496fa23191260949f089cb561f",
+            "bytes": 1026
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/architecture.md",
+            "sha256": "b79c518fd0a9661157731b99091e987a8010ffa9522a179f30099236699ca8ad",
+            "bytes": 16385
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/block.md",
+            "sha256": "803a2975a94d25e1bcb41ff60d9d9653514e2a833df360c36382cca804809e7f",
+            "bytes": 25037
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/c4.md",
+            "sha256": "f12badd3ae2c972a3b6cc5a882f03f34249997a2b48ee66ad5e98bb40309dff4",
+            "bytes": 31561
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/classDiagram.md",
+            "sha256": "178370ab11242580ee431c1f9ba14810a8617a7a6b0473a4eee8fb465a037087",
+            "bytes": 28267
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/cynefin.md",
+            "sha256": "fc8d2718505fe027c367b6dd063f261dfcbc6e5ade73efa1678d9f46d925cca1",
+            "bytes": 10959
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/entityRelationshipDiagram.md",
+            "sha256": "6dae5e32f9048d944b336d2edfb093b11aba45e775d02d0cf4979f51a5d1d931",
+            "bytes": 24582
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/eventmodeling.md",
+            "sha256": "87a44dbb80ff96d9cbaba5c81a237555f5503c87d01e9027556aa73a276e6421",
+            "bytes": 10910
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/examples.md",
+            "sha256": "ecc783fd48ca132bb0440ff4891aaca254d25166554a1ebef3d2e8975576a48b",
+            "bytes": 7752
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/flowchart.md",
+            "sha256": "b93d95e801310da61a2b68db2612f86c050defc53bed5f13c4cb3504d80706f9",
+            "bytes": 54687
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/gantt.md",
+            "sha256": "8f77fca811ebc1978fa094bf3a464d7ffc7520ac30b05cf86534ab1d673a9448",
+            "bytes": 31326
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/gitgraph.md",
+            "sha256": "e59433a1aa25d19e4cd841e749c968b099f2c90f07a37e844ae795f53c0b027d",
+            "bytes": 52415
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/ishikawa.md",
+            "sha256": "146435981aae5e448262be2a54640bdcac3a61d46b7c0cbd9d49aaf35d6a5889",
+            "bytes": 1716
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/kanban.md",
+            "sha256": "77a3966aee10b313694178ef835818b42da5c7e358ac3073d14a05c5850771c2",
+            "bytes": 6168
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/mindmap.md",
+            "sha256": "69d0338a34563fd3d29230d138e3960bac64f8a9df761b0bc8baaf0326884a3c",
+            "bytes": 9099
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/packet.md",
+            "sha256": "7644f30c54c2c69800f3b93cddc3e623376d45cb6b8f8ca84bcbb943a490a4a8",
+            "bytes": 3898
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/pie.md",
+            "sha256": "0e21ba69d9946c98aec1846f22f6c699414f8cd49d4e50a3753714bf4c48aa1d",
+            "bytes": 3857
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/quadrantChart.md",
+            "sha256": "6beef7a8950f651aafc83295051398e1ca08715e89ac261efcb3e2daed4d2cab",
+            "bytes": 12313
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/radar.md",
+            "sha256": "fc8f477b64ff2ffea8cd0a1e553df3e05cc04bf9512a4860cd441344c4c0a267",
+            "bytes": 7738
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/railroad.md",
+            "sha256": "24e70804e588b2a8e0dd6253dbd275390ed5b8810b8c4a4701aec1c0109b760e",
+            "bytes": 14570
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/requirementDiagram.md",
+            "sha256": "61b0028ecb5ca2f5e00da081955e80c0d819f0dfe875b9185660fb1677dfe650",
+            "bytes": 10592
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/sankey.md",
+            "sha256": "26f097e48cc1d2289b52043d756201df6298dbcd8c7abf8678b24f3332547502",
+            "bytes": 10400
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/sequenceDiagram.md",
+            "sha256": "5d7d5e93d5f40f9a50d1819302c050d40a299a710c7de92691f5c263c391f8d0",
+            "bytes": 33384
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/stateDiagram.md",
+            "sha256": "881747c2df82dca4b7b286566f931859e9f0e275ef0a3dbae517c26a0bcca004",
+            "bytes": 16345
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/swimlanes.md",
+            "sha256": "d4c80462f1b91dc865112b3345cf158236530a144f6245248a60afe8a25718c0",
+            "bytes": 11472
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/timeline.md",
+            "sha256": "16a407d5468b307dc4481bf56f130d8b88b2b5913b8409194205e8fffcd1b41e",
+            "bytes": 16647
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/treeView.md",
+            "sha256": "c3d6bc4111a1d80e305bd5b69555a8804fefdfbcc6f6be978c4b02877c33fc5c",
+            "bytes": 11452
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/treemap.md",
+            "sha256": "9754cf6a29e373ff9f5c43ea2b03e3e7330c4f0bc0056c51aa174b92eefa443e",
+            "bytes": 8994
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/userJourney.md",
+            "sha256": "6dd8531973c855733938f9df064c0f5d4a402978bae250e5b0f143f2500a0df9",
+            "bytes": 1236
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/venn.md",
+            "sha256": "01deb071e281243e05a872ed875cc1c17c8c9cdbbf2e70aac4fca5c3c7d55aa0",
+            "bytes": 3132
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/wardley.md",
+            "sha256": "1a346388c7e84d1566650c383f43dbf769590c7d22e81cc4ac86235749677118",
+            "bytes": 16512
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/xyChart.md",
+            "sha256": "ecb54b3639e6009e860a1ae65135620faacac3f4f882468cf4c440103da06438",
+            "bytes": 14173
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-diagram-workflow/references/upstream/zenuml.md",
+            "sha256": "2db6da951451717f3de2f22370bb4a0c89a826970f71969bce8586891a61e4c8",
+            "bytes": 8804
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/skills/agentic-mermaid-live-editor/SKILL.md",
+            "sha256": "c2a0f2854399bc9843a59aa7ce45f5019ecfad0c89053d1d25f940edeeb1fb32",
+            "bytes": 6712
+          }
+        ],
+        "version": "0.4.1",
+        "revision": null,
+        "integrity": null,
+        "args": [
+          "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/am.js",
+          "render",
+          "-",
+          "--format",
+          "{format}"
+        ],
+        "input": "stdin",
+        "runtime": "node:24.19.0 installed public CLI"
+      }
+    }
+  ],
+  "resourceObserver": {
+    "path": "/workspace/.cloud-tools/gnu-time-root/usr/bin/time",
+    "version": "time (GNU Time) UNKNOWN\nCopyright (C) 2018 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n\nWritten by David Keppel, David MacKenzie, and Assaf Gordon.",
+    "sha256": "efc0d1112e36ec76c14bf7508e287935cf1631d9d0d91fb532802d07aef51cea",
+    "bytes": 27384,
+    "locale": {
+      "LC_ALL": "C.UTF-8",
+      "LC_NUMERIC": null,
+      "LANG": "C.UTF-8"
+    }
+  }
+}

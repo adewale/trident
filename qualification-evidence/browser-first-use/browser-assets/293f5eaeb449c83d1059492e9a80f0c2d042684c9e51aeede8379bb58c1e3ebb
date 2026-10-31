@@ -1,0 +1,37 @@
+import {
+  AsciiWidthError,
+  MermaidFamilyDetectionError
+} from "./chunk-LCGBT32P.js";
+
+// src/render-error-diagnostic.ts
+function projectKnownRenderErrorDiagnostic(error) {
+  if (error instanceof MermaidFamilyDetectionError) {
+    return {
+      code: error.code,
+      message: error.message,
+      line: error.line,
+      preservation: error.preservation,
+      help: error.help
+    };
+  }
+  if (error instanceof AsciiWidthError) {
+    return {
+      code: error.code,
+      message: error.message,
+      requestedWidth: error.requestedWidth,
+      requiredWidth: error.requiredWidth,
+      family: error.family,
+      reason: error.reason
+    };
+  }
+  return void 0;
+}
+function projectRenderErrorDiagnostic(error) {
+  return projectKnownRenderErrorDiagnostic(error) ?? { code: "RENDER_FAILED", message: "Rendering failed" };
+}
+
+export {
+  projectKnownRenderErrorDiagnostic,
+  projectRenderErrorDiagnostic
+};
+//# sourceMappingURL=chunk-JDMRPUAG.js.map

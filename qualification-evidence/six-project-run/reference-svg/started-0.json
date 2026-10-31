@@ -1,0 +1,7 @@
+{
+  "caseId": "verification:positive",
+  "startedAt": "2026-10-31T15:01:22.092Z",
+  "project": "mermaid-js/mermaid",
+  "output": "svg",
+  "transport": "browser"
+}

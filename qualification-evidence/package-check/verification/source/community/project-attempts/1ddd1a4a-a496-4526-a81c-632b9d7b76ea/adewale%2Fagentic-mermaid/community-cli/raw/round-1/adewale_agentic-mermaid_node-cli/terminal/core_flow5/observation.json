@@ -1,0 +1,36 @@
+{
+  "suite": "community-cli",
+  "surface": "cli:end-to-end",
+  "runtime": "node:24.19.0 installed public CLI",
+  "family": "flowchart",
+  "caseId": "core:flow5",
+  "operation": "render",
+  "format": "terminal",
+  "mode": "fresh-process",
+  "status": "passed",
+  "metrics": {
+    "implementation": "adewale/agentic-mermaid#node-cli",
+    "round": 1,
+    "featureCount": 1,
+    "rawInvocationId": "c732bed5-d5b8-4aa3-b79a-88044761aebb",
+    "rawInvocationDirectory": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/adewale%2Fagentic-mermaid/community-cli/raw/round-1/adewale_agentic-mermaid_node-cli/terminal/core_flow5/raw-cli-invocations",
+    "stdoutFile": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/adewale%2Fagentic-mermaid/community-cli/raw/round-1/adewale_agentic-mermaid_node-cli/terminal/core_flow5/raw-cli-invocations/outputs/fdffe52a5bf2426f8af4222fa6c6339fffa5732748c601d00779c3f927f05c0c",
+    "stderrFile": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/adewale%2Fagentic-mermaid/community-cli/raw/round-1/adewale_agentic-mermaid_node-cli/terminal/core_flow5/raw-cli-invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outputFile": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/adewale%2Fagentic-mermaid/community-cli/raw/round-1/adewale_agentic-mermaid_node-cli/terminal/core_flow5/raw-cli-invocations/outputs/fdffe52a5bf2426f8af4222fa6c6339fffa5732748c601d00779c3f927f05c0c",
+    "measuredAt": "2026-10-31T15:09:50.394Z",
+    "measuredFrom": "2026-10-31T15:09:49.294Z",
+    "firstMs": 1094.339861000015,
+    "timingQualified": false,
+    "qualification": "format-and-authored-labels",
+    "version": "0.4.1",
+    "boundary": "spawn through drained stdout/file artifact; process startup included",
+    "variantOf": "adewale/agentic-mermaid",
+    "variant": "node-cli",
+    "metricId": "adewale/agentic-mermaid#node-cli:cli:terminal"
+  },
+  "samplesMs": [
+    1094.339861000015
+  ],
+  "bytes": 1133,
+  "findings": []
+}

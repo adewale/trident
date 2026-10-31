@@ -1,0 +1,7 @@
+{
+  "source": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/preparation/community-prepared.json",
+  "sourceSha256": "12884692be48485aba471ec973924cb2aea68e8f707d8d7c702fc6138c6b78d9",
+  "loadedAt": "2026-10-31T15:07:35.100Z",
+  "acquisition": "forbidden; frozen actual failures are retained without retry",
+  "invalidArtifacts": []
+}

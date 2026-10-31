@@ -1,0 +1,242 @@
+{
+  "schema": "trident-harness-verification-repair-v1",
+  "originalResultSha256": "1ff4d99602840f6b5b6dca57aadad7666ba927dd45d05ec0fd04020b86159ca2",
+  "originalPhase": "run-2",
+  "repairPhase": "model-path-repair",
+  "qualification": "execution-paths-verified",
+  "results": [
+    {
+      "job": "reference-svg",
+      "project": "mermaid-js/mermaid",
+      "output": "svg",
+      "transport": "browser",
+      "execution": "verified",
+      "observations": 4,
+      "inputPropagation": {
+        "passed": true,
+        "gaps": [],
+        "scope": "Authored control labels changed and recovered; diagram geometry remains unqualified"
+      },
+      "scope": "Invocation/retention controls only; no corpus accuracy or speed qualification",
+      "phase": "run-2"
+    },
+    {
+      "job": "reference-png-conversion",
+      "project": "mermaid-js/mermaid",
+      "output": "png",
+      "transport": "browser",
+      "execution": "verified",
+      "observations": 4,
+      "inputPropagation": {
+        "passed": true,
+        "gaps": [],
+        "scope": "Actual decoded image changed with source; image meaning remains unqualified"
+      },
+      "scope": "Invocation/retention controls only; no corpus accuracy or speed qualification",
+      "phase": "run-2"
+    },
+    {
+      "job": "reference-model",
+      "project": "mermaid-js/mermaid",
+      "output": "structured",
+      "transport": "model",
+      "execution": "verified",
+      "observations": 0,
+      "scope": "Invocation/retention controls only; no corpus accuracy or speed qualification",
+      "phase": "model-path-repair",
+      "originalError": "Error: Native fidelity worker did not complete: node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nfile:///workspace/trident-qualification/unified/docs-source-review.ts:69\n  lines: string[] = []\n  constructor(readonly input: DocsInput) {\n                       ^^^^^^^^^^^^^^^^\n    let source = input.source\n\nSyntaxError [ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX]: TypeScript parameter property is not supported in strip-only mode\n    at parseTypeScript (node:internal/modules/typescript:68:40)\n    at processTypeScriptCode (node:internal/modules/typescript:146:42)\n    at stripTypeScriptModuleTypes (node:internal/modules/typescript:215:22)\n    at ModuleLoader.<anonymous> (node:internal/modules/esm/translators:680:29)\n    at #translate (node:internal/modules/esm/loader:434:20)\n    at afterLoad (node:internal/modules/esm/loader:502:29)\n    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:507:12)\n    at #getOrCreateModuleJobAfterResolve (node:internal/modules/esm/loader:560:36)\n    at afterResolve (node:internal/modules/esm/loader:607:52)\n    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:613:12) {\n  code: 'ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX'\n}\n\nNode.js v24.19.0\n"
+    },
+    {
+      "job": "terminal-baseline",
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "output": "terminal",
+      "transport": "primary",
+      "execution": "verified",
+      "observations": 4,
+      "inputPropagation": {
+        "passed": true,
+        "gaps": [],
+        "scope": "Authored control labels changed and recovered; diagram geometry remains unqualified"
+      },
+      "scope": "Invocation/retention controls only; no corpus accuracy or speed qualification",
+      "phase": "run-2"
+    },
+    {
+      "job": "node-svg",
+      "project": "adewale/agentic-mermaid",
+      "output": "svg",
+      "transport": "primary",
+      "execution": "verified",
+      "observations": 4,
+      "inputPropagation": {
+        "passed": true,
+        "gaps": [],
+        "scope": "Authored control labels changed and recovered; diagram geometry remains unqualified"
+      },
+      "scope": "Invocation/retention controls only; no corpus accuracy or speed qualification",
+      "phase": "run-2"
+    },
+    {
+      "job": "node-png",
+      "project": "adewale/agentic-mermaid",
+      "output": "png",
+      "transport": "primary",
+      "execution": "verified",
+      "observations": 4,
+      "inputPropagation": {
+        "passed": true,
+        "gaps": [],
+        "scope": "Actual decoded image changed with source; image meaning remains unqualified"
+      },
+      "scope": "Invocation/retention controls only; no corpus accuracy or speed qualification",
+      "phase": "run-2"
+    },
+    {
+      "job": "node-terminal",
+      "project": "adewale/agentic-mermaid",
+      "output": "terminal",
+      "transport": "primary",
+      "execution": "verified",
+      "observations": 4,
+      "inputPropagation": {
+        "passed": true,
+        "gaps": [],
+        "scope": "Authored control labels changed and recovered; diagram geometry remains unqualified"
+      },
+      "scope": "Invocation/retention controls only; no corpus accuracy or speed qualification",
+      "phase": "run-2"
+    },
+    {
+      "job": "alternate-model",
+      "project": "adewale/agentic-mermaid",
+      "output": "structured",
+      "transport": "model",
+      "execution": "verified",
+      "observations": 0,
+      "scope": "Invocation/retention controls only; no corpus accuracy or speed qualification",
+      "phase": "model-path-repair",
+      "originalError": "Error: Native fidelity worker did not complete: node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nfile:///workspace/trident-qualification/unified/docs-source-review.ts:69\n  lines: string[] = []\n  constructor(readonly input: DocsInput) {\n                       ^^^^^^^^^^^^^^^^\n    let source = input.source\n\nSyntaxError [ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX]: TypeScript parameter property is not supported in strip-only mode\n    at parseTypeScript (node:internal/modules/typescript:68:40)\n    at processTypeScriptCode (node:internal/modules/typescript:146:42)\n    at stripTypeScriptModuleTypes (node:internal/modules/typescript:215:22)\n    at ModuleLoader.<anonymous> (node:internal/modules/esm/translators:680:29)\n    at #translate (node:internal/modules/esm/loader:434:20)\n    at afterLoad (node:internal/modules/esm/loader:502:29)\n    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:507:12)\n    at #getOrCreateModuleJobAfterResolve (node:internal/modules/esm/loader:560:36)\n    at afterResolve (node:internal/modules/esm/loader:607:52)\n    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:613:12) {\n  code: 'ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX'\n}\n\nNode.js v24.19.0\n"
+    },
+    {
+      "job": "package-cli",
+      "project": "adewale/agentic-mermaid",
+      "output": "svg",
+      "transport": "node-cli",
+      "execution": "verified",
+      "observations": 4,
+      "inputPropagation": {
+        "passed": true,
+        "gaps": [],
+        "scope": "Authored control labels changed and recovered; diagram geometry remains unqualified"
+      },
+      "scope": "Invocation/retention controls only; no corpus accuracy or speed qualification",
+      "phase": "run-2"
+    },
+    {
+      "job": "png-only-worker",
+      "project": "pub:mermaid_flutter",
+      "output": "png",
+      "transport": "primary",
+      "execution": "verified",
+      "observations": 4,
+      "inputPropagation": {
+        "passed": true,
+        "gaps": [],
+        "scope": "Actual decoded image changed with source; image meaning remains unqualified"
+      },
+      "scope": "Invocation/retention controls only; no corpus accuracy or speed qualification",
+      "phase": "run-2"
+    },
+    {
+      "job": "wasm-svg",
+      "project": "Latias94/merman",
+      "output": "svg",
+      "transport": "browser",
+      "execution": "verified",
+      "observations": 4,
+      "inputPropagation": {
+        "passed": true,
+        "gaps": [],
+        "scope": "Authored control labels changed and recovered; diagram geometry remains unqualified"
+      },
+      "scope": "Invocation/retention controls only; no corpus accuracy or speed qualification",
+      "phase": "run-2"
+    },
+    {
+      "job": "native-node-engine",
+      "project": "Latias94/merman",
+      "output": "svg",
+      "transport": "primary",
+      "execution": "verified",
+      "observations": 4,
+      "inputPropagation": {
+        "passed": true,
+        "gaps": [],
+        "scope": "Authored control labels changed and recovered; diagram geometry remains unqualified"
+      },
+      "scope": "Invocation/retention controls only; no corpus accuracy or speed qualification",
+      "phase": "run-2"
+    },
+    {
+      "job": "native-svg-cli",
+      "project": "Latias94/merman",
+      "output": "svg",
+      "transport": "native-release",
+      "execution": "verified",
+      "observations": 4,
+      "inputPropagation": {
+        "passed": true,
+        "gaps": [],
+        "scope": "Authored control labels changed and recovered; diagram geometry remains unqualified"
+      },
+      "scope": "Invocation/retention controls only; no corpus accuracy or speed qualification",
+      "phase": "run-2"
+    },
+    {
+      "job": "native-png-cli",
+      "project": "Latias94/merman",
+      "output": "png",
+      "transport": "native-release",
+      "execution": "verified",
+      "observations": 4,
+      "inputPropagation": {
+        "passed": true,
+        "gaps": [],
+        "scope": "Actual decoded image changed with source; image meaning remains unqualified"
+      },
+      "scope": "Invocation/retention controls only; no corpus accuracy or speed qualification",
+      "phase": "run-2"
+    },
+    {
+      "job": "native-terminal-cli",
+      "project": "Latias94/merman",
+      "output": "terminal",
+      "transport": "native-release",
+      "execution": "verified",
+      "observations": 4,
+      "inputPropagation": {
+        "passed": true,
+        "gaps": [],
+        "scope": "Authored control labels changed and recovered; diagram geometry remains unqualified"
+      },
+      "scope": "Invocation/retention controls only; no corpus accuracy or speed qualification",
+      "phase": "run-2"
+    },
+    {
+      "job": "python-api",
+      "project": "fasouto/termaid",
+      "output": "terminal",
+      "transport": "primary",
+      "execution": "verified",
+      "observations": 4,
+      "inputPropagation": {
+        "passed": true,
+        "gaps": [],
+        "scope": "Authored control labels changed and recovered; diagram geometry remains unqualified"
+      },
+      "scope": "Invocation/retention controls only; no corpus accuracy or speed qualification",
+      "phase": "run-2"
+    }
+  ],
+  "scope": "Two explicit execution phases,56 original output calls and two repaired model workflows. No corpus accuracy or performance qualification."
+}

@@ -1,0 +1,65 @@
+{
+  "protocol": "community-fixed-core-feature-once-v2",
+  "outputSelection": null,
+  "scope": "all-bound-outputs",
+  "qualificationProtocol": null,
+  "svgQualification": {
+    "protocol": "svg-xml-namespaced-authored-text-v5",
+    "nodeXmlParser": {
+      "name": "saxes",
+      "version": "6.0.0",
+      "module": "/workspace/trident/node_modules/saxes/saxes.js",
+      "packageJson": "/workspace/trident/node_modules/saxes/package.json"
+    },
+    "browserXmlParser": "native DOMParser",
+    "canvasPolicy": "SVG namespace/root and positive finite viewBox or explicit finite width/height; percentage-only dimensions need a positive viewBox",
+    "textPolicy": "namespace-aware authored text retention excluding inert containers; sibling <text> rows of one wrapped label joined; markdown delimiters optional only for oracle/fixture-declared Markdown labels; CSS/paint visibility, referenced use/text paths and owned-label correspondence unmeasured"
+  },
+  "mermaidOracle": {
+    "pin": {
+      "version": "12.2.0",
+      "parser": "2.0.1",
+      "dom": "26.1.0"
+    },
+    "familyProbeTypes": {
+      "family-support:flowchart": "flowchart-v2",
+      "family-support:sequence": "sequence",
+      "family-support:class": "classDiagram",
+      "family-support:er": "er",
+      "family-support:state": "stateDiagram"
+    }
+  },
+  "profile": "smoke",
+  "rounds": 1,
+  "coverageOnce": true,
+  "target": {
+    "root": "/workspace/trident-qualification",
+    "packageRoot": "/workspace/trident-qualification",
+    "revision": "0df0170a1ddadf407872fcb4240d7077e4644306",
+    "candidateTarball": null,
+    "candidateSha256": null,
+    "compiledArtifacts": null
+  },
+  "targetAdvance": null,
+  "currentReference": null,
+  "coreCaseIds": [
+    "core:flow5",
+    "core:tree50",
+    "core:seq20",
+    "core:class80",
+    "core:er40",
+    "core:state80"
+  ],
+  "featureCaseIds": [
+    "support:flowchart",
+    "support:negative-header",
+    "support:negative-flowchart"
+  ],
+  "catalogIds": [
+    "AlexanderGrooff/mermaid-ascii"
+  ],
+  "finishedAt": "2026-10-31T15:10:13.546Z",
+  "preparedSource": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/AlexanderGrooff%2Fmermaid-ascii/prepared.json",
+  "frozenInputsSource": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/community-inputs.json",
+  "browserSource": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/AlexanderGrooff%2Fmermaid-ascii/browser.json"
+}

@@ -1,0 +1,7 @@
+import{a as h,f as a}from"./chunk-UAEZO5VL.js";import{N as c}from"./chunk-2XCPFAD5.js";var i={fontSize:15,fontWeight:500,height:32,padX:14,offsetY:12,rx:8,minY:4,pointerSize:6};function n(t){return(Math.round(t*100)/100).toString()}function Y(t,e,$,s){let p=h(s,i.fontSize,i.fontWeight)+i.padX*2,l=e-p/2,o=$-i.offsetY-i.height,r=o+i.height;o<i.minY&&(o=i.minY,r=o+i.height);let m=e,f=o+i.height/2,g=i.pointerSize,u=`M${n(e-g)},${n(r)} L${n(e+g)},${n(r)} L${n(e)},${n(r+g)} Z`;return`<g class="${t}-tip"><rect x="${n(l)}" y="${n(o)}" width="${n(p)}" height="${i.height}" rx="${i.rx}" class="${t}-tip ${t}-tip-bg"/><path d="${u}" class="${t}-tip ${t}-tip-ptr"/><text x="${n(m)}" y="${n(f)}" text-anchor="middle" dy="${a}" class="${t}-tip ${t}-tip-text">${c(s)}</text></g>`}function W(t,e){let $=e.map(s=>`.${s}:hover .${t}-tip`).join(`,
+  `);return`
+  .${t}-tip { opacity: 0; pointer-events: none; }
+  .${t}-tip-bg { fill: var(--_text); }
+  .${t}-tip-text { fill: var(--bg); font-size: ${i.fontSize}px; font-weight: ${i.fontWeight}; }
+  .${t}-tip-ptr { fill: var(--_text); }
+  ${$} { opacity: 1; }`}export{Y as a,W as b};

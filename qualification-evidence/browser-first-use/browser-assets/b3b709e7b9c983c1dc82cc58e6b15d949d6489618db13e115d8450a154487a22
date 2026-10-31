@@ -1,0 +1,1 @@
+import{a as c,d as r,f as o}from"./chunk-D3XXDKIO.js";function f(a,e={}){let i=a<=6?{accent:e.accent&&r(e.accent)?e.accent:c,bg:e.bg&&r(e.bg)?e.bg:void 0}:e,n=o(a,i),t=e.overrides;return!t||t.length===0?n:n.map((l,d)=>t[d%12]??l)}export{f as a};

@@ -1,0 +1,213 @@
+{
+  "node": {
+    "id": "Latias94/merman",
+    "categories": [
+      "renderer"
+    ],
+    "relation": "independent",
+    "repo": "https://github.com/Latias94/merman",
+    "branch": "main",
+    "head": "252752f7029b67f6a6f22a35230ef2bdf9c605d0",
+    "lastCommit": "2026-10-18T20:14:25+08:00",
+    "rootCommits": [
+      "2c88bcc786cdb91f4c7c394398e10effbccae3b7"
+    ],
+    "license": "MIT OR Apache-2.0",
+    "release": {
+      "tag": "v0.9.1",
+      "commit": "f6202f702dbde0a75049b1a62b3124feae709b3d"
+    },
+    "runtime": "Rust (+ WASM, napi, Python bindings)",
+    "outputs": [
+      "svg",
+      "png",
+      "jpeg",
+      "pdf",
+      "ascii-unicode"
+    ],
+    "packages": [
+      {
+        "registry": "npm",
+        "name": "@mermanjs/node",
+        "version": "0.9.1",
+        "license": "MIT OR Apache-2.0",
+        "provenanceCommit": "f6202f702dbde0a75049b1a62b3124feae709b3d",
+        "publishedFromDefaultBranch": false
+      },
+      {
+        "registry": "npm",
+        "name": "@mermanjs/web",
+        "version": "0.9.1",
+        "license": "MIT OR Apache-2.0",
+        "provenanceCommit": "f6202f702dbde0a75049b1a62b3124feae709b3d",
+        "publishedFromDefaultBranch": false
+      },
+      {
+        "registry": "pypi",
+        "name": "merman",
+        "version": "0.9.1",
+        "license": "MIT OR Apache-2.0"
+      }
+    ],
+    "roles": [
+      "peer",
+      "terminal-peer"
+    ],
+    "notes": "docs/comparison.md records 0.9.0; 0.9.1 was published from branch release/0.9.1 on the check date. Cargo.toml at main head still says 0.9.0.",
+    "benchmark": {
+      "adapter": "merman",
+      "package": "@mermanjs/node",
+      "outputs": [
+        "png"
+      ],
+      "portable": {
+        "adapter": "declared",
+        "binding": {
+          "factory": "createNodeEngine",
+          "export": "renderSvgSync",
+          "dispose": "dispose"
+        }
+      },
+      "moduleOutputs": [
+        "svg"
+      ],
+      "cliRelease": {
+        "repository": "Latias94/merman",
+        "tag": "v0.9.2",
+        "version": "0.9.2",
+        "revision": "8e303a43b548c9e40e73f0bc657925d66e7d4fb5",
+        "outputs": {
+          "terminal": {
+            "args": [
+              "render",
+              "-",
+              "--format",
+              "unicode",
+              "--ascii-color",
+              "plain",
+              "--ascii-max-width",
+              "120",
+              "--output",
+              "-"
+            ],
+            "input": "stdin"
+          },
+          "svg": {
+            "args": [
+              "render",
+              "-",
+              "--format",
+              "svg",
+              "--output",
+              "-",
+              "--quiet"
+            ],
+            "input": "stdin"
+          },
+          "png": {
+            "args": [
+              "render",
+              "-",
+              "--format",
+              "png",
+              "--output",
+              "{output}",
+              "--quiet"
+            ],
+            "input": "stdin"
+          }
+        },
+        "platforms": {
+          "linux-x64": {
+            "asset": "merman-cli-x86_64-unknown-linux-gnu.tar.xz",
+            "sha256": "7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55",
+            "executable": "merman-cli-x86_64-unknown-linux-gnu/merman-cli"
+          }
+        }
+      }
+    },
+    "benchmarkEligibility": {
+      "classification": "independently-rooted-implementation",
+      "engineScope": "independent-engine-candidate",
+      "adapterReview": "existing-adapter; outcomes remain independent",
+      "reason": "Catalog declares svg, png, jpeg, pdf, terminal operations with adapter merman. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+    }
+  },
+  "artifact": {
+    "kind": "cli",
+    "root": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/Latias94--merman/v0.9.2/7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55",
+    "executable": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/Latias94--merman/v0.9.2/7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55/merman-cli-x86_64-unknown-linux-gnu/merman-cli",
+    "args": [
+      "render",
+      "-",
+      "--format",
+      "unicode",
+      "--ascii-color",
+      "plain",
+      "--ascii-max-width",
+      "120",
+      "--output",
+      "-"
+    ],
+    "input": "stdin",
+    "outputBindings": {
+      "terminal": {
+        "args": [
+          "render",
+          "-",
+          "--format",
+          "unicode",
+          "--ascii-color",
+          "plain",
+          "--ascii-max-width",
+          "120",
+          "--output",
+          "-"
+        ],
+        "input": "stdin"
+      },
+      "svg": {
+        "args": [
+          "render",
+          "-",
+          "--format",
+          "svg",
+          "--output",
+          "-",
+          "--quiet"
+        ],
+        "input": "stdin"
+      },
+      "png": {
+        "args": [
+          "render",
+          "-",
+          "--format",
+          "png",
+          "--output",
+          "{output}",
+          "--quiet"
+        ],
+        "input": "stdin"
+      }
+    },
+    "version": "0.9.2",
+    "versionSource": "command",
+    "revision": "8e303a43b548c9e40e73f0bc657925d66e7d4fb5",
+    "sha256": "2acc6ae1cfd5bcb0308789f7276e09a82efba6c6dcae64d91ea47e653a6a8565",
+    "files": [
+      {
+        "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/Latias94--merman/v0.9.2/7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55/merman-cli-x86_64-unknown-linux-gnu/merman-cli",
+        "sha256": "2acc6ae1cfd5bcb0308789f7276e09a82efba6c6dcae64d91ea47e653a6a8565"
+      },
+      {
+        "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/Latias94--merman/v0.9.2/7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55/merman-cli-x86_64-unknown-linux-gnu.tar.xz",
+        "sha256": "7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55"
+      }
+    ],
+    "runtime": "linux-x64 public native CLI",
+    "apiBoundary": "public release executable; fresh process, stdin/file through drained output",
+    "detail": "Archive https://github.com/Latias94/merman/releases/download/v0.9.2/merman-cli-x86_64-unknown-linux-gnu.tar.xz; SHA-256 7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55. Version identity: command. Source revision names the release tag, not a reproducible-build assertion.",
+    "transportVariant": "native-release"
+  }
+}

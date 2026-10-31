@@ -1,0 +1,36 @@
+{
+  "suite": "community-cli",
+  "surface": "cli:end-to-end",
+  "runtime": "linux-x64 public native CLI",
+  "family": "flowchart",
+  "caseId": "core:flow5",
+  "operation": "render",
+  "format": "terminal",
+  "mode": "fresh-process",
+  "status": "passed",
+  "metrics": {
+    "implementation": "AlexanderGrooff/mermaid-ascii",
+    "round": 1,
+    "featureCount": 1,
+    "rawInvocationId": "b7e81454-2db7-4ae2-ac92-a7653ddea159",
+    "rawInvocationDirectory": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/AlexanderGrooff%2Fmermaid-ascii/community-cli/raw/round-1/AlexanderGrooff_mermaid-ascii/terminal/core_flow5/raw-cli-invocations",
+    "stdoutFile": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/AlexanderGrooff%2Fmermaid-ascii/community-cli/raw/round-1/AlexanderGrooff_mermaid-ascii/terminal/core_flow5/raw-cli-invocations/outputs/3612dad7052bc199ceb2b11fd2cae828946a9b90d16459c7f87311f7418aa034",
+    "stderrFile": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/AlexanderGrooff%2Fmermaid-ascii/community-cli/raw/round-1/AlexanderGrooff_mermaid-ascii/terminal/core_flow5/raw-cli-invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outputFile": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/AlexanderGrooff%2Fmermaid-ascii/community-cli/raw/round-1/AlexanderGrooff_mermaid-ascii/terminal/core_flow5/raw-cli-invocations/outputs/3612dad7052bc199ceb2b11fd2cae828946a9b90d16459c7f87311f7418aa034",
+    "measuredAt": "2026-10-31T15:10:13.682Z",
+    "measuredFrom": "2026-10-31T15:10:13.650Z",
+    "firstMs": 19.822802000009688,
+    "timingQualified": false,
+    "qualification": "format-and-authored-labels",
+    "version": "1.6.1",
+    "boundary": "spawn through drained stdout/file artifact; process startup included",
+    "variantOf": "AlexanderGrooff/mermaid-ascii",
+    "variant": "public-cli",
+    "metricId": "AlexanderGrooff/mermaid-ascii:cli:terminal"
+  },
+  "samplesMs": [
+    19.822802000009688
+  ],
+  "bytes": 1161,
+  "findings": []
+}

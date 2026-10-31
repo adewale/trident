@@ -1,0 +1,1 @@
+function t(e){return o=>e(o)}function i(e,o={}){return{positioned:e,...o}}function r(e,o){return Object.freeze({...e,...o,contractVersion:2,capabilityEvidence:Object.freeze([])})}export{t as a,i as b,r as c};

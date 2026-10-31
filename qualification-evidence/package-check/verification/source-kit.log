@@ -1,0 +1,39 @@
+{"phase":"family-support","project":"adewale/agentic-mermaid","family":"flowchart","supported":true}
+{"phase":"warm","project":"adewale/agentic-mermaid","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"warm","project":"adewale/agentic-mermaid","round":1,"caseId":"adversarial:label-edit","completedCasesInRound":2}
+{"phase":"warm","project":"adewale/agentic-mermaid","round":1,"caseId":"adversarial:invalid-recovery","completedCasesInRound":3}
+{"phase":"warm","project":"adewale/agentic-mermaid","round":1,"caseId":"adversarial:configuration-reset","completedCasesInRound":4}
+{"phase":"first-use","project":"adewale/agentic-mermaid","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+{"phase":"first-use","project":"adewale/agentic-mermaid","round":1,"caseId":"adversarial:label-edit","completedCasesInRound":2}
+{"phase":"first-use","project":"adewale/agentic-mermaid","round":1,"caseId":"adversarial:invalid-recovery","completedCasesInRound":3}
+{"phase":"first-use","project":"adewale/agentic-mermaid","round":1,"caseId":"adversarial:configuration-reset","completedCasesInRound":4}
+{"phase":"memory","project":"adewale/agentic-mermaid","round":1,"caseId":"family:flowchart"}
+{"phase":"memory","project":"adewale/agentic-mermaid","round":1,"caseId":"adversarial:label-edit"}
+{"phase":"memory","project":"adewale/agentic-mermaid","round":1,"caseId":"adversarial:invalid-recovery"}
+{"phase":"memory","project":"adewale/agentic-mermaid","round":1,"caseId":"adversarial:configuration-reset"}
+{
+  "project": "adewale/agentic-mermaid",
+  "reused": false,
+  "recordId": "47eba174-fc54-4a2d-9d48-48bf899f936d",
+  "status": "uncalibrated",
+  "counts": {
+    "cases": 4,
+    "positiveCases": 4,
+    "negativeCases": 0,
+    "families": 1,
+    "canonicalFamilyRepresentatives": 1,
+    "unsupportedFamilies": [],
+    "unsupportedCases": 0,
+    "workers": 33,
+    "failedWorkers": 0,
+    "blockedWorkers": 0,
+    "completeSemanticCases": 0,
+    "outputAdmissionCases": 4,
+    "negativeAdmissionCases": 0,
+    "outputCalibratedTimingRows": 0,
+    "calibratedTimingRows": 0,
+    "totalTimingRows": 14,
+    "actualTimedCalls": 42
+  },
+  "report": "/workspace/trident-qualification-package-check-2026-10-31/verification/source-kit/report.md"
+}

@@ -1,0 +1,31 @@
+{
+  "suite": "community-cli",
+  "surface": "cli:end-to-end",
+  "runtime": "linux-x64 public native CLI",
+  "family": "sequence",
+  "caseId": "core:seq20",
+  "operation": "resource-diagnostic",
+  "format": "terminal",
+  "mode": "instrumented-resource-only",
+  "status": "passed",
+  "metrics": {
+    "implementation": "AlexanderGrooff/mermaid-ascii",
+    "variantOf": "AlexanderGrooff/mermaid-ascii",
+    "variant": "public-cli",
+    "metricId": "AlexanderGrooff/mermaid-ascii:cli-resource:terminal",
+    "qualification": "format-and-authored-labels",
+    "observer": "/workspace/.cloud-tools/gnu-time-root/usr/bin/time",
+    "clock": "GNU time child user/system CPU and maximum resident set; observer elapsed discarded",
+    "userCpuMs": 0,
+    "systemCpuMs": 40,
+    "totalCpuMs": 40,
+    "peakRssBytes": 16650240,
+    "cpuReportingQuantumMs": 10,
+    "cpuBelowResolution": false,
+    "totalCpuLowerBoundMs": 20,
+    "totalCpuUpperBoundMs": 60,
+    "evidence": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/AlexanderGrooff%2Fmermaid-ascii/community-cli/resources/AlexanderGrooff_mermaid-ascii/terminal/core_seq20/gnu-time.txt"
+  },
+  "bytes": 5040,
+  "findings": []
+}

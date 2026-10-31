@@ -1,0 +1,31 @@
+{
+  "suite": "community-cli",
+  "surface": "cli:end-to-end",
+  "runtime": "node:24.19.0 installed public CLI",
+  "family": "flowchart",
+  "caseId": "core:tree50",
+  "operation": "resource-diagnostic",
+  "format": "svg",
+  "mode": "instrumented-resource-only",
+  "status": "passed",
+  "metrics": {
+    "implementation": "adewale/agentic-mermaid#node-cli",
+    "variantOf": "adewale/agentic-mermaid",
+    "variant": "node-cli",
+    "metricId": "adewale/agentic-mermaid#node-cli:cli-resource:svg",
+    "qualification": "format-and-authored-labels",
+    "observer": "/workspace/.cloud-tools/gnu-time-root/usr/bin/time",
+    "clock": "GNU time child user/system CPU and maximum resident set; observer elapsed discarded",
+    "userCpuMs": 2270,
+    "systemCpuMs": 250,
+    "totalCpuMs": 2520,
+    "peakRssBytes": 146436096,
+    "cpuReportingQuantumMs": 10,
+    "cpuBelowResolution": false,
+    "totalCpuLowerBoundMs": 2500,
+    "totalCpuUpperBoundMs": 2540,
+    "evidence": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/adewale%2Fagentic-mermaid/community-cli/resources/adewale_agentic-mermaid_node-cli/svg/core_tree50/gnu-time.txt"
+  },
+  "bytes": 53851,
+  "findings": []
+}

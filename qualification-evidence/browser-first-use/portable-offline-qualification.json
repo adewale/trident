@@ -1,0 +1,79 @@
+{
+  "schema": "trident-qualified-timing-v1",
+  "status": "qualified",
+  "planSha256": "608c1adf70f0e520b8960ab88650d26ef76c31dcbacda79ed2ca378423198b4e",
+  "samplesSha256": "149a83666a693e75acbba44ce9e953c68f998e683e5c051a845c5b02b6290511",
+  "comparisonKey": "02a107588050c4899127163269867f12bfb0e82fb0d50d8f235fe9cd941d67cc",
+  "project": "adewale/agentic-mermaid",
+  "caseIds": [
+    "meaning:family:flowchart"
+  ],
+  "boundary": "Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded",
+  "format": "svg",
+  "track": "first-use",
+  "environmentSha256": "7955f3144e1d7a256d03117794a571cdca4f9ba3a9eb74332b46a9a687b5c1d1",
+  "planned": 18,
+  "checked": 18,
+  "gaps": [],
+  "perRoundMs": [
+    486.485038,
+    303.085518,
+    327.257886,
+    329.628484,
+    315.576191,
+    509.557874
+  ],
+  "medianMs": 328.44318499999997,
+  "calibration": {
+    "status": "calibrated",
+    "gaps": [],
+    "controlRatios": [
+      1.1854619256342225,
+      1.0104287124292664,
+      1.06498924161872,
+      1.0575037598577002,
+      0.9653612434329277,
+      0.8749347514906063
+    ],
+    "candidateRatios": [
+      0.665410549096547,
+      0.46061985393419136,
+      0.5315905452784352,
+      0.6177977616756543,
+      0.5374287444499904,
+      0.8717680500180819
+    ],
+    "controlBand": {
+      "lower": 0.8435530305749801,
+      "upper": 1.1854619256342225
+    },
+    "candidateRatio": 0.5776132530628224,
+    "roundRatioUncertainty": {
+      "controls": {
+        "independentRounds": 6,
+        "medianRatio": 1.0339662361434834,
+        "interval": {
+          "lower": 0.8749347514906063,
+          "upper": 1.1854619256342225,
+          "confidence": 0.96875
+        },
+        "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+        "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+      },
+      "replicaB": {
+        "independentRounds": 6,
+        "medianRatio": 0.5776132530628224,
+        "interval": {
+          "lower": 0.46061985393419136,
+          "upper": 0.8717680500180819,
+          "confidence": 0.96875
+        },
+        "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+        "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+      }
+    },
+    "interpretation": "below observed control band; advisory"
+  },
+  "interpretation": "Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim.",
+  "driverFinalizationSha256": "29838f8911edd86a3b77205485904649e8673f31d4bce7511673db66d789d68c"
+}

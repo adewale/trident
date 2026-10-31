@@ -1,0 +1,7 @@
+completed verification:positive ok
+completed verification:changed ok
+completed verification:invalid error
+completed verification:recovery ok
+
+(com.example.native_bench:351814): Atk-CRITICAL **: 15:01:39.163: atk_socket_embed: assertion 'plug_id != NULL' failed
+[IMPORTANT:flutter/shell/platform/embedder/embedder_surface_gl_impeller.cc(126)] Using the Impeller rendering backend (OpenGLESSDF).

@@ -1,0 +1,3950 @@
+{
+  "startedAt": "2026-10-31T15:10:11.262Z",
+  "finishedAt": "2026-10-31T15:10:13.546Z",
+  "protocol": "community-fixed-core-feature-once-v2",
+  "evidence": {
+    "protocol": "community-fixed-core-feature-once-v2",
+    "outputSelection": null,
+    "scope": "all-bound-outputs",
+    "qualificationProtocol": null,
+    "svgQualification": {
+      "protocol": "svg-xml-namespaced-authored-text-v5",
+      "nodeXmlParser": {
+        "name": "saxes",
+        "version": "6.0.0",
+        "module": "/workspace/trident/node_modules/saxes/saxes.js",
+        "packageJson": "/workspace/trident/node_modules/saxes/package.json"
+      },
+      "browserXmlParser": "native DOMParser",
+      "canvasPolicy": "SVG namespace/root and positive finite viewBox or explicit finite width/height; percentage-only dimensions need a positive viewBox",
+      "textPolicy": "namespace-aware authored text retention excluding inert containers; sibling <text> rows of one wrapped label joined; markdown delimiters optional only for oracle/fixture-declared Markdown labels; CSS/paint visibility, referenced use/text paths and owned-label correspondence unmeasured"
+    },
+    "mermaidOracle": {
+      "pin": {
+        "version": "12.2.0",
+        "parser": "2.0.1",
+        "dom": "26.1.0"
+      },
+      "familyProbeTypes": {
+        "family-support:flowchart": "flowchart-v2",
+        "family-support:sequence": "sequence",
+        "family-support:class": "classDiagram",
+        "family-support:er": "er",
+        "family-support:state": "stateDiagram"
+      }
+    },
+    "profile": "smoke",
+    "rounds": 1,
+    "coverageOnce": true,
+    "target": {
+      "root": "/workspace/trident-qualification",
+      "packageRoot": "/workspace/trident-qualification",
+      "revision": "0df0170a1ddadf407872fcb4240d7077e4644306",
+      "candidateTarball": null,
+      "candidateSha256": null,
+      "compiledArtifacts": null
+    },
+    "targetAdvance": null,
+    "currentReference": null,
+    "coreCaseIds": [
+      "core:flow5",
+      "core:tree50",
+      "core:seq20",
+      "core:class80",
+      "core:er40",
+      "core:state80"
+    ],
+    "featureCaseIds": [
+      "support:flowchart",
+      "support:negative-header",
+      "support:negative-flowchart"
+    ],
+    "catalogIds": [
+      "AlexanderGrooff/mermaid-ascii"
+    ],
+    "finishedAt": "2026-10-31T15:10:13.546Z",
+    "preparedSource": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/AlexanderGrooff%2Fmermaid-ascii/prepared.json",
+    "frozenInputsSource": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/community-inputs.json",
+    "browserSource": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/AlexanderGrooff%2Fmermaid-ascii/browser.json"
+  },
+  "rounds": 1,
+  "ranks": [
+    {
+      "implementation": "AlexanderGrooff/mermaid-ascii",
+      "surface": "cli:end-to-end",
+      "output": "terminal",
+      "runtime": "linux-x64 public native CLI",
+      "version": "1.6.1",
+      "evidenceImplementation": "AlexanderGrooff/mermaid-ascii",
+      "independentMeasurement": true,
+      "requiredCaseIds": [
+        "core:flow5",
+        "core:tree50",
+        "core:seq20"
+      ],
+      "qualified": false,
+      "observedPerRoundMs": [
+        609.8075359999784
+      ],
+      "perRoundMs": null,
+      "medianMs": null,
+      "qualificationGap": "No per-call complete correctness and matched A/A timing bundle; use timing:qualify on retained invocation evidence",
+      "policy": "Fixed core: SVG/PNG/parser6 inputs/5 families; terminal3/2. Every required case must qualify uniquely in every round; boundaries remain separate."
+    }
+  ],
+  "familyRanks": [
+    {
+      "implementation": "AlexanderGrooff/mermaid-ascii",
+      "surface": "cli:end-to-end",
+      "output": "terminal",
+      "family": "flowchart",
+      "runtime": "linux-x64 public native CLI",
+      "version": "1.6.1",
+      "evidenceImplementation": "AlexanderGrooff/mermaid-ascii",
+      "independentMeasurement": true,
+      "requiredCaseIds": [
+        "core:flow5",
+        "core:tree50"
+      ],
+      "qualified": false,
+      "observedPerRoundMs": [
+        589.6535889999941
+      ],
+      "perRoundMs": null,
+      "medianMs": null,
+      "qualificationGap": "No per-call complete correctness and matched A/A timing bundle; use timing:qualify on retained invocation evidence",
+      "policy": "Family scope of the existing fixed core only: flowchart2 inputs; other SVG/parser families1; terminal flowchart2/sequence1. All required cases must pass every round. This is not an invented broader workload or full-family feature score."
+    },
+    {
+      "implementation": "AlexanderGrooff/mermaid-ascii",
+      "surface": "cli:end-to-end",
+      "output": "terminal",
+      "family": "sequence",
+      "runtime": "linux-x64 public native CLI",
+      "version": "1.6.1",
+      "evidenceImplementation": "AlexanderGrooff/mermaid-ascii",
+      "independentMeasurement": true,
+      "requiredCaseIds": [
+        "core:seq20"
+      ],
+      "qualified": false,
+      "observedPerRoundMs": [
+        20.153946999984328
+      ],
+      "perRoundMs": null,
+      "medianMs": null,
+      "qualificationGap": "No per-call complete correctness and matched A/A timing bundle; use timing:qualify on retained invocation evidence",
+      "policy": "Family scope of the existing fixed core only: flowchart2 inputs; other SVG/parser families1; terminal flowchart2/sequence1. All required cases must pass every round. This is not an invented broader workload or full-family feature score."
+    }
+  ],
+  "catalogNodes": 1,
+  "comparatorNodes": 1,
+  "artifacts": [
+    {
+      "node": {
+        "id": "AlexanderGrooff/mermaid-ascii",
+        "categories": [
+          "renderer"
+        ],
+        "relation": "independent",
+        "repo": "https://github.com/AlexanderGrooff/mermaid-ascii",
+        "branch": "master",
+        "head": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+        "lastCommit": "2026-09-08T23:38:47+02:00",
+        "rootCommits": [
+          "cb28264cf4b3261836de8f6af2d8dc2e7d459552"
+        ],
+        "license": "MIT",
+        "release": {
+          "tag": "1.6.1",
+          "commit": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea"
+        },
+        "runtime": "Go",
+        "outputs": [
+          "ascii-unicode"
+        ],
+        "roles": [
+          "ancestor",
+          "terminal-peer"
+        ],
+        "notes": "docs/comparison.md records 1.4.0; latest tag is newer. Ancestor of the Beautiful/Agentic ASCII engine by port.",
+        "benchmark": {
+          "adapter": "source-cli",
+          "outputs": [
+            "terminal"
+          ],
+          "cliRelease": {
+            "repository": "AlexanderGrooff/mermaid-ascii",
+            "tag": "1.6.1",
+            "version": "1.6.1",
+            "versionSource": "release-tag",
+            "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+            "outputs": {
+              "terminal": {
+                "args": [],
+                "input": "stdin"
+              }
+            },
+            "platforms": {
+              "linux-x64": {
+                "asset": "mermaid-ascii_Linux_x86_64.tar.gz",
+                "sha256": "9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41",
+                "executable": "mermaid-ascii"
+              }
+            }
+          }
+        },
+        "benchmarkEligibility": {
+          "classification": "independently-rooted-implementation",
+          "engineScope": "independent-engine-candidate",
+          "adapterReview": "existing-adapter; outcomes remain independent",
+          "reason": "Catalog declares terminal operations with adapter source-cli. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+        }
+      },
+      "artifact": {
+        "kind": "cli",
+        "root": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41",
+        "executable": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii",
+        "args": [],
+        "input": "stdin",
+        "outputBindings": {
+          "terminal": {
+            "args": [],
+            "input": "stdin"
+          }
+        },
+        "version": "1.6.1",
+        "versionSource": "release-tag",
+        "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+        "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+        "files": [
+          {
+            "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii",
+            "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8"
+          },
+          {
+            "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii_Linux_x86_64.tar.gz",
+            "sha256": "9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41"
+          }
+        ],
+        "runtime": "linux-x64 public native CLI",
+        "apiBoundary": "public release executable; fresh process, stdin/file through drained output",
+        "detail": "Archive https://github.com/AlexanderGrooff/mermaid-ascii/releases/download/1.6.1/mermaid-ascii_Linux_x86_64.tar.gz; SHA-256 9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41. Version identity: release-tag. Source revision names the release tag, not a reproducible-build assertion."
+      }
+    }
+  ],
+  "eligibility": {
+    "schemaVersion": 1,
+    "generatedAt": "2026-10-31T15:10:12.748Z",
+    "catalogCheckedAt": "2026-10-18",
+    "summary": {
+      "catalogNodes": 89,
+      "configuredNodes": 86,
+      "candidateAdaptersAwaitingApiArtifactAttempt": 64,
+      "existingAdapters": 20,
+      "declaredOperationsWithoutOutputBinding": 13,
+      "adapterGaps": 3,
+      "zeroAheadForks": 25,
+      "recordedExactParentHeadForks": 4,
+      "historicalZeroAheadForks": 21,
+      "candidateEquivalenceGroups": 3,
+      "verifiedEquivalenceGroups": 0
+    },
+    "nodes": [
+      {
+        "id": "mermaid-js/mermaid-live-editor",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "implementation-candidate",
+        "reason": "Catalog records unverified lineage, Browser; Svelte application with Mermaid as a dependency, and svg, png, source outputs. No adapter has been admitted; applicability is unmeasured, not globally not-applicable.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Browser; Svelte application with Mermaid as a dependency",
+        "state": "unmeasured-adapter-gap",
+        "adapterReview": "unreviewed",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": false,
+            "state": "declared-unmeasured",
+            "reason": "Catalog declares this operation but no output binding is configured; missing coverage is not a zero score."
+          },
+          {
+            "output": "png",
+            "operation": "render",
+            "configured": false,
+            "state": "declared-unmeasured",
+            "reason": "Catalog declares this operation but no output binding is configured; missing coverage is not a zero score."
+          },
+          {
+            "output": "source",
+            "operation": "format-or-serialize",
+            "configured": false,
+            "state": "declared-unmeasured",
+            "reason": "Catalog declares this operation but no output binding is configured; missing coverage is not a zero score."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/mermaid-js/mermaid-live-editor",
+          "sourcePin": "eb4141dd51247259e95ecd890c1bf3dabf314913"
+        },
+        "benchmark": null
+      },
+      {
+        "id": "tomoyukim/vscode-mermaid-editor",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "implementation-candidate",
+        "reason": "Catalog records unverified lineage, Visual Studio Code extension; Mermaid preview and image export, and svg, png, jpeg outputs. No adapter has been admitted; applicability is unmeasured, not globally not-applicable.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Visual Studio Code extension; Mermaid preview and image export",
+        "state": "unmeasured-adapter-gap",
+        "adapterReview": "unreviewed",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": false,
+            "state": "declared-unmeasured",
+            "reason": "Catalog declares this operation but no output binding is configured; missing coverage is not a zero score."
+          },
+          {
+            "output": "png",
+            "operation": "render",
+            "configured": false,
+            "state": "declared-unmeasured",
+            "reason": "Catalog declares this operation but no output binding is configured; missing coverage is not a zero score."
+          },
+          {
+            "output": "jpeg",
+            "operation": "render",
+            "configured": false,
+            "state": "declared-unmeasured",
+            "reason": "Catalog declares this operation but no output binding is configured; missing coverage is not a zero score."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/tomoyukim/vscode-mermaid-editor",
+          "sourcePin": "594128149e0146c4221c3720356a300436e6144f"
+        },
+        "benchmark": null
+      },
+      {
+        "id": "excalidraw/mermaid-to-excalidraw",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "implementation-candidate",
+        "reason": "Catalog records unverified lineage, TypeScript library and browser playground; Mermaid to Excalidraw conversion, and excalidraw outputs. An adapter is configured; actual execution/admission is reported separately.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript library and browser playground; Mermaid to Excalidraw conversion",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "unreviewed",
+        "operations": [
+          {
+            "output": "excalidraw",
+            "operation": "convert",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@excalidraw/mermaid-to-excalidraw",
+          "version": "2.3.0",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "@excalidraw/mermaid-to-excalidraw",
+          "version": "2.3.0",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "excalidraw"
+          ],
+          "moduleOutputs": []
+        }
+      },
+      {
+        "id": "gotoailab/modern_mermaid",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "implementation-candidate",
+        "reason": "Catalog records independent lineage, Browser; React 19.2.0, Mermaid 11.12.1; Vite web/PWA and Chrome extension builds, and svg, png, jpeg outputs. No adapter has been admitted; applicability is unmeasured, not globally not-applicable.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Browser; React 19.2.0, Mermaid 11.12.1; Vite web/PWA and Chrome extension builds",
+        "state": "unmeasured-adapter-gap",
+        "adapterReview": "unreviewed",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": false,
+            "state": "declared-unmeasured",
+            "reason": "Catalog declares this operation but no output binding is configured; missing coverage is not a zero score."
+          },
+          {
+            "output": "png",
+            "operation": "render",
+            "configured": false,
+            "state": "declared-unmeasured",
+            "reason": "Catalog declares this operation but no output binding is configured; missing coverage is not a zero score."
+          },
+          {
+            "output": "jpeg",
+            "operation": "render",
+            "configured": false,
+            "state": "declared-unmeasured",
+            "reason": "Catalog declares this operation but no output binding is configured; missing coverage is not a zero score."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/gotoailab/modern_mermaid",
+          "sourcePin": "a021cbce37fc0b07a9f4791c28e983101ea06f2d"
+        },
+        "benchmark": null
+      },
+      {
+        "id": "Dicklesworthstone/frankenmermaid",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Catalog declares svg, terminal, parse, diagnostics, source operations with adapter franken. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration.",
+        "roles": [
+          "peer",
+          "terminal-peer",
+          "parser-peer"
+        ],
+        "runtime": "Rust 2024; distributed WASM in Node and browser; native CLI",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "parse",
+            "operation": "parse",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "diagnostics",
+            "operation": "validate",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "source",
+            "operation": "format-or-serialize",
+            "configured": false,
+            "state": "declared-unmeasured",
+            "reason": "Catalog declares this operation but no output binding is configured; missing coverage is not a zero score."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/Dicklesworthstone/frankenmermaid",
+          "sourcePin": "29536a1308acd1bae4da8b72b4cebffb39709ae0"
+        },
+        "benchmark": {
+          "adapter": "franken",
+          "outputs": [
+            "svg",
+            "parse",
+            "diagnostics",
+            "terminal"
+          ],
+          "moduleOutputs": [
+            "svg",
+            "parse",
+            "diagnostics"
+          ],
+          "cliRelease": {
+            "repository": "Dicklesworthstone/frankenmermaid",
+            "tag": "v0.4.0",
+            "version": "0.4.0",
+            "revision": "d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f",
+            "outputs": {
+              "terminal": {
+                "args": [
+                  "--quiet",
+                  "render",
+                  "-",
+                  "--format",
+                  "term",
+                  "--width",
+                  "120"
+                ],
+                "input": "stdin"
+              }
+            },
+            "platforms": {
+              "linux-x64": {
+                "asset": "frankenmermaid-linux-amd64.tar.xz",
+                "sha256": "a1e4ccf2cb02a01b00a36363791201faa9bc24f787b759330c96b5d545af175a",
+                "executable": "frankenmermaid"
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "wevm/ondine",
+        "classification": "port-implementation",
+        "engineScope": "derived-code-independent-runtime-implementation",
+        "reason": "Catalog declares svg, terminal operations with adapter ondine. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration.",
+        "roles": [
+          "peer"
+        ],
+        "runtime": "Rust -> WASM (Node, browser, edge); build-time Vite/remark compiler",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "ondine",
+          "version": "0.0.1",
+          "versionPolicy": "runner-policy-explicit-in-run"
+        },
+        "benchmark": {
+          "adapter": "ondine",
+          "package": "ondine",
+          "subpath": "compiler",
+          "outputs": [
+            "svg",
+            "terminal"
+          ],
+          "moduleOutputs": [
+            "svg"
+          ],
+          "cli": {
+            "bin": "ondine",
+            "args": [
+              "--ascii"
+            ],
+            "outputs": [
+              "terminal"
+            ]
+          }
+        }
+      },
+      {
+        "id": "orestesgaolin/mermaid",
+        "classification": "port-implementation",
+        "engineScope": "derived-code-independent-runtime-implementation",
+        "reason": "Public mermaid_core SVG binding; native Flutter PNG belongs to the separately branded Mermaid Flutter entry. Actual execution and qualification remain separately recorded.",
+        "roles": [
+          "peer"
+        ],
+        "runtime": "Dart >=3.12; public SVG rendering through mermaid_core",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/orestesgaolin/mermaid",
+          "sourcePin": "3e92b91bcbad0b883ce6a4c8826015b5fa1c10f7"
+        },
+        "benchmark": {
+          "adapter": "dart",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "pub:mermaid_flutter",
+        "classification": "branded-native-renderer",
+        "engineScope": "shared-parser-and-layout; native Flutter painting and PNG export",
+        "reason": "Distinct brand with native paint/export code, rather than another host for the same SVG renderer. Applicable PNG collection is configured; SVG/model protocols do not apply without real bindings.",
+        "roles": [
+          "peer"
+        ],
+        "runtime": "Native Linux Flutter release; Flutter >=3.35; Dart >=3.12",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "public native PNG binding; real release invocation verified separately",
+        "operations": [
+          {
+            "output": "png",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/orestesgaolin/mermaid",
+          "sourcePin": "3e92b91bcbad0b883ce6a4c8826015b5fa1c10f7"
+        },
+        "benchmark": {
+          "adapter": "native-flutter",
+          "outputs": [
+            "png"
+          ],
+          "version": "0.3.2",
+          "runtime": "native Linux Flutter release",
+          "apiBoundary": "mermaid_flutter.renderToPng(source,pixelRatio:1)"
+        }
+      },
+      {
+        "id": "akashacms/mermaid-wasm-renderer",
+        "classification": "runtime-binding",
+        "engineScope": "shared-engine-runtime-variant",
+        "reason": "Catalog declares svg operations with adapter mermaid-rs-wasm. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration.",
+        "roles": [
+          "peer"
+        ],
+        "runtime": "Rust -> WASM (Node)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "mermaid-wasm-renderer",
+          "version": "0.3.1",
+          "versionPolicy": "runner-policy-explicit-in-run"
+        },
+        "benchmark": {
+          "adapter": "mermaid-rs-wasm",
+          "package": "mermaid-wasm-renderer",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "ramtinJ95/pi-mermaid-tui",
+        "classification": "runtime-binding",
+        "engineScope": "shared-engine-runtime-variant",
+        "reason": "Published @ramtinj95/pi-mermaid-tui@0.2.4 packages a Grok-derived WASM renderer. Catalog edge cites THIRD_PARTY.md and pinned WASM origin. Same engine lineage does not remove WASM/Node/host invocation cost. Need expose public render boundary or declare concrete plugin-host prerequisite.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript + WASM",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@ramtinj95/pi-mermaid-tui",
+          "version": "0.2.4",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "@ramtinj95/pi-mermaid-tui",
+          "version": "0.2.4",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "woxQAQ/mermaid-rs-render-js",
+        "classification": "runtime-binding",
+        "engineScope": "shared-engine-runtime-variant",
+        "reason": "Published @woxqaq/mermaid-rs-renderer-js@0.1.4 is a Rust N-API Node binding. Catalog README evidence names mermaid-rs-renderer. Direct Node/native API is a distinct invocation path from the enrolled Rust CLI, even if engine lineage is shared.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Rust -> napi (Node)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@woxqaq/mermaid-rs-renderer-js",
+          "version": "0.1.4",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "@woxqaq/mermaid-rs-renderer-js",
+          "version": "0.1.4",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "01colyncelestine-stack/beautiful-mermaid",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of lukilabs/beautiful-mermaid: 0 commits ahead/23 behind; exact head 3fcbb97eac0b76cc4657119c4a0c09dc16e02b59. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/01colyncelestine-stack/beautiful-mermaid",
+          "sourcePin": "3fcbb97eac0b76cc4657119c4a0c09dc16e02b59"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "beautiful-source",
+          "sourcePin": "3fcbb97eac0b76cc4657119c4a0c09dc16e02b59",
+          "outputs": [
+            "svg",
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "2233admin/beautiful-mermaid",
+        "classification": "same-parent-source-head",
+        "engineScope": "same-recorded-Git-head-not-artifact-alias",
+        "reason": "Recorded fork of lukilabs/beautiful-mermaid: 0 commits ahead/0 behind; exact head 2ac8bbbb060ca0a65a6a21f3200bd99b1587b488. At the same recorded parent Git head; packaging, build, dependencies and runtime commands still require byte/protocol admission before evidence reuse.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/2233admin/beautiful-mermaid",
+          "sourcePin": "2ac8bbbb060ca0a65a6a21f3200bd99b1587b488"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "beautiful-source",
+          "sourcePin": "2ac8bbbb060ca0a65a6a21f3200bd99b1587b488",
+          "outputs": [
+            "svg",
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "adewale/agentic-mermaid",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of lukilabs/beautiful-mermaid: 1223 commits ahead/0 behind; exact head d18c718d0253f45d279a9c12e60a96ee8cc9283c. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence.",
+        "roles": [
+          "self"
+        ],
+        "runtime": "TypeScript (Node >=22, Bun >=1.4, browser)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "png",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "parse",
+            "operation": "parse",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "agentic-mermaid",
+          "version": "0.4.1",
+          "versionPolicy": "runner-policy-explicit-in-run"
+        },
+        "benchmark": {
+          "adapter": "agentic",
+          "outputs": [
+            "svg",
+            "terminal",
+            "png",
+            "parse"
+          ],
+          "package": "agentic-mermaid",
+          "subpath": "agent",
+          "version": "0.4.1",
+          "cli": {
+            "bin": "am",
+            "args": [
+              "render",
+              "-",
+              "--format",
+              "{format}"
+            ],
+            "outputs": [
+              "svg",
+              "terminal"
+            ]
+          }
+        }
+      },
+      {
+        "id": "app-creative/mermaid-ascii",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 0 commits ahead/128 behind; exact head 2955c2e36e05e15ab3264a3896ae027de3aba1db. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Go",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/app-creative/mermaid-ascii",
+          "sourcePin": "2955c2e36e05e15ab3264a3896ae027de3aba1db"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "fork-go-cli",
+          "sourcePin": "2955c2e36e05e15ab3264a3896ae027de3aba1db",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "Aurelian-Shuttleworth/mermaid-ascii",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 0 commits ahead/128 behind; exact head 2955c2e36e05e15ab3264a3896ae027de3aba1db. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Go",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/Aurelian-Shuttleworth/mermaid-ascii",
+          "sourcePin": "2955c2e36e05e15ab3264a3896ae027de3aba1db"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "fork-go-cli",
+          "sourcePin": "2955c2e36e05e15ab3264a3896ae027de3aba1db",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "blackst0ne/mermaid",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of mermaid-js/mermaid: 4 commits ahead/15471 behind; exact head 4b2fe8421ca2d05334cecb12e732e8fae8a928a3. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. Fork that publishes its own npm package.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript (browser DOM)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "blackst0ne-mermaid",
+          "version": "7.1.0-fixed",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "mermaid",
+          "package": "blackst0ne-mermaid",
+          "version": "7.1.0-fixed",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "CaptainCrouton89/mermaid-ascii",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 12 commits ahead/114 behind; exact head edffbe69fcbfc90ca0fbdf8b04d5036313e98d26. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Go",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/CaptainCrouton89/mermaid-ascii",
+          "sourcePin": "edffbe69fcbfc90ca0fbdf8b04d5036313e98d26"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "fork-go-cli",
+          "sourcePin": "edffbe69fcbfc90ca0fbdf8b04d5036313e98d26",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "catdevman/mermaid-ascii",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 0 commits ahead/128 behind; exact head 2955c2e36e05e15ab3264a3896ae027de3aba1db. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Go",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/catdevman/mermaid-ascii",
+          "sourcePin": "2955c2e36e05e15ab3264a3896ae027de3aba1db"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "fork-go-cli",
+          "sourcePin": "2955c2e36e05e15ab3264a3896ae027de3aba1db",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "Chronostasys/mermaid-ascii",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of pgavlin/mermaid-ascii: 6 commits ahead/0 behind; exact head a903e2a57055b6a19e50d8fec4b7ea86ed41fef2. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. Sub-fork: pgavlin head is an ancestor of this head; go.mod keeps module github.com/pgavlin/mermaid-ascii.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Go",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/Chronostasys/mermaid-ascii",
+          "sourcePin": "a903e2a57055b6a19e50d8fec4b7ea86ed41fef2"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "fork-go-cli",
+          "sourcePin": "a903e2a57055b6a19e50d8fec4b7ea86ed41fef2",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "ColtWindy/mermaid-ascii",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 0 commits ahead/126 behind; exact head b5d02c35decfab219bd6cc79094b117d8079bd63. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Go",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/ColtWindy/mermaid-ascii",
+          "sourcePin": "b5d02c35decfab219bd6cc79094b117d8079bd63"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "fork-go-cli",
+          "sourcePin": "b5d02c35decfab219bd6cc79094b117d8079bd63",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "dfadler/zombie-mermaid",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of lukilabs/beautiful-mermaid: 4042 commits ahead/0 behind; exact head 8cc982128bed11d976fb38164c4cdb47be7bd34d. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. README: \"A maintained fork of beautiful-mermaid\". Also publishes @zombie-mermaid/{core,mermaid-parser,svg-renderer,ascii-renderer,mcp}. Main moved past the 631b1b4c pin in docs/comparison.md.",
+        "roles": [
+          "peer",
+          "terminal-peer"
+        ],
+        "runtime": "TypeScript (Node, browser)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "zombie-mermaid",
+          "version": "5.7.1",
+          "versionPolicy": "runner-policy-explicit-in-run"
+        },
+        "benchmark": {
+          "adapter": "beautiful",
+          "package": "zombie-mermaid",
+          "terminalSubpath": "ascii",
+          "outputs": [
+            "svg",
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "drunkhacker/mermaid-ascii",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 19 commits ahead/128 behind; exact head 3b13f4557d40f996953abb84d96b2daed7a2419b. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Go",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/drunkhacker/mermaid-ascii",
+          "sourcePin": "3b13f4557d40f996953abb84d96b2daed7a2419b"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "fork-go-cli",
+          "sourcePin": "3b13f4557d40f996953abb84d96b2daed7a2419b",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "dydoc/mermaid-ascii",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 0 commits ahead/128 behind; exact head 2955c2e36e05e15ab3264a3896ae027de3aba1db. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Go",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/dydoc/mermaid-ascii",
+          "sourcePin": "2955c2e36e05e15ab3264a3896ae027de3aba1db"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "fork-go-cli",
+          "sourcePin": "2955c2e36e05e15ab3264a3896ae027de3aba1db",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "enrimr/mermaid",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/15015 behind; exact head 046b83582d719df89a51a08c9edf3529949cde00. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent. Fork that publishes its own npm package.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript (browser DOM)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "merman",
+          "version": "1.0.0",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "mermaid",
+          "package": "merman",
+          "version": "1.0.0",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "fdotu/beautiful-mermaid",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of lukilabs/beautiful-mermaid: 0 commits ahead/23 behind; exact head 3fcbb97eac0b76cc4657119c4a0c09dc16e02b59. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/fdotu/beautiful-mermaid",
+          "sourcePin": "3fcbb97eac0b76cc4657119c4a0c09dc16e02b59"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "beautiful-source",
+          "sourcePin": "3fcbb97eac0b76cc4657119c4a0c09dc16e02b59",
+          "outputs": [
+            "svg",
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "gmh5225/beautiful-mermaid",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of lukilabs/beautiful-mermaid: 0 commits ahead/23 behind; exact head 3fcbb97eac0b76cc4657119c4a0c09dc16e02b59. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/gmh5225/beautiful-mermaid",
+          "sourcePin": "3fcbb97eac0b76cc4657119c4a0c09dc16e02b59"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "beautiful-source",
+          "sourcePin": "3fcbb97eac0b76cc4657119c4a0c09dc16e02b59",
+          "outputs": [
+            "svg",
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "HealthSamurai/beautiful-mermaid",
+        "classification": "same-parent-source-head",
+        "engineScope": "same-recorded-Git-head-not-artifact-alias",
+        "reason": "Recorded fork of lukilabs/beautiful-mermaid: 0 commits ahead/0 behind; exact head 2ac8bbbb060ca0a65a6a21f3200bd99b1587b488. At the same recorded parent Git head; packaging, build, dependencies and runtime commands still require byte/protocol admission before evidence reuse. Default branch equals upstream main; the C4 work cited at 5f17f630 is on another branch (not fetched).",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/HealthSamurai/beautiful-mermaid",
+          "sourcePin": "2ac8bbbb060ca0a65a6a21f3200bd99b1587b488"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "beautiful-source",
+          "sourcePin": "2ac8bbbb060ca0a65a6a21f3200bd99b1587b488",
+          "outputs": [
+            "svg",
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "ioggstream/d3fend-mermaid",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/780 behind; exact head 158e26cc9a7bd0965d1afb39fa50ba0f44562ba6. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent. Fork that publishes its own npm package.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript (browser DOM)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "d3fend-mermaid",
+          "version": "11.11.637",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "mermaid",
+          "package": "d3fend-mermaid",
+          "version": "11.11.637",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "jacob-lcs/mermaid",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of mermaid-js/mermaid: 3 commits ahead/3092 behind; exact head 5924ea599c373428386624e6ab7da7e3ff7a9c20. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript (browser DOM)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/jacob-lcs/mermaid",
+          "sourcePin": "5924ea599c373428386624e6ab7da7e3ff7a9c20"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "mermaid-source",
+          "sourcePin": "5924ea599c373428386624e6ab7da7e3ff7a9c20",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "jeis4wpi/mermaid-ascii",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 0 commits ahead/128 behind; exact head 2955c2e36e05e15ab3264a3896ae027de3aba1db. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Go",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/jeis4wpi/mermaid-ascii",
+          "sourcePin": "2955c2e36e05e15ab3264a3896ae027de3aba1db"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "fork-go-cli",
+          "sourcePin": "2955c2e36e05e15ab3264a3896ae027de3aba1db",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "jgraph/mermaid",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of mermaid-js/mermaid: 27 commits ahead/1940 behind; exact head 60119753b147a3d00c887030ffedc19412c68dc5. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript (browser DOM)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/jgraph/mermaid",
+          "sourcePin": "60119753b147a3d00c887030ffedc19412c68dc5"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "mermaid-source",
+          "sourcePin": "60119753b147a3d00c887030ffedc19412c68dc5",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "ktrysmt/beautiful-mermaid",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of lukilabs/beautiful-mermaid: 26 commits ahead/12 behind; exact head 2d76eedb08ba953d8554f4659fb74e181ae41de2. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. npm 1.5.2 gitHead is not in the default-branch history; package.json at head says 1.5.1.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@ktrysmt/beautiful-mermaid",
+          "version": "1.5.2",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "beautiful",
+          "package": "@ktrysmt/beautiful-mermaid",
+          "version": "1.5.2",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "svg",
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "ktrysmt/mermaid-ascii",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 1 commits ahead/128 behind; exact head 7fd22bc0a0ef28d2ec8dc464565a9d259f14db43. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Go",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/ktrysmt/mermaid-ascii",
+          "sourcePin": "7fd22bc0a0ef28d2ec8dc464565a9d259f14db43"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "fork-go-cli",
+          "sourcePin": "7fd22bc0a0ef28d2ec8dc464565a9d259f14db43",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "leonj1/mermaid-ascii",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 0 commits ahead/128 behind; exact head 2955c2e36e05e15ab3264a3896ae027de3aba1db. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Go",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/leonj1/mermaid-ascii",
+          "sourcePin": "2955c2e36e05e15ab3264a3896ae027de3aba1db"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "fork-go-cli",
+          "sourcePin": "2955c2e36e05e15ab3264a3896ae027de3aba1db",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "lishid/mermaid",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/12752 behind; exact head e0652539fba9789da3bb07c49a321ab8c2983cdc. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript (browser DOM)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/lishid/mermaid",
+          "sourcePin": "e0652539fba9789da3bb07c49a321ab8c2983cdc"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "mermaid-source",
+          "sourcePin": "e0652539fba9789da3bb07c49a321ab8c2983cdc",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "lyngai/mermaid",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/13476 behind; exact head 571b8bbd882b5e240ac9bbf73eea4a2d4dd726b9. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent. Fork that publishes its own npm package.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript (browser DOM)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "mermaid-fix",
+          "version": "8.4.8",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "mermaid",
+          "package": "mermaid-fix",
+          "version": "8.4.8",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "mbostock/mermaid",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/11787 behind; exact head 37f6a42de84f1f32e95ad76e682f14c6c8cddc6b. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript (browser DOM)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/mbostock/mermaid",
+          "sourcePin": "37f6a42de84f1f32e95ad76e682f14c6c8cddc6b"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "mermaid-source",
+          "sourcePin": "37f6a42de84f1f32e95ad76e682f14c6c8cddc6b",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "Mermaid-Chart/mermaid-develop",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/7450 behind; exact head aa5d586bd64c3aa8e42f6ea60bcd22109b8b4083. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript (browser DOM)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/Mermaid-Chart/mermaid-develop",
+          "sourcePin": "aa5d586bd64c3aa8e42f6ea60bcd22109b8b4083"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "mermaid-source",
+          "sourcePin": "aa5d586bd64c3aa8e42f6ea60bcd22109b8b4083",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "mopi1402/termaid",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of fasouto/termaid: 0 commits ahead/15 behind; exact head 18f42d8e9cac3b6cae124def6418f9af84087b21. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Python (prebuilt binaries)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@tayomi/termaid-bin",
+          "version": "0.8.0",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "@tayomi/termaid-bin",
+          "version": "0.8.0",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "NicolasNewman/mermaid",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of mermaid-js/mermaid: 17 commits ahead/4341 behind; exact head ac069c434a40dd372f1d61eeaf6bc93e73e92f96. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript (browser DOM)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/NicolasNewman/mermaid",
+          "sourcePin": "ac069c434a40dd372f1d61eeaf6bc93e73e92f96"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "mermaid-source",
+          "sourcePin": "ac069c434a40dd372f1d61eeaf6bc93e73e92f96",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "Orbiter/beautiful-mermaid-py",
+        "classification": "port-in-fork-repository",
+        "engineScope": "Python-runtime-port",
+        "reason": "Recorded fork of lukilabs/beautiful-mermaid: 10 commits ahead/23 behind; exact head d5daa97c8e3f146a50e9eb93e7d666ead5b3debb. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. README: single-file Python port of Beautiful src/ascii, kept in a GitHub fork.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Python",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/Orbiter/beautiful-mermaid-py",
+          "sourcePin": "d5daa97c8e3f146a50e9eb93e7d666ead5b3debb"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "orbiter-python",
+          "sourcePin": "d5daa97c8e3f146a50e9eb93e7d666ead5b3debb",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "pgavlin/mermaid-ascii",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 31 commits ahead/126 behind; exact head ab8074a98bef86a951c3443910363a8d1415135b. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. README: 22 diagram types. No release tags.",
+        "roles": [
+          "terminal-peer"
+        ],
+        "runtime": "Go",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/pgavlin/mermaid-ascii",
+          "sourcePin": "ab8074a98bef86a951c3443910363a8d1415135b"
+        },
+        "benchmark": {
+          "adapter": "source-cli",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "rohitg00/beautiful-mermaid",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of lukilabs/beautiful-mermaid: 2 commits ahead/23 behind; exact head 31f495f27bc5ff3ef59de17de69e47bb89658697. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/rohitg00/beautiful-mermaid",
+          "sourcePin": "31f495f27bc5ff3ef59de17de69e47bb89658697"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "beautiful-source",
+          "sourcePin": "31f495f27bc5ff3ef59de17de69e47bb89658697",
+          "outputs": [
+            "svg",
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "sgryjp/mermaid-ascii",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of AlexanderGrooff/mermaid-ascii: 0 commits ahead/128 behind; exact head 2955c2e36e05e15ab3264a3896ae027de3aba1db. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Go",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/sgryjp/mermaid-ascii",
+          "sourcePin": "2955c2e36e05e15ab3264a3896ae027de3aba1db"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "fork-go-cli",
+          "sourcePin": "2955c2e36e05e15ab3264a3896ae027de3aba1db",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "songshaodong/mermaid",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/15918 behind; exact head 803916c99b532d2b49ba35dba6ec7c7b061b8162. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript (browser DOM)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/songshaodong/mermaid",
+          "sourcePin": "803916c99b532d2b49ba35dba6ec7c7b061b8162"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "mermaid-source",
+          "sourcePin": "803916c99b532d2b49ba35dba6ec7c7b061b8162",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "Stars1233/beautiful-mermaid",
+        "classification": "same-parent-source-head",
+        "engineScope": "same-recorded-Git-head-not-artifact-alias",
+        "reason": "Recorded fork of lukilabs/beautiful-mermaid: 0 commits ahead/0 behind; exact head 2ac8bbbb060ca0a65a6a21f3200bd99b1587b488. At the same recorded parent Git head; packaging, build, dependencies and runtime commands still require byte/protocol admission before evidence reuse.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/Stars1233/beautiful-mermaid",
+          "sourcePin": "2ac8bbbb060ca0a65a6a21f3200bd99b1587b488"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "beautiful-source",
+          "sourcePin": "2ac8bbbb060ca0a65a6a21f3200bd99b1587b488",
+          "outputs": [
+            "svg",
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "theletterf/beautiful-mermaid",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of lukilabs/beautiful-mermaid: 14 commits ahead/23 behind; exact head c2d3ae70d9f106431d57669de80f0de3c894fc88. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@theletterf/beautiful-mermaid",
+          "version": "0.1.5",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "beautiful",
+          "package": "@theletterf/beautiful-mermaid",
+          "version": "0.1.5",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "svg",
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "thepanax/beautiful-mermaid",
+        "classification": "same-parent-source-head",
+        "engineScope": "same-recorded-Git-head-not-artifact-alias",
+        "reason": "Recorded fork of lukilabs/beautiful-mermaid: 0 commits ahead/0 behind; exact head 2ac8bbbb060ca0a65a6a21f3200bd99b1587b488. At the same recorded parent Git head; packaging, build, dependencies and runtime commands still require byte/protocol admission before evidence reuse. Republishes upstream main 2ac8bbbb unchanged.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "panax-beautiful-mermaid",
+          "version": "1.1.3",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "beautiful",
+          "package": "panax-beautiful-mermaid",
+          "version": "1.1.3",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "svg",
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "toeverything/mermaid-rs-renderer",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of 1jehuang/mermaid-rs-renderer: 6 commits ahead/179 behind; exact head fba9097574e424de0497a91c9dc1beeb0e27e4e0. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Rust + WASM",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@toeverything/mermaid-wasm",
+          "version": "0.1.2",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "@toeverything/mermaid-wasm",
+          "version": "0.1.2",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "vercel-labs/beautiful-mermaid",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of lukilabs/beautiful-mermaid: 16 commits ahead/23 behind; exact head 92118d7ba1c53654c3fa0933957b79f8c64b3297. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. package.json at head says 0.1.6; npm latest is 0.1.5.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@vercel/beautiful-mermaid",
+          "version": "0.1.5",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "beautiful",
+          "package": "@vercel/beautiful-mermaid",
+          "version": "0.1.5",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "svg",
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "xen3r0/mermaid",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of mermaid-js/mermaid: 2 commits ahead/15335 behind; exact head 0afc3c4fd235a3414ca15cec4d1a6497cb44f9cd. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. Fork that publishes its own npm package.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript (browser DOM)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@xen3r0/mermaid",
+          "version": "8.0.0-rc.9",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "mermaid",
+          "package": "@xen3r0/mermaid",
+          "version": "8.0.0-rc.9",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "xeolabs/mermaid",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/9209 behind; exact head e4d2118d4bfa023628a020b7ab1f8c491e6dc523. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript (browser DOM)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/xeolabs/mermaid",
+          "sourcePin": "e4d2118d4bfa023628a020b7ab1f8c491e6dc523"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "mermaid-source",
+          "sourcePin": "e4d2118d4bfa023628a020b7ab1f8c491e6dc523",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "ysknsid25/beautiful-mermaid",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of lukilabs/beautiful-mermaid: 6 commits ahead/19 behind; exact head 99d2a5e01cf62d4b84d7df4cda0c50a2f573b850. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/ysknsid25/beautiful-mermaid",
+          "sourcePin": "99d2a5e01cf62d4b84d7df4cda0c50a2f573b850"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "beautiful-source",
+          "sourcePin": "99d2a5e01cf62d4b84d7df4cda0c50a2f573b850",
+          "outputs": [
+            "svg",
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "zakaria-forks/mermaid",
+        "classification": "historical-upstream-revision",
+        "engineScope": "historical-version-not-current-equivalence",
+        "reason": "Recorded fork of mermaid-js/mermaid: 0 commits ahead/6092 behind; exact head e68125eb6a8d0b6a642bd9a1e050bf010c2aab44. Historical upstream revision remains callable-candidate scope; it is not automatically equivalent to the current measured parent.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript (browser DOM)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/zakaria-forks/mermaid",
+          "sourcePin": "e68125eb6a8d0b6a642bd9a1e050bf010c2aab44"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "mermaid-source",
+          "sourcePin": "e68125eb6a8d0b6a642bd9a1e050bf010c2aab44",
+          "outputs": [
+            "svg"
+          ]
+        }
+      },
+      {
+        "id": "zhenhuaa/mdv",
+        "classification": "diverged-fork",
+        "engineScope": "unreviewed-fork-delta",
+        "reason": "Recorded fork of lukilabs/beautiful-mermaid: 5 commits ahead/12 behind; exact head 165310f5ad0e506b59c388bd54df4d060e44697a. A source delta requires actual renderer/API review; shared lineage does not establish output or artifact equivalence. Terminal Markdown viewer built on the Beautiful engine.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@zhenhuaa/mdv",
+          "version": "0.1.2",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "@zhenhuaa/mdv",
+          "version": "0.1.2",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "svg",
+            "terminal"
+          ],
+          "portable": {
+            "adapter": "declared",
+            "binding": {
+              "export": "renderMermaidSVG"
+            }
+          }
+        }
+      },
+      {
+        "id": "1jehuang/mermaid-rs-renderer",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Catalog declares svg, png operations with adapter source-cli. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration.",
+        "roles": [
+          "peer"
+        ],
+        "runtime": "Rust",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "png",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/1jehuang/mermaid-rs-renderer",
+          "sourcePin": "3726ccbffe0e8032361eb9668694b24f77858060"
+        },
+        "benchmark": {
+          "adapter": "source-cli",
+          "outputs": [
+            "svg",
+            "png"
+          ],
+          "cliRelease": {
+            "repository": "1jehuang/mermaid-rs-renderer",
+            "tag": "v0.3.1",
+            "version": "0.3.1",
+            "revision": "2f993bd79a55235eb59a34d807852276ba25bea7",
+            "outputs": {
+              "svg": {
+                "args": [
+                  "-i",
+                  "-",
+                  "-e",
+                  "svg"
+                ],
+                "input": "stdin"
+              },
+              "png": {
+                "args": [
+                  "-i",
+                  "-",
+                  "-e",
+                  "png",
+                  "-o",
+                  "{output}"
+                ],
+                "input": "stdin"
+              }
+            },
+            "platforms": {
+              "linux-x64": {
+                "asset": "mmdr-x86_64-unknown-linux-gnu.tar.gz",
+                "sha256": "e1da47b758769bff21b82a480fad640a3b893a90fc0dc321551486f8b50c7200",
+                "executable": "./mmdr"
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "aj-archipelago/merval",
+        "classification": "validator",
+        "engineScope": "diagnostics-only-operation-cohort",
+        "reason": "Published @aj-archipelago/merval@1.0.7 declares diagnostics. No SVG/terminal rank is appropriate; parser/validation correctness and cost are relevant. Missing diagnostics adapter is not global N/A.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "diagnostics",
+            "operation": "validate",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@aj-archipelago/merval",
+          "version": "1.0.7",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "@aj-archipelago/merval",
+          "version": "1.0.7",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "diagnostics"
+          ]
+        }
+      },
+      {
+        "id": "AlexanderGrooff/mermaid-ascii",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Catalog declares terminal operations with adapter source-cli. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration.",
+        "roles": [
+          "ancestor",
+          "terminal-peer"
+        ],
+        "runtime": "Go",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/AlexanderGrooff/mermaid-ascii",
+          "sourcePin": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea"
+        },
+        "benchmark": {
+          "adapter": "source-cli",
+          "outputs": [
+            "terminal"
+          ],
+          "cliRelease": {
+            "repository": "AlexanderGrooff/mermaid-ascii",
+            "tag": "1.6.1",
+            "version": "1.6.1",
+            "versionSource": "release-tag",
+            "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+            "outputs": {
+              "terminal": {
+                "args": [],
+                "input": "stdin"
+              }
+            },
+            "platforms": {
+              "linux-x64": {
+                "asset": "mermaid-ascii_Linux_x86_64.tar.gz",
+                "sha256": "9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41",
+                "executable": "mermaid-ascii"
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "anomalyco/opencode",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Catalog identifies packages/merman on public v2 and @opencode/merman, not npm. Lack of a published package is an acquisition/build gap, not evidence of a private API. Public source is pinned by head.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/anomalyco/opencode",
+          "sourcePin": "4617210822bdbb31e5749751afbfb4584ccedac8"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "opencode-source",
+          "sourcePin": "4617210822bdbb31e5749751afbfb4584ccedac8",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "chenyanchen/mermaid-formatter",
+        "classification": "formatter",
+        "engineScope": "source-transformation-operation-cohort",
+        "reason": "Published mermaid-formatter@0.3.0 emits Mermaid text. Compare formatting/parse/roundtrip correctness and latency separately; do not place it in renderer speed ranks or classify the whole tool N/A.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "source",
+            "operation": "format-or-serialize",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "mermaid-formatter",
+          "version": "0.3.0",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "mermaid-formatter",
+          "version": "0.3.0",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "source"
+          ]
+        }
+      },
+      {
+        "id": "crafter-station/mermaid",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Published @crafter/mermaid-parser@0.0.4, @crafter/mermaid-layout@0.0.3 and @crafter/mermaid-renderer@0.0.3 provide a parsing/layout/SVG pipeline. Reviewed renderer types expose SVG, DOM and interaction, with no terminal API: catalog terminal output remains explicitly unbound. The parser0.0.4 comparison stage is distinct from layout0.0.3 dependency parser0.0.3. Missing license fields are catalog metadata, not a callable-API blocker.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "parse",
+            "operation": "parse",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@crafter/mermaid-renderer",
+          "version": "0.0.3",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "@crafter/mermaid-renderer",
+          "version": "0.0.3",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "svg",
+            "parse",
+            "terminal"
+          ],
+          "operationPackages": [
+            {
+              "package": "@crafter/mermaid-parser",
+              "version": "0.0.4",
+              "operation": "parse"
+            },
+            {
+              "package": "@crafter/mermaid-layout",
+              "version": "0.0.3",
+              "operation": "layout"
+            },
+            {
+              "package": "@crafter/mermaid-renderer",
+              "version": "0.0.3",
+              "operation": "render"
+            },
+            {
+              "package": "@crafter/mermaid-cli",
+              "version": "0.0.4",
+              "operation": "terminal"
+            }
+          ],
+          "portable": {
+            "adapter": "public-package"
+          }
+        }
+      },
+      {
+        "id": "emtyty/merslim",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Published merslim@0.2.3 declares React/browser SVG, PNG and terminal outputs. Browser/React harness review is needed. Browser dependence is a boundary choice, not an N/A renderer verdict.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript (React, browser)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "png",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "parse",
+            "operation": "parse",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "merslim",
+          "version": "0.2.3",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "merslim",
+          "version": "0.2.3",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "svg",
+            "png",
+            "terminal",
+            "parse"
+          ],
+          "portable": {
+            "adapter": "public-package"
+          },
+          "moduleOutputs": [
+            "svg",
+            "terminal",
+            "parse"
+          ]
+        }
+      },
+      {
+        "id": "evangwt/xmermaid",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Published @evangwt/xmermaid@0.4.2 declares Rust/WASM+TypeScript SVG. Actual initialization, exports and resource closure need review. This is a concrete missing rendering candidate, not established wrapper metadata.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Rust -> WASM + TypeScript (browser)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@evangwt/xmermaid",
+          "version": "0.4.2",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "@evangwt/xmermaid",
+          "version": "0.4.2",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "svg"
+          ],
+          "moduleOutputs": []
+        }
+      },
+      {
+        "id": "fasouto/termaid",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Catalog declares terminal operations with adapter termaid. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration.",
+        "roles": [
+          "terminal-peer"
+        ],
+        "runtime": "Python",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/fasouto/termaid",
+          "sourcePin": "a10dfd506ec67dc11fce3f399c20a353202586ae"
+        },
+        "benchmark": {
+          "adapter": "termaid",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "inkeep/visimer",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Catalog declares parse operations with adapter visimer. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration.",
+        "roles": [
+          "parser-peer"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "parse",
+            "operation": "parse",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@visimer/core",
+          "version": "1.1.3",
+          "versionPolicy": "runner-policy-explicit-in-run"
+        },
+        "benchmark": {
+          "adapter": "visimer",
+          "package": "@visimer/core",
+          "outputs": [
+            "parse"
+          ]
+        }
+      },
+      {
+        "id": "justsml/rusty-mermaid",
+        "classification": "validator",
+        "engineScope": "diagnostics-only-operation-cohort",
+        "reason": "Catalog explicitly says validator only. Published rusty-mermaid@0.42.0 has a gitHead outside recorded default-branch history: benchmark the actual pinned package and report that identity. SVG rank N/A is justified; validator benchmarking remains missing.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Rust -> WASM",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "diagnostics",
+            "operation": "validate",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "rusty-mermaid",
+          "version": "0.42.0",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "rusty-mermaid",
+          "version": "0.42.0",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "diagnostics"
+          ],
+          "skip": {
+            "version": "0.42.0",
+            "reason": "Published npm archive contains only README.md and package.json; its declared pkg/rusty_mermaid.js entry and WASM runtime are absent. Re-enable after a fixed release is verified. Explicit candidates remain separate."
+          }
+        }
+      },
+      {
+        "id": "kingsword09/mermansi",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Catalog declares terminal operations with adapter source-cli. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration.",
+        "roles": [
+          "terminal-peer"
+        ],
+        "runtime": "Rust",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/kingsword09/mermansi",
+          "sourcePin": "40e5923cfca654503212612fd0f1af8a8720dfbe"
+        },
+        "benchmark": {
+          "adapter": "source-cli",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "kitlangton/merman",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Published @kitlangton/merman@0.2.1 uses OpenTUI. Catalog explicitly establishes unrelated roots to enrolled Latias94/merman. The shared name must not collapse two implementations. Inspect callable API versus host requirement.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript (OpenTUI)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@kitlangton/merman",
+          "version": "0.2.1",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "@kitlangton/merman",
+          "version": "0.2.1",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "KlangHaus/vitepress-plugin-diagram",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "engine-independence-review-pending",
+        "reason": "Catalog labels independent and publishes vitepress-plugin-mermaid-diagram@0.3.2 with SVG. A separate Git root/plugin name does not prove a separate engine. Review parser/render source and dependencies; if it wraps Mermaid, retain as an invocation variant. Current evidence cannot justify either independent-engine ranking or blanket N/A.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "vitepress-plugin-mermaid-diagram",
+          "version": "0.3.2",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "vitepress-plugin-mermaid-diagram",
+          "version": "0.3.2",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "svg"
+          ],
+          "portable": {
+            "adapter": "declared",
+            "binding": {
+              "export": "render"
+            }
+          }
+        }
+      },
+      {
+        "id": "Latias94/merman",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Catalog declares svg, png, jpeg, pdf, terminal operations with adapter merman. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration.",
+        "roles": [
+          "peer",
+          "terminal-peer"
+        ],
+        "runtime": "Rust (+ WASM, napi, Python bindings)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "png",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "jpeg",
+            "operation": "render",
+            "configured": false,
+            "state": "declared-unmeasured",
+            "reason": "Catalog declares this operation but no output binding is configured; missing coverage is not a zero score."
+          },
+          {
+            "output": "pdf",
+            "operation": "render",
+            "configured": false,
+            "state": "declared-unmeasured",
+            "reason": "Catalog declares this operation but no output binding is configured; missing coverage is not a zero score."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": false,
+            "state": "declared-unmeasured",
+            "reason": "Catalog declares this operation but no output binding is configured; missing coverage is not a zero score."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@mermanjs/node",
+          "version": "0.9.1",
+          "versionPolicy": "runner-policy-explicit-in-run"
+        },
+        "benchmark": {
+          "adapter": "merman",
+          "package": "@mermanjs/node",
+          "outputs": [
+            "svg",
+            "png"
+          ],
+          "portable": {
+            "adapter": "declared",
+            "binding": {
+              "factory": "createNodeEngine",
+              "export": "renderSvgSync",
+              "dispose": "dispose"
+            }
+          }
+        }
+      },
+      {
+        "id": "lukilabs/beautiful-mermaid",
+        "classification": "derivative-implementation",
+        "engineScope": "independently-rooted-derivative",
+        "reason": "Maintainer correction 2026-10-28: Beautiful Mermaid is a derivative of Mermaid, not a Git fork. Its ASCII component separately ports Mermaid ASCII; SVG implementation and source root remain distinct.",
+        "roles": [
+          "ancestor",
+          "peer"
+        ],
+        "runtime": "TypeScript (Node, Bun, browser)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "beautiful-mermaid",
+          "version": "1.1.3",
+          "versionPolicy": "runner-policy-explicit-in-run"
+        },
+        "benchmark": {
+          "adapter": "beautiful",
+          "package": "beautiful-mermaid",
+          "outputs": [
+            "svg",
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "Mootikins/figurehead-rs",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Catalog declares terminal operations with adapter source-cli. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration.",
+        "roles": [
+          "terminal-peer"
+        ],
+        "runtime": "Rust",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/Mootikins/figurehead-rs",
+          "sourcePin": "ba20125c6dde3b263f4d2d40377a6173563098ff"
+        },
+        "benchmark": {
+          "adapter": "source-cli",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "neongreen/mermaid-ast",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Catalog declares parse operations with adapter mermaid-ast. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration.",
+        "roles": [
+          "parser-peer"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "parse",
+            "operation": "parse",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "mermaid-ast",
+          "version": "0.8.2",
+          "versionPolicy": "runner-policy-explicit-in-run"
+        },
+        "benchmark": {
+          "adapter": "mermaid-ast",
+          "package": "mermaid-ast",
+          "outputs": [
+            "parse"
+          ]
+        }
+      },
+      {
+        "id": "obsidianmd/pele",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Catalog declares svg operations with adapter pele. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration.",
+        "roles": [
+          "peer"
+        ],
+        "runtime": "TypeScript (Node >=20, browser)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "pele",
+          "version": "1.9.0",
+          "versionPolicy": "runner-policy-explicit-in-run"
+        },
+        "benchmark": {
+          "adapter": "pele",
+          "package": "pele",
+          "outputs": [
+            "svg"
+          ],
+          "version": "1.9.0"
+        }
+      },
+      {
+        "id": "probelabs/maid",
+        "classification": "validator",
+        "engineScope": "diagnostics-only-operation-cohort",
+        "reason": "Catalog declares diagnostics operations with adapter maid. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration.",
+        "roles": [
+          "parser-peer"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "diagnostics",
+            "operation": "validate",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@probelabs/maid",
+          "version": "0.0.29",
+          "versionPolicy": "runner-policy-explicit-in-run"
+        },
+        "benchmark": {
+          "adapter": "maid",
+          "package": "@probelabs/maid",
+          "outputs": [
+            "diagnostics"
+          ]
+        }
+      },
+      {
+        "id": "sandyyst/dsh-plugin-mermaid-gb-svg",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Published dsh-plugin-mermaid-gb-svg@0.1.4 declares flowchart-to-GB/T1526-1989 SVG. Specialized output and limited family scope should be explicit; qualify flowchart semantics/geometry. Unsupported other families are N/A per operation, not whole-tool N/A.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "dsh-plugin-mermaid-gb-svg",
+          "version": "0.1.4",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "dsh-plugin-mermaid-gb-svg",
+          "version": "0.1.4",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "svg"
+          ],
+          "portable": {
+            "adapter": "public-package"
+          }
+        }
+      },
+      {
+        "id": "taoche/mermaid-reactflow-render",
+        "classification": "graph-converter",
+        "engineScope": "graph-conversion-operation-cohort",
+        "reason": "Published mermaid-reactflow-render@0.5.1 emits React Flow and is flowchart-only. Require graph/node/edge semantic conversion cohort or actual rendered React viewport; no fabricated SVG latency. Conversion is measurable functionality despite renderer-cohort mismatch.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript (React)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "react-flow",
+            "operation": "convert",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "mermaid-reactflow-render",
+          "version": "0.5.1",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "mermaid-reactflow-render",
+          "version": "0.5.1",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "react-flow"
+          ]
+        }
+      },
+      {
+        "id": "tariqshams/mermaidtui",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Published mermaidtui@0.0.6 declares terminal output. Catalog offers no statement that it only wraps an enrolled engine. Inspect its public source-to-text API before selecting Node/TUI boundary.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "mermaidtui",
+          "version": "0.0.6",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "mermaidtui",
+          "version": "0.0.6",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "xai-org/grok-build",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Catalog locates actual Rust renderer at crates/codegen/xai-grok-markdown/src/mermaid.rs in public source. Root not established and only depth1 fetch recorded; do not claim standalone package or isolated callable function without review. Lack of npm/API wrapper is not private-hosted-tool evidence.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Rust",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/xai-org/grok-build",
+          "sourcePin": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "grok-source",
+          "sourcePin": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "Yassimba/loom",
+        "classification": "independently-rooted-implementation",
+        "engineScope": "independent-engine-candidate",
+        "reason": "Published @yassimba/pi-loom-mermaid@0.10.0 has renderer in plugins/pi-loom-mermaid. Actual renderer may be callable through package internals or require agent host. Host dependency must be demonstrated before blocked; independent catalog label is not wrapper evidence.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@yassimba/pi-loom-mermaid",
+          "version": "0.10.0",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "@yassimba/pi-loom-mermaid",
+          "version": "0.10.0",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "4nkitd/opencode-merman",
+        "classification": "port-implementation",
+        "engineScope": "derived-code-independent-runtime-implementation",
+        "reason": "Published opencode-merman@0.1.1 is derived from a specific anomalyco/opencode renderer revision per UPSTREAM.md. A port is executable implementation lineage, not necessarily delegation to an enrolled engine. Measure pinned package API/terminal output.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "opencode-merman",
+          "version": "0.1.1",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "opencode-merman",
+          "version": "0.1.1",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "kais-radwan/ascii-mermaid",
+        "classification": "port-implementation",
+        "engineScope": "derived-code-independent-runtime-implementation",
+        "reason": "Catalog says TypeScript engine+Lua integration, based on Beautiful with no shared root. Inspect separable TS engine, otherwise explicit Neovim boundary. razor-ai/ascii-mermaid is the same repository/head and must not become another tool.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript engine + Lua (Neovim)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/kais-radwan/ascii-mermaid",
+          "sourcePin": "a91a0c7baec6392212c59221bc67389bb617feb7"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "ascii-mermaid-source",
+          "sourcePin": "a91a0c7baec6392212c59221bc67389bb617feb7",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "mopi1402/termaid-ts",
+        "classification": "port-implementation",
+        "engineScope": "derived-code-independent-runtime-implementation",
+        "reason": "Published @tayomi/termaid-ts@0.8.3 is a TypeScript port of termaid, with claimed byte parity. Runtime/layout/cost still need measurement; parity is a claim, not qualification evidence. Distinct from Python termaid and binary-distribution fork.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "@tayomi/termaid-ts",
+          "version": "0.8.3",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "@tayomi/termaid-ts",
+          "version": "0.8.3",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "npm:tui-mermaid",
+        "classification": "port-implementation",
+        "engineScope": "derived-code-independent-runtime-implementation",
+        "reason": "Published tui-mermaid@0.1.0 declares TypeScript terminal engine, Grok derivation and vendored Mermaidtext fixtures. Missing repository field limits source lineage, not package API eligibility. Pin actual npm integrity and independently qualify output.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "tui-mermaid",
+          "version": "0.1.0",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "tui-mermaid",
+          "version": "0.1.0",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "spacedock-dev/mermaidtext",
+        "classification": "port-implementation",
+        "engineScope": "derived-code-independent-runtime-implementation",
+        "reason": "Public repository/head, Go runtime and README describes faithful Grok port. Not delegation to a CLI merely because lineage is shared. Review public package/command and build deterministically before timing.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "Go",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/spacedock-dev/mermaidtext",
+          "sourcePin": "a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12"
+        },
+        "benchmark": {
+          "adapter": "extra-source",
+          "sourceAdapter": "mermaidtext-go",
+          "sourcePin": "a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12",
+          "outputs": [
+            "terminal"
+          ]
+        }
+      },
+      {
+        "id": "xl0/lovely-mermaid",
+        "classification": "port-implementation",
+        "engineScope": "derived-code-independent-runtime-implementation",
+        "reason": "Published lovely-mermaid@0.3.3 and earlier grok-mermaid@0.2.3 share repository lineage with explicit TypeScript Grok port origin. Benchmark one selected actual version/variant; do not count names as two engines or assume package heads equal default branch.",
+        "roles": [
+          "observed"
+        ],
+        "runtime": "TypeScript",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "candidate-awaiting-public-API/artifact-attempt",
+        "operations": [
+          {
+            "output": "terminal",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "lovely-mermaid",
+          "version": "0.3.3",
+          "versionPolicy": "recorded"
+        },
+        "benchmark": {
+          "adapter": "published-extra",
+          "package": "lovely-mermaid",
+          "version": "0.3.3",
+          "versionPolicy": "recorded",
+          "outputs": [
+            "terminal"
+          ],
+          "packageAliases": [
+            {
+              "package": "grok-mermaid",
+              "version": "0.2.3",
+              "policy": "historical-name; not another catalog engine"
+            }
+          ]
+        }
+      },
+      {
+        "id": "mermaid-js/mermaid",
+        "classification": "language-reference",
+        "engineScope": "pinned-reference-version",
+        "reason": "Catalog declares svg operations with adapter mermaid. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration.",
+        "roles": [
+          "language-reference"
+        ],
+        "runtime": "TypeScript (browser DOM)",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          },
+          {
+            "output": "parse",
+            "operation": "parse",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "npm",
+          "package": "mermaid",
+          "version": "12.2.0",
+          "versionPolicy": "runner-policy-explicit-in-run"
+        },
+        "benchmark": {
+          "adapter": "mermaid",
+          "package": "mermaid",
+          "outputs": [
+            "svg",
+            "parse"
+          ]
+        }
+      },
+      {
+        "id": "crabtalk/bezel",
+        "classification": "port-implementation",
+        "engineScope": "derived-code-independent-runtime-implementation",
+        "reason": "Catalog declares svg operations with adapter bezel. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration.",
+        "roles": [
+          "peer"
+        ],
+        "runtime": "Rust; benchmark adapter compiled to wasm32-unknown-unknown with Rust 1.99.1 and wasm-bindgen 0.2.104",
+        "state": "configured-awaiting-run-evidence",
+        "adapterReview": "existing-adapter; outcomes remain independent",
+        "operations": [
+          {
+            "output": "svg",
+            "operation": "render",
+            "configured": true,
+            "state": "configured-not-yet-qualified",
+            "reason": "Actual API/format/family admission and timings require the benchmark result; configuration is not a pass."
+          }
+        ],
+        "acquisition": {
+          "kind": "pinned-source-or-distribution",
+          "repo": "https://github.com/crabtalk/bezel",
+          "sourcePin": "25b1da54115d3253d457d6c1fb3f62c05261dd13"
+        },
+        "benchmark": {
+          "adapter": "bezel",
+          "outputs": [
+            "svg"
+          ]
+        }
+      }
+    ],
+    "equivalenceGroups": [
+      {
+        "sourcePin": "3fcbb97eac0b76cc4657119c4a0c09dc16e02b59",
+        "sourceAdapter": "beautiful-source",
+        "outputs": [
+          "svg",
+          "terminal"
+        ],
+        "members": [
+          "01colyncelestine-stack/beautiful-mermaid",
+          "fdotu/beautiful-mermaid",
+          "gmh5225/beautiful-mermaid"
+        ],
+        "canonicalCandidate": "01colyncelestine-stack/beautiful-mermaid",
+        "status": "candidate-only-no-evidence-reuse",
+        "evidence": [
+          {
+            "id": "01colyncelestine-stack/beautiful-mermaid",
+            "admitted": false,
+            "error": "Error: Reviewed build/runtime recipe evidence is missing"
+          },
+          {
+            "id": "fdotu/beautiful-mermaid",
+            "admitted": false,
+            "error": "Error: Reviewed build/runtime recipe evidence is missing"
+          },
+          {
+            "id": "gmh5225/beautiful-mermaid",
+            "admitted": false,
+            "error": "Error: Reviewed build/runtime recipe evidence is missing"
+          }
+        ],
+        "aliases": [],
+        "policy": "Never alias from root sharing, ahead/behind counts, names or Git pin alone. Reuse requires actual entry/closure byte admission plus identical reviewed build/runtime recipes, runtime versions and output protocols."
+      },
+      {
+        "sourcePin": "2ac8bbbb060ca0a65a6a21f3200bd99b1587b488",
+        "sourceAdapter": "beautiful-source",
+        "outputs": [
+          "svg",
+          "terminal"
+        ],
+        "members": [
+          "2233admin/beautiful-mermaid",
+          "HealthSamurai/beautiful-mermaid",
+          "Stars1233/beautiful-mermaid"
+        ],
+        "canonicalCandidate": "2233admin/beautiful-mermaid",
+        "status": "candidate-only-no-evidence-reuse",
+        "evidence": [
+          {
+            "id": "2233admin/beautiful-mermaid",
+            "admitted": false,
+            "error": "Error: Reviewed build/runtime recipe evidence is missing"
+          },
+          {
+            "id": "HealthSamurai/beautiful-mermaid",
+            "admitted": false,
+            "error": "Error: Reviewed build/runtime recipe evidence is missing"
+          },
+          {
+            "id": "Stars1233/beautiful-mermaid",
+            "admitted": false,
+            "error": "Error: Reviewed build/runtime recipe evidence is missing"
+          }
+        ],
+        "aliases": [],
+        "policy": "Never alias from root sharing, ahead/behind counts, names or Git pin alone. Reuse requires actual entry/closure byte admission plus identical reviewed build/runtime recipes, runtime versions and output protocols."
+      },
+      {
+        "sourcePin": "2955c2e36e05e15ab3264a3896ae027de3aba1db",
+        "sourceAdapter": "fork-go-cli",
+        "outputs": [
+          "terminal"
+        ],
+        "members": [
+          "app-creative/mermaid-ascii",
+          "Aurelian-Shuttleworth/mermaid-ascii",
+          "catdevman/mermaid-ascii",
+          "dydoc/mermaid-ascii",
+          "jeis4wpi/mermaid-ascii",
+          "leonj1/mermaid-ascii",
+          "sgryjp/mermaid-ascii"
+        ],
+        "canonicalCandidate": "app-creative/mermaid-ascii",
+        "status": "candidate-only-no-evidence-reuse",
+        "evidence": [
+          {
+            "id": "app-creative/mermaid-ascii",
+            "admitted": false,
+            "error": "Error: Reviewed build/runtime recipe evidence is missing"
+          },
+          {
+            "id": "Aurelian-Shuttleworth/mermaid-ascii",
+            "admitted": false,
+            "error": "Error: Reviewed build/runtime recipe evidence is missing"
+          },
+          {
+            "id": "catdevman/mermaid-ascii",
+            "admitted": false,
+            "error": "Error: Reviewed build/runtime recipe evidence is missing"
+          },
+          {
+            "id": "dydoc/mermaid-ascii",
+            "admitted": false,
+            "error": "Error: Reviewed build/runtime recipe evidence is missing"
+          },
+          {
+            "id": "jeis4wpi/mermaid-ascii",
+            "admitted": false,
+            "error": "Error: Reviewed build/runtime recipe evidence is missing"
+          },
+          {
+            "id": "leonj1/mermaid-ascii",
+            "admitted": false,
+            "error": "Error: Reviewed build/runtime recipe evidence is missing"
+          },
+          {
+            "id": "sgryjp/mermaid-ascii",
+            "admitted": false,
+            "error": "Error: Reviewed build/runtime recipe evidence is missing"
+          }
+        ],
+        "aliases": [],
+        "policy": "Never alias from root sharing, ahead/behind counts, names or Git pin alone. Reuse requires actual entry/closure byte admission plus identical reviewed build/runtime recipes, runtime versions and output protocols."
+      }
+    ],
+    "policy": "All catalog nodes receive per-operation eligibility. Missing adapters or unknown APIs remain unmeasured until actual attempts; no private host/credentials/runtime blockers are invented. Configuration does not establish correctness, executable availability, full family support, or a valid rank. Bindings and exact artifact aliases do not become new independent engines. Historical revisions remain measurable with explicit version scope. Converter, source and diagnostics cohorts stay separate from renderer speed."
+  },
+  "aliases": {},
+  "browserAliasesApplied": false,
+  "identityRechecks": [
+    {
+      "implementation": "AlexanderGrooff/mermaid-ascii",
+      "boundary": "node-cli-declared-artifacts",
+      "status": "passed"
+    }
+  ],
+  "gaps": [
+    "Bounded release smoke; six legacy cases, one common flowchart and two invalid controls. No deep coverage or qualified timing claim.",
+    "SVG XML/canvas and authored-label checks do not establish complete semantic identity, multiplicity, route geometry or visual fidelity. Dedicated family feature assertions remain separate.",
+    "Core repeat cases calibrate to20ms/256iterations. With communityCoverageOnce, feature-corpus inputs qualify one actual call in round1 without warm/repeated speed samples; later rounds contain core only. These protocols never share a speed aggregate. API clocks exclude validation/cleanup; internal DOM measurement belongs to the API. JS heap excludes native/WASM/process memory."
+  ]
+}

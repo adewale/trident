@@ -1,0 +1,188 @@
+{
+  "schema": "trident-harness-profile-v1",
+  "purpose": "Unscored verification of public execution paths; not ecosystem ranking, corpus accuracy or timing qualification",
+  "budgetMinutes": 5,
+  "projects": [
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1"
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "version": "0.3.2"
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.2"
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0"
+    }
+  ],
+  "jobs": [
+    {
+      "id": "reference-svg",
+      "project": "mermaid-js/mermaid",
+      "output": "svg",
+      "transport": "browser"
+    },
+    {
+      "id": "reference-png-conversion",
+      "project": "mermaid-js/mermaid",
+      "output": "png",
+      "transport": "browser"
+    },
+    {
+      "id": "reference-model",
+      "project": "mermaid-js/mermaid",
+      "output": "structured",
+      "transport": "model"
+    },
+    {
+      "id": "terminal-baseline",
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "output": "terminal",
+      "transport": "primary"
+    },
+    {
+      "id": "node-svg",
+      "project": "adewale/agentic-mermaid",
+      "output": "svg",
+      "transport": "primary"
+    },
+    {
+      "id": "node-png",
+      "project": "adewale/agentic-mermaid",
+      "output": "png",
+      "transport": "primary"
+    },
+    {
+      "id": "node-terminal",
+      "project": "adewale/agentic-mermaid",
+      "output": "terminal",
+      "transport": "primary"
+    },
+    {
+      "id": "alternate-model",
+      "project": "adewale/agentic-mermaid",
+      "output": "structured",
+      "transport": "model"
+    },
+    {
+      "id": "package-cli",
+      "project": "adewale/agentic-mermaid",
+      "output": "svg",
+      "transport": "node-cli"
+    },
+    {
+      "id": "png-only-worker",
+      "project": "pub:mermaid_flutter",
+      "output": "png",
+      "transport": "primary"
+    },
+    {
+      "id": "wasm-svg",
+      "project": "Latias94/merman",
+      "output": "svg",
+      "transport": "browser"
+    },
+    {
+      "id": "native-node-engine",
+      "project": "Latias94/merman",
+      "output": "svg",
+      "transport": "primary"
+    },
+    {
+      "id": "native-svg-cli",
+      "project": "Latias94/merman",
+      "output": "svg",
+      "transport": "native-release"
+    },
+    {
+      "id": "native-png-cli",
+      "project": "Latias94/merman",
+      "output": "png",
+      "transport": "native-release"
+    },
+    {
+      "id": "native-terminal-cli",
+      "project": "Latias94/merman",
+      "output": "terminal",
+      "transport": "native-release"
+    },
+    {
+      "id": "python-api",
+      "project": "fasouto/termaid",
+      "output": "terminal",
+      "transport": "primary"
+    }
+  ],
+  "controlSources": [
+    {
+      "id": "verification:positive",
+      "family": "flowchart",
+      "source": "flowchart LR\nA[Alpha] --> B[Beta]",
+      "expectedLabels": [
+        "Alpha",
+        "Beta"
+      ],
+      "features": [
+        "retain-output-witness"
+      ],
+      "provenance": "Independent authored two-node harness control; not a benchmark score"
+    },
+    {
+      "id": "verification:changed",
+      "family": "flowchart",
+      "source": "flowchart LR\nA[Alpha] --> B[Gamma]",
+      "expectedLabels": [
+        "Alpha",
+        "Gamma"
+      ],
+      "features": [
+        "retain-output-witness"
+      ],
+      "provenance": "Metamorphic label replacement of harness control"
+    },
+    {
+      "id": "verification:invalid",
+      "family": "invalid-source",
+      "source": "This is deliberately not a Mermaid diagram. @@@ {{{",
+      "features": [
+        "retain-output-witness"
+      ],
+      "intent": "negative-admission",
+      "provenance": "Independent malformed-header harness control; acceptance is a renderer finding"
+    },
+    {
+      "id": "verification:recovery",
+      "family": "flowchart",
+      "source": "flowchart LR\nA[Alpha] --> B[Beta]",
+      "expectedLabels": [
+        "Alpha",
+        "Beta"
+      ],
+      "features": [
+        "retain-output-witness"
+      ],
+      "provenance": "Original source after invalid input; same worker/context"
+    }
+  ],
+  "renderJobCount": 14,
+  "plannedOutputCalls": 56,
+  "modelCase": "meaning:family:flowchart",
+  "modelCallScope": "Existing public-model contract workflow; raw records retain its operations. Not included in output-call count.",
+  "sampling": "One call per control/output path, no performance warmups or repetitions",
+  "referenceTerminalScore": false,
+  "preparedSha256": "809389726374d2d814e91614d6f5cc4d137538fc7f8c93d3e006126fed9d76e6",
+  "browserPreparedSha256": "b16bb0ecdc4a96a1826649ad0e4351089fcba09f26066c49f466adc1022922c4"
+}

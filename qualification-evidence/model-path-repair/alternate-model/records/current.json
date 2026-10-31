@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "projects": [
+    {
+      "project": "adewale/agentic-mermaid",
+      "lane": "public-model-contracts-v2",
+      "current": "5604c50e-50a0-4ba4-928e-6e001296bce3",
+      "history": [
+        "5604c50e-50a0-4ba4-928e-6e001296bce3"
+      ]
+    }
+  ]
+}

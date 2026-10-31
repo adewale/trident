@@ -1,0 +1,526 @@
+{
+  "sourceRun": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/AlexanderGrooff%2Fmermaid-ascii/community",
+  "resourceOnly": false,
+  "resourcePasses": 1,
+  "latencyMeasured": true,
+  "baselineCli": null,
+  "outputSelection": null,
+  "scope": "all-bound-CLI-outputs",
+  "preparedFile": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/AlexanderGrooff%2Fmermaid-ascii/community/community-prepared.json",
+  "inputsFile": "/workspace/trident-qualification-package-check-2026-10-31/verification/source/community/project-attempts/1ddd1a4a-a496-4526-a81c-632b9d7b76ea/AlexanderGrooff%2Fmermaid-ascii/community/community-inputs.json",
+  "harness": {
+    "root": "/workspace/trident-qualification",
+    "head": "0df0170a1ddadf407872fcb4240d7077e4644306",
+    "dirty": false,
+    "status": []
+  },
+  "target": {
+    "root": "/workspace/trident-qualification",
+    "packageRoot": "/workspace/trident-qualification",
+    "head": "0df0170a1ddadf407872fcb4240d7077e4644306",
+    "dirty": false,
+    "status": []
+  },
+  "cohort": [
+    {
+      "id": "core:flow5",
+      "family": "flowchart",
+      "source": "flowchart TD\n  A[Start] --> B{Check}\n  B -->|yes| C[Do it]\n  B -->|no| D[Skip]\n  C --> E[End]\n  D --> E",
+      "features": [
+        "core-graph-batch"
+      ],
+      "provenance": "eval/benchmark/micro-bench-cases.ts; independently declared fixture labels",
+      "expectedLabels": [
+        "Start",
+        "Check",
+        "Do it",
+        "Skip",
+        "End"
+      ],
+      "intent": "render",
+      "intentReason": "Owning fixture declares a positive diagram/render workload"
+    },
+    {
+      "id": "core:tree50",
+      "family": "flowchart",
+      "source": "flowchart TD\n  n0[Node 0] --> n1[Node 1]\n  n0[Node 0] --> n2[Node 2]\n  n0[Node 0] --> n3[Node 3]\n  n1[Node 1] --> n4[Node 4]\n  n1[Node 1] --> n5[Node 5]\n  n1[Node 1] --> n6[Node 6]\n  n2[Node 2] --> n7[Node 7]\n  n2[Node 2] --> n8[Node 8]\n  n2[Node 2] --> n9[Node 9]\n  n3[Node 3] --> n10[Node 10]\n  n3[Node 3] --> n11[Node 11]\n  n3[Node 3] --> n12[Node 12]\n  n4[Node 4] --> n13[Node 13]\n  n4[Node 4] --> n14[Node 14]\n  n4[Node 4] --> n15[Node 15]\n  n5[Node 5] --> n16[Node 16]\n  n5[Node 5] --> n17[Node 17]\n  n5[Node 5] --> n18[Node 18]\n  n6[Node 6] --> n19[Node 19]\n  n6[Node 6] --> n20[Node 20]\n  n6[Node 6] --> n21[Node 21]\n  n7[Node 7] --> n22[Node 22]\n  n7[Node 7] --> n23[Node 23]\n  n7[Node 7] --> n24[Node 24]\n  n8[Node 8] --> n25[Node 25]\n  n8[Node 8] --> n26[Node 26]\n  n8[Node 8] --> n27[Node 27]\n  n9[Node 9] --> n28[Node 28]\n  n9[Node 9] --> n29[Node 29]\n  n9[Node 9] --> n30[Node 30]\n  n10[Node 10] --> n31[Node 31]\n  n10[Node 10] --> n32[Node 32]\n  n10[Node 10] --> n33[Node 33]\n  n11[Node 11] --> n34[Node 34]\n  n11[Node 11] --> n35[Node 35]\n  n11[Node 11] --> n36[Node 36]\n  n12[Node 12] --> n37[Node 37]\n  n12[Node 12] --> n38[Node 38]\n  n12[Node 12] --> n39[Node 39]\n  n13[Node 13] --> n40[Node 40]\n  n13[Node 13] --> n41[Node 41]\n  n13[Node 13] --> n42[Node 42]\n  n14[Node 14] --> n43[Node 43]\n  n14[Node 14] --> n44[Node 44]\n  n14[Node 14] --> n45[Node 45]\n  n15[Node 15] --> n46[Node 46]\n  n15[Node 15] --> n47[Node 47]\n  n15[Node 15] --> n48[Node 48]\n  n16[Node 16] --> n49[Node 49]",
+      "features": [
+        "core-graph-batch"
+      ],
+      "provenance": "eval/benchmark/micro-bench-cases.ts; independently declared fixture labels",
+      "expectedLabels": [
+        "Node 0",
+        "Node 1",
+        "Node 2",
+        "Node 3",
+        "Node 4",
+        "Node 5",
+        "Node 6",
+        "Node 7",
+        "Node 8",
+        "Node 9",
+        "Node 10",
+        "Node 11",
+        "Node 12",
+        "Node 13",
+        "Node 14",
+        "Node 15",
+        "Node 16",
+        "Node 17",
+        "Node 18",
+        "Node 19",
+        "Node 20",
+        "Node 21",
+        "Node 22",
+        "Node 23",
+        "Node 24",
+        "Node 25",
+        "Node 26",
+        "Node 27",
+        "Node 28",
+        "Node 29",
+        "Node 30",
+        "Node 31",
+        "Node 32",
+        "Node 33",
+        "Node 34",
+        "Node 35",
+        "Node 36",
+        "Node 37",
+        "Node 38",
+        "Node 39",
+        "Node 40",
+        "Node 41",
+        "Node 42",
+        "Node 43",
+        "Node 44",
+        "Node 45",
+        "Node 46",
+        "Node 47",
+        "Node 48",
+        "Node 49"
+      ],
+      "intent": "render",
+      "intentReason": "Owning fixture declares a positive diagram/render workload"
+    },
+    {
+      "id": "core:seq20",
+      "family": "sequence",
+      "source": "sequenceDiagram\n  P0->>P1: message 0\n  P1->>P4: message 1\n  P2->>P2: message 2\n  P3->>P0: message 3\n  P4->>P3: message 4\n  P0->>P1: message 5\n  P1->>P4: message 6\n  P2->>P2: message 7\n  P3->>P0: message 8\n  P4->>P3: message 9\n  P0->>P1: message 10\n  P1->>P4: message 11\n  P2->>P2: message 12\n  P3->>P0: message 13\n  P4->>P3: message 14\n  P0->>P1: message 15\n  P1->>P4: message 16\n  P2->>P2: message 17\n  P3->>P0: message 18\n  P4->>P3: message 19",
+      "features": [
+        "core-graph-batch"
+      ],
+      "provenance": "eval/benchmark/micro-bench-cases.ts; independently declared fixture labels",
+      "expectedLabels": [
+        "message 0",
+        "message 1",
+        "message 2",
+        "message 3",
+        "message 4",
+        "message 5",
+        "message 6",
+        "message 7",
+        "message 8",
+        "message 9",
+        "message 10",
+        "message 11",
+        "message 12",
+        "message 13",
+        "message 14",
+        "message 15",
+        "message 16",
+        "message 17",
+        "message 18",
+        "message 19"
+      ],
+      "intent": "render",
+      "intentReason": "Owning fixture declares a positive diagram/render workload"
+    },
+    {
+      "id": "core:class80",
+      "family": "class",
+      "source": "classDiagram\n  class C0 {\n    +int field0\n    +method0()\n  }\n  class C1 {\n    +int field1\n    +method1()\n  }\n  C0 <|-- C1\n  class C2 {\n    +int field2\n    +method2()\n  }\n  C0 <|-- C2\n  class C3 {\n    +int field3\n    +method3()\n  }\n  C1 <|-- C3\n  class C4 {\n    +int field4\n    +method4()\n  }\n  C1 <|-- C4\n  class C5 {\n    +int field5\n    +method5()\n  }\n  C2 <|-- C5\n  class C6 {\n    +int field6\n    +method6()\n  }\n  C2 <|-- C6\n  class C7 {\n    +int field7\n    +method7()\n  }\n  C3 <|-- C7\n  class C8 {\n    +int field8\n    +method8()\n  }\n  C3 <|-- C8\n  class C9 {\n    +int field9\n    +method9()\n  }\n  C4 <|-- C9\n  class C10 {\n    +int field10\n    +method10()\n  }\n  C4 <|-- C10\n  class C11 {\n    +int field11\n    +method11()\n  }\n  C5 <|-- C11\n  class C12 {\n    +int field12\n    +method12()\n  }\n  C5 <|-- C12\n  class C13 {\n    +int field13\n    +method13()\n  }\n  C6 <|-- C13\n  class C14 {\n    +int field14\n    +method14()\n  }\n  C6 <|-- C14\n  class C15 {\n    +int field15\n    +method15()\n  }\n  C7 <|-- C15\n  class C16 {\n    +int field16\n    +method16()\n  }\n  C7 <|-- C16\n  class C17 {\n    +int field17\n    +method17()\n  }\n  C8 <|-- C17\n  class C18 {\n    +int field18\n    +method18()\n  }\n  C8 <|-- C18\n  class C19 {\n    +int field19\n    +method19()\n  }\n  C9 <|-- C19\n  class C20 {\n    +int field20\n    +method20()\n  }\n  C9 <|-- C20\n  class C21 {\n    +int field21\n    +method21()\n  }\n  C10 <|-- C21\n  class C22 {\n    +int field22\n    +method22()\n  }\n  C10 <|-- C22\n  class C23 {\n    +int field23\n    +method23()\n  }\n  C11 <|-- C23\n  class C24 {\n    +int field24\n    +method24()\n  }\n  C11 <|-- C24\n  class C25 {\n    +int field25\n    +method25()\n  }\n  C12 <|-- C25\n  class C26 {\n    +int field26\n    +method26()\n  }\n  C12 <|-- C26\n  class C27 {\n    +int field27\n    +method27()\n  }\n  C13 <|-- C27\n  class C28 {\n    +int field28\n    +method28()\n  }\n  C13 <|-- C28\n  class C29 {\n    +int field29\n    +method29()\n  }\n  C14 <|-- C29\n  class C30 {\n    +int field30\n    +method30()\n  }\n  C14 <|-- C30\n  class C31 {\n    +int field31\n    +method31()\n  }\n  C15 <|-- C31\n  class C32 {\n    +int field32\n    +method32()\n  }\n  C15 <|-- C32\n  class C33 {\n    +int field33\n    +method33()\n  }\n  C16 <|-- C33\n  class C34 {\n    +int field34\n    +method34()\n  }\n  C16 <|-- C34\n  class C35 {\n    +int field35\n    +method35()\n  }\n  C17 <|-- C35\n  class C36 {\n    +int field36\n    +method36()\n  }\n  C17 <|-- C36\n  class C37 {\n    +int field37\n    +method37()\n  }\n  C18 <|-- C37\n  class C38 {\n    +int field38\n    +method38()\n  }\n  C18 <|-- C38\n  class C39 {\n    +int field39\n    +method39()\n  }\n  C19 <|-- C39\n  class C40 {\n    +int field40\n    +method40()\n  }\n  C19 <|-- C40\n  class C41 {\n    +int field41\n    +method41()\n  }\n  C20 <|-- C41\n  class C42 {\n    +int field42\n    +method42()\n  }\n  C20 <|-- C42\n  class C43 {\n    +int field43\n    +method43()\n  }\n  C21 <|-- C43\n  class C44 {\n    +int field44\n    +method44()\n  }\n  C21 <|-- C44\n  class C45 {\n    +int field45\n    +method45()\n  }\n  C22 <|-- C45\n  class C46 {\n    +int field46\n    +method46()\n  }\n  C22 <|-- C46\n  class C47 {\n    +int field47\n    +method47()\n  }\n  C23 <|-- C47\n  class C48 {\n    +int field48\n    +method48()\n  }\n  C23 <|-- C48\n  class C49 {\n    +int field49\n    +method49()\n  }\n  C24 <|-- C49\n  class C50 {\n    +int field50\n    +method50()\n  }\n  C24 <|-- C50\n  class C51 {\n    +int field51\n    +method51()\n  }\n  C25 <|-- C51\n  class C52 {\n    +int field52\n    +method52()\n  }\n  C25 <|-- C52\n  class C53 {\n    +int field53\n    +method53()\n  }\n  C26 <|-- C53\n  class C54 {\n    +int field54\n    +method54()\n  }\n  C26 <|-- C54\n  class C55 {\n    +int field55\n    +method55()\n  }\n  C27 <|-- C55\n  class C56 {\n    +int field56\n    +method56()\n  }\n  C27 <|-- C56\n  class C57 {\n    +int field57\n    +method57()\n  }\n  C28 <|-- C57\n  class C58 {\n    +int field58\n    +method58()\n  }\n  C28 <|-- C58\n  class C59 {\n    +int field59\n    +method59()\n  }\n  C29 <|-- C59\n  class C60 {\n    +int field60\n    +method60()\n  }\n  C29 <|-- C60\n  class C61 {\n    +int field61\n    +method61()\n  }\n  C30 <|-- C61\n  class C62 {\n    +int field62\n    +method62()\n  }\n  C30 <|-- C62\n  class C63 {\n    +int field63\n    +method63()\n  }\n  C31 <|-- C63\n  class C64 {\n    +int field64\n    +method64()\n  }\n  C31 <|-- C64\n  class C65 {\n    +int field65\n    +method65()\n  }\n  C32 <|-- C65\n  class C66 {\n    +int field66\n    +method66()\n  }\n  C32 <|-- C66\n  class C67 {\n    +int field67\n    +method67()\n  }\n  C33 <|-- C67\n  class C68 {\n    +int field68\n    +method68()\n  }\n  C33 <|-- C68\n  class C69 {\n    +int field69\n    +method69()\n  }\n  C34 <|-- C69\n  class C70 {\n    +int field70\n    +method70()\n  }\n  C34 <|-- C70\n  class C71 {\n    +int field71\n    +method71()\n  }\n  C35 <|-- C71\n  class C72 {\n    +int field72\n    +method72()\n  }\n  C35 <|-- C72\n  class C73 {\n    +int field73\n    +method73()\n  }\n  C36 <|-- C73\n  class C74 {\n    +int field74\n    +method74()\n  }\n  C36 <|-- C74\n  class C75 {\n    +int field75\n    +method75()\n  }\n  C37 <|-- C75\n  class C76 {\n    +int field76\n    +method76()\n  }\n  C37 <|-- C76\n  class C77 {\n    +int field77\n    +method77()\n  }\n  C38 <|-- C77\n  class C78 {\n    +int field78\n    +method78()\n  }\n  C38 <|-- C78\n  class C79 {\n    +int field79\n    +method79()\n  }\n  C39 <|-- C79",
+      "features": [
+        "core-graph-batch"
+      ],
+      "provenance": "eval/benchmark/micro-bench-cases.ts; independently declared fixture labels",
+      "expectedLabels": [
+        "C0",
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "C7",
+        "C8",
+        "C9",
+        "C10",
+        "C11",
+        "C12",
+        "C13",
+        "C14",
+        "C15",
+        "C16",
+        "C17",
+        "C18",
+        "C19",
+        "C20",
+        "C21",
+        "C22",
+        "C23",
+        "C24",
+        "C25",
+        "C26",
+        "C27",
+        "C28",
+        "C29",
+        "C30",
+        "C31",
+        "C32",
+        "C33",
+        "C34",
+        "C35",
+        "C36",
+        "C37",
+        "C38",
+        "C39",
+        "C40",
+        "C41",
+        "C42",
+        "C43",
+        "C44",
+        "C45",
+        "C46",
+        "C47",
+        "C48",
+        "C49",
+        "C50",
+        "C51",
+        "C52",
+        "C53",
+        "C54",
+        "C55",
+        "C56",
+        "C57",
+        "C58",
+        "C59",
+        "C60",
+        "C61",
+        "C62",
+        "C63",
+        "C64",
+        "C65",
+        "C66",
+        "C67",
+        "C68",
+        "C69",
+        "C70",
+        "C71",
+        "C72",
+        "C73",
+        "C74",
+        "C75",
+        "C76",
+        "C77",
+        "C78",
+        "C79"
+      ],
+      "intent": "render",
+      "intentReason": "Owning fixture declares a positive diagram/render workload"
+    },
+    {
+      "id": "core:er40",
+      "family": "er",
+      "source": "erDiagram\n  E0 {\n    int id PK\n    string name0\n  }\n  E1 {\n    int id PK\n    string name1\n  }\n  E0 ||--o{ E1 : has\n  E2 {\n    int id PK\n    string name2\n  }\n  E0 ||--o{ E2 : has\n  E3 {\n    int id PK\n    string name3\n  }\n  E1 ||--o{ E3 : has\n  E4 {\n    int id PK\n    string name4\n  }\n  E1 ||--o{ E4 : has\n  E5 {\n    int id PK\n    string name5\n  }\n  E2 ||--o{ E5 : has\n  E6 {\n    int id PK\n    string name6\n  }\n  E2 ||--o{ E6 : has\n  E7 {\n    int id PK\n    string name7\n  }\n  E3 ||--o{ E7 : has\n  E8 {\n    int id PK\n    string name8\n  }\n  E3 ||--o{ E8 : has\n  E9 {\n    int id PK\n    string name9\n  }\n  E4 ||--o{ E9 : has\n  E10 {\n    int id PK\n    string name10\n  }\n  E4 ||--o{ E10 : has\n  E11 {\n    int id PK\n    string name11\n  }\n  E5 ||--o{ E11 : has\n  E12 {\n    int id PK\n    string name12\n  }\n  E5 ||--o{ E12 : has\n  E13 {\n    int id PK\n    string name13\n  }\n  E6 ||--o{ E13 : has\n  E14 {\n    int id PK\n    string name14\n  }\n  E6 ||--o{ E14 : has\n  E15 {\n    int id PK\n    string name15\n  }\n  E7 ||--o{ E15 : has\n  E16 {\n    int id PK\n    string name16\n  }\n  E7 ||--o{ E16 : has\n  E17 {\n    int id PK\n    string name17\n  }\n  E8 ||--o{ E17 : has\n  E18 {\n    int id PK\n    string name18\n  }\n  E8 ||--o{ E18 : has\n  E19 {\n    int id PK\n    string name19\n  }\n  E9 ||--o{ E19 : has\n  E20 {\n    int id PK\n    string name20\n  }\n  E9 ||--o{ E20 : has\n  E21 {\n    int id PK\n    string name21\n  }\n  E10 ||--o{ E21 : has\n  E22 {\n    int id PK\n    string name22\n  }\n  E10 ||--o{ E22 : has\n  E23 {\n    int id PK\n    string name23\n  }\n  E11 ||--o{ E23 : has\n  E24 {\n    int id PK\n    string name24\n  }\n  E11 ||--o{ E24 : has\n  E25 {\n    int id PK\n    string name25\n  }\n  E12 ||--o{ E25 : has\n  E26 {\n    int id PK\n    string name26\n  }\n  E12 ||--o{ E26 : has\n  E27 {\n    int id PK\n    string name27\n  }\n  E13 ||--o{ E27 : has\n  E28 {\n    int id PK\n    string name28\n  }\n  E13 ||--o{ E28 : has\n  E29 {\n    int id PK\n    string name29\n  }\n  E14 ||--o{ E29 : has\n  E30 {\n    int id PK\n    string name30\n  }\n  E14 ||--o{ E30 : has\n  E31 {\n    int id PK\n    string name31\n  }\n  E15 ||--o{ E31 : has\n  E32 {\n    int id PK\n    string name32\n  }\n  E15 ||--o{ E32 : has\n  E33 {\n    int id PK\n    string name33\n  }\n  E16 ||--o{ E33 : has\n  E34 {\n    int id PK\n    string name34\n  }\n  E16 ||--o{ E34 : has\n  E35 {\n    int id PK\n    string name35\n  }\n  E17 ||--o{ E35 : has\n  E36 {\n    int id PK\n    string name36\n  }\n  E17 ||--o{ E36 : has\n  E37 {\n    int id PK\n    string name37\n  }\n  E18 ||--o{ E37 : has\n  E38 {\n    int id PK\n    string name38\n  }\n  E18 ||--o{ E38 : has\n  E39 {\n    int id PK\n    string name39\n  }\n  E19 ||--o{ E39 : has",
+      "features": [
+        "core-graph-batch"
+      ],
+      "provenance": "eval/benchmark/micro-bench-cases.ts; independently declared fixture labels",
+      "expectedLabels": [
+        "E0",
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8",
+        "E9",
+        "E10",
+        "E11",
+        "E12",
+        "E13",
+        "E14",
+        "E15",
+        "E16",
+        "E17",
+        "E18",
+        "E19",
+        "E20",
+        "E21",
+        "E22",
+        "E23",
+        "E24",
+        "E25",
+        "E26",
+        "E27",
+        "E28",
+        "E29",
+        "E30",
+        "E31",
+        "E32",
+        "E33",
+        "E34",
+        "E35",
+        "E36",
+        "E37",
+        "E38",
+        "E39"
+      ],
+      "intent": "render",
+      "intentReason": "Owning fixture declares a positive diagram/render workload"
+    },
+    {
+      "id": "core:state80",
+      "family": "state",
+      "source": "stateDiagram-v2\n  S0 --> S1: e0\n  S1 --> S0\n  S1 --> S2: e1\n  S2 --> S3: e2\n  S3 --> S4: e3\n  S4 --> S5: e4\n  S5 --> S6: e5\n  S6 --> S2\n  S6 --> S7: e6\n  S7 --> S8: e7\n  S8 --> S9: e8\n  S9 --> S10: e9\n  S10 --> S11: e10\n  S11 --> S7\n  S11 --> S12: e11\n  S12 --> S13: e12\n  S13 --> S14: e13\n  S14 --> S15: e14\n  S15 --> S16: e15\n  S16 --> S12\n  S16 --> S17: e16\n  S17 --> S18: e17\n  S18 --> S19: e18\n  S19 --> S20: e19\n  S20 --> S21: e20\n  S21 --> S17\n  S21 --> S22: e21\n  S22 --> S23: e22\n  S23 --> S24: e23\n  S24 --> S25: e24\n  S25 --> S26: e25\n  S26 --> S22\n  S26 --> S27: e26\n  S27 --> S28: e27\n  S28 --> S29: e28\n  S29 --> S30: e29\n  S30 --> S31: e30\n  S31 --> S27\n  S31 --> S32: e31\n  S32 --> S33: e32\n  S33 --> S34: e33\n  S34 --> S35: e34\n  S35 --> S36: e35\n  S36 --> S32\n  S36 --> S37: e36\n  S37 --> S38: e37\n  S38 --> S39: e38\n  S39 --> S40: e39\n  S40 --> S41: e40\n  S41 --> S37\n  S41 --> S42: e41\n  S42 --> S43: e42\n  S43 --> S44: e43\n  S44 --> S45: e44\n  S45 --> S46: e45\n  S46 --> S42\n  S46 --> S47: e46\n  S47 --> S48: e47\n  S48 --> S49: e48\n  S49 --> S50: e49\n  S50 --> S51: e50\n  S51 --> S47\n  S51 --> S52: e51\n  S52 --> S53: e52\n  S53 --> S54: e53\n  S54 --> S55: e54\n  S55 --> S56: e55\n  S56 --> S52\n  S56 --> S57: e56\n  S57 --> S58: e57\n  S58 --> S59: e58\n  S59 --> S60: e59\n  S60 --> S61: e60\n  S61 --> S57\n  S61 --> S62: e61\n  S62 --> S63: e62\n  S63 --> S64: e63\n  S64 --> S65: e64\n  S65 --> S66: e65\n  S66 --> S62\n  S66 --> S67: e66\n  S67 --> S68: e67\n  S68 --> S69: e68\n  S69 --> S70: e69\n  S70 --> S71: e70\n  S71 --> S67\n  S71 --> S72: e71\n  S72 --> S73: e72\n  S73 --> S74: e73\n  S74 --> S75: e74\n  S75 --> S76: e75\n  S76 --> S72\n  S76 --> S77: e76\n  S77 --> S78: e77\n  S78 --> S79: e78\n  S79 --> S80: e79",
+      "features": [
+        "core-graph-batch"
+      ],
+      "provenance": "eval/benchmark/micro-bench-cases.ts; independently declared fixture labels",
+      "expectedLabels": [
+        "S0",
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6",
+        "S7",
+        "S8",
+        "S9",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14",
+        "S15",
+        "S16",
+        "S17",
+        "S18",
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27",
+        "S28",
+        "S29",
+        "S30",
+        "S31",
+        "S32",
+        "S33",
+        "S34",
+        "S35",
+        "S36",
+        "S37",
+        "S38",
+        "S39",
+        "S40",
+        "S41",
+        "S42",
+        "S43",
+        "S44",
+        "S45",
+        "S46",
+        "S47",
+        "S48",
+        "S49",
+        "S50",
+        "S51",
+        "S52",
+        "S53",
+        "S54",
+        "S55",
+        "S56",
+        "S57",
+        "S58",
+        "S59",
+        "S60",
+        "S61",
+        "S62",
+        "S63",
+        "S64",
+        "S65",
+        "S66",
+        "S67",
+        "S68",
+        "S69",
+        "S70",
+        "S71",
+        "S72",
+        "S73",
+        "S74",
+        "S75",
+        "S76",
+        "S77",
+        "S78",
+        "S79",
+        "S80"
+      ],
+      "intent": "render",
+      "intentReason": "Owning fixture declares a positive diagram/render workload"
+    }
+  ],
+  "catalogNodes": 1,
+  "comparatorNodes": 1,
+  "catalogTools": [
+    "AlexanderGrooff/mermaid-ascii"
+  ],
+  "variants": [
+    {
+      "prepared": {
+        "node": {
+          "id": "AlexanderGrooff/mermaid-ascii",
+          "categories": [
+            "renderer"
+          ],
+          "relation": "independent",
+          "repo": "https://github.com/AlexanderGrooff/mermaid-ascii",
+          "branch": "master",
+          "head": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+          "lastCommit": "2026-09-08T23:38:47+02:00",
+          "rootCommits": [
+            "cb28264cf4b3261836de8f6af2d8dc2e7d459552"
+          ],
+          "license": "MIT",
+          "release": {
+            "tag": "1.6.1",
+            "commit": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea"
+          },
+          "runtime": "Go",
+          "outputs": [
+            "ascii-unicode"
+          ],
+          "roles": [
+            "ancestor",
+            "terminal-peer"
+          ],
+          "notes": "docs/comparison.md records 1.4.0; latest tag is newer. Ancestor of the Beautiful/Agentic ASCII engine by port.",
+          "benchmark": {
+            "adapter": "source-cli",
+            "outputs": [
+              "terminal"
+            ],
+            "cliRelease": {
+              "repository": "AlexanderGrooff/mermaid-ascii",
+              "tag": "1.6.1",
+              "version": "1.6.1",
+              "versionSource": "release-tag",
+              "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+              "outputs": {
+                "terminal": {
+                  "args": [],
+                  "input": "stdin"
+                }
+              },
+              "platforms": {
+                "linux-x64": {
+                  "asset": "mermaid-ascii_Linux_x86_64.tar.gz",
+                  "sha256": "9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41",
+                  "executable": "mermaid-ascii"
+                }
+              }
+            }
+          },
+          "benchmarkEligibility": {
+            "classification": "independently-rooted-implementation",
+            "engineScope": "independent-engine-candidate",
+            "adapterReview": "existing-adapter; outcomes remain independent",
+            "reason": "Catalog declares terminal operations with adapter source-cli. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+          }
+        },
+        "artifact": {
+          "kind": "cli",
+          "root": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41",
+          "executable": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii",
+          "args": [],
+          "input": "stdin",
+          "outputBindings": {
+            "terminal": {
+              "args": [],
+              "input": "stdin"
+            }
+          },
+          "version": "1.6.1",
+          "versionSource": "release-tag",
+          "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+          "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+          "files": [
+            {
+              "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii",
+              "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8"
+            },
+            {
+              "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii_Linux_x86_64.tar.gz",
+              "sha256": "9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41"
+            }
+          ],
+          "runtime": "linux-x64 public native CLI",
+          "apiBoundary": "public release executable; fresh process, stdin/file through drained output",
+          "detail": "Archive https://github.com/AlexanderGrooff/mermaid-ascii/releases/download/1.6.1/mermaid-ascii_Linux_x86_64.tar.gz; SHA-256 9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41. Version identity: release-tag. Source revision names the release tag, not a reproducible-build assertion."
+        }
+      },
+      "variantOf": "AlexanderGrooff/mermaid-ascii",
+      "variant": "public-cli",
+      "outputs": [
+        "terminal"
+      ],
+      "identity": {
+        "executable": {
+          "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii",
+          "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+          "bytes": 13525154
+        },
+        "delivery": {
+          "executableBytes": 13525154,
+          "scope": "compiled CLI executable only; dynamic libraries and other external resources excluded"
+        },
+        "files": [
+          {
+            "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii",
+            "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+            "bytes": 13525154
+          },
+          {
+            "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii_Linux_x86_64.tar.gz",
+            "sha256": "9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41",
+            "bytes": 5336751
+          }
+        ],
+        "version": "1.6.1",
+        "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+        "integrity": null,
+        "args": [],
+        "input": "stdin",
+        "runtime": "linux-x64 public native CLI"
+      }
+    }
+  ],
+  "resourceObserver": {
+    "path": "/workspace/.cloud-tools/gnu-time-root/usr/bin/time",
+    "version": "time (GNU Time) UNKNOWN\nCopyright (C) 2018 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n\nWritten by David Keppel, David MacKenzie, and Assaf Gordon.",
+    "sha256": "efc0d1112e36ec76c14bf7508e287935cf1631d9d0d91fb532802d07aef51cea",
+    "bytes": 27384,
+    "locale": {
+      "LC_ALL": "C.UTF-8",
+      "LC_NUMERIC": null,
+      "LANG": "C.UTF-8"
+    }
+  }
+}

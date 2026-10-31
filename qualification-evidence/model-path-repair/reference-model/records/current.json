@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "projects": [
+    {
+      "project": "mermaid-js/mermaid",
+      "lane": "public-model-contracts-v2",
+      "current": "ddededb0-8195-4ff5-9fd9-af56e870c066",
+      "history": [
+        "ddededb0-8195-4ff5-9fd9-af56e870c066"
+      ]
+    }
+  ]
+}

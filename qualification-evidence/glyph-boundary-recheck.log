@@ -1,0 +1,29 @@
+bun test v1.4.2 (744846f84)
+
+tests/fidelity-source-facts.test.ts:
+(pass) every source fact is fixed in the required SVG plan, including facts without a qualified observer [2.38ms]
+(pass) a specialized observer may replace an unavailable projection but cannot hide a contrary check [1.18ms]
+(pass) owned geometry verifies global direction without treating a public model or source echo as layout [1574.35ms]
+(pass) primitive shapes and solid/dotted appearance are actual owned geometry rather than source/model echoes [1571.28ms]
+(pass) compiled node paint uses owned effective colors, widths and dashes rather than CSS class spelling [1296.14ms]
+(pass) unsupported source semantics stay unknown despite matching nodes, labels and direction [314.53ms]
+(pass) source title requires painted text rather than SVG metadata [2089.21ms]
+(pass) transparent source titles and unbound accessibility metadata cannot supply fact credit [1400.46ms]
+(pass) a source title cannot borrow an identically named node or survive a proved empty clip [975.78ms]
+(pass) mermaid real ordinary and rounded boxes retain source distinction despite skin corner rounding [1181.10ms]
+(pass) pele real ordinary and rounded boxes retain source distinction despite skin corner rounding [1199.93ms]
+
+tests/fidelity-structural-facts.test.ts:
+(pass) mermaid retained class members require complete owned signatures, not matching method names [4265.10ms]
+(pass) mermaid retained ER attributes bind types, names and keys to complete entity rows [4374.98ms]
+(pass) mermaid retained sequence order and styles come from owned painted routes [2759.67ms]
+(pass) pele retained class members require complete owned signatures, not matching method names [2576.15ms]
+(pass) pele retained ER attributes bind types, names and keys to complete entity rows [2086.83ms]
+(pass) pele retained sequence order and styles come from owned painted routes [1584.14ms]
+(pass) a repeated class header cannot conceal an additional member with the same spelling [1506.08ms]
+(pass) unheaded sequence routes qualify physical endpoint pairs independently of SVG path-writing direction [813.13ms]
+
+ 19 pass
+ 0 fail
+ 81 expect() calls
+Ran 19 tests across 2 files. [33.74s]

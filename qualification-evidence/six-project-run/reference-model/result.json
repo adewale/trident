@@ -1,0 +1,11 @@
+{
+  "job": {
+    "id": "reference-model",
+    "project": "mermaid-js/mermaid",
+    "output": "structured",
+    "transport": "model"
+  },
+  "rows": [],
+  "error": "Error: Native fidelity worker did not complete: node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nfile:///workspace/trident-qualification/unified/docs-source-review.ts:69\n  lines: string[] = []\n  constructor(readonly input: DocsInput) {\n                       ^^^^^^^^^^^^^^^^\n    let source = input.source\n\nSyntaxError [ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX]: TypeScript parameter property is not supported in strip-only mode\n    at parseTypeScript (node:internal/modules/typescript:68:40)\n    at processTypeScriptCode (node:internal/modules/typescript:146:42)\n    at stripTypeScriptModuleTypes (node:internal/modules/typescript:215:22)\n    at ModuleLoader.<anonymous> (node:internal/modules/esm/translators:680:29)\n    at #translate (node:internal/modules/esm/loader:434:20)\n    at afterLoad (node:internal/modules/esm/loader:502:29)\n    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:507:12)\n    at #getOrCreateModuleJobAfterResolve (node:internal/modules/esm/loader:560:36)\n    at afterResolve (node:internal/modules/esm/loader:607:52)\n    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:613:12) {\n  code: 'ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX'\n}\n\nNode.js v24.19.0\n",
+  "finishedAt": "2026-10-31T15:01:25.467Z"
+}

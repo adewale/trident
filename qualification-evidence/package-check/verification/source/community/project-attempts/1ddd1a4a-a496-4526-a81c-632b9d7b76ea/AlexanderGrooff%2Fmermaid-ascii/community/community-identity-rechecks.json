@@ -1,0 +1,7 @@
+[
+  {
+    "implementation": "AlexanderGrooff/mermaid-ascii",
+    "boundary": "node-cli-declared-artifacts",
+    "status": "passed"
+  }
+]

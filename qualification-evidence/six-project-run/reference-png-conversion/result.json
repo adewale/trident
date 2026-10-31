@@ -1,0 +1,83 @@
+{
+  "job": {
+    "id": "reference-png-conversion",
+    "project": "mermaid-js/mermaid",
+    "output": "png",
+    "transport": "browser"
+  },
+  "rows": [
+    {
+      "suite": "harness-verification",
+      "surface": "browser:png",
+      "runtime": "Chromium",
+      "family": "flowchart",
+      "caseId": "verification:positive",
+      "operation": "render",
+      "format": "png",
+      "mode": "unscored-invocation-control",
+      "status": "passed",
+      "metrics": {
+        "project": "mermaid-js/mermaid",
+        "version": "12.2.0",
+        "measuredAt": "2026-10-31T15:01:24.605Z",
+        "outputFile": "/workspace/trident-six-project-qualification/run-2/reference-png-conversion/9b79d0ec2f883a2344e42893923ed793ebdd88b2840e2ed40b8896999371894f.png",
+        "timingQualified": false
+      }
+    },
+    {
+      "suite": "harness-verification",
+      "surface": "browser:png",
+      "runtime": "Chromium",
+      "family": "flowchart",
+      "caseId": "verification:changed",
+      "operation": "render",
+      "format": "png",
+      "mode": "unscored-invocation-control",
+      "status": "passed",
+      "metrics": {
+        "project": "mermaid-js/mermaid",
+        "version": "12.2.0",
+        "measuredAt": "2026-10-31T15:01:24.712Z",
+        "outputFile": "/workspace/trident-six-project-qualification/run-2/reference-png-conversion/17be738c45f3d189e811f4d132ee11a60ad87fac75121a61774d5b1e23aab177.png",
+        "timingQualified": false
+      }
+    },
+    {
+      "suite": "harness-verification",
+      "surface": "browser:png",
+      "runtime": "Chromium",
+      "family": "invalid-source",
+      "caseId": "verification:invalid",
+      "operation": "negative-admission",
+      "format": "png",
+      "mode": "unscored-invocation-control",
+      "status": "blocked",
+      "detail": "Renderer acceptance/rejection is a finding, not a harness-quality score",
+      "metrics": {
+        "project": "mermaid-js/mermaid",
+        "version": "12.2.0",
+        "measuredAt": "2026-10-31T15:01:24.740Z",
+        "timingQualified": false
+      }
+    },
+    {
+      "suite": "harness-verification",
+      "surface": "browser:png",
+      "runtime": "Chromium",
+      "family": "flowchart",
+      "caseId": "verification:recovery",
+      "operation": "render",
+      "format": "png",
+      "mode": "unscored-invocation-control",
+      "status": "passed",
+      "metrics": {
+        "project": "mermaid-js/mermaid",
+        "version": "12.2.0",
+        "measuredAt": "2026-10-31T15:01:24.830Z",
+        "outputFile": "/workspace/trident-six-project-qualification/run-2/reference-png-conversion/9b79d0ec2f883a2344e42893923ed793ebdd88b2840e2ed40b8896999371894f.png",
+        "timingQualified": false
+      }
+    }
+  ],
+  "finishedAt": "2026-10-31T15:01:24.938Z"
+}

@@ -1,0 +1,7 @@
+{
+  "caseId": "verification:invalid",
+  "startedAt": "2026-10-31T15:01:44.177Z",
+  "project": "Latias94/merman",
+  "output": "svg",
+  "transport": "browser"
+}

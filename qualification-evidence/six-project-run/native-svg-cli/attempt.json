@@ -1,0 +1,208 @@
+{
+  "job": {
+    "id": "native-svg-cli",
+    "project": "Latias94/merman",
+    "output": "svg",
+    "transport": "native-release"
+  },
+  "startedAt": "2026-10-31T15:01:44.663Z",
+  "artifact": {
+    "kind": "node",
+    "root": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node",
+    "module": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node/dist/index.mjs",
+    "version": "0.9.2",
+    "integrity": "sha512-cYnkgZC9WYaHJ1bjHctobSkrheROGdqIUnHzZeJHuTq0sWyKWud2x4g3Ui95lsqooPF70Nb42p75QdKShTtCFw==",
+    "runtime": "Node",
+    "sha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099",
+    "files": [
+      {
+        "path": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.2/node_modules/@mermanjs/node/dist/index.mjs",
+        "sha256": "89642661031b1ae13893a5ef154849f382477d0efc0d56137d7bff7143a35099"
+      }
+    ],
+    "apiBoundary": "published package API",
+    "detail": "Version policy: resolved latest registry release. Recorded catalog versions remain separately available on the node.",
+    "additionalCli": [
+      {
+        "id": "native-release",
+        "outputs": [
+          "terminal",
+          "svg",
+          "png"
+        ],
+        "artifact": {
+          "kind": "cli",
+          "root": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/Latias94--merman/v0.9.2/7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55",
+          "executable": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/Latias94--merman/v0.9.2/7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55/merman-cli-x86_64-unknown-linux-gnu/merman-cli",
+          "args": [
+            "render",
+            "-",
+            "--format",
+            "unicode",
+            "--ascii-color",
+            "plain",
+            "--ascii-max-width",
+            "120",
+            "--output",
+            "-"
+          ],
+          "input": "stdin",
+          "outputBindings": {
+            "terminal": {
+              "args": [
+                "render",
+                "-",
+                "--format",
+                "unicode",
+                "--ascii-color",
+                "plain",
+                "--ascii-max-width",
+                "120",
+                "--output",
+                "-"
+              ],
+              "input": "stdin"
+            },
+            "svg": {
+              "args": [
+                "render",
+                "-",
+                "--format",
+                "svg",
+                "--output",
+                "-",
+                "--quiet"
+              ],
+              "input": "stdin"
+            },
+            "png": {
+              "args": [
+                "render",
+                "-",
+                "--format",
+                "png",
+                "--output",
+                "{output}",
+                "--quiet"
+              ],
+              "input": "stdin"
+            }
+          },
+          "version": "0.9.2",
+          "versionSource": "command",
+          "revision": "8e303a43b548c9e40e73f0bc657925d66e7d4fb5",
+          "sha256": "2acc6ae1cfd5bcb0308789f7276e09a82efba6c6dcae64d91ea47e653a6a8565",
+          "files": [
+            {
+              "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/Latias94--merman/v0.9.2/7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55/merman-cli-x86_64-unknown-linux-gnu/merman-cli",
+              "sha256": "2acc6ae1cfd5bcb0308789f7276e09a82efba6c6dcae64d91ea47e653a6a8565"
+            },
+            {
+              "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/Latias94--merman/v0.9.2/7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55/merman-cli-x86_64-unknown-linux-gnu.tar.xz",
+              "sha256": "7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55"
+            }
+          ],
+          "runtime": "linux-x64 public native CLI",
+          "apiBoundary": "public release executable; fresh process, stdin/file through drained output",
+          "detail": "Archive https://github.com/Latias94/merman/releases/download/v0.9.2/merman-cli-x86_64-unknown-linux-gnu.tar.xz; SHA-256 7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55. Version identity: command. Source revision names the release tag, not a reproducible-build assertion."
+        }
+      }
+    ]
+  },
+  "producers": [
+    "100644 blob 403ff7ba062a20a4610b46468f04a028222d4ca1\tci-policy-enforce.ts",
+    "100644 blob 46a6436ea29e11fa5d713b39ddb63acd9ae791cf\tci-policy.ts",
+    "100644 blob f7bf6651a11db190dd50d9a86062e7f642eac356\tcorpus/docs-source-registry.json",
+    "100644 blob 05a5d4f8bf54c048e2b313b5b4b55f68028ef155\tdata/upstream-mermaid-policy.json",
+    "100644 blob ba0b06d7ac26232aa075a25015dfa0530d22fef5\tfidelity/cases.ts",
+    "100644 blob a8848594a53222e83253807afba9bd239c7abe1b\tfidelity/community.ts",
+    "100644 blob 1ac1b2fd48b462b84ec83f413c117f6eaacc5aca\tfidelity/ledger.ts",
+    "100644 blob 6646212b98553311bf33835bf3f9a0ee25cd2529\tfidelity/meaning.ts",
+    "100644 blob 73a396da12eb10497fa8fe3304a997ef92d41ddc\tfidelity/paint-chart-facts.ts",
+    "100644 blob b8bf0dcb596bc094365886e478c426b867abc28a\tfidelity/paint-facts.ts",
+    "100644 blob 9e9762555769941c64b25a2cb9e7cd4b851e0d5e\tfidelity/paint-values.ts",
+    "100644 blob dedafc129564c24f2297825345ab0417819e8799\tfidelity/paint.ts",
+    "100644 blob c81659e30c133dfc6b65edc4470b0f06e9d3e8fa\tfidelity/protocol.ts",
+    "100644 blob 9650cf38842937be6ce0506095b2019ddcb5013a\tfidelity/selection.ts",
+    "100644 blob 30881d2b108022b91fbfd05448d5555ebe155c6e\tfidelity/source-contract.ts",
+    "100644 blob f9ba27d0fe8fd959e9e09e3bf4152b315bea37f2\tfidelity/style-expectation.ts",
+    "100644 blob 292a003d95ca4a2172ac8354c9fdd3541d414811\tfidelity/svg-assessment.ts",
+    "100644 blob c6bd2e5bb66e9528e3e8476eaccdc913f451f658\tfidelity/terminal-display.ts",
+    "100644 blob 9d84755fbc64b4e90f9c2fb3a05c09887451d641\tfidelity/visual-expectation.ts",
+    "100644 blob 3d90dd1334ebdfa75999dffa2d737aeae3133475\tnative-flutter/community-launch.mjs",
+    "100644 blob a865874cfc792441448bca480dc66e30de228524\tportable/artifact-dependencies.ts",
+    "100644 blob 52dbeddf77b74d3c859812c9f4b55bcbda1e8138\tportable/artifacts.ts",
+    "100644 blob 188b51c409212e9d617d3881428237dbbb2d4235\tportable/checkpoint.ts",
+    "100644 blob 5813f9b7c09528e50b77f9003f16b828a625081c\tportable/ci-policy.ts",
+    "100644 blob 73da43d3fea40796d04fe7fe9906501d1d59d67a\tportable/cohorts.ts",
+    "100644 blob e3ec7de9b28f9f54be323560527fda0cf9f5a78f\tportable/configuration.ts",
+    "100644 blob d808f7ec9e356de70b8b33d0805755cc577e62d1\tportable/environment.ts",
+    "100644 blob 050919dfdb8004485ac9cc2a651b81a0a5e3faab\tportable/evidence-contract.ts",
+    "100644 blob 734dd1cc4b0f006089598a461e8772fd4a7c8843\tportable/invocation-journal.ts",
+    "100644 blob 3c4999e57c8016ec651a548f0b8ba696165410ba\tportable/mermaid-oracle.ts",
+    "100644 blob b1731be5ead03172bf3015ca76513287e5973657\tportable/project-records.ts",
+    "100644 blob 2ded90e3f187b0bb2f2b648127551893e21df344\tportable/protocol.ts",
+    "100644 blob b6e2112969be7aefb804478246a1e84d36cf5b7d\tportable/time-observer.ts",
+    "100644 blob b1ef94da605b1aaa77103ee43a597d7e314d5eea\tqualification/harness-profile.json",
+    "100644 blob 0c32ab27bb57a0c4ba9ffb37863d2775ef4dfb72\treference/source.ts",
+    "100644 blob f95fb7a418cef16b70a50c63cbf10168e2a3a1dd\ttool-versions.json",
+    "100644 blob ff51e22ba9ca2e2a776934a86dec5c66317599c1\ttool-versions.ts",
+    "100644 blob 64b5529413c7909dd93668b79b9280dd36a5c36f\tunified/artifact-admission.ts",
+    "100644 blob de3164e87b0ba9482631fd145491f792610cd409\tunified/artifact-variants.ts",
+    "100644 blob 3a220a70e2d8305287fb83d7b27178745a22bb16\tunified/baseline-measurement-context.ts",
+    "100644 blob 4201a44529c5858c4b2296fe77baa92b94da4061\tunified/benchmark-context.ts",
+    "100644 blob 57f9c7caf187a31dd2721708321e532730cfd3ac\tunified/benchmark-skip.ts",
+    "100644 blob eacfa7f30a1a1925538ba704f73cb59f80fa44f3\tunified/browser-process-memory.ts",
+    "100644 blob 94a2f7ff9c81e5685b4e08cd940cb23ce0693413\tunified/campaign-preparation.ts",
+    "100644 blob b4b4ca9a7105aa04a60a0add90861e6237ff59b6\tunified/candidate-packages.ts",
+    "100644 blob aa10f449699fafb6430719483ddfd6a1079131e3\tunified/catalog-eligibility.ts",
+    "100644 blob 9cf11fbbab5c2ca8e8bdaf09481bda28c67ce796\tunified/community-artifact-prepare.ts",
+    "100644 blob 1fcf1781f4bd80217906299b74efbe43c20c4707\tunified/community-browser.ts",
+    "100644 blob 24e5325acddbef7112485da1d757d31fc41911d9\tunified/community-cli-request.ts",
+    "100644 blob fc44b2a7c0f89d4110efe6d6d053a30cb087dd34\tunified/community-cli.ts",
+    "100644 blob 96fc9d3e581a458b36f156a8e936e63ed9a6b8f1\tunified/community-external.ts",
+    "100644 blob 19c946f793e79bfaa036c26db7cf26876f5f8ed1\tunified/community-extra-adapters.mjs",
+    "100644 blob 630557c945c9cb05c27272b7a41f7108869be905\tunified/community-extra-source.ts",
+    "100644 blob d9dfab66016cdc4bd0f89adc58ad1359b3944234\tunified/community-process.ts",
+    "100644 blob 692842733ae46444d33fda8dc39a092e604145b2\tunified/community-protocol-identity.ts",
+    "100644 blob 114b71891d71dc30faa27e88aa7e4ca0ba3f0267\tunified/community-source-prepare.ts",
+    "100644 blob 5ef6354edf9d8f60eed95a51e4dd9253bfed2e90\tunified/community-worker-evidence.ts",
+    "100644 blob 6d1e5cb9bbb93bca761cd778451652e97d8463bf\tunified/community.ts",
+    "100644 blob ff13967087b5a60fb3037fc0b55eb9caa0041de0\tunified/corpus.ts",
+    "100644 blob e493385e5eb4813819e61aa438b6a450084a2f2f\tunified/docs-benchmark.ts",
+    "100644 blob 44fa2f4030a0ee0c2ff5867f8c17e70f0fbe6472\tunified/docs-drawings.ts",
+    "100644 blob 4c2f8dc71548dae1760ef562eae43c5c7d6af479\tunified/docs-png-browser.ts",
+    "100644 blob a3dd2ce8b639e0586b66031e0d9d2b73fac40488\tunified/docs-png-drawings.ts",
+    "100644 blob 3fc6f5077393d76839a617ef8aa5d83913a466ff\tunified/docs-png-lane.ts",
+    "100644 blob 58e44e3b08fd3b8e24a2d8c18226f2f8e2cae757\tunified/docs-png-qualification.ts",
+    "100644 blob 257e042c0aae7c85e26c1f2c43d3288b6fac3256\tunified/docs-resources.ts",
+    "100644 blob 76201a4b8410f9df3c0408f00e2d222ad3503f78\tunified/docs-runtime.ts",
+    "100644 blob d3f038cfd74013a43468e7c6bc9e0c10365c5266\tunified/docs-selection.ts",
+    "100644 blob 0c1fe0469cfee51f112e345ba32adff3c81b3a96\tunified/docs-source-admission.ts",
+    "100644 blob 123753d6f41e29064ef90475ef8ed0846bc6a05b\tunified/docs-source-review.ts",
+    "100644 blob 544f7ff011c74bd3eda0b4845456f7f4b5ae8c55\tunified/external-invocations.ts",
+    "100644 blob 2740a1a29fc5a3726e16f38ef6f522420e6285e7\tunified/failure-outputs.ts",
+    "100644 blob 9b4c6d41fcdff1e95f34584cae7699387b9ef24a\tunified/family-support.ts",
+    "100644 blob ef2e418db1c3ae4189874cc744f5436f1d519b2e\tunified/fidelity-suite.ts",
+    "100644 blob 6fdca45d96e84f46735cd8fe8926fe34e2889f1b\tunified/harness-paths.ts",
+    "100644 blob 1aa052a20d3f0ffe4dbbf655b8e313dbd2ea8ea4\tunified/harness-verification.ts",
+    "100644 blob eb110035690a9ca42b94b19fb270c5ddb2835421\tunified/lineage.ts",
+    "100644 blob cd08d8dc67ca10567f0f01004d1642c12bee3cfd\tunified/options.ts",
+    "100644 blob d50649b756b6334786b215c341776b37ace0cef1\tunified/oracle-labels.ts",
+    "100644 blob 5e508df049cb7a6f130d8a33e00c95395f23f532\tunified/png-inspection.ts",
+    "100644 blob 8f95636cd301779f21ada7186737684a1f409600\tunified/png-preservation.ts",
+    "100644 blob be2b90e60c1c8585a7398985b88c6c6cb0c7428d\tunified/project-update.ts",
+    "100644 blob 2f89b53ee3c54994dad9f7cecb0a5959ff96e5b7\tunified/protocol-identity.ts",
+    "100644 blob d866da3f01bbbcdd3f513f43d64271f935e6c179\tunified/public-svg-browser.ts",
+    "100644 blob 368cb14d601ecda74fac76202831ae7bd1bd71f8\tunified/qualification-visible-source.ts",
+    "100644 blob d8a0976ebb5a1f456a6b6f79e432f74655e2fafe\tunified/qualification.ts",
+    "100644 blob 719c7a3ba6e57955fe11607cd3ca7443a6c536d7\tunified/release-cli.ts",
+    "100644 blob 196a8d5a769a12de84ec59aad9e885d509761a75\tunified/retained-suite.ts",
+    "100644 blob 58fca2d6e0ea2fa8fd4cd4249d4f8c2021ee8252\tunified/support-verification.ts",
+    "100644 blob aea3fac2b7a31b4b5ce4e7fc74b979e526403eef\tunified/support.ts",
+    "100644 blob ed051cbd9a8c3df3881ed07327e08fa3dba7976f\tunified/svg-text-inspection.ts",
+    "100644 blob 6a0b61c7dd23cd9ad0a6b408278b18e38b89521d\tunified/trident-paths.ts",
+    "100644 blob 5f70ffddb13f3184f7c1d3c81e106775fbc8594d\tunified/upstream-fidelity-census.ts",
+    "100644 blob b4645079ec5f8b4a939360b735e7eb9ac7daf31a\tunified/workload-intent.ts"
+  ]
+}

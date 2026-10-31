@@ -1,0 +1,17 @@
+{
+  "schema": "trident-timing-driver-finalization-v1",
+  "planSha256": "608c1adf70f0e520b8960ab88650d26ef76c31dcbacda79ed2ca378423198b4e",
+  "policySha256": "4fa41c3ebc7a3918e724cce38d7c8f35cbbe9ebf6d804cb55996a69c3e46b327",
+  "captureProtocolSha256": "ae414b69e66f9366fe33b3b99d2a098ffe55275c6ff2f40de42659404e9c7f83",
+  "journalSha256": "f3892e0404cdfa7678d97fd8e52828c152191c22e0413f7a94d70ae910100b48",
+  "checks": {
+    "artifacts": true,
+    "sdk": true,
+    "fonts": true,
+    "resourceAudit": true,
+    "cleanup": true
+  },
+  "status": "passed",
+  "errors": [],
+  "completedAt": "2026-10-31T15:43:59.685Z"
+}

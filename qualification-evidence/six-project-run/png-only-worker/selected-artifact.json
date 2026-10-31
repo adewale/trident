@@ -1,0 +1,188 @@
+{
+  "node": {
+    "id": "pub:mermaid_flutter",
+    "categories": [
+      "renderer"
+    ],
+    "relation": "native-renderer",
+    "repo": "https://github.com/orestesgaolin/mermaid",
+    "homepage": "https://pub.dev/packages/mermaid_flutter",
+    "checkedAt": "2026-10-29",
+    "branch": "main",
+    "head": "3e92b91bcbad0b883ce6a4c8826015b5fa1c10f7",
+    "license": "MIT",
+    "runtime": "Native Linux Flutter release; Flutter >=3.35; Dart >=3.12",
+    "outputs": [
+      "png"
+    ],
+    "packages": [
+      {
+        "registry": "pub.dev",
+        "name": "mermaid_flutter",
+        "version": "0.3.2",
+        "license": "MIT"
+      }
+    ],
+    "roles": [
+      "peer"
+    ],
+    "notes": "Mermaid Flutter is a distinct branded native renderer. It uses mermaid_core for parsing/layout, paints the scene with Flutter, and exposes renderToPng. Shared parser/layout ancestry does not imply independent engines, equivalent SVG/PNG work or reusable measurements. Supply a sealed native community_worker.dart release bundle through the normal prepared-artifact interface.",
+    "benchmark": {
+      "adapter": "native-flutter",
+      "outputs": [
+        "png"
+      ],
+      "version": "0.3.2",
+      "runtime": "native Linux Flutter release",
+      "apiBoundary": "mermaid_flutter.renderToPng(source,pixelRatio:1)"
+    },
+    "benchmarkEligibility": {
+      "classification": "branded-native-renderer",
+      "engineScope": "shared-parser-and-layout; native Flutter painting and PNG export",
+      "adapterReview": "public native PNG binding; real release invocation verified separately",
+      "reason": "Distinct brand with native paint/export code, rather than another host for the same SVG renderer. Applicable PNG collection is configured; SVG/model protocols do not apply without real bindings."
+    },
+    "comparisonBranding": {
+      "distinct": true,
+      "name": "Mermaid Flutter",
+      "evidence": "Maintainer confirms Flutter and Dart have distinct branding (2026-10-29); public package identity is mermaid_flutter at https://pub.dev/packages/mermaid_flutter."
+    }
+  },
+  "artifact": {
+    "kind": "jsonl-worker",
+    "executable": "/workspace/trident-qualification/native-flutter/community-worker.mjs",
+    "args": [
+      "/workspace/trident-native-per-call-2026-10-31/prepared/native-launch-v2.json"
+    ],
+    "version": "0.3.2",
+    "runtime": "Native Linux Flutter release",
+    "sha256": "7b46828a6c57511967e64c2a77b48fe6d118ad1c5da77f1ab79d6847c3f1767f",
+    "files": [
+      {
+        "path": "/workspace/trident-qualification/native-flutter/community-worker.mjs",
+        "sha256": "7b46828a6c57511967e64c2a77b48fe6d118ad1c5da77f1ab79d6847c3f1767f"
+      },
+      {
+        "path": "/workspace/trident-qualification/native-flutter/community-launch.mjs",
+        "sha256": "1938299161631a18603e9b606c860c3db4a7b3ac960bac88613c591ae8a7f458"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/prepared/native-launch-v2.json",
+        "sha256": "2414f2e5eb7bb772f5e5c70d43eb5015f99cc94fe1041f262b7261cf027a54e3"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/bundle/data/flutter_assets/AssetManifest.bin",
+        "sha256": "f566cc6fccc657365c0197accf3a7d6f80f85209ff666ff774f4dcbc524aa842"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/bundle/data/flutter_assets/FontManifest.json",
+        "sha256": "28b1eb2b3d2e1ad60b8c8b0f9100b1ccbf492f7fa97f5bebb51ea97e73926e7d"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/bundle/data/flutter_assets/NOTICES.Z",
+        "sha256": "4a96934de2b6c3c9d80eba3d7e100776b5d4e5b7b3220c6bcd10a341ccc89cd5"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/bundle/data/flutter_assets/NativeAssetsManifest.json",
+        "sha256": "9548a31e4a048135c1d94f919328bfb62ae2c7bb3cab96557c7941daa97776cb"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/bundle/data/flutter_assets/fonts/MaterialIcons-Regular.otf",
+        "sha256": "0de7897702d3b619d6e281713411b3c977be06f1e99809df46f37701f83e1220"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/bundle/data/flutter_assets/shaders/ink_sparkle.frag",
+        "sha256": "1fe8436a743884cb65078fe8c7b38e18f5365f2a2961270916f426fd13c604af"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/bundle/data/flutter_assets/shaders/stretch_effect.frag",
+        "sha256": "bc7599dbbbaab310efe41520574138d21fb18a88c8fe4495ed79315309336f6f"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/bundle/data/flutter_assets/version.json",
+        "sha256": "ae0156a2657dc53e83bd8397064ecdd39af383bb31b3870a9ca09cfbf247ac78"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/bundle/data/icudtl.dat",
+        "sha256": "325a86063d26334c2eabe1743cea073b612540fbf3d8fc2ef0b5708e3763a8c7"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/bundle/lib/libapp.so",
+        "sha256": "82af3ba3d22f6501512c7d6f657a9f02624d37607cd3bb1acdc52209e1c818e2"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/bundle/lib/libflutter_linux_gtk.so",
+        "sha256": "360ff98cd21382014818e418a9b96dcddf93240751300627fe14816d5993a891"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/bundle/native_bench",
+        "sha256": "621aa9273929f104508b6caae823f3d6294021df3f299fb42a755b25bcd7c75b"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/build-receipt.json",
+        "sha256": "f1d0697527de4b3a4c64b7bffc74dc66702d7e719c9b8fdca4f89ddaaaba38f4"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/source.json",
+        "sha256": "fb40d66c099631f5290a9ad60b9326d03a42d752a83558691d33b136f6b88e78"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/dependency-sources.json",
+        "sha256": "3419205ae3e7600c89874bfb1e24a09c6b4126c7316930f71e08e1eca355984a"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/build.sh",
+        "sha256": "b7479c430960619a2e2b140d653faa5b2758137bf8ef41431e6c5545270451d8"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/build.log",
+        "sha256": "6b87416bb47b76f6f3a8dfbdd688277aa95a1e0cf1543773c554c39ff8135580"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/app/lib/community_worker.dart",
+        "sha256": "cb10962d9282dde339b859e314bac0741ecbb3d37ae25c1f021578f80a822309"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/app/pubspec.lock",
+        "sha256": "388d85f3334be0b47755c92e9f6911bfb2cca253c9514d232e55e781e677f35e"
+      },
+      {
+        "path": "/workspace/trident-native-per-call-2026-10-31/build-environment.json",
+        "sha256": "e484d8e1384467de4d40bd67529902ecf77cf9afc373f23dbab8687bec2274b7"
+      }
+    ],
+    "apiBoundary": "mermaid_flutter.renderToPng(source,pixelRatio:1); native process startup excluded",
+    "buildRecipeId": "trident-native-worker-durable-invocations-v1",
+    "runtimeCommandId": "mermaid_flutter.renderToPng:png:pixelRatio=1",
+    "runtimeVersion": "Flutter 3.47.8; Dart 3.13.7",
+    "nativeBinding": {
+      "schema": "trident-native-worker-binding-v1",
+      "rendererPackage": {
+        "package": "mermaid_flutter",
+        "version": "0.3.2",
+        "entrypoint": "mermaid_flutter.renderToPng(source,pixelRatio:1)"
+      },
+      "worker": {
+        "sourceRevision": "551b0533dbe193f70499567d80dab96935361cf9",
+        "sourceSha256": "cb10962d9282dde339b859e314bac0741ecbb3d37ae25c1f021578f80a822309",
+        "target": "lib/community_worker.dart",
+        "protocol": "trident-native-per-call-invocations-v1"
+      },
+      "buildReceipt": {
+        "path": "/workspace/trident-native-per-call-2026-10-31/build-receipt.json",
+        "sha256": "f1d0697527de4b3a4c64b7bffc74dc66702d7e719c9b8fdca4f89ddaaaba38f4"
+      },
+      "rendererPackageChanged": false,
+      "rendererInvocationsAtPreparation": 0,
+      "buildEnvironment": {
+        "path": "/workspace/trident-native-per-call-2026-10-31/build-environment.json",
+        "sha256": "e484d8e1384467de4d40bd67529902ecf77cf9afc373f23dbab8687bec2274b7"
+      },
+      "transportProducer": {
+        "path": "/workspace/trident-qualification/native-flutter/community-worker.mjs",
+        "sha256": "7b46828a6c57511967e64c2a77b48fe6d118ad1c5da77f1ab79d6847c3f1767f",
+        "sourceRevision": "7e6d4f782d9e743da7164da3e443eee1d753c43d"
+      }
+    }
+  }
+}

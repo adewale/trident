@@ -1,0 +1,63 @@
+{
+  "schema": "trident-release-smoke-parity-v1",
+  "status": "package-parity-verified",
+  "project": "adewale/agentic-mermaid",
+  "sourceRecord": {
+    "path": "/workspace/trident-qualification-package-check-2026-10-31/verification/source-kit/attempts/47eba174-fc54-4a2d-9d48-48bf899f936d/result.json.gz",
+    "sha256": "cb369dbbd6804e74cc54c7f74ff997b7c7ea84ded1cbd772fa55cd9e45c12e30"
+  },
+  "kitRecord": {
+    "path": "/workspace/trident-qualification-package-check-2026-10-31/verification/kit/attempts/a6e3bc21-248a-4f18-9601-e3a904db9acd/result.json.gz",
+    "sha256": "52f0b00bdc3317a9acee231d51afd0f492f992035c999081610a4ebcf1c48a28"
+  },
+  "workflowsSha256": "26ab26e3226a78445a719113407987827b6cd5144361a19a6c4ab811efe91b54",
+  "artifactSha256": "62e0056a96a5cf9d270b48377640e508b9cdafab6ca0249f4c08afd643835024",
+  "artifactIdentityScope": "All original artifact fields except files[].gzipBytes, a runtime-dependent compression-size estimate",
+  "cases": 4,
+  "workerJobs": 33,
+  "sourceWitnesses": [
+    {
+      "caseId": "family:flowchart",
+      "path": "/workspace/trident-qualification-package-check-2026-10-31/verification/source-kit/attempts/47eba174-fc54-4a2d-9d48-48bf899f936d/svg/family_flowchart.svg",
+      "sha256": "eb1bd036eb6f474f639497e8f673214c77cd609b65930a44e5d91f93c1ee5514"
+    },
+    {
+      "caseId": "adversarial:label-edit",
+      "path": "/workspace/trident-qualification-package-check-2026-10-31/verification/source-kit/attempts/47eba174-fc54-4a2d-9d48-48bf899f936d/svg/adversarial_label-edit.svg",
+      "sha256": "c39c04c75a9a18ba663ffbb68929aa03c4867e3fafd7e475f4b0f48a230eae31"
+    },
+    {
+      "caseId": "adversarial:invalid-recovery",
+      "path": "/workspace/trident-qualification-package-check-2026-10-31/verification/source-kit/attempts/47eba174-fc54-4a2d-9d48-48bf899f936d/svg/adversarial_invalid-recovery.svg",
+      "sha256": "ffaea12ed9df510781f3b2e51dbf73af513da78030a4df33475deac27454b6e2"
+    },
+    {
+      "caseId": "adversarial:configuration-reset",
+      "path": "/workspace/trident-qualification-package-check-2026-10-31/verification/source-kit/attempts/47eba174-fc54-4a2d-9d48-48bf899f936d/svg/adversarial_configuration-reset.svg",
+      "sha256": "64fd175378eac909d31c928f42f4100f52c83a33dcce5b82e69372c40cc8ecd1"
+    }
+  ],
+  "kitWitnesses": [
+    {
+      "caseId": "family:flowchart",
+      "path": "/workspace/trident-qualification-package-check-2026-10-31/verification/kit/attempts/a6e3bc21-248a-4f18-9601-e3a904db9acd/svg/family_flowchart.svg",
+      "sha256": "eb1bd036eb6f474f639497e8f673214c77cd609b65930a44e5d91f93c1ee5514"
+    },
+    {
+      "caseId": "adversarial:label-edit",
+      "path": "/workspace/trident-qualification-package-check-2026-10-31/verification/kit/attempts/a6e3bc21-248a-4f18-9601-e3a904db9acd/svg/adversarial_label-edit.svg",
+      "sha256": "c39c04c75a9a18ba663ffbb68929aa03c4867e3fafd7e475f4b0f48a230eae31"
+    },
+    {
+      "caseId": "adversarial:invalid-recovery",
+      "path": "/workspace/trident-qualification-package-check-2026-10-31/verification/kit/attempts/a6e3bc21-248a-4f18-9601-e3a904db9acd/svg/adversarial_invalid-recovery.svg",
+      "sha256": "ffaea12ed9df510781f3b2e51dbf73af513da78030a4df33475deac27454b6e2"
+    },
+    {
+      "caseId": "adversarial:configuration-reset",
+      "path": "/workspace/trident-qualification-package-check-2026-10-31/verification/kit/attempts/a6e3bc21-248a-4f18-9601-e3a904db9acd/svg/adversarial_configuration-reset.svg",
+      "sha256": "64fd175378eac909d31c928f42f4100f52c83a33dcce5b82e69372c40cc8ecd1"
+    }
+  ],
+  "limits": "Exact frozen workflow and reported outcome preservation, with independent retained-SVG admission rechecks. Independently witnessed identical output violations and known unavailable option mappings remain findings. Shared source defects are outside this preservation proof; source-harness, accuracy and timing qualification remain separate release gates."
+}
