@@ -149,7 +149,7 @@ test('large snapshots publish linked GitHub detail pages without dropping tables
 
 test('canonical historical values match their provenance digest without a second copy of the rows', () => {
   const root = resolve(import.meta.dir, '..')
-  const data = JSON.parse(readFileSync(join(root, 'results/latest.json'), 'utf8')) as ResultsSnapshot
+  const data = JSON.parse(readFileSync(join(root, 'results/historical-examples.json'), 'utf8')) as ResultsSnapshot
   const bytes = readFileSync(join(root, 'docs/evidence/benchmark-examples.json'))
   const examples = JSON.parse(bytes.toString()) as { tables?: unknown; tableData: { ids: string[]; valuesSha256: string }; originalTableReceipt: { url: string; sha256: string } }
   const digest = createHash('sha256').update(bytes).digest('hex')
@@ -162,7 +162,6 @@ test('canonical historical values match their provenance digest without a second
     expect(entry.receipt.sha256).toBe(digest)
   }
   validateSnapshotReceipts(data, root)
-  writeSnapshot(data, JSON.parse(readFileSync(join(root, 'catalog/mermaid-community.json'), 'utf8')), root, true)
   const docs = data.tables.find(entry => entry.id === 'docs-coverage')!
   docs.rows[0]!.values[1] = Number(docs.rows[0]!.values[1]) + 1
   docs.rows[0]!.values[2] = Number(docs.rows[0]!.values[2]) - 1

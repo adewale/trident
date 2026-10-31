@@ -39,7 +39,7 @@ export async function recheckRendering(directory: string, out: string, pngReview
   admitDocsReviews(docsInventory.cases, sourceReviews)
   const pngBytes = pngReviewFile ? readFileSync(pngReviewFile) : Buffer.from('[]')
   const pngReviews = admitPngReviews(docsInventory.cases, sourceReviews, JSON.parse(pngBytes.toString()) as DocsPngReview[])
-  const producer = { source: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: tridentDirectory, encoding: 'utf8' }).trim(), producers: protocolIdentity(tridentDirectory, ['unified/recheck-rendering.ts']), browser: executableIdentity(executable ?? defaultChromium(chromium)), rendererInvocations: 0, startedAt: began }
+  const producer = { source: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: tridentDirectory, encoding: 'utf8' }).trim(), producers: protocolIdentity(tridentDirectory, ['unified/recheck-rendering.ts']), browser: executableIdentity(executable ?? defaultChromium(chromium)), rendererInvocations: 0, environment: Object.fromEntries(['LANG', 'LC_ALL', 'LD_LIBRARY_PATH', 'FONTCONFIG_FILE', 'FONTCONFIG_PATH'].map(name => [name, process.env[name] ?? null])), fontReadiness: 'Await document.fonts.ready; only frozen campaign font assets can load', startedAt: began }
   cpSync(directory, out, { recursive: true, dereference: false, filter: path => !['node_modules', '.git'].includes(path.split('/').at(-1)!) })
   const remap = (path: string) => {
     const absolute = resolve(directory, path), inside = !relative(directory, absolute).startsWith('..')
@@ -65,6 +65,7 @@ export async function recheckRendering(directory: string, out: string, pngReview
     if (page.isClosed()) page = await context.newPage()
     await page.goto('http://trident.invalid/observer')
     await page.setContent(svg, { waitUntil: 'domcontentloaded', timeout: 20_000 })
+    await withDocsDeadline(() => page.evaluate(async () => { await document.fonts.ready }), () => { void page.close().catch(() => {}) })
     const paint = await withDocsDeadline(() => page.evaluate(inspectFidelityPaint, { family: input.family, expected: input.expected, paint: input.paint }), () => { void page.close().catch(() => {}) })
     const quantitative = await withDocsDeadline(() => page.evaluate(inspectQuantitativePaint, { family: input.family, expected: input.expected, source: input.source, nodes: paint.nodes as NonNullable<Parameters<typeof inspectQuantitativePaint>[0]['nodes']> }), () => { void page.close().catch(() => {}) })
     return [...paint.checks, ...quantitative]

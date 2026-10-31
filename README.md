@@ -57,7 +57,7 @@ Assertion Replay is retired as a comparative benchmark; Mermaid's own tests are
 an explicit reference-environment check (`--suites upstream-original`). The old
 nonblank-only PNG exporter is retired. The [reviewed fixed-PNG study](docs/davebench-png-seven-results.md)
 keeps its task-specific content review, performance results and limitations.
-Terminal Rendering has a [120 real inputs and 16 reviewed drawings](docs/terminal-correctness.md).
+Terminal Rendering has [120 real inputs and 16 reviewed drawings](docs/terminal-correctness.md).
 Mermaid ASCII is required; Mermaid supplies an unscored source reference. Run
 `bench --terminal --plan` before collecting. The [retained results](docs/terminal-results-2026-10-31.md)
 rank verified counts, with incomplete accuracy and observer gaps visible.
@@ -75,7 +75,7 @@ to short summaries as well as saved tables; see [the reporting rule](REPORTING.m
 | Authored feature, model and cost cases | Fixtures developed in AM and Trident, with explicit expected facts in [fidelity/cases.ts](fidelity/cases.ts) and [portable/cohorts.ts](portable/cohorts.ts). Each run records its selection from these development fixtures. |
 | Legacy compatibility corpus | The [frozen AM corpus](corpus/community-corpus.json), imported from AM commit `de612cc08009cf8abbeae2d3795dac3baa0b5e36`. Its manifest also identifies upstream inputs. |
 | External repository examples | Examples and fixtures from the repositories and commits in [external-sources.json](corpus/external-sources.json), capped at 20 files per project. The frozen inventory retains file provenance, duplicates, licenses and extraction decisions. |
-| Terminal Rendering | [120 source inputs](corpus/terminal-project-examples.json) selected from research across 18 pinned terminal-project repositories; 17 contribute inputs. Origins include docs, fixtures, issues and PRs, with body/patch hashes and extraction steps. [Origin roles](corpus/terminal-origin-classification.json) separate 67 terminal-specific and 53 shared-renderer robustness cases. [22 independent contracts](corpus/terminal-project-reviews.json) support the 16 reviewed drawings drawing profile; 98 inputs remain unreviewed. The old four authored graphs are checker controls only. |
+| Terminal Rendering | [120 source inputs](corpus/terminal-project-examples.json) selected from research across 18 pinned terminal-project repositories; 17 contribute inputs. Origins include docs, fixtures, issues and PRs, with body/patch hashes and extraction steps. [Origin roles](corpus/terminal-origin-classification.json) separate 67 terminal-specific and 53 shared-renderer robustness cases. [22 independent contracts](corpus/terminal-project-reviews.json) support the 16 reviewed drawings profile; 98 inputs remain unreviewed. The old four authored graphs are checker controls only. |
 | Reviewed fixed-PNG study | A [13-input common profile](docs/davebench-png-seven-results.md) selected from Mermaid's documentation after source-fact review of 20 candidates. Its full coverage phase retained all 548 documentation attempts. |
 
 **DaveBench** is inspired by [Dave Kiss's documentation benchmark](https://x.com/davekiss/status/2111512440106078554).
@@ -88,22 +88,10 @@ and accepts prepared public project artifacts. Its recorded inventory and protoc
 define each run; its counts and timings are not interchangeable with historical
 DaveBench results. The linked AM methods document the inherited implementation.
 
-**Mermaid Assertion Replay** and **Mermaid Reference Tests** reuse Mermaid's
-original tests at that same pin. Replay translates reviewed public API boundaries;
-the reference benchmark executes the genuine original core runner. Their scopes
-and exclusions are documented in [the fidelity guide](fidelity/README.md).
-
-**Mermaid Compatibility** uses an [AM-origin frozen corpus](corpus/community-corpus.json)
-and can run explicitly selected inputs, including [examples from pinned external projects](corpus/external-sources.json).
-Input provenance and licenses travel with the frozen inventory. **Diagram Meaning**,
-**Model and Editing Contracts**, and **Render Cost and Scaling** use authored cases
-developed in AM and Trident; they are not external benchmark standards or production
-traffic. Public examples and development fixtures are not a validated holdout.
-
-See [methods, commands and limitations](BENCHMARKS.md) for each benchmark. The
-`support:verify` check uses six positive inputs and two separate invalid-source
-controls to test invocation readiness; it is not an eighth
-benchmark or a substitute for a complete campaign.
+Public examples and development fixtures are not a validated holdout. See
+[methods, commands and limitations](BENCHMARKS.md) for the current workloads.
+`support:verify` uses six positive inputs and two invalid-source controls to
+check invocation readiness; it is not a comparative benchmark.
 
 ## Supported projects
 

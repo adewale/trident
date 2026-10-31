@@ -9,6 +9,7 @@ __pycache__/
 results/*
 !results/README.md
 !results/latest.json
+!results/historical-examples.json
 !results/tables/
 results/tables/*
 !results/tables/*.md

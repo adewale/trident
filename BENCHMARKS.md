@@ -113,7 +113,8 @@ Issue/PR URLs, dates, body/patch hashes, repository commits and extraction chang
 remain attached to every input.
 
 `bench --terminal` uses existing CLI, Python and Node transports. Mermaid is the mandatory
-unscored source reference, Mermaid ASCII the mandatory terminal participant.
+unscored source reference, Mermaid ASCII the default terminal participant. A targeted repair may select a
+smaller explicit cohort and reuse the original ASCII receipts.
 The default qualification invokes only the 16 reviewed drawings once each and retains all
 other cells as unknown. `--all-inputs` explicitly collects the full inventory.
 Saved-output rechecks require no renderer or Mermaid installation.

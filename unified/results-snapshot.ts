@@ -401,13 +401,13 @@ export function writeSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalog
       }
       const index = `results/tables/${suite}.md`
       links.set('suite:' + suite, index)
-      const indexLines = [`# ${benchmarkNames[suite]}`, '', '[Ecosystem overview](../../RESULTS.md)', '', 'Ranked tables and original attempt details. Each table names its own interface, input population and measurement date.', '']
+      const indexLines = [`# ${snapshotBenchmarkNames(snapshot)[suite]}`, '', '[Ecosystem overview](../../RESULTS.md)', '', 'Ranked tables and original attempt details. Each table names its own interface, input population and measurement date.', '']
       for (const [part, chunk] of chunks.entries()) {
         const file = `results/tables/${suite}-${part + 1}.md`
         const content = chunk.join('').replace(/\]\((docs\/[^)]+)\)/g, '](../../$1)')
         for (const match of content.matchAll(/<a id="([^"]+)"/g)) links.set(match[1]!, file)
         indexLines.push(`- [Part ${part + 1}](${suite}-${part + 1}.md)`)
-        outputs.push([join(root, file), `# ${benchmarkNames[suite]} · part ${part + 1}\n\n[Ecosystem overview](../../RESULTS.md) · [All parts](${suite}.md)\n\n` + content])
+        outputs.push([join(root, file), `# ${snapshotBenchmarkNames(snapshot)[suite]} · part ${part + 1}\n\n[Ecosystem overview](../../RESULTS.md) · [All parts](${suite}.md)\n\n` + content])
       }
       outputs.push([join(root, index), indexLines.join('\n') + '\n'])
     }

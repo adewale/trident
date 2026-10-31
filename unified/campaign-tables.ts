@@ -77,7 +77,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
               ['Version', 'Correct', 'Incorrect', 'Unsupported', 'Unknown', 'Planned', 'Measured'], project,
               [assessment.version, count('correct'), count('incorrect'), count('unsupported'), unknown, planned.length, measuredAt(own, result.finishedAt)],
               scope === 'reviewed' ? { column: 'Correct', direction: 'descending' } : { column: 'Correct', denominator: 'Planned', direction: 'descending' },
-              { cohort, unit: 'terminal input cases', ...(scope === 'reviewed' ? { overview: { numerator: 'Correct', denominator: 'Planned', suffix: '' } } : {}), population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unsupported', 'Unknown'] } }, !planned.length || scope === 'full' && unknown || scope === 'reviewed' && !count('correct') && !count('incorrect') && !count('unsupported') ? 'Terminal source/display/drawing evidence is incomplete' : undefined)
+              { cohort, unit: 'terminal input cases', ...(scope === 'reviewed' ? { summary: true, overview: { numerator: 'Correct', denominator: 'Planned', suffix: '' } } : {}), population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unsupported', 'Unknown'] } }, !planned.length || scope === 'full' && unknown || scope === 'reviewed' && !count('correct') && !count('incorrect') && !count('unsupported') ? 'Terminal source/display/drawing evidence is incomplete' : undefined)
           }
         }
         continue
@@ -93,7 +93,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
           const protocol = (result as any).criteriaProtocol
           const own = result.observations.filter(row => projectId(row.metrics?.project ?? row.metrics?.implementation) === project)
           add(['svg-case-verdicts', cohort, hash([...selected].sort()), hash(protocol ?? null)], 'fidelity', measuredAt(own, result.finishedAt),
-            'Whole-diagram outcomes for the same authored case inventory and planned SVG checks. Public-model APIs confer no drawing credit. Unknown observations withhold a correctness rank; raw criterion evidence remains in the owning report.',
+            'Whole-diagram outcomes for the same authored case inventory and planned SVG checks. Public-model APIs confer no drawing credit. Ranks count verified correct diagrams; unknown observations leave complete accuracy unresolved. Raw criterion evidence remains in the owning report.',
             ['Version', 'Correct', 'Incorrect', 'Unsupported', 'Unknown', 'Planned', 'Measured'], project,
             [assessment.version, summary.correct, summary.incorrect, summary.unsupported, summary.unknown, summary.planned, measuredAt(own, result.finishedAt)],
             { column: 'Correct', direction: 'descending' },
@@ -183,7 +183,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
                 ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned reviewed', 'Measured'], project,
                 [String(version), passed, failed, missing, reviewedIds.size, measuredAt(subset, result.finishedAt)],
                 { column: 'Correct', denominator: 'Planned reviewed', direction: 'descending' },
-                { outputFormat: format as 'svg' | 'png', overview: { numerator: 'Correct', denominator: 'Planned reviewed', suffix: '' }, unit: 'reviewed documentation occurrences', population: { total: 'Planned reviewed', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, passed + failed === 0 ? 'No verified drawing-content observations' : undefined)
+                { summary: true, outputFormat: format as 'svg' | 'png', overview: { numerator: 'Correct', denominator: 'Planned reviewed', suffix: '' }, unit: 'reviewed documentation occurrences', population: { total: 'Planned reviewed', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, passed + failed === 0 ? 'No verified drawing-content observations' : undefined)
             }
           }
           }
