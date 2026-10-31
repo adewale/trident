@@ -985,7 +985,7 @@
     "caseId": "meaning:family:journey",
     "family": "journey",
     "project": "adewale/agentic-mermaid",
-    "version": "0.0.3",
+    "version": "0.4.1",
     "sourceSha256": "6e892c40aa437f86551bf5d195b81ded67891e8d6931939e04e9d5c99d15d6f1",
     "svgSha256": "95b5236e6acb1780ace529a9782bf6ca94a65e84c61cdbc304cef314ab0d9a36",
     "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-campaign/fidelity/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/attempts/a3a8cb49-4701-4f67-bb59-7ef78beabbb0/6-meaning_family_journey.svg.gz"
@@ -1005,7 +1005,7 @@
     "caseId": "meaning:family:pie",
     "family": "pie",
     "project": "adewale/agentic-mermaid",
-    "version": "0.0.3",
+    "version": "0.4.1",
     "sourceSha256": "33d32909aa851d0c7018d11f6d265960fec9f0896627fbf2b66ca3631caba364",
     "svgSha256": "0914ac2a445e6753884e72881d920e2d501e03c13dbddd68b3400a26f921492b",
     "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-campaign/fidelity/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/attempts/a3a8cb49-4701-4f67-bb59-7ef78beabbb0/9-meaning_family_pie.svg.gz"
@@ -1129,5 +1129,85 @@
     "sourceSha256": "2e6d85f337707401a684fcde18f5ef1b69d36a2f297ede7a2b125e0988bb7f4a",
     "svgSha256": "8108dc288a2c463941dc6cf383fbf055fcc81702a522c346103995700f7ac289",
     "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/8108dc288a2c463941dc6cf383fbf055fcc81702a522c346103995700f7ac289.svg.gz"
+  },
+  {
+    "file": "wardley-pipeline-mermaid.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/wardley.md:234",
+    "family": "wardley",
+    "project": "mermaid-js/mermaid",
+    "version": "12.2.0",
+    "sourceSha256": "16bd41b8a1695cacd246fc314605faa1a0b63b48057f618d15869437039ae904",
+    "svgSha256": "84c54a4090214c663c93f673a0e39c1547f9f9d17bc20e8bc556f6de982546b5",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/84c54a4090214c663c93f673a0e39c1547f9f9d17bc20e8bc556f6de982546b5.svg.gz"
+  },
+  {
+    "file": "wardley-pipeline-pele.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/wardley.md:234",
+    "family": "wardley",
+    "project": "obsidianmd/pele",
+    "version": "1.9.0",
+    "sourceSha256": "16bd41b8a1695cacd246fc314605faa1a0b63b48057f618d15869437039ae904",
+    "svgSha256": "4af7cf05a2abed471814bfdaba4f61f400944a21c54826e74a74ceac1bfc4fdb",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/4af7cf05a2abed471814bfdaba4f61f400944a21c54826e74a74ceac1bfc4fdb.svg.gz"
+  },
+  {
+    "file": "wardley-offset-mermaid.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/wardley.md:90",
+    "family": "wardley",
+    "project": "mermaid-js/mermaid",
+    "version": "12.2.0",
+    "sourceSha256": "24cf67f618fb8e525cff0e19dc150e3aaa5f2c9da202dab5286b7ef4f777aeac",
+    "svgSha256": "69ed8951f9a86db7d41ba84a6c960df70c8ac9e42ec4f9bc6dbcc5a765a6ee86",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/69ed8951f9a86db7d41ba84a6c960df70c8ac9e42ec4f9bc6dbcc5a765a6ee86.svg.gz"
+  },
+  {
+    "file": "wardley-offset-pele.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/wardley.md:90",
+    "family": "wardley",
+    "project": "obsidianmd/pele",
+    "version": "1.9.0",
+    "sourceSha256": "24cf67f618fb8e525cff0e19dc150e3aaa5f2c9da202dab5286b7ef4f777aeac",
+    "svgSha256": "e151f5f6dfd26800b62cce30d6572f3c2a79ed11ff2bf52fd6fe444555cbb2de",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/e151f5f6dfd26800b62cce30d6572f3c2a79ed11ff2bf52fd6fe444555cbb2de.svg.gz"
+  },
+  {
+    "file": "mindmap-depth-mermaid.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/mindmap.md:140",
+    "family": "mindmap",
+    "project": "mermaid-js/mermaid",
+    "version": "12.2.0",
+    "sourceSha256": "cb6a59b35b4a4c0775a163535d1825c0565aadc0cd2b30025fd90a395d7fa3ea",
+    "svgSha256": "32490bc7fed202cba860964c7ff2ee6e0b68be016230a58c55c4dfa91951ff77",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/32490bc7fed202cba860964c7ff2ee6e0b68be016230a58c55c4dfa91951ff77.svg.gz"
+  },
+  {
+    "file": "mindmap-depth-pele.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/mindmap.md:140",
+    "family": "mindmap",
+    "project": "obsidianmd/pele",
+    "version": "1.9.0",
+    "sourceSha256": "cb6a59b35b4a4c0775a163535d1825c0565aadc0cd2b30025fd90a395d7fa3ea",
+    "svgSha256": "8d3f80dd9741312b3cebf4dafc58dd47136c9a1b4fe35195a3c44677fe16dd67",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/8d3f80dd9741312b3cebf4dafc58dd47136c9a1b4fe35195a3c44677fe16dd67.svg.gz"
+  },
+  {
+    "file": "radar-zero-alpha-mermaid.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/radar.md:189",
+    "family": "radar",
+    "project": "mermaid-js/mermaid",
+    "version": "12.2.0",
+    "sourceSha256": "8ac5e8cdf4bde31ea9d13949a16224fc52fb6c065b6c06f1a4fda6c2e4b9e107",
+    "svgSha256": "a50be5f8a7dcdad1458eaed39217fffefa4ca1623d877db6f4a7a39090dd34c3",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/a50be5f8a7dcdad1458eaed39217fffefa4ca1623d877db6f4a7a39090dd34c3.svg.gz"
+  },
+  {
+    "file": "radar-zero-alpha-pele.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/radar.md:189",
+    "family": "radar",
+    "project": "obsidianmd/pele",
+    "version": "1.9.0",
+    "sourceSha256": "8ac5e8cdf4bde31ea9d13949a16224fc52fb6c065b6c06f1a4fda6c2e4b9e107",
+    "svgSha256": "56abbe5b93a13f565ba3898a0b0cad54ea96a0dafcb0cc2e15f04d953e0adb0e",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/56abbe5b93a13f565ba3898a0b0cad54ea96a0dafcb0cc2e15f04d953e0adb0e.svg.gz"
   }
 ]

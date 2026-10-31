@@ -19,9 +19,10 @@ const sources = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-sourc
 // literal/formula transcription. No output is read while deriving a paint role.
 function expected(file: string) {
   const entry = manifest.find(entry => entry.file === file)!, result = structuredClone(docs.find(c => c.id === entry.caseId).expected), facts = result.facts, roles: any[] = []
-  const theme = file.includes('forest') ? 'forest' : file.includes('timeline-base') || file.includes('git-base') ? 'base' : 'redux-color', palette = theme === 'redux-color' ? undefined : sourceThemePalette(theme)
+  const variables = facts['authored-config']?.themeVariables ?? Object.fromEntries(Object.entries(result.advisoryFacts?.['configuration-identifiers-and-tokens'] ?? {}).filter(([key, value]) => key.startsWith('themeVariables.') && typeof value === 'string').map(([key, value]) => [key.slice('themeVariables.'.length), value]))
+  const theme = file.includes('forest') ? 'forest' : ['timeline-base', 'git-base', 'mindmap-depth', 'radar-zero-alpha'].some(prefix => file.includes(prefix)) ? 'base' : 'redux-color', palette = theme === 'redux-color' ? undefined : sourceThemePalette(theme, variables)
   if (entry.family === 'timeline') for (const [index, period] of facts.periods.entries()) {
-    const color = palette!.scale[facts['authored-config']?.timeline?.disableMulticolor ? 0 : index % 7]!
+    const color = palette!.scale[file.startsWith('timeline-base') ? 0 : index % 7]!
     roles.push({ owner: period.period, kind: 'period', fill: color.hex, foreground: color.foreground })
     for (const event of period.events) roles.push({ owner: event, kind: 'event', fill: color.hex, foreground: color.foreground, brightness: 1.2 })
   }
@@ -45,6 +46,14 @@ function expected(file: string) {
     roles.push({ owner: branch.id, kind: 'branch', fill: color.hex, foreground: color.foreground })
     for (const commit of facts.commits.filter((commit: any) => commit.branch === branch.id && commit.type === 'NORMAL' && !commit.mergedBranch)) roles.push({ owner: commit.id, kind: 'commit', fill: color.hex, stroke: color.hex })
   }
+  if (entry.family === 'mindmap') for (const node of facts.hierarchy) {
+    let depth = 0, parent = node.parent
+    while (parent) { depth++; parent = facts.hierarchy.find((row: any) => row.id === parent)?.parent }
+    const color = depth === 0 ? palette!.git[0]! : palette!.scale[depth % 7]!
+    roles.push({ owner: node.id, kind: 'node', fill: color.hex, foreground: color.foreground })
+    if (node.parent) roles.push({ owner: node.parent + '->' + node.id, kind: 'edge', stroke: color.hex })
+  }
+  if (entry.family === 'radar') for (const [index, curve] of facts.curves.entries()) roles.push({ owner: curve.id, kind: 'curve', fill: ['#ff0000', '#00ff00', '#0000ff'][index], stroke: ['#ff0000', '#00ff00', '#0000ff'][index], fillOpacity: 0 })
   facts['theme-paint'] = { theme, family: entry.family, quantizationTolerancePerChannel: 1, roles }
   return { entry, expected: result, source: sources.find(c => c.id === entry.caseId).source }
 }
@@ -57,11 +66,17 @@ async function inspect(file: string, change?: string) {
     return result.checks.find(check => check.criterion === 'source-fact:theme-paint')
   } finally { await page.close() }
 }
-for (const file of ['timeline-base-mermaid.svg', 'timeline-forest-mermaid.svg', 'treemap-forest-mermaid.svg', 'usecase-redux-mermaid.svg', 'git-base-mermaid.svg']) test('source-owned concrete theme roles: ' + file, async () => {
+for (const file of ['timeline-base-mermaid.svg', 'timeline-forest-mermaid.svg', 'treemap-forest-mermaid.svg', 'usecase-redux-mermaid.svg', 'git-base-mermaid.svg', 'mindmap-depth-mermaid.svg', 'radar-zero-alpha-mermaid.svg']) test('source-owned concrete theme roles: ' + file, async () => {
   expect((await inspect(file))?.status).toBe('passed')
 })
-for (const file of ['timeline-base-pele.svg', 'treemap-forest-pele.svg', 'usecase-redux-pele.svg', 'git-base-pele.svg', 'usecase-rotate-mermaid.svg']) test('actual differing palette remains incorrect: ' + file, async () => {
+for (const file of ['timeline-base-pele.svg', 'treemap-forest-pele.svg', 'usecase-redux-pele.svg', 'git-base-pele.svg', 'usecase-rotate-mermaid.svg', 'mindmap-depth-pele.svg']) test('actual differing palette remains incorrect: ' + file, async () => {
   expect((await inspect(file))?.status).toBe('failed')
+})
+test('zero-alpha curve fill compares the composed visible effect and retains stroke color obligations', async () => {
+  const equivalent = `document.querySelectorAll('path').forEach(e=>{if(getComputedStyle(e).fillOpacity==='0')e.style.fill='none'})`
+  expect((await inspect('radar-zero-alpha-mermaid.svg', equivalent))?.status).toBe('passed')
+  const wrong = `document.querySelectorAll('path').forEach(e=>{if(getComputedStyle(e).stroke==='rgb(255, 0, 0)')e.style.stroke='#00ffff'})`
+  expect((await inspect('radar-zero-alpha-mermaid.svg', wrong))?.status).not.toBe('passed')
 })
 test('theme role captions cannot lend credit to wrong owned body paint or alpha', async () => {
   const wrongFill = `document.querySelector('path.node-bkg').style.fill='#00ff00'`

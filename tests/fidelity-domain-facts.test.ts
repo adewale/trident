@@ -184,3 +184,25 @@ test('retained Wardley evolution arrows expose their real shortened painted tips
   const repaired = `const lines=document.querySelectorAll('.wardley-trend');lines[0].setAttribute('x2','545.88');lines[1].setAttribute('x2','762.96')`
   expect(status(await inspect('wardley-mermaid.svg', { change: repaired }), 'evolution')).toBe('passed')
 })
+
+test('source-reviewed Wardley pipeline groups preserve shared visibility and every member evolution', async () => {
+  for (const file of ['wardley-pipeline-mermaid.svg', 'wardley-pipeline-pele.svg']) {
+    const { expected } = contract(file)
+    const projected = structuredClone(expected)
+    projected.facts!.components = (projected.facts!.components as any[]).map(component => component.kind === 'pipeline-group' ? component : ({ name: component.name, kind: 'pipeline-group', visibility: component.coordinates[0] }))
+    expect(status(await inspect(file, { expected: projected }), 'pipelines')).toBe('passed')
+    expect(status(await inspect(file, { expected: projected }), 'components')).toBe('passed')
+    const wrong = `const e=document.querySelector('circle');e.setAttribute('cx',String(Number(e.getAttribute('cx'))+30))`
+    expect(status(await inspect(file, { expected: projected, change: wrong }), 'pipelines')).toBe('failed')
+    const removed = `document.querySelector('circle').remove()`
+    expect(status(await inspect(file, { expected: projected, change: removed }), 'pipelines')).not.toBe('passed')
+  }
+})
+
+test('Wardley label offsets bind the actual painted first-glyph baseline to its owned component', async () => {
+  for (const file of ['wardley-offset-mermaid.svg', 'wardley-offset-pele.svg']) {
+    expect(status(await inspect(file), 'components')).toBe('passed')
+    const wrong = `const e=[...document.querySelectorAll('text')].find(e=>e.textContent==='Database');e.setAttribute('transform',(e.getAttribute('transform')||'')+' translate(12,0)')`
+    expect(status(await inspect(file, { change: wrong }), 'components')).not.toBe('passed')
+  }
+})
