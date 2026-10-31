@@ -30,6 +30,12 @@ for (const [name, expected] of controls) test(name + ' actual plain flowchart re
   expect((await inspect(svg, expected)).status).toBe('passed')
   const extra = svg.replace('</svg>', '<text x="10" y="20" style="fill:black;stroke:none;font-size:16px">Bogus relation</text></svg>')
   expect((await inspect(extra, expected)).status).toBe('failed')
+  const label = expected.nodes![0]!.label
+  for (const body of [label + ' Bogus', label + '<tspan dy="15">Bogus</tspan>', label + '<tspan dy="15">' + label + '</tspan>']) {
+    const compound = svg.replace('>' + label + '<', '>' + body + '<')
+    expect(compound).not.toBe(svg)
+    expect((await inspect(compound, expected)).status).not.toBe('passed')
+  }
 })
 test('an extra header or annotation cannot borrow its containing node owner', async () => {
   const expected = { labels: ['Alpha'], nodes: [{ id: 'A', label: 'Alpha' }] }

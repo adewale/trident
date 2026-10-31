@@ -693,20 +693,20 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     check('painted-group:' + group.id, members, outside, available ? outside.length === 0 : null, 'Authored descendant nodes fit their actual owned group boundary; immediate membership is checked independently in the native model')
   }
   if (input.family === 'flowchart' && input.expected.nodes?.length) {
-    const consumed = new Set<Element>()
-    const consume = (element: Element) => { consumed.add(element); for (const fragment of fragmentedLabels.get(element) ?? []) consumed.add(fragment) }
-    for (const element of nodeLabelElements) consume(element)
-    for (const entries of connectionLabelElements.values()) for (const entry of entries) consume(entry.element)
+    const consumed = new Set<Element>(), compound: { expected: string; actual: string }[] = []
+    const consume = (element: Element, expected: string) => { const actual = normalize(labelText(element)); if (actual !== normalize(expected)) { compound.push({ expected, actual }); return }; consumed.add(element); for (const fragment of fragmentedLabels.get(element) ?? []) consumed.add(fragment) }
+    for (const node of anchors.values()) for (const element of visibleMatches(node.label)) { const owned = ownedBox(element, node.id); if (owned?.shape === node.shape) consume(element, node.label) }
+    for (const entries of connectionLabelElements.values()) for (const entry of entries) consume(entry.element, entry.label)
     const isConsumed = (element: Element) => [...consumed].some(owner => owner === element || owner.contains(element))
     let available = missingNodes.length === 0
     const repeatedNodes = [...anchors.values()].filter(node => visibleMatches(node.label).filter(element => { const owned = ownedBox(element, node.id); return owned?.shape === node.shape }).length !== 1).map(node => node.id)
-    for (const group of input.expected.groups ?? []) { const box = groupBoxes.find(candidate => candidate.id === group.id)?.box, headers = box ? visibleMatches(group.label).filter(element => !isConsumed(element) && contains(box, labelBox(element), 2)) : []; if (headers.length !== 1) available = false; else consume(headers[0]!) }
-    if (typeof input.expected.facts?.title === 'string') { const titles = visibleMatches(input.expected.facts.title).filter(element => !isConsumed(element)); if (titles.length !== 1) available = false; else consume(titles[0]!) }
+    for (const group of input.expected.groups ?? []) { const box = groupBoxes.find(candidate => candidate.id === group.id)?.box, headers = box ? visibleMatches(group.label).filter(element => !isConsumed(element) && contains(box, labelBox(element), 2)) : []; if (headers.length !== 1) available = false; else consume(headers[0]!, group.label) }
+    if (typeof input.expected.facts?.title === 'string') { const titles = visibleMatches(input.expected.facts.title).filter(element => !isConsumed(element)); if (titles.length !== 1) available = false; else consume(titles[0]!, input.expected.facts.title) }
     const attributes: any = input.expected.facts?.['node-attributes']
     if (Array.isArray(attributes) && attributes.some(entry => Object.keys(entry.attributes ?? {}).some(key => !['label', 'shape', 'class'].includes(key)))) available = false
     if (input.expected.edges?.some(edge => edge.label) && checks.find(check => check.criterion === 'painted-relationship-label-ownership')?.status !== 'passed') available = false
     const unowned = labelElements.filter(element => visible(element) && !camouflage(element) && !isConsumed(element)).map(element => ({ text: normalize(labelText(element)), box: labelBox(element) }))
-    check('painted-text-inventory', 'Every visible flowchart text occurrence has its unique authored node, group, route or title owner', { repeatedNodes, unowned }, available ? repeatedNodes.length === 0 && unowned.length === 0 : null, 'Complete actual text-owner inventory for the plain flowchart profile: an undeclared caption, extra node annotation or repeated header cannot inherit credit from correct required labels. Unsupported text-bearing attributes and unresolved ownership remain unknown; other families retain their separate inventories')
+    check('painted-text-inventory', 'Every visible flowchart text occurrence has its unique authored node, group, route or title owner', { repeatedNodes, unowned, compound }, available && !compound.length ? repeatedNodes.length === 0 && unowned.length === 0 : null, 'Complete actual text-owner inventory for the plain flowchart profile: an undeclared caption, extra node annotation or repeated header cannot inherit credit from correct required labels. Whole role text must match exactly; substring matching cannot consume extra words or repeated labels in the same block. Unsupported text-bearing attributes, compound blocks and unresolved ownership remain unknown; other families retain their separate inventories')
   }
   check('paint-opacity-and-color', 'resolved visible paint colors/alpha', [...unknownPaint], unknownPaint.size ? null : true, 'Unresolved paint servers/context colors cannot silently earn a visible-ink or complete-style claim')
   const paintedLines = (element: Element): string[] | null => {
