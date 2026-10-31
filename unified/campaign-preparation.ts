@@ -1,7 +1,7 @@
 import { readDocsResources, defaultDocsResources } from './docs-resources.ts'
 import { createHash } from 'node:crypto'
-import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
-import { dirname, join, relative, resolve } from 'node:path'
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync } from 'node:fs'
+import { dirname, isAbsolute, join, relative, resolve } from 'node:path'
 import { prepareCommunity, communityCoreWorkloads, verifyFrozenBrowserEngine } from './community.ts'
 import { prepareCommunityBrowsers, type PreparedCommunityBrowser } from './community-browser.ts'
 import { projectPackageIdentity } from './project-update.ts'
@@ -14,6 +14,7 @@ import { expandedFidelityCases } from '../fidelity/cases.ts'
 import { planFidelityCriteria } from '../fidelity/ledger.ts'
 import { docsInventory } from './docs-benchmark.ts'
 import { inventoryOriginalDeclarations } from './upstream-fidelity-census.ts'
+import { tridentDirectory } from './trident-paths.ts'
 import { protocolIdentity } from './protocol-identity.ts'
 import { readBenchmarkDocument, stableValue } from '../portable/project-records.ts'
 import type { CommunityArtifact, PreparedCommunity } from './community-types.ts'
@@ -28,6 +29,57 @@ interface PreparationManifest {
   files: Record<string, { path: string; sha256: string }>
   artifacts: { project: string; version?: string; identity?: unknown; error?: string }[]
 }
+type ProofInputOptions = Pick<UnifiedRunOptions, 'docsReviewFile' | 'docsPngReviewFile'> & { docsPngRasterProfileFile?: string }
+/** Proof inputs use the existing preparation manifest and content-addressed
+ * blobs. The frozen profile contains relative paths so an archive can move. */
+export function freezeCampaignProofInputs(options: ProofInputOptions, directory: string): PreparationManifest['files'] {
+  mkdirSync(directory, { recursive: true })
+  const files: PreparationManifest['files'] = {}
+  const save = (key: string, name: string, bytes: Uint8Array) => {
+    const path = join(directory, name); mkdirSync(dirname(path), { recursive: true }); if (existsSync(path)) { if (!readFileSync(path).equals(Buffer.from(bytes))) throw Error('Prepared proof input already has different frozen bytes') } else writeFileSync(path, bytes, { flag: 'wx' })
+    files[key] = { path: relative(dirname(directory), path), sha256: hash(path) }; return path
+  }
+  const reviewBytes = readFileSync(options.docsReviewFile ?? join(tridentDirectory, 'corpus/docs-reviewed.json'))
+  if (!Array.isArray(JSON.parse(reviewBytes.toString()))) throw Error('Documentation source reviews must be a JSON array')
+  save('docsReviews', 'docs-reviewed.json', reviewBytes)
+  const imageBytes = options.docsPngReviewFile ? readFileSync(options.docsPngReviewFile) : Buffer.from('[]\n')
+  if (!Array.isArray(JSON.parse(imageBytes.toString()))) throw Error('PNG content reviews must be a JSON array')
+  save('docsPngReviews', 'docs-png-reviewed.json', imageBytes)
+  if (options.docsPngRasterProfileFile) {
+    const profile = JSON.parse(readFileSync(options.docsPngRasterProfileFile, 'utf8'))
+    if (profile?.schema !== 'trident-raster-profile-v1' || !['#ffffff', 'transparent'].includes(profile.background) || typeof profile.defaultFontFamily !== 'string' || !Array.isArray(profile.fontFiles)) throw Error('Invalid frozen PNG raster profile')
+    const seen = new Set<string>()
+    const fonts = profile.fontFiles.map((font: { path: string; sha256: string }) => {
+      if (!font || typeof font.path !== 'string' || !font.path || !/^[a-f0-9]{64}$/.test(font.sha256)) throw Error('Invalid frozen PNG font entry')
+      const source = resolve(dirname(options.docsPngRasterProfileFile!), font.path)
+      if (seen.has(source) || hash(source) !== font.sha256) throw Error('Duplicate or changed PNG profile font bytes')
+      seen.add(source)
+      const name = 'blobs/' + font.sha256, destination = join(directory, name)
+      if (existsSync(destination)) { if (hash(destination) !== font.sha256) throw Error('Prepared PNG font blob changed'); files['proof-font:' + font.sha256] = { path: relative(dirname(directory), destination), sha256: font.sha256 } }
+      else save('proof-font:' + font.sha256, name, readFileSync(source))
+      return { path: name, sha256: font.sha256 }
+    })
+    save('docsPngRasterProfile', 'docs-png-raster-profile.json', Buffer.from(JSON.stringify({ ...profile, fontFiles: fonts }, null, 2) + '\n'))
+  }
+  return files
+}
+function restoredProofInputs(manifestFile: string, files: Record<string, string>, receipts: PreparationManifest['files']): Partial<UnifiedRunOptions> {
+  const root = realpathSync(dirname(manifestFile)), owned = (path: string) => { const suffix = relative(root, realpathSync(path)); if (isAbsolute(suffix) || suffix === '..' || suffix.startsWith('../')) throw Error('Prepared proof input borrows an unowned file'); return path }
+  for (const key of ['docsReviews', 'docsPngReviews', 'docsPngRasterProfile']) if (files[key]) owned(files[key]!)
+  if (files.docsPngRasterProfile) {
+    const profile = JSON.parse(readFileSync(files.docsPngRasterProfile, 'utf8'))
+    if (profile?.schema !== 'trident-raster-profile-v1' || !['#ffffff', 'transparent'].includes(profile.background) || typeof profile.defaultFontFamily !== 'string' || !Array.isArray(profile.fontFiles)) throw Error('Invalid prepared PNG raster profile')
+    const seen = new Set<string>()
+    for (const font of profile.fontFiles) {
+      if (!font || typeof font.path !== 'string' || isAbsolute(font.path) || !font.path || !/^[a-f0-9]{64}$/.test(font.sha256)) throw Error('Prepared PNG profile has an unowned font path')
+      const path = owned(resolve(dirname(files.docsPngRasterProfile), font.path)), key = Object.keys(files).find(key => files[key] === path)
+      if (!key || receipts[key]?.sha256 !== font.sha256 || seen.has(path)) throw Error('Prepared PNG font is missing, duplicated or outside the owning manifest')
+      seen.add(path)
+    }
+  }
+  return { ...(files.docsReviews ? { docsReviewFile: files.docsReviews } : {}), ...(files.docsPngReviews ? { docsPngReviewFile: files.docsPngReviews } : {}), ...(files.docsPngRasterProfile ? { docsPngRasterProfileFile: files.docsPngRasterProfile } : {}) }
+}
+
 /** Bind browser dispositions to the selected primary artifact without requiring
  * separate public components (for example Merman's SDK) to share its version. */
 export function reconcileCampaignBrowsers(prepared: PreparedCommunity[], value: unknown): PreparedCommunityBrowser[] {
@@ -73,7 +125,7 @@ export function loadCampaignPreparation(file: string): { manifest: PreparationMa
     const entry = prepared.find(entry => entry.node.id === receipt.project)
     if (!entry || stableValue(projectPackageIdentity(entry)) !== stableValue(receipt.identity)) throw Error('Prepared runtime bytes or dependency closure changed: ' + receipt.project)
   }
-  return { manifest, options: { communityCatalogFile: files.catalog, communityPreparedFile: files.prepared, communityBrowserPreparedFile: files.browsers, communityInputsFile: files.inputs, communityArtifactPolicy: 'frozen', ...(files.variants ? { communityArtifactVariantsFile: files.variants } : {}), ...(files.docsResources ? { docsResourcesFile: files.docsResources } : {}) }, externalInputs: files.externalInputs }
+  return { manifest, options: { communityCatalogFile: files.catalog, communityPreparedFile: files.prepared, communityBrowserPreparedFile: files.browsers, communityInputsFile: files.inputs, communityArtifactPolicy: 'frozen', ...(files.variants ? { communityArtifactVariantsFile: files.variants } : {}), ...(files.docsResources ? { docsResourcesFile: files.docsResources } : {}), ...restoredProofInputs(file, files, manifest.files) }, externalInputs: files.externalInputs }
 }
 /** One immutable preparation index; component files are owning evidence, never
  * competing "final" manifests. Acquisition and input admission finish before clocks. */
@@ -90,6 +142,7 @@ export async function prepareCampaign(options: UnifiedRunOptions, catalog: unkno
     return path
   }
   const catalogFile = write('catalog', 'catalog.json', catalog)
+  Object.assign(files, freezeCampaignProofInputs(options, directory))
   if (settings.plan) write('plan', 'plan.json', settings.plan)
   if (existsSync(join(directory, 'registry'))) for (const name of readdirSync(join(directory, 'registry')).filter(name => name.endsWith('.json'))) {
     const path = join(directory, 'registry', name)
