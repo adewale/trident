@@ -70,6 +70,7 @@ test('timeline events cannot borrow another period column or gain extra captions
 })
 
 test('journey absolute scores do not fit an expected relative ordering', async () => {
+  expect((await inspect('journey-mermaid.svg')).find(check => check.criterion === 'painted-score-order')?.status).toBe('passed')
   const { expected } = contract('journey-mermaid.svg'), tasks = structuredClone(expected.facts!.tasks) as any[]
   for (const task of tasks) task.score += 1
   expect(status(await inspect('journey-mermaid.svg', { expected: { ...expected, facts: { ...expected.facts, tasks } } }), 'tasks')).toBe('failed')
@@ -77,6 +78,14 @@ test('journey absolute scores do not fit an expected relative ordering', async (
   expect(status(await inspect('journey-mermaid.svg', { change: changed }), 'tasks')).not.toBe('passed')
   const actor = `const c=[...document.querySelectorAll('circle')].find(e=>e.getAttribute('class')==='actor-0'&&Number(e.getAttribute('cx'))>100);c.style.fill='black'`
   expect(status(await inspect('journey-mermaid.svg', { change: actor }), 'tasks')).not.toBe('passed')
+})
+
+test('radar legend requests bind every exact curve label and color swatch to actual curve paint', async () => {
+  for (const file of ['radar-authored-mermaid.svg', 'radar-authored-agentic.svg']) {
+    expect(status(await inspect(file), 'show-legend')).toBe('passed')
+    const missing = `const e=[...document.querySelectorAll('text')].find(e=>e.textContent==='Current');e.remove()`
+    expect(status(await inspect(file, { change: missing }), 'show-legend')).not.toBe('passed')
+  }
 })
 
 test('a structural actor heading is bound to the visible legend and score ticks remain absolute', async () => {

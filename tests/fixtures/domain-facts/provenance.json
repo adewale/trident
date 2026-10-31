@@ -1209,5 +1209,25 @@
     "sourceSha256": "8ac5e8cdf4bde31ea9d13949a16224fc52fb6c065b6c06f1a4fda6c2e4b9e107",
     "svgSha256": "56abbe5b93a13f565ba3898a0b0cad54ea96a0dafcb0cc2e15f04d953e0adb0e",
     "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-publication/evidence/1/docs/svg/drawings/56abbe5b93a13f565ba3898a0b0cad54ea96a0dafcb0cc2e15f04d953e0adb0e.svg.gz"
+  },
+  {
+    "file": "radar-authored-mermaid.svg",
+    "caseId": "meaning:family:radar",
+    "family": "radar",
+    "project": "mermaid-js/mermaid",
+    "version": "12.2.0",
+    "sourceSha256": "09c79b2048641faa2d0103891e7e23e6c786d29fb7c9affd7a4f2831348a882a",
+    "svgSha256": "6015fde962091c5978a881fce981123c34836f2d483c0d0b3926bce4189838a4",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-campaign/fidelity/bWVybWFpZC1qcy9tZXJtYWlk/attempts/b3c67d52-d1c1-43c0-b2a4-939814d70f00/14-meaning_family_radar.svg.gz"
+  },
+  {
+    "file": "radar-authored-agentic.svg",
+    "caseId": "meaning:family:radar",
+    "family": "radar",
+    "project": "adewale/agentic-mermaid",
+    "version": "0.4.1",
+    "sourceSha256": "09c79b2048641faa2d0103891e7e23e6c786d29fb7c9affd7a4f2831348a882a",
+    "svgSha256": "732802cf12ce6fd64f09939171a24aaf714c69b673a524f87b2e5e3e5eb3e372",
+    "retainedFrom": "/workspace/trident-ecosystem-2026-10-31-campaign/fidelity/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/attempts/a3a8cb49-4701-4f67-bb59-7ef78beabbb0/14-meaning_family_radar.svg.gz"
   }
 ]

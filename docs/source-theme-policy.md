@@ -111,3 +111,20 @@ first scale pass darkened25; default preserves that constructor first pass.
 Base/neutral peers darken the scale10; dark peers lighten10. Explicit
 cScalePeerN overrides remain final. These peer colors own group borders,
 while treemap leaf borders use the immediate parent group's fill color.
+
+## Depth and curve paint
+
+Explicit mindmap depth palettes (`docs/syntax/mindmap.md:130–137`) retain
+root git0/gitBranchLabel0 and depth cScaleN/cScaleLabelN overrides as concrete
+owned node paint; each actual parent-child route uses its child depth color.
+The required source policy records node identities and exact route owners,
+while the SVG observer reconstructs those owners from visible body/route ink.
+
+Radar curves bind visible legend swatches to actual closed curve strokes.
+Explicit zero curve opacity is a composed visible effect: any RGB with zero
+alpha and `fill:none` are equivalent. No claim recovers an invisible fill RGB;
+stroke colors remain separately required. The actual outer graticule, not the
+spoke tip, establishes the chart radius. `axisScaleFactor` is measured as
+spoke-length/grid-radius, so short spokes cannot shrink the inferred numeric
+frame. Unprinted min/max labels and unsupported curve interpolation settings
+retain their separate unresolved obligations.
