@@ -75,7 +75,7 @@ replacement conformance comparison is not implemented by renaming old replay dat
 **Terminal Rendering:** the [120-input source corpus](terminal-corpus.md) now
 retains docs, regression fixtures, issues and PRs from capped research across 18
 repositories (17 contribute selected inputs), with independent contracts for a
-16 reviewed drawings subset. Terminal-specific evidence is labelled separately from shared
+subset of 16 reviewed drawings. Terminal-specific evidence is labelled separately from shared
 SVG/renderer robustness; none of these counts establish usage frequency. A cell-grid observer checks
 actual text layout and graph connections. Checker mutations are tests of the
 observer, outside the corpus score. Correctness and speed keep the same source
