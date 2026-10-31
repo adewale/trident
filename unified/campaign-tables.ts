@@ -6,6 +6,7 @@ import { campaignResults, campaignProjectId, campaignArtifactRole, type Campaign
 import type { SnapshotTable } from './results-snapshot.ts'
 import type { PublicSuite } from './support.ts'
 import { summarizeSvgCases } from '../fidelity/svg-assessment.ts'
+import { publicTestTables } from './public-test-reporting.ts'
 import { qualifyRetainedTimingBundle } from './qualify-timing.ts'
 
 const measuredAt = (rows: any[], fallback: string): string => rows.map(row => row.metrics?.measuredAt).filter((value): value is string => typeof value === 'string' && Number.isFinite(Date.parse(value))).sort((a, b) => Date.parse(a) - Date.parse(b)).at(-1) ?? fallback
@@ -26,6 +27,10 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
   for (const boundary of report.results) {
     if (!boundary.out) continue
     const cohort = (boundary as typeof boundary & { cohort?: string }).cohort ?? 'core'
+    if (boundary.suite === 'public-conformance') {
+      for (const table of publicTestTables(boundary.out, receipt, report.updatedAt)) tables.set(table.id, table)
+      continue
+    }
     if (boundary.suite === 'portable') {
       const file = join(boundary.out, 'report.json')
       if (!existsSync(file)) continue

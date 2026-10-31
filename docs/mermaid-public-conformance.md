@@ -90,3 +90,27 @@ Broader conformance remains blocked on these separate contracts:
 
 The machine report keeps `wholeSuiteConformanceQualified: false`. A successful
 41-callback run does not clear those blockers.
+
+## Publish retained results
+
+The standalone output directory is accepted by the ordinary retained-results
+commands. Publishing and importing it performs no parser or renderer calls:
+
+```sh
+bun commands.ts results:campaign --campaign RETAINED_PUBLIC_TESTS \
+  --out FRESH_PUBLICATION --copy-evidence
+bun commands.ts results:snapshot --campaign RETAINED_PUBLIC_TESTS \
+  --evidence-url https://example.org/published/evidence/1
+```
+
+The normal table ranks passed callbacks within the same eligible population and
+shows failures, unsupported cases, binding/evidence gaps and the full original
+declaration census. It regrades original/reference native reports and public
+invocation events before accepting summary counts. Mermaid supplies the baseline
+for this known pass count. The table is marked diagnostic and cannot replace the
+ecosystem's primary ranking. Projects outside the measured cohort remain
+unmeasured; no scores follow from their catalogue entries.
+
+The campaign scheduler does not enroll this suite yet. Every project has the same
+unreviewed campaign-binding state until its source/runtime and public interfaces
+are frozen through the regular preparation process.
