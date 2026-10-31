@@ -246,3 +246,26 @@ test('class block colon members retain their owning class instead of inventing n
   const global = review('classDiagram\nStudent: -idCard : IdCard\nclass IdCard', 'class')
   expect(global.expected?.facts?.members).toEqual([{ id: 'Student', values: ['-idCard : IdCard'] }, { id: 'IdCard', values: [] }])
 })
+
+
+test('sequence arrow kinds follow the literal documentation table without invented arrowheads', () => {
+  const row = review('sequenceDiagram\nA->B: line\nA-->B: dotted line\nA->>B: head\nA-->>B: dotted head\nA-)B: open\nA--)B: dotted open\nA-xB: cross\nA--xB: dotted cross\nA<<->>B: both\nA<<-->>B: dotted both')
+  expect(row.expected?.edges?.map(edge => [edge.directed, edge.startMarker, edge.endMarker])).toEqual([[false, 'none', 'none'], [false, 'none', 'none'], [true, 'none', 'arrow'], [true, 'none', 'arrow'], [true, 'none', 'open-arrow'], [true, 'none', 'open-arrow'], [false, 'none', 'cross'], [false, 'none', 'cross'], [true, 'arrow', 'arrow'], [true, 'arrow', 'arrow']])
+  expect(row.expected?.facts?.['participant-kinds']).toEqual([{ id: 'A', kind: 'participant' }, { id: 'B', kind: 'participant' }])
+})
+
+test('sequence defaults, effective aliases and source-owned line breaks remain explicit', () => {
+  const row = review('sequenceDiagram\nparticipant A@{ "type":"boundary", "alias":"Ignored" } as Alice<br/>A\nA->>B: Hello<br/>Bob\nNote over A,B: First<br/>Second\n%% invisible comment')
+  expect(row.expected?.facts?.['participant-kinds']).toEqual([{ id: 'A', kind: 'boundary' }, { id: 'B', kind: 'participant' }])
+  expect(row.expected?.nodes).toEqual([{ id: 'A', label: 'Alice\nA' }, { id: 'B', label: 'B' }])
+  expect(row.expected?.facts?.['text-line-breaks']).toEqual([{ owner: { kind: 'message', index: 0 }, lines: ['Hello', 'Bob'] }, { owner: { kind: 'note', index: 0 }, lines: ['First', 'Second'] }, { owner: { kind: 'participant', id: 'A' }, lines: ['Alice', 'A'] }])
+  expect(row.sourceReview.requiredObligations).toContain('fact:text-line-breaks')
+  expect(row.expected?.forbiddenLabels).toEqual(['invisible comment'])
+  expect(row.sourceReview.excludedNonvisual.join(' ')).toContain('Ignored')
+  expect(review('sequenceDiagram\nA->>B: visible\n%% visible').sourceReview.expectedFactsComplete).toBe(false)
+})
+
+test('Mermaid named entities decode into their independently documented display characters', () => {
+  expect(review('sequenceDiagram\nA->>B: I #9829; you #infin; times more!').expected?.facts?.['message-order']).toEqual([{ from: 'A', to: 'B', text: 'I ♥ you ∞ times more!' }])
+  expect(review('flowchart LR\nA["#quot;quoted#quot; &amp; #amp; #notAnEntity;"]').expected?.nodes).toEqual([{ id: 'A', label: '"quoted" & & #notAnEntity;' }])
+})

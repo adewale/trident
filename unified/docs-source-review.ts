@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto'
 import { parse as parseYaml } from 'yaml'
-import { decodeHTML } from 'entities'
+import { decodeHTML, decodeHTMLStrict } from 'entities'
 import { projectVisualExpectation } from '../fidelity/visual-expectation.ts'
 import type { MeaningExpectation, MeaningJson } from '../fidelity/meaning.ts'
 import type { DocsDrawingReview, DocsInput } from './docs-drawings.ts'
@@ -34,7 +34,7 @@ const cleanLabel = (label: string) => {
   let value = label.trim()
   if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) value = value.slice(1, -1)
   if (value.startsWith('`') && value.endsWith('`')) value = value.slice(1, -1).replace(/\*\*([^*]+)\*\*/g, '$1').replace(/(^|[^\p{L}\p{N}_])__([^_]+)__(?=$|[^\p{L}\p{N}_])/gu, '$1$2').replace(/(^|[^\p{L}\p{N}_])_([^_]+)_(?=$|[^\p{L}\p{N}_])/gu, '$1$2').replace(/\*([^*]+)\*/g, '$1')
-  return decodeHTML(value.replace(/#quot;/g, '&quot;').replace(/#(\d+);/g, '&#$1;').replace(/<br\s*\/?\s*>/gi, '\n')).replace(/\r/g, '')
+  return decodeHTML(value.replace(/#([A-Za-z][A-Za-z0-9]*);/g, (original, name: string) => { const entity = '&' + name + ';'; return decodeHTMLStrict(entity) === entity ? original : entity }).replace(/#(\d+);/g, '&#$1;').replace(/<br\s*\/?\s*>/gi, '\n')).replace(/\r/g, '')
 }
 const quoted = (line: string) => [...line.matchAll(/"((?:[^"\\]|\\.)*)"/g)].map(match => cleanLabel('"' + match[1]! + '"'))
 const csv = (source: string) => {
@@ -639,19 +639,19 @@ function gitgraph(r: LiteralReview) {
 
 function sequence(r: LiteralReview) {
   if (r.family !== 'sequence') return false
-  const nodes = new Map<string, { id: string; label: string }>(), actorKinds: MeaningJson[] = [], edges: NonNullable<MeaningExpectation['edges']> = [], messages: MeaningJson[] = [], styles: string[] = [], fragments: MeaningJson[] = [], notes: MeaningJson[] = [], lifecycles: MeaningJson[] = [], boxes: NonNullable<MeaningExpectation['groups']> = [], stack: { kind: string; index: number }[] = []
-  const node = (id: string, label?: string) => { if (!nodes.has(id)) nodes.set(id, { id, label: label ?? id }); else if (label !== undefined) nodes.get(id)!.label = label; const box = stack.filter(item => item.kind === 'box').at(-1); if (box && !boxes[box.index]!.members.includes(id)) boxes[box.index]!.members.push(id) }
+  const nodes = new Map<string, { id: string; label: string }>(), actorKinds = new Map<string, MeaningJson>(), edges: NonNullable<MeaningExpectation['edges']> = [], messages: MeaningJson[] = [], styles: string[] = [], fragments: MeaningJson[] = [], notes: MeaningJson[] = [], lifecycles: MeaningJson[] = [], boxes: NonNullable<MeaningExpectation['groups']> = [], stack: { kind: string; index: number }[] = []
+  const node = (id: string, label?: string) => { if (!nodes.has(id)) { nodes.set(id, { id, label: label ?? id }); actorKinds.set(id, { id, kind: 'participant' }) } else if (label !== undefined) nodes.get(id)!.label = label; const box = stack.filter(item => item.kind === 'box').at(-1); if (box && !boxes[box.index]!.members.includes(id)) boxes[box.index]!.members.push(id) }
   for (let index = 1; index < r.lines.length; index++) {
     const line = r.lines[index]!.trim()
     if (r.title(line)) continue
     if (/^(?:link|links|properties)\s+/.test(line)) { r.excludedNonvisual.push('Actor navigation/context-menu data outside static visible drawing: ' + line); continue }
     let match = /^(?:(create)\s+)?(participant|actor)\s+([\w.-]+)(?:\s*@\{(.*?)\})?(?:\s+as\s+(.+))?$/.exec(line)
     if (match) {
-      const id = match[3]!, attributes = match[4] ? parseYaml('{' + match[4] + '}') as any : {}, label = cleanLabel(match[5] ?? attributes.alias ?? id); node(id, label); actorKinds.push({ id, kind: attributes.type ?? match[2]!, ...(Object.keys(attributes).length ? { attributes } : {}) }); if (match[1]) lifecycles.push({ kind: 'create', actor: id, beforeMessage: messages.length }); continue
+      const id = match[3]!, attributes = match[4] ? parseYaml('{' + match[4] + '}') as any : {}, label = cleanLabel(match[5] ?? attributes.alias ?? id); node(id, label); const unresolvedAttributes = Object.fromEntries(Object.entries(attributes).filter(([key]) => !['type', 'alias'].includes(key))); actorKinds.set(id, { id, kind: attributes.type ?? match[2]!, ...(Object.keys(unresolvedAttributes).length ? { attributes: unresolvedAttributes as MeaningJson } : {}) }); if (attributes.alias !== undefined) r.excludedNonvisual.push('Sequence inline alias is syntax input resolved to the node label, with external as taking precedence: ' + id + '=' + JSON.stringify(attributes.alias)); if (match[1]) lifecycles.push({ kind: 'create', actor: id, beforeMessage: messages.length }); continue
     }
     match = /^([\w.-]+?)(\(\))?\s*(<<-->>|<<->>|-->>|->>|-->|->|--x|-x|--\)|-\))([+-])?(\(\))?\s*([\w.-]+)\s*:\s*(.*)$/.exec(line)
     if (match) {
-      const source = match[1]!, target = match[6]!, text = cleanLabel(match[7]!), startMarker = match[3]!.startsWith('<<') ? 'arrow' : 'none', endMarker = match[3]!.endsWith('x') ? 'cross' : 'arrow'; node(source); node(target); edges.push({ source, target, directed: startMarker === 'arrow' || endMarker === 'arrow', label: text, startMarker, endMarker }); messages.push({ from: source, to: target, text }); styles.push(match[3]!); r.labels(text)
+      const source = match[1]!, target = match[6]!, text = cleanLabel(match[7]!), token = match[3]!, startMarker = token.startsWith('<<') ? 'arrow' : 'none', endMarker = /^--?>$/.test(token) ? 'none' : token.endsWith('x') ? 'cross' : token.endsWith(')') ? 'open-arrow' : 'arrow'; node(source); node(target); edges.push({ source, target, directed: startMarker === 'arrow' || endMarker === 'arrow' || endMarker === 'open-arrow', label: text, startMarker, endMarker }); messages.push({ from: source, to: target, text }); styles.push(match[3]!); r.labels(text)
       if (match[2] || match[5]) lifecycles.push({ kind: 'central-lifeline-connection', message: messages.length - 1, from: !!match[2], to: !!match[5] })
       if (match[4]) lifecycles.push({ kind: match[4] === '+' ? 'activate' : 'deactivate', actor: match[4] === '+' ? target : source, beforeMessage: messages.length })
       continue
@@ -676,7 +676,16 @@ function sequence(r: LiteralReview) {
   }
   if (stack.length) r.unresolved.push('Unclosed sequence fragment or actor box')
   r.expected.nodes = [...nodes.values()]; r.expected.edges = edges; r.labels(...r.expected.nodes.map(item => item.label)); if (boxes.length) r.expected.groups = boxes
-  r.fact('message-order', messages); r.fact('message-style', styles); r.fact('participant-order', [...nodes.keys()]); r.fact('participant-kinds', actorKinds); if (fragments.length) r.fact('fragments', fragments); if (notes.length) r.fact('notes', notes); if (lifecycles.length) r.fact('lifecycles', lifecycles)
+  r.fact('message-order', messages); r.fact('message-style', styles); r.fact('participant-order', [...nodes.keys()]); r.fact('participant-kinds', [...actorKinds.values()]); if (fragments.length) r.fact('fragments', fragments); if (notes.length) r.fact('notes', notes); if (lifecycles.length) r.fact('lifecycles', lifecycles)
+  const breaks: MeaningJson[] = []
+  const lineBreaks = (owner: Record<string, MeaningJson>, text: string) => { if (text.includes('\n')) breaks.push({ owner, lines: text.split('\n') }) }
+  messages.forEach((message: any, index) => lineBreaks({ kind: 'message', index }, message.text)); notes.forEach((note: any, index) => lineBreaks({ kind: 'note', index }, note.text)); for (const item of nodes.values()) lineBreaks({ kind: 'participant', id: item.id }, item.label); fragments.forEach((fragment: any, index) => { if (fragment.kind !== 'rect') lineBreaks({ kind: 'fragment', index }, fragment.caption) }); boxes.forEach(box => lineBreaks({ kind: 'box', id: box.id }, box.label))
+  if (breaks.length) r.fact('text-line-breaks', breaks)
+  const comments = [...r.body.matchAll(/^\s*%%(?!\{)(.*)$/gm)].map(match => cleanLabel(match[1]!)).filter(Boolean)
+  for (const comment of comments) {
+    if (r.expected.labels.includes(comment)) r.unresolved.push('A comment repeats visible text; proving its nonvisual ownership requires an independently qualified scoped observer: ' + comment)
+    else { (r.expected.forbiddenLabels ??= []).push(comment); r.excludedNonvisual.push('Sequence comment text must not be painted: ' + comment) }
+  }
   return true
 }
 

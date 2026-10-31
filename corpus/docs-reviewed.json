@@ -16277,7 +16277,20 @@
           "Bob",
           "John"
         ],
-        "participant-kinds": [],
+        "participant-kinds": [
+          {
+            "id": "Alice",
+            "kind": "participant"
+          },
+          {
+            "id": "Bob",
+            "kind": "participant"
+          },
+          {
+            "id": "John",
+            "kind": "participant"
+          }
+        ],
         "notes": [
           {
             "side": "right of",
@@ -16286,6 +16299,20 @@
             ],
             "text": "Bob thinks a long\nlong time, so long\nthat the text does\nnot fit on a row.",
             "afterMessage": 4
+          }
+        ],
+        "text-line-breaks": [
+          {
+            "owner": {
+              "kind": "note",
+              "index": 0
+            },
+            "lines": [
+              "Bob thinks a long",
+              "long time, so long",
+              "that the text does",
+              "not fit on a row."
+            ]
           }
         ]
       },
@@ -16339,18 +16366,18 @@
         {
           "source": "Bob",
           "target": "Alice",
-          "directed": true,
+          "directed": false,
           "label": "Checking with John...",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "none"
         },
         {
           "source": "Alice",
           "target": "John",
-          "directed": true,
+          "directed": false,
           "label": "Yes... John, how are you?",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "none"
         }
       ]
     },
@@ -16367,7 +16394,8 @@
         "fact:message-style",
         "fact:notes",
         "fact:participant-kinds",
-        "fact:participant-order"
+        "fact:participant-order",
+        "fact:text-line-breaks"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -16799,7 +16827,16 @@
           "Alice",
           "Bob"
         ],
-        "participant-kinds": [],
+        "participant-kinds": [
+          {
+            "id": "Alice",
+            "kind": "participant"
+          },
+          {
+            "id": "Bob",
+            "kind": "participant"
+          }
+        ],
         "fragments": [
           {
             "kind": "loop",
@@ -16966,6 +17003,10 @@
           {
             "id": "Bob",
             "kind": "participant"
+          },
+          {
+            "id": "John",
+            "kind": "participant"
           }
         ],
         "fragments": [
@@ -16985,6 +17026,18 @@
             ],
             "text": "Rational thoughts\nprevail...",
             "afterMessage": 2
+          }
+        ],
+        "text-line-breaks": [
+          {
+            "owner": {
+              "kind": "note",
+              "index": 0
+            },
+            "lines": [
+              "Rational thoughts",
+              "prevail..."
+            ]
           }
         ]
       },
@@ -17059,7 +17112,8 @@
         "fact:message-style",
         "fact:notes",
         "fact:participant-kinds",
-        "fact:participant-order"
+        "fact:participant-order",
+        "fact:text-line-breaks"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -17349,7 +17403,7 @@
           "directed": true,
           "label": "Send mail to blog subscribers",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "open-arrow"
         },
         {
           "source": "blog",
@@ -17357,7 +17411,7 @@
           "directed": true,
           "label": "Store in-site notifications",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "open-arrow"
         },
         {
           "source": "blog",
@@ -40253,7 +40307,16 @@
           "Alice",
           "John"
         ],
-        "participant-kinds": []
+        "participant-kinds": [
+          {
+            "id": "Alice",
+            "kind": "participant"
+          },
+          {
+            "id": "John",
+            "kind": "participant"
+          }
+        ]
       },
       "nodes": [
         {
@@ -40288,7 +40351,7 @@
           "directed": true,
           "label": "See you later!",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "open-arrow"
         }
       ]
     },
@@ -40936,10 +40999,7 @@
         "participant-kinds": [
           {
             "id": "Alice",
-            "kind": "boundary",
-            "attributes": {
-              "type": "boundary"
-            }
+            "kind": "boundary"
           },
           {
             "id": "Bob",
@@ -41031,10 +41091,7 @@
         "participant-kinds": [
           {
             "id": "Alice",
-            "kind": "control",
-            "attributes": {
-              "type": "control"
-            }
+            "kind": "control"
           },
           {
             "id": "Bob",
@@ -41126,10 +41183,7 @@
         "participant-kinds": [
           {
             "id": "Alice",
-            "kind": "entity",
-            "attributes": {
-              "type": "entity"
-            }
+            "kind": "entity"
           },
           {
             "id": "Bob",
@@ -41221,10 +41275,7 @@
         "participant-kinds": [
           {
             "id": "Alice",
-            "kind": "database",
-            "attributes": {
-              "type": "database"
-            }
+            "kind": "database"
           },
           {
             "id": "Bob",
@@ -41316,10 +41367,7 @@
         "participant-kinds": [
           {
             "id": "Alice",
-            "kind": "collections",
-            "attributes": {
-              "type": "collections"
-            }
+            "kind": "collections"
           },
           {
             "id": "Bob",
@@ -41411,10 +41459,7 @@
         "participant-kinds": [
           {
             "id": "Alice",
-            "kind": "queue",
-            "attributes": {
-              "type": "queue"
-            }
+            "kind": "queue"
           },
           {
             "id": "Bob",
@@ -41614,24 +41659,15 @@
         "participant-kinds": [
           {
             "id": "API",
-            "kind": "boundary",
-            "attributes": {
-              "type": "boundary"
-            }
+            "kind": "boundary"
           },
           {
             "id": "DB",
-            "kind": "database",
-            "attributes": {
-              "type": "database"
-            }
+            "kind": "database"
           },
           {
             "id": "Svc",
-            "kind": "control",
-            "attributes": {
-              "type": "control"
-            }
+            "kind": "control"
           }
         ]
       },
@@ -41755,27 +41791,15 @@
         "participant-kinds": [
           {
             "id": "API",
-            "kind": "boundary",
-            "attributes": {
-              "type": "boundary",
-              "alias": "Public API"
-            }
+            "kind": "boundary"
           },
           {
             "id": "Auth",
-            "kind": "control",
-            "attributes": {
-              "type": "control",
-              "alias": "Auth Service"
-            }
+            "kind": "control"
           },
           {
             "id": "DB",
-            "kind": "database",
-            "attributes": {
-              "type": "database",
-              "alias": "User Database"
-            }
+            "kind": "database"
           }
         ]
       },
@@ -41843,7 +41867,11 @@
         "fact:participant-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Sequence inline alias is syntax input resolved to the node label, with external as taking precedence: API=\"Public API\"",
+        "Sequence inline alias is syntax input resolved to the node label, with external as taking precedence: Auth=\"Auth Service\"",
+        "Sequence inline alias is syntax input resolved to the node label, with external as taking precedence: DB=\"User Database\""
+      ]
     }
   },
   {
@@ -41883,19 +41911,11 @@
         "participant-kinds": [
           {
             "id": "API",
-            "kind": "boundary",
-            "attributes": {
-              "type": "boundary",
-              "alias": "Internal Name"
-            }
+            "kind": "boundary"
           },
           {
             "id": "DB",
-            "kind": "database",
-            "attributes": {
-              "type": "database",
-              "alias": "Internal DB"
-            }
+            "kind": "database"
           }
         ]
       },
@@ -41943,7 +41963,10 @@
         "fact:participant-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Sequence inline alias is syntax input resolved to the node label, with external as taking precedence: API=\"Internal Name\"",
+        "Sequence inline alias is syntax input resolved to the node label, with external as taking precedence: DB=\"Internal DB\""
+      ]
     }
   },
   {
@@ -42013,6 +42036,14 @@
           "D"
         ],
         "participant-kinds": [
+          {
+            "id": "Alice",
+            "kind": "participant"
+          },
+          {
+            "id": "Bob",
+            "kind": "participant"
+          },
           {
             "id": "Carl",
             "kind": "participant"
@@ -42465,7 +42496,16 @@
           "Alice",
           "John"
         ],
-        "participant-kinds": [],
+        "participant-kinds": [
+          {
+            "id": "Alice",
+            "kind": "participant"
+          },
+          {
+            "id": "John",
+            "kind": "participant"
+          }
+        ],
         "lifecycles": [
           {
             "kind": "activate",
@@ -42561,7 +42601,16 @@
           "Alice",
           "John"
         ],
-        "participant-kinds": [],
+        "participant-kinds": [
+          {
+            "id": "Alice",
+            "kind": "participant"
+          },
+          {
+            "id": "John",
+            "kind": "participant"
+          }
+        ],
         "lifecycles": [
           {
             "kind": "activate",
@@ -42671,7 +42720,16 @@
           "Alice",
           "John"
         ],
-        "participant-kinds": [],
+        "participant-kinds": [
+          {
+            "id": "Alice",
+            "kind": "participant"
+          },
+          {
+            "id": "John",
+            "kind": "participant"
+          }
+        ],
         "lifecycles": [
           {
             "kind": "activate",
@@ -42848,7 +42906,16 @@
           "Alice",
           "John"
         ],
-        "participant-kinds": [],
+        "participant-kinds": [
+          {
+            "id": "Alice",
+            "kind": "participant"
+          },
+          {
+            "id": "John",
+            "kind": "participant"
+          }
+        ],
         "notes": [
           {
             "side": "over",
@@ -42875,10 +42942,10 @@
         {
           "source": "Alice",
           "target": "John",
-          "directed": true,
+          "directed": false,
           "label": "Hello John, how are you?",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "none"
         }
       ]
     },
@@ -42929,7 +42996,16 @@
           "Alice",
           "John"
         ],
-        "participant-kinds": [],
+        "participant-kinds": [
+          {
+            "id": "Alice",
+            "kind": "participant"
+          },
+          {
+            "id": "John",
+            "kind": "participant"
+          }
+        ],
         "notes": [
           {
             "side": "over",
@@ -42939,6 +43015,28 @@
             ],
             "text": "A typical interaction\nBut now in two lines",
             "afterMessage": 1
+          }
+        ],
+        "text-line-breaks": [
+          {
+            "owner": {
+              "kind": "message",
+              "index": 0
+            },
+            "lines": [
+              "Hello John,",
+              "how are you?"
+            ]
+          },
+          {
+            "owner": {
+              "kind": "note",
+              "index": 0
+            },
+            "lines": [
+              "A typical interaction",
+              "But now in two lines"
+            ]
           }
         ]
       },
@@ -42956,10 +43054,10 @@
         {
           "source": "Alice",
           "target": "John",
-          "directed": true,
+          "directed": false,
           "label": "Hello John,\nhow are you?",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "none"
         }
       ]
     },
@@ -42976,7 +43074,8 @@
         "fact:message-style",
         "fact:notes",
         "fact:participant-kinds",
-        "fact:participant-order"
+        "fact:participant-order",
+        "fact:text-line-breaks"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -43014,6 +43113,10 @@
           {
             "id": "Alice",
             "kind": "participant"
+          },
+          {
+            "id": "John",
+            "kind": "participant"
           }
         ],
         "notes": [
@@ -43025,6 +43128,38 @@
             ],
             "text": "A typical interaction\nBut now in two lines",
             "afterMessage": 1
+          }
+        ],
+        "text-line-breaks": [
+          {
+            "owner": {
+              "kind": "message",
+              "index": 0
+            },
+            "lines": [
+              "Hello John,",
+              "how are you?"
+            ]
+          },
+          {
+            "owner": {
+              "kind": "note",
+              "index": 0
+            },
+            "lines": [
+              "A typical interaction",
+              "But now in two lines"
+            ]
+          },
+          {
+            "owner": {
+              "kind": "participant",
+              "id": "Alice"
+            },
+            "lines": [
+              "Alice",
+              "Johnson"
+            ]
           }
         ]
       },
@@ -43042,10 +43177,10 @@
         {
           "source": "Alice",
           "target": "John",
-          "directed": true,
+          "directed": false,
           "label": "Hello John,\nhow are you?",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "none"
         }
       ]
     },
@@ -43062,7 +43197,8 @@
         "fact:message-style",
         "fact:notes",
         "fact:participant-kinds",
-        "fact:participant-order"
+        "fact:participant-order",
+        "fact:text-line-breaks"
       ],
       "unresolved": [],
       "excludedNonvisual": []
@@ -43103,7 +43239,16 @@
           "Alice",
           "John"
         ],
-        "participant-kinds": [],
+        "participant-kinds": [
+          {
+            "id": "Alice",
+            "kind": "participant"
+          },
+          {
+            "id": "John",
+            "kind": "participant"
+          }
+        ],
         "fragments": [
           {
             "kind": "loop",
@@ -43128,18 +43273,18 @@
         {
           "source": "Alice",
           "target": "John",
-          "directed": true,
+          "directed": false,
           "label": "Hello John, how are you?",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "none"
         },
         {
           "source": "John",
           "target": "Alice",
-          "directed": true,
+          "directed": false,
           "label": "Great!",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "none"
         }
       ]
     },
@@ -43213,7 +43358,16 @@
           "Alice",
           "Bob"
         ],
-        "participant-kinds": [],
+        "participant-kinds": [
+          {
+            "id": "Alice",
+            "kind": "participant"
+          },
+          {
+            "id": "Bob",
+            "kind": "participant"
+          }
+        ],
         "fragments": [
           {
             "kind": "alt",
@@ -43352,7 +43506,20 @@
           "Bob",
           "John"
         ],
-        "participant-kinds": [],
+        "participant-kinds": [
+          {
+            "id": "Alice",
+            "kind": "participant"
+          },
+          {
+            "id": "Bob",
+            "kind": "participant"
+          },
+          {
+            "id": "John",
+            "kind": "participant"
+          }
+        ],
         "fragments": [
           {
             "kind": "par",
@@ -43496,7 +43663,28 @@
           "Charlie",
           "Diana"
         ],
-        "participant-kinds": [],
+        "participant-kinds": [
+          {
+            "id": "Alice",
+            "kind": "participant"
+          },
+          {
+            "id": "Bob",
+            "kind": "participant"
+          },
+          {
+            "id": "John",
+            "kind": "participant"
+          },
+          {
+            "id": "Charlie",
+            "kind": "participant"
+          },
+          {
+            "id": "Diana",
+            "kind": "participant"
+          }
+        ],
         "fragments": [
           {
             "kind": "par",
@@ -43650,7 +43838,16 @@
           "Service",
           "DB"
         ],
-        "participant-kinds": [],
+        "participant-kinds": [
+          {
+            "id": "Service",
+            "kind": "participant"
+          },
+          {
+            "id": "DB",
+            "kind": "participant"
+          }
+        ],
         "fragments": [
           {
             "kind": "critical",
@@ -43689,26 +43886,26 @@
         {
           "source": "Service",
           "target": "DB",
-          "directed": true,
+          "directed": false,
           "label": "connect",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "none"
         },
         {
           "source": "Service",
           "target": "Service",
-          "directed": true,
+          "directed": false,
           "label": "Log error",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "none"
         },
         {
           "source": "Service",
           "target": "Service",
-          "directed": true,
+          "directed": false,
           "label": "Log different error",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "none"
         }
       ]
     },
@@ -43759,7 +43956,16 @@
           "Service",
           "DB"
         ],
-        "participant-kinds": [],
+        "participant-kinds": [
+          {
+            "id": "Service",
+            "kind": "participant"
+          },
+          {
+            "id": "DB",
+            "kind": "participant"
+          }
+        ],
         "fragments": [
           {
             "kind": "critical",
@@ -43784,10 +43990,10 @@
         {
           "source": "Service",
           "target": "DB",
-          "directed": true,
+          "directed": false,
           "label": "connect",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "none"
         }
       ]
     },
@@ -43863,7 +44069,24 @@
           "BookingService",
           "BillingService"
         ],
-        "participant-kinds": [],
+        "participant-kinds": [
+          {
+            "id": "Consumer",
+            "kind": "participant"
+          },
+          {
+            "id": "API",
+            "kind": "participant"
+          },
+          {
+            "id": "BookingService",
+            "kind": "participant"
+          },
+          {
+            "id": "BillingService",
+            "kind": "participant"
+          }
+        ],
         "fragments": [
           {
             "kind": "break",
@@ -43896,34 +44119,34 @@
         {
           "source": "Consumer",
           "target": "API",
-          "directed": true,
+          "directed": false,
           "label": "Book something",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "none"
         },
         {
           "source": "API",
           "target": "BookingService",
-          "directed": true,
+          "directed": false,
           "label": "Start booking process",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "none"
         },
         {
           "source": "API",
           "target": "Consumer",
-          "directed": true,
+          "directed": false,
           "label": "show failure",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "none"
         },
         {
           "source": "API",
           "target": "BillingService",
-          "directed": true,
+          "directed": false,
           "label": "Start billing process",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "none"
         }
       ]
     },
@@ -44196,7 +44419,16 @@
           "Alice",
           "John"
         ],
-        "participant-kinds": []
+        "participant-kinds": [
+          {
+            "id": "Alice",
+            "kind": "participant"
+          },
+          {
+            "id": "John",
+            "kind": "participant"
+          }
+        ]
       },
       "nodes": [
         {
@@ -44225,6 +44457,9 @@
           "startMarker": "none",
           "endMarker": "arrow"
         }
+      ],
+      "forbiddenLabels": [
+        "this is a comment"
       ]
     },
     "sourceReview": {
@@ -44234,6 +44469,7 @@
       "expectedFactsComplete": true,
       "requiredObligations": [
         "visible-labels",
+        "hidden-authored-content",
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
         "fact:message-order",
@@ -44242,7 +44478,9 @@
         "fact:participant-order"
       ],
       "unresolved": [],
-      "excludedNonvisual": []
+      "excludedNonvisual": [
+        "Sequence comment text must not be painted: this is a comment"
+      ]
     }
   },
   {
@@ -44254,7 +44492,7 @@
     "expected": {
       "labels": [
         "I ♥ you!",
-        "I ♥ you #infin; times more!",
+        "I ♥ you ∞ times more!",
         "A",
         "B"
       ],
@@ -44268,7 +44506,7 @@
           {
             "from": "B",
             "to": "A",
-            "text": "I ♥ you #infin; times more!"
+            "text": "I ♥ you ∞ times more!"
           }
         ],
         "message-style": [
@@ -44279,7 +44517,16 @@
           "A",
           "B"
         ],
-        "participant-kinds": []
+        "participant-kinds": [
+          {
+            "id": "A",
+            "kind": "participant"
+          },
+          {
+            "id": "B",
+            "kind": "participant"
+          }
+        ]
       },
       "nodes": [
         {
@@ -44304,7 +44551,7 @@
           "source": "B",
           "target": "A",
           "directed": true,
-          "label": "I ♥ you #infin; times more!",
+          "label": "I ♥ you ∞ times more!",
           "startMarker": "none",
           "endMarker": "arrow"
         }
@@ -44388,7 +44635,20 @@
           "John",
           "Bob"
         ],
-        "participant-kinds": [],
+        "participant-kinds": [
+          {
+            "id": "Alice",
+            "kind": "participant"
+          },
+          {
+            "id": "John",
+            "kind": "participant"
+          },
+          {
+            "id": "Bob",
+            "kind": "participant"
+          }
+        ],
         "fragments": [
           {
             "kind": "loop",
@@ -44572,7 +44832,7 @@
           "directed": true,
           "label": "See you later!",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "open-arrow"
         }
       ]
     },
@@ -44684,7 +44944,7 @@
           "directed": true,
           "label": "See you later!",
           "startMarker": "none",
-          "endMarker": "arrow"
+          "endMarker": "open-arrow"
         }
       ]
     },
