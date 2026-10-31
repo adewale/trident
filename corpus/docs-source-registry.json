@@ -1,7 +1,7 @@
 {
   "schema": "trident-docs-source-registry-v1",
   "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-  "reviewedCorpusSha256": "089fd802a326ea760c9d32aa12786be255614e64f05b2c0c1e0429fd80bd047f",
+  "reviewedCorpusSha256": "417b7888653a88a22e10f9bae15a0255ab4a593a6c9f07165cb6ae96132db720",
   "provenance": {
     "literalAuditBaseline": "2cc55cf",
     "structuralFix": "c9dd0b5",
@@ -20,7 +20,8 @@
     "wardley-pipeline-group": "qualification/source-audits/wardley-pipeline-group.json; independently approved exact full-case diff before semantic admission",
     "symbol-only-flowchart-glyphs": "qualification/source-audits/symbol-only-flowchart-glyphs.json; independently approved exact source delta before admission",
     "venn-literal-title-quotes": "qualification/source-audits/venn-literal-title-quotes.json; independently approved exact source delta before admission",
-    "json-scalar-array-display": "qualification/source-audits/json-scalar-array-display.json; independently approved exact source delta before admission"
+    "json-scalar-array-display": "qualification/source-audits/json-scalar-array-display.json; independently approved exact source delta before admission",
+    "unprintedEmptyGitHeads": "qualification/source-audits/unprinted-empty-git-heads.json; independent exactthree-case review"
   },
   "cases": [
     {
@@ -2001,14 +2002,14 @@
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:521",
       "sourceSha256": "c3ee031fd6b06262a1f93cd39d93cf7a6c0d7463f4ff5a71ed01f61c8f0be01d",
       "intent": "drawing",
-      "semanticSha256": "fd2e043f57f897364921e85346f2eef612edcf3eb6a9dea657f382e28fcc28bb",
+      "semanticSha256": "7b676746571d506dd4ea5ce08638cc25fd18f4e7df3219acef0c3fc5f2c15121",
       "profileEligible": true
     },
     {
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:542",
       "sourceSha256": "f4cb5e4a6b1f525d45fdf295a707e08356c285f9088a5af16d2948943d63520c",
       "intent": "drawing",
-      "semanticSha256": "a3b0a75755ee31dc494563fa52ed6915ac2350bd608f668686939036f6b0cf25",
+      "semanticSha256": "1e3502222a46fa6ee81dc03832e346c79867b47f08b694698ce5c32822d54aac",
       "profileEligible": true
     },
     {
@@ -2099,7 +2100,7 @@
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:1049",
       "sourceSha256": "34f436ae888763914dd350b891ff6422dd5119216223b819bd595915dc3e74f9",
       "intent": "drawing",
-      "semanticSha256": "2ad6737a4455f7a989b70c690c412f4bcf92866cf7b7f20e9039248b1f0ee9c2",
+      "semanticSha256": "74439930c6efcd52000c46de1a5b8cf250b4a31d1c0fa450811ee7b2f06c4d45",
       "profileEligible": true
     },
     {

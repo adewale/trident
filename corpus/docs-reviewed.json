@@ -33750,17 +33750,14 @@
           },
           {
             "id": "test1",
-            "head": "commit:0",
             "order": 3
           },
           {
             "id": "test2",
-            "head": "commit:0",
             "order": 2
           },
           {
             "id": "test3",
-            "head": "commit:0",
             "order": 1
           }
         ],
@@ -33825,6 +33822,20 @@
         }
       },
       "advisoryFacts": {
+        "unprinted-empty-branch-heads": [
+          {
+            "id": "test1",
+            "head": "commit:0"
+          },
+          {
+            "id": "test2",
+            "head": "commit:0"
+          },
+          {
+            "id": "test3",
+            "head": "commit:0"
+          }
+        ],
         "direction": "LR",
         "configuration-identifiers-and-tokens": {
           "theme": "base"
@@ -33847,9 +33858,11 @@
       "unresolved": [],
       "excludedNonvisual": [
         "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\"",
+        "A branch without an owned source commit has no displayed head/attachment glyph: branch creation carries the current DB head, but branch renderer consumes only name/order and lane ordinal (gitGraphAst.ts138-149,457-472; gitGraphRenderer.ts869-889,1010,1059-1075): [{\"id\":\"test1\",\"head\":\"commit:0\"},{\"id\":\"test2\",\"head\":\"commit:0\"},{\"id\":\"test3\",\"head\":\"commit:0\"}]",
         "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"base\""
       ],
       "visualProjections": [
+        "Empty-branch head pointers remain exact native/advisory data; branch identities,labels,order,palette and all actual commit parents/merge routes remain required",
         "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
         "Configuration identities are preserved as exact source/native metadata; named themes compile to finite semantic-owner paint effects from independently transcribed pinned literals/formulas. All remaining concrete configuration is required unchanged"
       ]
@@ -33960,20 +33973,16 @@
           },
           {
             "id": "test1",
-            "head": "commit:0",
             "order": 3
           },
           {
-            "id": "test2",
-            "head": "commit:0"
+            "id": "test2"
           },
           {
-            "id": "test3",
-            "head": "commit:0"
+            "id": "test3"
           },
           {
             "id": "test4",
-            "head": "commit:0",
             "order": 1
           }
         ],
@@ -34049,6 +34058,24 @@
         }
       },
       "advisoryFacts": {
+        "unprinted-empty-branch-heads": [
+          {
+            "id": "test1",
+            "head": "commit:0"
+          },
+          {
+            "id": "test2",
+            "head": "commit:0"
+          },
+          {
+            "id": "test3",
+            "head": "commit:0"
+          },
+          {
+            "id": "test4",
+            "head": "commit:0"
+          }
+        ],
         "direction": "LR",
         "configuration-identifiers-and-tokens": {
           "theme": "base"
@@ -34071,9 +34098,11 @@
       "unresolved": [],
       "excludedNonvisual": [
         "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\"",
+        "A branch without an owned source commit has no displayed head/attachment glyph: branch creation carries the current DB head, but branch renderer consumes only name/order and lane ordinal (gitGraphAst.ts138-149,457-472; gitGraphRenderer.ts869-889,1010,1059-1075): [{\"id\":\"test1\",\"head\":\"commit:0\"},{\"id\":\"test2\",\"head\":\"commit:0\"},{\"id\":\"test3\",\"head\":\"commit:0\"},{\"id\":\"test4\",\"head\":\"commit:0\"}]",
         "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"base\""
       ],
       "visualProjections": [
+        "Empty-branch head pointers remain exact native/advisory data; branch identities,labels,order,palette and all actual commit parents/merge routes remain required",
         "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
         "Configuration identities are preserved as exact source/native metadata; named themes compile to finite semantic-owner paint effects from independently transcribed pinned literals/formulas. All remaining concrete configuration is required unchanged"
       ]
@@ -40407,44 +40436,35 @@
         ],
         "branches": [
           {
-            "id": "main",
-            "head": null
+            "id": "main"
           },
           {
             "id": "branch1",
             "head": "commit:0"
           },
           {
-            "id": "branch2",
-            "head": null
+            "id": "branch2"
           },
           {
-            "id": "branch3",
-            "head": null
+            "id": "branch3"
           },
           {
-            "id": "branch4",
-            "head": null
+            "id": "branch4"
           },
           {
-            "id": "branch5",
-            "head": null
+            "id": "branch5"
           },
           {
-            "id": "branch6",
-            "head": null
+            "id": "branch6"
           },
           {
-            "id": "branch7",
-            "head": null
+            "id": "branch7"
           },
           {
-            "id": "branch8",
-            "head": null
+            "id": "branch8"
           },
           {
-            "id": "branch9",
-            "head": null
+            "id": "branch9"
           }
         ],
         "git-operation-order": [
@@ -40582,6 +40602,44 @@
         }
       },
       "advisoryFacts": {
+        "unprinted-empty-branch-heads": [
+          {
+            "id": "main",
+            "head": null
+          },
+          {
+            "id": "branch2",
+            "head": null
+          },
+          {
+            "id": "branch3",
+            "head": null
+          },
+          {
+            "id": "branch4",
+            "head": null
+          },
+          {
+            "id": "branch5",
+            "head": null
+          },
+          {
+            "id": "branch6",
+            "head": null
+          },
+          {
+            "id": "branch7",
+            "head": null
+          },
+          {
+            "id": "branch8",
+            "head": null
+          },
+          {
+            "id": "branch9",
+            "head": null
+          }
+        ],
         "direction": "LR",
         "configuration-identifiers-and-tokens": {
           "themeVariables.gitBranchLabel0": "#ffffff",
@@ -40613,6 +40671,7 @@
       "unresolved": [],
       "excludedNonvisual": [
         "Configuration affects logging or navigation, not the static drawing: logLevel=\"debug\"",
+        "A branch without an owned source commit has no displayed head/attachment glyph: branch creation carries the current DB head, but branch renderer consumes only name/order and lane ordinal (gitGraphAst.ts138-149,457-472; gitGraphRenderer.ts869-889,1010,1059-1075): [{\"id\":\"main\",\"head\":null},{\"id\":\"branch2\",\"head\":null},{\"id\":\"branch3\",\"head\":null},{\"id\":\"branch4\",\"head\":null},{\"id\":\"branch5\",\"head\":null},{\"id\":\"branch6\",\"head\":null},{\"id\":\"branch7\",\"head\":null},{\"id\":\"branch8\",\"head\":null},{\"id\":\"branch9\",\"head\":null}]",
         "Literal theme token is retained with its concrete owned paint projection: themeVariables.gitBranchLabel0=\"#ffffff\"",
         "Literal theme token is retained with its concrete owned paint projection: themeVariables.gitBranchLabel1=\"#ffffff\"",
         "Literal theme token is retained with its concrete owned paint projection: themeVariables.gitBranchLabel2=\"#ffffff\"",
@@ -40626,6 +40685,7 @@
         "Named theme spelling is advisory; exact source-derived owned colors remain required in theme-paint: theme=\"default\""
       ],
       "visualProjections": [
+        "Empty-branch head pointers remain exact native/advisory data; branch identities,labels,order,palette and all actual commit parents/merge routes remain required",
         "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
         "Configuration identities are preserved as exact source/native metadata; named themes compile to finite semantic-owner paint effects from independently transcribed pinned literals/formulas. All remaining concrete configuration is required unchanged"
       ]

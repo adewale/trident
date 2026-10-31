@@ -28,6 +28,11 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
     const messages:any[]=[]
     facts.commits=facts.commits.map((entry:any)=>{if(!Object.hasOwn(entry,'message'))return entry;const{message,...visual}=entry;messages.push({id:entry.id,message});return visual})
     if(messages.length){profileExpected=structuredClone(literal);(expected.advisoryFacts??={})['nonvisual-commit-messages']=messages;excludedNonvisual.push('Git commit messages are carried native metadata distinct from displayed commit IDs/tags (gitGraphParser.ts50-57,gitGraph.spec.ts345-375,gitGraphRenderer.ts350/423): '+JSON.stringify(messages));projections.push('Git bare quoted commit messages remain exact owned advisory metadata and complete native profile facts; displayed custom id and tag text remain separate visible obligations')}
+    if(Array.isArray(facts.branches)){
+      const ownedBranches=new Set(facts.commits.map((commit:any)=>commit.branch)),heads:any[]=[]
+      facts.branches=facts.branches.map((branch:any)=>{if(ownedBranches.has(branch.id)||!Object.hasOwn(branch,'head'))return branch;const{head,...visible}=branch;heads.push({id:branch.id,head});return visible})
+      if(heads.length){profileExpected??=structuredClone(literal);(expected.advisoryFacts??={})['unprinted-empty-branch-heads']=heads;excludedNonvisual.push('A branch without an owned source commit has no displayed head/attachment glyph: branch creation carries the current DB head, but branch renderer consumes only name/order and lane ordinal (gitGraphAst.ts138-149,457-472; gitGraphRenderer.ts869-889,1010,1059-1075): '+JSON.stringify(heads));projections.push('Empty-branch head pointers remain exact native/advisory data; branch identities,labels,order,palette and all actual commit parents/merge routes remain required')}
+    }
   }
   if(family==='wardley'&&Array.isArray(facts.pipelines)&&Array.isArray(facts.components)){
     const originals:any[]=[]

@@ -2,6 +2,16 @@ import { expect, test } from 'bun:test'
 import { projectVisualExpectation } from '../fidelity/visual-expectation.ts'
 import type {MeaningExpectation} from '../fidelity/meaning.ts'
 
+test('only zero-owned-commit Git branch head pointers become native metadata; actual parents and committed heads stay required',()=>{
+  const literal:MeaningExpectation={labels:['main','empty','nullBranch'],facts:{branches:[{id:'main',head:'commit:1'},{id:'empty',head:'commit:0',order:3},{id:'nullBranch',head:null}],commits:[{id:'commit:0',branch:'main',parents:[],type:'NORMAL',tags:[]},{id:'commit:1',branch:'main',parents:['commit:0'],type:'NORMAL',tags:[]}]}}
+  const visual=projectVisualExpectation('gitgraph',literal)
+  expect(visual.expected.facts!.branches).toEqual([{id:'main',head:'commit:1'},{id:'empty',order:3},{id:'nullBranch'}])
+  expect(visual.expected.advisoryFacts!['unprinted-empty-branch-heads']).toEqual([{id:'empty',head:'commit:0'},{id:'nullBranch',head:null}])
+  expect(visual.expected.labels).toEqual(literal.labels)
+  expect(visual.expected.facts!.commits).toEqual(literal.facts!.commits)
+  expect(visual.profileExpected).toEqual(literal)
+})
+
 test('scalar-array JSON rows bind one displayed key and ordered continuation values without dropping logical indices',()=>{
   const literal:MeaningExpectation={labels:['Payload','colors[0]','Red','colors[1]','Green','items[0].name','Book'],nodes:[{id:'Payload',label:'Payload'}],facts:{'dialect-kinds':[{id:'Payload',kind:'json-table',rows:[{path:'colors[0]',value:'Red',kind:'string'},{path:'colors[1]',value:'Green',kind:'string'},{path:'items[0].name',value:'Book',kind:'string'}]}]},advisoryFacts:{'json-scalar-array-source-structure':[{table:'Payload',group:'colors',rowStart:0,length:2}]}}
   const visual=projectVisualExpectation('usecase',literal),rows:any=(visual.expected.facts!['dialect-kinds'] as any[])[0].rows
