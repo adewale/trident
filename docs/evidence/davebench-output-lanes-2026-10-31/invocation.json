@@ -1,0 +1,35 @@
+{
+  "source": "3ae7f71465228837e18d8bdcc2820b7acd60e240",
+  "scope": "One actual PNG source through SVG+conversion and PNG-only native API. Functional qualification, not a full DaveBench or speed result.",
+  "parentOccurrences": 548,
+  "cases": [
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+      "family": "flowchart",
+      "source": "flowchart LR\n    id[\"This ❤ Unicode\"]\n",
+      "file": "packages/mermaid/src/docs/syntax/flowchart.md",
+      "line": 57
+    }
+  ],
+  "reviews": [
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+      "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+      "intent": "drawing",
+      "family": "flowchart",
+      "review": "Literal labels, node identities, relationships and declared values transcribed from the pinned source; reviewed content scope excludes aesthetic preference and undeclared styling.",
+      "expected": {
+        "labels": [
+          "This ❤ Unicode"
+        ],
+        "nodes": [
+          {
+            "id": "id",
+            "label": "This ❤ Unicode"
+          }
+        ],
+        "edges": []
+      }
+    }
+  ]
+}

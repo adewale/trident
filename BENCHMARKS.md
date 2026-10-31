@@ -8,6 +8,7 @@ There is no combined renderer-quality score or validated production holdout.
 ```sh
 bun commands.ts bench --projects OWNER/TOOL,... --profile full --plan
 bun commands.ts bench --projects OWNER/TOOL,... --suites docs,fidelity --out FRESH_DIR
+bun commands.ts bench --projects OWNER/TOOL,... --suites docs --docs-formats png --out FRESH_PNG_DIR
 bun commands.ts bench --projects OWNER/TOOL,... --suites portable --plan
 bun commands.ts bench --list
 ```
@@ -20,7 +21,9 @@ Preparation freezes artifacts once; collection performs no latest-version lookup
 
 ## Documentation Examples — DaveBench
 
-Task: render the examples in the pinned Mermaid syntax documentation. The SVG
+Task: accurately render the examples in the pinned Mermaid syntax documentation
+as SVG and PNG, and measure completed rendering on matched verified work. Both
+formats use one literal source inventory. The
 inventory has 548 occurrences, 546 distinct sources and 34 pages. Repeated
 occurrences remain in the inventory. [Dave Kiss's documentation benchmark](https://x.com/davekiss/status/2111512440106078554)
 inspired this workload; its AM predecessor used a different wrapper and vendored
@@ -34,7 +37,8 @@ absence produces unknown evidence. Reference agreement supplies no automatic pas
 A review may explicitly retain source facts that the observer cannot yet verify.
 
 Tables show full return coverage, full-inventory content dispositions and the
-fixed reviewed subset separately. Unknown observations withhold correctness ranks.
+fixed reviewed subset separately for each format. Ranks order verified correct
+counts; unknown observations keep complete accuracy unresolved.
 A small reviewed subset cannot establish full DaveBench correctness. First-round
 inspection does not qualify every later timed return.
 
@@ -44,6 +48,22 @@ for N participants. Public-call clocks stop at SVG return, before validation and
 cleanup. These clocks lack A/A and per-call semantic qualification, so there is
 no qualified overall speed score. The [bounded repair campaign](docs/benchmark-repair-2026-10-30.md)
 uses one pass to improve the checks rather than repeat performance collection.
+
+`--docs-formats svg,png` is the default; either format can run alone. PNG collection
+uses frozen public Node/native/CLI PNG transports or a declared public SVG call
+followed by shared rasterization and PNG encoding. PNG-only artifacts require no
+SVG API, SVG preparation or Chromium conversion. Runtime and clock boundaries
+remain explicit; API-return, CLI startup and conversion costs are not interchangeable.
+
+Actual PNG bytes are retained. Decoding and nonblank checks establish mechanical
+output only. `--docs-png-review FILE` supplies complete content reviews bound to
+source, expectation and actual PNG hashes, with reviewer identity and notes.
+An unreviewed or changed image stays unknown; SVG checks cannot supply PNG content
+credit. Settings-only sources have no nonblank-drawing requirement. New PNG clocks
+are descriptive, without A/A or per-timed-output correctness qualification.
+
+The replaced v1 standalone PNG exporter and old studies retain their own protocols;
+their counts and timings are not silently imported into the new output lanes.
 
 ## Mermaid Feature Cases
 
@@ -128,3 +148,6 @@ through an explicit dependency under the same rules for every project.
 workload selection and misleading aggregates deserve more attention than a precise
 headline number. [Results](RESULTS.md) retain dates, interfaces, failed inputs and
 owning evidence; historical records are never relabelled as fresh qualification.
+
+See the [scope audit](docs/benchmark-scope-audit-2026-10-31.md) for which components
+belong inside corpus benchmarks, which are duplicated, and which belong in AM.
