@@ -9,10 +9,10 @@ The original retained scope is 41 callbacks: 16 public `parse` tests from
 `suppressErrors`, returned diagram family/configuration, and exact original
 error/return snapshots. It does not measure drawing accuracy or speed.
 
-The separately frozen `expanded-public` scope has **153 callbacks from 36
-declarations**: 102 parse, 32 detection and the same 19 accessibility render
+The separately frozen `expanded-public` scope has **154 callbacks from 37
+declarations**: 102 parse, 32 detection 19 accessibility render and one generic SVG-return
 callbacks. It adds 26 direct detector callbacks, seven sequence/event-modeling
-parse callbacks and 79 static first-party registry examples. The original 41
+parse callbacks and 79 static first-party registry examples, plus one original callback over the 24 canonical use-case examples. Inner calls remain operations inside one callback. The original 41
 identities, callback bytes and old evidence remain available. Comparisons use
 one complete selected population; the two scopes are never pooled.
 
@@ -72,7 +72,7 @@ bun unified/public-conformance.ts --source PINNED_MERMAID_CHECKOUT \
 Omit `--scope` or select `qualified-41` to collect the historical scope. Source-only
 regeneration is `bun scripts/review-public-test-scope.ts PINNED_SOURCE --check`;
 it invokes no parser or renderer. `corpus/mermaid-public-tests-expanded.json`
-freezes the expanded selection independently of the legacy manifest.
+freezes the expanded selection independently of the legacy manifest. The initial 153-callback raw controls remain bound to `corpus/mermaid-public-tests-expanded-153.json`. The use-case callback is collected with `--scope usecase-supplement`; `bun unified/public-conformance-union.ts RETAINED_153 RETAINED_SUPPLEMENT` regrades both disjoint scopes, verifies identical source/host/artifact/binding identities and combines all 154 callback outcomes without rerunning the 153 working callbacks.
 
 The source checkout and runtime must resolve the same original Vitest instance.
 `--inventory-only` needs no bindings and executes no parser. `--controls DIR`
@@ -109,8 +109,8 @@ Broader conformance remains blocked on these separate contracts:
   require review before declaring any remaining test eligible or internal-only.
 
 The machine report keeps `wholeSuiteConformanceQualified: false`. A successful
-41-callback or 153-callback run does not clear those blockers. The expanded
-selection leaves 4,006 declarations outside its scored public scope. Eighteen
+41-callback or 154-callback run does not clear those blockers. The expanded
+selection leaves 4,005 declarations outside its scored public scope. Eighteen
 upstream-disabled declarations are explicit exclusions; all other private,
 indirect or mixed contracts retain their review status. The source census does
 not claim those declarations have been fully excluded or ported.

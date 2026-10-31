@@ -6,20 +6,20 @@
   "scope": "expanded-public",
   "declarations": 4060,
   "files": 368,
-  "eligibleDeclarations": 36,
-  "callbacks": 153,
+  "eligibleDeclarations": 37,
+  "callbacks": 154,
   "callbackOperations": {
     "parse": 102,
     "detectType": 32,
-    "render": 19
+    "render": 20
   },
   "historicalCallbacksPreserved": 41,
-  "additionalCallbacks": 112,
+  "additionalCallbacks": 113,
   "additionalPureDetectorCallbacks": 26,
   "additionalSequenceAndEventmodelingParseCallbacks": 7,
   "staticRegistryExampleCallbacks": 79,
   "censusRole": "Declaration census and conservative source review; not4060 expanded cases or whole-suite conformance",
-  "unresolvedOutsideScoredScope": 4006,
+  "unresolvedOutsideScoredScope": 4005,
   "explicitDisabledExclusions": 18,
   "privateOrUnclassifiedCompleteExclusionsClaimed": false,
   "sourceReader": "/root/resolve_sources_and_tests",
@@ -45,6 +45,11 @@
       "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
       "fixture": "tests/fixtures/conformance/sequenceDiagram.spec.js.txt",
       "sha256": "42892609fd6c7598f7a51b020e651330803313cec972c1c738ff2b17374ea125"
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/usecase/usecase.docs.spec.ts",
+      "fixture": "tests/fixtures/conformance/usecase.docs.spec.ts.txt",
+      "sha256": "eef23d76d9f2fde66e8b313f50c10568b459444f114d6e35d6e648f9a7d5616e"
     },
     {
       "path": "packages/mermaid/src/mermaid.spec.ts",
@@ -75,7 +80,8 @@
     "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js:2598",
     "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js:2615",
     "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js:2631",
-    "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js:913"
+    "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js:913",
+    "packages/mermaid/src/diagrams/usecase/usecase.docs.spec.ts:31"
   ],
   "nativeHost": {
     "publicImportResolution": {
@@ -87,5 +93,15 @@
     "originalSetup": "Unchanged inherited hooks and original Vitest jsdom setup; static package fixtures hashed before target invocation",
     "privateSetupLimit": "Private DB clears and original module-loading hooks are host prerequisites only; no private return supplies a candidate assertion answer"
   },
-  "examples": "AST reads only literal arrays/objects/strings/booleans; dynamic initializers or changed source fail regeneration. All79 code hashes and their source file hashes are retained."
+  "examples": "AST reads only literal arrays/objects/strings/booleans; dynamic initializers or changed source fail regeneration. All79 code hashes and their source file hashes are retained.",
+  "genericSvgReturnCallbacks": 1,
+  "genericSvgReturnInnerInputs": 24,
+  "qualificationEvidence": {
+    "initial153": "/workspace/trident-public-conformance-2026-10-31-expanded-v2",
+    "supplement1": "/workspace/trident-public-conformance-2026-10-31-usecase-supplement-v1",
+    "reduction": "unified/public-conformance-union.ts",
+    "originalAndInstalledReference": "153/153 and1/1;154distinctcallbackcontrolsqualified",
+    "peerCohort": "adewale/agentic-mermaid only; no unnecessary reenrollment or performance sampling",
+    "sourceSelectionPin": "Supplement reviewed and added before its own candidate execution. The earlier153callback source identities and actual results were preserved."
+  }
 }
