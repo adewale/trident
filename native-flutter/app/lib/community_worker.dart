@@ -2,6 +2,7 @@
 // Only the advertised mermaid_flutter renderToPng API renders the source.
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -39,13 +40,51 @@ Future<void> runJob() async {
     final previous = FlutterError.onError;
     FlutterError.onError = (details) { errors.add(details.exceptionAsString()); previous?.call(details); };
     var stage = 'public-api';
+    var callIndex = 0;
+    var lastDuration = 0.0;
+    final callLedger = File('${directory.path}/public-invocations.jsonl');
+    void record(Map<String, dynamic> value) {
+      callLedger.writeAsStringSync('${jsonEncode(value)}\n', mode: FileMode.append, flush: true);
+    }
+    Future<Uint8List> invoke() async {
+      final attemptId = '${job['invocationRunId']}:${sequence}:${callIndex++}';
+      final frame = <String, dynamic>{
+        'schema': 'trident-invocation-evidence-v1', 'attemptId': attemptId,
+        'identity': workload['invocationIdentity'], 'state': 'started',
+        'startedAt': DateTime.now().toUtc().toIso8601String(), 'finishedAt': null,
+        'recordedAt': DateTime.now().toUtc().toIso8601String(),
+        'durationMs': null, 'output': null, 'detail': 'Scheduled public call; no return inferred',
+      };
+      record(frame);
+      final clock = Stopwatch()..start();
+      Uint8List bytes;
+      try { bytes = await renderToPng(source, pixelRatio: 1); }
+      catch (error) {
+        final duration = clock.elapsedMicroseconds / 1000;
+        record({...frame, 'state': 'public-error', 'durationMs': duration,
+          'finishedAt': DateTime.now().toUtc().toIso8601String(),
+          'recordedAt': DateTime.now().toUtc().toIso8601String(), 'detail': error.toString()});
+        rethrow;
+      }
+      final byteCount = bytes.length;
+      lastDuration = clock.elapsedMicroseconds / 1000;
+      final finishedAt = DateTime.now().toUtc().toIso8601String();
+      final file = File('${directory.path}/return-$sequence-${callIndex - 1}.png');
+      file.writeAsBytesSync(bytes, flush: true);
+      record({...frame, 'state': 'returned', 'durationMs': lastDuration,
+        'finishedAt': finishedAt, 'recordedAt': DateTime.now().toUtc().toIso8601String(),
+        'outputPath': file.path, 'outputBytes': byteCount,
+        'detail': 'Exact native public return persisted before observers; duration excludes retention'});
+      if (callIndex == 1) row['invocationId'] = attemptId;
+      return bytes;
+    }
+
     final total = Stopwatch()..start();
     try {
-      final first = Stopwatch()..start();
-      var bytes = await renderToPng(source, pixelRatio: 1);
+      var bytes = await invoke();
       final firstBytes = bytes;
       final byteCount = bytes.length; // Consume the actual encoded result before stopping.
-      row['firstMs'] = first.elapsedMicroseconds / 1000;
+      row['firstMs'] = lastDuration;
       if (errors.isNotEmpty) throw StateError(errors.join('\n'));
       final samples = <double>[];
       final sampleIterations = <int>[];
@@ -53,18 +92,18 @@ Future<void> runJob() async {
         final warm = Stopwatch()..start();
         var calls = 0;
         while (calls < (timing['warmCalls'] as num).toInt() || warm.elapsedMilliseconds < (timing['warmupMs'] as num)) {
-          bytes = await renderToPng(source, pixelRatio: 1); calls++;
+          bytes = await invoke(); calls++;
           if (bytes.isEmpty || errors.isNotEmpty) throw StateError('Warm render returned no PNG or framework error');
           if (total.elapsedMilliseconds > (timing['maxCaseMs'] as num)) throw StateError('Declared maxCaseMs exceeded');
         }
         for (var sample = 0; sample < (timing['samples'] as num); sample++) {
-          final clock = Stopwatch()..start(); var count = 0;
+          final clock = Stopwatch()..start(); var count = 0; var duration = 0.0;
           do {
-            bytes = await renderToPng(source, pixelRatio: 1); count++;
+            bytes = await invoke(); count++; duration += lastDuration;
             if (bytes.isEmpty || errors.isNotEmpty) throw StateError('Repeated render returned no PNG or framework error');
             if (total.elapsedMilliseconds > (timing['maxCaseMs'] as num)) throw StateError('Declared maxCaseMs exceeded');
           } while (count < 256 && clock.elapsedMicroseconds / 1000 < (timing['minSampleMs'] as num));
-          samples.add(clock.elapsedMicroseconds / 1000 / count);
+          samples.add(duration / count);
           sampleIterations.add(count);
         }
       }
@@ -73,9 +112,9 @@ Future<void> runJob() async {
       stage = 'evidence';
       final file = File('${directory.path}/case-${outputIndex++}.png');
       final firstFile = File('${file.path}.first.png');
-      row.addAll({'png': file.path, 'firstPng': firstFile.path, 'outputBytes': bytes.length, 'firstOutputBytes': byteCount, 'samplesMs': samples, 'sampleIterations': sampleIterations, 'timingProtocol': coverage ? 'native-png-api-one-call-qualification-v1' : 'native-png-api-5-batch-means-min10ms-max256-v1', 'qualifiedOutputs': 'first and final; intermediate repeated outputs are consumed but not individually qualified'});
-      file.writeAsBytesSync(bytes);
-      firstFile.writeAsBytesSync(firstBytes);
+      row.addAll({'png': file.path, 'firstPng': firstFile.path, 'outputBytes': bytes.length, 'firstOutputBytes': byteCount, 'samplesMs': samples, 'sampleIterations': sampleIterations, 'timingProtocol': coverage ? 'native-png-api-one-call-qualification-v1' : 'legacy-adaptive-individually-retained-unqualified-v1', 'qualifiedOutputs': 'first and final; intermediate repeated outputs are consumed but not individually qualified'});
+      file.writeAsBytesSync(bytes, flush: true);
+      firstFile.writeAsBytesSync(firstBytes, flush: true);
       // Raw pixels are qualification only, outside all reported API clocks.
       stage = 'qualification';
       final codec = await ui.instantiateImageCodec(bytes);
