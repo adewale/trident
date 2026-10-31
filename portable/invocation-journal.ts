@@ -4,27 +4,32 @@ import { join } from 'node:path'
 import { CollectionCheckpoint, writeDurableEvidence } from './checkpoint.ts'
 import { admitInvocationEvidence, evidenceBytesDigest, evidenceDigest, type InvocationEvidence, type InvocationIdentity } from './evidence-contract.ts'
 
+export type InvocationMeasurementContext = Pick<NonNullable<InvocationEvidence['measurement']>, 'planSha256' | 'environmentSha256' | 'boundary' | 'track' | 'clockDomainId' | 'executionInstanceId' | 'sequence'> & { captureProtocolSha256?: string }
+export interface InvocationApiClock { apiStartNs: bigint; apiFinishNs: bigint }
+
 /** One durable raw stream per worker/collector. A returned frame is committed
  * before qualification, with exact bytes and only the clock actually measured. */
 export class InvocationJournal {
   private checkpoint: CollectionCheckpoint
   readonly directory: string
   constructor(directory: string) { this.directory = directory; this.checkpoint = new CollectionCheckpoint(directory, { schema: 'trident-invocation-journal-v1' }) }
-  start(identity: InvocationIdentity): Readonly<InvocationEvidence> {
-    const frame = admitInvocationEvidence({ schema: 'trident-invocation-evidence-v1', attemptId: randomUUID(), identity, state: 'started', recordedAt: new Date().toISOString(), startedAt: new Date().toISOString(), finishedAt: null, durationMs: null, output: null, detail: 'Public-call entry is about to run; no return, rejection or duration is inferred' })
+  start(identity: InvocationIdentity, context?: InvocationMeasurementContext): Readonly<InvocationEvidence> {
+    const frame = admitInvocationEvidence({ schema: 'trident-invocation-evidence-v1', attemptId: randomUUID(), identity, ...(context ? { measurement: { ...context, monotonicStartNs: process.hrtime.bigint().toString(), monotonicFinishNs: null, apiStartNs: null, apiFinishNs: null } } : {}), state: 'started', recordedAt: new Date().toISOString(), startedAt: new Date().toISOString(), finishedAt: null, durationMs: null, output: null, detail: 'Public-call entry is about to run; no return, rejection or duration is inferred' })
     this.checkpoint.record(frame.attemptId + ':started', frame)
     return frame
   }
-  returned(started: InvocationEvidence, output: string | Uint8Array, durationMs: number | null, streams?: InvocationEvidence['streams']) {
+  returned(started: InvocationEvidence, output: string | Uint8Array, durationMs: number | null, streams?: InvocationEvidence['streams'], apiClock?: InvocationApiClock) {
+    const monotonicFinishNs = process.hrtime.bigint().toString()
     started = this.ownStart(started)
     const retained = this.retain(typeof output === 'string' ? Buffer.from(output) : output)
-    const frame = admitInvocationEvidence({ ...started, state: 'returned', recordedAt: new Date().toISOString(), finishedAt: new Date().toISOString(), durationMs, output: retained, ...(streams ? { streams } : {}), detail: 'Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.' })
+    const frame = admitInvocationEvidence({ ...started, startedReceiptSha256: evidenceDigest(started), ...(started.measurement ? { measurement: { ...started.measurement, monotonicFinishNs, apiStartNs: apiClock?.apiStartNs.toString() ?? null, apiFinishNs: apiClock?.apiFinishNs.toString() ?? null } } : {}), state: 'returned', recordedAt: new Date().toISOString(), finishedAt: new Date().toISOString(), durationMs, output: retained, ...(streams ? { streams } : {}), detail: 'Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.' })
     this.checkpoint.record(frame.attemptId + ':returned', frame)
     return frame
   }
-  failed(started: InvocationEvidence, error: unknown, durationMs: number | null, state: 'public-error' | 'interrupted' = 'public-error', streams?: InvocationEvidence['streams']) {
+  failed(started: InvocationEvidence, error: unknown, durationMs: number | null, state: 'public-error' | 'interrupted' = 'public-error', streams?: InvocationEvidence['streams'], apiClock?: InvocationApiClock) {
+    const monotonicFinishNs = process.hrtime.bigint().toString()
     started = this.ownStart(started)
-    const frame = admitInvocationEvidence({ ...started, state, recordedAt: new Date().toISOString(), finishedAt: state === 'interrupted' ? null : new Date().toISOString(), durationMs, output: null, ...(streams ? { streams } : {}), detail: String(error) })
+    const frame = admitInvocationEvidence({ ...started, startedReceiptSha256: evidenceDigest(started), ...(started.measurement ? { measurement: { ...started.measurement, monotonicFinishNs, apiStartNs: apiClock?.apiStartNs.toString() ?? null, apiFinishNs: apiClock?.apiFinishNs.toString() ?? null } } : {}), state, recordedAt: new Date().toISOString(), finishedAt: state === 'interrupted' ? null : new Date().toISOString(), durationMs, output: null, ...(streams ? { streams } : {}), detail: String(error) })
     this.checkpoint.record(frame.attemptId + ':' + state, frame)
     return frame
   }
