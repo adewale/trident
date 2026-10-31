@@ -86,6 +86,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   const bodies = (id: string) => { const owner = node.get(id) ?? group.get(id); return owner ? geometry.filter(element => nearBox(box(element), owner.box)) : [] }
   const parts = (id: string) => { const owner = node.get(id) ?? group.get(id); return owner ? geometry.filter(element => contains(owner.box, box(element)) && !nodes.some(other => other.id !== id && area(other.box) < area(owner.box) - 1 && contains(other.box, box(element)))) : [] }
   const qualifiedParts = new Map<string, SVGGeometryElement[]>()
+  const qualifiedInlineRouteParts = new Map<Route, Map<string, SVGGeometryElement[]>>()
   if (input.family === 'c4') for (const entry of facts.elements ?? []) if (/^Person(?:_Ext)?$/.test(entry.kind)) {
     const owner = node.get(entry.id), torso = owner ? bodies(entry.id).filter(element => element.localName === 'rect') : []
     if (!owner || !torso.length) continue
@@ -592,6 +593,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
         }
       }
       const kind = unknown ? null : bars === 2 && !circles && !forks ? 'one-only' : bars === 1 && circles === 1 && !forks ? 'zero-or-one' : bars === 1 && !circles && forks === 1 ? 'one-or-many' : !bars && circles === 1 && forks === 1 ? 'zero-or-many' : null
+      if (kind && !marker) { const owned = qualifiedInlineRouteParts.get(route) ?? new Map(); owned.set(id, shapes); qualifiedInlineRouteParts.set(route, owned) }
       return { kind, bars, circles, forks }
     }
     const actual = facts.cardinalities.map((entry: any) => { const candidates = relation(entry.from, entry.to), route = candidates.length === 1 ? candidates[0] : null; return { from: entry.from, to: entry.to, left: route ? glyph(route, entry.from) : null, right: route ? glyph(route, entry.to) : null, identifying: route && routePattern(route) !== null ? routePattern(route) === 'solid' : null } })
@@ -950,6 +952,56 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     add('painted-node-visibility', 'Every independently owned body/glyph has qualified exposed contour paint', observations, exactNodes && evidence.get('paint-opacity-and-color')?.status === 'passed' && observations.every(item => item.exposed === true) ? true : null, 'Actual owned contour samples reject credit beneath later opaque covers, including covers painted before the label. Exactly equivalent co-located fill/stroke layers and qualified same-owner compound glyph parts are allowed; matching compartment borders must preserve their actual stroke. Opaque/complex image, use and HTML covers or unresolved exposure stay unknown, without inventing a renderer failure or accepting source geometry that never reaches the canvas.')
   }
   if (input.expected.edges?.length) {
+    const qualifiedMarkerInk = new Map<Route, Set<SVGGeometryElement>>()
+    const ownMarkerParts = (route: Route, parts: SVGGeometryElement[]) => { const owned = qualifiedMarkerInk.get(route) ?? new Set(); parts.forEach(part => owned.add(part)); qualifiedMarkerInk.set(route, owned) }
+    const localGlyphInk = (shape: SVGGeometryElement) => {
+      const total = shape.getTotalLength(), points = total > 0 ? Array.from({ length: 257 }, (_, index) => shape.getPointAtLength(total * index / 256)).map(p => ({ x: p.x, y: p.y })) : [], css = getComputedStyle(shape)
+      if (css.fill !== 'none' && Number(css.fillOpacity) > 0) { const b = shape.getBBox(); for (const x of [.1, .25, .5, .75, .9]) for (const y of [.1, .25, .5, .75, .9]) { const p = { x: b.x + b.width * x, y: b.y + b.height * y }; if (shape.isPointInFill(new DOMPoint(p.x, p.y))) points.push(p) } }
+      return points
+    }
+    const screenGlyphInk = (shape: SVGGeometryElement) => { const matrix = shape.getScreenCTM(); return matrix ? localGlyphInk(shape).map(p => { const point = new DOMPoint(p.x, p.y).matrixTransform(matrix); return { x: point.x, y: point.y } }) : [] }
+    const markerContours = (stem: SVGGeometryElement, route: Route, side: 'start' | 'end'): Point[] | null => {
+      const kind = side === 'start' ? route.startMarker : route.endMarker, endpoint = side === 'start' ? route.start : route.end
+      const classifiedParts = qualifiedInlineRouteParts.get(route)?.get(side === 'start' ? route.source : route.target)
+      if (classifiedParts?.length) { ownMarkerParts(route, classifiedParts); return classifiedParts.flatMap(screenGlyphInk) }
+      if (kind === 'none') return []
+      if (!endpoint) return null
+      const reference = side === 'start' ? getComputedStyle(stem).markerStart : getComputedStyle(stem).markerEnd
+      if (reference === 'none') {
+        const inline = geometry.filter(shape => {
+          if (shape === stem || nodes.some(owner => nearBox(owner.box, box(shape)))) return false
+          const vertexCount = vertices(shape)?.length, css = getComputedStyle(shape), stroke = rgba(getComputedStyle(stem).stroke), painted = same(rgba(css.fill), stroke) || strokePaint(shape) && same(rgba(css.stroke), stroke), topology = ['arrow', 'triangle', 'open-arrow'].includes(kind) ? vertexCount === 3 : kind === 'diamond' ? vertexCount === 4 : kind === 'circle' ? ['circle', 'ellipse'].includes(shape.localName) : false
+          if (!painted || !topology || !shape.getScreenCTM()) return false
+          const local = new DOMPoint(endpoint.x, endpoint.y).matrixTransform(shape.getScreenCTM()!.inverse())
+          return shape.isPointInFill(local) || shape.isPointInStroke(local) || samples(shape, 64).some(point => distance(point, endpoint) <= 1.5)
+        })
+        if (inline.length === 1) { ownMarkerParts(route, inline); return screenGlyphInk(inline[0]!) }
+        return null
+      }
+      const id = /#([^\s"')]+)["']?\)$/.exec(reference)?.[1], marker = id ? document.getElementById(id) : null
+      if (!(marker instanceof SVGMarkerElement) || !svg.contains(marker)) return null
+      const width = marker.markerWidth.baseVal, height = marker.markerHeight.baseVal, refX = marker.refX.baseVal, refY = marker.refY.baseVal, view = marker.viewBox.baseVal
+      if ([width, height, refX, refY].some(value => !([SVGLength.SVG_LENGTHTYPE_NUMBER, SVGLength.SVG_LENGTHTYPE_PX] as number[]).includes(value.unitType)) || !(width.value > 0 && height.value > 0)) return null
+      let sx = view.width > 0 ? width.value / view.width : 1, sy = view.height > 0 ? height.value / view.height : 1
+      if (marker.preserveAspectRatio.baseVal.align !== SVGPreserveAspectRatio.SVG_PRESERVEASPECTRATIO_NONE) sx = sy = marker.preserveAspectRatio.baseVal.meetOrSlice === SVGPreserveAspectRatio.SVG_MEETORSLICE_SLICE ? Math.max(sx, sy) : Math.min(sx, sy)
+      const length = stem.getTotalLength(), a = stem.getPointAtLength(side === 'start' ? 0 : Math.max(0, length - .01)), b = stem.getPointAtLength(side === 'start' ? Math.min(length, .01) : length), end = stem.getPointAtLength(side === 'start' ? 0 : length), orientation = marker.getAttribute('orient') ?? '0'
+      let angle = orientation.startsWith('auto') ? Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI : marker.orientAngle.baseVal.value
+      if (orientation === 'auto-start-reverse' && side === 'start') angle += 180
+      const units = marker.markerUnits.baseVal === SVGMarkerElement.SVG_MARKERUNITS_STROKEWIDTH ? Number.parseFloat(getComputedStyle(stem).strokeWidth) : marker.markerUnits.baseVal === SVGMarkerElement.SVG_MARKERUNITS_USERSPACEONUSE ? 1 : NaN, screen = stem.getScreenCTM()
+      if (!screen || !Number.isFinite(units) || units <= 0 || !Number.isFinite(angle) || getComputedStyle(marker).transform !== 'none') return null
+      const instance = new DOMMatrix([screen.a, screen.b, screen.c, screen.d, screen.e, screen.f]).translate(end.x, end.y).rotate(angle).scale(units).scale(sx, sy).translate(-refX.value, -refY.value), ink: Point[] = []
+      for (const shape of marker.querySelectorAll('path,polygon,polyline,rect,circle,ellipse,line')) {
+        if (!(shape instanceof SVGGeometryElement)) return null
+        const css = getComputedStyle(shape)
+        if (css.display === 'none' || ['hidden', 'collapse'].includes(css.visibility) || Number(css.opacity) === 0) continue
+        let relative = new DOMMatrix()
+        for (let current: Element | null = shape; current && current !== marker; current = current.parentElement) { const css = getComputedStyle(current); if (css.transformOrigin !== '0px 0px') return null; const local = new DOMMatrix(css.transform === 'none' ? undefined : css.transform); if (!local.is2D) return null; relative = local.multiply(relative) }
+        const total = shape.getTotalLength()
+        if (!(total > 0)) continue
+        for (const local of localGlyphInk(shape)) { const p = new DOMPoint(local.x, local.y).matrixTransform(relative).matrixTransform(instance); ink.push({ x: p.x, y: p.y }) }
+      }
+      return ink.length ? ink : null
+    }
     const covers = [...svg.querySelectorAll('rect,circle,ellipse,polygon,polyline,path,image,use,foreignObject')].filter(paintable).map(element => {
       const css = getComputedStyle(element); let opacity = Number(css.fillOpacity)
       for (let parent: Element | null = element; parent; parent = parent.parentElement) { opacity *= Number(getComputedStyle(parent).opacity); if (parent === svg) break }
@@ -958,7 +1010,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     const actual = routes.map(route => {
       const candidates = geometry.filter(element => route.box && nearBox(box(element), route.box) && ['path', 'line', 'polyline'].includes(element.localName) && (() => { const p = samples(element, 1); return p.length === 2 && route.start && route.end && distance(p[0]!, route.start) < 1 && distance(p[1]!, route.end) < 1 })())
       if (candidates.length !== 1) return { source: route.source, target: route.target, obscuredBy: null }
-      const stem = candidates[0]!, matrix = stem.getScreenCTM(), points = samples(stem, Math.min(16384, Math.max(512, Math.ceil(stem.getTotalLength() * (matrix ? Math.max(Math.hypot(matrix.a, matrix.b), Math.hypot(matrix.c, matrix.d)) : 1) * 2)))), blockers: { id: string; points: number }[] = []
+      const stem = candidates[0]!, matrix = stem.getScreenCTM(), points = samples(stem, Math.min(16384, Math.max(512, Math.ceil(stem.getTotalLength() * (matrix ? Math.max(Math.hypot(matrix.a, matrix.b), Math.hypot(matrix.c, matrix.d)) : 1) * 2)))), markerParts = [markerContours(stem, route, 'start'), markerContours(stem, route, 'end')], exposedInk = [...points, ...markerParts.flatMap(part => part ?? [])], blockers: { id: string; points: number }[] = []
       for (const other of nodes.filter(owner => owner.id !== route.source && owner.id !== route.target)) {
         for (const body of bodies(other.id)) {
           if (!(stem.compareDocumentPosition(body) & Node.DOCUMENT_POSITION_FOLLOWING)) continue
@@ -971,23 +1023,21 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
         }
       }
       const endpointParts = [route.source, route.target].flatMap(id => [...parts(id), ...bodies(id), ...(qualifiedParts.get(id) ?? [])]), routeLabels = evidence.get('painted-relationship-label-ownership')?.status === 'passed' ? paintedText.filter(element => route.labels?.includes(normalize(readText(element))) && safeText(element)) : []
-      const unqualified = covers.filter(cover => cover.element !== stem && !!(stem.compareDocumentPosition(cover.element) & Node.DOCUMENT_POSITION_FOLLOWING) && !endpointParts.includes(cover.element as SVGGeometryElement)).filter(cover => {
+      const unqualified = covers.filter(cover => cover.element !== stem && !!(stem.compareDocumentPosition(cover.element) & Node.DOCUMENT_POSITION_FOLLOWING) && !endpointParts.includes(cover.element as SVGGeometryElement) && !qualifiedMarkerInk.get(route)?.has(cover.element as SVGGeometryElement)).filter(cover => {
         const equivalentEndpointFill = [route.source, route.target].some(id => { const owner = node.get(id); return owner && contains(owner.box, cover.box) && same(cover.fill, rgba(owner.style?.fill ?? 'none')) })
         if (equivalentEndpointFill) return false
-        const head = cover.matrix && cover.element instanceof SVGGeometryElement && vertices(cover.element)?.length === 3 && same(cover.fill, rgba(getComputedStyle(stem).stroke)) && [{ point: route.start, kind: route.startMarker }, { point: route.end, kind: route.endMarker }].some(end => end.point && ['arrow', 'triangle'].includes(end.kind) && (cover.element as SVGGeometryElement).isPointInFill(new DOMPoint(end.point.x, end.point.y).matrixTransform(cover.matrix!.inverse())))
-        if (head) return false
         // An actual, uniquely owned route caption may have a compact backdrop.
         // Its matching string alone cannot excuse an arbitrary large cover.
         const captionBackdrop = routeLabels.some(element => { const b = box(element), font = Number.parseFloat(getComputedStyle(element).fontSize); return contains(cover.box, b) && cover.box.width <= b.width + font * 2 && cover.box.height <= b.height + font })
         if (captionBackdrop) return false
-        return points.some(point => {
+        return exposedInk.some(point => {
           if (!contains(cover.box, { ...point, width: 0, height: 0 }, 0)) return false
           return !cover.matrix || !(cover.element instanceof SVGGeometryElement) || cover.element.isPointInFill(new DOMPoint(point.x, point.y).matrixTransform(cover.matrix.inverse()))
         })
       }).map(cover => ({ tag: cover.element.localName, box: cover.box }))
-      return { source: route.source, target: route.target, obscuredBy: blockers, unqualifiedCovers: unqualified }
+      return { source: route.source, target: route.target, obscuredBy: blockers, unqualifiedCovers: unqualified, markerExposureInspectable: markerParts.every(part => part !== null) }
     })
-    add('painted-route-visibility', 'Every required owned route has a visible stem between its endpoint bodies', actual, actual.some(route => route.obscuredBy?.length) ? false : routesBound && evidence.get('paint-opacity-and-color')?.status === 'passed' && actual.length === input.expected.edges.length && actual.every(route => route.obscuredBy !== null && !route.unqualifiedCovers?.length) ? true : null, 'Actual dense stem samples reject portions proved hidden beneath later opaque unrelated node interiors. Any unqualified opaque primitive, image, use or HTML layer over the stem withholds a pass, including camouflaged covers painted before labels. Endpoint bodies and compact independently owned caption backdrops are permitted. This is bounded opaque stem exposure evidence; arbitrary masks, filters, glyph paths and unresolved ownership cannot supply a route-visibility pass.')
+    add('painted-route-visibility', 'Every required owned route has exposed stem and endpoint-glyph contour paint', actual, actual.some(route => route.obscuredBy?.length) ? false : routesBound && evidence.get('paint-opacity-and-color')?.status === 'passed' && actual.length === input.expected.edges.length && actual.every(route => route.obscuredBy !== null && !route.unqualifiedCovers?.length && route.markerExposureInspectable) ? true : null, 'Actual dense stem and marker contour samples reject credit beneath later opaque covers. Referenced marker contours use their real viewport, aspect ratio, ref point, stroke units, orientation, child transforms and stem screen transform; inline triangles require independently attached actual geometry. Unprojected marker units/parts and any unqualified opaque primitive, image, use or HTML cover withhold a pass. Endpoint bodies and compact independently owned caption backdrops are permitted; arbitrary masks, filters and unresolved ownership remain unknown.')
   }
   checkGroupMembership()
   return { checks, nodes, connections: routes, groups }
