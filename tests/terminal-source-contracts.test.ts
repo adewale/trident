@@ -113,7 +113,12 @@ test('invalid source rejection is separate and requires typed public evidence', 
   expect(assessTerminalDrawing(invalid, 'renderer error').status).toBe('unknown')
   expect(assessTerminalSourceRejection(invalid).status).toBe('unknown')
   const typed = { project: 'fixture/terminal', caseId: invalid.id, sourceSha256: invalid.sourceSha256, publicBoundary: 'synthetic public typed parser control', detail: 'UnknownDiagramError', observerSha256: 'a'.repeat(64), kind: 'unknown-family' as const }
-  expect(assessTerminalSourceRejection(invalid, typed, 'fixture/terminal').status).toBe('correct')
+  const verdict = assessTerminalSourceRejection(invalid, typed, 'fixture/terminal'), otherWorker = assessTerminalSourceRejection(invalid, { ...typed, observerSha256: 'b'.repeat(64) }, 'fixture/terminal')
+  expect(verdict.status).toBe('correct')
+  expect('observerSha256' in verdict && verdict.observerSha256).not.toBe(typed.observerSha256)
+  expect('observerSha256' in verdict && 'observerSha256' in otherWorker && verdict.observerSha256).toBe('observerSha256' in otherWorker && otherWorker.observerSha256)
+  expect('outputSha256' in verdict && 'outputSha256' in otherWorker && verdict.outputSha256).not.toBe('outputSha256' in otherWorker && otherWorker.outputSha256)
+  expect(() => assessTerminalSourceRejection(invalid, { ...typed, observerSha256: 'missing' }, 'fixture/terminal')).toThrow('observer identity')
   expect(assessTerminalSourceRejection(invalid, { ...typed, kind: 'accepted' }, 'fixture/terminal').status).toBe('incorrect')
   expect(() => assessTerminalSourceRejection(invalid, { ...typed, sourceSha256: '0'.repeat(64) }, 'fixture/terminal')).toThrow('stale')
 })
