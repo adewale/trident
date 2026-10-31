@@ -208,14 +208,18 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
       const ordered = [...relations].sort((a, b) => (a.box?.y ?? Infinity) - (b.box?.y ?? Infinity))
       const bound = ['painted-relationships', 'painted-relationship-label-counts', 'painted-relationship-label-ownership'].every(criterion => checkById.get(criterion)?.status === 'passed') && ordered.every((edge, index) => edge.box && edge.labels?.length === 1 && (!index || edge.box.y - ordered[index - 1]!.box!.y > 1))
       const actual = ordered.map(edge => {
-        const reverse = edge.startMarker === 'arrow' && edge.endMarker === 'none'
-        return { from: reverse ? edge.target : edge.source, to: reverse ? edge.source : edge.target, text: edge.labels?.[0] ?? null, dash: edge.dash, filled: reverse ? edge.startFilled : edge.endFilled }
+        const reverse = ['arrow', 'triangle', 'open-arrow'].includes(edge.startMarker) && edge.endMarker === 'none', unprinted = edge.startMarker === 'none' && edge.endMarker === 'none'
+        const [from, to] = unprinted ? [edge.source, edge.target].sort() : reverse ? [edge.target, edge.source] : [edge.source, edge.target]
+        return { from, to, text: edge.labels?.[0] ?? null, direction: unprinted ? 'unprinted' : 'printed', dash: edge.dash, filled: reverse ? edge.startFilled : edge.endFilled }
       })
-      if (key === 'message-order') add(key, actual.map(({ dash: _, filled: __, ...message }) => message), bound ? same(facts[key].map((message: any) => ({ from: message.from, to: message.to, text: normalize(message.text) })), actual.map(({ dash: _, filled: __, ...message }) => message)) : null, 'Every message label belongs to a measured endpoint-owned route, then actual route heights establish chronological order. Source attributes, global label order and matching text alone cannot establish message direction/order; tied/ambiguous rows remain unknown')
+      if (key === 'message-order') {
+        const project = (message: any, index: number) => ({ from: message.from, to: message.to, text: typeof message.text === 'string' ? normalize(message.text) : message.text ?? null, ...(facts[key][index]?.direction ? { direction: message.direction } : {}) })
+        add(key, actual.map(project), bound ? same(facts[key].map(project), actual.map(project)) : null, 'Every message caption owns a measured route, then physical heights establish chronology. Visible arrowheads establish directed endpoints; unheaded lines establish only unordered endpoint pairs. SVG path-writing order and source metadata cannot invent an invisible sender')
+      }
       else {
-        const supported = facts[key].every((style: any) => ['->>', '-->>'].includes(style))
-        const actualStyle = actual.map(message => message.filled === true ? !message.dash || message.dash === 'none' || /^0(?:px)?(?:[ ,]+0(?:px)?)*$/.test(message.dash) ? '->>' : message.dash.split(/[ ,]+/).every(value => Number.parseFloat(value) > 0) ? '-->>' : null : null)
-        add(key, actualStyle, bound && supported && actualStyle.every(Boolean) ? same(facts[key], actualStyle) : null, 'Solid/dashed stroke and an actual closed filled arrowhead are read on each chronological message route. Only the ->>/-->> profile is qualified here; open, cross, asynchronous and compound markers need their own visible glyph proof')
+        const supported = facts[key].every((style: any) => ['->>', '-->>', '->', '-->'].includes(style))
+        const actualStyle = actual.map(message => { const solid = !message.dash || message.dash === 'none' || /^0(?:px)?(?:[ ,]+0(?:px)?)*$/.test(message.dash), dashed = message.dash?.split(/[ ,]+/).every(value => Number.parseFloat(value) > 0); return message.direction === 'unprinted' ? solid ? '->' : dashed ? '-->' : null : message.filled === true ? solid ? '->>' : dashed ? '-->>' : null : null })
+        add(key, actualStyle, bound && supported && actualStyle.every(Boolean) ? same(facts[key], actualStyle) : null, 'Solid/dotted stroke and physical head absence or closed filled arrowhead are checked on every chronological route. Open, cross, asynchronous and compound markers remain separate unqualified glyph profiles')
       }
       continue
     }

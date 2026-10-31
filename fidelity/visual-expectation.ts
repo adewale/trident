@@ -22,6 +22,12 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
     const chain = family === 'flowchart' && nodes.length > 1 && edges.length === nodes.length - 1 && roots.length === 1 && visited.size === nodes.length && [...indegree.values(), ...outdegree.values()].every(degree => degree <= 1) && !expected.groups?.length && !facts['layout-constraints']
     if (!chain) { (expected.advisoryFacts ??= {}).direction = facts.direction; delete facts.direction; projections.push('Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence') }
   }
+  for (const key of ['edge-length-requests', 'subgraph-direction-requests', 'group-directions']) if (Object.hasOwn(facts, key)) { (expected.advisoryFacts ??= {})[key] = facts[key]; delete facts[key]; projections.push('Literal ' + key + ' is retained as advisory layout intent; its own syntax does not establish a strict per-edge/rank obligation') }
+  if (family === 'sequence' && Array.isArray(facts['message-order']) && Array.isArray(facts['message-style'])) {
+    let unprinted = false
+    facts['message-order'] = facts['message-order'].map((message: any, index: number) => { if (!['->', '-->'].includes(facts['message-style'][index])) return message; const [from, to] = [message.from, message.to].sort(); unprinted = true; return { ...message, from, to, direction: 'unprinted' } })
+    if (unprinted) projections.push('Sequence messages without arrowheads encode unordered endpoint pairs, caption, chronology and solid/dotted stroke; literal sender/receiver remain in source/native data rather than invented visible direction')
+  }
   if (family === 'pie' && Array.isArray(facts.slices) && facts['show-data'] !== true) {
     const total = facts.slices.reduce((sum: number, slice: any) => sum + slice.value, 0)
     if (total > 0 && facts.slices.every((slice: any) => Number.isFinite(slice.value) && slice.value >= 0)) {

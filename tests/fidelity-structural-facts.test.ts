@@ -5,13 +5,15 @@ import { expandedFidelityCases } from '../fidelity/cases.ts'
 import { inspectFidelityPaint, type PaintCheck } from '../fidelity/paint.ts'
 import { inspectSourceFacts } from '../fidelity/paint-facts.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
+import { projectVisualExpectation } from '../fidelity/visual-expectation.ts'
+import type { AuthoredFidelityCase } from '../fidelity/meaning.ts'
 
 let browser: any
 beforeAll(async () => { browser = await chromium.launch({ headless: true, executablePath: chromiumExecutable }) })
 afterAll(async () => { await browser?.close() })
 const fixtures = (name: string) => readFileSync(new URL('./fixtures/fidelity/' + name + '.svg', import.meta.url), 'utf8')
-async function inspect(svg: string, id: string) {
-  const testCase = expandedFidelityCases().find(item => item.id === id)!
+async function inspect(svg: string, id: string, override: Partial<Pick<AuthoredFidelityCase, 'source' | 'expected'>> = {}) {
+  const testCase = { ...expandedFidelityCases().find(item => item.id === id)!, ...override }
   const page = await browser.newPage()
   try {
     await page.setContent(svg)
@@ -58,4 +60,19 @@ test('a repeated class header cannot conceal an additional member with the same 
     const hidden = svg.replace('<text x="230" y="60">Store</text>', '').replace('<text x="20" y="60">', '<text x="20" y="60" ' + style + '>')
     expect(status(await inspect(hidden, 'features:class:namespace-members-cardinality'), 'members')).not.toBe('passed')
   }
+})
+
+test('unheaded sequence routes qualify physical endpoint pairs independently of SVG path-writing direction', async () => {
+  const id = 'features:sequence:notes-loop-reciprocal', input = expandedFidelityCases().find(item => item.id === id)!, raw = structuredClone(input.profileExpected!)
+  raw.edges = raw.edges!.map((edge, index) => ({ ...edge, directed: index === 2, startMarker: 'none', endMarker: index === 2 ? 'arrow' : 'none' }))
+  raw.facts!['message-style'] = ['->', '-->', '->>']
+  const expected = projectVisualExpectation('sequence', raw).expected
+  const source = input.source.replace('A->>B: Request', 'A->B: Request').replace('B-->>A: Reply', 'B-->A: Reply')
+  const svg = fixtures('pele-sequence-messages').replace(/<path class="pele-marker" d="M108\.92,165[^>]*\/>/, '').replace(/<path class="pele-marker" d="M0,202[^>]*\/>/, '').replace('M0,165H101.92', 'M0,165H108.92').replace('M108.92,202H7', 'M108.92,202H0')
+  const valid = await inspect(svg, id, { expected, source })
+  expect(status(valid, 'message-order')).toBe('passed')
+  expect(status(valid, 'message-style')).toBe('passed')
+  const reversed = await inspect(svg.replace('M0,165H108.92', 'M108.92,165H0'), id, { expected, source })
+  expect(status(reversed, 'message-order')).toBe('passed')
+  expect(status(reversed, 'message-style')).toBe('passed')
 })

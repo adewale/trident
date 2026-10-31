@@ -22,6 +22,11 @@ test('unprinted pie totals project to fractions; showData retains explicit absol
   expect(projectVisualExpectation('pie', { ...raw, facts: { ...raw.facts, 'show-data': true } }).expected.facts?.slices).toEqual(raw.facts.slices)
   expect(raw.facts.slices[0]?.value).toBe(7)
 })
+test('unheaded sequence messages preserve endpoints and chronology without claiming an invisible sender', () => {
+  const raw = { labels: ['A', 'B', 'Hello'], facts: { 'message-order': [{ from: 'B', to: 'A', text: 'Hello' }], 'message-style': ['->'] } }
+  expect(projectVisualExpectation('sequence', raw).expected.facts?.['message-order']).toEqual([{ from: 'A', to: 'B', text: 'Hello', direction: 'unprinted' }])
+  expect(raw.facts['message-order'][0]?.from).toBe('B')
+})
 test('Sankey geometry permits common rescaling only when printed values are disabled', () => {
   const links = [{ source: 'A', target: 'B', value: 7 }, { source: 'A', target: 'C', value: 3 }]
   const raw = { labels: ['A', 'B', 'C'], facts: { links, 'authored-config': { sankey: { showValues: false } } } }

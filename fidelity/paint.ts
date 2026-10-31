@@ -535,10 +535,10 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (!shapes.length) return { kind: 'none', point: endpoint }
     if (input.family === 'er') return { kind: 'decoration', point: endpoint, clearance: Math.min(8, Number(marker.getAttribute('markerWidth') ?? 3) / 2) }
     if (shapes.length !== 1 || shapes[0]!.hasAttribute('transform')) return { kind: 'unknown', point: endpoint, unknown: 'Compound or transformed marker needs a reviewed geometry projection' }
-    const shape = shapes[0]!, kind = shapeKind(shape), polygon = vertices(shape), owner = marker as unknown as SVGMarkerElement
+    const shape = shapes[0]!, rawKind = shapeKind(shape), glyphStyle = getComputedStyle(shape), open = input.family === 'sequence' && rawKind === 'arrow' && shape.localName !== 'polygon' && !/z\s*$/i.test(shape.getAttribute('d') ?? '') && colorAlpha(glyphStyle.fill) === 0 && colorAlpha(glyphStyle.stroke) !== 0, kind = open ? 'open-arrow' : rawKind, polygon = vertices(shape), owner = marker as unknown as SVGMarkerElement
     if (!polygon || kind === 'unknown' || !['auto', 'auto-start-reverse', null].includes(marker.getAttribute('orient'))) return { kind, point: endpoint, unknown: 'Marker tip/rotation projection is unavailable' }
     const reference = { x: owner.refX.baseVal.value, y: owner.refY.baseVal.value }
-    const directional = ['arrow', 'triangle'].includes(kind)
+    const directional = ['arrow', 'triangle', 'open-arrow'].includes(kind)
     const tangent = tangentAt(element, side)
     if (!tangent) return { kind, point: endpoint, unknown: 'No stable endpoint tangent for marker placement' }
     const box = owner.viewBox.baseVal, viewScale = box.width && box.height ? Math.min(owner.markerWidth.baseVal.value / box.width, owner.markerHeight.baseVal.value / box.height) : 1
@@ -560,7 +560,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (!shapes.length) return { kind: 'none', point: endpoint }
     if (input.family === 'er') return { kind: 'decoration', point: endpoint, clearance: 4 }
     if (shapes.length !== 1) return { kind: 'unknown', point: endpoint, unknown: 'Compound inline decoration needs a reviewed projection' }
-    const shape = shapes[0]!, kind = shapeKind(shape), points = vertices(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM()
+    const shape = shapes[0]!, rawKind = shapeKind(shape), glyphStyle = getComputedStyle(shape), open = input.family === 'sequence' && rawKind === 'arrow' && shape.localName !== 'polygon' && !/z\s*$/i.test(shape.getAttribute('d') ?? '') && colorAlpha(glyphStyle.fill) === 0 && colorAlpha(glyphStyle.stroke) !== 0, kind = open ? 'open-arrow' : rawKind, points = vertices(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM()
     if (!points || !matrix || kind === 'unknown') return { kind, point: endpoint, unknown: 'Inline marker tip projection is unavailable' }
     const local = new DOMPoint(endpoint.x, endpoint.y).matrixTransform(matrix.inverse()), ink = shape as SVGGeometryElement, style = getComputedStyle(shape)
     const filled = style.fill !== 'none' && Number(style.fillOpacity) > 0 && colorAlpha(style.fill) !== 0
@@ -568,7 +568,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const touches = filled && ink.isPointInFill?.(local) || stroked && ink.isPointInStroke?.(local) || distanceToInk(endpoint, shape) <= 2
     if (!touches) return { kind: 'detached-marker', point: endpoint }
     const screen = points.map(point => new DOMPoint(point.x, point.y).matrixTransform(matrix))
-    if (['arrow', 'triangle'].includes(kind)) {
+    if (['arrow', 'triangle', 'open-arrow'].includes(kind)) {
       const tip = pointedVertex(screen), tangent = tangentAt(element, side)
       if (!tip || !tangent) return { kind, point: endpoint, unknown: 'Inline arrow has no uniquely projected tip/orientation' }
       const rest = screen.filter(point => point !== tip), base = { x: rest.reduce((sum, point) => sum + point.x, 0) / rest.length, y: rest.reduce((sum, point) => sum + point.y, 0) / rest.length }
@@ -598,7 +598,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (first.unknown || last.unknown) unresolvedProjection = true
     const source = bind(first.point ?? start, first.clearance), target = bind(last.point ?? end, last.clearance)
     if (!source || !target) { unboundRelations = true; continue }
-    connections.push({ source, target, directed: [first.kind, last.kind].some(kind => ['arrow', 'triangle'].includes(kind)), startMarker: first.kind, endMarker: last.kind, startFilled: first.filled, endFilled: last.filled, element })
+    connections.push({ source, target, directed: [first.kind, last.kind].some(kind => ['arrow', 'triangle', 'open-arrow'].includes(kind)), startMarker: first.kind, endMarker: last.kind, startFilled: first.filled, endFilled: last.filled, element })
   }
   unresolvedProjection ||= ambiguousEndpoints || unboundRelations
   if (input.paint?.edgeStroke !== undefined || input.paint?.edgeStrokeWidth !== undefined) {
@@ -606,7 +606,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const actual = connections.map(edge => { const style = getComputedStyle(edge.element); return { source: edge.source, target: edge.target, color: rgba(style.stroke), width: Number.parseFloat(style.strokeWidth), opacity: Number(style.strokeOpacity) } })
     check('computed-owned-edge-style', { stroke: input.paint.edgeStroke, width }, actual, expected === null || !actual.length || missingNodes.length || unresolvedProjection ? null : actual.every(item => (expected === undefined || JSON.stringify(item.color) === JSON.stringify(expected) && (!expected[3] || item.opacity > 0 && item.width > 0)) && (width === undefined || Number.isFinite(item.width) && Math.abs(item.width - width) <= .1)), 'Computed stroke color/width on every actual owned relation path, with .1 CSS-pixel width tolerance; parser/config acceptance alone supplies no style credit')
   }
-  const markerDirected = (kind: string) => ['arrow', 'triangle'].includes(kind)
+  const markerDirected = (kind: string) => ['arrow', 'triangle', 'open-arrow'].includes(kind)
   const pair = (source: string, target: string, directed: boolean, startMarker = 'none', endMarker = directed ? 'arrow' : 'none', decorations = false) => {
     const first = markerDirected(startMarker), last = markerDirected(endMarker)
     if (directed && first && !last) { [source, target] = [target, source]; [startMarker, endMarker] = [endMarker, startMarker] }
@@ -627,7 +627,8 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (decorationExpected) {
       const actual = connections.map(edge => keyFor(edge)).sort(), expected = input.expected.edges.map(edge => keyFor(edge)).sort()
       const equal = JSON.stringify(expected) === JSON.stringify(actual)
-      check('painted-relationship-markers', expected, actual, missingNodes.length || unresolvedProjection || equal && unboundRelations ? null : equal, 'Actual triangle/arrow/diamond/circle glyph geometry and marker ownership; unbound relations preclude exact multiplicity and a decoration is not automatically a directed arrow')
+      const openAmbiguity = input.expected.edges.some(edge => edge.startMarker === 'open-arrow' || edge.endMarker === 'open-arrow') && connections.some(edge => edge.startMarker === 'triangle' || edge.endMarker === 'triangle')
+      check('painted-relationship-markers', expected, actual, missingNodes.length || unresolvedProjection || openAmbiguity || equal && unboundRelations ? null : equal, 'Actual triangle/arrow/diamond/circle glyph geometry and marker ownership; sequence open-arrow profiles qualify an actual unfilled open V, while other outlined variants remain unverified. Unbound relations preclude exact multiplicity and a decoration is not automatically a directed arrow')
     }
     const labels = input.expected.edges.filter(edge => edge.label).map(edge => edge.label!)
     const counts = new Map<string, number>()
