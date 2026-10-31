@@ -20,8 +20,8 @@ hashes and bindings; a source build cannot silently replace a published executab
 Prereleases and source candidates remain separate from release results.
 
 ```sh
-bun commands.ts bench --all-projects --profile full --plan
-bun commands.ts bench --prepare --all-projects --profile full \
+bun commands.ts bench --all-projects --suites community,docs,fidelity,native-fidelity,portable --profile full --plan
+bun commands.ts bench --prepare --all-projects --suites community,docs,fidelity,native-fidelity,portable --profile full \
   --cutoff 2026-10-29T18:42:38Z --out /evidence/b0
 ```
 
@@ -60,9 +60,11 @@ campaign; configuration and six-input support checks are not benchmark scores.
 | DaveBench: Documentation Examples | Complete pinned syntax-doc inventory: 548 occurrences, retaining repeated and distinct sources. |
 | Diagram Meaning | Full authored input and criterion ledger; public-model facts and SVG paint remain separate. |
 | Model and Editing Contracts | Shared reviewed criteria, with API-specific checks separately identified. |
-| Mermaid Assertion Replay | Pinned original declaration/callback inventory, with translation exclusions retained. |
-| Mermaid Reference Tests | Genuine pinned source and original runner, with read-only snapshots. |
 | Render Cost and Scaling | All 54 portable cases, including 51 positive inputs and three invalid controls; no speed score for invalid inputs. |
+
+Mermaid’s original tests validate the reference separately when its pin/runtime
+changes; existing owning evidence may be reused. Assertion Replay is retired from
+new comparative campaigns. Historical B0 observations retain their original scope.
 
 Freeze [external repository examples](corpus/external-sources.json) separately from
 the AM-origin regression corpus. Keep the equal 20-file repository cap, pinned
@@ -107,6 +109,7 @@ never reduce samples after seeing a campaign's results to claim completion.
 
 ```sh
 bun commands.ts bench --prepared /evidence/b0/preparation.json \
+  --suites community,docs,fidelity,native-fidelity,portable \
   --budget-minutes 1440 --out /evidence/b0
 # An explicitly recorded additional allowance, preserving completed work:
 bun commands.ts bench --resume --budget-minutes 120 --out /evidence/b0

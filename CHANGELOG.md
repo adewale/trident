@@ -7,6 +7,18 @@ current main; baseline reconciliation and release publication remain pending.
 
 ### Benchmarks and measurement
 
+- Retain first-round DaveBench SVG witnesses and bind reviewed content checks to
+  exact source bytes. Missing expectations remain unknown; successful SVG return
+  cannot supply a correctness pass. Separate full inventory and reviewed-subset tables.
+- Fix the shared paint observer for bounded SourceGraphic-preserving drop shadows
+  and group-container ownership. Check explicitly hidden source content, including
+  collapsed-group members, with positive and broken-output regression controls.
+- Default campaigns to documentation and SVG correctness checks. Performance and
+  optional model collection require explicit selection; retire Assertion Replay and
+  the nonblank-only PNG exporter from new comparative runs. Keep reference tests explicit.
+- Prototype terminal flowchart correctness by tracing node boxes, continuous
+  directed routes and owned labels. ANSI state and unsupported cell layouts remain unknown.
+
 - Complete a targeted six-round Mermaid 12.2.0 DaveBench rerun: 547/548 SVG
   returns in every round, with the original image-decoding failure retained.
   Rolling coverage preserves comparable peer scores, dates and row evidence
@@ -17,9 +29,9 @@ current main; baseline reconciliation and release publication remain pending.
 - Keep interrupted DaveBench rounds unranked, distinguish partial observations
   from unexecuted inputs, retain CLI variant ownership, and resolve owning reports
   relative to an extracted evidence archive.
-- Seven documented suites cover Mermaid compatibility, DaveBench documentation
-  examples, diagram meaning, public models and editing, original assertion replay,
-  the genuine Mermaid reference tests, and portable SVG render cost/scaling.
+- Historical results retain the seven original suite identities. Current workloads
+  combine feature cases, drawing checks and explicit cost profiles, alongside
+  documentation examples and optional public-model contracts.
 - Portable SVG process protocol v7 separates output admission, public-model facts,
   painted evidence and timing calibration. Its bounded route/marker checks inspect
   actual ink; unavailable projections and failed qualification remain visible.

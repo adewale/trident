@@ -166160,6 +166160,10 @@
   "overviewRanking": "latest-docs-4bbacfa5f831751194623401",
   "publications": [
     {
+      "title": "30 October 2026: benchmark correctness repairs and terminal pilot (bounded qualification)",
+      "url": "https://github.com/adewale/trident/blob/73bd6509cb70d221ccb17a86012254614fa6abf0/qualification/2026-10-30/README.md"
+    },
+    {
       "title": "Mermaid DaveBench rerun: six complete rounds, 547/548 SVG returns",
       "url": "https://github.com/adewale/trident/blob/3fbae99754990daae9916dcdad344ed61e127ad5/reruns/mermaid-davebench-2026-10-30/README.md"
     },

@@ -3,7 +3,7 @@
 Start with a comparison table for the question you want answered. Put projects
 and versions in rows, measurements in columns, and units in the column headings.
 Link each row's failures and receipt so readers can inspect what happened.
-The [comparison tables](RESULTS.md#results-by-benchmark) cover all seven benchmarks;
+The [comparison tables](RESULTS.md#results-by-benchmark) retain current and historical collectors;
 [the research notes](docs/reporting-research.md) explain the examples we learned from.
 
 The repository's [ecosystem results](RESULTS.md) provide a single entry point.
@@ -31,9 +31,9 @@ sentence interpreting each result.
 | Benchmark | Row identifies | Result columns | Unit |
 |---|---|---|---|
 | Mermaid Compatibility | Project/version, within one format and runtime | Passed, failed, unsupported, blocked and missing inputs; planned total | Inputs |
-| DaveBench | Project/version on the complete documentation inventory | SVG returned, failed, unexecuted, planned occurrences, return rate | Occurrences and % |
+| DaveBench | Project/version on the complete documentation inventory | SVG return separately from reviewed content; correct, incorrect, unknown, configuration-only and planned occurrences | Occurrences |
 | DaveBench timing | Project/version on one named input or an explicitly matched input set | Call time, sample count, qualification; failed output withholds time | ms |
-| Diagram Meaning | Project/version on the same SVG criteria | Passed, failed, unsupported, blocked and missing criteria; planned total | Criteria |
+| Diagram Meaning | Project/version on the same authored SVG cases | Correct, incorrect, unsupported and unknown diagrams; per-criterion details separately | Diagrams |
 | Model and Editing Contracts | Project/version on shared criterion identities | Same criterion counts; API-specific checks in a separate table | Criteria |
 | Mermaid Assertion Replay | Project/version on the same source inventory | Declaration dispositions; expanded callback dispositions in a separate table | Declarations or callbacks |
 | Mermaid Reference Tests | Reference/version and original runner | Files, passed, failed, pending and todo callbacks | Files and callbacks |
@@ -44,6 +44,11 @@ For timing tables, less time means less cost. More accepted inputs means broader
 observed coverage, not automatically better meaning or layout. More passed
 criteria cannot be turned into an overall renderer-quality score by adding
 unrelated checks.
+
+Unreviewed source expectations and unresolved observers withhold correctness ranks.
+A bounded reviewed subset must name its size and cannot supply full-inventory
+correctness or qualify every timed call. Retired replay and reference-runner tables
+remain historical evidence, outside the current comparative benchmark lineup.
 
 ## Keep the full population visible
 

@@ -6,6 +6,10 @@ Last recorded measurement/update: **2026-10-30**. 275 imported project/benchmark
 
 [Machine-readable results](results/latest.json) · [Benchmark methods](BENCHMARKS.md) · [Reading the tables](REPORTING.md) · [Update this page](results/README.md)
 
+**The overview ranks SVG-return coverage. It does not rank drawing correctness.** Unknown source expectations and observers withhold correctness ranks; see the dated qualification evidence.
+
+[30 October 2026: benchmark correctness repairs and terminal pilot (bounded qualification)](https://github.com/adewale/trident/blob/73bd6509cb70d221ccb17a86012254614fa6abf0/qualification/2026-10-30/README.md)
+
 [Mermaid DaveBench rerun: six complete rounds, 547/548 SVG returns](https://github.com/adewale/trident/blob/3fbae99754990daae9916dcdad344ed61e127ad5/reruns/mermaid-davebench-2026-10-30/README.md)
 
 [30 October 2026: all 39 measured projects, ranked tables and raw evidence](https://github.com/adewale/trident/blob/8b2404b0bf2940e571ca0e14e54eeff0517a98ca/README.md)
@@ -18,7 +22,7 @@ Each cell links its latest recorded attempt, or a dated retained table. New fail
 
 Overview order: DaveBench: Documentation Examples, highest Returned in all rounds / Planned first (2026-10-30). Ties share a rank. Projects with no result for this measure, or a newer superseding attempt, remain unranked below. Each benchmark has its own ranking. The overview’s ranked benchmark cell uses this same table and population.
 
-| Project | Overview rank | Compatibility | DaveBench | Meaning | Models / editing | Assertion replay | Reference tests | Render cost |
+| Project | Overview rank | Compatibility | DaveBench | Meaning | Models / editing | Replay (retired) | Reference validation | Render cost |
 |---|---|---|---|---|---|---|---|---|
 | Frankenmermaid | 1 | [core: failed · 2026-10-30](results/tables/community-3.md#attempt-158753b39ff8af35f022806f); [external: failed · 2026-10-30](results/tables/community-9.md#attempt-9c99cdeb0ead5c485b300633) | [100.0% · 2026-10-30](#latest-docs-4bbacfa5f831751194623401) | [failed · 2026-10-30](results/tables/fidelity-4.md#attempt-07b01ac608df05ea9b1e799e) | [blocked · 2026-10-30](results/tables/native-fidelity-2.md#attempt-1cdfa3a422823a7a6e4569dd) | [blocked · 2026-10-30](results/tables/upstream-fidelity-1.md#attempt-41aa1259c687a4dea8eec863) | N/A | [blocked · 2026-10-30](results/tables/portable-3.md#attempt-4a856a9a2d4cdb9b2d34547e) |
 | Latias94/merman | 1 | [core: failed · 2026-10-30](results/tables/community-4.md#attempt-2b78cba0b41d69222cb99913); [external: failed · 2026-10-30](results/tables/community-9.md#attempt-a7834b04a35792a31ca00d2b) | [100.0% · 2026-10-30](#latest-docs-4bbacfa5f831751194623401) | [failed · 2026-10-30](results/tables/fidelity-5.md#attempt-41480ce9de0477b0ff403525) | [blocked · 2026-10-30](results/tables/native-fidelity-2.md#attempt-7504f794ea6b208855a67fb4) | [blocked · 2026-10-30](results/tables/upstream-fidelity-1.md#attempt-5927ba61a1894221cb77c5b9) | N/A | [failed · 2026-10-30](results/tables/portable-3.md#attempt-ea58071bedca498a8a2c1c33) |

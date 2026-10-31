@@ -20,24 +20,33 @@ later excluded from regular campaigns. The rolling overview uses the current
 
 ## Benchmarks
 
-Choose the question before collecting results. These seven benchmarks have
-different inputs and units; Trident does not combine them into an overall score.
-The command IDs stay short so existing scripts continue to work.
+Trident has two rendering workloads and an optional model/API workload. Drawing
+checks and cost measurement are shared parts of those workloads.
 
-| Benchmark | What it tests | Results table | Command ID |
+| Workload | What it measures | Results | Collector IDs |
 |---|---|---|---|
-| **Mermaid Compatibility** | Tests shared Mermaid inputs through each project's SVG, PNG, terminal and parser interfaces. | Passed, failed, unsupported and blocked inputs, by format and diagram type. | `community` |
-| **DaveBench: Documentation Examples** | Tests SVG generation for diagrams in Mermaid's own documentation, inspired by [Dave Kiss's benchmark](https://x.com/davekiss/status/2111512440106078554). | SVG return rate (%); render time (ms) on matched inputs. | `docs` |
-| **Diagram Meaning** | Checks rendered SVGs against expected labels, relationships, values and visible geometry. | Passed, failed and blocked checks, by diagram type. | `fidelity` |
-| **Model and Editing Contracts** | Tests how public diagram models preserve identities and relationships through parsing, edits and configuration changes. | Shared checks passed, failed, unsupported or blocked; API-specific checks separately. | `native-fidelity` |
-| **Mermaid Assertion Replay** | Replays Mermaid's original tests through public parser and model APIs. | Declarations and callbacks passed, failed or unavailable; excluded tests. | `upstream-fidelity` |
-| **Mermaid Reference Tests** | Runs Mermaid's own core tests to validate the reference environment. | Passed, failed, pending and todo callbacks; files executed. | `upstream-original` |
-| **Render Cost and Scaling** | Measures SVG rendering through public Node APIs across first calls, repeated calls, edits and diagram sizes. | Latency (ms), CPU (ms), memory (MiB) and comparison qualification. | `portable` |
+| **Documentation Examples — DaveBench** | The pinned Mermaid documentation examples, inspired by [Dave Kiss's benchmark](https://x.com/davekiss/status/2111512440106078554). | SVG returns separately from reviewed drawing content; incorrect, unknown and configuration-only examples stay visible. | `docs` |
+| **Mermaid Feature Cases** | Authored syntax, labels, relationships, chart values, grouping and scaling through public rendering interfaces. | Correct, incorrect, unsupported and unknown diagrams; feature/family details. Cost is reported on matched qualified inputs. | `community`, `fidelity`, `portable` |
+| **Model and Editing Contracts — optional** | Public parsing, model inspection, edits and configuration changes. | Shared contracts separately from API-specific checks and missing bindings. | `native-fidelity` |
 
-The [comparison tables](RESULTS.md#results-by-benchmark) show results for all seven
-benchmarks. Tables keep versions, inputs, interfaces, units and qualification
-visible. See [table conventions](REPORTING.md), [methods and limits](BENCHMARKS.md)
-and [what we learned from other benchmarks](docs/reporting-research.md).
+Ordinary campaigns select `docs,fidelity`. Select expensive performance collection
+explicitly with `--suites portable`, and optional model checks with
+`--suites native-fidelity`. `full` means the full selected workload and sampling;
+it does not enable every collector. Use `--plan` before collecting.
+
+Correctness qualification remains incomplete. [The bounded repair campaign](docs/benchmark-repair-2026-10-30.md)
+shows the current evidence and gaps. Full DaveBench return scores are not counts
+of correctly drawn diagrams. The [reviewed source expectations](corpus/docs-reviewed.json)
+bind exact input bytes; unreviewed sources earn no correctness credit. Every first-round
+returned SVG is retained for inspection and rechecking without rendering again.
+
+The [saved comparison tables](RESULTS.md) retain historical methods and dates.
+Assertion Replay is retired as a comparative benchmark; Mermaid's own tests are
+an explicit reference-environment check (`--suites upstream-original`). The old
+nonblank-only PNG exporter is retired. The [reviewed fixed-PNG study](docs/davebench-png-seven-results.md)
+keeps its task-specific content review, performance results and limitations.
+Terminal drawing correctness currently has a [bounded prototype](docs/terminal-correctness.md),
+with Mermaid ASCII required and Mermaid supplying a separately identified source reference.
 
 ### Where the benchmarks come from
 
