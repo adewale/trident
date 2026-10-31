@@ -4,12 +4,13 @@ import { createRequire } from 'node:module'
 import { dirname, extname, join, resolve } from 'node:path'
 import { chromium, type Route } from 'playwright'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
-import { writeDurableEvidence } from '../portable/checkpoint.ts'
+import { readCheckpointEntries, writeDurableEvidence } from '../portable/checkpoint.ts'
 import { captureInstalledDependencyClosure } from '../portable/artifact-dependencies.ts'
 import { environmentIdentity } from '../portable/environment.ts'
-import { evidenceBytesDigest, evidenceDigest, admitCheckedEvidence, type CheckedEvidence } from '../portable/evidence-contract.ts'
+import { evidenceBytesDigest, evidenceDigest, admitCheckedEvidence, type CheckedEvidence, type InvocationEvidence } from '../portable/evidence-contract.ts'
 import { collectQualifiedTiming, launchOwnedTimingBrowser, type QualifiedTimingPublicDriver, type ObserveTimedOutput, type TimingCoordinate } from '../portable/qualified-timing-collection.ts'
-import { admitTimingPlan, type TimingPlan } from '../portable/qualified-timing.ts'
+import { admitTimingPlan, browserSvgFirstUseTimingBoundary as browserSvgTimingBoundary, timingDriverFinalizationChecks, type TimingDriverFinalization, type TimingPlan } from '../portable/qualified-timing.ts'
+import { timingJournalDigest } from '../portable/timing-grading.ts'
 import { expandedFidelityCases } from '../fidelity/cases.ts'
 import { admitPreparedFidelityEngine } from '../fidelity/community.ts'
 import { sourceContractComplete } from '../fidelity/source-contract.ts'
@@ -26,9 +27,10 @@ import { readDocsResources } from './docs-resources.ts'
 import { publicSvgBrowserAction } from './public-svg-browser.ts'
 import { qualifyOutput } from './qualification.ts'
 import { protocolIdentity } from './protocol-identity.ts'
+import { qualifyRetainedTimingBundle } from './qualify-timing.ts'
 import { tridentDirectory } from './trident-paths.ts'
 
-export const browserSvgTimingBoundary = 'Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded'
+export { browserSvgTimingBoundary }
 const viewport = { width: 1400, height: 1000 }
 export interface BrowserSvgTimingOptions {
   preparedFile: string
@@ -117,7 +119,7 @@ export function prepareBrowserSvgTiming(options: BrowserSvgTimingOptions) {
   const observerSha256 = evidenceDigest({ protocol: 'complete-source-svg-observer-v1', producers, environment, gradingDependencies, parser }), environmentSha256 = evidenceDigest(environment)
   const artifact = (project: string) => { const { peer, admission } = selected.get(project)!; return { project, artifactSha256: admission.artifactSha256, bindingSha256: evidenceDigest({ protocol: 'shared-public-browser-svg-first-use-v1', engine: peer.browser, admission, producers, request: { type: 'render', id: 'trident_timed_svg', returnSvgString: true } }) } }
   const baseline = artifact(options.baseline)
-  const plan = admitTimingPlan({ schema: 'trident-qualified-timing-plan-v1', boundary: browserSvgTimingBoundary, format: 'svg', track: 'first-use', environmentSha256, observerSha256, rounds: options.rounds ?? 6, samplesPerRound: options.samplesPerRound ?? 1, maximumControlSpread: options.maximumControlSpread ?? .25, cases: cases.map(makeSvgCaseContract), artifacts: { A0: baseline, A1: baseline, B: artifact(options.candidate) } })
+  const plan = admitTimingPlan({ schema: 'trident-qualified-timing-plan-v1', boundary: browserSvgTimingBoundary, format: 'svg', track: 'first-use', environmentSha256, observerSha256, rounds: options.rounds ?? 6, samplesPerRound: options.samplesPerRound ?? 1, maximumControlSpread: options.maximumControlSpread ?? .25, cases: cases.map(makeSvgCaseContract), artifacts: { A0: baseline, A1: baseline, B: artifact(options.candidate) }, driverFinalization: { protocol: 'browser-svg-first-use-v1', producerSha256: evidenceDigest(producers) } })
   return { plan, cases, selected, resources, executable, fonts, fontConfiguration, fontInputStamp, rendering, assetBodies, sdk, provenance: { schema: 'trident-browser-svg-timing-inputs-v1', preparedSha256: evidenceBytesDigest(preparedBytes), environment, producers, gradingDependencies, parser, retainedAssets: [...assetBodies].map(([path, asset]) => ({ path, sha256: asset.sha256, blob: 'browser-assets/' + asset.sha256 })), retainedFontConfiguration: fontConfiguration.map(file => ({ path: file.path, sha256: file.sha256, blob: 'browser-assets/' + file.sha256 })), retainedResources: resources.resources.map((resource: any) => ({ url: resource.url, sha256: resource.sha256, blob: 'browser-assets/' + resource.sha256 })), selected: [...selected].map(([project, { admission }]) => ({ project, admission })), sources: cases.map(input => ({ id: input.id, source: input.source, expected: input.expected, paint: input.paint, provenance: input.provenance, sourceReview: input.sourceReview })), scope: browserSvgTimingBoundary } }
 }
 
@@ -193,24 +195,38 @@ export async function runBrowserSvgTiming(options: BrowserSvgTimingOptions) {
   }
   let result: Awaited<ReturnType<typeof collectQualifiedTiming>> | undefined
   const failures: unknown[] = []
+  const checks = Object.fromEntries(timingDriverFinalizationChecks.map(check => [check, false])) as TimingDriverFinalization['checks']
   try {
     result = await collectQualifiedTiming(frozen.plan, frozen.cases.map(input => ({ caseId: input.id, source: input.source, provenance: input.provenance })), driver, observer, options.out, { collectionBudgetMs: options.collectionBudgetMs })
     for (const { peer } of frozen.selected.values()) admitPreparedFidelityEngine(peer)
+    checks.artifacts = true
     if (evidenceDigest(browserTimingSdk()) !== evidenceDigest(frozen.sdk)) throw Error('Actual browser RPC SDK inputs changed during collection')
+    checks.sdk = true
     if (evidenceDigest(browserTimingFonts()) !== evidenceDigest(frozen.fonts) || evidenceDigest(fontConfigPaths().map(frozenFontFile)) !== evidenceDigest(frozen.fontConfiguration)) throw Error('Actual browser font inputs changed during collection')
+    checks.fonts = true
   } catch (error) { failures.push(error) } finally {
     disposing = true
-    try { writeFileSync(join(options.out, 'browser-resource-audits.json'), JSON.stringify({ schema: 'trident-timed-browser-resources-v1', coordinates: [...audits].map(([coordinate, gaps]) => ({ coordinate: JSON.parse(coordinate), gaps })) }, null, 2) + '\n') }
+    try { writeDurableEvidence(join(options.out, 'browser-resource-audits.json'), Buffer.from(JSON.stringify({ schema: 'trident-timed-browser-resources-v1', coordinates: [...audits].map(([coordinate, gaps]) => ({ coordinate: JSON.parse(coordinate), gaps })) }, null, 2) + '\n')); checks.resourceAudit = true }
     catch (error) { failures.push(error) }
     finally {
       if (launch && !browser) void launch.then(opened => opened.close()).catch(() => {})
       const closed = await Promise.allSettled([...servers.values()].map(({ server }) => closeDocsContext({ close: async () => {} }, server, 5000)).concat(browser ? [withDocsDeadline(() => browser!.close(), () => {}, 5000)] : []))
       failures.push(...closed.filter((item): item is PromiseRejectedResult => item.status === 'rejected').map(item => item.reason))
+      checks.cleanup = closed.every(item => item.status === 'fulfilled') && (!launch || !!browser)
     }
   }
+  let journalSha256: string | null = null
+  try { if (result) journalSha256 = timingJournalDigest(readCheckpointEntries<InvocationEvidence>(join(options.out, 'raw'), { schema: 'trident-invocation-journal-v1' }).map(([_key, value]) => value)) }
+  catch (error) { failures.push(error) }
+  const finalization: TimingDriverFinalization = { schema: 'trident-timing-driver-finalization-v1', planSha256: evidenceDigest(frozen.plan), policySha256: evidenceDigest(frozen.plan.driverFinalization), captureProtocolSha256: result ? evidenceDigest(result.captureProtocol) : null, journalSha256, checks, status: failures.length || timingDriverFinalizationChecks.some(check => !checks[check]) ? 'failed' : 'passed', errors: failures.map(error => String(error)), completedAt: new Date().toISOString() }
+  writeDurableEvidence(join(options.out, 'driver-finalization.json'), Buffer.from(JSON.stringify(finalization, null, 2) + '\n'))
   if (failures.length) throw new AggregateError(failures, 'Browser timing collection or bounded disposal failed')
   if (!result) throw Error('Browser timing collection returned no retained result')
-  return result
+  const { bundleFile: _provisionalBundleFile, ...captured } = result
+  const finalized = { ...captured, qualification: qualifyRetainedTimingBundle(captured, options.out) }
+  const bundleFile = join(options.out, 'timing-bundle-' + evidenceDigest(finalized).slice(0, 24) + '.json')
+  writeDurableEvidence(bundleFile, Buffer.from(JSON.stringify(finalized, null, 2) + '\n'))
+  return { ...finalized, bundleFile }
 }
 
 export function parseBrowserSvgTimingOptions(argv: string[]): BrowserSvgTimingOptions {

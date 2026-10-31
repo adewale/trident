@@ -262,7 +262,7 @@ export async function collectQualifiedTiming(plan: TimingPlan, sources: readonly
     }
   }
   const frames = journal.records(), rawQualification = qualifyTiming(plan, samples, output => readFileSync(output.path), frames)
-  const captureGaps = [...(!checkpoint.has('raw-complete') ? ['Raw timing capture did not complete; resumed controllers cannot fill an interrupted capture'] : []), ...(checkpoint.get<CollectionError[]>('capture-errors') ?? []).map(error => 'Capture ' + error.phase + ': ' + error.detail)]
+  const captureGaps = [...(plan.driverFinalization ? ['Required driver finalization has not completed; this capture bundle is provisional'] : []), ...(!checkpoint.has('raw-complete') ? ['Raw timing capture did not complete; resumed controllers cannot fill an interrupted capture'] : []), ...(checkpoint.get<CollectionError[]>('capture-errors') ?? []).map(error => 'Capture ' + error.phase + ': ' + error.detail)]
   const qualification = captureGaps.length ? { ...rawQualification, status: 'unqualified' as const, medianMs: null, perRoundMs: null, gaps: [...new Set([...rawQualification.gaps, ...captureGaps])] } : rawQualification
   const bundle = { schema: 'trident-qualified-timing-bundle-v1', plan, samples, sourcesFile: 'sources.json', captureProtocol, journalDirectory: 'raw', collectionDirectory: 'collection', executionInstances: proofs, rawComplete: checkpoint.has('raw-complete'), errors, qualification }
   const bundleFile = join(out, 'timing-bundle-' + evidenceDigest(bundle).slice(0, 24) + '.json')

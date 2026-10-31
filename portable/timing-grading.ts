@@ -34,6 +34,7 @@ function admitPolicy(plan: TimingPlan, value: TimingGradingPolicy): Readonly<Tim
 
 export type TimingCapturedSample = Omit<TimingSample, 'checked'> & { checked?: CheckedEvidence }
 const journalDigest = (journal: readonly InvocationEvidence[]) => evidenceDigest(journal.map(admitInvocationEvidence).sort((left, right) => { const a = left.attemptId + ':' + left.state, b = right.attemptId + ':' + right.state; return a < b ? -1 : a > b ? 1 : 0 }))
+export { journalDigest as timingJournalDigest }
 
 /** Recover coordinate rows from actual raw returns, never from an old pass or
  * an inferred clock. Existing samples must agree with their owning raw return.

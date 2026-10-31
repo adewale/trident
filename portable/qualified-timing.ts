@@ -4,6 +4,19 @@ import { calibrate, median } from './statistics.ts'
 
 type Replica = 'A0' | 'A1' | 'B'
 interface Artifact { project: string; artifactSha256: string; bindingSha256: string }
+export const browserSvgFirstUseTimingBoundary = 'Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded'
+export const timingDriverFinalizationChecks = ['artifacts', 'sdk', 'fonts', 'resourceAudit', 'cleanup'] as const
+export interface TimingDriverFinalization {
+  schema: 'trident-timing-driver-finalization-v1'
+  planSha256: string
+  policySha256: string
+  captureProtocolSha256: string | null
+  journalSha256: string | null
+  checks: Record<typeof timingDriverFinalizationChecks[number], boolean>
+  status: 'passed' | 'failed'
+  errors: string[]
+  completedAt: string
+}
 export interface TimingPlan {
   schema: 'trident-qualified-timing-plan-v1'
   /** Exact API/process boundary, cache/prelude policy and output format. */
@@ -17,6 +30,9 @@ export interface TimingPlan {
   maximumControlSpread: number
   cases: readonly CaseEvidenceContract[]
   artifacts: Record<Replica, Artifact>
+  /** Production driver postchecks and outer cleanup remain outside API clocks.
+   * Their requirement is frozen into the original collection plan. */
+  driverFinalization?: { protocol: 'browser-svg-first-use-v1'; producerSha256: string }
 }
 export interface TimingSample {
   round: number
@@ -39,7 +55,8 @@ export function admitTimingPlan(value: TimingPlan): Readonly<TimingPlan> {
     if (!artifact?.project?.trim() || !digest(artifact.artifactSha256) || !digest(artifact.bindingSha256)) fail('artifact and public binding identities are required for each replica')
   }
   if (evidenceDigest(value.artifacts.A0) !== evidenceDigest(value.artifacts.A1)) fail('A/A replicas must use exactly the same artifact and binding')
-  return Object.freeze({ ...value, cases: Object.freeze(cases), artifacts: Object.freeze(Object.fromEntries(replicas.map(replica => [replica, Object.freeze({ ...value.artifacts[replica] })]))) as TimingPlan['artifacts'] })
+  if (value.driverFinalization !== undefined && (!value.driverFinalization || value.driverFinalization.protocol !== 'browser-svg-first-use-v1' || !digest(value.driverFinalization.producerSha256))) fail('driver finalization policy is invalid')
+  return Object.freeze({ ...value, ...(value.driverFinalization ? { driverFinalization: Object.freeze({ ...value.driverFinalization }) } : {}), cases: Object.freeze(cases), artifacts: Object.freeze(Object.fromEntries(replicas.map(replica => [replica, Object.freeze({ ...value.artifacts[replica] })]))) as TimingPlan['artifacts'] })
 }
 
 /** Regrade every measured return, including repeats, outside its API clock.
