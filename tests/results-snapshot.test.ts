@@ -1,6 +1,6 @@
 import { expect, test } from 'bun:test'
 import { createHash } from 'node:crypto'
-import { mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
@@ -350,3 +350,30 @@ test('legacy authored SVG tables cannot expose comparative ranks, charts or an o
   expect(JSON.stringify(data)).toBe(before)
   expect(retainedTableValues(data, [entry.id])).toEqual(originalValues)
 })
+
+test('a frozen baseline binds its actual corpus and outcome bytes as well as the table values', () => temporary(root => {
+  mkdirSync(join(root, 'docs'))
+  const hash = (value: string) => createHash('sha256').update(value).digest('hex')
+  const data = snapshot(), input = 'independent frozen source bytes', outcome = 'original owned outcome bytes'
+  writeFileSync(join(root, 'docs/input.json'), input); writeFileSync(join(root, 'docs/outcome.json'), outcome)
+  const manifest = { tableData: { ids: ['docs-coverage'], valuesSha256: hash(JSON.stringify(retainedTableValues(data, ['docs-coverage']))) }, files: [{ path: 'docs/input.json', sha256: hash(input) }, { path: 'docs/outcome.json', sha256: hash(outcome) }] }
+  const publish = () => { const bytes = JSON.stringify(manifest); writeFileSync(join(root, 'docs/b0.json'), bytes); data.tables[0]!.receipt = { url: 'docs/b0.json', sha256: hash(bytes) } }
+  publish(); expect(() => validateSnapshotReceipts(data, root)).not.toThrow()
+  writeFileSync(join(root, 'docs/input.json'), 'changed source but unchanged displayed score')
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('Frozen evidence file changed')
+  writeFileSync(join(root, 'docs/input.json'), input)
+  writeFileSync(join(root, 'docs/outcome.json'), 'changed outcome but unchanged displayed score')
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('Frozen evidence file changed')
+  writeFileSync(join(root, 'docs/outcome.json'), outcome)
+  data.tables[0]!.rows[0]!.values[1] = 2
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('Retained table values changed')
+  data.tables[0]!.rows[0]!.values[1] = 1
+  manifest.files.push(manifest.files[0]!); publish()
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('Invalid frozen evidence inventory')
+  manifest.files.pop()
+  temporary(outside => {
+    writeFileSync(join(outside, 'foreign'), input); symlinkSync(join(outside, 'foreign'), join(root, 'docs/linked.json'))
+    manifest.files[0] = { path: 'docs/linked.json', sha256: hash(input) }; publish()
+    expect(() => validateSnapshotReceipts(data, root)).toThrow('escaped')
+  })
+}))

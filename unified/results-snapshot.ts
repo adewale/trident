@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto'
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { join, relative, resolve } from 'node:path'
+import { existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
+import { isAbsolute, join, relative, resolve } from 'node:path'
 import { campaignScorecards, campaignArtifactRole, campaignReportFile, readCampaign } from './campaign-publication.ts'
 import { lineageInventory, type LineageCatalog } from './lineage.ts'
 import { PUBLIC_SUITES, coreScopeReason, projectSupport, type PublicSuite } from './support.ts'
@@ -457,7 +457,19 @@ export function validateSnapshotReceipts(snapshot: ResultsSnapshot, root: string
   for (const [url, entries] of local) {
     const bytes = readFileSync(resolve(root, url.split('#')[0]!))
     if (entries.some(entry => sha256(bytes) !== entry.receipt.sha256)) throw Error('Retained receipt hash changed: ' + url)
-    const receipt = (url.split('#')[0]!.endsWith('.json') ? JSON.parse(bytes.toString()) : {}) as { tableData?: { ids: string[]; valuesSha256: string } }
+    const receipt = (url.split('#')[0]!.endsWith('.json') ? JSON.parse(bytes.toString()) : {}) as { tableData?: { ids: string[]; valuesSha256: string }; files?: { path: string; sha256: string }[] }
+    // Frozen baselines use the same table receipt as rolling results, with
+    // their actual input and outcome files attached. Check those bytes too;
+    // an intact summary cannot certify a changed corpus or outcome ledger.
+    if (receipt.files !== undefined) {
+      if (!Array.isArray(receipt.files) || new Set(receipt.files.map(file => file.path)).size !== receipt.files.length) throw Error('Invalid frozen evidence inventory: ' + url)
+      const physicalRoot = realpathSync(root)
+      for (const file of receipt.files) {
+        if (typeof file.path !== 'string' || !/^(?:docs|results)\/[a-zA-Z0-9_./%-]+$/.test(file.path) || file.path.includes('..') || !/^[a-f0-9]{64}$/.test(file.sha256)) throw Error('Invalid frozen evidence file: ' + url)
+        const path = realpathSync(resolve(root, file.path)), within = relative(physicalRoot, path)
+        if (isAbsolute(within) || within.startsWith('..') || sha256(readFileSync(path)) !== file.sha256) throw Error('Frozen evidence file changed or escaped: ' + file.path)
+      }
+    }
     if (receipt.tableData) {
       if (JSON.stringify(entries.map(entry => entry.id).sort()) !== JSON.stringify([...receipt.tableData.ids].sort())) throw Error('Retained table population changed: ' + url)
       if (sha256(JSON.stringify(retainedTableValues(snapshot, receipt.tableData.ids))) !== receipt.tableData.valuesSha256) throw Error('Retained table values changed: ' + url)
