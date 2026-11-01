@@ -33414,71 +33414,6 @@
       "groups": []
     },
     {
-      "id": "attempt-bad2a06b2c438a6df864cde0",
-      "project": "adewale/agentic-mermaid",
-      "suite": "mermaid-behaviour",
-      "cohort": "mermaid-observable-behaviour-v1",
-      "measuredFrom": "2026-10-31T19:15:43.111Z",
-      "updatedAt": "2026-11-01T08:19:55.981Z",
-      "status": "blocked",
-      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.",
-      "receipt": {
-        "url": "results/mermaid-behaviour-2026-11-01/report.json",
-        "sha256": "20ee401cfef4641802e2ab774ba37321f4a12ad4e7ef6fb75ae8b8f4e9a69914"
-      },
-      "groups": [
-        {
-          "project": "adewale/agentic-mermaid",
-          "version": "0.4.1",
-          "variant": "default",
-          "surface": "native-public-return",
-          "runtime": "see owning public-call capture",
-          "format": "public-return",
-          "operation": "whole-behaviour-case",
-          "mode": "mermaid-observable-behaviour-v1",
-          "round": "not round-based",
-          "caseIds": 49,
-          "recordedObservations": 49,
-          "dispositions": {
-            "blocked": 20,
-            "passed": 29
-          }
-        }
-      ]
-    },
-    {
-      "id": "attempt-f46d6fcdb4543e23500812ee",
-      "project": "mermaid-js/mermaid",
-      "suite": "mermaid-behaviour",
-      "cohort": "mermaid-observable-behaviour-v1",
-      "measuredFrom": "2026-10-31T19:15:43.111Z",
-      "updatedAt": "2026-11-01T08:19:55.981Z",
-      "status": "recorded",
-      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.",
-      "receipt": {
-        "url": "results/mermaid-behaviour-2026-11-01/report.json",
-        "sha256": "20ee401cfef4641802e2ab774ba37321f4a12ad4e7ef6fb75ae8b8f4e9a69914"
-      },
-      "groups": [
-        {
-          "project": "mermaid-js/mermaid",
-          "version": "12.2.0",
-          "variant": "default",
-          "surface": "native-public-return",
-          "runtime": "see owning public-call capture",
-          "format": "public-return",
-          "operation": "whole-behaviour-case",
-          "mode": "mermaid-observable-behaviour-v1",
-          "round": "not round-based",
-          "caseIds": 49,
-          "recordedObservations": 49,
-          "dispositions": {
-            "passed": 49
-          }
-        }
-      ]
-    },
-    {
       "id": "current-attempt-0218d25b05f113e3bc440c13",
       "project": "tariqshams/mermaidtui",
       "suite": "community",
@@ -33798,6 +33733,71 @@
         "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
       },
       "groups": []
+    },
+    {
+      "id": "attempt-9a2d3e780cf72b714690c46e",
+      "project": "mermaid-js/mermaid",
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "measuredFrom": "2026-10-31T19:15:43.111Z",
+      "updatedAt": "2026-11-01T08:42:38.604Z",
+      "status": "recorded",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.",
+      "receipt": {
+        "url": "results/mermaid-behaviour-2026-11-01/report.json",
+        "sha256": "8a76c438109503db04cabf92b7757278ed2d0b83be2fc4a83a5087c8389c764d"
+      },
+      "groups": [
+        {
+          "project": "mermaid-js/mermaid",
+          "version": "12.2.0",
+          "variant": "default",
+          "surface": "native-public-return",
+          "runtime": "see owning public-call capture",
+          "format": "public-return",
+          "operation": "whole-behaviour-case",
+          "mode": "mermaid-observable-behaviour-v1",
+          "round": "not round-based",
+          "caseIds": 49,
+          "recordedObservations": 49,
+          "dispositions": {
+            "passed": 49
+          }
+        }
+      ]
+    },
+    {
+      "id": "attempt-9c8af2a2834cf9ee4b5c70f0",
+      "project": "adewale/agentic-mermaid",
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "measuredFrom": "2026-10-31T19:15:43.111Z",
+      "updatedAt": "2026-11-01T08:42:38.604Z",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.",
+      "receipt": {
+        "url": "results/mermaid-behaviour-2026-11-01/report.json",
+        "sha256": "8a76c438109503db04cabf92b7757278ed2d0b83be2fc4a83a5087c8389c764d"
+      },
+      "groups": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "version": "0.4.1",
+          "variant": "default",
+          "surface": "native-public-return",
+          "runtime": "see owning public-call capture",
+          "format": "public-return",
+          "operation": "whole-behaviour-case",
+          "mode": "mermaid-observable-behaviour-v1",
+          "round": "not round-based",
+          "caseIds": 49,
+          "recordedObservations": 49,
+          "dispositions": {
+            "blocked": 20,
+            "passed": 29
+          }
+        }
+      ]
     }
   ],
   "tables": [
@@ -37745,13 +37745,13 @@
       }
     },
     {
-      "id": "run-33107efda3f3ec359303eacb",
+      "id": "run-31502e3c9d8f57f2c2ee6d1e",
       "suite": "mermaid-behaviour",
       "measuredAt": "2026-10-31T19:15:43.111Z",
-      "campaignUpdatedAt": "2026-11-01T08:19:55.981Z",
+      "campaignUpdatedAt": "2026-11-01T08:42:38.604Z",
       "historical": false,
       "unit": "whole observable behaviour cases",
-      "caption": "Corpus: 49 whole source-derived observable behaviours from pinned Mermaid 1fb7869866dd619168d840291c9c54b4f129758b. Every ordered stimulus and declared check in a case must pass; detail checks are not extra votes. Source adaptations compare explicit diagram-family aliases and static SVG accessible naming through native public returns, without private model/API-shape requirements. Unavailable and unrun observations remain unresolved, not unsupported or failed. Actual Mermaid reference qualification: qualified; its actual artifact and raw checks remain in the owning evidence, and no reference target row is invented. Dates use the retained owning public-call collection or native invocation journal; targets without recorded calls keep an unknown clock. If no call clock exists, the table date is explicitly the assessment publication date. Assessment publication: 2026-11-01T08:19:55.981Z. This finite corpus supplies no whole-library conformance, drawing-accuracy or timing claim.",
+      "caption": "Corpus: 49 whole source-derived observable behaviours from pinned Mermaid 1fb7869866dd619168d840291c9c54b4f129758b. Every ordered stimulus and declared check in a case must pass; detail checks are not extra votes. Source adaptations compare explicit diagram-family aliases and static SVG accessible naming through native public returns, without private model/API-shape requirements. Unavailable and unrun observations remain unresolved, not unsupported or failed. Actual Mermaid reference qualification: qualified; its actual artifact and raw checks remain in the owning evidence, and no reference target row is invented. Dates use the retained owning public-call collection or native invocation journal; targets without recorded calls keep an unknown clock. If no call clock exists, the table date is explicitly the assessment publication date. Assessment publication: 2026-11-01T08:42:38.604Z. This finite corpus supplies no whole-library conformance, drawing-accuracy or timing claim.",
       "columns": [
         "Version",
         "Passed",
@@ -37789,7 +37789,7 @@
       ],
       "receipt": {
         "url": "results/mermaid-behaviour-2026-11-01/receipt.json",
-        "sha256": "2471fb8681f53415990c44d08c84ef8db60101c89d5c9b8df6e6301d77de5e85"
+        "sha256": "f035c6181bdf9b310ab55e0f0f9438a2a9dfe8e33a17f161b35a841cd5600d79"
       },
       "ranking": {
         "column": "Passed",
