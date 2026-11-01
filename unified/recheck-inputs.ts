@@ -116,6 +116,10 @@ function retainedPeerAsset(url: URL, peer: any) {
 export function retainedSvgResourcePolicy(svg: string, assets: ReturnType<typeof retainedObserverAssets>, peer: any) {
   const fonts: string[] = [], gaps: string[] = []
   for (const match of svg.matchAll(/url\(\s*(?:"([^"]*)"|'([^']*)'|([^'"\s)]*))\s*\)/g)) {
+    // The collection and replay policies both forbid external stylesheets.
+    // An optional @import never loaded during capture; preserve that fallback
+    // instead of making it a new font prerequisite or granting network access.
+    if (/@import\s*$/i.test(svg.slice(0, match.index))) continue
     const value = match[1] ?? match[2] ?? match[3] ?? ''
     if (!/^https?:/.test(value)) continue
     try {
@@ -127,6 +131,32 @@ export function retainedSvgResourcePolicy(svg: string, assets: ReturnType<typeof
     } catch (error) { gaps.push('Frozen CSS resource prerequisite unavailable: ' + String(error)) }
   }
   return { policy: assets.policy.replace("font-src 'self' data: blob:", "font-src 'self' data: blob:" + (fonts.length ? ' ' + [...new Set(fonts)].join(' ') : '')), gaps }
+}
+
+const sealedSvgCollections = new WeakMap<object, { root: string; headerSha256: string }>()
+function freezeJson(value: any, seen = new WeakSet<object>()): any {
+  if (value && typeof value === 'object' && !seen.has(value)) {
+    seen.add(value)
+    for (const child of Object.values(value)) freezeJson(child, seen)
+    Object.freeze(value)
+  }
+  return value
+}
+/** Cache only immutable factory inputs. Reopen and hash the tiny header on
+ * every read; a changed header or a caller-supplied identity still gets checked.
+ * Avoid serializing the same multi-megabyte context for each retained return. */
+function retainedSvgRaw(root: string, key: string, identity: object) {
+  const header = join(root, 'checkpoint.json'), before = evidenceBytesDigest(readFileSync(header))
+  const cached = sealedSvgCollections.get(identity)
+  if (cached?.root === root) {
+    if (before !== cached.headerSha256) throw Error('Checkpoint header identity changed after admission')
+    return readCheckpointValue<any>(root, key)
+  }
+  freezeJson(identity)
+  const value = readCheckpointValue<any>(root, key, identity)
+  if (evidenceBytesDigest(readFileSync(header)) !== before) throw Error('Checkpoint header identity changed during admission')
+  sealedSvgCollections.set(identity, { root, headerSha256: before })
+  return value
 }
 
 /** A route has no network fallback. Missing prerequisites make the entire
@@ -182,7 +212,7 @@ export function requireRetainedDocsSvgReturn(input: { root: string; project: str
   if (!frozen || frozen.variant !== input.variant || !Number.isSafeInteger(input.round) || input.round < 1) throw Error('SVG return has no matching sealed original engine/round/variant context')
   const collectionRoot = input.ownership.collectionRoot
   owned(input.root, relative(input.root, collectionRoot))
-  const raw = readCheckpointValue<any>(collectionRoot, JSON.stringify(['raw-svg', input.round, input.project, input.variant, input.source.id]), input.ownership.collectionIdentity)
+  const raw = retainedSvgRaw(collectionRoot, JSON.stringify(['raw-svg', input.round, input.project, input.variant, input.source.id]), input.ownership.collectionIdentity)
   if (!raw || raw.value?.status !== 'passed' || raw.value?.svg !== input.svg || typeof raw.invocationId !== 'string' || input.attemptId !== raw.invocationId) throw Error('SVG witness differs from its own source/project/round raw return')
   const external = raw.value?.transportObservation?.metrics?.rawInvocationDirectory
   const directory = external ? input.remap(external) : join(collectionRoot, 'invocations')

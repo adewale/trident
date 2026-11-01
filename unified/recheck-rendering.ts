@@ -211,7 +211,7 @@ export async function recheckRendering(directory: string, out: string, pngReview
   const copiedAssets = retainedObserverAssets(out)
   let peer: any, page = await context.newPage(), resourceGaps: string[] = [], resourcePolicy = copiedAssets.policy
   await context.route('**/*', route => routeRetainedObserver(route, copiedAssets, peer, resourceGaps, resourcePolicy))
-  context.on('requestfailed', request => resourceGaps.push('Browser resource prerequisite did not load: ' + request.url()))
+  context.on('requestfailed', request => { if (request.resourceType() !== 'stylesheet') resourceGaps.push('Browser resource prerequisite did not load: ' + request.url()) })
   const inspect = async (project: string, svg: string, input: any): Promise<PaintCheck[]> => {
     peer = prepared.find(item => item.node.id === project)
     const resources = retainedSvgResourcePolicy(svg, copiedAssets, peer)

@@ -279,6 +279,18 @@ test('moved archives load exact frozen image bytes under an image-only CSP and n
   } finally { rmSync(root, { recursive: true, force: true }) }
 })
 
+test('blocked external stylesheet imports do not become replay font prerequisites', () => {
+  const root = mkdtempSync(join(tmpdir(), 'recheck-blocked-import-'))
+  try {
+    frozenAssets(root)
+    const assets = retainedObserverAssets(root), url = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap'
+    expect(retainedSvgResourcePolicy('<svg><style>@import url("' + url + '");text{font-family:Arial}</style></svg>', assets, undefined).gaps).toEqual([])
+    expect(retainedSvgResourcePolicy('<svg><style>@font-face{font-family:Required;src:url("' + url + '")}</style></svg>', assets, undefined).gaps.length).toBe(1)
+    expect(assets.policy).toContain("style-src 'unsafe-inline';")
+    expect(assets.policy).not.toContain('fonts.googleapis.com')
+  } finally { rmSync(root, { recursive: true, force: true }) }
+})
+
 test('old absolute font URLs require sealed peer bytes and exact policy sources', () => {
   const root = mkdtempSync(join(tmpdir(), 'recheck-fonts-'))
   try {
@@ -312,6 +324,13 @@ for (const layout of ['docs', 'docs/svg']) test('DaveBench regrading owns litera
     const raw = { value: { status: 'passed', svg }, invocationId: start.attemptId }
     checkpoint.record(JSON.stringify(['raw-svg', 1, project, 'primary', source.id]), raw)
     const request = { root: join(campaign, 'docs'), project, source, round: 1, variant: 'primary', svg, attemptId: start.attemptId, remap: (path: string) => path, ownership }
+    expect(requireRetainedDocsSvgReturn(request).attemptId).toBe(start.attemptId)
+    expect(Object.isFrozen(ownership.collectionIdentity.context)).toBe(true)
+    expect(Object.isFrozen(ownership.collectionIdentity.inventory.cases)).toBe(true)
+    const headerPath = join(root, 'checkpoint.json'), headerBytes = readFileSync(headerPath)
+    writeFileSync(headerPath, JSON.stringify({ ...JSON.parse(headerBytes.toString()), identitySha256: '0'.repeat(64) }))
+    expect(() => requireRetainedDocsSvgReturn(request)).toThrow('header identity')
+    writeFileSync(headerPath, headerBytes)
     expect(requireRetainedDocsSvgReturn(request).attemptId).toBe(start.attemptId)
     expect(() => requireRetainedDocsSvgReturn({ ...request, source: { ...source, source: source.source + '\nB-->A' } })).toThrow('literal source')
     expect(() => requireRetainedDocsSvgReturn({ ...request, round: 2 })).toThrow('own source/project/round')
