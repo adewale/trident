@@ -1,6 +1,6 @@
 import { interpretTerminal, terminalTextWidth } from './terminal-display.ts'
-import { terminalRectangles } from './terminal-rectangles.ts'
-import { terminalAuthoredLinesObserved } from './terminal-text.ts'
+import { terminalRectangles, terminalRaggedSingleLineFrames } from './terminal-rectangles.ts'
+import { terminalAuthoredLinesObserved, terminalMissingLiteralGlyphs } from './terminal-text.ts'
 import { inspectTerminalMeaning, type TerminalMeaning } from './terminal.ts'
 import { inspectTerminalGrouping } from './terminal-groups.ts'
 import type { TerminalFactCheck } from './terminal-facts.ts'
@@ -63,6 +63,28 @@ export function inspectTerminalGraphFacts(output: string, contract: TerminalSour
   }
   const breaks = contract.facts.find(fact => fact.criterion === 'node-line-breaks')?.expected as { id: string; lines: string[] }[] | undefined
   if (breaks?.length && breaks.every(item => owned(item.id).length === 1 && item.lines.every(line => normalize(line)))) set('node-line-breaks', breaks.every(item => terminalAuthoredLinesObserved(owned(item.id)[0]!.lines, item.lines)) ? 'passed' : 'failed', 'Authored line breaks own distinct contiguous display rows', breaks.map(item => ({ id: item.id, lines: owned(item.id)[0]!.lines })))
+  if (shapes?.length === graph.nodes.length && shapes.every(item => item.shape === 'rectangle') && !graph.groups?.length) {
+    const frames = terminalRaggedSingleLineFrames(display.cells), disjoint = frames.every((frame, at) => frames.every((other, n) => at === n || frame.right < other.x || other.right < frame.x || frame.bottom < other.y || other.bottom < frame.y))
+    const exact = frames.length === graph.nodes.length && graph.nodes.every(node => frames.filter(frame => normalize(frame.label) === normalize(node.label)).length === 1)
+    const inside = (x: number, y: number) => frames.some(frame => y >= frame.y && y <= frame.bottom && x >= (y === frame.row ? Math.min(frame.x, frame.leftWall) : frame.x) && x <= (y === frame.row ? Math.max(frame.right, frame.rightWall) : frame.right))
+    const complete = display.cells.every((row, y) => row.every((glyph, x) => !glyph.trim() || inside(x, y) || /^[─│┌┐└┘╭╮╰╯┬┴┼├┤┄┈╌┆┊╎━┃▲^↑►▶>→▼v↓◄◀<←]$/.test(glyph)))
+    if (disjoint && exact && complete && frames.some(frame => frame.ragged)) set('node-shapes', 'failed', 'Exact one-line node captions own aligned top/bottom rectangular rails and blank side rows, but caption-row walls shift to different columns and disconnect those rectangular sides; no cells are repaired', frames)
+  }
+  // A damaged wall can prevent a complete container observation while the
+  // aligned top/bottom rails and one continuous side still identify drawing
+  // ink. This is used only for necessary missing-text negatives, never to
+  // reconstruct the other wall or admit a node/route.
+  const frameRails = !containers.length && display.cells.some((row, y) => row.some((glyph, x) => glyph === '┌' && row.some((rightGlyph, right) => right > x + 1 && rightGlyph === '┐' && /^[─┬┴┼-]+$/.test(row.slice(x + 1, right).join('')) && display.cells.some((lower, bottom) => bottom > y + 1 && lower[x] === '└' && lower[right] === '┘' && /^[─┬┴┼-]+$/.test(lower.slice(x + 1, right).join('')) && [x, right].some(column => display.cells.slice(y + 1, bottom).every(body => /^[│├┤┼|]$/.test(body[column] ?? '')))))))
+  if (containers.length || frameRails) {
+    // Missing visible literal glyphs can be decisive even when damaged walls or
+    // junctions prevent identity/route attribution. Presence supplies no credit.
+    const missingNodes = terminalMissingLiteralGlyphs(display.cells, graph.nodes.map(node => node.label)), missingCaptions = terminalMissingLiteralGlyphs(display.cells, graph.edges.flatMap(edge => edge.label ? [edge.label] : []))
+    if (missingNodes.length) set('nodes', 'failed', 'Required node-caption letters/numbers are absent from the entire interpreted display, even without assigning any container or wrapping projection', missingNodes)
+    if (missingCaptions.length) set('relationships', 'failed', 'Required relationship-caption letters/numbers are absent from the entire interpreted display; no endpoint or junction pairing is inferred', missingCaptions)
+    const requiresHead = graph.edges.some(edge => edge.directed !== false && edge.visible !== false && !edge.endMarker), hasHead = /[▲^↑►▶>→▼v↓◄◀<←△▽▷◁]/u.test(display.text)
+    const knownInk = display.cells.every(row => row.every(glyph => !glyph.trim() || /^[\p{Letter}\p{Number}\p{Mark}\s]+$/u.test(glyph) || /^[─│┌┐└┘╭╮╰╯┬┴┼├┤┄┈╌┆┊╎━┃◇◯◎●◉'".,:;!?()[\]{}_#*&/%\\+\-=]$/.test(glyph)))
+    if (requiresHead && !hasHead && knownInk) set('relationships', 'failed', 'A complete bounded frame/text/stroke vocabulary contains no directional head for a required visible arrowheaded relationship; layout or an undirected tee cannot supply the missing head', [])
+  }
   return checks
 }
 export function terminalGraphSourceObservable(contract: TerminalSourceContract, graph?: TerminalMeaning) {

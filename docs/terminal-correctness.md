@@ -174,6 +174,27 @@ unknown. Byte evidence binds the original bytes before any text decoding.
 | C4, Gitgraph, mindmap, treemap, Gantt, block, architecture, XY, ZenUML and packet obligations | Source facts are explicit; finite family projections have independent retained/synthetic controls | Unfamiliar representations and missing role, icon, date, dependency or operation evidence remain unknown; text/number presence cannot pass these facts |
 | Invalid source controls | Typed outcome API binds project, case, source hash, public boundary and observer identity; the frozen Mermaid ASCII diagnostic also binds completed raw CLI receipts and authenticated streams | Python SyntaxError and Dart MermaidParseException retain typed public evidence; the exact CLI unknown-family diagnostic qualifies only no-family inputs; generic errors, UnsupportedError and CLI exits alone get no rejection credit |
 
+The [retained-loss controls](../tests/terminal-caption-loss.test.ts) distinguish a
+missing visible literal or directional head from an unfamiliar ownership profile.
+Glyph presence never supplies a pass. Ordered left-point primitives are observed
+as drawn; disconnected rectangle caption-row walls can fail an explicitly requested
+rectangle. A flat state chain can instead use intact top/bottom rails and one side
+when its state facts request no rectangle skin: every endpoint meets an existing
+rail and all outside stems/heads must be owned. Missing side cells are never repaired.
+
+Optional [known-encoding admission](../fidelity/terminal-encoding.ts) binds the exact
+owning artifact, wheel, public source-member identities, source and output hashes.
+It permits the public injective Journey face and done/active codes, never a generic
+project-name or skin assumption. Yearless Gantt ticks calibrate a source-forward
+interval projection; native years, IDs and after-syntax need not print. The native
+normal/critical block code is noninjective and remains unknown. Native Git labels
+and branch stems retain partial observations, but occluded parent paths remain
+unknown. [Controls](../tests/terminal-known-encoding.test.ts) reject wrong artifacts,
+unbound dictionaries, changed scores, actor membership, IDs, tags, bar spans and
+unowned ink. [Input-specific unsupported admission](../unified/terminal-unsupported.ts)
+retains the exact original public transport evidence and its legacy limitations;
+it creates no drawing result or invalid-source rejection credit.
+
 [Sequence observer controls](../tests/terminal-sequence.test.ts) authenticate retained
 outputs from three invocation boundaries and perturb endpoints, stroke, chronology,
 branch membership, note ownership, extra content, lifeline continuity and ANSI state.

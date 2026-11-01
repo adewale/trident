@@ -1,3 +1,5 @@
+import { inspectTerminalEncodedJourney } from './terminal-encoded-journey.ts'
+import { admittedTerminalEncoding, type TerminalEncodingContext } from './terminal-encoding.ts'
 import { inspectTerminalGraphFacts, terminalGraphSourceObservable } from './terminal-graph-facts.ts'
 import { inspectTerminalClass, terminalClassSourceObservable } from './terminal-class.ts'
 import { inspectTerminalState, terminalStateSourceObservable } from './terminal-state.ts'
@@ -17,11 +19,13 @@ import type { TerminalMeaning } from './terminal.ts'
 export interface TerminalFactCheck { criterion: string; status: 'passed' | 'failed' | 'unknown'; detail: string; expected: unknown; actual?: unknown }
 /** Each source obligation receives a disposition. A missing family/representation
  * checker is an unknown, never an omitted obligation or a text-only pass. */
-export function inspectTerminalFacts(output: string, contract: TerminalSourceContract, graph?: TerminalMeaning): TerminalFactCheck[] {
+export function inspectTerminalFacts(output: string, contract: TerminalSourceContract, graph?: TerminalMeaning, context?: TerminalEncodingContext): TerminalFactCheck[] {
+  const encoding = admittedTerminalEncoding(context, output)
+  if (contract.family === 'journey' && encoding) return inspectTerminalEncodedJourney(output, contract)
   if (contract.family === 'flowchart' && graph?.nodes.length) return inspectTerminalGraphFacts(output, contract, graph)
   if (contract.family === 'class') return inspectTerminalClass(output, contract)
   if (contract.family === 'state') return inspectTerminalState(output, contract)
-  const family = inspectTerminalFamilyFacts(output, contract)
+  const family = inspectTerminalFamilyFacts(output, contract, encoding)
   if (family) return family
   if (contract.family === 'er') return inspectTerminalEr(output, contract).checks
   if (contract.family === 'sequence') return inspectTerminalSequence(output, contract)

@@ -33,6 +33,9 @@ export function inspectTerminalEr(output: string, contract: TerminalSourceContra
   if (!expected?.length || expected.length > 32 || grid.length > 256 || grid.some(row => row.length > 512) || [...display.text].filter(glyph => /[┌╭+]/.test(glyph)).length > 64) return result()
   const boxes = terminalRectangles(grid)
   if (!boxes.length) return result()
+  const declaredRelations = contract.facts.find(fact => fact.criterion === 'entity-relations')?.expected as unknown[] | undefined
+  const disjoint = boxes.every((box, at) => boxes.every((other, n) => at === n || box.right < other.x || other.right < box.x || box.bottom < other.y || other.bottom < box.y))
+  if (declaredRelations?.length && boxes.length > 1 && disjoint && grid.every((row, y) => row.every((glyph, x) => !glyph.trim() || boxes.some(box => x >= box.x && x <= box.right && y >= box.y && y <= box.bottom)))) set('entity-relations', 'failed', 'All visible ink belongs to separate disjoint closed cards; no inter-card relationship ink is drawn. Text or source fragments inside a card cannot supply a link between those cards.', [])
   for (const box of boxes) {
     const rows = grid.slice(box.y + 1, box.bottom).map(row => row.slice(box.x + 1, box.right).join('').trim()), divider = rows.findIndex(row => /^[─┬┴┼+\-]+$/.test(row)), header = (divider < 0 ? rows : rows.slice(0, divider)).filter(Boolean), body = divider < 0 ? [] : rows.slice(divider + 1).filter(row => row && !/^[─┬┴┼+\-]+$/.test(row))
     if (header.length !== 1 || /[│|┌┐└┘├┤┬┴┼]/.test(header[0]!)) return result()

@@ -1,9 +1,11 @@
+import { inspectTerminalGanttAxis } from './terminal-gantt-axis.ts'
+import type { TerminalEncodingContext } from './terminal-encoding.ts'
 import { FamilyCanvas, expectedFact, familyChecks, familyTitle, same, setFamilyCheck } from './terminal-family-canvas.ts'
 import type { TerminalSourceContract } from './terminal-source.ts'
-export function inspectTerminalGantt(output: string, contract: TerminalSourceContract) {
+export function inspectTerminalGantt(output: string, contract: TerminalSourceContract, encoding?: TerminalEncodingContext) {
   const checks = familyChecks(contract), canvas = new FamilyCanvas(output); if (canvas.error) return checks
   familyTitle(canvas, checks)
-  const expected = expectedFact<any>(contract, 'gantt-tasks'), rows = canvas.grid.map((row, y) => ({ text: row.join('').trimEnd(), y })), header = rows.find(row => /^Task\s+Start\s+End\s+Timeline$/.test(row.text.trim())); if (!header) return checks
+  const expected = expectedFact<any>(contract, 'gantt-tasks'), rows = canvas.grid.map((row, y) => ({ text: row.join('').trimEnd(), y })), header = rows.find(row => /^Task\s+Start\s+End\s+Timeline$/.test(row.text.trim())); if (!header) { inspectTerminalGanttAxis(canvas, checks, contract, encoding); return checks }
   canvas.claimRow(header.y); let section = '', qualified = false, failed = false, uncertain = false
   const sections: string[] = [], tasks: any[] = [], geometry: { start: number; end: number; left: number; right: number; milestone: boolean }[] = []
   for (const row of rows.filter(row => row.y > header.y)) {

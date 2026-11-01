@@ -1,11 +1,33 @@
 export interface TerminalRectangle { x: number; y: number; right: number; bottom: number; lines: string[]; shape?: string }
+/** Negative-only observation of a single caption row whose wall cells drift
+ * away from otherwise aligned rectangular rails. Never repairs cells or
+ * supplies a closed node, route, or positive shape observation. */
+export function terminalRaggedSingleLineFrames(grid: string[][]) {
+  const cell = (x: number, y: number) => grid[y]?.[x] ?? ' ', frames: { x: number; y: number; right: number; bottom: number; label: string; row: number; leftWall: number; rightWall: number; ragged: boolean }[] = []
+  const wall = (glyph: string) => /^[│├┤┼|]$/.test(glyph), horizontal = (row: string[], x: number, right: number) => /^[─┬┴┼-]+$/.test(row.slice(x + 1, right).join(''))
+  for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) if (cell(x, y) === '┌') for (let right = x + 2; right < grid[y]!.length; right++) if (cell(right, y) === '┐' && horizontal(grid[y]!, x, right)) for (let bottom = y + 4; bottom < grid.length; bottom++) {
+    if (cell(x, bottom) !== '└' || cell(right, bottom) !== '┘' || !horizontal(grid[bottom]!, x, right)) continue
+    const captionRows = Array.from({ length: bottom - y - 1 }, (_, n) => y + n + 1).filter(row => grid[row]!.slice(Math.max(0, x - 4), right + 5).some(glyph => /[\p{Letter}\p{Number}]/u.test(glyph)))
+    if (captionRows.length !== 1) continue
+    const row = captionRows[0]!
+    if (!Array.from({ length: bottom - y - 1 }, (_, n) => y + n + 1).filter(at => at !== row).every(at => wall(cell(x, at)) && wall(cell(right, at)) && !grid[at]!.slice(x + 1, right).join('').trim())) continue
+    const pairs: { leftWall: number; rightWall: number; label: string }[] = []
+    for (let leftWall = Math.max(0, x - 4); leftWall <= x + 4; leftWall++) for (let rightWall = right - 4; rightWall <= right + 4; rightWall++) {
+      if (rightWall <= leftWall || !wall(cell(leftWall, row)) || !wall(cell(rightWall, row))) continue
+      const label = grid[row]!.slice(leftWall + 1, rightWall).join('').trim()
+      if (label && /^[\p{Letter}\p{Number}\p{Mark}\s]+$/u.test(label)) pairs.push({ leftWall, rightWall, label: label.normalize('NFC') })
+    }
+    if (pairs.length === 1) { const pair = pairs[0]!; frames.push({ x, y, right, bottom, row, ...pair, ragged: pair.leftWall !== x && !cell(x, row).trim() || pair.rightWall !== right && !cell(right, row).trim() }); break }
+  }
+  return frames
+}
 interface ContainerProfile { horizontal: RegExp; vertical: RegExp; primitives?: boolean; ports?: boolean; cornerPorts?: boolean }
 /** Structural observation only: node/participant/card roles and ownership are
  * assigned by the family observer, never by an expected edge or label. */
 export function terminalRectangles(grid: string[][], profile: ContainerProfile = { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/ }): TerminalRectangle[] {
   const cell = (x: number, y: number) => grid[y]?.[x] ?? ' ', boxes: TerminalRectangle[] = [], ported = new Set<TerminalRectangle>()
   const forms = [['┌', '┐', '└', '┘', 'rectangle'], ['╭', '╮', '╰', '╯', 'rounded'], ['+', '+', '+', '+', 'rectangle']]
-  if (profile.primitives) forms.push(['◇', '◇', '◇', '◇', 'diamond'], ['◯', '◯', '◯', '◯', 'circle'], ['◎', '◎', '◎', '◎', 'double-circle'], ['(', ')', '(', ')', 'stadium'], ['/', '/', '/', '/', 'parallelogram'], ['▷', '┐', '▷', '┘', 'asymmetric'], ['⌜', '⌝', '⌞', '⌟', 'unqualified-primitive'], ['╟', '╢', '╟', '╢', 'unqualified-double-wall'])
+  if (profile.primitives) forms.push(['◇', '◇', '◇', '◇', 'diamond'], ['◯', '◯', '◯', '◯', 'circle'], ['◎', '◎', '◎', '◎', 'double-circle'], ['(', ')', '(', ')', 'stadium'], ['/', '/', '/', '/', 'parallelogram'], ['▷', '┐', '▷', '┘', 'asymmetric'], ['\\', '┐', '/', '┘', 'asymmetric'], ['⌜', '⌝', '⌞', '⌟', 'unqualified-primitive'], ['╟', '╢', '╟', '╢', 'unqualified-double-wall'])
   const topPorts = profile.primitives ? /^[─┬┴┼+\-◇◯◎△▼v↓]+$/ : /^[─┬┴┼+\-▼v↓]+$/, bottomPorts = profile.primitives ? /^[─┬┴┼+\-◇◯◎△▲^↑]+$/ : /^[─┬┴┼+\-▲^↑]+$/
   const horizontal = (text: string, side: 'top' | 'bottom') => !!profile.ports && (side === 'top' ? topPorts : bottomPorts).test(text) || profile.horizontal.test(text) || !!profile.primitives && /^[─┬┴┼+\-◇◯◎]+$/.test(text)
   const corner = (glyph: string, form: string[], at: number) => glyph === form[at] || !!profile.cornerPorts && form[0] === '┌' && ['┌┬├┼', '┐┬┤┼', '└┴├┼', '┘┴┤┼'][at]!.includes(glyph)
@@ -15,7 +37,10 @@ export function terminalRectangles(grid: string[][], profile: ContainerProfile =
     for (let right = x + 2; right < grid[y]!.length; right++) {
       if (!corner(cell(right, y), form, 1) || !horizontal(grid[y]!.slice(x + 1, right).join(''), 'top')) continue
       for (let bottom = y + 2; bottom < grid.length; bottom++) {
-        if (!corner(cell(x, bottom), form, 2) || !corner(cell(right, bottom), form, 3) || !horizontal(grid[bottom]!.slice(x + 1, right).join(''), 'bottom') || !Array.from({ length: bottom - y - 1 }, (_, n) => y + n + 1).every(row => (profile.vertical.test(cell(x, row)) || profile.ports && /^[▶►>→]$/.test(cell(x, row)) || profile.primitives && cell(x, row) === '(') && (profile.vertical.test(cell(right, row)) || profile.ports && /^[◀◄<←]$/.test(cell(right, row)) || profile.primitives && cell(right, row) === ')'))) continue
+        if (!corner(cell(x, bottom), form, 2) || !corner(cell(right, bottom), form, 3) || !horizontal(grid[bottom]!.slice(x + 1, right).join(''), 'bottom') || !Array.from({ length: bottom - y - 1 }, (_, n) => y + n + 1).every(row => (profile.vertical.test(cell(x, row)) || profile.ports && /^[▶►>→]$/.test(cell(x, row)) || profile.primitives && cell(x, row) === '(' || form[0] === '\\' && /^[\\>/]$/.test(cell(x, row))) && (profile.vertical.test(cell(right, row)) || profile.ports && /^[◀◄<←]$/.test(cell(right, row)) || profile.primitives && cell(right, row) === ')'))) continue
+        // A complete left-point primitive has ordered upper/lower slopes and
+        // exactly one central point. A lone slash is not a source port or box.
+        if (form[0] === '\\' && !/^\\*>\/*$/.test(Array.from({ length: bottom - y - 1 }, (_, n) => cell(x, y + n + 1)).join(''))) continue
         const rawLines = grid.slice(y + 1, bottom).map(row => row.slice(x + 1, right).join(''))
         let lines = rawLines.map(line => line.trim()), shape = form[4]!
         if (profile.primitives) {

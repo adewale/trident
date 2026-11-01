@@ -1,3 +1,4 @@
+import type { TerminalEncodingContext } from './terminal-encoding.ts'
 import { expectedFact } from './terminal-family-canvas.ts'
 import type { TerminalSourceContract } from './terminal-source.ts'
 import { inspectTerminalElements } from './terminal-family-elements.ts'
@@ -9,15 +10,15 @@ import { inspectTerminalXY } from './terminal-family-xy.ts'
 /** Family dispatch is finite and independent of renderer identity. Every decoder
  * observes terminal display cells; no source text, AST or reference output is a
  * candidate drawing. Undefined means another dispatcher owns the family. */
-export function inspectTerminalFamilyFacts(output: string, contract: TerminalSourceContract) {
+export function inspectTerminalFamilyFacts(output: string, contract: TerminalSourceContract, encoding?: TerminalEncodingContext) {
   switch (contract.family) {
     case 'c4': case 'architecture': return inspectTerminalElements(output, contract)
-    case 'gitgraph': return inspectTerminalGit(output, contract)
+    case 'gitgraph': return inspectTerminalGit(output, contract, encoding)
     case 'mindmap': case 'treemap': return inspectTerminalHierarchy(output, contract)
     case 'quadrant': return inspectTerminalQuadrant(output, contract)
     case 'block': return inspectTerminalBlock(output, contract)
     case 'packet': return inspectTerminalPacket(output, contract)
-    case 'gantt': return inspectTerminalGantt(output, contract)
+    case 'gantt': return inspectTerminalGantt(output, contract, encoding)
     case 'zenuml': return inspectTerminalZenUml(output, contract)
     case 'xychart': return inspectTerminalXY(output, contract)
   }

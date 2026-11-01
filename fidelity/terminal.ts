@@ -79,7 +79,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
     const cells = grid[y]!.slice(left.right + 1, right.x)
     if (arrows[cell(left.right, y)] === undefined && arrows[cell(right.x, y)] === undefined && cells.length >= 2 && cells.every(glyph => /^[─━┄┈╌-]$/.test(glyph))) special.set(key(right.x - 1, y), { heading: 1, directed: false })
   }
-  const arrowAt = (x: number, y: number) => special.get(key(x, y))?.heading ?? arrows[cell(x, y)]
+  const arrowAt = (x: number, y: number) => cell(x, y) === '>' && boxes.some(box => box.shape === 'asymmetric' && x === box.x && y > box.y && y < box.bottom) ? undefined : special.get(key(x, y))?.heading ?? arrows[cell(x, y)]
   const captions = new Map<string, { label: string; token: string; exits: number[] }>(), captionCells = new Set<string>(), captionSpans = new Map<string, string[]>()
   const floating: { label: string; x: number; y: number; width: number }[] = []
   let uncertainCaption = false
@@ -140,6 +140,9 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   }
   const actual: { source: string; target: string; label?: string; stroke?: string; directed?: boolean; endMarker?: string; route?: { x: number; y: number }[] }[] = [], used = new Set<string>()
   const paths: { x: number; y: number }[][] = []
+  const targets: { x: number; y: number; heading: number; target: Box }[] = []
+  // Validate every observed head contact before exploring any shared component.
+  // One ambiguous crossing cannot hide a different visibly dangling arrowhead.
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) {
     const heading = arrowAt(x, y)
     if (heading === undefined || boxes.some(box => x > box.x && x < box.right && y > box.y && y < box.bottom) || captionCells.has(key(x, y)) || grouping?.headers.has(key(x, y))) continue
@@ -150,6 +153,9 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
       if (!normal) return verdict('unknown', 'Arrowhead meets a group border without a qualified inward port', actual)
     }
     if (!target?.id) return verdict('incorrect', 'Arrowhead does not meet a drawn target node', actual)
+    targets.push({ x, y, heading, target })
+  }
+  for (const { x, y, heading, target } of targets) {
     used.add(key(x, y))
     // Do not use expected edges to choose a branch. A shared outgoing stem is
     // qualified by one source, or a cycle-free merge with only one target head.
