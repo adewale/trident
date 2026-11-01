@@ -170,7 +170,8 @@ export function inspectChartFacts(input: { family: string; source: string; expec
   }
   if (input.family === 'quadrant') {
     const boxes = rectangles.map(box), regions = boxes.filter(b => boxes.filter(other => Math.abs(other.width - b.width) < 2 && Math.abs(other.height - b.height) < 2).length === 4)
-    const available = regions.length === 4 && new Set(regions.map(b => Math.round(b.x))).size === 2 && new Set(regions.map(b => Math.round(b.y))).size === 2
+    const xs = [...new Set(regions.map(b => Math.round(b.x)))].sort((a, b) => a - b), ys = [...new Set(regions.map(b => Math.round(b.y)))].sort((a, b) => a - b)
+    const available = regions.length === 4 && xs.length === 2 && ys.length === 2 && xs.every(x => ys.every(y => regions.filter(b => Math.abs(b.x - x) < 1 && Math.abs(b.y - y) < 1).length === 1)) && Math.abs(xs[1]! - xs[0]! - regions[0]!.width) < 2 && Math.abs(ys[1]! - ys[0]! - regions[0]!.height) < 2
     const plot = available ? { x: Math.min(...regions.map(b => b.x)), y: Math.min(...regions.map(b => b.y)), right: Math.max(...regions.map(b => b.x + b.width)), bottom: Math.max(...regions.map(b => b.y + b.height)) } : null
     const dots = [...svg.querySelectorAll('circle')].filter(element => visible(element) && plot && center(box(element)).x >= plot.x && center(box(element)).x <= plot.right && center(box(element)).y >= plot.y && center(box(element)).y <= plot.bottom)
     const used = new Set<Element>(), observed = (facts.points ?? []).map((p: any) => {
@@ -188,8 +189,12 @@ export function inspectChartFacts(input: { family: string; source: string; expec
     for (const [criterion, axes] of [['axes', facts.axes], ['axis-labels', Array.isArray(facts['axis-labels']) && facts['axis-labels'].length === 4 ? { x: facts['axis-labels'].slice(0, 2), y: facts['axis-labels'].slice(2) } : null]] as const) if (axes) {
       const positions = { x: (axes.x ?? []).map((name: string) => { const e = label(name); return e ? center(box(e)) : null }), y: (axes.y ?? []).map((name: string) => { const e = label(name); return e ? center(box(e)) : null }) }
       const owned = plot && positions.x.length === 2 && positions.y.length === 2 && [...positions.x, ...positions.y].every(Boolean)
-      const okay = owned && positions.x[0]!.x < (plot.x + plot.right) / 2 && positions.x[1]!.x > (plot.x + plot.right) / 2 && positions.x.every((p: any) => p.y > plot.bottom) && positions.y[0]!.y > (plot.y + plot.bottom) / 2 && positions.y[1]!.y < (plot.y + plot.bottom) / 2 && positions.y.every((p: any) => p.x < plot.x)
-      add(criterion, positions, owned ? !!okay : null, 'Each declared axis fact independently binds source left/right and bottom/top endpoint labels outside the correct plot side. A second alias cannot override contradictory authored labels')
+      const xSide = owned ? positions.x.every((p: any) => p.y < plot.y) ? 'top' : positions.x.every((p: any) => p.y > plot.bottom) ? 'bottom' : null : null, ySide = owned ? positions.y.every((p: any) => p.x < plot.x) ? 'left' : positions.y.every((p: any) => p.x > plot.right) ? 'right' : null : null
+      const settings = facts['authored-config']?.quadrantChart ?? {}, requestedX = settings.xAxisPosition, requestedY = settings.yAxisPosition, effectiveX = requestedX === 'top' && facts.points?.length ? 'bottom' : requestedX
+      const bounds = box(svg), contained = (p: any) => p && p.x >= bounds.x && p.x <= bounds.x + bounds.width && p.y >= bounds.y && p.y <= bounds.y + bounds.height
+      const okay = owned && xSide && ySide && [...positions.x, ...positions.y].every(contained) && positions.x[0]!.x >= plot.x && positions.x[0]!.x < (plot.x + plot.right) / 2 && positions.x[1]!.x > (plot.x + plot.right) / 2 && positions.x[1]!.x <= plot.right && positions.y[0]!.y > (plot.y + plot.bottom) / 2 && positions.y[0]!.y <= plot.bottom && positions.y[1]!.y >= plot.y && positions.y[1]!.y < (plot.y + plot.bottom) / 2 && (requestedX === undefined || effectiveX === xSide) && (requestedY === undefined || requestedY === ySide)
+      const sideGrammar = (requestedX === undefined || ['top', 'bottom'].includes(requestedX)) && (requestedY === undefined || ['left', 'right'].includes(requestedY))
+      add(criterion, { ...positions, xSide, ySide, plot, canvas: bounds }, owned && sideGrammar ? !!okay : null, 'Source left/right and bottom/top labels own their ordered half-axis positions in one complete outside-edge gutter within the canvas. Unrequested X top/bottom and Y left/right placement are allowed; explicit side requests remain binding (the pinned public configuration places X below when points exist). A second alias cannot override contrary authored labels.')
     }
     if (Array.isArray(facts.quadrants)) {
       const captions = facts.quadrants.map((q: any) => { const e = label(q.label); return { number: q.number, label: q.label, center: e ? center(box(e)) : null } })

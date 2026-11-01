@@ -1,0 +1,16 @@
+{
+  "id": "packages/mermaid/src/docs/syntax/quadrantChart.md:129",
+  "index": 328,
+  "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "sourceSha256": "ba45a7442b75146ffb8ccbdedb892d5137b55dcc7492433e83d21fc576b65662",
+  "file": "docs-328-mermaid.svg",
+  "svgSha256": "e503c2da1ce7696660c07984eda5d3bc2f5f7d2627cf027368ef3f60a25c0e8a",
+  "actualRetainedSource": "/workspace/trident-svg-final-2026-11-01/docs-original/drawings/e503c2da1ce7696660c07984eda5d3bc2f5f7d2627cf027368ef3f60a25c0e8a.svg.gz",
+  "proof": [
+    "docs/syntax/quadrantChart.md48\u201364: x labels left\u2192right, y labels bottom\u2192top, no side specified by label statements",
+    "docs/syntax/quadrantChart.md88\u2013102 andschemas/config.schema.yaml1332\u20131342: chartWidth/Height referchart, xAxisPosition top/bottom andyAxisPosition left/right areseparateconfigproperties",
+    "diagrams/quadrant-chart/quadrantRenderer.ts51\u201358: actualSVGviewBox0 0 width height useschartWidth/Height",
+    "diagrams/quadrant-chart/quadrantBuilder.ts232\u2013269: axisgutterandpadding subtractedfromfullchart dimensions onlyforinnerplot",
+    "diagrams/quadrant-chart/quadrantBuilder.ts611: pointspresentoverrideXsidebottom; no absentdefault isotherwiseimposed"
+  ]
+}
