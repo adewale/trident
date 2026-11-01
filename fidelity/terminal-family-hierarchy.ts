@@ -87,6 +87,7 @@ function inspectUnframedQuadrant(canvas: FamilyCanvas, checks: ReturnType<typeof
   if (left < 0 || right <= mid.x || mid.x <= left || horizontal.some((c, x) => c.trim() && (x < left || x > right || !/[─┼]/.test(c))) || horizontal.slice(left, right + 1).some(c => !/[─┼]/.test(c))) return
   const vertical = canvas.grid.flatMap((row, y) => row[mid.x] === '│' ? [y] : []), top = Math.min(...vertical), bottom = Math.max(...vertical)
   if (!Number.isFinite(top) || !(top < mid.y && mid.y < bottom) || bottom - top < 4 || Array.from({ length: bottom - top + 1 }, (_, n) => top + n).some(y => !/[│┼]/.test(canvas.cell(mid.x, y)))) return
+  if (Math.abs(mid.x - (left + right) / 2) > 1.01 || Math.abs(mid.y - (top + bottom) / 2) > 1.01) return
   const quadrants: { number: number; label: string }[] = [], points: { label: string; x: number; y: number }[] = [], axes: { axis: string; low: string; high: string }[] = []
   canvas.claimRow(mid.y)
   for (let y = top; y <= bottom; y++) {

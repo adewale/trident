@@ -90,6 +90,17 @@ y-axis bottom: Bottom | top: Top`
  expect(facts(drawing.replace('   ● A    │','          │    ● A'))).toBe('failed')
  expect(facts(drawing.replace('│ One','│ Wrong'))).toBe('failed')
  expect(facts(drawing.replace('──────────┼','───── ────┼'))).not.toBe('passed')
+ const displaced=`               │
+     Two       │ One
+   ● A         │
+               │
+───────────────┼─────
+               │
+    Three      │ Four
+               │
+Low -> High
+y-axis bottom: Bottom | top: Top`
+ expect(facts(displaced)).toBe('unknown')
  expect(actual('quadrant-cross-python').status).toBe('incorrect')
 })
 test('complete wrong shape inventory can fail before labels resolve, but matching counts cannot pass identities',()=>{
