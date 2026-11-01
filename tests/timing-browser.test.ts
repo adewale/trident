@@ -20,6 +20,14 @@ test('first-use selection requires full independently authored source contracts 
   expect(() => browserSvgTimingCases(['meaning:family:flowchart:configuration-reset'])).toThrow('excludes prelude')
   expect(browserSvgTimingBoundary).toContain('RPC serialization')
 })
+test('pinned documentation timing uses the complete independently reviewed ordinary SVG contracts', () => {
+  const selected = browserSvgTimingCases(['packages/mermaid/src/docs/syntax/packet.md:34', 'packages/mermaid/src/docs/syntax/treemap.md:63'])
+  expect(selected.map(input => input.family)).toEqual(['packet', 'treemap'])
+  expect(selected.every(input => input.sourceReview?.expectedFactsComplete)).toBe(true)
+  expect(selected[0]!.source).toContain('192-255: "Data (variable length)"')
+  expect(makeSvgCaseContract(selected[0]!).requiredChecks.some(check => check.criterion === 'source-fact:fields')).toBe(true)
+  expect(() => browserSvgTimingCases(['packages/mermaid/src/docs/syntax/packet.md:999999'])).toThrow('complete authored or pinned reviewed')
+})
 test('CLI accepts explicit frozen prepared identities and rejects duplicate or unknown switches', () => {
   expect(parseBrowserSvgTimingOptions(['--prepared', 'input.json', '--baseline', 'fixture/a', '--candidate', 'fixture/b', '--out', 'new-dir', '--cases', 'meaning:family:flowchart', '--rounds', '6', '--budget-minutes', '2'])).toMatchObject({ baseline: 'fixture/a', candidate: 'fixture/b', rounds: 6, collectionBudgetMs: 120000, caseIds: ['meaning:family:flowchart'] })
   expect(() => parseBrowserSvgTimingOptions(['--prepared', 'one', '--prepared', 'two'])).toThrow('help')

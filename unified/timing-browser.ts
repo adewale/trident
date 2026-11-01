@@ -2,6 +2,7 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, extname, join, resolve } from 'node:path'
+import { gunzipSync } from 'node:zlib'
 import { chromium, type Route } from 'playwright'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { readCheckpointEntries, writeDurableEvidence } from '../portable/checkpoint.ts'
@@ -27,6 +28,8 @@ import { qualifyOutput } from './qualification.ts'
 import { protocolIdentity } from './protocol-identity.ts'
 import { qualifyRetainedTimingBundle } from './qualify-timing.ts'
 import { tridentDirectory } from './trident-paths.ts'
+import { admitDocsReviews, reviewedDocsCase, type DocsDrawingReview, type DocsInput } from './docs-drawings.ts'
+import { docsSourcePin } from './docs-source-review.ts'
 
 export { browserSvgTimingBoundary }
 const viewport = { width: 1400, height: 1000 }
@@ -46,9 +49,23 @@ export interface BrowserSvgTimingOptions {
 export function browserSvgTimingCases(ids = ['meaning:family:flowchart']) {
   if (!ids.length || new Set(ids).size !== ids.length) throw Error('Browser timing needs unique nonempty authored case IDs')
   const all = expandedFidelityCases()
+  // The documentation corpus retains independent literal-source reviews and
+  // the same complete SVG contracts used by ordinary DaveBench correctness.
+  // This selects sources only; collection, clocks and per-return grading stay
+  // on the existing timing path.
+  if (ids.some(id => id.startsWith('packages/mermaid/src/docs/'))) {
+    const inventory = JSON.parse(gunzipSync(readFileSync(join(tridentDirectory, 'corpus/docs-source-inventory.json.gz'))).toString()) as { pin: { commit: string }; cases: DocsInput[] }
+    if (inventory.pin.commit !== docsSourcePin) throw Error('Browser timing documentation inventory differs from its independently reviewed source pin')
+    const reviews = JSON.parse(readFileSync(join(tridentDirectory, 'corpus/docs-reviewed.json'), 'utf8')) as DocsDrawingReview[]
+    const admissions = admitDocsReviews(inventory.cases, reviews)
+    for (const id of ids.filter(id => id.startsWith('packages/mermaid/src/docs/'))) {
+      const source = inventory.cases.find(input => input.id === id), review = reviews.find(review => review.id === id), admission = admissions.find(input => input.id === id)
+      if (source && review?.intent === 'drawing' && admission?.sourceAdmission?.matched) all.push(reviewedDocsCase(source, review))
+    }
+  }
   return ids.map(id => {
     const input = all.find(item => item.id === id)
-    if (!input || !sourceContractComplete(input)) throw Error('Browser timing needs an independently complete authored source contract: ' + id)
+    if (!input || !sourceContractComplete(input)) throw Error('Browser timing needs an independently complete authored or pinned reviewed documentation source contract: ' + id)
     if (input.prelude?.length || input.renderOptions && Object.keys(input.renderOptions).length) throw Error('First-use source timing excludes prelude and API-configuration workflows: ' + id)
     return input
   })
