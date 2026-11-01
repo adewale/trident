@@ -7,7 +7,7 @@ import { gunzipSync } from 'node:zlib'
 import { collectQualifiedTiming, type QualifiedTimingPublicDriver, type ObserveTimedOutput } from '../portable/qualified-timing-collection.ts'
 import { defineCaseEvidenceContract, evidenceBytesDigest as hash } from '../portable/evidence-contract.ts'
 import { readCampaign, publishCampaigns } from '../unified/campaign-publication.ts'
-import { importCampaign, rankedRows, type ResultsSnapshot } from '../unified/results-snapshot.ts'
+import { importCampaign, rankedRows, writeSnapshot, type ResultsSnapshot } from '../unified/results-snapshot.ts'
 import { nativeTimingFile } from '../unified/native-timing-report.ts'
 import { reviewedDocsCase } from '../unified/docs-drawings.ts'
 import { makeSvgCaseContract } from '../fidelity/svg-assessment.ts'
@@ -50,6 +50,10 @@ for (const format of ['svg', 'png', 'terminal'] as const) test(`native ${format}
   expect(snapshot.attempts.map(row => row.status)).toEqual(['recorded', 'recorded'])
   const table = snapshot.tables[0]!
   expect(table.rows).toHaveLength(2)
+  // Exercise the generated pages, whose schema also constrains column names.
+  const rendered = temp.dir()
+  writeSnapshot(snapshot, catalog, rendered)
+  expect(readFileSync(join(rendered, 'RESULTS.md'), 'utf8')).toContain('artifact ')
   expect(table.caption).toContain(format === 'terminal' ? 'Terminal project documentation and regression fixtures' : 'Mermaid syntax documentation')
   const ratios = table.rows.map(row => row.values[table.columns.indexOf('Ratio to reference')]) as number[]
   expect(ratios[0]).toBe(1)

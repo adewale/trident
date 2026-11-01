@@ -52,8 +52,8 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
       const native = readNativeTiming(boundary.out)
       if (native) {
         for (const row of native.rows) add(['native-public-timing', native.cohort, native.bundle.plan.artifacts], 'portable', row.measuredAt ?? native.finishedAt, native.scope,
-          ['Artifact SHA-256 prefix', 'Examples', 'Rounds', 'Retained samples', 'Planned samples', 'Median replica-round ms', 'Ratio to reference', 'Ratio interval', 'Qualification', 'Measured'], projectId(row.project),
-          [row.artifact.artifactSha256.slice(0, 16), native.bundle.plan.cases.length, native.bundle.plan.rounds, row.calls, row.plannedSamples, row.medianWorkloadMs ?? 'withheld', row.ratio ?? 'withheld', row.interval ? `${row.interval.lower}–${row.interval.upper}` : !native.qualified ? 'withheld' : row.replicas.includes('B') ? 'unavailable' : 'reference', native.status, row.measuredAt ?? 'Unknown; no retained sample clock'],
+          ['Version', 'Examples', 'Rounds', 'Retained samples', 'Planned samples', 'Median replica-round ms', 'Ratio to reference', 'Ratio interval', 'Qualification', 'Measured'], projectId(row.project),
+          ['artifact ' + row.artifact.artifactSha256.slice(0, 16), native.bundle.plan.cases.length, native.bundle.plan.rounds, row.calls, row.plannedSamples, row.medianWorkloadMs ?? 'withheld', row.ratio ?? 'withheld', row.interval ? `${row.interval.lower}–${row.interval.upper}` : !native.qualified ? 'withheld' : row.replicas.includes('B') ? 'unavailable' : 'reference', native.status, row.measuredAt ?? 'Unknown; no retained sample clock'],
           { column: 'Ratio to reference', direction: 'ascending' }, { cohort: native.cohort, unit: 'paired normalized workload time', summary: true }, native.qualified ? undefined : 'Timing qualification is unresolved: ' + native.gaps.join('; '))
         continue
       }
