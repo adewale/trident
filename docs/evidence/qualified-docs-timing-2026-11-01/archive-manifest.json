@@ -2,8 +2,8 @@
   "schema": "trident-six-document-timing-archive-v1",
   "archive": {
     "file": "capture.tar.gz",
-    "sha256": "a7b3e8335956c8dc949bb9f6deb942427040131e82e5ed1ff132779201bb5944",
-    "bytes": 1645644
+    "sha256": "08c868cb624f49dedc0cf5df0cc4f79c29f6685d937eb222a8913f148e57b2fe",
+    "bytes": 1665474
   },
   "retainedOriginalCollection": "/workspace/trident-representative-timing-2026-11-01/collection",
   "scope": "Portable raw-output/clock/per-call-correctness proof and committed observer source closure; no raw receipt/output has been edited. Frozen engine asset bodies remain in original full collection; font files stay in frozen original host. Full original file hashes retained below.",
@@ -4138,5 +4138,12 @@
       "file": "source-corpus/docs-reviewed.json",
       "sha256": "2aa8a9ad10d72a5738a52b917c3e14611c99c5b5c514b7767f6b76561612cf6c"
     }
-  ]
+  ],
+  "supplementalPrerequisiteAudit": {
+    "phase": "aftercollection; originalpreselectiondiagnostic preserved",
+    "file": "docs-preflight-bound.json",
+    "sha256": "9fc43e07fd694524751d87968e99ad2e3b846a1244bf387e9220ed3f55c4d17f",
+    "scriptFile": "audit-retained-prerequisites.ts",
+    "scriptSha256": "c4ccce4bd470a659f6173d7a111fa7c93e61a0d3f8e75c80d7e979d0d9d5fd81"
+  }
 }
